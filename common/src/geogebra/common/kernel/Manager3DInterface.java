@@ -639,7 +639,7 @@ public interface Manager3DInterface {
 			GeoLineND h);
 	public GeoElement ClosestPoint(String label, Path p,
 			GeoPointND P);
-	public GeoElement ClosestPoint(String label, Region r,
+	public GeoPointND ClosestPoint(String label, Region r,
 			GeoPointND P);
 	
 	

@@ -1340,7 +1340,7 @@ public class Manager3D implements Manager3DInterface {
 		return (GeoPoint3D) algo.getP();
 	}
 	
-	public GeoElement ClosestPoint(String label, Region r, GeoPointND P) {
+	public GeoPointND ClosestPoint(String label, Region r, GeoPointND P) {
 		AlgoClosestPointToRegion3D algo =  new AlgoClosestPointToRegion3D(cons, label, r, P);
 		return algo.getOutputPoint();
 	}

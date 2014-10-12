@@ -109,7 +109,7 @@ public class AlgoClosestPoint extends AlgoElement implements PathAlgo {
     			((GeoPoint) P).setCoords(val, fun.evaluate(val), 1.0);
 			} else {
 				setCoords();
-				path.pathChanged(P);
+				path.pointChanged(P);
 			}
 	       
 	        P.updateCoords();

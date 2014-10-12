@@ -186,6 +186,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case ClosestPoint:
 				return new CmdClosestPoint3D(kernel);
 				
+			case ClosestPointRegion:
+				return new CmdClosestPointRegion(kernel);
+				
 			case Intersect:
 				return new CmdIntersect3D(kernel);
 								
