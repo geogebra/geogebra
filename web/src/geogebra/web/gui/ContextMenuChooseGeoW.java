@@ -105,6 +105,13 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 	}
 
 	private void addGeo(GeoElement geo) {
+
+		// prevent selection of xOy plane
+		if (geo == app.getKernel().getXOYPlane()){
+			return;
+		}
+		
+		
 	    GeoAction chooser = new GeoAction(geo);
 	    MenuItem mi = new MenuItem(getDescription(geo, false), true, chooser);
 	    DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
