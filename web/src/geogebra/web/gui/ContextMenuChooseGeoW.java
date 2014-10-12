@@ -1,6 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
@@ -58,7 +59,7 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		//section to choose a geo
 		//addSeparator();
-		addSelectAnotherMenu();
+		addSelectAnotherMenu(view.getMode());
 		addOtherItems();
 		
 		this.loc = invokerLocation;
@@ -137,9 +138,14 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 		
 	}
 
-	private void addSelectAnotherMenu() {
+	private void addSelectAnotherMenu(int mode) {
 	    selectAnotherMenu = new MenuBar(true);
-	    MenuItem selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"), selectAnotherMenu);
+	    MenuItem selectAnotherMenuItem;
+	    if (mode == EuclidianConstants.MODE_MOVE){
+	    	selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"), selectAnotherMenu);
+		}else{
+			selectAnotherMenuItem = new MenuItem(app.getMenu("PerformToolOn"), selectAnotherMenu);			
+		}
 	    selectAnotherMenuItem.addStyleName("mi_no_image");
 	    wrappedPopup.addItem(selectAnotherMenuItem);
     }

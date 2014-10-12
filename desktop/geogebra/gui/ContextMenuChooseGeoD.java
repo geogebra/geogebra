@@ -79,7 +79,7 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 
 		//section to choose a geo
 		//addSeparator();
-		createSelectAnotherMenu();
+		createSelectAnotherMenu(view.getMode());
 		
 		
 		this.loc = invokerLocation;
@@ -119,8 +119,12 @@ public class ContextMenuChooseGeoD extends ContextMenuGeoElementD {
 	
 	
 	
-	private void createSelectAnotherMenu(){
-		selectAnotherMenu = new JMenu(app.getMenu("SelectAnother") );
+	private void createSelectAnotherMenu(int mode){
+		if (mode == EuclidianConstants.MODE_MOVE){
+			selectAnotherMenu = new JMenu(app.getMenu("SelectAnother") );
+		}else{
+			selectAnotherMenu = new JMenu(app.getMenu("PerformToolOn") );
+		}
 		selectAnotherMenu.setIcon(((AppD) app).getEmptyIcon());
 		selectAnotherMenu.setBackground(getWrappedPopup().getBackground());
 		selectAnotherMenu.setFont(((AppD) app).getItalicFont());
