@@ -223,7 +223,7 @@ public class RelationPaneD implements RelationPane, ActionListener {
 
 	private static int countLines(String html) {
 		int ret = 1;
-		String[] words = { "<br>", "<li>", "<ul>" };
+		String[] words = { "<br>", "<li", "<ul>" };
 		for (String word : words) {
 			int index = html.indexOf(word);
 			if (index != -1) {
