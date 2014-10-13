@@ -37,6 +37,7 @@ import java.util.List;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -495,7 +496,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 				(this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
 			prepareShowSymbolButton(true);
 		}
-		getTextBox().setWidth(columns + "em");
+
+		InputElement inpel = getTextBox().getElement().cast();
+		inpel.setSize(columns);
+
+		//getTextBox().setWidth(columns + "em");
 		//super.setWidth(length + "em");
 	}
 
