@@ -1160,7 +1160,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} else {
 			fileName = new String[1];
 			fileName[0] = getImageFromFile(); // opens file chooser dialog
-
 		}
 
 		boolean ret;
@@ -1171,27 +1170,33 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			EuclidianView ev = ((AppD) app).getActiveEuclidianView();
 			Construction cons = ev.getApplication().getKernel()
 					.getConstruction();
-			Point mousePos = ((EuclidianViewInterfaceDesktop) ev)
-					.getMousePosition();
-			GeoPoint loc = new GeoPoint(cons);
-
-			// create corner points (bottom right/left)
-			loc.setCoords(ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
-					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
-			loc.setLabel(null);
-			loc.setLabelVisible(false);
-			loc.update();
-
-			GeoPoint loc2 = new GeoPoint(cons);
-			loc2.setCoords(ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
-					ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
-			loc2.setLabel(null);
-			loc2.setLabelVisible(false);
-			loc2.update();
+			// Point mousePos = ((EuclidianViewInterfaceDesktop) ev)
+			// .getMousePosition();
 
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
+
+			GeoPoint loc = new GeoPoint(cons);
+			GeoPoint loc2 = new GeoPoint(cons);
+
 			for (int i = 0; i < fileName.length; i++) {
+				// create corner points (bottom right/left)
+				loc = new GeoPoint(cons);
+				loc2 = new GeoPoint(cons);
+
+				loc.setCoords(ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4,
+						ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
+				loc.setLabel(null);
+				loc.setLabelVisible(false);
+				loc.update();
+
+				loc2.setCoords(
+						ev.getXmax() - (ev.getXmax() - ev.getXmin()) / 4,
+						ev.getYmin() + (ev.getYmax() - ev.getYmin()) / 4, 1.0);
+				loc2.setLabel(null);
+				loc2.setLabelVisible(false);
+				loc2.update();
+
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
 				geoImage.setCorner(loc, 0);
@@ -3044,11 +3049,32 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} else {
 			// create GeoImage object(s) for this fileName
 			GeoImage geoImage = null;
+
+			if (!loc.isLabelSet()) {
+				loc.setLabel(null);
+			}
+
 			for (int i = 0; i < fileName.length; i++) {
+				GeoPoint point1;
+				if (i == 0) {
+					point1 = loc;
+				} else {
+					point1 = new GeoPoint(app.getKernel().getConstruction());
+					point1.setCoordsFromPoint(loc);
+					point1.setLabel(null);
+				}
+
 				geoImage = new GeoImage(app.getKernel().getConstruction());
 				geoImage.setImageFileName(fileName[i]);
 				App.debug("filename = " + fileName[i]);
-				geoImage.setCorner(loc, 0);
+				geoImage.setCorner(point1, 0);
+
+				GeoPoint point2 = new GeoPoint(app.getKernel()
+						.getConstruction());
+				geoImage.calculateCornerPoint(point2, 2);
+				geoImage.setCorner(point2, 1);
+				point2.setLabel(null);
+
 				geoImage.setLabel(null);
 
 				GeoImage.updateInstances();
