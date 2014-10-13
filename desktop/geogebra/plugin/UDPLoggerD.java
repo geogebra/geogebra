@@ -1,6 +1,7 @@
 package geogebra.plugin;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
@@ -92,10 +93,10 @@ public class UDPLoggerD implements UDPLogger {
 	}
 
 	private void log(Types type, double val) {
-		log(type, val, true);
+		log(type, val, true, true);
 	}
 
-	private void log(Types type, double val, boolean repaint) {
+	private void log(Types type, double val, boolean repaint, boolean update) {
 		GeoNumeric geo = listeners.get(type);
 
 		if (geo != null) {
@@ -110,7 +111,7 @@ public class UDPLoggerD implements UDPLogger {
 
 			if (repaint)
 				geo.updateRepaint();
-			else
+			else if (update)
 				geo.updateCascade();
 		} else {
 			GeoList list = listenersL.get(type);
@@ -130,7 +131,7 @@ public class UDPLoggerD implements UDPLogger {
 
 				if (repaint)
 					list.updateRepaint();
-				else
+				else if (update)
 					list.updateCascade();
 				// }
 			}
@@ -143,7 +144,8 @@ public class UDPLoggerD implements UDPLogger {
 		return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
 	}
 
-	public void handle(byte[] buffer, int length, String address) {
+	public void handle(byte[] buffer, int length, String address,
+			boolean quicker) {
 
 		// App.debug("undoActive is: " + kernel.isUndoActive());
 
@@ -193,17 +195,46 @@ public class UDPLoggerD implements UDPLogger {
 
 				switch (buffer[bp]) {
 				case 0:
-					log(Types.EDAQ0, Double.longBitsToDouble(gotit), false);
+					log(Types.EDAQ0, Double.longBitsToDouble(gotit), false,
+							!quicker);
 					break;
 				case 1:
-					log(Types.EDAQ1, Double.longBitsToDouble(gotit), false);
+					log(Types.EDAQ1, Double.longBitsToDouble(gotit), false,
+							!quicker);
 					break;
 				case 2:
-					log(Types.EDAQ2, Double.longBitsToDouble(gotit), false);
+					log(Types.EDAQ2, Double.longBitsToDouble(gotit), false,
+							!quicker);
 					break;
 
 				default:
 					App.error("unknown EDAQ port!");
+				}
+			}
+
+			if (quicker) {
+				// to increase speed, calling updateCascade and repaint once
+				// only!
+				GeoElement ge = listeners.get(Types.EDAQ0);
+				if (ge == null) {
+					ge = listenersL.get(Types.EDAQ0);
+				}
+				if (ge != null) {
+					ge.updateCascade();
+				}
+				ge = listeners.get(Types.EDAQ1);
+				if (ge == null) {
+					ge = listenersL.get(Types.EDAQ1);
+				}
+				if (ge != null) {
+					ge.updateCascade();
+				}
+				ge = listeners.get(Types.EDAQ2);
+				if (ge == null) {
+					ge = listenersL.get(Types.EDAQ2);
+				}
+				if (ge != null) {
+					ge.updateCascade();
 				}
 			}
 
@@ -370,7 +401,8 @@ public class UDPLoggerD implements UDPLogger {
 								handle(bufferCopy, length, packet.getAddress()
 										.getHostAddress()
 										+ " "
-										+ packet.getAddress().getHostName());
+										+ packet.getAddress().getHostName(),
+										true);
 
 							}
 						});
