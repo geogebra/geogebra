@@ -10,7 +10,7 @@ import org.apache.commons.math.MathException;
 
 public class ANOVATableW extends BasicStatTableW implements StatTableListener {
 	private static final long serialVersionUID = 1L;
-	private static final int ROW_COUNT = 2;
+	private static final int ROW_COUNT = 3;
 	private static final int COLUMN_COUNT = 6;
 
 	public ANOVATableW(AppW app, DataAnalysisViewW statDialog) {
