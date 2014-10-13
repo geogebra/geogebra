@@ -3191,6 +3191,7 @@ public abstract class App implements UpdateSelection{
 						// Third info start:
 
 						String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
+						String liStyle = "class=\"RelationTool\"";
 						// Third information shown (result of ProveDetails command):
 						if (ndgResult.length == 1) {
 							rel.info += relInfo + "<br><b>";
@@ -3211,14 +3212,14 @@ public abstract class App implements UpdateSelection{
 							int ndgs = ndgResult.length;
 							if ((ndgs == 2) && ("...".equals(ndgResult[1]))) {
 							// 	UnderCertainConditionsA
-								rel.info += loc.getPlain("UnderCertainConditionsA", "<ul><li>" +
+								rel.info += loc.getPlain("UnderCertainConditionsA", "<ul><li " + liStyle + ">" +
 										relInfo + "</ul>");
 
 							} else {
 								// GenerallyTrueAcondB
 								String conds = "<ul>"; 
 								for (int j = 1; j < ndgs; ++j) {
-									conds += "<li>";
+									conds += "<li " + liStyle + ">";
 									conds += ndgResult[j];
 									if ( (j < ndgs - 1) ) {
 										conds += " " + and;
@@ -3226,7 +3227,7 @@ public abstract class App implements UpdateSelection{
 								}
 								conds += "</ul>";
 								rel.info += loc.getPlain("GenerallyTrueAcondB", 
-										"<ul><li>" + relInfo + "</ul>", conds);
+										"<ul><li " + liStyle + ">" + relInfo + "</ul>", conds);
 								}
 						}
 					}
