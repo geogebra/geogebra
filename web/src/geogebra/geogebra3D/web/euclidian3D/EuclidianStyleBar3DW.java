@@ -45,6 +45,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	 */
 	public EuclidianStyleBar3DW(EuclidianView ev) {
 	    super(ev);
+	    optionType = optionType.EUCLIDIAN3D;
     }
 	
 	

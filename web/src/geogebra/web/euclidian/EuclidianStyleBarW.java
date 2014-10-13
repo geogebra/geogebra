@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.main.OptionType;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.html5.awt.GColorW;
@@ -262,7 +263,12 @@ public class EuclidianStyleBarW extends StyleBarW
 		isIniting = false;		
 		setMode(ev.getMode()); // this will also update the stylebar
 		setToolTips();
-		
+
+		if(ev.equals(app.getEuclidianView1())){
+			optionType = OptionType.EUCLIDIAN;
+		} else {
+			optionType = OptionType.EUCLIDIAN2;
+		}
 	}
 	
 	

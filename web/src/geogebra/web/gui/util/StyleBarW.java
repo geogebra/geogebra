@@ -29,6 +29,8 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	protected AppW app;
 	protected int viewID;
 
+	protected OptionType optionType;
+
 	/**
 	 * Constructor
 	 */
@@ -66,8 +68,10 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 			public void onClick(ClickEvent event) {
 				if(app.getGuiManager().showView(App.VIEW_PROPERTIES)){
 					app.getGuiManager().setShowView(false, App.VIEW_PROPERTIES);
-				} else{
+				} else if(!app.getSelectionManager().getSelectedGeos().isEmpty() || optionType == null){
 					app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, null);
+				} else{
+					app.getDialogManager().showPropertiesDialog(optionType, null);
 				}
             }
 		});

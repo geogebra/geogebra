@@ -6,6 +6,7 @@ import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.main.OptionType;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.StyleBarResources;
@@ -75,6 +76,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		addViewButton();
 		updateStyleBar();
 		addStyleName("SpreadsheetStyleBar");
+
+		optionType = OptionType.SPREADSHEET;
 	}
 
 	private void createButtons() {
