@@ -82,6 +82,12 @@ public class DrawLabel3DForText extends DrawLabel3D {
     	
     	super.updatePosition(renderer);
     	
+    	if (origin == null){
+       		renderer.getGeometryManager().remove(highLightIndex);
+       		highLightIndex = -1;
+			return;
+		}
+    	
     	int old = highLightIndex;
     	highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX, drawY, drawZ, width, height, highLightIndex);
     	renderer.getGeometryManager().remove(old);

@@ -32,7 +32,7 @@ public class DrawLabel3D {
     /** color of the label */
     private Coords backgroundColor, color;
     /** origin of the label (left-bottom corner) */
-    private Coords origin; 
+    protected Coords origin; 
     /** x and y offset */
     private float xOffset, yOffset;   
     private float xOffset2, yOffset2;   
@@ -104,6 +104,7 @@ public class DrawLabel3D {
 	public void update(String text, GFont font, GColor backgroundColor, GColor color,
 			Coords v, float xOffset, float yOffset){
 		
+		this.origin = v;
 		
 		if (text.length()==0)
 			return;
@@ -113,8 +114,7 @@ public class DrawLabel3D {
 			return;
 		}
 		
-		this.origin = v;
-		//if (v==null)Application.debug(text);
+		
 		this.color = new Coords((double) color.getRed()/255, 
 				(double) color.getGreen()/255, (double) color.getBlue()/255,1);
 		
@@ -329,9 +329,13 @@ public class DrawLabel3D {
 	 * update draw position
 	 */
 	public void updateDrawPosition(){
+		
+		if (origin == null){
+			return;
+		}
+		
 		Coords v = view.getToScreenMatrix().mul(origin);
 		drawX = (int) (v.getX()+xOffset);
-//		drawX = (int) xOffset;
 		if (anchor && xOffset<0){ 
 			drawX-=width;
 		}else{
@@ -339,7 +343,6 @@ public class DrawLabel3D {
 		}
 			
 		drawY = (int) (v.getY()+yOffset);
-//		drawY = (int) yOffset;
 		if (anchor && yOffset<0){ 
 			drawY-=height;
 		}else{
@@ -519,6 +522,16 @@ public class DrawLabel3D {
     public void updatePosition(Renderer renderer){
     	
     	updateDrawPosition();
+    	
+    	if (origin == null){
+       		renderer.getGeometryManager().remove(textIndex);
+    		textIndex = -1;
+       		renderer.getGeometryManager().remove(pickingIndex);
+       		pickingIndex = -1;
+       		renderer.getGeometryManager().remove(backgroundIndex);
+       		backgroundIndex = -1;
+			return;
+		}
     	
     	int old = textIndex;
     	textIndex = renderer.getGeometryManager().rectangle(drawX,drawY,drawZ, width2, height2, textIndex);
