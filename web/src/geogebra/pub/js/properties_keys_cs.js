@@ -1668,6 +1668,7 @@ __GGB__keysVar.cs.menu = {
     "Pen.Help": "Pi\u0161te do n\xe1kresny. Barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",
     "Pencil": "Tu\u017eka",
     "Pencil.Help": "Kreslete do n\xe1kresny. Barvu lze m\u011bnit na form\xe1tovac\xedm panelu.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafika",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Element\xe1rn\xed geometrie",

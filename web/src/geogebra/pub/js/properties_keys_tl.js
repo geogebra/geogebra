@@ -1668,6 +1668,7 @@ __GGB__keysVar.tl.menu = {
     "Pen.Help": "Magsulat sa Graphics View. Palitan ang kulay gamit ang Stylebar",
     "Pencil": "Pencil",
     "Pencil.Help": "Gumuhit sa Graphics View. Palitan ang kulay gamit ang Stylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebra & Graphics",
     "Perspective.BasicGeometry": "Basic Geometry",

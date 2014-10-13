@@ -1668,6 +1668,7 @@ __GGB__keysVar.sv.menu = {
     "Pen.Help": "Skriv i ritomr\xe5det. \xc4ndra f\xe4rg i formateringslisten.",
     "Pencil": "Penna",
     "Pencil.Help": "Rita i ritomr\xe5det. \xc4ndra f\xe4rg i formateringslisten.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D-Grafik",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Grundl\xe4ggande geometri",

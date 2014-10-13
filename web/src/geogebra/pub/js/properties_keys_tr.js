@@ -1668,6 +1668,7 @@ __GGB__keysVar.tr.menu = {
     "Pen.Help": "Grafik G\xf6r\xfcn\xfcm\xfcnde yaz. Sitil \xe7ubu\u011funu kullanarak rengi de\u011fi\u015ftir",
     "Pencil": "Kalem",
     "Pencil.Help": "Grafik G\xf6r\xfcn\xfcm\xfcnde \xe7izer. Sitil \xe7ubu\u011funu kullanarak rengi de\u011fi\u015ftirin.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafik",
     "Perspective.AlgebraAndGraphics": "Cebir",
     "Perspective.BasicGeometry": "Basit Geometri",

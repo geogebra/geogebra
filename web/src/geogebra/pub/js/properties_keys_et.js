@@ -1668,6 +1668,7 @@ __GGB__keysVar.et.menu = {
     "Pen.Help": "Kirjutage graafikavaatele. Stiilirealt on v\xf5imalik valida v\xe4rv.",
     "Pencil": "Pintsel",
     "Pencil.Help": "Joonistage graafikavaatele. Stiilirealt on v\xf5imalik muuta v\xe4rvi.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebra ja graafika",
     "Perspective.BasicGeometry": "P\xf5hiline geomeetria",

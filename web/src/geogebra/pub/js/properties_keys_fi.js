@@ -1668,6 +1668,7 @@ __GGB__keysVar.fi.menu = {
     "Pen.Help": "Kirjoita Piirtoalueelle. Vaihda v\xe4ri\xe4 Tyylipalkista.",
     "Pencil": "Kyn\xe4",
     "Pencil.Help": "Piirr\xe4 vapaasti Piirtoalueelle. Vaihda v\xe4ri\xe4 Tyylipalkista",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D-grafiikka",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Perusgeometria",

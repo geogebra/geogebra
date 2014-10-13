@@ -1668,6 +1668,7 @@ __GGB__keysVar.sq.menu = {
     "Pen.Help": "Shkruaj ne Pamjen Grafikore. Ndrysho ngjyren duke perdorur shufren e stileve",
     "Pencil": "Laps",
     "Pencil.Help": "Vizato ne Pamjen Grafikore. Ndrysho ngjyren duke perdorur shufren e stileve",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algjeber dhe Grafike",
     "Perspective.BasicGeometry": "Gjeometri Themelore",

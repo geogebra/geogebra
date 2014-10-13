@@ -1668,6 +1668,7 @@ __GGB__keysVar.no_NB.menu = {
     "Pen.Help": "Skriv i grafikkfeltet. Bruk stilmenyen for \xe5 forandre farge.",
     "Pencil": "Blyant",
     "Pencil.Help": "Tegn i grafikkfeltet. Bruk stilmenyen for \xe5 forandre farge.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D-grafikk",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Grunnleggende geometri",

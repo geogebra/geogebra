@@ -1668,6 +1668,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Pen.Help": "\u7528\u65bc\u7e6a\u5716\u5340\u5beb\u5b57\uff0c\u53ef\u7528\u6a23\u5f0f\u5217\u6539\u8b8a\u984f\u8272",
     "Pencil": "\u925b\u7b46",
     "Pencil.Help": "\u7528\u65bc\u7e6a\u5716\u5340\u756b\u756b\uff0c\u53ef\u7528\u6a23\u5f0f\u5217\u66f4\u6539\u984f\u8272\u3002",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D \u7e6a\u5716\u5340",
     "Perspective.AlgebraAndGraphics": "\u4ee3\u6578\u5340",
     "Perspective.BasicGeometry": "\u7e6a\u5716\u5340+\u57fa\u672c\u5de5\u5177",

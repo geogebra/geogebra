@@ -1668,6 +1668,7 @@ __GGB__keysVar.pt.menu = {
     "Pen.Help": "Escreva na Janela de Visualiza\xe7\xe3o. Mude a cor usando a Barra de Estilo",
     "Pencil": "L\xe1pis",
     "Pencil.Help": "Desenhe na Janela de Visualiza\xe7\xe3o. Mude a cor usando a Barra de Estilo",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "Janela 3D",
     "Perspective.AlgebraAndGraphics": "\xc1lgebra",
     "Perspective.BasicGeometry": "Geometria B\xe1sica",

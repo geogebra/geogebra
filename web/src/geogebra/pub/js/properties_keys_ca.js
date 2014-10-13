@@ -1668,6 +1668,7 @@ __GGB__keysVar.ca.menu = {
     "Pen.Help": "Dibuixa un tra\xe7, de mida fixa, a la finestra gr\xe0fica. Pots canviar-ne el color i l'estil",
     "Pencil": "Llapis antic",
     "Pencil.Help": "Dibuixa a la finestra gr\xe0fica, fixat als eixos. Per canviar el color i l'estil accedeix a Propietats",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "Gr\xe0fics 3D i finestra algebraica",
     "Perspective.AlgebraAndGraphics": "Finestra algebraica i gr\xe0fics",
     "Perspective.BasicGeometry": "Geometria B\xe0sica",

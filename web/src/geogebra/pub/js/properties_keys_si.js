@@ -1668,6 +1668,7 @@ __GGB__keysVar.si.menu = {
     "Pen.Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pencil",
     "Pencil.Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "\u0dc0\u0dd3\u0da2 \u0d9c\u0dab\u0dd2\u0dad\u0dba \u0dc3\u0dc4 \u0da0\u0dd2\u0dad\u0dca\u200d\u0dbb\u0d9a",
     "Perspective.BasicGeometry": "\u0db8\u0dd6\u0dbd\u0dd2\u0d9a \u0da2\u0dca\u200d\u0dba\u0dcf\u0db8\u0dd2\u0dad\u0dd2\u0dba",

@@ -1668,6 +1668,7 @@ __GGB__keysVar.eo.menu = {
     "Pen.Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Krajono",
     "Pencil.Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebro & Grafika\u0135o",
     "Perspective.BasicGeometry": "Basic Geometry",

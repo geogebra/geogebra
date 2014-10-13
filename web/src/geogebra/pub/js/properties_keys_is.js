@@ -1668,6 +1668,7 @@ __GGB__keysVar.is.menu = {
     "Pen.Help": "Skrifi\xf0 \xed myndaglugga. Breyti\xf0 lit me\xf0 \xfev\xed a\xf0 nota \xfatlitsstiku",
     "Pencil": "Bl\xfdantur",
     "Pencil.Help": "Teikni\xf0 \xed myndaglugga. Breyti\xf0 lit me\xf0 \xfev\xed a\xf0 nota \xfatlitsstiku",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebrugluggi og myndagluggi",
     "Perspective.BasicGeometry": "Einfaldur r\xfamfr\xe6\xf0igluggi",

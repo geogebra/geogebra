@@ -1668,6 +1668,7 @@ __GGB__keysVar.lv.menu = {
     "Pen.Help": "Rakst\u012bt grafiskaj\u0101 skat\u0101. Main\u012bt kr\u0101su, lietojot Stylebar",
     "Pencil": "Z\u012bmulis",
     "Pencil.Help": "Z\u012bm\u0113t grafiskaj\u0101 skat\u0101. Main\u012bt kr\u0101su, lietojot Stylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafiks",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "\u0122eomerijas pamati",

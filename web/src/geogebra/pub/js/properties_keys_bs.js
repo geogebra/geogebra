@@ -1668,6 +1668,7 @@ __GGB__keysVar.bs.menu = {
     "Pen.Help": "Pisanje na radnoj povr\u0161i. Promijenite boju koriste\u0107i traku za stil",
     "Pencil": "Olovka",
     "Pencil.Help": "Crtanje na radnoj povr\u0161i. Promijenite boju koriste\u0107i traku za stil",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Radne povr\u0161i",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Elementarna geometrija",

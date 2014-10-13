@@ -1668,6 +1668,7 @@ __GGB__keysVar.fr.menu = {
     "Pen.Help": "\xc9crivez dans Graphique. Changez la couleur dans la barre de style.",
     "Pencil": "Crayon",
     "Pencil.Help": "Dessinez dans Graphique. Changez la couleur dans la barre de style.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "Graphique 3D",
     "Perspective.AlgebraAndGraphics": "Alg\xe8bre",
     "Perspective.BasicGeometry": "G\xe9om\xe9trie de base",

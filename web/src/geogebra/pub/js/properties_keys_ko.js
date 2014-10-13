@@ -1668,6 +1668,7 @@ __GGB__keysVar.ko.menu = {
     "Pen.Help": "\uae30\ud558\ucc3d\uc5d0 \uc9c1\uc811 \uc4f8 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc2a4\ud0c0\uc77c \ubc14\uc5d0\uc11c \uc0c9\uc0c1\uc744 \ubcc0\uacbd\ud558\uc138\uc694.",
     "Pencil": "\uc5f0\ud544",
     "Pencil.Help": "\uae30\ud558\ucc3d\uc5d0 \uc9c1\uc811 \uadf8\ub9ac\uc138\uc694. \uc2a4\ud0c0\uc77c \ubc14\uc5d0\uc11c \uc0c9\uc0c1\uc744 \ubcc0\uacbd\ud558\uc138\uc694.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3\ucc28\uc6d0 \uae30\ud558\ucc3d",
     "Perspective.AlgebraAndGraphics": "\ub300\uc218",
     "Perspective.BasicGeometry": "\ucd08\ub4f1 \uae30\ud558",

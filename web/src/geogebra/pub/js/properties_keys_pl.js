@@ -1668,6 +1668,7 @@ __GGB__keysVar.pl.menu = {
     "Pen.Help": "Napisz w Widoku Grafiki. Zmiana koloru za pomoc\u0105 Paska Stylu",
     "Pencil": "O\u0142\xf3wek",
     "Pencil.Help": "Narysuj w Widoku Grafiki. Zmiana koloru za pomoc\u0105 Paska Stylu",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafika",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Geometria podstawowa",

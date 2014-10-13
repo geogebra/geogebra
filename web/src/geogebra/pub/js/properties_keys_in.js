@@ -1668,6 +1668,7 @@ __GGB__keysVar.in.menu = {
     "Pen.Help": "Tulis di Tampilan Grafik. Ubah warna menggunakan Batang Format",
     "Pencil": "Pensil",
     "Pencil.Help": "Tulis di Tampilan Grafik. Ubah warna menggunakan Batang Format",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Aljabar & Grafik",
     "Perspective.BasicGeometry": "Geometri Dasar",

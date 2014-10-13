@@ -1668,6 +1668,7 @@ __GGB__keysVar.hr.menu = {
     "Pen.Help": "Pisanje u grafi\u010dkom prikazu. Mijenjajte boju pomo\u0107u trake stilova",
     "Pencil": "Olovka",
     "Pencil.Help": "Crtanje u grafi\u010dkom prikazu. Mijenjajte boju pomo\u0107u trake stilova",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D grafika",
     "Perspective.AlgebraAndGraphics": "Algebarski",
     "Perspective.BasicGeometry": "Osnovna geometrija",

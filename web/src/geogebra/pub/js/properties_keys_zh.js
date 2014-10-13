@@ -1668,6 +1668,7 @@ __GGB__keysVar.zh.menu = {
     "Pen.Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pencil",
     "Pencil.Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Basic Geometry",

@@ -1668,6 +1668,7 @@ __GGB__keysVar.cy.menu = {
     "Pen.Help": "Write in the Graphics View. Change color using the Stylebar",
     "Pencil": "Pensil",
     "Pencil.Help": "Draw in the Graphics View. Change color using the Stylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "Algebra a graffeg",
     "Perspective.BasicGeometry": "Geometreg sylfaenol",

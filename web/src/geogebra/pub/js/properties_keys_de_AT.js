@@ -1668,6 +1668,7 @@ __GGB__keysVar.de_AT.menu = {
     "Pen.Help": "Schreibe in die Grafik-Ansicht. Verwende die Gestaltungsleiste, um die Farbe zu \xe4ndern.",
     "Pencil": "Bleistift",
     "Pencil.Help": "Zeichne in die Grafik-Ansicht. Verwende die Gestaltungsleiste, um die Farbe zu \xe4ndern.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafik",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Elementare Geometrie",

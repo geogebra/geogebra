@@ -1668,6 +1668,7 @@ __GGB__keysVar.xh.menu = {
     "Pen.Help": "Bhala kuMbonoWegrafu. Tshintsha umbala usebenzisa iStylebar",
     "Pencil": "iPensile",
     "Pencil.Help": "Zoba kuMbono weGrafu. Tshintsha umbala usebenzisa iStylebar",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Graphics",
     "Perspective.AlgebraAndGraphics": "iAljibra & Mizobo",
     "Perspective.BasicGeometry": "isiSeko seJometri",

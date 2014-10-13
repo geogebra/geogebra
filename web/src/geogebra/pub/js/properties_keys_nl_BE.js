@@ -1668,6 +1668,7 @@ __GGB__keysVar.nl_BE.menu = {
     "Pen.Help": "Schrijf in het tekenvenster. Wijzig kleur met de opmaakbalk",
     "Pencil": "Stift",
     "Pencil.Help": "Teken in het tekenvenster. Wijzig kleur met de opmaakbalk",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D-scherm",
     "Perspective.AlgebraAndGraphics": "Algebravenster en tekenvenster",
     "Perspective.BasicGeometry": "Basistekenvenster",

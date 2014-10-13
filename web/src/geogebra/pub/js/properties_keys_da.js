@@ -1668,6 +1668,7 @@ __GGB__keysVar.da.menu = {
     "Pen.Help": "Skriv p\xe5 tegneblokken. V\xe6lg farve ved at bruge stilbj\xe6lken.",
     "Pencil": "Blyant",
     "Pencil.Help": "Tegn i grafikvinduet. V\xe6lg farve ved at bruge stilbj\xe6lken.",
+    "PerformToolOn": "Perform Tool on",
     "Perspective.3DGraphics": "3D Grafik",
     "Perspective.AlgebraAndGraphics": "Algebra",
     "Perspective.BasicGeometry": "Element\xe6r geometri",
