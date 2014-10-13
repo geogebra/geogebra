@@ -77,6 +77,9 @@ public class UDPLoggerD implements UDPLogger {
 	@Override
 	public void stopLogging() {
 
+		kernel.setUndoActive(true);
+		kernel.storeUndoInfo();
+
 		if (dsocket != null) {
 			dsocket.close();
 
@@ -141,6 +144,9 @@ public class UDPLoggerD implements UDPLogger {
 	}
 
 	public void handle(byte[] buffer, int length, String address) {
+
+		// App.debug("undoActive is: " + kernel.isUndoActive());
+
 		byte c0 = buffer[0];
 		byte c1 = buffer[1];
 		byte c2 = buffer[2];
@@ -254,6 +260,13 @@ public class UDPLoggerD implements UDPLogger {
 
 	@Override
 	public boolean startLogging() {
+
+		App.debug("startLogging called, undoActive is: "
+				+ kernel.isUndoActive());
+
+		kernel.setUndoActive(false);
+
+		App.debug("undoActive is: " + kernel.isUndoActive());
 
 		// Create a socket to listen on the port.
 		try {
