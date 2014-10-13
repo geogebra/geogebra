@@ -129,7 +129,7 @@ public class ToolCreationDialog extends DialogBox implements
 
 	}
 
-	private VerticalPanel createInputOutputPanel(ListBox addLB, ListBox lB) {
+	VerticalPanel createInputOutputPanel(ListBox addLB, ListBox lB) {
 		lB.setVisibleItemCount(7);
 		lB.setMultipleSelect(true);
 

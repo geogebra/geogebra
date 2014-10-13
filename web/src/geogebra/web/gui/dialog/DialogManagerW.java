@@ -96,8 +96,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	@Override
 	public void showBooleanCheckboxCreationDialog(GPoint loc, GeoBoolean bool) {
-		// TODO Auto-generated method stub
-
+		CheckboxCreationDialogW dlg = new CheckboxCreationDialogW((AppW)app, loc, bool);
+		dlg.show();
 	}
 
 	@Override
