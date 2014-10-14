@@ -1483,6 +1483,7 @@ public class AlgebraProcessor {
 				FunctionVariable py = new FunctionVariable(kernel,"y");
 				Equation eq = new Equation(kernel,coefX[1].wrap().multiply(py).subtract(coefY[1].wrap().multiply(px)),
 						coefX[1].wrap().multiply(coefY[0]).subtract(coefX[0].wrap().multiply(coefY[1])));
+				eq.setForceLine();
 				eq.initEquation();
 				eq.setLabel(label);
 				GeoElement[] line = processLine(eq);
