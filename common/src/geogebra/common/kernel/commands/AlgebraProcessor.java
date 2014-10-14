@@ -290,6 +290,30 @@ public class AlgebraProcessor {
 
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
+			if("X".equals(ve.getLabel())){
+				CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+				ve.traverse(collecter);
+				final TreeSet<String> undefinedVariables = collecter.getResult();
+				if(undefinedVariables.size() == 1){
+					try{
+						String varName = undefinedVariables.first();
+						FunctionVariable fv = new FunctionVariable(kernel,varName);
+						ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
+								fv)).wrap();
+						exp.resolveVariables();
+						boolean flag = cons.isSuppressLabelsActive();
+						cons.setSuppressLabelCreation(true);
+						GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+						cons.setSuppressLabelCreation(flag);
+						if(ret!=null){
+							ve = ret[0].wrap();
+						}
+					}catch(Throwable t){
+						t.printStackTrace();
+						Log.debug("X is not parametric");
+					}
+				}
+			}
 			return changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo);
 		} catch (CircularDefinitionException e) {
@@ -497,6 +521,7 @@ public class AlgebraProcessor {
 			if (fvX == null) {
 				fvX = new FunctionVariable(ve.getKernel(), "x");
 			}
+			App.debug("UUU"+undefinedVariables.size());
 			if(undefinedVariables.size() == 1 && "X".equals(ve.getLabel())){
 				try{
 					String varName = undefinedVariables.first();
