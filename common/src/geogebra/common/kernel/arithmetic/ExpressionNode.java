@@ -4229,7 +4229,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			ExpressionNode rightLeaf = (ExpressionNode) getRight();
 
 			// replaces 1 DIVIDE 2 by SQRT 2, and same for CBRT
-			if ((rightLeaf.getOperation() == Operation.DIVIDE)) {
+			if ((rightLeaf.getOperation() == Operation.DIVIDE) && rightLeaf.isConstant()) {
 				if (rightLeaf.getRight()
 						.toString(StringTemplate.defaultTemplate).equals("2")) {
 					setOperation(Operation.SQRT);
