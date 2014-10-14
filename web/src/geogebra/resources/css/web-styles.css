@@ -2595,6 +2595,14 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	margin-right: 5px;
 }
 
+/*saveDialog*/
+.buttonPanel .visibility {
+	position: absolute;
+	left: 55px;
+	width: 131px;
+	top: 109px;
+}
+
 /*-------- SLIDER DIALOG ------------------------*/
 .dialogContent .sliderIntervalPanel div,
 .dialogContent .sliderWidthPanel div {

@@ -516,7 +516,8 @@ public class AppWapplet extends AppW {
 		}
 	}
 	
-	public Object getGlassPane(){
+	@Override
+    public Object getGlassPane(){
 		return frame.getGlassPane();
 	}
 
@@ -581,5 +582,18 @@ public class AppWapplet extends AppW {
 			this.fm = new FileManagerW(this);
 		}
 		return this.fm;
+	}
+	
+	@Override
+    public void uploadSharedToGgt() {
+		showURLinBrowserWaiterFixedDelay();
+		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		getGgbApi().getBase64(true, new StringHandler(){
+	
+			@Override
+	        public void handle(String s) {
+	            ggbtube.uploadWorksheetShared(s);
+	            
+	        }});
 	}
 }

@@ -79,7 +79,8 @@ public class Material implements Comparable<Material>
 	private String googleID;
 	private long syncStamp;
 	private long modified;
-
+	private String visibility;
+	
 	public Material(int id, MaterialType type)
 	{
 		this.id = id;
@@ -97,6 +98,7 @@ public class Material implements Comparable<Material>
 		this.description = "";
 		this.instructionsPre = "";
 		this.instructionsPost = "";
+		this.visibility = "";
 		this.width = 800;
 		this.height = 600;
 		this.thumbnail = "";
@@ -274,6 +276,14 @@ public class Material implements Comparable<Material>
 		return this.syncStamp;
 	}
 	
+	public void setVisibility(String v) {
+		this.visibility = v;
+	}
+	
+	public String getVisibility() {
+		return this.visibility;
+	}
+	
 	public int compareTo(Material another)
 	{
 		if (another == null)
@@ -313,6 +323,7 @@ public class Material implements Comparable<Material>
 		putString(ret,"url", url);
 		putString(ret,"type", type.name());
 		putString(ret,"title", title);
+		putString(ret,"visibility", visibility);
 		putString(ret,"id", id+"");
 		putString(ret,"likes", likes+"");
 		putString(ret,"ggbBase64", base64);

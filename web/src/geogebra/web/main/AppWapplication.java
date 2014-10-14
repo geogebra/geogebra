@@ -349,6 +349,19 @@ public class AppWapplication extends AppW {
 	            
             }});
 	}
+	
+	@Override
+	public void uploadSharedToGgt() {
+		showURLinBrowserWaiterFixedDelay();
+		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
+		getGgbApi().getBase64(true, new StringHandler(){
+	
+			@Override
+	        public void handle(String s) {
+	            ggbtube.uploadWorksheetShared(s);
+	            
+	        }});
+	}
 
 	@Override
     public void set1rstMode() {

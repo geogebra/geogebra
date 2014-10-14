@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.awt.GDimensionW;
@@ -42,12 +43,17 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRenderable {
 
+	private final int INDEX_PRIVATE = 0;
+	private final int INDEX_SHARED = 1;
+	private final int INDEX_PUBLIC = 2;
+	
 	protected AppW app;
 	VerticalPanel p;
 	protected TextBox title;
@@ -60,6 +66,8 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 	SaveCallback saveCallback;
 	private PopupMenuButton providerPopup;
 	private FlowPanel buttonPanel;
+	private ListBox listBox;
+	private MaterialCallback materialCallback;
 	
 
 	/**
@@ -77,7 +85,7 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 
 		addTitelPanel();
 		addButtonPanel();
-		
+		initMaterialCB();
 		this.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			public void onClose(final CloseEvent<PopupPanel> event) {
@@ -96,6 +104,38 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
             }}, ClickEvent.getType());
 		app.getLoginOperation().getView().add(this);
 	}
+
+	private void initMaterialCB() {
+		this.materialCallback = new MaterialCallback() {
+
+			@Override
+			public void onLoaded(final List<Material> parseResponse) {
+				if (parseResponse.size() == 1) {
+					final Material newMat = parseResponse.get(0); 
+					app.getKernel().getConstruction().setTitle(title.getText());
+					app.setUniqueId(Integer.toString(newMat.getId()));
+					//last synchronization is equal to last modified 
+					app.setSyncStamp(newMat.getModified());
+					newMat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
+					saveCallback.onSaved(newMat, false);
+					if (runAfterSave != null) {
+						runAfterSave.run();
+					}
+				}
+				else {
+					saveCallback.onError();
+				}
+				resetCallback();
+			}
+			
+			@Override
+			public void onError(final Throwable exception) {
+				saveCallback.onError();
+				resetCallback();
+				((GuiManagerW) app.getGuiManager()).openFilePicker();
+			}
+		};
+    }
 
 	private void addTitelPanel() {
 		final HorizontalPanel titlePanel = new HorizontalPanel();
@@ -171,29 +211,85 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
 		providerPopup.setSelectedIndex(app.getFileManager().getFileProvider() == Provider.GOOGLE ? 1 : 0);
 		providerPopup.setIsEnabled(providerCount > 1);
+		
+		listBox = new ListBox();
+		listBox.addStyleName("visibility");
+		listBox.addItem("Private");
+		listBox.addItem("Shared");
+		listBox.addItem("Public");
+		listBox.setItemSelected(INDEX_PRIVATE, true);
+		
 		buttonPanel.add(providerPopup);
+		buttonPanel.add(listBox);
 	}
 	
 	/**
-	 * 
+	 * if user is offline, save local.
+	 * </br>if user is online and 
+	 * </br>- has chosen GOOGLE, {@code uploadToDrive}
+	 * </br>- material was already saved as PUBLIC or SHARED, than only update (API)
+	 * </br>- material is new or was private, than link to GGT
 	 */
 	protected void onSave() {
 		if (isOffline()) {
 			saveLocal();
+		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
+			uploadToDrive();
 		} else {
-			upload();
+			if (app.getActiveMaterial() == null) {
+				app.setActiveMaterial(new Material(0, MaterialType.ggb));
+			}
+			switch (listBox.getSelectedIndex()) {
+			case 0:
+				savePrivate();
+				break;
+			case 1:
+				saveShared();
+				break;
+			case 2:
+				savePublic();
+				break;
+			default: 
+				savePrivate();
+				break;
+			}
 		}
 	}
-	
+
+	private void savePublic() {
+		if (isAlreadyPublicOrShared()) {
+			app.getActiveMaterial().setVisibility("O");
+			uploadToGgt();
+		} else {
+			//link to GGT
+			app.getActiveMaterial().setVisibility("O");
+			app.uploadToGeoGebraTube(); //TODO overwrite for TOUCH!
+			this.hide();
+		}
+	}
+
+    private void saveShared() {
+	    if (isAlreadyPublicOrShared()) {
+	    	app.getActiveMaterial().setVisibility("S");
+	    	uploadToGgt();
+	    } else {
+	    	//link to GGT
+	    	app.getActiveMaterial().setVisibility("S");
+	    	app.uploadSharedToGgt(); //TODO overwrite for TOUCH!
+	    	this.hide();
+	    }
+    }
+
+    private void savePrivate() {
+	    app.getActiveMaterial().setVisibility("P");
+	    uploadToGgt();
+    }
+
 	/**
 	 * @return true if user is offline
 	 */
 	protected boolean isOffline() {
 		return !app.getNetworkOperation().isOnline();
-	}
-
-	private boolean isLoggedIn() {
-		return this.app.getLoginOperation().isLoggedIn();
 	}
 	
 	private void saveLocal() {
@@ -218,27 +314,24 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
     }
 
 	/**
+	 * @return true if material was already public or shared
+	 */
+    private boolean isAlreadyPublicOrShared() {
+	    return app.getActiveMaterial().getVisibility().equals("O") ||
+				app.getActiveMaterial().getVisibility().equals("S");
+    }
+
+	/**
 	 * Handles the upload of the file and closes the dialog.
 	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
-	void upload() {
+	private void uploadToGgt() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
-		if(app.getFileManager().getFileProvider() == Provider.GOOGLE){
-			app.getGoogleDriveOperation().afterLogin(new Runnable(){
-
-				@Override
-                public void run() {
-					uploadToDrive();
-                }
-				
-			});
-			
-		}
-		else if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
+		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 			app.resetUniqueId();
-			doUpload();
+			doUploadToGgt();
 		} else if (app.getUniqueId() == null) {
-			doUpload();
+			doUploadToGgt();
 		}
 		else {
 			handleSync();
@@ -246,7 +339,22 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 		hide();
 	}
 
-	void uploadToDrive() {
+	private void uploadToDrive() {
+		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
+		app.getGoogleDriveOperation().afterLogin(new Runnable(){
+
+			@Override
+			public void run() {
+				doUploadToDrive();
+			}
+
+		});
+    }
+
+	/**
+	 * GoogleDrive upload
+	 */
+	void doUploadToDrive() {
 		String saveName = this.title.getText();
 		if(!saveName.endsWith(".ggb")){
 			app.getKernel().getConstruction().setTitle(saveName);
@@ -268,11 +376,11 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 						app.resetUniqueId();
 						ToolTipManagerW.sharedInstance().showBottomMessage(((LocalizationW) app.getLocalization()).getMenu("SeveralVersionsOfA", parseResponse.get(0).getTitle()), false);
 					}
-					doUpload();
+					doUploadToGgt();
 				} else {
 					// if the file was deleted meanwhile (parseResponse.size() == 0)
 					app.resetUniqueId();
-					doUpload();
+					doUploadToGgt();
 				}
 			}
 			
@@ -287,42 +395,28 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 	/**
 	 * does the upload of the actual opened file to GeoGebraTube
 	 */
-	void doUpload() {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(), new MaterialCallback() {
-
-			@Override
-			public void onLoaded(final List<Material> parseResponse) {
-				if (parseResponse.size() == 1) {
-					final Material newMat = parseResponse.get(0); 
-					app.getKernel().getConstruction().setTitle(title.getText());
-					app.setUniqueId(Integer.toString(newMat.getId()));
-					//last synchronization is equal to last modified 
-					app.setSyncStamp(newMat.getModified());
-					newMat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
-					saveCallback.onSaved(newMat, false);
-					if (runAfterSave != null) {
-						runAfterSave.run();
-					}
-				}
-				else {
-					saveCallback.onError();
-				}
-				resetCallback();
-			}
-			
-			@Override
-			public void onError(final Throwable exception) {
-				saveCallback.onError();
-				resetCallback();
-				((GuiManagerW) app.getGuiManager()).openFilePicker();
-			}
-		});
+	void doUploadToGgt() {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(), this.materialCallback);
 	}
 	
 	@Override
 	public void show(){
 		super.show();
 		setTitle();
+		if (isOffline()) {
+			this.listBox.setVisible(false);
+		} else if (app.getActiveMaterial() != null) {
+			if (app.getActiveMaterial().getVisibility().equals("O")) {
+				this.listBox.setSelectedIndex(INDEX_PUBLIC);
+			} else if (app.getActiveMaterial().getVisibility().equals("S")) {
+				this.listBox.setSelectedIndex(INDEX_SHARED);
+			} else {
+				this.listBox.setSelectedIndex(INDEX_PRIVATE);
+			}
+		} else {
+			this.listBox.setSelectedIndex(INDEX_PRIVATE);
+		}
+		
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.save.setEnabled(false);
 		}
@@ -375,11 +469,17 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 	@Override
     public void fireActionPerformed(PopupMenuButton actionButton) {
 	    if(actionButton.getSelectedIndex() == 1){
+	    	if (!isOffline()) {
+		    	listBox.setVisible(false);
+	    	}
 	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.GOOGLE);
 	    }else{
 	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
+	    	if(!isOffline()) {
+		    	listBox.setVisible(true);
+	    	}
 	    }
-	    
+	    providerPopup.getMyPopup().hide();
     }
 
 	@Override
@@ -388,5 +488,4 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 	    	this.setAvailableProviders();
 	    }
     }
-	
 }

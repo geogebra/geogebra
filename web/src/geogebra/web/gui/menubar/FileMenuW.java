@@ -102,18 +102,16 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
 	    	public void execute() {
 	    		if(!nativeShareSupported()){
-	    		app.uploadToGeoGebraTube();
-	    		}else{
+	    			app.uploadToGeoGebraTube();
+	    		} else {
 	    			app.getGgbApi().getBase64(true, new StringHandler(){
 
-						@Override
-                        public void handle(String s) {
-							String title = app.getKernel().getConstruction().getTitle();
-	                        nativeShare(s, "".equals(title) ? "construction" : title);
-                        }});
-	    		
+	    				@Override
+	    				public void handle(String s) {
+	    					String title = app.getKernel().getConstruction().getTitle();
+	    					nativeShare(s, "".equals(title) ? "construction" : title);
+	    				}}); 
 	    		}
-	    			
 	    	}
 	    });
 	    

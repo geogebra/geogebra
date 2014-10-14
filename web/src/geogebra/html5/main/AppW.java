@@ -43,6 +43,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.move.events.BaseEventPool;
 import geogebra.common.move.events.NativeEventAttacher;
 import geogebra.common.move.ggtapi.models.ClientInfo;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.NetworkOperation;
@@ -150,6 +151,7 @@ public abstract class AppW extends App implements SetLabels{
 	private ToolTipManagerW toolTipManager;
 	
 	protected FileManagerI fm;
+	private Material activeMaterial;
 	
 	protected final ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
@@ -818,6 +820,7 @@ public abstract class AppW extends App implements SetLabels{
 
 			resetUniqueId();
 			setLocalID(-1);
+			resetActiveMaterial();
 
 			if(getGoogleDriveOperation()!=null){
 				getGoogleDriveOperation().resetStorageInfo();
@@ -1646,8 +1649,17 @@ public abstract class AppW extends App implements SetLabels{
 
 		
 
+		public Material getActiveMaterial() {
+			return this.activeMaterial;
+		}
 		
-
+		public void setActiveMaterial(Material mat) {
+			this.activeMaterial = mat;
+		}
+		
+		private void resetActiveMaterial() {
+			this.activeMaterial = null;
+		}
 		
 		
 		@Override
@@ -2835,4 +2847,11 @@ public abstract class AppW extends App implements SetLabels{
 	        return null;
         }
 		
+		
+		/**
+		 * Overwritten for AppWapplet/AppWapplication
+		 */
+		public void uploadSharedToGgt() {
+			// TODO
+		}
 }

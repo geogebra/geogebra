@@ -162,6 +162,28 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 		}
 	}	
+	
+	/**
+	 * Uploads the current worksheet as SHARED material to GeoGebraTube.
+	 * @param base64 String
+	 */
+	public void uploadWorksheetShared(String base64) {
+		this.macros = null;
+		showDialog();
+		try {
+			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uploadURL);
+			rb.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
+			String postData = getPostData(base64).append("&visibility=S").toString();
+			doUploadWorksheet(rb, postData);
+		} catch (Exception e) {
+			statusLabelSetText(loc.getPlain("UploadError", Integer.toString(400)));
+			setEnabled(false);
+			pack();
+
+			App.debug(e.getMessage());
+
+		}
+    }
 
 	@Override
 	protected String encode(String str) {

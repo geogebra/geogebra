@@ -475,6 +475,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 						material = parseResponse.get(0);
 						material.setSyncStamp(System.currentTimeMillis() / 1000);
 						app.getGgbApi().setBase64(material.getBase64());
+						app.setActiveMaterial(material);
 					} else {
 						ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("LoadFileFailed"), true);
 					}

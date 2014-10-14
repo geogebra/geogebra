@@ -7,6 +7,10 @@ import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.html5.main.AppW;
 
 
+/**
+ *	Upload request for GeoGebraTube
+ *
+ */
 public class UploadRequest implements Request {
 
 	private final String API = "1.0.0";
@@ -17,9 +21,11 @@ public class UploadRequest implements Request {
 	private String consTitle = "GeoGebra";
 	private String uniqueID;
 	private String base64;
+	private String visibility;
 	
 	
 	/**
+	 * Used to upload the actual opened application to GeoGebraTube
 	 * @param app AppW
 	 * @param consTitle title of construction
 	 * @param base64 String
@@ -29,10 +35,11 @@ public class UploadRequest implements Request {
 		this.consTitle = consTitle;
 		this.uniqueID = this.app.getUniqueId();
 		this.base64 = base64;
+		this.visibility = this.app.getActiveMaterial().getVisibility();
 	}
 	
 	/**
-	 * 
+	 * Used for local files
 	 * @param app AppW
 	 * @param mat Material
 	 */
@@ -43,6 +50,7 @@ public class UploadRequest implements Request {
 		    this.uniqueID = Integer.toString(mat.getId());
 	    }
 	    this.base64 = mat.getBase64();
+	    this.visibility = "P";
     }
 	
 	/**
@@ -90,19 +98,18 @@ public class UploadRequest implements Request {
 					
 			//language
 			task.put("language", new JSONString(app.getLocalization().getLanguage()));
-				
+			
+			//visibility
+			if (this.visibility != null) {
+				task.put("visibility", new JSONString(this.visibility));
+			}
+			
 			//settings
 			JSONObject settings = new JSONObject();
 				settings.put("-toolbar", new JSONString("false"));
 				settings.put("-menubar", new JSONString("false"));
 				settings.put("-inputbar", new JSONString("false"));
 			task.put("settings", settings);
-		
-			//age
-			JSONObject age = new JSONObject();
-				age.put("-min", new JSONString("0"));
-				age.put("-max", new JSONString("19"));
-			task.put("age", age);
 			
 			//file
 			if (this.base64 != null) {
@@ -118,6 +125,7 @@ public class UploadRequest implements Request {
     }
 	
 	/**
+	 * to upload active construction
 	 * @param app AppW
 	 * @param filename title of construction
 	 * @param base64 String
@@ -128,6 +136,7 @@ public class UploadRequest implements Request {
 	}
 
 	/**
+	 * to upload local files
 	 * @param app {@link AppW}
 	 * @param mat {@link Material}
 	 * @return the upload XML as JSON String
