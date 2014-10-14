@@ -3941,6 +3941,9 @@ button.gwt-Button.signInButton {
 	cursor: pointer;
 	text-align: center;
 	padding-right: 10px;
+	width: 40px;
+	height: 40px;
+	overflow: hidden;
 }
 
 .profilePanel .profileImage {

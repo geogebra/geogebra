@@ -195,7 +195,17 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 	 * @return the remaining width for the searchPanel.
 	 */
 	private int getRemainingWidth() {
-		int rightPanelWidth = this.rightPanel.getOffsetWidth() == 0 ? 150 : this.rightPanel.getOffsetWidth();
+		int rightPanelWidth;
+		if (this.rightPanel.getOffsetWidth() == 0) {
+			if (this.signInButton != null && this.signInButton.isVisible()) {
+				rightPanelWidth = 150;
+			} else {
+				rightPanelWidth = 60;
+			}
+		} else {
+			rightPanelWidth = this.rightPanel.getOffsetWidth();
+		}
+		
 	    return Window.getClientWidth() - WIDTH_HEADER_FIRST - rightPanelWidth;
     }
 
