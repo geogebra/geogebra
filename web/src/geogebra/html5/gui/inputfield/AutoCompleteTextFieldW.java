@@ -498,7 +498,21 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 
 		InputElement inpel = getTextBox().getElement().cast();
-		inpel.setSize(columns);
+
+		// Note that the HTML input size="col" makes room for col+2
+		// characters in the visible area of the input (almost),
+		// this is pretty cross-browser (Firefox, Chrome, IE),
+		// but col+1 characters have room always. This is the same
+		// behaviour like the Desktop version, which also col+1.
+		// so, we need to subtract 1 from the columns to behave the
+		// same way as the Desktop version.
+		if (columns > 1) {
+			inpel.setSize(columns-1);
+		} else {
+			// as inpel.setSize(0) would have no effect, so it would
+			// be very much unlike the Desktop version
+			inpel.setSize(1);
+		}
 
 		//getTextBox().setWidth(columns + "em");
 		//super.setWidth(length + "em");
