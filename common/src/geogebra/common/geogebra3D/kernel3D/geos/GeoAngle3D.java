@@ -42,8 +42,8 @@ final public class GeoAngle3D extends GeoAngle {
 	static public final GeoAngle3D newAngle3DWithDefaultInterval(Construction cons) {
 		GeoAngle3D ret = new GeoAngle3D(cons);
 		//set the angle interval
-		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE)).getAngleStyle());
 		ret.setHasOrientation(true);
+		ret.setAngleStyle(((GeoAngle) cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_ANGLE)).getAngleStyle());
 		return ret;
 	}
 	
