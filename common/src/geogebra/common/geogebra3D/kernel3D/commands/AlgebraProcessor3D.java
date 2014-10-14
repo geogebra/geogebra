@@ -253,6 +253,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				Coords v = new Coords(new double[]{coefX[1].evaluateDouble(),coefY[1].evaluateDouble(),
 						coefZ[1].evaluateDouble()});
 				line.setCoord(start, v);
+				line.setParameter(fv.getSetVarString());
 				line.setLabel(label);
 				}else{
 					line = kernel.getManager3D().Line3D(label, coefX, coefY, coefZ);
