@@ -1,6 +1,8 @@
 package geogebra.common.gui.dialog.handler;
 
 import geogebra.common.gui.InputHandler;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
@@ -33,11 +35,19 @@ public class RedefineInputHandler implements InputHandler {
 		return geo;
 	}
 
-	public boolean processInput(String inputValue) {			
-		if (inputValue == null)
+	public boolean processInput(String rawInput) {			
+		if (rawInput == null)
 			return false;
-		if (inputValue.equals(this.oldString)) return true; // Michael Borcherds 2007-12-31
+		if (rawInput.equals(this.oldString)) return true; // Michael Borcherds 2007-12-31
 		try {
+			String inputValue = rawInput;
+			if (geo instanceof FunctionalNVar) {
+				// string like f(x,y)=x^2
+				// or f(\theta) = \theta
+				inputValue = geo.getLabel(StringTemplate.defaultTemplate) + "("
+						+ ((FunctionalNVar) geo).getVarString(StringTemplate.defaultTemplate)
+						+ ")=" + inputValue;
+			}
 			GeoElement newGeo = app.getKernel().getAlgebraProcessor().changeGeoElement(
 					geo, inputValue, true, true);
 			app.getKernel().clearJustCreatedGeosInViews();
