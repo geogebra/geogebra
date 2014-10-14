@@ -243,6 +243,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			
 			
 			if (extrusionComputer.getComputed()==0){//if height has not been set by dragging, ask one
+				App.debug("Extruding without unknown height");
 				App app = getView3D().getApplication();
 				app.getDialogManager().showNumberInputDialog(
 						//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
@@ -253,6 +254,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 						app.getPlain("PositiveValuesFollowTheView"),this);
 				
 			}else{
+				App.debug("Extruding with known height");
 				extrude(height);
 			}
 

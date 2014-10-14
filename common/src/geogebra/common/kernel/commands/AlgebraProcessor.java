@@ -55,6 +55,7 @@ import geogebra.common.kernel.arithmetic.Traversing.FVarCollector;
 import geogebra.common.kernel.arithmetic.Traversing.ReplaceUndefinedVariables;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
@@ -271,7 +272,31 @@ public class AlgebraProcessor {
 			return null;
 		}
 	}
-
+	private ValidExpression checkParametricEquation(ValidExpression ve, ValidExpression fallback){
+		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
+		ve.traverse(collecter);
+		final TreeSet<String> undefinedVariables = collecter.getResult();
+		if(undefinedVariables.size() == 1){
+			try{
+				String varName = undefinedVariables.first();
+				FunctionVariable fv = new FunctionVariable(kernel,varName);
+				ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
+						fv)).wrap();
+				exp.resolveVariables();
+				boolean flag = cons.isSuppressLabelsActive();
+				cons.setSuppressLabelCreation(true);
+				GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+				cons.setSuppressLabelCreation(flag);
+				if(ret!=null){
+					return ret[0].wrap();
+				}
+			}catch(Throwable t){
+				t.printStackTrace();
+				Log.debug("X is not parametric");
+			}
+		}
+		return fallback;
+	}
 	/**
 	 * for AlgebraView changes in the tree selection and redefine dialog
 	 * 
@@ -290,29 +315,17 @@ public class AlgebraProcessor {
 
 		try {
 			ValidExpression ve = parser.parseGeoGebraExpression(newValue);
-			if("X".equals(ve.getLabel())){
-				CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
-				ve.traverse(collecter);
-				final TreeSet<String> undefinedVariables = collecter.getResult();
-				if(undefinedVariables.size() == 1){
-					try{
-						String varName = undefinedVariables.first();
-						FunctionVariable fv = new FunctionVariable(kernel,varName);
-						ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
-								fv)).wrap();
-						exp.resolveVariables();
-						boolean flag = cons.isSuppressLabelsActive();
-						cons.setSuppressLabelCreation(true);
-						GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
-						cons.setSuppressLabelCreation(flag);
-						if(ret!=null){
-							ve = ret[0].wrap();
-						}
-					}catch(Throwable t){
-						t.printStackTrace();
-						Log.debug("X is not parametric");
-					}
+			if(ve instanceof Equation && ((Equation) ve).getLHS().unwrap() instanceof Variable && 
+					"X".equals(((Equation) ve).getLHS().unwrap().toString(StringTemplate.defaultTemplate))
+					&& kernel.lookupLabel("X") == null){
+				ValidExpression ve2 = checkParametricEquation(((Equation)ve).getRHS(), null);
+				if(ve2 != null){
+					ve2.setLabel(ve.getLabel());
+					ve = ve2;
 				}
+				
+			}else if("X".equals(ve.getLabel())){
+				ve = checkParametricEquation(ve, ve);
 			}
 			return changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo);
