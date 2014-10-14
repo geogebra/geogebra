@@ -214,9 +214,9 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 		
 		listBox = new ListBox();
 		listBox.addStyleName("visibility");
-		listBox.addItem("Private");
-		listBox.addItem("Shared");
-		listBox.addItem("Public");
+		listBox.addItem(app.getMenu("Private"));
+		listBox.addItem(app.getMenu("Shared"));
+		listBox.addItem(app.getMenu("Public"));
 		listBox.setItemSelected(INDEX_PRIVATE, true);
 		
 		buttonPanel.add(providerPopup);
@@ -449,6 +449,9 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 		this.titleLabel.setText(app.getPlain("Title") + ": ");
 		this.cancel.setText(app.getMenu("Cancel"));
 		this.save.setText(app.getMenu("Save"));
+		this.listBox.setItemText(INDEX_PRIVATE, app.getMenu("Private"));
+		this.listBox.setItemText(INDEX_SHARED, app.getMenu("Shared"));
+		this.listBox.setItemText(INDEX_PUBLIC, app.getMenu("Public"));
 	}
 
 	/**
