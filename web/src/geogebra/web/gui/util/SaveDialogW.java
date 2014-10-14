@@ -210,7 +210,6 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 		providerPopup.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
 		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
 		providerPopup.setSelectedIndex(app.getFileManager().getFileProvider() == Provider.GOOGLE ? 1 : 0);
-		providerPopup.setIsEnabled(providerCount > 1);
 		
 		listBox = new ListBox();
 		listBox.addStyleName("visibility");
@@ -404,18 +403,23 @@ public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRen
 		super.show();
 		setTitle();
 		if (isOffline()) {
+			this.providerPopup.setVisible(false);
 			this.listBox.setVisible(false);
-		} else if (app.getActiveMaterial() != null) {
-			if (app.getActiveMaterial().getVisibility().equals("O")) {
-				this.listBox.setSelectedIndex(INDEX_PUBLIC);
-			} else if (app.getActiveMaterial().getVisibility().equals("S")) {
-				this.listBox.setSelectedIndex(INDEX_SHARED);
+		} else {
+			this.providerPopup.setVisible(true);
+			this.listBox.setVisible(true);
+			if (app.getActiveMaterial() != null) {
+				if (app.getActiveMaterial().getVisibility().equals("O")) {
+					this.listBox.setSelectedIndex(INDEX_PUBLIC);
+				} else if (app.getActiveMaterial().getVisibility().equals("S")) {
+					this.listBox.setSelectedIndex(INDEX_SHARED);
+				} else {
+					this.listBox.setSelectedIndex(INDEX_PRIVATE);
+				}
 			} else {
 				this.listBox.setSelectedIndex(INDEX_PRIVATE);
 			}
-		} else {
-			this.listBox.setSelectedIndex(INDEX_PRIVATE);
-		}
+	}
 		
 		if (this.title.getText().length() < MIN_TITLE_LENGTH) {
 			this.save.setEnabled(false);
