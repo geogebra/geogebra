@@ -5,6 +5,7 @@ import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.main.AppCompanion;
+import geogebra.common.main.DialogManager;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
@@ -15,6 +16,7 @@ import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.dialog.DialogManager3DW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplication;
@@ -164,6 +166,14 @@ public class AppWapplication3D extends AppWapplication {
 		if(this.isEuclidianView3Dinited()){
 			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
 		}
+	}
+	
+	@Override
+	public DialogManager getDialogManager() {
+		if (dialogManager == null) {
+			dialogManager = new DialogManager3DW(this);
+		}
+		return dialogManager;
 	}
 
 }

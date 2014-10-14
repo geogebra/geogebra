@@ -58,7 +58,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	private SaveUnsavedChanges saveUnsavedDialog;
 	protected SaveDialogW saveDialog = null;
 	protected UploadImageDialog imageDialog;
-
 	public DialogManagerW(App app) {
 		super(app);		
 	}
