@@ -5,16 +5,17 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
 import geogebra.common.gui.dialog.handler.ColorChangeHandler;
+import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.common.gui.dialog.handler.NumberInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -231,10 +232,18 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 
 	@Override
-	public NumberValue showNumberInputDialog(String title, String message,
-			String initText, boolean changingSign, String checkBoxText) {
-		// TODO Auto-generated method stub
-		return null;
+	public void showNumberInputDialog(String title, String message,
+			String initText, boolean changingSign, String checkBoxText, DrawExtrusionOrConify3D extruder) {
+		// avoid labeling of num
+				Construction cons = app.getKernel().getConstruction();
+				
+				NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
+						app.getKernel().getAlgebraProcessor());
+				NumberChangeSignInputDialogW id = new NumberChangeSignInputDialogW(
+						((AppW) app), message, title, initText, handler, changingSign,
+						checkBoxText, extruder);
+				id.setVisible(true);
+
 	}
 
 	/**

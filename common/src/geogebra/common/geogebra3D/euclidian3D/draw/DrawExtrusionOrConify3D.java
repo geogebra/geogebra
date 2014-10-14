@@ -240,37 +240,41 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			}
 			
 			//add current height to selected numeric (will be used on next EuclidianView3D::rightPrism() call)
-			Hits hits = new Hits();
+			
 			
 			if (extrusionComputer.getComputed()==0){//if height has not been set by dragging, ask one
 				App app = getView3D().getApplication();
-				NumberValue num = 
-					app.getDialogManager().showNumberInputDialog(
-							//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
-							extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
-							app.getPlain("Altitude"), "", 
-							//check basis direction / view direction to say if the sign has to be forced
-							basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
-							app.getPlain("PositiveValuesFollowTheView"));
-				if (num != null){
-					hits.add((GeoElement) num);
-				}
+				app.getDialogManager().showNumberInputDialog(
+						//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
+						extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
+						app.getPlain("Altitude"), "", 
+						//check basis direction / view direction to say if the sign has to be forced
+						basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
+						app.getPlain("PositiveValuesFollowTheView"),this);
+				
 			}else{
-				hits.add(height);
+				extrude(height);
 			}
 
-			getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
-			/*
-			if (getView3D().getEuclidianController().selPolygons() == 0){
-				hits.add(basis);
-				//getView3D().getEuclidianController().addSelectedPolygon(hits, 1, false);
-			}
-			*/
-
-			//remove the algo
-			extrusionComputer.getAlgo().remove();	
-			extrusionComputer=null;
+			
 		}
+	}
+	
+	public void extrude(NumberValue val){
+		Hits hits = new Hits();
+		hits.add(val.toGeoElement());
+		getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
+		/*
+		if (getView3D().getEuclidianController().selPolygons() == 0){
+			hits.add(basis);
+			//getView3D().getEuclidianController().addSelectedPolygon(hits, 1, false);
+		}
+		*/
+
+		//remove the algo
+		extrusionComputer.getAlgo().remove();	
+		extrusionComputer=null;
+		
 	}
 	
 	
