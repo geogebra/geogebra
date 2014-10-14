@@ -11,6 +11,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.CustomizeToolbarGUI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.LanguageGUI;
 import geogebra.web.gui.MyHeaderPanel;
@@ -124,6 +125,7 @@ public class AppWapplication extends AppW {
 	
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
+	private CustomizeToolbarGUI ct;
 	
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
@@ -336,6 +338,13 @@ public class AppWapplication extends AppW {
 		return this.lg;
 	}
 	
+	@Override
+	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
+		if (this.ct == null) {
+			this.ct = new CustomizeToolbarGUI(this);
+		}
+		return this.ct;
+	}
 	
 	@Override
 	public void uploadToGeoGebraTube() {

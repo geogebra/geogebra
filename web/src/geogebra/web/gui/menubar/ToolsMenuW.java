@@ -32,19 +32,18 @@ public class ToolsMenuW extends GMenuBar {
 
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 
-		/*
+		
 		addItem(MainMenu.getMenuBarHtml(noIcon,
 		        app.getMenu("Toolbar.Customize"), true), true, new Command() {
 
 			public void execute() {
-				// TODO Auto-generated method stub
-				App.debug("unimplemented Customize");
+				app.showCustomizeToolbarGUI();
 			}
-		});
+		}
+		);
 
 		addSeparator();
-		*/
-
+		
 		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.CreateNew"),
 		        true), true, new Command() {
 

@@ -259,7 +259,6 @@ public class CheckboxCreationDialogW extends DialogBox implements
 		optionPane = new FlowPanel();
 
 		// create object list
-//		optionPane.add(titleLabel);
 		optionPane.add(captionPanel);
 		optionPane.add(listPanel);
 		optionPane.add(btPanel);

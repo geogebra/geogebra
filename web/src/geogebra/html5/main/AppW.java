@@ -2831,7 +2831,16 @@ public abstract class AppW extends App implements SetLabels{
 			showBrowser(getLanguageGUI());
 	    }
 		
-	    /**
+	    public void showCustomizeToolbarGUI() {
+			showBrowser(getCustomizeToolbarGUI());
+	    }
+		
+	    protected HeaderPanel getCustomizeToolbarGUI() {
+	        // TODO Auto-generated method stub
+	        return null;
+        }
+
+		/**
 	     * Overwritten for AppWapplet/AppWapplication 
 	     * @param bg
 	     */
