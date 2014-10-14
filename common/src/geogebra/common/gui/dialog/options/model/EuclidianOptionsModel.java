@@ -162,8 +162,7 @@ public class EuclidianOptionsModel {
 			app.getSettings().getEuclidian(2).setShowAxes(value,
 					value);
 		} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == view) {
-			app.getSettings().getEuclidian(3).setShowAxes(value,
-					value);
+			app.getSettings().getEuclidian(3).setShowAxes(value);
 			
 		} else {
 			view.setShowAxes(value, true);
