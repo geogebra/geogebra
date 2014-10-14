@@ -71,8 +71,23 @@ public class CheckboxCreationDialogW extends DialogBox implements
 		}
 		
 		protected void add(GeoElement geo) {
-			addItem(geo == null ? "": geo.getAlgebraDescriptionDefault());
+			if (geo != null) {
+				addTextOfGeo(geo);
+			} else {
+				addItem("");
+			}
+			
 			geos.add(geo);
+		}
+			
+		protected void addTextOfGeo(GeoElement geo) {
+			String text = geo.getLongDescription();
+			if (text.length() < 100) {
+				addItem(text);
+			}
+			else {
+				addItem(geo.getNameDescription());
+			}
 		}
 		
 		protected boolean contains(GeoElement geo) {
@@ -183,9 +198,10 @@ public class CheckboxCreationDialogW extends DialogBox implements
 	}
 
 	protected void createGUI(String title) {
-		setTitle(title);
-		Label titleLabel = new Label(title);
-		titleLabel.setStyleName("panelTitle");
+		addStyleName("GeoGebraPopup");
+		getCaption().setText(title);
+		Label lblSelectObjects = new Label(loc.getMenu("Tool.SelectObjects"));
+		lblSelectObjects.setStyleName("panelTitle");
 		// create caption panel
 		Label captionLabel = new Label(loc.getMenu("Button.Caption") + ":");
 		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
@@ -195,14 +211,15 @@ public class CheckboxCreationDialogW extends DialogBox implements
 			AutoCompleteTextFieldW atf = (AutoCompleteTextFieldW) tfCaption;
 			atf.setAutoComplete(false);
 		}
-
+		tfCaption.showPopupSymbolButton(true);
 		FlowPanel captionPanel = new FlowPanel();
 		captionPanel.add(LayoutUtil.panelRow(captionLabel, ip));
 
 		FlowPanel listPanel = new FlowPanel();
 		listPanel.add(gbObjects);
-		gbList.setStyleName("cbCreationList");
+		gbList.getElement().setId("cbCreationList");
 		btnRemove = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
+		listPanel.add(lblSelectObjects);
 		listPanel.add(LayoutUtil.panelRow(gbList, btnRemove));
 		
 		btnRemove.addClickHandler(new ClickHandler() {
@@ -233,19 +250,22 @@ public class CheckboxCreationDialogW extends DialogBox implements
 		});
 		
 		btPanel = new FlowPanel();
-		btPanel.add(LayoutUtil.panelRow(btApply, btCancel));
+		btPanel.setStyleName("DialogButtonPanel");
+
+		btPanel.add(btApply);
+		btPanel.add(btCancel);
 
 		// Create the JOptionPane.
 		optionPane = new FlowPanel();
 
 		// create object list
-		optionPane.add(titleLabel);
+//		optionPane.add(titleLabel);
 		optionPane.add(captionPanel);
 		optionPane.add(listPanel);
 		optionPane.add(btPanel);
 
 		// Make this dialog display it.
-		add(optionPane);
+		setWidget(optionPane);
 		
 	}
 
