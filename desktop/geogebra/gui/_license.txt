@@ -105,7 +105,7 @@ TRANSLATORS
       Erlina Ronda (The Philippines)
   * Finnish: Juha Leino, Mikko Rahikka, Erkki Luoma-aho,
       Teemu Hinkula, Tero Pirinen, Vadim Gurkalov, Aleksi Matsi,
-      Jani Hannula (Finland)
+      Jani Hannula, Rami Nuotio (Finland)
   * French: Noel Lambert (France)
   * Galician: Debora Pereiro Carbajo, Esperanza Gesteira Losada,
       Enrique de la Torre Fernandez, Fernando Zacarias Maceiras,
