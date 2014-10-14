@@ -261,7 +261,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor());
-		InputDialogRotate id = new InputDialogRotate(((AppW) app), title, handler, polys,
+		InputDialogRotate id = new InputDialogRotatePointW(((AppW) app), title, handler, polys,
 				points, selGeos, app.getKernel(), ec);
 		id.setVisible(true);
 

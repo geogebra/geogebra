@@ -3577,4 +3577,73 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected Coords getMouseLocRW(){
 		return view3D.getCursor3D().getInhomCoordsInD3();		
 	}
+	
+	public static String rotateObject(App app, String inputText,
+			boolean clockwise, GeoPolygon[] polys, GeoLineND[] lines,
+			GeoElement[] selGeos,
+			EuclidianController3D ec) {	
+		String defaultRotateAngle = "45" + "\u00b0";		
+		String angleText = inputText;
+		Kernel kernel = app.getKernel();
+		
+
+		// avoid labeling of num
+		Construction cons = kernel.getConstruction();
+		boolean oldVal = cons.isSuppressLabelsActive();
+		cons.setSuppressLabelCreation(true);
+
+
+		// negative orientation ?
+		if (ec.viewOrientationForClockwise(clockwise,lines[0])) {
+			inputText = "-(" + inputText + ")";
+		}
+
+		GeoElement[] result = kernel.getAlgebraProcessor().processAlgebraCommand(inputText, false);
+
+		cons.setSuppressLabelCreation(oldVal);
+
+
+		boolean success = result != null && result[0] instanceof GeoNumberValue;
+
+		if (success) {
+			// GeoElement circle = kernel.Circle(null, geoPoint1,
+			// ((NumberInputHandler)inputHandler).getNum());
+			GeoNumberValue num = (GeoNumberValue) result[0];
+			// geogebra.gui.AngleInputDialog dialog =
+			// (geogebra.gui.AngleInputDialog) ob[1];
+
+			// keep angle entered if it ends with 'degrees'
+			if (angleText.endsWith("\u00b0"))
+				defaultRotateAngle = angleText;
+
+
+			if (polys.length == 1) {
+
+				GeoElement[] geos = ec.rotateAroundLine(polys[0], num, lines[0]);
+				if (geos != null) {
+					app.storeUndoInfo();
+					ec.memorizeJustCreatedGeos(geos);
+				}
+				return defaultRotateAngle;
+			}
+
+			
+			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
+			for (int i = 0; i < selGeos.length; i++) {
+				if (selGeos[i] != lines[0]) {
+					if (selGeos[i] instanceof Transformable) {
+						ret.addAll(Arrays.asList(ec.rotateAroundLine(selGeos[i], num, lines[0])));
+					} else if (selGeos[i].isGeoPolygon()) {
+						ret.addAll(Arrays.asList(ec.rotateAroundLine(selGeos[i], num, lines[0])));
+					}
+				}
+			}
+			if (!ret.isEmpty()) {
+				app.storeUndoInfo();
+				ec.memorizeJustCreatedGeos(ret);
+			}
+			
+		}
+		return defaultRotateAngle;
+	}
 }

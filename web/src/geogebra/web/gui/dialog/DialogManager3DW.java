@@ -53,16 +53,23 @@ public class DialogManager3DW extends DialogManagerW{
 	
 	@Override
     public void showNumberInputDialogCirclePointDirectionRadius(String title, GeoPointND geoPoint, GeoDirectionND forAxis) {
-		// 3D stuff
+		NumberInputHandler handler = new NumberInputHandler(app.getKernel().getAlgebraProcessor());
+		InputDialogW id = new InputDialogCirclePointDirectionRadiusW((AppW) app, title, handler, geoPoint, forAxis, app.getKernel());
+		id.setVisible(true);
 		
 	}
 	
 	
 	@Override
     public void showNumberInputDialogRotate(String title, GeoPolygon[] polys,
-			GeoLineND[] selectedLines, GeoElement[] selGeos,
-            EuclidianController ec) {
-		// 3D stuff
+		GeoLineND[] selectedLines, GeoElement[] selGeos,
+        EuclidianController ec) {
+
+	NumberInputHandler handler = new NumberInputHandler(app.getKernel()
+			.getAlgebraProcessor());
+	InputDialogW id = new InputDialogRotateAxisW(((AppW) app), title, handler,
+			polys, selectedLines, selGeos, ec);
+	id.setVisible(true);
 		
 	}
 
