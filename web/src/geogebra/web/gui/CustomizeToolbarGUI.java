@@ -5,6 +5,7 @@ import geogebra.html5.main.AppW;
 public class CustomizeToolbarGUI extends MyHeaderPanel {
 
 	private AppW app;
+	private CustomizeToolbarHeaderPanel header;
 
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
@@ -18,8 +19,15 @@ public class CustomizeToolbarGUI extends MyHeaderPanel {
     }
 
 	private void addHeader() {
-	    // TODO Auto-generated method stub
-	    
-    }
+		header = new CustomizeToolbarHeaderPanel(app.getLocalization(), this);
+		setHeaderWidget(header);
+		
+	}
+
+	public void setLabels() {
+		if (header != null) {
+			header.setLabels();
+		}
+	}
 
 }
