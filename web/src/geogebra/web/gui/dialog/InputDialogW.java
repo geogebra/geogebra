@@ -249,16 +249,18 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	}
 
 	public void setVisible(boolean visible) {
-		wrappedPopup.setVisible(visible);
-		inputPanel.setVisible(visible);
+		
+		inputPanel.setVisible(visible);		
 		if (visible){
+			wrappedPopup.show();
 			inputPanel.setTextComponentFocus();
 		}else{
+			wrappedPopup.hide();
 			if(app!=null){
 				app.setErrorHandler(null);
 			}
 		}
-	}
+	};
 	
 	public void setLabels() {
 		wrappedPopup.setText(title);
