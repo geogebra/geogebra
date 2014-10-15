@@ -1,5 +1,6 @@
 package geogebra.tablet.main;
 
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.util.ArticleElement;
 import geogebra.tablet.TabletFileManager;
@@ -36,5 +37,23 @@ public class TabletApp extends AppT {
 		}
 		return this.fm;
 	}
-
+	
+	@Override
+	public void copyEVtoClipboard() {
+		copyEVtoClipboard(getEuclidianView1());
+	}
+	
+	@Override
+	public void copyEVtoClipboard(EuclidianViewW ev) {
+		String image = ev.getExportImageDataUrl(3, true);
+		String title = getKernel().getConstruction().getTitle();
+		title = "".equals(title) ? "GeoGebraImage" : title;
+		nativeShare(image, title);
+	}
+	
+	native void nativeShare(String base64, String title)/*-{
+		if($wnd.android){
+			$wnd.android.share(base64,title,'png');
+		}
+}-*/;
 }
