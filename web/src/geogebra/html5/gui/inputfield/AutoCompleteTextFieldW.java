@@ -514,6 +514,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			inpel.setSize(1);
 		}
 
+		// I've found a GGB file with an error if I do not use this
+		getTextBox().setWidth("auto");
+
 		//getTextBox().setWidth(columns + "em");
 		//super.setWidth(length + "em");
 	}
