@@ -794,7 +794,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					try {
 
 						// if 3D view exists, assume that we should export that
-						if (app.isEuclidianView3Dinited()
+						// (only PNG supported right now for 3D)
+						if ("png".equals(extension)
+								&& app.isEuclidianView3Dinited()
 								&& app.hasEuclidianView3D()) {
 							final EuclidianView3DD ev = (EuclidianView3DD) app
 									.getEuclidianView3D();
