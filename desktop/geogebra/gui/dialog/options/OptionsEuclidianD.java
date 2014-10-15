@@ -681,6 +681,7 @@ public class OptionsEuclidianD extends
 
 		int index = cbTooltips.getSelectedIndex();
 		cbTooltips.removeActionListener(this);
+		cbTooltips.removeAllItems();
 		model.fillTooltipCombo();
 		cbTooltips.setSelectedIndex(index);
 		cbTooltips.addActionListener(this);
