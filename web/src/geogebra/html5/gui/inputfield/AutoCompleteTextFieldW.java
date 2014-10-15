@@ -37,7 +37,6 @@ import java.util.List;
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.InputElement;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -497,7 +496,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			prepareShowSymbolButton(true);
 		}
 
-		InputElement inpel = getTextBox().getElement().cast();
+		// reverting the alternative way temporarily, to see
+		// which one is better - it should look the same in Desktop and Web!
+		// See ticket #4426...
+		/*InputElement inpel = getTextBox().getElement().cast();
 
 		// Note that the HTML input size="col" makes room for col+2
 		// characters in the visible area of the input (almost),
@@ -515,9 +517,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 
 		// I've found a GGB file with an error if I do not use this
-		getTextBox().setWidth("auto");
+		getTextBox().setWidth("auto");*/
 
-		//getTextBox().setWidth(columns + "em");
+		getTextBox().setWidth(columns + "em");
 		//super.setWidth(length + "em");
 	}
 
