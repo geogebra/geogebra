@@ -1449,6 +1449,7 @@ __GGB__keysVar.et.menu = {
     "German": "Saksa keel",
     "GoodnessOfFitTest": "Regressioonimudeli headuse test",
     "GoogleDrive": "Google'i draiv",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Graafik",
     "Green": "Roheline",
     "Grid": "Ruudustik",

@@ -1449,6 +1449,7 @@ __GGB__keysVar.xh.menu = {
     "German": "isiDatshi",
     "GoodnessOfFitTest": "Uvavanyo lokuFaneleka",
     "GoogleDrive": "iDrive kaGoogle",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Igrafu",
     "Green": "LuHlaza",
     "Grid": "iGrid",

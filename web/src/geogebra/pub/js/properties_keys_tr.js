@@ -1449,6 +1449,7 @@ __GGB__keysVar.tr.menu = {
     "German": "Almanca",
     "GoodnessOfFitTest": "Uyum Testininin Ba\u015far\u0131s\u0131",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Grafik",
     "Green": "Ye\u015fil",
     "Grid": "Grid",

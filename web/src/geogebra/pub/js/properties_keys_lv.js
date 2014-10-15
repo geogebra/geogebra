@@ -1449,6 +1449,7 @@ __GGB__keysVar.lv.menu = {
     "German": "V\u0101ciski",
     "GoodnessOfFitTest": "Labv\u0113l\u012bgo notikumu der\u012bbas tests",
     "GoogleDrive": "Google Disks",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Grafiks",
     "Green": "Za\u013c\u0161",
     "Grid": "Skala",

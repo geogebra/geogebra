@@ -1449,6 +1449,7 @@ __GGB__keysVar.gl.menu = {
     "German": "Alem\xe1n",
     "GoodnessOfFitTest": "test de bondade do axuste",
     "GoogleDrive": "Utilidade Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Gr\xe1fica",
     "Green": "Verde",
     "Grid": "Cuadr\xedcula",

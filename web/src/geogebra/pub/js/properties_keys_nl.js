@@ -1449,6 +1449,7 @@ __GGB__keysVar.nl.menu = {
     "German": "Duits",
     "GoodnessOfFitTest": "Goodness of Fit-test",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Graaf",
     "Green": "Groen",
     "Grid": "Rooster",

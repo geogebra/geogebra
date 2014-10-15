@@ -1449,6 +1449,7 @@ __GGB__keysVar.ne.menu = {
     "German": "\u091c\u0930\u094d\u092e\u0928\u094d",
     "GoodnessOfFitTest": "Goodness of Fit Test",
     "GoogleDrive": "\u0917\u0941\u0917\u0932 \u0921\u094d\u0930\u093e\u0908\u092d",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u0932\u0947\u0916\u093e\u091a\u093f\u0924\u094d\u0930",
     "Green": "\u0939\u0930\u093f\u092f\u094b",
     "Grid": "\u0917\u094d\u0930\u0940\u0921",

@@ -1449,6 +1449,7 @@ __GGB__keysVar.lt.menu = {
     "German": "Vokie\u010di\u0173",
     "GoodnessOfFitTest": "Tinkamumo Testo Gerumas",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Grafikas",
     "Green": "\u017dalia",
     "Grid": "Tinklelis",

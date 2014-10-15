@@ -1449,6 +1449,7 @@ __GGB__keysVar.ja.menu = {
     "German": "\u30c9\u30a4\u30c4\u8a9e",
     "GoodnessOfFitTest": "\u9069\u5408\u5ea6\u691c\u5b9a",
     "GoogleDrive": "Google\u30c9\u30e9\u30a4\u30d6",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u30b0\u30e9\u30d5",
     "Green": "\u7dd1",
     "Grid": "\u30b0\u30ea\u30c3\u30c9",

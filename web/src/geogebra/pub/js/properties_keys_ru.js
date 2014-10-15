@@ -1449,6 +1449,7 @@ __GGB__keysVar.ru.menu = {
     "German": "\u041d\u0435\u043c\u0435\u0446\u043a\u0438\u0439",
     "GoodnessOfFitTest": "\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0439 \u043a\u0440\u0438\u0442\u0435\u0440\u0438\u0439",
     "GoogleDrive": "\u0414\u0438\u0441\u043a Google",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u0413\u0440\u0430\u0444\u0438\u043a",
     "Green": "\u0417\u0435\u043b\u0451\u043d\u044b\u0439",
     "Grid": "\u0421\u0435\u0442\u043a\u0430",

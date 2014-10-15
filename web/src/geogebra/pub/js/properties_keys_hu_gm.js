@@ -1449,6 +1449,7 @@ __GGB__keysVar.hu_gm.menu = {
     "German": "Deutsch",
     "GoodnessOfFitTest": "Pr\xf3ba helyess\xe9ge",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Grafikon",
     "Green": "Z\xf6ld",
     "Grid": "R\xe1cs",

@@ -1449,6 +1449,7 @@ __GGB__keysVar.vi.menu = {
     "German": "Ti\u1ebfng \u0110\u1ee9c",
     "GoodnessOfFitTest": "Ki\u1ec3m \u0111\u1ecbnh \u0111\u1ed9 th\xedch h\u1ee3p c\u1ee7a m\xf4 h\xecnh",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u0110\u1ed3 th\u1ecb",
     "Green": "M\xe0u xanh l\xe1 c\xe2y",
     "Grid": "L\u01b0\u1edbi",

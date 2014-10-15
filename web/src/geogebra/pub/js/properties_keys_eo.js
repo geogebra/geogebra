@@ -1449,6 +1449,7 @@ __GGB__keysVar.eo.menu = {
     "German": "Germana",
     "GoodnessOfFitTest": "Goodness of Fit Test",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Grafika\u0135o",
     "Green": "Verda",
     "Grid": "Krado",

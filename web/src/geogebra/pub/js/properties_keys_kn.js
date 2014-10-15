@@ -1449,6 +1449,7 @@ __GGB__keysVar.kn.menu = {
     "German": "Deutsch",
     "GoodnessOfFitTest": "Goodness of Fit Test",
     "GoogleDrive": "\u0c97\u0cc2\u0c97\u0cb2\u0ccd \u0ca1\u0ccd\u0cb0\u0cc8\u0cb5\u0ccd",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u0ca8\u0c95\u0ccd\u0cb7\u0cc6",
     "Green": "\u0cb9\u0cb8\u0cbf\u0cb0\u0cc1",
     "Grid": "\u0c9c\u0cbe\u0cb2\u0cb0\u0cbf",

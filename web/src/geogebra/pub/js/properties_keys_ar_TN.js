@@ -1449,6 +1449,7 @@ __GGB__keysVar.ar_TN.menu = {
     "German": "\u0623\u0644\u0645\u0627\u0646\u064a",
     "GoodnessOfFitTest": "\u0627\u062e\u062a\u0628\u0627\u0631 \u062d\u0633\u0646 \u0627\u0644\u0645\u0637\u0627\u0628\u0642\u0629",
     "GoogleDrive": "\u0645\u062d\u0631\u0643 \u062c\u0648\u062c\u0644",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u0631\u0633\u0645 \u0628\u064a\u0627\u0646\u064a",
     "Green": "\u0623\u062e\u0636\u0631",
     "Grid": "\u0627\u0644\u0634\u0628\u0643\u0629",

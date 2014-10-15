@@ -1449,6 +1449,7 @@ __GGB__keysVar.no_NN.menu = {
     "German": "Tysk",
     "GoodnessOfFitTest": "Test for kvalitet p\xe5 kurvetilpassing",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Graf",
     "Green": "Gr\xf8n",
     "Grid": "Rutenett",

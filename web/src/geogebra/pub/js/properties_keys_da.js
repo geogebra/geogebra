@@ -1449,6 +1449,7 @@ __GGB__keysVar.da.menu = {
     "German": "Tysk",
     "GoodnessOfFitTest": "Goodness of Fit Test",
     "GoogleDrive": "Google Drev",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Graf",
     "Green": "Gr\xf8n",
     "Grid": "Gitter",

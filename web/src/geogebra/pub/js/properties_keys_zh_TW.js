@@ -1449,6 +1449,7 @@ __GGB__keysVar.zh_TW.menu = {
     "German": "\u5fb7\u8a9e",
     "GoodnessOfFitTest": "Goodness of Fit Test",
     "GoogleDrive": "Google \u96f2\u7aef\u786c\u789f",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u5716\u5f62",
     "Green": "\u7da0",
     "Grid": "\u683c\u7dda",

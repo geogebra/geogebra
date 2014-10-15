@@ -1449,6 +1449,7 @@ __GGB__keysVar.hy.menu = {
     "German": "\u0533\u0565\u0580\u0574\u0561\u0576\u0565\u0580\u0565\u0576",
     "GoodnessOfFitTest": "\u054e\u056b\u0573\u0561\u056f\u0561\u0563\u0580\u0561\u056f\u0561\u0576 \u0570\u0561\u0575\u057f\u0561\u0576\u056b\u0577",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "\u0533\u0580\u0561\u0586\u056b\u056f",
     "Green": "\u053f\u0561\u0576\u0561\u0579",
     "Grid": "\u0551\u0561\u0576\u0581",

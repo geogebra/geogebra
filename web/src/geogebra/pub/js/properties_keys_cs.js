@@ -1449,6 +1449,7 @@ __GGB__keysVar.cs.menu = {
     "German": "N\u011bm\u010dina",
     "GoodnessOfFitTest": "Test dobr\xe9 shody",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Graf",
     "Green": "Zelen\xe1",
     "Grid": "M\u0159\xed\u017eka",

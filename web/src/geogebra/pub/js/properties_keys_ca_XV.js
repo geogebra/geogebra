@@ -1449,6 +1449,7 @@ __GGB__keysVar.ca_XV.menu = {
     "German": "Alemany",
     "GoodnessOfFitTest": "Prova de bondat de l'ajust",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Gr\xe0fic",
     "Green": "Verd",
     "Grid": "Graella",

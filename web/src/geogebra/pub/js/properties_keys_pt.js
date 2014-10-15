@@ -1449,6 +1449,7 @@ __GGB__keysVar.pt.menu = {
     "German": "Alem\xe3o",
     "GoodnessOfFitTest": "Teste de Adequa\xe7\xe3o",
     "GoogleDrive": "Google Drive",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Visualiza\xe7\xe3o",
     "Green": "Verde",
     "Grid": "Malha",

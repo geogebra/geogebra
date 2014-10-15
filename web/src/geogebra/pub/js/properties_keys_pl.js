@@ -1449,6 +1449,7 @@ __GGB__keysVar.pl.menu = {
     "German": "Niemiecki",
     "GoodnessOfFitTest": "Dok\u0142adno\u015b\u0107 w te\u015bcie dopasowania",
     "GoogleDrive": "Google Dysk",
+    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
     "Graph": "Grafika",
     "Green": "Zielony",
     "Grid": "Siatka",
