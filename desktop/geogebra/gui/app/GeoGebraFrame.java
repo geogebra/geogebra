@@ -7,7 +7,7 @@
  This program is free software; you can redistribute it and/or modify it 
  under the terms of the GNU General Public License as published by 
  the Free Software Foundation.
- 
+
  */
 
 /**
@@ -34,6 +34,7 @@ import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.DownloadManager;
 import geogebra.util.Util;
+import geogebra3D.euclidian3D.EuclidianView3DD;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -47,12 +48,14 @@ import java.awt.Window;
 import java.awt.dnd.DropTarget;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowFocusListener;
+import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
@@ -62,6 +65,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -782,49 +786,87 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			App.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
 
-			final String extension = app.getExtension(filename);
+			final String extension = AppD.getExtension(filename);
 
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 
-					EuclidianViewD ev = app.getEuclidianView1();
-					double printingScale = ev.getPrintingScale();
-					double exportScale = (printingScale * dpi) / 2.54
-							/ ev.getXscale();
-					boolean transparent = true;
-					boolean textAsShapes = true;
-					boolean useEMFplus = true;
-					int pixelWidth = (int) Math.floor(ev.getExportWidth()
-							* exportScale);
-					int pixelHeight = (int) Math.floor(ev.getExportHeight()
-							* exportScale);
+					try {
 
-					File file = new File(filename);
+						// if 3D view exists, assume that we should export that
+						if (app.isEuclidianView3Dinited()
+								&& app.hasEuclidianView3D()) {
+							final EuclidianView3DD ev = (EuclidianView3DD) app
+									.getEuclidianView3D();
 
-					if (extension.equals("png")) {
-						GraphicExportDialog.exportPNG(ev, file, transparent,
-								dpi, exportScale);
+							// tell 3D View we need an image
+							ev.getExportImage(1);
 
-					} else if (extension.equals("eps")) {
-						GraphicExportDialog.exportEPS(app, ev, file,
-								textAsShapes, pixelWidth, pixelHeight,
-								exportScale);
+							// then wait a bit more
+							SwingUtilities.invokeLater(new Runnable() {
+								public void run() {
+									try {
 
-					} else if (extension.equals("pdf")) {
-						GraphicExportDialog.exportPDF(app, ev, file,
-								textAsShapes, pixelWidth, pixelHeight,
-								exportScale);
+										BufferedImage bufferedImage = ev
+												.getExportImage(1);
+										ImageIO.write(bufferedImage, "png",
+												new File(filename));
+										App.debug("3D view exported successfully");
+									} catch (IOException e) {
+										e.printStackTrace();
+									}
 
-					} else if (extension.equals("emf")) {
-						GraphicExportDialog.exportEMF(app, ev, file,
-								useEMFplus, pixelWidth, pixelHeight,
-								exportScale);
+									System.exit(0);
+								}
+							});
 
-					} else if (extension.equals("svg")) {
-						GraphicExportDialog.exportSVG(app, ev, file,
-								textAsShapes, pixelWidth, pixelHeight,
-								exportScale);
+							return;
+						}
 
+						EuclidianViewD ev = app.getEuclidianView1();
+						double printingScale = ev.getPrintingScale();
+						double exportScale = (printingScale * dpi) / 2.54
+								/ ev.getXscale();
+						boolean transparent = true;
+						boolean textAsShapes = true;
+						boolean useEMFplus = true;
+						int pixelWidth = (int) Math.floor(ev.getExportWidth()
+								* exportScale);
+						int pixelHeight = (int) Math.floor(ev.getExportHeight()
+								* exportScale);
+
+						File file = new File(filename);
+
+						if (extension.equals("png")) {
+							GraphicExportDialog.exportPNG(ev, file,
+									transparent, dpi, exportScale);
+
+						} else if (extension.equals("eps")) {
+							GraphicExportDialog.exportEPS(app, ev, file,
+									textAsShapes, pixelWidth, pixelHeight,
+									exportScale);
+
+						} else if (extension.equals("pdf")) {
+							GraphicExportDialog.exportPDF(app, ev, file,
+									textAsShapes, pixelWidth, pixelHeight,
+									exportScale);
+
+						} else if (extension.equals("emf")) {
+							GraphicExportDialog.exportEMF(app, ev, file,
+									useEMFplus, pixelWidth, pixelHeight,
+									exportScale);
+
+						} else if (extension.equals("svg")) {
+							GraphicExportDialog.exportSVG(app, ev, file,
+									textAsShapes, pixelWidth, pixelHeight,
+									exportScale);
+
+						}
+
+						App.debug("2D view exported successfully");
+
+					} catch (Throwable t) {
+						t.printStackTrace();
 					}
 					System.exit(0);
 				}
