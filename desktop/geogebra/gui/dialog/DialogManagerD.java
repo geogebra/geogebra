@@ -13,6 +13,7 @@ import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -332,8 +333,10 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		id.setVisible(true);
 
 		cons.setSuppressLabelCreation(oldVal);
-
-		extruder.extrude(handler.getNum());
+		NumberValue val = handler.getNum();
+		if (val != null) {
+			extruder.extrude(val);
+		}
 	}
 
 	@Override
