@@ -33,6 +33,11 @@ public interface Geo3DVec extends GeoVecInterface{
 	 * @return z-coord
 	 */
 	public double getZ();
+	
+	/**
+	 * @return length
+	 */
+	public double length();
 		
 	
 }
