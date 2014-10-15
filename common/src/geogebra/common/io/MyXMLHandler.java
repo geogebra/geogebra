@@ -3073,7 +3073,7 @@ public class MyXMLHandler implements DocHandler {
 		String type = attrs.get("type");
 		String defaultset = attrs.get("default");
 		if (label == null || type == null) {
-			System.err.println("attributes missing in <element>");
+			Log.error("attributes missing in <element>");
 			return geo1;
 		}
 
