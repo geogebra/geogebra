@@ -1,5 +1,6 @@
 package geogebra.web.gui.menubar;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -108,7 +109,10 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
-		this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+		if (GeoGebraConstants.IS_PRE_RELEASE == true) {
+				this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+		}
+		
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 		
 	    this.add(menuPanel);	    
