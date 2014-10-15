@@ -21,6 +21,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
+import geogebra.common.kernel.kernelND.Geo3DVec;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -616,6 +617,14 @@ public enum Operation {
 				// or magnitude of point
 
 				return new MyDouble(kernel, GeoVec2D.complexAbs(vec));
+
+			} else if (lt instanceof Vector3DValue) {
+				Geo3DVec vec3d = ((Vector3DValue) lt).getVector();
+
+				// complex Abs(z)
+				// or magnitude of point
+
+				return new MyDouble(kernel, vec3d.length());
 
 			} else
 				return ev.polynomialOrDie(lt, Operation.ABS, "abs(");
