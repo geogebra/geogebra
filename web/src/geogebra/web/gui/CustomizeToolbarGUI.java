@@ -19,7 +19,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel {
     }
 
 	private void addHeader() {
-		header = new CustomizeToolbarHeaderPanel(app.getLocalization(), this);
+		header = new CustomizeToolbarHeaderPanel(app, this);
 		setHeaderWidget(header);
 		
 	}
