@@ -53,7 +53,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	native void nativeShare(String base64, String title)/*-{
 		if($wnd.android){
-			$wnd.android.share(base64,title);
+			$wnd.android.share(base64,title,'ggb');
 
 		}
 	}-*/;
