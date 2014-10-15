@@ -439,8 +439,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
 			scheduleLongTouchTimer(e.getX(), e.getY());
-			wrapMousePressed(e);
-			e.release();
+			onPointerEventStart(e);
 		}
 		else if(targets.length() == 2) {
 			cancelLongTouchTimer();
@@ -623,6 +622,14 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			event.preventDefault();
 		}
 		AbstractEvent e = PointerEvent.wrapEvent(event,this);
+		onPointerEventStart(e);
+
+		setModeToFreehand();
+		moveCounter = 0;
+		ignoreEvent = false;
+	}
+
+	public void onPointerEventStart(AbstractEvent event){
 		if (app.getGuiManager() != null){
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		}
@@ -630,16 +637,12 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
 		
-		wrapMousePressed(e);
+		wrapMousePressed(event);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty() && this.view.hasStyleBar()) {
 			this.view.getStyleBar().hidePopups();
 		}
-		e.release();
-
-		setModeToFreehand();
-		moveCounter = 0;
-		ignoreEvent = false;
+		event.release();
 	}
 	
 	private boolean comboBoxHit() {
