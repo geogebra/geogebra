@@ -464,6 +464,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	   		if (!resp.error) {
 	   			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
 	   		} else {
+	   			@geogebra.html5.main.AppW::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
 	   			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
 	   		}
 	   });
@@ -473,7 +474,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 	
 	private void showUploadError() {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
-		((DialogManagerW) app.getDialogManager()).showAlertDialog(app.getLocalization().getMenu("UserNotAuthenticatedToWriteThisFile"));
+		((DialogManagerW) app.getDialogManager()).showAlertDialog(app.getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
 	private void updateAfterGoogleDriveSave(String id, String fileName, String description) {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
