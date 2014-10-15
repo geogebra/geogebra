@@ -344,6 +344,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		JsArray<Touch> targets = event.getTargetTouches();
 		event.stopPropagation();
 		calculateEnvironment();
+		if (app.getGuiManager() != null) {
+			((GuiManagerW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
+		}
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
 			scheduleLongTouchTimer(e.getX(), e.getY());
