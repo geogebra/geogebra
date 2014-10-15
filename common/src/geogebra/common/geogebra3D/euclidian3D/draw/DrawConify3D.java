@@ -61,9 +61,7 @@ public class DrawConify3D extends DrawExtrusionOrConify3D {
 		
 
 		//remove the algo
-		extrusionComputer.getAlgo().remove();	
-		extrusionComputer=null;
-		
+		this.disposePreview();
 	}
 	
 
