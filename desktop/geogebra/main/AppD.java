@@ -1383,7 +1383,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (hasEuclidianView2EitherShowingOrNot(1)) {
 			getEuclidianView2(1).resetXYMinMaxObjects();
 		}
-		this.getActiveEuclidianView().getSettings().reset();
+		// reload the saved/(default) preferences
+		GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 		resetUniqueId();
 	}
 
