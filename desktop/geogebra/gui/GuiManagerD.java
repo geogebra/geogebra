@@ -3231,7 +3231,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void resetCasView() {
-		casView.resetCursor();
+		if (casView != null) {
+			casView.resetCursor();
+		}
 	}
 
 }
