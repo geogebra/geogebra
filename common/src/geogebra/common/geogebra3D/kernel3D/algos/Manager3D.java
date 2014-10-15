@@ -65,6 +65,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -487,7 +488,7 @@ public class Manager3D implements Manager3DInterface {
 
 	final public GeoElement[] Pyramid(String[] labels, GeoPolygon polygon,
 			NumberValue height) {
-
+		App.debug("pyramid");
 		AlgoPolyhedronPointsPyramid algo = new AlgoPolyhedronPointsPyramid(cons,
 				labels, polygon, height);
 

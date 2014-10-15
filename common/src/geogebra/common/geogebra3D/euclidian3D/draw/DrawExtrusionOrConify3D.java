@@ -11,6 +11,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
 import geogebra.common.geogebra3D.kernel3D.algos.ExtrusionComputer;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -116,7 +117,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 	
 	private GeoNumeric height;
 	
-	private GeoElement basis;
+	protected GeoElement basis;
 	
 
 	/**
@@ -254,8 +255,13 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 						app.getPlain("PositiveValuesFollowTheView"),this);
 				
 			}else{
-				App.debug("Extruding with known height");
-				extrude(height);
+				Hits hits = new Hits();
+				hits.add(height);
+				getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
+
+				//remove the algo
+				extrusionComputer.getAlgo().remove();	
+				extrusionComputer=null;
 			}
 
 			
@@ -263,15 +269,14 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 	}
 	
 	public void extrude(NumberValue val){
-		Hits hits = new Hits();
-		hits.add(val.toGeoElement());
-		getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
-		/*
-		if (getView3D().getEuclidianController().selPolygons() == 0){
-			hits.add(basis);
-			//getView3D().getEuclidianController().addSelectedPolygon(hits, 1, false);
+		if (basis instanceof GeoConic){
+										
+			basis.getKernel().getManager3D().CylinderLimited(null, (GeoConic)basis, (GeoNumeric)val);
+			
+		}else {
+			basis.getKernel().getManager3D().Prism(null, (GeoPolygon)basis, (GeoNumeric)val);
 		}
-		*/
+		
 
 		//remove the algo
 		extrusionComputer.getAlgo().remove();	
