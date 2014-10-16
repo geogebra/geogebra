@@ -8,6 +8,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.dialog.DialogBoxW;
 import geogebra.web.gui.util.AnimatedGifEncoderW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -22,7 +23,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author bencze
  *
  */
-public class AnimationExportDialogW extends DialogBox implements ClickHandler {
+public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 
 	/** 
 	 * Application 

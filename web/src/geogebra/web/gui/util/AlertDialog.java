@@ -1,11 +1,11 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.web.gui.dialog.DialogBoxW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  *	General Alert Dialog
  */
-public class AlertDialog extends DialogBox {
+public class AlertDialog extends DialogBoxW {
 	
 	/**
 	 * Creates an AlertDialog

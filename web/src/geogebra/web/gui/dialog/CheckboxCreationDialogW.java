@@ -35,7 +35,6 @@ import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -47,7 +46,7 @@ import com.google.gwt.user.client.ui.PushButton;
  * Dialog to create a GeoBoolean object (checkbox) that determines the
  * visibility of a list of objects.
  */
-public class CheckboxCreationDialogW extends DialogBox implements
+public class CheckboxCreationDialogW extends DialogBoxW implements
 		GeoElementSelectionListener {
 
 	private class GeoListBox extends ListBox {

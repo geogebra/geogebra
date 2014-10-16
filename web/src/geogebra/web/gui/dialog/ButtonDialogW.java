@@ -15,13 +15,12 @@ import java.util.TreeSet;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class ButtonDialogW extends DialogBox implements ClickHandler{
+public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 
 	private AutoCompleteTextFieldW tfCaption; 
 	private FlowPanel btPanel;

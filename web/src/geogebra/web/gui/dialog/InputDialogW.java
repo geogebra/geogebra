@@ -17,8 +17,6 @@ import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -50,36 +48,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	
 	public InputDialogW(boolean modal) {
 
-		wrappedPopup = new DialogBox(false, modal){
-			
-			// close dialog on ESC 
-			@Override
-			protected void onPreviewNativeEvent(final NativePreviewEvent event) {
-				super.onPreviewNativeEvent(event);
-				if (event.getTypeInt() == Event.ONKEYUP && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {	
-					setVisible(false);
-					}
-			}
-			
-			public void show(){
-				super.show();
-				InputDialogW.this.showError(null);
-				if(InputDialogW.this.app != null){
-					InputDialogW.this.app.setErrorHandler(InputDialogW.this);
-				}
-			}
-			
-			public void hide(){
-				super.hide();
-				if(InputDialogW.this.app != null){
-					InputDialogW.this.app.setErrorHandler(null);
-				}
-			}
-		};
-			
-		wrappedPopup.addStyleName("DialogBox");
-		wrappedPopup.addStyleName("GeoGebraFrame");
-		wrappedPopup.setGlassEnabled(true);
+		wrappedPopup = new DialogBoxW(false, modal);
 	}
 
 	public InputDialogW(AppW app, String message, String title,

@@ -18,6 +18,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseResources;
+import geogebra.web.gui.dialog.DialogBoxW;
 import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -38,7 +39,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -48,7 +48,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class SaveDialogW extends DialogBox implements PopupMenuHandler, EventRenderable {
+public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRenderable {
 
 	private final int INDEX_PRIVATE = 0;
 	private final int INDEX_SHARED = 1;

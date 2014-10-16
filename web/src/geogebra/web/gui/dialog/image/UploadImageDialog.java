@@ -2,18 +2,18 @@ package geogebra.web.gui.dialog.image;
 
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.dialog.DialogBoxW;
 import geogebra.web.gui.util.VerticalSeparator;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public abstract class UploadImageDialog extends DialogBox implements ClickHandler {
+public abstract class UploadImageDialog extends DialogBoxW implements ClickHandler {
 
 	protected HorizontalPanel mainPanel;
 	protected VerticalPanel listPanel;
