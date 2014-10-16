@@ -16,12 +16,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 
+	public interface CustomizeToolbarListener {
+		void update(int id);
+	}
+	
+	protected static final int GENERAL = -1;
 	private AppW app;
 	private FlowPanel buttons;
-
+	private int selectedViewId;
+	private CustomizeToolbarListener listener;
 	CustomizeToolbarHeaderPanel(AppW app, MyHeaderPanel gui) {
 	    super(app.getLocalization(), gui);
 	    this.app = app;
+	    this.listener = (CustomizeToolbarListener)gui;
 	    createPanelsToolbar();
 	    setLabels();
     }
@@ -39,7 +46,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		buttons.add(btnGeneral);
 		DockPanelW[] panels =  ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanels();
 		for(DockPanelW panel : panels) {
-			int viewId = panel.getViewId();
+			final int viewId = panel.getViewId();
 			if(panel.canCustomizeToolbar()) {
 				App.debug("[customize] view id for button is " + viewId);
 				ImageResource res = null;
@@ -59,6 +66,8 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 					
 					public void onClick(ClickEvent event) {
 						uncheckAll(btn);
+						selectedViewId = viewId;
+						listener.update(selectedViewId);
 					}
 				});
 				buttons.add(btn);
@@ -68,8 +77,13 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			
 			public void onClick(ClickEvent event) {
 				uncheckAll(btnGeneral);
+				selectedViewId = GENERAL;
+				listener.update(selectedViewId);
 			}
 		});
+		
+		selectedViewId = GENERAL;
+		
 		rightPanel.add(buttons);
 		add(rightPanel);
 
@@ -83,4 +97,9 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 			}
 		}
 	}
+
+	public int getSelectedViewId() {
+	    return selectedViewId;
+    }
+
 }
