@@ -755,8 +755,11 @@ public abstract class AppW extends App implements SetLabels{
 			setCurrentFile(null);
 			setMoveMode();
 
-			((DrawEquationWeb) getDrawEquation())
-			        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
+			DrawEquationWeb dew = (DrawEquationWeb) getDrawEquation();
+			dew.deleteLaTeXes(getEuclidianView1());
+			if (hasEuclidianView2EitherShowingOrNot(1)) {
+				dew.deleteLaTeXes(getEuclidianView2(1));
+			}
 			return true;
 
 			// }
