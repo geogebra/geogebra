@@ -206,4 +206,18 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 	
+	@Override
+    public void setVisible(boolean visible) {
+		
+		inputPanel.setVisible(visible);
+		wrappedPopup.setVisible(visible);
+		if (visible){
+			inputPanel.setTextComponentFocus();
+		}else{
+			if(app!=null){
+				app.setErrorHandler(null);
+			}
+		}
+	};
+	
 }
