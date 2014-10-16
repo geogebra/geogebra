@@ -4732,3 +4732,23 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    text-indent: -1em;
    padding-left: 1em;
  }
+
+/* ########################################
+   ###       CUSTOMIZE TOOLBAR GUI      ###
+   ######################################## */
+ 
+ .usedToolsPanel {
+ 	float: left;
+ }
+ 
+ .allToolsPanel {
+ 	float: right;
+	overflow-y: scroll;
+ 	height: 900px;
+ }
+ 
+ /*
+   ########################################
+   ###   END OF CUSTOMIZE TOOLBAR GUI   ###
+   ######################################## */
+ 
