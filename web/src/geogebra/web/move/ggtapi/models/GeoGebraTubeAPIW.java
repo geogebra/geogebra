@@ -160,7 +160,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 				user.setImageURL(((JSONString)userinfo.get("image")).stringValue());
 			}
 			if(userinfo.get("lang_ui") instanceof JSONString){
-				user.setImageURL(((JSONString)userinfo.get("lang_ui")).stringValue());
+				user.setLanguage(((JSONString)userinfo.get("lang_ui")).stringValue());
 			}
 			
 			if(userinfo.get("token") instanceof JSONString){
