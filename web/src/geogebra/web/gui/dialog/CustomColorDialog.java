@@ -17,9 +17,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 
-public class CustomColorDialog extends PopupPanel  {
+public class CustomColorDialog extends DialogBoxW {
+	
 	public interface ICustomColor {
 		GColor getSelectedColor();
 		void onCustomColor(GColor color);
@@ -27,7 +27,6 @@ public class CustomColorDialog extends PopupPanel  {
     
 	private static final int PREVIEW_HEIGHT = 40;
 	private static final int PREVIEW_WIDTH = 230;
-	private Label titleLabel;
 	private ColorComponent red;
 	private ColorComponent green;
 	private ColorComponent blue;
@@ -158,9 +157,6 @@ public class CustomColorDialog extends PopupPanel  {
     }
 
 	protected void createGUI() {
-		titleLabel = new Label();
-		titleLabel.setStyleName("panelTitle");
-		mainWidget.add(titleLabel);
 		FlowPanel contents = new FlowPanel();
 		contents.setStyleName("ColorDialog-content");
 		red = new ColorComponent();
@@ -215,21 +211,20 @@ public class CustomColorDialog extends PopupPanel  {
 
 	public void setLabels() {
 		setTitle(loc.getPlain("ChooseColor"));
-		titleLabel.setText(loc.getPlain("ChooseColor"));
+		this.getCaption().setText(loc.getPlain("ChooseColor"));
 		red.setTitle(loc.getMenu("Red"));
 		green.setTitle(loc.getMenu("Green"));
 		blue.setTitle(loc.getMenu("Blue"));
-		
 		preview.setTitle(loc.getMenu("Preview"));
 		btnOk.setText(loc.getPlain("OK"));
 		btnCancel.setText(loc.getMenu("Cancel"));
 		btnReset.setText(loc.getMenu("Reset"));
 	}
+	
 	protected void setOriginalValues(){
 		red.setValue(origColor.getRed());
 		green.setValue(origColor.getGreen());
 		blue.setValue(origColor.getBlue());
 		color = new GColorW(origColor.getRed(), origColor.getGreen(), origColor.getBlue());
 	}
-	
 }

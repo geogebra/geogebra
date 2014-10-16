@@ -12,10 +12,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 
-public class ColorChooserDialog extends PopupPanel implements SetLabels {
+public class ColorChooserDialog extends DialogBoxW implements SetLabels {
 
 	private ColorChooserW colorChooserW; 
 	private FlowPanel mainWidget;
@@ -24,15 +22,12 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
 	private Button btnReset;
 	private GColor selectedColor;
 	private AppW app;
-	private Label titleLabel;
 	private ColorChangeHandler handler;
 	
 	public ColorChooserDialog(AppW app, final GColor originalColor, final ColorChangeHandler handler) {
 		super(false, true);
 		this.app = app;
 		this.handler = handler;
-		titleLabel = new Label();
-		titleLabel.setStyleName("panelTitle");
 		final GDimensionW colorIconSizeW = new GDimensionW(20, 20);
 		colorChooserW = new ColorChooserW(app, 400, 210, colorIconSizeW, 4);
 		colorChooserW.enableOpacity(false);
@@ -40,7 +35,6 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
 		colorChooserW.setSelectedColor(originalColor);
 		setSelectedColor(originalColor);
 		mainWidget = new FlowPanel();
-		mainWidget.add(titleLabel);
 		mainWidget.add(colorChooserW);
 		FlowPanel btnPanel = new FlowPanel();
 		btnOk = new Button();
@@ -104,24 +98,14 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
 			}
 		});
 	}
-	public ColorChooserDialog(boolean autoHide) {
-		super(autoHide);
-		// TODO Auto-generated constructor stub
-	}
-
-	public ColorChooserDialog(boolean autoHide, boolean modal) {
-		super(autoHide, modal);
-		// TODO Auto-generated constructor stub
-	}
 	
 	public void setLabels() {
-		titleLabel.setText(localize("ChooseColor"));
+		this.getCaption().setText(localize("ChooseColor"));
 		colorChooserW.setPaletteTitles(localize("RecentColor"), localize("Other"));
 		colorChooserW.setPreviewTitle(localize("Preview"));
 		btnOk.setText(localize("OK"));
 		btnCancel.setText(localize("Cancel"));
 		btnReset.setText(localize("Reset"));
-
     }
 
 	private String localize(final String id) {
@@ -132,15 +116,19 @@ public class ColorChooserDialog extends PopupPanel implements SetLabels {
 		}
 		return txt;
 	}
+	
 	public GColor getSelectedColor() {
 	    return selectedColor;
     }
+	
 	public void setSelectedColor(GColor selectedColor) {
 	    this.selectedColor = selectedColor;
     }
+	
 	public ColorChangeHandler getHandler() {
 	    return handler;
     }
+	
 	public void setHandler(ColorChangeHandler handler) {
 	    this.handler = handler;
     }
