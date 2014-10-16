@@ -218,6 +218,15 @@ public final class DrawImage extends Drawable {
 		if (isInBackground)
 			view.updateBackgroundImage();
 	}
+	
+	public boolean checkInBackground(){
+		if(isInBackground != geoImage.isInBackground()){
+			update();
+		}else{
+			setNeedsUpdate(true);
+		}
+		return isInBackground && geoImage.isInBackground();
+	}
 
 	@Override
 	final public void draw(geogebra.common.awt.GGraphics2D g3) {

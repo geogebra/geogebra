@@ -1487,6 +1487,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		DrawableND d = DrawableMap.get(geo);
 		
 		if (d != null) {
+			if(d instanceof DrawImage){
+					this.updateBackgroundOnNextRepaint |= ((DrawImage)d).checkInBackground();
+					return;
+			}
 			//Keep update of input boxes synchronous #4416
 			if((!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())
 					&& !geo.isGeoTextField()){
