@@ -753,7 +753,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 
 	public int getEvID() {
-	    return view.getEuclidianViewNo();
+	    return view.getViewID();
     }
 	
 	@Override
