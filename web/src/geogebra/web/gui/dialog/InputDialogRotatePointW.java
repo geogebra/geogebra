@@ -16,8 +16,6 @@ public class InputDialogRotatePointW extends InputDialogRotate implements KeyUpH
 
 	private GeoPointND[] points;
 	
-	private EuclidianController ec;
-
 	private Kernel kernel;
 	private static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
