@@ -11,6 +11,7 @@ import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
+import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.util.ArticleElement;
@@ -94,7 +95,9 @@ public class AppWapplication3D extends AppWapplication {
 	@Override
 	public boolean supportsView(int viewID) {
 		if(viewID == App.VIEW_EUCLIDIAN3D){
-			return true;
+			if (Browser.supportsWebGL()) {
+				return true;
+			}
 		}
 		return super.supportsView(viewID);
 	}
