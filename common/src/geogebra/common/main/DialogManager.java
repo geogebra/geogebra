@@ -201,7 +201,7 @@ public abstract class DialogManager {
 	public abstract void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation callback);
 	
-	public abstract void showNumberInputDialog(String title, String message,
+	public abstract NumberValue showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText, DrawExtrusionOrConify3D extruder);
 
 	public abstract void showAngleInputDialog(String title, String message,

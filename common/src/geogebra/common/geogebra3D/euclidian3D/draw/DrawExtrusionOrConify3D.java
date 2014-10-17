@@ -10,6 +10,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
 import geogebra.common.geogebra3D.kernel3D.algos.ExtrusionComputer;
+import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -243,15 +244,17 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			
 			if (extrusionComputer.getComputed()==0){//if height has not been set by dragging, ask one
 				App app = getView3D().getApplication();
-				
+				NumberValue num = 
 					app.getDialogManager().showNumberInputDialog(
 							//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
 							extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
 							app.getPlain("Altitude"), "", 
 							//check basis direction / view direction to say if the sign has to be forced
 							basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
-							app.getPlain("PositiveValuesFollowTheView"),this);
-
+							app.getPlain("PositiveValuesFollowTheView"), this);
+				if (num != null){
+					hits.add((GeoElement) num);
+				}
 			}else{
 				hits.add(height);
 			}

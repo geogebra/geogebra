@@ -317,7 +317,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	 * Shows a modal dialog to enter a number or number variable name.
 	 */
 	@Override
-	public void showNumberInputDialog(String title, String message,
+	public NumberValue showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
 			DrawExtrusionOrConify3D extruder) {
 		// avoid labeling of num
@@ -333,10 +333,8 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		id.setVisible(true);
 
 		cons.setSuppressLabelCreation(oldVal);
-		NumberValue val = handler.getNum();
-		if (val != null) {
-			// TODO callback to actually extrude
-		}
+
+		return handler.getNum();
 	}
 
 	@Override
