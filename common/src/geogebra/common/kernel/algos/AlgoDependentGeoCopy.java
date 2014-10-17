@@ -15,7 +15,9 @@ package geogebra.common.kernel.algos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 
 
 /**
@@ -94,6 +96,13 @@ public class AlgoDependentGeoCopy extends AlgoElement implements DependentAlgo {
     
     @Override
 	final public String toString(StringTemplate tpl) {
+    	//make sure X=(1,2)+t(3,4) does not go to XML as "expression" argument value
+    	if(tpl.hasType(StringType.GEOGEBRA_XML) && !origGeo.isLabelSet() && origGeo instanceof GeoLine && ((GeoLine)origGeo).getMode() == GeoLine.PARAMETRIC){
+    		((GeoLine)origGeo).setMode(GeoLine.EQUATION_EXPLICIT);
+    		String ret = ((GeoLine)origGeo).getLabel(tpl);
+    		((GeoLine)origGeo).setMode(GeoLine.PARAMETRIC);
+    		return ret;
+    	}
     	// we use the expression as it may add $ signs 
     	// to the label like $A$1
     	return origGeoNode.toString(tpl);
