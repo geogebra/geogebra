@@ -1369,6 +1369,8 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	// standard command has cmdname, output, input
 	private String getCmdXML(String cmdname,StringTemplate tpl) {
+		if ("".equals(cmdname))
+			return "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("<command name=\"");
 		sb.append(cmdname);

@@ -1176,7 +1176,6 @@ public class Construction {
 	public void getConstructionElementsXML_OGP(StringBuilder sb, GeoElement statement) {
 		
 		AlgoElement statementAlgo = statement.getParentAlgorithm();
-		StringTemplate tpl = StringTemplate.ogpTemplate;
 		ConstructionElement ce;
 		int size = ceList.size();
 		int noProveCommands = 0;
@@ -1191,7 +1190,7 @@ public class Construction {
 				if (noProveCommands == 0) {
 					AlgoElement ceAlgo = ce.getGeoElements()[0].getParentAlgorithm().getInput()[0]
 							.getParentAlgorithm();
-					if (ceAlgo.getCommandDescription(tpl).equals(statementAlgo.getCommandDescription(tpl))) {
+					if (ceAlgo.getConstructionIndex() == statementAlgo.getConstructionIndex()) {
 						StringBuilder proveCommand = new StringBuilder();
 						ce.getXML_OGP(proveCommand);
 						sb.append(proveCommand.toString().replaceFirst("ProveDetails", "Prove"));
