@@ -58,7 +58,7 @@ public class DrawConify3D extends DrawExtrusionOrConify3D {
 		}else {
 			basis.getKernel().getManager3D().Pyramid(null, (GeoPolygon)basis, (GeoNumeric)val);
 		}
-		
+		this.getView3D().getEuclidianController().clearSelections();
 
 		//remove the algo
 		this.disposePreview();

@@ -279,7 +279,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			basis.getKernel().getManager3D().Prism(null, (GeoPolygon)basis, (GeoNumeric)val);
 		}
 		
-
+		this.getView3D().getEuclidianController().clearSelections();
 		//remove the algo
 		this.disposePreview();
 	}
