@@ -58,6 +58,21 @@ import com.google.gwt.user.client.ui.Widget;
  * @author G. Sturr
  */
 public class ToolTipManagerW {
+	
+	/**
+	 * The toolTip can include a link. depending on the
+	 * type of the link, another picture has to be added.
+	 */
+	public enum ToolTipLinkType {
+		/**
+		 * question mark
+		 */
+		Help,
+		/**
+		 *TODO another picture is needed
+		 */
+		ViewSavedFile;
+	}
 
 	private SimplePanel tipPanel;
 	private HTML tipHTML;
@@ -65,6 +80,7 @@ public class ToolTipManagerW {
 	private HorizontalPanel bottomInfoTipPanel;
 	private HTML bottomInfoTipHTML;
 	private String questionMark;
+	private String viewSavedFile;
 	private Label helpLabel;
 
 	private String oldText = "";
@@ -75,6 +91,7 @@ public class ToolTipManagerW {
 	int scrollTop = 0;
 
 	private Timer timer;
+	private boolean blockToolTip = true;
 
 	/**
 	 * Time, in milliseconds, to delay showing a toolTip.
@@ -166,7 +183,8 @@ public class ToolTipManagerW {
 
 		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
 		        .asString();
-
+		viewSavedFile = GuiResourcesSimple.INSTANCE.viewSaved().getSafeUri().asString();
+		
 		bottomInfoTipPanel = new HorizontalPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
@@ -174,8 +192,6 @@ public class ToolTipManagerW {
 		bottomInfoTipPanel.setVisible(false);
 		RootPanel.get().add(bottomInfoTipPanel);
 	}
-
-	private boolean blockToolTip = true;
 
 	public boolean isToolTipBlocked() {
 		return blockToolTip;
@@ -188,7 +204,12 @@ public class ToolTipManagerW {
 	// =====================================
 	// BottomInfoToolTip
 	// =====================================
-	public void showBottomInfoToolTip(String text, final String helpURL) {
+	/**
+	 * @param text String
+	 * @param helpURL String
+	 * @param link {@link ToolTipLinkType}
+	 */
+	public void showBottomInfoToolTip(String text, final String helpURL, ToolTipLinkType link) {
 		if (blockToolTip) {
 			return;
 		}
@@ -199,11 +220,15 @@ public class ToolTipManagerW {
 			bottomInfoTipPanel.remove(helpLabel);
 		}
 
-		if (helpURL != null && helpURL.length() > 0) {
+		if (helpURL != null && helpURL.length() > 0 && link != null) {
 			helpLabel = new Label();
-
-			helpLabel.getElement().getStyle()
-			        .setBackgroundImage("url(" + this.questionMark + ")");
+			
+			if (link.equals(ToolTipLinkType.Help)) {
+				helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.questionMark + ")");
+			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
+				helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.viewSavedFile + ")");
+			}
+			
 			helpLabel.addDomHandler(new MouseDownHandler() {
 				public void onMouseDown(MouseDownEvent event) {
 					openWindow(helpURL);
@@ -240,7 +265,8 @@ public class ToolTipManagerW {
 	public void showBottomMessage(String text, boolean closeAutomatic) {
 		blockToolTip = false;
 		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
-		        + "</html>", "");
+		        + "</html>", "", null);
+		
 		blockToolTip = true;
 		if (closeAutomatic) {
 			timer = new Timer() {
@@ -260,8 +286,8 @@ public class ToolTipManagerW {
 	 *            that should be opened
 	 */
 	native void openWindow(String url)/*-{
-	                                  $wnd.open(url);
-	                                  }-*/;
+		$wnd.open(url);
+	}-*/;
 
 	public void hideBottomInfoToolTip() {
 		cancelTimer();
@@ -609,7 +635,5 @@ public class ToolTipManagerW {
 
 		widget.addDomHandler(mouseOverHandler, MouseOverEvent.getType());
 		widget.addDomHandler(mouseOutHandler, MouseOutEvent.getType());
-
 	}
-
 }

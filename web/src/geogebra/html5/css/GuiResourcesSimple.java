@@ -74,5 +74,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	
 	@Source("icons/png/web/question-mark.png")
 	ImageResource questionMark();
+	
+	//TODO we need another picture
+	@Source("icons/png/android/document_viewer.png")
+	ImageResource viewSaved();
 }
 

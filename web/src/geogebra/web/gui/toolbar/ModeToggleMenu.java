@@ -3,6 +3,7 @@ package geogebra.web.gui.toolbar;
 import geogebra.common.gui.GuiManager.Help;
 import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
@@ -338,11 +339,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     }
 
 	public void showToolTipBottom(){
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, "");
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, "", null);
 	}
 
 	public void showToolTipBottom(String helpURL){
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL);
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL, ToolTipLinkType.Help);
 	}
 
 	/*
