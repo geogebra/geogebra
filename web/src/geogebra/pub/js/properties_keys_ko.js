@@ -1449,7 +1449,7 @@ __GGB__keysVar.ko.menu = {
     "German": "\ub3c5\uc77c\uc5b4",
     "GoodnessOfFitTest": "\uc801\ud569\ub3c4 \uac80\uc815",
     "GoogleDrive": "\uad6c\uae00 \ub4dc\ub77c\uc774\ube0c",
-    "GoogleDriveSaveProblem": "Sorry, there was a problem saving this file to Google Drive",
+    "GoogleDriveSaveProblem": "\uc8c4\uc1a1\ud569\ub2c8\ub2e4. \uad6c\uae00\ub4dc\ub77c\uc774\ube0c\uc5d0 \ud30c\uc77c\uc744 \uc800\uc7a5\ud558\ub294 \uacfc\uc815\uc5d0\uc11c \ubb38\uc81c\uac00 \ubc1c\uc0dd\ud558\uc600\uc2b5\ub2c8\ub2e4.",
     "Graph": "\uadf8\ub798\ud504",
     "Green": "\ub179\uc0c9(G)",
     "Grid": "\uaca9\uc790",
