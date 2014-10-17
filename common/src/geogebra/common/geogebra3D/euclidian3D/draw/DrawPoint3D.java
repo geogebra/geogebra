@@ -79,6 +79,8 @@ implements Previewable, Functional2Var{
 	
 	
 	private Coords center = new Coords(4);
+	
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 
 	@Override
 	protected boolean updateForItSelf(){
@@ -91,6 +93,14 @@ implements Previewable, Functional2Var{
 				getView3D().getRenderer().getGeometryManager().
 				drawPoint(point.getPointSize(),center, getReusableGeometryIndex()));
 		
+		// bounds
+		double radius =  point.getPointSize()/getView3D().getScale()*DrawPoint3D.DRAW_POINT_FACTOR;
+		boundsMin.setX(center.getX() - radius);
+		boundsMin.setY(center.getY() - radius);
+		boundsMin.setZ(center.getZ() - radius);
+		boundsMax.setX(center.getX() + radius);
+		boundsMax.setY(center.getY() + radius);
+		boundsMax.setZ(center.getZ() + radius);
 		
 		return true;
 	}
@@ -308,6 +318,12 @@ implements Previewable, Functional2Var{
 	@Override
 	protected void drawGeom(Renderer renderer, TraceIndex index){
 		renderer.getGeometryManager().draw(index.geom, index.center);
+	}
+	
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max){
+		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 	
 }

@@ -4512,7 +4512,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @param storeUndo
 	 *            true to store undo after
 	 */
-	public final void setViewShowAllObjects(boolean storeUndo) {
+	public void setViewShowAllObjects(boolean storeUndo) {
 
 		double x0RW = getXmin();
 		double x1RW;

@@ -1572,16 +1572,24 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void setAnimatedCoordSystem(double x0, double y0, int steps,
 			boolean storeUndo) {
-
-		double newScale = SCALE_STANDARD;
-
+		
+		setAnimatedCoordSystem(
+				XZERO_SCENE_STANDARD, 
+				YZERO_SCENE_STANDARD, 
+				ZZERO_SCENE_STANDARD, 
+				SCALE_STANDARD, 
+				steps);
+	}
+	
+	private void setAnimatedCoordSystem(double x, double y, double z, double newScale, int steps) {
+		
 		animatedScaleStartX = getXZero();
 		animatedScaleStartY = getYZero();
 		animatedScaleStartZ = getZZero();
 
-		animatedScaleEndX = XZERO_SCENE_STANDARD;
-		animatedScaleEndY = YZERO_SCENE_STANDARD;
-		animatedScaleEndZ = ZZERO_SCENE_STANDARD;
+		animatedScaleEndX = x;
+		animatedScaleEndY = y;
+		animatedScaleEndZ = z;
 
 		animatedScaleStart = getScale();
 		animatedScaleTimeStart = System.currentTimeMillis();
@@ -3878,5 +3886,70 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (styleBar != null){
 			styleBar.updateGUI();
 		}
+	}
+	
+	private Coords boundsMin, boundsMax;
+	
+	
+	@Override
+	public final void setViewShowAllObjects(boolean storeUndo) {
+
+		if (boundsMin == null){
+			boundsMin = new Coords(3);
+			boundsMax = new Coords(3);
+		}
+		
+		boundsMin.setPositiveInfinity();
+		boundsMax.setNegativeInfinity();
+		
+		drawable3DLists.enlargeBounds(boundsMin, boundsMax);
+		
+		
+		//App.debug("\nmin=\n"+boundsMin+"\nmax=\n"+boundsMax);
+		
+		// no object
+		if (Double.isInfinite(boundsMin.getX())){
+			return;
+		}
+		
+		double dx0 = getXmax() - getXmin();
+		double dy0 = getYmax() - getYmin();
+		double dz0 = getZmax() - getZmin();
+		
+		double dx = boundsMax.getX() - boundsMin.getX();
+		double dy = boundsMax.getY() - boundsMin.getY();
+		double dz = boundsMax.getZ() - boundsMin.getZ();
+		
+		double scale = Double.POSITIVE_INFINITY;
+		if (!Kernel.isZero(dx)){
+			scale = dx0/dx;
+		}
+		if (!Kernel.isZero(dy)){
+			double v = dy0/dy;
+			if (scale > v){
+				scale = v;
+			}
+		}
+		if (!Kernel.isZero(dz)){
+			double v = dz0/dz;
+			if (scale > v){
+				scale = v;
+			}
+		}
+		scale *= getScale();
+		if (Double.isNaN(scale) || Kernel.isZero(scale)){
+			scale = SCALE_STANDARD;
+		}else{
+			// let the view a bit greater than the scene
+			scale *= 0.94;
+		}
+
+		double x = -(boundsMin.getX()+boundsMax.getX())/2;
+		double y = -(boundsMin.getY()+boundsMax.getY())/2;
+		double z = -(boundsMin.getZ()+boundsMax.getZ())/2;
+		
+		setAnimatedCoordSystem(x, y, z, scale, 15);
+	
+		
 	}
 }

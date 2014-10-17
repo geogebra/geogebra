@@ -102,6 +102,16 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 		updateForItSelf(points[0],points[1]);		
 		return true;
 	}
+	
+	/**
+	 * set start and end points
+	 * @param p1 start point
+	 * @param p2 end point
+	 */
+	protected void setStartEndPoints(Coords p1, Coords p2){
+		startPoint = p1;
+		endPoint = p2;
+	}
 
 	/**
 	 * update the drawable as a segment from p1 to p2
@@ -111,8 +121,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	final protected void updateForItSelf(Coords p1, Coords p2){
 
 		//TODO prevent too large values
-		startPoint = p1;
-		endPoint = p2;
+		setStartEndPoints(p1, p2);
 		
 		double[] minmax = getDrawMinMax(); 
 		

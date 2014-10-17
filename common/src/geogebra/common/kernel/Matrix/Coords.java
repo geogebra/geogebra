@@ -1559,6 +1559,25 @@ public class Coords {
 	}
 	
 	/**
+	 * set all values to Double.POSITIVE_INFINITY
+	 */
+	public void setPositiveInfinity(){
+		for (int i = 0 ; i < rows ; i++){
+			val[i] = Double.POSITIVE_INFINITY;
+		}
+	}
+
+	/**
+	 * set all values to Double.NEGATIVE_INFINITY
+	 */
+	public void setNegativeInfinity(){
+		for (int i = 0 ; i < rows ; i++){
+			val[i] = Double.NEGATIVE_INFINITY;
+		}
+	}
+
+	
+	/**
 	 * 
 	 * @return 3 floats array
 	 */

@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.kernel.Matrix.Coords;
 
 /**
  * list of drawables stored by the view (will also draw the view axes, plane, etc.)
@@ -136,6 +137,21 @@ public class Drawable3DListsForView extends Drawable3DLists{
 	        	renderer.pickLabel(d);
 		}
 
+	}
+	
+	/**
+	 * enlarge min and max values to enclose all objects	 
+	 * @param min (x,y,z) min
+	 * @param max (x,y,z) max
+	 */
+	public void enlargeBounds(Coords min, Coords max){
+		for (Drawable3DList l : lists){
+			for (Drawable3D d : l){
+				if (d.isVisible()){
+					d.enlargeBounds(min, max);
+				}
+			}
+		}
 	}
 
 }

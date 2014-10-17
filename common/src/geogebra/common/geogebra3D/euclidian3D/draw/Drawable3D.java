@@ -1575,6 +1575,33 @@ public abstract class Drawable3D extends DrawableND {
 	public void resetHatch(){
 		//no hatching for 3D, maybe can be used for textures
 	}
+	
+	/**
+	 * enlarge min and max values to enclose object
+	 * @param min (x,y,z) min
+	 * @param max (x,y,z) max
+	 */
+	public void enlargeBounds(Coords min, Coords max){
+		// nothing done by default
+	}
+	
+	/**
+	 * enlarge min and max to boundsMin and boundsMax
+	 * @param min (x,y,z) view min
+	 * @param max (x,y,z) view max
+	 * @param boundsMin (x,y,z) object bounds min
+	 * @param boundsMax (x,y,z) object bounds max
+	 */
+	static protected void enlargeBounds(Coords min, Coords max, Coords boundsMin, Coords boundsMax){
+		for (int i = 0 ; i < 3 ; i++){
+			if (min.val[i] > boundsMin.val[i]){
+				min.val[i] = boundsMin.val[i];
+			}
+			if (max.val[i] < boundsMax.val[i]){
+				max.val[i] = boundsMax.val[i];
+			}
+		}
+	}
 }
 
 

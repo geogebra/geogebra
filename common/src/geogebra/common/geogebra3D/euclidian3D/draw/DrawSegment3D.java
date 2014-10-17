@@ -4,6 +4,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
@@ -79,7 +80,28 @@ public class DrawSegment3D extends DrawCoordSys1D {
 		return new Coords[] {seg.getStartInhomCoords(), seg.getEndInhomCoords()};
 	}
 	
-
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
 	
+	@Override
+	protected void setStartEndPoints(Coords p1, Coords p2){
+		super.setStartEndPoints(p1, p2);
+		
+		double radius = getLineThickness()*PlotterBrush.LINE3D_THICKNESS/getView3D().getScale();
+		
+		for (int i = 1 ; i <= 3 ; i++){
+			if (p1.get(i) < p2.get(i)){
+				boundsMin.set(i, p1.get(i) - radius);
+				boundsMax.set(i, p2.get(i) + radius);
+			}else{
+				boundsMin.set(i, p2.get(i) - radius);
+				boundsMax.set(i, p1.get(i) + radius);				
+			}
+		}
+	}
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max){
+		enlargeBounds(min, max, boundsMin, boundsMax);
+	}
 
 }
