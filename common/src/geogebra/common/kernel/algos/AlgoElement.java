@@ -1369,13 +1369,14 @@ public abstract class AlgoElement extends ConstructionElement implements
 
 	// standard command has cmdname, output, input
 	private String getCmdXML(String cmdname,StringTemplate tpl) {
-		if ("".equals(cmdname))
-			return "";
 		StringBuilder sb = new StringBuilder();
 		sb.append("<command name=\"");
-		sb.append(cmdname);
+		if ("".equals(cmdname))
+			sb.append("AlgoNonCommand"); // In such cases we may want to add a Command for the Algo
+		else
+			sb.append(cmdname);
 		sb.append("\"");
-		if ((this instanceof AlgoListElement || 
+		if (!"".equals(cmdname) && (this instanceof AlgoListElement || 
 				this.getClassName().equals(Commands.Cell) || 
 				this.getClassName().equals(Commands.Object))) {
 			// need to write the geo type in the XML if it's undefined 
