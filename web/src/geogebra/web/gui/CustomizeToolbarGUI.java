@@ -1,6 +1,8 @@
 package geogebra.web.gui;
 
 import geogebra.common.gui.CustomizeToolbarModel;
+import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
@@ -14,14 +16,26 @@ import java.util.Vector;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Tree;
+import com.google.gwt.user.client.ui.TreeItem;
 
 public class CustomizeToolbarGUI extends MyHeaderPanel
-	implements CustomizeToolbarListener {
+implements CustomizeToolbarListener {
 
 	private AppW app;
 	private CustomizeToolbarHeaderPanel header;
 	private FlowPanel usedToolsPanel;
 	private FlowPanel allToolsPanel;
+	private Vector<Integer> usedTools;
+	private ToolTree toolTree;
+
+	private class ToolTree extends Tree {
+		public String getToolbarString() {
+			// TODO: implement
+			return null;
+		}
+	}
+
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
 		addHeader();
@@ -30,26 +44,28 @@ public class CustomizeToolbarGUI extends MyHeaderPanel
 
 	private void addContent() {
 		FlowPanel main = new FlowPanel();
-		
+
 		usedToolsPanel = new FlowPanel();
 		usedToolsPanel.setStyleName("usedToolsPanel");
-		
+		toolTree = new ToolTree();
+		usedToolsPanel.add(toolTree);
+
 		allToolsPanel = new FlowPanel();
 		allToolsPanel.setStyleName("allToolsPanel");
-		
+
 		main.add(usedToolsPanel);
 		main.add(allToolsPanel);
 		setContentWidget(main);
 		update(-1);
-    }
+	}
 
 	public void update(int id) {
-		 updateUsedTools(id);
-		 updateAllTools();
+		updateUsedTools(id);
+		updateAllTools();
 	}
 
 	private void updateUsedTools(int id) {
-		
+
 		String toolbarDefinition = null;
 		if (id == -1) {
 			toolbarDefinition = ((GuiManagerW)app.getGuiManager()).getToolbarDefinition(); 
@@ -57,35 +73,36 @@ public class CustomizeToolbarGUI extends MyHeaderPanel
 			DockPanelW panel = ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanel(id);
 			toolbarDefinition = panel.getDefaultToolbarString();
 		}
-		
-		Vector<Integer> usedTools = CustomizeToolbarModel
-				.generateToolsVector(toolbarDefinition);	    
-		
-		usedToolsPanel.clear();
-		for (Integer mode: usedTools) {
-			usedToolsPanel.add(buildItem(mode));
-		}
-		
+
+		buildUsedTools(toolbarDefinition);
+		//		usedToolsPanel.clear();
+		//		
+		//		for (Integer mode: usedTools) {
+		//			usedToolsPanel.add(buildItem(mode));
+		//		}
+		//		
 		App.debug("[CUSTOMIZE] " + usedTools);
 	}
 
 	private void updateAllTools() {
 		Vector<Integer> allTools = CustomizeToolbarModel
 				.generateToolsVector(ToolBarW.getAllTools(app));
-		 
+
 		allToolsPanel.clear();
-		
-//		allToolsPanel.add(buildItem(ToolBar.SEPARATOR));
-		
+
+		//		allToolsPanel.add(buildItem(ToolBar.SEPARATOR));
+
 		for (Integer mode: allTools) {
-			allToolsPanel.add(buildItem(mode));
+			if (true){//!usedTools.contains(mode)) {
+				allToolsPanel.add(buildItem(mode));
+			}
 		}
 	}
 
 	private void addHeader() {
 		header = new CustomizeToolbarHeaderPanel(app, this);
 		setHeaderWidget(header);
-		
+
 	}
 
 	public void setLabels() {
@@ -94,7 +111,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel
 		}
 	}
 
-	private FlowPanel buildItem(int mode) {
+	private FlowPanel buildItem(Integer mode) {
 		FlowPanel item = new FlowPanel();
 		FlowPanel btn = new FlowPanel();
 
@@ -105,10 +122,51 @@ public class CustomizeToolbarGUI extends MyHeaderPanel
 		toolbarImg.addStyleName("toolbar_icon");
 		btn.add(toolbarImg);
 		Label text = new Label(app.getMenu(app.getToolName(mode)));
-	
+
 		item.add(LayoutUtil.panelRow(btn, text));
-		
+
 		item.getElement().setAttribute("mode", mode + " ");
 		return item;
 	}
+
+	public void buildUsedTools(String toolbarDefinition) {
+		toolTree.clear();
+		if (usedTools == null) {
+			usedTools = new Vector<Integer>();
+		}
+		// separator
+		usedTools.add(ToolBar.SEPARATOR);
+		
+		// get default toolbar as nested vectors
+		Vector<ToolbarItem> defTools = null;
+		
+		defTools = ToolBar.parseToolbarString(toolbarDefinition);
+		for (int i = 0; i < defTools.size(); i++) {
+			ToolbarItem element = defTools.get(i);
+			Integer m = element.getMode();
+		
+			if (element.getMenu() != null) {
+				Vector<Integer> menu = element.getMenu();
+				
+				TreeItem current = toolTree.addItem(buildItem(menu.get(0)));
+				
+	 			for (int j = 0; j < menu.size(); j++) {
+					Integer modeInt = menu.get(j);
+					int mode = modeInt.intValue();
+					if (mode != -1)
+						usedTools.add(modeInt);
+						current.addItem(buildItem(modeInt));
+					}
+			}
+//			else {
+//				Integer modeInt = element.getMode();
+//				int mode = modeInt.intValue();
+//				if (mode != -1)
+//					usedTools.add(modeInt);
+//	     			//current = current.addItem(buildItem(modeInt));
+//			}
+		}
+	}
+
 }
+
