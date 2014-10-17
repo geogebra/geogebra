@@ -4,7 +4,6 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import geogebra.common.gui.dialog.handler.NumberChangeSignInputHandler;
 import geogebra.common.gui.view.algebra.DialogType;
 import geogebra.common.kernel.Construction;
-import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.user.client.ui.CheckBox;
@@ -42,12 +41,10 @@ public class NumberChangeSignInputDialogW extends InputDialogW{
 		Construction cons = app.getKernel().getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		App.debug("Extrude input"+inputText);
 		boolean success =  ((NumberChangeSignInputHandler) inputHandler).processInput(inputText,changingSign && checkBox.getValue());
-		App.debug("Extrude result"+success+","+((NumberChangeSignInputHandler) inputHandler).getNum());
 		cons.setSuppressLabelCreation(oldVal);
 		if(success){
-			this.extruder.extrude(((NumberChangeSignInputHandler) inputHandler).getNum());
+			//TODO callback to actually extrude
 		}
 		return success;
 	}

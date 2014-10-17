@@ -335,7 +335,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		cons.setSuppressLabelCreation(oldVal);
 		NumberValue val = handler.getNum();
 		if (val != null) {
-			extruder.extrude(val);
+			// TODO callback to actually extrude
 		}
 	}
 

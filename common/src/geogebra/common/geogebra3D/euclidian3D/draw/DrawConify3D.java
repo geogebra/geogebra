@@ -4,8 +4,6 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramidForExtrusion;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedConicHeightConeForExtrusion;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
@@ -48,20 +46,6 @@ public class DrawConify3D extends DrawExtrusionOrConify3D {
 				null, 
 				basis, 
 				height);
-	}
-	
-	public void extrude(NumberValue val){
-		if (basis instanceof GeoConic){
-										
-			basis.getKernel().getManager3D().ConeLimited(null, (GeoConic)basis, (GeoNumeric)val);
-			
-		}else {
-			basis.getKernel().getManager3D().Pyramid(null, (GeoPolygon)basis, (GeoNumeric)val);
-		}
-		this.getView3D().getEuclidianController().clearSelections();
-
-		//remove the algo
-		this.disposePreview();
 	}
 	
 

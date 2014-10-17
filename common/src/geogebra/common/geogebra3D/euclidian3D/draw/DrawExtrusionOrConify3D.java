@@ -10,8 +10,6 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
 import geogebra.common.geogebra3D.kernel3D.algos.ExtrusionComputer;
-import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
@@ -117,7 +115,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 	
 	private GeoNumeric height;
 	
-	protected GeoElement basis;
+	private GeoElement basis;
 	
 
 	/**
@@ -241,47 +239,35 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			}
 			
 			//add current height to selected numeric (will be used on next EuclidianView3D::rightPrism() call)
-			
+			Hits hits = new Hits();
 			
 			if (extrusionComputer.getComputed()==0){//if height has not been set by dragging, ask one
-				App.debug("Extruding without unknown height");
 				App app = getView3D().getApplication();
-				getView3D().getEuclidianController().clearSelections();
 				
-				app.getDialogManager().showNumberInputDialog(
-						//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
-						extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
-						app.getPlain("Altitude"), "", 
-						//check basis direction / view direction to say if the sign has to be forced
-						basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
-						app.getPlain("PositiveValuesFollowTheView"),this);
-				
-			}else{
-				Hits hits = new Hits();
-				hits.add(height);
-				getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
+					app.getDialogManager().showNumberInputDialog(
+							//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
+							extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
+							app.getPlain("Altitude"), "", 
+							//check basis direction / view direction to say if the sign has to be forced
+							basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
+							app.getPlain("PositiveValuesFollowTheView"),this);
 
-				//remove the algo
-				extrusionComputer.getAlgo().remove();	
-				extrusionComputer=null;
+			}else{
+				hits.add(height);
 			}
 
-			
+			getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
+			/*
+			if (getView3D().getEuclidianController().selPolygons() == 0){
+				hits.add(basis);
+				//getView3D().getEuclidianController().addSelectedPolygon(hits, 1, false);
+			}
+			*/
+
+			//remove the algo
+			extrusionComputer.getAlgo().remove();	
+			extrusionComputer=null;
 		}
-	}
-	
-	public void extrude(NumberValue val){
-		if (basis instanceof GeoConic){
-										
-			basis.getKernel().getManager3D().CylinderLimited(null, (GeoConic)basis, (GeoNumeric)val);
-			
-		}else {
-			basis.getKernel().getManager3D().Prism(null, (GeoPolygon)basis, (GeoNumeric)val);
-		}
-		
-		this.getView3D().getEuclidianController().clearSelections();
-		//remove the algo
-		this.disposePreview();
 	}
 	
 	
