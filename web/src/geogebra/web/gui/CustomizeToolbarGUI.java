@@ -119,24 +119,7 @@ implements CustomizeToolbarListener {
 
     private void initDrop()
     {
-        addDomHandler(new DragOverHandler()
-        {
-            @Override
-            public void onDragOver(DragOverEvent event)
-            {
-                addStyleName("dropping");
-            }
-        }, DragOverEvent.getType());
-
-        addDomHandler(new DragLeaveHandler()
-        {
-            @Override
-            public void onDragLeave(DragLeaveEvent event)
-            {
-                removeStyleName("dropping");
-            }
-        }, DragLeaveEvent.getType());
-
+        
 //        addDomHandler(new DropHandler()
 //        {
 //            @Override
@@ -207,10 +190,28 @@ implements CustomizeToolbarListener {
            			allToolsPanel.add(new ToolItem(dragging.mode, allToolsRoot));
            			dragging.treeItem.remove();
            			dragging = null;
+           			allToolsPanel.removeStyleName("toolBarDropping");
                 }
             }
         }, DropEvent.getType());
 
+		allToolsPanel.addDomHandler(new DragOverHandler()
+        {
+            @Override
+            public void onDragOver(DragOverEvent event)
+            {
+            	allToolsPanel.addStyleName("toolBarDropping");
+            }
+        }, DragOverEvent.getType());
+
+		allToolsPanel.addDomHandler(new DragLeaveHandler()
+        {
+            @Override
+            public void onDragLeave(DragLeaveEvent event)
+            {
+            	allToolsPanel.removeStyleName("toolBarDropping");
+            }
+        }, DragLeaveEvent.getType());
 
 		
 		main.add(usedToolsPanel);
@@ -291,7 +292,7 @@ implements CustomizeToolbarListener {
 		
 			if (element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
-				ToolItem tool = new ToolItem(menu.get(0), null);
+				final ToolItem tool = new ToolItem(menu.get(0), null);
 				final TreeItem current = toolTree.addItem(tool);
 				tool.addDomHandler(new DropHandler()
 		        {
@@ -308,10 +309,30 @@ implements CustomizeToolbarListener {
 		                	allTools.remove(allTools.indexOf(dragging.mode));
 	                		allToolsPanel.remove(dragging);
 	                		current.addItem(new ToolItem(dragging.mode, current));
-	                				dragging = null;
+	                		dragging = null;
+       		            	tool.removeStyleName("toolBarDropping");
 		                }
 		            }
 		        }, DropEvent.getType());
+		
+				tool.addDomHandler(new DragOverHandler()
+		        {
+		            @Override
+		            public void onDragOver(DragOverEvent event)
+		            {
+		            	tool.addStyleName("toolBarDropping");
+		            }
+		        }, DragOverEvent.getType());
+
+				tool.addDomHandler(new DragLeaveHandler()
+		        {
+		            @Override
+		            public void onDragLeave(DragLeaveEvent event)
+		            {
+		            	tool.removeStyleName("toolBarDropping");
+		            }
+		        }, DragLeaveEvent.getType());
+				
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
 					int mode = modeInt.intValue();

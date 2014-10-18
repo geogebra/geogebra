@@ -4747,6 +4747,11 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  	height: 900px;
  }
  
+ .toolBarDropping { 
+ 	border: 1px solid;
+ 	background-color: #acacac;
+ }
+ 
  /*
    ########################################
    ###   END OF CUSTOMIZE TOOLBAR GUI   ###
