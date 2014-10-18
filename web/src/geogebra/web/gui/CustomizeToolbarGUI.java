@@ -6,6 +6,7 @@ import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.CustomizeToolbarHeaderPanel.CustomizeToolbarListener;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.layout.DockPanelW;
@@ -13,6 +14,7 @@ import geogebra.web.gui.toolbar.ToolBarW;
 
 import java.util.Vector;
 
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -29,7 +31,32 @@ implements CustomizeToolbarListener {
 	private Vector<Integer> usedTools;
 	private ToolTree toolTree;
 
+	private class ToolTreeResources implements Tree.Resources {
+
+		public ToolTreeResources() {
+        }
+
+		public ImageResource treeClosed() {
+		//      return AppResources.INSTANCE.tree_open();
+		      return GuiResources.INSTANCE.algebra_tree_closed();
+	    }
+
+		public ImageResource treeLeaf() {
+            return GuiResources.INSTANCE.algebra_tree_closed();
+//	        return AppResources.INSTANCE.tree_close();
+        }
+
+		public ImageResource treeOpen() {
+            return GuiResources.INSTANCE.algebra_tree_open();
+	        //return AppResources.INSTANCE.tree_close();
+        }
+		
+	}
 	private class ToolTree extends Tree {
+		public ToolTree(Tree.Resources res) {
+	        super(res);
+        }
+
 		public String getToolbarString() {
 			// TODO: implement
 			return null;
@@ -47,7 +74,7 @@ implements CustomizeToolbarListener {
 
 		usedToolsPanel = new FlowPanel();
 		usedToolsPanel.setStyleName("usedToolsPanel");
-		toolTree = new ToolTree();
+		toolTree = new ToolTree(new ToolTreeResources());
 		usedToolsPanel.add(toolTree);
 
 		allToolsPanel = new FlowPanel();
