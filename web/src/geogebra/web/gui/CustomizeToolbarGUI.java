@@ -148,7 +148,7 @@ implements CustomizeToolbarListener {
 		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
 		toolbarImg.addStyleName("toolbar_icon");
 		btn.add(toolbarImg);
-		Label text = new Label(app.getMenu(app.getToolName(mode)));
+		Label text = new Label(app.getMenu(mode == ToolBar.SEPARATOR ? "Separator": app.getToolName(mode)));
 
 		item.add(LayoutUtil.panelRow(btn, text));
 
