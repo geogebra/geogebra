@@ -63,6 +63,20 @@ implements CustomizeToolbarListener {
 		}
 	}
 
+	private class ToolItem extends FlowPanel {
+		public ToolItem(Integer mode) {
+			FlowPanel btn = new FlowPanel();
+			addStyleName("customizableToolbarItem");
+			btn.addStyleName("toolbar_button");
+			Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
+			toolbarImg.addStyleName("toolbar_icon");
+			btn.add(toolbarImg);
+			Label text = new Label(app.getMenu(mode == ToolBar.SEPARATOR ? "Separator": app.getToolName(mode)));
+			add(LayoutUtil.panelRow(btn, text));
+			getElement().setAttribute("mode", mode + " ");
+
+		}
+	}
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
 		addHeader();
@@ -120,8 +134,8 @@ implements CustomizeToolbarListener {
 		//		allToolsPanel.add(buildItem(ToolBar.SEPARATOR));
 
 		for (Integer mode: allTools) {
-			if (true){//!usedTools.contains(mode)) {
-				allToolsPanel.add(buildItem(mode));
+			if (!usedTools.contains(mode)) {
+				allToolsPanel.add(new ToolItem(mode));
 			}
 		}
 	}
@@ -138,31 +152,14 @@ implements CustomizeToolbarListener {
 		}
 	}
 
-	private FlowPanel buildItem(Integer mode) {
-		FlowPanel item = new FlowPanel();
-		FlowPanel btn = new FlowPanel();
-
-
-		item.addStyleName("customizableToolbarItem");
-		btn.addStyleName("toolbar_button");
-		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
-		toolbarImg.addStyleName("toolbar_icon");
-		btn.add(toolbarImg);
-		Label text = new Label(app.getMenu(mode == ToolBar.SEPARATOR ? "Separator": app.getToolName(mode)));
-
-		item.add(LayoutUtil.panelRow(btn, text));
-
-		item.getElement().setAttribute("mode", mode + " ");
-		return item;
-	}
-
 	public void buildUsedTools(String toolbarDefinition) {
 		toolTree.clear();
 		if (usedTools == null) {
 			usedTools = new Vector<Integer>();
 		}
+		usedTools.clear();
 		// separator
-		usedTools.add(ToolBar.SEPARATOR);
+		//usedTools.add(ToolBar.SEPARATOR);
 		
 		// get default toolbar as nested vectors
 		Vector<ToolbarItem> defTools = null;
@@ -175,14 +172,14 @@ implements CustomizeToolbarListener {
 			if (element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
 				
-				TreeItem current = toolTree.addItem(buildItem(menu.get(0)));
+				TreeItem current = toolTree.addItem(new ToolItem(menu.get(0)));
 				
 	 			for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
 					int mode = modeInt.intValue();
 					if (mode != -1)
 						usedTools.add(modeInt);
-						current.addItem(buildItem(modeInt));
+						current.addItem(new ToolItem(modeInt));
 					}
 			}
 //			else {
