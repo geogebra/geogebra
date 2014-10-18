@@ -89,6 +89,9 @@ for j in $PROVERS; do
    OpenGeoProver_Area)
     TOPRINT="Engine 3b"
     ;;
+   *)
+    TOPRINT="$j"
+    ;;
    esac
 else
  TOPRINT=`echo $j | sed s/"_"/" "/`
