@@ -214,7 +214,14 @@ public abstract class TextPreviewer {
 					&& ((GeoText) (exp.evaluate(tpl))).isLaTeXTextCommand()) {
 				isLaTeX = true;
 			}
-
+			
+			// eg just an x in the "empty box"
+			// (otherwise leads to NPE so cons.removeFromConstructionList(textAlgo); doesn't get called
+			if (((ExpressionNode) exp).getGeoElementVariables() == null) {
+				// can't make an AlgoDependentText
+				return;
+			}
+			
 			// create new previewGeoDependent
 			textAlgo = new AlgoDependentText(cons, (ExpressionNode) exp);
 			cons.removeFromConstructionList(textAlgo);
