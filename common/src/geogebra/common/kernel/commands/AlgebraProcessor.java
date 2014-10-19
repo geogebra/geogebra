@@ -534,7 +534,6 @@ public class AlgebraProcessor {
 			if (fvX == null) {
 				fvX = new FunctionVariable(ve.getKernel(), "x");
 			}
-			App.debug("UUU"+undefinedVariables.size());
 			if(undefinedVariables.size() == 1 && "X".equals(ve.getLabel())){
 				try{
 					String varName = undefinedVariables.first();
