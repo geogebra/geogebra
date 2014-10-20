@@ -686,6 +686,9 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void cancelLongTouchTimer() {
+		if (longTouchTimer == null) {
+			return;
+		}
 		longTouchTimer.cancel();
 	}
 
