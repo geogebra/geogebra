@@ -406,7 +406,7 @@ public class Ggb2giac {
 		p("Normal.3",
 				"normald_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*((%1)^2))) * exp(-((%2-%0)^2) / (2*((%1)^2))) fi");
+				"if %3=true then normald_cdf(%0,%1,%2) else (1/sqrt(2*pi*((%1)^2))) * exp(-((%2-(%0))^2) / (2*((%1)^2))) fi");
 		p("nPr.2", "perm(%0,%1)");
 
 		p("NSolve.1",
@@ -851,7 +851,7 @@ public class Ggb2giac {
 				"y=subst(diff(%1,x),x=real(%0[1]))*(x-real(%0[1]))+subst(%1,x=real(%0[1])))"+
 				","+
 				// Tangent[x-value, function]
-				"y=subst(diff(%1,x),x=%0)*(x-%0)+subst(%1,x=%0)"+
+				"y=subst(diff(%1,x),x=%0)*(x-(%0))+subst(%1,x=%0)"+
 				")");
 		p("TangentThroughPoint.2", 
 				"[[ggbans:=?],[ggbans:=equation(tangent(when((%1)[0]=='=',%1,y=%1),%0))],"
