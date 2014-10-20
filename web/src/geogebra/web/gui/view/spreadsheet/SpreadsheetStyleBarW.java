@@ -10,6 +10,8 @@ import geogebra.common.main.OptionType;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.StyleBarResources;
+import geogebra.web.gui.util.GeoGebraIcon;
+import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
@@ -39,6 +41,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	private PopupMenuButton btnBorderStyle;
 
 	protected int iconHeight = 18;
+	protected int iconWidth = 18;
 
 	// ?//private Dimension iconDimension = new Dimension(16, iconHeight);
 
@@ -98,7 +101,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		btnRightAlign = new MyToggleButton2(
 				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(), this, iconHeight);
 
-		final GDimensionW bgColorIconSize = new GDimensionW(18, iconHeight);
+		final GDimensionW bgColorIconSize = new GDimensionW(iconWidth, iconHeight);
 
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 		        ColorPopupMenuButton.COLORSET_BGCOLOR, false);
@@ -226,6 +229,10 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			// set color in table (needed as geos can be renamed, deleted etc)
 			GColor bgCol = btnBgColor.getSelectedColor();
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
+			
+			// set the color
+			ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, new GDimensionW(iconWidth, iconHeight), null, bgCol);
+			data.applyToLabel(btnBgColor.getButtonContent());
 			
 			// set color for the actual geos
 			for (int i = 0; i < selectedCells.size(); i++) {
