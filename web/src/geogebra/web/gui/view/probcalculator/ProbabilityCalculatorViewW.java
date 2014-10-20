@@ -39,7 +39,6 @@ import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -400,7 +399,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    btnExport.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
-				Window.open(((EuclidianViewW) plotPanel).getExportImageDataUrl(3, true), "_blank", null);
+				((AppW) app).copyEVtoClipboard((EuclidianViewW)plotPanel);
             }  	
 	    });
 	    
