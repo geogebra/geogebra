@@ -327,6 +327,13 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		isMouseDown = true;
 		e.preventDefault();
 
+		if (table.getEditor().isEditing()) {
+			table.getEditor().setAllowProcessGeo(true);
+			table.getEditor().stopCellEditing();
+			table.getEditor().setAllowProcessGeo(false);
+			table.finishEditing();
+		}
+		
 		int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
 		int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
 		boolean metaDown = e.isControlKeyDown();// ||
@@ -344,7 +351,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			if (point == null) {
 				return;
 			}
-
 			// mouse down in resizing region
 			GPoint p = new GPoint(x, y);
 			resizingColumn = getResizingColumn(p);

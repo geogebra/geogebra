@@ -321,6 +321,13 @@ public class SpreadsheetRowHeaderW implements MouseDownHandler, MouseUpHandler,
 		isMouseDown = true;
 		e.preventDefault();
 
+		if (table.getEditor().isEditing()) {
+			table.getEditor().setAllowProcessGeo(true);
+			table.getEditor().stopCellEditing();
+			table.getEditor().setAllowProcessGeo(false);
+			table.finishEditing();
+		}
+		
 		requestFocus();
 
 		boolean shiftPressed = e.isShiftKeyDown();
