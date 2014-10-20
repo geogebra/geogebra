@@ -545,8 +545,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		}
 
 		/**
-		 * Checks if a newer version is available. It runs every month (30 days)
-		 * for major updates, but always for minor updates.
+		 * Checks if a newer version is available. It runs (at most) every day
+		 * for major updates, but every run for minor updates.
 		 */
 		private void checkVersion() {
 			App.debug("Checking version");
@@ -583,7 +583,6 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 			String myVersion = GeoGebraConstants.VERSION_STRING;
 			HttpRequest httpr = UtilFactory.prototype.newHttpRequest();
-			String codebase = AppD.getCodeBase().toString();
 			String newestVersion = null;
 			StringBuilder sb = new StringBuilder();
 			Long newestVersionL;
@@ -596,15 +595,18 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					sb.append(GeoGebraConstants.VERSION_URL);
 					sb.append("?ver=");
 					sb.append(myVersion);
-					sb.append("&cb=");
+					sb.append("&os=");
 
-					// don't send this (for privacy reasons)
-					sb.append(codebase.startsWith("file:") ? "file" : codebase);
+					if (AppD.WINDOWS) {
+						sb.append("win");
+					} else if (AppD.MAC_OS) {
+						sb.append("mac");
+					} else {
+						sb.append("linux");
+					}
 
 					sb.append("&java=");
 					AppD.appendJavaVersion(sb);
-
-					// App.debug(sb.toString());
 
 					newestVersion = httpr.sendRequestGetResponseSync(sb
 							.toString());
@@ -639,30 +641,33 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					}
 				} // checkneeded
 
-				// Always checking minor version update on Windows:
+				sb = new StringBuilder();
+
+				sb.append(GeoGebraConstants.VERSION_URL_MINOR);
+				sb.append("?ver=");
+				sb.append(myVersion);
+				sb.append("&os=");
+
 				if (AppD.WINDOWS) {
-					sb = new StringBuilder();
+					sb.append("win");
+				} else if (AppD.MAC_OS) {
+					sb.append("mac");
+				} else {
+					sb.append("linux");
+				}
 
-					sb.append(GeoGebraConstants.VERSION_URL_MINOR);
-					sb.append("?ver=");
-					sb.append(myVersion);
-					sb.append("&cb=");
+				sb.append("&java=");
+				AppD.appendJavaVersion(sb);
 
-					// don't send this (for privacy reasons)
-					sb.append(codebase.startsWith("file:") ? "file" : codebase);
+				newestVersion = httpr.sendRequestGetResponseSync(sb.toString());
+				newestVersion = newestVersion.replaceAll("-", ".");
+				newestVersionL = versionToLong(newestVersion);
 
-					sb.append("&java=");
-					AppD.appendJavaVersion(sb);
+				App.debug("newest_minor=" + newestVersionL);
+				// Windows only: automatic update
 
-					newestVersion = httpr.sendRequestGetResponseSync(sb
-							.toString());
-					newestVersion = newestVersion.replaceAll("-", ".");
-					newestVersionL = versionToLong(newestVersion);
-
-					App.debug("newest_minor=" + newestVersionL);
-					if (currentVersionL < newestVersionL) {
-						downloadGeoGebraJars();
-					}
+				if (AppD.WINDOWS && currentVersionL < newestVersionL) {
+					downloadGeoGebraJars();
 				}
 
 			} catch (Exception ex) {
