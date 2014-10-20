@@ -389,19 +389,17 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 
     protected void createStringBuilder(StringTemplate tpl){
     	
-        if (sb == null) sb = new StringBuilder();
-        else sb.setLength(0);
-  
-        final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
-        if (!reverseOrder) {
-        	sb.append(loc.getPlain("Polygon"));
-        	sb.append(' ');
+        if (sb == null) {
+        	sb = new StringBuilder();
+        } else {
+        	sb.setLength(0);
         }
+        
+        String label;
         
         //G.Sturr: get label from geoList  (2010-3-15)
 		if (geoList != null) {
-			sb.append(geoList.getLabel(tpl));
-			
+			label = geoList.getLabel(tpl);		
 		} else {
 		// use point labels
 			 
@@ -411,12 +409,12 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 				sb.append(", ");
 			}
 			sb.append(points[last].getLabel(tpl));
+			
+			label = sb.toString();
+			sb.setLength(0);
 		}        
-
-        if (reverseOrder) {
-        	sb.append(' ');
-        	sb.append(loc.getPlain("Polygon").toLowerCase());
-        }
+		
+		sb.append(loc.getPlain("PolygonA", label));
 
     }
 

@@ -90,11 +90,33 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 
     @Override
 	protected void createStringBuilder(StringTemplate tpl){
-    	super.createStringBuilder(tpl);
-        sb.append(' ');
-        sb.append(loc.getPlain("parallelTo"));
-        sb.append(' ');
-        sb.append(((GeoElement) direction).getLabel(tpl));
+
+        if (sb == null) {
+        	sb = new StringBuilder();
+        } else {
+        	sb.setLength(0);
+        }
+        
+        String label;
+        
+        //G.Sturr: get label from geoList  (2010-3-15)
+		if (geoList != null) {
+			label = geoList.getLabel(tpl);		
+		} else {
+		// use point labels
+			 
+			int last = points.length - 1;
+			for (int i = 0; i < last; i++) {
+				sb.append(points[i].getLabel(tpl));
+				sb.append(", ");
+			}
+			sb.append(points[last].getLabel(tpl));
+			
+			label = sb.toString();
+			sb.setLength(0);
+		}        
+		
+		sb.append(loc.getPlain("PolygonAParallelToB", label, ((GeoElement) direction).getLabel(tpl)));
     }
     
     
