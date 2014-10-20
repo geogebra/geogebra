@@ -116,16 +116,8 @@ void main(void)
 	  	n = normal;
 	  }
 	  
-	  float factor = dot(n, lightPosition);
-
-	  
-	  if (culling == 1){ // front-face culling
-	  	factor = -factor;
-	  }
-	  
-	  if (factor < 0.0){ 
-	  	factor = 0.0;
-	  }
+	  float factor = float(culling) * dot(n, lightPosition);
+	  factor = max(0.0, factor);
 	  
 	  float ambiant = ambiantDiffuse[0];
 	  float diffuse = ambiantDiffuse[1];

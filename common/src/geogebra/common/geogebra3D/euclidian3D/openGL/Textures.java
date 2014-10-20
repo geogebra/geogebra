@@ -25,40 +25,63 @@ public class Textures {
 	/** no dash. */
 	static public int DASH_NONE = 0;	
 	/** simple dash: 1-(1), ... */
-	static public int DASH_SHORT = DASH_NONE+1;	
+
+	static public int DASH_SHORT = 1;	
 	/** long dash: 2-(2), ... */
-	static public int DASH_LONG = DASH_SHORT+1;	
+	static public int DASH_LONG = 7;	
 	/** dotted dash: 1-(1)-1-(1)-1-(1)-1-(1), ... */
-	static public int DASH_DOTTED = DASH_LONG+1;		
+	static public int DASH_DOTTED = 3;		
 	/** dotted/dashed dash: 7-(4)-1-(4), ... */
-	static public int DASH_DOTTED_DASHED = DASH_DOTTED+1;
+	static public int DASH_DOTTED_DASHED = 8;
 	/** (hidden) no dash. */
-	static public int DASH_NONE_HIDDEN = DASH_DOTTED_DASHED+1;	
+	static public int DASH_NONE_HIDDEN = 5;	
 	/** (hidden) simple dash: 1-(1), ... */
-	static public int DASH_SHORT_HIDDEN = DASH_NONE_HIDDEN+1;	
+	static public int DASH_SHORT_HIDDEN = 6;	
 	/** (hidden) long dash: 2-(2), ... */
-	static public int DASH_LONG_HIDDEN = DASH_SHORT_HIDDEN+1;	
+	static public int DASH_LONG_HIDDEN = 2;	
 	/** (hidden) dotted dash: 1-(3), ... */
-	static public int DASH_DOTTED_HIDDEN = DASH_LONG_HIDDEN+1;		
+	static public int DASH_DOTTED_HIDDEN = 4;		
 	/** (hidden) dotted/dashed dash: 7-(4)-1-(4), ... */
-	static public int DASH_DOTTED_DASHED_HIDDEN = DASH_DOTTED_HIDDEN+1;	
+	static public int DASH_DOTTED_DASHED_HIDDEN = 9;	
+	//
+	
     /** number of dash styles */
-    static private int DASH_NUMBER = DASH_DOTTED_DASHED_HIDDEN+1;  
+    static private int DASH_NUMBER = 10;  
 	/** description of the dash styles */
 	static private boolean[][] DASH_DESCRIPTION = {
 		{true}, // DASH_NONE
 		{true, false, true, false}, // DASH_SHORT
-		{true, true, false, false}, // DASH_LONG
+		{true, false, false, false}, // DASH_LONG_HIDDEN		
 		{true, false, true, false, true, false, true, false},  // DASH_DOTTED
-		{true,true,true,true, true,true,true,false, false,false,false,true, false,false,false,false}, // DASH_DOTTED_DASHED
+		{true, false, false, false, true, false, false, false},  // DASH_DOTTED_HIDDEN
 		{true, true, false, false}, // DASH_NONE_HIDDEN
 		{true, false, false, false}, // DASH_SHORT_HIDDEN
-		{true, false, false, false}, // DASH_LONG_HIDDEN
-		{true, false, false, false, true, false, false, false},  // DASH_DOTTED_HIDDEN
+		{true, true, false, false}, // DASH_LONG
+		{true,true,true,true, true,true,true,false, false,false,false,true, false,false,false,false}, // DASH_DOTTED_DASHED
 		{false,false,true,true, true,false,false,false, false,false,false,true, false,false,false,false} // DASH_DOTTED_DASHED_HIDDEN
 		
 	};
-
+	
+	/**
+	 * dash values for shaders
+	 */
+	static public float[][] DASH_SHADERS_VALUES = {
+		// coeff, a, b, c
+		// in shaders : x =  mod(dashValues[0] * coordTexture.x, 1.0)
+		// if (x > a || (x > b && x <= c)) then discard
+		{2.0f, 0.5f, -1f, -1f}, // {true, false, true, false}, // DASH_SHORT
+		{1.0f, 0.25f, -1f, -1f}, // {true, false, false, false}, // DASH_LONG_HIDDEN		
+		{4.0f, 0.5f, -1f, -1f}, // {true, false, true, false, true, false, true, false},  // DASH_DOTTED
+		{2.0f, 0.25f, -1f, -1f}, // {true, false, false, false, true, false, false, false},  // DASH_DOTTED_HIDDEN
+		{1.0f, 0.5f, -1f, -1f}, // {true, true, false, false}, // DASH_NONE_HIDDEN
+		{1.0f, 0.25f, -1f, -1f}, // {true, false, false, false}, // DASH_SHORT_HIDDEN
+		{1.0f, 0.5f, -1f, -1f}, // {true, true, false, false}, // DASH_LONG
+		{1.0f, 12f/16f, 7f/16f, 11f/16f}, // {true,true,true,true, true,true,true,false, false,false,false,true, false,false,false,false}, // DASH_DOTTED_DASHED
+		{1.0f, 12f/16f, 3f/16f, 11f/16f}, // {false,false,true,true, true,false,false,false, false,false,false,true, false,false,false,false} // DASH_DOTTED_DASHED_HIDDEN
+		
+	};
+	
+	
 	
 	
 	

@@ -65,54 +65,12 @@ void main(void)
 	  
 	  float factor = dot(n, lightPosition);
 	  
-	  if (culling == 1){ // front-face culling
-	  	factor = -factor;
-	  }
-	  
-	  if (factor < 0.0){ 
-	  	factor = 0.0;
-	  }
+	  factor = float(culling) * factor;
+
+	  factor = max(0.0, factor);
 	  
 	  float ambiant = ambiantDiffuse[0];
 	  float diffuse = ambiantDiffuse[1];
-	  
-	  /*
-	  // specular
-	  
-	  // makes natural specular
-	  vec3 viewDirection;
-	  if (eyePosition[3] < 0.5){ // parallel projection
-	  	viewDirection = vec3(eyePosition);
-	  }else{ // perspective projection
-	  	viewDirection = position - vec3(eyePosition);
-	  }
-	  vec3 lightReflect = normalize(reflect(lightPosition, n));
-	  float specular = dot(lightReflect, viewDirection);
-	  
-	  
-	  // makes specular has if eye was lighting
-	  //float specular = - dot(n, viewDirection);
-	  //if (culling == 1){ // front-face culling
-	  //	specular = -specular;
-	  //}
-	  
-	  
-	  // specular as diffuse
-	  //float specular = factor;
-	  
-	  if (specular > 0.0){
-	  	specular = pow(specular, 32.0);
-	  }else{
-	  	specular = 0.0;
-	  } 
-	  
-	  // specular light from eye
-	  //varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.5 * specular * vec3(1.0, 1.0, 1.0);
-	  //specular natural way
-	  varying_Color.rgb = (ambiant + diffuse * factor) * c.rgb + 0.8 * specular * vec3(1.0, 1.0, 1.0);
-	  
-	  */
-	  
 	  
 	  
 	  // no specular

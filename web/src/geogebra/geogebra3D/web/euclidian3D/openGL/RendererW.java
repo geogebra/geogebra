@@ -62,6 +62,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private WebGLUniformLocation eyePositionLocation; //eye position
     private WebGLUniformLocation cullingLocation; // culling
+    private WebGLUniformLocation dashValuesLocation; // dash values
     private WebGLUniformLocation textureTypeLocation; // textures
     private WebGLUniformLocation colorLocation; // color
     private WebGLUniformLocation normalLocation; // one normal for all vertices
@@ -222,6 +223,9 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         cullingLocation = glContext.getUniformLocation(shaderProgram, "culling");
      
         
+        dashValuesLocation = glContext.getUniformLocation(shaderProgram, "dashValues");
+        
+               
         //texture
         textureTypeLocation = glContext.getUniformLocation(shaderProgram, "textureType");
                
@@ -259,7 +263,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         glContext.compileShader(shader);
 
         if (!glContext.getShaderParameterb(shader, WebGLRenderingContext.COMPILE_STATUS)) {
-                throw new RuntimeException(glContext.getShaderInfoLog(shader));
+        	App.debug("ERROR COMPILING SHADER: "+glContext.getShaderInfoLog(shader));
+        	throw new RuntimeException(glContext.getShaderInfoLog(shader));
         }
 
         return shader;
@@ -588,19 +593,19 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
     public void disableCulling() {
 		glContext.disable(WebGLRenderingContext.CULL_FACE);
-		glContext.uniform1i(cullingLocation, 0);
+		glContext.uniform1i(cullingLocation, 1);
     }
 
 	@Override
 	public void setCullFaceFront() {
 		glContext.cullFace(WebGLRenderingContext.FRONT);
-		glContext.uniform1i(cullingLocation, 1);
+		glContext.uniform1i(cullingLocation, -1);
 	}
 
 	@Override
 	public void setCullFaceBack() {
 		glContext.cullFace(WebGLRenderingContext.BACK);
-		glContext.uniform1i(cullingLocation, 2);
+		glContext.uniform1i(cullingLocation, 1);
 	}
 
 	@Override
@@ -1533,6 +1538,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 		}else{
 			enableTextures();
 			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
+			glContext.uniform1fv(dashValuesLocation, Textures.DASH_SHADERS_VALUES[index - 1]);
 		}
 	}
 

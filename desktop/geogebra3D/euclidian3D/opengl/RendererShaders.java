@@ -99,6 +99,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     private int lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private int eyePositionLocation; //eye position
     private int cullingLocation; // culling type
+    private int dashValuesLocation; // values for dash
     private int textureTypeLocation; // textures
     private int colorLocation; // color
     private int normalLocation; // one normal for all vertices
@@ -258,6 +259,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         enableLightLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "enableLight");
        
         cullingLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "culling");
+        
+        dashValuesLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "dashValues");
 
         //texture
         textureTypeLocation = jogl.getGL2ES2().glGetUniformLocation(shaderProgram, "textureType");
@@ -1477,6 +1480,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 		}else{
 			enableTextures();
 			setCurrentTextureType(TEXTURE_TYPE_DASH + index);
+			jogl.getGL2ES2().glUniform1fv(dashValuesLocation, 4, Textures.DASH_SHADERS_VALUES[index - 1], 0);
 		}
 	}
 	
@@ -1607,19 +1611,19 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	@Override
 	public void disableCulling(){
 		super.disableCulling();
-		jogl.getGL2ES2().glUniform1i(cullingLocation, 0);
+		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
 	}
 	
 	@Override
 	public void setCullFaceFront(){
 		super.setCullFaceFront();
-		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
+		jogl.getGL2ES2().glUniform1i(cullingLocation, -1);
 	}
 	
 	@Override
 	public void setCullFaceBack(){
 		super.setCullFaceBack();
-		jogl.getGL2ES2().glUniform1i(cullingLocation, 2);
+		jogl.getGL2ES2().glUniform1i(cullingLocation, 1);
 	}
 	
 	

@@ -7,6 +7,8 @@ uniform int enableClipPlanes;
 uniform vec3 clipPlanesMin;
 uniform vec3 clipPlanesMax;
 
+uniform float dashValues[4];
+
 uniform sampler2D Texture0;
 
 // in (incomming varying data to the frament shader sent from the vertex shader)
@@ -18,115 +20,64 @@ varying   vec3    realWorldCoords;
 void main (void) 
 { 
 
+	float x;
+
 	if (enableClipPlanes == 1  // clip the scene
 		&& (   realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x
 			|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y 
 			|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z 			
 		   )){
 		discard;
-	}else{		
+		
+	}	
+		
+	// default
+	if (textureType == 0){
+		gl_FragColor = varying_Color;
+		return;
+	}
 	
-		if (textureType == 0){ // TEXTURE_TYPE_NONE = 0
-		    gl_FragColor = varying_Color;
-		
-		
-		}else if (textureType == 1){ // TEXTURE_TYPE_FADING = 1
-			float factor;
-			float x = coordTexture.x;
-			float y = coordTexture.y;
-			if (x < 0.0){
-				x = 0.0;
-			}
-			if (y < 0.0){
-				y = 0.0;
-			}
-			gl_FragColor.rgb  = varying_Color.rgb;
-			gl_FragColor.a = varying_Color.a * (1.0 - x) * (1.0 - y);
 			
-		}else if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;
-			vec4 textureVal = texture2D(Texture0, coordTexture);
-			if (textureVal.a < 0.25){
-		  		discard; // don't write
-		  	}else{
-				gl_FragColor.rgb = varying_Color.rgb;
-				gl_FragColor.a = textureVal.a;
-			}
-			
-			
-		}else if (textureType == 5){ // TEXTURE_TYPE_DASH = 4 + DASH_SHORT = 1;
-			float x = mod(2.0 * coordTexture.x, 1.0);
-			if (x > 0.5){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 6){ // TEXTURE_TYPE_DASH = 4 + DASH_LONG = 2;
-			float x = mod(coordTexture.x, 1.0);
-			if (x > 0.5){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 7){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED = 3;
-			float x = mod(4.0 * coordTexture.x, 1.0);
-			if (x > 0.5){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 8){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED_DASHED = 4;
-			float x = 16.0 * mod(coordTexture.x, 1.0);
-			if ((x > 7.0 && x <= 11.0) || (x > 12.0) ){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
+	// fading	
+	if (textureType == 1){ // TEXTURE_TYPE_FADING = 1
+		float factor;
+		x = max(coordTexture.x, 0.0);
+		float y = max(coordTexture.y, 0.0);
+		gl_FragColor.rgb  = varying_Color.rgb;
+		gl_FragColor.a = varying_Color.a * (1.0 - x) * (1.0 - y);
+		return;
+	}
 		
-		}else if (textureType == 9){ // TEXTURE_TYPE_DASH = 4 + DASH_NONE_HIDDEN = 5;
-			float x = mod(coordTexture.x, 1.0);
-			if (x > 0.5){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 10){ // TEXTURE_TYPE_DASH = 4 + DASH_SHORT_HIDDEN = 6;
-			float x = mod(coordTexture.x, 1.0);
-			if (x > 0.25){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 11){ // TEXTURE_TYPE_DASH = 4 + DASH_LONG_HIDDEN = 7;
-			float x = mod(coordTexture.x, 1.0);
-			if (x > 0.25){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 12){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED_HIDDEN = 8;
-			float x = mod(2.0 * coordTexture.x, 1.0);
-			if (x > 0.25){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
-		}else if (textureType == 13){ // TEXTURE_TYPE_DASH = 4 + DASH_DOTTED_DASHED_HIDDEN = 9;
-			float x = 16.0 * mod(coordTexture.x, 1.0);
-			if (x <= 2.0 || (x > 5.0 && x <= 11.0) || (x > 12.0)){
-				discard; // don't write
-			}else{
-				gl_FragColor = varying_Color;
-			}	
+		
+	// text	
+	if (textureType == 2){ // TEXTURE_TYPE_TEXT = 2;
+		vec4 textureVal = texture2D(Texture0, coordTexture);
+		if (textureVal.a < 0.25){
+	  		discard; // don't write
+  		}
+  	
+		gl_FragColor.rgb = varying_Color.rgb;
+		gl_FragColor.a = textureVal.a;
+		
+		return;
+	}
 		
 		
 		
-		
-		}else{ // default
-		  //gl_FragColor = varying_Color;
-		  discard;
+	// dash
+				
+		x =  mod(dashValues[0] * coordTexture.x, 1.0);
+		if (x > dashValues[1] || (x > dashValues[2] && x <= dashValues[3])){
+			discard;
 		}
+		
+		gl_FragColor = varying_Color;
+
 	
-	}			
+	
+		
+	
+				
 
 } 
 	
