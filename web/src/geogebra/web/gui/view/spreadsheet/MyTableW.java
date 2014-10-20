@@ -1046,10 +1046,6 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				this.updateAutoFunction();
 			}
 
-			if (view.isVisibleStyleBar()) {
-				view.getSpreadsheetStyleBar().updateStyleBar();
-			}
-
 			app.getSelectionManager().setSelectedGeos(list, false);
 			if (list.size() > 0) {
 				app.updateSelection(true);
@@ -1058,6 +1054,10 @@ public class MyTableW implements /* FocusListener, */MyTable {
 				app.updateSelection(false);
 				app.setPropertiesViewPanel(OptionType.SPREADSHEET);
 			}
+		}
+		
+		if (view.isVisibleStyleBar()) {
+			view.getSpreadsheetStyleBar().updateStyleBar();
 		}
 
 		// if the selection has changed or an empty cell has been clicked,
