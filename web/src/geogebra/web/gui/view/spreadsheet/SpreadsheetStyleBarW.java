@@ -43,6 +43,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	protected int iconHeight = 18;
 	protected int iconWidth = 18;
 
+	private GDimensionW iconSize = new GDimensionW(iconWidth, iconHeight);
+	
 	// ?//private Dimension iconDimension = new Dimension(16, iconHeight);
 
 	public SpreadsheetStyleBarW(SpreadsheetViewW view) {
@@ -231,7 +233,7 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
 			
 			// set the color
-			ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, new GDimensionW(iconWidth, iconHeight), null, bgCol);
+			ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, iconSize, null, bgCol);
 			data.applyToLabel(btnBgColor.getButtonContent());
 			
 			// set color for the actual geos
@@ -307,6 +309,14 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		}
 
 		// btnFormulaBar.setSelected(view.getShowFormulaBar());
+		
+		// update the color
+		GColor color = (GColor) formatHandler.getCellFormat(range, CellFormat.FORMAT_BGCOLOR);
+		if (color == null) {
+			color = GColor.WHITE;
+		}
+		ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, iconSize, null, color);
+		data.applyToLabel(btnBgColor.getButtonContent());
 
 		allowActionPerformed = true;
 
