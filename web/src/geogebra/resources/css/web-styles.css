@@ -4745,6 +4745,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  
  .usedToolsPanel {
  	float: left;
+	overflow-y: scroll;
+ 	height: 900px;
  }
  
  .allToolsPanel {
@@ -4758,6 +4760,9 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  	background-color: #acacac;
  }
  
+ .leafDropping { 
+ 	border-top: 1px solid;
+ }
  /*
    ########################################
    ###   END OF CUSTOMIZE TOOLBAR GUI   ###

@@ -27,6 +27,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
@@ -35,48 +36,136 @@ implements CustomizeToolbarListener {
 
 	private AppW app;
 	private CustomizeToolbarHeaderPanel header;
-	private FlowPanel usedToolsPanel;
+	private ScrollPanel usedToolsPanel;
 	private FlowPanel allToolsPanel;
 	private Vector<Integer> usedTools;
 	private Vector<Integer> allTools;
 	private ToolTree toolTree;
 	private static DraggableTool dragging = null;
 	private static TreeItem allToolsRoot = new TreeItem();
-	
+
 	private class ToolTreeResources implements Tree.Resources {
 
 		public ToolTreeResources() {
-        }
+		}
 
 		public ImageResource treeClosed() {
-		//      return AppResources.INSTANCE.tree_open();
-		      return GuiResources.INSTANCE.algebra_tree_closed();
-	    }
+			//      return AppResources.INSTANCE.tree_open();
+			return GuiResources.INSTANCE.algebra_tree_closed();
+		}
 
 		public ImageResource treeLeaf() {
-            return GuiResources.INSTANCE.algebra_tree_closed();
-//	        return AppResources.INSTANCE.tree_close();
-        }
+			return GuiResources.INSTANCE.algebra_tree_closed();
+			//	        return AppResources.INSTANCE.tree_close();
+		}
 
 		public ImageResource treeOpen() {
-            return GuiResources.INSTANCE.algebra_tree_open();
-	        //return AppResources.INSTANCE.tree_close();
-        }
-		
+			return GuiResources.INSTANCE.algebra_tree_open();
+			//return AppResources.INSTANCE.tree_close();
+		}
+
 	}
 	private class ToolTree extends Tree {
 		public ToolTree(Tree.Resources res) {
-	        super(res);
-        }
+			super(res);
+		}
 
 		public String getToolbarString() {
 			// TODO: implement
 			return null;
 		}
+
+		public TreeItem addBranchItem(final DraggableTool tool) {
+			final TreeItem current = toolTree.addItem(tool);
+			tool.addDomHandler(new DropHandler()
+			{
+				@Override
+				public void onDrop(DropEvent event)
+				{
+					App.debug("Drop on branch item!");
+					event.preventDefault();
+					if (dragging != null)
+					{
+						App.debug("Drop " + dragging.getTitle());
+						TreeItem parent = dragging.parent;
+
+						allTools.remove(allTools.indexOf(dragging.mode));
+						allToolsPanel.remove(dragging);
+						DraggableTool dropped = new DraggableTool(dragging.mode, current);
+						dropped.treeItem = current.addItem(dropped);
+						dragging = null;
+						tool.removeStyleName("toolBarDropping");
+					}
+				}
+			}, DropEvent.getType());
+
+			tool.addDomHandler(new DragOverHandler()
+			{
+				@Override
+				public void onDragOver(DragOverEvent event)
+				{
+					tool.addStyleName("toolBarDropping");
+				}
+			}, DragOverEvent.getType());
+
+			tool.addDomHandler(new DragLeaveHandler()
+			{
+				@Override
+				public void onDragLeave(DragLeaveEvent event)
+				{
+					tool.removeStyleName("toolBarDropping");
+				}
+			}, DragLeaveEvent.getType());
+
+			return current;
+		}
+
+		public TreeItem addLeafItem(final TreeItem branch, final DraggableTool leaf) {
+	        TreeItem item = branch.addItem(leaf);
+	        
+	        leaf.addDomHandler(new DropHandler()
+			{
+				@Override
+				public void onDrop(DropEvent event)
+				{
+					App.debug("Drop on leaf item!");
+					event.preventDefault();
+					if (dragging != null)
+					{
+						int idx = branch.getChildIndex(leaf.treeItem);
+						
+						branch.insertItem(idx, dragging);
+						leaf.removeStyleName("leafDropping");
+								
+					}
+				}
+			}, DropEvent.getType());
+
+			leaf.addDomHandler(new DragOverHandler()
+			{
+				@Override
+				public void onDragOver(DragOverEvent event)
+				{
+					leaf.addStyleName("leafDropping");
+				}
+			}, DragOverEvent.getType());
+
+			leaf.addDomHandler(new DragLeaveHandler()
+			{
+				@Override
+				public void onDragLeave(DragLeaveEvent event)
+				{
+					leaf.removeStyleName("leafDropping");
+				}
+			}, DragLeaveEvent.getType());
+
+		       
+	        return item;
+        }
 	}
 
 	private class DraggableTool extends FlowPanel {
-		
+
 		private Integer mode;
 		private TreeItem parent;
 		private TreeItem treeItem;
@@ -86,7 +175,7 @@ implements CustomizeToolbarListener {
 			this.parent = parent;
 			treeItem = null; 
 			children = null;
-			
+
 			FlowPanel btn = new FlowPanel();
 			addStyleName("customizableToolbarItem");
 			btn.addStyleName("toolbar_button");
@@ -98,37 +187,37 @@ implements CustomizeToolbarListener {
 			Label text = new Label(str);
 			add(LayoutUtil.panelRow(btn, text));
 			getElement().setAttribute("mode", mode + " ");
-		    getElement().setDraggable(Element.DRAGGABLE_TRUE);
-	       
-		    initDrag();
+			getElement().setDraggable(Element.DRAGGABLE_TRUE);
+
+			initDrag();
 		}
 
 		private void initDrag() {
-	        addDomHandler(new DragStartHandler() {
-				
+			addDomHandler(new DragStartHandler() {
+
 				public void onDragStart(DragStartEvent event) {
 					App.debug("!DRAG START!");
 					dragging = DraggableTool.this;
 					event.setData("text", "draggginggg");
- 	                event.getDataTransfer().setDragImage(getElement(), 10, 10);
-		
+					event.getDataTransfer().setDragImage(getElement(), 10, 10);
+
 				}
 			}, DragStartEvent.getType());
-        }
+		}
 
 		public void addChild(Integer mode) {
-	        if (children == null) {
-	        	children = new Vector<Integer>();
-	        }
-	        
-	        children.add(mode);
-        }
+			if (children == null) {
+				children = new Vector<Integer>();
+			}
+
+			children.add(mode);
+		}
 
 		public boolean isLeaf() {
 			return children == null;
 		}
 	}
-	
+
 
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
@@ -139,66 +228,66 @@ implements CustomizeToolbarListener {
 	private void addContent() {
 		FlowPanel main = new FlowPanel();
 
-		usedToolsPanel = new FlowPanel();
+		usedToolsPanel = new ScrollPanel();
 		usedToolsPanel.setStyleName("usedToolsPanel");
 		toolTree = new ToolTree(new ToolTreeResources());
-	
-				
+
+
 		usedToolsPanel.add(toolTree);
 
 		allToolsPanel = new FlowPanel();
 		allToolsPanel.setStyleName("allToolsPanel");
 
 		allToolsPanel.addDomHandler(new DropHandler()
-        {
-            @Override
-            public void onDrop(DropEvent event)
-            {
-                event.preventDefault();
-                if (dragging != null)
-                {
-                	App.debug("Drop " + dragging.getTitle());
-                	
-                	if (dragging.isLeaf()) {
-                     	usedToolToAll(dragging.mode);
-                		if (dragging.treeItem != null) {
-                			dragging.treeItem.remove();
-                		}
-               	    } else {
-                		
-               	    	for (Integer mode: dragging.children) {
-                			App.debug("Dropping branch");
-                			usedToolToAll(mode);
-                		}
-                		
-                		dragging.treeItem.remove();
-                	}
-                	
-            		dragging = null;
-            		allToolsPanel.removeStyleName("toolBarDropping");
-                }
-            }
-        }, DropEvent.getType());
+		{
+			@Override
+			public void onDrop(DropEvent event)
+			{
+				event.preventDefault();
+				if (dragging != null)
+				{
+					App.debug("Drop " + dragging.getTitle());
+
+					if (dragging.isLeaf()) {
+						usedToolToAll(dragging.mode);
+						if (dragging.treeItem != null) {
+							dragging.treeItem.remove();
+						}
+					} else {
+
+						for (Integer mode: dragging.children) {
+							App.debug("Dropping branch");
+							usedToolToAll(mode);
+						}
+
+						dragging.treeItem.remove();
+					}
+
+					dragging = null;
+					allToolsPanel.removeStyleName("toolBarDropping");
+				}
+			}
+		}, DropEvent.getType());
 
 		allToolsPanel.addDomHandler(new DragOverHandler()
-        {
-            @Override
-            public void onDragOver(DragOverEvent event)
-            {
-            	allToolsPanel.addStyleName("toolBarDropping");
-            }
-        }, DragOverEvent.getType());
+		{
+			@Override
+			public void onDragOver(DragOverEvent event)
+			{
+				allToolsPanel.addStyleName("toolBarDropping");
+			}
+		}, DragOverEvent.getType());
 
 		allToolsPanel.addDomHandler(new DragLeaveHandler()
-        {
-            @Override
-            public void onDragLeave(DragLeaveEvent event)
-            {
-            	allToolsPanel.removeStyleName("toolBarDropping");
-            }
-        }, DragLeaveEvent.getType());
+		{
+			@Override
+			public void onDragLeave(DragLeaveEvent event)
+			{
+				allToolsPanel.removeStyleName("toolBarDropping");
+			}
+		}, DragLeaveEvent.getType());
 
-		
+
 		main.add(usedToolsPanel);
 		main.add(allToolsPanel);
 		setContentWidget(main);
@@ -210,10 +299,10 @@ implements CustomizeToolbarListener {
 			usedTools.remove(usedTools.indexOf(mode));
 			allToolsPanel.add(new DraggableTool(mode, allToolsRoot));
 		}
-		
-	
+
+
 	}
-	
+
 	public void update(int id) {
 		updateUsedTools(id);
 		updateAllTools();
@@ -273,73 +362,34 @@ implements CustomizeToolbarListener {
 			usedTools = new Vector<Integer>();
 		}
 		usedTools.clear();
-		
+
 		// get default toolbar as nested vectors
 		Vector<ToolbarItem> defTools = null;
-		
+
 		defTools = ToolBar.parseToolbarString(toolbarDefinition);
 		for (int i = 0; i < defTools.size(); i++) {
 			ToolbarItem element = defTools.get(i);
 			Integer m = element.getMode();
-		
 			if (element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
 				final DraggableTool tool = new DraggableTool(menu.get(0), null);
-				final TreeItem current = toolTree.addItem(tool);
-				tool.treeItem = current;
-				tool.addDomHandler(new DropHandler()
-		        {
-		            @Override
-		            public void onDrop(DropEvent event)
-		            {
-		            	App.debug("Drop on branch item!");
-		                event.preventDefault();
-		                if (dragging != null)
-		                {
-		                	App.debug("Drop " + dragging.getTitle());
-		                	TreeItem parent = dragging.parent;
-		                	
-		                	allTools.remove(allTools.indexOf(dragging.mode));
-	                		allToolsPanel.remove(dragging);
-	                		DraggableTool dropped = new DraggableTool(dragging.mode, current);
-	                		dropped.treeItem = current.addItem(dropped);
-	                		dragging = null;
-       		            	tool.removeStyleName("toolBarDropping");
-		                }
-		            }
-		        }, DropEvent.getType());
-		
-				tool.addDomHandler(new DragOverHandler()
-		        {
-		            @Override
-		            public void onDragOver(DragOverEvent event)
-		            {
-		            	tool.addStyleName("toolBarDropping");
-		            }
-		        }, DragOverEvent.getType());
 
-				tool.addDomHandler(new DragLeaveHandler()
-		        {
-		            @Override
-		            public void onDragLeave(DragLeaveEvent event)
-		            {
-		            	tool.removeStyleName("toolBarDropping");
-		            }
-		        }, DragLeaveEvent.getType());
-				
+				TreeItem branch = toolTree.addBranchItem(tool);
+
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
 					int mode = modeInt.intValue();
 					if (mode != -1)
 						usedTools.add(modeInt);
-						DraggableTool leaf = new DraggableTool(modeInt, current);
-						TreeItem t = current.addItem(leaf);
-						leaf.treeItem = t;
-						tool.addChild(modeInt);
-					}
+					DraggableTool leaf = new DraggableTool(modeInt, branch);
+					TreeItem t = toolTree.addLeafItem(branch, leaf);
+					leaf.treeItem = t;
+					tool.addChild(modeInt);
+				}
 			}
 		}
 	}
-
 }
+
+
 
