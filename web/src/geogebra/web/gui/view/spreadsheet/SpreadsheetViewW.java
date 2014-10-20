@@ -1520,11 +1520,10 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 		getFocusPanel().setHeight(height + "px");
 
 		if(table != null){
-		table.setSize(width, height);
-		table.setRenderFirstTime();
-		table.repaintAll();
+			table.setSize(width, height);
+			table.setRenderFirstTime();
+			table.repaintAll();
 		}
-
 	}
 
 	public int getHorizontalScrollPosition() {
