@@ -127,6 +127,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	boolean showOnScreenKeyBoard = false;
 	private OnScreenKeyBoard keyboard;
+	private int actualFontSize = 14;
 
 	/**
 	 * Constructs a new AutoCompleteTextField that uses the dictionary of the
@@ -173,6 +174,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		if (columns > 0) {
 			setColumns(columns);
 		}
+
 		//setVerticalAlignment(ALIGN_MIDDLE);
 		addStyleName("AutoCompleteTextFieldW");
 
@@ -459,7 +461,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public void setFont(GFont font) {
+		actualFontSize = font.getSize();
 		textField.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
+		setColumns(this.columns);
 	}
 
 	public void setForeground(GColor color) {
@@ -496,31 +500,33 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			prepareShowSymbolButton(true);
 		}
 
-		// reverting the alternative way temporarily, to see
-		// which one is better - it should look the same in Desktop and Web!
-		// See ticket #4426...
-		/*InputElement inpel = getTextBox().getElement().cast();
-
-		// Note that the HTML input size="col" makes room for col+2
-		// characters in the visible area of the input (almost),
-		// this is pretty cross-browser (Firefox, Chrome, IE),
-		// but col+1 characters have room always. This is the same
-		// behaviour like the Desktop version, which also col+1.
-		// so, we need to subtract 1 from the columns to behave the
-		// same way as the Desktop version.
-		if (columns > 1) {
-			inpel.setSize(columns-1);
-		} else {
-			// as inpel.setSize(0) would have no effect, so it would
-			// be very much unlike the Desktop version
-			inpel.setSize(1);
+		int columnWidth = 11;
+		switch (actualFontSize) {
+		case 7: columnWidth = 6; break;
+		case 9: columnWidth = 8; break;
+		case 14: columnWidth = 11; break;
+		case 18: columnWidth = 15; break;//18:15:educated guess
+		case 19: columnWidth = 16; break;
+		case 28: columnWidth = 24; break;
+		case 56: columnWidth = 47; break;
+		case 112: columnWidth = 95; break;
+		//more precise for FitLine+FitLineX, but unreal
+		//default: columnWidth = (int) Math.floor(0.83265 * actualFontSize + 0.4615); break;
+		//default: columnWidth = (int) Math.round(0.832 * actualFontSize); break;
+		// 20 length * 18 fontSize * 0.002 difference gives just less than 1 pixel anyway
+		default: columnWidth = (int) Math.round(0.83 * actualFontSize); break;
 		}
 
-		// I've found a GGB file with an error if I do not use this
-		getTextBox().setWidth("auto");*/
+		// this is a way to emulate how Java does it in Desktop version,
+		// but columnWidth is not always exact (+-1)
+		getTextBox().setWidth((columns * columnWidth) + "px");
 
-		getTextBox().setWidth(columns + "em");
-		//super.setWidth(length + "em");
+		// however, 2 things has still to be adjusted:
+		// - due to margins inside textfield, some adjustments needed (lessen margins inside)
+		// - due to Greek letters popup, length should be lessened somewhere else
+
+		// as the following solution was wrong, since em means vertical height:
+		//getTextBox().setWidth(columns + "em");
 	}
 
 	public String getCurrentWord() {
