@@ -192,7 +192,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	 * Handles button clicks for dialog.
 	 */	
     public void onClick(ClickEvent e) {
-    	showError(null);
 		actionPerformed(e);
 	}
 	
@@ -243,7 +242,6 @@ public class InputDialogW extends InputDialog implements ClickHandler,
     public void onKeyUp(KeyUpEvent event) {
 		//enter press
 		if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-			showError(null);
 			actionPerformed(event);
 			return;
 		}
@@ -253,10 +251,10 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 
 	@Override
     public void showError(String msg) {
-		errorPanel.clear();
 		if(msg == null){
 			return;
 		}
+		errorPanel.clear();
 		String[] lines = msg.split("\n");
 		for (String item : lines) {
 			errorPanel.add(new Label(item));
