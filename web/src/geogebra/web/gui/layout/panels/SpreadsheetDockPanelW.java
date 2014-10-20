@@ -1,6 +1,5 @@
 package geogebra.web.gui.layout.panels;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
@@ -107,12 +106,9 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_ONEVARSTATS);
 		sb.append(" , ");
 		sb.append(EuclidianConstants.MODE_SPREADSHEET_TWOVARSTATS);
+		sb.append(" , ");
+		sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
 
-		if (GeoGebraConstants.IS_PRE_RELEASE) {				
-			sb.append(" , ");
-			sb.append(EuclidianConstants.MODE_SPREADSHEET_MULTIVARSTATS);
-			//sb.append(" , ");
-		}
 		sb.append(" || ");
 		sb.append(EuclidianConstants.MODE_PROBABILITY_CALCULATOR);
 
