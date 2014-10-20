@@ -363,7 +363,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if (app == null || !app.getUseFullGui()){
+		/*if (app == null || !app.getUseFullGui()){
 			return;
 		}
 		final int eventType = DOM.eventGetType(event);
@@ -414,7 +414,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 				DOM.releaseCapture(getElement());
 			}
 			break;
-		}
+		}*/
 	}
 
 	/**
