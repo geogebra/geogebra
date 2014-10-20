@@ -4124,6 +4124,8 @@ PROVIDERS
 	padding-bottom: 5px;
 }
 
+
+
 /** default style of material **/
 .materialListElement.default {
 	cursor: pointer;
@@ -4215,6 +4217,12 @@ PROVIDERS
 
 .materialListElement.selected .infoPanel.detailed .confirmDelete {
 	margin-top: 5px;
+}
+
+.materialListElement.selected .infoPanel.detailed .confirmDelete .button {
+	text-align: center;
+	width: 80%;
+	margin-bottom: 5px;
 }
 
 .materialListElement .cancelButton {
@@ -4541,16 +4549,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	overflow-y: visible;
 }
 
-/* ########################################
-   ###          PHONE & TABLET          ###
-   ######################################## */
-.infoPanel .confirmDelete .button {
-	margin-left: 1px;
-}
 
-/* ########################################
-   ###       END OF PHONE & TABLET      ###
-   ######################################## */
 /* ########################################
    ###        DATA ANALYSIS VIEW        ###
    ######################################## */
