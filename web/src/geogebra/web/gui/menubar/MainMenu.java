@@ -1,6 +1,10 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.events.LogOutEvent;
+import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -10,6 +14,7 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -22,7 +27,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class MainMenu extends FlowPanel implements MainMenuI {
+public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 	
 	/**
 	 * Appw app
@@ -42,6 +47,7 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 	private EditMenuW editMenu;
 	private PerspectivesMenuW perspectivesMenu;
 	private GMenuBar[] menus;
+	private GMenuBar userMenu;
 
 	/**
 	 * Constructs the menubar
@@ -56,6 +62,7 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 	}
 
 	private void init() {
+		this.app.getLoginOperation().getView().add(this);
 		this.createFileMenu();
 		this.createPerspectivesMenu();
 		this.createEditMenu();
@@ -63,6 +70,7 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		this.createOptionsMenu();
 		this.createToolsMenu();
 		this.createHelpMenu();
+		this.createUserMenu();
 		this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
 		for(int i=0; i<menus.length; i++){
 			final int next = (i+1)%menus.length;
@@ -110,21 +118,31 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
 		if (GeoGebraConstants.IS_PRE_RELEASE == true) {
-				this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+			this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
-		
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
-		
+		if (app.getLoginOperation().isLoggedIn()) {
+			this.menuPanel.add(userMenu, "<span>" + app.getLoginOperation().getUserName() + "</span>", true);
+		}
 	    this.add(menuPanel);	    
 	}
 	
+
+	private void createUserMenu() {
+	    this.userMenu = new GMenuBar(true);	
+	    this.userMenu.addStyleName("GeoGebraMenuBar");
+	    this.userMenu.addItem("<span>" + app.getMenu("SignOut") + "</span>", true, new Command() {
+
+			public void execute() {
+				app.getLoginOperation().performLogOut();
+			}
+		});
+    }
 
 	private String setHTML(ImageResource img, String s){
 		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
 		return  "<img src=\""+img.getSafeUri().asString()+"\" /><span>" + app.getMenu(s) + "</span>";
 	}
-	
-	
 	
 	private void createFileMenu() {
 		fileMenu = new FileMenuW(app, null);
@@ -217,4 +235,14 @@ public class MainMenu extends FlowPanel implements MainMenuI {
 		this.setHeight(height + "px");
     }
 
+	@Override
+	public void renderEvent(final BaseEvent event) {
+		if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
+			this.menuPanel.add(userMenu, "<span>" + app.getLoginOperation().getUserName() + "</span>", true);
+			this.userMenu.setVisible(false);
+		} else if (event instanceof LogOutEvent) {
+			this.menuPanel.remove(this.userMenu);
+		}
+	}
+	
 }
