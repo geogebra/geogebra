@@ -88,7 +88,7 @@ public class DrawCurve3D extends Drawable3DCurves {
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
-			setWaitForUpdate();
+			updateForItSelf();
 		}
 	}
 
