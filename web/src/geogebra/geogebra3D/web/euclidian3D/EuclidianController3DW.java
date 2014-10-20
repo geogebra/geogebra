@@ -1,5 +1,6 @@
 package geogebra.geogebra3D.web.euclidian3D;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -308,6 +309,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private LongTouchTimer longTouchTimer;
 	
 	private void scheduleLongTouchTimer(int x, int y) {
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			return;
+		}
 		if (longTouchTimer == null) {
 			longTouchTimer = createLongTouchTimer();
 		}

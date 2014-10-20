@@ -400,6 +400,9 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private LongTouchTimer longTouchTimer;
 	
 	private void scheduleLongTouchTimer(int x, int y) {
+		if (mode != EuclidianConstants.MODE_MOVE) {
+			return;
+		}
 		if (longTouchTimer == null) {
 			longTouchTimer = createLongTouchTimer();
 		}
