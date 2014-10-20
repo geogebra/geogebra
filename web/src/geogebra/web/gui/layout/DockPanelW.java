@@ -737,6 +737,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		if((!app.isApplet() || app.getArticleElement().getDataParamShowMenuBar(false))){
 			dockPanel.setWidgetSize(titleBarPanel, value ? 44 : 0);
 			titleBarPanel.setStyleName("TitleBarPanel-open", value);
+			deferredOnResize();
 		}
 	}
 
