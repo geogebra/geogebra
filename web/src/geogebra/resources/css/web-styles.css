@@ -3256,34 +3256,30 @@ body.application[dir=rtl] .imageCorner {
 	position: relative;
 }
 
-.AutoCompleteTextFieldW .TextField,
-.GeoGebraFrame .AutoCompleteTextFieldW input[type="text"].TextField {
+.AutoCompleteTextFieldW .TextField {
 	display: inline-block;
 	box-sizing: border-box;
 	-moz-box-sizing: border-box;
+	padding-left: 5px;
+	padding-right: 5px;
+	/*width: 100% !important;*/
+}
+
+.GeoGebraFrame .AutoCompleteTextFieldW.FromDrawTextFieldNew input[type="text"].TextField {
 	padding-left: 2px;
 	padding-right: 2px;
-	/*width: 100% !important;*/
 }
 
 .AutoCompleteTextFieldW.FromDrawTextField .TextField {
 	margin: 0px;
 }
 
-.AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
-	padding-right: 40px;
-}
-body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
-	padding-right: 0px;
-	padding-left: 40px;
-}
-
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
-.GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown input[type="text"].TextField {
+.GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
 	padding-right: 40px;
 }
 body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
-body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown input[type="text"].TextField {
+body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
 	padding-right: 0px;
 	padding-left: 40px;
 }

@@ -142,6 +142,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	public AutoCompleteTextFieldW(int columns, App app, Drawable drawTextField) {
 		this(columns, app);
 		this.drawTextField = (DrawTextField) drawTextField;
+		addStyleName("FromDrawTextFieldNew");
 	}
 
 	public AutoCompleteTextFieldW(int columns, AppW app,
