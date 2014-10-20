@@ -3278,6 +3278,16 @@ body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField {
 	padding-left: 40px;
 }
 
+.AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
+.GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown input[type="text"].TextField {
+	padding-right: 40px;
+}
+body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
+body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown input[type="text"].TextField {
+	padding-right: 0px;
+	padding-left: 40px;
+}
+
 .SymbolToggleButton {
 	width: 20px;
 	height: 20px;
