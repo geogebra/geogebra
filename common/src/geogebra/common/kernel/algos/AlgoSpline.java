@@ -151,12 +151,12 @@ public class AlgoSpline extends AlgoElement  {
 		int i = 0;
 		for (; i < floatPoints.length - 1; i++) {
 			GeoPoint p = (GeoPoint) this.inputList.get(i);
-			floatPoints[i][0] = (float) p.getX();
-			floatPoints[i][1] = (float) p.getY();
+			floatPoints[i][0] = (float) p.getInhomX();
+			floatPoints[i][1] = (float) p.getInhomY();
 		}
 
-		floatPoints[i][0] = (float) ((GeoPoint) this.inputList.get(i)).getX();
-		floatPoints[i][1] = (float) ((GeoPoint) this.inputList.get(i)).getY();
+		floatPoints[i][0] = (float) ((GeoPoint) this.inputList.get(i)).getInhomX();
+		floatPoints[i][1] = (float) ((GeoPoint) this.inputList.get(i)).getInhomY();
 
 		parametersX = getSystemSolution(getLinearSystemParametric(0));
 		parametersY = getSystemSolution(getLinearSystemParametric(1));
