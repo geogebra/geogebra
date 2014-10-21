@@ -1,6 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.gui.CustomizeToolbarModel;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.main.App;
@@ -15,6 +16,8 @@ import geogebra.web.gui.toolbar.ToolBarW;
 import java.util.Vector;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
@@ -24,6 +27,7 @@ import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -32,18 +36,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public class CustomizeToolbarGUI extends MyHeaderPanel
-implements CustomizeToolbarListener {
-
-	private AppW app;
-	private CustomizeToolbarHeaderPanel header;
-	private ScrollPanel usedToolsPanel;
-	private FlowPanel allToolsPanel;
-	private Vector<Integer> usedTools;
-	private Vector<Integer> allTools;
-	private ToolTree toolTree;
-	private static DraggableTool dragging = null;
-	private static TreeItem allToolsRoot = new TreeItem();
-
+implements CustomizeToolbarListener, SetLabels {
 	private class ToolTreeResources implements Tree.Resources {
 
 		public ToolTreeResources() {
@@ -72,7 +65,7 @@ implements CustomizeToolbarListener {
 
 		public String getToolbarString() {
 			// TODO: implement
-			return null;
+			return "Howdy!";
 		}
 
 		public TreeItem addBranchItem(final DraggableTool tool) {
@@ -218,26 +211,58 @@ implements CustomizeToolbarListener {
 		}
 	}
 
+	private AppW app;
+	private CustomizeToolbarHeaderPanel header;
+	private Label lblAllTools, lblUsedTools;
+	private ScrollPanel usedToolsPanel;
+	private FlowPanel allToolsPanel;
+	private Vector<Integer> usedTools;
+	private Vector<Integer> allTools;
+	private ToolTree toolTree;
+	private static DraggableTool dragging = null;
+	private static TreeItem allToolsRoot = new TreeItem();
+	private Button btDefalutToolbar;
+	private Button btApply;
 
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
 		addHeader();
 		addContent();
+		addFooter();
+		update(-1);
 	}
 
 	private void addContent() {
 		FlowPanel main = new FlowPanel();
 
+		FlowPanel left = new FlowPanel();
+		left.setStyleName("usedToolsPanel");
+		
+		lblUsedTools = new Label(app.getMenu("Toolbar"));
+		lblUsedTools.setStyleName("panelTitle");
+		
 		usedToolsPanel = new ScrollPanel();
 		usedToolsPanel.setStyleName("usedToolsPanel");
+		
+		
 		toolTree = new ToolTree(new ToolTreeResources());
-
-
 		usedToolsPanel.add(toolTree);
 
+		left.add(lblUsedTools);
+		left.add(usedToolsPanel);
+		
 		allToolsPanel = new FlowPanel();
-		allToolsPanel.setStyleName("allToolsPanel");
 
+		lblAllTools = new Label(app.getMenu("Tools"));
+		lblAllTools.setStyleName("panelTitle");
+		
+		FlowPanel right = new FlowPanel();
+		right.setStyleName("allToolsPanel");
+		
+		right.add(lblAllTools);
+		right.add(allToolsPanel);
+	
+		
 		allToolsPanel.addDomHandler(new DropHandler()
 		{
 			@Override
@@ -287,13 +312,42 @@ implements CustomizeToolbarListener {
 			}
 		}, DragLeaveEvent.getType());
 
-
-		main.add(usedToolsPanel);
-		main.add(allToolsPanel);
+		
+		main.add(left);
+		main.add(right);
 		setContentWidget(main);
-		update(-1);
+		
 	}
 
+	private void addFooter() {
+		btDefalutToolbar = new Button();
+		
+		btDefalutToolbar.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				App.debug("[Customize] reset");
+					
+			}
+		});
+				
+		btApply = new Button();
+
+		btApply.addClickHandler(new ClickHandler() {
+			
+			public void onClick(ClickEvent event) {
+				App.debug("[Customize] " + toolTree.getToolbarString());
+			}
+		});
+		
+		
+		FlowPanel btPanel = new FlowPanel();
+		btPanel.setStyleName("DialogButtonPanel");
+
+		btPanel.add(btDefalutToolbar);
+		btPanel.add(btApply);
+		setFooterWidget(btPanel);
+	}
+	
 	private void usedToolToAll(int mode) {
 		if (mode != ToolBar.SEPARATOR && usedTools.contains(mode)) {
 			usedTools.remove(usedTools.indexOf(mode));
@@ -306,6 +360,7 @@ implements CustomizeToolbarListener {
 	public void update(int id) {
 		updateUsedTools(id);
 		updateAllTools();
+		setLabels();
 	}
 
 	private void updateUsedTools(int id) {
@@ -350,10 +405,16 @@ implements CustomizeToolbarListener {
 
 	}
 
+	@Override
 	public void setLabels() {
 		if (header != null) {
 			header.setLabels();
 		}
+		
+		lblUsedTools.setText(app.getMenu("Toolbar"));
+		lblAllTools.setText(app.getMenu("Tools"));
+		btDefalutToolbar.setText(app.getMenu("Toolbar.ResetDefault"));
+		btApply.setText(app.getPlain("Apply"));
 	}
 
 	public void buildUsedTools(String toolbarDefinition) {
@@ -389,6 +450,7 @@ implements CustomizeToolbarListener {
 			}
 		}
 	}
+	
 }
 
 

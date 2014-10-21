@@ -4746,14 +4746,23 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  .usedToolsPanel {
  	float: left;
 	overflow-y: scroll;
+ 	width: 45%;
  	height: 900px;
  }
+
  
  .allToolsPanel {
  	float: right;
 	overflow-y: scroll;
+	width: 45%;
  	height: 900px;
  }
+
+.usedToolsPanel:first-child,
+.allToolsPanel:first-child {
+	overflow-y: hidden;
+}
+
  
  .toolBarDropping { 
  	border: 1px solid;
