@@ -77,18 +77,6 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	
 	
 
-
-/* Introducing the GL2ES2 demo
- *
- * How to render a triangle using ~500 lines of code using the RAW
- * OpenGL ES 2 API.
- * The Programmable pipeline in OpenGL ES 2 are both fast and flexible
- * yet it do take some extra lines of code to setup.
- *
- */
-    private double t0 = System.currentTimeMillis();
-    private double theta;
-    private double s;
     
 
     private int shaderProgram;
@@ -115,12 +103,11 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     final static private int TEXTURE_TYPE_DASH = 4;
        
 
-    int[] vboHandles;
+    private int[] vboHandles;
     private int vboVertices, vboColors, vboNormals, vboTextureCoords;
     
-    static final private float[] PER_VERTEX_COLOR = {-1,0,1,1};
-    
-    private String readTxt(String file) throws IOException{
+     
+    static private String readTxt(String file) throws IOException{
     	BufferedReader br = new BufferedReader(new FileReader("geogebra3D/euclidian3D/opengl/shaders/"+file+".txt"));
     	StringBuilder sb = new StringBuilder();     
         try {
