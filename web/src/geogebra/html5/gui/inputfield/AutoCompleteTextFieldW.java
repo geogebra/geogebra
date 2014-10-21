@@ -464,7 +464,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	public void setFont(GFont font) {
 		actualFontSize = font.getSize();
 		textField.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
-		showSymbolButton.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
+
+		if (showSymbolButton != null)
+			showSymbolButton.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
+
 		setColumns(this.columns);
 	}
 
