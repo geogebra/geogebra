@@ -400,7 +400,10 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 
 	/** Respond to changes in mode sent by GUI manager */
 	public void setMode(int mode,ModeSetter m) {
-
+		if(m != geogebra.common.kernel.ModeSetter.TOOLBAR){
+			return;
+		}
+		
 		this.mode = mode;
 /*TODO
 		if (isTraceDialogVisible()) {

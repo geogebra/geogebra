@@ -1,6 +1,7 @@
 package geogebra.web.gui.toolbar;
 
 import geogebra.common.gui.GuiManager.Help;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
@@ -278,7 +279,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
-		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")));
+		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")), event.getSource() == tbutton ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
 		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 
 		tbutton.getElement().focus();
