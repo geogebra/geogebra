@@ -5408,9 +5408,15 @@ public abstract class EuclidianController {
 		default:
 			// do nothing
 		}
+
 	
+		return endOfSwitchModeForProcessMode(ret, changedKernel, callback);
+	}
+	
+	
+	final protected boolean endOfSwitchModeForProcessMode(GeoElement[] ret, boolean changedKernel, AsyncOperation callback){
 		memorizeJustCreatedGeosAfterProcessMode(ret);
-	
+		
 		if (callback != null) callback.callback(changedKernel || (ret!=null));
 		
 		if (!changedKernel) {

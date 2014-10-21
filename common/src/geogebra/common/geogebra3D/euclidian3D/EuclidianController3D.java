@@ -1807,13 +1807,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					callback);
 		}
 
-		memorizeJustCreatedGeosAfterProcessMode(ret);
-
-		if (!changedKernel) {
-			return ret != null;
-		}
-
-		return changedKernel;
+		return endOfSwitchModeForProcessMode(ret, changedKernel, callback);
 
 	}
 
