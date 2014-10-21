@@ -1142,7 +1142,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	}
 
-	private void handleOptionArgsEarly(CommandLineArguments args) {
+	protected void handleOptionArgsEarly(CommandLineArguments args) {
 		if (args == null) {
 			return;
 		}

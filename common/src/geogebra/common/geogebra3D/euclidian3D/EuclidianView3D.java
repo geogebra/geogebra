@@ -110,10 +110,7 @@ import java.util.TreeSet;
 public abstract class EuclidianView3D extends EuclidianView implements
 		EuclidianView3DInterface {
 	
-	/**
-	 * says if we're using shaders (TODO : remove this)
-	 */
-	public static boolean USE_SHADERS = false;
+	
 
 	// private Kernel kernel;
 	private Kernel3D kernel3D;

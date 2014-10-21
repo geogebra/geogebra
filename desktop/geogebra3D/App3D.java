@@ -449,5 +449,25 @@ public class App3D extends AppD {
 	protected AppCompanion newAppCompanion() {
 		return new App3DCompanionD(this);
 	}
+	
+	@Override
+	protected void handleOptionArgsEarly(CommandLineArguments args) {
+		super.handleOptionArgsEarly(args);
+		
+		if (args != null && args.containsArg("testShaders")){
+			useShaders = true;
+		}
+	}
+	
+	private boolean useShaders = false;
+	
+	/**
+	 * 
+	 * @return true if we want to use shaders
+	 */
+	public boolean useShaders(){
+		return useShaders;
+	}
+	
 
 }

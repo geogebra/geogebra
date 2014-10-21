@@ -98,7 +98,8 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
-		if (USE_SHADERS) {
+		
+		if (((App3D) app).useShaders()) {
 			return new RendererShaders(this, !app.isApplet());
 		}
 		return new RendererGL2(this, !app.isApplet());
