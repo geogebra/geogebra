@@ -53,9 +53,8 @@ precision mediump int;    // GLSL ES section 4.5.2
 
 
 //in -- uniform
-uniform mat4    modelview ;  // Incomming data used by the vertex shader (uniform and attributes)
-uniform mat4    projection;  
-//uniform mat3	normalMatrix; // no need since light position is model view system based
+uniform mat4    matrix ;  
+//uniform mat3	normalMatrix; 
 uniform vec3	lightPosition;
 uniform vec4	eyePosition;
 uniform vec2	ambiantDiffuse;
@@ -91,7 +90,7 @@ void main(void)
   }else{
   	position = attribute_Position;
   }
-  gl_Position = projection * modelview * vec4(position, 1.0); 
+  gl_Position = matrix * vec4(position, 1.0); 
   
   if (labelRendering == 1){ // use special origin for labels
       realWorldCoords = labelOrigin;
