@@ -1824,7 +1824,6 @@ public class AlgebraProcessor {
 	 * @throws MyError e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
-		App.printStacktrace("");
 		if(equ.getLHS().unwrap() instanceof FunctionVariable && !equ.getRHS().containsFreeFunctionVariable()
 				&& !equ.getRHS().evaluate(StringTemplate.defaultTemplate).isNumberValue()){
 			equ.getRHS().setLabel(equ.getLHS().toString(StringTemplate.defaultTemplate));
@@ -2062,7 +2061,6 @@ public class AlgebraProcessor {
 			} 
 
 		}
-//		App.printStacktrace(message);
 		ExpressionValue eval; // ggb3D : used by AlgebraProcessor3D in
 		// extended processExpressionNode
 
