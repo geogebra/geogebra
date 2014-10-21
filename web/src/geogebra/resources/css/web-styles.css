@@ -3293,13 +3293,13 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 
 .AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
-	right: 10px;
+	right: 0.6em;
 	top: 50%;
 	margin-top: -0.66em;
 }
 body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	right: auto;
-	left: 10px;
+	left: 0.6em;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,
