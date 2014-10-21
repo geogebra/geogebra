@@ -1,6 +1,7 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -79,11 +80,10 @@ public interface Inspecting {
 			case 2:
 				if (v instanceof GeoDummyVariable) {
 					GeoDummyVariable gdv = (GeoDummyVariable) v;
-					if (!gdv.toString(StringTemplate.defaultTemplate).equals(
+					String varString = gdv.toString(StringTemplate.defaultTemplate);
+					if (!varString.equals(
 							"x")
-							&& !gdv.toString(StringTemplate.defaultTemplate)
-									.equals("y") && (dim < 3 || !gdv.toString(StringTemplate.defaultTemplate)
-									.equals("z"))) {
+							&& !varString.equals("y") && (dim < 3 || !varString.equals("z"))) {
 						return true;
 					}
 				}
@@ -132,6 +132,11 @@ public interface Inspecting {
 				type = 1;
 				return false;
 			} else if (v instanceof Equation) {
+				ExpressionValue ev = ((Equation)v).getRHS().unwrap();
+				//TODO needs to have evaluatesTo..., also check for complex
+				if(ev instanceof VectorValue || ev instanceof Vector3DValue){ 
+					return true;
+				}
 				type = 2;
 				return false;
 			} else if (v instanceof Function) {

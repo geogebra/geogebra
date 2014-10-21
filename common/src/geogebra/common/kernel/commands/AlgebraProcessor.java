@@ -1824,6 +1824,16 @@ public class AlgebraProcessor {
 	 * @throws MyError e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
+		App.printStacktrace("");
+		if(equ.getLHS().unwrap() instanceof FunctionVariable && !equ.getRHS().containsFreeFunctionVariable()
+				&& !equ.getRHS().evaluate(StringTemplate.defaultTemplate).isNumberValue()){
+			equ.getRHS().setLabel(equ.getLHS().toString(StringTemplate.defaultTemplate));
+			try {
+				return processValidExpression(equ.getRHS());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		return processEquation(equ, kernel.getConstruction().isFileLoading());
 	}
 
