@@ -64,12 +64,41 @@ implements CustomizeToolbarListener, SetLabels {
 		}
 
 		public String getToolbarString() {
-			// TODO: implement
-			return "Howdy!";
+			StringBuilder sb = new StringBuilder();
+			for (int i =0; i < getItemCount(); i++) {
+				TreeItem branch = getItem(i);
+				DraggableTool branchTool = (DraggableTool)(branch.getUserObject());
+            	
+				int childCount = branch.getChildCount();
+      			if (childCount == 0) { // new menu with separator
+					sb.append("|| ");
+				} else 
+					
+				if (i > 0 && !sb.toString().endsWith("|| ")) {
+					sb.append("| ");
+				}
+				
+				
+            	for (int j=0; j < childCount; j++) {
+					TreeItem ti = branch.getChild(j);
+					DraggableTool tool = (DraggableTool)(ti.getUserObject());
+	            	int mode = tool.mode == null ? -1: tool.mode;
+					if (mode < 0) {
+	            		sb.append(", "); // separator
+	            	} else { // mode number
+						sb.append(mode);
+						sb.append(" ");
+					}
+	            }
+		            
+		        }
+			return sb.toString().trim();
 		}
 
 		public TreeItem addBranchItem(final DraggableTool tool) {
-			final TreeItem current = toolTree.addItem(tool);
+			final TreeItem item = toolTree.addItem(tool);
+			item.setUserObject(tool);
+			
 			tool.addDomHandler(new DropHandler()
 			{
 				@Override
@@ -80,12 +109,12 @@ implements CustomizeToolbarListener, SetLabels {
 					if (dragging != null)
 					{
 						App.debug("Drop " + dragging.getTitle());
-						TreeItem parent = dragging.parent;
-
+		
 						allTools.remove(allTools.indexOf(dragging.mode));
 						allToolsPanel.remove(dragging);
-						DraggableTool dropped = new DraggableTool(dragging.mode, current);
-						dropped.treeItem = current.addItem(dropped);
+						DraggableTool dropped = new DraggableTool(dragging.mode, item);
+						dropped.treeItem = item.addItem(dropped);
+						item.setUserObject(dropped);
 						dragging = null;
 						tool.removeStyleName("toolBarDropping");
 					}
@@ -110,13 +139,16 @@ implements CustomizeToolbarListener, SetLabels {
 				}
 			}, DragLeaveEvent.getType());
 
-			return current;
+			return item;
 		}
 
-		public TreeItem addLeafItem(final TreeItem branch, final DraggableTool leaf) {
-	        TreeItem item = branch.addItem(leaf);
+		public TreeItem addLeafItem(final TreeItem branch, final DraggableTool tool) {
+	        TreeItem item = branch.addItem(tool);
+	        item.setUserObject(tool);
 	        
-	        leaf.addDomHandler(new DropHandler()
+	        tool.treeItem = item;
+	        
+	        tool.addDomHandler(new DropHandler()
 			{
 				@Override
 				public void onDrop(DropEvent event)
@@ -125,34 +157,35 @@ implements CustomizeToolbarListener, SetLabels {
 					event.preventDefault();
 					if (dragging != null)
 					{
-						int idx = branch.getChildIndex(leaf.treeItem);
+						int idx = branch.getChildIndex(tool.treeItem);
 						
-						branch.insertItem(idx, dragging);
-						leaf.removeStyleName("leafDropping");
+						TreeItem ti = branch.insertItem(idx, dragging);
+						ti.setUserObject(tool);
+						tool.treeItem = ti;
+						tool.removeStyleName("leafDropping");
 								
 					}
 				}
 			}, DropEvent.getType());
 
-			leaf.addDomHandler(new DragOverHandler()
+			tool.addDomHandler(new DragOverHandler()
 			{
 				@Override
 				public void onDragOver(DragOverEvent event)
 				{
-					leaf.addStyleName("leafDropping");
+					tool.addStyleName("leafDropping");
 				}
 			}, DragOverEvent.getType());
 
-			leaf.addDomHandler(new DragLeaveHandler()
+			tool.addDomHandler(new DragLeaveHandler()
 			{
 				@Override
 				public void onDragLeave(DragLeaveEvent event)
 				{
-					leaf.removeStyleName("leafDropping");
+					tool.removeStyleName("leafDropping");
 				}
 			}, DragLeaveEvent.getType());
 
-		       
 	        return item;
         }
 	}
@@ -160,14 +193,10 @@ implements CustomizeToolbarListener, SetLabels {
 	private class DraggableTool extends FlowPanel {
 
 		private Integer mode;
-		private TreeItem parent;
 		private TreeItem treeItem;
-		private Vector<Integer> children;
 		public DraggableTool(Integer mode, TreeItem parent) {
 			this.mode = mode;
-			this.parent = parent;
 			treeItem = null; 
-			children = null;
 
 			FlowPanel btn = new FlowPanel();
 			addStyleName("customizableToolbarItem");
@@ -198,16 +227,8 @@ implements CustomizeToolbarListener, SetLabels {
 			}, DragStartEvent.getType());
 		}
 
-		public void addChild(Integer mode) {
-			if (children == null) {
-				children = new Vector<Integer>();
-			}
-
-			children.add(mode);
-		}
-
 		public boolean isLeaf() {
-			return children == null;
+			return treeItem.getChildCount() == 0;
 		}
 	}
 
@@ -223,13 +244,17 @@ implements CustomizeToolbarListener, SetLabels {
 	private static TreeItem allToolsRoot = new TreeItem();
 	private Button btDefalutToolbar;
 	private Button btApply;
+	private String oldToolbarString;
+	private DockPanelW dockPanel;
+	private int toolBarId;
 
 	public CustomizeToolbarGUI(AppW app) {
 		this.app = app;
 		addHeader();
 		addContent();
 		addFooter();
-		update(-1);
+		toolBarId = -1;
+		update();
 	}
 
 	private void addContent() {
@@ -280,9 +305,10 @@ implements CustomizeToolbarListener, SetLabels {
 						}
 					} else {
 
-						for (Integer mode: dragging.children) {
+						for (int i=0; i < dragging.treeItem.getChildCount(); i++) {
+							DraggableTool tool = (DraggableTool)(dragging.treeItem.getChild(i).getUserObject());
 							App.debug("Dropping branch");
-							usedToolToAll(mode);
+							usedToolToAll(tool.mode);
 						}
 
 						dragging.treeItem.remove();
@@ -326,7 +352,8 @@ implements CustomizeToolbarListener, SetLabels {
 			
 			public void onClick(ClickEvent event) {
 				App.debug("[Customize] reset");
-					
+				resetDefaultToolbar();
+				
 			}
 		});
 				
@@ -335,9 +362,10 @@ implements CustomizeToolbarListener, SetLabels {
 		btApply.addClickHandler(new ClickHandler() {
 			
 			public void onClick(ClickEvent event) {
-				App.debug("[Customize] " + toolTree.getToolbarString());
+				App.debug("[Customize] apply");
+				apply();
 			}
-		});
+			});
 		
 		
 		FlowPanel btPanel = new FlowPanel();
@@ -357,7 +385,12 @@ implements CustomizeToolbarListener, SetLabels {
 
 	}
 
+	public void update() {
+		update(toolBarId);
+	}
+	
 	public void update(int id) {
+		toolBarId = id;
 		updateUsedTools(id);
 		updateAllTools();
 		setLabels();
@@ -365,15 +398,16 @@ implements CustomizeToolbarListener, SetLabels {
 
 	private void updateUsedTools(int id) {
 
-		String toolbarDefinition = null;
+		oldToolbarString = null;
 		if (id == -1) {
-			toolbarDefinition = ((GuiManagerW)app.getGuiManager()).getToolbarDefinition(); 
+			oldToolbarString = ((GuiManagerW)app.getGuiManager()).getToolbarDefinition();
+			dockPanel = null;
 		} else  {
-			DockPanelW panel = ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanel(id);
-			toolbarDefinition = panel.getDefaultToolbarString();
+			dockPanel = ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanel(id);
+			oldToolbarString = dockPanel.getDefaultToolbarString();
 		}
 
-		buildUsedTools(toolbarDefinition);
+		buildUsedTools(oldToolbarString);
 		//		usedToolsPanel.clear();
 		//		
 		//		for (Integer mode: usedTools) {
@@ -442,16 +476,43 @@ implements CustomizeToolbarListener, SetLabels {
 					int mode = modeInt.intValue();
 					if (mode != -1)
 						usedTools.add(modeInt);
-					DraggableTool leaf = new DraggableTool(modeInt, branch);
-					TreeItem t = toolTree.addLeafItem(branch, leaf);
-					leaf.treeItem = t;
-					tool.addChild(modeInt);
-				}
+						toolTree.addLeafItem(branch, new DraggableTool(modeInt, branch));
+					}
 			}
 		}
 	}
 	
+	public void resetDefaultToolbar() {
+		
+		if (dockPanel != null) {
+			buildUsedTools(oldToolbarString);
+		} else {
+			((GuiManagerW)app.getGuiManager()).getToolbarDefinition();
+		}
+		
+		update();
+	}
+	
+	private void apply() {
+		String current = toolTree.getToolbarString();
+		
+//		App.debug("[CUSTOMIZE] original toolbar is: " + oldToolbarString);
+//		App.debug("[CUSTOMIZE] setting  toolbar to: " + current);
+//		App.debug("[CUSTOMIZE] equal? " + current.equals(oldToolbarString));
+		
+		if (dockPanel != null) {
+			dockPanel.setToolbarString(current);
+			dockPanel.updatePanel(true);
+		} else {
+			GuiManagerW gm = ((GuiManagerW)app.getGuiManager());
+			gm.setToolBarDefinition(current);
+			gm.updateToolbar();
+		}
+		
+		close();
+	}
 }
+
 
 
 
