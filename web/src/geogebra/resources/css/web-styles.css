@@ -4048,6 +4048,10 @@ PROVIDERS
 
 /* +++ BrowseGUI CONTENT +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++*/
 
+.browsegui {
+	background-color: white;
+}
+
 /* to avoid scrollbars on tablets and mac */
 .browsegui > div:nth-child(1), .browsegui > div:nth-child(1) > div,
 .languageGUI > div:nth-child(1), .languageGUI > div:nth-child(1) > div {
