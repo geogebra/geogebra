@@ -147,9 +147,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	 * panels are not allowing 100% width to work as we would like).
 	 */
 	public void setInputFieldWidth(int width) {
-		if (width < 100) {
-			inputPanel.setWidth("0px");
-		} else {
+		// if the size is too small, use default size
+		if (width > 100) {
 			inputPanel.setWidth((width - 100) + "px");
 		}
 	}
