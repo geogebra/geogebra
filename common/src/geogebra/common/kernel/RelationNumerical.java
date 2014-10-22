@@ -282,6 +282,13 @@ public class RelationNumerical {
 			str = parallelString((GeoLine) a, (GeoLine) b);
 			register(true, RelationCommand.AreParallel, str);
 		}
+
+		// Checking orthogonality:
+		bool = ((GeoLine) a).isPerpendicular((GeoLine) b);
+		if (bool) {
+			str = perpendicularString((GeoLine) a, (GeoLine) b, true);
+			register(true, RelationCommand.ArePerpendicular, str);
+		}
 		
 		return reports;
 	}
