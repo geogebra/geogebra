@@ -526,11 +526,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 		// this is a way to emulate how Java does it in Desktop version,
 		// but columnWidth is not always exact (+-1)
-		getTextBox().setWidth((columns * columnWidth) + "px");
-
-		// however, 2 things has still to be adjusted:
-		// - due to margins inside textfield, some adjustments needed (lessen margins inside)
-		// - due to Greek letters popup, length should be lessened somewhere else
+		getTextBox().setWidth((columns * columnWidth + 5) + "px");
+		// the number 5 comes from experimental testing for small textfields (e.g. columns=1)
+		// of course, this is not the most perfect, but at least works...
+		// due to Greek letters popup, length should be lessened somewhere else
 
 		// as the following solution was wrong, since em means vertical height:
 		//getTextBox().setWidth(columns + "em");
