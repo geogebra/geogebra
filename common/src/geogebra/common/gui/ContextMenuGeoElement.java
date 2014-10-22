@@ -213,7 +213,7 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
-	private ArrayList<GeoElement> checkOneGeo() {
+	public ArrayList<GeoElement> checkOneGeo() {
 		if (justOneGeo) {
 			ArrayList<GeoElement> ret = new ArrayList<GeoElement>();
 			ret.add(geo);
