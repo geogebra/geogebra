@@ -11,6 +11,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.arithmetic.AssignmentType;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -1425,7 +1426,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
 		arbconst.reset();
 		outputVE.traverse(repl);
+		setEquationMode();
+		
+		
 		GeoElement newTwinGeo = silentEvalInGeoGebra(outputVE,allowFunction);
+		
 		if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
 			newTwinGeo.setDrawAlgorithm((DrawInformationAlgo) ((GeoElement)outputVE.unwrap()).getDrawAlgorithm());
 		}
@@ -1436,6 +1441,20 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			if (newTwinGeo instanceof GeoNumeric) {
 				newTwinGeo.setLabelVisible(true);
+			}
+		}
+	}
+
+	private void setEquationMode() {
+		if(this.inputVE != null && this.inputVE.unwrap() instanceof Equation && this.inputVE.inspect(new Inspecting(){
+			
+			@Override
+			public boolean check(ExpressionValue v) {
+				return(v instanceof FunctionVariable || v instanceof GeoDummyVariable) && 
+						"z".equals(v.toString(StringTemplate.defaultTemplate));
+			}})){
+			if(outputVE.unwrap() instanceof Equation){
+				((Equation)outputVE.unwrap()).setForcePlane();
 			}
 		}
 	}
@@ -1548,7 +1567,6 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			ve.traverse(variableReplacer);
 		}
 		
-		App.debug("reeval");
 		boolean oldValue = kernel.isSilentMode();
 
 		kernel.setSilentMode(true);

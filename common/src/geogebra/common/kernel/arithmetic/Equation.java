@@ -371,7 +371,13 @@ public class Equation extends ValidExpression {
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
-		return new Equation(kernel1, lhs.getCopy(kernel1), rhs.getCopy(kernel1));
+		Equation ret = new Equation(kernel1, lhs.getCopy(kernel1), rhs.getCopy(kernel1));
+		ret.forceConic = forceConic;
+		ret.forceLine = forceLine;
+		ret.forcePlane = forcePlane;
+		ret.forceQuadric = forceQuadric;
+		ret.forceImplicitPoly = forceImplicitPoly;
+		return ret;
 	}
 
 	@Override
