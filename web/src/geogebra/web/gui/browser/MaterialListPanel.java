@@ -38,7 +38,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 	private MaterialCallback allMaterialsCB;
 	private MaterialCallback userMaterialsCB;
 	private MaterialCallback ggtMaterialsCB;
-	boolean ignoreScroll = false;
+	long lastScroll = 0;
+	private final long MIN_DIFFERNCE_TO_SCROLL = 1000;
 
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
@@ -61,10 +62,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			
 			@Override
 			public void onScroll(final ScrollEvent event) {
-				if (lastSelected != null && !ignoreScroll) {
+				if (lastSelected != null && System.currentTimeMillis() - lastScroll > MIN_DIFFERNCE_TO_SCROLL) {
 					setDefaultStyle(false);
 				}
-				ignoreScroll = false;
 			}
 		}, ScrollEvent.getType());
 		
@@ -353,10 +353,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 		int panelBottom = this.getAbsoluteTop() + this.getElement().getClientHeight();
 
 		if(panelBottom < elementBottom){
-			ignoreScroll = true;
+			lastScroll = System.currentTimeMillis();
 			this.getElement().setScrollTop(this.getElement().getScrollTop() + elementBottom - panelBottom);
 		} else if(content.getAbsoluteTop() < this.getAbsoluteTop()){
-			ignoreScroll = true;
+			lastScroll = System.currentTimeMillis();
 			this.getElement().setScrollTop(this.getElement().getScrollTop() + content.getAbsoluteTop() - this.getAbsoluteTop());
 		}
     }
