@@ -132,6 +132,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 		else
 			gp.reset();
 
+		if (length <= 0)
+			return false;
+
 		// first point
 		Coords v = getCoords(0);
 		if (!Kernel.isZero(v.getZ()))
