@@ -3,6 +3,7 @@ package geogebra.common.kernel;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
@@ -4991,6 +4992,18 @@ public class Kernel {
 			point.setCartesian();
 		}
 		point.update();
+	}
+
+	public boolean isParsingFor3D() {
+		if(getLoadingMode()){
+			return true;
+		}
+		EuclidianViewInterfaceCommon ev = getApplication().getActiveEuclidianView();
+		if(ev.isEuclidianView3D() || ev.isShowing()){
+			return ev.isEuclidianView3D();
+		}
+		return getApplication().showView(App.VIEW_EUCLIDIAN3D);
+		
 	}
 
 }

@@ -123,7 +123,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 		
 		//check if the equ is forced plane or if the 3D view has the focus
 		if (equ.isForcedPlane() ||
-				(!kernel.getLoadingMode() &&  kernel.getApplication().getActiveEuclidianView().isEuclidianView3D())){
+				kernel.isParsingFor3D()){
 			return processPlane(equ);
 		}
 		return super.processLine(equ);
