@@ -186,7 +186,6 @@ for i in `find -name '*.ggb' | sort`; do
    # But now it's OK, thanks to Markus and Simon in [17470].
    #RESULT=`cat $LOGFILE | grep "Statement is " | sed 's/\(.*\)Statement is \(.*\)/\2/'`
    TIME=`cat $LOGFILE | grep Benchmarking | awk '{print $5}'`
-   echo "$TIME" >> $MYDIR/tmp/rinput-$j
    if [ $DEBUG = 1 ]; then
     cp $REGRESSIONFILE $REGRESSIONFILE-$TEST-$j
     cp $LOGFILE $LOGFILE-$TEST-$j
@@ -207,6 +206,7 @@ for i in `find -name '*.ggb' | sort`; do
     CELLCOLOR="red!25"
     fi
   else
+   echo "$TIME" >> $MYDIR/tmp/rinput-$j
    VARNAME=$`echo $j`
    VALUE=`eval echo $VARNAME`
    eval $j=`expr $VALUE + 1`
