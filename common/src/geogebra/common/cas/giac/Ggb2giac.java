@@ -801,10 +801,10 @@ public class Ggb2giac {
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
 
 		p("LineBisector.2", "equation(perpen_bisector(%0,%1))");
-		p("AngularBisector.2", "[[B:=inter(%0,%1)],[cbx:=B[0][0]],[Ax1:=cbx-10],[eqa:=equation(%0)],[eqb:=equation(%1)],"
-				+ "[Ay1:=right(subst(eqa,x=Ax1))],[Ax2:=cbx+10],[Ay2:=right(subst(eqa, x=Ax2))],"
-				+ "[Cy:=right(subst(eqb, x=Ax1))],[C:=point(Ax1,Cy)],"
-				+ "[equation(bisector(B,point(Ax1,Ay1),C)),equation(bisector(B,point(Ax2,Ay2),C))]][10]");
+		p("AngularBisector.2", "[[B:=inter(%0,%1)],[eqa:=equation(%0)],[eqb:=equation(%1)],"
+				+"[uva:=convert([unitV(coeff(left(eqa)-right(eqa),y,1),-coeff(left(eqa)-right(eqa),x,1))],25)],"
+				+"[uvb:=convert([unitV(coeff(left(eqb)-right(eqb),y,1),-coeff(left(eqb)-right(eqb),x,1))],25)],"
+				+ "when(uva==uvb,[eqa],[equation(line(B[0],B[0]+uva+uvb)),equation(line(B[0],B[0]+uva-uvb))])][5]");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
 		// can it be plotted in GeoGebra? Do we want it to be plotted?
@@ -870,7 +870,9 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
-				"when(type(%0)==DOM_LIST,normalize(%0),when(%0[0]='pnt' && size(%0[1])==3,normal(unitV(%0)),convert(unitV([real(%0[1]),im(%0[1])]),25)))");
+				"[[ggin:=%0],[ggbans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='='," +
+				"convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25)," +
+				"when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbans][2]");
 		
 		return commandMap;
 	}
