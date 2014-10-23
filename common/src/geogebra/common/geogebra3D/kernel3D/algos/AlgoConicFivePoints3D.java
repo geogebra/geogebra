@@ -63,6 +63,7 @@ public class AlgoConicFivePoints3D extends AlgoConicFivePoints{
 		CoordSys cs = conic.getCoordSys();
 		
 		if (GeoPolygon3D.updateCoordSys(cs, inputP, P, tmpCoords)){		
+			conic.setDefined();
 			super.compute();
 		}else{
 			conic.setUndefined();
