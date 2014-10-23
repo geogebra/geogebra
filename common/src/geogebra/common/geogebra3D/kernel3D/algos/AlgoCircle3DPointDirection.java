@@ -87,6 +87,7 @@ public abstract class AlgoCircle3DPointDirection extends AlgoElement3D {
     	
     	if(setCoordSys()){		   	
     		//set the circle
+    		circle.setDefined();
     		circle.setSphereND(new Coords(0,0), getRadius());
     	}else{
     		circle.setUndefined();
