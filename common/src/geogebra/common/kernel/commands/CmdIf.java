@@ -140,6 +140,10 @@ public class CmdIf extends CommandProcessor {
 
 	private GeoFunction resolveFunction(Command c, int i, FunctionVariable fv) {
 		c.getArgument(i).resolveVariables();
+		//If we have a ready function rather than expression, just use it #4674 
+		if(c.getArgument(i).unwrap() instanceof GeoFunction){
+			return (GeoFunction) c.getArgument(i).unwrap();
+		}
 		return (GeoFunction) kernelA.getAlgebraProcessor().processFunction(
 				new Function(c.getArgument(i), fv))[0];
 	}
