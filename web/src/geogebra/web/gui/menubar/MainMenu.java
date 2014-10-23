@@ -10,11 +10,14 @@ import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -48,6 +51,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 	private PerspectivesMenuW perspectivesMenu;
 	private GMenuBar[] menus;
 	private GMenuBar userMenu;
+	private GMenuBar signInMenu = new GMenuBar(true);
 
 	/**
 	 * Constructs the menubar
@@ -105,10 +109,47 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		}
 		this.menuPanel = new StackPanel(){
 			@Override
-            public void showStack(int index) {
-		        super.showStack(index);
-		        app.getGuiManager().setDraggingViews(index == 3 || index == 2, false);
-		    }
+			public void showStack(int index) {
+				super.showStack(index);
+				app.getGuiManager().setDraggingViews(index == 3 || index == 2, false);
+			}
+
+			@Override
+			public void onBrowserEvent(Event event) {
+				
+				if (DOM.eventGetType(event) == Event.ONCLICK) {
+					Element target = DOM.eventGetTarget(event);
+					int index = findDividerIndex(target);
+					if (!app.getLoginOperation().isLoggedIn() && index == menuPanel.getWidgetCount()-1) {
+						app.getDialogManager().showLogInDialog();
+						return;
+					}
+					if (index != -1) {
+						showStack(index);
+					}
+				}
+				super.onBrowserEvent(event);
+			}
+			
+			  private int findDividerIndex(Element elem) {
+				    while (elem != null && elem != getElement()) {
+				      String expando = elem.getPropertyString("__index");
+				      if (expando != null) {
+				        // Make sure it belongs to me!
+				        int ownerHash = elem.getPropertyInt("__owner");
+				        if (ownerHash == hashCode()) {
+				          // Yes, it's mine.
+				          return Integer.parseInt(expando);
+				        } else {
+				          // It must belong to some nested StackPanel.
+				          return -1;
+				        }
+				      }
+				      elem = DOM.getParent(elem);
+				    }
+				    return -1;
+				  }
+
 		};
 		this.menuPanel.addStyleName("menuPanel");
 		
@@ -122,11 +163,12 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		}
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 		if (app.getLoginOperation().isLoggedIn()) {
-			this.menuPanel.add(userMenu, "<span>" + app.getLoginOperation().getUserName() + "</span>", true);
+			addUserMenu();
+		} else {
+			addSignInMenu();
 		}
 	    this.add(menuPanel);	    
 	}
-	
 
 	private void createUserMenu() {
 	    this.userMenu = new GMenuBar(true);	
@@ -238,11 +280,22 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 	@Override
 	public void renderEvent(final BaseEvent event) {
 		if (event instanceof LoginEvent && ((LoginEvent) event).isSuccessful()) {
-			this.menuPanel.add(userMenu, "<span>" + app.getLoginOperation().getUserName() + "</span>", true);
+			this.menuPanel.remove(this.signInMenu);
+			addUserMenu();
 			this.userMenu.setVisible(false);
 		} else if (event instanceof LogOutEvent) {
 			this.menuPanel.remove(this.userMenu);
+			addSignInMenu();
+			this.signInMenu.setVisible(false);
 		}
 	}
-	
+
+    private void addSignInMenu() {
+    	//TODO icon needed
+	    this.menuPanel.add(this.signInMenu, "<div>"+ app.getMenu("SignIn") +"</div>", true);
+    }
+
+    private void addUserMenu() {
+	    this.menuPanel.add(this.userMenu, "<span>" + app.getLoginOperation().getUserName() + "</span>", true);
+    }
 }
