@@ -17,6 +17,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.RendererShadersInterface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
+import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -58,7 +59,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
     private Timer loopTimer;
     
     // location values for shader fields
-    private WebGLUniformLocation modelviewLocation, projectionLocation; // matrices
+    private WebGLUniformLocation matrixLocation; // matrix
     private WebGLUniformLocation lightPositionLocation, ambiantDiffuseLocation, enableLightLocation; // light
     private WebGLUniformLocation eyePositionLocation; //eye position
     private WebGLUniformLocation cullingLocation; // culling
@@ -212,8 +213,7 @@ public class RendererW extends Renderer implements RendererShadersInterface{
         
         
         // uniform location
-        modelviewLocation = glContext.getUniformLocation(shaderProgram, "modelview");
-        projectionLocation = glContext.getUniformLocation(shaderProgram, "projection");
+        matrixLocation = glContext.getUniformLocation(shaderProgram, "matrix");
         
         lightPositionLocation = glContext.getUniformLocation(shaderProgram, "lightPosition");
         ambiantDiffuseLocation = glContext.getUniformLocation(shaderProgram, "ambiantDiffuse");
@@ -273,15 +273,10 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	
 
-	private static final float[] MODEL_VIEW_IDENTITY = {
-		1,0,0,0,
-		0,1,0,0,
-		0,0,1,0,
-		0,0,0,1
-	};
 
 	private final void setModelViewIdentity(){
-		glContext.uniformMatrix4fv(modelviewLocation, false, MODEL_VIEW_IDENTITY);     
+		projectionMatrix.getForGL(tmpFloat16);
+		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);     
 	}
 
 	@Override
@@ -648,8 +643,9 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	protected void setMatrixView() {
-		view3D.getToScreenMatrix().getForGL(tmpFloat16);
-		glContext.uniformMatrix4fv(modelviewLocation, false, tmpFloat16);     
+		tmpMatrix1.setMul(projectionMatrix, view3D.getToScreenMatrix()); 
+		tmpMatrix1.getForGL(tmpFloat16); 
+		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);     
 	}
 
 	@Override
@@ -712,8 +708,9 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
 	public void initMatrix() {
-		view3D.getToScreenMatrix().mul(getMatrix()).getForGL(tmpFloat16);
-		glContext.uniformMatrix4fv(modelviewLocation, false, tmpFloat16);		
+		tmpMatrix1.setMul(projectionMatrix, tmpMatrix2.setMul(view3D.getToScreenMatrix(), getMatrix())); 
+		tmpMatrix1.getForGL(tmpFloat16); 
+		glContext.uniformMatrix4fv(matrixLocation, false, tmpFloat16);		
 	}
 
 
@@ -855,13 +852,12 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	protected void setView() {
 		
 		setProjectionMatrix();
-		glContext.uniformMatrix4fv(projectionLocation, false, projectionMatrix);    
-        
+	    
 	}
 
-
-	private float[] projectionMatrix;
-
+	private CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4(); 
+	private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4(), tmpMatrix2 = new CoordMatrix4x4(); 
+	
 	@Override
     protected void disableStencilLines() {
 	    // TODO Auto-generated method stub
@@ -884,12 +880,27 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
 	final public void updateOrthoValues(){
 		
-		projectionMatrix = new float[] {
-				2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
-				0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
-				0.0f, 0.0f, -2.0f/getVisibleDepth(), 0f,
-				0.0f, 0.0f, 0f, 1.0f
-		};
+		projectionMatrix.set(1, 1, 2.0/getWidth());
+		projectionMatrix.set(2, 2, 2.0/getHeight());
+		projectionMatrix.set(3, 3, -2.0/getVisibleDepth());
+		projectionMatrix.set(4, 4, 1);
+		
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
+		
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+		
+		projectionMatrix.set(1, 3, 0);
+		projectionMatrix.set(2, 3, 0);
+		projectionMatrix.set(4, 3, 0);
+		
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, 0);
+
 
 	}
 
@@ -907,22 +918,27 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
 	protected void updatePerspValues() {
 		
-		super.updatePerspValues();
+		super.updatePerspValues();	
 		
-		projectionMatrix = new float[] {
-                (float) (2*perspNear/(perspRight-perspLeft)), 0.0f, 0.0f, 0.0f,
-                0.0f, (float) (2*perspNear/(perspTop-perspBottom)), 0.0f, 0.0f,
-                
-                (float) ((perspRight+perspLeft)/(perspRight-perspLeft)), 
-                (float) ((perspTop+perspBottom)/(perspTop-perspBottom)), 
-                0f,  // clamping : -d/2 >> -1, d/2 >> 1
-                -1f,
-                
-                0f, 
-                0f,
-                -getVisibleDepth()/2, // clamping : -d/2 >> -1, d/2 >> 1
-                (float) (-perspFocus) // eye position
-        };
+		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
+		
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+		
+		projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
+		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
+		projectionMatrix.set(3, 3, 0);
+		projectionMatrix.set(4, 3, -1);
+		
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
+		projectionMatrix.set(4, 4, -perspFocus);
 		
 		
 	}
@@ -945,14 +961,26 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	@Override
 	public void updateProjectionObliqueValues() {
 		super.updateProjectionObliqueValues();
-		projectionMatrix = new float[] {
-
-				2.0f/getWidth(), 0.0f, 0.0f, 0.0f,
-				0.0f, 2.0f/getHeight(), 0.0f, 0.0f,
-				(float) obliqueX * 2.0f/getWidth(), (float) obliqueY * 2.0f/getHeight(), -2.0f/getVisibleDepth(), 0f,
-				0.0f, 0.0f, 0f, 1.0f
-
-		};
+		
+		projectionMatrix.set(1, 1, 2.0/getWidth());
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
+		
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2.0/getHeight());
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+		
+		projectionMatrix.set(1, 3, obliqueX * 2.0/getWidth());
+		projectionMatrix.set(2, 3, obliqueY * 2.0/getHeight());
+		projectionMatrix.set(3, 3, -2.0/getVisibleDepth());
+		projectionMatrix.set(4, 3, 0);
+		
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, 0);
+		projectionMatrix.set(4, 4, 1);
 	}
 
 	
