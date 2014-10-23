@@ -1,7 +1,6 @@
 package geogebra.web.gui.inputbar;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
@@ -29,11 +28,9 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -43,7 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class AlgebraInputW extends FlowPanel 
 implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize, AlgebraInput {
-	
+
 	protected AppW app;
 	protected Label inputLabel;
 	protected InputPanelW inputPanel;
@@ -52,7 +49,8 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	//protected FlowPanel innerPanel;
 	protected FlowPanel labelPanel;
 	protected ToggleButton btnHelpToggle;
-	protected PopupPanel helpPopup;
+	protected InputBarHelpPopup helpPopup;
+	//	protected PopupPanel helpPopup;
 	private boolean focused = false;
 
 	/**
@@ -61,7 +59,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	public AlgebraInputW() {
 		super();
 	}
-	
+
 	/**
 	 * @param app Application
 	 * 
@@ -76,71 +74,71 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	private void initGUI() {
-	    clear();
-	    inputLabel = new Label();
-	    inputPanel = new InputPanelW(null,app,0,true);
-	    
-	    inputField = inputPanel.getTextComponent();
-	    inputField.requestToShowSymbolButton();
-	    
-	    inputField.getTextBox().addKeyUpHandler(this);
-	    inputField.getTextBox().addFocusHandler(this);
-	    inputField.getTextBox().addBlurHandler(this);
-	    
-	    inputField.addHistoryPopup(app.showInputTop());
-	    
-	    //AG updateFonts()
-	    
+		clear();
+		inputLabel = new Label();
+		inputPanel = new InputPanelW(null,app,0,true);
+
+		inputField = inputPanel.getTextComponent();
+		inputField.requestToShowSymbolButton();
+
+		inputField.getTextBox().addKeyUpHandler(this);
+		inputField.getTextBox().addFocusHandler(this);
+		inputField.getTextBox().addBlurHandler(this);
+
+		inputField.addHistoryPopup(app.showInputTop());
+
+		//AG updateFonts()
+
 		btnHelpToggle = new ToggleButton(
 				new Image(GuiResources.INSTANCE.input_help_left().getSafeUri().asString()),
 				//new Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()), 
 				new Image(GuiResources.INSTANCE.input_help_up().getSafeUri().asString()));
-		        //new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
-	   btnHelpToggle.addStyleName("inputHelp-toggleButton");
-	    
-	    btnHelpToggle.addClickHandler(this);
-	    
-	   //in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
-	   //in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
-	    
-	    labelPanel = new FlowPanel();
-	    //labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
-	    //labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
-	    labelPanel.add(inputLabel);
-	    labelPanel.setStyleName("AlgebraInputLabel");
-		
-		
+		//new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
+		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 
-	    // TODO: eastPanel should hold the command help button
+		btnHelpToggle.addClickHandler(this);
+
+		//in CSS btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
+		//in CSS	btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
+
+		labelPanel = new FlowPanel();
+		//labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
+		//labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
+		labelPanel.add(inputLabel);
+		labelPanel.setStyleName("AlgebraInputLabel");
+
+
+
+		// TODO: eastPanel should hold the command help button
 		//eastPanel = new FlowPanel();
-		
-	    
-		// place all components in an inner panel
-	    //innerPanel = new FlowPanel();	    
-	    add(labelPanel);
-	    //innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
-	    //innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
-	    add(inputPanel);
-	    //innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
-	    //innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
-	    //setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
 
-	    // add innerPanel to wrapper (this panel)
-	    //setVerticalAlignment(ALIGN_MIDDLE);
-	    //add(innerPanel);
-	    //add(eastPanel);
-	    //setCellVerticalAlignment(this, ALIGN_MIDDLE);
-	    if (app.showInputHelpToggle()) {
+
+		// place all components in an inner panel
+		//innerPanel = new FlowPanel();	    
+		add(labelPanel);
+		//innerPanel.setCellHorizontalAlignment(labelPanel, ALIGN_RIGHT);
+		//innerPanel.setCellVerticalAlignment(labelPanel, ALIGN_MIDDLE);
+		add(inputPanel);
+		//innerPanel.setCellHorizontalAlignment(inputPanel, ALIGN_LEFT);
+		//innerPanel.setCellVerticalAlignment(inputPanel, ALIGN_MIDDLE);
+		//setCellVerticalAlignment(innerPanel, ALIGN_MIDDLE);
+
+		// add innerPanel to wrapper (this panel)
+		//setVerticalAlignment(ALIGN_MIDDLE);
+		//add(innerPanel);
+		//add(eastPanel);
+		//setCellVerticalAlignment(this, ALIGN_MIDDLE);
+		if (app.showInputHelpToggle()) {
 			add(btnHelpToggle);
 		}
 
-	    setLabels();
-	    
-	    //setInputFieldWidth();
-	    
-    }
-	
-	
+		setLabels();
+
+		//setInputFieldWidth();
+
+	}
+
+
 	/**
 	 * Sets the width of the text field so that the entire width of the parent
 	 * container is used. (Really just a workaround because the nested gwt
@@ -160,9 +158,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		if (!app.isApplet()) {
 			setInputFieldWidth((int)app.getWidth());
 		}
-		
+
 		// hide the help popup
-		btnHelpToggle.setValue(false);
+		//		btnHelpToggle.setValue(false);
 		setShowInputHelpPanel(false);
 	}
 
@@ -182,13 +180,13 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		}
 
 		if (helpPopup != null) {
-			((SetLabels)app.getGuiManager().getInputHelpPanel()).setLabels();
+			app.getGuiManager().getInputHelpPanel().setLabels();
 		}
 
 		inputField.setDictionary(false);
 		inputField.getTextField().getElement().setAttribute("placeholder",app.getPlain("InputLabel"));
 	}
-	
+
 	/**
 	 * Sets the content of the input textfield and gives focus
 	 * to the input textfield.
@@ -197,44 +195,44 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	public void replaceString(String str) {
 		inputField.setText(str);
 	}
-	
-	// see actionPerformed
-		public void insertCommand(String cmd) {
-			if (cmd == null) return;
 
-			int pos = inputField.getCaretPosition();
-			String oldText = inputField.getText();
-			String newText = 
+	// see actionPerformed
+	public void insertCommand(String cmd) {
+		if (cmd == null) return;
+
+		int pos = inputField.getCaretPosition();
+		String oldText = inputField.getText();
+		String newText = 
 				oldText.substring(0, pos) + 
 				cmd + "[]" +
 				oldText.substring(pos);			 			
 
-			inputField.setText(newText);
-			inputField.setCaretPosition(pos + cmd.length() + 1);		
-			inputField.requestFocus();
-		}
+		inputField.setText(newText);
+		inputField.setCaretPosition(pos + cmd.length() + 1);		
+		inputField.requestFocus();
+	}
 
-		public void insertString(String str) {
-			if (str == null) return;
+	public void insertString(String str) {
+		if (str == null) return;
 
-			int pos = inputField.getCaretPosition();
-			String oldText = inputField.getText();
-			String newText = 
+		int pos = inputField.getCaretPosition();
+		String oldText = inputField.getText();
+		String newText = 
 				oldText.substring(0, pos) + str +
 				oldText.substring(pos);			 			
 
-			inputField.setText(newText);
-			inputField.setCaretPosition(pos + str.length());		
-			inputField.requestFocus();
-		}
+		inputField.setText(newText);
+		inputField.setCaretPosition(pos + str.length());		
+		inputField.requestFocus();
+	}
 
 	public void onFocus(FocusEvent event) {
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 		app.getSelectionManager().clearSelectedGeos();
 		this.focused = true;
-    }
-	
+	}
+
 	public void onBlur(BlurEvent event) {
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
@@ -242,94 +240,94 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	public void onKeyUp(KeyUpEvent event) {
-				// the input field may have consumed this event
-				// for auto completion
-				//then it don't come here if (e.isConsumed()) return;
+		// the input field may have consumed this event
+		// for auto completion
+		//then it don't come here if (e.isConsumed()) return;
 
-				int keyCode = event.getNativeKeyCode();
-				if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
-					app.getKernel().clearJustCreatedGeosInViews();
-					final String input = inputField.getText();					   
-					if (input == null || input.length() == 0)
-					{
-						app.getActiveEuclidianView().requestFocusInWindow(); // Michael Borcherds 2008-05-12
-						return;
+		int keyCode = event.getNativeKeyCode();
+		if (keyCode == GWTKeycodes.KEY_ENTER && !inputField.isSuggestionJustHappened()) {
+			app.getKernel().clearJustCreatedGeosInViews();
+			final String input = inputField.getText();					   
+			if (input == null || input.length() == 0)
+			{
+				app.getActiveEuclidianView().requestFocusInWindow(); // Michael Borcherds 2008-05-12
+				return;
+			}
+
+			app.setScrollToShow(true);
+
+			try {
+				AsyncOperation callback = new AsyncOperation(){
+
+					@Override
+					public void callback(Object obj) {
+
+						if (!(obj instanceof GeoElement[])){
+							inputField.getTextBox().setFocus(true);
+							return;
+						}
+						GeoElement[] geos = (GeoElement[]) obj;
+
+						// need label if we type just eg
+						// lnx
+						if (geos.length == 1 && !geos[0].labelSet) {
+							geos[0].setLabel(geos[0].getDefaultLabel());
+						}
+
+						// create texts in the middle of the visible view
+						// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
+						if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
+							GeoText text = (GeoText)geos[0];
+							if (!text.isTextCommand() && text.getStartPoint() == null) {
+
+								Construction cons = text.getConstruction();
+								EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+
+								boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
+								cons.setSuppressLabelCreation(true);
+								GeoPoint p = new GeoPoint(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
+								cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+
+								try {
+									text.setStartPoint(p);
+									text.update();
+								} catch (CircularDefinitionException e1) {
+									e1.printStackTrace();
+								}
+							}
+						}
+
+						app.setScrollToShow(false);
+
+
+						inputField.addToHistory(input);
+						inputField.setText(null);
+
+						inputField.setIsSuggestionJustHappened(false);
 					}
 
-					app.setScrollToShow(true);
+				};
 
-					try {
-							AsyncOperation callback = new AsyncOperation(){
+				app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true, callback);
 
-								@Override
-                                public void callback(Object obj) {
-									
-									if (!(obj instanceof GeoElement[])){
-										inputField.getTextBox().setFocus(true);
-										return;
-									}
-									GeoElement[] geos = (GeoElement[]) obj;
-									
-									// need label if we type just eg
-									// lnx
-									if (geos.length == 1 && !geos[0].labelSet) {
-										geos[0].setLabel(geos[0].getDefaultLabel());
-									}
-									
-									// create texts in the middle of the visible view
-									// we must check that size of geos is not 0 (ZoomIn, ZoomOut, ...)
-									if (geos.length > 0 && geos[0] != null && geos[0].isGeoText()) {
-										GeoText text = (GeoText)geos[0];
-										if (!text.isTextCommand() && text.getStartPoint() == null) {
 
-											Construction cons = text.getConstruction();
-											EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+			} catch (Exception ee) {
+				GOptionPaneW.setCaller(inputField.getTextBox());
+				app.showError(ee, inputField);
+				return;
+			} catch (MyError ee) {
+				GOptionPaneW.setCaller(inputField.getTextBox());
+				inputField.showError(ee);
+				return;
+			}				  			   
 
-											boolean oldSuppressLabelsStatus = cons.isSuppressLabelsActive();
-											cons.setSuppressLabelCreation(true);
-											GeoPoint p = new GeoPoint(text.getConstruction(), null, ( ev.getXmin() + ev.getXmax() ) / 2, ( ev.getYmin() + ev.getYmax() ) / 2, 1.0);
-											cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
-
-											try {
-												text.setStartPoint(p);
-												text.update();
-											} catch (CircularDefinitionException e1) {
-												e1.printStackTrace();
-											}
-										}
-									}
-
-									app.setScrollToShow(false);
-	
-									
-									inputField.addToHistory(input);
-									inputField.setText(null);
-									
-									inputField.setIsSuggestionJustHappened(false);
-                                }
-								
-							};
-							
-							app.getKernel().getAlgebraProcessor().processAlgebraCommandNoExceptionHandling( input, true, false, true, true, callback);
-														
-
-					} catch (Exception ee) {
-						GOptionPaneW.setCaller(inputField.getTextBox());
-						app.showError(ee, inputField);
-						return;
-					} catch (MyError ee) {
-						GOptionPaneW.setCaller(inputField.getTextBox());
-						inputField.showError(ee);
-						return;
-					}				  			   
-								  
-				} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V && keyCode != GWTKeycodes.KEY_X) { 
-					app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab 
-					if (keyCode == GWTKeycodes.KEY_ESCAPE) inputField.setText(null);
-				}
-				inputField.setIsSuggestionJustHappened(false);
+		} else if (keyCode != GWTKeycodes.KEY_C && keyCode != GWTKeycodes.KEY_V && keyCode != GWTKeycodes.KEY_X) { 
+			app.getGlobalKeyDispatcher().handleGeneralKeys(event); // handle eg ctrl-tab 
+			if (keyCode == GWTKeycodes.KEY_ESCAPE) inputField.setText(null);
+		}
+		inputField.setIsSuggestionJustHappened(false);
 	}
-	
+
 	public void requestFocus(){
 		inputField.requestFocus();
 	}
@@ -348,17 +346,16 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 	private void setHelpPopup(){
 		if (helpPopup == null && app != null) {
-			helpPopup = new PopupPanel();
-			helpPopup.addStyleName("helpPopup");
-			helpPopup.setAutoHideEnabled(false);
-			helpPopup.add((Widget) app.getGuiManager().getInputHelpPanel());
-			helpPopup.addStyleName("GeoGebraPopup");
-			//helpPopup.setAnimationEnabled(true);
+			helpPopup = new InputBarHelpPopup(this.app);
+			helpPopup.addAutoHidePartner(this.getElement());
+			if (btnHelpToggle != null) {
+				helpPopup.setBtnHelpToggle(this.btnHelpToggle);
+			}
 		}
 	}
-	
-	public void setShowInputHelpPanel(boolean show) {
 
+	public void setShowInputHelpPanel(boolean show) {
+		
 		if (show) {
 			InputBarHelpPanelW helpPanel = (InputBarHelpPanelW) app.getGuiManager()
 			        .getInputHelpPanel();
@@ -367,8 +364,6 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		
 			helpPopup.setPopupPositionAndShow(new PositionCallback() {
 				public void setPosition(int offsetWidth, int offsetHeight) {
-
-					
 					helpPopup.getElement().getStyle().setProperty("left", "auto");
 					helpPopup.getElement().getStyle().setProperty("top", "auto");
 					helpPopup.getElement().getStyle().setRight(0, Unit.PX);
@@ -380,13 +375,12 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		} else if (helpPopup != null) {
 			helpPopup.hide();
 		}
-
 	}
 
 	public void setText(String s) {
-	    this.inputField.setText(s);
-    }
-	
+		this.inputField.setText(s);
+	}
+
 	public boolean hasFocus(){
 		return this.focused || AutoCompleteTextFieldW.showSymbolButtonFocused;
 	}
