@@ -324,9 +324,9 @@ public class Ggb2giac {
 				ellipseHyperbola2);
 		p("Intersection.2", "%0 intersect %1");
 		p("Iteration.3",
-				"(unapply(%0,x)@@%2)(%1)");
+				"regroup((unapply(%0,x)@@%2)(%1))");
 		p("IterationList.3",
-				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=f(l[k-1]); od; l; end],ggbans(unapply(%0,x),%1,%2)][1]");
+				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=regroup(f(l[k-1])); od; l; end],ggbans(unapply(%0,x),%1,%2)][1]");
 		p("PointList.1",
 				"flatten(coordinates(%0))");
 		p("RootList.1",
