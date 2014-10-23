@@ -553,7 +553,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 							.getSettings().getClassStart()));
 		} else if (source == fldWidth) {
 			getModel().getSettings().setClassWidth(
-					Validation.validateDouble(fldWidth, getModel()
+					Validation.validateDoublePositive(fldWidth, getModel()
 							.getSettings().getClassWidth()));
 		}
 		getModel().updatePlot(true);

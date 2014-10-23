@@ -599,7 +599,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 							.getSettings().getClassStart()));
 		} else if (source == fldWidth) {
 			getModel().getSettings().setClassWidth(
-					Validation.validateDouble(fldWidth, getModel()
+					Validation.validateDoublePositive(fldWidth, getModel()
 							.getSettings().getClassWidth()));
 		}
 		getModel().updatePlot(true);
