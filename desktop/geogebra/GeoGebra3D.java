@@ -22,7 +22,7 @@ import geogebra3D.euclidian3D.opengl.RendererJogl;
 public class GeoGebra3D extends GeoGebra {
 
 	static {
-		RendererJogl.initCaps();
+		RendererJogl.initSingleton();
 	}
 
 	public static void main(String[] cmdArgs) {

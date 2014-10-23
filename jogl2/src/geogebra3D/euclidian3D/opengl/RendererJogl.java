@@ -70,17 +70,24 @@ public class RendererJogl {
 
 	public interface GL2ES2 extends javax.media.opengl.GL2ES2{}
 	
-	public static GLCapabilities caps;
+	public static GLCapabilities caps = null;
 	
+	
+	final static public void initSingleton(){
+		try{
+			GLProfile.initSingleton(); 
+		}catch(Exception e){
+			// No GLProfile.initSingleton() working -- maybe not needed
+		}
+	}
+
 
 	final static public void initCaps(){
 		
-		
-		GLProfile.initSingleton(); 
-		
-		//caps = new GLCapabilities(GLProfile.get(GLProfile.GL2));
-		//System.out.println("GLProfile -- isAnyAvailable = "+GLProfile.isAnyAvailable()+" -- isAWTAvailable = "+GLProfile.isAWTAvailable());
-				
+		if (caps != null){
+			return;
+		}
+						
 		GLProfile profile = GLProfile.getDefault();
 		//System.out.println("profile -- is GL2 = " + profile.isGL2()+" -- isHardwareRasterizer = "+ profile.isHardwareRasterizer());
 		caps = new GLCapabilities(profile);

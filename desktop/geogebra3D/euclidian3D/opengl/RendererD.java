@@ -49,6 +49,7 @@ public abstract class RendererD extends Renderer  implements GLEventListener {
 		
 		//canvas = view;
 		App.debug("create 3D component -- use Canvas : " + useCanvas);
+		RendererJogl.initCaps();
         canvas = RendererJogl.createComponent3D(useCanvas);
         
         App.debug("add gl event listener");

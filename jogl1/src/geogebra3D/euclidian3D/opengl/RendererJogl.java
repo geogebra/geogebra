@@ -70,9 +70,17 @@ public class RendererJogl {
 	}
 
 
-	private static GLCapabilities caps;
+	private static GLCapabilities caps = null;
+	
+	final static public void initSingleton(){
+		// only needed for JOGL2
+	}
 
 	final static public void initCaps(){
+		
+		if (caps != null){
+			return;
+		}
 
 		caps = new GLCapabilities();
 
