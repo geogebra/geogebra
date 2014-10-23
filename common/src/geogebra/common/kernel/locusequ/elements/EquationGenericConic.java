@@ -182,7 +182,7 @@ public abstract class EquationGenericConic extends EquationElement {
         circleMatrix[5] = div(det3(a.getXExpression(), ssqr(a), EquationNumericValue.from(1),
                                    b.getXExpression(), ssqr(b), EquationNumericValue.from(1),
                                    c.getXExpression(), ssqr(c), EquationNumericValue.from(1)),
-                              EquationNumericValue.from(2));
+                              EquationNumericValue.from(2)).getOpposite();
         
         return circleMatrix;
     }
