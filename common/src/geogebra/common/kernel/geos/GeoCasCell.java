@@ -1492,8 +1492,16 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return;
 		}
 
+		ArbconstReplacer repl = ArbconstReplacer.getReplacer(arbconst);
+		arbconst.reset();
+		outputVE.traverse(repl);
+		setEquationMode();
+		
 		// silent evaluation of output in GeoGebra
 		lastOutputEvaluationGeo = silentEvalInGeoGebra(outputVE, allowFunction);
+		
+		
+		
 		if (lastOutputEvaluationGeo != null && !dependsOnDummy(lastOutputEvaluationGeo)) {
 			try {
 				if (Test.canSet(twinGeo,lastOutputEvaluationGeo)) {
@@ -1505,6 +1513,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				} else {
 					twinGeo = lastOutputEvaluationGeo;
 					cons.replace(twinGeo, lastOutputEvaluationGeo);
+				}
+				if(outputVE.unwrap() instanceof GeoElement && ((GeoElement)outputVE.unwrap()).getDrawAlgorithm() instanceof DrawInformationAlgo){
+					twinGeo.setDrawAlgorithm((DrawInformationAlgo) ((GeoElement)outputVE.unwrap()).getDrawAlgorithm());
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
