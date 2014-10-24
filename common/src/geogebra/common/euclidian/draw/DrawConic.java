@@ -540,7 +540,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 	
 
-	final private void updateCircle() {
+	protected void updateCircle() {
 		setShape(null);
 		// calc screen pixel of radius
 		radius = halfAxes[0] * view.getXscale();
@@ -852,7 +852,7 @@ public class DrawConic extends Drawable implements Previewable {
 		isVisible = false;
 	}
 
-	final private void updateHyperbola() {
+	protected void updateHyperbola() {
 
 		// check if in view
 		Coords M;
@@ -1061,7 +1061,7 @@ public class DrawConic extends Drawable implements Previewable {
 		isVisible = false;
 	}
 
-	final private void updateParabola() {
+	protected void updateParabola() {
 		if (conic.p > DrawConic.HUGE_RADIUS) {
 			isVisible = false;
 			return;
@@ -1366,6 +1366,16 @@ public class DrawConic extends Drawable implements Previewable {
 			break;
 		}
 	}
+	
+	/**
+	 * 
+	 * @return true if it has to check it's on filling
+	 */
+	protected boolean checkIsOnFilling(){
+		return isFilled()
+				&& type != GeoConicNDConstants.CONIC_SINGLE_POINT
+				&& type != GeoConicNDConstants.CONIC_DOUBLE_LINE;
+	}
 
 	@Override
 	final public boolean hit(int hitX, int hitY, int hitThreshold) {
@@ -1373,9 +1383,7 @@ public class DrawConic extends Drawable implements Previewable {
 			return false;
 		// set a flag that says if the point is on the filling
 		boolean isOnFilling = false;
-		if (isFilled()
-				&& type != GeoConicNDConstants.CONIC_SINGLE_POINT
-				&& type != GeoConicNDConstants.CONIC_DOUBLE_LINE) {
+		if (checkIsOnFilling()) {
 			double realX = view.toRealWorldCoordX(hitX);
 			double realY = view.toRealWorldCoordY(hitY);
 			double x3 = view.toRealWorldCoordX(3) - view.toRealWorldCoordX(0);
@@ -1405,7 +1413,6 @@ public class DrawConic extends Drawable implements Previewable {
 			isOnBoundary = drawLines[0].hit(hitX, hitY, hitThreshold);
 			break;
 		case GeoConicNDConstants.CONIC_CIRCLE:
-		case GeoConicNDConstants.CONIC_ELLIPSE:
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			if (strokedShape == null) {
 				strokedShape = objStroke.createStrokedShape( shape);
@@ -1413,10 +1420,17 @@ public class DrawConic extends Drawable implements Previewable {
 			isOnBoundary = strokedShape.intersects(hitX - hitThreshold, hitY
 					- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
 			break;
+			
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+			isOnBoundary = hitEllipse(hitX, hitY, hitThreshold);
+			break;
+			
 		case GeoConicNDConstants.CONIC_HYPERBOLA:
 			isOnBoundary = hitHyperbola(hitX, hitY, hitThreshold);
 			break;
 		}
+		
+		
 
 		// Application.debug("isOnFilling="+isOnFilling+"\nisOnBoundary="+isOnBoundary);
 		if (isOnFilling) {
@@ -1466,7 +1480,20 @@ public class DrawConic extends Drawable implements Previewable {
 
 	}
 
-
+	/**
+	 * Says if the coords hit ellipse
+	 * @param hitX x coord for hit
+	 * @param hitY y coord for hit
+	 * @return true if lines are hitted
+	 * @param hitThreshold acceptable distance from line
+	 */
+	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
+		if (strokedShape == null) {
+			strokedShape = objStroke.createStrokedShape( shape);
+		}
+		return strokedShape.intersects(hitX - hitThreshold, hitY
+				- hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+	}
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {

@@ -129,7 +129,45 @@ public class DrawConicSection extends DrawConic {
 	}
 	
 	@Override
+	protected void updateCircle(){
+		onlyEdge = false;
+		super.updateCircle();
+	}
+	
+	@Override
+	protected void updateHyperbola() {
+		onlyEdge = false;
+		super.updateHyperbola();
+	}
+	
+	@Override
+	protected void updateParabola() {
+		onlyEdge = false;
+		super.updateParabola();
+	}
+	
+	@Override
+	protected boolean checkIsOnFilling(){
+		return super.checkIsOnFilling() && !onlyEdge;
+	}
+	
+	
+	@Override
+	public boolean hitEllipse(int hitX, int hitY, int hitThreshold) {
+				
+		if (onlyEdge){
+			return shape.intersects(hitX - hitThreshold, hitY - hitThreshold, 2 * hitThreshold, 2 * hitThreshold);
+		}
+		
+		return super.hitEllipse(hitX, hitY, hitThreshold);
+	}
+	
+	private boolean onlyEdge;
+	
+	@Override
 	protected void updateEllipse() {
+		
+		onlyEdge = false;
 		
 		Double start0 = getStart(0);
 		// if no hole, just draw an ellipse
@@ -142,6 +180,7 @@ public class DrawConicSection extends DrawConic {
 		Coords M = view.getCoordsForView(conic.getMidpoint3D());
 		if (!Kernel.isZero(M.getZ())) {// check if in view
 			updateEllipseEdge();
+			onlyEdge = true;
 			return;
 		}
 		if (ev == null){
@@ -151,6 +190,7 @@ public class DrawConicSection extends DrawConic {
 			ev[j] = view.getCoordsForView(conic.getEigenvec3D(j));
 			if (!Kernel.isZero(ev[j].getZ())) {// check if in view
 				updateEllipseEdge();
+				onlyEdge = true;
 				return;
 			}
 		}
