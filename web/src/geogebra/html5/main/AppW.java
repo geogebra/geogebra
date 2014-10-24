@@ -114,7 +114,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -162,6 +161,11 @@ public abstract class AppW extends App implements SetLabels{
 	private boolean[] showAxes = { true, true };
 	private boolean showGrid = false;
 	private final GLookAndFeelI laf;
+	
+	private ArrayList<Widget> popups = new ArrayList<Widget>();
+	private static boolean justClosedPopup = false;
+	protected GeoGebraFrame frame = null;
+	private ErrorHandler errorHandler;
 
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf){
 		super();
@@ -2184,46 +2188,12 @@ public abstract class AppW extends App implements SetLabels{
 		    
 	    }
 
-		
-		
-		/**
-		 * create menu item for 3D
-		 * @return null if no 3D
-		 */
-
-		
-
 		public void updateViewSizes() {
 		    // TODO Auto-generated method stub
-		    
 	    }
-
-		private ArrayList<Widget> popups = new ArrayList<Widget>();
-		private ArrayList<PopupPanel> popupPanels = new ArrayList<PopupPanel>();
-		protected GeoGebraFrame frame = null;
-		private ErrorHandler errorHandler;
 
 		public void registerPopup(Widget widget) {
 			popups.add(widget);
-		}
-		public void togglePopup(Widget widget) {
-			if(!widget.isVisible()){
-				widget.setVisible(true);
-				popups.add(widget);
-			}else{
-				widget.setVisible(false);
-				popups.remove(widget);
-			}
-	    }
-		
-		public void togglePopupPanel(PopupPanel p) {
-			if (p.isShowing()) {
-				p.hide();
-				popupPanels.remove(p);
-			} else {
-				p.show();
-				popupPanels.add(p);
-			}
 		}
 
 		public void closePopups(){
@@ -2234,13 +2204,7 @@ public abstract class AppW extends App implements SetLabels{
 				widget.setVisible(false);
 			}
 			popups.clear();
-			for (PopupPanel panel : popupPanels) {
-				panel.hide();
-			}
-			popupPanels.clear();
 		}
-
-		private static boolean justClosedPopup = false;
 
 		public boolean wasPopupJustClosed() {
 		    return justClosedPopup;
@@ -2432,20 +2396,6 @@ public abstract class AppW extends App implements SetLabels{
 		// ========================================================
 		// INITIALIZING
 		// ========================================================
-
-		
-		
-		
-		
-		
-		
-
-		
-
-		
-		
-
-		
 
 		@Override
 		public void setScrollToShow(boolean b) {

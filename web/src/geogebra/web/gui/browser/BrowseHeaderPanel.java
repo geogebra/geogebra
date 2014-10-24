@@ -138,6 +138,8 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			
 			final PopupPanel popup = new PopupPanel();
 			popup.addStyleName("optionsPopup");
+			popup.setAutoHideEnabled(true);
+			popup.addAutoHidePartner(profilePanel.getElement());
 			this.optionsPanel = new FlowPanel();
 			this.optionsPanel.setStyleName("profileOptionsPanel");
 			
@@ -162,15 +164,14 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
                 public void onClick() {
 					App.debug("logout");
 	                app.getLoginOperation().performLogOut();
-	                ((AppW) app).togglePopupPanel(popup);
-	                
+	                togglePopup(popup);
                 }});
 						
 			popup.add(optionsPanel);
 			profilePanel.addDomHandler(new ClickHandler(){
 				@Override
                 public void onClick(ClickEvent event) {
-					((AppW) app).togglePopupPanel(popup);
+					togglePopup(popup);
 					event.stopPropagation();
                 }},ClickEvent.getType());
 		}
@@ -183,6 +184,18 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			
 		this.rightPanel.add(this.profilePanel);
 		
+	}
+	
+	/**
+	 * show / hide popupPanel.
+	 * @param p PopupPanel
+	 */
+	void togglePopup(PopupPanel p) {
+		if (p.isShowing()) {
+			p.hide();
+		} else {
+			p.show();
+		}
 	}
 	
 	@Override
