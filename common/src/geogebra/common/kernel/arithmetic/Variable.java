@@ -109,7 +109,6 @@ public class Variable extends ValidExpression {
 	 * according GeoElement object. For absolute spreadsheet reference names
 	 * like A$1 or $A$1 a special ExpressionNode wrapper object is returned that
 	 * preserves this special name for displaying of the expression.
-	 * @param forEquation true to resolve xx as polynomial rather than product of function variables
 	 * 
 	 * @return GeoElement whose label is name of this variable or ExpressionNode
 	 * wrapping spreadsheet reference 
@@ -235,6 +234,11 @@ public class Variable extends ValidExpression {
 	
 	public String getName(){
 		return name;
+	}
+	
+	@Override
+	public boolean evaluatesToNumber(boolean def){
+		return def;
 	}
 
 }

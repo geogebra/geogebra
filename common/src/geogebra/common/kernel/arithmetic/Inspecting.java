@@ -1,7 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.StringTemplate;
-import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 import geogebra.common.kernel.geos.GeoDummyVariable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -134,7 +133,7 @@ public interface Inspecting {
 			} else if (v instanceof Equation) {
 				ExpressionValue ev = ((Equation)v).getRHS().unwrap();
 				//TODO needs to have evaluatesTo..., also check for complex
-				if(ev instanceof VectorValue || ev instanceof Vector3DValue){ 
+				if(!ev.evaluatesToNumber(true) && !ev.evaluatesToNumber(true)){ 
 					return true;
 				}
 				type = 2;

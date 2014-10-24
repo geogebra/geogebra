@@ -56,5 +56,10 @@ public class GeoDummyVariable extends GeoNumeric {
 			return ge.hasCoords();
 		return false;
 	}
+	
+	@Override
+	public boolean evaluatesToNumber(boolean def){
+		return def;
+	}
 
 }

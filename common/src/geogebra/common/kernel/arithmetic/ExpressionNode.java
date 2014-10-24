@@ -1073,7 +1073,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if(operation == Operation.RANDOM 
 				|| operation == Operation.XCOORD 
 				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD) {
+				|| operation == Operation.ZCOORD
+				|| operation == Operation.ABS
+				|| operation == Operation.ARG) {
 			return false;
 		}
 		if(isLeaf()){
@@ -5111,6 +5113,24 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			return checkForFreeVars(((MyVecNode)ev).getX()) || checkForFreeVars(((MyVecNode)ev).getY());
 		}
 		return false;
+	}
+
+	public boolean evaluatesToNumber(boolean def) {
+		if(operation == Operation.RANDOM 
+				|| operation == Operation.XCOORD 
+				|| operation == Operation.YCOORD
+				|| operation == Operation.ZCOORD
+				|| operation == Operation.ABS
+				|| operation == Operation.ARG) {
+			return true;
+		}
+		if(this.isLeaf() || Operation.isSimpleFunction(this.operation)){
+			return left.evaluatesToNumber(def);
+		}
+		if(right != null && left.evaluatesToNumber(def) && right.evaluatesToNumber(def)){
+			return true;
+		}
+		return def;
 	}
 	
 }

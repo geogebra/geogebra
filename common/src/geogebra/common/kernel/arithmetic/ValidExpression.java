@@ -447,5 +447,11 @@ public abstract class ValidExpression implements ExpressionValue {
 				return v instanceof FunctionVariable;
 			}});
 	}
+	/**
+	 * Here we just check for number values, overridden in ExpressionNode
+	 */
+	public boolean evaluatesToNumber(boolean def){
+		return this.isNumberValue();
+	}
 
 }

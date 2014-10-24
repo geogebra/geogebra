@@ -7291,4 +7291,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setLineOpacity(int lineOpacity) {
 		this.lineOpacity = lineOpacity;
 	}
+	
+	public boolean evaluatesToNumber(boolean def){
+		return this.isNumberValue();
+	}
 }

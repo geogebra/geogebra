@@ -181,5 +181,11 @@ public interface ExpressionValue {
 	 * @return integral
 	 */
 	ExpressionValue integral(FunctionVariable fv);
+	
+	/**
+	 * @param def what to return if we cannot determine the outcome
+	 * @return whether this evaluates to number
+	 */
+	boolean evaluatesToNumber(boolean def);
 }
 
