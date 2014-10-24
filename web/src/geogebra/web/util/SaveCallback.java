@@ -50,9 +50,9 @@ public class SaveCallback {
 	}
 
 	/**
-	 * shows tooltip "save file failed"
+	 * shows errorMessage "save file failed"
 	 */
 	public void onError() {
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("SaveFileFailed"), true);
+		app.showError(app.getLocalization().getError("SaveFileFailed"));
     }
 }

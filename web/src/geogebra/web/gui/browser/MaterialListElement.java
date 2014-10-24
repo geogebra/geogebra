@@ -221,7 +221,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				@Override
 				public void onLoaded(List<Material> parseResponse) {
 					if (parseResponse.size() != 1) {
-						ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("RenameFailed"), true);
+						app.showError(app.getLocalization().getError("RenameFailed"));
 						title.setText(oldTitle);
 						material.setTitle(oldTitle);
 					}
@@ -406,7 +406,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				@Override
 				public void onError(Throwable exception) {
 					setVisible(true);
-					ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("DeleteFailed"), true);
+					app.showError(app.getMenu("DeleteFailed"));
 				}
 			});
 		}
@@ -478,13 +478,13 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 						app.getGgbApi().setBase64(material.getBase64());
 						app.setActiveMaterial(material);
 					} else {
-						ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("LoadFileFailed"), true);
+						app.showError(app.getLocalization().getError("LoadFileFailed"));
 					}
 				}
 				
 				@Override
 				public void onError(Throwable error) {
-					ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getError("LoadFileFailed"), true);
+					app.showError(app.getLocalization().getError("LoadFileFailed"));
 				}
 			});
 		} else {

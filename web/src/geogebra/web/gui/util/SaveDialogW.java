@@ -386,7 +386,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			@Override
             public void onError(final Throwable exception) {
 				//TODO show correct message
-			    ToolTipManagerW.sharedInstance().showBottomMessage("Error", true);
+				app.showError("Error");
 		    }
 		});
 	}
