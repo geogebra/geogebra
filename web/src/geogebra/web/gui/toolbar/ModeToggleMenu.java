@@ -276,6 +276,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			}
 		} else { // click ended on menu item
 			hideMenu();
+			event.stopPropagation();
 		}
 
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
