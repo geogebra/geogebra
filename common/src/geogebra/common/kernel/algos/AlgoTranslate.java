@@ -120,6 +120,12 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
 		}
+		
+		if (!v.isDefined()) {
+			out.setUndefined();
+			return;
+		}
+		
 		setOutGeo();
 		out.translate(getVectorCoords());
 		if (inGeo.isLimitedPath()) {
