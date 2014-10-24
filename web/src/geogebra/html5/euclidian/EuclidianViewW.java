@@ -28,6 +28,7 @@ import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
@@ -50,6 +51,7 @@ import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureEndEvent;
 import com.google.gwt.event.dom.client.GestureStartEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOverEvent;
@@ -59,6 +61,7 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.Widget;
 
 public class EuclidianViewW extends EuclidianView implements EuclidianViewWInterface  {
@@ -84,7 +87,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	
 	public boolean isInFocus = false;
 
-	private AppW app = (AppW) super.app;
+	AppW app = (AppW) super.app;
 
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
 	downArrowImage;
@@ -108,6 +111,20 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		EVPanel = euclidianViewPanel;
 		
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo);
+
+		g2p.getCanvas().addDomHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent event) {
+				if(!CancelEventTimer.cancelMouseEvent()){
+					app.closePopups();
+				}
+			}
+		}, MouseDownEvent.getType());
+		g2p.getCanvas().addDomHandler(new TouchStartHandler() {
+			public void onTouchStart(TouchStartEvent event) {
+				CancelEventTimer.touchEventOccured();
+				app.closePopups();
+			}
+		}, TouchStartEvent.getType());
     }
 	
 	/**
@@ -133,8 +150,20 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		EVPanel = newMyEuclidianViewPanel();
 		
 		initBaseComponents(EVPanel, euclidiancontroller, -1);
-		
-		
+
+		g2p.getCanvas().addDomHandler(new MouseDownHandler() {
+			public void onMouseDown(MouseDownEvent event) {
+				if(!CancelEventTimer.cancelMouseEvent()){
+					app.closePopups();
+				}
+			}
+		}, MouseDownEvent.getType());
+		g2p.getCanvas().addDomHandler(new TouchStartHandler() {
+			public void onTouchStart(TouchStartEvent event) {
+				CancelEventTimer.touchEventOccured();
+				app.closePopups();
+			}
+		}, TouchStartEvent.getType());
 	}
 	
 
@@ -255,7 +284,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
 		if(app.getGuiManager()!=null){
-			((AppW)app).getGuiManager().clearAbsolutePanels();
+			app.getGuiManager().clearAbsolutePanels();
 		}
     }
 	
@@ -443,7 +472,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
     	int oldHeight = g2p.getCoordinateSpaceHeight();
 		g2p.setCoordinateSpaceSize(width, height);
 		try {
-			((AppW)app).syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
+			app.syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
 
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
 			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
@@ -643,8 +672,8 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 			return;
 		}
 		
-		if(((AppW)app).getLAF() != null){
-			if(((AppW)app).getLAF().registerHandlers(evPanel, euclidiancontroller))
+		if(app.getLAF() != null){
+			if(app.getLAF().registerHandlers(evPanel, euclidiancontroller))
 			
 			return;
 		}
