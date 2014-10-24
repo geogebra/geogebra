@@ -1515,6 +1515,9 @@ public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*Comp
 
 	public void onResize() {
 
+		if (getFocusPanel().getParent() == null) {
+			return;
+		}
 		int width = getFocusPanel().getParent().getOffsetWidth();
 		int height = getFocusPanel().getParent().getOffsetHeight();
 		// App.debug("spreadsheet wrapper size: " + width + " , " + height);

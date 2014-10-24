@@ -387,15 +387,15 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 
     public void onResize() {
     	//-34px for width of stylebar
-    	int width = getWrappedPanel().getOffsetWidth() - 34;
+    	int width = getWrappedPanel().getOffsetWidth() - 37;
     	int height = getWrappedPanel().getOffsetHeight();
     	//contentsPanel.setHeight(getWrappedPanel().getOffsetHeight() + "px");
     	
     	if(height > 0 && width > 0) {
     		contentsPanel.setWidth(width + "px");
     		
-    		//-30px for Tabs, -16px for padding, -26px for paddings
-        	optionPanel.onResize((height - 30 - 16), width - 26);
+    		//-30px for Tabs, -27px for padding, -26px for paddings
+        	optionPanel.onResize((height - 30 - 27), width - 26);
     	}
     }
     

@@ -218,6 +218,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private int index;
 		private List<IOptionPanel> panels;
 		private boolean hasAdded;
+		
 		public OptionsTab(final String title) {
 			super();
 			this.titleId = title;
@@ -263,7 +264,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 		public void onResize(int height, int width) {
-	         this.setWidth(width + "px");
 	         this.setHeight(height + "px");
         }
 	}
@@ -3282,8 +3282,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private void createBasicTab() {
 		basicTab = new OptionsTab("Properties.Basic");
 
-		basicTab.setStyleName("propertiesTab");
-
 		namePanel = new NamePanel(); 
 		if (!isDefaults) {
 			basicTab.add(namePanel);
@@ -3360,7 +3358,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addTextTab() {
 		OptionsTab tab = new OptionsTab("Text");
-		tab.setStyleName("propertiesTab");
 		TextOptionsPanel textOptionsPanel = new TextOptionsPanel();
 		tab.add(textOptionsPanel);
 		return tab;
@@ -3368,7 +3365,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addSliderTab() {
 		OptionsTab tab = new OptionsTab("Slider");
-		tab.setStyleName("propertiesTab");
 		SliderPanelW sliderPanel = new SliderPanelW(getAppW(), false, true);
 		tab.add(sliderPanel);
 		return tab;
@@ -3376,7 +3372,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addColorTab() {
 		OptionsTab tab = new OptionsTab("Color");
-		tab.setStyleName("propertiesTab");
 		colorPanel = new ColorPanel();
 		tab.add(colorPanel);
 		return tab;
@@ -3418,7 +3413,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addScriptTab() {
 		OptionsTab tab = new OptionsTab("Scripting");
-		tab.setStyleName("propertiesTab");
 		ScriptEditPanel scriptEditPanel = new ScriptEditPanel();
 		tab.add(scriptEditPanel);
 		return tab;

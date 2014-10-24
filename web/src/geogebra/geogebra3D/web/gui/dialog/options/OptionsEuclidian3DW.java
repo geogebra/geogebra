@@ -316,7 +316,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		}
 		
 		public ProjectionTab() {
-			setStyleName("propertiesTab");
+			super();
 			
 			projectionButtons = new ProjectionButtons();
 			

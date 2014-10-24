@@ -1207,7 +1207,9 @@ td.datePickerMonth {
 .gwt-TabPanelBottom,
 .objectPropertiesPanel {
 	overflow: auto;
-	padding: 8px;
+	padding-left: 8px;
+	padding-right: 8px;
+	padding-top: 8px;
 	background-color: #FFFFFF;
 	border: 1px solid #DCDCDC;
 	border-top: none;
@@ -3349,8 +3351,13 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 }
 
 .contentsPanel {
-	overflow: hidden;
+	overflow-x: auto;
+	overflow-y: hidden;
 	height: 100%;
+}
+
+.contentsPanel > table.gwt-TabPanel {
+	width: 100%;
 }
 
 .propertiesStyleBar {
@@ -3415,6 +3422,10 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 .propertiesTab {
 	overflow: auto;
 	padding-right: 8px;
+}
+
+.propertiesTabPanel {
+	width: 100%;
 }
 
 .propertiesTab>*,
@@ -3582,9 +3593,9 @@ iframe.objectPropertiesTextEditor {
 }*/
 
 button.CustomColorButton {
-	position: absolute;
-	left: 237px;
-	top: 255px;
+	position: relative;
+	left: -124px;
+	top: 12px;
 	border: 2px solid #555555 !important;
 	cursor: pointer;
 	background-color: #ffffff !important;

@@ -58,11 +58,15 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	private GridTab gridTab;
 	private ListBox lbTooltips;
 	private boolean isIniting;
-	protected abstract class EuclidianTab extends FlowPanel implements SetLabels 
-	{
+	
+	protected abstract class EuclidianTab extends FlowPanel implements SetLabels {
+		
+		protected EuclidianTab() {
+			setStyleName("propertiesTab");
+		}
+		
 		public void onResize(int height, int width) {
 			this.setHeight(height + "px");
-			this.setWidth(width + "px");
 		}
 	};
 	
@@ -105,11 +109,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private CheckBox cbBoldGrid;
 
 		public BasicTab() {
+			super();
 			addDimensionPanel();
 			addAxesOptionsPanel();
 			addConsProtocolPanel();
 			addMiscPanel();
-			setStyleName("propertiesTab");
 		}
 
 		private void addMinMaxHandler(final AutoCompleteTextFieldW tf, final MinMaxType type) {
@@ -651,8 +655,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private AxisPanel axisPanel;
 			
 		public AxisTab(int axis, boolean view3D) {
+			super();
 			axisPanel = new AxisPanel(app, view, axis, view3D);
-			setStyleName("propertiesTab");
 			add(axisPanel);
 		}
 		
@@ -679,8 +683,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label lblColor;
 		private CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
+		
 		public GridTab() {
-			setStyleName("propertiesTab");
+			super();
 			cbShowGrid = new CheckBox();
 			cbShowGrid.addClickHandler(new ClickHandler(){
 
