@@ -109,13 +109,8 @@ implements ActionListener {
         addAxesRatioItems(yaxisMenu);
         wrappedPopup.add(yaxisMenu);                        
        
-        JMenuItem miShowAllObjectsView = new JMenuItem(app.getPlain("ShowAllObjects"));
-        miShowAllObjectsView.setIcon(app.getEmptyIcon());
-        miShowAllObjectsView.setActionCommand("showAllObjects");
-        miShowAllObjectsView.addActionListener(this);
-        miShowAllObjectsView.setBackground(bgColor);
-        wrappedPopup.add(miShowAllObjectsView);                
-
+        JMenuItem miShowAllObjectsView = addShowAllObjectsView(app);          
+        
         JMenuItem miStandardView = addStandardViewItem();
         
         wrappedPopup.addSeparator();          
@@ -134,6 +129,20 @@ implements ActionListener {
         
 		app.setComponentOrientation(wrappedPopup);
          
+    }
+    
+    /**
+     * add show all objects item
+     */
+    protected JMenuItem addShowAllObjectsView(AppD app){
+    	 JMenuItem miShowAllObjectsView = new JMenuItem(app.getPlain("ShowAllObjects"));
+         miShowAllObjectsView.setIcon(app.getEmptyIcon());
+         miShowAllObjectsView.setActionCommand("showAllObjects");
+         miShowAllObjectsView.addActionListener(this);
+         miShowAllObjectsView.setBackground(bgColor);
+         wrappedPopup.add(miShowAllObjectsView); 
+         
+         return miShowAllObjectsView;
     }
 
     /**
