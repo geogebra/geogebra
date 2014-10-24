@@ -3325,33 +3325,41 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			return null;
 		}
-	
+
+		int max = selLines() == 0 ? 1 : 2;
+
 		// Transformable
-		int count = 0;
-		if (selGeos() == 0) {
-			Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(mirAbles, 1, false);
+		Hits mirAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
+		int count = addSelectedGeo(mirAbles, max, false);
+
+		// first selected GeoElement is GeoLine
+		if(count == 1 && selGeos() >= 1){
+			GeoElement geo = selectedGeos.get(selectedGeos.size()-1);
+			if(geo  instanceof GeoLineND){
+				selectedLines.clear();
+				selectedLines.add((GeoLineND) geo);
+			}
 		}
-	
+
 		// polygon
-		if (count == 0) {
-			count = addSelectedPolygon(hits, 1, false);
+		if (count <= 0) {
+			count = addSelectedPolygon(hits, max, false);
 		}
-	
+
 		// line = mirror
-		if (count == 0) {
-			addSelectedLine(hits, 1, false);
+		if (count <= 0) {
+			addSelectedLine(hits, max, false);
 		}
-	
+
 		// we got the mirror point
-		if (selLines() == 1) {
+		if (selLines() >= 1) {
 			if (selPolygons() == 1) {
 				GeoPolygon[] polys = getSelectedPolygons();
 				GeoLine[] lines = getSelectedLines();
 				checkZooming(); 
 
 				return getAlgoDispatcher().Mirror(null, polys[0], lines[0]);
-			} else if (selGeos() > 0) {
+			} else if (selGeos() > 1) { // line is also selected
 				// mirror all selected geos
 				GeoElement[] geos = getSelectedGeos();
 				GeoLineND line = getSelectedLinesND()[0];
