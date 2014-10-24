@@ -375,7 +375,7 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     * @param array buffer array
     */
    protected void glBufferData(int numBytes, GLBuffer fb){
-	   jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, ((GLBufferD) fb).getBuffer(), GL.GL_STATIC_DRAW);
+	   jogl.getGL2ES2().glBufferData(GL.GL_ARRAY_BUFFER, numBytes, ((GLBufferD) fb).getBuffer(), RendererJogl.GL_STREAM_DRAW);
 
    }
    

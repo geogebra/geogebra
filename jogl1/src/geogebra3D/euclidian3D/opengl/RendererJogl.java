@@ -21,6 +21,8 @@ public class RendererJogl {
 	
 	protected GL gl;
 	
+	static public final int GL_STREAM_DRAW = GL.GL_STATIC_DRAW;
+	
 	public void setGL(GLAutoDrawable gLDrawable){		
 		gl = gLDrawable.getGL();
 	}

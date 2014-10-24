@@ -25,6 +25,8 @@ public class RendererJogl {
 	
 	private GLAutoDrawable gLDrawable;
 	
+	static public final int GL_STREAM_DRAW = GL2ES2.GL_STREAM_DRAW;
+	
 	public GL getGL(){
 		
 		return getGL2(); 
