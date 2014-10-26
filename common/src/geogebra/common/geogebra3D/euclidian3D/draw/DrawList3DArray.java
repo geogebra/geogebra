@@ -3,7 +3,6 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 import geogebra.common.euclidian.DrawableND;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.draw.DrawListArray;
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 
 /**
  * Class for storing 3D drawables includes in a DrawList
@@ -47,9 +46,6 @@ public class DrawList3DArray extends DrawListArray {
     @Override
 	public void add(int pos, DrawableND d){
     	super.add(pos, d);
-    	if (!(d instanceof DrawList3D)){
-    		((EuclidianView3D) view).addOneGeoToPick();
-    	}
     	drawList3D.getDrawable3DLists().add((Drawable3D) d);
     }
     

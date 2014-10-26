@@ -70,7 +70,6 @@ public class DrawList3D extends Drawable3D {
 			//getView3D().remove(drawables.get(i).getGeoElement());
 			drawable3DLists.remove((Drawable3D) drawables.get(i));
 			drawables.remove(i);
-			getView3D().removeOneGeoToPick();
 			
 		}
 
@@ -296,6 +295,20 @@ public class DrawList3D extends Drawable3D {
 		
 		return ret;
 		
+	}
+	
+	/**
+	 * remove all geos to pick counter
+	 */
+	public void removeAllGeosToPick(){
+		for (int i = 0; i < drawables.size(); i++) {
+			DrawableND d = drawables.get(i);
+			if (d instanceof DrawList3D){
+				((DrawList3D) d).removeAllGeosToPick();
+			}else{
+				getView3D().removeOneGeoToPick();
+			}
+		}
 	}
 
 	

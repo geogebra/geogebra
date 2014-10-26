@@ -22,18 +22,24 @@ public class Drawable3DListsForDrawList3D extends Drawable3DLists{
 		this.view3D = view3D;
 	}
 	
-	/**
-	 * removes geos to pick count
-	 */
-	public void removeGeosToPick(){
+
+	
+	@Override
+	public void add(Drawable3D drawable){
+		super.add(drawable);
+    	if (!(drawable instanceof DrawList3D)){
+    		view3D.addOneGeoToPick();
+    	}
+	}
+	
+	@Override
+	protected void remove(Drawable3D drawable){
 		
-		int n = size() - lists[Drawable3D.DRAW_TYPE_LISTS].size();
-		
-		view3D.getRenderer().removeGeosToPick(n);
-		
-		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]){
-			((DrawList3D) d).getDrawable3DLists().removeGeosToPick();
+		super.remove(drawable);
+		if (drawable!=null && !(drawable instanceof DrawList3D)){
+			view3D.removeOneGeoToPick();
 		}
+		
 	}
 
 }

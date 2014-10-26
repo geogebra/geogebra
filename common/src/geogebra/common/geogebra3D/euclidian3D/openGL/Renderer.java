@@ -1060,6 +1060,7 @@ public abstract class Renderer {
 	 */
 	public void addOneGeoToPick() {
 		geoToPickSize++;
+		//App.debug("geoToPickSize++ ("+geoToPickSize+")");
 	}
 
 	/**
@@ -1067,24 +1068,14 @@ public abstract class Renderer {
 	 */
 	public void removeOneGeoToPick() {
 		geoToPickSize--;
+		//App.debug("geoToPickSize-- ("+geoToPickSize+")");
 		/*
 		 * if (geoToPickSize<0) App.printStacktrace("");
 		 */
 
 	}
 	
-	/**
-	 * removes geos to pick count
-	 * @param length count substracted
-	 */
-	public void removeGeosToPick(int length) {
-		//App.debug(geoToPickSize+" - "+length+" = "+(geoToPickSize-length));
-		geoToPickSize -= length;
-		/*
-		 * if (geoToPickSize<0) App.printStacktrace("");
-		 */
 
-	}
 
 
 	protected static Drawable3D[] createDrawableListForPicking(int bufSize) {

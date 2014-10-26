@@ -48,9 +48,10 @@ public class Drawable3DListsForView extends Drawable3DLists{
 		if (drawable!=null){
 			if (drawable.getGeoElement()!=null && drawable.getGeoElement().isPickable()){
 				if (drawable instanceof DrawList3D){
-					((DrawList3D) drawable).getDrawable3DLists().removeGeosToPick();
+					((DrawList3D) drawable).removeAllGeosToPick();
+				}else{
+					view3D.removeOneGeoToPick();
 				}
-				view3D.removeOneGeoToPick();
 				listForPicking.remove(drawable);
 			}
 		}

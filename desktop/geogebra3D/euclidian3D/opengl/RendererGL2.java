@@ -271,6 +271,7 @@ public class RendererGL2 extends RendererD {
 	@Override
 	protected void doPick() {
 
+		//App.debug("geoToPickSize = "+geoToPickSize);
 		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer) {
 			int bufSize = geoToPickSize * 2 + 1 + 20; // TODO remove "+20" due
 														// to intersection curve
