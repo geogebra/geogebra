@@ -314,7 +314,7 @@ __GGB__keysVar.es.command = {
     "FirstAxis.Syntax": "[ <C\xf3nica> ]",
     "FirstAxisLength": "LongitudSemiejeMayor",
     "FirstAxisLength.Syntax": "[ <C\xf3nica> ]",
-    "Fit": "Ajuste",
+    "Fit": "Ajusta",
     "Fit.Syntax": "[ <Lista de puntos>, <Lista de funciones> ]\n[ <Lista de puntos>, <Funci\xf3n> ]",
     "FitExp": "AjusteExp",
     "FitExp.Syntax": "[ <Lista de puntos> ]",
