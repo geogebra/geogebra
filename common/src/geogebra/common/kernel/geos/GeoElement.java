@@ -3266,12 +3266,6 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	@Override
 	public void remove() {
-		if((hasChildren()) && GeoElementSpreadsheet.hasSpreadsheetLabel(this)){
-			setEmptySpreadsheetCell(true);
-			setUndefined();
-			updateCascade();
-			return;
-		}
 		
 		// dependent object: remove parent algorithm
 		if (algoParent != null) {
