@@ -256,43 +256,27 @@ public class AlgoPolyhedronPointsPyramid extends AlgoPolyhedronPoints{
 	protected void updateOutput(){
 		//Application.printStacktrace("");
 		
-		if (isOldFileVersion()){
-			//add polyhedron's segments and polygons, without setting this algo as algoparent		
-			int index = 0;
-			if (!bottomAsInput){ //check bottom
-				outputPolygonsBottom.addOutput(polyhedron.getFace3D(index), false);
-				index++;
-				for (int i=0; i<bottomPointsLength; i++)
-					outputSegmentsBottom.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[(i+1) % bottomPointsLength]),false);
-			}
-			
-			//sides
-			for (int i=0; i<bottomPointsLength; i++){
-				outputPolygonsSide.addOutput(polyhedron.getFace3D(index), false);
-				index++;
-				outputSegmentsSide.addOutput((GeoSegment3D) polyhedron.getSegment(points[i], points[bottomPointsLength]),false);
-			}
-
-		}else{
-			Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
-			//Application.debug(faces.size());
-			int step = 1;
-			for (GeoPolygon polygon : faces){
-				GeoSegmentND[] segments = polygon.getSegments();
-				if(step==1 && !bottomAsInput){//bottom
-					outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
-					for (int i=0; i<segments.length; i++)
-						outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],false);	
-					step++;
-				}else{//sides
-					outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
-					outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);		
-					step++;
-					//Application.debug(outputSegmentsSide.size());
+		
+		Collection<GeoPolygon3D> faces = polyhedron.getFacesCollection();
+		//Application.debug(faces.size());
+		int step = 1;
+		for (GeoPolygon polygon : faces) {
+			GeoSegmentND[] segments = polygon.getSegments();
+			if (step == 1 && !bottomAsInput) {//bottom
+				outputPolygonsBottom.addOutput((GeoPolygon3D) polygon, false);
+				for (int i=0; i<segments.length; i++) {
+					outputSegmentsBottom.addOutput((GeoSegment3D) segments[i],false);	
 				}
+				step++;
+			} else {//sides
+				outputPolygonsSide.addOutput((GeoPolygon3D) polygon, false);
+				outputSegmentsSide.addOutput((GeoSegment3D) polygon.getSegments()[2],false);		
+				step++;
+				//Application.debug(outputSegmentsSide.size());
 			}
 		}
-		
+
+
 
 		
 		

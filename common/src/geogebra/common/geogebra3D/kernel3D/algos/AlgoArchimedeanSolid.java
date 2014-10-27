@@ -114,14 +114,7 @@ public class AlgoArchimedeanSolid extends AlgoPolyhedron{
 	 */
 	protected void setLabels(String[] labels){
 	
-		if(isOldFileVersion() && labels.length>1){
-			String name = labels[0];
-			labels = new String[1];
-			labels[0] = name;
-		}
-		
-		
-		if (labels==null || labels.length <= 1 || isOldFileVersion())
+		if (labels == null || labels.length <= 1)
 			polyhedron.initLabels(labels);
 		else{
 			polyhedron.setAllLabelsAreSet(true);

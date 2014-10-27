@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
@@ -8,7 +7,6 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -39,8 +37,6 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 		super(c);
 		
 		cons.addToAlgorithmList(this);
-
-		setIsOldFileVersion();
 
 		outputPolyhedron=new OutputHandler<GeoPolyhedron>(new elementFactory<GeoPolyhedron>() {
 			public GeoPolyhedron newElement() {
@@ -120,33 +116,12 @@ public abstract class AlgoPolyhedron extends AlgoElement3D{
 	 * @return true if no input point or if first input point has label visible
 	 */
 	abstract protected boolean isFirstInputPointLabelVisible();
-	
-	private boolean isOldFileVersion;
-	
-	/**
-	 * sets if it's an old file version
-	 */
-	protected void setIsOldFileVersion(){
-		isOldFileVersion = GeoGebraConstants.IS_PRE_RELEASE 
-				&& kernel.getApplication().fileVersionBefore(App.getSubValues("4.9.10.0"));
-	}
-	
-	/**
-	 * @return if it's an old file version
-	 */	
-	protected boolean isOldFileVersion(){
-		return isOldFileVersion;
-	}
 
 	/**
 	 * create the faces of the polyhedron
 	 */
-    protected void createFaces(){
-    	
-    	if (isOldFileVersion())
-    		polyhedron.updateFacesDeprecated();
-    	else
-    		polyhedron.createFaces();
+    protected void createFaces(){   	
+    	polyhedron.createFaces();
     }
     
     

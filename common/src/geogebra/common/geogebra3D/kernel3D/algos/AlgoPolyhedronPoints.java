@@ -149,7 +149,7 @@ public abstract class AlgoPolyhedronPoints extends AlgoPolyhedron{
 	 * @param labels labels
 	 */
 	protected void setLabels(String[] labels){
-		if (labels==null || labels.length <= 1 || isOldFileVersion())
+		if (labels==null || labels.length <= 1)
 			polyhedron.initLabels(labels);
 		else{
 			augmentOutputSize(labels.length);
