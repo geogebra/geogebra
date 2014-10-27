@@ -383,7 +383,6 @@ ProvidesResize, RequiresResize, SetLabels, IDataAnalysisListener {
 	// =================================================
 
 	public void updateStatDataPanelVisibility() {
-		App.debug("[UUU] updateStatDataPanelVisibility()");
 		updateLayout();
 	}
 
