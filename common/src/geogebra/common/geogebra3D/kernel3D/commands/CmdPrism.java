@@ -49,9 +49,6 @@ public class CmdPrism extends CommandProcessor {
 								c.getLabels(),
 								(GeoPolygon) arg[0],
 								(GeoNumberValue) arg[1]);	
-				//for older version, make forcing labels not working
-				if (GeoGebraConstants.IS_PRE_RELEASE && app.fileVersionBefore(App.getSubValues("4.9.10.0")))
-					return new GeoElement[] {ret[0]};
 				return ret;
 			} else {
                 if (!ok[0])
