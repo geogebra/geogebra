@@ -34,7 +34,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 
 	// option panels
 	private OptionsDefaultsW defaultsPanel;
-	private OptionsEuclidianW euclidianPanel, euclidianPanel2;
+	private OptionsEuclidianW euclidianPanel, euclidianPanel2, euclidianPanel3D;
 	private OptionsSpreadsheetW spreadsheetPanel;
 	private OptionsCASW casPanel;
 	private OptionsAdvancedW advancedPanel;
@@ -152,7 +152,18 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 			}
 			App.debug("euclidianPanel2");
 			return euclidianPanel2;
+		case EUCLIDIAN3D:
+			if (euclidianPanel3D == null) {
+				euclidianPanel3D = new OptionsEuclidianW((AppW) app,
+						((AppW)app).getEuclidianView3D());
+				euclidianPanel3D.setLabels();
+		//		euclidianPanel3D.setView(((AppW)app).getEuclidianView3D());
+				euclidianPanel3D.showCbView(false);
+			}
+			App.debug("euclidianPanel2");
+			return euclidianPanel2;
 
+			
 		case SPREADSHEET:
 			if (spreadsheetPanel == null) {
 				spreadsheetPanel = new OptionsSpreadsheetW((AppW)app, ((AppW)app)
@@ -266,10 +277,14 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 			setOptionPanel(OptionType.OBJECTS);
 		}
 		else if (app.getSelectionManager().selectedGeosSize() == 0) {
-			if (optionType != OptionType.EUCLIDIAN ||  optionType != OptionType.EUCLIDIAN2) {
-
-				setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
+			if (optionType != OptionType.EUCLIDIAN ||  optionType != OptionType.EUCLIDIAN2 ||
+					optionType != OptionType.EUCLIDIAN3D) {
+				if (app.getActiveEuclidianView().isEuclidianView3D()) {
+					setOptionPanel(OptionType.EUCLIDIAN3D);
+				} else {
+					setOptionPanel(app.getActiveEuclidianView().getEuclidianViewNo() == 1
 						? OptionType.EUCLIDIAN : OptionType.EUCLIDIAN2);
+				}
 			}
 		}
 
