@@ -507,32 +507,40 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			prepareShowSymbolButton(true);
 		}
 
-		int columnWidth = 11;
-		switch (actualFontSize) {
-		case 7: columnWidth = 6; break;
-		case 9: columnWidth = 8; break;
-		case 14: columnWidth = 11; break;
-		case 18: columnWidth = 15; break;//18:15:educated guess
-		case 19: columnWidth = 16; break;
-		case 28: columnWidth = 24; break;
-		case 56: columnWidth = 47; break;
-		case 112: columnWidth = 95; break;
-		//more precise for FitLine+FitLineX, but unreal
-		//default: columnWidth = (int) Math.floor(0.83265 * actualFontSize + 0.4615); break;
-		//default: columnWidth = (int) Math.round(0.832 * actualFontSize); break;
-		// 20 length * 18 fontSize * 0.002 difference gives just less than 1 pixel anyway
-		default: columnWidth = (int) Math.round(0.83 * actualFontSize); break;
+		if (this.drawTextField != null) {
+			// only use the correct code for members of the EuclidianView
+
+			int columnWidth = 11;
+			switch (actualFontSize) {
+			case 7: columnWidth = 6; break;
+			case 9: columnWidth = 8; break;
+			case 14: columnWidth = 11; break;
+			case 18: columnWidth = 15; break;//18:15:educated guess
+			case 19: columnWidth = 16; break;
+			case 28: columnWidth = 24; break;
+			case 56: columnWidth = 47; break;
+			case 112: columnWidth = 95; break;
+			//more precise for FitLine+FitLineX, but unreal
+			//default: columnWidth = (int) Math.floor(0.83265 * actualFontSize + 0.4615); break;
+			//default: columnWidth = (int) Math.round(0.832 * actualFontSize); break;
+			//20 length * 18 fontSize * 0.002 difference gives just less than 1 pixel anyway
+			default: columnWidth = (int) Math.round(0.83 * actualFontSize); break;
+			}
+
+			// this is a way to emulate how Java does it in Desktop version,
+			// but columnWidth is not always exact (+-1)
+			getTextBox().setWidth((columns * columnWidth + 5) + "px");
+			// the number 5 comes from experimental testing for small textfields (e.g. columns=1)
+			// of course, this is not the most perfect, but at least works...
+			// due to Greek letters popup, length should be lessened somewhere else
+
+		} else {
+			// GeoGebra GUI (non-GGB GUI) can still use the old code,
+			// for compatibility reasons, e.g. Spreadsheet View
+
+			// as the following solution was wrong, since em means vertical height:
+			getTextBox().setWidth(columns + "em");
 		}
-
-		// this is a way to emulate how Java does it in Desktop version,
-		// but columnWidth is not always exact (+-1)
-		getTextBox().setWidth((columns * columnWidth + 5) + "px");
-		// the number 5 comes from experimental testing for small textfields (e.g. columns=1)
-		// of course, this is not the most perfect, but at least works...
-		// due to Greek letters popup, length should be lessened somewhere else
-
-		// as the following solution was wrong, since em means vertical height:
-		//getTextBox().setWidth(columns + "em");
 	}
 
 	public String getCurrentWord() {
