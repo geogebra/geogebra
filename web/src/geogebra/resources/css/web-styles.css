@@ -11,12 +11,12 @@
  *      property: rule applies to all versions of IE
  *    }
  */
-* {
+.GeoGebraFrame * {
 	box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 }
 
-img {
+.GeoGebraFrame img {
 	vertical-align: baseline;
 }
 /**
@@ -54,10 +54,10 @@ body.application,article {
 
 .GeoGebraFrame input[type="text"],
 .gwt-TextBox,
-select,
-textarea,
+.GeoGebraFrame select,
+.GeoGebraFrame textarea,
 .gwt-TextArea,
-iframe.objectPropertiesTextEditor
+.GeoGebraFrame iframe.objectPropertiesTextEditor
 	{
 	border: #DCDCDC solid 1px;
 	background: #FFFFFF;
@@ -76,10 +76,10 @@ iframe.objectPropertiesTextEditor
 
 .GeoGebraFrame input[type="text"]:focus,
 .gwt-TextBox:focus,
-select:focus,
-textarea:focus,
+.GeoGebraFrame select:focus,
+.GeoGebraFrame textarea:focus,
 .gwt-TextArea:focus,
-iframe.objectPropertiesTextEditor:focus {
+.GeoGebraFrame iframe.objectPropertiesTextEditor:focus {
 	border-color: #6161FF;
 }
 
@@ -1108,7 +1108,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	background: #fff;
 }
 
-td.datePickerMonth {
+.GeoGebraFrame td.datePickerMonth {
 	text-align: center;
 	vertical-align: middle;
 	white-space: nowrap;
@@ -3173,7 +3173,7 @@ body.application[dir=rtl] .marble {
 	margin-left: 10px;
 } 
 
-label {
+.GeoGebraFrame label {
 	display: inline;
 	/*color:black;*/
 	font-weight: normal;
@@ -3556,7 +3556,7 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	display: inline-block;
 }
 
-iframe.objectPropertiesTextEditor {
+.GeoGebraFrame iframe.objectPropertiesTextEditor {
 	margin-bottom: 10px;
 }
 
@@ -3592,7 +3592,7 @@ iframe.objectPropertiesTextEditor {
 	align: center;
 }*/
 
-button.CustomColorButton {
+.GeoGebraFrame button.CustomColorButton {
 	position: relative;
 	left: -124px;
 	top: 12px;
@@ -3608,11 +3608,11 @@ button.CustomColorButton {
 	top: 257px;
 }
 
-button.CustomColorButton:hover {
+.GeoGebraFrame button.CustomColorButton:hover {
 	background-color: rgb(204, 204, 255) !important;
 }
 
-button.CustomColorButton:active {
+.GeoGebraFrame button.CustomColorButton:active {
 	border: 2px inset #555555 !important;
 }
 
@@ -3962,7 +3962,7 @@ button.CustomColorButton:active {
 	float: right;
 }
 
-button.gwt-Button.signInButton {
+.GeoGebraFrame button.gwt-Button.signInButton {
 	margin-top: 6px;
 }
 
