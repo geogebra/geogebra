@@ -17,6 +17,9 @@ import java.util.HashMap;
 
 import javax.swing.SwingUtilities;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 /**
  * @author michael
  * 
@@ -142,6 +145,69 @@ public class UDPLoggerD implements UDPLogger {
 		byte[] bytes = { buffer1[i], buffer1[i + 1], buffer1[i + 2],
 				buffer1[i + 3] };
 		return ByteBuffer.wrap(bytes).order(ByteOrder.LITTLE_ENDIAN).getFloat();
+	}
+
+	public void handleJSON(byte[] buffer, int length, String address,
+			boolean quicker) {
+		// TODO: convert to-from string by a specific encoding, e.g. UTF-8
+		JSONArray ja = new JSONArray(new String(buffer, 0, length));
+		JSONObject jo;
+		String key;
+
+		if ("EDAQ".equals(ja.getString(0))) {
+			// EDAQ 530
+
+			// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
+			// we could even spare the ; and , but still left
+
+			for (int bp = 1; bp < ja.length(); bp++) {
+				jo = ja.getJSONObject(bp);
+				key = (String) jo.keys().next();
+				switch (Integer.parseInt(key)) {
+				case 0:
+					log(Types.EDAQ0, jo.getDouble(key), false, !quicker);
+					break;
+				case 1:
+					log(Types.EDAQ1, jo.getDouble(key), false, !quicker);
+					break;
+				case 2:
+					log(Types.EDAQ2, jo.getDouble(key), false, !quicker);
+					break;
+
+				default:
+					App.error("unknown EDAQ port!");
+				}
+			}
+
+			if (quicker) {
+				// to increase speed, calling updateCascade and repaint once
+				// only!
+				GeoElement ge = listeners.get(Types.EDAQ0);
+				if (ge == null) {
+					ge = listenersL.get(Types.EDAQ0);
+				}
+				if (ge != null) {
+					ge.updateCascade();
+				}
+				ge = listeners.get(Types.EDAQ1);
+				if (ge == null) {
+					ge = listenersL.get(Types.EDAQ1);
+				}
+				if (ge != null) {
+					ge.updateCascade();
+				}
+				ge = listeners.get(Types.EDAQ2);
+				if (ge == null) {
+					ge = listenersL.get(Types.EDAQ2);
+				}
+				if (ge != null) {
+					ge.updateCascade();
+				}
+			}
+
+			// flush repainting of logs!
+			kernel.notifyRepaint();
+		}
 	}
 
 	public void handle(byte[] buffer, int length, String address,
@@ -398,12 +464,23 @@ public class UDPLoggerD implements UDPLogger {
 						final int length = packet.getLength();
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-								handle(bufferCopy, length, packet.getAddress()
-										.getHostAddress()
-										+ " "
-										+ packet.getAddress().getHostName(),
-										true);
-
+								if ("[".getBytes()[0] == bufferCopy[0]) {
+									handleJSON(bufferCopy, length,
+											packet.getAddress()
+													.getHostAddress()
+													+ " "
+													+ packet.getAddress()
+															.getHostName(),
+											true);
+								} else {
+									handle(bufferCopy, length,
+											packet.getAddress()
+													.getHostAddress()
+													+ " "
+													+ packet.getAddress()
+															.getHostName(),
+											true);
+								}
 							}
 						});
 						// Reset the length of the packet before reusing
