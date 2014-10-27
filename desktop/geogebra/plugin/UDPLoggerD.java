@@ -409,7 +409,7 @@ public class UDPLoggerD implements UDPLogger {
 		// and this gives 500 * 11 bytes at once! Plus the EDAQ string.
 		// this happens e.g. if the 50ms of waiting time is interrupted
 		// by many ms of computer processing time.
-		final byte[] buffer = new byte[5510];
+		final byte[] buffer = new byte[15520];
 
 		// of course, this will only be used when needed, and anyway, 6 KB
 		// is not much in the age of kilobytes and megabytes...
