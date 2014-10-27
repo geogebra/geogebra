@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoAxis3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoClippingCube3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
@@ -96,12 +95,6 @@ public class Construction3D extends Construction {
 		super.initGeoTables();
 		
 
-		// add axes labels both in English and current language
-		if (GeoGebraConstants.IS_PRE_RELEASE){
-			geoTable.put("xAxis3D", getXAxis());
-			geoTable.put("yAxis3D", getYAxis());
-			geoTable.put("zAxis3D", zAxis3D);
-		}
 		geoTable.put("zAxis", zAxis3D);
 		geoTable.put("xOyPlane", xOyPlane);
 		geoTable.put("space", space);
