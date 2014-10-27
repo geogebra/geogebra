@@ -242,7 +242,7 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 	 * 
 	 * To add a new JavaScript method, do the following: 1) add the method stub
 	 * to the interface geogebra.JavaScriptAPI 2) implement the method in
-	 * geogebra.main.AppletImplementation 3) impplement the method here in
+	 * geogebra.main.AppletImplementation 3) implement the method here in
 	 * geogebra.GeoGebraApplet by delegating it to
 	 * geogebra.main.AppletImplementation
 	 */
@@ -609,6 +609,14 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 		getAppletImplementation().setValue(objName, x);
 	}
 
+	public synchronized void setTextValue(String objName, String x) {
+		getAppletImplementation().setTextValue(objName, x);
+	}
+
+	public synchronized void setListValue(String objName, double x, double y) {
+		getAppletImplementation().setListValue(objName, x, y);
+	}
+
 	public synchronized void setVisible(String objName, boolean visible) {
 		getAppletImplementation().setVisible(objName, visible);
 	}
@@ -693,10 +701,6 @@ public class GeoGebraApplet extends JApplet implements JavaScriptAPI {
 
 	public String getPenColor() {
 		return getAppletImplementation().getPenColor();
-	}
-
-	public void setListValue(String objName, int index, double x) {
-		getAppletImplementation().setListValue(objName, index, x);
 	}
 
 	public double getListValue(String objName, int index) {

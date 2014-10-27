@@ -332,10 +332,6 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getListValue(Ljava/lang/String;I)(objName, index);
 		};
 		
-		api.setListValue = function(objName, index, value) {
-			return ggbAPI.@geogebra.html5.main.GgbAPIW::setListValue(Ljava/lang/String;ID)(objName, index, value);
-		};
-
 		api.getDefinitionString = function(objName) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;)(objName);
 		};
@@ -380,6 +376,49 @@ public class ScriptManagerW extends ScriptManager {
  		        return; 
  		    }
  		    ggbAPI.@geogebra.html5.main.GgbAPIW::setValue(Ljava/lang/String;D)(objName,x);
+		};
+
+		api.setTextValue = function(objName, x) {
+ 		    
+ 		    x = x + ""; 
+
+ 		    if (typeof objName !== "string") { 
+ 		    	// avoid possible strange effects 
+ 		        return; 
+ 		    }
+ 		    ggbAPI.@geogebra.html5.main.GgbAPIW::setTextValue(Ljava/lang/String;Ljava/lang/String;)(objName,x);
+		};
+
+		api.setListValue = function(objName, x, y) {
+			// #4035 
+ 		    // need to support possible syntax error 
+ 		    if (typeof x === "string") { 
+ 		    	if (x ===  "true") { 
+ 		        	x = 1; 
+ 		        } else if (x === "false") { 
+ 		        	x = 0; 
+ 		        } else { 
+ 		        	// force string -> number (might give NaN) 
+ 		        	x = x * 1; 
+ 		        } 
+ 		    } 
+
+ 		    if (typeof y === "string") { 
+ 		    	if (y ===  "true") { 
+ 		        	y = 1; 
+ 		        } else if (y === "false") { 
+ 		        	y = 0; 
+ 		        } else { 
+ 		        	// force string -> number (might give NaN) 
+ 		        	y = y * 1; 
+ 		        } 
+ 		    } 
+
+ 		    if (typeof x !== "number" || typeof y !== "number") { 
+ 		    	// avoid possible strange effects 
+ 		        return; 
+ 		    }
+ 		    ggbAPI.@geogebra.html5.main.GgbAPIW::setListValue(Ljava/lang/String;DD)(objName,x,y);
 		};
 
 		api.setRepaintingActive = function(flag) {

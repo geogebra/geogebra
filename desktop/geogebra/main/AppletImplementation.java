@@ -1206,6 +1206,14 @@ public class AppletImplementation implements AppletImplementationInterface {
 		ggbApi.setValue(objName, x);
 	}
 
+	public synchronized void setTextValue(String objName, String x) {
+		ggbApi.setTextValue(objName, x);
+	}
+
+	public synchronized void setListValue(String objName, double x, double y) {
+		ggbApi.setListValue(objName, x, y);
+	}
+
 	/**
 	 * Turns the repainting of all views on or off.
 	 */
@@ -1314,23 +1322,19 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public synchronized void initJavaScript() {
 
 		/*
-		if (!app.useBrowserForJavaScript()) {
-			return;
-		}
-
-		if (browserWindow == null) {
-			try {
-				browserWindow = JSObject.getWindow(applet);
-
-				if (browserWindow == null) {
-					App.debug("Warning: could not initialize JSObject.getWindow() for GeoGebraApplet");
-				}
-
-			} catch (Exception e) {
-				App.debug("Exception: could not initialize JSObject.getWindow() for GeoGebraApplet");
-			}
-		}
-		*/
+		 * if (!app.useBrowserForJavaScript()) { return; }
+		 * 
+		 * if (browserWindow == null) { try { browserWindow =
+		 * JSObject.getWindow(applet);
+		 * 
+		 * if (browserWindow == null) { App.debug(
+		 * "Warning: could not initialize JSObject.getWindow() for GeoGebraApplet"
+		 * ); }
+		 * 
+		 * } catch (Exception e) { App.debug(
+		 * "Exception: could not initialize JSObject.getWindow() for GeoGebraApplet"
+		 * ); } }
+		 */
 	}
 
 	public Object callJavaScript(String jsFunction, Object[] args) {
@@ -1462,10 +1466,6 @@ public class AppletImplementation implements AppletImplementationInterface {
 		return ggbApi.getPenColor();
 	}
 
-	public void setListValue(String objName, int index, double x) {
-		ggbApi.setListValue(objName, index, x);
-	}
-
 	public double getListValue(String objName, int index) {
 		return ggbApi.getListValue(objName, index);
 	}
@@ -1481,21 +1481,18 @@ public class AppletImplementation implements AppletImplementationInterface {
 	public String evalJS(String exp) {
 
 		/*
-		JSObject window = JSObject.getWindow(applet);
-
-		// get an object from JavaScript and retrieve its contents
-		Object ob = window.eval(exp);
-
-		if (ob == null) {
-			return null;
-		}
-
-		if (ob instanceof JSObject) {
-			return ((JSObject) ob).getSlot(0).toString();
-		}
-
-		return ob.toString();
-		*/
+		 * JSObject window = JSObject.getWindow(applet);
+		 * 
+		 * // get an object from JavaScript and retrieve its contents Object ob
+		 * = window.eval(exp);
+		 * 
+		 * if (ob == null) { return null; }
+		 * 
+		 * if (ob instanceof JSObject) { return ((JSObject)
+		 * ob).getSlot(0).toString(); }
+		 * 
+		 * return ob.toString();
+		 */
 		return null;
 	}
 

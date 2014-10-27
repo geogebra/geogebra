@@ -376,6 +376,14 @@ public interface JavaScriptAPI {
 	 */
 	public void setValue(String objName, double x);
 	
+	public void setTextValue(String objName, String x);
+	
+	/** 
+	 * Sets the double value of the specified index of the list.  
+	 * Can be used to extend the size of a list 
+	 */ 
+	public void setListValue(String objName, double x, double y);
+	
 	/**
 	 * Turns the repainting of all views on or off.
 	 */
@@ -549,11 +557,6 @@ public interface JavaScriptAPI {
 	public void clearImage(String label);
 
 
-	/** 
-	 * Sets the double value of the specified index of the list.  
-	 * Can be used to extend the size of a list 
-	 */ 
-	public void setListValue(String objName, int index, double x); 
 
 	/** 
 	 * Gets the double value of the specified index of the list.  

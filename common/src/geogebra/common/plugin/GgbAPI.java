@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.scripting.CmdSetValue;
 import geogebra.common.main.App;
 import geogebra.common.util.StringUtil;
 
@@ -877,16 +878,48 @@ public abstract class GgbAPI implements JavaScriptAPI{
 	 * Note: if the specified object is not a number, nothing happens.
 	 */
 	public synchronized void setValue(String objName, double x) {
+
 		GeoElement geo = kernel.lookupLabel(objName);
-		if (geo == null || !geo.isIndependent()) return;
+		if (geo == null || !geo.isIndependent()) {
+			return;
+		}
 		
+		GeoElement[] arg = {geo, new GeoNumeric(kernel.getConstruction(), x)};
+		
+		CmdSetValue.setValue2(arg);
+		
+		/*
 		if (geo.isGeoNumeric()) {
 			((GeoNumeric) geo).setValue(x);
 			geo.updateRepaint();
 		} else if (geo.isGeoBoolean()) {
 			((GeoBoolean) geo).setValue(Kernel.isZero(x) ? false : true);
 			geo.updateRepaint();
+		}*/
+	}
+	
+	public synchronized void setTextValue(String objName, String x) {
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null || !geo.isGeoText() || !geo.isIndependent()) {
+			return;
 		}
+		
+		((GeoText)geo).setTextString(x);
+		geo.updateRepaint();
+		
+	}
+	
+	public synchronized void setListValue(String objName, double x, double y) {
+		
+		GeoElement geo = kernel.lookupLabel(objName);
+		if (geo == null || !geo.isGeoList() || !geo.isIndependent()) {
+			return;
+		}
+		
+		Construction cons = kernel.getConstruction();
+		
+		CmdSetValue.setValue3(kernel, (GeoList) geo, (int) x, new GeoNumeric(cons, y));
+		
 	}
 	
 	/**
@@ -1027,56 +1060,6 @@ public abstract class GgbAPI implements JavaScriptAPI{
 				.getEuclidianController().getPen().getPenColor());
     }
 	
-	// similar code in CmdSetValue
-	public void setListValue(String objName, int nn, double x) {
-		GeoElement geoList = kernel.lookupLabel(objName);
-		if (geoList == null || !geoList.isGeoList()) {
-			return;
-		}
-
-
-		GeoList list = (GeoList)geoList;
-
-		if (nn < 1 || nn > list.size() + 1) {
-			return;
-		}
-		
-		Construction cons = kernel.getConstruction();
-
-		if(nn > list.size()){
-			list.add(new GeoNumeric(cons, x));
-			list.updateRepaint();
-			return;
-		}
-		GeoElement geo = list.get(nn - 1);
-		if (geo.isIndependent()) {
-			if (geo.isGeoNumeric()) {
-				((GeoNumeric) geo).setValue(x);
-			} else {
-				geo.set(new GeoNumeric(cons, x));						
-			}
-		}
-		//else App.debug(geo.getParentAlgorithm());
-
-		geo.updateRepaint();
-
-		// update the list too if necessary
-		if (!geo.isLabelSet()) { // eg like first element of {1,2,a}
-			Iterator<GeoElement> it = cons
-					.getGeoSetConstructionOrder().iterator();
-			while (it.hasNext()) {
-				GeoElement geo2 = it.next();
-				if (geo2.isGeoList()) {
-					GeoList gl = (GeoList) geo2;
-					for (int i = 0; i < gl.size(); i++) {
-						if (gl.get(i) == geo)
-							gl.updateRepaint();
-					}
-				}
-			}
-		}
-	}
-
 	public double getListValue(String objName, int index) {
 		GeoElement geo = kernel.lookupLabel(objName);
 		if (geo == null || !geo.isGeoList()) {
