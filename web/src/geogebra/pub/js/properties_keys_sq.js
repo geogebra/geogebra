@@ -872,6 +872,8 @@ __GGB__keysVar.sq.command = {
     "Solutions.SyntaxCAS": "[ <Ekuacioni> ]\n[ <Ekuacioni>, <Variabli> ]\n[ <Lista e Ekuacioneve>, <Lista e Variablave> ]",
     "Solve": "Zgjidh",
     "Solve.SyntaxCAS": "[ <Ekuacion me x> ]\n[ <Ekuacion>, <Variabel> ]\n[ <Lista e Ekuacioneve>, <Lista e Variablave> ]",
+    "SolveCubic": "SolveCubic",
+    "SolveCubic.Syntax": "[ <Cubic Polynomial> ]",
     "SolveODE": "ZgjidhODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Point on f> ]\n[ <f'(x, y)>, <Fillim x>, <Fillim y>, <Mbarim x>, <Hapi> ]\n[ <y'>, <x'>, <Fillim x>, <Fillim y>, <Mbarim t>, <Hapi> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Fillim x>, <Fillim y>, <Fillim y'>, <Mbarim x>, <Hapi> ]",
     "SolveODE.SyntaxCAS": "[ <Ekuacion> ]\n[ <Ekuacion>, <Pika(s) ne f> ]\n[ <Ekuacion>, <Pika(s) ne f>, <Pika(s) ne f'> ]\n[ <Ekuacion>, <Variabel i Varur>, <Variabel i Pavarur>, <Pika(s) ne f> ]\n[ <Ekuacion>, <Variabel i Varur>, <Variabel i Pavarur>, <Pika(s) ne f>, <Pika(s) ne f'> ]",

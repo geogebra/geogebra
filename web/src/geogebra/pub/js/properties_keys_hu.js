@@ -872,6 +872,8 @@ __GGB__keysVar.hu.command = {
     "Solutions.SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3> ]\n[ <Egyenletek list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]",
     "Solve": "Megold",
     "Solve.SyntaxCAS": "[ <Egyenlet x-re> ]\n[ <Egyenlet>, <V\xe1ltoz\xf3> ]\n[ <Egyenletek list\xe1ja>, <V\xe1ltoz\xf3k list\xe1ja> ]",
+    "SolveCubic": "Harmadfok\xfatMegold",
+    "SolveCubic.Syntax": "[ <Harmadfok\xfa polinom> ]",
     "SolveODE": "Differenci\xe1lEgyenletNumerikusan",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Pont f-en> ]\n[ <f'(x, y)>, <Kezd\u0151 x \xe9rt\xe9k>, <Kezd\u0151 y \xe9rt\xe9k>, <Z\xe1r\xf3 x \xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]\n[ <y'>, <x'>, <Kezd\u0151 x \xe9rt\xe9k>, <Kezd\u0151 y \xe9rt\xe9k>, <Z\xe1r\xf3 t \xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Kezd\u0151 x \xe9rt\xe9k>, <Kezd\u0151 y \xe9rt\xe9k>, <Kezd\u0151 y' \xe9rt\xe9k>, <Z\xe1r\xf3 x \xe9rt\xe9k>, <L\xe9p\xe9sk\xf6z> ]",
     "SolveODE.SyntaxCAS": "[ <Egyenlet> ]\n[ <Egyenlet>, <F\xfcgg\u0151 v\xe1ltoz\xf3>, <F\xfcggetlen v\xe1ltoz\xf3> ]",

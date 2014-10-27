@@ -872,6 +872,8 @@ __GGB__keysVar.hr.command = {
     "Solutions.SyntaxCAS": "[ <jednad\u017eba> ]\n[ <jednad\u017eba>, <varijabla> ]\n[ <lista jednad\u017ebi>, <lista varijabli> ]",
     "Solve": "Rije\u0161i",
     "Solve.SyntaxCAS": "[ <jednad\u017eba po x> ]\n[ <jednad\u017eba>, <varijabla> ]\n[ <lista jednad\u017ebi>, <lista varijabli> ]",
+    "SolveCubic": "Rije\u0161iKubnu",
+    "SolveCubic.Syntax": "[ <kubni polinom> ]",
     "SolveODE": "Rije\u0161iODJ",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <to\u010dka na f> ]\n[ <f'(x, y)>, <po\u010detna vrijednost x>, <po\u010detna vrijednost y>, <zavr\u0161na vrijednost x>, <korak> ]\n[ <y'>, <x'>, <po\u010detna vrijednost x>, <po\u010detna vrijednost y>, <zavr\u0161na vrijednost t>, <korak> ]\n[ <b(x)>, <c(x)>, <f(x)>, <po\u010detna vrijednost x>, <po\u010detna vrijednost y>, <Po\u010detna vrijednost y'>, <zavr\u0161na vrijednost x>, <korak> ]",
     "SolveODE.SyntaxCAS": "[ <jednad\u017eba> ]\n[ <jednad\u017eba>, <to\u010dka na f> ]\n[ <jednad\u017eba>, <to\u010dka na f>, <to\u010dka na f'> ]\n[ <jednad\u017eba>, <zavisna varijabla>, <nezavisna varijabla>, <to\u010dka na f> ]\n[ <jednad\u017eba>, <zavisna varijabla>, <nezavisna varijabla>, <to\u010dka na f>, <to\u010dka na f'> ]",

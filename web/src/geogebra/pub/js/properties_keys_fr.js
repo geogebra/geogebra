@@ -872,6 +872,8 @@ __GGB__keysVar.fr.command = {
     "Solutions.SyntaxCAS": "[ <\xc9quation> ]\n[ <\xc9quation>, <Variable> ]\n[ <Liste \xc9quations>, <Liste Variables> ]",
     "Solve": "R\xe9soudre",
     "Solve.SyntaxCAS": "[ <\xc9quation en x> ]\n[ <\xc9quation>, <Variable> ]\n[ <Liste \xc9quations>, <Liste Variables> ]",
+    "SolveCubic": "R\xe9soudreCubique",
+    "SolveCubic.Syntax": "[ <Polyn\xf4me de degr\xe9 3> ]",
     "SolveODE": "R\xe9solEquaDiff",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Point de f> ]\n[ <f'(x, y)>, <x initial>, <y initial>, <x final>, <Pas> ]\n[ <y'>, <x'>, <x initial>, <y initial>, <t final>, <Pas> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x initial>, <y initial>, <y'initial>, <x final>, <Pas> ]",
     "SolveODE.SyntaxCAS": "[ <\xc9quation> ]\n[ <\xc9quation>, <Point(s) de f> ]\n[ <\xc9quation>, <Point(s) de f>, <Point(s) de f'> ]\n[ <\xc9quation>, <Var D\xe9pendante>, <Var Ind\xe9pendante>, <Point(s) de f> ]\n[ <\xc9quation>, <Var D\xe9pendante>, <Var Ind\xe9pendante>, <Point(s) de f>, <Point(s) de f'> ]",

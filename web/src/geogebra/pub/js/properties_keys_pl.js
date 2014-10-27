@@ -872,6 +872,8 @@ __GGB__keysVar.pl.command = {
     "Solutions.SyntaxCAS": "[ <R\xf3wnanie> ]\n[ <R\xf3wnanie>, <Zmienna> ]\n[ <Lista R\xf3wna\u0144>, <Lista Zmiennych> ]",
     "Solve": "Rozwi\u0105\u017c",
     "Solve.SyntaxCAS": "[ <R\xf3wnanie zmiennej x> ]\n[ <R\xf3wnanie>, <Zmienna> ]\n[ <Lista R\xf3wna\u0144>, <Lista Zmiennych> ]",
+    "SolveCubic": "SolveCubic",
+    "SolveCubic.Syntax": "[ <Cubic Polynomial> ]",
     "SolveODE": "Rozwi\u0105\u017cR\xf3wnanieR\xf3\u017cniczkoweZwyczajne",
     "SolveODE.Syntax": "[ <f'(x y)> ]\n[ <f'(x y)>, <Punkt na f> ]\n[ <f'(x y)>, <Start x>, <Start y>, <Koniec x>, <Krok> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <Koniec t>, <Krok> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <Koniec x>, <Krok> ]",
     "SolveODE.SyntaxCAS": "[ <R\xf3wnanie> ]\n[ <R\xf3wnanie>, <Punkt(y) na f> ]\n[ <R\xf3wnanie>, <Punkt(y) na f>, <Punkt(y) na f'> ]\n[ <R\xf3wnanie>, <Zmienna Zale\u017cna>, <Zmienna Niezale\u017cna>, <Punkt(y) na f> ]\n[ <R\xf3wnanie>, <Zmienna Zale\u017cna>, <Zmienna Niezale\u017cna>, <Punkt(y) na f>, <Punkt(y) na f'> ]",

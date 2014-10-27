@@ -872,6 +872,8 @@ __GGB__keysVar.et.command = {
     "Solutions.SyntaxCAS": "[ <V\xf5rrand> ]\n[ <V\xf5rrand>, <Muutuja> ]\n[ <V\xf5rrandite loend>, <Muutujate loend> ]",
     "Solve": "Lahenda",
     "Solve.SyntaxCAS": "[ <V\xf5rrand x-i suhtes> ]\n[ <V\xf5rrand>, <Muutuja> ]\n[ <V\xf5rrandite loend>, <Muutujate loend> ]",
+    "SolveCubic": "SolveCubic",
+    "SolveCubic.Syntax": "[ <Cubic Polynomial> ]",
     "SolveODE": "LahendaHDV",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <f-i punkt> ]\n[ <f'(x, y)>, <x-i algv\xe4\xe4rtus>, <y-i algv\xe4\xe4rtus>, <x-i l\xf5ppv\xe4\xe4rtus>, <Samm> ]\n[ <y'>, <x'>, <x-i algv\xe4\xe4rtus>, <y-i algv\xe4\xe4rtus>, <t l\xf5ppv\xe4\xe4rtus>, <Samm> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x-i algv\xe4\xe4rtus>, <y-i algv\xe4\xe4rtus>, <y'-i algv\xe4\xe4rtus>, <x-i l\xf5ppv\xe4\xe4rtus>, <Samm> ]",
     "SolveODE.SyntaxCAS": "[ <V\xf5rrand> ]\n[ <V\xf5rrand>, <f-i punkt(id)> ]\n[ <V\xf5rrand>, <f-i punkt(id)>, <f'-i punkt(id)> ]\n[ <V\xf5rrand>, <S\xf5ltuv muutuja>, <S\xf5ltumatu muutuja>, <f-i punkt(id)> ]\n[ <V\xf5rrand>, <S\xf5ltuv muutuja>, <S\xf5ltumatu muutuja>, <f-i punkt(id)>, <f'-i punkt(id)> ]",

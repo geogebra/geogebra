@@ -872,6 +872,8 @@ __GGB__keysVar.ja.command = {
     "Solutions.SyntaxCAS": "[ <\u7b49\u5f0f> ]\n[ <\u7b49\u5f0f>, <\u5909\u6570> ]\n[ <\u7b49\u5f0f\u306e\u30ea\u30b9\u30c8>, <\u5909\u6570\u306e\u30ea\u30b9\u30c8> ]",
     "Solve": "Solve",
     "Solve.SyntaxCAS": "[ <x\u306e\u7b49\u5f0f> ]\n[ <\u7b49\u5f0f>, <\u5909\u6570> ]\n[ <\u7b49\u5f0f\u306e\u30ea\u30b9\u30c8>, <\u5909\u6570\u306e\u30ea\u30b9\u30c8> ]",
+    "SolveCubic": "SolveCubic",
+    "SolveCubic.Syntax": "[ <Cubic Polynomial> ]",
     "SolveODE": "SolveODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Point on f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <End x>, <Step> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <End t>, <Step> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End x>, <Step> ]",
     "SolveODE.SyntaxCAS": "[ <\u7b49\u5f0f> ]\n[ <\u7b49\u5f0f>, <Point(s) on f> ]\n[ <\u7b49\u5f0f>, <Point(s) on f>, <Point(s) on f'> ]\n[ <\u7b49\u5f0f>, <Dependent Variable>, <Independent Variable>, <Point(s) on f> ]\n[ <\u7b49\u5f0f>, <Dependent Variable>, <Independent Variable>, <Point(s) on f>, <Point(s) on f'> ]",

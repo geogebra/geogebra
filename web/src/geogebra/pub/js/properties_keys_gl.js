@@ -872,6 +872,8 @@ __GGB__keysVar.gl.command = {
     "Solutions.SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Variable> ]\n[ <Lista de ecuaci\xf3ns>, <Lista de variables> ]",
     "Solve": "Resolve",
     "Solve.SyntaxCAS": "[ <Ecuaci\xf3n en x> ]\n[ <Ecuaci\xf3n>, <Variable> ]\n[ <Lista de ecuaci\xf3ns>, <Lista de variables> ]",
+    "SolveCubic": "ResolveCubic",
+    "SolveCubic.Syntax": "[ <Polinomio c\xfabico> ]",
     "SolveODE": "ResolveODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punto en f> ]\n[ <f'(x, y)>, <Valor x inicial>, <Valor y inicial>, <Valor x final>, <Paso> ]\n[ <y'>, <x'>, <Valor x inicial>, <Valor y inicial>, <Valor t final>, <Paso> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Valor x inicial>, <Valor y inicial>, <Valor y' inicial>, <Valor x final>, <Paso> ]",
     "SolveODE.SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Variable dependente>, <Variable independente> ]",

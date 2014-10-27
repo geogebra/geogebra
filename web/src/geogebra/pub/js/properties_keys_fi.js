@@ -872,6 +872,8 @@ __GGB__keysVar.fi.command = {
     "Solutions.SyntaxCAS": "[ <Yht\xe4l\xf6> ]\n[ <Yht\xe4l\xf6>, <Muuttuja> ]\n[ <Yht\xe4l\xf6lista>, <Muuttujalista> ]",
     "Solve": "Ratkaise",
     "Solve.SyntaxCAS": "[ <Yht\xe4l\xf6, jossa muuttujana on x> ]\n[ <Yht\xe4l\xf6, Muuttuja> ]\n[ <Yht\xe4l\xf6>, <Muuttuja> ]",
+    "SolveCubic": "RatkaiseKolmannenAsteenPolynomi",
+    "SolveCubic.Syntax": "[ <KolmannenAsteenPolynomi> ]",
     "SolveODE": "RatkaiseDY",
     "SolveODE.Syntax": "[ <f'(x y)> ]\n[ <f'(x y)>, <f:n L\xe4pikulkupiste> ]\n[ <f'(x y)>, <x:n Alkuarvo>, <y:n Alkuarvo>, <x:n Loppuarvo>, <Askel> ]\n[ <y'>, <x'>, <x:n Alkuarvo>, <y:n Alkuarvo>, <t:n Loppuarvo>, <Askel> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x:n Alkuarvo>, <y:n Alkuarvo>, <y':n alkuarvo>, <x:n Loppuarvo>, <Askel> ]",
     "SolveODE.SyntaxCAS": "[ <Yht\xe4l\xf6> ]\n[ <Yht\xe4l\xf6>, <f:n L\xe4pikulkupiste> ]\n[ <Yht\xe4l\xf6>, <f:n L\xe4pikulkupiste>, <f':n L\xe4pikulkupiste> ]\n[ <Yht\xe4l\xf6>, <Riippuva Muuttuja>, <Riippumaton Muuttuja>, <f:n L\xe4pikulkupiste> ]\n[ <Yht\xe4l\xf6>, <Riippuva Muuttuja>, <Riippumaton Muuttuja>, <f:n L\xe4pikulkupiste>, <f':n L\xe4pikulkupiste> ]",

@@ -872,6 +872,8 @@ __GGB__keysVar.cs.command = {
     "Solutions.SyntaxCAS": "[ <Rovnice> ]\n[ <Rovnice>, <Prom\u011bnn\xe1> ]\n[ <Seznam rovnic>, <Seznam prom\u011bnn\xfdch> ]",
     "Solve": "Vyresit",
     "Solve.SyntaxCAS": "[ <Rovnice v x> ]\n[ <Rovnice>, <Prom\u011bnn\xe1> ]\n[ <Seznam rovnic>, <Seznam prom\u011bnn\xfdch> ]",
+    "SolveCubic": "VyresitKubicky",
+    "SolveCubic.Syntax": "[ <Kubick\xfd polynom> ]",
     "SolveODE": "VyresitODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Bod na f> ]\n[ <f'(x, y)>, <Po\u010d\xe1te\u010dn\xed x>, <Po\u010d\xe1te\u010dn\xed y>, <Koncov\xe9 x>, <Krok> ]\n[ <y'>, <x'>, <Po\u010d\xe1te\u010dn\xed x>, <Po\u010d\xe1te\u010dn\xed y>, <Koncov\xe9 t>, <Krok> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Po\u010d\xe1te\u010dn\xed x>, <Po\u010d\xe1te\u010dn\xed y>, <Po\u010d\xe1te\u010dn\xed y'>, <Koncov\xe9 x>, <Krok> ]",
     "SolveODE.SyntaxCAS": "[ <Rovnice> ]\n[ <Rovnice>, <Z\xe1visl\xe1 prom\u011bnn\xe1>, <Nez\xe1visl\xe1 prom\u011bnn\xe1> ]",

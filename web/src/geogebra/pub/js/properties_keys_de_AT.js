@@ -872,6 +872,8 @@ __GGB__keysVar.de_AT.command = {
     "Solutions.SyntaxCAS": "[ <Gleichung> ]\n[ <Gleichung>, <Variable> ]\n[ <Liste von Gleichungen>, <Liste von Variablen> ]",
     "Solve": "L\xf6se",
     "Solve.SyntaxCAS": "[ <Gleichung in x> ]\n[ <Gleichung>, <Variable> ]\n[ <Liste von Gleichungen>, <Liste von Variablen> ]",
+    "SolveCubic": "L\xf6seKubisch",
+    "SolveCubic.Syntax": "[ <Kubische Gleichung> ]",
     "SolveODE": "L\xf6seDgl",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punkt von f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <Ende x>, <Schrittweite> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <Ende t>, <Schrittweite> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <Ende x>, <Schrittweite> ]",
     "SolveODE.SyntaxCAS": "[ <Gleichung> ]\n[ <Gleichung>, <Punkt(e) von f> ]\n[ <Gleichung>, <Punkt(e) von f>, <Punkt(e) von f'> ]\n[ <Gleichung>, <Abh\xe4ngige Variable>, <Unabh\xe4ngige Variable>, <Punkt(e) von f> ]\n[ <Gleichung>, <Abh\xe4ngige Variable>, <Unabh\xe4ngige Variable>, <Punkt(e) von f>, <Punkt(e) von f'> ]",

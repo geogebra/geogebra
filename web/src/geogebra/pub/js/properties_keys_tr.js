@@ -872,6 +872,8 @@ __GGB__keysVar.tr.command = {
     "Solutions.SyntaxCAS": "[ <Denklem> ]\n[ <Denklem>, <De\u011fi\u015fken> ]\n[ <Denklem Listesi>, <De\u011fi\u015fken Listesi> ]",
     "Solve": "\xc7\xf6z",
     "Solve.SyntaxCAS": "[ <x cinsinden Denklem> ]\n[ <Denklem>, <De\u011fi\u015fken> ]\n[ <Denklem Listesi>, <De\u011fi\u015fken Listesi> ]",
+    "SolveCubic": "\xc7\xf6zK\xfcbik",
+    "SolveCubic.Syntax": "[ <K\xfcbik Polinom> ]",
     "SolveODE": "\xc7\xf6zDD",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <f \xfczerindeki Nokta> ]\n[ <f'(x, y)>, <Ba\u015flang\u0131\xe7 x>, <Ba\u015flang\u0131\xe7 y>, <Biti\u015f x>, <Ad\u0131m> ]\n[ <y'>, <x'>, <Ba\u015flang\u0131\xe7 x>, <Ba\u015flang\u0131\xe7 y>, <Biti\u015f t>, <Ad\u0131m> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Ba\u015flang\u0131\xe7 x>, <Ba\u015flang\u0131\xe7 y>, <Ba\u015flang\u0131\xe7 y'>, <Biti\u015f x>, <Ad\u0131m> ]",
     "SolveODE.SyntaxCAS": "[ <Denklem> ]\n[ <Denklem>, <f \xfczerindeki nokta(lar)> ]\n[ <Denklem>, <f \xfczerindeki nokta(lar)>, <f \xfczerindeki nokta(lar)> ]\n[ <Denklem>, <Ba\u011f\u0131ml\u0131 de\u011fi\u015fken>, <Ba\u011f\u0131ms\u0131z de\u011fi\u015fken>, <f \xfczerindeki nokta(lar)> ]\n[ <Denklem>, <Ba\u011f\u0131ml\u0131 de\u011fi\u015fken>, <Ba\u011f\u0131ms\u0131z de\u011fi\u015fken>, <f \xfczerindeki nokta(lar)>, <f \xfczerindeki nokta(lar)> ]",

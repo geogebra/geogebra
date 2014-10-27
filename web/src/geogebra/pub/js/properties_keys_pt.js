@@ -872,6 +872,8 @@ __GGB__keysVar.pt.command = {
     "Solutions.SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel> ]\n[ <Lista de Equa\xe7\xf5es>, <Lista de Vari\xe1veis> ]",
     "Solve": "Resolver",
     "Solve.SyntaxCAS": "[ <Equa\xe7\xe3o em x> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel> ]\n[ <Lista de Equa\xe7\xf5es>, <Lista de Vari\xe1veis> ]",
+    "SolveCubic": "ResolverC\xfabica",
+    "SolveCubic.Syntax": "[ <Polin\xf4mio de Grau 3> ]",
     "SolveODE": "ResolverEDO",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Ponto de f> ]\n[ <f'(x, y)>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de x Final>, <Passo> ]\n[ <y'>, <x'>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de t Final>, <Passo> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Valor de x Inicial>, <Valor de y Inicial>, <Valor de y' Inicial>, <Valor de x Final>, <Passo> ]",
     "SolveODE.SyntaxCAS": "[ <Equa\xe7\xe3o> ]\n[ <Equa\xe7\xe3o>, <Vari\xe1vel Dependente>, <Vari\xe1vel Independente> ]",

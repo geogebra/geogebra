@@ -872,6 +872,8 @@ __GGB__keysVar.es_UY.command = {
     "Solutions.SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Variable> ]\n[ <Lista de ecuaciones>, <Lista de variables> ]",
     "Solve": "Resuelve",
     "Solve.SyntaxCAS": "[ <Ecuaci\xf3n en x> ]\n[ <Ecuaci\xf3n>, <Variable> ]\n[ <Lista de ecuaciones>, <Lista de variables> ]",
+    "SolveCubic": "ResuelveC\xfabica",
+    "SolveCubic.Syntax": "[ <Polinomio de tercer grado> ]",
     "SolveODE": "ResuelveEDO",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Punto en f> ]\n[ <f'(x, y)>, <x inicial>, <y inicial>, <x final>, <Paso> ]\n[ <y'>, <x'>, <x inicial>, <y inicial>, <t final>, <Paso> ]\n[ <b(x)>, <c(x)>, <f(x)>, <x inicial>, <y inicial>, <y' inicial>, <x final>, <Paso> ]",
     "SolveODE.SyntaxCAS": "[ <Ecuaci\xf3n> ]\n[ <Ecuaci\xf3n>, <Punto(s) de f> ]\n[ <Ecuaci\xf3n>, <Punto(s) de f>, <Punto(s) de f'> ]\n[ <Ecuaci\xf3n>, <Variable dependiente>, <Variable independiente>, <Punto(s) de f> ]\n[ <Ecuaci\xf3n>, <Variable dependiente>, <Variable independiente>, <Punto(s) de f>, <Punto(s) de f'> ]",
