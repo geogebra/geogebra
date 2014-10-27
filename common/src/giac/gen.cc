@@ -259,15 +259,21 @@ namespace giac {
     if (last.empty() || !last.back())
       return "";
     string res;
+    bool paren=true;
     if (abs_calc_mode(contextptr)==38 && !strcmp(last.back(),"sqrt"))
       res="√";
-    else 
-      res=last.back();
-    res +="(";
+    else {
+      string tmp=unlocalize(autosimplify(contextptr));
+      if (tmp!=last.back())
+	res=last.back();
+      else
+	paren=false;
+    }
+    if (paren) res +="(";
     vecteur & lastarg= last_evaled_arg(contextptr);
     if (!lastarg.empty())
       res += lastarg.back().print(contextptr);
-    res += ")";
+    if (paren) res += ")";
     debug_struct * dbg = debug_ptr(contextptr);
     if (!dbg->sst_at_stack.empty()){
       res += gettext(" in ");
@@ -4022,7 +4028,8 @@ namespace giac {
     case _FLOAT___FLOAT_:
       return a._FLOAT_val+b._FLOAT_val;
     case _VECT__VECT:
-      if (abs_calc_mode(contextptr)==38 && (a.subtype==_MATRIX__VECT ||b.subtype==_MATRIX__VECT)){
+      if (// abs_calc_mode(contextptr)==38 && 
+	  (a.subtype==_MATRIX__VECT ||b.subtype==_MATRIX__VECT)){
 	if (!ckmatrix(a) || !ckmatrix(b))
 	  return gensizeerr(contextptr);
 	if (a._VECTptr->size()!=b._VECTptr->size() || a._VECTptr->front()._VECTptr->size()!=b._VECTptr->front()._VECTptr->size())
@@ -4710,7 +4717,8 @@ namespace giac {
     case _FLOAT___FLOAT_:
       return a._FLOAT_val-b._FLOAT_val;
     case _VECT__VECT:
-      if (abs_calc_mode(contextptr)==38 && (a.subtype==_MATRIX__VECT ||b.subtype==_MATRIX__VECT)){
+      if (// abs_calc_mode(contextptr)==38 && 
+	  (a.subtype==_MATRIX__VECT ||b.subtype==_MATRIX__VECT)){
 	if (!ckmatrix(a) || !ckmatrix(b))
 	  return gensizeerr(contextptr);
 	if (a._VECTptr->size()!=b._VECTptr->size() || a._VECTptr->front()._VECTptr->size()!=b._VECTptr->front()._VECTptr->size())
@@ -5446,7 +5454,8 @@ namespace giac {
 	    A=a;
 	}
       }
-      if (abs_calc_mode(contextptr)==38 && (A.subtype==_MATRIX__VECT ||B.subtype==_MATRIX__VECT) && ckmatrix(A) && ckmatrix(B)){
+      if (// abs_calc_mode(contextptr)==38 && 
+	  (A.subtype==_MATRIX__VECT ||B.subtype==_MATRIX__VECT) && ckmatrix(A) && ckmatrix(B)){
 	if (A._VECTptr->front()._VECTptr->size()!=B._VECTptr->size())
 	  return gendimerr(contextptr);
 	gen res(new ref_vecteur(0),_MATRIX__VECT);
@@ -7331,7 +7340,7 @@ namespace giac {
 	return true;
       if (my_isnan(a._DOUBLE_val) && my_isnan(b._DOUBLE_val))
 	return true; // avoid infinite loop in evalf
-      return  std::abs(a._DOUBLE_val-b._DOUBLE_val)<epsilon(contextptr);
+      return  std::abs(a._DOUBLE_val-b._DOUBLE_val)<std::abs(a._DOUBLE_val)*epsilon(contextptr);
     case _FLOAT___FLOAT_:
       if (a._FLOAT_val==b._FLOAT_val)
 	return true;
@@ -7519,7 +7528,7 @@ namespace giac {
 	return plus_one;
       if (b._DOUBLE_val<-eps)
 	return minus_one;
-      return zero;
+      // return zero; // returning 0 is wrong, sign(a) is much better!
     }
     if (b.type==_FLOAT_){
       if (b._FLOAT_val>eps)
@@ -8033,6 +8042,23 @@ namespace giac {
   }
 
   gen gen::operator () (const gen & i,const gen & progname,const context * contextptr) const{
+    bool isprog=this->is_symb_of_sommet(at_program);
+    if (!isprog){
+      if (i.is_symb_of_sommet(at_equal))
+	return _subst(makesequence(*this,i),contextptr);
+      if (i.type==_VECT){
+	vecteur & v = *i._VECTptr;
+	vecteur vin,vout;
+	for (unsigned j=0;j<v.size();++j){
+	  if (!v[j].is_symb_of_sommet(at_equal))
+	    break;
+	  vin.push_back(v[j]._SYMBptr->feuille[0]);
+	  vout.push_back(v[j]._SYMBptr->feuille[1]);
+	}
+	if (vin.size()==v.size())
+	  return subst(*this,vin,vout,false,contextptr);
+      }
+    }
     if (type==_SYMB){
       // Functional case for sommet
       if (_SYMBptr->sommet==at_program) {
@@ -8676,7 +8702,7 @@ namespace giac {
     gen current_coeff=(*it)[0];
     ++it;
     for (;it!=itend;++it){
-      if ((*it)[1]!=current){
+      if ((*it)[1].type!=current.type || (current.type==_DOUBLE_ && current._DOUBLE_val!=(*it)[1]._DOUBLE_val) || (*it)[1]!=current ){
 	res.push_back(makenewvecteur(current_coeff,current));
 	current_coeff=(*it)[0];
 	current=(*it)[1];
@@ -10969,7 +10995,7 @@ namespace giac {
       if (calc_mode(contextptr)==1)
 	s="{";
       else
-	s=abs_calc_mode(contextptr)==38?"[":"matrix[";
+	s="matrix[";//abs_calc_mode(contextptr)==38?"[":"matrix[";
       break;
     case _POLY1__VECT:
       s="poly1[";
