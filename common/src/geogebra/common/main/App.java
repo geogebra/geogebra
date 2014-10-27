@@ -3184,6 +3184,7 @@ public abstract class App implements UpdateSelection{
 					String and = loc.getMenu("Symbol.And").toLowerCase();
 					rel.info = "<html>";
 					if (result != null && !result) {
+						// Prove==false
 						rel.info += relInfo + "<br><b>" + getPlain("ButNotGenerallyTrue") + "</b>";
 					} else {
 						// We don't show the second information unless ProveDetails is unsuccessful.
@@ -3194,17 +3195,22 @@ public abstract class App implements UpdateSelection{
 						String liStyle = "class=\"RelationTool\"";
 						// Third information shown (result of ProveDetails command):
 						if (ndgResult.length == 1) {
+							// ProveDetails=={true} or =={false} or ==undefined
 							rel.info += relInfo + "<br><b>";
 							if ("".equals(ndgResult[0])) {
+								// ProveDetails==undefined
 								if (result != null && result) {
 									// Using Prove's result (since ProveDetails couldn't find any interesting):
 									rel.info += getPlain("GenerallyTrue");
 								} else {
+									// Prove==ProveDetails==undefined
 									rel.info += getPlain("PossiblyGenerallyTrue");
 								}
 							} else if ("1".equals(ndgResult[0])) {
+								// ProveDetails=={true}
 								rel.info += getPlain("AlwaysTrue");
 							} else { // "0"
+								App.error("Internal error in prover: Prove==true <-> ProveDetails==false");
 								rel.info += getPlain("ButNotGenerallyTrue");
 							}
 							rel.info += "</b>";
@@ -3303,7 +3309,7 @@ public abstract class App implements UpdateSelection{
 	 * @param command Are... command
 	 * @param g1 first object
 	 * @param g2 second object
-	 * @return true if statement holds generally, false if it does not hold, null if cannot be decided by GeoGebra
+	 * @return [""]: undefined, ["0"]: false, ["1"]: always true, ["1", cond1, cond2, ...]: true under cond1 and cond2 and ...
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
