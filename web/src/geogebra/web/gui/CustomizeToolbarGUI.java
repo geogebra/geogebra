@@ -99,7 +99,7 @@ implements CustomizeToolbarListener, SetLabels {
 		public TreeItem addBranchItem(final DraggableTool tool) {
 			final TreeItem item = toolTree.addItem(tool);
 			item.setUserObject(tool);
-			
+			tool.treeItem = item;
 			tool.addDomHandler(new DropHandler()
 			{
 				@Override
@@ -321,12 +321,17 @@ implements CustomizeToolbarListener, SetLabels {
 					App.debug("Drop " + dragging.getTitle());
 
 					if (dragging.isLeaf()) {
+						App.debug("[DROP] leaf");
 						usedToolToAll(dragging.mode);
 						if (dragging.treeItem != null) {
 							dragging.treeItem.remove();
 						}
 					} else {
-
+						App.debug("[DROP] branch");
+						if (dragging.treeItem == null) {
+							App.debug("[DROP] dragging.treeItem == null");
+					
+						}
 						for (int i=0; i < dragging.treeItem.getChildCount(); i++) {
 							DraggableTool tool = (DraggableTool)(dragging.treeItem.getChild(i).getUserObject());
 							App.debug("Dropping branch");
