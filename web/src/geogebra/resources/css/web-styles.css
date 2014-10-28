@@ -4750,7 +4750,9 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
   }
   
 .RelationTool {
-   list-style-position: outside;
+   list-style-position: inside;
+   padding-left: 2em;
+   text-indent: -1em;
  }
 
 /* ########################################
