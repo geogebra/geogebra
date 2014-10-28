@@ -58,6 +58,7 @@ implements CustomizeToolbarListener, SetLabels {
 		}
 
 	}
+
 	private class ToolTree extends Tree {
 		public ToolTree(Tree.Resources res) {
 			super(res);
@@ -110,8 +111,12 @@ implements CustomizeToolbarListener, SetLabels {
 					{
 						App.debug("Drop " + dragging.getTitle());
 		
-						allTools.remove(allTools.indexOf(dragging.mode));
-						allToolsPanel.remove(dragging);
+				
+						if (dragging.isSeparator() == false) {
+							allTools.remove(allTools.indexOf(dragging.mode));
+							allToolsPanel.remove(dragging);
+						}
+						
 						DraggableTool dropped = new DraggableTool(dragging.mode, item);
 						dropped.treeItem = item.addItem(dropped);
 						item.setUserObject(dropped);
@@ -158,6 +163,8 @@ implements CustomizeToolbarListener, SetLabels {
 					if (dragging != null)
 					{
 						int idx = branch.getChildIndex(tool.treeItem);
+						
+						
 						
 						TreeItem ti = branch.insertItem(idx, dragging);
 						ti.setUserObject(tool);
@@ -214,12 +221,22 @@ implements CustomizeToolbarListener, SetLabels {
 			initDrag();
 		}
 
+		public boolean isSeparator() {
+	        return mode == ToolBar.SEPARATOR;
+        }
+
 		private void initDrag() {
 			addDomHandler(new DragStartHandler() {
 
 				public void onDragStart(DragStartEvent event) {
 					App.debug("!DRAG START!");
-					dragging = DraggableTool.this;
+					
+					if (isSeparator() && getParent() == allToolsPanel) {
+						dragging = new DraggableTool(ToolBar.SEPARATOR, null);
+					} else {
+						dragging = DraggableTool.this;
+					}
+					
 					event.setData("text", "draggginggg");
 					event.getDataTransfer().setDragImage(getElement(), 10, 10);
 
@@ -236,11 +253,11 @@ implements CustomizeToolbarListener, SetLabels {
 	private CustomizeToolbarHeaderPanel header;
 	private Label lblAllTools, lblUsedTools;
 	private ScrollPanel usedToolsPanel;
-	private FlowPanel allToolsPanel;
+	FlowPanel allToolsPanel;
 	private Vector<Integer> usedTools;
 	private Vector<Integer> allTools;
 	private ToolTree toolTree;
-	private static DraggableTool dragging = null;
+	static DraggableTool dragging = null;
 	private static TreeItem allToolsRoot = new TreeItem();
 	private Button btDefalutToolbar;
 	private Button btApply;
