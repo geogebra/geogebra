@@ -7528,6 +7528,13 @@ namespace giac {
 	return plus_one;
       if (b._DOUBLE_val<-eps)
 	return minus_one;
+#ifdef HAVE_LIBMPFR
+      b=accurate_evalf(a,1000);
+      if (is_greater(b,1e-250,contextptr))
+	return plus_one;
+      if (is_greater(-1e-250,b,contextptr))
+	return minus_one;
+#endif
       // return zero; // returning 0 is wrong, sign(a) is much better!
     }
     if (b.type==_FLOAT_){
