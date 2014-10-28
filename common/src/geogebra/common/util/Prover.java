@@ -14,6 +14,7 @@ import geogebra.common.plugin.EuclidianStyleConstants;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -271,6 +272,15 @@ public abstract class Prover {
 			return segment;
 		}
 		
+		private void sortGeos() {
+			// We need this because geos are sorted in the order of creation.
+			Arrays.sort(geos, new Comparator<GeoElement>() {
+				@Override
+				public int compare(GeoElement g1, GeoElement g2) {
+					return g1.getLabelSimple().compareTo(g2.getLabelSimple());
+				}
+			});
+		}
 		
 		/**
 		 * Rewrites the NDG to a simpler form.
@@ -279,21 +289,29 @@ public abstract class Prover {
 		public void rewrite(Construction cons) {
 			String cond = this.getCondition();
 			if (("AreEqual".equals(cond) ||	"ArePerpendicular".equals(cond) ||
-					"AreParallel".equals(cond)) && this.geos.length == 4) {
-				// This is an AreEqual[P1,P2,P3,P4]-like condition.
-				// We should try to rewrite it to
-				// AreEqual[Line[P1,P2],Line[P3,P4]].	
-				GeoPoint P1 = (GeoPoint) this.geos[0];
-				GeoPoint P2 = (GeoPoint) this.geos[1];
-				GeoLine l1 = line(P1, P2, cons);
-				GeoPoint P3 = (GeoPoint) this.geos[2];
-				GeoPoint P4 = (GeoPoint) this.geos[3];
-				GeoLine l2 = line(P3, P4, cons);
-				if (l1 != null && l2 != null) {
-					geos = new GeoElement[2];
-					geos[0] = l1;
-					geos[1] = l2;
-					Arrays.sort(geos);
+					"AreParallel".equals(cond))) {
+				if (this.geos.length == 4) {
+					// This is an AreEqual[P1,P2,P3,P4]-like condition.
+					// We should try to rewrite it to
+					// AreEqual[Line[P1,P2],Line[P3,P4]].	
+					GeoPoint P1 = (GeoPoint) this.geos[0];
+					GeoPoint P2 = (GeoPoint) this.geos[1];
+					GeoLine l1 = line(P1, P2, cons);
+					GeoPoint P3 = (GeoPoint) this.geos[2];
+					GeoPoint P4 = (GeoPoint) this.geos[3];
+					GeoLine l2 = line(P3, P4, cons);
+					if (l1 != null && l2 != null) {
+						geos = new GeoElement[2];
+						geos[0] = l1;
+						geos[1] = l2;
+						sortGeos();
+					}
+				}
+				else if (this.geos.length == 2) {
+					// This is an AreEqual[l1,l2]-like condition.
+					// We should sort l1 and l2.
+					sortGeos();
+					// Unsure if this is called at all.
 				}
 			} else if ("IsIsoscelesTriangle".equals(cond)) {
 				GeoPoint P1 = (GeoPoint) this.geos[0];
@@ -305,7 +323,7 @@ public abstract class Prover {
 					geos = new GeoElement[2];
 					geos[0] = l1;
 					geos[1] = l2;
-					Arrays.sort(geos);
+					sortGeos();
 					this.setCondition("AreEqual");
 					/* This equality is length equality, but
 					 * this is the natural interpretation.
