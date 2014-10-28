@@ -112,11 +112,8 @@ implements CustomizeToolbarListener, SetLabels {
 						App.debug("Drop " + dragging.getTitle());
 		
 				
-						if (dragging.isSeparator() == false) {
-							allTools.remove(allTools.indexOf(dragging.mode));
-							allToolsPanel.remove(dragging);
-						}
-						
+						allTools.remove(allTools.indexOf(dragging.mode));
+				
 						DraggableTool dropped = new DraggableTool(dragging.mode, item);
 						dropped.treeItem = item.addItem(dropped);
 						item.setUserObject(dropped);
@@ -148,11 +145,16 @@ implements CustomizeToolbarListener, SetLabels {
 		}
 
 		public TreeItem addLeafItem(final TreeItem branch, final DraggableTool tool) {
-	        TreeItem item = branch.addItem(tool);
-	        item.setUserObject(tool);
-	        
-	        tool.treeItem = item;
-	        
+			return setLeafItem(branch, branch.addItem(tool), tool);
+		}
+		
+		public TreeItem insertLeafItem(final TreeItem branch, final DraggableTool tool, int idx) {
+	        return setLeafItem(branch, branch.insertItem(idx, tool), tool);
+		}
+		
+		public TreeItem setLeafItem(final TreeItem branch, final TreeItem item, final DraggableTool tool) {
+			item.setUserObject(tool);
+			tool.treeItem = item;
 	        tool.addDomHandler(new DropHandler()
 			{
 				@Override
@@ -163,12 +165,13 @@ implements CustomizeToolbarListener, SetLabels {
 					if (dragging != null)
 					{
 						int idx = branch.getChildIndex(tool.treeItem);
+						insertLeafItem(branch, dragging, idx);
+						int idxMode = allTools.indexOf(dragging.mode);
 						
+						if (idxMode != -1 )  {
+							allTools.remove(idxMode);
+						}
 						
-						
-						TreeItem ti = branch.insertItem(idx, dragging);
-						ti.setUserObject(tool);
-						tool.treeItem = ti;
 						tool.removeStyleName("leafDropping");
 								
 					}
@@ -232,7 +235,9 @@ implements CustomizeToolbarListener, SetLabels {
 					App.debug("!DRAG START!");
 					
 					if (isSeparator() && getParent() == allToolsPanel) {
+						// infinite number of separators can be dragged from Tools Panel.
 						dragging = new DraggableTool(ToolBar.SEPARATOR, null);
+					
 					} else {
 						dragging = DraggableTool.this;
 					}
@@ -394,8 +399,10 @@ implements CustomizeToolbarListener, SetLabels {
 	}
 	
 	private void usedToolToAll(int mode) {
-		if (mode != ToolBar.SEPARATOR && usedTools.contains(mode)) {
+		if (usedTools.contains(mode)) {
 			usedTools.remove(usedTools.indexOf(mode));
+		}
+		if (mode != -1) {
 			allToolsPanel.add(new DraggableTool(mode, allToolsRoot));
 		}
 
