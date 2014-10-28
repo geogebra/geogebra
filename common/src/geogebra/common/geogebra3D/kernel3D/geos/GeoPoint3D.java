@@ -822,7 +822,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
-		sbToString.append(" = ");
+		
+		GeoPoint.addEqualSignToString(sbToString, toStringMode, tpl.getCoordStyle(kernel.getCoordStyle()));
 
 		sbToString.append(toValueString(tpl));
 
@@ -843,18 +844,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		//boolean isVisibleInView2D = false;
 		Coords p = getInhomCoordsInD3();
-
-		/*
-		if (getViewForValueString() instanceof EuclidianViewD) {
-			Coords p2D = ((EuclidianView) getViewForValueString())
-					.getCoordsForView(getInhomCoordsInD3());
-			if (Kernel.isZero(p2D.getZ())) {
-				isVisibleInView2D = true;
-				p = p2D;
-			} else
-				return app.getPlain("NotIncluded");
-		}
-		 */
 
 		sbToString.setLength(0);
 

@@ -1168,10 +1168,23 @@ SymbolicParametersBotanaAlgo {
 		sbToString.setLength(0);
 		sbToString.append(label);
 
+		addEqualSignToString(sbToString, toStringMode, tpl.getCoordStyle(kernel.getCoordStyle()));
+
+		sbToString.append(buildValueString(tpl).toString());
+		return sbToString.toString();
+	}
+	
+	/**
+	 * add "=" or not for "A=(...)"
+	 * @param sbToString string build
+	 * @param toStringMode point string mode
+	 * @param coordStyle point coord style
+	 */
+	static final public void addEqualSignToString(StringBuilder sbToString, int toStringMode, int coordStyle){
 		if (toStringMode == Kernel.COORD_COMPLEX) {
 			sbToString.append(" = ");
 		} else {
-			switch (tpl.getCoordStyle(kernel.getCoordStyle())) {
+			switch (coordStyle) {
 			case Kernel.COORD_STYLE_FRENCH:
 				// no equal sign
 				sbToString.append(": ");
@@ -1184,9 +1197,6 @@ SymbolicParametersBotanaAlgo {
 				sbToString.append(" = ");
 			}
 		}
-
-		sbToString.append(buildValueString(tpl).toString());
-		return sbToString.toString();
 	}
 
 	@Override
