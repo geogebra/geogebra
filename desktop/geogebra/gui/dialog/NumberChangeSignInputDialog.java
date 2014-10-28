@@ -23,6 +23,7 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 	 * @param initString
 	 * @param handler
 	 * @param changingSign says if the sign has to be changed
+	 * @param basis TODO
 	 */
 	public NumberChangeSignInputDialog(AppD app, String message,
 			String title, String initString, 
@@ -33,7 +34,7 @@ public class NumberChangeSignInputDialog extends InputDialogD {
 				false, null,
 				new JCheckBox(checkBoxText,true), DialogType.TextArea);
 		
-		this.changingSign=changingSign;
+		this.changingSign = changingSign;
 	}
 	
 	@Override

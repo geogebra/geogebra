@@ -1,6 +1,8 @@
 package geogebra.common.gui.dialog.handler;
 
 import geogebra.common.kernel.commands.AlgebraProcessor;
+import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 
 /**
  * Handler of a number, with possibility of changing the sign
@@ -9,8 +11,8 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
  * 
  */
 public class NumberChangeSignInputHandler extends NumberInputHandler {
-	public NumberChangeSignInputHandler(AlgebraProcessor algebraProcessor) {
-		super(algebraProcessor);
+	public NumberChangeSignInputHandler(AlgebraProcessor algebraProcessor, AsyncOperation callback, App app, boolean oldVal) {
+		super(algebraProcessor, callback, app, oldVal);
 	}
 	
   /**

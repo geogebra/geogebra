@@ -4,11 +4,9 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -147,11 +145,11 @@ public class DialogManagerMinimal extends DialogManager {
 	}
 
 	@Override
-	public NumberValue showNumberInputDialog(String title, String message,
+	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
-			DrawExtrusionOrConify3D extruder) {
+			AsyncOperation callback) {
 		// TODO Auto-generated method stub
-		return null;
+		
 	}
 
 	@Override

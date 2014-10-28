@@ -1236,6 +1236,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 		
 		return null;
 	}
+	
+	private boolean dialogOccurred = false;
+	
+	@Override
+	public void setDialogOccurred(){
+		dialogOccurred = true;
+	}
 
 	/**
 	 * get basis and height; create prism/cylinder
@@ -1244,16 +1251,31 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return prism created
 	 */
 	final protected GeoElement[] extrusionOrConify(Hits hits) {
+		
+		if (dialogOccurred){
+			dialogOccurred = false;
+			return null;
+		}
+		
 
 		if (!hits.isEmpty()){ //hits may be empty at the end of using the tool
 
-			int basisAdded = addSelectedPolygon(hits, 1, false);
-			basisAdded += addSelectedConic(hits, 1, false);
-
-			if (basisAdded == 0) { // if polygon/conic has been added, the height
-				// will be entered through dialog manager
-				addSelectedNumberValue(hits, 1, false);
+			// we don't need to replace or de-select a polygon, since
+			// we'll open immediately a dialog
+			int basisAdded = selPolygons() + selConics();
+			
+			if (basisAdded == 0){ // if no basis for now, try to add polygon
+				basisAdded += addSelectedPolygon(hits, 1, false);
+				if (basisAdded == 0){ // try to add conic
+					basisAdded += addSelectedConic(hits, 1, false);
+					if (basisAdded == 0) { // if polygon/conic has been added, the height
+						// will be entered through dialog manager
+						addSelectedNumberValue(hits, 1, false);
+					}
+				}
 			}
+
+			
 		}
 
 
@@ -1591,14 +1613,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 
-	@Override
-	public void clearSelections() {
-		clearSelection(selectedCS2D);
-		clearSelection(selectedCS1D);
-		clearSelection(selectedPolygons3D);
-		clearSelection(selectedQuadric);
-		super.clearSelections();
-	}
 
 	// not only moveable hits are selected in move mode
 	@Override
@@ -1744,6 +1758,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
 			ret = extrusionOrConify(hits);
+			if (!view3D.getRenderer().useLogicalPicking() && ret != null){
+				// we need to init hits since if users immediately clicks,
+				// it will still use the old basis
+				view3D.getHits3D().init();
+			}
 			break;
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
@@ -3639,5 +3658,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 			
 		}
 		return defaultRotateAngle;
+	}
+	
+	
+	@Override
+	public void clearSelected(){
+		
+		super.clearSelected();
+		clearSelection(selectedCS1D, false);
+		clearSelection(selectedCS2D, false);
+		clearSelection(selectedPlane, false);
+		clearSelection(selectedPolygons3D, false);
+		clearSelection(selectedPolyhedron, false);
+		clearSelection(selectedQuadric, false);
+		clearSelection(selectedQuadricLimited, false);
 	}
 }

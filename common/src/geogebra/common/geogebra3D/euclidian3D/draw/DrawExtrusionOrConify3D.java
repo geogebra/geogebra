@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
@@ -10,12 +11,13 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoForExtrusion;
 import geogebra.common.geogebra3D.kernel3D.algos.ExtrusionComputer;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 
 import java.util.ArrayList;
 
@@ -244,35 +246,82 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 			
 			if (extrusionComputer.getComputed()==0){//if height has not been set by dragging, ask one
 				App app = getView3D().getApplication();
-				NumberValue num = 
-					app.getDialogManager().showNumberInputDialog(
-							//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
-							extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
-							app.getPlain("Altitude"), "", 
-							//check basis direction / view direction to say if the sign has to be forced
-							basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
-							app.getPlain("PositiveValuesFollowTheView"), this);
-				if (num != null){
-					hits.add((GeoElement) num);
+				if (callback == null){
+					callback = new CreatePolyhedronCallback();
 				}
+				callback.set(basis, getView3D());
+				
+
+				app.getDialogManager().showNumberInputDialog(
+						//app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
+						extrusionComputer.getAlgo().getOutput(0).translatedTypeString(),
+						app.getPlain("Altitude"), "", 
+						//check basis direction / view direction to say if the sign has to be forced
+						basis.getMainDirection().dotproduct(getView3D().getViewDirection())>0,
+						app.getPlain("PositiveValuesFollowTheView"), callback);
+
 			}else{
 				hits.add(height);
+				getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
 			}
 
-			getView3D().getEuclidianController().addSelectedNumberValue(hits, 1, false);
-			/*
-			if (getView3D().getEuclidianController().selPolygons() == 0){
-				hits.add(basis);
-				//getView3D().getEuclidianController().addSelectedPolygon(hits, 1, false);
-			}
-			*/
 
 			//remove the algo
 			extrusionComputer.getAlgo().remove();	
-			extrusionComputer=null;
+			extrusionComputer = null;
 		}
 	}
 	
+	private CreatePolyhedronCallback callback;
 	
+	private class CreatePolyhedronCallback extends AsyncOperation {
+		
+		private GeoElement basis;
+		private EuclidianView3D view;
+		
+		public CreatePolyhedronCallback(){
+			super();
+		}
+		
+		public void set(GeoElement basis, EuclidianView3D view){
+			this.basis = basis;
+			this.view = view;
+		}
+		
+
+		@Override
+		public void callback(Object obj) {
+			GeoNumberValue num = (GeoNumberValue) obj;
+			
+			App.debug(num+","+basis);
+
+			GeoElement ret;
+			if (basis.isGeoPolygon()) {
+				if (view.getEuclidianController().getMode() == EuclidianConstants.MODE_EXTRUSION){
+					// prism							
+					ret = basis.getKernel().getManager3D().Prism(null, (GeoPolygon) basis, num)[0];					
+				}else{
+					// pyramid
+					ret = basis.getKernel().getManager3D().Pyramid(null, (GeoPolygon) basis, num)[0];
+				}
+
+			} else { // basis.isGeoConic()
+				if (view.getEuclidianController().getMode() == EuclidianConstants.MODE_EXTRUSION){
+					// cylinder
+					ret = basis.getKernel().getManager3D().CylinderLimited(null, (GeoConicND) basis, num)[0];
+
+				}else{
+					// cone
+					ret = basis.getKernel().getManager3D().ConeLimited(null, (GeoConicND) basis, num)[0];
+				}
+			} 
+
+			view.getEuclidianController().setDialogOccurred();
+			view.getEuclidianController().clearSelected();
+			view.getApplication().getSelectionManager().clearSelectedGeos(false, false);
+			view.getApplication().getSelectionManager().addSelectedGeo(ret, true, true);
+		}
+		
+	}
 
 }

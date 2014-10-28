@@ -3,7 +3,6 @@ package geogebra.gui.dialog;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
@@ -13,7 +12,6 @@ import geogebra.common.gui.dialog.handler.RedefineInputHandler;
 import geogebra.common.gui.dialog.handler.RenameInputHandler;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -317,16 +315,17 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	 * Shows a modal dialog to enter a number or number variable name.
 	 */
 	@Override
-	public NumberValue showNumberInputDialog(String title, String message,
+	public void showNumberInputDialog(String title, String message,
 			String initText, boolean changingSign, String checkBoxText,
-			DrawExtrusionOrConify3D extruder) {
+			AsyncOperation callback) {
 		// avoid labeling of num
 		Construction cons = app.getKernel().getConstruction();
 		boolean oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor());
+				app.getKernel().getAlgebraProcessor(),
+				callback, app, oldVal);
 		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(
 				((AppD) app), message, title, initText, handler, changingSign,
 				checkBoxText);
@@ -334,7 +333,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		return handler.getNum();
+		
 	}
 
 	@Override

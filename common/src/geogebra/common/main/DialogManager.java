@@ -15,7 +15,6 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.geogebra3D.euclidian3D.draw.DrawExtrusionOrConify3D;
 import geogebra.common.gui.InputHandler;
 import geogebra.common.gui.dialog.InputDialog;
 import geogebra.common.gui.dialog.TextInputDialog;
@@ -201,8 +200,8 @@ public abstract class DialogManager {
 	public abstract void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation callback);
 	
-	public abstract NumberValue showNumberInputDialog(String title, String message,
-			String initText, boolean changingSign, String checkBoxText, DrawExtrusionOrConify3D extruder);
+	public abstract void showNumberInputDialog(String title, String message,
+			String initText, boolean changingSign, String checkBoxText, AsyncOperation callback);
 
 	public abstract void showAngleInputDialog(String title, String message,
 			String initText, AsyncOperation callback);

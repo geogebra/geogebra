@@ -3532,6 +3532,21 @@ public abstract class EuclidianController {
 	public void clearSelections(boolean repaint, boolean updateSelection) {
 		startCollectingMinorRepaints();
 
+		clearSelected();
+
+		selection.clearSelectedGeos(repaint,updateSelection);
+
+		// if we clear selection and highlighting,
+		// we may want to clear justCreatedGeos also
+		clearJustCreatedGeos();
+	
+		// clear highlighting
+		refreshHighlighting(null, false); // this may call repaint
+
+		stopCollectingMinorRepaints();
+	}
+	
+	public void clearSelected(){
 		clearSelection(selectedNumbers, false);
 		clearSelection(selectedNumberValues, false);
 		clearSelection(selectedPoints, false);
@@ -3546,17 +3561,6 @@ public abstract class EuclidianController {
 		clearSelection(selectedLists, false);
 		clearSelection(selectedPaths, false);
 		clearSelection(selectedRegions, false);
-
-		selection.clearSelectedGeos(repaint,updateSelection);
-
-		// if we clear selection and highlighting,
-		// we may want to clear justCreatedGeos also
-		clearJustCreatedGeos();
-	
-		// clear highlighting
-		refreshHighlighting(null, false); // this may call repaint
-
-		stopCollectingMinorRepaints();
 	}
 
 	final protected boolean attachDetach(Hits hits) {
@@ -9824,4 +9828,8 @@ public abstract class EuclidianController {
 	 * @param view view
 	 */
 	public abstract void setView(EuclidianView view);
+	
+	public void setDialogOccurred(){
+		// use in 3D
+	}
 }
