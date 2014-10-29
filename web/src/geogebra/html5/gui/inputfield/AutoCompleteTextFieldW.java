@@ -470,7 +470,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			showSymbolButton.getElement().getStyle().setLineHeight(font.getSize(), Unit.PX);
 		}
 
-		setColumns(this.columns);
+		if (columns > 0) {
+			setColumns(this.columns);
+		}
 	}
 
 	public void setForeground(GColor color) {
