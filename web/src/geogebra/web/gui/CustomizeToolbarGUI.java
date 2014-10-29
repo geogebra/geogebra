@@ -97,7 +97,16 @@ implements CustomizeToolbarListener, SetLabels {
 		}
 
 		public TreeItem addBranchItem(final DraggableTool tool) {
-			final TreeItem item = toolTree.addItem(tool);
+			return setBranchItem(toolTree.addItem(tool), tool);
+			
+		}
+		
+		public TreeItem insertBranchItem(final DraggableTool tool, int idx) {
+			return setBranchItem(toolTree.insertItem(idx, tool), tool);
+		}
+		
+		public TreeItem setBranchItem(final TreeItem item, final DraggableTool tool) {
+			
 			item.setUserObject(tool);
 			tool.treeItem = item;
 			tool.addDomHandler(new DropHandler()
@@ -113,10 +122,23 @@ implements CustomizeToolbarListener, SetLabels {
 		
 				
 						allTools.remove(allTools.indexOf(dragging.mode));
-				
+						int i = 0;
+						int idx = 0;
+						boolean found = false;
+						while (i < toolTree.getItemCount() && !found ) {
+							if (getItem(i) == item) {
+								found = true;
+								idx = i;
+							}
+							i++;
+						}
+						
+						if (idx > 0) {
+							idx--;
+						}
+						
 						DraggableTool dropped = new DraggableTool(dragging.mode, item);
-						dropped.treeItem = item.addItem(dropped);
-						item.setUserObject(dropped);
+						toolTree.insertBranchItem(tool, idx);
 						dragging = null;
 						tool.removeStyleName("toolBarDropping");
 					}
@@ -128,7 +150,7 @@ implements CustomizeToolbarListener, SetLabels {
 				@Override
 				public void onDragOver(DragOverEvent event)
 				{
-					tool.addStyleName("toolBarDropping");
+					tool.addStyleName("branchDropping");
 				}
 			}, DragOverEvent.getType());
 
@@ -137,7 +159,7 @@ implements CustomizeToolbarListener, SetLabels {
 				@Override
 				public void onDragLeave(DragLeaveEvent event)
 				{
-					tool.removeStyleName("toolBarDropping");
+					tool.removeStyleName("branchDropping");
 				}
 			}, DragLeaveEvent.getType());
 
@@ -214,7 +236,7 @@ implements CustomizeToolbarListener, SetLabels {
 			Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
 			toolbarImg.addStyleName("toolbar_icon");
 			btn.add(toolbarImg);
-			String str = app.getMenu(mode == ToolBar.SEPARATOR ? "Separator": app.getToolName(mode));
+			String str = app.getMenu(app.getToolName(mode));
 			setTitle(str);
 			Label text = new Label(str);
 			add(LayoutUtil.panelRow(btn, text));
@@ -224,24 +246,12 @@ implements CustomizeToolbarListener, SetLabels {
 			initDrag();
 		}
 
-		public boolean isSeparator() {
-	        return mode == ToolBar.SEPARATOR;
-        }
-
 		private void initDrag() {
 			addDomHandler(new DragStartHandler() {
 
 				public void onDragStart(DragStartEvent event) {
 					App.debug("!DRAG START!");
-					
-					if (isSeparator() && getParent() == allToolsPanel) {
-						// infinite number of separators can be dragged from Tools Panel.
-						dragging = new DraggableTool(ToolBar.SEPARATOR, null);
-					
-					} else {
-						dragging = DraggableTool.this;
-					}
-					
+					dragging = DraggableTool.this;
 					event.setData("text", "draggginggg");
 					event.getDataTransfer().setDragImage(getElement(), 10, 10);
 
@@ -253,6 +263,8 @@ implements CustomizeToolbarListener, SetLabels {
 			return treeItem.getChildCount() == 0;
 		}
 	}
+
+	private static final int PANEL_GAP = 20;
 
 	private AppW app;
 	private CustomizeToolbarHeaderPanel header;
@@ -452,10 +464,10 @@ implements CustomizeToolbarListener, SetLabels {
 
 		allToolsPanel.clear();
 
-		//		allToolsPanel.add(buildItem(ToolBar.SEPARATOR));
+		//		allToolsPanel.add(buildItem());
 
 		for (Integer mode: allTools) {
-			if (!usedTools.contains(mode)) {
+			if (!usedTools.contains(mode) && mode != ToolBar.SEPARATOR ) {
 				DraggableTool tool = new DraggableTool(mode, allToolsRoot);
 				allToolsPanel.add(tool);
 			}
@@ -494,7 +506,8 @@ implements CustomizeToolbarListener, SetLabels {
 		for (int i = 0; i < defTools.size(); i++) {
 			ToolbarItem element = defTools.get(i);
 			Integer m = element.getMode();
-			if (element.getMenu() != null) {
+			
+			if (m != ToolBar.SEPARATOR && element.getMenu() != null) {
 				Vector<Integer> menu = element.getMenu();
 				final DraggableTool tool = new DraggableTool(menu.get(0), null);
 
@@ -502,8 +515,7 @@ implements CustomizeToolbarListener, SetLabels {
 
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
-					int mode = modeInt.intValue();
-					if (mode != -1)
+					if (modeInt != ToolBar.SEPARATOR)
 						usedTools.add(modeInt);
 						toolTree.addLeafItem(branch, new DraggableTool(modeInt, branch));
 					}
@@ -539,6 +551,16 @@ implements CustomizeToolbarListener, SetLabels {
 		}
 		
 		close();
+	}
+
+	@Override
+	public void onResize() {
+		int w = (getOffsetWidth() / 2) - PANEL_GAP;
+		int h = (getOffsetHeight()) - getHeaderWidget().getOffsetHeight() 
+				- getFooterWidget().getOffsetHeight() - lblUsedTools.getOffsetHeight();
+		usedToolsPanel.setSize(w + "px", h + "px");
+		allToolsPanel.setSize(w + "px", h + "px");
+		App.debug("[CUSTOMIZE] onResize");
 	}
 }
 
