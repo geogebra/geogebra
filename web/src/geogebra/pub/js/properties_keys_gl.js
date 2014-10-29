@@ -42,12 +42,12 @@ __GGB__keysVar.gl.colors = {
     "orange": "Laranxa",
     "pink": "Rosa",
     "purple": "P\xfarpura",
-    "red": "Vermello",
+    "red": "Vermella",
     "silver": "Prata",
     "turquoise": "Turquesa",
     "violet": "Violeta",
-    "white": "Branco",
-    "yellow": "Amarelo",
+    "white": "Branca",
+    "yellow": "Amarela",
 }
 
 
