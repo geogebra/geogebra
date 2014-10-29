@@ -134,7 +134,12 @@ public class CmdSetValue extends CmdScripting {
 				NumberValue num = (NumberValue) arg[1];
 				((GeoNumeric) arg[0]).setValue(num.getDouble());
 			} else {
-				arg[0].set(arg[1]);
+				if (arg[1].isGeoNumeric() && Double.isNaN(arg[1].evaluateDouble())) {
+					// eg SetValue[a,?] for line
+					arg[0].setUndefined();
+				} else {
+					arg[0].set(arg[1]);
+				}
 			}
 			arg[0].updateRepaint();
 		} else if (arg[1] instanceof NumberValue && arg[0].isGeoNumeric() && arg[0].getParentAlgorithm() instanceof SetRandomValue) {
