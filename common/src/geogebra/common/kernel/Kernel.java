@@ -2329,6 +2329,30 @@ public class Kernel {
 		return result;
 	}
 
+	/**
+	 * @param exp RAW Giac expression to evaluate
+	 * @return result from Giac
+	 * @throws Throwable error
+	 */
+	public String evaluateRawGeoGebraCAS(String exp) throws Throwable {
+		String result = null;
+		if (hasCasCache()) {
+			result = getCasCache().get(exp);
+			if (result != null) {
+				//Log.debug("result from cache " + result);
+				// caching worked
+				return result;
+			}
+		}
+
+		// evaluate in GeoGebraCAS
+		result = getGeoGebraCAS().evaluateRaw(exp);
+
+		getCasCache().put(exp, result);
+
+		return result;
+	}
+
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
 		String result = null;
 		String exp = c.getCasInput();

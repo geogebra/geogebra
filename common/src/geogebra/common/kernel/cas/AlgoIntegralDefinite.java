@@ -19,7 +19,6 @@ import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
 import geogebra.common.kernel.algos.GetCommand;
 import geogebra.common.kernel.arithmetic.Function;
-import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
@@ -249,7 +248,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setValue(Double.NaN);
 			return;
 		}
-
+		
 		/*
 		 * Try to use symbolic integral
 		 * 
@@ -265,7 +264,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 			n.setValue(val);
 			if (n.isDefined())
 				return;
-		}else if(symbIntegral != null && symbIntegral.isDefined() && !this.evaluateNumerically){
+		} else if(symbIntegral != null && symbIntegral.isDefined() && !this.evaluateNumerically){
 			computeSpecial();
 			return;
 		}
@@ -304,9 +303,50 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		 */
 	}
 
-	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+	//private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 	private void computeSpecial() {
+		
 		StringBuilder sb = new StringBuilder(30);
+		
+		// #4687
+		// as we want a numerical answer not exact, more robust to pass
+		// 6.28318530717959
+		// rather than
+		// 628318530717959/100000000000000
+		// so call evaluateRaw()
+		sb.append("evalf(integrate(");
+		sb.append(f.toValueString(StringTemplate.giacTemplate));
+		sb.append(",");
+		sb.append(f.getVarString(StringTemplate.defaultTemplate));
+		sb.append(",");
+		sb.append(a.toValueString(StringTemplate.maxPrecision));
+		sb.append(",");
+		sb.append(b.toValueString(StringTemplate.maxPrecision));
+		sb.append("))");
+		
+		String result;
+		try {
+			result = kernel.evaluateRawGeoGebraCAS(sb.toString());
+			//Log.debug("result from AlgoIntegralDefinite = " + result);
+			
+			// Giac can return 2 answers if it's not sure
+			// test-case
+			//result = "{3.12,4.0}";
+			
+			if (result.startsWith("{")) {
+				result = result.split(",")[0];
+				result = result.substring(1);
+			}
+			
+			n.setValue(kernel.getAlgebraProcessor().evaluateToDouble(result, true));
+			
+		} catch (Throwable e) {
+			e.printStackTrace();
+			n.setUndefined();
+		}
+
+		
+		/*
 		sb.append("Numeric[Integral[");
 		sb.append(f.toValueString(StringTemplate.maxPrecision));
 		sb.append(",");
@@ -328,6 +368,7 @@ public class AlgoIntegralDefinite extends AlgoUsingTempCASalgo implements
 		}catch(Throwable e){
 			n.setUndefined();
 		}
+		*/
 		
 	}
 	private double freehandIntegration(GeoFunction f2, double lowerLimitUser,
