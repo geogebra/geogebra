@@ -606,6 +606,19 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 
 	public void attachGlass() {
     }
+	
+	/**
+	 * removes applet from the page
+	 */
+	public void remove() {
+		this.removeFromParent();
+		//this does not do anything!
+		GeoGebraFrame.getInstances().remove(this);
+		this.app = null;
+		if (GeoGebraFrame.getInstanceCount() == 0) {
+			ResourcesInjector.removeResources();
+		}
+	}
 
 
 

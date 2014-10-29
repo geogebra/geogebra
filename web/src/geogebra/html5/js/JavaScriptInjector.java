@@ -9,6 +9,7 @@ import com.google.gwt.user.client.DOM;
 
 public class JavaScriptInjector {
 	private static HeadElement head;
+	
 	 
     public static void inject(TextResource scriptResource) {
     	if (DOM.getElementById(scriptResource.getName()) == null) {
@@ -22,6 +23,7 @@ public class JavaScriptInjector {
         ScriptElement script = Document.get().createScriptElement();
         script.setAttribute("language", "javascript");
         script.setAttribute("id", id);
+        script.setClassName(ResourcesInjector.CLASSNAME);
         return script;
     }
  

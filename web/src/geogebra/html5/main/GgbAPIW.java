@@ -9,6 +9,7 @@ import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.View;
@@ -723,5 +724,15 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	public void setLanguage(String s){
 		((AppW) app).setLanguage(s);
 	}
+	
+	/**
+	 * remove applet from the page, and free memory. If applet is the last one,
+	 * it remove the style elements injected by the applet too.
+	 */
+	public void removeApplet() {
+		((GeoGebraFrame) ((AppW) app).getAppletFrame()).remove();
+	}
+	
+	
 
 }

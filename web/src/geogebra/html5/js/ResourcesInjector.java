@@ -2,9 +2,12 @@ package geogebra.html5.js;
 
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
+import geogebra.html5.css.StyleInjector;
+import geogebra.html5.util.Dom;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.StyleInjector;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NodeList;
 
 /**
  * @author gabor
@@ -13,6 +16,11 @@ import com.google.gwt.dom.client.StyleInjector;
  *
  */
 public class ResourcesInjector {
+	
+	/**
+	 * resource class name
+	 */
+	public static String CLASSNAME = "ggw_resource";
 
 	/**
 	 * @param lafName name of the look and feel ("standard", "modern", "smart")
@@ -48,6 +56,16 @@ public class ResourcesInjector {
 		// GIF exporting library
 		// It also needs gif.worker.js
 		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.gifJs());
+	}
+	
+	/**
+	 * removes the added resources
+	 */
+	public static void removeResources() {
+		NodeList<Element> resources = Dom.getElementsByClassName(CLASSNAME);
+		for (int i = 0; i < resources.getLength(); i++) {
+	        resources.getItem(i).removeFromParent();
+        }
 	}
 
 }
