@@ -20,5 +20,12 @@ public interface FileManagerI {
 	void setFileProvider(Provider google);
 
 	Provider getFileProvider();
+	
+	void autoSave();
 
+	boolean isAutoSavedFileAvailable();
+	
+	public void restoreAutoSavedFile();
+	
+	public void deleteAutoSavedFile();
 }

@@ -11,10 +11,18 @@ import geogebra.web.util.SaveCallback;
 
 import com.google.gwt.storage.client.Storage;
 
+/**
+ * Manager for files from {@link Storage localStorage}
+ *
+ */
 public class FileManagerW extends FileManager {
 	
+	/** locale storage */
 	Storage stockStore = Storage.getLocalStorageIfSupported();
 	
+	/**
+	 * @param app {@link AppW}
+	 */
 	public FileManagerW(final AppW app) {
 		super(app);
 	}
@@ -118,4 +126,46 @@ public class FileManagerW extends FileManager {
 		mat.setTitle(newKey);
 		this.stockStore.setItem(newKey, mat.toJson().toString());
 	}
+
+	@Override
+    public void autoSave() {
+		final StringHandler base64saver = new StringHandler() {
+			@Override
+			public void handle(final String s) {
+				final Material mat = createMaterial(s);
+				stockStore.setItem(AUTO_SAVE_KEY, mat.toJson().toString());
+			}
+		};
+
+		getApp().getGgbApi().getBase64(true, base64saver);
+    }
+
+	@Override
+    public boolean isAutoSavedFileAvailable() {
+	    if (stockStore.getItem(AUTO_SAVE_KEY) != null) {
+	    	return true;
+	    }
+	    return false;
+    }
+	
+	/**
+	 * opens the auto-saved file.
+	 * call first {@code isAutoSavedFileAvailable}
+	 */
+	@Override
+	public void restoreAutoSavedFile() {
+		Material autoSaved = JSONparserGGT.parseMaterial(stockStore.getItem(AUTO_SAVE_KEY));
+		//maybe another user restores the file, so reset
+		//sensitive data
+		autoSaved.setAuthor("");
+		autoSaved.setAuthorURL("");
+		autoSaved.setId(0);
+		autoSaved.setGoogleID("");
+		openMaterial(autoSaved);
+	}
+
+	@Override
+    public void deleteAutoSavedFile() {
+	    this.stockStore.removeItem(AUTO_SAVE_KEY);
+    }
 }

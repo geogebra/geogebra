@@ -19,6 +19,7 @@ public abstract class FileManager implements FileManagerI {
 	private AppW app;
 	private Provider provider;
 	public static final String FILE_PREFIX = "file_";
+	public static final String AUTO_SAVE_KEY = "autosave";
 
 	public FileManager(final AppW app) {
 	    this.app = app;
@@ -174,7 +175,7 @@ public abstract class FileManager implements FileManagerI {
 			}
 			app.getGgbApi().setBase64(base64);
 		} catch (final Throwable t) {
-			app.showError("LoadFileFailed");
+			app.showError(app.getLocalization().getError("LoadFileFailed"));
 			t.printStackTrace();
 		}
     }

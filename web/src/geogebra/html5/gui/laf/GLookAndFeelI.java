@@ -1,7 +1,6 @@
 package geogebra.html5.gui.laf;
 
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
 
@@ -21,7 +20,9 @@ public interface GLookAndFeelI {
 
 	MainMenuI getMenuBar(AppW app);
 
-	void setCloseMessage(Localization localization);
+	void addWindowClosingHandler(AppW app);
+	
+	void removeWindowClosingHandler();
 
 	boolean copyToClipboardSupported();
 

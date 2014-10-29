@@ -1,7 +1,6 @@
 package geogebra.tablet;
 
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppW;
 import geogebra.tablet.gui.browser.TabletMaterialElement;
@@ -16,7 +15,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	public static final int PROVIDER_PANEL_WIDTH = 0;
 
 	@Override
-    public void setCloseMessage(final Localization loc) {
+    public void addWindowClosingHandler(AppW app) {
 	   //no close message on tablet
     }
 

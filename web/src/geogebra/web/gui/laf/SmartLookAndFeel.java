@@ -1,7 +1,6 @@
 package geogebra.web.gui.laf;
 
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
@@ -42,13 +41,11 @@ public class SmartLookAndFeel extends GLookAndFeel{
 	}
 
 	@Override
-    public void setCloseMessage(Localization loc) {
+    public void addWindowClosingHandler(AppW app) {
 	    //no close message for SMART
 		RootLayoutPanel.get().getElement().addClassName("AppFrameParent");
     }
 
-	
-	
 	@Override
     public String getType() {
 	    return "smart";

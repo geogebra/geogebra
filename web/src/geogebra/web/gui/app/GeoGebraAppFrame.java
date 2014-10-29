@@ -156,7 +156,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		
 		app = createApplication(article, this.laf); 
 		App.debug("Callbacks ...");
-		app.getLAF().setCloseMessage(app.getLocalization());
 		
 		this.addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {

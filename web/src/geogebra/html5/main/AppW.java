@@ -87,6 +87,7 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
+import geogebra.web.gui.dialog.DialogManagerW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -118,7 +119,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends App implements SetLabels{
-	
+	private final int AUTO_SAVE_PERIOD = 60000;
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	private DrawEquationWeb drawEquation;
 	
@@ -151,7 +152,7 @@ public abstract class AppW extends App implements SetLabels{
 	
 	protected FileManagerI fm;
 	private Material activeMaterial;
-	
+
 	protected final ArticleElement articleElement;
 	private String ORIGINAL_BODY_CLASSNAME = "";
 
@@ -170,12 +171,35 @@ public abstract class AppW extends App implements SetLabels{
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf){
 		super();
 		
-		loc = new LocalizationW(dimension);
+		this.loc = new LocalizationW(dimension);
 		this.articleElement = ae;
 		this.laf = laf;
 		
 		getTimerSystem();
-		showInputTop = InputPositon.algebraView;
+		this.showInputTop = InputPositon.algebraView;
+
+		if (getFileManager().isAutoSavedFileAvailable()) {
+			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog();
+		} else {
+			startAutoSave();			
+		}
+	}
+	
+	/**
+	 * if there are unsaved changes, 
+	 * the file is saved to the localStorage.
+	 */
+	public void startAutoSave() {
+		Timer timer = new Timer() {
+
+			@Override
+            public void run() {
+				if (!isSaved()) {
+					getFileManager().autoSave();
+				}
+            }
+		};
+		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
 	}
 	
 	@Override
@@ -199,6 +223,19 @@ public abstract class AppW extends App implements SetLabels{
 	
 	public void setLocalID(int id) {
 		this.localID = id;
+	}
+	
+	@Override
+	public void setSaved() {
+		super.setSaved();
+		getFileManager().deleteAutoSavedFile();
+		getLAF().removeWindowClosingHandler();
+	}
+	
+	@Override
+	public void setUnsaved() {
+		super.setUnsaved();
+		getLAF().addWindowClosingHandler(this);
 	}
 	
 	@Override
@@ -249,16 +286,15 @@ public abstract class AppW extends App implements SetLabels{
 	    return SwingFactory.getPrototype();
     }
 	
-	protected void initFactories()
-	{
+	protected void initFactories() {
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.html5.factories.FormatFactoryW();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.html5.factories.AwtFactoryW();
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.html5.euclidian.EuclidianStaticW();
 		geogebra.common.factories.SwingFactory.setPrototype(new geogebra.html5.factories.SwingFactoryW());
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		geogebra.common.factories.CASFactory.setPrototype(new geogebra.html5.factories.CASFactoryW());
-
 	}
+	
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
 	private GlobalKeyDispatcherW globalKeyDispatcher;
@@ -530,8 +566,6 @@ public abstract class AppW extends App implements SetLabels{
 	        .deleteLaTeXes((EuclidianViewW) getActiveEuclidianView());
 			getImageManager().reset();
         }
-		
-		
 		
 		private void loadFile(HashMap<String, String> archiveContent)
 		        throws Exception {
@@ -2450,7 +2484,7 @@ public abstract class AppW extends App implements SetLabels{
 		public void storeUndoInfo() {
 			if (isUndoActive()) {
 				kernel.storeUndoInfo();
-				isSaved = false;
+				setUnsaved();
 			}
 		}
 

@@ -58,6 +58,8 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	private SaveUnsavedChanges saveUnsavedDialog;
 	protected SaveDialogW saveDialog = null;
 	protected UploadImageDialog imageDialog;
+	private RecoverAutoSavedDialog autoSavedDialog;
+	
 	public DialogManagerW(App app) {
 		super(app);		
 	}
@@ -112,6 +114,16 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		InputDialogW id = new InputDialogW(((AppW) app), message, title,
 				initText, false, handler, true, false, null);
 		id.setVisible(true);
+	}
+	
+	/**
+	 * shows the {@link RecoverAutoSavedDialog}
+	 */
+	public void showRecoverAutoSavedDialog() {
+		if (this.autoSavedDialog == null) {
+			this.autoSavedDialog = new RecoverAutoSavedDialog((AppW) app);
+		}
+		this.autoSavedDialog.show();
 	}
 	
 	@Override
@@ -491,6 +503,10 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		
 		if(this.saveUnsavedDialog != null){
 			this.saveUnsavedDialog.setLabels();
+		}
+		
+		if (this.autoSavedDialog != null) {
+			this.autoSavedDialog.setLabels();
 		}
 		//if (fileChooser != null)
 		//	updateJavaUILanguage();

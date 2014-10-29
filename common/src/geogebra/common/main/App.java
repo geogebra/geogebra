@@ -1433,7 +1433,7 @@ public abstract class App implements UpdateSelection{
 	 * @author Zbynek Konecny
 	 * @version 2010-05-26
 	 */
-	public final void setSaved() {
+	public void setSaved() {
 		isSaved = true;
 		for(SavedStateListener sl:savedListeners){
 			sl.stateChanged(true);
@@ -1447,7 +1447,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * Sets application state to "unsaved" so that user is reminded on close.
 	 */
-	public final void setUnsaved() {
+	public void setUnsaved() {
 		isSaved = false;
 		for(SavedStateListener sl:savedListeners){
 			sl.stateChanged(false);

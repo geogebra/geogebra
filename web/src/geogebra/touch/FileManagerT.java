@@ -638,4 +638,28 @@ public class FileManagerT extends FileManager {
 			}
 		});
 	}
+
+	@Override
+    public void autoSave() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public boolean isAutoSavedFileAvailable() {
+	    // TODO Auto-generated method stub
+	    return false;
+    }
+
+	@Override
+    public void restoreAutoSavedFile() {
+	    // TODO Auto-generated method stub
+	    
+    }
+
+	@Override
+    public void deleteAutoSavedFile() {
+	    // TODO Auto-generated method stub
+	    
+    }
 }
