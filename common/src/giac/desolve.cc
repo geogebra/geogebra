@@ -721,19 +721,19 @@ namespace giac {
       if (derive(v,x,contextptr)==vecteur(n+1,zero)){
 	// Yes!
 	gen laplace_cst=_laplace(makesequence(-cst,x,t),contextptr);
-	if (is_undef(laplace_cst))
-	  return laplace_cst;
-	vecteur lopei=mergevecteur(lop(laplace_cst,at_Ei),lop(laplace_cst,at_integrate));
-	if (lopei.empty()){
-	  gen arbitrary,tmp;
-	  for (int i=n-1;i>=0;--i){
-	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
-	    tmp=tmp*t+parameters.back();
-	    arbitrary=arbitrary+v[i]*tmp;
+	if (!is_undef(laplace_cst)){
+	  vecteur lopei=mergevecteur(lop(laplace_cst,at_Ei),lop(laplace_cst,at_integrate));
+	  if (lopei.empty()){
+	    gen arbitrary,tmp;
+	    for (int i=n-1;i>=0;--i){
+	      parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	      tmp=tmp*t+parameters.back();
+	      arbitrary=arbitrary+v[i]*tmp;
+	    }
+	    arbitrary=(laplace_cst+arbitrary)/symb_horner(v,t);
+	    arbitrary=ilaplace(arbitrary,t,x,contextptr);
+	    return arbitrary;
 	  }
-	  arbitrary=(laplace_cst+arbitrary)/symb_horner(v,t);
-	  arbitrary=ilaplace(arbitrary,t,x,contextptr);
-	  return arbitrary;
 	}
       }
       if (n==2){ // a(x)*y''+b(x)*y'+c(x)*y+d(x)=0
