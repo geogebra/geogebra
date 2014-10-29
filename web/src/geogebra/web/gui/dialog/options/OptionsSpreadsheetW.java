@@ -25,7 +25,6 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 	public OptionsSpreadsheetW(AppW app, View spreadsheetView) {
 		this.app = app;
 		createGUI();
-
 	}
 
 	public Widget getWrappedPanel() {
@@ -81,8 +80,8 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		return cb;
 	}
 
+	@Override
 	public void updateGUI() {
-
 		updateCheckBox(cbShowFormulaBar, settings().showFormulaBar());
 		updateCheckBox(cbShowGrid, settings().showGrid());
 		updateCheckBox(cbShowRowHeader, settings().showRowHeader());
@@ -93,7 +92,6 @@ public class OptionsSpreadsheetW implements OptionPanelW, ClickHandler,
 		updateCheckBox(cbAllowToolTips, settings().allowToolTips());
 		updateCheckBox(cbPrependCommands, settings().equalsRequired());
 		updateCheckBox(cbEnableAutoComplete, settings().isEnableAutoComplete());
-
 	}
 
 	private static void updateCheckBox(CheckBox cb, boolean value) {

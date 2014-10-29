@@ -1,5 +1,6 @@
 package geogebra.web.gui.properties;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -28,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  */
 public class PropertiesViewW extends
-geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
+geogebra.common.gui.view.properties.PropertiesView implements RequiresResize, SetLabels {
 
 	private FlowPanel wrappedPanel;
 
@@ -418,4 +419,19 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize {
 		return false;
 	}
 
+	@Override
+    public void setLabels() {
+		if (euclidianPanel != null) {
+			euclidianPanel.setLabels();
+		}
+		if (euclidianPanel2 != null) {
+			euclidianPanel2.setLabels();
+		}
+		if (euclidianPanel3D != null) {
+			euclidianPanel3D.setLabels();
+		}
+		if (spreadsheetPanel != null) {
+			spreadsheetPanel.setLabels();
+		}
+    }
 }

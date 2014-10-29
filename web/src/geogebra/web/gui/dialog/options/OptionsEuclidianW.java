@@ -1076,7 +1076,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	    
     }
 
-	public void updateGUI() {
+	@Override
+    public void updateGUI() {
 	    model.updateProperties();
 	    setLabels();
     }

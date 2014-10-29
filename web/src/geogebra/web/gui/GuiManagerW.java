@@ -1250,7 +1250,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			for (int i = 0; i < panels.length; i++)
 				panels[i].setLabels();
 		}
-
+		if (propertiesView != null) {
+			((PropertiesViewW) propertiesView).setLabels();
+		}
+		
 		((DialogManagerW) app.getDialogManager()).setLabels();
 		if(browseGUIwasLoaded()){
 			getBrowseGUI().setLabels();
