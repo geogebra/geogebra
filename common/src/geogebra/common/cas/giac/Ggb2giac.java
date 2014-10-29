@@ -657,11 +657,17 @@ public class Ggb2giac {
 		"[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"+
 		"when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
 		
+		// try with and without tan2sincos(), tcollectsin() and check which is shortest (as a string)
+		// eg TrigCombine[(tan(x) + tan(2x)) / (1 - tan(x) tan(2x))]
 		p("TrigCombine.1",
-				"tcollect(normal(%0))");
+				"[[[ggbarg:=%0], [ggbsin:=tcollectsin(normal(ggbarg))], [ggbcos:=tcollect(normal(ggbarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbarg)))], "+
+		"[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"+
+		"when(ggbcoslen<=ggbsinlen && ggbcoslen<=ggbtanlen,ggbcos,when(ggbsinlen<=ggbtanlen,ggbsin,ggbtan))][1]");
+		
 		// eg TrigCombine[sin(x)+cos(x),sin(x)]
 		p("TrigCombine.2",
-				"when(%1[0]=='sin',tcollectsin(normal(%0)),tcollect(normal(%0)))");
+				"when(%1[0]=='sin',tcollectsin(normal(%0)),when(%1[0]=='tan',tcollect(normal(tan2sincos(%0))),tcollect(normal(%0))))");
+		
 		p("Union.2", "%0 union %1");
 		p("Unique.1", "[op(set[op(%0)])]");
 		p("Variance.1",
