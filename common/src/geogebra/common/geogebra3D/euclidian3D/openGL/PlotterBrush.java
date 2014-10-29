@@ -167,6 +167,7 @@ public class PlotterBrush implements PathPlotter {
 		
 		start.set(point, thickness);
 		justStarted = true;
+		notStarted = false;
 	}
 	
 	/** start new curve part
