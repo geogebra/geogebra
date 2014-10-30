@@ -68,6 +68,14 @@ public class SpreadsheetContextMenu {
 	public SpreadsheetContextMenu(MyTable table) {
 
 		this.table = table;
+		updateFields();
+		createGUI();
+	}
+	
+	/**
+	 * Update private fields.
+	 */
+	protected void updateFields() {
 		app = table.getApplication();
 		cp = table.getCellRangeProcessor();
 
@@ -78,8 +86,6 @@ public class SpreadsheetContextMenu {
 		selectionType = table.getSelectionType();
 		selectedCellRanges = table.getSelectedCellRanges();
 		geos = app.getSelectionManager().getSelectedGeos();
-
-		createGUI();
 	}
 
 	// ===============================================
