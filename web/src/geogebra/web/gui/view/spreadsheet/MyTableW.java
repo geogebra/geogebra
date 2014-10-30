@@ -2523,6 +2523,7 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			// -|1|-
 			// 2|-|3
 			// -|4|-
+			boolean visible = true;
 			if (dragingToColumn < minSelectionColumn) { // 2
 				point1 = getPixel(dragingToColumn, minSelectionRow, true);
 				point2 = getPixel(minSelectionColumn - 1, maxSelectionRow,
@@ -2540,9 +2541,11 @@ public class MyTableW implements /* FocusListener, */MyTable {
 			} else if (dragingToColumn > maxSelectionColumn) { // 3
 				point1 = getPixel(maxSelectionColumn + 1, minSelectionRow, true);
 				point2 = getPixel(dragingToColumn, maxSelectionRow, false);
+			} else {
+				visible = false;
 			}
 
-			updateDragFrame(true, point1, point2);
+			updateDragFrame(visible, point1, point2);
 
 		} else {
 
