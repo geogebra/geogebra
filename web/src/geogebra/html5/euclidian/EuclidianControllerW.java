@@ -32,7 +32,7 @@ import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
-import geogebra.html5.gui.util.LongTouchTimer;
+import geogebra.html5.gui.util.LongTouchManager;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
 
@@ -76,7 +76,8 @@ import com.google.gwt.user.client.Window;
 
 public class EuclidianControllerW extends EuclidianController implements MouseDownHandler, MouseUpHandler, 
 MouseMoveHandler, MouseOutHandler, MouseOverHandler, MouseWheelHandler, TouchStartHandler, TouchEndHandler, 
-TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets, IsEuclidianController {
+TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, GestureChangeHandler, HasOffsets, IsEuclidianController, 
+LongTouchHandler {
 
 	private long lastMoveEvent = 0;
 	private AbstractEvent waitingTouchMove = null;
@@ -169,6 +170,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private int previousMode = -1;
 
 	private double originalRadius;
+	
+	private LongTouchManager longTouchManager;
 	
 	public EnvironmentStyleW getEnvironmentStyle () {
 		return style;
@@ -280,6 +283,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		});
 
 		tempNum = new MyDouble(kernel);
+		longTouchManager = LongTouchManager.getInstance();
+	}
+	
+	public void handleLongTouch(int x, int y) {
+		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
+		event.setIsRightClick(true);
+		wrapMouseReleased(event);
 	}
 	
 	public  void setView(EuclidianView view) {
@@ -331,13 +341,17 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 				return;
 			}
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
-			rescheduleLTTimerIfRunning(e.getX(), e.getY());
+			if (!draggingBeyondThreshold) {
+				longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(), false);
+			} else {
+				longTouchManager.cancelTimer();
+			}
 			onTouchMoveNow(e, time);
 		}else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
-			cancelLongTouchTimer();
+			longTouchManager.cancelTimer();
 			twoTouchMove(targets.get(0),targets.get(1));
 		} else {
-			cancelLongTouchTimer();
+			longTouchManager.cancelTimer();
 		}
 		CancelEventTimer.touchEventOccured();
 	}
@@ -387,7 +401,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		this.moveIfWaiting();
 		EuclidianViewW.resetDelay();
 		event.stopPropagation();
-		cancelLongTouchTimer();
+		longTouchManager.cancelTimer();
 		if(!comboBoxHit()){
 			event.preventDefault();
 		}
@@ -403,42 +417,6 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 
 		resetModeAfterFreehand();
 	}
-	
-	private LongTouchTimer longTouchTimer;
-	
-	private void scheduleLongTouchTimer(int x, int y) {
-		if (mode != EuclidianConstants.MODE_MOVE) {
-			return;
-		}
-		if (longTouchTimer == null) {
-			longTouchTimer = createLongTouchTimer();
-		}
-		longTouchTimer.schedule(x, y);
-	}
-	
-	private LongTouchTimer createLongTouchTimer() {
-		return new LongTouchTimer(new LongTouchHandler() {
-			public void handleLongTouch(int x, int y) {
-				PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
-				event.setIsRightClick(true);
-				wrapMouseReleased(event);
-			}
-		});
-	}
-	
-	private void cancelLongTouchTimer() {
-		if (longTouchTimer == null) {
-			return;
-		}
-		longTouchTimer.cancel();
-	}
-	
-	private void rescheduleLTTimerIfRunning(int x, int y) {
-		if (longTouchTimer == null) {
-			return;
-		}
-		longTouchTimer.rescheduleIfRunning(x, y);
-	}
 
 	public void onTouchStart(TouchStartEvent event) {
 		if (app.getGuiManager() != null){
@@ -449,14 +427,16 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		calculateEnvironment();
 		if(targets.length() == 1){
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
-			scheduleLongTouchTimer(e.getX(), e.getY());
+			if (mode == EuclidianConstants.MODE_MOVE) {
+				longTouchManager.scheduleTimer(this, e.getX(), e.getY());
+			}
 			onPointerEventStart(e);
 		}
 		else if(targets.length() == 2) {
-			cancelLongTouchTimer();
+			longTouchManager.cancelTimer();
 			twoTouchStart(targets.get(0),targets.get(1));
 		} else {
-			cancelLongTouchTimer();
+			longTouchManager.cancelTimer();
 		}
 		preventTouchIfNeeded(event);
 		CancelEventTimer.touchEventOccured();

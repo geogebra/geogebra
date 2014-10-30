@@ -7,10 +7,12 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.SelectionHandler;
 
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -47,7 +49,10 @@ public class CASViewW extends CASView {
 		component.addDomHandler(ml, MouseUpEvent.getType());
 		component.addDomHandler(ml, MouseMoveEvent.getType());
 		component.addDomHandler(ml, ClickEvent.getType());
-		component.addDomHandler(ml, DoubleClickEvent.getType());
+		component.addDomHandler(ml, TouchStartEvent.getType());
+		component.addDomHandler(ml, TouchMoveEvent.getType());
+		component.addDomHandler(ml, TouchEndEvent.getType());
+		
 		
 		
 		getCAS().initCurrentCAS();

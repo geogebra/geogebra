@@ -13,27 +13,26 @@ the Free Software Foundation.
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GFont;
-import geogebra.common.awt.GPoint;
 import geogebra.common.gui.view.algebra.AlgebraController;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
-import geogebra.common.main.SelectionManager;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 
-import java.util.ArrayList;
-
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.TreeItem;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -108,11 +107,10 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		//initTreeCellRendererEditor();
 
 		// add listener
-		//this.addMouseOutHandler((MouseOutHandler)algCtrl);
-		this.addMouseDownHandler((MouseDownHandler)algCtrl);
-		//addMouseUpHandler((AlgebraController)algCtrl);
-		//addMouseMoveHandler((AlgebraController)algCtrl);
-
+		this.addDomHandler((MouseDownHandler)algCtrl, MouseDownEvent.getType());
+		this.addDomHandler((TouchStartHandler) algCtrl, TouchStartEvent.getType());
+		this.addDomHandler((TouchEndHandler) algCtrl, TouchEndEvent.getType());
+		this.addDomHandler((TouchMoveHandler) algCtrl, TouchMoveEvent.getType());
 
 		// add small border
 		//setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 0));
@@ -388,50 +386,9 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		ti.setUserObject(ob);
 		if (ob instanceof GeoElement) {
 			
-			MouseDownHandler mdh = new MouseDownHandler(){
-				public void onMouseDown(MouseDownEvent evt) {
-					if (AlgebraViewW.this.isEditing())
-						return;
-
-					if (evt.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
-						if (ob instanceof GeoElement) {
-							GeoElement geo = (GeoElement) ob;
-							SelectionManager selection = app
-							        .getSelectionManager();
-							GPoint point = new GPoint(evt.getClientX()
-							        + Window.getScrollLeft(), evt.getClientY()
-							        + Window.getScrollTop());
-							if (selection.containsSelectedGeo(geo)) {// popup
-																	 // menu for
-																	 // current
-																	 // selection
-																	 // (including
-																	 // selected
-																	 // object)
-								((GuiManagerW) app.getGuiManager())
-								        .showPopupMenu(
-								                selection.getSelectedGeos(),
-								                AlgebraViewW.this, point);
-							} else {// select only this objet and popup menu
-								selection.clearSelectedGeos(false);
-								selection.addSelectedGeo(geo, true, true);
-								ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-								temp.add(geo);
-
-								((GuiManagerW) app.getGuiManager())
-								        .showPopupMenu(temp, AlgebraViewW.this,
-								                point);
-							}
-						}
-					}
-
-					evt.preventDefault();
-					evt.stopPropagation();
-				}
-			};
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
 			        AppResources.INSTANCE.shown().getSafeUri(),
-			        AppResources.INSTANCE.hidden().getSafeUri(),mdh));
+			        AppResources.INSTANCE.hidden().getSafeUri()));
 			//ti.getElement().getStyle().setPadding(0, Unit.PX);
 
 			// Workaround to make treeitem visual selection available

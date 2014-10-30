@@ -13,24 +13,36 @@ the Free Software Foundation.
 package geogebra.web.gui.view.algebra;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
+import geogebra.html5.event.PointerEvent;
+import geogebra.html5.event.ZeroOffset;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.LongTouchManager;
+import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.html5.util.EventUtil;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -47,8 +59,15 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
@@ -63,7 +82,8 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class RadioButtonTreeItem extends HorizontalPanel
 	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, 
-	MouseOverHandler, MouseOutHandler, GeoContainer, geogebra.html5.gui.view.algebra.RadioButtonTreeItem {
+	MouseOverHandler, MouseOutHandler, GeoContainer, geogebra.html5.gui.view.algebra.RadioButtonTreeItem ,
+	TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler {
 
 	private GeoElement geo;
 	private Kernel kernel;
@@ -81,7 +101,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private InlineHTML ihtml;
 	private TextBox tb;
 	private boolean needsUpdate;
-	private MouseDownHandler mouseDownHandler;
+	
+	private LongTouchManager longTouchManager;
 	
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
@@ -114,14 +135,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}*/
 
-	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl,MouseDownHandler mdh) {
+	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
 		geo = ge;
 		kernel = geo.getKernel();
 		app = (AppW)kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
-		mouseDownHandler = mdh;
 		this.setStyleName("elem");
 
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
@@ -147,6 +167,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.addMouseDownHandler(this);
 		ihtml.addMouseOverHandler(this);
 		ihtml.addMouseOutHandler(this);
+		ihtml.addTouchStartHandler(this);
+		ihtml.addTouchMoveHandler(this);
+		ihtml.addTouchEndHandler(this);
 		add(ihtml);
 		ihtml.getElement().appendChild(se);
 
@@ -193,6 +216,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//geo.getKernel().getApplication().setTooltipFlag();
 		//se.setTitle(geo.getLongDescription());
 		//geo.getKernel().getApplication().clearTooltipFlag();
+		longTouchManager = LongTouchManager.getInstance();
+	}
+	
+	public void handleLongTouch(int x, int y) {
+		onRightClick(x, y);
 	}
 
 	public void repaint() {
@@ -418,7 +446,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void onDoubleClick(DoubleClickEvent evt) {
-
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
 		if (av.isEditing())
 			return;
 
@@ -430,30 +460,96 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}
 
-	public void onMouseDown(MouseDownEvent evt) {
-		if(mouseDownHandler != null){
-			mouseDownHandler.onMouseDown(evt);
+	public void onMouseDown(MouseDownEvent event) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
 		}
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		onPointerDown(wrappedEvent);
+		event.preventDefault();
+		event.stopPropagation();
 	}
 
 	public void onClick(ClickEvent evt) {
-
-		if (av.isEditing())
+		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
+		}
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt, ZeroOffset.instance);
+		onPointerUp(wrappedEvent);
+	}
 
+	public void onMouseMove(MouseMoveEvent evt) {
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt, ZeroOffset.instance);
+		onPointerMove(wrappedEvent);
+	}
+
+	
+	public void onMouseOver(MouseOverEvent event) {
+		ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
+	}
+
+	public void onMouseOut(MouseOutEvent event) {
+		ToolTipManagerW.sharedInstance().showToolTip(null);	    
+    }
+	
+	public GeoElement getGeo() {
+	    return geo;
+    }
+
+	public void onTouchEnd(TouchEndEvent event) {
+	    CancelEventTimer.touchEventOccured();
+	    longTouchManager.cancelTimer();
+	    JsArray<Touch> changed = event.getChangedTouches();
+	    AbstractEvent wrappedEvent = PointerEvent.wrapEvent(changed.get(0), ZeroOffset.instance);
+	    onPointerUp(wrappedEvent);
+    }
+
+	public void onTouchMove(TouchMoveEvent event) {
+		int x = EventUtil.getTouchOrClickClientX(event);
+		int y = EventUtil.getTouchOrClickClientY(event);
+		longTouchManager.rescheduleTimerIfRunning(this, x, y);
+		JsArray<Touch> targets = event.getTargetTouches();
+		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
+		onPointerMove(wrappedEvent);
+	}
+
+	public void onTouchStart(TouchStartEvent event) {
+		CancelEventTimer.touchEventOccured();
+		int x = EventUtil.getTouchOrClickClientX(event);
+		int y = EventUtil.getTouchOrClickClientY(event);
+		longTouchManager.scheduleTimer(this, x, y);
+		JsArray<Touch> targets = event.getTargetTouches();
+		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
+		onPointerDown(wrappedEvent);
+		event.preventDefault();
+		event.stopPropagation();
+    }
+	
+	private void onPointerDown(AbstractEvent event) {
+		if (event.isRightClick()) {
+			onRightClick(event.getX(), event.getY());
+		}
+	}
+	
+	private void onPointerUp(AbstractEvent event) {
+		if (av.isEditing()) {
+			return;
+		}
 		int mode = app.getActiveEuclidianView().getMode();
 		if (//!skipSelection && 
 			(mode == EuclidianConstants.MODE_MOVE) ) {
 			// update selection	
-			if (geo == null){
+			if (geo == null) {
 				selection.clearSelectedGeos();
 			}
 			else {					
 				// handle selecting geo
-				if (evt.isControlKeyDown()) {
+				if (event.isControlDown()) {
 					selection.toggleSelectedGeo(geo); 													
-					if (selection.getSelectedGeos().contains(geo)) av.setLastSelectedGeo(geo);
-				} else if (evt.isShiftKeyDown() && av.getLastSelectedGeo() != null) {
+					if (selection.getSelectedGeos().contains(geo)) {
+						av.setLastSelectedGeo(geo);
+					}
+				} else if (event.isShiftDown() && av.getLastSelectedGeo() != null) {
 					boolean nowSelecting = true;
 					boolean selecting = false;
 					boolean aux = geo.isAuxiliaryObject();
@@ -500,7 +596,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			app.getActiveEuclidianView().clickedGeo(geo, evt.getNativeEvent().getCtrlKey());
+			app.getActiveEuclidianView().clickedGeo(geo, event.isControlDown());
 			//event.release();
 		} else 
 			// tell selection listener about click
@@ -508,7 +604,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 
 		// Alt click: copy definition to input field
-		if (geo != null && evt.isAltKeyDown() && app.showAlgebraInput()) {
+		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
 			// F3 key: copy definition to input bar
 			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);			
 		}
@@ -516,9 +612,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		app.getActiveEuclidianView().mouseMovedOver(null);
 		av.setFocus(true);
 	}
-
-	public void onMouseMove(MouseMoveEvent evt) {
-
+	
+	private void onPointerMove(AbstractEvent event) {
 		if (av.isEditing())
 			return;
 
@@ -539,18 +634,31 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//	se.setTitle("");
 		//}
 	}
-
 	
-	public void onMouseOver(MouseOverEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
+	private void onRightClick(int x, int y) {
+		if (av.isEditing())
+			return;
+
+		SelectionManager selection = app.getSelectionManager();
+		GPoint point = new GPoint(x + Window.getScrollLeft(), y
+		        + Window.getScrollTop());
+		if (selection.containsSelectedGeo(geo)) {// popup
+			                                     // menu for
+			                                     // current
+			                                     // selection
+			                                     // (including
+			                                     // selected
+			                                     // object)
+			((GuiManagerW) app.getGuiManager()).showPopupMenu(
+			        selection.getSelectedGeos(), av, point);
+		} else {// select only this object and popup menu
+			selection.clearSelectedGeos(false);
+			selection.addSelectedGeo(geo, true, true);
+			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+			temp.add(geo);
+
+			((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
+		}
 	}
-
-	public void onMouseOut(MouseOutEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(null);	    
-    }
-	
-	public GeoElement getGeo() {
-	    return geo;
-    }
 }
 

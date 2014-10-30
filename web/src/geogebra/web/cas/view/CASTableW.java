@@ -12,7 +12,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
 import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.MouseEvent;
+import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.Widget;
@@ -181,7 +181,7 @@ public class CASTableW extends Grid implements CASTable {
 		return editing != null;
 	}
 
-	public GPoint getPointForEvent(MouseEvent event) {
+	public GPoint getPointForEvent(HumanInputEvent<?> event) {
 		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 		if (td == null) {
 			return null;
@@ -260,7 +260,7 @@ public class CASTableW extends Grid implements CASTable {
 		}
 	}
 
-	public CASTableCellW getCellForEvent(MouseEvent<?> event) {
+	public CASTableCellW getCasCellForEvent(HumanInputEvent<?> event) {
 	    Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
 	    if (td == null) {
 	      return null;

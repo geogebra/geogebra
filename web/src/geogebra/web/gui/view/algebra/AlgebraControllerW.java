@@ -4,33 +4,52 @@ import geogebra.common.awt.GRectangle;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.event.ZeroOffset;
+import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.LongTouchManager;
+import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.web.gui.GuiManagerW;
 
 import java.util.Iterator;
 
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
-import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Window;
 
 
 public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
-implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
+implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, LongTouchHandler {
 
 	//FIXME: make e.isControlDown like Application.isControlDown etc.
 	//FIXME: make something instead of the outcommented things, etc.
 	//FIXME: make event handling
+	
+	private LongTouchManager longTouchManager;
 
 	public AlgebraControllerW(Kernel kernel) {
 		super(kernel);
+		longTouchManager = LongTouchManager.getInstance();
+	}
+
+	public void handleLongTouch(int x, int y) {
+		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
+		event.setIsRightClick(true);
+		mousePressed(event);
 	}
 
 	/*
@@ -250,12 +269,20 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 	public void dropActionChanged(AbstractEvent e) {}
 
 	public void onMouseDown(MouseDownEvent event) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+		event.stopPropagation();
+		event.preventDefault();
 		mousePressed(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
 		// TODO: make it care for mouse down too
 		// currently, this event is not used
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
 		mouseClicked(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
 
@@ -263,5 +290,27 @@ implements MouseMoveHandler, MouseDownHandler, MouseUpHandler{
 		// currently, this event is not used
 		mouseMoved(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
+
+	public void onTouchMove(TouchMoveEvent event) {
+		JsArray<Touch> targets = event.getTargetTouches();
+		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.instance);
+		longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY());
+		event.preventDefault();
+    }
+
+	public void onTouchEnd(TouchEndEvent event) {
+		CancelEventTimer.touchEventOccured();
+		longTouchManager.cancelTimer();
+		event.stopPropagation();
+		event.preventDefault();
+    }
+
+	public void onTouchStart(TouchStartEvent event) {
+		CancelEventTimer.touchEventOccured();
+		JsArray<Touch> targets = event.getTargetTouches();
+		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
+		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
+		mousePressed(e);
+    }
 
 }
