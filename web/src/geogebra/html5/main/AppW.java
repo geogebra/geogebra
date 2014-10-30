@@ -86,7 +86,6 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
-import geogebra.web.gui.dialog.DialogManagerW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -175,11 +174,7 @@ public abstract class AppW extends App implements SetLabels{
 		getTimerSystem();
 		this.showInputTop = InputPositon.algebraView;
 
-		if (getFileManager().isAutoSavedFileAvailable()) {
-			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog();
-		} else {
-			startAutoSave();			
-		}
+		
 	}
 	
 	/**

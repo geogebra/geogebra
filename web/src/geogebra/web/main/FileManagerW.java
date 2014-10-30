@@ -182,4 +182,6 @@ public class FileManagerW extends FileManager {
 		}
 	    this.stockStore.removeItem(AUTO_SAVE_KEY);
     }
+	
+	
 }

@@ -52,6 +52,13 @@ public class AppWapplication extends AppW {
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
 	        boolean undoActive, int dimension, GLookAndFeel laf) {
 		super(article, dimension, laf);
+		
+		if (getFileManager().isAutoSavedFileAvailable()) {
+			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog();
+		} else {
+			this.startAutoSave();			
+		}
+		
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
 			appFrame.getElement().addClassName("zoomed");
