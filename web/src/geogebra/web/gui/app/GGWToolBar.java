@@ -734,8 +734,12 @@ public class GGWToolBar extends Composite implements RequiresResize{
     }
 
 	public void updateUndoActions() {
-		this.undoButton.setEnabled(app.getKernel().undoPossible());
-		this.redoButton.setEnabled(app.getKernel().redoPossible());
+		if(undoButton != null){
+			this.undoButton.setEnabled(app.getKernel().undoPossible());
+		}
+		if(this.redoButton != null){
+			this.redoButton.setEnabled(app.getKernel().redoPossible());
+		}
 	}
 
 
