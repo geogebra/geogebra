@@ -70,6 +70,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 
@@ -378,6 +379,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	private boolean ignoreEvent = false;
 	
 	public void onTouchEnd(TouchEndEvent event) {
+		Event.releaseCapture(event.getRelativeElement());
 		if(moveCounter  < 2){
 			resetModeAfterFreehand();
 		}
@@ -442,6 +444,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		if (app.getGuiManager() != null){
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		}
+		Event.setCapture(event.getRelativeElement());
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
 		if(targets.length() == 1){
@@ -594,6 +597,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return;
 		}
 
+		Event.releaseCapture(event.getRelativeElement());
 		if(moveCounter  < 2){
 			resetModeAfterFreehand();
 		}
@@ -626,6 +630,7 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 			return;
 		}
 
+		Event.setCapture(event.getRelativeElement());
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
