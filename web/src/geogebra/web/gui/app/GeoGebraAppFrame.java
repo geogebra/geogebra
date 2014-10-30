@@ -172,8 +172,11 @@ public class GeoGebraAppFrame extends ResizeComposite {
 				closePopupsAndMaybeMenu(event.getNativeEvent());
 			}
 		}, TouchStartEvent.getType());
-		//		((AppW)app).initializeLanguage();
-
+		
+		//make sure SMART widget has border when in app mode
+		if(laf.isSmart()){
+			RootLayoutPanel.get().getElement().addClassName("AppFrameParent");
+		}
 		//Debugging purposes
 		App.debug("Done");
     }

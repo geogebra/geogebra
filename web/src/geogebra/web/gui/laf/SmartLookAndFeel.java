@@ -14,7 +14,6 @@ import com.google.gwt.event.dom.client.TouchCancelEvent;
 import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -42,8 +41,7 @@ public class SmartLookAndFeel extends GLookAndFeel{
 
 	@Override
     public void addWindowClosingHandler(AppW app) {
-	    //no close message for SMART
-		RootLayoutPanel.get().getElement().addClassName("AppFrameParent");
+	    //no close message for SMART	
     }
 
 	@Override

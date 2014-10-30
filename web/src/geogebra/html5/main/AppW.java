@@ -2497,7 +2497,7 @@ public abstract class AppW extends App implements SetLabels{
 		}
 
 		@Override
-		public void storeUndoInfo() {
+		public final void storeUndoInfo() {
 			if (isUndoActive()) {
 				kernel.storeUndoInfo();
 				setUnsaved();
