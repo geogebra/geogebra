@@ -147,7 +147,6 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	public void onTouchStart(TouchStartEvent touchStartEvent) {
-		CancelEventTimer.touchEventOccured();
 		numberOfTouches++;
 		if (numberOfTouches == 1) {
 			updateTableIsOverDot(touchStartEvent);
@@ -157,6 +156,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 					getAbsoluteY(touchStartEvent));
 		} // else there are double (or more) touches
 		  // and we are scrolling
+		CancelEventTimer.touchEventOccured();
 	}
 
 	private void handlePointerDown(DomEvent<?> event) {
@@ -279,12 +279,12 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	public void onTouchEnd(TouchEndEvent event) {
-		CancelEventTimer.touchEventOccured();
 		longTouchManager.cancelTimer();
 		if (numberOfTouches == 1) {
 			handlePointerUp(event);
 		}
 		numberOfTouches--;
+		CancelEventTimer.touchEventOccured();
 	}
 
 	private void handlePointerUp(DomEvent<?> event) {
@@ -432,9 +432,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 		} else {
 			longTouchManager.cancelTimer();
 		}
+		CancelEventTimer.touchEventOccured();
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
+		if(CancelEventTimer.cancelMouseEvent()){
+			return;
+		}
 		handlePointerMove(event);
 	}
 
