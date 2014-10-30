@@ -29,13 +29,18 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public void delete(final Material mat) {
-		this.stockStore.removeItem(mat.getTitle());
-		removeFile(mat);
+		if(this.stockStore != null){
+			this.stockStore.removeItem(mat.getTitle());
+			removeFile(mat);
+		}
 		((BrowseGUI) getApp().getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
     }
 
 	@Override
     public void saveFile(final SaveCallback cb) {
+		if(this.stockStore == null){
+			return;
+		}
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
@@ -121,6 +126,9 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public void rename(String newTitle, Material mat) {
+		if(this.stockStore == null){
+			return;
+		}
 		this.stockStore.removeItem(mat.getTitle());
 		String newKey = createKeyString(createID(), newTitle);
 		mat.setTitle(newKey);
@@ -129,6 +137,9 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public void autoSave() {
+		if(this.stockStore == null){
+			return;
+		}
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
@@ -142,7 +153,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public boolean isAutoSavedFileAvailable() {
-	    if (stockStore.getItem(AUTO_SAVE_KEY) != null) {
+	    if (stockStore != null && stockStore.getItem(AUTO_SAVE_KEY) != null) {
 	    	return true;
 	    }
 	    return false;
@@ -166,6 +177,9 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public void deleteAutoSavedFile() {
+		if(this.stockStore == null){
+			return;
+		}
 	    this.stockStore.removeItem(AUTO_SAVE_KEY);
     }
 }
