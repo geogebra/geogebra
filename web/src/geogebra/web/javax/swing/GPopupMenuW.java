@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.util.PopupPanel;
 import geogebra.web.html5.AttachedToDOM;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -21,7 +22,6 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
