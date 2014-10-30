@@ -104,12 +104,10 @@ implements CustomizeToolbarListener, SetLabels {
 		public TreeItem insertBranchItem(final DraggableTool tool, int idx) {
 			DraggableTool branchTool = new DraggableTool(tool.mode, null);
 			TreeItem branch = setBranchItem(toolTree.insertItem(idx, branchTool), branchTool);
-			if (tool.mode != null) {
-				addLeafItem(branch, tool);
-			}
+			addLeafItem(branch, tool);
 			return branch;
 		}
-
+		
 		public TreeItem setBranchItem(final TreeItem item, final DraggableTool tool) {
 
 			item.setUserObject(tool);
@@ -138,15 +136,16 @@ implements CustomizeToolbarListener, SetLabels {
 							i++;
 						}
 
-//						if (idx > 0) {
-//							idx--;
-//						}
-
-						DraggableTool dropped = new DraggableTool(dragging.mode, item);
-						toolTree.insertBranchItem(dropped, idx);
+						if (dragging.treeItem != null && dragging.treeItem.getChildCount() >1) {
+							toolTree.insertItem(idx, dragging.treeItem);
+						} else {	
+							DraggableTool dropped = new DraggableTool(dragging.mode, item);
+							toolTree.insertBranchItem(dropped, idx);
+						}
+	
 						dragging = null;
 						tool.removeStyleName("branchDropping");
-					}
+				}
 				}
 			}, DropEvent.getType());
 
@@ -250,6 +249,10 @@ implements CustomizeToolbarListener, SetLabels {
 
 			initDrag();
 		}
+
+		public int getSubToolCount() {
+	        return treeItem == null ? 0: treeItem.getChildCount();
+        }
 
 		private void initDrag() {
 			addDomHandler(new DragStartHandler() {
@@ -519,7 +522,8 @@ implements CustomizeToolbarListener, SetLabels {
 				final DraggableTool tool = new DraggableTool(menu.get(0), null);
 
 				TreeItem branch = toolTree.addBranchItem(tool);
-
+				tool.treeItem = branch;
+				
 				for (int j = 0; j < menu.size(); j++) {
 					Integer modeInt = menu.get(j);
 					if (modeInt != ToolBar.SEPARATOR) {
@@ -544,11 +548,6 @@ implements CustomizeToolbarListener, SetLabels {
 
 	private void apply() {
 		String current = toolTree.getToolbarString();
-
-		//		App.debug("[CUSTOMIZE] original toolbar is: " + oldToolbarString);
-		//		App.debug("[CUSTOMIZE] setting  toolbar to: " + current);
-		//		App.debug("[CUSTOMIZE] equal? " + current.equals(oldToolbarString));
-
 		if (dockPanel != null) {
 			dockPanel.setToolbarString(current);
 			dockPanel.updatePanel(true);
