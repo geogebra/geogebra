@@ -158,7 +158,13 @@ public abstract class AppW extends App implements SetLabels{
 	private static boolean justClosedPopup = false;
 	protected GeoGebraFrame frame = null;
 	private ErrorHandler errorHandler;
-
+	private GlobalKeyDispatcherW globalKeyDispatcher;
+	
+	/**
+	 * @param ae {@link ArticleElement}
+	 * @param dimension int
+	 * @param laf {@link GLookAndFeelI}
+	 */
 	protected AppW(ArticleElement ae, int dimension, GLookAndFeelI laf){
 		super();
 		
@@ -208,10 +214,17 @@ public abstract class AppW extends App implements SetLabels{
 		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
 	}
 	
+	/**
+	 * @return id of local saved file
+	 */
 	public int getLocalID() {
 		return this.localID;
 	}
 	
+	/**
+	 * sets ID of local saved file
+	 * @param id int
+	 */
 	public void setLocalID(int id) {
 		this.localID = id;
 	}
@@ -254,6 +267,9 @@ public abstract class AppW extends App implements SetLabels{
 		return ggbapi;
 	}
 	
+    /**
+     * @return {@link Canvas}
+     */
     public Canvas getCanvas() {
 		return canvas;
 	}
@@ -277,6 +293,9 @@ public abstract class AppW extends App implements SetLabels{
 	    return SwingFactory.getPrototype();
     }
 	
+	/**
+	 * inits factories
+	 */
 	protected void initFactories() {
 		geogebra.common.factories.FormatFactory.prototype = new geogebra.html5.factories.FormatFactoryW();
 		geogebra.common.factories.AwtFactory.prototype = new geogebra.html5.factories.AwtFactoryW();
@@ -288,8 +307,6 @@ public abstract class AppW extends App implements SetLabels{
 	
 	protected void afterCoreObjectsInited() { } // TODO: abstract?
 
-	private GlobalKeyDispatcherW globalKeyDispatcher;
-
 	@Override
 	final public GlobalKeyDispatcherW getGlobalKeyDispatcher() {
 		if (globalKeyDispatcher == null) {
@@ -298,7 +315,10 @@ public abstract class AppW extends App implements SetLabels{
 		return globalKeyDispatcher;
 	}
 
-	protected GlobalKeyDispatcherW newGlobalKeyDispatcher() {
+	/**
+	 * @return a new instance of {@link GlobalKeyDispatcherW}
+	 */
+	private GlobalKeyDispatcherW newGlobalKeyDispatcher() {
 		return new GlobalKeyDispatcherW(this);
 	}
 	
@@ -860,10 +880,17 @@ public abstract class AppW extends App implements SetLabels{
 
 		}
 		
+		/**
+		 * sets the timestamp of last synchronization with ggbTube
+		 * @param syncStamp long
+		 */
 		public void setSyncStamp(long syncStamp) {
 		    this.syncStamp = syncStamp;
 	    }
 		
+		/**
+		 * @return timestamp of last synchronization with ggbTube
+		 */
 		public long getSyncStamp() {
 			return this.syncStamp;
 		}
@@ -880,6 +907,7 @@ public abstract class AppW extends App implements SetLabels{
 		 * Opens the ggb or ggt file
 		 * 
 		 * @param fileToHandle
+		 * @param callback 
 		 * @return returns true, if fileToHandle is ggb or ggt file, otherwise
 		 *         returns false. Note that If the function returns true, it's don't
 		 *         mean, that the file opening was successful, and the opening
@@ -907,7 +935,9 @@ public abstract class AppW extends App implements SetLabels{
 
 		
 
-		
+		/**
+		 * NEVER CALLED??
+		 */
 		public void addFileLoadListener(FileLoadListener f){
 			this.fileLoadListeners.add(f);
 		}
