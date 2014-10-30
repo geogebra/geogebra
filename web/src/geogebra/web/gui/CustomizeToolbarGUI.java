@@ -102,7 +102,12 @@ implements CustomizeToolbarListener, SetLabels {
 		}
 
 		public TreeItem insertBranchItem(final DraggableTool tool, int idx) {
-			return setBranchItem(toolTree.insertItem(idx, tool), tool);
+			DraggableTool branchTool = new DraggableTool(tool.mode, null);
+			TreeItem branch = setBranchItem(toolTree.insertItem(idx, branchTool), branchTool);
+			if (tool.mode != null) {
+				addLeafItem(branch, tool);
+			}
+			return branch;
 		}
 
 		public TreeItem setBranchItem(final TreeItem item, final DraggableTool tool) {
@@ -133,14 +138,14 @@ implements CustomizeToolbarListener, SetLabels {
 							i++;
 						}
 
-						if (idx > 0) {
-							idx--;
-						}
+//						if (idx > 0) {
+//							idx--;
+//						}
 
 						DraggableTool dropped = new DraggableTool(dragging.mode, item);
-						toolTree.insertBranchItem(tool, idx);
+						toolTree.insertBranchItem(dropped, idx);
 						dragging = null;
-						tool.removeStyleName("toolBarDropping");
+						tool.removeStyleName("branchDropping");
 					}
 				}
 			}, DropEvent.getType());
@@ -265,6 +270,8 @@ implements CustomizeToolbarListener, SetLabels {
 	}
 
 	private static final int PANEL_GAP = 20;
+
+	private static final int MARGIN_Y = 10;
 
 	private AppW app;
 	private CustomizeToolbarHeaderPanel header;
@@ -558,7 +565,7 @@ implements CustomizeToolbarListener, SetLabels {
 	public void onResize() {
 		int w = (getOffsetWidth() / 2) - PANEL_GAP;
 		int h = (getOffsetHeight()) - getHeaderWidget().getOffsetHeight() 
-				- getFooterWidget().getOffsetHeight() - lblUsedTools.getOffsetHeight();
+				- getFooterWidget().getOffsetHeight() - lblUsedTools.getOffsetHeight() - MARGIN_Y;
 		usedToolsPanel.setSize(w + "px", h + "px");
 		allToolsPanel.setSize(w + "px", h + "px");
 		App.debug("[CUSTOMIZE] onResize");

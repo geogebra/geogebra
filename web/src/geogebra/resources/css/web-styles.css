@@ -4756,16 +4756,12 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  .usedToolsPanel {
  	float: left;
 	overflow-y: scroll;
- 	width: 45%;
- 	height: 900px;
  }
 
  
  .allToolsPanel {
  	float: right;
 	overflow-y: scroll;
-	width: 45%;
- 	height: 900px;
  }
 
 .usedToolsPanel:first-child,
@@ -4775,16 +4771,20 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
  
  .toolBarDropping { 
- 	border: 1px solid;
+ 	border-bottom: 1px solid;
  	background-color: #acacac;
  }
  
  .leafDropping { 
  	border-top: 1px solid;
  }
+
  .branchDropping { 
-    height: 40px;
- 	border-top: 1px solid;
+ 	border-top: 5px solid;  
+ }
+
+ .branchDropping .panelRow { 
+ 
  }
  
  /*
