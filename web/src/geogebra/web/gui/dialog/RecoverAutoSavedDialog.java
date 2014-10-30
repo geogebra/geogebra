@@ -110,10 +110,11 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * set labels
 	 */
 	public void setLabels() {
-		this.getCaption().setText(this.app.getLocalization().getMenu("Redo"));
-		this.infoText.setText("Do you want to recover the unsaved file");
-		this.cancelButton.setText(this.app.getLocalization().getMenu("Cancel"));
-		this.recoverButton.setText(this.app.getLocalization().getMenu("Redo"));
+		//TODO Translation needed
+		this.getCaption().setText("Recover unsaved changes");
+		this.infoText.setText("GeoGebra found unsaved changes. Do you want to recover or delete them?");
+		this.cancelButton.setText(this.app.getLocalization().getMenu("Delete"));
+		this.recoverButton.setText("Recover");
 	}
 	
 	
