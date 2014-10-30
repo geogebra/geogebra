@@ -121,9 +121,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		w.addDomHandler(this, MouseDownEvent.getType());
 		w.addDomHandler(this, MouseUpEvent.getType());
 		w.addDomHandler(this, TouchStartEvent.getType());
-		if(!app.getLAF().isSmart()){//TODO may need android detection etc.
-			w.addDomHandler(this, TouchEndEvent.getType());
-		}
+		w.addDomHandler(this, TouchEndEvent.getType());
 	}
 	
 	/**
