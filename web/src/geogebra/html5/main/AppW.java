@@ -68,7 +68,6 @@ import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.laf.GLookAndFeelI;
-import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
@@ -138,17 +137,11 @@ public abstract class AppW extends App implements SetLabels{
 	protected GoogleDriveOperation googleDriveOperation;
 	
 	public static final String LOCALE_PARAMETER = "locale";
-	
-	public final static String syntaxStr = "_Syntax";
-	
-	
-	private HashMap<String, String> englishCommands = null;
-
+		
 	private FontManagerW fontManager;
 	private SpreadsheetTableModelW tableModel;
 	private SoundManagerW soundManager;
 	protected DialogManager dialogManager = null;
-	private ToolTipManagerW toolTipManager;
 	
 	protected FileManagerI fm;
 	private Material activeMaterial;
@@ -159,8 +152,6 @@ public abstract class AppW extends App implements SetLabels{
 	protected EuclidianPanelWAbstract euclidianViewPanel;
 	protected Canvas canvas;
 
-	private boolean[] showAxes = { true, true };
-	private boolean showGrid = false;
 	private final GLookAndFeelI laf;
 	
 	private ArrayList<Widget> popups = new ArrayList<Widget>();
