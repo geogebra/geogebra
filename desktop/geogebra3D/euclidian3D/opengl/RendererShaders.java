@@ -55,6 +55,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 	public RendererShaders(EuclidianView3D view, boolean useCanvas){
 		super(view,useCanvas);
 		hitting = new Hitting(view3D);
+		
+		App.debug("Renderer with shaders created");
 	}
 
 	

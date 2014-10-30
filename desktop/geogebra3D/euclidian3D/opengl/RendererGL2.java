@@ -12,6 +12,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Textures;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
@@ -44,6 +45,8 @@ public class RendererGL2 extends RendererD {
 	 */
 	public RendererGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas);
+		
+		App.debug("Renderer without shaders created");
 	}
 	
 	@Override

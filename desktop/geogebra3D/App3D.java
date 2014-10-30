@@ -456,10 +456,14 @@ public class App3D extends AppD {
 		
 		if (args != null && args.containsArg("testShaders")){
 			useShaders = true;
+		}else{
+			useShaders = false;
 		}
+		
+
 	}
 	
-	private boolean useShaders = false;
+	private boolean useShaders;
 	
 	/**
 	 * 
