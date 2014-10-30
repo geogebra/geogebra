@@ -17,6 +17,7 @@ package geogebra.web.gui.layout;
 import com.google.gwt.core.client.Duration;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Position;
@@ -24,6 +25,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -61,8 +63,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
   class HSplitter extends Splitter {
     public HSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       super(target, reverse, splitPanel);
-      getElement().getStyle().setPropertyPx("width", splitterSize);
-      setStyleName("gwt-SplitLayoutPanel-HDragger");
+      impl.setToHorizontal(splitterSize);
     }
 
     @Override
@@ -95,7 +96,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
   }
 
-  abstract class Splitter extends Widget {
+  public abstract class Splitter extends Widget {
     protected final Widget target;
 
     private int offset;
@@ -111,13 +112,15 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     private double lastClick = 0;
 
 	private ZoomSplitLayoutPanel splitPanel;
+	
+	protected SplitterImpl impl = GWT.create(SplitterImpl.class);
 
     public Splitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       this.target = target;
       this.reverse = reverse;
       this.splitPanel = splitPanel;
 
-      setElement(Document.get().createDivElement());
+      setElement(impl.createElement(this));
       sinkEvents(Event.ONMOUSEDOWN | Event.ONMOUSEUP | Event.ONMOUSEMOVE
           | Event.ONDBLCLICK | Event.ONTOUCHSTART | Event.ONTOUCHMOVE 
           | Event.ONTOUCHEND);
@@ -129,6 +132,9 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
 
     @Override
     public void onBrowserEvent(Event event) {
+      if (!impl.shouldHandleEvent(event, mouseDown)) {
+        return;
+      }
       switch (event.getTypeInt()) {
         case Event.ONMOUSEDOWN:
         case Event.ONTOUCHSTART:
@@ -294,8 +300,7 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
   class VSplitter extends Splitter {
     public VSplitter(Widget target, boolean reverse, ZoomSplitLayoutPanel splitPanel) {
       super(target, reverse, splitPanel);
-      getElement().getStyle().setPropertyPx("height", splitterSize);
-      setStyleName("gwt-SplitLayoutPanel-VDragger");
+      impl.setToVertical(splitterSize);
     }
 
     @Override
@@ -531,6 +536,8 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
     }
 
     super.insert(splitter, layout.direction, splitterSize, before);
+    LayoutData layoutData = (LayoutData) splitter.getLayoutData();
+    splitter.impl.splitterInsertedIntoLayer(layoutData.layer);
   }
   
   void assertIsChild(Widget widget) {

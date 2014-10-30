@@ -43,7 +43,9 @@
   <source path='tablet'/>
   <super-source path='/common/src/geogebra/jre' />
   
-  
+  <replace-with class="geogebra.touch.gui.layout.SplitterImplTouch">
+    <when-type-is class="geogebra.web.gui.layout.SplitterImpl"/>
+  </replace-with>
    
     <inherits name="com.google.gwt.json.JSON" />
   
