@@ -62,10 +62,17 @@ public class ResourcesInjector {
 	 * removes the added resources
 	 */
 	public static void removeResources() {
+		//this list is live
 		NodeList<Element> resources = Dom.getElementsByClassName(CLASSNAME);
-		for (int i = 0; i < resources.getLength(); i++) {
-	        resources.getItem(i).removeFromParent();
-        }
+		while (resources.getLength() > 0) {
+			resources.getItem(resources.getLength()-1).removeFromParent();
+		}
+		
+		//this is not :-) Love DOM!
+		NodeList<Element> scripts = Dom.querySelectorAll("script[src$=\"cache.js\"]");
+		for (int i = 0;  i < scripts.getLength(); i++) {
+			scripts.getItem(i).removeFromParent();
+		}	
 	}
 
 }

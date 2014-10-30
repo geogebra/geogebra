@@ -13,7 +13,15 @@ public class Dom extends DOM {
 	 * @return NodeList of elements found by className
 	 */
 	public static native NodeList<Element> getElementsByClassName(String className) /*-{
-			return $doc.getElementsByClassName(className);
+		return $doc.getElementsByClassName(className);
+	}-*/;
+	
+	/**
+	 * @param selector
+	 * @return Nodelist of elements found by the selector
+	 */
+	public static native NodeList<Element> querySelectorAll(String selector) /*-{
+		return $doc.querySelectorAll(selector); 
 	}-*/;
 
 	/**

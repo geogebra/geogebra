@@ -613,8 +613,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements HasAppletProper
 	public void remove() {
 		this.removeFromParent();
 		//this does not do anything!
-		GeoGebraFrame.getInstances().remove(this);
+		GeoGebraFrame remove = GeoGebraFrame.getInstances().remove(GeoGebraFrame.getInstances().indexOf(this));
+		this.ae.removeFromParent();
+		this.ae = null;
 		this.app = null;
+		remove = null;
 		if (GeoGebraFrame.getInstanceCount() == 0) {
 			ResourcesInjector.removeResources();
 		}
