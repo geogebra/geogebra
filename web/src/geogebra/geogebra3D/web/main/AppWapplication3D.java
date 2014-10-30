@@ -45,6 +45,16 @@ public class AppWapplication3D extends AppWapplication {
 	    //Window.alert("AppWapplication3D : I will be threeD :-)");
     }
 	
+	public AppWapplication3D(final ArticleElement article,
+	        final GeoGebraAppFrame geoGebraAppFrame, final boolean undoActive,
+	        final int dimension, final GLookAndFeel laf) {
+		super(article, geoGebraAppFrame, undoActive, dimension, laf);
+	}
+	
+	public AppWapplication3D(final ArticleElement article,
+	        final GeoGebraAppFrame geoGebraAppFrame, final int dimension, final GLookAndFeel laf) {
+		super(article, geoGebraAppFrame, dimension, laf);
+	}
 	
 	@Override
     protected Kernel newKernel(App this_app){
