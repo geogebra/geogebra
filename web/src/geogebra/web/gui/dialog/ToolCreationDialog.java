@@ -49,7 +49,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 	public ToolCreationDialog(App app) {
 		super(false, false);
-
+		this.setGlassEnabled(false);
 		this.app = app;
 
 		Macro appMacro = app.getMacro();
