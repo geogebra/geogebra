@@ -7725,12 +7725,19 @@ public abstract class EuclidianController {
 	
 		view.repaintView();
 	}
-
-	protected void wrapMouseDragged(AbstractEvent event) {
-		
+	
+	protected boolean shouldCancelDrag() {
 		if (System.currentTimeMillis() < EuclidianConstants.DRAGGING_DELAY + lastMousePressedTime){
 			// we wait at least DRAGGING_DELAY (100ms) before starting drag
 			// used for interactive boards
+			return true;
+		}
+		return false;
+	}
+
+	protected void wrapMouseDragged(AbstractEvent event) {
+		
+		if (shouldCancelDrag()) {
 			return;
 		}
 		
