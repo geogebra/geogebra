@@ -1146,5 +1146,13 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 		}
 		return Math.sqrt((p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y));
 	}
-}
 
+	@Override
+	protected boolean processZoomRectangle() {
+		boolean processed = super.processZoomRectangle();
+	    if (processed) {
+	    	selectionStartPoint.setLocation(mouseLoc);
+	    }
+	    return processed;
+	}
+}
