@@ -116,6 +116,11 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	}
 
 	/**
+	 * Threshold for the selection rectangle distance squared (10 pixel circle)
+	 */
+	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
+
+	/**
 	 * threshold for moving in case of a multitouch-event (pixel)
 	 */
 	public final static int MIN_MOVE = 5;
@@ -1154,5 +1159,26 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 	    	selectionStartPoint.setLocation(mouseLoc);
 	    }
 	    return processed;
+	}
+
+	@Override
+    protected void updateSelectionRectangle(boolean keepScreenRatio) {
+		if (!shouldUpdateSelectionRectangle()) {
+			return;
+		}
+		super.updateSelectionRectangle(keepScreenRatio);
+	}
+
+	/**
+	 * @return true if there is a selection rectangle, or the rectangle is bigger than a threshold.
+	 */
+	private boolean shouldUpdateSelectionRectangle() {
+		if (view.getSelectionRectangle() != null) {
+			return true;
+		}
+		int dx = mouseLoc.x - selectionStartPoint.x;
+		int dy = mouseLoc.y - selectionStartPoint.y;
+		double distSqr = (dx * dx) + (dy * dy);
+		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
 }
