@@ -515,7 +515,8 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			// Michael Borcherds 2007-12-10 this line put back (not needed now
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
-			if (fileName != null) {
+			//for some reason we sometimes get null and sometimes "" if there is no image used
+			if (fileName != null && fileName.length() > 0) {
 				geo.getGraphicsAdapter().convertToSaveableFormat();
 				String newName = geo.getGraphicsAdapter().getImageFileName();
 				((ImageManager)app.getImageManager()).replace(fileName, newName);
