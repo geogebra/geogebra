@@ -141,7 +141,9 @@ implements CustomizeToolbarListener, SetLabels {
 						} else {	
 							DraggableTool dropped = new DraggableTool(dragging.mode, item);
 							toolTree.insertBranchItem(dropped, idx);
-							dragging.treeItem.remove();
+							if (dragging.treeItem != null) {
+								dragging.treeItem.remove();
+							}
 						}
 	
 						dragging = null;
