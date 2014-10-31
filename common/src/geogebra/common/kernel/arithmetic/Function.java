@@ -32,7 +32,11 @@ import java.util.List;
  * @author Markus Hohenwarter
  */
 public class Function extends FunctionNVar implements RealRootFunction,
-		Functional {
+		Functional, RealRootDerivFunction {
+	
+	/** function expression */
+	private Function derivative;
+
 
 	private static final double MAX_EXPAND_DEGREE = 10; 
 	/**
@@ -98,6 +102,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	public void setExpression(ExpressionNode exp, FunctionVariable var) {
 		super.setExpression(exp, new FunctionVariable[] { var });
+		
+		derivative = null;
 	}
 
 	@Override
@@ -1063,6 +1069,42 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	public Function getIntegralNoCAS() {
 		
 		return new Function(expression.integral(fVars[0]), fVars[0]);
+	}
+
+	/**
+	 * Evaluates polynomial and its derivative 
+	 */		 
+	public double[] evaluateDerivFunc(double x) {
+		
+		double[] ret = new double[2];
+		ret[0] = this.evaluate(x);
+		
+		if (isBooleanFunction) {
+			ret[1] = Double.NaN;
+			return ret;
+		}
+		
+		if (derivative == null) {
+			derivative = getDerivative(1, false, true);
+		}
+		
+		ret[1] = derivative.evaluate(x);
+		
+		return ret;
+		
+	}
+
+	public double evaluateDerivative(double x) {
+		
+		if (isBooleanFunction) {
+			return Double.NaN;
+		}
+
+		if (derivative == null) {
+			derivative = getDerivative(1, false, true);
+		}
+		
+		return derivative.evaluate(x);
 	}
 
 }

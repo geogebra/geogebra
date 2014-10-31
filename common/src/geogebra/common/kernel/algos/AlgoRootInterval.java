@@ -22,7 +22,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.roots.RealRootAdapter;
+import geogebra.common.kernel.roots.RealRootDerivAdapter;
 import geogebra.common.kernel.roots.RealRootUtil;
+import geogebra.common.util.debug.Log;
 
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
@@ -38,6 +40,7 @@ public class AlgoRootInterval extends AlgoElement {
 
 	private GeoElement aGeo, bGeo;
 	private UnivariateRealSolver rootFinder;
+	UnivariateRealSolver rootPolisher;
 
 	public AlgoRootInterval(Construction cons, String label, GeoFunction f,
 			NumberValue a, NumberValue b) {
@@ -82,9 +85,11 @@ public class AlgoRootInterval extends AlgoElement {
 		rootPoint.setCoords(calcRoot(), 0.0, 1.0);
 	}
 
+	@SuppressWarnings("deprecation")
 	final double calcRoot() {
-		if (!(f.isDefined() && aGeo.isDefined() && bGeo.isDefined()))
+		if (!(f.isDefined() && aGeo.isDefined() && bGeo.isDefined())) {
 			return Double.NaN;
+		}
 
 		double root = Double.NaN;
 		Function fun = f.getFunction();
@@ -93,28 +98,68 @@ public class AlgoRootInterval extends AlgoElement {
 			UnivariateRealSolverFactory fact = UnivariateRealSolverFactory
 					.newInstance();
 			rootFinder = fact.newBrentSolver();
+
+			rootPolisher = fact.newNewtonSolver();
 		}
 
+		double min = a.getDouble();
+		double max = b.getDouble();
+
+		double newtonRoot = Double.NaN;
+
 		try {
-			// Brent's method
-			root = rootFinder.solve(new RealRootAdapter(fun), a.getDouble(),
-					b.getDouble());
+			// Brent's method (Apache 2.2)
+			root = rootFinder.solve(new RealRootAdapter(fun), min, max);
+
+			// Apache 3.3 - solver seems more accurate
+			// #4691
+			//BrentSolver brent3 = new BrentSolver();
+			//root = brent3.solve(100, new RealRootAdapter3(fun), min, max);
+
+
 		} catch (Exception e) {
+			//e.printStackTrace();
+			Log.debug("problem finding root: " + e.getMessage());
+
 			try {
-				// Let's try again by searchin for a valid domain first
-				double[] borders = RealRootUtil.getDefinedInterval(fun,
-						a.getDouble(), b.getDouble());
+				// Let's try again by searching for a valid domain first
+				double[] borders = RealRootUtil.getDefinedInterval(fun, min, max);
 				root = rootFinder.solve(new RealRootAdapter(fun), borders[0],
 						borders[1]);
 			} catch (Exception ex) {
-				root = Double.NaN;
+				//ex.printStackTrace();
+				Log.debug("problem finding root: " + ex.getMessage());
+				return Double.NaN;
 			}
 		}
+
+		//Log.debug("result from Brent: " + root);
+
+
+		// ******** Polish Root ***************
+		// adpated from EquationSolver
+		// #4691
+
+		try {
+			newtonRoot = rootPolisher.solve(
+					new RealRootDerivAdapter(fun), min, max, root);
+
+			if (Math.abs(fun.evaluate(newtonRoot)) < Math
+					.abs(fun.evaluate(root))) {
+				root = newtonRoot;
+				//Log.debug("polished result from Newton is better: " + newtonRoot);
+			}
+
+		} catch (Exception e) {
+			Log.debug("problem polishing root: " + e.getMessage());
+		} 
 
 		// check result
 		if (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION) {
 			return root;
 		}
+
+		Log.debug("problem with root accuracy");
 		return Double.NaN;
 	}
 
