@@ -314,8 +314,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	protected void updateViewSizes() {
-		this.container.setPixelSize(Window.getClientWidth(),
-		        Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.container.setPixelSize((int)app.getWidth(),
+		        (int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}

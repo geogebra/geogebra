@@ -11,7 +11,6 @@ import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -34,6 +33,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	private boolean algebraBottom = false;
 
+	private AppW app;
+
 	public GGWFrameLayoutPanel() {
 		super();
 
@@ -47,6 +48,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 
 	public void setLayout(final AppW app) {
 		this.guiManagerW = app.getGuiManager();
+		this.app = app;
 		glassPane.setArticleElement(app.getArticleElement());
 		dockPanel.clear();
 		dockPanel.addNorth(getToolBar(), GLookAndFeelI.TOOLBAR_HEIGHT);
@@ -193,10 +195,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		if (this.menuContainer != null) {
 			int height = 0;
 	    	if (this.algebraBottom) {
-		    	height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT;
+		    	height = (int) (this.app.getHeight() - GLookAndFeelI.TOOLBAR_HEIGHT - GLookAndFeelI.COMMAND_LINE_HEIGHT);
 		    	
 	    	} else {
-	    		height = Window.getClientHeight() - GLookAndFeelI.TOOLBAR_HEIGHT;
+	    		height = (int) (this.app.getHeight() - GLookAndFeelI.TOOLBAR_HEIGHT);
 	    	}
 			this.menuContainer.setHeight(height + "px");
 			this.menuContainer.setWidth(GLookAndFeel.MENUBAR_WIDTH + "px");

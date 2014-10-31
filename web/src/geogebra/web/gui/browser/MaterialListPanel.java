@@ -17,7 +17,6 @@ import com.google.gwt.event.dom.client.ScrollEvent;
 import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
@@ -46,7 +45,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 		this.allMaterialsCB = getAllMaterialsCB();
 		this.userMaterialsCB = getUserMaterialsCB();
 		this.ggtMaterialsCB = getGgtMaterialsCB();
-		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.setPixelSize((int)app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, 
+				(int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		this.setStyleName("materialListPanel");
 		this.addDomHandler(new ClickHandler() {
 			
@@ -304,7 +304,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 
 	@Override
 	public void onResize() {
-		this.setPixelSize(Window.getClientWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.setPixelSize((int)app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, 
+				(int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		for (final MaterialListElement elem : this.materials) {
 			elem.onResize();
 		}
