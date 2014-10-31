@@ -280,7 +280,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 		//if we click the toolbar button, only interpret it as real click if there is only one tool in this menu
 		app.setMode(Integer.parseInt(event.getRelativeElement().getAttribute("mode")), 
-				event.getSource() == tbutton && menu.size() < 2 ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
+				event.getSource() == tbutton && menu.size() > 1 ? ModeSetter.DOCK_PANEL : ModeSetter.TOOLBAR);
 		ToolTipManagerW.sharedInstance().setBlockToolTip(true);
 
 		tbutton.getElement().focus();
