@@ -288,7 +288,21 @@ public abstract class Prover {
 		 */
 		public void rewrite(Construction cons) {
 			String cond = this.getCondition();
-			if (("AreEqual".equals(cond) ||	"ArePerpendicular".equals(cond) ||
+			if ("ArePerpendicular".equals(cond) && this.geos.length == 3) {
+				// ArePerpendicular[Line[P1,P3],Line[P3,P2]].	
+				GeoPoint P1 = (GeoPoint) this.geos[0];
+				GeoPoint P2 = (GeoPoint) this.geos[1];
+				GeoPoint P3 = (GeoPoint) this.geos[2];
+				GeoLine l1 = line(P1, P3, cons);
+				GeoLine l2 = line(P3, P2, cons);
+				if (l1 != null && l2 != null) {
+					geos = new GeoElement[2];
+					geos[0] = l1;
+					geos[1] = l2;
+					sortGeos();
+				}
+			}
+			else if (("AreEqual".equals(cond) ||	"ArePerpendicular".equals(cond) ||
 					"AreParallel".equals(cond))) {
 				if (this.geos.length == 4) {
 					// This is an AreEqual[P1,P2,P3,P4]-like condition.
