@@ -8,17 +8,15 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.LongTouchManager;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.EventUtil;
 import geogebra.web.gui.GuiManagerW;
 
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -32,10 +30,11 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class CASTableControllerW extends CASTableCellController implements
-        MouseDownHandler, MouseUpHandler, MouseMoveHandler, ClickHandler,
+        MouseDownHandler, MouseUpHandler, MouseMoveHandler,
         KeyHandler, BlurHandler, TouchStartHandler, TouchEndHandler,
         TouchMoveHandler, LongTouchHandler {
 
@@ -44,7 +43,10 @@ public class CASTableControllerW extends CASTableCellController implements
 	private int startSelectRow;
 	
 	private LongTouchManager longTouchManager;
-	private boolean cancelNextTouchEnd = false;
+	private boolean mouseDown;
+	private boolean touchDown;
+	
+	private boolean contextOpened;
 
 	public CASTableControllerW(CASViewW casViewW, AppW app) {
 		view = casViewW;
@@ -61,29 +63,13 @@ public class CASTableControllerW extends CASTableCellController implements
 			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
 			        .getGuiManager()).getCASContextMenu(null, table);
 			popupMenu.show(new GPoint(x, y));
-			cancelNextTouchEnd = true;
-		}
-	}
-
-	public void onClick(ClickEvent event) {
-		setActiveToolbar();
-		if (event.getSource() != view.getComponent()) { // output clicked
-			if (copyOutputToEditingCell(event)) {
-				event.stopPropagation();
-				return;
-			}
-		}
-		CASTableW table = view.getConsoleTable();
-		table.setFirstRowFront(false);
-		Cell c = table.getCellForEvent(event);
-		if (c == null)
-			return;
-		if (c.getCellIndex() == CASTableW.COL_CAS_CELLS_WEB) {
-			int rowIndex = c.getRowIndex();
-			table.startEditingRow(rowIndex);
+			contextOpened = true;
 		}
 	}
 	
+	/**
+	 * Sets the toolbar to CAS
+	 */
 	private void setActiveToolbar() {
 		if (app.getToolbar() != null) {
 			GuiManagerInterfaceW gm = app.getGuiManager();
@@ -91,10 +77,24 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 	}
 
-	private boolean copyOutputToEditingCell(HumanInputEvent<?> event) {
+	/**
+	 * Copies the output of a cell into the cell being edited
+	 * if there is an editing cell and a cell output was clicked.
+	 * @param event event
+	 * @return true if copying happened
+	 */
+	private boolean copyOutputIfSource(HumanInputEvent<?> event) {
+		if (event.getSource() != view.getComponent()) {
+			CASTableW table = view.getConsoleTable();
+			CASTableCellW clickedCell = table.getCasCellForEvent(event);
+			return copyOutputToEditingCell(clickedCell);
+		}
+		return false;
+	}
+	
+	private boolean copyOutputToEditingCell(CASTableCellW clickedCell) {
 		CASTableW table = view.getConsoleTable();
 		CASTableCellW editingCell = table.getEditingCell();
-		CASTableCellW clickedCell = table.getCasCellForEvent(event);
 		if (editingCell != null && clickedCell != null) {
 			editingCell.insertInput(clickedCell.getOutputString());
 			return true;
@@ -103,62 +103,150 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-		GPoint p = view.getConsoleTable().getPointForEvent(event);
-		CASTableW table = view.getConsoleTable();
-		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER
-		        || startSelectRow < 0) {
-			return;
-		}
-		if (event.isShiftKeyDown()) {
-			table.addSelectedRows(startSelectRow, p.getY());
-		}
+		handleMouseMoveSelection(event);
 		event.stopPropagation();
-
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		CASTableW table = view.getConsoleTable();
-		GPoint p = table.getPointForEvent(event);
-		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER
-		        || startSelectRow < 0) {
+		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		table.cancelEditing();
+		mouseDown = false;
+		onPointerUp(event);
 		event.stopPropagation();
-		if (event.getNativeEvent().getButton() == NativeEvent.BUTTON_RIGHT) {
-			for (Integer item : table.getSelectedRows()) {
-				if (item.equals(startSelectRow))
-					return;
-			}
-			table.setSelectedRows(startSelectRow, startSelectRow);
-			return;
-		}
-		if (event.isControlKeyDown()) {
-			table.addSelectedRows(startSelectRow, p.getY());
-		} else {
-			table.setSelectedRows(startSelectRow, p.getY());
-		}
+		
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+		mouseDown = true;
+		handleMouseDownSelection(event);
+		onPointerDown();
+		
+		event.stopPropagation();
+	}
 
-		// Remove context menu (or other popups), if it's visible.
+	private void onPointerDown() {
+		setActiveToolbar();
 		((GuiManagerW) app.getGuiManager()).removePopup();
-
+	}
+	
+	private void onPointerUp(HumanInputEvent<?> event) {
+		if (copyOutputIfSource(event)) {
+			event.stopPropagation();
+			return;
+		}
 		CASTableW table = view.getConsoleTable();
-		GPoint p = table.getPointForEvent(event);
-		if (p == null || p.getX() != CASTableW.COL_CAS_HEADER) {
+		Cell cell = table.getCellForEvent(event);
+		table.setFirstRowFront(false);
+		if (cell == null) {
+			return;
+		}
+		if (cell.getCellIndex() == CASTableW.COL_CAS_CELLS_WEB) {
+			int rowIndex = cell.getRowIndex();
+			table.startEditingRow(rowIndex);
+		}
+	}
+
+	public void onTouchMove(TouchMoveEvent event) {
+		CASTableW table = view.getConsoleTable();
+		GPoint point = table.getPointForEvent(event);
+		if (point == null || startSelectRow < 0) {
+			longTouchManager.cancelTimer();
+			return;
+		}
+		longTouchManager.rescheduleTimerIfRunning(this, EventUtil.getTouchOrClickClientX(event),
+		        EventUtil.getTouchOrClickClientY(event));
+		handleTouchMoveSelection(event);
+		CancelEventTimer.touchEventOccured();
+	}
+
+	public void onTouchEnd(TouchEndEvent event) {
+		longTouchManager.cancelTimer();
+		touchDown = false;
+		if (!contextOpened) {
+			onPointerUp(event);
+		} else {
+			contextOpened = false;
+		}
+		CancelEventTimer.touchEventOccured();
+	}
+
+	public void onTouchStart(TouchStartEvent event) {
+		handleTouchStartSelection(event);
+		touchDown = true;
+		longTouchManager.scheduleTimer(this, 
+				EventUtil.getTouchOrClickClientX(event),
+		        EventUtil.getTouchOrClickClientY(event));
+		onPointerDown();
+		CancelEventTimer.touchEventOccured();
+	}
+
+	private void handleMouseDownSelection(MouseDownEvent event) {
+		CASTableW table = view.getConsoleTable();
+		GPoint point = table.getPointForEvent(event);
+		if (point == null || point.getX() != CASTableW.COL_CAS_HEADER) {
+			startSelectRow = -1;
+			return;
+		}
+		int currentRow = point.getY();
+		if (event.getNativeButton() == Event.BUTTON_RIGHT && selectionContainsRow(currentRow)) {
+			// do nothing
+		} else if (event.isShiftKeyDown()) {
+			table.setSelectedRows(startSelectRow, currentRow);
+		} else if (event.isControlKeyDown()) {
+			table.addSelectedRows(currentRow, currentRow);
+		} else {
+			startSelectRow = currentRow;
+			table.setSelectedRows(currentRow, currentRow);
+		}
+	}
+	
+	private boolean selectionContainsRow(int row) {
+		CASTableW table = view.getConsoleTable();
+		for (Integer item : table.getSelectedRows()) {
+			if (item.equals(row))
+				return true;
+		}
+		return false;
+	}
+
+	private void handleMouseMoveSelection(MouseMoveEvent event) {
+		CASTableW table = view.getConsoleTable();
+		GPoint point = table.getPointForEvent(event);
+		if (point == null || point.getX() != CASTableW.COL_CAS_HEADER || startSelectRow < 0 || !mouseDown) {
+			return;
+		}
+		int currentRow = point.getY();
+		if (event.isControlKeyDown()) {
+			table.setSelectedRows(startSelectRow, currentRow);
+		} else {
+			table.addSelectedRows(currentRow, currentRow);
+		}
+	}
+	
+	private void handleTouchStartSelection(TouchStartEvent event) {
+		CASTableW table = view.getConsoleTable();
+		GPoint point = table.getPointForEvent(event);
+		if (point == null) {
 			this.startSelectRow = -1;
 			return;
 		}
-		if (!event.isShiftKeyDown()) {
-			this.startSelectRow = p.getY();
-		} else if (event.isControlKeyDown()) {
-			table.addSelectedRows(startSelectRow, p.getY());
-		} else {
-			table.setSelectedRows(startSelectRow, p.getY());
+		int currentRow = point.getY();
+		startSelectRow = currentRow;
+		table.setSelectedRows(currentRow, currentRow);
+	}
+	
+	private void handleTouchMoveSelection(TouchMoveEvent event) {
+		CASTableW table = view.getConsoleTable();
+		GPoint point = table.getPointForEvent(event);
+		if (point == null || startSelectRow < 0 || !touchDown) {
+			return;
 		}
-		event.stopPropagation();
+		int currentRow = point.getY();
+		table.setSelectedRows(startSelectRow, currentRow);
 	}
 
 	public void keyReleased(KeyEvent e) {
@@ -220,56 +308,9 @@ public class CASTableControllerW extends CASTableCellController implements
 		view.getConsoleTable().stopEditing();
 		view.getConsoleTable().setFirstRowFront(false);
 	}
-
-	public void onTouchMove(TouchMoveEvent event) {
+	
+	private Cell getCellForEvent(HumanInputEvent<?> event) {
 		CASTableW table = view.getConsoleTable();
-		GPoint p = table.getPointForEvent(event);
-		if (p == null || startSelectRow < 0) {
-			longTouchManager.cancelTimer();
-			return;
-		}
-		longTouchManager.rescheduleTimerIfRunning(this, EventUtil.getTouchOrClickClientX(event),
-		        EventUtil.getTouchOrClickClientY(event));
-		table.addSelectedRows(startSelectRow, p.getY());
+		return table.getCellForEvent(event);
 	}
-
-	public void onTouchEnd(TouchEndEvent event) {
-		longTouchManager.cancelTimer();
-		if (cancelNextTouchEnd) {
-			cancelNextTouchEnd = false;
-			return;
-		}
-		// copy output
-		if (event.getSource() != view.getComponent()) { // output clicked
-			if (copyOutputToEditingCell(event)) {
-				event.stopPropagation();
-				return;
-			}
-		}
-		
-		// edit cell
-		CASTableW table = view.getConsoleTable();
-		table.setFirstRowFront(false);
-		GPoint p = table.getPointForEvent(event);
-		if (p == null) {
-			return;
-		}
-		if (p.getY() == CASTableW.COL_CAS_CELLS_WEB) {
-			int rowIndex = p.getX();
-			table.startEditingRow(rowIndex);
-		}
-	}
-
-	public void onTouchStart(TouchStartEvent event) {
-		CASTableW table = view.getConsoleTable();
-		GPoint p = table.getPointForEvent(event);
-		if (p == null) {
-			this.startSelectRow = -1;
-			return;
-		}
-		longTouchManager.scheduleTimer(this, EventUtil.getTouchOrClickClientX(event),
-		        EventUtil.getTouchOrClickClientY(event));
-		this.startSelectRow = p.getY();
-	}
-
 }

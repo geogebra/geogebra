@@ -11,10 +11,12 @@ import java.util.TreeSet;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.dom.client.TableRowElement;
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.HumanInputEvent;
+import com.google.gwt.event.dom.client.MouseUpEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.Widget;
 
 public class CASTableW extends Grid implements CASTable {
@@ -68,7 +70,9 @@ public class CASTableW extends Grid implements CASTable {
 		CASTableCellW cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, n + 1, casCell, (AppW)getApplication());
 		
-		cellWidget.getOutputWidget().addDomHandler(ml, ClickEvent.getType());
+		Widget outputWidget = cellWidget.getOutputWidget();
+		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
+		outputWidget.addDomHandler(ml, TouchEndEvent.getType());
 		
 		setWidget(n, CASTableW.COL_CAS_HEADER, rowHeader);
 		getCellFormatter().addStyleName(n, COL_CAS_HEADER, "cas_header");
@@ -158,7 +162,9 @@ public class CASTableW extends Grid implements CASTable {
 		CASTableCellW cellWidget = new CASTableCellW(casCell);
 		Widget rowHeader = new RowHeaderWidget(this, rowNumber + 1,casCell, (AppW) getApplication());
 		
-		cellWidget.getOutputWidget().addDomHandler(ml, ClickEvent.getType());
+		Widget outputWidget = cellWidget.getOutputWidget();
+		outputWidget.addDomHandler(ml, MouseUpEvent.getType());
+		outputWidget.addDomHandler(ml, TouchEndEvent.getType());
 		
 		setWidget(rowNumber, CASTableW.COL_CAS_HEADER, rowHeader);
 		setWidget(rowNumber, CASTableW.COL_CAS_CELLS_WEB, cellWidget);
@@ -274,5 +280,34 @@ public class CASTableW extends Grid implements CASTable {
 	    }
 	    return (CASTableCellW) widget;
 	  }
+	
+	/**
+     * Return value for {@link HTMLTable#getCellForEvent}.
+     */
+    public class Cell extends com.google.gwt.user.client.ui.HTMLTable.Cell{
+        public Cell(int rowIndex, int cellIndex) {
+            super(rowIndex, cellIndex);
+        }
+    }
 
+	/**
+	 * Given a click event, return the Cell that was clicked or touched, or null
+	 * if the event did not hit this table. The cell can also be null if the
+	 * click event does not occur on a specific cell.
+	 * 
+	 * @param event
+	 *            A click event of indeterminate origin
+	 * @return The appropriate cell, or null
+	 */
+	public Cell getCellForEvent(HumanInputEvent<?> event) {
+		Element td = getEventTargetCell(Event.as(event.getNativeEvent()));
+		if (td == null) {
+			return null;
+		}
+
+		int row = TableRowElement.as(td.getParentElement())
+		        .getSectionRowIndex();
+		int column = TableCellElement.as(td).getCellIndex();
+		return new Cell(row, column);
+	}
 }

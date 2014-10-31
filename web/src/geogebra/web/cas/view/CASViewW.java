@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.SelectionHandler;
 
-import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseUpEvent;
@@ -42,18 +41,13 @@ public class CASViewW extends CASView {
 		SelectionHandler.disableTextSelectInternal(component.getElement(), true);
 		// input handler
 		casInputHandler = new CASInputHandler(this);
-
-		// addFocusListener(this);
 		
 		component.addDomHandler(ml, MouseDownEvent.getType());
 		component.addDomHandler(ml, MouseUpEvent.getType());
 		component.addDomHandler(ml, MouseMoveEvent.getType());
-		component.addDomHandler(ml, ClickEvent.getType());
 		component.addDomHandler(ml, TouchStartEvent.getType());
 		component.addDomHandler(ml, TouchMoveEvent.getType());
 		component.addDomHandler(ml, TouchEndEvent.getType());
-		
-		
 		
 		getCAS().initCurrentCAS();
 		getCAS().getCurrentCAS().reset();
