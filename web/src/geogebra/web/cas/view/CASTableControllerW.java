@@ -222,8 +222,6 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
 		CASTableW table = view.getConsoleTable();
 		GPoint p = table.getPointForEvent(event);
 		if (p == null || startSelectRow < 0) {
@@ -233,12 +231,9 @@ public class CASTableControllerW extends CASTableCellController implements
 		longTouchManager.rescheduleTimerIfRunning(this, EventUtil.getTouchOrClickClientX(event),
 		        EventUtil.getTouchOrClickClientY(event));
 		table.addSelectedRows(startSelectRow, p.getY());
-		event.stopPropagation();
 	}
 
 	public void onTouchEnd(TouchEndEvent event) {
-		event.preventDefault();
-		event.stopPropagation();
 		longTouchManager.cancelTimer();
 		if (cancelNextTouchEnd) {
 			cancelNextTouchEnd = false;
@@ -266,14 +261,12 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
-		event.preventDefault();
 		CASTableW table = view.getConsoleTable();
 		GPoint p = table.getPointForEvent(event);
 		if (p == null) {
 			this.startSelectRow = -1;
 			return;
 		}
-		event.stopPropagation();
 		longTouchManager.scheduleTimer(this, EventUtil.getTouchOrClickClientX(event),
 		        EventUtil.getTouchOrClickClientY(event));
 		this.startSelectRow = p.getY();
