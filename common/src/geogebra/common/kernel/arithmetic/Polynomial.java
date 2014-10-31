@@ -569,6 +569,8 @@ public class Polynomial implements Serializable
 				if(Inspecting.dynamicGeosFinder.check(rt)){
 					if(!(rt.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue)){
 						equ.setIsPolynomial(false); 
+					}else{
+						this.power((int)power, equ);
 					}
 					equ.addVariableDegree(rt);
 				}else if(this.degree() == 0){
