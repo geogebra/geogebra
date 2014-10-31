@@ -47,6 +47,9 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 /**
+ * Markus' original code has been extensively rewritten.
+ * On the other hand, the new behavior is backward compatible
+ * and the basic design is still the same.
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
