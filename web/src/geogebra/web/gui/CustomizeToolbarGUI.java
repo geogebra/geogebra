@@ -124,7 +124,12 @@ implements CustomizeToolbarListener, SetLabels {
 						App.debug("Drop " + dragging.getTitle());
 
 
-						allTools.remove(allTools.indexOf(dragging.mode));
+						if (dragging.getParent() == allToolsPanel)  {
+							allTools.remove(allTools.indexOf(dragging.mode));
+							App.debug("[CUSTOMIZE] removing from allTools: " + dragging.getTitle());
+
+						}
+						
 						int i = 0;
 						int idx = 0;
 						boolean found = false;
@@ -341,8 +346,13 @@ implements CustomizeToolbarListener, SetLabels {
 			public void onDrop(DropEvent event)
 			{
 				event.preventDefault();
+				
 				if (dragging != null)
 				{
+					if (dragging.getParent() == allToolsPanel)  {
+						return;
+					}
+					
 					App.debug("Drop " + dragging.getTitle());
 
 					if (dragging.isLeaf()) {
