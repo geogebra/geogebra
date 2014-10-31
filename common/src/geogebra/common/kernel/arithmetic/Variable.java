@@ -154,7 +154,7 @@ public class Variable extends ValidExpression {
 			String nameNoX = name.substring(0,i);
 			geo2 =kernel.lookupLabel(nameNoX);
 			Operation op = kernel.getApplication().getParserFunctions().get(nameNoX, 1);
-			if(op != null){
+			if(op != null && op != Operation.XCOORD && op != Operation.YCOORD && op != Operation.ZCOORD){
 				return new FunctionVariable(kernel,name.charAt(i)+"").wrap().power(new MyDouble(kernel,exponents[name.charAt(i)-'x'])).apply(op);
 			}
 			

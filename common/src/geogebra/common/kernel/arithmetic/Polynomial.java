@@ -571,10 +571,13 @@ public class Polynomial implements Serializable
 						equ.setIsPolynomial(false); 
 					}
 					equ.addVariableDegree(rt);
+				}else if(this.degree() == 0){
+					terms.get(0).coefficient = terms.get(0).coefficient.wrap().power(rt); 
 				}else if(!Kernel.isInteger(power) || Kernel.isGreater(0, power)){
 						equ.setIsPolynomial(false);
+				}else{
+					this.power((int)power, equ);
 				}
-				this.power((int)power, equ);
 				break;
 			case DIVIDE:
 				this.divide(rt);
