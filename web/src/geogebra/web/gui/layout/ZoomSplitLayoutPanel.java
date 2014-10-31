@@ -135,9 +135,12 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
       if (!impl.shouldHandleEvent(event, mouseDown)) {
         return;
       }
+      Element splitter = null;
       switch (event.getTypeInt()) {
-        case Event.ONMOUSEDOWN:
         case Event.ONTOUCHSTART:
+          splitter = impl.getSplitterElement();
+          splitter.addClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+        case Event.ONMOUSEDOWN:
           if (splitPanel.hasSplittersFrozen()) {
         	event.preventDefault();
           	break;
@@ -161,8 +164,10 @@ public class ZoomSplitLayoutPanel extends DockLayoutPanel {
           event.preventDefault();
           break;
 
-        case Event.ONMOUSEUP:
         case Event.ONTOUCHEND:
+          splitter = impl.getSplitterElement();
+          splitter.removeClassName("gwt-SplitLayoutPanel-Dragger-ACTIVE");
+        case Event.ONMOUSEUP:
           if (splitPanel.hasSplittersFrozen()) {
           	event.preventDefault();
             break;

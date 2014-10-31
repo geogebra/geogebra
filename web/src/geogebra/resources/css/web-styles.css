@@ -1364,6 +1364,15 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	border-bottom: 1px solid #C6C6C6;
 }
 
+/* Selector used for android chrome */
+.gwt-SplitLayoutPanel-Dragger-ACTIVE  {
+	background:#6161FF;
+	border-left: 1px solid #C6C6C6;
+	border-right: 1px solid #C6C6C6;
+	border-top: 1px solid #C6C6C6;
+	border-bottom: 1px solid #C6C6C6;
+}
+
 /*************************************************************/
 /*           GeoGebraWeb styles from here                    */
 /*============ App common styles ============*/

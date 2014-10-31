@@ -90,4 +90,9 @@ public class SplitterImplTouch extends SplitterImpl {
 	public void splitterInsertedIntoLayer(Layer layer) {
 		layer.getContainerElement().getStyle().setOverflow(Overflow.VISIBLE);
 	}
+	
+	@Override
+	public Element getSplitterElement() {
+	    return mainDivElement;
+	}
 }

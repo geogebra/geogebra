@@ -29,6 +29,10 @@ public class SplitterImpl {
 		baseDivElement.addClassName("gwt-SplitLayoutPanel-VDragger");
 	}
 	
+	public Element getSplitterElement() {
+		return baseDivElement;
+	}
+	
 	public void splitterInsertedIntoLayer(Layer layer) {
 	}
 }
