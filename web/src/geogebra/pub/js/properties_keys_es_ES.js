@@ -1738,7 +1738,7 @@ __GGB__keysVar.es_ES.menu = {
     "RecordToSpreadsheet": "Registro en la Hoja de C\xe1lculo",
     "RecordToSpreadsheet.Help": "Objeto a rastrear; luego, realizar alg\xfan cambio",
     "Recover": "Recuperar",
-    "RecoverUnsaved": "Recuperar cambios no guardados",
+    "RecoverUnsaved": "Recuperar los cambios no guardados",
     "RecoveryCancel": "Cancelar",
     "RecoveryCancelQuestion": "\xbfSeguro que quieres cancelar la recuperaci\xf3n, aunque se pierdan los archivos no guardados?",
     "RecoveryOpen": "Abrir",
