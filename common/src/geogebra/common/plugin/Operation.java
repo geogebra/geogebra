@@ -1,5 +1,6 @@
 package geogebra.common.plugin;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.BooleanValue;
@@ -1222,6 +1223,11 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof NumberValue) {
 				NumberValue arg = (NumberValue) rt;
+				
+				if (lt instanceof GeoCurveCartesian3D) {
+					return ((GeoCurveCartesian3D) lt).evaluateCurve(arg.getDouble());
+				}
+				
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
 			} 
 			return ev.illegalArgument(rt);

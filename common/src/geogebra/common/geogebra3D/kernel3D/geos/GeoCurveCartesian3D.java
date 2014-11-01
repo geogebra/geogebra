@@ -677,5 +677,16 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public double distanceMax(double[] p1, double[] p2){
 		return Math.max(Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1])), Math.abs(p1[2] - p2[2]));
 	}
+	
+	/**
+	 * eg f(t) for 3D Curve
+	 * 
+	 * @param t parameter
+	 * @return 3D Point
+	 */
+	public Geo3DVec evaluateCurve(double t) {
+		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t), getFun(2).evaluate(t));
+	}
+
 
 }
