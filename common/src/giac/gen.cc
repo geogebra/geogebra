@@ -7529,7 +7529,7 @@ namespace giac {
       if (b._DOUBLE_val<-eps)
 	return minus_one;
 #ifdef HAVE_LIBMPFR // FIXME try to avoid rounding errors
-      b=accurate_evalf(a,1000);
+      b=accurate_evalf(eval(a,1,contextptr),1000);
       if (is_greater(b,1e-250,contextptr))
 	return plus_one;
       if (is_greater(-1e-250,b,contextptr))
@@ -7593,7 +7593,7 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
 	// FIXME?? try to avoid rounding error with more digits
 	if (fabs(approx._DOUBLE_val)<1e-8 && (a-b).type!=_FRAC){
-	  gen tmp=accurate_evalf(a-b,1000);
+	  gen tmp=accurate_evalf(eval(a-b,1,contextptr),1000);
 	  tmp=evalf_double(approx,1,contextptr);
 	  if (tmp.type==_DOUBLE_)
 	    approx=tmp;
