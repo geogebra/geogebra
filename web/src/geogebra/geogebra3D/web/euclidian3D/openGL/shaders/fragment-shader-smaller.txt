@@ -1,0 +1,63 @@
+precision mediump float;
+
+// uniform
+uniform int textureType;
+
+uniform int enableClipPlanes;
+uniform vec3 clipPlanesMin;
+uniform vec3 clipPlanesMax;
+
+uniform float dashValues[4];
+
+uniform sampler2D Texture0;
+
+// in (incomming varying data to the frament shader sent from the vertex shader)
+varying   vec4    varying_Color;  
+varying   vec2	  coordTexture;  
+varying   vec3    realWorldCoords;
+
+
+
+
+void main (void) 
+{ 
+
+
+	if (enableClipPlanes == 1  // clip the scene
+		&& (   realWorldCoords.x < clipPlanesMin.x || realWorldCoords.x > clipPlanesMax.x
+			|| realWorldCoords.y < clipPlanesMin.y || realWorldCoords.y > clipPlanesMax.y 
+			|| realWorldCoords.z < clipPlanesMin.z || realWorldCoords.z > clipPlanesMax.z 			
+		   )){
+		discard;
+		
+	}	
+	
+	// default
+	gl_FragColor = varying_Color;
+		
+	// fading
+	if (textureType == 1){
+		float factor = 1.0 - max(coordTexture.x + coordTexture.y, 0.0);
+		gl_FragColor.a = varying_Color.a * factor;
+
+	} else if (textureType == 2){ // text
+		vec4 textureVal = texture2D(Texture0, coordTexture);
+		if (textureVal.a < 0.25){
+	  		discard; // don't write
+  		}
+  	
+		gl_FragColor.a = textureVal.a;
+		
+	} else if (textureType > 2){ // dash	
+		float x1 = mod(dashValues[0] * coordTexture.x, 1.0);
+		if (x1 > dashValues[1] || (x1 > dashValues[2] && x1 <= dashValues[3])){
+			discard;
+		}
+		
+	}
+	
+				
+
+} 
+	
+	
