@@ -7528,7 +7528,7 @@ namespace giac {
 	return plus_one;
       if (b._DOUBLE_val<-eps)
 	return minus_one;
-#ifdef HAVE_LIBMPFR
+#ifdef HAVE_LIBMPFR // FIXME try to avoid rounding errors
       b=accurate_evalf(a,1000);
       if (is_greater(b,1e-250,contextptr))
 	return plus_one;
@@ -7589,8 +7589,18 @@ namespace giac {
     if (has_evalf(a-b,approx,1,contextptr)){
       if (approx.type==_CPLX && is_zero(im(approx,contextptr)/re(approx,contextptr),contextptr))
 	approx=re(approx,contextptr);
-      if (approx.type==_DOUBLE_ )
+      if (approx.type==_DOUBLE_ ){
+#ifdef HAVE_LIBMPFR
+	// FIXME?? try to avoid rounding error with more digits
+	if (fabs(approx._DOUBLE_val)<1e-8 && (a-b).type!=_FRAC){
+	  gen tmp=accurate_evalf(a-b,1000);
+	  tmp=evalf_double(approx,1,contextptr);
+	  if (tmp.type==_DOUBLE_)
+	    approx=tmp;
+	}
+#endif	
 	return (approx._DOUBLE_val>0);
+      }
       if (approx.type==_REAL)
 	return is_strictly_positive(approx,contextptr);
       if (approx.type==_FLOAT_ )
@@ -8049,7 +8059,7 @@ namespace giac {
   }
 
   gen gen::operator () (const gen & i,const gen & progname,const context * contextptr) const{
-    bool isprog=this->is_symb_of_sommet(at_program);
+    bool isprog=type==_FUNC || this->is_symb_of_sommet(at_program);
     if (!isprog){
       if (i.is_symb_of_sommet(at_equal))
 	return _subst(makesequence(*this,i),contextptr);
