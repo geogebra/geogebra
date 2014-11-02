@@ -2887,7 +2887,7 @@ __GGB__keysVar.da.plain = {
     "units": "enhed(er)",
     "vertical": "lodret",
     "xAxis": "xAkse",
-    "xOyPlane": "xyPlan",
+    "xOyPlane": "xOyPlan",
     "xmax": "x Maks",
     "xmin": "x Min",
     "xstep": "X trin",
