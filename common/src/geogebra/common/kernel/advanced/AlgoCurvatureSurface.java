@@ -57,12 +57,12 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		n = new GeoNumeric(cons);
 
 		GeoNumeric x = new GeoNumeric(cons);
-		x.setLocalVariableLabel("x");
-		//x.setLocalVariableLabel(vars[0].getSetVarString());
+		//x.setLocalVariableLabel("x");
+		x.setLocalVariableLabel(vars[0].getSetVarString());
 
 		GeoNumeric y = new GeoNumeric(cons);
-		y.setLocalVariableLabel("y");
-		//y.setLocalVariableLabel(vars[1].getSetVarString());
+		//y.setLocalVariableLabel("y");
+		y.setLocalVariableLabel(vars[1].getSetVarString());
 
 		MyDouble one = new MyDouble(kernel, 1);
 
