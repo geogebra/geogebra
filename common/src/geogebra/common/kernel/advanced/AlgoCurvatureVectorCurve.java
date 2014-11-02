@@ -134,7 +134,7 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	@Override
 	public final void compute() {
 		try {
-			double t, t4, x, y, evals, tvalue;
+			double t2, t4, x, y, evals, tvalue;
 			if (gc!=null){
 				f=new GeoCurveCartesian(cons);
 				gc.toGeoCurveCartesian(f);
@@ -143,8 +143,8 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 			tvalue = f.getClosestParameter(A, f.getMinParameter());
 			f1.evaluateCurve(tvalue, f1eval);
 			f2.evaluateCurve(tvalue, f2eval);
-			t = Math.sqrt(f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1]);
-			t4 = t * t * t * t;
+			t2 = f1eval[0] * f1eval[0] + f1eval[1] * f1eval[1];
+			t4 = t2 * t2;
 			evals = f1eval[0] * f2eval[1] - f2eval[0] * f1eval[1];
 
 			x = A.inhomX + ((evals / t4) * (-f1eval[1]));
