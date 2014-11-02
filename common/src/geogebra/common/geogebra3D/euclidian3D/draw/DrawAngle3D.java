@@ -23,7 +23,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 	
 	
-	private Coords labelCenter;
+	private Coords labelCenter = new Coords(4);
+	private Coords vn2 = new Coords(4);
 	
 	
 	
@@ -94,6 +95,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 	private Coords[] drawCoords = new Coords[3];
 	
+	private Coords tmpCoords = new Coords(4), tmpCoords2;
+	
 
 	@Override
 	protected boolean updateForItSelf(){
@@ -136,7 +139,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				center = drawCoords[0];
 				double[] minmax = getView3D().getIntervalClipped(
 						new double[] {Double.NEGATIVE_INFINITY,Double.POSITIVE_INFINITY}, center, vn);
-				center = center.add(vn.mul((minmax[0]+minmax[1])/2));
+				center.setAdd(center, tmpCoords.setMul(vn, (minmax[0]+minmax[1])/2));
 			}else{
 				center = drawCoords[0];
 			}
@@ -144,30 +147,30 @@ public class DrawAngle3D extends Drawable3DCurves {
 			Coords v1 = drawCoords[1];
 			v1.calcNorm(); 
 			double l1 = v1.getNorm();
-			v1=v1.mul(1/l1);
+			v1.mulInside3(1/l1);
 			
 			Coords v2 = drawCoords[2];
 			v2.calcNorm(); 
 			double l2 = v2.getNorm();
-			v2=v2.mul(1/l2);
+			v2.mulInside3(1/l2);
 			
 			
 			switch (angle.getAngleStyle()) {
 			
 			case NOTREFLEX:
 				if (angle.getRawAngle()>Math.PI)
-					vn = vn.mul(-1);
+					vn.mulInside3(-1);
 				break;
 				
 			case ISREFLEX:
 				if (angle.getRawAngle()<Math.PI)
-					vn = vn.mul(-1);
+					vn.mulInside3(-1);
 				break;
 			}		
 			
-			Coords vn2 = vn.crossProduct4(v1);
+			vn2.setCrossProduct(vn, v1); 
 			double a2 = a/2;
-			labelCenter = v1.mul(Math.cos(a2)).add(vn2.mul(Math.sin(a2)));
+			labelCenter.setAdd(tmpCoords.setMul(v1, Math.cos(a2)), labelCenter.setMul(v2, Math.sin(a2)));
 
 
 			//size < points distances / 2
@@ -179,6 +182,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 			
 
 			labelRadius=size/1.7;
+			labelCenter.mulInside3(labelRadius);
+			labelCenter.addInside(center);
 			
 			//90°
 			boolean show90degrees = getView3D().getApplication().rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE &&
@@ -186,37 +191,92 @@ public class DrawAngle3D extends Drawable3DCurves {
 					Kernel.isEqual(a, Kernel.PI_HALF);
 			
 			// outline
-			PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+			PlotterBrush brush = renderer.getGeometryManager().getBrush();
+			PlotterSurface surface = renderer.getGeometryManager().getSurface();		
+			
 			brush.start(getReusableGeometryIndex());
 			brush.setThickness(getGeoElement().getLineThickness(),(float) getView3D().getScale());	
-			//arc
+			
 			if (show90degrees){
-				size *= 0.7071067811865;
-				brush.setAffineTexture(0.5f,  0.25f);
-				brush.segment(center.add(v1.mul(size)),center.add(v1.mul(size)).add(v2.mul(size)));
-				brush.segment(center.add(v2.mul(size)),center.add(v1.mul(size)).add(v2.mul(size)));
+				switch (getView3D().getRightAngleStyle()) {
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
+					size *= 0.7071067811865;
+					brush.setAffineTexture(0.5f,  0.25f);
+					//segments	
+					if (tmpCoords2 == null){
+						tmpCoords2 = new Coords(4);
+					}
+					brush.segment(center, tmpCoords.setAdd(center, tmpCoords.setMul(v1, size)));
+					brush.segment(tmpCoords, tmpCoords2.setAdd(tmpCoords, v2.mul(size)));
+					brush.segment(tmpCoords.setAdd(center, tmpCoords.setMul(v2, size)),tmpCoords2);
+					brush.segment(center, tmpCoords);
+					setGeometryIndex(brush.end());
+					break;
+					
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
+					//arc
+					brush.setAffineTexture(0f,0f);
+					brush.arc(center, v1, vn2, size, 0,a, 60);
+					brush.setAffineTexture(0.5f,  0.25f);
+					//segments	
+					brush.segment(center, tmpCoords.setAdd(center, tmpCoords.setMul(v1, size)));
+					brush.segment(center, tmpCoords.setAdd(center, tmpCoords.setMul(v2, size)));
+					//dot (use surface plotter)
+					surface.drawSphere(labelCenter, 2.5*brush.getThickness(), 16);
+
+					setGeometryIndex(brush.end());
+					break;
+					
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+					size *= 0.7071067811865;
+					double offset = size * 0.4;
+					brush.setAffineTexture(0.5f,  0.25f);
+					//segments	
+					if (tmpCoords2 == null){
+						tmpCoords2 = new Coords(4);
+					}
+					tmpCoords2.setAdd(center, tmpCoords2.setAdd(tmpCoords.setMul(v1, offset), tmpCoords2.setMul(v2, offset)));
+					brush.segment(tmpCoords2, tmpCoords.setAdd(tmpCoords2, tmpCoords.setMul(v1, size)));
+					brush.segment(tmpCoords2, tmpCoords.setAdd(tmpCoords2, tmpCoords.setMul(v2, size)));
+					setGeometryIndex(brush.end());
+					break;
+				}
 			}else{
+				//arc
 				brush.setAffineTexture(0f,0f);
 				brush.arc(center, v1, vn2, size, 0,a, 60);
 				brush.setAffineTexture(0.5f,  0.25f);
+				//segments	
+				brush.segment(center, tmpCoords.setAdd(center, tmpCoords.setMul(v1, size)));
+				brush.segment(center, tmpCoords.setAdd(center, tmpCoords.setMul(v2, size)));
+				setGeometryIndex(brush.end());
 			}
-			//segments	
-			brush.segment(center, center.add(v1.mul(size)));
-			brush.segment(center, center.add(v2.mul(size)));
-			setGeometryIndex(brush.end());
 
-			// surface
-			PlotterSurface surface = renderer.getGeometryManager().getSurface();
-			surface.start(getReusableSurfaceIndex());
+
+			// surface	
 			if (show90degrees){
-				surface.parallelogram(center, v1, vn2, size,size);
+				switch (getView3D().getRightAngleStyle()) {
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
+					surface.start(getReusableSurfaceIndex());
+					surface.parallelogram(center, v1, vn2, size,size);
+					setSurfaceIndex(surface.end());
+					break;
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
+					surface.start(getReusableSurfaceIndex());
+					surface.ellipsePart(center, v1, vn2, size,size, 0,a);
+					setSurfaceIndex(surface.end());
+					break;
+				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
+					setSurfaceIndex(-1);
+					break;
+				}
 			}else{
+				surface.start(getReusableSurfaceIndex());
 				surface.ellipsePart(center, v1, vn2, size,size, 0,a);
+				setSurfaceIndex(surface.end());
 			}
-			setSurfaceIndex(surface.end());
 			
-			//label
-			labelCenter = center.add(labelCenter.mul(labelRadius));
+			
 
 		
 		}

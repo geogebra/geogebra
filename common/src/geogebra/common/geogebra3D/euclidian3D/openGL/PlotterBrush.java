@@ -759,6 +759,13 @@ public class PlotterBrush implements PathPlotter {
 		this.thickness = thickness;
 	}
 	
+	/**
+	 * 
+	 * @return current thickness of the brush
+	 */
+	public float getThickness(){
+		return thickness;
+	}
 	
 	
 	////////////////////////////////////
