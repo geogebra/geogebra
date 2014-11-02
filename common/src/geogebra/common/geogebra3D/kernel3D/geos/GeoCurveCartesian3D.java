@@ -32,7 +32,6 @@ import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
-import geogebra.common.util.debug.Log;
 
 /**
  * Class for cartesian curves in 3D
@@ -132,7 +131,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// compute curvature using the formula k = |f'' x f'| / |f'|^3
 		Coords cross = D1.crossProduct(D2);
-		Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
+		//Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
 		return cross.norm() / Math.pow(D1.norm(), 3);
 	}
 

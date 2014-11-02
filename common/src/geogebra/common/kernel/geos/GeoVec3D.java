@@ -423,6 +423,16 @@ implements Traceable, CoordStyle {
 							 ux * vy - uy * vx );                                 
     }
     
+    /** Calculates the cross product of vectors u and v.
+     * The result is stored in w.
+     * @param w vector to store u*v
+     */
+    final public static void cross(double [] u, double[] v, double[] w) {
+		w[0] = u[1] * v[2] - u[2] * v[1];
+		w[1] = u[2] * v[0] - u[0] * v[2];
+		w[2] = u[0] * v[1] - u[1] * v[0];                                 
+    }
+    
      /** Calculates the inner product of this vector and vector v.
       * @param v other vector
       * @return inner product
