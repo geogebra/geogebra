@@ -529,7 +529,6 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			return;
 		}
 		
-		double radius = getHalfAxis(0);
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
@@ -537,9 +536,8 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			break;
 		case QUADRIC_CONE:
 			double h = Math.abs(topParameter - bottomParameter);
-			radius *= h; // half-axis is the radius value for h = 1
-			volume = radius * radius * Math.PI * h
-					/ 3;
+			double r = radius * h; // "radius" is the radius value for h = 1
+			volume = r * r * Math.PI * h / 3;
 			break;
 		// default:
 		// volume=Double.NaN;
