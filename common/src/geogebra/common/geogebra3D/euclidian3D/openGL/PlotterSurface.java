@@ -717,19 +717,23 @@ public class PlotterSurface {
 	 * @param l2 
 	 */
 	public void parallelogram(Coords center, Coords v1, Coords v2, double l1, double l2){
-		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
+		manager.startGeometry(Manager.Type.TRIANGLES);
 
 		manager.setDummyTexture();
 		manager.normal(v1.crossProduct(v2));
 
-		Coords c2 = center.add(v1.mul(l1));
-		Coords c3 = c2.add(v2.mul(l2));
-		Coords c4 = center.add(v2.mul(l2));
+		tmpCoords.setAdd(center, tmpCoords.setMul(v1, l1));
+		tmpCoords2.setAdd(tmpCoords, tmpCoords2.setMul(v2, l2));
+		tmpCoords3.setAdd(center, tmpCoords3.setMul(v2, l2));
+		
 		
 		manager.vertex(center);  
-		manager.vertex(c2);  
-		manager.vertex(c4);      	           	
-		manager.vertex(c3);  
+		manager.vertex(tmpCoords);  
+		manager.vertex(tmpCoords2);  
+		
+		manager.vertex(center);  
+		manager.vertex(tmpCoords2);  
+		manager.vertex(tmpCoords3);  
 
 		manager.endGeometry();
 	}
@@ -752,7 +756,7 @@ public class PlotterSurface {
 	}
 	
 	private Coords m = new Coords(4);
-	private Coords tmpCoords = new Coords(4), tmpCoords2 = new Coords(4);
+	private Coords tmpCoords = new Coords(4), tmpCoords2 = new Coords(4), tmpCoords3 = new Coords(4);
 	
 	/**
 	 * @param center
