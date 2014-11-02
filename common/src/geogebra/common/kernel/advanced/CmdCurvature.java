@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -48,6 +49,15 @@ public class CmdCurvature extends CommandProcessor {
 				
 				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons, c.getLabel(),
 						(GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]);
+				
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			} else if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1] instanceof GeoFunctionNVar))) {
+				
+				// Gaussian Curvature
+				AlgoCurvatureSurface algo = new AlgoCurvatureSurface(cons, c.getLabel(),
+						(GeoPointND) arg[0], (GeoFunctionNVar) arg[1]);
 				
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
