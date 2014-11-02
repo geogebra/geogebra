@@ -247,6 +247,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		// TODO Auto-generated method stub
 		
 	}
+
+	public FunctionNVar[] getFunctions() {
+		return fun;
+	}
 	
 
 }

@@ -48,13 +48,14 @@ public class AlgoCurvatureSurface extends AlgoElement {
 		this.A = A;
 		this.f = f;
 
+		n = new GeoNumeric(cons);
+
 		FunctionVariable[] vars = f.getFunctionVariables();
 
 		if (vars.length != 2) {
 			return;
 		}
 
-		n = new GeoNumeric(cons);
 
 		GeoNumeric x = new GeoNumeric(cons);
 		//x.setLocalVariableLabel("x");
