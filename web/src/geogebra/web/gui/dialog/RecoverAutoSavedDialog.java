@@ -17,7 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class RecoverAutoSavedDialog extends DialogBoxW {
 	
 	private AppWapplication app;
-	private Button cancelButton = new Button();
+	private Button deleteButton = new Button();
 	private Button recoverButton = new Button();
 	private VerticalPanel dialogPanel;
 	private HorizontalPanel buttonContainer;
@@ -58,12 +58,12 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * adds it to the buttonPanel.
 	 */
 	private void addButtons() {
-		this.initCancelButton();
+		this.initDeleteButton();
 		this.initRecoverButton();
 
 		this.buttonContainer = new HorizontalPanel();
 		this.buttonContainer.add(this.recoverButton);
-		this.buttonContainer.add(this.cancelButton);
+		this.buttonContainer.add(this.deleteButton);
 
 		this.dialogPanel.add(this.buttonContainer);
 	}
@@ -89,8 +89,8 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 		this.hide();
 	}
 
-	private void initCancelButton() {
-		this.cancelButton.addDomHandler(new ClickHandler() {
+	private void initDeleteButton() {
+		this.deleteButton.addDomHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(final ClickEvent event) {
@@ -115,10 +115,9 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	public void setLabels() {
 		this.getCaption().setText(app.getMenu("RecoverUnsaved"));
 		this.infoText.setText(app.getMenu("UnsavedChangesFound"));
-		this.cancelButton.setText(this.app.getLocalization().getPlain("Delete"));
+		this.deleteButton.setText(this.app.getLocalization().getPlain("Delete"));
 		this.recoverButton.setText(app.getMenu("Recover"));
 	}
-	
 	
 	@Override
 	public void show() {
