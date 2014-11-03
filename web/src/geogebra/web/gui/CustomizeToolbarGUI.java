@@ -379,11 +379,11 @@ implements CustomizeToolbarListener, SetLabels {
 					
 					
 					App.debug("Drop " + dragging.getTitle());
-
+					TreeItem parent = null;
 					if (dragging.isLeaf()) {
 						App.debug("[DROP] leaf");
 						usedToolToAll(dragging.getMode());
-						TreeItem parent = dragging.treeItem.getParentItem();
+						parent = dragging.treeItem.getParentItem();
 				      	checkEmptyBranch(dragging.treeItem);
 						
 					} else {
@@ -401,7 +401,7 @@ implements CustomizeToolbarListener, SetLabels {
 						dragging.treeItem.remove();
 						
 					}
-
+					checkFirstLeaf(parent);
 					dragging = null;
 					allToolsPanel.removeStyleName("toolBarDropping");
 				}
