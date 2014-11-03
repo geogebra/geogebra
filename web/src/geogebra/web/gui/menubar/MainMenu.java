@@ -74,7 +74,11 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		this.createToolsMenu();
 		this.createHelpMenu();
 		this.createUserMenu();
-		this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+		if(app.isPrerelease()){
+			this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+		}else{
+			this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, helpMenu};
+		}
 		for(int i=0; i<menus.length; i++){
 			final int next = (i+1)%menus.length;
 			final int previous = (i-1+menus.length)%menus.length;
@@ -157,9 +161,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
-		//if (GeoGebraConstants.IS_PRE_RELEASE) {
+		if (app.isPrerelease()) {
 			this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
-		//}
+		}
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 		if (app.getLoginOperation().isLoggedIn()) {
 			addUserMenu();

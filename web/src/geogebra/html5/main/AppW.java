@@ -1827,7 +1827,7 @@ public abstract class AppW extends App implements SetLabels{
 		/**
 		 * @return ArrayList of languages suitable for GWT, eg "en", "de_AT"
 		 */
-		public static ArrayList<String> getSupportedLanguages() {
+		/*public static ArrayList<String> getSupportedLanguages() {
 
 			if (supportedLanguages != null) {
 				return supportedLanguages;
@@ -1841,14 +1841,14 @@ public abstract class AppW extends App implements SetLabels{
 
 				Language language = languages[i];
 
-				if (language.fullyTranslated || GeoGebraConstants.IS_PRE_RELEASE) {
+				if (language.fullyTranslated || this.isPrerelease()) {
 					supportedLanguages.add(language.localeGWT);
 				}
 			}
 
 			return supportedLanguages;
 
-		}
+		}*/
 
 
 		/**
@@ -2836,4 +2836,8 @@ public abstract class AppW extends App implements SetLabels{
 		public void uploadSharedToGgt() {
 			// TODO
 		}
+
+		public boolean isPrerelease() {
+	        return getArticleElement() != null && getArticleElement().getDataParamPrerelease();
+        }
 }

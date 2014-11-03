@@ -479,6 +479,10 @@ public final class ArticleElement extends Element {
 	    parent.getStyle().setProperty("webkitTransformOrigin","0% 0%");
 	    parent.getStyle().setProperty("transformOrigin","0% 0%");
     }
+
+	public boolean getDataParamPrerelease() {
+	    return "true".equals(getAttribute("data-param-prerelease"));
+    }
 	
 	
 }

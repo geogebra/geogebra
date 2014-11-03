@@ -1,6 +1,5 @@
 package geogebra.web.gui.menubar;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.ToolCreationDialog;
 import geogebra.web.gui.images.AppResources;
@@ -44,19 +43,19 @@ public class ToolsMenuW extends GMenuBar {
 
 		//}
 
-		if (GeoGebraConstants.IS_PRE_RELEASE) {
-			addSeparator();
+		
+		addSeparator();
 
-			addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.CreateNew"),
-					true), true, new Command() {
+		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.CreateNew"),
+				true), true, new Command() {
 
-				public void execute() {
-					ToolCreationDialog toolCreationDialog = new ToolCreationDialog(
-							app);
-					toolCreationDialog.center();
-				}
-			});
-		}
+			public void execute() {
+				ToolCreationDialog toolCreationDialog = new ToolCreationDialog(
+						app);
+				toolCreationDialog.center();
+			}
+		});
+		
 		/*
 		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.Manage"),
 		        true), true, new Command() {

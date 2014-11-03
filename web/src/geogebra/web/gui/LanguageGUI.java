@@ -1,6 +1,5 @@
 package geogebra.web.gui;
 
-import geogebra.common.GeoGebraConstants;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
@@ -33,7 +32,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		FlowPanel fp = new FlowPanel();
 		fp.setStyleName("contentPanel");
 		for (Language l : Language.values()) {
-			if(!l.fullyTranslated && !GeoGebraConstants.IS_PRE_RELEASE){
+			if(!l.fullyTranslated && app.isPrerelease()){
 				continue;
 			}
 
