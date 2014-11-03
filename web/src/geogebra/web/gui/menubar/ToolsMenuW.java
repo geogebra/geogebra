@@ -34,19 +34,18 @@ public class ToolsMenuW extends GMenuBar {
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 
 		//if (GeoGebraConstants.IS_PRE_RELEASE) {
-			addItem(MainMenu.getMenuBarHtml(noIcon,
-					app.getMenu("Toolbar.Customize"), true), true, new Command() {
+		addItem(MainMenu.getMenuBarHtml(noIcon,
+		        app.getMenu("Toolbar.Customize"), true), true, new Command() {
 
-				public void execute() {
-					app.showCustomizeToolbarGUI();
-				}
+			public void execute() {
+				app.showCustomizeToolbarGUI();
 			}
-					);
+		});
 
-			addSeparator();
 		//}
 
 		if (GeoGebraConstants.IS_PRE_RELEASE) {
+			addSeparator();
 
 			addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.CreateNew"),
 					true), true, new Command() {
