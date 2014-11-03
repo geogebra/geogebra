@@ -114,6 +114,17 @@ implements CustomizeToolbarListener, SetLabels {
 			tool.treeItem = item;
 			tool.addDomHandler(new DropHandler()
 			{
+				private boolean removeFromAllTools() {
+					if (dragging.getParent() == allToolsPanel)  {
+						allTools.remove(allTools.indexOf(dragging.getMode()));
+						allToolsPanel.remove(dragging);
+						
+						App.debug("[CUSTOMIZE] removing from allTools: " + dragging.getTitle());
+						return true;
+					}
+					return false;
+				}
+				
 				@Override
 				public void onDrop(DropEvent event)
 				{
@@ -122,16 +133,10 @@ implements CustomizeToolbarListener, SetLabels {
 					if (dragging != null)
 					{
 						App.debug("Drop " + dragging.getTitle());
-
-
-						if (dragging.getParent() == allToolsPanel)  {
-							allTools.remove(allTools.indexOf(dragging.getMode()));
-							allToolsPanel.remove(dragging);
-							
-							App.debug("[CUSTOMIZE] removing from allTools: " + dragging.getTitle());
-
-						}
 						
+						boolean fromAllTools = removeFromAllTools();
+
+											
 						int i = 0;
 						int idx = 0;
 						boolean found = false;
@@ -143,19 +148,16 @@ implements CustomizeToolbarListener, SetLabels {
 							i++;
 						}
 
-						if (dragging.treeItem != null && dragging.treeItem.getChildCount() >1) {
+						if (!fromAllTools && dragging.treeItem.getChildCount() >1) {
 							toolTree.insertItem(idx, dragging.treeItem);
 						} else {	
 							DraggableTool dropped = new DraggableTool(dragging.getMode(), item);
 							toolTree.insertBranchItem(dropped, idx);
-							if (dragging.treeItem != null) {
+							if (!fromAllTools) {
 								checkEmptyBranch(dragging.treeItem);
-								dragging.treeItem.remove();
+				//				dragging.treeItem.remove();
 							}
 						}
-						
-						
-						checkEmptyBranch(dragging.treeItem);
 						
 						dragging = null;
 						tool.removeStyleName("branchDropping");
@@ -374,13 +376,14 @@ implements CustomizeToolbarListener, SetLabels {
 						return;
 					}
 					
-					TreeItem parent = null;
+					
 					App.debug("Drop " + dragging.getTitle());
 
 					if (dragging.isLeaf()) {
 						App.debug("[DROP] leaf");
 						usedToolToAll(dragging.getMode());
-						parent = dragging.treeItem.getParentItem();
+						TreeItem parent = dragging.treeItem.getParentItem();
+				      	checkEmptyBranch(dragging.treeItem);
 						
 					} else {
 						App.debug("[DROP] branch");
@@ -394,13 +397,11 @@ implements CustomizeToolbarListener, SetLabels {
 							usedToolToAll(tool.getMode());
 						}
 
-						
+						dragging.treeItem.remove();
 						
 					}
-					dragging.treeItem.remove();
+
 					dragging = null;
-					checkFirstLeaf(parent);
-					
 					allToolsPanel.removeStyleName("toolBarDropping");
 				}
 			}
