@@ -9,7 +9,9 @@ import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 public class GpuBlacklist {
 
 	/*
-	 * This renderer is used by older chromebooks. If needed this can be
+	 * This renderer is used by older chromebooks 
+	 * eg Samsung Chromebook XE500C21-H02US
+	 * and probably similar models. If needed this can be
 	 * extended to use a list or using more sophisticated methods to blacklist
 	 * some gpus
 	 */
@@ -29,7 +31,7 @@ public class GpuBlacklist {
 	private static native String getUnmaskedRendererWebgl(
 	        WebGLRenderingContext context) /*-{
 		var dbgRenderInfo = context.getExtension("WEBGL_debug_renderer_info");
-		if (dbgRenderInfo != null) {
+		if (dbgRenderInfo) {
 			return context.getParameter(dbgRenderInfo.UNMASKED_RENDERER_WEBGL);
 		}
 		return '';
