@@ -16,9 +16,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author  michael
  * 
  * http://en.wikipedia.org/wiki/Gaussian_curvature
+ * http://emp.byui.edu/BrownD/Mathematics/Calculus-Rn-Rm/Gaussian-curvature.pdf
  * 
  * test-cases
  * z=x^2+y^2, k=4/(1+4x^2+4y^2)^2
+ * z=x^2-y^2, k=-4/(1+4x^2+4y^2)^2
  * z=x^3+y^3, k=-36x y / (1 + 9x⁴ + 9y⁴)²
  * z=sqrt(1-x^2-y^2), k=1 (sphere)
  * z=a x + b y, k=0 (plane!)
