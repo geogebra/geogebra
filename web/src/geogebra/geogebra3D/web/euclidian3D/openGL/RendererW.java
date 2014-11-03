@@ -22,7 +22,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
-import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.Shaders;
+import geogebra.geogebra3D.web.euclidian3D.openGL.shaders.ShaderProvider;
 import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.util.ImageLoadCallback;
 import geogebra.html5.util.ImageWrapper;
@@ -172,8 +172,8 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	 */
 	@Override
     public void initShaders() {
-        WebGLShader fragmentShader = getShader(WebGLRenderingContext.FRAGMENT_SHADER, Shaders.INSTANCE.fragmentShader().getText());
-        WebGLShader vertexShader = getShader(WebGLRenderingContext.VERTEX_SHADER, Shaders.INSTANCE.vertexShader().getText());
+        WebGLShader fragmentShader = getShader(WebGLRenderingContext.FRAGMENT_SHADER, ShaderProvider.getFragmentShader(glContext));
+        WebGLShader vertexShader = getShader(WebGLRenderingContext.VERTEX_SHADER, ShaderProvider.getVertexShader());
 
         // create shader program
         shaderProgram = glContext.createProgram();

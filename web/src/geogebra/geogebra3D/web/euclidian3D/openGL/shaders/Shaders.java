@@ -8,6 +8,9 @@ import com.google.gwt.resources.client.TextResource;
 public interface Shaders extends ClientBundle {
 	public static Shaders INSTANCE=GWT.create(Shaders.class);
 
+	@Source(value={"fragment-shader-smaller.txt"})
+	TextResource fragmentShaderSmaller(); // used for blacklisted GPUs
+	
 	@Source(value={"fragment-shader.txt"})
 	TextResource fragmentShader();
 
