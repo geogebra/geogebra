@@ -56,6 +56,15 @@ implements AttachedToDOM{
 		rowHeaderPopupMenu.addItem(miDelete);
 		miDelete.addStyleName("mi_no_image");
 
+		rowHeaderPopupMenu.addSeparator();
+		
+		MenuItem miUseAsText = new MenuItem(app.getMenu("CasCellUseAsText"), new ScheduledCommand() {
+			public void execute() {
+				actionPerformed("useAsText");
+			}
+		});
+		rowHeaderPopupMenu.addItem(miUseAsText);
+		miUseAsText.addStyleName("mi_no_image");
 
 	}
 	
@@ -73,16 +82,22 @@ implements AttachedToDOM{
 		else if (ac.equals("insertBelow")) {
 			GeoCasCell casCell = new GeoCasCell(app.getKernel().getConstruction());
 			table.insertRow(selRows[selRows.length-1]+1, casCell, true);
-//			table.insertRow(table.getRowCount(), null, true);
 			undoNeeded = true;
 		}
 		else if (ac.equals("delete")) {
 			undoNeeded = table.getCASView().deleteCasCells(selRows);
 		}
-//		else if(ac.equals("useAsText")) {
-//			GeoCasCell casCell2 = table.getGeoCasCell(selRows[0]);
-//			casCell2.setUseAsText(cbUseAsText.isSelected());
-//		}
+		else if(ac.equals("useAsText")) {
+			GeoCasCell casCell = table.getGeoCasCell(selRows[0]);
+			boolean useAsText = !casCell.isUseAsText();
+			casCell.setUseAsText(useAsText);
+			for (int i = 1; i < selRows.length; i++) {
+				int selRow = selRows[i];
+				casCell = table.getGeoCasCell(selRow);
+				casCell.setUseAsText(useAsText);
+			}
+			undoNeeded = true;
+		}
 		
 		if (undoNeeded) {
 			// store undo info
