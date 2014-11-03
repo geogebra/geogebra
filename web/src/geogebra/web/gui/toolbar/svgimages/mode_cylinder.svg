@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="mode_x5F_cylinder">
+	<rect x="288" y="378.184" width="158" height="13"/>
+	<g>
+		<circle style="fill:#0000FF;" cx="256" cy="384.684" r="35"/>
+		<path d="M256,357.684c14.888,0,27,12.111,27,27c0,14.887-12.112,27-27,27s-27-12.113-27-27
+			C229,369.795,241.112,357.684,256,357.684 M256,344.684c-22.092,0-40,17.908-40,40c0,22.09,17.908,40,40,40s40-17.91,40-40
+			C296,362.592,278.092,344.684,256,344.684L256,344.684z"/>
+	</g>
+	<path style="opacity:0.4;fill:#993300;" d="M67.418,127.183v257.633c0,0,6.262,88.5,188.922,88.5s188.921-88.5,188.921-88.5
+		V127.183c0,0-4.581,88.5-188.921,88.5S67.418,127.183,67.418,127.183z"/>
+	<g>
+		
+			<ellipse style="fill:none;stroke:#993300;stroke-width:13;stroke-miterlimit:10;stroke-dasharray:25.0086,25.0086;" cx="257.075" cy="384.83" rx="188.925" ry="88.486"/>
+	</g>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="67.418" y1="300.25" x2="445.2607" y2="300.25">
+		<stop  offset="0" style="stop-color:#993300"/>
+		<stop  offset="0.3333" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#993300"/>
+	</linearGradient>
+	<path style="opacity:0.4;fill:url(#SVGID_1_);" d="M67.418,127.183v257.633c0,0,6.262,88.5,188.922,88.5s188.921-88.5,188.921-88.5
+		V127.183c0,0-4.581,88.5-188.921,88.5S67.418,127.183,67.418,127.183z"/>
+	<ellipse style="opacity:0.2;fill:#993300;" cx="256.339" cy="127.183" rx="188.921" ry="88.5"/>
+	<ellipse style="opacity:0.2;fill:#FFFFFF;" cx="256.339" cy="127.183" rx="188.921" ry="88.5"/>
+	<g>
+		<circle style="fill:#0000FF;" cx="256.34" cy="127.183" r="35"/>
+		<path d="M256.34,100.183c14.888,0,27,12.112,27,27s-12.112,27-27,27s-27-12.112-27-27S241.452,100.183,256.34,100.183
+			 M256.34,87.183c-22.092,0-40,17.909-40,40s17.908,40,40,40s40-17.909,40-40S278.432,87.183,256.34,87.183L256.34,87.183z"/>
+	</g>
+	<path style="fill:none;stroke:#993300;stroke-width:13;stroke-miterlimit:10;" d="M446,384.83
+		c0,48.87-84.585,88.486-188.925,88.486c-104.341,0-188.925-39.616-188.925-88.486"/>
+	
+		<ellipse style="fill:none;stroke:#993300;stroke-width:13;stroke-miterlimit:10;" cx="257" cy="127.183" rx="188.925" ry="88.486"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;stroke-miterlimit:10;" x1="68.075" y1="127.183" x2="68.075" y2="384.83"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;stroke-miterlimit:10;" x1="446" y1="384.83" x2="446" y2="127.183"/>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>

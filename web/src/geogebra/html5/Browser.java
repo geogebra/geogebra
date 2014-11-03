@@ -161,4 +161,14 @@ public class Browser {
 		return false;
 	    
     }-*/;
+	
+	/**
+	 * Returns a base64 encoding of the specified binary string
+	 * @param str
+	 * A binary string (obtained for instance by the FileReader API)
+	 * @return a base64 encoded string.
+	 */
+	public static native String base64encode(String str) /*-{
+		return $wnd.btoa(str);
+	}-*/;	
 }

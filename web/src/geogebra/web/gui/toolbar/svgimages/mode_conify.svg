@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="mode_x5F_conify">
+	<rect x="65.5" y="178.587" width="13" height="191.179"/>
+	<polygon points="30.8,190.387 72,25.587 113.2,190.387 	"/>
+	<g>
+		<g>
+			<line style="fill:none;stroke:#0000FF;stroke-width:13;" x1="140.136" y1="361.116" x2="152.458" y2="359.016"/>
+			
+				<line style="fill:none;stroke:#0000FF;stroke-width:13;stroke-dasharray:23.9839,23.9839;" x1="176.101" y1="354.984" x2="447.992" y2="308.625"/>
+			<line style="fill:none;stroke:#0000FF;stroke-width:13;" x1="459.813" y1="306.609" x2="472.136" y2="304.509"/>
+		</g>
+	</g>
+	<polygon style="opacity:0.4;fill:#0000FF;" points="140,361.607 404,447 472,305 	"/>
+	<polygon style="opacity:0.2;fill:#993300;" points="140.136,361.116 404.136,446.509 306.136,64.509 	"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="217.2324" y1="209.8052" x2="461.3621" y2="334.1955">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#993300"/>
+	</linearGradient>
+	<polygon style="opacity:0.4;fill:url(#SVGID_1_);" points="140.136,361.116 404.136,446.509 306.136,64.509 	"/>
+	<polygon style="opacity:0.2;fill:#993300;" points="472.136,304.509 404.136,446.509 306.136,64.509 	"/>
+	<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="306.1357" y1="255.5088" x2="472.1357" y2="255.5088">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#993300"/>
+	</linearGradient>
+	<polygon style="opacity:0.5;fill:url(#SVGID_2_);" points="472.136,304.509 404.136,446.509 306.136,64.509 	"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="306.136" y1="64.509" x2="404.136" y2="446.509"/>
+	<polygon style="fill:#0000FF;" points="407.543,454.442 130.708,364.944 142.136,354.932 400.729,438.575 466.273,301.701 
+		479.719,303.969 	"/>
+	<polygon style="fill:#993300;" points="149.68,357.372 130.708,364.944 305.554,52.241 479.719,303.969 464.645,305.104 
+		306.718,76.778 	"/>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>

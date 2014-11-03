@@ -70,6 +70,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
 		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()));
+		toolbarImg.setWidth("32px");
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
 		tbutton.getElement().setAttribute("mode",menu.get(0).intValue()+"");	
@@ -228,6 +229,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		tbutton.getElement().setAttribute("mode",miMode);
 		tbutton.clear();
 		Image buttonImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)));
+		buttonImage.setWidth("32px");
 		buttonImage.addStyleName("toolbar_icon");
 		tbutton.add(buttonImage);
 		

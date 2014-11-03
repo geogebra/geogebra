@@ -74,6 +74,7 @@ public class ToolbarSubemuW extends FlowPanel {
 		ListItem listItem = new ListItem();
 		
 		Image image = new Image(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
+		image.setWidth("32px");
 		Label label = new Label(app.getToolName(addMode));
 		listItem.add(image);
 		listItem.add(label);

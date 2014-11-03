@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="mode_x5F_tetrahedron">
+	<g>
+		<g>
+			<line style="fill:none;stroke:#993300;stroke-width:13;" x1="90" y1="331.607" x2="102.322" y2="329.507"/>
+			
+				<line style="fill:none;stroke:#993300;stroke-width:13;stroke-dasharray:23.9839,23.9839;" x1="125.965" y1="325.476" x2="397.856" y2="279.116"/>
+			<line style="fill:none;stroke:#993300;stroke-width:13;" x1="409.678" y1="277.101" x2="422" y2="275"/>
+		</g>
+	</g>
+	<polygon style="opacity:0.2;fill:#993300;" points="90,331.607 354,417 256,95 	"/>
+	<polygon style="opacity:0.2;fill:#FFFFFF;" points="90,331.607 354,417 256,95 	"/>
+	<polygon style="opacity:0.2;fill:#993300;" points="422,275 354,417 256,95 	"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="256" y1="256" x2="422" y2="256">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#993300"/>
+	</linearGradient>
+	<polygon style="opacity:0.5;fill:url(#SVGID_1_);" points="422,275 354,417 256,95 	"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="90" y1="331.607" x2="354" y2="417"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="354" y1="417" x2="422" y2="275"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="422" y1="275" x2="256" y2="95"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="256" y1="95" x2="90" y2="331.607"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="256" y1="95" x2="354" y2="417"/>
+	<g>
+		<circle style="fill:#FF0000;" cx="90" cy="331.607" r="35"/>
+		<path d="M90,304.607c14.888,0,27,12.112,27,27s-12.112,27.001-27,27.001s-27-12.113-27-27.001S75.112,304.607,90,304.607
+			 M90,291.607c-22.092,0-40,17.909-40,40s17.908,40.001,40,40.001s40-17.91,40-40.001S112.092,291.607,90,291.607L90,291.607z"/>
+	</g>
+	<g>
+		<circle style="fill:#0000FF;" cx="354" cy="416.999" r="35"/>
+		<path d="M354,389.999c14.888,0,27,12.112,27,27S368.888,444,354,444s-27-12.113-27-27.001S339.112,389.999,354,389.999
+			 M354,376.999c-22.092,0-40,17.909-40,40S331.908,457,354,457s40-17.91,40-40.001S376.092,376.999,354,376.999L354,376.999z"/>
+	</g>
+	<g>
+		<circle style="fill:#FF0000;" cx="256" cy="93" r="35"/>
+		<path d="M256,66c14.888,0,27,12.112,27,27s-12.112,27.001-27,27.001S229,107.888,229,93S241.112,66,256,66 M256,53
+			c-22.092,0-40,17.909-40,40s17.908,40.001,40,40.001s40-17.91,40-40.001S278.092,53,256,53L256,53z"/>
+	</g>
+	<g>
+		<circle style="fill:#0000FF;" cx="422" cy="274.999" r="35"/>
+		<path d="M422,247.999c14.888,0,27,12.112,27,27S436.888,302,422,302s-27-12.113-27-27.001S407.112,247.999,422,247.999
+			 M422,234.999c-22.092,0-40,17.909-40,40S399.908,315,422,315s40-17.91,40-40.001S444.092,234.999,422,234.999L422,234.999z"/>
+	</g>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>

@@ -74,8 +74,8 @@ public class ToolNameIconPanel extends VerticalPanel {
 		mainWidget.add(pToolName);
 
 		VerticalPanel iconPanel = new VerticalPanel();
-		icon = new Image(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
-		        .getSafeUri().asString());
+		icon = new Image(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
+		        ));
 		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
@@ -155,8 +155,7 @@ public class ToolNameIconPanel extends VerticalPanel {
 			iconFileName = fileName;
 			icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
 		} else {
-			icon.setUrl(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
-			        .getSafeUri().asString());
+			icon.setUrl(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()));
 			iconFileName = null;
 		}
 		

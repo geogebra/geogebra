@@ -59,8 +59,8 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 		panel.setAutoHideEnabled(true);
 
 		// TODO: set icon of actual tool
-		FastButton openToolBarButton = new StandardButton(GGWToolBar
-		        .getMyIconResourceBundle().mode_point_32());
+		FastButton openToolBarButton = new StandardButton(GGWToolBar.safeURI(GGWToolBar
+		        .getMyIconResourceBundle().mode_point_32()));
 		openToolBarButton.addStyleName("phoneHeaderButton");
 		openToolBarButton.addFastClickHandler(new FastClickHandler() {
 			@Override

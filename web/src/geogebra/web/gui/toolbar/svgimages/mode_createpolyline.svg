@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="mode_x5F_createpolyline">
+	<g>
+		<polyline style="fill:none;stroke:#FF0000;stroke-width:13;stroke-miterlimit:10;" points="450.516,128.89 216.074,187.466 
+			433.158,405.637 173.77,450.111 		"/>
+		<g>
+			<g>
+				
+					<line style="fill:none;stroke:#1A171B;stroke-width:13;stroke-miterlimit:10;" x1="173.77" y1="450.111" x2="190.087" y2="431.171"/>
+				
+					<line style="fill:none;stroke:#1A171B;stroke-width:13;stroke-miterlimit:10;stroke-dasharray:53.4278,53.4278;" x1="224.96" y1="390.694" x2="416.762" y2="168.069"/>
+				
+					<line style="fill:none;stroke:#1A171B;stroke-width:13;stroke-miterlimit:10;" x1="434.198" y1="147.83" x2="450.516" y2="128.89"/>
+			</g>
+		</g>
+		<g>
+			<circle style="fill:#0000FF;" cx="216.074" cy="187.466" r="35"/>
+			<path d="M216.074,160.466c14.889,0,27,12.113,27,27c0,14.888-12.111,27.001-27,27.001c-14.887,0-27-12.113-27-27.001
+				C189.074,172.579,201.188,160.466,216.074,160.466 M216.074,147.466c-22.09,0-40,17.91-40,40c0,22.091,17.91,40.001,40,40.001
+				c22.092,0,40-17.91,40-40.001C256.074,165.376,238.166,147.466,216.074,147.466L216.074,147.466z"/>
+		</g>
+		<g>
+			<circle style="fill:#0000FF;" cx="450.516" cy="128.89" r="35"/>
+			<path d="M450.516,101.89c14.889,0,27,12.113,27,27c0,14.888-12.111,27.001-27,27.001c-14.887,0-27-12.113-27-27.001
+				C423.516,114.003,435.629,101.89,450.516,101.89 M450.516,88.89c-22.09,0-40,17.91-40,40c0,22.091,17.91,40.001,40,40.001
+				c22.092,0,40-17.91,40-40.001C490.516,106.8,472.607,88.89,450.516,88.89L450.516,88.89z"/>
+		</g>
+		<g>
+			<circle style="fill:#0000FF;" cx="433.158" cy="405.636" r="35"/>
+			<path d="M433.158,378.636c14.889,0,27,12.113,27,27c0,14.888-12.111,27.001-27,27.001c-14.887,0-27-12.113-27-27.001
+				C406.158,390.749,418.271,378.636,433.158,378.636 M433.158,365.636c-22.09,0-40,17.91-40,40c0,22.091,17.91,40.001,40,40.001
+				c22.092,0,40-17.91,40-40.001C473.158,383.546,455.25,365.636,433.158,365.636L433.158,365.636z"/>
+		</g>
+		<g>
+			<circle style="fill:#0000FF;" cx="173.77" cy="450.11" r="35"/>
+			<path d="M173.77,423.11c14.889,0,27,12.113,27,27c0,14.888-12.111,27.001-27,27.001c-14.887,0-27-12.113-27-27.001
+				C146.77,435.224,158.883,423.11,173.77,423.11 M173.77,410.11c-22.09,0-40,17.91-40,40c0,22.091,17.91,40.001,40,40.001
+				c22.092,0,40-17.91,40-40.001C213.77,428.021,195.861,410.11,173.77,410.11L173.77,410.11z"/>
+		</g>
+	</g>
+	<rect x="30" y="30" style="fill:none;stroke:#666666;stroke-width:13;stroke-miterlimit:10;" width="120" height="180"/>
+	<line style="fill:none;stroke:#666666;stroke-width:13;stroke-miterlimit:10;" x1="30" y1="90" x2="150" y2="90"/>
+	<line style="fill:none;stroke:#666666;stroke-width:13;stroke-miterlimit:10;" x1="30" y1="150" x2="150" y2="150"/>
+	<line style="fill:none;stroke:#666666;stroke-width:13;stroke-miterlimit:10;" x1="90" y1="30" x2="90" y2="210"/>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>

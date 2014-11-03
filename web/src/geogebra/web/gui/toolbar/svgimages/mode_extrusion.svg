@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="mode_x5F_extrusion">
+	<rect x="65.5" y="178.587" width="13" height="191.179"/>
+	<polygon points="30.8,190.387 72,25.587 113.2,190.387 	"/>
+	<g>
+		<g>
+			<line style="fill:none;stroke:#0000FF;stroke-width:13;" x1="139.214" y1="362.116" x2="151.536" y2="360.016"/>
+			
+				<line style="fill:none;stroke:#0000FF;stroke-width:13;stroke-dasharray:23.9839,23.9839;" x1="175.179" y1="355.984" x2="447.07" y2="309.625"/>
+			<line style="fill:none;stroke:#0000FF;stroke-width:13;" x1="458.892" y1="307.609" x2="471.214" y2="305.509"/>
+		</g>
+	</g>
+	<polygon style="opacity:0.4;fill:#0000FF;" points="139.214,362.116 403.214,447.509 471.214,305.509 	"/>
+	<polygon style="opacity:0.2;fill:#993300;" points="471.214,305.509 471.214,63.509 403.214,205.509 403.214,447.509 	"/>
+	<polygon style="opacity:0.4;fill:#993300;" points="471.214,305.509 471.214,63.509 403.214,205.509 403.214,447.509 	"/>
+	<polygon style="opacity:0.2;fill:#993300;" points="139.214,120.509 403.214,205.509 471.214,63.509 	"/>
+	<polygon style="opacity:0.2;fill:#FFFFFF;" points="139.214,120.509 403.214,205.509 471.214,63.509 	"/>
+	<polygon style="opacity:0.2;fill:#993300;" points="139.214,362.509 403.214,447.509 403.214,205.509 139.214,120.509 	"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="123.4644" y1="136.2598" x2="418.9639" y2="431.7593">
+		<stop  offset="0" style="stop-color:#FFFFFF"/>
+		<stop  offset="1" style="stop-color:#993300"/>
+	</linearGradient>
+	<polygon style="opacity:0.4;fill:url(#SVGID_1_);" points="139.214,362.509 403.214,447.509 403.214,205.509 139.214,120.509 	"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="403.214" y1="205.51" x2="403.214" y2="447.509"/>
+	<polygon style="fill:#0000FF;" points="406.621,455.442 132.714,366.879 141.214,355.932 399.807,439.575 465.352,302.701 
+		477.714,307.121 	"/>
+	<path style="fill:none;stroke:#993300;stroke-width:13;" d="M471.214,305.509"/>
+	<path style="fill:none;stroke:#993300;stroke-width:13;" d="M139.214,362.116"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="139.214" y1="120.117" x2="403.214" y2="205.51"/>
+	<line style="fill:none;stroke:#993300;stroke-width:13;" x1="403.214" y1="205.51" x2="471.214" y2="63.51"/>
+	<path style="fill:none;stroke:#993300;stroke-width:13;" d="M471.214,63.51"/>
+	<path style="fill:none;stroke:#993300;stroke-width:13;" d="M139.214,120.117"/>
+	<polygon style="fill:#993300;" points="145.714,357.387 132.714,366.879 132.714,114.632 477.714,55.808 477.714,307.121 
+		464.714,304.033 464.714,71.212 145.714,125.603 	"/>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>

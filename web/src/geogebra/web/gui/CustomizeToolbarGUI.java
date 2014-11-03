@@ -290,6 +290,7 @@ implements CustomizeToolbarListener, SetLabels {
 	        clear();
 			toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(mode));
 			toolbarImg.addStyleName("toolbar_icon");
+			toolbarImg.setWidth("32px");
 			btn.clear();
 			btn.add(toolbarImg);
 			String str = app.getMenu(app.getToolName(mode));

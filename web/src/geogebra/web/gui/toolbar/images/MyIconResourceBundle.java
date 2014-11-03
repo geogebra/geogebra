@@ -3,7 +3,7 @@ package geogebra.web.gui.toolbar.images;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
-public interface MyIconResourceBundle extends ClientBundle{
+public interface MyIconResourceBundle extends ClientBundle, ToolbarResources{
 //	@Source("mode_move.png")
 //	MenuBar.Resources mode_move();
 //
