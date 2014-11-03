@@ -104,6 +104,8 @@ public class AlgoTableText extends AlgoElement implements TableAlgo{
 		this.args = args;
 
 		text = new GeoText(cons);
+		text.setAbsoluteScreenLoc(0, 0);
+		text.setAbsoluteScreenLocActive(true);
 		
 		text.setFormulaType(StringType.LATEX);
 		text.setLaTeX(true, false);

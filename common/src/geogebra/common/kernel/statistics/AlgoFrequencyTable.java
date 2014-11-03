@@ -58,6 +58,12 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	String[] strFrequency = null;
 
 	private StringBuilder sb = new StringBuilder();
+	
+	private void createTable(){
+		table = new GeoText(cons);
+		table.setAbsoluteScreenLoc(0, 0);
+		table.setAbsoluteScreenLocActive(true);
+	}
 
 	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList) {
@@ -96,7 +102,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		freq = new AlgoFrequency(cons, isCumulative, classList, dataList,
 				useDensity, density, scale);
 		cons.removeFromConstructionList(freq);
-		table = new GeoText(cons);
+		createTable();
 
 		type = inputType.STANDARD;
 		setInputOutput();
@@ -127,7 +133,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 		this.chart = chart;
 
-		table = new GeoText(cons);
+		createTable();
 		setInputOutput();
 		compute();
 		table.isTextCommand = true;
