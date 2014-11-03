@@ -8,7 +8,6 @@ import geogebra.web.css.GuiResources;
 import java.util.ArrayList;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Timer;
 
 /**
  * Web implementation of FileMenu
@@ -52,29 +51,20 @@ public class PerspectivesMenuW extends GMenuBar {
 				continue;
 			}
 			final int index = i;
-		addItem(MainMenu.getMenuBarHtml(icons.get(i).getSafeUri().asString(), 
-				app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
-					
-			@Override
-			public void doExecute() {
-				app.persistWidthAndHeight();
-				boolean changed = layout.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
-				app.updateViewSizes();
-				app.getGuiManager().updateMenubar();
-				if(changed){
-					app.storeUndoInfo();
-				}
-
-				Timer timer = new Timer() {
-					@Override
-					public void run() {
-						//true, because this can only be executed, if menu is open
-						app.getGuiManager().updateStyleBarPositions(true);
+			addItem(MainMenu.getMenuBarHtml(icons.get(i).getSafeUri().asString(), 
+					app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
+						
+				@Override
+				public void doExecute() {
+					app.persistWidthAndHeight();
+					boolean changed = layout.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
+					app.updateViewSizes();
+					app.getGuiManager().updateMenubar();
+					if(changed){
+						app.storeUndoInfo();
 					}
-				};
-				timer.schedule(0);
-			}
-		});			
+				}
+			});			
 		}
 			
 
