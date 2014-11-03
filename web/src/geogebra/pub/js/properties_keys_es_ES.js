@@ -797,7 +797,7 @@ __GGB__keysVar.es_ES.command = {
     "SetAxesRatio.Syntax3D": "[ <N\xfamero>, <N\xfamero> ]\n[ <N\xfamero>, <N\xfamero>, <N\xfamero> ]",
     "SetBackgroundColor": "ColorFondo",
     "SetBackgroundColor.Syntax": "[ <Objeto>, \"<Nombre del color (entre comillas)>\" ]\n[ <Objeto>, <Rojo>, <Verde>, <Azul> ]",
-    "SetCaption": "R\xf3tulos",
+    "SetCaption": "R\xf3tulo",
     "SetCaption.Syntax": "[ <Objeto>, <Texto> ]",
     "SetColor": "Color",
     "SetColor.Syntax": "[ <Objeto>, \"<Nombre del color (entre comillas)>\" ]\n[ <Objeto>, <Rojo>, <Verde>, <Azul> ]",
