@@ -14,7 +14,6 @@ import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -123,8 +122,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 				if (DOM.eventGetType(event) == Event.ONCLICK) {
 					Element target = DOM.eventGetTarget(event);
 					int index = findDividerIndex(target);
+					//check if SignIn was clicked
 					if (!app.getLoginOperation().isLoggedIn() && index == menuPanel.getWidgetCount()-1) {
 						app.getDialogManager().showLogInDialog();
+						app.toggleMenu();
 						return;
 					}
 					if (index != -1) {
@@ -176,9 +177,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 	private void createUserMenu() {
 	    this.userMenu = new GMenuBar(true);	
 	    this.userMenu.addStyleName("GeoGebraMenuBar");
-	    this.userMenu.addItem("<span>" + app.getMenu("SignOut") + "</span>", true, new Command() {
+	    this.userMenu.addItem("<span>" + app.getMenu("SignOut") + "</span>", true, new MenuCommand(app) {
 
-			public void execute() {
+			@Override
+            public void doExecute() {
 				app.getLoginOperation().performLogOut();
 			}
 		});

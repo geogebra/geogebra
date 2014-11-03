@@ -4,8 +4,6 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.ToolCreationDialog;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.Command;
-
 /**
  * Web implementation of ToolsMenu
  */
@@ -34,10 +32,11 @@ public class ToolsMenuW extends GMenuBar {
 
 		//if (GeoGebraConstants.IS_PRE_RELEASE) {
 		addItem(MainMenu.getMenuBarHtml(noIcon,
-		        app.getMenu("Toolbar.Customize"), true), true, new Command() {
+		        app.getMenu("Toolbar.Customize"), true), true, new MenuCommand(app) {
 
-			public void execute() {
-				app.showCustomizeToolbarGUI();
+			@Override
+			public void doExecute() {
+		        app.showCustomizeToolbarGUI();
 			}
 		});
 
@@ -47,11 +46,11 @@ public class ToolsMenuW extends GMenuBar {
 		addSeparator();
 
 		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.CreateNew"),
-				true), true, new Command() {
+				true), true, new MenuCommand(app) {
 
-			public void execute() {
-				ToolCreationDialog toolCreationDialog = new ToolCreationDialog(
-						app);
+			@Override
+			public void doExecute() {
+				ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app);
 				toolCreationDialog.center();
 			}
 		});

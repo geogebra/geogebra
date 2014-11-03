@@ -8,7 +8,6 @@ import geogebra.web.css.GuiResources;
 import java.util.ArrayList;
 
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Timer;
 
 /**
@@ -54,9 +53,10 @@ public class PerspectivesMenuW extends GMenuBar {
 			}
 			final int index = i;
 		addItem(MainMenu.getMenuBarHtml(icons.get(i).getSafeUri().asString(), 
-				app.getMenu(defaultPerspectives[i].getId()), true),true,new Command() {
-			
-			public void execute() {
+				app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
+					
+			@Override
+			public void doExecute() {
 				app.persistWidthAndHeight();
 				boolean changed = layout.applyPerspective(geogebra.common.gui.Layout.defaultPerspectives[index]);
 				app.updateViewSizes();

@@ -8,7 +8,6 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuItem;
 
 /**
@@ -24,7 +23,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	/**
 	 * @param app application
-	 * @param onFileOpen 
+	 * @param onFileOpen Runnable
 	 */
 	public FileMenuW(final AppW app, Runnable onFileOpen) {
 	    super(true);
@@ -38,7 +37,6 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				app.fileNew();
 				app.setDefaultCursor();
 				app.showStartScreen();
-				app.toggleMenu();
 			}
 		};
 	    addStyleName("GeoGebraMenuBar");
@@ -46,7 +44,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		update();
 	}
 
-	private void update() {
+	private void update() { 
 	    // TODO Auto-generated method stub
 	    
     }
@@ -68,20 +66,22 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	private void initActions() {
 
 		// this is enabled always
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new Command() {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new MenuCommand(app) {
 
-			public void execute() {
-				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(newConstruction);
+			@Override
+			public void doExecute() {
+		        ((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(newConstruction);
 				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
 			}
 		});
 
 		// open menu is always visible in menu
 		
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true,new Command() {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_open().getSafeUri().asString(), app.getPlain("Open"), true),true,new MenuCommand(app) {
     		
-				public void execute() {
-					app.openSearch();
+				@Override
+				public void doExecute() {
+			        app.openSearch();
 					if(FileMenuW.this.onFileOpen!=null){
 						FileMenuW.this.onFileOpen.run();
 					}
@@ -90,17 +90,21 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		
 		
 		if(app.getLAF().undoRedoSupported()) {
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Save"), true),true,new Command() {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Save"), true),true,new MenuCommand(app) {
 		
-				public void execute() {
-					app.getGuiManager().save();
+				@Override
+				public void doExecute() {
+			        app.getGuiManager().save();
 				}
 			});			
 		}
 
 		// this is enabled always
-	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new Command() {
-	    	public void execute() {
+	    uploadToGGT = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_share().getSafeUri().asString(),app.getMenu("Share"), true),true,new MenuCommand(app) {
+	    	
+	    	
+	    	@Override
+	    	public void doExecute() {
 	    		if(!nativeShareSupported()){
 	    			app.uploadToGeoGebraTube();
 	    		} else {
@@ -115,11 +119,11 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	}
 	    });
 	    
-	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true), true, new Command() {
+	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true), true, new MenuCommand(app) {
 			
 			@Override
-			public void execute() {
-				((GuiManagerW) app.getGuiManager()).openFilePicker();
+			public void doExecute() {
+		        ((GuiManagerW) app.getGuiManager()).openFilePicker();
 			}
 		});
 	    

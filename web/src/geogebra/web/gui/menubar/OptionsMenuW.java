@@ -17,7 +17,6 @@ import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -95,22 +94,24 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	}
 	
 	public void zoom(String d){
-		((AppW) app).getFrameElement().getStyle().setProperty("zoom", d);
+		app.getFrameElement().getStyle().setProperty("zoom", d);
 		
 	}
 	
 	private void addGlobalFontSizeMenu(){
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 				.empty().getSafeUri().asString(), "font size: 32px", true),
-		        true, new Command() {
-			        public void execute() {
-						//Remove the style element(s) if already exist
+		        true, new MenuCommand(app) {
+			
+			@Override
+            public void doExecute() {
+		        //Remove the style element(s) if already exist
 						NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
 						for(int i=0; i<fontsizeElements.getLength(); i++){
 							fontsizeElements.getItem(i).removeFromParent();
 						}
 						
-			        	((AppW) app).getFrameElement().getStyle().setFontSize(32, Unit.PX);
+			        	app.getFrameElement().getStyle().setFontSize(32, Unit.PX);
 			        }
 		        });	
 	}
@@ -118,13 +119,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void addLanguageMenu() {
 		
 			App.debug("smart menu");
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new Command(){
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new MenuCommand(app){
 
 						@Override
-	                    public void execute() {
-							
-							app.showLanguageGUI();
-		                    
+						public void doExecute() {
+					        app.showLanguageGUI();
 	                    }});
 			return;
 		
@@ -134,9 +133,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
 		        .empty().getSafeUri().asString(), app.getMenu("Settings.ResetDefault"), true),
-		        true, new Command() {
-			        public void execute() {
-			        	GeoGebraPreferencesW.getPref().clearPreferences();
+		        true, new MenuCommand(app) {
+			
+			        @Override
+			        public void doExecute() {
+				        GeoGebraPreferencesW.getPref().clearPreferences();
 			        	
 						// reset defaults for GUI, views etc
 						// this has to be called before load XML preferences,
@@ -174,9 +175,11 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	private void addSaveSettingsMenu(){
 		
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_save().getSafeUri().asString(), app.getMenu("Settings.Save"), true),
-		        true, new Command() {
-			        public void execute() {
-			        	GeoGebraPreferencesW.getPref().saveXMLPreferences(app);
+		        true, new MenuCommand(app) {
+			
+					@Override
+					public void doExecute() {
+				        GeoGebraPreferencesW.getPref().saveXMLPreferences(app);
 			        }
 		        });
 	}

@@ -7,7 +7,6 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.Views;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Timer;
 
 /**
@@ -42,20 +41,23 @@ public class ViewMenuW extends GMenuBar {
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		        .getSafeUri().asString(), app.getMenu("Refresh"), true), true,
-		        new Command() {
-			        public void execute() {
+		        new MenuCommand(app) {
+			
+			        @Override
+                    public void doExecute() {
 				        app.refreshViews();
 			        }
 		        });
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		        .getSafeUri().asString(), app.getMenu("RecomputeAllViews"), true),
-		        true, new Command() {
-			        public void execute() {
+		        true, new MenuCommand(app) {
+			
+			        @Override
+			        public void doExecute() {
 				        app.getKernel().updateConstruction();
 			        }
 		        });
-
 	}
 	
 	
@@ -68,8 +70,10 @@ public class ViewMenuW extends GMenuBar {
 			}
 			items[i] = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(Views.icons[i]
 			        .getSafeUri().asString(), app.getPlain(Views.keys[i]), true),
-			        new Command() {
-				        public void execute() {
+			        new MenuCommand(app) {
+				
+				        @Override
+                        public void execute() {
 				        	app.getGuiManager().setShowView(
 									!app.getGuiManager().showView(Views.ids[i]), Views.ids[i]);
 				        	items[i].setSelected(app.getGuiManager().showView(Views.ids[i]));
@@ -88,8 +92,10 @@ public class ViewMenuW extends GMenuBar {
 		}
 		inputBarItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
 		        .getSafeUri().asString(), app.getMenu("InputField"), true),
-		        new Command() {
-			        public void execute() {
+		        new MenuCommand(app) {
+			
+			        @Override
+                    public void execute() {
 			        	App.debug("AI:"+app.showAlgebraInput());
 			        	app.persistWidthAndHeight();
 				        // app.setShowAlgebraInput(!app.showAlgebraInput(), true);

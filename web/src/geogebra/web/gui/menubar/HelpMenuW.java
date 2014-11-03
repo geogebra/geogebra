@@ -2,10 +2,10 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.Window;
 
 public class HelpMenuW extends GMenuBar {
@@ -28,24 +28,31 @@ public class HelpMenuW extends GMenuBar {
 	    //});
 	 // Tutorials
 	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("Tutorials"), true),true,new Command() {
-			public void execute() {
-				app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
+	    		app.getMenu("Tutorials"), true),true,new MenuCommand((AppW) app) {
+			
+	    	@Override
+	    	public void doExecute() {
+		        app.getGuiManager().openHelp(App.WIKI_TUTORIAL);
             }
 	    });
+	    
 	    // Help
 	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
-	    		app.getMenu("Manual"), true),true,new Command() {
-			public void execute() {
-				app.getGuiManager().openHelp(App.WIKI_MANUAL);
+	    		app.getMenu("Manual"), true),true,new MenuCommand((AppW) app) {
+			
+	    	@Override
+	    	public void doExecute() {
+		        app.getGuiManager().openHelp(App.WIKI_MANUAL);
 				
             }
 	    });
 	    
 	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("GeoGebraForum"), true),true,new Command() {
-			public void execute() {
-				app.getGuiManager().openHelp(GeoGebraConstants.FORUM_URL);
+	    		app.getMenu("GeoGebraForum"), true), true, new MenuCommand((AppW) app) {
+			
+	    	@Override
+	    	public void doExecute() {
+		        app.getGuiManager().openHelp(GeoGebraConstants.FORUM_URL);
 				
             }
 	    });
@@ -54,18 +61,22 @@ public class HelpMenuW extends GMenuBar {
 	    
 	    // Report Bug
 	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
-	    		app.getMenu("ReportBug"), true),true,new Command() {
-			public void execute() {
-				Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
+	    		app.getMenu("ReportBug"), true),true,new MenuCommand((AppW) app) {
+			
+	    	@Override
+	    	public void doExecute() {
+		        Window.open(GeoGebraConstants.GEOGEBRA_REPORT_BUG_WEB + "&lang="+app.getLocalization().getLanguage(), "_blank","");
             }
 	    });
 	    
 	    addSeparator();
 
 	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
-	    		app.getMenu("AboutLicense"), true),true,new Command() {
-			public void execute() {
-				Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +
+	    		app.getMenu("AboutLicense"), true),true,new MenuCommand((AppW) app) {
+	    	
+			@Override
+			public void doExecute() {
+		        Window.open(GeoGebraConstants.GGW_ABOUT_LICENSE_URL +
 						"&version=" + GeoGebraConstants.VERSION_STRING + 
 						"&date=" + GeoGebraConstants.BUILD_DATE,
 						"_blank",
