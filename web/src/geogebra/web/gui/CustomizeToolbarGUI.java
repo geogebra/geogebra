@@ -147,13 +147,19 @@ implements CustomizeToolbarListener, SetLabels {
 							DraggableTool dropped = new DraggableTool(dragging.mode, item);
 							toolTree.insertBranchItem(dropped, idx);
 							if (dragging.treeItem != null) {
+								checkEmptyBranch(dragging.treeItem);
 								dragging.treeItem.remove();
 							}
 						}
-	
+						
+						
+						checkEmptyBranch(dragging.treeItem);
+						
 						dragging = null;
 						tool.removeStyleName("branchDropping");
-				}
+										
+					}
+					
 				}
 			}, DropEvent.getType());
 
@@ -198,6 +204,8 @@ implements CustomizeToolbarListener, SetLabels {
 					event.preventDefault();
 					if (dragging != null)
 					{
+						checkEmptyBranch(dragging.treeItem);
+						
 						int idx = branch.getChildIndex(tool.treeItem);
 						insertLeafItem(branch, dragging, idx);
 						int idxMode = allTools.indexOf(dragging.mode);
@@ -349,18 +357,19 @@ implements CustomizeToolbarListener, SetLabels {
 				
 				if (dragging != null)
 				{
+					
 					if (dragging.getParent() == allToolsPanel)  {
 						return;
 					}
+					
 					
 					App.debug("Drop " + dragging.getTitle());
 
 					if (dragging.isLeaf()) {
 						App.debug("[DROP] leaf");
 						usedToolToAll(dragging.mode);
-						if (dragging.treeItem != null) {
-							dragging.treeItem.remove();
-						}
+						checkEmptyBranch(dragging.treeItem);
+						
 					} else {
 						App.debug("[DROP] branch");
 						if (dragging.treeItem == null) {
@@ -406,6 +415,23 @@ implements CustomizeToolbarListener, SetLabels {
 		setContentWidget(main);
 
 	}
+
+	protected void checkEmptyBranch(TreeItem item) {
+		if (item == null) {
+			return;
+		}
+		
+		TreeItem branch = item.getParentItem();
+		item.remove();
+		if (branch != null) {
+			int n = branch.getChildCount();
+			App.debug("[CUSTOMIZE] branch childCount is " + n);
+			if (n == 0){
+				branch.remove();
+			}
+		}
+
+    }
 
 	private void addFooter() {
 		btDefalutToolbar = new Button();
