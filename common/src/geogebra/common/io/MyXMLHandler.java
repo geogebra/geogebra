@@ -1257,13 +1257,16 @@ public class MyXMLHandler implements DocHandler {
 
 			// v3.0: appearance of right angle
 			String strRightAngleStyle = attrs.get("rightAngleStyle");
-			if (strRightAngleStyle == null)
+			if (strRightAngleStyle == null){
 				// before v3.0 the default was a dot to show a right angle
 				// ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
-				app.rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
-			else
+				if (!ev.is3D()){
+					app.rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
+				}
+			}else{
 				// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
 				app.rightAngleStyle = Integer.parseInt(strRightAngleStyle);
+			}
 
 			return true;
 		} catch (Exception e) {

@@ -195,5 +195,9 @@ public class EuclidianSettings3D extends EuclidianSettings{
 
 	}
 
+	@Override
+	public boolean is3D(){
+		return true;
+	}
 	
 }

@@ -880,4 +880,10 @@ public class EuclidianSettings extends AbstractSettings {
 		
 	}
 
+	/**
+	 * @return if it's about 3D
+	 */
+	public boolean is3D(){
+		return false;
+	}
 }
