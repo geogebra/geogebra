@@ -6306,7 +6306,7 @@ public abstract class EuclidianController {
 	
 	private boolean checkBoxOrButtonJustHitted = false;
 
-	private boolean penDragged;
+	protected boolean penDragged;
 	
 	protected void hitCheckBox(GeoBoolean bool){
 		bool.setValue(!bool.getBoolean());
@@ -8061,7 +8061,7 @@ public abstract class EuclidianController {
 	 */
 	
 
-	private static boolean penMode(int mode2) {
+	protected static boolean penMode(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_PEN:
 		//case EuclidianConstants.MODE_PENCIL:

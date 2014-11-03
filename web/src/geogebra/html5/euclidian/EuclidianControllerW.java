@@ -441,7 +441,7 @@ LongTouchHandler {
 		preventTouchIfNeeded(event);
 		CancelEventTimer.touchEventOccured();
 
-		setModeToFreehand();
+		prepareModeForFreehand();
 		moveCounter = 0;
 		ignoreEvent = false;
 	}
@@ -617,7 +617,7 @@ LongTouchHandler {
 		AbstractEvent e = PointerEvent.wrapEvent(event,this);
 		onPointerEventStart(e);
 
-		setModeToFreehand();
+		prepareModeForFreehand();
 		moveCounter = 0;
 		ignoreEvent = false;
 	}
@@ -973,7 +973,13 @@ LongTouchHandler {
 
 	@Override
 	protected void wrapMouseDragged(AbstractEvent event) {
-		super.wrapMouseDragged(event);
+		if (pen != null && !penDragged) {
+			getPen().handleMouseDraggedForPenMode(event);
+		}
+		if (!shouldCancelDrag()) {
+			setModeToFreehand();
+			super.wrapMouseDragged(event);
+		}
 		if (movedGeoPoint != null
 		        && (this.mode == EuclidianConstants.MODE_JOIN
 		                || this.mode == EuclidianConstants.MODE_SEGMENT
@@ -1057,19 +1063,8 @@ LongTouchHandler {
 	protected boolean moveAxesPossible() {
 		return super.moveAxesPossible() && this.moveAxesAllowed;
 	}
-
-	/**
-	 * sets the mode to freehand_shape with an expected shape depending on the
-	 * actual mode (has no effect if no mode is set that can be turned into
-	 * freehand_shape)
-	 * 
-	 * For some modes requires that view.setHits(...) has been called with the
-	 * correct parameters or movedGeoPoint is set correct in order to use other
-	 * GeoPoints (e.g. as the first point of a polygon). Also pointCreated needs
-	 * to be set correctly.
-	 * 
-	 */
-	protected void setModeToFreehand() {
+	
+	protected void prepareModeForFreehand() {
 		if (selectedPoints.size() != 0) {
 			// make sure to switch only for the first point
 			return;
@@ -1101,12 +1096,28 @@ LongTouchHandler {
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
 		} else {
-			// if the current mode is not supported
 			return;
 		}
-
 		((EuclidianPenFreehand) pen).setInitialPoint(point, point != null && point.equals(pointCreated));
+	}
 
+	/**
+	 * sets the mode to freehand_shape with an expected shape depending on the
+	 * actual mode (has no effect if no mode is set that can be turned into
+	 * freehand_shape)
+	 * 
+	 * For some modes requires that view.setHits(...) has been called with the
+	 * correct parameters or movedGeoPoint is set correct in order to use other
+	 * GeoPoints (e.g. as the first point of a polygon). Also pointCreated needs
+	 * to be set correctly.
+	 * 
+	 */
+	protected void setModeToFreehand() {
+		// if this mode doesn't support freehand 
+		// or the mode was already set
+		if (pen == null || penMode(mode)) {
+			return;
+		}
 		// only executed if one of the specified modes is set
 		this.previousMode = this.mode;
 		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
@@ -1124,10 +1135,11 @@ LongTouchHandler {
 			this.mode = previousMode;
 			moveMode = MOVE_NONE;
 			view.setPreview(switchPreviewableForInitNewMode(this.mode));
+			pen = null;
 			this.previousMode = -1;
-			this.pen = null;
 			this.view.repaint();
 		}
+		pen = null;
 	}
 
 	private static double getDistance(GPoint p, GPoint q) {
