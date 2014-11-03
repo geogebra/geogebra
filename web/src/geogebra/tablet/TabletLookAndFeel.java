@@ -18,6 +18,11 @@ public class TabletLookAndFeel extends GLookAndFeel {
     public void addWindowClosingHandler(AppW app) {
 	   //no close message on tablet
     }
+	
+	@Override
+	public void removeWindowClosingHandler() {
+		//no close message on tablet
+	}
 
 	@Override
     public String getType() {

@@ -45,7 +45,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class AppWapplet extends AppW {
 
-	protected GuiManagerInterfaceW guiManager = null;
+	private GuiManagerInterfaceW guiManager = null;
 
 	//Event flow operations - are these needed in AppWapplet?
 	
@@ -56,9 +56,9 @@ public class AppWapplet extends AppW {
 	private int spHeight;
 	private boolean menuVisible = false;
 	private boolean menuInited = false;
-	protected ObjectPool objectPool;
+	private ObjectPool objectPool;
 	//TODO remove GUI stuff from appW
-	protected LanguageGUI lg;
+	private LanguageGUI lg;
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -595,5 +595,13 @@ public class AppWapplet extends AppW {
 	            ggbtube.uploadWorksheetShared(s);
 	            
 	        }});
+	}
+	
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (this.lg != null) {
+			lg.setLabels();
+		}
 	}
 }

@@ -117,7 +117,6 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends App implements SetLabels{
-	private final int AUTO_SAVE_PERIOD = 60000;
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	private DrawEquationWeb drawEquation;
 	
@@ -158,6 +157,7 @@ public abstract class AppW extends App implements SetLabels{
 	protected GeoGebraFrame frame = null;
 	private ErrorHandler errorHandler;
 	private GlobalKeyDispatcherW globalKeyDispatcher;
+
 	
 	/**
 	 * @param ae {@link ArticleElement}
@@ -175,23 +175,6 @@ public abstract class AppW extends App implements SetLabels{
 		this.showInputTop = InputPositon.algebraView;
 
 		
-	}
-	
-	/**
-	 * if there are unsaved changes, 
-	 * the file is saved to the localStorage.
-	 */
-	public void startAutoSave() {
-		Timer timer = new Timer() {
-
-			@Override
-            public void run() {
-				if (!isSaved()) {
-					getFileManager().autoSave();
-				}
-            }
-		};
-		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
 	}
 	
 	@Override
@@ -222,19 +205,6 @@ public abstract class AppW extends App implements SetLabels{
 	 */
 	public void setLocalID(int id) {
 		this.localID = id;
-	}
-	
-	@Override
-	public void setSaved() {
-		super.setSaved();
-		getFileManager().deleteAutoSavedFile();
-		getLAF().removeWindowClosingHandler();
-	}
-	
-	@Override
-	public void setUnsaved() {
-		super.setUnsaved();
-		getLAF().addWindowClosingHandler(this);
 	}
 	
 	@Override

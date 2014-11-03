@@ -27,34 +27,40 @@ import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 
 public class AppWapplication extends AppW {
-
+	
+	private final int AUTO_SAVE_PERIOD = 60000;
 	private GeoGebraAppFrame appFrame = null;
-	protected GuiManagerInterfaceW guiManager = null;
-	protected ObjectPool objectPool;
+	private GuiManagerInterfaceW guiManager = null;
+	private ObjectPool objectPool;
 	//TODO remove GUI stuff from appW
-	protected LanguageGUI lg;
-	//Event flow operations
+	private LanguageGUI lg;	
+	private AuthenticationModelW authenticationModel = null;
+	private boolean menuInited = false;
+	private CustomizeToolbarGUI ct;
 	
 
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
 	 * 
-	 * @param article
-	 * @param geoGebraAppFrame
-	 * @param undoActive
+	 * @param article {@link ArticleElement}
+	 * @param geoGebraAppFrame {@link GeoGebraAppFrame}
+	 * @param undoActive boolean
+	 * @param dimension int
+	 * @param laf {@link GLookAndFeel}
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
 	        boolean undoActive, int dimension, GLookAndFeel laf) {
 		super(article, dimension, laf);
 		
 		if (getFileManager().isAutoSavedFileAvailable()) {
-			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog();
+			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog(this);
 		} else {
 			this.startAutoSave();			
 		}
@@ -118,21 +124,52 @@ public class AppWapplication extends AppW {
 	/*************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb with undo enabled
 	 * 
-	 * @param article
-	 * @param geoGebraAppFrame
+	 * @param article {@link ArticleElement}
+	 * @param geoGebraAppFrame {@link GeoGebraAppFrame}
+	 * @param dimension int
+	 * @param laf {@link GLookAndFeel}
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf) {
 		this(article, geoGebraAppFrame, true, dimension, laf);
 		App.debug("Application created");
 	}
 
+	/**
+	 * @return {@link GeoGebraAppFrame}
+	 */
 	public GeoGebraAppFrame getAppFrame() {
 		return appFrame;
 	}
 	
-	private AuthenticationModelW authenticationModel = null;
-	private boolean menuInited = false;
-	private CustomizeToolbarGUI ct;
+	/**
+	 * if there are unsaved changes, 
+	 * the file is saved to the localStorage.
+	 */
+	public void startAutoSave() {
+		Timer timer = new Timer() {
+
+			@Override
+            public void run() {
+				if (!isSaved()) {
+					getFileManager().autoSave();
+				}
+            }
+		};
+		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
+	}
+	
+	@Override
+	public void setSaved() {
+		super.setSaved();
+		getFileManager().deleteAutoSavedFile();
+		getLAF().removeWindowClosingHandler();
+	}
+	
+	@Override
+	public void setUnsaved() {
+		super.setUnsaved();
+		getLAF().addWindowClosingHandler(this);
+	}
 	
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
@@ -407,6 +444,13 @@ public class AppWapplication extends AppW {
     protected void updateTreeUI() {
 			((ZoomSplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
 			//updateComponentTreeUI();
-		
     }
+	
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (this.lg != null) {
+			this.lg.setLabels();
+		}
+	}
 }

@@ -42,6 +42,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	/**
 	 * Sets message to be shown when user wants to close the window
 	 * (makes no sense for SMART widget)
+	 * overridden for SMART and TOUCH - they don't use a windowClosingHandler
 	 */
 	public void addWindowClosingHandler(final AppW app) {
 		// popup when the user wants to exit accidentally
@@ -66,6 +67,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 
 	/**
 	 * removes the {@link com.google.gwt.user.client.Window.ClosingHandler}
+	 * overridden for SMART and TOUCH - they don't use a windowClosingHandler
 	 */
 	public void removeWindowClosingHandler() {
 		if (this.windowClosingHandler != null) {

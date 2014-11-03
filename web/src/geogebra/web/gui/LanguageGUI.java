@@ -1,6 +1,7 @@
 package geogebra.web.gui;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
@@ -15,7 +16,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 
-public class LanguageGUI extends MyHeaderPanel {
+public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
 	final AppW app;
 	private LanguageHeaderPanel header;
@@ -127,10 +128,10 @@ public class LanguageGUI extends MyHeaderPanel {
 
 	}
 
+	@Override
 	public void setLabels() {
 		if (this.header != null) {
 			this.header.setLabels();
 		}
 	}
-
 }

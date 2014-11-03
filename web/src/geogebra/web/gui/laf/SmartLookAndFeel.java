@@ -43,6 +43,11 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public void addWindowClosingHandler(AppW app) {
 	    //no close message for SMART	
     }
+	
+	@Override
+	public void removeWindowClosingHandler() {
+		//no close message for SMART
+	}
 
 	@Override
     public String getType() {

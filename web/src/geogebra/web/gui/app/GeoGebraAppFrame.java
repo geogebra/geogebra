@@ -120,8 +120,6 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		
 	}
 	
-	
-	
 	public static void removeCloseMessage(){
 		Window.addWindowClosingHandler(new Window.ClosingHandler() {
 			public void onWindowClosing(final ClosingEvent event) {
@@ -307,6 +305,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 
 	private boolean[] childVisible = new boolean[0];
 	private boolean isBrowserShowing = false;
+	
 	public void showBrowser(final HeaderPanel bg) {
 		this.isBrowserShowing = true;
 	    final int count = frameLayout.getWidgetCount();

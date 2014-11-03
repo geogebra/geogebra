@@ -1,6 +1,7 @@
 package geogebra.web.gui.dialog;
 
 import geogebra.html5.main.AppW;
+import geogebra.web.main.AppWapplication;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -10,11 +11,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- *  A dialog to ask the user to recover the autoSaved file
+ *  A dialog to ask the user to recover the autoSaved file.
+ *  Only used from {@link AppWapplication}
  */
 public class RecoverAutoSavedDialog extends DialogBoxW {
 	
-	private AppW app;
+	private AppWapplication app;
 	private Button cancelButton = new Button();
 	private Button recoverButton = new Button();
 	private VerticalPanel dialogPanel;
@@ -22,9 +24,10 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	private Label infoText;
 	
 	/**
+	 * only used from {@link AppWapplication}
 	 * @param app {@link AppW}
 	 */
-	public RecoverAutoSavedDialog(AppW app) {
+	public RecoverAutoSavedDialog(AppWapplication app) {
 		super();
 		this.app = app;
 		initGUI();
@@ -110,11 +113,10 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 * set labels
 	 */
 	public void setLabels() {
-		//TODO Translation needed
-		this.getCaption().setText("Recover unsaved changes");
-		this.infoText.setText("GeoGebra found unsaved changes. Do you want to recover or delete them?");
-		this.cancelButton.setText(this.app.getLocalization().getMenu("Delete"));
-		this.recoverButton.setText("Recover");
+		this.getCaption().setText(app.getMenu("RecoverUnsaved"));
+		this.infoText.setText(app.getMenu("UnsavedChangesFound"));
+		this.cancelButton.setText(this.app.getLocalization().getPlain("Delete"));
+		this.recoverButton.setText(app.getMenu("Recover"));
 	}
 	
 	

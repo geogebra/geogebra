@@ -42,6 +42,7 @@ import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.WindowReference;
 import geogebra.web.gui.view.data.DataAnalysisViewW;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
+import geogebra.web.main.AppWapplication;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import java.util.ArrayList;
@@ -118,10 +119,11 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	
 	/**
 	 * shows the {@link RecoverAutoSavedDialog}
+	 * @param app2 {@link AppWapplication}
 	 */
-	public void showRecoverAutoSavedDialog() {
+	public void showRecoverAutoSavedDialog(AppWapplication app2) {
 		if (this.autoSavedDialog == null) {
-			this.autoSavedDialog = new RecoverAutoSavedDialog((AppW) app);
+			this.autoSavedDialog = new RecoverAutoSavedDialog(app2);
 		}
 		this.autoSavedDialog.show();
 	}

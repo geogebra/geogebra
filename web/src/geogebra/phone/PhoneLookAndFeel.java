@@ -13,4 +13,14 @@ public class PhoneLookAndFeel extends GLookAndFeel {
     public MaterialListElement getMaterialElement(Material mat, AppW app, boolean isLocal) {
 		return new MaterialListElementP(mat, app, isLocal);
 	}
+	
+	@Override
+    public void addWindowClosingHandler(AppW app) {
+	   //no close message for phones
+    }
+	
+	@Override
+	public void removeWindowClosingHandler() {
+		//no close message for phones
+	}
 }
