@@ -14,6 +14,7 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.util.debug.Log;
 
 /**
  * Abstract class for cartesian curves in any dimension
@@ -21,11 +22,11 @@ import geogebra.common.kernel.geos.Traceable;
  *
  */
 public abstract class GeoCurveCartesianND extends GeoElement implements Traceable, Path, VarString, CasEvaluableFunction {
-	
+
 	/** samples to find interval with closest parameter position to given point */
 	protected static final int CLOSEST_PARAMETER_SAMPLES = 100;
 
-	
+
 	/** coordinates  functions */
 	protected final Function[] fun;
 	protected final Function[] funExpanded;
@@ -38,13 +39,14 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	protected double startParam;
 	/**end parameter*/
 	protected double endParam;
-	
+
 	/** flag for isDefined()*/
 	protected boolean isDefined = true;
 	protected DistanceFunction distFun;
 
 	/** common constructor
 	 * @param c construction
+	 * @param dimension 
 	 */
 	public GeoCurveCartesianND(Construction c, int dimension) {
 		super(c);
@@ -57,20 +59,20 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		setConstructionDefaults(); // init visual settings
 
 	}
-	
+
 	/** constructor with functions
 	 * @param c construction
 	 * @param fun functions of parameter
 	 */
 	public GeoCurveCartesianND(Construction c, Function[] fun) {
 		super(c);
-		
+
 		this.fun = fun;
 		this.funExpanded = new Function[fun.length];
 		this.containsFunctions = new boolean[fun.length];
 		setConstructionDefaults();
 	}	
-	
+
 	/**
 	 * set functions
 	 * @param fun functions
@@ -85,35 +87,35 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	public boolean isGeoCurveCartesian() {
 		return true;
 	}	
-	
-	/**
-     * Replaces geo and all its dependent geos in this function's
-     * expression by copies of their values.
-     * @param geo Element to be replaced
-     */
-    public void replaceChildrenByValues(GeoElement geo) {
 
-    	for (int i=0; i<fun.length; i++)
-    		if (fun[i] != null) {
-    			fun[i].replaceChildrenByValues(geo);
-    		}
-    }
-	
+	/**
+	 * Replaces geo and all its dependent geos in this function's
+	 * expression by copies of their values.
+	 * @param geo Element to be replaced
+	 */
+	public void replaceChildrenByValues(GeoElement geo) {
+
+		for (int i=0; i<fun.length; i++)
+			if (fun[i] != null) {
+				fun[i].replaceChildrenByValues(geo);
+			}
+	}
+
 	/** 
 	 * Sets the start and end parameter value of this curve.
 	 * @param startParam start parameter
 	 * @param endParam end parameter
 	 */
 	public void setInterval(double startParam, double endParam) {
-		
+
 		this.startParam = startParam;
 		this.endParam = endParam;
-		
+
 		isDefined = startParam <= endParam;	
 	}
-	
-	
-	
+
+
+
 	/**
 	 * Returns the start parameter value for this
 	 * path (may be Double.NEGATIVE_INFINITY)
@@ -122,7 +124,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	public double getMinParameter() {
 		return startParam;
 	}
-	
+
 	/**
 	 * Returns the largest possible parameter value for this
 	 * path (may be Double.POSITIVE_INFINITY)
@@ -131,31 +133,31 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	public double getMaxParameter() {
 		return endParam;
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 	/**
-	* returns all class-specific xml tags for getXML
-	*/
+	 * returns all class-specific xml tags for getXML
+	 */
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
-	   super.getXMLtags(sb);
-	 
-	   //	line thickness and type  
+		super.getXMLtags(sb);
+
+		//	line thickness and type  
 		getLineStyleXML(sb);
- 
-   }
-	
+
+	}
+
 
 	@Override
 	public boolean isPath() {
 		return true;
 	}
-	
-	
+
+
 
 	@Override
 	final public boolean isDefined() {
@@ -174,12 +176,12 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		isDefined = false;
 	}
 
-	
-	
+
+
 	@Override
 	public String toString(StringTemplate tpl) {
 		StringBuilder sbToString = new StringBuilder(80);
-		
+
 		sbToString.setLength(0);
 		if (isLabelSet()) {
 			sbToString.append(label);
@@ -192,32 +194,32 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isDefined) {
 			StringBuilder sbTemp = new StringBuilder(80);
-			
+
 			sbTemp.setLength(0);
 			sbTemp.append('(');
-			
+
 			for (int i=0; i< fun.length;i++){
-			sbTemp.append(fun[i].toValueString(tpl));
-			if (i<fun.length-1)
-				sbTemp.append(", ");
+				sbTemp.append(fun[i].toValueString(tpl));
+				if (i<fun.length-1)
+					sbTemp.append(", ");
 			}
-			
+
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
 		return loc.getPlain("Undefined");
 	}	
-	
+
 	/**
 	 * @param tpl string template
 	 * @return symbolic string representation
@@ -226,43 +228,22 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		StringBuilder sbTemp = null;
 		if (isDefined) {
 			sbTemp = new StringBuilder(80);
-			
+
 			sbTemp.setLength(0);
 			sbTemp.append('(');
-			
+
 			for (int i=0; i< fun.length;i++){
-			sbTemp.append(fun[i].toString(tpl));
-			if (i<fun.length-1)
-				sbTemp.append(", ");
+				sbTemp.append(fun[i].toString(tpl));
+				if (i<fun.length-1)
+					sbTemp.append(", ");
 			}
-			
+
 			sbTemp.append(')');
 			return sbTemp.toString();
 		} 
 		return loc.getPlain("Undefined");
 	}
-	
-	@Override
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
-		StringBuilder sbTemp = null;
-		if (isDefined) {
-			sbTemp = new StringBuilder(80);
-			
-			sbTemp.setLength(0);
-			sbTemp.append("\\left(\\begin{array}{c}");
-			
-			for (int i=0; i< fun.length;i++){
-				sbTemp.append(fun[i].toLaTeXString(symbolic,tpl));
-				if (i<fun.length-1)
-					sbTemp.append("\\\\");
-				}
-			
-			sbTemp.append("\\end{array}\\right)");
-			return sbTemp.toString();
-		}
-		return loc.getPlain("Undefined");		
-	}	
-	
+
 	/**
 	 * @param i
 	 * @return i-th function
@@ -270,22 +251,22 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	public Function getFun(int i){
 		return fun[i];
 	}
-	
+
 	public final void update(){
 		super.update();
 		for(int i=0; i< this.funExpanded.length; i++){
 			this.funExpanded[i]=null;
 		}
 	}
-	
+
 	public FunctionVariable[] getFunctionVariables() {
 		return getFun(0).getFunctionVariables();
 	}
-	
+
 	public String getVarString(StringTemplate tpl) {
 		return getFun(0).getVarString(tpl);
 	}
-	
+
 	/**
 	 * Set this curve by applying CAS command to f.
 	 */
@@ -310,19 +291,19 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		}
 		this.distFun = null;
 	}
-	
+
 	public void clearCasEvalMap(String key) {
 		for(int k = 0; k < getDimension(); k++){
 			getFun(k).clearCasEvalMap(key);
 		}		
 	}
-	
+
 	protected void setFun(int i, Function f) {
 		this.fun[i] = f;
 		this.funExpanded[i]=null;
 		this.containsFunctions[i]=AlgoDependentFunction.containsFunctions(this.fun[i].getExpression());
 	}
-	
+
 	protected Function getFunExpanded(int i) {
 		if(!this.containsFunctions[i]){
 			return getFun(i);
@@ -362,7 +343,115 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		return this.fun.length;
 	}
 
+	/**
+	 * 
+	 * @param n n
+	 * @return x, y, z, for n = 0, 1, 2
+	 */
+	protected String getVariable(int n) {
+		if (n < getDimension() && n >= 0) {
+
+			switch (n) {
+			case 0: return "x";
+			case 1: return "y";
+			case 2: return "z";
+
+			}
+		}		
+		Log.debug("problem with variable number");
+		return "";
+
+	}
+
 	public abstract double getClosestParameter(GeoPointND a, double minParameter);
 
 	public abstract double evaluateCurvature(double t);
+
+	private boolean hideRangeInFormula;
+
+	/**
+	 * @return whether range is hidden in algebra
+	 */
+	public boolean isHiddenRange(){
+		return this.hideRangeInFormula;
+	}
+
+	/**
+	 * Hide range in formula -- needed when the curve is infinite and 
+	 * range is used for drawing only (e.g. rotated functions)
+	 * @param b true to hide
+	 */
+	public void setHideRangeInFormula(boolean b) {
+		this.hideRangeInFormula = b;
+	}
+
+	public boolean isLaTeXDrawableGeo() {
+		return true;
+	}
+
+	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
+
+		if (this.isDefined) {
+			StringBuilder sbTemp =
+					new StringBuilder(80);
+
+			String param = getVarString(tpl);
+
+			if (this.kernel.getApplication().isHTML5Applet()) {
+				if (!hideRangeInFormula) {
+					sbTemp.append("\\closebraceonly{ ");
+				}
+				sbTemp.append("\\ggbtable{");
+
+				for (int i = 0 ; i < getDimension() ; i++) {
+					sbTemp.append("\\ggbtr{ \\ggbtdL{  ");
+					sbTemp.append(getVariable(i));
+					sbTemp.append(" = ");
+					sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
+					sbTemp.append("} }");
+
+				}
+
+				sbTemp.append("}");
+				if (!hideRangeInFormula) {
+					sbTemp.append("}");
+					sbTemp.append(this.kernel.format(this.startParam, tpl));
+					sbTemp.append(" \\le ");
+					sbTemp.append(param);
+					sbTemp.append(" \\le ");
+					sbTemp.append(this.kernel.format(this.endParam, tpl));
+				}
+			} else {
+
+				if (!hideRangeInFormula) {
+					sbTemp.append("\\left.");
+				}
+				sbTemp.append("\\begin{array}{lll}");
+
+				for (int i = 0 ; i < getDimension() ; i++) {
+
+					if (i > 0) {
+						sbTemp.append("\\\\ ");
+					}
+					sbTemp.append(getVariable(i));
+					sbTemp.append(" = ");
+					sbTemp.append(getFun(i).toLaTeXString(symbolic, tpl));
+
+				}
+
+				sbTemp.append(" \\end{array}");
+				if (!hideRangeInFormula) {
+					sbTemp.append("\\right\\} \\; ");
+					sbTemp.append(this.kernel.format(this.startParam, tpl));
+					sbTemp.append(" \\le ");
+					sbTemp.append(param);
+					sbTemp.append(" \\le ");
+					sbTemp.append(this.kernel.format(this.endParam, tpl));
+				}
+			}
+			return sbTemp.toString();
+		}
+		return " \\text{" + this.loc.getPlain("Undefined") + "} ";
+	}
+
 }

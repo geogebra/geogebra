@@ -686,6 +686,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public Geo3DVec evaluateCurve(double t) {
 		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t), getFun(2).evaluate(t));
 	}
+	
 
 
 }

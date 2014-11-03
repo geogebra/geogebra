@@ -66,14 +66,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 
 
-	private boolean hideRangeInFormula;
-
-	/**
-	 * @return whether range is hidden in algebra
-	 */
-	public boolean isHiddenRange(){
-		return this.hideRangeInFormula;
-	}
 	/**
 	 * Creates new curve
 	 * 
@@ -521,58 +513,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return this.loc.getPlain("Undefined");
 	}
 
-	// TODO remove and use super method (funX and funY should be removed in
-	// fun[])
-	@Override
-	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		
-		if (this.isDefined) {
-			StringBuilder sbTemp =
-				 new StringBuilder(80);
-			
-			String param = getVarString(tpl);
-			
-			if (this.kernel.getApplication().isHTML5Applet()) {
-				if (!this.hideRangeInFormula) {
-					sbTemp.append("\\closebraceonly{ ");
-				}
-				sbTemp.append("\\ggbtable{ \\ggbtr{ \\ggbtdL{  x = ");
-				sbTemp.append(getFun(0).toLaTeXString(symbolic, tpl));
-				sbTemp.append("} } \\ggbtr{ \\ggbtdL{ y = ");
-				sbTemp.append(getFun(1).toLaTeXString(symbolic, tpl));
-				sbTemp.append("} } }");
-				if (!this.hideRangeInFormula) {
-					sbTemp.append("}");
-					sbTemp.append(this.kernel.format(this.startParam, tpl));
-					sbTemp.append(" \\le ");
-					sbTemp.append(param);
-					sbTemp.append(" \\le ");
-					sbTemp.append(this.kernel.format(this.endParam, tpl));
-				}
-			} else {
-
-				if (!this.hideRangeInFormula) {
-					sbTemp.append("\\left.");
-				}
-				sbTemp.append("\\begin{array}{ll} x = ");
-				sbTemp.append(getFun(0).toLaTeXString(symbolic, tpl));
-				sbTemp.append("\\\\ y = ");
-				sbTemp.append(getFun(1).toLaTeXString(symbolic, tpl));
-				sbTemp.append(" \\end{array}");
-				if (!this.hideRangeInFormula) {
-					sbTemp.append("\\right\\} \\; ");
-					sbTemp.append(this.kernel.format(this.startParam, tpl));
-					sbTemp.append(" \\le ");
-					sbTemp.append(param);
-					sbTemp.append(" \\le ");
-					sbTemp.append(this.kernel.format(this.endParam, tpl));
-				}
-			}
-			return sbTemp.toString();
-		}
-		return " \\text{" + this.loc.getPlain("Undefined") + "} ";
-	}
-
 	/*
 	 * Path interface
 	 */
@@ -969,14 +909,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 		this.setFunctionX(xFun);
 		this.setInterval(0, nonzeroSegments);
-	}
-	/**
-	 * Hide range in formula -- needed when the curve is infinite and 
-	 * range is used for drawing only (e.g. rotated functions)
-	 * @param b true to hide
-	 */
-	public void setHideRangeInFormula(boolean b) {
-		this.hideRangeInFormula = b;
 	}
 
 	@Override
