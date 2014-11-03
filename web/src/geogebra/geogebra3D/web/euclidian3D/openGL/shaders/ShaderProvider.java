@@ -1,7 +1,5 @@
 package geogebra.geogebra3D.web.euclidian3D.openGL.shaders;
 
-import geogebra.common.main.App;
-
 import com.google.gwt.resources.client.TextResource;
 import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 
@@ -11,13 +9,13 @@ import com.googlecode.gwtgl.binding.WebGLRenderingContext;
 public class ShaderProvider {
 
 	/**
-	 * @param glContext used to get debug information about gpu
+	 * @param glContext
+	 *            used to get debug information about gpu
 	 * @return Fragment shader
 	 */
 	public static String getFragmentShader(WebGLRenderingContext glContext) {
 		TextResource resource = null;
 		if (GpuBlacklist.isCurrentGpuBlacklisted(glContext)) {
-			App.debug("is blacklisted smaller shader");
 			resource = Shaders.INSTANCE.fragmentShaderSmaller();
 		} else {
 			resource = Shaders.INSTANCE.fragmentShader();
