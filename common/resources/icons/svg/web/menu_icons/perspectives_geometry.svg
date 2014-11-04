@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g id="perspectives_x5F_geometry">
 	<g>
 		
-			<ellipse transform="matrix(0.4727 0.8812 -0.8812 0.4727 358.4949 59.8431)" style="opacity:0.4;fill:#009900;" cx="129.242" cy="329.481" rx="200.001" ry="100.001"/>
+			<ellipse transform="matrix(0.4727 0.8812 -0.8812 0.4727 358.4949 59.843)" style="opacity:0.4;fill:#009900;" cx="129.242" cy="329.481" rx="200.001" ry="100.001"/>
 		<path style="fill:#009900;" d="M217.364,282.21C165.151,184.873,83.37,127.129,34.702,153.236
 			c-48.668,26.107-45.794,126.177,6.418,223.515c52.213,97.337,133.995,155.08,182.664,128.975
 			C272.451,479.618,269.577,379.548,217.364,282.21z M54.338,369.66C6.041,279.624,0.424,188.645,41.792,166.454
-			c41.368-22.19,114.056,32.81,162.354,122.848c48.298,90.036,53.914,181.015,12.546,203.204
+			c41.368-22.19,114.056,32.81,162.354,122.848c48.298,90.036,53.915,181.015,12.546,203.204
 			C175.324,514.697,102.636,459.697,54.338,369.66z"/>
 	</g>
 	<g>
@@ -19,13 +20,13 @@
 				L295.379,31.191z"/>
 		</g>
 	</g>
-	<rect x="288.492" y="-138.915" style="fill:#FF0000;" width="10" height="721.15"/>
+	<rect x="288.492" y="-138.916" style="fill:#FF0000;" width="10" height="721.15"/>
 	
 		<rect x="-120.075" y="186.493" transform="matrix(0.8839 0.4677 -0.4677 0.8839 117.4945 -90.2509)" style="fill:#FF0000;" width="721.151" height="10"/>
 	
-		<rect x="-81.286" y="228.3" transform="matrix(0.842 -0.5395 0.5395 0.842 -81.7347 187.5538)" style="fill:#FF0000;" width="721.15" height="9.998"/>
+		<rect x="-81.286" y="228.3" transform="matrix(0.842 -0.5395 0.5395 0.842 -81.7346 187.5538)" style="fill:#FF0000;" width="721.15" height="9.998"/>
 	<circle style="fill:#666666;" cx="294.492" cy="221.659" r="15"/>
 </g>
-<g id="Layer_1">
+<g id="Ebene_1">
 </g>
 </svg>

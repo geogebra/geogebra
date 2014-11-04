@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g id="perspectives_x5F_algebra_x5F_3Dgraphics">
 	<g>
 		<g>
@@ -10,7 +11,7 @@
 		</g>
 		<g>
 			<polygon style="fill:#0000FF;" points="511.67,289.889 309.903,497.962 193.881,14.038 			"/>
-			<polygon style="fill:#9999FF;" points="482.627,291.212 314.884,462.397 217.352,60.511 			"/>
+			<polygon style="fill:#9999FF;" points="482.627,291.212 314.884,462.396 217.353,60.511 			"/>
 		</g>
 		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="193.8809" y1="256" x2="511.6699" y2="256">
 			<stop  offset="0" style="stop-color:#172983;stop-opacity:0"/>
@@ -19,6 +20,6 @@
 		<polygon style="opacity:0.4;fill:url(#SVGID_1_);" points="309.903,497.962 511.67,289.889 193.881,14.038 		"/>
 	</g>
 </g>
-<g id="Layer_1">
+<g id="Ebene_1">
 </g>
 </svg>

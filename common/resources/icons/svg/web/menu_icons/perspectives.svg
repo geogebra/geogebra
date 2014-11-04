@@ -3,15 +3,11 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
 	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
-<g id="menu_x5F_view_x5F_cas">
-	<rect style="fill:#9999FF;" width="150" height="512"/>
-	<g>
-		<path style="fill:#666666;" d="M360.488,347.088h-56.055l-39.307-62.549l-36.572,62.549h-52.637l62.549-93.652l-56.396-81.348
-			h55.713l34.521,51.611l29.736-51.611h52.295l-55.029,81.348L360.488,347.088z"/>
-	</g>
-	<g>
-		<path style="fill:#666666;" d="M512,239.947H376.174v-20.568H512V239.947z M512,301H376.174v-20.895H512V301z"/>
-	</g>
+<g id="perspectives">
+	<rect style="fill:#999999;" width="512" height="116"/>
+	<rect y="153" style="fill:#999999;" width="173" height="359"/>
+	<rect x="211" y="153" style="fill:#999999;" width="301" height="209"/>
+	<rect x="211" y="396" style="fill:#999999;" width="301" height="116"/>
 </g>
 <g id="Ebene_1">
 </g>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g id="menu_x5F_view_x5F_algebra">
 	<g>
 		<path style="fill:#6666FF;" d="M321.953,65.956c0,36.422-29.531,65.951-65.953,65.951c-36.422,0-65.953-29.528-65.953-65.951
@@ -10,10 +11,10 @@
 			c0-36.421,29.531-65.953,65.953-65.953C292.422,380.387,321.953,409.919,321.953,446.34z"/>
 		<path style="fill:#999999;" d="M256,189.781c-36.422,0-65.953,29.535-65.953,65.953c0,36.429,29.531,65.953,65.953,65.953
 			c36.422,0,65.953-29.524,65.953-65.953C321.953,219.316,292.422,189.781,256,189.781z M256,301.901
-			c-25.497,0-46.167-20.67-46.167-46.167c0-25.498,20.67-46.168,46.167-46.168s46.167,20.67,46.167,46.168
+			c-25.497,0-46.167-20.67-46.167-46.167c0-25.498,20.67-46.167,46.167-46.167s46.167,20.67,46.167,46.167
 			C302.167,281.231,281.497,301.901,256,301.901z"/>
 	</g>
 </g>
-<g id="Layer_1">
+<g id="Ebene_1">
 </g>
 </svg>

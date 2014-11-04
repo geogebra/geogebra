@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
 <g id="menu_x5F_view_x5F_probability">
 	<path style="display:none;fill:none;stroke:#0000FF;stroke-width:10;stroke-miterlimit:10;" d="M177,352.596h158V202.533
-		c-35.859-36.978-59.099-47.542-79.001-47.542c-19.901,0-43.14,10.564-78.999,47.542V352.596z"/>
+		c-35.859-36.978-59.099-47.542-79.001-47.542c-19.901,0-43.14,10.563-78.999,47.542V352.596z"/>
 	<g>
 		<path style="opacity:0.4;fill:#0000FF;" d="M177,347.477h158V204.414c-35.859-36.978-59.099-47.542-79.001-47.542
 			c-19.901,0-43.14,10.563-78.999,47.542V347.477z"/>
@@ -14,6 +15,6 @@
 			<line style="fill:none;stroke:#000000;stroke-width:20;stroke-miterlimit:10;" x1="-42.747" y1="355.128" x2="554.746" y2="355.128"/>
 	</g>
 </g>
-<g id="Layer_1">
+<g id="Ebene_1">
 </g>
 </svg>
