@@ -198,14 +198,37 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		default:
 			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
 
-				sb.append("\\left( \\begin{tabular}{r}");
-				sb.append(print(x, values, tpl));
-				sb.append("\\\\");
-				sb.append(print(y, values, tpl));
-				sb.append("\\\\ ");
-				sb.append(print(z, values, tpl));
-				sb.append("\\\\ \\end{tabular} \\right)	");			
 
+				if (kernel.getApplication().isHTML5Applet()) {
+					sb.append(" \\left( \\ggbtable{");
+
+					sb.append("\\ggbtr{ \\ggbtdL{  ");
+					sb.append(sb.append(print(x, values, tpl)));
+					sb.append("} }");
+
+
+					sb.append("\\ggbtr{ \\ggbtdL{  ");
+					sb.append(sb.append(print(y, values, tpl)));
+					sb.append("} }");
+
+
+					sb.append("\\ggbtr{ \\ggbtdL{  ");
+					sb.append(sb.append(print(z, values, tpl)));
+					sb.append("} }");
+
+
+					sb.append("} \\right) ");
+
+				} else {
+
+					sb.append("\\left( \\begin{tabular}{r}");
+					sb.append(print(x, values, tpl));
+					sb.append("\\\\");
+					sb.append(print(y, values, tpl));
+					sb.append("\\\\ ");
+					sb.append(print(z, values, tpl));
+					sb.append("\\\\ \\end{tabular} \\right)	");			
+				}
 			} else {
 				sb.append(tpl.leftBracket());
 				sb.append(print(x, values, tpl));
@@ -284,7 +307,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	final public boolean evaluatesTo3DVector() {
 		return true;
 	}
-	
+
 	// could be vector or point?
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
