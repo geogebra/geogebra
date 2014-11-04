@@ -68,7 +68,7 @@
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
   <public path="pub" />
-  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
+  <set-configuration-property name="devModeRedirectEnabled" value="true"/>
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>
