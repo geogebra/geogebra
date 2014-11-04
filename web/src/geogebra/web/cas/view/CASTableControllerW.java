@@ -7,7 +7,6 @@ import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
-import geogebra.common.main.GWTKeycodes;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.LongTouchManager;
@@ -19,8 +18,6 @@ import geogebra.web.gui.GuiManagerW;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HumanInputEvent;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -39,7 +36,7 @@ import com.google.gwt.user.client.ui.HTMLTable.Cell;
 public class CASTableControllerW extends CASTableCellController implements
         MouseDownHandler, MouseUpHandler, MouseMoveHandler,
         KeyHandler, BlurHandler, TouchStartHandler, TouchEndHandler,
-        TouchMoveHandler, LongTouchHandler, KeyDownHandler {
+        TouchMoveHandler, LongTouchHandler {
 
 	private CASViewW view;
 	private AppW app;
@@ -316,11 +313,4 @@ public class CASTableControllerW extends CASTableCellController implements
 		CASTableW table = view.getConsoleTable();
 		return table.getCellForEvent(event);
 	}
-
-	public void onKeyDown(KeyDownEvent event) {
-	    if (event.isControlKeyDown() && event.getNativeKeyCode() == GWTKeycodes.KEY_A) {
-	    	CASTableCellEditorW editor = view.getConsoleTable().getEditor();
-	    	editor.selectAll();
-	    }
-    }
 }
