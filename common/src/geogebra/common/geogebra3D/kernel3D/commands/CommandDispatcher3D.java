@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
+import geogebra.common.geogebra3D.kernel3D.scripting.CmdSetSpinSpeed;
 import geogebra.common.geogebra3D.kernel3D.scripting.CmdSetViewDirection;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CommandDispatcher;
@@ -270,6 +271,9 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			// scripting : 3D
 			case SetViewDirection:
 				return new CmdSetViewDirection(kernel);
+				
+			case SetSpinSpeed:
+				return new CmdSetSpinSpeed(kernel);
 				
 				
 			default:

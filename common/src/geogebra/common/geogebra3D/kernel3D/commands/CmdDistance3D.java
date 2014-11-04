@@ -8,6 +8,8 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdDistance;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 
@@ -40,10 +42,30 @@ public  GeoElement[] process(Command c) throws MyError {
         		if(arg[0].isGeoLine() && arg[1].isGeoLine()){
 
         			return new GeoElement[] {
-        					((Kernel)kernelA).getManager3D().Distance(
+        					kernelA.getManager3D().Distance(
         							c.getLabel(),
         							(GeoLineND)arg[0],
         							(GeoLineND)arg[1])        		
+        			};
+        		}
+        		
+        		if(arg[0].isGeoPoint() && arg[1].isGeoPlane()){
+
+        			return new GeoElement[] {
+        					kernelA.getManager3D().Distance(
+        							c.getLabel(),
+        							(GeoPointND)arg[0],
+        							(GeoPlaneND)arg[1])        		
+        			};
+        		}
+        		
+        		if(arg[1].isGeoPoint() && arg[0].isGeoPlane()){
+
+        			return new GeoElement[] {
+        					kernelA.getManager3D().Distance(
+        							c.getLabel(),
+        							(GeoPointND)arg[1],
+        							(GeoPlaneND)arg[0])        		
         			};
         		}
         	}

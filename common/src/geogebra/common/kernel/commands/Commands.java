@@ -235,7 +235,7 @@ public enum Commands implements CommandsConstants, GetCommand{
   	// scripting 3D
 	//=============================================================
 
-   	SetViewDirection(TABLE_SCRIPTING),
+   	SetViewDirection(TABLE_SCRIPTING), SetSpinSpeed(TABLE_SCRIPTING),
    	
    	// ================================================================
    	// Turtle
