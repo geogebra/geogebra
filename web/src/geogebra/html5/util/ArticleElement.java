@@ -459,7 +459,7 @@ public final class ArticleElement extends Element {
     }
 
 	public void adjustScale() {
-		if(getDataParamApp()){
+		if(getDataParamApp() || (getAttribute("data-scalex") != null && !"".equals(getAttribute("data-scalex")))){
 			return;
 		}
 		double externalScale = getDataParamScale();
