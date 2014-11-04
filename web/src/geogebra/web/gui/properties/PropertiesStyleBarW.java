@@ -3,13 +3,17 @@ package geogebra.web.gui.properties;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.AppResourcesConverter;
+import geogebra.web.gui.images.PerspectiveResources;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.util.PopupMenuButton;
 
 import java.util.HashMap;
 
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -171,19 +175,21 @@ public class PropertiesStyleBarW extends
     }
 	
 	protected void setIcon(OptionType type, PopupMenuButton btn) {
+		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
+		
 		case DEFAULTS:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
 		case SPREADSHEET:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_spreadsheet24(), btn);
+			AppResourcesConverter.setIcon(pr.view_spreadsheet24(), btn);
 		case EUCLIDIAN:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics24(), btn);
+			AppResourcesConverter.setIcon(pr.view_graphics24(), btn);
 		case EUCLIDIAN2:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics224(), btn);
+			AppResourcesConverter.setIcon(pr.view_graphics224(), btn);
 		case EUCLIDIAN3D:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics3D24(), btn);
+			AppResourcesConverter.setIcon(pr.view_graphics3D24(), btn);
 		case CAS:
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_cas24(), btn);
+			AppResourcesConverter.setIcon(pr.view_cas24(), btn);
 		case ADVANCED:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case OBJECTS:
@@ -195,19 +201,20 @@ public class PropertiesStyleBarW extends
 	}
 
 	protected String getTypeIcon(OptionType type) {
+		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		switch (type) {
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
-			return AppResources.INSTANCE.view_spreadsheet24().getSafeUri().asString();
+			return GGWToolBar.safeURI(pr.view_spreadsheet24());
 		case EUCLIDIAN:
-			return AppResources.INSTANCE.view_graphics24().getSafeUri().asString();
+			return GGWToolBar.safeURI(pr.view_graphics24());
 			//return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return AppResources.INSTANCE.view_graphics224().getSafeUri().asString();
+			return GGWToolBar.safeURI(pr.view_graphics224());
 			//return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
-			return AppResources.INSTANCE.view_cas24().getSafeUri().asString();
+			return GGWToolBar.safeURI(pr.view_cas24());
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case OBJECTS:

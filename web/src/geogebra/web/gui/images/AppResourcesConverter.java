@@ -1,5 +1,6 @@
 package geogebra.web.gui.images;
 
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.util.HasSetIcon;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.SelectionTable;
@@ -11,6 +12,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -73,9 +75,9 @@ public class AppResourcesConverter {
 		}
 	}
  
-	public static void setIcon(final ImageResource ir, final HasSetIcon button) {
+	public static void setIcon(final ResourcePrototype ir, final HasSetIcon button) {
 	    ImageOrText img = new ImageOrText();
-	    img.url = ir.getSafeUri().asString();
+	    img.url = GGWToolBar.safeURI(ir);
 	    button.setIcon(img);
 	   
     }

@@ -1,32 +1,34 @@
 package geogebra.web.gui.view;
 
 import geogebra.common.main.App;
-import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.images.PerspectiveResources;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.resources.client.ResourcePrototype;
 
 public class Views {
 	public static int[] ids = new int[]{App.VIEW_ALGEBRA, App.VIEW_SPREADSHEET, App.VIEW_CAS,App.VIEW_EUCLIDIAN, App.VIEW_EUCLIDIAN2, App.VIEW_EUCLIDIAN3D, App.VIEW_CONSTRUCTION_PROTOCOL, App.VIEW_PROBABILITY_CALCULATOR};
-	public static ImageResource[] icons = new ImageResource[]{
-		AppResources.INSTANCE.view_algebra24(),
-		AppResources.INSTANCE.view_spreadsheet24(),
-		AppResources.INSTANCE.view_cas24(),
-		AppResources.INSTANCE.view_graphics24(),
-		AppResources.INSTANCE.view_graphics224(),
-		AppResources.INSTANCE.view_graphics3D24(),
-		AppResources.INSTANCE.view_constructionprotocol24(),
-		AppResources.INSTANCE.view_probability24()
+	private static PerspectiveResources perspectiveResources = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources(); 
+	public static ResourcePrototype[] icons = new ResourcePrototype[]{
+		perspectiveResources.view_algebra24(),
+		perspectiveResources.view_spreadsheet24(),
+		perspectiveResources.view_cas24(),
+		perspectiveResources.view_graphics24(),
+		perspectiveResources.view_graphics224(),
+		perspectiveResources.view_graphics3D24(),
+		perspectiveResources.view_constructionprotocol24(),
+		perspectiveResources.view_probability24()
 	};
-	public static ImageResource[] menuIcons = new ImageResource[]{
-		GuiResources.INSTANCE.menu_icon_algebra(),
-		GuiResources.INSTANCE.menu_icon_spreadsheet(),
-		GuiResources.INSTANCE.menu_icon_cas(),
-		GuiResources.INSTANCE.menu_icon_graphics(),
-		GuiResources.INSTANCE.menu_icon_graphics2(),
-		GuiResources.INSTANCE.menu_icon_graphics3D(),
-		GuiResources.INSTANCE.menu_icon_construction_protocol(),
-		GuiResources.INSTANCE.menu_icon_probability()
+	public static ResourcePrototype[] menuIcons = new ResourcePrototype[]{
+		perspectiveResources.menu_icon_algebra(),
+		perspectiveResources.menu_icon_spreadsheet(),
+		perspectiveResources.menu_icon_cas(),
+		perspectiveResources.menu_icon_graphics(),
+		perspectiveResources.menu_icon_graphics2(),
+		perspectiveResources.menu_icon_graphics3D(),
+		perspectiveResources.menu_icon_construction_protocol(),
+		perspectiveResources.menu_icon_probability()
 	};
 	public static String[] keys = new String[]{
 		"AlgebraWindow",

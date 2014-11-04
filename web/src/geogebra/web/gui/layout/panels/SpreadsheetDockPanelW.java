@@ -5,12 +5,11 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -157,7 +156,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 	}
 
 	@Override
-	public ImageResource getIcon() {
-		return AppResources.INSTANCE.view_spreadsheet24();
+	public ResourcePrototype getIcon() {
+		return getResources().view_spreadsheet24();
 	}
 }

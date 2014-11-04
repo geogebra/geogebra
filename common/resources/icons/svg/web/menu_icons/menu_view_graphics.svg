@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 18.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="menu_x5F_view_x5F_graphics">
+	<g>
+		<circle style="opacity:0.4;fill:#009900;" cx="150" cy="362" r="150"/>
+		<g>
+			<path style="fill:#009900;" d="M150.001,211.999C67.157,211.999,0,279.156,0,362c0,82.842,67.157,150,150.001,150
+				C232.844,512,300,444.842,300,362C300,279.156,232.844,211.999,150.001,211.999z M150,497c-74.558,0-135-60.441-135-135
+				s60.442-135,135-135s135,60.441,135,135S224.558,497,150,497z"/>
+		</g>
+	</g>
+	<g>
+		<polyline style="opacity:0.4;fill:#0000FF;" points="89.495,396.533 482,397.942 263.836,62.379 		"/>
+		<g>
+			<path style="fill:#0000FF;" d="M263.836,63.789L89.495,397.942H482L263.836,63.789z M265.379,93.57l188.036,289.224
+				l-338.302-0.215L265.379,93.57z"/>
+		</g>
+	</g>
+</g>
+<g id="Layer_1">
+</g>
+</svg>

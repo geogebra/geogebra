@@ -3,12 +3,11 @@ package geogebra.web.gui.layout.panels;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Widget;
 
 public class ConstructionProtocolDockPanelW extends DockPanelW{
@@ -57,8 +56,8 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
     }
 	
 	@Override
-    public ImageResource getIcon() {
-		return AppResources.INSTANCE.view_constructionprotocol24();
+    public ResourcePrototype getIcon() {
+		return getResources().view_constructionprotocol24();
 	}
 	
 }

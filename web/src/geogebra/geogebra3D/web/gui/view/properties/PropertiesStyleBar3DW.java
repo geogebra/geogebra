@@ -3,11 +3,15 @@ package geogebra.geogebra3D.web.gui.view.properties;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResourcesConverter;
+import geogebra.web.gui.images.PerspectiveResources;
 import geogebra.web.gui.properties.PropertiesStyleBarW;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.util.PopupMenuButton;
+
+import com.google.gwt.core.shared.GWT;
 
 
 /**
@@ -31,7 +35,8 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	@Override
     protected void setIcon(OptionType type, PopupMenuButton btn) {
 		if (type == OptionType.EUCLIDIAN3D){
-			AppResourcesConverter.setIcon(AppResources.INSTANCE.view_graphics3D24(), btn);
+			PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+			AppResourcesConverter.setIcon(pr.view_graphics3D24(), btn);
 		}else{
 			super.setIcon(type, btn);
 		}
@@ -40,7 +45,8 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
 	@Override
     protected String getTypeIcon(OptionType type) {
 		if (type == OptionType.EUCLIDIAN3D){
-			return AppResources.INSTANCE.view_graphics3D24().getSafeUri().asString();
+			PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+			return GGWToolBar.safeURI(pr.view_graphics3D24());
 		}
 		return super.getTypeIcon(type);
 	}

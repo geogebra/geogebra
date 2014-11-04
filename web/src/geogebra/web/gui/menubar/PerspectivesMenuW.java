@@ -3,11 +3,14 @@ package geogebra.web.gui.menubar;
 import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.Perspective;
 import geogebra.html5.main.AppW;
-import geogebra.web.css.GuiResources;
+import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.images.PerspectiveResources;
 
 import java.util.ArrayList;
 
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.core.shared.GWT;
+import com.google.gwt.resources.client.ResourcePrototype;
 
 /**
  * Web implementation of FileMenu
@@ -39,19 +42,20 @@ public class PerspectivesMenuW extends GMenuBar {
 
 		
 	    Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
-	    ArrayList<ImageResource> icons = new ArrayList<ImageResource>();
-	    icons.add(GuiResources.INSTANCE.menu_icon_algebra());
-	    icons.add(GuiResources.INSTANCE.menu_icon_geometry());
-	    icons.add(GuiResources.INSTANCE.menu_icon_spreadsheet());
-	    icons.add(GuiResources.INSTANCE.menu_icon_cas());
-	    icons.add(GuiResources.INSTANCE.menu_icon_graphics3D());
-	    icons.add(GuiResources.INSTANCE.menu_icon_probability());
+	    ArrayList<ResourcePrototype> icons = new ArrayList<ResourcePrototype>();
+	    PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+	    icons.add(pr.menu_icon_algebra());
+	    icons.add(pr.menu_icon_geometry());
+	    icons.add(pr.menu_icon_spreadsheet());
+	    icons.add(pr.menu_icon_cas());
+	    icons.add(pr.menu_icon_graphics3D());
+	    icons.add(pr.menu_icon_probability());
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
 			if(defaultPerspectives[i] == null){
 				continue;
 			}
 			final int index = i;
-			addItem(MainMenu.getMenuBarHtml(icons.get(i).getSafeUri().asString(), 
+			addItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(icons.get(i)), 
 					app.getMenu(defaultPerspectives[i].getId()), true),true,new MenuCommand(app) {
 						
 				@Override

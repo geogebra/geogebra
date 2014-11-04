@@ -3,6 +3,7 @@ package geogebra.web.gui.menubar;
 import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.Views;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -68,8 +69,8 @@ public class ViewMenuW extends GMenuBar {
 			if(!app.supportsView(Views.ids[i])){
 				continue;
 			}
-			items[i] = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(Views.icons[i]
-			        .getSafeUri().asString(), app.getPlain(Views.keys[i]), true),
+			items[i] = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(GGWToolBar.safeURI(Views.icons[i]
+			        ), app.getPlain(Views.keys[i]), true),
 			        new MenuCommand(app) {
 				
 				        @Override

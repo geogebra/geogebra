@@ -6,12 +6,11 @@ import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
@@ -236,7 +235,7 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
     }
 	
 	@Override
-    public ImageResource getIcon() {
-		return AppResources.INSTANCE.view_graphics24();
+    public ResourcePrototype getIcon() {
+		return getResources().view_graphics24();
 	}
 }

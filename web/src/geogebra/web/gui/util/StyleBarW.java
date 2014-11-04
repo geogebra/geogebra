@@ -6,6 +6,7 @@ import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.view.Views;
 
@@ -101,7 +102,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
 				//data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();
-				data[k].url = Views.menuIcons[i].getSafeUri().asString();
+				data[k].url = GGWToolBar.safeURI(Views.menuIcons[i]);
 				viewIDs[k] = Views.ids[i];				
 				k++;
 			}

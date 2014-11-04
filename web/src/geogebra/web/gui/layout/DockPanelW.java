@@ -12,11 +12,15 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.cas.view.CASStylebarW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.PerspectiveResources;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
@@ -26,6 +30,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -268,7 +273,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 *         will return the empty icon or null for Win Vista / 7 to prevent
 	 *         the "checkbox bug"
 	 */
-	public ImageResource getIcon() {
+	public ResourcePrototype getIcon() {
 		return AppResources.INSTANCE.empty();
 	}
 
@@ -579,7 +584,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		FlowPanel p = new FlowPanel();
 		String caption;
 		if (!this.isStyleBarEmpty()) {
-			Image img = new Image(getIcon());
+			Image img = new Image(GGWToolBar.safeURI(getIcon()));
 			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 			img.getElement().getStyle().setMarginRight(4, Unit.PX);
 			p.add(img);
@@ -1329,4 +1334,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 			this.titleBarPanel.setVisible(show);
 		}
 	}
+	
+	protected PerspectiveResources getResources(){
+		return ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
+	}
+
 }

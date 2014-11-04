@@ -5,11 +5,10 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Style;
-import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
@@ -167,7 +166,7 @@ public class Euclidian2DockPanelW extends EuclidianDockPanelWAbstract implements
 	public void updateNavigationBar() {}
 	
 	@Override
-    public ImageResource getIcon() {
-		return AppResources.INSTANCE.view_graphics224();
+    public ResourcePrototype getIcon() {
+		return getResources().view_graphics224();
 	}
 }
