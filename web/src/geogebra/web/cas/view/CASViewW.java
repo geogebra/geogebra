@@ -4,7 +4,6 @@ import geogebra.common.cas.view.CASInputHandler;
 import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.util.SelectionHandler;
 
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -38,7 +37,7 @@ public class CASViewW extends CASView {
 		CASTableControllerW ml = new CASTableControllerW(this,app);
 		consoleTable = new CASTableW(app,ml,this);	
 		component.add(consoleTable);
-		SelectionHandler.disableTextSelectInternal(component.getElement(), true);
+		//SelectionHandler.disableTextSelectInternal(component.getElement(), true);
 		// input handler
 		casInputHandler = new CASInputHandler(this);
 		
