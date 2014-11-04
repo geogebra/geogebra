@@ -1,8 +1,8 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.dialog.ToolCreationDialog;
-import geogebra.web.gui.images.AppResources;
 
 /**
  * Web implementation of ToolsMenu
@@ -28,10 +28,8 @@ public class ToolsMenuW extends GMenuBar {
 
 	protected void initActions() {
 
-		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
-
 		//if (GeoGebraConstants.IS_PRE_RELEASE) {
-		addItem(MainMenu.getMenuBarHtml(noIcon,
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
 		        app.getMenu("Toolbar.Customize"), true), true, new MenuCommand(app) {
 
 			@Override
@@ -45,7 +43,7 @@ public class ToolsMenuW extends GMenuBar {
 		
 		addSeparator();
 
-		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.CreateNew"),
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri().asString(), app.getMenu("Tool.CreateNew"),
 				true), true, new MenuCommand(app) {
 
 			@Override

@@ -177,7 +177,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 	private void createUserMenu() {
 	    this.userMenu = new GMenuBar(true);	
 	    this.userMenu.addStyleName("GeoGebraMenuBar");
-	    this.userMenu.addItem("<span>" + app.getMenu("SignOut") + "</span>", true, new MenuCommand(app) {
+	    this.userMenu.addItem(getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(), app.getMenu("SignOut"), true), true, new MenuCommand(app) {
 
 			@Override
             public void doExecute() {
@@ -278,6 +278,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		}
 	}
 	
+	/**
+	 * sets the height of the menu
+	 * @param height int
+	 */
 	public void updateHeight(int height) {
 		this.setHeight(height + "px");
     }
@@ -296,11 +300,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 	}
 
     private void addSignInMenu() {
-    	//TODO icon needed
-	    this.menuPanel.add(this.signInMenu, "<div>"+ app.getMenu("SignIn") +"</div>", true);
+	    this.menuPanel.add(this.signInMenu, setHTML(GuiResources.INSTANCE.menu_icon_sign_in(), app.getMenu("SignIn")), true);
     }
 
     private void addUserMenu() {
-	    this.menuPanel.add(this.userMenu, "<span>" + app.getLoginOperation().getUserName() + "</span>", true);
+	    this.menuPanel.add(this.userMenu, setHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()), true);
     }
 }

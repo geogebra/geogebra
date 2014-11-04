@@ -161,6 +161,9 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-file-share.png")
 	ImageResource menu_icon_file_share();
 	
+	@Source("icons/png/web/menu_icons/menu-file-export.png")
+	ImageResource menu_icons_file_export();
+	
 	@Source("icons/png/web/menu_icons/menu-edit.png")
 	ImageResource menu_icon_edit();
 	
@@ -206,9 +209,14 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu-help-about.png")
 	ImageResource menu_icon_help_about();
 	
-	@Source("icons/png/web/menu_icons/menu-options.png") // TODO: new icon
+	@Source("icons/png/web/menu_icons/menu-tools.png")
 	ImageResource menu_icon_tools();
-
+	
+	@Source("icons/png/web/menu_icons/menu-tools-new.png")
+	ImageResource menu_icon_tools_new();
+	
+	@Source("icons/png/web/menu_icons/menu-tools-customize.png")
+	ImageResource menu_icon_tools_customize();
 	
 	// OTHER MENUICONS
 	@Source("icons/png/web/menu_icons/menu_view_algebra.png")
@@ -241,6 +249,17 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu_icons/menu_view_probability.png")
 	ImageResource menu_icon_probability();
 	
+	@Source("icons/png/web/menu_icons/menu-signed-in-m.png")
+	ImageResource menu_icon_signed_in_m();
+	
+	@Source("icons/png/web/menu_icons/menu-signed-in-f.png")
+	ImageResource menu_icon_signed_in_f();
+	
+	@Source("icons/png/web/menu_icons/menu-sign-in.png")
+	ImageResource menu_icon_sign_in();
+	
+	@Source("icons/png/web/menu_icons/menu-sign-out.png")
+	ImageResource menu_icon_sign_out();
 	
 	//SUBMENUS
 	@Source("icons/png/web/arrow-submenu-right.png")

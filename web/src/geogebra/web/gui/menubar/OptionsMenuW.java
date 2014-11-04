@@ -5,20 +5,14 @@ import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.menubar.MyActionListener;
 import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
-import geogebra.common.kernel.Kernel;
+import geogebra.common.io.MyXMLHandler;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
-import geogebra.html5.util.Dom;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.GeoGebraPreferencesW;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
-import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NodeList;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * The "Options" menu.
@@ -26,10 +20,7 @@ import com.google.gwt.user.client.ui.MenuItem;
 public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionListener{
 	
 	private AppW app;
-	private Kernel kernel;
-	private static int currentZoom = 1;
 	
-	private double origFontSize;
 	/**
 	 * Constructs the "Option" menu
 	 * @param app Application instance
@@ -37,7 +28,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	public OptionsMenuW(AppW app) {
 		super(true, new MenuResources());
 	    this.app = app;
-	    kernel = app.getKernel();
 	    addStyleName("GeoGebraMenuBar");
 	    initItems();
 	}
@@ -49,7 +39,7 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		addSeparator();
 		getOptionsMenu().addLabelingMenu(this);
 		addSeparator();
-		getOptionsMenu().addFontSizeMenu(this);
+		addFontSizeMenu();
 		//language menu
 		addLanguageMenu();
 		if (!app.isApplet()){
@@ -65,68 +55,46 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		*/
 	}
 	
-	private class ZoomMenu extends MenuBar implements MenuInterface{
-		
-		public ZoomMenu(){
-			super(true);
-		}
-	}
-	
-	private void addZoomMenu(){
-		MenuBar zoomMenu = new ZoomMenu();
-		
-		zoomMenu.addItem(getZoomMenuItem("1"));
-		zoomMenu.addItem(getZoomMenuItem("1.2"));
-		zoomMenu.addItem(getZoomMenuItem("1.4"));
-		zoomMenu.addItem(getZoomMenuItem("1.6"));
-		app.addMenuItem((MenuInterface)this, "font.png", /*app.getMenu("FontSize")*/ "Zoom", true, (MenuInterface)zoomMenu);
-	}
-	
-	public MenuItem getZoomMenuItem(final String name){
-		ScheduledCommand cmd = new ScheduledCommand(){
-			@Override
-            public void execute() {
-	           zoom(name);      
-            }
-		};
-		return new MenuItem(name, cmd);
-		
-	}
-	
-	public void zoom(String d){
-		app.getFrameElement().getStyle().setProperty("zoom", d);
-		
-	}
-	
-	private void addGlobalFontSizeMenu(){
-		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
-				.empty().getSafeUri().asString(), "font size: 32px", true),
-		        true, new MenuCommand(app) {
-			
-			@Override
-            public void doExecute() {
-		        //Remove the style element(s) if already exist
-						NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
-						for(int i=0; i<fontsizeElements.getLength(); i++){
-							fontsizeElements.getItem(i).removeFromParent();
-						}
-						
-			        	app.getFrameElement().getStyle().setFontSize(32, Unit.PX);
-			        }
-		        });	
-	}
-	
-	private void addLanguageMenu() {
-		
-			App.debug("smart menu");
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_language().getSafeUri().asString(), app.getMenu("Language"), true), true, new MenuCommand(app){
+	/**
+	 * @see OptionsMenu 
+	 */
+	private void addFontSizeMenu() {
+		RadioButtonMenuBar submenu = getOptionsMenu().newSubmenu();
+		((MenuBar)submenu).addStyleName("GeoGebraMenuBar");
 
-						@Override
-						public void doExecute() {
-					        app.showLanguageGUI();
-	                    }});
-			return;
-		
+		String[] fsfi = new String[MyXMLHandler.menuFontSizes.length];
+		String[] fontActionCommands = new String[MyXMLHandler.menuFontSizes.length];
+
+		// find current pos
+		int fontSize = app.getFontSize();
+		int pos = 0;
+		for (int i = 0; i < MyXMLHandler.menuFontSizes.length; i++) {
+			if (fontSize == MyXMLHandler.menuFontSizes[i]) {
+				pos = i;
+			}
+			fsfi[i] = app.getLocalization().getPlain("Apt",MyXMLHandler.menuFontSizes[i]+"");
+			fontActionCommands[i]=MyXMLHandler.menuFontSizes[i] + " pt";
+		}
+
+		submenu.addRadioButtonMenuItems(this, fsfi, fontActionCommands, pos, false);
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, (MenuBar) submenu);
+	}
+	
+
+	private void addLanguageMenu() {
+
+		App.debug("smart menu");
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_options_language().getSafeUri().asString(),
+		        app.getMenu("Language"), true), true, new MenuCommand(app) {
+
+			@Override
+			public void doExecute() {
+				app.showLanguageGUI();
+			}
+		});
+		return;
+
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
@@ -197,4 +165,56 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			}
 		});
 	}
+	
+//	private class ZoomMenu extends MenuBar implements MenuInterface{
+//	
+//	public ZoomMenu(){
+//		super(true);
+//	}
+//}
+//
+//private void addZoomMenu(){
+//	MenuBar zoomMenu = new ZoomMenu();
+//	
+//	zoomMenu.addItem(getZoomMenuItem("1"));
+//	zoomMenu.addItem(getZoomMenuItem("1.2"));
+//	zoomMenu.addItem(getZoomMenuItem("1.4"));
+//	zoomMenu.addItem(getZoomMenuItem("1.6"));
+//	app.addMenuItem((MenuInterface)this, "font.png", /*app.getMenu("FontSize")*/ "Zoom", true, (MenuInterface)zoomMenu);
+//}
+//
+//public MenuItem getZoomMenuItem(final String name){
+//	ScheduledCommand cmd = new ScheduledCommand(){
+//		@Override
+//        public void execute() {
+//           zoom(name);      
+//        }
+//	};
+//	return new MenuItem(name, cmd);
+//	
+//}
+//
+//public void zoom(String d){
+//	app.getFrameElement().getStyle().setProperty("zoom", d);
+//	
+//}
+//
+//private void addGlobalFontSizeMenu(){
+//	addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE
+//			.empty().getSafeUri().asString(), "font size: 32px", true),
+//	        true, new MenuCommand(app) {
+//		
+//		@Override
+//        public void doExecute() {
+//	        //Remove the style element(s) if already exist
+//					NodeList<Element> fontsizeElements = Dom.getElementsByClassName("GGWFontsize");
+//					for(int i=0; i<fontsizeElements.getLength(); i++){
+//						fontsizeElements.getItem(i).removeFromParent();
+//					}
+//					
+//		        	app.getFrameElement().getStyle().setFontSize(32, Unit.PX);
+//		        }
+//	        });	
+//}
+//
 }

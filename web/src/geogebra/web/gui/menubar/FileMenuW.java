@@ -6,7 +6,6 @@ import geogebra.html5.main.StringHandler;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -119,7 +118,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	}
 	    });
 	    
-	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true), true, new MenuCommand(app) {
+	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icons_file_export().getSafeUri().asString(), app.getMenu("Export"), true), true, new MenuCommand(app) {
 			
 			@Override
 			public void doExecute() {

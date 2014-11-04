@@ -2105,7 +2105,7 @@ public abstract class AppW extends App implements SetLabels{
 			addMenuItem((MenuBar) parentMenu, filename, name, asHtml, subMenu);
 		}
 
-		public void addMenuItem(MenuBar parentMenu, String filename, String name,
+		private void addMenuItem(MenuBar parentMenu, String filename, String name,
 		        boolean asHtml, MenuInterface subMenu) {
 			
 
