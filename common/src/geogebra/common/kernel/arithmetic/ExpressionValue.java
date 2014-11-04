@@ -48,6 +48,10 @@ public interface ExpressionValue {
 	 */
 	public boolean evaluatesToNonComplex2DVector();	
 	/**
+	 * @return whether this is a 2D/3D Vector (but not Point/Complex)
+	 */
+	public boolean evaluatesToVectorNotPoint();	
+	/**
 	 * @return whether this is instance of Vector3DValue
 	 */
 	public boolean evaluatesTo3DVector();	

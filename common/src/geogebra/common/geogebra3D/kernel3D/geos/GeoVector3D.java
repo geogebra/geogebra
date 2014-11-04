@@ -251,10 +251,31 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	final public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
+	
+	@Override
+	public boolean evaluatesToVectorNotPoint() {
+		return true;
+	}
+
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 
+		switch (tpl.getStringType()) {
+		case GIAC:
+			sbBuildValueString.append("ggbvect[");
+			sbBuildValueString.append(kernel.format(getX(),tpl));
+			sbBuildValueString.append(',');
+			sbBuildValueString.append(kernel.format(getY(),tpl));
+			sbBuildValueString.append(',');
+			sbBuildValueString.append(kernel.format(getZ(),tpl));
+			sbBuildValueString.append("]");
+			return sbBuildValueString;
+
+		default: // continue below
+		}
+
+		
 		/*
 		 * switch (toStringMode) {
 		 * 

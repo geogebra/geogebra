@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.main.MyParseError;
@@ -42,6 +43,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	protected ExpressionValue y;
 	private int mode = Kernel.COORD_CARTESIAN;
 	private Kernel kernel;
+	private boolean isCASVector = false;
 
 	/** Creates new MyVec2D 
 	 * @param kernel kernel
@@ -165,19 +167,33 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 				sb.append(")");
 			}
 			break;
-			
+
 		default: // continue below
-			sb.append(tpl.leftBracket());
-			sb.append(print(x,values,tpl));
-			if (mode == Kernel.COORD_CARTESIAN)
-				sb.append(", ");
-			else
-				sb.append("; ");
-			sb.append(print(y,values,tpl));
-			sb.append(tpl.rightBracket());
+
+			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
+				
+				sb.append(" \\binom{");
+				sb.append(print(x, values, tpl));
+				sb.append("}{");
+				sb.append(print(y, values, tpl));
+				sb.append("}");
+				
+
+			} else {
+
+				sb.append(tpl.leftBracket());
+				sb.append(print(x, values, tpl));
+				if (mode == Kernel.COORD_CARTESIAN) {
+					sb.append(", ");
+				} else {
+					sb.append("; ");
+				}
+				sb.append(print(y, values, tpl));
+				sb.append(tpl.rightBracket());
+			}
 			break;
 		}
-
+		
 		return sb.toString();
 	}
 
@@ -237,6 +253,12 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		return this.mode != Kernel.COORD_COMPLEX;
 	}
 
+	// could be vector or point
+	@Override
+	public boolean evaluatesToVectorNotPoint() {
+		return isCASVector;//this.mode != Kernel.COORD_COMPLEX;
+	}
+
 	public boolean isNumberValue() {
 		return false;
 	}
@@ -252,7 +274,7 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
-	
+
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
@@ -262,15 +284,22 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 		y = y.traverse(t);
 		return this;
 	}
-	
+
 	@Override
 	public boolean inspect(Inspecting t){
 		return t.check(this) || x.inspect(t) || y.inspect(t);
 	}
-	
+
 	@Override
 	public boolean hasCoords() {
 		return true;
 	}
-	
+
+	/**
+	 * LaTeX form needs to be different in CAS
+	 */
+	public void setCASVector() {
+		isCASVector = true;
+	}
+
 }

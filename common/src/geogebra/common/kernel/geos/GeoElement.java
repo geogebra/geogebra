@@ -5689,6 +5689,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		return false;
 	}
 
+	public boolean evaluatesToVectorNotPoint() {
+		return false;
+	}
+
 	public final boolean isPolynomialInstance() {
 		return false;
 	}

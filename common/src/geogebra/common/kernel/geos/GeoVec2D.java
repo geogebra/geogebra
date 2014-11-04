@@ -1211,6 +1211,11 @@ final public class GeoVec2D extends ValidExpression implements
 		return this.mode != Kernel.COORD_COMPLEX;
 	}
 
+	@Override
+	final public boolean evaluatesToVectorNotPoint() {
+		return this.mode != Kernel.COORD_COMPLEX;
+	}
+
 	final public boolean contains(ExpressionValue ev) {
 		return ev == this;
 	}

@@ -414,6 +414,21 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	@Override
+	public boolean evaluatesToVectorNotPoint() {
+		if (!allowEvaluationForTypeCheck) {
+			return false;
+		}
+		try {
+			return evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
+		} catch (MyError ex) {
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			if (ev != null )
+				return ev.unwrap().evaluatesToNonComplex2DVector();
+			throw ex;
+		}
+	}
+
+	@Override
 	public boolean evaluatesToText() {
 		if (!allowEvaluationForTypeCheck) {
 			return false;

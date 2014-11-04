@@ -732,7 +732,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(rightStr);
 				sb.append(')');
 
+			} else if (left.evaluatesToVectorNotPoint() && right.evaluatesToVectorNotPoint()) {
+				
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg vectors (1,2)+(3,4)
+				sb.append(leftStr);
+				sb.append("+");
+				sb.append(rightStr);
+
 			} else if (isNDvector(right) && isNDvector(left)) {
+				
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)+(3,4)
 				sb.append("point(");
@@ -965,8 +974,15 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append("))");
 
 
+			} else if (left.evaluatesToVectorNotPoint() && right.evaluatesToVectorNotPoint()) {
+				//App.debug(left.getClass()+" "+right.getClass());
+				// eg Vectors (1,2)-(3,4)
+				sb.append(leftStr);
+				sb.append("-");
+				sb.append(rightStr);
+
 			} else if (isNDvector(right) && isNDvector(left)) {
-				App.debug(left.getClass()+" "+right.getClass());
+				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
 				sb.append("point(");
 				sb.append(leftStr);

@@ -419,6 +419,10 @@ public abstract class ValidExpression implements ExpressionValue {
 		return false;
 	}
 	
+	public boolean evaluatesToVectorNotPoint() {
+		return false;
+	}
+	
 	public boolean evaluatesTo3DVector() {
 		return false;
 	}

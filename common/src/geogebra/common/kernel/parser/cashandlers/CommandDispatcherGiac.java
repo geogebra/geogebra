@@ -8,6 +8,8 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.GetItem;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.MyVecNode;
+import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.Log;
@@ -89,7 +91,7 @@ public class CommandDispatcherGiac {
 		/** hyperbolic tan */
 		tanh(Operation.TANH),
 
-		
+
 		/** sec */
 		sec(Operation.SEC),
 		/** cosec */
@@ -117,17 +119,21 @@ public class CommandDispatcherGiac {
 		ycoordsymb(Operation.YCOORD),
 		/** symbolic z coord*/
 		zcoordsymb(Operation.ZCOORD),
-		
+
+		/** GeoGebra vector */
+		ggbvect(Operation.NO_OPERATION),
+
 		/** symbolic sum */
 		sum(Operation.SUM),
+
 		piecewise(Operation.IF_ELSE),
-		
+
 		/** laplace functions, need to generate an error */
 		laplace(Operation.NO_OPERATION),
 		ilaplace(Operation.NO_OPERATION),
 		invlaplace(Operation.NO_OPERATION),
-		
-		
+
+
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
 
@@ -178,7 +184,7 @@ public class CommandDispatcherGiac {
 						Operation.SUM,
 						new MyNumberPair(kernel,args.getItem(2),args.getItem(3))
 						);
-				
+
 				break;
 			case piecewise:
 				ret = new ExpressionNode(kernel,
@@ -186,7 +192,7 @@ public class CommandDispatcherGiac {
 						Operation.IF_ELSE,
 						args.getItem(2)
 						);
-				
+
 				break;
 			case exact:
 				// just return argument
@@ -206,6 +212,31 @@ public class CommandDispatcherGiac {
 							args.getItem(1),Operation.POLYGAMMA,
 							args.getItem(0));
 				}
+				break;
+
+			case ggbvect:
+
+				ValidExpression vec;
+
+				switch (args.getLength()) {
+				case 2:
+
+					vec = new MyVecNode(kernel, args.getItem(0), args.getItem(1));
+					((MyVecNode)vec).setCASVector();
+					break;
+				case 3:
+					vec = new MyVec3DNode(kernel, args.getItem(0), args.getItem(1), args.getItem(2));
+					((MyVec3DNode)vec).setCASVector();
+					break;
+
+				default:
+					throw new CASException("Giac: bad number of args for ggbvect(): "+args.getLength());
+
+				}
+				
+				ret = new ExpressionNode(kernel, vec, Operation.NO_OPERATION, null);
+
+
 				break;
 
 			case arbint:
@@ -244,23 +275,23 @@ public class CommandDispatcherGiac {
 			case sqrt:
 			case sign:
 
-				
+
 				if (args.getLength() != 1) {
-				
+
 					// eg Derivative[zeta(x)] -> Zeta(1,x) which GeoGebra doesn't support
 					ret = new ExpressionNode(kernel, Double.NaN);
 				} else {
-				
+
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),commands.valueOf(cmdName).getOperation(), null);
 				}
 				break;
-				
+
 			case ggb_ang:	
 				ret = new MyVecNode(kernel);                         
 				((MyVecNode)ret).setPolarCoords(args.getItem(0), args.getItem(1));     
 				break;
-				
+
 			case igamma:	
 				if (args.getLength() == 2) {
 					ret = new ExpressionNode(kernel,
@@ -298,10 +329,10 @@ public class CommandDispatcherGiac {
 				break;
 			case surd:	
 				if (args.getLength() == 2) {
-					
+
 					ExpressionValue arg1 = args.getItem(1);
 					double arg1Num = arg1.evaluateDouble();
-					
+
 					if (arg1Num == 3) {
 						ret = new ExpressionNode(kernel,
 								args.getItem(0),Operation.CBRT,
@@ -311,7 +342,7 @@ public class CommandDispatcherGiac {
 								args.getItem(0),Operation.SQRT,
 								null);
 					} else {
-					
+
 						ret = new ExpressionNode(kernel,
 								args.getItem(0),Operation.NROOT,
 								arg1);
@@ -330,7 +361,7 @@ public class CommandDispatcherGiac {
 					ret = new ExpressionNode(kernel,
 							args.getItem(0),Operation.BETA,
 							args.getItem(1));
-					
+
 					break;
 
 				case 3:
@@ -364,11 +395,11 @@ public class CommandDispatcherGiac {
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
 			case diff:
-				
+
 				if (args.getLength() == 3 && !"1".equals(args.getItem(2).toString(StringTemplate.giacTemplate))) {
 					return new ExpressionNode(kernel,new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),Operation.DIFF,args.getItem(2));
 				}
-				
+
 				ret = new ExpressionNode(kernel,args.getItem(0),Operation.DIFF,args.getItem(1));
 				break;
 			}

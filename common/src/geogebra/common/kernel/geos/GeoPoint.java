@@ -1508,6 +1508,11 @@ SymbolicParametersBotanaAlgo {
 		return this.getMode() != Kernel.COORD_COMPLEX;
 	}
 
+	@Override
+	public boolean evaluatesToVectorNotPoint() {
+		return false;
+	}
+
 	/**
 	 * Calls super.update() and updateCascade() for all registered locateables.
 	 */

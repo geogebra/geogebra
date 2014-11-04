@@ -442,16 +442,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 		switch (tpl.getStringType()) {
 		case GIAC:
-			// TODO: send to Giac as a list/vector so that these work:
-			// Line[(3,4),Vector[(1,2)]] works
-			// Angle[ <Vector>, <Vector> ]
-			// PerpendicularLine[ <Point>, <Vector> ]
-			// Point[ <Point>, <Vector> ]
-			sbBuildValueString.append("point(");
-			sbBuildValueString.append(getInhomVec().getX());
+			sbBuildValueString.append("ggbvect[");
+			sbBuildValueString.append(kernel.format(getInhomVec().getX(), tpl));
 			sbBuildValueString.append(',');
-			sbBuildValueString.append(getInhomVec().getY());
-			sbBuildValueString.append(")");
+			sbBuildValueString.append(kernel.format(getInhomVec().getY(), tpl));
+			sbBuildValueString.append("]");
 			return sbBuildValueString;
 
 		default: // continue below
@@ -555,6 +550,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 
 	@Override
 	public boolean evaluatesToNonComplex2DVector() {
+		return this.getMode() != Kernel.COORD_COMPLEX;
+	}
+
+	@Override
+	public boolean evaluatesToVectorNotPoint() {
 		return this.getMode() != Kernel.COORD_COMPLEX;
 	}
 

@@ -1097,6 +1097,34 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 	
 	@Override
+	final public boolean evaluatesToVectorNotPoint() {
+		if(operation == Operation.RANDOM 
+				|| operation == Operation.XCOORD 
+				|| operation == Operation.YCOORD
+				|| operation == Operation.ZCOORD
+				|| operation == Operation.ABS
+				|| operation == Operation.ARG) {
+			return false;
+		}
+		if(isLeaf()){
+			return left.evaluatesToVectorNotPoint();
+		}
+		//sin(vector), conjugate(vector), ... are complex numbers
+		if(Operation.isSimpleFunction(operation) || operation == Operation.CONJUGATE){
+			return false;
+		}
+		boolean leftVector = left.evaluatesToVectorNotPoint();
+		boolean rightVector = right.evaluatesToVectorNotPoint();
+		boolean ret = leftVector || rightVector;
+		
+		if(leftVector && rightVector && (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)){
+			ret = false;
+		}
+
+		return ret;
+	}
+	
+	@Override
 	final public boolean evaluatesTo3DVector() {
 		if(operation == Operation.RANDOM 
 				|| operation == Operation.XCOORD 
@@ -2837,8 +2865,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
+					sb.append("xcoord(");
 					sb.append(leftStr);
-					sb.append("[0]");
+					sb.append(")");
 					break;
 
 				default:
@@ -2873,8 +2902,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
+					sb.append("ycoord(");
 					sb.append(leftStr);
-					sb.append("[1]");
+					sb.append(")");
 					break;
 
 				default:
@@ -2904,8 +2934,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(leftStr);
 					sb.append(tpl.rightBracket());
 				case GIAC:
+					sb.append("zcoord(");
 					sb.append(leftStr);
-					sb.append("[2]");
+					sb.append(")");
 					break;
 
 				default:

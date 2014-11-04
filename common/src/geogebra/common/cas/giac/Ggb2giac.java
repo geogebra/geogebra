@@ -814,6 +814,7 @@ public class Ggb2giac {
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
 		// can it be plotted in GeoGebra? Do we want it to be plotted?
+		p("Angle.2", "normal(regroup(angle(%0,%1)))");
 		p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
 
 		// eg distance((4,5),(0,3))
@@ -867,10 +868,24 @@ public class Ggb2giac {
 		// see ToPoint.1 
 		// eg Dot[Vector[(a,b)],Vector[(c,d)]] 
 		p("Vector.1", 
-				"point(convert(coordinates(%0),25))");
+				//"point(convert(coordinates(%0),25))");
+				"when(dim((%0)[1])==3,"+
+				// 3D
+				"ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
+				","+
+				// 2D point
+				"ggbvect[real((%0)[1]), im((%0)[1])]"+
+				")");
 		
-		// TODO: see GeoVector.buildValueString()
-		// p("Vector.2", "%1-(%0)");
+		p("Vector.2", 
+				"when(dim((%0)[1])==3,"+
+				// 3D points
+				"ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1], ((%1)[1])[2]-((%0)[1])[2] ]"+
+				","+
+				// 2D points
+				"ggbvect[real((%1)[1])-real((%0)[1]), im((%1)[1])-im((%0)[1])]"+
+				")");
+		
 		p("OrthogonalVector.1",
 				"convert([[0,-1],[1,0]]*(%0),25)");
 		p("UnitOrthogonalVector.1",

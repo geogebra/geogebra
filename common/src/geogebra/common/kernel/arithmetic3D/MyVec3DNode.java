@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Inspecting;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -41,8 +42,9 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
 	private Kernel kernel;
-	
+
 	private int mode = Kernel.COORD_CARTESIAN_3D;
+	private boolean isCASVector = false;
 
 	/** Creates new MyVec3D 
 	 * @param kernel kernel */
@@ -128,7 +130,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 
-		
+
 		if (mode == Kernel.COORD_SPHERICAL) {
 			double r = ((NumberValue) evx).getDouble();
 			// allow negative radius for US
@@ -140,7 +142,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 					r * Math.sin(phi)};
 			return ret;
 		}
-		
+
 		// CARTESIAN 3D
 		double[] ret = { ((NumberValue) evx).getDouble(),
 				((NumberValue) evy).getDouble(),
@@ -148,13 +150,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		return ret;
 
 	}
-	
-	
+
+
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return toString(tpl, false);
 	}
-	
+
 	private String toString(StringTemplate tpl, boolean values) {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
@@ -179,7 +181,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 				sb.append(print(z, values, tpl));
 				sb.append("))");
 				break;
-			
+
 			default:
 			case Kernel.COORD_CARTESIAN_3D:
 				sb.append("point(");
@@ -190,21 +192,33 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 				sb.append(print(z, values, tpl));
 				sb.append(")");
 				break;
-				
+
 			}
 			break;
 		default:
-			sb.append(tpl.leftBracket());
-			sb.append(print(x,values,tpl));
-			appendSeparator(sb);
-			sb.append(print(y,values,tpl));
-			appendSeparator(sb);
-			sb.append(print(z,values,tpl));
-			sb.append(tpl.rightBracket());
+			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
+
+				sb.append("\\left( \\begin{tabular}{r}");
+				sb.append(print(x, values, tpl));
+				sb.append("\\\\");
+				sb.append(print(y, values, tpl));
+				sb.append("\\\\ ");
+				sb.append(print(z, values, tpl));
+				sb.append("\\\\ \\end{tabular} \\right)	");			
+
+			} else {
+				sb.append(tpl.leftBracket());
+				sb.append(print(x, values, tpl));
+				appendSeparator(sb);
+				sb.append(print(y, values, tpl));
+				appendSeparator(sb);
+				sb.append(print(z, values, tpl));
+				sb.append(tpl.rightBracket());
+			}
 		}
 		return sb.toString();
 	}
-	
+
 	private void appendSeparator(StringBuilder sb){
 		if (mode == Kernel.COORD_CARTESIAN_3D)
 			sb.append(", ");
@@ -270,6 +284,12 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	final public boolean evaluatesTo3DVector() {
 		return true;
 	}
+	
+	// could be vector or point?
+	@Override
+	public boolean evaluatesToVectorNotPoint() {
+		return isCASVector;//this.mode != Kernel.COORD_COMPLEX;
+	}
 
 	public Geo3DVec getVector() {
 		Geo3DVec ret = kernel.getManager3D().newGeo3DVec( x.evaluateDouble(),
@@ -292,8 +312,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 		z = z.traverse(t);
 		return this;
 	}
-	
-	
+
+
 	@Override
 	public boolean inspect(Inspecting t){
 		return t.check(this) || x.inspect(t) || y.inspect(t) || z.inspect(t);
@@ -302,18 +322,26 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
-	
+
 	@Override
 	public boolean hasCoords() {
 		return true;
 	}
 
 	public void setSphericalPolarCoords(ExpressionValue r, ExpressionValue theta, ExpressionValue phi) {
-			setCoords(r, theta, phi);
-			mode = Kernel.COORD_SPHERICAL;
-		}
-	
+		setCoords(r, theta, phi);
+		mode = Kernel.COORD_SPHERICAL;
+	}
+
 	public int getMode(){
 		return mode;
 	}
+
+	/**
+	 * LaTeX form needs to be different in CAS
+	 */
+	public void setCASVector() {
+		isCASVector  = true;
+	}
+
 }
