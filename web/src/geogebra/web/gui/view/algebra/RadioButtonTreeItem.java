@@ -521,7 +521,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		event.preventDefault();
 		event.stopPropagation();
     }
 	
