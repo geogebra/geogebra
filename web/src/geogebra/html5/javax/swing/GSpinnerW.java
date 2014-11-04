@@ -11,6 +11,7 @@ public class GSpinnerW extends TextBox{
 		setMinValue(0.25);
 		setMaxValue(10.0);
 		setStepValue(0.25);
+		addStyleName("ggbSpinner");
 	}
 	
 	public void setMinValue(Double value){

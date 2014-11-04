@@ -3008,6 +3008,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	right: 20px;
 }
 
+.ggbSpinner{
+	max-width:60px;
+}
+
 /*=========== Navigation Bar end =============*/
 
 /*#####################################################################################
