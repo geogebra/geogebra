@@ -301,8 +301,6 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 	public void onTouchEnd(TouchEndEvent event) {
 		CancelEventTimer.touchEventOccured();
 		longTouchManager.cancelTimer();
-		event.stopPropagation();
-		event.preventDefault();
     }
 
 	public void onTouchStart(TouchStartEvent event) {
