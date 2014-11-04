@@ -708,10 +708,11 @@ public abstract class CASgiac implements CASGenericInterface {
 			
 			
 			// GWT regex bug? eg Solve[(2exp(x)-4)/(exp(x)-1) > 1], Solve[(x^2-x-2)/(-x^3+7x^2-14x+8)<2]
-			if (g3.equals("undefined")) {
+			// #4710 GWT 2.7 beta 1 & RC1 needs the +"" as well
+			if ((g3+"").equals("undefined")) {
 				g3 = "";
 			}
-			if (g5.equals("undefined")) {
+			if ((g5+"").equals("undefined")) {
 				g5 = "";
 			}
 			
