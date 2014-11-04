@@ -7,11 +7,11 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.ImageFactory;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.ToolbarResources;
-import geogebra.web.gui.toolbar.svgimages.SvgToolbarResources;
 import geogebra.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import java.util.ArrayList;
@@ -33,8 +33,8 @@ public class GGWToolBar extends Composite implements RequiresResize{
 
 	private static final int MENU_ICONS_WIDTH = 200;
 	private static final int UNDO_ICONS_WIDTH = 90;
-	static protected ToolbarResources myIconResourceBundle = GWT
-	        .create(SvgToolbarResources.class);
+	static protected ToolbarResources myIconResourceBundle = ((ImageFactory) GWT
+	        .create(ImageFactory.class)).getToolbarResources();
 
 	static public ToolbarResources getMyIconResourceBundle() {
 		return myIconResourceBundle;

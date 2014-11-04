@@ -66,10 +66,9 @@
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
   <public path="pub" />
-  <replace-with class="geogebra.web.gui.PNGImageFactory">
+  <replace-with class="geogebra.web.gui.SVGImageFactory">
     <when-type-is class="geogebra.web.gui.ImageFactory" />    
   </replace-with>
-  
   <!-- Compile only one permutation -->
   <collapse-all-properties />
 </module>
