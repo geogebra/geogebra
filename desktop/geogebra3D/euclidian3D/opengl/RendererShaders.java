@@ -19,12 +19,11 @@ import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
+import geogebra.main.AppD;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GL2ES2;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -109,21 +108,9 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
     private int vboVertices, vboColors, vboNormals, vboTextureCoords;
     
      
-    static private String readTxt(String file) throws IOException{
-    	BufferedReader br = new BufferedReader(new FileReader("geogebra3D/euclidian3D/opengl/shaders/"+file+".txt"));
-    	StringBuilder sb = new StringBuilder();     
-        try {
-            String line = br.readLine();                
-            while (line != null) {
-                sb.append(line);
-                sb.append("\n");
-                line = br.readLine();
-            }
-        } finally {
-            br.close();
-        }
-        
-        return sb.toString();
+    private String loadTextFile(String file) {
+
+    	return ((AppD) view3D.getApplication()).loadTextFile("/geogebra3D/euclidian3D/opengl/shaders/"+file+".txt");
     }
 
     
@@ -147,15 +134,8 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
         
         String vertexShaderString, fragmentShaderString;
         
-        try {
-        	vertexShaderString = readTxt("vertexShader");
-        	fragmentShaderString  = readTxt("fragmentShader");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			vertexShaderString = "";
-        	fragmentShaderString  = "";
-		}
+        vertexShaderString = loadTextFile("vertexShader");
+		fragmentShaderString  = loadTextFile("fragmentShader");
 
         // Make the shader strings compatible with OpenGL 3 core if needed
         // GL2ES2 also includes the intersection of GL3 core 
