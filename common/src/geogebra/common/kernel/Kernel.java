@@ -4855,9 +4855,6 @@ public class Kernel {
 		return getAlgoDispatcher().PolyLine(labels, p, b);
 	}
 
-	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {
-		return getAlgoDispatcher().Distance(label, g, h);
-	}
 
 
 	public void initAfterAsync(App app1) {

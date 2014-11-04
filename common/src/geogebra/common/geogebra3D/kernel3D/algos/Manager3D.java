@@ -1542,6 +1542,13 @@ public class Manager3D implements Manager3DInterface {
 		return algo.getDistance();
 	}
 
+	public GeoNumeric Distance(String label, GeoPointND point, GeoPlaneND plane) {
+		
+		AlgoDistancePointPlane3D algo = new AlgoDistancePointPlane3D(cons, label, point, plane);
+		
+		return algo.getDistance();
+	}
+
 	
 	/********************************************************************
 	 * TRANSFORMATIONS

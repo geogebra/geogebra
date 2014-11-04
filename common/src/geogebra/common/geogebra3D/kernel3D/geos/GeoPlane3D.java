@@ -560,6 +560,26 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return Double.POSITIVE_INFINITY;
 	}
 	
+	private Coords tmpCoords1, tmpCoords2;
+	
+	@Override
+	public double distance(GeoPointND P) {
+		
+		if (tmpCoords1 == null){
+			tmpCoords1 = new Coords(3);
+		}
+		if (tmpCoords2 == null){
+			tmpCoords2 = new Coords(3);
+		}
+		
+		tmpCoords1.setSub(P.getInhomCoordsInD3(), getCoordSys().getOrigin());
+		tmpCoords2.setValues(getDirectionInD3(), 3);
+		tmpCoords2.normalize();
+		
+		return tmpCoords1.dotproduct(tmpCoords2);
+		
+	}
+	
 	/////////////////////////////////////
 	// TRANSLATE
 	/////////////////////////////////////
