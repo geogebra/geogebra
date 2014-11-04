@@ -282,6 +282,14 @@ extern "C" void Sleep(unsigned int miliSecond);
       return _evaled_table_;
   }
 
+  static void * _extra_ptr_=0;
+  void * & extra_ptr(GIAC_CONTEXT){
+    if (contextptr && contextptr->globalptr )
+      return contextptr->globalptr->_extra_ptr_;
+    else
+      return _extra_ptr_;
+  }
+
   static int _spread_Row_=0;
   int & spread_Row(GIAC_CONTEXT){
     if (contextptr && contextptr->globalptr )
@@ -1448,6 +1456,7 @@ extern "C" void Sleep(unsigned int miliSecond);
   int LIST_SIZE_LIMIT = 1000 ;
   int FACTORIAL_SIZE_LIMIT = 254 ;
 #endif
+  int GAMMA_LIMIT = 100 ;
   int NEWTON_DEFAULT_ITERATION=40;
   int TEST_PROBAB_PRIME=25;
   int GCDHEU_MAXTRY=5;
@@ -1475,6 +1484,7 @@ extern "C" void Sleep(unsigned int miliSecond);
 #else
   int FACTORIAL_SIZE_LIMIT = 10000000 ;
 #endif
+  int GAMMA_LIMIT = 100 ;
   int NEWTON_DEFAULT_ITERATION=60;
   int TEST_PROBAB_PRIME=25;
   int GCDHEU_MAXTRY=5;
@@ -3538,10 +3548,10 @@ extern "C" void Sleep(unsigned int miliSecond);
 		     _all_trig_sol_(false),
 #ifdef WITH_MYOSTREAM
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0)
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1),_logptr_(&my_CERR),_prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
 #else
 		     _ntl_on_(true),
-		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0) 
+		     _lexer_close_parenthesis_(true),_rpn_mode_(false),_try_parse_i_(true),_specialtexprint_double_(false),_angle_mode_(0), _bounded_function_no_(0), _series_flags_(0x3),_default_color_(FL_BLACK), _epsilon_(1e-12), _proba_epsilon_(1e-15),  _show_axes_(1),_spread_Row_ (-1), _spread_Col_ (-1), _logptr_(&CERR), _prog_eval_level_val(1), _eval_level(DEFAULT_EVAL_LEVEL), _rand_seed(123457),_max_sum_sqrt_(3),_max_sum_add_(100000),_total_time_(0),_evaled_table_(0),_extra_ptr_(0)
 #endif
   { 
     _pl._i_sqrt_minus1_=1;
@@ -3613,6 +3623,7 @@ extern "C" void Sleep(unsigned int miliSecond);
      _turtle_stack_=g._turtle_stack_;
      _autoname_=g._autoname_;
      _format_double_=g._format_double_;
+     _extra_ptr_=g._extra_ptr_;
      return *this;
   }
 
@@ -4609,6 +4620,30 @@ unsigned int ConvertUTF8toUTF16 (
     if (a.type>=_IDNT)
       return symb_of(a,g);
     return g;
+  }
+
+  int step_infolevel=0;
+  void (*my_gprintf)(const string & format,const vecteur & v,GIAC_CONTEXT)=0;
+
+  void gprintf(const string & format,const vecteur & v,GIAC_CONTEXT){
+    if (step_infolevel==0)
+      return;
+    if (my_gprintf){
+      my_gprintf(format,v,contextptr);
+      return;
+    }
+    string s;
+    int pos=0;
+    for (unsigned i=0;i<v.size();++i){
+      int p=format.find("%gen",pos);
+      if (p<0 || p>=format.size())
+	break;
+      s += format.substr(pos,p-pos);
+      s += v[i].print(contextptr);
+      pos=p+4;
+    }
+    s += format.substr(pos,format.size()-pos);
+    *logptr(contextptr) << s << endl;
   }
 
 #ifndef NO_NAMESPACE_GIAC

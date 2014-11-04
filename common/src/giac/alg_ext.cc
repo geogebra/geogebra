@@ -666,9 +666,47 @@ namespace giac {
     if (!trouve){
       // Change for multivariate polynomials p, added evaluation
       if (innerdim){
+	gen params;
+	*logptr(contextptr) << gettext("Warning, need to choose a branch for the root of a polynomial with parameters. This might be wrong.") << endl;
+	if (l->size()>=2){
+	  params=(*l)[1];
+	  // IMPROVE: using context and *l look for assumptions
+	  if (params.type==_VECT){
+	    vecteur paramv=*params._VECTptr;
+	    for (unsigned j=0;j<paramv.size() && j<vb.size();++j){
+	      gen p=paramv[j];
+	      if (p.type!=_IDNT)
+		continue;
+	      gen g,g2=p._IDNTptr->eval(1,g,contextptr);
+	      if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
+		vecteur V=*g2._VECTptr;
+		if ( V.size()==3 && V[1].type==_VECT && V[2].type==_VECT){
+		  for (unsigned i=0;i<V[1]._VECTptr->size();++i){
+		    gen tmp=(*V[1]._VECTptr)[i];
+		    if (tmp.type==_VECT && tmp._VECTptr->size()==2){
+		      gen a=tmp._VECTptr->front(),b=tmp._VECTptr->back();
+		      if (a==minus_inf)
+			vb[j]=b-1;
+		      else {
+			if (b==plus_inf)
+			  vb[j]=a+1;
+			else
+			  vb[j]=(a+b)/2;
+		      }
+		    }
+		  }
+		} // end if V.size()==3
+	      } // end g2 assume_vect
+	    } // end for j
+	  } // end params.type==_VECT
+	}
+	vecteur vb0=vb;
 	polynome pb(1),px(unsplitmultivarpoly(p,innerdim));
-	find_good_eval(px,pb,vb);
-	*logptr(contextptr) << gettext("Warning, choice of an algebraic branch for root of a polynomial with parameters might be wrong. The choice is done for parameters value=0 if 0 is regular, otherwise randomly. Actual choice is ") << vb << endl;
+	find_good_eval(px,pb,vb); // need to modify find_good_eval for assumptions...
+	if (vb==vb0)
+	  *logptr(contextptr) << gettext("The choice was done assuming ") << params << "=" << vb << endl;       
+	else 
+	  *logptr(contextptr) << gettext("Non regular value ") << vb0 << gettext(" was discarded and replaced randomly by ") << params << "=" << endl;
 	racines=proot(polynome2poly1(pb));
       }
       else

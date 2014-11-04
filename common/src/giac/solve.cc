@@ -316,6 +316,8 @@ namespace giac {
       fxnd(*jt,n,d);
       if (d.type==_POLY)
 	res=solve(r2e(d,l,contextptr),x,cplxmode,contextptr);
+      if (is_undef(res))
+	return res;
     }
     const_iterateur it=lv.begin(),itend=lv.end();
     for (;it!=itend;++it){
@@ -453,7 +455,20 @@ namespace giac {
 	b=normal(b,contextptr);
 	if (!is_positive(a,contextptr))
 	  swapgen(l,m);
-	int n0(_ceil(evalf((l-b)/a,eval_level(contextptr),contextptr),contextptr).val),n1(_floor(evalf((m-b)/a,eval_level(contextptr),contextptr),contextptr).val);
+	gen tmp=(l-b)/a;
+#ifdef HAVE_LIBMPFR
+	if (tmp.type!=_FRAC && tmp.type!=_EXT)
+	  tmp=accurate_evalf(tmp,1000);
+#endif
+	tmp=evalf(tmp,eval_level(contextptr),contextptr);
+	int n0(_ceil(tmp,contextptr).val);
+	tmp=(m-b)/a;
+#ifdef HAVE_LIBMPFR
+	if (tmp.type!=_FRAC && tmp.type!=_EXT)
+	  tmp=accurate_evalf(tmp,1000);
+#endif
+	tmp=evalf(tmp,eval_level(contextptr),contextptr);
+	int n1(_floor(tmp,contextptr).val);
 	for (;n0<=n1;++n0)
 	  newv.push_back(subst(*it,n,n0,false,contextptr));
       }
@@ -1944,6 +1959,7 @@ namespace giac {
       return v;
     }
     solve(expr,x,v,isolate_mode,contextptr);
+    if (is_undef(v)) return v;
     v=solve_numeric_check(e_check,x,v,contextptr);
     if (0 && !(isolate_mode & 2)){
       // check solutions if there is a tan inside, commented now that we have the test above

@@ -4969,7 +4969,8 @@ namespace giac {
 	p_y=p_y+poly1_2_polynome(*(p_it->value._EXTptr->_VECTptr),p_y.dim).shift(ii);
       }
 #ifdef HAVE_LIBPARI
-      if (p_y.dim==2 && p_y.degree(1)>=4 && !complexmode){
+      gen coefft;
+      if (p_y.dim==2 && p_y.degree(1)>=4 && !complexmode && coefftype(p_y,coefft)<_POLY && coefftype(p_mini,coefft)<_POLY){
 	int dim=p_y.dim;
 	vecteur lv=makevecteur(y__IDNT_e,x__IDNT_e);
 	gen P=r2sym(p_y,lv,context0),Pmini=r2sym(p_mini,lv,context0),res;

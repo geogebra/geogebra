@@ -79,6 +79,17 @@ mpz_class smod(const mpz_class & a,int reduce){
   static define_unary_function_eval (__debug_infolevel,&_debug_infolevel,_debug_infolevel_s);
   define_unary_function_ptr5( at_debug_infolevel ,alias_at_debug_infolevel,&__debug_infolevel,0,true);
 
+  gen _step_infolevel(const gen & g0,GIAC_CONTEXT){
+    if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
+    gen g=evalf_double(g0,1,contextptr);
+    if (g.type!=_DOUBLE_)
+      return step_infolevel;
+    return step_infolevel=int(g._DOUBLE_val);
+  }
+  static const char _step_infolevel_s []="step_infolevel";
+  static define_unary_function_eval (__step_infolevel,&_step_infolevel,_step_infolevel_s);
+  define_unary_function_ptr5( at_step_infolevel ,alias_at_step_infolevel,&__step_infolevel,0,true);
+
   my_mpz operator % (const my_mpz & a,const my_mpz & b){
     my_mpz tmp;
     mpz_fdiv_r(tmp.ptr,a.ptr,b.ptr);

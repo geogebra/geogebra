@@ -1190,6 +1190,8 @@ namespace giac {
   }
 
   vecteur mergevecteur(const vecteur & a,const vecteur & b){
+    if (is_undef(a)) return a;
+    if (is_undef(b)) return b;
     int as=a.size();
     int bs=b.size();
     vecteur v;
@@ -1204,6 +1206,8 @@ namespace giac {
   }
 
   vecteur mergeset(const vecteur & a,const vecteur & b){
+    if (is_undef(a)) return a;
+    if (is_undef(b)) return b;
     if (a.empty())
       return b;
     vecteur v(a);
@@ -2501,7 +2505,7 @@ namespace giac {
       if (tmp.type>_REAL && tmp.type!=_FLOAT_ && tmp.type!=_CPLX)
 	return gensizeerr(contextptr);
     }
-    int rprec(digits*3.3);
+    int rprec(int(digits*3.3));
     return _sorta(proot(w,eps,rprec),contextptr);
   }
   gen symb_proot(const gen & e) {
@@ -3087,7 +3091,7 @@ namespace giac {
       v=*a._VECTptr;
     matrice res;
     mtran(v,res);
-    return res;
+    return gen(res,_MATRIX__VECT);
   }
   static const char _tran_s []="tran";
   static define_unary_function_eval (__tran,&giac::_tran,_tran_s);
@@ -4893,7 +4897,7 @@ namespace giac {
       }
       failure=true;
     }
-    if (!failure && as>=GIAC_PADIC){
+    if (!failure && (as>=GIAC_PADIC || algorithm==RREF_PADIC)){
       vecteur b(vranm(as,8,contextptr)),resb;
       // reconstruct (at most) 12 components of res for lcm
       // this should give the last invariant factor (estimated proba 0.998)
@@ -5200,6 +5204,12 @@ namespace giac {
       return 0;
     int modular=(algorithm==RREF_MODULAR || algorithm==RREF_PADIC);
     unsigned as=a.size(),a0s=a.front()._VECTptr->size();
+    // NOTE for integer matrices
+    // p-adic is in n^3*log(nA)^2 where ||a||<=A
+    // multi-modular is in n^3*(n+log(nA))*log(nA)
+    // Bareiss is in n^3*M(n*log(nA)) where M is multiplication time
+    // => for small A and large n p-adic,
+    // but for large A and small n, Bareiss is faster
     if (algorithm==RREF_GUESS && rref_or_det_or_lu==0 && as>10 && as==a0s-1 && int(as)==lmax && int(a0s)==cmax)
       modular=2;
     if (algorithm==RREF_GUESS && rref_or_det_or_lu<0){
@@ -5219,7 +5229,7 @@ namespace giac {
     // modular algorithm
     if ( ( (algorithm==RREF_GUESS && (
 				      fullreduction==2 || 
-				      rref_or_det_or_lu==1)) || modular ) && is_integer_matrice(a) && as<=a0s){
+				      rref_or_det_or_lu==1)) || modular ) && is_integer_matrice(a) && as<=a0s && as>=20){
       int Res=mrref_int(a,res,pivots,det,l,lmax,c,cmax,fullreduction,dont_swap_below,convert_internal,algorithm,rref_or_det_or_lu,modular,permutation,contextptr);
       if (Res>=0)
 	return Res;
@@ -7429,8 +7439,22 @@ namespace giac {
     else { // rref with options
       if (a_orig.type!=_VECT)
 	return false;
-      vecteur & v=*a_orig._VECTptr;
+      vecteur v=*a_orig._VECTptr;
       int s=v.size();
+      if (s<=3 && v[0].is_symb_of_sommet(at_pnt)){
+	for (unsigned i=0;i<s;++i){
+	  v[i]=remove_at_pnt(v[i]);
+	  if (v[i].subtype==_VECTOR__VECT && v[i]._VECTptr->size()==2)
+	    v[i]=v[i]._VECTptr->back()-v[i]._VECTptr->front();
+	  if (v[i].type!=_VECT){
+	    gen a,b;
+	    reim(v[i],a,b,context0);
+	    v[i]=makevecteur(a,b);
+	  }
+	}
+	if (ckmatrix(v))
+	  return read_reduction_options(v,a,convert_internal,algorithm,minor_det,keep_pivot,last_col);
+      }
       if (!s || !ckmatrix(v[0]))
 	return false;
       a=*v[0]._VECTptr;
@@ -7439,6 +7463,8 @@ namespace giac {
 	  algorithm=RREF_LAGRANGE;
 	if (v[i]==at_irem)
 	  algorithm=RREF_MODULAR;
+	if (v[i]==at_linsolve)
+	  algorithm=RREF_PADIC;
 	if (v[i].type==_INT_){
 	  if (v[i].subtype==_INT_SOLVER){
 	    switch (v[i].val){
@@ -7556,7 +7582,7 @@ namespace giac {
 	  return gensizeerr(contextptr);
       }
     }
-    return res;
+    return gen(res,_MATRIX__VECT);
   }
   static const char _idn_s []="idn";
   static define_unary_function_eval (__idn,&giac::_idn,_idn_s);
@@ -7920,7 +7946,7 @@ namespace giac {
 	    return _randvector(e,contextptr); // try vector instead of gensizeerr(contextptr);
 	}
 	if (e._VECTptr->size()==3)
-	  return mranm(n,m,e._VECTptr->back(),contextptr);
+	  return gen(mranm(n,m,e._VECTptr->back(),contextptr),_MATRIX__VECT);
 	if (e._VECTptr->size()==4){
 	  gen loi=(*e._VECTptr)[2];
 	  if (loi.type==_INT_ && e._VECTptr->back().type==_INT_){
@@ -7934,7 +7960,7 @@ namespace giac {
 	      }
 	      M[j]=res;
 	    }
-	    return m;
+	    return gen(M,_MATRIX__VECT);
 	  }
 	  if (loi.type==_FUNC){
 	    if (loi==at_multinomial)
@@ -7944,7 +7970,7 @@ namespace giac {
 	  }
 	  else
 	    loi=symb_of(loi,e._VECTptr->back());
-	  return mranm(n,m,loi,contextptr);
+	  return gen(mranm(n,m,loi,contextptr),_MATRIX__VECT);
 	}
 	if (e._VECTptr->size()>4){
 	  gen loi=(*e._VECTptr)[2];
@@ -7956,9 +7982,9 @@ namespace giac {
 	  }
 	  else
 	    loi=symb_of(loi,gen(vecteur(e._VECTptr->begin()+3,e._VECTptr->end()),_SEQ__VECT));
-	  return mranm(n,m,loi,contextptr);
+	  return gen(mranm(n,m,loi,contextptr),_MATRIX__VECT);
 	}
-	return mranm(n,m,0,contextptr);
+	return gen(mranm(n,m,0,contextptr),_MATRIX__VECT);
       }
     default:
       return gensizeerr(contextptr);
@@ -12107,8 +12133,7 @@ namespace giac {
     matrice U,A;
     if (!ihermite(*g._VECTptr,U,A,contextptr))
       return gensizeerr(contextptr);
-    if (abs_calc_mode(contextptr)==38)
-      return makevecteur(U,A);
+    // if (abs_calc_mode(contextptr)==38) return makevecteur(U,A);
     return gen(makevecteur(U,A),_SEQ__VECT);
   }
   static const char _ihermite_s []="ihermite";

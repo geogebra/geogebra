@@ -28,6 +28,7 @@ namespace giac {
 
   // P(x)->P(a*x)
   void change_scale(modpoly & p,const gen & l);
+  void back_change_scale(modpoly & p,const gen & l);
   modpoly linear_changevar(const modpoly & p,const gen & a,const gen & b);
   modpoly inv_linear_changevar(const modpoly & p,const gen & a,const gen & b);
   // find rectangle limits, defined by boundaries complex a and b

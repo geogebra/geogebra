@@ -723,7 +723,7 @@ namespace giac {
       }
       c.push_back(l);
     } 
-    return c;
+    return gen(c,_MATRIX__VECT);
   }
 
   static const char _hilbert_s[]="hilbert";
@@ -811,7 +811,7 @@ namespace giac {
 
       c.push_back(l);
     } 
-    return c;
+    return gen(c,_MATRIX__VECT);
   }
   static const char _hadamard_s[]="hadamard";
   static define_unary_function_eval (__hadamard,&_hadamard,_hadamard_s);
@@ -850,7 +850,7 @@ namespace giac {
       l[n]=ln;
       c.push_back(l);
     } 
-    return c;
+    return gen(c,_MATRIX__VECT);
   }
   static const char _syst2mat_s[]="syst2mat";
   static define_unary_function_eval (__syst2mat,&_syst2mat,_syst2mat_s);
@@ -874,7 +874,7 @@ namespace giac {
       }
       c.push_back(l);
     }
-    return mtran(c);
+    return gen(mtran(c),_MATRIX__VECT);
   }
   static const char _vandermonde_s[]="vandermonde";
   static define_unary_function_eval (__vandermonde,&_vandermonde,_vandermonde_s);

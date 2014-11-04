@@ -478,6 +478,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "matrix["           (*yylval) = _MATRIX__VECT; return T_VECT_DISPATCH;
 "pnt["              (*yylval) = _PNT__VECT; return T_VECT_DISPATCH;
 "ggbpnt["           (*yylval) = _GGB__VECT; return T_VECT_DISPATCH;
+"ggbvect["           (*yylval) = _GGBVECT; return T_VECT_DISPATCH;
 "point["            (*yylval) = _POINT__VECT; return T_VECT_DISPATCH;
 "curve["            (*yylval) = _CURVE__VECT; return T_VECT_DISPATCH;
 "halfline["         (*yylval) = _HALFLINE__VECT; return T_VECT_DISPATCH;

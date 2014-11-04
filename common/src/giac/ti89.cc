@@ -1296,13 +1296,13 @@ namespace giac {
       for (unsigned i=0;i<v.size();++i){
 	v[i].subtype=0;
       }
-      return gen(v);
+      return gen(v,_MATRIX__VECT);
     }
     if (v.size()!=2)
       return gensizeerr(contextptr);
     gen taille=evalf_double(v[1],1,contextptr);
     if (g.subtype!=_SEQ__VECT || v.size()!=2 || v[0].type!=_VECT || taille.type!=_DOUBLE_)
-      return vecteur(1,v);
+      return gen(vecteur(1,v),_MATRIX__VECT);
     vecteur res;
     int nbre=giacmax(1,int(taille._DOUBLE_val));
     const_iterateur it=v[0]._VECTptr->begin(),itend=v[0]._VECTptr->end();
@@ -1313,7 +1313,7 @@ namespace giac {
       }
       res.push_back(vecteur(it,it+nbre));
     }
-    return res;
+    return gen(res,_MATRIX__VECT);
   }
   static const char _list2mat_s[]="list2mat";
   static define_unary_function_eval (__list2mat,&_list2mat,_list2mat_s);

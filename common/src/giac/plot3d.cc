@@ -597,8 +597,14 @@ namespace giac {
       return gendimerr(contextptr);
     gen A=remove_at_pnt(v[0]);
     gen B=remove_at_pnt(v[1]);
+    if (B.type==_VECT && B.subtype==_VECTOR__VECT && B._VECTptr->size()==2)
+      B=A+B._VECTptr->back()-B._VECTptr->front();
     gen C=remove_at_pnt(v[2]);
+    if (C.type==_VECT && C.subtype==_VECTOR__VECT && C._VECTptr->size()==2)
+      C=A+C._VECTptr->back()-C._VECTptr->front();
     gen D=remove_at_pnt(v[3]);
+    if (D.type==_VECT && D.subtype==_VECTOR__VECT && D._VECTptr->size()==2)
+      D=A+D._VECTptr->back()-D._VECTptr->front();
     return parallelepipede4(A,B,C,D,attributs,contextptr);
   }
   static const char _parallelepipede_s []="parallelepiped";

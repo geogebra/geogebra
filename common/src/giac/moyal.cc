@@ -312,6 +312,25 @@ namespace giac {
       return lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
     if (s<2 || s>3)
       return gendimerr(contextptr);
+    if (s==2 && is_zero(v[1],contextptr))
+      return 0;
+    if (s==2 && v[1]==plus_inf)
+      return Gamma(v[0],contextptr);
+    if (s>=2 && v[0].type==_INT_){
+      if (v[0].val<=0)
+	return undef;
+      int a=v[0].val-1;
+      // int(e^(-t)*t^a,t)=-e^(-t)*sum_{b=0}^a(t^b*(a-b)!)
+      gen res=0,t(v[1]),fa(1);
+      for (int b=a;;--b){
+	res += pow(t,b,contextptr)*fa;
+	if (b==0)
+	  break;
+	fa=(1+b-a)*fa;
+      }
+      res=-exp(-t,contextptr)*res+fa;
+      return res;
+    }
     if (abs_calc_mode(contextptr)!=38) // check may be removed if ugamma declared
       return symbolic(at_lower_incomplete_gamma,args);
     if (s==3){

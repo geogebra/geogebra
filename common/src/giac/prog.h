@@ -955,7 +955,9 @@ namespace giac {
   extern const unary_function_ptr * const  at_geo3d ;
   extern const unary_function_ptr * const  at_spreadsheet ;
   extern const unary_function_ptr * const  at_sialorssinon;
+  extern const unary_function_ptr * const  at_si;
   extern const unary_function_ptr * const  at_pour;
+  extern const unary_function_ptr * const  at_tantque;
 
   std::string print_program_syntax(int maple_mode);
   gen when2piecewise(const gen & g,GIAC_CONTEXT);

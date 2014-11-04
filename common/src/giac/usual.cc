@@ -6227,7 +6227,7 @@ namespace giac {
   gen _version(const gen & a,GIAC_CONTEXT){
     if ( a.type==_STRNG && a.subtype==-1) return  a;
     if (abs_calc_mode(contextptr)==38)
-      return string2gen(gettext("Powered by Giac 1.1, B. Parisse and R. De Graeve, Institut Fourier, Universite Grenoble I, France"),false);
+      return string2gen(gettext("Powered by Giac 1.1.3, B. Parisse and R. De Graeve, Institut Fourier, Universite Grenoble I, France"),false);
     return string2gen(version(),false);
   }
   static const char _version_s []="version";
@@ -6561,19 +6561,35 @@ namespace giac {
 	return unsigned_inf;
       return factorial(x.val-1);
     }
-    if (x.type==_FRAC && x._FRACptr->den==2 && x._FRACptr->num.type==_INT_){
-      int n=x._FRACptr->num.val;
-      // compute Gamma(n/2)
-      gen factnum=1,factden=1;
-      for (;n>1;n-=2){
-	factnum=(n-2)*factnum;
-	factden=2*factden;
+    if (x.type==_FRAC &&  x._FRACptr->num.type==_INT_){
+      if (x._FRACptr->den==2){
+	int n=x._FRACptr->num.val;
+	// compute Gamma(n/2)
+	gen factnum=1,factden=1;
+	for (;n>1;n-=2){
+	  factnum=(n-2)*factnum;
+	  factden=2*factden;
+	}
+	for (;n<1;n+=2){
+	  factnum=2*factnum;
+	  factden=n*factden;
+	}
+	return factnum/factden*sqrt(cst_pi,contextptr);
       }
-      for (;n<1;n+=2){
-	factnum=2*factnum;
-	factden=n*factden;
+      // normalize Gamma(n/d) to fractional part ?
+      gen xd=evalf_double(x,1,contextptr),X=x;
+      if (xd.type==_DOUBLE_){
+	double d=std::floor(xd._DOUBLE_val);
+	if (d<GAMMA_LIMIT){
+	  xd=1;
+	  for (int i=d;i>0;--i){
+	    X-=1;
+	    xd=xd*X;
+	  }
+	  return xd*symbolic(at_Gamma,X);
+	}
       }
-      return factnum/factden*sqrt(cst_pi,contextptr);
+      // then complement formula if in ]0..1/2[ Gamma(z)=pi/sin(pi*z)/Gamma(1-z) ?
     }
 #if 0 // def HAVE_LIBGSL
     if (x.type==_DOUBLE_)

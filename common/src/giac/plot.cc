@@ -2214,6 +2214,7 @@ namespace giac {
     if (is_equal(v1) && v1._SYMBptr->feuille.type==_VECT){
       vecteur & v1v=*v1._SYMBptr->feuille._VECTptr;
       if (v1v.size()==2 && v1v[0]==at_slope){
+	v0=_affixe(v0,contextptr);
 	v1=v0+(1+cst_i*v1v[1]);
       }
     }
@@ -2262,8 +2263,23 @@ namespace giac {
     vecteur v = *args._VECTptr;
     if (!s)
       return gendimerr(contextptr);
-    if (s==1)
+    if (s==1){
       v=makevecteur(0*v[0],v[0]);
+      ++s;
+    }
+    if (s>=2 && s<=3 && v[0].type!=_VECT && v[1].type!=_VECT && !v[0].is_symb_of_sommet(at_pnt) && !v[1].is_symb_of_sommet(at_pnt) && is_zero(im(v[0],contextptr)) && is_zero(im(v[1],contextptr))){
+      if (s==2){
+	v[1]=v[0]+cst_i*v[1];
+	v[0]=0;
+      }
+      else {
+	if (v[2].type!=_VECT && !v[2].is_symb_of_sommet(at_pnt) && is_zero(im(v[2],contextptr))){
+	  v[1]=v;
+	  v[0]=0;
+	  v.pop_back();
+	}
+      }
+    }
     v[0]=remove_at_pnt(v[0]);
     if (v[1].type!=_VECT) {
       v[1]=remove_at_pnt(v[1]);
@@ -3271,6 +3287,11 @@ namespace giac {
     gen e=v.front(),f=v[1],M;
     e=remove_at_pnt(e);
     f=remove_at_pnt(f);
+    if (f.type==_VECT && f.subtype==_VECTOR__VECT && f._VECTptr->size()==2){
+      v.push_back(f._VECTptr->back());
+      ++s;
+      f=f._VECTptr->front();
+    }
     if (e.is_symb_of_sommet(at_hyperplan))
       swapgen(e,f);
     if (!f.is_symb_of_sommet(at_hyperplan))
@@ -3407,6 +3428,8 @@ namespace giac {
     if (is_undef(a)) return a;
     if (!b.is_symb_of_sommet(at_pnt)){
       // b=vector or complex -> make a line
+      if (b.type==_VECT && b.subtype==_VECTOR__VECT)
+	b=vector2vecteur(*b._VECTptr);
       if (b.type==_VECT && b._VECTptr->size()==2)
 	b=b._VECTptr->front()+cst_i*b._VECTptr->back();
       b=symbolic(at_pnt,gen(makevecteur(gen(makevecteur(0,b),_LINE__VECT),attributs[0]),_PNT__VECT));
@@ -3597,8 +3620,14 @@ namespace giac {
       return gendimerr(contextptr);
     gen e=remove_at_pnt(eval(v[0],contextptr)),f=remove_at_pnt(eval(v[1],contextptr)),d=remove_at_pnt(eval(v[2],contextptr));
     e=remove_at_pnt(get_point(e,0,contextptr));
-    f=remove_at_pnt(get_point(f,0,contextptr));
-    d=remove_at_pnt(get_point(d,0,contextptr));
+    if (f.type==_VECT && f.subtype==_VECTOR__VECT && f._VECTptr->size()==2)
+      f=e+f._VECTptr->back()-f._VECTptr->front();
+    else
+      f=remove_at_pnt(get_point(f,0,contextptr));
+    if (d.type==_VECT && d.subtype==_VECTOR__VECT && d._VECTptr->size()==2)
+      d=e+d._VECTptr->back()-d._VECTptr->front();
+    else
+      d=remove_at_pnt(get_point(d,0,contextptr));
     gen g=(e-f)+d;
     if (is_undef(g)) return g;
     gen res=pnt_attrib(gen(makevecteur(e,f,d,g,e),_GROUP__VECT),attributs,contextptr);
@@ -5121,6 +5150,28 @@ namespace giac {
     gen e=v.front(),f=v[1],g;
     e=remove_at_pnt(e);
     f=remove_at_pnt(f);
+    if (e.type==_VECT && e.subtype==_GGBVECT && f.type==_VECT && f.subtype==_GGBVECT){
+      if (e._VECTptr->size()==2 && f._VECTptr->size()==2)
+	return arg((f._VECTptr->front()+cst_i*f._VECTptr->back())/
+		   (e._VECTptr->front()+cst_i*e._VECTptr->back()),contextptr);
+      return angle(*e._VECTptr,*f._VECTptr,contextptr);
+    }
+    if (f.type==_VECT && f.subtype==_VECTOR__VECT && f._VECTptr->size()==2){
+      g=f._VECTptr->back();
+      f=f._VECTptr->front();
+      if (e.type==_VECT && e.subtype==_VECTOR__VECT && e._VECTptr->size()==2){
+	g=g-f;
+	f=e._VECTptr->back()-e._VECTptr->front();
+	e=0;
+      }
+      v=makevecteur(e,f,g);
+    }
+    if (e.type==_VECT && e.subtype==_VECTOR__VECT && e._VECTptr->size()==2){
+      g=f;
+      f=e._VECTptr->back();
+      e=e._VECTptr->front();
+      v=makevecteur(e,f,g);
+    }
     bool tmp=angle_radian(contextptr);
     angle_radian(true,contextptr);
     gen res;

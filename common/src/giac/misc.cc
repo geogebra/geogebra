@@ -927,12 +927,21 @@ namespace giac {
   gen _ptayl(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     gen p,q,x;
-    if (args.type!=_VECT)
-      return symbolic(at_ptayl,args);
-    vecteur & v=*args._VECTptr;
+    if (args.type!=_VECT){
+      p=_POLY1__VECT;
+      p.subtype=_INT_MAPLECONVERSION;
+      return _series(makesequence(args,p),contextptr);
+    }
+    vecteur v=*args._VECTptr;
     int s=v.size();
     if (s<2)
       return gensizeerr(contextptr);
+    if (s>3 || v[1].is_symb_of_sommet(at_equal)){
+      p=_POLY1__VECT;
+      p.subtype=_INT_MAPLECONVERSION;
+      v.push_back(p);
+      return _series(gen(v,_SEQ__VECT),contextptr);
+    }
     p=v.front();
     q=v[1];
     if (p.type==_VECT)
@@ -941,6 +950,12 @@ namespace giac {
       x=vx_var;
     else 
       x=v.back();
+    if (is_integral(x)){
+      p=_POLY1__VECT;
+      p.subtype=_INT_MAPLECONVERSION;
+      v.push_back(p);
+      return _series(makesequence(gen(v,_SEQ__VECT)),contextptr);
+    }
     if (!is_zero(derive(q,x,contextptr)))
       return gensizeerr(contextptr);
     vecteur lv(1,x);
@@ -1139,6 +1154,14 @@ namespace giac {
     }
   }
 
+  static void change_scale2(vecteur & v,const gen & g){
+    gen l(g);
+    for (unsigned i=1;i<v.size();++i){
+      v[i]=v[i]/l;
+      l=g*l;
+    }
+  }
+
   static gen pmin(const matrice & m,GIAC_CONTEXT){
     int s=m.size();
     matrice mpow(midn(s));
@@ -1165,7 +1188,7 @@ namespace giac {
       return gensizeerr(contextptr);
     gen t= _e2r(makesequence(it->_VECTptr->back(),vx_var),contextptr);
     if (t.type==_VECT)
-      return t/lgcd(*t._VECTptr);
+      return gen(t/lgcd(*t._VECTptr),_POLY1__VECT);
     else
       return t;
   }
@@ -1175,11 +1198,16 @@ namespace giac {
       matrice &m =*g._VECTptr;
       vecteur w;
       if (proba_epsilon(contextptr) && probabilistic_pmin(m,w,true,contextptr))
-	return w;
+	return gen(w,_POLY1__VECT);
       return pmin(m,contextptr);
     }
     if (is_integer(g) || g.type==_MOD)
-      return makevecteur(1,g);
+      return gen(makevecteur(1,g),_POLY1__VECT);
+    if (is_cinteger(g) && g.type==_CPLX){
+      gen a=*g._CPLXptr,b=*(g._CPLXptr+1);
+      // z=(a+i*b), (z-a)^2=-b^2
+      return gen(makevecteur(1,-2*a,a*a+b*b),_POLY1__VECT);
+    }
     if (g.type==_USER){
 #ifndef NO_RTTI
       if (galois_field * gf=dynamic_cast<galois_field *>(g._USERptr)){
@@ -1226,18 +1254,45 @@ namespace giac {
       vecteur v=alg_lvar(g);
       if (v.size()==1 && v.front().type==_VECT && v.front()._VECTptr->empty()){
 	gen tmp=e2r(g,v,contextptr);
-	tmp=_numer(tmp,contextptr);
+	gen d=1;
+	if (tmp.type==_FRAC){
+	  d=tmp._FRACptr->den;
+	  tmp=tmp._FRACptr->num;
+	  if (d.type==_CPLX){
+	    tmp=tmp*conj(d,contextptr);
+	    d=d*conj(d,contextptr);
+	  }
+	}
 	if (tmp.type==_POLY && tmp._POLYptr->dim==0)
 	  tmp=tmp._POLYptr->coord.front().value;
-	if (tmp.type==_EXT)
-	  return minimal_polynomial(tmp,true,contextptr);
+	if (tmp.type==_EXT){
+	  if (has_i(*tmp._EXTptr)){
+	    gen r,i;
+	    reim(tmp,r,i,contextptr);
+	    tmp=r+algebraic_EXTension(makevecteur(1,0),makevecteur(1,0,1))*i;
+	    while (tmp.type==_FRAC){
+	      d=d*tmp._FRACptr->den;
+	      tmp=tmp._FRACptr->num;
+	    }
+	  }
+	  tmp=minimal_polynomial(tmp,true,contextptr);
+	  if (tmp.type!=_VECT)
+	    return gensizeerr(contextptr);
+	  vecteur v=*tmp._VECTptr;
+	  change_scale2(v,d);
+	  return gen(v,_POLY1__VECT);
+	}
       }
     }
     if (g.type!=_VECT || g._VECTptr->size()!=2)
       return symbolic(at_pmin,g);
     vecteur & v(*g._VECTptr);
-    if (!is_squarematrix(v.front()))
+    if (!is_squarematrix(v.front())){
+      gen res=_pmin(v.front(),contextptr);
+      if (res.type==_VECT)
+	return symb_horner(*res._VECTptr,v.back());
       return gensizeerr(contextptr);
+    }
     matrice &m=*v.front()._VECTptr;
     // probabilistic minimal polynomial
     vecteur w;

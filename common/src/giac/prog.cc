@@ -341,7 +341,9 @@ namespace giac {
 	*logptr(contextptr) << gettext("Warning, =< is in-place assign, check ") << v << endl;
     }
     if (g.is_symb_of_sommet(at_bloc) || 
-	g.is_symb_of_sommet(at_for) ||
+	g.is_symb_of_sommet(at_for) || g.is_symb_of_sommet(at_pour) ||
+	g.is_symb_of_sommet(at_tantque) || g.is_symb_of_sommet(at_si) ||
+	g.is_symb_of_sommet(at_sialorssinon) || 
 	g.is_symb_of_sommet(at_ifte) || g.is_symb_of_sommet(at_when)){
       check_local_assign(g._SYMBptr->feuille,prog_args,res1,res2,res3,res4,testequal,contextptr);
       return;
@@ -3680,7 +3682,7 @@ namespace giac {
       vecteur res(t);
       for (int i=0;i<t;++i)
 	res[i]=w; // each element of res will be a free line, so that =< works
-      return res;
+      return gen(res,_MATRIX__VECT);
     }
     vecteur v,w,a(2);
     v.reserve((fi-di)*stepi);
@@ -3698,7 +3700,7 @@ namespace giac {
       if (di==fi)
 	break;
     }
-    return v;
+    return gen(v,_MATRIX__VECT);
   }
   static const char _makemat_s []="makemat";
   static define_unary_function_eval (__makemat,&_makemat,_makemat_s);
@@ -5166,6 +5168,7 @@ namespace giac {
     gen g_(g);
     if (v!=w)
       g_=subst(g,v,w,false,contextptr);
+    g_=aplatir_fois_plus(g_);
     return liste2symbolique(symbolique2liste(g_,contextptr));
   }
   gen _simplifier(const gen & g,GIAC_CONTEXT){
@@ -6273,7 +6276,7 @@ namespace giac {
       int s=giacmin(l,w.size());
       for (int i=0;i<s;++i)
 	res[i]=w[i];
-      return res;
+      return gen(res,_MATRIX__VECT);
     }
     if (vs==2){
       v.push_back(zero);
@@ -7241,7 +7244,7 @@ namespace giac {
   const mksa_unit __Btu_unit={1055.05585262,2,1,-2,0,0,0,0,0};
   const mksa_unit __Curie_unit={3.7e10,0,0,-1,0,0,0,0,0};
   const mksa_unit __FF_unit={.152449017237,0,0,0,0,0,0,0,1};
-  const mksa_unit __Fdy_unit={96487,0,0,1,1,0,0,0,0};
+  const mksa_unit __Fdy_unit={96485.3365,0,0,1,1,0,0,0,0};
   const mksa_unit __Gal={0.01,1,0,-2,0,0,0,0,0};
   const mksa_unit __HFCC_unit={1400,1,0,0,0,0,0,0,0};
   const mksa_unit __L_unit={0.001,3,0,0,0,0,0,0,0};
@@ -8694,8 +8697,8 @@ namespace giac {
     if (s==1)
       return gensizeerr(contextptr);
     if (s==2){
-      v.push_back(undef);
-      s++;
+      v.push_back(0); // undef does not work
+      return symbolic(at_when,gen(v,_SEQ__VECT));
     }
     if (s==3)
       return symbolic(at_when,g);

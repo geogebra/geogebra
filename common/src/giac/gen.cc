@@ -7031,6 +7031,8 @@ namespace giac {
 	return 0;
       return a._REALptr->is_positive(); // this is the sign
     case _SYMB:
+      if (a._SYMBptr->sommet==at_neg)
+	return -fastsign(a._SYMBptr->feuille,contextptr);
       if (a._SYMBptr->sommet==at_abs || (a._SYMBptr->sommet==at_exp && is_real(a._SYMBptr->feuille,contextptr)))
 	return 1;
     }
@@ -7038,6 +7040,11 @@ namespace giac {
       gen & f =a._SYMBptr->feuille;
       if (f.type==_VECT && f._VECTptr->size()==2){
 	gen & ex = f._VECTptr->back();
+	if (ex.type==_INT_){
+	  if (ex.val%2==0)
+	    return 1;
+	  return fastsign(f._VECTptr->front(),contextptr);
+	}
 	if (ex.type==_FRAC && ex._FRACptr->den.type==_INT_ && ex._FRACptr->den.val % 2 ==0 ) 
 	  return 1;
       }
@@ -8082,8 +8089,8 @@ namespace giac {
 	gen tmp=_SYMBptr->feuille;
 	if (tmp.type!=_VECT)
 	  return gensizeerr(contextptr);
-	(*tmp._VECTptr)[1]=i;
-	return _program(tmp,progname,contextptr);
+	vecteur tmpv=*tmp._VECTptr; tmpv[1]=i;
+	return _program(gen(tmpv,tmp.subtype),progname,contextptr);
       }
 #ifndef RTOS_THREADX
       if (_SYMBptr->sommet==at_rpn_prog){
@@ -8607,6 +8614,11 @@ namespace giac {
     if (x._SYMBptr->sommet==at_neg){
       vecteur v=terme2unitaire(x._SYMBptr->feuille,sorted,contextptr);
       v[0]=-v[0];
+      return v;
+    }
+    if (x._SYMBptr->sommet==at_binary_minus){
+      vecteur v=terme2unitaire(x._SYMBptr->feuille,sorted,contextptr);
+      v[1]=-v[1];
       return v;
     }
     if (x._SYMBptr->sommet==at_prod && (tmp=x._SYMBptr->feuille).type==_VECT && !tmp._VECTptr->empty() ){
@@ -11002,6 +11014,9 @@ namespace giac {
     case _VECTOR__VECT:
       s="vector[";
       break;
+    case _GGBVECT:
+      s=(calc_mode(contextptr)==1?"ggbvect(":"ggbvect[");
+      break;
     case _PNT__VECT:
       s="pnt[";
       break;
@@ -11075,8 +11090,10 @@ namespace giac {
 	return ")";
       else
 	return "]";
-    case _POINT__VECT:
+    case _POINT__VECT: case _VECTOR__VECT: 
       return "]";
+    case _GGBVECT:
+      return calc_mode(contextptr)==1?")":"]";
     case 0: case _MATRIX__VECT:
       return calc_mode(contextptr)==1?"}":"]";
     default:

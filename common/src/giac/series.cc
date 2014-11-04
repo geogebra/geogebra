@@ -2121,10 +2121,14 @@ namespace giac {
       if (!contains(lidnt(first_try),unsigned_inf)){
 	if (has_num_coeff(first_try))
 	  return first_try;
+	first_try=recursive_ratnormal(first_try,contextptr);
 	gen chk=recursive_normal(first_try,contextptr);
+	/*
 	if (!lop(chk,at_rootof).empty())
 	  chk=ratnormal(first_try);
+	*/
 	if (!is_undef(chk) && !contains(lidnt(chk),unsigned_inf)){
+	  chk=first_try;
 	  return taille(chk,100)<taille(first_try,100)?chk:first_try;
 	}
       }
@@ -2188,7 +2192,7 @@ namespace giac {
 	  return g2;
 	if (g1==g2)
 	  return g1;
-	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
+	return gensizeerr("Unidirectional limits are distinct "+g2.print(contextptr)+","+g1.print(contextptr));
       }
       // supposed to be analytic, try first series expansion 
       sparse_poly1 p;

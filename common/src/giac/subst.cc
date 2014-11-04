@@ -2188,6 +2188,20 @@ namespace giac {
     // check for the presence of trig/atrig functions
     vecteur v1(loptab(e,sincostan_tab));
     int s1=v1.size(),s2=loptab(e,asinacosatan_tab).size();
+    if (s1&&s2){
+      // retry with e texpanded
+      gen e2=_texpand(v1,contextptr);
+      if (e2.type==_VECT){
+	vecteur v2(loptab(e2,asinacosatan_tab));
+	if (v2.size()<s2){
+	  e2=simplify(e2,contextptr);
+	  if (e2.type==_VECT){
+	    e=subst(e,v1,e2,false,contextptr);
+	    return simplify(e,contextptr);
+	  }
+	}
+      }
+    }
     gen g=tsimplify_noexpln(e,s1,s2,contextptr); 
     g=_exp2pow(g,contextptr);
     g=quotesubst(g,vabs2,vabs,contextptr);
@@ -2232,7 +2246,7 @@ namespace giac {
     if (args.type==_VECT){
       vecteur & v =*args._VECTptr;
       int vs=v.size();
-      if ( (vs==2 || vs==3) && args.subtype==_SEQ__VECT && args[1].type==_VECT && !ckmatrix(args)){
+      if ( (vs==2 || vs==3) && args.subtype==_SEQ__VECT && args[1].type==_VECT && !ckmatrix(args) && !ckmatrix(args._VECTptr->back())){
 	// simplify with side relations
 	return _greduce(args,contextptr);
       }

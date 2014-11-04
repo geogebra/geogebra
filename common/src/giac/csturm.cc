@@ -1243,7 +1243,7 @@ namespace giac {
 
   gen complexroot(const gen & g,bool complexe,GIAC_CONTEXT){
     vecteur v=gen2vecteur(g);
-    bool use_vas=!complexe,use_proot=true;
+    bool use_vas=!complexe ,use_proot=true;
 #ifndef HAVE_LIBMPFR
     use_proot=false;
 #endif
@@ -1271,6 +1271,15 @@ namespace giac {
       eps=epsilon(contextptr);
     if (eps<=0)
       eps=1e-12;
+    if (v[0].type==_VECT && has_num_coeff(v[0])){
+      v=proot(*v[0]._VECTptr,eps);
+      vecteur w;
+      for (unsigned i=0;i<v.size();++i){
+	if (is_zero(im(v[i],contextptr)))
+	  w.push_back(makevecteur(v[i],1));
+      }
+      return w;
+    }
     unsigned vs=v.size();
     gen A(0),B(0),a0(minus_inf),b0(minus_inf),a1(plus_inf),b1(plus_inf);
     if (vs>3){
