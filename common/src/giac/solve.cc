@@ -456,16 +456,20 @@ namespace giac {
 	if (!is_positive(a,contextptr))
 	  swapgen(l,m);
 	gen tmp=(l-b)/a;
-#ifdef HAVE_LIBMPFR
-	if (tmp.type!=_FRAC && tmp.type!=_EXT)
-	  tmp=accurate_evalf(tmp,1000);
+#if defined HAVE_LIBMPFR && !defined NO_STDEXCEPT
+	try {
+	  if (tmp.type!=_FRAC && tmp.type!=_EXT)
+	    tmp=accurate_evalf(tmp,1000);
+	} catch (std::runtime_error & ) {}
 #endif
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	int n0(_ceil(tmp,contextptr).val);
 	tmp=(m-b)/a;
-#ifdef HAVE_LIBMPFR
-	if (tmp.type!=_FRAC && tmp.type!=_EXT)
-	  tmp=accurate_evalf(tmp,1000);
+#if defined HAVE_LIBMPFR && !defined NO_STDEXCEPT
+	try {
+	  if (tmp.type!=_FRAC && tmp.type!=_EXT)
+	    tmp=accurate_evalf(tmp,1000);
+	} catch (std::runtime_error & ) {}
 #endif
 	tmp=evalf(tmp,eval_level(contextptr),contextptr);
 	int n1(_floor(tmp,contextptr).val);

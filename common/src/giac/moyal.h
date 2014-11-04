@@ -233,8 +233,6 @@ namespace giac {
   void effectif(const std::vector<int> & x,std::vector<int> & eff,int m);
   void somme(const std::vector<int> & x,const std::vector<int> &y,std::vector<int> & z);
 
-  gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
-  extern const unary_function_ptr * const  at_lower_incomplete_gamma ;
   double upper_incomplete_gammad(double s,double z,bool regularize);
   gen _upper_incomplete_gamma(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_upper_incomplete_gamma ;

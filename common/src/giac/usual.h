@@ -471,6 +471,9 @@ namespace giac {
   
   gen Gamma(const gen & x,GIAC_CONTEXT);
   gen _Gamma(const gen & args,GIAC_CONTEXT);
+  gen _lower_incomplete_gamma(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_lower_incomplete_gamma ;
+  extern const unary_function_ptr * const  at_igamma_exp ;
   double lngamma(double x);
   gen lngamma(const gen & x,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_Gamma;

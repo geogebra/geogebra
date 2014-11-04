@@ -1150,6 +1150,51 @@ namespace giac {
     return false; // 
   }
 
+  static void find_image(const symbolic & temp__SYMB,gen & image_of_lim_point,sparse_poly1 & s,int direction,GIAC_CONTEXT){
+    if (!s.empty()){
+      if (s.begin()->exponent==0){
+	image_of_lim_point=s.begin()->coeff;
+	// ?? FIXME ???
+	if (temp__SYMB.sommet!=at_abs){
+	  s.erase(s.begin()); // remove cst coeff from s
+	  for (;!s.empty();){
+	    s.front().coeff=normal(s.front().coeff,contextptr);
+	    if (!is_zero(s.front().coeff))
+	      break;
+	    s.erase(s.begin());
+	  }
+	}
+      }
+      else {
+	if (ck_is_strictly_positive(s.begin()->exponent,contextptr))
+	  image_of_lim_point=0;
+	else {
+	  image_of_lim_point=unsigned_inf;
+	  if ( (s.begin()->exponent.type==_INT_) && !(s.begin()->exponent.val%2) ){ // odd negative exponent
+	    if (is_strictly_positive(s.begin()->coeff,contextptr))
+	      image_of_lim_point=plus_inf;
+	    if (is_strictly_positive(-s.begin()->coeff,contextptr))
+	      image_of_lim_point=minus_inf;
+	  }
+	  else { // other negative exponent
+	    if (direction){
+	      if (is_strictly_positive(s.begin()->coeff,contextptr))
+		image_of_lim_point=plus_inf;
+	      if (is_strictly_positive(-s.begin()->coeff,contextptr))
+		image_of_lim_point=minus_inf;
+	      if (direction<0){
+		if (s.begin()->exponent.type==_INT_)
+		  image_of_lim_point=-image_of_lim_point;
+		else
+		  image_of_lim_point=unsigned_inf;
+	      }
+	    }
+	  }
+	} // end negative leading exponent
+      } // end non-zero leading exponent
+    } // end non-empty series
+  }
+
   static int find_direction(const sparse_poly1 & s,int direction,GIAC_CONTEXT){
     int image_of_direction=0;
     if (!s.empty() && fastsign(s.front().coeff,0)){
@@ -1185,6 +1230,8 @@ namespace giac {
 
   static bool mrv_lead_term(const gen & e,const identificateur & x,gen & coeff, gen & mrv_var, gen & exponent,sparse_poly1 & q,int begin_ordre,GIAC_CONTEXT,bool series);
 
+  vecteur integrate(const vecteur & p,const gen & shift_coeff);
+  
   bool series__SPOL1(const gen & e_orig,const identificateur & x,const gen & lim_point,int ordre,int direction,sparse_poly1 & s,GIAC_CONTEXT){
     gen e(e_orig);
     // fast check first
@@ -1415,6 +1462,84 @@ namespace giac {
 	  continue;
 	  // never reached setsizeerr();
 	}
+	if (temp__SYMB.sommet==at_igamma_exp){
+	  if (nargs!=2){
+	    invalidserieserr(gettext("igamma: bad arg number"));
+	    return false;
+	  }
+	  vecteur & tempfv=*temp__SYMB.feuille._VECTptr;
+	  gen a=tempfv[0];
+	  sparse_poly1 p;
+	  if (!in_series__SPOL1(tempfv[1],x,lvx,lvx_s,ordre,direction,p,contextptr))
+	    return false;
+	  gen image_of_lim_point;
+	  find_image(temp__SYMB,image_of_lim_point,p,direction,contextptr);
+	  if (!is_inf(image_of_lim_point))
+	    return false;
+	  // invert series expansion
+	  sparse_poly1 stmp;
+	  if (!pdiv(sparse_poly1(1,monome(1,0)),p,stmp,ordre,contextptr))
+	    return false;
+	  p=stmp;
+	  // igamma(a,x)=Gamma(a)-int_x^inf exp(-t)*t^(a-1) dt
+	  // =Gamma(a)-exp(-x)*x^(a-1)-(a-1)*int_x^inf exp(-t)*t^(a-2) dt
+	  // ...
+	  // igamma_replace(a,x)=Gamma(a)-exp(-x)*igamma_exp(a,x)
+	  // therefore expansion of igamma_exp(a,x)=x^(a-1)[1+(a-1)/x+(a-1)*(a-2)/x^2...]
+	  vecteur v(ordre+1); gen facti(1);
+	  for (int i=0;i<=ordre;++i){
+	    v[i]=facti;
+	    facti=(a-i-1)*facti;
+	  }
+	  v.push_back(undef);
+	  if (!pcompose(v,p,s,contextptr))
+	    return false;
+	  pshift(s,1-a,s,contextptr);
+	  lvx_s.push_back(s);
+	  continue;
+	}
+	if (temp__SYMB.sommet==at_lower_incomplete_gamma){
+	  if (nargs!=2){
+	    invalidserieserr(gettext("igamma: bad arg number"));
+	    return false;
+	  }
+	  // series expansion of derivative
+	  vecteur & tempfv=*temp__SYMB.feuille._VECTptr;
+	  gen a=tempfv[0];
+	  sparse_poly1 p;
+	  if (!in_series__SPOL1(tempfv[1],x,lvx,lvx_s,ordre,direction,p,contextptr))
+	    return false;
+	  gen image_of_lim_point;
+	  find_image(temp__SYMB,image_of_lim_point,p,direction,contextptr);
+	  if (!is_positive(image_of_lim_point,contextptr) || image_of_lim_point==plus_inf)
+	    return false; // inf is prevented by limit_symbolic_preprocessing
+	  if (is_zero(image_of_lim_point)){
+	    vecteur v(ordre+1); gen facti(1);
+	    for (int i=0;i<=ordre;++i){
+	      v[i]=inv(facti*(a+i),contextptr);
+	      facti=-(i+1)*facti;
+	    }
+	    if (!pcompose(v,p,s,contextptr))
+	      return false;
+	    if (!ppow(p,a,ordre,direction,p,contextptr))
+	      return false;
+	    if (!pmul(p,s,s,true,ordre,contextptr))
+	      return false;
+	  }
+	  else {
+	    vecteur v;
+	    gen der=pow(x,a-1,contextptr)*exp(-x,contextptr);
+	    if (!taylor(der,x,image_of_lim_point,ordre,v,contextptr))
+	      return false;
+	    v=integrate(v,1);
+	    gen intcst=_lower_incomplete_gamma(makesequence(a,lim_point),contextptr);
+	    v.insert(v.begin(),intcst);
+	    if (!pcompose(v,p,s,contextptr))
+	      return false;
+	  }
+	  lvx_s.push_back(s);
+	  continue;
+	}
 	if (temp__SYMB.sommet==at_integrate){
 	  if (nargs!=4){
 	    invalidserieserr(gettext("Integral must be definite"));
@@ -1511,50 +1636,9 @@ namespace giac {
 	  if (!in_series__SPOL1(temp__SYMB.feuille,x,lvx,lvx_s,ordre,direction,s,contextptr)) return false; // s<-arg
 	}
       } // end 1-arg function
-      gen image_of_lim_point; 
+      gen image_of_lim_point;
+      find_image(temp__SYMB,image_of_lim_point,s,direction,contextptr); 
       int image_of_direction=0;
-      if (!s.empty()){
-	if (s.begin()->exponent==0){
-	  image_of_lim_point=s.begin()->coeff;
-	  // ?? FIXME ???
-	  if (temp__SYMB.sommet!=at_abs){
-	    s.erase(s.begin()); // remove cst coeff from s
-	    for (;!s.empty();){
-	      s.front().coeff=normal(s.front().coeff,contextptr);
-	      if (!is_zero(s.front().coeff))
-		break;
-	      s.erase(s.begin());
-	    }
-	  }
-	}
-	else {
-	  if (ck_is_strictly_positive(s.begin()->exponent,contextptr))
-	    image_of_lim_point=0;
-	  else {
-	    image_of_lim_point=unsigned_inf;
-	    if ( (s.begin()->exponent.type==_INT_) && !(s.begin()->exponent.val%2) ){ // odd negative exponent
-	      if (is_strictly_positive(s.begin()->coeff,contextptr))
-		image_of_lim_point=plus_inf;
-	      if (is_strictly_positive(-s.begin()->coeff,contextptr))
-		image_of_lim_point=minus_inf;
-	    }
-	    else { // other negative exponent
-	      if (direction){
-		if (is_strictly_positive(s.begin()->coeff,contextptr))
-		  image_of_lim_point=plus_inf;
-		if (is_strictly_positive(-s.begin()->coeff,contextptr))
-		  image_of_lim_point=minus_inf;
-		if (direction<0){
-		  if (s.begin()->exponent.type==_INT_)
-		    image_of_lim_point=-image_of_lim_point;
-		  else
-		    image_of_lim_point=unsigned_inf;
-		}
-	      }
-	    }
-	  } // end negative leading exponent
-	} // end non-zero leading exponent
-      } // end non-empty series
       image_of_direction = find_direction(s,direction,contextptr);
       // Symbolic series expansion f(x), f is assumed to be analytic
       if (temp__SYMB.sommet==at_of){
@@ -1952,7 +2036,7 @@ namespace giac {
 	}
 	if ( ( (pos1=equalposcomp(limit_tab,v[i]._SYMBptr->sommet)) || (pos2=equalposcomp(limit_tractable_functions(),&v[i]._SYMBptr->sommet)) ) ){
 	  gen g=limit(v[i]._SYMBptr->feuille,x,lim_point,direction,contextptr);
-	  if (is_inf(g)){
+	  if ( is_inf(g) || (g.type==_VECT && !g._VECTptr->empty() && is_inf(g._VECTptr->back())) ){
 	    v1.push_back(v[i]);
 	    v2.push_back(pos1?limit_replace[pos1-1](v[i]._SYMBptr->feuille,contextptr):limit_tractable_replace()[pos2-1](v[i]._SYMBptr->feuille,contextptr));
 	  }
@@ -2329,6 +2413,14 @@ namespace giac {
       }
       if (temp._SYMBptr->sommet==at_Psi && temp._SYMBptr->feuille.type==_VECT){
 	if (!mrv(temp._SYMBptr->feuille[0],x,faster_var,coeff_ln,slower_var,contextptr))
+	  return false;
+	continue;
+      }
+      if (temp._SYMBptr->sommet==at_lower_incomplete_gamma || temp._SYMBptr->sommet==at_igamma_exp){
+	gen & f = temp._SYMBptr->feuille;
+	if (depend(f[0],x))
+	  return false;
+	if (!mrv(f[1],x,faster_var,coeff_ln,slower_var,contextptr))
 	  return false;
 	continue;
       }

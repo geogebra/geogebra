@@ -628,7 +628,9 @@ namespace giac {
 #ifndef NO_STDEXCEPT
     try {
       res=_derive(args,contextptr);
-    } catch (std::runtime_error &){
+    } catch (std::runtime_error & e){
+      res=string2gen(e.what(),false);
+      res.subtype=-1;
     }
 #else
     res=_derive(args,contextptr);
