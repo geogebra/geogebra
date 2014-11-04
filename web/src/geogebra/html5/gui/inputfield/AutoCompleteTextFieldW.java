@@ -1407,6 +1407,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		return textField.getValueBox().addKeyUpHandler(handler);
 	}
 
+	public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+		return textField.getValueBox().addKeyDownHandler(handler);
+	}
+
 	public void setWidth(int width) {
 		if (width > 0) {
 			textField.setWidth(width + "px");
