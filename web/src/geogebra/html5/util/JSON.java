@@ -31,4 +31,9 @@ public class JSON {
             JsArray<JavaScriptObject> value) /*-{
 		obj[key] = value;
     }-*/;
+	
+	public static native boolean getAsBoolean(JavaScriptObject obj, String key) /*-{
+		return !!obj[key];
+	}-*/;
+
 }

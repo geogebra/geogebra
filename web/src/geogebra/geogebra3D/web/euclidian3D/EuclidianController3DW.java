@@ -14,6 +14,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
+import geogebra.geogebra3D.web.realsense.RealSense;
 import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EnvironmentStyleW;
 import geogebra.html5.euclidian.EuclidianControllerW;
@@ -182,6 +183,7 @@ LongTouchHandler {
 	public EuclidianController3DW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
+		RealSense.initIfSupported();
 
 		Window.addResizeHandler(new ResizeHandler() {
 

@@ -56,6 +56,9 @@ public class ResourcesInjector {
 		// GIF exporting library
 		// It also needs gif.worker.js
 		// JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.gifJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.realsenseinfoJs());
+		
+		
 	}
 	
 	/**
@@ -74,5 +77,12 @@ public class ResourcesInjector {
 			scripts.getItem(i).removeFromParent();
 		}	
 	}
+
+	public static void injectRealSenseResources() {
+	    // TODO check if jquery supports promises?
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.promiseJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.realsenseJs());
+	    
+    }
 
 }
