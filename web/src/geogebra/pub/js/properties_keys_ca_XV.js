@@ -827,6 +827,8 @@ __GGB__keysVar.ca_XV.command = {
     "SetPointStyle.Syntax": "[ <Punt>, <Nombre> ]",
     "SetSeed": "DefinixLlavor",
     "SetSeed.Syntax": "[ <Enter> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "DefinixModeDescriptiu",
     "SetTooltipMode.Syntax": "[ <Objecte>, <Nombre> ]",
     "SetTrace": "ActivaTra\xe7",

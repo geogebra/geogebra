@@ -827,6 +827,8 @@ __GGB__keysVar.vi.command = {
     "SetPointStyle.Syntax": "[ <\u0110i\u1ec3m>, <S\u1ed1> ]",
     "SetSeed": "TaoSoNgauNhien",
     "SetSeed.Syntax": "[ <S\u1ed1 nguy\xean> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "ThietLapKieuHuongDan",
     "SetTooltipMode.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng>, <S\u1ed1> ]",
     "SetTrace": "TaoVet",

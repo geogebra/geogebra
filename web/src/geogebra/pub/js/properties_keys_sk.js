@@ -827,6 +827,8 @@ __GGB__keysVar.sk.command = {
     "SetPointStyle.Syntax": "[ <Bod>, <\u010c\xedslo> ]",
     "SetSeed": "NastavJadro",
     "SetSeed.Syntax": "[ <Cel\xe9 \u010d\xedslo> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "Nastavi\u0165Re\u017eimN\xe1povedy",
     "SetTooltipMode.Syntax": "[ <Objekt>, <\u010c\xedslo> ]",
     "SetTrace": "NastavStopu",

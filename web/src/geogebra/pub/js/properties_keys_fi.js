@@ -827,6 +827,8 @@ __GGB__keysVar.fi.command = {
     "SetPointStyle.Syntax": "[ <Pista>, <Luku> ]",
     "SetSeed": "AsetaL\xe4hde",
     "SetSeed.Syntax": "[ <Kokonaisluku> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "AsetaSelitteenTila",
     "SetTooltipMode.Syntax": "[ <Objekti>, <Luku> ]",
     "SetTrace": "AsetaJ\xe4lki",

@@ -827,6 +827,8 @@ __GGB__keysVar.cs.command = {
     "SetPointStyle.Syntax": "[ <Bod>, <\u010c\xedslo> ]",
     "SetSeed": "NastavitSeminko",
     "SetSeed.Syntax": "[ <Cel\xe9 \u010d\xedslo> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "NastavitRezimTooltip",
     "SetTooltipMode.Syntax": "[ <Objekt>, <\u010c\xedslo> ]",
     "SetTrace": "NastavitStopu",

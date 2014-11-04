@@ -827,6 +827,8 @@ __GGB__keysVar.eo.command = {
     "SetPointStyle.Syntax": "[ <Punkto>, <Nombro> ]",
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Entjero> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "SetTooltipMode",
     "SetTooltipMode.Syntax": "[ <Objekto>, <Nombro> ]",
     "SetTrace": "Spuri",

@@ -827,6 +827,8 @@ __GGB__keysVar.is.command = {
     "SetPointStyle.Syntax": "[ <Punktur>, <Tala> ]",
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Heil tala> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "SetjaVerkf\xe6raHam",
     "SetTooltipMode.Syntax": "[ <Hlutur>, <Tala> ]",
     "SetTrace": "S\xfdnaSl\xf3\xf0",

@@ -827,6 +827,8 @@ __GGB__keysVar.ka.command = {
     "SetPointStyle.Syntax": "[ <\u10ec\u10d4\u10e0\u10e2\u10d8\u10da\u10d8>, <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d8> ]",
     "SetSeed": "\u10e1\u10d0\u10ec\u10e7\u10d8\u10e1\u10d8",
     "SetSeed.Syntax": "[ <\u10db\u10d7\u10d4\u10da\u10d8> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "\u10ee\u10d4\u10da\u10e1\u10d0\u10ec\u10e7\u10dd\u10d6\u10d4\u10db\u10d8\u10dc\u10d8\u10e8\u10dc\u10d4\u10d1\u10d8\u10e1\u10e0\u10d4\u10df\u10d8\u10db\u10d8",
     "SetTooltipMode.Syntax": "[ <\u10dd\u10d1\u10d8\u10d4\u10e5\u10e2\u10d8>, <\u10e0\u10d8\u10ea\u10ee\u10d5\u10d8> ]",
     "SetTrace": "\u10d9\u10d5\u10d0\u10da\u10d8\u10e1\u10d0\u10e0\u10e9\u10d4\u10d5\u10d0",

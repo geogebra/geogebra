@@ -827,6 +827,8 @@ __GGB__keysVar.it.command = {
     "SetPointStyle.Syntax": "[ <Punto>, <Numero> ]",
     "SetSeed": "ImpSeme",
     "SetSeed.Syntax": "[ <Intero> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "ImpModoTooltip",
     "SetTooltipMode.Syntax": "[ <Oggetto>, <Numero> ]",
     "SetTrace": "ImpTraccia",

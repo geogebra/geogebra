@@ -827,6 +827,8 @@ __GGB__keysVar.nl.command = {
     "SetPointStyle.Syntax": "[ <Punt>, <Getal> ]",
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Geheel getal> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "SetTooltipMode",
     "SetTooltipMode.Syntax": "[ <Object>, <Getal> ]",
     "SetTrace": "Spoor",

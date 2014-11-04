@@ -827,6 +827,8 @@ __GGB__keysVar.gl.command = {
     "SetPointStyle.Syntax": "[ <Punto>, <N\xfamero> ]",
     "SetSeed": "Semente",
     "SetSeed.Syntax": "[ <Enteiro> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "ModoDescrici\xf3n",
     "SetTooltipMode.Syntax": "[ <Obxecto>, <0|1|2|3|4> ]",
     "SetTrace": "Rastro",

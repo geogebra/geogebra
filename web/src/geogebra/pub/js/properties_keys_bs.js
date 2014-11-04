@@ -827,6 +827,8 @@ __GGB__keysVar.bs.command = {
     "SetPointStyle.Syntax": "[ <Ta\u010dka>, <Broj> ]",
     "SetSeed": "PostaviGenerator",
     "SetSeed.Syntax": "[ <Broj> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "PostaviIzgledKratkeBilje\u0161ke",
     "SetTooltipMode.Syntax": "[ <Figura>, <Broj> ]",
     "SetTrace": "Uklju\u010diTrag",

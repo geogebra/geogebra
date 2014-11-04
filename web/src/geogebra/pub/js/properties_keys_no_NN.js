@@ -827,6 +827,8 @@ __GGB__keysVar.no_NN.command = {
     "SetPointStyle.Syntax": "[ <Punkt>, <Tal> ]",
     "SetSeed": "SetStart",
     "SetSeed.Syntax": "[ <Heiltal> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "VelVerkt\xf8ytips",
     "SetTooltipMode.Syntax": "[ <Objekt>, <Tal> ]",
     "SetTrace": "SetSpor",

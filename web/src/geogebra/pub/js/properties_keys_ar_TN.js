@@ -827,6 +827,8 @@ __GGB__keysVar.ar_TN.command = {
     "SetPointStyle.Syntax": "[ <\u0646\u0642\u0637\u0629>, <\u0639\u062f\u062f> ]",
     "SetSeed": "\u0623\u0635\u0644",
     "SetSeed.Syntax": "[ <\u0639\u062f\u062f \u0635\u062d\u064a\u062d> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "\u062e\u064a\u0627\u0631\u0627\u062a_\u0627\u0644\u062a\u0644\u0645\u064a\u062d\u0627\u062a",
     "SetTooltipMode.Syntax": "[ <\u0639\u0646\u0635\u0631>, <\u0639\u062f\u062f> ]",
     "SetTrace": "\u0623\u062b\u0627\u0631",

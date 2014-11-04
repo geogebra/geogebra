@@ -827,6 +827,8 @@ __GGB__keysVar.ja.command = {
     "SetPointStyle.Syntax": "[ <\u70b9>, <\u6570\u5024> ]",
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <\u6574\u6570> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "SetTooltipMode",
     "SetTooltipMode.Syntax": "[ <\u30aa\u30d6\u30b8\u30a7\u30af\u30c8>, <\u6570\u5024> ]",
     "SetTrace": "SetTrace",

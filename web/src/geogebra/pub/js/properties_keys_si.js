@@ -827,6 +827,8 @@ __GGB__keysVar.si.command = {
     "SetPointStyle.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dba>, <\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf\u0dc0> ]",
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <\u0db1\u0dd2\u0d9b\u0dd2\u0dbd> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "SetTooltipMode",
     "SetTooltipMode.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0>, <\u0dc3\u0d82\u0d9b\u0dca\u200d\u0dba\u0dcf\u0dc0> ]",
     "SetTrace": "SetTrace",

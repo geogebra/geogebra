@@ -827,6 +827,8 @@ __GGB__keysVar.in.command = {
     "SetPointStyle.Syntax": "[ <Titik>, <Angka> ]",
     "SetSeed": "TentukanAsal",
     "SetSeed.Syntax": "[ <Bilangan Bulat> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "AturModeTipsPeralatan",
     "SetTooltipMode.Syntax": "[ <Objek>, <Angka> ]",
     "SetTrace": "PasangJejak",

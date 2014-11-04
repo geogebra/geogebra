@@ -827,6 +827,8 @@ __GGB__keysVar.eu.command = {
     "SetPointStyle.Syntax": "[ <Puntua>, <Zenbakia> ]",
     "SetSeed": "HaziMultzoa",
     "SetSeed.Syntax": "[ <Zenbaki Osoa> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "FinkatuObjektuDeskripzioa",
     "SetTooltipMode.Syntax": "[ <Objektua>, <Zenbakia> ]",
     "SetTrace": "AztarnaEzarri",

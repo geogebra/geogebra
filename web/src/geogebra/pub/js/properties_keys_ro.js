@@ -827,6 +827,8 @@ __GGB__keysVar.ro.command = {
     "SetPointStyle.Syntax": "[ <Punct>, <Num\u0103r> ]",
     "SetSeed": "Definire\xcenceputAleatoriu",
     "SetSeed.Syntax": "[ <\xcentreg> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "Seteaz\u0103ModSugestii",
     "SetTooltipMode.Syntax": "[ <Obiect>, <Num\u0103r> ]",
     "SetTrace": "DefinireUrm\u0103",

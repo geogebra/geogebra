@@ -827,6 +827,8 @@ __GGB__keysVar.es_ES.command = {
     "SetPointStyle.Syntax": "[ <Punto>, <N\xfamero> ]",
     "SetSeed": "FijaSemilla",
     "SetSeed.Syntax": "[ <Entero> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "ModoIndicaciones",
     "SetTooltipMode.Syntax": "[ <Objeto>, <N\xfamero> ]",
     "SetTrace": "Rastro",

@@ -827,6 +827,8 @@ __GGB__keysVar.sq.command = {
     "SetPointStyle.Syntax": "[ <Pike>, <Numer> ]",
     "SetSeed": "VendosFare",
     "SetSeed.Syntax": "[ <NumeriPlote> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "VendostipModeMjeti",
     "SetTooltipMode.Syntax": "[ <Objekt>, <Numer> ]",
     "SetTrace": "VendosGjurme",

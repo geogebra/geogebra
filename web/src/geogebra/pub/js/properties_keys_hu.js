@@ -827,6 +827,8 @@ __GGB__keysVar.hu.command = {
     "SetPointStyle.Syntax": "[ <Pont>, <Sz\xe1m> ]",
     "SetSeed": "V\xe9letlensz\xe1mMag",
     "SetSeed.Syntax": "[ <Eg\xe9sz sz\xe1m> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "AlakzatInform\xe1ci\xf3k",
     "SetTooltipMode.Syntax": "[ <Alakzat>, <Sz\xe1m> ]",
     "SetTrace": "NyomvonalatKapcsol",

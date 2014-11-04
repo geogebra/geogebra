@@ -827,6 +827,8 @@ __GGB__keysVar.mn.command = {
     "SetPointStyle.Syntax": "[ <\u0426\u044d\u0433>, <\u0422\u043e\u043e> ]",
     "SetSeed": "\u04ae\u0440\u041e\u043b\u043e\u043d\u043b\u043e\u0433",
     "SetSeed.Syntax": "[ <\u0411\u04af\u0445\u044d\u043b \u0442\u043e\u043e> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "\u0425\u044d\u0440\u044d\u0433\u0441\u043b\u0438\u0439\u043d\u0417\u04e9\u0432\u043b\u04e9\u043c\u0436\u0413\u043e\u0440\u0438\u043c\u0417\u0430\u0430",
     "SetTooltipMode.Syntax": "[ <\u0426\u044d\u0433>, <\u0422\u043e\u043e> ]",
     "SetTrace": "\u041c\u04e9\u0440\u0411\u04af\u0440\u0434\u044d\u043b",

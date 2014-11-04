@@ -827,6 +827,8 @@ __GGB__keysVar.cy.command = {
     "SetPointStyle.Syntax": "[ <Pwynt>, <Number> ]",
     "SetSeed": "SetSeed",
     "SetSeed.Syntax": "[ <Integer> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "GosodModdCymorthOffer",
     "SetTooltipMode.Syntax": "[ <Gwrthrych>, <Rhif> ]",
     "SetTrace": "SetTrace",

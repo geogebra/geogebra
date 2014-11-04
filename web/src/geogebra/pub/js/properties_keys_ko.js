@@ -827,6 +827,8 @@ __GGB__keysVar.ko.command = {
     "SetPointStyle.Syntax": "[ <\uc810>, <\uc218> ]",
     "SetSeed": "\uc2dc\ub4dc\uc124\uc815",
     "SetSeed.Syntax": "[ <\uc815\uc218> ]",
+    "SetSpinSpeed": "SetSpinSpeed",
+    "SetSpinSpeed.Syntax3D": "[ <Number> ]",
     "SetTooltipMode": "\ub3c4\uad6c\ub3c4\uc6c0\ub9d0\ubaa8\ub4dc\uc124\uc815",
     "SetTooltipMode.Syntax": "[ <\ub300\uc0c1>, <\uc218> ]",
     "SetTrace": "\uc790\ucde8\uc124\uc815",
