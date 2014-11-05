@@ -1300,7 +1300,7 @@ __GGB__keysVar.fr.menu = {
     "CreatePolyLine.Help": "S\xe9lectionner les cellules pour cr\xe9er des points et cliquer sur l'outil",
     "CreateTable": "Cr\xe9er un tableau",
     "CreateTable.Help": "S\xe9lectionner les cellules et cliquer sur l'outil",
-    "CreateYourOwn": "Cr\xe9er le votre",
+    "CreateYourOwn": "Cr\xe9er la votre",
     "Cube": "Cube",
     "Cube.Help": "Cliquez dans un plan (optionnel) puis sur 2 points",
     "Cumulative": "Cumul\xe9(e)s",
