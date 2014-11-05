@@ -345,7 +345,7 @@ body.application,article {
 }
 
 .gwt-Image {
-	
+	border: none;
 }
 
 .gwt-Label {
