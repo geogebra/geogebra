@@ -16,6 +16,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 /**
  * @author ggb3D
@@ -921,7 +922,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @param rt value of variable
 	 * @return value of function at given point
 	 */
-	public ExpressionValue handleFunction(ExpressionValue lt, ExpressionValue rt) {
+	public ExpressionValue handleFunction(ExpressionValue lt, ExpressionValue rt, ExpressionValue left) {
 		String[] str;
 		Kernel kernel = lt.getKernel();
 		// function(number)
@@ -947,6 +948,10 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				GeoElement geo = kernel.getAlgebraProcessor().processAlgebraCommand(result, false)[0];
 				kernel.setSilentMode(mode);
 				return geo;
+			} else if (left instanceof GeoCasCell && ((GeoCasCell)left).getTwinGeo() instanceof GeoLine){
+				return ((NumberValue) rt).getNumber().apply((Evaluatable) ((GeoCasCell)left).getTwinGeo());
+			} else {
+				Log.debug(lt);
 			}
 		} else if (rt instanceof GeoPoint) {
 			if (lt instanceof Evaluatable) {

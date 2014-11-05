@@ -1204,7 +1204,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleFunction(lt, rt);
+			return ev.handleFunction(lt, rt, left);
 
 		}
 	},
