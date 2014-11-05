@@ -826,7 +826,7 @@ public class ConstructionDefaults {
 			switch (geo.getGeoClassType()) {
 
 			case ANGLE:
-				((GeoAngle) geo).setArcSize(angleSize);
+				((GeoAngle) geo).setArcSize(this.angleSize);
 				break;
 			}
 		}
@@ -846,11 +846,11 @@ public class ConstructionDefaults {
 
 			switch (geo.getGeoClassType()) {
 			case POINT:
-				((GeoPoint) geo).setPointSize(pointSize);
+				((GeoPoint) geo).setPointSize(this.pointSize);
 				break;
 
 			case LIST:
-				((GeoList) geo).setPointSize(pointSize);
+				((GeoList) geo).setPointSize(this.pointSize);
 				break;
 			}
 		}
@@ -870,12 +870,12 @@ public class ConstructionDefaults {
 
 			// set line thickness
 			if (!geo.isGeoText() && !geo.isGeoImage()) // affects bounding box
-				geo.setLineThickness(lineThickness);
+				geo.setLineThickness(this.lineThickness);
 
 			switch (geo.getGeoClassType()) {
 
 			case LIST:
-				((GeoList) geo).setLineThickness(lineThickness);
+				((GeoList) geo).setLineThickness(this.lineThickness);
 				break;
 			}
 		}
