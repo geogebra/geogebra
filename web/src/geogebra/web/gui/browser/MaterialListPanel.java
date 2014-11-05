@@ -20,11 +20,11 @@ import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
- * 
- * 
+ * contains all available materials
  */
 public class MaterialListPanel extends FlowPanel implements ResizeListener, ShowDetailsListener {
 	
+	private final long MIN_DIFFERNCE_TO_SCROLL = 1000;
 	protected AppW app;
 	/**
 	 * last selected {@link MaterialListElement material}
@@ -38,8 +38,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 	private MaterialCallback userMaterialsCB;
 	private MaterialCallback ggtMaterialsCB;
 	long lastScroll = 0;
-	private final long MIN_DIFFERNCE_TO_SCROLL = 1000;
+	long lastDefaultStyle = 0;
 
+	/**
+	 * @param app {@link AppW}
+	 */
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
 		this.allMaterialsCB = getAllMaterialsCB();
@@ -120,10 +123,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			}
 		};
     }
-	long lastDefaultStyle = 0;
+
 	/**
 	 * sets all {@link MaterialListElement materials} to the
 	 * default style (not selected, not disabled)
+	 * @param force boolean
 	 */
 	public void setDefaultStyle(boolean force) {
 		if(!force && System.currentTimeMillis() < this.lastDefaultStyle + 3000){
