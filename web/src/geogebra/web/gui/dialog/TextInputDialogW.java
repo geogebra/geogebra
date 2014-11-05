@@ -35,6 +35,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				DialogType.DynamicText);
 		editor = inputPanel.getTextAreaComponent();
 		
+		wrappedPopup.addStyleName("TextInputDialog");
 		wrappedPopup.center();
 		wrappedPopup.show();
 		

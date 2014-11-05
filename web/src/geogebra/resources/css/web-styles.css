@@ -2602,6 +2602,13 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	padding-bottom: 10px;
 }
 
+
+.TextInputDialog .gwt-ToggleButton {
+	padding-right: 6px;
+	cursor: hand;
+	cursor: pointer;
+}
+
 /*saveDialog*/
 .buttonPanel .visibility {
 	position: absolute;
