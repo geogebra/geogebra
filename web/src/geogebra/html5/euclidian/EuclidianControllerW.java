@@ -374,7 +374,12 @@ LongTouchHandler {
 
 	private void onTouchMoveNow(AbstractEvent event,long time) {
 		this.lastMoveEvent = time;
-		wrapMouseDragged(event);
+		//in SMART we actually get move events even if mouse button is up ...
+		if (!DRAGMODE_MUST_BE_SELECTED) {
+			 wrapMouseMoved(event);
+		 } else {
+			 wrapMouseDragged(event);
+		 }
 		
 	    this.waitingTouchMove = null;
 	    this.waitingMouseMove = null;
@@ -394,6 +399,7 @@ LongTouchHandler {
 	
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
+		DRAGMODE_MUST_BE_SELECTED = false;
 		if(moveCounter  < 2){
 			resetModeAfterFreehand();
 		}
@@ -573,6 +579,7 @@ LongTouchHandler {
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
+		
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
@@ -609,7 +616,6 @@ LongTouchHandler {
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
-
 		Event.setCapture(event.getRelativeElement());
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
