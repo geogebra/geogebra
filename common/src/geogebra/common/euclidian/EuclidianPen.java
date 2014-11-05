@@ -291,7 +291,7 @@ public class EuclidianPen {
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode().handleMouseDraggedForDelete(e,eraserSize,true);
 		} else {
-			handleMousePressedForPenMode(e, null);
+			addPointPenMode(e, null);
 		}
 	}
 
@@ -301,6 +301,7 @@ public class EuclidianPen {
 	 */
 	public void handleMousePressedForPenMode(AbstractEvent e, Hits hits) {
 		if (!isErasingEvent(e)) {
+			penPoints.clear();
 			addPointPenMode(e,hits);
 		}
 	}
