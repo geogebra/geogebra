@@ -810,6 +810,33 @@ public class ConstructionDefaults {
 		setDefaultAngleSize(angleSize);
 		setDefaultFilling(filling);
 	}
+	
+	/**
+	 * 
+	 * @return current default line thickness
+	 */
+	public int getDefaultLineThickness(){
+		return lineThickness;
+	}
+
+	/**
+	 * 
+	 * @return current default point size
+	 */
+	public int getDefaultPointSize(){
+		return pointSize;
+	}
+	
+	
+	/**
+	 * 
+	 * @return current default angle size
+	 */
+	public int getDefaultAngleSize(){
+		return angleSize;
+	}
+	
+
 
 	/**
 	 * @param angleSize
