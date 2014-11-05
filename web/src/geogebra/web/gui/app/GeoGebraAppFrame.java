@@ -5,6 +5,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
@@ -356,4 +357,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	   this.frameLayout.setMenuHeight(showAlgebraInput);
     }
 	
+	public void showKeyBoard(boolean show, AutoCompleteTextFieldW textField){
+		this.frameLayout.showKeyBoard(show, textField);
+	}
 }

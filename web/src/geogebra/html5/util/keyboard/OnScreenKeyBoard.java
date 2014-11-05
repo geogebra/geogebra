@@ -1,6 +1,7 @@
 package geogebra.html5.util.keyboard;
 
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.web.gui.app.GGWFrameLayoutPanel;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -36,12 +37,14 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * prevent automatic positioning in the constructor
 	 */
 	public boolean enablePositioning = false;
+	private GGWFrameLayoutPanel frameLayoutPanel;
 	
-	public static OnScreenKeyBoard getInstance(AutoCompleteTextFieldW textField) {
+	public static OnScreenKeyBoard getInstance(AutoCompleteTextFieldW textField, GGWFrameLayoutPanel frameLayoutPanel) {
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
 		}
 		instance.setTextField(textField);
+		instance.setFrameLayoutPanel(frameLayoutPanel);
 		return instance;
 	}
 
@@ -110,6 +113,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			}
 			textField.setFocus(false);
 		}
+
+		event.stopPropagation();
 	}
 	
 	/**
@@ -119,18 +124,33 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public void setTextField(AutoCompleteTextFieldW textField) {
 		this.textField = textField; 
 	}
-	
+
+	private void setFrameLayoutPanel(GGWFrameLayoutPanel frameLayoutPanel) {
+	    this.frameLayoutPanel = frameLayoutPanel;
+    }
+
 	@Override
 	public void hide() {
 		resetKeyboardState();
+		frameLayoutPanel.showKeyBoard(false, null);
 	    super.hide();
 	}
-	
+
 	/**
 	 * @param mode the keyboard mode
 	 */
 	public void setKeyboardMode(KeyboardMode mode) {
 		this.mode = mode;
+		if(mode == KeyboardMode.NUMBER){
+			content.setVisible(true);
+		} else if (mode == KeyboardMode.TEXT) {
+			content.setVisible(false);
+		}
+		this.frameLayoutPanel.showKeyBoard(true, textField);
+		
+		if(mode == KeyboardMode.TEXT){
+			textField.setFocus(true);
+		}
 	}
 	
 	/**
@@ -148,7 +168,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 	
 	private void resetKeyboardState() {
-		setKeyboardMode(KeyboardMode.NUMBER);
+		mode = KeyboardMode.NUMBER;
+		content.setVisible(true);
 	}
 
 }

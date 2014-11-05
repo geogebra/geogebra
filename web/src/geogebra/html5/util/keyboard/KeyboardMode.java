@@ -12,11 +12,7 @@ public enum KeyboardMode {
 	/**
 	 * Number input mode.
 	 */
-	NUMBER ("123"),
-	/**
-	 * Function input mode.
-	 */
-	FUNCTION ("functions");
+	NUMBER ("123");
 	
 	private String internalName;
 	

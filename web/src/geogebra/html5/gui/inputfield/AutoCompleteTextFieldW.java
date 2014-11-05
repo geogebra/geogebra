@@ -30,6 +30,7 @@ import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.keyboard.OnScreenKeyBoard;
+import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +73,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
         ValueChangeHandler<String>, SelectionHandler<Suggestion>,
         VirtualKeyboardListener {
 
+	/**
+	 * code for KeyUpEvent
+	 */
+	private static final int KEY_UP = 0x00200;
+	/**
+	 * code for Enter key
+	 */
+	private static final int ENTER = 13;
+
 	private AppW app;
 	private Localization loc;
 	private StringBuilder curWord;
@@ -95,7 +105,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private DrawTextField drawTextField = null;
 
 	// symbol table popup fields
-	private ToggleButton showSymbolButton = null;
+	ToggleButton showSymbolButton = null;
 	private SymbolTablePopupW tablePopup;
 	private boolean showSymbolTableIcon = false;
 	public static boolean showSymbolButtonFocused = false;
@@ -145,14 +155,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		addStyleName("FromDrawTextFieldNew");
 	}
 
-	public AutoCompleteTextFieldW(int columns, AppW app,
+	public AutoCompleteTextFieldW(int columns, final AppW app,
 	        boolean handleEscapeKey,
 	        KeyEventsHandler keyHandler, boolean forCAS) {
 		this.forCAS = forCAS;
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		textField = new ScrollableSuggestBox(completionsPopup = new CompletionsPopup()){
-			public void setText(String s){
+			@Override
+            public void setText(String s){
 				String oldText = getText();
 				int pos = getValueBox().getCursorPos();
 				StringBuilder sb = new StringBuilder();
@@ -168,8 +179,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			}
 
 			@Override
-			public void setFocus(boolean focused) {
-			    super.setFocus(focused && !showOnScreenKeyBoard);
+			public void onBrowserEvent(Event event) {
+			    super.onBrowserEvent(event);
+
+			    // react on enter from system on screen keyboard or hardware keyboard
+			    if(DOM.eventGetType(event) == KEY_UP && event.getKeyCode() == ENTER){
+			    	((AppWapplication)app).getAppFrame().showKeyBoard(false, null);
+			    }
 			}
 		};
 		if (columns > 0) {
@@ -187,7 +203,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		textField.getElement().setId(id);
 
 		showSymbolButton = new ToggleButton() {
-			public void onBrowserEvent(Event event) {
+			@Override
+            public void onBrowserEvent(Event event) {
 				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
 					
 					// set it as focused anyway, because it is needed
@@ -204,7 +221,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		showSymbolButton.setText(Unicode.alpha + "");
 		showSymbolButton.addStyleName("SymbolToggleButton");
 		showSymbolButton.addBlurHandler(new BlurHandler() {
-			public void onBlur(BlurEvent event) {
+			@Override
+            public void onBlur(BlurEvent event) {
 				showSymbolButton.removeStyleName("ShowSymbolButtonFocused");
 				showSymbolButtonFocused = false;
 				// TODO: make it disappear when blurred
@@ -213,7 +231,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		});
 		showSymbolButton.addClickHandler(new ClickHandler(){
 
-			public void onClick(ClickEvent event) {
+			@Override
+            public void onClick(ClickEvent event) {
 				if (showSymbolButton.isDown()) {
 					// when it is still down, it will be changed to up
 					// when it is still up, it will be changed to down
@@ -272,7 +291,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	private void init() {
 		textField.getValueBox().addMouseUpHandler(new MouseUpHandler() {
-			public void onMouseUp(MouseUpEvent event) {
+			@Override
+            public void onMouseUp(MouseUpEvent event) {
 				// AG I dont understand thisAutoCompleteTextField tf =
 				// ((AutoCompleteTextField)event.getSource());
 				// AG tf.setFocus(true);
@@ -303,7 +323,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 		ClickHandler al = new ClickHandler() {
 
-			public void onClick(ClickEvent event) {
+			@Override
+            public void onClick(ClickEvent event) {
 				// AGString cmd = event.;
 				// AGif (cmd.equals(1 + BorderButton.cmdSuffix)) {
 				// TODO: should up/down orientation be tied to InputBar?
@@ -325,11 +346,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		App.debug("setBorderButton() implementation needed"); // TODO Auto-generated
 	}
 
-	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
+	@Override
+    public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		App.debug("geoElementSelected() implementation needed"); // TODO Auto-generated
 	}
 
-	public void showPopupSymbolButton(boolean b) {
+	@Override
+    public void showPopupSymbolButton(boolean b) {
 		this.showSymbolTableIcon = b;
 		if (showSymbolButton == null) {
 			return;
@@ -353,7 +376,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 * @param val
 	 *            True or false.
 	 */
-	public void setAutoComplete(boolean val) {
+	@Override
+    public void setAutoComplete(boolean val) {
 		autoComplete = val && loc.isAutoCompletePossible();
 
 		/*if (autoComplete)
@@ -451,17 +475,20 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		completions = null;
 	}
 
-	public void enableColoring(boolean b) {
+	@Override
+    public void enableColoring(boolean b) {
 		App.debug("enableColoring() implementation needed"); // TODO Auto-generated
 
 	}
 
-	public void setOpaque(boolean b) {
+	@Override
+    public void setOpaque(boolean b) {
 		App.debug("setOpaque() implementation needed"); // TODO Auto-generated
 
 	}
 
-	public void setFont(GFont font) {
+	@Override
+    public void setFont(GFont font) {
 		actualFontSize = font.getSize();
 		textField.getElement().getStyle().setFontSize(font.getSize(), Unit.PX);
 
@@ -475,34 +502,36 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 	}
 
-	public void setForeground(GColor color) {
+	@Override
+    public void setForeground(GColor color) {
 		drawTextField.getLabel().setForeground(color);
 		textField.getElement().getStyle().setColor(GColor.getColorString(color));
 	}
 
-	public void setBackground(GColor color) {
+	@Override
+    public void setBackground(GColor color) {
 		textField.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
 	}
 
-	public void setFocusable(boolean b) {
+	@Override
+    public void setFocusable(boolean b) {
 		App.debug("setFocusable() implementation needed"); // TODO Auto-generated
 
 	}
 
-	public void setFocus(boolean b) {
-		textField.setFocus(b && !showOnScreenKeyBoard);
-	}
-
-	public void setEditable(boolean b) {
+	@Override
+    public void setEditable(boolean b) {
 		textField.setEnabled(b);
 	}
 
-	public void setLabel(GLabel label) {
+	@Override
+    public void setLabel(GLabel label) {
 		App.debug("setLabel() implementation needed"); // TODO Auto-generated
 
 	}
 
-	public void setColumns(int columns) {
+	@Override
+    public void setColumns(int columns) {
 		this.columns  = columns;
 		if (showSymbolButton != null && 
 				(this.columns > EuclidianConstants.SHOW_SYMBOLBUTTON_MINLENGTH || this.columns == -1)) {
@@ -557,32 +586,38 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		return curWordStart;
 	}
 
-	public void addFocusListener(FocusListener listener) {
+	@Override
+    public void addFocusListener(FocusListener listener) {
 		textField.getValueBox().addFocusHandler(
 		        (geogebra.html5.event.FocusListenerW) listener);
 		textField.getValueBox().addBlurHandler(
 		        (geogebra.html5.event.FocusListenerW) listener);
 	}
 
-	public void wrapSetText(String s) {
+	@Override
+    public void wrapSetText(String s) {
 		App.debug("wrapSetText() implementation needed"); // TODO Auto-generated
 
 	}
 
-	public int getCaretPosition() {
+	@Override
+    public int getCaretPosition() {
 		return textField.getValueBox().getCursorPos();
 	}
 
-	public void setCaretPosition(int caretPos) {
+	@Override
+    public void setCaretPosition(int caretPos) {
 		textField.getValueBox().setCursorPos(caretPos);
 	}
 
-	public void setDictionary(boolean forCAS) {
+	@Override
+    public void setDictionary(boolean forCAS) {
 		this.forCAS = forCAS;
 		this.dict = null;
 	}
 
-	public AutoCompleteDictionary getDictionary() {
+	@Override
+    public AutoCompleteDictionary getDictionary() {
 		if (this.dict == null) {
 			this.dict = this.forCAS ? app.getCommandDictionaryCAS() : app
 					.getCommandDictionary();
@@ -722,7 +757,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		app.showError(e);
 	}
 
-	public boolean getAutoComplete() {
+	@Override
+    public boolean getAutoComplete() {
 		return autoComplete && loc.isAutoCompletePossible();
 	}
 
@@ -804,7 +840,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 	boolean ctrlC = false;
 
-	public void onKeyPress(KeyPressEvent e) {
+	@Override
+    public void onKeyPress(KeyPressEvent e) {
 
 		// only handle parentheses
 		char ch = e.getCharCode();
@@ -900,7 +937,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		setCaretPosition(Math.min(text.length(), caretPos));
 	}
 
-	public void onKeyDown(KeyDownEvent e) {
+	@Override
+    public void onKeyDown(KeyDownEvent e) {
 		if (!isTabEnabled()) {
 			return;
 		}
@@ -910,7 +948,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 	}
 
-	public void onKeyUp(KeyUpEvent e) {
+	@Override
+    public void onKeyUp(KeyUpEvent e) {
 		int keyCode = e.getNativeKeyCode();
 
 		// we don't want to trap AltGr
@@ -1159,13 +1198,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	/* Hopefully happens only on click */
-	public void onValueChange(ValueChangeEvent<String> event) {
+	@Override
+    public void onValueChange(ValueChangeEvent<String> event) {
 		isSuggestionClickJustHappened = true;
 
 		// textField.getValueBox().getElement().focus();
 	}
 
-	public void onSelection(SelectionEvent<Suggestion> event) {
+	@Override
+    public void onSelection(SelectionEvent<Suggestion> event) {
 		isSuggestionJustHappened = true;
 		int index = completions.indexOf(event.getSelectedItem()
 		        .getReplacementString());
@@ -1175,7 +1216,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	/**
 	 * Inserts a string into the text at the current caret position
 	 */
-	public void insertString(String text) {
+	@Override
+    public void insertString(String text) {
 		int start = getSelectionStart();
 		int end = getSelectionEnd();
 
@@ -1242,7 +1284,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		return getText().indexOf(textField.getValueBox().getSelectedText());
 	}
 
-	public void removeSymbolTable(){
+	@Override
+    public void removeSymbolTable(){
 		if (showSymbolButton == null) {
 			return;
 		}
@@ -1264,11 +1307,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 	}
 
-	public String getText() {
+	@Override
+    public String getText() {
 		return textField.getText();
 	}
 
-	public void setText(String s) {
+	@Override
+    public void setText(String s) {
 		textField.getValueBox().setText(s);
 	}
 
@@ -1350,32 +1395,36 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 	}
 
-	public void setUsedForInputBox(GeoTextField geo) {
+	@Override
+    public void setUsedForInputBox(GeoTextField geo) {
 		geoUsedForInputBox = geo;
 	}
 
-	public boolean usedForInputBox() {
+	@Override
+    public boolean usedForInputBox() {
 		return geoUsedForInputBox != null;
 	}
 
-	public void requestFocus() {
+	@Override
+    public void requestFocus() {
 		if(showOnScreenKeyBoard) {
-			keyboard = OnScreenKeyBoard.getInstance(this);
-			keyboard.show();
+			((AppWapplication)app).getAppFrame().showKeyBoard(true, this);
 		}
-		// if the onScreenKeyBoard is shown setFocus will blur textField
-		textField.setFocus(true);
+		// set focus only if onScreenKeyBoard is not shown
+		textField.setFocus(!showOnScreenKeyBoard);
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
 		}
 	}
 
-	public void setFocusTraversalKeysEnabled(boolean b) {
+	@Override
+    public void setFocusTraversalKeysEnabled(boolean b) {
 		// Dummy method
 	}
 
-	public boolean hasFocus() {
+	@Override
+    public boolean hasFocus() {
 		App.debug("Unimplemented");
 		return false;
 	}
@@ -1394,7 +1443,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		this.isCASInput = b;
 	}
 
-	public void addKeyHandler(KeyHandler handler) {
+	@Override
+    public void addKeyHandler(KeyHandler handler) {
 		textField.getValueBox().addKeyPressHandler(new KeyListenerW(handler));
 
 	}
@@ -1414,7 +1464,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
 	}
 
-	public String getCommand() {
+	@Override
+    public String getCommand() {
 		this.updateCurrentWord(true);
 		return this.getCurrentWord();
 	}
@@ -1474,7 +1525,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		prepareShowSymbolButton(true);
 	}
 
-	public void prepareShowSymbolButton(boolean b) {
+	@Override
+    public void prepareShowSymbolButton(boolean b) {
 		if (showSymbolButton == null) {
 			return;
 		}
@@ -1498,4 +1550,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	public boolean showOnscreenKeyboard() {
 		return false;
 	}
+
+	public void setFocus(boolean b) {
+	    // TODO Auto-generated method stub
+    }
 }
