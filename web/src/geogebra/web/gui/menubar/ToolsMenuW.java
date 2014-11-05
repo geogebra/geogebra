@@ -28,7 +28,6 @@ public class ToolsMenuW extends GMenuBar {
 
 	protected void initActions() {
 
-		//if (GeoGebraConstants.IS_PRE_RELEASE) {
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_customize().getSafeUri().asString(),
 		        app.getMenu("Toolbar.Customize"), true), true, new MenuCommand(app) {
 
@@ -38,21 +37,19 @@ public class ToolsMenuW extends GMenuBar {
 			}
 		});
 
-		//}
-
-		
-		addSeparator();
-
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri().asString(), app.getMenu("Tool.CreateNew"),
-				true), true, new MenuCommand(app) {
-
-			@Override
-			public void doExecute() {
-				ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app);
-				toolCreationDialog.center();
-			}
-		});
-		
+		if(app.isPrerelease()){
+			addSeparator();
+	
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri().asString(), app.getMenu("Tool.CreateNew"),
+					true), true, new MenuCommand(app) {
+	
+				@Override
+				public void doExecute() {
+					ToolCreationDialog toolCreationDialog = new ToolCreationDialog(app);
+					toolCreationDialog.center();
+				}
+			});
+		}
 		/*
 		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("Tool.Manage"),
 		        true), true, new Command() {

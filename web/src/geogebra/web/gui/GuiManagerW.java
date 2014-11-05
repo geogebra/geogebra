@@ -1659,10 +1659,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	@Override
 	public void updateStyleBarPositions(boolean menuOpen){
 		for(DockPanelW panel : this.layout.getDockManager().getPanels()){
-			int right = Window.getClientWidth() - (panel.getAbsoluteLeft() + panel.getOffsetWidth()); 
+			int right = (int) (app.getWidth() - (panel.getAbsoluteLeft() /((AppW) app).getArticleElement().getScaleX() + panel.getOffsetWidth())); 
 
 			if(menuOpen && panel.isVisible() && right <  GLookAndFeel.MENUBAR_WIDTH){
-				if(Window.getClientWidth() -panel.getAbsoluteLeft() > GLookAndFeel.MENUBAR_WIDTH){
+				if(app.getWidth() -panel.getAbsoluteLeft() > GLookAndFeel.MENUBAR_WIDTH){
 					// -2 necessary because of style-settings for the StyleBar and the Menu
 					panel.showStyleBarPanel(true);
 					panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH- right -2);
