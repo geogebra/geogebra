@@ -3,7 +3,7 @@ package geogebra.web.gui.images;
 import com.google.gwt.resources.client.ClientBundle;
 import com.google.gwt.resources.client.ImageResource;
 
-public interface PngPerspectiveResources extends ClientBundle{
+public interface PngPerspectiveResources extends PerspectiveResources, ClientBundle{
 	@Source("geogebra/web/gui/images/menu_view_algebra.png")
 	ImageResource view_algebra24();
 	

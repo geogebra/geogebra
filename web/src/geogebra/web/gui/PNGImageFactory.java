@@ -19,7 +19,7 @@ public class PNGImageFactory implements ImageFactory{
     private static PerspectiveResources pr;
     public PerspectiveResources getPerspectiveResources() {
     	if(pr == null){
-    		GWT.create(PngPerspectiveResources.class);
+    		pr = GWT.create(PngPerspectiveResources.class);
     	}
 	    return pr;
 	    
