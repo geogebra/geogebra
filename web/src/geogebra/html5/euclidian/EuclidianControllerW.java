@@ -1070,6 +1070,8 @@ LongTouchHandler {
 		return super.moveAxesPossible() && this.moveAxesAllowed;
 	}
 	
+	private boolean freehandModePrepared = false;
+	
 	protected void prepareModeForFreehand() {
 		if (selectedPoints.size() != 0) {
 			// make sure to switch only for the first point
@@ -1104,6 +1106,7 @@ LongTouchHandler {
 		} else {
 			return;
 		}
+		freehandModePrepared = true;
 		((EuclidianPenFreehand) pen).setInitialPoint(point, point != null && point.equals(pointCreated));
 	}
 
@@ -1137,6 +1140,10 @@ LongTouchHandler {
 	 * (e.g. because the selected tool is not supported)
 	 */
 	protected void resetModeAfterFreehand() {
+		if (freehandModePrepared) {
+			freehandModePrepared = false;
+			pen = null;
+		}
 		if (previousMode != -1) {
 			this.mode = previousMode;
 			moveMode = MOVE_NONE;
@@ -1145,7 +1152,6 @@ LongTouchHandler {
 			this.previousMode = -1;
 			this.view.repaint();
 		}
-		pen = null;
 	}
 
 	private static double getDistance(GPoint p, GPoint q) {
