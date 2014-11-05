@@ -1642,7 +1642,7 @@ Paddings for menuitems.
 ###       STYLEBAR
 #####################################################################################*/
 .closeButtonPanel {
-	margin: 3px;
+	padding: 7px;
 }
 
 .ButtonPopupMenu {
