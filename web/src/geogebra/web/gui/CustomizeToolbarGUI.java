@@ -155,6 +155,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						        && dragging.treeItem.getChildCount() > 1) {
 							toolTree.insertItem(idx, dragging.treeItem);
 						} else {
+							App.debug("------------------------------");
 							DraggableTool dropped = new DraggableTool(dragging
 							        .getMode(), item);
 							toolTree.insertBranchItem(dropped, idx);
@@ -163,6 +164,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 								// dragging.treeItem.remove();
 							}
 						}
+						
+
+						App.debug("checking first leaf");
+						checkFirstLeaf(dragging.treeItem.getParentItem());
+						
 
 						dragging = null;
 						tool.removeStyleName("branchDropping");
@@ -253,7 +259,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			checkEmptyBranch(dragging.treeItem);
 			
 			if (childCount == 0) {
-				App.debug("hanyszor hivodsz meg te szemet");
 				reorderLeaf(branch, dragging, idx);
 			} else {
 				for (int i = childCount - 1; i > -1; i--) {
@@ -477,9 +482,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		item.remove();
 		if (branch != null) {
 			int n = branch.getChildCount();
-			App.debug("[CUSTOMIZE] branch childCount is " + n);
 			if (n == 0) {
 				branch.remove();
+			} else {
+				checkFirstLeaf(branch);
 			}
 		}
 
@@ -498,7 +504,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		DraggableTool branchTool = (DraggableTool) branch.getUserObject();
 		DraggableTool firstTool = (DraggableTool) leaf.getUserObject();
-
+		App.debug("[CUSTOMIZE] branch: " + branchTool.getTitle());
+		App.debug("[CUSTOMIZE] first: " + firstTool.getTitle());
+		
 		if (branchTool.getMode() != firstTool.getMode()) {
 			App.debug("[CUSTOMIZE] branch and first tool does not match");
 			branchTool.setMode(firstTool.getMode());
