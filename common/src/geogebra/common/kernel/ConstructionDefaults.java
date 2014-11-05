@@ -839,12 +839,12 @@ public class ConstructionDefaults {
 
 
 	/**
-	 * @param angleSize
+	 * @param angleSize0
 	 *            new default angle size
 	 */
-	public void setDefaultAngleSize(int angleSize) {
+	public void setDefaultAngleSize(int angleSize0) {
 
-		this.angleSize = Math.max(angleSize, 1);
+		this.angleSize = Math.max(angleSize0, 1);
 
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
@@ -860,12 +860,12 @@ public class ConstructionDefaults {
 	}
 
 	/**
-	 * @param pointSize
+	 * @param pointSize0
 	 *            new default point size
 	 */
-	public void setDefaultPointSize(int pointSize) {
+	public void setDefaultPointSize(int pointSize0) {
 
-		this.pointSize = Math.max(pointSize, 1);
+		this.pointSize = Math.max(pointSize0, 1);
 
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
@@ -884,12 +884,12 @@ public class ConstructionDefaults {
 	}
 
 	/**
-	 * @param lineThickness
+	 * @param lineThickness0
 	 *            new default thickness
 	 */
-	public void setDefaultLineThickness(int lineThickness) {
+	public void setDefaultLineThickness(int lineThickness0) {
 
-		this.lineThickness = Math.max(lineThickness, 1);
+		this.lineThickness = Math.max(lineThickness0, 1);
 
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
@@ -909,18 +909,18 @@ public class ConstructionDefaults {
 	}
 
 	/**
-	 * @param filling
+	 * @param filling0
 	 *            new default filling
 	 */
-	public void setDefaultFilling(float filling) {
+	public void setDefaultFilling(float filling0) {
 
-		this.filling = filling;
+		this.filling = filling0;
 
 		Iterator<GeoElement> it = defaultGeoElements.values().iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 
-			geo.setAlphaValue(filling);
+			geo.setAlphaValue(filling0);
 		}
 	}
 
