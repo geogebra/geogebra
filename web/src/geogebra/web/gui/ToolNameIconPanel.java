@@ -74,7 +74,7 @@ public class ToolNameIconPanel extends VerticalPanel {
 		mainWidget.add(pToolName);
 
 		VerticalPanel iconPanel = new VerticalPanel();
-		icon = new Image(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
+		icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
 		        ));
 		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {

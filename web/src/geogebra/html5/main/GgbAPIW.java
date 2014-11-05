@@ -13,6 +13,7 @@ import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ImageManager;
 import geogebra.html5.util.View;
+import geogebra.web.gui.NoDragImage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,7 +27,6 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
@@ -484,7 +484,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			if (fileName != null) {
 				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
-				MyImageW img = new MyImageW(ImageElement.as((new Image(url)).getElement()),"svg".equals(ext));
+				MyImageW img = new MyImageW(ImageElement.as((new NoDragImage(url)).getElement()),"svg".equals(ext));
 				
 				addImageToArchive("", fileName, url, ext, img, archive);
 			}

@@ -9,6 +9,7 @@ import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.gui.inputfield.SymbolTableW;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.images.AppResources;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		getPreviewer();
 		previewer.onResize();
 
-		Image geoTabImage = new Image(AppResources.INSTANCE.geogebra()
+		Image geoTabImage = new NoDragImage(AppResources.INSTANCE.geogebra()
 		        .getSafeUri().asString());
 
 		// create the tabs

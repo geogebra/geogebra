@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -44,7 +43,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		buttons = new FlowPanel();
 		buttons.setStyleName("panelRow");
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-		final MyToggleButton2 btnGeneral = new MyToggleButton2(new Image(GGWToolBar.safeURI(pr.view_graphics24())));
+		final MyToggleButton2 btnGeneral = new MyToggleButton2(new NoDragImage(GGWToolBar.safeURI(pr.view_graphics24())));
 		buttons.add(btnGeneral);
 		DockPanelW[] panels =  ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanels();
 		for(DockPanelW panel : panels) {
@@ -63,7 +62,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 					res = panel.getIcon();
 				}
 				
-				final MyToggleButton2 btn = new MyToggleButton2(new Image(GGWToolBar.safeURI(res)));
+				final MyToggleButton2 btn = new MyToggleButton2(new NoDragImage(GGWToolBar.safeURI(res)));
 				btn.addClickHandler(new ClickHandler() {
 					
 					public void onClick(ClickEvent event) {

@@ -1,8 +1,11 @@
 package geogebra.html5.gui;
 
+import geogebra.web.gui.NoDragImage;
+
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.user.client.ui.Label;
 
 public class StandardButton extends FastButton {
 
@@ -27,19 +30,17 @@ public class StandardButton extends FastButton {
 
 		this.icon = image;
 		this.label = label;
-
-		String html = "";
+		this.getElement().removeAllChildren();
 
 		if (image != null) {
-			html = "<div class=\"image\"> <img src=\""
-					+ image.getSafeUri().asString() + "\" /></div>";
+			NoDragImage im = new NoDragImage(image.getSafeUri().asString());
+			this.getElement().appendChild(im.getElement());
 		}
 
 		if (label != null) {
-			html = html + "<div class=\"gwt-Label\">" + label + "</div>";
+			Label l = new Label(label);
+			this.getElement().appendChild(l.getElement());
 		}
-
-		this.getElement().setInnerHTML(html);
 	}
 	
 	@Override

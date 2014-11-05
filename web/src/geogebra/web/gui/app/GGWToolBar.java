@@ -8,6 +8,7 @@ import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.toolbar.ToolBarW;
@@ -294,7 +295,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 					return safeURI(myIconResourceBundle.mode_tool_32());
 				}
 				// use image as icon
-				Image img = new Image(app.getImageManager().getExternalImageSrc(iconName));
+				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName));
 				return img.getUrl();
 			} catch (Exception e) {
 				App.debug("macro does not exist: ID = " + macroID);

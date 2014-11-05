@@ -333,7 +333,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		public void setMode(Integer mode) {
 			this.mode = mode;
 			clear();
-			toolbarImg = new Image(
+			toolbarImg = new NoDragImage(
 			        ((GGWToolBar) app.getToolbar()).getImageURL(mode));
 			toolbarImg.addStyleName("toolbar_icon");
 			toolbarImg.setWidth("32px");

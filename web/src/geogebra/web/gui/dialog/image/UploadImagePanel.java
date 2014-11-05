@@ -1,6 +1,7 @@
 package geogebra.web.gui.dialog.image;
 
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.NoDragImage;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
@@ -73,7 +74,7 @@ public class UploadImagePanel extends VerticalPanel {
 		this.fileData = fileData;
 		this.fileName = fileName;
 		if (previewImg == null) {
-			previewImg = new Image(fileData);
+			previewImg = new NoDragImage(fileData);
 			previewImg.setHeight(previewHeight);
 			previewImg.setWidth(previewWidth);
 			add(previewImg);

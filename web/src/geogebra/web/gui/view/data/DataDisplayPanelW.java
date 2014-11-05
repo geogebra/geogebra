@@ -19,6 +19,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.main.GlobalKeyDispatcherW;
 import geogebra.html5.main.LocalizationW;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.view.algebra.InputPanelW;
@@ -37,7 +38,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DeckPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -178,7 +178,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		oldWidth = 0;
 		oldHeight = 0;
 		// create options button
-		btnOptions = new MyToggleButton2(new Image(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString()));
+		btnOptions = new MyToggleButton2(new NoDragImage(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString()));
 
 		btnOptions.addClickHandler(new ClickHandler() {
 

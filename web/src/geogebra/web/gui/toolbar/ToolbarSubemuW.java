@@ -4,6 +4,7 @@ import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -73,7 +74,7 @@ public class ToolbarSubemuW extends FlowPanel {
 	public ListItem addItem(int addMode) {
 		ListItem listItem = new ListItem();
 		
-		Image image = new Image(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
+		Image image = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(addMode));
 		image.setWidth("32px");
 		Label label = new Label(app.getToolName(addMode));
 		listItem.add(image);

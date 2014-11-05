@@ -1,5 +1,7 @@
 package geogebra.html5.gui.util;
 
+import geogebra.web.gui.NoDragImage;
+
 import java.util.List;
 
 import com.google.gwt.dom.client.Document;
@@ -119,7 +121,7 @@ public class ImageList extends FocusWidget implements HasChangeHandlers, HasValu
 	public void setIcons(List<String> urls) { 
 
 		for (String url: urls) {
-			Image img = new Image(url);
+			Image img = new NoDragImage(url);
 			ul.add(img);
 		}
 	}

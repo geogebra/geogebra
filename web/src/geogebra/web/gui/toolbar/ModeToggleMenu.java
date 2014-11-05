@@ -9,6 +9,7 @@ import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ListItem;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
 
 import java.util.ArrayList;
@@ -69,7 +70,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	private void buildButton() {
 		tbutton = new FlowPanel();
 		tbutton.addStyleName("toolbar_button");
-		Image toolbarImg = new Image(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()));
+		Image toolbarImg = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(menu.get(0).intValue()));
 		toolbarImg.setWidth("32px");
 		toolbarImg.addStyleName("toolbar_icon");
 		tbutton.add(toolbarImg);
@@ -228,7 +229,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		
 		tbutton.getElement().setAttribute("mode",miMode);
 		tbutton.clear();
-		Image buttonImage = new Image(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)));
+		Image buttonImage = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(Integer.parseInt(miMode)));
 		buttonImage.setWidth("32px");
 		buttonImage.addStyleName("toolbar_icon");
 		tbutton.add(buttonImage);
@@ -296,6 +297,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	    } else { // clicked on a submenu list item
 	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
 	    }
+	    event.preventDefault();
     }
 
 	@Override
@@ -319,6 +321,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	    } else { // clicked on a submenu list item
 	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()
 	    }
+	    event.preventDefault();
     }
 	
 	/**

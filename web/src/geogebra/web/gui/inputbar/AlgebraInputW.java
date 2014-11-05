@@ -14,6 +14,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -26,7 +27,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -90,9 +90,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		//AG updateFonts()
 
 		btnHelpToggle = new ToggleButton(
-				new Image(GuiResources.INSTANCE.input_help_left().getSafeUri().asString()),
+				new NoDragImage(GuiResources.INSTANCE.input_help_left().getSafeUri().asString()),
 				//new Image(AppResources.INSTANCE.inputhelp_left_20x20().getSafeUri().asString()), 
-				new Image(GuiResources.INSTANCE.input_help_up().getSafeUri().asString()));
+				new NoDragImage(GuiResources.INSTANCE.input_help_up().getSafeUri().asString()));
 		//new Image(AppResources.INSTANCE.inputhelp_right_20x20().getSafeUri().asString()));
 		btnHelpToggle.addStyleName("inputHelp-toggleButton");
 

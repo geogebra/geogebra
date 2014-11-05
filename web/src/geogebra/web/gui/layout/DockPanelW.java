@@ -13,6 +13,7 @@ import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.cas.view.CASStylebarW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.ImageFactory;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.PerspectiveResources;
@@ -584,7 +585,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		FlowPanel p = new FlowPanel();
 		String caption;
 		if (!this.isStyleBarEmpty()) {
-			Image img = new Image(GGWToolBar.safeURI(getIcon()));
+			Image img = new NoDragImage(GGWToolBar.safeURI(getIcon()));
 			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 			img.getElement().getStyle().setMarginRight(4, Unit.PX);
 			p.add(img);

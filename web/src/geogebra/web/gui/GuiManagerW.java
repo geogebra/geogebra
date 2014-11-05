@@ -1437,7 +1437,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		final String[] options = { loc.getPlain("CreateSliders"),
 		        app.getMenu("Cancel") };
 		
-		final Image icon  = new Image(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_slider_32()));
+		final Image icon  = new NoDragImage(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_slider_32()));
 		icon.getElement().getStyle().setProperty("border", "3px solid steelblue");
 		
 		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getPlain("CreateSlidersForA", s),
