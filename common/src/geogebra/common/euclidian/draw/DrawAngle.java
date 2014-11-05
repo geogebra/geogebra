@@ -464,12 +464,6 @@ public class DrawAngle extends Drawable implements Previewable {
 				polygon.moveTo((float) p1[0], (float) p1[1]);
 				polygon.lineTo((float) p2[0], (float) p2[1]);
 				polygon.lineTo((float) p3[0], (float) p3[1]);
-				polygon.lineTo((float) p1[0], (float) p1[1]);
-
-				polygon.moveTo((float) p1[0], (float) p1[1]);
-				polygon.lineTo((float) p2[0], (float) p2[1]);
-				polygon.lineTo((float) p3[0], (float) p3[1]);
-				polygon.lineTo((float) p1[0], (float) p1[1]);
 				polygon.closePath();
 
 				break;
