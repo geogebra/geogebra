@@ -83,16 +83,6 @@ body.application,article {
 	border-color: #6161FF;
 }
 
-.GeoGebraFrame input[type="checkbox"] {
-	-webkit-border-radius: 3px;
-	-khtml-border-radius: 3px;
-	-moz-border-radius: 3px;
-	border-radius: 3px;
-	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
-	border: #DCDCDC solid 1px;
-	color: #666666;
-}
-
 .GeoGebraFrame input[type="range"] { /*margin: 0px;*/
 	padding: 5px 0px;
 }
@@ -3611,8 +3601,8 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 }
 
 .DialogBox button.CustomColorButton {
-	left: 237px;
-	top: 257px;
+	left: -174px;
+	top: 13px;
 }
 
 .GeoGebraFrame button.CustomColorButton:hover {
