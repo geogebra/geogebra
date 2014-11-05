@@ -85,12 +85,12 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		inputPanel.setWidget(uploadImagePanel);
 	}
 	
-	public void imageAvailable() {
+	protected void imageAvailable() {
 		insertBtn.setEnabled(true);
 		insertBtn.removeStyleName("button-up-disabled");
 	}
 
-	public void imageUnavailable() {
+	protected void imageUnavailable() {
 		insertBtn.setEnabled(false);
 		insertBtn.addStyleName("button-up-disabled");
 	}
