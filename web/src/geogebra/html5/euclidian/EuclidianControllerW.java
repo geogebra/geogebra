@@ -979,7 +979,7 @@ LongTouchHandler {
 
 	@Override
 	protected void wrapMouseDragged(AbstractEvent event) {
-		if (pen != null && !penDragged) {
+		if (pen != null && !penDragged && freehandModePrepared) {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 		if (!shouldCancelDrag()) {
