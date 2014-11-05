@@ -4,6 +4,7 @@ import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.Coords;
@@ -40,7 +41,7 @@ import java.util.ArrayList;
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		Vector3DValue, SpreadsheetTraceable, 
-		RotateableND, Traceable, MirrorableAtPlane, Transformable, Dilateable,
+		RotateableND, Traceable, MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable,
 		CoordStyle {
 
 	private GeoPointND startPoint;
@@ -717,6 +718,50 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		
 		setCoords(v.mul(rval.getDouble()));
 	}
+	
+	
+	
+	@Override
+	public boolean isMatrixTransformable() {
+		return true;
+	}
+	
+	public void matrixTransform(double a, double b, double c, double d) {
+
+		double x = getX();
+		double y = getY();
+
+		Double x1 = a * x + b * y;
+		Double y1 = c * x + d * y;
+
+		setCoords(x1, y1, getZ(), getW());
+	}
+
+
+	public void matrixTransform(double a00, double a01, double a02, double a10,
+			double a11, double a12, double a20, double a21, double a22) {
+
+		double x = getX();
+		double y = getY();
+		double z = getZ();
+
+		double x1 = a00 * x + a01 * y + a02 * z;
+		double y1 = a10 * x + a11 * y + a12 * z;
+		double z1 = a20 * x + a21 * y + a22 * z;
+
+		setCoords(x1, y1, z1, getW());
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 
