@@ -79,7 +79,7 @@ public class AlgoTakeString extends AlgoElement {
     @Override
 	public final void compute() {
 
-    	if (!m.isDefined() || (n!=null && !n.isDefined())) {
+    	if (!m.isDefined() || (n!=null && !n.isDefined()) || inputText == null) {
     		outputText.setTextString("");
         	return;
     	}
