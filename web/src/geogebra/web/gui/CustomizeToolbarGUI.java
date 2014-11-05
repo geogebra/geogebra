@@ -211,7 +211,14 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				@Override
 				public void onDrop(DropEvent event) {
 					event.preventDefault();
+					event.stopPropagation();
+					if (dragging == null) {
+						return;
+					}
+					
 					dropToLeaf(branch, tool);
+					
+					dragging = null;
 				}
 			}, DropEvent.getType());
 
@@ -233,10 +240,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 		
 		protected void dropToLeaf(final TreeItem branch, final DraggableTool tool) {
-			if (dragging == null) {
-				return;
-			}
-			
+		
 			int idx = branch.getChildIndex(tool.treeItem);
 
 			if (dragging == tool) {
@@ -249,6 +253,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			checkEmptyBranch(dragging.treeItem);
 			
 			if (childCount == 0) {
+				App.debug("hanyszor hivodsz meg te szemet");
 				reorderLeaf(branch, dragging, idx);
 			} else {
 				for (int i = childCount - 1; i > -1; i--) {
@@ -266,7 +271,6 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		private void reorderLeaf(final TreeItem branch, final DraggableTool tool, int idx) {
 			insertLeafItem(branch, tool, idx);
-			
 			int idxMode = allTools.indexOf(dragging.getMode());
 
 			if (idxMode != -1) {
