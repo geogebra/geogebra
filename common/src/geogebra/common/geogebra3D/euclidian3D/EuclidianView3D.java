@@ -1293,6 +1293,13 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// Application.debug("repaint View3D");
 		// super.repaintView();
 	}
+	
+	/**
+	 * says we want a new repaint after current repaint
+	 */
+	public void waitForNewRepaint(){
+		// nothing done here, see EuclidianView3DW
+	}
 
 	@Override
 	public void reset() {

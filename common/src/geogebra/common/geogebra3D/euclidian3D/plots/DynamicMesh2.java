@@ -414,10 +414,11 @@ public abstract class DynamicMesh2 {
 		boolean switched = false;
 
 		do {
-			if (side == Side.MERGE)
+			if (side == Side.MERGE){
 				merge(mergeQueue.poll());
-			else
+			}else{
 				split(splitQueue.poll());
+			}
 			
 			if(prevSide != side) {
 				if(switched) {
@@ -435,7 +436,7 @@ public abstract class DynamicMesh2 {
 		if (debugInfo)
 			System.out.println(getDebugInfo(new Date().getTime() - t1));
 
-		return false;
+		return count <= 4; // why 4?
 	}
 
 	/**

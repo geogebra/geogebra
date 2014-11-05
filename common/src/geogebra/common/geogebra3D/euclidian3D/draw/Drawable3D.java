@@ -250,8 +250,7 @@ public abstract class Drawable3D extends DrawableND {
 	}
 	
 	
-	protected void realtimeUpdate() {
-	}
+	
 	
 	
 	///////////////////////////////////////////////////////////////////////////////
@@ -284,6 +283,9 @@ public abstract class Drawable3D extends DrawableND {
 			if (updateForItSelf()){
 				recordTrace();
 				waitForUpdate = false;
+			}else{
+				// we need a new repaint after current one to refine the drawable (used DrawSurface3DOld)
+				getView3D().waitForNewRepaint();
 			}
 			setLabelWaitForUpdate();//TODO remove that
 		}
@@ -299,8 +301,6 @@ public abstract class Drawable3D extends DrawableND {
 		}
 
 		
-		
-		realtimeUpdate();
 		
 		waitForReset = false;
 	}

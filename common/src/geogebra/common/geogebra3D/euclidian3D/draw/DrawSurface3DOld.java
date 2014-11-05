@@ -203,18 +203,20 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 		surface.draw(mesh);
 		setSurfaceIndex(surface.end());
 
-		return false;
+		return ret;
 	}
 
 	@Override
 	protected void updateForView() {
-		if(updateCullingBox()){
-			mesh = new SurfaceMesh2(surface, cullingBox, activeDomain);
-		}
-		if (updateForItSelf()) {
-			//the perspective has changed so the mesh has to be updated
-			//TODO: calling setWaitForUpdate() refines the whole mesh - fix?
-			//setWaitForUpdate(); 
+		if (getView3D().viewChangedByTranslate() || getView3D().viewChangedByZoom()){
+			if(updateCullingBox()){
+				mesh = new SurfaceMesh2(surface, cullingBox, activeDomain);
+			}
+			if (!updateForItSelf()) {
+				//the perspective has changed so the mesh has to be updated
+				//TODO: calling setWaitForUpdate() refines the whole mesh - fix?
+				setWaitForUpdate(); 
+			}
 		}
 	}
 

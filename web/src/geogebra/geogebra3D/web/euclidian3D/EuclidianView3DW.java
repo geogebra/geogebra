@@ -527,7 +527,8 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	}
 
 
-	public Canvas getCanvas() {
+	@Override
+    public Canvas getCanvas() {
 	    return g2p.getCanvas();
     }
 
@@ -547,7 +548,8 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	
 	
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
-		public void execute(double ts) {
+		@Override
+        public void execute(double ts) {
 			doRepaint2();
 		}
 	};
@@ -579,10 +581,14 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
+		
+		waitForRepaint = waitForNewRepaint;
+		waitForNewRepaint = TimerSystemW.SLEEPING_FLAG;
 
 	}
 	
-	public long getLastRepaintTime() {
+	@Override
+    public long getLastRepaintTime() {
 		return lastRepaint;
 	}
 
@@ -604,7 +610,14 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
     	}
     }
 	
+	@Override
+    final public void waitForNewRepaint(){
+		waitForNewRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+	}
+
+	
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	private int waitForNewRepaint = TimerSystemW.SLEEPING_FLAG;
 	
 
 	 
@@ -618,7 +631,8 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	/**
 	 * timer system suggests a repaint
 	 */
-	public boolean suggestRepaint(){
+	@Override
+    public boolean suggestRepaint(){
 		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
 			return false;
 		}
@@ -626,7 +640,6 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
 			if (isShowing()){
 				doRepaint();	
-				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 			}
 			return true;
 		}
