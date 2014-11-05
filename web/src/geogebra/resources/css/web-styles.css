@@ -83,6 +83,11 @@ body.application,article {
 	border-color: #6161FF;
 }
 
+/* avoid 'x' in IE */
+input[type="text"]::-ms-clear {
+	display: none;
+}
+
 .GeoGebraFrame input[type="range"] { /*margin: 0px;*/
 	padding: 5px 0px;
 }
