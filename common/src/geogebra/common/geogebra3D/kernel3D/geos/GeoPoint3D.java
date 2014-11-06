@@ -1348,7 +1348,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
-
+		
 
 		rotate(phiValue, o1, vn);
 
@@ -1369,7 +1369,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	 */
 	public void rotate(double phi, Coords o1, Coords vn){
 		
-		if (vn.isZero()){
+		if (vn.isZero() || Double.isNaN(phi)){
 			setUndefined();
 			return;
 		}
@@ -1379,6 +1379,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
 		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the line
+		
+		
 
 		if (tmpCoords2 == null){
 			tmpCoords2 = new Coords(4);
@@ -1393,10 +1395,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 			tmpCoords3 = new Coords(4);
 		}
 		tmpCoords3.setCrossProduct(vn, tmpCoords2);
+		tmpCoords3.setW(0);
 		
 		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin/l))));
-
-
 	}
 
 	public void rotate(NumberValue phiValue, GeoLineND line){
@@ -1415,7 +1416,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
-
 
 		rotate(phi, o1, vn);
 
