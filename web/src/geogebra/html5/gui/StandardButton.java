@@ -1,17 +1,19 @@
 package geogebra.html5.gui;
 
 import geogebra.web.gui.NoDragImage;
+import geogebra.web.gui.app.GGWToolBar;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.resources.client.ImageResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Label;
 
 public class StandardButton extends FastButton {
 
 	
 
-	private ImageResource icon;
+	private ResourcePrototype icon;
 	private String label;
 	private int width = -1;
 
@@ -23,18 +25,18 @@ public class StandardButton extends FastButton {
 		setIconAndLabel(null, label, -1);
 	}
 
-	public StandardButton(final ImageResource icon, final String label, int width) {
+	public StandardButton(final ResourcePrototype icon, final String label, int width) {
 		setIconAndLabel(icon, label, width);
 	}
 
-	private void setIconAndLabel(final ImageResource image, final String label, int width) {
+	private void setIconAndLabel(final ResourcePrototype image, final String label, int width) {
 		this.width = width;
 		this.icon = image;
 		this.label = label;
 		this.getElement().removeAllChildren();
 
 		if (image != null) {
-			NoDragImage im = new NoDragImage(image.getSafeUri().asString(),width);
+			NoDragImage im = new NoDragImage(GGWToolBar.safeURI(image),width);
 			this.getElement().appendChild(im.getElement());
 		}
 
@@ -82,7 +84,7 @@ public class StandardButton extends FastButton {
 		setIconAndLabel(this.icon, label, this.width);
 	}
 
-	public ImageResource getIcon() {
+	public ResourcePrototype getIcon() {
 		return this.icon;
 	}
 

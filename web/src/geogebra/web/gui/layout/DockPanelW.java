@@ -7,6 +7,8 @@ import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
@@ -350,9 +352,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private VerticalPanel componentPanel;
 
-	PushButton toggleStyleBarButton;
+	StandardButton toggleStyleBarButton;
 
-	private Image viewImage;
+	private ResourcePrototype viewImage;
 
 	public int getHeight() {
 		return dockPanel.getOffsetHeight();
@@ -450,16 +452,16 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private void addToggleButton() {
 		// always show the view-icon; otherwise use showStylebar as parameter
-		toggleStyleBarButton = new PushButton(getToggleImage(false));
+		toggleStyleBarButton = new StandardButton(getToggleImage(false),null, 32);
 		toggleStyleBarButton.addStyleName("toggleStyleBar");
 
 		if(!showStyleBar && viewImage != null){
 			toggleStyleBarButton.addStyleName("toggleStyleBarViewIcon");
 		}
 
-		ClickHandler toggleStyleBarHandler = new ClickHandler() {
+		FastClickHandler toggleStyleBarHandler = new FastClickHandler() {
 
-			public void onClick(ClickEvent event) {
+			public void onClick() {
 				setShowStyleBar(!showStyleBar);
 
 				updateStyleBarVisibility();
@@ -467,8 +469,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 					((StyleBarW) styleBar).setOpen(showStyleBar);
 				}
 			}
+
 		};
-		toggleStyleBarButton.addClickHandler(toggleStyleBarHandler);
+		toggleStyleBarButton.addFastClickHandler(toggleStyleBarHandler);
 		titleBarPanelContent.add(toggleStyleBarButton);
 	}
 
@@ -1294,7 +1297,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param imageResource: the icon the be shown
 	 */
 	public void setViewImage(ResourcePrototype imageResource){
-		this.viewImage = new NoDragImage(GGWToolBar.safeURI(imageResource), 32);
+		this.viewImage = imageResource;
 	}
 
 	/**
@@ -1304,13 +1307,13 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.titleBarPanel.setVisible(visible);
 	}
 	
-	private Image getToggleImage(boolean showing){
+	private ResourcePrototype getToggleImage(boolean showing){
 		if(showing){
 			if(triangleRight == null){
 				triangleRight = new Image(
 				        GuiResources.INSTANCE.dockbar_triangle_right());
 			}
-			return triangleRight;
+			return GuiResources.INSTANCE.dockbar_triangle_right();
 		}
 		if(viewImage != null){
 			return viewImage;
@@ -1319,7 +1322,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 			triangleLeft = new Image(
 			        GuiResources.INSTANCE.dockbar_triangle_left());
 		}
-        return triangleLeft;
+        return GuiResources.INSTANCE.dockbar_triangle_left();
 	}
 
 	public void setStyleBarRightOffset(int offset){
