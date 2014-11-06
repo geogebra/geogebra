@@ -197,9 +197,7 @@ public class GeoConicPart3D extends GeoConic3D implements GeoConicPartND, GeoNum
 		
 	}
 	
-	/**
-	 * set parameters in case of single point
-	 */
+	
 	public void setParametersToSinglePoint() {		
 		parameters.value = 0;
 		parameters.value_defined = true;

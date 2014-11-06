@@ -586,4 +586,18 @@ public class GeoConic extends GeoConicND implements
 	public boolean hasLineOpacity() {
 		return true;
 	}	
+	
+	
+	/**
+	 * set this to single point at m location
+	 * @param conic conic which will be single point
+	 * @param x single point x coord
+	 * @param y single point y coord
+	 */
+	static final public void setSinglePoint(GeoConic conic, double x, double y){
+
+		conic.setMidpoint(x,y);
+		conic.singlePoint();
+
+	}
 }

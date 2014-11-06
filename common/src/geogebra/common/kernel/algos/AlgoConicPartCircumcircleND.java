@@ -139,6 +139,10 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 			case GeoConicNDConstants.CONIC_CIRCLE: 
 				computeCircle();
 		    	break;
+		    	
+			case GeoConicNDConstants.CONIC_SINGLE_POINT:
+				computeSinglePoint();
+				break;
 		    
 		    default:
 		    	// this should not happen
@@ -195,6 +199,12 @@ public abstract class AlgoConicPartCircumcircleND extends AlgoConicPart {
 		((GeoConicPartND) conicPart).setParameters(alpha, beta, det > 0);
     }
     
+    /**
+     * compute as single point (A)
+     */
+    protected void computeSinglePoint(){
+		((GeoConicPartND) conicPart).setParametersToSinglePoint();
+	}
     
 
 	

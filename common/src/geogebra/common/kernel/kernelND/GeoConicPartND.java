@@ -70,5 +70,10 @@ public interface GeoConicPartND {
 	 * @return area
 	 */
 	public double getArea();
+	
+	/**
+	 * set parameters in case of single point
+	 */
+	public void setParametersToSinglePoint();
 }
 

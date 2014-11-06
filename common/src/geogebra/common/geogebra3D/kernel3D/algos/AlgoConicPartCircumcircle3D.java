@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConicPart3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
@@ -45,7 +46,11 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
     	return new GeoConicPart3D(cons, type);
     }
 
-	
+    @Override
+	protected void computeSinglePoint(){
+    	GeoConic3D.setSinglePoint((GeoConic3D) conicPart, A.getInhomCoordsInD(3));
+    	super.computeSinglePoint();
+	}
 	
 
 

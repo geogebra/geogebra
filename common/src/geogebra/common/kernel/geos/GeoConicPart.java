@@ -862,4 +862,9 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		return lines[0].getEndInhomCoords();
 	}
 
+	public void setParametersToSinglePoint() {		
+		parameters.value = 0;
+		parameters.value_defined = true;
+		
+	}
 }

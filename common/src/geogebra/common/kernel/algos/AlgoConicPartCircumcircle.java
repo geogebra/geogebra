@@ -14,6 +14,7 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.LocusEquation;
+import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -97,6 +98,11 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
         return (GeoConicPart) super.getConicPart();
     }
 	
-	
+    @Override
+	protected void computeSinglePoint(){
+    	GeoPoint midpoint = getA();
+    	GeoConic.setSinglePoint((GeoConic) conicPart, midpoint.inhomX, midpoint.inhomY);
+    	super.computeSinglePoint();
+	}
 	
 }
