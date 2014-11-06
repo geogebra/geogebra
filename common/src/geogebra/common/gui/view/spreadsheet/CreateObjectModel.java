@@ -120,14 +120,16 @@ public class CreateObjectModel {
 	} 
 
 	public void ok() {
-		newGeo.remove();
+		if (newGeo != null) {
+			newGeo.remove();
+		}
 		listener.setVisible(false);
 
 	} 
 
 	public void close() {
 		// either remove our geo or keep it and make it visible
-		if (keepNewGeo) {
+		if (keepNewGeo && newGeo != null) {
 			addNewGeoToConstruction();
 		} else {
 			newGeo.remove();
@@ -266,9 +268,12 @@ public class CreateObjectModel {
 	}
 
 	public void cleanUp() {
+		if (newGeo == null) {
+			return;
+		}
 		if (keepNewGeo) {
 			addNewGeoToConstruction();
-		} else if (newGeo != null){
+		} else {
 			newGeo.remove();
 		}
 	}
