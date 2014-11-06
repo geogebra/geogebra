@@ -26,6 +26,9 @@ public class ImageWrapper {
 		img.addEventListener("load",function() {
 			imageManager.@geogebra.html5.util.ImageManager::checkIfAllLoaded()();
 		});
+		img.addEventListener("error",function() {
+			imageManager.@geogebra.html5.util.ImageManager::checkIfAllLoaded()();
+		});
 	}-*/;
 	
 	public ImageElement getElement() {
