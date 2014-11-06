@@ -403,7 +403,7 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 	 */
 	public void calcLength() {
 
-		if (points.length == 0) {
+		if (points == null || points.length == 0) {
 			setUndefined();
 			length = Double.NaN;
 			return;
