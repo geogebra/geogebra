@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
 import geogebra.common.util.AbstractImageManager;
 import geogebra.common.util.StringUtil;
+import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.io.MyXMLioW;
 import geogebra.html5.main.AppW;
@@ -169,4 +170,8 @@ public class ImageManager extends AbstractImageManager {
 	    this.externalImageTable.put(newName, el);
 	    this.externalImageSrcs.put(newName, src);
     }
+	
+	public String getErrorURL(){
+		return GuiResourcesSimple.INSTANCE.questionMark().getSafeUri().asString();
+	}
 }

@@ -27,7 +27,7 @@ public class ImageWrapper {
 			imageManager.@geogebra.html5.util.ImageManager::checkIfAllLoaded()();
 		});
 		img.addEventListener("error",function() {
-			imageManager.@geogebra.html5.util.ImageManager::checkIfAllLoaded()();
+			img.src = imageManager.@geogebra.html5.util.ImageManager::getErrorURL()();
 		});
 	}-*/;
 	
