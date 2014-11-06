@@ -52,11 +52,6 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	View view = new View(RootPanel.getBodyElement(), (AppW) app);
     	view.processBase64String(base64);	    
     }
-    
-    public void ensureEditing() {
-    	((AppW) app).ensureEditing();	    
-    }
-
 	
     public void setErrorDialogsActive(boolean flag) {
 	    app.setErrorDialogsActive(flag);
@@ -554,15 +549,19 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
             String ext, MyImageW img, Map<String, String> archive) {
 	    if ("svg".equals(ext)) {
 	    	addSvgToArchive(fileName, img, archive);
-	    	url = null;
-	    } else if ((url == null || url.startsWith("http")) && (img != null && img.getImage() != null)) {
-	    	url = convertImgToPng(img);
+	    	return;
+	    } 
+	    String dataURL;
+	    if ((url == null || url.startsWith("http")) && (img != null && img.getImage() != null)) {
+	    	dataURL = convertImgToPng(img);
+	    }else{
+	    	dataURL = url;
 	    }
-	    if (url != null) {
+	    if (dataURL != null) {
 	    	if ("png".equals(ext)) {
-	    		addImageToZip(filePath + fileName, url, archive);
+	    		addImageToZip(filePath + fileName, dataURL, archive);
 	    	} else if (!"svg".equals(ext)){
-	    		addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", url, archive);
+	    		addImageToZip(filePath + fileName.substring(0,fileName.lastIndexOf('.')) + ".png", dataURL, archive);
 	    	}
 	    }
     }

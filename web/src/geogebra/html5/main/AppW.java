@@ -938,11 +938,6 @@ public abstract class AppW extends App implements SetLabels{
 	        // TODO Auto-generated method stub
 	        
         }
-
-		public void ensureEditing() {
-	        // TODO Auto-generated method stub
-	        
-        }
 		
 		private NetworkOperation networkOperation;
 		
