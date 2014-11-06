@@ -1294,8 +1294,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * @param imageResource: the icon the be shown
 	 */
 	public void setViewImage(ResourcePrototype imageResource){
-		this.viewImage = new Image(GGWToolBar.safeURI(imageResource));
-		this.viewImage.setWidth("24px");
+		this.viewImage = new NoDragImage(GGWToolBar.safeURI(imageResource), 32);
 	}
 
 	/**
