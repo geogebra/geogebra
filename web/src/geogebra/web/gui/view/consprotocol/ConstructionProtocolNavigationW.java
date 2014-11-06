@@ -92,6 +92,9 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		leftPanel.addStyleName("navbar_leftPanel");
 		((GPanelW)playPanel).getImpl().addStyleName("navbar_playPanel");
 		
+		implPanel.add(leftPanel);
+		implPanel.add(((GPanelW)playPanel).getImpl());
+		
 		if (!app.isApplet()) {
 			btOpenWindow = new Button(getImageForIcon(AppResources.INSTANCE.table().getSafeUri()).toString());		
 			btOpenWindow.addClickHandler(new ClickHandler(){
@@ -100,22 +103,12 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 					if(!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
 						app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
 	            }
-				
 			});
 			btOpenWindow.setVisible(showConsProtButton);
-			
 			btOpenWindow.addStyleName("navbar_btOpenWindow");
 			implPanel.add(btOpenWindow);
 		}
-		
-		implPanel.add(leftPanel);
-		implPanel.add(((GPanelW)playPanel).getImpl());
-		
-		
-		
-		
-		
-		
+
 		setLabels();
 		update();
 	}
@@ -124,7 +117,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	 * Updates the texts that show the current construction step and
 	 * the number of construction steps.	
 	 */
-	public void update() {
+	@Override
+    public void update() {
 		if (prot != null) {
 			int currentStep = prot.getCurrentStepNumber();
 			int stepNumber  = prot.getLastStepNumber();
@@ -135,7 +129,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	/**
 	 * Registers this navigation bar at its protocol
 	 * to be informed about updates.
-	 * @param constructionProtocolView 
+	 * @param constructionProtocolView {@link ConstructionProtocolViewW}
 	 */
 	public void register(ConstructionProtocolViewW constructionProtocolView) { 
 		if (prot == null) { 
