@@ -9839,4 +9839,11 @@ public abstract class EuclidianController {
 	public void setDialogOccurred(){
 		// use in 3D
 	}
+	
+	/**
+	 * move mouse cursor if waiting for
+	 */
+	public void moveIfWaiting(){
+		// used in web
+	}
 }

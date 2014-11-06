@@ -250,7 +250,7 @@ LongTouchHandler {
 	};
 //	private boolean ignoreNextMouseEvent;
 	
-	protected void moveIfWaiting(){
+	public void moveIfWaiting(){
 		long time = System.currentTimeMillis();
 		if(this.waitingMouseMove != null){
 			GeoGebraProfiler.moveEventsIgnored--;

@@ -582,8 +582,12 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
 		
-		waitForRepaint = waitForNewRepaint;
-		waitForNewRepaint = TimerSystemW.SLEEPING_FLAG;
+		if (waitForNewRepaint){
+			kernel.notifyControllersMoveIfWaiting();
+			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+		}else{
+			waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+		}
 
 	}
 	
@@ -612,12 +616,12 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	
 	@Override
     final public void waitForNewRepaint(){
-		waitForNewRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+		waitForNewRepaint = true;
 	}
 
 	
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
-	private int waitForNewRepaint = TimerSystemW.SLEEPING_FLAG;
+	private boolean waitForNewRepaint = false;
 	
 
 	 

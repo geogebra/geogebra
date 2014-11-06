@@ -3,6 +3,7 @@ package geogebra.common.kernel;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
@@ -3274,6 +3275,16 @@ public class Kernel {
 		if (notifyRepaint && notifyViewsActive) {
 			for (View view : views) {
 				view.repaintView();
+			}
+		}
+	}
+	
+	public final void notifyControllersMoveIfWaiting() {
+		if (notifyRepaint && notifyViewsActive) {
+			for (View view : views) {
+				if (view instanceof EuclidianView) {
+					((EuclidianView) view).getEuclidianController().moveIfWaiting();
+				}
 			}
 		}
 	}
