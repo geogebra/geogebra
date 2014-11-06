@@ -1998,9 +1998,18 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
             codePreamble.append(fontsize);
             codePreamble.append("); pointfontpen=fp; ");
         }
-        packSpaceBetween(codePreamble, "real xmin", "=", format(xmin) + ",", 
+        boolean [] positiveOnly=euclidianView.getPositiveAxes();
+        double assignMinX=xmin;
+        double assignMinY=ymin;
+        if(positiveOnly[0]){
+        	assignMinX=-0.1;
+        }
+        if(positiveOnly[1]){
+        	assignMinY=-0.1;
+        }
+        packSpaceBetween(codePreamble, "real xmin", "=", format(assignMinX) + ",", 
                                             "xmax", "=", format(xmax) + ",", 
-                                            "ymin", "=", format(ymin) + ",",
+                                            "ymin", "=", format(assignMinY) + ",",
                                             "ymax", "=", format(ymax) + "; ");
         if(!compact) 
             codePreamble.append(" /* image dimensions */\n");

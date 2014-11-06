@@ -2455,11 +2455,17 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
 			ColorCode(color, codeBeginDoc);
 			codeBeginDoc.append("] ");
-			writePoint(xmin, 0, codeBeginDoc);
+			boolean [] positiveOnly=euclidianView.getPositiveAxes();
+			double assignMax=xmin;
+			if (positiveOnly[0]){
+				assignMax=0;
+			}
+			writePoint(assignMax, 0, codeBeginDoc);
 			codeBeginDoc.append(" -- ");
 			writePoint(xmax, 0, codeBeginDoc);
 			codeBeginDoc.append(";\n");
-			int x1 = (int) (xmin / spaceTick);
+			
+			int x1 = (int) (assignMax / spaceTick);
 			double xstart = x1 * spaceTick;
 			StringBuilder tmp = new StringBuilder();
 			while (xstart < xmax) {
@@ -2519,11 +2525,16 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
 			ColorCode(color, codeBeginDoc);
 			codeBeginDoc.append("] ");
-			writePoint(0, ymin, codeBeginDoc);
+			boolean [] positiveOnly=euclidianView.getPositiveAxes();
+			double assignMax=xmin;
+			if (positiveOnly[0]){
+				assignMax=0;
+			}
+			writePoint(0, assignMax, codeBeginDoc);
 			codeBeginDoc.append(" -- ");
 			writePoint(0, ymax, codeBeginDoc);
 			codeBeginDoc.append(";\n");
-			int y1 = (int) (ymin / spaceTick);
+			int y1 = (int) (assignMax / spaceTick);
 			double ystart = y1 * spaceTick;
 			StringBuilder tmp = new StringBuilder();
 			while (ystart < ymax) {

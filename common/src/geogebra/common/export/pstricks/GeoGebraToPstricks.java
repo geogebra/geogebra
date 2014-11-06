@@ -1825,6 +1825,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	// Draw Axis
 	private void drawAxis() {
+		boolean[] positiveOnly=euclidianView.getPositiveAxes();
 		boolean xAxis = euclidianView.getShowXaxis();
 		boolean yAxis = euclidianView.getShowYaxis();
 		// \psaxes[Dx=5,Dy=0.5]{->}(0,0)(-10.5,-0.4)(10.5,1.2)
@@ -1865,9 +1866,17 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		codeBeginPic.append(styleAx);
 		codeBeginPic.append("}(0,0)(");
-		codeBeginPic.append(format(xmin));
+		double assignMin=xmin;
+		if (positiveOnly[0]){
+			assignMin=0;
+		}
+		codeBeginPic.append(format(assignMin));
 		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymin));
+		assignMin=ymin;
+		if (positiveOnly[0]){
+			assignMin=0;
+		}
+		codeBeginPic.append(format(assignMin));
 		codeBeginPic.append(")(");
 		codeBeginPic.append(format(xmax));
 		codeBeginPic.append(",");
