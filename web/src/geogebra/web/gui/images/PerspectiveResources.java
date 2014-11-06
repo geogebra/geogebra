@@ -27,17 +27,26 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_icon_probability();
 	
 	// StyleBar
-		ResourcePrototype styleBar_algebraView();
+	ResourcePrototype styleBar_algebraView();
 
-		ResourcePrototype styleBar_graphicsView();
+	ResourcePrototype styleBar_graphicsView();
 
-		ResourcePrototype styleBar_CASView();
+	ResourcePrototype styleBar_CASView();
 
-		ResourcePrototype styleBar_ConstructionProtocol();
+	ResourcePrototype styleBar_ConstructionProtocol();
 
-		ResourcePrototype styleBar_graphics3dView();
+	ResourcePrototype styleBar_graphics3dView();
 
-		ResourcePrototype styleBar_graphics2View();
+	ResourcePrototype styleBar_graphics2View();
 
-		ResourcePrototype styleBar_spreadsheetView();
+	ResourcePrototype styleBar_spreadsheetView();
+		
+	ResourcePrototype button_open_search();
+		
+	ResourcePrototype button_open_menu();
+	
+	//REDO UNDO
+	ResourcePrototype button_undo();
+		
+	ResourcePrototype button_redo();
 }

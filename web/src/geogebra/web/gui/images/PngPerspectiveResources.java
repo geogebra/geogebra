@@ -60,4 +60,17 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 
 		@Source("icons/png24x24/stylebar_icon_spreadsheet.png")
 		ImageResource styleBar_spreadsheetView();
+		
+		@Source("icons/png/web/menu-button-open-search.png")
+		ImageResource button_open_search();
+		
+		@Source("icons/png/web/menu-button-open-menu.png")
+		ImageResource button_open_menu();
+		
+		//REDO UNDO
+		@Source("icons/png/web/menu_edit_undo.png")
+		ImageResource button_undo();
+		
+		@Source("icons/png/web/menu_edit_redo.png")
+		ImageResource button_redo();
 }

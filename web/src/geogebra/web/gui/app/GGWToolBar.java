@@ -5,10 +5,10 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.main.AppW;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.ImageFactory;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.images.PerspectiveResources;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.ToolbarResources;
@@ -123,9 +123,9 @@ public class GGWToolBar extends Composite implements RequiresResize{
 
 	//undo-redo buttons
 	private void addUndoPanel(){
-
+		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		//Image redoImage = new Image(GuiResources.INSTANCE.button_redo());
-		redoButton = new StandardButton(GuiResources.INSTANCE.button_redo());
+		redoButton = new StandardButton(pr.button_redo(), null, 32);
 		//redoButton.getElement().appendChild(redoImage.getElement());
 		redoButton.addFastClickHandler(new FastClickHandler(){
 			@Override
@@ -138,7 +138,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		redoButton.setTitle("Redo");
 		redoButton.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		//Image undoImage = new Image(GuiResources.INSTANCE.button_undo());
-		undoButton = new StandardButton(GuiResources.INSTANCE.button_undo());
+		undoButton = new StandardButton(pr.button_undo(), null, 32);
 		//undoButton.getElement().appendChild(undoImage.getElement());
 		undoButton.addFastClickHandler(new FastClickHandler(){
 			@Override
@@ -158,6 +158,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	
 	//Undo, redo, open, menu
 	private void addRightButtonPanel(){
+		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();
 		this.rightButtonPanel.setStyleName("smartButtonPanel");
 		if(app.getLAF().undoRedoSupported()){
@@ -166,7 +167,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		if(app.getArticleElement().getDataParamShowMenuBar(false) || 
 				app.getArticleElement().getDataParamApp()){
 		this.menuBarShowing = true;
-		openMenuButton = new StandardButton(GuiResources.INSTANCE.button_open_menu());
+		openMenuButton = new StandardButton(pr.button_open_menu(),null,32);
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
@@ -188,7 +189,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
             }
 		}, KeyUpEvent.getType());
 		
-		openSearchButton = new StandardButton(GuiResources.INSTANCE.button_open_search());
+		openSearchButton = new StandardButton(pr.button_open_search(),null,32);
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {

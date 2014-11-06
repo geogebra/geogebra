@@ -89,19 +89,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/toolbar-further-tools-icon.png")
 	ImageResource toolbar_further_tools();
 	
-	//REDO UNDO
-	@Source("icons/png/web/menu_edit_undo.png")
-	ImageResource button_undo();
 	
-	@Source("icons/png/web/menu_edit_redo.png")
-	ImageResource button_redo();
-	
-	//SMART TOOLBAR: Open menu and open search
-	@Source("icons/png/web/menu-button-open-search.png")
-	ImageResource button_open_search();
-	
-	@Source("icons/png/web/menu-button-open-menu.png")
-	ImageResource button_open_menu();
 	
 	
 	

@@ -35,24 +35,36 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	@Source("icons/svg/web/menu_icons/menu_view_probability.svg")
 	SVGResource menu_icon_probability();
 	
-	@Source("icons/svg/web/stylingbar/view_algebra.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_algebra.svg")
 	SVGResource styleBar_algebraView();
 
-	@Source("icons/svg/web/stylingbar/view_graphics.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_graphics.svg")
 	SVGResource styleBar_graphicsView();
 
-	@Source("icons/svg/web/stylingbar/view_cas.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_cas.svg")
 	SVGResource styleBar_CASView();
 
-	@Source("icons/svg/web/stylingbar/view_construction_protocol.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_construction_protocol.svg")
 	SVGResource styleBar_ConstructionProtocol();
 
-	@Source("icons/svg/web/stylingbar/view_graphics3D.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_graphics3D.svg")
 	SVGResource styleBar_graphics3dView();
 
-	@Source("icons/svg/web/stylingbar/view_graphics2.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_graphics2.svg")
 	SVGResource styleBar_graphics2View();
 
-	@Source("icons/svg/web/stylingbar/view_spreadsheet.svg")
+	@Source("icons/svg/web/stylingbar/stylingbar_icon_spreadsheet.svg")
 	SVGResource styleBar_spreadsheetView();
+	
+	@Source("icons/svg/web/menu-button-open-search.svg")
+	SVGResource button_open_search();
+	
+	@Source("icons/svg/web/menu-button-open-menu.svg")
+	SVGResource button_open_menu();
+	
+	@Source("icons/svg/web/menu-edit-undo.svg")
+	SVGResource button_undo();
+	
+	@Source("icons/svg/web/menu-edit-redo.svg")
+	SVGResource button_redo();
 }

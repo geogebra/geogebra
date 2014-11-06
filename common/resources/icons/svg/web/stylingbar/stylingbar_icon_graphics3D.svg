@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="712px"
+	 height="512px" viewBox="0 0 712 512" style="enable-background:new 0 0 712 512;" xml:space="preserve">
+<g id="stylingbar_x5F_icon_x5F_graphics3D">
+	<g>
+		<rect y="41.96" style="fill:#999999;" width="454.811" height="60"/>
+		<rect y="226" style="fill:#999999;" width="454.811" height="60"/>
+		<rect y="412.039" style="fill:#999999;" width="454.811" height="60.001"/>
+	</g>
+	<g>
+		<g>
+			<polygon style="fill:#FFFFFF;" points="528.071,510 173.082,396.788 395.028,-44.919 			"/>
+			<polygon style="fill:#FFFFFF;" points="501.887,474.935 210.24,379.831 395.521,14.905 			"/>
+		</g>
+		<g>
+			<polygon style="fill:#FFFFFF;" points="754.539,257.916 537.027,482.227 411.951,-39.461 			"/>
+			<polygon style="fill:#FFFFFF;" points="723.23,259.342 542.396,443.886 437.254,10.638 			"/>
+		</g>
+		<polygon style="opacity:0.4;fill:#FFFFFF;" points="537.027,482.227 754.539,257.916 411.951,-39.461 		"/>
+	</g>
+	<g>
+		<g>
+			<polygon style="fill:#0000FF;" points="510.233,483.924 200.66,385.197 394.211,0 			"/>
+			<polygon style="fill:#9999FF;" points="487.399,453.346 233.064,370.408 394.641,52.17 			"/>
+		</g>
+		<g>
+			<polygon style="fill:#0000FF;" points="712,275.851 510.233,483.924 394.211,0 			"/>
+			<polygon style="fill:#9999FF;" points="682.957,277.174 515.214,448.358 417.683,46.473 			"/>
+		</g>
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="394.2109" y1="241.9619" x2="712" y2="241.9619">
+			<stop  offset="0" style="stop-color:#172983;stop-opacity:0"/>
+			<stop  offset="1" style="stop-color:#172983"/>
+		</linearGradient>
+		<polygon style="opacity:0.4;fill:url(#SVGID_1_);" points="510.233,483.924 712,275.851 394.211,0 		"/>
+	</g>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>
