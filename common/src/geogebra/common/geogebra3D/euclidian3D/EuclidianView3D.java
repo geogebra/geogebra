@@ -2650,8 +2650,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// make sure POINT_CAPTURING_STICKY_POINTS isn't written to XML 
 		sb.append(getPointCapturingMode() > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX ? EuclidianStyleConstants.POINT_CAPTURING_DEFAULT : getPointCapturingMode()); 
 
-//		sb.append("\" rightAngleStyle=\"");
-//		sb.append(getApplication().rightAngleStyle);
+		sb.append("\" rightAngleStyle=\"");
+		sb.append(getApplication().rightAngleStyle);
 //		if (asPreference) {
 //			sb.append("\" allowShowMouseCoords=\"");
 //			sb.append(getAllowShowMouseCoords());

@@ -1041,12 +1041,19 @@ public abstract class App implements UpdateSelection{
 	 */
 	public void updateRightAngleStyle() {
 		if (rightAngleStyle != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE) {
-			if (getLocalization().getLanguage().equals("de") || 
-					getLocalization().getLanguage().equals("hu")) {
-				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
-			} else {
-				rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
-			}
+			setRightAngleStyleLocalDefault();
+		}
+	}
+	
+	/**
+	 * set right angle style to local default
+	 */
+	public void setRightAngleStyleLocalDefault(){
+		if (getLocalization().getLanguage().equals("de") || 
+				getLocalization().getLanguage().equals("hu")) {
+			rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
+		} else {
+			rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE;
 		}
 	}
 

@@ -1262,6 +1262,8 @@ public class MyXMLHandler implements DocHandler {
 				// ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
 				if (!ev.is3D()){
 					app.rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
+				}else{
+					app.setRightAngleStyleLocalDefault();
 				}
 			}else{
 				// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
