@@ -5,7 +5,7 @@ import com.google.gwt.event.dom.client.DragHandler;
 import com.google.gwt.user.client.ui.Image;
 
 public class NoDragImage extends Image {
-	public NoDragImage(String uri){
+	public NoDragImage(String uri, int width){
 		super(uri);
 		this.addDragHandler(new DragHandler(){
 

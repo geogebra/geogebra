@@ -25,4 +25,19 @@ public interface PerspectiveResources {
 	ResourcePrototype menu_icon_construction_protocol();
 	
 	ResourcePrototype menu_icon_probability();
+	
+	// StyleBar
+		ResourcePrototype styleBar_algebraView();
+
+		ResourcePrototype styleBar_graphicsView();
+
+		ResourcePrototype styleBar_CASView();
+
+		ResourcePrototype styleBar_ConstructionProtocol();
+
+		ResourcePrototype styleBar_graphics3dView();
+
+		ResourcePrototype styleBar_graphics2View();
+
+		ResourcePrototype styleBar_spreadsheetView();
 }

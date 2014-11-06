@@ -13,27 +13,28 @@ public class StandardButton extends FastButton {
 
 	private ImageResource icon;
 	private String label;
+	private int width = -1;
 
 	public StandardButton(final ImageResource icon) {
-		setIconAndLabel(icon, null);
+		setIconAndLabel(icon, null, icon.getWidth());
 	}
 
 	public StandardButton(final String label) {
-		setIconAndLabel(null, label);
+		setIconAndLabel(null, label, -1);
 	}
 
-	public StandardButton(final ImageResource icon, final String label) {
-		setIconAndLabel(icon, label);
+	public StandardButton(final ImageResource icon, final String label, int width) {
+		setIconAndLabel(icon, label, width);
 	}
 
-	private void setIconAndLabel(final ImageResource image, final String label) {
-
+	private void setIconAndLabel(final ImageResource image, final String label, int width) {
+		this.width = width;
 		this.icon = image;
 		this.label = label;
 		this.getElement().removeAllChildren();
 
 		if (image != null) {
-			NoDragImage im = new NoDragImage(image.getSafeUri().asString());
+			NoDragImage im = new NoDragImage(image.getSafeUri().asString(),width);
 			this.getElement().appendChild(im.getElement());
 		}
 
@@ -46,7 +47,7 @@ public class StandardButton extends FastButton {
 	@Override
     public void setText(String text){
 		this.label = text;
-		setIconAndLabel(this.icon, text);
+		setIconAndLabel(this.icon, text, this.width);
 	}
 
 	@Override
@@ -78,7 +79,7 @@ public class StandardButton extends FastButton {
 	}
 
 	public void setLabel(final String label) {
-		setIconAndLabel(this.icon, label);
+		setIconAndLabel(this.icon, label, this.width);
 	}
 
 	public ImageResource getIcon() {
@@ -86,7 +87,7 @@ public class StandardButton extends FastButton {
 	}
 
 	public void setIcon(final ImageResource icon) {
-		setIconAndLabel(icon, this.label);
+		setIconAndLabel(icon, this.label, this.width);
 
 	}
 	

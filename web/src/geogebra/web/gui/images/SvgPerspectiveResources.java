@@ -34,4 +34,25 @@ public interface SvgPerspectiveResources extends PerspectiveResources, ClientBun
 	
 	@Source("icons/svg/web/menu_icons/menu_view_probability.svg")
 	SVGResource menu_icon_probability();
+	
+	@Source("icons/svg/web/menu_icons/menu_view_algebra.svg")
+	SVGResource styleBar_algebraView();
+
+	@Source("icons/svg/web/menu_icons/menu_view_graphics.svg")
+	SVGResource styleBar_graphicsView();
+
+	@Source("icons/svg/web/menu_icons/menu_view_cas.svg")
+	SVGResource styleBar_CASView();
+
+	@Source("icons/svg/web/menu_icons/menu_view_construction_protocol.svg")
+	SVGResource styleBar_ConstructionProtocol();
+
+	@Source("icons/svg/web/menu_icons/perspectives_algebra_3Dgraphics.svg")
+	SVGResource styleBar_graphics3dView();
+
+	@Source("icons/svg/web/menu_icons/menu_view_graphics2.svg")
+	SVGResource styleBar_graphics2View();
+
+	@Source("icons/svg/web/menu_icons/menu_view_spreadsheet.svg")
+	SVGResource styleBar_spreadsheetView();
 }

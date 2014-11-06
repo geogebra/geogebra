@@ -295,7 +295,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 					return safeURI(myIconResourceBundle.mode_tool_32());
 				}
 				// use image as icon
-				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName));
+				Image img = new NoDragImage(app.getImageManager().getExternalImageSrc(iconName),32);
 				return img.getUrl();
 			} catch (Exception e) {
 				App.debug("macro does not exist: ID = " + macroID);

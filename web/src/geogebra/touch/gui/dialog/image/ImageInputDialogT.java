@@ -19,8 +19,8 @@ import com.googlecode.gwtphonegap.client.camera.PictureOptions;
  *
  */
 public class ImageInputDialogT extends UploadImageDialog {
-	private static final String PREVIEW_HEIGHT = "155px";
-	private static final String PREVIEW_WIDTH = "213px";
+	private static final int PREVIEW_HEIGHT = 155;
+	private static final int PREVIEW_WIDTH = 213;
 	private final int PICTURE_QUALITY = 25;
 	private SimplePanel cameraPanel;
 	private SimplePanel picturePanel;
@@ -65,7 +65,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 	private void initCameraPanel() {
 		cameraPanel = new SimplePanel();
 		cameraPanel.setStyleName("inputPanel");
-		cameraPanel.setSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
+		cameraPanel.setSize(PREVIEW_WIDTH+"px", PREVIEW_HEIGHT+"px");
     }
 
 	private void initFilePanel() {
@@ -85,7 +85,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 		
 		filePanel.add(picturePanel = new SimplePanel());
 		picturePanel.setStyleName("inputPanel");
-		picturePanel.setSize(PREVIEW_WIDTH, PREVIEW_HEIGHT);
+		picturePanel.setSize(PREVIEW_WIDTH + "px", PREVIEW_HEIGHT + "px");
     }
 
 	void openFromFileClicked() {

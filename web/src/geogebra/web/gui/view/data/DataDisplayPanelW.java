@@ -178,7 +178,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		oldWidth = 0;
 		oldHeight = 0;
 		// create options button
-		btnOptions = new MyToggleButton2(new NoDragImage(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString()));
+		btnOptions = new MyToggleButton2(new NoDragImage(AppResources.INSTANCE.inputhelp_left_18x18().getSafeUri().asString(),18));
 
 		btnOptions.addClickHandler(new ClickHandler() {
 

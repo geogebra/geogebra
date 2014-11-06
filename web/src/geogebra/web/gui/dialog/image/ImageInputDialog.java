@@ -9,8 +9,8 @@ import com.google.gwt.user.client.ui.Label;
 
 public class ImageInputDialog extends UploadImageDialog implements ClickHandler {
 	
-	private static final String PREVIEW_HEIGHT = "155px";
-	private static final String PREVIEW_WIDTH = "213px";
+	private static final int PREVIEW_HEIGHT = 155;
+	private static final int PREVIEW_WIDTH = 213;
 	
 	private WebCamInputPanel webcamPanel;	
 	private Label webcam;

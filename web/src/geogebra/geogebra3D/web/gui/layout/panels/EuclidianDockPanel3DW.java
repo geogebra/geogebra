@@ -4,7 +4,6 @@ import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.html5.main.AppW;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -32,7 +31,7 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 				4,							// menu order
 				'3' // ctrl-shift-3
 			);
-		setViewImage(GuiResources.INSTANCE.styleBar_graphics3dView());
+		setViewImage(getResources().styleBar_graphics3dView());
 
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);

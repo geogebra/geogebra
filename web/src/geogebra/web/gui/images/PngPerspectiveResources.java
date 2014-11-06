@@ -38,4 +38,26 @@ public interface PngPerspectiveResources extends PerspectiveResources, ClientBun
 	
 	@Source("icons/png/web/menu_icons/menu_view_probability.png")
 	ImageResource menu_icon_probability();
+	
+	// StyleBar
+		@Source("icons/png24x24/stylebar_icon_algebra.png")
+		ImageResource styleBar_algebraView();
+
+		@Source("icons/png24x24/stylebar_icon_graphics.png")
+		ImageResource styleBar_graphicsView();
+
+		@Source("icons/png24x24/stylebar_icon_cas.png")
+		ImageResource styleBar_CASView();
+
+		@Source("icons/png24x24/stylebar_icon_construction_protocol.png")
+		ImageResource styleBar_ConstructionProtocol();
+
+		@Source("icons/png24x24/stylebar_icon_3Dgraphics.png")
+		ImageResource styleBar_graphics3dView();
+
+		@Source("icons/png24x24/stylebar_icon_graphics2.png")
+		ImageResource styleBar_graphics2View();
+
+		@Source("icons/png24x24/stylebar_icon_spreadsheet.png")
+		ImageResource styleBar_spreadsheetView();
 }

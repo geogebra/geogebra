@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.SpreadsheetSettings;
 import geogebra.html5.main.AppW;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetStyleBarW;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -41,7 +40,7 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadComponent() {
-		setViewImage(GuiResources.INSTANCE.styleBar_spreadsheetView());
+		setViewImage(getResources().styleBar_spreadsheetView());
 		if (wrapview == null) {
 			wrapview = new AbsolutePanel();
 			wrapview.addStyleName("SpreadsheetWrapView");

@@ -2,7 +2,6 @@ package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.util.StyleBarW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
@@ -36,7 +35,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 
 	@Override
 	protected Widget loadComponent() {
-		setViewImage(GuiResources.INSTANCE.styleBar_ConstructionProtocol());
+		setViewImage(getResources().styleBar_ConstructionProtocol());
 		return ((ConstructionProtocolViewW) app.getGuiManager().getConstructionProtocolView()).getCpPanel();
 	}
 

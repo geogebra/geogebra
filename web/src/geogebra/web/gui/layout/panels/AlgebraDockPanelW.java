@@ -1,7 +1,6 @@
 package geogebra.web.gui.layout.panels;
 
 import geogebra.common.main.App;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.inputbar.AlgebraInputW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -27,7 +26,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 				2, 							// menu order
 				'A'							// menu shortcut
 			);
-		setViewImage(GuiResources.INSTANCE.styleBar_algebraView());
+		setViewImage(getResources().styleBar_algebraView());
 	}
 
 	protected Widget loadComponent() {

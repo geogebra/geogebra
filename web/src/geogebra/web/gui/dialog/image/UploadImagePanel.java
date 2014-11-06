@@ -13,8 +13,8 @@ public class UploadImagePanel extends VerticalPanel {
 	private String fileData;
 	private String fileName;
 
-	String previewHeight;
-	String previewWidth;
+	int previewHeight;
+	int previewWidth;
 	
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
@@ -23,7 +23,7 @@ public class UploadImagePanel extends VerticalPanel {
 	
 	private AppW app;
 	
-	public UploadImagePanel(UploadImageDialog uploadImageDialog, AppW app, String previewWidth, String previewHeight) {
+	public UploadImagePanel(UploadImageDialog uploadImageDialog, AppW app, int previewWidth, int previewHeight) {
 		this.app = app;
 		this.dialog = uploadImageDialog;
 		this.previewWidth = previewWidth;
@@ -74,9 +74,8 @@ public class UploadImagePanel extends VerticalPanel {
 		this.fileData = fileData;
 		this.fileName = fileName;
 		if (previewImg == null) {
-			previewImg = new NoDragImage(fileData);
-			previewImg.setHeight(previewHeight);
-			previewImg.setWidth(previewWidth);
+			previewImg = new NoDragImage(fileData, previewWidth);
+			previewImg.setHeight(previewHeight + "px");
 			add(previewImg);
 		} else {
 			previewImg.setUrl(fileData);

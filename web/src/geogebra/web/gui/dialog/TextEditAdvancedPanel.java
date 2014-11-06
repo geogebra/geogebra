@@ -64,7 +64,7 @@ public class TextEditAdvancedPanel extends TabLayoutPanel {
 		previewer.onResize();
 
 		Image geoTabImage = new NoDragImage(AppResources.INSTANCE.geogebra()
-		        .getSafeUri().asString());
+		        .getSafeUri().asString(),AppResources.INSTANCE.geogebra().getWidth());
 
 		// create the tabs
 		add(new ScrollPanel(getPreviewer().getPanel()),

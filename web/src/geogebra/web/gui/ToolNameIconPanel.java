@@ -75,14 +75,14 @@ public class ToolNameIconPanel extends VerticalPanel {
 
 		VerticalPanel iconPanel = new VerticalPanel();
 		icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
-		        ));
+		        ),32);
 		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
 			@SuppressWarnings("unused")
             public void onClick(ClickEvent event) {
 				(new UploadImageDialog(
-				        (AppW) app, ICON_WIDTH + "px", ICON_HEIGHT + "px") {
+				        (AppW) app, ICON_WIDTH , ICON_HEIGHT ) {
 
 					public void onClick(ClickEvent ev) {
 						Object source = ev.getSource();

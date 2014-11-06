@@ -181,7 +181,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	private void addRenameButton() {
-		this.renameButton = new StandardButton(BrowseResources.INSTANCE.document_rename(), "");
+		this.renameButton = new StandardButton(BrowseResources.INSTANCE.document_rename(), "", 20);
 		this.infoPanel.add(this.renameButton);
 		this.renameButton.addFastClickHandler(new FastClickHandler() {
 
@@ -439,7 +439,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void addEditButton() {
-		this.editButton = new StandardButton(BrowseResources.INSTANCE.document_edit(), "");
+		this.editButton = new StandardButton(BrowseResources.INSTANCE.document_edit(), "", 20);
 		this.infoPanel.add(this.editButton);
 		this.editButton.addFastClickHandler(new FastClickHandler() {
 
@@ -498,7 +498,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void addViewButton() {
-		this.viewButton = new StandardButton(BrowseResources.INSTANCE.document_view(), "");
+		this.viewButton = new StandardButton(BrowseResources.INSTANCE.document_view(), "", 20);
 		this.viewButton.addStyleName("viewButton");
 		this.infoPanel.add(this.viewButton);
 		this.viewButton.addFastClickHandler(new FastClickHandler() {

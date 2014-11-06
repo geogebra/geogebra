@@ -30,7 +30,6 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -585,7 +584,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 		FlowPanel p = new FlowPanel();
 		String caption;
 		if (!this.isStyleBarEmpty()) {
-			Image img = new NoDragImage(GGWToolBar.safeURI(getIcon()));
+			Image img = new NoDragImage(GGWToolBar.safeURI(getIcon()),24);
 			img.getElement().getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
 			img.getElement().getStyle().setMarginRight(4, Unit.PX);
 			p.add(img);
@@ -1294,8 +1293,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * 
 	 * @param imageResource: the icon the be shown
 	 */
-	public void setViewImage(ImageResource imageResource){
-		this.viewImage = new Image(imageResource);
+	public void setViewImage(ResourcePrototype imageResource){
+		this.viewImage = new Image(GGWToolBar.safeURI(imageResource));
+		this.viewImage.setWidth("24px");
 	}
 
 	/**

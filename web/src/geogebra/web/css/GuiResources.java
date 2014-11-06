@@ -41,20 +41,7 @@ public interface GuiResources extends ClientBundle {
 	@Source("icons/png/web/menu-button-open-search.png")
 	ImageResource browseView();
 	
-	@Source("icons/png/menu_view_cas.png")
-	ImageResource CASView();
-
-	@Source("icons/png/menu_view_construction_protocol.png")
-	ImageResource ConstructionProtocol();
-
-	@Source("icons/png/menu_view_graphics3D.png")
-	ImageResource graphics3dView();
-
-	@Source("icons/png/menu_view_graphics2.png")
-	ImageResource graphics2View();
-
-	@Source("icons/png/menu_view_spreadsheet.png")
-	ImageResource spreadsheetView();
+	
 
 	@Source("icons/png/web/menu-button-open-menu.png")
 	ImageResource options();
@@ -62,26 +49,7 @@ public interface GuiResources extends ClientBundle {
 	// end PHONE GUI
 	
 	// StyleBar
-	@Source("icons/png24x24/stylebar_icon_algebra.png")
-	ImageResource styleBar_algebraView();
-
-	@Source("icons/png24x24/stylebar_icon_graphics.png")
-	ImageResource styleBar_graphicsView();
-
-	@Source("icons/png24x24/stylebar_icon_cas.png")
-	ImageResource styleBar_CASView();
-
-	@Source("icons/png24x24/stylebar_icon_construction_protocol.png")
-	ImageResource styleBar_ConstructionProtocol();
-
-	@Source("icons/png24x24/stylebar_icon_3Dgraphics.png")
-	ImageResource styleBar_graphics3dView();
-
-	@Source("icons/png24x24/stylebar_icon_graphics2.png")
-	ImageResource styleBar_graphics2View();
-
-	@Source("icons/png24x24/stylebar_icon_spreadsheet.png")
-	ImageResource styleBar_spreadsheetView();
+	
 
 	// end StyleBar
 	

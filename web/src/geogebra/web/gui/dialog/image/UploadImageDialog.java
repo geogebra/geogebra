@@ -27,10 +27,10 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	protected Label upload;
 	protected GeoPoint loc;
 	
-	String previewHeight;
-	String previewWidth;
+	int previewHeight;
+	int previewWidth;
 
-	public UploadImageDialog(AppW app, String previewWidth, String previewHeight) {
+	public UploadImageDialog(AppW app, int previewWidth, int previewHeight) {
 		this.app = app;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;

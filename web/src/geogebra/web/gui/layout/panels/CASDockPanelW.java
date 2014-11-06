@@ -4,7 +4,6 @@ import geogebra.common.cas.view.CASView;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
 import geogebra.web.cas.view.CASViewW;
-import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.VerticalPanelSmart;
 import geogebra.web.gui.layout.DockPanelW;
@@ -43,7 +42,7 @@ public class CASDockPanelW extends DockPanelW {
 	}
 
 	protected Widget loadComponent() {
-		setViewImage(GuiResources.INSTANCE.styleBar_CASView());
+		setViewImage(getResources().styleBar_CASView());
 		sview = (CASViewW) app.getGuiManager().getCasView();	
 		return sview.getComponent();
 	}
