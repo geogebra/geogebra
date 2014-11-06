@@ -57,7 +57,7 @@ public class ConstructionProtocolDockPanelW extends DockPanelW{
 	
 	@Override
     public ResourcePrototype getIcon() {
-		return getResources().view_constructionprotocol24();
+		return getResources().menu_icon_construction_protocol();
 	}
 	
 }

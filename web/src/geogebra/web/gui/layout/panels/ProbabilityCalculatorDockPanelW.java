@@ -63,7 +63,7 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	
 	@Override
     public ResourcePrototype getIcon() {
-		return getResources().view_probability24();
+		return getResources().menu_icon_probability();
 	}
 
 }

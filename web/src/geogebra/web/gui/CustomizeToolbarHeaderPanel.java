@@ -43,7 +43,7 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 		buttons = new FlowPanel();
 		buttons.setStyleName("panelRow");
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-		final MyToggleButton2 btnGeneral = new MyToggleButton2(new NoDragImage(GGWToolBar.safeURI(pr.view_graphics24())));
+		final MyToggleButton2 btnGeneral = new MyToggleButton2(new NoDragImage(GGWToolBar.safeURI(pr.menu_icon_graphics())));
 		buttons.add(btnGeneral);
 		DockPanelW[] panels =  ((GuiManagerW)app.getGuiManager()).getLayout().getDockManager().getPanels();
 		for(DockPanelW panel : panels) {
@@ -53,10 +53,10 @@ public class CustomizeToolbarHeaderPanel extends AuxiliaryHeaderPanel {
 				ResourcePrototype res = null;
 				switch (viewId) {
 				case App.VIEW_EUCLIDIAN3D:
-					res = pr.view_graphics3D24();
+					res = pr.menu_icon_graphics3D();
 					break;
 				case App.VIEW_DATA_ANALYSIS:
-					res = pr.view_probability24();
+					res = pr.menu_icon_probability();
 					break;
 				default:
 					res = panel.getIcon();

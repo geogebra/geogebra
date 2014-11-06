@@ -117,6 +117,6 @@ public class CASDockPanelW extends DockPanelW {
 	
 	@Override
     public ResourcePrototype getIcon() {
-		return getResources().view_cas24();
+		return getResources().menu_icon_cas();
 	}
 }

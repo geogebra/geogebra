@@ -181,15 +181,15 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_defaults224(), btn) ;
 		case SPREADSHEET:
-			AppResourcesConverter.setIcon(pr.view_spreadsheet24(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_spreadsheet(), btn);
 		case EUCLIDIAN:
-			AppResourcesConverter.setIcon(pr.view_graphics24(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics(), btn);
 		case EUCLIDIAN2:
-			AppResourcesConverter.setIcon(pr.view_graphics224(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics2(), btn);
 		case EUCLIDIAN3D:
-			AppResourcesConverter.setIcon(pr.view_graphics3D24(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);
 		case CAS:
-			AppResourcesConverter.setIcon(pr.view_cas24(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_cas(), btn);
 		case ADVANCED:
 			AppResourcesConverter.setIcon(AppResources.INSTANCE.options_advanced24(), btn);
 		case OBJECTS:
@@ -206,15 +206,15 @@ public class PropertiesStyleBarW extends
 		case DEFAULTS:
 			return AppResources.INSTANCE.options_defaults224().getSafeUri().asString();
 		case SPREADSHEET:
-			return GGWToolBar.safeURI(pr.view_spreadsheet24());
+			return GGWToolBar.safeURI(pr.menu_icon_spreadsheet());
 		case EUCLIDIAN:
-			return GGWToolBar.safeURI(pr.view_graphics24());
+			return GGWToolBar.safeURI(pr.menu_icon_graphics());
 			//return GuiResources.INSTANCE.properties_graphics().getSafeUri().asString();
 		case EUCLIDIAN2:
-			return GGWToolBar.safeURI(pr.view_graphics224());
+			return GGWToolBar.safeURI(pr.menu_icon_graphics2());
 			//return GuiResources.INSTANCE.properties_graphics2().getSafeUri().asString();
 		case CAS:
-			return GGWToolBar.safeURI(pr.view_cas24());
+			return GGWToolBar.safeURI(pr.menu_icon_cas());
 		case ADVANCED:
 			return AppResources.INSTANCE.options_advanced24().getSafeUri().asString();
 		case OBJECTS:

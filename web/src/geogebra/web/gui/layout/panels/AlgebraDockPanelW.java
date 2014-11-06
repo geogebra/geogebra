@@ -79,6 +79,6 @@ public class AlgebraDockPanelW extends DockPanelW {
 	
 	@Override
     public ResourcePrototype getIcon() {
-		return getResources().view_algebra24();
+		return getResources().menu_icon_algebra();
 	}
 }

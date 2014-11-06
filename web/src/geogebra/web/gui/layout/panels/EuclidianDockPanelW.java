@@ -236,6 +236,6 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	
 	@Override
     public ResourcePrototype getIcon() {
-		return getResources().view_graphics24();
+		return getResources().menu_icon_graphics();
 	}
 }

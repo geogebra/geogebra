@@ -157,6 +157,6 @@ public class SpreadsheetDockPanelW extends DockPanelW {
 
 	@Override
 	public ResourcePrototype getIcon() {
-		return getResources().view_spreadsheet24();
+		return getResources().menu_icon_spreadsheet();
 	}
 }

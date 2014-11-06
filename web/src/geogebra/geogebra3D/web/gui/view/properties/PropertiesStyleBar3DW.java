@@ -36,7 +36,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
     protected void setIcon(OptionType type, PopupMenuButton btn) {
 		if (type == OptionType.EUCLIDIAN3D){
 			PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-			AppResourcesConverter.setIcon(pr.view_graphics3D24(), btn);
+			AppResourcesConverter.setIcon(pr.menu_icon_graphics3D(), btn);
 		}else{
 			super.setIcon(type, btn);
 		}
@@ -46,7 +46,7 @@ public class PropertiesStyleBar3DW extends PropertiesStyleBarW {
     protected String getTypeIcon(OptionType type) {
 		if (type == OptionType.EUCLIDIAN3D){
 			PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
-			return GGWToolBar.safeURI(pr.view_graphics3D24());
+			return GGWToolBar.safeURI(pr.menu_icon_graphics3D());
 		}
 		return super.getTypeIcon(type);
 	}
