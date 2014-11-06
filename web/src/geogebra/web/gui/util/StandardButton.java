@@ -1,5 +1,6 @@
-package geogebra.html5.gui;
+package geogebra.web.gui.util;
 
+import geogebra.html5.gui.FastButton;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
 

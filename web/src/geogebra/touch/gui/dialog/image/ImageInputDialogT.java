@@ -2,11 +2,11 @@ package geogebra.touch.gui.dialog.image;
 
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
+import geogebra.web.gui.util.StandardButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;

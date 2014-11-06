@@ -29,8 +29,6 @@ import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
-import geogebra.html5.util.keyboard.OnScreenKeyBoard;
-import geogebra.web.main.AppWapplication;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -136,7 +134,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
 	boolean showOnScreenKeyBoard = false;
-	private OnScreenKeyBoard keyboard;
 	private int actualFontSize = 14;
 
 	/**
@@ -184,7 +181,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 			    // react on enter from system on screen keyboard or hardware keyboard
 			    if(DOM.eventGetType(event) == KEY_UP && event.getKeyCode() == ENTER){
-			    	((AppWapplication)app).getAppFrame().showKeyBoard(false, null);
+			    	((AppW)app).showKeyboard();
 			    }
 			}
 		};
@@ -1408,7 +1405,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	@Override
     public void requestFocus() {
 		if(showOnScreenKeyBoard) {
-			((AppWapplication)app).getAppFrame().showKeyBoard(true, this);
+			app.showKeyboard();
 		}
 		// set focus only if onScreenKeyBoard is not shown
 		textField.setFocus(!showOnScreenKeyBoard);

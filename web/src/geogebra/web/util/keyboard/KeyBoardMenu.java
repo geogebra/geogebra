@@ -1,4 +1,4 @@
-package geogebra.html5.util.keyboard;
+package geogebra.web.util.keyboard;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

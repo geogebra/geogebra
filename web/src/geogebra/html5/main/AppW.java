@@ -2835,4 +2835,9 @@ public abstract class AppW extends App implements SetLabels{
 		public boolean isPrerelease() {
 	        return getArticleElement() != null && getArticleElement().getDataParamPrerelease();
         }
+
+		public void showKeyboard() {
+	        // TODO Auto-generated method stub
+	        
+        }
 }

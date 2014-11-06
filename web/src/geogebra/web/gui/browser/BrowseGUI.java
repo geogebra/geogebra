@@ -13,12 +13,12 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.BrowseGuiI;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
+import geogebra.web.gui.util.StandardButton;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 
 import java.util.ArrayList;

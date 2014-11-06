@@ -12,7 +12,6 @@ import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;

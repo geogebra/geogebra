@@ -7,11 +7,11 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
-import geogebra.html5.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
+import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;

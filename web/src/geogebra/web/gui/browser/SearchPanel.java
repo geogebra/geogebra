@@ -5,8 +5,8 @@ import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.util.StandardButton;
 
 import java.util.ArrayList;
 import java.util.List;

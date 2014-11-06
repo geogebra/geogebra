@@ -1,4 +1,4 @@
-package geogebra.html5.util.keyboard;
+package geogebra.web.util.keyboard;
 
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.app.GGWFrameLayoutPanel;

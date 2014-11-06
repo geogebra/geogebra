@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.StandardButton;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.ImageFactory;
@@ -13,6 +12,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.ToolbarResources;
+import geogebra.web.gui.util.StandardButton;
 import geogebra.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import java.util.ArrayList;

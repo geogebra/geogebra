@@ -453,4 +453,9 @@ public class AppWapplication extends AppW {
 			this.lg.setLabels();
 		}
 	}
+	
+	@Override
+    public void showKeyboard(){
+		getAppFrame().showKeyBoard(false, null);
+	}
 }

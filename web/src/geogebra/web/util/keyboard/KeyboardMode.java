@@ -1,4 +1,4 @@
-package geogebra.html5.util.keyboard;
+package geogebra.web.util.keyboard;
 
 /**
  * Keyboard modes
