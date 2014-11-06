@@ -1124,7 +1124,7 @@ LongTouchHandler {
 	protected void setModeToFreehand() {
 		// if this mode doesn't support freehand 
 		// or the mode was already set
-		if (pen == null || penMode(mode)) {
+		if (pen == null || penMode(mode)|| !freehandModePrepared) {
 			return;
 		}
 		// only executed if one of the specified modes is set
