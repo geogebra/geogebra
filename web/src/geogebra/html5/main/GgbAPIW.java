@@ -555,7 +555,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	    if ("svg".equals(ext)) {
 	    	addSvgToArchive(fileName, img, archive);
 	    	url = null;
-	    } else if (url == null && (img != null && img.getImage() != null)) {
+	    } else if ((url == null || url.startsWith("http")) && (img != null && img.getImage() != null)) {
 	    	url = convertImgToPng(img);
 	    }
 	    if (url != null) {
