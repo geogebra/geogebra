@@ -2114,6 +2114,11 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	-moz-box-sizing: border-box;
 }
 
+.InputPanel .html-face {
+	cursor: hand;
+	cursor: pointer;
+}
+
 .inputHelp-toggleButton {
 	padding: 0px 10px;
 }
@@ -4244,7 +4249,7 @@ PROVIDERS
 	display: inline-block;
 	vertical-align: middle;
 }
-
+ 
 .materialListElement.selected .infoPanel.detailed .deleteActive {
 	color: #6161FF;
 }
