@@ -4208,6 +4208,7 @@ PROVIDERS
 
 .materialListElement.selected .infoPanel .button {
 	cursor: pointer;
+	padding: 2px 0px 2px 0px;
 }
 
 .PhoneGUI .materialListElement.selected .infoPanel .button,
@@ -4233,7 +4234,7 @@ PROVIDERS
 	background-color: #CCCCFF;
 }
 
-.materialListElement .button .image {
+.materialListElement .button .gwt-Image {
 	vertical-align: middle;
 	display: inline-block;
 	margin-right: 5px;
@@ -4241,7 +4242,7 @@ PROVIDERS
 
 .materialListElement .infoPanel.detailed .button .gwt-Label {
 	display: inline-block;
-	padding-top: 2px;
+	vertical-align: middle;
 }
 
 .materialListElement.selected .infoPanel.detailed .deleteActive {
