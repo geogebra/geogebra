@@ -56,6 +56,15 @@ public  GeoElement[] process(Command c) throws MyError {
         		};
         	}
         	
+           	if  (arg[1].isPath() && arg[0].isGeoPoint()) {
+        		return new GeoElement[] {
+        				kernelA.getManager3D().ClosestPoint(
+        				c.getLabel(),
+        				(Path)arg[1],
+        				(GeoPointND)arg[0])        		
+        		};
+        	}
+        	
         	
         	
  
