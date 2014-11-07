@@ -9,7 +9,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.util.debug.Log;
 
 /**
  * @author  Victor Franco Espino, Markus Hohenwarter
@@ -101,7 +100,6 @@ public class AlgoCurvatureCurve extends AlgoElement {
 		if (f.isDefined()) {
 			try {
 				double t = f.getClosestParameter(A, f.getMinParameter());
-				Log.debug("param"+t);
 				K.setValue(f.evaluateCurvature(t));
 			} catch (Exception ex) {
 				ex.printStackTrace();
