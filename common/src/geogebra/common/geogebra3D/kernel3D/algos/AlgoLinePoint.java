@@ -49,7 +49,11 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
         line.setLabel(label);
     }
     
-    /**
+    public AlgoLinePoint(Construction cons) {
+		super(cons);
+	}
+
+	/**
      * create the line
      * @param cons construction
      * @return the line
@@ -76,10 +80,11 @@ public abstract class AlgoLinePoint extends AlgoElement3D {
     	
     	Coords v = getDirection();
     	
-    	if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION))
+    	if (v.equalsForKernel(0, Kernel.STANDARD_PRECISION)) {
     		getLine().setUndefined();
-    	else
+    	} else {
     		getLine().setCoord(getPoint().getInhomCoordsInD3(), v.normalize());
+    	}
     }
 
 

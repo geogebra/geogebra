@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
@@ -86,8 +87,8 @@ public class CmdTangent extends CommandProcessor {
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
 				
-				GeoElement[] ret = { kernelA.Tangent(c.getLabel(),
-						(GeoPointND) arg[0], (GeoCurveCartesian) arg[1]) };
+				GeoElement[] ret = { tangentToCurve(c.getLabel(), (GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]) };
+				
 				return ret;
 			}
 			// Victor Franco 11-02-2007: end for curve's
@@ -130,6 +131,11 @@ public class CmdTangent extends CommandProcessor {
 
 	
 	
+	protected GeoElement tangentToCurve(String label, GeoPointND point,
+			GeoCurveCartesianND curve) {
+		return kernelA.Tangent(label, point, (GeoCurveCartesian) curve);
+	}
+
 	/**
 	 * 
 	 * @param labels labels

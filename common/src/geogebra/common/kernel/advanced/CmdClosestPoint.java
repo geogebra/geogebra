@@ -8,6 +8,7 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -39,7 +40,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			if ((ok[0] = (arg[0] instanceof Path))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
 				GeoElement[] ret = { ClosestPoint(c.getLabel(),
-						(Path) arg[0], (GeoPoint) arg[1]) };
+						(Path) arg[0], (GeoPointND) arg[1]) };
 				return ret;
 			}
 
@@ -47,7 +48,7 @@ public class CmdClosestPoint extends CommandProcessor {
 			else if ((ok[1] = (arg[1] instanceof Path))
 					&& (ok[0] = (arg[0].isGeoPoint()))) {
 				GeoElement[] ret = { ClosestPoint(c.getLabel(),
-						(Path) arg[1], (GeoPoint) arg[0]) };
+						(Path) arg[1], (GeoPointND) arg[0]) };
 				return ret;
 			}
 			
@@ -71,7 +72,7 @@ public class CmdClosestPoint extends CommandProcessor {
 	}
 	
 	/** Point anywhere on path with */
-	final private GeoPoint ClosestPoint(String label, Path path, GeoPoint p) {
+	final private GeoPoint ClosestPoint(String label, Path path, GeoPointND p) {
 		AlgoClosestPoint algo = new AlgoClosestPoint(cons, label, path, p);
 		return (GeoPoint) algo.getP();
 	}

@@ -454,4 +454,21 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 		return " \\text{" + this.loc.getPlain("Undefined") + "} ";
 	}
 
+	/**
+	 * @param order order of derivative
+	 * @return derivative as curve
+	 */
+	public GeoCurveCartesianND getGeoDerivative(int order) {
+		if (this.derivGeoFun == null) {
+			this.derivGeoFun = newGeoCurveCartesian(this.cons);
+		}
+
+		this.derivGeoFun.setDerivative(this, order);
+		return this.derivGeoFun;
+	}
+
+	protected abstract GeoCurveCartesianND newGeoCurveCartesian(Construction cons);
+
+	protected GeoCurveCartesianND derivGeoFun;
+
 }

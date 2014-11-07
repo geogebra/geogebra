@@ -9,21 +9,21 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
-package geogebra.common.kernel.cas;
+package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoCurveCartesian3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.algos.AlgoDependentPoint;
-import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
-import geogebra.common.kernel.algos.TangentAlgo;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.cas.AlgoDerivative;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.geos.GeoLine;
-import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 
@@ -34,12 +34,12 @@ import geogebra.common.plugin.Operation;
  *         tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
  */
 
-public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
+public class AlgoTangentCurve3D extends AlgoLinePoint {
 
 	private GeoPointND P; // input
-	private GeoCurveCartesian f, df; // input f
-	private GeoLine tangent; // output
-	private GeoPoint T;
+	private GeoCurveCartesian3D f, df; // input f
+	private GeoLine3D tangent; // output
+	private GeoPointND T;
 	private boolean pointOnCurve;
 	private boolean pointOnCurveSpecial;
 	private ExpressionValue pointOnCurveSpecialParam;
@@ -51,21 +51,23 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	 * @param P point on function
 	 * @param f curve
 	 */
-	public AlgoTangentCurve(Construction cons, String label, GeoPointND P,
-			GeoCurveCartesian f) {
+	public AlgoTangentCurve3D(Construction cons, String label, GeoPointND P,
+			GeoCurveCartesian3D f) {
 		super(cons);
-		tangent = new GeoLine(cons);
+		tangent = new GeoLine3D(cons);
 		this.P = P;
 		initialize(f);
 		setInputOutput(); // for AlgoElement
 		compute();
 		tangent.setLabel(label);	
+		
+		update();
 	}
 
 	/**
 	 * @param f1 cartesian curve (input)
 	 */
-	public void initialize(GeoCurveCartesian f1) {
+	public void initialize(GeoCurveCartesian3D f1) {
 		
 		this.f = f1;
 		
@@ -74,11 +76,10 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
 			AlgoPointOnPath algoPOP = (AlgoPointOnPath) P.getParentAlgorithm();
 			pointOnCurve = algoPOP.getPath() == f;
-		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint) {
-
+		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint3D) {
 			// special code for curve(t)
 			
-			AlgoDependentPoint algoDP = (AlgoDependentPoint) P.getParentAlgorithm();
+			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P.getParentAlgorithm();
 			
 			ExpressionNode en = algoDP.getExpressionNode();
 			
@@ -90,15 +91,15 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		}
 
 		if (pointOnCurve || pointOnCurveSpecial) {
-			T = (GeoPoint) P;
+			T = P;
 		} else {
-			T = new GeoPoint(cons);
+			T = new GeoPoint3D(cons);
 		}
 		tangent.setStartPoint(T);
 
 		// First derivative of curve f
 		algo = new AlgoDerivative(cons, f, true);
-		this.df = (GeoCurveCartesian) algo.getResult();
+		this.df = (GeoCurveCartesian3D) algo.getResult();
 		cons.removeFromConstructionList(algo);
 	}
 
@@ -127,48 +128,52 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	/**
 	 * @return resulting tangent
 	 */
-	public GeoLine getTangent() {
+	public GeoLine3D getTangent() {
 		return tangent;
 	}
 
 	/**
 	 * @return input curve
 	 */
-	GeoCurveCartesian getCurve() {
+	GeoCurveCartesian3D getCurve() {
 		return f;
 	}
+	
+    @Override
+    public GeoLine3D getLine() {
+        return tangent;
+    }
+	
+	private Coords direction = new Coords(0,0,0,1);
 
-	/**
-	 * @return input point on curve
-	 */
-	GeoPointND getPoint() {
-		return P;
-	}
+	
+    @Override
+	protected GeoPointND getPoint(){
+    	return T;
+    }
 
-	/**
-	 * @return tangent point
-	 */
-	GeoPoint getTangentPoint() {
-		return T;
-	}
-
-	private double feval[] = new double[2];
-	private double dfeval[] = new double[2];
+	private double feval[] = new double[3];
+	private double dfeval[] = new double[3];
 
 	@Override
-	public final void compute() {
+	protected Coords getDirection() {
 		if (!(f.isDefined() && P.isDefined())) {
-			tangent.setUndefined();
-			return;
+			direction.setX(Double.NaN);
+			direction.setY(Double.NaN);
+			direction.setZ(Double.NaN);
+			return direction;
 		}
 
 		// first derivative
 		if (df == null || !df.isDefined()) {
-			tangent.setUndefined();
-			return;
+			direction.setX(Double.NaN);
+			direction.setY(Double.NaN);
+			direction.setZ(Double.NaN);
+			return direction;
 		}
 
 		// calc the tangent;
+
 		double tvalue;
 		
 		if (pointOnCurve) {
@@ -179,22 +184,25 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 			tvalue = f.getClosestParameter(P, f.getMinParameter());
 		}
 		
-		f.evaluateCurve(tvalue, feval);
 		df.evaluateCurve(tvalue, dfeval);
-		tangent.setCoords(-dfeval[1], dfeval[0], feval[0] * dfeval[1]
-				- dfeval[0] * feval[1]);
+		
+		direction.setX(dfeval[0]);
+		direction.setY(dfeval[1]);
+		direction.setZ(dfeval[2]);
 
 		if (!pointOnCurve && !pointOnCurveSpecial) {
-			T.setCoords(feval[0], feval[1], 1.0);
+			f.evaluateCurve(tvalue, feval);
+			T.setCoords(feval[0], feval[1], feval[2], 1.0);
 		}
+		
+		return direction;
 	}
+	
+    @Override
+	public String toString(StringTemplate tpl) {
+    	return loc.getPlain("TangentToAatB", f.getLabel(tpl), P.getLabel(tpl));
+    }
 
-	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
-		if (geo == f && line == tangent) {
-			return getTangentPoint();
-		}
-		return null;
-	}
 
 	// TODO Consider locusequability
 }

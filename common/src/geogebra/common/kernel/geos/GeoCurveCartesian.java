@@ -208,20 +208,6 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		this.distFun = null;
 	}
 
-	/**
-	 * @param order order of derivative
-	 * @return derivative as curve
-	 */
-	public GeoCurveCartesian getGeoDerivative(int order) {
-		if (this.derivGeoFun == null) {
-			this.derivGeoFun = new GeoCurveCartesian(this.cons);
-		}
-
-		this.derivGeoFun.setDerivative(this, order);
-		return this.derivGeoFun;
-	}
-
-	private GeoCurveCartesian derivGeoFun;
 
 	
 
@@ -963,5 +949,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 	public double distanceMax(double[] p1, double[] p2){
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 	}
+	
+	@Override
+	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons) {
+		return new GeoCurveCartesian(cons);
+	}
+
 
 }

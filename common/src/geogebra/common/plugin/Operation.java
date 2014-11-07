@@ -17,12 +17,12 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.arithmetic.VectorValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.ParametricCurve;
 import geogebra.common.kernel.kernelND.Geo3DVec;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
 @SuppressWarnings("javadoc")
 public enum Operation {
@@ -1242,9 +1242,9 @@ public enum Operation {
 				if (lt instanceof Functional) { // derivative of GeoFunction
 					return ((Functional) lt).getGeoDerivative((int) Math
 							.round(((NumberValue) rt).getDouble()));
-				} else if (lt instanceof GeoCurveCartesian) { // derivative of
+				} else if (lt instanceof GeoCurveCartesianND) { // derivative of
 																// GeoCurveCartesian
-					return ((GeoCurveCartesian) lt).getGeoDerivative((int) Math
+					return ((GeoCurveCartesianND) lt).getGeoDerivative((int) Math
 							.round(((NumberValue) rt).getDouble()));
 				}
 			} 

@@ -687,6 +687,10 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t), getFun(2).evaluate(t));
 	}
 	
+	@Override
+	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons) {
+		return new GeoCurveCartesian3D(cons);
+	}
 
 
 }

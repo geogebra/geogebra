@@ -21,6 +21,7 @@ import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -936,5 +937,11 @@ public interface Manager3DInterface {
 	 * locus line for Q dependent on P. Note: P must be a point on a path.
 	 */
 	public GeoElement Locus3D(String label, GeoPointND Q, GeoPointND P);
+
+	/*
+	 * tangent to parametric curve
+	 */
+	public GeoElement Tangent3D(String label, GeoPointND point,
+			GeoCurveCartesianND curve);
 	
 }

@@ -42,6 +42,7 @@ import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
 import geogebra.common.kernel.geos.GeoLine;
@@ -56,6 +57,7 @@ import geogebra.common.kernel.kernelND.Geo3DVec;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
@@ -1918,6 +1920,20 @@ public class Manager3D implements Manager3DInterface {
 		
 		
 		return (new AlgoLocus3D(cons, label, Q, P)).getLocus();
+	}
+
+	public GeoElement Tangent3D(String label, GeoPointND point,
+			GeoCurveCartesianND curve) {
+
+		if (curve.isGeoElement3D()) {
+			AlgoTangentCurve3D algo = new AlgoTangentCurve3D(cons, label, point, (GeoCurveCartesian3D) curve);
+			return algo.getOutput()[0];
+		}
+		
+		return kernel.Tangent(label, point, (GeoCurveCartesian) curve);
+
+
+
 	}
 
 }
