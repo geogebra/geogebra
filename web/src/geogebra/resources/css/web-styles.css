@@ -4844,19 +4844,34 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  	background-color: #acacac;
  }
  
- .insertBeforeLeaf { 
+ .insertBeforeLeaf {
+ 	width: 100%; 
  	border-top: 1px solid;
  }
 
 .insertAfterLeaf { 
- 	border-bottom: 1px solid;
+ 	width: 100%;
+  	border-bottom: 1px solid;
+  	border-bottom: -11px;
  }
  
- .branchDropping { 
+ .insertBeforeBranch { 
  	border-top: 5px solid;  
  }
 
-.branchDropping >*>* { 
+.insertAfterBranch { 
+	border-bottom: 5px solid;  
+ }
+ 
+ .customizeToolbarItem {
+ 	background-color: green;
+ 	width: 100%;
+ 	
+ }
+.insertAfterBranch >*,
+.insertAfterBranch >* >*,
+.insertBeforeBranch >*,
+.insertBeforeBranch >* >* { 
  	pointer-events: none;
  }
  
