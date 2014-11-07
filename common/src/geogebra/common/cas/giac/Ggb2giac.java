@@ -873,18 +873,30 @@ public class Ggb2giac {
 				// 3D
 				"ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
 				","+
+				"when((%0)[0]=='pnt',"+
 				// 2D point
 				"ggbvect[real((%0)[1]), im((%0)[1])]"+
-				")");
+				","+
+				"when(im(%0)==ggbvect[0,0],"+
+				// already a vector
+				"%0"+
+				","+
+				// complex
+				"ggbvect[re(%0),im(%0)]"+
+				")))");
 		
 		p("Vector.2", 
 				"when(dim((%0)[1])==3,"+
 				// 3D points
 				"ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1], ((%1)[1])[2]-((%0)[1])[2] ]"+
 				","+
+				"when(dim((%0)[1])==2,"+
 				// 2D points
 				"ggbvect[real((%1)[1])-real((%0)[1]), im((%1)[1])-im((%0)[1])]"+
-				")");
+				","+
+				// numbers
+				"ggbvect[%0,%1]"+
+				"))");
 		
 		p("OrthogonalVector.1",
 				"convert([[0,-1],[1,0]]*(%0),25)");
