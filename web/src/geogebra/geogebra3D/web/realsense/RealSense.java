@@ -1,6 +1,7 @@
 package geogebra.geogebra3D.web.realsense;
 
 import geogebra.common.main.App;
+import geogebra.geogebra3D.web.euclidian3D.EuclidianController3DW;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.AsyncCallback;
 import geogebra.html5.util.JSON;
@@ -15,16 +16,17 @@ import com.google.gwt.core.client.JavaScriptObject;
  */
 public class RealSense {
 	
-	private static JavaScriptObject sense;
-	private static JavaScriptObject handConfiguration;
-	private static JavaScriptObject capture;
-	private static JavaScriptObject imageSize;
-	private static JavaScriptObject handValues;
+	protected static JavaScriptObject sense;
+	protected static JavaScriptObject handConfiguration;
+	protected static JavaScriptObject capture;
+	protected static JavaScriptObject imageSize;
+	protected static EuclidianController3DW controller;
 
 	/**
 	 * inits if supported
+	 * @param euclidianController3DW 
 	 */
-	public static void initIfSupported() {
+	public static void initIfSupported(final EuclidianController3DW euclidianController3DW) {
 		AsyncCallback clb = new AsyncCallback() {
 
 			public void onSuccess(JavaScriptObject result) {
@@ -32,7 +34,7 @@ public class RealSense {
 	           if (isReady) {
 	        	   App.debug("Hurray, Supported! " + JSON.get(result, "msg"));
 	        	   ResourcesInjector.injectRealSenseResources();
-	        	   
+	        	   RealSense.controller = euclidianController3DW; 
 	           } else {
 	        	   App.debug("Sadly, not Supported! " + JSON.get(result, "msg"));
 	           }
@@ -112,12 +114,29 @@ public class RealSense {
 		}
 	}
 	
-	@geogebra.geogebra3D.web.realsense.RealSense::handValues = {
+	var hv = {
 			mx : hand.massCenterWorld.x, my : hand.massCenterWorld.y, mz : hand.massCenterWorld.z, 
 			ox : hand.palmOrientation.x, oy : hand.palmOrientation.y, oz : hand.palmOrientation.z, ow: hand.palmOrientation.w,
 			gesture: name
 		};
+		
+		@geogebra.geogebra3D.web.realsense.RealSense::processHandValues(IIIIIIILjava/lang/String;)(hv.mx, hv.my, hv.mz, hv.ox, hv.ox, hv.oy, hv.oz, hv.ow, hv.name);
 	}-*/;
+	
+	/**
+	 * @param mx
+	 * @param my
+	 * @param mz
+	 * @param ox
+	 * @param oy
+	 * @param oz
+	 * @param ow
+	 * @param name
+	 */
+	protected static void processHandValues(int mx, int my, int mz, int ox, int oy, int oz, int ow, String name) {
+		controller.onHandValues(mx, my, mz, ox, oy, oz, ow, name);
+	}
+	
 	
 	/**
 	 * closes realsense.

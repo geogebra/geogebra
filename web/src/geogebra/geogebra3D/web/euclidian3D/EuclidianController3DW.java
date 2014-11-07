@@ -184,7 +184,7 @@ LongTouchHandler {
 	public EuclidianController3DW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
-		RealSense.initIfSupported();
+		RealSense.initIfSupported(this);
 
 		Window.addResizeHandler(new ResizeHandler() {
 
@@ -678,6 +678,24 @@ LongTouchHandler {
 			oldCenterY = centerY;
 		}
 	}
+
+
+
+	/**
+	 * @param mx
+	 * @param my
+	 * @param mz
+	 * @param ox
+	 * @param oy
+	 * @param oz
+	 * @param ow
+	 * @param name
+	 */
+	public void onHandValues(int mx, int my, int mz, int ox, int oy, int oz,
+            int ow, String name) {
+	    // TODO: Mathieu continues here :-)
+	    
+    }
 
 
 }
