@@ -30,6 +30,7 @@ public class MathMLParser {
 		geogebraMap.put("<msqrt>", "sqrt(%BLOCK1%)");
 		geogebraMap.put("<mroot>", "nroot(%BLOCK1%,%BLOCK2%)");
 		geogebraMap.put("<mfenced>", "(%BLOCK1%)");// e.g. binomial coefficient, FIXME
+		geogebraMap.put("<mfenced open=\"|\" close=\"|\">", "abs(%BLOCK1%)");// abs. value
 		geogebraMap.put("<msubsup>", "(%BLOCK1%_{%BLOCK2%})^(%BLOCK3%)");// ignored for now, FIXME (subscripted variable powered)
 		geogebraMap.put("<munderover>", "%BLOCK1%(%BLOCK2%,%BLOCK3%,");// ignored for now, FIXME (subscripted variable powered)
 		geogebraMap.put("<munder>", "%BLOCK1%");// ignored for now, FIXME
@@ -883,7 +884,6 @@ public class MathMLParser {
 			else {
 				// this block has subblocks
 				inside = false;
-
 				// if there is a substitution for the next block, write it to 'result' 
 				if ((substBuf = substitutions.get(startTag)) != null) {
 
@@ -965,7 +965,6 @@ public class MathMLParser {
 					}
 				}
 				else {
-
 					// parse subblocks of nextTag
 					while ((strBuf.substring(pos, blockEnd+1)).indexOf('<') != -1) {
 						nextTag = getNextTag();
@@ -1267,6 +1266,7 @@ public class MathMLParser {
 			}
 			else {
 				if (skipUnknownEntities) {
+					
 					sb.delete(sbIndex - entity.length(), sbIndex);
 					sbIndex = sbIndex - entity.length();
 					sb.insert(sbIndex, " ");
