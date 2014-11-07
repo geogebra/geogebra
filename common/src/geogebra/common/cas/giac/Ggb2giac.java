@@ -366,8 +366,9 @@ public class Ggb2giac {
 				"when(type(%0)==DOM_LIST,map(%0,left),left(%0))");
 		p("LeftSide.2",
 				"left(%0[%1-1])");
+		// subtype 27 is ggbvect()
 		p("Length.1",
-				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt', l2norm(ggbv),size(ggbv)))][1]");
+				"[[ggbv:=%0],regroup(when(ggbv[0]=='pnt' || (type(ggbv)==DOM_LIST && subtype(ggbv)==27), l2norm(ggbv),size(ggbv)))][1]");
 		p("Length.3",
 				"arcLen(%0,%1,%2)");
 		p("Length.4", "arcLen(%0,%1,%2,%3)");
