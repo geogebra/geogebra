@@ -55,14 +55,19 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 
 				((EuclidianController3D) ec).setMouseInformation(movedGeoPoint3D);
 				movedGeoPoint3D.doRegion();
+
+				boolean changed = false;
+
+				Coords coords = movedGeoPoint3D.getCoords();
 				if (movedGeoPoint3D.getRegion() == ec.getKernel().getXOYPlane()) {
-					Coords coords = movedGeoPoint3D.getCoords();
-					((EuclidianController3D) ec).checkXYMinMax(coords);
-					checkPointCapturingXYThenZ(coords);
+					changed = ((EuclidianController3D) ec).checkXYMinMax(coords);
+				}
+				if (checkPointCapturingXYThenZ(coords) || changed){
 					movedGeoPoint3D.setWillingCoords(coords);
 					movedGeoPoint3D.setWillingDirectionUndefined();
 					movedGeoPoint3D.doRegion();
 				}
+				
 				((EuclidianController3D) ec).view3D.getCursor3D().setMoveNormalDirection(
 						movedGeoPoint3D.getRegionParameters().getNormal());
 
@@ -300,11 +305,13 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 					){
 				coords.setX(x);
 				coords.setY(y);
-				if (Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+				if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+						|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
 					coords.setZ(z);
 				}
 				return true;
-			}else if (Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+			}else if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
+					|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
 				coords.setZ(z);
 				return true;
 			}

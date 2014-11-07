@@ -337,18 +337,29 @@ public abstract class EuclidianController3D extends EuclidianController {
 	
 	private Coords tmpCoords = new Coords(4);
 
-	protected void checkXYMinMax(Coords v) {
+	protected boolean checkXYMinMax(Coords v) {
+		
+		boolean changed = false; 
+		
 		// min-max x value
-		if (v.getX() > xMinMax[1])
+		if (v.getX() > xMinMax[1]){
 			v.setX(xMinMax[1]);
-		else if (v.getX() < xMinMax[0])
+			changed = true;
+		}else if (v.getX() < xMinMax[0]){
 			v.setX(xMinMax[0]);
+			changed = true;
+		}
 
 		// min-max y value
-		if (v.getY() > yMinMax[1])
+		if (v.getY() > yMinMax[1]){
 			v.setY(yMinMax[1]);
-		else if (v.getY() < yMinMax[0])
+			changed = true;
+		}else if (v.getY() < yMinMax[0]){
 			v.setY(yMinMax[0]);
+			changed = true;
+		}
+		
+		return changed;
 	}
 
 	/**
