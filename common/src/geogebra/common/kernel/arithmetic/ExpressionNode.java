@@ -4557,6 +4557,21 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			// correct domain
 			return wrap(left.derivative(fv)).divide(wrap(left).square().cbrt()).divide(3);
 
+			
+		case FUNCTION:
+			if (left instanceof GeoFunction) {
+				Function fun = ((GeoFunction) left).getFunction();
+				FunctionVariable fv2 = fun.fVars[0];
+				ExpressionValue deriv = fun.derivative(fv2);
+				
+				Function fun2 = new Function((ExpressionNode) deriv, fv2);
+				GeoFunction geoFun = new GeoFunction(kernel.getConstruction(), fun2);
+				
+				ExpressionNode ret = new ExpressionNode(kernel, geoFun, Operation.FUNCTION, fv2);
+				
+				return ret;
+			}
+			break;
 		}
 
 		App.error("unhandled operation in derivative() (no CAS version): "+operation.toString());
@@ -4913,7 +4928,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		}
 
-		App.error("unhandled operation in derivative() (no CAS version): "+operation.toString());
+		App.error("unhandled operation in integral() (no CAS version): "+operation.toString());
 
 		// undefined
 		return wrap(Double.NaN);

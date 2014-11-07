@@ -1106,5 +1106,16 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		
 		return derivative.evaluate(x);
 	}
+	
+	@Override
+	public ExpressionValue derivative(FunctionVariable fv) {
+		return expression.derivative(fv);
+	}
+
+	@Override
+	public ExpressionValue integral(FunctionVariable fv) {
+		return expression.integral(fv);
+	}
+
 
 }

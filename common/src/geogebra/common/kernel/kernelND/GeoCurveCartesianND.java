@@ -326,8 +326,10 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	public void setDerivative(GeoCurveCartesianND curve, int n) {
 		if (curve.isDefined()) {
 			this.isDefined = true;
-			for(int k = 0; k < getDimension(); k++){
-				setFun(k, curve.getFunExpanded(k).getDerivative(n, true));
+			for(int k = 0; k < getDimension(); k++) {
+				// changed from getFunExpanded() (didn't work)
+				// now handled in ExpressionNode.derivative() case FUNCTION:
+				setFun(k, curve.getFun(k).getDerivative(n, true));
 				this.isDefined = this.isDefined && getFun(k) != null;
 			}
 
