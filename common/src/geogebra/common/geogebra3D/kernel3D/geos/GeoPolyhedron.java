@@ -1946,6 +1946,10 @@ GeoPolyhedronInterface
 		}else{
 			setPointNotVisibile();
 		}
+		
+		for (GeoPolygon p : polygonsLinked){
+			p.setPointSizeOrVisibility(size);
+		}
 	}
 
 	private void setPointSize(int size){

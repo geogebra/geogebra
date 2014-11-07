@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdScripting;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.PointProperties;
 import geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import geogebra.common.main.MyError;
@@ -54,6 +55,18 @@ public class CmdSetPointSize extends CmdScripting {
 				if (arg[0] instanceof GeoPolyhedronInterface){
 
 					GeoPolyhedronInterface poly = (GeoPolyhedronInterface) arg[0];
+
+					int size = (int) ((NumberValue) arg[1]).getDouble();
+
+					poly.setPointSizeOrVisibility(size);
+
+
+					return;
+				}
+				
+				if (arg[0].isGeoPolygon()){
+
+					GeoPolygon poly = (GeoPolygon) arg[0];
 
 					int size = (int) ((NumberValue) arg[1]).getDouble();
 

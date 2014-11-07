@@ -2131,4 +2131,35 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	public boolean getReverseNormalForDrawing(){
 		return reverseNormalForDrawing;
 	}
+	
+	
+	
+	
+	
+	/**
+	 * Sets the point size (and/or visibility)
+	 * @param size new point size
+	 */
+	public void setPointSizeOrVisibility(int size){
+		if (size > 0){
+			setPointSize(size);
+		}else{
+			setPointNotVisibile();
+		}
+	}
+
+	private void setPointSize(int size){
+		for (GeoPointND point : points){
+			((GeoElement) point).setEuclidianVisibleIfNoConditionToShowObject(true);
+			point.setPointSize(size);
+			point.updateRepaint();
+		}
+	}
+	
+	private void setPointNotVisibile(){
+		for (GeoPointND point : points){
+			((GeoElement) point).setEuclidianVisibleIfNoConditionToShowObject(false);
+			point.updateRepaint();
+		}
+	}
 }
