@@ -2020,7 +2020,7 @@ __GGB__keysVar.es_UY.menu = {
     "URL": "URL",
     "Undo": "Deshace",
     "UngroupObjectes": "Desagrupa objetos",
-    "UnsavedChangesFound": "\xbfSe rescatan o se borran los cambios no guardados que se detectan?",
+    "UnsavedChangesFound": "\xbfSe recuperan o se eliminan los cambios sin guardar encontrados?",
     "Untitled": "Sin t\xedtulo",
     "UploadGeoGebraTube": "Sube a GeoGebraTube",
     "UpperLimit": "L\xedmite superior",
