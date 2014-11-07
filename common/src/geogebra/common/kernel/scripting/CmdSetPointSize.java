@@ -5,6 +5,7 @@ import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.PointProperties;
+import geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import geogebra.common.main.MyError;
 
 /**
@@ -26,26 +27,49 @@ public class CmdSetPointSize extends CmdScripting {
 	protected
 	final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		boolean ok;
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
 
-			if ((ok = arg[0] instanceof PointProperties) && arg[1] instanceof NumberValue) {
-
-				PointProperties point = (PointProperties) arg[0];
-
-				int size = (int) ((NumberValue) arg[1]).getDouble();
-
-				point.setPointSize(size);
-				point.updateRepaint();
-
+			boolean ok = false;
+			if (arg[1] instanceof NumberValue) {
+				ok = true;
 				
-				return;
-			} else if (!ok)
-				throw argErr(app, c.getName(), arg[0]);
-			else
+				if (arg[0] instanceof PointProperties){
+
+					int size = (int) ((NumberValue) arg[1]).getDouble();
+
+					if (size > 0){
+						arg[0].setEuclidianVisibleIfNoConditionToShowObject(true);
+						((PointProperties) arg[0]).setPointSize(size);
+					}else{
+						arg[0].setEuclidianVisibleIfNoConditionToShowObject(false);
+					}
+					arg[0].updateRepaint();
+
+
+					return;
+				}
+				
+				if (arg[0] instanceof GeoPolyhedronInterface){
+
+					GeoPolyhedronInterface poly = (GeoPolyhedronInterface) arg[0];
+
+					int size = (int) ((NumberValue) arg[1]).getDouble();
+
+					poly.setPointSizeOrVisibility(size);
+
+
+					return;
+				}
+			}
+
+			
+			if (!ok){
 				throw argErr(app, c.getName(), arg[1]);
+			}
+			
+			throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

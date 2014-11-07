@@ -1624,6 +1624,18 @@ public abstract class GeoElement extends ConstructionElement implements
 	public void setEuclidianVisible(final boolean visible) {
 		euclidianVisible = visible;
 	}
+	
+	/**
+	 * set euclidian visibility if there is no condition to show object set
+	 * @param visible true to allow drawing this in EV
+	 */
+	public void setEuclidianVisibleIfNoConditionToShowObject(final boolean visible) {
+		if (condShowObject == null){
+			setEuclidianVisible(visible);
+		}
+	}
+	
+	
 	/**
 	 * Forces drawing this in EV
 	 * @param visible true to force drawing this in EV

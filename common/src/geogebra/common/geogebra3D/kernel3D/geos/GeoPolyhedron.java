@@ -1939,5 +1939,29 @@ GeoPolyhedronInterface
 		}
 
 	}
+	
+	public void setPointSizeOrVisibility(int size){
+		if (size > 0){
+			setPointSize(size);
+		}else{
+			setPointNotVisibile();
+		}
+	}
+
+	private void setPointSize(int size){
+		for (GeoPoint3D point : pointsCreated){
+			point.setEuclidianVisibleIfNoConditionToShowObject(true);
+			point.setPointSize(size);
+			point.updateRepaint();
+		}
+	}
+	
+	private void setPointNotVisibile(){
+		for (GeoPoint3D point : pointsCreated){
+			point.setEuclidianVisibleIfNoConditionToShowObject(false);
+			point.updateRepaint();
+		}
+	}
+
 
 }

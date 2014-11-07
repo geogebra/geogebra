@@ -5,5 +5,9 @@ package geogebra.common.kernel.kernelND;
  *
  */
 public interface GeoPolyhedronInterface {
-
+	/**
+	 * Sets the point size
+	 * @param size new point size
+	 */
+	public void setPointSizeOrVisibility(int size);
 }
