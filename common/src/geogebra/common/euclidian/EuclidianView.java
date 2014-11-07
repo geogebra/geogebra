@@ -2083,17 +2083,6 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	}
 
 	/**
-	 * Sets the global style for rightAngle drawing.
-	 * 
-	 * @param style
-	 *            right angle style
-	 */
-	public void setRightAngleStyle(int style) {
-		getApplication().rightAngleStyle = style;
-		updateAllDrawables(true);
-	}
-
-	/**
 	 * @return right angle style
 	 */
 	final public int getRightAngleStyle() {

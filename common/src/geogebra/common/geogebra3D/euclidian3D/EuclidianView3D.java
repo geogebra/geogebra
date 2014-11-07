@@ -1345,9 +1345,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			styleBar.updateVisualStyle(geo);
 	}
 
-	private void updateAllDrawables() {
-		for (Drawable3D d : drawable3DMap.values())
+	public void updateAllDrawables() {
+		for (Drawable3D d : drawable3DMap.values()){
 			update(d);
+		}
 		setWaitForUpdateOwnDrawables();
 	}
 

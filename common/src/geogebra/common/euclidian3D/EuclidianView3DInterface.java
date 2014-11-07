@@ -120,7 +120,10 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 	
 	
 	
-	
+	/**
+	 * update all drawables
+	 */
+	public void updateAllDrawables();
 	
 	
 	

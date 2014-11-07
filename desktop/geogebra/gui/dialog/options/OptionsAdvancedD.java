@@ -10,7 +10,6 @@ import geogebra.common.main.settings.Settings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.util.Language;
 import geogebra.common.util.debug.Log;
-import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.util.FullWidthLayout;
 import geogebra.gui.util.LayoutUtil;
@@ -656,24 +655,29 @@ public class OptionsAdvancedD extends
 		} else if (source == tfKeyboardWidth || source == tfKeyboardHeight) {
 			changeWidthOrHeight(source);
 		} else {
-			handleEVOption(source, app.getEuclidianView1());
+			handleEVOption(source);
+			app.getEuclidianView1().updateAllDrawables(true);
 			if (app.hasEuclidianView2EitherShowingOrNot(1)) {
-				handleEVOption(source, app.getEuclidianView2(1));
+				app.getEuclidianView2(1).updateAllDrawables(true);
+			}
+			if (app.hasEuclidianView3D()) {
+				app.getEuclidianView3D().updateAllDrawables();		
 			}
 		}
 	}
-
-	private void handleEVOption(Object source, EuclidianViewD view) {
+	
+	private void handleEVOption(Object source){
 		if (source == rightAngleRadio1) {
-			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
+			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE);
 		} else if (source == rightAngleRadio2) {
-			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
+			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE);
 		} else if (source == rightAngleRadio3) {
-			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
+			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT);
 		} else if (source == rightAngleRadio4) {
-			view.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
+			app.setRightAngleStyle(EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L);
 		}
 	}
+
 
 	/**
 	 * Slider changed.

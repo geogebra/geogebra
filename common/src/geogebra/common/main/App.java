@@ -1045,6 +1045,15 @@ public abstract class App implements UpdateSelection{
 		}
 	}
 	
+
+	/**
+	 * set right angle style
+	 * @param style style
+	 */
+	public void setRightAngleStyle(int style) {
+		rightAngleStyle = style;
+	}
+	
 	/**
 	 * set right angle style to local default
 	 */
