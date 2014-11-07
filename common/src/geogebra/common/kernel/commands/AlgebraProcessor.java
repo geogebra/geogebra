@@ -607,10 +607,9 @@ public class AlgebraProcessor {
 				// step4: ask user
 				// ==========================
 				if (sb.length() > 0) {
-					
 					// eg from Spreadsheet we don't want a popup
 					if (!autoCreateSliders) {
-						return null;
+						return tryReplacingProducts(ve);
 					}
 					
 //					boolean autoCreateSlidersAnswer = false;
@@ -693,6 +692,29 @@ public class AlgebraProcessor {
 		GeoElement[] geos = processValidExpression(storeUndo, allowErrorDialog, throwMyError, ve);
 		if (callback0 != null) callback0.callback(geos);
 		return geos;
+	}
+
+	private GeoElement[] tryReplacingProducts(ValidExpression ve) {
+		ValidExpression ve2 = (ValidExpression) ve.traverse(new Traversing(){
+
+			@Override
+			public ExpressionValue process(ExpressionValue ev) {
+				if(ev.isExpressionNode() && ((ExpressionNode)ev).getOperation() == Operation.MULTIPLY){
+					String lt = ((ExpressionNode)ev).getLeft().toString(StringTemplate.defaultTemplate).replace(" ", "");
+					Operation op = app.getParserFunctions().get(lt, 1);
+					if(op != null){
+						return new ExpressionNode(kernel,((ExpressionNode)ev).getRight().traverse(this), op, null);
+					}
+				}
+				return ev;
+			}});
+		GeoElement[] ret = null;
+		try{
+			ret = this.processValidExpression(ve2);
+		}catch(Throwable t){
+			
+		}
+		return ret;
 	}
 
 	private GeoElement[] parseMathml(String cmd,final boolean storeUndo, final boolean allowErrorDialog, final boolean throwMyError, boolean autoCreateSliders, final AsyncOperation callback0) {
