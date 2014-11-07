@@ -914,7 +914,11 @@ namespace giac {
 
     struct dirent **eps;
     int n;
+#ifdef APPLE_SMART
+    n = -1;
+#else
     n = scandir (subdir.c_str(), &eps, dir_select, alphasort);
+#endif
     if (n >= 0){
       bool index_done=false;
       int cnt;

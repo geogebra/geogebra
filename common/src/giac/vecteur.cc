@@ -47,6 +47,7 @@ using namespace std;
 // (link with -framewrok Accelerate)
 // it is not used by default because the Accelerate version is slower 
 // than the current Atlas, at least on OSX.6, and is also slower than giac built-in
+#ifndef APPLE_SMART
 #if defined __APPLE__ && !defined(HAVE_LIBLAPACK) && !defined(USE_GMP_REPLACEMENTS)
 #define HAVE_LIBLAPACK
 #endif
@@ -54,6 +55,7 @@ using namespace std;
 #if defined(HAVE_LIBCLAPACK) && !defined(HAVE_LIBLAPACK)
 #define HAVE_LIBLAPACK
 #endif
+#endif // APPLE_SMART
 
 // Note that Atlas is slower than built-in for real matrices diago for n<400
 // and complex matrices diago for n<300
