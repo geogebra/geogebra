@@ -904,16 +904,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 			return null;
 
 		if (addSelectedPoint(hits, 2, false) == 0 && selPoints() == 0 && selDirections() == 0) {
-			// select a direction only if no point is selected
-			addSelectedDirection(hits, 1, false);
+			// select a plane only if no point is selected
+			addSelectedCS2D(hits, 1, false);
 		}
 
 		// we got the center point
 		if (selPoints() == 2) {
 			GeoPointND[] points = getSelectedPointsND();
 			GeoDirectionND direction;
-			if (selDirections() == 1) {
-				direction = getSelectedDirections()[0];
+			if (selCS2D() == 1) {
+				direction = getSelectedCS2D()[0];
 			} else {
 				direction = kernel.getXOYPlane();
 			}
@@ -1973,7 +1973,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			hits = view.getHits();
 			//hits.removePolygons();
 			boolean createPointAnywhere = false;
-			if (selDirections() == 1 || selPoints() != 0){ // create point anywhere when direction has been selected
+			if (selCS2D() == 1 || selPoints() != 0){ // create point anywhere when direction has been selected
 				createPointAnywhere = true;
 			}else{
 				if (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_REGION){
@@ -1985,7 +1985,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			if (createPointAnywhere){					
 				createNewPoint(hits, true, true, true, true, false);
 			}else{
-				createNewPoint(hits, false, false, true, true, false);
+				createNewPoint(hits, true, false, true, true, false);
 			}
 			break;
 
@@ -3149,11 +3149,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_TETRAHEDRON:
 			case EuclidianConstants.MODE_CUBE:
 				// show cursor when direction has been selected
-				if (selDirections() == 1 || selPoints() != 0){
+				if (selCS2D() == 1 || selPoints() != 0){
+					return true;
+				}
+				
+				hits = view3D.getHits();
+				if (hits.isEmpty()){
 					return true;
 				}
 				
 				GeoPoint3D point = view3D.getCursor3D();
+				if (point.hasPath()){
+					return true;
+				}
 				if (point.hasRegion()){
 					if (point.getRegion() == kernel.getXOYPlane()){
 						return true;
