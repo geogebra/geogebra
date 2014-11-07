@@ -28,7 +28,6 @@ inline const char * gettext(const char * s) { return s; };
 const char * gettext(const char * s); // in aspen.cc
 #else
 
-inline const char * gettext(const char * s) { return s; };
 #endif
 #endif // _LIBINTL_H
 
