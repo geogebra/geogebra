@@ -102,4 +102,9 @@ public class GeoPlane3DConstant extends GeoPlane3D implements SymbolicParameters
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean isRenameable() {
+		return false;
+	}
 }

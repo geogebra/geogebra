@@ -74,7 +74,7 @@ public abstract class GlobalKeyDispatcher {
 		if ((Character.isLetter(ch)) || geo instanceof GeoTextField) {
 
 			// open rename dialog
-			if (geo != null) {
+			if (geo != null && geo.isRenameable()) {
 
 				if (geo instanceof GeoTextField) {
 					DrawTextField dt = (DrawTextField) app

@@ -159,4 +159,9 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	public boolean isAxis() {
 		return true;
 	}
+	
+	@Override
+	public boolean isRenameable() {
+		return false;
+	}
 }

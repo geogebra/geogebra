@@ -143,4 +143,8 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	}
 	
 
+	@Override
+	public boolean isRenameable() {
+		return false;
+	}
 }
