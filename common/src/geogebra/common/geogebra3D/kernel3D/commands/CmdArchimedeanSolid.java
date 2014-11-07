@@ -37,29 +37,48 @@ public class CmdArchimedeanSolid extends CommandProcessor {
 	    	if ((ok[0] = arg[0].isGeoPoint())
 	    			&& (ok[1] = arg[1].isGeoPoint())){
 	    		
-	    			GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
-	    					(GeoPointND) arg[0], (GeoPointND) arg[1], kernelA.getXOYPlane(),
-	    					name) ;
-					return ret;
+//	    			GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
+//	    					(GeoPointND) arg[0], (GeoPointND) arg[1], kernelA.getXOYPlane(),
+//	    					name) ;
+	    		
+	    		GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
+	    				(GeoPointND) arg[0], (GeoPointND) arg[1],
+	    				name) ;
+	    		return ret;
 	    		
 	    	}
 			for (int i=0;i<2;i++){
 				if (!ok[i])
 					throw argErr(app, c.getName(), arg[i]);
 			}
-	    	break;	    
+			break;	    
 	    case 3 :
 	    	arg = resArgs(c);
 	    	if ((ok[0] = arg[0].isGeoPoint())
-	    			&& (ok[1] = arg[1].isGeoPoint())
-	    			&& (ok[2] = (arg[2] instanceof GeoDirectionND))){
+	    			&& (ok[1] = arg[1].isGeoPoint())){
 	    		
+	    		if (arg[2] instanceof GeoDirectionND){
+
 	    			GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
 	    					(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoDirectionND) arg[2],
 	    					name) ;
-					return ret;
+	    			return ret;
+
+	    		}
 	    		
+	    		if (arg[2] instanceof GeoPointND){
+
+	    			GeoElement[] ret = kernelA.getManager3D().ArchimedeanSolid(c.getLabels(), 
+	    					(GeoPointND) arg[0], (GeoPointND) arg[1], (GeoPointND) arg[2],
+	    					name) ;
+	    			return ret;
+
+	    		}
+	    		
+	    		
+	    		ok[2] = false;
 	    	}
+
 			for (int i=0;i<3;i++){
 				if (!ok[i])
 					throw argErr(app, c.getName(), arg[i]);

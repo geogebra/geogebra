@@ -155,6 +155,7 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 				Coords project = cs.getNormalProjection(coords)[1];
 				coords = cs.getPoint(project.getX() + n.getDouble(), project.getY());
 			}else{
+				coords = coords.copyVector();
 				coords.setX(coords.getX() + n.getDouble());
 			}
 			AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons, pointLabel,

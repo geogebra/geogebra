@@ -31,12 +31,18 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
+import geogebra.common.kernel.algos.AlgoDependentNumber;
+import geogebra.common.kernel.algos.AlgoDependentPoint;
+import geogebra.common.kernel.algos.AlgoDistancePoints;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
+import geogebra.common.kernel.algos.AlgoMidpoint;
 import geogebra.common.kernel.algos.AlgoOrthoLinePointLine;
 import geogebra.common.kernel.algos.AlgoPolygon;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.commands.Commands;
@@ -69,6 +75,7 @@ import geogebra.common.kernel.kernelND.HasHeight;
 import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.plugin.Operation;
 
 /**
  * Class that for manage all 3D methods in AbstractKernel.
@@ -1535,6 +1542,181 @@ public class Manager3D implements Manager3DInterface {
 		AlgoArchimedeanSolid algo = new AlgoArchimedeanSolid(cons, labels, A,
 				B, v, name);
 		return algo.getOutput();
+	}
+
+	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+			GeoPointND B, GeoPointND C, Commands name) {
+		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(cons, labels, A,
+				B, C, name);
+		return algo.getOutput();
+	}
+	
+	final public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+			GeoPointND B, Commands name){
+		
+		// create segment A, B
+		GeoSegmentND segAB;
+		if (A.isGeoElement3D() || B.isGeoElement3D()){
+			AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, A, B, null, GeoClass.SEGMENT3D);
+			cons.removeFromConstructionList(algoSegment);
+			segAB = (GeoSegmentND) algoSegment.getCS();
+		}else{
+			AlgoJoinPointsSegment algoSegment = new AlgoJoinPointsSegment(cons, (GeoPoint) A, (GeoPoint) B, null);
+			cons.removeFromConstructionList(algoSegment);
+			segAB = algoSegment.getSegment();
+		}
+		
+		// create distance AB
+		AlgoDistancePoints algoDistance = new AlgoDistancePoints(cons, A, B);
+		cons.removeFromConstructionList(algoDistance);
+		GeoNumeric distance = algoDistance.getDistance();
+		
+		
+		// create center and radius
+		GeoPointND center;
+		GeoNumeric radius;
+		switch (name) {
+		case Tetrahedron:
+		case Octahedron:
+			// center = (A+B)/2
+			if (A.isGeoElement3D() || B.isGeoElement3D()){
+				AlgoMidpoint3D algoMidpoint = new AlgoMidpoint3D(cons, A, B);
+				cons.removeFromConstructionList(algoMidpoint);
+				center = algoMidpoint.getPoint();
+			}else{
+				AlgoMidpoint algoMidpoint = new AlgoMidpoint(cons, (GeoPoint) A, (GeoPoint) B);
+				cons.removeFromConstructionList(algoMidpoint);
+				center = algoMidpoint.getPoint();
+			}
+			
+			// radius = distance * sqrt(3)/2
+			ExpressionNode expr = new ExpressionNode(kernel, 
+					distance, 
+					Operation.MULTIPLY,
+					new ExpressionNode(kernel, 
+									new ExpressionNode(kernel, 
+											new MyDouble(kernel, 3), 
+											Operation.SQRT,
+											null
+											),
+									Operation.DIVIDE,
+									new MyDouble(kernel, 2)
+							)
+					);
+			AlgoDependentNumber exprAlgo = new AlgoDependentNumber(cons, expr, false);
+            cons.removeFromConstructionList(exprAlgo);
+			radius = exprAlgo.getNumber();
+			break;
+
+		case Cube:
+		default:
+			center = B;
+			radius = distance;
+			break;
+
+
+		case Dodecahedron:
+		case Icosahedron:
+			//center = (1-Math.sqrt(5))/4) * A + (3+Math.sqrt(5))/4) * B
+			expr = new ExpressionNode(kernel, 
+			    new ExpressionNode(kernel, 
+					new ExpressionNode(kernel, 
+						   new ExpressionNode(kernel, 
+											new ExpressionNode(kernel, 
+													new MyDouble(kernel, 1), 
+													Operation.MINUS,
+													new ExpressionNode(kernel, 
+															new MyDouble(kernel, 5), 
+															Operation.SQRT,
+															null)
+													) 
+											), 											
+									Operation.MULTIPLY,
+									A
+							), 
+							Operation.PLUS,
+							new ExpressionNode(kernel, 
+												new ExpressionNode(kernel, 
+													new MyDouble(kernel, 3), 
+													Operation.PLUS,
+													new ExpressionNode(kernel, 
+															new MyDouble(kernel, 5), 
+															Operation.SQRT,
+															null)
+											), 
+									Operation.MULTIPLY,
+									B
+							)
+					),
+				    Operation.DIVIDE,
+				    new MyDouble(kernel, 4)			
+			);
+			
+			if (A.isGeoElement3D() || B.isGeoElement3D()){
+				AlgoDependentPoint3D exprAlgoPoint = new AlgoDependentPoint3D(cons, expr);
+				cons.removeFromConstructionList(exprAlgoPoint);
+				center = exprAlgoPoint.getPoint3D();
+			}else{
+				AlgoDependentPoint exprAlgoPoint = new AlgoDependentPoint(cons, expr, false);
+				cons.removeFromConstructionList(exprAlgoPoint);
+				center = exprAlgoPoint.getPoint();				
+			}
+			
+			//radius = sqrt(10 + 2 * sqrt(5))/4)
+			expr = new ExpressionNode(kernel, 
+					distance, 
+					Operation.MULTIPLY,
+					new ExpressionNode(kernel, 
+									new ExpressionNode(kernel, 
+											new ExpressionNode(kernel, 
+													new MyDouble(kernel, 10), 
+													Operation.PLUS,
+													new ExpressionNode(kernel, 
+															new MyDouble(kernel, 2), 
+															Operation.MULTIPLY,
+															new ExpressionNode(kernel, 
+																	new MyDouble(kernel, 5), 
+																	Operation.SQRT,
+																	null
+															)
+													)
+											), 
+											Operation.SQRT,
+											null
+									),
+									Operation.DIVIDE,
+									new MyDouble(kernel, 4)
+							)
+					);
+			exprAlgo = new AlgoDependentNumber(cons, expr, false);
+            cons.removeFromConstructionList(exprAlgo);
+			radius = exprAlgo.getNumber();
+			break;		
+		}
+		
+		// create a circle around center with radius
+		AlgoCircle3DPointRadiusDirection algoCircle = new AlgoCircle3DPointRadiusDirection(cons, center, radius, segAB);
+		cons.removeFromConstructionList(algoCircle);
+		
+		// place the new point on the circle
+		Coords cA = A.getInhomCoordsInD3();
+		Coords cB = B.getInhomCoordsInD(3);
+		Coords AB = cB.sub(cA);
+		Coords vn = new Coords(4);
+		AB.completeOrthonormalKeepInXOYPlaneIfPossible(vn);
+		Coords coords = center.getInhomCoordsInD(3).add(vn.mul(radius.getDouble()));
+		
+		AlgoPoint3DOnPath algoPoint = new AlgoPoint3DOnPath(cons, null,
+				algoCircle.getCircle(), 
+				coords.getX(), coords.getY(), coords.getZ());
+
+
+		// create solid
+		AlgoArchimedeanSolidThreePoints algo = new AlgoArchimedeanSolidThreePoints(cons, labels, A,
+				B, algoPoint.getP(), name);
+		
+		return algo.getOutput();
+		
 	}
 
 	public GeoNumeric Distance(String label, GeoLineND g, GeoLineND h) {

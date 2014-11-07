@@ -750,6 +750,19 @@ public interface Manager3DInterface {
 	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
 			GeoPointND B, GeoDirectionND v, Commands name);
 
+	/**
+	 * @return cube with A, B, C for first points
+	 */
+	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+			GeoPointND B, GeoPointND C, Commands name);
+	
+	/**
+	 * @return cube with A, B, C for first points (C point on an ad hoc circle)
+	 */
+	public GeoElement[] ArchimedeanSolid(String[] labels, GeoPointND A,
+			GeoPointND B, Commands name);
+
+
 	/********************************************************************
 	 * TRANSFORMATIONS
 	 ********************************************************************/

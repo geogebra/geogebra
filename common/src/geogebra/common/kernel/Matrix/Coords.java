@@ -1333,6 +1333,30 @@ public class Coords {
 
 		
 	}
+	
+	/**
+	 * Assume that "this" is a non-zero vector in 3-space. This method sets
+	 * the vector vn1 so that (this, vn1) is orthonormal. If this is in xOy plane, then vn1 will.
+	 * @param vn1 vector (length 4)
+	 */
+	public void completeOrthonormalKeepInXOYPlaneIfPossible(Coords vn1) {
+
+		if (!Kernel.isZero(val[0]) || !Kernel.isZero(val[1])) {
+			vn1.val[0] = -val[1];
+			vn1.val[1] = val[0];
+			vn1.val[2] = 0;
+			vn1.val[3] = 0;
+			vn1.normalize();
+		} else {
+			vn1.val[0] = 1.0;
+			vn1.val[1] = 0.0;
+			vn1.val[2] = 0.0;
+			vn1.val[3] = 0.0;
+		}
+
+		
+	}
+
 	// ///////////////////////////////////////////////////
 	// BASIC OPERATIONS
 	// ///////////////////////////////////////////////////

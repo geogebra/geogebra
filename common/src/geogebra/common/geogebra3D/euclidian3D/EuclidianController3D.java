@@ -914,26 +914,30 @@ public abstract class EuclidianController3D extends EuclidianController {
 			GeoDirectionND direction;
 			if (selCS2D() == 1) {
 				direction = getSelectedCS2D()[0];
-			} else {
-				direction = kernel.getXOYPlane();
-			}
-			Coords v = direction.getDirectionInD3();
-			if (v.dotproduct(view3D.getViewDirection()) > 0) { // reverse
-																// direction
-				MyDouble a = new MyDouble(kernel);
-				a.set(-1);
-				GeoVector3D orientation = (GeoVector3D) (new AlgoUnitVector3D(
-						kernel.getConstruction(), direction)).getVector();
-				ExpressionNode en = new ExpressionNode(kernel, a,
-						Operation.MULTIPLY, orientation);
-				direction = new AlgoDependentVector3D(kernel.getConstruction(),
-						en).getVector3D();
-			}
+				Coords v = direction.getDirectionInD3();
+				if (v.dotproduct(view3D.getViewDirection()) > 0) { // reverse
+																	// direction
+					MyDouble a = new MyDouble(kernel);
+					a.set(-1);
+					GeoVector3D orientation = (GeoVector3D) (new AlgoUnitVector3D(
+							kernel.getConstruction(), direction)).getVector();
+					ExpressionNode en = new ExpressionNode(kernel, a,
+							Operation.MULTIPLY, orientation);
+					direction = new AlgoDependentVector3D(kernel.getConstruction(),
+							en).getVector3D();
+				}
+
+				return new GeoElement[] {
+						kernel.getManager3D().ArchimedeanSolid(null, points[0], points[1],
+								direction, name)[0]
+				};
+			} 
 
 			return new GeoElement[] {
 					kernel.getManager3D().ArchimedeanSolid(null, points[0], points[1],
-							direction, name)[0]
+							name)[0]
 			};
+			
 
 		}
 		return null;
