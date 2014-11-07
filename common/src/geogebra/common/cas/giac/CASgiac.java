@@ -83,7 +83,8 @@ public abstract class CASgiac implements CASGenericInterface {
 					"degacos(x):=normal(acos(x)/pi*180)*unicode0176u;"+
 					"degatan(x):=normal(atan(x)/pi*180)*unicode0176u;"+
 					"degatan2(y,x):=normal(arg(x+i*y)/pi*180)*unicode0176u;" +
-					"ggbabs(x):=when(x[0]=='pnt',l2norm(x),abs(x));" +
+					// subtype 27 is ggbvect[]
+					"ggbabs(x):=when(x[0]=='pnt' || (type(x)==DOM_LIST && subtype(x)==27),l2norm(x),abs(x));" +
 					"ggb_is_zero(x):=when(x==0,true,when(x[0]=='=',lhs(x)==0&&rhs(x)==0,when(type(x)=='DOM_LIST',max(x)==min(x)&&min(x)==0,false)));";
 					
 	protected final static String myeliminate = "[containsvars(poly,varlist):={local ii; for (ii:=0; ii<size(varlist); ii++) { if (degree(poly,varlist[ii])>0) { return true } } return false}],"+
