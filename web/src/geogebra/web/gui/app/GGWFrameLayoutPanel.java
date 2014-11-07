@@ -1,11 +1,9 @@
 package geogebra.web.gui.app;
 
-import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
-import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
@@ -15,10 +13,6 @@ import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -53,20 +47,20 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		mainPanel = new MyDockPanelLayout(Style.Unit.PX);
 		mainPanel.add(dockPanel);
 
-		dockPanel.addDomHandler(new MouseDownHandler() {
-			public void onMouseDown(MouseDownEvent event) {
-				if(!CancelEventTimer.cancelMouseEvent()){
-					showKeyBoard(false, null);
-				}
-			}
-		}, MouseDownEvent.getType());
-
-		dockPanel.addDomHandler(new TouchStartHandler() {
-			public void onTouchStart(TouchStartEvent event) {
-				CancelEventTimer.touchEventOccured();
-				showKeyBoard(false, null);
-			}
-		}, TouchStartEvent.getType());
+//		dockPanel.addDomHandler(new MouseDownHandler() {
+//			public void onMouseDown(MouseDownEvent event) {
+//				if(!CancelEventTimer.cancelMouseEvent()){
+//					showKeyBoard(false, null);
+//				}
+//			}
+//		}, MouseDownEvent.getType());
+//
+//		dockPanel.addDomHandler(new TouchStartHandler() {
+//			public void onTouchStart(TouchStartEvent event) {
+//				CancelEventTimer.touchEventOccured();
+//				showKeyBoard(false, null);
+//			}
+//		}, TouchStartEvent.getType());
 		
 		add(glassPane);
 		add(mainPanel);
