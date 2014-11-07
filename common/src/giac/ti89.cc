@@ -685,6 +685,13 @@ namespace giac {
   gen arclen(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     vecteur v(gen2vecteur(g));
+    if (!v.empty() && v.front().type==_VECT){
+      // more than one arc?
+      if (!v.front()._VECTptr->empty() && v.front()._VECTptr->back().is_symb_of_sommet(at_pnt)){
+	v.front()=v.front()._VECTptr->back();
+	*logptr(contextptr) << gettext("Selecting last arc") << endl;
+      }
+    }
     if (!v.empty() && v.front().is_symb_of_sommet(at_pnt)){
       if (v.size()==1)
 	return _perimetre(g,contextptr);
@@ -701,10 +708,18 @@ namespace giac {
 	g=(*g._SYMBptr->feuille._VECTptr)[0];
 	if (g.type==_VECT && g._VECTptr->size()>2){
 	  gen f=g._VECTptr->front();
+	  if (g._VECTptr->size()>6)
+	    f=(*g._VECTptr)[6];
 	  gen x=(*g._VECTptr)[1];
 	  gen fprime=derive(f,x,contextptr);
 	  if (is_undef(fprime)) return fprime;
 	  fprime=abs(fprime,contextptr);
+	  if (v[1].is_symb_of_sommet(at_pnt))
+	    v[1]=projection(v[0],v[1],contextptr);
+	  if (v[2].is_symb_of_sommet(at_pnt))
+	    v[2]=projection(v[0],v[2],contextptr);
+	  if (is_greater(v[1],v[2],contextptr))
+	    return _integrate(gen(makevecteur(fprime,x,v[2],v[1]),_SEQ__VECT),contextptr);
 	  return _integrate(gen(makevecteur(fprime,x,v[1],v[2]),_SEQ__VECT),contextptr);
 	}
       }

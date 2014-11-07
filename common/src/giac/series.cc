@@ -1511,9 +1511,13 @@ namespace giac {
 	    return false;
 	  gen image_of_lim_point;
 	  find_image(temp__SYMB,image_of_lim_point,p,direction,contextptr);
-	  if (!is_positive(image_of_lim_point,contextptr) || image_of_lim_point==plus_inf)
+	  if (is_inf(image_of_lim_point))
 	    return false; // inf is prevented by limit_symbolic_preprocessing
 	  if (is_zero(image_of_lim_point)){
+	    int image_of_direction=0;
+	    image_of_direction = find_direction(p,direction,contextptr);
+	    if (image_of_direction==0)
+	      return false;
 	    vecteur v(ordre+1); gen facti(1);
 	    for (int i=0;i<=ordre;++i){
 	      v[i]=inv(facti*(a+i),contextptr);
@@ -1521,14 +1525,22 @@ namespace giac {
 	    }
 	    if (!pcompose(v,p,s,contextptr))
 	      return false;
-	    if (!ppow(p,a,ordre,direction,p,contextptr))
+	    if (image_of_direction==-1)
+	      pneg(p,p,contextptr);
+	    if (!ppow(p,a,ordre,image_of_direction,p,contextptr))
 	      return false;
+	    if (image_of_direction==-1)
+	      pneg(p,p,contextptr);
 	    if (!pmul(p,s,s,true,ordre,contextptr))
 	      return false;
 	  }
 	  else {
 	    vecteur v;
-	    gen der=pow(x,a-1,contextptr)*exp(-x,contextptr);
+	    gen der;
+	    if (is_positive(image_of_lim_point,contextptr))
+	      der=pow(x,a-1,contextptr)*exp(-x,contextptr);
+	    else
+	      der=-pow(-x,a-1,contextptr)*exp(-x,contextptr);	      
 	    if (!taylor(der,x,image_of_lim_point,ordre,v,contextptr))
 	      return false;
 	    v=integrate(v,1);

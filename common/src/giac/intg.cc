@@ -3958,7 +3958,7 @@ namespace giac {
   // write e(x+1)/e(x) as P(n+1)/P(n)*Q(x)/R(x+1) 
   bool is_hypergeometric(const gen & e,const identificateur &x,vecteur &v,polynome & P,polynome & Q,polynome & R,GIAC_CONTEXT){
     v=lvarx(e,x);
-    if (!loptab(v,sincostan_tab).empty())
+    if (!loptab(v,sincostan_tab).empty() || !loptab(v,asinacosatan_tab).empty())
       return false;
     // if v contains a non linear exp abort
     int vs=v.size();

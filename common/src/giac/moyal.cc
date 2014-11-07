@@ -1693,8 +1693,11 @@ namespace giac {
     if (!is_integral(gndf) || !is_integral(gddf))
       return gentypeerr(contextptr);
     if (gx.type!=_DOUBLE_){
-      if (1) // (calc_mode(contextptr)==1)
+      if (1) {// (calc_mode(contextptr)==1)
+	if (is_inf(x))
+	  return symbolic(at_Beta,makesequence(ndof/2,ddof/2,1,1));
 	return symbolic(at_Beta,makesequence(ndof/2,ddof/2,ndof*x/(ndof*x+ddof),1));
+      }
       else
 	return symbolic(at_snedecor_cdf,makesequence(ndof,ddof,x));
     }

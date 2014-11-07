@@ -6766,10 +6766,35 @@ namespace giac {
     return -1;
   }
 
-  gen lower_incomplete_gamma(double s,double z,bool regularize){ // regularize=true by default
+  // lower_incomplete_gamma(a,z)=z^(-a)*gammaetoile(a,z)
+  // gammaetoile(a,z)=sum(n=0..inf,(-z)^n/(a+n)/n!)
+  gen gammaetoile(const gen & a,const gen &z,GIAC_CONTEXT){
+    gen res=0,resr,resi,fact=1,zn=1,tmp,tmpr,tmpi;
+    double eps2=epsilon(contextptr); eps2=eps2*eps2;
+    if (eps2<=0)
+      eps2=1e-14;
+    for (int n=0;;){
+      tmp=zn/((a+n)*fact);
+      reim(tmp,tmpr,tmpi,contextptr);
+      reim(res,resr,resi,contextptr);
+      if (is_greater(eps2*(resr*resr+resi*resi),tmpr*tmpr+tmpi*tmpi,contextptr))
+	break;
+      res += tmp;
+      ++n;
+      fact=n*fact;
+      zn=(-z)*zn;
+    }
+    return res;
+  }
+
+  static gen lower_incomplete_gamma(double s,double z,bool regularize,GIAC_CONTEXT){ // regularize=true by default
     // should be fixed if z is large using upper_incomplete_gamma asymptotics
     if (z>0 && -z+s*std::log(z)-lngamma(s+1)<-37)
       return regularize?1:std::exp(lngamma(s));
+    if (z<0){
+      gen zs=-std::pow(-z,s)*gammaetoile(s,z,contextptr);
+      return zs;
+    }
     if (z>=s){
       double res=upper_incomplete_gammad(s,z,regularize);
       if (res>=0){
@@ -6836,7 +6861,7 @@ namespace giac {
       v[1]=evalf_double(v[1],1,contextptr);
     }
     if ( (s==2 || s==3) && v[0].type==_DOUBLE_ && v[1].type==_DOUBLE_ )
-      return lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false);
+      return lower_incomplete_gamma(v[0]._DOUBLE_val,v[1]._DOUBLE_val,s==3?!is_zero(v[2]):false,contextptr);
     if (s<2 || s>3)
       return gendimerr(contextptr);
     if (s==2 && is_zero(v[1],contextptr))

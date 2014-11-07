@@ -1080,11 +1080,14 @@ namespace giac {
       gen ga=subst(g,x,x+a,false,contextptr);
       int eo=is_even_odd(ga,x,contextptr);
       if (eo==1){ 
-	if ( (rational && intgab_ratfrac(ga,x,res,contextptr)) ||
-	     intgab(ga,x,minus_inf,plus_inf,res,contextptr) ){
-	  if (!is_inf(res)) 
-	    res=ratnormal(res/2);
-	  return !is_undef(res);
+	vecteur singu=find_singularities(g,*x._IDNTptr,0 /* real singularities*/,contextptr);
+	if (singu.empty()){
+	  if ( (rational && intgab_ratfrac(ga,x,res,contextptr)) ||
+	       intgab(ga,x,minus_inf,plus_inf,res,contextptr) ){
+	    if (!is_inf(res)) 
+	      res=ratnormal(res/2);
+	    return !is_undef(res);
+	  }
 	}
       }
       vecteur v;
