@@ -1927,6 +1927,7 @@ public class Manager3D implements Manager3DInterface {
 
 		if (curve.isGeoElement3D()) {
 			AlgoTangentCurve3D algo = new AlgoTangentCurve3D(cons, label, point, (GeoCurveCartesian3D) curve);
+			algo.update();
 			return algo.getOutput()[0];
 		}
 		
