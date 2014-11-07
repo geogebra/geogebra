@@ -29,7 +29,6 @@ import javax.imageio.ImageIO;
 
 import com.kitfox.svg.SVGCache;
 import com.kitfox.svg.SVGDiagram;
-import com.kitfox.svg.SVGException;
 import com.kitfox.svg.SVGUniverse;
 
 public class MyImageD implements MyImage {
@@ -149,7 +148,11 @@ public class MyImageD implements MyImage {
 			return img.getHeight(null);
 		}
 
-		return (int) (diagram.getHeight() + 0.5);
+		if (diagram != null) {
+			return (int) (diagram.getHeight() + 0.5);
+		}
+
+		return 1;
 	}
 
 	public int getWidth() {
@@ -157,7 +160,11 @@ public class MyImageD implements MyImage {
 			return img.getWidth(null);
 		}
 
-		return (int) (diagram.getWidth() + 0.5);
+		if (diagram != null) {
+			return (int) (diagram.getWidth() + 0.5);
+		}
+
+		return 1;
 	}
 
 	public GBufferedImage getSubimage(int startX, int startY, int imgWidth,
@@ -187,7 +194,7 @@ public class MyImageD implements MyImage {
 			// SVG
 			try {
 				diagram.render(g2);
-			} catch (SVGException e) {
+			} catch (Exception e) {
 				App.error("drawing svg failed");
 			}
 		}
