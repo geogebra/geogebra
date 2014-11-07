@@ -1040,6 +1040,19 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 				}
 			}
 	}
+	
+	@Override
+	public void setLineThicknessOrVisibility(int th) {
+
+		super.setLineThickness(th);
+
+		if (segments != null) {
+			for (int i = 0; i < segments.length; i++) {
+				((GeoElement) segments[i]).setLineThicknessOrVisibility(th);
+				segments[i].updateVisualStyle();
+			}
+		}
+	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {

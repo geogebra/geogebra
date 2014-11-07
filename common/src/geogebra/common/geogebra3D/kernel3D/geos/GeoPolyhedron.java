@@ -1096,6 +1096,34 @@ GeoPolyhedronInterface
 			segment.updateVisualStyle();
 		}
 	}
+	
+	@Override
+	public void setLineThicknessOrVisibility(int th) {
+		super.setLineThickness(th);
+
+		if (polygons == null || cons.isFileLoading())
+			return;
+
+		for (GeoPolygon3D polygon : polygons.values()) {
+			polygon.setLineThickness(th, false);
+			polygon.update();
+		}
+
+		for (GeoPolygon polygon : polygonsLinked) {
+			polygon.setLineThickness(th, false);
+			polygon.updateVisualStyle();
+		}
+
+		for (GeoSegment3D segment : segments.values()) {
+			segment.setLineThicknessOrVisibility(th);
+			segment.updateVisualStyle();
+		}
+
+		for (GeoSegmentND segment : getSegmentsLinked()) {
+			((GeoElement) segment).setLineThicknessOrVisibility(th);
+			segment.updateVisualStyle();
+		}
+	}
 
 	@Override
 	public void setAlphaValue(float alpha) {

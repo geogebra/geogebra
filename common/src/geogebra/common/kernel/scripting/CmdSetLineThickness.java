@@ -33,7 +33,7 @@ public class CmdSetLineThickness extends CmdScripting {
 
 				int thickness = (int) ((NumberValue) arg[1]).getDouble();
 
-				arg[0].setLineThickness(thickness);
+				arg[0].setLineThicknessOrVisibility(thickness);
 				arg[0].updateRepaint();
 
 				

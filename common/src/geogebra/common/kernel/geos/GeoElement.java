@@ -5408,8 +5408,28 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            new thickness
 	 */
 	public void setLineThickness(final int th) {
+		
 		lineThickness = Math.max(0, th);
 	}
+	
+	/**
+	 * set line thickness and/or visibility (if th == 0)
+	 * @param th new thickness
+	 */
+	public void setLineThicknessOrVisibility(final int th) {		
+
+		if (isRegion()){
+			setLineThickness(th);
+		}else{		
+			if (th > 0){
+				setEuclidianVisibleIfNoConditionToShowObject(true);
+				setLineThickness(th);
+			}else{
+				setEuclidianVisibleIfNoConditionToShowObject(false);
+			}
+		}
+	}
+
 
 	/**
 	 * @param i
