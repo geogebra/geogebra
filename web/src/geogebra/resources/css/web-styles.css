@@ -4372,57 +4372,79 @@ PROVIDERS
 	transform-origin: 0% 0%;
 }
 
-body.application.zoomedBody .gwt-DialogBox {
-	-webkit-transform-origin: 50% 50%;
-	-moz-transform-origin: 50% 50%;
-	transform-origin: 50% 50%;
-	-webkit-transform: scale(0.8, 0.8);
-	-moz-transform: scale(0.8, 0.8);
-}
-
-body.application.zoomedBody .gwt-PopupPanel {
-	-webkit-transform-origin: 100% 0%;
-	-moz-transform-origin: 100% 0%;
-	transform-origin: 100% 0%;
-	-webkit-transform: scale(0.8, 0.8);
-	-moz-transform: scale(0.8, 0.8);
-}
-
-body.application.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
-	-webkit-transform: scale(0.8, 0.8);
-	-moz-transform: scale(0.8, 0.8);
+.zoomed2 {
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
+	width: 166.6%;
+	height: 166.6%;
 	-webkit-transform-origin: 0% 0%;
 	-moz-transform-origin: 0% 0%;
 	transform-origin: 0% 0%;
 }
 
-body.application.zoomedBody .gwt-PopupPanel.helpPopup {
+body.zoomedBody .gwt-DialogBox, body.zoomedBody .infoTooltip {
+	-webkit-transform-origin: 50% 50%;
+	-moz-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
+}
+
+body.zoomedBody .gwt-PopupPanel {
+	-webkit-transform-origin: 100% 0%;
+	-moz-transform-origin: 100% 0%;
+	transform-origin: 100% 0%;
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
+}
+
+body.zoomedBody .gwt-PopupPanel.ggbContextPopup {
+	-webkit-transform-origin: 0% 0%;
+	-moz-transform-origin: 0% 0%;
+	transform-origin: 0% 0%;
+}
+
+
+body.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
+	-webkit-transform-origin: 0% 0%;
+	-moz-transform-origin: 0% 0%;
+	transform-origin: 0% 0%;
+}
+
+body.zoomedBody .gwt-PopupPanel.helpPopup {
 	-webkit-transform-origin: 100% 100%;
 	-moz-transform-origin: 100% 100%;
 	transform-origin: 100% 100%;
-	-webkit-transform: scale(0.8, 0.8);
-	-moz-transform: scale(0.8, 0.8);
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
 }
 
-body.application.zoomedBody .gwt-PopupPanel.PropertiesViewW {
+body.zoomedBody .gwt-PopupPanel.PropertiesViewW {
 	-webkit-transform: scale(1, 1);
 	-moz-transform: scale(1, 1);
 }
 
-body.application.zoomedBody .gwt-MenuBarPopup {
+body.zoomedBody .gwt-MenuBarPopup .subMenuLeftSide{
 	-webkit-transform-origin: 100% 0%;
 	-moz-transform-origin: 100% 0%;
 	transform-origin: 100% 0%;
-	-webkit-transform: scale(0.8, 0.8);
-	-moz-transform: scale(0.8, 0.8);
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
 }
 
-body.application.zoomedBody .gwt-SuggestBoxPopup {
-	-webkit-transform: scale(0.8, 0.8);
-	-moz-transform: scale(0.8, 0.8);
+body.zoomedBody .gwt-SuggestBoxPopup {
+	-webkit-transform: scale(0.6, 0.6);
+	-moz-transform: scale(0.6, 0.6);
 	-webkit-transform-origin: 0% 100%;
 	-moz-transform-origin: 0% 100%;
 	transform-origin: 0% 100%;
+}
+
+body.zoomedBody .geogebraweb-table-spreadsheet td {
+	border-right: 2px solid #CCCCCC;
+	border-bottom: 2px solid #CCCCCC;
 }
 
 .AppFrameParent {

@@ -74,7 +74,7 @@ public class ViewMenuW extends GMenuBar {
 			        new MenuCommand(app) {
 				
 				        @Override
-                        public void execute() {
+                        public void doExecute() {
 				        	app.getGuiManager().setShowView(
 									!app.getGuiManager().showView(Views.ids[i]), Views.ids[i]);
 				        	items[i].setSelected(app.getGuiManager().showView(Views.ids[i]));

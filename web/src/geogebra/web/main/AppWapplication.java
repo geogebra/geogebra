@@ -68,10 +68,17 @@ public class AppWapplication extends AppW {
 		
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
-			appFrame.getElement().addClassName("zoomed");
+			if(article.getScaleX() < 0.75){
+				appFrame.getElement().addClassName("zoomed2");
+				article.setAttribute("data-scalex", "0.6");
+				article.setAttribute("data-scaley", "0.6");
+			}else{
+				article.setAttribute("data-scalex", "0.8");
+				article.setAttribute("data-scaley", "0.8");
+				appFrame.getElement().addClassName("zoomed");
+			}
 			RootPanel.getBodyElement().addClassName("zoomedBody");
-			article.setAttribute("data-scalex", "0.8");
-			article.setAttribute("data-scaley", "0.8");
+			
 			Element el = DOM.getElementById("ggbsplash");
 			if(el != null){
 				el.removeFromParent();

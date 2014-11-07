@@ -1,6 +1,8 @@
 package geogebra.web.javax.swing;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.kernel.Kernel;
+import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -38,7 +40,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	 * this field used to avoid having more submenu at the same time 
 	 */
 	GPopupMenuW subPopup;
-	private AppW application;
+	private AppW app;
 
 	/**
 	 * @param app
@@ -46,8 +48,9 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	 * Creates a popup menu. App needed for get environment style
 	 */
 	public GPopupMenuW(AppW app){
-		application = app;
-		popupPanel = new PopupPanel();		
+		this.app = app;
+		popupPanel = new PopupPanel();
+		popupPanel.addStyleName("ggbContextPopup");
 		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
@@ -91,17 +94,26 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 		int left = p.getX();
 		boolean newPoz = false;
 		showAtPoint(p);
-		if (left + popupPanel.getOffsetWidth() > Window.getClientWidth() + Window.getScrollLeft()){
+		EuclidianControllerW ew = (EuclidianControllerW) app.getActiveEuclidianView().getEuclidianController();
+		if (left + popupPanel.getOffsetWidth() / ew.getScaleXMultiplier() > Window.getClientWidth()  + Window.getScrollLeft()){
 			left = Window.getClientWidth() - popupPanel.getOffsetWidth()+Window.getScrollLeft();
 			newPoz = true;
+		}else{
+			left = (int) (left / ew.getScaleXMultiplier());
 		}
-		if (top + popupPanel.getOffsetHeight() > Window.getClientHeight() + Window.getScrollTop()){
+		if (top + popupPanel.getOffsetHeight() / ew.getScaleXMultiplier() > Window.getClientHeight()  + Window.getScrollTop()){
 			top = Window.getClientHeight() - popupPanel.getOffsetHeight()+ Window.getScrollTop();
 			newPoz = true;
+		}else{
+			top = (int) (top / ew.getScaleYMultiplier());	
 		}
-		left *= (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleXMultiplier();
-		top *= (int) ((EuclidianControllerW) application.getActiveEuclidianView().getEuclidianController()).getScaleYMultiplier();
-		if (newPoz) popupPanel.setPopupPosition(left, top);
+		
+		
+		
+		if (newPoz || !Kernel.isEqual(1,ew.getScaleXMultiplier())){
+			popupPanel.setPopupPosition(left, top);
+			App.debug(left+"x"+top);
+		}
 	}
 	
 	/**
@@ -115,7 +127,8 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	}
 	
 	public void show(Canvas c, int x, int y) {
-		show(new GPoint(c.getAbsoluteLeft()+x, c.getAbsoluteTop()+y));
+		EuclidianControllerW ew = (EuclidianControllerW) app.getActiveEuclidianView().getEuclidianController();
+		show(new GPoint((int) (c.getAbsoluteLeft() * ew.getScaleXMultiplier() +x), (int) (c.getAbsoluteTop() * ew.getScaleYMultiplier()+y)));
 	}
 
 	public void show(Widget c, int x, int y) {
