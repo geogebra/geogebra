@@ -8,6 +8,11 @@ import geogebra.html5.util.JSON;
 import com.google.gwt.core.client.JavaScriptObject;
 
 public class RealSense {
+	
+	private static JavaScriptObject sense;
+	private static JavaScriptObject handConfiguration;
+	private static JavaScriptObject capture;
+	private static JavaScriptObject imageSize;
 
 	public static void initIfSupported() {
 		AsyncCallback clb = new AsyncCallback() {
@@ -30,33 +35,45 @@ public class RealSense {
     }
 	
 	public static native void createInstance() /*-{
+		var t = this;
 		$wnd.PXCMSenseManager_CreateInstance().then(function (result) {
-		$wnd.sense = result;
-		return $wnd.sense.EnableHand(onHandData);
+		t.@geogebra.geogebra3D.web.realsense.RealSense::sense = result;
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::sense.EnableHand(onHandData);
 	}).then(function (result) {
 		@geogebra.html5.main.AppW::debug(Ljava/lang/String;)('Init started');
-		return $wnd.sense.Init(onConnect);
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::sense.Init(onConnect);
 	}).then(function (result) {
-		return $wnd.sense.CreateHandConfiguration();
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::sense.CreateHandConfiguration();
 	}).then(function (result) {
-		handConfiguration = result;
-		return handConfiguration.EnableAllAlerts();
+		t.@geogebra.geogebra3D.web.realsense.RealSense::handConfiguration = result;
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::handConfiguration.EnableAllAlerts();
 	}).then(function (result) {
-		return handConfiguration.EnableAllGestures(false);
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::handConfiguration.EnableAllGestures(false);
 	 }).then(function (result) {
-		return handConfiguration.ApplyChanges();
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::handConfiguration.ApplyChanges();
 	}).then(function (result) {
-		return $wnd.sense.QueryCaptureManager();
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::sense.QueryCaptureManager();
 	}).then(function (result) {
-		capture = result;
+		t.@geogebra.geogebra3D.web.realsense.RealSense::capture = result;
 		return capture.QueryImageSize(capture.STREAM_TYPE_DEPTH);
 	}).then(function (result) {
-		imageSize = result.size;
-		return $wnd.sense.StreamFrames();
+		t.@geogebra.geogebra3D.web.realsense.RealSense::imageSize = result.size;
+		return t.@geogebra.geogebra3D.web.realsense.RealSense::sense.StreamFrames();
 	}).then(function (result) {
 		@geogebra.html5.main.AppW::debug(Ljava/lang/String;)('Streaming ' + imageSize.width + 'x' + imageSize.height);
 	}); //dont compiles because gwt believes it is a try catch block .catch(function (error) {
 		//@geogebra.html5.main.AppW::debug(Ljava/lang/String;)('Init failed: ' + JSON.stringify(error));
 		//});
 	}-*/;
+	
+	private native void onConnect(JavaScriptObject device, JavaScriptObject data) /*-{
+		if (data.connected == false) {
+			this.@geogebra.geogebra3D.web.realsense.RealSense::status(Ljava/lang/String;)('Alert: ' + JSON.stringify(data));
+		}
+	
+	}-*/;
+	
+	private static void status(String status) {
+		App.debug(status);
+	}
 }
