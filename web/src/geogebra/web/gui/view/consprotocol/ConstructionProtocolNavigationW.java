@@ -207,7 +207,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 				player.startAnimation();
 			}
 		}
-		
+		prot.scrollToConstructionStep();
     }
 	
 	/**
@@ -254,7 +254,6 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause().getSafeUri());
 			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Pause")+"</div>");
 			setComponentsEnabled(false);
-			app.setWaitCursor();
 
 			if (prot.getCurrentStepNumber() == prot.getLastStepNumber()) {
 				prot.setConstructionStep(-1);
@@ -272,7 +271,6 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_play().getSafeUri());
 			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Play")+"</div>");
 			setComponentsEnabled(true);
-			app.setDefaultCursor();
         }
 	}
 }

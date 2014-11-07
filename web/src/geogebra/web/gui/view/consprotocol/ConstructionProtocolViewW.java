@@ -154,6 +154,39 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 //		}
 	}
 	
+	@Override
+	public void scrollToConstructionStep() {
+		if (table != null) {
+			int rowCount = table.getRowCount();
+			if (rowCount == 0)
+				return;
+
+			int step = kernel.getConstructionStep();
+			int row = -1; //it's possible that ConsStep == 0, so we need index -1 to deselect all rows
+			for (int i = Math.max(step, 0); i < rowCount; i++) {
+				if (data.getConstructionIndex(i) <= step)
+					row = i;
+				else
+					break;
+			}
+			markRowsAtive(row);
+		}
+	}
+	
+	/**
+	 * marks the rows (up to {@code index}) selected
+	 * @param index int
+	 */
+	private void markRowsAtive(int index) {
+		for (int i = 0; i < table.getRowCount(); i++) {
+			if (i <= index) {
+				table.getRowElement(i).addClassName("activeConsRow");
+			} else {
+				table.getRowElement(i).removeClassName("activeConsRow");
+			}
+		}
+	}
+	
 	public FlowPanel getCpPanel(){
 		return cpPanel;
 	}
@@ -163,10 +196,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	}
 	
 	public void tableInit(){
-		data.updateAll();
+//		data.updateAll();
 		table.setRowCount(data.getrowList().size());
 	    table.setRowData(0, data.getrowList());
 	    table.setVisibleRange(0, data.getrowList().size()+1);
+		scrollToConstructionStep();
 	}
 	
 	class ConstructionTableDataW extends ConstructionTableData{

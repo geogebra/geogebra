@@ -3068,6 +3068,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	cursor: default;
 }
 
+.cpScrollPanel .activeConsRow {
+	color: #6666FF;
+}
+
 .cpScrollPanel tbody tr:hover {
 	background: #CCCCFF;
 }
