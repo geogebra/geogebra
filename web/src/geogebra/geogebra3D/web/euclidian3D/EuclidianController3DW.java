@@ -185,6 +185,7 @@ LongTouchHandler {
 		super(kernel.getApplication());
 		setKernel(kernel);
 		RealSense.initIfSupported(this);
+		RealSense.createInstance();
 
 		Window.addResizeHandler(new ResizeHandler() {
 
@@ -693,7 +694,8 @@ LongTouchHandler {
 	 */
 	public void onHandValues(int mx, int my, int mz, int ox, int oy, int oz,
             int ow, String name) {
-	    // TODO: Mathieu continues here :-)
+	    
+		App.debug(mx+","+my+","+mz+" -- "+name);
 	    
     }
 
