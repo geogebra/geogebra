@@ -3031,13 +3031,13 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 .navbar_leftPanel {
 	text-align: center;
 	width: 45%;
-	min-width: 260px;
+	min-width: 275px;
 }
 
 .navbar_playPanel {
 	text-align: center;
 	white-space: nowrap;
-	padding-right: 50px;
+	padding-right: 10px;
 }
 
 .consProtNav .navbar_playPanel img.gwt-Image {
