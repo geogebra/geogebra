@@ -9090,7 +9090,7 @@ public abstract class EuclidianController {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
-		if (processZoomRectangle()) {
+		if (type != PointerEventType.TOUCH && processZoomRectangle()) {
 			return;
 			// Michael Borcherds 2007-10-08
 		}
