@@ -1578,6 +1578,7 @@ public class Manager3D implements Manager3DInterface {
 		switch (name) {
 		case Tetrahedron:
 		case Octahedron:
+		case Icosahedron:
 			// center = (A+B)/2
 			if (A.isGeoElement3D() || B.isGeoElement3D()){
 				AlgoMidpoint3D algoMidpoint = new AlgoMidpoint3D(cons, A, B);
@@ -1616,7 +1617,6 @@ public class Manager3D implements Manager3DInterface {
 
 
 		case Dodecahedron:
-		case Icosahedron:
 			//center = (1-Math.sqrt(5))/4) * A + (3+Math.sqrt(5))/4) * B
 			expr = new ExpressionNode(kernel, 
 			    new ExpressionNode(kernel, 
