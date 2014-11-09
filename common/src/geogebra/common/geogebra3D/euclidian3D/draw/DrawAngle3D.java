@@ -216,7 +216,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					//arc
 					brush.setAffineTexture(0f,0f);
-					brush.arc(center, v1, vn2, size, 0,a, 60);
+					brush.arc(center, v1, v2, size, 0,a, 60);
 					brush.setAffineTexture(0.5f,  0.25f);
 					//segments	
 					brush.segment(center, tmpCoords.setAdd(center, tmpCoords.setMul(v1, size)));
@@ -258,12 +258,12 @@ public class DrawAngle3D extends Drawable3DCurves {
 				switch (getView3D().getRightAngleStyle()) {
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_SQUARE:
 					surface.start(getReusableSurfaceIndex());
-					surface.parallelogram(center, v1, vn2, size,size);
+					surface.parallelogram(center, v1, v2, size,size);
 					setSurfaceIndex(surface.end());
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT:
 					surface.start(getReusableSurfaceIndex());
-					surface.ellipsePart(center, v1, vn2, size,size, 0,a);
+					surface.ellipsePart(center, v1, v2, size,size, 0,a);
 					setSurfaceIndex(surface.end());
 					break;
 				case EuclidianStyleConstants.RIGHT_ANGLE_STYLE_L:
