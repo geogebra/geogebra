@@ -1591,19 +1591,8 @@ public class Manager3D implements Manager3DInterface {
 			}
 			
 			// radius = distance * sqrt(3)/2
-			ExpressionNode expr = new ExpressionNode(kernel, 
-					distance, 
-					Operation.MULTIPLY,
-					new ExpressionNode(kernel, 
-									new ExpressionNode(kernel, 
-											new MyDouble(kernel, 3), 
-											Operation.SQRT,
-											null
-											),
-									Operation.DIVIDE,
-									new MyDouble(kernel, 2)
-							)
-					);
+			ExpressionNode expr = new ExpressionNode(kernel, new MyDouble(kernel, 3), Operation.SQRT, null);
+			expr = expr.divide(2).multiply(distance);
 			AlgoDependentNumber exprAlgo = new AlgoDependentNumber(cons, expr, false);
             cons.removeFromConstructionList(exprAlgo);
 			radius = exprAlgo.getNumber();
@@ -1617,40 +1606,18 @@ public class Manager3D implements Manager3DInterface {
 
 
 		case Dodecahedron:
-			//center = (1-Math.sqrt(5))/4) * A + (3+Math.sqrt(5))/4) * B
-			expr = new ExpressionNode(kernel, 
-			    new ExpressionNode(kernel, 
-					new ExpressionNode(kernel, 
-						   new ExpressionNode(kernel, 
-											new ExpressionNode(kernel, 
-													new MyDouble(kernel, 1), 
-													Operation.MINUS,
-													new ExpressionNode(kernel, 
-															new MyDouble(kernel, 5), 
-															Operation.SQRT,
-															null)
-													) 
-											), 											
-									Operation.MULTIPLY,
-									A
-							), 
-							Operation.PLUS,
-							new ExpressionNode(kernel, 
-												new ExpressionNode(kernel, 
-													new MyDouble(kernel, 3), 
-													Operation.PLUS,
-													new ExpressionNode(kernel, 
-															new MyDouble(kernel, 5), 
-															Operation.SQRT,
-															null)
-											), 
-									Operation.MULTIPLY,
-									B
-							)
-					),
-				    Operation.DIVIDE,
-				    new MyDouble(kernel, 4)			
-			);
+			//center = ((1-Math.sqrt(5)) * A + (3+Math.sqrt(5)) * B)/4
+			ExpressionNode exprSqrt5 = new ExpressionNode(kernel, new MyDouble(kernel, 5), Operation.SQRT, null);
+			
+			expr = new ExpressionNode(kernel, new MyDouble(kernel, 1), Operation.NO_OPERATION, null);        
+			ExpressionNode exprPoint =  new ExpressionNode(kernel, A, Operation.NO_OPERATION, null); 
+			expr = exprPoint.multiply(expr.subtract(exprSqrt5));
+			
+            ExpressionNode expr2 = new ExpressionNode(kernel, new MyDouble(kernel, 3), Operation.NO_OPERATION, null);
+            exprPoint =  new ExpressionNode(kernel, B, Operation.NO_OPERATION, null); 
+            expr2 = exprPoint.multiply(expr2.plus(exprSqrt5));
+            
+            expr = expr.plus(expr2).divide(4);
 			
 			if (A.isGeoElement3D() || B.isGeoElement3D()){
 				AlgoDependentPoint3D exprAlgoPoint = new AlgoDependentPoint3D(cons, expr);
@@ -1662,32 +1629,10 @@ public class Manager3D implements Manager3DInterface {
 				center = exprAlgoPoint.getPoint();				
 			}
 			
-			//radius = sqrt(10 + 2 * sqrt(5))/4)
-			expr = new ExpressionNode(kernel, 
-					distance, 
-					Operation.MULTIPLY,
-					new ExpressionNode(kernel, 
-									new ExpressionNode(kernel, 
-											new ExpressionNode(kernel, 
-													new MyDouble(kernel, 10), 
-													Operation.PLUS,
-													new ExpressionNode(kernel, 
-															new MyDouble(kernel, 2), 
-															Operation.MULTIPLY,
-															new ExpressionNode(kernel, 
-																	new MyDouble(kernel, 5), 
-																	Operation.SQRT,
-																	null
-															)
-													)
-											), 
-											Operation.SQRT,
-											null
-									),
-									Operation.DIVIDE,
-									new MyDouble(kernel, 4)
-							)
-					);
+			//radius = distance * sqrt(10 + 2 * sqrt(5))/4)
+			expr = new ExpressionNode(kernel, new MyDouble(kernel, 10), Operation.NO_OPERATION, null);   
+			expr2 = new ExpressionNode(kernel, new MyDouble(kernel, 2), Operation.NO_OPERATION, null);   
+			expr = expr.plus(exprSqrt5.multiply(expr2)).sqrt().divide(4).multiply(distance);
 			exprAlgo = new AlgoDependentNumber(cons, expr, false);
             cons.removeFromConstructionList(exprAlgo);
 			radius = exprAlgo.getNumber();
