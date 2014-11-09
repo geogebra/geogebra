@@ -2963,7 +2963,7 @@ public abstract class App implements UpdateSelection{
 	 * @param high
 	 *            highest possible value of result
 	 * 
-	 * @return random integer between a and b inclusive
+	 * @return random integer between a and b inclusive (or NaN for getRandomIntegerBetween(5.5, 5.5))
 	 * 
 	 */
 	public int getRandomIntegerBetween(double low, double high) {
@@ -2975,8 +2975,17 @@ public abstract class App implements UpdateSelection{
 		// RandomBetween[3.2, 4.7] is between 3.2 and 4.7
 		int min = (int) Math.ceil(Math.min(a, b));
 		int max = (int) Math.floor(Math.max(a, b));
-
+		
+		// eg RandomBetween[5.499999, 5.500001]
+		// eg RandomBetween[5.5, 5.5]
+		if (min > max) {
+			int tmp = max;
+			max = min;
+			min = tmp;
+		}
+			
 		return random.nextInt(max - min + 1) + min;
+
 	}
 
 	/**
