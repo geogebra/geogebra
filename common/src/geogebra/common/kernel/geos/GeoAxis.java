@@ -54,6 +54,8 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 			setObjColor(AwtFactory.prototype.newColor(0, 0.5f, 0));
 			break;
 		}
+		
+		labelSet = true;
 		setFixed(true);
 		setLabelVisible(false);
 	}
