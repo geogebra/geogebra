@@ -31,7 +31,8 @@ public class CmdParametricDerivative extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoCurveCartesian()) {
+			// use instanceof (2D only)
+			if (arg[0] instanceof GeoCurveCartesian) {
 				GeoCurveCartesian f = (GeoCurveCartesian) arg[0];
 				
 				AlgoParametricDerivative algo = new AlgoParametricDerivative(cons, label, f);
