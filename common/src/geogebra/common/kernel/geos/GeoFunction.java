@@ -63,9 +63,9 @@ import java.util.TreeSet;
  * @author Markus Hohenwarter
  */
 public class GeoFunction extends GeoElement implements VarString,
-		Translateable, Functional, FunctionalNVar, GeoFunctionable, Region,
-		CasEvaluableFunction, ParametricCurve,
-		RealRootFunction, Dilateable, Transformable, InequalityProperties {
+Translateable, Functional, FunctionalNVar, GeoFunctionable, Region,
+CasEvaluableFunction, ParametricCurve,
+RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 	/** inner function representation */
 	protected Function fun;
@@ -395,9 +395,9 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		if (f.isDefined()) {
 			fun = f.fun.getDerivative(n, fast);
-			
+
 			checkDefined();
-			
+
 		} else {
 			isDefined = false;
 		}
@@ -413,9 +413,9 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (fun != null && "?".equals(fun.toValueString(StringTemplate.defaultTemplate))) { 
 			isDefined = false; 
 		}
-		
+
 	}
-	
+
 	/**
 	 * Sets this function by applying a GeoGebraCAS command to a function.
 	 * 
@@ -431,7 +431,7 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		if (ff.isDefined()) {
 			fun = (Function) ff.fun.evalCasCommand(ggbCasCmd, symbolic,arbconst);
-			
+
 			checkDefined();
 
 		} else {
@@ -505,11 +505,11 @@ public class GeoFunction extends GeoElement implements VarString,
 	 * @return f(x)
 	 */
 	final public boolean evaluateBoolean(double x) {
-		
+
 		if (fun == null || !isDefined) {
 			return false;
 		}
-		
+
 		return fun.evaluateBoolean(x);
 	}
 
@@ -549,24 +549,24 @@ public class GeoFunction extends GeoElement implements VarString,
 	 *            vertical shift
 	 */
 	public void translate(double vx, double vy) {
-		
+
 		if (getParentAlgorithm() instanceof AlgoFunctionFreehand) {
 			AlgoFunctionFreehand algo = (AlgoFunctionFreehand) getParentAlgorithm();
 			GeoList list = algo.getList();
-			
+
 			// left/right boundaries
 			((GeoNumeric)list.get(0)).setValue(((GeoNumeric) list.get(0)).getDouble() + vx);
 			((GeoNumeric)list.get(1)).setValue(((GeoNumeric) list.get(1)).getDouble() + vx);
-			
+
 			// heights
 			for (int i = 2 ; i < list.size() ; i++) {
 				((GeoNumeric)list.get(i)).setValue(((GeoNumeric) list.get(i)).getDouble() + vy);
-				
+
 			}
-			
+
 			algo.compute();
-			
-			
+
+
 		} else {
 			fun.translate(vx, vy);
 		}
@@ -623,7 +623,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 		return includesDivisionByVar;
 	}
-	
+
 	/**
 	 * Returns whether this function includes eg abs(), If[] function
 	 * 
@@ -695,7 +695,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		sbToString.append(toValueString(tpl));
 		return sbToString.toString();
 	}
-	
+
 	/**
 	 * @param stringBuilder string builder
 	 * @param tpl string template
@@ -813,11 +813,11 @@ public class GeoFunction extends GeoElement implements VarString,
 			sbxml.append("<showOnAxis val=\"true\" />");
 		}
 	}
-	
+
 	// we don't care about values of these
 	private static String[] dummy1 = {"", ""};
 	private static char[] dummy2 = {' ', ' '};
-	
+
 	double[] bounds;
 
 	/*
@@ -830,7 +830,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		} else {
 			P.setX(P.getX() / P.getZ());
 		}
-		
+
 
 		if (!isBooleanFunction()) {
 			if (interval) {
@@ -842,54 +842,75 @@ public class GeoFunction extends GeoElement implements VarString,
 				}
 			} else {
 				ExpressionNode exp = fun.getExpression();
-				
+
 				// make sure point can't be dragged to undefined region for eg
 				// If[3 <= x <= 5, x^2]
 				if (exp.getOperation().equals(Operation.IF)) {
 					ExpressionValue inequality = exp.getLeft().unwrap();
 					if (inequality.isExpressionNode()) {
-						
+
 						double bound;
 						double epsilon = 0;
-						
 						ExpressionNode inequalityEn = (ExpressionNode) inequality;
-						switch (inequalityEn.getOperation()) {
+						Operation op = inequalityEn.getOperation();
+
+						switch (op) {
 						case AND_INTERVAL:
 							if (bounds == null) {
 								bounds = new double[2];
 							}
 							GeoInterval.updateBoundaries(inequalityEn, bounds, dummy1, dummy2);
-							
+
 							if (P.getX() < bounds[0]) {
 								P.setX(bounds[0]);
 							} else if (P.getX() > bounds[1]) {
 								P.setX(bounds[1]);
 							}
+
+							break;
 							
-							break;
 						case LESS:
-							epsilon = Kernel.MIN_PRECISION;
-							// fall through
 						case LESS_EQUAL:
-							if (P.getX() >= (bound = inequalityEn.getRight().evaluateDouble())) {
-								P.setX(bound - epsilon);
-							}
-							break;
 						case GREATER:
-							epsilon = Kernel.MIN_PRECISION;
-							// fall through
 						case GREATER_EQUAL:
-							if (P.getX() < (bound = inequalityEn.getRight().evaluateDouble())) {
-								P.setX(bound + epsilon);
+
+							// make sure 2<x and x>2 both work
+							if (inequalityEn.getLeft() instanceof FunctionVariable) {
+								bound = inequalityEn.getRight().evaluateDouble();
+							} else if (inequalityEn.getRight() instanceof FunctionVariable) {
+								bound = inequalityEn.getLeft().evaluateDouble();
+								op = op.reverseLeftToRight();
+							} else {
+								// shouldn't happen
+								bound = Double.NaN;
 							}
-							break;
+
+							switch (op) {
+
+							case LESS:
+								epsilon = Kernel.MIN_PRECISION;
+								// fall through
+							case LESS_EQUAL:
+								if (P.getX() >= bound) {
+									P.setX(bound - epsilon);
+								}
+								break;
+							case GREATER:
+								epsilon = Kernel.MIN_PRECISION;
+								// fall through
+							case GREATER_EQUAL:
+								if (P.getX() < bound) {
+									P.setX(bound + epsilon);
+								}
+								break;
+							}
 						}
 					}
 				}
 			}
 			P.setY(evaluate(P.getX()));// changed from fun.evaluate so that it
-										// works with eg Point[If[x < -1, x + 1,
-										// x^2]]
+			// works with eg Point[If[x < -1, x + 1,
+			// x^2]]
 		} else {
 			pointChangedBoolean(true, P);
 		}
@@ -900,14 +921,14 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		Coords coords = P.getCoordsInD2();
 		pointChanged(coords);
-		
+
 		// set path parameter for compatibility with
 		// PathMoverGeneric
 		P.setCoords2D(coords.getX(), coords.getY(), coords.getZ());
 
 		PathParameter pp = P.getPathParameter();
 		pp.t = coords.getX();//P.getX();
-		
+
 		P.updateCoordsFrom2D(false, null);
 
 	}
@@ -1234,7 +1255,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		}
 		ExpressionNode ltExpr = toExpr(lt, varmap, kernel), rtExpr = toExpr(rt,
 				varmap, kernel), sum = new ExpressionNode(kernel, ltExpr, op,
-				rtExpr);
+						rtExpr);
 		FunctionNVar f = fromExpr(sum, varmap, varNames);
 
 		f.initFunction();
@@ -1621,7 +1642,7 @@ public class GeoFunction extends GeoElement implements VarString,
 					sb.append(interceptStrMinus);
 
 					if (!SB.toString().endsWith(sb.toString())) { // not
-																	// duplicated
+						// duplicated
 						if (SB.length() > 1)
 							SB.append(',');
 						SB.append(sb);
@@ -1726,14 +1747,14 @@ public class GeoFunction extends GeoElement implements VarString,
 
 		sb.append("Solve(");
 		//if (kernel.getCASType() == CasType.GIAC) {
-			//Solve(1/(1/x)) "works" in Reduce but not in Giac
-			sb.append("Simplify(");
+		//Solve(1/(1/x)) "works" in Reduce but not in Giac
+		sb.append("Simplify(");
 		//}
 		sb.append("1/(");
 		sb.append(funVarStr[0]); // function expression with "ggbtmpvarx" as
-									// function variable
+		// function variable
 		//if (kernel.getCASType() == CasType.GIAC) {
-			sb.append(')');
+		sb.append(')');
 		//}
 		sb.append(")=0");
 		sb.append(",");
@@ -1769,8 +1790,8 @@ public class GeoFunction extends GeoElement implements VarString,
 					// Application.debug(verticalAsymptotesArray[i]);
 					boolean repeat = false;
 					if (i > 0 && verticalAsymptotesArray.length > 1) { // check
-																		// for
-																		// repeats
+						// for
+						// repeats
 						for (int j = 0; j < i; j++) {
 							if (verticalAsymptotesArray[i]
 									.equals(verticalAsymptotesArray[j])) {
@@ -1792,7 +1813,7 @@ public class GeoFunction extends GeoElement implements VarString,
 									.getAlgebraProcessor()
 									.evaluateToNumeric(
 											verticalAsymptotesArray[i], true)
-									.getDouble());
+											.getDouble());
 					} catch (Exception e) {
 						App.debug("Error parsing: "
 								+ verticalAsymptotesArray[i]);
@@ -1805,11 +1826,11 @@ public class GeoFunction extends GeoElement implements VarString,
 						sb.setLength(0);
 						sb.append("Numeric(Limit(");
 						sb.append(funVarStr[0]); // function expression with
-													// "ggbtmpvarx" as function
-													// variable
+						// "ggbtmpvarx" as function
+						// variable
 						sb.append(',');
 						sb.append(funVarStr[1]); // function variable
-													// "ggbtmpvarx"
+						// "ggbtmpvarx"
 						sb.append(",");
 						sb.append(verticalAsymptotesArray[i]);
 						sb.append("))");
@@ -1908,7 +1929,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			curve.setHideRangeInFormula(true);
 		}
 	}
-	
+
 	/**
 	 * Creates a copy of this function with different function 
 	 * variable so that both functions can be evaluated in separate threads
@@ -1924,7 +1945,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		return yExp.buildFunction(t);
 	}
 
-	
+
 	/**
 	 * mirror at point P
 	 * @param P point
@@ -1942,7 +1963,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		FunctionVariable oldX = fun.getFunctionVariable();
 		ExpressionNode newX = new ExpressionNode(kernel, new MyDouble(kernel,
 				1 / rd), Operation.MULTIPLY, new ExpressionNode(kernel, oldX,
-				Operation.PLUS, new MyDouble(kernel, a * rd - a)));
+						Operation.PLUS, new MyDouble(kernel, a * rd - a)));
 		ExpressionNode oldY = fun.getExpression().replace(oldX, newX).wrap();
 		if (!isBooleanFunction()) {
 
@@ -1991,16 +2012,16 @@ public class GeoFunction extends GeoElement implements VarString,
 		pointChangedBoolean(false, P);
 
 		P.setZ(1.0);
-		
+
 		PI.setCoords2D(P.getX(), P.getY(), P.getZ());
-		
+
 		// set path parameter for compatibility with
 		// PathMoverGeneric
 		RegionParameters pp = PI.getRegionParameters();
 		pp.setT1(P.getX());
 		pp.setT2(P.getY());
-		
-		
+
+
 		PI.updateCoordsFrom2D(false, null);
 
 	}
@@ -2110,12 +2131,12 @@ public class GeoFunction extends GeoElement implements VarString,
 		return ret;
 
 	}
-	
+
 	@Override
 	public int getMinimumLineThickness() {
 		return (isInequality != null && isInequality) ? 0 : 1;
 	}
- 
+
 	/**
 	 * @return whether this function is inequality (more precisely logical combination of inequalities)
 	 */
@@ -2135,9 +2156,9 @@ public class GeoFunction extends GeoElement implements VarString,
 
 	public void clearCasEvalMap(String key) {
 		fun.clearCasEvalMap(key);
-		
+
 	}
-	
+
 	/**
 	 * @param substituteNumbers
 	 *            true to replace names by values
@@ -2151,11 +2172,11 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (expr.getOperation()==Operation.IF && 
 				!expr.getRight().wrap().isConditional()) {
 			if(substituteNumbers){
-			sbLaTeX.append(expr.getRight().toValueString(
-					StringTemplate.latexTemplate));
-			sbLaTeX.append(" \\;\\;\\;\\; \\left(");
-			sbLaTeX.append(expr.getLeft().toValueString(
-					StringTemplate.latexTemplate));
+				sbLaTeX.append(expr.getRight().toValueString(
+						StringTemplate.latexTemplate));
+				sbLaTeX.append(" \\;\\;\\;\\; \\left(");
+				sbLaTeX.append(expr.getLeft().toValueString(
+						StringTemplate.latexTemplate));
 			}else{
 				sbLaTeX.append(expr.getRight().toString(
 						StringTemplate.latexTemplate));
@@ -2163,7 +2184,7 @@ public class GeoFunction extends GeoElement implements VarString,
 				sbLaTeX.append(expr.getLeft().toString(
 						StringTemplate.latexTemplate));	
 			}
-			
+
 			sbLaTeX.append(" \\right)");
 
 		} else {
@@ -2274,7 +2295,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			for(int i = 0; i < conds.size();i++){
 				conditions.add(parentCond.addRestriction(conds.getListElement(i).wrap()));
 			}
-			
+
 			MyList fns = (MyList) condRoot.getRight().unwrap();
 			for(int i = 0; i < fns.size();i++){
 				cases.add(fns.getListElement(i).wrap());
@@ -2285,7 +2306,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		ExpressionNode condFun = complete?((MyNumberPair)condRoot.getLeft()).getX().wrap():condRoot.getLeft().wrap();
 		ExpressionNode ifFun = complete?((MyNumberPair)condRoot.getLeft()).getY().wrap():condRoot.getRight().wrap();
 		ExpressionNode elseFun = complete?condRoot.getRight().wrap():null;
-		
+
 		Bounds positiveCond = parentCond.addRestriction(condFun);
 		Bounds negativeCond = parentCond.addRestriction(condFun.negation());
 		if (ifFun.isConditional()) {
@@ -2295,7 +2316,7 @@ public class GeoFunction extends GeoElement implements VarString,
 			cases.add(ifFun);
 			conditions.add(positiveCond);
 		}
-		
+
 		if (elseFun!=null && elseFun.isConditional()) {
 			complete &= collectCases(elseFun,cases,
 					conditions, negativeCond);
@@ -2306,7 +2327,7 @@ public class GeoFunction extends GeoElement implements VarString,
 		return complete;
 	}
 
-	
+
 	/**
 	 * Container for condition tripples (upper bound, lower bound, other
 	 * conditions)
@@ -2597,13 +2618,13 @@ public class GeoFunction extends GeoElement implements VarString,
 	public double[] newDoubleArray(){
 		return new double[2];
 	}
-	
-	
+
+
 	public double[] getDefinedInterval(double a, double b){
 		return RealRootUtil.getDefinedInterval(
 				getRealRootFunctionY(), a, b);
 	}
-	
+
 	public double distanceMax(double[] p1, double[] p2){
 		return Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1]));
 	}
