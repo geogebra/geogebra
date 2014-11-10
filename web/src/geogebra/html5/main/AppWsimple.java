@@ -151,7 +151,7 @@ public class AppWsimple extends AppW {
 	}
 
 	@Override
-    public void openSearch() {
+    public void openSearch(String query) {
 	    //no browser
     }
 

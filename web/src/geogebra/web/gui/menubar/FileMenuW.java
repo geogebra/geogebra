@@ -80,7 +80,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
     		
 				@Override
 				public void doExecute() {
-			        app.openSearch();
+			        app.openSearch(null);
 					if(FileMenuW.this.onFileOpen!=null){
 						FileMenuW.this.onFileOpen.run();
 					}

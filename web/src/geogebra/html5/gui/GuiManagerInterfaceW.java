@@ -74,6 +74,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void setGeneralToolBarDefinition(String toolbarDefinition);
 
+	public BrowseGuiI getBrowseGUI(String query);
+	
 	public BrowseGuiI getBrowseGUI();
 
 	public Widget getRootComponent();

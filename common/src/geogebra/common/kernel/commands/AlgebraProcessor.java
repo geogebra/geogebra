@@ -731,6 +731,7 @@ public class AlgebraProcessor {
 			if(lhs!=null){
 				ggb = lhs.getGroup(1)+"(x)="+lhs.getGroup(2);
 			}
+			Log.debug(cmd);
 			Log.debug(ggb);
 			ret = this.processAlgebraCommandNoExceptionHandling(ggb, storeUndo, false, throwMyError, false, callback0);
 		}catch(Throwable t){

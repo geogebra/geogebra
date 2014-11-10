@@ -104,14 +104,15 @@ public class MaterialRequest implements Request
 	 * @param filters
 	 * @param by
 	 */
-	public MaterialRequest(int id, ClientInfo client)
+	public static MaterialRequest forId(String id, ClientInfo client)
 	{
-		this(client);
-		this.fields = Fields.values();
-		this.by = Order.id;
-		this.filters = new Filters[] { Filters.id };
-		this.filterMap.put(Filters.type, "ggb");
-		this.filterMap.put(Filters.id, id+"");
+		MaterialRequest mr = new MaterialRequest(client);
+		mr.fields = Fields.values();
+		mr.by = Order.id;
+		mr.filters = new Filters[] { Filters.id };
+		mr.filterMap.put(Filters.type, "ggb");
+		mr.filterMap.put(Filters.id, id+"");
+		return mr;
 	}
 
 	public String toJSONString()

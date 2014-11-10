@@ -193,14 +193,14 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick() {
-				app.openSearch();
+				app.openSearch(null);
             }
 		});
 		
 		openSearchButton.addDomHandler(new KeyUpHandler(){
 			public void onKeyUp(KeyUpEvent event) {
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-	            	app.openSearch();
+	            	app.openSearch(null);
 	            }
 	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
 	            	GGWToolBar.this.selectMenuButton(1);

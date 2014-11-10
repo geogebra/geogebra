@@ -387,8 +387,8 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-    public void openSearch() {
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI());
+    public void openSearch(String query) {
+		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI(query));
     }
 	
 	@Override

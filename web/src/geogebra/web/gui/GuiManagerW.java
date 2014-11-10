@@ -1586,10 +1586,17 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	/**
 	 * @return {@link BrowseGUI}
 	 */
-	public BrowseGUI getBrowseGUI() {
+	public BrowseGUI getBrowseGUI(String query) {
 		if (!browseGUIwasLoaded()) {
 			this.browseGUI = new BrowseGUI((AppW)this.app);
-			this.browseGUI.loadAllMaterials();
+			if(query != null && query.trim().length() > 0){
+				this.browseGUI.displaySearchResults(query);
+			}else{
+				this.browseGUI.loadAllMaterials();
+			}
+		}
+		if(query != null && query.trim().length() > 0){
+			this.browseGUI.displaySearchResults(query);
 		}
 		return this.browseGUI;
 	}
@@ -1718,4 +1725,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			openFilePicker();
 		}
 	}
+
+	@Override
+    public BrowseGUI getBrowseGUI() {
+	    return getBrowseGUI(null);
+    }
 }

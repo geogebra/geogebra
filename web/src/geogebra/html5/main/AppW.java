@@ -2300,7 +2300,6 @@ public abstract class AppW extends App implements SetLabels{
 			return 14;
 		}
 		
-		public abstract void openSearch();
 
 		
 		

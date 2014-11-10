@@ -131,7 +131,7 @@ public class LoadFilePresenter{
 		String perspective = view.getDataParamPerspective();
 		if(app.getGuiManager()!=null){
 			if(perspective.startsWith("search:")){
-				app.openSearch();
+				app.openSearch(perspective.substring("search:".length()));
 				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
 						null);
 			}else{

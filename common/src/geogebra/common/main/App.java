@@ -3535,7 +3535,7 @@ public abstract class App implements UpdateSelection{
 	public void showPopUps() {
 	}
 
-	public void openSearch() {
+	public void openSearch(String query) {
 		// TODO Auto-generated method stub		
 	}
 	
@@ -3605,4 +3605,6 @@ public abstract class App implements UpdateSelection{
 		//only for Web
 		
 	}
+
+	public abstract void showCustomizeToolbarGUI();
 }
