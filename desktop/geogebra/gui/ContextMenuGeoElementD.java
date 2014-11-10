@@ -680,10 +680,9 @@ public class ContextMenuGeoElementD extends
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
-
-					ArrayList<GeoElement> geos1 = checkOneGeo();
-					if (geos.size() == 1) {
-						app.getSelectionManager().setSelectedGeos(geos1, true);
+					if (justOneGeo) {
+						app.getSelectionManager().setSelectedGeos(
+								checkOneGeo(), true);
 					}
 					openPropertiesDialogCmd();
 				}
