@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.GeoClass;
 
 /**
  * 
@@ -39,12 +40,8 @@ public class CmdSpline extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList() 
-					&& arePoint((GeoList) arg[0])) {
-				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
-						(GeoList) arg[0],new GeoNumeric(cons,3));
-				GeoCurveCartesian list = algo.getSpline();
-				
-				GeoElement[] ret = { list };
+					&& arePoint((GeoList) arg[0])) {				
+				GeoElement[] ret = { Spline(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -65,8 +62,21 @@ public class CmdSpline extends CommandProcessor {
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		default:
+			GeoList list = wrapInList(kernelA, arg, arg.length,
+					GeoClass.POINT);
+			if (list != null) {
+				GeoElement[] ret = { Spline(c.getLabel(), list) };
+				return ret;
+			}
+
 			throw argNumErr(app, c.getName(), n);
 		}
+	}
+
+	private GeoCurveCartesian Spline(String label, GeoList list) {
+		AlgoSpline algo = new AlgoSpline(cons, label,
+				list,new GeoNumeric(cons,3));
+		return algo.getSpline();
 	}
 
 	private static boolean arePoint(GeoList geoList) {
