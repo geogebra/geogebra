@@ -813,14 +813,17 @@ public class GeoFunction extends GeoElement implements VarString,
 			sbxml.append("<showOnAxis val=\"true\" />");
 		}
 	}
+	
+	// we don't care about values of these
+	private static String[] dummy1 = {"", ""};
+	private static char[] dummy2 = {' ', ' '};
+	
+	double[] bounds;
 
 	/*
 	 * Path interface
 	 */
 	private void pointChanged(Coords P) {
-
-		
-		//GeoPoint P = (GeoPoint) PI;
 
 		if (P.getZ() == 1.0) {
 			// P.x = P.x;
@@ -832,10 +835,57 @@ public class GeoFunction extends GeoElement implements VarString,
 		if (!isBooleanFunction()) {
 			if (interval) {
 				// don't let P move out of interval
-				if (P.getX() < intervalMin)
+				if (P.getX() < intervalMin) {
 					P.setX(intervalMin);
-				else if (P.getX() > intervalMax)
+				} else if (P.getX() > intervalMax) {
 					P.setX(intervalMax);
+				}
+			} else {
+				ExpressionNode exp = fun.getExpression();
+				
+				// make sure point can't be dragged to undefined region for eg
+				// If[3 <= x <= 5, x^2]
+				if (exp.getOperation().equals(Operation.IF)) {
+					ExpressionValue inequality = exp.getLeft().unwrap();
+					if (inequality.isExpressionNode()) {
+						
+						double bound;
+						double epsilon = 0;
+						
+						ExpressionNode inequalityEn = (ExpressionNode) inequality;
+						switch (inequalityEn.getOperation()) {
+						case AND_INTERVAL:
+							if (bounds == null) {
+								bounds = new double[2];
+							}
+							GeoInterval.updateBoundaries(inequalityEn, bounds, dummy1, dummy2);
+							
+							if (P.getX() < bounds[0]) {
+								P.setX(bounds[0]);
+							} else if (P.getX() > bounds[1]) {
+								P.setX(bounds[1]);
+							}
+							
+							break;
+						case LESS:
+							epsilon = Kernel.MIN_PRECISION;
+							// fall through
+						case LESS_EQUAL:
+							if (P.getX() >= (bound = inequalityEn.getRight().evaluateDouble())) {
+								P.setX(bound - epsilon);
+							}
+							break;
+						case GREATER:
+							epsilon = Kernel.MIN_PRECISION;
+							// fall through
+						case GREATER_EQUAL:
+							if (P.getX() < (bound = inequalityEn.getRight().evaluateDouble())) {
+								P.setX(bound + epsilon);
+							}
+							break;
+						}
+					}
+				}
 			}
 			P.setY(evaluate(P.getX()));// changed from fun.evaluate so that it
 										// works with eg Point[If[x < -1, x + 1,

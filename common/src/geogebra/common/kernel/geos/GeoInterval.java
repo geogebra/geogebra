@@ -104,13 +104,16 @@ public class GeoInterval extends GeoFunction {
 		return toString(false,tpl);
 	}
 
-	private double rightBound = Double.NaN;
-	private double leftBound = Double.NaN;
-
-	private String rightStr = "", leftStr = "";
-	private char rightInequality = ' ';
-	private char leftInequality = ' ';
-
+	//private double rightBound = Double.NaN;
+	//private double leftBound = Double.NaN;
+	private double[] leftRightBoundsField;
+	
+	//private String rightStr = "", leftStr = "";
+	private String leftRightStrField[];
+	
+	//private char rightInequality = ' ';
+	//private char leftInequality = ' ';
+	private char[] leftRightInequalityField;
 	/**
 	 * Returns string description of the interval
 	 * 
@@ -122,13 +125,14 @@ public class GeoInterval extends GeoFunction {
 
 		// output as nice string eg 3 < x < 5
 
-		if (!isDefined())
+		if (!isDefined()) {
 			return loc.getPlain("Undefined");
-
+		}
+		
 		// return "3 < x < 5";//fun.toValueString();
 
 		ExpressionNode en = fun.getExpression();
-		if (en.getOperation().equals(Operation.AND)||en.getOperation().equals(Operation.AND_INTERVAL)) {
+		if (en.getOperation().equals(Operation.AND) || en.getOperation().equals(Operation.AND_INTERVAL)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
 
@@ -136,20 +140,20 @@ public class GeoInterval extends GeoFunction {
 
 				updateBoundaries();
 
-				if (!Double.isNaN(rightBound) && !Double.isNaN(leftBound)
-						&& leftBound <= rightBound) {
+				if (!Double.isNaN(leftRightBoundsField[1]) && !Double.isNaN(leftRightBoundsField[0])
+						&& leftRightBoundsField[0] <= leftRightBoundsField[1]) {
 					sbToString.setLength(0);
-					sbToString.append(symbolic ? leftStr : kernel
-							.format(leftBound,tpl));
+					sbToString.append(symbolic ? leftRightStrField[0] : kernel
+							.format(leftRightBoundsField[0],tpl));
 					sbToString.append(' ');
-					sbToString.append(leftInequality);
+					sbToString.append(leftRightInequalityField[0]);
 					sbToString.append(' ');
 					sbToString.append(getVarString(tpl));
 					sbToString.append(' ');
-					sbToString.append(rightInequality);
+					sbToString.append(leftRightInequalityField[1]);
 					sbToString.append(' ');
-					sbToString.append(symbolic ? rightStr : kernel
-							.format(rightBound,tpl));
+					sbToString.append(symbolic ? leftRightStrField[1] : kernel
+							.format(leftRightBoundsField[1],tpl));
 					return sbToString.toString();
 					// return kernel.format(leftBound)
 					// +leftInequality+" x "+rightInequality+kernel.format(rightBound);
@@ -161,6 +165,24 @@ public class GeoInterval extends GeoFunction {
 		// Application.debug("fall through");
 		return symbolic ? super.toSymbolicString(tpl) : super.toValueString(tpl);
 
+	}
+
+	private void updateBoundaries() {
+		if (leftRightBoundsField == null) {
+			leftRightBoundsField = new double[2];
+			leftRightBoundsField[0] = Double.NaN;
+			leftRightBoundsField[1] = Double.NaN;
+		}
+		
+		if (leftRightStrField == null) {
+			leftRightStrField = new String[2];
+		}
+
+		if (leftRightInequalityField == null) {
+			leftRightInequalityField = new char[2];
+		}
+
+		updateBoundaries(fun.getExpression(), leftRightBoundsField, leftRightStrField, leftRightInequalityField);	
 	}
 
 	@Override
@@ -184,9 +206,17 @@ public class GeoInterval extends GeoFunction {
 		return false;
 	}
 
-	private void updateBoundaries() {
-		ExpressionNode en = fun.getExpression();
-		if (en.getOperation().equals(Operation.AND)||en.getOperation().equals(Operation.AND_INTERVAL)) {
+	public static void updateBoundaries(ExpressionNode en, double[] leftRightDouble, String[] leftRightStr, char[] leftRightInequalityChar) {
+		
+		char leftInequality, rightInequality;
+		double leftBound, rightBound;
+				
+		leftBound = leftRightDouble[0];
+		rightBound = leftRightDouble[1];
+		leftInequality = leftRightInequalityChar[0];
+		rightInequality = leftRightInequalityChar[1];
+		
+		if (en.getOperation().equals(Operation.AND) || en.getOperation().equals(Operation.AND_INTERVAL)) {
 			ExpressionValue left = en.getLeft();
 			ExpressionValue right = en.getRight();
 			ExpressionNode enLeft = (ExpressionNode) left;
@@ -199,19 +229,19 @@ public class GeoInterval extends GeoFunction {
 			ExpressionValue leftRight = enLeft.getRight();
 			ExpressionValue rightLeft = enRight.getLeft();
 			ExpressionValue rightRight = enRight.getRight();
-
+			
 			if ((opLeft.equals(Operation.LESS) || opLeft
 					.equals(Operation.LESS_EQUAL))) {
 				if (leftLeft instanceof FunctionVariable
 						&& leftRight.isNumberValue()) {
 					rightInequality = opLeft.equals(Operation.LESS) ? '<'
 							: Unicode.LESS_EQUAL;
-					setRightBound(leftRight);
+					rightBound = setRightBound(leftRight, leftRightStr);
 				} else if (leftRight instanceof FunctionVariable
 						&& leftLeft.isNumberValue()) {
 					leftInequality = opLeft.equals(Operation.LESS) ? '<'
 							: Unicode.LESS_EQUAL;
-					setLeftBound(leftLeft);
+					leftBound = setLeftBound(leftLeft, leftRightStr);
 				}
 
 			} else if ((opLeft.equals(Operation.GREATER) || opLeft
@@ -220,12 +250,12 @@ public class GeoInterval extends GeoFunction {
 						&& leftRight.isNumberValue()) {
 					leftInequality = opLeft.equals(Operation.GREATER) ? '<'
 							: Unicode.LESS_EQUAL;
-					setLeftBound(leftRight);
+					leftBound = setLeftBound(leftRight, leftRightStr);
 				} else if (leftRight instanceof FunctionVariable
 						&& leftLeft.isNumberValue()) {
 					rightInequality = opLeft.equals(Operation.GREATER) ? '<'
 							: Unicode.LESS_EQUAL;
-					setRightBound(leftLeft);
+					rightBound = setRightBound(leftLeft, leftRightStr);
 				}
 
 			}
@@ -236,12 +266,12 @@ public class GeoInterval extends GeoFunction {
 						&& rightRight.isNumberValue()) {
 					rightInequality = opRight.equals(Operation.LESS) ? '<'
 							: Unicode.LESS_EQUAL;
-					setRightBound(rightRight);
+					rightBound = setRightBound(rightRight, leftRightStr);
 				} else if (rightRight instanceof FunctionVariable
 						&& rightLeft.isNumberValue()) {
 					leftInequality = opRight.equals(Operation.LESS) ? '<'
 							: Unicode.LESS_EQUAL;
-					setLeftBound(rightLeft);
+					leftBound = setLeftBound(rightLeft, leftRightStr);
 				}
 
 			} else if ((opRight.equals(Operation.GREATER) || opRight
@@ -250,12 +280,12 @@ public class GeoInterval extends GeoFunction {
 						&& rightRight.isNumberValue()) {
 					leftInequality = opRight.equals(Operation.GREATER) ? '<'
 							: Unicode.LESS_EQUAL;
-					setLeftBound(rightRight);
+					leftBound = setLeftBound(rightRight, leftRightStr);
 				} else if (rightRight instanceof FunctionVariable
 						&& rightLeft.isNumberValue()) {
 					rightInequality = opRight.equals(Operation.GREATER) ? '<'
 							: Unicode.LESS_EQUAL;
-					setRightBound(rightLeft);
+					rightBound = setRightBound(rightLeft, leftRightStr);
 				}
 
 			}
@@ -268,23 +298,31 @@ public class GeoInterval extends GeoFunction {
 			rightBound = Double.NaN;
 			leftBound = Double.NaN;
 		}
-
+		
+		// values to return
+		leftRightDouble[0] = leftBound;
+		leftRightDouble[1] = rightBound;
+		leftRightInequalityChar[0] = leftInequality;
+		leftRightInequalityChar[1] = rightInequality;
 	}
 
-	private void setLeftBound(ExpressionValue nv) {
-		leftBound = nv.evaluateDouble();
-		if (nv.isGeoElement())
-			leftStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
-		else
-			leftStr = nv.toString(StringTemplate.defaultTemplate);
+	private static double setLeftBound(ExpressionValue nv, String[] leftRightStr) {
+		if (nv.isGeoElement()) {
+			leftRightStr[0] = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
+		} else {
+			leftRightStr[0] = nv.toString(StringTemplate.defaultTemplate);
+		}
+		return nv.evaluateDouble();
+		
 	}
 
-	private void setRightBound(ExpressionValue nv) {
-		rightBound = nv.evaluateDouble();
-		if (nv.isGeoElement())
-			rightStr = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
-		else
-			rightStr = nv.toString(StringTemplate.defaultTemplate);
+	private static double setRightBound(ExpressionValue nv, String[] leftRightStr) {
+		if (nv.isGeoElement()) {
+			leftRightStr[1] = ((GeoElement) nv).getLabel(StringTemplate.defaultTemplate);
+		} else {
+			leftRightStr[1] = nv.toString(StringTemplate.defaultTemplate);
+		}
+		return nv.evaluateDouble();
 	}
 
 	/**
@@ -292,7 +330,7 @@ public class GeoInterval extends GeoFunction {
 	 */
 	public double getMin() {
 		updateBoundaries();
-		return leftBound;
+		return leftRightBoundsField[0];
 
 	}
 
@@ -301,7 +339,7 @@ public class GeoInterval extends GeoFunction {
 	 */
 	public double getMax() {
 		updateBoundaries();
-		return rightBound;
+		return leftRightBoundsField[1];
 
 	}
 
@@ -310,7 +348,7 @@ public class GeoInterval extends GeoFunction {
 	 */
 	public double getMidPoint() {
 		updateBoundaries();
-		return (rightBound + leftBound) / 2;
+		return (leftRightBoundsField[1] + leftRightBoundsField[0]) / 2;
 
 	}
 
