@@ -551,7 +551,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 			case ANGLE:
 			case ANGLE3D:
-				d = new DrawAngle3D(this, (GeoAngle) geo);
+				if (geo.isIndependent()) {
+					//TODO: slider
+				}else{
+					d = new DrawAngle3D(this, (GeoAngle) geo);
+				}
 				break;
 
 			case QUADRIC:
