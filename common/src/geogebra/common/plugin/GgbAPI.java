@@ -1203,6 +1203,12 @@ public abstract class GgbAPI implements JavaScriptAPI{
     		app.getLoginOperation().performTokenLogin(token, false);
     	}
     }
+    public void logout(){
+    	if(app.getLoginOperation()!=null && app.getLoginOperation().getModel() != null){
+    		
+    		app.getLoginOperation().getGeoGebraTubeAPI().logout(app.getLoginOperation().getModel().getLoginToken());
+    	}
+    }
     
     public void setPerspective(String code){
     	if(code.startsWith("search:")){

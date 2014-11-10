@@ -131,8 +131,12 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getContext2D()();
 		};
 
-		api.login = function(xml) {
-			ggbAPI.@geogebra.html5.main.GgbAPIW::login(Ljava/lang/String;)(xml);
+		api.login = function(token) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::login(Ljava/lang/String;)(token);
+		};
+		
+		api.logout = function() {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::logout()();
 		};
 
 		api.setXML = function(xml) {
