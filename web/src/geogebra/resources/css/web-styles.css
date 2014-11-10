@@ -3068,17 +3068,20 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	cursor: default;
 }
 
-.cpScrollPanel .activeConsRow {
-	color: #6666FF;
-}
-
 .cpScrollPanel tbody tr:hover {
 	background: #CCCCFF;
+	cursor: move;
+}
+
+.cpScrollPanel tbody tr {
+	background-color: transparent;
+	opacity: 0.9;
 }
 
 .cpScrollPanel td {
 	line-height: 2;
 	border: none;
+	border-bottom: 1px solid #DDDDDD;
 }
 
 /*=========== Construction protocol end =============*/

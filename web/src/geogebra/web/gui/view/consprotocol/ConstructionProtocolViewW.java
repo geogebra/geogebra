@@ -1,10 +1,15 @@
 package geogebra.web.gui.view.consprotocol;
 
+import geogebra.common.awt.GColor;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
+import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.html5.awt.GColorW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.layout.panels.ConstructionProtocolStyleBarW;
 import geogebra.web.gui.util.StyleBarW;
@@ -12,10 +17,16 @@ import geogebra.web.gui.util.StyleBarW;
 import com.google.gwt.cell.client.Cell;
 import com.google.gwt.cell.client.NumberCell;
 import com.google.gwt.cell.client.SafeHtmlCell;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.DragEndEvent;
+import com.google.gwt.event.dom.client.DragEndHandler;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
 import com.google.gwt.user.cellview.client.Column;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
@@ -25,6 +36,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	public FlowPanel cpPanel;
 	CellTable<RowData> table;
 	private StyleBarW styleBar;
+	/** index of dragged row **/
+	int dragIndex;
+	/** possible drop index **/
+	int minIndex;
+	/** possible drop index **/
+	int maxIndex;
 
 	public ConstructionProtocolViewW(final AppW app) {
 		cpPanel = new FlowPanel();
@@ -35,7 +52,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		protNavBar.register(this);
 		table = new CellTable<RowData>();
 		table.addStyleName("cpTable");
-		
+				
 //		first attempt with flextable
 //		table = new FlexTable();
 //		for (int k = 0; k < data.columns.length; k++) {
@@ -53,20 +70,65 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		
 		initGUI();
 		
+		addDragDropHandlers();
+		
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
 	}
+
+	/**
+	 * adds handlers for dragging rows
+	 */
+    private void addDragDropHandlers() {
+    	table.addDomHandler(new DragStartHandler() {
+			
+			@Override
+			public void onDragStart(DragStartEvent event) {
+				int y = event.getNativeEvent().getClientY();
+				
+				for (int i = 0; i < table.getRowCount(); i++) {
+					if (y > table.getRowElement(i).getAbsoluteTop() && y < table.getRowElement(i).getAbsoluteBottom()) {
+						GeoElement geo = data.getRow(i).getGeo();
+						dragIndex = geo.getConstructionIndex();
+						minIndex = geo.getMinConstructionIndex();
+						maxIndex = geo.getMaxConstructionIndex();
+					}
+				}
+			}
+		}, DragStartEvent.getType());
+		
+		table.addDomHandler(new DragEndHandler() {
+			
+			@Override
+			public void onDragEnd(DragEndEvent event) {
+				if (Window.getClientWidth()+event.getNativeEvent().getScreenX() > table.getElement().getAbsoluteRight() ||
+						Window.getClientWidth()+event.getNativeEvent().getScreenX() < table.getElement().getAbsoluteLeft()) {
+					return;
+				}
+				int y = event.getNativeEvent().getClientY();
+				for (int i = 0; i < table.getRowCount(); i++) {
+					if ((y > table.getRowElement(i).getAbsoluteTop() && y < table.getRowElement(i).getAbsoluteBottom()) ||
+							//dragEnd happens below the last row
+							(i == table.getRowCount()-1 && y > table.getRowElement(i).getAbsoluteBottom())) {
+						int dropIndex = data.getConstructionIndex(i);
+						if (dropIndex < minIndex || dropIndex > maxIndex) {
+							//drop not possible
+							//TODO change cursor style before releasing mouse
+							ToolTipManagerW.sharedInstance().showBottomMessage("Drop not possible", true);
+							return;
+						}
+						boolean kernelChanged = ((ConstructionTableDataW)data).moveInConstructionList(dragIndex, dropIndex);
+						if (kernelChanged) {
+							app.storeUndoInfo();
+						}
+						repaint();
+						return;
+					}
+				}
+			}
+		}, DragEndEvent.getType());
+    }
 	
-//	My first attempt was a FlexTable for table, this code created for that.
-//	I guess it's not needed more, maybe I'll remove this.
-//	public void initGUI(){
-//		for (int k = 0; k < data.columns.length; k++) {
-//			if ((data.columns[k].getTitle() == "number") ||
-//					(data.columns[k].getTitle() == "name") ||
-//					(data.columns[k].getTitle() == "definition"))
-//				table.setText(0, k, data.columns[k].getTitle());
-//		}		
-//	}
     public void setLabels(){
     	initGUI();
     }
@@ -180,9 +242,10 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	private void markRowsAtive(int index) {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			if (i <= index) {
-				table.getRowElement(i).addClassName("activeConsRow");
+				GColorW color = (GColorW) data.getRow(i).getGeo().getAlgebraColor();
+				table.getRowElement(i).setAttribute("style", "color:"+ GColor.getColorString(color));
 			} else {
-				table.getRowElement(i).removeClassName("activeConsRow");
+				table.getRowElement(i).setAttribute("style", "opacity:0.5");
 			}
 		}
 	}
@@ -195,11 +258,18 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		tableInit();
 	}
 	
+	private void makeTableRowsDragable() {
+	    for (int i = 0; i < table.getRowCount(); i++) {
+	    	table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
+	    }
+    }	
+	
 	public void tableInit(){
 //		data.updateAll();
 		table.setRowCount(data.getrowList().size());
 	    table.setRowData(0, data.getrowList());
 	    table.setVisibleRange(0, data.getrowList().size()+1);
+	    makeTableRowsDragable();
 		scrollToConstructionStep();
 	}
 	
@@ -208,6 +278,25 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		public ConstructionTableDataW(SetLabels gui){
 			super(gui);
 //			ctDataImpl = new MyGAbstractTableModel();
+		}
+		
+		/**
+		 * 
+		 * @param fromIndex
+		 * @param toIndex
+		 * @return 
+		 */
+		public boolean moveInConstructionList(int fromIndex, int toIndex) {
+			boolean changed = kernel.moveInConstructionList(fromIndex, toIndex);
+
+			// reorder rows in this view
+			ConstructionElement ce = kernel.getConstructionElement(toIndex);
+			GeoElement[] geos = ce.getGeoElements();
+			for (int i = 0; i < geos.length; ++i) {
+				remove(geos[i]);
+				add(geos[i]);
+			}
+			return changed;
 		}
 		
 		@Override
