@@ -1,6 +1,7 @@
 package geogebra3D.input3D;
 
 import geogebra.common.euclidian3D.Input3D;
+import geogebra3D.input3D.intelRealSense.InputIntelRealsense3D;
 import geogebra3D.input3D.leonar3do.InputLeo3D;
 
 
@@ -17,7 +18,8 @@ public class Input3DFactory {
 	 * @return 3D input
 	 */
 	static public Input3D createInput3D(){
-		//return null; //use this to switch of 3D input
-		return new InputLeo3D();
+		//return null; //use this to switch off 3D input
+		//return new InputLeo3D(); //use this for Leonar3do input
+		return new InputIntelRealsense3D(); //use this for intel realsense input
 	}
 }
