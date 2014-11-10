@@ -134,6 +134,10 @@ public class LoadFilePresenter{
 				app.openSearch(perspective.substring("search:".length()));
 				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
 						null);
+			}else if(perspective.startsWith("customize:")){
+				app.showCustomizeToolbarGUI();
+				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
+						null);
 			}else{
 				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
 					PerspectiveDecoder.decode(perspective, app.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true)));
