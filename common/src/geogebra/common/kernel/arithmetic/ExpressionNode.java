@@ -3326,20 +3326,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 			
 		case IF_LIST:
-			if (stringType == StringType.GIAC) {
-				//TODO
-				sb.append("when(");
-				sb.append(leftStr);
-				sb.append(",");
-				sb.append(rightStr);
-				sb.append(")");
-			} else {
-				if (tpl.isPrintLocalizedCommandNames()) {
+				if (stringType == StringType.GIAC) {
+					sb.append(loc.getCommand("piecewise("));
+				}
+				else if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getCommand("If"));
+					sb.append("[");
 				}else{
 					sb.append("If");
+					sb.append("[");
 				}
-				sb.append("[");
+				
 				MyList cond = (MyList) left;
 				MyList fn = (MyList) right;
 				for(int i=0; i<cond.size(); i++){
@@ -3356,8 +3353,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						fn.getListElement(fn.size() -1).toString(tpl));
 				}
 				
-				sb.append("]");
-			}
+				sb.append(stringType == StringType.GIAC ? ")" : "]");
+			
 			break;
 
 
