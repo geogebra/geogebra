@@ -11,7 +11,7 @@ import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 
-public class MyImageW implements MyImage {
+public final class MyImageW implements MyImage {
 
 	private ImageElement img;
 	private Canvas canv;
@@ -36,10 +36,16 @@ public class MyImageW implements MyImage {
     }
 
 	public int getWidth() {
+		if(width == 0){
+			width = img.getWidth();
+		}
 		return width;
 	}
 
 	public int getHeight() {
+		if(height == 0){
+			height = img.getHeight();
+		}
 		return height;
 	}
 
