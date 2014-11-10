@@ -5151,4 +5151,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void resume3DRenderer() {
 		// used in 3D
 	}
+
+	@Override
+	public void showCustomizeToolbarGUI() {
+		getDialogManager().showToolbarConfigDialog();
+	}
 }
