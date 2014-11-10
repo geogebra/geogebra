@@ -2598,7 +2598,7 @@ __GGB__keysVar.fi.plain = {
     "PointOnAClosestToB": "Piste objektilla %0 l\xe4himp\xe4n\xe4 objektia %1",
     "PointOnPath": "Polulla",
     "PointSize": "Pisteen koko",
-    "Points": "Pisteet",
+    "Points": "K\xe4rkipisteiden lukum\xe4\xe4r\xe4",
     "PolarCoords": "Napakoordinaatit",
     "PolarLineOfARelativeToB": "%0:n napasuora %1:n suhteen",
     "Polarized": "Polaroitunut",

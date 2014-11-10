@@ -878,7 +878,7 @@ __GGB__keysVar.af.command = {
     "SolveCubic.Syntax": "[ <Cubic Polynomial> ]",
     "SolveODE": "SolveODE",
     "SolveODE.Syntax": "[ <f'(x, y)> ]\n[ <f'(x, y)>, <Point on f> ]\n[ <f'(x, y)>, <Start x>, <Start y>, <End x>, <Step> ]\n[ <y'>, <x'>, <Start x>, <Start y>, <End t>, <Step> ]\n[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End x>, <Step> ]",
-    "SolveODE.SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Point(s) on f> ]\n[ <Equation>, <Point(s) on f>, <Point(s) on f'> ]\n[ <Equation>, <Dependent Variable>, <Independent Variable>, <Point(s) on f> ] \n[ <Equation>, <Dependent Variable>, <Independent Variable>, <Point(s) on f>, <Point(s) on f'> ]",
+    "SolveODE.SyntaxCAS": "[ <Equation> ]\n[ <Equation>, <Point(s) on f> ]\n[ <Equation>, <Point(s) on f>, <Point(s) on f'> ]\n[ <Equation>, <Dependent Variable>, <Independent Variable>, <Point(s) on f> ]\n[ <Equation>, <Dependent Variable>, <Independent Variable>, <Point(s) on f>, <Point(s) on f'> ]",
     "Sort": "Sort",
     "Sort.Syntax": "[ <List> ]\n[ <Values>, <Keys> ]",
     "Spearman": "Spearman",
