@@ -448,4 +448,8 @@ public class View {
 	public void adjustScale() {
 	    ((ArticleElement)this.container).adjustScale();
     }
+
+	public String getDataParamTubeID() {
+	    return ((ArticleElement)this.container).getDataParamTubeID();
+    }
 }

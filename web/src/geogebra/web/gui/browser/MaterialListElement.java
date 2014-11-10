@@ -468,7 +468,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 				return;
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId()+"", new MaterialCallback(){
 
 				@Override
 				public void onLoaded(final List<Material> parseResponse) {

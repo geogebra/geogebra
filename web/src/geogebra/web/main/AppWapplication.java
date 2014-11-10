@@ -5,6 +5,7 @@ import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
@@ -22,8 +23,12 @@ import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.ZoomSplitLayoutPanel;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.move.ggtapi.models.AuthenticationModelW;
+import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
+import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
+
+import java.util.List;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
@@ -470,4 +475,27 @@ public class AppWapplication extends AppW {
     public void showKeyboard(){
 		getAppFrame().showKeyBoard(false, null);
 	}
+	
+	public void openMaterial(String s, final Runnable onError) {
+		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(s, new MaterialCallback(){
+
+			@Override
+			public void onLoaded(final List<Material> parseResponse) {
+				if (parseResponse.size() == 1) {
+					Material material = parseResponse.get(0);
+					material.setSyncStamp(System.currentTimeMillis() / 1000);
+					getGgbApi().setBase64(material.getBase64());
+					setActiveMaterial(material);
+				} else {
+					onError.run();
+				}
+			}
+			
+			@Override
+			public void onError(Throwable error) {
+				onError.run();
+			}
+		});
+        
+    }
 }

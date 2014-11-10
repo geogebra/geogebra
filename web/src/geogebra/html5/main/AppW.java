@@ -934,7 +934,7 @@ public abstract class AppW extends App implements SetLabels{
 			// unimplemented
 		}
 
-		public void openMaterial(String s) {
+		public void openMaterial(String s, Runnable onError) {
 	        // TODO Auto-generated method stub
 	        
         }

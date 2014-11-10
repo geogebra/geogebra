@@ -483,6 +483,10 @@ public final class ArticleElement extends Element {
 	public boolean getDataParamPrerelease() {
 	    return "true".equals(getAttribute("data-param-prerelease"));
     }
+
+	public String getDataParamTubeID() {
+	    return getAttribute("data-param-tubeid");
+    }
 	
 	
 }

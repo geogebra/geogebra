@@ -365,7 +365,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
     }
 
 	private void handleSync() {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(Integer.parseInt(app.getUniqueId()), new MaterialCallback(){
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(app.getUniqueId(), new MaterialCallback(){
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {

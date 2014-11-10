@@ -58,48 +58,18 @@ public class LoadFilePresenter{
 		}
 		else if (!"".equals((filename = view.getDataParamFileName()))) {
 			fetch(filename);
-		} 
-		
+		} else if(!"".equals((filename = view.getDataParamTubeID()))) {
+			app.openMaterial(view.getDataParamTubeID(), new Runnable(){
+
+				@Override
+                public void run() {
+	                openEmptyApp(app);
+	                
+                }});
+		}
 		else {
-			//we dont have content, it is an app
-			Log.debug("no base64content, possibly App loaded?");
 			fileOpened = false;
-			// code moved here from AppWapplication.afterCoreObjectsInited - start
-			String perspective = view.getDataParamPerspective();
-			if(app.getGuiManager()!=null){
-				if(perspective.startsWith("search:")){
-					app.openSearch();
-					app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
-							null);
-				}else{
-					app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
-						PerspectiveDecoder.decode(perspective, app.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true)));
-				}
-			}
-			if (app instanceof AppW) {
-				// default layout doesn't have a Graphics View 2
-				((AppW)app).getEuclidianViewpanel().deferredOnResize();
-			}
-
-			// code moved here from AppWapplication.afterCoreObjectsInited - end
-
-			app.appSplashCanNowHide();
-			
-			Storage stockStore = null;
-			
-			stockStore = Storage.getLocalStorageIfSupported();
-			if(stockStore != null){
-				String xml = stockStore.getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
-				if (xml != null) app.setXML(xml, false);
-				String xmlDef = stockStore.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
-				//String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
-				//if (!xmlDef.equals(factoryDefaultXml)) {
-					boolean eda = app.getKernel().getElementDefaultAllowed();
-					app.getKernel().setElementDefaultAllowed(true);
-					if (xmlDef != null) app.setXML(xmlDef, false);
-					app.getKernel().setElementDefaultAllowed(eda);
-				//}
-			}
+			openEmptyApp(app);
 		}
 			
 		//app.setUseBrowserForJavaScript(useBrowserForJavaScript);
@@ -153,6 +123,49 @@ public class LoadFilePresenter{
 		}
 	}
 	
+	private void openEmptyApp(AppW app) {
+		//we dont have content, it is an app
+		Log.debug("no base64content, possibly App loaded?");
+		
+		// code moved here from AppWapplication.afterCoreObjectsInited - start
+		String perspective = view.getDataParamPerspective();
+		if(app.getGuiManager()!=null){
+			if(perspective.startsWith("search:")){
+				app.openSearch();
+				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
+						null);
+			}else{
+				app.getGuiManager().getLayout().setPerspectives(app.getTmpPerspectives(),
+					PerspectiveDecoder.decode(perspective, app.getKernel().getParser(), ToolBar.getAllToolsNoMacros(true)));
+			}
+		}
+		if (app instanceof AppW) {
+			// default layout doesn't have a Graphics View 2
+			((AppW)app).getEuclidianViewpanel().deferredOnResize();
+		}
+
+		// code moved here from AppWapplication.afterCoreObjectsInited - end
+
+		app.appSplashCanNowHide();
+		
+		Storage stockStore = null;
+		
+		stockStore = Storage.getLocalStorageIfSupported();
+		if(stockStore != null){
+			String xml = stockStore.getItem(GeoGebraPreferences.XML_USER_PREFERENCES);
+			if (xml != null) app.setXML(xml, false);
+			String xmlDef = stockStore.getItem(GeoGebraPreferences.XML_DEFAULT_OBJECT_PREFERENCES);
+			//String xmlDef = ggbPrefs.get(XML_DEFAULT_OBJECT_PREFERENCES, factoryDefaultXml);
+			//if (!xmlDef.equals(factoryDefaultXml)) {
+				boolean eda = app.getKernel().getElementDefaultAllowed();
+				app.getKernel().setElementDefaultAllowed(true);
+				if (xmlDef != null) app.setXML(xmlDef, false);
+				app.getKernel().setElementDefaultAllowed(eda);
+			//}
+		}
+	    
+    }
+
 	private boolean isReloadDataInStorage(){
 		if(!Browser.supportsSessionStorage()){
 			return false;

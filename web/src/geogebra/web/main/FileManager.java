@@ -83,7 +83,7 @@ public abstract class FileManager implements FileManagerI {
     
 	public void sync(final Material mat) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-		        .getItem(mat.getId(), new MaterialCallback() {
+		        .getItem(mat.getId()+"", new MaterialCallback() {
 
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {

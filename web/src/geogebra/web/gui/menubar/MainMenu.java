@@ -159,7 +159,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
 		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
-		this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+		if(!app.getLAF().isSmart()){
+			this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+		}
 		
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 		if (app.getLoginOperation().isLoggedIn()) {

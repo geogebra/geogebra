@@ -340,6 +340,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					dragging = DraggableTool.this;
 					event.setData("text", "draggginggg");
 					event.getDataTransfer().setDragImage(getElement(), 10, 10);
+					event.stopPropagation();
 
 				}
 			}, DragStartEvent.getType());

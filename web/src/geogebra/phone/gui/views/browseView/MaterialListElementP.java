@@ -48,7 +48,7 @@ public class MaterialListElementP extends MaterialListElement {
 				});
 				return;
 			}
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId(), new MaterialCallback(){
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId()+"", new MaterialCallback(){
 
 				@Override
 				public void onLoaded(final List<Material> parseResponse) {

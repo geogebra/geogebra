@@ -81,10 +81,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	 * @param id int
 	 * @param callback {@link MaterialCallback}
 	 */
-	public void getItem(int id, MaterialCallback callback)
+	public void getItem(String id, MaterialCallback callback)
 	{
-		// TODO add ID fetching of a specific material!
-		performRequest(new MaterialRequest(id, client).toJSONString(), callback);
+		performRequest(MaterialRequest.forId(id, client).toJSONString(), callback);
 	}
 
 	// /**

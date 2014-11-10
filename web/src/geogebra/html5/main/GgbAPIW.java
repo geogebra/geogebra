@@ -615,8 +615,14 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			return evalCommand(cmdString);
 	}
 	
-	public void openMaterial(String material){
-		((AppW)app).openMaterial(material);
+	public void openMaterial(final String material){
+		((AppW)app).openMaterial(material, new Runnable(){
+
+			@Override
+            public void run() {
+	            App.debug("Loading failed for id" + material);
+	            
+            }});
 	}
 	
 	public void startEditing(){
