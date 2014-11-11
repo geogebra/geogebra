@@ -1121,11 +1121,18 @@ FromMeta
 		super.set(geo);
 	}		
 	
-	protected void setLines(GeoConicND co) {
+	private void setLines(GeoConicND co) {
 		if (co.lines != null) {
 			getLines();
-			lines[0].setCoords(co.lines[0]);
-			lines[1].setCoords(co.lines[1]);
+			for (int i = 0 ; i < 2 ; i++){
+				lines[i].setCoords(co.lines[i]);
+				if (co.lines[i].startPoint != null){
+					lines[i].setStartPoint(co.lines[i].startPoint);
+				}
+				if (co.lines[i].endPoint != null){
+					lines[i].setEndPoint(co.lines[i].endPoint);
+				}
+			}
 		}
 	}
 
