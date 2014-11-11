@@ -14,6 +14,7 @@ package geogebra.common.kernel.geos;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GImage;
+import geogebra.common.awt.MyImage;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
@@ -64,6 +65,9 @@ public class GeoTurtle extends GeoPoint{
 	private double speed = 1d;
 	
 	private boolean autoUpdate = true;
+	
+	private MyImage turtleImage = null;
+	
 	/**
 	 * Constructor with label
 	 * 
@@ -813,4 +817,13 @@ public class GeoTurtle extends GeoPoint{
 		}
 	}
 
+	@Override
+	public boolean isFillable() {
+		return true;
+	}
+	
+	@Override
+	public FillType getFillType(){
+		return FillType.IMAGE;
+	}
 }

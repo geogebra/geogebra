@@ -243,10 +243,16 @@ public class DrawTurtle extends Drawable {
 				g2.setFont(view.getFontPoint());
 				drawLabel(g2);
 			}
-
-			// draw rotated turtle
 			
-			drawTurtleShape(g2);
+			// draw turtle		
+			if (turtle.getFillImage() != null) {
+				int imgWidth = turtle.getFillImage().getWidth();
+				int imgHeight = turtle.getFillImage().getHeight();
+				g2.drawImage(turtle.getFillImage(), null, (int)currentCoords[0]-imgWidth/2, (int)currentCoords[1]-imgHeight/2);				
+			} else {
+				// draw rotated turtle				
+				drawTurtleShape(g2);				
+			}
 			
 
 		}
