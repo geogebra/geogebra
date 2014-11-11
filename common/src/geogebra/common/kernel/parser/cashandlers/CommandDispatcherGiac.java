@@ -127,6 +127,11 @@ public class CommandDispatcherGiac {
 		sum(Operation.SUM),
 
 		piecewise(Operation.IF_ELSE),
+		
+		/*
+		 * returned from plane(4*x + 3*y + z = 1)
+		 */
+		hyperplan(Operation.NO_OPERATION),
 
 		/** laplace functions, need to generate an error */
 		laplace(Operation.NO_OPERATION),
@@ -213,6 +218,11 @@ public class CommandDispatcherGiac {
 							args.getItem(0));
 				}
 				break;
+				
+			case hyperplan:
+				// shouldn't be returned from Giac
+				Log.error("hyperplan() returned from Giac");
+				return new ExpressionNode(kernel, Double.NaN);
 
 			case ggbvect:
 
