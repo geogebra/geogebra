@@ -13,10 +13,10 @@ the Free Software Foundation.
 package geogebra.gui.dialog;
 
 import geogebra.common.GeoGebraConstants;
-import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.gui.dialog.ToolManagerDialogModel;
+import geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.gui.MyImageD;
 import geogebra.gui.ToolNameIconPanel;
@@ -32,8 +32,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultListCellRenderer;
@@ -52,17 +50,21 @@ import javax.swing.event.ListSelectionListener;
  * 
  * @author Markus Hohenwarter
  */
-public class ToolManagerDialog extends javax.swing.JDialog {
+public class ToolManagerDialog extends javax.swing.JDialog implements
+		ToolManagerDialogListener {
 
 	private static final long serialVersionUID = 1L;
 
 	AppD app;
 	final LocalizationD loc;
 	private DefaultListModel toolsModel;
+	private ToolManagerDialogModel model;
 
 	public ToolManagerDialog(AppD app) {
 		super(app.getFrame());
 		setModal(true);
+
+		model = new ToolManagerDialogModel(app, this);
 
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -85,15 +87,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 	 * Updates the order of macros using the listModel.
 	 */
 	private void updateToolBar(DefaultListModel listModel) {
-		// update order of macros:
-		// remove all macros from kernel and add them again in new order
-		Kernel kernel = app.getKernel();
-		kernel.removeAllMacros();
-		int size = listModel.getSize();
-		for (int i = 0; i < size; i++) {
-			kernel.addMacro((Macro) listModel.getElementAt(i));
-		}
-
+		model.addMacros(listModel.toArray());
 		app.updateToolBar();
 	}
 
@@ -116,49 +110,14 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		if (returnVal == 1)
 			return;
 
-		boolean didDeletion = false;
-		boolean changeToolBar = false;
-		boolean foundUsedMacro = false;
-		String macroNames = "";
-		Kernel kernel = app.getKernel();
-		app.getSelectionManager().setSelectedGeos(new ArrayList<GeoElement>());
-		for (int i = 0; i < sel.length; i++) {
-			Macro macro = (Macro) sel[i];
-			if (!macro.isUsed()) {
-				// delete macro
-				changeToolBar = changeToolBar || macro.isShowInToolBar();
-				app.getGuiManager().removeFromToolbarDefinition(
-						kernel.getMacroID(macro)
-								+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
-				kernel.removeMacro(macro);
-				app.getGuiManager().refreshCustomToolsInToolBar();
-				listModel.removeElement(macro);
-				didDeletion = true;
-			} else {
-				// don't delete, remember name
-				ArrayList<GeoElement> geos = macro.getDependentGeos();
-				Iterator<GeoElement> curr = geos.iterator();
-				while (curr.hasNext())
-					app.getSelectionManager().addSelectedGeo(curr.next());
-				foundUsedMacro = true;
-				macroNames += "\n" + macro.getToolOrCommandName() + ": "
-						+ macro.getNeededTypesString();
-			}
+		for (Macro macro : model.getDeletedMacros()) {
+			listModel.removeElement(macro);
 		}
 
-		if (didDeletion) {
-			// we reinit the undo info to make sure an undo does not use
-			// any deleted tool
-			kernel.initUndoInfo();
-		}
-
-		if (changeToolBar) {
+		if (model.deleteTools(sel)) {
 			updateToolBar(listModel);
 		}
 
-		if (foundUsedMacro)
-			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
-					+ " " + macroNames);
 	}
 
 	private void initGUI() {
@@ -394,43 +353,7 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		Thread runner = new Thread() {
 			@Override
 			public void run() {
-				app.setWaitCursor();
-				try {
-					app.getSelectionManager().clearSelectedGeos(true, false);
-					app.updateSelection(false);
-
-					Object[] sel = toolList.getSelectedValues();
-					if (sel == null || sel.length == 0)
-						return;
-
-					// we need to save all selected tools and all tools
-					// that are used by the selected tools
-					LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
-					for (int i = 0; i < sel.length; i++) {
-						Macro macro = (Macro) sel[i];
-						ArrayList<Macro> macros = macro.getUsedMacros();
-						if (macros != null)
-							tools.addAll(macros);
-						tools.add(macro);
-					}
-
-					// create Macro array list from tools set
-					ArrayList<Macro> macros = new ArrayList<Macro>(tools.size());
-					Iterator<Macro> it = tools.iterator();
-					while (it.hasNext()) {
-						macros.add(it.next());
-					}
-					// create new exporter
-					geogebra.export.GeoGebraTubeExportDesktop exporter = new geogebra.export.GeoGebraTubeExportDesktop(
-							app);
-
-					exporter.uploadWorksheet(macros);
-
-				} catch (Exception e) {
-					App.debug("Uploading failed");
-					e.printStackTrace();
-				}
-				app.setDefaultCursor();
+				model.uploadToGeoGebraTube(toolList.getSelectedValues());
 			}
 		};
 		runner.start();
@@ -453,26 +376,26 @@ public class ToolManagerDialog extends javax.swing.JDialog {
 		if (file == null)
 			return;
 
-		// we need to save all selected tools and all tools
-		// that are used by the selected tools
-		LinkedHashSet<Macro> tools = new LinkedHashSet<Macro>();
-		for (int i = 0; i < sel.length; i++) {
-			Macro macro = (Macro) sel[i];
-			ArrayList<Macro> macros = macro.getUsedMacros();
-			if (macros != null)
-				tools.addAll(macros);
-			tools.add(macro);
-		}
-
-		// create Macro array list from tools set
-		ArrayList<Macro> macros = new ArrayList<Macro>(tools.size());
-		Iterator<Macro> it = tools.iterator();
-		while (it.hasNext()) {
-			macros.add(it.next());
-		}
-
 		// save selected macros
-		app.saveMacroFile(file, macros);
+		app.saveMacroFile(file, model.getAllTools(sel));
+	}
+
+	public void removeMacroFromToolbar(int i) {
+		app.getGuiManager().removeFromToolbarDefinition(i);
+	}
+
+	public void refreshCustomToolsInToolBar() {
+		app.getGuiManager().refreshCustomToolsInToolBar();
+
+	}
+
+	public void uploadWorksheet(ArrayList<Macro> macros) {
+		// create new exporter
+		geogebra.export.GeoGebraTubeExportDesktop exporter = new geogebra.export.GeoGebraTubeExportDesktop(
+				app);
+
+		exporter.uploadWorksheet(macros);
+
 	}
 
 }
