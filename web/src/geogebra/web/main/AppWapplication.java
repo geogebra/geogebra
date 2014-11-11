@@ -66,9 +66,9 @@ public class AppWapplication extends AppW {
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
 	        boolean undoActive, int dimension, GLookAndFeel laf, GDevice device) {
 		super(article, dimension, laf);
-		
-		maybeStartAutosave();
 		this.device = device;
+		maybeStartAutosave();
+		
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
 			if(article.getScaleX() < 0.75){
