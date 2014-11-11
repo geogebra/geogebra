@@ -1,11 +1,12 @@
 package geogebra.phone;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.html5.main.AppW;
 import geogebra.touch.FileManagerT;
 
 public class FileManagerP extends FileManagerT {
 	
-	public FileManagerP(final AppP app) {
+	public FileManagerP(final AppW app) {
 		super(app);
 	}
 	

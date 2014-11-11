@@ -229,7 +229,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * </br>- material is new or was private, than link to GGT
 	 */
 	protected void onSave() {
-		if (isOffline()) {
+		if (app.isOffline()) {
 			saveLocal();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();
@@ -283,13 +283,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	    uploadToGgt();
     }
 
-	/**
-	 * @return true if user is offline
-	 */
-	protected boolean isOffline() {
-		return !app.getNetworkOperation().isOnline();
-	}
-	
+
 	private void saveLocal() {
 	    ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
 	    if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
@@ -401,7 +395,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	public void show(){
 		super.show();
 		setTitle();
-		if (isOffline()) {
+		if (app.isOffline()) {
 			this.providerPopup.setVisible(false);
 			this.listBox.setVisible(false);
 		} else {
@@ -475,13 +469,13 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	@Override
     public void fireActionPerformed(PopupMenuButton actionButton) {
 	    if(actionButton.getSelectedIndex() == 1){
-	    	if (!isOffline()) {
+	    	if (!app.isOffline()) {
 		    	listBox.setVisible(false);
 	    	}
 	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.GOOGLE);
 	    }else{
 	    	app.getFileManager().setFileProvider(geogebra.common.move.ggtapi.models.Material.Provider.TUBE);
-	    	if(!isOffline()) {
+	    	if(!app.isOffline()) {
 		    	listBox.setVisible(true);
 	    	}
 	    }

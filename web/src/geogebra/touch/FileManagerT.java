@@ -4,9 +4,9 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
-import geogebra.touch.main.AppT;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
@@ -39,7 +39,7 @@ public class FileManagerT extends FileManager {
 	Flags createIfNotExist = new Flags(true, false);
 	Flags dontCreateIfNotExist = new Flags(false, false);
 
-	public FileManagerT(final AppT app) {
+	public FileManagerT(final AppW app) {
 		super(app);
 		this.phonegap = PhoneGapManager.getPhoneGap();
 	}

@@ -9,6 +9,7 @@ import geogebra.web.gui.ContextMenuGeoElementW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.layout.DockPanelW;
 import geogebra.web.gui.properties.PropertiesViewW;
+import geogebra.web.main.GDevice;
 
 import com.google.gwt.user.client.Command;
 
@@ -24,8 +25,8 @@ public class GuiManager3DW extends GuiManagerW {
 	 * constructor
 	 * @param app application
 	 */
-	public GuiManager3DW(AppW app) {
-	    super(app);
+	public GuiManager3DW(AppW app, GDevice device) {
+	    super(app, device);
     }
 
 	

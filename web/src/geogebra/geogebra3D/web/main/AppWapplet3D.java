@@ -20,6 +20,7 @@ import geogebra.web.gui.dialog.DialogManager3DW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplet;
+import geogebra.web.main.BrowserDevice;
 
 import java.util.HashMap;
 
@@ -64,7 +65,7 @@ public class AppWapplet3D extends AppWapplet{
 	
 	@Override
     protected GuiManagerW newGuiManager() {
-		return App3DW.newGuiManager(this);
+		return App3DW.newGuiManager(this, new BrowserDevice());
 	}
 
 

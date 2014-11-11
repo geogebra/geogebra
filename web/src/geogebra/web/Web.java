@@ -17,6 +17,8 @@ import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.laf.OfficeLookAndFeel;
 import geogebra.web.gui.laf.SmartLookAndFeel;
+import geogebra.web.main.BrowserDevice;
+import geogebra.web.main.GDevice;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -140,7 +142,7 @@ public class Web implements EntryPoint {
 			
 		//	public void onSuccess() {
 				ResourcesInjector.injectResources();
-				createGeoGebraAppFrame();
+				createGeoGebraAppFrame(new BrowserDevice());
 		//	}
 
 		//	public void onFailure(Throwable reason) {
@@ -154,8 +156,8 @@ public class Web implements EntryPoint {
 	/**
 	 * create app frame
 	 */
-	protected void createGeoGebraAppFrame(){
-		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()));
+	protected void createGeoGebraAppFrame(GDevice device){
+		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device);
 	}
 	
 

@@ -109,7 +109,6 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Visibility;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -2006,13 +2005,11 @@ public abstract class AppW extends App implements SetLabels{
 		// EXPORT & GEOTUBE
 		// ========================================
 		public void copyEVtoClipboard() {
-			Window.open(getEuclidianView1().getExportImageDataUrl(3, true),
-			        "_blank", null);
+			//only in AppWapplication
 		}
 
 		public void copyEVtoClipboard(EuclidianViewW ev) {
-			Window.open(ev.getExportImageDataUrl(3, true),
-			        "_blank", null);
+			//only in AppWapplication
 		}
 
 
@@ -2838,5 +2835,9 @@ public abstract class AppW extends App implements SetLabels{
 		public void showKeyboard() {
 	        // TODO Auto-generated method stub
 	        
+        }
+
+		public boolean isOffline() {
+			return !getNetworkOperation().isOnline();
         }
 }

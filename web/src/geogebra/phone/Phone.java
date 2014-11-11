@@ -21,7 +21,7 @@ public class Phone implements EntryPoint {
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
-		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel());
+		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(), new PhoneDevice());
 		appFrame.init();
 		PhoneGapManager.initializePhoneGap(null);
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()

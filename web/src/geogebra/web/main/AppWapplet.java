@@ -146,7 +146,7 @@ public class AppWapplet extends AppW {
 	 * @return a GuiManager for GeoGebraWeb
 	 */
 	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(AppWapplet.this);
+		return new GuiManagerW(AppWapplet.this, new BrowserDevice());
 	}
 
 	@Override

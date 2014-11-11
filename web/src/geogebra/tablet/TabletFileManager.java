@@ -1,11 +1,11 @@
 package geogebra.tablet;
 
-import geogebra.tablet.main.TabletApp;
+import geogebra.html5.main.AppW;
 import geogebra.touch.FileManagerT;
 
 public class TabletFileManager extends FileManagerT {
 	
-	public TabletFileManager(TabletApp tabletApp) {
+	public TabletFileManager(AppW tabletApp) {
 		super(tabletApp);
 	}
 	

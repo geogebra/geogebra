@@ -35,7 +35,6 @@ import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
-import geogebra.web.gui.dialog.image.ImageInputDialog;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 import geogebra.web.gui.util.GoogleFileDescriptors;
 import geogebra.web.gui.util.SaveDialogW;
@@ -43,6 +42,7 @@ import geogebra.web.gui.util.WindowReference;
 import geogebra.web.gui.view.data.DataAnalysisViewW;
 import geogebra.web.gui.view.functioninspector.FunctionInspectorW;
 import geogebra.web.main.AppWapplication;
+import geogebra.web.main.GDevice;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 
 import java.util.ArrayList;
@@ -211,11 +211,13 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	/**
 	 * @param loc {@link GeoPoint}
 	 */
-	public void showImageInputDialog(GeoPoint loc) {
-		UploadImageDialog dialog = getImageInputDialog();
-		dialog.setLocation(loc);
-		dialog.center();
-		dialog.show();
+	public void showImageInputDialog(GeoPoint loc, GDevice device) {
+		if (this.imageDialog == null) {
+			this.imageDialog =  device.getImageInputDialog((AppW) app);
+		}
+		imageDialog.setLocation(loc);
+		imageDialog.center();
+		imageDialog.show();
 	}
 
 	public final SaveUnsavedChanges getSaveUnsavedDialog() {
@@ -226,12 +228,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		return this.saveUnsavedDialog;
 	}
 	
-	public UploadImageDialog getImageInputDialog() {
-		if (this.imageDialog == null) {
-			this.imageDialog = new ImageInputDialog(app);
-		}
-		return this.imageDialog;
-	}
+	
 
 	@Override
 	public void showPropertiesDialog() {

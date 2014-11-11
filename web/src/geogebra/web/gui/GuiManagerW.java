@@ -82,6 +82,7 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import geogebra.web.helper.ObjectPool;
 import geogebra.web.html5.AttachedToDOM;
 import geogebra.web.main.AppWapplet;
+import geogebra.web.main.GDevice;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -122,9 +123,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	private boolean draggingViews;
 
 	private final ObjectPool objectPool;
+
+	protected GDevice device;
 	
 	
-	public GuiManagerW(final AppW app) {
+	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
 		this.kernel = app.getKernel();
 		this.objectPool = new ObjectPool();
@@ -315,7 +318,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	public void loadImage(final GeoPoint loc, final Object object, final boolean altDown) {
-		((DialogManagerW) getDialogManager()).showImageInputDialog(loc);
+		((DialogManagerW) getDialogManager()).showImageInputDialog(loc, this.device);
 	}
 
 	/**

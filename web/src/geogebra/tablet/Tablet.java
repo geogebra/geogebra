@@ -11,6 +11,7 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
 import geogebra.html5.util.Dom;
+import geogebra.tablet.main.TabletDevice;
 import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -175,7 +176,7 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		appFrame = new TabletGeoGebraAppFrame(new TabletLookAndFeel());
+		appFrame = new TabletGeoGebraAppFrame(new TabletLookAndFeel(), new TabletDevice());
 		appFrame.addStyleName("Tablet");
 	}
 	

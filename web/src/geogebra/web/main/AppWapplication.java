@@ -7,6 +7,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
@@ -50,6 +51,7 @@ public class AppWapplication extends AppW {
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
 	private CustomizeToolbarGUI ct;
+	protected final GDevice device;
 	
 
 	/********************************************************
@@ -62,11 +64,11 @@ public class AppWapplication extends AppW {
 	 * @param laf {@link GLookAndFeel}
 	 */
 	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
-	        boolean undoActive, int dimension, GLookAndFeel laf) {
+	        boolean undoActive, int dimension, GLookAndFeel laf, GDevice device) {
 		super(article, dimension, laf);
 		
 		maybeStartAutosave();
-		
+		this.device = device;
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
 			if(article.getScaleX() < 0.75){
@@ -158,8 +160,8 @@ public class AppWapplication extends AppW {
 	 * @param dimension int
 	 * @param laf {@link GLookAndFeel}
 	 */
-	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf) {
-		this(article, geoGebraAppFrame, true, dimension, laf);
+	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf, GDevice device) {
+		this(article, geoGebraAppFrame, true, dimension, laf, device);
 		App.debug("Application created");
 	}
 
@@ -209,7 +211,7 @@ public class AppWapplication extends AppW {
 	public void initGuiManager() {
 		// this should not be called from AppWsimple!
 		setWaitCursor();
-		guiManager = newGuiManager();
+		guiManager = device.newGuiManager(this);
 		getGuiManager().setLayout(new geogebra.web.gui.layout.LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();
@@ -219,7 +221,7 @@ public class AppWapplication extends AppW {
 	 * @return a GuiManager for GeoGebraWeb
 	 */
 	protected GuiManagerW newGuiManager() {
-		return new GuiManagerW(AppWapplication.this);
+		return new GuiManagerW(AppWapplication.this, this.device);
 	}
 
 	
@@ -462,9 +464,9 @@ public class AppWapplication extends AppW {
 	}
 	
 	@Override
-    public FileManagerI getFileManager() {
+    public final FileManagerI getFileManager() {
 		if (this.fm == null) {
-			this.fm = new FileManagerW(this);
+			this.fm = this.device.getFileManager(this);
 		}
 		return this.fm;
 	}
@@ -509,5 +511,19 @@ public class AppWapplication extends AppW {
 			}
 		});
         
+    }
+	
+	@Override
+    public void copyEVtoClipboard() {
+		device.copyEVtoClipboard(getEuclidianView1());
+	}
+
+	@Override
+    public void copyEVtoClipboard(EuclidianViewW ev) {
+		device.copyEVtoClipboard(ev);
+	}
+	
+	public boolean isOffline() {
+		return device.isOffline(this);
     }
 }

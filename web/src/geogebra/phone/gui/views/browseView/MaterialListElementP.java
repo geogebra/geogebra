@@ -4,7 +4,6 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.phone.AppP;
 import geogebra.phone.Phone;
 import geogebra.phone.gui.views.ViewsContainer.View;
 import geogebra.web.gui.browser.MaterialListElement;
@@ -57,7 +56,7 @@ public class MaterialListElementP extends MaterialListElement {
 			});
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
-			((AppP) this.app).getFileManager().openMaterial(this.material);
+			this.app.getFileManager().openMaterial(this.material);
 		}
 		closeBrowseView();
 	}

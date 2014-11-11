@@ -20,6 +20,7 @@ import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.main.AppWapplication;
+import geogebra.web.main.GDevice;
 
 import java.util.Date;
 
@@ -58,8 +59,11 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	private int ch;
 	private final GLookAndFeel laf;
 
-	public GeoGebraAppFrame(GLookAndFeel laf) {
+	private GDevice device;
+
+	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device) {
 		this.laf = laf;
+		this.device = device;
 		frameLayout = newGGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		
@@ -102,22 +106,13 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	@Override
 	public void onResize() {
 		super.onResize();
-		setMinWidth();
-	}
-	
-	protected void setMinWidth() {
-		if (Window.getClientWidth() > 760) {
-			removeStyleName("minWidth");
-			syncPanelSizes();
-		} else {
-			addStyleName("minWidth");
-		}
+		device.setMinWidth(this);
 	}
 	
 	/**
 	 * Synchronizes the size of the rootLayoutPanel and the rootPanel.
 	 */
-	protected void syncPanelSizes() {
+	public void syncPanelSizes() {
 		/*
 		 * Keep RootPanel and RootLayoutPanel dimensions the same so that
 		 * tooltips will work. Tooltip positions are based on RootPanel.
@@ -160,7 +155,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 		cw = Window.getClientWidth(); 
 		ch = Window.getClientHeight() ;
 		
-		app = createApplication(article, this.laf); 
+		app = createApplication(article, this.laf, this.device); 
 		App.debug("Callbacks ...");
 		
 		this.addDomHandler(new MouseDownHandler() {
@@ -250,8 +245,8 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	}
 
 
-	protected AppW createApplication(final ArticleElement article, GLookAndFeel laf) {
-		return new AppWapplication(article, this, 2, laf);
+	protected AppW createApplication(final ArticleElement article, GLookAndFeel laf, GDevice device) {
+		return new AppWapplication(article, this, 2, laf, device);
     }
 
 

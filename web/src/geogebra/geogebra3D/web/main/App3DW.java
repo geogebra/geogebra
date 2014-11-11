@@ -17,6 +17,7 @@ import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.main.GDevice;
 
 /**
  * @author mathieu
@@ -38,8 +39,8 @@ public class App3DW {
 	 * @param this_app
 	 * @return new Gui manager
 	 */
-	static final protected GuiManagerW newGuiManager(AppW this_app) {
-		return new GuiManager3DW(this_app);
+	static final protected GuiManagerW newGuiManager(AppW this_app, GDevice device) {
+		return new GuiManager3DW(this_app, device);
 	}
 	
 	/**

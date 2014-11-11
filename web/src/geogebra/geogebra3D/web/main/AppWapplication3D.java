@@ -21,6 +21,7 @@ import geogebra.web.gui.dialog.DialogManager3DW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
 import geogebra.web.main.AppWapplication;
+import geogebra.web.main.GDevice;
 
 import java.util.HashMap;
 
@@ -40,20 +41,20 @@ public class AppWapplication3D extends AppWapplication {
 	 * @param article
 	 * @param geoGebraAppFrame
 	 */
-	public AppWapplication3D(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf)  {
-	    super(article, geoGebraAppFrame, 3, laf);
+	public AppWapplication3D(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf, GDevice device)  {
+	    super(article, geoGebraAppFrame, 3, laf, device);
 	    //Window.alert("AppWapplication3D : I will be threeD :-)");
     }
 	
 	public AppWapplication3D(final ArticleElement article,
 	        final GeoGebraAppFrame geoGebraAppFrame, final boolean undoActive,
-	        final int dimension, final GLookAndFeel laf) {
-		super(article, geoGebraAppFrame, undoActive, dimension, laf);
+	        final int dimension, final GLookAndFeel laf, GDevice device) {
+		super(article, geoGebraAppFrame, undoActive, dimension, laf, device);
 	}
 	
 	public AppWapplication3D(final ArticleElement article,
-	        final GeoGebraAppFrame geoGebraAppFrame, final int dimension, final GLookAndFeel laf) {
-		super(article, geoGebraAppFrame, dimension, laf);
+	        final GeoGebraAppFrame geoGebraAppFrame, final int dimension, final GLookAndFeel laf, GDevice device) {
+		super(article, geoGebraAppFrame, dimension, laf, device);
 	}
 	
 	@Override
@@ -96,7 +97,7 @@ public class AppWapplication3D extends AppWapplication {
 	
 	@Override
     protected GuiManagerW newGuiManager() {
-		return App3DW.newGuiManager(this);
+		return App3DW.newGuiManager(this, this.device);
 	}
 
 

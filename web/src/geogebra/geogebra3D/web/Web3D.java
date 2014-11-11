@@ -20,6 +20,8 @@ import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.AppWapplet;
+import geogebra.web.main.BrowserDevice;
+import geogebra.web.main.GDevice;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -142,7 +144,7 @@ public class Web3D extends Web {
 			
 		//	public void onSuccess() {
 				ResourcesInjector.injectResources();
-				createGeoGebraAppFrame();
+				createGeoGebraAppFrame(new BrowserDevice());
 		//	}
 
 		//	public void onFailure(Throwable reason) {
@@ -156,8 +158,9 @@ public class Web3D extends Web {
 	/**
 	 * create app frame
 	 */
-	protected void createGeoGebraAppFrame(){
-		new GeoGebraAppFrame3D(Web.getLAF(getGeoGebraMobileTags()));
+	@Override
+	protected void createGeoGebraAppFrame(GDevice device){
+		new GeoGebraAppFrame3D(Web.getLAF(getGeoGebraMobileTags()), device);
 	}
 	
 
