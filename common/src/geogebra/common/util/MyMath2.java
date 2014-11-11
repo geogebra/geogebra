@@ -113,9 +113,51 @@ public class MyMath2 {
 		return -Math.PI / (x * Math.exp(Gamma.logGamma(-x)) * Math.sin(Math.PI * x));
 		// Michael Borcherds 2007-10-15 END
 	}
+	
+	final private static int CANTOR_MAX_ITERATIONS = 1000;
+	
+	/**
+	 * 
+	 * http://en.wikipedia.org/wiki/Cantor_function
+	 * 
+	 * @param x
+	 * @return cantor(x) (calculated iteratively)
+	 */
+	final public static double cantor(double x) {
+		return cantor(x, 0);
+	}
+	
+	final private static double cantor(double x, double depth) {
+
+		if (x < 0) {
+			return 0;
+		}
+
+		if (x > 1) {
+			return 1; 
+		}
+
+		double x3 = 3*x;	
+
+		if (0 <= x3 && x3 <= 1) {
+			if (depth > CANTOR_MAX_ITERATIONS) {
+				return 0.25;
+			}
+			return cantor(3 * x,depth + 1) / 2;
+		} else if (1 < x3 && x3 < 2){
+			return 0.5;
+		}
+		
+		if (depth > CANTOR_MAX_ITERATIONS) {
+			return 0.75;
+		}
+		return (cantor(x3 - 2, depth + 1) + 1) / 2;
+
+	}
 
 	final public static double erf(double mean, double standardDeviation,
 			double x) {
+		
 		try {
 			return Erf.erf((x - mean) / (standardDeviation));
 		} catch (Exception ex) {
