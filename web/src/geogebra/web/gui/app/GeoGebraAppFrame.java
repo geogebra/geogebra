@@ -59,7 +59,7 @@ public class GeoGebraAppFrame extends ResizeComposite {
 	private int ch;
 	private final GLookAndFeel laf;
 
-	private GDevice device;
+	private final GDevice device;
 
 	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device) {
 		this.laf = laf;

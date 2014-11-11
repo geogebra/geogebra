@@ -123,11 +123,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	private final ObjectPool objectPool;
 
-	protected GDevice device;
+	protected final GDevice device;
 	
 	
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
+		this.device = device;
 		this.kernel = app.getKernel();
 		this.objectPool = new ObjectPool();
 		// AGdialogManagerFactory = new DialogManager.Factory();		

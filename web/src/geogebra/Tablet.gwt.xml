@@ -21,6 +21,7 @@
 
   <inherits name="com.google.gwt.uibinder.UiBinder" />
   <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
+  <inherits name='com.googlecode.gwtgl.binding'/>
  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.tablet.Tablet'/>
@@ -41,6 +42,7 @@
   <source path='html5'/>
   <source path='touch'/>
   <source path='tablet'/>
+  <source path='geogebra3D'/>
   <super-source path='/common/src/geogebra/jre' />
   
   <replace-with class="geogebra.touch.gui.layout.SplitterImplTouch">

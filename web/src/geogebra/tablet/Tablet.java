@@ -5,6 +5,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
+import geogebra.geogebra3D.web.gui.app.GeoGebraAppFrame3D;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
@@ -176,7 +177,7 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		appFrame = new TabletGeoGebraAppFrame(new TabletLookAndFeel(), new TabletDevice());
+		appFrame = new GeoGebraAppFrame3D(new TabletLookAndFeel(), new TabletDevice());
 		appFrame.addStyleName("Tablet");
 	}
 	
