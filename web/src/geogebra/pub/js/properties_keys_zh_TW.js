@@ -715,7 +715,7 @@ __GGB__keysVar.zh_TW.command = {
     "Remove.Syntax": "[ <List>, <List> ]",
     "RemoveUndefined": "RemoveUndefined",
     "RemoveUndefined.Syntax": "[ <List> ]",
-    "Rename": "Rename",
+    "Rename": "\u91cd\u65b0\u547d\u540d",
     "Rename.Syntax": "[ <Object>, <Name> ]",
     "ResidualPlot": "ResidualPlot",
     "ResidualPlot.Syntax": "[ <List of Points>, <Function> ]",
