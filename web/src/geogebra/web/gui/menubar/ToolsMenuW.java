@@ -37,9 +37,7 @@ public class ToolsMenuW extends GMenuBar {
 			}
 		});
 
-		if(app.isPrerelease()){
-			addSeparator();
-	
+		if(app.isPrerelease()){	
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri().asString(), app.getMenu("Tool.CreateNew"),
 					true), true, new MenuCommand(app) {
 	
