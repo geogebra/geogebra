@@ -250,6 +250,8 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 
 		public synchronized void startAnimation() {
 //			app.startDispatchingEventsTo(btPlay);
+			//TODO set cursor:wait
+			
 			isPlaying = true;
 			Image playImage = getImageForIcon(AppResources.INSTANCE.nav_pause().getSafeUri());
 			btPlay.setHTML(playImage.toString()+"<div class=\"gwt-Label\">"+app.getPlain("Pause")+"</div>");
@@ -263,6 +265,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		}
 		
         public synchronized void stopAnimation() {
+        	//TODO remove cursor:wait
         	timer.cancel();
             
             // unblock application events

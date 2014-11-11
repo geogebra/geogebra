@@ -2993,15 +2993,12 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	box-shadow: 0px 0px 2px rgba(204, 204, 204, 0.3);
 	border-top: 1px solid #EDEDED;
 	cursor: default;
+	display: table;
 }
 
 .consProtNav .gwt-Label {
 	display: inline;
 	padding: 0px 5px;
-}
-
-.consProtNav div {
-	display: inline-block;
 }
 
 .consProtNav img.gwt-Image {
@@ -3012,6 +3009,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	margin: 5px;
 	background: #FFFFFF;
 	border: 1px solid #CDCDCD;
+	box-shadow: none;
 }
 
 .consProtNav .navbar_leftPanel button.gwt-Button, .consProtNav .navbar_btOpenWindow {
@@ -3030,14 +3028,15 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 
 .navbar_leftPanel {
 	text-align: center;
-	width: 45%;
-	min-width: 275px;
+	white-space: nowrap;
+	display: table-cell
 }
 
 .navbar_playPanel {
 	text-align: center;
 	white-space: nowrap;
-	padding-right: 10px;
+	padding-right: 50px;
+	display: table-cell
 }
 
 .consProtNav .navbar_playPanel img.gwt-Image {
@@ -3066,6 +3065,12 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	width: 100%;
 	height: 100%;
 	cursor: default;
+}
+
+.cpScrollPanel thead th {
+	text-shadow: none;
+	color: #666666;
+	border-bottom: 2px solid #666666;
 }
 
 .cpScrollPanel tbody tr:hover {
