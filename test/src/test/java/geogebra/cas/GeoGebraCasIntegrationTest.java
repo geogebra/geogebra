@@ -537,7 +537,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Function_4 () {
-    t("f(t) := Numeric[(3, sqrt(2)) + t * (sqrt(5), 1), 10]", "(2.236067977 * t + 3.0, t + 1.414213562)");
+    t("f(t) := Numeric[(3, sqrt(2)) + t * (sqrt(5), 1), 10]", "(2.236067977 * t + 3, t + 1.414213562)");
   }
 
   @Test
@@ -2229,14 +2229,18 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void NumericEvaluation_NumericEvaluation_TwoVariables_1 () {
-    t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]", "-0.6 * a^(3) + a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)");
+    t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]",
+    		"-0.6 * a^(3) + a^(2) * b^(2) + 1.8 * a * b - 3 * b^(3)",
+    		"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b");
   }
 
   /* Ordering of Powers */
 
   @Test
   public void NumericEvaluation_OrderingOfPowers () {
-    t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]", "-0.6 * a^(3) + a^(2) *  b^(2) + 1.8 * a * b - 3 * b^(3)");
+    t("Numeric[0.2 * (a^2 - 3 b) * (-3 a + 5 b^2)]",
+    		"-0.6 * a^(3) + a^(2) *  b^(2) + 1.8 * a * b - 3 * b^(3)",
+    		"a^(2) * b^(2) - 0.6 * a^(3) - 3 * b^(3) + 1.8 * a * b");
   }
 
   /* Precision */
@@ -3664,7 +3668,7 @@ public class GeoGebraCasIntegrationTest {
     t("c := Ellipse[A, B, C]",
         "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
         "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
-    t("Tangent[P, c]", "y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x");
+    t("Tangent[C, c]", "y = (sqrt(10) - 3) x - 2 * sqrt(10) + 9", "y = -2 * sqrt(10) + 9 + (sqrt(10) - 3) * x");
   }
 
   // TODO Add tests for other conics.
@@ -3674,13 +3678,16 @@ public class GeoGebraCasIntegrationTest {
   // TODO Ensure the result is correct.
   @Test
   public void Tangent_PointOffConic_0 () {
-    t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
-        "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
-        "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
-    t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
-        "(0, (-sqrt(10) * sqrt(31) * 3 * sqrt(224 * sqrt(10) + 687) - sqrt(31) * 11 * sqrt(224 * sqrt(10) + 687) + sqrt(10) * 672 + 2061) / (sqrt(10) * 448 + 1374))");
-    t("Tangent[P, c]",
-        "y = (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
+	  t("c := Ellipse[(1, 1), (3, 2), (2, 3)]",
+			  "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
+			  "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
+	  t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
+			  "(0, (-sqrt(10) * sqrt(31) * 3 * sqrt(224 * sqrt(10) + 687) - sqrt(31) * 11 * sqrt(224 * sqrt(10) + 687) + sqrt(10) * 672 + 2061) / (sqrt(10) * 448 + 1374))");
+	  t("Tangent[P, c]",
+			  // neither of these are correct, they are coordinates!
+			  //"y = (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
+			  // "(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)"
+			  "TODO");
   }
 
   // TODO Add tests for other conics.
@@ -3730,7 +3737,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1260 () {
-    t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}");
+    t("Tangent[(1, 1), x^3 + y^3 = 1]", "{x = 1, y = 1}", "{y = 1, x = 1}");
   }
 
   @Test
@@ -3741,7 +3748,8 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Mike_1262 () {
     t("Tangent[(a, cbrt(1 - a^3)), x^3 + y^3 = 1]",
-        "y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))");
+        "y = (a^(2) * (-a^(3) + 1)^(1/3) / (a^(3) - 1) * x + (-a^(3) + 1) * (-a^(3) + 1)^(1/3) / (a^(6) - 2 * a^(3) + 1))",
+        "y = a^(2) * cbrt(-a^(3) + 1) / (a^(3) - 1) * x + (-a^(3) + 1) * cbrt(-a^(3) + 1) / (a^(6) - 2 * a^(3) + 1)");
   }
 
   @Test
@@ -3749,10 +3757,9 @@ public class GeoGebraCasIntegrationTest {
     t("Tangent[(0, 0) ,x^2 - y^3 + 2y^2 - y = 0]", "y = 0");
   }
 
-  // TODO Insert correct expected result.
   @Test
   public void Mike_1264 () {
-    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "Insert expected result here.");
+    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "{y = x + 1, y = -x + 1}");
   }
 
 
@@ -4130,7 +4137,7 @@ public class GeoGebraCasIntegrationTest {
     f.setEvalCommand("KeepInput");
     f.computeOutput();
 
-    Assert.assertEquals("\\mathbf{\\int\\limits_{somevar}^{g\\left(h\\right)}f\\left(y\\right)\\,\\mathrm{d}y}", f.getLaTeXOutput());
+    Assert.assertEquals("\\mathbf{\\int\\limits_{somevar}^{g \\left(h \\right)}f \\left(y \\right)\\,\\mathrm{d}y}", f.getLaTeXOutput());
   }
 
   @Test
@@ -4152,7 +4159,7 @@ public class GeoGebraCasIntegrationTest {
     f.setEvalCommand("KeepInput");
     f.computeOutput();
 
-    Assert.assertEquals("\\mathbf{\\sum_{y=somevar}^{g\\left(h\\right)}f\\left(y\\right)}", f.getLaTeXOutput());
+    Assert.assertEquals("\\mathbf{\\sum_{y=somevar}^{g \\left(h \\right)}f \\left(y \\right)}", f.getLaTeXOutput());
   }
 
   /* Ticket 3377: Expand Improvements */
@@ -4260,7 +4267,7 @@ public class GeoGebraCasIntegrationTest {
         "(x^(2) * (sqrt(10) * 30 + 358) + (x * (sqrt(10) * 39 + 81) - sqrt(10) * 78 - 162) * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) + x * (-sqrt(10) * 120 - 1432) - sqrt(10) * 104 + 745) / (x^(2) * (sqrt(10) * 448 + 1374) + x * (-sqrt(10) * 1792 - 5496) + sqrt(10) * 433 + 1195)",
         "((30 * sqrt(10) + 358) * x^(2) + (-120 * sqrt(10) - 1432) * x - 104 * sqrt(10) + 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((448 * sqrt(10) + 1374) * x^(2) + (-1792 * sqrt(10) - 5496) * x + 433 * sqrt(10) + 1195)");
     t("Solve[g(x) = 0, x]",
-        "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
+        "{x = (sqrt(sqrt(10) * 62 - 93) + 62) / 31}");   
 
   }
 
