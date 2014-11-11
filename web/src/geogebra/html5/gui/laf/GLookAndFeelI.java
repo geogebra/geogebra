@@ -29,4 +29,6 @@ public interface GLookAndFeelI {
 	Object getLoginListener();
 
 	boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller);
+
+	boolean autosaveSupported();
 }

@@ -65,11 +65,7 @@ public class AppWapplication extends AppW {
 	        boolean undoActive, int dimension, GLookAndFeel laf) {
 		super(article, dimension, laf);
 		
-		if (getFileManager().isAutoSavedFileAvailable()) {
-			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog(this);
-		} else {
-			this.startAutoSave();			
-		}
+		maybeStartAutosave();
 		
 		this.appFrame = geoGebraAppFrame;
 		if(this.getLAF().isSmart()){
@@ -131,6 +127,22 @@ public class AppWapplication extends AppW {
 			}
 	    }
 	}
+
+	private void maybeStartAutosave() {
+	    if(!this.getLAF().autosaveSupported()){
+	    	return;
+	    }
+
+		if (getFileManager().isAutoSavedFileAvailable()
+				&& this.getArticleElement().getDataParamTubeID().length() == 0
+				&& this.getArticleElement().getDataParamBase64String().length() == 0
+				&& this.getArticleElement().getDataParamJSON().length() == 0) {
+			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog(this);
+		} else {
+			this.startAutoSave();			
+		}
+	    
+    }
 
 	private native void nativeLoggedIn() /*-{
 		if(typeof ggbOnLoggedIn == "function"){

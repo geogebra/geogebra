@@ -82,4 +82,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
 		evPanel.addDomHandler(sh, TouchCancelEvent.getType());
 		return true;
 	}
+	
+	@Override
+    public boolean autosaveSupported() {
+	    return false;
+    }
 }

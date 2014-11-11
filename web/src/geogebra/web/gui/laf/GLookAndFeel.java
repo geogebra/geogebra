@@ -111,4 +111,9 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return false;
     }
 
+	@Override
+    public boolean autosaveSupported() {
+	    return true;
+    }
+
 }

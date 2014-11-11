@@ -64,7 +64,7 @@ public final class ArticleElement extends Element {
 		return (ret != null) ? ret : ""; 
 	}
 	
-	public String getDataParamJSON() { 
+	public String getDataParamJSON() {
 		String ret = this.getAttribute("data-param-json"); 
 		return (ret != null) ? ret : ""; 
 	}
