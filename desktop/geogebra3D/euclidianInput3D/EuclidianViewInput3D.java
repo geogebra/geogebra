@@ -1,7 +1,6 @@
 package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -46,22 +45,18 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
 
-		if (((EuclidianControllerInput3D) euclidianController)
-				.isMouse3DPressed()) {
-			mouse3DScreenPosition = null;
-			return;
-		}
-
 		// use a 3D mouse position
 		mouse3DScreenPosition = ((EuclidianControllerInput3D) getEuclidianController())
 				.getMouse3DPosition();
 
-		mouse3DScenePosition.set(mouse3DScreenPosition);
-		toSceneCoords3D(mouse3DScenePosition);
-		for (int i = 1; i <= 3; i++) {
-			transparentMouseCursorMatrix.set(i, i, 1 / getScale());
+		if (((EuclidianControllerInput3D) getEuclidianController()).useInputDepthForHitting()) {
+			mouse3DScenePosition.set(mouse3DScreenPosition);
+			toSceneCoords3D(mouse3DScenePosition);
+			for (int i = 1; i <= 3; i++) {
+				transparentMouseCursorMatrix.set(i, i, 1 / getScale());
+			}
+			transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
 		}
-		transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
 
 		drawMouseCursor(renderer1, mouse3DScreenPosition);
 
@@ -73,7 +68,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	public void drawTransp(Renderer renderer1) {
 
 		// sphere for mouse cursor
-		if (/* getMode() == EuclidianConstants.MODE_MOVE && */mouse3DScreenPosition != null) {
+		if (((EuclidianControllerInput3D) getEuclidianController()).useInputDepthForHitting() 
+				&& mouse3DScreenPosition != null) {
 			renderer1.setMatrix(transparentMouseCursorMatrix);
 			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);
 		}
@@ -86,7 +82,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	public void drawHiding(Renderer renderer1) {
 
 		// sphere for mouse cursor
-		if (getMode() == EuclidianConstants.MODE_MOVE
+		if (((EuclidianControllerInput3D) getEuclidianController()).useInputDepthForHitting() 
 				&& mouse3DScreenPosition != null) {
 			renderer1.setMatrix(transparentMouseCursorMatrix);
 			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);

@@ -3605,9 +3605,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 		return null;
 	}
 
-	public boolean hasInput() {
+	/**
+	 * 
+	 * @return true if there is a 3D input
+	 */
+	public boolean hasInput3D() {
 		return false;
 	}
+	
+	/**
+	 * 
+	 * @return true if we use depth for hitting
+	 */
+	public boolean useInputDepthForHitting() {
+		return false;
+	}
+	
 	
 	@Override
 	protected Coords getMouseLocRW(){

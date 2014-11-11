@@ -159,4 +159,12 @@ public class InputIntelRealsense3D implements Input3D {
 	public double getEyeSeparation(){
 		return eyeSeparation;
 	}
+	
+	public boolean useInputDepthForHitting(){
+		return false;
+	}
+	
+	public boolean useMouseRobot(){
+		return false;
+	}
 }

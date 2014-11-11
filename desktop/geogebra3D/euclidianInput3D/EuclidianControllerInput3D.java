@@ -71,6 +71,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
+		
+		useInputDepthForHitting = input3D.useInputDepthForHitting();
 
 		// glasses position
 		glassesPosition = new Coords(3);
@@ -93,11 +95,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		screenHalfHeight = gd.getDisplayMode().getHeight() / 2;
 
 		// robot
-		try {
-			robot = new Robot();
-		} catch (AWTException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		robot = null;
+		if (input3d.useMouseRobot()){
+			try {
+				robot = new Robot();
+			} catch (AWTException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 	}
@@ -175,7 +180,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 			// check if the 3D mouse is on 3D view
 			if (view3D.hasMouse()) {
-				if (mouse3DPosition.getZ() < view3D.getRenderer()
+				if (!input3D.useInputDepthForHitting()
+						|| mouse3DPosition.getZ() < view3D.getRenderer()
 						.getEyeToScreenDistance()) {
 
 					updateMouse3DEvent();
@@ -209,7 +215,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 					}
 				}
 
-			} else { // bird outside the view
+			} else if (robot != null){ // bird outside the view
 
 				// process right press / release
 				if (input3D.isRightPressed()) {
@@ -431,7 +437,15 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	@Override
-	public boolean hasInput() {
+	public boolean hasInput3D() {
 		return true;
 	}
+	
+	private boolean useInputDepthForHitting;
+	
+	@Override
+	public boolean useInputDepthForHitting() {
+		return false;
+	}
+	
 }

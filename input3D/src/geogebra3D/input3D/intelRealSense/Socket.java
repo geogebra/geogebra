@@ -9,7 +9,6 @@ import intel.rssdk.PXCMHandData;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
-import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
@@ -20,7 +19,7 @@ import geogebra.common.main.App;
 public class Socket {
 
 
-	private static double SCREEN_REAL_DIM_FACTOR = 1/0.4;
+	private static double SCREEN_REAL_DIM_FACTOR = 1/0.3;
 	private static int SAMPLES = 7;
 
 	public enum Gestures {PINCH, SPREAD, FIST};
@@ -161,6 +160,7 @@ public class Socket {
 			
 			App.debug(id+" : "+name);
 			
+			/*
 			if (handId == 0){
 				handId = id;
 			}else{
@@ -169,6 +169,7 @@ public class Socket {
 					return;
 				}
 			}
+			*/
 			
 			switch(name.charAt(0)){
 			case 'f':

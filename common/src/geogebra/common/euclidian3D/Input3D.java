@@ -54,5 +54,17 @@ public interface Input3D {
 	 * @return true if left button is pressed
 	 */
 	public boolean isLeftPressed();
+
+	/**
+	 * 
+	 * @return true if the input use depth for hitting
+	 */
+	public boolean useInputDepthForHitting();
+
+	/**
+	 * 
+	 * @return true if the input use a robot to controll 2D mouse
+	 */
+	public boolean useMouseRobot();
 	
 }

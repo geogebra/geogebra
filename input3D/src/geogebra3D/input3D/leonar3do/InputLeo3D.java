@@ -159,4 +159,12 @@ public class InputLeo3D implements Input3D {
 	public double getEyeSeparation(){
 		return eyeSeparation;
 	}
+	
+	public boolean useInputDepthForHitting(){
+		return true;
+	}
+	
+	public boolean useMouseRobot(){
+		return true;
+	}
 }

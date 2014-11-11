@@ -31,6 +31,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 		
 		Coords coords = ((EuclidianView3D) ec.view).getPickPoint(ec.mouseLoc).copyVector();
 		((EuclidianView3D) ec.view).toSceneCoords3D(coords);
+		checkPointCapturingXYThenZ(coords);
 		point3D.setCoords(coords);
 		
 		return point3D;
@@ -46,8 +47,9 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 		((EuclidianView3D) ec.view).toSceneCoords3D(v);
 		
 		
-		
-		ec.movedGeoPoint.setCoords(((EuclidianControllerInput3D) ec).movedGeoPointStartCoords.add(v), true);
+		Coords coords = ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords.add(v);
+		checkPointCapturingXYThenZ(coords);
+		ec.movedGeoPoint.setCoords(coords, true);
 		ec.movedGeoPoint.updateCascade();
 
 
