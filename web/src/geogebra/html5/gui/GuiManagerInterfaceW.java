@@ -95,4 +95,8 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 	public String getHelpURL(Help type, String pageName);
 
 	public void updateStyleBarPositions(boolean menuOpen);
+
+	public void openFilePicker();
+
+	public void listenToLogin();
 }

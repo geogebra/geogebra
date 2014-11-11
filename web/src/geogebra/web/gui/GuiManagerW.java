@@ -45,7 +45,6 @@ import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.browser.BrowseGUI;
-import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.dialog.InputDialogOpenURL;
 import geogebra.web.gui.images.AppResources;
@@ -848,7 +847,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return algebraInput;
 	}
 
-	protected void listenToLogin(){
+	public void listenToLogin(){
+		uploadWaiting = true;
 		if(listeningToLogin){
 			return;
 		}
@@ -858,17 +858,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	
 	@Override
 	public boolean save() {
-		if (!((AppW) app).getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
-			openFilePicker();
-		} else if (!app.getLoginOperation().isLoggedIn()) {
-			listenToLogin();
-			uploadWaiting = true;
-			((SignInButton) ((AppW) app).getLAF().getSignInButton(app)).login();
-		} else {
-			final SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
-			saveDialog.center();
-		}
-		return true;
+		return ((AppW)app).getFileManager().save((AppW)app);
 	}
 	
 	/**
@@ -1591,7 +1581,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	 */
 	public BrowseGUI getBrowseGUI(String query) {
 		if (!browseGUIwasLoaded()) {
-			this.browseGUI = new BrowseGUI((AppW)this.app);
+			this.browseGUI = this.device.getBrowseGUI((AppW)this.app);
 			if(query != null && query.trim().length() > 0){
 				this.browseGUI.displaySearchResults(query);
 			}else{

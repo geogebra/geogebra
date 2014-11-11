@@ -2,7 +2,7 @@ package geogebra.tablet.gui.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppW;
-import geogebra.tablet.gui.TabletGuiManager;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.MaterialListElement;
 
 public class TabletMaterialElement extends MaterialListElement {
@@ -13,7 +13,7 @@ public class TabletMaterialElement extends MaterialListElement {
 	
 	@Override
     public void onView() {
-		((TabletGuiManager) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();
 		if (!isLocal) {
 			loadNative(getMaterial().getId(), app.getLoginOperation().getModel().getLoginToken());
 		}

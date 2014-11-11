@@ -211,7 +211,7 @@ public class AppWapplication extends AppW {
 	public void initGuiManager() {
 		// this should not be called from AppWsimple!
 		setWaitCursor();
-		guiManager = device.newGuiManager(this);
+		guiManager = newGuiManager();
 		getGuiManager().setLayout(new geogebra.web.gui.layout.LayoutW(this));
 		getGuiManager().initialize();
 		setDefaultCursor();

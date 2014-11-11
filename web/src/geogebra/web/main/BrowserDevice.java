@@ -1,10 +1,9 @@
 package geogebra.web.main;
 
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.image.ImageInputDialog;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 
@@ -27,11 +26,6 @@ public class BrowserDevice implements GDevice {
     }
 
 	@Override
-    public GuiManagerInterfaceW newGuiManager(AppW appWapplication) {
-	    return new GuiManagerW(appWapplication, this);
-    }
-
-	@Override
     public void setMinWidth(GeoGebraAppFrame frame) {
 		if (Window.getClientWidth() > 760) {
 			frame.removeStyleName("minWidth");
@@ -50,5 +44,10 @@ public class BrowserDevice implements GDevice {
 		
 		return new ImageInputDialog(app);
 	}
+
+	@Override
+    public BrowseGUI getBrowseGUI(AppW app) {
+	    return new BrowseGUI(app);
+    }
 
 }

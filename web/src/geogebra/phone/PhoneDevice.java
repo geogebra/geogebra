@@ -1,12 +1,11 @@
 package geogebra.phone;
 
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.touch.PhoneGapManager;
-import geogebra.touch.gui.GuiManagerT;
 import geogebra.touch.gui.dialog.image.ImageInputDialogT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 import geogebra.web.main.FileManager;
 import geogebra.web.main.GDevice;
@@ -38,10 +37,7 @@ public class PhoneDevice implements GDevice {
 		}
 	}-*/;
 
-	@Override
-    public GuiManagerInterfaceW newGuiManager(AppW app) {
-	    return new GuiManagerT(app, this);
-    }
+	
 
 	@Override
     public void setMinWidth(GeoGebraAppFrame frame) {
@@ -57,6 +53,11 @@ public class PhoneDevice implements GDevice {
 	@Override
     public UploadImageDialog getImageInputDialog(AppW app) {
 	    return new ImageInputDialogT(app);
+    }
+
+	@Override
+    public BrowseGUI getBrowseGUI(AppW app) {
+	    return new BrowseGUI(app);
     }
 
 }

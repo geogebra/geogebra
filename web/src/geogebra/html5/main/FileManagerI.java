@@ -28,4 +28,6 @@ public interface FileManagerI {
 	public void restoreAutoSavedFile();
 	
 	public void deleteAutoSavedFile();
+
+	boolean save(AppW app);
 }

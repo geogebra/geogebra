@@ -7,6 +7,9 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
+import geogebra.web.gui.browser.SignInButton;
+import geogebra.web.gui.dialog.DialogManagerW;
+import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.util.SaveCallback;
 
 import com.google.gwt.storage.client.Storage;
@@ -182,6 +185,20 @@ public class FileManagerW extends FileManager {
 		}
 	    this.stockStore.removeItem(AUTO_SAVE_KEY);
     }
+	
+	public boolean save(AppW app){
+		if (!((AppW) app).getNetworkOperation().isOnline() && !app.getLoginOperation().isLoggedIn()) {
+			app.getGuiManager().openFilePicker();
+		} else if (!app.getLoginOperation().isLoggedIn()) {
+			app.getGuiManager().listenToLogin();
+			
+			((SignInButton) ((AppW) app).getLAF().getSignInButton(app)).login();
+		} else {
+			final SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
+			saveDialog.center();
+		}
+		return true;
+	}
 	
 	
 }
