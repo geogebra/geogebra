@@ -3525,7 +3525,7 @@ namespace giac {
       return plus_inf;
     if (is_undef(s))
       return s;
-    if (!eval_abs(contextptr))
+    if (!eval_abs(contextptr) || has_num_coeff(s))
       return new_ref_symbolic(symbolic(at_abs,s));
     gen r,i;
     reim(s,r,i,contextptr);
@@ -4392,6 +4392,12 @@ namespace giac {
       }
       if (b.type==_VECT && b.subtype==_VECTOR__VECT && b._VECTptr->size()==2)
 	return a+vector2vecteur(*b._VECTptr);
+      if (a.subtype==_POINT__VECT && a._VECTptr->size()==3 && b.type!=_VECT){
+	gen reb,imb; reim(b,reb,imb,contextptr);
+	res[0] += reb;
+	res[1] += imb;
+	return res;
+      }
       if (equalposcomp((int *)_GROUP__VECT_subtype,a.subtype)){ // add to each element
 	iterateur it=res.begin(),itend=res.end();
 	for (;it!=itend;++it)

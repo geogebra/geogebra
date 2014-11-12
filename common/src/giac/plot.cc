@@ -2678,7 +2678,7 @@ namespace giac {
 	return '('+f0.print(contextptr)+')';
       }
       if (f0.type!=_VECT){
-	if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
+	if (f0.type!=_SYMB || (!equalposcomp(plot_sommets,f0._SYMBptr->sommet) && f0._SYMBptr->sommet!=at_hyperplan && f0._SYMBptr->sommet!=at_hypersphere)){
 	  gen r,i;
 	  reim(f0,r,i,contextptr);
 	  return '('+r.print(contextptr)+','+i.print(contextptr)+')';
@@ -8658,6 +8658,8 @@ namespace giac {
 	if (is_zero(simplify(subst(argv0,xy,tri,false,contextptr),contextptr))){
 	  der=subst(der,xy,tri,false,contextptr);
 	  if (der.type==_VECT && der._VECTptr->size()==2){
+	    if (is_zero(der))
+	      return gensizeerr("Tangent at a singular point");
 	    return _droite((xy[0]-tri[0])*der[0]+(xy[1]-tri[1])*der[1],contextptr);
 	  }
 	}
@@ -8669,7 +8671,8 @@ namespace giac {
 	    for (unsigned i=0;i<sol.size();++i){
 	      gen soli=normal(sol[i],contextptr);
 	      gen derp=subst(makevecteur(-der._VECTptr->back(),der._VECTptr->front()),xy,soli,false,contextptr);
-	      res.push_back(_droite(makesequence(soli,derp),contextptr));
+	      if (!is_zero(derp))
+		res.push_back(_droite(makesequence(soli,derp),contextptr));
 	    }
 	    if (res.size()==1)
 	      return res.front();

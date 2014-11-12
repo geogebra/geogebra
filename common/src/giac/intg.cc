@@ -792,6 +792,8 @@ namespace giac {
 	  if (imaxb._SYMBptr->sommet==at_cos)
 	    trig_type=2;
 	}
+	else
+	  imaxb=0;
 	// check polynomial
 	const vecteur vx2=lvarxpow(coeff,gen_x);
 	if ( (vx2.size()>1) || ( (!vx2.empty()) && (vx2.front()!=gen_x))  || ( (imaxb.type==_SYMB) && !is_linear_wrt(imaxb._SYMBptr->feuille,gen_x,ima,imb,contextptr) ) ){
@@ -843,7 +845,7 @@ namespace giac {
 	solve_aPprime_plus_P(in_anum,in_aden,in_coeffnumv,resnum,resden);
 	resplus=rdiv(r2e(poly12polynome(resnum,1,les_vars),les_var,contextptr),r2e(poly12polynome(vecteur(1,resden*in_coeffden),1,les_vars),les_var,contextptr),contextptr);
 	if (step_infolevel){
-	  gprintf("Integrate polynomial(%gen)*exponential(%gen) is (%gen)*exp(%gen)",makevecteur(coeff,reaxb+cst_i*imaxb,resplus,reaxb+cst_i*imaxb),contextptr);
+	  gprintf("Integrate (%gen)*exp(%gen) is polynomial of same degree*same exponential (%gen)*exp(%gen)",makevecteur(coeff,reaxb+cst_i*imaxb,resplus,reaxb+cst_i*imaxb),contextptr);
 	}
 	if (!trig_type){
 	  res = res + resplus*exp(reaxb,contextptr);
@@ -1207,6 +1209,8 @@ namespace giac {
 	gprintf("Integrate rational fraction of exponential %gen by %gen change of variable, leading to integral of %gen",makevecteur(e,exp(gen_x,contextptr),f),contextptr);
       tmpres=linear_integrate_nostep(f,gen_x,tmprem,intmode,contextptr);
       gen expx=exp(coeff_trig*gen_x+coeff_cst,contextptr);
+      if ( (intmode & 2)==0)
+	gprintf("Back substitution %gen->%gen in %gen",makevecteur(gen_x,expx,tmprem),contextptr);
       remains_to_integrate = inv(coeff_trig,contextptr)*complex_subst(tmprem,gen_x,expx,contextptr);
       return inv(coeff_trig,contextptr)*complex_subst(tmpres,gen_x,expx,contextptr);
     }
@@ -1223,8 +1227,10 @@ namespace giac {
       tmpres=integrate_rational(f,gen_x,tmprem,tanxsur2,intmode,contextptr);
     else {
       tmpres=linear_integrate_nostep(f,gen_x,tmprem,intmode,contextptr);
+      if ( (intmode & 2)==0)
+	gprintf("Back substitution %gen->%gen in %gen",makevecteur(gen_x,tanxsur2,tmpres),contextptr);
       tmpres=complex_subst(tmpres,gen_x,tanxsur2,contextptr);
-      tmprem=complex_subst(tmprem,gen_x,tanxsur2,contextptr);
+      // tmprem=complex_subst(tmprem,gen_x,tanxsur2,contextptr);
     }
     if (tmpres==0)
       remains_to_integrate = e;
@@ -1658,13 +1664,18 @@ namespace giac {
     vector< pf<gen> > intdecomp,finaldecomp;
     for (;it!=itend;++it){
       const pf<gen> & single =intreduce_pf(*it,intdecomp);
-      if ( (pfdecomp.size()>1 || it->mult>1) && (intmode & 2)==0)
-	gprintf("Partial fraction %gen -> Hermite reduction -> integrate squarefree part %gen",makevecteur(r2e(it->num,l,contextptr)/pow(r2e(it->fact,l,contextptr),it->mult,contextptr),r2e(single.num,l,contextptr)/r2e(single.den,l,contextptr)),contextptr);
+      if ( (it->mult>1) && (intmode & 2)==0){
+	gen fact1=pow(r2e(it->fact,l,contextptr),it->mult,contextptr);
+	gen fact2=it->den/pow(it->fact,it->mult);
+	gprintf("Partial fraction %gen -> Hermite reduction -> integrate squarefree part %gen",makevecteur(inv(r2sym(fact2,l,contextptr),contextptr)*r2e(it->num,l,contextptr)/fact1,r2e(single.num,l,contextptr)/r2e(single.den,l,contextptr)),contextptr);
+      }
       // factor(single.den,p_content,vden,false,withsqrt(contextptr),complex_mode(contextptr));
       gen extra_div=1;
       factor(single.den,p_content,vden,false,false,false,1,extra_div);
       partfrac(single.num,single.den,vden,finaldecomp,temp,tmp);
     }
+    if ( (intmode & 2)==0)
+      gprintf("Partial fraction integration of %gen",makevecteur(r2sym(finaldecomp,l,contextptr)),contextptr);
     it=finaldecomp.begin();
     itend=finaldecomp.end();
     return integrate_rational_end(it,itend,x,xvar,l,lprime,ipnum,ipden,r2sym(intdecomp,l,contextptr),remains_to_integrate,intmode,contextptr);
@@ -2055,6 +2066,8 @@ namespace giac {
 	if ( (intmode & 2)==0)
 	  gprintf("Integrate %gen, change of variable %gen->%gen, new integral %gen",makevecteur(e,gen_x,xt,tmpe),contextptr);
 	tmpres=linear_integrate_nostep(tmpe,gen_x,tmprem,intmode,contextptr);
+	if ( (intmode & 2)==0)
+	  gprintf("Back substitution %gen->%gen in %gen",makevecteur(gen_x,*rvt,tmpres),contextptr);
 	remains_to_integrate=complex_subst(rdiv(tmprem,dxt,contextptr),gen_x,*rvt,contextptr);
 	// replace tan(asin/2) or tan(acos/2) and cos(asin) and sin(acos)
 	if ((rvtt==8 || rvtt==9) && has_op(tmpres,*at_tan))
@@ -2191,7 +2204,7 @@ namespace giac {
     // particular case for ^, _FUNCnd arg must be constant
     if ( (u==at_pow) && is_constant_wrt(f._VECTptr->back(),gen_x,contextptr) && is_linear_wrt(f._VECTptr->front(),gen_x,a,b,contextptr) ){
       if ( (intmode & 2)==0)
-	gprintf("Integrate %gen: a linear expression u=a*%gen+b (a=%gen,b=%gen) to a constant power n=%gen,\nIf n=-1 then ln(u)/a else (u)^(n+1)/(a*(n+1))",makevecteur(e,gen_x,a,b,f._VECTptr->back()),contextptr);
+	gprintf("Integrate %gen, a linear expression u=a*%gen+b (a=%gen,b=%gen) to a constant power n=%gen,\nIf n=-1 then ln(u)/a else (u)^(n+1)/(a*(n+1))",makevecteur(e,gen_x,a,b,f._VECTptr->back()),contextptr);
       b=f._VECTptr->back();
       if (is_minus_one(b))
 	return rdiv(lnabs(f._VECTptr->front(),contextptr),a,contextptr);
@@ -2199,7 +2212,7 @@ namespace giac {
     }
     if ( (u==at_surd) && is_constant_wrt(f._VECTptr->back(),gen_x,contextptr) && is_linear_wrt(f._VECTptr->front(),gen_x,a,b,contextptr) ){
       if ( (intmode & 2)==0)
-	gprintf("Integrate %gen: a linear expression u=a*%gen+b (a=%gen,b=%gen) to a constant power n=1/%gen,\nIf n=-1 then ln(u)/a else (u)^(n+1)/(a*(n+1))",makevecteur(e,gen_x,a,b,f._VECTptr->front()),contextptr);
+	gprintf("Integrate %gen, a linear expression u=a*%gen+b (a=%gen,b=%gen) to a constant power n=1/%gen,\nIf n=-1 then ln(u)/a else (u)^(n+1)/(a*(n+1))",makevecteur(e,gen_x,a,b,f._VECTptr->front()),contextptr);
       b=f._VECTptr->back();
       if (is_minus_one(b))
 	return rdiv(lnabs(f._VECTptr->front(),contextptr),a,contextptr);
@@ -2207,7 +2220,7 @@ namespace giac {
     }
     if ( (u==at_NTHROOT) && is_constant_wrt(f._VECTptr->front(),gen_x,contextptr) && is_linear_wrt(f._VECTptr->back(),gen_x,a,b,contextptr) ){
       if ( (intmode & 2)==0)
-	gprintf("Integrate %gen: a linear expression u=a*%gen+b (a=%gen,b=%gen) to a constant power n=1/%gen,\nIf n=-1 then ln(u)/a else (u)^(n+1)/(a*(n+1))",makevecteur(e,gen_x,a,b,f._VECTptr->back()),contextptr);
+	gprintf("Integrate %gen, a linear expression u=a*%gen+b (a=%gen,b=%gen) to a constant power n=1/%gen,\nIf n=-1 then ln(u)/a else (u)^(n+1)/(a*(n+1))",makevecteur(e,gen_x,a,b,f._VECTptr->back()),contextptr);
       b=f._VECTptr->front();
       if (is_minus_one(b))
 	return rdiv(lnabs(f._VECTptr->back(),contextptr),a,contextptr);
@@ -2231,7 +2244,7 @@ namespace giac {
     int s=equalposcomp(primitive_tab_op,u);
     if (s && is_linear_wrt(f,gen_x,a,b,contextptr) ){
       if ( (intmode & 2)==0)
-	gprintf("Integrate %gen: %gen applied to a linear expression u=a*%gen+b (a=%gen,b=%gen) is %gen/a",makevecteur(e,primitive_tab_op[s-1],gen_x,a,b,primitive_tab_primitive[s-1](u__IDNT_e,contextptr)),contextptr);      
+	gprintf("Integrate %gen, function %gen applied to a linear expression u=a*%gen+b (a=%gen,b=%gen) is (%gen)/a",makevecteur(e,primitive_tab_op[s-1],gen_x,a,b,primitive_tab_primitive[s-1](u__IDNT_e,contextptr)),contextptr);      
       return rdiv(primitive_tab_primitive[s-1](f,contextptr),a,contextptr);
     }
     // Step2: detection of f(u)*u' 

@@ -5362,6 +5362,40 @@ namespace giac {
     gen tmp=subst(args,l,lnew,false,contextptr);
     */
     vecteur l(lvar(args));
+    gen chk;
+    if (l.size()==2){
+      if (l[0]==cst_pi)
+	chk=l[1];
+      if (l[1]==cst_pi)
+	chk=l[0];
+    }
+    else {
+      if (l.size()==1)
+	chk=l[0];
+    }
+    gen a,b;
+    if (chk.type==_IDNT && is_linear_wrt(args,chk,a,b,contextptr)){
+      gen g2=chk._IDNTptr->eval(1,chk,contextptr);
+      if ((g2.type==_VECT) && (g2.subtype==_ASSUME__VECT)){
+	vecteur v=*g2._VECTptr;
+	if ( (v.size()==3) && (v.front()==vecteur(0) || v.front()==_DOUBLE_ || v.front()==_ZINT || v.front()==_SYMB || v.front()==0) && (v[1].type==_VECT && v[1]._VECTptr->size()==1 && v[1]._VECTptr->front().type==_VECT) ){
+	  vecteur v1=*v[1]._VECTptr->front()._VECTptr;
+	  if (v1.size()==2){
+	    gen A=a*v1[0]+b,B=a*v1[1]+b,Af,Bf;
+	    Af=_floor(A,contextptr);
+	    Bf=_floor(B,contextptr);
+	    if (Af==Bf)
+	      return Af;
+	    if (Af==Bf+1 && is_zero(ratnormal(A-Af)) && v[2].type==_VECT && equalposcomp(*v[2]._VECTptr,v1[0]))
+	      return Bf;
+	    if (Bf==Af+1 && is_zero(ratnormal(B-Bf)) && v[2].type==_VECT){
+	      if (equalposcomp(*v[2]._VECTptr,v1[1]))
+		return Af;
+	    }
+	  }
+	}
+      }
+    }
     vecteur lnew(l);
     int ls=l.size();
     for (int i=0;i<ls;i++){

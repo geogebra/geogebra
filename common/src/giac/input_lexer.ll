@@ -427,6 +427,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 "_"                     opened_quote(yyextra) |= 2; return T_UNIT;
 "'"                     if (opened_quote(yyextra) & 1) { opened_quote(yyextra) &= 0x7ffffffe; return T_QUOTE; } if (index_status(yyextra) && !in_rpn(yyextra) && xcas_mode(yyextra)!= 1) return T_PRIME; opened_quote(yyextra) |= 1; return T_QUOTE;
 ";"			index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
+";;"			index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
 "§"                  index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return T_SEMI; return TI_SEMI;
 ":"			if (spread_formula(yyextra)) return T_DEUXPOINTS; if ( xcas_mode(yyextra)==3 ) { index_status(yyextra)=0; return TI_DEUXPOINTS; }  index_status(yyextra)=0; if (xcas_mode(yyextra)>0) { (*yylval)=1; return T_SEMI; } else return T_DEUXPOINTS;
 ":;"                    index_status(yyextra)=0; (*yylval)=1; return T_SEMI;
@@ -498,6 +499,7 @@ AN	[0-9a-zA-Z_~ ?\200-\355\357-\376]
 ")"                     index_status(yyextra)=1; return T_END_PAR;
 \[			if (index_status(yyextra)) { index_status(yyextra)=0; return T_INDEX_BEGIN; } else { (*yylval) = 0; return T_VECT_DISPATCH; } ;
 \]			index_status(yyextra)=1; return T_VECT_END;
+",]"                    index_status(yyextra)=1; return T_VECT_END;
 "%["                    index_status(yyextra)=0; (*yylval) = _POLY1__VECT; return T_VECT_DISPATCH; 
 "%]"                    index_status(yyextra)=1; return T_VECT_END;
 "%%["                   index_status(yyextra)=0; (*yylval) = _MATRIX__VECT; return T_VECT_DISPATCH; 

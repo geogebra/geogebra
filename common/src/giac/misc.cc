@@ -5797,6 +5797,15 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__dayofweek,&_dayofweek,_dayofweek_s);
   define_unary_function_ptr5( at_dayofweek ,alias_at_dayofweek,&__dayofweek,0,true);
 
+  gen _evalfa(const gen & args,GIAC_CONTEXT){
+    vecteur v(lop(args,at_rootof));
+    gen w=evalf(v,1,contextptr);
+    return subst(args,v,w,false,contextptr);
+  }
+  static const char _evalfa_s []="evalfa";
+  static define_unary_function_eval (__evalfa,&_evalfa,_evalfa_s);
+  define_unary_function_ptr5( at_evalfa ,alias_at_evalfa,&__evalfa,0,true);
+
 
 #if 0
   // Small graphs, not tested
