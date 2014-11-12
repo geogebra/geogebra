@@ -3814,30 +3814,43 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			return null;
 		}
-	
+
 		// Transformable
 		int count = 0;
-		if (selGeos() == 0) {
+		if (selGeos() == 0
+				|| (selGeos() == 1 && selectedGeos.get(0) instanceof GeoPointND)
+				&& !hits.containsGeoPoint()) {
+			// if the first geo to be selected is a point and the second is not,
+			// the point will be used as rotation center
 			Hits rotAbles = hits.getHits(Test.TRANSFORMABLE, tempArrayList);
-			count = addSelectedGeo(rotAbles, 1, false);
+			count = addSelectedGeo(rotAbles, 2, false);
 		}
-	
+
 		// polygon
 		if (count == 0) {
 			count = addSelectedPolygon(hits, 1, false);
 		}
-	
+
 		// rotation center
 		if (count == 0) {
 			addSelectedPoint(hits, 1, false);
 		}
-	
+
+		if (selGeos() > 1 && selPoints() == 0
+				&& selectedGeos.get(0) instanceof GeoPointND) {
+			// If a point is selected as first geo, it is not added to
+			// selectedPoints, because the last point that is selected is used
+			// as rotation center.
+			// Therefore a point that was selected first has to be added to
+			// selecetedPoints, if another geo is selected in the second step
+			selectedPoints.add((GeoPointND) selectedGeos.get(0));
+		}
+
 		// we got the rotation center point
-		if ((selPoints() == 1) && (selGeos() > 0)) {
+		if (selPoints() == 1 && selGeos() > 1) {
 	
 			GeoElement[] selGeos = getSelectedGeos();
-			
-	
+
 			getDialogManager()
 					.showNumberInputDialogRotate(
 							l10n.getMenu(getKernel().getModeText(mode)),
