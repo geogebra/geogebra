@@ -211,6 +211,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 					int xCord, yCord;
 					if (subPopup != null) subPopup.removeFromDOM();
 	                subPopup = new GPopupMenuW(subMenu);
+	                subPopup.getPopupPanel().addStyleName("ggbContextPopup");
 	                subPopup.setVisible(true);
 	                
 	                //Calculate the position of the "submenu", and show it
@@ -286,7 +287,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	 * @return submenu's left position in pixels
 	 */
 	public int getRightSubPopupXCord(){
-		return popupPanel.getAbsoluteLeft() + popupPanel.getOffsetWidth();
+		return popupPanel.getAbsoluteLeft() + (int) (popupPanel.getOffsetWidth() * app.getArticleElement().getScaleX());
 	}
 
 	public void addItem(GCheckBoxMenuItem item) {
