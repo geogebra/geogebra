@@ -1127,10 +1127,10 @@ FromMeta
 			for (int i = 0 ; i < 2 ; i++){
 				lines[i].setCoords(co.lines[i]);
 				if (co.lines[i].startPoint != null){
-					lines[i].setStartPoint(co.lines[i].startPoint);
+					lines[i].setStartPoint(co.lines[i].startPoint.copy());
 				}
 				if (co.lines[i].endPoint != null){
-					lines[i].setEndPoint(co.lines[i].endPoint);
+					lines[i].setEndPoint(co.lines[i].endPoint.copy());
 				}
 			}
 		}
