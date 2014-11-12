@@ -248,7 +248,10 @@ public class DrawTurtle extends Drawable {
 			if (turtle.getFillImage() != null) {
 				int imgWidth = turtle.getFillImage().getWidth();
 				int imgHeight = turtle.getFillImage().getHeight();
-				g2.drawImage(turtle.getFillImage(), null, (int)currentCoords[0]-imgWidth/2, (int)currentCoords[1]-imgHeight/2);				
+				GAffineTransform originTransform = g2.getTransform();
+				g2.transform(at);
+				g2.drawImage(turtle.getFillImage(), null, -imgWidth/2, -imgHeight/2);
+				g2.setTransform(originTransform);
 			} else {
 				// draw rotated turtle				
 				drawTurtleShape(g2);				
