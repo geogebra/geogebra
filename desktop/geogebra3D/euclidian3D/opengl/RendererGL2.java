@@ -5,6 +5,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Manager;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -45,6 +46,10 @@ public class RendererGL2 extends RendererD {
 	 */
 	public RendererGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas);
+		
+		if (useLogicalPicking()){
+			hitting = new Hitting(view3D);
+		}
 		
 		App.debug("Renderer without shaders created");
 	}
@@ -340,32 +345,45 @@ public class RendererGL2 extends RendererD {
 		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
 				.getEuclidianController()).getIntersectionCurves();
 
-		int bufSize = curves.size();
-		// IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);
-		// Drawable3D[] drawHits=createDrawableListForPicking(bufSize);
-		if (bufSize > geoToPickSize) {
-			selectBuffer = createSelectBufferForPicking(bufSize);
-			drawHits = createDrawableListForPicking(bufSize);
-			oldGeoToPickSize = -1;
+		if (useLogicalPicking()){
+			// picking objects
+			for (IntersectionCurve intersectionCurve : curves) {			
+				Drawable3D d = intersectionCurve.drawable;
+				d.updateForHitting(); // we may need an update
+				if(!d.hit(hitting) || d.getPickingType() != PickingType.POINT_OR_CURVE){ // we assume that hitting infos are updated from last mouse move
+					d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
+				}
+
+			}
+		}else{
+
+			int bufSize = curves.size();
+			// IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);
+			// Drawable3D[] drawHits=createDrawableListForPicking(bufSize);
+			if (bufSize > geoToPickSize) {
+				selectBuffer = createSelectBufferForPicking(bufSize);
+				drawHits = createDrawableListForPicking(bufSize);
+				oldGeoToPickSize = -1;
+			}
+
+			setGLForPicking();
+			pushSceneMatrix();
+
+			// picking objects
+			for (IntersectionCurve intersectionCurve : curves) {
+				Drawable3D d = intersectionCurve.drawable;
+				d.setZPick(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
+				pick(d, true, PickingType.POINT_OR_CURVE);
+			}
+
+			// set off the scene matrix
+			jogl.getGL2().glPopMatrix();
+
+			storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are
+			// passed as null
+
+			jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
 		}
-
-		setGLForPicking();
-		pushSceneMatrix();
-
-		// picking objects
-		for (IntersectionCurve intersectionCurve : curves) {
-			Drawable3D d = intersectionCurve.drawable;
-			d.setZPick(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-			pick(d, true, PickingType.POINT_OR_CURVE);
-		}
-
-		// set off the scene matrix
-		jogl.getGL2().glPopMatrix();
-
-		storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are
-										// passed as null
-
-		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
 	}
 
 	@Override
@@ -690,17 +708,36 @@ public class RendererGL2 extends RendererD {
     	// only used in shaders
     }
 
-    
-    @Override
+    private Hitting hitting;
+
+
+	@Override
 	public void setHits(GPoint mouseLoc, int threshold){
 
-    	// sets the flag and mouse location for openGL picking
-    	setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);
-    	
+		if (useLogicalPicking()){
+			if (mouseLoc == null){
+				return;
+			}
+
+			hitting.setHits(mouseLoc, threshold);
+		}else{
+
+			// sets the flag and mouse location for openGL picking
+			setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);
+		}
+
     }
     
     @Override
 	public GeoElement getLabelHit(GPoint mouseLoc){
+    	if (useLogicalPicking()){
+			if (mouseLoc == null){
+				return null;
+			}
+
+			return hitting.getLabelHit(mouseLoc);
+		}
+    	
     	return view3D.getHits3D().getLabelHit();
     }
 
