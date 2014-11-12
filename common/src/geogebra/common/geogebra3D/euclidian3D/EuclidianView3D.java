@@ -2393,6 +2393,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private CoordMatrix4x4 tmpMatrix4x4 = new CoordMatrix4x4();
 	private CoordMatrix4x4 tmpMatrix4x4_2 = CoordMatrix4x4.Identity();
+	private CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
 	
 	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 	
@@ -2407,11 +2408,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	protected void drawMouseCursor(Renderer renderer1, Coords v) {
 		
 
-		CoordMatrix4x4.Identity(tmpMatrix4x4); 
+		CoordMatrix4x4.Identity(tmpMatrix4x4_3); 
 		
 
-		tmpMatrix4x4.setOrigin(v);
-		renderer1.setMatrix(tmpMatrix4x4);
+		tmpMatrix4x4_3.setOrigin(v);
+		renderer1.setMatrix(tmpMatrix4x4_3);
 		renderer1.drawMouseCursor();
 
 	}
@@ -2429,10 +2430,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	public void drawCursor(Renderer renderer1) {
 
-		// App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel()
-		// +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())"
-		// +
-		// getEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());
+//		 App.debug("\nhasMouse="+hasMouse+"\n!getEuclidianController().mouseIsOverLabel() "+!getEuclidianController().mouseIsOverLabel()
+//		 +"\ngetEuclidianController().cursor3DVisibleForCurrentMode(getCursor3DType())"
+//		 +
+//		 ((EuclidianController3D) getEuclidianController()).cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());
 
 		if (hasMouse) {
 
@@ -2576,10 +2577,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 
 		// 2D cursor
-		if (getProjection() == PROJECTION_GLASSES)
+		if (getProjection() == PROJECTION_GLASSES){
 			setTransparentCursor(); // use own 3D cursor (for depth)
-		else
+//			setDefault2DCursor();
+		}else{
 			setDefault2DCursor();
+		}
 
 		// 3D cursor
 		cursor = CURSOR_DEFAULT;
