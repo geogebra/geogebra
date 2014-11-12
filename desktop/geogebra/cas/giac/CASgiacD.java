@@ -31,9 +31,12 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	AppD app;
 
 	/**
-	 * @param casParser casParser
-	 * @param t CasParserTools
-	 * @param k Kernel
+	 * @param casParser
+	 *            casParser
+	 * @param t
+	 *            CasParserTools
+	 * @param k
+	 *            Kernel
 	 */
 	public CASgiacD(CASparser casParser, CasParserTools t, Kernel k) {
 		super(casParser);
@@ -52,27 +55,28 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 			String file;
 
-			if (AppD.MAC_OS) { 
-				// Architecture on OSX seems to be x86_64, but let's make sure 
-				file = "javagiac"; 
-			} else if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE")) 
-					// System.getenv("PROCESSOR_ARCHITECTURE") can return null (seems to happen on linux)
+			if (AppD.MAC_OS) {
+				// Architecture on OSX seems to be x86_64, but let's make sure
+				file = "javagiac";
+			} else if ("AMD64".equals(System.getenv("PROCESSOR_ARCHITECTURE"))
+			// System.getenv("PROCESSOR_ARCHITECTURE") can return null (seems to
+			// happen on linux)
 					|| "amd64".equals(System.getProperty("os.arch"))) {
 				file = "javagiac64";
 			} else {
 				file = "javagiac";
 			}
-			
-			App.debug("Loading Giac dynamic library: "+file);
 
-			// When running from local jars we can load the library files from inside a jar like this 
+			App.debug("Loading Giac dynamic library: " + file);
+
+			// When running from local jars we can load the library files from
+			// inside a jar like this
 			MyClassPathLoader loader = new MyClassPathLoader();
 			giacLoaded = loader.loadLibrary(file);
 
-
 			if (!giacLoaded) {
 				// "classic" method
-				// for Webstart, eg loading 
+				// for Webstart, eg loading
 				// javagiac.dll from javagiac-win32.jar
 				// javagiac64.dll from javagiac-win64.jar
 				// libjavagiac.so from javagiac-linux32.jar
@@ -115,7 +119,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		String exp = casParser.replaceIndices(input, false);
 
 		String ret;
-		App.debug("giac input: "+exp);	
+		App.debug("giac input: " + exp);
 
 		threadResult = null;
 		Thread thread;
@@ -132,16 +136,16 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			}
 
 			// set timeout (in seconds)
-			app.getApplet().evalJS(wrapJSString("timeout " + (timeoutMillis / 1000)));
+			app.getApplet().evalJS(
+					wrapJSString("timeout " + (timeoutMillis / 1000)));
 
 			// reset Giac
 			app.getApplet().evalJS(wrapJSString(specialFunctions));
 
-			threadResult = app.getApplet().evalJS(wrapJSString(exp));        
+			threadResult = app.getApplet().evalJS(wrapJSString(exp));
 
 		} else {
 			initialize();
-
 
 			if (useThread) {
 				// send expression to CAS
@@ -150,7 +154,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				thread.start();
 				thread.join(timeoutMillis);
 				thread.interrupt();
-				// thread.interrupt() doesn't seem to stop it, so add this for good measure:
+				// thread.interrupt() doesn't seem to stop it, so add this for
+				// good measure:
 				thread.stop();
 				// in fact, stop will do nothing (never implemented)
 				App.debug("giac: after interrupt/stop");
@@ -158,7 +163,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 				// if we haven't got a result, CAS took too long to return
 				// eg Solve[sin(5/4 π+x)-cos(x-3/4 π)=sqrt(6) * cos(x)-sqrt(2)]
 				if (threadResult == null) {
-					throw new geogebra.common.cas.error.TimeoutException("Thread timeout from Giac");
+					throw new geogebra.common.cas.error.TimeoutException(
+							"Thread timeout from Giac");
 				}
 			} else {
 				threadResult = evalRaw(exp);
@@ -166,11 +172,12 @@ public class CASgiacD extends CASgiac implements Evaluate {
 		}
 		ret = postProcess(threadResult);
 
-		App.debug("giac output: " + ret);		
+		App.debug("giac output: " + ret);
 		if (ret.contains("user interruption")) {
-			throw new geogebra.common.cas.error.TimeoutException("Standard timeout from Giac");
+			throw new geogebra.common.cas.error.TimeoutException(
+					"Standard timeout from Giac");
 		}
-		
+
 		return ret;
 	}
 
@@ -178,24 +185,26 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 * 
 	 * wrap in _ggbCallGiac('...')
 	 * 
-	 * @param s string to wrap
+	 * @param s
+	 *            string to wrap
 	 * @return wrapped string
 	 */
 	private static String wrapJSString(String s) {
 		StringBuilder sb = new StringBuilder(s.length() + 20);
-		
+
 		// we will wrap string in '', so we need to escape any 's
-		String str = s.replace("'", "\\'");		
-	
+		String str = s.replace("'", "\\'");
+
 		sb.append("_ggbCallGiac('");
 		sb.append(str);
 		sb.append("');");
-		
+
 		return sb.toString();
 	}
 
 	@Override
-	public String evaluate(String exp, long timeoutMilliseconds) throws Throwable {
+	public String evaluate(String exp, long timeoutMilliseconds)
+			throws Throwable {
 		return evaluate(exp);
 	}
 
@@ -208,7 +217,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			if (!giacSetToGeoGebraMode) {
 
 				evalRaw(initString);
-				evalRaw("\"timeout " + (timeoutMillis / 1000)+ "\"");
+				evalRaw("\"timeout " + (timeoutMillis / 1000) + "\"");
 
 				giacSetToGeoGebraMode = true;
 			}
@@ -226,53 +235,58 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	/**
 	 * Queue of asynchronous commands that are waiting for update
 	 */
-	List<AsynchronousCommand> queue =new LinkedList<AsynchronousCommand>();
+	List<AsynchronousCommand> queue = new LinkedList<AsynchronousCommand>();
 
 	private Thread casThread;
+
 	@SuppressWarnings("unused")
 	public void evaluateGeoGebraCASAsync(final AsynchronousCommand cmd) {
 		App.debug("about to start thread");
-		if(!queue.contains(cmd)) {
+		if (!queue.contains(cmd)) {
 			queue.add(cmd);
 		}
 
-		if (casThread == null || !casThread.isAlive()){
-			casThread = new Thread(){
+		if (casThread == null || !casThread.isAlive()) {
+			casThread = new Thread() {
 				@Override
-				public void run(){
+				public void run() {
 					App.debug("thread is starting");
 					while (queue.size() > 0) {
 						AsynchronousCommand command = queue.get(0);
 						String input = command.getCasInput();
 						String result;
 						ValidExpression inVE = null;
-						//remove before evaluating to ensure we don't ignore new requests meanwhile
+						// remove before evaluating to ensure we don't ignore
+						// new requests meanwhile
 						if (queue.size() > 0)
-							queue.remove(0);					
+							queue.remove(0);
 						try {
 							inVE = casParser.parseGeoGebraCASInput(input);
-							//TODO: arbconst()
-							result = evaluateGeoGebraCAS(inVE,new MyArbitraryConstant((ConstructionElement)command),
+							// TODO: arbconst()
+							result = evaluateGeoGebraCAS(inVE,
+									new MyArbitraryConstant(
+											(ConstructionElement) command),
 									StringTemplate.defaultTemplate);
-							CASAsyncFinished(inVE, result, null, command,  input);
+							CASAsyncFinished(inVE, result, null, command, input);
 						} catch (Throwable exception) {
 							App.debug("exception handling ...");
 							exception.printStackTrace();
-							result ="";
-							CASAsyncFinished(inVE, result,exception, command, input);
+							result = "";
+							CASAsyncFinished(inVE, result, exception, command,
+									input);
 						}
 					}
 					App.debug("thread is quitting");
 				}
 			};
 		}
-		if (AsynchronousCommand.USE_ASYNCHRONOUS  && !casThread.isAlive()) {
+		if (AsynchronousCommand.USE_ASYNCHRONOUS && !casThread.isAlive()) {
 			casThread.start();
 		} else {
 			casThread.run();
 		}
 	}
-	
+
 	@Override
 	public String evaluateCAS(String exp) {
 		try {
@@ -297,43 +311,50 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	 */
 	class GiacJNIThread extends Thread {
 		private String exp;
+
 		/**
-		 * @param exp Expression to send to Giac
+		 * @param exp
+		 *            Expression to send to Giac
 		 */
 		public GiacJNIThread(String exp) {
 			this.exp = exp;
 		}
+
 		@Override
 		public void run() {
 			App.debug("thread starting: " + exp);
 
 			try {
 				threadResult = evalRaw(exp);
-				
+
 				App.debug("message from thread: " + threadResult);
 			} catch (Throwable t) {
-				App.debug("problem from JNI Giac: "+t.toString());
+				App.debug("problem from JNI Giac: " + t.toString());
 				// force error in GeoGebra
 				threadResult = "(";
 			}
 		}
 	}
-	
+
 	/**
-	 * @param exp String to send to Giac
+	 * @param exp0
+	 *            String to send to Giac
 	 * @return String from Giac
 	 */
-	String evalRaw(String exp) {
-		gen g = new gen("caseval("+exp+")", C);
+	String evalRaw(String exp0) {
+
+		String exp = wrapInevalfa(exp0);
+
+		gen g = new gen("caseval(" + exp + ")", C);
 		App.debug("giac evalRaw input: " + exp);
 		g = g.eval(1, C);
 		String ret = g.print(C);
 		App.debug("giac evalRaw output: " + ret);
-		
+
 		if (ret != null && ret.startsWith("\"") && ret.endsWith("\"")) {
 			ret = ret.substring(1, ret.length() - 1);
 		}
-		
+
 		return ret;
 	}
 

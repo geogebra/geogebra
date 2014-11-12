@@ -10,6 +10,7 @@ import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.js.JavaScriptInjector;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
@@ -101,9 +102,18 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		
 		nativeEvaluateRaw(specialFunctions, false);
 		
-		App.debug("giac  input:"+s);
-		String ret = nativeEvaluateRaw(s, true);
-		App.debug("giac output:"+ret);
+		String exp;
+		if (!((AppW)kernel.getApplication()).getLAF().isSmart()) {
+			// evalfa makes sure rootof() converted to decimal
+			// eg @rootof({{-4,10,-440,2025},{1,0,10,-200,375}})
+			exp = wrapInevalfa(s);
+		} else {
+			exp = s;
+		}
+		
+		App.debug("giac  input:" + exp);
+		String ret = nativeEvaluateRaw(exp, true);
+		App.debug("giac output:" + ret);
 		
 		return ret;
 	}

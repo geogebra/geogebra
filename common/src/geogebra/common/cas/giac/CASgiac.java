@@ -825,6 +825,23 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		return ret;
 	}
+	
+	final private static String EVALFA = "evalfa(";
+	private StringBuilder expSB = new StringBuilder(EVALFA);
+
+	/**
+	 * evalfa makes sure rootof() converted to decimal
+	 * eg @rootof({{-4,10,-440,2025},{1,0,10,-200,375}})
+	 * @param s input
+	 * @return "evalfa(" + s + ")"
+	 */
+	protected String wrapInevalfa(String s) {
+		expSB.setLength(EVALFA.length());
+		expSB.append(s);
+		expSB.append(")");
+
+		return expSB.toString();
+	}
 
 
 }
