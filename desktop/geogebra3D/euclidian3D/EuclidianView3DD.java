@@ -17,7 +17,7 @@ import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.RendererD;
-import geogebra3D.euclidian3D.opengl.RendererGL2;
+import geogebra3D.euclidian3D.opengl.RendererGLPickingGL2;
 import geogebra3D.euclidian3D.opengl.RendererShaders;
 
 import java.awt.AWTEvent;
@@ -102,7 +102,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 		if (((App3D) app).useShaders()) {
 			return new RendererShaders(this, !app.isApplet());
 		}
-		return new RendererGL2(this, !app.isApplet());
+		return new RendererGLPickingGL2(this, !app.isApplet());
 
 	}
 

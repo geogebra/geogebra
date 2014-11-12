@@ -1602,6 +1602,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		return false;
 	}
 	
+	/**
+	 * set hits for current mouse loc
+	 * @param type event type
+	 */
+	public void setHits(PointerEventType type) {
+		setHits(euclidianController.getMouseLoc(), type);
+	}
+	
 	public void setHits(GPoint p, PointerEventType type) {
 		setHits(p, app.getCapturingThreshold(type));
 		if(type == PointerEventType.TOUCH && this.hits.size() == 0){

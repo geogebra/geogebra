@@ -1718,7 +1718,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (viewRotationOccured) {
 			viewRotationOccured = false;
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			// Application.debug("hits"+view.getHits().toString());
 			((EuclidianView3D) view).updateCursor3D();
 
@@ -1935,26 +1935,26 @@ public abstract class EuclidianController3D extends EuclidianController {
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
 		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			createNewPoint(hits, true, true, true, true, false);
 			break;
 
 		case EuclidianConstants.MODE_ORTHOGONAL_PLANE:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			createNewPoint(hits, false, false, true);
 			break;
 
 		case EuclidianConstants.MODE_PLANE:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			break;
 
 		case EuclidianConstants.MODE_PARALLEL_PLANE:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			createNewPoint(hits, true, false, false, true, false);
@@ -1962,7 +1962,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_EXTRUSION:
 		case EuclidianConstants.MODE_CONIFY:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removeAllPlanes();
 			switchModeForRemovePolygons(hits);
@@ -1973,7 +1973,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
 		case EuclidianConstants.MODE_CUBE:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			//hits.removePolygons();
 			boolean createPointAnywhere = false;
@@ -1995,7 +1995,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			if (selPolygons() == 1 || hits.getPolyCount() == 0){
 				createNewPoint(hits, true, true, true, true, false);
@@ -2013,7 +2013,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
 		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.size() == 0)
@@ -2023,11 +2023,11 @@ public abstract class EuclidianController3D extends EuclidianController {
 			// no need to do anything for preview when mouse is pressed
 			break;
 		case EuclidianConstants.MODE_VOLUME:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			break;
 		case EuclidianConstants.MODE_NET:
-			view.setHits(mouseLoc, type);
+			setViewHits(type);
 			hits = view.getHits();
 			break;
 		default:

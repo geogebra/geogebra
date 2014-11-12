@@ -6,7 +6,6 @@ import geogebra.common.euclidian.MyZoomer;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D.IntersectionCurve;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.euclidian3D.Hits3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
@@ -734,13 +733,6 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 
 	@Override
     protected void pushSceneMatrix() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-	@Override
-    protected void storePickingInfos(Hits3D hits3d, int pointAndCurvesLoop,
-            int labelLoop) {
 	    // TODO Auto-generated method stub
 	    
     }

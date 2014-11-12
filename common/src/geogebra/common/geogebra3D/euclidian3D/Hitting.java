@@ -27,12 +27,12 @@ public class Hitting {
 	public GPoint pos;
 	
 	
-	private EuclidianView3D view;
+	protected EuclidianView3D view;
 	
 	/**
 	 * current threshold
 	 */
-	private int threshold;
+	protected int threshold;
 
 	/**
 	 * constructor
@@ -51,9 +51,6 @@ public class Hitting {
 	public void setHits(GPoint mouseLoc, int threshold){
 		
 		view.setCenteredPosition(mouseLoc, pos);
-		
-		Hits3D hits = view.getHits3D();
-		hits.init();
 
 		origin = view.getPickPoint(mouseLoc); 
 		if (view.getProjection() == EuclidianView3D.PROJECTION_PERSPECTIVE 
@@ -64,6 +61,17 @@ public class Hitting {
 		direction = view.getViewDirection();
 		
 		this.threshold = threshold;
+		
+		setHits();
+		
+	}
+	
+	/**
+	 * set hits
+	 */
+	protected void setHits(){
+		Hits3D hits = view.getHits3D();
+		hits.init();
 
 		if (view.getShowPlane()){
 			view.getPlaneDrawable().hitIfVisibleAndPickable(this, hits);
@@ -106,5 +114,13 @@ public class Hitting {
 	 */
 	public int getThreshold(){
 		return threshold;
+	}
+	
+	/**
+	 * 
+	 * @return true if the hitting use depth values
+	 */
+	public boolean isSphere(){
+		return false;
 	}
 }

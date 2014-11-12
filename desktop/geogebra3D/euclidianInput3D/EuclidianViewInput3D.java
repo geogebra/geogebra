@@ -1,7 +1,9 @@
 package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
+import geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Matrix.CoordMatrix;
@@ -191,6 +193,15 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public int getMousePickWidth() {
 		return Renderer.MOUSE_PICK_DEPTH;
+	}
+	
+	
+	@Override
+	public void setHits(PointerEventType type) {
+		((HittingSphere) renderer.getHitting()).setHits(mouse3DScenePosition, 15);
+		hasMouse = true;
+		updateCursor3D();
+		
 	}
 
 }

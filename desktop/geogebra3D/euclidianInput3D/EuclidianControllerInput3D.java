@@ -385,10 +385,12 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	 * 
 	 * }
 	 */
+	
+	private GPointWithZ mouse3DLoc = new GPointWithZ();
 
 	private void updateMouse3DEvent() {
 
-		GPointWithZ mouse3DLoc = new GPointWithZ(panelDimension.width / 2
+		mouse3DLoc = new GPointWithZ(panelDimension.width / 2
 				+ (int) mouse3DPosition.getX(), panelDimension.height / 2
 				- (int) mouse3DPosition.getY(), (int) mouse3DPosition.getZ());
 
@@ -443,5 +445,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public boolean useInputDepthForHitting() {
 		return input3D.useInputDepthForHitting();
 	}
+	
+	
 	
 }

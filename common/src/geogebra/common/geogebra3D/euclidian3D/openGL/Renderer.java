@@ -5,7 +5,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.euclidian3D.Hits3D;
+import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
@@ -1086,8 +1086,6 @@ public abstract class Renderer {
 
 	abstract protected void pushSceneMatrix();
 
-	abstract protected void storePickingInfos(Hits3D hits3D,
-			int pointAndCurvesLoop, int labelLoop);
 
 	protected boolean intersectsMouse3D(double zNear, double zFar, double mouseZ) {
 		// App.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
@@ -1838,5 +1836,13 @@ public abstract class Renderer {
 	 * @return true if it uses logical picking instead of GL picking
 	 */
 	abstract public boolean useLogicalPicking();
+	
+    /**
+     * 
+     * @return hitting
+     */
+    public Hitting getHitting(){
+    	return null;
+    }
 	
 }

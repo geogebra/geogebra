@@ -2999,7 +2999,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	public GPoint getMouseLoc() {
+	final public GPoint getMouseLoc() {
 		return mouseLoc;
 	}
 
@@ -6230,7 +6230,7 @@ public abstract class EuclidianController {
 				case EuclidianConstants.MODE_MIRROR_AT_CIRCLE: // Michael Borcherds
 																// 2008-03-23
 				case EuclidianConstants.MODE_ROTATE_BY_ANGLE:
-					view.setHits(mouseLoc, type);
+					setViewHits(type);
 					hits = view.getHits();
 					hits.removePolygons();
 					// hits = view.getHits(mouseLoc);
@@ -6263,7 +6263,7 @@ public abstract class EuclidianController {
 						
 					}else{
 						//Ctrl pressed, we need to select a point
-						view.setHits(mouseLoc,type);
+						setViewHits(type);
 						handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
 								controlDown);
 					}
@@ -6271,14 +6271,14 @@ public abstract class EuclidianController {
 				case EuclidianConstants.MODE_MOVE:
 				case EuclidianConstants.MODE_SELECTION_LISTENER:
 						// handle selection click
-						view.setHits(mouseLoc,type);
+						setViewHits(type);
 						handleSelectClick(view.getHits().getTopHits(),// view.getTopHits(mouseLoc),
 								controlDown);
 				default:
 			
 					// change checkbox (boolean) state on mouse up only if there's been
 					// no drag
-					view.setHits(mouseLoc,type);
+					setViewHits(type);
 					hits = view.getHits().getTopHits();
 					// hits = view.getTopHits(mouseLoc);
 					if (!hits.isEmpty()) {
@@ -6398,7 +6398,7 @@ public abstract class EuclidianController {
 		}
 	
 		if (hits.isEmpty()) {
-			view.setHits(mouseLoc,event.getType());
+			setViewHits(event.getType());
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 		}
@@ -6581,7 +6581,7 @@ public abstract class EuclidianController {
 			selection.clearSelectedGeos(true,false);
 			app.updateSelection(false);
 			// hits = view.getTopHits(mouseLoc);
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			Hits hits = view.getHits().getTopHits();
 			switchModeForRemovePolygons(hits);
 			if (!hits.isEmpty()) {
@@ -7659,7 +7659,7 @@ public abstract class EuclidianController {
 		}
 	
 		// find and set movedGeoElement
-		view.setHits(mouseLoc,e.getType());
+		setViewHits(e.getType());
 		Hits viewHits = view.getHits();
 	
 		// make sure that eg slider takes precedence over a polygon (in the same
@@ -7805,7 +7805,7 @@ public abstract class EuclidianController {
 					|| (mode == EuclidianConstants.MODE_TEXTFIELD_ACTION)
 					|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
 					|| (mode == EuclidianConstants.MODE_TEXT)) {
-				view.setHits(mouseLoc,event.getType());
+				setViewHits(event.getType());
 	
 				// make sure slider tool drags only sliders, not other object
 				// types
@@ -7984,7 +7984,7 @@ public abstract class EuclidianController {
 	}
 	
 	private void translateHitsByVector(PointerEventType type) {
-		view.setHits(mouseLoc,type);
+		setViewHits(type);
 		
 		Hits hits = view.getHits().getTopHits();
 
@@ -8131,14 +8131,14 @@ public abstract class EuclidianController {
 	
 		// we need the center of the rotation
 		if (rotationCenter == null) {
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			rotationCenter = (GeoPoint) chooseGeo(
 					view.getHits().getHits(Test.GEOPOINT, tempArrayList),
 					true);
 			selection.addSelectedGeo(rotationCenter);
 			moveMode = MOVE_NONE;
 		} else {
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			// hits = view.getHits(mouseLoc);
@@ -8182,7 +8182,7 @@ public abstract class EuclidianController {
 	
 		// check if axis is hit
 		// hits = view.getHits(mouseLoc);
-		view.setHits(mouseLoc,type);
+		setViewHits(type);
 		hits = view.getHits();
 		hits.removePolygons();
 	
@@ -8234,13 +8234,13 @@ public abstract class EuclidianController {
 		// create new point at mouse location
 		// this point can be dragged: see mouseDragged() and mouseReleased()
 		case EuclidianConstants.MODE_COMPLEX_NUMBER:
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			createNewPointForModePoint(hits, true);
 			break;
 		case EuclidianConstants.MODE_POINT:
 		case EuclidianConstants.MODE_POINT_ON_OBJECT:
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 
 			// if mode==EuclidianView.MODE_POINT_ON_OBJECT, point can be in a
@@ -8268,7 +8268,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_POLYLINE:
 		case EuclidianConstants.MODE_REGULAR_POLYGON:
 			// hits = view.getHits(mouseLoc);
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			createNewPointForModeOther(hits);
@@ -8276,7 +8276,7 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_VECTOR_POLYGON:
 		case EuclidianConstants.MODE_RIGID_POLYGON:
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			
 			// allow first object clicked on to be a Polygon -> create new Rigid/Vector Polygon from it
@@ -8292,7 +8292,7 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_TRANSLATE_BY_VECTOR:
 			if (!allowSelectionRectangleForTranslateByVector) {
-				view.setHits(mouseLoc,type);
+				setViewHits(type);
 				hits = view.getHits();
 				hits.removePolygons();
 				if (hits.size() == 0) {
@@ -8306,7 +8306,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			
 			
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.size() == 0) {
@@ -8319,7 +8319,7 @@ public abstract class EuclidianController {
 			break;
 			
 		case EuclidianConstants.MODE_PARABOLA: // Michael Borcherds 2008-04-08
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			
 			// we clicked a line, we want it as a directrix			
@@ -8338,7 +8338,7 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_COMPASSES: // Michael Borcherds 2008-03-13
 			// hits = view.getHits(mouseLoc);
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.isEmpty()) {
@@ -8348,7 +8348,7 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_ANGLE:
 			// hits = view.getTopHits(mouseLoc);
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits().getTopHits();
 			// check if we got a polygon
 			if (hits.isEmpty()) {
@@ -8359,7 +8359,7 @@ public abstract class EuclidianController {
 		case EuclidianConstants.MODE_ANGLE_FIXED:
 		case EuclidianConstants.MODE_MIDPOINT:
 			// hits = view.getHits(mouseLoc);
-			view.setHits(mouseLoc,type);
+			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
 			if (hits.isEmpty()
@@ -8446,7 +8446,7 @@ public abstract class EuclidianController {
 		Hits hits;
 	
 		if (penMode(mode)) {
-			view.setHits(mouseLoc,event.getType());
+			setViewHits(event.getType());
 			hits = view.getHits();
 			hits.removeAllButImages();
 			getPen().handleMousePressedForPenMode(event, hits);
@@ -8497,7 +8497,7 @@ public abstract class EuclidianController {
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 	
-			view.setHits(mouseLoc,event.getType());
+			setViewHits(event.getType());
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
 			if (!hits.isEmpty()) // bugfix 2008-02-19 removed this:&&
@@ -8960,7 +8960,7 @@ public abstract class EuclidianController {
 		}
 	
 		// now handle current mode
-		view.setHits(mouseLoc,type);
+		setViewHits(type);
 		hits = view.getHits();
 		switchModeForRemovePolygons(hits);
 		
@@ -9081,7 +9081,7 @@ public abstract class EuclidianController {
 	}
 
 	private void altClicked(PointerEventType type) {
-		view.setHits(mouseLoc,type);
+		setViewHits(type);
 		Hits hits = view.getHits().getTopHits();
 		if ((hits != null) && (hits.size() > 0)) {
 			hits.removePolygons();
@@ -9117,7 +9117,7 @@ public abstract class EuclidianController {
 
 		// get selected GeoElements
 		// show popup menu after right click
-		view.setHits(mouseLoc,type);
+		setViewHits(type);
 		Hits hits = view.getHits().getTopHits();
 		if (hits.isEmpty()) {
 			// no hits
@@ -9859,4 +9859,14 @@ public abstract class EuclidianController {
 	public void moveIfWaiting(){
 		// used in web
 	}
+	
+	/**
+	 * set view hits for current mouse location
+	 * @param type event type
+	 */
+	protected void setViewHits(PointerEventType type) {
+		view.setHits(type);
+	}
+	
+
 }
