@@ -583,7 +583,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		tmpCoords2.setValues(getDirectionInD3(), 3);
 		tmpCoords2.normalize();
 		
-		return tmpCoords1.dotproduct(tmpCoords2);
+		return Math.abs(tmpCoords1.dotproduct(tmpCoords2));
 		
 	}
 	
