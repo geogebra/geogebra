@@ -14,5 +14,10 @@
 	<classpathentry exported="true" kind="lib" path="lib/websocket-server.jar"/>
 	<classpathentry exported="true" kind="lib" path="lib/websocket-servlet.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/common"/>
+	<classpathentry kind="lib" path="lib/libpxcclr.java.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="input3D/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
