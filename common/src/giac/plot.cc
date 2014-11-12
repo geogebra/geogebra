@@ -2678,7 +2678,10 @@ namespace giac {
 	return '('+f0.print(contextptr)+')';
       }
       if (f0.type!=_VECT){
-	if (f0.type!=_SYMB || (!equalposcomp(plot_sommets,f0._SYMBptr->sommet) && f0._SYMBptr->sommet!=at_hyperplan && f0._SYMBptr->sommet!=at_hypersphere)){
+	if (f0.type==_SYMB && (f0._SYMBptr->sommet==at_hyperplan || f0._SYMBptr->sommet==at_hypersphere)){
+	  return f0.print(contextptr);
+	}
+	if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
 	  gen r,i;
 	  reim(f0,r,i,contextptr);
 	  return '('+r.print(contextptr)+','+i.print(contextptr)+')';

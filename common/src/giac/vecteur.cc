@@ -3405,14 +3405,14 @@ namespace giac {
       gen * bi = &b[i]._VECTptr->front();
       if (fullreduction==2){
 	q=smod(bi[i]-ai[i],bmod).val;
-	q=(q*u) % bmod ;
+	q=smod(q*u,bmod); // (q*u) % bmod ;
 	ai[i] += int(q)*amod;
 	ai += a.size();
 	bi += a.size();
       }
       for (;ai!=aiend;++bi,++ai){
 	q=longlong(bi->val)-(ai->type==_INT_?ai->val:modulo(*ai->_ZINTptr,bmod));
-	q=(q*u) % bmod;
+	q=smod(q*u,bmod); // (q*u) % bmod;
 	if (amod.type==_ZINT && ai->type==_ZINT){
 	  if (q>=0)
 	    mpz_addmul_ui(*ai->_ZINTptr,*amod._ZINTptr,int(q));
@@ -4845,6 +4845,7 @@ namespace giac {
 			int fullreduction,int dont_swap_below,bool convert_internal,int algorithm,int rref_or_det_or_lu,
 			int modular,vector<int> & permutation,
 			GIAC_CONTEXT){
+    gen linfa=linfnorm(a,contextptr);
     unsigned as=a.size(),a0s=a.front()._VECTptr->size();
     res.clear(); // insure that res will be build properly
     // Modular algorithm for matrix integer reduction
@@ -5154,6 +5155,15 @@ namespace giac {
 	if (fullreduction!=2 && !inverting)
 	  pivots=*ichinrem(gen(pivots),gen(pivots_mod_p),pi_p,p)._VECTptr;
 	pi_p=pi_p*p;
+	if (inverting){
+	  // early termination if abs(det*2)<pi_p and linfnorm(res)*linfnorm(original_matrix)*size*2<pi_p
+	  // smod_inplace(res,pi_p);
+	  if (is_greater(pi_p,2*abs(det,contextptr),contextptr) && is_greater(pi_p,2*linfnorm(res,contextptr)*linfa,contextptr)){
+	    if (debug_infolevel>1)
+	      *logptr(contextptr) << clock() << gettext(" Early termination") << endl;
+	    break;
+	  }
+	}
       } // end for loop on primes
       if (p.type==_INT_){
 	// there is a bug in libtommath when multiplying a _ZINT by an int
@@ -7623,7 +7633,7 @@ namespace giac {
       }
       return;
     }
-    if (f.type==_INT_){
+    if (is_integer(f)){
       for (int i=0;i<n;++i)
 	res.push_back(_rand(f,contextptr));
       return;
