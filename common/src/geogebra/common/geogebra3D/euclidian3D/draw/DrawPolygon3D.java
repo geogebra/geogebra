@@ -542,63 +542,105 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			globalCoords = new Coords(4);
 			inPlaneCoords = new Coords(4);
 		}
-		hitting.origin.projectPlaneThruVIfPossible(
-				poly.getCoordSys().getMatrixOrthonormal(), 
-				hitting.direction, 
-				globalCoords, 
-				inPlaneCoords);
-
-		if(!hitting.isInsideClipping(globalCoords)){
-			return false;
-		}
 		
-		boolean ret = false;
-		
-		// check if hitting projection hits the polygon
-		if (poly.isInRegion(inPlaneCoords.getX(),inPlaneCoords.getY())){
-			double parameterOnHitting = inPlaneCoords.getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
-			setZPick(parameterOnHitting, parameterOnHitting);
-			setPickingType(PickingType.SURFACE);
-			ret = true;
-		}
-		
-		// check if hitting is on path
-		if (!poly.wasInitLabelsCalled()){
-			/*
-			double eps = (getGeoElement().getLineThickness() + 2)/getView3D().getScale();
-			if (poly.isOnPath(project[0], eps)){
-				double parameterOnHitting = project[1].getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
-				setZPick(parameterOnHitting + eps, parameterOnHitting - eps);
-				setPickingType(PickingType.POINT_OR_CURVE);
-				ret = true;
-			}
-			*/
+		if (hitting.isSphere()){
+			hitting.origin.projectPlane(
+					poly.getCoordSys().getMatrixOrthonormal(), 
+					globalCoords);
+			
 			
 			if (hittingPointForOutline == null){
 				hittingPointForOutline = new GeoPoint3D(poly.getConstruction());
+				hittingPointForOutline.setWillingCoordsUndefined();
+				hittingPointForOutline.setWillingDirectionUndefined();
 			}
+			
+			// try outline
 			hittingPointForOutline.setCoords(globalCoords);
 			poly.pointChanged(hittingPointForOutline);
 			Coords p3d = hittingPointForOutline.getInhomCoordsInD3();
 
-			if (hitting.isInsideClipping(p3d)){
-				if (project == null){
-					project = Coords.createInhomCoorsInD3();
+
+			if (project == null){
+				project = Coords.createInhomCoorsInD3();
+			}
+
+			double d = p3d.distance(hitting.origin);
+			double scale = getView3D().getScale();
+			if (d * scale <= poly.getLineThickness() + hitting.getThreshold()){
+				setZPick(d, d);
+				setPickingType(PickingType.POINT_OR_CURVE);
+				return true;
+			}
+			
+			
+			// try inside
+			hittingPointForOutline.setCoords(globalCoords);
+			hittingPointForOutline.setRegion(poly);
+			poly.pointChangedForRegion(hittingPointForOutline);
+			p3d = hittingPointForOutline.getInhomCoordsInD3();
+			d = p3d.distance(hitting.origin);
+			if (d * scale <= hitting.getThreshold()){
+				setZPick(d, d);
+				setPickingType(PickingType.SURFACE);
+				return true;
+			}
+
+			
+			
+		}else{
+			hitting.origin.projectPlaneThruVIfPossible(
+					poly.getCoordSys().getMatrixOrthonormal(), 
+					hitting.direction, 
+					globalCoords, 
+					inPlaneCoords);
+
+			if(!hitting.isInsideClipping(globalCoords)){
+				return false;
+			}
+
+			boolean ret = false;
+
+			// check if hitting projection hits the polygon
+			if (poly.isInRegion(inPlaneCoords.getX(),inPlaneCoords.getY())){
+				double parameterOnHitting = inPlaneCoords.getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+				setZPick(parameterOnHitting, parameterOnHitting);
+				setPickingType(PickingType.SURFACE);
+				ret = true;
+			}
+
+			// check if hitting is on path
+			if (!poly.wasInitLabelsCalled()){
+				
+				if (hittingPointForOutline == null){
+					hittingPointForOutline = new GeoPoint3D(poly.getConstruction());
 				}
-				p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check distance to hitting line
-				double d = p3d.distance(project);
-				double scale = getView3D().getScale();
-				if (d * scale <= poly.getLineThickness() + hitting.getThreshold()){
-					double z = -parameters[0];
-					double dz = poly.getLineThickness()/scale;
-					setZPick(z+dz, z-dz);
-					setPickingType(PickingType.POINT_OR_CURVE);
-					return true;
+				hittingPointForOutline.setCoords(globalCoords);
+				poly.pointChanged(hittingPointForOutline);
+				Coords p3d = hittingPointForOutline.getInhomCoordsInD3();
+
+				if (hitting.isInsideClipping(p3d)){
+					if (project == null){
+						project = Coords.createInhomCoorsInD3();
+					}
+					p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check distance to hitting line
+					double d = p3d.distance(project);
+					double scale = getView3D().getScale();
+					if (d * scale <= poly.getLineThickness() + hitting.getThreshold()){
+						double z = -parameters[0];
+						double dz = poly.getLineThickness()/scale;
+						setZPick(z+dz, z-dz);
+						setPickingType(PickingType.POINT_OR_CURVE);
+						return true;
+					}
 				}
 			}
+
+			return ret;
+
 		}
 		
-		return ret;
+		return false;
 		
 	}
 	

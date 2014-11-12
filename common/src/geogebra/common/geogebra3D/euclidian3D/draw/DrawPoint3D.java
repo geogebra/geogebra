@@ -292,9 +292,9 @@ implements Previewable, Functional2Var{
 			double d = p.distance(hitting.origin);
 			double scale = drawable.getView3D().getScale();
 			if (d * scale <= pointSize + hitting.getThreshold()){
-				double z = -parameters[0];
-				double dz = pointSize/scale;
-				drawable.setZPick(z+dz, z-dz);
+//				double z = -parameters[0];
+//				double dz = pointSize/scale;
+				drawable.setZPick(d, d);
 				return true;
 			}
 		}else{
