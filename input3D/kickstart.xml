@@ -34,6 +34,11 @@
 	    src="http://dev.geogebra.org/download/lib/websocket/websocket-servlet-9.0.5.v20130815.jar"
 	    dest="lib/websocket-servlet.jar" usetimestamp="true"/>
 
+	<get src="http://dev.geogebra.org/download/lib/pxcclr/libpxcclr.java.jar" dest="lib/libpxcclr.java.jar"
+	    usetimestamp="true"/>
+	<get src="http://dev.geogebra.org/download/lib/pxcclr/libpxcclr.jni.dll" dest="lib/libpxcclr.jni.dll"
+	    usetimestamp="true"/>
+
 	</target>
 	
 </project>
