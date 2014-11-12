@@ -705,11 +705,13 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	}
 
 	public void resetDefaultToolbar() {
-
+		
 		if (dockPanel != null) {
-			buildUsedTools(oldToolbarString);
+			buildUsedTools(dockPanel.getDefaultToolbarString());
 		} else {
-			((GuiManagerW) app.getGuiManager()).getToolbarDefinition();
+			String toolbarStr = ((GuiManagerW) app.getGuiManager()).getDefaultToolbarString();
+			setGeneralToolbar(toolbarStr);
+			buildUsedTools(toolbarStr);
 		}
 
 		update();
@@ -721,14 +723,17 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			dockPanel.setToolbarString(current);
 			dockPanel.updatePanel(true);
 		} else {
-			GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
-			gm.setToolBarDefinition(current);
-			gm.updateToolbar();
+			setGeneralToolbar(current);
 		}
 
 		close();
 	}
 
+	private void setGeneralToolbar(String toolbarString) {
+		GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
+		gm.setToolBarDefinition(toolbarString);
+		gm.updateToolbar();
+	}
 	@Override
 	public void onResize() {
 		int w = (getOffsetWidth() / 2) - PANEL_GAP;

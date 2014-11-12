@@ -1724,4 +1724,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
     public BrowseGUI getBrowseGUI() {
 	    return getBrowseGUI(null);
     }
+	
+	public String getDefaultToolbarString() {
+		if (toolbarPanel == null)
+			return "";
+
+		return getGeneralToolbar().getDefaultToolbarString();
+	}
+	
 }
