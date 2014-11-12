@@ -71,8 +71,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
-		
-		useInputDepthForHitting = input3D.useInputDepthForHitting();
 
 		// glasses position
 		glassesPosition = new Coords(3);
@@ -441,11 +439,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return true;
 	}
 	
-	private boolean useInputDepthForHitting;
-	
 	@Override
 	public boolean useInputDepthForHitting() {
-		return false;
+		return input3D.useInputDepthForHitting();
 	}
 	
 }
