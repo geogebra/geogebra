@@ -18,6 +18,7 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.parser.ParserDelegator;
 
+import com.google.gwt.regexp.shared.RegExp;
 
 /**
  * Utility class with methods to handle importing data into the spreadsheet.
@@ -193,6 +194,14 @@ public class DataImport {
 		return null;
 	}
 
+	/*
+	 * disabled option to change as we don't want commas when pasting from
+	 * spreadsheet into other parts of GeoGebra eg input bar also see
+	 * CopyPasteCutD.copy()
+	 */
+	final static String decimalSeparator = ".";
+	final private static String groupingSeparator = ",";
+
 	/**
 	 * Parses external non-ggb data.
 	 * 
@@ -207,23 +216,7 @@ public class DataImport {
 	 * @return 2D string array with values formatted for the spreadsheet.
 	 */
 	public static String[][] parseExternalData(App app, String source,
-			String[] separator, boolean isCSV) {
-
-		String decimalSeparator, groupingSeparator;
-		if (separator == null) {
-			/* 
-			 * disabled as we don't want commas when pasting from spreadsheet into other parts of GeoGebra eg input bar 
-			 * also see CopyPasteCutD.copy() 
-			 */ 
-			//String[] defaultSeparator = getDefaultSeparators(app); 
-			//decimalSeparator = defaultSeparator[0]; 
-			//groupingSeparator = defaultSeparator[1]; 
-			decimalSeparator = "."; 
-			groupingSeparator = ",";
-		} else {
-			decimalSeparator = separator[0];
-			groupingSeparator = separator[1];
-		}
+			boolean isCSV) {
 
 		String[][] data;
 
@@ -247,9 +240,8 @@ public class DataImport {
 				}
 
 				// remove localized number formatting
-				// e.g. 3,400 ---> 3400 or 3,400 --> 3.400 depending on locale
-				data[i][k] = adjustNumberString(data[i][k], decimalSeparator,
-						groupingSeparator);
+				// e.g. 3,400 ---> 3400 or 3,4567 --> 3.4567
+				data[i][k] = adjustNumberString(data[i][k]);
 			}
 		}
 
@@ -327,37 +319,53 @@ public class DataImport {
 				e.printStackTrace();
 			}
 		}
+
 		return data;
 	}
 
-	/**
-	 * Returns an unformatted number string (e.g. "3,200" --> "3200") if the
-	 * given string is a number that Geogebra's parser recognizes. If cannot be
-	 * parsed to a number, then the original string is returned.
-	 */
-	private static String adjustNumberString(String s, String decimalSeparator,
-			String groupingSeparator) {
+	// match numbers with commas every 3 digits eg 1,234
+	// 1,234,567
+	// 12,456
+	// 123,566
+	// -123,566
+	// don't match
+	// 123
+	// 12
+	// 1
+	// 0,123
+	// 123,456789
+	final private static RegExp regex = RegExp
+			.compile("^-?\\d?\\d?\\d,(\\d\\d\\d,)*\\d\\d\\d$");
 
-		if (s == null || s.equals(""))
+	/**
+	 * Returns an unformatted number string (e.g. "1,234,567" --> "1234567")
+	 * otherwise the comma is replaced with a . eg 1,234567 -> 1.234567
+	 * 
+	 * Note: 1,234 is ambiguous, convert to 1234
+	 * 
+	 * if the given string is a number that Geogebra's parser recognizes. If
+	 * cannot be parsed to a number, then the original string is returned.
+	 */
+	private static String adjustNumberString(String s) {
+
+		if (s == null || s.equals("")) {
 			return s;
-		
+		}
+
 		String s2 = s;
 
 		// System.out.println("====================");
 		// System.out.println(decimalSeparator + " | " + groupingSeparator);
 		// System.out.println("test string: " + s);
 
-		// don't use regex - doesn't work well with .s
-		while (s2.indexOf(groupingSeparator) > 0) {
-			s2 = s2.replace(groupingSeparator, "");
+		if (regex.test(s)) {
+			// change 1,234,567 to 1234567
+			s2 = s2.replace(",", "");
+		} else {
+			// change 0,12345 to 012345
+			s2 = s2.replace(",", ".");
 		}
-		
-		if (!decimalSeparator.equals(".")) {
-			while (s2.indexOf(decimalSeparator) > 0) {
-				// don't use regex - doesn't work well with .s
-				s2 = s2.replace(decimalSeparator, ".");
-			}
-		}
+
 		// System.out.println("converted string: " + s2);
 		// System.out.println("is number: " + RelativeCopy.isNumber(s2));
 

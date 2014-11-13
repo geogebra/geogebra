@@ -27,20 +27,16 @@ public class CopyPasteCutD extends CopyPasteCut {
 	@Override
 	public void copy(int column1, int row1, int column2, int row2,
 			boolean skipGeoCopy) {
-		
-		
-		char decimalSeparator = DataImport.getDefaultSeparators(app)[0].charAt(0);		
+
 		/*
-		 * disabled as we don't want commas when pasting from spreadsheet into other parts of GeoGebra eg input bar
-		 * also see DataImport.parseExternalData() 
-		 *  
-		//boolean changeDecimalSeparator = '.' != decimalSeparator;
-		if (changeDecimalSeparator) {
-			App.debug("changing decimal separator to: "+decimalSeparator);
-		}*/
-		
-		boolean changeDecimalSeparator = false;
-		
+		 * disabled as we don't want commas when pasting from spreadsheet into
+		 * other parts of GeoGebra eg input bar also see
+		 * DataImport.parseExternalData()
+		 * 
+		 * //boolean changeDecimalSeparator = '.' != decimalSeparator; if
+		 * (changeDecimalSeparator) {
+		 * App.debug("changing decimal separator to: "+decimalSeparator); }
+		 */
 
 		// copy tab-delimited geo values into the external buffer
 		if (cellBufferStr == null) {
@@ -54,13 +50,9 @@ public class CopyPasteCutD extends CopyPasteCut {
 				if (value != null) {
 					String valueStr = value
 							.toValueString(StringTemplate.maxPrecision);
-					
-					if (changeDecimalSeparator && value.isGeoNumeric()) {
-						valueStr = valueStr.replace('.', decimalSeparator);
-					}
-					
+
 					cellBufferStr.append(valueStr);
-					
+
 				}
 				if (column != column2) {
 					cellBufferStr.append('\t');
@@ -74,7 +66,8 @@ public class CopyPasteCutD extends CopyPasteCut {
 		// store the tab-delimited values in the clipboard
 		Toolkit toolkit = Toolkit.getDefaultToolkit();
 		Clipboard clipboard = toolkit.getSystemClipboard();
-		StringSelection stringSelection = new StringSelection(cellBufferStr.toString());
+		StringSelection stringSelection = new StringSelection(
+				cellBufferStr.toString());
 		clipboard.setContents(stringSelection, null);
 
 		// store copies of the actual geos in the internal buffer
@@ -95,7 +88,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 		Transferable contents = clipboard.getContents(null);
 
-		return paste( column1,  row1,  column2,  row2,  contents);
+		return paste(column1, row1, column2, row2, contents);
 	}
 
 	/**
@@ -144,7 +137,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
 
-			String[][] data = DataImport.parseExternalData(app, transferString, null,
+			String[][] data = DataImport.parseExternalData(app, transferString,
 					isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 
@@ -155,7 +148,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		return succ;
 	}
-	
+
 	// default pasteFromFile: clear spreadsheet and then paste from upper left
 	// corner
 	public boolean pasteFromURL(URL url) {
@@ -196,7 +189,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		boolean succ = true;
 
 		String[][] data = DataImport.parseExternalData(app,
-				contents.toString(), null, isCSV);
+				contents.toString(), isCSV);
 
 		if (data != null) {
 			if (clearSpreadsheet)
@@ -209,7 +202,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 		return succ;
 
 	}
-	
+
 	/**
 	 * Return the extension portion of the file's name.
 	 * 
@@ -224,6 +217,5 @@ public class CopyPasteCutD extends CopyPasteCut {
 		}
 		return null;
 	}
-
 
 }
