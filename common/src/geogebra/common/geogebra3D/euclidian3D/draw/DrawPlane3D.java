@@ -449,9 +449,13 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 		
 		GeoPlane3D plane = (GeoPlane3D) getGeoElement();
 		
-		// project hitting origin on polygon plane
-		hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getDrawingMatrix(), hitting.direction, tmpCoords1, tmpCoords2);
-
+		// project hitting origin on plane
+		if (hitting.isSphere()){
+			hitting.origin.projectPlane(plane.getCoordSys().getDrawingMatrix(), tmpCoords1, tmpCoords2);
+		}else{
+			hitting.origin.projectPlaneThruVIfPossible(plane.getCoordSys().getDrawingMatrix(), hitting.direction, tmpCoords1, tmpCoords2);
+		}
+		
 		if(!hitting.isInsideClipping(tmpCoords1)){
 			return false;
 		}
@@ -473,12 +477,21 @@ public class DrawPlane3D extends Drawable3DSurfaces {
 			return false;
 		}
 		
+		if (hitting.isSphere()){
+			double d = tmpCoords1.distance(hitting.origin);
+			double scale = getView3D().getScale();
+			if (d * scale <= hitting.getThreshold()){
+				setZPick(d, d);
+				return true;
+			}
+
+		}else{
+			double parameterOnHitting = tmpCoords2.getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
+			setZPick(parameterOnHitting, parameterOnHitting);
+			return true;
+		}
 		
-		double parameterOnHitting = tmpCoords2.getZ();//TODO use other for non-parallel projection : -hitting.origin.distance(project[0]);
-		setZPick(parameterOnHitting, parameterOnHitting);
-		
-		
-		return true;
+		return false;
 		
 	}
 
