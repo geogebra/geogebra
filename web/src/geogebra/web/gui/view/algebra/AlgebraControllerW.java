@@ -288,6 +288,9 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 
 	public void onMouseMove(MouseMoveEvent event) {
 		// currently, this event is not used
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
 		mouseMoved(PointerEvent.wrapEvent(event, ZeroOffset.instance));
 	}
 
@@ -295,20 +298,20 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.instance);
 		longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY());
-		event.preventDefault();
+		CancelEventTimer.touchEventOccured();
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
-		CancelEventTimer.touchEventOccured();
 		longTouchManager.cancelTimer();
+		CancelEventTimer.touchEventOccured();
     }
 
 	public void onTouchStart(TouchStartEvent event) {
-		CancelEventTimer.touchEventOccured();
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
 		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
 		mousePressed(e);
+		CancelEventTimer.touchEventOccured();
     }
 
 }

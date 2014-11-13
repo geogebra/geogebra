@@ -103,7 +103,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private boolean needsUpdate;
 	
 	private LongTouchManager longTouchManager;
-	
+		
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
 	}
@@ -479,6 +479,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public void onMouseMove(MouseMoveEvent evt) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt, ZeroOffset.instance);
 		onPointerMove(wrappedEvent);
 	}
@@ -497,11 +500,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
     }
 
 	public void onTouchEnd(TouchEndEvent event) {
-	    CancelEventTimer.touchEventOccured();
 	    longTouchManager.cancelTimer();
 	    JsArray<Touch> changed = event.getChangedTouches();
 	    AbstractEvent wrappedEvent = PointerEvent.wrapEvent(changed.get(0), ZeroOffset.instance);
 	    onPointerUp(wrappedEvent);
+	    CancelEventTimer.touchEventOccured();
     }
 
 	public void onTouchMove(TouchMoveEvent event) {
@@ -511,17 +514,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
 		onPointerMove(wrappedEvent);
+		CancelEventTimer.touchEventOccured();
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
-		CancelEventTimer.touchEventOccured();
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.scheduleTimer(this, x, y);
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		event.stopPropagation();
+		CancelEventTimer.touchEventOccured();
     }
 	
 	private void onPointerDown(AbstractEvent event) {
