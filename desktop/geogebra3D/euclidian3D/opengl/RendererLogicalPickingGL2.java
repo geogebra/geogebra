@@ -51,7 +51,9 @@ public class RendererLogicalPickingGL2 extends RendererGL2 {
     		return null;
     	}
 
-    	return hitting.getLabelHit(mouseLoc);
+//    	return hitting.getLabelHit(mouseLoc);
+    	
+    	return null;
     }
 
     @Override
