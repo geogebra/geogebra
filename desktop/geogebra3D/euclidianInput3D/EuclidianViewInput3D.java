@@ -74,7 +74,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (((EuclidianControllerInput3D) getEuclidianController()).useInputDepthForHitting() 
 				&& mouse3DScreenPosition != null) {
 			renderer1.setMatrix(transparentMouseCursorMatrix);
-			renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);
+			if (getCursor3DType() == PREVIEW_POINT_FREE){
+				renderer1.drawCursor(PlotterCursor.TYPE_SPHERE);
+			}else{
+				renderer1.drawCursor(PlotterCursor.TYPE_SPHERE_HIGHLIGHTED);
+			}
 		}
 
 		super.drawTransp(renderer1);

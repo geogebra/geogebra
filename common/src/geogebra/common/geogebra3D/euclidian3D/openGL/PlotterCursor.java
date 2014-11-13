@@ -19,8 +19,9 @@ public class PlotterCursor {
 	static public int TYPE_ALREADY_Z = 5;
 	static public int TYPE_CUBE = 6;
 	static public int TYPE_SPHERE = 7;
+	static public int TYPE_SPHERE_HIGHLIGHTED = 8;
 
-	static private int TYPE_LENGTH = 8;
+	static private int TYPE_LENGTH = 9;
 
 	static private float size = 12f;
 	static private float thickness = 1.25f;
@@ -144,9 +145,19 @@ public class PlotterCursor {
 		// sphere
 		index[TYPE_SPHERE] = manager.startNewList(-1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
-		cursorSphere();
+		cursorSphere(0.25f, 0.25f);
 		manager.endGeometry();
 		manager.endList();
+		
+		// sphere
+		index[TYPE_SPHERE_HIGHLIGHTED] = manager.startNewList(-1);
+		manager.startGeometry(Manager.Type.TRIANGLES);
+		cursorSphere(0.75f, 0.25f);
+		manager.endGeometry();
+		manager.endList();
+		
+		
+		
 
 	}
 
@@ -479,12 +490,10 @@ public class PlotterCursor {
 
 	}
 
-	private void cursorSphere() {
+	private void cursorSphere(float gray, float alpha) {
 
 		manager.setDummyTexture();
 
-		float gray = 0.25f;
-		float alpha = 0.25f;
 		color(gray, gray, gray, alpha);
 
 		int latitude = 8;
