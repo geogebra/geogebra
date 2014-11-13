@@ -3825,7 +3825,7 @@ public class Kernel {
 	}
 
 	public void redo() {
-		if (undoActive) {
+		if (undoActive && cons.getUndoManager().redoPossible()) {
 			app.startCollectingRepaints();
 			storeSelectedGeosNames();
 			app.getCompanion().storeViewCreators();
@@ -3840,8 +3840,7 @@ public class Kernel {
 	}
 
 	public void undo() {
-		App.debug("UNDOACTIVE"+undoActive);
-		if (undoActive) {
+		if (undoActive && cons.getUndoManager().undoPossible()) {
 			app.startCollectingRepaints();
 			storeSelectedGeosNames();
 			app.getCompanion().storeViewCreators();
