@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianView3DD;
+import geogebra3D.euclidian3D.opengl.RendererLogicalPickingGL2;
 
 /**
  * EuclidianView3D with controller using 3D input
@@ -198,10 +199,23 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	
 	@Override
 	public void setHits(PointerEventType type) {
-		((HittingSphere) renderer.getHitting()).setHits(mouse3DScenePosition, 15);
-		hasMouse = true;
-		updateCursor3D();
+
+		if (((EuclidianControllerInput3D) getEuclidianController()).useInputDepthForHitting()){
+			((HittingSphere) renderer.getHitting()).setHits(mouse3DScenePosition, 15);
+			hasMouse = true;
+			updateCursor3D();
+		}else{
+			super.setHits(type);
+		}
 		
 	}
+	
+	@Override
+	protected Renderer createRenderer() {
+
+		return new RendererLogicalPickingGL2(this, !app.isApplet());
+
+	}
+
 
 }
