@@ -490,7 +490,8 @@ public class UDPLoggerD implements UDPLogger {
 
 				}
 
-				dsocket.close();
+				if (dsocket != null)
+					dsocket.close();
 				App.debug("thread ending");
 
 			}
