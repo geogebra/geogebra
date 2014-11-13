@@ -80,8 +80,8 @@ TouchMoveHandler, TouchCancelHandler, GestureStartHandler, GestureEndHandler, Ge
 LongTouchHandler {
 
 	private long lastMoveEvent = 0;
-	private AbstractEvent waitingTouchMove = null;
-	private AbstractEvent waitingMouseMove = null;
+	private PointerEvent waitingTouchMove = null;
+	private PointerEvent waitingMouseMove = null;
 
 	public EnvironmentStyleW style = new EnvironmentStyleW(); 
 	
@@ -330,7 +330,7 @@ LongTouchHandler {
 		event.preventDefault();
 		if (targets.length() == 1 && !ignoreEvent) {
 			if(time < this.lastMoveEvent + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS){
-				AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
+				PointerEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), this, event.getRelativeElement());
 				boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 				this.waitingTouchMove = e;
 				this.waitingMouseMove = null;
@@ -340,7 +340,7 @@ LongTouchHandler {
 				}
 				return;
 			}
-			AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1),this);
+			PointerEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), this, event.getRelativeElement());
 			if (!draggingBeyondThreshold) {
 				longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(), false);
 			} else {
@@ -372,7 +372,7 @@ LongTouchHandler {
 				+ Math.pow(t1.getY() - t2.getY(), 2));
 	}
 
-	private void onTouchMoveNow(AbstractEvent event,long time) {
+	private void onTouchMoveNow(PointerEvent event,long time) {
 		this.lastMoveEvent = time;
 		//in SMART we actually get move events even if mouse button is up ...
 		if (!DRAGMODE_MUST_BE_SELECTED) {
@@ -428,7 +428,6 @@ LongTouchHandler {
 		if (app.getGuiManager() != null){
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		}
-		Event.setCapture(event.getRelativeElement());
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
 		if(targets.length() == 1){
@@ -539,7 +538,7 @@ LongTouchHandler {
 			return;
 		}
 
-		AbstractEvent e = PointerEvent.wrapEvent(event,this);
+		PointerEvent e = PointerEvent.wrapEvent(event, this);
 		event.preventDefault();
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
@@ -559,7 +558,7 @@ LongTouchHandler {
 		onMouseMoveNow(e,time);
 	}
 
-	public void onMouseMoveNow(AbstractEvent event,long time) {
+	public void onMouseMoveNow(PointerEvent event,long time) {
 		this.lastMoveEvent = time;
 		 if (!DRAGMODE_MUST_BE_SELECTED) {
 			 wrapMouseMoved(event);
@@ -616,11 +615,10 @@ LongTouchHandler {
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
-		Event.setCapture(event.getRelativeElement());
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
-		AbstractEvent e = PointerEvent.wrapEvent(event,this);
+		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		onPointerEventStart(e);
 
 		prepareModeForFreehand();
@@ -988,6 +986,7 @@ LongTouchHandler {
 		}
 		if (!shouldCancelDrag()) {
 			setModeToFreehand();
+			Event.setCapture(((PointerEvent) event).getRelativeElement());
 			super.wrapMouseDragged(event);
 		}
 		if (movedGeoPoint != null

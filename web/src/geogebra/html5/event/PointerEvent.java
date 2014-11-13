@@ -6,6 +6,7 @@ import geogebra.common.euclidian.event.PointerEventType;
 
 import java.util.LinkedList;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseEvent;
@@ -17,6 +18,8 @@ import com.google.gwt.event.dom.client.MouseEvent;
  * 
  */
 public class PointerEvent extends AbstractEvent {
+
+	private Element relativeElement;
 
 	private GPoint point = new GPoint(0, 0);
 	private PointerEventType type;
@@ -135,10 +138,17 @@ public class PointerEvent extends AbstractEvent {
 		evt.middle = event.getNativeButton() == NativeEvent.BUTTON_MIDDLE;
 		evt.right = event.getNativeButton() == NativeEvent.BUTTON_RIGHT;
 		evt.shift = event.isShiftKeyDown();
+		evt.relativeElement = event.getRelativeElement();
 		return evt;
 	}
 
-	public static AbstractEvent wrapEvent(Touch touch,
+	public static PointerEvent wrapEvent(Touch touch, HasOffsets off, Element relativeElement) {
+		PointerEvent event = wrapEvent(touch, off);
+		event.relativeElement = relativeElement;
+		return event;
+	}
+	
+	public static PointerEvent wrapEvent(Touch touch,
             HasOffsets off) {
 	    return wrapEvent(touch.getClientX(), touch.getClientY(), 
 	    		PointerEventType.TOUCH,  off, off.getTouchEventPool());
@@ -148,4 +158,7 @@ public class PointerEvent extends AbstractEvent {
 	    return this.evID;
     }
 
+	public Element getRelativeElement() {
+		return relativeElement;
+	}
 }
