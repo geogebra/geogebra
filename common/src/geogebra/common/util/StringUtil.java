@@ -1281,4 +1281,39 @@ public class StringUtil {
 		return num + exponent;
 		
 	}
+	
+	/**
+	 * @param c
+	 * @return emulation of Character.isWhiteSpace
+	 */
+	public static boolean isWhitespace(char c) {
+		return  c == ' ' ||
+				c == '\u0009' || /*, HORIZONTAL TABULATION. */
+				c == '\n' || /* LINE FEED.*/ 
+				c == '\u000B' || /* VERTICAL TABULATION.*/
+				c == '\u000C' || /* FORM FEED. */
+				c == '\r' || /* CARRIAGE RETURN.*/ 
+				c == '\u001C' || /* FILE SEPARATOR.*/
+				c == '\u001D' || /* GROUP SEPARATOR.*/
+				c == '\u001E' || /* RECORD SEPARATOR.*/
+				c == '\u001F' || /*UNIT SEPARATOR.*/
+				c == '\u1680' ||
+				c == '\u180E' ||
+				c == '\u2000' ||
+				c == '\u2001' ||
+				c == '\u2002' ||
+				c == '\u2003' ||
+				c == '\u2004' ||
+				c == '\u2005' ||
+				c == '\u2006' ||
+				c == '\u2008' ||
+				c == '\u2009' ||
+				c == '\u200A' ||
+				c == '\u2028' ||
+				c == '\u2029' ||
+				c == '\u205F' ||
+				c == '\u3000';
+	}
+
+
 }

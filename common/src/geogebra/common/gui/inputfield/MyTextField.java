@@ -1,5 +1,7 @@
 package geogebra.common.gui.inputfield;
 
+import geogebra.common.util.StringUtil;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -115,26 +117,9 @@ public abstract class MyTextField {
 
 	public static boolean isCloseBracketOrWhitespace(char c) {
 		//Character.isWhiteSpace not supported in GWT
-	    return isWhiteSpace(c) || c == ')' || c == ']' || c == '}';
+	    return StringUtil.isWhitespace(c) || c == ')' || c == ']' || c == '}';
 	  }
 	
-	private static boolean isWhiteSpace(char c) {
-		return /*It is a Unicode space character (SPACE_SEPARATOR, LINE_SEPARATOR, or PARAGRAPH_SEPARATOR) but is not also a non-breaking space (*/
-				c == '\u00A0' ||
-				c == '\u2007' ||
-				c == '\u202F' || /*).*/
-				/*It is*/ c == '\u0009' || /*, HORIZONTAL TABULATION. */
-				/*It is*/ c == '\n' || /* LINE FEED.*/ //invalid
-				/*It is*/ c == '\u000B' || /* VERTICAL TABULATION.*/
-				/*It is*/ c == '\u000C' || /* FORM FEED. */
-				/*It is*/ c == '\n' || /* CARRIAGE RETURN.*/ //Invalid 
-				/*It is*/ c == '\u001C' || /* FILE SEPARATOR.*/
-				/*It is*/ c == '\u001D' || /* GROUP SEPARATOR.*/
-				/*It is */c == '\u001E'; /* || /* RECORD SEPARATOR.*/
-				//invalid /*It is */c == '\u001F' /*UNIT SEPARATOR.*/
-			
-	}
-
 	public static ValidateAutocompletionResult commonValidateAutocompletion(int index, List<String> completions, String text, int curWordStart) {
 		    
 		ValidateAutocompletionResult ret = new ValidateAutocompletionResult();
@@ -244,7 +229,7 @@ public abstract class MyTextField {
 	          lastToken = ",";
 	          break;
 	        default:
-	          if (!/*AGCharacter.*/isWhiteSpace(cArray[i])) {
+	          if (!StringUtil.isWhitespace(cArray[i])) {
 	            sb.append(cArray[i]);
 	          }
 	      }

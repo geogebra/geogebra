@@ -86,8 +86,6 @@ DAMAGES.  */
 
 package geogebra.common.util;
 
-import geogebra.common.main.App;
-
 import java.io.IOException;
 
 /**
@@ -223,7 +221,7 @@ public final class Base64
     byte[] result = new byte[b64.length()];
     for (i = 0; i < b64.length(); i++)
       {
-        if (App.isWhitespace(b64.charAt(i)))
+        if (StringUtil.isWhitespace(b64.charAt(i)))
           {
             continue;
           }
@@ -280,7 +278,7 @@ public final class Base64
           case 2:
             for ( ; i < b64.length(); i++)
               {
-                if (!App.isWhitespace(b64.charAt(i)))
+                if (!StringUtil.isWhitespace(b64.charAt(i)))
                   {
                     break;
                   }
@@ -298,7 +296,7 @@ public final class Base64
             for ( ; i < b64.length(); i++)
               {
                 // We should only see whitespace after this.
-                if (!App.isWhitespace(b64.charAt(i)))
+                if (!StringUtil.isWhitespace(b64.charAt(i)))
                   {
                     System.err.println(b64.charAt(i));
                     throw new IOException("malformed Base64 sequence");

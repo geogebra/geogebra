@@ -1,4 +1,4 @@
-package geogebra.gui.view.opencsv;
+package geogebra.common.util.opencsv;
 
 public class CSVException extends Exception {
 

@@ -1,4 +1,4 @@
-package geogebra.gui.view.opencsv;
+package geogebra.common.util.opencsv;
 
 /**
  Copyright 2005 Bytecode Pty Ltd.
@@ -15,6 +15,8 @@ package geogebra.gui.view.opencsv;
  See the License for the specific language governing permissions and
  limitations under the License.
  */
+
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -407,7 +409,7 @@ public class CSVParser {
 		for (int i = 0; i < sb.length(); i++) {
 			char c = sb.charAt(i);
 
-			if (!Character.isWhitespace(c)) {
+			if (!StringUtil.isWhitespace(c)) {
 				return false;
 			}
 		}

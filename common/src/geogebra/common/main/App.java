@@ -1256,11 +1256,6 @@ public abstract class App implements UpdateSelection{
 		this.scriptingLanguage = scriptingLanguage;
 	}
 
-	@SuppressWarnings("deprecation")
-	public static boolean isWhitespace(char charAt) {
-		return Character.isSpace(charAt);
-	}
-
 	/**
 	 * Runs JavaScript
 	 * 

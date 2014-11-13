@@ -113,11 +113,11 @@ public class CopyPasteCutD extends CopyPasteCut {
 		String transferString = null;
 
 		// extract a String from the Transferable contents
-		transferString = DataImport.convertTransferableToString(contents);
+		transferString = DataImportD.convertTransferableToString(contents);
 		if (transferString == null)
 			return false;
 
-		isCSV = DataImport.hasHTMLFlavor(contents);
+		isCSV = DataImportD.hasHTMLFlavor(contents);
 		// System.out.println("transfer string: " + transferString);
 
 		// test if the transfer string is the same as the internal cell copy
@@ -137,7 +137,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
 
-			String[][] data = DataImport.parseExternalData(app, transferString,
+			String[][] data = DataImportD.parseExternalData(app, transferString,
 					isCSV);
 			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 
@@ -188,7 +188,7 @@ public class CopyPasteCutD extends CopyPasteCut {
 
 		boolean succ = true;
 
-		String[][] data = DataImport.parseExternalData(app,
+		String[][] data = DataImportD.parseExternalData(app,
 				contents.toString(), isCSV);
 
 		if (data != null) {
