@@ -2,6 +2,7 @@ package geogebra.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.main.App;
+import geogebra.gui.view.opencsv.CSVException;
 import geogebra.gui.view.opencsv.CSVParser;
 import geogebra.main.AppD;
 
@@ -280,7 +281,7 @@ public class DataImport {
 		for (int i = 0; i < numLines; ++i) {
 			try {
 				data[i] = getCommaParser().parseLineMulti(lines[i]);
-			} catch (IOException e) {
+			} catch (CSVException e) {
 				e.printStackTrace();
 				return null;
 			}
@@ -314,8 +315,7 @@ public class DataImport {
 				// .out.println("parse line: " + lines[i]);
 				data[i] = getTabParser().parseLineMulti(lines[i]);
 
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (CSVException e) {
 				e.printStackTrace();
 			}
 		}
