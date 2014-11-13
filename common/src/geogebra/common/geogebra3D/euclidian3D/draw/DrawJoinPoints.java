@@ -280,7 +280,8 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	
 	
 	
-	
+	private Coords project1, project2;
+	private double[] lineCoords, tmp;
 	
 	
 	
@@ -292,30 +293,70 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 			return false;
 		}
 		
-		Coords[] project = CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin, hitting.direction, startPoint, endPoint.sub(startPoint));
-		
-		// check if hitting and line are parallel
-		double parameterOnHitting = project[2].getX();
-		if (Double.isNaN(parameterOnHitting)){
-			return false;
-		}
-		
-		// check if point on line is visible
-		double parameterOnCS = project[2].getY();
-		if (parameterOnCS < 0 || parameterOnCS > 1){
-			return false;
-		}
-		
-		if (!hitting.isInsideClipping(project[1])){
-			return false;
-		}
-		
-		double d = project[0].distance(project[1]);
-		if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2){
-			double z = -parameterOnHitting;
-			double dz = getGeoElement().getLineThickness()/getView3D().getScale();
-			setZPick(z+dz, z-dz);
-			return true;
+		if (hitting.isSphere()){
+			if (project1 == null){
+				project1 = new Coords(4);
+				lineCoords = new double[2];
+			}
+			hitting.origin.projectLine(startPoint, endPoint.sub(startPoint), project1, lineCoords);
+			
+			// check if point is on segment drawn (between startPoint and endPoint)
+			double parameterOnCS = lineCoords[0];
+			if (parameterOnCS < 0 || parameterOnCS > 1){
+				//check start and end points
+				double d = startPoint.distance(hitting.origin);
+				if (d * getView3D().getScale() <= hitting.getThreshold()){
+					setZPick(d, d);
+					return true;
+				}
+				d = endPoint.distance(hitting.origin);
+				if (d * getView3D().getScale() <= hitting.getThreshold()){
+					setZPick(d, d);
+					return true;
+				}
+				return false;
+			}
+			
+			double d = project1.distance(hitting.origin);
+			if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + hitting.getThreshold()){
+				setZPick(d, d);
+				return true;
+			}
+			
+		}else{
+			if (project1 == null){
+				project1 = new Coords(4);
+				project2 = new Coords(4);
+				lineCoords = new double[2];
+				tmp = new double[4];
+			}
+			CoordMatrixUtil.nearestPointsFromTwoLines(hitting.origin, hitting.direction, startPoint, endPoint.sub(startPoint),
+					project1.val, project2.val, lineCoords, tmp);
+
+			// check if hitting and line are parallel
+			double parameterOnHitting = lineCoords[0];
+			if (Double.isNaN(parameterOnHitting)){
+				return false;
+			}
+
+			// check if point is on segment drawn (between startPoint and endPoint)
+			double parameterOnCS = lineCoords[1];
+			if (parameterOnCS < 0 || parameterOnCS > 1){
+				return false;
+			}
+
+			// check if point on line is visible
+			if (!hitting.isInsideClipping(project2)){
+				return false;
+			}
+
+			double d = project1.distance(project2);
+			if (d * getView3D().getScale() <= getGeoElement().getLineThickness() + 2){
+				double z = -parameterOnHitting;
+				double dz = getGeoElement().getLineThickness()/getView3D().getScale();
+				setZPick(z+dz, z-dz);
+				return true;
+			}
 		}
 		
 		return false;
