@@ -306,12 +306,12 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 				//check start and end points
 				double d = startPoint.distance(hitting.origin);
 				if (d * getView3D().getScale() <= hitting.getThreshold()){
-					setZPick(d, d);
+					setZPick(-d, -d);
 					return true;
 				}
 				d = endPoint.distance(hitting.origin);
 				if (d * getView3D().getScale() <= hitting.getThreshold()){
-					setZPick(d, d);
+					setZPick(-d, -d);
 					return true;
 				}
 				return false;

@@ -294,7 +294,7 @@ implements Previewable, Functional2Var{
 			if (d * scale <= pointSize + hitting.getThreshold()){
 //				double z = -parameters[0];
 //				double dz = pointSize/scale;
-				drawable.setZPick(d, d);
+				drawable.setZPick(-d, -d);
 				return true;
 			}
 		}else{

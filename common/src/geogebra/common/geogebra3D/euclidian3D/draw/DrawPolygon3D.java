@@ -568,7 +568,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			double d = p3d.distance(hitting.origin);
 			double scale = getView3D().getScale();
 			if (d * scale <= poly.getLineThickness() + hitting.getThreshold()){
-				setZPick(d, d);
+				setZPick(-d, -d);
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}
@@ -581,7 +581,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			p3d = hittingPointForOutline.getInhomCoordsInD3();
 			d = p3d.distance(hitting.origin);
 			if (d * scale <= hitting.getThreshold()){
-				setZPick(d, d);
+				setZPick(-d, -d);
 				setPickingType(PickingType.SURFACE);
 				return true;
 			}
