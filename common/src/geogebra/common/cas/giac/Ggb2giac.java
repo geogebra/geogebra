@@ -422,7 +422,8 @@ public class Ggb2giac {
 				"ggbsort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=1,y=1}]
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]
-						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+						// eg NSolve[{3=c*a^5, 3=c*a^4},{a,c}]
+						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,when(type(ggbans[0])==DOM_LIST,ggbans[0],ggbans),[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
 						// eg NSolve[a^4 + 34a^3 = 34, a=3]
 						// eg NSolve[a^4 + 34a^3 = 34, a]
 						"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbans:=fsolve(%0,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
