@@ -15,8 +15,6 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
 
-import javax.swing.SwingUtilities;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -460,32 +458,46 @@ public class UDPLoggerD implements UDPLogger {
 					}
 
 					if (socketCopy == dsocket) {
-						final byte[] bufferCopy = buffer.clone();
-						final int length = packet.getLength();
-						SwingUtilities.invokeLater(new Runnable() {
-							public void run() {
-								if ("[".getBytes()[0] == bufferCopy[0]) {
-									handleJSON(bufferCopy, length,
-											packet.getAddress()
-													.getHostAddress()
-													+ " "
-													+ packet.getAddress()
-															.getHostName(),
-											true);
-								} else {
-									handle(bufferCopy, length,
-											packet.getAddress()
-													.getHostAddress()
-													+ " "
-													+ packet.getAddress()
-															.getHostName(),
-											true);
-								}
+						Object sharedLock = kernel.getApplication()
+								.getEuclidianView1().sharedLockObject(null);
+
+						if (kernel.getApplication()
+								.hasEuclidianView2EitherShowingOrNot(1)) {
+							sharedLock = kernel.getApplication()
+									.getEuclidianView2(1)
+									.sharedLockObject(sharedLock);
+						}
+						if (sharedLock == null) {
+							sharedLock = new Object();
+						}
+
+						synchronized (sharedLock) {
+
+							// final byte[] bufferCopy = buffer.clone();
+							final int length = packet.getLength();
+
+							// SwingUtilities.invokeLater(new Runnable() {
+							// public void run() {
+							if ("[".getBytes()[0] == buffer[0]) {
+								handleJSON(buffer, length, packet.getAddress()
+										.getHostAddress()
+										+ " "
+										+ packet.getAddress().getHostName(),
+										true);
+							} else {
+								handle(buffer, length, packet.getAddress()
+										.getHostAddress()
+										+ " "
+										+ packet.getAddress().getHostName(),
+										true);
 							}
-						});
-						// Reset the length of the packet before reusing
-						// it.
-						packet.setLength(buffer.length);
+							// }
+							// });
+							// Reset the length of the packet before reusing
+							// it.
+							packet.setLength(buffer.length);
+
+						}
 					}
 
 				}
