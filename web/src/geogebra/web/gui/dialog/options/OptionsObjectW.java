@@ -2859,14 +2859,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			this.btnImage.setVisible(true);
 
 			// for GeoButtons only show the image file button
-			if (model.hasGeoButton()) {
+			if (model.hasGeoButton() || model.hasGeoTurtle()) {
 				fillTypePanel.setVisible(false);
 				opacityPanel.setVisible(false);
 				if (lblFillType != null) {
 					lblFillType.setVisible(false);
 					lbFillType.setVisible(false);
 				}
-				this.btnImage.setVisible(true);
+				if(model.hasGeoTurtle()) this.btnImage.setVisible(false);
 			}
 
 			addSelectionBar();

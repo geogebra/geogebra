@@ -45,7 +45,8 @@ public class FillingModel extends MultipleOptionsModel {
 	private FillType fillType;
 	private App app;
 	private Kernel kernel;
-	private boolean hasGeoButtonOrTurtle;
+	private boolean hasGeoButton;
+	private boolean hasGeoTurtle;
 	public FillingModel(App app, IFillingListener listener) {
 		super(listener);
 		this.app = app;
@@ -441,12 +442,14 @@ public class FillingModel extends MultipleOptionsModel {
 	@Override
 	public boolean checkGeos() {
 		boolean geosOK = true;
-		hasGeoButtonOrTurtle = false;
+		hasGeoButton = false;
+		hasGeoTurtle = false;
 		getFillingListener().setFillInverseVisible(true);
 		getFillingListener().setFillTypeVisible(true);
 		for (int i = 0; i < getGeosLength(); i++) {
 			GeoElement geo = getGeoAt(i);
-			hasGeoButtonOrTurtle = geo.isGeoButton() || geo.isGeoTurtle();
+			hasGeoButton = geo.isGeoButton();
+			hasGeoTurtle = geo.isGeoTurtle();
 			if (!geo.isInverseFillable()
 					// transformed objects copy inverse filling from parents, so
 					// users can't change this
@@ -480,7 +483,12 @@ public class FillingModel extends MultipleOptionsModel {
 
 	public boolean hasGeoButton() {
 		// its function must be clarified.
-		return hasGeoButtonOrTurtle;
+		return hasGeoButton;
+	}
+	
+	public boolean hasGeoTurtle() {
+		// its function must be clarified.
+		return hasGeoTurtle;
 	}
 
 	public FillType getFillType() {

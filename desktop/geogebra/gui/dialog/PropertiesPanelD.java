@@ -3693,11 +3693,12 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			this.btnImage.setVisible(true);
 
 			// for GeoButtons only show the image file button
-			if (model.hasGeoButton()) {
+			if (model.hasGeoButton() || model.hasGeoTurtle()) {
 				transparencyPanel.setVisible(false);
 				lblFillType.setVisible(false);
 				cbFillType.setVisible(false);
-				this.btnImage.setVisible(true);
+				if (model.hasGeoTurtle())
+					this.btnImage.setVisible(false);
 			}
 		}
 
