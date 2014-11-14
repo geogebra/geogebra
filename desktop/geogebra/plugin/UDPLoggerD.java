@@ -459,20 +459,7 @@ public class UDPLoggerD implements UDPLogger {
 					}
 
 					if (socketCopy == dsocket) {
-						Object sharedLock = kernel.getApplication()
-								.getEuclidianView1().sharedLockObject(null);
-
-						if (kernel.getApplication()
-								.hasEuclidianView2EitherShowingOrNot(1)) {
-							sharedLock = kernel.getApplication()
-									.getEuclidianView2(1)
-									.sharedLockObject(sharedLock);
-						}
-						if (sharedLock == null) {
-							sharedLock = new Object();
-						}
-
-						synchronized (sharedLock) {
+						synchronized (kernel.getConcurrentModificationLock()) {
 
 							// final byte[] bufferCopy = buffer.clone();
 							final int length = packet.getLength();

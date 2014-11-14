@@ -293,6 +293,8 @@ public class Kernel {
 	/** 3D manager */
 	private Manager3DInterface manager3D;
 
+	private Object concurrentModificationLock = new Object();
+
 	/**
 	 * @param app Application
 	 */
@@ -343,6 +345,20 @@ public class Kernel {
 	 */
 	public Manager3DInterface newManager3D(Kernel kernel) {
 		return null;
+	}
+
+	/**
+	 * Synchronized means that no two Threads can simultaneously
+	 * enter any blocks locked by the same lock object, 
+	 * but they can only wait for the active Thread to exit from
+	 * these blocks... as there is only one lock object and
+	 * these methods probably do not call other synchronized
+	 * code blocks, it probably does not cause any problem
+	 *  
+	 * @return Object unique to the Application instance
+	 */
+	public Object getConcurrentModificationLock() {
+		return concurrentModificationLock;
 	}
 
 	/**
