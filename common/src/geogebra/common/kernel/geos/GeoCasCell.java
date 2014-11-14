@@ -1798,10 +1798,42 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	}
 	
 	private ValidExpression processSolveCommand(ValidExpression ve) {
-		if ((!(ve.unwrap() instanceof Command)) || !((Command)ve.unwrap()).getName().equals("Solve")) {
+		if ((!(ve.unwrap() instanceof Command))) {
 			return ve;
 		}
+		if(((Command)ve.unwrap()).getName().equals("Numeric")){
+			((Command)ve.unwrap()).setArgument(0, processSolveCommand(((Command)ve.unwrap()).getArgument(0)).wrap());
+			return ve;
+		}
+		if(!((Command)ve.unwrap()).getName().equals("Solve")){
+			return ve;
+		}
+		
 		Command cmd = (Command) ve.unwrap();
+		
+		//Hack: collapse X=(a,b), X=(a+b,a-b+1) into one equation
+		MyList arg = cmd.getArgument(0).unwrap() instanceof MyList ? (MyList) cmd.getArgument(0).unwrap() : null;
+		if(arg != null && arg.size() == 2){
+			String lhs1 = lhs(arg.getListElement(0),"@0");
+			String lhs2 = lhs(arg.getListElement(1),"@1");
+			
+			
+			if(lhs1.equals(lhs2)){
+				String test = null;
+				try{
+					test = kernel.getParser().parseLabel(lhs1);
+				}catch(Throwable t){
+					//not a label
+				}
+				if(test != null){
+					Equation merge = new Equation(kernel,
+							((Equation)arg.getListElement(0).unwrap()).getRHS(),
+							((Equation)arg.getListElement(1).unwrap()).getRHS());
+					cmd.setArgument(0, merge.wrap());
+				}
+			}
+		}
+		
 		if (cmd.getArgumentNumber() >= 2) {
 			if (cmd.getArgument(1).unwrap() instanceof MyList) {
 				/* Modify solve in the following way: */
@@ -1855,9 +1887,16 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				variables.addListElement(new GeoDummyVariable(cons, ite.next()));
 				i++;
 			}
-			cmd.addArgument(variables.wrap());
+			if(variables.size() > 0){
+				cmd.addArgument(variables.wrap());
+			}
 		}
 		return cmd.wrap();
+	}
+
+	private String lhs(ExpressionValue arg, String fallback) {
+		return arg.unwrap() instanceof Equation ? ((Equation)arg.unwrap()).getLHS().toString(StringTemplate.defaultTemplate) : fallback;
+		
 	}
 
 	private void finalizeComputation(final boolean success,
