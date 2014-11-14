@@ -214,7 +214,7 @@ public class DrawTurtle extends Drawable {
 			at.setTransform(1, 0, 0, 1, 1, 0);
 			at.translate(currentCoords[0], currentCoords[1]);
 			at.rotate(-turnAngle);
-			updateTurtleShape();
+			if(geo.getFillImage()==null) updateTurtleShape();
 		}
 	}
 
