@@ -6,6 +6,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -106,7 +107,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public double getScreenZOffset() {
-		// App.debug(""+clippingCubeDrawable.getDiagonal());
+		//App.debug(""+clippingCubeDrawable.getHorizontalDiagonal());
 		return clippingCubeDrawable.getHorizontalDiagonal() / 2;
 	}
 
@@ -221,5 +222,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	}
 
-
+	@Override
+	public boolean isMoveable(GeoElement geo) {
+		if (geo.isGeoPlane() && geo.isIndependent() && !(geo instanceof GeoPlane3DConstant)){
+			return true;
+		}
+		
+		return super.isMoveable(geo);
+	}
 }

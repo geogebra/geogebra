@@ -391,6 +391,14 @@ public class EuclidianControllerCompanion {
 		}
 	}
 	
+	/**
+	 * move plane
+	 * @param repaint
+	 * @param event
+	 */
+	protected void movePlane(boolean repaint, AbstractEvent event) {
+		// only used in 3D
+	}
 	
 	/**
 	 * @param forPreviewable in 3D we might want a preview 

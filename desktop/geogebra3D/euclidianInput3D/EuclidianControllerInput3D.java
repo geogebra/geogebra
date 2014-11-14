@@ -4,11 +4,15 @@ import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
+import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -186,6 +190,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 					// mouse orientation
 					mouse3DOrientation.set(input3D.getMouse3DOrientation());
+					
+					//App.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
 
 					if (input3D.isRightPressed()) { // process right press
 						processRightPress();
@@ -194,6 +200,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 					} else if (input3D.isLeftPressed()) { // process left press
 						if (wasLeftReleased) {
 							startMouse3DPosition.set(mouse3DPosition);
+							storeOrientation();
 							wrapMousePressed(mouseEvent);
 						} else {
 							wrapMouseDragged(mouseEvent);
@@ -255,6 +262,30 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		return mouse3DPosition;
 	}
+	
+	private void storeOrientation(){
+		startMouse3DOrientation.set(mouse3DOrientation);
+		startOrientationMatrix = startMouse3DOrientation.getRotMatrix();	
+		
+		toSceneRotMatrix.set(view3D.getUndoRotationMatrix());
+
+	}
+	
+	/**
+	 * 
+	 * @return current/start rotation as a matrix
+	 */
+	protected CoordMatrix getCurrentRotMatrix(){
+		Quaternion rot = startMouse3DOrientation
+				.leftDivide(mouse3DOrientation);
+
+		// get the relative quaternion and rotation matrix in scene coords
+		rotV.set(startOrientationMatrix.mul(rot.getVector()));
+		rot.setVector(toSceneRotMatrix.mul(rotV));
+
+		return rot.getRotMatrix();
+	}
+
 
 	private void processRightPress() {
 
@@ -264,11 +295,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			view.rememberOrigins();
 			((EuclidianViewInput3D) view).setStartPos(startMouse3DPosition);
 
-			startMouse3DOrientation.set(mouse3DOrientation);
-
-			startOrientationMatrix = startMouse3DOrientation.getRotMatrix();
-
-			toSceneRotMatrix.set(view3D.getUndoRotationMatrix());
+			storeOrientation();			
+			
+			
 
 			// to-the-right screen vector in scene coords
 			vx = toSceneRotMatrix.mul(Coords.VX);
@@ -276,14 +305,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		} else { // process mouse drag
 
 			// rotation
-			Quaternion rot = startMouse3DOrientation
-					.leftDivide(mouse3DOrientation);
-
-			// get the relative quaternion and rotation matrix in scene coords
-			rotV.set(startOrientationMatrix.mul(rot.getVector()));
-			rot.setVector(toSceneRotMatrix.mul(rotV));
-
-			CoordMatrix rotMatrix = rot.getRotMatrix();
+			CoordMatrix rotMatrix = getCurrentRotMatrix();
 
 			// App.debug("\n"+rot);
 
@@ -447,5 +469,46 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 	
 	
+	@Override
+	final protected boolean handleMovedElementFreePlane(){
+		if (movedGeoElement.isGeoPlane()) {
+			moveMode = MOVE_PLANE;
+			setMovedGeoPlane(movedGeoElement);
+
+			return true;
+		}
+		
+		return false;
+	}
 	
+	protected GeoPlane3D movedGeoPlane;
+	protected CoordSys movedGeoPlaneStartCoordSys;
+	private Coords movedGeoStartPosition;
+	
+	
+	/**
+	 * set plane to move
+	 * @param geo moved geo
+	 */
+	public void setMovedGeoPlane(GeoElement geo) {
+
+		movedGeoPlane = (GeoPlane3D) geo;
+
+		
+
+		if(movedGeoPlaneStartCoordSys == null){
+			movedGeoPlaneStartCoordSys = new CoordSys(2);
+		}
+		movedGeoPlaneStartCoordSys.set(movedGeoPlane.getCoordSys());
+		
+		if(movedGeoStartPosition == null){
+			movedGeoStartPosition = new Coords(4);
+		}
+		movedGeoStartPosition.set(mouse3DPosition); 
+		
+		App.debug(""+movedGeoPlane);
+
+
+		view3D.setDragCursor();
+	}
 }

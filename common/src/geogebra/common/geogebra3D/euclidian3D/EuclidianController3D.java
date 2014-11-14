@@ -3337,8 +3337,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if(handleMovedElementFreePoint()){
 			return;
 		}
-		
+
+		if(handleMovedElementFreePlane()){
+			return;
+		}
+
 		handleMovedElementFreeText();
+	}
+	
+	/**
+	 * 
+	 * @return true if there is a free plane to move
+	 */
+	protected boolean handleMovedElementFreePlane(){
+		return false;
 	}
 	
 	@Override

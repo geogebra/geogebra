@@ -341,6 +341,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 			setEquation(line.getX(),line.getY(),0,line.getZ());
 		}
 	}
+	
+	public void setCoordSys(CoordSys cs){
+		getCoordSys().set(cs);
+	}
 
 	@Override
 	public void setVisualStyle(GeoElement geo) {
@@ -626,6 +630,16 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	////////////////////////
 	// ROTATIONS
 	////////////////////////
+	
+	/**
+	 * rotate the plane
+	 * @param rot rotation matrix
+	 */
+	final public void rotate(CoordMatrix rot) {
+		coordsys.rotate(rot);
+		coordsys.makeEquationVector();
+	}
+
 	
 	final public void rotate(NumberValue phiVal) {
 		coordsys.rotate(phiVal.getDouble(), Coords.O);

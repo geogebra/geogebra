@@ -441,6 +441,7 @@ public abstract class EuclidianController {
 	protected static final int MOVE_POINT_WITH_OFFSET = 123;
 	protected static final int MOVE_FREEHAND = 124;
 	protected static final int MOVE_ATTACH_DETACH = 125;
+	protected static final int MOVE_PLANE = 126;
 
 	private static final int ZOOM_RECT_THRESHOLD = 30;
 	private static final int DRAG_THRESHOLD = 10;
@@ -7483,6 +7484,10 @@ public abstract class EuclidianController {
 			else {
 				moveDependent(repaint);
 			}
+			break;
+			
+		case MOVE_PLANE:
+			companion.movePlane(repaint, event);
 			break;
 	
 		case MOVE_MULTIPLE_OBJECTS:
