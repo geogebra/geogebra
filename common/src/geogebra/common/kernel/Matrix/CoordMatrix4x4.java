@@ -400,7 +400,7 @@ public class CoordMatrix4x4 extends CoordMatrix {
 
 	}
 	
-	private static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2, Coords Vn1Old) {
+	public static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2, Coords Vn1Old) {
 
 		Vn2.setCrossProduct(V, Vn1Old);
 		Vn1.setCrossProduct(V, Vn2);

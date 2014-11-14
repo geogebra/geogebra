@@ -611,7 +611,8 @@ public class CoordSys {
 		setOrigin(o);
 
 		if (dimension==2){
-			setDrawingMatrixFromMatrixOrthonormal();
+			Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
+			drawingMatrix.setOrigin(tmpCoords3);
 		}
 		
 	}
@@ -769,9 +770,9 @@ public class CoordSys {
 
 		// set original origin and vectors
 		setOrigin(newOrigin);
-		setVx(rot.mul(getVx()));	
-
+		
 		// set vectors
+		setVx(rot.mul(getVx()));	
 		if (dimension==2){	
 			setVy(rot.mul(getVy()));
 			setVz(rot.mul(getVz()));
