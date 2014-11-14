@@ -312,7 +312,7 @@ public abstract class RendererGL2 extends RendererD {
 		// relative location
 		// (try docked with neighboors / undocked or docked alone)
 		int y0 = (canvas.getParent().getLocation().y
-				+ canvas.getLocationOnScreen().y + 1) % 2;
+				+ canvas.getLocationOnScreen().y ) % 2;
 
 		// App.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
 		// App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
