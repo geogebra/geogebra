@@ -12,7 +12,6 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -506,7 +505,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		}
 		movedGeoStartPosition.set(mouse3DPosition); 
 		
-		App.debug(""+movedGeoPlane);
+		updateMovedGeoPointStartValues(view3D.getCursor3D().getInhomCoordsInD(3));
 
 
 		view3D.setDragCursor();

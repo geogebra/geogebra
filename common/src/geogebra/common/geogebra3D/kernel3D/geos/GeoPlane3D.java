@@ -634,9 +634,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	/**
 	 * rotate the plane
 	 * @param rot rotation matrix
+	 * @param center rotation center
 	 */
-	final public void rotate(CoordMatrix rot) {
-		coordsys.rotate(rot);
+	final public void rotate(CoordMatrix rot, Coords center){
+		coordsys.rotate(rot, center);
 		coordsys.makeEquationVector();
 	}
 

@@ -754,22 +754,28 @@ public class CoordSys {
 	/**
 	 * rotate the 3x3 inside matrix
 	 * @param rot rotation matrix
+	 * @param center rotation center
 	 */
-	public void rotate(CoordMatrix rot){
+	public void rotate(CoordMatrix rot, Coords center){
 
 		//set multiplication matrix
 		Coords o = matrixOrthonormal.getOrigin();
 		matrixOrthonormal = rot.mul3x3(matrixOrthonormal);
-		matrixOrthonormal.setOrigin(o);
-		
+
+		//set origin matrix
+		Coords newOrigin = rot.mul(o.sub(center)).add(center);
+		matrixOrthonormal.setOrigin(newOrigin);
+		matrixOrthonormal.set(4,4, 1);
+
+		// set original origin and vectors
+		setOrigin(newOrigin);
+		setVx(rot.mul(getVx()));	
+
 		// set vectors
-		if (dimension==2){
-			setVx(rot.mul(getVx()));	
+		if (dimension==2){	
 			setVy(rot.mul(getVy()));
 			setVz(rot.mul(getVz()));
 			setDrawingMatrixFromMatrixOrthonormal(drawingMatrix.getVx());
-		}else{
-			setVx(rot.mul(getVx()));	
 		}
 	}
 	
