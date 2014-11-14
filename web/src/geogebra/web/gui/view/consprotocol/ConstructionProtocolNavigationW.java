@@ -105,6 +105,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 	            }
 			});
 			btOpenWindow.setVisible(showConsProtButton);
+			addPaddingPlayPanel(showConsProtButton);
 			btOpenWindow.addStyleName("navbar_btOpenWindow");
 			implPanel.add(btOpenWindow);
 		}
@@ -161,6 +162,7 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		showConsProtButton = flag;	
 		if (btOpenWindow != null) {
 			btOpenWindow.setVisible(flag);
+			addPaddingPlayPanel(flag);
 		}
     }
 
@@ -175,6 +177,14 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 		}
 		if (btOpenWindow != null){
 			btOpenWindow.setTitle(app.getLocalization().getPlainTooltip("ConstructionProtocol"));
+		}
+	}
+	
+	private void addPaddingPlayPanel(boolean addPadding) {
+		if (addPadding) {
+			((GPanelW)playPanel).getImpl().addStyleName("navbar_playPanel_padding");
+		} else {
+			((GPanelW)playPanel).getImpl().removeStyleName("navbar_playPanel_padding");
 		}
 	}
 	

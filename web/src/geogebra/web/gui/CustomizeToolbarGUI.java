@@ -312,7 +312,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			addStyleName("customizableToolbarItem");
 			btn.addStyleName("toolbar_button");
 			setMode(mode);
-			int width = usedToolsPanelContent.getOffsetWidth() - 55;
+			int width = usedToolsPanelContent.getOffsetWidth() - DRAGABLE_TOOLS_PADDING;
 			if (width > 0) {
 				setWidth(width  + "px");
 			}
