@@ -2818,6 +2818,7 @@ public class Construction {
 				return it.next();
 		return null;
 	}
+	
 	private boolean fileLoading;
 	private boolean updateConstructionRunning;
 	
@@ -3027,6 +3028,16 @@ public class Construction {
 			this.corner5Algos = new ArrayList<EuclidianViewCE>();
 		}
 		this.corner5Algos.add(algo);
+	}
+
+	public String[] getRegisteredFunctionVariables() {
+		String[] varNames = new String[this.registredFV.size()];
+		Iterator<String> it = this.registredFV.iterator();
+		int i = 0;
+		while(it.hasNext()){
+			varNames[i++] = it.next();
+		}
+		return varNames;
 	}
 	
 
