@@ -3759,7 +3759,8 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Mike_1264 () {
-    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "{y = x + 1, y = -x + 1}");
+	  // singular point (two tangents) so ? is correct
+    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "?");
   }
 
 
