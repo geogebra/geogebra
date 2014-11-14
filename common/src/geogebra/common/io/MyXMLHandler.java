@@ -4189,7 +4189,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleFile(LinkedHashMap<String, String> attrs) {
-		if (!(geo.isGeoImage() || geo.isGeoButton())) {
+		if (!(geo.isGeoImage() || geo.isGeoButton() || geo.isGeoTurtle())) {
 			System.err.println("wrong element type for <file>: "
 					+ geo.getClass());
 			return false;

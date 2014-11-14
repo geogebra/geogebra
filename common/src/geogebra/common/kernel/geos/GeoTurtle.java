@@ -20,6 +20,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.GeoClass;
+import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 
@@ -826,4 +827,16 @@ public class GeoTurtle extends GeoPoint{
 	public FillType getFillType(){
 		return FillType.IMAGE;
 	}
+	
+	@Override
+	protected void getXMLtags(StringBuilder sb) {
+		super.getXMLtags(sb);
+
+		// name of image file
+		if (getFillImage() != null) {
+			sb.append("\t<file name=\"");
+			sb.append(StringUtil.encodeXML(this.getGraphicsAdapter().getImageFileName()));
+			sb.append("\"/>\n");
+		}
+	}	
 }
