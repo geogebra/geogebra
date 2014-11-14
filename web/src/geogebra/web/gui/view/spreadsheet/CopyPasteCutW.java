@@ -1,6 +1,7 @@
 package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.gui.view.spreadsheet.CopyPasteCut;
+import geogebra.common.gui.view.spreadsheet.DataImport;
 import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
@@ -119,15 +120,16 @@ public class CopyPasteCutW extends CopyPasteCut {
 			succ = pasteInternalMultiple(column1, row1, column2, row2);
 
 		} else {
-			/* TODO?: We still do not do external paste in the Web version
 
 			// use the transferString data to create and paste new geos
 			// into the target cells without relative cell references
+			
+			boolean isCSV = false;
 
-			String[][] data = DataImport.parseExternalData(app, transferString, null,
-					isCSV);
-			succ = pasteExternalMultiple(data, column1, row1, column2, row2);*/
+			String[][] data = DataImport.parseExternalData(app, transferString, isCSV);
+			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
 
+			/* old hack
 			// in theory
 			// special case: hacking in Web, input is coming from us
 			String[] data0 = transferString.split("\n");
@@ -138,7 +140,7 @@ public class CopyPasteCutW extends CopyPasteCut {
 			// String[][] data = DataImportW.parseExternalData(app,
 			// transferString, null,
 			// isCSV);
-			succ = pasteExternalMultiple(data, column1, row1, column2, row2);
+			succ = pasteExternalMultiple(data, column1, row1, column2, row2);*/
 
 			// Application.debug("newline index "+buf.indexOf("\n"));
 			// Application.debug("length "+buf.length());
