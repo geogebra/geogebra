@@ -11,8 +11,9 @@ import com.google.gwt.user.client.Window;
 
 public class BrowserDevice implements GDevice {
 
-
-	
+	public boolean supportsExport() {
+		return true;
+	}
 
 	@Override
 	public FileManager getFileManager(AppW app) {
@@ -20,34 +21,34 @@ public class BrowserDevice implements GDevice {
 	}
 
 	@Override
-    public void copyEVtoClipboard(EuclidianViewW ev) {
-		Window.open(ev.getExportImageDataUrl(3, true),"_blank", null);
-	    
-    }
+	public void copyEVtoClipboard(EuclidianViewW ev) {
+		Window.open(ev.getExportImageDataUrl(3, true), "_blank", null);
+
+	}
 
 	@Override
-    public void setMinWidth(GeoGebraAppFrame frame) {
+	public void setMinWidth(GeoGebraAppFrame frame) {
 		if (Window.getClientWidth() > 760) {
 			frame.removeStyleName("minWidth");
 			frame.syncPanelSizes();
 		} else {
 			frame.addStyleName("minWidth");
 		}
-    }
+	}
 
 	@Override
-    public boolean isOffline(AppW app) {
-	    return !app.getNetworkOperation().isOnline();
-    }
-	
+	public boolean isOffline(AppW app) {
+		return !app.getNetworkOperation().isOnline();
+	}
+
 	public UploadImageDialog getImageInputDialog(AppW app) {
-		
+
 		return new ImageInputDialog(app);
 	}
 
 	@Override
-    public BrowseGUI getBrowseGUI(AppW app) {
-	    return new BrowseGUI(app);
-    }
+	public BrowseGUI getBrowseGUI(AppW app) {
+		return new BrowseGUI(app);
+	}
 
 }

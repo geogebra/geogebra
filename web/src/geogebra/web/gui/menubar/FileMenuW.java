@@ -118,14 +118,18 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	}
 	    });
 	    
-	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icons_file_export().getSafeUri().asString(), app.getMenu("Export"), true), true, new MenuCommand(app) {
-			
-			@Override
-			public void doExecute() {
-		        ((GuiManagerW) app.getGuiManager()).openFilePicker();
-			}
-		});
-	    
+		if (((GuiManagerW) app.getGuiManager()).supportsExport()) {
+
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			        .menu_icons_file_export().getSafeUri().asString(),
+			        app.getMenu("Export"), true), true, new MenuCommand(app) {
+
+				@Override
+				public void doExecute() {
+					((GuiManagerW) app.getGuiManager()).openFilePicker();
+				}
+			});
+		}
 	    /*addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
 		        true, new ExportMenuW(app));*/
 	    

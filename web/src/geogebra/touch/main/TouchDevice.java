@@ -14,6 +14,11 @@ import com.googlecode.gwtphonegap.client.connection.Connection;
 public abstract class TouchDevice implements GDevice {
 
 	@Override
+	public boolean supportsExport() {
+	    return false;
+	}
+	
+	@Override
 	public void copyEVtoClipboard(EuclidianViewW ev) {
 		String image = ev.getExportImageDataUrl(3, true);
 		String title = ev.getApplication().getKernel().getConstruction()
