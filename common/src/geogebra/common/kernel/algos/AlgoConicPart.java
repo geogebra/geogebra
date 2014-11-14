@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConicPart;
@@ -63,11 +62,5 @@ public abstract class AlgoConicPart extends AlgoElement {
     	conicPart.set(conic);
     	((GeoConicPartND) conicPart).setParameters(startParam.getDouble(), endParam.getDouble(), true);
     }
-
-    
-	@Override
-	public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
-	}
 
 }

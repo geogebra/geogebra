@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
@@ -163,12 +162,6 @@ public class AlgoNumerator extends AlgoElement {
 	protected ExpressionValue getPart(ExpressionNode node) {
 		return node.getLeft();
 	}
-
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
-	} 
 
 	// TODO Consider locusequability
 

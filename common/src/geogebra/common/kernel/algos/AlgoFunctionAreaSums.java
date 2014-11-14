@@ -14,7 +14,6 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoBoolean;
@@ -1764,11 +1763,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		if (Double.isNaN(val) || Double.isInfinite(val))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	/**

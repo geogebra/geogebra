@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
@@ -165,11 +164,6 @@ public class AlgoIntegralFunctions extends AlgoElement  implements DrawInformati
 		
 		// Integral[f(x) - g(x), a, b] = Integral[f(x), a, b] - Integral[g(x), a, b]
 		n.setValue(intF.getValue() - intG.getValue());		
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	// TODO Consider locusequability

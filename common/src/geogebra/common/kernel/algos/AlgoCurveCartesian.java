@@ -19,7 +19,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -133,11 +132,6 @@ public class AlgoCurveCartesian extends AlgoElement {
     	// the coord-functions don't have to be updated,
     	// so we only set the interval
     	curve.setInterval(from.getDouble(), to.getDouble());
-    }
-
-    @Override
-	final public String toString(StringTemplate tpl) {
-        return getCommandDescription(tpl);
     }
 
 	// TODO Consider locusequability

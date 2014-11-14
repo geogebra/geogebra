@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
@@ -126,11 +125,6 @@ public class AlgoIf extends AlgoElement {
 			// e.printStackTrace();
 			result.setUndefined();
 		}
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	// Curve[If[t>0,t^2,-t^2],t,t,-5,5]

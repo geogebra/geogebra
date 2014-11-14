@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.PolyFunction;
@@ -107,11 +106,6 @@ public class AlgoPolynomialFromFunction extends AlgoElement {
 			return Double.NaN;
 		}
 	}
-
-    @Override
-	final public String toString(StringTemplate tpl) {
-    	return getCommandDescription(tpl);
-    }
 
 	// TODO Consider locusequability
 

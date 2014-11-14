@@ -247,11 +247,6 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		setEfficientDependencies(standardInput, efficientInput);
 	}
 
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
-	}
-
 	/**
 	 * Returns locus
 	 * 

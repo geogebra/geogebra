@@ -98,11 +98,6 @@ public abstract class AlgoCasBase extends AlgoElement {
 	 */
 	protected abstract void applyCasCommand(StringTemplate tpl);
 
-	@Override
-	public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
-	}
-
 	/**
 	* Clears the cache (needed in Web when the CAS loads)
 	* @param label not used

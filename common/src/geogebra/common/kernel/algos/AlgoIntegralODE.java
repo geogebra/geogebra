@@ -3,7 +3,6 @@ package geogebra.common.kernel.algos;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.MyPoint;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -224,11 +223,6 @@ public class AlgoIntegralODE extends AlgoElement {
 		locus.setPoints(al);
 		locus.setDefined(true);
 
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	private StepHandler stepHandler = new StepHandler() {

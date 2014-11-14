@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.advanced;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -90,11 +89,6 @@ public class AlgoFlatten extends AlgoElement {
 			} else
 				outputList.add(element.copyInternal(cons));
 		}
-	}
-	
-	@Override
-	final public String toString(StringTemplate tpl){
-		return getCommandDescription(tpl);
 	}
 
 	// TODO Consider locusequability

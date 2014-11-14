@@ -14,7 +14,6 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.AsynchronousCommand;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -123,12 +122,6 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	protected int getDirection(){
 		return 0;
 	}
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
-	}
-	
-	
 
 	public void handleCASoutput(String output, int requestID) {
 		

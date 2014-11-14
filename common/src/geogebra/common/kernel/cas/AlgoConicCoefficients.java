@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoConic;
@@ -92,11 +91,6 @@ public class AlgoConicCoefficients extends AlgoElement {
         ((GeoNumeric)g.get(5)).setValue(matrix[5] * 2);
 
         
-    }
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-    	return getCommandDescription(tpl);
     }
 
 	// TODO Consider locusequability

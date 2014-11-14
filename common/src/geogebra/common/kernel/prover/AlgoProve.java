@@ -137,11 +137,6 @@ public class AlgoProve extends AlgoElement implements UsesCAS {
     }
     
     @Override
-	final public String toString(StringTemplate tpl) {
-    	return getCommandDescription(tpl);
-    }
-    
-    @Override
 	public void compute(){
 		if (processing == 1) {
 			App.debug("PROCESSING mode: list undefined (1->2)");

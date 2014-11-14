@@ -107,11 +107,6 @@ public class AlgoCountIf extends AlgoElement {
     		result.setUndefined();
     	}
     }   
-    
-    @Override
-	final public String toString(StringTemplate tpl) {        
-        return getCommandDescription(tpl);
-    }
 
 	// TODO Consider locusequability
 }

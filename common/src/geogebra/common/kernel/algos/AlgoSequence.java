@@ -20,7 +20,6 @@ package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
@@ -471,11 +470,6 @@ public class AlgoSequence extends AlgoElement {
 			this.setStopUpdateCascade(false);
 			expressionParentAlgo.update();
 		}
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	// TODO Consider locusequability

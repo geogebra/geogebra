@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDenominator;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoNumerator;
@@ -279,11 +278,6 @@ public class AlgoSlopeField extends AlgoElement {
 		al.add(new MyPoint(xx - dx, yy - dy, false));
 		al.add(new MyPoint(xx + dx, yy + dy, true));
 
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 	
     @Override

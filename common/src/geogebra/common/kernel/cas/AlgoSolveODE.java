@@ -3,7 +3,6 @@ package geogebra.common.kernel.cas;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoDenominator;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoNumerator;
@@ -170,11 +169,6 @@ public class AlgoSolveODE extends AlgoElement {
 		locus.setPoints(al);
 		locus.setDefined(true);
 
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	private StepHandler stepHandler = new StepHandler() {

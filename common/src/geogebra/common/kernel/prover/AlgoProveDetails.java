@@ -168,12 +168,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
     final public String getCommandName(StringTemplate tpl) {
     	return "ProveDetails";
     }
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-    	return getCommandDescription(tpl);
-       }
-    
+
 	@Override
 	public void compute() {
 		if (processing == 1) {

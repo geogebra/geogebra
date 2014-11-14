@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.commands.Commands;
@@ -117,11 +116,6 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 		} catch (Throwable th) {
 			g.setUndefined();
 		}
-	}
-
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
 	}
 
 	// TODO Consider locusequability

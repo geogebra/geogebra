@@ -2,7 +2,6 @@ package geogebra.common.kernel.implicit;
 
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -82,11 +81,6 @@ public class AlgoImplicitPolyFunction extends AlgoElement {
 	 */
 	public GeoImplicitPoly getImplicitPoly(){
 		return implicitPoly;
-	}
-	
-	@Override
-	public String toString(StringTemplate tpl){
-		return getCommandDescription(tpl);
 	}
 
 	// TODO Consider locusequability

@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
@@ -62,11 +61,6 @@ public class AlgoImageCorner extends AlgoElement {
     @Override
 	public final void compute() {         	
 		img.calculateCornerPoint(corner, (int) number.getDouble());	    	
-    }
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-        return getCommandDescription(tpl);
     }
 
     

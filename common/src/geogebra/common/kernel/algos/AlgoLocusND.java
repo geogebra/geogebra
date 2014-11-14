@@ -314,11 +314,6 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		setEfficientDependencies(standardInput, efficientInput);
 	}
 
-	@Override
-	final public String toString(StringTemplate tpl) {
-		return getCommandDescription(tpl);
-	}
-
 	/**
 	 * Returns locus
 	 * 

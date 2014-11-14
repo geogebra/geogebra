@@ -153,12 +153,7 @@ implements AlgoMacroInterface {
     			getOutput(i).setUndefined();
     		}
     	}
-    }   
-    
-    @Override
-	final public String toString(StringTemplate tpl) {    	
-        return getCommandDescription(tpl);
-    }	         
+    }        
     
     /**
      * Returns true when macroGeo is part of macroInput.

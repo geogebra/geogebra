@@ -128,11 +128,6 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
     		max[i]=to[i].getDouble();
     	}  	
     	surface.setIntervals(min,max);
-    }   
-    
-    @Override
-    final public String toString(StringTemplate tpl) {
-        return getCommandDescription(tpl);
     }
 
 	// TODO Consider locusequability
