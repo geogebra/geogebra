@@ -3760,7 +3760,7 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Mike_1264 () {
 	  // singular point (two tangents) so ? is correct
-    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "?");
+    t("Tangent[(0, 1), x^2 - y^3 + 2y^2 - y = 0]", "NaN");
   }
 
 
