@@ -883,6 +883,7 @@ FunctionNVar  functionNVar():
 ExpressionNode functionExpressionnode():
 {
     ExpressionNode rhs;
+    ExpressionNode condition= null;
     Token funName = null;
     Token varName = null;
     ArrayList<String> localVars;
@@ -906,12 +907,13 @@ ExpressionNode functionExpressionnode():
        { localVars.add(varName.image);
        kernel.getConstruction().registerFunctionVariable(varName.image);} )* 
       // closing ) and assignment with expressionnode
-          ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode()
+          ")" ( <EQUAL > | <ASSIGNMENT> ) rhs = expressionnode() (<COMMA> condition = expressionnode())?
       {
           // allow f(y) in CAS but not in GeoGebra
     //  if (!ExternalCASParsing && !GeoGebraCASParsing && "y".equals(varName.image)) 
       //      throw new MyError(app, "InvalidInput");
-      
+      	if(condition != null)      	{			rhs = new ExpressionNode(kernel, condition, Operation.IF, rhs);
+      	}
         String funLabel = funName.image.substring(0,funName.image.length()-1);   
 
       // command without variables: return expressionnode
