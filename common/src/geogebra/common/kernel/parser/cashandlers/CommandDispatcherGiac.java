@@ -1,15 +1,24 @@
 package geogebra.common.kernel.parser.cashandlers;
 
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.GetItem;
+import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.Log;
@@ -129,7 +138,14 @@ public class CommandDispatcherGiac {
 		piecewise(Operation.IF_ELSE),
 		
 		/*
+		 * eg hyperplan({3,5,-1},point[0,0,-37/10])
+		 */
+		point(Operation.NO_OPERATION),
+		/*
 		 * returned from plane(4*x + 3*y + z = 1)
+		 * 
+		 * eg hyperplan({3,5,-1},point[0,0,-37/10])
+		 * hyperplan({3,5,-1},{0,0,1})
 		 */
 		hyperplan(Operation.NO_OPERATION),
 
@@ -218,11 +234,92 @@ public class CommandDispatcherGiac {
 							args.getItem(0));
 				}
 				break;
-				
+
+			case point:
+				switch (args.getLength()) {
+				case 2:
+					double a = args.getItem(0).evaluateDouble();
+					double b = args.getItem(1).evaluateDouble();
+					return new ExpressionNode(kernel, new GeoPoint(kernel.getConstruction(), a, b, 1));
+				case 3:
+					a = args.getItem(0).evaluateDouble();
+					b = args.getItem(1).evaluateDouble();
+					double c = args.getItem(2).evaluateDouble();
+					GeoPoint3D point = new GeoPoint3D(kernel.getConstruction());
+					point.setCoords(a,  b, c, 1);
+					return new ExpressionNode(kernel, point);
+				default:
+					throw new CASException("Giac: bad number of args for point(): "+args.getLength());
+				}
+
 			case hyperplan:
-				// shouldn't be returned from Giac
-				Log.error("hyperplan() returned from Giac");
-				return new ExpressionNode(kernel, Double.NaN);
+
+				switch (args.getLength()) {
+				case 2:
+
+					ExpressionValue item0 = args.getItem(0).unwrap();
+					ExpressionValue item1 = args.getItem(1).unwrap();
+
+					if (!(item0 instanceof MyList)) {
+						Log.error("wrong class: " + item0.getClass());
+						return new ExpressionNode(kernel, Double.NaN);
+					}
+
+					MyList list1 = (MyList)item0;
+					double a = list1.getListElement(0).evaluateDouble();
+					double b = list1.getListElement(1).evaluateDouble();
+					double c = list1.getListElement(2).evaluateDouble();
+					double constant;
+
+					if (item1.isGeoElement() && ((GeoElement) item1).isGeoPoint()) {
+						// hyperplan({3,5,-1},point[0,0,-37/10])
+
+						GeoPointND point = (GeoPointND) item1;
+						Coords coords = point.getInhomCoordsInD3();
+
+						constant = a * coords.get(1) + b * coords.get(2) + c * coords.get(3);
+
+					} else if (item1 instanceof MyList) {
+
+						MyList list2 = (MyList)item1;
+
+
+						double d = list2.getListElement(0).evaluateDouble();
+						double e = list2.getListElement(1).evaluateDouble();
+						double f = list2.getListElement(2).evaluateDouble();
+
+
+						if (f != 0) {
+							constant = f * c;
+						} else if (e != 0) {
+							// 1000x+100y+0z=3
+									// hyperplan({1000,100,0},{0,3/100,0})
+							constant = e * b;
+						} else {
+							constant = d * a;
+						}
+
+					} else {
+						Log.error("wrong class: " + item0.getClass());
+						return new ExpressionNode(kernel, Double.NaN);
+					}
+
+
+					ExpressionNode expX = new ExpressionNode(kernel, new FunctionVariable(kernel, "x")).multiply(a);
+					ExpressionNode expY = new ExpressionNode(kernel, new FunctionVariable(kernel, "y")).multiply(b);
+					ExpressionNode expZ = new ExpressionNode(kernel, new FunctionVariable(kernel, "z")).multiply(c);
+
+					ExpressionNode rhs = new ExpressionNode(kernel, new MyDouble(kernel, constant));
+
+					ExpressionNode sum = expX.plus(expY).plus(expZ);
+
+					Equation eq = new Equation(kernel, sum, rhs);
+
+					return new ExpressionNode(kernel, eq);
+
+				default:
+					throw new CASException("Giac: bad number of args for hyperplan(): "+args.getLength());
+				}
 
 			case ggbvect:
 
@@ -421,7 +518,7 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			//e.printStackTrace();
+			e.printStackTrace();
 			App.error("CommandDispatcherGiac: error when processing command: "
 					+ cmdName + ", " + args);
 		}
