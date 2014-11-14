@@ -765,14 +765,14 @@ public abstract class GeoElement extends ConstructionElement implements
 		
 				
 		StringTemplate tpl = StringTemplate.editTemplate;
-		String ret = null;
+		String ret = "";
 		final boolean isIndependent = !isPointOnPath() && useChangeable ? isChangeable()
 				: isIndependent();
 		if (isIndependent) {
 			ret = useOutputValueString ? toOutputValueString(tpl)
 					: toValueString(tpl);
-		} else {
-			ret = getCommandDescription(tpl);
+		} else if(getParentAlgorithm() != null){
+			ret = getParentAlgorithm().getCommandDescription(tpl);
 		}
 
 		return ret;

@@ -28,6 +28,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 	
 	private final String name;
+
+
+	private boolean hideLHS = false;
 	/**
 	 * Default template, but do not localize commands
 	 */
@@ -139,6 +142,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 		editTemplate.sf = geogebra.common.factories.FormatFactory.prototype.getScientificFormat(GeoElement.MIN_EDITING_PRINT_PRECISION,20,false);
 		editTemplate.nf = geogebra.common.factories.FormatFactory.prototype.getNumberFormat(GeoElement.MIN_EDITING_PRINT_PRECISION);
 		editTemplate.allowMoreDigits = true;
+		editTemplate.hideLHS  = true;
 	}
 	/**
 	 * Template for regression: uses 6 figures or 6 sig digits based on Kernel settings,
@@ -2157,6 +2161,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 		// simple integer, no need to change
 		return originalString;
+	}
+	public boolean isHideLHS() {
+		return this.hideLHS;
 	}
 	
 }

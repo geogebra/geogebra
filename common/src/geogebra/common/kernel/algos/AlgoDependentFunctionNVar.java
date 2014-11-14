@@ -143,7 +143,7 @@ public class AlgoDependentFunctionNVar extends AlgoElement implements DependentA
 	public String toString(StringTemplate tpl) {    	
         if (sb == null) sb = new StringBuilder();
         else sb.setLength(0);
-        if (f.isLabelSet() && (!f.isBooleanFunction() || tpl.hasType(StringType.GEOGEBRA_XML))) {
+        if (f.isLabelSet() && !tpl.isHideLHS() &&(!f.isBooleanFunction() || tpl.hasType(StringType.GEOGEBRA_XML))) {
             sb.append(f.getLabel(tpl));
             sb.append("(");
 			sb.append(f.getVarString(tpl));
