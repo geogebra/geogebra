@@ -349,6 +349,32 @@ public class CoordMatrix4x4 extends CoordMatrix {
 		}
 	}
 	
+	
+	public static void createOrthoToDirection(Coords origin, Coords direction, int type, Coords vOld, Coords Vn1, Coords Vn2, CoordMatrix4x4 ret) {
+
+		getOrthoVectors(direction, Vn1, Vn2, vOld);
+
+		ret.setOrigin(origin);
+		
+		switch (type) {
+		case VX:
+			ret.setVx(direction);
+			ret.setVy(Vn1);
+			ret.setVz(Vn2);
+			break;
+		case VY:
+			ret.setVx(Vn2);
+			ret.setVy(direction);
+			ret.setVz(Vn1);
+			break;
+		case VZ:
+			ret.setVx(Vn1);
+			ret.setVy(Vn2);
+			ret.setVz(direction);
+			break;
+		}
+	}
+	
 
 	private static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2) {
 
@@ -365,6 +391,38 @@ public class CoordMatrix4x4 extends CoordMatrix {
 			Vn1.setY(0);
 			Vn1.setZ(0);
 			Vn1.setW(0);
+		}
+
+		Vn2.setCrossProduct(V, Vn1);
+		Vn2.setW(0);
+		Vn2.normalize();
+
+
+	}
+	
+	private static final void getOrthoVectors(Coords V, Coords Vn1, Coords Vn2, Coords Vn1Old) {
+
+		Vn2.setCrossProduct(V, Vn1Old);
+		Vn1.setCrossProduct(V, Vn2);
+		Vn1.setW(0);
+		
+		if (Vn1.isZero()){
+			double y = V.getX();
+			if (y != 0) {
+				double x = -V.getY();
+				double l = MyMath.length(x, y);
+				Vn1.setX(x/l);
+				Vn1.setY(y/l);
+				Vn1.setZ(0);
+				Vn1.setW(0);
+			} else {
+				Vn1.setX(1);
+				Vn1.setY(0);
+				Vn1.setZ(0);
+				Vn1.setW(0);
+			}
+		}else{
+			Vn1.normalize();
 		}
 
 		Vn2.setCrossProduct(V, Vn1);

@@ -698,6 +698,15 @@ public class CoordSys {
 		
 		return ret;
 	}
+	
+	private void setDrawingMatrixFromMatrixOrthonormal(Coords vx){
+
+		Coords.O.projectPlane(matrixOrthonormal, tmpCoords3);
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords3, matrixOrthonormal.getVz(), CoordMatrix4x4.VZ, vx, tmpCoords1, tmpCoords2, drawingMatrix);
+
+	}
+	
+
 
 	private void setDrawingMatrixFromMatrixOrthonormal(){
 
@@ -740,6 +749,30 @@ public class CoordSys {
 			setDrawingMatrixFromMatrixOrthonormal();
 		}
 	}
+	
+	
+	/**
+	 * rotate the 3x3 inside matrix
+	 * @param rot rotation matrix
+	 */
+	public void rotate(CoordMatrix rot){
+
+		//set multiplication matrix
+		Coords o = matrixOrthonormal.getOrigin();
+		matrixOrthonormal = rot.mul3x3(matrixOrthonormal);
+		matrixOrthonormal.setOrigin(o);
+		
+		// set vectors
+		if (dimension==2){
+			setVx(rot.mul(getVx()));	
+			setVy(rot.mul(getVy()));
+			setVz(rot.mul(getVz()));
+			setDrawingMatrixFromMatrixOrthonormal(drawingMatrix.getVx());
+		}else{
+			setVx(rot.mul(getVx()));	
+		}
+	}
+	
 	
 	/**
 	 * rotate by phi around axis through center and parallel to direction
