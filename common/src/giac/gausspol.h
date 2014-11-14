@@ -439,7 +439,7 @@ namespace giac {
     U u,prevu=0;
     int k;
     int count=0;
-#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR)) || defined __clang__ 
+#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR)) || defined __clang__ // || defined NSPIRE
     if (0){ count=0; }
 #else
     if (pdim<=POLY_VARS){

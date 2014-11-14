@@ -422,7 +422,14 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern std::string (*fl_widget_texprint_function)(void * ptr);
   extern gen (*fl_widget_updatepict_function)(const gen & g);
   // name -> gen table
-  typedef std::map<std::string, gen> sym_string_tab;
+  struct ltstring
+  {
+    bool operator()(const std::string & s1, const std::string & s2) const
+    {
+      return strcmp(s1.c_str(), s2.c_str()) < 0;
+    }
+  };
+  typedef std::map<std::string, gen,ltstring> sym_string_tab;
   struct ltstr
   {
     bool operator()(const char* s1, const char* s2) const

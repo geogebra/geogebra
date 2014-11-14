@@ -251,7 +251,7 @@ namespace giac {
   // capacity of deg_t by direct addressing
   const int POLY_VARS=POLY_VARS_DIRECT+POLY_VARS_OTHER-1;
 
-#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR)) || defined __clang__ 
+#if defined(GIAC_NO_OPTIMIZATIONS) || ((defined(VISUALC) || defined(__APPLE__)) && !defined(GIAC_VECTOR)) || defined __clang__ // || defined(NSPIRE)
   class index_m {
   public:
     ref_index_t * riptr;
@@ -290,12 +290,14 @@ namespace giac {
     index_t iref() const { return riptr->i;} ;
     index_t::iterator begin() { return riptr->i.begin(); }
     index_t::iterator end() { return riptr->i.end(); }
-    index_t::reverse_iterator rbegin() { return riptr->i.rbegin(); }
-    index_t::reverse_iterator rend() { return riptr->i.rend(); }
     index_t::const_iterator begin() const { return riptr->i.begin(); }
     index_t::const_iterator end() const { return riptr->i.end(); }
+#ifndef NSPIRE
+    index_t::reverse_iterator rbegin() { return riptr->i.rbegin(); }
+    index_t::reverse_iterator rend() { return riptr->i.rend(); }
     index_t::const_reverse_iterator rbegin() const { return riptr->i.rbegin(); }
     index_t::const_reverse_iterator rend() const { return riptr->i.rend(); }
+#endif
     deg_t & front() { return *begin(); }
     deg_t front() const { return *begin(); }
     deg_t & back() { return *(end()-1); }
@@ -308,6 +310,15 @@ namespace giac {
     size_t size() const { return riptr->i.size(); }
     bool is_zero() const ; 
     size_t total_degree() const ;
+#ifdef NSPIRE
+    template<class T> friend nio::ios_base<T> & operator << (nio::ios_base<T> & os,const index_m & m ){
+      os << ":index_m:[ " ;
+      for (index_t::const_iterator it=m.begin();it!=m.end();++it)
+	os << *it << " ";
+      os << "] " ;
+      return(os);
+    }
+#else
     friend std::ostream & operator << (std::ostream & os, const index_m & m ){
       os << ":index_m:[ " ;
       for (index_t::const_iterator it=m.begin();it!=m.end();++it)
@@ -315,6 +326,7 @@ namespace giac {
       os << "] " ;
       return(os);
     }
+#endif
     void dbgprint() const {
       COUT << *this << std::endl;
     }

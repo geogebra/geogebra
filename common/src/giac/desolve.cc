@@ -344,6 +344,12 @@ namespace giac {
   }
 
   gen diffeq_constante(int i,GIAC_CONTEXT){
+#if 0 // def NSPIRE
+    if (i<5){
+      const char * tab[]={"o","p","q","r","s"};
+      return gen(tab[i],contextptr);
+    }
+#endif
 #ifdef GIAC_HAS_STO_38
     string s("G_"+print_INT_(i));
 #else

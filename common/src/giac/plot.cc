@@ -4598,10 +4598,13 @@ namespace giac {
 	// find smallest 
 	const_iterateur it=sol.begin(),itend=sol.end();
 	gen distance2_found=distance2pp(limit(v[0],*v[1]._IDNTptr,v[2],0,contextptr),p,contextptr),cur_distance2;
+	if (is_undef(distance2_found))
+	  distance2_found=plus_inf;
 	for (;it!=itend;++it){
 	  if (!is_zero(it->im(contextptr)))
 	    continue;
 	  cur_distance2=distance2pp(limit(v[0],*v[1]._IDNTptr,*it,0,contextptr),p,contextptr);
+	  if (is_undef(cur_distance2)) continue;
 	  if (ck_is_greater(distance2_found,cur_distance2,contextptr)){
 	    t_found=*it;
 	    distance2_found=cur_distance2;
