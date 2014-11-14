@@ -691,7 +691,9 @@ public interface Traversing {
 	}
 	
 	/**
-	 * Collects all dummy variables
+	 * Collects all dummy variables and function fariables
+	 * except those that are in the role of a function 
+	 * eg. for f(x) we will collect x, but not f 
 	 * @author bencze
 	 */
 	public class DummyVariableCollector implements Traversing {
@@ -699,19 +701,19 @@ public interface Traversing {
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof ExpressionNode){
 				ExpressionNode en = (ExpressionNode) ev;
-				if(en.getRight() instanceof GeoDummyVariable){	
-					add(((GeoDummyVariable)en.getRight()));
+				if(en.getRight() instanceof GeoDummyVariable || en.getRight() instanceof FunctionVariable){	
+					add(en.getRight());
 				}
 				if(en.getOperation()==Operation.FUNCTION || en.getOperation() ==Operation.FUNCTION_NVAR
 						|| en.getOperation()==Operation.DERIVATIVE)
 				return en;	
-				if(en.getLeft() instanceof GeoDummyVariable){	
-					add(((GeoDummyVariable)en.getLeft()));
+				if(en.getLeft() instanceof GeoDummyVariable || en.getLeft() instanceof FunctionVariable){	
+					add(en.getLeft());
 				}
 			}
 			return ev;
 		}
-		private void add(GeoDummyVariable dummy) {
+		private void add(ExpressionValue dummy) {
 			String str = dummy.toString(StringTemplate.defaultTemplate);
 			commands.add(str);
 			
