@@ -94,6 +94,15 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			return sb.toString().trim();
 		}
 
+		public int indexOfBranch(TreeItem item) {
+			for (int i = 0; i < getItemCount(); i++) {
+				if (getItem(i) == item) {
+					return i;
+				}
+			}
+			return -1;
+		}
+
 		public TreeItem addBranchItem(final DraggableTool tool) {
 			return setBranchItem(toolTree.addItem(tool), tool);
 
@@ -113,18 +122,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			item.setUserObject(tool);
 			tool.treeItem = item;
 			tool.addDomHandler(new DropHandler() {
-				private boolean removeFromAllTools() {
-					if (dragging.getParent() == allToolsPanelContent) {
-						allTools.remove(allTools.indexOf(dragging.getMode()));
-						allToolsPanelContent.remove(dragging);
-
-						App.debug("[CUSTOMIZE] removing from allTools: "
-						        + dragging.getTitle());
-						return true;
-					}
-					return false;
-				}
-
+				
 				@Override
 				public void onDrop(DropEvent event) {
 					App.debug("Drop on branch item!");
@@ -186,6 +184,38 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						tool.removeStyleName("insertAfterBranch");
 					}
 				}
+				
+				private void clearDragging() {
+					dragging = null;
+					clearIndicators(tool);
+				}
+
+				private void clearIndicators(DraggableTool branchTool) {
+					branchTool.removeStyleName("insertBeforBranch");
+					branchTool.removeStyleName("insertAfterBranch");
+					branchTool.addStyleName("branch");
+				}
+
+				private boolean removeFromAllTools() {
+					if (dragging.getParent() == allToolsPanelContent) {
+						allTools.remove(allTools.indexOf(dragging.getMode()));
+						allToolsPanelContent.remove(dragging);
+
+						App.debug("[CUSTOMIZE] removing from allTools: "
+								+ dragging.getTitle());
+						return true;
+					}
+					return false;
+				}
+				private boolean isDropOnItself() {
+					if (dragging == tool) {
+						App.debug("[CUSTOMIZE] Same tool");
+						clearDragging();
+						return true;
+					}
+					return false;
+				}
+
 			}, DropEvent.getType());
 
 			tool.addDomHandler(new DragOverHandler() {
@@ -317,6 +347,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				setWidth(width  + "px");
 			}
 		}
+		
+		public DraggableTool duplicate() {
+			return new DraggableTool(mode);
+        }
 
 		private void initDrag() {
 			addDomHandler(new DragStartHandler() {
