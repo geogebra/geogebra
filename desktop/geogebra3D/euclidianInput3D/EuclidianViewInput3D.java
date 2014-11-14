@@ -230,4 +230,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		
 		return super.isMoveable(geo);
 	}
+	
+	@Override
+	protected void setDefault2DCursor() {
+		setTransparentCursor();
+	}
 }
