@@ -451,7 +451,8 @@ public class UDPLoggerD implements UDPLogger {
 						App.debug("waiting");
 						dsocket.receive(packet);
 					} catch (IOException e) {
-						dsocket.close();
+						if (dsocket != null)
+							dsocket.close();
 						dsocket = null;
 						App.debug("logging failed");
 						e.printStackTrace();
@@ -505,7 +506,6 @@ public class UDPLoggerD implements UDPLogger {
 				if (dsocket != null)
 					dsocket.close();
 				App.debug("thread ending");
-
 			}
 
 			private float getInt(byte[] buffer1, int i) {
