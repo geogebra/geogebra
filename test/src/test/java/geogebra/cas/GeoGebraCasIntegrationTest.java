@@ -3324,7 +3324,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Solve_ParametricMEA_3 () {
-    t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", "{{t = 0, s = -1 / 2}}");
+    t("Solve[{X = (3, 2) + t (5, 1), X = (4, 1) + s (2, -2)}, {t, s}]", "{{t = 0, s = -1 / 2}}","{{t = 0, s = (-1) / 2}}");
   }
 
   @Test
@@ -3351,7 +3351,7 @@ public class GeoGebraCasIntegrationTest {
   public void Solve_ParametricMEL_1 () {
     t("f: X = (3, 2) + t (5, 1)", "X = (5 * t + 3, t + 2)");
     t("g: X = (4, 1) + s (2, -2)", "X = (2 * s + 4, -2 * s + 1)");
-    t("Solve[{f, g}, {t, s}]", "{{t = 0, s = -1 / 2}}");
+    t("Solve[{f, g}, {t, s}]", "{{t = 0, s = (-1) / 2}}");
   }
 
   @Test
