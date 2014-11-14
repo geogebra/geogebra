@@ -827,7 +827,10 @@ public class Ggb2giac {
 		p("Distance.2", 
 				"[[[ggbans:=0/0],[ggbans:=regroup(distance(%0,"+ 
 						// #3907 add "y=" for functions but not points 
-						"when(%1[0]!='pnt' && %1[0] != '=',y=%1,%1)"+ 
+						"when(%1[0]!='pnt' && %1[0] != '=',y=%1,"+
+						// if variable list contains 'z', wrap in plane()
+						"when(count_eq(z,lname(%1))==0,%1,plane(%1))"+
+						")"+ 
 						"))]]," +				
 				"when(lname(ggbans)=={},normal(ggbans),ggbans)][1]");
 
