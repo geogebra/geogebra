@@ -213,7 +213,9 @@ public class Ggb2giac {
 				"[[m:=%1],[ng:=%0],[n:=%2],[kk:=%3],if %4=true then sum(binomial(m,k)*binomial((ng-m),(n-k))/binomial(ng,n),k,0,floor(kk)) " +
 				"else binomial(m,kk)*binomial((ng-m),(n-kk))/binomial(ng,n) fi][4]");
 		p("Identity.1", "identity(round(%0))");
-		p("If.2", "when(%0,%1,undef)");
+		
+		// inf (not undef) so that it works with fsolve #4705
+		p("If.2", "when(%0,%1,inf)");
 		p("If.3", "when(%0,%1,%2)");
 
 		// normal(regroup()) so that ImplicitDerivative[x^2 + y^2, y, x] gives a nice answer

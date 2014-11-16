@@ -1123,12 +1123,24 @@ public class StringUtil {
 			return s;
 		}
 		
-		StringBuilder sb = new StringBuilder();
-		sb.append("exact(");
-		sb.append(s);
-		sb.append(')');
+		if ("?".equals(s) || "undef".equals(s)) {
+			return "undef";
+		}
+
+		if ("inf".equals(s)) {
+			return s;
+		}
 		
-		return sb.toString();
+		if ("-inf".equals(s)) {
+			return s;
+		}
+		
+		StringBuilder sb1 = new StringBuilder();
+		sb1.append("exact(");
+		sb1.append(s);
+		sb1.append(')');
+		
+		return sb1.toString();
 	}
 
 	/**

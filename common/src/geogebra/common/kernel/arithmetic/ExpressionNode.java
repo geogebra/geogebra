@@ -89,6 +89,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * */
 	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
+		
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
 
@@ -3290,7 +3291,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);
-				sb.append(",infinity)");
+				sb.append(",inf)");
 			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getCommand("If"));
@@ -3314,7 +3315,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getCommand("If"));
-				}else{
+				} else {
 					sb.append("If");
 				}
 				sb.append("[");

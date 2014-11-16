@@ -191,12 +191,9 @@ public class CommandDispatcherGiac {
 	 */
 	public static ExpressionNode processCommand(String cmdName, GetItem args) {
 
+		Kernel kernel = args.getKernel();
 		try {
 			ExpressionValue ret = null;
-			Kernel kernel = args.getKernel();
-			//TODO -- template is not important for arb*, but is this correct for diff?
-			StringTemplate tpl = StringTemplate.giacTemplate;
-
 			switch (commands.valueOf(cmdName)) {
 
 			case sum:
@@ -418,9 +415,11 @@ public class CommandDispatcherGiac {
 					ret = new ExpressionNode(kernel, 
 							args.getItem(0),Operation.IF, 
 							args.getItem(1)); 
-				} else { // must be 3 
+				} else if (args.getLength() == 3) {
 
 					ExpressionValue Else = args.getItem(2);
+					
+					App.debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+Else.toString(StringTemplate.giacTemplate));
 
 					if ("?".equals(Else.toString())) {
 						ret = new ExpressionNode(kernel, 
@@ -432,7 +431,9 @@ public class CommandDispatcherGiac {
 								args.getItem(0),Operation.IF_ELSE, 
 								new MyNumberPair(kernel, args.getItem(1), Else));
 					}
-				} 
+				} else {
+					throw new CASException("Giac: bad number of args for when:"+args.getLength());					
+				}
 				break;
 			case surd:	
 				if (args.getLength() == 2) {
@@ -524,7 +525,7 @@ public class CommandDispatcherGiac {
 		}
 
 		// exception
-		return null;
+		return new ExpressionNode(kernel, new MyDouble(kernel, Double.NaN));
 	}
 
 }

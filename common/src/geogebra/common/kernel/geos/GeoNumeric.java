@@ -514,9 +514,21 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 				return "(" + label + ")";
 			}
 			//make sure random() works inside Sequence, see #3558
-			if(this.isRandomGeo() && !this.isLabelSet()){
+			if (this.isRandomGeo() && !this.isLabelSet()) {
 				return "exact(rand(0,1))";
 			}
+			
+			if (Double.isNaN(value)) {
+				return "undef";
+			}
+			
+			if (Double.isInfinite(value)) {
+				if (value > 0) {
+					return "inf";
+				}
+				return "-inf";
+			}
+			
 			return StringUtil.wrapInExact(kernel.format(value, tpl));
 		}
 		
