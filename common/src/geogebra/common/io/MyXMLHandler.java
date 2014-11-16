@@ -5263,7 +5263,7 @@ public class MyXMLHandler implements DocHandler {
 
 			GeoElement[] result = kernel.getAlgebraProcessor()
 					.processValidExpression(ve);
-
+			cons.registerFunctionVariable(null);
 			// ensure that labels are set for invisible objects too
 			if (result != null && label != null && result.length == 1) {
 				result[0].setLoadedLabel(label);
