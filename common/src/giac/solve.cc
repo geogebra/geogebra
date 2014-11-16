@@ -3105,7 +3105,13 @@ namespace giac {
       }
       w.push_back(v[i]);
     }
-    return lidnt(w);
+    v=lidnt(w);
+    w.clear();
+    for (unsigned i=0;i<v.size();++i){
+      if (!is_inf(v[i]))
+	w.push_back(v[i]);  
+    }
+    return w;
   }
 
   gen in_fsolve(vecteur & v,GIAC_CONTEXT){

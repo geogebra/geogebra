@@ -2783,6 +2783,13 @@ namespace giac {
     if (g.type!=_VECT)
       return symb_concat(g);
     vecteur & v=*g._VECTptr;
+    if (v.size()>2){
+      gen h=concat(makesequence(v[0],v[1]),glue_lines,contextptr);
+      for (unsigned i=2;i<v.size();++i){
+	h=concat(makesequence(h,v[i]),glue_lines,contextptr);
+      }
+      return h;
+    }
     if (v.size()!=2){
       if (g.subtype==_SEQ__VECT)
 	return g;

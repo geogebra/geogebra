@@ -7106,6 +7106,8 @@ namespace giac {
     Q.dim=P.dim;
     Q.order=P.order;
     Q.sugar=P.sugar;
+    gen L=1; 
+    bool tryL=true;
     for (unsigned i=0;i<P.coord.size();++i){
       gen g=P.coord[i].g,num,den;
       if (g.type==_INT_)
@@ -7114,16 +7116,29 @@ namespace giac {
 	CERR << "bad type"<<endl;
 	return false;
       }
+      if (tryL && L.type==_ZINT){
+	num=smod(L*g,p);
+	if (is_greater(p,4*num*num,context0)){
+	  g=fraction(num,L);
+	  Q.coord.push_back(T_unsigned<gen,tdeg_t>(g,P.coord[i].u));
+	  continue;
+	}
+      }
       if (!in_fracmod(p,g,d,d1,absd1,u,u1,ur,q,r,sqrtm,tmp,num,den))
 	return false;
       if (num.type==_ZINT && mpz_sizeinbase(*num._ZINTptr,2)<=30)
 	num=int(mpz_get_si(*num._ZINTptr));
       if (den.type==_ZINT && mpz_sizeinbase(*den._ZINTptr,2)<=30)
 	den=int(mpz_get_si(*den._ZINTptr));
-      if (is_positive(den,context0)) // ok
-	g=fraction(num,den);
-      else
-	g=fraction(-num,-den);
+      if (!is_positive(den,context0)){ // ok
+	den=-den;
+	num=-num;
+      }
+      g=fraction(num,den);
+      if (tryL){
+	L=lcm(L,den);
+	tryL=is_greater(p,L*L,context0);
+      }
       Q.coord.push_back(T_unsigned<gen,tdeg_t>(g,P.coord[i].u));
     }
     return true;
