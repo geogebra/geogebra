@@ -480,7 +480,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 	@Override
 	public boolean evaluatesToList() {
-		if("x".equals(getName()) || "y".equals(getName()) || "z".equals(getName())){
+		if("x".equals(getName()) || "y".equals(getName()) || "z".equals(getName()) || "If".equals(getName())){
 			return this.getArgument(0).evaluatesToList();
 		}
 		if (!allowEvaluationForTypeCheck) {
