@@ -591,7 +591,7 @@ __GGB__keysVar.it.command = {
     "OrdinalRank.Syntax": "[ <Lista> ]",
     "OrthogonalLine": "Perpendicolare",
     "OrthogonalLine.Syntax": "[ <Punto>, <Retta> ]\n[ <Punto>, <Segmento> ]\n[ <Punto>, <Vettore> ]",
-    "OrthogonalLine.Syntax3D": "[ <Punto>, <Retta> ]\n[ <Punto>, <Segmento> ]\n[ <Punto>, <Vettore> ]\n[ <Punto>, <Piano> ]\n[ <Retta>, <Retta> ]\n[ <Punto>, <Retta>, <Retta> ]\n[ <Punto>, <Vettore>, <Vettore> ]\n[ <Punto>, <Retta>, <Contesto> ]",
+    "OrthogonalLine.Syntax3D": "[ <Punto>, <Retta> ]\n[ <Punto>, <Segmento> ]\n[ <Punto>, <Vettore> ]\n[ <Punto>, <Piano> ]\n[ <Retta>, <Retta> ]\n[ <Punto>, <Direzione>, <Direzione> ]\n[ <Punto>, <Retta>, <Contesto> ]",
     "OrthogonalVector": "VettorePerpendicolare",
     "OrthogonalVector.Syntax": "[ <Retta> ]\n[ <Segmento> ]\n[ <Vettore> ]",
     "OrthogonalVector.Syntax3D": "[ <Retta> ]\n[ <Segmento> ]\n[ <Vettore> ]\n[ <Piano> ]",
