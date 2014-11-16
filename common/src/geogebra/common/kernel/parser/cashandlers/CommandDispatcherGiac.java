@@ -34,7 +34,7 @@ import geogebra.common.util.debug.Log;
 public class CommandDispatcherGiac {
 
 	/**
-	 * Enum for special commands that may be returned by MPReduce.
+	 * Enum for special commands that may be returned by Giac.
 	 */
 	public enum commands {
 		/** when aka If[] */
@@ -165,6 +165,10 @@ public class CommandDispatcherGiac {
 		arbconst(Operation.ARBCONST),
 		/** arbitrary integer (comes from trig equations)*/
 		arbint(Operation.ARBINT),
+		/** floor */
+		floor(Operation.FLOOR),
+		/** ceiling */
+		ceiling(Operation.CEIL),
 
 		;
 		private Operation op;
@@ -378,6 +382,8 @@ public class CommandDispatcherGiac {
 			case zcoordsymb:
 			case sqrt:
 			case sign:
+			case floor:
+			case ceiling:
 
 
 				if (args.getLength() != 1) {
@@ -524,8 +530,9 @@ public class CommandDispatcherGiac {
 					+ cmdName + ", " + args);
 		}
 
-		// exception
-		return new ExpressionNode(kernel, new MyDouble(kernel, Double.NaN));
+		// exception, eg Derivative[f(x)+g(x)]
+		return null;
+
 	}
 
 }
