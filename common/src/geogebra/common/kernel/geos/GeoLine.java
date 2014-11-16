@@ -846,6 +846,11 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 		double[] P = new double[2];
 		double[] g = new double[3];
 		char op = '=';
+		
+		if (!isDefined()) {
+			return new StringBuilder((toStringMode == PARAMETRIC) ? "X = (?, ?)" : "y = ?"); 
+		}
+		
 		switch (toStringMode) {
 		case EQUATION_EXPLICIT: // /EQUATION
 			g[0] = x;

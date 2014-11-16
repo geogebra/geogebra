@@ -91,6 +91,12 @@ public class GeoLine3D extends GeoCoordSys1D {
 		StringBuilder sbToString = getSbBuildValueString();
 		sbToString.setLength(0);
 		
+		if (!isDefined()) {
+			sbToString.append("X = (?, ?, ?)"); 
+			return sbToString;
+		}
+
+		
 		AlgoElement algo = getParentAlgorithm();
 		
 		if (algo instanceof AlgoLinePoint) {
