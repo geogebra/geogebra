@@ -476,7 +476,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			Macro macro = macros.get(i);
 //			writeConstructionImages(macro.getMacroConstruction(), filePath, archive);
 			String fileName = macro.getIconFileName();
-			if (fileName != null) {
+			if (fileName != null && !fileName.isEmpty()) {
 				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 				MyImageW img = new MyImageW(ImageElement.as((new Image(url)).getElement()),"svg".equals(ext));
