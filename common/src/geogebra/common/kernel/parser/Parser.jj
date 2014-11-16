@@ -792,7 +792,7 @@ ExpressionNode expression():
     rhs = expressionnode()              
     {
       // Giac uses x,y not ggbtmpvarx/y
-        if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFunctionVariable()) {
+        if (!GeoGebraCASParsing && !GiacParsing && rhs.containsFreeFunctionVariable()) {
           throw new MyError(loc, "IncompleteEquation");
         }
         
