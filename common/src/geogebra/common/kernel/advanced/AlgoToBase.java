@@ -78,7 +78,14 @@ public class AlgoToBase extends AlgoElement {
 					* (number.getDouble() - Math.floor(number.getDouble())));
 			bi = BigInteger.valueOf((long) decimal);
 			String decimalPart = StringUtil.toUpperCase(bi.toString(b));
-			result.setTextString(intPart + "." + decimalPart);
+			StringBuilder sb = new StringBuilder(digits);
+			sb.append(intPart);
+			sb.append('.');
+			for(int i=0;i < digits- decimalPart.length();i++){
+				sb.append('0');
+			}
+			sb.append(decimalPart);
+			result.setTextString(sb.toString());
 		}
 
 	}
