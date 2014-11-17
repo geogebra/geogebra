@@ -3291,7 +3291,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(',');
 				sb.append(rightStr);
-				sb.append(",inf)");
+				sb.append(",undef)");
 			} else {
 				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getCommand("If"));
