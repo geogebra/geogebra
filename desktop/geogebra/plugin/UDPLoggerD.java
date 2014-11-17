@@ -1,7 +1,6 @@
 package geogebra.plugin;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
@@ -113,9 +112,9 @@ public class UDPLoggerD implements UDPLogger {
 
 			if (repaint)
 				geo.updateRepaint();
-			else if (update)
+			else if (update || !atleast)
 				geo.updateCascade();
-			else if (atleast)
+			else
 				geo.update(); // at least call updateScripts
 		} else {
 			GeoList list = listenersL.get(type);
@@ -133,9 +132,9 @@ public class UDPLoggerD implements UDPLogger {
 
 				if (repaint)
 					list.updateRepaint();
-				else if (update)
+				else if (update || !atleast)
 					list.updateCascade();
-				else if (atleast)
+				else
 					list.update(); // at least call updateScripts
 			}
 		}
@@ -181,32 +180,6 @@ public class UDPLoggerD implements UDPLogger {
 
 				default:
 					App.error("unknown EDAQ port!");
-				}
-			}
-
-			if (quicker) {
-				// to increase speed, calling updateCascade and repaint once
-				// only!
-				GeoElement ge = listeners.get(Types.EDAQ0);
-				if (ge == null) {
-					ge = listenersL.get(Types.EDAQ0);
-				}
-				if (ge != null) {
-					ge.updateCascade();
-				}
-				ge = listeners.get(Types.EDAQ1);
-				if (ge == null) {
-					ge = listenersL.get(Types.EDAQ1);
-				}
-				if (ge != null) {
-					ge.updateCascade();
-				}
-				ge = listeners.get(Types.EDAQ2);
-				if (ge == null) {
-					ge = listenersL.get(Types.EDAQ2);
-				}
-				if (ge != null) {
-					ge.updateCascade();
 				}
 			}
 
@@ -281,32 +254,6 @@ public class UDPLoggerD implements UDPLogger {
 
 				default:
 					App.error("unknown EDAQ port!");
-				}
-			}
-
-			if (quicker) {
-				// to increase speed, calling updateCascade and repaint once
-				// only!
-				GeoElement ge = listeners.get(Types.EDAQ0);
-				if (ge == null) {
-					ge = listenersL.get(Types.EDAQ0);
-				}
-				if (ge != null) {
-					ge.updateCascade();
-				}
-				ge = listeners.get(Types.EDAQ1);
-				if (ge == null) {
-					ge = listenersL.get(Types.EDAQ1);
-				}
-				if (ge != null) {
-					ge.updateCascade();
-				}
-				ge = listeners.get(Types.EDAQ2);
-				if (ge == null) {
-					ge = listenersL.get(Types.EDAQ2);
-				}
-				if (ge != null) {
-					ge.updateCascade();
 				}
 			}
 
