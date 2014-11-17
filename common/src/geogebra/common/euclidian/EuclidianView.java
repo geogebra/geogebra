@@ -1493,7 +1493,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			}
 			//Keep update of input boxes synchronous #4416
 			if((!geo.isGeoText() || !((GeoText)geo).isNeedsUpdatedBoundingBox())
-					&& !geo.isGeoTextField()){
+					&& !geo.isGeoTextField()
+					&& (!geo.getTrace() || d.isTracing())){
 				d.setNeedsUpdate(true);
 				return;
 			}

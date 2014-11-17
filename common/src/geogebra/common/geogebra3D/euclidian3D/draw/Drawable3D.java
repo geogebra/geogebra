@@ -1602,6 +1602,10 @@ public abstract class Drawable3D extends DrawableND {
 			}
 		}
 	}
+	
+	public boolean isTracing(){
+		return false;
+	}
 }
 
 

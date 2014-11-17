@@ -7325,4 +7325,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean evaluatesToNumber(boolean def){
 		return this.isNumberValue();
 	}
+
+	public boolean getTrace(){
+		return false;
+	}
 }

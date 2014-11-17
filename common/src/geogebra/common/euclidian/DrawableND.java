@@ -124,5 +124,7 @@ public abstract class DrawableND {
 	public boolean needsUpdate() {
 		return this.needsUpdate;
 	}
+
+	public abstract boolean isTracing();
 	
 }
