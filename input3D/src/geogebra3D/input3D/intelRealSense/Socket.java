@@ -2,16 +2,24 @@ package geogebra3D.input3D.intelRealSense;
 
 import intel.rssdk.PXCMCapture;
 import intel.rssdk.PXCMCaptureManager;
+import intel.rssdk.PXCMFaceData.AlertData;
 import intel.rssdk.PXCMHandConfiguration;
+import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandConfiguration.GestureHandler;
+import intel.rssdk.PXCMHandData.FingerData;
+import intel.rssdk.PXCMHandData.FingerType;
 import intel.rssdk.PXCMHandData.GestureData;
+import intel.rssdk.PXCMHandData.JointData;
 import intel.rssdk.PXCMHandData;
+import intel.rssdk.PXCMHandData.JointType;
 import intel.rssdk.PXCMHandModule;
 import intel.rssdk.PXCMPoint3DF32;
 import intel.rssdk.PXCMPoint4DF32;
+import intel.rssdk.PXCMPointF32;
 import intel.rssdk.PXCMSenseManager;
 import intel.rssdk.PXCMSession;
 import intel.rssdk.pxcmStatus;
+import geogebra.common.awt.GPoint;
 import geogebra.common.main.App;
 
 
@@ -39,6 +47,8 @@ public class Socket {
 	public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 
 	public double bigButton, smallButton, vibration;
+	
+	public float hand2Dx, hand2Dy, hand2Dfactor;
 
 	/** says if it has got a message from leo */
 	public boolean gotMessage = false;      
@@ -54,6 +64,11 @@ public class Socket {
 		private int samples;
 		private int index;
 		
+		/*
+		private float[] imageX, imageY;
+		private float imageXSum, imageYSum;
+		*/
+		
 		private float[] worldX, worldY, worldZ;
 		private float worldXSum, worldYSum, worldZSum;
 		
@@ -63,6 +78,14 @@ public class Socket {
 		public DataAverage(int samples){
 			this.samples = samples;
 			index = 0;
+			
+			/*
+			imageX = new float[samples];
+			imageY = new float[samples];
+			
+			imageXSum = 0f;
+			imageYSum = 0f;
+			*/
 			
 			worldX = new float[samples];
 			worldY = new float[samples];
@@ -85,8 +108,21 @@ public class Socket {
 
 		}
 		
-		public void addData(float wx, float wy, float wz,
+		public void addData(//float imx, float imy, 
+				float wx, float wy, float wz,
 				float ox, float oy, float oz, float ow){
+			
+			
+			/*
+			imageXSum -= imageX[index];
+			imageYSum -= imageY[index];
+			
+			imageX[index] = imx;
+			imageY[index] = imy;
+			
+			imageXSum += imageX[index];
+			imageYSum += imageY[index];
+			*/
 			
 			worldXSum -= worldX[index];
 			worldYSum -= worldY[index];
@@ -122,6 +158,20 @@ public class Socket {
 			}
 		}
 		
+		/*
+		public float getImageX(){
+			return 640 - imageXSum / samples;
+		}
+
+		public float getImageY(){
+			return imageYSum / samples;
+		}
+		
+		public float getImageScale(){
+			return worldZSum / samples;
+		}
+		*/
+
 		public double getWorldX(){
 			return -worldXSum * SCREEN_REAL_DIM_FACTOR / samples;
 		}
@@ -152,58 +202,63 @@ public class Socket {
 		
 	
 		
-		private Gestures gesture = Gestures.SPREAD;
-		
-		private int handId = 0;
-		
-		public void setGesture(int id, String name){
-			
-			App.debug(id+" : "+name);
-			
-			/*
-			if (handId == 0){
-				handId = id;
-			}else{
-				if (handId != id){
-					App.error("id : "+id);
-					return;
-				}
-			}
-			*/
-			
-			switch(name.charAt(0)){
-			case 'f':
-				/*
-				if (name.equals("fist")){
-					gesture = Gestures.FIST;
-				}
-				*/
-				break;
-			case 's':
-				if (name.equals("spreadfingers")){
-					gesture = Gestures.SPREAD;
-				}
-				break;
-			case 't':
-				if (name.equals("two_fingers_pinch_open")){
-					gesture = Gestures.PINCH;
-				}
-				break;
-			default:
-				//gesture = Gestures.SPREAD;
-				break;
 
-			}
-			
-			App.debug(""+gesture);
-		}
-		
-		public Gestures getGesture(){
-			return gesture;
-		}
 		
 	}
+	
+	
+	private Gestures gesture = Gestures.SPREAD;
+	
+	private int handId = 0;
+	
+	public void setGesture(int id, String name){
+		
+		App.debug(id+" : "+name);
+		
+		/*
+		if (handId == 0){
+			handId = id;
+		}else{
+			if (handId != id){
+				App.error("id : "+id);
+				return;
+			}
+		}
+		*/
+		
+		switch(name.charAt(0)){
+		case 'f':
+			/*
+			if (name.equals("full_pinch")){
+				gesture = Gestures.PINCH;
+			}
+			*/
 
+			/*
+			if (name.equals("fist")){
+				gesture = Gestures.FIST;
+			}
+			*/
+			break;
+		case 's':
+			if (name.equals("spreadfingers")){
+				gesture = Gestures.SPREAD;
+			}
+			break;
+		case 't':
+			if (name.equals("two_fingers_pinch_open")){
+				gesture = Gestures.PINCH;
+			}
+			break;
+		default:
+			//gesture = Gestures.SPREAD;
+			break;
+
+		}
+		
+		App.debug(""+gesture);
+	}
+	
 
 	public Socket() {
 
@@ -239,14 +294,26 @@ public class Socket {
 			PXCMHandConfiguration handConfig = handModule.CreateActiveConfiguration(); 
 			handConfig.EnableAllGestures();
 			handConfig.EnableAllAlerts();
+			
 			GestureHandler handler = new GestureHandler() {
 				@Override
 				public void OnFiredGesture(GestureData data) {
 					//App.debug(""+data.name+" -- "+data.handId);
-					dataAverage.setGesture(data.handId, data.name);
+					setGesture(data.handId, data.name);
 				}
 			};
 			handConfig.SubscribeGesture(handler);
+			
+			AlertHandler alertHandler = new AlertHandler() {
+				
+				@Override
+				public void OnFiredAlert(intel.rssdk.PXCMHandData.AlertData data) {
+					App.debug("alert : "+data.label.name());
+					
+				}
+			};
+			handConfig.SubscribeAlert(alertHandler);
+			
 			handConfig.ApplyChanges();
 			handConfig.Update();
 			
@@ -257,6 +324,7 @@ public class Socket {
 		}
 
 		App.debug("connected to RealSense: "+connected);
+		
 		
 	}
 
@@ -290,7 +358,7 @@ public class Socket {
 		sts = handData.QueryHandData(PXCMHandData.AccessOrderType.ACCESS_ORDER_NEAR_TO_FAR, 0, hand);
 
 		if (sts.compareTo(pxcmStatus.PXCM_STATUS_NO_ERROR) >= 0) {
-			//PXCMPointF32 image = hand.QueryMassCenterImage();
+//			PXCMPointF32 image = hand.QueryMassCenterImage();
 			PXCMPoint3DF32 world = hand.QueryMassCenterWorld();
 			PXCMPoint4DF32 palmOrientation = hand.QueryPalmOrientation();
 
@@ -306,20 +374,33 @@ public class Socket {
 			birdZ = (world.z-0.3) * SCREEN_REAL_DIM_FACTOR;
 			*/
 			
-			dataAverage.addData(world.x, world.y, world.z,
+			
+			
+			dataAverage.addData(
+					//image.x, image.y, 
+					world.x, world.y, world.z,
 					palmOrientation.x, palmOrientation.y, palmOrientation.z, palmOrientation.w);
+			
+			
+			/*
+			hand2Dx = dataAverage.getImageX();
+			hand2Dy = dataAverage.getImageY();
+			hand2Dfactor = getScaleFactor(dataAverage.getImageScale());
+			*/
+			
 			birdX = dataAverage.getWorldX();
 			birdY = dataAverage.getWorldY();
 			birdZ = dataAverage.getWorldZ();
 			
-			/*
+			
+			
 			birdOrientationX = dataAverage.getHandOrientationX();
 			birdOrientationY = dataAverage.getHandOrientationY();
 			birdOrientationZ = dataAverage.getHandOrientationZ();
 			birdOrientationW = dataAverage.getHandOrientationW();
-			*/
 			
-			switch(dataAverage.getGesture()){
+			
+			switch(gesture){
 			case PINCH:
 				smallButton = 1;
 				bigButton = 0;
@@ -359,64 +440,20 @@ public class Socket {
 		return true;
 	}
 
+
+	
 	/*
-    public void onMessage(String msg) {
-
-        try {
-			byte[] buffer = Base64.decode(msg);
-			ByteBuffer bb = ByteBuffer.wrap(buffer);
-			bb.order(ByteOrder.LITTLE_ENDIAN);
-
-			// ignore leo version
-			bb.getDouble();
-
-			// bird position
-			birdX = bb.getDouble();
-			birdY = bb.getDouble();
-			birdZ = bb.getDouble();
-
-			// bird orientation
-			birdOrientationX = bb.getDouble();
-			birdOrientationY = bb.getDouble();
-			birdOrientationZ = bb.getDouble();
-			birdOrientationW = bb.getDouble();
-
-			//glasses
-			leftEyeX = bb.getDouble(); 
-			leftEyeY = bb.getDouble(); 
-			leftEyeZ = bb.getDouble();
-
-			rightEyeX = bb.getDouble(); 
-			rightEyeY = bb.getDouble(); 
-			rightEyeZ = bb.getDouble();
-
-			glassesCenterX = bb.getDouble(); 
-			glassesCenterY = bb.getDouble(); 
-			glassesCenterZ = bb.getDouble();
-
-			glassesOrientationX = bb.getDouble(); 
-			glassesOrientationY = bb.getDouble(); 
-			glassesOrientationZ = bb.getDouble(); 
-			glassesOrientationW = bb.getDouble();
-
-			//buttons
-			bigButton = bb.getDouble(); 
-			smallButton = bb.getDouble(); 
-
-			//vibration
-			vibration = bb.getDouble();
-
-
-			gotMessage = true;
-
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}         
-
-    }
-	 */
-
+	private float getScaleFactor(float z){
+		App.debug(""+z);
+		// z should be between 0.2 and 0.6
+		// z = 0.5 >> far
+		// z = 0.3 >> near
+		
+		float z1 = (z - 0.3f)/0.2f;
+		
+		return 0.5f + z1 * 2.5f;
+	}
+	*/
 
 
 }

@@ -1,6 +1,7 @@
 package geogebra.common.euclidian3D;
 
 
+
 /**
  * interface for specific 3D inputs
  * @author mathieu
@@ -8,6 +9,13 @@ package geogebra.common.euclidian3D;
  */
 public interface Input3D {
 
+	public enum DeviceType{HAND, PEN};
+	
+	/**
+	 * 
+	 * @return device type
+	 */
+	public DeviceType getDeviceType();
 	
 	
 	/**
@@ -21,6 +29,24 @@ public interface Input3D {
 	 * @return 3D mouse position
 	 */
 	public double[] getMouse3DPosition();
+	
+//	/**
+//	 * 
+//	 * @return 2D mouse x position
+//	 */
+//	public float getMouse2DX();
+//	
+//	/**
+//	 * 
+//	 * @return 2D mouse y position
+//	 */
+//	public float getMouse2DY();
+//	
+//	/**
+//	 * 
+//	 * @return 2D mouse factor
+//	 */
+//	public float getMouse2DFactor();
 	
 	/**
 	 *
@@ -66,5 +92,7 @@ public interface Input3D {
 	 * @return true if the input use a robot to controll 2D mouse
 	 */
 	public boolean useMouseRobot();
+
+
 	
 }

@@ -1,6 +1,8 @@
 package geogebra3D.input3D.leonar3do;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian3D.Input3D;
+import geogebra.common.euclidian3D.Input3D.DeviceType;
 import geogebra.common.main.App;
 
 import java.awt.GraphicsDevice;
@@ -166,5 +168,24 @@ public class InputLeo3D implements Input3D {
 	
 	public boolean useMouseRobot(){
 		return true;
+	}
+	
+//	@Override
+//	public float getMouse2DX(){
+//		return 0f;
+//	}
+//	
+//	@Override
+//	public float getMouse2DY(){
+//		return 0f;
+//	}
+//	
+//	@Override
+//	public float getMouse2DFactor(){
+//		return 1f;
+//	}
+	
+	public DeviceType getDeviceType(){
+		return DeviceType.PEN;
 	}
 }

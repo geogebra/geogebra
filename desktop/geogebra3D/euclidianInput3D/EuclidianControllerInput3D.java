@@ -34,7 +34,7 @@ import java.awt.event.MouseEvent;
  */
 public class EuclidianControllerInput3D extends EuclidianController3DD {
 
-	private Input3D input3D;
+	protected Input3D input3D;
 
 	protected Coords mouse3DPosition;
 
@@ -52,15 +52,15 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	private boolean wasRightReleased;
 	private boolean wasLeftReleased;
 
-	private double screenHalfWidth, screenHalfHeight;
-	private Dimension panelDimension;
-	private Point panelPosition;
+	protected double screenHalfWidth, screenHalfHeight;
+	protected Dimension panelDimension;
+	protected Point panelPosition;
 
 	private boolean eyeSepIsNotSet = true;
 
-	private Robot robot;
-	private int robotX, robotY;
-	private double[] inputPosition;
+	protected Robot robot;
+	protected int robotX, robotY;
+	protected double[] inputPosition;
 
 	/**
 	 * constructor

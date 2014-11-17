@@ -1,6 +1,8 @@
 package geogebra3D.input3D.intelRealSense;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian3D.Input3D;
+import geogebra.common.euclidian3D.Input3D.DeviceType;
 import geogebra.common.main.App;
 
 import java.awt.GraphicsDevice;
@@ -165,6 +167,26 @@ public class InputIntelRealsense3D implements Input3D {
 	}
 	
 	public boolean useMouseRobot(){
-		return false;
+		return true;
+	}
+
+
+//	@Override
+//	public float getMouse2DX(){
+//		return socket.hand2Dx;
+//	}
+//	
+//	@Override
+//	public float getMouse2DY(){
+//		return socket.hand2Dy;
+//	}
+//	
+//	@Override
+//	public float getMouse2DFactor(){
+//		return socket.hand2Dfactor;
+//	}
+	
+	public DeviceType getDeviceType(){
+		return DeviceType.HAND;
 	}
 }

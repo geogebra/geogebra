@@ -46,6 +46,7 @@ import geogebra3D.euclidian3D.opengl.GLFactoryD;
 import geogebra3D.euclidian3D.opengl.RendererD;
 import geogebra3D.euclidianFor3D.EuclidianControllerFor3DD;
 import geogebra3D.euclidianFor3D.EuclidianViewFor3DD;
+import geogebra3D.euclidianInput3D.EuclidianControllerHand3D;
 import geogebra3D.euclidianInput3D.EuclidianControllerInput3D;
 import geogebra3D.euclidianInput3D.EuclidianViewInput3D;
 import geogebra3D.gui.GuiManager3D;
@@ -103,8 +104,17 @@ public class App3D extends AppD {
 		// init the 3D euclidian view (with perhaps a specific 3D input)
 		Input3D input3D = Input3DFactory.createInput3D();
 		if (input3D != null) {
-			euclidianController3D = new EuclidianControllerInput3D(kernel,
-					input3D);
+			switch (input3D.getDeviceType()){
+			case HAND:
+				euclidianController3D = new EuclidianControllerHand3D(kernel,
+						input3D);
+				break;
+			case PEN:
+			default:
+				euclidianController3D = new EuclidianControllerInput3D(kernel,
+						input3D);
+				break;
+			}
 		} else {
 			euclidianController3D = new EuclidianController3DD(kernel);
 		}
