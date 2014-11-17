@@ -94,10 +94,11 @@ public class UDPLoggerD implements UDPLogger {
 	}
 
 	private void log(Types type, double val) {
-		log(type, val, true, true);
+		log(type, val, true, true, true);
 	}
 
-	private void log(Types type, double val, boolean repaint, boolean update) {
+	private void log(Types type, double val, boolean repaint, boolean update,
+			boolean atleast) {
 		GeoNumeric geo = listeners.get(type);
 
 		if (geo != null) {
@@ -114,7 +115,7 @@ public class UDPLoggerD implements UDPLogger {
 				geo.updateRepaint();
 			else if (update)
 				geo.updateCascade();
-			else
+			else if (atleast)
 				geo.update(); // at least call updateScripts
 		} else {
 			GeoList list = listenersL.get(type);
@@ -134,7 +135,7 @@ public class UDPLoggerD implements UDPLogger {
 					list.updateRepaint();
 				else if (update)
 					list.updateCascade();
-				else
+				else if (atleast)
 					list.update(); // at least call updateScripts
 			}
 		}
@@ -164,13 +165,16 @@ public class UDPLoggerD implements UDPLogger {
 				key = (String) jo.keys().next();
 				switch (Integer.parseInt(key)) {
 				case 0:
-					log(Types.EDAQ0, jo.getDouble(key), false, !quicker);
+					log(Types.EDAQ0, jo.getDouble(key), false, !quicker,
+							bp + 1 < ja.length());
 					break;
 				case 1:
-					log(Types.EDAQ1, jo.getDouble(key), false, !quicker);
+					log(Types.EDAQ1, jo.getDouble(key), false, !quicker,
+							bp + 1 < ja.length());
 					break;
 				case 2:
-					log(Types.EDAQ2, jo.getDouble(key), false, !quicker);
+					log(Types.EDAQ2, jo.getDouble(key), false, !quicker,
+							bp + 1 < ja.length());
 					break;
 
 				default:
@@ -261,15 +265,15 @@ public class UDPLoggerD implements UDPLogger {
 				switch (buffer[bp]) {
 				case 0:
 					log(Types.EDAQ0, Double.longBitsToDouble(gotit), false,
-							!quicker);
+							!quicker, bp + 11 < length);
 					break;
 				case 1:
 					log(Types.EDAQ1, Double.longBitsToDouble(gotit), false,
-							!quicker);
+							!quicker, bp + 11 < length);
 					break;
 				case 2:
 					log(Types.EDAQ2, Double.longBitsToDouble(gotit), false,
-							!quicker);
+							!quicker, bp + 11 < length);
 					break;
 
 				default:
