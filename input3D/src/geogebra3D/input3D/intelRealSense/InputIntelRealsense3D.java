@@ -167,7 +167,7 @@ public class InputIntelRealsense3D implements Input3D {
 	}
 	
 	public boolean useMouseRobot(){
-		return true;
+		return false;
 	}
 
 
