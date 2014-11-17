@@ -158,8 +158,12 @@ public class CommandDispatcherGiac {
 		/** polar coordinate */
 		ggb_ang(Operation.NO_OPERATION),
 
-		/** poly1, occurs for bad syntax eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))  */
 		poly1(Operation.NO_OPERATION),
+
+		/** fsolve, shouldn't get returned  */
+		fsolve(Operation.NO_OPERATION),
+		/** solve, shouldn't get returned  */
+		solve(Operation.NO_OPERATION),
 
 		/** arbitrary constant*/
 		arbconst(Operation.ARBCONST),
@@ -425,8 +429,6 @@ public class CommandDispatcherGiac {
 
 					ExpressionValue Else = args.getItem(2);
 					
-					App.debug("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"+Else.toString(StringTemplate.giacTemplate));
-
 					if ("?".equals(Else.toString())) {
 						ret = new ExpressionNode(kernel, 
 								args.getItem(0),Operation.IF, 
@@ -495,26 +497,27 @@ public class CommandDispatcherGiac {
 				}
 				break;
 
+			case rootof: // rootof should get removed by evalfa()
+				Log.warn("'rootof()' returned from giac");
+				// fall through
 			case laplace:
 			case ilaplace:
 			case invlaplace:
+			case fsolve:
+			case solve:
 			case poly1: // eg ggbtmpvarp = (ggbtmpvarz)+(((1,2))*(ggbtmpvarz))
 			case integrate: // eg Integral[exp(x^3)]
 			case bounded_function: // eg Limit[cos(x),∞]			
 				ret = new ExpressionNode(kernel, Double.NaN);
 				break;
-			case rootof:
-				// GeoGebra can't handle this
-				Log.warn("'rootof()' returned from giac");
-				ret = new ExpressionNode(kernel, Double.NaN);
-				break;
+
 			case diff:
 
 				if (args.getLength() == 3 && !"1".equals(args.getItem(2).toString(StringTemplate.giacTemplate))) {
-					return new ExpressionNode(kernel,new MyNumberPair(kernel,args.getItem(0),args.getItem(1)),Operation.DIFF,args.getItem(2));
+					return new ExpressionNode(kernel, new MyNumberPair(kernel, args.getItem(0), args.getItem(1)), Operation.DIFF, args.getItem(2));
 				}
 
-				ret = new ExpressionNode(kernel,args.getItem(0),Operation.DIFF,args.getItem(1));
+				ret = new ExpressionNode(kernel, args.getItem(0), Operation.DIFF, args.getItem(1));
 				break;
 			}
 
@@ -525,7 +528,7 @@ public class CommandDispatcherGiac {
 			// create ExpressionNode
 			return new ExpressionNode(kernel, ret);
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 			App.error("CommandDispatcherGiac: error when processing command: "
 					+ cmdName + ", " + args);
 		}
