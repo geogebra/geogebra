@@ -382,7 +382,7 @@ public abstract class AppW extends App implements SetLabels{
 			return new MyXMLioW(cons.getKernel(), cons);
 		}
 		
-		public void setLanguage(final String browserLang) {
+		public final void setLanguage(final String browserLang) {
 			if (browserLang != null && browserLang.equals(loc.getLanguage())) {
 				setLabels();
 				return;

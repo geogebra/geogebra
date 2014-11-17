@@ -14,6 +14,7 @@ import geogebra.html5.util.LoadFilePresenter;
 import geogebra.html5.util.View;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.HeaderPanelDeck;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.docklayout.MyDockLayoutPanel;
 import geogebra.web.gui.laf.GLookAndFeel;
@@ -44,7 +45,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Creates the App base structure.
  *
  */
-public class GeoGebraAppFrame extends ResizeComposite {
+public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck{
 	
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();

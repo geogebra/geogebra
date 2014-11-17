@@ -118,6 +118,7 @@ public class AppWapplet extends AppW {
 	public GGWMenuBar getMenuBar() {
 		if (ggwMenuBar == null) {
 			ggwMenuBar = new GGWMenuBar();
+			((GuiManagerW)getGuiManager()).getObjectPool().setGgwMenubar(ggwMenuBar);
 		}
 		return ggwMenuBar;
 	}

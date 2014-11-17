@@ -7,6 +7,8 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
+import geogebra.web.gui.HeaderPanelDeck;
+import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 
@@ -17,7 +19,7 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class GeoGebraFrameBoth extends GeoGebraFrame {
+public class GeoGebraFrameBoth extends GeoGebraFrame implements HeaderPanelDeck{
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -77,10 +79,42 @@ public class GeoGebraFrameBoth extends GeoGebraFrame {
 			this.add(glass);
 		}
 	}
-
+	private boolean[] childVisible = new boolean[0];
+	private boolean isBrowserShowing = false;
+	
 	@Override
     public void showBrowser(HeaderPanel bg) {
-	    // TODO Auto-generated method stub
+		this.isBrowserShowing = true;
+		GeoGebraFrame frameLayout = this;
+	    final int count = frameLayout.getWidgetCount();
+	    childVisible = new boolean[count];
+	    for(int i = 0; i<count;i++){
+	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
+	    	frameLayout.getWidget(i).setVisible(false);
+	    }
+	    frameLayout.add(bg);
+	    bg.setHeight(this.getOffsetHeight()+"px");
+	    bg.setVisible(true);
+
+	    ((MyHeaderPanel)bg).setFrame(this);
+	    //frameLayout.forceLayout();
+	    
+    }
+
+	@Override
+    public void hideBrowser(MyHeaderPanel bg) {
+		this.isBrowserShowing = false;
+		GeoGebraFrame frameLayout = this;
+		frameLayout.remove(bg);
+		final int count = frameLayout.getWidgetCount();
+		for(int i = 0; i<count;i++){
+			if(childVisible.length > i){
+				frameLayout.getWidget(i).setVisible(childVisible[i]);
+			}
+	    }
+	    //frameLayout.setLayout(app);
+	    //frameLayout.forceLayout();
+	    app.updateViewSizes(); 
 	    
     }
 }

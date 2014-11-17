@@ -1,13 +1,11 @@
 package geogebra.web.gui;
 
-import geogebra.web.gui.app.GeoGebraAppFrame;
-
 import com.google.gwt.user.client.ui.HeaderPanel;
 
 public abstract class MyHeaderPanel extends HeaderPanel{
 
-	private GeoGebraAppFrame frame;
-	public void setFrame(GeoGebraAppFrame frame){
+	private HeaderPanelDeck frame;
+	public void setFrame(HeaderPanelDeck frame){
 		this.frame = frame;
 	}
 	
