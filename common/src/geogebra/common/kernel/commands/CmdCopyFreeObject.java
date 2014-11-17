@@ -5,6 +5,8 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoRayND;
+import geogebra.common.kernel.kernelND.GeoSegmentND;
 import geogebra.common.main.MyError;
 
 /**
@@ -63,9 +65,22 @@ public class CmdCopyFreeObject extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]); 
 				} 
 			}
-			// changed to deepCopyGeo() so that it works for lists
-			// https://www.geogebra.org/forum/viewtopic.php?f=8&t=26356
-			GeoElement geo = arg[0].deepCopyGeo();
+			GeoElement geo;
+			
+			if (arg[0] instanceof GeoSegmentND) {
+				
+				geo = ((GeoSegmentND)arg[0]).copyFreeSegment();
+
+			} else if (arg[0] instanceof GeoRayND) {
+
+				geo = ((GeoRayND)arg[0]).copyFreeRay();
+
+			} else {
+				// changed to deepCopyGeo() so that it works for lists
+				// https://www.geogebra.org/forum/viewtopic.php?f=8&t=26356
+				geo = arg[0].deepCopyGeo();
+			}
+			
 			geo.setLabel(label);
 			geo.setVisualStyle(arg[0]);
 			GeoElement[] ret = { geo };

@@ -359,4 +359,18 @@ final public class GeoRay extends GeoLine implements LimitedPath, GeoRayND {
 		return Kernel.isGreaterEqual(parameter, 0);
 	}
 
+	public GeoElement copyFreeRay() {
+		GeoPoint startPoint1 = (GeoPoint) getStartPoint().copyInternal(cons);
+		
+		double[] direction = new double[3];
+		getDirection(direction);
+		
+		GeoVector directionVec = new GeoVector(cons);
+		directionVec.setCoords(direction);
+		
+		AlgoRayPointVector algo = new AlgoRayPointVector(cons, null, startPoint1, directionVec);
+		
+		return algo.getRay();
+	}
+
 }

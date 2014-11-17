@@ -1,6 +1,7 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoRayPointVector3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Transform;
@@ -244,5 +245,18 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 	@Override
 	final protected void getCoordsXML(StringBuilder sb) {
 		//not needed here
+	}
+	
+	public GeoElement copyFreeRay() {
+		GeoPointND startPoint1 = (GeoPointND) getStartPoint().copyInternal(cons);
+		
+		Coords direction = getDirectionInD3();
+		
+		GeoVector3D directionVec = new GeoVector3D(cons);
+		directionVec.setCoords(direction);
+		
+		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons, null, startPoint1, directionVec);
+		
+		return algo.getOutput(0);
 	}
 }

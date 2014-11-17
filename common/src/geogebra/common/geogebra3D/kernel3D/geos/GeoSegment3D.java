@@ -520,6 +520,15 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return P.distLine(getStartInhomCoords(), getDirectionInD3());
 	}
 	*/
+	
+	public GeoElement copyFreeSegment() {
+		GeoPointND startPoint1 = (GeoPointND) getStartPoint().copyInternal(cons);
+		GeoPointND endPoint1 = (GeoPointND) getEndPoint().copyInternal(cons);
+		AlgoJoinPoints3D algo = new AlgoJoinPoints3D(cons, null, startPoint1, endPoint1, GeoClass.SEGMENT3D);
+		
+		return algo.getOutput(0);
+	}
+
 
 
 }

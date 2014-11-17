@@ -16,14 +16,14 @@ import geogebra.common.kernel.geos.LimitedPath;
 public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, FromMeta {
 
 
-	
+
 	/**
 	 * Sets start point and end point
 	 * @param start start point
 	 * @param end end point
 	 */
 	void setTwoPointsCoords(Coords start, Coords end);
-	
+
 
 	/** @return length of the segment */
 	double getLength();
@@ -44,7 +44,7 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 	 * @return the x-coordinate of the point
 	 */
 	public double getPointX(double parameter);
-	
+
 	/**
 	 * return the y-coordinate of the point on the segment according to the parameter value
 	 * @param parameter the parameter
@@ -62,15 +62,21 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 
 
 	public boolean isEqual(GeoSegmentND thisSegment);
-	
+
 	/**
 	 * set the segment throught the two points
 	 * @param locusPoint first point
 	 * @param locusPoint2 second point
 	 */
 	public void setCoords(MyPoint locusPoint, MyPoint locusPoint2);
-	
-	
-	
+
+	/**
+	 * 
+	 * @return copy with free Input Points
+	 */
+	GeoElement copyFreeSegment();
+
+
+
 
 }

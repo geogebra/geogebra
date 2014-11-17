@@ -818,6 +818,14 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		startPoint.setCoords(x1, y1, 1.0);
 		endPoint.setCoords(x2, y2, 1.0);
 	}
+
+	public GeoElement copyFreeSegment() {
+		GeoPoint startPoint1 = (GeoPoint) getStartPoint().copyInternal(cons);
+		GeoPoint endPoint1 = (GeoPoint) getEndPoint().copyInternal(cons);
+		AlgoJoinPointsSegment algo = new AlgoJoinPointsSegment(cons, null, startPoint1, endPoint1);
+		
+		return algo.getSegment();
+	}
 	
 
 
