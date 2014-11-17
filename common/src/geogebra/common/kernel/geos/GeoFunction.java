@@ -39,6 +39,7 @@ import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.MyNumberPair;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.roots.RealRootFunction;
@@ -1195,6 +1196,21 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (geo.getGeoClassType().equals(GeoClass.FUNCTIONCONDITIONAL)) {
 			return geo.isEqual(this);
 		}
+		
+		GeoFunction geoFun = (GeoFunction) geo;
+		
+		PolyFunction poly1 = getFunction().expandToPolyFunction(getFunctionExpression(), false, true);
+		if (poly1 != null) {
+			PolyFunction poly2 = geoFun.getFunction().expandToPolyFunction(geoFun.getFunctionExpression(), false, true);
+		
+			if (poly2 != null) {
+				return poly1.isEqual(poly2);
+			}
+		}
+		
+		// if poly1 and/or poly2 are null they /could/ still be equal polynomials (or equal non-polynomials)
+		// eg x^2 + 0*sin(x) == x^2
+		// so check with CAS (SLOW)
 		return isDifferenceZeroInCAS(geo);
 	}
 

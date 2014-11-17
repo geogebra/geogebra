@@ -238,6 +238,26 @@ public class PolyFunction implements RealRootDerivFunction {
 		return new Function(en, fv);
 
 	}
+	/**
+	 * @param poly poly
+	 * @return if coefficients are equal
+	 */
+	public boolean isEqual(PolyFunction poly) {
+		if (poly.getDegree() != degree) {
+			return false;
+		}
+		
+		double[] polyCoeffs = poly.getCoeffs();
+		
+		for (int i = 0 ; i < degree ; i++) {
+			if (!Kernel.isEqual(polyCoeffs[i], coeffs[i])) {
+				return false;
+			}
+		}
+		
+		return true;
+		
+	}
 
 /*
 	public String toString() {
