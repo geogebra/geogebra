@@ -3071,14 +3071,14 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return whether context menu is enabled
 	 */
-	public boolean letShowPopupMenu() {
+	public final boolean letShowPopupMenu() {
 		return rightClickEnabled;
 	}
 
 	/**
 	 * @return whether properties dialog is enabled
 	 */
-	public boolean letShowPropertiesDialog() {
+	public final boolean letShowPropertiesDialog() {
 		return rightClickEnabled;
 	}
 

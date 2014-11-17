@@ -248,7 +248,7 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements Att
 	  	}
 	     
 	  	// Object properties menuitem
-		if (!app.isApplet() && app.letShowPropertiesDialog() && geo.hasProperties()) {
+		if (app.showMenuBar() && app.letShowPropertiesDialog() && geo.hasProperties()) {
 			wrappedPopup.addSeparator();
 
 			// open properties dialog
