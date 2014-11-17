@@ -23,4 +23,9 @@ public class PhoneLookAndFeel extends GLookAndFeel {
 	public void removeWindowClosingHandler() {
 		//no close message for phones
 	}
+	
+	@Override
+    public boolean exportSupported() {
+	    return false;
+    }
 }

@@ -1731,8 +1731,4 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
-	
-	public boolean supportsExport() {
-		return device.supportsExport();
-	}
 }

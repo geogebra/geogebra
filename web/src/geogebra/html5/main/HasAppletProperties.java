@@ -1,5 +1,6 @@
 package geogebra.html5.main;
 
+
 /**
  * @author gabor
  * suggests wheter the AppWapplet, AppWsimple has applet properties, so behaves like an applet.

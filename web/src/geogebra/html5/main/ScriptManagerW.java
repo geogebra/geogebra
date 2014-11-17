@@ -45,6 +45,7 @@ public class ScriptManagerW extends ScriptManager {
 	@Override
 	public void ggbOnInit() {		
 		try{
+			App.debug("almost there"+app.useBrowserForJavaScript());
 			//assignGgbApplet();
 			if (app.useBrowserForJavaScript()) {
 			

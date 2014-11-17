@@ -43,5 +43,10 @@ public class TabletLookAndFeel extends GLookAndFeel {
     public MaterialListElement getMaterialElement(final Material m, final AppW app, boolean isLocal) {
 	    return new TabletMaterialElement(m, app, isLocal);
     }
+	
+	@Override
+    public boolean exportSupported() {
+	    return false;
+    }
 
 }

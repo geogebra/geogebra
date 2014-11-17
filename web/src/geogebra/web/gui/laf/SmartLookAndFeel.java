@@ -87,4 +87,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public boolean autosaveSupported() {
 	    return false;
     }
+	
+	@Override
+    public boolean exportSupported() {
+	    return false;
+    }
 }

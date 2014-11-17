@@ -17,7 +17,5 @@ public interface GDevice {
 
 	public UploadImageDialog getImageInputDialog(AppW app);
 
-	public BrowseGUI getBrowseGUI(AppW app);
-	
-	public boolean supportsExport();
+	public BrowseGUI getBrowseGUI(AppW app);	
 }

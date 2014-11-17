@@ -31,4 +31,6 @@ public interface GLookAndFeelI {
 	boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller);
 
 	boolean autosaveSupported();
+
+	boolean exportSupported();
 }

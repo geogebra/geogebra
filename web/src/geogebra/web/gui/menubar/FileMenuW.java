@@ -118,7 +118,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	    	}
 	    });
 	    
-		if (((GuiManagerW) app.getGuiManager()).supportsExport()) {
+		if (app.getLAF().exportSupported()) {
 
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icons_file_export().getSafeUri().asString(),

@@ -116,4 +116,9 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return true;
     }
 
+	@Override
+    public boolean exportSupported() {
+	    return true;
+    }
+
 }
