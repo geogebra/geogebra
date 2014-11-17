@@ -827,13 +827,13 @@ public class Ggb2giac {
 		// don't want normal(), eg Distance[(a,b),(c,d)] 
 		// bit do want it for Distance[(0.5,0.5),x^2+y^2=1]
 		p("Distance.2", 
-				"[[[ggbans:=0/0],[ggbfst:=%1][ggbans:=when(type(ggbfst)==DOM_INT || type(ggbfst)==DOM_RAT || type(ggbfst)==DOM_FLOAT,undef,regroup(distance(%0,"+ 
+				"[[[ggbans:=0/0],[ggbarg0:=%0],[ggbarg1:=%1],[ggbans:=when(ggbarg0[0]!='pnt',undef,when(type(ggbarg1)==DOM_INT || type(ggbarg1)==DOM_FLOAT || type(ggbarg1)==DOM_RAT,undef,regroup(distance(ggbarg0,"+ 
 						// #3907 add "y=" for functions but not points 
-						"when(ggbfst[0]!='pnt' && %1[0] != '=',y=ggbfst,"+
+						"when(ggbarg1[0]!='pnt' && ggbarg1[0] != '=',y=ggbarg1,"+
 						// if variable list contains 'z', wrap in plane()
-						"when(count_eq(z,lname(%1))==0,ggbfst,plane(ggbfst))"+
+						"when(count_eq(z,lname(ggbarg1))==0,ggbarg1,plane(ggbarg1))"+
 						")"+ 
-						")))]]," +				
+						"))))]]," +				
 				"when(lname(ggbans)=={},normal(ggbans),ggbans)][1]");
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
