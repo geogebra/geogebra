@@ -250,9 +250,11 @@ public class DrawTurtle extends Drawable {
 				int imgHeight = turtle.getFillImage().getHeight();
 				GAffineTransform originTransform = g2.getTransform();
 				g2.transform(at);
-				//temp - until x,y paramters won't be used in drawImage for SVG images
+				//temp - until x,y paramters won't be used in drawImage on desktop for SVG images
+				//Later drawImage must get the appropriate values.
 				if(turtle.getFillImage().isSVG()) g2.translate(-imgWidth/2, -imgHeight/2);
-				g2.drawImage(turtle.getFillImage(),-imgWidth/2, -imgHeight/2);
+				//g2.drawImage(turtle.getFillImage(),-imgWidth/2, -imgHeight/2);
+				g2.drawImage(turtle.getFillImage(), 0, 0);
 				g2.setTransform(originTransform);
 			} else {
 				// draw rotated turtle				
