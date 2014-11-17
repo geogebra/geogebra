@@ -663,7 +663,7 @@ namespace giac {
     if ( (intmode &2)==0 ){
       gen tmp=unlin(vexp,contextptr);
       if (vexp.size()>2 || !is_zero(ratnormal(tmp-e)))
-	gprintf(step_linerizable,"Integrate linearizable expression %gen -> %gen",makevecteur(e,tmp),contextptr);
+	gprintf(step_linearizable,"Integrate linearizable expression %gen -> %gen",makevecteur(e,tmp),contextptr);
     }
     const_iterateur it=vexp.begin(),itend=vexp.end();
     for (;it!=itend;){
@@ -2332,7 +2332,7 @@ namespace giac {
 	fu=ratnormal(rdiv(e,df,contextptr));
 	if (is_rewritable_as_f_of(fu,f,fx,gen_x,contextptr)){
 	  if ( (intmode & 2)==0)
-	    gprintf(stepfuuprime,"Integration of %gen: f(u)*u' where f=%gen->%gen and u=%gen",makevecteur(e,gen_x,fx,f),contextptr);
+	    gprintf(step_fuuprime,"Integration of %gen: f(u)*u' where f=%gen->%gen and u=%gen",makevecteur(e,gen_x,fx,f),contextptr);
 	  e=linear_integrate_nostep(fx,gen_x,tmprem,intmode,contextptr);
 	  remains_to_integrate=remains_to_integrate+complex_subst(tmprem,gen_x,f,contextptr)*df;
 	  return complex_subst(e,gen_x,f,contextptr);
