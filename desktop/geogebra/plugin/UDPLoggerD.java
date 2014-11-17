@@ -160,21 +160,23 @@ public class UDPLoggerD implements UDPLogger {
 			// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
 			// we could even spare the ; and , but still left
 
-			for (int bp = 1; bp < ja.length(); bp++) {
+			boolean atleast = true;
+			for (int bp = 1; bp < ja.length(); bp++, atleast = (bp + 1 < ja
+					.length())) {
 				jo = ja.getJSONObject(bp);
 				key = (String) jo.keys().next();
 				switch (Integer.parseInt(key)) {
 				case 0:
 					log(Types.EDAQ0, jo.getDouble(key), false, !quicker,
-							bp + 1 < ja.length());
+							atleast);
 					break;
 				case 1:
 					log(Types.EDAQ1, jo.getDouble(key), false, !quicker,
-							bp + 1 < ja.length());
+							atleast);
 					break;
 				case 2:
 					log(Types.EDAQ2, jo.getDouble(key), false, !quicker,
-							bp + 1 < ja.length());
+							atleast);
 					break;
 
 				default:
@@ -245,7 +247,8 @@ public class UDPLoggerD implements UDPLogger {
 			// "EDAQ;{sensor1},{doublebits8};{sensor},{doublebits};{sensor},{doublebits}"...
 			// we could even spare the ; and , but still left
 
-			for (int bp = 5; bp < length; bp += 11) {
+			boolean atleast = true;
+			for (int bp = 5; bp < length; bp += 11, atleast = (bp + 11 < length)) {
 				// "{sensor1},{doublebits8};"
 				// ,,23456789
 
@@ -265,15 +268,15 @@ public class UDPLoggerD implements UDPLogger {
 				switch (buffer[bp]) {
 				case 0:
 					log(Types.EDAQ0, Double.longBitsToDouble(gotit), false,
-							!quicker, bp + 11 < length);
+							!quicker, atleast);
 					break;
 				case 1:
 					log(Types.EDAQ1, Double.longBitsToDouble(gotit), false,
-							!quicker, bp + 11 < length);
+							!quicker, atleast);
 					break;
 				case 2:
 					log(Types.EDAQ2, Double.longBitsToDouble(gotit), false,
-							!quicker, bp + 11 < length);
+							!quicker, atleast);
 					break;
 
 				default:
