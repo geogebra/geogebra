@@ -109,7 +109,13 @@ public class Ggb2giac {
 				"idivis(%0)");
 		p("DivisorsSum.1",
 				"sum(idivis(%0))");
-		p("Dot.2", "regroup(dot(%0,%1))");
+		
+		
+		//p("Dot.2", "regroup(dot(%0,%1))");
+		//p("Dot.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]], regroup(dot(ggbarg0,ggbarg1))][1]");
+		p("Dot.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]], regroup(xcoord(ggbarg0)*xcoord(ggbarg1)+ycoord(ggbarg0)*ycoord(ggbarg1)+zcoord(ggbarg0)*zcoord(ggbarg1))][1]");
+		
+		
 		// GeoGebra indexes lists from 1, giac from 0
 
 		// equations:
