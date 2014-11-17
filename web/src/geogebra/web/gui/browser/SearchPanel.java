@@ -51,7 +51,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.op = app.getNetworkOperation();
 
 		this.query = new TextBox();
-		this.query.getElement().setAttribute("placeholder", loc.getMenu("search_geogebra_materials"));
+		
 		this.query.addStyleName("searchTextBox");
 		this.query.addKeyDownHandler(new KeyDownHandler() {
 
@@ -159,6 +159,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 //    }
 
 	public void setLabels() {
+		this.query.getElement().setAttribute("placeholder", loc.getMenu("search_geogebra_materials"));
 		render(this.op.isOnline());
 	}
 

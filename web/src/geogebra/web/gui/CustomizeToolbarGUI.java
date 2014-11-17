@@ -93,7 +93,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			}
 			return sb.toString().trim();
 		}
-
+		@Override
+        public void insertItem(int before, TreeItem item){
+			super.insertItem(before, item);
+			toolbarChanged(toolTree.getToolbarString());
+		}
 		public int indexOfBranch(TreeItem item) {
 			for (int i = 0; i < getItemCount(); i++) {
 				if (getItem(i) == item) {
@@ -107,6 +111,13 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			return setBranchItem(toolTree.addItem(tool), tool);
 
 		}
+
+		native void toolbarChanged(String toolbarString) /*-{
+	        if($wnd.onGgbToolbarChanged){
+	        	$wnd.onGgbToolbarChanged(toolbarString);
+	        }
+	        
+        }-*/;
 
 		public TreeItem insertBranchItem(final DraggableTool tool, int idx) {
 			DraggableTool branchTool = new DraggableTool(tool.getMode());
@@ -232,7 +243,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					tool.removeStyleName("insertAfterBranch");
 				}
 			}, DragLeaveEvent.getType());
-
+			toolbarChanged(toolTree.getToolbarString());
 			return item;
 		}
 
@@ -281,7 +292,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					tool.removeStyleName("insertAfterLeaf");
 				}
 			}, DragLeaveEvent.getType());
-
+			toolbarChanged(toolTree.getToolbarString());
 			return item;
 		}
 		
@@ -552,6 +563,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					dragging = null;
 					allToolsPanelContent.removeStyleName("toolBarDropping");
 					spAllTools.scrollToBottom();
+					toolTree.toolbarChanged(toolTree.getToolbarString());
 				}
 			}
 		}, DropEvent.getType());
