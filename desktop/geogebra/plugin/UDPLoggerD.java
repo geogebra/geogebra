@@ -114,11 +114,11 @@ public class UDPLoggerD implements UDPLogger {
 				geo.updateRepaint();
 			else if (update)
 				geo.updateCascade();
+			else
+				geo.update(); // at least call updateScripts
 		} else {
 			GeoList list = listenersL.get(type);
 			if (list != null) {
-				// synchronized (this) {
-				// if (repaint)
 				App.debug(type + ": " + val);
 
 				geo = new GeoNumeric(list.getConstruction(), val);
@@ -134,7 +134,8 @@ public class UDPLoggerD implements UDPLogger {
 					list.updateRepaint();
 				else if (update)
 					list.updateCascade();
-				// }
+				else
+					list.update(); // at least call updateScripts
 			}
 		}
 	}
@@ -471,13 +472,13 @@ public class UDPLoggerD implements UDPLogger {
 										.getHostAddress()
 										+ " "
 										+ packet.getAddress().getHostName(),
-										true);
+										false);
 							} else {
 								handle(buffer, length, packet.getAddress()
 										.getHostAddress()
 										+ " "
 										+ packet.getAddress().getHostName(),
-										true);
+										false);
 							}
 							// }
 							// });
