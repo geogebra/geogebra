@@ -926,8 +926,9 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   gen add_autosimplify(const gen & g,GIAC_CONTEXT);
 
   extern int step_infolevel;
-  extern void (*my_gprintf)(const std::string & format,const vecteur & v,GIAC_CONTEXT);
+  extern void (*my_gprintf)(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(const std::string & format,const vecteur & v,GIAC_CONTEXT);
+  void gprintf(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
   
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

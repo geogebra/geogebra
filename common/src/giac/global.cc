@@ -4623,13 +4623,13 @@ unsigned int ConvertUTF8toUTF16 (
   }
 
   int step_infolevel=0;
-  void (*my_gprintf)(const string & format,const vecteur & v,GIAC_CONTEXT)=0;
+  void (*my_gprintf)(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT)=0;
 
-  void gprintf(const string & format,const vecteur & v,GIAC_CONTEXT){
+  void gprintf(unsigned special,const string & format,const vecteur & v,GIAC_CONTEXT){
     if (step_infolevel==0)
       return;
     if (my_gprintf){
-      my_gprintf(format,v,contextptr);
+      my_gprintf(special,format,v,contextptr);
       return;
     }
     string s;
@@ -4646,6 +4646,9 @@ unsigned int ConvertUTF8toUTF16 (
     *logptr(contextptr) << s << endl;
   }
 
+  void gprintf(const string & format,const vecteur & v,GIAC_CONTEXT){
+    gprintf(step_nothing_special,format,v,contextptr);
+  }
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac
 #endif // ndef NO_NAMESPACE_GIAC

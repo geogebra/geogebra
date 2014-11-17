@@ -3108,7 +3108,7 @@ namespace giac {
     v=lidnt(w);
     w.clear();
     for (unsigned i=0;i<v.size();++i){
-      if (!is_inf(v[i]))
+      if (!is_inf(v[i]) && !is_undef(v[i]))
 	w.push_back(v[i]);  
     }
     return w;

@@ -504,6 +504,33 @@ namespace giac {
     num_mask_withfrac=2,
   };
 
+  enum step_special {
+    step_nothing_special=0,
+    step_ratfrac=1,
+    step_cyclotomic=2,
+    step_nthroot=3,
+    step_linearizable=4,
+    step_triglinearizable=5,
+    step_polyexp=6,
+    step_ratfracexp=7,
+    step_backsubst=8,
+    step_ratfractrig=9,
+    step_ratfracpow=10,
+    step_ratfracsqrfree=11,
+    step_ratfrachermite=12,
+    step_ratfracfinal=13,
+    step_ratfracchgvar=14,
+    step_linear=15,
+    step_funclinear=16,
+    step_fuuprime=17,
+    step_bypart=18,
+    step_bypart1=19,
+    step_risch=20,
+    step_rrefexchange=21,
+    step_rrefpivot=22,
+    step_rrefpivot0=23,
+    step_rrefend=24,
+  };
 
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

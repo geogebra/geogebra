@@ -5214,8 +5214,13 @@ namespace giac {
 	    GIAC_CONTEXT){
     if (!ckmatrix(a))
       return 0;
-    int modular=(algorithm==RREF_MODULAR || algorithm==RREF_PADIC);
     unsigned as=a.size(),a0s=a.front()._VECTptr->size();
+    bool step_rref=false;
+    if (algorithm==RREF_GUESS && step_infolevel && as<5 && a0s<7){
+      algorithm=RREF_GAUSS_JORDAN;
+      step_rref=true;
+    }
+    int modular=(algorithm==RREF_MODULAR || algorithm==RREF_PADIC);
     // NOTE for integer matrices
     // p-adic is in n^3*log(nA)^2 where ||a||<=A
     // multi-modular is in n^3*(n+log(nA))*log(nA)
@@ -5590,8 +5595,16 @@ namespace giac {
 	CERR << endl;
       //COUT << M << endl << pivot << endl;
       if (!is_zero(pivot,contextptr)){
+	if (step_rref){
+	  std_matrix_gen2matrice(M,res);
+	  gprintf(step_rrefpivot,"Matrix %gen\nReducing column %gen using pivot %gen at row %gen",makevecteur(res,c+1,pivot,pivotline+1),contextptr);
+	}
 	// exchange lines if needed
 	if (l!=pivotline){
+	  if (step_rref){
+	    std_matrix_gen2matrice(M,res);
+	    gprintf(step_rrefexchange,"Exchange row %gen and row %gen",makevecteur(l+1,pivotline+1),contextptr);
+	  }
 	  swap(M[l],M[pivotline]);
 	  swap(permutation[l],permutation[pivotline]);
 	  // temp = M[l];
@@ -5604,8 +5617,12 @@ namespace giac {
 	  for (int ltemp=linit;ltemp<lmax;++ltemp){
 	    if (debug_infolevel>=2)
 	      CERR << "// " << l << "," << ltemp << " "<< endl;
+	    if (step_rref && l!=ltemp){
+	      std_matrix_gen2matrice(M,res);
+	      gprintf(step_rrefpivot0,"Matrix %gen\nRow operation L%gen <- (%gen)*L%gen-(%gen)*L%gen",makevecteur(res,l+1,pivot,ltemp+1,M[ltemp][pivotcol],l+1),contextptr);
+	    }
 	    if (ltemp!=l){
-	      if (algorithm!=RREF_GAUSS_JORDAN) // M[ltemp] = rdiv( pivot * M[ltemp] - M[ltemp][pivotcol]* M[l], bareiss);
+	      if (step_rref || algorithm!=RREF_GAUSS_JORDAN) // M[ltemp] = rdiv( pivot * M[ltemp] - M[ltemp][pivotcol]* M[l], bareiss);
 		linear_combination(pivot,M[ltemp],-M[ltemp][pivotcol],M[l],bareiss,M[ltemp],1e-12,0);
 	      else // M[ltemp]=M[ltemp]-rdiv(M[ltemp][pivotcol],pivot)*M[l];
 		linear_combination(plus_one,M[ltemp],-rdiv(M[ltemp][pivotcol],pivot,contextptr),M[l],plus_one,M[ltemp],1e-12,0);
@@ -5616,7 +5633,11 @@ namespace giac {
 	  for (int ltemp=l+1;ltemp<lmax;++ltemp){
 	    if (debug_infolevel>=2)
 	      CERR << "// " << l << "," << ltemp << " "<< endl;
-	    if (algorithm!=RREF_GAUSS_JORDAN)
+	    if (step_rref){
+	      std_matrix_gen2matrice(M,res);
+	      gprintf(step_rrefpivot0,"Matrix %gen\nRow operation L%gen <- (%gen)*L%gen-(%gen)*L%gen",makevecteur(res,l+1,pivot,ltemp+1,M[ltemp][pivotcol],l+1),contextptr);
+	    }
+	    if (step_rref || algorithm!=RREF_GAUSS_JORDAN)
 	      linear_combination(pivot,M[ltemp],-M[ltemp][pivotcol],M[l],bareiss,M[ltemp],1e-12,(c+1)*(rref_or_det_or_lu>0));
 	    else {
 	      gen coeff=M[ltemp][pivotcol]/pivot;
@@ -5665,6 +5686,10 @@ namespace giac {
     } // end for reduction loop
     if (debug_infolevel>1)
       CERR << "// mrref reduction end:" << clock() << endl;
+    if (step_rref){
+      std_matrix_gen2matrice(M,res);
+      gprintf(step_rrefend,"End reduction %gen",makevecteur(res),contextptr);
+    }
     if (algorithm!=RREF_GAUSS_JORDAN){
       int last=giacmin(lmax,cmax);
       det=M[last-1][last-1];
