@@ -932,7 +932,6 @@ __GGB__keysVar.hu.command = {
     "Take.SyntaxCAS": "[ <Lista>, <T\xf3l>, <Ig> ]",
     "Tangent": "\xc9rint\u0151",
     "Tangent.Syntax": "[ <Pont>, <K\xfapszelet> ]\n[ <Pont>, <F\xfcggv\xe9ny> ]\n[ <Pont a g\xf6rb\xe9n>, <G\xf6rbe> ]\n[ <x- \xe9rt\xe9k>, <F\xfcggv\xe9ny> ]\n[ <P\xe1rhuzamos egyenes>, <K\xfapszelet> ]\n[ <K\xf6r>, <K\xf6r> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Pont>, <F\xfcggv\xe9ny> ]",
     "TaylorSeries": "TaylorPolinom",
     "TaylorSeries.Syntax": "[ <F\xfcggv\xe9ny>, <x-\xe9rt\xe9k>, <Foksz\xe1m> ]",
     "TaylorSeries.SyntaxCAS": "[ <Kifejez\xe9s>, <x-\xe9r\xe9tk>, <Foksz\xe1m> ]\n[ <Kifejez\xe9s>, <V\xe1ltoz\xf3>, <V\xe1ltoz\xf3 \xe9rt\xe9ke>, <Foksz\xe1m> ]",

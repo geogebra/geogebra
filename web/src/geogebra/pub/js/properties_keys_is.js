@@ -932,7 +932,6 @@ __GGB__keysVar.is.command = {
     "Take.SyntaxCAS": "[ <Listi>, <Byrja>, <Enda> ]",
     "Tangent": "Snertill",
     "Tangent.Syntax": "[ <Punktur>, <Keilusni\xf0> ]\n[ <Punktur>, <Fall> ]\n[ <Punktur \xe1 ferli>, <Ferill> ]\n[ <x-gildi>, <Fall> ]\n[ <L\xedna>, <Keilusni\xf0> ]\n[ <Hringur>, <Hringur> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punktur>, <Fall> ]",
     "TaylorSeries": "TaylorMargli\xf0a",
     "TaylorSeries.Syntax": "[ <Fall>, <x-gildi>, <Stig> ]",
     "TaylorSeries.SyntaxCAS": "[ <St\xe6\xf0a>, <x-gildi>, <Stig> ]\n[ <St\xe6\xf0a>, <Breyta>, <Gildi breytu>, <Stig> ]",

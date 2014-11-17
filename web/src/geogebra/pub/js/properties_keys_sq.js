@@ -932,7 +932,6 @@ __GGB__keysVar.sq.command = {
     "Take.SyntaxCAS": "[ <Lista>, <Pozicioni i Fillimit>, <Pozicionii Mbarimit> ]",
     "Tangent": "Tangjente",
     "Tangent.Syntax": "[ <Pike>, <Konike> ]\n[ <Pike>, <Funksion> ]\n[ <Pike>, <Kurbe> ]\n[ <x-Vlera>, <Funksion> ]\n[ <Drejtez Paralele>, <Konike> ]\n[ <Segment Paralel>, <Konike> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "SeriTailori",
     "TaylorSeries.Syntax": "[ <Funksion>, <x-Vlere>, <Shkalle> ]",
     "TaylorSeries.SyntaxCAS": "[ <Shprehja>, <x-Vlera>, <Numri Rendor> ]\n[ <Shprehja>, <Variabli>, <Vlere variabli>, <Numri Rendor> ]",

@@ -932,7 +932,6 @@ __GGB__keysVar.et.command = {
     "Take.SyntaxCAS": "[ <Loend>, <Algpositsioon>, <L\xf5pppositsioon> ]",
     "Tangent": "Puutuja",
     "Tangent.Syntax": "[ <Punkt>, <Koonusel\xf5ige> ]\n[ <Punkt>, <Funktsioon> ]\n[ <Punkt k\xf5veral>, <K\xf5ver> ]\n[ <x-i v\xe4\xe4rtus>, <Funktsioon> ]\n[ <Sirge>, <Koonusel\xf5ige> ]\n[ <Ringjoon>, <Ringjoon> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punkt>, <Funktsioon> ]",
     "TaylorSeries": "TayloriValem",
     "TaylorSeries.Syntax": "[ <Funktsioon>, <x-i v\xe4\xe4rtus>, <Arv> ]",
     "TaylorSeries.SyntaxCAS": "[ <Avaldis>, <x-Value>, <J\xe4rjenumber> ]\n[ <Avaldis>, <Muutuja>, <Muutuja v\xe4\xe4rtus>, <J\xe4rjenumber> ]",

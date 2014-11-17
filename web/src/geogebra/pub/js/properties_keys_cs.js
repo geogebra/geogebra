@@ -932,7 +932,6 @@ __GGB__keysVar.cs.command = {
     "Take.SyntaxCAS": "[ <Seznam>, <Po\u010d\xe1te\u010dn\xed pozice>, <Koncov\xe1 pozice> ]",
     "Tangent": "Tecna",
     "Tangent.Syntax": "[ <Bod>, <Ku\u017eelose\u010dka> ]\n[ <Bod>, <Funkce> ]\n[ <Bod na k\u0159ivce>, <K\u0159ivka> ]\n[ <Hodnota x>, <Funkce> ]\n[ <Rovnob\u011b\u017eky>, <Ku\u017eelose\u010dka> ]\n[ <Rovnob\u011b\u017en\xe9 \u010d\xe1sti>, <Ku\u017eelose\u010dka> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Bod>, <Funkce> ]",
     "TaylorSeries": "TaylorovaRada",
     "TaylorSeries.Syntax": "[ <Funkce>, <Hodnota x>, <\u010c\xedslo> ]",
     "TaylorSeries.SyntaxCAS": "[ <Vyraz>, <Hodnota x>, <\u010c\xedslo> ]\n[ <Vyraz>, <Promenna>, <Hodnota x>, <\u010c\xedslo> ]",

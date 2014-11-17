@@ -932,7 +932,6 @@ __GGB__keysVar.in.command = {
     "Take.SyntaxCAS": "[ <Daftar>, <Posisi Awa;>, <Posisi Akhir> ]",
     "Tangent": "GarisSinggung",
     "Tangent.Syntax": "[ <Titik>, <Konik> ]\n[ <Titik>, <Fungsi> ]\n[ <Titik>, <Kurva> ]\n[ <Nilai-x>, <Fungsi> ]\n[ <Garis Sejajar>, <Konik> ]\n[ <RuasGaris Sejajar>, <Konik> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "PolinomTaylor",
     "TaylorSeries.Syntax": "[ <Fungsi>, <Nilai-x>, <Urutan Angka> ]",
     "TaylorSeries.SyntaxCAS": "[ <Ekspresi>, <Nilai x>, <Nomor Urut> ]\n[ <Ekspresi>, <Variabel>, <Nilai Variabel>, <Nomor Urut> ]",

@@ -932,7 +932,6 @@ __GGB__keysVar.gl.command = {
     "Take.SyntaxCAS": "[ <Lista>, <Posici\xf3n inicial>, <Posici\xf3n final> ]",
     "Tangent": "Tanxente",
     "Tangent.Syntax": "[ <Punto>, <C\xf3nica> ]\n[ <Punto>, <Curva> ]\n[ <Valor x>, <Funci\xf3n> ]\n[ <Punto na gr\xe1fica>, <Funci\xf3n> ]\n[ <Recta, semirrecta ou segmento paralelo>, <C\xf3nica> ]\n[ <Circunferencia>, <Circunferencia> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punto>, <Funci\xf3n> ]",
     "TaylorSeries": "PolinomioTaylor",
     "TaylorSeries.Syntax": "[ <Funci\xf3n>, <Valor x>, <Orde> ]",
     "TaylorSeries.SyntaxCAS": "[ <Expresi\xf3n>, <Valor x>, <Orde> ]\n[ <Expresi\xf3n>, <Variable>, <Valor variable>, <Orde> ]",

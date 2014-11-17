@@ -932,7 +932,6 @@ __GGB__keysVar.no_NN.command = {
     "Take.SyntaxCAS": "[ <Liste>, <Startposisjon>, <Sluttposisjon> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <Punkt>, <Kjeglesnitt> ]\n[ <Punkt>, <Funksjon> ]\n[ <Punkt p\xe5 kurve>, <Kurve> ]\n[ <x-verdi>, <Funksjon> ]\n[ <Linje>, <Kjeglesnitt> ]\n[ <Sirkel>, <Sirkel> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punkt>, <Funksjon> ]",
     "TaylorSeries": "Taylorpolynom",
     "TaylorSeries.Syntax": "[ <Funksjon>, <x-verdi>, <Tal> ]",
     "TaylorSeries.SyntaxCAS": "[ <Uttrykk>, <x-verdi>, <Grad> ]\n[ <Uttrykk>, <Variabel>, <Variabelverdi>, <Grad> ]",

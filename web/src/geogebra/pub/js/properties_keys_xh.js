@@ -932,7 +932,6 @@ __GGB__keysVar.xh.command = {
     "Take.SyntaxCAS": "[ <uluhlu>, <indawo yokuQalisa>, <Indawo yokuGqiba> ]",
     "Tangent": "iSicebukiMgca",
     "Tangent.Syntax": "[ <iChaphaza>, <iConic> ]\n[ <iChaphaza>, <iFunction> ]\n[ <iChaphaza kwiGophe>, <iGophe> ]\n[ <x-Value>, <iFunction> ]\n[ <uMgca>, <iConic> ]\n[ <uMgca>, <isangqa> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <IChaphaza>, <iFunction> ]",
     "TaylorSeries": "TaylorPolynomial",
     "TaylorSeries.Syntax": "[ <iFunction>, <x-Value>, <Lungisa amanani> ]",
     "TaylorSeries.SyntaxCAS": "[ <iExpression>, <x-Value>, <lungisa amanani> ]\n[ <iExpression>, <iSimeliNani>, <Ixabiso leSimeliNani>, <Lungisa iNani> ]",

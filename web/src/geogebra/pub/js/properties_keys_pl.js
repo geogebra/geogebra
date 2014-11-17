@@ -932,7 +932,6 @@ __GGB__keysVar.pl.command = {
     "Take.SyntaxCAS": "[ <Lista>, <PozycjaPocz\u0105tkowa>, <PozycjaKo\u0144cowa> ]",
     "Tangent": "Styczna",
     "Tangent.Syntax": "[ <Punkt>, <Sto\u017ckowa> ]\n[ <Punkt>, <Funkcja> ]\n[ <Punkt na krzywej>, <Krzywa> ]\n[ <Warto\u015bc x>, <Funkcja> ]\n[ <Prosta>, <Sto\u017ckowa> ]\n[ <Okr\u0105g>, <Okr\u0105g> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punkt>, <Function> ]",
     "TaylorSeries": "SzeregTaylora",
     "TaylorSeries.Syntax": "[ <Funkcja>, <Warto\u015b\u0107 x>, <Stopie\u0144> ]",
     "TaylorSeries.SyntaxCAS": "[ <Wyra\u017cenie>, <Warto\u015b\u0107 x>, <Stopie\u0144> ]\n[ <Wyra\u017cenie>, <Zmienna>, <Warto\u015b\u0107 x>, <Stopie\u0144> ]",

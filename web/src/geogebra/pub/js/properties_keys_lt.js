@@ -932,7 +932,6 @@ __GGB__keysVar.lt.command = {
     "Take.SyntaxCAS": "[ <S\u0105ra\u0161as>, <Prad\u017eios pozicija>, <Galo pozicija> ]",
     "Tangent": "Liestin\u0117",
     "Tangent.Syntax": "[ <Ta\u0161kas>, <Antros eil\u0117s kreiv\u0117> ]\n[ <Ta\u0161kas>, <Funkcija> ]\n[ <Kreiv\u0117s Ta\u0161kas>, <Kreiv\u0117> ]\n[ <x reik\u0161m\u0117>, <Funkcija> ]\n[ <Ties\u0117>, <Antros eil\u0117s kreiv\u0117> ]\n[ <Apskritimas>, <Apskritimas> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Ta\u0161kas>, <Funkcija> ]",
     "TaylorSeries": "TayloroDaugianaris",
     "TaylorSeries.Syntax": "[ <Funkcija>, <x vert\u0117>, <Sekos skai\u010dius> ]",
     "TaylorSeries.SyntaxCAS": "[ <Funkcija>, <x vert\u0117>, <Sekos skai\u010dius> ]\n[ <Funkcija>, <Kintamasis>, <Kintamojo vert\u0117>, <Tvarkos skai\u010dius> ]",

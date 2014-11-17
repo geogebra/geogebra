@@ -932,7 +932,6 @@ __GGB__keysVar.sv.command = {
     "Take.SyntaxCAS": "[ <Lista>, <Fr\xe5n>, <Till> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <Punkt>, <K\xe4gelsnitt> ]\n[ <Punkt>, <Funktion> ]\n[ <Punkt p\xe5 kurva>, <Kurva> ]\n[ <x-v\xe4rde>, <Funktion> ]\n[ <Linje>, <K\xe4gelsnitt> ]\n[ <Cirkel>, <Cirkel> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punkt>, <Funktion> ]",
     "TaylorSeries": "Taylorutveckling",
     "TaylorSeries.Syntax": "[ <Funktion>, <x-v\xe4rde>, <Ordningsnummer> ]",
     "TaylorSeries.SyntaxCAS": "[ <Uttryck>, <x-v\xe4rde>, <Ordning> ]\n[ <Uttryck>, <Variabel>, <Variabelv\xe4rde>, <Ordning> ]",

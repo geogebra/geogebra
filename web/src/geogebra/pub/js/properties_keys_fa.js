@@ -932,7 +932,6 @@ __GGB__keysVar.fa.command = {
     "Take.SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <Point>, <Conic> ]\n[ <Point>, <Function> ]\n[ <Point on Curve>, <Curve> ]\n[ <x-Value>, <Function> ]\n[ <Line>, <Conic> ]\n[ <Circle>, <Circle> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TaylorPolynomial",
     "TaylorSeries.Syntax": "[ <Function>, <x-Value>, <Order Number> ]",
     "TaylorSeries.SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable Value>, <Order Number> ]",

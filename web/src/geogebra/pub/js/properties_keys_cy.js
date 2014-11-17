@@ -932,7 +932,6 @@ __GGB__keysVar.cy.command = {
     "Take.SyntaxCAS": "[ <List>, <Start Position>, <End Position> ]",
     "Tangent": "Tangiad",
     "Tangent.Syntax": "[ <Pwynt>, <Conig> ]\n[ <Pwynt>, <Ffwythiant> ]\n[ <Pwynt>, <Cromlin> ]\n[ <gwerth-x>, <Ffwythiant> ]\n[ <Llinell baralel>, <Conig> ]\n[ <Segment cyfochrog>, <Conig> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "CyfresTaylor",
     "TaylorSeries.Syntax": "[ <Ffwythiant>, <gwerth-x>, <Rhif trefn> ]",
     "TaylorSeries.SyntaxCAS": "[ <Expression>, <x-Value>, <Order Number> ]\n[ <Expression>, <Variable>, <Variable Value>, <Order Number> ]",

@@ -932,7 +932,6 @@ __GGB__keysVar.es_ES.command = {
     "Take.SyntaxCAS": "[ <Lista>, <Posici\xf3n inicial>, <Posici\xf3n final> ]",
     "Tangent": "Tangente",
     "Tangent.Syntax": "[ <Punto>, <C\xf3nica> ]\n[ <Punto>, <Funci\xf3n> ]\n[ <Punto sobre la curva>, <Curva> ]\n[ <Valor de x (punto o n\xfamero)>, <Funci\xf3n> ]\n[ <Recta (paralela)>, <C\xf3nica> ]\n[ <Circunferencia>, <Circunferencia> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punto>, <Funci\xf3n> ]",
     "TaylorSeries": "PolinomioTaylor",
     "TaylorSeries.Syntax": "[ <Funci\xf3n>, <Valor de x>, <N\xfamero (orden)> ]",
     "TaylorSeries.SyntaxCAS": "[ <Expresi\xf3n>, <Valor de x>, <N\xfamero (orden)> ]\n[ <Expresi\xf3n>, <Variable>, <Valor>, <N\xfamero (orden)> ]",

@@ -932,7 +932,6 @@ __GGB__keysVar.ja.command = {
     "Take.SyntaxCAS": "[ <\u30ea\u30b9\u30c8>, <Start Position>, <End Position> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <\u70b9>, <\uff12\u6b21\u66f2\u7dda> ]\n[ <\u70b9>, <\u95a2\u6570> ]\n[ <\u70b9>, <\u66f2\u7dda> ]\n[ <x\u306e\u5024>, <\u95a2\u6570> ]\n[ <\u65b9\u5411\u3092\u8868\u3059\u76f4\u7dda>, <\uff12\u6b21\u66f2\u7dda> ]\n[ <\u65b9\u5411\u3092\u8868\u3059\u7dda\u5206>, <\uff12\u6b21\u66f2\u7dda> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <\u70b9>, <\u95a2\u6570> ]",
     "TaylorSeries": "TaylorPolynomial",
     "TaylorSeries.Syntax": "[ <\u95a2\u6570>, <x\u306e\u5024>, <\u6b21\u6570> ]",
     "TaylorSeries.SyntaxCAS": "[ <\u5f0f>, <x-Value>, <Order Number> ]\n[ <\u5f0f>, <\u5909\u6570>, <Variable-Value>, <Order Number> ]",

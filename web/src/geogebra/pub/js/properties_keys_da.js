@@ -932,7 +932,6 @@ __GGB__keysVar.da.command = {
     "Take.SyntaxCAS": "[ <liste>, <tal>, <tal> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <Punkt>, <Keglesnit> ]\n[ <Punkt>, <Funktion> ]\n[ <Punkt p\xe5 kurve>, <kurve> ]\n[ <x-v\xe6rdi>, <Funktion> ]\n[ <Parallel linje>, <Keglesnit> ]\n[ <Parallelt linjestykke>, <Keglesnit> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punkt>, <Funktion> ]",
     "TaylorSeries": "TaylorPolynomium",
     "TaylorSeries.Syntax": "[ <Funktion>, <udviklingsv\xe6rdi>, <orden> ]",
     "TaylorSeries.SyntaxCAS": "[ <udtryk>, <udviklingsv\xe6rdi>, <orden> ]\n[ <udtryk>, <variabel>, <variabel-v\xe6rdi>, <orden> ]",

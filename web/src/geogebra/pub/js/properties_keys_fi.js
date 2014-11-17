@@ -932,7 +932,6 @@ __GGB__keysVar.fi.command = {
     "Take.SyntaxCAS": "[ <Lista>, <Alkukohta>, <Loppukohta> ]",
     "Tangent": "Tangentti",
     "Tangent.Syntax": "[ <Piste>, <Kartioleikkaus> ]\n[ <Piste>, <Funktio> ]\n[ <K\xe4yr\xe4n piste>, <K\xe4yr\xe4> ]\n[ <X:n arvo>, <Funktio> ]\n[ <Yhdensuuntianen suora>, <Kartioleikkaus> ]\n[ <Yhdensuuntainen jana>, <Kartioleikkaus> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Piste>, <Funktio> ]",
     "TaylorSeries": "TaylorSarja",
     "TaylorSeries.Syntax": "[ <Funktio>, <X:n arvo>, <J\xe4rjestysluku> ]",
     "TaylorSeries.SyntaxCAS": "[ <Lauseke>, <x-Arvo>, <Aste> ]\n[ <Lauseke>, <Muuttuja>, <Muuttuja-Arvo>, <Aste> ]",

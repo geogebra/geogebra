@@ -932,7 +932,6 @@ __GGB__keysVar.sr.command = {
     "Take.SyntaxCAS": "[ <lista>, <po\u010detna pozicija>, <krajnja pozicija> ]",
     "Tangent": "Tangenta",
     "Tangent.Syntax": "[ <ta\u010dka>, <konusni presek> ]\n[ <ta\u010dka>, <funkcija> ]\n[ <ta\u010dka>, <kriva> ]\n[ <x vrednost>, <funkcija> ]\n[ <paralelna prava>, <konusni presek> ]\n[ <paralelna du\u017e>, <konusni presek> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Point>, <Function> ]",
     "TaylorSeries": "TejlorovPolinom",
     "TaylorSeries.Syntax": "[ <funkcija>, <x vrednost>, <red polinoma> ]",
     "TaylorSeries.SyntaxCAS": "[ <funkcija>, <x vrednost>, <red polinoma> ]\n[ <funkcija>, <promenljiva>, <vrednost promenljive>, <red polinoma> ]",

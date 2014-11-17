@@ -932,7 +932,6 @@ __GGB__keysVar.ca_XV.command = {
     "Take.SyntaxCAS": "[ <Llista>, <Posici\xf3 inicial>, <Posici\xf3 final> ]",
     "Tangent": "Tangent",
     "Tangent.Syntax": "[ <Punt>, <C\xf2nica> ]\n[ <Punt>, <Funci\xf3> ]\n[ <Punt de la corba>, <Corba> ]\n[ <Valor-x>, <Funci\xf3> ]\n[ <L\xednia>, <C\xf2nica> ]\n[ <Cercle>, <Cercle> ]",
-    "TangentThroughPoint.SyntaxCAS": "[ <Punt>, <Funci\xf3> ]",
     "TaylorSeries": "PolinomiDeTaylor",
     "TaylorSeries.Syntax": "[ <Funci\xf3>, <Valor de x>, <Grau del polinomi> ]",
     "TaylorSeries.SyntaxCAS": "[ <Expressi\xf3>, <x per a l'aproximaci\xf3>, <Grau> ]\n[ <Expressi\xf3>, <Variable>, <Valor de la variable>, <Grau> ]",
