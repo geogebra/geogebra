@@ -840,8 +840,10 @@ public class Ggb2giac {
 		// eg distance(conic(y=x^2),(0,3))
 		// don't want normal(), eg Distance[(a,b),(c,d)] 
 		// bit do want it for Distance[(0.5,0.5),x^2+y^2=1]
+		
+		// use type(evalf(ggbarg1))==DOM_FLOAT to catch DOM_INT, DOM_FLOAT, DOM_RAT, DOM_IDENT (eg pi)
 		p("Distance.2", 
-				"[[[ggbans:=0/0],[ggbarg0:=%0],[ggbarg1:=%1],[ggbans:=when(ggbarg0[0]!='pnt',undef,when(type(ggbarg1)==DOM_INT || type(ggbarg1)==DOM_FLOAT || type(ggbarg1)==DOM_RAT,undef,regroup(distance(ggbarg0,"+ 
+				"[[[ggbans:=0/0],[ggbarg0:=%0],[ggbarg1:=%1],[ggbans:=when(ggbarg0[0]!='pnt',undef,when(type(evalf(ggbarg1))==DOM_FLOAT,undef,regroup(distance(ggbarg0,"+ 
 						// #3907 add "y=" for functions but not points 
 						"when(ggbarg1[0]!='pnt' && ggbarg1[0] != '=',y=ggbarg1,"+
 						// if variable list contains 'z', wrap in plane()
