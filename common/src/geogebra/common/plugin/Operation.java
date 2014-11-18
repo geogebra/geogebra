@@ -923,6 +923,16 @@ public enum Operation {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().floor();
 			}
+			if (lt instanceof VectorValue) {
+				GeoVec2D ret = ((VectorValue) lt).getVector().floor();	
+				// eg complex
+				ret.setMode(((VectorValue) lt).getMode());
+				return ret;
+			}
+			if (lt instanceof Vector3DValue) {
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().floor();	
+				return ret;
+			}
 			return ev.polynomialOrDie(lt, this, "floor(");
 
 		}
@@ -934,6 +944,16 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().ceil();
+			}
+			if (lt instanceof VectorValue) {
+				GeoVec2D ret = ((VectorValue) lt).getVector().ceil();	
+				// eg complex
+				ret.setMode(((VectorValue) lt).getMode());
+				return ret;
+			}
+			if (lt instanceof Vector3DValue) {
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().ceil();	
+				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "ceil(");
 
@@ -958,6 +978,16 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().round();
+			}
+			if (lt instanceof VectorValue) {
+				GeoVec2D ret = ((VectorValue) lt).getVector().round();	
+				// eg complex
+				ret.setMode(((VectorValue) lt).getMode());
+				return ret;
+			}
+			if (lt instanceof Vector3DValue) {
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().round();	
+				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
 

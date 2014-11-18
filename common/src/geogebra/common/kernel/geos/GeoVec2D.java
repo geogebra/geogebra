@@ -1422,4 +1422,25 @@ final public class GeoVec2D extends ValidExpression implements
 		return 0;
 	}
 
+	/**
+	 * @return (Math.round(x), Math.round(y))
+	 */
+	public GeoVec2D round() {
+		return new GeoVec2D(kernel, Math.round(x), Math.round(y));
+	}
+
+	/**
+	 * @return (Math.floor(x), Math.floor(y))
+	 */
+	public GeoVec2D floor() {
+		return new GeoVec2D(kernel, Math.floor(x), Math.floor(y));
+	}
+
+	/**
+	 * @return (Math.ceil(x), Math.ceil(y))
+	 */
+	public GeoVec2D ceil() {
+		return new GeoVec2D(kernel, Math.ceil(x), Math.ceil(y));
+	}
+
 }

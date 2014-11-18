@@ -550,4 +550,16 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 			return this.mode;
 		}
 
+		public Geo3DVec round() {
+			return new Geo3DVec(kernel, Math.round(x), Math.round(y), Math.round(z));
+		}
+
+		public Geo3DVec floor() {
+			return new Geo3DVec(kernel, Math.floor(x), Math.floor(y), Math.floor(z));
+		}
+
+		public Geo3DVec ceil() {
+			return new Geo3DVec(kernel, Math.ceil(x), Math.ceil(y), Math.ceil(z));
+		}
+
 }

@@ -38,6 +38,21 @@ public interface Geo3DVec extends GeoVecInterface{
 	 * @return length
 	 */
 	public double length();
+	
+	/**
+	 * @return (Math.round(x), Math.round(y), Math.round(z))
+	 */
+	public Geo3DVec round();
+		
+	/**
+	 * @return (Math.floor(x), Math.floor(y), Math.floor(z))
+	 */
+	public Geo3DVec floor();
+		
+	/**
+	 * @return (Math.ceil(x), Math.ceil(y), Math.ceil(z))
+	 */
+	public Geo3DVec ceil();
 		
 	
 }
