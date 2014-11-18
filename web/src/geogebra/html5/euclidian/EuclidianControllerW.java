@@ -692,12 +692,8 @@ LongTouchHandler {
     }
 
 	@Override
-	protected boolean textfieldOrComboboxJustFocusedW(int x, int y, PointerEventType type) {
-		if (isComboboxFocused()){
-			view.requestFocusInWindow();
-			return true;
-		}
-		return view.textfieldClicked(x, y, type);
+	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) { 
+		return view.textfieldClicked(x, y, type) || isComboboxFocused();
 	}
 
 	public boolean isComboboxFocused(){

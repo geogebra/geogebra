@@ -6613,7 +6613,7 @@ public abstract class EuclidianController {
 	/**
 	 * @param gPoint point 
 	 */
-	protected boolean textfieldOrComboboxJustFocusedW(int x, int y, PointerEventType type) {
+	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
 		return false;
 	}
 
@@ -8810,7 +8810,7 @@ public abstract class EuclidianController {
 		transformCoordsOffset[1] = 0;
 	
 		
-		if (this.textfieldOrComboboxJustFocusedW(x, y, type)) {
+		if (this.textfieldJustFocusedW(x, y, type)) {
 			return;
 		}
 		
