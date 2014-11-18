@@ -119,8 +119,7 @@ public class UDPLoggerD implements UDPLogger {
 			else
 				geo.update(); // at least call updateScripts
 
-			// TODO: use this if needed
-			// registerLog(type);
+			registerLog(type);
 		} else {
 			GeoList list = listenersL.get(type);
 			if (list != null) {
@@ -142,8 +141,7 @@ public class UDPLoggerD implements UDPLogger {
 				else
 					list.update(); // at least call updateScripts
 
-				// TODO: use this if needed
-				// registerLog(type);
+				registerLog(type);
 			}
 		}
 	}
@@ -152,33 +150,44 @@ public class UDPLoggerD implements UDPLogger {
 		Types thistype;
 		GeoNumeric geo;
 		GeoList list;
-		Integer referenceAge = listenersAges.get(type);// not null if called in
-														// the right way
+		int referenceAge = listenersAges.get(type);
+		listenersAges.put(type, referenceAge + 1);
+		referenceAge = listenersAges.get(type);
+
+		int numOld = 0;
+		int numAll = 0;
+		// ages grow, and too little ages have to keep pace
 		Iterator it = listenersAges.keySet().iterator();
 		while (it.hasNext()) {
 			thistype = (Types) it.next();
 			Integer age = listenersAges.get(thistype);
-			if (referenceAge <= age) {
-				// together with referenceAge, also refresh anything older
-				// this will actually refresh referenceAge itself as well
-				listenersAges.put(thistype, 0);
-				// and for these types, we should update their geos
-				if (thistype != type) {
-					// geo was not updated normally, so we shall do it now
-					geo = listeners.get(thistype);
-					if (geo != null) {
-						geo.update();
-					} else {
-						list = listenersL.get(thistype);
-						if (list != null) {
-							list.update();
-						}
+			if (age > 100) {
+				numOld++;
+			}
+			numAll++;
+			if (referenceAge > age + 1) {
+				// grow the intermediates as well
+				listenersAges.put(thistype, age + 1);
+
+				geo = listeners.get(thistype);
+				if (geo != null) {
+					geo.update();
+				} else {
+					list = listenersL.get(thistype);
+					if (list != null) {
+						list.update();
 					}
 				}
-			} else {
-				// afterwards, increase their ages
-				age += 1;
-				listenersAges.put(thistype, age);
+			}
+		}
+
+		if (numOld == numAll) {
+			// we can decrease the ages of all
+			it = listenersAges.keySet().iterator();
+			while (it.hasNext()) {
+				thistype = (Types) it.next();
+				Integer age = listenersAges.get(thistype);
+				listenersAges.put(thistype, age - 100);
 			}
 		}
 	}
