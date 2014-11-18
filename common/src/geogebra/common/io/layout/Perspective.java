@@ -133,43 +133,6 @@ public class Perspective {
 	}
 
 	/**
-	 * Create a perspective with default layout.
-	 * 
-	 * @deprecated use variable of type InputPositon for showInputPanelOnTop
-	 *             (respective inputPosition) instead
-	 * 
-	 * @param id
-	 *            id
-	 * @param splitPaneInfo
-	 *            split settings
-	 * @param dockPanelInfo
-	 *            dock panel settings
-	 * @param toolbarDefinition
-	 *            toolbar string
-	 * @param showToolBar
-	 *            true to show toolbar
-	 * @param showGrid
-	 *            true to show grid
-	 * @param showAxes
-	 *            true to show axes
-	 * @param showInputPanel
-	 *            true to show input bar
-	 * @param showInputPanelCommands
-	 *            true to show input help
-	 * @param showInputPanelOnTop
-	 *            true to show input bar on top
-	 */
-	public Perspective(String id, DockSplitPaneData[] splitPaneInfo,
-			DockPanelData[] dockPanelInfo, String toolbarDefinition,
-			boolean showToolBar, boolean showGrid, boolean showAxes,
-			boolean showInputPanel, boolean showInputPanelCommands,
-			boolean showInputPanelOnTop) {
-		this(id, splitPaneInfo, dockPanelInfo, toolbarDefinition, showToolBar,
-				showGrid, showAxes, showInputPanel, showInputPanelCommands,
-				showInputPanelOnTop ? InputPositon.top : InputPositon.bottom);
-	}
-
-	/**
 	 * Create a perspective with all available fields.
 	 * 
 	 * @param id
@@ -566,7 +529,7 @@ public class Perspective {
 		sb.append("\" cmd=\"");
 		sb.append(getShowInputPanelCommands());
 		sb.append("\" top=\"");
-		sb.append(getShowInputPanelOnTop());
+		sb.append(getInputPosition() == InputPositon.top ? "true" : (getInputPosition() == InputPositon.bottom ? "false" : "algebra"));
 		sb.append("\" />\n");
 
 		// dockbar

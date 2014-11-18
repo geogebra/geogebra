@@ -67,6 +67,7 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.common.main.Localization;
 import geogebra.common.main.MyError;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
@@ -2488,8 +2489,10 @@ public class MyXMLHandler implements DocHandler {
 					.equals("false"));
 			tmp_perspective.setShowInputPanelCommands(!attrs.get("cmd").equals(
 					"false"));
-			tmp_perspective.setShowInputPanelOnTop(!attrs.get("top").equals(
-					"false"));
+			InputPositon ip = attrs.get("top").equals(
+					"true") ? InputPositon.top : ("false".equals(attrs.get("top")) ? InputPositon.bottom :
+						InputPositon.algebraView);
+			tmp_perspective.setInputPosition(ip);
 
 			return true;
 		} catch (Exception e) {

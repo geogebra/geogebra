@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.Variable;
 import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
@@ -78,7 +79,7 @@ public class PerspectiveDecoder {
 		panelList.toArray(dpData);
 	
 		
-		return new Perspective("Custom", spData, dpData, defToolbar, true, false, true, true, true, false);
+		return new Perspective("Custom", spData, dpData, defToolbar, true, false, true, true, true, InputPositon.algebraView);
 	}
 	
 	private static void buildPerspective(ExpressionValue expr, String panelPath,
