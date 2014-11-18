@@ -13,6 +13,7 @@ import java.net.SocketException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
+import java.util.Iterator;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -55,6 +56,7 @@ public class UDPLoggerD implements UDPLogger {
 	HashMap<Types, GeoNumeric> listeners = new HashMap<Types, GeoNumeric>();
 	HashMap<Types, GeoList> listenersL = new HashMap<Types, GeoList>();
 	HashMap<Types, Integer> listLimits = new HashMap<Types, Integer>();
+	HashMap<Types, Integer> listenersAges = new HashMap<Types, Integer>();
 
 	/**
 	 * port to receive UDP logging on
@@ -90,6 +92,7 @@ public class UDPLoggerD implements UDPLogger {
 
 		listeners.clear();
 		listenersL.clear();
+		listenersAges.clear();
 	}
 
 	private void log(Types type, double val) {
@@ -99,7 +102,6 @@ public class UDPLoggerD implements UDPLogger {
 	private void log(Types type, double val, boolean repaint, boolean update,
 			boolean atleast) {
 		GeoNumeric geo = listeners.get(type);
-
 		if (geo != null) {
 
 			// if (repaint)
@@ -116,6 +118,9 @@ public class UDPLoggerD implements UDPLogger {
 				geo.updateCascade();
 			else
 				geo.update(); // at least call updateScripts
+
+			// TODO: use this if needed
+			// registerLog(type);
 		} else {
 			GeoList list = listenersL.get(type);
 			if (list != null) {
@@ -136,6 +141,44 @@ public class UDPLoggerD implements UDPLogger {
 					list.updateCascade();
 				else
 					list.update(); // at least call updateScripts
+
+				// TODO: use this if needed
+				// registerLog(type);
+			}
+		}
+	}
+
+	private void registerLog(Types type) {
+		Types thistype;
+		GeoNumeric geo;
+		GeoList list;
+		Integer referenceAge = listenersAges.get(type);// not null if called in
+														// the right way
+		Iterator it = listenersAges.keySet().iterator();
+		while (it.hasNext()) {
+			thistype = (Types) it.next();
+			Integer age = listenersAges.get(thistype);
+			if (referenceAge <= age) {
+				// together with referenceAge, also refresh anything older
+				// this will actually refresh referenceAge itself as well
+				listenersAges.put(thistype, 0);
+				// and for these types, we should update their geos
+				if (thistype != type) {
+					// geo was not updated normally, so we shall do it now
+					geo = listeners.get(thistype);
+					if (geo != null) {
+						geo.update();
+					} else {
+						list = listenersL.get(thistype);
+						if (list != null) {
+							list.update();
+						}
+					}
+				}
+			} else {
+				// afterwards, increase their ages
+				age += 1;
+				listenersAges.put(thistype, age);
 			}
 		}
 	}
@@ -480,6 +523,7 @@ public class UDPLoggerD implements UDPLogger {
 			listenersL.remove(type);
 			listLimits.put(type, 0);
 			listeners.put(type, geo);
+			listenersAges.put(type, 0);
 		}
 	}
 
@@ -494,6 +538,7 @@ public class UDPLoggerD implements UDPLogger {
 			App.debug("logging " + type + " to " + list.getLabelSimple());
 			listeners.remove(type);
 			listenersL.put(type, list);
+			listenersAges.put(type, 0);
 
 			int lim = (int) Math.round(limit);
 			if (lim < 0) {
