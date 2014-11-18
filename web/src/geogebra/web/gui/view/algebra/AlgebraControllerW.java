@@ -274,7 +274,7 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 		}
 		event.stopPropagation();
 		event.preventDefault();
-		mousePressed(PointerEvent.wrapEvent(event, ZeroOffset.instance));
+		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
 
 	public void onMouseUp(MouseUpEvent event) {

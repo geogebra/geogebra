@@ -128,36 +128,81 @@ public class PointerEvent extends AbstractEvent {
 		return new PointerEvent(x, y ,type,h);
 	}
 	
-	public static PointerEvent wrapEvent(MouseEvent event ,HasOffsets off) {
+	private static void setProperties(PointerEvent destination, MouseEvent<?> source) {
+		destination.alt = source.isAltKeyDown();
+		destination.control = source.isControlKeyDown();
+		destination.clickCount = "dblclick".equals(source.getNativeEvent().getType()) ? 2 : 1;
+		destination.meta = source.isMetaKeyDown();
+		destination.middle = source.getNativeButton() == NativeEvent.BUTTON_MIDDLE;
+		destination.right = source.getNativeButton() == NativeEvent.BUTTON_RIGHT;
+		destination.shift = source.isShiftKeyDown();
+		destination.relativeElement = source.getRelativeElement();
+	}
+	
+	/**
+	 * Wraps the event taking the relative coordinates of the event.
+	 * @param event event to wrap
+	 * @param off offsets
+	 * @return wrapped event
+	 */
+	public static PointerEvent wrapEvent(MouseEvent<?> event ,HasOffsets off) {
 		PointerEvent evt = wrapEvent(event.getX(), event.getY(), off.getDefaultEventType(), 
 				 off, off.getMouseEventPool());
-		evt.alt = event.isAltKeyDown();
-		evt.control = event.isControlKeyDown();
-		evt.clickCount = "dblclick".equals(event.getNativeEvent().getType()) ? 2 : 1;
-		evt.meta = event.isMetaKeyDown();
-		evt.middle = event.getNativeButton() == NativeEvent.BUTTON_MIDDLE;
-		evt.right = event.getNativeButton() == NativeEvent.BUTTON_RIGHT;
-		evt.shift = event.isShiftKeyDown();
-		evt.relativeElement = event.getRelativeElement();
+		setProperties(evt, event);
+		return evt;
+	}
+	
+	/**
+	 * Wraps the event taking the absolute coordinates of the event.
+	 * @param event event to wrap
+	 * @param off offsets
+	 * @return wrapped event
+	 */
+	public static PointerEvent wrapEventAbsolute(MouseEvent<?> event, HasOffsets off) {
+		int clientX = event.getClientX();
+		int clientY = event.getClientY();
+		PointerEvent evt = wrapEvent(clientX, clientY, off.getDefaultEventType(), 
+				 off, off.getMouseEventPool());
+		setProperties(evt, event);
 		return evt;
 	}
 
+	/**
+	 * Creates a wrapped event, based on the touch coordinates, with a relative element.
+	 * @param touch touch 
+	 * @param off offsets
+	 * @param relativeElement event relative to element
+	 * @return wrapped event
+	 */
 	public static PointerEvent wrapEvent(Touch touch, HasOffsets off, Element relativeElement) {
 		PointerEvent event = wrapEvent(touch, off);
 		event.relativeElement = relativeElement;
 		return event;
 	}
 	
+	/**
+	 * Creates a wrapped event, based on the touch coordinates.
+	 * @param touch touch 
+	 * @param off offsets
+	 * @return wrapped event
+	 */
 	public static PointerEvent wrapEvent(Touch touch,
             HasOffsets off) {
 	    return wrapEvent(touch.getClientX(), touch.getClientY(), 
 	    		PointerEventType.TOUCH,  off, off.getTouchEventPool());
     }
 
+	/**
+	 * @return The euclidian view id if the event was fired on it, else 0.
+	 */
 	public int getEvID() {
 	    return this.evID;
     }
 
+	/**
+	 * This field is only set when the event was created with {@link PointerEvent#wrapEvent(Touch, HasOffsets, Element)}. 
+	 * @return the event relative to the element
+	 */
 	public Element getRelativeElement() {
 		return relativeElement;
 	}

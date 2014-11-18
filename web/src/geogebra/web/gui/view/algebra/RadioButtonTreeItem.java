@@ -464,7 +464,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		event.preventDefault();
 		event.stopPropagation();
