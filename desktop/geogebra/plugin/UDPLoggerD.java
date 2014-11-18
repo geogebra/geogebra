@@ -414,7 +414,17 @@ public class UDPLoggerD implements UDPLogger {
 		// and this gives 500 * 11 bytes at once! Plus the EDAQ string.
 		// this happens e.g. if the 50ms of waiting time is interrupted
 		// by many ms of computer processing time.
-		final byte[] buffer = new byte[15520];
+		// ??
+
+		// buffer size is computed in SerialReader.java in EDAQx branch
+		// this is the maximal possible value (maybe more), but it can be much
+		// smaller if the sample rate is less than 1000Hz and there are less
+		// sensors
+		// used than 3... and it can be also larger if time data will be sent...
+		// so in the future, it would be good to get the sample rate frequency
+		// data and compute the buffer size dynamically here (especially for
+		// old machines)
+		final byte[] buffer = new byte[15551];
 
 		// of course, this will only be used when needed, and anyway, 6 KB
 		// is not much in the age of kilobytes and megabytes...
