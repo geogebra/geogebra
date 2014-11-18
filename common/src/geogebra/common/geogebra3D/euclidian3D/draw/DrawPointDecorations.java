@@ -53,11 +53,14 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 	}
 	
 	
+	private GeoPoint3D point;
 	
 	/** set the point for which decorations are made
-	 * @param point
+	 * @param point0
 	 */
-	public void setPoint(GeoPoint3D point){
+	public void setPoint(GeoPoint3D point0){
+		
+		this.point = point0;
 		
 		p1 = point.getCoords();
 				
@@ -116,7 +119,11 @@ public class DrawPointDecorations extends DrawCoordSys1D {
 
 	@Override
 	protected int getLineThickness(){
-		return 1;
+		if (point == null){
+			return 1;
+		}
+		
+		return Math.max(1, point.getPointSize()/2) ;
 	}
 	
 
