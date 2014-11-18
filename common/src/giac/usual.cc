@@ -5349,6 +5349,10 @@ namespace giac {
       return args;
     if (args.type==_FRAC){
       gen n=args._FRACptr->num,d=args._FRACptr->den;
+      if (is_cinteger(d) && !is_integer(d)){
+	n=n*conj(d,contextptr);
+	d=d*conj(d,contextptr);
+      }
       if (is_cinteger(n) && is_integer(d)){
 	if (is_positive(args,contextptr) || n.type==_CPLX)
 	  return iquo(n,d);

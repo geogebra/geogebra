@@ -1322,6 +1322,197 @@ namespace giac {
   static define_unary_function_eval (__implicitplot3d,&_implicitplot3d,_implicitplot3d_s);
   define_unary_function_ptr5( at_implicitplot3d ,alias_at_implicitplot3d,&__implicitplot3d,0,true);
 
+  void convert_double_int(vecteur & v){
+    for (unsigned i=0;i<v.size();++i){
+      if (v[i].type==_DOUBLE_)
+	v[i]=int(v[i]._DOUBLE_val+.5);
+      if (v[i].type==_VECT){
+	vecteur w=*v[i]._VECTptr;
+	convert_double_int(w);
+	v[i]=w;
+      }
+    }
+  }
+
+  bool read_audio(vecteur & v,int & channels,int & sample_rate,int & bits_per_sample,unsigned int & data_size){
+    convert_double_int(v);
+    if (v.size()>1 && v[1].type!=_VECT)
+      v=makevecteur(1,v);
+    gen g=v[0];
+    if (ckmatrix(g)){
+      if (v.size()==2 && v[1].type==_INT_){
+	sample_rate=v[1].val;
+	v=*g._VECTptr;
+	v.insert(v.begin(),makevecteur(1,16,sample_rate));
+	g=v[0];
+      }
+      else {
+	if (v.size()==3 && v[1].type==_INT_ && v[2].type==_INT_){
+	  sample_rate=v[1].val;
+	  bits_per_sample=v[2].val;
+	  v=*g._VECTptr;
+	  v.insert(v.begin(),makevecteur(1,bits_per_sample,sample_rate));
+	  g=v[0];
+	}
+      }
+    }
+    // g=channels,bits_per_sample,sample_rate,data_size,
+    if (g.type==_INT_)
+      g=makevecteur(g,16);
+    if (g.type!=_VECT || g._VECTptr->empty())
+      return false;
+    vecteur w=*g._VECTptr;
+    if (w.size()==1)
+      w.push_back(16);
+    int ws=w.size();
+    if (w[0].type!=_INT_ || w[1].type!=_INT_)
+      return false;
+    channels=w[0].val;
+    if (channels<=0 || channels>v.size()){
+      channels=v.size();
+      if (v.front().type!=_VECT || !is_integer_vecteur(*v.front()._VECTptr))
+	return false;
+      data_size=v.front()._VECTptr->size();
+      for (int i=1;i<channels;++i){
+	if (v[i].type!=_VECT || !is_integer_vecteur(*v[i]._VECTptr))
+	  return false;
+	if (data_size>v[i]._VECTptr->size())
+	  data_size=v[i]._VECTptr->size();
+      }
+      w=makevecteur(channels,16,44100); ws=3;
+      g=w;
+      v.insert(v.begin(),g);
+    }
+    if (channels<=0 || channels>4 || v.size()<=channels)
+      return false;
+    bits_per_sample=(w[1].val/8)*8;
+    if (bits_per_sample<=0)
+      return false;
+    if (ws>=3)
+      sample_rate=w[2].val;
+    else
+      sample_rate=44100;
+    if (sample_rate<1)
+      return false;
+    if (ws>=4 && w[3].type==_INT_)
+      data_size=w[3].val;
+    else
+      data_size=RAND_MAX;
+    for (int i=1;i<=channels;++i){
+      if (v[i].type!=_VECT || !is_integer_vecteur(*v[i]._VECTptr))
+	return false;
+      if (data_size>v[i]._VECTptr->size())
+	data_size=v[i]._VECTptr->size();
+    }
+    return true;
+  }
+
+#ifdef HAVE_LIBAO
+#include <ao/ao.h>
+  typedef unsigned short aou16;
+  typedef unsigned int aou32;
+  gen _playsnd(const gen & args,GIAC_CONTEXT){
+    if (args.type==_STRNG){
+      if (args.subtype==-1) return  args;
+      return _playsnd(_readwav(args,contextptr),contextptr);
+    }
+    ao_device *device=0;
+    ao_sample_format format;
+    int default_driver;
+    ao_initialize();
+    default_driver = ao_default_driver_id();
+    memset(&format, 0, sizeof(format));
+    format.bits = 16;
+    format.channels = 2;
+    format.rate = 44100;
+    format.byte_format = AO_FMT_LITTLE;
+    unsigned int data_size=0;
+    vecteur v;
+    if (args.type==_VECT && !args._VECTptr->empty()){
+      // set format
+      v=*args._VECTptr;
+      if (!read_audio(v,format.channels,format.rate,format.bits,data_size))
+	return gensizeerr(gettext("Invalid sound data"));
+    }
+    if (data_size){
+      *logptr(contextptr) << gettext("Using sound parameters: channels, rate, bits, records ") << format.channels << "," << format.rate << "," << format.bits << "," << data_size << endl;
+      device = ao_open_live(default_driver, &format, NULL /* no options */);
+      if (device == NULL) 
+	return gensizeerr(gettext("Error opening audio device."));
+      unsigned n=data_size*format.channels*format.bits/8;
+      char * buffer=(char *)malloc(n*sizeof(char));
+      aou16 * bufshort=(aou16 *) buffer;
+      aou32 * bufint=(aou32 *) buffer;
+      if (buffer){
+	// copy data from v into buffer and play it
+	unsigned c=format.channels,b=format.bits/8;
+	for (unsigned i=0;i<data_size;++i){
+	  for (unsigned j=0;j<c;++j){
+	    unsigned u=(*v[j+1]._VECTptr)[i].val;
+	    if (b==1)
+	      buffer[i*c+j]=u;
+	    if (b==2){
+	      buffer[2*(i*c+j)]=u & 0xff;
+	      buffer[2*(i*c+j)+1]=(u>>8) & 0xff;
+	    }
+	    if (b==4)
+	      bufint[i*c+j]=u;
+	  }
+	}
+	ao_play(device, buffer, n);
+      }
+    }
+    ao_close(device);
+    ao_shutdown();
+    return 1;
+  }
+  static const char _playsnd_s []="playsnd";
+  static define_unary_function_eval (__playsnd,&_playsnd,_playsnd_s);
+  define_unary_function_ptr5( at_playsnd ,alias_at_playsnd,&__playsnd,0,true);
+#else
+  gen _playsnd(const gen & args,GIAC_CONTEXT){
+    return gensizeerr("Sorry! libao is not present on system");
+  }
+  static const char _playsnd_s []="playsnd";
+  static define_unary_function_eval (__playsnd,&_playsnd,_playsnd_s);
+  define_unary_function_ptr5( at_playsnd ,alias_at_playsnd,&__playsnd,0,true);
+#endif
+
+  gen _soundsec(const gen & args,GIAC_CONTEXT){
+    // nseconds [,rate]
+    gen n,rate=44100;
+    if (args.type==_VECT && args._VECTptr->size()==2){
+      n=args._VECTptr->front();
+      rate=args._VECTptr->back();
+    }
+    else
+      n=args;
+    n=evalf_double(n,1,contextptr);
+    if (n.type!=_DOUBLE_ || n._DOUBLE_val<=0 || rate.type!=_INT_ || rate.val < 1 )
+      return gensizeerr(gettext("Invalid sound parameters"));
+    double r=evalf_double(rate,1,contextptr)._DOUBLE_val;
+    double nr=r*n._DOUBLE_val;
+    if (nr>LIST_SIZE_LIMIT)
+      return gensizeerr("Too many records");
+    vecteur v;
+    v.reserve(int(nr)+1);
+    for (int i=0;i<=nr;++i){
+      v.push_back(double(i)/r);
+    }
+    return v;
+  }
+  static const char _soundsec_s []="soundsec";
+  static define_unary_function_eval (__soundsec,&_soundsec,_soundsec_s);
+  define_unary_function_ptr5( at_soundsec ,alias_at_soundsec,&__soundsec,0,true);
+
+  /*
+  gen _beep(const gen & args,GIAC_CONTEXT){
+  }
+  static const char _beep_s []="beep";
+  static define_unary_function_eval (__beep,&_beep,_beep_s);
+  define_unary_function_ptr5( at_beep ,alias_at_beep,&__beep,0,true);
+  */
+
 #ifdef RTOS_THREADX
   gen _readwav(const gen & args,GIAC_CONTEXT){
     return undef;
@@ -1425,33 +1616,14 @@ namespace giac {
   static define_unary_function_eval (__readwav,&_readwav,_readwav_s);
   define_unary_function_ptr5( at_readwav ,alias_at_readwav,&__readwav,0,true);
 
-  static bool in_writewav(FILE * f,const vecteur & v){
-    // v[0]=channels,bits_per_sample,sample_rate,data_size,
-    unsigned char channels;
-    unsigned int u,sample_rate=44100,byte_rate,block_align=0,bits_per_sample=0,data_size=1<<31;
-    if (v.empty())
+  static bool in_writewav(FILE * f,const vecteur & v_){
+    if (v_.empty())
       return false;
-    gen g=v[0];
-    if (g.type!=_VECT || g._VECTptr->size()<2)
+    vecteur v(v_);
+    int channels,sample_rate=44100,bits_per_sample=0;
+    unsigned int u,byte_rate,block_align=0,data_size=1<<31;
+    if (!read_audio(v,channels,sample_rate,bits_per_sample,data_size))
       return false;
-    vecteur & w=*g._VECTptr;
-    int ws=w.size();
-    if (w[0].type!=_INT_ || w[1].type!=_INT_)
-      return false;
-    channels=w[0].val;
-    if (channels>4 || v.size()<=channels)
-      return false;
-    bits_per_sample=w[1].val;
-    if (ws>=3)
-      sample_rate=w[2].val;
-    if (ws>=4 && w[3].type==_INT_)
-      data_size=w[3].val;
-    for (int i=1;i<=channels;++i){
-      if (v[i].type!=_VECT)
-	return false;
-      if (data_size>v[i]._VECTptr->size())
-	data_size=v[i]._VECTptr->size();
-    }
     u=0x46464952;
     if (fwrite(&u,4,1,f)!=1)
       return false;

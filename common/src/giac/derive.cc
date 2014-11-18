@@ -89,7 +89,7 @@ namespace giac {
     // rational operators are treated first for efficiency
     if (s.sommet==at_plus){
       if (step_infolevel>1 && count_noncst(s.feuille,i)>1)
-	gprintf("Derivative of a sum: (u+v+...)'=u'+v'+...\n  with u,v,...=%gen",makevecteur(s.feuille),contextptr);
+	gprintf(gettext("Derivative of a sum: (u+v+...)'=u'+v'+...\n  with u,v,...=%gen"),makevecteur(s.feuille),contextptr);
       if (s.feuille.type!=_VECT)
 	return derive(s.feuille,i,contextptr);
       vecteur::const_iterator iti=s.feuille._VECTptr->begin(),itend=s.feuille._VECTptr->end();
@@ -114,7 +114,7 @@ namespace giac {
     }
     if (s.sommet==at_prod){
       if (step_infolevel>1 && count_noncst(s.feuille,i)>1)
-	gprintf("Derivative of a product: (u*v*...)'=u'*v*...+u*v'*...+...\n  with u,v,...=%gen",makevecteur(s.feuille),contextptr);
+	gprintf(gettext("Derivative of a product: (u*v*...)'=u'*v*...+u*v'*...+...\n  with u,v,...=%gen"),makevecteur(s.feuille),contextptr);
       if (s.feuille.type!=_VECT)
 	return derive(s.feuille,i,contextptr);
       vecteur::const_iterator itbegin=s.feuille._VECTptr->begin(),itj,iti,itend=s.feuille._VECTptr->end();
@@ -157,9 +157,9 @@ namespace giac {
       // =base^exponent*diff(exponent)*ln(base)+base^(exponent-1)*exponent*diff(base)
       if (step_infolevel>1){
 	if (is_zero(dexponent))
-	  gprintf("Derivative of a power: (%gen^%gen)'=%gen*%gen'*(%gen)^(%gen-1)",makevecteur(base,exponent,exponent,base,base,exponent),contextptr);
+	  gprintf(gettext("Derivative of a power: (%gen^%gen)'=%gen*%gen'*(%gen)^(%gen-1)"),makevecteur(base,exponent,exponent,base,base,exponent),contextptr);
 	else
-	  gprintf("Derivative of a power: (%gen^%gen)'=%gen^%gen*%gen'*ln(%gen)+%gen^(%gen-1)%gen*%gen'",makevecteur(base,exponent,base,exponent,exponent,base,base,exponent,exponent,base),contextptr);
+	  gprintf(gettext("Derivative of a power: (%gen^%gen)'=%gen^%gen*%gen'*ln(%gen)+%gen^(%gen-1)%gen*%gen'"),makevecteur(base,exponent,base,exponent,exponent,base,base,exponent,exponent,base),contextptr);
       }
       gen expm1=exponent+gen(-1);
       if (is_zero(dexponent))
@@ -168,7 +168,7 @@ namespace giac {
     }
     if (s.sommet==at_inv){
       if (step_infolevel>1)
-	gprintf("Derivative of inv(u)=-u'/u^2 with u=%gen",makevecteur(s.feuille),contextptr);
+	gprintf(gettext("Derivative of inv(u)=-u'/u^2 with u=%gen"),makevecteur(s.feuille),contextptr);
       if (s.feuille.is_symb_of_sommet(at_pow)){
 	gen & f = s.feuille._SYMBptr->feuille;
 	if (f.type==_VECT && f._VECTptr->size()==2)
@@ -211,9 +211,9 @@ namespace giac {
     }
     if (step_infolevel>1 && s.feuille.type!=_VECT){
       if (s.feuille==i)
-	gprintf("Derivative of function %gen",makevecteur(s.sommet),contextptr);
+	gprintf(gettext("Derivative of function %gen"),makevecteur(s.sommet),contextptr);
       else
-	gprintf("Derivative of a composition: (f(u))'=u'*f'(u)\n  where f=%gen and u=%gen",makevecteur(s.sommet,s.feuille),contextptr);
+	gprintf(gettext("Derivative of a composition: (f(u))'=u'*f'(u)\n  where f=%gen and u=%gen"),makevecteur(s.sommet,s.feuille),contextptr);
     }
     if (s.sommet==at_UTPT){
       if (s.feuille.type!=_VECT || s.feuille._VECTptr->size()!=2)

@@ -5547,8 +5547,13 @@ namespace giac {
 	return _simplify(g,contextptr);
       if (f==at_exp || f==at_ln || f==at_EXP)
 	return trig2exp(g,contextptr);
-      if (f==at_string)
-	return string2gen(g.print(contextptr),false);
+      if (f==at_string){
+	int maxp=MAX_PRINTABLE_ZINT;
+	MAX_PRINTABLE_ZINT= 1000000;
+	gen res=string2gen(g.print(contextptr),false);
+	MAX_PRINTABLE_ZINT=maxp;
+	return res;
+      }
       if (f==at_matrix || f==at_vector || f==at_array){
 	g.subtype=_MATRIX__VECT;
 	return g;
@@ -6752,6 +6757,8 @@ namespace giac {
 
   gen _string(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG &&  args.subtype==-1) return  args;
+    int maxp=MAX_PRINTABLE_ZINT;
+    MAX_PRINTABLE_ZINT=1000000;
     string res;
     if (args.type==_VECT && args.subtype==_SEQ__VECT){
       const_iterateur it=args._VECTptr->begin(),itend=args._VECTptr->end();
@@ -6773,6 +6780,7 @@ namespace giac {
     }
     else
       res=args.print(contextptr);
+    MAX_PRINTABLE_ZINT=maxp;
     return string2gen(res,false);
   }
   static const char _string_s []="string";
