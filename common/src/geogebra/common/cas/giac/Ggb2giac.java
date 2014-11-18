@@ -4,11 +4,6 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /***
- * IMPORTANT: Every time this file is changed a robot will automatically
- * create a new version of giac.js and modify kickstart.xml for the web.
- */
-
-/***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ]
  * is translated to factor( 2*(x+3) ) ###
  */
@@ -562,8 +557,11 @@ public class Ggb2giac {
 		// Root.1 and Solve.1 should be the same		
 		String root1 = "ggbsort(normal([op(solve(%0))]))";
 		p("Root.1", root1);
-		p("Solve.1", root1);
+		
+		p("round.2", "round(%0,%1)");
 
+		p("Solve.1", root1);
+		
 		p("Solve.2",
 				"ggbsort(normal([op(solve(%0,%1))]))");
 		p("SolveODE.1",
