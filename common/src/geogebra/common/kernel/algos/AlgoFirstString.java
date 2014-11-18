@@ -75,6 +75,12 @@ public class AlgoFirstString extends AlgoElement {
 	@Override
 	public void compute() {
 		String str = inputText.getTextString();
+		
+    	if (str == null) {
+    		outputText.setUndefined();
+    		return;
+    	}
+
 		size = str.length();
 		int outsize = n == null ? 1 : (int) n.getDouble();
 

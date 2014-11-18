@@ -86,6 +86,11 @@ public class AlgoTakeString extends AlgoElement {
     	
     	String str = inputText.getTextString();
     	
+    	if (str == null) {
+    		outputText.setUndefined();
+    		return;
+    	}
+    	
     	size = str.length();
     	int start=(int)m.getDouble();
     	double nVal = n==null?size:n.getDouble();
