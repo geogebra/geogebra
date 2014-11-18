@@ -1870,9 +1870,9 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// OR comment setHits3D() for shaders
 
 		if (renderer.useLogicalPicking()){
-			renderer.setHits(p, app.getCapturingThreshold(type));
+			renderer.setHits(p, getCapturingThreshold(type));
 			if(type == PointerEventType.TOUCH && this.hits.size() == 0){
-				renderer.setHits(p, app.getCapturingThreshold(type) * 3);
+				renderer.setHits(p, getCapturingThreshold(type) * 3);
 			}
 
 			hasMouse = true;
@@ -1880,6 +1880,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		}
 		
 
+	}
+	
+	protected int getCapturingThreshold(PointerEventType type){
+		return app.getCapturingThreshold(type);
 	}
 
 	/**
@@ -2251,7 +2255,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 			case PREVIEW_POINT_ALREADY:
 				// use size of point
-				t = 1 / getScale();// (getCursor3D().getPointSize()/6+2)/getScale();
+				t = Math.max(1, getCursor3D().getPointSize()/6.0 + 0.5) / getScale();
 
 				if (getCursor3D().hasPath()) {
 					v = ((GeoElement) getCursor3D().getPath())

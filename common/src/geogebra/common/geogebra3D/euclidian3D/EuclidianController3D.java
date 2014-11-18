@@ -587,6 +587,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					.getNormal());
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		point3D.setMoveMode(sourcePoint.getMoveMode());
+		point3D.setPointSize(sourcePoint.getPointSize());
 
 		// Application.debug("sourcePoint:\n"+sourcePoint.getCoordsInD3()+"\ncursor:\n"+view3D.getCursor3D().getCoordsInD3());
 	}

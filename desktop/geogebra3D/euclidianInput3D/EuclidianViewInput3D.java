@@ -231,6 +231,12 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return super.isMoveable(geo);
 	}
 	
+	
+	@Override
+	protected int getCapturingThreshold(PointerEventType type){
+		return 5 * super.getCapturingThreshold(type);
+	}
+	
 	/*
 	@Override
 	protected void setDefault2DCursor() {
