@@ -710,7 +710,7 @@ LongTouchHandler {
 			return mouseEventX(clientX - style.getxOffset());
 		}
 		//IE touch events are mouse events
-		return Browser.supportsPointerEvents() ? mouseEventX(clientX) : (clientX - style.getxOffset());
+		return Browser.supportsPointerEvents() ? mouseEventX(clientX) : mouseEventX(clientX - style.getxOffset());
 	}
 
 	public int touchEventY(int clientY) {
@@ -718,7 +718,7 @@ LongTouchHandler {
 			return mouseEventY(clientY - style.getyOffset());
 		}
 		//IE touch events are mouse events
-		return Browser.supportsPointerEvents() ? mouseEventX(clientY) : (clientY - style.getyOffset());
+		return Browser.supportsPointerEvents() ? mouseEventY(clientY) : mouseEventY(clientY - style.getyOffset());
 	}
 
 	/**
