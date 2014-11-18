@@ -2292,7 +2292,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void setPreview(Previewable previewDrawable) {
 
-		// App.debug(previewDrawable);
+		//App.debug(""+previewDrawable);
+		
+		if (this.previewDrawable == previewDrawable){
+			return;
+		}
 
 		if (this.previewDrawable != null) {
 			this.previewDrawable.disposePreview();

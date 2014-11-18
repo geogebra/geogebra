@@ -171,7 +171,12 @@ public class DrawIntersectionCurve3D extends Drawable3DCurves implements Preview
 
 	}
 	
-
+	@Override
+	public void addToDrawable3DLists(Drawable3DLists lists){
+		for (Drawable3D d : drawables){
+			d.addToDrawable3DLists(lists);
+		}
+	}
 
 
 }
