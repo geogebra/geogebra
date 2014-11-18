@@ -199,6 +199,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private List<OptionsTab> tabs;
 
+	private TextOptionsPanel textOptionsPanel;
+
 
 
 
@@ -2057,10 +2059,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private static final int iconHeight = 24;
 		private TextPreviewPanelW previewer; 
 		public TextOptionsPanel() {
-
+			createGUI();
+		}
+		
+		public void createGUI() {
 			model = new TextOptionsModel(app, this);
 			setModel(model);
-
 			editor = new GeoTextEditor(getAppW(), this);
 			editor.setStyleName("objectPropertiesTextEditor");
 			lbFont = new ListBox();
@@ -3358,7 +3362,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private OptionsTab addTextTab() {
 		OptionsTab tab = new OptionsTab("Text");
-		TextOptionsPanel textOptionsPanel = new TextOptionsPanel();
+		textOptionsPanel = new TextOptionsPanel();
 		tab.add(textOptionsPanel);
 		return tab;
 	}
@@ -3480,6 +3484,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	}
 
+	public void reinit() {
+		textOptionsPanel.createGUI();
+		updateGUI();
+	}
 	public void updateGUI() {
 		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
@@ -3504,7 +3512,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	public void selectTab(int index) {
-		tabPanel.selectTab(index);	    
+		tabPanel.selectTab(index < 0 ? 0: index);	    
 	}
 
 	public void openFileAsImage(String fileName) {

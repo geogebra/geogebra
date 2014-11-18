@@ -193,7 +193,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize, Se
 
 			} else {
 				OptionsObjectW op =	getObjectPanel();
-				op.updateGUI();
+				op.reinit();
 				op.selectTab(subType);
 			}
 			App.debug("obect prop SELECTING TAB " + subType);
