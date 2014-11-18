@@ -62,7 +62,9 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
     
     @Override
 	final protected GeoAngle newGeoAngle(Construction cons){
-    	return new GeoAngle3D(cons);
+    	GeoAngle ret = new GeoAngle3D(cons);
+		ret.setDrawable(true);
+		return ret;
     }
     
     

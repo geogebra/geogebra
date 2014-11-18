@@ -49,7 +49,9 @@ public abstract class AlgoAngle extends AlgoElement{
 	 * @return new GeoAngle
 	 */
 	protected GeoAngle newGeoAngle(Construction cons) {
-		return new GeoAngle(cons);
+		GeoAngle ret = new GeoAngle(cons);
+		ret.setDrawable(true);
+		return ret;
 	}
 	
     @Override

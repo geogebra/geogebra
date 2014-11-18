@@ -159,7 +159,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 	 */
 	public GeoAngle(Construction c) {
 		super(c);
-		
 		//setAlphaValue(ConstructionDefaults.DEFAULT_ANGLE_ALPHA);
 		//setLabelMode(GeoElement.LABEL_NAME);
 		

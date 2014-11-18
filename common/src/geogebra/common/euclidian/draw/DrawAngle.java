@@ -93,7 +93,6 @@ public class DrawAngle extends Drawable implements Previewable {
 		init();
 
 		if (algo != null) {
-			angle.setDrawable(true);
 			update();
 		}
 	}

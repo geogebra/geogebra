@@ -52,7 +52,9 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND{
 	
     @Override
 	protected GeoAngle newGeoAngle(Construction cons1){
-    	return new GeoAngle3D(cons1);
+    	GeoAngle ret = new GeoAngle3D(cons);
+		ret.setDrawable(true);
+		return ret;
     }
     
     protected Coords center, v1, v2, vn;
