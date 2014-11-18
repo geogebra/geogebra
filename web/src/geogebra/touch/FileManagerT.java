@@ -669,7 +669,7 @@ public class FileManagerT extends FileManager {
     public boolean save(AppW app) {
 		if (!app.isOffline() && !app.getLoginOperation().isLoggedIn()) {
 			app.getGuiManager().listenToLogin();
-			((SignInButton) ((AppW) app).getLAF().getSignInButton(app)).login();
+			((SignInButton) app.getLAF().getSignInButton(app)).login();
 		} else {
 			((DialogManagerW) app.getDialogManager()).getSaveDialog().center();
 		}

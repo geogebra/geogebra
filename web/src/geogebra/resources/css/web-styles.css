@@ -19,6 +19,7 @@
 .GeoGebraFrame img {
 	vertical-align: baseline;
 }
+
 /**
  * The reference theme can be used to determine when this style sheet has
  * loaded.  Create a hidden div element with absolute position, assign the style
@@ -4183,6 +4184,7 @@ PROVIDERS
 	-moz-box-sizing: border-box;
 	-webkit-box-sizing: border-box;
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
+	background-color: white;
 }
 
 .materialListElement {
@@ -4322,6 +4324,7 @@ PROVIDERS
 	text-align: center;
 	width: 80%;
 	margin-bottom: 5px;
+	padding: 4px 14px;
 }
 
 .materialListElement .cancelButton {
@@ -4844,6 +4847,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    
 #cbCreationList {
   	width: 80%;
+  	overflow: auto;
   }
   
 .RelationTool {
