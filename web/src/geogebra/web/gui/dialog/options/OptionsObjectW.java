@@ -2213,7 +2213,20 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				orig = null;
 		}
 
+		/**
+		 * The editor must be recreated each time the options panel is
+		 * re-attached to the DOM
+		 */
+		void reinitEditor() {
 
+			int index = editorPanel.getWidgetIndex(editor);
+			editorPanel.remove(editor);
+
+			editor = new GeoTextEditor(getAppW(), this);
+			editor.setStyleName("objectPropertiesTextEditor");
+			editorPanel.insert(editor, index);
+		}
+		
 		@Override
 		public boolean update(Object[] geos) {
 
@@ -3276,6 +3289,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			public void onAttachOrDetach(AttachEvent event) {
 				app.setDefaultCursor();
+				reinit(); // re-attach the text editor
 			}
 		});
 		wrappedPanel.setVisible(false);
@@ -3485,7 +3499,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	public void reinit() {
-		textOptionsPanel.createGUI();
+		textOptionsPanel.reinitEditor();
 		updateGUI();
 	}
 	public void updateGUI() {
