@@ -110,7 +110,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		public TreeItem addBranchItem(final DraggableTool tool) {
 			return setBranchItem(toolTree.addItem(tool), tool);
 
-		}
+		} 
 
 		native void toolbarChanged(String toolbarString) /*-{
 	        if($wnd.onGgbToolbarChanged){
@@ -158,7 +158,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						if (!fromAllTools) {
 							if (idx < toolTree.getItemCount()) {
 								toolTree.insertItem(idx, dragging.treeItem);
-							} else {
+								if (dragging.treeItem.getChildCount() == 0) {
+									App.debug("wkwkwk!!!!!!!!!!!");
+									addLeafItem(dragging.treeItem, dragging.duplicate());
+								  }
+								} else {
 								toolTree.addBranchItem(dragging);
 							
 							}
