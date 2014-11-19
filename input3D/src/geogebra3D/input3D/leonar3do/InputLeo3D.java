@@ -197,4 +197,12 @@ public class InputLeo3D implements Input3D {
 	public boolean currentlyUseMouse2D(){
 		return false;
 	}
+	
+	public void setLeftButtonPressed(boolean flag){
+		// not used for leo
+	}
+	
+	public boolean getLeftButton(){
+		return leoSocket.smallButton > 0.5;
+	}
 }

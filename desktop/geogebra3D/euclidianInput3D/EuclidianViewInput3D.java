@@ -1,10 +1,11 @@
 package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
+import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
-import geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3DConstant;
@@ -12,6 +13,7 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -53,6 +55,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public void drawMouseCursor(Renderer renderer1) {
+		
+		if (input3D.currentlyUseMouse2D()){
+			return;
+		}
 
 		// use a 3D mouse position
 		mouse3DScreenPosition = ((EuclidianControllerInput3D) getEuclidianController())
@@ -225,15 +231,76 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public void setHits(PointerEventType type) {
 
-		if (!input3D.currentlyUseMouse2D() && input3D.useInputDepthForHitting()){
-			((HittingSphere) renderer.getHitting()).setHits(mouse3DScenePosition, 15);
-			hasMouse = true;
-			updateCursor3D();
-		}else{
-			super.setHits(type);
+		super.setHits(type);
+		
+		if (input3D.currentlyUseMouse2D()){
+			return;
+		}
+
+		// not moving a geo : see if user stays on the same hit to select it
+		if (getEuclidianController().getMoveMode() == EuclidianController.MOVE_NONE
+				&& !input3D.getLeftButton()){
+			long time = System.currentTimeMillis();
+			hittedGeo.setHitted(getHits3D(), time);
+			if (hittedGeo.hasLongDelay(time)){
+				input3D.setLeftButtonPressed(true);
+			}
+		}
+
+	}
+	
+	private class HittedGeo{
+		
+		private GeoElement geo;
+		
+		private long startTime;
+		
+		public void setHitted(Hits hits, long time){
+			//App.debug("\nHittedGeo:\n"+getHits3D());
+			if (hits.isEmpty()){
+				geo = null;
+				//App.debug("\n -- geo = null");
+			}else{
+				GeoElement newGeo = hits.get(0);
+				if (newGeo != geo){
+					geo = newGeo;
+					startTime = time;
+				}
+				//App.debug("\n "+(time-startTime)+"-- geo = "+geo);
+			}
 		}
 		
+		/**
+		 * 
+		 * @param time current time
+		 * @return true if hit was long enough to process left press
+		 */
+		public boolean hasLongDelay(long time){
+			
+			if (geo == null){
+				return false;
+			}
+			
+			int delay = (int) ((time-startTime) /100);
+			String s = "";
+			for (int i = 0 ; i < delay ; i++){
+				s+="=";
+			}
+			for (int i = delay ; i <= 10 ; i++){
+				s+=" ";
+			}
+			s+="|";
+			App.debug("\n  hit delay : "+s);
+			if ((time-startTime) > 1000){
+				geo = null; // consume event
+				return true;
+			}
+			
+			return false;
+		}
 	}
+	
+	private HittedGeo hittedGeo = new HittedGeo();
 	
 	@Override
 	protected Renderer createRenderer() {

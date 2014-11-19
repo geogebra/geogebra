@@ -47,7 +47,7 @@ public class Socket {
 	public double glassesCenterX, glassesCenterY, glassesCenterZ;
 	public double glassesOrientationX, glassesOrientationY, glassesOrientationZ, glassesOrientationW;
 
-	public double bigButton, smallButton, vibration;
+	public boolean rightButton = false, leftButton = false;
 	
 	public float hand2Dx, hand2Dy, hand2Dfactor;
 
@@ -112,6 +112,33 @@ public class Socket {
 		public void addData(//float imx, float imy, 
 				float wx, float wy, float wz,
 				float ox, float oy, float oz, float ow){
+			
+			
+			if (resetAllValues){
+				for (int i = 0 ; i < samples ; i++){
+					// reset all values
+					worldX[i] = wx;
+					worldY[i] = wy;
+					worldZ[i] = wz;
+					handOrientationX[i] = ox;
+					handOrientationY[i] = oy;
+					handOrientationZ[i] = oz;
+					handOrientationW[i] = ow;
+				}
+				
+				worldXSum = wx * samples;
+				worldYSum = wy * samples;
+				worldZSum = wz * samples;
+				
+				handOrientationXSum = ox * samples;
+				handOrientationYSum = oy * samples;
+				handOrientationZSum = oz * samples;
+				handOrientationWSum = ow * samples;
+				
+				index = 0;
+				resetAllValues = false;
+				return;
+			}
 			
 			
 			/*
@@ -255,7 +282,7 @@ public class Socket {
 		//App.debug(""+gesture);
 	}
 	
-	
+	private boolean resetAllValues = false;
 	
 	private void setAlert(int id, AlertType type){
 		
@@ -265,11 +292,14 @@ public class Socket {
 			if (type == AlertType.ALERT_HAND_INSIDE_BORDERS){
 				App.debug("hand #"+id+" inside borders");
 				handId = id;
+				resetAllValues = true;
 			}
 		}else if (handId == id){ // new alert from tracked hand
 			if (type == AlertType.ALERT_HAND_OUT_OF_BORDERS){
 				App.debug("hand #"+id+" out of borders");
 				handId = -1;
+				leftButton = false;
+				rightButton = false;
 			}
 		}
 		
@@ -417,6 +447,7 @@ public class Socket {
 			birdOrientationW = dataAverage.getHandOrientationW();
 			
 			
+			/*
 			switch(gesture){
 			case PINCH:
 				smallButton = 1;
@@ -431,6 +462,7 @@ public class Socket {
 				bigButton = 0;
 				break;
 			}
+			*/
 
 			gotMessage = true;
 			
@@ -465,6 +497,13 @@ public class Socket {
 	 */
 	public boolean hasTrackedHand() {
 		return handId >= 0;
+	}
+
+
+
+	public void setLeftButtonPressed(boolean flag) {
+		leftButton = flag;	
+		App.debug("\nleftButton = "+leftButton);
 	}
 
 

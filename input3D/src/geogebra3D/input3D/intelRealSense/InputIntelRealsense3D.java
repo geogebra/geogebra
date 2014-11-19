@@ -91,12 +91,10 @@ public class InputIntelRealsense3D implements Input3D {
 
 			
 			// right button
-			isRightPressed = (socket.bigButton > 0.5);
+			isRightPressed = socket.rightButton;
 			
 			// left button
-			isLeftPressed = (socket.smallButton > 0.5);
-			
-		
+			isLeftPressed = socket.leftButton;
 			
 			
 			
@@ -197,5 +195,13 @@ public class InputIntelRealsense3D implements Input3D {
 	
 	public boolean currentlyUseMouse2D(){
 		return !socket.hasTrackedHand();
+	}
+	
+	public void setLeftButtonPressed(boolean flag){
+		socket.setLeftButtonPressed(flag);
+	}
+	
+	public boolean getLeftButton(){
+		return socket.leftButton;
 	}
 }

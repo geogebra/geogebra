@@ -6,6 +6,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.App;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -64,9 +65,78 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 				//update point decorations
 				((EuclidianView3D) ec.view).updatePointDecorations((GeoPoint3D) ec.movedGeoPoint);
 			}
+
+			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()){
+				long time = System.currentTimeMillis();
+				stationaryCoords.setCoords(coords, time);
+				if (stationaryCoords.hasLongDelay(time)){
+					((EuclidianControllerInput3D) ec).input3D.setLeftButtonPressed(false);
+				}
+			}
 		}
 
 	}
+	
+	private class StationaryCoords {
+		
+		private Coords startCoords = new Coords(4);
+		private long startTime;
+		
+		public StationaryCoords(){
+			startCoords.setUndefined();
+		}
+		
+		public void setCoords(Coords coords, long time){
+			
+			if (startCoords.isDefined()){
+				double distance = Math.abs(startCoords.getX() - coords.getX())
+						+ Math.abs(startCoords.getY() - coords.getY())
+						+ Math.abs(startCoords.getZ() - coords.getZ());
+				//App.debug("\n -- "+(distance * ((EuclidianView3D) ec.view).getScale()));
+				if (distance * ((EuclidianView3D) ec.view).getScale() > 30){
+					startCoords.set(coords);
+					startTime = time;
+					//App.debug("\n -- startCoords =\n"+startCoords);
+				}else{
+					//App.debug("\n -- same coords "+(time-startTime));
+				}
+			}else{
+				startCoords.set(coords);
+				startTime = time;
+				//App.debug("\n -- startCoords =\n"+startCoords);
+			}
+		}
+		
+		
+		/**
+		 * 
+		 * @param time current time
+		 * @return true if hit was long enough to process left release
+		 */
+		public boolean hasLongDelay(long time){
+			
+			if (startCoords.isDefined()){
+				int delay = (int) ((time-startTime) /100);
+				String s = "";
+				for (int i = 0 ; i < 10 - delay ; i++){
+					s+="=";
+				}
+				for (int i = 10 - delay ; i <= 10 ; i++){
+					s+=" ";
+				}
+				s+="|";
+				App.error("\nmove delay : "+s);
+				if ((time-startTime) > 1000){
+					startCoords.setUndefined(); // consume event
+					return true;
+				}
+			}
+			
+			return false;
+		}
+	}
+	
+	private StationaryCoords stationaryCoords = new StationaryCoords();
 	
 	
 	@Override

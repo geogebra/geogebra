@@ -415,7 +415,7 @@ public abstract class EuclidianController {
 
 	private MyButton pressedButton;
 	
-	protected static final int MOVE_NONE = 101;
+	public static final int MOVE_NONE = 101;
 	protected static final int MOVE_POINT = 102;
 	protected static final int MOVE_LINE = 103;
 	protected static final int MOVE_CONIC = 104;

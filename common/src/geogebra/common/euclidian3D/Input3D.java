@@ -111,5 +111,18 @@ public interface Input3D {
 	public boolean currentlyUseMouse2D();
 
 
+	/**
+	 * set left button is pressed
+	 * @param flag flag
+	 */
+	public void setLeftButtonPressed(boolean flag);
+	
+	/**
+	 * 
+	 * @return left button status
+	 */
+	public boolean getLeftButton();
+
+
 	
 }
