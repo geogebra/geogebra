@@ -25,6 +25,11 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 	
 	@Override
 	protected GeoPoint3D createNewFreePoint(boolean complex){
+		
+		if (((EuclidianControllerInput3D) ec).input3D.currentlyUseMouse2D()){
+			return super.createNewFreePoint(complex);
+		}
+		
 		GeoPoint3D point3D = ((EuclidianView3D) ec.view).getCursor3D();	
 		point3D.setPath(null);
 		point3D.setRegion(null);
@@ -41,21 +46,24 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 	@Override
 	protected void movePoint(boolean repaint, AbstractEvent event){
 		
-		
-		Coords v = new Coords(4);
-		v.set(((EuclidianControllerInput3D) ec).mouse3DPosition.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
-		((EuclidianView3D) ec.view).toSceneCoords3D(v);
-		
-		
-		Coords coords = ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords.add(v);
-		checkPointCapturingXYThenZ(coords);
-		ec.movedGeoPoint.setCoords(coords, true);
-		ec.movedGeoPoint.updateCascade();
+		if (((EuclidianControllerInput3D) ec).input3D.currentlyUseMouse2D()){
+			super.movePoint(repaint, event);
+		}else{
+			Coords v = new Coords(4);
+			v.set(((EuclidianControllerInput3D) ec).mouse3DPosition.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
+			((EuclidianView3D) ec.view).toSceneCoords3D(v);
 
 
-		if (ec.movedGeoPoint.isGeoElement3D() && !ec.movedGeoPoint.hasPath() && !ec.movedGeoPoint.hasRegion()){
-			//update point decorations
-			((EuclidianView3D) ec.view).updatePointDecorations((GeoPoint3D) ec.movedGeoPoint);
+			Coords coords = ((EuclidianControllerInput3D) ec).movedGeoPointStartCoords.add(v);
+			checkPointCapturingXYThenZ(coords);
+			ec.movedGeoPoint.setCoords(coords, true);
+			ec.movedGeoPoint.updateCascade();
+
+
+			if (ec.movedGeoPoint.isGeoElement3D() && !ec.movedGeoPoint.hasPath() && !ec.movedGeoPoint.hasRegion()){
+				//update point decorations
+				((EuclidianView3D) ec.view).updatePointDecorations((GeoPoint3D) ec.movedGeoPoint);
+			}
 		}
 
 	}
@@ -63,22 +71,25 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 	
 	@Override
 	protected void movePlane(boolean repaint, AbstractEvent event) {
-		
-		Coords v = new Coords(4);
-		v.set(((EuclidianControllerInput3D) ec).mouse3DPosition.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
-		((EuclidianView3D) ec.view).toSceneCoords3D(v);
-		
-		((EuclidianControllerInput3D) ec).movedGeoPlane.setCoordSys(((EuclidianControllerInput3D) ec).movedGeoPlaneStartCoordSys);
-		
-		((EuclidianControllerInput3D) ec).movedGeoPlane.rotate(
-				((EuclidianControllerInput3D) ec).getCurrentRotMatrix(),
-				((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
-				);
 
-		((EuclidianControllerInput3D) ec).movedGeoPlane.translate(v);
-	
-		((EuclidianControllerInput3D) ec).movedGeoPlane.updateCascade();
-		
+		if (((EuclidianControllerInput3D) ec).input3D.currentlyUseMouse2D()){
+			super.movePlane(repaint, event);
+		}else{
+			Coords v = new Coords(4);
+			v.set(((EuclidianControllerInput3D) ec).mouse3DPosition.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
+			((EuclidianView3D) ec.view).toSceneCoords3D(v);
+
+			((EuclidianControllerInput3D) ec).movedGeoPlane.setCoordSys(((EuclidianControllerInput3D) ec).movedGeoPlaneStartCoordSys);
+
+			((EuclidianControllerInput3D) ec).movedGeoPlane.rotate(
+					((EuclidianControllerInput3D) ec).getCurrentRotMatrix(),
+					((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
+					);
+
+			((EuclidianControllerInput3D) ec).movedGeoPlane.translate(v);
+
+			((EuclidianControllerInput3D) ec).movedGeoPlane.updateCascade();
+		}
 	}
 	
 	

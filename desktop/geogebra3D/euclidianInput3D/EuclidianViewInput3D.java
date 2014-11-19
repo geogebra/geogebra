@@ -2,6 +2,7 @@ package geogebra3D.euclidianInput3D;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.HittingSphere;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterCursor;
@@ -23,6 +24,8 @@ import geogebra3D.euclidian3D.opengl.RendererLogicalPickingGL2;
  * 
  */
 public class EuclidianViewInput3D extends EuclidianView3DD {
+	
+	private Input3D input3D;
 
 	/**
 	 * constructor
@@ -35,6 +38,8 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	public EuclidianViewInput3D(EuclidianController3D ec,
 			EuclidianSettings settings) {
 		super(ec, settings);
+		
+		input3D = ((EuclidianControllerInput3D) ec).input3D;
 
 		mouse3DScenePosition = new Coords(4);
 		mouse3DScenePosition.setW(1);
@@ -179,6 +184,10 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	protected void setPickPointFromMouse(GPoint mouse) {
 		super.setPickPointFromMouse(mouse);
+		
+		if (input3D.currentlyUseMouse2D()){
+			return;
+		}
 
 		if (mouse instanceof GPointWithZ) {
 			pickPoint.setZ(((GPointWithZ) mouse).getZ());
@@ -187,17 +196,28 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	protected void drawFreeCursor(Renderer renderer1) {
-		// free point in space
-		renderer1.drawCursor(PlotterCursor.TYPE_CROSS3D);
+		
+		if (input3D.currentlyUseMouse2D()){
+			super.drawFreeCursor(renderer1);
+		}else{		
+			// free point in space
+			renderer1.drawCursor(PlotterCursor.TYPE_CROSS3D);
+		}
 	}
 
 	@Override
 	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
+		if (input3D.currentlyUseMouse2D()){
+			return super.getLabelHit(p);
+		}
 		return null;
 	}
 
 	@Override
 	public int getMousePickWidth() {
+		if (input3D.currentlyUseMouse2D()){
+			return super.getMousePickWidth();
+		}
 		return Renderer.MOUSE_PICK_DEPTH;
 	}
 	
@@ -205,7 +225,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	@Override
 	public void setHits(PointerEventType type) {
 
-		if (((EuclidianControllerInput3D) getEuclidianController()).useInputDepthForHitting()){
+		if (!input3D.currentlyUseMouse2D() && input3D.useInputDepthForHitting()){
 			((HittingSphere) renderer.getHitting()).setHits(mouse3DScenePosition, 15);
 			hasMouse = true;
 			updateCursor3D();
@@ -224,6 +244,11 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	@Override
 	public boolean isMoveable(GeoElement geo) {
+		
+		if (input3D.currentlyUseMouse2D()){
+			return super.isMoveable(geo);
+		}
+		
 		if (geo.isGeoPlane() && geo.isIndependent() && !(geo instanceof GeoPlane3DConstant)){
 			return true;
 		}
@@ -234,6 +259,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	
 	@Override
 	protected int getCapturingThreshold(PointerEventType type){
+		if (input3D.currentlyUseMouse2D()){
+			return super.getCapturingThreshold(type);
+		}
 		return 5 * super.getCapturingThreshold(type);
 	}
 	

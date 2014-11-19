@@ -104,5 +104,12 @@ public interface Input3D {
 	public boolean hasMouse(EuclidianView3D view3D);
 
 
+	/**
+	 * 
+	 * @return true if 3D input is currently (possibly) using 2D mouse
+	 */
+	public boolean currentlyUseMouse2D();
+
+
 	
 }

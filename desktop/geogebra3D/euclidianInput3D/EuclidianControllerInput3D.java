@@ -17,7 +17,6 @@ import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
 
 import java.awt.AWTException;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -421,15 +420,23 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	@Override
-	protected void setMouseLocation(AbstractEvent event) {
-		mouseLoc = event.getPoint();
+	protected void setMouseLocation(AbstractEvent event) {		
+		if (input3D.currentlyUseMouse2D()){
+			super.setMouseLocation(event);
+		}else{
+			mouseLoc = event.getPoint();
+		}
 	}
 
 	protected Coords movedGeoPointStartCoords = new Coords(0, 0, 0, 1);
 
 	@Override
 	protected void updateMovedGeoPointStartValues(Coords coords) {
-		movedGeoPointStartCoords.set(coords);
+		if (input3D.currentlyUseMouse2D()){
+			super.updateMovedGeoPointStartValues(coords);
+		}else{
+			movedGeoPointStartCoords.set(coords);
+		}
 	}
 
 	/**
@@ -440,21 +447,25 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return input3D.isLeftPressed() || input3D.isRightPressed();
 	}
 
-	@Override
-	public void addListenersTo(Component evjpanel) {
-		// restrict to the minimum : all will be done by the 3D mouse
-		evjpanel.addComponentListener(this);
-		evjpanel.addMouseListener(this);
-	}
+//	@Override
+//	public void addListenersTo(Component evjpanel) {
+//		// restrict to the minimum : all will be done by the 3D mouse
+//		evjpanel.addComponentListener(this);
+//		evjpanel.addMouseListener(this);
+//	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// nothing to do : this will be done by the 3D mouse
+		if (input3D.currentlyUseMouse2D()){
+			super.mousePressed(e);
+		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// nothing to do : this will be done by the 3D mouse
+		if (input3D.currentlyUseMouse2D()){
+			super.mouseReleased(e);
+		}
 	}
 
 	@Override

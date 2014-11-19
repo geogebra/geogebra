@@ -193,4 +193,8 @@ public class InputLeo3D implements Input3D {
 	public boolean hasMouse(EuclidianView3D view3D){
 		return view3D.hasMouse();
 	}
+	
+	public boolean currentlyUseMouse2D(){
+		return false;
+	}
 }

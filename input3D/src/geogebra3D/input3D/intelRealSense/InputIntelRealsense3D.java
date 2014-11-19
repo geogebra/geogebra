@@ -194,4 +194,8 @@ public class InputIntelRealsense3D implements Input3D {
 	public boolean hasMouse(EuclidianView3D view3D){
 		return socket.hasTrackedHand();
 	}
+	
+	public boolean currentlyUseMouse2D(){
+		return !socket.hasTrackedHand();
+	}
 }
