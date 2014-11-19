@@ -54,6 +54,7 @@ import geogebra.common.kernel.scripting.CmdTurtleBack;
 import geogebra.common.kernel.scripting.CmdTurtleForward;
 import geogebra.common.kernel.scripting.CmdTurtleLeft;
 import geogebra.common.kernel.scripting.CmdTurtleRight;
+import geogebra.common.kernel.scripting.CmdTurtleUp;
 import geogebra.common.kernel.scripting.CmdUpdateConstruction;
 import geogebra.common.kernel.scripting.CmdZoomIn;
 import geogebra.common.kernel.scripting.CmdZoomOut;
@@ -180,7 +181,9 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 					case TurtleLeft:
 						return new CmdTurtleLeft(kernel);
 					case TurtleRight:
-						return new CmdTurtleRight(kernel);	
+						return new CmdTurtleRight(kernel);
+					case TurtleUp:
+						return new CmdTurtleUp(kernel);	
 					case RunClickScript:
 						return new CmdRunClickScript(kernel);
 					case RunUpdateScript:

@@ -350,6 +350,7 @@ public abstract class CommandDispatcher {
 			case TurtleBack:
 			case TurtleLeft:
 			case TurtleRight:
+			case TurtleUp:
 			case RunClickScript:
 			case RunUpdateScript:
 			//case DensityPlot:

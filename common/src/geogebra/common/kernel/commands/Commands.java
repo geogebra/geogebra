@@ -242,6 +242,7 @@ public enum Commands implements CommandsConstants, GetCommand{
 	//=============================================================
 
    	Turtle(TABLE_GEOGEBRA), TurtleForward(TABLE_GEOGEBRA), TurtleBack(TABLE_GEOGEBRA), TurtleLeft(TABLE_GEOGEBRA), TurtleRight(TABLE_GEOGEBRA),
+   	TurtleUp(TABLE_GEOGEBRA),
    	
    	// disabled in GeoGebra 5.0, include in GeoGebra 5.2
    	MatrixPlot(TABLE_VECTOR), DensityPlot(TABLE_FUNCTION), ContourPlot(TABLE_FUNCTION), Nyquist(TABLE_FUNCTION), Polyhedron(TABLE_ENGLISH),
