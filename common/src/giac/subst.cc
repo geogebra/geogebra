@@ -2256,7 +2256,14 @@ namespace giac {
       return apply_to_equal(args,_simplify,contextptr);
     int c=calc_mode(contextptr);
     calc_mode(0,contextptr);
-    res=simplify(args,contextptr);
+    vecteur sub1,sub2;
+    surd2pow(args,sub1,sub2,contextptr);
+    res=args;
+    if (!sub1.empty())
+      res=subst(res,sub1,sub2,false,contextptr);
+    res=simplify(res,contextptr);
+    if (!sub1.empty())
+      res=subst(res,sub2,sub1,false,contextptr);
     calc_mode(c,contextptr);
     if ( (c==1 || c==-38 || c==38) && !lop(res,at_rootof).empty())
       res=ratnormal(args);

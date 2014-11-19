@@ -5354,10 +5354,21 @@ namespace giac {
 	d=d*conj(d,contextptr);
       }
       if (is_cinteger(n) && is_integer(d)){
-	if (is_positive(args,contextptr) || n.type==_CPLX)
+	if (is_positive(args,contextptr))
 	  return iquo(n,d);
-	else
+	if (n.type!=_CPLX)
 	  return iquo(n,d)-1;
+	gen nr,ni;
+	reim(n,nr,ni,contextptr);
+	if (is_positive(nr,contextptr))
+	  nr=iquo(nr,d);
+	else
+	  nr=iquo(nr,d)-1;
+	if (is_positive(ni,contextptr))
+	  ni=iquo(ni,d);
+	else
+	  ni=iquo(ni,d)-1;
+	return nr+ni*cst_i;
       }
     }
     /* old code, changed for floor(sqrt(2))

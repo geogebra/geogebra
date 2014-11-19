@@ -732,6 +732,8 @@ namespace giac {
 	  tmp=r2sym(vtmp,vecteur(1,vecteur(0)),contextptr);
 	max_sum_sqrt(maxsave,contextptr);
 	tmp=evalf(tmp,1,contextptr);
+	if (tmp.type==_VECT && !tmp._VECTptr->empty())
+	  tmp=tmp/tmp._VECTptr->front();
 	gen f_racine_max(evalf_double(abs(horner(tmp,racine_max),contextptr),1,contextptr));
 	if (f_racine_max.type!=_DOUBLE_)
 	  continue;

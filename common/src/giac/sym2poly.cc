@@ -897,8 +897,10 @@ namespace giac {
     if (is_atomic(num)){
       const_iterateur it=l.begin(),itend=l.end();
       embeddings=itend-it;
-      if (embeddings==1 && it->type==_VECT && it->_VECTptr->empty())
-	embeddings=0;
+      if (
+	  0 &&  // disable for expressions with mixed rootof/fracpow?
+	  embeddings==1 && it->type==_VECT && it->_VECTptr->empty())
+	embeddings=0; 
       else {
 	for (int j=0;j<embeddings;++it,++j){ 
 	  if (it->type!=_VECT){
@@ -1088,6 +1090,7 @@ namespace giac {
 	}
 	if (num.type==_EXT)
 	  simplify3(num,den);
+	// FIXME: embeddings like for rootof
 	return totally_converted;
       }
       if ((*s.feuille._VECTptr)[1].type==_FRAC) {
@@ -1393,7 +1396,14 @@ namespace giac {
       // make common extension of curext and minpoly
       gen oldminpoly=minpoly;
       gen oldcurext=curext;
-      minpoly=common_EXT(curext,oldminpoly,&l,contextptr);
+      if (curext==oldminpoly){
+	alg_extin.push_back(oldcurext);
+	alg_extoutnum.push_back(makevecteur(1,0));
+	alg_extoutden.push_back(1);
+	continue;
+      }
+      else
+	minpoly=common_EXT(curext,oldminpoly,&l,contextptr);
       if (minpoly.type!=_VECT)
 	return vecteur(1,gensizeerr(contextptr));
       if (minpoly._VECTptr->size()>unsigned(MAX_COMMON_ALG_EXT_ORDER_SIZE))
@@ -1576,6 +1586,77 @@ namespace giac {
     return false;
   }
 
+  // remove embedded i in n
+  bool clean_iext(gen & n,gen & d,const gen & iext,GIAC_CONTEXT){
+    if (iext==0) return true;
+    if (n.type==_POLY){
+      polynome p=*n._POLYptr;
+      gen iext_=iext;
+      if (iext.type==_FRAC){
+	if (iext._FRACptr->num.type==_POLY){
+	  if (iext._FRACptr->num._POLYptr->dim!=0 || iext._FRACptr->num._POLYptr->coord.empty())
+	    return false;
+	  iext_=iext._FRACptr->num._POLYptr->coord.front().value/iext._FRACptr->den;
+	}
+      }
+      else {
+	if (iext.type==_POLY){
+	  if (iext._POLYptr->dim!=0 || iext._POLYptr->coord.empty())
+	    return false;
+	  iext_=iext._POLYptr->coord.front().value;
+	}
+      }
+      unsigned i=0;
+      for (i=0;i<p.coord.size();++i){
+	gen D=d;
+	clean_iext(p.coord[i].value,D,iext_,contextptr);
+	p.coord[i].value=p.coord[i].value/D;
+      }
+      d=1,
+      lcmdeno(p,d);
+      n=d*p;
+      return true;
+    }
+    if (n.type==_EXT){
+      gen n1=*n._EXTptr,n2=*(n._EXTptr+1);
+      if (n1.type==_VECT){
+	vecteur nv=*n1._VECTptr;
+	if (has_i(nv)){
+	  gen r=algebraic_EXTension(makevecteur(1,0),n2),R,I,res=0;
+	  for (unsigned i=0;i<nv.size();++i){
+	    res = res*r;
+	    reim(nv[i],R,I,contextptr);
+	    res += R+I*iext;
+	  }
+	  if (res.type==_FRAC){
+	    d=d*res._FRACptr->den;
+	    res=res._FRACptr->num;
+	  }
+	  n=res;
+	}
+      }
+      return true;
+    }
+    if (n.type==_CPLX){
+      n=(*n._CPLXptr)+(*(n._CPLXptr+1))*iext;
+      gen N,D;
+      fxnd(n,N,D);
+      n=N;
+      d=d*D;
+      return true;
+    }
+    return true;
+  }
+
+  bool clean_iext(vecteur & lvnum,vecteur & lvden,const gen & iext,GIAC_CONTEXT){
+    if (iext==0) return true;
+    for (unsigned i=0;i<lvnum.size();++i){
+      if (!clean_iext(lvnum[i],lvden[i],iext,contextptr))
+	return false;
+    }
+    return true;
+  }
+
   gen find_iext(const gen & e,const vecteur & lvnum,GIAC_CONTEXT){
     gen iext(0);
     if (has_i(e)){ 
@@ -1626,6 +1707,7 @@ namespace giac {
       return false;
     }
     gen iext=find_iext(e,lvnum,contextptr);
+    clean_iext(lvnum,lvden,iext,contextptr);
     totally_converted =totally_converted && sym2r(e,iext,l,lv,lvnum,lvden,l_size,num,den,contextptr);
     // If den is a _POLY, multiply den by the _EXT conjugate of it's lcoeff
     // FIXME this should be done recursively if the 1st coeff is a _POLY!
@@ -1683,6 +1765,7 @@ namespace giac {
     if (!compute_lv_lvnum_lvden(l,lv,lvnum,lvden,totally_converted,l_size,contextptr))
       return gensizeerr(contextptr);
     gen iext=find_iext(e,lvnum,contextptr);
+    clean_iext(lvnum,lvden,iext,contextptr);
     vecteur res;
     const_iterateur jt=e._VECTptr->begin(),jtend=e._VECTptr->end();
     for (;jt!=jtend;++jt){
