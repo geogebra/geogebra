@@ -5137,7 +5137,7 @@ namespace giac {
   gen _angle(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if ( (args.type!=_VECT) || args.subtype!=_SEQ__VECT || (args._VECTptr->size()<2))
-      return arg(simplify(args,contextptr),contextptr);
+      return arg(simplify(remove_at_pnt(args),contextptr),contextptr);
     vecteur v(*args._VECTptr);
     vecteur attributs(1,default_color(contextptr));
     int s=read_attributs(v,attributs,contextptr);
