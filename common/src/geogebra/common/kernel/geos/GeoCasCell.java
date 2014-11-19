@@ -1761,13 +1761,15 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return arg;
 		}
 		// don't wrap if f'(x) is on top level (it is the same as Derivative[f(x)])
+		// but DO wrap f'(x+1) or f'(3) as it may simplify
 		if (arg.unwrap() instanceof ExpressionNode) {
 			ExpressionNode en = (ExpressionNode) arg.unwrap();
 			if ((en.getOperation().equals(Operation.FUNCTION) ||
 					en.getOperation().equals(Operation.FUNCTION_NVAR))
 					&& en.getLeft() instanceof ExpressionNode) {
 				ExpressionNode en2 = (ExpressionNode) en.getLeft();
-				if (en2.getOperation().equals(Operation.DERIVATIVE)) {
+				if (en2.getOperation().equals(Operation.DERIVATIVE)
+						&& en.getRight().unwrap() instanceof GeoDummyVariable) {
 					return arg;
 				}
 				
