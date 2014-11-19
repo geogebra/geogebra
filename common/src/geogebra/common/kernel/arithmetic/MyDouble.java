@@ -553,18 +553,28 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// angle in degrees
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
-					* MyDouble.round(val * Kernel.CONST_180_PI));
+					* MyDouble.doRound(val * Kernel.CONST_180_PI));
 		} else {
 			// number or angle in radians
-			set(MyDouble.round(val));
+			set(MyDouble.doRound(val));
 		}
 		return this;
 	}
 
+	final public MyDouble round(double digits) {
+		if(!Kernel.isInteger(digits)){
+			set(Double.NaN);
+		}
+		double pow = Math.pow(10, digits);
+		set(val * pow);
+		round();
+		set(val / pow);
+		return this;
+	}
 	/**
 	 * Java quirk/bug Round(NaN) = 0
 	 */
-	final private static double round(double x) {
+	final private static double doRound(double x) {
 		// if (!(Double.isInfinite(x) || Double.isNaN(x)))
 
 		// changed from Math.round(x) as it uses (long) so fails for large

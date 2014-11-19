@@ -977,6 +977,9 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
+				if(rt instanceof NumberValue && (!Double.isNaN(((NumberValue)rt).getDouble()) || rt.isGeoElement()) ){
+					return ((NumberValue) lt).getNumber().round(((NumberValue)rt).getDouble());
+				}
 				return ((NumberValue) lt).getNumber().round();
 			}
 			if (lt instanceof VectorValue) {

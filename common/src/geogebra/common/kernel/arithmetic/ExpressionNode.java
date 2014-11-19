@@ -2670,7 +2670,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("round(");
 			}
 			sb.append(leftStr);
-			if(right != null){
+			if(right instanceof NumberValue && (!Double.isNaN(((NumberValue)right).getDouble()) || right.isGeoElement()) ){
 				sb.append(", ");
 				sb.append(rightStr);
 			}
