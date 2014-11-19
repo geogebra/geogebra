@@ -3,7 +3,6 @@ package geogebra.web.javax.swing;
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
-import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.util.PopupPanel;
@@ -94,23 +93,22 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 		int left = p.getX();
 		boolean newPoz = false;
 		showAtPoint(p);
-		EuclidianControllerW ew = (EuclidianControllerW) app.getActiveEuclidianView().getEuclidianController();
-		if (left + popupPanel.getOffsetWidth() / ew.getScaleXMultiplier() > Window.getClientWidth()  + Window.getScrollLeft()){
+		if (left + popupPanel.getOffsetWidth() * app.getArticleElement().getScaleX() > Window.getClientWidth()  + Window.getScrollLeft()){
 			left = Window.getClientWidth() - popupPanel.getOffsetWidth()+Window.getScrollLeft();
 			newPoz = true;
 		}else{
-			left = (int) (left / ew.getScaleXMultiplier());
+			left = (int) (left * app.getArticleElement().getScaleX());
 		}
-		if (top + popupPanel.getOffsetHeight() / ew.getScaleXMultiplier() > Window.getClientHeight()  + Window.getScrollTop()){
+		if (top + popupPanel.getOffsetHeight() * app.getArticleElement().getScaleY() > Window.getClientHeight()  + Window.getScrollTop()){
 			top = Window.getClientHeight() - popupPanel.getOffsetHeight()+ Window.getScrollTop();
 			newPoz = true;
 		}else{
-			top = (int) (top / ew.getScaleYMultiplier());	
+			top = (int) (top * app.getArticleElement().getScaleY());	
 		}
 		
 		
 		
-		if (newPoz || !Kernel.isEqual(1,ew.getScaleXMultiplier())){
+		if (newPoz || !Kernel.isEqual(1, app.getArticleElement().getScaleX())){
 			popupPanel.setPopupPosition(left, top);
 			App.debug(left+"x"+top);
 		}
@@ -127,8 +125,8 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	}
 	
 	public void show(Canvas c, int x, int y) {
-		EuclidianControllerW ew = (EuclidianControllerW) app.getActiveEuclidianView().getEuclidianController();
-		show(new GPoint((int) (c.getAbsoluteLeft() * ew.getScaleXMultiplier() +x), (int) (c.getAbsoluteTop() * ew.getScaleYMultiplier()+y)));
+		show(new GPoint((int) (c.getAbsoluteLeft() / app.getArticleElement().getScaleX() +x),
+				(int) (c.getAbsoluteTop() / app.getArticleElement().getScaleY()+y)));
 	}
 
 	public void show(Widget c, int x, int y) {
