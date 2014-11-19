@@ -18,6 +18,7 @@ import geogebra.web.gui.GuiManagerW;
 import java.util.Iterator;
 
 import com.google.gwt.core.client.JsArray;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -297,7 +298,11 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 	public void onTouchMove(TouchMoveEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(targets.length()-1), ZeroOffset.instance);
-		longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY());
+		Element el = Element.as(event.getNativeEvent().getEventTarget());
+		
+		if (el == ((AlgebraViewW) view).getElement()) {
+			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY());
+		}
 		CancelEventTimer.touchEventOccured();
     }
 
@@ -309,7 +314,11 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
-		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
+		Element el = Element.as(event.getNativeEvent().getEventTarget());
+		
+		if (el == ((AlgebraViewW) view).getElement()) {
+			longTouchManager.scheduleTimer(this, e.getX(), e.getY());
+		}
 		mousePressed(e);
 		CancelEventTimer.touchEventOccured();
     }
