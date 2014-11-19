@@ -215,7 +215,7 @@ public class LayoutD extends Layout implements SettingListener {
 		perspective.setShowGrid(ev.getShowGrid());
 		perspective.setShowInputPanel(app.showAlgebraInput());
 		perspective.setShowInputPanelCommands(app.showInputHelpToggle());
-		perspective.setShowInputPanelOnTop(app.showInputTop());
+		perspective.setInputPosition(app.getInputPosition());
 
 		perspective.setToolBarPosition(app.getToolbarPosition());
 		perspective.setShowToolBarHelp(app.showToolBarHelp());

@@ -1,5 +1,6 @@
 package geogebra.common.io.layout;
 
+import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.common.util.StringUtil;
 
@@ -372,21 +373,11 @@ public class Perspective {
 	}
 
 	/**
-	 * @deprecated use setInputPosition instead
-	 * 
-	 * @param showInputPanelOnTop
-	 *            true to show input bar on top
-	 */
-	public void setShowInputPanelOnTop(boolean showInputPanelOnTop) {
-		this.showInputPanelOnTop = showInputPanelOnTop ? InputPositon.top
-				: InputPositon.bottom;
-	}
-
-	/**
 	 * @param inputPosition
 	 *            new position of inputPanel (respective inputBox)
 	 */
 	public void setInputPosition(InputPositon inputPosition) {
+		App.printStacktrace(inputPosition);
 		this.showInputPanelOnTop = inputPosition;
 	}
 
@@ -529,6 +520,7 @@ public class Perspective {
 		sb.append("\" cmd=\"");
 		sb.append(getShowInputPanelCommands());
 		sb.append("\" top=\"");
+		App.debug("POSITION"+getInputPosition());
 		sb.append(getInputPosition() == InputPositon.top ? "true" : (getInputPosition() == InputPositon.bottom ? "false" : "algebra"));
 		sb.append("\" />\n");
 
