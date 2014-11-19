@@ -557,9 +557,6 @@ public class Ggb2giac {
 		// Root.1 and Solve.1 should be the same		
 		String root1 = "ggbsort(normal([op(solve(%0))]))";
 		p("Root.1", root1);
-		
-		p("round.2", "round(%0,%1)");
-
 		p("Solve.1", root1);
 		
 		p("Solve.2",

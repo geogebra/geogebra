@@ -2670,6 +2670,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("round(");
 			}
 			sb.append(leftStr);
+			if(right != null){
+				sb.append(", ");
+				sb.append(rightStr);
+			}
 			sb.append(tpl.rightBracket());
 			break;
 
