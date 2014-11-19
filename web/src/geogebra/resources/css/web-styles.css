@@ -3066,6 +3066,11 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	width: 100%
 }
 
+.cpTable .isDragging {
+	background: #CCCCFF;
+	cursor: move;
+}
+
 .cpScrollPanel {
 	width: 100%;
 	height: 100%;
