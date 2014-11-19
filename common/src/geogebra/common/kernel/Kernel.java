@@ -4852,7 +4852,7 @@ public class Kernel {
 	private AlgoDispatcher algoDispatcher;
 	public AlgoDispatcher getAlgoDispatcher() {
 		if (algoDispatcher == null) {
-			algoDispatcher = newAlgoDispatcher();
+			algoDispatcher = newAlgoDispatcher(cons);
 		}
 		return algoDispatcher;
 	}
@@ -4861,8 +4861,8 @@ public class Kernel {
 	 * 
 	 * @return new instance of AlgoDispatcher
 	 */
-	protected AlgoDispatcher newAlgoDispatcher(){
-		return new AlgoDispatcher(cons);
+	protected AlgoDispatcher newAlgoDispatcher(Construction cons1){
+		return new AlgoDispatcher(cons1);
 	}
 
 	public GeoRayND Ray(String label, GeoPoint p, GeoPoint q) {

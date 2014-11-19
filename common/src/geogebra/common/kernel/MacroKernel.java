@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.common.kernel;
 
 import geogebra.common.io.MyXMLHandler;
+import geogebra.common.kernel.algos.AlgoDispatcher;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -207,6 +208,11 @@ public class MacroKernel extends Kernel {
 	@Override
 	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
 		return parentKernel.copyInternal3D(cons, geo);
+	}
+	
+	@Override
+	protected AlgoDispatcher newAlgoDispatcher(Construction cons1){
+		return this.parentKernel.newAlgoDispatcher(cons1);
 	}
 
 }

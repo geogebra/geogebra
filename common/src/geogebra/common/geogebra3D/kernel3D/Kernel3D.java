@@ -526,8 +526,8 @@ public class Kernel3D extends Kernel {
 	
 	
 	@Override
-	protected AlgoDispatcher newAlgoDispatcher(){
-		return new AlgoDispatcher3D(cons);
+	protected AlgoDispatcher newAlgoDispatcher(Construction cons1){
+		return new AlgoDispatcher3D(cons1);
 	}
 	
 	
