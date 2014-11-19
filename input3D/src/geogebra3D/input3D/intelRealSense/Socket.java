@@ -6,6 +6,7 @@ import intel.rssdk.PXCMFaceData.AlertData;
 import intel.rssdk.PXCMHandConfiguration;
 import intel.rssdk.PXCMHandConfiguration.AlertHandler;
 import intel.rssdk.PXCMHandConfiguration.GestureHandler;
+import intel.rssdk.PXCMHandData.AlertType;
 import intel.rssdk.PXCMHandData.FingerData;
 import intel.rssdk.PXCMHandData.FingerType;
 import intel.rssdk.PXCMHandData.GestureData;
@@ -209,22 +210,17 @@ public class Socket {
 	
 	private Gestures gesture = Gestures.SPREAD;
 	
-	private int handId = 0;
+	private int handId = -1;
 	
 	public void setGesture(int id, String name){
 		
-		App.debug(id+" : "+name);
+		//App.debug(id+" : "+name);
 		
-		/*
-		if (handId == 0){
-			handId = id;
-		}else{
-			if (handId != id){
-				App.error("id : "+id);
-				return;
-			}
+		
+		// check it's the current hand tracked
+		if (handId != id){
+			return;
 		}
-		*/
 		
 		switch(name.charAt(0)){
 		case 'f':
@@ -256,7 +252,28 @@ public class Socket {
 
 		}
 		
-		App.debug(""+gesture);
+		//App.debug(""+gesture);
+	}
+	
+	
+	
+	private void setAlert(int id, AlertType type){
+		
+		//App.debug("alert hand #"+id+" : "+type);
+		
+		if (handId == -1){ // no hand for now
+			if (type == AlertType.ALERT_HAND_INSIDE_BORDERS){
+				App.debug("hand #"+id+" inside borders");
+				handId = id;
+			}
+		}else if (handId == id){ // new alert from tracked hand
+			if (type == AlertType.ALERT_HAND_OUT_OF_BORDERS){
+				App.debug("hand #"+id+" out of borders");
+				handId = -1;
+			}
+		}
+		
+		
 	}
 	
 
@@ -308,8 +325,8 @@ public class Socket {
 				
 				@Override
 				public void OnFiredAlert(intel.rssdk.PXCMHandData.AlertData data) {
-					App.debug("alert : "+data.label.name());
-					
+					//App.debug("alert : "+data.handId+", "+data.label.name());
+					setAlert(data.handId, data.label);
 				}
 			};
 			handConfig.SubscribeAlert(alertHandler);
@@ -438,6 +455,16 @@ public class Socket {
 
 
 		return true;
+	}
+
+
+
+	/**
+	 * 
+	 * @return true if a hand is tracked
+	 */
+	public boolean hasTrackedHand() {
+		return handId >= 0;
 	}
 
 

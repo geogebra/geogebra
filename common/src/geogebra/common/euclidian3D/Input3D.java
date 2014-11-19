@@ -1,5 +1,7 @@
 package geogebra.common.euclidian3D;
 
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+
 
 
 /**
@@ -92,6 +94,14 @@ public interface Input3D {
 	 * @return true if the input use a robot to controll 2D mouse
 	 */
 	public boolean useMouseRobot();
+
+
+	/**
+	 * 
+	 * @param view3D 3D view
+	 * @return true if input3D has mouse on 3D view
+	 */
+	public boolean hasMouse(EuclidianView3D view3D);
 
 
 	

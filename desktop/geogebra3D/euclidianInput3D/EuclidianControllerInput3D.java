@@ -180,7 +180,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			mouse3DPosition.setZ(inputPosition[2] - view3D.getScreenZOffset());
 
 			// check if the 3D mouse is on 3D view
-			if (view3D.hasMouse()) {
+			if (input3D.hasMouse(view3D)) {
 				if (!input3D.useInputDepthForHitting()
 						|| mouse3DPosition.getZ() < view3D.getRenderer()
 						.getEyeToScreenDistance()) {
