@@ -920,14 +920,22 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		GeoElement geo, geo2; // temporary variables
 
 		boolean isDefined = true;
+		
+		// problem with Sequence[LowerSum[x², i, i + 1, 1], i, 1, 5] on file load
+		if (sum == null) {
+			sum = new GeoNumeric(cons);
+		}			
+
 
 		switch (type) {
 		case LOWERSUM:
 		case UPPERSUM:
-
-			if (!(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
-					.isDefined()))
+			
+			if (f == null || !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
+					.isDefined())) {
 				sum.setUndefined();
+				return;
+			}
 
 			RealRootFunction fun = f.getRealRootFunctionY();
 			double ad = a.getDouble();
@@ -1055,9 +1063,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		case RECTANGLESUM:
 		case LEFTSUM:
 
-			if (!(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
-					.isDefined()))
+			if (f == null || !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
+					.isDefined())) {
 				sum.setUndefined();
+				return;
+			}
 
 			/* Rectanglesum needs extra treatment */
 			if ((type == SumType.RECTANGLESUM) && (!dgeo.isDefined())) { // extra
@@ -1165,9 +1175,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			// calc area of rectangles
 			sum.setValue(totalArea * STEP);
-			if (!isDefined)
+			if (!isDefined) {
 				sum.setUndefined();
-
+			}
+			
 			break;
 		case BARCHART_RAWDATA:
 			// BarChart[{1,1,2,3,3,3,4,5,5,5,5,5,5,5,6,8,9,10,11,12},3]
