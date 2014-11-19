@@ -149,24 +149,19 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	
 						boolean fromAllTools = removeFromAllTools();
 
-						int i = 0;
-						int idx = 0;
-						boolean found = false;
-						while (i < toolTree.getItemCount() && !found) {
-							if (getItem(i) == item) {
-								found = true;
-								idx = i;
-							}
-							i++;
-						}
-
+						int idx = toolTree.indexOfBranch(item);
+			
 						int y = event.getNativeEvent().getClientY();
 						
 						boolean insertBefore = tool.isTopHit(y); 
 					
-						if (!fromAllTools
-						        && dragging.treeItem.getChildCount() > 1) {
-							toolTree.insertItem(insertBefore ? idx: idx + 1, dragging.treeItem);
+						if (!fromAllTools) {
+							if (idx < toolTree.getItemCount()) {
+								toolTree.insertItem(idx, dragging.treeItem);
+							} else {
+								toolTree.addBranchItem(dragging);
+							
+							}
 						} else {
 							DraggableTool dropped = new DraggableTool(dragging.getMode());
 							if (insertBefore) {
@@ -186,11 +181,11 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 							}
 						}
 						
-
-						App.debug("checking first leaf");
-						checkFirstLeaf(dragging.treeItem.getParentItem());
+						if (dragging != null) {
+							checkFirstLeaf(dragging.treeItem.getParentItem());
+							dragging = null;
+						}
 						
-						dragging = null;
 						tool.removeStyleName("insertBeforBranch");
 						tool.removeStyleName("insertAfterBranch");
 					}
@@ -232,14 +227,19 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			tool.addDomHandler(new DragOverHandler() {
 				@Override
 				public void onDragOver(DragOverEvent event) {
+					event.preventDefault();
+					event.stopPropagation();
 					tool.onDragOver(event, "insertBeforeBranch", "insertAfterBranch");
+					
 				}
 			}, DragOverEvent.getType());
 
 			tool.addDomHandler(new DragLeaveHandler() {
 				@Override
 				public void onDragLeave(DragLeaveEvent event) {
-					tool.removeStyleName("insertBeforBranch");
+					event.preventDefault();
+					event.stopPropagation();
+					tool.removeStyleName("insertBeforeBranch");
 					tool.removeStyleName("insertAfterBranch");
 				}
 			}, DragLeaveEvent.getType());
