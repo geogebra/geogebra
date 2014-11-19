@@ -377,7 +377,6 @@ public class Perspective {
 	 *            new position of inputPanel (respective inputBox)
 	 */
 	public void setInputPosition(InputPositon inputPosition) {
-		App.printStacktrace(inputPosition);
 		this.showInputPanelOnTop = inputPosition;
 	}
 
