@@ -142,13 +142,12 @@ public class LongTouchTimer extends Timer {
 			}
 		}
 	}
-
-	@Override
-	public void cancel() {
+	
+	public void cancelTimer() {
 		x = 0;
 		y = 0;
 		handler = null;
-		super.cancel();
+		cancel();
 	}
 
 	private boolean pointWithinLimit(int nx, int ny) {

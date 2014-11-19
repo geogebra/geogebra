@@ -19,7 +19,7 @@ public class LongTouchManager {
 		if (timer == null) {
 			return;
 		}
-		timer.cancel();
+		timer.cancelTimer();
 	}
 	
 	public void scheduleTimer(LongTouchHandler handler, int x, int y) {
