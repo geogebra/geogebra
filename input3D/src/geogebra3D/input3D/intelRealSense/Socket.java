@@ -225,7 +225,7 @@ public class Socket {
 		}
 		
 		public double getHandOrientationW(){
-			return handOrientationWSum / samples;
+			return - handOrientationWSum / samples;
 		}
 		
 	
