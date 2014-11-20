@@ -119,7 +119,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 						double gz = ec.view.getGridDistances(2);
 						double z = Kernel.roundToScale(z0, gz);
 						if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-								|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+								|| Math.abs(z-z0) < gz * ec.getPointCapturingPercentage()){
 							tmpCoords1.setZ(z);
 						}
 					}
@@ -214,8 +214,8 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			double y = Kernel.roundToScale(y0, gy);
 			//App.debug("\n"+x+"\n"+y+"\np=\n"+project);
 			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| (Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
-							&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
+					|| (Math.abs(x-x0) < gx * ec.getPointCapturingPercentage() 
+							&& Math.abs(y-y0) < gy * ec.getPointCapturingPercentage())){
 				coords.setX(x);
 				coords.setY(y);
 				return true;
@@ -255,9 +255,9 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			//App.debug("\n"+x+"\n"+y+"\np=\n"+project);
 			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 					|| 
-					(Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
-							&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID
-							&& Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID)
+					(Math.abs(x-x0) < gx * ec.getPointCapturingPercentage() 
+							&& Math.abs(y-y0) < gy * ec.getPointCapturingPercentage()
+							&& Math.abs(z-z0) < gz * ec.getPointCapturingPercentage())
 							
 					){
 				coords.setX(x);
@@ -299,19 +299,19 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 			//App.debug("\nx="+x+"\ny="+y+"\nz=\n"+z);
 			if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
 					|| 
-					(Math.abs(x-x0) < gx * EuclidianStyleConstants.POINT_CAPTURING_GRID 
-							&& Math.abs(y-y0) < gy * EuclidianStyleConstants.POINT_CAPTURING_GRID)
+					(Math.abs(x-x0) < gx * ec.getPointCapturingPercentage()
+							&& Math.abs(y-y0) < gy * ec.getPointCapturingPercentage())
 							
 					){
 				coords.setX(x);
 				coords.setY(y);
 				if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-						|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+						|| Math.abs(z-z0) < gz * ec.getPointCapturingPercentage()){
 					coords.setZ(z);
 				}
 				return true;
 			}else if (ec.view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| Math.abs(z-z0) < gz * EuclidianStyleConstants.POINT_CAPTURING_GRID){
+					|| Math.abs(z-z0) < gz * ec.getPointCapturingPercentage()){
 				coords.setZ(z);
 				return true;
 			}

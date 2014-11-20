@@ -521,4 +521,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		view3D.setDragCursor();
 	}
+	
+	@Override
+	public float getPointCapturingPercentage(){
+		return 2f*super.getPointCapturingPercentage();
+	}
 }

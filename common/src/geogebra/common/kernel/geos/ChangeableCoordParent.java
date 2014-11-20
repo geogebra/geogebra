@@ -119,7 +119,7 @@ public class ChangeableCoordParent {
 			double g = view.getGridDistances(0);
 			double valRound = Kernel.roundToScale(val, g);
 			if (view.getPointCapturingMode() == EuclidianStyleConstants.POINT_CAPTURING_ON_GRID
-					|| (Math.abs(valRound-val) < g * EuclidianStyleConstants.POINT_CAPTURING_GRID)){
+					|| (Math.abs(valRound-val) < g * view.getEuclidianController().getPointCapturingPercentage())){
 				val = valRound;
 			}
 			break;

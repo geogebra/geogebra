@@ -4009,6 +4009,14 @@ public abstract class EuclidianController {
 			mouseLoc.y = view.getViewHeight();
 		}
 	}
+	
+	/**
+	 * 
+	 * @return percentage for which we capture point to grid
+	 */
+	public float getPointCapturingPercentage(){
+		return EuclidianStyleConstants.POINT_CAPTURING_GRID;
+	}
 
 	/**
 	 * COORD TRANSFORM SCREEN -> REAL WORLD
@@ -4073,7 +4081,7 @@ public abstract class EuclidianController {
 	
 			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_ON:
-			pointCapturingPercentage = EuclidianStyleConstants.POINT_CAPTURING_GRID;
+			pointCapturingPercentage = getPointCapturingPercentage();
 	
 			// fall through
 		case EuclidianStyleConstants.POINT_CAPTURING_ON_GRID:
