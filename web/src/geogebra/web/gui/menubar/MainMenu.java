@@ -3,6 +3,7 @@ package geogebra.web.gui.menubar;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
@@ -28,7 +29,7 @@ import com.google.gwt.user.client.ui.StackPanel;
  * 
  */
 
-public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
+public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, BooleanRenderable {
 	
 	/**
 	 * Appw app
@@ -164,13 +165,27 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable {
 		}
 		
 		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
-		if (app.getLoginOperation().isLoggedIn()) {
-			addUserMenu();
-		} else {
-			addSignInMenu();
+		if(app.getNetworkOperation().isOnline()){
+			render(true);
 		}
+		app.getNetworkOperation().getView().add(this);
 	    this.add(menuPanel);	    
 	}
+
+	public void render(boolean online) {
+		if (online && app.getLoginOperation().isLoggedIn()) {
+			addUserMenu();
+		} else if(online){
+			addSignInMenu();
+		} else {
+			if(this.signInMenu != null){
+				this.menuPanel.remove(this.signInMenu);
+			}
+			if(this.userMenu != null){
+				this.menuPanel.remove(this.userMenu);
+			}
+		}
+    }
 
 	private void createUserMenu() {
 	    this.userMenu = new GMenuBar(true);	

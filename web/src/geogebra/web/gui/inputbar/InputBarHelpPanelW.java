@@ -5,6 +5,7 @@ import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.util.TableSymbols;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
@@ -38,7 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author G. Sturr
  * 
  */
-public class InputBarHelpPanelW extends VerticalPanel implements SetLabels {
+public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, BooleanRenderable {
 
 	private AppW app;
 	private Tree indexTree;
@@ -76,6 +77,8 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels {
 				openOnlineHelp();
 			}
 		});
+		render(app.getNetworkOperation().isOnline());
+		app.getNetworkOperation().getView().add(this);
 		btnOnlineHelp.getElement().getStyle().setTextAlign(TextAlign.RIGHT);
 		FlowPanel pnlButton = new FlowPanel();
 		pnlButton.add(btnOnlineHelp);
@@ -116,6 +119,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels {
 		add(sp);
 
 	}
+
+	public void render(boolean online) {
+		btnOnlineHelp.setEnabled(online);
+	    
+    }
 
 	// =================================================================
 	// Getters/Setters & Event Handlers
