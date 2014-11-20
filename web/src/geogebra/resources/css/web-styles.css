@@ -4421,12 +4421,6 @@ body.zoomedBody .gwt-PopupPanel {
 	-moz-transform: scale(0.6, 0.6);
 }
 
-body.zoomedBody .gwt-PopupPanel.ggbContextPopup {
-	-webkit-transform-origin: 0% 0%;
-	-moz-transform-origin: 0% 0%;
-	transform-origin: 0% 0%;
-}
-
 
 body.zoomedBody .gwt-PopupPanel.SymbolTablePopup {
 	-webkit-transform: scale(0.6, 0.6);

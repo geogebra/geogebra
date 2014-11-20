@@ -1,5 +1,6 @@
 package geogebra.web.gui.inputbar;
 
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.logical.shared.CloseEvent;
@@ -19,13 +20,16 @@ public class InputBarHelpPopup extends PopupPanel {
 	/**
 	 * @param app {@link AppW}
 	 */
-	public InputBarHelpPopup(AppW app) {
+	public InputBarHelpPopup(AppW app, AutoCompleteTextFieldW field) {
 		super();
 		this.addStyleName("helpPopup");
 		this.setAutoHideEnabled(true);
+		((InputBarHelpPanelW) app.getGuiManager().getInputHelpPanel()).setInputField(field);
 		this.add((Widget) app.getGuiManager().getInputHelpPanel());
 		this.addStyleName("GeoGebraPopup");
 	}
+	
+	
 
 	/**
 	 * Hides the popup and detaches it from the page. This has no effect if it is

@@ -346,7 +346,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 	private void setHelpPopup(){
 		if (helpPopup == null && app != null) {
-			helpPopup = new InputBarHelpPopup(this.app);
+			helpPopup = new InputBarHelpPopup(this.app, this.inputField);
 			helpPopup.addAutoHidePartner(this.getElement());
 			if (btnHelpToggle != null) {
 				helpPopup.setBtnHelpToggle(this.btnHelpToggle);

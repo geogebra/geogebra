@@ -7,9 +7,11 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.util.LowerCaseDictionary;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map.Entry;
@@ -20,14 +22,15 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.TextAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SplitLayoutPanel;
 import com.google.gwt.user.client.ui.Tree;
@@ -43,12 +46,13 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 
 	private AppW app;
 	private Tree indexTree;
-	private HTML syntaxPanel;
+	private VerticalPanel syntaxPanel;
 	private Button btnOnlineHelp;
 	private LocaleSensitiveComparator comparator;
 	private SplitLayoutPanel sp;
 	private InlineLabel lblSyntax;
 	private MyTreeItem itmFunction;
+	private AutoCompleteTextFieldW inputField;
 
 	/**
 	 * @param app
@@ -63,11 +67,15 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		setLabels();
 
 	}
+	
+	public void setInputField(AutoCompleteTextFieldW field){
+		this.inputField = field;
+	}
 
 	private void createGUI() {
 
 		// create syntax panel
-		syntaxPanel = new HTML();
+		syntaxPanel = new VerticalPanel();
 
 		// create help button
 		btnOnlineHelp = new Button(app.getPlain("ShowOnlineHelp"));
@@ -339,35 +347,37 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	// =================================================================
 
 	protected void updateDetailPanel() {
-
+		syntaxPanel.clear();
 		if (getSelectedCommand() == null) {
-			syntaxPanel.setHTML("");
+			
 			lblSyntax.setText("");
-			syntaxPanel.setHTML("");
+			
 			return;
 		}
 
 		lblSyntax.setText(getSelectedCommand());
-
+		ArrayList<Widget> rows;
 		if (getSelectedCommand().equals(
 		        app.getLocalization().getMenu("MathematicalFunctions"))) {
-
-			syntaxPanel.setHTML(functionTableHTML());
+			rows = functionTableHTML();
+			
 			syntaxPanel.removeStyleName("inputHelp-cmdSyntax");
 			syntaxPanel.addStyleName("inputHelp-functionTable");
 
 		} else {
 
-			syntaxPanel.setHTML(cmdSyntaxHTML());
+			rows = cmdSyntaxHTML();
 			syntaxPanel.removeStyleName("inputHelp-functionTable");
 			syntaxPanel.addStyleName("inputHelp-cmdSyntax");
+		}
+		for(int i = 0; i< rows.size(); i++){
+			syntaxPanel.add(rows.get(i));
 		}
 
 	}
 
-	private String cmdSyntaxHTML() {
-
-		StringBuilder sb = new StringBuilder();
+	private ArrayList<Widget> cmdSyntaxHTML() {
+		ArrayList<Widget> ret = new ArrayList<Widget>();
 
 		// internal name of selected command
 		String cmd = app.getReverseCommand(getSelectedCommand());
@@ -381,23 +391,22 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		        && loc.isCASCommand(cmd)) {
 
 			if (!syntaxBasic.equals(cmd + Localization.syntaxStr)) {
-				sb.append(formattedHTMLString(syntaxBasic + "\n"));
+				formattedHTMLString(ret,syntaxBasic, false);
 			}
-
-			sb.append("<div class = inputHelp-headerCAS>");
-			sb.append(app.getMenu("Type.CAS") + ":");
-			sb.append("</div><br>");
-
-			sb.append("<div class = inputHelp-CAScmdSyntax >");
-			sb.append(formattedHTMLString(syntaxCAS));
-			sb.append("</div>");
+			Label headCAS = new Label(app.getMenu("Type.CAS") + ":");
+			headCAS.addStyleName("inputHelp-headerCAS");
+			ret.add(headCAS);
+			
+			
+			formattedHTMLString(ret,syntaxCAS,true);
+			
 
 		} else {
 
-			sb.append(formattedHTMLString(syntaxBasic));
+			formattedHTMLString(ret, syntaxBasic, false);
 		}
 
-		return sb.toString();
+		return ret;
 
 	}
 
@@ -405,18 +414,44 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	 * Converts a java string to a SafeHTML string with newline characters
 	 * replaced by paragraph tags. This tag is required for the hanging indent
 	 * css style used to format syntax descriptions.
+	 * @param b 
+	 * @param ret 
 	 */
-	private String formattedHTMLString(String s) {
-		SafeHtml h = new SafeHtmlBuilder().appendEscapedLines(s.toString())
-		        .toSafeHtml();
-		return (h.asString().replaceAll("<br>", "<p>"));
+	private void formattedHTMLString(ArrayList<Widget> ret, String s, boolean b) {
+		String[]lines = s.split("\n");
+		for(String line: lines){
+			Label syntax = new Label(line);
+			final String fLine = line;
+			syntax.addMouseDownHandler(new MouseDownHandler(){
+
+				@Override
+                public void onMouseDown(MouseDownEvent event) {
+					event.preventDefault();
+					event.stopPropagation();
+	                insertText(fLine);
+	                
+                }});
+			if(b){
+				syntax.addStyleName("inputHelp-CAScmdSyntax");
+			}
+			ret.add(syntax);
+		}
+	}
+	
+	void insertText(String s){
+		this.inputField.getTextField().setText(s);
+		ArrayList<String> arr = new ArrayList<String>();
+		arr.add(s);
+		this.inputField.validateAutoCompletion(0, arr);
 	}
 
-	private String functionTableHTML() {
+	private ArrayList<Widget> functionTableHTML() {
 		String[][] f = TableSymbols.getTranslatedFunctionsGrouped(app);
-		StringBuilder sb = new StringBuilder();
+		ArrayList<Widget> ret = new ArrayList<Widget>();
 		// sb.append("<table>");
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < f.length; i++) {
+			HTML widget = new HTML();	
 			sb.append("<table><tr>");
 			for (int j = 0; j < f[i].length; j++) {
 				sb.append("<td>");
@@ -424,9 +459,11 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 				sb.append("</td>");
 			}
 			sb.append("</tr></table>");
+			widget.setHTML(sb.toString());
+			ret.add(widget);
 		}
 
-		return sb.toString();
+		return ret;
 	}
 
 }
