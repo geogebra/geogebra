@@ -27,6 +27,7 @@
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
+  gen _evalfa(const gen & args,GIAC_CONTEXT);
   gen _scalar_product(const gen & args,GIAC_CONTEXT);
   gen _compare(const gen & args,GIAC_CONTEXT);
   gen _preval(const gen & args,GIAC_CONTEXT);

@@ -2639,7 +2639,7 @@ namespace giac {
     if (!tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr))
       return exactvalue;
     tmp2=evalf_double(tmp2,1,contextptr);
-    if (tmp2.type!=_DOUBLE_ || std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<=1e-3*std::abs(tmp2._DOUBLE_val))
+    if (tmp2.type!=_DOUBLE_ || (std::abs(tmp._DOUBLE_val)<1e-8 && std::abs(tmp2._DOUBLE_val<1e-8)) ||std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<=1e-3*std::abs(tmp2._DOUBLE_val))
       return simplifier(exactvalue,contextptr);
     *logptr(contextptr) << gettext("Error while checking exact value with approximate value, returning both!") << endl;
     return makevecteur(exactvalue,tmp2);

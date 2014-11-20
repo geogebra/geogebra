@@ -2684,6 +2684,8 @@ namespace giac {
 	if (f0.type!=_SYMB || !equalposcomp(plot_sommets,f0._SYMBptr->sommet)){
 	  gen r,i;
 	  reim(f0,r,i,contextptr);
+	  r=ratnormal(r); // _evalfa(recursive_normal(r,contextptr),contextptr);
+	  i=ratnormal(i); // _evalfa(recursive_normal(i,contextptr),contextptr);
 	  return '('+r.print(contextptr)+','+i.print(contextptr)+')';
 	}
       }

@@ -1650,7 +1650,8 @@ namespace giac {
       simplify(p,s);
       // IMPROVE: make a partial fraction decomposition of p(n)/s(n)
       // [could also make ln return ln(1-x) instead of ln(x-1)]
-      return sumab_ps(Q,R,v,a,x,g,est_reel,p,s,res,contextptr);
+      if (sumab_ps(Q,R,v,a,x,g,est_reel,p,s,res,contextptr))
+	return true;
     }
     gen A,B,P;
     int type=is_meromorphic(g,x,A,B,P,contextptr);
