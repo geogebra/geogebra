@@ -9,6 +9,7 @@ import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.browser.SignInButton;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -121,8 +122,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 					Element target = DOM.eventGetTarget(event);
 					int index = findDividerIndex(target);
 					//check if SignIn was clicked
-					if (!app.getLoginOperation().isLoggedIn() && index == menuPanel.getWidgetCount()-1) {
-						app.getDialogManager().showLogInDialog();
+					//if we are offline, the last item is actually Help
+					if (app.getNetworkOperation().isOnline() &&
+							!app.getLoginOperation().isLoggedIn() && index == menuPanel.getWidgetCount()-1) {
+						((SignInButton)app.getLAF().getSignInButton(app)).login();
 						app.toggleMenu();
 						return;
 					}

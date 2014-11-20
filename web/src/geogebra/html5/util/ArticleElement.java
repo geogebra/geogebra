@@ -2,6 +2,7 @@ package geogebra.html5.util;
 
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.Browser;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -465,19 +466,12 @@ public final class ArticleElement extends Element {
 		double externalScale = getDataParamScale();
 		setAttribute("data-scalex", ""+(externalScale * envScale("x")));
 		setAttribute("data-scaley", ""+(externalScale * envScale("y")));
-		String transform = "scale("+externalScale +"," + externalScale +")";
+		
 		Element parent = this.getParentElement();
 		if(parent.getParentElement()!=null && "applet_container".equals(parent.getParentElement().getId())){
 			parent = parent.getParentElement();
 		}
-	    parent.getStyle().setProperty("webkitTransform",transform);
-	    parent.getStyle().setProperty("mozTransform",transform);
-	    parent.getStyle().setProperty("msTransform",transform);
-	    parent.getStyle().setProperty("transform",transform);	    
-	    parent.getStyle().setProperty("msTransformOrigin","0% 0%");
-	    parent.getStyle().setProperty("mozTransformOrigin","0% 0%");
-	    parent.getStyle().setProperty("webkitTransformOrigin","0% 0%");
-	    parent.getStyle().setProperty("transformOrigin","0% 0%");
+		Browser.scale(parent,externalScale,0,0);
     }
 
 	public boolean getDataParamPrerelease() {

@@ -1,6 +1,9 @@
 package geogebra.html5;
 
+import geogebra.common.kernel.Kernel;
+
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
 
 public class Browser {
@@ -170,5 +173,23 @@ public class Browser {
 	 */
 	public static native String base64encode(String str) /*-{
 		return $wnd.btoa(str);
-	}-*/;	
+	}-*/;
+
+	public static void scale(Element parent, double externalScale,
+            int x, int y) {
+		if(Kernel.isEqual(externalScale,1) || externalScale < 0){
+			return;
+		}
+		String transform = "scale("+externalScale +"," + externalScale +")";
+		String pos = x+"% "+y+"%";
+	    parent.getStyle().setProperty("webkitTransform",transform);
+	    parent.getStyle().setProperty("mozTransform",transform);
+	    parent.getStyle().setProperty("msTransform",transform);
+	    parent.getStyle().setProperty("transform",transform);	    
+	    parent.getStyle().setProperty("msTransformOrigin",pos);
+	    parent.getStyle().setProperty("mozTransformOrigin",pos);
+	    parent.getStyle().setProperty("webkitTransformOrigin",pos);
+	    parent.getStyle().setProperty("transformOrigin",pos);
+	    
+    }	
 }

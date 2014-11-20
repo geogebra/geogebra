@@ -3,6 +3,7 @@ package geogebra.web.javax.swing;
 import geogebra.common.awt.GPoint;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.util.PopupPanel;
@@ -49,7 +50,7 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	public GPopupMenuW(AppW app){
 		this.app = app;
 		popupPanel = new PopupPanel();
-		popupPanel.addStyleName("ggbContextPopup");
+		Browser.scale(popupPanel.getElement(), app.getArticleElement().getScaleX(), 0, 0);
 		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
@@ -208,19 +209,26 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 				public void execute() {
 					int xCord, yCord;
 					if (subPopup != null) subPopup.removeFromDOM();
-	                subPopup = new GPopupMenuW(subMenu);
-	                subPopup.getPopupPanel().addStyleName("ggbContextPopup");
+	                subPopup = new GPopupMenuW(subMenu);	                
 	                subPopup.setVisible(true);
-	                
+	                int xPercent = 0; 
 	                //Calculate the position of the "submenu", and show it
 	                if (LocaleInfo.getCurrentLocale().isRTL()){
 	                	xCord = getLeftSubPopupXCord();
-	                	if (xCord < 0) xCord = getRightSubPopupXCord();
+	                	if (xCord < 0){ 
+	                		xCord = getRightSubPopupXCord();
+	                	}else{
+	                		xPercent = 100;
+	                	}
 	                } else {
 	                	xCord = getRightSubPopupXCord();
-	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()) xCord = getLeftSubPopupXCord();
+	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()){
+	                		xCord = getLeftSubPopupXCord();
+	                		xPercent = 100;
+	                	}
 	                }
 	                yCord = Math.min(newItem.getAbsoluteTop(), Window.getClientHeight()-getSubPopupHeight());
+	                Browser.scale(subPopup.getPopupPanel().getElement(), app.getArticleElement().getScaleX(), xPercent, 0);
 	                subPopup.showAtPoint(new GPoint(xCord,yCord));
                 }	
 			};
