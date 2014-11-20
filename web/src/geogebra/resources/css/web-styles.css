@@ -3280,6 +3280,9 @@ body.application[dir=rtl] #View_2 {
 	background-color: #FFFFFF;
 }
 
+.ggbInputFirst{
+	margin-top:50px;
+}
 .tb_img {
 	width: 32px;
 	height: 32px;

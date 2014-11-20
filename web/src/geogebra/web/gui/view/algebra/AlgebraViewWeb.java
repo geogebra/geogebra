@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.algebra;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
@@ -745,6 +746,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	private void add(GeoElement geo, int forceLayer) {
 		cancelEditing();
+		if(this.inputPanel != null){
+			inputPanel.getTextField().getElement().removeClassName("ggbInputFirst");
+		}
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 		        && geo.isSetAlgebraVisible()) {
@@ -814,12 +818,23 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		if (node != null) {
 			removeFromModel(node);
 		}
+		checkEmpty();
 	}
+
+	private void checkEmpty() {
+		if(this.inputPanel != null && this.nodeTable.isEmpty()){
+			inputPanel.getTextField().getElement().addClassName("ggbInputFirst");
+			App.debug(inputPanel.getElement().getClassName());
+		}else{
+			App.debug("ALGEBRA OBJECTS: " + this.nodeTable.size());
+		}
+    }
 
 	public void clearView() {
 		nodeTable.clear();
 		clearTree();
 		showAlgebraInput();
+		checkEmpty();
 	}
 
 	/**
@@ -832,6 +847,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	protected void removeAuxiliaryNode() {
 		removeItem(auxiliaryNode);
+		checkEmpty();
 	}
 
 	/**
@@ -1005,6 +1021,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public void setInputPanel(AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
 		showAlgebraInput();
+		checkEmpty();
 	}
 
 	public void setShowAlgebraInput(boolean show) {
