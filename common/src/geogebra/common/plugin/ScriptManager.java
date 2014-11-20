@@ -166,9 +166,9 @@ public abstract class ScriptManager implements EventListener{
 			addListeners.clear();
 		}
 		
-		if (storeUndoListeners != null) {
+		/*if (storeUndoListeners != null) {
 			storeUndoListeners.clear();
-		}
+		}*/
 
 		if (removeListeners != null) {
 			removeListeners.clear();

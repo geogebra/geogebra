@@ -24,6 +24,8 @@ public class ConstructionProtocolView {
 	protected boolean isViewAttached;
 	public ArrayList<ConstructionProtocolNavigation> navigationBars = new ArrayList<ConstructionProtocolNavigation>();
 	
+	protected boolean useColors, addIcons;
+	
 	protected class RowData {
 		int rowNumber = -1;
 		int index; // construction index of line: may be different
@@ -639,6 +641,36 @@ public class ConstructionProtocolView {
 			scrollToConstructionStep();
 		}
 		
+	}
+
+	public final String getConsProtocolXML() {
+		StringBuilder sb = new StringBuilder();
+		
+		// COLUMNS
+		sb.append("\t<consProtColumns ");
+		for (int i = 0; i < data.columns.length; i++) {
+			sb.append(" col");
+			sb.append(i);
+			sb.append("=\"");
+			sb.append(data.columns[i].isVisible());
+			sb.append("\"");
+		}
+		sb.append("/>\n");
+	
+		// consProtocol
+		sb.append("\t<consProtocol ");
+		sb.append("useColors=\"");
+		sb.append(useColors);
+		sb.append("\"");
+		sb.append(" addIcons=\"");
+		sb.append(addIcons);
+		sb.append("\"");
+		sb.append(" showOnlyBreakpoints=\"");
+		sb.append(kernel.getConstruction().showOnlyBreakpoints());
+		sb.append("\"");
+		sb.append("/>\n");
+	
+		return sb.toString();
 	}
 	
 	

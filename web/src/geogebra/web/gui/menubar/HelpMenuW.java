@@ -2,17 +2,19 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
+import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.MenuItem;
 
-public class HelpMenuW extends GMenuBar {
-	
+public class HelpMenuW extends GMenuBar implements BooleanRenderable{
+	private MenuItem tutorials, forum, manual, about, bug;
 	private final App app;
 	
-	public HelpMenuW(final App app) {
+	public HelpMenuW(final App app)  {
 
 		super(true);
 	    this.app = app;
@@ -27,7 +29,7 @@ public class HelpMenuW extends GMenuBar {
         //    }
 	    //});
 	 // Tutorials
-	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    tutorials = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("Tutorials"), true),true,new MenuCommand((AppW) app) {
 			
 	    	@Override
@@ -37,7 +39,7 @@ public class HelpMenuW extends GMenuBar {
 	    });
 	    
 	    // Help
-	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
+	    manual = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help().getSafeUri().asString(),
 	    		app.getMenu("Manual"), true),true,new MenuCommand((AppW) app) {
 			
 	    	@Override
@@ -47,7 +49,7 @@ public class HelpMenuW extends GMenuBar {
             }
 	    });
 	    
-	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    forum = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("GeoGebraForum"), true), true, new MenuCommand((AppW) app) {
 			
 	    	@Override
@@ -60,7 +62,7 @@ public class HelpMenuW extends GMenuBar {
 	    addSeparator();
 	    
 	    // Report Bug
-	    addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
+	    bug = addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(),
 	    		app.getMenu("ReportBug"), true),true,new MenuCommand((AppW) app) {
 			
 	    	@Override
@@ -71,7 +73,7 @@ public class HelpMenuW extends GMenuBar {
 	    
 	    addSeparator();
 
-	    addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
+	    about = addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_help_about().getSafeUri().asString(),
 	    		app.getMenu("AboutLicense"), true),true,new MenuCommand((AppW) app) {
 	    	
 			@Override
@@ -83,6 +85,10 @@ public class HelpMenuW extends GMenuBar {
 						"width=720,height=600,scrollbars=yes,toolbar=no,location=no,directories=no,menubar=no,status=no,copyhistory=no");
             }
 	    });
+	    if(!((AppW)app).getNetworkOperation().isOnline()){
+	    	render(false);
+	    }
+	    ((AppW)app).getNetworkOperation().getView().add(this);
 	    // TODO: This item has no localization entry yet.
 	    //addItem("About / Team", new Command() {
 		//	public void execute() {
@@ -90,5 +96,15 @@ public class HelpMenuW extends GMenuBar {
         //    }
 	    //});
 	}
+
+	@Override
+    public void render(boolean b) {
+	    about.setEnabled(b);
+	    manual.setEnabled(b);
+	    tutorials.setEnabled(b);
+	    bug.setEnabled(b);
+	    forum.setEnabled(b);
+	    
+    }
 	
 }

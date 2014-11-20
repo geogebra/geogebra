@@ -344,11 +344,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     }
 
 	public void showToolTipBottom(){
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, "", null);
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, "", null, app);
 	}
 
 	public void showToolTipBottom(String helpURL){
-		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL, ToolTipLinkType.Help);
+		ToolTipManagerW.sharedInstance().showBottomInfoToolTip(toolTipText, helpURL, ToolTipLinkType.Help, app);
 	}
 
 	/*

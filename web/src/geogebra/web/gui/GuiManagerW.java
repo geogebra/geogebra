@@ -1403,6 +1403,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 		return constructionProtocolView;
     }
+    
+    @Override
+	public boolean isUsingConstructionProtocol() {
+		return constructionProtocolView != null;
+	}
 
     public void clearAbsolutePanels() {
 		clearAbsolutePanel(App.VIEW_EUCLIDIAN);

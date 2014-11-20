@@ -31,7 +31,7 @@ public class SaveCallback {
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip("<p style='margin-top: 13px; margin-bottom: 0px'>" 
 																	+ app.getMenu("SavedSuccessfully") + "</p>", 
 																	app.getActiveMaterial().getURL(), 
-																	ToolTipLinkType.ViewSavedFile);
+																	ToolTipLinkType.ViewSavedFile, app);
 		} else {
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("SavedSuccessfully"), true);
 		}

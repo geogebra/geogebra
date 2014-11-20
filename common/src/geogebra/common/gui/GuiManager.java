@@ -68,8 +68,29 @@ public abstract class GuiManager implements GuiManagerInterface {
 		return false;
 	}
 
-	public void getConsProtocolXML(StringBuilder sb) {
-		// TODO Auto-generated method stub
+	public final void getConsProtocolXML(StringBuilder sb) {
+		if (this.isUsingConstructionProtocol())
+			sb.append(getConstructionProtocolView().getConsProtocolXML());
+		if ((app).showConsProtNavigation()) {
+			sb.append("\t<consProtNavigationBar ");
+			sb.append("show=\"");
+			sb.append((app).showConsProtNavigation());
+			sb.append('\"');
+			sb.append(" playButton=\"");
+			sb.append(getConstructionProtocolNavigation().isPlayButtonVisible());
+			sb.append('\"');
+			sb.append(" playDelay=\"");
+			sb.append(getConstructionProtocolNavigation().getPlayDelay());
+			sb.append('\"');
+			sb.append(" protButton=\"");
+			sb.append(getConstructionProtocolNavigation()
+					.isConsProtButtonVisible());
+			sb.append('\"');
+			sb.append(" consStep=\"");
+			sb.append(kernel.getConstructionStep());
+			sb.append('\"');
+			sb.append("/>\n");
+		}
 		
 	}
 

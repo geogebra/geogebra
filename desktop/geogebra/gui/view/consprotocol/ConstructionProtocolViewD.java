@@ -100,8 +100,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 
 	// private AbstractAction printPreviewAction, exportHtmlAction;
 
-	private boolean useColors, addIcons;
-
 	// for drag & drop
 	private boolean dragging = false;
 	int dragIndex = -1; // dragged construction index
@@ -1560,41 +1558,6 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 			return false;
 		}
 		return true;
-	}
-
-	/*
-	 * public void showHTMLExportDialog() {
-	 * Application.printStacktrace("showHTMLExportDialog");
-	 * exportHtmlAction.actionPerformed(null); }
-	 */
-	public String getConsProtocolXML() {
-		StringBuilder sb = new StringBuilder();
-
-		// COLUMNS
-		sb.append("\t<consProtColumns ");
-		for (int i = 0; i < data.columns.length; i++) {
-			sb.append(" col");
-			sb.append(i);
-			sb.append("=\"");
-			sb.append(data.columns[i].isVisible());
-			sb.append("\"");
-		}
-		sb.append("/>\n");
-
-		// consProtocol
-		sb.append("\t<consProtocol ");
-		sb.append("useColors=\"");
-		sb.append(useColors);
-		sb.append("\"");
-		sb.append(" addIcons=\"");
-		sb.append(addIcons);
-		sb.append("\"");
-		sb.append(" showOnlyBreakpoints=\"");
-		sb.append(kernel.getConstruction().showOnlyBreakpoints());
-		sb.append("\"");
-		sb.append("/>\n");
-
-		return sb.toString();
 	}
 
 	/*

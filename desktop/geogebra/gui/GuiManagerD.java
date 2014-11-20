@@ -522,36 +522,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	// algebraView.getXML(sb);
 	// }
 
-	@Override
-	public void getConsProtocolXML(StringBuilder sb) {
-
-		if (constructionProtocolView != null)
-			sb.append(constructionProtocolView.getConsProtocolXML());
-
-		// navigation bar of construction protocol
-		if ((app).showConsProtNavigation()) {
-			sb.append("\t<consProtNavigationBar ");
-			sb.append("show=\"");
-			sb.append((app).showConsProtNavigation());
-			sb.append('\"');
-			sb.append(" playButton=\"");
-			sb.append(getConstructionProtocolNavigation().isPlayButtonVisible());
-			sb.append('\"');
-			sb.append(" playDelay=\"");
-			sb.append(getConstructionProtocolNavigation().getPlayDelay());
-			sb.append('\"');
-			sb.append(" protButton=\"");
-			sb.append(getConstructionProtocolNavigation()
-					.isConsProtButtonVisible());
-			sb.append('\"');
-			sb.append(" consStep=\"");
-			sb.append(kernel.getConstructionStep());
-			sb.append('\"');
-			sb.append("/>\n");
-		}
-
-	}
-
 	// ==================================
 	// End XML
 

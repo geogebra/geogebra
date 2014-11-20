@@ -163,6 +163,7 @@ public class AlgebraProcessor {
 	 */
 	final public GeoElement[] processCommand(Command c,
 			boolean labelOutput) throws MyError {
+		App.debug(cmdDispatcher.getClass().getName());
 		return cmdDispatcher.processCommand( c, labelOutput);
 	}
 

@@ -258,6 +258,7 @@ public class AppWapplication extends AppW {
 		}
 	}
 
+	private boolean first = true;
 	@Override
     public void afterLoadFileAppOrNot() {
 		String perspective = getArticleElement().getDataParamPerspective();
@@ -266,7 +267,12 @@ public class AppWapplication extends AppW {
 
 		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
 		
-		initUndoInfoSilent();
+		if(first){
+			initUndoInfoSilent();
+		}else{
+			kernel.initUndoInfo();
+		}
+		first = false;
 
 
 		stopCollectingRepaints();

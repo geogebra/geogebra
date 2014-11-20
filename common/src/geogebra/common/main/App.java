@@ -2518,7 +2518,7 @@ public abstract class App implements UpdateSelection{
 	 * @param sb
 	 *            string builder
 	 */
-	public void getConsProtocolXML(StringBuilder sb) {
+	public final void getConsProtocolXML(StringBuilder sb) {
 		if (getGuiManager() == null) {
 			return;
 		}

@@ -4,6 +4,7 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
@@ -209,7 +210,7 @@ public class ToolTipManagerW {
 	 * @param helpURL String
 	 * @param link {@link ToolTipLinkType}
 	 */
-	public void showBottomInfoToolTip(String text, final String helpURL, ToolTipLinkType link) {
+	public void showBottomInfoToolTip(String text, final String helpURL, ToolTipLinkType link, AppW app) {
 		if (blockToolTip) {
 			return;
 		}
@@ -220,7 +221,8 @@ public class ToolTipManagerW {
 			bottomInfoTipPanel.remove(helpLabel);
 		}
 
-		if (helpURL != null && helpURL.length() > 0 && link != null) {
+		boolean online = app == null || app.getNetworkOperation() == null || app.getNetworkOperation().isOnline();
+		if (helpURL != null && helpURL.length() > 0 && link != null && online) {
 			helpLabel = new Label();
 			
 			if (link.equals(ToolTipLinkType.Help)) {
@@ -265,7 +267,7 @@ public class ToolTipManagerW {
 	public void showBottomMessage(String text, boolean closeAutomatic) {
 		blockToolTip = false;
 		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
-		        + "</html>", "", null);
+		        + "</html>", "", null, null);
 		
 		blockToolTip = true;
 		if (closeAutomatic) {
