@@ -748,9 +748,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	private void add(GeoElement geo, int forceLayer) {
 		cancelEditing();
-		if(this.inputPanel != null){
-			inputPanel.getTextField().getElement().removeClassName("ggbInputFirst");
-		}
+		
 
 		if (geo.isLabelSet() && geo.showInAlgebraView()
 		        && geo.isSetAlgebraVisible()) {
@@ -789,7 +787,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			setUserObject(node, geo);
 			nodeTable.put(geo, node);
-
+			if(this.inputPanel != null){
+				inputPanel.getTextField().getElement().removeClassName("ggbInputFirst");
+			}
 			// ensure that the leaf with the new object is visible
 			parent.setState(true);
 		}
