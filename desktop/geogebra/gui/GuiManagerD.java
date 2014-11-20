@@ -2494,26 +2494,34 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void openToolHelp() {
-		openToolHelp(app.getKernel().getModeText(app.getMode()));
+		openToolHelp(app.getMode());
 
 	}
 
-	public void openToolHelp(String page) {
+	public void openToolHelp(int mode) {
+
+		String modeTextInternal = app.getKernel().getModeText(mode);
+
 		Object[] options = { app.getPlain("ShowOnlineHelp"),
 				app.getPlain("Cancel") };
-		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
-				app.getMenu(page + ".Help"), app.getMenu("ToolHelp") + " - "
-						+ app.getMenu(page), JOptionPane.YES_NO_OPTION,
-				JOptionPane.QUESTION_MESSAGE, ((AppD) app).getToolBarImage(
-						"mode_" + page + ".png", Color.BLACK), // do not
-				// use a
-				// custom
-				// Icon
-				options, // the titles of buttons
-				options[0]); // default button title
+		int n = JOptionPane
+				.showOptionDialog(
+						((AppD) app).getMainComponent(),
+						app.getMenu(modeTextInternal + ".Help"),
+						app.getMenu("ToolHelp") + " - "
+								+ app.getMenu(modeTextInternal),
+						JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE,
+						((AppD) app).getToolBarImage("mode_" + modeTextInternal
+								+ ".png", Color.BLACK), // do not
+						// use a
+						// custom
+						// Icon
+						options, // the titles of buttons
+						options[0]); // default button title
 
 		if (n == 0)
-			openHelp(((AppD) app).getEnglishMenu(page), Help.TOOL);
+			openHelp(modeTextInternal, Help.TOOL);
 	}
 
 	@Override
