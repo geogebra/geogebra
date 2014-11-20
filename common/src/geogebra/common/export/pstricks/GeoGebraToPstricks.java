@@ -16,6 +16,7 @@ import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAngleLines;
 import geogebra.common.kernel.algos.AlgoAnglePoints;
@@ -385,26 +386,45 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		String b = format(algo.getB().getDouble());
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
-		startBeamer(codeFilledObject);
-		codeFilledObject.append("\\pscustom");
-		codeFilledObject.append(LineOptionCode(geo, true));
-		codeFilledObject.append("{\\psplot{");
 		if (a.substring(a.length() - 1).equals("" + Unicode.Infinity)) {
 			a = format(xmin);
 		}
-		codeFilledObject.append(a);
-		codeFilledObject.append("}{");
 		if (b.substring(b.length() - 1).equals("" + Unicode.Infinity)) {
 			b = format(xmax);
 		}
-		codeFilledObject.append(b);
-		codeFilledObject.append("}{");
-		codeFilledObject.append(value);
-		codeFilledObject.append("}\\lineto(");
-		codeFilledObject.append(b);
-		codeFilledObject.append(",0)\\lineto(");
-		codeFilledObject.append(a);
-		codeFilledObject.append(",0)\\closepath}\n");
+
+		if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
+			f.setInterval(Double.parseDouble(a), Double.parseDouble(b));
+			double x;
+			code.append("\\pscustom");
+			code.append(LineOptionCode(geo, true));
+			code.append("{");
+			drawFunction(f);
+			x=algo.getB().getDouble();
+			if (algo.getB().getDouble() > xmax) {
+				String last = code.substring(code.lastIndexOf("line") + 4);
+				x = Double.parseDouble(last.split(",")[1].split("\\(")[1]);				
+			} 
+			code.append("\\psline(" + x + "," + 0 + ")\n");
+			code.append("\\psline(" + algo.getA().getDouble() + "," + 0 + ")\n");
+			code.append("\\closepath}\n");
+		} else {
+			startBeamer(codeFilledObject);
+			codeFilledObject.append("\\pscustom");
+			codeFilledObject.append(LineOptionCode(geo, true));
+			codeFilledObject.append("{\\psplot{");
+			codeFilledObject.append(a);
+			codeFilledObject.append("}{");
+
+			codeFilledObject.append(b);
+			codeFilledObject.append("}{");
+			codeFilledObject.append(value);
+			codeFilledObject.append("}\\lineto(");
+			codeFilledObject.append(b);
+			codeFilledObject.append(",0)\\lineto(");
+			codeFilledObject.append(a);
+			codeFilledObject.append(",0)\\closepath}\n");
+		}
 		endBeamer(codeFilledObject);
 	}
 
@@ -1076,7 +1096,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			a = xrangemax;
 			String s = line.toString();
 			// if is'n latex function draws the function as a set of lines
-			if (!isLatexFunction(s)) {
+			if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
 				liopco = liopco.replace(",plotpoints=200]{", "]");
 				liopco = liopco.replace("[plotpoints=200]{", "");
 				String template = "\\psline" + liopco + "(%0,%1)(%2,%3)\n";
@@ -1686,6 +1706,9 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 							+ StringUtil.toLaTeXString(
 									geo.getLabelDescription(), true) + "$";
 				}
+				if (name.contains("_")) {
+					name = "$" + name + "$";
+				}
 				if (name.indexOf("\u00b0") != -1) {
 					name = name.replaceAll("\u00b0", "\\\\textrm{\\\\degre}");
 					if (codePreamble.indexOf("\\degre") == -1)
@@ -1825,7 +1848,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 
 	// Draw Axis
 	private void drawAxis() {
-		boolean[] positiveOnly=euclidianView.getPositiveAxes();
+		boolean[] positiveOnly = euclidianView.getPositiveAxes();
 		boolean xAxis = euclidianView.getShowXaxis();
 		boolean yAxis = euclidianView.getShowYaxis();
 		// \psaxes[Dx=5,Dy=0.5]{->}(0,0)(-10.5,-0.4)(10.5,1.2)
@@ -1866,15 +1889,15 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		codeBeginPic.append(styleAx);
 		codeBeginPic.append("}(0,0)(");
-		double assignMin=xmin;
-		if (positiveOnly[0]){
-			assignMin=0;
+		double assignMin = xmin;
+		if (positiveOnly[0]) {
+			assignMin = 0;
 		}
 		codeBeginPic.append(format(assignMin));
 		codeBeginPic.append(",");
-		assignMin=ymin;
-		if (positiveOnly[0]){
-			assignMin=0;
+		assignMin = ymin;
+		if (positiveOnly[0]) {
+			assignMin = 0;
 		}
 		codeBeginPic.append(format(assignMin));
 		codeBeginPic.append(")(");
@@ -2348,10 +2371,6 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		code.append("\n");
 		endBeamer(code);
 	}
-
-	
-
-	
 
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
