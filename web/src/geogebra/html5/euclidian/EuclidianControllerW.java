@@ -633,7 +633,6 @@ LongTouchHandler {
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
-		App.debug("wrap");
 		wrapMousePressed(event);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty() && this.view.hasStyleBar()) {
@@ -925,7 +924,6 @@ LongTouchHandler {
 	@Override
 	protected void switchModeForMousePressed(AbstractEvent e) {
 		startPosition = new GPoint(e.getX(), e.getY());
-		App.debug("pressed");
 		
 		super.switchModeForMousePressed(e);
 
