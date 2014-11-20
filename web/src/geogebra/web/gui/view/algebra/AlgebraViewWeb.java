@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
@@ -824,9 +826,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	private void checkEmpty() {
 		if(this.inputPanel != null && this.nodeTable.isEmpty()){
 			inputPanel.getTextField().getElement().addClassName("ggbInputFirst");
-			App.debug(inputPanel.getElement().getClassName());
-		}else{
-			App.debug("ALGEBRA OBJECTS: " + this.nodeTable.size());
 		}
     }
 
@@ -1022,6 +1021,16 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		this.inputPanel = inputPanel;
 		showAlgebraInput();
 		checkEmpty();
+		if(inputPanel != null){
+			//make sure we do not  trigger long touch here
+			inputPanel.getTextField().addDomHandler(new TouchStartHandler(){
+
+				@Override
+                public void onTouchStart(TouchStartEvent event) {
+	               event.stopPropagation();
+	                
+                }}, TouchStartEvent.getType());
+		}
 	}
 
 	public void setShowAlgebraInput(boolean show) {
