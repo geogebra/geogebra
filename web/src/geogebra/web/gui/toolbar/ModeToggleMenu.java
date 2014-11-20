@@ -198,7 +198,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
-				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getMenu(app.getKernel().getModeText(mode))));
+				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode)));
 				return true;
 			}
 		}
