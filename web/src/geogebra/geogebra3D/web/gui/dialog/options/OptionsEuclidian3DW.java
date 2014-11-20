@@ -202,7 +202,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
         public void setLabels() {
 			super.setLabels();
 			
-			cbYAxisVertical.setText("YAxisVertical");
+			cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
 			
 			clippingOptionsTitle.setText(app.getPlain("Clipping"));
 			cbUseClipping.setText(app.getPlain("UseClipping"));
