@@ -1701,14 +1701,15 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 					name = nameSym;
 					if (!eurosym && name.contains("\\euro"))
 						codePreamble.append("\\usepackage{eurosym}\n");
+					if (name.contains("_")) {
+						name = "$" + name + "$";
+					}
 				} else {
 					name = "$"
 							+ StringUtil.toLaTeXString(
 									geo.getLabelDescription(), true) + "$";
 				}
-				if (name.contains("_")) {
-					name = "$" + name + "$";
-				}
+				
 				if (name.indexOf("\u00b0") != -1) {
 					name = name.replaceAll("\u00b0", "\\\\textrm{\\\\degre}");
 					if (codePreamble.indexOf("\\degre") == -1)

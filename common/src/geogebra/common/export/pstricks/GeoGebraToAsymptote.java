@@ -2073,6 +2073,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
                 String name;
                 if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
                    name = convertUnicodeToText(geo.getLabelDescription()).replaceAll("\\$","dollar");
+                   if (name.contains("_")) {
+						name = "$" + name + "$";
+                   }
                 }
                 else if (compactcse5) {
                    name = StringUtil.toLaTeXString(geo.getLabelDescription(),true);

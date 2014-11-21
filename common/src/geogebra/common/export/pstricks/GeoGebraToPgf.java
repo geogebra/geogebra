@@ -2357,6 +2357,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					}
 					nameSym = nameSym.replace("$\\euro$", "euro");
 					name = nameSym;
+					if (name.contains("_")) {
+						name = "$" + name + "$";
+					}
 				} else {
 					name = "$"
 							+ StringUtil.toLaTeXString(
