@@ -1,11 +1,13 @@
 package geogebra.web.main;
 
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.image.ImageInputDialog;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
+import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 
 import com.google.gwt.user.client.Window;
 
@@ -50,5 +52,10 @@ public class BrowserDevice implements GDevice {
 	public BrowseGUI getBrowseGUI(AppW app) {
 		return new BrowseGUI(app);
 	}
+
+	@Override
+    public ConstructionProtocolView getConstructionProtocolView(AppW app) {
+	    return new ConstructionProtocolViewW(app);
+    }
 
 }

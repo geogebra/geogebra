@@ -72,7 +72,6 @@ import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.consprotocol.ConstructionProtocolNavigationW;
-import geogebra.web.gui.view.consprotocol.ConstructionProtocolViewW;
 import geogebra.web.gui.view.data.DataAnalysisViewW;
 import geogebra.web.gui.view.probcalculator.ProbabilityCalculatorViewW;
 import geogebra.web.gui.view.spreadsheet.MyTableW;
@@ -112,19 +111,23 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	protected BrowseGUI browseGUI;
 	protected LayoutW layout;
 	protected boolean uploadWaiting;
-
 	private CASViewW casView;
-
 	private Euclidian2DockPanelW euclidianView2DockPanel;
-
-	
 	private String strCustomToolbarDefinition;
 	private boolean draggingViews;
-
 	private final ObjectPool objectPool;
-
 	protected final GDevice device;
-	
+	private int toolbarID = App.VIEW_EUCLIDIAN;
+	private ConstructionProtocolView constructionProtocolView;
+	private boolean oldDraggingViews;
+	private String generalToolbarDefinition;
+	private GGWToolBar toolbarPanel = null;
+	private InputBarHelpPanelW inputHelpPanel;
+	private AlgebraInputW algebraInput;
+	private PropertiesView propertiesView;
+	private DataAnalysisViewW dataAnalysisView = null;
+	private boolean listeningToLogin = false;
+	private ToolBarW updateToolBar = null;
 	
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
@@ -166,10 +169,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 				menuBar.updateMenubar();
 			}
 		}
-		
 	}
 
-	
 	public ObjectPool getObjectPool() {
 		return this.objectPool;
 	}
@@ -193,7 +194,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	        final EuclidianViewInterfaceCommon view, final GPoint mouseLoc) {
 		showPopupMenu(selectedGeos, ((EuclidianViewW) view).g2p.getCanvas(),
 		        mouseLoc);
-
 	}
 
 	private void showPopupMenu(final ArrayList<GeoElement> geos, final Canvas invoker,
@@ -302,8 +302,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		case App.VIEW_EUCLIDIAN3D:
 			setFocusedPanel(getEuclidian3DPanel(), updatePropertiesView);
 			break;
-		}
-		
+		}	
 	}
 
 	public void setFocusedPanel(final DockPanel panel, final boolean updatePropertiesView) {
@@ -489,7 +488,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			e.printStackTrace();
 			return false;
 		}
-		
 	}
 
 	public View getConstructionProtocolData() {
@@ -620,8 +618,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return strCustomToolbarDefinition;
 	}
 
-	
-
 	/**
 	 * Initializes GuiManager for web
 	 */
@@ -687,7 +683,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		}*/
 		
 		return true;
-
 	}
 
 	public void setLayout(final Layout layout) {
@@ -697,12 +692,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	public LayoutW getLayout() {
 		return layout;
 	}
-
-	private GGWToolBar toolbarPanel = null;
-
-	private InputBarHelpPanelW inputHelpPanel;
-
-	private AlgebraInputW algebraInput;
 
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
@@ -792,12 +781,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		if (algebraView != null)
 			algebraView.applySettings();
 	}
-
-	private PropertiesView propertiesView;
-
-	private DataAnalysisViewW dataAnalysisView = null;
-
-	private boolean listeningToLogin = false;
 
 	public View getPropertiesView() {
 
@@ -1028,8 +1011,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return dataAnalysisView;
 	}
 
-
-
 	public void attachDataAnalysisView() {
 		App.debug("DAMODE attachDataAnalysisView");
 		getDataAnalysisView();
@@ -1046,7 +1027,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		if (!dataAnalysisView.isShowing())
 			return false;
 		return true;
-	
 	}
 
 	public void detachAssignmentView() {
@@ -1336,16 +1316,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			algebraView.getXML(sb, asPreference);
 	}
 
-
-
-	private int toolbarID = App.VIEW_EUCLIDIAN;
-
-	private ConstructionProtocolViewW constructionProtocolView;
-
-	private boolean oldDraggingViews;
-
-	private String generalToolbarDefinition;
-
 	public int getActiveToolbarId() {
 		return toolbarID;
 	}
@@ -1381,7 +1351,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			currentPopup.removeFromDOM();
 			currentPopup = null;
 		}
-	    
     }
 	
 	public void setGeneralToolBarDefinition(final String toolBarDefinition) {
@@ -1398,9 +1367,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
     public ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
-			constructionProtocolView = new ConstructionProtocolViewW((AppW) app);
+			constructionProtocolView = this.device.getConstructionProtocolView((AppW) app);
 		}
-
 		return constructionProtocolView;
     }
     
@@ -1454,7 +1422,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		}
 
 		return constProtocolNavigation;
-	
     }
 
 	public void logout() {
@@ -1609,8 +1576,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	@Override
     public void invokeLater(final Runnable runnable) {
-	    runnable.run();
-	    
+	    runnable.run();   
     }
 	
 	@Override
@@ -1651,8 +1617,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			((ProbabilityCalculatorViewW)getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
 		}
     }
-	
-	private ToolBarW updateToolBar = null;
 	
 	/**
 	 * 

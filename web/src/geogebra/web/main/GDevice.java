@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -17,5 +18,7 @@ public interface GDevice {
 
 	public UploadImageDialog getImageInputDialog(AppW app);
 
-	public BrowseGUI getBrowseGUI(AppW app);	
+	public BrowseGUI getBrowseGUI(AppW app);
+
+	public ConstructionProtocolView getConstructionProtocolView(AppW app);	
 }

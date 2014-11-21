@@ -3062,6 +3062,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 /*#####################################################################################
 ###       CONSTRUCTION PROTOCOL
 #####################################################################################*/
+
 .cpTable {
 	width: 100%
 }
@@ -3098,6 +3099,12 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	border: none;
 	border-bottom: 1px solid #DDDDDD;
 }
+
+/* TOUCH */
+.dummyDragElem div {
+	padding: 10px 15px 10px 15px;
+}
+
 
 /*=========== Construction protocol end =============*/
 /*#####################################################################################

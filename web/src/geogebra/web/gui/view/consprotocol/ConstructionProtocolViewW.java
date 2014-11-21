@@ -22,12 +22,6 @@ import com.google.gwt.event.dom.client.DragEndEvent;
 import com.google.gwt.event.dom.client.DragEndHandler;
 import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.DragStartHandler;
-import com.google.gwt.event.dom.client.TouchEndEvent;
-import com.google.gwt.event.dom.client.TouchEndHandler;
-import com.google.gwt.event.dom.client.TouchMoveEvent;
-import com.google.gwt.event.dom.client.TouchMoveHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeHtml;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.cellview.client.CellTable;
@@ -39,37 +33,20 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 public class ConstructionProtocolViewW extends ConstructionProtocolView implements SetLabels{
 
 	private ConstructionProtocolNavigationW protNavBar;
+	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
 	public FlowPanel cpPanel;
-	CellTable<RowData> table;
+	/** table with constructionsteps **/
+	protected CellTable<RowData> table;
 	private StyleBarW styleBar;
-
 	/** possible drop index **/
 	int minIndex;
 	/** possible drop index **/
 	int maxIndex;
 	/** the dragged row **/
-	Element draggedRow;
+	protected Element draggedRow;
 	/** index of dragged row **/
-	int dragIndex;
-	
-	/** ---------- USED FOR TOUCH ---------- **/
-	
-	/** long press timeout in ms **/
-	private final int LONG_PRESS_TIMEOUT = 500;
-	/** y coordinates of first tap **/
-	int yStart;
-	/** x coordinates of first tap **/
-	int xStart;
-	/** current y coordinates of touchMove **/
-	int yMove;
-	/** current x coordinates of touchMove **/
-	int xMove;
-	/** start of first tap, used to detect longTaps **/
-	long startOfTap;
-	/** if tap was detected as "dragging a row" **/
-	boolean isDragging;
+	protected int dragIndex;
 
-	/** ---------- END USED FOR TOUCH ---------- **/
 
 	/**
 	 * 
@@ -99,7 +76,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		ScrollPanel scrollPane = new ScrollPanel(table);
 		scrollPane.setStyleName("cpScrollPanel");
 		cpPanel.add(scrollPane);
-		
+				
 		initGUI();
 		
 		addDragDropHandlers();
@@ -107,65 +84,12 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
 	}
-
+	
 	/**
-	 * adds handlers for dragging rows
+	 * adds handlers for dragging rows. Overridden for touch. 
 	 */
-    private void addDragDropHandlers() {
-    	// TOUCH
-    	table.addDomHandler(new TouchStartHandler() {
-			
-			@Override
-			public void onTouchStart(TouchStartEvent event) {
-				isDragging = false;
-				startOfTap = System.currentTimeMillis();
-				yStart = event.getTouches().get(0).getClientY();
-				xStart = event.getTouches().get(0).getClientX();
-			}
-		}, TouchStartEvent.getType());
-    	
-    	table.addDomHandler(new TouchMoveHandler() {
-			
-			@Override
-			public void onTouchMove(TouchMoveEvent event) {
-				// used to get coordinates for TouchEnd
-				yMove = event.getTouches().get(0).getClientY();
-				xMove = event.getTouches().get(0).getClientX();
-				if (isLongTab()) {
-					//select row to drag
-					isDragging = true;
-					handleDrag(yStart);
-					event.preventDefault(); //to avoid scrolling
-				}
-				//TODO if end of table is reached with pressed finger, scroll!!!
-			}
-
-			/**
-			 * @return true if it is a long tap
-			 */
-            private boolean isLongTab() {
-	            return xMove <= xStart + 10 && xMove >= xStart - 10 && 
-	            		yMove <= yStart + 10 && yMove >= yStart - 10 &&
-						System.currentTimeMillis() > startOfTap + LONG_PRESS_TIMEOUT;
-            }
-		}, TouchMoveEvent.getType());
-    	
-    	table.addDomHandler(new TouchEndHandler() {
-			
-			@Override
-			public void onTouchEnd(TouchEndEvent event) {
-				if (!isDragging ||
-						xMove > table.getElement().getAbsoluteRight() ||
-						xMove < table.getElement().getAbsoluteLeft()) {
-					return;
-				}
-				handleDrop(yMove);
-				isDragging = false;
-			}
-		}, TouchEndEvent.getType());
-    	
-    	// WEB
-    	table.addDomHandler(new DragStartHandler() {
+    protected void addDragDropHandlers() {
+       	table.addDomHandler(new DragStartHandler() {
 			
 			@Override
 			public void onDragStart(DragStartEvent event) {
@@ -174,9 +98,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		}, DragStartEvent.getType());
 		
 		table.addDomHandler(new DragEndHandler() {
-			
 			@Override
 			public void onDragEnd(DragEndEvent event) {
+				if (draggedRow != null) {
+					draggedRow.removeClassName("isDragging");
+				}
 				if (Window.getClientWidth()+event.getNativeEvent().getScreenX() > table.getElement().getAbsoluteRight() ||
 						Window.getClientWidth()+event.getNativeEvent().getScreenX() < table.getElement().getAbsoluteLeft()) {
 					return;
@@ -189,7 +115,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
     /**
 	 * @param y coordinate of dragStart
 	 */
-    void handleDrag(int y) {
+    protected void handleDrag(int y) {
         for (int i = 0; i < table.getRowCount(); i++) {
 			if (y > table.getRowElement(i).getAbsoluteTop() && y < table.getRowElement(i).getAbsoluteBottom()) {
 				draggedRow = table.getRowElement(i);
@@ -198,6 +124,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				dragIndex = geo.getConstructionIndex();
 				minIndex = geo.getMinConstructionIndex();
 				maxIndex = geo.getMaxConstructionIndex();
+				return;
 			}
 		}
     }
@@ -205,12 +132,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
     /**
      * @param y coordinate of dropTarget
      */
-    void handleDrop(int y) {
+    protected void handleDrop(int y) {
     	for (int i = 0; i < table.getRowCount(); i++) {
     		if ((y > table.getRowElement(i).getAbsoluteTop() && y < table.getRowElement(i).getAbsoluteBottom()) ||
     				//dragEnd happens below the last row
     				(i == table.getRowCount()-1 && y > table.getRowElement(i).getAbsoluteBottom())) {
     			int dropIndex = data.getConstructionIndex(i);
+    			if (dropIndex == dragIndex) {
+    				//no changes necessary
+    				return;
+    			}
     			if (dropIndex < minIndex || dropIndex > maxIndex) {
     				//drop not possible
     				//TODO change cursor style before releasing mouse
@@ -221,11 +152,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
     			if (kernelChanged) {
     				app.storeUndoInfo();
     			}
-    			repaint();
-    			return;
+       			return;
     		}
     	}
-    	draggedRow.removeClassName("isDragging");
     }
 
     public void setLabels(){

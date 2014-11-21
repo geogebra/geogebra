@@ -1,9 +1,11 @@
 package geogebra.touch.main;
 
+import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.touch.PhoneGapManager;
 import geogebra.touch.gui.dialog.image.ImageInputDialogT;
+import geogebra.touch.gui.view.ConstructionProtocolViewT;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 import geogebra.web.main.GDevice;
@@ -43,5 +45,10 @@ public abstract class TouchDevice implements GDevice {
 	@Override
 	public UploadImageDialog getImageInputDialog(AppW app) {
 		return new ImageInputDialogT(app);
+	}
+	
+	@Override
+	public ConstructionProtocolView getConstructionProtocolView(AppW app) {
+		return new ConstructionProtocolViewT(app);
 	}
 }
