@@ -15,14 +15,14 @@ public class TabletMaterialElement extends MaterialListElement {
     public void onView() {
 		((GuiManagerW) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();
 		if (!isLocal) {
-			loadNative(getMaterial().getId(), app.getLoginOperation().getModel().getLoginToken());
+			loadNative(getMaterial().getId(), getMaterial().getTitle(), app.getLoginOperation().getModel().getLoginToken());
 		}
 		
 	}
 	
-	private native void loadNative(int id, String token) /*-{
+	private native void loadNative(int id, String title, String token) /*-{
     	if($wnd.android){
-    		$wnd.android.open(id, token);
+    		$wnd.android.open(id, title, token);
     	}
 	}-*/;
 }
