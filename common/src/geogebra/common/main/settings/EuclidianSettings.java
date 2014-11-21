@@ -886,4 +886,12 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean is3D(){
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return if it's a view for plane
+	 */
+	public boolean isViewForPlane() {
+		return false;
+	}
 }

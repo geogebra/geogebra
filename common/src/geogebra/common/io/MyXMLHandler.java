@@ -1267,8 +1267,10 @@ public class MyXMLHandler implements DocHandler {
 					app.setRightAngleStyleLocalDefault();
 				}
 			}else{
-				// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
-				app.rightAngleStyle = Integer.parseInt(strRightAngleStyle);
+				if (!ev.isViewForPlane()){
+					// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
+					app.rightAngleStyle = Integer.parseInt(strRightAngleStyle);
+				}
 			}
 
 			return true;

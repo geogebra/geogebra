@@ -48,4 +48,9 @@ public class EuclidianSettingsForPlane extends EuclidianSettings {
 		return rotate;
 	}
 
+	
+	@Override
+	public boolean isViewForPlane() {
+		return true;
+	}
 }
