@@ -151,7 +151,7 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 
 	
 	public int getPickOrder(){
-		return DRAW_PICK_ORDER_1D;
+		return DRAW_PICK_ORDER_PATH;
 	}	
 
 	

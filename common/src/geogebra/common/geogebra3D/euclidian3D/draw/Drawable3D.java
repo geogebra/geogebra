@@ -181,13 +181,15 @@ public abstract class Drawable3D extends DrawableND {
 	
 	//constants for picking : have to be from 0 to DRAW_PICK_ORDER_MAX-1, regarding to picking order
 	/** default value for picking order */
-	static final public int DRAW_PICK_ORDER_MAX = 3;
-	/** picking order value for 0-Dimensional objects (points) */
-	static final public int DRAW_PICK_ORDER_0D = 0; 
-	/** picking order value for 1-Dimensional objects (lines, segments, ...) */
-	static final public int DRAW_PICK_ORDER_1D = 1; 
-	/** picking order value for 2-Dimensional objects (polygons, planes, ...) */
-	static final public int DRAW_PICK_ORDER_2D = 2; 
+	static final public int DRAW_PICK_ORDER_MAX = 4;
+	/** picking order value for points */
+	static final public int DRAW_PICK_ORDER_POINT = 0; 
+	/** picking order value for texts */
+	static final public int DRAW_PICK_ORDER_TEXT = 1; 
+	/** picking order value for path objects (lines, segments, ...) */
+	static final public int DRAW_PICK_ORDER_PATH = 2; 
+	/** picking order value for surface objects (polygons, planes, ...) */
+	static final public int DRAW_PICK_ORDER_SURFACE = 3; 
 	
 	
 	

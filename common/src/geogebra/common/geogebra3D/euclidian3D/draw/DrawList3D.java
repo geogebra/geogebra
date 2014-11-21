@@ -289,6 +289,10 @@ public class DrawList3D extends Drawable3D {
 			}
 		}
 		
+		if (pickOrder == DRAW_PICK_ORDER_POINT){ // list of points are paths
+			pickOrder = DRAW_PICK_ORDER_PATH;
+		}
+		
 		if (ret){
 			setZPick(listZNear, listZFar);
 		}

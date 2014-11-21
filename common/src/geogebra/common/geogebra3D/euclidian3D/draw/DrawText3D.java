@@ -136,7 +136,7 @@ public class DrawText3D extends Drawable3DCurves {
 	@Override
 	public int getPickOrder() {
 		
-		return DRAW_PICK_ORDER_0D;
+		return DRAW_PICK_ORDER_TEXT;
 	}
 	
 	

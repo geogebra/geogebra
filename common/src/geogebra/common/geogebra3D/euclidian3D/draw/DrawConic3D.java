@@ -489,10 +489,10 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	@Override
 	public int getPickOrder() {
 		if (getPickingType() == PickingType.POINT_OR_CURVE){
-			return DRAW_PICK_ORDER_1D;
+			return DRAW_PICK_ORDER_PATH;
 		}
 
-		return DRAW_PICK_ORDER_2D;
+		return DRAW_PICK_ORDER_SURFACE;
 	}
 	
 	

@@ -109,7 +109,7 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	
 	@Override
 	public int getPickOrder(){
-		return DRAW_PICK_ORDER_2D; 
+		return DRAW_PICK_ORDER_SURFACE; 
 	}	
 	
 	

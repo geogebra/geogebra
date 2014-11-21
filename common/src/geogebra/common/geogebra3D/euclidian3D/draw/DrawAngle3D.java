@@ -313,7 +313,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 	
 	@Override
 	public int getPickOrder() {
-		return DRAW_PICK_ORDER_1D;
+		return DRAW_PICK_ORDER_PATH;
 	}
 
 

@@ -68,7 +68,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces impleme
 	
 	@Override
 	public int getPickOrder(){
-		return DRAW_PICK_ORDER_2D;
+		return DRAW_PICK_ORDER_SURFACE;
 	}	
 	
 	

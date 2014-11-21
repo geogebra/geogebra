@@ -190,7 +190,7 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements Preview
 	
 	@Override
 	public int getPickOrder(){
-		return DRAW_PICK_ORDER_1D;
+		return DRAW_PICK_ORDER_PATH;
 	}	
 
 	

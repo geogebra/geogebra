@@ -377,7 +377,7 @@ implements Previewable {
 
 	@Override
 	public int getPickOrder() {
-		return DRAW_PICK_ORDER_2D;
+		return DRAW_PICK_ORDER_SURFACE;
 	}
 	
 	

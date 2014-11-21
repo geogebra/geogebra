@@ -222,7 +222,7 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 
 	@Override
 	public int getPickOrder() {
-		return DRAW_PICK_ORDER_2D;
+		return DRAW_PICK_ORDER_SURFACE;
 	}
 
 	@Override

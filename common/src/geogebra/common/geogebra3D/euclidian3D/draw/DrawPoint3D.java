@@ -123,7 +123,7 @@ implements Previewable, Functional2Var{
 	
 	@Override
 	public int getPickOrder(){
-		return DRAW_PICK_ORDER_0D;
+		return DRAW_PICK_ORDER_POINT;
 	}	
 	
 	
