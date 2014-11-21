@@ -601,8 +601,10 @@ public class Ggb2giac {
 		// don't work
 		p("Sum.1",
 				"sum(%0)");
+		
+		// Sum[Sum[x+2y, x, 1, 3], y, 2, 4]
 		p("Sum.4",
-				"[[ggbarg1:=%1],expand(subst(sum(subst(%0,ggbarg1,ggbsumvar@1),ggbsumvar@1,%2,%3), ggbsumvar@1, ggbarg1))][1]");
+				"expand(subst(sum(subst(%0,%1,ggbsumvar@1),ggbsumvar@1,%2,%3), ggbsumvar@1, %1))");
 
 		// GeoGebra counts elements from 1, giac from 0
 		p("Take.3",
