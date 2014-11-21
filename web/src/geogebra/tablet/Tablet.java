@@ -6,8 +6,11 @@ import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
 import geogebra.geogebra3D.web.gui.app.GeoGebraAppFrame3D;
+import geogebra.geogebra3D.web.main.AppWapplet3D;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
+import geogebra.html5.gui.GeoGebraFrame;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
@@ -18,6 +21,8 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
+import geogebra.web.gui.laf.GLookAndFeel;
+import geogebra.web.main.AppWapplet;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -241,7 +246,12 @@ public class Tablet implements EntryPoint {
 	
 	
 	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(), new TabletLookAndFeel());	   
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags,  new AppletFactory(){
+			@Override
+			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeelI laf){
+				return new AppWapplet3D(ae, fr, (GLookAndFeel) laf);
+			}
+		}, new TabletLookAndFeel());	   
     }
 
 }
