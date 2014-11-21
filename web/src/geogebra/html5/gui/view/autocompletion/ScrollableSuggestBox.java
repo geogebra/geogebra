@@ -36,6 +36,7 @@ public class ScrollableSuggestBox extends SuggestBox {
 		 // 
 		 // #3878
 		tb.getElement().setAttribute("autocomplete", "off");
+		tb.getElement().setAttribute("autocapitalize", "off");
 	}
 
 	public void hideSuggestions() {

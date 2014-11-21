@@ -270,6 +270,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
         if (selectedValue == null) {
             selectedValue = new TextBox();
             selectedValue.getElement().setAttribute("autocomplete", "off");
+            selectedValue.getElement().setAttribute("autocapitalize", "off");
         }
         return selectedValue;
     }
