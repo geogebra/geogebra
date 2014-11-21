@@ -1277,14 +1277,14 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			xrangemax = maxDefinedValue(geo, xrangemin, b);
 			// Application.debug("xrangemax "+xrangemax);
 			startBeamer(sb);
-			if (forceGnuplot) {
-				if (!isLatexFunction(value)) {
+			if (forceGnuplot) {				
+				if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin);
 				} else {
 					drawGnuPlot(geo, sb, value, xrangemax, xrangemin);
 				}
 			} else {
-				if (!isLatexFunction(value)) {
+				if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin);
 				} else {
 					drawPgfStandard(geo, sb, value, xrangemax, xrangemin);

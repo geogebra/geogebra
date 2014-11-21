@@ -1160,7 +1160,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
         Function f = geo.getFunction();
         if (f == null) return;
         String value = f.toValueString(getStringTemplate());
-        value = parseFunction(value);
+        value = parseFunction(value);// killSpace(StringUtil.toLaTeXString(value,true));
         value = value.replaceAll("\\\\pi", "pi");
         double a = xmin;
         double b = xmax;
@@ -1179,8 +1179,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 
 			int indexFunc = -1;
 			String tempFunctionCount = null;
-			String returnCode = null;
-			if (!isLatexFunction(value)) {
+			String returnCode = null;			
+			if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
 				StringBuilder sb=new StringBuilder();
 				ColorCode(geo.getObjectColor(), sb);
 				String template = "draw( (%0,%1) -- (%2,%3),"+sb+"+linewidth("+geo.getLineThickness()+"));\n";
@@ -1227,12 +1227,13 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				code.append(format(xrangemin + 0.01));
 				code.append(",");
 				code.append(format(xrangemax - 0.01));
-				code.append(")");
-				// ? recycled code of sorts?
-				xrangemax += PRECISION_XRANGE_FUNCTION;
-				a = xrangemax;
+				code.append(")");	
 				endDraw(geo);
 			}
+			// ? recycled code of sorts?*/
+			xrangemax += PRECISION_XRANGE_FUNCTION;
+			a = xrangemax;
+			 
 		}
     }
   
@@ -1258,20 +1259,23 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
         return b;
     }
     
-    private double firstDefinedValue(GeoFunction f, double a, double b){
-        double x = a;
-        double step = (b-a)/100;
-        while(x <= b){
-            double y = f.evaluate(x);
-            if (!Double.isNaN(y)){
-                if (x == a) return a;
-                else if (step < PRECISION_XRANGE_FUNCTION) return x;
-                else return firstDefinedValue(f, x - step, x);
-            }
-            x += step;
-        }
-        return b;
-    }
+	private double firstDefinedValue(GeoFunction f, double a, double b) {
+		double x = a;
+		double step = (b - a) / 100;
+		while (x <= b) {
+			double y = f.evaluate(x);
+			if (!Double.isNaN(y)) {
+				if (x == a)
+					return a;
+				else if (step < PRECISION_XRANGE_FUNCTION)
+					return x;
+				else
+					return firstDefinedValue(f, x - step, x);
+			}
+			x += step;
+		}
+		return b;
+	}
     // draw vector with EndArrow(6)
     @Override
 	protected void drawGeoVector(GeoVector geo){
