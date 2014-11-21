@@ -822,7 +822,7 @@ __GGB__keysVar.ug.command = {
     "SetPerspective": "\u0642\u06c7\u0631\u06c7\u0644\u0645\u0627\u060c\u062a\u06d5\u06ad\u0634\u0649\u0643\u0649",
     "SetPerspective.Syntax": "[ <\u062a\u06d0\u0643\u0633\u0649\u062a> ]",
     "SetPointSize": "SetPointSize",
-    "SetPointSize.Syntax": "[ <Point>, <Number> ]",
+    "SetPointSize.Syntax": "[ <Object>, <Number> ]",
     "SetPointStyle": "SetPointStyle",
     "SetPointStyle.Syntax": "[ <Point>, <Number> ]",
     "SetSeed": "SetSeed",

@@ -822,7 +822,7 @@ __GGB__keysVar.zh_TW.command = {
     "SetPerspective": "SetPerspective",
     "SetPerspective.Syntax": "[ <Text> ]",
     "SetPointSize": "SetPointSize",
-    "SetPointSize.Syntax": "[ <Point>, <Number> ]",
+    "SetPointSize.Syntax": "[ <Object>, <Number> ]",
     "SetPointStyle": "SetPointStyle",
     "SetPointStyle.Syntax": "[ <Point>, <Number> ]",
     "SetSeed": "SetSeed",
