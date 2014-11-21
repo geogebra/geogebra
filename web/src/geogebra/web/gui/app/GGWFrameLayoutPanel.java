@@ -31,6 +31,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	EuclidianDockPanelW ggwGraphicView;
 	MyDockPanelLayout dockPanel;
 	MyDockPanelLayout mainPanel;
+	boolean keyboardShowing = false;
 	
 	private DockGlassPaneW glassPane;
 
@@ -98,6 +99,10 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	}
 
 	public void showKeyBoard(boolean show, AutoCompleteTextFieldW textField){
+		if(this.keyboardShowing == show){
+			return;
+		}
+		this.keyboardShowing = show;
 		this.mainPanel.clear();
 		if(show && textField != null){
 			OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);

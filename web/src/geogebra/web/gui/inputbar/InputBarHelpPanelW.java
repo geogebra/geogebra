@@ -26,7 +26,6 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
@@ -420,17 +419,7 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 	private void formattedHTMLString(ArrayList<Widget> ret, String s, boolean b) {
 		String[]lines = s.split("\n");
 		for(String line: lines){
-			Label syntax = new Label(line);
-			final String fLine = line;
-			syntax.addMouseDownHandler(new MouseDownHandler(){
-
-				@Override
-                public void onMouseDown(MouseDownEvent event) {
-					event.preventDefault();
-					event.stopPropagation();
-	                insertText(fLine);
-	                
-                }});
+			Label syntax = syntaxLabel(line);
 			if(b){
 				syntax.addStyleName("inputHelp-CAScmdSyntax");
 			}
@@ -438,6 +427,21 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		}
 	}
 	
+	private Label syntaxLabel(String line) {
+		Label syntax = new Label(line);
+		final String fLine = line;
+		syntax.addMouseDownHandler(new MouseDownHandler(){
+
+			@Override
+            public void onMouseDown(MouseDownEvent event) {
+				event.preventDefault();
+				event.stopPropagation();
+                insertText(fLine);
+                
+            }});
+		return syntax;
+    }
+
 	void insertText(String s){
 		this.inputField.getTextField().setText(s);
 		ArrayList<String> arr = new ArrayList<String>();
@@ -449,17 +453,14 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
 		String[][] f = TableSymbols.getTranslatedFunctionsGrouped(app);
 		ArrayList<Widget> ret = new ArrayList<Widget>();
 		// sb.append("<table>");
-		StringBuilder sb = new StringBuilder();
+		
 		for (int i = 0; i < f.length; i++) {
-			HTML widget = new HTML();	
-			sb.append("<table><tr>");
+			HorizontalPanel widget = new HorizontalPanel();	
 			for (int j = 0; j < f[i].length; j++) {
-				sb.append("<td>");
-				sb.append(f[i][j]);
-				sb.append("</td>");
+				Label syntax = syntaxLabel(f[i][j]);
+				widget.add(syntax);
 			}
-			sb.append("</tr></table>");
-			widget.setHTML(sb.toString());
+			
 			ret.add(widget);
 		}
 
