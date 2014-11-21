@@ -4637,6 +4637,10 @@ public abstract class GeoElement extends ConstructionElement implements
 		else if ((algebraDesc.indexOf("=") > -1) && !geo.isGeoText()) {
 			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
 			sb.append(geo.getFormulaString(tpl, substituteNumbers));
+		}else if(geo.isGeoVector()){
+			sb.append(label);
+			sb.append(algebraDesc.split("=")[0] + "\\, = \\,");
+			sb.append(geo.getFormulaString(tpl, substituteNumbers));
 		}
 
 		// handle GeoText with LaTeX
