@@ -80,4 +80,5 @@ public class AlgebraDockPanelW extends DockPanelW {
     public ResourcePrototype getIcon() {
 		return getResources().menu_icon_algebra();
 	}
+
 }

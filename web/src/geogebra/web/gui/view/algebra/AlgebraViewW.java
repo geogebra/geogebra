@@ -408,4 +408,8 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	public boolean isShowing() {
 		return isVisible() && isAttached();
     }
+
+
+
+	
 } // AlgebraView
