@@ -826,15 +826,20 @@ public abstract class Drawable3D extends DrawableND {
 		}
 
 
-		//check if one is selected and not the other 
+		// check if one is selected (and moveable) and not the other 
+		// to keep handling last moved or selected geo
 		// -- ONLY when same pickorder to avoid last created geo to get the focus
 		if (this.getPickOrder()==d.getPickOrder()){
-			if (this.getGeoElement().isSelected() && !d.getGeoElement().isSelected())
+			if (this.getGeoElement().isSelected() && this.getGeoElement().isMoveable(getView3D()) 
+					&& !d.getGeoElement().isSelected()){
 				return -1;
-			if (!this.getGeoElement().isSelected() && d.getGeoElement().isSelected())
+			}
+			if (!this.getGeoElement().isSelected() 
+					&& d.getGeoElement().isSelected() && d.getGeoElement().isMoveable(getView3D()) ){
 				return 1;
+			}
 		}
-		
+
 		
 		//check if the two objects are "mixed"	
 		if (this.zPickFar <= d.zPickNear && d.zPickFar <= this.zPickNear){
