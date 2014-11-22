@@ -3,29 +3,104 @@
 # and also in HTML format into html/.
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
-DEBUG=1 # In tmp/ there can be some log, if you set this to 1.
+# Setting defaults.
+MY_VERSION=1.0
+
+DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=10
-IMGSCALE=25
 IMGHEIGHT=25
 HTML=html/index.html
 TEX=html/index.tex
-# PROVERS="Auto Recio Botana BotanaGiac PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
-#PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area"
-PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
-TESTGGBURLBASE=http://dev.geogebra.org/trac/browser/trunk
-GGBDIR=geogebra/test/scripts/benchmark/prover
+PROVERS="Auto Recio Botana BotanaGiac PureSymbolic OpenGeoProver_Wu OpenGeoProver_Area"
+TESTGGBURLBASE_GGBDIR=http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover
 SINGULARWSREMOTEURL=http://singularws.idm.jku.at/
-PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails
-USEENGINES=1
+USEENGINES=0
+PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
 
-if [ "$PROVEDETAILS" = 1 ]; then
- # Remove some incorrectly working provers.
- # PROVERS="Auto Recio Botana BotanaGiac OpenGeoProver_Wu"
- # PROVERS="Botana BotanaGiac"
- # PROVERS="Botana OpenGeoProver_Wu"
- PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto"
- PROVERS="Botana BotanaGiac"
- fi
+usage() {
+ echo "$0 - a benchmarking tool for GeoGebra's theorem prover subsystem"
+ echo "Usage:"
+ echo " $0 [options]"
+ echo "  where options can be as follows (defaults in parentheses):"
+ echo "   -d           put some debugging logs into tmp/"
+ echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
+ echo "   -H <number>  image height: show .ggb thumbnails in the given number of pixels ($IMGHEIGHT)"
+ echo "   -o <file>    set name for output .html file ($HTML)"
+ echo "   -T <file>    set name for output .tex file ($TEX)"
+ echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
+ echo "   -S <name>    run scenario: 'name' can be one of the following: jar-paper, giac-test, ndg"
+ echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
+ echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
+ echo "   -e           use engine numbers in table headers"
+ echo "   -D           rewrite Prove commands to ProveDetails"
+ echo "   -h           show this help"
+ echo "   -v           print script version"
+ exit 0
+ }
+
+version() {
+ echo "$0 version $MY_VERSION"
+ exit 0
+ }
+
+while getopts "t:dH:o:T:p:S:eDhv" OPT; do
+ case $OPT in
+  t)
+   TIMEOUT="$OPTARG"
+   ;;
+  d)
+   DEBUG=1
+   ;;
+  H)
+   IMGHEIGHT="$OPTARG"
+   ;;
+  o)
+   HTML="$OPTARG"
+   ;;
+  T)
+   TEX="$OPTARG"
+   ;;
+  p)
+   PROVERS="$OPTARG"
+   ;;
+  S)
+   case "$OPTARG" in
+    jar-paper)
+     PROVERS="Recio Botana BotanaGiac OpenGeoProver_Wu OpenGeoProver_Area Auto"
+     USEENGINES=1
+     ;;
+    giac-test)
+     PROVERS="Botana BotanaGiac"
+     ;;
+    ndg)
+     PROVERS="Botana BotanaGiac OpenGeoProver_Wu Auto"
+     PROVEDETAILS=1
+     ;;
+   esac # -S
+   ;;
+  e)
+   USEENGINES=1
+   ;;
+  g)
+   TESTGGBURLBASE_GGBDIR="$OPTARG"
+   ;;
+  s)
+   SINGULARWSREMOTEURL="$OPTARGS"
+   ;;
+  D)
+   PROVEDETAILS=1
+   ;;
+  h)
+   usage
+   ;;
+  v)
+   version
+   ;;
+ esac
+done
+
+# Put name of the filters into $@
+shift $((OPTIND-1))
 
 PROVERSNO=`echo $PROVERS | wc -w`
 THISDIR=`dirname $0`
@@ -125,7 +200,7 @@ for i in `find -name '*.ggb' | sort`; do
  unzip $i geogebra_thumbnail.png >/dev/null 2>&1
  mv geogebra_thumbnail.png html/$TEST.png
  echo -n "$TEST;"
- echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE/$GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
+ echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
  if [ `expr ${#TEST} '>' 15` = 1 ]; then
   TEST=${TEST:0:10}\$\ldots\$${TEST:(-2)}
