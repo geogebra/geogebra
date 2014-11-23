@@ -62,7 +62,7 @@ public class Ggb2giac {
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"normal(covariance(%0))");
-		p("Cross.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]],when(ggbarg0[0]='pnt' && size(ggbarg0[1])==3,point(cross(ggbarg0,ggbarg1)),cross(ggbarg0,ggbarg1))][1]");
+		p("Cross.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]],when(is3dpoint(ggbarg0)||is3dpoint(ggbarg1),point(cross(ggbarg0,ggbarg1)),cross(ggbarg0,ggbarg1))][1]");
 		p("ComplexRoot.1", "normal(cZeros(%0,x))");
 		p("CSolutions.1",
 				"ggbsort([[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
@@ -888,15 +888,18 @@ public class Ggb2giac {
 
 		// see ToPoint.1 
 		// eg Dot[Vector[(a,b)],Vector[(c,d)]] 
+		
 		p("Vector.1", 
 				//"point(convert(coordinates(%0),25))");
-				"when(dim((%0)[1])==3,"+
+				"when(is3dpoint(%0),"+
 				// 3D
-				"ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
+				//"ggbvect[((%0)[1])[0], ((%0)[1])[1], ((%0)[1])[2]]"+
+				"ggbvect[xcoord(%0),ycoord(%0),zcoord(%0)]"+
 				","+
 				"when((%0)[0]=='pnt',"+
 				// 2D point
-				"ggbvect[real((%0)[1]), im((%0)[1])]"+
+				//"ggbvect[real((%0)[1]), im((%0)[1])]"+
+				"ggbvect[xcoord(%0),ycoord(%0)]"+
 				","+
 				"when(im(%0)==ggbvect[0,0],"+
 				// already a vector
@@ -907,13 +910,15 @@ public class Ggb2giac {
 				")))");
 		
 		p("Vector.2", 
-				"when(dim((%0)[1])==3,"+
+				"when(is3dpoint(%0)||is3dpoint(%1),"+
 				// 3D points
-				"ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1], ((%1)[1])[2]-((%0)[1])[2] ]"+
+				//"ggbvect[((%1)[1])[0]-((%0)[1])[0], ((%1)[1])[1]-((%0)[1])[1], ((%1)[1])[2]-((%0)[1])[2] ]"+
+				"ggbvect[xcoord(%1)-xcoord(%0),ycoord(%1)-ycoord(%0),zcoord(%1)-zcoord(%0)]"+
 				","+
 				"when((%0)[0]=='pnt',"+
 				// 2D points
-				"ggbvect[real((%1)[1])-real((%0)[1]), im((%1)[1])-im((%0)[1])]"+
+				//"ggbvect[real((%1)[1])-real((%0)[1]), im((%1)[1])-im((%0)[1])]"+
+				"ggbvect[xcoord(%1)-xcoord(%0),ycoord(%1)-ycoord(%0)]"+
 				","+
 				// numbers
 				"ggbvect[%0,%1]"+
