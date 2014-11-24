@@ -51,6 +51,7 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.GgbMat;
 import geogebra.common.util.MyMath;
 
 import java.util.ArrayList;
@@ -3047,6 +3048,37 @@ FromMeta
 		}
 	}
 	
+	private GgbMat polarMatrix;
+
+
+	/**
+	 *  Sets the GeoPoint polar to the pole of line
+	 * @param line to which we want the pole
+	 * @param polar GeoPoint in which the result should be stored 
+	 */
+	final public void polarPoint(GeoLine line, GeoPoint polar) {
+		if(!isDefined()){
+			polar.setUndefined();
+			return;
+		}
+		if (polarMatrix == null) {
+			polarMatrix = new GgbMat(3, 3);
+		}
+
+		polarMatrix.set3x3fromConic(matrix);
+		polarMatrix.inverseImmediate();
+
+		if (polarMatrix.isUndefined()) {
+			polar.setUndefined();
+			return;
+		}
+
+		polar.setCoords(polarMatrix.getEntry(0, 0) * line.x + polarMatrix.getEntry(0, 1) * line.y + polarMatrix.getEntry(0, 2) * line.z,
+				polarMatrix.getEntry(1, 0) * line.x + polarMatrix.getEntry(1, 1) * line.y + polarMatrix.getEntry(1, 2) * line.z,
+				polarMatrix.getEntry(2, 0) * line.x + polarMatrix.getEntry(2, 1) * line.y + polarMatrix.getEntry(2, 2) * line.z);
+
+	}
+	
 
 	/**
 	 *  Sets the GeoLine polar to A.P, the polar line of P relativ to this conic.
@@ -3063,6 +3095,33 @@ FromMeta
 			polar.y = matrix[3] * project.getX() + matrix[1] * project.getY() + matrix[5] * project.getZ();
 			polar.z = matrix[4] * project.getX() + matrix[5] * project.getY() + matrix[2] * project.getZ();
 		}
+	}
+	
+	/**
+	 *  Sets the GeoPoint polar to A.P, the polar line of P relativ to this conic.
+	 * @param project 2D projected coords of the line to which we want the polar
+	 * @param polar GeoPoint in which the result should be stored 
+	 */
+	final public void polarPoint(Coords project, GeoPoint polar) {
+		if (!isDefined()){
+			polar.setUndefined();
+			return;
+		}
+		if (polarMatrix == null) {
+			polarMatrix = new GgbMat(3, 3);
+		}
+
+		polarMatrix.set3x3fromConic(matrix);
+		polarMatrix.inverseImmediate();
+
+		if (polarMatrix.isUndefined()) {
+			polar.setUndefined();
+			return;
+		}
+
+		polar.setCoords(polarMatrix.getEntry(0, 0) * project.getX() + polarMatrix.getEntry(0, 1) * project.getY() + polarMatrix.getEntry(0, 2) * project.getZ(),
+				polarMatrix.getEntry(1, 0) * project.getX() + polarMatrix.getEntry(1, 1) * project.getY() + polarMatrix.getEntry(1, 2) * project.getZ(),
+				polarMatrix.getEntry(2, 0) * project.getX() + polarMatrix.getEntry(2, 1) * project.getY() + polarMatrix.getEntry(2, 2) * project.getZ());
 	}
 	
 	/**

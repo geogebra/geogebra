@@ -1,10 +1,12 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolarLine3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolarPoint3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.advanced.CmdPolar;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
+import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class CmdPolar3D extends CmdPolar {
@@ -26,6 +28,17 @@ public class CmdPolar3D extends CmdPolar {
 		}
 		
 		return super.PolarLine(label, P, c);
+	}
+
+	@Override
+	protected GeoElement PolarPoint(String label, GeoLineND line, GeoConicND c) {
+		
+		if (line.isGeoElement3D() || c.isGeoElement3D()){
+			AlgoPolarPoint3D algo = new AlgoPolarPoint3D(cons, label, c, line);
+			return (GeoElement) algo.getPoint();
+		}
+		
+		return super.PolarPoint(label, line, c);
 	}
 
 	

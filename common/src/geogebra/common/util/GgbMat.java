@@ -112,6 +112,11 @@ public class GgbMat extends Array2DRowRealMatrix{
 		}
 	}
 
+	public GgbMat(int rows, int cols) {
+		data = new double[rows][cols];
+		setIsUndefined(false);
+	}
+
 	/**
 	 * Inverts this matrix. If singular, sets the undefined flag to true.
 	 */
@@ -278,6 +283,27 @@ public class GgbMat extends Array2DRowRealMatrix{
 				if(!Kernel.isInteger(data[i][j]))
 					return false;
 		return true;
+	}
+
+	public void set3x3fromConic(double[] matrix) {
+		// Axx
+		setEntry(0, 0, matrix[0]);
+		// Axy
+		setEntry(0, 1, matrix[3]);
+		setEntry(1, 0, matrix[3]);
+		// Ayy
+		setEntry(1, 1, matrix[1]);
+		// Bx
+		setEntry(2, 0, matrix[4]);
+		setEntry(0, 2, matrix[4]);
+		// By
+		setEntry(2, 1, matrix[5]);
+		setEntry(1, 2, matrix[5]);
+		// C
+		setEntry(2, 2, matrix[2]);		
+		
+		setIsUndefined(false);
+		
 	}
 
 }
