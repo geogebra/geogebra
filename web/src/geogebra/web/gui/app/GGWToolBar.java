@@ -759,10 +759,22 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		}
 	}
 
-
 	@Override
     public void onResize() {
-		//
+		 if(toolbars.get(0).getGroupCount() < 0){ 
+	 	        return; 
+         }
+		 
+		 int extraButtons = 0;
+		 if(app.getLAF().undoRedoSupported()){
+			 extraButtons = 2;
+		 }
+		 if(app.showMenuBar()){
+			 extraButtons += 2;
+		 }
+		 
+		 toolbars.get(0).setMaxButtons(( (int)app.getWidth() - extraButtons * 45 - 15) /45);
+		 
     }
 	
 	/**

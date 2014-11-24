@@ -56,8 +56,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	
 	private boolean wasMenuShownOnMouseDown;
 
-	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb) {
+	private int order;
+
+	public ModeToggleMenu(AppW appl, Vector<Integer> menu1, ToolBarW tb, int order) {
 		super();
+		this.order = order;
 		this.app = appl;
 		this.toolbar = tb;
 		this.menu = menu1;
@@ -83,7 +86,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     }
 
 	private void buildGui(){
-		submenu = new ToolbarSubemuW(app);
+		submenu = new ToolbarSubemuW(app, order);
 		add(submenu);
 
 		for (int k = 0; k < menu.size(); k++) {
@@ -465,4 +468,34 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	public FlowPanel getToolbarButtonPanel() {
 		return tbutton;
 	}
+
+	public void addModes(Vector<Integer> menu2) {
+		if(this.submenu == null){
+			this.buildGui();
+		}
+		for (int k = 0; k < menu2.size(); k++) {
+			final int addMode = menu2.get(k).intValue();
+			if (addMode < 0) { // TODO
+				// // separator within menu:
+				// tm.addSeparator();
+			} else { // standard case: add mode
+				// check mode
+				if (!"".equals(app.getToolName(addMode))) {
+					ListItem subLi = submenu.addItem(addMode);
+					addDomHandlers(subLi);
+					subLi.addDomHandler(this, MouseOverEvent.getType());
+					subLi.addDomHandler(this, MouseOutEvent.getType());
+					subLi.addDomHandler(this, KeyUpEvent.getType());
+				}
+			}
+		}
+	    
+    }
+
+	public void setMaxHeight(double d) {
+	    if(submenu != null){
+	    	this.submenu.setMaxHeight((int)d);
+	    }
+	    
+    }
 }

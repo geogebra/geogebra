@@ -7,6 +7,7 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -32,13 +33,19 @@ public class ToolbarSubemuW extends FlowPanel {
 	 * Item list containing the submenu items.
 	 */
 	private UnorderedList itemList;
+
+	private double maxHeight;
+
+	private int order;
 	
 	/**
 	 * Creates the sub menu, sets the stylename, and creates the
 	 * child elements.
 	 */
-	public ToolbarSubemuW(AppW app) {
+	public ToolbarSubemuW(AppW app, int order) {
 		this.app = app;
+		this.order = order;
+		this.maxHeight = app.getHeight() - 40;
 	    setStyleName("toolbar_submenu");
 	    initGui();
     }
@@ -51,6 +58,7 @@ public class ToolbarSubemuW extends FlowPanel {
 		
 		itemList = new UnorderedList();
 		itemList.setStyleName("submenuContent");
+		setMaxHeight((int)app.getHeight() - 40);
 		add(itemList);
 	}
 
@@ -58,6 +66,16 @@ public class ToolbarSubemuW extends FlowPanel {
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
 		setStyleName("visible", visible);
+		if(visible){
+			app.getGuiManager().invokeLater(new Runnable(){
+
+				@Override
+                public void run() {
+					if(itemList.getOffsetWidth() + ToolbarSubemuW.this.order * 45 > app.getWidth()){
+						itemList.getElement().getStyle().setLeft(app.getWidth() - 45 * ToolbarSubemuW.this.order - itemList.getOffsetWidth() -10, Unit.PX);
+					}
+                }});
+		}
 	}
 	
 	@Override
@@ -90,4 +108,10 @@ public class ToolbarSubemuW extends FlowPanel {
 	public UnorderedList getItemList() {
 		return itemList;
 	}
+
+	public void setMaxHeight(int d) {
+		itemList.getElement().getStyle().setProperty("maxHeight", d+"px");
+		
+		
+    }
 }

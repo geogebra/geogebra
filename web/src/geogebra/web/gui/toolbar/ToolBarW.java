@@ -184,6 +184,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	}
 
 	private Integer activeView = App.VIEW_EUCLIDIAN;
+	private int maxButtons = 200;
 
 	/**
 	 * Adds the given modes to a two-dimensional toolbar. The toolbar definition
@@ -193,6 +194,30 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	 * 
 	 */
 	private void addCustomModesToToolbar(UnorderedList mainUl) {
+		Vector<ToolbarItem> toolbarVec = getToolbarVec();
+		// set toolbar
+		for (int i = 0; i < toolbarVec.size() && i < this.maxButtons; i++) {
+			ToolbarItem ob = toolbarVec.get(i);
+			Vector<Integer> menu = ob.getMenu();
+
+			ModeToggleMenu mtm = new ModeToggleMenu(app, menu, this, i);
+			mtm.setButtonTabIndex(-1);
+
+			modeToggleMenus.add(mtm);
+			mainUl.add(mtm);
+		}
+		
+		for (int i = this.maxButtons; i < toolbarVec.size(); i++) {
+			ToolbarItem ob = toolbarVec.get(i);
+			Vector<Integer> menu = ob.getMenu();
+			modeToggleMenus.get(modeToggleMenus.size()-1).addModes(menu);
+		}
+
+		if (modeToggleMenus.size() > 0)
+			modeToggleMenus.get(0).setButtonTabIndex(0);
+	}
+
+	private Vector<ToolbarItem> getToolbarVec() {
 		Vector<ToolbarItem> toolbarVec;
 		try {
 			if (dockPanel != null) {
@@ -212,21 +237,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 			}
 			toolbarVec = ToolBar.parseToolbarString(getDefaultToolbarString());
 		}
-		// set toolbar
-		for (int i = 0; i < toolbarVec.size(); i++) {
-			ToolbarItem ob = toolbarVec.get(i);
-			Vector<Integer> menu = ob.getMenu();
-
-			ModeToggleMenu mtm = new ModeToggleMenu(app, menu, this);
-			mtm.setButtonTabIndex(-1);
-
-			modeToggleMenus.add(mtm);
-			mainUl.add(mtm);
-		}
-
-		if (modeToggleMenus.size() > 0)
-			modeToggleMenus.get(0).setButtonTabIndex(0);
-	}
+		return toolbarVec;
+    }
 
 	/**
 	 * @return The default definition of this toolbar with macros.
@@ -338,6 +350,18 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 			return -1;
 		}
 	    return this.modeToggleMenus.size();
+    }
+
+	public void setMaxButtons(int max) {
+		for(ModeToggleMenu m: this.modeToggleMenus){
+			m.setMaxHeight(app.getHeight() - 40);
+		}
+	    if(Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()){
+	    	return;
+	    }
+	    this.maxButtons = max;
+	    buildGui();
+	    
     }
 
 }
