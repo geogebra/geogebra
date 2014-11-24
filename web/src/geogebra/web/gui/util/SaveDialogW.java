@@ -60,7 +60,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	StandardButton save;
 		
 	private Label titleLabel;
-	private final int MIN_TITLE_LENGTH = 4;
+	private final int MIN_TITLE_LENGTH = 5;
 	Runnable runAfterSave;
 	SaveCallback saveCallback;
 	private PopupMenuButton providerPopup;
