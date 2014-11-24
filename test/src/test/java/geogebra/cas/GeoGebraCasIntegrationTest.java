@@ -500,7 +500,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Term_3 () {
-    t("(3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))");
+    t("(3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))", "(t * sqrt(5) + 3, t + sqrt(2))");
   }
 
   @Test
@@ -532,7 +532,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_Function_3 () {
-    t("f(t) := (3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))");
+    t("f(t) := (3, sqrt(2)) + t * (sqrt(5), 1)", "(sqrt(5) * t + 3, t + sqrt(2))", "(t* sqrt(5) + 3, t + sqrt(2))");
   }
 
   @Test
@@ -564,7 +564,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationE_3 () {
-    t("(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))");
+    t("(x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))","(x, y) = (t * sqrt(5) + 3, t + sqrt(2))");
   }
 
   @Test
@@ -596,7 +596,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationA_3 () {
-    t("X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))");
+    t("X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))", "X = (t * sqrt(5) + 3, t + sqrt(2))");
   }
 
   @Test
@@ -623,12 +623,12 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationL_2 () {
-    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))");
+    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1)", "(x, y) = (sqrt(5) * t + 3, t + sqrt(2))", "(x, y) = (t * sqrt(5) + 3, t + sqrt(2))");
   }
 
   @Test
   public void Parametric_EquationL_3 () {
-    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))");
+    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1)", "X = (sqrt(5) * t + 3, t + sqrt(2))", "X = (t * sqrt(5) + 3, t + sqrt(2))");
   }
 
   @Test
@@ -753,12 +753,15 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Parametric_EquationLM_2 () {
-    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "(x, y) = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))");
+    t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "(x, y) = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))",
+    		"(x, y) = (-s + t * sqrt(5) + 3, sqrt(7) * s + t + sqrt(2))");
   }
 
   @Test
   public void Parametric_EquationLM_3 () {
-    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "X = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))");
+    t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", 
+    		"X = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))",
+    		"X = (-s + t * sqrt(5) + 3, sqrt(7) * s + t + sqrt(2))");
   }
 
   @Test
@@ -3682,12 +3685,12 @@ public class GeoGebraCasIntegrationTest {
 			  "8 * sqrt(10) * x^(2) + 12 * x^(2) - 32 * sqrt(10) * x - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) + 24 * y^(2) - 24 * sqrt(10) * y - 40 * y + 32 * sqrt(10) = 0",
 			  "8 * x^(2) * sqrt(10) + 12 * x^(2) - 32 * x * sqrt(10) - 16 * x * y - 24 * x + 8 * sqrt(10) * y^(2) - 24 * sqrt(10) * y + 32 * sqrt(10) + 24 * y^(2) - 40 * y = 0");
 	  t("P := (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))",
-			  "(0, (-sqrt(10) * sqrt(31) * 3 * sqrt(224 * sqrt(10) + 687) - sqrt(31) * 11 * sqrt(224 * sqrt(10) + 687) + sqrt(10) * 672 + 2061) / (sqrt(10) * 448 + 1374))");
-	  t("Tangent[P, c]",
+			  "(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)","(0, (-sqrt(10) * sqrt(31) * 3 * sqrt(224 * sqrt(10) + 687) - sqrt(31) * 11 * sqrt(224 * sqrt(10) + 687) + sqrt(10) * 672 + 2061) / (sqrt(10) * 448 + 1374))");
+	  /*t("Tangent[P, c]",
 			  // neither of these are correct, they are coordinates!
 			  //"y = (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
 			  // "(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)"
-			  "TODO");
+			  "TODO");*/
   }
 
   // TODO Add tests for other conics.
