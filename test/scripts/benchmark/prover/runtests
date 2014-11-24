@@ -125,17 +125,17 @@ rm -f $HTML $TEX
 # Testing prerequisites:
 prereq () {
  which $1 2>&1 >/dev/null || {
- echo "FATAL: No '$1' executable found. $2"
- exit 1
+  echo "FATAL: No '$1' executable found. $2"
+  exit 1
+  }
  }
 
 if [ "$RUNDIR" = "" ]; then
- prereq "Try installing GeoGebra first."
+ prereq geogebra "Try installing GeoGebra first."
  BIN=`which geogebra`
  RUNDIR=`dirname $BIN`
- BINBASE=geogebra
+ BINBASE="geogebra --2"
  fi
- }
 prereq unzip
 prereq zip
 prereq timeout
@@ -288,9 +288,9 @@ for i in `find -name '*.ggb' | sort`; do
   timeout $TIMEOUT $BINBASE \
    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
    --logFile=$LOGFILE \
-   --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en $EXTRAOPTS \
+   --regressionFile=$REGRESSIONFILE --language=en $EXTRAOPTS $MYDIR/$i \
    >$MYDIR/tmp/.test.stdout 2>$MYDIR/tmp/.test.stderr
-  
+
   RETVAL=$?
   if [ $RETVAL = 124 ]; then
    RESULT=""
