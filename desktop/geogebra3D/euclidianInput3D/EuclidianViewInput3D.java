@@ -13,7 +13,6 @@ import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -73,9 +72,49 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
 		}
 
+		if (drawCompletingCursor(renderer1)){
+			return;
+		}
+		
 		drawMouseCursor(renderer1, mouse3DScreenPosition);
+		
 
 	}
+	
+	static public Coords CompletingCursorColorGrabbing = new Coords(0f,0.5f,0f,1f);
+	static public Coords CompletingCursorColorRelease = new Coords(1f,0f,0f,1f);
+	
+
+	private boolean drawCompletingCursor(Renderer renderer1){
+
+		float completingDelay = hittedGeo.getCompletingDelay();
+
+		if (completingDelay > 0.5f && completingDelay <= 1f){
+			CoordMatrix4x4.Identity(tmpMatrix4x4_3); 
+			Coords origin = hittedGeo.getStartCoords().copyVector();
+			toScreenCoords3D(origin);
+			tmpMatrix4x4_3.setOrigin(origin);
+			renderer1.setMatrix(tmpMatrix4x4_3);
+			renderer1.drawCompletingCursor(completingDelay, CompletingCursorColorGrabbing);
+			return true;
+		}
+		
+		completingDelay = stationaryCoords.getCompletingDelay();
+		if (completingDelay > 0.5f && completingDelay <= 1f){
+			CoordMatrix4x4.Identity(tmpMatrix4x4_3); 
+			Coords origin = stationaryCoords.getCurrentCoords().copyVector();
+			toScreenCoords3D(origin);
+			tmpMatrix4x4_3.setOrigin(origin);
+			renderer1.setMatrix(tmpMatrix4x4_3);
+			renderer1.drawCompletingCursor(completingDelay, CompletingCursorColorRelease);
+			return true;
+		}
+
+		
+		return false;
+	}
+	
+	
 
 	private CoordMatrix4x4 transparentMouseCursorMatrix = new CoordMatrix4x4();
 
@@ -249,22 +288,49 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 	}
 	
+
+	static protected float LONG_DELAY = 1500f;
+	
 	private class HittedGeo{
 		
 		private GeoElement geo;
 		
-		private long startTime;
+		private long startTime, lastTime;
+		
+		private long delay = -1;
+		
+		private Coords startCoords = Coords.createInhomCoorsInD3();
+		
+		/**
+		 * say if we should forget current
+		 * @param time current time
+		 * @return true if from last time enough delay has passed to forget current
+		 */
+		private boolean forgetCurrent(long time){
+			return (time - lastTime) * 8 > LONG_DELAY;
+		}
 		
 		public void setHitted(Hits hits, long time){
 			//App.debug("\nHittedGeo:\n"+getHits3D());
-			if (hits.isEmpty()){
-				geo = null;
-				//App.debug("\n -- geo = null");
+			if (hits.isEmpty()){ // reinit geo
+				if (forgetCurrent(time)){
+					geo = null;
+					delay = -1;
+					//App.debug("\n -- geo = null");
+				}
 			}else{
 				GeoElement newGeo = hits.get(0);
-				if (newGeo != geo){
-					geo = newGeo;
-					startTime = time;
+				if(newGeo.isGeoPoint()){
+					if (newGeo == geo){ // remember last time
+						lastTime = time;
+					}else if(geo == null || forgetCurrent(time)){ // change geo
+						geo = newGeo;
+						startTime = time;
+						startCoords.setValues(getCursor3D().getInhomCoordsInD3(), 3);
+					}
+				}else if(forgetCurrent(time)){
+					geo = null;
+					delay = -1;
 				}
 				//App.debug("\n "+(time-startTime)+"-- geo = "+geo);
 			}
@@ -278,29 +344,105 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		public boolean hasLongDelay(long time){
 			
 			if (geo == null){
+				delay = -1;
 				return false;
 			}
 			
-			int delay = (int) ((time-startTime) /100);
-			String s = "";
-			for (int i = 0 ; i < delay ; i++){
-				s+="=";
-			}
-			for (int i = delay ; i <= 10 ; i++){
-				s+=" ";
-			}
-			s+="|";
-			App.debug("\n  hit delay : "+s);
-			if ((time-startTime) > 1000){
+			delay = time-startTime;
+			if (delay > LONG_DELAY){
 				geo = null; // consume event
+				delay = -1;
 				return true;
 			}
 			
 			return false;
 		}
+		
+		public float getCompletingDelay(){
+			return delay/LONG_DELAY;
+		}
+		
+		public Coords getStartCoords(){
+			return startCoords;
+		}
 	}
 	
 	private HittedGeo hittedGeo = new HittedGeo();
+	
+	
+	public class StationaryCoords {
+		
+		private Coords startCoords = new Coords(4), currentCoords = new Coords(4);
+		private long startTime;
+		private long delay;
+		
+		public StationaryCoords(){
+			startCoords.setUndefined();
+			delay = -1;
+		}
+		
+		public void setCoords(Coords coords, long time){
+			
+			if (startCoords.isDefined()){
+				double distance = Math.abs(startCoords.getX() - coords.getX())
+						+ Math.abs(startCoords.getY() - coords.getY())
+						+ Math.abs(startCoords.getZ() - coords.getZ());
+				//App.debug("\n -- "+(distance * ((EuclidianView3D) ec.view).getScale()));
+				if (distance * getScale() > 30){
+					startCoords.set(coords);
+					startTime = time;
+					delay = -1;
+					//App.debug("\n -- startCoords =\n"+startCoords);
+				}else{
+					currentCoords.set(coords);
+				}
+			}else{
+				startCoords.set(coords);
+				startTime = time;
+				delay = -1;
+				//App.debug("\n -- startCoords =\n"+startCoords);
+			}
+		}
+		
+		
+		/**
+		 * 
+		 * @param time current time
+		 * @return true if hit was long enough to process left release
+		 */
+		public boolean hasLongDelay(long time){
+			
+			
+			if (startCoords.isDefined()){
+				delay = time - startTime;
+				if (delay > LONG_DELAY){
+					startCoords.setUndefined(); // consume event
+					delay = -1;
+					return true;
+				}
+			}else{
+				delay = -1;
+			}
+			
+			
+			return false;
+		}
+		
+		public float getCompletingDelay(){
+			return delay/LONG_DELAY;
+		}
+		
+		public Coords getCurrentCoords(){
+			return currentCoords;
+		}
+	}
+	
+
+	private StationaryCoords stationaryCoords = new StationaryCoords();
+	
+	public StationaryCoords getStationaryCoords(){
+		return stationaryCoords;
+	}
 	
 	@Override
 	protected Renderer createRenderer() {

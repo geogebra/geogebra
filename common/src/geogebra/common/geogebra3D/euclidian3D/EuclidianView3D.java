@@ -2401,7 +2401,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	private CoordMatrix4x4 tmpMatrix4x4 = new CoordMatrix4x4();
 	private CoordMatrix4x4 tmpMatrix4x4_2 = CoordMatrix4x4.Identity();
-	private CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
+	protected CoordMatrix4x4 tmpMatrix4x4_3 = CoordMatrix4x4.Identity();
 	
 	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 	

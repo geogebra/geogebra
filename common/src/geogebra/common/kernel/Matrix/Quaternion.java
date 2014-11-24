@@ -182,6 +182,37 @@ public class Quaternion {
 		y = v.getY();
 		z = v.getZ();
 	}
+	
+	/**
+	 * set this quaternion to undefined
+	 */
+	public void setUndefined(){
+		x = Double.NaN;
+	}
+	
+	/**
+	 * 
+	 * @return true if this quaternion is defined
+	 */
+	public boolean isDefined(){
+		return Double.isNaN(x);
+	}
+	
+	/**
+	 * assuming angle t between this and q verifies
+	 * cos(t) = 2 dotproduct(this, q)² - 1 
+	 * we return 1 - dotproduct(this, q)² = (1-cos(t))/2
+	 * @param q quaternion
+	 * @return distance between this and q
+	 */
+	public double distance(Quaternion q){
+		
+		double norm2 = x*x + y*y + z*z + w*w;
+		double qnorm2 = q.x * q.x + q.y * q.y + q.z * q.z + q.w * q.w;
+		
+		double dot = x * q.x + y * q.y + z * q.z + w * q.w;
+		return 1 - dot * dot /(norm2 * qnorm2);
+	}
 
 	
 }

@@ -37,6 +37,8 @@ abstract public class Manager {
 	private PlotterText text;
 	/** mouse cursor */
 	private PlotterMouseCursor mouseCursor;
+	/** completing task cursor */
+	private PlotterCompletingCursor completingCursor;
 	
 	//geogebra stuff
 	private EuclidianView3D view3D;
@@ -72,6 +74,8 @@ abstract public class Manager {
 		viewInFrontOf = new PlotterViewInFrontOf(this);
 		
 		mouseCursor = new PlotterMouseCursor(this);
+		
+		completingCursor = new PlotterCompletingCursor(this);
 		
 		//geogebra
 		this.view3D = view3D;
@@ -121,6 +125,10 @@ abstract public class Manager {
 	
 	public PlotterMouseCursor getMouseCursor(){
 		return mouseCursor;
+	}
+
+	public PlotterCompletingCursor getCompletingCursor(){
+		return completingCursor;
 	}
 
 	/////////////////////////////////////////////

@@ -1,5 +1,6 @@
 package geogebra3D.euclidianInput3D;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian3D.Input3D;
@@ -269,19 +270,34 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	}
 	
+	private Quaternion currentRot;
+	
+	/**
+	 * calc current rotation
+	 */
+	protected void calcCurrentRot(){
+		currentRot = startMouse3DOrientation
+				.leftDivide(mouse3DOrientation);
+
+		// get the relative quaternion and rotation matrix in scene coords
+		rotV.set(startOrientationMatrix.mul(currentRot.getVector()));
+		currentRot.setVector(toSceneRotMatrix.mul(rotV));
+	}
+	
 	/**
 	 * 
 	 * @return current/start rotation as a matrix
 	 */
 	protected CoordMatrix getCurrentRotMatrix(){
-		Quaternion rot = startMouse3DOrientation
-				.leftDivide(mouse3DOrientation);
-
-		// get the relative quaternion and rotation matrix in scene coords
-		rotV.set(startOrientationMatrix.mul(rot.getVector()));
-		rot.setVector(toSceneRotMatrix.mul(rotV));
-
-		return rot.getRotMatrix();
+		return currentRot.getRotMatrix();
+	}
+	
+	/**
+	 * 
+	 * @return current rotation quaternion
+	 */
+	protected Quaternion getCurrentRotQuaternion(){
+		return currentRot;
 	}
 
 
@@ -303,6 +319,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		} else { // process mouse drag
 
 			// rotation
+			calcCurrentRot();
 			CoordMatrix rotMatrix = getCurrentRotMatrix();
 
 			// App.debug("\n"+rot);
@@ -525,5 +542,16 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	@Override
 	public float getPointCapturingPercentage(){
 		return 2f*super.getPointCapturingPercentage();
+	}
+
+
+	@Override
+	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
+		if (mode == EuclidianConstants.MODE_MOVE) {
+			return false;
+		}
+
+		return super.cursor3DVisibleForCurrentMode(cursorType);
+
 	}
 }

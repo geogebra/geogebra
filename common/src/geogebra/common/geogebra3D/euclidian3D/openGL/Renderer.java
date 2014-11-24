@@ -875,6 +875,17 @@ public abstract class Renderer {
 			enableLighting();
 
 	}
+	
+	
+	final public void drawCompletingCursor(double value, Coords color) {
+
+		initMatrix();
+		enableBlending();
+		geometryManager.getCompletingCursor().draw(value, color);
+		disableBlending();
+		resetMatrix();
+
+	}
 
 	/**
 	 * draws a view button

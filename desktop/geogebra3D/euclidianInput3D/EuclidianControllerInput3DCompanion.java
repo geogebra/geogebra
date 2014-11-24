@@ -6,7 +6,9 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra.common.main.App;
+import geogebra3D.euclidianInput3D.EuclidianViewInput3D.StationaryCoords;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -68,7 +70,8 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 
 			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()){
 				long time = System.currentTimeMillis();
-				stationaryCoords.setCoords(coords, time);
+				StationaryCoords stationaryCoords = ((EuclidianViewInput3D) ec.view).getStationaryCoords();
+				stationaryCoords.setCoords(ec.movedGeoPoint.getInhomCoordsInD3(), time);
 				if (stationaryCoords.hasLongDelay(time)){
 					((EuclidianControllerInput3D) ec).input3D.setLeftButtonPressed(false);
 				}
@@ -77,31 +80,35 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 
 	}
 	
-	private class StationaryCoords {
+	
+	
+	
+	
+	private StationaryQuaternion stationaryQuaternion = new StationaryQuaternion();
+	
+	private class StationaryQuaternion {
 		
-		private Coords startCoords = new Coords(4);
+		private Quaternion startCoords = new Quaternion();
 		private long startTime;
 		
-		public StationaryCoords(){
+		public StationaryQuaternion(){
 			startCoords.setUndefined();
 		}
 		
-		public void setCoords(Coords coords, long time){
+		public void setQuaternion(Quaternion q, long time){
 			
 			if (startCoords.isDefined()){
-				double distance = Math.abs(startCoords.getX() - coords.getX())
-						+ Math.abs(startCoords.getY() - coords.getY())
-						+ Math.abs(startCoords.getZ() - coords.getZ());
+				double distance = startCoords.distance(q);
 				//App.debug("\n -- "+(distance * ((EuclidianView3D) ec.view).getScale()));
-				if (distance * ((EuclidianView3D) ec.view).getScale() > 30){
-					startCoords.set(coords);
+				if (distance > 0.05){ // angle < 25.8°
+					startCoords.set(q);
 					startTime = time;
 					//App.debug("\n -- startCoords =\n"+startCoords);
 				}else{
 					//App.debug("\n -- same coords "+(time-startTime));
 				}
 			}else{
-				startCoords.set(coords);
+				startCoords.set(q);
 				startTime = time;
 				//App.debug("\n -- startCoords =\n"+startCoords);
 			}
@@ -125,7 +132,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 					s+=" ";
 				}
 				s+="|";
-				App.error("\nmove delay : "+s);
+				App.error("\n rot delay : "+s);
 				if ((time-startTime) > 1000){
 					startCoords.setUndefined(); // consume event
 					return true;
@@ -136,7 +143,6 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 		}
 	}
 	
-	private StationaryCoords stationaryCoords = new StationaryCoords();
 	
 	
 	@Override
@@ -151,6 +157,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 
 			((EuclidianControllerInput3D) ec).movedGeoPlane.setCoordSys(((EuclidianControllerInput3D) ec).movedGeoPlaneStartCoordSys);
 
+			((EuclidianControllerInput3D) ec).calcCurrentRot();
 			((EuclidianControllerInput3D) ec).movedGeoPlane.rotate(
 					((EuclidianControllerInput3D) ec).getCurrentRotMatrix(),
 					((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
@@ -159,6 +166,19 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			((EuclidianControllerInput3D) ec).movedGeoPlane.translate(v);
 
 			((EuclidianControllerInput3D) ec).movedGeoPlane.updateCascade();
+			
+			/*
+			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()){
+				long time = System.currentTimeMillis();
+				stationaryCoords.setCoords(v, time);
+				stationaryQuaternion.setQuaternion(
+						((EuclidianControllerInput3D) ec).getCurrentRotQuaternion(), 
+						time);
+				if (stationaryCoords.hasLongDelay(time) && stationaryQuaternion.hasLongDelay(time)){
+					((EuclidianControllerInput3D) ec).input3D.setLeftButtonPressed(false);
+				}
+			}
+			*/
 		}
 	}
 	
