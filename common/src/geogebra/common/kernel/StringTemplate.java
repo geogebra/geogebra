@@ -1939,16 +1939,8 @@ public class StringTemplate implements ExpressionNodeConstants {
 								.ordinal())))) { // not +, -, *, /, ^,
 					// e^x
 					
-					// #4764
-					// eg 1 * 10 ^ 8
-					// eg 1E8
-					if (leftStr.indexOf("^") > -1 || leftStr.indexOf("*") > -1 || leftStr.indexOf("E") > -1) {
-						sb.append(leftBracket());
-						sb.append(leftStr);
-						sb.append(rightBracket());
-					} else {
-						sb.append(leftStr);						
-					}
+					// we might need  more brackets here #4764
+					sb.append(leftStr);						
 				} else {
 					sb.append(leftBracket());
 					sb.append(leftStr);
@@ -2087,9 +2079,14 @@ public class StringTemplate implements ExpressionNodeConstants {
 		if (hasType(StringType.GIAC)) {
 			return convertScientificNotationGiac(scientificStr);
 		}
+		//in XML we write the original to avoid brackets and priority problems #4764
+		if(hasType(StringType.GEOGEBRA_XML)){
+			return scientificStr;
+		}
 		
 		StringBuilder sb = new StringBuilder(scientificStr.length() * 2);
 		boolean Efound = false;
+		
 		for (int i = 0; i < scientificStr.length(); i++) {
 			char ch = scientificStr.charAt(i);
 			if (ch == 'E') {

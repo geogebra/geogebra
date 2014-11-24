@@ -741,7 +741,7 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 			kernel.formatSigned(y,sb,tpl);
 			sb.append(Unicode.IMAGINARY);
 			break;     
-			
+
 		case Kernel.COORD_CARTESIAN_3D:
 			buildLatexValueStringCoordCartesian3D(kernel, tpl, x, y, 0, sb, vector, symbolic);
 			break;
