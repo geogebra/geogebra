@@ -93,6 +93,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			}
 			return sb.toString().trim();
 		}
+		
 		@Override
         public void insertItem(int before, TreeItem item){
 			super.insertItem(before, item);
@@ -107,6 +108,12 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			return -1;
 		}
 
+		public void removeBranchIfEmpty(TreeItem branch) {
+			if (branch.getChildCount() == 0) {
+				branch.remove();
+			}
+		}
+		
 		public TreeItem addBranchItem(final DraggableTool tool) {
 			return setBranchItem(toolTree.addItem(tool), tool);
 
@@ -157,12 +164,15 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					
 						if (!fromAllTools) {
 							if (idx < toolTree.getItemCount()) {
+								TreeItem parent = dragging.treeItem.getParentItem();
 								toolTree.insertItem(idx, dragging.treeItem);
 								if (dragging.treeItem.getChildCount() == 0) {
-									App.debug("wkwkwk!!!!!!!!!!!");
 									addLeafItem(dragging.treeItem, dragging.duplicate());
+									checkFirstLeaf(parent);
+									removeBranchIfEmpty(parent);
 								  }
 								} else {
+								
 								toolTree.addBranchItem(dragging);
 							
 							}
@@ -224,6 +234,22 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 						return true;
 					}
 					return false;
+				}
+				
+				private void reorderTree(int idx) {
+					if (idx < toolTree.getItemCount()) {
+						TreeItem parent = dragging.treeItem.getParentItem();
+						toolTree.insertItem(idx, dragging.treeItem);
+						if (dragging.treeItem.getChildCount() == 0) {
+							addLeafItem(dragging.treeItem, dragging.duplicate());
+							checkFirstLeaf(parent);
+							removeBranchIfEmpty(parent);
+						  }
+						} else {
+						
+						toolTree.addBranchItem(dragging);
+					
+					}
 				}
 
 			}, DropEvent.getType());
