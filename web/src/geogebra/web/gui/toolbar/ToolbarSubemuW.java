@@ -6,8 +6,13 @@ import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
@@ -58,8 +63,23 @@ public class ToolbarSubemuW extends FlowPanel {
 		
 		itemList = new UnorderedList();
 		itemList.setStyleName("submenuContent");
-		setMaxHeight((int)app.getHeight() - 40);
+		setMaxHeight((int)app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		add(itemList);
+		//catch the events to make sure scrollbar is usable when present
+		this.addDomHandler(new MouseDownHandler(){
+
+			@Override
+            public void onMouseDown(MouseDownEvent event) {
+	            event.stopPropagation();
+	            
+            }}, MouseDownEvent.getType());
+		this.addDomHandler(new TouchStartHandler(){
+
+			@Override
+            public void onTouchStart(TouchStartEvent event) {
+	            event.stopPropagation();
+	            
+            }}, TouchStartEvent.getType());
 	}
 
 	@Override

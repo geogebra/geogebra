@@ -10,6 +10,7 @@ import geogebra.common.main.App;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.laf.GLookAndFeel;
 
 import java.util.ArrayList;
 import java.util.Vector;
@@ -354,7 +355,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 
 	public void setMaxButtons(int max) {
 		for(ModeToggleMenu m: this.modeToggleMenus){
-			m.setMaxHeight(app.getHeight() - 40);
+			m.setMaxHeight(app.getHeight() - GLookAndFeel.TOOLBAR_OFFSET);
 		}
 	    if(Math.min(max, this.getToolbarVec().size()) == this.getGroupCount()){
 	    	return;

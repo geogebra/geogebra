@@ -23,6 +23,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public static final int PROVIDER_PANEL_WIDTH = 70;
 	public static final int PHONE_HEADER_HEIGHT = 43;
 	public static final int PHONE_SEARCH_PANEL_HEIGHT = 57;
+	public static final int TOOLBAR_OFFSET = 61;
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
 	
