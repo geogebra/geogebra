@@ -1910,7 +1910,6 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 				break;
 			
-			
 			case LATEX:
 
 				// checks if the basis is leaf and if so
@@ -1939,7 +1938,17 @@ public class StringTemplate implements ExpressionNodeConstants {
 								.ordinal()) && (ExpressionNode.opID(left) != Operation.EXP
 								.ordinal())))) { // not +, -, *, /, ^,
 					// e^x
-					sb.append(leftStr);
+					
+					// #4764
+					// eg 1 * 10 ^ 8
+					// eg 1E8
+					if (leftStr.indexOf("^") > -1 || leftStr.indexOf("*") > -1 || leftStr.indexOf("E") > -1) {
+						sb.append(leftBracket());
+						sb.append(leftStr);
+						sb.append(rightBracket());
+					} else {
+						sb.append(leftStr);						
+					}
 				} else {
 					sb.append(leftBracket());
 					sb.append(leftStr);
