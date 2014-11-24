@@ -2,6 +2,7 @@ package geogebra.cas;
 
 import static geogebra.test.util.IsEqualPolynomialEquation.equalToPolynomialEquation;
 import static geogebra.test.util.IsEqualStringIgnoreWhitespaces.equalToIgnoreWhitespaces;
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertThat;
 import geogebra.CommandLineArguments;
 import geogebra.cas.logging.CASTestLogger;
@@ -3691,6 +3692,7 @@ public class GeoGebraCasIntegrationTest {
 			  //"y = (0, (-3 * sqrt(10) * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 672 * sqrt(10) - 11 * sqrt(224 * sqrt(10) + 687) * sqrt(31) + 2061) / (448 * sqrt(10) + 1374))");
 			  // "(0, (-sqrt(2 * sqrt(10) + 3) + 3) / 2)"
 			  "TODO");*/
+	  assertNotNull(null);
   }
 
   // TODO Add tests for other conics.
@@ -4266,7 +4268,7 @@ public class GeoGebraCasIntegrationTest {
         "((-4 * sqrt(10) + 6) * x - sqrt(10) - 45 - 3 * sqrt(-(26 * sqrt(10) + 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / (-6 * sqrt(10) - 22)",
         "(x * (-4 * sqrt(10) + 6) - sqrt(10) - 3 * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) - 45) / (-6 * sqrt(10) - 22)");
     t("Solve[f'(x) = 0, x]",
-            "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
+    		"{x = (sqrt(sqrt(10) * 62 - 93) + 62) / 31}", "{x = (2 * sqrt(10) * sqrt(31 * (sqrt(10) * 224 + 687)) - 3 * sqrt(31 * (sqrt(10) * 224 + 687)) + sqrt(10) * 806 + 1674) / (sqrt(10) * 403 + 837)}");   
     t("g(x) := f'(x)",
         "(x^(2) * (sqrt(10) * 30 + 358) + (x * (sqrt(10) * 39 + 81) - sqrt(10) * 78 - 162) * sqrt(x^(2) * (-sqrt(10) * 26 - 54) + x * (sqrt(10) * 104 + 216) - sqrt(10) * 38 - 5) + x * (-sqrt(10) * 120 - 1432) - sqrt(10) * 104 + 745) / (x^(2) * (sqrt(10) * 448 + 1374) + x * (-sqrt(10) * 1792 - 5496) + sqrt(10) * 433 + 1195)",
         "((30 * sqrt(10) + 358) * x^(2) + (-120 * sqrt(10) - 1432) * x - 104 * sqrt(10) + 745 + ((39 * sqrt(10) + 81) * x - 78 * sqrt(10) - 162) * sqrt((-26 * sqrt(10) - 54) * x^(2) + (104 * sqrt(10) + 216) * x - 38 * sqrt(10) - 5)) / ((448 * sqrt(10) + 1374) * x^(2) + (-1792 * sqrt(10) - 5496) * x + 433 * sqrt(10) + 1195)");
