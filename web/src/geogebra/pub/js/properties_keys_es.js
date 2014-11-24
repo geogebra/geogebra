@@ -2187,7 +2187,7 @@ __GGB__keysVar.es.plain = {
     "BoxSize.medium": "Mediano",
     "BoxSize.small": "Peque\xf1o",
     "Breakpoint": "Punto de irrupci\xf3n",
-    "ButNotGenerallyTrue": "(pero no cierto en general)",
+    "ButNotGenerallyTrue": "(pero no es cierto en general)",
     "Button": "Bot\xf3n",
     "ButtonSize": "Tama\xf1o del bot\xf3n",
     "CAS": "C\xe1lculo Simb\xf3lico (CAS)",
