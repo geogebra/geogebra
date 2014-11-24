@@ -4,7 +4,7 @@
 # @author Zoltan Kovacs <zoltan@geogebra.org>
 
 # Setting defaults.
-MY_VERSION=1.0
+MY_VERSION=1.1
 
 DEBUG=0 # In tmp/ there can be some log, if you set this to 1.
 TIMEOUT=10
@@ -20,21 +20,28 @@ PROVEDETAILS=0 # Rewrite Prove[] to ProveDetails if set to 1
 usage() {
  echo "$0 - a benchmarking tool for GeoGebra's theorem prover subsystem"
  echo "Usage:"
- echo " $0 [options]"
+ echo " xvfb-run $0 [options]"
  echo "  where options can be as follows (defaults in parentheses):"
+ echo "   -S <name>    run scenario: 'name' can be one of the following: jar-paper, giac-test, ndg"
+ echo "   -D           rewrite Prove commands to ProveDetails"
  echo "   -d           put some debugging logs into tmp/"
  echo "   -t <number>  timeout: exit from a single test after the given number of seconds ($TIMEOUT)"
  echo "   -H <number>  image height: show .ggb thumbnails in the given number of pixels ($IMGHEIGHT)"
  echo "   -o <file>    set name for output .html file ($HTML)"
  echo "   -T <file>    set name for output .tex file ($TEX)"
  echo "   -p <list>    space separated list of prover engines to test ($PROVERS)"
- echo "   -S <name>    run scenario: 'name' can be one of the following: jar-paper, giac-test, ndg"
  echo "   -g <url>     use 'url' for putting links on test cases ($TESTGGBURLBASE_GGBDIR)"
  echo "   -s <url>     use 'url' to use non-default SingularWS ($SINGULARWSREMOTEURL)"
- echo "   -e           use engine numbers in table headers"
- echo "   -D           rewrite Prove commands to ProveDetails"
+ echo "   -e           add introduction and use engine numbers in table headers"
+ echo "   -r           run GeoGebra from the current sources"
  echo "   -h           show this help"
  echo "   -v           print script version"
+ echo
+ echo "Examples:"
+ echo " xvfb-run $0 -S jar-paper -d    # creates an output like at http://ggb1.idm.jku.at/~kovzol/data/Prove-20141009/"
+ echo " xvfb-run $0 -S giac-test -d    # compares Prove output for Botana and BotanaGiac"
+ echo " xvfb-run $0 -S giac-test -D -d # compares ProveDetails output for Botana and BotanaGiac"
+ echo " xvfb-run $0 -S ndg -d          # compares ProveDetails output for Botana, BotanaGiac and OpenGeoProver_Wu"
  exit 0
  }
 
@@ -43,7 +50,7 @@ version() {
  exit 0
  }
 
-while getopts "t:dH:o:T:p:S:eDhv" OPT; do
+while getopts "t:dH:o:T:p:S:eDhvr" OPT; do
  case $OPT in
   t)
    TIMEOUT="$OPTARG"
@@ -96,6 +103,11 @@ while getopts "t:dH:o:T:p:S:eDhv" OPT; do
   v)
    version
    ;;
+  r)
+   RUNDIR=../../../../../tools/build/targets
+   BINBASE=./run
+   ;;
+
  esac
 done
 
@@ -110,20 +122,45 @@ LOGFILE=$MYDIR/tmp/.test.log
 REGRESSIONFILE=$MYDIR/tmp/.regression.out
 rm -f $HTML $TEX
 
-RUNDIR=../../../../../tools/build/targets
+# Testing prerequisites:
+prereq () {
+ which $1 2>&1 >/dev/null || {
+ echo "FATAL: No '$1' executable found. $2"
+ exit 1
+ }
 
-VERSION=`cd $RUNDIR; ./run --v 2>&1 | head -1 | cut -f5 -d" "`
+if [ "$RUNDIR" = "" ]; then
+ prereq "Try installing GeoGebra first."
+ BIN=`which geogebra`
+ RUNDIR=`dirname $BIN`
+ BINBASE=geogebra
+ fi
+ }
+prereq unzip
+prereq zip
+prereq timeout
+
+VERSION=`cd $RUNDIR; $BINBASE --v 2>&1 | head -1 | cut -f5 -d" "`
 REVISION=`svn info | grep ^Revision: | cut -f2 -d" "`
+if [ "$REVISION" != "" ]; then
+ REVISION=" (r$REVISION)"
+ fi
 
 # Title
-TITLE="Prover benchmark for GeoGebra $VERSION (r$REVISION)"
+TITLE="Prover benchmark for GeoGebra $VERSION$REVISION"
 DATE=`date "+%Y-%m-%d %H:%M"`
 HOST=`hostname`
 echo "<!DOCTYPE html><html><head>
 <title>$TITLE</title>
 </head><body><h1>$TITLE</h1>
 <h2>on $DATE at $HOST</h2><pre>" >> $HTML
-hwinfo --short --cpu 2>&1 | grep CPU | sed 's/^[ \t]*//' >> $HTML
+HWINFO=`which hwinfo 2>&1 >/dev/null`
+if [ "$HWINFO" = "" ]; then
+ INFO=`lshw -quiet -class processor 2>/dev/null | grep product | cut -d: -f2`
+else
+ INFO=`hwinfo --short --cpu 2>&1 | grep CPU`
+ fi
+echo $INFO | sed 's/^[ \t]*//' >> $HTML
 echo -n "</pre>" >> $HTML
 echo "% http://tex.stackexchange.com/questions/50349/color-only-a-cell-of-a-table
 \documentclass{article}
@@ -134,8 +171,11 @@ echo "% http://tex.stackexchange.com/questions/50349/color-only-a-cell-of-a-tabl
 \begin{document}
 \scriptsize{" >> $TEX
 
-# Heading
+# Header
 echo -n "Test file;"
+if [ "$USEENGINES" = 1 ]; then
+ cat intro.html >> $MYDIR/$HTML
+ fi
 cat style.html >> $MYDIR/$HTML
 echo "<table><tr><th rowspan=\"2\" colspan=\"2\">Test file</th>" >> $MYDIR/$HTML
 RESULTCOLUMN=c
@@ -245,7 +285,7 @@ for i in `find -name '*.ggb' | sort`; do
    fi
 
   # Testing:
-  timeout $TIMEOUT ./run \
+  timeout $TIMEOUT $BINBASE \
    --prover=engine:$ENGINE,method:$METHOD,timeout:$TIMEOUT --singularws=remoteurl:${SINGULARWSREMOTEURL}${SWSOPTS} \
    --logFile=$LOGFILE \
    --regressionFile=$REGRESSIONFILE $MYDIR/$i --language=en $EXTRAOPTS \

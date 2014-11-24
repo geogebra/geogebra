@@ -1,0 +1,42 @@
+<h2>Introduction</h2>
+
+The following table shows benchmarking results of various tests for the available prover engines in GeoGebra:
+
+<ul>
+<li>Column "Engine 1" refers to <a href="http://ggb1.idm.jku.at/~kovzol/papers/Kovacs-Recio-Weitzhofer-20120323.pdf">Recio's exact check method</a>
+programmed by Weitzhofer.
+<li>Column "Engine 2" refers to <a href="http://ggb1.idm.jku.at/~kovzol/papers/Botana-Kovacs-Weitzhofer-20120326.pdf">the Groebner basis method
+via SingularWS (also known as Botana's method)</a> programmed by Kovacs.
+<li>Column "Engine 2, Giac" refers to <a href="http://ggb1.idm.jku.at/~kovzol/talks/ricam3/Parisse-Kovacs.pdf">the
+Groebner basis method via the Giac computer algebra tool</a> (instead of SingularWS) programmed by Parisse and Kovacs.
+<li>Column "Engine 3a" refers to <a href="https://code.google.com/p/open-geo-prover/">OpenGeoProver's</a>
+<a href="http://en.wikipedia.org/wiki/Wu's_method_of_characteristic_set">Wu's method</a> implementation programmed by
+Petrovic and Janicic.
+<li>Column "Engine 3b" refers to OpenGeoProver's <a href="http://www.eleves.ens.fr/home/desfonta/InternshipReport.pdf">Area method</a>
+programmed by Desfontaines.
+<li>The Auto approach
+refers to the automatic selection of methods which is already
+implemented in GeoGebra and it usually starts with "Engine 1" and
+then it continues with "Engine 2" (either via SingularWS or
+Giac: if SingularWS is available, then in SingularWS, otherwise in Giac). If
+the Groebner basis method is not conclusive, then "Engine 3a" is tried.
+If it is not conclusive either, then OpenGeoProver's
+Area method (Engine 3b) is used.</p>
+</ul>
+
+Explanation of the used colors:
+
+<ul>
+<li>Green means that the test returns a correct yes/no answer. Intensity of green
+means speed (the lighter the slower). Numbers are in milliseconds.
+<li>Pink means that GeoGebra returns the wrong answer.
+<li>Yellow means the output is not conclusive, thus using this method
+GeoGebra shows "undefined", i.e. there is no error here.
+<li>The Result column provides some extra information about the result, such as
+"false" when the statement was false on purpose.
+</ul>
+
+<p>The Speed column shows the timing. Highlighted entries are the best results.</p>
+
+The <a href="http://dev.geogebra.org/trac/browser/trunk/geogebra/test/scripts/benchmark/prover/tests/">test cases</a>
+are also available for download in GeoGebra's .ggb format from the GeoGebra online source code directly.
