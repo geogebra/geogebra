@@ -3574,7 +3574,11 @@ namespace giac {
     if (s<2)
       return symb_dollar(args);
     gen a=vargs.front(),b=vargs[1],b1=eval(b,eval_level(contextptr),contextptr);
+    if (b1.type==_VECT && b1.subtype==_SEQ__VECT && b1._VECTptr->size()==2){
+      return _dollar(gen(makevecteur(a,b1._VECTptr->front(),b1._VECTptr->back()),_SEQ__VECT),contextptr);
+    }
     if (a.is_symb_of_sommet(at_interval) && a._SYMBptr->feuille.type==_VECT && a._SYMBptr->feuille._VECTptr->size()==2){
+      a=eval(a,1,contextptr);
       gen a1=a._SYMBptr->feuille._VECTptr->front(),a2=a._SYMBptr->feuille._VECTptr->back();
       gen nstep=(a2-a1)/b1;
       if (ck_is_positive(nstep,contextptr))

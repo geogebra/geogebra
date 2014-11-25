@@ -49,6 +49,11 @@ using namespace std;
 #include "derive.h"
 #include "ti89.h"
 #include "giacintl.h"
+#ifdef HAVE_LIBGSL
+#include <gsl/gsl_errno.h>
+#include <gsl/gsl_fft_complex.h>
+#include <gsl/gsl_fft_real.h>
+#endif
 
 #ifdef GIAC_HAS_STO_38
   u32 AspenGetNow();
@@ -1236,10 +1241,89 @@ namespace giac {
     gen g=evalf_double(g_orig,1,contextptr);
     if (g.type!=_VECT)
       return gensizeerr();
-    vecteur & v =*g._VECTptr;
+    vecteur v =*g._VECTptr;
     int n=v.size();
     if (n<2)
       return gendimerr();
+#ifdef HAVE_LIBGSL
+    if (direct && is_zero(im(v,contextptr))){
+      double * data=new double[n];
+      for (int i=0;i<n;++i){
+	if (v[i].type!=_DOUBLE_)
+	  return gensizeerr(contextptr);
+	data[i]=v[i]._DOUBLE_val;
+      }
+      if (n==(1<<(sizeinbase2(n)-1))){
+	gsl_fft_real_radix2_transform(data,1,n);
+	v[0]=data[0];
+	v[n/2]=data[n/2];
+	for (int i=1;i<n/2;++i){
+	  v[i]=gen(data[i],data[n-i]);
+	  v[n-i]=conj(v[i],contextptr);
+	}
+      }
+      else {
+	gsl_fft_real_wavetable * wavetable = gsl_fft_real_wavetable_alloc (n);
+	gsl_fft_real_workspace * workspace = gsl_fft_real_workspace_alloc (n);
+	gsl_fft_real_transform (data, 1, n,wavetable,workspace);
+	gsl_fft_real_wavetable_free (wavetable);
+	gsl_fft_real_workspace_free (workspace);
+	v[0]=data[0];
+	int n2;
+	if (n%2==0){
+	  v[n/2]=data[n-1];
+	  n2=n/2;
+	}
+	else 
+	  n2=n/2+1;
+	for (int i=1;i<n2;++i){
+	  v[i]=gen(data[2*i-1],data[2*i]);
+	  v[n-i]=conj(v[i],contextptr);
+	}
+      }
+      delete [] data;
+      return v;
+    }
+    // Could be improved by keeping the wavetable
+    double * data=new double[2*n];
+    gen gr,gi;
+    for (int i=0;i<n;++i){
+      reim(v[i],gr,gi,contextptr);
+      gi=evalf_double(gi,1,contextptr);
+      if (gr.type!=_DOUBLE_ || gi.type!=_DOUBLE_)
+	return gensizeerr(contextptr);
+      data[2*i]=gr._DOUBLE_val;
+      data[2*i+1]=gi._DOUBLE_val;
+    }
+    if (n==(1<<(sizeinbase2(n)-1))){
+      if (direct)
+	gsl_fft_complex_radix2_forward(data,1,n);
+      else
+	gsl_fft_complex_radix2_backward(data,1,n);
+    }
+    else {
+      gsl_fft_complex_wavetable * wavetable = gsl_fft_complex_wavetable_alloc (n);
+      gsl_fft_complex_workspace * workspace=gsl_fft_complex_workspace_alloc (n);
+      if (direct)
+	gsl_fft_complex_forward (data, 1, n,wavetable,workspace);
+      else
+	gsl_fft_complex_backward (data, 1, n,wavetable,workspace);
+      gsl_fft_complex_wavetable_free (wavetable);
+      gsl_fft_complex_workspace_free (workspace);
+    }
+    if (direct){
+      for (int i=0;i<n;++i){
+	v[i]=gen(data[2*i],data[2*i+1]);
+      }
+    }
+    else {
+      for (int i=0;i<n;++i){
+	v[i]=gen(data[2*i],data[2*i+1])/n;
+      }
+    }
+    delete [] data;
+    return v;
+#endif
     /* 
        unsigned m=gen(n).bindigits()-1;
        if (n!=1<<m)
@@ -1495,8 +1579,8 @@ namespace giac {
     if (nr>LIST_SIZE_LIMIT)
       return gensizeerr("Too many records");
     vecteur v;
-    v.reserve(int(nr)+1);
-    for (int i=0;i<=nr;++i){
+    v.reserve(int(nr));
+    for (int i=0;i<nr;++i){
       v.push_back(double(i)/r);
     }
     return v;

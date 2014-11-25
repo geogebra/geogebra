@@ -40,7 +40,7 @@ namespace giac {
   std::string remove_path(const std::string &);
 
   void evalfdouble2reim(const gen & a,gen & e,gen & f0,gen & f1,GIAC_CONTEXT);
-  void autoscaleminmax(std::vector<double> & v,double & m,double & M);
+  void autoscaleminmax(std::vector<double> & v,double & m,double & M,bool fullview);
   // return true if g has a circle inside so that we orthonormalize
   bool autoscaleg(const gen & g,std::vector<double> & vx,std::vector<double> & vy,std::vector<double> & vz,GIAC_CONTEXT);
 

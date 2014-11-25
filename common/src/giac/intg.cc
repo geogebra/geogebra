@@ -1101,7 +1101,10 @@ namespace giac {
 	    col0.push_back(zero);
 	  }
 	  sys=mtran(sys);
+	  int st=step_infolevel;
+	  step_infolevel=0;
 	  col0=linsolve(sys,colP,contextptr);
+	  step_infolevel=st;
 	  if (!col0.empty() && is_undef(col0.front())){
 	    res= col0.front();
 	    return true;
@@ -4160,6 +4163,8 @@ namespace giac {
     if (v.size()==1)
       v=gen2vecteur(eval(g,contextptr));
     if (v.size()<4){
+      if (v.size()==3 && !v[1].is_symb_of_sommet(at_equal) && g.subtype==_SEQ__VECT)
+	return change_subtype(seqprod(gen(makevecteur(symb_interval(v[0],v[1]),v[2]),_SEQ__VECT),type,contextptr),0);
       if (type==0)
 	return _dollar(g,contextptr);
       if (type==1)

@@ -5565,7 +5565,7 @@ namespace giac {
 	  substin.push_back(lsvar);
 	  gen tmp("c__"+print_intvar_counter(contextptr),contextptr);
 	  if (!(ls[3*i+1].val %2))
-	    poscheck.push_back(var.size()+i);
+	    poscheck.push_back(var.size()+listvars.size());
 	  listvars.push_back(tmp);
 	  substout.push_back(tmp);
 	  equations.push_back(pow(tmp,ls[3*i+1],contextptr)-ls3i);

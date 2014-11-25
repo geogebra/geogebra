@@ -636,7 +636,9 @@ namespace giac {
       return common_EXT(b,a,l,contextptr);
     if (as==3 && bs==3 && is_one(a[0]) && is_one(b[0]) && is_zero(a[1]) && is_zero(b[1]) && a[2]==-b[2]){ // sqrt(X) and sqrt(-X)
       b=algebraic_EXTension(makevecteur(cst_i,0),a);
-      return a;
+      gen tmp=a;
+      a=algebraic_EXTension(makevecteur(1,0),a);
+      return tmp;
     }
     // reduce extension degree by factorizing b__VECT over Q[a]
     polynome p(poly12polynome(*b__VECT._VECTptr));
@@ -1440,7 +1442,7 @@ namespace giac {
     return true;
   }
 
-  static int insturmsign(const gen & g0,bool strict,GIAC_CONTEXT){
+  static int insturmsign1(const gen & g0,bool strict,GIAC_CONTEXT){
     gen g=recursive_normal(exact(g0,contextptr),contextptr);
     if (has_i(g))
       return 0;
@@ -1532,6 +1534,14 @@ namespace giac {
     }
 #endif
     return 2*current_sign+1;
+  }
+
+  static int insturmsign(const gen & g0,bool strict,GIAC_CONTEXT){
+    //bool absb=eval_abs(contextptr);
+    //eval_abs(false,contextptr);
+    int res=insturmsign1(g0,strict,contextptr);
+    return res;
+    //eval_abs(absb,contextptr);
   }
 
   int sturmsign(const gen & g0,bool strict,GIAC_CONTEXT){

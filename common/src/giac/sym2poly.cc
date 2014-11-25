@@ -2313,8 +2313,17 @@ namespace giac {
   gen r2sym(const factorization & vnum,const vecteur & l,GIAC_CONTEXT){
     gen resnum(1);
     factorization::const_iterator it=vnum.begin(),itend=vnum.end();
-    for (;it!=itend;++it)
-      resnum=resnum*pow(r2sym(gen(it->fact),l,contextptr),it->mult);
+    for (;it!=itend;++it){
+      // insure no embedded sqrt inside
+      polynome p=it->fact;
+      vector< monomial<gen> >::iterator pt=p.coord.begin(),ptend=p.coord.end();
+      vecteur vtmp(1,vecteur(0));
+      for (;pt!=ptend;++pt){
+	pt->value=r2sym(pt->value,vtmp,contextptr);
+      }
+      gen tmp=r2sym(gen(p),l,contextptr);
+      resnum=resnum*pow(tmp,it->mult);
+    }
     return resnum;
   }
 
@@ -2667,6 +2676,7 @@ namespace giac {
 	gen tmp=it->_SYMBptr->feuille;
 	tmp=liste2symbolique(symbolique2liste(tmp,contextptr));
 	tmp=recursive_normal(tmp,false,contextptr);
+	if (is_undef(tmp)) return e;
 	*it=it->_SYMBptr->sommet(tmp,contextptr);
 	continue;
       }

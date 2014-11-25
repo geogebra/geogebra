@@ -157,9 +157,9 @@ namespace giac {
       // =base^exponent*diff(exponent)*ln(base)+base^(exponent-1)*exponent*diff(base)
       if (step_infolevel>1){
 	if (is_zero(dexponent))
-	  gprintf(gettext("Derivative of a power: (%gen^%gen)'=%gen*%gen'*(%gen)^(%gen-1)"),makevecteur(base,exponent,exponent,base,base,exponent),contextptr);
+	  gprintf(gettext("Derivative of a power: %gen'=(%gen)*(%gen)'*%gen"),makevecteur(symb_pow(base,exponent),exponent,base,symb_pow(base,exponent-1)),contextptr);
 	else
-	  gprintf(gettext("Derivative of a power: (%gen^%gen)'=%gen^%gen*%gen'*ln(%gen)+%gen^(%gen-1)%gen*%gen'"),makevecteur(base,exponent,base,exponent,exponent,base,base,exponent,exponent,base),contextptr);
+	  gprintf(gettext("Derivative of a power: (%gen)'=%gen*(%gen)'*ln(%gen)+(%gen)*(%gen)'*%gen"),makevecteur(symb_pow(base,exponent),symb_pow(base,exponent),exponent,base,exponent,base,symb_pow(base,exponent-1)),contextptr);
       }
       gen expm1=exponent+gen(-1);
       if (is_zero(dexponent))

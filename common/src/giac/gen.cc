@@ -7987,8 +7987,10 @@ namespace giac {
       return (*this)[ get_int(i._FLOAT_val) ];
     if (i.type==_SYMB){
       if (i._SYMBptr->sommet==at_interval) {
-	if ((i._SYMBptr->feuille._VECTptr->front().type==_INT_) && (i._SYMBptr->feuille._VECTptr->back().type==_INT_) ){
-	  int debut=i._SYMBptr->feuille._VECTptr->front().val,fin=i._SYMBptr->feuille._VECTptr->back().val;
+	gen i1=_ceil(i._SYMBptr->feuille._VECTptr->front(),contextptr);
+	gen i2=_floor(i._SYMBptr->feuille._VECTptr->back(),contextptr);
+	if (is_integral(i1) && is_integral(i2)){
+	  int debut=i1.val,fin=i2.val;
 	  debut=giacmax(debut,0);
 	  if (type==_STRNG)
 	    fin=giacmin(fin,_STRNGptr->size()-1);

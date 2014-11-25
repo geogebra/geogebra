@@ -5575,6 +5575,8 @@ namespace giac {
     if (args.type==_CPLX)
       return _round(*args._CPLXptr,contextptr)+cst_i*_round(*(args._CPLXptr+1),contextptr);
     gen tmp=args+plus_one_half;
+    if (!is_zero(im(tmp,contextptr)))
+      tmp=tmp+plus_one_half*cst_i;
     if (tmp.type==_VECT)
       tmp.subtype=args.subtype;
     return _floor(tmp,contextptr);

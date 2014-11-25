@@ -253,6 +253,8 @@ namespace giac {
 	    return 0;
 	  return gensizeerr(gettext("Non holomorphic function ")+g.print(contextptr)+" at "+x.print(contextptr)+"="+a.print(contextptr));
 	}
+	if (e1.type==_FRAC)
+	  return undef;
 	if (is_undef(s[i].coeff))
 	  break; // stop the loop, try a larger order
 	if (is_zero(e1)){

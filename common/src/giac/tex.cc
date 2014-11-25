@@ -1040,13 +1040,13 @@ namespace giac {
     M = x_center + dx;
   }
 
-  void autoscaleminmax(vector<double> & v,double & m,double & M){
+  void autoscaleminmax(vector<double> & v,double & m,double & M,bool fullview){
     int s=v.size();
     if (s>1){    
       sort(v.begin(),v.end());
       m=v[s/10];
       M=v[9*s/10];
-      if (2*(M-m)>(v[s-1]-v[0])){
+      if (fullview || 2*(M-m)>(v[s-1]-v[0])){
 	M=v[s-1];
 	m=v[0];
 	zoom(m,M,1.1);
@@ -1061,8 +1061,8 @@ namespace giac {
     double X1=gnuplot_xmin,X2=gnuplot_xmax,Y1=gnuplot_ymin,Y2=gnuplot_ymax;
     vector<double> vx,vy,vz;
     autoscaleg(g,vx,vy,vz,contextptr);
-    autoscaleminmax(vx,X1,X2);
-    autoscaleminmax(vy,Y1,Y2);
+    autoscaleminmax(vx,X1,X2,false);
+    autoscaleminmax(vy,Y1,Y2,false);
     double xunit=giac::horiz_latex/(X2-X1);
     double yunit=(X2-X1)/(Y2-Y1)*xunit;
     res="\\begin{pspicture}("+double2tex(X1*xunit)+","+double2tex(Y1*xunit)+

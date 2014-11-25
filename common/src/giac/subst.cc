@@ -1431,7 +1431,10 @@ namespace giac {
 	if (w.size()==2){
 	  gen l=w.front(),m=w.back();
 #if 1
-	  point=ratnormal((l+m)/2);
+	  if (l==minus_inf && m==plus_inf)
+	    point=0;
+	  else
+	    point=ratnormal((l+m)/2);
 	  if (!is_inf(point) && !is_undef(point)){
 	    *logptr(contextptr) << gettext("Simplification assuming ") << v[i] << " near " << point << endl;
 	    point=subst(gg,*v[i]._IDNTptr,point,false,contextptr);
@@ -2202,6 +2205,20 @@ namespace giac {
 	}
       }
     }
+#if defined NO_STDEXCEPT // GIAC_HAS_STO_38
+    {
+      vecteur v2=loptab(e,asinacosatan_tab);
+      if (!v2.empty()){
+	unsigned count=0;
+	for (unsigned i=0;i<v2.size();++i){
+	  if (v2[i].is_symb_of_sommet(at_asin)||v2[i].is_symb_of_sommet(at_acos))
+	    count+=lidnt(v2[i]).size();
+	}
+	if (count>1)
+	  return e;
+      }
+    }
+#endif	
     gen g=tsimplify_noexpln(e,s1,s2,contextptr); 
     g=_exp2pow(g,contextptr);
     g=quotesubst(g,vabs2,vabs,contextptr);

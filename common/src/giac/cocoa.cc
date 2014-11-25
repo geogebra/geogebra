@@ -9875,6 +9875,12 @@ namespace giac {
       //if (!in_gbasis(current,G,&env)) return false;
 #endif
       pend=p.val; // last prime used
+      for (unsigned i=0;i<G.size();++i){
+	if (resmod[G[i]].coord.empty()){
+	  G.erase(G.begin()+i);
+	  --i;
+	}
+      }
       if (debug_infolevel){
 	CERR << clock() << " end, basis size " << G.size() << " prime number " << count+1 << endl;
 	if (count==0)

@@ -5108,6 +5108,17 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__flatten,&_flatten,_flatten_s);
   define_unary_function_ptr5( at_flatten ,alias_at_flatten,&__flatten,0,true);
 
+  gen _flatten1(const gen & args,GIAC_CONTEXT){
+    if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type!=_VECT) return gensizeerr(contextptr);
+    vecteur res;
+    aplatir(*args._VECTptr,res,false);
+    return res;
+  }
+  static const char _flatten1_s []="flatten1";
+  static define_unary_function_eval (__flatten1,&_flatten1,_flatten1_s);
+  define_unary_function_ptr5( at_flatten1 ,alias_at_flatten1,&__flatten1,0,true);
+
   bool has_undef_stringerr(const gen & g,std::string & err){
     if (g.type==_STRNG && g.subtype==-1){
       err=*g._STRNGptr;

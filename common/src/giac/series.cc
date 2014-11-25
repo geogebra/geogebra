@@ -2035,9 +2035,17 @@ namespace giac {
     for (int i=0;i<vs;++i){
       if (v[i].type==_SYMB){
 	if (v[i].is_symb_of_sommet(at_ln)){
-	  gen g=limit(v[i]._SYMBptr->feuille,x,lim_point,direction,contextptr);
+ 	  gen g=limit(v[i]._SYMBptr->feuille,x,lim_point,direction,contextptr);
 	  if (is_inf(g) && g!=plus_inf)
 	    return gensizeerr(gettext("ln of unsigned or minus infinity"));
+	}
+	if (v[i].is_symb_of_sommet(at_sinh) || v[i].is_symb_of_sommet(at_cosh) || v[i].is_symb_of_sommet(at_tanh)){
+	  gen g=limit(v[i]._SYMBptr->feuille,x,lim_point,direction,contextptr);
+	  if (is_inf(g)){
+	    v1.push_back(v[i]);
+	    v2.push_back(hyp2exp(v[i],contextptr));
+	    continue;
+	  }
 	}
 	if (v[i].is_symb_of_sommet(at_sum)){
 	  gen tmp;
@@ -2214,6 +2222,7 @@ namespace giac {
     if (loptab(e,sign_floor_ceil_round_tab).empty()){
       gen first_try=subst(e,x,lim_point,false,contextptr);
       first_try=simplifier(first_try,contextptr);
+      // if (first_try==plus_inf || first_try==minus_inf) return first_try;
       if (!contains(lidnt(first_try),unsigned_inf)){
 	if (has_num_coeff(first_try))
 	  return first_try;
@@ -2237,7 +2246,10 @@ namespace giac {
 	first_try = quotesubst(partfrac(e,false,contextptr),x,lim_point,contextptr);
 	// first_try = quotesubst(ratnormal(e),x,lim_point,contextptr);
       }
+      bool absb=eval_abs(contextptr);
+      eval_abs(false,contextptr);
       first_try = recursive_normal(eval(first_try,eval_level(contextptr),contextptr),contextptr);
+      eval_abs(absb,contextptr);
       if (is_undef(first_try) && first_try.type==_STRNG)
 	return first_try;
       if (!is_undef(first_try)){
@@ -2704,6 +2716,8 @@ namespace giac {
     // int save_inside_limit=inside_limit(contextptr);
     // inside_limit(1,contextptr);
     // sincosinf.clear();
+    if (is_undef(lim_point))
+      return lim_point;
     gen l=in_limit(e,x,lim_point,direction,contextptr);
     // inside_limit(save_inside_limit,contextptr);
     // vecteur sincosinfsub(sincosinf.size(),undef);
