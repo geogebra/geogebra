@@ -1213,41 +1213,98 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 		//the projection matrix is updated in updatePerspValues()
 	
 	}
-		
-		
+
+
 	@Override
-	protected void updatePerspValues() {
-		
-		super.updatePerspValues();	
-		
-		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
-		projectionMatrix.set(2, 1, 0);
-		projectionMatrix.set(3, 1, 0);
-		projectionMatrix.set(4, 1, 0);	
-		
-		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
-		projectionMatrix.set(3, 2, 0);
-		projectionMatrix.set(4, 2, 0);
-		
-		projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
-		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
-		projectionMatrix.set(3, 3, 0);
-		projectionMatrix.set(4, 3, -1);
-		
-		projectionMatrix.set(1, 4, 0);
-		projectionMatrix.set(2, 4, 0);
-		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
-		projectionMatrix.set(4, 4, -perspFocus);
+	protected void updatePerspValues(boolean updatePerspMatrix) {
+
+		super.updatePerspValues(updatePerspMatrix);	
+
+		if (updatePerspMatrix){
+			projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
+			projectionMatrix.set(2, 1, 0);
+			projectionMatrix.set(3, 1, 0);
+			projectionMatrix.set(4, 1, 0);	
+
+			projectionMatrix.set(1, 2, 0);
+			projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
+			projectionMatrix.set(3, 2, 0);
+			projectionMatrix.set(4, 2, 0);
+
+			projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
+			projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
+			projectionMatrix.set(3, 3, 0);
+			projectionMatrix.set(4, 3, -1);
+
+			projectionMatrix.set(1, 4, 0);
+			projectionMatrix.set(2, 4, 0);
+			projectionMatrix.set(3, 4, -getVisibleDepth()/2);
+			projectionMatrix.set(4, 4, -perspFocus);
+		}
 		
 	}
+	
 
 
 
 	@Override
 	protected void viewGlasses() {
-		viewOrtho();
+
+		/*
+		// eye separation
+		double eyesep, eyesep1;
+		if (eye == EYE_LEFT) {
+			eyesep = -glassesEyeSep;
+			eyesep1 = -glassesEyeSep1;
+		} else {
+			eyesep = glassesEyeSep;
+			eyesep1 = glassesEyeSep1;
+		}
 		
+		
+		
+		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
+
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+
+		projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft) - eyesep);
+		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
+		projectionMatrix.set(3, 3, 0);
+		projectionMatrix.set(4, 3, -1);
+
+		projectionMatrix.set(1, 4, -eyesep * (2*perspNear/(perspRight-perspLeft) + perspFocus));
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
+		projectionMatrix.set(4, 4, -perspFocus);
+		
+		*/
+		
+		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
+
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
+
+		projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
+		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
+		projectionMatrix.set(3, 3, 0);
+		projectionMatrix.set(4, 3, -1);
+
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
+		projectionMatrix.set(4, 4, -perspFocus);
+
 	}
 
 
