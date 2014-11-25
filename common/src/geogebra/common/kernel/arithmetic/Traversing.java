@@ -267,6 +267,7 @@ public interface Traversing {
 	public class SpreadsheetVariableRenamer implements Traversing {
 		private int dx;
 		private int dy;
+		private ArrayList<Variable> variables = new ArrayList<Variable>();
 		/**
 		 * Renames Spreadsheet Variables with new name according to offset (dx,dy)
 		 * 
@@ -276,10 +277,13 @@ public interface Traversing {
 		public SpreadsheetVariableRenamer(int dx, int dy) {
 			this.dx = dx;
 			this.dy = dy;
+			variables.clear();
 		}
 		public ExpressionValue process(ExpressionValue ev) {
 			
-			if (ev instanceof Variable) {
+			// check variables to avoid problem with updating twice 
+			// eg If[0  <  A1  <  5, 0, 100] going to If[0  <  A3  <  5, 0, 100]
+			if (ev instanceof Variable && !variables.contains(ev)) {
 				Variable v = (Variable)ev;
 				
 				String name = v.getName(StringTemplate.defaultTemplate);
@@ -287,16 +291,18 @@ public interface Traversing {
 				
 				//App.debug("found VARIABLE: "+name);
 				if (GeoElementSpreadsheet.spreadsheetPattern.test(name)) {
-					//App.debug("FOUND SPREADSHEET VARIABLE: "+name);
 					
 					String newName = RelativeCopy.updateCellNameWithOffset(name, dx, dy);
 					
+					//App.debug("FOUND SPREADSHEET VARIABLE: "+name + " -> " + newName);
+
 					// make sure new cell is autocreated if it doesn't exist already
 					ev.getKernel().getConstruction().lookupLabel(newName, true);
 					
 					//App.debug("setting new name to: "+newName);
 					
 					v.setName(newName);
+					variables.add(v);
 					
 				}
 			} else if (ev instanceof GeoElement) {
