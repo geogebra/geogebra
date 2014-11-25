@@ -866,7 +866,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						} else if (extension.equals("svg")) {
 							GraphicExportDialog.exportSVG(app, ev, file,
 									textAsShapes, pixelWidth, pixelHeight,
-									exportScale);
+									exportScale, transparent);
 
 						}
 

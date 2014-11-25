@@ -9,6 +9,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
+import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianControllerListeners;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.EuclidianViewJPanel;
@@ -98,7 +99,7 @@ public class EuclidianView3DD extends EuclidianView3D implements
 
 	@Override
 	protected Renderer createRenderer() {
-		
+
 		if (((App3D) app).useShaders()) {
 			return new RendererShaders(this, !app.isApplet());
 		}
@@ -507,9 +508,9 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	@Override
-	protected void exportPaintPre(GGraphics2D g2d, double scale,
+	public void exportPaintPre(GGraphics2D g2d, double scale,
 			boolean transparency) {
-		// TODO Auto-generated method stub
+		Log.error("exportPaintPre unimplemented");
 
 	}
 }

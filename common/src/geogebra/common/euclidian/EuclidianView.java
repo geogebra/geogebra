@@ -5215,7 +5215,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 		return 2;
 	}
 	
-	protected abstract void exportPaintPre(GGraphics2D g2d,
+	public abstract void exportPaintPre(GGraphics2D g2d,
 			double scale, boolean transparency);
 	
 	/**

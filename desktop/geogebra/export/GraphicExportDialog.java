@@ -210,6 +210,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			dpiPanel.add(resolutionInDPILabel);
 			dpiPanel.add(cbDPI);
 			dpiPanel.add(cbTransparent);
+		} else if (selectedFormat() == Format.SVG) {
+			dpiPanel.add(cbTransparent);
 		} else if (selectedFormat() == Format.EMF) {
 			dpiPanel.add(cbEMFPlus);
 		} else {
@@ -253,7 +255,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 					dpiPanel.remove(resolutionInDPILabel);
 					dpiPanel.remove(cbDPI);
 					dpiPanel.remove(cbEMFPlus);
-					dpiPanel.remove(cbTransparent);
+					dpiPanel.add(cbTransparent);
 					dpiPanel.add(textAsShapesCB);
 					psp.enableAbsoluteSize(true);
 					break;
@@ -694,7 +696,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 												// and 2 Points
 		try {
 			exportSVG(app, ev, file, textAsShapes, pixelWidth, pixelHeight,
-					exportScale);
+					exportScale, transparent);
 
 			if (exportToClipboard) {
 				// note this *doesn't* copy as text
@@ -800,10 +802,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 *            height in pixels
 	 * @param exportScale
 	 *            scale units / cm
+	 * @param transparent0
 	 */
 	public static void exportSVG(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
-			double exportScale) {
+			double exportScale, boolean transparent0) {
 		UserProperties props = (UserProperties) SVGGraphics2D
 				.getDefaultProperties();
 		props.setProperty(SVGGraphics2D.EMBED_FONTS, !textAsShapes);
@@ -819,7 +822,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			app.exporting = true;
 
 			g.startExport();
-			ev.exportPaintPre(new geogebra.awt.GGraphics2DD(g), exportScale);
+			ev.exportPaintPre(new geogebra.awt.GGraphics2DD(g), exportScale,
+					transparent0);
 
 			g.startGroup("misc");
 			ev.drawActionObjects(new geogebra.awt.GGraphics2DD(g));
