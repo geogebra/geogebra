@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
@@ -57,6 +58,17 @@ public class CmdSetCoords extends CmdScripting {
 				
 				return;
 
+			} else if ((ok[0] = (arg[0].isGeoTurtle()))
+					&& (ok[1] = (arg[1].isGeoNumeric()))
+					&& (ok[2] = (arg[2].isGeoNumeric()))) {
+				GeoTurtle geo = (GeoTurtle) arg[0];
+				double x = ((GeoNumeric) arg[1]).getDouble();
+				double y = ((GeoNumeric) arg[2]).getDouble();
+				boolean currPenDown = geo.getPenDown();
+				geo.setPenDown(false);
+				geo.setCoords(x, y);
+				geo.setPenDown(currPenDown);
+				return;				
 			} else if ((ok[0]=(arg[0] instanceof AbsoluteScreenLocateable))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))

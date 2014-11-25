@@ -346,6 +346,14 @@ public class GeoTurtle extends GeoPoint{
 		addCommand(new CmdSetPosition(x, y));
 	}
 	
+    /**
+     *@param x x-coordinate
+     *@param y y-coordinate
+     */
+	public void setCoords(double x, double y) {
+		addCommand(new CmdSetCoords(x,y));
+	}    
+	
 	/**
 	 * @param turnAngleChange change of turn angle in degrees
 	 */
@@ -606,31 +614,32 @@ public class GeoTurtle extends GeoPoint{
 	}
 	
 	/**
-	 * @author arno
-	 * Set turtle position
+	 * @author arno + judit
+	 * Set turtle position immediately
 	 */
-	public class CmdSetPosition implements Command {
-		private double destX;
-		private double destY;
-		private double time;
-		private GeoPoint destination;
+	public class CmdSetCoords implements Command {
+		protected double destX;
+		protected double destY;
+		protected GeoPoint destination;
 		
 		/**
 		 * @param x new x-coord
 		 * @param y new y-coord
 		 */
-		public CmdSetPosition(double x, double y) {
+		public CmdSetCoords(double x, double y) {
 			destX = x;
 			destY = y;
-			time = Math.hypot(x - position[0], y - position[1]);
 		}
 		
 		public CmdType getType() {
+			//TODO or CmdType.SET_COORDS ?
+			//I don't know what this enum must do,
+			//currently not used
 			return CmdType.SET_POSITION;
 		}
 
 		public double getTime() {
-			return time;
+			return 0;
 		}
 
 		public void perform() {
@@ -647,6 +656,31 @@ public class GeoTurtle extends GeoPoint{
 
 		public void partialDraw(DrawState ds, double progress) {
 			ds.partialMove(destination, progress);
+		}
+	}
+	
+	/**
+	 * @author arno + judit
+	 * Set turtle position
+	 */
+	public class CmdSetPosition extends CmdSetCoords {
+		private double time;
+		
+		/**
+		 * @param x new x-coord
+		 * @param y new y-coord
+		 */
+		public CmdSetPosition(double x, double y) {
+			super(x,y);
+			time = Math.hypot(x - position[0], y - position[1]);
+		}
+		
+		public CmdType getType() {
+			return CmdType.SET_POSITION;
+		}
+
+		public double getTime() {
+			return time;
 		}
 	}
 	
