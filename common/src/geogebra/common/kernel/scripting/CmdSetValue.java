@@ -129,6 +129,9 @@ public class CmdSetValue extends CmdScripting {
 			GeoFunctionable val = (GeoFunctionable) arg[1];
 			fun.set(val.getGeoFunction());
 			fun.updateRepaint();
+		} else if (arg[0].isGeoList() && arg[1].isNumberValue()) {
+			((GeoList) arg[0]).setSelectedIndex((int)Math.round(arg[1].evaluateDouble()) - 1, true);
+			
 		} else if (arg[0].isIndependent() || arg[0].isMoveable()) {
 			if (arg[0].isGeoNumeric() && arg[1] instanceof NumberValue) {
 				NumberValue num = (NumberValue) arg[1];
