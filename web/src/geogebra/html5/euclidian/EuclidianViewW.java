@@ -353,7 +353,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	}
 	
 	@Override
-	protected void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
+	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
 			boolean transparency) {
 		g2d.scale(scale, scale);
 
