@@ -6,10 +6,16 @@ import geogebra.common.euclidian.event.PointerEventType;
 
 import java.util.LinkedList;
 
+import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.MouseEvent;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEvent;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchStartEvent;
 
 /**
  * Base implementation of AbstractEvent.
@@ -27,6 +33,7 @@ public class PointerEvent extends AbstractEvent {
 	private boolean shift, control, alt, meta, right, middle;
 	private int clickCount = 1;
 	private int evID;
+	private HumanInputEvent<?> nativeEvent;
 
 	public PointerEvent(double x, double y, PointerEventType type, HasOffsets off) {
 		this.off = off;
@@ -129,6 +136,7 @@ public class PointerEvent extends AbstractEvent {
 	}
 	
 	private static void setProperties(PointerEvent destination, MouseEvent<?> source) {
+		destination.nativeEvent = source;
 		destination.alt = source.isAltKeyDown();
 		destination.control = source.isControlKeyDown();
 		destination.clickCount = "dblclick".equals(source.getNativeEvent().getType()) ? 2 : 1;
@@ -191,6 +199,28 @@ public class PointerEvent extends AbstractEvent {
 	    return wrapEvent(touch.getClientX(), touch.getClientY(), 
 	    		PointerEventType.TOUCH,  off, off.getTouchEventPool());
     }
+	
+	/**
+	 * Wraps a single touch event.
+	 * @param event
+	 * @param off
+	 * @return
+	 */
+	public static PointerEvent wrapEvent(TouchEvent<?> event, HasOffsets off) {
+		JsArray<Touch> touches = null;
+		int index = 0;
+		if (event instanceof TouchStartEvent) {
+			touches = event.getTargetTouches();
+		} else if (event  instanceof TouchMoveEvent) {
+			touches = event.getTargetTouches();
+			index = touches.length() - 1;
+		} else if (event instanceof TouchEndEvent) {
+			touches = event.getChangedTouches();
+		}
+		PointerEvent e = wrapEvent(touches.get(index), off);
+		e.nativeEvent = event;
+		return e;
+	}
 
 	/**
 	 * @return The euclidian view id if the event was fired on it, else 0.
@@ -206,4 +236,13 @@ public class PointerEvent extends AbstractEvent {
 	public Element getRelativeElement() {
 		return relativeElement;
 	}
+
+	/**
+	 * Returns the event that was wrapped.
+	 * @return native event
+	 */
+	public HumanInputEvent<?> getWrappedEvent() {
+		return nativeEvent;
+	}
+	
 }
