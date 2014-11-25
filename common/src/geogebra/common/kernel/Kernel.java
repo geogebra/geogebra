@@ -5043,7 +5043,7 @@ public class Kernel {
 
 	public boolean isParsingFor3D() {
 		if(getLoadingMode()){
-			return true;
+			return false;
 		}
 		EuclidianViewInterfaceCommon ev = getApplication().getActiveEuclidianView();
 		if(ev.isEuclidianView3D() || ev.isShowing()){
