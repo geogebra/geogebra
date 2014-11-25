@@ -654,7 +654,7 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 
 
 	@Override
-    protected void exportPaintPre(GGraphics2D g2d, double scale,
+    public void exportPaintPre(GGraphics2D g2d, double scale,
             boolean transparency) {
 	    // TODO Auto-generated method stub
 	    
