@@ -2316,10 +2316,12 @@ namespace giac {
     for (;it!=itend;++it){
       // insure no embedded sqrt inside
       polynome p=it->fact;
-      vector< monomial<gen> >::iterator pt=p.coord.begin(),ptend=p.coord.end();
-      vecteur vtmp(1,vecteur(0));
-      for (;pt!=ptend;++pt){
-	pt->value=r2sym(pt->value,vtmp,contextptr);
+      if (l.size()==1){
+	vector< monomial<gen> >::iterator pt=p.coord.begin(),ptend=p.coord.end();
+	vecteur vtmp(1,vecteur(0));
+	for (;pt!=ptend;++pt){
+	  pt->value=r2sym(pt->value,vtmp,contextptr);
+	}
       }
       gen tmp=r2sym(gen(p),l,contextptr);
       resnum=resnum*pow(tmp,it->mult);
