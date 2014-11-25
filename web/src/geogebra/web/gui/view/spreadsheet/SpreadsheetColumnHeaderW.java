@@ -2,22 +2,29 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.awt.GRectangle;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.gui.view.spreadsheet.MyTable;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.App;
+import geogebra.html5.event.PointerEvent;
+import geogebra.html5.event.ZeroOffset;
+import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.LongTouchManager;
+import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
+import geogebra.html5.util.EventUtil;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.javax.swing.GPopupMenuW;
 
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.HumanInputEvent;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -26,6 +33,13 @@ import com.google.gwt.event.dom.client.MouseMoveEvent;
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
+import com.google.gwt.event.dom.client.TouchEndEvent;
+import com.google.gwt.event.dom.client.TouchEndHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Grid;
@@ -33,7 +47,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class SpreadsheetColumnHeaderW implements MouseDownHandler,
         MouseUpHandler, MouseMoveHandler, ClickHandler, DoubleClickHandler,
-        KeyDownHandler
+        KeyDownHandler, LongTouchHandler, TouchStartHandler, TouchMoveHandler, TouchEndHandler
 
 {
 	private static final long serialVersionUID = 1L;
@@ -54,6 +68,8 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	private boolean doColumnResize = false;
 
 	private int overTraceButtonColumn = -1;
+	
+	private LongTouchManager longTouchManager;
 
 	/***************************************************
 	 * Constructor
@@ -68,16 +84,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		prepareGUI();
 		registerListeners();
 
-		/*
-		 * setFocusable(true); setAutoscrolls(false); addMouseListener(this);
-		 * addMouseMotionListener(this); addKeyListener(this);
-		 * setFixedCellWidth(SpreadsheetView.ROW_HEADER_WIDTH);
-		 * 
-		 * setCellRenderer(new RowHeaderRenderer(table, this));
-		 * 
-		 * table.getSelectionModel().addListSelectionListener(this);
-		 */
-
+		longTouchManager = LongTouchManager.getInstance();
 	}
 
 	private void registerListeners() {
@@ -87,6 +94,9 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		grid.addDomHandler(this, MouseMoveEvent.getType());
 		grid.addDomHandler(this, ClickEvent.getType());
 		grid.addDomHandler(this, DoubleClickEvent.getType());
+		grid.addDomHandler(this, TouchStartEvent.getType());
+		grid.addDomHandler(this, TouchEndEvent.getType());
+		grid.addDomHandler(this, TouchMoveEvent.getType());
 
 	}
 
@@ -247,10 +257,12 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	/**
 	 * @param p
 	 *            location of mouse (in client area pixels)
+	 * @param boundary
+	 *  		  the boundary
 	 * @return index of the column to be resized if mouse point p is near a
-	 *         column boundary (within 3 pixels)
+	 *         column boundary
 	 */
-	private int getResizingColumn(GPoint p) {
+	private int getResizingColumn(GPoint p, int boundary) {
 		int resizeColumn = -1;
 		GPoint point = table.getIndexFromPixel(p.x, 0);
 		if (point != null) {
@@ -259,17 +271,21 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			if (cellColumn >= 0) {
 				GRectangle r = table.getCellRect(0, cellColumn, true);
 				// near column left ?
-				if (p.x < r.getX() + 3) {
+				if (p.x < r.getX() + boundary) {
 					resizeColumn = cellColumn - 1;
 				}
 				// near column right ?
-				if (p.x > r.getX() + r.getWidth() - 3) {
+				if (p.x > r.getX() + r.getWidth() - boundary) {
 					resizeColumn = cellColumn;
 				}
 			}
 		}
 
 		return resizeColumn;
+	}
+	
+	private int getBoundary(PointerEventType eventType) {
+		return eventType == PointerEventType.MOUSE ? 3 : 6;
 	}
 
 	// ===============================================
@@ -323,9 +339,39 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 	 */
 
 	public void onMouseDown(MouseDownEvent e) {
-
-		isMouseDown = true;
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
 		e.preventDefault();
+		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.instance);
+		onPointerDown(event);
+	}
+
+	public void onMouseUp(MouseUpEvent e) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+		e.preventDefault();
+		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.instance);
+		onPointerUp(event);
+	}
+
+	// ===============================================
+	// MouseMotion Listener Methods
+	// ===============================================
+
+	public void onMouseMove(MouseMoveEvent e) {
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
+		e.preventDefault();
+		PointerEvent event = PointerEvent.wrapEvent(e, ZeroOffset.instance);
+		onPointerMove(event);
+	}
+	
+	private void onPointerDown(PointerEvent e) {
+		Event.setCapture(grid.getElement());
+		isMouseDown = true;
 
 		if (table.getEditor().isEditing()) {
 			table.getEditor().setAllowProcessGeo(true);
@@ -333,17 +379,13 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			table.getEditor().setAllowProcessGeo(false);
 			table.finishEditing();
 		}
-		
-		int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
-		int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
-		boolean metaDown = e.isControlKeyDown();// ||
-		                                        // e.isMetaKeyDown();//AppW.isControlDown(e);
-		boolean shiftDown = e.isShiftKeyDown();
-		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);// AppW.isRightClick(e);
 
-		// ?//if (!view.hasViewFocus())
-		// ?// ((LayoutW) app.getGuiManager().getLayout()).getDockManager()
-		// ?// .setFocusedPanel(App.VIEW_SPREADSHEET);
+		int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
+		int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
+
+		boolean metaDown = e.isControlDown();
+		boolean shiftDown = e.isShiftDown();
+		boolean rightClick = e.isRightClick();
 
 		if (!rightClick) {
 			GPoint point = table.getIndexFromPixel(x, y);
@@ -353,7 +395,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			}
 			// mouse down in resizing region
 			GPoint p = new GPoint(x, y);
-			resizingColumn = getResizingColumn(p);
+			resizingColumn = getResizingColumn(p, getBoundary(e.getType()));
 			if (resizingColumn >= 0) {
 				mouseXOffset = p.x - table.getColumnWidth(resizingColumn);
 			}
@@ -398,13 +440,12 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 		}
 	}
-
-	public void onMouseUp(MouseUpEvent e) {
-
+	
+	private void onPointerUp(PointerEvent e) {
+		Event.releaseCapture(grid.getElement());
 		isMouseDown = false;
-		e.preventDefault();
 
-		boolean rightClick = (e.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+		boolean rightClick = (e.isRightClick());
 
 		if (rightClick) {
 
@@ -413,8 +454,9 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 			}
 
 			GPoint p = table.getIndexFromPixel(
-			        SpreadsheetMouseListenerW.getAbsoluteX(e, app),
-			        SpreadsheetMouseListenerW.getAbsoluteY(e, app));
+					SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app),
+					SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app));
+					
 			if (p == null) {
 				return;
 			}
@@ -434,11 +476,7 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 				renderSelection();
 			}
 
-			// show contextMenu
-			SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
-			        .getGuiManager()).getSpreadsheetContextMenu(table);
-			GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
-			popup.show(view.getFocusPanel(), e.getX(), e.getY());
+			showContextMenu(e.getX(), e.getY(), true);
 		}
 
 		// left click
@@ -468,62 +506,29 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 		}
 
 	}
-
-	// ===============================================
-	// MouseMotion Listener Methods
-	// ===============================================
-
-	public void onMouseMove(MouseMoveEvent e) {
-
-		e.preventDefault();
-
+	
+	private void onPointerMove(PointerEvent e) {
 		// Show resize cursor when mouse is over a row boundary
-		GPoint p = new GPoint(e.getClientX(), e.getClientY());
-		int r = this.getResizingColumn(p);
-		if (r >= 0 && !getCursor().equals(Style.Cursor.ROW_RESIZE)) {
+		HumanInputEvent<?> event = e.getWrappedEvent();
+		GPoint p = new GPoint(
+				EventUtil.getTouchOrClickClientX(event),
+				EventUtil.getTouchOrClickClientY(event));
+		int r = this.getResizingColumn(p, getBoundary(e.getType()));
+		if (r >= 0 && !getCursor().equals(Style.Cursor.COL_RESIZE)) {
 			setColumnResizeCursor();
 		} else if (!getCursor().equals(Style.Cursor.DEFAULT)) {
 			setDefaultCursor();
 		}
-
-		// handles mouse over a trace button
-
-		/*
-		 * TODO int column = -1; boolean isOver = false; java.awt.Point mouseLoc
-		 * = e.getPoint(); GPoint cellLoc = table.getIndexFromPixel(mouseLoc.x,
-		 * mouseLoc.y); if (cellLoc != null) { column = cellLoc.x; if
-		 * (app.getTraceManager().isTraceColumn(column)) { // adjust mouseLoc to
-		 * the coordinate space of this column header mouseLoc.x = mouseLoc.x -
-		 * table.getCellRect(0, column, true).x;
-		 * 
-		 * // int lowBound = table.getCellRect(0, column, true).x + 3; // isOver
-		 * = mouseLoc.x > lowBound && mouseLoc.x < lowBound + 24;
-		 * 
-		 * // Point sceeenMouseLoc = //
-		 * MouseInfo.getPointerInfo().getLocation(); isOver =
-		 * ((ColumnHeaderRenderer) table.getColumnModel()
-		 * .getColumn(column).getHeaderRenderer()) .isOverTraceButton(column,
-		 * mouseLoc, table .getColumnModel().getColumn(column)
-		 * .getHeaderValue()); } }
-		 * 
-		 * // "isOver = " + isOver ); if (isOver && overTraceButtonColumn !=
-		 * column) { overTraceButtonColumn = column; if (table.getTableHeader()
-		 * != null) { table.getTableHeader().resizeAndRepaint(); } } if (!isOver
-		 * && overTraceButtonColumn > 0) { overTraceButtonColumn = -1; if
-		 * (table.getTableHeader() != null) {
-		 * table.getTableHeader().resizeAndRepaint(); } }
-		 */
-
 		// DRAG
 
 		if (isMouseDown) {
 
-			if (e.getNativeButton() == NativeEvent.BUTTON_RIGHT) {
+			if (e.isRightClick()) {
 				return;
 			}
 
-			int x = SpreadsheetMouseListenerW.getAbsoluteX(e, app);
-			int y = SpreadsheetMouseListenerW.getAbsoluteY(e, app);
+			int x = SpreadsheetMouseListenerW.getAbsoluteX(e.getWrappedEvent(), app);
+			int y = SpreadsheetMouseListenerW.getAbsoluteY(e.getWrappedEvent(), app);
 
 			// Handle mouse drag
 
@@ -552,7 +557,6 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 				}
 			}
 		}
-
 	}
 
 	public void onDoubleClick(DoubleClickEvent event) {
@@ -570,61 +574,50 @@ public class SpreadsheetColumnHeaderW implements MouseDownHandler,
 
 	}
 
-	// ===============================================
-	// Key Listener Methods
-	// ===============================================
+	public void onTouchEnd(TouchEndEvent event) {
+		longTouchManager.cancelTimer();
+		event.preventDefault();
+		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		onPointerUp(e);
+	    CancelEventTimer.touchEventOccured();
+    }
 
-	/*
-	 * public void keyTyped(KeyEvent e) { }
-	 * 
-	 * public void keyPressed(KeyEvent e) {
-	 * 
-	 * int keyCode = e.getKeyCode();
-	 * 
-	 * boolean metaDown = AppD.isControlDown(e); boolean altDown =
-	 * e.isAltDown(); boolean shiftDown = e.isShiftDown();
-	 * 
-	 * // Application.debug(keyCode); switch (keyCode) {
-	 * 
-	 * case KeyEvent.VK_UP:
-	 * 
-	 * if (shiftDown) { // extend the column selection int row =
-	 * table.getSelectionModel().getLeadSelectionIndex();
-	 * table.changeSelection(row - 1, -1, false, true); } else { // select
-	 * topmost cell in first column to the left of the // selection if
-	 * (table.minSelectionRow > 0) table.setSelection(0, table.minSelectionRow -
-	 * 1); else table.setSelection(0, table.minSelectionRow);
-	 * table.requestFocus(); } break;
-	 * 
-	 * case KeyEvent.VK_DOWN: if (shiftDown) { // extend the column selection
-	 * int row = table.getSelectionModel().getLeadSelectionIndex();
-	 * table.changeSelection(row + 1, -1, false, true); } else { // select
-	 * topmost cell in first column to the left of the // selection if
-	 * (table.minSelectionRow > 0) table.setSelection(0, table.minSelectionRow +
-	 * 1); else table.setSelection(0, table.minSelectionRow);
-	 * table.requestFocus(); } break;
-	 * 
-	 * case KeyEvent.VK_C: // control + c if (metaDown && minSelectionRow != -1
-	 * && maxSelectionRow != -1) { table.copyPasteCut.copy(0, minSelectionRow,
-	 * table.getModel() .getColumnCount() - 1, maxSelectionRow, altDown);
-	 * e.consume(); } break; case KeyEvent.VK_V: // control + v if (metaDown &&
-	 * minSelectionRow != -1 && maxSelectionRow != -1) { boolean storeUndo =
-	 * table.copyPasteCut.paste(0, minSelectionRow,
-	 * table.getModel().getColumnCount() - 1, maxSelectionRow); if (storeUndo)
-	 * app.storeUndoInfo(); e.consume(); } break; case KeyEvent.VK_X: // control
-	 * + x if (metaDown && minSelectionRow != -1 && maxSelectionRow != -1) {
-	 * table.copyPasteCut.copy(0, minSelectionRow, table.getModel()
-	 * .getColumnCount() - 1, maxSelectionRow, altDown); e.consume(); } boolean
-	 * storeUndo = table.copyPasteCut.delete(0, minSelectionRow,
-	 * table.getModel().getColumnCount() - 1, maxSelectionRow); if (storeUndo)
-	 * app.storeUndoInfo(); break;
-	 * 
-	 * case KeyEvent.VK_DELETE: // delete case KeyEvent.VK_BACK_SPACE: // delete
-	 * on MAC storeUndo = table.copyPasteCut.delete(0, minSelectionRow, table
-	 * .getModel().getColumnCount() - 1, maxSelectionRow); if (storeUndo)
-	 * app.storeUndoInfo(); break; } }
-	 * 
-	 * public void keyReleased(KeyEvent e) { }
-	 */
+	public void onTouchMove(TouchMoveEvent event) {
+		event.preventDefault();
+		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		if (doColumnResize) {
+			// resizing a column cancel long touch
+			longTouchManager.cancelTimer();
+		} else {
+			longTouchManager.rescheduleTimerIfRunning(this, e.getX(), e.getY(), false);
+		}
+		onPointerMove(e);
+		CancelEventTimer.touchEventOccured();
+    }
 
+	public void onTouchStart(TouchStartEvent event) {
+		event.preventDefault();
+		PointerEvent e = PointerEvent.wrapEvent(event, ZeroOffset.instance);
+		longTouchManager.scheduleTimer(this, e.getX(), e.getY());
+		onPointerDown(e);
+		CancelEventTimer.touchEventOccured();
+    }
+
+	public void handleLongTouch(int x, int y) {
+	    showContextMenu(x, y, false);
+    }
+	
+	private void showContextMenu(int x, int y, boolean relative) {
+		if (!app.letShowPopupMenu()) {
+			return;
+		}
+		SpreadsheetContextMenuW contextMenu = ((GuiManagerW) app
+		        .getGuiManager()).getSpreadsheetContextMenu(table);
+		GPopupMenuW popup = (GPopupMenuW) contextMenu.getMenuContainer();
+		if (relative) {
+			popup.show(grid, x, y);
+		} else {
+			popup.show(new GPoint(x, y));
+		}
+	}
 }
