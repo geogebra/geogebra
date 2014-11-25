@@ -2605,6 +2605,7 @@ __GGB__keysVar.tl.plain = {
     "PolarCoords": "Polar na Koordineyt",
     "PolarLineOfARelativeToB": "Polar na linya ng %0 relatibo sa %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "PolyLine",
     "Polygon": "Polygon",
     "PolygonA": "Polygon %0",

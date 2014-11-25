@@ -2605,6 +2605,7 @@ __GGB__keysVar.fi.plain = {
     "PolarCoords": "Napakoordinaatit",
     "PolarLineOfARelativeToB": "%0:n napasuora %1:n suhteen",
     "Polarized": "Polaroitunut",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Avoin murtoviiva",
     "Polygon": "Monikulmio",
     "PolygonA": "Monikulmio %0",

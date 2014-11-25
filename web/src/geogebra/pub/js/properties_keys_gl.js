@@ -2605,6 +2605,7 @@ __GGB__keysVar.gl.plain = {
     "PolarCoords": "Coordenadas polares",
     "PolarLineOfARelativeToB": "Recta polar de %0 relativa a %1",
     "Polarized": "Polarizado",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Poligonal",
     "Polygon": "Pol\xedgono",
     "PolygonA": "Pol\xedgono %0",

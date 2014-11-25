@@ -2605,6 +2605,7 @@ __GGB__keysVar.eu.plain = {
     "PolarCoords": "Koordenatu polarrak",
     "PolarLineOfARelativeToB": "%0-(r)en zuzen polarra %1-(r)ekiko",
     "Polarized": "Polarizatua",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Poligonala",
     "Polygon": "Poligonoa",
     "PolygonA": "%0 Poligonoa",

@@ -2605,6 +2605,7 @@ __GGB__keysVar.cy.plain = {
     "PolarCoords": "Cyfesurynnau pegynlin",
     "PolarLineOfARelativeToB": "Pegynlin o %0 perthynol i %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "LlinellBoly",
     "Polygon": "Polygon",
     "PolygonA": "Polygon %0",

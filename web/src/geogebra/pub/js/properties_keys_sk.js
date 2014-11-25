@@ -2605,6 +2605,7 @@ __GGB__keysVar.sk.plain = {
     "PolarCoords": "Pol\xe1rne s\xfaradnice",
     "PolarLineOfARelativeToB": "Pol\xe1rne zdru\u017een\xe1 priamka %0-u vzh\u013eadom na %1",
     "Polarized": "Polarizovan\xfd",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Lomen\xe1 \u010diara",
     "Polygon": "N-uholn\xedk",
     "PolygonA": "Mnohouholn\xedk %0",

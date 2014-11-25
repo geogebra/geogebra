@@ -2605,6 +2605,7 @@ __GGB__keysVar.lv.plain = {
     "PolarCoords": "Pol\u0101r\u0101s Koordin\u0101tas",
     "PolarLineOfARelativeToB": "Pol\u0101r\u0101 taisne no %0 attiec\u012bb\u0101 pret %1",
     "Polarized": "Polariz\u0113ts",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Lauzta l\u012bnija",
     "Polygon": "Daudzst\u016bris",
     "PolygonA": "Polygon %0",

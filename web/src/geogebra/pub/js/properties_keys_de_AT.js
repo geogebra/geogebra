@@ -2605,6 +2605,7 @@ __GGB__keysVar.de_AT.plain = {
     "PolarCoords": "Polarkoordinaten",
     "PolarLineOfARelativeToB": "Polare von %0 relativ zu %1",
     "Polarized": "Polarisiert",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Streckenzug",
     "Polygon": "Vieleck",
     "PolygonA": "Polygon %0",

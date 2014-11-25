@@ -2605,6 +2605,7 @@ __GGB__keysVar.da.plain = {
     "PolarCoords": "Pol\xe6re koordinater",
     "PolarLineOfARelativeToB": "Polar linje fra %0 relative til %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polylinje",
     "Polygon": "Polygon",
     "PolygonA": "Polygon %0",

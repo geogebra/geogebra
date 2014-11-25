@@ -2605,6 +2605,7 @@ __GGB__keysVar.ko.plain = {
     "PolarCoords": "\uadf9\uc88c\ud45c",
     "PolarLineOfARelativeToB": "%1 \uc5d0 \ub300\ud558\uc5ec \uc5f0\uad00\ub41c %0 \uc758 \uadf9\uc120",
     "Polarized": "\ud3b8\uad11\ub80c\uc988",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "\ub2e4\uac01\uc120",
     "Polygon": "\ub2e4\uac01\ud615",
     "PolygonA": "\ub2e4\uac01\ud615 %0",

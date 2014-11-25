@@ -2605,6 +2605,7 @@ __GGB__keysVar.lt.plain = {
     "PolarCoords": "Polin\u0117s koordinat\u0117s",
     "PolarLineOfARelativeToB": "%0 poliarin\u0117 ties\u0117 gimininga %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polilinija",
     "Polygon": "Daugiakampis",
     "PolygonA": "Daugiasienis %0",

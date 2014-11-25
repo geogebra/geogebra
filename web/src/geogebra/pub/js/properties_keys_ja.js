@@ -2605,6 +2605,7 @@ __GGB__keysVar.ja.plain = {
     "PolarCoords": "\u6975\u5ea7\u6a19",
     "PolarLineOfARelativeToB": "%1 \u306b\u95a2\u3059\u308b %0 \u306e\u6975\u7dda",
     "Polarized": "\u504f\u5149",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "\u6298\u308c\u7dda",
     "Polygon": "\u591a\u89d2\u5f62",
     "PolygonA": "Polygon %0",

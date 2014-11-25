@@ -2605,6 +2605,7 @@ __GGB__keysVar.et.plain = {
     "PolarCoords": "Polaarkoordinaadid",
     "PolarLineOfARelativeToB": "%0 polaar %1 suhtes",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Murdjoon",
     "Polygon": "Hulknurk",
     "PolygonA": "Polygon %0",

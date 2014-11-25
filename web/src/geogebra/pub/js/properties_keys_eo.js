@@ -2605,6 +2605,7 @@ __GGB__keysVar.eo.plain = {
     "PolarCoords": "Polusaj koordinatoj",
     "PolarLineOfARelativeToB": "Polar line of %0 relative to %1",
     "Polarized": "Polariza",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polyline",
     "Polygon": "Plurlatero",
     "PolygonA": "Polygon %0",

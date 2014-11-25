@@ -2605,6 +2605,7 @@ __GGB__keysVar.si.plain = {
     "PolarCoords": "\u0db0\u200d\u0dca\u200d\u0dbb\u0dd0\u0dc0\u0d9a \u0d9b\u0dab\u0dca\u0da9\u0dcf\u0d82\u0d9a",
     "PolarLineOfARelativeToB": "%0 \u0dc3\u0dcf\u0db4\u0dda\u0d9a\u0dca\u0dc2 %1\u0db0\u200d\u0dca\u200d\u0dbb\u0dd0\u0dc0\u0d9a \u0dbd\u0dda\u0d9b\u0dcf",
     "Polarized": "\u0db0\u200d\u0dca\u200d\u0dbb\u0dd0\u0dc0\u0dcf\u0dba\u0dd2\u0dad",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polyline",
     "Polygon": "\u0db6\u0dc4\u0dd4 \u0d85\u0dc3\u200d\u0dca\u200d\u0dbb\u0dba",
     "PolygonA": "Polygon %0",

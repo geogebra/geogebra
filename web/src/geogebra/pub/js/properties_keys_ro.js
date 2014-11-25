@@ -2605,6 +2605,7 @@ __GGB__keysVar.ro.plain = {
     "PolarCoords": "Coordonate polare",
     "PolarLineOfARelativeToB": "Linia polar\u0103 al lui %0 relativ la %1",
     "Polarized": "polarizat",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Linie poligonal\u0103",
     "Polygon": "Poligon",
     "PolygonA": "Poligon %0",

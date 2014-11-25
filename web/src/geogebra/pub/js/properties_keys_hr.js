@@ -2605,6 +2605,7 @@ __GGB__keysVar.hr.plain = {
     "PolarCoords": "Polarne koordinate",
     "PolarLineOfARelativeToB": "Polara od %0 u odnosu na %1",
     "Polarized": "Polarizirane",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Razlomljena crta",
     "Polygon": "Mnogokut",
     "PolygonA": "Mnogokut %0",

@@ -2605,6 +2605,7 @@ __GGB__keysVar.xh.plain = {
     "PolarCoords": "ooMati bePhowla",
     "PolarLineOfARelativeToB": "iPolar line ka %0 xa uthelekisa no %1",
     "Polarized": "iPolarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "iPolyline",
     "Polygon": "uMacalaManinzi",
     "PolygonA": "Polygon %0",

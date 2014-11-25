@@ -2605,6 +2605,7 @@ __GGB__keysVar.mr.plain = {
     "PolarCoords": "\u0927\u094d\u0930\u0941\u0935\u0940\u092f \u0928\u093f\u0930\u094d\u0926\u0947\u0936\u0915 (polar coordinates)",
     "PolarLineOfARelativeToB": "%1 \u0932\u093e \u0938\u0902\u092c\u0902\u0927\u0940\u0924 %0 \u091a\u0940 \u0927\u094d\u0930\u0941\u0935\u0940\u092f \u0930\u0947\u0937\u093e (polar line)",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polyline",
     "Polygon": "\u092c\u0939\u0941\u092d\u0941\u091c",
     "PolygonA": "Polygon %0",

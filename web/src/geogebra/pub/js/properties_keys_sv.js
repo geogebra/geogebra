@@ -2605,6 +2605,7 @@ __GGB__keysVar.sv.plain = {
     "PolarCoords": "Pol\xe4ra koordinater",
     "PolarLineOfARelativeToB": "Pol\xe4r linje f\xf6r %0 i f\xf6rh\xe5llande till %1",
     "Polarized": "Polariserade",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polygont\xe5g",
     "Polygon": "Polygon",
     "PolygonA": "Polygon %0",

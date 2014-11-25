@@ -2605,6 +2605,7 @@ __GGB__keysVar.no_NN.plain = {
     "PolarCoords": "Polare koordinatar",
     "PolarLineOfARelativeToB": "Polar linje for %0 i forhold til %1",
     "Polarized": "Polarisert",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Polylinje",
     "Polygon": "Mangekant",
     "PolygonA": "Mangekant %0",

@@ -2605,6 +2605,7 @@ __GGB__keysVar.sl.plain = {
     "PolarCoords": "Polarne koordinate",
     "PolarLineOfARelativeToB": "Polara %0 glede na %1",
     "Polarized": "Polarizirano",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Poligon",
     "Polygon": "Mnogokotnik",
     "PolygonA": "Mnogokotnik %0",

@@ -2605,6 +2605,7 @@ __GGB__keysVar.ca_XV.plain = {
     "PolarCoords": "Coordenades polars",
     "PolarLineOfARelativeToB": "Recta polar de %0 relativa a %1",
     "Polarized": "Polaritzat",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "L\xednia poligonal",
     "Polygon": "Pol\xedgon",
     "PolygonA": "Pol\xedgon %0",

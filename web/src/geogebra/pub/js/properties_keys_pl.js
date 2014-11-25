@@ -2605,6 +2605,7 @@ __GGB__keysVar.pl.plain = {
     "PolarCoords": "Wsp\xf3\u0142rz\u0119dne biegunowe",
     "PolarLineOfARelativeToB": "Krzywa biegunowa %0 wzgl\u0119dna do %1",
     "Polarized": "Spolaryzowany",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "\u0141amana",
     "Polygon": "Wielok\u0105t",
     "PolygonA": "Polygon %0",

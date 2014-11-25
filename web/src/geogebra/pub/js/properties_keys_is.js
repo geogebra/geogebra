@@ -2605,6 +2605,7 @@ __GGB__keysVar.is.plain = {
     "PolarCoords": "Skauthnit",
     "PolarLineOfARelativeToB": "Skautl\xedna %0 \xfat fr\xe1 %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Broti\xf0 l\xednustrik",
     "Polygon": "Marghyrningur",
     "PolygonA": "Polygon %0",

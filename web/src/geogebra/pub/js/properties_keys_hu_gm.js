@@ -2605,6 +2605,7 @@ __GGB__keysVar.hu_gm.plain = {
     "PolarCoords": "Pol\xe1rkoordin\xe1t\xe1k",
     "PolarLineOfARelativeToB": "%0 %1-ra/-re vonatkoz\xf3 pol\xe1ris egyenese",
     "Polarized": "Polariz\xe1lt",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "T\xf6r\xf6tt vonal",
     "Polygon": "Soksz\xf6g",
     "PolygonA": "%0 soksz\xf6g",

@@ -2605,6 +2605,7 @@ __GGB__keysVar.zh_TW.plain = {
     "PolarCoords": "\u6975\u5ea7\u6a19",
     "PolarLineOfARelativeToB": "%0 \u5c0d\u65bc %1 \u7684\u6975\u7dda",
     "Polarized": "\u504f\u5149",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "\u6298\u7dda",
     "Polygon": "\u591a\u908a\u5f62",
     "PolygonA": "\u591a\u908a\u5f62 %0",

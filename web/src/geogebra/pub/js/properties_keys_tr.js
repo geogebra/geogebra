@@ -2605,6 +2605,7 @@ __GGB__keysVar.tr.plain = {
     "PolarCoords": "Kutupsal koordinatlar",
     "PolarLineOfARelativeToB": "%1'e g\xf6re %0 kutupsal do\u011frusu",
     "Polarized": "Kutupla\u015fm\u0131\u015f",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "\xc7okluDo\u011fru",
     "Polygon": "\xc7okgen",
     "PolygonA": "\xc7okgen %0",

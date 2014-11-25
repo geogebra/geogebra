@@ -2605,6 +2605,7 @@ __GGB__keysVar.in.plain = {
     "PolarCoords": "Koordinat Polar",
     "PolarLineOfARelativeToB": "Garis polar dari %0 relatif terhadap %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "GarisJamak",
     "Polygon": "Poligon",
     "PolygonA": "Polygon %0",

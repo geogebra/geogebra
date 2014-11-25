@@ -2605,6 +2605,7 @@ __GGB__keysVar.nl.plain = {
     "PolarCoords": "Poolco\xf6rdinaten",
     "PolarLineOfARelativeToB": "Poollijn van %0 relatief aan %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "Veelhoekslijn",
     "Polygon": "Veelhoek",
     "PolygonA": "Polygon %0",

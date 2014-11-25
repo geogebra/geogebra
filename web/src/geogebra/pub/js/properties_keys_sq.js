@@ -2605,6 +2605,7 @@ __GGB__keysVar.sq.plain = {
     "PolarCoords": "Koordinata Polare",
     "PolarLineOfARelativeToB": "Vije Polare e %0 ne Lidhje me %1",
     "Polarized": "Polarized",
+    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
     "PolyLine": "PoliDrejtez",
     "Polygon": "Shumekendesh",
     "PolygonA": "Polygon %0",
