@@ -155,7 +155,7 @@ public class Polynomial implements Serializable
 	 */
 	private void sub(ExpressionValue number, Equation equ) {
 		Term subTerm = new Term(number, "");
-		subTerm.multiply(new MyDouble(kernel,-1.0d));
+		subTerm.multiply(new MyDouble(kernel,-1.0d), kernel);
 		append(subTerm);
 		simplify(equ); // add up parts with same variables
 	}
@@ -175,7 +175,7 @@ public class Polynomial implements Serializable
 			ti = getTerm(i);
 			for (j = 0; j < e.length(); j++) {
 				newTerm = new Term(ti,kernel);
-				newTerm.multiply(e.getTerm(j));
+				newTerm.multiply(e.getTerm(j),kernel);
 				temp.add(newTerm);
 			}
 		}
@@ -189,7 +189,7 @@ public class Polynomial implements Serializable
 	 */
 	private void multiply(ExpressionValue number) {
 		for (int i = 0; i < length(); i++) {
-			terms.get(i).multiply(number);
+			terms.get(i).multiply(number,kernel);
 		}
 	}
 
@@ -199,7 +199,7 @@ public class Polynomial implements Serializable
 	 */
 	private void divide(ExpressionValue number) {
 		for (int i = 0; i < length(); i++) {
-			getTerm(i).divide(number);
+			getTerm(i).divide(number, kernel);
 		}
 	}
 
@@ -268,7 +268,7 @@ public class Polynomial implements Serializable
 		for (int i = 0; i < length(); i++) {
 			t = getTerm(i);
 			if (t.getVars().equals(variables))
-				newTerm.addToCoefficient(t.coefficient);
+				newTerm.addToCoefficient(t.coefficient, kernel);
 		}
 		return newTerm.coefficient;
 	}
@@ -308,7 +308,7 @@ public class Polynomial implements Serializable
 				for (j = i + 1; j < len; j++) {
 					tj = (Term) t[j];
 					if (tj != null && vars.equals(tj.getVars())) {
-						ti.addToCoefficient(tj.coefficient);
+						ti.addToCoefficient(tj.coefficient, kernel);
 						t[j] = null;
 					}
 				}

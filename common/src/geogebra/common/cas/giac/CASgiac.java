@@ -161,7 +161,7 @@ public abstract class CASgiac implements CASGenericInterface {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && "KeepInput".equals(cmd.getName()));
-		String plainResult = getPlainResult(casInput);
+		String plainResult = getPlainResult(casInput, arbconst.getKernel());
 
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
@@ -205,7 +205,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public synchronized ExpressionValue evaluateToExpression(
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst) throws CASException {
-		String result = getPlainResult(inputExpression);
+		String result = getPlainResult(inputExpression, arbconst.getKernel());
 		// standard case
 		if ("".equals(result)) {
 			return null;
@@ -214,7 +214,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	}
 
-	private String getPlainResult(ValidExpression casInput) {
+	private String getPlainResult(ValidExpression casInput, Kernel kernel) {
 		// KeepInput[] command should set flag keepinput!!:=1
 		// so that commands like Substitute can work accordingly
 		Command cmd = casInput.getTopLevelCommand();
@@ -224,12 +224,10 @@ public abstract class CASgiac implements CASGenericInterface {
 			String label = 
 					cmd.getArgument(0).toString(
 							StringTemplate.defaultTemplate);
-			GeoElement geo = casInput
-					.getKernel()
+			GeoElement geo = kernel
 					.lookupLabel(label);
 			if(geo==null)
-				geo = casInput
-				.getKernel().lookupCasCellLabel(label);
+				geo = kernel.lookupCasCellLabel(label);
 			if (geo != null) {
 				geo.remove();
 			}
@@ -293,7 +291,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	private static ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst){
 		if (ve != null) {
-			boolean toRoot = ve.getKernel().getApplication().getSettings()
+			boolean toRoot = arbconst.getKernel().getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
 			ve = ve.traverse(DiffReplacer.INSTANCE);
 			ve.traverse(PowerRootReplacer.getReplacer(toRoot));
@@ -371,7 +369,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		// success
 		if (result2 != null) {
-			exp.getKernel();
+			c.getKernel();
 			// get names of escaped global variables right
 			// e.g. "ggbcasvar1a" needs to be changed to "a"
 			// e.g. "ggbtmpvara" needs to be changed to "a"
@@ -380,7 +378,7 @@ public abstract class CASgiac implements CASGenericInterface {
 
 		c.handleCASoutput(result, input.hashCode());
 		if (c.useCacheing())
-			exp.getKernel().putToCasCache(input, result);
+			c.getKernel().putToCasCache(input, result);
 	}
 
 	public void appendListStart(StringBuilder sbCASCommand){

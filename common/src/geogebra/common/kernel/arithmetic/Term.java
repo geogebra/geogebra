@@ -152,13 +152,12 @@ public class Term implements Comparable<Object>, Serializable {
 	 * add a number to this term's coefficient
 	 * @param number number to add
 	 */
-	void addToCoefficient(ExpressionValue number) {
-		setCoefficient(add(coefficient, number));
+	void addToCoefficient(ExpressionValue number, Kernel kernel) {
+		setCoefficient(add(coefficient, number, kernel));
 	}
 
 	// return a + b
-	private ExpressionValue add(ExpressionValue a, ExpressionValue b) {
-		Kernel kernel = a.getKernel();
+	private ExpressionValue add(ExpressionValue a, ExpressionValue b, Kernel kernel) {
 		boolean aconst = false;//a.isConstant();
 		boolean bconst = false;//b.isConstant();
 		double aval, bval;
@@ -179,30 +178,30 @@ public class Term implements Comparable<Object>, Serializable {
 					switch (ben.getOperation()) {
 					// a + (b.left + b.right) = (a + b.left) + b.right
 					case PLUS:
-						return add(add(a, ben.getLeft()), ben.getRight());
+						return add(add(a, ben.getLeft(), kernel), ben.getRight(), kernel);
 						// a + (b.left - b.right) = (a + b.left) - b.right
 					case MINUS:
-						return sub(add(a, ben.getLeft()), ben.getRight());
+						return sub(add(a, ben.getLeft(), kernel), ben.getRight(), kernel);
 					}
 				}
 			} // else
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
 		} else if (bconst)
-			return add(b, a); // get the constant to the left
+			return add(b, a, kernel); // get the constant to the left
 		else
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
 	}
 
-	private ExpressionValue sub(ExpressionValue a, ExpressionValue b) {
-		return add(a, multiply(new MyDouble(a.getKernel(), -1.0d), b));
+	private ExpressionValue sub(ExpressionValue a, ExpressionValue b, Kernel kernel) {
+		return add(a, multiply(new MyDouble(kernel, -1.0d), b, kernel), kernel);
 	}
 
 	/**
 	 * multiply this term with another term
 	 * @param t multiplier
 	 */
-	void multiply(Term t) {
-		setCoefficient(multiply(coefficient, t.coefficient));
+	void multiply(Term t, Kernel kernel) {
+		setCoefficient(multiply(coefficient, t.coefficient, kernel));
 		variables.append(t.variables);
 		sort(variables);
 	}
@@ -222,13 +221,12 @@ public class Term implements Comparable<Object>, Serializable {
 	 * multiply this term with a number
 	 * @param number multiplier
 	 */
-	void multiply(ExpressionValue number) {
-		setCoefficient(multiply(coefficient, number));
+	void multiply(ExpressionValue number, Kernel kernel) {
+		setCoefficient(multiply(coefficient, number, kernel));
 	}
 
 	// c = a * b
-	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b) {
-		Kernel kernel = a.getKernel();
+	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b, Kernel kernel) {
 		// multiply constant?
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -252,12 +250,12 @@ public class Term implements Comparable<Object>, Serializable {
 						switch (ben.getOperation()) {
 						// a * (b.left * b.right) = (a * b.left) * b.right
 						case MULTIPLY:
-							return multiply(multiply(a, ben.getLeft()),
-									ben.getRight());
+							return multiply(multiply(a, ben.getLeft(), kernel),
+									ben.getRight(), kernel);
 							// a * (b.left / b.right) = (a * b.left) / b.right
 						case DIVIDE:
-							return divide(multiply(a, ben.getLeft()),
-									ben.getRight());
+							return divide(multiply(a, ben.getLeft(), kernel),
+									ben.getRight(), kernel);
 						}
 					}
 				}
@@ -265,7 +263,7 @@ public class Term implements Comparable<Object>, Serializable {
 			}
 		} else if (bconst)
 			// a * b = b * a
-			return multiply(b, a); // get the constant to the left
+			return multiply(b, a, kernel); // get the constant to the left
 		else
 			return new ExpressionNode(kernel, a, Operation.MULTIPLY, b);
 	}
@@ -274,13 +272,12 @@ public class Term implements Comparable<Object>, Serializable {
 	 * divide this term with a number
 	 * @param number divisor
 	 */
-	void divide(ExpressionValue number) {
-		setCoefficient(divide(coefficient, number));
+	void divide(ExpressionValue number, Kernel kernel) {
+		setCoefficient(divide(coefficient, number, kernel));
 	}
 
 	// c = a / b
-	private ExpressionValue divide(ExpressionValue a, ExpressionValue b) {
-		Kernel kernel = a.getKernel();
+	private ExpressionValue divide(ExpressionValue a, ExpressionValue b, Kernel kernel) {
 		// divide constants
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -300,7 +297,7 @@ public class Term implements Comparable<Object>, Serializable {
 				switch (ben.getOperation()) {
 				// a / (b.left / b.right) = (a / b.left) * b.right
 				case DIVIDE:
-					return multiply(divide(a, ben.getLeft()), ben.getRight());
+					return multiply(divide(a, ben.getLeft(), kernel), ben.getRight(), kernel);
 				}
 			}
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);

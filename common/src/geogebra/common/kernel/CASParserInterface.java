@@ -14,7 +14,7 @@ public interface CASParserInterface {
 	 * @return parsed expression
 	 * @throws CASException if something goes wrong (invalid input)
 	 */
-	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue) throws CASException;
+	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue, Kernel kernel) throws CASException;
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
 	 * @param inValue GeoGebraCAS input
@@ -27,7 +27,7 @@ public interface CASParserInterface {
 	 * Replace variables with dummy objects
 	 * @param outputVe value to process
 	 */
-	void resolveVariablesForCAS(ExpressionValue outputVe);
+	void resolveVariablesForCAS(ExpressionValue outputVe, Kernel kernel);
 
 	/**
 	 * @param string internal name of command

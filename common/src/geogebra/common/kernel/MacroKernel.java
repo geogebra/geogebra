@@ -151,8 +151,8 @@ public class MacroKernel extends Kernel {
 	}
 
 	@Override
-	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
-		return parentKernel.newExpressionNodeEvaluator();
+	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
+		return parentKernel.newExpressionNodeEvaluator(kernel);
 	}
 
 	@Override

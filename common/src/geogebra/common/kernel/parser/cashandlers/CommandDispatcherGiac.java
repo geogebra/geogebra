@@ -197,9 +197,8 @@ public class CommandDispatcherGiac {
 	 * @param args
 	 *            list of command arguments
 	 */
-	public static ExpressionNode processCommand(String cmdName, GetItem args) {
+	public static ExpressionNode processCommand(String cmdName, GetItem args, Kernel kernel) {
 
-		Kernel kernel = args.getKernel();
 		try {
 			ExpressionValue ret = null;
 			switch (commands.valueOf(cmdName)) {

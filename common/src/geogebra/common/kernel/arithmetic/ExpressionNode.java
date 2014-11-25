@@ -1367,7 +1367,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 								.toValueString(tpl);
 					}
 				}
-				ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
+				ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl, kernel);
 						
 			}
 		} finally {
@@ -1470,7 +1470,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				rightStr = right.toString(tpl);
 			}
 		}
-		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, false, tpl);
+		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, false, tpl, kernel);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1490,7 +1490,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toValueString(tpl);
 		}
 
-		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl);
+		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl, kernel);
 	}
 
 	final public String toOutputValueString(StringTemplate tpl) {
@@ -1508,7 +1508,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toOutputValueString(tpl);
 		}
 
-		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl);
+		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl, kernel);
 	}
 
 	/**
@@ -1548,7 +1548,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 
 		// build latex string
-		ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl);
+		ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl, kernel);
 
 		return checkMathml(ret, tpl);
 	}
@@ -1576,12 +1576,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return string representation of a node.
 	 */
 	final public static String operationToString(ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr,
-			boolean valueForm, StringTemplate tpl) {
+			boolean valueForm, StringTemplate tpl, Kernel kernel) {
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
 		StringType stringType = tpl.getStringType();
-		Localization loc = left.getKernel().getLocalization();
+		Localization loc = kernel.getLocalization();
 		switch (operation) {
 		case NO_OPERATION: return leftStr;
 		case NOT: return tpl.notString(left,leftStr);
@@ -1845,10 +1845,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case PLUS:
 			return tpl.plusString(left, right, leftStr, rightStr, valueForm);
 		case MINUS:
-			return tpl.minusString(left, right, leftStr, rightStr, valueForm);
+			return tpl.minusString(left, right, leftStr, rightStr, valueForm, loc);
 
 		case MULTIPLY:
-			return tpl.multiplyString(left, right, leftStr, rightStr, valueForm);
+			return tpl.multiplyString(left, right, leftStr, rightStr, valueForm, loc);
 		case DIVIDE:
 			return tpl.divideString(left, right, leftStr, rightStr, valueForm);
 
@@ -1891,62 +1891,62 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COS:
-			trig(left, leftStr,sb,"<cos/>","\\cos","COS(","cos","cos",
+			trig(kernel, left, leftStr,sb,"<cos/>","\\cos","COS(","cos","cos",
 					tpl, loc, true);
 			break;
 
 		case SIN:
-			trig(left, leftStr,sb,"<sin/>","\\sin","SIN(","sin","sin",
+			trig(kernel, left, leftStr,sb,"<sin/>","\\sin","SIN(","sin","sin",
 					tpl, loc, true);
 			break;
 
 		case TAN:
-			trig(left, leftStr,sb,"<tan/>","\\tan","TAN(","tan","tan",
+			trig(kernel, left, leftStr,sb,"<tan/>","\\tan","TAN(","tan","tan",
 					tpl, loc, true);
 			break;
 
 		case CSC:
-			trig(left, leftStr,sb,"<csc/>","\\csc","CSC(","csc","csc",
+			trig(kernel, left, leftStr,sb,"<csc/>","\\csc","CSC(","csc","csc",
 					tpl, loc, true);
 			break;
 
 		case SEC:
-			trig(left, leftStr,sb,"<sec/>","\\sec","SEC(","sec","sec",
+			trig(kernel, left, leftStr,sb,"<sec/>","\\sec","SEC(","sec","sec",
 					tpl, loc, true);
 			break;
 
 		case COT:
-			trig(left, leftStr,sb,"<cot/>","\\cot","COT(","cot","cot",
+			trig(kernel, left, leftStr,sb,"<cot/>","\\cot","COT(","cot","cot",
 					tpl, loc, true);
 			break;
 
 		case CSCH:
-			trig(left, leftStr,sb,"<csch/>","\\csch","CSCH(","csch","func csch",
+			trig(kernel, left, leftStr,sb,"<csch/>","\\csch","CSCH(","csch","func csch",
 					tpl, loc, false);
 			break;
 
 		case SECH:
-			trig(left, leftStr,sb,"<sech/>","\\sech","SECH(","sech","func sech",
+			trig(kernel, left, leftStr,sb,"<sech/>","\\sech","SECH(","sech","func sech",
 					tpl, loc, false);
 			break;
 
 		case COTH:
-			trig(left, leftStr,sb,"<coth/>","\\coth","COTH(","coth","coth",
+			trig(kernel, left, leftStr,sb,"<coth/>","\\coth","COTH(","coth","coth",
 					tpl, loc, false);
 			break;
 
 		case ARCCOS:
-			trig(left, leftStr,sb,"<arccos/>","\\arccos","ACOS(","acos","arccos",degFix("acos",left),
+			trig(kernel, left, leftStr,sb,"<arccos/>","\\arccos","ACOS(","acos","arccos",degFix("acos",left,kernel),
 					tpl,loc,false);
 			break;
 
 		case ARCSIN:
-			trig(left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(","asin","arcsin",degFix("asin",left),
+			trig(kernel, left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(","asin","arcsin",degFix("asin",left,kernel),
 					tpl,loc,false);
 			break;
 
 		case ARCTAN:
-			trig(left, leftStr,sb,"<arctan/>","\\arctan","ATAN(","atan","arctan",degFix("atan",left),
+			trig(kernel, left, leftStr,sb,"<arctan/>","\\arctan","ATAN(","atan","arctan",degFix("atan",left,kernel),
 					tpl,loc,false);
 			break;
 
@@ -1966,7 +1966,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 
 				case GIAC:
-					sb.append(degFix("atan2",left));
+					sb.append(degFix("atan2",left,kernel));
 					sb.append("(");
 					break;
 
@@ -1981,45 +1981,45 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COSH:
-			trig(left, leftStr,sb,"<cosh/>","\\cosh","COSH(","cosh","cosh",
+			trig(kernel, left, leftStr,sb,"<cosh/>","\\cosh","COSH(","cosh","cosh",
 					tpl, loc, false);
 			break;
 
 		case SINH:
-			trig(left, leftStr,sb,"<sinh/>","\\sinh","SINH(","sinh","sinh",
+			trig(kernel, left, leftStr,sb,"<sinh/>","\\sinh","SINH(","sinh","sinh",
 					tpl, loc, false);
 			break;
 
 		case TANH:
-			trig(left, leftStr,sb,"<tanh/>","\\tanh","TANH(","tanh","tanh",
+			trig(kernel, left, leftStr,sb,"<tanh/>","\\tanh","TANH(","tanh","tanh",
 					tpl, loc, false);
 			break;
 
 		case ACOSH:
-			trig(left, leftStr,sb,"<arccosh/>","\\acosh","ACOSH(","acosh","arcosh",
+			trig(kernel, left, leftStr,sb,"<arccosh/>","\\acosh","ACOSH(","acosh","arcosh",
 					tpl, loc, false);
 			break;
 		case ASINH:
-			trig(left, leftStr,sb,"<arcsinh/>","\\asinh","ASINH(","asinh","arsinh",
+			trig(kernel, left, leftStr,sb,"<arcsinh/>","\\asinh","ASINH(","asinh","arsinh",
 					tpl, loc, false);			
 			break;
 
 		case ATANH:
-			trig(left, leftStr,sb,"<arctanh/>","\\atanh","ATANH(","atanh","artanh",
+			trig(kernel, left, leftStr,sb,"<arctanh/>","\\atanh","ATANH(","atanh","artanh",
 					tpl, loc, false);
 			break;
 		case REAL:
-			trig(left, leftStr,sb,"<real/>","\\real","","real","real","re",
+			trig(kernel, left, leftStr,sb,"<real/>","\\real","","real","real","re",
 					tpl,loc,false);
 			break;
 		case IMAGINARY:
-			trig(left, leftStr,sb,"<imaginary/>","\\imaginary","","imaginary","imaginary","im",
+			trig(kernel, left, leftStr,sb,"<imaginary/>","\\imaginary","","imaginary","imaginary","im",
 					tpl,loc,false);
 			break;
 		case FRACTIONAL_PART:
 			//trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
 			// Giac: problem with fPart, use custom definition instead, see CASgiacW
-			trig(left, leftStr,sb,"<todo/>","\\fractionalPart","","fractionalPart","fractionalPart","fractionalPart",
+			trig(kernel, left, leftStr,sb,"<todo/>","\\fractionalPart","","fractionalPart","fractionalPart","fractionalPart",
 					tpl,loc,false);
 			break;
 		case ZETA:
@@ -2594,13 +2594,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				MathmlTemplate.mathml(sb, "<floor/>", leftStr, null);
 				break;
 			case LATEX:
-				if (!left.getKernel().getApplication().isHTML5Applet()) {
+				if (!kernel.getApplication().isHTML5Applet()) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\left");
 				}
 				sb.append("\\lfloor ");
 				sb.append(leftStr);
-				if (!left.getKernel().getApplication().isHTML5Applet()) {
+				if (!kernel.getApplication().isHTML5Applet()) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\right");
 				}
@@ -2625,13 +2625,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				MathmlTemplate.mathml(sb, "<ceiling/>", leftStr, null);
 				break;
 			case LATEX:
-				if (!left.getKernel().getApplication().isHTML5Applet()) {
+				if (!kernel.getApplication().isHTML5Applet()) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\left");
 				}
 				sb.append("\\lceil ");
 				sb.append(leftStr);
-				if (!left.getKernel().getApplication().isHTML5Applet()) {
+				if (!kernel.getApplication().isHTML5Applet()) {
 					// MathQuillGGB doesn't support this
 					sb.append("\\right");
 				}
@@ -2849,15 +2849,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case XCOORD:
 			if (valueForm && (leftEval = left.evaluate(tpl)) instanceof VectorValue) {
-				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
+				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getX(), tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
-				sb.append(left.getKernel().format(
+				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[0], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
-				sb.append(left.getKernel().format(((GeoLine) leftEval).getX(), tpl));
+				sb.append(kernel.format(((GeoLine) leftEval).getX(), tpl));
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -2886,15 +2886,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case YCOORD:
 			leftEval = left.evaluate(tpl);
 			if (valueForm && leftEval instanceof VectorValue) {
-				sb.append(left.getKernel().format(((VectorValue) leftEval).getVector()
+				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getY(), tpl));
 			} else if (valueForm
 					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
-				sb.append(left.getKernel().format(
+				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[1], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
-				sb.append(left.getKernel().format(((GeoLine) leftEval).getY(), tpl));
+				sb.append(kernel.format(((GeoLine) leftEval).getY(), tpl));
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -2922,11 +2922,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case ZCOORD:
 			if (valueForm && (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
-				sb.append(left.getKernel().format(
+				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
 			} else if (valueForm
 					&& ((leftEval = left.evaluate(tpl)) instanceof GeoLine)) {
-				sb.append(left.getKernel().format(((GeoLine) leftEval).getZ(), tpl));
+				sb.append(kernel.format(((GeoLine) leftEval).getZ(), tpl));
 			} else {
 				switch (stringType) {
 				case LATEX:
@@ -3048,7 +3048,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if ((left instanceof FunctionalNVar)
 						&& (right instanceof MyList)) {
 					FunctionNVar func = ((FunctionalNVar) left).getFunction();
-					ExpressionNode en = func.getExpression().getCopy(left.getKernel());
+					ExpressionNode en = func.getExpression().getCopy(kernel);
 					for (int i = 0; (i < func.getVarNumber())
 							&& (i < ((MyList) right).size()); i++) {
 						en.replace(func.getFunctionVariables()[i],
@@ -3375,8 +3375,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	
 
-	private static String degFix(String string, ExpressionValue left) {
-		if(left.getKernel().getInverseTrigReturnsAngle()){
+	private static String degFix(String string, ExpressionValue left, Kernel kernel) {
+		if(kernel.getInverseTrigReturnsAngle()){
 			return "deg"+string;
 		}
 		return string;
@@ -3384,12 +3384,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	
 	
-	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
+	private static void trig(Kernel kernel, ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
 			String libreOffice,
 			StringTemplate tpl, Localization loc, boolean needDegrees) {
 
 		// send "key" for Giac
-		trig(left, leftStr, sb, mathml, latex,  psTricks, key,
+		trig(kernel, left, leftStr, sb, mathml, latex,  psTricks, key,
 				libreOffice, key,
 				tpl,loc, needDegrees);
 
@@ -3399,7 +3399,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	/**
 	 * @param left left expression (might need context-aware serialization for GIAC) 
 	 */
-	private static void trig(ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
+	private static void trig(Kernel kernel, ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
 			String libreOffice, String giac,
 			StringTemplate tpl,Localization loc,boolean needDegrees) {
 		if (tpl.hasType(StringType.MATHML)) {
@@ -3407,7 +3407,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		} else {
 			switch (tpl.getStringType()) {
 			case LATEX:
-				if (left.getKernel().getApplication().isHTML5Applet()) {
+				if (kernel.getApplication().isHTML5Applet()) {
 					String translatedKey = loc.getFunction(key);
 
 					// supported operators in MathQuillGGB - TODO: are there more?
@@ -4582,6 +4582,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return wrap(Double.NaN);
 	}
 
+	private ExpressionNode wrap(ExpressionValue exp) {
+		return exp.wrap();
+	}
+
 	@Override
 	public ExpressionNode integral(FunctionVariable fv) {
 		switch (operation) {
@@ -5059,17 +5063,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	private ExpressionNode wrap(double n) {
-		return wrap(new MyDouble(kernel, n));
+		return new MyDouble(kernel, n).wrap();
 	}
 
-	private static ExpressionNode wrap(ExpressionValue ev) {
-
-		if (ev.isExpressionNode()) {
-			return (ExpressionNode) ev;
-		}
-
-		return new ExpressionNode(ev.getKernel(), ev, Operation.NO_OPERATION, null);
-	}
+	
 
 	/**
 	 * @return whether the top-level operation is IF / IF_ELSE

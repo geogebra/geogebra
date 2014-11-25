@@ -714,7 +714,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		int terms = -1;
 		ExpressionValue evCopy=ev.deepCopy(kernel);
 		ExpressionNode replaced;
-		VariableReplacer varep = VariableReplacer.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate), xVar);
+		VariableReplacer varep = VariableReplacer.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate),
+				xVar, kernel);
 		if (evCopy instanceof ExpressionNode){
 			replaced = 
 					((ExpressionNode) evCopy).traverse(varep).wrap();

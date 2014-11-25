@@ -41,7 +41,7 @@ public interface GeoGebraCasInterface {
 	 *            includes localized command names
 	 * @return whether the two input expressions are structurally equal
 	 */
-	public boolean isStructurallyEqual(ValidExpression inputVE, String input);
+	public boolean isStructurallyEqual(ValidExpression inputVE, String input, Kernel kernel);
 	/**
 	 * Sets the currently used CAS for evaluateGeoGebraCAS().
 	 * 

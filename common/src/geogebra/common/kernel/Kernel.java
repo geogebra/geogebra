@@ -453,8 +453,8 @@ public class Kernel {
 	 * 
 	 * @return the Evaluator for ExpressionNode
 	 */
-	public ExpressionNodeEvaluator newExpressionNodeEvaluator() {
-		return new ExpressionNodeEvaluator(app.getLocalization());
+	public ExpressionNodeEvaluator newExpressionNodeEvaluator(Kernel kernel) {
+		return new ExpressionNodeEvaluator(app.getLocalization(), kernel);
 	}
 
 	/**
@@ -464,7 +464,7 @@ public class Kernel {
 	 */
 	public ExpressionNodeEvaluator getExpressionNodeEvaluator() {
 		if (expressionNodeEvaluator == null) {
-			expressionNodeEvaluator = newExpressionNodeEvaluator();
+			expressionNodeEvaluator = newExpressionNodeEvaluator(this);
 		}
 		return expressionNodeEvaluator;
 	}

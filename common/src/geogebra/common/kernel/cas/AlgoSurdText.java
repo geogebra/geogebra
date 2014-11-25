@@ -448,7 +448,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 
 	private ValidExpression sbToCAS(StringBuilder sb) {
     	if (sb!=null) {
-    		return kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(sb.toString());
+    		return kernel.getGeoGebraCAS().getCASparser().parseGeoGebraCASInputAndResolveDummyVars(sb.toString(), getKernel());
     	}
 		return null;
 	}

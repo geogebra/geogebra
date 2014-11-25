@@ -39,7 +39,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyBoolean b = ExpressionNodeEvaluator.evalEquals(lt.getKernel(),
+			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(),
 					lt, rt);
 			if (b == null) {
 				return ev.illegalComparison(lt, rt,
@@ -120,7 +120,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			MyBoolean b = ExpressionNodeEvaluator.evalEquals(lt.getKernel(),
+			MyBoolean b = ExpressionNodeEvaluator.evalEquals(ev.getKernel(),
 					lt, rt);
 			if (b == null) {
 				return ev.illegalComparison(lt, rt,
@@ -135,14 +135,14 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(lt.getKernel(), Kernel.isGreater(
+				return new MyBoolean(ev.getKernel(), Kernel.isGreater(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
-				return new MyBoolean(lt.getKernel(), comp < 0);
+				return new MyBoolean(ev.getKernel(), comp < 0);
 			}
 			return ev.illegalComparison(lt, rt, "<");
 		}
@@ -153,14 +153,14 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(lt.getKernel(), Kernel.isGreater(
+				return new MyBoolean(ev.getKernel(), Kernel.isGreater(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
-				return new MyBoolean(lt.getKernel(), comp > 0);
+				return new MyBoolean(ev.getKernel(), comp > 0);
 			}
 			return ev.illegalComparison(lt, rt, ">");
 		}
@@ -171,14 +171,14 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(lt.getKernel(), Kernel.isGreaterEqual(
+				return new MyBoolean(ev.getKernel(), Kernel.isGreaterEqual(
 						((NumberValue) rt).getDouble(),
 						((NumberValue) lt).getDouble()));
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
-				return new MyBoolean(lt.getKernel(), comp <= 0);
+				return new MyBoolean(ev.getKernel(), comp <= 0);
 			}
 			return ev.illegalComparison(lt, rt,
 					ExpressionNodeConstants.strLESS_EQUAL);
@@ -190,14 +190,14 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue && rt instanceof NumberValue) {
-				return new MyBoolean(lt.getKernel(), Kernel.isGreaterEqual(
+				return new MyBoolean(ev.getKernel(), Kernel.isGreaterEqual(
 						((NumberValue) lt).getDouble(),
 						((NumberValue) rt).getDouble()));
 			}
 			if (lt instanceof TextValue && rt instanceof TextValue) {
 				int comp = ((TextValue) lt).toValueString(tpl).compareTo(
 						((TextValue) rt).toValueString(tpl));
-				return new MyBoolean(lt.getKernel(), comp >= 0);
+				return new MyBoolean(ev.getKernel(), comp >= 0);
 			}
 			return ev.illegalComparison(lt, rt,
 					ExpressionNodeConstants.strGREATER_EQUAL);
@@ -209,7 +209,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
-				return new MyBoolean(lt.getKernel(),
+				return new MyBoolean(ev.getKernel(),
 						((GeoLine) lt).isParallel((GeoLine) rt));
 			}
 			return ev.illegalComparison(lt, rt,
@@ -222,7 +222,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if ((lt instanceof GeoLine) && (rt instanceof GeoLine)) {
-				return new MyBoolean(lt.getKernel(),
+				return new MyBoolean(ev.getKernel(),
 						((GeoLine) lt).isPerpendicular((GeoLine) rt));
 			}
 			return ev.illegalComparison(lt, rt,
@@ -235,7 +235,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof ListValue) {
-				return new MyBoolean(lt.getKernel(), MyList.isElementOf(lt,
+				return new MyBoolean(ev.getKernel(), MyList.isElementOf(lt,
 						((ListValue) rt).getMyList()));
 			}
 			return ev.illegalListOp(lt, rt,
@@ -248,7 +248,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return new MyBoolean(lt.getKernel(), MyList.listContains(
+				return new MyBoolean(ev.getKernel(), MyList.listContains(
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList(), tpl));
 			}
@@ -262,7 +262,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return new MyBoolean(lt.getKernel(), MyList.listContainsStrict(
+				return new MyBoolean(ev.getKernel(), MyList.listContainsStrict(
 						((ListValue) rt).getMyList(),
 						((ListValue) lt).getMyList(), tpl));
 			}
@@ -276,7 +276,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof ListValue && rt instanceof ListValue) {
-				return MyList.setDifference(lt.getKernel(),
+				return MyList.setDifference(ev.getKernel(),
 						((ListValue) lt).getMyList(),
 						((ListValue) rt).getMyList());
 			}
@@ -371,7 +371,7 @@ public enum Operation {
 						double max = ((NumberValue) (list.get(1))).getDouble();
 
 						if ((min > max) || (x > max) || (x < min)) {
-							return new MyDouble(lt.getKernel(), Double.NaN);
+							return new MyDouble(ev.getKernel(), Double.NaN);
 						}
 
 						double step = (max - min) / n;
@@ -395,7 +395,7 @@ public enum Operation {
 					}
 				}
 
-				return new MyDouble(lt.getKernel(), ret);
+				return new MyDouble(ev.getKernel(), ret);
 
 			}
 			return ev.illegalArgument(lt, rt, "freehand(");
@@ -550,7 +550,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			Kernel kernel = lt.getKernel();
+			Kernel kernel = ev.getKernel();
 			if (rt instanceof NumberValue) {
 				double n = ((NumberValue) rt).getDouble();
 				MyDouble exp = new MyDouble(kernel, 1 / n);
@@ -607,7 +607,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			Kernel kernel = lt.getKernel();
+			Kernel kernel = ev.getKernel();
 			GeoVec2D vec;
 			if (lt instanceof NumberValue) {
 				return ((NumberValue) lt).getNumber().abs();
@@ -665,7 +665,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			Kernel kernel = lt.getKernel();
+			Kernel kernel = ev.getKernel();
 
 			// z(vector)
 			if (lt instanceof VectorValue) {
@@ -1218,7 +1218,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			Kernel kernel = lt.getKernel();
+			Kernel kernel = ev.getKernel();
 			if (lt instanceof VectorValue) {
 				GeoVec2D vec = ((VectorValue) lt).getVector();
 
@@ -1290,7 +1290,7 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			// TODO not implemented #1115
-			return new MyDouble(lt.getKernel(), Double.NaN);
+			return new MyDouble(ev.getKernel(), Double.NaN);
 		}
 	},
 	SUBSTITUTION {
@@ -1298,7 +1298,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(), Double.NaN);
+			return new MyDouble(ev.getKernel(), Double.NaN);
 		}
 	},
 	INTEGRAL {
@@ -1306,7 +1306,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(), Double.NaN);
+			return new MyDouble(ev.getKernel(), Double.NaN);
 		}
 	},
 	IF {
@@ -1318,7 +1318,7 @@ public enum Operation {
 				if (((BooleanValue) lt).getBoolean()) {
 					return rt;
 				}
-				return new MyDouble(lt.getKernel(), Double.NaN);
+				return new MyDouble(ev.getKernel(), Double.NaN);
 			}
 			return ev.illegalArgument(lt, rt, "if(");
 		}
@@ -1357,7 +1357,7 @@ public enum Operation {
 						
 					}
 				}
-				return cond.size() == ((MyList) rt).size() ? new MyDouble(lt.getKernel(), Double.NaN) :
+				return cond.size() == ((MyList) rt).size() ? new MyDouble(ev.getKernel(), Double.NaN) :
 					((MyList) rt).getListElement(cond.size()).evaluate(tpl);
 				
 			}
@@ -1397,7 +1397,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(), 0.0);
+			return new MyDouble(ev.getKernel(), 0.0);
 		}
 	},
 	ARBINT {
@@ -1405,7 +1405,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(), 0.0);
+			return new MyDouble(ev.getKernel(), 0.0);
 		}
 	},
 	ARBCOMPLEX {
@@ -1413,7 +1413,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(), 0.0);
+			return new MyDouble(ev.getKernel(), 0.0);
 		}
 	},
 	SUM {
@@ -1421,7 +1421,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(), Double.NaN);
+			return new MyDouble(ev.getKernel(), Double.NaN);
 		}
 	},
 	ZETA {
@@ -1446,7 +1446,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(lt.getKernel(),Double.NaN);
+			return new MyDouble(ev.getKernel(),Double.NaN);
 		}
 	};
 

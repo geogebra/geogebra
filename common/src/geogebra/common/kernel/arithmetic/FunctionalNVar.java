@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 
 
@@ -60,5 +61,6 @@ public interface FunctionalNVar extends ExpressionValue{
 	 */
 	public void setLabel(String label);
 	public FunctionVariable[] getFunctionVariables();
+	public Kernel getKernel();
 
 }

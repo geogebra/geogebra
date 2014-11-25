@@ -179,11 +179,12 @@ public interface Traversing {
 		private List<String> vars = new ArrayList<String>();
 		private List<ExpressionValue> newObjs = new ArrayList<ExpressionValue>();
 		private int replacements;
+		private Kernel kernel;
 		
 		public ExpressionValue process(ExpressionValue ev) {
 			ExpressionValue val;
 			if ((val = contains(ev)) != null)
-				return new ExpressionNode(val.getKernel(), val);
+				return new ExpressionNode(kernel, val);
 			if (!(ev instanceof Variable || ev instanceof FunctionVariable || ev instanceof GeoDummyVariable))
 				return ev;
 			if ((val = getVar(ev.toString(StringTemplate.defaultTemplate))) == null) {
@@ -234,7 +235,7 @@ public interface Traversing {
 		 * @param replacement replacement object
 		 * @return replacer
 		 */
-		public static VariableReplacer getReplacer(String varStr, ExpressionValue replacement){
+		public static VariableReplacer getReplacer(String varStr, ExpressionValue replacement, Kernel kernel){
 			replacer.vars.clear();
 			replacer.newObjs.clear();
 			
@@ -242,6 +243,7 @@ public interface Traversing {
 			replacer.newObjs.add(replacement);
 			
 			replacer.replacements = 0;
+			replacer.kernel = kernel;
 			return replacer;
 		}
 		
@@ -297,7 +299,7 @@ public interface Traversing {
 					//App.debug("FOUND SPREADSHEET VARIABLE: "+name + " -> " + newName);
 
 					// make sure new cell is autocreated if it doesn't exist already
-					ev.getKernel().getConstruction().lookupLabel(newName, true);
+					v.getKernel().getConstruction().lookupLabel(newName, true);
 					
 					//App.debug("setting new name to: "+newName);
 					
@@ -317,7 +319,7 @@ public interface Traversing {
 									
 					// make sure new cell is autocreated if it doesn't exist already
 					// and return it
-					return ev.getKernel().getConstruction().lookupLabel(newName, true);
+					return geo.getConstruction().lookupLabel(newName, true);
 					
 				}
 				
@@ -334,24 +336,26 @@ public interface Traversing {
 	 *
 	 */
 	public class ReplaceUndefinedVariables implements Traversing {
+		private final Kernel kernel;
 		/**
 		 * Replaces undefined variables by sliders
 		 * 
 		 */
-		public ReplaceUndefinedVariables() {
+		public ReplaceUndefinedVariables(Kernel kernel) {
+			this.kernel = kernel;
 		}
 		public ExpressionValue process(ExpressionValue ev) {
 			
 			if (ev instanceof Variable) {
 				Variable v = (Variable)ev;
 				String name = v.getName(StringTemplate.defaultTemplate);
-				ExpressionValue replace = ev.getKernel().lookupLabel(name, true);
+				ExpressionValue replace = kernel.lookupLabel(name, true);
 				if(replace == null){
-					replace = Variable.replacement(ev.getKernel(), name);
+					replace = Variable.replacement(kernel, name);
 				}
-				if(replace instanceof Variable && !name.equals(ev.getKernel().getConstruction().getRegisteredFunctionVariable())){
+				if(replace instanceof Variable && !name.equals(kernel.getConstruction().getRegisteredFunctionVariable())){
 					name = ((Variable)replace).getName(StringTemplate.defaultTemplate);
-					GeoNumeric slider = new GeoNumeric(ev.getKernel().getConstruction(), name, 1);
+					GeoNumeric slider = new GeoNumeric(kernel.getConstruction(), name, 1);
 					GeoNumeric.setSliderFromDefault(slider, false);
 					App.debug("autocreating slider "+name);
 				}
@@ -393,12 +397,12 @@ public interface Traversing {
 				Variable v = (Variable)ev;
 				String name = v.getName(StringTemplate.defaultTemplate);
 				ExpressionValue ret;
-				ret = ev.getKernel().lookupLabel(name);
+				ret = v.getKernel().lookupLabel(name);
 				if(ret == null){
-					ret = Variable.replacement(ev.getKernel(), name);
+					ret = Variable.replacement(v.getKernel(), name);
 				}
 
-				if (ret instanceof Variable && !ev.getKernel().getConstruction().isRegistredFunctionVariable(name)) {
+				if (ret instanceof Variable && !v.getKernel().getConstruction().isRegistredFunctionVariable(name)) {
 					App.debug("found undefined variable: "+((Variable)ret).getName(StringTemplate.defaultTemplate));
 					tree.add(((Variable)ret).getName(StringTemplate.defaultTemplate));					
 				}
@@ -530,7 +534,7 @@ public interface Traversing {
 			if(en.getOperation()!=Operation.DIFF){
 				return ev;
 			}
-			Kernel kernel = ev.getKernel();
+			Kernel kernel = en.getKernel();
 			ExpressionValue expr = en.getLeft();
 			ExpressionValue var = en.getRight();
 			ExpressionValue deg;
@@ -594,7 +598,7 @@ public interface Traversing {
 		
 		public ExpressionValue process(ExpressionValue ev) {
 			if(ev instanceof Variable){
-				return new Variable(ev.getKernel(),
+				return new Variable(((Variable)ev).getKernel(),
 						ev.toString(StringTemplate.defaultTemplate).replace(Kernel.TMP_VARIABLE_PREFIX, ""));
 			}
 			return ev;
@@ -806,13 +810,13 @@ public interface Traversing {
 					ExpressionNode en2 = null;
 					FunctionVariable[] fv = null;
 					if(geo instanceof GeoCurveCartesian){
-						ExpressionValue en2x = ((GeoCurveCartesian)geo).getFunX().getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
-						ExpressionValue en2y = ((GeoCurveCartesian)geo).getFunY().getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
-						en2 = new MyVecNode(geo.getKernel(),en2x,en2y).wrap();
+						ExpressionValue en2x = ((GeoCurveCartesian)geo).getFunX().getFunctionExpression().getCopy(((GeoCurveCartesian)geo).getKernel()).traverse(this);
+						ExpressionValue en2y = ((GeoCurveCartesian)geo).getFunY().getFunctionExpression().getCopy(((GeoCurveCartesian)geo).getKernel()).traverse(this);
+						en2 = new MyVecNode(((GeoCurveCartesian)geo).getKernel(),en2x,en2y).wrap();
 						fv = ((GeoCurveCartesian)geo).getFunctionVariables();
 					}
 					if(geo instanceof FunctionalNVar){
-						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().getCopy(geo.getKernel()).traverse(this);
+						en2 = (ExpressionNode)  ((FunctionalNVar)geo).getFunctionExpression().getCopy(((FunctionalNVar)geo).getKernel()).traverse(this);
 						fv = ((FunctionalNVar)geo).getFunction().getFunctionVariables();
 					}
 					if(geo instanceof GeoCasCell){
@@ -823,7 +827,7 @@ public interface Traversing {
 						}
 						en2 = ve.unwrap() instanceof FunctionNVar ? ((FunctionNVar)ve.unwrap()).getExpression():ve.wrap();
 						en2 = en2.traverse(this).wrap();
-						en2 = en2.getCopy(geo.getKernel());
+						en2 = en2.getCopy(((GeoCasCell)geo).getKernel());
 						fv = ((GeoCasCell)geo).getFunctionVariables();
 					}
 					if(deriv != null){
@@ -885,7 +889,7 @@ public interface Traversing {
 				if(((GeoCasCell)ev).getInputVE().isKeepInputUsed()){
 					return expand((GeoCasCell)ev);
 				}
-				return ((GeoCasCell)ev).getOutputValidExpression().wrap().getCopy(ev.getKernel());
+				return ((GeoCasCell)ev).getOutputValidExpression().wrap().getCopy(((GeoCasCell)ev).getKernel());
 			}else if(ev instanceof FunctionNVar) {
 				variables =  ((FunctionNVar)ev).fVars;
 			}

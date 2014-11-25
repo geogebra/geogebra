@@ -21,6 +21,7 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
@@ -560,6 +561,10 @@ implements Vector3DValue, geogebra.common.kernel.kernelND.Geo3DVec {
 
 		public Geo3DVec ceil() {
 			return new Geo3DVec(kernel, Math.ceil(x), Math.ceil(y), Math.ceil(z));
+		}
+		
+		public ExpressionNode wrap(){
+			return new ExpressionNode(kernel, this);
 		}
 
 }

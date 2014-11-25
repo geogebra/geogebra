@@ -119,4 +119,8 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 }

@@ -21,6 +21,7 @@ package geogebra.common.kernel.geos;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
@@ -1441,6 +1442,10 @@ final public class GeoVec2D extends ValidExpression implements
 	 */
 	public GeoVec2D ceil() {
 		return new GeoVec2D(kernel, Math.ceil(x), Math.ceil(y));
+	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
 	}
 
 }

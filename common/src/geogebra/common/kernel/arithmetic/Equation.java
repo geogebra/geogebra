@@ -613,5 +613,9 @@ public class Equation extends ValidExpression {
 	public boolean mayBePolynomial(){
 		return isPolynomial;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
  
 } // end of class Equation

@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.util.Cloner;
 
 
@@ -41,14 +42,14 @@ public class AlgoSumLower extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumLower( 
-			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
+			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders) {
 		super(a, b, n, SumType.LOWERSUM,vals,borders);		
 		cons.registerEuclidianViewCE(this);
 	}
 	
 	public AlgoSumLower copy() {
-		return new AlgoSumLower((NumberValue)this.getA().deepCopy(kernel),
-				(NumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
+		return new AlgoSumLower((GeoNumberValue)this.getA().deepCopy(kernel),
+				(GeoNumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	@Override

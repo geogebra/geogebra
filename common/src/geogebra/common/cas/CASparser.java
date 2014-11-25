@@ -17,6 +17,7 @@ import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.CASParserInterface;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
@@ -75,7 +76,7 @@ public class CASparser implements CASParserInterface{
 		}
 	}
 	
-	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue) throws CASException {
+	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue, Kernel kernel) throws CASException {
 		if (inValue == null || inValue.length() == 0)
 			return null;
 		
@@ -84,7 +85,7 @@ public class CASparser implements CASParserInterface{
 			ValidExpression ve = parseGeoGebraCASInput(inValue);
 			
 			// resolve Variable objects in ValidExpression as GeoDummy objects
-			resolveVariablesForCAS(ve);
+			resolveVariablesForCAS(ve, kernel);
 			
 			// resolve Equations as Functions if lhs is y
 			if (ve instanceof Function) {
@@ -107,14 +108,14 @@ public class CASparser implements CASParserInterface{
 	 * kept as symbolic variables.
 	 * TODO check that we need default template here
 	 */
-	public synchronized void resolveVariablesForCAS(ExpressionValue ev) {
+	public synchronized void resolveVariablesForCAS(ExpressionValue ev, Kernel kernel) {
 		
 		// add local variables to kernel, 
 		// e.g. f(a,b) := 3*a+c*b has local variables a, b
 		boolean isFunction = ev instanceof Function;
 		FunctionVariable [] funVars = null;
 		if (isFunction) {
-			Construction cmdCons = ev.getKernel().getConstruction();  
+			Construction cmdCons = kernel.getConstruction();  
 			funVars = ((Function) ev).getFunctionVariables();
 			for (FunctionVariable funVar : funVars) {
 				GeoElement localVarGeo = new GeoDummyVariable(cmdCons, funVar.toString(StringTemplate.defaultTemplate));
@@ -122,9 +123,9 @@ public class CASparser implements CASParserInterface{
 			}
 		}
 		// resolve variables of valid expression
-		ev.getKernel().setResolveUnkownVarsAsDummyGeos(true);
+		kernel.setResolveUnkownVarsAsDummyGeos(true);
 		ev.resolveVariables();
-		ev.getKernel().setResolveUnkownVarsAsDummyGeos(false);
+		kernel.setResolveUnkownVarsAsDummyGeos(false);
 		
 		Set<String> nonFunctions = new TreeSet<String>(); 
 		NonFunctionCollector c = NonFunctionCollector.getCollector(nonFunctions);
@@ -133,7 +134,7 @@ public class CASparser implements CASParserInterface{
 		ev.traverse(r);
 		// remove local variables
 		if (isFunction) {
-			Construction cmdCons = ev.getKernel().getConstruction();
+			Construction cmdCons = kernel.getConstruction();
 			for (FunctionVariable funVar : funVars) {
 				cmdCons.removeLocalVariable(funVar.toString(StringTemplate.defaultTemplate));
 			}
@@ -168,7 +169,7 @@ public class CASparser implements CASParserInterface{
 		String GeoGebraString;
 		ExpressionNode expr;
 		if (!ev.isExpressionNode()) {
-			expr = new ExpressionNode(ev.getKernel(), ev);			
+			expr = ev.wrap();			
 		}
 		else
 			expr = (ExpressionNode) ev;

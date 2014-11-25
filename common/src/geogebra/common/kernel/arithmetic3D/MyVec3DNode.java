@@ -20,6 +20,7 @@ package geogebra.common.kernel.arithmetic3D;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Inspecting;
@@ -365,6 +366,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	 */
 	public void setCASVector() {
 		isCASVector  = true;
+	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
 	}
 
 }

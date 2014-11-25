@@ -126,4 +126,8 @@ public class MyBoolean extends ValidExpression implements BooleanValue, NumberVa
 	public boolean isDefined() {
 		return true;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 }

@@ -130,7 +130,7 @@ public interface ExpressionValue {
 	/**
 	 * @return kernel
 	 */
-	public Kernel getKernel();
+	//public Kernel getKernel();
 	/**
 	 * @param tpl string template
 	 * @return string representation of this object

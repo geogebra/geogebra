@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.util.Cloner;
 
 
@@ -41,7 +42,7 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumUpper( 
-			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
+			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders) {
 		super( a, b, n, SumType.UPPERSUM,vals,borders);			
 	}
 	
@@ -51,8 +52,8 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	}
 	
 	public AlgoSumUpper copy() {
-		return new AlgoSumUpper((NumberValue)this.getA().deepCopy(kernel),
-				(NumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
+		return new AlgoSumUpper((GeoNumberValue)this.getA().deepCopy(kernel),
+				(GeoNumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	

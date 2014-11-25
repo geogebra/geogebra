@@ -954,5 +954,7 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar, Var
 		
 	}
 
-
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 }

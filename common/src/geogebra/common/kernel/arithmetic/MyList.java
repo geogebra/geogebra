@@ -1035,5 +1035,9 @@ public class MyList extends ValidExpression implements ListValue,
 	public int getLength() {
 		return listElements.size();
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 
 }

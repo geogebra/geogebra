@@ -1012,4 +1012,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public static boolean isFinite(double d){
 		return !Double.isNaN(d) && !Double.isInfinite(d);
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 }

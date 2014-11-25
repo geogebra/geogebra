@@ -687,7 +687,7 @@ ValidExpression command():
       (")"|"]") )
       { if (GiacParsing)
       {
-        ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c);
+        ExpressionNode res = CommandDispatcherGiac.processCommand(cmdName,c,kernel);
         if (res != null)
           return res;
       }
@@ -1957,7 +1957,7 @@ ExpressionNode numberFunction():
       
       if (GiacParsing)  {
           // check for special Giac functions, e.g. diff, Psi etc.
-        en = CommandDispatcherGiac.processCommand(funcName, myList);
+        en = CommandDispatcherGiac.processCommand(funcName, myList, kernel);
         if (en != null)
         {  
           return en;

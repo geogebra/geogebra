@@ -26,13 +26,15 @@ import geogebra.common.util.debug.Log;
 public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	private static final StringTemplate errorTemplate = StringTemplate.defaultTemplate;
 	private Localization l10n;
+	protected Kernel kernel;
 	
 	/**
 	 * Creates new expression node evaluator
 	 * @param l10n localization for errors
 	 */
-	public ExpressionNodeEvaluator(Localization l10n) {
+	public ExpressionNodeEvaluator(Localization l10n, Kernel kernel) {
 		this.l10n = l10n;
+		this.kernel = kernel;
 	}
 
 	/**
@@ -312,7 +314,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 * @return x coordinate
 	 */
 	public ExpressionValue handleXcoord(ExpressionValue arg,Operation op) {
-		Kernel kernel = arg.getKernel();
 		if (arg instanceof VectorValue) {
 			return new MyDouble(kernel, ((VectorValue) arg).getVector().getX());
 		} else if (arg instanceof Vector3DValue) {
@@ -331,7 +332,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleYcoord(ExpressionValue arg,Operation op) {
 
-		Kernel kernel = arg.getKernel();
 
 		// y(vector)
 		if (arg instanceof VectorValue) {
@@ -355,7 +355,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,
 			StringTemplate tpl, boolean holdsLaTeXtext) {
-		Kernel kernel = lt.getKernel();
 		MyDouble num;
 		GeoVec2D vec;
 		MyStringBuffer msb;
@@ -519,7 +518,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handlePlus(ExpressionValue lt, ExpressionValue rt,
 			StringTemplate tpl, boolean holdsLaTeXtext) {
 		String[] str;
-		Kernel kernel = lt.getKernel();
 		MyDouble num;
 		GeoVec2D vec;
 		MyStringBuffer msb;
@@ -635,7 +633,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue left, ExpressionValue right) {
 		// sin(number)
 		String[] str;
-		Kernel kernel = lt.getKernel();
 		MyDouble num;
 		GeoVec2D vec;
 		Polynomial poly;
@@ -704,7 +701,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleMinus(ExpressionValue lt, ExpressionValue rt) {
 		String[] str;
-		Kernel kernel = lt.getKernel();
 		MyDouble num;
 		GeoVec2D vec;
 		Polynomial poly;
@@ -769,7 +765,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handlePower(ExpressionValue lt, ExpressionValue rt,
 			ExpressionValue right) {
 		String[] str;
-		Kernel kernel = lt.getKernel();
 		Polynomial poly;
 		MyDouble num;
 		GeoVec2D vec, vec2;
@@ -924,7 +919,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue handleFunction(ExpressionValue lt, ExpressionValue rt, ExpressionValue left) {
 		String[] str;
-		Kernel kernel = lt.getKernel();
 		// function(number)
 		if (rt instanceof NumberValue) {
 			if (lt instanceof Evaluatable) {
@@ -988,7 +982,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public ExpressionValue handleFunctionNVar(ExpressionValue lt,
 			ExpressionValue rt) {
 		if (rt instanceof ListValue && (lt instanceof FunctionalNVar)) {
-			Kernel kernel = lt.getKernel();
 			FunctionNVar funN = ((FunctionalNVar) lt).getFunction();
 			ListValue list = (ListValue) rt;
 			if (funN.getVarNumber() == list.size()) {
@@ -1174,7 +1167,6 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	 */
 	public ExpressionValue polynomialOrDie(ExpressionValue lt, Operation op,
 			String prefix, String suffix) {
-		Kernel kernel = lt.getKernel();
 		String[] strings = new String[] { "IllegalArgument", prefix,
 				lt.toString(errorTemplate), suffix };
 		throw new MyError(l10n, strings);
@@ -1209,9 +1201,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2){
 		GeoVecInterface vec1 = v1.getVector();
 		GeoVecInterface vec2 = v2.getVector();
-		MyDouble num = new MyDouble(v1.getKernel());
+		MyDouble num = new MyDouble(kernel);
 		GeoVec2D.vectorProduct(vec1, vec2, num);
 		return num;
+	}
+
+	public Kernel getKernel() {
+		return kernel;
 	}
 	
 }

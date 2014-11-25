@@ -20,6 +20,7 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.optimization.NegativeRealRootFunction;
@@ -289,7 +290,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		
 	}
 
-	public AlgoFunctionAreaSums(NumberValue a, NumberValue b, NumberValue n,
+	public AlgoFunctionAreaSums(GeoNumberValue a, NumberValue b, NumberValue n,
 			SumType type, double[] vals, double[] borders) {
 		super(a.getKernel().getConstruction(), false);
 		this.type = type;
@@ -341,7 +342,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param borders
 	 * @param N
 	 */
-	protected AlgoFunctionAreaSums(NumberValue a, NumberValue b, double[] vals,
+	protected AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b, double[] vals,
 			double[] borders, int N) {
 		super((a.getKernel()).getConstruction(), false);
 		type = SumType.BARCHART;
@@ -446,7 +447,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param borders
 	 * @param N
 	 */
-	protected AlgoFunctionAreaSums(NumberValue width, double[] vals,
+	protected AlgoFunctionAreaSums(GeoNumberValue width, double[] vals,
 			double[] borders, int N) {
 		super((width.getKernel()).getConstruction(), false);
 

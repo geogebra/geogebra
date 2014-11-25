@@ -282,7 +282,7 @@ public class AlgebraProcessor {
 				String varName = undefinedVariables.first();
 				FunctionVariable fv = new FunctionVariable(kernel,varName);
 				ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
-						fv)).wrap();
+						fv, kernel)).wrap();
 				exp.resolveVariables();
 				boolean flag = cons.isSuppressLabelsActive();
 				cons.setSuppressLabelCreation(true);
@@ -533,14 +533,14 @@ public class AlgebraProcessor {
 				}
 			}
 			if (fvX == null) {
-				fvX = new FunctionVariable(ve.getKernel(), "x");
+				fvX = new FunctionVariable(kernel, "x");
 			}
 			if(undefinedVariables.size() == 1 && "X".equals(ve.getLabel())){
 				try{
 					String varName = undefinedVariables.first();
 					FunctionVariable fv = new FunctionVariable(kernel,varName);
 					ExpressionNode exp = ve.deepCopy(kernel).traverse(VariableReplacer.getReplacer(varName,
-							fv)).wrap();
+							fv, kernel)).wrap();
 					exp.resolveVariables();
 					GeoElement[] ret = processParametricFunction(exp, exp.evaluate(StringTemplate.defaultTemplate), fv, null);
 					if(ret!=null){
@@ -787,7 +787,7 @@ public class AlgebraProcessor {
 	
 	
 	public void replaceUndefinedVariables(ValidExpression ve){
-		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables();
+		ReplaceUndefinedVariables replacer = new Traversing.ReplaceUndefinedVariables(this.kernel);
 		ve.traverse(replacer);
 
 	}

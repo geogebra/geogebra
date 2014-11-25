@@ -476,7 +476,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public boolean isStructurallyEqual(final ValidExpression inputVE,
-			final String localizedInput) {
+			final String localizedInput, Kernel kernel) {
 		try {
 			// current input
 			String input1normalized = casParser.toString(inputVE,
@@ -484,7 +484,7 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 			// new input
 			ValidExpression ve2 = casParser
-					.parseGeoGebraCASInputAndResolveDummyVars(localizedInput);
+					.parseGeoGebraCASInputAndResolveDummyVars(localizedInput, kernel);
 			String input2normalized = casParser.toString(ve2,
 					StringTemplate.get(StringType.GEOGEBRA_XML));
 

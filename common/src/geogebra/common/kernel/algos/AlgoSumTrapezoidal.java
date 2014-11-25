@@ -16,6 +16,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.util.Cloner;
 
 
@@ -40,7 +41,7 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumTrapezoidal( 
-			   NumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
+			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders) {
 		super( a, b, n, SumType.TRAPEZOIDALSUM,vals,borders);		
 	}
 	
@@ -50,8 +51,8 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	}
 	
 	public AlgoSumTrapezoidal copy() {
-		return new AlgoSumTrapezoidal((NumberValue)this.getA().deepCopy(kernel),
-				(NumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
+		return new AlgoSumTrapezoidal((GeoNumberValue)this.getA().deepCopy(kernel),
+				(GeoNumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
 				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
 	}
 	

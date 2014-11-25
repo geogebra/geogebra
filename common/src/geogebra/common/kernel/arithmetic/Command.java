@@ -625,5 +625,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 		return replacements;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 
 }

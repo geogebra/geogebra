@@ -217,7 +217,7 @@ public class GeoTransferFunction extends GeoElement {
 			exp = parser.parseExpression(z.toString());
 			currentFunction = new Function(originalFunction, kernel);
 			t = VariableReplacer.getReplacer(currentFunction
-					.getVarString(StringTemplate.defaultTemplate), exp);
+					.getVarString(StringTemplate.defaultTemplate), exp, kernel);
 			currentFunction.traverse(t);
 			v = (GeoVec2D) currentFunction.evaluateComplex().getExpression()
 					.evaluate(StringTemplate.defaultTemplate);
@@ -244,7 +244,7 @@ public class GeoTransferFunction extends GeoElement {
 			exp = xi.wrap();
 			currentFunction = new Function(originalFunction, kernel);
 			t = VariableReplacer.getReplacer(currentFunction
-					.getVarString(StringTemplate.defaultTemplate), exp);
+					.getVarString(StringTemplate.defaultTemplate), exp, kernel);
 			currentFunction.traverse(t);
 			v = (GeoVec2D) currentFunction.evaluateComplex().getExpression()
 					.evaluate(StringTemplate.defaultTemplate);

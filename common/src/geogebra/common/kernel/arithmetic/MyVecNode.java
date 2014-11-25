@@ -301,5 +301,9 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	public void setCASVector() {
 		isCASVector = true;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 
 }

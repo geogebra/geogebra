@@ -27,8 +27,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 	/**
 	 * @param l10n localization for errors
 	 */
-	public ExpressionNodeEvaluator3D(Localization l10n) {
-		super(l10n);
+	public ExpressionNodeEvaluator3D(Localization l10n, Kernel kernel) {
+		super(l10n, kernel);
 	}
 
 	@Override
@@ -168,7 +168,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 				|| v2.getMode() == Kernel.COORD_SPHERICAL) {
 			
 			// 3D vector product
-			Geo3DVec vec3D = new Geo3DVec(v1.getKernel());
+			Geo3DVec vec3D = new Geo3DVec(this.kernel);
 			Geo3DVec.vectorProduct(v1.getVector(), v2.getVector(), vec3D);
 			return vec3D;
 						
@@ -193,7 +193,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		// 2D coords
 		if (rt.getMode() != Kernel.COORD_CARTESIAN_3D && rt.getMode() != Kernel.COORD_SPHERICAL){
 			if (rows == 3 && cols == 2){ // creates 3D vector from 2D coords
-				Geo3DVec myVec = new Geo3DVec(rt.getKernel());
+				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x2 matrix * 3D vector / point
 				myVec.multiplyMatrix3x2(myList, rt);
 				return myVec;
@@ -204,7 +204,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			}
 			
 			// 3D vector / point
-			GeoVec2D myVec = new GeoVec2D(rt.getKernel());
+			GeoVec2D myVec = new GeoVec2D(this.kernel);
 			return multiply2D(myList, rows, cols, rt, myVec);				
 			
 		}
@@ -213,14 +213,14 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 		// 3D coords	
 		if (cols == 3){
 			if (rows == 3) { // creates 3D vector/point
-				Geo3DVec myVec = new Geo3DVec(rt.getKernel());
+				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x3 matrix * 3D vector / point
 				myVec.multiplyMatrix3x3(myList, rt);
 				return myVec;
 			}
 
 			if (rows == 2) { // creates 2D vector/point
-				GeoVec2D myVec = new GeoVec2D(rt.getKernel());
+				GeoVec2D myVec = new GeoVec2D(this.kernel);
 				// 2x3 matrix * 3D vector / point
 				Geo3DVec.multiplyMatrix(myList, rt, myVec);
 				return myVec;
@@ -228,7 +228,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
 		}else if (cols == 4){
 			if (rows == 4) { // affine multiplication
-				Geo3DVec myVec = new Geo3DVec(rt.getKernel());
+				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x3 matrix * 3D vector / point
 				myVec.multiplyMatrix4x4(myList, rt);
 				return myVec;

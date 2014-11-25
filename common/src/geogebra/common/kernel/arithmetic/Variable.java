@@ -240,5 +240,9 @@ public class Variable extends ValidExpression {
 	public boolean evaluatesToNumber(boolean def){
 		return def;
 	}
+	
+	public ExpressionNode wrap(){
+		return new ExpressionNode(kernel, this);
+	}
 
 }

@@ -5,6 +5,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.kernel.AlgoCasCellInterface;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -680,7 +681,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (localizedInput != null && localizedInput.equals(newInput))
 			return true;
 
-		if (!kernel.getGeoGebraCAS().isStructurallyEqual(getInputVE(), newInput)) {
+		if (!kernel.getGeoGebraCAS().isStructurallyEqual(getInputVE(), newInput, getKernel())) {
 			setError("CAS.SelectionStructureError");
 			return false;
 		}
@@ -695,7 +696,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			final String inValue) {
 		try {
 			return (kernel.getGeoGebraCAS()).getCASparser()
-					.parseGeoGebraCASInputAndResolveDummyVars(inValue);
+					.parseGeoGebraCASInputAndResolveDummyVars(inValue, getKernel());
 		}catch (CASException c){
 			setError(loc.getError(c.getKey()));
 			return null;
@@ -792,7 +793,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}
 
 		if (ve.getLabel() != null && getFunctionVars().isEmpty()) {
-			String var = getFunctionVariable(ve);
+			String var = getFunctionVariable(ve, getKernel());
 			if (var != null)
 				getFunctionVars().add(var);
 		}
@@ -816,7 +817,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		
 	}
 
-	private static String getFunctionVariable(final ValidExpression ve) {
+	private static String getFunctionVariable(final ValidExpression ve, Kernel kernel) {
 		if (!ve.isTopLevelCommand())
 			return null;
 		Command cmd = ve.getTopLevelCommand();
@@ -834,7 +835,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					.iterator();
 			while (it.hasNext()) {
 				GeoElement em = it.next();
-				if (ve.getKernel().lookupLabel(
+				if (kernel.lookupLabel(
 						em.toString(StringTemplate.defaultTemplate)) == null)
 					if(em instanceof VarString){
 						return ((VarString)em).getVarString(StringTemplate.defaultTemplate);
@@ -1567,14 +1568,14 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		
 		// replace variables x and y with a FunctionVariable object
 		FunctionVariable fvX = new FunctionVariable(kernel,"x");
-		Traversing variableReplacer = Traversing.VariableReplacer.getReplacer("x", fvX);
+		Traversing variableReplacer = Traversing.VariableReplacer.getReplacer("x", fvX, kernel);
 		ve.traverse(variableReplacer);
 		FunctionVariable fvY = new FunctionVariable(kernel,"y");
-		variableReplacer = Traversing.VariableReplacer.getReplacer("y", fvY);
+		variableReplacer = Traversing.VariableReplacer.getReplacer("y", fvY, kernel);
 		ve.traverse(variableReplacer);
 		if(kernel.getApplication().is3D()){
 			FunctionVariable fvZ = new FunctionVariable(kernel,"z");
-			variableReplacer = Traversing.VariableReplacer.getReplacer("z", fvZ);
+			variableReplacer = Traversing.VariableReplacer.getReplacer("z", fvZ, kernel);
 			ve.traverse(variableReplacer);
 		}
 		

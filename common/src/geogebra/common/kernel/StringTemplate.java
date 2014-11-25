@@ -887,7 +887,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 	}
 	
 	public String minusString(ExpressionValue l, ExpressionValue r,
-			String leftStr, String rightStr, boolean valueForm) {
+			String leftStr, String rightStr, boolean valueForm, Localization loc) {
 		
 		// make sure A:=(1,2) B:=(3,4) A-B works
 		// MyVecNode wrapped in ExpressionNode
@@ -1016,7 +1016,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 			// check for 0 at right
 			if (valueForm
 					&& rightStr
-					.equals(left.getKernel().getLocalization().unicodeZero + "")) {
+					.equals(loc.unicodeZero + "")) {
 				break;
 			}
 
@@ -1073,10 +1073,9 @@ public class StringTemplate implements ExpressionNodeConstants {
 		return sb.toString();
 	}
 	public String multiplyString(ExpressionValue left, ExpressionValue right,
-			String leftStr, String rightStr, boolean valueForm) {
+			String leftStr, String rightStr, boolean valueForm, Localization loc) {
 		StringBuilder sb = new StringBuilder();
 		Operation operation = Operation.MULTIPLY;
-		Localization loc = left.getKernel().getLocalization();
 		switch (stringType) {
 
 		case MATHML:
