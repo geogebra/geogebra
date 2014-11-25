@@ -1,6 +1,7 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoTranslateVector3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoVectorPoint3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
@@ -15,16 +16,16 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
 public class CmdTranslate3D extends CmdTranslate {
-	
-	
-	
-	
+
+
+
+
 	public CmdTranslate3D(Kernel kernel) {
 		super(kernel);
 	}
 
-	
-	
+
+
 
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
@@ -41,30 +42,40 @@ public class CmdTranslate3D extends CmdTranslate {
 
 			//check if there is a 3D geo
 			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
-				
+
 				// translate object
 				if ((ok[0] = (arg[0] instanceof Translateable
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
 						&& (ok[1] = (arg[1].isGeoVector()))) {				
 					ret = kernelA.getManager3D().Translate3D(label, arg[0], (GeoVectorND) arg[1]);
 					return ret;
+				} else if ((ok[0] = (arg[0] instanceof Translateable
+						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
+						&& (ok[1] = (arg[1] instanceof GeoPointND))) {
+
+					// wrap (1,2,3) as Vector[(1,2,3)]
+					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons, (GeoPointND)arg[1]);
+					cons.removeFromConstructionList(algoVP);
+
+					ret = kernelA.getManager3D().Translate3D(label, arg[0], algoVP.getVector());
+					return ret;
 				}
 			}
 			break;
 		}
-		
-	    return super.process(c);
+
+		return super.process(c);
 	}
-	
+
 	@Override
 	protected AlgoTranslateVector getAlgoTranslateVector(String label, GeoElement v, GeoElement P){
 
 		if (v.isGeoElement3D()){
 			return new AlgoTranslateVector3D(cons, label, (GeoVector3D) v, (GeoPointND) P);
 		}
-		
+
 		return super.getAlgoTranslateVector(label, v, P);
 	}
-	
-	
+
+
 }

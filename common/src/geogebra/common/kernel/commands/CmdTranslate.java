@@ -56,8 +56,11 @@ public class CmdTranslate extends CommandProcessor {
 				return ret;
 			} else if ((ok[0] = (arg[0] instanceof Translateable
 					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
-					&& (ok[1] = (arg[1].isGeoVector() || arg[1].isGeoPoint()))) {
+					&& (ok[1] = (arg[1] instanceof GeoVec3D))) {
+				
+				// 2D Vectors, Points
 				GeoVec3D v = (GeoVec3D) arg[1];
+				
 				ret = getAlgoDispatcher().Translate(label, arg[0], v);
 				return ret;
 			}

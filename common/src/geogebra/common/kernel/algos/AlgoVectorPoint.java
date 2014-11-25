@@ -43,6 +43,15 @@ public class AlgoVectorPoint extends AlgoElement {
      * @param P input point
      */
     public AlgoVectorPoint(Construction cons, String label, GeoPointND P) {
+        this(cons, P);        
+        v.setLabel(label);
+    }   
+    
+    /**
+     * @param cons construction
+     * @param P input point
+     */
+    public AlgoVectorPoint(Construction cons, GeoPointND P) {
         super(cons);
         this.P = P;
         
@@ -51,12 +60,11 @@ public class AlgoVectorPoint extends AlgoElement {
         setInputOutput();
                         
         compute();        
-        v.setLabel(label);
     }   
     
     
     /**
-     * @return new vector (overriden in 3D)
+     * @return new vector (overridden in 3D)
      */
     protected GeoVectorND createNewVector(){
     	

@@ -26,6 +26,10 @@ public class AlgoVectorPoint3D extends AlgoVectorPoint {
 		super(cons, label, P);
 	}
 
+	public AlgoVectorPoint3D(Construction cons, GeoPointND P) {
+		super(cons, P);
+	}
+
 
 	@Override
 	protected GeoVectorND createNewVector(){
