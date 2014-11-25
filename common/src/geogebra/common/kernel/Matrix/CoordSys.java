@@ -140,6 +140,14 @@ public class CoordSys {
 	public Coords getPoint(double x, double y) {
 		return matrixOrthonormal.getOrigin().add(getVector(x, y));
 	}
+	
+	public Coords getPoint(double x, double y, double z) {
+		if (Kernel.isZero(z)){
+			return getVector(x, y);
+		}
+		return getPoint(x/z, y/z);
+	}
+
 
 	public Coords getPointForDrawing(double x, double y) {
 		return drawingMatrix.mul(new Coords(x, y, 0, 1));

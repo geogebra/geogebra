@@ -72,8 +72,10 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 		// update polar point in conic coord sys
         c.polarPoint(equation2D, polar2D);
         
+        polar2D.getCoords(polarCoords);
+
         // update 3D polar
-   		((GeoPoint3D) polar).setCoords(c.getCoordSys().getPoint(polar2D.getCoordsInD2()));
+   		((GeoPoint3D) polar).setCoords(c.getCoordSys().getPoint(polarCoords[0], polarCoords[1], polarCoords[2]));
     	
     	
         

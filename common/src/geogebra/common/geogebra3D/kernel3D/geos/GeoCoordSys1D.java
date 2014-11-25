@@ -431,10 +431,11 @@ Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 
 	public Coords getCartesianEquationVector(CoordMatrix m){
 
-		if (m==null)
+		if (m==null){
 			return CoordMatrixUtil.lineEquationVector(getCoordSys().getOrigin(),getCoordSys().getVx());
-		else
-			return CoordMatrixUtil.lineEquationVector(getCoordSys().getOrigin(),getCoordSys().getVx(), m);
+		}
+		
+		return CoordMatrixUtil.lineEquationVector(getCoordSys().getOrigin(),getCoordSys().getVx(), m);
 	}
 	
 	
