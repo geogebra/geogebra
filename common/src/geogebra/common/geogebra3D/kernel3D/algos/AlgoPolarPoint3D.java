@@ -36,7 +36,7 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
 	
 	private GeoPoint polar2D;
 	
-	private Coords coords2D;
+	private Coords equation2D;
 	
 	private double[] polarCoords;
 	
@@ -62,8 +62,20 @@ public class AlgoPolarPoint3D extends AlgoPolarPointND {
     @Override
 	public final void compute() {   
     	
-    	// TODO:
-    	polar.setUndefined();
+    	// check if line lies on conic coord sys
+    	equation2D = line.getCartesianEquationVector(c.getCoordSys().getMatrixOrthonormal());
+		if (equation2D == null){
+			polar.setUndefined();
+			return;
+		}
+    	
+		// update polar point in conic coord sys
+        c.polarPoint(equation2D, polar2D);
+        
+        // update 3D polar
+   		((GeoPoint3D) polar).setCoords(c.getCoordSys().getPoint(polar2D.getCoordsInD2()));
+    	
+    	
         
     }
     

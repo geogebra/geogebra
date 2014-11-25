@@ -3057,6 +3057,15 @@ FromMeta
 	 * @param polar GeoPoint in which the result should be stored 
 	 */
 	final public void polarPoint(GeoLine line, GeoPoint polar) {
+		polarPoint(line.x, line.y, line.z, polar);
+	}
+	
+	final public void polarPoint(Coords equation, GeoPoint polar) {
+		polarPoint(equation.getX(), equation.getY(), equation.getZ(), polar);
+	}
+	
+	
+	final public void polarPoint(double x, double y, double z, GeoPoint polar) {
 		if(!isDefined()){
 			polar.setUndefined();
 			return;
@@ -3073,9 +3082,9 @@ FromMeta
 			return;
 		}
 
-		polar.setCoords(polarMatrix.getEntry(0, 0) * line.x + polarMatrix.getEntry(0, 1) * line.y + polarMatrix.getEntry(0, 2) * line.z,
-				polarMatrix.getEntry(1, 0) * line.x + polarMatrix.getEntry(1, 1) * line.y + polarMatrix.getEntry(1, 2) * line.z,
-				polarMatrix.getEntry(2, 0) * line.x + polarMatrix.getEntry(2, 1) * line.y + polarMatrix.getEntry(2, 2) * line.z);
+		polar.setCoords(polarMatrix.getEntry(0, 0) * x + polarMatrix.getEntry(0, 1) * y + polarMatrix.getEntry(0, 2) * z,
+				polarMatrix.getEntry(1, 0) * x + polarMatrix.getEntry(1, 1) * y + polarMatrix.getEntry(1, 2) * z,
+				polarMatrix.getEntry(2, 0) * x + polarMatrix.getEntry(2, 1) * y + polarMatrix.getEntry(2, 2) * z);
 
 	}
 	
@@ -3097,32 +3106,7 @@ FromMeta
 		}
 	}
 	
-	/**
-	 *  Sets the GeoPoint polar to A.P, the polar line of P relativ to this conic.
-	 * @param project 2D projected coords of the line to which we want the polar
-	 * @param polar GeoPoint in which the result should be stored 
-	 */
-	final public void polarPoint(Coords project, GeoPoint polar) {
-		if (!isDefined()){
-			polar.setUndefined();
-			return;
-		}
-		if (polarMatrix == null) {
-			polarMatrix = new GgbMat(3, 3);
-		}
-
-		polarMatrix.set3x3fromConic(matrix);
-		polarMatrix.inverseImmediate();
-
-		if (polarMatrix.isUndefined()) {
-			polar.setUndefined();
-			return;
-		}
-
-		polar.setCoords(polarMatrix.getEntry(0, 0) * project.getX() + polarMatrix.getEntry(0, 1) * project.getY() + polarMatrix.getEntry(0, 2) * project.getZ(),
-				polarMatrix.getEntry(1, 0) * project.getX() + polarMatrix.getEntry(1, 1) * project.getY() + polarMatrix.getEntry(1, 2) * project.getZ(),
-				polarMatrix.getEntry(2, 0) * project.getX() + polarMatrix.getEntry(2, 1) * project.getY() + polarMatrix.getEntry(2, 2) * project.getZ());
-	}
+	
 	
 	/**
 	 * Sets the GeoLine diameter to X.S.v + a.v (v is a direction), 
