@@ -32,19 +32,19 @@ public class Ggb2giac {
 		p("Binomial.2",
 				"simplify(binomial(%0,%1))");
 		p("BinomialDist.4",
-				"[[[ggbarg0:=%0], [ggbarg1:=%1], [ggbarg2:=%2]],"+
-				"if %3=true then binomial_cdf(ggbarg0,ggbarg1,ggbarg2) else binomial(ggbarg0,ggbarg1,ggbarg2) fi][1]");
+				"[[[ggbbinarg0:=%0], [ggbbinarg1:=%1], [ggbbinarg2:=%2]],"+
+				"if %3=true then binomial_cdf(ggbbinarg0,ggbbinarg1,ggbbinarg2) else binomial(ggbbinarg0,ggbbinarg1,ggbbinarg2) fi][1]");
 		
 		p("Cauchy.3", "normal(1/2+1/pi*atan(((%2)-(%1))/(%0)))");
 
 		// factor over complex rationals
 		// [ggbans:=%0] first in case something goes wrong, eg  CFactor[sqrt(21) - 2sqrt(7) x ί + 3sqrt(3) x² ί + 6x³]
-		p("CFactor.1","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans)],with_sqrt(1),ggbans][4]");
-		p("CFactor.2","[with_sqrt(0),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],with_sqrt(1),ggbans][4]");
+		p("CFactor.1","[with_sqrt(0),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],with_sqrt(1),ggbcfactans][4]");
+		p("CFactor.2","[with_sqrt(0),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,%1)],with_sqrt(1),ggbcfactans][4]");
 
 		// factor over complex irrationals
-		p("CIFactor.1","[with_sqrt(1),[ggbans:=%0],[ggbans:=cfactor(ggbans)],ggbans][3]");
-		p("CIFactor.2","[with_sqrt(1),[ggbans:=%0],[ggbans:=cfactor(ggbans,%1)],ggbans][3]");
+		p("CIFactor.1","[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans)],ggbcfactans][3]");
+		p("CIFactor.2","[with_sqrt(1),[ggbcfactans:=%0],[ggbcfactans:=cfactor(ggbcfactans,%1)],ggbcfactans][3]");
 
 		p("ChiSquared.2", 
 				//"chisquare_cdf(%0,%1)");
@@ -62,15 +62,15 @@ public class Ggb2giac {
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"normal(covariance(%0))");
-		p("Cross.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]],when(is3dpoint(ggbarg0)||is3dpoint(ggbarg1),point(cross(ggbarg0,ggbarg1)),cross(ggbarg0,ggbarg1))][1]");
+		p("Cross.2", "[[[ggbcrossarg0:=%0], [ggbcrossarg1:=%1]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
 		p("ComplexRoot.1", "normal(cZeros(%0,x))");
 		p("CSolutions.1",
-				"ggbsort([[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
+				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"+
 				"normal(cZeros(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 		p("CSolutions.2",
 				"ggbsort(normal(cZeros(%0,%1)))");
 		p("CSolve.1",
-				"ggbsort([[[ggbans:=0/0],[ggbans:=%0],[ggbvars:=lname(ggbans)]],"+
+				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"+
 				"normal(csolve(%0,when(size(ggbvars)==1,ggbvars[0],x)))][1])");
 		
 		p("CSolve.2", "ggbsort(normal(csolve(%0,%1)))");
@@ -84,13 +84,13 @@ public class Ggb2giac {
 		//when(count_eq(x,lname(%0))==0,lname(%0)[0],x)
 		
 		p("Derivative.1",
-				"[[ggbarg0:=%0], regroup(diff(ggbarg0, when(count_eq(x,lname(ggbarg0))==0,lname(ggbarg0)[0],x)))][1]");
+				"[[ggbderivarg0:=%0], regroup(diff(ggbderivarg0, when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x)))][1]");
 		p("Derivative.2", 
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],"+
-						"when(type(ggbarg1)==DOM_INT,"+
-						"regroup(diff(ggbarg0,when(count_eq(x,lname(ggbarg0))==0,lname(%0)[0],x),ggbarg1))"+
+				"[[[ggbderiv2arg0:=%0],[ggbderiv2arg1:=%1]],"+
+						"when(type(ggbderiv2arg1)==DOM_INT,"+
+						"regroup(diff(ggbderiv2arg0,when(count_eq(x,lname(ggbderiv2arg0))==0,lname(%0)[0],x),ggbderiv2arg1))"+
 						","+
-						"regroup(diff(ggbarg0,ggbarg1))"+
+						"regroup(diff(ggbderiv2arg0,ggbderiv2arg1))"+
 				")][1]");
 
 		p("Derivative.3", 
@@ -98,9 +98,9 @@ public class Ggb2giac {
 		p("Determinant.1", "det(%0)");
 		p("Dimension.1", "when(%0[0]=='pnt' && size(%0[1])>1,size(%0[1]),dim(%0))");
 		p("Div.2",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],if type(ggbarg0)==DOM_INT && type(ggbarg1)==DOM_INT then iquo(ggbarg0,ggbarg1) else quo(ggbarg0,ggbarg1,x) fi][1]");
+				"[[[ggbdivarg0:=%0],[ggbdivarg1:=%1]],if type(ggbdivarg0)==DOM_INT && type(ggbdivarg1)==DOM_INT then iquo(ggbdivarg0,ggbdivarg1) else quo(ggbdivarg0,ggbdivarg1,x) fi][1]");
 		p("Division.2",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],if type(ggbarg0)==DOM_INT && type(%1)==DOM_INT then iquorem(ggbarg0,ggbarg1) else quorem(ggbarg0,ggbarg1,x) fi][1]");
+				"[[[ggbdivarg0:=%0],[ggbdivarg1:=%1]],if type(ggbdivarg0)==DOM_INT && type(%1)==DOM_INT then iquorem(ggbdivarg0,ggbdivarg1) else quorem(ggbdivarg0,ggbdivarg1,x) fi][1]");
 		p("Divisors.1",
 				"dim(idivis(%0))");
 		p("DivisorsList.1",
@@ -110,8 +110,8 @@ public class Ggb2giac {
 		
 		
 		//p("Dot.2", "regroup(dot(%0,%1))");
-		//p("Dot.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]], regroup(dot(ggbarg0,ggbarg1))][1]");
-		p("Dot.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]], regroup(xcoord(ggbarg0)*xcoord(ggbarg1)+ycoord(ggbarg0)*ycoord(ggbarg1)+zcoord(ggbarg0)*zcoord(ggbarg1))][1]");
+		//p("Dot.2", "[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]], regroup(dot(ggbdotarg0,ggbdotarg1))][1]");
+		p("Dot.2", "[[[ggbdotarg0:=%0], [ggbdotarg1:=%1]], regroup(xcoord(ggbdotarg0)*xcoord(ggbdotarg1)+ycoord(ggbdotarg0)*ycoord(ggbdotarg1)+zcoord(ggbdotarg0)*zcoord(ggbdotarg1))][1]");
 		
 		
 		// GeoGebra indexes lists from 1, giac from 0
@@ -126,7 +126,7 @@ public class Ggb2giac {
 		// (4x+3y-1)[1] = 4x
 		// (4x+3y-1)[2] = 3y
 		// (4x+3y-1)[3] = -1
-		p("Element.2", "[[[ggbarg0:=%0], [ggbarg1:=%1]],when(type(ggbarg0)==DOM_LIST,(ggbarg0)[ggbarg1-1],when(ggbarg1>0,(ggbarg0)[ggbarg1],?))][1]");
+		p("Element.2", "[[[ggbelarg0:=%0], [ggbelarg1:=%1]],when(type(ggbelarg0)==DOM_LIST,(ggbelarg0)[ggbelarg1-1],when(ggbelarg1>0,(ggbelarg0)[ggbelarg1],?))][1]");
 
 		//if %0[0]=='=' then %0[%1] else when(...) fi;
 
@@ -151,20 +151,20 @@ public class Ggb2giac {
 		// factor over rationals
 		// add x so that Factor[(-k x² + 4k x + x³)] gives a nicer answer
 		p("Factor.1",
-				"[with_sqrt(0),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,x); fi],with_sqrt(1),ggbans][4]");
+				"[with_sqrt(0),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],with_sqrt(1),ggbfacans][4]");
 		p("Factor.2",
-				"[with_sqrt(0),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],with_sqrt(1),ggbans][4]");
+				"[with_sqrt(0),[ggbfacans:=%0],[ggbfacans:=factor(ggbfacans,%1)],with_sqrt(1),ggbfacans][4]");
 
 		// factor over irrationals
 		p("IFactor.1",
-				"[with_sqrt(1),[ggbans:=%0],[if type(ggbans)==DOM_INT then ggbans:=ifactor(ggbans); else ggbans:=factor(ggbans,x); fi],ggbans][3]");
+				"[with_sqrt(1),[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then ggbfacans:=ifactor(ggbfacans); else ggbfacans:=factor(ggbfacans,x); fi],ggbfacans][3]");
 		p("IFactor.2",
-				"[with_sqrt(1),[ggbans:=%0],[ggbans:=factor(ggbans,%1)],ggbans][3]");
+				"[with_sqrt(1),[ggbfacans:=%0],[ggbfacans:=factor(ggbfacans,%1)],ggbfacans][3]");
 
 		// convert {x-1,1,x+1,1} to {{x-1,1},{x+1,1}}
 		p("Factors.1",
 				//"factors(%0)");
-				"[[ggbans:=%0],[if type(ggbans)==DOM_INT then calc_mode(0); ggbans:=ifactors(ggbans); calc_mode(1); else ggbans:=factors(ggbans); fi],matrix(dim(ggbans)/2,2,ggbans)][2]");
+				"[[ggbfacans:=%0],[if type(ggbfacans)==DOM_INT then calc_mode(0); ggbfacans:=ifactors(ggbfacans); calc_mode(1); else ggbfacans:=factors(ggbfacans); fi],matrix(dim(ggbfacans)/2,2,ggbfacans)][2]");
 		p("FDistribution.3",
 				"fisher_cdf(%0,%1,%2)");
 		// alternative for exact answers
@@ -173,18 +173,18 @@ public class Ggb2giac {
 		// flatten1 is non-recursive flatten
 		p("Flatten.1", "flatten1(%0)");
 
-		p("First.1", "[[ggbarg0:=%0],{when(type(ggbarg0)==DOM_LIST,(ggbarg0)[0],(ggbarg0)[1])}][1]");
-		p("First.2", "[[[ggbarg0:=%0],[ggbarg1:=%1]],when(type(ggbarg0)==DOM_LIST,(ggbarg0)[0..ggbarg1-1],seq((ggbarg0)[j],j,1,ggbarg1))][1]");
+		p("First.1", "[[ggbfiarg0:=%0],{when(type(ggbfiarg0)==DOM_LIST,(ggbfiarg0)[0],(ggbfiarg0)[1])}][1]");
+		p("First.2", "[[[ggbfiarg0:=%0],[ggbfiarg1:=%1]],when(type(ggbfiarg0)==DOM_LIST,(ggbfiarg0)[0..ggbfiarg1-1],seq((ggbfiarg0)[j],j,1,ggbfiarg1))][1]");
 
 		// These implementations follow the one in GeoGebra
 		p("FitExp.1",
-				"[[ggbans:=%0],[ggbans:=exponential_regression(ggbans)],evalf(ggbans[1])*exp(ln(evalf(ggbans[0]))*x)][2]");
+				"[[ggbfitans:=%0],[ggbfitans:=exponential_regression(ggbfitans)],evalf(ggbfitans[1])*exp(ln(evalf(ggbfitans[0]))*x)][2]");
 		p("FitLog.1",
-				"[[ggbans:=%0],[ggbans:=logarithmic_regression(%0)],evalf(ggbans[0])*ln(x)+evalf(ggbans[1])][2]");
+				"[[ggbfitans:=%0],[ggbfitans:=logarithmic_regression(%0)],evalf(ggbfitans[0])*ln(x)+evalf(ggbfitans[1])][2]");
 		p("FitPoly.2",
 				"normal(evalf(horner(polynomial_regression(%0,%1),x)))");
 		p("FitPow.1",
-				"[[ggbans:=%0],[ggbans:=power_regression(ggbans)],evalf(ggbans[1])*x^evalf(ggbans[0])][2]");
+				"[[ggbfitans:=%0],[ggbfitans:=power_regression(ggbfitans)],evalf(ggbfitans[1])*x^evalf(ggbfitans[0])][2]");
 		
 		// Function[sin(x),0, 2 pi]
 		// Function[sin(p),0, 2 pi]
@@ -237,25 +237,25 @@ public class Ggb2giac {
 		// The symbolic value of the integral is checked against a numeric evaluation of the integral
 		// if they return different answers then a list with both values is returned.
 		// get the first element of the list to ignore the warning
-		p("Integral.3","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2)]]," +
-				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
-		p("Integral.4","[[[ggbans:=0/0],[ggbans:=integrate(%0,%1,%2,%3)]]," +
-				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
-		p("IntegralBetween.4","[[[ggbans:=0/0],[ggbans:=int(%0-(%1),x,%2,%3)]]," +
-				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
-		p("IntegralBetween.5","[[[ggbans:=0/0],[ggbans:=int(%0-(%1),%2,%3,%4)]]," +
-				"normal(when(type(ggbans)==DOM_LIST,ggbans[0],ggbans))][1]");
+		p("Integral.3","[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2)]]," +
+				"normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+		p("Integral.4","[[[ggbintans:=0/0],[ggbintans:=integrate(%0,%1,%2,%3)]]," +
+				"normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+		p("IntegralBetween.4","[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),x,%2,%3)]]," +
+				"normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
+		p("IntegralBetween.5","[[[ggbintans:=0/0],[ggbintans:=int(%0-(%1),%2,%3,%4)]]," +
+				"normal(when(type(ggbintans)==DOM_LIST,ggbintans[0],ggbintans))][1]");
 
 		// need to wrap in coordinates() for Intersect[Curve[t,t^2,t,-10,10],Curve[t2,1-t2,t2,-10,10] ]
 		// but not for Intersect[x^2,x^3]
 		// ggbans:=0/0 to make sure if there's an error, we don't output previous answer
 		// add y= so that Intersect[(((2)*(x))+(1))/((x)-(5)),y=2] ie Intersect[f,a] works
 		p("Intersect.2",
-				"[[ggbans:=0/0],"+
+				"[[ggbinterans:=0/0],"+
 		
-				"[ggbarg0:=%0],"+
-				"[ggbarg1:=%1],"+
-				"[ggbans:=normal(inter(when(ggbarg0[0]=='=',ggbarg0,y=ggbarg0),when(ggbarg1[0]=='=',ggbarg1,y=ggbarg1)))],[ggbans:=when(type(ggbans[0])==DOM_LIST,ggbans,coordinates(ggbans))],ggbans][5]");
+				"[ggbinarg0:=%0],"+
+				"[ggbinarg1:=%1],"+
+				"[ggbinterans:=normal(inter(when(ggbinarg0[0]=='=',ggbinarg0,y=ggbinarg0),when(ggbinarg1[0]=='=',ggbinarg1,y=ggbinarg1)))],[ggbinterans:=when(type(ggbinterans[0])==DOM_LIST,ggbinterans,coordinates(ggbinterans))],ggbinterans][5]");
 
 		// Giac currently uses approximation for this
 		//p("Conic.5", "equation(conic((%0),(%1),(%2),(%3),(%4)))");
@@ -311,9 +311,9 @@ public class Ggb2giac {
 				"[asq4 := a2 * a2],"+
 				"[asq := a * a],"+
 				"[afo := asq * asq],"+
-				"[ggbans:=simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc))]],"+
+				"[ggbeherans:=simplify(4 * (a2 - diff1) * (a2 + diff1) * x^2 -8 * diff1 * diff2 * x * y + 4 * (a2 - diff2) * (a2 + diff2)* y^2 -4 * (asq4 * (b1 + c1) - diff1 * sqsumdiff)*x - 4 * (asq4 * (b2 + c2) - diff2 * sqsumdiff)*y-16 * afo - sqsumdiff * sqsumdiff + 8 * asq * (sqsumb + sqsumc))]],"+
 				// simplify (...)/1000 = 0
-				"when(type(denom(ggbans))==DOM_INT,numer(ggbans)=0,ggbans=0)][1]";
+				"when(type(denom(ggbeherans))==DOM_INT,numer(ggbeherans)=0,ggbeherans=0)][1]";
 
 		
 		
@@ -337,18 +337,18 @@ public class Ggb2giac {
 		p("Iteration.3",
 				"regroup((unapply(%0,x)@@%2)(%1))");
 		p("IterationList.3",
-				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=regroup(f(l[k-1])); od; l; end],ggbans(unapply(%0,x),%1,%2)][1]");
+				"[[ggbilans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=regroup(f(l[k-1])); od; l; end],ggbilans(unapply(%0,x),%1,%2)][1]");
 		p("PointList.1",
 				"flatten1(coordinates(%0))");
 		p("RootList.1",
 				"apply(x->convert([x,0],25),%0)");
-		p("Invert.1", "[[ggbans:=0/0], [ggbarg:=%0], [ggbans:=when(type(ggbarg)!=DOM_LIST,"+
+		p("Invert.1", "[[ggbinvans:=0/0], [ggbinvarg:=%0], [ggbinvans:=when(type(ggbinvarg)!=DOM_LIST,"+
 				// invert function (answer is function, not mapping)
-				"subst(right(revlist([op(solve(tmpvar=ggbarg,lname(ggbarg)[0]))])[0]),tmpvar,lname(ggbarg)[0])"+
+				"subst(right(revlist([op(solve(tmpvar=ggbinvarg,lname(ggbinvarg)[0]))])[0]),tmpvar,lname(ggbinvarg)[0])"+
 				","+
 				// invert matrix
-				"inv(ggbarg))"+
-				"],ggbans][3]");
+				"inv(ggbinvarg))"+
+				"],ggbinvans][3]");
 
 		p("IsPrime.1", "isprime(%0)");
 		
@@ -360,15 +360,15 @@ public class Ggb2giac {
 		//p("Last.2",
 		//		"%0[size(%0)-%1..size(%0)-1]");
 		
-		p("Laplace.1", "[[ggbarg0:=%0],when(lname(ggbarg0)[0]=ggbtmpvart, laplace(ggbarg0, ggbtmpvart, ggbtmpvars), laplace(ggbarg0, lname(ggbarg0)[0]))][1]");
+		p("Laplace.1", "[[ggblaparg0:=%0],when(lname(ggblaparg0)[0]=ggbtmpvart, laplace(ggblaparg0, ggbtmpvart, ggbtmpvars), laplace(ggblaparg0, lname(ggblaparg0)[0]))][1]");
 		p("Laplace.2", "laplace(%0, %1)");
 		p("Laplace.3", "laplace(%0, %1, %2)");
-		p("InverseLaplace.1", "[[ggbarg0:=%0],when(lname(ggbarg0)[0]=ggbtmpvars, ilaplace(ggbarg0, ggbtmpvars, ggbtmpvart), ilaplace(ggbarg0, lname(ggbarg0)[0]))][1]");
+		p("InverseLaplace.1", "[[ggblaparg0:=%0],when(lname(ggblaparg0)[0]=ggbtmpvars, ilaplace(ggblaparg0, ggbtmpvars, ggbtmpvart), ilaplace(ggblaparg0, lname(ggblaparg0)[0]))][1]");
 		p("InverseLaplace.2", "ilaplace(%0, %1)");
 		p("InverseLaplace.3", "ilaplace(%0, %1, %2)");
 		
-		p("Last.1", "[[ggbarg0:=%0],{when(type(ggbarg0)==DOM_LIST,(ggbarg0)[dim(ggbarg0)-1],(ggbarg0)[dim(ggbarg0)])}][1]");
-		p("Last.2", "[[[ggbarg0:=%0],[ggbarg1:=%1]],when(type(ggbarg0)==DOM_LIST,(ggbarg0)[size(ggbarg0)-ggbarg1..size(ggbarg0)-1],seq((ggbarg0)[j],j,dim(ggbarg0)-ggbarg1+1,dim(ggbarg0)))][1]");
+		p("Last.1", "[[ggblastarg0:=%0],{when(type(ggblastarg0)==DOM_LIST,(ggblastarg0)[dim(ggblastarg0)-1],(ggblastarg0)[dim(ggblastarg0)])}][1]");
+		p("Last.2", "[[[ggblastarg0:=%0],[ggblastarg1:=%1]],when(type(ggblastarg0)==DOM_LIST,(ggblastarg0)[size(ggblastarg0)-ggblastarg1..size(ggblastarg0)-1],seq((ggblastarg0)[j],j,dim(ggblastarg0)-ggblastarg1+1,dim(ggblastarg0)))][1]");
 
 		
 		p("LCM.1",
@@ -376,7 +376,7 @@ public class Ggb2giac {
 		p("LCM.2",
 				"lcm(%0,%1)");
 		p("LeftSide.1",
-				"[[ggbarg0:=%0],when(type(ggbarg0)==DOM_LIST,map(ggbarg0,left),left(ggbarg0))][1]");
+				"[[ggbleftarg0:=%0],when(type(ggbleftarg0)==DOM_LIST,map(ggbleftarg0,left),left(ggbleftarg0))][1]");
 		p("LeftSide.2",
 				"left(%0[%1-1])");
 		// subtype 27 is ggbvect()
@@ -389,29 +389,29 @@ public class Ggb2giac {
 		// regroup so that exp(1)^2 is simplified
 		// regroup(inf) doesn't work, so extra check needed
 		p("Limit.2",
-				"[[ggbans:=?],[ggbans:=limit(%0,%1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("Limit.3",
-				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitAbove.2",
-				"[[ggbans:=?],[ggbans:=limit(%0,x,%1,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggblimvans:=?],[ggblimvans:=limit(%0,x,%1,1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitAbove.3", 
-				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2,1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitBelow.2",
-				"[[ggbans:=?],[ggbans:=limit(%0,x,%1,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggblimvans:=?],[ggblimvans:=limit(%0,x,%1,-1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 		p("LimitBelow.3", 
-				"[[ggbans:=?],[ggbans:=limit(%0,%1,%2,-1)], [ggbans:=when(ggbans==inf || ggbans==-inf || ggbans==undef,ggbans,regroup(ggbans))],ggbans][3]");
+				"[[ggblimvans:=?],[ggblimvans:=limit(%0,%1,%2,-1)], [ggblimvans:=when(ggblimvans==inf || ggblimvans==-inf || ggblimvans==undef,ggblimvans,regroup(ggblimvans))],ggblimvans][3]");
 
-		p("Max.N", "[[ggbarg:=%],when(type(ggbarg)==DOM_LIST, when(type((ggbarg)[0])==DOM_LIST, ?, max(ggbarg)), ?)][1]");
+		p("Max.N", "[[ggbmaxarg:=%],when(type(ggbmaxarg)==DOM_LIST, when(type((ggbmaxarg)[0])==DOM_LIST, ?, max(ggbmaxarg)), ?)][1]");
 		p("MatrixRank.1", "rank(%0)");
 		p("Mean.1",
 				"mean(%0)");
 		p("Median.1",
 				"median(%0)");
-		p("Min.N", "[[ggbarg:=%],when(type(ggbarg)==DOM_LIST, when(type((ggbarg)[0])==DOM_LIST, ?, min(ggbarg)), ?)][1]");
+		p("Min.N", "[[ggbminarg:=%],when(type(ggbminarg)==DOM_LIST, when(type((ggbminarg)[0])==DOM_LIST, ?, min(ggbminarg)), ?)][1]");
 		p("MixedNumber.1",
 				"propfrac(%0)");
 		p("Mod.2",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],if type(ggbarg0)==DOM_INT && type(ggbarg1)==DOM_INT then irem(ggbarg0,ggbarg1) else rem(ggbarg0,ggbarg1,x) fi][1]");
+				"[[[ggbmodarg0:=%0],[ggbmodarg1:=%1]],if type(ggbmodarg0)==DOM_INT && type(ggbmodarg1)==DOM_INT then irem(ggbmodarg0,ggbmodarg1) else rem(ggbmodarg0,ggbmodarg1,x) fi][1]");
 		p("NextPrime.1", "nextprime(%0)");
 		p("NIntegral.3",
 				"romberg(%0,%1,%2)");
@@ -420,64 +420,64 @@ public class Ggb2giac {
 		p("Normal.3",
 				"normald_cdf(%0,%1,%2)");
 		p("Normal.4",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1],[ggbarg2:=%2]],if %3=true then normald_cdf(ggbarg0,ggbarg1,ggbarg2) else (1/sqrt(2*pi*((ggbarg1)^2))) * exp(-((ggbarg2-(ggbarg0))^2) / (2*((ggbarg1)^2))) fi][1]");
+				"[[[ggbnormarg0:=%0],[ggbnormarg1:=%1],[ggbnormarg2:=%2]],if %3=true then normald_cdf(ggbnormarg0,ggbnormarg1,ggbnormarg2) else (1/sqrt(2*pi*((ggbnormarg1)^2))) * exp(-((ggbnormarg2-(ggbnormarg0))^2) / (2*((ggbnormarg1)^2))) fi][1]");
 		p("nPr.2", "perm(%0,%1)");
 
 		p("NSolve.1",
-				"ggbsort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+				"ggbsort([[ggbnsans:=%0],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"+
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
-						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(ggbans,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,when(type(ggbans[0])==DOM_LIST,ggbans[0],ggbans),[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"+
 						// eg NSolve[a^4 + 34a^3 = 34]
-						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(ggbans,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars[0]=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
-				"ggbans][2])");
+						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"+
+				"ggbnsans][2])");
 
 		p("NSolve.2",
-				"ggbsort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+				"ggbsort([[ggbnsans:=%0],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"+
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x=1,y=1}]
 						// eg NSolve[{π / x = cos(x - 2y), 2 y - π = sin(x)},{x,y}]
 						// eg NSolve[{3=c*a^5, 3=c*a^4},{a,c}]
-						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbans:=fsolve(ggbans,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,when(type(ggbans[0])==DOM_LIST,ggbans[0],ggbans),[ggbans])],seq(ggbvars[irem(j,dim(ggbans))]=ggbans[j],j,0,dim(ggbans)-1)][3],"+
+						"[[ggbvars:=seq(left(%1[j]),j,0,dim(%1)-1)],[ggbnsans:=fsolve(ggbnsans,%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"+
 						// eg NSolve[a^4 + 34a^3 = 34, a=3]
 						// eg NSolve[a^4 + 34a^3 = 34, a]
-						"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbans:=fsolve(ggbans,%1)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],seq(ggbvars=ggbans[j],j,0,dim(ggbans)-1)][3])],"+
-				"ggbans][2])");
+						"[[ggbvars:=when(type(%1)==DOM_LIST,left(%1[0]),left(%1))],[ggbnsans:=fsolve(ggbnsans,%1)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"+
+				"ggbnsans][2])");
 
 		// fsolve starts at x=0 if no initial value is specified and if the search is not successful
 		// it will try a few random starting points.
 
 		p("NSolutions.1",
-				"ggbsort([[ggbans:=%0],[ggbans:=when(type(ggbans)==DOM_LIST,"+
+				"ggbsort([[ggbnsans:=%0],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,"+
 						// eg NSolutions[{π / x = cos(x - 2y), 2 y - π = sin(x)}]
-						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(ggbans,ggbvars)],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3],"+
+						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3],"+
 						// eg NSolutions[a^4 + 34a^3 = 34]
-						"[[ggbvars:=lname(ggbans)],[ggbans:=fsolve(ggbans,ggbvars[0])],[ggbans:=when(type(ggbans)==DOM_LIST,ggbans,[ggbans])],ggbans][3])],"+
-				"ggbans][2])");
+						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],ggbnsans][3])],"+
+				"ggbnsans][2])");
 
 		p("NSolutions.2",
-				"ggbsort([[ggbans:=fsolve(%0,%1)],when(type(ggbans)==DOM_LIST,ggbans,[ggbans])][1])");
+				"ggbsort([[ggbnsans:=fsolve(%0,%1)],when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])][1])");
 
 		p("Numerator.1", "numer(%0)");
 
 		p("Numeric.1",
-				"[[ggbans:=%0],when(dim(lname(ggbans))==0 || count_eq(unicode0176u,lname(ggbans))>0,"+
+				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0 || count_eq(unicode0176u,lname(ggbnumans))>0,"+
 						// normal() so that Numeric(x + x/2) works
 						// check for unicode0176u so that Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
 						// is better when returning degrees from inverse trig
-						"evalf(ggbans)"+
+						"evalf(ggbnumans)"+
 						","+
 						// #4537
-						"evalf(regroup(normal(ggbans)))"+
+						"evalf(regroup(normal(ggbnumans)))"+
 				")][1]");
 
 		p("Numeric.2",
-				"[[ggbans:=%0],when(dim(lname(ggbans))==0 || lname(ggbans)==[unicode0176u],"+
+				"[[ggbnumans:=%0],when(dim(lname(ggbnumans))==0 || lname(ggbnumans)==[unicode0176u],"+
 						// normal() so that Numeric(x + x/2) works
 						// check for unicode0176u so that Numeric[acos((-11.4^2+5.8^2+7.2^2)/(2 5.8 7.2))]
 						// is better when returning degrees from inverse trig
-						"evalf(ggbans,%1)"+
+						"evalf(ggbnumans,%1)"+
 						","+
 						// #4537
-						"evalf(regroup(normal(ggbans)),%1)"+
+						"evalf(regroup(normal(ggbnumans)),%1)"+
 				")][1]");
 
 		//using sub twice in opposite directions seems to fix #2198, though it's sort of magic
@@ -486,19 +486,19 @@ public class Ggb2giac {
 				"partfrac(%0)");
 		p("PartialFractions.2", "partfrac(%0,%1)");
 		p("Pascal.4",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1],[ggbarg2:=%2]],if %3=true then Beta(ggbarg0,1+floor(ggbarg2),ggbarg1,1) else (1-(%1))^(ggbarg2)*(ggbarg1)^(ggbarg0)*binomial(ggbarg0+ggbarg2-1,ggbarg0-1) fi][1]");
+				"[[[ggbpasarg0:=%0],[ggbpasarg1:=%1],[ggbpasarg2:=%2]],if %3=true then Beta(ggbpasarg0,1+floor(ggbpasarg2),ggbpasarg1,1) else (1-(%1))^(ggbpasarg2)*(ggbpasarg1)^(ggbpasarg0)*binomial(ggbpasarg0+ggbpasarg2-1,ggbpasarg0-1) fi][1]");
 		p("Poisson.3",
 				"if %2=true then " +
 						"exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) " +
 				"else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
 		p("Polynomial.1",
-				"[[[ggbans:=0/0], [ggbinput:=%0], [ggbinput:=coeffs(ggbinput,x)], " +
-				"[ggbans:=add(seq(ggbinput[j]*x^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbans][1]");
+				"[[[ggbpolans:=0/0], [ggbinput:=%0], [ggbinput:=coeffs(ggbinput,x)], " +
+				"[ggbpolans:=add(seq(ggbinput[j]*x^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbpolans][1]");
 		p("Polynomial.2",
-				"[[[ggbans:=0/0], [ggbinput:=%0], [ggbvar:=%1], [ggbinput:=coeffs(ggbinput,ggbvar)], " +
-				"[ggbans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbans][1]");
+				"[[[ggbpolans:=0/0], [ggbinput:=%0], [ggbvar:=%1], [ggbinput:=coeffs(ggbinput,ggbvar)], " +
+				"[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbpolans][1]");
 		p("PreviousPrime.1",
-				"[[ggbarg0:=%0],if (ggbarg0 > 2) then prevprime(ggbarg0) else 0/0 fi][1]");
+				"[[ggbpparg0:=%0],if (ggbpparg0 > 2) then prevprime(ggbpparg0) else 0/0 fi][1]");
 		p("PrimeFactors.1",
 				"ifactors(%0)");
 		// normal() makes sure answer is expanded
@@ -509,7 +509,7 @@ public class Ggb2giac {
 		// p("Prog.1","<<%0>>");
 		// p("Prog.2","<<begin scalar %0; return %1 end>>");
 
-		p("Random.2", "[[ggbarg0:=%0],ggbarg0+rand(%1-(ggbarg0)+1)][1]"); // "RandomBetween"
+		p("Random.2", "[[ggbranarg0:=%0],ggbranarg0+rand(%1-(ggbranarg0)+1)][1]"); // "RandomBetween"
 		p("RandomBinomial.2",
 				"binomial_icdf(%0,%1,rand(0,1))");
 		p("RandomElement.1", "rand(1,%0)[0]");
@@ -521,10 +521,10 @@ public class Ggb2giac {
 				"randpoly(%0,x,%1,%2)");
 		p("RandomPolynomial.4",
 				"randpoly(%1,%0,%2,%3)");
-		p("Rationalize.1", "[[ggbarg0:=%0],if type(ggbarg0)==DOM_RAT then ggbarg0 else normal(exact(ggbarg0)) fi][1]");
+		p("Rationalize.1", "[[ggbratarg0:=%0],if type(ggbratarg0)==DOM_RAT then ggbratarg0 else normal(exact(ggbratarg0)) fi][1]");
 		p("Reverse.1","revlist(%0)");
 		p("RightSide.1",
-				"[[ggbarg0:=%0],when(type(ggbarg0)==DOM_LIST,map(ggbarg0,right),right(ggbarg0))][1]");
+				"[[ggbrightarg0:=%0],when(type(ggbrightarg0)==DOM_LIST,map(ggbrightarg0,right),right(ggbrightarg0))][1]");
 		p("RightSide.2",
 				"right(%0[%1-1]) ");
 
@@ -533,9 +533,9 @@ public class Ggb2giac {
 		p("Sample.2",
 				"flatten1(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],if %2=true then flatten1(seq(rand(1,ggbarg0),j,1,ggbarg1)) else rand(ggbarg1,ggbarg0) fi][1]");
+				"[[[ggbsamarg0:=%0],[ggbsamarg1:=%1]],if %2=true then flatten1(seq(rand(1,ggbsamarg0),j,1,ggbsamarg1)) else rand(ggbsamarg1,ggbsamarg0) fi][1]");
 		p("SampleVariance.1",
-				" [[ggbans:=%0],[ggbans:=normal(variance(ggbans)*size(ggbans)/(size(ggbans)-1))],ggbans][2]");
+				" [[ggbsvans:=%0],[ggbsvans:=normal(variance(ggbsvans)*size(ggbsvans)/(size(ggbsvans)-1))],ggbsvans][2]");
 		p("SampleSD.1",
 				"normal(stddevp(%0))");
 		p("Sequence.1", "seq(j,j,1,%0)");
@@ -622,18 +622,18 @@ public class Ggb2giac {
 		// alternative for exact calculations, but Numeric[TDistribution[4,2],15] doesn't work with this
 		// "1/2 + (Beta(%0 / 2, 1/2, 1, 1) - Beta(%0 / 2, 1/2, %0 / (%0 + (%1)^2 ) ,1) )* sign(%1) / 2");
 		p("ToComplex.1",
-				"[[ggbans:=?],[ggbans:=%0],[ggbtype:=type(evalf(ggbans))],"+
+				"[[ggbtcans:=?],[ggbtcans:=%0],[ggbtype:=type(evalf(ggbtcans))],"+
 		// ToComplex[3.1]
-				"when(ggbtype==DOM_INT || ggbtype==DOM_FLOAT,ggbans,"+
+				"when(ggbtype==DOM_INT || ggbtype==DOM_FLOAT,ggbtcans,"+
 		// ToComplex[(3,4)]
-				"when(ggbans[0]=='pnt',xcoord(%0)+i*ycoord(%0),"+
+				"when(ggbtcans[0]=='pnt',xcoord(%0)+i*ycoord(%0),"+
 		// ToComplex[ln(i)], ToComplex[a]
-				"real(ggbans)+i*im(ggbans)"+
+				"real(ggbtcans)+i*im(ggbtcans)"+
 				"))][3]");
 		p("ToExponential.1",
 				"rectangular2polar(%0)");
 		p("ToPolar.1",
-				"([[ggbans:=%0],[ggbans:=polar_coordinates(ggbans)],[ggbans:=convert([ggb_ang(ggbans[0],ggbans[1])],25)],ggbans])[3]");
+				"([[ggbtpans:=%0],[ggbtpans:=polar_coordinates(ggbtpans)],[ggbtpans:=convert([ggb_ang(ggbtpans[0],ggbtpans[1])],25)],ggbtpans])[3]");
 		p("ToPoint.1",
 				"point(convert(coordinates(%0),25))");
 		p("Transpose.1", "transpose(%0)");
@@ -646,46 +646,46 @@ public class Ggb2giac {
 		p("TrigExpand.1",
 				"tan2sincos(trigexpand(%0))");
 		p("TrigExpand.2",
-				"[[ggbarg0:=%0],when((%1)[0]=='tan', trigexpand(ggbarg0),tan2sincos(trigexpand(ggbarg0)))][1]");
+				"[[ggbtrigarg0:=%0],when((%1)[0]=='tan', trigexpand(ggbtrigarg0),tan2sincos(trigexpand(ggbtrigarg0)))][1]");
 		
 		//subst(trigexpand(subst(sin(x),solve(tmpvar=x/2,lname(sin(x)))),tmpvar=x/2)
 		// gives 2*cos(x/2)*sin(x/2)
 		p("TrigExpand.3",
-				"[[[ggbarg0:=%0],[ggbarg2:=%2]],"+
+				"[[[ggbtrigarg0:=%0],[ggbtrigarg2:=%2]],"+
 				"when(%1==tan(x),"+
 				// if %1=tan(x), assume %2=x/2 
-				"tlin(halftan(ggbarg0))"+
+				"tlin(halftan(ggbtrigarg0))"+
 				","+
-				"subst(trigexpand(subst(ggbarg0,solve(ggbtmp=ggbarg2,lname(ggbarg0)))),ggbtmp=ggbarg2)"+
+				"subst(trigexpand(subst(ggbtrigarg0,solve(ggbtmp=ggbtrigarg2,lname(ggbtrigarg0)))),ggbtmp=ggbtrigarg2)"+
 				")][1]");
 		
 		//subst(subst(trigexpand(subst(subst((sin(x))+(sin(y)),solve(tmpvar=(x)/(2),lname((sin(x))+(sin(y)))  )),solve(tmpvar2=(y)/(2),lname((sin(x))+(sin(y)))  ))),tmpvar=x/2),tmpvar2=y/2)
 		//  2*cos(x/2)*sin(x/2)+2*cos(y/2)*sin(y/2)
 		p("TrigExpand.4",
-				"[[[ggbarg0:=%0],[ggbarg2:=%2],[ggbarg3:=%3]],"+
+				"[[[ggbtrigarg0:=%0],[ggbtrigarg2:=%2],[ggbtrigarg3:=%3]],"+
 				"when(%1==tan(x),"+
 						// if %1=tan(x), assume %2=x/2, %3=y/2
-				"tlin(halftan(ggbarg0))"+
+				"tlin(halftan(ggbtrigarg0))"+
 				","+
-				"subst(subst(trigexpand(subst(subst(ggbarg0,solve(tmpvar=ggbarg2,lname(ggbarg0))),solve(tmpvar2=ggbarg3,lname(ggbarg0)))),tmpvar=ggbarg2),tmpvar2=ggbarg3)"+
+				"subst(subst(trigexpand(subst(subst(ggbtrigarg0,solve(tmpvar=ggbtrigarg2,lname(ggbtrigarg0))),solve(tmpvar2=ggbtrigarg3,lname(ggbtrigarg0)))),tmpvar=ggbtrigarg2),tmpvar2=ggbtrigarg3)"+
 				")][1]");
 		
 		// calculate trigsin, trigcos, trigtan and check which is shortest (as a string)
 		p("TrigSimplify.1",
-				"[[[ggbarg:=%0], [ggbsin:=trigsin(ggbarg)], [ggbcos:=trigcos(ggbarg)], [ggbtan:=trigtan(ggbarg)], "+
+				"[[[ggbtrigarg:=%0], [ggbsin:=trigsin(ggbtrigarg)], [ggbcos:=trigcos(ggbtrigarg)], [ggbtan:=trigtan(ggbtrigarg)], "+
 		"[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"+
 		"when(ggbsinlen<=ggbcoslen && ggbsinlen<=ggbtanlen,ggbsin,when(ggbcoslen<=ggbtanlen,ggbcos,ggbtan))][1]");
 		
 		// try with and without tan2sincos(), tcollectsin() and check which is shortest (as a string)
 		// eg TrigCombine[(tan(x) + tan(2x)) / (1 - tan(x) tan(2x))]
 		p("TrigCombine.1",
-				"[[[ggbarg:=%0], [ggbsin:=tcollectsin(normal(ggbarg))], [ggbcos:=tcollect(normal(ggbarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbarg)))], "+
+				"[[[ggbtrigarg:=%0], [ggbsin:=tcollectsin(normal(ggbtrigarg))], [ggbcos:=tcollect(normal(ggbtrigarg))], [ggbtan:=tcollect(normal(tan2sincos(ggbtrigarg)))], "+
 		"[ggbsinlen:=length(\"\"+ggbsin)],[ggbcoslen:=length(\"\"+ggbcos)],[ggbtanlen:=length(\"\"+ggbtan)]],"+
 		"when(ggbcoslen<=ggbsinlen && ggbcoslen<=ggbtanlen,ggbcos,when(ggbsinlen<=ggbtanlen,ggbsin,ggbtan))][1]");
 		
 		// eg TrigCombine[sin(x)+cos(x),sin(x)]
 		p("TrigCombine.2",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],when(ggbarg1[0]=='sin',tcollectsin(normal(ggbarg0)),when(ggbarg1[0]=='tan',tcollect(normal(tan2sincos(ggbarg0))),tcollect(normal(ggbarg0))))][1]");
+				"[[[ggbtrigarg0:=%0],[ggbtrigarg1:=%1]],when(ggbtrigarg1[0]=='sin',tcollectsin(normal(ggbtrigarg0)),when(ggbtrigarg1[0]=='tan',tcollect(normal(tan2sincos(ggbtrigarg0))),tcollect(normal(ggbtrigarg0))))][1]");
 		
 		p("Union.2", "%0 union %1");
 		p("Unique.1", "[op(set[op(%0)])]");
@@ -693,13 +693,13 @@ public class Ggb2giac {
 				"normal(variance(%0))");
 		p("Weibull.3", "1-exp(-((%2)/(%1))^(%0))");
 		p("Zipf.4", // %1=exponent
-				"[[[ggbarg0:=%0],[ggbarg1:=%1],[ggbarg2:=%2]],if %3=true then harmonic(ggbarg1,ggbarg2)/harmonic(ggbarg1,ggbarg0) else 1/((ggbarg2)^ggbarg1*harmonic(ggbarg1,ggbarg0)) fi][1]");
+				"[[[ggbzipfarg0:=%0],[ggbzipfarg1:=%1],[ggbzipfarg2:=%2]],if %3=true then harmonic(ggbzipfarg1,ggbzipfarg2)/harmonic(ggbzipfarg1,ggbzipfarg0) else 1/((ggbzipfarg2)^ggbzipfarg1*harmonic(ggbzipfarg1,ggbzipfarg0)) fi][1]");
 		// TODO check if it's easier to implement with giac's zip command
 		p("Zip.N",
-				"[[ggbans(l):=begin local len,res,sbl,xpr,k,j;xpr:=l[0];len:=length(l[2]);res:={};" +
+				"[[ggbzipans(l):=begin local len,res,sbl,xpr,k,j;xpr:=l[0];len:=length(l[2]);res:={};" +
 				"for k from 4 to length(l)-1 step +2 do len:=min(len,length(l[k])); od;" +
 				"for k from 0 to len-1 do sbl:={};for j from 2 to length(l)-1 step +2 do" +
-				"sbl:=append(sbl, l[j-1]=l[j][k]);od;res:=append(res, subst(xpr,sbl));od; res; end],ggbans(%)][1]");
+				"sbl:=append(sbl, l[j-1]=l[j][k]);od;res:=append(res, subst(xpr,sbl));od; res; end],ggbzipans(%)][1]");
 		// SolveCubic[x^3+3x^2+x-1]
 		// SolveCubic[x^3+3x^2+x-2]
 		// SolveCubic[x^3+3x^2+x-3]
@@ -763,7 +763,7 @@ public class Ggb2giac {
 		// http://en.wikipedia.org/wiki/Quartic_function
 		/*
 		p("SolveQuartic.1", "["+
-				"[ggbans:={}],"+
+				"[ggbsqans:={}],"+
 				"[ggbfun:=%0],"+
 				"[ggbcoeffs:=coeffs(ggbfun)],"+
 				"[a:=ggbcoeffs[0]],"+
@@ -780,7 +780,7 @@ public class Ggb2giac {
 				
 				"if (delta0 == 0 && delta1 == 0) then"+
 				// giac's solve should give exact in this case
-				" ggbans:=zeros(ggbfun) else " +
+				" ggbsqans:=zeros(ggbfun) else " +
 			
 				" ["+
 				"[minusdelta27:=delta1^2-4*delta0^3],"+//OK
@@ -804,11 +804,11 @@ public class Ggb2giac {
 				//"[phi:=acos(delta1/2/sqrt(delta0^3))],"+
 				//"[Salt:=sqrt(-2*p/3+2/(3*a)*sqrt(delta0)*cos(phi/3))/2],"+
 				
-				"[ggbans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"+
+				"[ggbsqans:={simplify(-b/(4*a)-S-sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)-S+sqrt(-4*S^2-2*p+q/S)/2),simplify(-b/(4*a)+S-sqrt(-4*S^2-2*p-q/S)/2),simplify(-b/(4*a)+S+sqrt(-4*S^2-2*p-q/S)/2)}]"+
 				"]" +
 				"fi"+
 				//")]" + 
-				" ,ggbans][13]");
+				" ,ggbsqans][13]");
 */
 		
 		// Experimental Geometry commands. Giac only
@@ -820,13 +820,13 @@ public class Ggb2giac {
 		// or center-radius:  point(%0),%1
 		// regroup r*r -> r^2 without multiplying out
 		// circle(2*(%0)-(%1),%1) to convert centre,point -> points on diameter
-		p("Circle.2", "[[[ggbarg0:=%0],[ggbarg1:=%1]],regroup(equation(when(ggbarg1[0]=='pnt',circle(2*(ggbarg0)-(ggbarg1),ggbarg1),circle(ggbarg0,ggbarg1))))][1]");
+		p("Circle.2", "[[[ggbcirarg0:=%0],[ggbcirarg1:=%1]],regroup(equation(when(ggbcirarg1[0]=='pnt',circle(2*(ggbcirarg0)-(ggbcirarg1),ggbcirarg1),circle(ggbcirarg0,ggbcirarg1))))][1]");
 
 		p("Area.1", "normal(regroup(area(circle(%0))))");
 		p("Circumference.1", "normal(regroup(perimeter(%0)))");
 
 		p("LineBisector.2", "equation(perpen_bisector(%0,%1))");
-		p("AngularBisector.2", "[[ggbarg0:=%0],[ggbarg1:=%1],[B:=inter(ggbarg0,ggbarg1)],[eqa:=equation(ggbarg0)],[eqb:=equation(ggbarg1)],"
+		p("AngularBisector.2", "[[ggbabarg0:=%0],[ggbabarg1:=%1],[B:=inter(ggbabarg0,ggbabarg1)],[eqa:=equation(ggbabarg0)],[eqb:=equation(ggbabarg1)],"
 				+"[uva:=convert([unitV(coeff(left(eqa)-right(eqa),y,1),-coeff(left(eqa)-right(eqa),x,1))],25)],"
 				+"[uvb:=convert([unitV(coeff(left(eqb)-right(eqb),y,1),-coeff(left(eqb)-right(eqb),x,1))],25)],"
 				+ "when(uva==uvb,[eqa],[equation(line(B[0],B[0]+uva+uvb)),equation(line(B[0],B[0]+uva-uvb))])][5]");
@@ -844,14 +844,14 @@ public class Ggb2giac {
 		
 		// use type(evalf(ggbarg1))==DOM_FLOAT to catch DOM_INT, DOM_FLOAT, DOM_RAT, DOM_IDENT (eg pi)
 		p("Distance.2", 
-				"[[[ggbans:=0/0],[ggbarg0:=%0],[ggbarg1:=%1],[ggbans:=when(ggbarg0[0]!='pnt',undef,when(type(evalf(ggbarg1))==DOM_FLOAT,undef,regroup(distance(ggbarg0,"+ 
+				"[[[ggbdisans:=0/0],[ggbdisarg0:=%0],[ggbdisarg1:=%1],[ggbdisans:=when(ggbdisarg0[0]!='pnt',undef,when(type(evalf(ggbdisarg1))==DOM_FLOAT,undef,regroup(distance(ggbdisarg0,"+ 
 						// #3907 add "y=" for functions but not points 
-						"when(ggbarg1[0]!='pnt' && ggbarg1[0] != '=',y=ggbarg1,"+
+						"when(ggbdisarg1[0]!='pnt' && ggbdisarg1[0] != '=',y=ggbdisarg1,"+
 						// if variable list contains 'z', wrap in plane()
-						"when(count_eq(z,lname(ggbarg1))==0,ggbarg1,plane(ggbarg1))"+
+						"when(count_eq(z,lname(ggbdisarg1))==0,ggbdisarg1,plane(ggbdisarg1))"+
 						")"+ 
 						"))))]]," +				
-				"when(lname(ggbans)=={},normal(ggbans),ggbans)][1]");
+				"when(lname(ggbdisans)=={},normal(ggbdisans),ggbdisans)][1]");
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
 		// don't want normal(), eg Line[(a,b),(c,d)]
@@ -873,16 +873,16 @@ public class Ggb2giac {
 		//p("Polygon.N", "polygon(%)");
 		//p("PolyLine.N", "open_polygon(%)");
 
-		p("Tangent.2","[[[ggbarg0:=%0],[ggbarg1:=%1]],when((%0)[0]=='pnt',"+
-				"when((ggbarg1)[0]=='=',"+
+		p("Tangent.2","[[[ggbtanarg0:=%0],[ggbtanarg1:=%1]],when((%0)[0]=='pnt',"+
+				"when((ggbtanarg1)[0]=='=',"+
 				// Tangent[conic/implicit, point on curve]
-				"equation(tangent(ggbarg1,ggbarg0)),"+
+				"equation(tangent(ggbtanarg1,ggbtanarg0)),"+
 				// Tangent[point, function]
 				// just use x-coordinate real(%0[1])
-				"y=subst(diff(ggbarg1,x),x=real(ggbarg0[1]))*(x-real(ggbarg0[1]))+subst(ggbarg1,x=real(%0[1])))"+
+				"y=subst(diff(ggbtanarg1,x),x=real(ggbtanarg0[1]))*(x-real(ggbtanarg0[1]))+subst(ggbtanarg1,x=real(%0[1])))"+
 				","+
 				// Tangent[x-value, function]
-				"y=subst(diff(ggbarg1,x),x=ggbarg0)*(x-(ggbarg0))+subst(ggbarg1,x=ggbarg0)"+
+				"y=subst(diff(ggbtanarg1,x),x=ggbtanarg0)*(x-(ggbtanarg0))+subst(ggbtanarg1,x=ggbtanarg0)"+
 				")][1]");
 		
 		//p("TangentThroughPoint.2", 
@@ -933,9 +933,9 @@ public class Ggb2giac {
 		p("UnitOrthogonalVector.1",
 				"convert(unitV([-im(%0[1]),real(%0[1])]),25)");
 		p("UnitVector.1",
-				"[[ggin:=%0],[ggbans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='='," +
+				"[[ggin:=%0],[ggbuvans:=when(type(ggin)==DOM_LIST,normalize(ggin),when((ggin)[0]=='='," +
 				"convert([unitV(coeff(left(ggin)-right(ggin),y,1),-coeff(left(ggin)-right(ggin),x,1))],25)," +
-				"when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbans][2]");
+				"when(ggin[0]='pnt' && size(ggin[1])==3,normal(unitV(ggin)),convert(unitV([real(ggin[1]),im(ggin[1])]),25))))],ggbuvans][2]");
 		
 		return commandMap;
 	}
