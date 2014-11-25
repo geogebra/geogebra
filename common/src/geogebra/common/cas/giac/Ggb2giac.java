@@ -169,7 +169,9 @@ public class Ggb2giac {
 				"fisher_cdf(%0,%1,%2)");
 		// alternative for exact answers
 		// "Beta(exact(%0)/2,%1/2,%0*%2/(%0*%2+%1),1)");
-		p("Flatten.1", "flatten(%0)");
+		
+		// flatten1 is non-recursive flatten
+		p("Flatten.1", "flatten1(%0)");
 
 		p("First.1", "[[ggbarg0:=%0],{when(type(ggbarg0)==DOM_LIST,(ggbarg0)[0],(ggbarg0)[1])}][1]");
 		p("First.2", "[[[ggbarg0:=%0],[ggbarg1:=%1]],when(type(ggbarg0)==DOM_LIST,(ggbarg0)[0..ggbarg1-1],seq((ggbarg0)[j],j,1,ggbarg1))][1]");
@@ -284,18 +286,18 @@ public class Ggb2giac {
 		
 		// adapted from GeoConicND.setEllipseHyperbola()
 		final String ellipseHyperbola1 = "[["+
-				"[ggbarg0:=%0],"+
-				"[ggbarg1:=%1],"+
+				"[ggbellipsearg0:=%0],"+
+				"[ggbellipsearg1:=%1],"+
 				"[a:=0/0],"+
 				"[b1:=0/0],"+
 				"[b2:=0/0],"+
 				"[c1:=0/0],"+
 				"[c2:=0/0],"+				
 				"[a:=%2],"+
-				"[b1:=xcoord(ggbarg0)],"+
-				"[b2:=ycoord(ggbarg0)],"+
-				"[c1:=xcoord(ggbarg1)],"+
-				"[c2:=ycoord(ggbarg1)],"+
+				"[b1:=xcoord(ggbellipsearg0)],"+
+				"[b2:=ycoord(ggbellipsearg0)],"+
+				"[c1:=xcoord(ggbellipsearg1)],"+
+				"[c2:=ycoord(ggbellipsearg1)],"+
 				// AlgoEllipseFociPoint, AlgoHyperbolaFociPoint
 				"[a := when(%2[0]=='pnt',(sqrt((b1-real(a[1]))^2+(b2-im(a[1]))^2) ";
 
@@ -337,7 +339,7 @@ public class Ggb2giac {
 		p("IterationList.3",
 				"[[ggbans(f,x0,n):=begin local l,k; l:=[x0]; for k from 1 to n do l[k]:=regroup(f(l[k-1])); od; l; end],ggbans(unapply(%0,x),%1,%2)][1]");
 		p("PointList.1",
-				"flatten(coordinates(%0))");
+				"flatten1(coordinates(%0))");
 		p("RootList.1",
 				"apply(x->convert([x,0],25),%0)");
 		p("Invert.1", "[[ggbans:=0/0], [ggbarg:=%0], [ggbans:=when(type(ggbarg)!=DOM_LIST,"+
@@ -349,7 +351,9 @@ public class Ggb2giac {
 				"],ggbans][3]");
 
 		p("IsPrime.1", "isprime(%0)");
-		p("Join.N","flatten(%)");
+		
+		// flatten1 is non-recursive flatten
+		p("Join.N","flatten1(%)");
 		
 		//p("Last.1",
 		//		"{%0[dim(%0)-1]}");
@@ -527,9 +531,9 @@ public class Ggb2giac {
 		p("ReducedRowEchelonForm.1",
 				"rref(%0)");
 		p("Sample.2",
-				"flatten(seq(rand(1,%0),j,1,%1))");
+				"flatten1(seq(rand(1,%0),j,1,%1))");
 		p("Sample.3",
-				"[[[ggbarg0:=%0],[ggbarg1:=%1]],if %2=true then flatten(seq(rand(1,ggbarg0),j,1,ggbarg1)) else rand(ggbarg1,ggbarg0) fi][1]");
+				"[[[ggbarg0:=%0],[ggbarg1:=%1]],if %2=true then flatten1(seq(rand(1,ggbarg0),j,1,ggbarg1)) else rand(ggbarg1,ggbarg0) fi][1]");
 		p("SampleVariance.1",
 				" [[ggbans:=%0],[ggbans:=normal(variance(ggbans)*size(ggbans)/(size(ggbans)-1))],ggbans][2]");
 		p("SampleSD.1",
