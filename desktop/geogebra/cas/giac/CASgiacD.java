@@ -266,7 +266,8 @@ public class CASgiacD extends CASgiac implements Evaluate {
 							result = evaluateGeoGebraCAS(inVE,
 									new MyArbitraryConstant(
 											(ConstructionElement) command),
-									StringTemplate.defaultTemplate);
+									StringTemplate.defaultTemplate,
+									app.getKernel());
 							CASAsyncFinished(inVE, result, null, command, input);
 						} catch (Throwable exception) {
 							App.debug("exception handling ...");
