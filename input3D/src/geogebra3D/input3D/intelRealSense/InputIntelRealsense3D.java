@@ -204,4 +204,8 @@ public class InputIntelRealsense3D implements Input3D {
 	public boolean getLeftButton(){
 		return socket.leftButton;
 	}
+	
+	public boolean reverseX(){
+		return true;
+	}
 }

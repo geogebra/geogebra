@@ -167,18 +167,21 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 
 			((EuclidianControllerInput3D) ec).movedGeoPlane.updateCascade();
 			
-			/*
+			
 			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()){
+				
+				Coords p = Coords.createInhomCoorsInD3();
+				p.setValues(((EuclidianControllerInput3D) ec).mouse3DPosition, 3);
+				((EuclidianView3D) ec.view).toSceneCoords3D(p);
+				
 				long time = System.currentTimeMillis();
-				stationaryCoords.setCoords(v, time);
-				stationaryQuaternion.setQuaternion(
-						((EuclidianControllerInput3D) ec).getCurrentRotQuaternion(), 
-						time);
-				if (stationaryCoords.hasLongDelay(time) && stationaryQuaternion.hasLongDelay(time)){
+				StationaryCoords stationaryCoords = ((EuclidianViewInput3D) ec.view).getStationaryCoords();
+				stationaryCoords.setCoords(p, time);
+				if (stationaryCoords.hasLongDelay(time)){
 					((EuclidianControllerInput3D) ec).input3D.setLeftButtonPressed(false);
 				}
 			}
-			*/
+			
 		}
 	}
 	

@@ -61,6 +61,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	protected Robot robot;
 	protected int robotX, robotY;
 	protected double[] inputPosition;
+	
+	private int reverseX;
 
 	/**
 	 * constructor
@@ -74,6 +76,12 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
+		
+		if (input3D.reverseX()){
+			reverseX = -1;
+		}else{
+			reverseX = 1;
+		}
 
 		// glasses position
 		glassesPosition = new Coords(3);
@@ -264,9 +272,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	
 	private void storeOrientation(){
 		startMouse3DOrientation.set(mouse3DOrientation);
-		startOrientationMatrix = startMouse3DOrientation.getRotMatrix();	
-		
+		startOrientationMatrix = startMouse3DOrientation.getRotMatrix(reverseX);	
+
 		toSceneRotMatrix.set(view3D.getUndoRotationMatrix());
+		if (reverseX == -1){
+			for (int i = 1 ; i <= 4 ; i++){
+				toSceneRotMatrix.set(i, 1, -toSceneRotMatrix.get(i, 1));
+			}
+		}
 
 	}
 	
@@ -289,7 +302,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	 * @return current/start rotation as a matrix
 	 */
 	protected CoordMatrix getCurrentRotMatrix(){
-		return currentRot.getRotMatrix();
+		return currentRot.getRotMatrix(reverseX);
 	}
 	
 	/**

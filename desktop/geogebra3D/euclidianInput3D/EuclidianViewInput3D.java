@@ -71,7 +71,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			}
 			transparentMouseCursorMatrix.setOrigin(mouse3DScenePosition);
 		}
-
+		
 		if (drawCompletingCursor(renderer1)){
 			return;
 		}
@@ -91,7 +91,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 
 		if (completingDelay > 0.5f && completingDelay <= 1f){
 			CoordMatrix4x4.Identity(tmpMatrix4x4_3); 
-			Coords origin = hittedGeo.getStartCoords().copyVector();
+			Coords origin = getCursor3D().getInhomCoordsInD3().copyVector();
 			toScreenCoords3D(origin);
 			tmpMatrix4x4_3.setOrigin(origin);
 			renderer1.setMatrix(tmpMatrix4x4_3);
@@ -280,7 +280,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		if (getEuclidianController().getMoveMode() == EuclidianController.MOVE_NONE
 				&& !input3D.getLeftButton()){
 			long time = System.currentTimeMillis();
-			hittedGeo.setHitted(getHits3D(), time);
+			hittedGeo.setHitted(getHits3D(), time, mouse3DScreenPosition);
 			if (hittedGeo.hasLongDelay(time)){
 				input3D.setLeftButtonPressed(true);
 			}
@@ -299,7 +299,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		
 		private long delay = -1;
 		
-		private Coords startCoords = Coords.createInhomCoorsInD3();
+		private Coords startMousePosition = new Coords(3);
 		
 		/**
 		 * say if we should forget current
@@ -310,9 +310,9 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			return (time - lastTime) * 8 > LONG_DELAY;
 		}
 		
-		public void setHitted(Hits hits, long time){
+		public void setHitted(Hits hits, long time, Coords mousePosition){
 			//App.debug("\nHittedGeo:\n"+getHits3D());
-			if (hits.isEmpty()){ // reinit geo
+			if (hits.isEmpty() || mousePosition == null){ // reinit geo
 				if (forgetCurrent(time)){
 					geo = null;
 					delay = -1;
@@ -320,13 +320,22 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 				}
 			}else{
 				GeoElement newGeo = hits.get(0);
-				if(newGeo.isGeoPoint()){
+				if(newGeo.isGeoPoint() || newGeo.isGeoPlane()){
 					if (newGeo == geo){ // remember last time
-						lastTime = time;
+						// check if mouse has changed too much: reset the timer
+						int threshold = 30;//getCapturingThreshold(PointerEventType.TOUCH);
+						if (Math.abs(mousePosition.getX() - startMousePosition.getX()) > threshold
+								|| Math.abs(mousePosition.getY() - startMousePosition.getY()) > threshold
+								|| Math.abs(mousePosition.getZ() - startMousePosition.getZ()) > threshold){
+							startTime = time;
+							startMousePosition.setValues(mousePosition, 3);
+						}else{
+							lastTime = time;
+						}
 					}else if(geo == null || forgetCurrent(time)){ // change geo
 						geo = newGeo;
 						startTime = time;
-						startCoords.setValues(getCursor3D().getInhomCoordsInD3(), 3);
+						startMousePosition.setValues(mousePosition, 3);
 					}
 				}else if(forgetCurrent(time)){
 					geo = null;
@@ -362,9 +371,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 			return delay/LONG_DELAY;
 		}
 		
-		public Coords getStartCoords(){
-			return startCoords;
-		}
+	
 	}
 	
 	private HittedGeo hittedGeo = new HittedGeo();

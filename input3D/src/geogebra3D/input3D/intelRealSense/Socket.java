@@ -225,7 +225,7 @@ public class Socket {
 		}
 		
 		public double getHandOrientationW(){
-			return - handOrientationWSum / samples;
+			return handOrientationWSum / samples;
 		}
 		
 	
@@ -298,8 +298,10 @@ public class Socket {
 			if (type == AlertType.ALERT_HAND_OUT_OF_BORDERS){
 				App.debug("hand #"+id+" out of borders");
 				handId = -1;
+				/*
 				leftButton = false;
 				rightButton = false;
+				*/
 			}
 		}
 		

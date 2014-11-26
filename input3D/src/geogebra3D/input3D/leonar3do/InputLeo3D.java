@@ -205,4 +205,8 @@ public class InputLeo3D implements Input3D {
 	public boolean getLeftButton(){
 		return leoSocket.smallButton > 0.5;
 	}
+	
+	public boolean reverseX(){
+		return false;
+	}
 }
