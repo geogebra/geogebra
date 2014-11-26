@@ -136,7 +136,7 @@ public class AlgoTriangularDF extends AlgoElement {
 			
 			branchAtoMode = fv.wrap().subtract(a).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(a)));
 			branchModeToB = fv.wrap().subtract(b).multiply(2).divide(bEn.subtract(a).multiply(modeEn.subtract(b)));
-			rightBranch = new MyDouble(kernel,1);
+			rightBranch = new MyDouble(kernel,0);
 
 
 			// old hack:
