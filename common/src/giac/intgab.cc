@@ -895,7 +895,7 @@ namespace giac {
 	    base=tmp._VECTptr->front();
 	  }
 	  if (derive(base,x,contextptr)==0){
-	    g0mult=base;
+	    g0mult=pow(base,expo,contextptr);
 	    g0_=symbolic(at_pow,makesequence(x-a,na*expo))*symbolic(at_pow,makesequence(b-x,nb*expo));
 	  }
 	  if (nb==1 && !na){
