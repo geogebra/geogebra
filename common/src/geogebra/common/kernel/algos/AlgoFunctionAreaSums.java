@@ -291,8 +291,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	public AlgoFunctionAreaSums(GeoNumberValue a, NumberValue b, NumberValue n,
-			SumType type, double[] vals, double[] borders) {
-		super(a.getKernel().getConstruction(), false);
+			SumType type, double[] vals, double[] borders, Construction cons1) {
+		super(cons1, false);
 		this.type = type;
 
 		this.a = a;
@@ -343,8 +343,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param N
 	 */
 	protected AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b, double[] vals,
-			double[] borders, int N) {
-		super((a.getKernel()).getConstruction(), false);
+			double[] borders, int N, Construction cons1) {
+		super(cons1, false);
 		type = SumType.BARCHART;
 		this.a = a;
 		this.b = b;
@@ -448,8 +448,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param N
 	 */
 	protected AlgoFunctionAreaSums(GeoNumberValue width, double[] vals,
-			double[] borders, int N) {
-		super((width.getKernel()).getConstruction(), false);
+			double[] borders, int N, Construction cons1) {
+		super(cons1, false);
 
 		type = SumType.BARCHART_FREQUENCY_TABLE_WIDTH;
 

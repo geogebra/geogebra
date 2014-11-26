@@ -23,7 +23,7 @@ import javagiac.giac;
 
 /**
  * @author michael
- *
+ * 
  */
 public class CASgiacD extends CASgiac implements Evaluate {
 
@@ -267,7 +267,9 @@ public class CASgiacD extends CASgiac implements Evaluate {
 									new MyArbitraryConstant(
 											(ConstructionElement) command),
 									StringTemplate.defaultTemplate,
-									app.getKernel());
+									// take kernel from cmd, in case macro
+									// kernel matters (?)
+									cmd.getKernel());
 							CASAsyncFinished(inVE, result, null, command, input);
 						} catch (Throwable exception) {
 							App.debug("exception handling ...");
@@ -308,7 +310,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 
 	/**
 	 * @author michael
-	 *
+	 * 
 	 */
 	class GiacJNIThread extends Thread {
 		private String exp;

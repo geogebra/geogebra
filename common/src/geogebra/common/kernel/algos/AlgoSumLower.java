@@ -42,15 +42,15 @@ public class AlgoSumLower extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumLower( 
-			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super(a, b, n, SumType.LOWERSUM,vals,borders);		
+			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders, Construction cons1) {
+		super(a, b, n, SumType.LOWERSUM,vals,borders, cons1);		
 		cons.registerEuclidianViewCE(this);
 	}
 	
 	public AlgoSumLower copy() {
 		return new AlgoSumLower((GeoNumberValue)this.getA().deepCopy(kernel),
 				(GeoNumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),cons);
 	}
 	@Override
 	public Commands getClassName() {

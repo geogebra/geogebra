@@ -13,7 +13,6 @@ package geogebra.common.kernel.kernelND;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgorithmSet;
@@ -218,5 +217,5 @@ public interface GeoElementND extends ExpressionValue, ToGeoElement{
 	public boolean isGeoText();
 	int getLabelMode();
 	void setLabelMode(int labelName);
-	public Kernel getKernel();
+	//public Kernel getKernel();
 }

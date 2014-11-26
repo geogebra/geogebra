@@ -42,8 +42,8 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumUpper( 
-			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super( a, b, n, SumType.UPPERSUM,vals,borders);			
+			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders, Construction cons1) {
+		super( a, b, n, SumType.UPPERSUM,vals,borders,cons1);			
 	}
 	
 	@Override
@@ -54,7 +54,7 @@ public class AlgoSumUpper extends AlgoFunctionAreaSums {
 	public AlgoSumUpper copy() {
 		return new AlgoSumUpper((GeoNumberValue)this.getA().deepCopy(kernel),
 				(GeoNumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),cons);
 	}
 	
 }

@@ -41,8 +41,8 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumTrapezoidal( 
-			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super( a, b, n, SumType.TRAPEZOIDALSUM,vals,borders);		
+			   GeoNumberValue a, GeoNumberValue b, NumberValue n,double[]vals,double[]borders, Construction cons1) {
+		super( a, b, n, SumType.TRAPEZOIDALSUM,vals,borders, cons1);		
 	}
 	
 	@Override
@@ -53,7 +53,7 @@ public class AlgoSumTrapezoidal extends AlgoFunctionAreaSums {
 	public AlgoSumTrapezoidal copy() {
 		return new AlgoSumTrapezoidal((GeoNumberValue)this.getA().deepCopy(kernel),
 				(GeoNumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()), cons);
 	}
 	
 }

@@ -42,14 +42,14 @@ public class AlgoSumLeft extends AlgoFunctionAreaSums {
 	}
 	
 	private AlgoSumLeft(  
-			   GeoNumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders) {
-		super(a, b, n, SumType.LEFTSUM,vals,borders);				
+			   GeoNumberValue a, NumberValue b, NumberValue n,double[]vals,double[]borders, Construction cons1) {
+		super(a, b, n, SumType.LEFTSUM,vals,borders, cons1);				
 	}
 	
 	public AlgoSumLeft copy() {		
 		return new AlgoSumLeft( (GeoNumberValue)this.getA().deepCopy(kernel),
 				(NumberValue)this.getB().deepCopy(kernel),this.getN().copy(),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()));
+				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()), cons);
 	}
 	@Override
 	public Commands getClassName() {
