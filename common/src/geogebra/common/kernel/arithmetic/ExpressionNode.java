@@ -5099,8 +5099,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			// right.evaluateDouble();
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
-			// case POWER: return Math.pow(left.evaluateDouble(),
-			// right.evaluateDouble());
+		case POWER:  return left.isNumberValue() ? Math.pow(left.evaluateDouble(),
+			 right.evaluateDouble()) : super.evaluateDouble();
 		case SIN:
 			return Math.sin(left.evaluateDouble());
 		case COS:
