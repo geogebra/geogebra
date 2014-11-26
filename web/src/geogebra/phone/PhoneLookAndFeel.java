@@ -28,4 +28,9 @@ public class PhoneLookAndFeel extends GLookAndFeel {
     public boolean exportSupported() {
 	    return false;
     }
+	
+	@Override
+    public boolean externalDriveSupported() {
+	    return false;
+    }
 }

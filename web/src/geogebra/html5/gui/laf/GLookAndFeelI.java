@@ -33,4 +33,6 @@ public interface GLookAndFeelI {
 	boolean autosaveSupported();
 
 	boolean exportSupported();
+
+	boolean externalDriveSupported();
 }
