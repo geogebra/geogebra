@@ -311,10 +311,33 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			if (treeItem == null) {
 				return null;
 			}
+			
 			TreeItem item = null;
-			item = treeItem.addItem(tool);
-		    
-			return setupItem(item, tool);
+
+			if (tool.isInTree()) {
+				if (tool.isLeaf()) {
+					tool.removeFromTree();
+					item = setupItem(treeItem.addItem(tool), tool);
+				} else {
+					// dropping a branch into another
+					for (int i=0; i < tool.treeItem.getChildCount(); i++) {
+						TreeItem leaf = tool.treeItem.getChild(i);
+						DraggableTool leafTool = (DraggableTool) leaf.getUserObject();
+						setupItem(treeItem.addItem(leafTool), leafTool);
+					}
+					tool.removeFromTree();
+				}
+		
+				
+			} else {
+				// comes from allTools list
+				item = setupItem(treeItem.addItem(tool), tool);
+				
+			}
+			
+			toolTree.checkBranch(treeItem);
+			
+			return item;
 			
 		}
 
@@ -377,32 +400,63 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDrop(DropEvent event) {
 					if (draggingTool == tool || draggingTool.treeItem == treeItem) {
 						App.debug("Dropping tool to itself");
+						tool.removeHighligts();
 						return;
 					}
-					int idx = treeItem.getChildIndex(tool.treeItem);
-					insertTool(idx, draggingTool);
-					tool.removeStyleName("insertBeforeLeaf");
-					
+				
+					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
+						App.debug("Adding as last leaf!");
+						addTool(draggingTool);
+					} else {
+						int idx = treeItem.getChildIndex(tool.treeItem);
+						insertTool(idx, draggingTool);
+					}
+			
+					tool.removeHighligts();
 				}
 			});
 			
 			tool.addDragOverHandler(new DragOverHandler() {
 				
 				public void onDragOver(DragOverEvent event) {
-					tool.setStyleName("insertBeforeLeaf");
+					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
+						tool.setStyleName("insertAfterLeaf");
+					} else {
+						tool.setStyleName("insertBeforeLeaf");
+											
+					}
 				}
 			});
 			
 			tool.addDragLeaveHandler(new DragLeaveHandler() {
 				
 				public void onDragLeave(DragLeaveEvent event) {
-					tool.removeStyleName("insertBeforeLeaf");
+					tool.removeHighligts();
 					
 				}
 			});
 			return leaf;
         }
 
+		boolean afterLastLeaf(int y) {
+			if (treeItem == null) {
+				return false;
+			}
+			
+			TreeItem branch = treeItem.getParentItem();
+			if (branch == null) {
+				return false;
+			}
+			
+			return (branch.getChildIndex(treeItem) == branch.getChildCount() - 1
+					&& !isTopHit(y));
+					
+		}
+		void removeHighligts() {
+			removeStyleName("insertBeforeLeaf");
+			removeStyleName("insertAfterLeaf");
+			
+		}
 
 		private void initDrag() {
 			addDomHandler(new DragStartHandler() {
