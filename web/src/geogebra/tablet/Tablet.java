@@ -122,6 +122,7 @@ public class Tablet implements EntryPoint {
 		
 						
 	}
+
 	public static void goBack() {
 		if(appFrame!= null && appFrame.app != null){
 			if (appFrame.isBrowserShowing()) {
@@ -189,11 +190,11 @@ public class Tablet implements EntryPoint {
 
 	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+	    $wnd.GGW_ext.render = $entry(@geogebra.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
     }-*/;
 	
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+	 	$wnd.renderGGBElement = $entry(@geogebra.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
 		@geogebra.html5.gui.GeoGebraFrame::renderGGBElementReady()();
 	}-*/;
     
@@ -202,7 +203,12 @@ public class Tablet implements EntryPoint {
     }-*/;
 	
 	public static void renderArticleElement(final Element el, JavaScriptObject clb){
-		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), new TabletLookAndFeel(), clb);
+		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(){
+			@Override
+			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeelI laf){
+				return new AppWapplet3D(ae, fr, (GLookAndFeel) laf);
+			}
+		}, new TabletLookAndFeel(), clb);
 	}
 	
 	/*
