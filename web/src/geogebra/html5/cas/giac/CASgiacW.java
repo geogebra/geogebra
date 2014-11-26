@@ -9,6 +9,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppW;
 
@@ -103,7 +104,8 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		nativeEvaluateRaw(specialFunctions, false);
 		
 		String exp;
-		if (!((AppW)kernel.getApplication()).getLAF().isSmart()) {
+		GLookAndFeelI laf = ((AppW)kernel.getApplication()).getLAF();
+		if (laf != null && !laf.isSmart()) {
 			// evalfa makes sure rootof() converted to decimal
 			// eg @rootof({{-4,10,-440,2025},{1,0,10,-200,375}})
 			exp = wrapInevalfa(s);
