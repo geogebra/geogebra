@@ -48,7 +48,7 @@ public interface CASGenericInterface extends SettingListener {
 	 *             if evaluation fails
 	 */
 	public abstract String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
 			throws CASException;
 
 	/**
@@ -94,7 +94,7 @@ public interface CASGenericInterface extends SettingListener {
 	 * @return evaluated input
 	 */
 	public ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, MyArbitraryConstant arbconst);
+			final ValidExpression inputExpression, MyArbitraryConstant arbconst, Kernel kernel);
 
 	/**
 	 * @param exp input

@@ -1182,7 +1182,7 @@ public abstract class GgbAPI implements JavaScriptAPI{
     	 	                GeoGebraCasInterface ggbcas = kernel.getGeoGebraCAS(); 
     	 	                try { 
     	 	                        //TODO -- allow  to parametrize this 
-    	 	                        ret = ggbcas.evaluateGeoGebraCAS(cmdString, null, StringTemplate.numericDefault); 
+    	 	                        ret = ggbcas.evaluateGeoGebraCAS(cmdString, null, StringTemplate.numericDefault, kernel); 
     	 	                } catch (Throwable t) { 
     	 	                        App.debug(t.toString()); 
     	 	                }// try-catch 

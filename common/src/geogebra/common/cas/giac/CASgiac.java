@@ -157,11 +157,11 @@ public abstract class CASgiac implements CASGenericInterface {
 
 	final public synchronized String evaluateGeoGebraCAS(
 			final ValidExpression inputExpression, MyArbitraryConstant arbconst,
-			StringTemplate tpl) throws CASException {
+			StringTemplate tpl, Kernel kernel) throws CASException {
 		ValidExpression casInput = inputExpression;
 		Command cmd = casInput.getTopLevelCommand();
 		boolean keepInput = casInput.isKeepInputUsed() || (cmd!=null && "KeepInput".equals(cmd.getName()));
-		String plainResult = getPlainResult(casInput, arbconst.getKernel());
+		String plainResult = getPlainResult(casInput, kernel);
 
 		if (keepInput) {
 			// remove KeepInput[] command and take argument			
@@ -199,18 +199,18 @@ public abstract class CASgiac implements CASGenericInterface {
 		if (result.isEmpty()) {
 			return null;
 		}
-		return toGeoGebraString(result, arbconst, tpl);
+		return toGeoGebraString(result, arbconst, tpl, kernel);
 
 	}
 
 	final public synchronized ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, MyArbitraryConstant arbconst) throws CASException {
-		String result = getPlainResult(inputExpression, arbconst.getKernel());
+			final ValidExpression inputExpression, MyArbitraryConstant arbconst, Kernel kernel) throws CASException {
+		String result = getPlainResult(inputExpression, kernel);
 		// standard case
 		if ("".equals(result)) {
 			return null;
 		}
-		return replaceRoots(casParser.parseGiac(result),arbconst);
+		return replaceRoots(casParser.parseGiac(result),arbconst, kernel);
 
 	}
 
@@ -279,9 +279,9 @@ public abstract class CASgiac implements CASGenericInterface {
 	 *             Throws if the underlying CAS produces an error
 	 */
 	final public synchronized String toGeoGebraString(String giacString,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
 					throws CASException {
-		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString), arbconst);
+		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString), arbconst, kernel);
 		//replace rational exponents by roots or vice versa
 
 
@@ -289,9 +289,9 @@ public abstract class CASgiac implements CASGenericInterface {
 		return casParser.toGeoGebraString(ve, tpl);
 	}
 
-	private static ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst){
+	private static ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst, Kernel kernel){
 		if (ve != null) {
-			boolean toRoot = arbconst.getKernel().getApplication().getSettings()
+			boolean toRoot = kernel.getApplication().getSettings()
 					.getCasSettings().getShowExpAsRoots();
 			ve = ve.traverse(DiffReplacer.INSTANCE);
 			ve.traverse(PowerRootReplacer.getReplacer(toRoot));

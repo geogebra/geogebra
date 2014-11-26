@@ -78,7 +78,7 @@ public interface GeoGebraCasInterface {
 	 * @throws CASException
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
-	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbConst, StringTemplate tpl)
+	public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbConst, StringTemplate tpl, Kernel kernel)
 			throws CASException;
 	/**
 	 * Evaluates a valid expression and returns the resulting String in GeoGebra
@@ -95,7 +95,7 @@ public interface GeoGebraCasInterface {
 	 *             if there is a timeout or the expression cannot be evaluated
 	 */
 	public String evaluateGeoGebraCAS(ValidExpression exp,
-			MyArbitraryConstant arbConst, StringTemplate tpl) throws CASException;
+			MyArbitraryConstant arbConst, StringTemplate tpl, Kernel kernel) throws CASException;
 	/**
 	 * Returns the CAS command for the currently set CAS using the given key and
 	 * command arguments. For example, getCASCommand("Expand.1", {"3*(a+b)"})

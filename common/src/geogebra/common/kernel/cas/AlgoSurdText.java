@@ -318,7 +318,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		
 		if (fitter.formalSolution.length()>0 && Kernel.isEqual(ve.evaluateDouble(),num)) {
 			sb.append(
-			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve, null,tpl)
+			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve, null,tpl, kernel)
 			);
 			return;
 		}
@@ -431,7 +431,7 @@ public class AlgoSurdText extends AlgoElement implements UsesCAS {
 		
 		if (fitter0.formalSolution.length()>0 && Kernel.isEqual(ve0.evaluateDouble(),y)) {
 			sb1.append(
-			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null,tpl)
+			kernel.getGeoGebraCAS().evaluateGeoGebraCAS(ve0, null, tpl, kernel)
 			);
 			
 			

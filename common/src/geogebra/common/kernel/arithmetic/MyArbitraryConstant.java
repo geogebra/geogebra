@@ -1,7 +1,6 @@
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -171,11 +170,5 @@ public class MyArbitraryConstant  {
 	public boolean isCAS() {
 		return ce instanceof GeoCasCell;
 	}
-	public Kernel getKernel() {
-		return ce.getKernel();
-	}
-	
-	
-	
 		
 }

@@ -393,7 +393,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
 			if (ev != null )
 				return ev.unwrap().isNumberValue();
 			throw ex;
@@ -408,7 +408,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
 			if (ev != null )
 				return ev.unwrap().evaluatesToNonComplex2DVector();
 			throw ex;
@@ -423,7 +423,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
 			if (ev != null )
 				return ev.unwrap().evaluatesToNonComplex2DVector();
 			throw ex;
@@ -441,7 +441,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate).evaluatesToText();
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
 			if (ev != null)
 				return ev.unwrap().evaluatesToText();
 			throw ex;
@@ -491,7 +491,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate)  instanceof ListValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
 			if (ev != null )
 				return ev.unwrap() instanceof ListValue;
 			throw ex;
@@ -520,7 +520,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate)  instanceof Vector3DValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
 			if (ev != null )
 				return ev.unwrap() instanceof Vector3DValue;
 			throw ex;

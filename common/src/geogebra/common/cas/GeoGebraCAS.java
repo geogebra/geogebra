@@ -105,14 +105,14 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 	}
 
 	public String evaluateGeoGebraCAS(ValidExpression casInput,
-			MyArbitraryConstant arbconst, StringTemplate tpl)
+			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
 			throws CASException {
 
 		String result = null;
 		CASException exception = null;
 		try {
 			result = getCurrentCAS().evaluateGeoGebraCAS(casInput, arbconst,
-					tpl);
+					tpl, kernel);
 		} catch (CASException ce) {
 			exception = ce;
 		} finally {
@@ -146,10 +146,10 @@ public class GeoGebraCAS implements GeoGebraCasInterface {
 
 	
 	final public String evaluateGeoGebraCAS(String exp,
-			MyArbitraryConstant arbconst, StringTemplate tpl) throws CASException {
+			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel) throws CASException {
 		try {
 			ValidExpression inVE = casParser.parseGeoGebraCASInput(exp);
-			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl);
+			String ret = evaluateGeoGebraCAS(inVE, arbconst, tpl, kernel);
 			if (ret == null)
 				throw new CASException(new Exception(
 						app.getLocalization().getError("CAS.GeneralErrorMessage")));

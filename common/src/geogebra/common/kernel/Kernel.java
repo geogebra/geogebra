@@ -2338,7 +2338,7 @@ public class Kernel {
 		}
 
 		// evaluate in GeoGebraCAS
-		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp, arbconst, tpl);
+		result = getGeoGebraCAS().evaluateGeoGebraCAS(exp, arbconst, tpl, this);
 
 		if (useCaching) {
 			getCasCache().put(exp, result);

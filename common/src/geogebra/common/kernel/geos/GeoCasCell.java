@@ -1673,7 +1673,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 					expandedEvalVE = processSolveCommand(expandedEvalVE);
 				}
 				// compute the result using CAS
-				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, arbconst, StringTemplate.numericNoLocal);
+				result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(expandedEvalVE, null, StringTemplate.numericNoLocal, kernel);
 				// if KeepInput was used, return the input, except for the Substitute command
 				if(!isSubstitute && inputVE != null && inputVE.isKeepInputUsed()) {
 					result = inputVE.wrap().toString(StringTemplate.numericNoLocal);

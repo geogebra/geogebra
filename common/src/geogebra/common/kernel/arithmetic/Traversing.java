@@ -567,7 +567,7 @@ public interface Traversing {
 					derivCommand.addArgument(diffArg.wrap());
 					derivCommand.addArgument(var.wrap());
 					derivCommand.addArgument(deg.wrap());
-					mult = cas.evaluateToExpression(derivCommand, null);
+					mult = cas.evaluateToExpression(derivCommand, null, kernel);
 				}else{
 					App.printStacktrace(ValidExpression.debugString(diffArg));
 					App.printStacktrace(ValidExpression.debugString(var));
@@ -836,7 +836,7 @@ public interface Traversing {
 						derivCommand.addArgument(en2);
 						derivCommand.addArgument(fv[0].wrap());
 						derivCommand.addArgument(deriv.wrap());
-						en2 = cas.evaluateToExpression(derivCommand, null).wrap();
+						en2 = cas.evaluateToExpression(derivCommand, null, en.getKernel()).wrap();
 						
 					}
 					if(fv != null) {
