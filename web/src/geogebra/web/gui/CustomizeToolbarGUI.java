@@ -605,11 +605,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					}
 
 					App.debug("Drop " + draggingTool.getTitle());
-					TreeItem parent = null;
 					if (draggingTool.isLeaf()) {
 						App.debug("[DROP] leaf");
 						usedToolToAll(draggingTool.getMode());
-						parent = draggingTool.treeItem.getParentItem();
+						draggingTool.removeFromTree();
 
 					} else {
 						App.debug("[DROP] branch");
