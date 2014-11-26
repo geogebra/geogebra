@@ -235,6 +235,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDrop(DropEvent event) {
 					event.preventDefault();
 					event.stopPropagation();
+					if (draggingTool == tool) {
+						App.debug("Dropping tool to itself");
+						return;
+					}
 					int idx = indexOf(item);
 					App.debug(PREFIX + "drop on item " + idx);
 					insertTool(idx, draggingTool); 
@@ -371,6 +375,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			tool.addDropHandler(new DropHandler() {
 				
 				public void onDrop(DropEvent event) {
+					if (draggingTool == tool || draggingTool.treeItem == treeItem) {
+						App.debug("Dropping tool to itself");
+						return;
+					}
 					int idx = treeItem.getChildIndex(tool.treeItem);
 					insertTool(idx, draggingTool);
 					tool.removeStyleName("insertBeforeLeaf");
