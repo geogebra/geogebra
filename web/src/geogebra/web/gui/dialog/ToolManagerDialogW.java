@@ -16,11 +16,14 @@ import geogebra.common.gui.dialog.ToolManagerDialogModel;
 import geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.main.App;
+import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.ToolNameIconPanel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,7 +47,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private Button btDown;
 
-	private Button btRemove;
+	private ListBox toolList;
 
 	public ToolManagerDialogW(AppW app) {
 		setModal(true);
@@ -80,10 +83,11 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	/**
 	 * Deletes all selected tools that are not used in the construction.
 	 */
-	private void deleteTools(ListBox toolList) {
-//		Object[] sel = toolList.getSelectedValues();
-//		if (sel == null || sel.length == 0)
-//			return;
+	private void deleteTools() {
+		List<String> sel = ListBoxApi.getSelection(toolList);
+		if (sel.isEmpty()) {
+			return;
+		}
 //
 //		// ARE YOU SURE ?
 //		// Michael Borcherds 2008-05-04
@@ -106,6 +110,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 //
 	}
 
+
 	private FlowPanel createListUpDownRemovePanel() {
 		btUp = new Button("\u25b2");
 		btUp.setTitle(app.getPlain("Up"));
@@ -117,15 +122,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btDown.addClickHandler(this);
 		btDown.getElement().getStyle().setMargin(3, Style.Unit.PX);
 
-		btRemove = new Button("\u2718");
-		btRemove.setTitle(app.getPlain("Remove"));
-		btRemove.addClickHandler(this);
-		btRemove.getElement().getStyle().setMargin(3, Style.Unit.PX);
-
 		FlowPanel panel = new FlowPanel();
 		panel.add(btUp);
 		panel.add(btDown);
-		panel.add(btRemove);
 
 		return panel;
 	}
@@ -144,8 +143,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		panel.add(toolListPanel);
 		setWidget(panel);
 		
-		final ListBox toolList = new ListBox();
-		insertTools(toolList);
+		toolList = new ListBox();
+		toolList.setMultipleSelect(true);
+		insertTools();
 		//toolList.setCellRenderer(new MacroCellRenderer());
 		toolList.setVisibleItemCount(6);
 
@@ -200,13 +200,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 					hide();
 					
 				} else if (src == btDelete) {
-					deleteTools(toolList);
+					deleteTools();
 				} else if (src == btOpen) {
-					openTools(toolList);
+					openTools();
 				} else if (src == btSave) {
-					saveTools(toolList);
+					saveTools();
 				} else if (src == btShare) {
-					uploadToGeoGebraTube(toolList);
+					uploadToGeoGebraTube();
 				}
 			}
 			
@@ -263,7 +263,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 * @param toolList
 	 *            Tools to be opened
 	 */
-	private void openTools(ListBox toolList) {
+	private void openTools() {
 //		Object[] sel = toolList.getSelectedValues();
 //		if (sel == null || sel.length == 0)
 //			return;
@@ -292,64 +292,25 @@ public class ToolManagerDialogW extends DialogBoxW implements
 //		}
 	}
 
-	private void insertTools(ListBox list) {
+	private void insertTools() {
+		toolList.clear();
 		Kernel kernel = app.getKernel();
 		int size = kernel.getMacroNumber();
-		for (int i = 0; i < size; i++) {
-			Macro macro = kernel.getMacro(i);
-			list.addItem(macro.getToolName());
+		App.debug("[ManageTools] " + size + " macro(s)");
+		for (int i = 0; i < 20; i++) {
+			toolList.addItem("dummy " + i);
 		}
-	}
-
-//	private class MacroCellRenderer extends DefaultListCellRenderer {
-//
-//		private static final long serialVersionUID = 1L;
-//
-//		/*
-//		 * This is the only method defined by ListCellRenderer. We just
-//		 * reconfigure the Jlabel each time we're called.
-//		 */
-//		@Override
-//		public Component getListCellRendererComponent(JList list, Object value, // value
-//																				// to
-//																				// display
-//				int index, // cell index
-//				boolean iss, // is the cell selected
-//				boolean chf) // the list and the cell have the focus
-//		{
-//			/*
-//			 * The DefaultListCellRenderer class will take care of the JLabels
-//			 * text property, it's foreground and background colors, and so on.
-//			 */
-//			super.getListCellRendererComponent(list, value, index, iss, chf);
-//
-//			if (value != null) {
-//				Macro macro = (Macro) value;
-//				StringBuilder sb = new StringBuilder();
-//				sb.append("<html><b>");
-//				sb.append(macro.getToolName());
-//				sb.append("</b>: ");
-//				sb.append(macro.getNeededTypesString());
-//				sb.append("</html>");
-//				setText(sb.toString());
-//
-//				MyImageD img = app.getExternalImage(macro.getIconFileName());
-//				if (img != null) {
-//					setIcon(new ImageIcon(img.getImage()));
-//					Dimension dim = getPreferredSize();
-//					dim.height = img.getHeight();
-//					setPreferredSize(dim);
-//					setMinimumSize(dim);
-//				}
-//			}
-//			return this;
+//		
+//		for (int i = 0; i < size; i++) {
+//			Macro macro = kernel.getMacro(i);
+//			toolList.addItem(macro.getToolName() + ": " + macro.getNeededTypesString());
 //		}
-//	}
+	}
 
 	/*
 	 * upload selected Tools to GeoGebraTube
 	 */
-	private void uploadToGeoGebraTube(final ListBox toolList) {
+	private void uploadToGeoGebraTube() {
 //
 //		Thread runner = new Thread() {
 //			@Override
@@ -363,7 +324,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	/**
 	 * Saves all selected tools in a new file.
 	 */
-	private void saveTools(ListBox toolList) {
+	private void saveTools() {
 //		Object[] sel = toolList.getSelectedValues();
 //		if (sel == null || sel.length == 0)
 //			return;
@@ -400,8 +361,28 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	public void onClick(ClickEvent event) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	    Object src = event.getSource();
+	    String item = toolList.getSelectedItemText();
+	    if (item == null) {
+	    	return;
+	    }
+	    int idx = toolList.getSelectedIndex();
+	 	List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
+		int selSize = sel.size(); 
+	 	
+	 	if (src == btUp) {
+	    	App.debug("Up");
+	    	if (idx > 0) {
+	    		toolList.insertItem(toolList.getItemText(idx - 1), idx + selSize);
+	    		toolList.removeItem(idx - 1); 
+	    	}
+	    } else  if (src == btDown) {
+	    	App.debug("Dowm");
+	    	if (idx + selSize < toolList.getItemCount()) {
+	    		toolList.insertItem(toolList.getItemText(idx + selSize), idx);
+	    		toolList.removeItem(idx + selSize + 1);
+	    	}
+	    }
+	 }
 
 }
