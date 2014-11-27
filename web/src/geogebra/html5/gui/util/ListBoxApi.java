@@ -1,5 +1,7 @@
 package geogebra.html5.gui.util;
 
+import java.util.List;
+
 import com.google.gwt.user.client.ui.ListBox;
 
 /**
@@ -23,5 +25,15 @@ public class ListBoxApi {
 		    }
 		};
 		return indexToFind;
+    }
+
+	public static List<String> getSelection(ListBox toolList) {
+	    // TODO Auto-generated method stub
+	    return null;
+    }
+
+	public static List<Integer> getSelectionIndexes(ListBox toolList) {
+	    // TODO Auto-generated method stub
+	    return null;
     }
 }
