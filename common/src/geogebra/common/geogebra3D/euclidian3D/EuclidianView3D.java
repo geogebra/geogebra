@@ -1379,8 +1379,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	@Override
-	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
-		
+	public GeoElement getLabelHit(geogebra.common.awt.GPoint p, PointerEventType type) {
+		if(type == PointerEventType.TOUCH){
+			return null;
+		}
 		return renderer.getLabelHit(p);
 	}
 

@@ -6391,7 +6391,7 @@ public abstract class EuclidianController {
 		setAltDown(event.isAltDown());
 		
 		// label hit
-		GeoElement geo = view.getLabelHit(mouseLoc);
+		GeoElement geo = view.getLabelHit(mouseLoc, event.getType());
 		if (geo != null) {
 			mouseIsOverLabel = true;
 		} else {
@@ -7661,7 +7661,7 @@ public abstract class EuclidianController {
 		}
 	
 		// move label?
-		GeoElement geo = view.getLabelHit(mouseLoc);
+		GeoElement geo = view.getLabelHit(mouseLoc, e.getType());
 		if (geo != null) {
 			moveMode = MOVE_LABEL;
 			movedLabelGeoElement = geo;

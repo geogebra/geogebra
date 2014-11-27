@@ -1701,7 +1701,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
-	public GeoElement getLabelHit(geogebra.common.awt.GPoint p) {
+	public GeoElement getLabelHit(geogebra.common.awt.GPoint p, PointerEventType type) {
 		if (!getApplication().isLabelDragsEnabled()) {
 			return null;
 		}

@@ -591,7 +591,7 @@ public interface EuclidianViewInterfaceCommon extends EuclidianViewInterfaceSlim
 	 * @param mouseLoc mouse location
 	 * @return hit geo (or null)
 	 */
-	public GeoElement getLabelHit(GPoint mouseLoc);
+	public GeoElement getLabelHit(GPoint mouseLoc, PointerEventType type);
 
 	/**
 	 * Switch to x-resize cursor
