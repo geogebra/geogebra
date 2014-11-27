@@ -62,37 +62,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 					this.activeLanguage = label;
 					activeLanguage.addStyleName("activeLanguage");
 				}
-				label.addClickHandler(new ClickHandler() {
-
-					@Override
-					public void onClick(ClickEvent event) {
-						boolean newDirRTL = Localization
-						        .rightToLeftReadingOrder(current.localeGWT);
-						Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
-						Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", "/", false);
-						if(app.getLoginOperation().isLoggedIn()){
-							app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(current.localeGWT,
-									app.getLoginOperation().getModel().getLoginToken());
-						}
-						
-						app.setUnsaved();
-
-						// On changing language from LTR/RTL the page will
-						// reload.
-						// The current workspace will be saved, and load
-						// back after page reloading.
-						// Otherwise only the language will change, and the
-						// setting related with language.
-						if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
-							//TODO change direction
-						}
-						app.setLanguage(current.localeGWT);
-						activeLanguage.removeStyleName("activeLanguage");
-						activeLanguage = label;
-						activeLanguage.addStyleName("activeLanguage");
-						LanguageGUI.this.close();
-					}
-				});
+				label.addClickHandler(getHandler(current, label));
 				fp.add(label);
 			}
 		}
@@ -103,6 +73,45 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
 		this.setContentWidget(fp);
 	}
+
+	private ClickHandler getHandler(final Language current, final Label label) {
+		return new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				boolean newDirRTL = Localization
+				        .rightToLeftReadingOrder(current.localeGWT);
+				Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
+				Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", "/", false);
+				if(app.getLoginOperation().isLoggedIn()){
+					app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(current.localeGWT,
+							app.getLoginOperation().getModel().getLoginToken());
+				}
+				
+				app.setUnsaved();
+
+				// On changing language from LTR/RTL the page will
+				// reload.
+				// The current workspace will be saved, and load
+				// back after page reloading.
+				// Otherwise only the language will change, and the
+				// setting related with language.
+				if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
+					//TODO change direction
+				}
+				app.setLanguage(current.localeGWT);
+				LanguageGUI.this.setActiveLabel(label);
+				LanguageGUI.this.close();
+			}
+		};
+    }
+
+	protected void setActiveLabel(Label label) {
+		activeLanguage.removeStyleName("activeLanguage");
+		activeLanguage = label;
+		activeLanguage.addStyleName("activeLanguage");
+	    
+    }
 
 	native static JavaScriptObject saveBase64ToLocalStorage() /*-{
 		return function(base64) {
