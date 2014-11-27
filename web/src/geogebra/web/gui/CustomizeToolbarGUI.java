@@ -735,9 +735,14 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			@Override
 			public void onDrop(DropEvent event) {
 				event.preventDefault();
-				if (toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
-					toolTree.getLastTool().removeStyleName("insertAfterBranch");
+				boolean emptyTree = toolTree.getItemCount() == 0;
+				if (emptyTree ||
+						toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
 					toolTree.addTool(draggingTool, true);
+					
+					if (!emptyTree) {
+						toolTree.getLastTool().removeStyleName("insertAfterBranch");
+					}
 				}
 			}
 			
