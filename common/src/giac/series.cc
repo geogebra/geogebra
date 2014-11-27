@@ -2298,7 +2298,7 @@ namespace giac {
 	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
 	if (is_undef(g2))
 	  return g2;
-	if (g1==g2)
+	if (is_zero(ratnormal(g1-g2)))
 	  return g1;
 	return gensizeerr("Unidirectional limits are distinct "+g2.print(contextptr)+","+g1.print(contextptr));
       }
@@ -2306,8 +2306,14 @@ namespace giac {
       sparse_poly1 p;
       p.push_back(monome(undef,0));
       double ordre=mrv_begin_order;
-      for ( ; !p.empty() && is_undef(p.front().coeff) && (ordre<mrv_begin_order*4);ordre=1.5*ordre+1) 
+      for ( ; !p.empty() && is_undef(p.front().coeff) && (ordre<mrv_begin_order*4);ordre=1.5*ordre+1) {
 	p=series__SPOL1(e_copy,x,lim_point,int(ordre),0,contextptr);
+	if (!p.empty() && !is_undef(p.front().coeff)){
+	  if (p.front().coeff.type==_FRAC && is_strictly_positive(-p.front().coeff._FRACptr->den,contextptr))
+	    p.front().coeff=fraction(-p.front().coeff._FRACptr->num,-p.front().coeff._FRACptr->den);
+	  break;
+	}
+      }
       // COUT << p << endl;
       if (ordre>=mrv_begin_order*4){
 	gen g1=unidirectional_limit(e_copy,x,lim_point,1,contextptr);
@@ -2316,7 +2322,7 @@ namespace giac {
 	gen g2=unidirectional_limit(e_copy,x,lim_point,-1,contextptr);
 	if (is_undef(g2))
 	  return g2;
-	if (g1==g2)
+	if (is_zero(ratnormal(g1-g2)))
 	  return g1;
 	return gensizeerr("Unidirectional limits are distincts "+g2.print(contextptr)+","+g1.print(contextptr));
       }
