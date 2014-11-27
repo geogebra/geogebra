@@ -608,6 +608,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 	
 	public void addToToolbarDefinition(final int mode) {
+		if (this.getActiveEuclidianView().getDimension() > 2) {
+			this.getLayout().getDockManager()
+					.getPanel(this.getActiveEuclidianView().getViewID())
+					.addToToolbar(mode);
+			return;
+		}
 		if (strCustomToolbarDefinition != null) {
 			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
 					+ mode;

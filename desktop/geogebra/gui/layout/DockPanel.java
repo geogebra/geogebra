@@ -1621,4 +1621,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		// used in Web only
 	}
 
+	public void addToToolbar(int mode) {
+		this.toolbarString = toolbarString + " | " + mode;
+
+	}
+
 }

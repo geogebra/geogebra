@@ -2476,6 +2476,12 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	}
 
 	public void addToToolbarDefinition(int mode) {
+		if (this.getActiveEuclidianView().getDimension() > 2) {
+			this.getLayout().getDockManager()
+					.getPanel(this.getActiveEuclidianView().getViewID())
+					.addToToolbar(mode);
+			return;
+		}
 		if (strCustomToolbarDefinition != null) {
 			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
 					+ mode;
@@ -2484,9 +2490,8 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void showURLinBrowser(URL url) {
 		App.debug("opening URL:" + url);
-		if (((AppD) app).getJApplet() != null) {
-			((AppD) app).getJApplet().getAppletContext()
-					.showDocument(url, "_blank");
+		if (AppD.getJApplet() != null) {
+			AppD.getJApplet().getAppletContext().showDocument(url, "_blank");
 		} else {
 			App.debug("opening URL:" + url.toExternalForm());
 			BrowserLauncher.openURL(url.toExternalForm());

@@ -1342,4 +1342,9 @@ public abstract class DockPanelW extends ResizeComposite implements
 		return ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 	}
 
+	public void addToToolbar(int mode) {
+		this.toolbarString = toolbarString + " | " + mode;
+	    
+    }
+
 }
