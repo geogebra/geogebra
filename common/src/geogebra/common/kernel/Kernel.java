@@ -3465,11 +3465,23 @@ public class Kernel {
 
 	private ArrayList<AlgoElement> renameListenerAlgos;
 	private boolean updatingObjects = false;
+	private boolean spreadsheetBatchRunning;
 
 	private void notifyRenameListenerAlgos() {
 		// #4073 command Object[] registers rename listeners 
-		if (cons != null && !cons.isFileLoading()) {
+		if (cons != null && !cons.isFileLoading() && !this.isSpreadsheetBatchRunning()) {
 			AlgoElement.updateCascadeAlgos(renameListenerAlgos);
+		}
+	}
+	
+	public boolean isSpreadsheetBatchRunning() {
+		return this.spreadsheetBatchRunning;
+	}
+	
+	public void setSpreadsheetBatchRunning(boolean b){
+		this.spreadsheetBatchRunning = b;
+		if(!b){
+			notifyRenameListenerAlgos();
 		}
 	}
 

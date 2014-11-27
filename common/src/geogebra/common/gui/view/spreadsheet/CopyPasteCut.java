@@ -512,12 +512,14 @@ public abstract class CopyPasteCut {
 				}
 			}
 		}
+		app.getKernel().setSpreadsheetBatchRunning(true);
 		int size = toRemove.size();
 		for(int i =0; i < size; i++){
 			toRemove.last().removeOrSetUndefinedIfHasFixedDescendent();
 			succ = true;
 			toRemove.remove(toRemove.last());
 		}
+		app.getKernel().setSpreadsheetBatchRunning(false);
 
 		// Let the trace manager know about the delete
 		// TODO add SelectAll
