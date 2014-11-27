@@ -305,8 +305,11 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	public void onBlur(BlurEvent event) {
-		view.getConsoleTable().stopEditing();
-		view.getConsoleTable().setFirstRowFront(false);
+		CASTableCellEditorW editor = view.getConsoleTable().getEditor();
+		if (!editor.getWidget().isSuggesting()) {
+			view.getConsoleTable().stopEditing();
+			view.getConsoleTable().setFirstRowFront(false);
+		}
 	}
 	
 	private Cell getCellForEvent(HumanInputEvent<?> event) {

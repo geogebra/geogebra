@@ -41,8 +41,18 @@ public class ScrollableSuggestBox extends SuggestBox {
 		tb.getElement().setAttribute("autocapitalize", "off");
 	}
 
+	/**
+	 * Hides the suggestion list.
+	 */
 	public void hideSuggestions() {
-		((DefaultSuggestionDisplay)getSuggestionDisplay()).hideSuggestions();
+		getDefaultSuggestionDisplay().hideSuggestions();
     }
 
+	public boolean isSuggestionListVisible() {
+		return getDefaultSuggestionDisplay().isSuggestionListShowing();
+	}
+	
+	private DefaultSuggestionDisplay getDefaultSuggestionDisplay() {
+		return (DefaultSuggestionDisplay) getSuggestionDisplay();
+	}
 }

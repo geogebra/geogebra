@@ -990,9 +990,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 			 * SwingUtilities.getRoot(this); if (comp instanceof JDialog) {
 			 * ((JDialog) comp).setVisible(false); return; }
 			 */
-			SuggestBox.DefaultSuggestionDisplay display = (SuggestBox.DefaultSuggestionDisplay) textField
-			        .getSuggestionDisplay();
-			display.hideSuggestions();
+			textField.hideSuggestions();
 			break;
 
 		case GWTKeycodes.KEY_UP:
@@ -1172,9 +1170,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	public boolean isSuggesting() {
-		SuggestBox.DefaultSuggestionDisplay display = (SuggestBox.DefaultSuggestionDisplay) textField
-		        .getSuggestionDisplay();
-		return display.isSuggestionListShowing();
+		return textField.isSuggestionListVisible();
 	}
 
 	private boolean isSuggestionJustHappened = false;
