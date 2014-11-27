@@ -62,6 +62,7 @@ public class DrawTurtle extends Drawable {
 		geo = turtle;
 		turtleImageBounds.setFrame(0, 0, 0, 0);
 		update();
+		turtle.setCoords(turtle.inhomX, turtle.inhomY);
 	}
 	
 	private static class PartialPath {

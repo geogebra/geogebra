@@ -351,7 +351,10 @@ public class GeoTurtle extends GeoPoint{
      *@param y y-coordinate
      */
 	public void setCoords(double x, double y) {
+		boolean currPenDown = getPenDown();
+		setPenDown(false);
 		addCommand(new CmdSetCoords(x,y));
+		setPenDown(currPenDown);
 	}    
 	
 	/**
@@ -647,7 +650,11 @@ public class GeoTurtle extends GeoPoint{
 			position[1] = destY;
 			destination = new GeoPoint(cons, position[0], position[1], 1d);
 			//currentPoint.setCoords(position[0], position[1], 1d);
+			boolean currPenDown = getPenDown();
+			setPenDown(false);
 			setCoords(position[0], position[1], 1d);
+			setPenDown(currPenDown);
+			
 		}
 
 		public void draw(DrawState ds) {
