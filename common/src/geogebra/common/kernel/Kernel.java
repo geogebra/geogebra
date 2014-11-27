@@ -1107,9 +1107,8 @@ public class Kernel {
 			} else if (Double.isInfinite(x)) {
 				if (casPrintForm.equals(StringType.GIAC)) {
 					return (x < 0) ? "-inf" : "inf";
-				} else {
-					return Double.toString(x); // "Infinity" or "-Infinity"
 				}
+				return Double.toString(x); // "Infinity" or "-Infinity"
 			} else if (isLongInteger) {
 				return Long.toString(rounded);
 			} else {
@@ -1741,7 +1740,6 @@ public class Kernel {
 	public final StringBuilder buildExplicitLineEquation(double[] numbers,
 			String[] vars, char opDefault, StringTemplate tpl) {
 		char op = opDefault;
-		StringType casPrintForm = tpl.getStringType();
 		double d, dabs, q = numbers[1];
 		sbBuildExplicitLineEquation.setLength(0);
 
@@ -2645,17 +2643,24 @@ public class Kernel {
 		return xscale[i];
 	}
 	
+	/**
+	 * @param i used in 3D 
+	 */
 	public double getZmax(int i) {
 		return 0;
 	}
 	
 
+	/**
+	 * @param i used in 3D 
+	 */
 	public double getZmin(int i) {
 		return 0;
 	}
 	
 	/**
 	 * 
+	 * @param i used in 3D only
 	 * @return 3D view z scale
 	 */
 	public double getZscale(int i) {
@@ -3464,7 +3469,6 @@ public class Kernel {
 	}
 
 	private ArrayList<AlgoElement> renameListenerAlgos;
-	private boolean updatingObjects = false;
 	private boolean spreadsheetBatchRunning;
 
 	private void notifyRenameListenerAlgos() {
@@ -4420,7 +4424,6 @@ public class Kernel {
 	}
 
 	final public GeoElement[] VectorPolygon(String[] labels, GeoPointND[] points) {
-		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
 		/*
 		cons.setSuppressLabelCreation(true);
@@ -4638,7 +4641,7 @@ public class Kernel {
 
 			// Application.debug(sb.toString());
 
-			GeoPointND pp = (GeoPointND) getAlgebraProcessor().evaluateToPoint(
+			GeoPointND pp = getAlgebraProcessor().evaluateToPoint(
 					sb.toString(), true, true);
 
 			try {
@@ -4661,6 +4664,9 @@ public class Kernel {
 	}
 	
 	
+	/**
+	 * @param is3D used in 3D 
+	 */
 	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D){
 		sb.append("]]");
 	}
@@ -5025,12 +5031,12 @@ public class Kernel {
 	
 	/**
 	 * 
-	 * @param cons
+	 * @param cons1 target cons
 	 * @param geo
 	 * @return 3D copy internal of the geo (if exists)
 	 */
-	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
-		return geo.copyInternal(cons);
+	public GeoElement copyInternal3D(Construction cons1, GeoElement geo) {
+		return geo.copyInternal(cons1);
 	}
 	
 	
