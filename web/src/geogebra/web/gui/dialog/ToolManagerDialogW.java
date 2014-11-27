@@ -362,7 +362,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public void onClick(ClickEvent event) {
 	    Object src = event.getSource();
-	    String item = toolList.getSelectedItemText();
+	    String item = null;// = toolList.getSelectedItemText();
 	    if (item == null) {
 	    	return;
 	    }
