@@ -1,11 +1,13 @@
 package geogebra.web.gui;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.AppW;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -20,7 +22,9 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	final AppW app;
 	private LanguageHeaderPanel header;
 	private Label activeLanguage = new Label();
-	
+	private FlowPanel fp = new FlowPanel();
+	private ArrayList<Label> labels;
+	private int cols;
 	public LanguageGUI(AppW app) {
 		this.app = app;
 		this.setStyleName("languageGUI");
@@ -29,8 +33,10 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	private void addContent() {
-		FlowPanel fp = new FlowPanel();
 		fp.setStyleName("contentPanel");
+		
+		labels = new ArrayList<Label>();
+		cols = Math.max(1, (int) app.getWidth() /350);
 		for (Language l : Language.values()) {
 			if(!l.fullyTranslated && app.isPrerelease()){
 				continue;
@@ -39,7 +45,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 			StringBuilder sb = new StringBuilder();
 
 			String text = l.name;
-
+			
 			if (text != null) {
 
 				char ch = text.toUpperCase().charAt(0);
@@ -63,15 +69,40 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 					activeLanguage.addStyleName("activeLanguage");
 				}
 				label.addClickHandler(getHandler(current, label));
-				fp.add(label);
+				labels.add(label);
 			}
 		}
+		placeLabels();
 
+		this.setContentWidget(fp);
+	}
+
+	private void placeLabels() {
+		App.debug("RESIZE"+cols);
+		int rows = labels.size() / cols ;
+		for(int i = 0; i < rows * cols; i++){
+			int col = i % cols;
+			int row = i / cols;
+			fp.add(labels.get(col * rows + row));
+		}
+		for(int i = 0; i < labels.size(); i++){
+			
+			fp.add(labels.get(i));
+		}
 		FlowPanel clear = new FlowPanel();
 		clear.setStyleName("clear");
 		fp.add(clear);
-
-		this.setContentWidget(fp);
+	    
+    }
+	
+	public void onResize(){
+		int newCols = Math.max(1, (int) app.getWidth() /350);
+		if(newCols != cols){
+			cols = newCols;
+			fp.clear();
+			placeLabels();
+		}
+		super.onResize();
 	}
 
 	private ClickHandler getHandler(final Language current, final Label label) {
