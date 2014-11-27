@@ -1,7 +1,6 @@
 package geogebra.web.gui;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
@@ -36,7 +35,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		fp.setStyleName("contentPanel");
 		
 		labels = new ArrayList<Label>();
-		cols = Math.max(1, (int) app.getWidth() /350);
+		cols = estimateCols();
 		for (Language l : Language.values()) {
 			if(!l.fullyTranslated && app.isPrerelease()){
 				continue;
@@ -78,7 +77,6 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	private void placeLabels() {
-		App.debug("RESIZE"+cols);
 		int rows = labels.size() / cols ;
 		for(int i = 0; i < rows * cols; i++){
 			int col = i % cols;
@@ -86,7 +84,9 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 			fp.add(labels.get(col * rows + row));
 		}
 		for(int i = 0; i < labels.size(); i++){
-			
+			if(labels.get(i).getParent() == fp){
+				continue;
+			}
 			fp.add(labels.get(i));
 		}
 		FlowPanel clear = new FlowPanel();
@@ -96,7 +96,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
     }
 	
 	public void onResize(){
-		int newCols = Math.max(1, (int) app.getWidth() /350);
+		int newCols = estimateCols();
 		if(newCols != cols){
 			cols = newCols;
 			fp.clear();
@@ -104,6 +104,10 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		}
 		super.onResize();
 	}
+
+	private int estimateCols() {
+	    return Math.max(1, (int) (app.getWidth() - 20) /350);
+    }
 
 	private ClickHandler getHandler(final Language current, final Label label) {
 		return new ClickHandler() {
