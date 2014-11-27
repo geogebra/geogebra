@@ -40,7 +40,7 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 		
 		this.ec = ec;
 
-		this.inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
+		this.inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 	}
 
 	/**
@@ -56,7 +56,7 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyU
 		Object source = e.getSource();
 
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+			if (source == btOK || sourceShouldHandleOK(source)) {
 				//FIXME setVisibleForTools(!processInput());
 				if (!processInput()) {
 					//wrappedPopup.show();

@@ -12,6 +12,7 @@ import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
@@ -141,7 +142,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		titlePanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		this.titleLabel = new Label(app.getPlain("Title") + ": ");
 		titlePanel.add(this.titleLabel);
-		titlePanel.add(title = new TextBox());
+		titlePanel.add(title = new GTextBox());
 		title.addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override

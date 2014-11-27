@@ -82,7 +82,7 @@ public class AngleInputDialog extends InputDialogW implements ClickHandler {
 		success=true;
 		try {
 
-			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+			if (source == btOK || sourceShouldHandleOK(source)) {
 				inputText = inputPanel.getText();
 				inputPanel.getTextComponent().hideTablePopup();
 

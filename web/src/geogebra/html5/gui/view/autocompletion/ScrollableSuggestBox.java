@@ -1,5 +1,7 @@
 package geogebra.html5.gui.view.autocompletion;
 
+import geogebra.html5.gui.textbox.GTextBox;
+
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
@@ -29,7 +31,7 @@ public class ScrollableSuggestBox extends SuggestBox {
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
 	public ScrollableSuggestBox(SuggestOracle oracle) {
-		super(oracle, tb = new TextBox(), new CustomSuggestionDisplay());
+		super(oracle, tb = new GTextBox(), new CustomSuggestionDisplay());
 		
 		 // suggestion from here to disable autocomplete
 		 // https://code.google.com/p/google-web-toolkit/issues/detail?id=6065

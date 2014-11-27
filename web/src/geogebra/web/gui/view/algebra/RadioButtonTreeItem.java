@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.event.ZeroOffset;
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.LongTouchManager;
@@ -329,7 +330,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex);
 		} else {
 			remove(ihtml);
-			tb = new TextBox();
+			tb = new GTextBox();
 			tb.setText( geo.getAlgebraDescriptionDefault() );
 			add(tb);
 			mout = false;

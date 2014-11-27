@@ -1,14 +1,14 @@
 package geogebra.html5.gui.inputfield;
 
 import geogebra.html5.awt.GFontW;
+import geogebra.html5.gui.textbox.GTextBox;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.TextBox;
 
 
-public class EditorTextField extends TextBox implements KeyUpHandler {
+public class EditorTextField extends GTextBox implements KeyUpHandler {
 
 	Element target;
 

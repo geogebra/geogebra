@@ -3,6 +3,7 @@ package geogebra.web.gui;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.common.util.MD5EncrypterGWTImpl;
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
@@ -52,19 +53,19 @@ public class ToolNameIconPanel extends VerticalPanel {
 		mainWidget = new VerticalPanel();
 
 		Label labelCmdName = new Label(app.getMenu("CommandName"));
-		tfCmdName = new TextBox();
+		tfCmdName = new GTextBox();
 		FlowPanel pCmdName = new FlowPanel();
 		pCmdName.add(labelCmdName);
 		pCmdName.add(tfCmdName);
 
 		Label labelToolHelp = new Label(app.getMenu("ToolHelp"));
-		tfToolHelp = new TextBox();
+		tfToolHelp = new GTextBox();
 		FlowPanel pToolHelp = new FlowPanel();
 		pToolHelp.add(labelToolHelp);
 		pToolHelp.add(tfToolHelp);
 
 		Label labelToolName = new Label(app.getMenu("ToolName"));
-		tfToolName = new TextBox();
+		tfToolName = new GTextBox();
 		FlowPanel pToolName = new FlowPanel();
 		pToolName.add(labelToolName);
 		pToolName.add(tfToolName);

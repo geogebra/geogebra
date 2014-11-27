@@ -5,6 +5,7 @@ import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.StandardButton;
 
@@ -50,7 +51,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.loc = app.getLocalization();
 		this.op = app.getNetworkOperation();
 
-		this.query = new TextBox();
+		this.query = new GTextBox();
 		
 		this.query.addStyleName("searchTextBox");
 		this.query.addKeyDownHandler(new KeyDownHandler() {

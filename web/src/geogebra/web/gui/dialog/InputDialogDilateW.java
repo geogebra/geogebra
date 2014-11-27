@@ -41,7 +41,7 @@ public class InputDialogDilateW extends InputDialogW {
 		Object source = e.getSource();
 
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+			if (source == btOK || sourceShouldHandleOK(source)) {
 				setVisible(!processInput());
 			} else if (source == btApply) {
 				processInput();

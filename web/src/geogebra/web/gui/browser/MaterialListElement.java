@@ -5,6 +5,7 @@ import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
@@ -231,7 +232,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 	
 	private void initRenameTextBox() {
-		this.renameTitleBox = new TextBox();
+		this.renameTitleBox = new GTextBox();
 		this.renameTitleBox.addStyleName("renameBox");
 		this.infoPanel.add(this.renameTitleBox);
 		this.renameTitleBox.setVisible(false);

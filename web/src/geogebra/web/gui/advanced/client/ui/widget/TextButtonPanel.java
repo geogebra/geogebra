@@ -16,6 +16,7 @@
 
 package geogebra.web.gui.advanced.client.ui.widget;
 
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.advanced.client.ui.AdvancedWidget;
 
@@ -268,7 +269,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      */
     protected TextBox getSelectedValue() {
         if (selectedValue == null) {
-            selectedValue = new TextBox();
+            selectedValue = new GTextBox();
             selectedValue.getElement().setAttribute("autocomplete", "off");
             selectedValue.getElement().setAttribute("autocapitalize", "off");
         }

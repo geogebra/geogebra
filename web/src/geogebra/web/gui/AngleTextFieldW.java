@@ -1,14 +1,14 @@
 package geogebra.web.gui;
 
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
-import com.google.gwt.user.client.ui.TextBox;
 
 // Later this shall inherit from MyTextField instead of TextBox
 
-public class AngleTextFieldW extends TextBox implements KeyUpHandler {
+public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 
 	private static final long serialVersionUID = 1L;
 

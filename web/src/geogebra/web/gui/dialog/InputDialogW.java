@@ -132,7 +132,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		
 		// add key handler for ENTER if inputPanel uses a text field
 		if (inputPanel.getTextComponent() != null) {
-			inputPanel.getTextComponent().getTextField().addKeyUpHandler(this);
+			inputPanel.getTextComponent().getTextField().getValueBox().addKeyUpHandler(this);
 			inputPanel.getTextComponent().addFocusListener(new FocusListenerW(this));
 		}
 		
@@ -198,8 +198,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	protected void actionPerformed(DomEvent event) {
 		Widget source = (Widget) event.getSource();
 		if (source == btOK
-		        || (inputPanel.getTextComponent() != null && source == inputPanel
-		                .getTextComponent().getTextField())) {
+		        || sourceShouldHandleOK(source)) {
 			inputText = inputPanel.getText();
 			setVisible(!processInputHandler());
 		} else if (source == btApply) {
@@ -262,4 +261,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	    
     }
 
+	/**
+	 * @param source the event source
+	 * @return true if the source widget should handle the OK event
+	 */
+	protected boolean sourceShouldHandleOK(Object source) {
+		return (inputPanel.getTextComponent() != null && source == inputPanel
+                .getTextComponent().getTextField().getValueBox());
+	}
 }

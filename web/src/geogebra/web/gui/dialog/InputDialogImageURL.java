@@ -36,7 +36,7 @@ public class InputDialogImageURL extends InputDialogW{
 	    Object source = e.getSource();
 
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+			if (source == btOK || sourceShouldHandleOK(source)) {
 				if(processInput()) wrappedPopup.hide();
 				app.getActiveEuclidianView().requestFocusInWindow();
 //			} else if (source == btApply) {

@@ -1,8 +1,8 @@
 package geogebra.html5.javax.swing;
 
-import com.google.gwt.user.client.ui.TextBox;
+import geogebra.html5.gui.textbox.GTextBox;
 
-public class GSpinnerW extends TextBox{
+public class GSpinnerW extends GTextBox{
 
 	public GSpinnerW(){
 		super();

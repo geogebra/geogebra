@@ -56,7 +56,7 @@ public class InputDialogAngleFixed extends AngleInputDialog{
 	protected void actionPerformed(DomEvent e){
 		Object source = e.getSource();
 		try {
-			if (source == btOK || source == inputPanel.getTextComponent().getTextField()) {
+			if (source == btOK || sourceShouldHandleOK(source)) {
 				if (!processInput()) {
 					//wrappedPopup.show();
 					inputPanel.getTextComponent().hideTablePopup();
