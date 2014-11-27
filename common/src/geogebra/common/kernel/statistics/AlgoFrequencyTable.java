@@ -228,13 +228,13 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			}
 
 			strHeader = new String[2];
-			strHeader[0] = loc.getMenu("Interval");
+			strHeader[0] = getLoc().getMenu("Interval");
 			if (algoHistogram.getUseDensityGeo() != null
 					&& ((GeoBoolean) algoHistogram.getUseDensityGeo())
 							.getBoolean()) {
-				strHeader[1] = loc.getMenu("Frequency");
+				strHeader[1] = getLoc().getMenu("Frequency");
 			} else {
-				strHeader[1] = loc.getMenu("Count");
+				strHeader[1] = getLoc().getMenu("Count");
 			}
 
 			double[] leftBorder = algoHistogram.getLeftBorder();
@@ -260,8 +260,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				return;
 			}
 			strHeader = new String[2];
-			strHeader[0] = loc.getMenu("Value");
-			strHeader[1] = loc.getMenu("Count");
+			strHeader[0] = getLoc().getMenu("Value");
+			strHeader[1] = getLoc().getMenu("Count");
 
 			strValue = algoBarChart.getValue();
 			double[] f2 = algoBarChart.getYValue();
@@ -295,22 +295,22 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				}
 				
 				strHeader = new String[2];
-				strHeader[0] = loc.getMenu("Value");
+				strHeader[0] = getLoc().getMenu("Value");
 				if (useDens){
 					if (scale != null){
 						double scaleValue = scale.getDouble();
 						if (Kernel.isEqual(scaleValue, 1.0)){
-							strHeader[1] = loc.getMenu("FrequencyTable.Count");
+							strHeader[1] = getLoc().getMenu("FrequencyTable.Count");
 						}else if (Kernel.isEqual(scaleValue * dataList.size(), 1)){
-							strHeader[1] = loc.getMenu("FrequencyTable.RelativeFrequency");
+							strHeader[1] = getLoc().getMenu("FrequencyTable.RelativeFrequency");
 						}else{
-							strHeader[1] = loc.getMenu("FrequencyTable.Frequency");
+							strHeader[1] = getLoc().getMenu("FrequencyTable.Frequency");
 						}
 					}else{
-						strHeader[1] = loc.getMenu("FrequencyTable.Frequency");
+						strHeader[1] = getLoc().getMenu("FrequencyTable.Frequency");
 					}					
 				}else{
-					strHeader[1] = loc.getMenu("FrequencyTable.Count");
+					strHeader[1] = getLoc().getMenu("FrequencyTable.Count");
 				}
 				
 
@@ -335,8 +335,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 				}
 
 				strHeader = new String[2];
-				strHeader[0] = loc.getMenu("Interval");
-				strHeader[1] = useDens ? loc.getMenu("Frequency") : loc
+				strHeader[0] = getLoc().getMenu("Interval");
+				strHeader[1] = useDens ? getLoc().getMenu("Frequency") : getLoc()
 						.getMenu("Count");
 
 				strValue = new String[length + 1];

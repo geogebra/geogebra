@@ -77,7 +77,7 @@ public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return loc.getPlain("PlaneThroughAPerpendicularToB",point.getLabel(tpl),secondInput.getLabel(tpl));
+    	return getLoc().getPlain("PlaneThroughAPerpendicularToB",point.getLabel(tpl),secondInput.getLabel(tpl));
 
     }
 }

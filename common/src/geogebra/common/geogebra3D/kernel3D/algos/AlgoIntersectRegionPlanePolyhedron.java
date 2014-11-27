@@ -1027,7 +1027,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		return loc.getPlain("IntersectionOfAandB",
+		return getLoc().getPlain("IntersectionOfAandB",
 				getFirstInput().getLabel(tpl), getSecondInput().getLabel(tpl));
 	}
 	

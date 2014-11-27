@@ -122,7 +122,7 @@ public class AlgoOrthoLinePointVector extends AlgoElement {
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),v.getLabel(tpl));
+		return getLoc().getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),v.getLabel(tpl));
 	}
 
 

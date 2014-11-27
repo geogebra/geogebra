@@ -182,11 +182,11 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (algoAnglePoly != null) {
-			return loc.getPlain("AngleBetweenABCofD", An.getLabel(tpl), Bn
+			return getLoc().getPlain("AngleBetweenABCofD", An.getLabel(tpl), Bn
 					.getLabel(tpl), Cn.getLabel(tpl), algoAnglePoly.getPolygon()
 					.getNameDescription());
 		}
-		return loc.getPlain("AngleBetweenABC", An.getLabel(tpl),
+		return getLoc().getPlain("AngleBetweenABC", An.getLabel(tpl),
 				Bn.getLabel(tpl), Cn.getLabel(tpl));
 	}
 

@@ -108,7 +108,7 @@ public class AlgoTranslateVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return loc.getPlain("TranslationOfAtoB",v.getLabel(tpl),A.getLabel(tpl));
+    	return getLoc().getPlain("TranslationOfAtoB",v.getLabel(tpl),A.getLabel(tpl));
 
     }
 

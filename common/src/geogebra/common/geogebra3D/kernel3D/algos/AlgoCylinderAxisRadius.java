@@ -80,7 +80,7 @@ public class AlgoCylinderAxisRadius extends AlgoQuadric {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return loc.getPlain("CylinderWithAxisARadiusB",
+		return getLoc().getPlain("CylinderWithAxisARadiusB",
 				((GeoElement) axis).getLabel(tpl),getNumber().getLabel(tpl));
 
 	}

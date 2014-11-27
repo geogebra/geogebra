@@ -120,7 +120,7 @@ public class AlgoFractionTextPoint extends AlgoElement {
 			
 
 		} else
-			text.setTextString(loc.getPlain("Undefined"));
+			text.setTextString(getLoc().getPlain("Undefined"));
 	}
   	
 	@Override

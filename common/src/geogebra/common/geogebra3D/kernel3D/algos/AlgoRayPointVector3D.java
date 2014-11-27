@@ -48,7 +48,7 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 
     @Override
     final public String toString(StringTemplate tpl) {
-    	return loc.getPlain("RayThroughAWithDirectionB",getPoint().getLabel(tpl),getInputParallel().getLabel(tpl));
+    	return getLoc().getPlain("RayThroughAWithDirectionB",getPoint().getLabel(tpl),getInputParallel().getLabel(tpl));
     }
 
 }

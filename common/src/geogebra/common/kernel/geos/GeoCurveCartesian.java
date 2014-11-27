@@ -95,7 +95,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 	@Override
 	public String translatedTypeString() {
-		return this.loc.getPlain("Curve");
+		return this.getLoc().getPlain("Curve");
 	}
 
 	@Override
@@ -478,7 +478,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 
 			return sbTemp.toString();
 		}
-		return this.loc.getPlain("Undefined");
+		return this.getLoc().getPlain("Undefined");
 	}
 
 	// TODO remove and use super method (funX and funY should be removed in
@@ -496,7 +496,7 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return this.loc.getPlain("Undefined");
+		return this.getLoc().getPlain("Undefined");
 	}
 
 	/*

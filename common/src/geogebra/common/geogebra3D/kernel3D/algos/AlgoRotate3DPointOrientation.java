@@ -124,7 +124,7 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
     	}else{ // axis = orientation
     		s = "ARotatedByAngleBAboutCThroughD";  
     	}
-   		return loc.getPlain(s, inGeo.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+   		return getLoc().getPlain(s, inGeo.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
    				((GeoElement) orientation).getLabel(tpl),
    				center.getLabel(tpl));
    	

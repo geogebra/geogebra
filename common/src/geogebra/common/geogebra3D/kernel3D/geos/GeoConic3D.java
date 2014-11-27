@@ -326,7 +326,7 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 			break;
 			
 		case CONIC_EMPTY:
-			sbBuildValueString.append(loc.getPlain("Undefined"));
+			sbBuildValueString.append(getLoc().getPlain("Undefined"));
 			break;
 			
 		default:

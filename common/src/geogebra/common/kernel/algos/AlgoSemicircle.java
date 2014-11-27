@@ -184,7 +184,7 @@ public class AlgoSemicircle extends AlgoElement {
 	
 	@Override
 	public String toString(StringTemplate tpl) {
-		return loc.getPlain("SemicircleThroughAandB",A.getLabel(tpl),B.getLabel(tpl));
+		return getLoc().getPlain("SemicircleThroughAandB",A.getLabel(tpl),B.getLabel(tpl));
 
 	}
 	

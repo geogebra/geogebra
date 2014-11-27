@@ -175,7 +175,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}	
 	
 	/**
@@ -198,7 +198,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 	
 	@Override
@@ -218,7 +218,7 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			sbTemp.append("\\end{array}\\right)");
 			return sbTemp.toString();
 		}
-		return loc.getPlain("Undefined");		
+		return getLoc().getPlain("Undefined");		
 	}		
 	
 }

@@ -297,7 +297,7 @@ public class AlgoMirror extends AlgoTransformation implements RestrictionAlgoFor
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-        return loc.getPlain("AMirroredAtB",inGeo.getLabel(tpl),mirror.getLabel(tpl));
+        return getLoc().getPlain("AMirroredAtB",inGeo.getLabel(tpl),mirror.getLabel(tpl));
 
     }
     @Override

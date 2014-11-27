@@ -68,7 +68,7 @@ public class AlgoAnglePolygon3DOrientation extends AlgoAnglePolygon3D{
     @Override
 	public String toString(StringTemplate tpl) {
 
-		return loc.getPlain("AngleOfAOrientedByB", poly.getLabel(tpl), orientation.getLabel(tpl));
+		return getLoc().getPlain("AngleOfAOrientedByB", poly.getLabel(tpl), orientation.getLabel(tpl));
 	}
     
 

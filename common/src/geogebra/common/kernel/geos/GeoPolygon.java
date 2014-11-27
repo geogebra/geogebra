@@ -2028,9 +2028,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		String str;
 		String name;
 		if (getMetasLength() == 1)
-			name = loc.getPlainLabel("face"); // Name.face
+			name = getLoc().getPlainLabel("face"); // Name.face
 		else
-			name = loc.getPlainLabel("polygon"); // Name.polygon
+			name = getLoc().getPlainLabel("polygon"); // Name.polygon
 		do {
 			counter++;
 			str = name

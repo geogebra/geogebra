@@ -788,7 +788,7 @@ AngleProperties {
 			for (int i = 0; i < lastIndex; i++) {
 				final GeoElement geo = geoList.get(i);
 				sbBuildValueString.append(geo.toOutputValueString(tpl));
-				sbBuildValueString.append(loc.unicodeComma);
+				sbBuildValueString.append(getLoc().unicodeComma);
 				sbBuildValueString.append(" ");
 			}
 

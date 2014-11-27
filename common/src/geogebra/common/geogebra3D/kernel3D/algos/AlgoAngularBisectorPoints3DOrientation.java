@@ -47,16 +47,16 @@ public class AlgoAngularBisectorPoints3DOrientation extends AlgoAngularBisectorP
     	
     	//orientation is space
     	if (orientation == kernel.getSpace()){
-    		return loc.getPlain("AngleBisectorOfABCInSpace",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
+    		return getLoc().getPlain("AngleBisectorOfABCInSpace",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     	}
     	
       	//orientation is plane
     	if (orientation instanceof GeoCoordSys2D){
-    		return loc.getPlain("AngleBisectorOfABCParallelToD",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
+    		return getLoc().getPlain("AngleBisectorOfABCParallelToD",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     	}
     	
     	//orientation is line/vector
-		return loc.getPlain("AngleBisectorOfABCPerpendicularToD",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
+		return getLoc().getPlain("AngleBisectorOfABCPerpendicularToD",A.getLabel(tpl),B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
 
     }
     

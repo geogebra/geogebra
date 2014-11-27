@@ -340,20 +340,20 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public String toValueString(StringTemplate tpl) {			
 		if (isDefined())
 			return fun.toValueString(tpl);
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}	
 	
 	public String toSymbolicString(StringTemplate tpl) {	
 		if (isDefined())
 			return fun.toString(tpl);
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 	
 	@Override
 	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
 		if (isDefined())
 			return fun.toLaTeXString(symbolic,tpl);
-		return " \\text{" + loc.getPlain("Undefined") + "} ";
+		return " \\text{" + getLoc().getPlain("Undefined") + "} ";
 	}
 	
 	@Override
@@ -888,7 +888,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 				} else {
 
 					if (getFunction() == null) {
-						ret = loc.getPlain("Undefined");
+						ret = getLoc().getPlain("Undefined");
 					} else
 						ret = substituteNumbers ? getFunction().toValueString(tpl)
 								: getFunction().toString(tpl);

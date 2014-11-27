@@ -90,7 +90,7 @@ public class AlgoPlaneCS2D extends AlgoElement3D {
 	
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return loc.getPlain("PlaneContainingA",((GeoElement) csInput).getLabel(tpl));
+    	return getLoc().getPlain("PlaneContainingA",((GeoElement) csInput).getLabel(tpl));
 
     }
 

@@ -433,7 +433,7 @@ public class GeoImage extends GeoElement implements Locateable,
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return label == null ? loc.getPlain("Image") : label;
+		return label == null ? getLoc().getPlain("Image") : label;
 	}
 
 	@Override

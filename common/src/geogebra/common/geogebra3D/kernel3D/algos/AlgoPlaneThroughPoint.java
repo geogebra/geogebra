@@ -68,7 +68,7 @@ public abstract class AlgoPlaneThroughPoint extends AlgoElement3D {
 
     @Override
 	public String toString(StringTemplate tpl) {
-    	return loc.getPlain("PlaneThroughAParallelToB",point.getLabel(tpl),getSecondInput().getLabel(tpl));
+    	return getLoc().getPlain("PlaneThroughAParallelToB",point.getLabel(tpl),getSecondInput().getLabel(tpl));
 
     }
 }

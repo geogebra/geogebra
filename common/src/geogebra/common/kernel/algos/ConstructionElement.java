@@ -31,9 +31,6 @@ public abstract class ConstructionElement implements
 	public transient Construction cons;
 	/** parent kernel of this element */
 	public transient Kernel kernel; 
-	/** localization used to serialize this element */
-	protected Localization loc;
-
 
 	private int constIndex = -1; // index in construction list
 
@@ -56,7 +53,6 @@ public abstract class ConstructionElement implements
 	public void setConstruction(final Construction c) {
 		cons = c;
 		kernel = c.getKernel();
-		loc = kernel.getLocalization();
 	}
 
 	/**
@@ -286,4 +282,8 @@ public abstract class ConstructionElement implements
 	 * @return true iff this element can be used in locus equation construction.
 	 */
 	public abstract boolean isLocusEquable();
+
+	protected Localization getLoc() {
+		return cons.getKernel().getLocalization();
+	}
 }

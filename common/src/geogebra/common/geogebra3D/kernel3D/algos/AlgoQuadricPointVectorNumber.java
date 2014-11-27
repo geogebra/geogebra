@@ -32,7 +32,7 @@ public abstract class AlgoQuadricPointVectorNumber extends AlgoQuadricPointNumbe
 	
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return loc.getPlain(getPlainName(),getOrigin().getLabel(tpl),
+    	return getLoc().getPlain(getPlainName(),getOrigin().getLabel(tpl),
     			getSecondInput().getLabel(tpl),getNumber().getLabel(tpl));
 
     }

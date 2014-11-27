@@ -474,7 +474,7 @@ public class AlgoConicFivePoints extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("ConicThroughABCDE",P[0].getLabel(tpl),
+        return getLoc().getPlain("ConicThroughABCDE",P[0].getLabel(tpl),
         		P[1].getLabel(tpl),P[2].getLabel(tpl),P[3].getLabel(tpl),P[4].getLabel(tpl));
     }
 

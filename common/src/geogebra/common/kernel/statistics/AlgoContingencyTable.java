@@ -348,24 +348,24 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo{
 		beginTable();
 
 		// table header
-		addTableRow(tableSb, -1, handleSpecialChar(loc.getMenu("Frequency")),
+		addTableRow(tableSb, -1, handleSpecialChar(getLoc().getMenu("Frequency")),
 				"colValue", lastRow == 0);
 
 		if (showRowPercent)
-			addTableRow(tableSb, 0, handleSpecialChar(loc.getPlain("RowPercent")),
+			addTableRow(tableSb, 0, handleSpecialChar(getLoc().getPlain("RowPercent")),
 					"blank", lastRow == 1);
 		if (showColPercent)
 			addTableRow(tableSb, 0,
-					handleSpecialChar(loc.getPlain("ColumnPercent")), "blank", lastRow == 2);
+					handleSpecialChar(getLoc().getPlain("ColumnPercent")), "blank", lastRow == 2);
 		if (showTotalPercent)
-			addTableRow(tableSb, 0, handleSpecialChar(loc.getPlain("TotalPercent")),
+			addTableRow(tableSb, 0, handleSpecialChar(getLoc().getPlain("TotalPercent")),
 					"blank",lastRow == 3);
 		if (showExpected)
 			addTableRow(tableSb, 0,
-					handleSpecialChar(loc.getPlain("ExpectedCount")), "blank",lastRow == 4);
+					handleSpecialChar(getLoc().getPlain("ExpectedCount")), "blank",lastRow == 4);
 		if (showChi)
 			addTableRow(tableSb, 0,
-					handleSpecialChar(loc.getPlain("ChiSquaredContribution")),
+					handleSpecialChar(getLoc().getPlain("ChiSquaredContribution")),
 					"blank",lastRow == 5);
 
 		
@@ -390,7 +390,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo{
 		
 
 		// table footer
-		addTableRow(tableSb, -1, loc.getMenu("Total"), "tableFooter", !showRowPercent);
+		addTableRow(tableSb, -1, getLoc().getMenu("Total"), "tableFooter", !showRowPercent);
 		if (showRowPercent)
 			addTableRow(tableSb, 0, null, "rowPercentFooter", true);
 		endTable(tableSb);
@@ -427,8 +427,8 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo{
 		String split = kernel.getApplication().isHTML5Applet() ?
 				"}\\ggbtdl{" : "&";
 		
-		String rowHeader = loc.getMenu("DegreesOfFreedom.short") + split + Unicode.chi
-				+ Unicode.Superscript_2 + split + loc.getMenu("PValue");
+		String rowHeader = getLoc().getMenu("DegreesOfFreedom.short") + split + Unicode.chi
+				+ Unicode.Superscript_2 + split + getLoc().getMenu("PValue");
 		String degFreedom = kernel.format(
 				(rowValues.length - 1) * (colValues.length - 1),
 				StringTemplate.numericDefault);
@@ -437,7 +437,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo{
 				+ result.get(0).toValueString(StringTemplate.numericDefault);
 		
 		sb.append("\\\\ \\text{");
-		sb.append(loc.getMenu("ChiSquaredTest"));
+		sb.append(getLoc().getMenu("ChiSquaredTest"));
 		sb.append("}\\\\");
 		
 		if(kernel.getApplication().isHTML5Applet()){
@@ -542,7 +542,7 @@ public class AlgoContingencyTable extends AlgoElement implements TableAlgo{
 			sb.append(rowSum[rowIndex]);
 
 		} else if (type.equals("colValue")) {
-			sb.append(loc.getMenu("Total"));
+			sb.append(getLoc().getMenu("Total"));
 
 		} else if (type.equals("|")) {
 			x = 100.0 * rowSum[rowIndex] / totalSum;

@@ -838,7 +838,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		if (isInfinite())
-			return loc.getPlain("Undefined");
+			return getLoc().getPlain("Undefined");
 
 		StringBuilder sbToString = getSbBuildValueString();
 

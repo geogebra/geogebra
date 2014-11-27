@@ -247,6 +247,6 @@ public class AlgoLineBisector extends AlgoElement implements SymbolicParametersA
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return loc.getPlain("LineBisectorOfA",A.getLabel(tpl) + B.getLabel(tpl));
+		return getLoc().getPlain("LineBisectorOfA",A.getLabel(tpl) + B.getLabel(tpl));
 	}
 }

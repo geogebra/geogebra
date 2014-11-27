@@ -98,7 +98,7 @@ public abstract class AlgoUnitVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-31
         // simplified to allow better translation
-    	return loc.getPlain("UnitVectorOfA", inputGeo.getLabel(tpl));
+    	return getLoc().getPlain("UnitVectorOfA", inputGeo.getLabel(tpl));
     }
 
 }

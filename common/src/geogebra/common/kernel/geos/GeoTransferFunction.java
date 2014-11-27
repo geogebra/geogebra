@@ -267,7 +267,7 @@ public class GeoTransferFunction extends GeoElement {
 		if (isDefined){
 			return originalFunction.toValueString(tpl);
 		} else {
-			return loc.getPlain("Undefined");
+			return getLoc().getPlain("Undefined");
 		}
 	}
 

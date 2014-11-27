@@ -156,7 +156,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		if (tpl.isPrintLocalizedCommandNames()) {
 			// input with localized command names
 			if (currentLanguage == null
-					|| !currentLanguage.equals(loc
+					|| !currentLanguage.equals(getLoc()
 							.getLanguage())) {
 				updateLocalizedInput(tpl, input);
 			}
@@ -176,7 +176,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public String getOutput(StringTemplate tpl) {
 		if (error != null) {
 			if (tpl.isPrintLocalizedCommandNames()) {
-				return loc.getError(error);
+				return getLoc().getError(error);
 			}
 			return error;
 		}
@@ -199,7 +199,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	public String getOutputRHS(StringTemplate tpl){
 		if (error != null) {
 			if (tpl.isPrintLocalizedCommandNames()) {
-				return loc.getError(error);
+				return getLoc().getError(error);
 			}
 			return error;
 		}
@@ -544,7 +544,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	private void updateLocalizedInput(final StringTemplate tpl, final String input1) {
 		// for efficiency: localized input with local command names
-		currentLanguage = loc.getLanguage();
+		currentLanguage = getLoc().getLanguage();
 		localizedInput = localizeInput(input1, tpl);
 	}
 
@@ -698,7 +698,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return (kernel.getGeoGebraCAS()).getCASparser()
 					.parseGeoGebraCASInputAndResolveDummyVars(inValue, getKernel());
 		}catch (CASException c){
-			setError(loc.getError(c.getKey()));
+			setError(getLoc().getError(c.getKey()));
 			return null;
 		}catch (Throwable e){
 			
@@ -2527,7 +2527,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	@Override
 	public String getTooltipText(final boolean colored, final boolean alwaysOn) {
 		if(isError())
-			return loc.getError(error);
+			return getLoc().getError(error);
 		if(tooltip == null && outputVE!=null){				
 				tooltip = getOutput(StringTemplate.defaultTemplate);
 				tooltip = tooltip.replace("gGbSuM(", "\u03a3(");
@@ -2568,7 +2568,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			return "";
 		StringBuilder evalCmdLocal = new StringBuilder();
 		if(pointList){
-			evalCmdLocal.append(loc.getCommand("PointList"));
+			evalCmdLocal.append(getLoc().getCommand("PointList"));
 		}else if("".equals(evalCmd)){
 			return getOutputPrefix();
 		}else if("Numeric".equals(evalCmd)){
@@ -2576,7 +2576,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		}else if("KeepInput".equals(evalCmd)){
 			return Unicode.CAS_OUTPUT_KEEPINPUT;
 		}else{
-			evalCmdLocal.append(loc.getCommand(evalCmd));
+			evalCmdLocal.append(getLoc().getCommand(evalCmd));
 		}
 
 		if (input.startsWith(evalCmdLocal.toString()) || 

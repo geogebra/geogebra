@@ -75,20 +75,20 @@ public class AlgoEllipseHyperbolaFociPoint3DOriented extends AlgoEllipseHyperbol
     	//direction is plane
     	if (orientation instanceof GeoCoordSys2D){
     		if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
-    			return loc.getPlain("HyperbolaWithFociABPassingThroughCParallelToD",A.getLabel(tpl),
+    			return getLoc().getPlain("HyperbolaWithFociABPassingThroughCParallelToD",A.getLabel(tpl),
                 		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     		}
-    		return loc.getPlain("EllipseWithFociABPassingThroughCParallelToD",A.getLabel(tpl),
+    		return getLoc().getPlain("EllipseWithFociABPassingThroughCParallelToD",A.getLabel(tpl),
             		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     	}
     	
     	
      	//direction is line
     	if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
-    		return loc.getPlain("HyperbolaWithFociABPassingThroughCPerpendicularToD",A.getLabel(tpl),
+    		return getLoc().getPlain("HyperbolaWithFociABPassingThroughCPerpendicularToD",A.getLabel(tpl),
             		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     	}
-    	return loc.getPlain("EllipseWithFociABPassingThroughCPerpendicularToD",A.getLabel(tpl),
+    	return getLoc().getPlain("EllipseWithFociABPassingThroughCPerpendicularToD",A.getLabel(tpl),
         		B.getLabel(tpl),C.getLabel(tpl),orientation.getLabel(tpl));
     	
     }

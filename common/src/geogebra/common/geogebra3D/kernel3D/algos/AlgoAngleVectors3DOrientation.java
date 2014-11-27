@@ -74,7 +74,7 @@ public class AlgoAngleVectors3DOrientation extends AlgoAngleVectors3D{
 		//		getw().getLabel(tpl), orientation.getLabel(tpl));
 		
     	// clearer just as "angle between u and v"
-		return loc.getPlain("AngleBetweenAB", getv().getLabel(tpl),
+		return getLoc().getPlain("AngleBetweenAB", getv().getLabel(tpl),
 				getw().getLabel(tpl));
 
 	}

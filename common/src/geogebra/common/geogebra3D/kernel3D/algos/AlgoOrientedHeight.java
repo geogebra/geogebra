@@ -84,7 +84,7 @@ public class AlgoOrientedHeight extends AlgoElement {
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return loc.getPlain("HeightOfA",((GeoElement) c).getLabel(tpl));
+		return getLoc().getPlain("HeightOfA",((GeoElement) c).getLabel(tpl));
 	}
 
 }

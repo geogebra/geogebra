@@ -113,7 +113,7 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("DistanceOfAandB",P.getLabel(tpl),g.getLabel(tpl));
+        return getLoc().getPlain("DistanceOfAandB",P.getLabel(tpl),g.getLabel(tpl));
     }
     
     private static final double INTERVAL_START = 30;

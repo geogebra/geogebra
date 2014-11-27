@@ -277,7 +277,7 @@ public class AlgoStemPlot extends AlgoElement {
 
 		low = StringUtil.resetStringBuilder(low);
 		low.append("\\text{");
-		low.append(loc.getPlain("StemPlot.low"));
+		low.append(getLoc().getPlain("StemPlot.low"));
 		low.append(": ");
 		for(int i=0; i< outlierIndex[0];i++){
 			low.append((i < outlierIndex[0]-1) ? data[i] + "," : data[i]);
@@ -285,8 +285,8 @@ public class AlgoStemPlot extends AlgoElement {
 		low.append("} \\\\ "); // newline in LaTeX ie \\
 
 		high = StringUtil.resetStringBuilder(high);
-		high.append(loc.getPlain("\\text{"));
-		high.append(loc.getPlain("StemPlot.high"));
+		high.append(getLoc().getPlain("\\text{"));
+		high.append(getLoc().getPlain("StemPlot.high"));
 		high.append(": ");
 		for(int i = outlierIndex[1]; i< data.length; i++){
 			high.append((i < data.length-1) ? data[i] + "," : data[i]);
@@ -360,7 +360,7 @@ public class AlgoStemPlot extends AlgoElement {
 
 		// calculate the key string,  avoid eg 31.0
 		String keyCode =  (multUnit >= 1) ? ""+ 31 *(int)multUnit : "" + 31.0 * multUnit ;
-		key.append(loc.getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
+		key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
 		key.append("}}");
 		key.append(" \\\\ "); // newline in LaTeX ie \\
 
@@ -445,7 +445,7 @@ public class AlgoStemPlot extends AlgoElement {
 
 		// calculate the key string,  avoid eg 31.0
 		String keyCode =  (multUnit >= 1) ? ""+ 31 *(int)multUnit : "" + 31.0 * multUnit ;
-		key.append(loc.getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
+		key.append(getLoc().getPlain("StemPlot.KeyAMeansB", "3|1", keyCode));
 		key.append(" } } } } ");
 		key.append(" \\\\ "); // newline in LaTeX ie \\
 

@@ -99,7 +99,7 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			return loc.getPlain(label);
+			return getLoc().getPlain(label);
 		}
 		return label;
 

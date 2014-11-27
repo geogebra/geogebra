@@ -94,8 +94,8 @@ public class AlgoFunctionFreehand extends AlgoElement {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-    	if (inputList.size() < 4 || !inputList.getElementType().equals(GeoClass.NUMERIC)) return loc.getPlain("Undefined");
-        return loc.getPlain("FreehandFunctionOnIntervalAB",kernel.format(((GeoNumeric)inputList.get(0)).getDouble(),tpl),
+    	if (inputList.size() < 4 || !inputList.getElementType().equals(GeoClass.NUMERIC)) return getLoc().getPlain("Undefined");
+        return getLoc().getPlain("FreehandFunctionOnIntervalAB",kernel.format(((GeoNumeric)inputList.get(0)).getDouble(),tpl),
         		kernel.format(((GeoNumeric)inputList.get(1)).getDouble(),tpl));
     }
 

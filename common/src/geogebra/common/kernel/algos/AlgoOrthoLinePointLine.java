@@ -277,7 +277,7 @@ SymbolicParametersBotanaAlgo {
 	
     @Override
 	public String toString(StringTemplate tpl) {
-        	return loc.getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
+        	return getLoc().getPlain("LineThroughAPerpendicularToB",P.getLabel(tpl),l.getLabel(tpl));
     }
 	
 	

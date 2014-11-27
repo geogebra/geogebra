@@ -375,7 +375,7 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	public String getLaTeXdescription() {
 		if (strLaTeXneedsUpdate) {
 			if (!isDefined()) {
-				strLaTeX = loc.getPlain("Undefined");
+				strLaTeX = getLoc().getPlain("Undefined");
 			} else if (isInfinite()) {
 				if (value >= 0)
 					strLaTeX = "\\infty";

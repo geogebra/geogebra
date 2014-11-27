@@ -1217,7 +1217,7 @@ SymbolicParametersBotanaAlgo {
 	final public String toValueStringMinimal(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
 		if (isInfinite()) {
-			sbBuildValueString.append(loc.getPlain("Undefined"));
+			sbBuildValueString.append(getLoc().getPlain("Undefined"));
 			return sbBuildValueString.toString();
 		}
 		sbBuildValueString
@@ -1249,7 +1249,7 @@ SymbolicParametersBotanaAlgo {
 		}
 
 		if (isInfinite()) {
-			sbBuildValueString.append(loc.getPlain("Undefined"));
+			sbBuildValueString.append(getLoc().getPlain("Undefined"));
 			return sbBuildValueString;
 		}
 

@@ -60,7 +60,7 @@ public abstract class AlgoAngleVectorND extends AlgoAngle {
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("AngleOfA",vec.getLabel(tpl));
+        return getLoc().getPlain("AngleOfA",vec.getLabel(tpl));
 
     }
 

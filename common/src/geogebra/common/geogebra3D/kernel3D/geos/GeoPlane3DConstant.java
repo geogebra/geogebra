@@ -78,7 +78,7 @@ public class GeoPlane3DConstant extends GeoPlane3D implements SymbolicParameters
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			return loc.getPlain(label);
+			return getLoc().getPlain(label);
 		}
 		return label;
 

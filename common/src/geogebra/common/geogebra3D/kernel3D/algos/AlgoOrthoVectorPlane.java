@@ -141,7 +141,7 @@ public class AlgoOrthoVectorPlane extends AlgoElement3D {
 	
     @Override
 	final public String toString(StringTemplate tpl) {
-        return loc.getPlain("VectorPerpendicularToA", ((GeoElement) plane).getLabel(tpl));
+        return getLoc().getPlain("VectorPerpendicularToA", ((GeoElement) plane).getLabel(tpl));
 
     }  
 

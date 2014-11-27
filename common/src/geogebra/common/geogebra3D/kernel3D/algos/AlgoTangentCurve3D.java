@@ -200,7 +200,7 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 	
     @Override
 	public String toString(StringTemplate tpl) {
-    	return loc.getPlain("TangentToAatB", f.getLabel(tpl), P.getLabel(tpl));
+    	return getLoc().getPlain("TangentToAatB", f.getLabel(tpl), P.getLabel(tpl));
     }
 
 

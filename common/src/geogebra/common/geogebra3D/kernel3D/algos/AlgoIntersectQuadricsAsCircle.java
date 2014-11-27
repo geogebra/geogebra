@@ -200,7 +200,7 @@ public class AlgoIntersectQuadricsAsCircle extends AlgoElement3D {
 	final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(loc.getPlain("IntersectionCircleOfAB",quadric1.getLabel(tpl),quadric2.getLabel(tpl)));
+        sb.append(getLoc().getPlain("IntersectionCircleOfAB",quadric1.getLabel(tpl),quadric2.getLabel(tpl)));
         
         return sb.toString();
     }   

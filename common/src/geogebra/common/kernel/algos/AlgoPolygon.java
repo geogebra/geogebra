@@ -414,7 +414,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 			sb.setLength(0);
 		}        
 		
-		sb.append(loc.getPlain("PolygonA", label));
+		sb.append(getLoc().getPlain("PolygonA", label));
 
     }
 

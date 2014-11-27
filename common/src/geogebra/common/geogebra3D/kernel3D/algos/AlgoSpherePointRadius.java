@@ -75,7 +75,7 @@ public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
     @Override
 	final public String toString(StringTemplate tpl) {
-        return loc.getPlain("SphereWithCenterAandRadiusB",getM().getLabel(tpl),getRGeo().getLabel(tpl));
+        return getLoc().getPlain("SphereWithCenterAandRadiusB",getM().getLabel(tpl),getRGeo().getLabel(tpl));
     }
 
 	// TODO Consider locusequability

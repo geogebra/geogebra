@@ -149,7 +149,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	final public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-24 simplified code!
-		return loc
+		return getLoc()
 				.getPlain("TranslationOfAbyB", inGeo.getLabel(tpl), v.getLabel(tpl));
 	}
 

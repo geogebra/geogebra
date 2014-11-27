@@ -121,7 +121,7 @@ public class AlgoAngleLinePlane extends AlgoAngle  implements DrawInformationAlg
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("AngleBetweenAB",g.getLabel(tpl),p.getLabel(tpl));
+        return getLoc().getPlain("AngleBetweenAB",g.getLabel(tpl),p.getLabel(tpl));
 
     }
 

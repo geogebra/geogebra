@@ -92,7 +92,7 @@ public class AlgoUnitOrthoVectorVector extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("UnitVectorPerpendicularToA",v.getLabel(tpl));
+        return getLoc().getPlain("UnitVectorPerpendicularToA",v.getLabel(tpl));
 
     }
 

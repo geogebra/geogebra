@@ -164,7 +164,7 @@ public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 	final public String toString(StringTemplate tpl) {
         StringBuilder sb = new StringBuilder();
 
-        sb.append(loc.getPlain("IntersectionCurveOfAB",plane.getLabel(tpl),quadric.getLabel(tpl)));
+        sb.append(getLoc().getPlain("IntersectionCurveOfAB",plane.getLabel(tpl),quadric.getLabel(tpl)));
         
         return sb.toString();
     }   

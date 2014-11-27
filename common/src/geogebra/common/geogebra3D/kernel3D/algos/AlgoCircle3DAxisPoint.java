@@ -119,7 +119,7 @@ public class AlgoCircle3DAxisPoint extends AlgoElement3D {
     
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return loc.getPlain("CircleOfAxisAThroughB",((GeoElement) axis).getLabel(tpl),point.getLabel(tpl));
+    	return getLoc().getPlain("CircleOfAxisAThroughB",((GeoElement) axis).getLabel(tpl),point.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

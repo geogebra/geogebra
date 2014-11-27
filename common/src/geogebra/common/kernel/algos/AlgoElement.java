@@ -1127,7 +1127,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 			return null;
 		sbAE.setLength(0);
 		if (tpl.isPrintLocalizedCommandNames()) {
-			sbAE.append(loc.getCommand(cmdname));
+			sbAE.append(getLoc().getCommand(cmdname));
 		} else {
 			sbAE.append(cmdname);
 		}
@@ -1157,7 +1157,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 		if (geo.isGeoVector()) {
 			String vectorCommand = "Vector[";
 			if(tpl.isPrintLocalizedCommandNames())
-				vectorCommand = loc.getCommand("Vector") + "["; // want it translated eg for redefine
+				vectorCommand = getLoc().getCommand("Vector") + "["; // want it translated eg for redefine
 																	// dialog
 			boolean needsWrapping = !geo.isLabelSet()
 					&& !cmd.startsWith(vectorCommand);

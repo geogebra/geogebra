@@ -112,7 +112,7 @@ public class AlgoTurtle extends AlgoElement {
 		else
 			sb.setLength(0);
 
-		sb.append(loc.getPlain("Turtle"));
+		sb.append(getLoc().getPlain("Turtle"));
 
 		return sb.toString();
 	}

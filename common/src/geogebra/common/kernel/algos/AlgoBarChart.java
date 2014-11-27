@@ -1390,9 +1390,9 @@ public class AlgoBarChart extends AlgoUsingUniqueAndFrequency implements DrawInf
 		int freq = (int) yval[index];
 		double percent = 100 * freq / dataSize;
 		StringBuilder sb = new StringBuilder();
-		sb.append(loc.getMenu("Value") + " = " + value[index]);
+		sb.append(getLoc().getMenu("Value") + " = " + value[index]);
 		sb.append("<br>");
-		sb.append(loc.getMenu("Count") + " = "
+		sb.append(getLoc().getMenu("Count") + " = "
 				+ kernel.format(freq, StringTemplate.defaultTemplate));
 		sb.append("<br>");
 		sb.append(kernel.format(percent, StringTemplate.defaultTemplate) + "%");

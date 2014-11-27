@@ -141,7 +141,7 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
    public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("AngleOfA",poly.getLabel(tpl));
+        return getLoc().getPlain("AngleOfA",poly.getLabel(tpl));
     }
     
     protected OutputHandler<GeoElement> createOutputPoints(){

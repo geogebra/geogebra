@@ -58,12 +58,12 @@ public class AlgoHyperbolaFociLength3D extends AlgoConicFociLength3D {
 	final public String toString(StringTemplate tpl) {
 		//direction is plane
 		if (orientation instanceof GeoCoordSys2D){
-			return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthCParallelToD",A.getLabel(tpl),
+			return getLoc().getPlain("HyperbolaWithFociABandFirstAxisLengthCParallelToD",A.getLabel(tpl),
 					B.getLabel(tpl),a.toGeoElement().getLabel(tpl),orientation.getLabel(tpl));	       
 		}
 
 		//direction is line
-		return loc.getPlain("HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD",A.getLabel(tpl),
+		return getLoc().getPlain("HyperbolaWithFociABandFirstAxisLengthCPerpendicularToD",A.getLabel(tpl),
 				B.getLabel(tpl),a.toGeoElement().getLabel(tpl),orientation.getLabel(tpl));	  
     }
 	

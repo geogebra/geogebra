@@ -58,12 +58,12 @@ public class AlgoEllipseFociLength3D extends AlgoConicFociLength3D {
 	final public String toString(StringTemplate tpl) {
 		//direction is plane
 		if (orientation instanceof GeoCoordSys2D){
-			return loc.getPlain("EllipseWithFociABandFirstAxisLengthCParallelToD",A.getLabel(tpl),
+			return getLoc().getPlain("EllipseWithFociABandFirstAxisLengthCParallelToD",A.getLabel(tpl),
 					B.getLabel(tpl),a.toGeoElement().getLabel(tpl),orientation.getLabel(tpl));	       
 		}
 
 		//direction is line
-		return loc.getPlain("EllipseWithFociABandFirstAxisLengthCPerpendicularToD",A.getLabel(tpl),
+		return getLoc().getPlain("EllipseWithFociABandFirstAxisLengthCPerpendicularToD",A.getLabel(tpl),
 				B.getLabel(tpl),a.toGeoElement().getLabel(tpl),orientation.getLabel(tpl));	  
     }
 	

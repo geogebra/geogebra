@@ -258,7 +258,7 @@ public class AlgoLineBisectorSegment extends AlgoElement implements
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return loc.getPlain("LineBisectorOfA",s.getLabel(tpl));
+		return getLoc().getPlain("LineBisectorOfA",s.getLabel(tpl));
 	}
 
     

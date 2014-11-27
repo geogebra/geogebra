@@ -153,7 +153,7 @@ public class AlgoSemicircle3D extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("SemicircleThroughAandBOrientedbyC",
+        return getLoc().getPlain("SemicircleThroughAandBOrientedbyC",
         		((GeoElement) A).getLabel(tpl),
         		((GeoElement) B).getLabel(tpl),
         		((GeoElement) orientation).getLabel(tpl)

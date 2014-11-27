@@ -124,7 +124,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (isLabelSet() && !isBooleanFunction()
 				&& this.isFunctionOfY()) {
 			this.remove();
-			throw new MyError(loc, "InvalidFunction");
+			throw new MyError(getLoc(), "InvalidFunction");
 		}
 	}
 	/**
@@ -730,7 +730,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (fun != null && isDefined()) {
 			return fun.toValueString(tpl);
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 
 	/*
@@ -749,14 +749,14 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (fun != null && isDefined()) {
 			return fun.toOutputValueString(tpl);
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 
 	public String toSymbolicString(StringTemplate tpl) {
 		if (fun != null && isDefined()) {
 			return fun.toString(tpl);
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 
 	@Override
@@ -764,7 +764,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		if (fun != null && isDefined()) {
 			return fun.toLaTeXString(symbolic, tpl);
 		}
-		return " \\text{" + loc.getPlain("Undefined") + "} ";
+		return " \\text{" + getLoc().getPlain("Undefined") + "} ";
 	}
 
 	/**
@@ -2116,7 +2116,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			} else {
 
 				if (getFunction() == null) {
-					ret = loc.getPlain("Undefined");
+					ret = getLoc().getPlain("Undefined");
 				} else
 					ret = substituteNumbers ? getFunction().toValueString(tpl)
 							: getFunction().toString(tpl);
@@ -2137,7 +2137,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret))
-				ret = " \\text{"+loc.getPlain("Undefined") + "} ";
+				ret = " \\text{"+getLoc().getPlain("Undefined") + "} ";
 			else if ((Unicode.Infinity + "").equals(ret))
 				ret = "\\infty";
 			else if ((Unicode.MinusInfinity + "").equals(ret))
@@ -2216,7 +2216,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 					sbLaTeX.append("} \\ggbtdL{ : \\space ");
 					if (i == cases.size() - 1 && complete) {
 						sbLaTeX.append("\\text{");
-						sbLaTeX.append(loc.getPlain("otherwise"));
+						sbLaTeX.append(getLoc().getPlain("otherwise"));
 						sbLaTeX.append("}");
 					} else {
 						sbLaTeX.append(conditions.get(i).toLaTeXString(
@@ -2232,7 +2232,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 					sbLaTeX.append("& : ");
 					if (i == cases.size() - 1 && complete) {
 						sbLaTeX.append("\\text{");
-						sbLaTeX.append(loc.getPlain("otherwise"));
+						sbLaTeX.append(getLoc().getPlain("otherwise"));
 						sbLaTeX.append("}");
 					} else {
 						sbLaTeX.append(conditions.get(i).toLaTeXString(

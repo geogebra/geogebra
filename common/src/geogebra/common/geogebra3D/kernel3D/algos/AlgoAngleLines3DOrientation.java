@@ -79,7 +79,7 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D{
 		//		geth().getLabel(tpl), orientation.getLabel(tpl));
 		
     	// clearer just as "angle between u and v"
-    	return loc.getPlain("AngleBetweenAB", getg().getLabel(tpl),
+    	return getLoc().getPlain("AngleBetweenAB", getg().getLabel(tpl),
 				geth().getLabel(tpl));
 	}
     

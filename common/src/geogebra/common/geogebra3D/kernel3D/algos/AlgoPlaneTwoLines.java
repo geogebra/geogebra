@@ -120,7 +120,7 @@ public class AlgoPlaneTwoLines extends AlgoElement3D {
 	
     @Override
 	final public String toString(StringTemplate tpl) {
-    	return loc.getPlain("PlaneThroughAB",a.getLabel(tpl),b.getLabel(tpl));
+    	return getLoc().getPlain("PlaneThroughAB",a.getLabel(tpl),b.getLabel(tpl));
 
     }
 

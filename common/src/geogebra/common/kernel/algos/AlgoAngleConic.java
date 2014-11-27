@@ -76,7 +76,7 @@ public class AlgoAngleConic extends AlgoAngle {
 
     @Override
 	public final String toString(StringTemplate tpl) {
-    	return loc.getPlain("AngleOfA",c.getLabel(tpl));
+    	return getLoc().getPlain("AngleOfA",c.getLabel(tpl));
     }
 
 	@Override

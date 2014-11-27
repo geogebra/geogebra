@@ -89,7 +89,7 @@ public class AlgoAxisSecondLength extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return loc.getPlain("SecondAxisLengthOfA", c.getLabel(tpl));
+		return getLoc().getPlain("SecondAxisLengthOfA", c.getLabel(tpl));
 	}
 
 	// TODO Consider locusequability

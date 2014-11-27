@@ -120,7 +120,7 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
        		return loc.getPlain("ARotatedByAngleBAboutC", in.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
     				((GeoElement) orientation).getLabel(tpl));
     	*/
-   		return loc.getPlain("ARotatedByAngleBAboutC", inGeo.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
+   		return getLoc().getPlain("ARotatedByAngleBAboutC", inGeo.getLabel(tpl), ((GeoElement) angle).getLabel(tpl),
 				line.getLabel(tpl));
    	
     }

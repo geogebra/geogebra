@@ -79,7 +79,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			return loc.getPlain(label);
+			return getLoc().getPlain(label);
 		}
 		return label;
 
@@ -95,7 +95,7 @@ public class GeoAxis extends GeoLine implements GeoAxisND {
 	public boolean equalsLabel(String str) {
 		if (str == null)
 			return false;
-		return str.equals(label) || str.equals(loc.getPlain(label));
+		return str.equals(label) || str.equals(getLoc().getPlain(label));
 	}
 	
 	@Override

@@ -91,7 +91,7 @@ public class AlgoDynamicCoordinates extends AlgoElement implements AlgoDynamicCo
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return loc.getPlain("DynamicCoordinatesOfA",P.getLabel(tpl));
+    	return getLoc().getPlain("DynamicCoordinatesOfA",P.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

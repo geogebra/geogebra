@@ -191,7 +191,7 @@ public abstract class AlgoTangentPointND extends AlgoElement implements TangentA
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return loc.getPlain("TangentToAThroughB",c.getLabel(tpl),P.getLabel(tpl));
+    	return getLoc().getPlain("TangentToAThroughB",c.getLabel(tpl),P.getLabel(tpl));
 
     }
 

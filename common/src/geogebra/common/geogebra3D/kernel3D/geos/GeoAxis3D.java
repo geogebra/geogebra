@@ -127,7 +127,7 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
-			return loc.getPlain(label);
+			return getLoc().getPlain(label);
 		}
 		return label;
 

@@ -217,7 +217,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 			sbTemp.append(')');
 			return sbTemp.toString();
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}	
 
 	/**
@@ -241,7 +241,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 			sbTemp.append(')');
 			return sbTemp.toString();
 		} 
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 
 	/**
@@ -453,7 +453,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 			}
 			return sbTemp.toString();
 		}
-		return " \\text{" + this.loc.getPlain("Undefined") + "} ";
+		return " \\text{" + this.getLoc().getPlain("Undefined") + "} ";
 	}
 
 	/**

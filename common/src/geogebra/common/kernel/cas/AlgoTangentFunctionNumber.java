@@ -129,7 +129,7 @@ public class AlgoTangentFunctionNumber extends AlgoElement implements TangentAlg
 	public final String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return loc.getPlain("TangentToAatB", f.getLabel(tpl),
+		return getLoc().getPlain("TangentToAatB", f.getLabel(tpl),
 				"x = " + ngeo.getLabel(tpl));
 	}
 

@@ -99,7 +99,7 @@ public abstract class AlgoCenterQuadricND extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return loc.getPlain("CenterOfA",c.getLabel(tpl));
+    	return getLoc().getPlain("CenterOfA",c.getLabel(tpl));
     }
 
 	// TODO Consider locusequability

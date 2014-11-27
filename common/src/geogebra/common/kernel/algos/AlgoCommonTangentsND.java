@@ -346,7 +346,7 @@ public abstract class AlgoCommonTangentsND extends AlgoElement implements Tangen
 	public final String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-        return loc.getPlain("CommonTangentOfCirclesAandB", c[0].getLabel(tpl), c[1].getLabel(tpl));
+        return getLoc().getPlain("CommonTangentOfCirclesAandB", c[0].getLabel(tpl), c[1].getLabel(tpl));
     }
 
 	// TODO Consider locusequability

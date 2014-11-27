@@ -226,11 +226,11 @@ public abstract class AlgoEllipseHyperbolaFociPointND extends AlgoElement {
     @Override
     public String toString(StringTemplate tpl) {
     	if (type == GeoConicNDConstants.CONIC_HYPERBOLA){
-    		 return loc.getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
+    		 return getLoc().getPlain("HyperbolaWithFociABPassingThroughC",A.getLabel(tpl),
     	        		B.getLabel(tpl),C.getLabel(tpl));     
     	}
     	
-    	return loc.getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
+    	return getLoc().getPlain("EllipseWithFociABPassingThroughC",A.getLabel(tpl),
     			B.getLabel(tpl),C.getLabel(tpl));
     }
 

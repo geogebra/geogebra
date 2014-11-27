@@ -214,19 +214,19 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 							if ("AreParallel".equals(cond)) {
 								// non-parallism in 2D means intersecting
 								// FIXME: this is not true for 3D
-								s = RelationNumerical.intersectString(ndgc.getGeos()[0], ndgc.getGeos()[1], true, loc);
+								s = RelationNumerical.intersectString(ndgc.getGeos()[0], ndgc.getGeos()[1], true, getLoc());
 							} else if ("AreCollinear".equals(cond)) {
 								s = RelationNumerical.triangleNonDegenerateString((GeoPoint) ndgc.getGeos()[0], 
-									(GeoPoint) ndgc.getGeos()[1], (GeoPoint) ndgc.getGeos()[2], loc);
+									(GeoPoint) ndgc.getGeos()[1], (GeoPoint) ndgc.getGeos()[2], getLoc());
 							} else if ("AreEqual".equals(cond)) {
-								s = RelationNumerical.equalityString(ndgc.getGeos()[0], ndgc.getGeos()[1], false, loc);
+								s = RelationNumerical.equalityString(ndgc.getGeos()[0], ndgc.getGeos()[1], false, getLoc());
 							} else if ("ArePerpendicular".equals(cond)) {
 								s = RelationNumerical.perpendicularString((GeoLine)ndgc.getGeos()[0], (GeoLine)ndgc.getGeos()[1],
-									false, loc);
+									false, getLoc());
 							}
 						}
 						if (s == null || !relTool) {
-							s = loc.getCommand(ndgc.getCondition());
+							s = getLoc().getCommand(ndgc.getCondition());
 							s += "[";
 							for (int i = 0; i < ndgc.getGeos().length; ++i) {
 								if (i > 0) {
@@ -249,7 +249,7 @@ public class AlgoProveDetails extends AlgoElement implements UsesCAS {
 							}
 							s += "]";
 							if (relTool) {
-								s = loc.getPlain("not") + " " + s;
+								s = getLoc().getPlain("not") + " " + s;
 							}
 						}
 						

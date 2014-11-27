@@ -161,7 +161,7 @@ public class AlgoAngularBisectorLines3D extends AlgoElement {
 	final public String toString(StringTemplate tpl) {
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
-    	return loc.getPlain("AngleBisectorOfAB",g.getLabel(tpl),h.getLabel(tpl));
+    	return getLoc().getPlain("AngleBisectorOfAB",g.getLabel(tpl),h.getLabel(tpl));
     }
 
     /*

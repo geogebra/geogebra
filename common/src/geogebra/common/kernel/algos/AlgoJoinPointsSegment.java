@@ -203,9 +203,9 @@ public class AlgoJoinPointsSegment extends AlgoElement implements AlgoJoinPoints
         // Michael Borcherds 2008-03-30
         // simplified to allow better Chinese translation
         if (poly != null) {
-        	return loc.getPlain("SegmentABofC",P.getLabel(tpl),Q.getLabel(tpl),poly.getNameDescription());
+        	return getLoc().getPlain("SegmentABofC",P.getLabel(tpl),Q.getLabel(tpl),poly.getNameDescription());
         }
-		return loc.getPlain("SegmentAB",P.getLabel(tpl),Q.getLabel(tpl));
+		return getLoc().getPlain("SegmentAB",P.getLabel(tpl),Q.getLabel(tpl));
     }
 
 	public Variable[] getBotanaVars(GeoElement geo) {

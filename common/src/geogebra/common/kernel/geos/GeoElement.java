@@ -1897,10 +1897,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			// else fall through:
 		case TOOLTIP_ON:
 
-			loc.setTooltipFlag();
+			getLoc().setTooltipFlag();
 			final String ret = getLongDescriptionHTML(colored, false); // old
 																		// behaviour
-			loc.clearTooltipFlag();
+			getLoc().clearTooltipFlag();
 
 			return ret;
 		case TOOLTIP_OFF:
@@ -2511,7 +2511,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return true;
 		} else {
 			final String str[] = { "NameUsed", newLabel };
-			throw new MyError(loc, str);
+			throw new MyError(getLoc(), str);
 		}
 	}
 
@@ -2737,7 +2737,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			return getLabel(tpl);
 		}
 
-		return loc.translationFix(captionSB.toString());
+		return getLoc().translationFix(captionSB.toString());
 	}
 	/** @return caption without substitution; returns "" if caption is null*/
 	public String getRawCaption() {
@@ -3091,13 +3091,13 @@ public abstract class GeoElement extends ConstructionElement implements
 				// Michael Borcherds 2008-02-23
 				// use Greek upper case for labeling points if language is Greek
 				// (el)
-				if (loc.isUsingLocalizedLabels()) {
-					if (loc.languageIs(Language.Greek.locale)) {
+				if (getLoc().isUsingLocalizedLabels()) {
+					if (getLoc().languageIs(Language.Greek.locale)) {
 						chars = greekUpperCase;
-					} else if (loc.languageIs(Language.Arabic.locale)) {
+					} else if (getLoc().languageIs(Language.Arabic.locale)) {
 						// Arabic / Arabic (Morocco)
 						chars = arabic;
-					} else if (loc.languageIs(Language.Yiddish.locale)) {
+					} else if (getLoc().languageIs(Language.Yiddish.locale)) {
 						chars = yiddish;
 					} else {
 						chars = pointLabels;
@@ -3130,7 +3130,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				if (getMetasLength() == 1 && !((FromMeta) this).getMetas()[0].isGeoPolygon()) {
 					int counter = 0;
 					String str;
-					final String name = loc.getPlainLabel("edge"); // Name.edge
+					final String name = getLoc().getPlainLabel("edge"); // Name.edge
 					do {
 						counter++;
 						str = name
@@ -3233,7 +3233,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		String str;
 		do {
 			counter++;
-			str = loc.getPlainLabel(plainKey)
+			str = getLoc().getPlainLabel(plainKey)
 					+ kernel.internationalizeDigits(counter + "",StringTemplate.defaultTemplate);
 		} while (!cons.isFreeLabel(str));
 		return str;
@@ -4113,7 +4113,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent == null) {
 			return "";
 		}
-		return indicesToHTML(loc.translationFix(algoParent.toString(StringTemplate.defaultTemplate)),
+		return indicesToHTML(getLoc().translationFix(algoParent.toString(StringTemplate.defaultTemplate)),
 				addHTMLtag);
 	}
 
@@ -4183,7 +4183,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// check for index
-		return convertIndicesToHTML(loc.translationFix(ret));
+		return convertIndicesToHTML(getLoc().translationFix(ret));
 	}
 
 	/**
@@ -4226,7 +4226,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return localized type string
 	 */
 	public String translatedTypeString() {
-		return loc.getPlain(getTypeString());
+		return getLoc().getPlain(getTypeString());
 	}
 
 	/**
@@ -4235,7 +4235,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	public String translatedTypeStringForAlgebraView() {
 		//App.debug(getTypeStringForAlgebraView());
 		//App.debug(app.getPlain(getTypeStringForAlgebraView()));
-		return loc.getPlain(getTypeStringForAlgebraView());
+		return getLoc().getPlain(getTypeStringForAlgebraView());
 	}
 
 	/**
@@ -4277,7 +4277,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbLongDescHTML.append("<html>");
 		}
 
-		final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
+		final boolean reverseOrder = getLoc().isReverseNameDescriptionLanguage();
 		if (!reverseOrder) {
 			// standard order: "point A"
 			sbLongDescHTML.append(typeString);
@@ -4309,7 +4309,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (algoParent != null) {
 			// Guy Hed, 25.8.2008
 			// In order to present the text correctly in Hebrew and Arabic:
-			final boolean rightToLeft = loc.isRightToLeftReadingOrder();
+			final boolean rightToLeft = getLoc().isRightToLeftReadingOrder();
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e\u200f: \u200e");
 				sbLongDescHTML.append(Unicode.LeftToRightMark);
@@ -4320,7 +4320,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				sbLongDescHTML.append(": ");
 			}
 			sbLongDescHTML.append(indicesToHTML(
-					loc.translationFix(algoParent.toString(StringTemplate.defaultTemplate)), false));
+					getLoc().translationFix(algoParent.toString(StringTemplate.defaultTemplate)), false));
 			if (rightToLeft) {
 				// sbLongDescHTML.append("\u200e");
 				sbLongDescHTML.append(Unicode.LeftToRightMark);
@@ -4429,7 +4429,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (isDefined()) {
 			return toValueString(tpl);
 		}
-		return loc.getPlain("Undefined");
+		return getLoc().getPlain("Undefined");
 	}
 
 	/**
@@ -4519,7 +4519,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			final StringBuilder sbAlgebraDesc = new StringBuilder();
 			sbAlgebraDesc.append(label);
 			sbAlgebraDesc.append(' ');
-			sbAlgebraDesc.append(loc.getPlain("Undefined"));
+			sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
 			return sbAlgebraDesc.toString();
 			
 	}
@@ -4537,7 +4537,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
 				sbAlgebraDesc.append(label);
 				sbAlgebraDesc.append(' ');
-				sbAlgebraDesc.append(loc.getPlain("Undefined"));
+				sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4559,7 +4559,7 @@ public abstract class GeoElement extends ConstructionElement implements
 				strAlgebraDescription = toStringMinimal(tpl);
 			} else {
 				final StringBuilder sbAlgebraDesc = new StringBuilder();
-				sbAlgebraDesc.append(loc.getPlain("Undefined"));
+				sbAlgebraDesc.append(getLoc().getPlain("Undefined"));
 				strAlgebraDescription = sbAlgebraDesc.toString();
 			}
 
@@ -4586,7 +4586,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			if (isDefined() && !isInfinite()) {
 				strLaTeX = toLaTeXString(false,StringTemplate.latexTemplate);
 			} else {
-				strLaTeX = " \\text{" + loc.getPlain("Undefined") + "} ";
+				strLaTeX = " \\text{" + getLoc().getPlain("Undefined") + "} ";
 
 			}
 		}
@@ -4624,7 +4624,7 @@ public abstract class GeoElement extends ConstructionElement implements
 			// isLatexNeeded may return true
 			sb.append(label);
 			sb.append("\\, \\text{");
-			sb.append(loc.getPlain("Undefined"));
+			sb.append(getLoc().getPlain("Undefined"));
 			sb.append("} ");
 
 			// handle non-GeoText prefixed with ":", e.g. "a: x = 3"
@@ -4759,7 +4759,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		final String label1 = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
-		if (loc.isReverseNameDescriptionLanguage()) {
+		if (getLoc().isReverseNameDescriptionLanguage()) {
 			// reverse order: "A point"
 			sbNameDescription.append(label1);
 			sbNameDescription.append(' ');
@@ -4825,7 +4825,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		final String label1 = getLabel(StringTemplate.defaultTemplate);
 		final String typeString = translatedTypeString();
 
-		final boolean reverseOrder = loc.isReverseNameDescriptionLanguage();
+		final boolean reverseOrder = getLoc().isReverseNameDescriptionLanguage();
 		if (!reverseOrder
 				// want "xAxis" not "Line xAxis"
 				&& !isAxis()) {
@@ -6261,7 +6261,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		if (tpl.hasType(StringType.LATEX)) {
 			if ("?".equals(ret)) {
-				ret = " \\text{" + loc.getPlain("Undefined") + "} ";
+				ret = " \\text{" + getLoc().getPlain("Undefined") + "} ";
 			} else if ((Unicode.Infinity + "").equals(ret)) {
 				ret = "\\infty";
 			} else if ((Unicode.MinusInfinity + "").equals(ret)) {

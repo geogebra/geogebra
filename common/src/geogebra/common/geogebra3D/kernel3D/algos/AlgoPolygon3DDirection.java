@@ -116,7 +116,7 @@ public class AlgoPolygon3DDirection extends AlgoPolygon {
 			sb.setLength(0);
 		}        
 		
-		sb.append(loc.getPlain("PolygonAParallelToB", label, ((GeoElement) direction).getLabel(tpl)));
+		sb.append(getLoc().getPlain("PolygonAParallelToB", label, ((GeoElement) direction).getLabel(tpl)));
     }
     
     

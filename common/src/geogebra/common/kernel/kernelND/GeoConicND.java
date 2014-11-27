@@ -3183,32 +3183,32 @@ FromMeta
 		  String ret = null;
 		  switch (type) {
 			 case GeoConicNDConstants.CONIC_CIRCLE:
-				 ret = loc.getPlain("CircleEquation");
+				 ret = getLoc().getPlain("CircleEquation");
 				 break;
 
 			 case GeoConicNDConstants.CONIC_ELLIPSE:
-				 ret = loc.getPlain("EllipseEquation");
+				 ret = getLoc().getPlain("EllipseEquation");
 				 break;
 
 			 case GeoConicNDConstants.CONIC_HYPERBOLA:
-				 ret = loc.getPlain("HyperbolaEquation");
+				 ret = getLoc().getPlain("HyperbolaEquation");
 				 break;
  
 			 case GeoConicNDConstants.CONIC_PARABOLA:
-				 ret = loc.getPlain("ParabolaEquation");
+				 ret = getLoc().getPlain("ParabolaEquation");
 				 break;        
     
 			 case GeoConicNDConstants.CONIC_DOUBLE_LINE:
-				 ret = loc.getPlain("DoubleLineEquation");
+				 ret = getLoc().getPlain("DoubleLineEquation");
 				 break;      
     
 			 case GeoConicNDConstants.CONIC_PARALLEL_LINES:
 			 case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
-				 ret = loc.getPlain("ConicLinesEquation");
+				 ret = getLoc().getPlain("ConicLinesEquation");
 				 break;                  
 				 
 			 case GeoConicNDConstants.CONIC_LINE:
-				 ret = loc.getPlain("DoubleLineEquation");
+				 ret = getLoc().getPlain("DoubleLineEquation");
 				 break;                  
 
 		  }
