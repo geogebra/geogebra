@@ -50,15 +50,17 @@ public class ToolsMenuW extends GMenuBar {
 			});
 		}
 
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(), app.getMenu("Tool.Manage"),
-				true), true, new MenuCommand(app) {
+		if(app.isPrerelease()){	
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(), app.getMenu("Tool.Manage"),
+					true), true, new MenuCommand(app) {
 
-			@Override
-			public void doExecute() {
-				ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(app);
-				toolManageDialog.center();
-			}
-		});
+				@Override
+				public void doExecute() {
+					ToolManagerDialogW toolManageDialog = new ToolManagerDialogW(app);
+					toolManageDialog.center();
+				}
+			});
+		}
 	}
 	
 				 
