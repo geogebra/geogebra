@@ -72,7 +72,7 @@ public class Perspective {
 	 * If the input panel should be displayed on top or at the bottom of the
 	 * screen.
 	 */
-	private InputPositon showInputPanelOnTop;
+	private InputPositon showInputPanelOnTop = InputPositon.algebraView;
 
 	// needs to be initialized so that files from ggb32 show the toolbar #2993
 	private int toolBarPosition = SwingConstants.NORTH;
