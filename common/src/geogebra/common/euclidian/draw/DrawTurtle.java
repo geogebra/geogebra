@@ -117,14 +117,7 @@ public class DrawTurtle extends Drawable {
 				currentPath.moveTo(coords[0], coords[1]);
 			}
 		}
-	/*	
-		public void setCoords(GeoPointND newPosition){
-			boolean currentPenDown = penDown;
-			penDown = false;
-			move(newPosition);
-			penDown = currentPenDown;
-		}
-		*/
+
 		public void partialMove(GeoPointND newPosition, double progress) {
 			double[] newCoords = new double[2];
 			newPosition.getInhomCoords(newCoords);
