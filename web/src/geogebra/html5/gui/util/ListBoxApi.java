@@ -1,5 +1,6 @@
 package geogebra.html5.gui.util;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.user.client.ui.ListBox;
@@ -27,13 +28,31 @@ public class ListBoxApi {
 		return indexToFind;
     }
 
-	public static List<String> getSelection(ListBox toolList) {
-	    // TODO Auto-generated method stub
-	    return null;
+	/**
+	 * @param lb ListBox for getting multiple selection
+	 * @return List of selected String items
+	 */
+	public static List<String> getSelection(ListBox lb) {
+	    List<String> sel = new ArrayList<String>(); 
+	    for (int i=0; i < lb.getItemCount(); i++) {
+	    	if (lb.isItemSelected(i)) {
+	    		sel.add(lb.getItemText(i));
+	    	}
+	    }
+		return sel;
     }
-
-	public static List<Integer> getSelectionIndexes(ListBox toolList) {
-	    // TODO Auto-generated method stub
-	    return null;
+	
+	/**
+	 * @param lb ListBox for getting multiple selection
+	 * @return List of selected indexes
+	 */
+	public static List<Integer> getSelectionIndexes(ListBox lb) {
+	    List<Integer> sel = new ArrayList<Integer>(); 
+	    for (int i=0; i < lb.getItemCount(); i++) {
+	    	if (lb.isItemSelected(i)) {
+	    		sel.add(i);
+	    	}
+	    }
+		return sel;
     }
 }

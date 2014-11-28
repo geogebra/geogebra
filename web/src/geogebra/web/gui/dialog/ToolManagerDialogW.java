@@ -362,11 +362,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public void onClick(ClickEvent event) {
 	    Object src = event.getSource();
-	    String item = null;// = toolList.getSelectedItemText();
-	    if (item == null) {
+	    int idx = toolList.getSelectedIndex();
+		if (idx == -1) {
 	    	return;
 	    }
-	    int idx = toolList.getSelectedIndex();
 	 	List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
 		int selSize = sel.size(); 
 	 	
