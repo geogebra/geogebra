@@ -1531,6 +1531,14 @@ public abstract class Drawable3D extends DrawableND {
 		return false;
 	}
 	
+	/**
+	 * called when part of list
+	 * @param hitting e.g. ray
+	 * @return true if hit
+	 */
+	public boolean hitForList(Hitting hitting){
+		return hit(hitting);
+	}
 	
 	/**
 	 * says if the drawable is hit by the hitting (e.g. ray),

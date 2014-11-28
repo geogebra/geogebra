@@ -833,7 +833,23 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 	
 	@Override
 	public boolean hit(Hitting hitting){
+		return hit(hitting, false);
+	}
 		
+	@Override
+	public boolean hitForList(Hitting hitting){
+		return hit(hitting, true);
+	}
+		
+	
+	/**
+	 * 
+	 * @param hitting e.g. ray
+	 * @param checkRealPointSize true if we check point size (and not threshold)
+	 * @return true if hitted
+	 */
+	private boolean hit(Hitting hitting, boolean checkRealPointSize){
+
 		if (waitForReset){ // prevent NPE 
 			return false;
 		}
@@ -847,7 +863,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var, Pre
 			if (project == null){
 				project = Coords.createInhomCoorsInD3();
 			}
-			if (DrawPoint3D.hit(hitting, conic.getMidpoint3D(), this, conic.getLineThickness(), project, parameters)){
+			if (DrawPoint3D.hit(hitting, conic.getMidpoint3D(), this, conic.getLineThickness(), project, parameters, checkRealPointSize)){
 				setPickingType(PickingType.POINT_OR_CURVE);
 				return true;
 			}

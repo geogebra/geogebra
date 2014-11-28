@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.euclidian3D.draw;
 
 
 import geogebra.common.euclidian.Previewable;
+import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -273,7 +274,18 @@ implements Previewable, Functional2Var{
 		Coords p = point.getInhomCoordsInD3();		
 		
 		
-		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project, parameters);
+		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project, parameters, false);
+		
+	}
+	
+	
+	@Override
+	public boolean hitForList(Hitting hitting){
+		GeoPointND point = (GeoPointND) getGeoElement();
+		Coords p = point.getInhomCoordsInD3();		
+		
+		
+		return DrawPoint3D.hit(hitting, p, this, point.getPointSize(), project, parameters, true);
 		
 	}
 	
@@ -283,9 +295,12 @@ implements Previewable, Functional2Var{
 	 * @param p point coords
 	 * @param drawable drawable calling
 	 * @param pointSize point size
+	 * @param project temp coords for projection
+	 * @param parameters temp values for paramters
+	 * @param checkRealPointSize true if we check point size (and not threshold)
 	 * @return true if the hitting hits the point
 	 */
-	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable, int pointSize, Coords project, double[] parameters){
+	static public boolean hit(Hitting hitting, Coords p, Drawable3D drawable, int pointSize, Coords project, double[] parameters, boolean checkRealPointSize){
 
 		if (hitting.isSphere()){
 			double d = p.distance(hitting.origin);
@@ -305,7 +320,13 @@ implements Previewable, Functional2Var{
 
 			double d = p.distance(project);
 			double scale = drawable.getView3D().getScale();
-			if (d * scale <= pointSize + 2){
+			boolean hitted;
+			if (checkRealPointSize){
+				hitted = d * scale <= pointSize + 2;
+			}else{
+				hitted = d * scale <= DrawPoint.getSelectionThreshold(hitting.getThreshold());
+			}
+			if (hitted){
 				double z = -parameters[0];
 				double dz = pointSize/scale;
 				drawable.setZPick(z+dz, z-dz);
@@ -316,6 +337,8 @@ implements Previewable, Functional2Var{
 		
 		return false;
 	}
+	
+
 	
 
 

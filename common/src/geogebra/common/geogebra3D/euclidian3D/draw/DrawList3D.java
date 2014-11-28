@@ -276,7 +276,7 @@ public class DrawList3D extends Drawable3D {
 		double listZFar = Double.NEGATIVE_INFINITY;
 		for (DrawableND d : drawables){
 			final Drawable3D d3d = (Drawable3D) d;
-			if (d3d.hit(hitting)){
+			if (d3d.hitForList(hitting)){
 				double zNear = d3d.getZPickNear();
 				double zFar = d3d.getZPickFar();
 				if (!ret || zNear > listZNear){
