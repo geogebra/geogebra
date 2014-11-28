@@ -29,6 +29,10 @@ public class TabletLookAndFeel extends GLookAndFeel {
 	    return "tablet";
     }
 
+	public boolean isTablet() {
+		return true;
+	}
+
 	@Override
     public boolean copyToClipboardSupported() {
 	    return true;

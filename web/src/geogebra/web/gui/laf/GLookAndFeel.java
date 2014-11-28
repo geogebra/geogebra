@@ -40,6 +40,10 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public boolean isSmart() {
 		return false;
 	}
+
+	public boolean isTablet() {
+		return false;
+	}
 	/**
 	 * Sets message to be shown when user wants to close the window
 	 * (makes no sense for SMART widget)

@@ -11,6 +11,7 @@ public interface GLookAndFeelI {
 	public static final int COMMAND_LINE_HEIGHT = 43;
 	public static final int TOOLBAR_HEIGHT = 53;
 	boolean isSmart();
+	boolean isTablet();
 
 	String getType();
 
