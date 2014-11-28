@@ -3602,4 +3602,6 @@ public abstract class App implements UpdateSelection{
 	}
 
 	public abstract void showCustomizeToolbarGUI();
+	
+	public abstract boolean isSelectionRectangleAllowed();
 }

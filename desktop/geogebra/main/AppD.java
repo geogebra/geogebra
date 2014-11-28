@@ -5156,4 +5156,9 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void showCustomizeToolbarGUI() {
 		getDialogManager().showToolbarConfigDialog();
 	}
+
+	@Override
+	public boolean isSelectionRectangleAllowed() {
+		return true;
+	}
 }

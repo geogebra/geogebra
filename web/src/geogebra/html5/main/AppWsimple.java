@@ -171,4 +171,9 @@ public class AppWsimple extends AppW {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	@Override
+    public boolean isSelectionRectangleAllowed() {
+	    return getToolbar() != null;
+    }
 }

@@ -605,4 +605,9 @@ public class AppWapplet extends AppW {
 			lg.setLabels();
 		}
 	}
+
+	@Override
+    public boolean isSelectionRectangleAllowed() {
+	    return getToolbar() != null;
+    }
 }

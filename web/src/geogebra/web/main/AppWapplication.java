@@ -532,4 +532,9 @@ public class AppWapplication extends AppW {
 	public boolean isOffline() {
 		return device.isOffline(this);
     }
+
+	@Override
+    public boolean isSelectionRectangleAllowed() {
+	    return true;
+    }
 }
