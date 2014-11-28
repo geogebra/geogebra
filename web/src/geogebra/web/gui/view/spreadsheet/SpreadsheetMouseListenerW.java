@@ -147,7 +147,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	public void onTouchStart(TouchStartEvent touchStartEvent) {
-		numberOfTouches++;
+		numberOfTouches = touchStartEvent.getTouches().length();
 		if (numberOfTouches == 1) {
 			updateTableIsOverDot(touchStartEvent);
 			handlePointerDown(touchStartEvent);
@@ -161,7 +161,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	private void handlePointerDown(DomEvent<?> event) {
 		setActiveToolbarIfNecessary();
-		event.preventDefault();
+		//event.preventDefault();
 		if (!editEnabled) {
 			return;
 		}
@@ -280,10 +280,10 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 
 	public void onTouchEnd(TouchEndEvent event) {
 		longTouchManager.cancelTimer();
+		numberOfTouches = event.getChangedTouches().length();
 		if (numberOfTouches == 1) {
 			handlePointerUp(event);
 		}
-		numberOfTouches--;
 		CancelEventTimer.touchEventOccured();
 	}
 
@@ -422,6 +422,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	public void onTouchMove(TouchMoveEvent event) {
+		numberOfTouches = event.getTouches().length();
 		if (numberOfTouches == 1) {
 			event.stopPropagation();
 			handlePointerMove(event);
