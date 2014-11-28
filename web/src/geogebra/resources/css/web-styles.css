@@ -4950,4 +4950,32 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    ########################################
    ###   END OF CUSTOMIZE TOOLBAR GUI   ###
    ######################################## */
+
+/*
+   ########################################
+   ###       MANAGE TOOLS DIALOG        ###
+   ######################################## */
+
+.manageToolsList {
+	display: block;	
+}
+
+.manageToolsList >* {
+	display: inline-block;
+	vertical-align: middle;
+	margin: 3px 10px 3px 0px;
+}
+.manageToolsList .gwt-ListBox {
+	width: 80%;
+}
+
+.manageToolsList .gwt-Button {
+	display: block;
+}
+
+/*
+   ########################################
+   ###    END OF MANAGE TOOLS DIALOG    ###
+   ######################################## */
+
  

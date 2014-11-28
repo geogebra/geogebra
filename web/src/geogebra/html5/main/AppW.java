@@ -556,7 +556,7 @@ public abstract class AppW extends App implements SetLabels{
 			String libraryJS = archive.remove(MyXMLio.JAVASCRIPT_FILE);
 
 			// Construction (required)
-			if (construction == null) {
+			if (construction == null && macros == null) {
 				throw new ConstructionException(
 				        "File is corrupt: No GeoGebra data found");
 			}
@@ -580,6 +580,12 @@ public abstract class AppW extends App implements SetLabels{
 				for (Entry<String, String> entry : archive.entrySet()) {
 					maybeProcessImage(entry.getKey(), entry.getValue());
 				}
+			}
+			
+			if (construction == null) {
+				setCurrentFile(archiveContent);
+				afterLoadFileAppOrNot();
+				return;
 			}
 			if (!getImageManager().hasImages()) {
 				// Process Construction

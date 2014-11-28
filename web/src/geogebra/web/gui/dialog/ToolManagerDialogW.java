@@ -17,6 +17,7 @@ import geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListen
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
@@ -149,13 +150,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		//toolList.setCellRenderer(new MacroCellRenderer());
 		toolList.setVisibleItemCount(6);
 
-		FlowPanel centerPanel = createListUpDownRemovePanel();
-
-		// JScrollPane jScrollPane1 = new JScrollPane(toolList);
-		// jScrollPane1.setBorder(BorderFactory.createBevelBorder(BevelBorder.LOWERED
-		// ));
-		// toolListPanel.add(jScrollPane1, BorderLayout.CENTER);
-		toolListPanel.add(toolList);
+		FlowPanel centerPanel = LayoutUtil.panelRow(toolList, createListUpDownRemovePanel());
+		centerPanel.setStyleName("manageToolsList");
 		toolListPanel.add(centerPanel);
 
 		FlowPanel toolButtonPanel = new FlowPanel();
@@ -296,15 +292,15 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolList.clear();
 		Kernel kernel = app.getKernel();
 		int size = kernel.getMacroNumber();
-		App.debug("[ManageTools] " + size + " macro(s)");
-		for (int i = 0; i < 20; i++) {
-			toolList.addItem("dummy " + i);
-		}
-//		
-//		for (int i = 0; i < size; i++) {
-//			Macro macro = kernel.getMacro(i);
-//			toolList.addItem(macro.getToolName() + ": " + macro.getNeededTypesString());
+//		App.debug("[ManageTools] " + size + " macro(s)");
+//		for (int i = 0; i < 20; i++) {
+//			toolList.addItem("dummy " + i);
 //		}
+		
+		for (int i = 0; i < size; i++) {
+			Macro macro = kernel.getMacro(i);
+			toolList.addItem(macro.getToolName() + ": " + macro.getNeededTypesString());
+		}
 	}
 
 	/*
