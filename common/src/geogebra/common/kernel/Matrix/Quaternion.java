@@ -140,11 +140,12 @@ public class Quaternion {
 	public CoordMatrix getRotMatrix(int reverseX){
 		CoordMatrix ret = new CoordMatrix(3, 3);
 		
+		
 		ret.set(1, 1, 1-2*(y*y+z*z));
-		ret.set(1, 2, reverseX * 2*(x*y-w*z));
+		ret.set(1, 2, 2*(x*y-w*z));
 		ret.set(1, 3, 2*(w*y+x*z));
 		
-		ret.set(2, 1, reverseX * 2*(x*y+w*z));
+		ret.set(2, 1, 2*(x*y+w*z));
 		ret.set(2, 2, 1-2*(x*x+z*z));
 		ret.set(2, 3, 2*(y*z-w*x));
 		
