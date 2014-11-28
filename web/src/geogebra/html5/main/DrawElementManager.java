@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.DOM;
@@ -51,12 +50,10 @@ public class DrawElementManager {
 		elementMapCollection = new HashMap<Integer, HashMap<String, ElementRecord>>();
 
 		// Create a dummy parent element for a canvas with no parent.
-		Canvas dummyCanvas = Canvas.createIfSupported();
 		dummyParent = DOM.createDiv();
 		dummyParent.addClassName("dummyParent");
 		dummyParent.getStyle().setVisibility(Style.Visibility.HIDDEN);
 		dummyParent.getStyle().setZIndex(-1);
-		dummyParent.appendChild(dummyCanvas.getElement());
 
 		RootPanel.get().getElement().appendChild(dummyParent);
 
