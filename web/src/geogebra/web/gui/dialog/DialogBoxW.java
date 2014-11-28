@@ -40,8 +40,8 @@ public class DialogBoxW extends DialogBox {
 	@Override
 	protected void onPreviewNativeEvent(final NativePreviewEvent event) {
 		super.onPreviewNativeEvent(event);
-		if (event.getTypeInt() == Event.ONKEYUP && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {	
-			setVisible(false);
+		if (event.getTypeInt() == Event.ONKEYUP && event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ESCAPE) {
+			hide();
 		}
 	}
 	
