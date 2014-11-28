@@ -11,8 +11,6 @@ import geogebra.gui.util.PopupMenuButton;
 import geogebra.main.AppD;
 
 import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -157,10 +155,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
 		}
 		
+		/*
 		@Override
 		public Point getToolTipLocation(MouseEvent e) {
 			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 		}
+		*/
 		
 
 	}
@@ -248,10 +248,12 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
 		}
 		
+		/*
 		@Override
 		public Point getToolTipLocation(MouseEvent e) {
 			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 		}
+		*/
 
 	}
 	

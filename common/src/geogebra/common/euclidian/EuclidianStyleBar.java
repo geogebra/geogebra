@@ -9,10 +9,10 @@ import geogebra.common.kernel.geos.GeoElement;
 public interface EuclidianStyleBar {
 	
 
-	/** tooltip x location for buttons */
-	public static final int TOOLTIP_LOCATION_X = 0;
-	/** tooltip y location for buttons */
-	public static final int TOOLTIP_LOCATION_Y = -25;
+//	/** tooltip x location for buttons */
+//	public static final int TOOLTIP_LOCATION_X = 0;
+//	/** tooltip y location for buttons */
+//	public static final int TOOLTIP_LOCATION_Y = -25;
 
 	/**
 	 * @param mode euclidian view mode

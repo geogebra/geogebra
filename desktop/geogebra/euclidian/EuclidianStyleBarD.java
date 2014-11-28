@@ -36,10 +36,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -91,10 +89,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 					&& mode != EuclidianConstants.MODE_DELETE);
 		}
 
+		/*
 		@Override
 		public Point getToolTipLocation(MouseEvent e) {
 			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 		}
+		*/
 
 	}
 
@@ -539,10 +539,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						|| EuclidianView.isPenMode(mode));
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnPen.addActionListener(this);
 		// add(btnPen);
@@ -561,10 +563,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						|| mode == EuclidianConstants.MODE_DELETE);
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnDelete.addActionListener(this);
 		add(btnDelete);
@@ -680,10 +684,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						lineStyleIconSize.height);
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 
 		};
 
@@ -762,10 +768,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						pointStyleIconSize.height);
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);
@@ -847,10 +855,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				return (ImageIcon) this.getIcon();
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		ImageIcon ic = app.getImageIcon("mode_showhidelabel_16.gif");
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
@@ -946,10 +956,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				return true;
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 
 		};
 		btnFixPosition.addActionListener(this);
@@ -1033,10 +1045,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 
 		};
 
@@ -1104,10 +1118,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 
 		};
 		btnBgColor.setKeepVisible(true);
@@ -1179,10 +1195,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 						null);
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 
 		};
 
@@ -1212,10 +1230,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnBold.addActionListener(this);
 
@@ -1243,10 +1263,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 
 		};
 		btnItalic.addActionListener(this);
@@ -1280,10 +1302,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnTextSize.addActionListener(this);
 		btnTextSize.setStandardButton(true); // popup on the whole button
@@ -1325,10 +1349,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 
 		btnTableTextJustify.addActionListener(this);
@@ -1372,10 +1398,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 
 		btnTableTextBracket.addActionListener(this);
@@ -1398,10 +1426,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnTableTextLinesV.addActionListener(this);
 
@@ -1422,10 +1452,12 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				}
 			}
 
+			/*
 			@Override
 			public Point getToolTipLocation(MouseEvent e) {
 				return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
 			}
+			*/
 		};
 		btnTableTextLinesH.addActionListener(this);
 	}
