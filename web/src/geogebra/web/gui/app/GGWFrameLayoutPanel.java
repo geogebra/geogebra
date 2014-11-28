@@ -4,6 +4,7 @@ import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
@@ -13,6 +14,11 @@ import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
@@ -48,20 +54,34 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		mainPanel = new MyDockPanelLayout(Style.Unit.PX);
 		mainPanel.add(dockPanel);
 
-//		dockPanel.addDomHandler(new MouseDownHandler() {
-//			public void onMouseDown(MouseDownEvent event) {
-//				if(!CancelEventTimer.cancelMouseEvent()){
-//					showKeyBoard(false, null);
-//				}
-//			}
-//		}, MouseDownEvent.getType());
-//
-//		dockPanel.addDomHandler(new TouchStartHandler() {
-//			public void onTouchStart(TouchStartEvent event) {
-//				CancelEventTimer.touchEventOccured();
-//				showKeyBoard(false, null);
-//			}
-//		}, TouchStartEvent.getType());
+		dockPanel.addDomHandler(new TouchStartHandler() {
+			@Override
+            public void onTouchStart(TouchStartEvent event) {
+				Timer timer = new Timer() {
+					@Override
+					public void run() {
+						CancelEventTimer.touchEventOccured();
+						showKeyBoard(false, null);
+					}
+				};
+				timer.schedule(0);
+			}
+		}, TouchStartEvent.getType());
+
+		dockPanel.addDomHandler(new MouseDownHandler() {
+			@Override
+            public void onMouseDown(MouseDownEvent event) {
+				Timer timer = new Timer() {
+					@Override
+					public void run() {
+						if(!CancelEventTimer.cancelMouseEvent()){
+							showKeyBoard(false, null);
+						}						
+					}
+				};
+				timer.schedule(0);
+			}
+		}, MouseDownEvent.getType());
 		
 		add(glassPane);
 		add(mainPanel);
@@ -99,17 +119,25 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 	}
 
 	public void showKeyBoard(boolean show, AutoCompleteTextFieldW textField){
-		if(this.keyboardShowing == show){
-			return;
-		}
 		this.keyboardShowing = show;
 		this.mainPanel.clear();
+		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
 		if(show && textField != null){
-			OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
 			keyBoard.show();
 			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight()); 
+		} else {
+			keyBoard.resetKeyboardState();
 		}
 		this.mainPanel.add(this.dockPanel);
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				onResize();
+				dockPanel.onResize();
+			}
+		};
+		timer.schedule(0);
 	}
 
 	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.
@@ -120,11 +148,15 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 			addStyleName("wholePanel");
 		}
 
-		public double getCenterWidth() {
+		// protected -> public
+		@Override
+        public double getCenterWidth() {
 			return super.getCenterWidth();
 		}
 
-		public double getCenterHeight() {
+		// protected -> public
+		@Override
+        public double getCenterHeight() {
 			return super.getCenterHeight();
 		}
 	}

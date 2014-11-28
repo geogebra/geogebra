@@ -9,6 +9,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.StringHandler;
@@ -490,9 +491,14 @@ public class AppWapplication extends AppW {
 			this.lg.setLabels();
 		}
 	}
-	
+
 	@Override
-    public void showKeyboard(){
+    public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
+		getAppFrame().showKeyBoard(true, autoCompleteTextFieldW);
+    }
+
+	@Override
+    public void hideKeyboard(){
 		getAppFrame().showKeyBoard(false, null);
 	}
 	

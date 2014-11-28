@@ -129,26 +129,21 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	    this.frameLayoutPanel = frameLayoutPanel;
     }
 
-	@Override
-	public void hide() {
-		resetKeyboardState();
-		frameLayoutPanel.showKeyBoard(false, null);
-	    super.hide();
-	}
-
 	/**
 	 * @param mode the keyboard mode
 	 */
-	public void setKeyboardMode(KeyboardMode mode) {
+	public void setKeyboardMode(final KeyboardMode mode) {
 		this.mode = mode;
 		if(mode == KeyboardMode.NUMBER){
+			textField.setFocus(false);
+//			NativeEvent event = Document.get().createBlurEvent();
+//			textField.getTextField().onBrowserEvent(Event.as(event));
+
 			content.setVisible(true);
+			frameLayoutPanel.showKeyBoard(true, textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			content.setVisible(false);
-		}
-		this.frameLayoutPanel.showKeyBoard(true, textField);
-		
-		if(mode == KeyboardMode.TEXT){
+			frameLayoutPanel.showKeyBoard(true, textField);			
 			textField.setFocus(true);
 		}
 	}
@@ -166,8 +161,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public boolean useSystemVirtualKeyboard() {
 		return mode == KeyboardMode.TEXT;
 	}
-	
-	private void resetKeyboardState() {
+
+	public void resetKeyboardState() {
 		mode = KeyboardMode.NUMBER;
 		content.setVisible(true);
 	}

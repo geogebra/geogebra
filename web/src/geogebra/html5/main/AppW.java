@@ -67,6 +67,7 @@ import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.io.ConstructionException;
@@ -2832,10 +2833,19 @@ public abstract class AppW extends App implements SetLabels{
 	        return getArticleElement() != null && getArticleElement().getDataParamPrerelease();
         }
 
-		public void showKeyboard() {
-	        // TODO Auto-generated method stub
-	        
-        }
+		/**
+		 * Overwritten in subclass
+		 */
+		public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
+			// nothing to do here
+		}
+
+		/**
+		 * Overwritten in subclass
+		 */
+		public void hideKeyboard() {
+			// nothing to do here
+	    }
 
 		public boolean isOffline() {
 			return !getNetworkOperation().isOnline();

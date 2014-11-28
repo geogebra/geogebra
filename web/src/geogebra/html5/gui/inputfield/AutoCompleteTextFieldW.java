@@ -133,7 +133,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
 	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
-	boolean showOnScreenKeyBoard = false;
+	public static boolean showOnScreenKeyBoard = false;
 	private int actualFontSize = 14;
 
 	/**
@@ -181,7 +181,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 			    // react on enter from system on screen keyboard or hardware keyboard
 			    if(DOM.eventGetType(event) == KEY_UP && event.getKeyCode() == ENTER){
-			    	((AppW)app).showKeyboard();
+			    	app.hideKeyboard();
 			    }
 			}
 		};
@@ -1401,7 +1401,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	@Override
     public void requestFocus() {
 		if(showOnScreenKeyBoard) {
-			app.showKeyboard();
+			app.showKeyboard(this);
 		}
 		// set focus only if onScreenKeyBoard is not shown
 		textField.setFocus(!showOnScreenKeyBoard);
@@ -1532,19 +1532,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 		}
     }
 
-	public boolean isShowOnScreenKeyBoard() {
-		return showOnScreenKeyBoard;
-	}
-
-	public void setShowOnScreenKeyBoard(boolean showOnScreenKeyBoard) {
-		this.showOnScreenKeyBoard = showOnScreenKeyBoard;
-	}
-	
-	public boolean showOnscreenKeyboard() {
-		return false;
-	}
-
 	public void setFocus(boolean b) {
-	    // TODO Auto-generated method stub
+	    textField.setFocus(b);
     }
 }
