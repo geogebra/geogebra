@@ -2140,13 +2140,25 @@ public class StringTemplate implements ExpressionNodeConstants {
 			int i = Integer.parseInt(s[1]);
 
 			int dotIndex = s[0].indexOf('.');
-
+			
 			if (dotIndex > -1) {
 				// eg 2.22E100 need i=98
 				i -= s[0].length() - dotIndex - 1;
 				s[0] = s[0].replace(".", "");
 			}
+			// c: -5116.91572736879x² - 15556.1551078899x y - 11496.6010564053y² - 2234610.47543873x - 3369532.76964123y = 243297252.338397
+			// d: -19182.5685338018x² - 7781.50649444574x y - 639.272043575625y² - 5784784.13901330x - 1154843.72376044y = 435372862.870553
+			// Intersect[c, d]
+			// eg 4.35372862870553E8
+			// need to add decimal point back in
+			if (i < 0) {				
+				return s[0].substring(0, s[0].length() + i) + "." + s[0].substring(s[0].length() + i);
+			}
 
+			if (i == 0) {
+				return s[0];
+			}
+			
 			return s[0] + StringUtil.repeat('0', i);
 		} 
 
