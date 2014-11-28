@@ -706,7 +706,7 @@ public class GeoTurtle extends GeoPoint{
 		public CmdTurn(double a) {
 			degAngle = a;
 			angle = a * Math.PI / 180;
-			time = a / 90;
+			time = Math.abs(a) / 90;
 		}
 		public CmdType getType() {
 			return CmdType.TURN;
