@@ -31,7 +31,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 
 	@Override
     public boolean copyToClipboardSupported() {
-	    return false;
+	    return true;
     }
 
 	@Override
