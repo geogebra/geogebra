@@ -14,6 +14,7 @@ import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.MyToggleButton2;
 
 import java.util.ArrayList;
 
@@ -47,14 +48,14 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	protected TextPreviewPanelW previewer;
 
 	protected ToggleButton btnInsert;
-	private ToggleButton btnLatex;
 
 	private boolean isSerif, isBold, isItalic;
 
 	/** GeoText edited by this panel */
 	protected GeoText editGeo = null;
 
-	private ToggleButton btnBold, btnItalic, btnSerif;
+	private MyToggleButton2 btnBold, btnItalic;
+	private ToggleButton btnSerif, btnLatex;
 	private GeoElementSelectionListener sl;
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;
@@ -240,11 +241,11 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		btnInsert = new ToggleButton(Unicode.alpha + "");
 		btnInsert.addClickHandler(this);
 
-		btnBold = new ToggleButton(new Image(AppResources.INSTANCE
+		btnBold = new MyToggleButton2(new Image(AppResources.INSTANCE
 		        .format_text_bold().getSafeUri().asString()));
 		btnBold.addClickHandler(this);
 
-		btnItalic = new ToggleButton(new Image(AppResources.INSTANCE
+		btnItalic = new MyToggleButton2(new Image(AppResources.INSTANCE
 		        .format_text_italic().getSafeUri().asString()));
 		btnItalic.addClickHandler(this);
 
