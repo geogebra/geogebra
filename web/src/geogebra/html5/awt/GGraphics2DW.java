@@ -57,11 +57,15 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	 * the pixel ratio of the canvas.
 	 */
 	public int devicePixelRatio = 1;
+	private int id;
+	
+	private static int counter = 1;
 
 	/**
 	 * @param canvas
 	 */
 	public GGraphics2DW(Canvas canvas) {
+		this.id = counter++;
 		this.canvas = canvas;
 		setDirection();
 		
@@ -1019,6 +1023,10 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	public void drawImage(GImage img, int x, int y) {
 		App.debug("drawImage: implementation needed");
 	}
+
+	public Integer getID() {
+	    return this.id;
+    }
 
 
 }

@@ -29,7 +29,7 @@ public class DrawElementManager {
 
 	// dummy graphics environment used as a key in elementMapCollection when a
 	// graphics canvas has no parent element
-	private GGraphics2DW dummyG2;
+	private Integer dummyID;
 
 	private class ElementRecord {
 		public Element element = null;
@@ -41,14 +41,14 @@ public class DrawElementManager {
 		}
 	}
 
-	private HashMap<GGraphics2DW, HashMap<String, ElementRecord>> elementMapCollection;
+	private HashMap<Integer, HashMap<String, ElementRecord>> elementMapCollection;
 
 	/**
 	 * Constructs new DrawElementManager
 	 */
 	public DrawElementManager() {
 
-		elementMapCollection = new HashMap<GGraphics2DW, HashMap<String, ElementRecord>>();
+		elementMapCollection = new HashMap<Integer, HashMap<String, ElementRecord>>();
 
 		// Create a dummy parent element for a canvas with no parent.
 		Canvas dummyCanvas = Canvas.createIfSupported();
@@ -64,8 +64,8 @@ public class DrawElementManager {
 		// elementMapCollection for all cases that use the dummyParent for
 		// temporary element storage.
 
-		dummyG2 = new GGraphics2DW(dummyCanvas);
-		elementMapCollection.put(dummyG2, new HashMap<String, ElementRecord>());
+		dummyID = -1;
+		elementMapCollection.put(dummyID, new HashMap<String, ElementRecord>());
 
 	}
 
@@ -98,10 +98,10 @@ public class DrawElementManager {
 	 * @return Element map using the given graphics environment as a key.
 	 *         Creates a new map if none exists.
 	 */
-	private HashMap<String, ElementRecord> getElementMap(GGraphics2DW g2) {
+	private HashMap<String, ElementRecord> getElementMap(Integer g2) {
 
 		HashMap<String, ElementRecord> elementMap = elementMapCollection
-		        .get(dummyCheck(g2));
+		        .get(g2);
 		if (elementMap == null) {
 			elementMap = new HashMap<String, ElementRecord>();
 			elementMapCollection.put(g2, elementMap);
@@ -126,11 +126,11 @@ public class DrawElementManager {
 		// debugMapCollection();
 	}
 
-	private GGraphics2DW dummyCheck(GGraphics2DW g2) {
+	private Integer dummyCheck(GGraphics2DW g2) {
 		if (g2.getCanvas().getElement().getParentElement() == null) {
-			return dummyG2;
+			return dummyID;
 		}
-		return g2;
+		return g2.getID();
 	}
 
 	public void setElementAge(GGraphics2DW g2, String stringID, int age) {
@@ -141,6 +141,10 @@ public class DrawElementManager {
 	// Element Visibility/Removal
 	// =================================================================
 
+	private HashMap<String, ElementRecord> getElementMap(GGraphics2DW g2) {
+	    return getElementMap(dummyCheck(g2));
+    }
+
 	/**
 	 * Clears all elements from a given EuclidianView by either hiding them or
 	 * removing them if they have been unused for a long enough time.
@@ -150,8 +154,8 @@ public class DrawElementManager {
 	 * @param ev
 	 */
 	public void clearLaTeXes(EuclidianViewW ev) {
-		clearLaTeXes(ev.g2p);
-		clearLaTeXes(dummyG2);
+		clearLaTeXes(ev.g2p.getID());
+		clearLaTeXes(dummyID);
 	}
 
 	/**
@@ -160,7 +164,7 @@ public class DrawElementManager {
 	 * 
 	 * @param g2
 	 */
-	public void clearLaTeXes(GGraphics2DW g2) {
+	public void clearLaTeXes(Integer g2) {
 
 		// App.debug("clearing latexs for " + viewIDString(g2);
 
@@ -201,8 +205,8 @@ public class DrawElementManager {
 	 * @param ev
 	 */
 	public void deleteLaTeXes(EuclidianViewW ev) {
-		deleteLaTeXes(ev.g2p);
-		deleteLaTeXes(dummyG2);
+		deleteLaTeXes(ev.g2p.getID());
+		deleteLaTeXes(dummyID);
 	}
 
 	/**
@@ -210,7 +214,7 @@ public class DrawElementManager {
 	 * 
 	 * @param g2
 	 */
-	public void deleteLaTeXes(GGraphics2DW g2) {
+	public void deleteLaTeXes(Integer g2) {
 		// App.debug("deleting latexs");
 		HashMap<String, ElementRecord> elementMap = getElementMap(g2);
 
@@ -254,10 +258,10 @@ public class DrawElementManager {
 	private void debugMapCollection() {
 
 		App.debug("----------------------------- ");
-		Iterator<GGraphics2DW> it = elementMapCollection.keySet().iterator();
+		Iterator<Integer> it = elementMapCollection.keySet().iterator();
 		while (it.hasNext()) {
-			GGraphics2DW g2 = it.next();
-			App.debug(viewIDString(g2));
+			Integer g2 = it.next();
+			App.debug("ID:"+g2);
 			Iterator<String> it2 = getElementMap(g2).keySet().iterator();
 			while (it2.hasNext()) {
 				String s = "   element string: " + it2.next();
@@ -265,13 +269,4 @@ public class DrawElementManager {
 		}
 		App.debug("----------------------------- ");
 	}
-
-	private String viewIDString(GGraphics2DW g2) {
-		String s = "view ID == null";
-		if (g2.getView() != null) {
-			s = "view ID == " + g2.getView().getViewID() + "";
-		}
-		return s;
-	}
-
 }
