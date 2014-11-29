@@ -1210,7 +1210,6 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			PolyFunction poly2 = geoFun.getFunction().expandToPolyFunction(geoFun.getFunctionExpression(), false, true);
 		
 			if (poly2 != null) {
-				App.debug(this.label + " " + geo.getLabelSimple());
 				return poly1.isEqual(poly2);
 			}
 		}
