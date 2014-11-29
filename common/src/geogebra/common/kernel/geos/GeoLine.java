@@ -43,6 +43,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Functional;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
+import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
@@ -590,6 +591,46 @@ public class GeoLine extends GeoVec3D implements Path, Translateable,
 	// Michael Borcherds 2008-04-30
 	@Override
 	public boolean isEqual(GeoElement geo) {
+		
+		if (!geo.isDefined() || !isDefined()) {
+			return false;
+		}
+		
+		// support c==f for Line, Function
+		if (geo.isGeoFunction()) {
+			PolyFunction poly = ((GeoFunction) geo).getFunction().expandToPolyFunction(((GeoFunction) geo).getFunctionExpression(), false, true);
+			
+			if (poly == null) {
+				// (probably) not a polynomial
+				return false;
+			}
+			
+			int degree = poly.getDegree();
+			
+			if (degree > 1) {
+				// not linear
+				return false;
+			}
+			
+			double[] coeffs = poly.getCoeffs();
+			
+			if (degree == 0) {
+				if (Kernel.isEqual(x, 0)
+						&& Kernel.isEqual(-z/y, coeffs[0])) {
+					return true;
+				}
+				
+			} else {
+				// f(x_var) = -x/y x_var - z/y
+				if (Kernel.isEqual(-x/y, coeffs[1])
+						&& Kernel.isEqual(-z/y, coeffs[0])) {
+					return true;
+				}
+			}
+			
+			return false;
+		}
+		
 		// return false if it's a different type, otherwise use equals() method
 		if (geo.isGeoRay() || geo.isGeoSegment()) {
 			return false;

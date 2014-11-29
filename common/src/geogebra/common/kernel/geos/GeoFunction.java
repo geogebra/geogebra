@@ -1186,6 +1186,12 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	// Michael Borcherds 2009-02-15
 	@Override
 	public boolean isEqual(GeoElement geo) {
+		
+		// support c==f for Line, Function
+		if (geo.isGeoLine()) {
+			return ((GeoLine)geo).isEqual(this);
+		}
+
 		if (!geo.isGeoFunction()
 				|| geo.getGeoClassType().equals(GeoClass.INTERVAL)) {
 			return false;
@@ -1204,6 +1210,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			PolyFunction poly2 = geoFun.getFunction().expandToPolyFunction(geoFun.getFunctionExpression(), false, true);
 		
 			if (poly2 != null) {
+				App.debug(this.label + " " + geo.getLabelSimple());
 				return poly1.isEqual(poly2);
 			}
 		}
