@@ -104,4 +104,12 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		return label;
 
 	}
+	
+	
+
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.NONE;
+	}
 }

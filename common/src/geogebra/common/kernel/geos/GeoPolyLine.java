@@ -533,4 +533,9 @@ public class GeoPolyLine extends GeoElement implements GeoNumberValue, Path,
 		return this;
 	}
 	
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 }

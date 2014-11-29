@@ -832,5 +832,11 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	public double[] getFlatMatrix(){
 		return side.getFlatMatrix();
 	}
+	
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 
 }

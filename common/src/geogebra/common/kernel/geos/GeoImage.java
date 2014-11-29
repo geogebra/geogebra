@@ -961,5 +961,11 @@ public class GeoImage extends GeoElement implements Locateable,
 		updateGeo();
 		kernel.notifyUpdateLocation(this);	
 	}
+	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 
 }

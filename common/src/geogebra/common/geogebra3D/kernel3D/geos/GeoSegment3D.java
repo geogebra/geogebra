@@ -529,6 +529,11 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return algo.getOutput(0);
 	}
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 
 }

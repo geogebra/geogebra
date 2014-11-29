@@ -109,5 +109,11 @@ public class GeoScriptAction extends GeoElement  {
 			action.performAndClean(command);
 		remove();
 	}
+	
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.NONE;
+	}
 		
 }

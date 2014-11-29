@@ -774,4 +774,12 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public void setPolar() { setMode(Kernel.COORD_POLAR); }
 
 	public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
+	
+	
+
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 }

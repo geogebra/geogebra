@@ -43,6 +43,7 @@ import geogebra.common.kernel.algos.AlgoAngle;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.HitType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
@@ -1617,6 +1618,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 			setHits(p, app.getCapturingThreshold(type) * 3);
 		}
 	}
+	
+	private ArrayList<GeoElement> hitPointOrBoundary, hitFilling, hitLabel;
 	/**
 	 * sets the hits of GeoElements whose visual representation is at screen
 	 * coords (x,y). order: points, vectors, lines, conics
@@ -1624,14 +1627,49 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	public void setHits(GPoint p, int hitThreshold) {
 		hits.init();
 
+		if (hitPointOrBoundary == null){
+			hitPointOrBoundary = new ArrayList<GeoElement>();
+			hitFilling = new ArrayList<GeoElement>();
+			hitLabel = new ArrayList<GeoElement>();
+		}else{
+			hitPointOrBoundary.clear();
+			hitFilling.clear();
+			hitLabel.clear();
+		}
+
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();
-			if (d.isEuclidianVisible() && (d.hit(p.x, p.y, hitThreshold) || d.hitLabel(p.x, p.y))) {
-				GeoElement geo = d.getGeoElement();
-				hits.add(geo);
+			if (d.isEuclidianVisible()){
+				if(d.hit(p.x, p.y, hitThreshold)) {
+					GeoElement geo = d.getGeoElement();
+					if (geo.getLastHitType() == HitType.ON_BOUNDARY){
+						hitPointOrBoundary.add(geo);
+					}else{
+						hitFilling.add(geo);
+					}
+				}else if (d.hitLabel(p.x, p.y)){
+					GeoElement geo = d.getGeoElement();
+					hitLabel.add(geo);
+				}
 			}
 		}
+		
+		// labels first
+		for (GeoElement geo : hitLabel){
+			hits.add(geo);
+		}
+		
+		// then points and paths
+		for (GeoElement geo : hitPointOrBoundary){
+			hits.add(geo);
+		}
+
+		// then regions
+		for (GeoElement geo : hitFilling){
+			hits.add(geo);
+		}
+
 		
 		// look for axis
 		if (hits.getImageCount() == 0) {

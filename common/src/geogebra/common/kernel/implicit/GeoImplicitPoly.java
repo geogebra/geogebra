@@ -1808,5 +1808,9 @@ Dilateable, Transformable, EuclidianViewCE {
 		}
 
 
+		@Override
+		final public HitType getLastHitType(){
+			return HitType.ON_BOUNDARY;
+		}
 }
 

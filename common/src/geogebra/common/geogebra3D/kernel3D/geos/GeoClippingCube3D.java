@@ -102,5 +102,9 @@ public class GeoClippingCube3D extends GeoElement3D {
 		return reduction;
 	}
 	
-	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.NONE;
+	}
 }

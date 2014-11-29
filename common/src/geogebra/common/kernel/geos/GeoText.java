@@ -1259,5 +1259,10 @@ public class GeoText extends GeoElement implements Locateable,
 	}
 
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 
 }

@@ -2175,4 +2175,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 			point.updateRepaint();
 		}
 	}
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 }

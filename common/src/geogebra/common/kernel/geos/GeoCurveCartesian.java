@@ -955,5 +955,11 @@ public class GeoCurveCartesian extends GeoCurveCartesianND implements
 		return new GeoCurveCartesian(cons);
 	}
 
+	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 }

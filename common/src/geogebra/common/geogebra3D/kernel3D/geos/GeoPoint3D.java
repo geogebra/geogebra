@@ -1813,4 +1813,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 		updateCoords();
 	}
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 }

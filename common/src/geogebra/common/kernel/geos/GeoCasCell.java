@@ -2701,4 +2701,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		return false;
 	}
 	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 }

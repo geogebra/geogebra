@@ -1995,5 +1995,10 @@ GeoPolyhedronInterface
 		}
 	}
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 
 }

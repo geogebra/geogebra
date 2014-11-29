@@ -427,5 +427,12 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 		/** None NW */
 		T0000, T1000, T0100, T0010, T0001, T1001, T1100, T1010, T0101;
 	}
+	
+	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 }

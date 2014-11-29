@@ -2469,4 +2469,9 @@ SymbolicParametersBotanaAlgo {
 		z = 1.0;
 	}
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 }

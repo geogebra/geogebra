@@ -596,5 +596,6 @@ public class GeoAngle extends GeoNumeric implements AngleProperties {
 		return isDrawable();
 	}
 
+	
 
 }

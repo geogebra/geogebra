@@ -2841,5 +2841,12 @@ AngleProperties {
 		return getLabel(StringTemplate.defaultTemplate);
 	}
 	
+	
+	@Override
+	final public HitType getLastHitType(){
+		// TODO check elements
+		return HitType.ON_FILLING;
+	}
+	
 
 }

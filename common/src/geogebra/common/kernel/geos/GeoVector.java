@@ -999,6 +999,11 @@ Transformable, GeoVectorND, SpreadsheetTraceable, SymbolicParametersAlgo, Symbol
 		kernel.notifyUpdateLocation(this);	
 	}
 	
+
 	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 }

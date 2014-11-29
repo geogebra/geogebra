@@ -3671,14 +3671,7 @@ FromMeta
 	//////////////////////////////////////////////
 	// HIT STUFF
 	//////////////////////////////////////////////
-	/** hit type (no/boundary/inside)*/
-	public enum HitType{
-	/** not hit*/
-	NONE,
-	/** boundary hit */
-	ON_BOUNDARY,
-	/** fill hit*/
-	ON_FILLING}
+	
 	private HitType lastHitType = HitType.NONE;
 	
 	/**
@@ -3688,9 +3681,8 @@ FromMeta
 		lastHitType=type;
 	}
 	
-	/**
-	 * @return last hit type
-	 */
+
+	@Override
 	final public HitType getLastHitType(){
 		return lastHitType;
 	}

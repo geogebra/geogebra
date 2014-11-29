@@ -901,5 +901,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return ret;
 
 		}
+		
+
+		@Override
+		final public HitType getLastHitType(){
+			return HitType.ON_FILLING;
+		}
 
 }

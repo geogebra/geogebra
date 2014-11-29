@@ -55,6 +55,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.HitType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoLine;
@@ -79,7 +80,6 @@ import geogebra.common.kernel.geos.Translateable;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoElementND;
@@ -6221,8 +6221,12 @@ public abstract class EuclidianController {
 			// case EuclidianView.MODE_INTERSECT:
 			// case EuclidianView.MODE_INTERSECTION_CURVE:
 			break;
+		case EuclidianConstants.MODE_MOVE:
+			hits.removePolygonsIfSidePresent();
+			break;
 		default:
 			hits.removePolygons();
+			break;
 		}
 	}
 

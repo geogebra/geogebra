@@ -1415,5 +1415,10 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 		num.update();
 		return num;
 	}
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 }

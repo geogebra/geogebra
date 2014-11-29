@@ -253,4 +253,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	}
 	
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
+	
+
 }

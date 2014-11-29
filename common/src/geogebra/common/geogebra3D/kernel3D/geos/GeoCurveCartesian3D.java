@@ -691,6 +691,12 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons) {
 		return new GeoCurveCartesian3D(cons);
 	}
+	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 
 }

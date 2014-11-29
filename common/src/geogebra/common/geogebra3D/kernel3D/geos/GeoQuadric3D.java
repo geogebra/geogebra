@@ -1277,6 +1277,12 @@ public class GeoQuadric3D extends GeoQuadricND implements
 			sb.append(" A" + i + "=\"" + matrix[i] + "\"");
 		sb.append("/>\n");
 	}
+	
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 
 
 }

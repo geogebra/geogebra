@@ -1254,6 +1254,14 @@ public abstract class GeoElement extends ConstructionElement implements
 			return false;
 		}
 		
+		if (this.getLastHitType() == HitType.ON_BOUNDARY && other.getLastHitType() != HitType.ON_BOUNDARY ){
+			return true;
+		}
+		
+		if (this.getLastHitType() != HitType.ON_BOUNDARY && other.getLastHitType() == HitType.ON_BOUNDARY ){
+			return false;
+		}
+		
 		if (this.typePriority() < other.typePriority()){
 			return true;
 		}
@@ -7333,4 +7341,18 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean getTrace(){
 		return false;
 	}
+	
+	/** hit type (no/boundary/inside)*/
+	public enum HitType{
+	/** not hit*/
+	NONE,
+	/** boundary hit */
+	ON_BOUNDARY,
+	/** fill hit*/
+	ON_FILLING}
+	
+	/**
+	 * @return last hit type
+	 */
+	abstract public HitType getLastHitType();
 }

@@ -112,5 +112,10 @@ public class GeoLocus extends GeoLocusND<MyPoint> {
 	public boolean hasLineOpacity() {
 		return true;
 	}
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 
 }

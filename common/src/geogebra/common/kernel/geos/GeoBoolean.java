@@ -393,5 +393,8 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		return count;
 	}
 
-	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 }

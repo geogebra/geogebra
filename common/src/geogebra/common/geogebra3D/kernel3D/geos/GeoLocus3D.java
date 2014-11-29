@@ -150,4 +150,9 @@ public class GeoLocus3D extends GeoLocusND<MyPoint3D> {
 		return ((GeoSegment3D) segment).getParamOnLine(changingPoint);
 	}
 
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 }

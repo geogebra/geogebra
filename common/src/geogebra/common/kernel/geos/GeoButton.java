@@ -351,5 +351,11 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 	public static GeoButton getNewButton(Construction cons) { 
 		return new GeoButton(cons, ConstructionDefaults.DEFAULT_BUTTON_SIZE); 
 	} 
+	
+
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_FILLING;
+	}
 
 }

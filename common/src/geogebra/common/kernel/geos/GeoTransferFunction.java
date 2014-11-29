@@ -304,4 +304,11 @@ public class GeoTransferFunction extends GeoElement {
 	public boolean isLaTeXDrawableGeo() {
 		return true;
 	}
+	
+
+	
+	@Override
+	final public HitType getLastHitType(){
+		return HitType.ON_BOUNDARY;
+	}
 }

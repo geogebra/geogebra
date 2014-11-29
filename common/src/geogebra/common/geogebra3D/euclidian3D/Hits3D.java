@@ -6,8 +6,8 @@ import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D.drawableComparator
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.HitType;
 import geogebra.common.kernel.kernelND.GeoConicND;
-import geogebra.common.kernel.kernelND.GeoConicND.HitType;
 import geogebra.common.main.App;
 
 import java.util.ArrayList;
