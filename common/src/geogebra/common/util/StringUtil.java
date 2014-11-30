@@ -1123,6 +1123,12 @@ public class StringUtil {
 			return s;
 		}
 		
+		// if we have eg 6.048554268711413E7
+		// convert to exact(6.048554268711413e7)
+		if (s.indexOf("E") > -1) {
+			s = s.replace("E", "e");
+		}
+		
 		if ("?".equals(s) || "undef".equals(s)) {
 			return "undef";
 		}
