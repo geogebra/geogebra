@@ -505,6 +505,7 @@ public abstract class AppW extends App implements SetLabels{
 			return super.getReverseCommand(command);
 		}
 		
+		@Override
 		public String getEnglishCommand(String pageName) {
 			loc.initCommand();
 			// String ret = commandConstants

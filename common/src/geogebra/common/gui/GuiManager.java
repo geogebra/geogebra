@@ -11,6 +11,7 @@ the Free Software Foundation.
 */
 package geogebra.common.gui;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
@@ -559,10 +560,45 @@ public abstract class GuiManager implements GuiManagerInterface {
 		protected int setToolbarMode(int mode) {
 			return 0;
 			//should be implemented in subclasses if needed
-		};
+		}
 		
 		/**
-		 * setst the caller app to the prober value
+		 * sets the caller app to the prober value
 		 */
 		protected abstract void setCallerApp();
+		
+		final public String getHelpURL(final Help type, String pageName) {
+			// try to get help for given language
+			// eg http://www.geogebra.org/help/en_GB/cmd/FitLogistic
+
+			final StringBuilder urlSB = new StringBuilder();
+
+			urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
+			urlSB.append("help/");
+			urlSB.append(app.getLocalization().getLanguage()); // eg en_GB
+
+			switch (type) {
+			case COMMAND:
+				pageName = app.getEnglishCommand(pageName);
+				urlSB.append("/cmd/");
+				urlSB.append(pageName);
+				break;
+			case TOOL:
+				urlSB.append("/tool/");
+				urlSB.append(pageName);
+				break;
+			case GENERIC:
+				// eg openHelp("Custom_Tools", Help.GENERIC)
+				// returns http://www.geogebra.org/help/hu/article/Custom_Tools
+				// wiki redirects to correct page
+				// ie http://wiki.geogebra.org/hu/Egy%E9ni_eszk%F6z%F6k
+				urlSB.append("/article/");
+				urlSB.append(pageName);
+				break;
+			default:
+				Log.error("Bad getHelpURL call");
+			}
+
+			return urlSB.toString();
+		}
 }

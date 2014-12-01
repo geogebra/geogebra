@@ -2371,6 +2371,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		return loc.getLocale();
 	}
 
+	@Override
 	final public String getEnglishCommand(String key) {
 
 		if (rbcommandEnglish == null) {

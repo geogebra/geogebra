@@ -2557,7 +2557,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	@Override
 	public void openHelp(String page, Help type) {
 		try {
-			URL helpURL = getHelpURL(type, page);
+			URL helpURL = getEscapedUrl(getHelpURL(type, page));
 			showURLinBrowser(helpURL);
 		} catch (MyError e) {
 			app.showError(e);
@@ -2576,73 +2576,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private URL getHelpURL(Help type, String pageName) {
-		// try to get help for given language
-		// eg http://www.geogebra.org/help/en_GB/FitLogistic
-
-		StringBuilder urlSB = new StringBuilder();
-		StringBuilder urlOffline = new StringBuilder();
-
-		urlOffline.append(AppD.getCodeBaseFolder());
-		urlOffline.append("help/");
-		urlOffline.append(((AppD) app).getLocale().getLanguage()); // eg en
-		urlOffline.append('/');
-
-		urlSB.append(GeoGebraConstants.GEOGEBRA_WEBSITE);
-		urlSB.append("help/");
-		urlSB.append(((AppD) app).getLocale().toString()); // eg en_GB
-
-		switch (type) {
-		case COMMAND:
-			pageName = ((AppD) app).getEnglishCommand(pageName);
-			String pageNameOffline = pageName.replace(":", "%3A").replace(" ",
-					"_");
-			urlSB.append("/cmd/");
-			urlSB.append(pageName);
-
-			urlOffline.append(pageNameOffline);
-			urlOffline.append("_Command.html");
-			break;
-		case TOOL:
-			pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
-			urlSB.append("/tool/");
-			urlSB.append(pageName);
-
-			urlOffline.append(pageNameOffline);
-			urlOffline.append("_Tool.html");
-			break;
-		case GENERIC:
-			pageNameOffline = pageName.replace(":", "%3A").replace(" ", "_");
-			urlSB.append("/article/");
-			urlSB.append(pageName);
-
-			urlOffline.append(pageNameOffline);
-			urlOffline.append(".html");
-			break;
-		default:
-			AppD.printStacktrace("Bad getHelpURL call");
-		}
-		try {
-			// Application.debug(urlOffline.toString());
-			// Application.debug(urlSB.toString());
-
-			String offlineStr = urlOffline.toString();
-
-			File file = new File(AppD.WINDOWS ? offlineStr.replaceAll(
-					"[/\\\\]+", "\\" + "\\") : offlineStr); // replace slashes
-															// with
-															// backslashes
-
-			if (file.exists())
-				return getEscapedUrl("file:///" + offlineStr);
-			else
-				return getEscapedUrl(urlSB.toString());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
 	}
 
 	/**
