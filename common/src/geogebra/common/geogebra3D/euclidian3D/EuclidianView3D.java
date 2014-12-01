@@ -1884,7 +1884,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 	
-	protected int getCapturingThreshold(PointerEventType type){
+	public int getCapturingThreshold(PointerEventType type){
 		return app.getCapturingThreshold(type);
 	}
 

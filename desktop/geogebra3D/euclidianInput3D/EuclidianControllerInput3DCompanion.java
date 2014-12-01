@@ -4,11 +4,16 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra3D.euclidianInput3D.EuclidianViewInput3D.StationaryCoords;
+
+import java.util.TreeSet;
 
 /**
  * Euclidian controller creator for 3D controller with 3D input
@@ -143,7 +148,42 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 		}
 	}
 	
+	private class StickyPoint implements Comparable<StickyPoint>{
+		public GeoPointND point;
+		public double distance;
+		
+		public StickyPoint(GeoPointND point, double distance){
+			this.point = point;
+			this.distance = distance;
+		}
+		
+		public int compareTo(StickyPoint sp) {
+			
+			// check distance
+			if (this.distance < sp.distance){
+				return -1;
+			}
+			
+			if (this.distance > sp.distance){
+				return 1;
+			}
+			
+			// check construction index
+			if (this.point.getConstructionIndex() < sp.point.getConstructionIndex()){
+				return -1;
+			}
+			
+			if (this.point.getConstructionIndex() > sp.point.getConstructionIndex()){
+				return 1;
+			}
+			
+			return 0;
+
+		}
+		
+	}
 	
+	private TreeSet<StickyPoint> stickyPoints;
 	
 	@Override
 	protected void movePlane(boolean repaint, AbstractEvent event) {
@@ -154,18 +194,55 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			Coords v = new Coords(4);
 			v.set(((EuclidianControllerInput3D) ec).mouse3DPosition.sub(((EuclidianControllerInput3D) ec).startMouse3DPosition));
 			((EuclidianView3D) ec.view).toSceneCoords3D(v);
+			
+			final GeoPlane3D plane = ((EuclidianControllerInput3D) ec).movedGeoPlane;
 
-			((EuclidianControllerInput3D) ec).movedGeoPlane.setCoordSys(((EuclidianControllerInput3D) ec).movedGeoPlaneStartCoordSys);
+			plane.setCoordSys(((EuclidianControllerInput3D) ec).movedGeoPlaneStartCoordSys);
 
 			((EuclidianControllerInput3D) ec).calcCurrentRot();
-			((EuclidianControllerInput3D) ec).movedGeoPlane.rotate(
+			plane.rotate(
 					((EuclidianControllerInput3D) ec).getCurrentRotMatrix(),
 					((EuclidianControllerInput3D) ec).movedGeoPointStartCoords
 					);
 
-			((EuclidianControllerInput3D) ec).movedGeoPlane.translate(v);
-
-			((EuclidianControllerInput3D) ec).movedGeoPlane.updateCascade();
+			plane.translate(v);
+			
+			
+			// check sticky points
+			if (stickyPoints == null){
+				stickyPoints = new TreeSet<StickyPoint>();
+			}else{
+				stickyPoints.clear();
+			}
+			
+			for (GeoPointND point : ((EuclidianControllerInput3D) ec).stickyPoints){
+				StickyPoint sp = new StickyPoint(point, plane.distance(point));
+				stickyPoints.add(sp);
+			}
+			
+			
+			double scale = ((EuclidianView3D) ec.view).getScale();
+			int threshold = 10;// ((EuclidianView3D) ec.view).getCapturingThreshold(PointerEventType.MOUSE);
+			//App.debug(""+threshold);
+			CoordSys coordsys = new CoordSys(2);
+			for (StickyPoint sp : stickyPoints){
+				//App.debug("\n"+sp.point);
+				if (!checkDistanceToStickyPoint(sp.distance, sp.point, scale, threshold)){
+					//App.error("TOO FAR");
+					break;
+				}
+				coordsys.addPoint(sp.point.getInhomCoordsInD3());
+				if (coordsys.isMadeCoordSys()){
+					//App.error("END");
+					coordsys.makeOrthoMatrix(false,false);
+					coordsys.makeEquationVector();
+					plane.setCoordSys(coordsys);
+					break;
+				}
+			}
+			
+			// update
+			plane.updateCascade();
 			
 			
 			if (((EuclidianControllerInput3D) ec).input3D.getLeftButton()){
@@ -186,7 +263,9 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 	}
 	
 	
-	
+	private static boolean checkDistanceToStickyPoint(double d, GeoPointND point, double scale, int threshold){
+		return d * scale < point.getPointSize() + threshold;
+	}
 	
 
 }

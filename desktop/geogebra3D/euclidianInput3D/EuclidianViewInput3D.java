@@ -478,7 +478,7 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	}
 
 	@Override
-	protected int getCapturingThreshold(PointerEventType type) {
+	public int getCapturingThreshold(PointerEventType type) {
 		if (input3D.currentlyUseMouse2D()) {
 			return super.getCapturingThreshold(type);
 		}

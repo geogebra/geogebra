@@ -14,6 +14,7 @@ import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra3D.awt.GPointWithZ;
 import geogebra3D.euclidian3D.EuclidianController3DD;
 import geogebra3D.euclidian3D.EuclidianView3DD;
@@ -26,6 +27,7 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 /**
  * controller with specific methods from leonar3do input system
@@ -516,6 +518,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	protected CoordSys movedGeoPlaneStartCoordSys;
 	private Coords movedGeoStartPosition;
 	
+	protected ArrayList<GeoPointND> stickyPoints;
+	
 	
 	/**
 	 * set plane to move
@@ -541,6 +545,20 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 
 		view3D.setDragCursor();
+		
+		// set sticky points
+		if (stickyPoints == null){
+			stickyPoints = new ArrayList<GeoPointND>();
+		}else{
+			stickyPoints.clear();
+		}
+		
+		for (GeoElement geo1 : geo.getConstruction().getGeoSetConstructionOrder()){
+			if (geo1.isGeoPoint() && geo1.isVisibleInView3D() && !geo1.isChildOf(geo)){
+				stickyPoints.add((GeoPointND) geo1);
+			}
+		}
+		
 	}
 	
 	@Override
