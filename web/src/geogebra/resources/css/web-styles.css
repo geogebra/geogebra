@@ -953,6 +953,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	
 }
 
+.TextToggleButton.gwt-ToggleButton-down,.TextToggleButton.gwt-ToggleButton-down-hovering,
 .MyToggleButton.gwt-ToggleButton-down,.MyToggleButton.gwt-ToggleButton-down-hovering
 	{ /*color: #6666FF;*/
 	border-color: #6666FF;
@@ -960,6 +961,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 }
 
+.TextToggleButton.gwt-ToggleButton-up-hovering,
 .MyToggleButton.gwt-ToggleButton-up-hovering,.MyCanvasButton:hover {
 	/*color: #6666FF;*/
 	border-color: #CCCCFF;
@@ -967,6 +969,7 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	cursor: hand;
 }
 
+.TextToggleButton.gwt-ToggleButton-up-disabled,.TextToggleButton.gwt-ToggleButton-down-disabled,
 .button-up-disabled,.MyToggleButton.gwt-ToggleButton-up-disabled,.MyToggleButton.gwt-ToggleButton-down-disabled
 	{
 	cursor: default !important;
@@ -976,10 +979,13 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	background: none !important;
 }
 
+.TextToggleButton.gwt-ToggleButton-up-disabled:focus, .TextToggleButton.gwt-ToggleButton-down-disabled:focus,
 .button-up-disabled:focus ,.MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus
 	{
 	outline: none;
 }
+
+.TextToggleButton.gwt-ToggleButton-up-disabled:active, .TextToggleButton.gwt-ToggleButton-down-disabled:active,
 .button-up-disabled:active ,.MyToggleButton.gwt-ToggleButton-up-disabled:active, .MyToggleButton.gwt-ToggleButton-down-disabled:active {
 	border: 1px solid #6161FF;
 }
@@ -1815,6 +1821,7 @@ body.application[dir=rtl] .VerticalSeparator {
 	margin: 0px 5px 0px 2px;
 }
 
+.TextToggleButton,
 .MyToggleButton,
 .MyCanvasButton {
 	text-align: center;
@@ -1831,6 +1838,7 @@ body.application[dir=rtl] .VerticalSeparator {
 	cursor: pointer;
 }
 body.application[dir=rtl] .MyToggleButton,
+body.application[dir=rtl] .TextToggleButton,
 body.application[dir=rtl] .MyCanvasButton {
 	margin-left: 0px;
 	margin-right: 4px;
@@ -1848,6 +1856,7 @@ body.application[dir=rtl] .MyCanvasButton-rightaligned {
 	float: left;
 }
 
+.TextToggleButton.selected,
 .MyToggleButton.selected,
 .MyCanvasButton.selected {
 	border-color: #6666FF;

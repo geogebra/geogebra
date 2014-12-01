@@ -251,15 +251,19 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		btnSerif = new ToggleButton("Serif");
 		btnSerif.addClickHandler(this);
+		btnSerif.addStyleName("TextToggleButton");
 
 		btnLatex = new ToggleButton("LaTeX");
 		btnLatex.addClickHandler(this);
-
+		btnLatex.addStyleName("TextToggleButton");
+		
 		// TODO: put styles in css stylesheet
 		btnBold.getElement().getStyle().setHeight(18, Unit.PX);
 		btnItalic.getElement().getStyle().setHeight(18, Unit.PX);
 		btnSerif.getElement().getStyle().setHeight(18, Unit.PX);
 		btnLatex.getElement().getStyle().setHeight(18, Unit.PX);
+		btnLatex.getElement().getStyle().setHeight(18, Unit.PX);
+		btnLatex.getElement().getStyle().setWidth(60, Unit.PX);
 		btnInsert.getElement().getStyle().setHeight(18, Unit.PX);
 
 		HorizontalPanel leftPanel = new HorizontalPanel();

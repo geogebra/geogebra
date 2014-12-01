@@ -121,6 +121,7 @@ import java.util.TreeSet;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -2065,6 +2066,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		public void createGUI() {
 			model = new TextOptionsModel(app, this);
 			setModel(model);
+			editor = null;
 			editor = new GeoTextEditor(getAppW(), this);
 			editor.setStyleName("objectPropertiesTextEditor");
 			lbFont = new ListBox();
@@ -2124,7 +2126,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 
 			btnLatex = new ToggleButton("LaTeX");
-
+			btnLatex.addStyleName("TextToggleButton");
+			// hack
+			btnLatex.getElement().getStyle().setWidth(100, Unit.PX);
+			
 			ClickHandler styleClick = new ClickHandler() {
 
 				public void onClick(ClickEvent event) {
