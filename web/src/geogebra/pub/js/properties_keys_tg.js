@@ -16,7 +16,7 @@ __GGB__keysVar.tg = {}
  ***********************************************/
 
 __GGB__keysVar.tg.colors = {
-    "aqua": "Aqua",
+    "aqua": "\u041c\u0430\u0432\u04b7\u04b3\u043e\u0438 \u0431\u0430\u04b3\u0440\u04e3",
     "black": "\u0421\u0438\u0451\u04b3",
     "blue": "\u041a\u0430\u0431\u0443\u0434",
     "brown": "\u041a\u043e\u0440\u0438\u0447\u043d\u0435\u0432\u044b\u0439",
@@ -1187,6 +1187,7 @@ __GGB__keysVar.tg.menu = {
     "BlackboardLetters": "Blackboard Letters",
     "Blue": "Blue",
     "Bold": "Bold",
+    "Bold.Short": "B",
     "Boxplot": "Boxplot",
     "Brackets": "Brackets",
     "Browser": "Browser",
@@ -1508,6 +1509,7 @@ __GGB__keysVar.tg.menu = {
     "IntervalType": "Interval Type",
     "InvertSelection": "Invert Selection",
     "Isometric": "Isometric",
+    "Italic.Short": "I",
     "JavaOnly": "Export to Java only",
     "JavaWithHTML5": "Export to Java (with HTML5 fallback)",
     "Join": "Line",
