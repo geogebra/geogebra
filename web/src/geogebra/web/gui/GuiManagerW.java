@@ -86,6 +86,8 @@ import java.util.Iterator;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.resources.client.ImageResource;
@@ -1571,7 +1573,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	@Override
     public void invokeLater(final Runnable runnable) {
-	    runnable.run();   
+	    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
+
+			@Override
+            public void execute() {
+	            runnable.run();
+            }});   
     }
 	
 	@Override

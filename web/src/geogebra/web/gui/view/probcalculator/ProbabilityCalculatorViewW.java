@@ -944,4 +944,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	public boolean suggestRepaint(){
 		return false;
 	}
+
+	public void onResize() {
+				updatePlotSettings();
+    }
 }
