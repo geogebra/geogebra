@@ -951,24 +951,21 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setViewFlags(getFirstInput().getViewSet());
 						
-						boolean visible = false;
-						boolean labelVisible = false;
+						
 						int size = outputPoints.size();
 						if (size > 0){ // check if at least one element is visible
+							boolean visible = false;
+							boolean labelVisible = false;
 							for (int i = 0; i < size && !visible && !labelVisible; i++){
 								visible = visible || outputPoints.getElement(i).isEuclidianVisible();
 								labelVisible = labelVisible || outputPoints.getElement(i).getLabelVisible();
 							}
-						}else{ // no element yet
-							visible = true;
-							labelVisible = true;
+							newPoint.setEuclidianVisible(visible);
+							if (!visible){ // if not visible, we don't want setParentAlgorithm() to change it
+								newPoint.dontSetEuclidianVisibleBySetParentAlgorithm();
+							}
+							newPoint.setLabelVisible(labelVisible);
 						}
-						
-						newPoint.setEuclidianVisible(visible);
-						if (!visible){ // if not visible, we don't want setParentAlgorithm() to change it
-							newPoint.dontSetEuclidianVisibleBySetParentAlgorithm();
-						}
-						newPoint.setLabelVisible(labelVisible);
 						
 						if (outputPolygons.size()>0){
 							GeoPolygon polygon = outputPolygons.getElement(0);
