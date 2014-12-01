@@ -27,6 +27,7 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.event.MouseEventND;
@@ -77,6 +78,7 @@ import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.GuiManagerInterfaceD;
 import geogebra.main.LocalizationD;
+import geogebra.util.ImageManager;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -2505,28 +2507,52 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void openToolHelp(int mode) {
 
-		String modeTextInternal = app.getKernel().getModeText(mode);
+		String toolName = app.getToolNameOrHelp(mode, true);
+		String helpText = app.getToolNameOrHelp(mode, false);
+		ImageIcon icon;
+		String modeTextInternal = null;
+
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+
+			Macro macro = kernel.getMacro(mode
+					- EuclidianConstants.MACRO_MODE_ID_OFFSET);
+
+			String iconName = macro.getIconFileName();
+			MyImageD img = ((AppD) app).getExternalImage(iconName);
+			Color border = Color.lightGray;
+
+			if (img == null || img.isSVG()) {
+				// default icon
+				icon = ((AppD) app).getToolBarImage("mode_tool.png", border);
+			} else {
+				// use image as icon
+				icon = new ImageIcon(ImageManager.addBorder(img.getImage(),
+						border));
+			}
+
+		} else {
+
+			modeTextInternal = app.getKernel().getModeText(mode);
+			icon = ((AppD) app).getToolBarImage("mode_" + modeTextInternal
+					+ ".png", Color.BLACK);
+		}
 
 		Object[] options = { app.getPlain("ShowOnlineHelp"),
 				app.getPlain("Cancel") };
-		int n = JOptionPane
-				.showOptionDialog(
-						((AppD) app).getMainComponent(),
-						app.getMenu(modeTextInternal + ".Help"),
-						app.getMenu("ToolHelp") + " - "
-								+ app.getMenu(modeTextInternal),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE,
-						((AppD) app).getToolBarImage("mode_" + modeTextInternal
-								+ ".png", Color.BLACK), // do not
-						// use a
-						// custom
-						// Icon
-						options, // the titles of buttons
-						options[0]); // default button title
+		int n = JOptionPane.showOptionDialog(((AppD) app).getMainComponent(),
+				helpText, app.getMenu("ToolHelp") + " - " + toolName,
+				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, icon,
+				options, // the titles of buttons
+				options[0]); // default button title
 
-		if (n == 0)
-			openHelp(modeTextInternal, Help.TOOL);
+		if (n == 0) {
+			if (modeTextInternal == null) {
+				// show help for custom tools?
+				Log.debug("TODO1");
+			} else {
+				openHelp(modeTextInternal, Help.TOOL);
+			}
+		}
 	}
 
 	@Override

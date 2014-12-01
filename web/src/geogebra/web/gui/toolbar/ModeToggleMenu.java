@@ -1,5 +1,6 @@
 package geogebra.web.gui.toolbar;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.GuiManager.Help;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
@@ -170,8 +171,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 
 		//If there is only one menuitem, there is no submenu -> set the button selected, if the mode is the same.
 		if (menu.size() == 1 ){
-			if (menu.get(0) == mode){
-				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode)));
+			if (menu.get(0) == mode) {
+				
+
+				showToolTipBottom(getTooltip(mode));
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -201,7 +204,8 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			// found item for mode?
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
-				showToolTipBottom(app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode)));
+				
+				showToolTipBottom(getTooltip(mode));
 				return true;
 			}
 		}
@@ -210,6 +214,15 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	
+	private String getTooltip(int mode) {
+
+		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+			return app.getToolNameOrHelp(mode, false);
+		}
+
+		return app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode));    
+	}
+
 	public int getFirstMode() {
 		if (menu.size() == 0){
 			return -1;

@@ -98,7 +98,8 @@ import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, EventRenderable {
+public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
+        EventRenderable {
 
 	/**
 	 * container for the Popup that only one exist for a given type
@@ -129,13 +130,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	private DataAnalysisViewW dataAnalysisView = null;
 	private boolean listeningToLogin = false;
 	private ToolBarW updateToolBar = null;
-	
+
 	public GuiManagerW(final AppW app, GDevice device) {
 		this.app = app;
 		this.device = device;
 		this.kernel = app.getKernel();
 		this.objectPool = new ObjectPool();
-		// AGdialogManagerFactory = new DialogManager.Factory();		
+		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
 	public void redo() {
@@ -156,7 +157,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	public void updateMenubarSelection() {
 		final GGWMenuBar mb = getObjectPool().getGgwMenubar();
-		if (mb != null && mb.getMenubar()!=null) {
+		if (mb != null && mb.getMenubar() != null) {
 			mb.getMenubar().updateSelection();
 		}
 	}
@@ -165,7 +166,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	public void updateMenubar() {
 		final GGWMenuBar ggwMenuBar = getObjectPool().getGgwMenubar();
 		if (ggwMenuBar != null) {
-			final MainMenu menuBar = getObjectPool().getGgwMenubar().getMenubar();
+			final MainMenu menuBar = getObjectPool().getGgwMenubar()
+			        .getMenubar();
 			if (menuBar != null) {
 				menuBar.updateMenubar();
 			}
@@ -182,7 +184,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		if (ggwMenuBar != null && ggwMenuBar.getMenubar() != null) {
 			ggwMenuBar.getMenubar().updateSelection();
 		}
-		if(getToolbarPanel() != null){
+		if (getToolbarPanel() != null) {
 			getToolbarPanel().updateUndoActions();
 		}
 	}
@@ -197,8 +199,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		        mouseLoc);
 	}
 
-	private void showPopupMenu(final ArrayList<GeoElement> geos, final Canvas invoker,
-	        final GPoint p) {
+	private void showPopupMenu(final ArrayList<GeoElement> geos,
+	        final Canvas invoker, final GPoint p) {
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 		if (app.getKernel().isAxis(geos.get(0))) {
@@ -209,9 +211,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			getPopupMenu(geos, p).show(invoker, p.x, p.y);
 		}
 	}
-	
-	public void showPopupMenu(final ArrayList<GeoElement> geos, final AlgebraView invoker,
-	        final GPoint p) {
+
+	public void showPopupMenu(final ArrayList<GeoElement> geos,
+	        final AlgebraView invoker, final GPoint p) {
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
 		getPopupMenu(geos, p).show(p);
@@ -219,40 +221,44 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	public SpreadsheetContextMenuW getSpreadsheetContextMenu(final MyTableW mt) {
 		removePopup();
-		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(mt);
+		final SpreadsheetContextMenuW contextMenu = new SpreadsheetContextMenuW(
+		        mt);
 		currentPopup = (AttachedToDOM) contextMenu.getMenuContainer();
 		return contextMenu;
 	}
 
-	public AlgebraContextMenuW getAlgebraContextMenu(){
+	public AlgebraContextMenuW getAlgebraContextMenu() {
 		removePopup();
 		currentPopup = new AlgebraContextMenuW((AppW) app);
-		return (AlgebraContextMenuW)currentPopup;
+		return (AlgebraContextMenuW) currentPopup;
 	}
-	
-	public RowHeaderPopupMenuW getCASContextMenu(final RowHeaderWidget rowHeader, final CASTableW table){
+
+	public RowHeaderPopupMenuW getCASContextMenu(
+	        final RowHeaderWidget rowHeader, final CASTableW table) {
 		removePopup();
 		currentPopup = new RowHeaderPopupMenuW(rowHeader, table, (AppW) app);
-		return (RowHeaderPopupMenuW)currentPopup;
+		return (RowHeaderPopupMenuW) currentPopup;
 	}
-	
-	public ContextMenuGeoElementW getPopupMenu(final ArrayList<GeoElement> geos,
-	        final GPoint location) {
+
+	public ContextMenuGeoElementW getPopupMenu(
+	        final ArrayList<GeoElement> geos, final GPoint location) {
 		removePopup();
 		currentPopup = new ContextMenuGeoElementW((AppW) app, geos, location);
-		((ContextMenuGeoElementW)currentPopup).addOtherItems();
+		((ContextMenuGeoElementW) currentPopup).addOtherItems();
 		return (ContextMenuGeoElementW) currentPopup;
 	}
 
 	public void showPopupChooseGeo(final ArrayList<GeoElement> selectedGeos,
-	        final ArrayList<GeoElement> geos, final EuclidianViewInterfaceCommon view,
+	        final ArrayList<GeoElement> geos,
+	        final EuclidianViewInterfaceCommon view,
 	        final geogebra.common.awt.GPoint p) {
 		showPopupChooseGeo(selectedGeos, geos, (EuclidianView) view, p);
 	}
 
 	private void showPopupChooseGeo(final ArrayList<GeoElement> selectedGeos,
-	        final ArrayList<GeoElement> geos, final EuclidianView view, final GPoint p) {
-		
+	        final ArrayList<GeoElement> geos, final EuclidianView view,
+	        final GPoint p) {
+
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 
@@ -273,9 +279,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	}
 
-	private ContextMenuGeoElementW getPopupMenu(final App app, final EuclidianView view,
-	        final ArrayList<GeoElement> selectedGeos, final ArrayList<GeoElement> geos,
-	        final GPoint screenPos, final GPoint p) {
+	private ContextMenuGeoElementW getPopupMenu(final App app,
+	        final EuclidianView view, final ArrayList<GeoElement> selectedGeos,
+	        final ArrayList<GeoElement> geos, final GPoint screenPos,
+	        final GPoint p) {
 		currentPopup = new ContextMenuChooseGeoW((AppW) app, view,
 		        selectedGeos, geos, screenPos, p);
 		return (ContextMenuGeoElementW) currentPopup;
@@ -283,19 +290,21 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	public void setFocusedPanel(final AbstractEvent event,
 	        final boolean updatePropertiesView) {
-		setFocusedPanel( ((PointerEvent)event).getEvID(), updatePropertiesView);
+		setFocusedPanel(((PointerEvent) event).getEvID(), updatePropertiesView);
 	}
 
-	public void setFocusedPanel(final int evID, final boolean updatePropertiesView) {
+	public void setFocusedPanel(final int evID,
+	        final boolean updatePropertiesView) {
 
 		if (!(((AppW) app).getEuclidianViewpanel() instanceof DockPanel)) {
 			App.debug("This part of the code should not have run!");
 			return;
 		}
 
-		switch(evID){
+		switch (evID) {
 		case App.VIEW_EUCLIDIAN:
-			setFocusedPanel((DockPanel)((AppW) app).getEuclidianViewpanel(), updatePropertiesView);
+			setFocusedPanel((DockPanel) ((AppW) app).getEuclidianViewpanel(),
+			        updatePropertiesView);
 			break;
 		case App.VIEW_EUCLIDIAN2:
 			setFocusedPanel(getEuclidianView2DockPanel(1), updatePropertiesView);
@@ -303,52 +312,53 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		case App.VIEW_EUCLIDIAN3D:
 			setFocusedPanel(getEuclidian3DPanel(), updatePropertiesView);
 			break;
-		}	
+		}
 	}
 
-	public void setFocusedPanel(final DockPanel panel, final boolean updatePropertiesView) {
+	public void setFocusedPanel(final DockPanel panel,
+	        final boolean updatePropertiesView) {
 		if (panel != null) {
-			getLayout().getDockManager()
-					.setFocusedPanel(panel,updatePropertiesView);
+			getLayout().getDockManager().setFocusedPanel(panel,
+			        updatePropertiesView);
 
 			// notify the properties view
-			if  (updatePropertiesView)
+			if (updatePropertiesView)
 				updatePropertiesView();
 		}
 	}
 
-	public void loadImage(final GeoPoint loc, final Object object, final boolean altDown) {
-		((DialogManagerW) getDialogManager()).showImageInputDialog(loc, this.device);
+	public void loadImage(final GeoPoint loc, final Object object,
+	        final boolean altDown) {
+		((DialogManagerW) getDialogManager()).showImageInputDialog(loc,
+		        this.device);
 	}
 
 	/**
-	 * It sometimes happens that a file changes the font size of GUI.
-	 * The GUI is not ready for this in Web.
+	 * It sometimes happens that a file changes the font size of GUI. The GUI is
+	 * not ready for this in Web.
 	 */
 	public void updateFonts() {
 		/*
-		((AppW) app).getFrameElement().getStyle().setFontSize(app.getFontSize(), Unit.PX);
-		
-		// if (((AppW) app).getObjectPool().getGgwMenubar() != null){
-		//	GeoGebraMenubarW menubar = ((AppW) app).getObjectPool().getGgwMenubar().getMenubar();
-		//	if (menubar != null) menubar.updateFonts();
-		// }
-
-		updateFontSizeStyleElement();
-		
-		if(hasPropertiesView()){
-			((PropertiesViewW)getPropertiesView()).updateFonts();
-		}
-		
-		if(hasSpreadsheetView()){
-			getSpreadsheetView().updateFonts();
-		}
-		*/	
+		 * ((AppW)
+		 * app).getFrameElement().getStyle().setFontSize(app.getFontSize(),
+		 * Unit.PX);
+		 * 
+		 * // if (((AppW) app).getObjectPool().getGgwMenubar() != null){ //
+		 * GeoGebraMenubarW menubar = ((AppW)
+		 * app).getObjectPool().getGgwMenubar().getMenubar(); // if (menubar !=
+		 * null) menubar.updateFonts(); // }
+		 * 
+		 * updateFontSizeStyleElement();
+		 * 
+		 * if(hasPropertiesView()){
+		 * ((PropertiesViewW)getPropertiesView()).updateFonts(); }
+		 * 
+		 * if(hasSpreadsheetView()){ getSpreadsheetView().updateFonts(); }
+		 */
 	}
-	
-	
-	private void updateFontSizeStyleElement(){
-		
+
+	private void updateFontSizeStyleElement() {
+
 		final String fontsizeString = app.getGUIFontSize() + "px";
 		final int imagesize = Math.round(app.getGUIFontSize() * 4 / 3);
 		int toolbariconSize = 2 * app.getGUIFontSize();
@@ -358,8 +368,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		if (toolbariconSize > 45)
 			toolbariconSize = 45;
 
-		
-		// Build inner text for a style element that handles font size 
+		// Build inner text for a style element that handles font size
 		// =============================================================
 		String innerText = ".GeoGebraMenuBar, .GeoGebraPopupMenu, .DialogBox, .gwt-PopupPanel, .ToolTip, .gwt-SuggestBoxPopup";
 		innerText += "{font-size: " + fontsizeString + " !important}";
@@ -374,7 +383,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 		innerText += ".toolbar_menuitem{font-size: " + fontsizeString + ";}";
 		innerText += ".toolbar_menuitem img{width: " + toolbariconSize + "px;}";
-		
+
 		// ============================================================
 
 		// Create a new style element for font size changes, and remove the old
@@ -400,12 +409,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	public boolean isInputFieldSelectionListener() {
 		// TODO Auto-generated method stub
-		//App.debug("unimplemented method");
+		// App.debug("unimplemented method");
 		return false;
 	}
 
 	public GTextComponent getAlgebraInputTextField() {
-		//App.debug("unimplemented method");
+		// App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -414,9 +423,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	        final GPoint mouseLoc) {
 		showDrawingPadPopup(((EuclidianViewW) view).g2p.getCanvas(), mouseLoc);
 	}
-	
+
 	public void showDrawingPadPopup3D(final EuclidianViewInterfaceCommon view,
-			final geogebra.common.awt.GPoint mouseLoc) {
+	        final geogebra.common.awt.GPoint mouseLoc) {
 		// 3D stuff
 	}
 
@@ -426,7 +435,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		getDrawingPadpopupMenu(p.x, p.y).show(invoker, p.x, p.y);
 	}
 
-	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x, final int y) {
+	private ContextMenuGeoElementW getDrawingPadpopupMenu(final int x,
+	        final int y) {
 		currentPopup = new ContextMenuGraphicsWindowW((AppW) app, x, y);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
@@ -448,7 +458,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		setShowView(flag, viewId, true);
 	}
 
-	public void setShowView(final boolean flag, final int viewId, final boolean isPermanent) {
+	public void setShowView(final boolean flag, final int viewId,
+	        final boolean isPermanent) {
 		if (flag) {
 			if (!showView(viewId))
 				layout.getDockManager().show(viewId);
@@ -467,22 +478,19 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 				(app).getActiveEuclidianView().requestFocus();
 			}
 		}
-		((AppW)app).closePopups();
-		
-		//toolbarPanel.validate();
-		//toolbarPanel.updateHelpText();
+		((AppW) app).closePopups();
+
+		// toolbarPanel.validate();
+		// toolbarPanel.updateHelpText();
 	}
-	
+
 	public boolean showView(final int viewId) {
-		/*8
-		Element e = Document.get().getElementById("View_" + viewId);
-		if (e != null) {
-			return !(e.getStyle().getDisplay().equals("none") || e.getStyle()
-			        .getVisibility().equals("hidden"));
-		}
-		return false;
-		*/
-		
+		/*
+		 * 8 Element e = Document.get().getElementById("View_" + viewId); if (e
+		 * != null) { return !(e.getStyle().getDisplay().equals("none") ||
+		 * e.getStyle() .getVisibility().equals("hidden")); } return false;
+		 */
+
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
 		} catch (final Exception e) {
@@ -492,7 +500,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	public View getConstructionProtocolData() {
-		//App.debug("unimplemented method");
+		// App.debug("unimplemented method");
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -515,7 +523,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 		return spreadsheetView;
 	}
-	
+
 	public View getProbabilityCalculator() {
 		if (probCalculator == null) {
 			probCalculator = new ProbabilityCalculatorViewW((AppW) app);
@@ -523,14 +531,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 		return probCalculator;
 	}
-	
+
 	/**
 	 * @return wheter it has probablity calculator or not
 	 */
 	public boolean hasProbablitiyCalculator() {
 		return probCalculator != null;
 	}
-	
+
 	public boolean hasPlotPanelEuclidianView() {
 		return hasProbablitiyCalculator();
 	}
@@ -544,25 +552,29 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	public void resize(final int width, final int height) {
-		
+
 		int widthChanged = 0;
 		int heightChanged = 0;
 		final Element geogebraFrame = ((AppW) app).getFrameElement();
-		
+
 		widthChanged = width - geogebraFrame.getOffsetWidth();
-		heightChanged = height - geogebraFrame.getOffsetHeight();		
+		heightChanged = height - geogebraFrame.getOffsetHeight();
 
 		if (getLayout() != null && getLayout().getRootComponent() != null) {
 			final Widget root = getLayout().getRootComponent();
-			root.setPixelSize(root.getOffsetWidth() + widthChanged, root.getOffsetHeight() + heightChanged);		
+			root.setPixelSize(root.getOffsetWidth() + widthChanged,
+			        root.getOffsetHeight() + heightChanged);
 		}
-		if(this.algebraInput != null){
-			this.algebraInput.setWidth((width-100)+"px");
+		if (this.algebraInput != null) {
+			this.algebraInput.setWidth((width - 100) + "px");
 		}
-		//EuclidianPanelWAbstract epanel = ((AppW) app).getEuclidianViewpanel();
-		//epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged, epanel.getOffsetHeight() + heightChanged );
+		// EuclidianPanelWAbstract epanel = ((AppW)
+		// app).getEuclidianViewpanel();
+		// epanel.setPixelSize(epanel.getOffsetWidth() + widthChanged,
+		// epanel.getOffsetHeight() + heightChanged );
 
-		// maybe onResize is good here too, but call deferredOnResize for security
+		// maybe onResize is good here too, but call deferredOnResize for
+		// security
 		((AppW) app).getEuclidianViewpanel().deferredOnResize();
 		((AppW) app).recalculateEnvironments();
 	}
@@ -574,7 +586,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	public String getToolbarDefinition() {
 		if (strCustomToolbarDefinition == null && getToolbarPanel() != null)
 			return getGeneralToolbar().getDefaultToolbarString();
-			//return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
+		// return geogebra.web.gui.toolbar.ToolBarW.getAllTools(app);
 		return strCustomToolbarDefinition;
 	}
 
@@ -590,37 +602,37 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			// ",  delete " + mode);
 
 			strCustomToolbarDefinition = strCustomToolbarDefinition.replaceAll(
-					Integer.toString(mode), "");
+			        Integer.toString(mode), "");
 
 			if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
 				// if a macro mode is removed all higher macros get a new id
 				// (i.e. id-1)
 				final int lastID = kernel.getMacroNumber()
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET - 1;
+				        + EuclidianConstants.MACRO_MODE_ID_OFFSET - 1;
 				for (int id = mode + 1; id <= lastID; id++) {
 					strCustomToolbarDefinition = strCustomToolbarDefinition
-							.replaceAll(Integer.toString(id),
-									Integer.toString(id - 1));
+					        .replaceAll(Integer.toString(id),
+					                Integer.toString(id - 1));
 				}
 			}
 
 			// Application.debug("after: " + strCustomToolbarDefinition);
 		}
 	}
-	
+
 	public void addToToolbarDefinition(final int mode) {
 		if (this.getActiveEuclidianView().getDimension() > 2) {
 			this.getLayout().getDockManager()
-					.getPanel(this.getActiveEuclidianView().getViewID())
-					.addToToolbar(mode);
+			        .getPanel(this.getActiveEuclidianView().getViewID())
+			        .addToToolbar(mode);
 			return;
 		}
 		if (strCustomToolbarDefinition != null) {
 			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
-					+ mode;
+			        + mode;
 		}
 	}
-	
+
 	public final String getCustomToolbarDefinition() {
 		return strCustomToolbarDefinition;
 	}
@@ -630,9 +642,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	 */
 	public void initialize() {
 		initAlgebraController(); // ? needed for keyboard input in EuclidianView
-								 // in Desktop
+		                         // in Desktop
 		layout.initialize((AppW) app);
-		initLayoutPanels();		
+		initLayoutPanels();
 	}
 
 	/**
@@ -643,7 +655,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		// register euclidian view
 		// this is done earlier
 		if (((AppW) app).getEuclidianViewpanel() instanceof DockPanelW) {
-			layout.registerPanel((DockPanelW)((AppW) app).getEuclidianViewpanel());
+			layout.registerPanel((DockPanelW) ((AppW) app)
+			        .getEuclidianViewpanel());
 		} else {
 			App.debug("This part of the code should not have been called!");
 			return false;
@@ -672,23 +685,22 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		layout.registerPanel(new FunctionInspectorDockPanelW(app));
 
 		// register Properties view
-		
+
 		layout.registerPanel(new PropertiesDockPanelW((AppW) app));
 
 		// register data analysis view
-		layout.registerPanel(new DataAnalysisViewDockPanelW((AppW)app));
-		
+		layout.registerPanel(new DataAnalysisViewDockPanelW((AppW) app));
+
 		if (!app.isApplet()) {
 			// register python view
-		//	layout.registerPanel(new PythonDockPanel(app));
+			// layout.registerPanel(new PythonDockPanel(app));
 		}
-		
+
 		/*
-		if (!app.isWebstart() || app.is3D()) {
-			// register Assignment view
-			layout.registerPanel(new AssignmentDockPanel(app));
-		}*/
-		
+		 * if (!app.isWebstart() || app.is3D()) { // register Assignment view
+		 * layout.registerPanel(new AssignmentDockPanel(app)); }
+		 */
+
 		return true;
 	}
 
@@ -702,9 +714,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	public GGWToolBar getToolbarPanel() {
 		if (toolbarPanel == null) {
-			toolbarPanel = (GGWToolBar)((AppW) app).getToolbar();
+			toolbarPanel = (GGWToolBar) ((AppW) app).getToolbar();
 			if (toolbarPanel != null && !toolbarPanel.isInited()) {
-				toolbarPanel.init((AppW)app);
+				toolbarPanel.init((AppW) app);
 			}
 		}
 
@@ -712,9 +724,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	public void updateToolbar() {
-//		if (toolbarPanel != null) {
-//			toolbarPanel.buildGui();
-//		}
+		// if (toolbarPanel != null) {
+		// toolbarPanel.buildGui();
+		// }
 
 		if (layout != null) {
 			// AG layout.getDockManager().updateToolbars();
@@ -798,13 +810,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 		return propertiesView;
 	}
-	
+
 	/**
 	 * 
 	 * @param app
 	 * @return new properties view
 	 */
-	protected PropertiesViewW newPropertiesViewW(final AppW app){
+	protected PropertiesViewW newPropertiesViewW(final AppW app) {
 		return new PropertiesViewW(app);
 	}
 
@@ -838,20 +850,20 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return algebraInput;
 	}
 
-	public void listenToLogin(){
+	public void listenToLogin() {
 		uploadWaiting = true;
-		if(listeningToLogin){
+		if (listeningToLogin) {
 			return;
 		}
-		listeningToLogin  = true;
+		listeningToLogin = true;
 		app.getLoginOperation().getView().add(this);
 	}
-	
+
 	@Override
 	public boolean save() {
-		return ((AppW)app).getFileManager().save((AppW)app);
+		return ((AppW) app).getFileManager().save((AppW) app);
 	}
-	
+
 	public void showPropertiesViewSliderTab() {
 		App.debug("unimplemented");
 	}
@@ -879,22 +891,24 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return false;
 	}
 
-	public void updateGUIafterLoadFile(final boolean success, final boolean isMacroFile) {
+	public void updateGUIafterLoadFile(final boolean success,
+	        final boolean isMacroFile) {
 		if (success && !isMacroFile
-			&& !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
+		        && !app.getSettings().getLayout().isIgnoringDocumentLayout()) {
 
 			getLayout().setPerspectives(app.getTmpPerspectives(), null);
-			//SwingUtilities.updateComponentTreeUI(getLayout().getRootComponent());
+			// SwingUtilities.updateComponentTreeUI(getLayout().getRootComponent());
 
 			if (!app.isIniting()) {
 				updateFrameSize(); // checks internally if frame is available
 				if (app.needsSpreadsheetTableModel())
-					(app).getSpreadsheetTableModel(); //ensure create one if not already done
+					(app).getSpreadsheetTableModel(); // ensure create one if
+													  // not already done
 			}
 		} else if (isMacroFile && success) {
-			//setToolBarDefinition(ToolbarW.getAllTools(app));
-			//(app).updateToolBar();
-			//(app).updateContentPane();
+			// setToolBarDefinition(ToolbarW.getAllTools(app));
+			// (app).updateToolBar();
+			// (app).updateContentPane();
 		}
 
 		// force JavaScript ggbOnInit(); to be called
@@ -969,13 +983,13 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			return app.getEuclidianView1();
 
 		final EuclidianDockPanelWAbstract focusedEuclidianPanel = layout
-				.getDockManager().getFocusedEuclidianPanel();
+		        .getDockManager().getFocusedEuclidianPanel();
 
 		if (focusedEuclidianPanel != null) {
 			return focusedEuclidianPanel.getEuclidianView();
 		}
 		return (app).getEuclidianView1();
-		//return app.getEuclidianView1();
+		// return app.getEuclidianView1();
 	}
 
 	public Command getShowAxesAction() {
@@ -999,11 +1013,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	public void clearDataAnalysisView() {
 		dataAnalysisView = null;
 	}
-	
+
 	public View getDataAnalysisView() {
 		if (dataAnalysisView == null) {
-			dataAnalysisView = new DataAnalysisViewW((AppW) app,
-					app.getMode());
+			dataAnalysisView = new DataAnalysisViewW((AppW) app, app.getMode());
 		}
 		return dataAnalysisView;
 	}
@@ -1015,11 +1028,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	public void detachDataAnalysisView() {
-		
+
 	}
 
 	public boolean hasDataAnalysisView() {
-		if (dataAnalysisView == null )
+		if (dataAnalysisView == null)
 			return false;
 		if (!dataAnalysisView.isShowing())
 			return false;
@@ -1051,7 +1064,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	protected void openHelp(final String page, final Help type) {
 		try {
 			final String helpURL = getHelpURL(type, page);
-			Window.open(helpURL, "_blank","");
+			Window.open(helpURL, "_blank", "");
 		} catch (final MyError e) {
 			app.showError(e);
 		} catch (final Exception e) {
@@ -1210,23 +1223,24 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			bar.removeMenus();
 			bar.init((AppW) app);
 		}
-		if(this.constProtocolNavigation != null){
+		if (this.constProtocolNavigation != null) {
 			getConstructionProtocolNavigation().setLabels();
 		}
 
 		// set the labelling of the panels
 		// titles on the top of their style bars
 		if (getLayout() != null && getLayout().getDockManager() != null) {
-			final DockPanelW[] panels = getLayout().getDockManager().getPanels();
+			final DockPanelW[] panels = getLayout().getDockManager()
+			        .getPanels();
 			for (int i = 0; i < panels.length; i++)
 				panels[i].setLabels();
 		}
 		if (propertiesView != null) {
 			((PropertiesViewW) propertiesView).setLabels();
 		}
-		
+
 		((DialogManagerW) app.getDialogManager()).setLabels();
-		if(browseGUIwasLoaded()){
+		if (browseGUIwasLoaded()) {
 			getBrowseGUI().setLabels();
 		}
 	}
@@ -1238,14 +1252,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	public View getEuclidianView2(final int idx) {
-		for(int i = euclidianView2.size(); i<=idx; i++){
+		for (int i = euclidianView2.size(); i <= idx; i++) {
 			euclidianView2.add(null);
 		}
 		if (euclidianView2.get(idx) == null) {
 			final boolean[] showAxis = { true, true };
 			final boolean showGrid = false;
 			App.debug("Creating 2nd Euclidian View");
-			final EuclidianViewW ev =  newEuclidianView(showAxis, showGrid, 2);
+			final EuclidianViewW ev = newEuclidianView(showAxis, showGrid, 2);
 			euclidianView2.set(idx, ev);
 			// euclidianView2.setEuclidianViewNo(2);
 			ev.setAntialiasing(true);
@@ -1256,27 +1270,31 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 
 	public Euclidian2DockPanelW getEuclidianView2DockPanel(final int idx) {
 		if (euclidianView2DockPanel == null) {
-			euclidianView2DockPanel = new Euclidian2DockPanelW(app.isFullAppGui(), idx);
+			euclidianView2DockPanel = new Euclidian2DockPanelW(
+			        app.isFullAppGui(), idx);
 		}
 		return euclidianView2DockPanel;
 	}
-	
-	public DockPanelW getEuclidian3DPanel(){
+
+	public DockPanelW getEuclidian3DPanel() {
 		return null;
 	}
 
 	protected EuclidianViewW newEuclidianView(final boolean[] showAxis,
-			final boolean showGrid, final int id) {
+	        final boolean showGrid, final int id) {
 		if (id == 2) {
-			return ((AppW) app).newEuclidianView(getEuclidianView2DockPanel(1), app.newEuclidianController(kernel), showAxis,
-				showGrid, id, app.getSettings().getEuclidian(id));
+			return ((AppW) app).newEuclidianView(getEuclidianView2DockPanel(1),
+			        app.newEuclidianController(kernel), showAxis, showGrid, id,
+			        app.getSettings().getEuclidian(id));
 		}
-		return ((AppW) app).newEuclidianView(((AppW) app).getEuclidianViewpanel(), app.newEuclidianController(kernel), showAxis,
-			showGrid, id, app.getSettings().getEuclidian(id));
+		return ((AppW) app).newEuclidianView(((AppW) app)
+		        .getEuclidianViewpanel(), app.newEuclidianController(kernel),
+		        showAxis, showGrid, id, app.getSettings().getEuclidian(id));
 	}
 
 	public boolean hasEuclidianView2EitherShowingOrNot(final int idx) {
-		if (euclidianView2 == null || euclidianView2.size() <= idx || euclidianView2.get(idx) == null)
+		if (euclidianView2 == null || euclidianView2.size() <= idx
+		        || euclidianView2.get(idx) == null)
 			return false;
 		return true;
 	}
@@ -1288,7 +1306,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	@Override
-	public void getSpreadsheetViewXML(final StringBuilder sb, final boolean asPreference) {
+	public void getSpreadsheetViewXML(final StringBuilder sb,
+	        final boolean asPreference) {
 		if (spreadsheetView != null)
 			spreadsheetView.getXML(sb, asPreference);
 	}
@@ -1308,7 +1327,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return true;
 	}
 
-	public void getAlgebraViewXML(final StringBuilder sb, final boolean asPreference) {
+	public void getAlgebraViewXML(final StringBuilder sb,
+	        final boolean asPreference) {
 		if (algebraView != null)
 			algebraView.getXML(sb, asPreference);
 	}
@@ -1323,149 +1343,161 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		// after closing some panels, this may need to be done
 		// even if the following need not
 		// only do this if toolbar string not null, otherwise this may
-		String def = layout.getDockManager().getPanel(toolbarID).getToolbarString();
-		if(def == null && this.generalToolbarDefinition != null){
+		String def = layout.getDockManager().getPanel(toolbarID)
+		        .getToolbarString();
+		if (def == null && this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
 		}
 
 		setToolBarDefinition(def);
-		
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
 			toolbarPanel.setActiveToolbar(new Integer(toolbarID));
-			updateToolbar();			
+			updateToolbar();
 		}
 		this.toolbarID = toolbarID;
 	}
 
 	@Override
-    public AppW getApp() {
+	public AppW getApp() {
 		return (AppW) app;
 	}
-	
+
 	public void removePopup() {
 		if (currentPopup != null) {
 			currentPopup.removeFromDOM();
 			currentPopup = null;
 		}
-    }
-	
+	}
+
 	public void setGeneralToolBarDefinition(final String toolBarDefinition) {
-		if(toolBarDefinition == null){
+		if (toolBarDefinition == null) {
 			return;
 		}
 		generalToolbarDefinition = toolBarDefinition;
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
-	
+
 	public void setToolBarDefinition(final String toolBarDefinition) {
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
-    public ConstructionProtocolView getConstructionProtocolView() {
+	public ConstructionProtocolView getConstructionProtocolView() {
 		if (constructionProtocolView == null) {
-			constructionProtocolView = this.device.getConstructionProtocolView((AppW) app);
+			constructionProtocolView = this.device
+			        .getConstructionProtocolView((AppW) app);
 		}
 		return constructionProtocolView;
-    }
-    
-    @Override
+	}
+
+	@Override
 	public boolean isUsingConstructionProtocol() {
 		return constructionProtocolView != null;
 	}
 
-    public void clearAbsolutePanels() {
+	public void clearAbsolutePanels() {
 		clearAbsolutePanel(App.VIEW_EUCLIDIAN);
-		clearAbsolutePanel(App.VIEW_EUCLIDIAN2);   
-    }
-	
-	private void clearAbsolutePanel(final int viewid){
-		AbsolutePanel ep;
-		if (viewid==App.VIEW_EUCLIDIAN){
-			ep = ((EuclidianDockPanelW) getLayout().getDockManager().getPanel(viewid)).getAbsolutePanel();
-		} else if (viewid==App.VIEW_EUCLIDIAN2){
-			ep = ((Euclidian2DockPanelW) getLayout().getDockManager().getPanel(viewid)).getAbsolutePanel();
-		} else return;
-		
-		if (ep == null) return;
-	    final Iterator<Widget> it = ep.iterator();
-	    while (it.hasNext()) {
-	    	final Widget nextItem = it.next();
-	    	if (!(nextItem instanceof Canvas)) it.remove();
-	    }
+		clearAbsolutePanel(App.VIEW_EUCLIDIAN2);
 	}
 
-    public boolean checkAutoCreateSliders(final String s, final AsyncOperation callback) {       	
-       	final Localization loc = ((AppW) app).getLocalization();
-       	
+	private void clearAbsolutePanel(final int viewid) {
+		AbsolutePanel ep;
+		if (viewid == App.VIEW_EUCLIDIAN) {
+			ep = ((EuclidianDockPanelW) getLayout().getDockManager().getPanel(
+			        viewid)).getAbsolutePanel();
+		} else if (viewid == App.VIEW_EUCLIDIAN2) {
+			ep = ((Euclidian2DockPanelW) getLayout().getDockManager().getPanel(
+			        viewid)).getAbsolutePanel();
+		} else
+			return;
+
+		if (ep == null)
+			return;
+		final Iterator<Widget> it = ep.iterator();
+		while (it.hasNext()) {
+			final Widget nextItem = it.next();
+			if (!(nextItem instanceof Canvas))
+				it.remove();
+		}
+	}
+
+	public boolean checkAutoCreateSliders(final String s,
+	        final AsyncOperation callback) {
+		final Localization loc = ((AppW) app).getLocalization();
+
 		final String[] options = { loc.getPlain("CreateSliders"),
 		        app.getMenu("Cancel") };
-		
-		final Image icon  = new NoDragImage(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_slider_32()),32);
-		icon.getElement().getStyle().setProperty("border", "3px solid steelblue");
-		
-		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getPlain("CreateSlidersForA", s),
+
+		final Image icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar
+		        .getMyIconResourceBundle().mode_slider_32()), 32);
+		icon.getElement().getStyle()
+		        .setProperty("border", "3px solid steelblue");
+
+		GOptionPaneW.INSTANCE.showOptionDialog(app,
+		        loc.getPlain("CreateSlidersForA", s),
 		        loc.getPlain("CreateSliders"), GOptionPane.CUSTOM_OPTION,
 		        GOptionPane.INFORMATION_MESSAGE, icon, options, callback);
 
 		return false;
-    }
-    
-    @Override
-    public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
+	}
+
+	@Override
+	public ConstructionProtocolNavigation getConstructionProtocolNavigation() {
 		if (constProtocolNavigation == null) {
 			App.printStacktrace("");
-			constProtocolNavigation = new ConstructionProtocolNavigationW(this.getApp());
+			constProtocolNavigation = new ConstructionProtocolNavigationW(
+			        this.getApp());
 		}
 
 		return constProtocolNavigation;
-    }
+	}
 
 	public void logout() {
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	/**
-	 * @param show whether to show the menubar or not
+	 * @param show
+	 *            whether to show the menubar or not
 	 */
 	public void showMenuBar(final boolean show) {
-	   if (getObjectPool().getGgwMenubar() != null) {
-		   getObjectPool().getGgwMenubar().setVisible(show);
-	   } else {
-		   ((AppWapplet) app).attachMenubar();
-	   }
-	   ((AppW)app).closePopups();
-    }
+		if (getObjectPool().getGgwMenubar() != null) {
+			getObjectPool().getGgwMenubar().setVisible(show);
+		} else {
+			((AppWapplet) app).attachMenubar();
+		}
+		((AppW) app).closePopups();
+	}
 
 	public void showToolBar(final boolean show) {
-	   if (((AppWapplet) app).getToolbar() != null) {
-		   ((AppWapplet) app).getToolbar().setVisible(show);
-	   } else {
-		   ((AppWapplet) app).attachToolbar();
-	   }
-	   ((AppW)app).closePopups();
-    }
+		if (((AppWapplet) app).getToolbar() != null) {
+			((AppWapplet) app).getToolbar().setVisible(show);
+		} else {
+			((AppWapplet) app).attachToolbar();
+		}
+		((AppW) app).closePopups();
+	}
 
 	/**
 	 * @param show
 	 * 
-	 * wheter to show algebra input or not
+	 *            wheter to show algebra input or not
 	 */
 	public void showAlgebraInput(final boolean show) {
-	    if (algebraInput != null) {
-	    	algebraInput.setVisible(show);
-	    } else {
-	    	((AppWapplet) app).attachAlgebraInput();
-	    }
-	    ((AppW)app).closePopups();
-    }
+		if (algebraInput != null) {
+			algebraInput.setVisible(show);
+		} else {
+			((AppWapplet) app).attachAlgebraInput();
+		}
+		((AppW) app).closePopups();
+	}
 
 	@Override
-    protected void setCallerApp() {
-	   this.caller_APP = WEB;
-    }
-    
+	protected void setCallerApp() {
+		this.caller_APP = WEB;
+	}
+
 	@Override
 	public int setToolbarMode(final int mode) {
 		if (toolbarPanel == null) {
@@ -1473,21 +1505,21 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		}
 
 		final int ret = toolbarPanel.setMode(mode);
-		if(this.updateToolBar != null){
+		if (this.updateToolBar != null) {
 			this.updateToolBar.buildGui();
 		}
-//		layout.getDockManager().setToolbarMode(mode);
+		// layout.getDockManager().setToolbarMode(mode);
 		return ret;
-//		return mode;
+		// return mode;
 	}
-	
+
 	private int getAlgebraInputHeight() {
 		if (algebraInput != null) {
 			return algebraInput.getOffsetHeight();
 		}
 		return 0;
 	}
-	
+
 	private int getToolbarHeight() {
 		if (toolbarPanel != null) {
 			return toolbarPanel.getOffsetHeight();
@@ -1496,42 +1528,43 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	@Override
-    public void setActiveView(final int evID) {
-		if (layout == null || layout.getDockManager() == null){
+	public void setActiveView(final int evID) {
+		if (layout == null || layout.getDockManager() == null) {
 			return;
 		}
 		layout.getDockManager().setFocusedPanel(evID);
 	}
 
 	@Override
-    public boolean isDraggingViews() {
-	    return draggingViews;
-    }
-	
-	public void setDraggingViews(final boolean draggingViews, final boolean temporary){
-		if(!temporary){
+	public boolean isDraggingViews() {
+		return draggingViews;
+	}
+
+	public void setDraggingViews(final boolean draggingViews,
+	        final boolean temporary) {
+		if (!temporary) {
 			this.oldDraggingViews = draggingViews;
 		}
 		this.draggingViews = draggingViews;
-		if(layout != null){
+		if (layout != null) {
 			layout.getDockManager().enableDragging(draggingViews);
 		}
 	}
-	
-	public void refreshDraggingViews(){
+
+	public void refreshDraggingViews() {
 		layout.getDockManager().enableDragging(oldDraggingViews);
 	}
 
 	public EuclidianViewW getPlotPanelEuclidanView() {
-	    return (EuclidianViewW) probCalculator.plotPanel;
-    }
-	
+		return (EuclidianViewW) probCalculator.plotPanel;
+	}
+
 	public boolean isConsProtNavigationPlayButtonVisible() {
-		return getConstructionProtocolNavigation().isPlayButtonVisible();		
+		return getConstructionProtocolNavigation().isPlayButtonVisible();
 	}
 
 	public boolean isConsProtNavigationProtButtonVisible() {
-		return getConstructionProtocolNavigation().isConsProtButtonVisible();		
+		return getConstructionProtocolNavigation().isConsProtButtonVisible();
 	}
 
 	@Override
@@ -1539,31 +1572,32 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		switch (viewId) {
 		case App.VIEW_FUNCTION_INSPECTOR:
 			App.debug("Detaching VIEW_FUNCTION_INSPECTOR");
-			((DialogManagerW) app.getDialogManager()).getFunctionInspector().setInspectorVisible(false);
+			((DialogManagerW) app.getDialogManager()).getFunctionInspector()
+			        .setInspectorVisible(false);
 			break;
 		default:
 			super.detachView(viewId);
 		}
 	}
-	
+
 	/**
 	 * @return {@link BrowseGUI}
 	 */
 	public BrowseGUI getBrowseGUI(String query) {
 		if (!browseGUIwasLoaded()) {
-			this.browseGUI = this.device.getBrowseGUI((AppW)this.app);
-			if(query != null && query.trim().length() > 0){
+			this.browseGUI = this.device.getBrowseGUI((AppW) this.app);
+			if (query != null && query.trim().length() > 0) {
 				this.browseGUI.displaySearchResults(query);
-			}else{
+			} else {
 				this.browseGUI.loadAllMaterials();
 			}
 		}
-		if(query != null && query.trim().length() > 0){
+		if (query != null && query.trim().length() > 0) {
 			this.browseGUI.displaySearchResults(query);
 		}
 		return this.browseGUI;
 	}
-	
+
 	/**
 	 * @return true if {@link BrowseGUI} is not null
 	 */
@@ -1572,6 +1606,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	@Override
+
     public void invokeLater(final Runnable runnable) {
 	    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
 
@@ -1587,57 +1622,67 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 	}
 
 	@Override
-    public void updateCheckBoxesForShowConstructinProtocolNavigation() {
+	public void updateCheckBoxesForShowConstructinProtocolNavigation() {
 		((AppW) app).getEuclidianViewpanel().updateNavigationBar();
-    }
+	}
 
 	@Override
-    public Widget getRootComponent() {
-	    return getLayout().getRootComponent();
-    }
+	public Widget getRootComponent() {
+		return getLayout().getRootComponent();
+	}
 
 	@Override
-    public EuclidianStyleBar newEuclidianStylebar(final EuclidianView ev) {
-	    return new EuclidianStyleBarW(ev);
-    }
+	public EuclidianStyleBar newEuclidianStylebar(final EuclidianView ev) {
+		return new EuclidianStyleBarW(ev);
+	}
 
 	@Override
-    public String getMenuBarHtml(final String filename, final String name, final boolean b) {
-		final String funcName = filename.substring(0, filename.lastIndexOf('.'));
+	public String getMenuBarHtml(final String filename, final String name,
+	        final boolean b) {
+		final String funcName = filename
+		        .substring(0, filename.lastIndexOf('.'));
 		final ImageResource imgRes = (ImageResource) (AppResources.INSTANCE
 		        .getResource(funcName));
 		final String iconString = imgRes.getSafeUri().asString();
 		return MainMenu.getMenuBarHtml(iconString, name, true);
-    }
+	}
 
 	@Override
-    public void recalculateEnvironments() {
+	public void recalculateEnvironments() {
 		for (int i = 0; i < getEuclidianViewCount(); i++) {
-	    	((EuclidianView) getEuclidianView2(i)).getEuclidianController().calculateEnvironment();
+			((EuclidianView) getEuclidianView2(i)).getEuclidianController()
+			        .calculateEnvironment();
 		}
-		if(hasProbabilityCalculator()){
-			((ProbabilityCalculatorViewW)getProbabilityCalculator()).plotPanel.getEuclidianController().calculateEnvironment();
+		if (hasProbabilityCalculator()) {
+			((ProbabilityCalculatorViewW) getProbabilityCalculator()).plotPanel
+			        .getEuclidianController().calculateEnvironment();
 		}
-    }
-	
+	}
+
 	/**
 	 * 
-	 * @param toolBar will be updated every time setMode(int) is called
+	 * @param toolBar
+	 *            will be updated every time setMode(int) is called
 	 */
-	public void setToolBarForUpdate(final ToolBarW toolBar){
+	public void setToolBarForUpdate(final ToolBarW toolBar) {
 		this.updateToolBar = toolBar;
 	}
 
 	@Override
-	public void updateStyleBarPositions(boolean menuOpen){
-		for(DockPanelW panel : this.layout.getDockManager().getPanels()){
-			int right = (int) (app.getWidth() - (panel.getAbsoluteLeft() /((AppW) app).getArticleElement().getScaleX() + panel.getOffsetWidth())); 
+	public void updateStyleBarPositions(boolean menuOpen) {
+		for (DockPanelW panel : this.layout.getDockManager().getPanels()) {
+			int right = (int) (app.getWidth() - (panel.getAbsoluteLeft()
+			        / ((AppW) app).getArticleElement().getScaleX() + panel
+			        .getOffsetWidth()));
 
-			if(menuOpen && panel.isVisible() && right <  GLookAndFeel.MENUBAR_WIDTH){
-				if(app.getWidth() -panel.getAbsoluteLeft() > GLookAndFeel.MENUBAR_WIDTH){
-					// -2 necessary because of style-settings for the StyleBar and the Menu
+			if (menuOpen && panel.isVisible()
+			        && right < GLookAndFeel.MENUBAR_WIDTH) {
+				if (app.getWidth() - panel.getAbsoluteLeft() > GLookAndFeel.MENUBAR_WIDTH) {
+					// -2 necessary because of style-settings for the StyleBar
+					// and the Menu
 					panel.showStyleBarPanel(true);
-					panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH- right -2);
+					panel.setStyleBarRightOffset(GLookAndFeel.MENUBAR_WIDTH
+					        - right - 2);
 				} else {
 					panel.showStyleBarPanel(false);
 				}
@@ -1647,55 +1692,56 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 			}
 		}
 	}
-	
+
 	/**
 	 * shows the downloadDialog
 	 */
 	public void openFilePicker() {
-		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb":
-			(app.getKernel().getConstruction().getTitle() + ".ggb");
+		String title = "".equals(app.getKernel().getConstruction().getTitle()) ? "geogebra.ggb"
+		        : (app.getKernel().getConstruction().getTitle() + ".ggb");
 		JavaScriptObject callback = getDownloadCallback(title);
 		((AppW) app).getGgbApi().getGGB(true, callback);
-    }
-	
-	private native JavaScriptObject getDownloadCallback(String title) /*-{
-		var _this = this;
-		return function(ggbZip) {
-			var URL = $wnd.URL || $wnd.webkitURL;
-			var ggburl = URL.createObjectURL(ggbZip);
+	}
 
-			if ($wnd.navigator.msSaveBlob) {
-				//works for chrome and internet explorer
-				$wnd.navigator.msSaveBlob(ggbZip, title);
-			} else {
-				//works for firefox
-				var a = document.createElement("a");
-    			document.body.appendChild(a);
-		    	a.style = "display: none";
-		        a.href = ggburl;
-		        a.download = title;
-		        a.click();
-//		        window.URL.revokeObjectURL(url);
-			} 
-		}
+	private native JavaScriptObject getDownloadCallback(String title) /*-{
+        var _this = this;
+        return function(ggbZip) {
+            var URL = $wnd.URL || $wnd.webkitURL;
+            var ggburl = URL.createObjectURL(ggbZip);
+
+            if ($wnd.navigator.msSaveBlob) {
+                //works for chrome and internet explorer
+                $wnd.navigator.msSaveBlob(ggbZip, title);
+            } else {
+                //works for firefox
+                var a = document.createElement("a");
+                document.body.appendChild(a);
+                a.style = "display: none";
+                a.href = ggburl;
+                a.download = title;
+                a.click();
+                //		        window.URL.revokeObjectURL(url);
+            }
+        }
 	}-*/;
-	
+
 	@Override
 	public final void renderEvent(final BaseEvent event) {
-		if(this.uploadWaiting && event instanceof LoginEvent && ((LoginEvent)event).isSuccessful()){
+		if (this.uploadWaiting && event instanceof LoginEvent
+		        && ((LoginEvent) event).isSuccessful()) {
 			this.uploadWaiting = false;
 			save();
-		} else if(this.uploadWaiting && event instanceof StayLoggedOutEvent){
+		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
 			this.uploadWaiting = false;
 			openFilePicker();
 		}
 	}
 
 	@Override
-    public BrowseGUI getBrowseGUI() {
-	    return getBrowseGUI(null);
-    }
-	
+	public BrowseGUI getBrowseGUI() {
+		return getBrowseGUI(null);
+	}
+
 	public String getDefaultToolbarString() {
 		if (toolbarPanel == null)
 			return "";

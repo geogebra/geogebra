@@ -2834,7 +2834,7 @@ public abstract class App implements UpdateSelection{
 	 *            true for name, false for help
 	 * @return tool name or help
 	 */
-	private String getToolNameOrHelp(int mode, boolean toolName) {
+	public String getToolNameOrHelp(int mode, boolean toolName) {
 		// macro
 		String ret;
 
@@ -2845,16 +2845,10 @@ public abstract class App implements UpdateSelection{
 				Macro macro1 = kernel.getMacro(macroID);
 				if (toolName) {
 					// TOOL NAME
-					ret = macro1.getToolName();
-					if ("".equals(ret)) {
-						ret = macro1.getCommandName();
-					}
+					ret = macro1.getToolOrCommandName();
 				} else {
 					// TOOL HELP
 					ret = macro1.getToolHelp();
-					if ("".equals(ret)) {
-						ret = macro1.getNeededTypesString();
-					}
 				}
 			} catch (Exception e) {
 				App.debug("Application.getModeText(): macro does not exist: ID = "

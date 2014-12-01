@@ -477,21 +477,27 @@ public class Macro  {
 	 * Returns the tool help 
 	 * @return tool help
 	 */
-	public String getToolHelp() {		
+	public String getToolHelp() {	
+		
+		if (toolHelp == null || "".equals(toolHelp)) {
+			return toString();
+		}
 		return toolHelp;				
 	}
 	
 	
 	/**
 	 * Returns a String showing all needed types of this macro.
+	 * eg [ <Text>, <Number> ]
 	 * @return string showing all needed types of this macro.
 	 */
 	public String getNeededTypesString() {
 		StringBuilder sb = new StringBuilder();			
-        sb.append(macroInput[0].translatedTypeString());	       
-        for (int i = 1; i < macroInput.length; ++i) {
-            sb.append(", ");	            
-            sb.append(macroInput[i].translatedTypeString());	            
+        for (int i = 0 ; i < macroInput.length ; ++i) {
+            sb.append(macroInput[i].translatedTypeString());	 
+            if (i != macroInput.length - 1) {
+                sb.append(", ");	                        	
+            }
         }	        			
 		return sb.toString();				
 	}
