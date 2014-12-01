@@ -950,24 +950,38 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 						newPoint.setParentAlgorithm(AlgoIntersectRegionPlanePolyhedron.this);
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setViewFlags(getFirstInput().getViewSet());
-						/*
-						newPoint.setPointSize(A.getPointSize());
-						newPoint.setEuclidianVisible(A.isEuclidianVisible()
-								|| B.isEuclidianVisible());
-						newPoint.setAuxiliaryObject(true);
-						newPoint.setViewFlags(A.getViewSet());
-						GeoBoolean conditionToShow = A.getShowObjectCondition();
-						if (conditionToShow == null)
-							conditionToShow = B.getShowObjectCondition();
-						if (conditionToShow != null) {
-							try {
-								((GeoElement) newPoint)
-										.setShowObjectCondition(conditionToShow);
-							} catch (Exception e) {
-								// circular exception -- do nothing
+						
+						boolean visible = false;
+						boolean labelVisible = false;
+						int size = outputPoints.size();
+						if (size > 0){ // check if at least one element is visible
+							for (int i = 0; i < size && !visible && !labelVisible; i++){
+								visible = visible || outputPoints.getElement(i).isEuclidianVisible();
+								labelVisible = labelVisible || outputPoints.getElement(i).getLabelVisible();
+							}
+						}else{ // no element yet
+							visible = true;
+							labelVisible = true;
+						}
+						
+						newPoint.setEuclidianVisible(visible);
+						if (!visible){ // if not visible, we don't want setParentAlgorithm() to change it
+							newPoint.dontSetEuclidianVisibleBySetParentAlgorithm();
+						}
+						newPoint.setLabelVisible(labelVisible);
+						
+						if (outputPolygons.size()>0){
+							GeoPolygon polygon = outputPolygons.getElement(0);
+							if (polygon.getShowObjectCondition() != null) {
+								try {
+									newPoint.setShowObjectCondition(polygon.getShowObjectCondition());
+								} catch (Exception e) {
+									//circular definition
+								}
 							}
 						}
-						*/
+						
+						
 						return newPoint;
 					}
 				});
