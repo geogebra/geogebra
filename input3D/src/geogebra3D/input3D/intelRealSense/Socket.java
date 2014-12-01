@@ -213,11 +213,11 @@ public class Socket {
 		}
 		
 		public double getHandOrientationX(){
-			return handOrientationXSum / samples;
+			return - handOrientationXSum / samples;
 		}
 		
 		public double getHandOrientationY(){
-			return handOrientationYSum / samples;
+			return - handOrientationYSum / samples;
 		}
 		
 		public double getHandOrientationZ(){

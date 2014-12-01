@@ -124,12 +124,6 @@ public interface Input3D {
 	public boolean getLeftButton();
 
 
-	/**
-	 * 
-	 * @return true if input coordinate system has not direct orientation
-	 */
-	public boolean reverseX();
-
 
 	
 }

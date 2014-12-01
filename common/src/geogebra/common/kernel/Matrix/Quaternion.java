@@ -134,14 +134,11 @@ public class Quaternion {
 	
 	/**
 	 * 
-	 * @param reverseX -1 to reverse x orientation, 1 otherwise
 	 * @return 3x3 rotation matrix (for unit quaternion)
 	 */
-	public CoordMatrix getRotMatrix(int reverseX){
+	public CoordMatrix getRotMatrix(){
 		CoordMatrix ret = new CoordMatrix(3, 3);
-		
-		//2*(w*z+x*y), 1-2*(y*y+z*z)
-		
+				
 		ret.set(1, 1, 1-2*(y*y+z*z));
 		ret.set(1, 2, 2*(x*y-w*z));
 		ret.set(1, 3, 2*(w*y+x*z));
