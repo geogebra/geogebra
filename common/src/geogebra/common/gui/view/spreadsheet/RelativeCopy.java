@@ -486,34 +486,7 @@ public class RelativeCopy {
 			}
 		}
 
-		if (oldBoolText != null) {
-			exp = kernel.getParser().parseGeoGebraExpression(oldBoolText);
-			updateCellReferences(exp, dx, dy);
-			boolText = exp.toString(StringTemplate.maxPrecision);
-		}
 		
-		
-		String startPoints[] = null;
-		if (value instanceof Locateable) {
-			Locateable loc = (Locateable)value;
-			
-			GeoPointND[] pts = loc.getStartPoints();
-			
-			if (pts != null) {
-			
-				startPoints = new String[pts.length];
-				
-				for (int i = 0 ; i < pts.length ; i++) {
-					startPoints[i] = ((GeoElement)pts[i]).getLabel(highPrecision);
-					
-					if (GeoElementSpreadsheet.spreadsheetPattern.test(startPoints[i])) {					
-						startPoints[i] = updateCellNameWithOffset(startPoints[i], dx, dy);
-					}
-				}
-			}
-			
-		}
-
 		// dynamic color function
 		GeoList dynamicColorList = value.getColorFunction();
 		String colorText = null, oldColorText = null;
@@ -523,12 +496,6 @@ public class RelativeCopy {
 			} else {
 				oldColorText = dynamicColorList.getCommandDescription(highPrecision);
 			}
-		}
-
-		if (oldColorText != null) {
-			exp = kernel.getParser().parseGeoGebraExpression(oldColorText);
-			updateCellReferences(exp, dx, dy);
-			colorText = exp.toString(StringTemplate.maxPrecision);
 		}
 
 		// allow pasting blank strings
@@ -581,6 +548,33 @@ public class RelativeCopy {
 
 		value2.setAuxiliaryObject(true);
 
+		String startPoints[] = null;
+		if (value instanceof Locateable) {
+			Locateable loc = (Locateable)value;
+			
+			GeoPointND[] pts = loc.getStartPoints();
+			
+			if (pts != null) {
+			
+				startPoints = new String[pts.length];
+				
+				for (int i = 0 ; i < pts.length ; i++) {
+					startPoints[i] = ((GeoElement)pts[i]).getLabel(highPrecision);
+					
+					if (GeoElementSpreadsheet.spreadsheetPattern.test(startPoints[i])) {					
+						startPoints[i] = updateCellNameWithOffset(startPoints[i], dx, dy);
+					}
+				}
+			}
+			
+		}
+
+		if (oldBoolText != null) {
+			exp = kernel.getParser().parseGeoGebraExpression(oldBoolText);
+			updateCellReferences(exp, dx, dy);
+			boolText = exp.toString(StringTemplate.maxPrecision);
+		}
+		
 		// attempt to set updated condition to show object (if it's changed)
 		if ((boolText != null)){
 			// removed as doesn't work for eg "random()<0.5" #388
@@ -595,6 +589,12 @@ public class RelativeCopy {
 				e.printStackTrace();
 				return null;
 			}
+		}
+		
+		if (oldColorText != null) {
+			exp = kernel.getParser().parseGeoGebraExpression(oldColorText);
+			updateCellReferences(exp, dx, dy);
+			colorText = exp.toString(StringTemplate.maxPrecision);
 		}
 
 		// attempt to set updated dynamic color function (if it's changed)
