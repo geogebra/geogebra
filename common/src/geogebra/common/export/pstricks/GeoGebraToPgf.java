@@ -481,6 +481,12 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// between a and b
 		double a = algo.getA().getDouble();
 		double b = algo.getB().getDouble();
+		if (a==Double.NEGATIVE_INFINITY){
+			a=xmin;
+		}
+		if (b==Double.POSITIVE_INFINITY){
+			b=xmax;
+		}
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
 		boolean plotWithGnuplot = warningFunc(value, "tan(")
@@ -488,49 +494,65 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				|| warningFunc(value, "asinh(") || warningFunc(value, "atanh(")
 				|| warningFunc(value, "sinh(") || warningFunc(value, "tanh(");
 		startBeamer(codeFilledObject);
-		codeFilledObject.append("\\draw");
-		String s = LineOptionCode(geo, true);
-		if (s.length() != 0) {
-			codeFilledObject.append("[");
-			codeFilledObject.append(s);
-		}
-
-		if (plotWithGnuplot) {
-			if (s.length() != 0) {
-				codeFilledObject.append("]");
+		if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
+			double af = xmin;
+			double bf = xmax;
+			if (f.hasInterval()) {
+				af = f.getIntervalMin();
+				bf = f.getIntervalMax();
 			}
-			codeFilledObject.append(" plot[raw gnuplot, id=func");
-			codeFilledObject.append(functionIdentifier);
-			functionIdentifier++;
-			codeFilledObject.append("] function{set samples 100; set xrange [");
-			codeFilledObject.append(a);
-			codeFilledObject.append(":");
-			codeFilledObject.append(b);
-			codeFilledObject.append("]; plot ");
-			value = value.replaceAll("\\^", "**");
-			codeFilledObject.append(value);
-			codeFilledObject.append("}");
+			f.setInterval(a, b);
+			drawFunction(f, code, true, geo);
+			f.setInterval(af, bf);
+			if (f.isEuclidianVisible()) {
+				drawFunction(f, code, false, geo);
+			}
 		} else {
-			if (s.length() != 0)
-				codeFilledObject.append(", ");
-			else
+			codeFilledObject.append("\\draw");
+			String s = LineOptionCode(geo, true);
+			if (s.length() != 0) {
 				codeFilledObject.append("[");
-			codeFilledObject.append("smooth,samples=50,domain=");
-			codeFilledObject.append(a);
-			codeFilledObject.append(":");
-			codeFilledObject.append(b);
-			codeFilledObject.append("] plot");
-			codeFilledObject.append("(\\x,{");
-			value = replaceX(value, "\\x");
-			codeFilledObject.append(value);
-			codeFilledObject.append("})");
+				codeFilledObject.append(s);
+			}
+
+			if (plotWithGnuplot) {
+				if (s.length() != 0) {
+					codeFilledObject.append("]");
+				}
+				codeFilledObject.append(" plot[raw gnuplot, id=func");
+				codeFilledObject.append(functionIdentifier);
+				functionIdentifier++;
+				codeFilledObject
+						.append("] function{set samples 100; set xrange [");
+				codeFilledObject.append(a);
+				codeFilledObject.append(":");
+				codeFilledObject.append(b);
+				codeFilledObject.append("]; plot ");
+				value = value.replaceAll("\\^", "**");
+				codeFilledObject.append(value);
+				codeFilledObject.append("}");
+			} else {
+				if (s.length() != 0)
+					codeFilledObject.append(", ");
+				else
+					codeFilledObject.append("[");
+				codeFilledObject.append("smooth,samples=50,domain=");
+				codeFilledObject.append(a);
+				codeFilledObject.append(":");
+				codeFilledObject.append(b);
+				codeFilledObject.append("] plot");
+				codeFilledObject.append("(\\x,{");
+				value = replaceX(value, "\\x");
+				codeFilledObject.append(value);
+				codeFilledObject.append("})");
+			}
+			codeFilledObject.append(" -- ");
+			writePoint(b, 0, codeFilledObject);
+			codeFilledObject.append(" -- ");
+			writePoint(a, 0, codeFilledObject);
+			codeFilledObject.append(" -- cycle;\n");
+			endBeamer(codeFilledObject);
 		}
-		codeFilledObject.append(" -- ");
-		writePoint(b, 0, codeFilledObject);
-		codeFilledObject.append(" -- ");
-		writePoint(a, 0, codeFilledObject);
-		codeFilledObject.append(" -- cycle;\n");
-		endBeamer(codeFilledObject);
 	}
 
 	@Override
@@ -1241,7 +1263,8 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		endBeamer(code);
 	}
 
-	private void drawFunction(GeoFunction geo, StringBuilder sb) {
+	private void drawFunction(GeoFunction geo, StringBuilder sb,
+			boolean integral, GeoNumeric geo1) {
 		Function f = geo.getFunction();
 		if (null == f)
 			return;
@@ -1277,15 +1300,19 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			xrangemax = maxDefinedValue(geo, xrangemin, b);
 			// Application.debug("xrangemax "+xrangemax);
 			startBeamer(sb);
-			if (forceGnuplot) {				
-				if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
-					drawNoLatexFunction(geo, sb, xrangemax, xrangemin);
+			if (forceGnuplot) {
+				if (!isLatexFunction(f
+						.toValueString(StringTemplate.noLocalDefault))) {
+					drawNoLatexFunction(geo, sb, xrangemax, xrangemin,
+							integral, geo1);
 				} else {
 					drawGnuPlot(geo, sb, value, xrangemax, xrangemin);
 				}
 			} else {
-				if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
-					drawNoLatexFunction(geo, sb, xrangemax, xrangemin);
+				if (!isLatexFunction(f
+						.toValueString(StringTemplate.noLocalDefault))) {
+					drawNoLatexFunction(geo, sb, xrangemax, xrangemin,
+							integral, geo1);
 				} else {
 					drawPgfStandard(geo, sb, value, xrangemax, xrangemin);
 				}
@@ -1375,15 +1402,26 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	private void drawNoLatexFunction(GeoFunction geo, StringBuilder sb,
-			double xrangemax, double xrangemin) {
+			double xrangemax, double xrangemin, boolean integral,
+			GeoNumeric geo1) {
 		String s = LineOptionCode(geo, true);
 		if (s.length() != 0) {
 			s = "[" + s + "]";
 		}
 		String template = "\\draw" + s + " (%0,%1) -- (%2,%3);\n";
+		String cycle = "";
+		String close = "";
+		if (integral) {
+			close = "(" + format(geo.getIntervalMax()) + ",0) -- ("
+					+ format(geo.getIntervalMin()) + ",0) -- ";
+			sb.append("\\draw[" + LineOptionCode(geo1, true) + "]");
+			template = " (%0,%1) -- (%2,%3) --";
+			cycle = "cycle;\n";
+		}
+
 		StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
 				xrangemin, 400, template);
-		sb.append(lineBuilder.toString() + ";\n");
+		sb.append(lineBuilder.toString() + close + cycle);
 	}
 
 	@Override
@@ -1397,9 +1435,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// Only done using gnuplot
 		// add Warning
 		addWarningGnuplot();
-		
+
 		drawSingleCurve((GeoCurveCartesian) geo, sb);
-		
+
 	}
 
 	private void drawSingleCurve(GeoCurveCartesian geo, StringBuilder sb) {
@@ -1442,7 +1480,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 
 	@Override
 	protected void drawFunction(GeoFunction geo) {
-		drawFunction(geo, code);
+		drawFunction(geo, code, false, null);
 	}
 
 	/**
@@ -2458,16 +2496,16 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
 			ColorCode(color, codeBeginDoc);
 			codeBeginDoc.append("] ");
-			boolean [] positiveOnly=euclidianView.getPositiveAxes();
-			double assignMax=xmin;
-			if (positiveOnly[0]){
-				assignMax=0;
+			boolean[] positiveOnly = euclidianView.getPositiveAxes();
+			double assignMax = xmin;
+			if (positiveOnly[0]) {
+				assignMax = 0;
 			}
 			writePoint(assignMax, 0, codeBeginDoc);
 			codeBeginDoc.append(" -- ");
 			writePoint(xmax, 0, codeBeginDoc);
 			codeBeginDoc.append(";\n");
-			
+
 			int x1 = (int) (assignMax / spaceTick);
 			double xstart = x1 * spaceTick;
 			StringBuilder tmp = new StringBuilder();
@@ -2528,10 +2566,10 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			codeBeginDoc.append("\\draw[" + handleAxesStyle() + "color=");
 			ColorCode(color, codeBeginDoc);
 			codeBeginDoc.append("] ");
-			boolean [] positiveOnly=euclidianView.getPositiveAxes();
-			double assignMax=xmin;
-			if (positiveOnly[0]){
-				assignMax=0;
+			boolean[] positiveOnly = euclidianView.getPositiveAxes();
+			double assignMax = xmin;
+			if (positiveOnly[0]) {
+				assignMax = 0;
 			}
 			writePoint(0, assignMax, codeBeginDoc);
 			codeBeginDoc.append(" -- ");

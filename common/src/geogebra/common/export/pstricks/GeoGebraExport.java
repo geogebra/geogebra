@@ -8,6 +8,7 @@ import geogebra.common.euclidian.draw.DrawAngle;
 import geogebra.common.euclidian.draw.DrawInequality;
 import geogebra.common.euclidian.draw.DrawLine;
 import geogebra.common.euclidian.draw.DrawPoint;
+import geogebra.common.euclidian.plot.CurvePlotter;
 import geogebra.common.factories.AwtFactory;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -32,6 +33,7 @@ import geogebra.common.kernel.cas.AlgoIntegralDefinite;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
+import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
@@ -80,7 +82,7 @@ public abstract class GeoGebraExport {
 	protected boolean isBeamer = false;
 	protected int barNumber;
 	private StringTemplate tpl;
-	
+
 	public GeoGebraExport(App app) {
 		this.app = app;
 		this.kernel = app.getKernel();
@@ -96,7 +98,7 @@ public abstract class GeoGebraExport {
 
 	protected String format(double d) {
 		String ret = kernel.format(Kernel.checkDecimalFraction(d), tpl);
-		
+
 		ret = StringUtil.cannonicNumber2(ret);
 
 		return ret;
@@ -202,12 +204,12 @@ public abstract class GeoGebraExport {
 	 */
 	protected String sci2dec(double d) {
 		String s = StringUtil.toLowerCase(String.valueOf(d));
-		//StringTokenizer st = new StringTokenizer(s, "e");
+		// StringTokenizer st = new StringTokenizer(s, "e");
 		StringBuilder number;
 		int posE = s.indexOf("e");
 		if (posE == -1)
 			return s;
-		String token1 = s.substring(0,posE);
+		String token1 = s.substring(0, posE);
 		String token2 = s.substring(posE + 1);
 		number = new StringBuilder(token1);
 		int exp = Integer.parseInt(token2);
@@ -401,7 +403,7 @@ public abstract class GeoGebraExport {
 					drawGeoConic((GeoConic) g);
 					drawLabel(g, null);
 				}
-			} else if (g.isGeoFunction() ) {
+			} else if (g.isGeoFunction()) {
 				drawFunction((GeoFunction) g);
 				drawLabel(g, null);
 			} else if (g.isGeoCurveCartesian()) {
@@ -413,7 +415,7 @@ public abstract class GeoGebraExport {
 				// Image --> export to eps is better and easier!
 			} else if (g.isGeoLocus()) {
 				drawLocus((GeoLocus) g);
-			} else if (g instanceof GeoTransferFunction){
+			} else if (g instanceof GeoTransferFunction) {
 				drawNyquist((GeoTransferFunction) g);
 			}
 		}
@@ -711,9 +713,11 @@ public abstract class GeoGebraExport {
 			double angSt, double angEnd, double r, boolean clockwise);
 
 	/**
-	 * @param settingsFrame frame where user may edit the settings and where he becomes the output
+	 * @param settingsFrame
+	 *            frame where user may edit the settings and where he becomes
+	 *            the output
 	 */
-	public final void setFrame(ExportSettings settingsFrame){
+	public final void setFrame(ExportSettings settingsFrame) {
 		frame = settingsFrame;
 	}
 
@@ -775,40 +779,38 @@ public abstract class GeoGebraExport {
 		DrawInequality drawable = new DrawInequality(euclidianView, ef);
 		GGraphics2D g = null;
 		IneqTree tree = ef.getFunction().getIneqs();
-		
-			if (tree.getLeft() != null) {
-				for (int i = 0; i < tree.getLeft().getSize(); i++) {
-					g = createGraphics(ef, tree.getLeft().get(i), euclidianView);
-					drawable.draw(g);
-				}
-			}
-			if (tree.getRight() != null) {
-				for (int i = 0; i < tree.getLeft().getSize(); i++) {
-					g = createGraphics(ef, tree.getRight().get(i),
-							euclidianView);
-					drawable.draw(g);
-				}
-			}
-			if (tree.getIneq() != null) {
-				g = createGraphics(ef, tree.getIneq(), euclidianView);
+
+		if (tree.getLeft() != null) {
+			for (int i = 0; i < tree.getLeft().getSize(); i++) {
+				g = createGraphics(ef, tree.getLeft().get(i), euclidianView);
 				drawable.draw(g);
 			}
-			// Only for syntax. Never throws
-		
+		}
+		if (tree.getRight() != null) {
+			for (int i = 0; i < tree.getLeft().getSize(); i++) {
+				g = createGraphics(ef, tree.getRight().get(i), euclidianView);
+				drawable.draw(g);
+			}
+		}
+		if (tree.getIneq() != null) {
+			g = createGraphics(ef, tree.getIneq(), euclidianView);
+			drawable.draw(g);
+		}
+		// Only for syntax. Never throws
+
 	}
-	
+
 	/**
 	 * Export as PSTricks or PGF/TikZ or Asympote, Nyquist diagram
 	 * 
-	 * @param g 
-	 * 			Transfer function
-	 *            
+	 * @param g
+	 *            Transfer function
+	 * 
 	 *
 	 */
-	
+
 	protected abstract void drawNyquist(GeoTransferFunction g);
-	
-	
+
 	// Create the appropriate instance of MyGraphics of various implementations
 	// (pstricks,pgf,asymptote)
 	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
@@ -1337,24 +1339,27 @@ public abstract class GeoGebraExport {
 
 	protected StringBuilder drawNoLatexFunction(GeoFunction geo,
 			double xrangemax, double xrangemin, int point, String template) {
+		GeoCurveCartesian curve=new GeoCurveCartesian(app.getKernel().getConstruction());
+		geo.toGeoCurveCartesian(curve);
 		StringBuilder lineBuilder = new StringBuilder();
 		double y = geo.evaluate(xrangemin);
-		if (Math.abs(y) < 0.001)
-			y = 0;
 		double yprec = y;
+		if (Math.abs(y) < 0.001)
+			y = yprec = 0;
 		double step = (xrangemax - xrangemin) / point;
-		double xprec = xrangemin - step;
+		double xprec = xrangemin;
 		double x = xprec;
 		for (; x <= xrangemax; x += step) {
 			y = geo.evaluate(x);
-			if (Math.abs(yprec - y) < (ymax - ymin)) {
-				if (Math.abs(y) < 0.001)
-					y = 0;
-				if (geo.getFunction().getExpression().isConditional()){
-					lineBuilder.append(StringUtil.format(template, xprec, y, x, y));
-				}else{
-					lineBuilder.append(StringUtil.format(template, xprec, yprec, x, y));
-				}
+			if (Math.abs(y) < 0.001)
+				y = 0;
+			if (Math.abs(x) < 0.001)
+				x = 0;
+			if (Math.abs(yprec - y) < (ymax - ymin)) {				
+				if (CurvePlotter.isContinuous(curve, xprec, x, 8)) {
+					lineBuilder.append(StringUtil.format(template, xprec,
+							yprec, x, y));
+				} 
 			}
 			yprec = y;
 			xprec = x;
@@ -1362,54 +1367,54 @@ public abstract class GeoGebraExport {
 		return lineBuilder;
 	}
 
-	
 	protected StringBuilder drawNyquistDiagram(GeoTransferFunction geo,
-			String template,String arrowMark,String arrowCommand,String reverseArrowCommand) {
-		String t=template;
+			String template, String arrowMark, String arrowCommand,
+			String reverseArrowCommand) {
+		String t = template;
 		String sub;
-		boolean flag=true;
+		boolean flag = true;
 		StringBuilder lineBuilder = new StringBuilder();
-		List<Coords> coordsList=geo.getCoordsList();
-		Coords p=coordsList.get(0);
-		double xprec=p.getX();
-		double yprec=p.getY();
+		List<Coords> coordsList = geo.getCoordsList();
+		Coords p = coordsList.get(0);
+		double xprec = p.getX();
+		double yprec = p.getY();
 		double x;
 		double y;
-		for (int i = 1; i < coordsList.size()-10; i+=10) {
+		for (int i = 1; i < coordsList.size() - 10; i += 10) {
 			p = coordsList.get(i);
 			x = p.getX();
 			y = p.getY();
-			if (flag && i>coordsList.size()/2.3){
-				sub=t.replaceAll(arrowMark, arrowCommand);
-				flag=false;
+			if (flag && i > coordsList.size() / 2.3) {
+				sub = t.replaceAll(arrowMark, arrowCommand);
+				flag = false;
 			} else {
-				sub=t.replaceAll(arrowMark, "");
+				sub = t.replaceAll(arrowMark, "");
 			}
 			lineBuilder.append(StringUtil.format(sub, xprec, yprec, x, y));
-			xprec=x;
-			yprec=y;
-		}	
-		flag=true;
-		p=coordsList.get(0);
-		xprec=p.getX();
-		yprec=-p.getY();
-		for (int i = 1; i < coordsList.size(); i+=4) {
+			xprec = x;
+			yprec = y;
+		}
+		flag = true;
+		p = coordsList.get(0);
+		xprec = p.getX();
+		yprec = -p.getY();
+		for (int i = 1; i < coordsList.size(); i += 4) {
 			p = coordsList.get(i);
 			x = p.getX();
 			y = -p.getY();
-			if (flag && i>coordsList.size()/2.3){
-				sub=t.replaceAll(arrowMark, reverseArrowCommand);
-				flag=false;
+			if (flag && i > coordsList.size() / 2.3) {
+				sub = t.replaceAll(arrowMark, reverseArrowCommand);
+				flag = false;
 			} else {
-				sub=t.replaceAll(arrowMark, "");
+				sub = t.replaceAll(arrowMark, "");
 			}
 			lineBuilder.append(StringUtil.format(sub, xprec, yprec, x, y));
-			xprec=x;
-			yprec=y;
-		}	
+			xprec = x;
+			yprec = y;
+		}
 		return lineBuilder;
 	}
-	
+
 	protected boolean isLatexFunction(String s) {
 		// used if there are other non-latex
 		return !s.toLowerCase().contains("erf(")
@@ -1424,8 +1429,6 @@ public abstract class GeoGebraExport {
 				&& !s.toLowerCase().contains("sech(")
 				&& !s.toLowerCase().contains("if");
 	}
-
-	
 
 	protected void addTextPackage() {
 		StringBuilder packages = new StringBuilder();
@@ -1448,46 +1451,47 @@ public abstract class GeoGebraExport {
 	}
 
 	protected class Info {
-		
+
 		private float alpha;
 		private int y;
 		private double angle;
 		private FillType fillType;
 		private GColor linecolor;
 
-	    public Info(GeoElement geo){	
-	    	
-	    	alpha=geo.getAlphaValue();
-    		y=geo.getHatchingDistance();
-    		angle=geo.getHatchingAngle();
-    		fillType = geo.getFillType();
-    		linecolor = geo.getObjectColor();
-    		
-    		float [] rgb=null;
-    		
-    		if (geo.getParentAlgorithm() instanceof AlgoBarChart){
-    			AlgoBarChart algo=(AlgoBarChart) geo.getParentAlgorithm();
-	    		if (algo.getBarColor(barNumber )!=null){	
-	    			rgb=new float[4];
-	    			algo.getBarColor(barNumber ).getRGBColorComponents(rgb);
-	    			linecolor= AwtFactory.prototype.newColor(rgb[0],rgb[1]
-							, rgb[2],rgb[3]);
-	    		}
-	    		if (algo.getBarHatchDistance(barNumber )!=-1){
-	    			y=algo.getBarHatchDistance(barNumber );
-	    		}
-	    		if (algo.getBarHatchAngle(barNumber )!=-1){
-	    			angle=algo.getBarHatchAngle(barNumber );
-	    		}
-	    		if (algo.getBarFillType(barNumber )!=null){
-	    			fillType=FillType.values()[algo.getBarFillType(barNumber).ordinal()];
-	    		}
-	    		if (algo.getBarAlpha(barNumber )!=-1 && rgb!=null){	    			
-					alpha=rgb[3];
-	    		}
-	    	} 
+		public Info(GeoElement geo) {
+
+			alpha = geo.getAlphaValue();
+			y = geo.getHatchingDistance();
+			angle = geo.getHatchingAngle();
+			fillType = geo.getFillType();
+			linecolor = geo.getObjectColor();
+
+			float[] rgb = null;
+
+			if (geo.getParentAlgorithm() instanceof AlgoBarChart) {
+				AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+				if (algo.getBarColor(barNumber) != null) {
+					rgb = new float[4];
+					algo.getBarColor(barNumber).getRGBColorComponents(rgb);
+					linecolor = AwtFactory.prototype.newColor(rgb[0], rgb[1],
+							rgb[2], rgb[3]);
+				}
+				if (algo.getBarHatchDistance(barNumber) != -1) {
+					y = algo.getBarHatchDistance(barNumber);
+				}
+				if (algo.getBarHatchAngle(barNumber) != -1) {
+					angle = algo.getBarHatchAngle(barNumber);
+				}
+				if (algo.getBarFillType(barNumber) != null) {
+					fillType = FillType.values()[algo.getBarFillType(barNumber)
+							.ordinal()];
+				}
+				if (algo.getBarAlpha(barNumber) != -1 && rgb != null) {
+					alpha = rgb[3];
+				}
+			}
 		}
-				
+
 		public float getAlpha() {
 			return alpha;
 		}
@@ -1503,10 +1507,10 @@ public abstract class GeoGebraExport {
 		public FillType getFillType() {
 			return fillType;
 		}
-		
+
 		public GColor getLinecolor() {
 			return linecolor;
 		}
-		
+
 	}
 }

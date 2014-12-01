@@ -486,9 +486,29 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
         GeoFunction f = algo.getFunction(); // function f between a and b
         String a = format(algo.getA().getDouble());
         String b = format(algo.getB().getDouble());    
+        if (algo.getA().getDouble()==Double.NEGATIVE_INFINITY){
+			a=format(xmin);
+		}
+		if (algo.getB().getDouble()==Double.POSITIVE_INFINITY){
+			b=format(xmax);
+		}
         String value = f.toValueString(getStringTemplate());
         value = parseFunction(value);
-        
+        if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
+        	double af = xmin;
+			double bf = xmax;
+			if (f.hasInterval()) {
+				af = f.getIntervalMin();
+				bf = f.getIntervalMax();
+			}
+			f.setInterval(algo.getA().getDouble(), algo.getB().getDouble());
+			drawFunction(f, true, geo,true);
+			drawFunction(f,true,geo,false);
+			f.setInterval(af, bf);
+			if (f.isEuclidianVisible()) {
+				drawFunction(f, false, geo,false);
+			}
+        }else{
         int indexFunc = -1;
         String tempFunctionCount = "f"+Integer.toString(functionCount+1);
         String returnCode = "(real x){return (" + value + ");} ";
@@ -526,6 +546,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
         addPoint(a,"0",codeFilledObject);
         codeFilledObject.append("--cycle");
         endTransparentFill(geo,codeFilledObject);
+        }
     }
 
     @Override
@@ -1152,11 +1173,14 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
         code.append(")");   
         endDraw(geo);
 	}
+	
+	@Override
+    protected void drawFunction(GeoFunction geo){
+    	drawFunction(geo, false, null,false);
+    }
     
-    @Override
-	protected void drawFunction(GeoFunction geo){
-        importpackage.add("graph");
-        
+	protected void drawFunction(GeoFunction geo,boolean integral, GeoNumeric geo1,boolean contour){
+        importpackage.add("graph");       
         Function f = geo.getFunction();
         if (f == null) return;
         String value = f.toValueString(getStringTemplate());
@@ -1181,11 +1205,34 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			String tempFunctionCount = null;
 			String returnCode = null;			
 			if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
-				StringBuilder sb=new StringBuilder();
-				ColorCode(geo.getObjectColor(), sb);
-				String template = "draw( (%0,%1) -- (%2,%3),"+sb+"+linewidth("+geo.getLineThickness()+"));\n";
-				StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
-						xrangemin, 400, template);
+				StringBuilder sb = new StringBuilder();
+				StringBuilder lineBuilder;
+				if (integral){
+					sb.append("path p"+(++functionCount)+";\n");
+					sb.append("p"+functionCount+"=");
+					String template = "(%0,%1) -- (%2,%3) -- ";
+					lineBuilder = drawNoLatexFunction(geo, xrangemax,
+							xrangemin, 400, template);
+					lineBuilder.append("(" + format(geo.getIntervalMax()) + ",0) -- ("
+							+ format(geo.getIntervalMin()) + ",0) -- ");
+					StringBuilder color=new StringBuilder();
+					ColorCode(geo1.getObjectColor(), color);
+					String str="cycle;\ndraw(p"+functionCount+","+color;
+					if (!contour){
+						str="cycle;\nfill(p"+functionCount+","+color;
+						str+="+opacity(0.05)";
+					} 			
+					lineBuilder.append(str+");\n");
+					sb.append(lineBuilder);
+					lineBuilder=sb;
+				}else{
+					ColorCode(geo.getObjectColor(), sb);
+					String template = "draw( (%0,%1) -- (%2,%3),"+sb+"+linewidth("+geo.getLineThickness()+"));\n";
+					lineBuilder = drawNoLatexFunction(geo, xrangemax,
+							xrangemin, 400, template);
+				}
+				
+				
 				code.append(lineBuilder.toString() + ";\n");
 			} else {
 				tempFunctionCount = "f" + Integer.toString(functionCount + 1);

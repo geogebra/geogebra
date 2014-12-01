@@ -544,7 +544,7 @@ public class CurvePlotter {
 	 * 
 	 * @return true when t1 and t2 get closer than Kernel.MAX_DOUBLE_PRECISION
 	 */
-	private static boolean isContinuous(CurveEvaluable c, double from,
+	public static boolean isContinuous(CurveEvaluable c, double from,
 			double to, int MAX_ITERATIONS) {
 		double t1 = from;
 		double t2 = to;
