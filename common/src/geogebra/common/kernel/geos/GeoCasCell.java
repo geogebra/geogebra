@@ -1828,7 +1828,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				}catch(Throwable t){
 					//not a label
 				}
-				if(test != null){
+				if(test != null && !((Equation)arg.getListElement(0).unwrap()).getRHS().evaluatesToNumber(true)){
 					Equation merge = new Equation(kernel,
 							((Equation)arg.getListElement(0).unwrap()).getRHS(),
 							((Equation)arg.getListElement(1).unwrap()).getRHS());

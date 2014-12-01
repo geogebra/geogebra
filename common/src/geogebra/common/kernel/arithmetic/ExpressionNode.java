@@ -5160,6 +5160,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return false;
 	}
 
+	@Override
 	public boolean evaluatesToNumber(boolean def) {
 		if(operation == Operation.RANDOM 
 				|| operation == Operation.XCOORD 
@@ -5172,9 +5173,25 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if(this.isLeaf() || Operation.isSimpleFunction(this.operation)){
 			return left.evaluatesToNumber(def);
 		}
+		//both numbers
 		if(right != null && left.evaluatesToNumber(def) && right.evaluatesToNumber(def)){
 			return true;
 		}
+		//number (*) NaN
+		if(right != null && left.evaluatesToNumber(def) && !right.evaluatesToNumber(def)){
+			return false;
+		}
+		// NaN (*) number
+		if(right != null && left.evaluatesToNumber(def) && !right.evaluatesToNumber(def)){
+			return this.operation == Operation.POWER;
+		}
+		// NaN (*) NaN
+		if(right != null && !left.evaluatesToNumber(def) && !right.evaluatesToNumber(def)){
+			if(operation == Operation.PLUS || operation == Operation.MINUS){
+				return false;
+			}
+		}
+		
 		return def;
 	}
 	
