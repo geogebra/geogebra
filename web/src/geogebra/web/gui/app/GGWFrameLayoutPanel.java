@@ -118,7 +118,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		onResize();
 	}
 
+	/**
+	 * Shows or hides keyboard. In case keyboard state changed, it  rebuilds the DOM
+	 * in the process so it may steal focus from currently selected element. 
+	 * @param show whether to show keyboard
+	 * @param textField textfield receiving the text from keyboard
+	 */
 	public void showKeyBoard(boolean show, AutoCompleteTextFieldW textField){
+		//make sure the main part of this method is called ONLY WHEN NECESSARY
+		if(this.keyboardShowing == show){
+			return;
+		}
 		this.keyboardShowing = show;
 		this.mainPanel.clear();
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
