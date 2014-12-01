@@ -14,11 +14,14 @@ package geogebra.web.gui.dialog;
 
 import geogebra.common.gui.dialog.ToolManagerDialogModel;
 import geogebra.common.gui.dialog.ToolManagerDialogModel.ToolManagerDialogListener;
+import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.ListBoxApi;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.ToolNameIconPanel;
@@ -85,15 +88,39 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 * Deletes all selected tools that are not used in the construction.
 	 */
 	private void deleteTools() {
-		List<String> sel = ListBoxApi.getSelection(toolList);
+		final List<String> sel = ListBoxApi.getSelection(toolList);
+		final List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
+		
 		if (sel.isEmpty()) {
 			return;
 		}
-//
+
+		String[] options = { loc.getMenu("DeleteTool"),
+				loc.getMenu("DontDeleteTool") };
+
+		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getMenu("Tool.DeleteQuestion"),
+				loc.getPlain("Question"), GOptionPane.CANCEL_OPTION,
+		        GOptionPane.QUESTION_MESSAGE, null, options, new AsyncOperation() {
+					
+					@Override
+					public void callback(Object obj) {
+
+			        	String[] dialogResult = (String[])obj;
+				        if ("0".equals(dialogResult[0])) {
+				    		for (Integer idx : selIndexes) {
+				    			toolList.removeItem(idx);
+				    		}
+
+				    		if (model.deleteTools(sel.toArray())) {
+				    			updateToolBar();
+				    		}
+				        }
+				       
+					}
+					
+		});//
 //		// ARE YOU SURE ?
 //		// Michael Borcherds 2008-05-04
-//		Object[] options = { loc.getMenu("DeleteTool"),
-//				loc.getMenu("DontDeleteTool") };
 //		int returnVal = JOptionPane.showOptionDialog(this,
 //				loc.getMenu("Tool.DeleteQuestion"), loc.getPlain("Question"),
 //				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
@@ -101,13 +128,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 //		if (returnVal == 1)
 //			return;
 //
-//		for (Macro macro : model.getDeletedMacros()) {
-//			listModel.removeElement(macro);
-//		}
-//
-//		if (model.deleteTools(sel)) {
-//			updateToolBar(listModel);
-//		}
+
 //
 	}
 
