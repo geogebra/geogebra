@@ -169,6 +169,69 @@ public class GlobalKeyDispatcherW extends
     }
 
 	@Override
+    protected boolean handleCtrlShiftM() {
+		// Open popup window
+		// at onKeyUp, it is already late
+		popupForBase64();
+		((GgbAPIW)app.getGgbApi()).getBase64(true, new StringHandler() {
+			@Override
+            public void handle(String s) {
+				copyBase64(s);
+            }
+		});
+	    return true;
+    }
+
+	public static native void popupForBase64() /*-{
+		var userAgent = $wnd.navigator.userAgent;
+		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
+			return;
+		} else if ($wnd.chrome) {
+			return;
+		}
+		$wnd.GeoGebraWebPopupBase64Window = $wnd.open("", "GeoGebraWebPopupBase64", "");
+	}-*/;
+
+	/**
+	 * Does copy to OS clipboard, or if it's hard,
+	 * put the data into a new browser tab at least
+	 * @param str
+	 */
+	public static native void copyBase64(String str) /*-{
+		var userAgent = $wnd.navigator.userAgent;
+		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
+			// Internet Explorer supports this out-of-the-box
+			$wnd.clipboardData.setData('Text', str);
+		} else if ($wnd.chrome) {
+			// Chrome supports it, in Firefox & Opera it is "protected"
+			var hta = $doc.createElement("textarea");
+			hta.style.position = 'absolute';
+			hta.contentEditable = true;
+			hta.style.left = '-1000px';
+			$doc.getElementsByTagName('body')[0].appendChild(hta);
+			hta.value = str;
+			hta.select();
+			$doc.execCommand('copy');
+			var htap = hta.parentNode;
+			htap.removeChild(hta);
+		} else {
+			// I've tried to make it work in Firefox this way,
+			// but it did not succeed so far...
+			//if (ClipboardEvent) {
+			//	var copy = new ClipboardEvent('copy', { dataType: 'text/plain', data: str } );
+			//	var body = $doc;
+			//	if (body.dispatchEvent) {
+			//		$doc.dispatchEvent(copy);
+			//	}
+			//}
+
+			// If the browser does not support this,
+			// we can still try putting it into a new window
+			$wnd.GeoGebraWebPopupBase64Window.document.innerText = str;
+		}
+	}-*/;
+
+	@Override
     protected boolean handleEnter() {
 		if (((AppW) app).isUsingFullGui()
 				&& ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
