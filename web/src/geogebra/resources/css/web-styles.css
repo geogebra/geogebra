@@ -2630,6 +2630,14 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	top: 106px;
 }
 
+.cancelSaveButton {
+	position: absolute;
+	top: 10px;
+	right: 15px;
+	cursor: pointer;
+	cursor: hand;
+}
+
 /*-------- SLIDER DIALOG ------------------------*/
 .dialogContent .sliderIntervalPanel div,
 .dialogContent .sliderWidthPanel div {

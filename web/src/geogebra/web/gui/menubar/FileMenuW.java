@@ -69,8 +69,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 
 			@Override
 			public void doExecute() {
-		        ((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(newConstruction);
-				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
+				((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(newConstruction);
 			}
 		});
 

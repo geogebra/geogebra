@@ -56,7 +56,6 @@ import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 public class DialogManagerW extends DialogManager implements EventRenderable, LoadingApplication {
 
 	private FunctionInspectorW functionInspector;
-	private SaveUnsavedChanges saveUnsavedDialog;
 	protected SaveDialogW saveDialog = null;
 	protected UploadImageDialog imageDialog;
 	private RecoverAutoSavedDialog autoSavedDialog;
@@ -220,16 +219,6 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		imageDialog.show();
 	}
 
-	public final SaveUnsavedChanges getSaveUnsavedDialog() {
-		if (this.saveUnsavedDialog == null) {
-			this.saveUnsavedDialog = new SaveUnsavedChanges(app);
-		}
-		
-		return this.saveUnsavedDialog;
-	}
-	
-	
-
 	@Override
 	public void showPropertiesDialog() {
 	}
@@ -324,11 +313,22 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 
 	}
 	
+	/**
+	 * 
+	 * @return {@link SaveDialogW}
+	 */
 	public SaveDialogW getSaveDialog() {
 		if (saveDialog == null) {
 			saveDialog = new SaveDialogW(app);
 		}
 		return saveDialog;
+	}
+	
+	/**
+	 * shows the {@link SaveDialogW} centered on the screen
+	 */
+	public void showSaveDialog() {
+		getSaveDialog().center();
 	}
 
 	private GoogleFileDescriptors googleFileDescriptors = null;
@@ -499,11 +499,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		if (imageDialog != null) {
 			imageDialog.setLabels();
 		}
-		
-		if(this.saveUnsavedDialog != null){
-			this.saveUnsavedDialog.setLabels();
-		}
-		
+
 		if (this.autoSavedDialog != null) {
 			this.autoSavedDialog.setLabels();
 		}

@@ -2826,14 +2826,6 @@ public abstract class AppW extends App implements SetLabels{
 	        // TODO Auto-generated method stub
 	        return null;
         }
-		
-		
-		/**
-		 * Overwritten for AppWapplet/AppWapplication
-		 */
-		public void uploadSharedToGgt() {
-			// TODO
-		}
 
 		public boolean isPrerelease() {
 	        return getArticleElement() != null && getArticleElement().getDataParamPrerelease();

@@ -671,7 +671,7 @@ public class FileManagerT extends FileManager {
 			app.getGuiManager().listenToLogin();
 			((SignInButton) app.getLAF().getSignInButton(app)).login();
 		} else {
-			((DialogManagerW) app.getDialogManager()).getSaveDialog().center();
+			((DialogManagerW) app.getDialogManager()).showSaveDialog();
 		}
 		return true;
     }

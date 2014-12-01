@@ -39,7 +39,7 @@ public class UploadRequest implements Request {
 	}
 	
 	/**
-	 * Used for local files
+	 * Used for local files. Files are saved as "private"
 	 * @param app AppW
 	 * @param mat Material
 	 */

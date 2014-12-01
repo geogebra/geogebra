@@ -432,8 +432,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 */
 	protected void openDefault() {
 		if (isOwnMaterial) {
-			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(editMaterial);
-			((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
+			((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(editMaterial);
 		} else {
 			onView();
 		}
@@ -446,8 +445,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 			@Override
 			public void onClick() {
-				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().setAfterSavedCallback(editMaterial);
-				((DialogManagerW) app.getDialogManager()).getSaveUnsavedDialog().showIfNeeded();
+				((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(editMaterial);
 			}
 		});
 	}

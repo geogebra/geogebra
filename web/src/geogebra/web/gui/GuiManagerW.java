@@ -67,7 +67,6 @@ import geogebra.web.gui.layout.panels.SpreadsheetDockPanelW;
 import geogebra.web.gui.menubar.MainMenu;
 import geogebra.web.gui.properties.PropertiesViewW;
 import geogebra.web.gui.toolbar.ToolBarW;
-import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.view.algebra.AlgebraContextMenuW;
 import geogebra.web.gui.view.algebra.AlgebraControllerW;
 import geogebra.web.gui.view.algebra.AlgebraViewW;
@@ -851,16 +850,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW, Eve
 		return ((AppW)app).getFileManager().save((AppW)app);
 	}
 	
-	/**
-	 * saves the file before running the callback
-	 * @param cb Runnable
-	 */
-	public void save(final Runnable cb) {
-		final SaveDialogW saveDialog = ((DialogManagerW) app.getDialogManager()).getSaveDialog();
-		saveDialog.center();
-		saveDialog.setCallback(cb);
-	}
-
 	public void showPropertiesViewSliderTab() {
 		App.debug("unimplemented");
 	}

@@ -476,7 +476,9 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable> implem
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
 		((DialogManagerW) app.getDialogManager()).showAlertDialog(app.getLocalization().getMenu("GoogleDriveSaveProblem"));
 	}
+	
 	private void updateAfterGoogleDriveSave(String id, String fileName, String description) {
+		((DialogManagerW) app.getDialogManager()).getSaveDialog().runAfterSaveCallback();
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
 		SaveCallback.onSaved(app);
 		refreshCurrentFileDescriptors(fileName,description);
