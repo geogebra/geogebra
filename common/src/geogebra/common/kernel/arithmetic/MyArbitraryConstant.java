@@ -78,7 +78,6 @@ public class MyArbitraryConstant  {
 			boolean oldLabeling = c.isSuppressLabelsActive();
 			c.setSuppressLabelCreation(false);
 			add.setLabel(c.getIndexLabel(prefix));
-			c.removeFromConstructionList(add);
 			c.setSuppressLabelCreation(oldLabeling);
 			AlgoDependentArbconst algo = new AlgoDependentArbconst(c,add,ce);
 			c.removeFromConstructionList(algo);
