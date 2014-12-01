@@ -174,7 +174,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (menu.get(0) == mode) {
 				
 
-				showToolTipBottom(getTooltip(mode));
+				showToolTipBottom(getTooltipURL(mode));
 				this.setCssToSelected();
 				toolbar.update(); //TODO! needed to regenerate the toolbar, if we want to see the border.
 								//remove, if it will be updated without this.
@@ -205,7 +205,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			if (mi.getElement().getAttribute("mode").equals(modeText)) {
 				selectItem(mi);
 				
-				showToolTipBottom(getTooltip(mode));
+				showToolTipBottom(getTooltipURL(mode));
 				return true;
 			}
 		}
@@ -214,10 +214,10 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	
-	private String getTooltip(int mode) {
+	private String getTooltipURL(int mode) {
 
 		if (mode >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-			return app.getToolNameOrHelp(mode, false);
+			return app.getGuiManager().getHelpURL(Help.GENERIC, "Custom_Tools");
 		}
 
 		return app.getGuiManager().getHelpURL(Help.TOOL, app.getKernel().getModeText(mode));    

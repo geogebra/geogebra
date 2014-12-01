@@ -27,7 +27,6 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Base64;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
-import geogebra.common.util.debug.Log;
 import geogebra.euclidian.EuclidianControllerD;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.event.MouseEventND;
@@ -2548,7 +2547,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (n == 0) {
 			if (modeTextInternal == null) {
 				// show help for custom tools?
-				Log.debug("TODO1");
+				openHelp("Custom_Tools", Help.GENERIC);
 			} else {
 				openHelp(modeTextInternal, Help.TOOL);
 			}
