@@ -5078,7 +5078,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public boolean isConditionalDeep(){
 		return isConditional()
 				|| (left instanceof ExpressionNode && ((ExpressionNode)left).isConditionalDeep())
-				|| (right instanceof ExpressionNode && ((ExpressionNode)left).isConditionalDeep());
+				|| (right instanceof ExpressionNode && ((ExpressionNode)right).isConditionalDeep());
 	}
 
 	/**
