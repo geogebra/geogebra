@@ -5074,6 +5074,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public boolean isConditional(){
 		return operation == Operation.IF || operation == Operation.IF_ELSE || operation == Operation.IF_LIST;
 	}
+	
+	public boolean isConditionalDeep(){
+		return isConditional()
+				|| (left instanceof ExpressionNode && ((ExpressionNode)left).isConditionalDeep())
+				|| (right instanceof ExpressionNode && ((ExpressionNode)left).isConditionalDeep());
+	}
 
 	/**
 	 * Builds an if-else expression based on this condition
@@ -5193,6 +5199,29 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 		
 		return def;
+	}
+
+	public HashSet<GeoElement> getUnconditionalVars() {
+		// TODO Auto-generated method stub
+		if(!this.isConditionalDeep()){
+			return null;
+		}
+		if (leaf) {
+			return left.getVariables();
+		}
+		if(isConditional()){
+			return new HashSet<GeoElement>();
+		}
+		HashSet<GeoElement> leftVars = left.getVariables();
+		HashSet<GeoElement> rightVars = right.getVariables();
+		if (leftVars == null) {
+			return rightVars;
+		} else if (rightVars == null) {
+			return leftVars;
+		} else {
+			leftVars.addAll(rightVars);
+			return leftVars;
+		}
 	}
 	
 }

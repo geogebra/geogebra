@@ -32,6 +32,10 @@ import geogebra.common.main.App;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 
+import java.util.HashSet;
+import java.util.Iterator;
+
+
 /**
  * This class is only needed to handle dependencies
  * 
@@ -46,6 +50,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	private Function expandedFun;
 	private ExpressionNode expression;
 	private boolean expContainsFunctions; // expression contains functions
+	private HashSet<GeoElement> unconditionalInput;
 
 	/** Creates new AlgoDependentFunction 
 	 * @param cons construction
@@ -103,7 +108,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	@Override
 	protected void setInputOutput() {
 		input = fun.getGeoElementVariables();
-
+		unconditionalInput = fun.getFunctionExpression().getUnconditionalVars();
 		super.setOutputLength(1);
 		super.setOutput(0, f);
 		setDependencies(); // done by AlgoElement
@@ -122,13 +127,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 		// geogebra.euclidian.DrawFunction)
 
 		// check if function is defined
-		boolean isDefined = true;
-		for (int i = 0; i < input.length; i++) {
-			if (!input[i].isDefined()) {
-				isDefined = false;
-				break;
-			}
-		}
+		boolean isDefined = inputDefined();
+		
 		f.setDefined(isDefined);
 		if (isDefined && expContainsFunctions) {
 			// expand the functions and derivatives in expression tree
@@ -167,6 +167,24 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				f.resetIneqs();
 		} else if (f.isBooleanFunction())
 			f.getFunction().updateIneqs();
+	}
+
+	private boolean inputDefined() {
+		if(this.unconditionalInput == null){
+			for (int i = 0; i < input.length; i++) {
+				if (!input[i].isDefined()) {
+					return false;
+				}
+			}
+			return true;
+		}
+		Iterator<GeoElement> it = this.unconditionalInput.iterator();
+		while(it.hasNext()){
+			if(!it.next().isDefined()){
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
