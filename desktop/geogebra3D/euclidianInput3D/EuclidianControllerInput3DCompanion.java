@@ -37,7 +37,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 		point3D.setPath(null);
 		point3D.setRegion(null);
 		
-		Coords coords = ((EuclidianView3D) ec.view).getPickPoint(ec.mouseLoc).copyVector();
+		Coords coords = ((EuclidianView3D) ec.view).getPickPoint(ec.getMouseLoc()).copyVector();
 		((EuclidianView3D) ec.view).toSceneCoords3D(coords);
 		checkPointCapturingXYThenZ(coords);
 		point3D.setCoords(coords);

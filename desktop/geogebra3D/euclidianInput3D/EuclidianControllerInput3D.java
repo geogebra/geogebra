@@ -1,5 +1,6 @@
 package geogebra3D.euclidianInput3D;
 
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianControllerCompanion;
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -556,5 +557,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		return super.cursor3DVisibleForCurrentMode(cursorType);
 
+	}
+
+	@Override
+	public GPoint getMouseLoc() {
+		if (input3D.currentlyUseMouse2D()){
+			return super.getMouseLoc();
+		}
+
+		return mouse3DLoc;
 	}
 }

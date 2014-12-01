@@ -3000,7 +3000,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	final public GPoint getMouseLoc() {
+	public GPoint getMouseLoc() {
 		return mouseLoc;
 	}
 
