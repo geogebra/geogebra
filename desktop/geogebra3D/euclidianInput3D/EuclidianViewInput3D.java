@@ -488,4 +488,15 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	/*
 	 * @Override protected void setDefault2DCursor() { setTransparentCursor(); }
 	 */
+	
+	
+	@Override
+	public boolean hasMouse() {
+		
+		if (input3D.currentlyUseMouse2D()){
+			return super.hasMouse();
+		}
+		
+		return input3D.hasMouse(this);
+	}
 }

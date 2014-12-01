@@ -2111,7 +2111,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param hits
 	 */
 	public void updateCursor3D(Hits hits) {
-		if (hasMouse) {
+		if (hasMouse()) {
 			getEuclidianController().updateNewPoint(true, hits, true, true,
 					true, // TODO doSingleHighlighting = false ?
 					false, false);
@@ -2361,7 +2361,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 *            renderer
 	 */
 	public void drawMouseCursor(Renderer renderer1) {
-		if (!hasMouse)
+		if (!hasMouse())
 			return;
 
 		if (getProjection() != PROJECTION_GLASSES) // && getProjection() !=
@@ -2445,7 +2445,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 //		 +
 //		 ((EuclidianController3D) getEuclidianController()).cursor3DVisibleForCurrentMode(getCursor3DType())+"\ncursor="+cursor+"\ngetCursor3DType()="+getCursor3DType());
 
-		if (hasMouse) {
+		if (hasMouse()) {
 
 			// mouse cursor
 			if (moveCursorIsVisible()) {

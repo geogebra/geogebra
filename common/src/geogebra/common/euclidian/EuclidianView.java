@@ -2632,8 +2632,16 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @return whether mouse is hovering over this view
 	 */
 	public boolean hasMouse() {
+		return hasMouse2D();
+	}
+	
+	/**
+	 * @return whether mouse is hovering over this view
+	 */
+	final public boolean hasMouse2D() {
 		return hasMouse;
 	}
+
 
 	public Previewable createPreviewParallelLine(
 			ArrayList<GeoPointND> selectedPoints,

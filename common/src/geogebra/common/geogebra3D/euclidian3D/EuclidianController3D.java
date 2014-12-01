@@ -2328,7 +2328,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		// if (selectedGeos.size()==1 && !hits.contains(selectedGeos.get(0)))
 		// hits.addAll(0, selectedGeos);
 
-		if (mouseMoved && view3D.hasMouse()) { // process new intersection only if mouse has moved
+		if (mouseMoved && view3D.hasMouse2D()) { // process new intersection only if mouse has moved
 			for (int i = 0; i < intersectionCurveList.size(); ++i) {
 				intersectionCurveList.get(i).hitted = false;
 			}
