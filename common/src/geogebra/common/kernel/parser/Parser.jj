@@ -288,7 +288,9 @@ TOKEN :  {
   | < EULER_GAMMA:       ( "euler_gamma" | "\u212F_\u03B3" ) > // Euler–Mascheroni constant
   | < E:        ("\u212f") > // Euler constant
   | < IMAGINARY: ("\u03af") > // imaginary constant
-  | < DEGREE:   ( "\u00b0" | "\u02da" ) > // 02da is "Ring Above", Alt-k in iPad
+  // 02da is "Ring Above", Alt-k in iPad
+  // 00ba is Masculine ordinal indicator Alt-zero on OSX
+  | < DEGREE:   ( "\u00b0" | "\u02da" | "\u00ba" ) > 
   | < INFINITY: ("\u221e" | "Infinity" | "inf" | "infinity") >
   | < RAD:      "rad" >
   | < DERIVATIVE: "'" >
