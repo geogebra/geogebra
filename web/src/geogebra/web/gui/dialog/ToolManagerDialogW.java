@@ -27,6 +27,7 @@ import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.ToolNameIconPanel;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style;
@@ -104,14 +105,19 @@ public class ToolManagerDialogW extends DialogBoxW implements
 					
 					@Override
 					public void callback(Object obj) {
-
-			        	String[] dialogResult = (String[])obj;
+		
+						String[] dialogResult = (String[])obj;
 				        if ("0".equals(dialogResult[0])) {
-				    		for (Integer idx : selIndexes) {
+				        	
+				        	List<Macro> macros = new ArrayList<Macro>();
+				        	// need this because of removing 
+				    	    Collections.reverse(selIndexes);
+				        	for (Integer idx : selIndexes) {
+				        		macros.add(app.getKernel().getMacro(idx));
 				    			toolList.removeItem(idx);
 				    		}
 
-				    		if (model.deleteTools(sel.toArray())) {
+				    		if (model.deleteTools(macros.toArray())) {
 				    			updateToolBar();
 				    		}
 				        }
