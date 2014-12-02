@@ -3351,6 +3351,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private JButton btnOpenFile;
 
 		private PopupMenuButton btnImage;
+		// button for removing turtle's image
+		private JButton btnClearImage;
 		private JLabel lblFillInverse;
 		private JLabel lblSymbols;
 		private ArrayList<String> imgFileNameList;
@@ -3577,11 +3579,15 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			btnImage.setKeepVisible(false);
 			btnImage.addActionListener(this);
 
+			btnClearImage = new JButton(app.getImageIcon("delete_small.gif"));
+			btnClearImage.addActionListener(this);
+
 			btnOpenFile = new JButton();
 			btnOpenFile.addActionListener(this);
 
 			JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 			btnPanel.add(btnImage);
+			btnPanel.add(btnClearImage);
 			btnPanel.add(btnOpenFile);
 
 			// =====================================
@@ -3691,14 +3697,17 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			lblSelectedSymbol.setVisible(false);
 			btInsertUnicode.setVisible(false);
 			this.btnImage.setVisible(true);
+			this.btnClearImage.setVisible(false);
 
 			// for GeoButtons only show the image file button
 			if (model.hasGeoButton() || model.hasGeoTurtle()) {
 				transparencyPanel.setVisible(false);
 				lblFillType.setVisible(false);
 				cbFillType.setVisible(false);
-				if (model.hasGeoTurtle())
+				if (model.hasGeoTurtle()) {
 					this.btnImage.setVisible(false);
+					this.btnClearImage.setVisible(true);
+				}
 			}
 		}
 
@@ -3791,6 +3800,8 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 					fileName = imgFileNameList.get(btnImage.getSelectedIndex());
 				}
 				model.applyImage(fileName);
+			} else if (source == this.btnClearImage) {
+				model.applyImage("");
 			}
 
 			// handle load image file
