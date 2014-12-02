@@ -2,10 +2,12 @@ package geogebra3D.euclidianInput3D;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Quaternion;
@@ -157,14 +159,18 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			this.distance = distance;
 		}
 		
+		public double getDistanceAbs(){
+			return Math.abs(distance);
+		}
+		
 		public int compareTo(StickyPoint sp) {
 			
 			// check distance
-			if (this.distance < sp.distance){
+			if (this.getDistanceAbs() < sp.getDistanceAbs()){
 				return -1;
 			}
 			
-			if (this.distance > sp.distance){
+			if (this.getDistanceAbs() > sp.getDistanceAbs()){
 				return 1;
 			}
 			
@@ -216,29 +222,58 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			}
 			
 			for (GeoPointND point : ((EuclidianControllerInput3D) ec).stickyPoints){
-				StickyPoint sp = new StickyPoint(point, plane.distance(point));
+				StickyPoint sp = new StickyPoint(point, plane.distanceWithSign(point));
 				stickyPoints.add(sp);
 			}
 			
 			
 			double scale = ((EuclidianView3D) ec.view).getScale();
-			int threshold = 10;// ((EuclidianView3D) ec.view).getCapturingThreshold(PointerEventType.MOUSE);
+			int threshold = ((EuclidianView3D) ec.view).getCapturingThreshold(PointerEventType.MOUSE);
 			//App.debug(""+threshold);
 			CoordSys coordsys = new CoordSys(2);
+			boolean isMadeCoordSys = false;
+			double lastDistance = 0;
 			for (StickyPoint sp : stickyPoints){
 				//App.debug("\n"+sp.point);
-				if (!checkDistanceToStickyPoint(sp.distance, sp.point, scale, threshold)){
+				if (!isMadeCoordSys && !checkDistanceToStickyPoint(sp.getDistanceAbs(), sp.point, scale, threshold)){
 					//App.error("TOO FAR");
 					break;
 				}
-				coordsys.addPoint(sp.point.getInhomCoordsInD3());
-				if (coordsys.isMadeCoordSys()){
-					//App.error("END");
-					coordsys.makeOrthoMatrix(false,false);
-					coordsys.makeEquationVector();
-					plane.setCoordSys(coordsys);
-					break;
+
+				if (isMadeCoordSys){
+					// coordsys is made, check if we are far enough to next point (to avoid plane jumping)
+					Coords coords = sp.point.getInhomCoordsInD3();
+					if (tmpCoordsInput3D == null){
+						tmpCoordsInput3D = new Coords(4);
+					}
+					coords.projectPlaneInPlaneCoords(coordsys.getMatrixOrthonormal(), tmpCoordsInput3D);
+					if (!Kernel.isZero(tmpCoordsInput3D.getZ())){ // don't check this point if on current coord sys
+						if (sp.distance * lastDistance < 0){ // don't check this point if is on same side
+							if (-sp.distance / lastDistance < 3){ // the point is too close: plane may jump
+								//App.error("\n-- TOO CLOSE: "+sp.point+"\n"+sp.distance+"\n"+lastDistance);
+								isMadeCoordSys = false;
+							}else{
+								//App.error("== FAR ENOUGH");
+							}
+							break;
+						}
+						
+					}
+				}else{
+					coordsys.addPoint(sp.point.getInhomCoordsInD3());
+					if (coordsys.isMadeCoordSys()){
+						//App.error("END");
+						coordsys.makeOrthoMatrix(false,false);
+						coordsys.makeEquationVector();
+						isMadeCoordSys = true;
+						lastDistance = sp.distance;
+						//break;
+					}
 				}
+			}
+			
+			if (isMadeCoordSys){
+				plane.setCoordSys(coordsys);
 			}
 			
 			// update
@@ -261,6 +296,8 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			
 		}
 	}
+	
+	private Coords tmpCoordsInput3D;
 	
 	
 	private static boolean checkDistanceToStickyPoint(double d, GeoPointND point, double scale, int threshold){

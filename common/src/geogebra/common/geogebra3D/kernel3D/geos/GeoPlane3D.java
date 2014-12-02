@@ -576,6 +576,17 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	@Override
 	public double distance(GeoPointND P) {
 		
+		return Math.abs(distanceWithSign(P));
+		
+	}
+	
+	/**
+	 * 
+	 * @param P point
+	 * @return distance from point P to this plane, with sign
+	 */
+	public double distanceWithSign(GeoPointND P) {
+		
 		if (tmpCoords1 == null){
 			tmpCoords1 = new Coords(3);
 		}
@@ -587,7 +598,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		tmpCoords2.setValues(getDirectionInD3(), 3);
 		tmpCoords2.normalize();
 		
-		return Math.abs(tmpCoords1.dotproduct(tmpCoords2));
+		return tmpCoords1.dotproduct(tmpCoords2);
 		
 	}
 	
