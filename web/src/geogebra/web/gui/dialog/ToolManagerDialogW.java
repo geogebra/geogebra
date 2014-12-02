@@ -297,7 +297,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			
 			public void onChange(ChangeEvent event) {
 				Macro macro = toolList.getSelectedMacro();
-				namePanel.setMacro(macro);
+				//namePanel.setMacro(macro);
 			}
 			
 		});
