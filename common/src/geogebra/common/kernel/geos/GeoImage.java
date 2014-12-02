@@ -220,8 +220,7 @@ public class GeoImage extends GeoElement implements Locateable,
 	 * 
 	 * @param fileName filename
 	 */
-	@Override
-	public void setImageFileName(String fileName) {
+	public void setImageFileName(String fileName, int width, int height) {
 
 		// this will be rewrited later during the refactoring - Arpad Fekete,
 		// 2011-12-01
@@ -234,7 +233,7 @@ public class GeoImage extends GeoElement implements Locateable,
 		this.getGraphicsAdapter().setImageFileNameOnly(fileName);
 
 		this.getGraphicsAdapter().setImageOnly(
-				kernel.getApplication().getExternalImageAdapter(fileName));
+				kernel.getApplication().getExternalImageAdapter(fileName, width, height));
 		if (this.getGraphicsAdapter().getImageOnly() != null) {
 			pixelWidth = this.getGraphicsAdapter().getImageOnly().getWidth();
 			pixelHeight = this.getGraphicsAdapter().getImageOnly().getHeight();
@@ -243,6 +242,11 @@ public class GeoImage extends GeoElement implements Locateable,
 			pixelHeight = 0;
 		}
 		// Michael Borcherds 2007-12-10 MD5 code moved to Application.java
+	}
+	
+	@Override
+	public void setImageFileName(String fileName) {
+		setImageFileName(fileName, 0, 0);
 	}
 
 	// final public BufferedImage getFillImage() {

@@ -126,7 +126,7 @@ public class WebCamInputDialog extends PopupPanel implements ClickHandler{
 	public void onClick(ClickEvent event) {
 	    if (event.getSource() == btOK) {
 	    	if (video != null)
-	    		app.urlDropHappened(shotcapture(video),0,0);
+	    		app.urlDropHappened(shotcapture(video),0,0,640,480);
 	    	hide();
 			app.getActiveEuclidianView().requestFocusInWindow();
 	    } else if (event.getSource() == btCancel) {

@@ -35,7 +35,7 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 			 * null; else image = new BufferedImage(extimg);
 			 */
 
-			image = app.getExternalImageAdapter(imageFileName);
+			image = app.getExternalImageAdapter(imageFileName, 0, 0);
 
 		}
 
@@ -56,7 +56,7 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 			image = new MyImageD(ImageManager.toBufferedImage(im));
 
 		} else {
-			image = ((App) app).getExternalImageAdapter(fileName);
+			image = ((App) app).getExternalImageAdapter(fileName, 0, 0);
 		}
 	}
 

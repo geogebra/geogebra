@@ -788,10 +788,14 @@ public abstract class AppW extends App implements SetLabels{
 		}
 		
 		@Override
-		public final MyImage getExternalImageAdapter(String fileName) {
+		public final MyImage getExternalImageAdapter(String fileName, int width, int height) {
 			ImageElement im = getImageManager().getExternalImage(fileName);
 			if (im == null)
 				return null;
+			if(width != 0 && height != 0){
+				im.setWidth(width);
+				im.setHeight(height);
+			}
 			return new MyImageW(im, fileName.toLowerCase().endsWith(".svg"));
 		}
 		
@@ -1124,6 +1128,9 @@ public abstract class AppW extends App implements SetLabels{
     }
 	
 	
+	public void urlDropHappened(String url, int clientx, int clienty) {
+		urlDropHappened(url, clientx, clienty, 0, 0);
+	}
 	
 	/**
 	 * Loads an image and puts it on the canvas (this happens on webcam input)
@@ -1137,7 +1144,7 @@ public abstract class AppW extends App implements SetLabels{
 	 * @param clienty
 	 *            - desired position on the canvas (y) - unused
 	 */
-	public void urlDropHappened(String url, int clientx, int clienty) {
+	public void urlDropHappened(String url, int clientx, int clienty, int width, int height) {
 
 		// Filename is temporarily set until a better solution is found
 		// TODO: image file name should be reset after the file data is
@@ -1161,7 +1168,7 @@ public abstract class AppW extends App implements SetLabels{
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, url, null);
+		doDropHappened(imgFileName, url, null, width, height);
 	}
 	
 	/**
@@ -1193,10 +1200,10 @@ public abstract class AppW extends App implements SetLabels{
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, fileStr, loc);
+		doDropHappened(imgFileName, fileStr, loc, 0, 0);
 	}
 
-	private void doDropHappened(String imgFileName, String fileStr, GeoPoint loc) {
+	private void doDropHappened(String imgFileName, String fileStr, GeoPoint loc, int width, int height) {
 
 		Construction cons = getKernel().getConstruction();
 		EuclidianViewInterfaceCommon ev = getActiveEuclidianView();
@@ -1205,7 +1212,7 @@ public abstract class AppW extends App implements SetLabels{
 		GeoImage geoImage = new GeoImage(cons);
 		getImageManager().triggerSingleImageLoading(
 		        imgFileName, geoImage);
-		geoImage.setImageFileName(imgFileName);
+		geoImage.setImageFileName(imgFileName, width, height);
 
 		if (loc == null) {
 			double cx = ev.getXmin() + (ev.getXmax() - ev.getXmin()) / 4;

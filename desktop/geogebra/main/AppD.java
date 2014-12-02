@@ -1952,7 +1952,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	@Override
-	public MyImage getExternalImageAdapter(String filename) {
+	public final MyImage getExternalImageAdapter(String filename, int width,
+			int height) {
 		MyImageD im = ImageManager.getExternalImage(filename);
 		return im;
 	}

@@ -1384,7 +1384,7 @@ public abstract class App implements UpdateSelection{
 	 *            filename
 	 * @return image wrapped in GBufferedImage
 	 */
-	public abstract MyImage getExternalImageAdapter(String filename);
+	public abstract MyImage getExternalImageAdapter(String filename, int width, int height);
 
 	
 

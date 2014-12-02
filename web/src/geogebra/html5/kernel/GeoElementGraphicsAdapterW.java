@@ -24,7 +24,7 @@ public class GeoElementGraphicsAdapterW extends
 		if (imageFileName.startsWith("/geogebra")) {
 			return null;
 		}
-		image = app.getExternalImageAdapter(imageFileName);
+		image = app.getExternalImageAdapter(imageFileName, 0, 0);
 		
 		return image;
     }
@@ -48,7 +48,7 @@ public class GeoElementGraphicsAdapterW extends
 		//	image = new geogebra.html5.awt.BufferedImage(ImageManager.toBufferedImage(im));
 
 		//} else {
-			image = app.getExternalImageAdapter(fileName);
+			image = app.getExternalImageAdapter(fileName, 0, 0);
 		//}
     }
 
