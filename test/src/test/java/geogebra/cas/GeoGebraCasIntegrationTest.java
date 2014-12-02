@@ -99,8 +99,8 @@ public class GeoGebraCasIntegrationTest {
    */
   private static String executeInCAS (String input) throws Throwable {
     CASparser parser = (CASparser) cas.getCASparser();
-    ValidExpression inputVe = parser.parseGeoGebraCASInputAndResolveDummyVars(input);
-    String result = cas.evaluateGeoGebraCAS(inputVe, arbconst, StringTemplate.numericDefault);
+    ValidExpression inputVe = parser.parseGeoGebraCASInputAndResolveDummyVars(input, kernel);
+    String result = cas.evaluateGeoGebraCAS(inputVe, arbconst, StringTemplate.numericDefault, kernel);
 
     if (result == null || result.length() <= 0) {
       return "";
@@ -110,7 +110,7 @@ public class GeoGebraCasIntegrationTest {
     ExpressionValue outputVe = parser.parseGeoGebraCASInput(result);
 
     // Resolve Variable objects in ValidExpression as GeoDummy objects.
-    parser.resolveVariablesForCAS(outputVe);
+    parser.resolveVariablesForCAS(outputVe, kernel);
     boolean includesNumericCommand = false;
     HashSet<Command> commands = new HashSet<Command>();
     inputVe.traverse(CommandCollector.getCollector(commands));
