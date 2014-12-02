@@ -1128,8 +1128,9 @@ public abstract class AppW extends App implements SetLabels{
     }
 	
 	
-	public void urlDropHappened(String url, int clientx, int clienty) {
-		urlDropHappened(url, clientx, clienty, 0, 0);
+	public void imageDropHappened(String imgFileName, String fileStr,
+	        String fileStr2, GeoPoint loc) {
+		imageDropHappened(imgFileName, fileStr, fileStr2, loc, 0, 0);
 	}
 	
 	/**
@@ -1144,7 +1145,7 @@ public abstract class AppW extends App implements SetLabels{
 	 * @param clienty
 	 *            - desired position on the canvas (y) - unused
 	 */
-	public void urlDropHappened(String url, int clientx, int clienty, int width, int height) {
+	public void urlDropHappened(String url, int clientx, int clienty) {
 
 		// Filename is temporarily set until a better solution is found
 		// TODO: image file name should be reset after the file data is
@@ -1168,7 +1169,7 @@ public abstract class AppW extends App implements SetLabels{
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, url, null, width, height);
+		doDropHappened(imgFileName, url, null, 0, 0);
 	}
 	
 	/**
@@ -1183,7 +1184,7 @@ public abstract class AppW extends App implements SetLabels{
 	 * @param loc 
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
-	        String fileStr2, GeoPoint loc) {
+	        String fileStr2, GeoPoint loc, int width, int height) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String zip_directory = md5e.encrypt(fileStr2);
@@ -1200,7 +1201,7 @@ public abstract class AppW extends App implements SetLabels{
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, fileStr, loc, 0, 0);
+		doDropHappened(imgFileName, fileStr, loc, width, height);
 	}
 
 	private void doDropHappened(String imgFileName, String fileStr, GeoPoint loc, int width, int height) {

@@ -80,7 +80,7 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	    	if (!loc.isLabelSet()) {
 	    		loc.setLabel(null);
 	    	}
-	    	app.imageDropHappened(name, data, "", loc);
+	    	app.imageDropHappened(name, data, "", loc, 640, 480);
 	    	hide();
 	    } else if (source == cancelBtn) {
 	    	hide();
