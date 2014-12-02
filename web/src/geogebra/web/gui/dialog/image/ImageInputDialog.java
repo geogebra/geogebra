@@ -1,6 +1,7 @@
 package geogebra.web.gui.dialog.image;
 
 import geogebra.common.main.App;
+import geogebra.html5.Browser;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -21,32 +22,41 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	
 	protected void initGUI() {
 		super.initGUI();
-		listPanel.add(webcam = new Label(""));		
+		if(Browser.supportsWebcam()){
+			listPanel.add(webcam = new Label(""));
+		}
 	}
 	
 	protected void initActions() {
 		super.initActions();
-		webcam.addClickHandler(this);
+		if(webcam != null){
+			webcam.addClickHandler(this);
+		}
 	}
 	
 	public void setLabels() {
 		super.setLabels();
-		webcam.setText(app.getMenu("Webcam"));
+		if(webcam != null){
+			webcam.setText(app.getMenu("Webcam"));
+		}
 	}
 	
 	
 	protected void uploadClicked() {
 		super.uploadClicked();
-		webcam.removeStyleDependentName("highlighted");
-		if (webcamPanel != null) {
-			webcamPanel.stopVideo();
-    		webcamPanel.clear();
-    		webcamPanel = null;
+		if(webcam != null){
+			webcam.removeStyleDependentName("highlighted");
+			if (webcamPanel != null) {
+				webcamPanel.stopVideo();
+	    		webcamPanel.clear();
+	    		webcamPanel = null;
+			}
 		}
-    	imageUnavailable();
+		imageUnavailable();
 	}
 	
 	private void webcamClicked() {
+		
 		webcam.addStyleDependentName("highlighted");
 		upload.removeStyleDependentName("highlighted");
 		mayCenter = false;
@@ -76,7 +86,7 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	    	hide();
 	    } else if (source == upload) {
 	    	uploadClicked();
-	    } else if (source == webcam) {
+	    } else if (webcam != null && source == webcam) {
 	    	webcamClicked();
 	    }
 	}

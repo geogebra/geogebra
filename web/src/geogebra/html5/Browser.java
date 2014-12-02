@@ -191,5 +191,15 @@ public class Browser {
 	    parent.getStyle().setProperty("webkitTransformOrigin",pos);
 	    parent.getStyle().setProperty("transformOrigin",pos);
 	    
-    }	
+    }
+
+	public static native boolean supportsWebcam() /*-{
+	    if($wnd.navigator.getUserMedia || 
+                         $wnd.navigator.webkitGetUserMedia ||
+                         $wnd.navigator.mozGetUserMedia ||
+                         $wnd.navigator.msGetUserMedia){
+                         	return true;
+                         }
+	    return false;
+    }-*/;	
 }
