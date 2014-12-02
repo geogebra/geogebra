@@ -2607,7 +2607,7 @@ __GGB__keysVar.cs.plain = {
     "PolarCoords": "Pol\xe1rn\xed sou\u0159adnice",
     "PolarLineOfARelativeToB": "Pol\xe1ra bodu %0 relative to %1",
     "Polarized": "Polarizovan\xe9",
-    "PoleOfLineARelativeToB": "Pole of Line %0 Relative to %1",
+    "PoleOfLineARelativeToB": "Pol\xe1ra %0 vzhledem ke %1",
     "PolyLine": "Lomen\xe1 \u010d\xe1ra",
     "Polygon": "Mnoho\xfaheln\xedk",
     "PolygonA": "Mnoho\xfaheln\xedk %0",
