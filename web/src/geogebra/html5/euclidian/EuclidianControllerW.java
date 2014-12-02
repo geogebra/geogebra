@@ -621,7 +621,9 @@ LongTouchHandler {
 		AbstractEvent e = PointerEvent.wrapEvent(event, this);
 		onPointerEventStart(e);
 
-		prepareModeForFreehand();
+		if (!e.isRightClick()) {
+			prepareModeForFreehand();
+		}
 		moveCounter = 0;
 		ignoreEvent = false;
 	}
