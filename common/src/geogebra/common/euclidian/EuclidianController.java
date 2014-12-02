@@ -21,6 +21,7 @@ import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian.modes.ModeDelete;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -454,6 +455,10 @@ public abstract class EuclidianController {
 
 	
 	protected void updatePastePreviewPosition() {
+		if (view instanceof EuclidianView3D) {
+			// TODO: this feature is currently unsupported!
+			return;
+		}
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
@@ -494,15 +499,14 @@ public abstract class EuclidianController {
 			if (geo.isIndependent() && geo.isMoveable()) {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
-					if (geo.isGeoPoint()) {
-						setStartPointLocation(((GeoPoint) geo).inhomX,
-								((GeoPoint) geo).inhomY);
+					if (geo.isGeoPoint() && (geo instanceof GeoPoint)) {
+						setStartPointLocation(((GeoPoint) geo).getInhomX(),
+								((GeoPoint) geo).getInhomY());
 						firstMoveable = false;
 					} else if (geo.isGeoText()) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {
-							GeoPoint loc = (GeoPoint) ((GeoText) geo)
-									.getStartPoint();
-							setStartPointLocation(loc.inhomX, loc.inhomY);
+							GeoPointND loc = ((GeoText) geo).getStartPoint();
+							setStartPointLocation(loc.getInhomX(), loc.getInhomY());
 							firstMoveable = false;
 						}
 					} else if (geo.isGeoNumeric()) {
@@ -621,10 +625,9 @@ public abstract class EuclidianController {
 	
 		for (int i = 0; i < pastePreviewSelected.size(); i++) {
 			GeoElement geo = pastePreviewSelected.get(i);
-			if (geo.isGeoPoint() && geo.isIndependent()) {
+			if (geo.isGeoPoint() && (geo instanceof GeoPoint) && geo.isIndependent()) {
 				for (int j = 0; j < persistentStickyPointList.size(); j++) {
-					GeoPoint geo2 = (GeoPoint) persistentStickyPointList
-							.get(j);
+					GeoPointND geo2 = persistentStickyPointList.get(j);
 					if (Kernel.isEqual(geo2.getInhomX(),
 							((GeoPoint) geo).getInhomX())
 							&& Kernel.isEqual(geo2.getInhomY(),
@@ -633,7 +636,7 @@ public abstract class EuclidianController {
 						String geolabel = geo.getLabelSimple();
 						kernel.getAlgebraProcessor().processAlgebraCommand(
 								geo.getLabelSimple() + "="
-										+ geo2.getLabelSimple(), false);
+										+ ((GeoElement)geo2).getLabelSimple(), false);
 						kernel.lookupLabel(geolabel).setEuclidianVisible(false);
 						kernel.lookupLabel(geolabel).updateRepaint();
 						break;

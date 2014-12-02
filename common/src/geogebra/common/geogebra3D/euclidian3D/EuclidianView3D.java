@@ -394,7 +394,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	// not implemented yet in 3D
 	@Override
 	public ArrayList<GeoPointND> getStickyPointList() {
-		return null;
+		return new ArrayList<GeoPointND>();
 	}
 
 	/**

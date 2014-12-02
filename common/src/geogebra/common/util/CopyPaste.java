@@ -14,6 +14,7 @@ package geogebra.common.util;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
+import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
@@ -680,10 +681,28 @@ public class CopyPaste {
 						geo.removeView(App.VIEW_EUCLIDIAN2);
 						app.getEuclidianView2(1).remove(geo);
 					}
+					if (app.getEuclidianView3D() != null) {
+						geo.removeView(App.VIEW_EUCLIDIAN3D);
+						app.getEuclidianView3D().remove(geo);
+					}
+				} else if (app.getActiveEuclidianView() instanceof EuclidianView3D) {
+					app.removeFromEuclidianView(geo);
+					if (app.hasEuclidianView2(1)) {
+						geo.removeView(App.VIEW_EUCLIDIAN2);
+						app.getEuclidianView2(1).remove(geo);
+					}
+					if (app.getEuclidianView3D() != null) {
+						geo.addView(App.VIEW_EUCLIDIAN3D);
+						app.getEuclidianView3D().add(geo);
+					}
 				} else {
 					app.removeFromEuclidianView(geo);
 					geo.addView(App.VIEW_EUCLIDIAN2);
 					app.getEuclidianView2(1).add(geo);
+					if (app.getEuclidianView3D() != null) {
+						geo.removeView(App.VIEW_EUCLIDIAN3D);
+						app.getEuclidianView3D().remove(geo);
+					}
 				}
 
 				oldLabel = geo.getLabelSimple();
@@ -779,6 +798,10 @@ public class CopyPaste {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN);
+			} else if (ev == app.getEuclidianView3D()) {
+				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
+				app.getKernel().getConstruction().updateConstruction();
+				app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			} else {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
@@ -792,6 +815,10 @@ public class CopyPaste {
 				app.getGgbApi().evalXML(copiedXML.toString());
 				app.getKernel().getConstruction().updateConstruction();
 				app.setActiveView(App.VIEW_EUCLIDIAN);
+			} else if (ev == app.getEuclidianView3D()) {
+				app.getGgbApi().evalXML(copiedXML.toString());
+				app.getKernel().getConstruction().updateConstruction();
+				app.setActiveView(App.VIEW_EUCLIDIAN3D);
 			} else {
 				app.getGgbApi().evalXML(copiedXML.toString());
 				app.getKernel().getConstruction().updateConstruction();
