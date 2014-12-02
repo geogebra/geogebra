@@ -132,8 +132,10 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -2421,6 +2423,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Button btnOpenFile;
 
 		private PopupMenuButton btnImage;
+		// button for removing turtle's image
+		private PushButton btnClearImage;
 		private Label lblFillInverse;
 		private Label lblSymbols;
 		private ArrayList<ImageResource> iconList;
@@ -2777,6 +2781,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			btnImage.setSelectedIndex(-1);
 			btnImage.setStandardButton(true);
 			btnImage.setKeepVisible(false);
+			btnClearImage = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
+			btnClearImage.addClickHandler(new ClickHandler(){
+
+				public void onClick(ClickEvent event) {
+					model.applyImage("");
+                }
+				
+			});
 			btnOpenFile = new Button();
 			btnOpenFile.addClickHandler(new ClickHandler(){
 				@Override
@@ -2787,6 +2799,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 			btnPanel.add(btnImage);
+			btnPanel.add(btnClearImage);
 			btnPanel.add(btnOpenFile);
 			btnPanel.setStyleName("optionsPanelIndent");
 
@@ -2887,6 +2900,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			lblSelectedSymbol.setVisible(false);
 			unicodePanel.setVisible(false);
 			this.btnImage.setVisible(true);
+			this.btnClearImage.setVisible(true);
 
 			// for GeoButtons only show the image file button
 			if (model.hasGeoButton() || model.hasGeoTurtle()) {
@@ -2896,7 +2910,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					lblFillType.setVisible(false);
 					lbFillType.setVisible(false);
 				}
-				if(model.hasGeoTurtle()) this.btnImage.setVisible(false);
+				if(model.hasGeoTurtle()){
+					this.btnImage.setVisible(false);
+					this.btnClearImage.setVisible(true);
+				}
 			}
 
 			addSelectionBar();
