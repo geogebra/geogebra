@@ -1,11 +1,9 @@
 package geogebra.html5.main;
 
-import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
 import geogebra.html5.gui.GuiManagerInterfaceW;
-import geogebra.html5.javax.swing.GOptionPaneW;
 
 import java.util.ArrayList;
 
@@ -205,11 +203,11 @@ public class GlobalKeyDispatcherW extends
 		}
 	}-*/;
 
-	public void showConfirmDialog(String mess) {
+	/*public void showConfirmDialog(String mess) {
 		GOptionPaneW.INSTANCE.showConfirmDialog(app, mess, "Base64",
 				GOptionPane.OK_CANCEL_OPTION,
 				GOptionPane.PLAIN_MESSAGE, null);
-	}
+	}*/
 
 	@Override
     protected boolean handleEnter() {
