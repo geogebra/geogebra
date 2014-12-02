@@ -31,6 +31,8 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.ChangeEvent;
+import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -42,6 +44,49 @@ import com.google.gwt.user.client.ui.ListBox;
 public class ToolManagerDialogW extends DialogBoxW implements
 		ClickHandler, ToolManagerDialogListener {
 
+	private class MacroListBox extends ListBox {
+		List<Macro> macros;
+		public MacroListBox() {
+			macros = new ArrayList<Macro>();
+		}
+	
+		private String getMacroText(Macro macro) {
+			return macro.getToolName() + ": " + macro.getNeededTypesString();
+		}
+		
+		public Macro getMacro(int index) {
+			return macros.get(index);
+		}
+		
+		public Macro getSelectedMacro() {
+			int idx = getSelectedIndex();
+			if (idx == -1) {
+				return null;
+			}
+			return getMacro(idx);
+		}
+		
+		public String getMacroText(int index) {
+			return getMacroText(getMacro(index));
+		}
+		
+        public void addMacro(Macro macro) {
+        	macros.add(macro);
+			addItem(getMacroText(macro));
+        }
+        
+        public void insertMacro(Macro macro, int index) {
+        	macros.add(index, macro);
+        	insertItem(getMacroText(macro), index);
+        }
+        
+        @Override
+        public void removeItem(int index) {
+        	macros.remove(index);
+        	super.removeItem(index);
+        	
+        }
+	}
 	private static final long serialVersionUID = 1L;
 
 	AppW app;
@@ -52,7 +97,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private Button btDown;
 
-	private ListBox toolList;
+	private MacroListBox toolList;
 
 	public ToolManagerDialogW(AppW app) {
 		setModal(true);
@@ -124,18 +169,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 				       
 					}
 					
-		});//
-//		// ARE YOU SURE ?
-//		// Michael Borcherds 2008-05-04
-//		int returnVal = JOptionPane.showOptionDialog(this,
-//				loc.getMenu("Tool.DeleteQuestion"), loc.getPlain("Question"),
-//				JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null,
-//				options, options[1]);
-//		if (returnVal == 1)
-//			return;
-//
-
-//
+		});
 	}
 
 
@@ -171,10 +205,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		panel.add(toolListPanel);
 		setWidget(panel);
 		
-		toolList = new ListBox();
+		toolList = new MacroListBox();
 		toolList.setMultipleSelect(true);
 		insertTools();
-		//toolList.setCellRenderer(new MacroCellRenderer());
 		toolList.setVisibleItemCount(6);
 
 		FlowPanel centerPanel = LayoutUtil.panelRow(toolList, createListUpDownRemovePanel());
@@ -244,6 +277,14 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btOpen.addClickHandler(btnClickHandler);
 		btClose.addClickHandler(btnClickHandler);
 
+		toolList.addChangeHandler(new ChangeHandler() {
+			
+			public void onChange(ChangeEvent event) {
+				Macro macro = toolList.getSelectedMacro();
+				namePanel.setMacro(macro);
+			}
+			
+		});
 		// add selection listener for list
 //		final ListSelectionModel selModel = toolList.getSelectionModel();
 //		ListSelectionListener selListener = new ListSelectionListener() {
@@ -326,7 +367,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		
 		for (int i = 0; i < size; i++) {
 			Macro macro = kernel.getMacro(i);
-			toolList.addItem(macro.getToolName() + ": " + macro.getNeededTypesString());
+			toolList.addMacro(macro);
 		}
 	}
 
@@ -334,14 +375,14 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 * upload selected Tools to GeoGebraTube
 	 */
 	private void uploadToGeoGebraTube() {
-//
-//		Thread runner = new Thread() {
-//			@Override
-//			public void run() {
-//				model.uploadToGeoGebraTube(toolList.getSelectedValues());
-//			}
-//		};
-//		runner.start();
+
+		List<Macro> macros = new ArrayList<Macro>();
+       	List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
+		for (Integer i: selIndexes) {
+			macros.add(app.getKernel().getMacro(i));
+		}
+				
+       	model.uploadToGeoGebraTube(macros.toArray());
 	}
 
 	/**
@@ -395,13 +436,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 	if (src == btUp) {
 	    	App.debug("Up");
 	    	if (idx > 0) {
-	    		toolList.insertItem(toolList.getItemText(idx - 1), idx + selSize);
+	    		toolList.insertMacro(toolList.getMacro(idx - 1), idx + selSize);
 	    		toolList.removeItem(idx - 1); 
 	    	}
 	    } else  if (src == btDown) {
 	    	App.debug("Dowm");
 	    	if (idx + selSize < toolList.getItemCount()) {
-	    		toolList.insertItem(toolList.getItemText(idx + selSize), idx);
+	    		toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
 	    		toolList.removeItem(idx + selSize + 1);
 	    	}
 	    }
