@@ -329,7 +329,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	/** Default icon size */
 	public static final int DEFAULT_ICON_SIZE = 32;
-	private int maxIconSize = DEFAULT_ICON_SIZE;
+	private int maxIconSize = 64;// DEFAULT_ICON_SIZE;
 
 	/**
 	 * made a little darker in ggb40 (problem showing on some projectors)
@@ -1829,6 +1829,32 @@ public class AppD extends App implements KeyEventDispatcher {
 		return imageManager;
 	}
 
+	public String getToolbarIconPath() {
+		if (maxIconSize <= 32) {
+			return "/gui/toolbar/images/";
+		}
+
+		return "/gui/toolbar/images/64/";
+
+	}
+
+	public void setGUIFontSize(int size) {
+		// set tool icon size between 32 and 64
+		setMaxIconSize(Math.max(32, size * 2));
+
+		super.setGUIFontSize(size);
+	}
+
+	public void setFontSize(int points) {
+
+		if (guiFontSize == -1) {
+			// set tool icon size between 32 and 64
+			setMaxIconSize(Math.max(32, points * 2));
+		}
+
+		super.setFontSize(points, true);
+	}
+
 	/**
 	 * Sets the maximum pixel size (width and height) of all icons in the user
 	 * interface. Larger icons are scaled down.
@@ -1837,10 +1863,11 @@ public class AppD extends App implements KeyEventDispatcher {
 	 *            max icon size between 16 and 32 pixels
 	 */
 	public void setMaxIconSize(int pixel) {
-		maxIconSize = Math.min(32, Math.max(16, pixel));
+		maxIconSize = Math.min(64, Math.max(16, pixel));
 	}
 
 	public int getMaxIconSize() {
+		App.debug("fontSize = " + getGUIFontSize());
 		return maxIconSize;
 	}
 
@@ -1895,7 +1922,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public ImageIcon getToolBarImage(String filename, Color borderColor) {
-		String path = "/gui/toolbar/images/" + filename;
+		String path = getToolbarIconPath() + filename;
 		ImageIcon icon = imageManager.getImageIcon(path, borderColor);
 
 		/*
@@ -1918,8 +1945,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public ImageIcon getToolIcon(Color border) {
-		return imageManager.getImageIcon("/gui/toolbar/images/mode_tool.png",
-				border);
+		return imageManager.getImageIcon(
+				getToolbarIconPath() + "mode_tool.png", border);
 	}
 
 	public ImageIcon getEmptyIcon() {

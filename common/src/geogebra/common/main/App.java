@@ -252,7 +252,7 @@ public abstract class App implements UpdateSelection{
 	/** minimal font size */
 	public static final int MIN_FONT_SIZE = 10;
 	// gui / menu fontsize (-1 = use appFontSize)
-	private int guiFontSize = -1;
+	protected int guiFontSize = -1;
 	// currently used application fonts
 	private int appFontSize;
 	// note: It is not necessary to use powers of 2 for view IDs

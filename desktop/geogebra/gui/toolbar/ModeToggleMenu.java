@@ -58,13 +58,12 @@ public class ModeToggleMenu extends JPanel {
 	private ActionListener popupMenuItemListener;
 	private AppD app;
 	int size;
-	
+
 	private ToolbarD toolbar;
 
 	final static Color bgColor = Color.white;
 
-	public ModeToggleMenu(AppD app, ToolbarD toolbar,
-			ModeToggleButtonGroup bg) {
+	public ModeToggleMenu(AppD app, ToolbarD toolbar, ModeToggleButtonGroup bg) {
 		this.app = app;
 		this.bg = bg;
 		setLayout(new BoxLayout(this, BoxLayout.X_AXIS));
@@ -79,7 +78,7 @@ public class ModeToggleMenu extends JPanel {
 		menuItemList = new ArrayList<JMenuItem>();
 		popupMenuItemListener = new MenuItemListener();
 		size = 0;
-		
+
 	}
 
 	public int getToolsCount() {
@@ -157,7 +156,7 @@ public class ModeToggleMenu extends JPanel {
 			// add button to button group
 			bg.add(tbutton);
 		}
-		
+
 		app.setComponentOrientation(mi);
 
 	}
@@ -200,7 +199,8 @@ public class ModeToggleMenu extends JPanel {
 
 	public void mouseOver() {
 		// popup menu is showing
-		JPopupMenu activeMenu = geogebra.javax.swing.GPopupMenuD.getImpl(bg.getActivePopupMenu());
+		JPopupMenu activeMenu = geogebra.javax.swing.GPopupMenuD.getImpl(bg
+				.getActivePopupMenu());
 		if (activeMenu != null && activeMenu.isShowing()) {
 			setPopupVisible(true);
 		}
@@ -218,23 +218,23 @@ public class ModeToggleMenu extends JPanel {
 				component = app.getMainComponent(); // if geogebrapanel is
 													// inside an awt window
 			Point locApp = component.getLocationOnScreen();
-			
-			
+
 			if (toolbar.getOrientation() == SwingConstants.HORIZONTAL) {
 				tbutton.repaint();
-				
+
 				int offsetx = 0;
-				if (app.getLocalization().isRightToLeftReadingOrder()) {				
+				if (app.getLocalization().isRightToLeftReadingOrder()) {
 					// needed otherwise popMenu.getWidth() can return 0
 					popMenu.setVisible(true);
 					offsetx = popMenu.getWidth() - tbutton.getWidth();
 				}
 
-				popMenu.show(component, locButton.x - locApp.x - offsetx, locButton.y
-						- locApp.y + tbutton.getHeight());
+				popMenu.show(component, locButton.x - locApp.x - offsetx,
+						locButton.y - locApp.y + tbutton.getHeight());
 			} else {
-				popMenu.show(component, locButton.x - locApp.x + tbutton.getWidth(), locButton.y
-						- locApp.y + tbutton.getHeight()/2);
+				popMenu.show(component,
+						locButton.x - locApp.x + tbutton.getWidth(),
+						locButton.y - locApp.y + tbutton.getHeight() / 2);
 			}
 		} else {
 			popMenu.setVisible(false);
@@ -274,7 +274,7 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 	private Timer showMenuTimer;
 	private ToolbarD toolbar;
-	
+
 	MyJToggleButton(ModeToggleMenu menu, ToolbarD toolbar) {
 		super();
 		this.menu = menu;
@@ -343,14 +343,21 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 			if (menu.getMouseOverButton() == this
 					&& (popupTriangleHighlighting || menu.isPopupShowing())) {
-				
+
 				int x = BORDER + iconWidth + 2;
 				int y = BORDER + iconHeight + 1;
-				
+
 				// background glow circle
 				g2.setColor(Color.LIGHT_GRAY);
-				g2.fillOval(x-9, y-9, 12, 12);
-				
+				if (iconWidth <= 32) {
+					g2.fillOval(x - 9, y - 9, 12, 12);
+				} else if (iconWidth <= 40) {
+					g2.fillOval(x - 10, y - 9, 13, 13);
+				} else if (iconWidth <= 50) {
+					g2.fillOval(x - 11, y - 9, 14, 14);
+				} else {
+					g2.fillOval(x - 12, y - 12, 15, 15);
+				}
 				g2.setColor(Color.red);
 				g2.fill(gp);
 				g2.setColor(Color.black);
@@ -369,15 +376,22 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		int x = BORDER + iconWidth + 2;
 		int y = BORDER + iconHeight + 1;
 
-		if (iconWidth > 20) {
+		if (iconWidth <= 40) {
 			gp.moveTo(x - 6, y - 5);
 			gp.lineTo(x, y - 5);
 			gp.lineTo(x - 3, y);
 		} else {
-			gp.moveTo(x - 4, y - 3);
-			gp.lineTo(x, y - 3);
-			gp.lineTo(x - 2, y);
+			gp.moveTo(x - 8, y - 7);
+			gp.lineTo(x, y - 7);
+			gp.lineTo(x - 4, y);
 		}
+
+		/*
+		 * if (iconWidth > 32) { gp.moveTo(x - 8, y - 7); gp.lineTo(x, y - 7);
+		 * gp.lineTo(x - 4, y); } else if (iconWidth > 20) { gp.moveTo(x - 6, y
+		 * - 5); gp.lineTo(x, y - 5); gp.lineTo(x - 3, y); } else { gp.moveTo(x
+		 * - 4, y - 3); gp.lineTo(x, y - 3); gp.lineTo(x - 2, y); }
+		 */
 		gp.closePath();
 	}
 
@@ -387,12 +401,12 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		if (!menu.isPopupShowing() && e.getClickCount()==2) {
+		if (!menu.isPopupShowing() && e.getClickCount() == 2) {
 			menu.setPopupVisible(true);
-		} 
+		}
 	}
 
-	 int defaultInitialDelay;
+	int defaultInitialDelay;
 
 	public void mouseEntered(MouseEvent arg0) {
 
@@ -407,18 +421,19 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		if (!menu.isPopupShowing() && popupTriangleClicked(e.getX(), e.getY())) {
 			menu.setPopupVisible(true);
 			this.getModel().setArmed(false);
-		} 
-		
+		}
+
 		else {
 			// Display the menu after a specific amount of time as well, start
 			// a timer for this. actionPerformed method stops this timer,
-			// which ensures that the menu is displayed after user released the mouse
+			// which ensures that the menu is displayed after user released the
+			// mouse
 			if (showMenuTimer == null) {
 				showMenuTimer = new Timer(1000, new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						menu.setPopupVisible(true);
 						showMenuTimer.stop();
-						
+
 					}
 				});
 				showMenuTimer.setRepeats(false);
@@ -440,13 +455,12 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		if (showMenuTimer != null && showMenuTimer.isRunning()) {
 			showMenuTimer.stop();
 		}
-		
+
 		ToolTipManager.sharedInstance().setInitialDelay(defaultInitialDelay);
 	}
 
-	
 	public void mouseReleased(MouseEvent e) {
-		
+
 	}
 
 	@Override
@@ -475,7 +489,6 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 		}
 	}
 
-	
 	private JToolTip tip;
 
 	@Override
@@ -486,13 +499,13 @@ class MyJToggleButton extends JToggleButton implements MouseListener,
 
 		return tip;
 	}
-	
-	 @Override
-	public Point getToolTipLocation(MouseEvent event){
-		 Point p = new Point();
-		 p.y = this.getY()+this.getHeight();
-		 p.x = this.getX();
-		 return  p;
-	 }
-	
+
+	@Override
+	public Point getToolTipLocation(MouseEvent event) {
+		Point p = new Point();
+		p.y = this.getY() + this.getHeight();
+		p.x = this.getX();
+		return p;
+	}
+
 }

@@ -44,7 +44,7 @@ public class CmdToolImage extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[0]);
 
 				String fileName = app.getImageManager().createImage(
-				"/geogebra/gui/toolbar/images/mode_" + modeStr
+				"/geogebra/gui/toolbar/images/64/mode_" + modeStr
 						+ ".png",app);
 				GeoImage geoImage = new GeoImage(app.getKernel()
 						.getConstruction());
