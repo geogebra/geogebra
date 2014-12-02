@@ -1886,6 +1886,10 @@ body.application[dir=rtl] .MyCanvasButton-rightaligned {
 	color: #999999;
 }
 
+.btnLatex {
+	width: 110px;
+}
+
 .SelectionTable .gwt-Label {
 	background-repeat: no-repeat;
 	background-position: center center;

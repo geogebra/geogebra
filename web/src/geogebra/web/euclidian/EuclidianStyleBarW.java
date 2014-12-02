@@ -208,6 +208,7 @@ public class EuclidianStyleBarW extends StyleBarW
 	private enum StyleBarMethod {NONE, UPDATE, UPDATE_STYLE};
 	
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
+	private Localization loc;
 
 	/**
 	 * Toggle button that should be visible if no geos are selected or to be created
@@ -236,7 +237,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		this.ev = ev;
 		ec = ev.getEuclidianController();
 		cons = app.getKernel().getConstruction();
-
+		loc = app.getLocalization();
 		// init handling of default geos
 		createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
@@ -1172,7 +1173,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		//ImageIcon boldIcon = GeoGebraIcon.createStringIcon(app.getPlain("Bold")
 		//		.substring(0, 1), app.getPlainFont(), true, false, true,
 		//		iconDimension, Color.black, null);
-		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight) {
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"), iconHeight) {
 				//AppResources.INSTANCE.format_text_bold(), iconHeight) {
 
 			@Override
@@ -1196,7 +1197,7 @@ public class EuclidianStyleBarW extends StyleBarW
 		//ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
 		//		app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 		//		false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight) {
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"), iconHeight) {
 				//AppResources.INSTANCE.format_text_italic(), iconHeight) {
 
 			@Override

@@ -13,7 +13,6 @@ import geogebra.html5.gui.inputfield.GeoTextEditor;
 import geogebra.html5.gui.inputfield.ITextEditPanel;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
-import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.MyToggleButton2;
 
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.ui.DisclosurePanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -41,6 +39,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class TextEditPanel extends VerticalPanel implements ClickHandler,
         FocusHandler, ITextEditPanel {
 
+	private static final int ICON_HEIGHT = 18;
 	protected AppW app;
 	protected DynamicTextProcessor dTProcessor;
 	protected GeoTextEditor editor;
@@ -55,7 +54,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 	protected GeoText editGeo = null;
 
 	private MyToggleButton2 btnBold, btnItalic;
-	private ToggleButton btnSerif, btnLatex;
+	private MyToggleButton2 btnSerif, btnLatex;
 	private GeoElementSelectionListener sl;
 	private DisclosurePanel disclosurePanel;
 	private Localization loc;
@@ -172,6 +171,8 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 		disclosurePanel.getHeaderTextAccessor()
 		        .setText(loc.getMenu("Advanced"));
+		btnBold.setText(loc.getMenu("Bold.Short"));
+		btnItalic.setText(loc.getMenu("Italic.Short"));
 		btnLatex.setText(loc.getPlain("LaTeXFormula"));
 		btnSerif.setText("Serif");
 		if (advancedPanel != null) {
@@ -236,35 +237,31 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 
 	private void createToolBar() {
 
-		int iconHeight = 18;
-
 		btnInsert = new ToggleButton(Unicode.alpha + "");
 		btnInsert.addClickHandler(this);
 
-		btnBold = new MyToggleButton2(new Image(AppResources.INSTANCE
-		        .format_text_bold().getSafeUri().asString()));
+		
+		
+
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"), ICON_HEIGHT);
 		btnBold.addClickHandler(this);
 
-		btnItalic = new MyToggleButton2(new Image(AppResources.INSTANCE
-		        .format_text_italic().getSafeUri().asString()));
+		btnBold.addStyleName("btnBold");
+
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"), ICON_HEIGHT);
 		btnItalic.addClickHandler(this);
 
-		btnSerif = new ToggleButton("Serif");
+		btnItalic.addStyleName("btnItalic");
+		btnSerif = new MyToggleButton2(loc.getMenu("Serif"), ICON_HEIGHT);
 		btnSerif.addClickHandler(this);
-		btnSerif.addStyleName("TextToggleButton");
-
-		btnLatex = new ToggleButton("LaTeX");
+		
+		String latexTr = loc.getPlain("LaTeXFormula");
+		btnLatex = new MyToggleButton2(latexTr, ICON_HEIGHT);
 		btnLatex.addClickHandler(this);
-		btnLatex.addStyleName("TextToggleButton");
+		btnLatex.addStyleName("btnLatex");
 		
 		// TODO: put styles in css stylesheet
-		btnBold.getElement().getStyle().setHeight(18, Unit.PX);
-		btnItalic.getElement().getStyle().setHeight(18, Unit.PX);
-		btnSerif.getElement().getStyle().setHeight(18, Unit.PX);
-		btnLatex.getElement().getStyle().setHeight(18, Unit.PX);
-		btnLatex.getElement().getStyle().setHeight(18, Unit.PX);
-		btnLatex.getElement().getStyle().setWidth(60, Unit.PX);
-		btnInsert.getElement().getStyle().setHeight(18, Unit.PX);
+		
 
 		HorizontalPanel leftPanel = new HorizontalPanel();
 		leftPanel.setSpacing(2);

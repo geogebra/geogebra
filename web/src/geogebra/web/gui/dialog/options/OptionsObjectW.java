@@ -121,7 +121,6 @@ import java.util.TreeSet;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -2116,19 +2115,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// font size
 			// TODO require font phrases F.S.
 			// toggle buttons for bold and italic
-			btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight);
+			btnBold = new MyToggleButton2(app.getMenu("Bold.Short"), iconHeight);
 			btnBold.addStyleName("btnBold");
 			
-			btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight);
+			btnItalic = new MyToggleButton2(app.getPlain("Italic.Short"), iconHeight);
 			btnItalic.addStyleName("btnItalic");
 			
 			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 
-			btnLatex = new ToggleButton("LaTeX");
-			btnLatex.addStyleName("TextToggleButton");
+			btnLatex = new MyToggleButton2("LaTeX", iconHeight);
+	
 			// hack
-			btnLatex.getElement().getStyle().setWidth(100, Unit.PX);
+//			btnLatex.getElement().getStyle().setWidth(100, Unit.PX);
 			
 			ClickHandler styleClick = new ClickHandler() {
 
@@ -2147,6 +2146,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 						model.setLaTeX(isLatex(), true);
 						updatePreview();
 					}});
+				btnLatex.addStyleName("btnLatex");
 
 				// decimal places
 				lbDecimalPlaces = new ListBox();
@@ -2271,7 +2271,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 			decimalLabel.setText(app.getMenu("Rounding") + ":");
+			
+			btnBold.setText(app.getMenu("Bold.Short"));
+			btnItalic.setText(app.getMenu("Italic.Short"));
+			
 			btnLatex.setText(loc.getPlain("LaTeXFormula"));
+			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+
+			
 			if (advancedPanel != null) {
 				advancedPanel.setLabels();
 			}
