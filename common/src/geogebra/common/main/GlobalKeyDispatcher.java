@@ -432,9 +432,7 @@ public abstract class GlobalKeyDispatcher {
 				break;
 			case M:
 				if (isShiftDown) {
-					// web-only key combination to save construction to base64 string
-					// do it elsewhere to also prevent default action of the event! 
-					handleCtrlShiftM();
+					app.copyBase64ToClipboard();
 				} else {
 					// Ctrl-M: standard view
 					app.setStandardView();
@@ -669,14 +667,6 @@ public abstract class GlobalKeyDispatcher {
 	 * @return whether keys were consumed
 	 */
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
-
-	/**
-	 * Web-only key combination to save construction in base64
-	 * @return success
-	 */
-    protected boolean handleCtrlShiftM() {
-	    return false;
-    }
 
 	/**
 	 * overridden in desktop

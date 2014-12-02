@@ -168,72 +168,32 @@ public class GlobalKeyDispatcherW extends
 	    return false;
     }
 
-	@Override
-    protected boolean handleCtrlShiftM() {
-		// Open popup window
-		// at onKeyUp, it is already late
-		((GgbAPIW)app.getGgbApi()).getBase64(true, new StringHandler() {
-			@Override
-            public void handle(String s) {
-				copyBase64(s);
-            }
-		});
-	    return true;
-    }
-
 	/**
 	 * Does copy to OS clipboard, or if it's hard,
 	 * put the data into a new browser tab at least
 	 * @param str
 	 */
 	public static native void copyBase64(String str) /*-{
-		var userAgent = $wnd.navigator.userAgent.toLowerCase();
-		var promp = function() {
-			$wnd.prompt('Press CTRL+C to copy to clipboard & ENTER', str);
-		}
-		if ((userAgent.indexOf('msie') > -1) || (userAgent.indexOf('trident') > -1)) {
-			// Internet Explorer only supports this if security settings allow it
-			if ($wnd.clipboardData) {
-				$wnd.clipboardData.setData('Text', str);
-				if (str != $wnd.clipboardData.getData('Text')) {
-					// If security settings have blocked clipboard writing,
-					// let us use window.prompt
-					promp();
-					// but wondering why this does not work either, in IE
+		if ($doc.isChromeWebapp()) {
+			// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
+			// although it's strange that .contentEditable is not set to true
+			var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+			copyFrom.value = str;
+			copyFrom.select();
+			$doc.execCommand('copy');
+		} else {
+			var userAgent = $wnd.navigator.userAgent.toLowerCase();
+			if ((userAgent.indexOf('msie') > -1) || (userAgent.indexOf('trident') > -1)) {
+				// It is a good question what shall we do in Internet Explorer?
+				// Security settings may block clipboard, new browser tabs, window.prompt, alert
+				// although doing at least one of them is probably better than nothing
+				if ($wnd.clipboardData) {
+					$wnd.clipboardData.setData('Text', str);
 				}
 			} else {
-				promp();
+				// otherwise, we should do the following:
+				$wnd.prompt('Base64', str);
 			}
-		} else if ($wnd.chrome) {
-			// Until better solution:
-			promp();
-			// Not working, work in progress...
-			// Chrome supports it, in Firefox & Opera it is "protected"
-			//var hta = $doc.createElement("textarea");
-			//hta.style.position = 'absolute';
-			//hta.contentEditable = true;
-			//hta.style.left = '-1000px';
-			//$doc.getElementsByTagName('body')[0].appendChild(hta);
-			//hta.value = str;
-			//hta.select();
-			//$doc.execCommand('copy');
-			//var htap = hta.parentNode;
-			//htap.removeChild(hta);
-		} else {
-			// I've tried to make it work in Firefox this way,
-			// but it did not succeed so far...
-			//if (ClipboardEvent) {
-			//	var copy = new ClipboardEvent('copy', { dataType: 'text/plain', data: str } );
-			//	var body = $doc;
-			//	if (body.dispatchEvent) {
-			//		$doc.dispatchEvent(copy);
-			//	}
-			//}
-
-			// If the browser does not support this,
-			// we can still try putting it into a new window
-			// but that did not work, so:
-			promp();
 		}
 	}-*/;
 

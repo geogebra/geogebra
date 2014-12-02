@@ -938,7 +938,8 @@ public abstract class AppW extends App implements SetLabels{
 
 		@Override
 		public void copyBase64ToClipboard() {
-			// unimplemented
+			// this usually opens a Window.prompt
+			GlobalKeyDispatcherW.copyBase64(getGgbApi().getBase64());
 		}
 
 		public void openMaterial(String s, Runnable onError) {
