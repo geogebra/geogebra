@@ -3608,6 +3608,12 @@ public class GeoGebraCasIntegrationTest {
     }
     t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a + 6 - b");
   }
+  
+  @Test
+  public void Substitute_5 () {
+	// Substitute with Keep Input should substitute without evaluation.
+	tk("Substitute[1 + 2 + x + 3, {x=7}]", "1 + 2 + 7 + 3");
+  }
 
 
   /* Sum */
