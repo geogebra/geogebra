@@ -86,6 +86,21 @@ public class ToolManagerDialogW extends DialogBoxW implements
         	super.removeItem(index);
         	
         }
+        
+        public List<Macro> getSelectedMacros() {
+        	List<Macro> sel = null;
+        	for (int i=0;i < getItemCount(); i++) {
+        		if (isItemSelected(i)) {
+        			if (sel == null)  {
+        				sel = new ArrayList<Macro>();
+        			}
+        			sel.add(getMacro(i));
+        		}
+        		
+        	}
+        	
+        	return sel;
+        }
 	}
 	private static final long serialVersionUID = 1L;
 
@@ -154,11 +169,12 @@ public class ToolManagerDialogW extends DialogBoxW implements
 						String[] dialogResult = (String[])obj;
 				        if ("0".equals(dialogResult[0])) {
 				        	
-				        	List<Macro> macros = new ArrayList<Macro>();
+				        	List<Macro> macros = toolList.getSelectedMacros();
 				        	// need this because of removing 
-				    	    Collections.reverse(selIndexes);
-				        	for (Integer idx : selIndexes) {
-				        		macros.add(app.getKernel().getMacro(idx));
+				    	    
+				        	Collections.reverse(selIndexes);
+				
+				    	    for (Integer idx : selIndexes) {
 				    			toolList.removeItem(idx);
 				    		}
 
@@ -360,11 +376,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolList.clear();
 		Kernel kernel = app.getKernel();
 		int size = kernel.getMacroNumber();
-//		App.debug("[ManageTools] " + size + " macro(s)");
-//		for (int i = 0; i < 20; i++) {
-//			toolList.addItem("dummy " + i);
-//		}
-		
+
 		for (int i = 0; i < size; i++) {
 			Macro macro = kernel.getMacro(i);
 			toolList.addMacro(macro);
