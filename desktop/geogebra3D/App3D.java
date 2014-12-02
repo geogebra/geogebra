@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.main.AppCompanion;
+import geogebra.common.util.CopyPaste;
 import geogebra.euclidian.event.MouseEventD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
@@ -55,11 +56,14 @@ import geogebra3D.input3D.Input3DFactory;
 import geogebra3D.util.ImageManager3D;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.ArrayList;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class App3D extends AppD {
 
@@ -87,6 +91,10 @@ public class App3D extends AppD {
 
 	}
 
+	public App3D(CommandLineArguments args, Container comp, boolean undoActive) {
+		super(args, null, null, comp, undoActive, new LocalizationD(3));
+	}
+
 	@Override
 	protected void initImageManager(Component component) {
 		imageManager = new ImageManager3D(component);
@@ -104,7 +112,7 @@ public class App3D extends AppD {
 		// init the 3D euclidian view (with perhaps a specific 3D input)
 		Input3D input3D = Input3DFactory.createInput3D();
 		if (input3D != null) {
-			switch (input3D.getDeviceType()){
+			switch (input3D.getDeviceType()) {
 			case HAND:
 				euclidianController3D = new EuclidianControllerHand3D(kernel,
 						input3D);
@@ -459,29 +467,77 @@ public class App3D extends AppD {
 	protected AppCompanion newAppCompanion() {
 		return new App3DCompanionD(this);
 	}
-	
+
 	@Override
 	protected void handleOptionArgsEarly(CommandLineArguments args) {
 		super.handleOptionArgsEarly(args);
-		
-		if (args != null && args.containsArg("testShaders")){
+
+		if (args != null && args.containsArg("testShaders")) {
 			useShaders = true;
-		}else{
+		} else {
 			useShaders = false;
 		}
-		
 
 	}
-	
+
 	private boolean useShaders;
-	
+
 	/**
 	 * 
 	 * @return true if we want to use shaders
 	 */
-	public boolean useShaders(){
+	public boolean useShaders() {
 		return useShaders;
 	}
-	
 
+	@Override
+	public void insertFile(File file) {
+
+		// using code from newWindowAction, combined with
+		// Michael's suggestion
+		App3D ad = new App3D(new CommandLineArguments(null), new JPanel(), true);// true
+																					// as
+																					// undo
+																					// info
+																					// is
+																					// necessary
+																					// for
+																					// copy-paste!
+
+		// now, we have to load the file into AppD
+		ad.getGuiManager().loadFile(file, false);
+
+		// now we have to copy the macros from ad to app
+		// in order to make some advanced constructions work
+		// as it was hard to copy macro classes, let's use
+		// strings, but how to load them into the application?
+		try {
+			getXMLio().processXMLString(ad.getMacroXML(), false, true);
+
+			// alternative solution
+			// app.addMacroXML(ad.getKernel().getMacroXML(
+			// ad.getKernel().getAllMacros()));
+		} catch (Exception ex) {
+			App.debug("Could not load any macros at \"Insert File\"");
+			ex.printStackTrace();
+		}
+
+		// afterwards, the file is loaded into "ad" in theory,
+		// so we have to use the CopyPaste class to copy it
+
+		CopyPaste.copyToXML(ad, new ArrayList<GeoElement>(ad.getKernel()
+				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
+				true);
+
+		// and paste
+		CopyPaste.pasteFromXML(this, true);
+
+		// forgotten something important!
+		// ad should be closed!
+		ad.exit();
+		// this is also needed to make it possible
+		// to load the same file once again
+		ad.getFrame().dispose();
+
+	}
 }
