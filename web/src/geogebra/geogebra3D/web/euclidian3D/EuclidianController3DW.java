@@ -334,6 +334,8 @@ LongTouchHandler {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0),this);
 			if (mode == EuclidianConstants.MODE_MOVE) { 
 				longTouchManager.scheduleTimer(this, e.getX(), e.getY());
+			} else {
+				longTouchManager.scheduleTimer(this, e.getX(), e.getY(), 1500);
 			}
 			wrapMousePressed(e);
 			e.release();
