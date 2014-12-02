@@ -172,7 +172,6 @@ public class GlobalKeyDispatcherW extends
     protected boolean handleCtrlShiftM() {
 		// Open popup window
 		// at onKeyUp, it is already late
-		popupForBase64();
 		((GgbAPIW)app.getGgbApi()).getBase64(true, new StringHandler() {
 			@Override
             public void handle(String s) {
@@ -182,38 +181,44 @@ public class GlobalKeyDispatcherW extends
 	    return true;
     }
 
-	public static native void popupForBase64() /*-{
-		var userAgent = $wnd.navigator.userAgent;
-		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
-			return;
-		} else if ($wnd.chrome) {
-			return;
-		}
-		$wnd.GeoGebraWebPopupBase64Window = $wnd.open("", "GeoGebraWebPopupBase64", "");
-	}-*/;
-
 	/**
 	 * Does copy to OS clipboard, or if it's hard,
 	 * put the data into a new browser tab at least
 	 * @param str
 	 */
 	public static native void copyBase64(String str) /*-{
-		var userAgent = $wnd.navigator.userAgent;
-		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
-			// Internet Explorer supports this out-of-the-box
-			$wnd.clipboardData.setData('Text', str);
+		var userAgent = $wnd.navigator.userAgent.toLowerCase();
+		var promp = function() {
+			$wnd.prompt('Press CTRL+C to copy to clipboard & ENTER', str);
+		}
+		if ((userAgent.indexOf('msie') > -1) || (userAgent.indexOf('trident') > -1)) {
+			// Internet Explorer only supports this if security settings allow it
+			if ($wnd.clipboardData) {
+				$wnd.clipboardData.setData('Text', str);
+				if (str != $wnd.clipboardData.getData('Text')) {
+					// If security settings have blocked clipboard writing,
+					// let us use window.prompt
+					promp();
+					// but wondering why this does not work either, in IE
+				}
+			} else {
+				promp();
+			}
 		} else if ($wnd.chrome) {
+			// Until better solution:
+			promp();
+			// Not working, work in progress...
 			// Chrome supports it, in Firefox & Opera it is "protected"
-			var hta = $doc.createElement("textarea");
-			hta.style.position = 'absolute';
-			hta.contentEditable = true;
-			hta.style.left = '-1000px';
-			$doc.getElementsByTagName('body')[0].appendChild(hta);
-			hta.value = str;
-			hta.select();
-			$doc.execCommand('copy');
-			var htap = hta.parentNode;
-			htap.removeChild(hta);
+			//var hta = $doc.createElement("textarea");
+			//hta.style.position = 'absolute';
+			//hta.contentEditable = true;
+			//hta.style.left = '-1000px';
+			//$doc.getElementsByTagName('body')[0].appendChild(hta);
+			//hta.value = str;
+			//hta.select();
+			//$doc.execCommand('copy');
+			//var htap = hta.parentNode;
+			//htap.removeChild(hta);
 		} else {
 			// I've tried to make it work in Firefox this way,
 			// but it did not succeed so far...
@@ -227,7 +232,8 @@ public class GlobalKeyDispatcherW extends
 
 			// If the browser does not support this,
 			// we can still try putting it into a new window
-			$wnd.GeoGebraWebPopupBase64Window.document.innerText = str;
+			// but that did not work, so:
+			promp();
 		}
 	}-*/;
 
@@ -252,7 +258,6 @@ public class GlobalKeyDispatcherW extends
 	@Override
     protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
 	    App.debug("unimplemented");
-	    
     }
 
 	@Override
@@ -264,6 +269,4 @@ public class GlobalKeyDispatcherW extends
     protected void showPrintPreview(App app2) {
 		App.debug("unimplemented");
     }
-
-
 }
