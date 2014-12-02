@@ -44,7 +44,6 @@ public class AlgoSequence extends AlgoElement {
 	private GeoList list; // output
 
 	private boolean isSimple;
-	private int counter = 0;
 
 	private double last_from = Double.MIN_VALUE, last_to = Double.MIN_VALUE,
 			last_step = Double.MIN_VALUE;
@@ -228,10 +227,6 @@ public class AlgoSequence extends AlgoElement {
 				updateRunning = false;
 				return;
 			}
-		}
-		counter++;
-		if("listaB".equals(list.getLabelSimple()) && counter == 100){
-			App.printStacktrace("");
 		}
 		list.setDefined(true);
 
