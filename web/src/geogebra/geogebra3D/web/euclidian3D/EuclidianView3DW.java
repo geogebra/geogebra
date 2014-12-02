@@ -98,6 +98,8 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		registerKeyHandlers(canvas);
 		registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianController3DW) euclidiancontroller);
 		
+		// Canvas should have a tab index to capture key events in Internet Explorer
+		canvas.setTabIndex(10000);
 		
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override

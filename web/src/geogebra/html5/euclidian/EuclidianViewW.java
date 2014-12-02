@@ -609,7 +609,10 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 			registerKeyHandlers(canvas);
 			registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianControllerW) euclidiancontroller);
 		}
-		
+
+		// the canvas should have a tab index to capture key events in Internet Explorer
+		canvas.setTabIndex(10000);
+
 		canvas.addBlurHandler(new BlurHandler() {
 			public void onBlur(BlurEvent be) {
 				focusLost();
