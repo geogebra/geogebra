@@ -101,15 +101,15 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 	public void setLocation(GeoPoint loc) {
 	    this.loc = loc;
     }
-	
+	protected boolean mayCenter = true;
 	@Override
 	public void center() {
-		super.center();
-		setLabels();
-		uploadClicked();
+		
+		if(mayCenter){
+			super.center();
+			setLabels();
+			uploadClicked();
+		}
 	}
 	
-	protected boolean mayCenter() {
-	   return true;
-    }
 }

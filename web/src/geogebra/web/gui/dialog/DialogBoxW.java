@@ -81,8 +81,4 @@ public class DialogBoxW extends DialogBox {
 			}
 		});
     }
-
-	protected boolean mayCenter() {
-	    return true;
-    }
 }
