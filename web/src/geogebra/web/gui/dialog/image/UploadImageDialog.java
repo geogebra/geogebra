@@ -108,4 +108,8 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		setLabels();
 		uploadClicked();
 	}
+	
+	protected boolean mayCenter() {
+	   return true;
+    }
 }

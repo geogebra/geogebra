@@ -48,7 +48,7 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 	
 	public InputDialogW(boolean modal) {
 
-		wrappedPopup = new DialogBoxW(false, modal);
+		wrappedPopup = new DialogBoxW(false, modal, this);
 	}
 
 	public InputDialogW(AppW app, String message, String title,
@@ -269,4 +269,12 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 		return (inputPanel.getTextComponent() != null && source == inputPanel
                 .getTextComponent().getTextField().getValueBox());
 	}
+
+	@Override
+    public void setActive(boolean b) {
+	    if(app != null){
+	    	app.setErrorHandler(b ? this : null);
+	    }
+	    
+    }
 }

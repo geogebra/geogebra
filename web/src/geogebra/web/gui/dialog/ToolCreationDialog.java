@@ -48,7 +48,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 	private Button btUp;
 
 	public ToolCreationDialog(App app) {
-		super(false, false);
+		super(false, false, null);
 		this.setGlassEnabled(false);
 		this.app = app;
 

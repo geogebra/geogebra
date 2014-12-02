@@ -32,7 +32,7 @@ public class ButtonDialogW extends DialogBoxW implements ClickHandler{
 	private ScriptArea tfScript;
 	
 	public ButtonDialogW(AppW app, int x, int y, boolean textField) {
-		super(false,true);
+		super(false,true, null);
 		
 		this.app = app;		
 		model = new ButtonDialogModel(app, x, y, textField);

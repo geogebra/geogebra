@@ -72,7 +72,7 @@ implements ClickHandler, ChangeHandler, ValueChangeHandler<Boolean>
 	 * @param app
 	 */
 	public SliderDialog(AppW app, int x, int y) {
-		super(false, true);
+		super(false, true, null);
 		//super(app.getFrame(), false);
 		this.app = app;
 		this.addStyleName("sliderDialog");

@@ -1,5 +1,7 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.html5.main.ErrorHandler;
+
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
@@ -14,24 +16,28 @@ import com.google.gwt.user.client.ui.DialogBox;
  */
 public class DialogBoxW extends DialogBox {
 	
+	private ErrorHandler eh;
+
+
 	/**
 	 * creates a {@link DialogBox}
 	 * @param autoHide {@code true} if the dialog should be automatically hidden when the user clicks outside of it
 	 * @param modal {@code true}  if keyboard and mouse events for widgets not contained by the dialog should be ignored
 	 */
-	public DialogBoxW(boolean autoHide, boolean modal) {
+	public DialogBoxW(boolean autoHide, boolean modal, ErrorHandler eh) {
 		super(autoHide, modal);
 		addResizeHandler();
 		this.addStyleName("DialogBox");
 		this.addStyleName("GeoGebraFrame");
 		this.setGlassEnabled(true);
+		this.eh = eh;
 	}
 	
 	/**
 	 * creates a {@link DialogBox} with {@code autoHide = false} and {@code modal = true}.
 	 */
 	public DialogBoxW() {
-		this(false, true);
+		this(false, true, null);
 	}
 
 	/**
@@ -44,6 +50,22 @@ public class DialogBoxW extends DialogBox {
 			hide();
 		}
 	}
+	
+	public void show(){ 
+		super.show();
+		if(eh != null){
+			eh.showError(null); 
+			eh.setActive(true);
+		}
+	} 
+			 	                         
+	public void hide(){ 
+		super.hide(); 
+		if(eh != null){
+			eh.setActive(false);
+		}
+	}
+
 	
 	/**
 	 * add resizeHandler to center the dialog
@@ -58,5 +80,9 @@ public class DialogBoxW extends DialogBox {
 				}
 			}
 		});
+    }
+
+	protected boolean mayCenter() {
+	    return true;
     }
 }
