@@ -3702,9 +3702,13 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	align: center;
 }*/
 
+.GeoGebraFrame .CustomColorButtonParent {
+	width: 100%;
+}
+
 .GeoGebraFrame button.CustomColorButton {
 	position: relative;
-	left: -124px;
+	left: 230px;
 	top: 12px;
 	border: 2px solid #555555 !important;
 	cursor: pointer;

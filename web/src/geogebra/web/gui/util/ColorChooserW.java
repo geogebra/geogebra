@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.RadioButton;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class ColorChooserW extends FlowPanel implements ICustomColor {
 
@@ -606,8 +607,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
             }
 
 			});
+		SimplePanel sp = new SimplePanel(addCustomColor);
+		sp.addStyleName("CustomColorButtonParent");
 		add(canvas);
-		add(addCustomColor);
+		add(sp);
 		add(previewPanel);
 		add(opacityPanel);
 		add(backgroundColorPanel);
