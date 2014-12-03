@@ -512,6 +512,12 @@ public class CopyPaste {
 	public static void copyToXML(App app,
 			ArrayList<GeoElement> geos, boolean putdown) {
 
+		// even if putdown is false, copyMacros may change its behaviour
+		// more testing needed whether it makes any new error
+		// if true, it is wrong when not copied into the same window
+		// as the macros should be copied to the new window
+		boolean copyMacros = false;
+
 		if (geos.isEmpty())
 			return;
 
@@ -546,7 +552,7 @@ public class CopyPaste {
 			return;
 		}
 
-		if (!putdown) {
+		if (!putdown && !copyMacros) {
 			removeHavingMacroPredecessors(geoslocal);
 
 			if (geoslocal.isEmpty()) {
@@ -570,7 +576,7 @@ public class CopyPaste {
 		// not visible, but it would still be nice to include the parent algo too.
 		// it is okay to handle it after this, as algos are resistant to hiding
 
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown));
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown || copyMacros));
 
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(
 				geoslocal, geos);
