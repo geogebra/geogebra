@@ -132,7 +132,15 @@ implements AlgoMacroInterface {
 	@Override
 	protected void setInputOutput() {    	             
         setDependencies();
-    }       
+    }
+
+	/**
+	 * The CopyPaste class needs a list of used macros to work perfectly
+	 * @return Macro macro
+	 */
+	public Macro getMacro() {
+		return macro;
+	}
            	
     @Override
 	final public void compute() {

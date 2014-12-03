@@ -17,6 +17,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
@@ -45,6 +46,7 @@ import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -64,10 +66,7 @@ public class CopyPaste {
 	// check if name is valid for geo
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
-	// even if putdown is false, copyMacros may change its behaviour
-	// if true, the macros should be copied to the new window
-	public static boolean copyMacros = true;
-
+	protected static HashSet<Macro> copiedMacros;
 	protected static StringBuilder copiedXML;
 	protected static ArrayList<String> copiedXMLlabels;
 
@@ -130,7 +129,7 @@ public class CopyPaste {
 	}
 
 	protected static void removeHavingMacroPredecessors(
-			ArrayList<ConstructionElement> geos) {
+			ArrayList<ConstructionElement> geos, boolean copymacro) {
 
 		GeoElement geo, geo2;
 		Iterator<GeoElement> it;
@@ -143,6 +142,9 @@ public class CopyPaste {
 					if (geo.getParentAlgorithm().getClassName()
 							.equals(Algos.AlgoMacro)) {
 						found = true;
+						if (copymacro) {
+							copiedMacros.add(((AlgoMacro)geo.getParentAlgorithm()).getMacro());
+						}
 					}
 				}
 				if (!found) {
@@ -153,12 +155,15 @@ public class CopyPaste {
 							if (geo2.getParentAlgorithm().getClassName()
 									.equals(Algos.AlgoMacro)) {
 								found = true;
+								if (copymacro) {
+									copiedMacros.add(((AlgoMacro)geo2.getParentAlgorithm()).getMacro());
+								}
 								break;
 							}
 						}
 					}
 				}
-				if (found) {
+				if (found && !copymacro) {
 					geos.remove(i);
 				}
 			}
@@ -317,7 +322,7 @@ public class CopyPaste {
 	 * @return the possible side-effect geos
 	 */
 	protected static ArrayList<ConstructionElement> addAlgosDependentFromInside(
-			ArrayList<ConstructionElement> conels, boolean putdown) {
+			ArrayList<ConstructionElement> conels, boolean putdown, boolean copymacro) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
 
@@ -353,12 +358,17 @@ public class CopyPaste {
 			for (int j = 0; j < geoal.size(); j++) {
 				ale = geoal.get(j);
 
-				if (!(ale instanceof AlgoMacro) || putdown) {
+				if (!(ale instanceof AlgoMacro) || putdown || copymacro) {
 
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
 					if (conels.containsAll(ac)
 							&& !conels.contains(ale)) {
+
+						if ((ale instanceof AlgoMacro) && copymacro) {
+							copiedMacros.add(((AlgoMacro)ale).getMacro());
+						}
+
 						conels.add(ale);
 						geos = ale.getOutput();
 						if (geos != null) {
@@ -516,6 +526,8 @@ public class CopyPaste {
 	public static void copyToXML(App app,
 			ArrayList<GeoElement> geos, boolean putdown) {
 
+		boolean copyMacrosPresume = true;
+
 		if (geos.isEmpty())
 			return;
 
@@ -529,6 +541,7 @@ public class CopyPaste {
 		copySource = app.getActiveEuclidianView();
 		copyObject = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
+		copiedMacros = new HashSet<Macro>();
 
 		// create geoslocal and geostohide
 		ArrayList<ConstructionElement> geoslocal = new ArrayList<ConstructionElement>();
@@ -550,8 +563,8 @@ public class CopyPaste {
 			return;
 		}
 
-		if (!putdown && !copyMacros) {
-			removeHavingMacroPredecessors(geoslocal);
+		if (!putdown) {
+			removeHavingMacroPredecessors(geoslocal, copyMacrosPresume);
 
 			if (geoslocal.isEmpty()) {
 				app.setBlockUpdateScripts(scriptsBlocked);
@@ -574,7 +587,7 @@ public class CopyPaste {
 		// not visible, but it would still be nice to include the parent algo too.
 		// it is okay to handle it after this, as algos are resistant to hiding
 
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown || copyMacros));
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown, copyMacrosPresume));
 
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(
 				geoslocal, geos);
@@ -661,6 +674,7 @@ public class CopyPaste {
 		copySource = null;
 		copyObject = null;
 		copyObject2 = null;
+		copiedMacros = null;
 	}
 
 	/**
@@ -815,17 +829,16 @@ public class CopyPaste {
 		} else {
 			// here the possible macros should be copied as well,
 			// in case we should copy any macros
-			if (copyMacros) {
+			if (!copiedMacros.isEmpty()) {
 				// now we have to copy the macros from ad to app
 				// in order to make some advanced constructions work
 				// as it was hard to copy macro classes, let's use
 				// strings, but how to load them into the application?
 				try {
-					app.getXMLio().processXMLString(copySource.getApplication().getMacroXML(), false, true);
+					//app.getXMLio().processXMLString(copySource.getApplication().getMacroXML(), false, true);
 
 					// alternative solution
-					// app.addMacroXML(ad.getKernel().getMacroXML(
-					// ad.getKernel().getAllMacros()));
+					app.addMacroXML(copySource.getApplication().getXMLio().getFullMacroXML(new ArrayList<Macro>(copiedMacros)));
 				} catch (Exception ex) {
 					App.debug("Could not load any macros at \"Paste from XML\"");
 					ex.printStackTrace();
