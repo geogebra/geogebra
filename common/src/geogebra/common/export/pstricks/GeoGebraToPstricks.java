@@ -394,11 +394,11 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		startBeamer(codeFilledObject);
 		if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
-			double af=xmin;
-			double bf=xmax;
-			if (f.hasInterval()){
-				af=f.getIntervalMin();
-				bf=f.getIntervalMax();
+			double af = xmin;
+			double bf = xmax;
+			if (f.hasInterval()) {
+				af = f.getIntervalMin();
+				bf = f.getIntervalMax();
 			}
 			f.setInterval(Double.parseDouble(a), Double.parseDouble(b));
 			code.append("\\pscustom");
@@ -408,55 +408,35 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			if (f.isEuclidianVisible()) {
 				drawFunction(f, false, geo);
 			}
-			/*if (f.isEuclidianVisible()) {
-				String liop = LineOptionCode(geo, true);
-				GColor col = geo.getObjectColor();
-				geo.setObjColor(f.getObjectColor());
-				String liopf = LineOptionCode(f, true);
-				if (!"".equals(liopf)) {
-					int beginf = liopf.indexOf("linecolor");
-					int endf = liopf.indexOf(",", beginf);
-					if (endf < 0 && beginf >-1) {
-						endf = liopf.indexOf("]", beginf);
-					} else{
-						if (beginf<0){
-							liopf="linecolor=black";
-							beginf=0;
-							endf=liopf.length();
-						}
-					}
-					liopf = liopf.substring(beginf, endf);
-					liop = liop.replace("]", "," + liopf + "]");
-				} else {
-					int beginl = liop.indexOf("linecolor");
-					int endl = liop.indexOf(",", beginl);
-					liop = liop.replace(liop.substring(beginl, endl), "");
-				}
-				code.append(liop);
-				geo.setObjColor(col);
-			} else {
-				code.append(LineOptionCode(geo, true));
-			}
-			code.append("{");
-			drawFunction(f);
-			x=algo.getB().getDouble();
-			if (algo.getB().getDouble() > xmax) {
-				String last = code.substring(code.lastIndexOf("line") + 4);
-				x = Double.parseDouble(last.split(",")[1].split("\\(")[1]);				
-			} 
-			code.append("\\psline(" + x + "," + 0 + ")\n");
-			code.append("\\psline(" + algo.getA().getDouble() + "," + 0 + ")\n");
-			code.append("\\closepath}\n");
-			f.setInterval(af, bf); 
-			if (f.isEuclidianVisible()) {
-				code.append("\\psline" + LineOptionCode(geo, true) + "(" + x
-						+ "," + 0 + ")\n");
-				code.append("\\psline" + LineOptionCode(geo, true) + "("
-						+ algo.getA().getDouble() + "," + 0 + ")\n");
-				drawFunction(f);
-			}*/
+			/*
+			 * if (f.isEuclidianVisible()) { String liop = LineOptionCode(geo,
+			 * true); GColor col = geo.getObjectColor();
+			 * geo.setObjColor(f.getObjectColor()); String liopf =
+			 * LineOptionCode(f, true); if (!"".equals(liopf)) { int beginf =
+			 * liopf.indexOf("linecolor"); int endf = liopf.indexOf(",",
+			 * beginf); if (endf < 0 && beginf >-1) { endf = liopf.indexOf("]",
+			 * beginf); } else{ if (beginf<0){ liopf="linecolor=black";
+			 * beginf=0; endf=liopf.length(); } } liopf =
+			 * liopf.substring(beginf, endf); liop = liop.replace("]", "," +
+			 * liopf + "]"); } else { int beginl = liop.indexOf("linecolor");
+			 * int endl = liop.indexOf(",", beginl); liop =
+			 * liop.replace(liop.substring(beginl, endl), ""); }
+			 * code.append(liop); geo.setObjColor(col); } else {
+			 * code.append(LineOptionCode(geo, true)); } code.append("{");
+			 * drawFunction(f); x=algo.getB().getDouble(); if
+			 * (algo.getB().getDouble() > xmax) { String last =
+			 * code.substring(code.lastIndexOf("line") + 4); x =
+			 * Double.parseDouble(last.split(",")[1].split("\\(")[1]); }
+			 * code.append("\\psline(" + x + "," + 0 + ")\n");
+			 * code.append("\\psline(" + algo.getA().getDouble() + "," + 0 +
+			 * ")\n"); code.append("\\closepath}\n"); f.setInterval(af, bf); if
+			 * (f.isEuclidianVisible()) { code.append("\\psline" +
+			 * LineOptionCode(geo, true) + "(" + x + "," + 0 + ")\n");
+			 * code.append("\\psline" + LineOptionCode(geo, true) + "(" +
+			 * algo.getA().getDouble() + "," + 0 + ")\n"); drawFunction(f); }
+			 */
 		} else {
-			
+
 			codeFilledObject.append("\\pscustom");
 			codeFilledObject.append(LineOptionCode(geo, true));
 			codeFilledObject.append("{\\psplot{");
@@ -1059,13 +1039,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawCurveCartesian(GeoElement geo) {
-		// \parametricplot[algebraic=true,linecolor=red]
-		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
-		drawSingleCurve((GeoCurveCartesian) geo);
-	}
-
-	private void drawSingleCurve(GeoCurveCartesian geo) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
 		double start = geo.getMinParameter();
 		double end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();
@@ -1096,13 +1070,14 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		code.append("}\n");
 		endBeamer(code);
 	}
-	
+
 	@Override
-	protected void drawFunction(GeoFunction geo){
-		drawFunction(geo,false,null);
+	protected void drawFunction(GeoFunction geo) {
+		drawFunction(geo, false, null);
 	}
-	
-	protected void drawFunction(GeoFunction geo,boolean integral, GeoNumeric geo1) {
+
+	protected void drawFunction(GeoFunction geo, boolean integral,
+			GeoNumeric geo1) {
 		// line contains the row that define function
 		StringBuilder line = new StringBuilder();
 		Function f = geo.getFunction();
@@ -1145,30 +1120,29 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			line.append("}\n");
 			xrangemax += PRECISION_XRANGE_FUNCTION;
 			String s = line.toString();
-			
+
 			// if is'n latex function draws the function as a set of lines
 			if (!isLatexFunction(f.toValueString(StringTemplate.noLocalDefault))) {
 				liopco = liopco.replace(",plotpoints=200]{", "]");
 				liopco = liopco.replace("[plotpoints=200]{", "");
-				String pre="";
-				String post="";
+				String pre = "";
+				String post = "";
 				String template = "\\psline" + liopco + "(%0,%1)(%2,%3)\n";
 				StringBuilder lineBuilder = drawNoLatexFunction(geo, xrangemax,
 						xrangemin, 200, template);
 				s = lineBuilder.toString();
-				if (integral){
+				if (integral) {
 					code.append(LineOptionCode(geo1, true));
-					pre="{";
-					String end=s.substring(s.lastIndexOf("(")); 
-					post="("+b+","+f.evaluate(b)+")("+b+",0)\n";
-					post+="("+b+",0)("+a+",0)\n";
-					post+="("+a+",0)("+a+","+f.evaluate(a)+")}\n";
-					
-					
+					pre = "{";
+					String end = s.substring(s.lastIndexOf("("));
+					post = "(" + b + "," + f.evaluate(b) + ")(" + b + ",0)\n";
+					post += "(" + b + ",0)(" + a + ",0)\n";
+					post += "(" + a + ",0)(" + a + "," + f.evaluate(a) + ")}\n";
+
 				}
-				s=pre+s+post;
+				s = pre + s + post;
 				code.append(s);
-				
+
 			} else {
 				code.append(line);
 			}
@@ -1775,7 +1749,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 							+ StringUtil.toLaTeXString(
 									geo.getLabelDescription(), true) + "$";
 				}
-				
+
 				if (name.indexOf("\u00b0") != -1) {
 					name = name.replaceAll("\u00b0", "\\\\textrm{\\\\degre}");
 					if (codePreamble.indexOf("\\degre") == -1)

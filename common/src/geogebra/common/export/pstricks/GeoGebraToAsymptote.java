@@ -1116,13 +1116,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
             code.append(tempsb);
     }
     
-    @Override
-	protected void drawCurveCartesian (GeoElement geo){
-        importpackage.add("graph");
-        
-        drawSingleCurve((GeoCurveCartesian)geo);
-    }
-	private void drawSingleCurve(GeoCurveCartesian geo) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
+		importpackage.add("graph");
 		double start = geo.getMinParameter(),
                  end = geo.getMaxParameter();
 //      boolean isClosed=geo.isClosedPath();

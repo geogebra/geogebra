@@ -1306,6 +1306,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin,
 							integral, geo1);
 				} else {
+					value = value.replaceAll("\\*180/pi", "");
 					drawGnuPlot(geo, sb, value, xrangemax, xrangemin);
 				}
 			} else {
@@ -1424,19 +1425,16 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(lineBuilder.toString() + close + cycle);
 	}
 
-	@Override
-	protected void drawCurveCartesian(GeoElement geo) {
-		drawCurveCartesian(geo, code);
-	}
 
-	private void drawCurveCartesian(GeoElement geo, StringBuilder sb) {
+	@Override
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
 		// Only done using gnuplot
 		// add Warning
 		addWarningGnuplot();
 
-		drawSingleCurve((GeoCurveCartesian) geo, sb);
+		drawSingleCurve(geo, code);
 
 	}
 
@@ -1450,6 +1448,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		String fy = geo.getFunY(getStringTemplate());
 		fy = killSpace(StringUtil.toLaTeXString(fy, true));
 		fy = fy.replaceAll("\\^", "**");
+		//It seems that only for the parametric curve are not required grades
+		fx=fx.replaceAll("\\*180/pi", "");
+		fy=fy.replaceAll("\\*180/pi", "");
 		String variable = geo.getVarString(getStringTemplate());
 		boolean warning = !(variable.equals("t"));
 		if (warning)

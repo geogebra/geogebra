@@ -20,16 +20,20 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
+import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoSumLeft;
 import geogebra.common.kernel.algos.AlgoSumLower;
 import geogebra.common.kernel.algos.AlgoSumRectangle;
 import geogebra.common.kernel.algos.AlgoSumTrapezoidal;
 import geogebra.common.kernel.algos.AlgoSumUpper;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
+import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.cas.AlgoIntegralDefinite;
+import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
@@ -642,7 +646,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The function to export
 	 */
-	abstract protected void drawCurveCartesian(GeoElement geo);
+	abstract protected void drawSingleCurveCartesian(GeoCurveCartesian geo);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ Text on euclidian view
@@ -1339,7 +1343,8 @@ public abstract class GeoGebraExport {
 
 	protected StringBuilder drawNoLatexFunction(GeoFunction geo,
 			double xrangemax, double xrangemin, int point, String template) {
-		GeoCurveCartesian curve=new GeoCurveCartesian(app.getKernel().getConstruction());
+		GeoCurveCartesian curve = new GeoCurveCartesian(app.getKernel()
+				.getConstruction());
 		geo.toGeoCurveCartesian(curve);
 		StringBuilder lineBuilder = new StringBuilder();
 		double y = geo.evaluate(xrangemin);
@@ -1355,11 +1360,11 @@ public abstract class GeoGebraExport {
 				y = 0;
 			if (Math.abs(x) < 0.001)
 				x = 0;
-			if (Math.abs(yprec - y) < (ymax - ymin)) {				
+			if (Math.abs(yprec - y) < (ymax - ymin)) {
 				if (CurvePlotter.isContinuous(curve, xprec, x, 8)) {
 					lineBuilder.append(StringUtil.format(template, xprec,
 							yprec, x, y));
-				} 
+				}
 			}
 			yprec = y;
 			xprec = x;
@@ -1512,5 +1517,64 @@ public abstract class GeoGebraExport {
 			return linecolor;
 		}
 
+	}
+
+	private void drawCurveCartesian(GeoElement geo) {
+		if (!isLatexFunction(geo.toValueString(StringTemplate.noLocalDefault))) {
+			AlgoSpline algo = (AlgoSpline) geo.getDrawAlgorithm();
+			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
+			Function f = curve.getFunX();
+			ExpressionNode exl = f.getFunctionExpression().getLeftTree();
+			ExpressionNode exr = f.getFunctionExpression().getRightTree();
+			String exls = exl.toValueString(StringTemplate.noLocalDefault);
+			String exrs = exr.toValueString(StringTemplate.noLocalDefault);
+			exrs = exrs.replace("{", "");
+			exrs = exrs.replace("}", "");
+			exls = exls.replace("{", "");
+			exls = exls.replace("}", "");
+			String[] exlsv = exls.split(",");
+			String[] exrsv = exrs.split(",");
+			String[] paramValues = new String[exlsv.length + 1];
+			paramValues[0] = "0";
+			for (int i = 0; i < exlsv.length; i++) {
+				paramValues[i + 1] = exlsv[i].split("<")[1];
+			}
+			GeoCurveCartesian[] curves = new GeoCurveCartesian[exlsv.length];
+			AlgebraProcessor ap = kernel.getAlgebraProcessor();
+
+			for (int i = 0; i < exlsv.length; i++) {
+				GeoFunction fxx = ap.evaluateToFunction("xspline(t)="
+						+ exrsv[i], true);
+				curves[i] = new GeoCurveCartesian(this.construction);
+				curves[i].setFunctionX(fxx.getFunction());
+				curves[i].setInterval(Double.parseDouble(paramValues[i]),
+						Double.parseDouble(paramValues[i + 1]));
+				curves[i].setAllVisualProperties(geo, false);
+			}
+
+			f = curve.getFunY();
+			exl = f.getFunctionExpression().getLeftTree();
+			exr = f.getFunctionExpression().getRightTree();
+			exls = exl.toValueString(StringTemplate.noLocalDefault);
+			exrs = exr.toValueString(StringTemplate.noLocalDefault);
+			exrs = exrs.replace("{", "");
+			exrs = exrs.replace("}", "");
+			exls = exls.replace("{", "");
+			exls = exls.replace("}", "");
+			exlsv = exls.split(",");
+			exrsv = exrs.split(",");
+			for (int i = 0; i < exlsv.length; i++) {
+				GeoFunction fxx = ap.evaluateToFunction("yspline(t)="
+						+ exrsv[i], true);
+				curves[i].setFunctionY(fxx.getFunction());
+				curves[i].setInterval(Double.parseDouble(paramValues[i]),
+						Double.parseDouble(paramValues[i + 1]));
+			}
+			for (int i = 0; i < curves.length; i++) {
+				drawSingleCurveCartesian(curves[i]);
+			}
+		} else {
+			drawSingleCurveCartesian((GeoCurveCartesian) geo);
+		}
 	}
 }
