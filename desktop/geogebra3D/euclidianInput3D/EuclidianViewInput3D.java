@@ -155,11 +155,16 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return true;
 	}
 
+	
 	@Override
 	public double getScreenZOffset() {
-		// App.debug(""+clippingCubeDrawable.getHorizontalDiagonal());
-		return clippingCubeDrawable.getHorizontalDiagonal() / 2;
+		if (input3D != null && input3D.useScreenZOffset()){
+			return clippingCubeDrawable.getHorizontalDiagonal() / 2;
+		}
+		
+		return super.getScreenZOffset();
 	}
+	
 
 	private Coords startPos;
 

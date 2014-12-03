@@ -124,9 +124,27 @@ public interface Input3D {
 	 */
 	public boolean getLeftButton();
 
+	/**
+	 * calc position of 3D mouse on 3D view
+	 * @param absolutePos position from input
+	 * @param panelPos position for panel
+	 * @param screenHalfWidth screen half width
+	 * @param screenHalfHeight screen half height
+	 * @param panelPositionX panel x position on screen
+	 * @param panelPositionY panel y position on screen
+	 * @param panelDimW panel width
+	 * @param panelDimH panel height
+	 */
 	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
 			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
 			int panelDimW, int panelDimH);
+	
+	/**
+	 * 
+	 * @return true if we use z offset to make the scene out of the screen
+	 */
+	public boolean useScreenZOffset();
+	
 
 	
 }

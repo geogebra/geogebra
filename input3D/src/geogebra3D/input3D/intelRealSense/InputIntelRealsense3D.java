@@ -212,4 +212,8 @@ public class InputIntelRealsense3D implements Input3D {
 
 	}
 	
+	public boolean useScreenZOffset(){
+		return false;
+	}
+	
 }
