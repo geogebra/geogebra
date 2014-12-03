@@ -64,6 +64,10 @@ public class CopyPaste {
 	// check if name is valid for geo
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
+	// even if putdown is false, copyMacros may change its behaviour
+	// if true, the macros should be copied to the new window
+	public static boolean copyMacros = true;
+
 	protected static StringBuilder copiedXML;
 	protected static ArrayList<String> copiedXMLlabels;
 
@@ -512,12 +516,6 @@ public class CopyPaste {
 	public static void copyToXML(App app,
 			ArrayList<GeoElement> geos, boolean putdown) {
 
-		// even if putdown is false, copyMacros may change its behaviour
-		// more testing needed whether it makes any new error
-		// if true, it is wrong when not copied into the same window
-		// as the macros should be copied to the new window
-		boolean copyMacros = false;
-
 		if (geos.isEmpty())
 			return;
 
@@ -815,6 +813,25 @@ public class CopyPaste {
 			}
 			handleLabels(app, copiedXMLlabelsforSameWindow, putdown);
 		} else {
+			// here the possible macros should be copied as well,
+			// in case we should copy any macros
+			if (copyMacros) {
+				// now we have to copy the macros from ad to app
+				// in order to make some advanced constructions work
+				// as it was hard to copy macro classes, let's use
+				// strings, but how to load them into the application?
+				try {
+					app.getXMLio().processXMLString(copySource.getApplication().getMacroXML(), false, true);
+
+					// alternative solution
+					// app.addMacroXML(ad.getKernel().getMacroXML(
+					// ad.getKernel().getAllMacros()));
+				} catch (Exception ex) {
+					App.debug("Could not load any macros at \"Paste from XML\"");
+					ex.printStackTrace();
+				}
+			}
+
 			EuclidianViewInterfaceCommon ev = app
 					.getActiveEuclidianView();
 			if (ev == app.getEuclidianView1()) {
