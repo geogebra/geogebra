@@ -1912,6 +1912,7 @@ __GGB__keysVar.ro.menu = {
     "StemPlot": "Arbore tulpin\u0103 \u0219i frunze",
     "Step": "Pas",
     "StepGraph": "Grafic \xeen sc\u0103ri",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Substituie",
     "Substitute.Help": "\xcenlocuie\u015fte o parte din expresie",
     "SubstituteDialog": "Dialog \xeenlocuire",

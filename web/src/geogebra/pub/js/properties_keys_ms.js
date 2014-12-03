@@ -1912,6 +1912,7 @@ __GGB__keysVar.ms.menu = {
     "StemPlot": "Plot Batang dan Daun",
     "Step": "Langkah",
     "StepGraph": "Graf Langkah",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Ganti",
     "Substitute.Help": "Ganti sebahagian daripada ungkapan",
     "SubstituteDialog": "Dialog Pengganti",

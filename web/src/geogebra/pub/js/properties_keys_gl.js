@@ -1912,6 +1912,7 @@ __GGB__keysVar.gl.menu = {
     "StemPlot": "Diagramas de talo e follas",
     "Step": "Paso",
     "StepGraph": "Paso do gr\xe1fico",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Substituci\xf3n",
     "Substitute.Help": "Substit\xfae parte dunha expresi\xf3n",
     "SubstituteDialog": "Caixa de di\xe1logo de substituci\xf3n",

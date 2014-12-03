@@ -1912,6 +1912,7 @@ __GGB__keysVar.nl.menu = {
     "StemPlot": "Stengel- en bladdiagram",
     "Step": "Stap",
     "StepGraph": "Step Grafiek",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Vervangen",
     "Substitute.Help": "Vervang deel van een uitdrukking",
     "SubstituteDialog": "Substituteer Dialoog",

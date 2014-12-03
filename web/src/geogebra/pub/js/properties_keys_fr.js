@@ -1912,6 +1912,7 @@ __GGB__keysVar.fr.menu = {
     "StemPlot": "Arbre tige-feuilles",
     "Step": "Pas",
     "StepGraph": "Graphique en escaliers",
+    "StickyTools": "Outils de suite",
     "Substitute": "Substituer",
     "Substitute.Help": "Remplace une partie de l'expression",
     "SubstituteDialog": "Dialogue de remplacement",

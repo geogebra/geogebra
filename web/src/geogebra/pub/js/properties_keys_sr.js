@@ -1912,6 +1912,7 @@ __GGB__keysVar.sr.menu = {
     "StemPlot": "Dijagram stablo-list",
     "Step": "Korak",
     "StepGraph": "Stepenasti grafik",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Zamena",
     "Substitute.Help": "Zamenjuje deo izraza",
     "SubstituteDialog": "DIjalog za zamenu",

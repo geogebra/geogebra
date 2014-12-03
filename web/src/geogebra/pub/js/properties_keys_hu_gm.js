@@ -1912,6 +1912,7 @@ __GGB__keysVar.hu_gm.menu = {
     "StemPlot": "Lev\xe9l-\xe1g-diagram",
     "Step": "L\xe9p\xe9sk\xf6z",
     "StepGraph": "L\xe9pcs\u0151diagram",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Behelyettes\xedt",
     "Substitute.Help": "Kifejez\xe9sbe behelyettes\xedt\xe9s",
     "SubstituteDialog": "Behelyettes\xedt\xe9s dial\xf3gus",

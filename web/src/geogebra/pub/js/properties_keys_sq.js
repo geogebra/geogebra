@@ -1912,6 +1912,7 @@ __GGB__keysVar.sq.menu = {
     "StemPlot": "Vizatim me Kercell dhe Gjethe",
     "Step": "Shkalle",
     "StepGraph": "Graf i Shkallezuar",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Zevendeso",
     "Substitute.Help": "Zevendeson pjese te nje shprehje",
     "SubstituteDialog": "Zevendesim Dialogu",

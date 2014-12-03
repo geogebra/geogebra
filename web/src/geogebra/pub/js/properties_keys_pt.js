@@ -1912,6 +1912,7 @@ __GGB__keysVar.pt.menu = {
     "StemPlot": "Diagrama de Ramos e Folhas",
     "Step": "Passo",
     "StepGraph": "Diagrama em Degraus",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Substituir",
     "Substitute.Help": "Substitui parte de uma express\xe3o",
     "SubstituteDialog": "Di\xe1logo de Substitui\xe7\xe3o",

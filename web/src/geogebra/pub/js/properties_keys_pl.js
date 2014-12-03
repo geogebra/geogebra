@@ -1912,6 +1912,7 @@ __GGB__keysVar.pl.menu = {
     "StemPlot": "Diagram \u0142odygowo-listkowy",
     "Step": "Krok",
     "StepGraph": "Krok Wykresu",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Podstaw",
     "Substitute.Help": "Zast\u0119puje cz\u0119\u015b\u0107 wyra\u017cenia",
     "SubstituteDialog": "Zamiennik Dialogu",

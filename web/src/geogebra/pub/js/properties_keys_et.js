@@ -1912,6 +1912,7 @@ __GGB__keysVar.et.menu = {
     "StemPlot": "T\xfcvi-leht-diagramm",
     "Step": "Samm",
     "StepGraph": "Sammdiagramm",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Asenda",
     "Substitute.Help": "Asendab osa avaldisest",
     "SubstituteDialog": "Asendusdialoog",

@@ -1912,6 +1912,7 @@ __GGB__keysVar.zh_CN.menu = {
     "StemPlot": "\u830e\u53f6\u56fe",
     "Step": "\u6b65\u957f",
     "StepGraph": "\u53f0\u9636\u56fe",
+    "StickyTools": "Sticky Tools",
     "Substitute": "\u4ee3\u5165",
     "Substitute.Help": "\u5c06\u8868\u8fbe\u5f0f\u7684\u67d0\u90e8\u5206\u4ee3\u5165\u5176\u4ed6\u4ee3\u6570\u5f0f",
     "SubstituteDialog": "\u4ee3\u5165\u5bf9\u8bdd\u6846",

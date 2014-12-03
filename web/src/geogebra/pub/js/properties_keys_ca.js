@@ -1912,6 +1912,7 @@ __GGB__keysVar.ca.menu = {
     "StemPlot": "Diagrama de tija i fulles",
     "Step": "Pas",
     "StepGraph": "Gr\xe0fic Escalonat",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Substitueix",
     "Substitute.Help": "Substitueix part d\u2019una expressi\xf3",
     "SubstituteDialog": "Di\xe0leg de substituci\xf3",

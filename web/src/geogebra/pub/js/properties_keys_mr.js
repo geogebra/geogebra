@@ -1912,6 +1912,7 @@ __GGB__keysVar.mr.menu = {
     "StemPlot": "Stem and Leaf Plot",
     "Step": "Step",
     "StepGraph": "Step Graph",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Substitute",
     "Substitute.Help": "Replaces part of an expression",
     "SubstituteDialog": "\u092a\u0930\u094d\u092f\u093e\u092f\u0940 \u0938\u0902\u0935\u093e\u0926 (Substitute Dialog)",

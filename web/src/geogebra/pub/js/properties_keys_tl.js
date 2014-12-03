@@ -1912,6 +1912,7 @@ __GGB__keysVar.tl.menu = {
     "StemPlot": "Stem and Leaf Plot",
     "Step": "Step",
     "StepGraph": "Step Graph",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Substitute",
     "Substitute.Help": "Nirireplace ang bahagi ng expression",
     "SubstituteDialog": "Substitute Dialog",

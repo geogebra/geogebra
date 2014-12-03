@@ -1912,6 +1912,7 @@ __GGB__keysVar.hr.menu = {
     "StemPlot": "Peteljka-list dijagram",
     "Step": "Korak",
     "StepGraph": "Stepenasti graf",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Supstitucija",
     "Substitute.Help": "Zamjenjuje dio izraza",
     "SubstituteDialog": "Dijalo\u0161ki okvir supstitucije",

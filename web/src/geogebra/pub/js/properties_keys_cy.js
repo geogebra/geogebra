@@ -1912,6 +1912,7 @@ __GGB__keysVar.cy.menu = {
     "StemPlot": "Siart Coes a Deilen",
     "Step": "Cam",
     "StepGraph": "Graff Step",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Amnewid",
     "Substitute.Help": "Amnewid rhan o fynegiad",
     "SubstituteDialog": "Amnewid y dialog",

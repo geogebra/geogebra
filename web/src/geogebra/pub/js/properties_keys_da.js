@@ -1912,6 +1912,7 @@ __GGB__keysVar.da.menu = {
     "StemPlot": "Stem and Leaf Diagram",
     "Step": "Trin",
     "StepGraph": "TrappeGraf",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Erstat",
     "Substitute.Help": "Udskifter en del af et udtryk",
     "SubstituteDialog": "Erstat dialog",

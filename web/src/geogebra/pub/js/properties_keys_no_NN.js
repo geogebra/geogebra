@@ -1912,6 +1912,7 @@ __GGB__keysVar.no_NN.menu = {
     "StemPlot": "Stilk- og bladplott",
     "Step": "Steg",
     "StepGraph": "Trinn Graf",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Set inn",
     "Substitute.Help": "Erstattar ein del av eit uttrykk",
     "SubstituteDialog": "Innsettingsmeny",

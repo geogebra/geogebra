@@ -1912,6 +1912,7 @@ __GGB__keysVar.eu.menu = {
     "StemPlot": "Zurtoin eta Hostozko Diagrama",
     "Step": "Pausoa",
     "StepGraph": "Pausokako grafikoa",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Ordezkatu",
     "Substitute.Help": "Ordezkatu adierazpen baten zatia",
     "SubstituteDialog": "Ordezkatzeko Elkarrizketa-Koadroa",

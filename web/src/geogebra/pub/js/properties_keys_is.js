@@ -1912,6 +1912,7 @@ __GGB__keysVar.is.menu = {
     "StemPlot": "Stilka og laufrit",
     "Step": "Skref",
     "StepGraph": "Tr\xf6ppurit",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Innsetning",
     "Substitute.Help": "Skiptir \xfat hluta st\xe6\xf0u",
     "SubstituteDialog": "Gluggi fyrir innsetningu",

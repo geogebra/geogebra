@@ -1912,6 +1912,7 @@ __GGB__keysVar.xh.menu = {
     "StemPlot": "iStem and Leaf Plot",
     "Step": "iStep",
     "StepGraph": "iStep Graph",
+    "StickyTools": "Sticky Tools",
     "Substitute": "FakelaEndaweni",
     "Substitute.Help": "Ithabatha indawo yenxalenye yesivakalisi",
     "SubstituteDialog": "iThatha indawo yeDayalogi",

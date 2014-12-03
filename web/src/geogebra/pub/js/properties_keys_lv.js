@@ -1912,6 +1912,7 @@ __GGB__keysVar.lv.menu = {
     "StemPlot": "Stumbra un lapu virsma",
     "Step": "Solis",
     "StepGraph": "So\u013cu grafiks",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Aizst\u0101t",
     "Substitute.Help": "Aizvieto da\u013cu no izteikuma",
     "SubstituteDialog": "Aizvietot dialogpogas",

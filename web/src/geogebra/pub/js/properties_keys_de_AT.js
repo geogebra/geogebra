@@ -1912,6 +1912,7 @@ __GGB__keysVar.de_AT.menu = {
     "StemPlot": "Stamm-Blatt-Diagramm",
     "Step": "Schrittweite",
     "StepGraph": "Stufendiagramm",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Ersetze",
     "Substitute.Help": "Ersetzt einen Teilausdruck",
     "SubstituteDialog": "Dialog f\xfcr Substitution",

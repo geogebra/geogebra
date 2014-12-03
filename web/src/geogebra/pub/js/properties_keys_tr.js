@@ -1912,6 +1912,7 @@ __GGB__keysVar.tr.menu = {
     "StemPlot": "G\xf6vde ve Yaprak \xc7izimi",
     "Step": "Ad\u0131m",
     "StepGraph": "Grafi\u011fi Ad\u0131mla",
+    "StickyTools": "Sticky Tools",
     "Substitute": "Yerine koy",
     "Substitute.Help": "Bir denklemin bir k\u0131sm\u0131n\u0131 de\u011fi\u015ftirir",
     "SubstituteDialog": "Dialog Yerine Kullan",
