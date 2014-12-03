@@ -1,6 +1,7 @@
 package geogebra.common.euclidian3D;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.kernel.Matrix.Coords;
 
 
 
@@ -123,7 +124,9 @@ public interface Input3D {
 	 */
 	public boolean getLeftButton();
 
-
+	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
+			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
+			int panelDimW, int panelDimH);
 
 	
 }

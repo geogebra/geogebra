@@ -119,11 +119,11 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	private void setPositionXYOnPanel(double[] absolutePos, Coords panelPos) {
-		panelPos.setX(absolutePos[0] + screenHalfWidth - panelPosition.x
-				- panelDimension.width / 2);
-		panelPos.setY(absolutePos[1] - screenHalfHeight + panelPosition.y
-				+ panelDimension.height / 2);
-
+		
+		input3D.setPositionXYOnPanel(absolutePos, panelPos, 
+				screenHalfWidth, screenHalfHeight, 
+				panelPosition.x, panelPosition.y, 
+				panelDimension.width, panelDimension.height);		
 	}
 
 	@Override

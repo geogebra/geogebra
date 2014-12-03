@@ -1,10 +1,8 @@
 package geogebra3D.input3D.intelRealSense;
 
-import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian3D.Input3D;
-import geogebra.common.euclidian3D.Input3D.DeviceType;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.main.App;
+import geogebra.common.kernel.Matrix.Coords;
 
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -203,6 +201,15 @@ public class InputIntelRealsense3D implements Input3D {
 	
 	public boolean getLeftButton(){
 		return socket.leftButton;
+	}
+	
+	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
+			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
+			int panelDimW, int panelDimH)  {
+
+		panelPos.setX(absolutePos[0]);// + screenHalfWidth - panelPosition.x - panelDimension.width / 2);
+		panelPos.setY(absolutePos[1]);// - screenHalfHeight + panelPosition.y + panelDimension.height / 2);
+
 	}
 	
 }

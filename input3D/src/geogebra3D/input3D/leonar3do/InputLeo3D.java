@@ -4,6 +4,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian3D.Input3D;
 import geogebra.common.euclidian3D.Input3D.DeviceType;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.main.App;
 
 import java.awt.GraphicsDevice;
@@ -204,6 +205,16 @@ public class InputLeo3D implements Input3D {
 	
 	public boolean getLeftButton(){
 		return leoSocket.smallButton > 0.5;
+	}
+
+	public void setPositionXYOnPanel(double[] absolutePos, Coords panelPos, 
+			double screenHalfWidth, double screenHalfHeight, int panelPositionX, int panelPositionY,
+			int panelDimW, int panelDimH) {
+		panelPos.setX(absolutePos[0] + screenHalfWidth - panelPositionX
+				- panelDimW / 2);
+		panelPos.setY(absolutePos[1] - screenHalfHeight + panelPositionY
+				+ panelDimH / 2);				
+
 	}
 	
 }

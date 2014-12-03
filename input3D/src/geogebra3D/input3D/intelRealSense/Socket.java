@@ -28,7 +28,7 @@ import geogebra.common.main.App;
 public class Socket {
 
 
-	private static double SCREEN_REAL_DIM_FACTOR = 1/0.3;
+	private static double SCREEN_REAL_DIM_FACTOR = 1/0.2;
 	private static int SAMPLES = 7;
 
 	public enum Gestures {PINCH, SPREAD, FIST};
