@@ -410,7 +410,7 @@ for i in `find -name '*.ggb' | sort`; do
    sed s/"ArePerpendicular\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\1\\\\perp \\2\$"/g |\
    sed s/"AreCollinear\[\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\),\([A-Za-z0-9_]\+\)\]"/"\$\\\\\\\\overline{\\1\\2\\3}\$"/g |\
    sed s/"\\\\$ \\\\$"/"\$\\\\\\\\hfill\\\\\\\\newline\$"/g |\
-   sed s/"..."/"\$\\\\\\\\ldots\$"/g`
+   sed s/"\.\.\."/"\$\\\\\\\\ldots\$"/g`
   if [ "$TIME" = timeout ]; then
    TIME="t/o"
    fi
