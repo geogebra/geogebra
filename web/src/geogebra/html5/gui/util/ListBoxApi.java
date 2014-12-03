@@ -48,7 +48,6 @@ public class ListBoxApi {
 	 */
 	public static List<Integer> getSelectionIndexes(ListBox lb) {
 	    List<Integer> sel = new ArrayList<Integer>();
-//	    sel.add(lb.getSelectedIndex());
 	    for (int i=0; i < lb.getItemCount(); i++) {
 	    	if (lb.isItemSelected(i)) {
 	    		sel.add(i);

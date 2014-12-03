@@ -70,9 +70,9 @@ public class ToolNameIconPanel extends VerticalPanel {
 		pToolName.add(labelToolName);
 		pToolName.add(tfToolName);
 
+		mainWidget.add(pToolName);
 		mainWidget.add(pCmdName);
 		mainWidget.add(pToolHelp);
-		mainWidget.add(pToolName);
 
 		VerticalPanel iconPanel = new VerticalPanel();
 		icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
@@ -213,6 +213,15 @@ public class ToolNameIconPanel extends VerticalPanel {
 
 	public String getIconFileName() {
 		return iconFileName;
+	}
+
+	public void setMacro(Macro m) {
+		
+	    tfCmdName.setText(m == null ? "": m.getCommandName());
+	    tfToolName.setText(m == null ? "": m.getToolName());
+	    tfToolHelp.setText(m == null ? "": m.getToolHelp());
+	    showTool.setValue(m == null ? false: m.isShowInToolBar());
+	    setIconFileName(m == null ? "": m.getIconFileName());
 	}
 
 }
