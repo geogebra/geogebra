@@ -32,6 +32,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener, FastClickH
 	
 	private PopupPanel panel;
 	private FastButton openToolBarButton;
+	
 	private FastButton algebraViewButton;
 	private FastButton graphicsViewButton;
 	private FastButton worksheetsViewButton;
@@ -68,7 +69,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener, FastClickH
 
 		// TODO: set icon of actual tool
 		openToolBarButton = new StandardButton(GGWToolBar.getMyIconResourceBundle().mode_point_32(), null, 32);
-		openToolBarButton.addStyleName("phoneHeaderButton");
+		openToolBarButton.addStyleName("toolbar_button");
 		openToolBarButton.addFastClickHandler(this);
 		openToolBarPanel.add(openToolBarButton);
 		openToolBarPanel.addStyleName("tabLeft");
