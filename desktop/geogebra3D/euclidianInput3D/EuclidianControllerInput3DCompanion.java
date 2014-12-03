@@ -243,11 +243,11 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 				if (isMadeCoordSys){
 					// coordsys is made, check if we are far enough to next point (to avoid plane jumping)
 					Coords coords = sp.point.getInhomCoordsInD3();
-					if (tmpCoordsInput3D == null){
-						tmpCoordsInput3D = new Coords(4);
+					if (tmpCoordsInput3D1 == null){
+						tmpCoordsInput3D1 = new Coords(4);
 					}
-					coords.projectPlaneInPlaneCoords(coordsys.getMatrixOrthonormal(), tmpCoordsInput3D);
-					if (!Kernel.isZero(tmpCoordsInput3D.getZ())){ // don't check this point if on current coord sys
+					coords.projectPlaneInPlaneCoords(coordsys.getMatrixOrthonormal(), tmpCoordsInput3D1);
+					if (!Kernel.isZero(tmpCoordsInput3D1.getZ())){ // don't check this point if on current coord sys
 						if (sp.distance * lastDistance < 0){ // don't check this point if is on same side
 							if (-sp.distance / lastDistance < 3){ // the point is too close: plane may jump
 								//App.error("\n-- TOO CLOSE: "+sp.point+"\n"+sp.distance+"\n"+lastDistance);
@@ -273,7 +273,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			}
 			
 			if (isMadeCoordSys){
-				plane.setCoordSys(coordsys);
+				plane.getCoordSys().updateContinuous(coordsys);
 			}
 			
 			// update
@@ -297,7 +297,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 		}
 	}
 	
-	private Coords tmpCoordsInput3D;
+	private Coords tmpCoordsInput3D1, tmpCoordsInput3D2, tmpCoordsInput3D3, tmpCoordsInput3D4;
 	
 	
 	private static boolean checkDistanceToStickyPoint(double d, GeoPointND point, double scale, int threshold){

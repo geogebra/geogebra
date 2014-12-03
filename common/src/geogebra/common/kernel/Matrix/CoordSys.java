@@ -769,21 +769,32 @@ public class CoordSys {
 
 		//set multiplication matrix
 		Coords o = matrixOrthonormal.getOrigin();
+		
+		
+		Coords newOrigin = rot.mul(o.sub(center)).add(center);
+		Coords vx = matrixOrthonormal.getVx();
+		Coords vz = new Coords(4);
+		vz.setValues(rot.mul(matrixOrthonormal.getVz()), 3);
+		CoordMatrix4x4.createOrthoToDirection(newOrigin, vz, CoordMatrix4x4.VZ, vx, tmpCoords1, tmpCoords2, matrixOrthonormal);
+		
+		/*
 		matrixOrthonormal = rot.mul3x3(matrixOrthonormal);
 
 		//set origin matrix
 		Coords newOrigin = rot.mul(o.sub(center)).add(center);
 		matrixOrthonormal.setOrigin(newOrigin);
 		matrixOrthonormal.set(4,4, 1);
+		*/
+		
 
 		// set original origin and vectors
 		setOrigin(newOrigin);
 		
 		// set vectors
-		setVx(rot.mul(getVx()));	
+		setVx(matrixOrthonormal.getVx());	
 		if (dimension==2){	
-			setVy(rot.mul(getVy()));
-			setVz(rot.mul(getVz()));
+			setVy(matrixOrthonormal.getVy());
+			setVz(matrixOrthonormal.getVz());
 			setDrawingMatrixFromMatrixOrthonormal(drawingMatrix.getVx());
 		}
 	}
@@ -978,6 +989,32 @@ public class CoordSys {
 	}
 
 	
+	/**
+	 * update this to new coord sys with continuity
+	 * @param coordsys new coord sys
+	 */
+	public void updateContinuous(CoordSys coordsys){
+		
+		matrixOrthonormal.getOrigin().projectPlane(coordsys.getMatrixOrthonormal(), tmpCoords1);
+		Coords vz = coordsys.getMatrixOrthonormal().getVz();
+		if (matrixOrthonormal.getVz().dotproduct(vz) < 0){
+			vz.mulInside3(-1);
+		}
+		
+		CoordMatrix4x4.createOrthoToDirection(tmpCoords1, vz, CoordMatrix4x4.VZ, 
+				matrixOrthonormal.getVx(), tmpCoords2, tmpCoords3, matrixOrthonormal);
 
+		// set original origin and vectors
+		setOrigin(matrixOrthonormal.getOrigin());
+		
+		// set vectors
+		setVx(matrixOrthonormal.getVx());	
+		if (dimension==2){	
+			setVy(matrixOrthonormal.getVy());
+			setVz(matrixOrthonormal.getVz());
+			setDrawingMatrixFromMatrixOrthonormal(drawingMatrix.getVx());
+		}
+		
+	}
 
 }
