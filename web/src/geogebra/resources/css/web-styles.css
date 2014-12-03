@@ -4633,14 +4633,15 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .PhoneGUI .phoneHeaderButton {
 	border: none !important;
 	background: transparent;
-	width: 30px;
-	height: 30px;
+	width: 26px;
+	height: 26px;
 	margin: 0 auto;
+	padding-top: 5px;
 }
 
 .PhoneGUI .phoneHeaderButton .image {
-	width: 30px;
-	height: 30px;
+	width: 26px;
+	height: 26px;
 	padding-top: 5px;
 	background-color: #F8F8F8;
 }
@@ -4666,6 +4667,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 .PhoneGUI .algebraViewPanel {
 	background-color: #FFFFFF;
 	font-size: 16px;
+	overflow: auto;
 }
 
 .PhoneGUI .elemHeadingName {
@@ -4699,7 +4701,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
 .PhoneGUI .materialListPanel {
 	padding-left: 15px;
-	overflow-y: visible;
+	overflow:auto;
 }
 
 
