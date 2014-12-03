@@ -33,6 +33,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * GeoGebraTube Search and Browse GUI
@@ -147,7 +148,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		locationTube.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				app.getFileManager().setFileProvider(Provider.TUBE);
 				loadAllMaterials();
 			}
@@ -168,7 +169,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			locationDrive.addFastClickHandler(new FastClickHandler() {
 
 				@Override
-				public void onClick() {
+				public void onClick(Widget source) {
 					if (BrowseGUI.this.app.getGoogleDriveOperation() != null) {
 						app.getFileManager().setFileProvider(Provider.GOOGLE);
 						BrowseGUI.this.app.getGoogleDriveOperation()
@@ -189,7 +190,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			this.locationSkyDrive.addFastClickHandler(new FastClickHandler() {
 
 				@Override
-				public void onClick() {
+				public void onClick(Widget source) {
 					if (BrowseGUI.this.app.getGoogleDriveOperation() != null) {
 						app.getFileManager().setFileProvider(Provider.ONE);
 						// TODO open skydrive picker

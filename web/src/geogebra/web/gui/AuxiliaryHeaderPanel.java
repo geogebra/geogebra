@@ -12,6 +12,7 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Common superclass for worksheet and browse GUIs
@@ -60,7 +61,7 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 		this.backButton.addFastClickHandler(new FastClickHandler() {
 			
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				gui.close();
 			}
 		});

@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * GUI Element showing a Material as search Result
@@ -187,7 +188,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.renameButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onRename();
 			}
 		});
@@ -319,7 +320,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.deleteButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onDelete();
 			}
 		});
@@ -366,7 +367,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.confirm.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onConfirmDelete();
 			}
 		});
@@ -377,7 +378,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.cancel.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onCancel();
 			}
 		});
@@ -444,7 +445,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.editButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				((DialogManagerW) app.getDialogManager()).getSaveDialog().showIfNeeded(editMaterial);
 			}
 		});
@@ -503,7 +504,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.viewButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onView();
 			}
 		});

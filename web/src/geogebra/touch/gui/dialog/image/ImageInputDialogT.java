@@ -12,6 +12,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.gwtphonegap.client.camera.PictureCallback;
 import com.googlecode.gwtphonegap.client.camera.PictureOptions;
 
@@ -78,7 +79,7 @@ public class ImageInputDialogT extends UploadImageDialog {
 		chooseFromFile.addFastClickHandler(new FastClickHandler() {
 			
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				openFromFileClicked();
 			}
 		});

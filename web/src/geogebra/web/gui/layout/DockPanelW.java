@@ -461,7 +461,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		FastClickHandler toggleStyleBarHandler = new FastClickHandler() {
 
-			public void onClick() {
+			public void onClick(Widget source) {
 				setShowStyleBar(!showStyleBar);
 
 				updateStyleBarVisibility();

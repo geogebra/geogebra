@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RequiresResize;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GGWToolBar extends Composite implements RequiresResize{
 
@@ -129,7 +130,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		//redoButton.getElement().appendChild(redoImage.getElement());
 		redoButton.addFastClickHandler(new FastClickHandler(){
 			@Override
-            public void onClick() {
+            public void onClick(Widget source) {
 				app.getGuiManager().redo();
             }
 		});
@@ -142,7 +143,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		//undoButton.getElement().appendChild(undoImage.getElement());
 		undoButton.addFastClickHandler(new FastClickHandler(){
 			@Override
-            public void onClick() {
+            public void onClick(Widget source) {
 				app.getGuiManager().undo();
             }
 		});
@@ -170,7 +171,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		openMenuButton = new StandardButton(pr.button_open_menu(),null,32);
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-            public void onClick() {
+            public void onClick(Widget source) {
 				app.closePopups();
 	            GGWToolBar.this.app.toggleMenu();
             }	
@@ -192,7 +193,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		openSearchButton = new StandardButton(pr.button_open_search(),null,32);
 		openSearchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-            public void onClick() {
+            public void onClick(Widget source) {
 				app.openSearch(null);
             }
 		});

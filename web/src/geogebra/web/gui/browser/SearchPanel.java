@@ -22,6 +22,7 @@ import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Panel for Search in GeoGebraTube
@@ -86,7 +87,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.searchButton.addStyleName("searchButton");
 		this.searchButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				doSearch();
 			}
 		});
@@ -96,7 +97,7 @@ public class SearchPanel extends FlowPanel implements BooleanRenderable {
 		this.cancelButton.setVisible(false);
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onCancel();
 			}
 		});

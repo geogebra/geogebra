@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		ResizeListener, BooleanRenderable, EventRenderable {
@@ -160,7 +161,7 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 			logoutButton.addFastClickHandler(new FastClickHandler(){
 
 				@Override
-                public void onClick() {
+                public void onClick(Widget source) {
 					App.debug("logout");
 	                app.getLoginOperation().performLogOut();
 	                togglePopup(popup);

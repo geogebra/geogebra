@@ -260,7 +260,7 @@ public abstract class FastButton extends CustomButton {
 	protected void fireFastClickEvent() {
 
 		for (FastClickHandler h : this.handlers) {
-			h.onClick();
+			h.onClick(this);
 		}
 	}
 }

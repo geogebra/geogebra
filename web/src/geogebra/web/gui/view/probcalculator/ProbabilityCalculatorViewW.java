@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TabLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author gabor
@@ -398,7 +399,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    btnExport.addStyleName("btnExport");
 	    btnExport.addFastClickHandler(new FastClickHandler() {
 			@Override
-            public void onClick() {
+            public void onClick(Widget source) {
 				((AppW) app).copyEVtoClipboard((EuclidianViewW)plotPanel);
             }  	
 	    });

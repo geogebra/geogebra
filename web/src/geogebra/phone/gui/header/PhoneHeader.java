@@ -17,8 +17,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class PhoneHeader extends FlowPanel implements ResizeListener {
+public class PhoneHeader extends FlowPanel implements ResizeListener, FastClickHandler {
 
 	private SimplePanel title;
 
@@ -28,6 +29,13 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 	SimplePanel worksheets;
 	SimplePanel options;
 	private Label titleLabel;
+	
+	private PopupPanel panel;
+	private FastButton openToolBarButton;
+	private FastButton algebraViewButton;
+	private FastButton graphicsViewButton;
+	private FastButton worksheetsViewButton;
+	private FastButton optionsButton;
 
 	public PhoneHeader(AppWapplication app) {
 		this.setStyleName("PhoneHeader");
@@ -41,7 +49,7 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 
 	private void addOpenToolbar(AppWapplication app) {
 		this.openToolBarPanel = new SimplePanel();
-		final PopupPanel panel = new PopupPanel();
+		panel = new PopupPanel();
 		ScrollPanel content = new ScrollPanel();
 
 		GGWToolBar ggwToolbar = new GGWToolBar();
@@ -59,20 +67,9 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 		panel.setAutoHideEnabled(true);
 
 		// TODO: set icon of actual tool
-		FastButton openToolBarButton = new StandardButton(GGWToolBar.safeURI(GGWToolBar
-		        .getMyIconResourceBundle().mode_point_32()));
+		openToolBarButton = new StandardButton(GGWToolBar.getMyIconResourceBundle().mode_point_32(), null, 32);
 		openToolBarButton.addStyleName("phoneHeaderButton");
-		openToolBarButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-			public void onClick() {
-				panel.show();
-
-				// FIXME replace with dynamic value
-				if(panel.getOffsetHeight() > Window.getClientHeight() - 43){
-					panel.setHeight((Window.getClientHeight() - 43)+"px");
-				}
-			}
-		});
+		openToolBarButton.addFastClickHandler(this);
 		openToolBarPanel.add(openToolBarButton);
 		openToolBarPanel.addStyleName("tabLeft");
 		openToolBarPanel.setVisible(false);
@@ -89,58 +86,25 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 	}
 
 	private void addViewTabs() {
-		FastButton algebraViewButton = new StandardButton(
+		algebraViewButton = new StandardButton(
 		        GuiResources.INSTANCE.algebraView());
 		algebraViewButton.addStyleName("phoneHeaderButton");
-		algebraViewButton.addFastClickHandler(new FastClickHandler() {
+		algebraViewButton.addFastClickHandler(this);
 
-			@Override
-			public void onClick() {
-				openToolBarPanel.setVisible(false);
-				Phone.getGUI().scrollTo(View.Algebra);
-				setTabActive(PhoneHeader.this.algebra);
-			}
-		});
-
-		FastButton graphicsViewButton = new StandardButton(
+		graphicsViewButton = new StandardButton(
 		        GuiResources.INSTANCE.graphicsView());
 		graphicsViewButton.addStyleName("phoneHeaderButton");
-		graphicsViewButton.addFastClickHandler(new FastClickHandler() {
+		graphicsViewButton.addFastClickHandler(this);
 
-			@Override
-			public void onClick() {
-				openToolBarPanel.setVisible(true);
-				Phone.getGUI().scrollTo(View.Graphics);
-				setTabActive(PhoneHeader.this.graphics);
-			}
-		});
-
-		FastButton worksheetsViewButton = new StandardButton(
+		worksheetsViewButton = new StandardButton(
 		        GuiResources.INSTANCE.browseView());
 		worksheetsViewButton.addStyleName("phoneHeaderButton");
-		worksheetsViewButton.addFastClickHandler(new FastClickHandler() {
+		worksheetsViewButton.addFastClickHandler(this);
 
-			@Override
-			public void onClick() {
-				openToolBarPanel.setVisible(false);
-				Phone.getGUI().scrollTo(View.Worksheets);
-				setTabActive(PhoneHeader.this.worksheets);
-			}
-		});
-
-		FastButton optionsButton = new StandardButton(
+		optionsButton = new StandardButton(
 		        GuiResources.INSTANCE.options());
 		optionsButton.addStyleName("phoneHeaderButton");
-		optionsButton.addFastClickHandler(new FastClickHandler() {
-
-			@Override
-			public void onClick() {
-				openToolBarPanel.setVisible(false);
-				Phone.getGUI().scrollTo(View.Options);
-				setTabActive(PhoneHeader.this.options);
-				// context-sensitive options
-			}
-		});
+		optionsButton.addFastClickHandler(this);
 
 		this.algebra = new SimplePanel();
 		this.algebra.setStyleName("tab");
@@ -206,5 +170,33 @@ public class PhoneHeader extends FlowPanel implements ResizeListener {
 			active = this.worksheets;
 		}
 		setTabActive(active);
+	}
+
+	public void onClick(Widget source) {
+		if (source == openToolBarButton) {
+			panel.show();
+
+			// FIXME replace with dynamic value
+			if(panel.getOffsetHeight() > Window.getClientHeight() - 43){
+				panel.setHeight((Window.getClientHeight() - 43)+"px");
+			}
+		} else if (source == algebraViewButton) {
+			openToolBarPanel.setVisible(false);
+			Phone.getGUI().scrollTo(View.Algebra);
+			setTabActive(PhoneHeader.this.algebra);
+		} else if (source == graphicsViewButton) {
+			openToolBarPanel.setVisible(true);
+			Phone.getGUI().scrollTo(View.Graphics);
+			setTabActive(PhoneHeader.this.graphics);
+		} else if (source == worksheetsViewButton) {
+			openToolBarPanel.setVisible(false);
+			Phone.getGUI().scrollTo(View.Worksheets);
+			setTabActive(PhoneHeader.this.worksheets);
+		} else if (source == optionsButton) {
+			openToolBarPanel.setVisible(false);
+			Phone.getGUI().scrollTo(View.Options);
+			setTabActive(PhoneHeader.this.options);
+			// context-sensitive options
+		}
 	}
 }

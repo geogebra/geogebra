@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRenderable {
 	
@@ -219,7 +220,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		saveButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onSave();
 			}
 		});
@@ -227,7 +228,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		dontSaveButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onDontSave();
 			}
 		});
@@ -241,7 +242,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		this.cancelButton.addStyleName("cancelSaveButton");
 		this.cancelButton.addFastClickHandler(new FastClickHandler() {
 			@Override
-			public void onClick() {
+			public void onClick(Widget source) {
 				onCancel();
 			}
 		});
