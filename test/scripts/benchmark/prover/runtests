@@ -243,7 +243,7 @@ for i in `find -name '*.ggb' | sort`; do
  echo "<tr><td class=\"ex\"><a href=\"$TESTGGBURLBASE_GGBDIR/$i\">$TEST</a></td><td class=\"eximg\"><a href=\"$TEST.png\"><img src=\"$TEST.png\" style=\"height:${IMGHEIGHT}px;width:auto;\"></a></td>" >> $MYDIR/$HTML
  TEST=`echo $TEST | sed s/".ggb"//`
  if [ `expr ${#TEST} '>' 15` = 1 ]; then
-  TEST=${TEST:0:10}\$\ldots\$${TEST:(-2)}
+  TEST=${TEST:0:10}\$\\ldots\$${TEST:(-2)}
   fi
  echo "\cellcolor{blue!10}$TEST " | sed s/".ggb"// >> $MYDIR/$TEX
 
