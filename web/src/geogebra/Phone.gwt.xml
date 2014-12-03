@@ -48,7 +48,13 @@
   <source path='touch'/>
   <source path='phone'/>
   <super-source path='/common/src/geogebra/jre' />
-
+  <replace-with class="geogebra.touch.gui.layout.SplitterImplTouch">
+    <when-type-is class="geogebra.web.gui.layout.SplitterImpl"/>
+  </replace-with>
+  
+  <replace-with class="geogebra.web.gui.PNGImageFactory">
+    <when-type-is class="geogebra.web.gui.ImageFactory" />    
+  </replace-with>
    
     <inherits name="com.google.gwt.json.JSON" />
   
