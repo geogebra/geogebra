@@ -5,21 +5,16 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.SilentProfiler;
-import geogebra.geogebra3D.web.gui.app.GeoGebraAppFrame3D;
-import geogebra.geogebra3D.web.main.AppWapplet3D;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
-import geogebra.html5.gui.GeoGebraFrame;
-import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.CustomElements;
 import geogebra.html5.util.Dom;
 import geogebra.web.Web;
+import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
-import geogebra.web.gui.laf.GLookAndFeel;
-import geogebra.web.main.AppWapplet;
 import geogebra.web.main.BrowserDevice;
 import geogebra.web.main.GDevice;
 
@@ -27,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -160,7 +156,7 @@ public class Web3D extends Web {
 	 */
 	@Override
 	protected void createGeoGebraAppFrame(GDevice device){
-		new GeoGebraAppFrame3D(Web.getLAF(getGeoGebraMobileTags()), device);
+		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device, (AppletFactory) GWT.create(AppletFactory.class) );
 	}
 	
 
@@ -179,12 +175,8 @@ public class Web3D extends Web {
     }-*/;
 	
 	public static void renderArticleElement(Element el, JavaScriptObject clb){
-		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(){
-			@Override
-			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeelI laf){
-				return new AppWapplet3D(ae, fr, (GLookAndFeel) laf);
-			}
-		}, Web.getLAF(getGeoGebraMobileTags()), clb);
+		GeoGebraFrameBoth.renderArticleElement(el, (AppletFactory) GWT.create(AppletFactory.class) 
+		, Web.getLAF(getGeoGebraMobileTags()), clb);
 	}
 	/*
 	 * This method should never be called. Only copyed to external javascript files,
@@ -228,12 +220,7 @@ public class Web3D extends Web {
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(){
-			@Override
-			public AppWapplet getApplet(ArticleElement ae, GeoGebraFrame fr, GLookAndFeelI laf){
-				return new AppWapplet3D(ae, fr, (GLookAndFeel) laf);
-			}
-		}, Web.getLAF(geoGebraMobileTags));
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, (AppletFactory) GWT.create(AppletFactory.class), Web.getLAF(geoGebraMobileTags));
 	   
     }
 

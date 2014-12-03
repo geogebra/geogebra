@@ -4,9 +4,11 @@ import geogebra.html5.js.ResourcesInjector;
 import geogebra.phone.gui.PhoneGUI;
 import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.app.GeoGebraAppFrame;
+import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.main.AppWapplication;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedEvent;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
@@ -21,7 +23,7 @@ public class Phone implements EntryPoint {
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
-		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(), new PhoneDevice());
+		appFrame = new GeoGebraAppFrame(new PhoneLookAndFeel(),  new PhoneDevice(), (AppletFactory) GWT.create(AppletFactory.class) );
 		appFrame.init();
 		PhoneGapManager.initializePhoneGap(null);
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()

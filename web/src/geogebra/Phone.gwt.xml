@@ -55,6 +55,10 @@
   <replace-with class="geogebra.web.gui.PNGImageFactory">
     <when-type-is class="geogebra.web.gui.ImageFactory" />    
   </replace-with>
+  
+   <replace-with class="geogebra.web.gui.applet.AppletFactory2D">
+    <when-type-is class="geogebra.web.gui.applet.AppletFactory" />    
+  </replace-with>
    
     <inherits name="com.google.gwt.json.JSON" />
   

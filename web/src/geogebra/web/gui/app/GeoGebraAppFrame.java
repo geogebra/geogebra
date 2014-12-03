@@ -17,10 +17,10 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.HeaderPanelDeck;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.docklayout.MyDockLayoutPanel;
+import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
-import geogebra.web.main.AppWapplication;
 import geogebra.web.main.GDevice;
 
 import java.util.Date;
@@ -62,9 +62,12 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
 
 	private final GDevice device;
 
-	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device) {
+	private final AppletFactory factory;
+
+	public GeoGebraAppFrame(GLookAndFeel laf, GDevice device, AppletFactory factory) {
 		this.laf = laf;
 		this.device = device;
+		this.factory = factory;
 		frameLayout = newGGWFrameLayoutPanel();		
 		initWidget(frameLayout);
 		
@@ -156,7 +159,7 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
 		cw = Window.getClientWidth(); 
 		ch = Window.getClientHeight() ;
 		
-		app = createApplication(article, this.laf, this.device); 
+		app = factory.getApplication(article, this, this.laf, this.device); 
 		App.debug("Callbacks ...");
 		
 		this.addDomHandler(new MouseDownHandler() {
@@ -244,12 +247,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
 	public int getCanvasCountedHeight() {
 		return ch;
 	}
-
-
-	protected AppW createApplication(final ArticleElement article, GLookAndFeel laf, GDevice device) {
-		return new AppWapplication(article, this, 2, laf, device);
-    }
-
 
 	public void finishAsyncLoading(final ArticleElement articleElement, final AppW app) {
 	    handleLoadFile(articleElement,app);	    

@@ -25,6 +25,7 @@ import java.util.Date;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -157,7 +158,7 @@ public class Web implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(GDevice device){
-		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device);
+		new GeoGebraAppFrame(Web.getLAF(getGeoGebraMobileTags()), device, (AppletFactory) GWT.create(AppletFactory.class) );
 	}
 	
 
@@ -176,7 +177,7 @@ public class Web implements EntryPoint {
     }-*/;
 	
 	public static void renderArticleElement(Element el, JavaScriptObject clb){
-		GeoGebraFrameBoth.renderArticleElement(el, new AppletFactory(), getLAF(getGeoGebraMobileTags()), clb);
+		GeoGebraFrameBoth.renderArticleElement(el, (AppletFactory) GWT.create(AppletFactory.class) , getLAF(getGeoGebraMobileTags()), clb);
 	}
 
 	/*
@@ -221,7 +222,7 @@ public class Web implements EntryPoint {
 	
 	static void startGeoGebra(ArrayList<ArticleElement> geoGebraMobileTags) {
 	 	
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, new AppletFactory(), getLAF(geoGebraMobileTags));
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, (AppletFactory) GWT.create(AppletFactory.class) , getLAF(geoGebraMobileTags));
 	   
     }
 
