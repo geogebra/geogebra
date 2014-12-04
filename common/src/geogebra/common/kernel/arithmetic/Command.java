@@ -318,8 +318,6 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	 */
 	public GeoElement[] evaluateMultiple() {
 		GeoElement[] geos = null;
-		App.debug(kernel.getClass().getName()+ "KERNEL");
-		App.debug(kernel.getAlgebraProcessor().getClass().getName()+ "PROC");
 		geos = kernel.getAlgebraProcessor().processCommand(this, false);
 		return geos;
 	}
