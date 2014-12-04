@@ -1912,7 +1912,7 @@ __GGB__keysVar.sv.menu = {
     "StemPlot": "Stam-och-bladdiagram",
     "Step": "Stegl\xe4ngd",
     "StepGraph": "Trappstegsdiagram",
-    "StickyTools": "Sticky Tools",
+    "StickyTools": "Verktyg forts\xe4tter vara aktiva",
     "Substitute": "Substituera",
     "Substitute.Help": "Ers\xe4tter en del av ett uttryck",
     "SubstituteDialog": "Dialog f\xf6r substitution",

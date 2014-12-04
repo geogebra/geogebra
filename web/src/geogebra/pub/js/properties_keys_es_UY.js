@@ -1912,7 +1912,7 @@ __GGB__keysVar.es_UY.menu = {
     "StemPlot": "Diagrama de tallo y hojas",
     "Step": "Paso",
     "StepGraph": "Gr\xe1fico de paso",
-    "StickyTools": "Sticky Tools",
+    "StickyTools": "Herramientas de Agilizaci\xf3n",
     "Substitute": "Sustituye",
     "Substitute.Help": "Reemplaza parte de una expresi\xf3n",
     "SubstituteDialog": "Cuadro de di\xe1logo de sustituci\xf3n",

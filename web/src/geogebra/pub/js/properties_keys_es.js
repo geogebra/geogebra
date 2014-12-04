@@ -1912,7 +1912,7 @@ __GGB__keysVar.es.menu = {
     "StemPlot": "Tallo y hojas",
     "Step": "Paso",
     "StepGraph": "Gr\xe1fica escalonada",
-    "StickyTools": "Sticky Tools",
+    "StickyTools": "Herramientas de Agilizaci\xf3n",
     "Substitute": "Sustituye",
     "Substitute.Help": "Reemplaza parte de una expresi\xf3n",
     "SubstituteDialog": "Cuadro de sustituci\xf3n",
