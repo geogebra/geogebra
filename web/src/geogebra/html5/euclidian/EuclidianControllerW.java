@@ -584,6 +584,7 @@ LongTouchHandler {
 		}
 
 		Event.releaseCapture(event.getRelativeElement());
+		
 		if(moveCounter  < 2){
 			resetModeAfterFreehand();
 		}
@@ -635,6 +636,7 @@ LongTouchHandler {
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
+		
 		wrapMousePressed(event);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty() && this.view.hasStyleBar()) {
@@ -983,7 +985,11 @@ LongTouchHandler {
 		}
 		if (!shouldCancelDrag()) {
 			setModeToFreehand();
-			Event.setCapture(((PointerEvent) event).getRelativeElement());
+			// Set capture events only if the mouse is actually down, 
+			// because we need to release the capture on mouse up.
+			if (waitingMouseMove == null && waitingTouchMove == null) {
+				Event.setCapture(((PointerEvent) event).getRelativeElement());
+			}
 			super.wrapMouseDragged(event);
 		}
 		if (movedGeoPoint != null
