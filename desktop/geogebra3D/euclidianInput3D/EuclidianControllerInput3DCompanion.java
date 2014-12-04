@@ -1,8 +1,8 @@
 package geogebra3D.euclidianInput3D;
 
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
-import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianController3DCompanion;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
@@ -228,7 +228,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 			
 			
 			double scale = ((EuclidianView3D) ec.view).getScale();
-			int threshold = ((EuclidianView3D) ec.view).getCapturingThreshold(PointerEventType.MOUSE);
+			int threshold = 6;//((EuclidianView3D) ec.view).getCapturingThreshold(PointerEventType.MOUSE);
 			//App.debug(""+threshold);
 			CoordSys coordsys = new CoordSys(2);
 			boolean isMadeCoordSys = false;
@@ -301,7 +301,7 @@ public class EuclidianControllerInput3DCompanion extends EuclidianController3DCo
 	
 	
 	private static boolean checkDistanceToStickyPoint(double d, GeoPointND point, double scale, int threshold){
-		return d * scale < point.getPointSize() + threshold;
+		return d * scale < DrawPoint.getSelectionThreshold(threshold);//point.getPointSize() + threshold;
 	}
 	
 
