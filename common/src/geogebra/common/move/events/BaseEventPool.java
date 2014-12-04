@@ -11,8 +11,8 @@ public class BaseEventPool {
 	/**
 	 * operation of the given event
 	 */
-	protected NetworkOperation operation = null;
-	private boolean online;
+	protected final NetworkOperation operation;
+	private final boolean online;
 	
 	/**
 	 * Instantiates the Event handling Code
@@ -21,14 +21,14 @@ public class BaseEventPool {
 	 */
 	public BaseEventPool(NetworkOperation op, boolean online) {
 		this.online = online;
-		operation = op;
+		this.operation = op;
 	}
 	
 	/**
 	 * run over the events, and triggers them.
 	 */
 	public void trigger(){
-		operation.setOnline(this.online);
+		this.operation.setOnline(this.online);
 	}
 
 }
