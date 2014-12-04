@@ -21,7 +21,7 @@ import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian.modes.ModeDelete;
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -455,10 +455,6 @@ public abstract class EuclidianController {
 
 	
 	protected void updatePastePreviewPosition() {
-		if (view instanceof EuclidianView3D) {
-			// TODO: this feature is currently unsupported!
-			return;
-		}
 		if (translationVec == null) {
 			translationVec = new Coords(2);
 		}
@@ -474,11 +470,11 @@ public abstract class EuclidianController {
 		GeoElement.moveObjects(pastePreviewSelected, translationVec,
 				tmpCoordsL3, null, view);
 	}
-	
-	private Coords tmpCoordsL3;
+
+	protected Coords tmpCoordsL3;
 
 	public final void setPastePreviewSelected() {
-	
+
 		// don't allow paste on top of another paste until its placed
 		if (pastePreviewSelected != null) {
 			while (!pastePreviewSelected.isEmpty()) {
@@ -499,9 +495,14 @@ public abstract class EuclidianController {
 			if (geo.isIndependent() && geo.isMoveable()) {
 				pastePreviewSelected.add(geo);
 				if (firstMoveable) {
-					if (geo.isGeoPoint() && (geo instanceof GeoPoint)) {
-						setStartPointLocation(((GeoPoint) geo).getInhomX(),
-								((GeoPoint) geo).getInhomY());
+					if (geo.isGeoPoint()) {
+						if (geo instanceof GeoPoint) {
+							setStartPointLocation(((GeoPoint) geo).getInhomX(),
+									((GeoPoint) geo).getInhomY());
+						} else if (geo instanceof GeoPoint3D) {
+							setStartPointLocation(((GeoPoint3D)geo).getInhomX(),
+									((GeoPoint3D)geo).getInhomY());
+						}
 						firstMoveable = false;
 					} else if (geo.isGeoText()) {
 						if (((GeoText) geo).hasAbsoluteLocation()) {

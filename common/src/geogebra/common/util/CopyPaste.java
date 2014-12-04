@@ -712,6 +712,8 @@ public class CopyPaste {
 					if (app.getEuclidianView3D() != null) {
 						geo.addView(App.VIEW_EUCLIDIAN3D);
 						app.getEuclidianView3D().add(geo);
+						// TODO: make this consistent
+						geo.setEuclidianVisible(true);
 					}
 				} else {
 					app.removeFromEuclidianView(geo);

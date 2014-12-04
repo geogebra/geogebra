@@ -2772,6 +2772,30 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	// /////////////////////////////////////////
+	// PASTE PREVIEW
+
+	@Override
+	protected void updatePastePreviewPosition() {
+		GeoPoint3D p = view3D.getCursor3D();
+		// TODO: later, map it to z=0
+		if (translationVec3D == null) {
+			translationVec3D = new Coords(3);
+		}
+		translationVec3D.setX(p.getInhomX() - getStartPointX());
+		translationVec3D.setY(p.getInhomY() - getStartPointY());
+		translationVec3D.setZ(0);
+		setStartPointLocation(p.getInhomX(), p.getInhomY());
+		if (tmpCoordsL3 == null){
+			tmpCoordsL3 = new Coords(3);
+		}
+		tmpCoordsL3.setX(p.getInhomX());
+		tmpCoordsL3.setY(p.getInhomY());
+		tmpCoordsL3.setZ(0);
+		GeoElement.moveObjects(pastePreviewSelected, translationVec3D,
+				tmpCoordsL3, view3D.getViewDirection(), view3D);
+	}
+
+	// /////////////////////////////////////////
 	// SELECTIONS
 
 	/** selected 1D coord sys */
