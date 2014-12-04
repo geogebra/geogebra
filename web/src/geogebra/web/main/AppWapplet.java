@@ -19,6 +19,7 @@ import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
+import geogebra.web.gui.CustomizeToolbarGUI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.LanguageGUI;
 import geogebra.web.gui.MyHeaderPanel;
@@ -189,6 +190,8 @@ public class AppWapplet extends AppW {
 
 	private Widget oldSplitLayoutPanel = null;	// just a technical helper variable
 	private HorizontalPanel splitPanelWrapper = null;
+
+	private CustomizeToolbarGUI ct;
 	@Override
     public void buildApplicationPanel() {
 
@@ -369,6 +372,14 @@ public class AppWapplet extends AppW {
 				getGeoGebraFrame());
 	}
 
+	@Override
+	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
+		if (this.ct == null) {
+			this.ct = new CustomizeToolbarGUI(this);
+		}
+		return this.ct;
+	}
+	
 	@Override
 	public void setCustomToolBar() {
 		String customToolbar = articleElement.getDataParamCustomToolBar();
