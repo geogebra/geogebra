@@ -11,6 +11,7 @@ import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.util.IndexHTMLBuilder;
 import geogebra.gui.MyImageD;
 import geogebra.main.AppD;
 
@@ -193,21 +194,29 @@ public class MyCellRenderer extends DefaultTableCellRenderer {
 			if (geo.isIndependent()) {
 				text = geo.toValueString(StringTemplate.defaultTemplate);
 			} else {
+
 				switch (kernel.getAlgebraStyle()) {
 				case Kernel.ALGEBRA_STYLE_VALUE:
 					text = geo.toValueString(StringTemplate.defaultTemplate);
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					text = GeoElement
-							.convertIndicesToHTML(geo
-									.getDefinitionDescription(StringTemplate.defaultTemplate));
+					IndexHTMLBuilder builder = new IndexHTMLBuilder(true);
+					GeoElement
+							.convertIndicesToHTML(
+									geo.getDefinitionDescription(StringTemplate.defaultTemplate),
+									builder);
+					text = builder.toString();
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = GeoElement
-							.convertIndicesToHTML(geo
-									.getCommandDescription(StringTemplate.defaultTemplate));
+					builder = new IndexHTMLBuilder(true);
+					GeoElement
+							.convertIndicesToHTML(
+									geo.getCommandDescription(StringTemplate.defaultTemplate),
+									builder);
+					text = builder.toString();
+
 					break;
 
 				}

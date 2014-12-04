@@ -6,6 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.App;
+import geogebra.common.util.IndexHTMLBuilder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -279,7 +280,8 @@ public class CreateObjectModel {
 	}
 	
 	public String getNonLatexText() {
-		return newGeo.getAlgebraDescriptionTextOrHTMLDefault();
+		return newGeo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
+				true));
 	}
 
 	public CellRangeProcessor getCellRangeProcessor() {

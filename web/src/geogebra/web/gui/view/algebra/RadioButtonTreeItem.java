@@ -23,6 +23,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.SelectionManager;
+import geogebra.common.util.IndexHTMLBuilder;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.event.ZeroOffset;
 import geogebra.html5.gui.textbox.GTextBox;
@@ -41,8 +42,11 @@ import java.util.Iterator;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -135,7 +139,35 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			}
 		}
 	}*/
-
+	private IndexHTMLBuilder getBuilder(final SpanElement se){
+		return new IndexHTMLBuilder(false){
+			Element sub = null;
+			public void append(String s){
+				if(sub == null){
+					se.appendChild(Document.get().createTextNode(s));
+				}else{
+					sub.appendChild(Document.get().createTextNode(s));
+				}
+			}
+			public void startIndex(){
+				sub = Document.get().createElement("sub");
+				sub.getStyle().setFontSize((int)(app.getFontSize() *0.8), Unit.PX);
+			}
+			public void endIndex(){
+				se.appendChild(sub);
+				sub = null;				
+			}
+			public String toString(){
+				if(sub != null){
+					endIndex();
+				}
+				return se.getInnerHTML();
+			}
+			public void clear(){
+				se.removeAllChildren();
+			}
+		};
+	}
 	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
 		geo = ge;
@@ -177,23 +209,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
 		ihtml.getElement().appendChild(se2);
-		String text = "";
+		//String text = "";
 		if (geo.isIndependent()) {
-			text = geo.getAlgebraDescriptionTextOrHTMLDefault();
+			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
 			case Kernel.ALGEBRA_STYLE_VALUE:
-				text = geo.getAlgebraDescriptionTextOrHTMLDefault();
+				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				text = geo.addLabelTextOrHTML(
-					geo.getDefinitionDescription(StringTemplate.defaultTemplate));
+				geo.addLabelTextOrHTML(
+					geo.getDefinitionDescription(StringTemplate.defaultTemplate),getBuilder(se));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
-				text = geo.addLabelTextOrHTML(
-					geo.getCommandDescription(StringTemplate.defaultTemplate));
+				geo.addLabelTextOrHTML(
+					geo.getCommandDescription(StringTemplate.defaultTemplate), getBuilder(se));
 				break;
 			}
 		}
@@ -202,7 +234,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 					StringTemplate.latexTemplate);
 			seNoLatex = se;
-			seNoLatex.setInnerHTML(text);
 			if ((latexStr != null) &&
 				geo.isLaTeXDrawableGeo() &&
 				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
@@ -211,7 +242,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			}
 		} else {
 			seNoLatex = se;
-			seNoLatex.setInnerHTML(text);
 		}
 		//FIXME: geo.getLongDescription() doesn't work
 		//geo.getKernel().getApplication().setTooltipFlag();
@@ -233,73 +263,74 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		// check for new LaTeX
 		needsUpdate = false;
 		boolean newLaTeX = false;
-		String text = null;
+		
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
-			text = geo.getLaTeXAlgebraDescription(true,
+			String text = geo.getLaTeXAlgebraDescription(true,
 			        StringTemplate.latexTemplate);
 			if ((text != null) && geo.isLaTeXDrawableGeo()
 			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
 				newLaTeX = true;
 			}
+			// now we have text and how to display it (newLaTeX/LaTeX)
+			if (LaTeX && newLaTeX) {
+				text = DrawEquationWeb.inputLatexCosmetics(text);
+				int tl = text.length();
+				text = DrawEquationWeb.stripEqnArray(text);
+				updateColor(seMayLatex);
+				DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{"+text+"}", seMayLatex,
+				        tl == text.length());
+				updateColor(seMayLatex);
+			} else if (newLaTeX) {
+				SpanElement se = DOM.createSpan().cast();
+				se.getStyle().setProperty("display", "-moz-inline-box");
+				se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+				updateColor(se);
+				ihtml.getElement().replaceChild(se, seNoLatex);
+				text = DrawEquationWeb.inputLatexCosmetics(text);
+				seMayLatex = se;
+				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}");
+				LaTeX = true;
+			} 
 		}
 		// check for new text
 		if (!newLaTeX) {
 			if (geo.isIndependent()) {
-				text = geo.getAlgebraDescriptionTextOrHTMLDefault();
+				 geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			} else {
 				switch (kernel.getAlgebraStyle()) {
 				case Kernel.ALGEBRA_STYLE_VALUE:
-					text = geo.getAlgebraDescriptionTextOrHTMLDefault();
+					 geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					text = geo
+					geo
 					        .addLabelTextOrHTML(geo
-					                .getDefinitionDescription(StringTemplate.defaultTemplate));
+					                .getDefinitionDescription(StringTemplate.defaultTemplate),getBuilder(seNoLatex));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					text = geo
+					geo
 					        .addLabelTextOrHTML(geo
-					                .getCommandDescription(StringTemplate.defaultTemplate));
+					                .getCommandDescription(StringTemplate.defaultTemplate),getBuilder(seNoLatex));
 					break;
 				}
 			}
+			// now we have text and how to display it (newLaTeX/LaTeX)
+			if (!LaTeX) {
+				updateColor(seNoLatex);
+			}  else {
+				SpanElement se = DOM.createSpan().cast();
+				se.getStyle().setProperty("display", "-moz-inline-box");
+				se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+				updateColor(se);
+				ihtml.getElement().replaceChild(se, seMayLatex);
+				seNoLatex = se;
+				LaTeX = false;
+			}
 		}
 
-		// now we have text and how to display it (newLaTeX/LaTeX)
-		if (LaTeX && newLaTeX) {
-			text = DrawEquationWeb.inputLatexCosmetics(text);
-			int tl = text.length();
-			text = DrawEquationWeb.stripEqnArray(text);
-			updateColor(seMayLatex);
-			DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{"+text+"}", seMayLatex,
-			        tl == text.length());
-			updateColor(seMayLatex);
-		} else if (!LaTeX && !newLaTeX) {
-			updateColor(seNoLatex);
-			seNoLatex.setInnerHTML(text);
-		} else if (newLaTeX) {
-			SpanElement se = DOM.createSpan().cast();
-			se.getStyle().setProperty("display", "-moz-inline-box");
-			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			updateColor(se);
-			ihtml.getElement().replaceChild(se, seNoLatex);
-			text = DrawEquationWeb.inputLatexCosmetics(text);
-			seMayLatex = se;
-			DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}");
-			LaTeX = true;
-		} else {
-			SpanElement se = DOM.createSpan().cast();
-			se.getStyle().setProperty("display", "-moz-inline-box");
-			se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-			updateColor(se);
-			ihtml.getElement().replaceChild(se, seMayLatex);
-			seNoLatex = se;
-			seNoLatex.setInnerHTML(text);
-			LaTeX = false;
-		}
+		
 
 		radio.setChecked(geo.isEuclidianVisible());
 		

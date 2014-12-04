@@ -10,6 +10,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.util.IndexHTMLBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -48,7 +49,8 @@ public class ConstructionProtocolView {
 						+ geo.toValueString(StringTemplate.defaultTemplate)
 						+ "\"";
 			else
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault();
+				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
+						true));
 			// name description changes if type changes, e.g. ellipse becomes
 			// hyperbola
 			name = geo.getNameDescriptionTextOrHTML();
@@ -154,7 +156,8 @@ public class ConstructionProtocolView {
 						+ geo.toValueString(StringTemplate.defaultTemplate)
 						+ "\"";
 			else
-				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault();
+				algebra = geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
+						true));
 			definition = geo.getDefinitionDescriptionHTML(true);
 			command = geo.getCommandDescriptionHTML(true);
 			updateCaption();

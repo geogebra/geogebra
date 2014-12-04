@@ -4,6 +4,7 @@ import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.util.IndexHTMLBuilder;
 import geogebra.main.AppD;
 
 import java.awt.Color;
@@ -50,17 +51,17 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		latexIcon = new ImageIcon();
 		this.view = view;
-		
+
 		this.setIconTextGap(8);
 	}
-	
 
 	/**
 	 * 
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return description of the geo
 	 */
-	protected String getDescription(GeoElement geo){
+	protected String getDescription(GeoElement geo) {
 
 		return geo.getLabelTextOrHTML();
 	}
@@ -76,11 +77,10 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 		if (ob instanceof GeoElement) {
 			GeoElement geo = (GeoElement) ob;
-			setForeground(geogebra.awt.GColorD.getAwtColor(geo.getAlgebraColor()));
+			setForeground(geogebra.awt.GColorD.getAwtColor(geo
+					.getAlgebraColor()));
 
 			String text = getDescription(geo);
-			
-			
 
 			// make sure we use a font that can display the text
 			setFont(app.getFontCanDisplayAwt(text, Font.BOLD));
@@ -124,7 +124,7 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 			setBorder(null);
 
 		}
-		
+
 		// no GeoElement
 		else {
 			// has children, display icon to expand / collapse the node
@@ -149,10 +149,11 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 			setForeground(Color.black);
 			setBackground(getBackgroundNonSelectionColor());
-			
-			String str = (view.getTreeMode() == SortMode.LAYER) ?  app.getLocalization().getPlain("LayerA" , value.toString()) :
-				value.toString();
-			
+
+			String str = (view.getTreeMode() == SortMode.LAYER) ? app
+					.getLocalization().getPlain("LayerA", value.toString())
+					: value.toString();
+
 			setText(str);
 
 			// make sure we use a font that can display the text
@@ -167,8 +168,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	 * @return algebra description of the geo
 	 */
 	protected static String getAlgebraDescriptionTextOrHTML(GeoElement geo) {
-		return geo
-				.getAlgebraDescriptionTextOrHTMLDefault();
+		return geo.getAlgebraDescriptionTextOrHTMLDefault(new IndexHTMLBuilder(
+				true));
 	}
 
 	/**

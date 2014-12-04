@@ -72,6 +72,7 @@ import geogebra.common.plugin.EventType;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.script.Script;
+import geogebra.common.util.IndexHTMLBuilder;
 import geogebra.common.util.LaTeXCache;
 import geogebra.common.util.Language;
 import geogebra.common.util.MyMath;
@@ -4158,19 +4159,22 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param text GGB string
 	 * @return html HTML string
 	 */
-	public static String convertIndicesToHTML(final String text) {
+	public static void convertIndicesToHTML(final String text, IndexHTMLBuilder builder) {
 		// check for index
 		if (text.indexOf('_') > -1) {
-			return indicesToHTML(text, true);
+			indicesToHTML(text, builder);
+			return;
 		}
-		return text;
+		builder.clear();
+		builder.append(text);
 	}
 
 	/**
 	 * @param desc description
+	 * @return 
 	 * @return label = description or label: description
 	 */
-	final public String addLabelTextOrHTML(final String desc) {
+	final public void addLabelTextOrHTML(final String desc, IndexHTMLBuilder builder) {
 		String ret;
 
 		final boolean includesEqual = desc.indexOf('=') >= 0;
@@ -4189,9 +4193,9 @@ public abstract class GeoElement extends ConstructionElement implements
 			sb.append(desc);
 			ret = sb.toString();
 		}
-
+		
 		// check for index
-		return convertIndicesToHTML(getLoc().translationFix(ret));
+		convertIndicesToHTML(getLoc().translationFix(ret), builder);
 	}
 
 	/**
@@ -4449,17 +4453,28 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return algebraic representation of this GeoElement as Text
 	 */
 	
-	final public String getAlgebraDescriptionTextOrHTMLDefault() {
+	final public String getAlgebraDescriptionTextOrHTMLDefault(IndexHTMLBuilder builder) {
 		if (strAlgebraDescTextOrHTMLneedsUpdate) {
 			final String algDesc = getAlgebraDescriptionDefault();
 			// convertion to html is only needed if indices are found
 			if (hasIndexLabel()) {
-				strAlgebraDescTextOrHTML = indicesToHTML(algDesc, true);
+				indicesToHTML(algDesc, builder);
+				strAlgebraDescTextOrHTML = builder.toString();
 			} else {
+				builder.clear();
+				builder.append(algDesc);
 				strAlgebraDescTextOrHTML = algDesc;
 			}
 
 			strAlgebraDescTextOrHTMLneedsUpdate = false;
+		}else{
+			//TODO in some cases we don't need this
+			if (hasIndexLabel()) {
+				indicesToHTML(strAlgebraDescTextOrHTML, builder);
+			} else {
+				builder.clear();
+				builder.append(strAlgebraDescTextOrHTML);
+			}
 		}
 
 		return strAlgebraDescTextOrHTML;
@@ -4698,11 +4713,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public static String indicesToHTML(final String str,
 			final boolean addHTMLtag) {
-		final StringBuilder sbIndicesToHTML = new StringBuilder();
+		final IndexHTMLBuilder sbIndicesToHTML = new IndexHTMLBuilder(addHTMLtag);
+		indicesToHTML(str, sbIndicesToHTML);
+		return sbIndicesToHTML.toString();
+	}
+	public static void indicesToHTML(final String str,
+			IndexHTMLBuilder sbIndicesToHTML) {
 
-		if (addHTMLtag) {
-			sbIndicesToHTML.append("<html>");
-		}
+		sbIndicesToHTML.clear();
 
 		int depth = 0;
 		int startPos = 0;
@@ -4721,13 +4739,13 @@ public abstract class GeoElement extends ConstructionElement implements
 				// check if next character is a '{' (beginning of index with
 				// several chars)
 				if ((startPos < length) && (str.charAt(startPos) != '{')) {
-					sbIndicesToHTML.append(subBegin);
+					sbIndicesToHTML.startIndex();
 					sbIndicesToHTML.append(StringUtil.toHTMLString(str
 							.substring(startPos, startPos + 1)));
-					sbIndicesToHTML.append(subEnd);
+					sbIndicesToHTML.endIndex();
 					depth--;
 				} else {
-					sbIndicesToHTML.append(subBegin);
+					sbIndicesToHTML.startIndex();
 				}
 				i++;
 				startPos++;
@@ -4739,7 +4757,7 @@ public abstract class GeoElement extends ConstructionElement implements
 						sbIndicesToHTML.append(StringUtil.toHTMLString(str
 								.substring(startPos, i)));
 					}
-					sbIndicesToHTML.append(subEnd);
+					sbIndicesToHTML.endIndex();
 					startPos = i + 1;
 					depth--;
 				}
@@ -4751,10 +4769,6 @@ public abstract class GeoElement extends ConstructionElement implements
 			sbIndicesToHTML.append(StringUtil.toHTMLString(str
 					.substring(startPos)));
 		}
-		if (addHTMLtag) {
-			sbIndicesToHTML.append("</html>");
-		}
-		return sbIndicesToHTML.toString();
 	}
 
 	/**
