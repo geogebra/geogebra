@@ -207,7 +207,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.getElement().appendChild(se);
 
 		SpanElement se2 = DOM.createSpan().cast();
-		se2.setInnerHTML("&nbsp;&nbsp;&nbsp;&nbsp;");
+		se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 		//String text = "";
 		if (geo.isIndependent()) {
