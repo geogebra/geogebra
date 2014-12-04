@@ -7940,15 +7940,7 @@ public abstract class EuclidianController {
 				// set zoom rectangle's size
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
-				updateSelectionRectangle((app.isRightClick(event) && !event
-						.isShiftDown())
-				// MACOS:
-				// Cmd-left-drag: zoom
-				// Cmd-shift-left-drag: zoom without preserving aspect ratio
-						|| (app.isMacOS() && app.isControlDown(event)
-								&& !event.isShiftDown() && !app
-									.isRightClick(event))
-						|| view.isLockedAxesRatio());
+				updateSelectionRectangle(false);
 				view.repaintView();
 				return;
 			}
@@ -8116,8 +8108,9 @@ public abstract class EuclidianController {
 	}
 
 	/** right-press the mouse makes start 3D rotation */
-	protected void processRightPressFor3D() {
+	protected boolean processRightPressFor3D() {
 		//3D only
+		return false;
 	}
 
 	protected void createNewPointForModePoint(Hits hits, boolean complex) {
@@ -8505,33 +8498,21 @@ public abstract class EuclidianController {
 			processRightPressFor3D();
 	
 			return;
-		} else if (app.isShiftDragZoomEnabled() && (
-		// MacOS: shift-cmd-drag is zoom
-				(event.isShiftDown() && !app.isControlDown(event)) // All
-																	// Platforms:
-																	// Shift key
-						|| (event.isControlDown() && app.isWindows() // old
-																		// Windows
-																		// key:
-																		// Ctrl
-																		// key
-						) || app.isMiddleClick(event))) {
+		} else if (!doubleClickStarted && mode == EuclidianConstants.MODE_MOVE){
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 	
 			setViewHits(event.getType());
 			hits = view.getHits();
 			switchModeForRemovePolygons(hits);
-			if (!hits.isEmpty()) // bugfix 2008-02-19 removed this:&&
+			if (!hits.isEmpty()) { // bugfix 2008-02-19 removed this:&&
 									// ((GeoElement) hits.get(0)).isGeoPoint())
-			{
 				dontClearSelection = true;
+			} else {
+				temporaryMode = true;
+				oldMode = mode; // remember current mode
+				view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
 			}
-			// Michael Borcherds 2007-12-08 END
-			temporaryMode = true;
-			oldMode = mode; // remember current mode
-			view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
-			
 			// if over an axis, force the correct cursor to be displayed
 			if(view.getHits().hasXAxis() || view.getHits().hasYAxis()){
 				processMouseMoved(event);
@@ -8795,9 +8776,9 @@ public abstract class EuclidianController {
 		PointerEventType type = event.getType();
 	
 		if(this.doubleClickStarted && !draggingOccured){
-			this.doubleClickStarted = false;
 			wrapMouseclicked(control, 2, type);
 		}
+		this.doubleClickStarted = false;
 		this.lastMouseRelease = System.currentTimeMillis();
 		this.lastMouseUpLoc = new GPoint(x,y);
 		
@@ -9125,10 +9106,6 @@ public abstract class EuclidianController {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
-		if (type != PointerEventType.TOUCH && processZoomRectangle()) {
-			return;
-			// Michael Borcherds 2007-10-08
-		}
 
 		// make sure cmd-click selects multiple points (not open
 		// properties)
@@ -9136,7 +9113,10 @@ public abstract class EuclidianController {
 				|| !right) {
 			return;
 		}
-
+		if (draggingOccured)
+		if (allowSelectionRectangle()) {
+			processSelectionRectangle(false, control);
+		}
 		// get selected GeoElements
 		// show popup menu after right click
 		setViewHits(type);

@@ -1670,7 +1670,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	/** right-press the mouse makes start 3D rotation */
 	@Override
-	protected void processRightPressFor3D() {
+	protected boolean processRightPressFor3D() {
 
 		if (view3D.isRotAnimated()) {
 			view3D.stopRotAnimation();
@@ -1685,7 +1685,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		timeOld = System.currentTimeMillis();
 		xOld = startLoc.x;
 		animatedRotSpeed = 0;
-
+		return true;
 	}
 
 	/**
