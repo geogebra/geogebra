@@ -1915,7 +1915,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (file == null)
 			return null;
 		String fileName = file.getName();
-		int dotPos = fileName.indexOf('.');
+		int dotPos = fileName.lastIndexOf('.');
 
 		if (dotPos <= 0)
 			return file;
