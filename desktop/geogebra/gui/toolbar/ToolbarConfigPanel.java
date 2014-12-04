@@ -223,11 +223,25 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements
 		// DELETE
 		if (src == deleteButton) {
 			if (selRow > 0) { // not root
-				Object userOb = selNode.getUserObject();
-				if (userOb == null)
-					userOb = ((DefaultMutableTreeNode) selNode.getFirstChild())
-							.getUserObject();
+				if (selNode.isLeaf()) {
+					Object userOb = selNode.getUserObject();
+					if (userOb == null) {
+						userOb = ((DefaultMutableTreeNode) selNode
+								.getFirstChild()).getUserObject();
+					} else {
+						toolListModel.addElement(userOb);
+					}
+				} else {
+					for (int i = 0; i < selNode.getChildCount(); i++) {
+						Integer mode = (Integer) ((DefaultMutableTreeNode) selNode
+								.getChildAt(i)).getUserObject();
+						if (mode != null
+								&& mode.intValue() != ToolBar.SEPARATOR) {
+							toolListModel.addElement(mode);
+						}
 
+					}
+				}
 				// not move mode: delete node
 				model.removeNodeFromParent(selNode);
 				// remove empty menu too
@@ -238,7 +252,6 @@ public class ToolbarConfigPanel extends javax.swing.JPanel implements
 					}
 				}
 
-				toolListModel.addElement(userOb);
 				sortToolList();
 
 				// select node at same row or above
