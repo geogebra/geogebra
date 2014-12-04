@@ -7,12 +7,14 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public class GroupHeader extends FlowPanel{
 	
 	protected GroupNameLabel il;
+	private Image img;
 	public GroupHeader(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl,SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
@@ -48,8 +50,12 @@ public class GroupHeader extends FlowPanel{
 		public void setImage(String text)
 		{
 			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
-			String html = "<img src=\"" + text + "\">";
-			this.getElement().setInnerHTML(html);
+			if(img == null){
+				Image img = new Image(text);
+				this.add(img);
+			}else{
+				img.setUrl(text);
+			}
 		}
 
 		public void setChecked(boolean value)
