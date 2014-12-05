@@ -117,6 +117,7 @@ input[type="text"]::-ms-clear {
 
 .gwt-FileUpload {
 	margin-bottom: 10px;
+	font-size: 80%;
 }
 
 .GeoGebraFrame .gwt-Button, .buttonPanel .button, .headerbar .headerSecond .signInButton, .gwt-DialogBox .gwt-Button,
@@ -2635,7 +2636,7 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	cursor: pointer;
 }
 
-/*saveDialog*/
+/*--------- saveDialog ---------------------------*/
 .buttonPanel .visibility {
 	position: absolute;
 	left: 55px;
@@ -2649,6 +2650,12 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	right: 15px;
 	cursor: pointer;
 	cursor: hand;
+}
+
+/*-------- RECOVER AUTO SAVED DIALOG ------------*/
+
+.RecoverAutoSavedDialog .buttonPanel {
+	float: right;
 }
 
 /*-------- SLIDER DIALOG ------------------------*/

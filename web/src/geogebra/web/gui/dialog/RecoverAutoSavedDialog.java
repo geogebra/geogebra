@@ -6,7 +6,7 @@ import geogebra.web.main.AppWapplication;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -20,7 +20,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	private Button deleteButton = new Button();
 	private Button recoverButton = new Button();
 	private VerticalPanel dialogPanel;
-	private HorizontalPanel buttonContainer;
+	private FlowPanel buttonContainer;
 	private Label infoText;
 	
 	/**
@@ -29,6 +29,7 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 	 */
 	public RecoverAutoSavedDialog(AppWapplication app) {
 		super();
+		this.addStyleName("RecoverAutoSavedDialog");
 		this.app = app;
 		initGUI();
 		setLabels();
@@ -61,7 +62,8 @@ public class RecoverAutoSavedDialog extends DialogBoxW {
 		this.initDeleteButton();
 		this.initRecoverButton();
 
-		this.buttonContainer = new HorizontalPanel();
+		this.buttonContainer = new FlowPanel();
+		this.buttonContainer.addStyleName("buttonPanel");
 		this.buttonContainer.add(this.recoverButton);
 		this.buttonContainer.add(this.deleteButton);
 

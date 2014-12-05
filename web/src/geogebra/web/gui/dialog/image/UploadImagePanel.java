@@ -5,6 +5,7 @@ import geogebra.web.gui.NoDragImage;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.FileUpload;
+import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -16,6 +17,8 @@ public class UploadImagePanel extends VerticalPanel {
 	int previewHeight;
 	int previewWidth;
 	
+	/** used to reset the uploadImageBtn */
+	private FormPanel panel;
 	private FileUpload uploadImageBtn;
 	private Image previewImg;
 
@@ -33,7 +36,9 @@ public class UploadImagePanel extends VerticalPanel {
     }
 	
 	private void initGUI() {
-		add(uploadImageBtn = new FileUpload());
+		panel = new FormPanel();
+		panel.add(uploadImageBtn = new FileUpload()); 
+		add(panel);
 	}
 	
 	private void initActions() {
@@ -94,6 +99,8 @@ public class UploadImagePanel extends VerticalPanel {
 	public void resetPreview() {
 		if (this.previewImg != null) {
 			this.remove(this.previewImg);
+			this.previewImg = null;
+			panel.reset();
 		}
 	}
 
