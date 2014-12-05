@@ -7941,7 +7941,19 @@ public abstract class EuclidianController {
 				// set zoom rectangle's size
 				// right-drag: zoom
 				// Shift-right-drag: zoom without preserving aspect ratio
-				updateSelectionRectangle(false);
+				if(app.isPrerelease()){
+					updateSelectionRectangle(false);	
+				}else{
+				updateSelectionRectangle((app.isRightClick(event) && !event 
+							 	                                                .isShiftDown()) 
+							 	                                // MACOS: 
+							 	                                // Cmd-left-drag: zoom 
+							 	                                // Cmd-shift-left-drag: zoom without preserving aspect ratio 
+							 	                                                || (app.isMacOS() && app.isControlDown(event) 
+							 	                                                                && !event.isShiftDown() && !app 
+							 	                                                                        .isRightClick(event)) 
+							 	                                                || view.isLockedAxesRatio());
+				}
 				view.repaintView();
 				return;
 			}
@@ -8504,7 +8516,7 @@ public abstract class EuclidianController {
 			processRightPressFor3D();
 	
 			return;
-		} else if (!doubleClickStarted && mode == EuclidianConstants.MODE_MOVE){
+		} else if (shallMoveView(event)){
 			// Michael Borcherds 2007-12-08 BEGIN
 			// bugfix: couldn't select multiple objects with Ctrl
 	
@@ -8514,7 +8526,9 @@ public abstract class EuclidianController {
 			if (!hits.isEmpty()) { // bugfix 2008-02-19 removed this:&&
 									// ((GeoElement) hits.get(0)).isGeoPoint())
 				dontClearSelection = true;
-			} else {
+			} 
+			
+			if(hits.isEmpty() || !app.isPrerelease()) {
 				temporaryMode = true;
 				oldMode = mode; // remember current mode
 				view.setMode(EuclidianConstants.MODE_TRANSLATEVIEW);
@@ -8528,6 +8542,23 @@ public abstract class EuclidianController {
 		switchModeForMousePressed(event);
 	}
 	
+	private boolean shallMoveView(AbstractEvent event) {
+		if(!app.isPrerelease()){
+			return app.isShiftDragZoomEnabled() && ( 
+					 	                // MacOS: shift-cmd-drag is zoom 
+						                                (event.isShiftDown() && !app.isControlDown(event)) // All 
+						 	                                                                                                                                        // Platforms: 
+						 	                                                                                                                                        // Shift key 
+					 	                                                || (event.isControlDown() && app.isWindows() // old 
+						 	                                                                                                                                                // Windows 
+						 	                                                                                                                                                // key: 
+					 	                                                                                                                                                // Ctrl 
+						 	                                                                                                                                                // key 
+						 	                                                ) || app.isMiddleClick(event));
+		}
+		return !doubleClickStarted && mode == EuclidianConstants.MODE_MOVE;
+	}
+
 	private void runScriptsIfNeeded(GeoElement geo1) {
 		// make sure that Input Boxes lose focus (and so update) before running scripts 
 		if (view.getHits().size() > 0 && view.getHits().get(0) instanceof GeoTextField){
@@ -9112,14 +9143,17 @@ public abstract class EuclidianController {
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
-
+		if (!app.isPrerelease() && type != PointerEventType.TOUCH && processZoomRectangle()) { 
+			return; 
+				 	                        // Michael Borcherds 2007-10-08 
+		} 
 		// make sure cmd-click selects multiple points (not open
 		// properties)
 		if ((app.isMacOS() && control)
 				|| !right) {
 			return;
 		}
-		if (draggingOccured)
+		if (draggingOccured && app.isPrerelease())
 		if (allowSelectionRectangle()) {
 			processSelectionRectangle(false, control);
 		}

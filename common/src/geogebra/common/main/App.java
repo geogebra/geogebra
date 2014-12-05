@@ -3600,4 +3600,8 @@ public abstract class App implements UpdateSelection{
 	public abstract boolean isSelectionRectangleAllowed();
 
 	public abstract String getEnglishCommand(String command);
+	
+	public boolean isPrerelease(){
+		return false;
+	}
 }
