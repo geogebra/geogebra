@@ -428,9 +428,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	public void setOrientation(int orientation) {
 
 		// TODO: Handle toolbar orientation for undocked panels
-		if (!isMain) {
-			return;
-		}
+
 		this.orientation = orientation;
 		int barOrientation = SwingConstants.HORIZONTAL;
 		if (orientation == SwingConstants.EAST
@@ -451,6 +449,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	 */
 	public void setActiveToolbar(ToolbarD toolbar) {
 		setActiveToolbar(getViewId(toolbar));
+		setOrientation(app.getToolbarPosition());
 	}
 
 	/**
