@@ -2777,7 +2777,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	protected void updatePastePreviewPosition() {
 		GeoPoint3D p = view3D.getCursor3D();
-		// TODO: later, map it to z=0
 		if (translationVec3D == null) {
 			translationVec3D = new Coords(3);
 		}
