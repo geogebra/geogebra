@@ -8354,6 +8354,11 @@ public abstract class EuclidianController {
 	
 		case EuclidianConstants.MODE_COMPASSES: // Michael Borcherds 2008-03-13
 			// hits = view.getHits(mouseLoc);
+
+			if(type == PointerEventType.TOUCH){
+				view.setPreview(null);
+			}
+
 			setViewHits(type);
 			hits = view.getHits();
 			hits.removePolygons();
