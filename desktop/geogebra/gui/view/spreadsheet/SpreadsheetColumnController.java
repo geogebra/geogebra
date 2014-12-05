@@ -100,10 +100,17 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		boolean metaDown = AppD.isControlDown(e);
 		boolean shiftDown = e.isShiftDown();
 		boolean rightClick = AppD.isRightClick(e);
-
-		if (!view.hasViewFocus())
+		
+		
+		if (!view.hasViewFocus()){
 			((LayoutD) app.getGuiManager().getLayout()).getDockManager()
 					.setFocusedPanel(App.VIEW_SPREADSHEET);
+		}
+		
+		// ensure that table header keeps the focus
+		table.getTableHeader().requestFocus();
+			
+					
 
 		if (!rightClick) {
 			GPoint point = table.getIndexFromPixel(x, y);
@@ -238,6 +245,10 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 						.setPreferredWidth(width);
 			}
 		}
+		
+		// ensure that table header keeps the focus
+		table.getTableHeader().requestFocus();
+
 	}
 
 	// =========================================================
