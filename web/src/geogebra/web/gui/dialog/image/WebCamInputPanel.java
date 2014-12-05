@@ -48,7 +48,7 @@ public class WebCamInputPanel extends VerticalPanel {
 			$wnd.mozURL ||
 			$wnd.oURL ||
 			null;
-
+		var that = this;
 		if ($wnd.navigator.getMedia) {
 			try {
 				$wnd.navigator.getMedia({video: true}, function(bs) {
@@ -59,7 +59,7 @@ public class WebCamInputPanel extends VerticalPanel {
 						video.src = bs;
 						el.firstChild.style.display = "none";
 					}
-					this.@geogebra.web.gui.dialog.image.WebCamInputPanel::stream = bs;
+					that.@geogebra.web.gui.dialog.image.WebCamInputPanel::stream = bs;
 				},
 				
 			    function(err) {
@@ -84,6 +84,7 @@ public class WebCamInputPanel extends VerticalPanel {
 		canvas.height = 480;
 		var ctx = canvas.getContext('2d');
 		ctx.drawImage(video1, 0, 0);
+		this.@geogebra.web.gui.dialog.image.WebCamInputPanel::stopVideo()();
 		return canvas.toDataURL('image/png');
 	}-*/;
 
@@ -102,4 +103,12 @@ public class WebCamInputPanel extends VerticalPanel {
 		}
 		return shotcapture(video);
 	}
+
+	public void startVideo() {
+		stopVideo();
+		inputWidget.getElement().removeAllChildren();
+		video = populate(inputWidget.getElement(), app.getMenu("Webcam.Chrome"), app.getMenu("Webcam.Firefox"), app.getMenu("Webcam.Problem"));
+
+	    
+    }
 }

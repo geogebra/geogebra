@@ -60,7 +60,11 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 		webcam.addStyleDependentName("highlighted");
 		upload.removeStyleDependentName("highlighted");
 		mayCenter = false;
-    	webcamPanel = new WebCamInputPanel(app);
+		if(webcamPanel == null){
+			webcamPanel = new WebCamInputPanel(app);
+		}else{
+			webcamPanel.startVideo();
+		}
     	inputPanel.setWidget(webcamPanel);
     	imageAvailable();
 	}
@@ -97,6 +101,9 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 		this.mayCenter = true;
 		if (this.uploadImagePanel != null) {
 			this.uploadImagePanel.resetPreview();
+		}
+		if(this.webcamPanel != null){
+			this.webcamPanel.stopVideo();
 		}
 	}
 }
