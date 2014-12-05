@@ -9160,8 +9160,8 @@ public abstract class EuclidianController {
 
 
 					if (app.isUsingFullGui() && app.getGuiManager() != null){
-						showPopupMenuChooseGeo(getAppSelectedGeos(),hits);
-						//app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
+						//showPopupMenuChooseGeo(getAppSelectedGeos(),hits);
+						app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
 					}
 					
 				} else { // other modes : want to apply tool of one of the hits (choose geo and show popup menu)		
@@ -9174,7 +9174,8 @@ public abstract class EuclidianController {
 						else{
 							ArrayList<GeoElement> geos = new ArrayList<GeoElement>();
 							geos.add(geo);
-							showPopupMenuChooseGeo(geos,hits);
+							app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
+							//showPopupMenuChooseGeo(geos,hits);
 						}
 					}
 				}
