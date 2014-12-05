@@ -705,15 +705,13 @@ public class CopyPaste {
 					}
 				} else if (app.getActiveEuclidianView() instanceof EuclidianView3D) {
 					app.removeFromEuclidianView(geo);
-					if (app.hasEuclidianView2(1)) {
-						geo.removeView(App.VIEW_EUCLIDIAN2);
-						app.getEuclidianView2(1).remove(geo);
-					}
 					if (app.getEuclidianView3D() != null) {
 						geo.addView(App.VIEW_EUCLIDIAN3D);
 						app.getEuclidianView3D().add(geo);
-						// TODO: make this consistent
-						geo.setEuclidianVisible(true);
+					}
+					if (app.hasEuclidianView2(1)) {
+						geo.removeView(App.VIEW_EUCLIDIAN2);
+						app.getEuclidianView2(1).remove(geo);
 					}
 				} else {
 					app.removeFromEuclidianView(geo);
