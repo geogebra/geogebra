@@ -2782,16 +2782,26 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 		translationVec3D.setX(p.getInhomX() - getStartPointX());
 		translationVec3D.setY(p.getInhomY() - getStartPointY());
-		translationVec3D.setZ(0);
-		setStartPointLocation(p.getInhomX(), p.getInhomY());
+		translationVec3D.setZ(p.getInhomZ() - getStartPointZ());
+		setStartPointLocation(p.getInhomX(), p.getInhomY(), p.getInhomZ());
 		if (tmpCoordsL3 == null){
 			tmpCoordsL3 = new Coords(3);
 		}
 		tmpCoordsL3.setX(p.getInhomX());
 		tmpCoordsL3.setY(p.getInhomY());
-		tmpCoordsL3.setZ(0);
+		tmpCoordsL3.setZ(p.getInhomZ());
 		GeoElement.moveObjects(pastePreviewSelected, translationVec3D,
 				tmpCoordsL3, view3D.getViewDirection(), view3D);
+	}
+
+	protected double startPointZ;
+	protected double getStartPointZ() {
+		return startPointZ;
+	}
+
+	protected void setStartPointLocation(double x, double y, double z) {
+		setStartPointLocation(x, y);
+		startPointZ = z;
 	}
 
 	// /////////////////////////////////////////
