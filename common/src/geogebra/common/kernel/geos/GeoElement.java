@@ -1245,7 +1245,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param other the other object
 	 * @return whether this should be drawn fist
 	 */
-	public boolean drawBefore(GeoElement other) {
+	public boolean drawBefore(GeoElement other, boolean checkLastHitType) {
 
 		if (this.getLayer() < other.getLayer()){
 			return true;
@@ -1254,13 +1254,15 @@ public abstract class GeoElement extends ConstructionElement implements
 		if (this.getLayer() > other.getLayer()){
 			return false;
 		}
-		
-		if (this.getLastHitType() == HitType.ON_BOUNDARY && other.getLastHitType() != HitType.ON_BOUNDARY ){
-			return true;
-		}
-		
-		if (this.getLastHitType() != HitType.ON_BOUNDARY && other.getLastHitType() == HitType.ON_BOUNDARY ){
-			return false;
+
+		if (checkLastHitType){
+			if (this.getLastHitType() == HitType.ON_BOUNDARY && other.getLastHitType() != HitType.ON_BOUNDARY ){
+				return true;
+			}
+
+			if (this.getLastHitType() != HitType.ON_BOUNDARY && other.getLastHitType() == HitType.ON_BOUNDARY ){
+				return false;
+			}
 		}
 		
 		if (this.typePriority() < other.typePriority()){

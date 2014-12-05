@@ -63,14 +63,14 @@ public class DrawableList {
 			Link cur = head;
 			Link last = head;
 
-			while ((cur.d.getGeoElement().drawBefore(priority))
+			while ((cur.d.getGeoElement().drawBefore(priority, false))
 					&& !cur.equals(tail)) {
 				last = cur;
 				cur = cur.next;
 			}
 
 			if (cur.equals(head)) {
-				if (cur.d.getGeoElement().drawBefore(priority)) {// add
+				if (cur.d.getGeoElement().drawBefore(priority, false)) {// add
 																			// at
 																			// end
 																			// (list
@@ -84,7 +84,7 @@ public class DrawableList {
 					head.next = temp2;
 				}
 			} else if (cur.equals(tail)) {
-				if ((cur.d.getGeoElement().drawBefore(priority))) {
+				if ((cur.d.getGeoElement().drawBefore(priority, false))) {
 					// add at end
 					Link temp = new Link(d, null);
 					tail.next = temp;
