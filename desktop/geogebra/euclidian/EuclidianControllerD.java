@@ -13,16 +13,18 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
+import java.util.ArrayList;
 
 import javax.swing.ToolTipManager;
 
@@ -32,7 +34,8 @@ import javax.swing.ToolTipManager;
  * Created on 16. October 2001, 15:41
  */
 public class EuclidianControllerD extends
-		geogebra.common.euclidian.EuclidianController implements EuclidianControllerListeners {
+		geogebra.common.euclidian.EuclidianController implements
+		EuclidianControllerListeners {
 
 	// protected GeoVec2D b;
 
@@ -50,8 +53,7 @@ public class EuclidianControllerD extends
 		setKernel(kernel);
 
 		// for tooltip manager
-		defaultInitialDelay = ToolTipManager.sharedInstance()
-				.getInitialDelay();
+		defaultInitialDelay = ToolTipManager.sharedInstance().getInitialDelay();
 
 		tempNum = new MyDouble(kernel);
 	}
@@ -68,7 +70,7 @@ public class EuclidianControllerD extends
 	}
 
 	public void mouseClicked(MouseEvent e) {
-		//let mousePressed and mouseReleased take care of this 
+		// let mousePressed and mouseReleased take care of this
 	}
 
 	public void mousePressed(MouseEvent e) {
@@ -157,8 +159,6 @@ public class EuclidianControllerD extends
 	 * line = kernel.Line(null, points[0], points[1]); }
 	 */
 
-
-
 	public void componentResized(ComponentEvent e) {
 		// tell the view that it was resized
 		view.updateSize();
@@ -180,16 +180,20 @@ public class EuclidianControllerD extends
 	 * Zooms in or out using mouse wheel
 	 */
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		wrapMouseWheelMoved(e.getX(), e.getY(),e.getWheelRotation(),
+		wrapMouseWheelMoved(e.getX(), e.getY(), e.getWheelRotation(),
 				e.isShiftDown() || e.isMetaDown(), e.isAltDown());
 	}
-	
-	
-	public void addListenersTo(Component evjpanel){
+
+	public void addListenersTo(Component evjpanel) {
 		evjpanel.addMouseMotionListener(this);
 		evjpanel.addMouseListener(this);
 		evjpanel.addMouseWheelListener(this);
 		evjpanel.addComponentListener(this);
 	}
 
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
+			Hits hits) {
+
+		app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
+	}
 }

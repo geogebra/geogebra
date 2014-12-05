@@ -9167,9 +9167,8 @@ public abstract class EuclidianController {
 				if (selection.selectedGeosSize() > 0) {
 					// GeoElement selGeo = (GeoElement)
 					// getAppSelectedGeos().get(0);
-					app.getGuiManager().showPopupMenu(
-							getAppSelectedGeos(),  view, mouseLoc);
-				} else {
+					showPopupMenuChooseGeo(getAppSelectedGeos(),hits); 
+					} else {
 					showDrawingPadPopup(mouseLoc);
 				}
 			}
