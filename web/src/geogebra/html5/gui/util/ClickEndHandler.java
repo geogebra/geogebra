@@ -10,6 +10,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class ClickEndHandler {
 
+	/**
+	 * Attaches a handler for MouseUpEvent and a TouchEndEvent to the widget.
+	 * CancelEventTimer is used to prevent duplication of events.
+	 * 
+	 * @param w
+	 *            : Widget that the handlers are attached to
+	 * @param handler
+	 *            : EventHandler (instance of this class)
+	 */
 	public static void init(Widget w, final ClickEndHandler handler) {
 		w.addDomHandler(new MouseUpHandler() {
 			public void onMouseUp(MouseUpEvent event) {
@@ -33,5 +42,15 @@ public abstract class ClickEndHandler {
 	public ClickEndHandler() {
 	}
 
+	/**
+	 * Actual handler-method, needs to be overwritten in the instances.
+	 * 
+	 * @param x
+	 *            : x-coordinate of the event
+	 * @param y
+	 *            : y-coordinate of the event
+	 * @param type
+	 *            : type of the event
+	 */
 	public abstract void onClickEnd(int x, int y, PointerEventType type);
 }

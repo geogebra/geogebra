@@ -10,6 +10,15 @@ import com.google.gwt.user.client.ui.Widget;
 
 public abstract class ClickStartHandler {
 
+	/**
+	 * Attaches a handler for MouseDownEvents and a TouchStartEvents to the
+	 * widget. CancelEventTimer is used to prevent duplication of events.
+	 * 
+	 * @param w
+	 *            : Widget that the handlers are attached to
+	 * @param handler
+	 *            : EventHandler (instance of this class)
+	 */
 	public static void init(Widget w, final ClickStartHandler handler) {
 		w.addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
@@ -33,5 +42,15 @@ public abstract class ClickStartHandler {
 	public ClickStartHandler() {
 	}
 
+	/**
+	 * Actual handler-method, needs to be overwritten in the instances.
+	 * 
+	 * @param x
+	 *            : x-coordinate of the event
+	 * @param y
+	 *            : y-coordinate of the event
+	 * @param type
+	 *            : type of the event
+	 */
 	public abstract void onClickStart(int x, int y, PointerEventType type);
 }
