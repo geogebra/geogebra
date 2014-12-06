@@ -1384,7 +1384,11 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	 * update the coord sys used for region parameters
 	 */
 	final public void updateRegionCS() {
-		// TODO add condition to calculate it
+		
+		if (getPoints() == null){
+			return;
+		}
+
 		if (p2 == null || GeoPoint.collinear(p0, p1, p2)) {
 			p0 = getPoint(0);
 			numCS = 1;
@@ -1877,8 +1881,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	}
 
 	public void translate(Coords v) {
-		for (int i = 0; i < getPointsLength(); i++)
+		for (int i = 0; i < getPointsLength(); i++){
 			getPoint(i).translate(v);
+		}
 		updatePathRegion();
 	}
 
