@@ -16,7 +16,7 @@ __GGB__keysVar.pt_PT = {}
  ***********************************************/
 
 __GGB__keysVar.pt_PT.colors = {
-    "aqua": "Aqua",
+    "aqua": "\xc1gua",
     "black": "Preto",
     "blue": "Azul",
     "brown": "Castanho",
