@@ -222,7 +222,7 @@ public class AlgoSequence extends AlgoElement {
 			return;
 		updateRunning = true;
 		for (int i = 1; i < input.length; i++) {
-			if (input[i] != var && !input[i].isDefined()) { // don't check the var itself (maybe undefined at last loop)
+			if (!input[i].isDefined()) {
 				list.setUndefined();
 				updateRunning = false;
 				return;
@@ -428,7 +428,7 @@ public class AlgoSequence extends AlgoElement {
 				if(listElement.isGeoList()){
 					((GeoList)listElement).replaceChildrenByValues(var);
 				}
-			}else{
+			} else {
 				listElement.setUndefined();
 			}
 			if (listElement instanceof GeoNumeric
