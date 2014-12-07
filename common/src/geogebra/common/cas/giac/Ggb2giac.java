@@ -84,7 +84,10 @@ public class Ggb2giac {
 		//when(count_eq(x,lname(%0))==0,lname(%0)[0],x)
 		
 		p("Derivative.1",
-				"[[ggbderivarg0:=%0], regroup(diff(ggbderivarg0, when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x)))][1]");
+				"[[ggbderivarg0:=%0], regroup(diff(ggbderivarg0, "+
+				// check for constant
+				"when(length(lname(ggbderivarg0))==0,x,"+
+				"when(count_eq(x,lname(ggbderivarg0))==0,lname(ggbderivarg0)[0],x))))][1]");
 		p("Derivative.2", 
 				"[[[ggbderiv2arg0:=%0],[ggbderiv2arg1:=%1]],"+
 						"when(type(ggbderiv2arg1)==DOM_INT,"+
