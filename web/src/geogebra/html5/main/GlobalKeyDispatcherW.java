@@ -177,10 +177,10 @@ public class GlobalKeyDispatcherW extends
 		if ($doc.isChromeWebapp()) {
 			// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
 			// although it's strange that .contentEditable is not set to true
-			var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-			copyFrom.value = str;
-			copyFrom.select();
-			$doc.execCommand('copy');
+			//var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+			//copyFrom.value = str;
+			//copyFrom.select();
+			//$doc.execCommand('copy');
 		} else {
 			var userAgent = $wnd.navigator.userAgent.toLowerCase();
 			if ((userAgent.indexOf('msie') > -1) || (userAgent.indexOf('trident') > -1)) {
