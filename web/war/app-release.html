@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>GeoGebra 5.0 Beta Release</title>
+	<link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+	<link rel="icon" href="favicon.ico" type="image/x-icon">
+	<link rel="stylesheet" href="styles.css" type="text/css">
+
+<script type="text/javascript">
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+            WebFontConfig = {
+                loading: function() {},
+                active: function() {},
+                inactive: function() {},
+				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
+				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
+                fontinactive: function(familyName, fvd) {},
+                custom: {
+                    families: ["geogebra-serif", "geogebra-sans-serif" ],
+                    urls: [ "web3d/css/fonts.css?v=1.15" ]
+                }
+            };
+            function perspective(id){
+            	if(document.getElementById("ggw")){
+	            	document.getElementById("ggw").className="geogebraweb";
+	            	document.getElementById("ggw").setAttribute("data-param-perspective",id);
+	            	var page = document.getElementById("ggbPage");
+	            	page.style.display = "none";
+	            	web3d();
+            	}else{
+            		var page = document.getElementById("ggbPage");
+                	page.style.display = "none";
+                	var container = document.getElementById("appletContainer");
+                	container.style.visibility = "visible";
+                	ggbApplet.setPerspective(id+"");
+            	}
+            }
+            function e(id){
+        		return document.getElementById(id);
+        	}
+            function showStartScreen(lang, user){
+            	showInEnglish();
+            	return true;
+            }
+            function showInEnglish(){
+    			if(!window.__GGB__keysVar){
+
+    				e("algebraAndGraphics").innerHTML="Algebra and Graphics";
+    				e("geometry").innerHTML="Geometry";
+    				e("cas").innerHTML="CAS";
+    				e("spreadsheet").innerHTML="Spreadsheet";
+    				e("perspective3d").innerHTML="3D Graphics";
+    				e("probCalc").innerHTML="Probability";
+    				e("search").innerHTML="Search GeoGebra materials";
+    				if(e("signIn")){
+    					e("signIn").innerHTML="Sign in";
+    				}
+    				e("ggbPage").style.display="";
+    			}
+    			
+    		}
+</script>
+<script type="text/javascript">
+// test to see if the app is running as a chrome webapp
+document.isChromeWebapp = function isChromeWebapp() {
+	if (typeof chrome === 'object' && 
+			typeof chrome.app === 'object' && 
+			typeof chrome.app.isInstalled === 'boolean' && 
+			chrome.app.isInstalled) {
+			return true;
+		}
+		return false;
+	};
+</script>
+<script src="web3d/js/webfont.js?v=1.15"></script>
+
+
+    <!-- Google Analytics (Start) -->
+	<script type="text/javascript">
+
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-1780044-1']);
+		_gaq.push(['_setDomainName', 'web.geogebra.org']);
+		_gaq.push(['_setAllowLinker', true]);
+		_gaq.push(['_trackPageview']);
+		_gaq.push(['_trackEvent', 'Startup', 'Application', 'GeoGebraWeb']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script> 
+ 	<!-- Google Analytics (End) -->
+    <script>
+	    var GGW_appengine = GGW_appengine || {};
+	    GGW_appengine.FILE_IDS = [""];
+	    GGW_appengine.CLIENT_ID = "";
+	    GGW_appengine.USER_EMAIL = "";
+  	</script>
+    <script type="text/javascript" src="web3d/web3d.nocache.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+    body {
+     -ms-touch-action: none; /* Direct all pointer events to JavaScript code. */
+	 -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* avoid flash on Android http://stackoverflow.com/questions/5210481/*/
+    }
+    
+    
+    </style>
+</head>
+<body dir="ltr" tabindex="-1" >
+	<div id="ggbPage" style="z-index:10000;display:none">
+
+    <div id="ggbHeader">
+        <div id="ggbHeaderContent" class="clearfix">
+            <div id="ggbLogo">
+                 <img src="img/GeoGebra-logo.png" alt="GeoGebra" />
+            </div>
+
+            <div id="ggbLoginContainer">
+                <a href="?perspective=login" class="button">Sign in</a>
+            </div>            
+        </div>
+    </div>
+    
+    <div class="ggbPageContent">
+    	<div class="searchBtnPanel">
+        	<a class="button big" href="#" onclick="perspective('search:');"><img src="img/search.png" alt="Search Materials" /><span id="search"/></a>
+        </div>
+        
+        <div class="createOwnPanel">
+        	<h1>Create your own</h1>
+            
+            <a class="button perspective" href="#" onclick="perspective(1);">
+            	<div class="buttonContent">
+                    <img src="img/menu_view_algebra.png" alt="Algebra & Graphics" />
+                    <span id="algebraAndGraphics"/>
+                </div>
+            </a>
+                       
+            <a class="button perspective" href="#" onclick="perspective(2);">
+            	<div class="buttonContent">
+            		<img src="img/perspectives_geometry.png" alt="Geometry" />
+                	<span id="geometry"/>
+                </div>
+            </a>
+            
+            <a class="button perspective" href="#" onclick="perspective(3);">
+            	<div class="buttonContent">
+            		<img src="img/menu_view_spreadsheet.png" alt="Spreadsheet" />
+                	<span id="spreadsheet"/>
+                </div>
+            </a>
+            
+            <a class="button perspective" href="#" onclick="perspective(4);">
+            	<div class="buttonContent">
+            		<img src="img/menu_view_cas.png" alt="CAS" />
+                	<span id="cas"/>
+                </div>
+            </a>
+            
+            <a class="button perspective" href="#" onclick="perspective(5);">
+            	<div class="buttonContent">
+            		<img src="img/menu_view_graphics3D.png" alt="3D Graphics" />
+                	<span id="perspective3d"/>
+                </div>
+            </a>
+			
+			 <a class="button perspective" href="#" onclick="perspective(6);">
+                <div class="buttonContent">
+                    <img src="img/menu_view_probability.png" alt="Probability Calculator" />
+                    <span id="probCalc"/>
+                </div>
+            </a>
+        </div>
+    </div>
+
+</div>
+    <article class="geogebraweb" data-param-showLogging="true" 
+    data-param-useBrowserForJS="false"
+    data-param-app="true" data-param-prerelease="false"></article>
+</body>
+</html>
