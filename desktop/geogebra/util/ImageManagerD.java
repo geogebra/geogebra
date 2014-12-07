@@ -13,7 +13,7 @@ the Free Software Foundation.
 package geogebra.util;
 
 import geogebra.common.main.App;
-import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.ImageManager;
 import geogebra.gui.MyImageD;
 import geogebra.main.AppD;
 
@@ -43,7 +43,7 @@ import javax.swing.ImageIcon;
  * 
  * @author Markus Hohenwarter
  */
-public class ImageManager extends AbstractImageManager {
+public class ImageManagerD extends ImageManager {
 
 	private Hashtable<String, ImageIcon> iconTable = new Hashtable<String, ImageIcon>();
 	private Hashtable<String, MyImageD> internalImageTable = new Hashtable<String, MyImageD>();
@@ -55,7 +55,7 @@ public class ImageManager extends AbstractImageManager {
 	/**
 	 * Creates a new ImageManager for the given JFrame.
 	 */
-	public ImageManager(Component comp) {
+	public ImageManagerD(Component comp) {
 		toolKit = Toolkit.getDefaultToolkit();
 		tracker = new MediaTracker(comp);
 	}
@@ -176,7 +176,7 @@ public class ImageManager extends AbstractImageManager {
 		Image img = null;
 
 		try {
-			java.net.URL url = ImageManager.class.getResource(name);
+			java.net.URL url = ImageManagerD.class.getResource(name);
 			if (url != null) {
 				img = toolKit.getImage(url);
 				tracker.addImage(img, 0);
@@ -302,7 +302,7 @@ public class ImageManager extends AbstractImageManager {
 
 	public String createImage(String path, App app) {
 		Image im = getImageResource(path);
-		BufferedImage image = ImageManager.toBufferedImage(im);
+		BufferedImage image = ImageManagerD.toBufferedImage(im);
 		String fileName = ((AppD) app).createImage(new MyImageD(image),
 				"tool.png");
 		return fileName;

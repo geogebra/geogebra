@@ -16,14 +16,14 @@ import javax.swing.UIManager;
 /**
  * The "Windows" menu.
  */
-class WindowMenu extends BaseMenu {
+class WindowMenuD extends BaseMenu {
 	private static final long serialVersionUID = -5087344097832121548L;
 	
 	private AbstractAction
 		newWindowAction
 	;
 
-	public WindowMenu(AppD app) {
+	public WindowMenuD(AppD app) {
 		super(app, app.getMenu("Window"));
 
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);

@@ -25,7 +25,7 @@ import javax.swing.KeyStroke;
 /**
  * The "File" menu.
  */
-class FileMenu extends BaseMenu implements EventRenderable {
+class FileMenuD extends BaseMenu implements EventRenderable {
 	private static final long serialVersionUID = -5154067739481481835L;
 
 	private AbstractAction newWindowAction, deleteAll, saveAction,
@@ -45,7 +45,7 @@ class FileMenu extends BaseMenu implements EventRenderable {
 
 	private AbstractAction exitAllAction;
 
-	public FileMenu(AppD app) {
+	public FileMenuD(AppD app) {
 		super(app, app.getMenu("File"));
 
 		// items are added to the menu when it's opened, see BaseMenu:

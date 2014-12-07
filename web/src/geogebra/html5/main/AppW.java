@@ -82,7 +82,7 @@ import geogebra.html5.move.googledrive.GoogleDriveOperation;
 import geogebra.html5.sound.SoundManagerW;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.DynamicScriptElement;
-import geogebra.html5.util.ImageManager;
+import geogebra.html5.util.ImageManagerW;
 import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
@@ -123,7 +123,7 @@ public abstract class AppW extends App implements SetLabels{
 	private NormalizerMinimal normalizerMinimal;
 	private GgbAPIW ggbapi;
 	private final LocalizationW loc;
-	private ImageManager imageManager;
+	private ImageManagerW imageManager;
 	private HashMap<String, String> currentFile = null;
 	private LinkedList<Map<String, String>> fileList = new LinkedList<Map<String, String>>();
 	// random id to identify ggb files
@@ -739,12 +739,12 @@ public abstract class AppW extends App implements SetLabels{
 		}
 		
 		@Override
-		public ImageManager getImageManager() {
+		public ImageManagerW getImageManager() {
 			return imageManager;
 		}
 		
 		protected void initImageManager() {
-			imageManager = new ImageManager();
+			imageManager = new ImageManagerW();
 		}
 		
 		@Override

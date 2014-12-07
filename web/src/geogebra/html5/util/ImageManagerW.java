@@ -3,7 +3,7 @@ package geogebra.html5.util;
 import geogebra.common.awt.GBufferedImage;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
-import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.ImageManager;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gawt.GBufferedImageW;
@@ -17,7 +17,7 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.resources.client.ImageResource;
 
-public class ImageManager extends AbstractImageManager {
+public class ImageManagerW extends ImageManager {
 	
 	private HashMap<String, ImageElement> externalImageTable = new HashMap<String, ImageElement>();
 	private HashMap<String, String> externalImageSrcs = new HashMap<String, String>();

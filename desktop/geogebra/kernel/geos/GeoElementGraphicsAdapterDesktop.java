@@ -5,7 +5,7 @@ import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.main.App;
 import geogebra.gui.MyImageD;
 import geogebra.main.AppD;
-import geogebra.util.ImageManager;
+import geogebra.util.ImageManagerD;
 
 import java.awt.Image;
 
@@ -27,7 +27,7 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 
 		if (imageFileName.startsWith("/geogebra")) {
 			Image im = app.getImageManager().getImageResource(imageFileName);
-			image = new MyImageD(ImageManager.toBufferedImage(im));
+			image = new MyImageD(ImageManagerD.toBufferedImage(im));
 		} else {
 			/*
 			 * java.awt.image.BufferedImage extimg = app
@@ -51,9 +51,9 @@ public class GeoElementGraphicsAdapterDesktop extends GeoElementGraphicsAdapter 
 		setImageFileNameOnly(fileName);
 
 		if (fileName.startsWith("/geogebra")) { // internal image
-			Image im = ((ImageManager) ((App) app).getImageManager())
+			Image im = ((ImageManagerD) ((App) app).getImageManager())
 					.getImageResource(imageFileName);
-			image = new MyImageD(ImageManager.toBufferedImage(im));
+			image = new MyImageD(ImageManagerD.toBufferedImage(im));
 
 		} else {
 			image = ((App) app).getExternalImageAdapter(fileName, 0, 0);

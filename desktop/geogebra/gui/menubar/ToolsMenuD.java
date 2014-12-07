@@ -11,7 +11,7 @@ import javax.swing.AbstractAction;
 /**
  * The "Tools" menu.
  */
-class ToolsMenu extends BaseMenu {
+class ToolsMenuD extends BaseMenu {
 	private static final long serialVersionUID = -2012951866084095682L;
 
 	private AbstractAction
@@ -24,7 +24,7 @@ class ToolsMenu extends BaseMenu {
 	 * Creates tools menu
 	 * @param app application
 	 */
-	public ToolsMenu(AppD app) {
+	public ToolsMenuD(AppD app) {
 		super(app, app.getMenu("Tools"));
 		
 		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);

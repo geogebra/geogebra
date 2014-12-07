@@ -59,7 +59,7 @@ import geogebra.common.plugin.UDPLogger;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
-import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.ImageManager;
 import geogebra.common.util.CommandInputField;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
@@ -1143,7 +1143,7 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * @return image manager
 	 */
-	public abstract AbstractImageManager getImageManager();
+	public abstract ImageManager getImageManager();
 
 	/**
 	 * @return gui manager (it's null in minimal applets)

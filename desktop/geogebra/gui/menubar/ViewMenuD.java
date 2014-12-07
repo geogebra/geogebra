@@ -14,7 +14,7 @@ import javax.swing.JMenuItem;
  * The "View" menu for the applet.
  * For application use ViewMenuApplication class
  */
-public class ViewMenu extends BaseMenu {
+public class ViewMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1L;
 	protected final LayoutD layout;
 	protected AbstractAction refreshAction, recomputeAllViews;
@@ -25,7 +25,7 @@ public class ViewMenu extends BaseMenu {
 	 * @param layout
 	 *            layout
 	 */
-	public ViewMenu(AppD app, LayoutD layout) {
+	public ViewMenuD(AppD app, LayoutD layout) {
 		super(app, app.getMenu("View"));
 
 		this.layout = layout;

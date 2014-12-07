@@ -1,7 +1,7 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.common.util.AbstractImageManager;
+import geogebra.common.util.ImageManager;
 
 
 
@@ -14,7 +14,7 @@ public class Textures {
 	
 	//private GL gl;
 	
-	private AbstractImageManager imageManager;
+	private ImageManager imageManager;
 	
 	///////////////////
 	//dash	
@@ -101,7 +101,7 @@ public class Textures {
 	/** default constructor
 	 * @param gl
 	 */
-	public Textures(Renderer renderer, AbstractImageManager abstractImageManager){
+	public Textures(Renderer renderer, ImageManager abstractImageManager){
 		
 		this.renderer = renderer;
 		this.imageManager = abstractImageManager;

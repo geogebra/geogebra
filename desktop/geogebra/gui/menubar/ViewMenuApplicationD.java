@@ -17,7 +17,7 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-public class ViewMenuApplicationD extends ViewMenu{
+public class ViewMenuApplicationD extends ViewMenuD{
 	
 	private AbstractAction showKeyboardAction, showAlgebraInputAction;
 

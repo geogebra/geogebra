@@ -1,6 +1,6 @@
 package geogebra3D.util;
 
-import geogebra.util.ImageManager;
+import geogebra.util.ImageManagerD;
 
 import java.awt.Component;
 import java.awt.Image;
@@ -10,7 +10,7 @@ import java.awt.Image;
  * @author mathieu
  *
  */
-public class ImageManager3D extends ImageManager {
+public class ImageManager3D extends ImageManagerD {
 
 	/** default constructor
 	 * @param comp

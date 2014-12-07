@@ -20,7 +20,7 @@ import javax.swing.event.MenuEvent;
 /**
  * The "Edit" menu.
  */
-public class EditMenu extends BaseMenu {
+public class EditMenuD extends BaseMenu {
 	private static final long serialVersionUID = -2649808771324470803L;
 	SelectionManager selection;
 	private AbstractAction deleteAction, invertAction, showhideAction,
@@ -37,7 +37,7 @@ public class EditMenu extends BaseMenu {
 
 	private JSeparator selectionSeparator, deleteSeparator;
 
-	public EditMenu(AppD app) {
+	public EditMenuD(AppD app) {
 		super(app, app.getMenu("Edit"));
 		selection = app.getSelectionManager();
 		// items are added to the menu when it's opened, see BaseMenu:

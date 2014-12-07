@@ -98,7 +98,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * @return whether 3D View is switched on
 	 */
 	public boolean is3DViewShown() {
-		return ((ViewMenu) viewMenu).is3DViewShown();
+		return ((ViewMenuD) viewMenu).is3DViewShown();
 	}
 
 	/**
@@ -108,11 +108,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		removeAll();
 
 		// "File"
-		fileMenu = new FileMenu(app);
+		fileMenu = new FileMenuD(app);
 		add(fileMenu);
 
 		// "Edit"
-		editMenu = new EditMenu(app);
+		editMenu = new EditMenuD(app);
 		add(editMenu);
 
 		// "View"
@@ -132,11 +132,11 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		add(optionsMenu);
 
 		// "Tools"
-		toolsMenu = new ToolsMenu(app);
+		toolsMenu = new ToolsMenuD(app);
 		add(toolsMenu);
 
 		// "Window"
-		windowMenu = new WindowMenu(app);
+		windowMenu = new WindowMenuD(app);
 
 		if (!app.isApplet()) // just add the menu if this is not an applet we're
 		{
@@ -151,7 +151,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 		}
 
 		// "Help"
-		helpMenu = new HelpMenu(app);
+		helpMenu = new HelpMenuD(app);
 		add(helpMenu);
 
 		// applets might be running in Java 6 (no JavaFX)
@@ -354,7 +354,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 	 * Update the selection.
 	 */
 	public void updateSelection() {
-		((EditMenu) editMenu).updateSelection();
+		((EditMenuD) editMenu).updateSelection();
 	}
 
 	/**

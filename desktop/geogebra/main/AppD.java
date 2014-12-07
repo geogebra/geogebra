@@ -102,7 +102,7 @@ import geogebra.sound.SoundManager;
 import geogebra.util.DownloadManager;
 import geogebra.util.FrameCollector;
 import geogebra.util.GeoGebraLogger;
-import geogebra.util.ImageManager;
+import geogebra.util.ImageManagerD;
 import geogebra.util.Normalizer;
 
 import java.awt.AWTKeyStroke;
@@ -347,7 +347,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private GlobalKeyDispatcherD globalKeyDispatcher;
 
-	protected ImageManager imageManager;
+	protected ImageManagerD imageManager;
 
 	private GgbAPID ggbapi = null;
 	private PluginManager pluginmanager = null;
@@ -854,7 +854,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	 * @param component
 	 */
 	protected void initImageManager(Component component) {
-		imageManager = new ImageManager(component);
+		imageManager = new ImageManagerD(component);
 	}
 
 	/**
@@ -1825,7 +1825,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	// **************************************************************************
 
 	@Override
-	public ImageManager getImageManager() {
+	public ImageManagerD getImageManager() {
 		return imageManager;
 	}
 
@@ -1937,7 +1937,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		// scale icon if necessary
-		icon = ImageManager.getScaledIcon(icon,
+		icon = ImageManagerD.getScaledIcon(icon,
 				Math.min(icon.getIconWidth(), maxIconSize),
 				Math.min(icon.getIconHeight(), maxIconSize));
 
@@ -1975,13 +1975,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public MyImageD getExternalImage(String filename) {
-		return ImageManager.getExternalImage(filename);
+		return ImageManagerD.getExternalImage(filename);
 	}
 
 	@Override
 	public final MyImage getExternalImageAdapter(String filename, int width,
 			int height) {
-		MyImageD im = ImageManager.getExternalImage(filename);
+		MyImageD im = ImageManagerD.getExternalImage(filename);
 		return im;
 	}
 
@@ -2019,7 +2019,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					icon = getToolBarImage("mode_tool.png", border);
 				} else {
 					// use image as icon
-					icon = new ImageIcon(ImageManager.addBorder(img.getImage(),
+					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage(),
 							border));
 				}
 			} catch (Exception e) {
@@ -2083,7 +2083,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			 * showError("LoadFileFailed"); return null; }
 			 */
 			// make sure this filename is not taken yet
-			MyImageD oldImg = ImageManager.getExternalImage(fileName);
+			MyImageD oldImg = ImageManagerD.getExternalImage(fileName);
 			if (oldImg != null) {
 				// image with this name exists already
 				if ((oldImg.getWidth() == img.getWidth())
@@ -2105,7 +2105,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					String extension = pos < fileName.length() ? fileName
 							.substring(pos) : "";
 					fileName = firstPart + n + extension;
-				} while (ImageManager.getExternalImage(fileName) != null);
+				} while (ImageManagerD.getExternalImage(fileName) != null);
 			}
 
 			imageManager.addExternalImage(fileName, img);

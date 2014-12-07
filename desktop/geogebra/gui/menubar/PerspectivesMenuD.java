@@ -12,7 +12,7 @@ import javax.swing.JMenuItem;
 /**
  * The "Perspectives" menu.
  */
-class PerspectivesMenu extends BaseMenu {
+class PerspectivesMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
 	LayoutD layout;
@@ -27,7 +27,7 @@ class PerspectivesMenu extends BaseMenu {
 	 * @param app
 	 * @param layout 
 	 */
-	public PerspectivesMenu(AppD app, LayoutD layout) {
+	public PerspectivesMenuD(AppD app, LayoutD layout) {
 		super(app, app.getMenu("Perspectives"));
 		
 		this.layout = layout;

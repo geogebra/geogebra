@@ -15,7 +15,7 @@ import javax.swing.KeyStroke;
 /**
  * The "Help" menu.
  */
-class HelpMenu extends BaseMenu {
+class HelpMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1125756553396593316L;
 
 	private AbstractAction helpAction, tutorialAction, forumAction, infoAction,
@@ -26,7 +26,7 @@ class HelpMenu extends BaseMenu {
 	 * 
 	 * @param app
 	 */
-	public HelpMenu(AppD app) {
+	public HelpMenuD(AppD app) {
 		super(app, app.getMenu("Help"));
 
 		// items are added to the menu when it's opened, see BaseMenu:

@@ -11,7 +11,7 @@ import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.js.JavaScriptInjector;
-import geogebra.html5.util.ImageManager;
+import geogebra.html5.util.ImageManagerW;
 import geogebra.html5.util.View;
 
 import java.util.ArrayList;
@@ -477,7 +477,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 //			writeConstructionImages(macro.getMacroConstruction(), filePath, archive);
 			String fileName = macro.getIconFileName();
 			if (fileName != null && !fileName.isEmpty()) {
-				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
+				String url = ((ImageManagerW)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 				MyImageW img = new MyImageW(ImageElement.as((new Image(url)).getElement()),"svg".equals(ext));
 				
@@ -514,7 +514,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			if (fileName != null && fileName.length() > 0) {
 				geo.getGraphicsAdapter().convertToSaveableFormat();
 				String newName = geo.getGraphicsAdapter().getImageFileName();
-				((ImageManager)app.getImageManager()).replace(fileName, newName);
+				((ImageManagerW)app.getImageManager()).replace(fileName, newName);
 			}
 		}
 	}
@@ -534,7 +534,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 			// MD5 code put in the correct place!)
 			String fileName = geo.getImageFileName();
 			if (fileName != "") {
-				String url = ((ImageManager)app.getImageManager()).getExternalImageSrc(fileName);
+				String url = ((ImageManagerW)app.getImageManager()).getExternalImageSrc(fileName);
 				String ext = fileName.substring(fileName.lastIndexOf('.')+1).toLowerCase();
 				MyImageW img = (MyImageW)geo.getFillImage();
 				

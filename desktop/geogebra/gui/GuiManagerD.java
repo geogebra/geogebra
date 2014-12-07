@@ -77,7 +77,7 @@ import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.GuiManagerInterfaceD;
 import geogebra.main.LocalizationD;
-import geogebra.util.ImageManager;
+import geogebra.util.ImageManagerD;
 import geogebra.util.Util;
 
 import java.awt.Color;
@@ -2525,7 +2525,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				icon = ((AppD) app).getToolBarImage("mode_tool.png", border);
 			} else {
 				// use image as icon
-				icon = new ImageIcon(ImageManager.addBorder(img.getImage(),
+				icon = new ImageIcon(ImageManagerD.addBorder(img.getImage(),
 						border));
 			}
 

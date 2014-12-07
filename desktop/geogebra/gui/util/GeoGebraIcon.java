@@ -6,7 +6,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidian.EuclidianStaticD;
 import geogebra.main.AppD;
-import geogebra.util.ImageManager;
+import geogebra.util.ImageManagerD;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -76,7 +76,7 @@ public class GeoGebraIcon {
 		int w = iconSize.width;
 		BufferedImage image = new BufferedImage(w, h,
 				BufferedImage.TYPE_INT_ARGB);
-		image = ImageManager.toBufferedImage(app.getImageManager()
+		image = ImageManagerD.toBufferedImage(app.getImageManager()
 				.getImageResource(fileName));
 
 		ImageIcon ic = new ImageIcon(image);
