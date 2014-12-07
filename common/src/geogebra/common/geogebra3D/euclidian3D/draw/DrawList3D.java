@@ -73,6 +73,7 @@ public class DrawList3D extends Drawable3D {
 			
 		}
 
+		
  		// update for list of lists
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
@@ -84,9 +85,36 @@ public class DrawList3D extends Drawable3D {
 		}
 		
 		
+ 		// check if a new update is needed in a next loop
+		for (int i = 0; i < drawables.size(); i++) {
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			if (/*createdByDrawList() ||*/ !d.getGeoElement().isLabelSet()) {
+				//App.debug("\n"+geoList+"\n -- "+d.getGeoElement()+" -- "+d.waitForUpdate());
+				if (d.waitForUpdate()){
+					return false;
+				}
+			}
+		}
+
+		
     	return true;
 	}
 	
+
+	@Override
+	public boolean waitForUpdate(){
+		for (int i = 0; i < drawables.size(); i++) {
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			if (!d.getGeoElement().isLabelSet()) {
+				if (d.waitForUpdate()){
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	
 	@Override
 	protected void updateForView() {
