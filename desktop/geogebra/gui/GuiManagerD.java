@@ -1045,7 +1045,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	public void showPopupMenu(ArrayList<GeoElement> geos, Component invoker,
 			geogebra.common.awt.GPoint p) {
 
-		if (geos == null || !app.letShowPopupMenu())
+		if (geos == null || geos.size() == 0 || !app.letShowPopupMenu())
 			return;
 		if (app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
