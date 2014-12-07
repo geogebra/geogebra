@@ -42,6 +42,7 @@ import geogebra.common.kernel.geos.GeoAngle.AngleStyle;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
+import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.GeoClass;
@@ -2803,6 +2804,7 @@ AngleProperties {
 		if(this.elementType != GeoClass.FUNCTION &&
 				this.elementType != GeoClass.CURVE_CARTESIAN &&
 				this.elementType != GeoClass.FUNCTION_NVAR &&
+				this.elementType != GeoClass.SURFACECARTESIAN3D &&
 				this.elementType != GeoClass.LIST &&
 				this.elementType != ELEMENT_TYPE_MIXED){
 			return;
@@ -2823,6 +2825,11 @@ AngleProperties {
 				GeoFunctionNVar fnv = (GeoFunctionNVar) listElement;
 				fnv.replaceChildrenByValues(vars);
 			}
+			else if (listElement.isGeoSurfaceCartesian()) {
+				GeoSurfaceCartesianND surface = (GeoSurfaceCartesianND) listElement;
+				surface.replaceChildrenByValues(vars);
+			}
+
 			else if(listElement.isGeoList()){
 				((GeoList)listElement).replaceChildrenByValues(vars);
 			}

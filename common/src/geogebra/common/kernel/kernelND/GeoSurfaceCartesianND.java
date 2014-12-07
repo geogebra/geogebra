@@ -219,6 +219,11 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			return sbTemp.toString();
 		}
 		return getLoc().getPlain("Undefined");		
-	}		
+	}	
+	
+	@Override
+	public boolean isGeoSurfaceCartesian() {
+		return true;
+	}
 	
 }

@@ -5683,6 +5683,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	public boolean isGeoCurveCartesian() {
 		return false;
 	}
+	
+	/**
+	 * @return true for cartesian surfaces
+	 */
+	public boolean isGeoSurfaceCartesian() {
+		return false;
+	}
+
+
 
 	/**
 	 * @return true for functions evaluable in CAS
