@@ -1216,94 +1216,53 @@ public class RendererShaders extends RendererD implements RendererShadersInterfa
 
 
 	@Override
-	protected void updatePerspValues(boolean updatePerspMatrix) {
+	protected void updatePerspValues() {
 
-		super.updatePerspValues(updatePerspMatrix);	
+		super.updatePerspValues();	
 
-		if (updatePerspMatrix){
-			projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
-			projectionMatrix.set(2, 1, 0);
-			projectionMatrix.set(3, 1, 0);
-			projectionMatrix.set(4, 1, 0);	
+		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
 
-			projectionMatrix.set(1, 2, 0);
-			projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
-			projectionMatrix.set(3, 2, 0);
-			projectionMatrix.set(4, 2, 0);
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
 
-			projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
-			projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
-			projectionMatrix.set(3, 3, 0);
-			projectionMatrix.set(4, 3, -1);
+		perspXZ = (perspRight+perspLeft)/(perspRight-perspLeft);
 
-			projectionMatrix.set(1, 4, 0);
-			projectionMatrix.set(2, 4, 0);
-			projectionMatrix.set(3, 4, -getVisibleDepth()/2);
-			projectionMatrix.set(4, 4, -perspFocus);
-		}
-		
+		projectionMatrix.set(1, 3, perspXZ);
+		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
+		projectionMatrix.set(3, 3, 0);
+		projectionMatrix.set(4, 3, -1);
+
+		projectionMatrix.set(1, 4, 0);//(perspRight+perspLeft)/(perspRight-perspLeft) * perspFocus);
+		projectionMatrix.set(2, 4, 0);//(perspTop+perspBottom)/(perspTop-perspBottom) * perspFocus);
+		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
+		projectionMatrix.set(4, 4, -perspFocus);
+
+
 	}
 	
 
 
+	private double perspXZ, glassesXZ;
+	
+	@Override
+	public void updateGlassesValues() {
+		super.updateGlassesValues();
+		glassesXZ = 2*(perspNear*glassesEyeSep/perspFocus)/(perspRight-perspLeft);
+	}
 
 	@Override
 	protected void viewGlasses() {
 
-		/*
-		// eye separation
-		double eyesep, eyesep1;
 		if (eye == EYE_LEFT) {
-			eyesep = -glassesEyeSep;
-			eyesep1 = -glassesEyeSep1;
+			projectionMatrix.set(1, 3, perspXZ + glassesXZ);
 		} else {
-			eyesep = glassesEyeSep;
-			eyesep1 = glassesEyeSep1;
+			projectionMatrix.set(1, 3, perspXZ - glassesXZ);
 		}
-		
-		
-		
-		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
-		projectionMatrix.set(2, 1, 0);
-		projectionMatrix.set(3, 1, 0);
-		projectionMatrix.set(4, 1, 0);	
-
-		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
-		projectionMatrix.set(3, 2, 0);
-		projectionMatrix.set(4, 2, 0);
-
-		projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft) - eyesep);
-		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
-		projectionMatrix.set(3, 3, 0);
-		projectionMatrix.set(4, 3, -1);
-
-		projectionMatrix.set(1, 4, -eyesep * (2*perspNear/(perspRight-perspLeft) + perspFocus));
-		projectionMatrix.set(2, 4, 0);
-		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
-		projectionMatrix.set(4, 4, -perspFocus);
-		
-		*/
-		
-		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
-		projectionMatrix.set(2, 1, 0);
-		projectionMatrix.set(3, 1, 0);
-		projectionMatrix.set(4, 1, 0);	
-
-		projectionMatrix.set(1, 2, 0);
-		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
-		projectionMatrix.set(3, 2, 0);
-		projectionMatrix.set(4, 2, 0);
-
-		projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
-		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
-		projectionMatrix.set(3, 3, 0);
-		projectionMatrix.set(4, 3, -1);
-
-		projectionMatrix.set(1, 4, 0);
-		projectionMatrix.set(2, 4, 0);
-		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
-		projectionMatrix.set(4, 4, -perspFocus);
 
 	}
 

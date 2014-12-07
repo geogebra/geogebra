@@ -1449,9 +1449,9 @@ public abstract class Renderer {
 	protected double eyeToScreenDistance = 0;
 
 
-	final public void setNear(double val, boolean updatePerspMatrix) {
+	final public void setNear(double val) {
 		eyeToScreenDistance = val;
-		updatePerspValues(updatePerspMatrix);
+		updatePerspValues();
 		updatePerspEye();
 	}
 
@@ -1467,7 +1467,7 @@ public abstract class Renderer {
 	protected double perspFocus;
 	protected Coords perspEye;
 
-	protected void updatePerspValues(boolean updatePerspMatrix) {
+	protected void updatePerspValues() {
 
 		perspNear = eyeToScreenDistance - getVisibleDepth() / 2;
 		if (perspNear < PERSP_NEAR_MIN) {
@@ -1629,11 +1629,11 @@ public abstract class Renderer {
 			updateOrthoValues();
 			break;
 		case EuclidianView3D.PROJECTION_PERSPECTIVE:
-			updatePerspValues(true);
+			updatePerspValues();
 			updatePerspEye();
 			break;
 		case EuclidianView3D.PROJECTION_GLASSES:
-			updatePerspValues(false);
+			updatePerspValues();
 			updateGlassesValues();
 			updatePerspEye();
 			if (view3D.isPolarized()) {

@@ -3463,7 +3463,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	public void setProjectionPerspective() {
 		renderer.setWaitForDisableStencilLines();
-		updateProjectionPerspectiveEyeDistance(true);
+		updateProjectionPerspectiveEyeDistance();
 		setProjectionValues(PROJECTION_PERSPECTIVE);
 		setDefault2DCursor();
 		// setTransparentCursor();
@@ -3480,15 +3480,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		if (projection != PROJECTION_PERSPECTIVE
 				&& projection != PROJECTION_GLASSES)
 			projection = PROJECTION_PERSPECTIVE;
-		updateProjectionPerspectiveEyeDistance(true);
+		updateProjectionPerspectiveEyeDistance();
 		if (projection == PROJECTION_GLASSES) { // also update eyes separation
 			renderer.updateGlassesValues();
 		}
 	}
 
-	final private void updateProjectionPerspectiveEyeDistance(boolean updatePerspMatrix) {
+	final private void updateProjectionPerspectiveEyeDistance() {
 
-		renderer.setNear(projectionPerspectiveEyeDistance, updatePerspMatrix);
+		renderer.setNear(projectionPerspectiveEyeDistance);
 	}
 
 	/**
@@ -3500,7 +3500,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	}
 
 	public void setProjectionGlasses() {
-		updateProjectionPerspectiveEyeDistance(false);
+		updateProjectionPerspectiveEyeDistance();
 		renderer.updateGlassesValues();
 		if (isPolarized()) {
 			renderer.setWaitForSetStencilLines();

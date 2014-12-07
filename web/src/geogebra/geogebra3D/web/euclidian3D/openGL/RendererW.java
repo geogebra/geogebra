@@ -906,43 +906,57 @@ public class RendererW extends Renderer implements RendererShadersInterface{
 	
 	}
 		
-		
+
 	@Override
-	protected void updatePerspValues(boolean updatePerspMatrix) {
-		
-		super.updatePerspValues(updatePerspMatrix);	
+	protected void updatePerspValues() {
 
-		if (updatePerspMatrix){
-			projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
-			projectionMatrix.set(2, 1, 0);
-			projectionMatrix.set(3, 1, 0);
-			projectionMatrix.set(4, 1, 0);	
+		super.updatePerspValues();	
 
-			projectionMatrix.set(1, 2, 0);
-			projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
-			projectionMatrix.set(3, 2, 0);
-			projectionMatrix.set(4, 2, 0);
+		projectionMatrix.set(1, 1, 2*perspNear/(perspRight-perspLeft));
+		projectionMatrix.set(2, 1, 0);
+		projectionMatrix.set(3, 1, 0);
+		projectionMatrix.set(4, 1, 0);	
 
-			projectionMatrix.set(1, 3, (perspRight+perspLeft)/(perspRight-perspLeft));
-			projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
-			projectionMatrix.set(3, 3, 0);
-			projectionMatrix.set(4, 3, -1);
+		projectionMatrix.set(1, 2, 0);
+		projectionMatrix.set(2, 2, 2*perspNear/(perspTop-perspBottom));
+		projectionMatrix.set(3, 2, 0);
+		projectionMatrix.set(4, 2, 0);
 
-			projectionMatrix.set(1, 4, 0);
-			projectionMatrix.set(2, 4, 0);
-			projectionMatrix.set(3, 4, -getVisibleDepth()/2);
-			projectionMatrix.set(4, 4, -perspFocus);
+		perspXZ = (perspRight+perspLeft)/(perspRight-perspLeft);
+
+		projectionMatrix.set(1, 3, perspXZ);
+		projectionMatrix.set(2, 3, (perspTop+perspBottom)/(perspTop-perspBottom));
+		projectionMatrix.set(3, 3, 0);
+		projectionMatrix.set(4, 3, -1);
+
+		projectionMatrix.set(1, 4, 0);
+		projectionMatrix.set(2, 4, 0);
+		projectionMatrix.set(3, 4, -getVisibleDepth()/2);
+		projectionMatrix.set(4, 4, -perspFocus);
+
+
+	}
+
+	
+	private double perspXZ, glassesXZ;
+	
+	@Override
+	public void updateGlassesValues() {
+		super.updateGlassesValues();
+		glassesXZ = 2*(perspNear*glassesEyeSep/perspFocus)/(perspRight-perspLeft);
+	}
+
+	@Override
+	protected void viewGlasses() {
+
+		if (eye == EYE_LEFT) {
+			projectionMatrix.set(1, 3, perspXZ + glassesXZ);
+		} else {
+			projectionMatrix.set(1, 3, perspXZ - glassesXZ);
 		}
 
 	}
 
-
-
-	@Override
-	protected void viewGlasses() {
-		viewOrtho();
-		
-	}
 
 
 
