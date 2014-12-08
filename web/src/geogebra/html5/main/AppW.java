@@ -947,11 +947,44 @@ public abstract class AppW extends App implements SetLabels{
 				copyBase64ToClipboardChromeWebAppCase(str);
 			} else {
 				// this usually opens a Window.prompt
-				GlobalKeyDispatcherW.copyBase64NonWebApp(str);
+				copyBase64NonWebApp(str);
 			}
 		}
 
+		public native void copyBase64NonWebApp(String str) /*-{
+			var userAgent = $wnd.navigator.userAgent.toLowerCase();
+			if ((userAgent.indexOf('msie') > -1) || (userAgent.indexOf('trident') > -1)) {
+				// It is a good question what shall we do in Internet Explorer?
+				// Security settings may block clipboard, new browser tabs, window.prompt, alert
+				// Use a custom alert! but this does not seem to work either
+
+				//this.@geogebra.html5.main.GlobalKeyDispatcherW::showConfirmDialog(Ljava/lang/String;)(str);
+				// alternative, better than nothing, but not always working
+				//if ($wnd.clipboardData) {
+				//	$wnd.clipboardData.setData('Text', str);
+				//}
+
+				// then just do the same as in other cases, for now
+				if ($wnd.prompt) {
+					$wnd.prompt('Base64', str);
+				} else {
+					this.@geogebra.html5.main.AppW::showConfirmDialog(Ljava/lang/String;)(str);
+				}
+			} else {
+				// otherwise, we should do the following:
+				if ($wnd.prompt) {
+					$wnd.prompt('Base64', str);
+				} else {
+					this.@geogebra.html5.main.AppW::showConfirmDialog(Ljava/lang/String;)(str);
+				}
+			}
+		}-*/;
+
 		public void copyBase64ToClipboardChromeWebAppCase(String str) {
+			// This should do nothing in webSimple!
+		}
+
+		public void showConfirmDialog(String mess) {
 			// This should do nothing in webSimple!
 		}
 

@@ -168,38 +168,6 @@ public class GlobalKeyDispatcherW extends
 	    return false;
     }
 
-	/**
-	 * Does copy to OS clipboard, or if it's hard,
-	 * put the data into a new browser tab at least
-	 * @param str
-	 */
-	public static native void copyBase64NonWebApp(String str) /*-{
-		var userAgent = $wnd.navigator.userAgent.toLowerCase();
-		if ((userAgent.indexOf('msie') > -1) || (userAgent.indexOf('trident') > -1)) {
-			// It is a good question what shall we do in Internet Explorer?
-			// Security settings may block clipboard, new browser tabs, window.prompt, alert
-			// Use a custom alert! but this does not seem to work either
-
-			//this.@geogebra.html5.main.GlobalKeyDispatcherW::showConfirmDialog(Ljava/lang/String;)(str);
-			// alternative, better than nothing, but not always working
-			//if ($wnd.clipboardData) {
-			//	$wnd.clipboardData.setData('Text', str);
-			//}
-
-			// then just do the same as in other cases, for now
-			$wnd.prompt('Base64', str);
-		} else {
-			// otherwise, we should do the following:
-			$wnd.prompt('Base64', str);
-		}
-	}-*/;
-
-	/*public void showConfirmDialog(String mess) {
-		GOptionPaneW.INSTANCE.showConfirmDialog(app, mess, "Base64",
-				GOptionPane.OK_CANCEL_OPTION,
-				GOptionPane.PLAIN_MESSAGE, null);
-	}*/
-
 	@Override
     protected boolean handleEnter() {
 		if (((AppW) app).isUsingFullGui()

@@ -6,6 +6,7 @@ import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.PerspectiveDecoder;
+import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -13,6 +14,7 @@ import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
@@ -618,4 +620,11 @@ public class AppWapplet extends AppW {
 		copyFrom.select();
 		$doc.execCommand('copy');
 	}-*/;
+
+	@Override
+	public void showConfirmDialog(String mess) {
+		GOptionPaneW.INSTANCE.showConfirmDialog(this, mess, "Base64",
+				GOptionPane.OK_CANCEL_OPTION,
+				GOptionPane.PLAIN_MESSAGE, null);
+	}
 }
