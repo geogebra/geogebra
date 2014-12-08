@@ -50,6 +50,7 @@ import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -390,6 +391,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 *            function to be differenced
 	 * @param n
 	 *            order of derivative
+	 * @param fast true -> non-CAS derivative
 	 */
 	public void setDerivative(CasEvaluableFunction fd, int n, boolean fast) {
 		GeoFunction f = (GeoFunction) fd;
@@ -815,11 +817,75 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		}
 	}
 
-	// we don't care about values of these
-	private static String[] dummy1 = {"", ""};
-	private static char[] dummy2 = {' ', ' '};
+	/**
+	 * we don't care about values of these
+	 */
+	public static String[] dummy1 = {"", ""};
+	/**
+	 * we don't care about values of these
+	 */
+	public static char[] dummy2 = {' ', ' '};
 
-	double[] bounds;
+	private double[] bounds;
+	
+	/**
+	 * 
+	 * assumes function in form If[ interval, simple function]
+	 * 
+	 * @param bounds0 contains {min, max} on exit
+	 */
+	public void getInterval(double[] bounds0) {
+		
+		bounds0[0] = Double.NEGATIVE_INFINITY;
+		bounds0[1] = Double.POSITIVE_INFINITY;
+		
+		
+		double bound;
+		ExpressionNode inequalityEn = (ExpressionNode) getFunctionExpression().getLeft();
+		Operation op = inequalityEn.getOperation();
+
+		switch (op) {
+		default:
+			Log.error("problem in GeoFunction.getInterval()");
+			return;
+
+		case AND_INTERVAL:
+
+			GeoInterval.updateBoundaries(inequalityEn, bounds0, GeoFunction.dummy1, GeoFunction.dummy2);
+
+			break;
+
+		case LESS:
+		case LESS_EQUAL:
+		case GREATER:
+		case GREATER_EQUAL:
+
+			// make sure 2<x and x>2 both work
+			if (inequalityEn.getLeft() instanceof FunctionVariable) {
+				bound = inequalityEn.getRight().evaluateDouble();
+			} else if (inequalityEn.getRight() instanceof FunctionVariable) {
+				bound = inequalityEn.getLeft().evaluateDouble();
+				op = op.reverseLeftToRight();
+			} else {
+				// shouldn't happen
+				bound = Double.NaN;
+			}
+
+			switch (op) {
+
+			case LESS:
+			case LESS_EQUAL:
+				bounds0[1] = bound;
+				break;
+			case GREATER:
+			case GREATER_EQUAL:
+				bounds0[0] = bound;
+				break;
+			}
+		}	
+		
+	}
+
 
 	/*
 	 * Path interface
@@ -1059,6 +1125,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		return true;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}

@@ -188,7 +188,7 @@ public class EquationSolver implements EquationSolverInterface {
 	}
 
 	/**
-	 * @param real put coeffivients here on input, receive real parts on output
+	 * @param real put coefficients here on input, receive real parts on output
 	 * @param complex imaginary parts on output
 	 * @return number of roots
 	 */

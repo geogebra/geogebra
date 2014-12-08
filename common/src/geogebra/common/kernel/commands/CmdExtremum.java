@@ -3,13 +3,16 @@ package geogebra.common.kernel.commands;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoExtremumMulti;
 import geogebra.common.kernel.algos.AlgoExtremumPolynomial;
+import geogebra.common.kernel.algos.AlgoExtremumPolynomialInterval;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 
 /**
  * Extremum[ <GeoFunction> ]
@@ -37,7 +40,7 @@ public class CmdExtremum extends CommandProcessor {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoFunctionable();
 			if (ok[0])
-				return Extremum(c.getLabels(),
+				return Extremum(c,
 						((GeoFunctionable) arg[0]).getGeoFunction());
 			throw argErr(app, c.getName(), arg[0]);
 		case 3: // Ulven 04.02.2011 for Extremum[f,start-x,end-x]
@@ -65,13 +68,28 @@ public class CmdExtremum extends CommandProcessor {
 	/**
 	 * all Extrema of function f (works only for polynomials)
 	 */
-	final private GeoPoint[] Extremum(String[] labels, GeoFunction f) {
+	final private GeoPoint[] Extremum(Command c, GeoFunction f) {
+
+		// special case for If
+		// non-polynomial -> undefined
+		ExpressionNode exp = f.getFunctionExpression();
+		if (exp.getOperation().equals(Operation.IF)) {
+			
+			AlgoExtremumPolynomialInterval algo = new AlgoExtremumPolynomialInterval(cons, c.getLabels(),
+					f);
+			GeoPoint[] g = algo.getRootPoints();
+			return g;
+
+		}
+		
+		
 		// check if this is a polynomial at the moment
 		// uninitialized CAS algo may return non-polynomial 
 		if (!kernelA.getConstruction().isFileLoading() && f.isDefined() && !f.isPolynomialFunction(true))
 			return null;
+		
 
-		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons, labels,
+		AlgoExtremumPolynomial algo = new AlgoExtremumPolynomial(cons, c.getLabels(),
 				f);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
