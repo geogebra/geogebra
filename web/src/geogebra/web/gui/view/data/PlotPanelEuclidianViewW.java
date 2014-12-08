@@ -33,7 +33,7 @@ public class PlotPanelEuclidianViewW extends EuclidianViewW implements PlotPanel
 	 */
 	public PlotPanelEuclidianViewW(Kernel kernel, ScheduledCommand exportAction) {
 		super(new PlotPanelEuclidianControllerW(kernel), PlotPanelEuclidianViewCommon.showAxes, PlotPanelEuclidianViewCommon.showGrid,
-				null);
+				EVNO_GENERAL, null);
 
 	
 		

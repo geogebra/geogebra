@@ -79,6 +79,8 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	protected boolean hasMouse;
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;
+	/** 3D View TODO: probably needs changing when we support more than 2 views **/
+	public static int EVNO_3D = 3;
 	/** euclidian view number */
 	protected int evNo = 1;
 	private double xZeroOld, yZeroOld;
@@ -301,7 +303,10 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * @param settings
 	 *            settings
 	 */
-	public EuclidianView(EuclidianController ec, EuclidianSettings settings) {
+	public EuclidianView(EuclidianController ec, int viewNo, EuclidianSettings settings) {
+		
+		// 1, 2 or EVNO_GENERAL
+		setEuclidianViewNo(viewNo);
 		
 		companion = newEuclidianViewCompanion();
 		
@@ -1083,7 +1088,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	 * This is only needed for second or above euclidian views
 	 * 
 	 * @param evNo
-	 *            euclidian view number
+	 *            euclidian view number 1, 2 or EVNO_GENERAL
 	 */
 	public void setEuclidianViewNo(int evNo) {
 		if (evNo >= 2) {

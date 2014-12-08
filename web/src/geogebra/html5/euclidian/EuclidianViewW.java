@@ -106,7 +106,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
             EuclidianController euclidiancontroller, boolean[] showAxes,
             boolean showGrid, int evNo, EuclidianSettings settings) {
 		
-		super(euclidiancontroller, settings);
+		super(euclidiancontroller, evNo, settings);
 		
 		EVPanel = euclidianViewPanel;
 		
@@ -134,18 +134,18 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	 * @param settings
 	 */
 	public EuclidianViewW(EuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid, EuclidianSettings settings) {
+            boolean showGrid, int viewNo, EuclidianSettings settings) {
 		
-		this(euclidiancontroller, settings);
-		
+		this(euclidiancontroller, viewNo, settings);
+
 	}
 	
 	/**
 	 * @param euclidiancontroller
 	 * @param settings
 	 */
-	public EuclidianViewW(EuclidianController euclidiancontroller, EuclidianSettings settings) {
-		super(euclidiancontroller, settings);
+	public EuclidianViewW(EuclidianController euclidiancontroller, int viewNo, EuclidianSettings settings) {
+		super(euclidiancontroller, viewNo, settings);
 		
 		EVPanel = newMyEuclidianViewPanel();
 		

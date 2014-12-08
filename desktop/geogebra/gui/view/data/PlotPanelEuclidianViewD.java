@@ -90,7 +90,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	public PlotPanelEuclidianViewD(Kernel kernel, AbstractAction exportAction) {
 		super(new PlotPanelEuclidianControllerD(kernel),
 				PlotPanelEuclidianViewCommon.showAxes,
-				PlotPanelEuclidianViewCommon.showGrid, null);
+				PlotPanelEuclidianViewCommon.showGrid, EVNO_GENERAL, null);
 
 		this.exportToEVAction = exportAction;
 

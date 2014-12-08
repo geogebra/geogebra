@@ -268,11 +268,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 */
 	public EuclidianView3D(EuclidianController3D ec, EuclidianSettings settings) {
 
-		super(ec, settings);
+		super(ec, EVNO_3D, settings);
 		
-		evNo = 3;
-
-
 		this.kernel3D = (Kernel3D) ec.getKernel();
 		euclidianController.setView(this);
 		

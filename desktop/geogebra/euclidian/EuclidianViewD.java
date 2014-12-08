@@ -143,11 +143,10 @@ public class EuclidianViewD extends EuclidianView implements
 	public EuclidianViewD(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
 
-		super(ec, settings);
+		super(ec, evno, settings);
 
 		evjpanel = new EuclidianViewJPanel(this);
 
-		evNo = evno;
 		setApplication(ec.getApplication());
 
 		setShowAxis(0, showAxes[0], false);
