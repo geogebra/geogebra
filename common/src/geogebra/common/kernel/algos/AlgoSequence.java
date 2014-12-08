@@ -222,7 +222,7 @@ public class AlgoSequence extends AlgoElement {
 			return;
 		updateRunning = true;
 		for (int i = 1; i < input.length; i++) {
-			if (!input[i].isDefined()) {
+			if (input[i] != var && !input[i].isDefined()) { // don't check the var itself (maybe undefined at last loop) 
 				list.setUndefined();
 				updateRunning = false;
 				return;
