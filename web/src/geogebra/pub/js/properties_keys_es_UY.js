@@ -767,7 +767,7 @@ __GGB__keysVar.es_UY.command = {
     "SampleSDX.Syntax": "[ <Lista de puntos> ]",
     "SampleSDY": "DEyMuestra",
     "SampleSDY.Syntax": "[ <Lista de puntos> ]",
-    "SampleVariance": "VarianzaMuestral",
+    "SampleVariance": "VarianzaMuestra",
     "SampleVariance.Syntax": "[ <Lista de datos brutos> ]\n[ <Lista de n\xfameros>, <Lista de frecuencias> ]",
     "SampleVariance.SyntaxCAS": "[ <Lista de n\xfameros> ]",
     "ScientificText": "Notaci\xf3nCient\xedfica",
