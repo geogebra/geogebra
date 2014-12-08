@@ -599,7 +599,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					}
 				}
 			}
-			colorChooserW.enableOpacity(hasOpacity);
+			
+			if (allFillable && hasOpacity) { // show opacity slider and set to
+				// first geo's
+				// alpha value
+
+				colorChooserW.enableOpacity(true);
+				alpha = geo0.getAlphaValue();
+				colorChooserW.setAlphaValue(Math.round(alpha * 100));
+				
+			} else { // hide opacity slider and set alpha = 1
+				colorChooserW.enableOpacity(false);
+				alpha = 1;
+				colorChooserW.setAlphaValue(Math.round(alpha * 100));
+			}
+			
 			colorChooserW.enableBackgroundColorPanel(hasBackground);
 			updatePreview(selectedColor, alpha);
 		}
