@@ -376,14 +376,21 @@ public abstract class GlobalKeyDispatcher {
 					consumed = true;
 				}
 				break;
-			case P: // File -> Export -> Graphic
-				if (!isShiftDown) {
+			case P: 
+
+				if (isShiftDown) {
+					// toggle Probability View
+					if (app.isUsingFullGui() && app.getGuiManager() != null) {
+						app.getGuiManager().setShowView(
+								!app.getGuiManager().showView(
+										App.VIEW_PROBABILITY_CALCULATOR),
+										App.VIEW_PROBABILITY_CALCULATOR);
+					}
+				} else {
 					showPrintPreview(app);
-					consumed = true;
-				} else if (app.getGuiManager() != null) {
-					app.getGuiManager().showGraphicExport();
-					consumed = true;
 				}
+				consumed = true;
+
 				break;
 			case T: // File -> Export -> PSTricks
 				if (isShiftDown && app.getGuiManager() != null) {
