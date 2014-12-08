@@ -4,13 +4,16 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoRootInterval;
 import geogebra.common.kernel.algos.AlgoRootNewton;
 import geogebra.common.kernel.algos.AlgoRootsPolynomial;
+import geogebra.common.kernel.algos.AlgoRootsPolynomialInterval;
 import geogebra.common.kernel.arithmetic.Command;
+import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
+import geogebra.common.plugin.Operation;
 
 /**
  * Root[ <GeoFunction> ] Root[ <GeoFunction> , <Number> ] Root[ <GeoFunction> ,
@@ -41,10 +44,7 @@ public class CmdRoot extends CommandProcessor {
 			if ((arg[0].isGeoFunctionable())){				
 				GeoFunction gf = ((GeoFunctionable) arg[0])
 						.getGeoFunction();
-				// allow functions that can be simplified to factors of polynomials
-				if (!gf.getConstruction().isFileLoading() && !gf.isPolynomialFunction(true) && gf.isDefined())
-					throw argErr(app, c.getName(), arg[0]);
-				return Root(c.getLabels(), gf);
+				return Root(c, gf);
 			}
 			throw argErr(app, c.getName(), arg[0]);
 
@@ -89,8 +89,26 @@ public class CmdRoot extends CommandProcessor {
 	 * all Roots of polynomial f (works only for polynomials and functions that
 	 * can be simplified to factors of polynomials, e.g. sqrt(x) to x)
 	 */
-	final private GeoPoint[] Root(String[] labels, GeoFunction f) {
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, labels, f);
+	final private GeoPoint[] Root(Command c, GeoFunction f) {
+		
+		// special case for If
+		// non-polynomial -> undefined
+		ExpressionNode exp = f.getFunctionExpression();
+		if (exp.getOperation().equals(Operation.IF)) {
+			
+			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(cons, c.getLabels(),
+					f);
+			GeoPoint[] g = algo.getRootPoints();
+			return g;
+
+		}
+		
+		// allow functions that can be simplified to factors of polynomials
+		if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(true) && f.isDefined())
+			throw argErr(app, c.getName(), f);
+
+
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(), f);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
 	}

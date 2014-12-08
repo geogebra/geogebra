@@ -270,7 +270,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	}
 
 	// roots of f
-	private void computeRoots() {
+	protected void computeRoots() {
 		if (f.isDefined()) {
 			Function fun = f.getFunction();
 			// get polynomial factors anc calc roots
