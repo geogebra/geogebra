@@ -942,9 +942,25 @@ public abstract class AppW extends App implements SetLabels{
 
 		@Override
 		public void copyBase64ToClipboard() {
-			// this usually opens a Window.prompt
-			GlobalKeyDispatcherW.copyBase64(getGgbApi().getBase64());
+			String str = getGgbApi().getBase64();
+			if (isChromeWebApp()) {
+				copyBase64ToClipboardChromeWebAppCase(str);
+			} else {
+				// this usually opens a Window.prompt
+				GlobalKeyDispatcherW.copyBase64NonWebApp(str);
+			}
 		}
+
+		public void copyBase64ToClipboardChromeWebAppCase(String str) {
+			// This should do nothing in webSimple!
+		}
+
+		public static native boolean isChromeWebApp() /*-{
+			if ($doc.isChromeWebapp()) {
+				return true;
+			}
+			return false;
+		}-*/;
 
 		public void openMaterial(String s, Runnable onError) {
 	        // TODO Auto-generated method stub

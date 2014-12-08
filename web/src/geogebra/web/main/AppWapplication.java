@@ -530,4 +530,14 @@ public class AppWapplication extends AppW {
     public boolean isSelectionRectangleAllowed() {
 	    return true;
     }
+
+	@Override
+	public native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
+		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
+		// although it's strange that .contentEditable is not set to true
+		var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+		copyFrom.value = str;
+		copyFrom.select();
+		$doc.execCommand('copy');
+	}-*/;
 }
