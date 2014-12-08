@@ -582,14 +582,14 @@ public class Kernel3D extends Kernel {
 
 		if(3 > this.xmin.length){
 			
-			this.xmin = prolong(this.xmin,2);
-			this.xmax = prolong(this.xmin,2);
+			this.xmin = prolong(this.xmin,3);
+			this.xmax = prolong(this.xmin,3);
 			
-			this.ymin = prolong(this.ymin,2);
-			this.ymax = prolong(this.ymax,2);
+			this.ymin = prolong(this.ymin,3);
+			this.ymax = prolong(this.ymax,3);
 			
-			this.xscale = prolong(this.xscale,2);
-			this.yscale = prolong(this.yscale,2);
+			this.xscale = prolong(this.xscale,3);
+			this.yscale = prolong(this.yscale,3);
 		}
 		
 		this.xmin[2] = xmin;

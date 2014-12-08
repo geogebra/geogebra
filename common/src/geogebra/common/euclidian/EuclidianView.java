@@ -80,7 +80,7 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon, Set
 	/** View other than EV1 and EV2 **/
 	public static int EVNO_GENERAL = 1001;
 	/** 3D View TODO: probably needs changing when we support more than 2 views **/
-	public static int EVNO_3D = 3;
+	public static int EVNO_3D = -1;
 	/** euclidian view number */
 	protected int evNo = 1;
 	private double xZeroOld, yZeroOld;

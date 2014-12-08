@@ -3971,4 +3971,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	
 		
 	}
+	
+	
+	@Override
+	public void setEuclidianViewNo(int evNo) {
+		this.evNo = evNo;
+	}
+	
+
 }

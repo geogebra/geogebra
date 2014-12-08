@@ -76,4 +76,8 @@ public class EuclidianViewFor3DCompanion extends EuclidianViewCompanion {
 	}
 	
 
+	@Override
+	public void getXMLid(StringBuilder sbxml){
+		getXMLidNoCheck(sbxml);
+	}
 }

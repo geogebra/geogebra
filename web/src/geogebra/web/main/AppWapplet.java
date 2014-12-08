@@ -1,6 +1,7 @@
 package geogebra.web.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.layout.DockPanel;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.io.layout.DockPanelData;
@@ -402,6 +403,11 @@ public class AppWapplet extends AppW {
 					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
 					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
 		} else if (evno == 2 && hasEuclidianView2(1) && getEuclidianView2(1).isShowing()) {// or the EuclidianView 2
+			if (getSplitLayoutPanel() != null)
+				getSplitLayoutPanel().setPixelSize(
+					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+		} else if (evno == EuclidianView.EVNO_3D && hasEuclidianView3D() && getEuclidianView3D().isShowing()) {// or the EuclidianView 2
 			if (getSplitLayoutPanel() != null)
 				getSplitLayoutPanel().setPixelSize(
 					getSplitLayoutPanel().getOffsetWidth() + widthDiff,

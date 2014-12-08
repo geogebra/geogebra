@@ -179,12 +179,20 @@ public class EuclidianViewCompanion {
 	 */
 	public void getXMLid(StringBuilder sbxml){
 		if (view.evNo >= 2) {
-			sbxml.append("\t<viewNumber ");
-			sbxml.append("viewNo=\"");
-			sbxml.append(view.evNo);
-			sbxml.append("\"");
-			sbxml.append("/>\n");
+			getXMLidNoCheck(sbxml);
 		}
+	}
+	
+	/**
+	 * add id to xml
+	 * @param sbxml xml
+	 */
+	protected void getXMLidNoCheck(StringBuilder sbxml){
+		sbxml.append("\t<viewNumber ");
+		sbxml.append("viewNo=\"");
+		sbxml.append(view.evNo);
+		sbxml.append("\"");
+		sbxml.append("/>\n");
 	}
 
 	/**
