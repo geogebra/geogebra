@@ -987,7 +987,10 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
     public void setEuclidianViewNo(int evNo) {
 		if (evNo >= 2) {
 			this.evNo = evNo;
-			this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN2);
+			if (evNo != EuclidianView.EVNO_GENERAL) {
+				// quick fix: this.g2p is still not ready here!
+				this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN2);
+			}
 		}
 	}
 
