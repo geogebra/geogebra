@@ -398,7 +398,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 		this.app = app;
 		this.message = message;
-		this.title = null;
+		this.title = title;
 		this.optionType = optionType;
 		this.messageType = messageType;
 		this.icon = (Image) icon;

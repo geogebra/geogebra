@@ -968,14 +968,14 @@ public abstract class AppW extends App implements SetLabels{
 				if ($wnd.prompt) {
 					$wnd.prompt('Base64', str);
 				} else {
-					this.@geogebra.html5.main.AppW::showConfirmDialog(Ljava/lang/String;)(str);
+					this.@geogebra.html5.main.AppW::showConfirmDialog(Ljava/lang/String;Ljava/lang/String;)("Base64", str);
 				}
 			} else {
 				// otherwise, we should do the following:
 				if ($wnd.prompt) {
 					$wnd.prompt('Base64', str);
 				} else {
-					this.@geogebra.html5.main.AppW::showConfirmDialog(Ljava/lang/String;)(str);
+					this.@geogebra.html5.main.AppW::showConfirmDialog(Ljava/lang/String;Ljava/lang/String;)("Base64", str);
 				}
 			}
 		}-*/;
@@ -984,7 +984,7 @@ public abstract class AppW extends App implements SetLabels{
 			// This should do nothing in webSimple!
 		}
 
-		public void showConfirmDialog(String mess) {
+		public void showConfirmDialog(String title, String mess) {
 			// This should do nothing in webSimple!
 		}
 

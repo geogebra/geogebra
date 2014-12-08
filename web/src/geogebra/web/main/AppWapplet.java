@@ -622,9 +622,11 @@ public class AppWapplet extends AppW {
 	}-*/;
 
 	@Override
-	public void showConfirmDialog(String mess) {
-		GOptionPaneW.INSTANCE.showConfirmDialog(this, mess, "Base64",
+	public void showConfirmDialog(String title, String mess) {
+		GOptionPaneW.INSTANCE.showInputDialog(this, "", title,
+				mess,
 				GOptionPane.OK_CANCEL_OPTION,
-				GOptionPane.PLAIN_MESSAGE, null);
+				GOptionPane.PLAIN_MESSAGE,
+				null, null, null);
 	}
 }
