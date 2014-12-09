@@ -997,7 +997,7 @@ __GGB__keysVar.tr.command = {
     "TurtleRight": "Kaplumba\u011faSa\u011f",
     "TurtleRight.Syntax": "[ <Kaplumba\u011fa>, <A\xe7\u0131> ]",
     "TurtleUp": "TurtleUp",
-    "TurtleUp.Syntax": "[ <Turtle> ]",
+    "TurtleUp.Syntax": "[ <Kaplumba\u011fa> ]",
     "UnicodeToLetter": "UniCodeHarfi",
     "UnicodeToLetter.Syntax": "[ <Tamsay\u0131> ]",
     "UnicodeToText": "UniCodedanHarfe",

@@ -916,7 +916,7 @@ __GGB__keysVar.es_UY.command = {
     "TDistribution.Syntax": "[ <Grados de libertad>, x ]\n[ <Grados de libertad>, <Valor> ]\n[ <Grados de libertad>, x, <Acumulada o no (true/false)> ]",
     "TDistribution.SyntaxCAS": "[ <Grados de libertad>, <Valor> ]",
     "TMean2Estimate": "IntervaloMediasT",
-    "TMean2Estimate.Syntax": "[ <Lista de datos (muestra 1)>, <Lista de datos (muestra 2)>, <Nivel de confianza>, <Agrupado o no (true/false)> ]\n[ <Media (muestra 1)>, <Desviaci\xf3n est\xe1ndar (muestra 1)>, <Tama\xf1o (muestra 1)>, <Media (muestra 2)>, <Desviaci\xf3n est\xe1ndar (muestra 2)>, <Tama\xf1o (muestra 2)>, <Nivel de confianza>, <Agrupado o no (true/false)> ]",
+    "TMean2Estimate.Syntax": "[ <Lista de datos (muestra 1)>, <Lista de datos (muestra 2)>, <Nivel>, <Agrupado o no (true/false)> ]\n[ <Media (muestra 1)>, <Desviaci\xf3n est\xe1ndar (muestra 1)>, <Tama\xf1o (muestra 1)>, <Media (muestra 2)>, <Desviaci\xf3n est\xe1ndar (muestra 2)>, <Tama\xf1o (muestra 2)>, <Nivel>, <Agrupado o no (true/false)> ]",
     "TMeanEstimate": "IntervaloMediaT",
     "TMeanEstimate.Syntax": "[ <Lista de datos (muestra)>, <Nivel> ]\n[ <Media (muestra)>, <Desviaci\xf3n est\xe1ndar (muestra)>, <Tama\xf1o (muestra)>, <Nivel> ]",
     "TTest": "TestMediaT",
