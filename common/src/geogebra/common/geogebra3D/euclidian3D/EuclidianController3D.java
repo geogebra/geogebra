@@ -1539,6 +1539,14 @@ public abstract class EuclidianController3D extends EuclidianController {
 		
 	}
 	
+	private void initPointMoveMode(){
+		if (mode == EuclidianConstants.MODE_MOVE){
+			pointMoveMode = GeoPointND.MOVE_MODE_XY;
+		}else{
+			pointMoveMode = GeoPointND.MOVE_MODE_Z;
+		}
+	}
+	
 	/**
 	 * 
 	 * @return current tool point move mode
@@ -3663,10 +3671,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	@Override
 	public void setMode(int newMode) {
+		
 
 		if (newMode != EuclidianConstants.MODE_INTERSECTION_CURVE)
 			intersectionCurveList.clear();
 		super.setMode(newMode);
+		
+		initPointMoveMode();
 	}
 
 	@Override
