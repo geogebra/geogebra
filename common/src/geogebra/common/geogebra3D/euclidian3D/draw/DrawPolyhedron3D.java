@@ -295,11 +295,16 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 	@Override
 	public void disposePreview() {
 		super.disposePreview();
-		
-		previewBasisIsFinished = false;
-		
-		if (previewAlgo != null){	
-			previewAlgo.remove();	
+
+		if (previewBasisIsFinished){
+			previewBasisIsFinished = false;
+
+			if (previewAlgo != null){	
+				previewAlgo.remove();	
+				previewAlgo = null;
+			}
+		}else{
+			drawPolygon3D.disposePreview();
 		}
 		
 	}
