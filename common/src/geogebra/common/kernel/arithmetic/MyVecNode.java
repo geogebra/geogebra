@@ -67,6 +67,9 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	public ExpressionValue deepCopy(Kernel kernel1) {
 		MyVecNode ret = new MyVecNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1));
 		ret.mode = mode;
+		if (isCASVector()) {
+			ret.setCASVector();
+		}
 		return ret;
 	}
 

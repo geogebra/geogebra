@@ -73,6 +73,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		MyVec3DNode ret =  new MyVec3DNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1),
 				z.deepCopy(kernel1));
 		ret.mode = mode;
+		if (isCASVector()) {
+			ret.setCASVector();
+		}
+
 		return ret;
 	}
 
