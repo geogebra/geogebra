@@ -1965,7 +1965,7 @@ SymbolicParametersBotanaAlgo {
 	// MOVING THE POINT (3D)
 	// ///////////////////////////////////////
 
-	public void switchMoveMode() {
+	public void switchMoveMode(int mode) {
 		//3D only
 	}
 

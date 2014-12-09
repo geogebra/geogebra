@@ -20,6 +20,7 @@ the Free Software Foundation.
 
 package geogebra.common.geogebra3D.kernel3D.geos;
 
+import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
@@ -1096,15 +1097,21 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	protected int moveMode = MOVE_MODE_TOOL_DEFAULT;
 
-	public void switchMoveMode() {
+	public void switchMoveMode(int mode) {
 
 		switch (moveMode) {
 		case MOVE_MODE_XY:
-		case MOVE_MODE_TOOL_DEFAULT:
 			moveMode = MOVE_MODE_Z;
 			break;
 		case MOVE_MODE_Z:
 			moveMode = MOVE_MODE_XY;
+			break;
+		case MOVE_MODE_TOOL_DEFAULT:
+			if (mode == EuclidianConstants.MODE_MOVE){
+				moveMode = MOVE_MODE_Z;
+			}else{
+				moveMode = MOVE_MODE_XY;
+			}
 			break;
 		}
 	}

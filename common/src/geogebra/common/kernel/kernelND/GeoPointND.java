@@ -240,8 +240,9 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 
 	/**
 	 * sets the move mode (along xOy or along Oz)
+	 * @param mode view tool mode
 	 */
-	public void switchMoveMode();
+	public void switchMoveMode(int mode);
 	
 	/**
 	 * 

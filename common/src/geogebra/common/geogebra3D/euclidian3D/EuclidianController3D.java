@@ -1496,7 +1496,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 						}
 						
 					}
-					movedGeoPoint.switchMoveMode();
+					movedGeoPoint.switchMoveMode(getMode());
 					((EuclidianView3D) view).getCursor3D().setMoveMode(
 							movedGeoPoint.getMoveMode());
 					// Application.debug(movedGeoPoint+"\nmove mode="+movedGeoPoint.getMoveMode()+"\ncursor move mode="+((EuclidianView3D)

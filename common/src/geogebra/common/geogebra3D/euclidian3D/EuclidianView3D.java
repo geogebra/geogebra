@@ -2138,7 +2138,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public void switchMoveCursor() {
 
 		if (moveCursorIsVisible())
-			cursorOnXOYPlane.switchMoveMode();
+			cursorOnXOYPlane.switchMoveMode(getMode());
 
 	}
 
