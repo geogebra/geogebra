@@ -352,6 +352,11 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 	public void previewBasisIsFinished(){
 		previewBasisIsFinished = true;
 		
+		
+		// dispose polygon preview
+		drawPolygon3D.disposePreview();
+		
+		// create polyhedron
 		GeoPointND[] points = new GeoPointND[selectedPoints.size()+1];
 		for (int i = 0 ; i < selectedPoints.size() ; i++){
 			points[i] = selectedPoints.get(i);

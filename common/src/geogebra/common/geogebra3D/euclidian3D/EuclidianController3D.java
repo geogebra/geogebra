@@ -1346,7 +1346,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		if (hits.isEmpty())
 			return null;
 		
-		if (draggingOccuredBeforeRelease && selPoints() == 0 && selPolygons() == 0){
+		if (draggingOccuredBeforeRelease && (pyramidBasis == null) && selPoints() == 0 && selPolygons() == 0){
 			// don't select a first point on dragging
 			return null;
 		}
