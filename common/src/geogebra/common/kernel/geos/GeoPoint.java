@@ -1231,8 +1231,8 @@ SymbolicParametersBotanaAlgo {
 		switch (tpl.getStringType()) {
 		case GIAC:
 			
-			String xStr = Kernel.isZero(x) ? "0" : kernel.format(getInhomX(), tpl);
-			String yStr = Kernel.isZero(y) ? "0" : kernel.format(getInhomY(), tpl);
+			String xStr = kernel.format(getInhomX(), tpl);
+			String yStr = kernel.format(getInhomY(), tpl);
 			
 			if (toStringMode == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");
@@ -1282,11 +1282,11 @@ SymbolicParametersBotanaAlgo {
 		
 			
 				sbBuildValueString.append("point(");
-				sbBuildValueString.append(Kernel.isZero(x) ? "0" : kernel.format(x, tpl));
+				sbBuildValueString.append(kernel.format(x, tpl));
 				sbBuildValueString.append(',');
-				sbBuildValueString.append(Kernel.isZero(y) ? "0" : kernel.format(y, tpl));
+				sbBuildValueString.append(kernel.format(y, tpl));
 				sbBuildValueString.append(',');
-				sbBuildValueString.append(Kernel.isZero(z) ? "0" : kernel.format(z, tpl));
+				sbBuildValueString.append(kernel.format(z, tpl));
 				sbBuildValueString.append(")");
 			
 			return;

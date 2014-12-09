@@ -1111,6 +1111,9 @@ public class Kernel {
 				return Double.toString(x); // "Infinity" or "-Infinity"
 			} else if (isLongInteger) {
 				return Long.toString(rounded);
+			} else if (Kernel.isZero(x, Kernel.MAX_PRECISION)) {
+				// #4802
+				return "0";
 			} else {
 				double abs = Math.abs(x);
 				// number small enough that Double.toString() won't create E
