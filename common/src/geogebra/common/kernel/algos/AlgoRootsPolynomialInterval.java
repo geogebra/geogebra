@@ -29,6 +29,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
 	private double[] bounds;
 	private Function intervalFun;
+	private Function interval;
 
 	/**
 	 * @param cons cons
@@ -46,17 +47,11 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 		
 		
 		super.compute();
-		
-		if (bounds == null) {
-			bounds = new double[2];
-		}
-		
-		// remove points outside the domain
-		f.getInterval(bounds);
-		
+			
+		// remove points that aren't in the interval		
 		for (int i = 0; i < rootPoints.length; i++) {
 			double xCoord = rootPoints[i].getInhomX();
-			if ( xCoord < bounds[0] || xCoord > bounds[1]) {
+			if ( !interval.evaluateBoolean(xCoord)) {
 				rootPoints[i].setUndefined();
 			}
 		}
@@ -68,6 +63,9 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 				FunctionVariable fVar = f.getFunction().getFunctionVariable();
 				// extract poly from If[0<x<10, poly]
 				intervalFun = new Function((ExpressionNode) f.getFunctionExpression().getRight(), fVar);   
+				
+				// extract interval
+				interval = new Function((ExpressionNode) f.getFunctionExpression().getLeft(), fVar);   
 
 			}
 			// get polynomial factors and calc roots

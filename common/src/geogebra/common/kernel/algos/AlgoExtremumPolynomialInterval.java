@@ -27,7 +27,7 @@ import geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 	
-	private double[] bounds;
+	private Function interval;
 
 	/**
 	 * @param cons cons
@@ -50,6 +50,9 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 
 				// extract poly from If[0<x<10, poly]
 				yValFunction = new Function((ExpressionNode) f.getFunctionExpression().getRight(), fVar);   
+				
+				// extract interval
+				interval = new Function((ExpressionNode) f.getFunctionExpression().getLeft(), fVar);   
 
 			}
 
@@ -62,16 +65,10 @@ public class AlgoExtremumPolynomialInterval extends AlgoExtremumPolynomial {
 
 		setRootPoints(curRoots, curRealRoots);
 		
-		if (bounds == null) {
-			bounds = new double[2];
-		}
-		
-		// remove points outside the domain
-		f.getInterval(bounds);
-		
+		// remove points that aren't in the interval		
 		for (int i = 0; i < rootPoints.length; i++) {
 			double xCoord = rootPoints[i].getInhomX();
-			if ( xCoord < bounds[0] || xCoord > bounds[1]) {
+			if ( !interval.evaluateBoolean(xCoord)) {
 				rootPoints[i].setUndefined();
 			}
 		}
