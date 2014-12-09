@@ -430,9 +430,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		cursor.setRegion(null);
 		cursor.setPath(null);
 		cursor.setMoveMode(point3D.getMoveMode());
-		if (mode == EuclidianConstants.MODE_POINT
-				|| mode == EuclidianConstants.MODE_POINT_ON_OBJECT)
+		if (isModeForCreatingPoint(mode)){
 			freePointJustCreated = true;
+		}
 		return point3D;
 	}
 
@@ -1448,14 +1448,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 	protected void processReleaseForMovedGeoPoint(boolean rightClick) {
 
 		((EuclidianView3D) view).updatePointDecorations(null);
+		
 
-		if (mode == EuclidianConstants.MODE_POINT
-				|| mode == EuclidianConstants.MODE_POINT_ON_OBJECT
-				|| mode == EuclidianConstants.MODE_MOVE) {
-			if (freePointJustCreated)
+		if (isModeForCreatingPoint(mode)) {
+			if (freePointJustCreated){
 				// avoid switch if the point is created by a click
 				freePointJustCreated = false;
-			else {
+			}else {
 				// switch the direction of move (xy or z) in case of left-click
 				// if (!movedGeoPointDragged){
 				if (!draggingOccured && !rightClick && movedGeoPoint.isIndependent()) {
@@ -3111,6 +3110,45 @@ public abstract class EuclidianController3D extends EuclidianController {
 	//
 	// ///////////////////////////////////////////////////
 
+	private static boolean isModeForMovingPoint(int mode){
+		switch (mode) {
+		case EuclidianConstants.MODE_MOVE:
+		case EuclidianConstants.MODE_ATTACH_DETACH:
+			return true;
+		default:
+			return isModeForCreatingPoint(mode);
+		}
+	}
+	
+	private static boolean isModeForCreatingPoint(int mode){
+		switch (mode) {
+		case EuclidianConstants.MODE_POINT:
+		case EuclidianConstants.MODE_POINT_ON_OBJECT:
+
+		case EuclidianConstants.MODE_JOIN:
+		case EuclidianConstants.MODE_SEGMENT:
+
+		case EuclidianConstants.MODE_RAY:
+		case EuclidianConstants.MODE_VECTOR:
+
+		case EuclidianConstants.MODE_POLYGON:
+		case EuclidianConstants.MODE_POLYLINE:
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+		case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+		case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
+		case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+		case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
+
+		case EuclidianConstants.MODE_PYRAMID:
+		case EuclidianConstants.MODE_PRISM:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	/**
 	 * @param cursorType
 	 *            type of the cursor
@@ -3118,33 +3156,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 */
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
 
-		if (cursorType == EuclidianView3D.PREVIEW_POINT_ALREADY) {
-			switch (mode) {
+		if (cursorType == EuclidianView3D.PREVIEW_POINT_ALREADY) {			
 			// cross arrows for moving point
-			case EuclidianConstants.MODE_MOVE:
-			case EuclidianConstants.MODE_ATTACH_DETACH:
-			case EuclidianConstants.MODE_POINT:
-			case EuclidianConstants.MODE_POINT_ON_OBJECT:
-				
-			case EuclidianConstants.MODE_JOIN:
-			case EuclidianConstants.MODE_SEGMENT:
-
-			case EuclidianConstants.MODE_RAY:
-			case EuclidianConstants.MODE_VECTOR:
-
-			case EuclidianConstants.MODE_POLYGON:
-			case EuclidianConstants.MODE_POLYLINE:
-			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
-			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
-			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
-			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
-			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
-			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
-			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
-				return true;// !mousePressed; //don't display cursor if dragging
-			default:
-				return false;
-			}
+			return isModeForMovingPoint(mode);
 		} else if (cursorType == EuclidianView3D.PREVIEW_POINT_DEPENDENT) {
 			switch (mode) {
 			// modes in which the result could be a dependent point
