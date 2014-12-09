@@ -130,7 +130,7 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 	@Override
 	public void setEuclidianViewNo(int evNo) {
 		this.evNo = evNo;
-		this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN3D);
+		//this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN3D);
 	}
 	
 	private void registerKeyHandlers(Canvas canvas){
