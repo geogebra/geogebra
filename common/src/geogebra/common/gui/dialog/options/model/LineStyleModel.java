@@ -135,7 +135,9 @@ public class LineStyleModel extends OptionsModel {
 	public boolean isValidAt(int index) {
 		GeoElement geo = getGeoAt(index)
 				.getGeoElementForPropertiesDialog();
-		return (geo.showLineProperties() || geo.isNumberValue()) && !geo.isGeoBoolean();
+		return (geo.showLineProperties() || geo.isNumberValue()) && !geo.isGeoBoolean()
+				&& !((geo instanceof GeoNumeric) && 
+						((GeoNumeric)geo).isSlider());
 	}
 
 	@Override
