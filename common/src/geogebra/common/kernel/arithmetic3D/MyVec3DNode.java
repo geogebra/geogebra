@@ -24,6 +24,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Inspecting;
+import geogebra.common.kernel.arithmetic.MyVecNDNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.ValidExpression;
@@ -38,7 +39,7 @@ import java.util.HashSet;
  * 
  * @author Markus + ggb3D
  */
-public class MyVec3DNode extends ValidExpression implements Vector3DValue {
+public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVecNDNode {
 
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
@@ -185,13 +186,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 
 			default:
 			case Kernel.COORD_CARTESIAN_3D:
-				sb.append("point(");
+				sb.append(isCASVector() ? "ggbvect[" : "point(");
 				sb.append(print(x, values, tpl));
 				sb.append(',');
 				sb.append(print(y, values, tpl));
 				sb.append(',');
 				sb.append(print(z, values, tpl));
-				sb.append(")");
+				sb.append(isCASVector() ? "]" : ")");
 				break;
 
 			}
@@ -370,6 +371,10 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue {
 	
 	public ExpressionNode wrap(){
 		return new ExpressionNode(kernel, this);
+	}
+	
+	public boolean isCASVector() {
+		return isCASVector;
 	}
 
 }

@@ -31,7 +31,7 @@ import java.util.HashSet;
  * 
  * @author Markus
  */
-public class MyVecNode extends ValidExpression implements VectorValue {
+public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNode {
 
 	/**
 	 * x coordinate
@@ -160,11 +160,11 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 				sb.append(print(y, values, tpl));
 				sb.append("))");
 			} else {			
-				sb.append("point(");
+				sb.append(isCASVector() ? "ggbvect[" : "point(");
 				sb.append(print(x, values, tpl));
 				sb.append(',');
 				sb.append(print(y, values, tpl));
-				sb.append(")");
+				sb.append(isCASVector() ? "]" : ")");
 			}
 			break;
 
@@ -304,6 +304,10 @@ public class MyVecNode extends ValidExpression implements VectorValue {
 	
 	public ExpressionNode wrap(){
 		return new ExpressionNode(kernel, this);
+	}
+
+	public boolean isCASVector() {
+		return isCASVector;
 	}
 
 }

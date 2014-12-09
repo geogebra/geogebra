@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.ListValue;
 import geogebra.common.kernel.arithmetic.MySpecialDouble;
+import geogebra.common.kernel.arithmetic.MyVecNDNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -744,6 +745,24 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append("+");
 				sb.append(rightStr);
 
+			} else if (right instanceof MyVecNDNode && left instanceof MyVecNDNode) {
+				
+				//App.debug(left.getClass()+" "+right.getClass());
+				if (((MyVecNDNode)left).isCASVector()&& ((MyVecNDNode)right).isCASVector()) {
+					// eg (1,2)+(3,4)
+					sb.append(leftStr);
+					sb.append("+");
+					sb.append(rightStr);
+					
+				} else {				
+					// eg (1,2)+(3,4)
+					sb.append("point(");
+					sb.append(leftStr);
+					sb.append("+");
+					sb.append(rightStr);
+					sb.append(")");
+				}
+
 			} else if (isNDvector(right) && isNDvector(left)) {
 				
 				//App.debug(left.getClass()+" "+right.getClass());
@@ -984,6 +1003,24 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(leftStr);
 				sb.append("-");
 				sb.append(rightStr);
+
+			} else if (right instanceof MyVecNDNode && left instanceof MyVecNDNode) {
+				
+				//App.debug(left.getClass()+" "+right.getClass());
+				if (((MyVecNDNode)left).isCASVector()&& ((MyVecNDNode)right).isCASVector()) {
+					// eg (1,2)-(3,4)
+					sb.append(leftStr);
+					sb.append("-");
+					sb.append(rightStr);
+					
+				} else {				
+					// eg (1,2)-(3,4)
+					sb.append("point(");
+					sb.append(leftStr);
+					sb.append("-");
+					sb.append(rightStr);
+					sb.append(")");
+				}
 
 			} else if (isNDvector(right) && isNDvector(left)) {
 				//App.debug(left.getClass()+" "+right.getClass());
