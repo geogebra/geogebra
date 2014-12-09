@@ -26,6 +26,7 @@ import geogebra.common.kernel.arithmetic.Inspecting.CommandFinder;
 import geogebra.common.kernel.arithmetic.Inspecting.IneqFinder;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyList;
+import geogebra.common.kernel.arithmetic.MyVecNode;
 import geogebra.common.kernel.arithmetic.Traversing;
 import geogebra.common.kernel.arithmetic.Traversing.ArbconstReplacer;
 import geogebra.common.kernel.arithmetic.Traversing.CommandCollector;
@@ -35,6 +36,7 @@ import geogebra.common.kernel.arithmetic.Traversing.DummyVariableCollector;
 import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.Traversing.GeoDummyReplacer;
 import geogebra.common.kernel.arithmetic.ValidExpression;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
@@ -1348,7 +1350,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			
 			// parse output into valid expression
-			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res);
+			outputVE = parseGeoGebraCASInputAndResolveDummyVars(res).traverse(Traversing.GgbVectRemover.getInstance()).wrap();
 			
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
@@ -1374,6 +1376,16 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			resolveGeoElementReferences(outputVE);
 		} else if (isAssignmentVariableDefined()) {
 			outputVE.setLabel(assignmentVar);
+			if (Character.isLowerCase(assignmentVar.charAt(0))) {
+				ExpressionValue ve = outputVE.unwrap();
+				if (ve instanceof MyVecNode) {
+					MyVecNode node = (MyVecNode) ve;
+					node.setCASVector();
+				} else if (ve instanceof MyVec3DNode) {
+					MyVec3DNode node3d = (MyVec3DNode) ve;
+					node3d.setCASVector();
+				}
+			}
 		}
 	}
 
@@ -1585,8 +1597,10 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 		try {
 			// evaluate in GeoGebra
+			ExpressionNode copy = ve.deepCopy(kernel).wrap();
+			copy.setLabel(ve.getLabel());
 			GeoElement[] ggbEval = kernel.getAlgebraProcessor()
-					.doProcessValidExpression(ve.deepCopy(kernel).wrap());
+					.doProcessValidExpression(copy);
 			
 			if (ggbEval != null) {
 				if(!allowFunction && (ggbEval[0] instanceof FunctionalNVar) && !wasFunction)
@@ -2439,7 +2453,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		AssignmentType oldIVEAssignmentType = getInputVE()==null? evalVE.getAssignmentType() : 
 			getInputVE().getAssignmentType();
 
-		assignmentVar = PLOT_VAR;
+		assignmentVar = getPlotVar();
 		adjustPointList(false);
 		this.firstComputeOutput = true;
 		this.computeOutput(true,true);
@@ -2510,6 +2524,26 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 		tooltip = null;
 		latex = null;
 		
+	}
+
+	private String getPlotVar() {
+		boolean isCasVector = false;
+		if (outputVE == null) {
+			return PLOT_VAR;
+		}
+		ExpressionValue unwrapped = outputVE.unwrap();
+		if (unwrapped == null) {
+			return PLOT_VAR;
+		}
+		if (unwrapped instanceof MyVecNode) {
+			isCasVector = ((MyVecNode) unwrapped).evaluatesToVectorNotPoint();
+		} else if (unwrapped instanceof MyVec3DNode) {
+			isCasVector = ((MyVec3DNode) unwrapped).evaluatesToVectorNotPoint();
+		}
+		if (isCasVector) {
+			return PLOT_VAR.toLowerCase();
+		}
+		return PLOT_VAR;
 	}
 
 	/**
@@ -2616,7 +2650,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * @param onlySolutions true if set point list only for Solutions NSolutions and CSolutions
 	 */
 	public void adjustPointList(boolean onlySolutions) {
-		if (evalVE.isTopLevelCommand() && (PLOT_VAR.equals(assignmentVar))) {
+		if (evalVE.isTopLevelCommand() && (getPlotVar().equals(assignmentVar))) {
 			String cmd = evalVE.getTopLevelCommand().getName();
 			if (!inequalityInEvalVE()
 					&& ((cmd.equals("Solutions") || cmd.equals("CSolutions") || cmd

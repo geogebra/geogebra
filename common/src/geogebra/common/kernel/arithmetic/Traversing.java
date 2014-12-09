@@ -4,6 +4,7 @@ import geogebra.common.gui.view.spreadsheet.RelativeCopy;
 import geogebra.common.kernel.CASGenericInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic3D.MyVec3DNode;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
@@ -96,6 +97,37 @@ public interface Traversing {
 			return replacer;
 		}
 	}
+
+	public class GgbVectRemover implements Traversing {
+		
+		private static final GgbVectRemover remover = new GgbVectRemover();
+
+		public ExpressionValue process(ExpressionValue ev) {
+			if (ev instanceof Command) {
+				Command command = (Command) ev;
+				if (command.getName().equals("ggbvect")) {
+					ExpressionNode en = command.getArgument(0);
+					ExpressionValue unwrapped = en.unwrap();
+					if (unwrapped instanceof MyVecNode) {
+						MyVecNode vecNode = (MyVecNode) unwrapped;
+						vecNode.setCASVector();
+						return vecNode;
+					} else if (unwrapped instanceof MyVec3DNode) {
+						MyVec3DNode vec3DNode = (MyVec3DNode) unwrapped;
+						vec3DNode.setCASVector();
+						return vec3DNode;
+					}
+				}
+				
+			}
+			return ev;
+		}
+		
+		public static GgbVectRemover getInstance() {
+			return remover;
+		}
+	}
+	
 	
 	/**
 	 * Replaces variables and polynomials

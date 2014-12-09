@@ -836,7 +836,7 @@ public class Ggb2giac {
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
 		// can it be plotted in GeoGebra? Do we want it to be plotted?
-		p("Angle.2", "normal(regroup(angle(%0,%1)))");
+		p("Angle.2", "normal(regroup(angle(point(0,0),%0,%1)))");
 		p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
 
 		// eg distance((4,5),(0,3))

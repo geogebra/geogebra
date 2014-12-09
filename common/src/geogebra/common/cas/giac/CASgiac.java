@@ -281,12 +281,15 @@ public abstract class CASgiac implements CASGenericInterface {
 	final public synchronized String toGeoGebraString(String giacString,
 			MyArbitraryConstant arbconst, StringTemplate tpl, Kernel kernel)
 					throws CASException {
+		boolean ggbvect = giacString.startsWith("ggbvect");
 		ExpressionValue ve = replaceRoots(casParser.parseGiac(giacString), arbconst, kernel);
 		//replace rational exponents by roots or vice versa
 
-
-
-		return casParser.toGeoGebraString(ve, tpl);
+		String geogebraString = casParser.toGeoGebraString(ve, tpl);
+		if (ggbvect) {
+			geogebraString = "ggbvect("+geogebraString+")";
+		}
+		return geogebraString;
 	}
 
 	private static ExpressionValue replaceRoots(ExpressionValue ve,MyArbitraryConstant arbconst, Kernel kernel){
