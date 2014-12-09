@@ -42,6 +42,14 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		
     }
 	
+	private int getFontStyle(){
+		if(editor == null){
+			App.debug("null editor");
+		}
+		return editor.getFontStyle();
+	}
+
+
 	private boolean isLatex(){
 		if(editor == null){
 			App.debug("null editor");
@@ -104,7 +112,8 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				if (ret != null && ret[0] instanceof GeoText) {
 					GeoText t = (GeoText) ret[0];
 					t.setLaTeX(isLatex(), true);
-
+					t.setFontStyle(getFontStyle());
+					
 					// make sure for new LaTeX texts we get nice "x"s
 					if (isLatex())
 						t.setSerifFont(true);

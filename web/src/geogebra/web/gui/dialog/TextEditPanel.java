@@ -1,6 +1,7 @@
 package geogebra.web.gui.dialog;
 
 import geogebra.common.awt.GFont;
+import geogebra.common.gui.dialog.options.model.TextOptionsModel;
 import geogebra.common.gui.inputfield.DynamicTextElement;
 import geogebra.common.gui.inputfield.DynamicTextProcessor;
 import geogebra.common.kernel.geos.GeoElement;
@@ -148,6 +149,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 				style += 2;
 			editGeo.setFontStyle(style);
 			updatePreviewPanel();
+			App.debug("BollldVagyItallic");
 
 		} else if (source == btnLatex) {
 			editGeo.setLaTeX(btnLatex.getValue(), false);
@@ -362,4 +364,7 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		editor.updateFonts();
 	}
 
+	public int getFontStyle() {
+		return TextOptionsModel.getFontStyle(isBold(), isItalic());
+	}
 }
