@@ -1161,9 +1161,7 @@ public class Construction {
 		int size = ceList.size();
 		for (int i = 0; i < size; ++i) {
 			ce = ceList.get(i);
-			if (!constsM.containsValue(ce)) {
-				ce.getXML(getListenersToo, sb);
-			}
+			ce.getXML(getListenersToo, sb);
 		}
 	}
 

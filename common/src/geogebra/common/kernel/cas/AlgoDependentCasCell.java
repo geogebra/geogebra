@@ -35,18 +35,11 @@ public class AlgoDependentCasCell extends AlgoElement implements AlgoCasCellInte
 		// make sure all input geos' values are present in the CAS
 		initInput();
         
-        // compute output of outputCasCell and
-        // create twinGeoElement if necessary
-		if (casCell.isOutputEmpty()) {
-			// output empty: newly created casCell
-			// compute output
-			compute();
-		} else {
-			// output set: casCell was loaded from XML
-			// only create twinGeo
-			casCell.updateTwinGeo(false);
-		}
-             
+		// We need to compute the output so that the 
+		// arbitrary constants are created before the 
+		// definition in the saved file
+		compute();
+		     
         // initialize algorithm dependencies
         setInputOutput();                
         
