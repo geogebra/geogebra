@@ -134,7 +134,7 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
     	if("tablet".equals(GWT.getModuleName()) || "phone".equals(GWT.getModuleName())){
     		return "false";
     	}
-	    return Browser.webWorkerSupported ? GWT.getModuleBaseURL() + "/js/zipjs/" : "false";
+	    return Browser.webWorkerSupported ? GWT.getModuleBaseURL() + "js/zipjs/" : "false";
     }
     
     public void getBase64(boolean includeThumbnail, JavaScriptObject callback) {
