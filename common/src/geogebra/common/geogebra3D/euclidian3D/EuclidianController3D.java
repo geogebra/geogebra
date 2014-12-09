@@ -1345,15 +1345,20 @@ public abstract class EuclidianController3D extends EuclidianController {
 		
 		if (hits.isEmpty())
 			return null;
+		
+		
 
 		if (pyramidBasis == null) { // try to find/create a polygon
-
+			
+			boolean selectionOccured = false;
+			
 			if (selPoints() < 2) // already two points : not a polygon for basis
 				if (addSelectedPolygon(hits, 1, false) == 1){
 					polygonForPyramidBasis = true;
+					selectionOccured = true;
 				}
 
-			if (selPolygons() == 0) { // try to create a polygon
+			if (!selectionOccured && selPolygons() == 0) { // try to create a polygon
 				// if the first point is clicked again, we create a polygon
 				if (selPoints() > 2) {
 					// check if first point was clicked again
@@ -1373,7 +1378,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 			}
 
 			// there is 1 polygon, look for top point
-			addSelectedPoint(hits, 1, false);
+			if(!selectionOccured){
+				addSelectedPoint(hits, 1, false);
+			}
 
 			if (selPoints() == 1) {
 				// fetch selected point and vector
