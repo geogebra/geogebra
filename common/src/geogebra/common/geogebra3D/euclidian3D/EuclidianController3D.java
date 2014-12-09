@@ -424,7 +424,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 				0, 0, 0, false);
 		point3D.setCoords(point);
 		point3D.updateCoords();
-		point3D.setMoveMode(GeoPointND.MOVE_MODE_Z);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		view3D.updateMatrixForCursor3D();
 		GeoPoint3D cursor = view3D.getCursor3D();

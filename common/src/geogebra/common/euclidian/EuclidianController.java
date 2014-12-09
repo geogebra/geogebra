@@ -9908,5 +9908,9 @@ public abstract class EuclidianController {
 		view.setHits(type);
 	}
 	
+	
+	public boolean isTemporaryMode(){
+		return temporaryMode;
+	}
 
 }

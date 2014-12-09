@@ -235,7 +235,9 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public static int MOVE_MODE_XY = 1;
 	/** can move in z direction*/
 	public static int MOVE_MODE_Z = 2;
-	
+	/** use tool default: XY for move, Z for others */
+	public static int MOVE_MODE_TOOL_DEFAULT = 3;
+
 	/**
 	 * sets the move mode (along xOy or along Oz)
 	 */

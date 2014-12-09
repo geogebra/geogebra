@@ -2502,8 +2502,17 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	private void drawPointAlready(int mode) {
 
 		// Application.debug(mode);
+		
+		int pointMoveMode = mode;
+		if (pointMoveMode == GeoPointND.MOVE_MODE_TOOL_DEFAULT){
+			if (getMode() == EuclidianConstants.MODE_MOVE){
+				pointMoveMode = GeoPointND.MOVE_MODE_XY;
+			}else{
+				pointMoveMode = GeoPointND.MOVE_MODE_Z;
+			}
+		}
 
-		switch (mode) {
+		switch (pointMoveMode) {
 		case GeoPointND.MOVE_MODE_XY:
 			renderer.drawCursor(PlotterCursor.TYPE_ALREADY_XY);
 			break;

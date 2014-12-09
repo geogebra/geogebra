@@ -1094,12 +1094,13 @@ Traceable, MirrorableAtPlane, Dilateable{
 	// MOVING THE POINT (3D)
 	// ///////////////////////////////////////
 
-	protected int moveMode = MOVE_MODE_XY;
+	protected int moveMode = MOVE_MODE_TOOL_DEFAULT;
 
 	public void switchMoveMode() {
 
 		switch (moveMode) {
 		case MOVE_MODE_XY:
+		case MOVE_MODE_TOOL_DEFAULT:
 			moveMode = MOVE_MODE_Z;
 			break;
 		case MOVE_MODE_Z:
