@@ -1230,17 +1230,21 @@ SymbolicParametersBotanaAlgo {
 
 		switch (tpl.getStringType()) {
 		case GIAC:
+			
+			String xStr = Kernel.isZero(x) ? "0" : kernel.format(getInhomX(), tpl);
+			String yStr = Kernel.isZero(y) ? "0" : kernel.format(getInhomY(), tpl);
+			
 			if (toStringMode == Kernel.COORD_COMPLEX) {
 				sbBuildValueString.append("(");
-				sbBuildValueString.append(kernel.format(getInhomX(), tpl));
+				sbBuildValueString.append(xStr);
 				sbBuildValueString.append("+i*");
-				sbBuildValueString.append(kernel.format(getInhomY(), tpl));
+				sbBuildValueString.append(yStr);
 				sbBuildValueString.append(")");
 			} else {
 				sbBuildValueString.append("point(");
-				sbBuildValueString.append(kernel.format(getInhomX(), tpl));
+				sbBuildValueString.append(xStr);
 				sbBuildValueString.append(',');
-				sbBuildValueString.append(kernel.format(getInhomY(), tpl));
+				sbBuildValueString.append(yStr);
 				sbBuildValueString.append(")");
 			}
 			return sbBuildValueString;
@@ -1278,11 +1282,11 @@ SymbolicParametersBotanaAlgo {
 		
 			
 				sbBuildValueString.append("point(");
-				sbBuildValueString.append(kernel.format(x, tpl));
+				sbBuildValueString.append(Kernel.isZero(x) ? "0" : kernel.format(x, tpl));
 				sbBuildValueString.append(',');
-				sbBuildValueString.append(kernel.format(y, tpl));
+				sbBuildValueString.append(Kernel.isZero(y) ? "0" : kernel.format(y, tpl));
 				sbBuildValueString.append(',');
-				sbBuildValueString.append(kernel.format(z, tpl));
+				sbBuildValueString.append(Kernel.isZero(z) ? "0" : kernel.format(z, tpl));
 				sbBuildValueString.append(")");
 			
 			return;
