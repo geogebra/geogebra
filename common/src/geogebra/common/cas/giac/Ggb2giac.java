@@ -835,9 +835,11 @@ public class Ggb2giac {
 				+ "when(uva==uvb,[eqa],[equation(line(B[0],B[0]+uva+uvb)),equation(line(B[0],B[0]+uva-uvb))])][5]");
 		p("AngularBisector.3", "equation(bisector(%1,%0,%2))");
 
-		// can it be plotted in GeoGebra? Do we want it to be plotted?
-		p("Angle.2", "normal(regroup(angle(when(is3dpoint(%0),point(0,0,0),point(0,0)),%0,%1)))");
-		p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
+		// point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0))		
+		// so we can mix 2d and 3d points
+		p("Angle.2", "[[[ggbangarg0:=%0], [ggbangarg1:=%1]], normal(regroup(angle(point(0,0,0),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)))))][1]");
+		p("Angle.3", "[[[ggbangarg0:=%0], [ggbangarg1:=%1], [ggbangarg2:=%2]], normal(regroup(angle(point(xcoord(ggbangarg1),ycoord(ggbangarg1),zcoord(ggbangarg1)),point(xcoord(ggbangarg0),ycoord(ggbangarg0),zcoord(ggbangarg0)),point(xcoord(ggbangarg2),ycoord(ggbangarg2),zcoord(ggbangarg2)))))][1]");
+		//p("Angle.3", "normal(regroup(angle(%1,%0,%2)))");
 
 		// eg distance((4,5),(0,3))
 		// eg distance((2,3,4),(0,3,1))
