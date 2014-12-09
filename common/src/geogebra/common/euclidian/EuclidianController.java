@@ -262,7 +262,9 @@ public abstract class EuclidianController {
 	protected boolean dontClearSelection = false;
 
 	protected boolean draggingOccured = false;
-	
+
+	protected boolean draggingOccuredBeforeRelease = false;
+
 	protected boolean draggingBeyondThreshold = false;
 
 	protected GeoPointND pointCreated = null;
@@ -8950,6 +8952,7 @@ public abstract class EuclidianController {
 		boolean changedKernel = false;
 		if (draggingOccured) {
 	
+			draggingOccuredBeforeRelease = true;
 			draggingOccured = false;
 			// // copy value into input bar
 			// if (mode == EuclidianView.MODE_MOVE && movedGeoElement != null) {
@@ -9049,6 +9052,8 @@ public abstract class EuclidianController {
 		}
 
 		endOfWrapMouseReleased(hits, event);
+		
+		draggingOccuredBeforeRelease = false;
 
 	}
 	

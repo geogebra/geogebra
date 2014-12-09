@@ -1339,14 +1339,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * @return pyramid/prism created
 	 */
 	final protected GeoElement[] pyramidOrPrism(Hits hits) {
-
+		
 		// if (pyramidBasis!=null) Application.debug(pyramidBasis.length);
 		polygonForPyramidBasis = false;
 		
 		if (hits.isEmpty())
 			return null;
 		
-		
+		if (draggingOccuredBeforeRelease && selPoints() == 0 && selPolygons() == 0){
+			// don't select a first point on dragging
+			return null;
+		}
 
 		if (pyramidBasis == null) { // try to find/create a polygon
 			
@@ -1378,8 +1381,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					selectionOccured = true;
 				}
 			}
-
-
+			
 			// there is 1 polygon, look for top point
 			if(!selectionOccured){
 				addSelectedPoint(hits, 1, false);
