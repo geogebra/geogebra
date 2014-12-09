@@ -57,6 +57,12 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		return editor.isLatex();
 	}
 
+	private boolean isSerif(){
+		if(editor == null){
+			App.debug("null editor");
+		}
+		return editor.isSerif();
+	}
 	// =============================================================
 	// TextInputHandler
 	// =============================================================
@@ -113,7 +119,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 					GeoText t = (GeoText) ret[0];
 					t.setLaTeX(isLatex(), true);
 					t.setFontStyle(getFontStyle());
-					
+					t.setSerifFont(isSerif());
 					// make sure for new LaTeX texts we get nice "x"s
 					if (isLatex())
 						t.setSerifFont(true);
