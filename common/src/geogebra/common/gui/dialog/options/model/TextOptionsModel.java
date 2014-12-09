@@ -228,13 +228,18 @@ public class TextOptionsModel extends OptionsModel {
 
 	}
 
-	public void applyFontStyle(boolean isBold, boolean isItalic) {
+	public static int getFontStyle(boolean isBold, boolean isItalic) {
 		int style = 0;
 		if (isBold)
 			style += 1;
 		if (isItalic)
 			style += 2;
+		return style;
+	}
 
+	public void applyFontStyle(boolean isBold, boolean isItalic) {
+		int style = getFontStyle(isBold, isItalic);
+		
 		for (int i = 0; i < getGeosLength(); i++) {
 			TextProperties text = getTextPropertiesAt(i);
 			text.setFontStyle(style);
