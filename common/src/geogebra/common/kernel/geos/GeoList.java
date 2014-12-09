@@ -2034,8 +2034,9 @@ AngleProperties {
 			return false;
 		}
 		boolean ret = true;
-		for(GeoElement geo1:geoList){
-			if(!geo1.isLaTeXDrawableGeo()){
+		for (int i = 0 ; i < geoList.size() ; i++) {
+			GeoElement geo1 = geoList.get(i);
+			if (!geo1.isLaTeXDrawableGeo()){
 				return false;
 			}
 		}
