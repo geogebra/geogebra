@@ -4932,23 +4932,34 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  	background-color: rgba(204, 204, 255, 0.3);
  }
  
+ .insertBeforeBorder {
+ 	border-top: 1px solid transparent;
+ }
+ .insertAfterBorder {
+ 	border-bottom: 1px solid transparent;
+ }
+ 
  .insertBeforeLeaf {
  	width: 99%; 
- 	border-top: 1px solid;
+ 	/*border-top: 1px solid;*/
+ 	border-top-color: #6161FF;
  }
 
 .insertAfterLeaf { 
  	width: 99%;
-  	border-bottom: 1px solid;
-  	border-bottom: -11px;
+  	/*border-bottom: 1px solid;*/
+  	/*border-bottom: -11px;*/
+  	border-bottom-color: #6161FF;
  }
  
  .insertBeforeBranch { 
- 	border-top: 5px solid;  
+ 	/*border-top: 5px solid;*/
+ 	border-top-color: #6161FF; 
  }
 
 .insertAfterBranch { 
-	border-bottom: 5px solid;  
+	/*border-bottom: 5px solid;  */
+	border-bottom-color: #6161FF;
  }
  
 .customizableToolbarItem {

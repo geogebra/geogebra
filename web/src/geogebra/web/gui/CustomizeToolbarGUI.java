@@ -104,6 +104,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
          */
 		public void addTool(DraggableTool tool, boolean defaultLeaf) {
 			TreeItem item = null;
+			
 			if (tool.isInTree()) {
 				// reordering the tree
 				if (tool.isLeaf()) {
@@ -230,6 +231,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		public TreeItem setupItem(final TreeItem item, final DraggableTool tool) {
 			item.setUserObject(tool);
 			tool.treeItem = item;
+			
+			tool.addStyleName("insertBeforeBorder");
+			tool.addStyleName("insertAfterBorder");
+			
 			tool.addDropHandler(new DropHandler() {
 				@Override
 				public void onDrop(DropEvent event) {
@@ -252,7 +257,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDragOver(DragOverEvent event) {
 					event.preventDefault();
 					event.stopPropagation();
-					tool.setStyleName("insertBeforeBranch");
+					tool.addStyleName("insertBeforeBranch");
 				}
 			});
 
@@ -262,8 +267,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					event.preventDefault();
 					event.stopPropagation();
 					tool.removeStyleName("insertAfterBranch");
-					tool.removeStyleName("insertBeforeBranch");
-								
+					tool.removeStyleName("insertBeforeBranch");		
 					}
 				
 				});
@@ -297,6 +301,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			if (width > 0) {
 				setWidth(width  + "px");
 			}
+			
+			addStyleName("insertBeforeBorder");
+			addStyleName("insertAfterBorder");
 		}
 		
 		public boolean isInTree() {
@@ -393,6 +400,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			leaf.setUserObject(tool);
 			tool.treeItem = leaf;
 			
+			// TODO: check steffi
+			tool.addStyleName("insertBeforeBorder");
+			tool.addStyleName("insertAfterBorder");
+			
 			tool.removeDragNDrop();
 			
 			tool.addDropHandler(new DropHandler() {
@@ -420,9 +431,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				
 				public void onDragOver(DragOverEvent event) {
 					if (tool.afterLastLeaf(event.getNativeEvent().getClientY())) {
-						tool.setStyleName("insertAfterLeaf");
+						tool.addStyleName("insertAfterLeaf");
 					} else {
-						tool.setStyleName("insertBeforeLeaf");
+						tool.addStyleName("insertBeforeLeaf");
 											
 					}
 				}
@@ -752,7 +763,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			@Override
 			public void onDragOver(DragOverEvent event) {
 				if (toolTree.hitLastItem(event.getNativeEvent().getClientY())) {
-					toolTree.getLastTool().setStyleName("insertAfterBranch");
+					toolTree.getLastTool().addStyleName("insertAfterBranch");
 				}
 			}
 		}, DragOverEvent.getType());
