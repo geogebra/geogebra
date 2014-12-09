@@ -112,6 +112,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		setCartesian3D();
 		setUndefined();
 		this.setIncidenceList(null);
+
 	}
 
 	/**

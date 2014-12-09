@@ -324,7 +324,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	
 	@SuppressWarnings("unchecked")
-	private ArrayList selectedPoints;
+	private ArrayList<GeoPointND> selectedPoints;
 	
 	/** segments of the polygon preview */
 	private ArrayList<DrawSegment3D> segments;
@@ -332,7 +332,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@SuppressWarnings("unchecked")
 	private ArrayList<ArrayList> segmentsPoints;
 	
-	private boolean isPreview = false;;
+	private boolean isPreview = false;
 	
 
 	/**
@@ -341,7 +341,7 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	 * @param selectedPoints
 	 */
 	@SuppressWarnings("unchecked")
-	public DrawPolygon3D(EuclidianView3D a_view3D, ArrayList selectedPoints){
+	public DrawPolygon3D(EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints){
 		
 		super(a_view3D);
 		
@@ -368,14 +368,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	}	
 
 	
-	private boolean freezePreview = false;
-
-	/**
-	 * no more update for the preview
-	 */
-	public void freezePreview(){
-		freezePreview = true;
-	}
 
 
 
@@ -392,9 +384,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updatePreview() {
-		
-		if (freezePreview)
-			return;
 		
 		
 		// intersection curve

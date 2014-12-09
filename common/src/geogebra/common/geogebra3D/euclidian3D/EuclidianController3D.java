@@ -16,6 +16,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawIntersectionCurve3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLine3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPolygon3D;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawPolyhedron3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
@@ -81,6 +82,7 @@ import java.util.Iterator;
  * 
  */
 public abstract class EuclidianController3D extends EuclidianController {
+	
 
 	/** 3D point that is currently moved */
 	// protected GeoPoint3D movedGeoPoint3D = null;
@@ -422,6 +424,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				0, 0, 0, false);
 		point3D.setCoords(point);
 		point3D.updateCoords();
+		point3D.setMoveMode(GeoPointND.MOVE_MODE_Z);
 		view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_ALREADY);
 		view3D.updateMatrixForCursor3D();
 		GeoPoint3D cursor = view3D.getCursor3D();
@@ -1359,8 +1362,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 							&& hits.contains(selectedPoints.get(0));
 					if (finished) {
 						// store basis
-						((DrawPolygon3D) view3D.getPreviewDrawable())
-								.freezePreview();
+						((DrawPolyhedron3D) view3D.getPreviewDrawable())
+								.previewBasisIsFinished();
 						pyramidBasis = getSelectedPointsND();
 						return null;
 					}
@@ -1401,6 +1404,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 					points[i] = pyramidBasis[i];
 				points[pyramidBasis.length] = getSelectedPointsND()[0];
 				// create new pyramid or prism
+				view3D.disposePreview();
 				switch (mode) {
 				case EuclidianConstants.MODE_PYRAMID:
 					pyramidBasis = null;
@@ -1613,7 +1617,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			previewDrawable = view3D.createPreviewPyramid(selectedPoints);
+			previewDrawable = view3D.createPreviewPyramidOrPrism(selectedPoints, mode);
 			break;
 
 		case EuclidianConstants.MODE_INTERSECTION_CURVE: // line through two
@@ -3122,6 +3126,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 			case EuclidianConstants.MODE_ATTACH_DETACH:
 			case EuclidianConstants.MODE_POINT:
 			case EuclidianConstants.MODE_POINT_ON_OBJECT:
+				
+			case EuclidianConstants.MODE_JOIN:
+			case EuclidianConstants.MODE_SEGMENT:
+
+			case EuclidianConstants.MODE_RAY:
+			case EuclidianConstants.MODE_VECTOR:
+
+			case EuclidianConstants.MODE_POLYGON:
+			case EuclidianConstants.MODE_POLYLINE:
+			case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
+			case EuclidianConstants.MODE_CIRCLE_ARC_THREE_POINTS:
+			case EuclidianConstants.MODE_PLANE_THREE_POINTS:
+			case EuclidianConstants.MODE_SPHERE_TWO_POINTS:
+			case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
+			case EuclidianConstants.MODE_CONE_TWO_POINTS_RADIUS:
+			case EuclidianConstants.MODE_CYLINDER_TWO_POINTS_RADIUS:
 				return true;// !mousePressed; //don't display cursor if dragging
 			default:
 				return false;
@@ -3755,4 +3775,5 @@ public abstract class EuclidianController3D extends EuclidianController {
 		clearSelection(selectedQuadric, false);
 		clearSelection(selectedQuadricLimited, false);
 	}
+	
 }

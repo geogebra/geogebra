@@ -2051,8 +2051,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		return new DrawPolygon3D(this, selectedPoints);
 	}
 
-	public Previewable createPreviewPyramid(ArrayList<GeoPointND> selectedPoints) {
-		return new DrawPolygon3D(this, selectedPoints);
+	public Previewable createPreviewPyramidOrPrism(ArrayList<GeoPointND> selectedPoints, int mode) {
+		return new DrawPolyhedron3D(this, selectedPoints, mode);
 	}
 
 	@Override
@@ -3976,6 +3976,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	@Override
 	public void setEuclidianViewNo(int evNo) {
 		this.evNo = evNo;
+	}
+
+	/**
+	 * dispose current preview
+	 */
+	public void disposePreview() {
+		if (this.previewDrawable != null) {
+			this.previewDrawable.disposePreview();
+		}
 	}
 	
 

@@ -1,17 +1,26 @@
-	package geogebra.common.geogebra3D.euclidian3D.draw;
+package geogebra.common.geogebra3D.euclidian3D.draw;
 
 
 
 
+import geogebra.common.euclidian.EuclidianConstants;
+import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPoints;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPrism;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyhedronPointsPyramid;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+
+import java.util.ArrayList;
 
 
 
@@ -23,7 +32,7 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
  * @author matthieu
  *
  */
-public class DrawPolyhedron3D extends Drawable3DSurfaces {
+public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable {
 
 
 	
@@ -36,13 +45,33 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 	public DrawPolyhedron3D(EuclidianView3D a_view3D, GeoPolyhedron poly){
 		
 		super(a_view3D, poly);
-		
-		
-		
-		
 
 		
 	}
+	
+	private boolean isPreview = false;
+	
+	private int previewMode;
+	
+	private DrawPolygon3D drawPolygon3D;
+	
+	private ArrayList<GeoPointND> selectedPoints;
+	
+	public DrawPolyhedron3D(EuclidianView3D a_view3D, ArrayList<GeoPointND> selectedPoints, int mode){
+		
+		super(a_view3D);
+		
+		drawPolygon3D = new DrawPolygon3D(a_view3D, selectedPoints);
+		
+		this.selectedPoints = selectedPoints;
+		
+		isPreview = true;
+		previewMode = mode;
+
+		//updatePreview();
+		
+		
+	}	
 	
 
 	
@@ -248,6 +277,74 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces {
 			recordTrace();
 
 		}
+	}
+
+
+
+	public void updatePreview() {
+		if (previewBasisIsFinished){
+			getView3D().getCursor3D().updateCascade();
+			return;
+		}
+		drawPolygon3D.updatePreview();
+		
+	}
+	
+	private AlgoPolyhedronPoints previewAlgo;
+	
+	@Override
+	public void disposePreview() {
+		super.disposePreview();
+		
+		previewBasisIsFinished = false;
+		
+		if (previewAlgo != null){	
+			previewAlgo.remove();	
+		}
+		
+	}
+
+
+
+	public void updateMousePos(double x, double y) {
+		// TODO Auto-generated method stub	
+	}
+	
+	private boolean previewBasisIsFinished = false;
+	
+	/**
+	 * tells that the preview basis is done
+	 */
+	public void previewBasisIsFinished(){
+		previewBasisIsFinished = true;
+		
+		GeoPointND[] points = new GeoPointND[selectedPoints.size()+1];
+		for (int i = 0 ; i < selectedPoints.size() ; i++){
+			points[i] = selectedPoints.get(i);
+		}
+		points[selectedPoints.size()] = getView3D().getCursor3D();
+		
+		Construction cons = getView3D().getKernel().getConstruction();
+
+		switch(previewMode){
+		case EuclidianConstants.MODE_PYRAMID:
+			previewAlgo = new AlgoPolyhedronPointsPyramid(cons, null, points);			
+			break;
+		case EuclidianConstants.MODE_PRISM:
+			previewAlgo = new AlgoPolyhedronPointsPrism(cons, null, points);			
+			break;
+		}
+		
+		//set visibilities
+		previewAlgo.removeOutputFromAlgebraView();
+		previewAlgo.removeOutputFromPicking();
+		previewAlgo.setOutputPointsEuclidianVisible(false);
+		previewAlgo.notifyUpdateOutputPoints();
+
+		//ensure correct drawing of visible parts of the previewable
+		previewAlgo.setOutputOtherEuclidianVisible(true);
+		previewAlgo.notifyUpdateOutputOther();
+
 	}
 	
 	
