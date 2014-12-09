@@ -1124,8 +1124,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		if (!isIndependent() || isFixed())
 			return MOVE_MODE_NONE;
 		else if (hasPath())
-			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when
-		// not lines
+			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when not lines
 		else if (hasRegion())
 			return MOVE_MODE_XY;
 		else

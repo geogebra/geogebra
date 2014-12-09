@@ -344,6 +344,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		cursorOnXOYPlane.setIsPickable(false);
 		cursorOnXOYPlane.setMoveNormalDirection(Coords.VZ);
 		cursorOnXOYPlane.setRegion(xOyPlane);
+		cursorOnXOYPlane.setMoveMode(GeoPointND.MOVE_MODE_XY);
 
 		// point decorations
 		initPointDecorations();
@@ -2505,11 +2506,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		
 		int pointMoveMode = mode;
 		if (pointMoveMode == GeoPointND.MOVE_MODE_TOOL_DEFAULT){
-			if (getMode() == EuclidianConstants.MODE_MOVE){
-				pointMoveMode = GeoPointND.MOVE_MODE_XY;
-			}else{
-				pointMoveMode = GeoPointND.MOVE_MODE_Z;
-			}
+			pointMoveMode = ((EuclidianController3D) euclidianController).getPointMoveMode();			
 		}
 
 		switch (pointMoveMode) {

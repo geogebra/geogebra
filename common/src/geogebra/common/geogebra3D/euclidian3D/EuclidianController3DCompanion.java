@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D;
 
-import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
@@ -79,8 +78,7 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				if (ec.movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_Z
 						|| 
 						(ec.movedGeoPoint.getMoveMode() == GeoPointND.MOVE_MODE_TOOL_DEFAULT
-						&& (ec.isTemporaryMode()
-								|| ec.getMode() != EuclidianConstants.MODE_MOVE))) { // moves
+						&& ((EuclidianController3D) ec).getPointMoveMode() == GeoPointND.MOVE_MODE_Z)) { // moves
 																				// along
 																				// z-axis
 

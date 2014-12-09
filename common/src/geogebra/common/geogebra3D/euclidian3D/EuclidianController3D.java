@@ -1463,7 +1463,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		((EuclidianView3D) view).updatePointDecorations(null);
 		
 
-		if (isModeForCreatingPoint(mode)) {
+		if (isModeForMovingPoint(mode)) {
 			if (freePointJustCreated){
 				// avoid switch if the point is created by a click
 				freePointJustCreated = false;
@@ -1471,8 +1471,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 				// switch the direction of move (xy or z) in case of left-click
 				// if (!movedGeoPointDragged){
 				if (!draggingOccured && !rightClick && movedGeoPoint.isIndependent()) {
-					if (!movedGeoPoint.isGeoElement3D()){
-						// 2D point will be replaced by 3D point
+					if (mode == EuclidianConstants.MODE_MOVE && !movedGeoPoint.isGeoElement3D()){
+						// 2D point will be replaced by 3D point (only for move mode)
 						GeoPoint replaceable = (GeoPoint) movedGeoPoint;
 						
 						// create new 3D point
@@ -1508,11 +1508,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 						}
 						
 					}
-					movedGeoPoint.switchMoveMode(getMode());
+//					movedGeoPoint.switchMoveMode(getMode());
+					switchPointMoveMode();
 					((EuclidianView3D) view).getCursor3D().setMoveMode(
 							movedGeoPoint.getMoveMode());
-					// Application.debug(movedGeoPoint+"\nmove mode="+movedGeoPoint.getMoveMode()+"\ncursor move mode="+((EuclidianView3D)
-					// view).getCursor3D().getMoveMode());
 					((EuclidianView3D) view).setDefaultCursorWillBeHitCursor();
 				}
 			}
@@ -1528,6 +1527,25 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 	}
 	
+	
+	private int pointMoveMode = GeoPointND.MOVE_MODE_XY;
+	
+	private void switchPointMoveMode(){
+		if (pointMoveMode == GeoPointND.MOVE_MODE_XY){
+			pointMoveMode = GeoPointND.MOVE_MODE_Z;
+		}else{
+			pointMoveMode = GeoPointND.MOVE_MODE_XY;
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @return current tool point move mode
+	 */
+	public int getPointMoveMode(){
+		return pointMoveMode;
+	}
 
 	
 
