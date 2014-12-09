@@ -1380,6 +1380,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 				GeoPolygon[] basis = getSelectedPolygons();
 				GeoPointND[] points = getSelectedPointsND();
 				// create new pyramid or prism
+				view3D.disposePreview();
 				switch (mode) {
 				case EuclidianConstants.MODE_PYRAMID:
 					return new GeoElement[] {
@@ -1615,7 +1616,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		case EuclidianConstants.MODE_PYRAMID:
 		case EuclidianConstants.MODE_PRISM:
-			previewDrawable = view3D.createPreviewPyramidOrPrism(selectedPoints, mode);
+			previewDrawable = view3D.createPreviewPyramidOrPrism(selectedPoints, selectedPolygons, mode);
 			break;
 
 		case EuclidianConstants.MODE_INTERSECTION_CURVE: // line through two
