@@ -300,11 +300,19 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 	 * @return new euclidian view
 	 */
 	protected EuclidianDockPanel newEuclidianDockPanel() {
-		return new EuclidianDockPanel((AppD) app, null);
+		return new EuclidianDockPanel((AppD) app,
+				ToolbarD.getAllTools((AppD) app));
+		// could have been:
+		// ToolBar.getAllToolsNoMacros(false)
+		// but after all, macros should also be shown
 	}
 
 	protected Euclidian2DockPanel newEuclidian2DockPanel(int idx) {
-		return new Euclidian2DockPanel((AppD) app, null, idx);
+		return new Euclidian2DockPanel((AppD) app,
+				ToolbarD.getAllTools((AppD) app), idx);
+		// could have been:
+		// ToolBar.getAllToolsNoMacros(false)
+		// but after all, macros should also be shown
 	}
 
 	public boolean isInputFieldSelectionListener() {
