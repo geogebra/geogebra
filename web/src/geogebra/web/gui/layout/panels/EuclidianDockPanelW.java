@@ -35,7 +35,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		super(
 				App.VIEW_EUCLIDIAN,	// view id 
 				"DrawingPad", 				// view title
-				null,						// toolbar string
+				//ToolBar.getAllToolsNoMacros(true),  // toolbar string... TODO: ToolBarW.getAllTools(app);
+				null,
 				stylebar,					// style bar?
 				5,							// menu order
 				'1' // ctrl-shift-1

@@ -28,7 +28,8 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	public ProbabilityCalculatorDockPanelW(App app) {
 		super(App.VIEW_PROBABILITY_CALCULATOR, // view id
 				"ProbabilityCalculator", // view title phrase
-				null, // toolbar string
+				//"0", // toolbar string - move tool only, force!
+				null,
 				true, // style bar?
 				-1, // menu order
 				'P' // menu shortcut
