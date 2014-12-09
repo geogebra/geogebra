@@ -1364,6 +1364,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 						((DrawPolyhedron3D) view3D.getPreviewDrawable())
 								.previewBasisIsFinished();
 						pyramidBasis = getSelectedPointsND();
+						// cancel last switch of point move mode
+						switchPointMoveMode();
 						return null;
 					}
 				}
@@ -1508,7 +1510,6 @@ public abstract class EuclidianController3D extends EuclidianController {
 						}
 						
 					}
-//					movedGeoPoint.switchMoveMode(getMode());
 					switchPointMoveMode();
 					((EuclidianView3D) view).getCursor3D().setMoveMode(
 							movedGeoPoint.getMoveMode());
