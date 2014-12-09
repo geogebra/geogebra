@@ -17,6 +17,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.geogebra3D.io.MyXMLHandler3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDispatcher3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoElement3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoVectorPoint3D;
 import geogebra.common.geogebra3D.kernel3D.algos.Manager3D;
 import geogebra.common.geogebra3D.kernel3D.arithmetic.ExpressionNodeEvaluator3D;
 import geogebra.common.geogebra3D.kernel3D.commands.AlgebraProcessor3D;
@@ -49,6 +50,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDispatcher;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.ExpressionNodeEvaluator;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.CommandDispatcher;
@@ -624,5 +626,18 @@ public class Kernel3D extends Kernel {
 		
 		
 	}
+	
+	@Override
+	public GeoElement wrapInVector(GeoPointND pt) {
+		if (pt instanceof GeoPoint3D) {
+			AlgoVectorPoint3D algo = new AlgoVectorPoint3D(cons, pt);
+			cons.removeFromConstructionList(algo);
+			return (GeoElement) algo.getVector();
+		}
+		AlgoVectorPoint algo = new AlgoVectorPoint(cons, pt);
+		cons.removeFromConstructionList(algo);
+		return (GeoElement) algo.getVector();
+	}
+
 
 }

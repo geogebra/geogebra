@@ -19,6 +19,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoIf;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
@@ -5072,6 +5073,12 @@ public class Kernel {
 		}
 		return getApplication().showView(App.VIEW_EUCLIDIAN3D);
 		
+	}
+
+	public GeoElement wrapInVector(GeoPointND pt) {
+		AlgoVectorPoint algo = new AlgoVectorPoint(cons, pt);
+		cons.removeFromConstructionList(algo);
+		return (GeoElement) algo.getVector();
 	}
 
 }

@@ -164,10 +164,22 @@ public class CmdAngle extends CommandProcessor {
 	 */
 	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
 		
+		GeoElement arg0 = arg[0];
+		GeoElement arg1 = arg[1];
+		
+		if (arg0.isGeoPoint()) {
+			arg0 = kernelA.wrapInVector((GeoPointND) arg0);
+		}
+		
+		if (arg1.isGeoPoint()) {
+			arg1 = kernelA.wrapInVector((GeoPointND) arg1);
+		}
+		
+		
 		// angle between vectors
-		if ((ok[0] = (arg[0].isGeoVector()))
-				&& (ok[1] = (arg[1].isGeoVector()))) {
-			return angle(c.getLabel(), (GeoVectorND) arg[0], (GeoVectorND) arg[1]);
+		if ((ok[0] = (arg0.isGeoVector()))
+				&& (ok[1] = (arg0.isGeoVector()))) {
+			return angle(c.getLabel(), (GeoVectorND) arg0, (GeoVectorND) arg1);
 		}
 		
 		// angle between lines
