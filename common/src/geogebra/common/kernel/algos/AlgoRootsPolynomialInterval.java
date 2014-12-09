@@ -27,7 +27,6 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
 
 
-	private double[] bounds;
 	private Function intervalFun;
 	private Function interval;
 
@@ -57,6 +56,7 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 		}
 	}
 	
+	@Override
 	protected void computeRoots() {
 		if (f.isDefined()) {
 			if (intervalFun == null) {
