@@ -535,12 +535,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	/**
 	 * @return wheter it has probablity calculator or not
 	 */
-	public boolean hasProbablitiyCalculator() {
+	public boolean hasProbabilityCalculator() {
 		return probCalculator != null;
 	}
 
 	public boolean hasPlotPanelEuclidianView() {
-		return hasProbablitiyCalculator();
+		return hasProbabilityCalculator();
 	}
 
 	public void updateSpreadsheetColumnWidths() {
