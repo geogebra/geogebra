@@ -210,6 +210,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 					showSymbolButtonFocused = true;
 				}
 				super.onBrowserEvent(event);
+				// autoCompleteTextField should not loose focus
+	            AutoCompleteTextFieldW.this.setFocus(true);
 			}
 		};
 		showSymbolButton.getElement().setId(id + "_SymbolButton");
@@ -238,7 +240,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 				} else {
 					hideTablePopup();
 				}
-	            
+				// autoCompleteTextField should not loose focus
+	            AutoCompleteTextFieldW.this.setFocus(true);
             }});
 		
 		showSymbolButton.setFocus(false);

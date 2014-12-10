@@ -5,6 +5,8 @@ import geogebra.html5.main.AppW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.user.client.ui.HTMLTable;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -23,6 +25,15 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 		this.textField = autoCompleteTextField;
 		createSymbolTable();
 		
+		this.addDomHandler(new MouseDownHandler() {
+			
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+					// used because autoCompleteTextField should not loose focus
+					event.preventDefault();
+			}
+		}, MouseDownEvent.getType());
+		
 		// prevent autohide when clicking on the popup button
 		addAutoHidePartner(invoker.getElement());
 		addStyleName("SymbolTablePopup");
@@ -39,6 +50,8 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 	}
 
 	public void onClick(ClickEvent event) {
+		// autoCompleteTextField should not loose focus
+		this.textField.setFocus(true);
 		Cell clickCell = ((HTMLTable) event.getSource()).getCellForEvent(event);
 		textField.insertString(clickCell.getElement().getInnerText());
 		hide();
