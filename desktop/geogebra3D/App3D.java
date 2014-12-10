@@ -290,13 +290,7 @@ public class App3D extends AppD {
 		return new GuiManager3D(this);
 	}
 
-	@Override
-	public void resetFonts() {
 
-		super.resetFonts();
-
-		((App3DCompanion) companion).resetFonts();
-	}
 
 	// /////////////////////////////////////
 	// COMMANDS

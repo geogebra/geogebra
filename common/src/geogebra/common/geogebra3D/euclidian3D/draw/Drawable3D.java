@@ -333,7 +333,7 @@ public abstract class Drawable3D extends DrawableND {
 	 */
 	protected void updateLabel(){
 		
-		label.update(getGeoElement().getLabelDescription(), getView3D().getApplication().getPlainFontCommon(), 
+		label.update(getGeoElement().getLabelDescription(), getView3D().getFontPoint(), 
 				getGeoElement().getObjectColor(),
 				getLabelPosition(),
 				getLabelOffsetX(),-getLabelOffsetY());
@@ -427,6 +427,7 @@ public abstract class Drawable3D extends DrawableND {
 		setLabelWaitForUpdate();
 		setWaitForUpdate();
 	}
+	
 	
 	
 	private boolean waitForUpdateVisualStyle = true;

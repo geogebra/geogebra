@@ -3994,6 +3994,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			this.previewDrawable.disposePreview();
 		}
 	}
-	
+
+	@Override
+	protected void updateDrawableFontSize() {
+		drawable3DLists.resetAllLabels();
+		for (int i = 0; i < 3; i++) {				
+			axisDrawable[i].setWaitForUpdate();		
+			axisDrawable[i].setLabelWaitForUpdate();		
+		}
+		repaintView();
+	}
 
 }

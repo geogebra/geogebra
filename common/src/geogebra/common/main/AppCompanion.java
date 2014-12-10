@@ -113,6 +113,22 @@ public class AppCompanion {
 		return new Settings(2);
 	}
 	
+	/**
+	 * Update font sizes of all components to match current GUI font size
+	 */
+	public void resetFonts() {
+		app.getFontManager().setFontSize(app.getGUIFontSize());
+		if (app.euclidianView != null) {
+			app.euclidianView.updateFonts();
+		}
+
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().updateFonts();
+			if (app.hasEuclidianView2(1)) {
+				app.getEuclidianView2(1).updateFonts();
+			}
+		}
+	}
 
 
 }

@@ -59,8 +59,8 @@ import geogebra.common.plugin.UDPLogger;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
-import geogebra.common.util.ImageManager;
 import geogebra.common.util.CommandInputField;
+import geogebra.common.util.ImageManager;
 import geogebra.common.util.LowerCaseDictionary;
 import geogebra.common.util.NormalizerMinimal;
 import geogebra.common.util.StringUtil;
@@ -2368,18 +2368,8 @@ public abstract class App implements UpdateSelection{
 	/**
 	 * Update font sizes of all components to match current GUI font size
 	 */
-	public void resetFonts() {
-		getFontManager().setFontSize(getGUIFontSize());
-		if (euclidianView != null) {
-			euclidianView.updateFonts();
-		}
-
-		if (getGuiManager() != null) {
-			getGuiManager().updateFonts();
-			if (hasEuclidianView2(1)) {
-				getEuclidianView2(1).updateFonts();
-			}
-		}
+	final public void resetFonts() {
+		companion.resetFonts();
 	}
 
 	/**

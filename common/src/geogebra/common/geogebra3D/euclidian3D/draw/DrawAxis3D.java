@@ -136,7 +136,7 @@ public class DrawAxis3D extends DrawLine3D {
     			if (label!=null){
     				//sets the label visible
     				label.setIsVisible(true);
-    				label.update(strNum, getView3D().getApplication().getPlainFontCommon(), 
+    				label.update(strNum, getView3D().getFontAxes(), 
     						getGeoElement().getObjectColor(),
     						origin.copyVector(),
     						numbersXOffset, numbersYOffset);

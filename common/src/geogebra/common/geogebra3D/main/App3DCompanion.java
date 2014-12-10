@@ -114,10 +114,12 @@ public abstract class App3DCompanion extends AppCompanion {
 	}
 	
 	
-	/**
-	 * Update font sizes of euclidian views for plane
-	 */
+
+	@Override
 	public void resetFonts() {
+		
+		super.resetFonts();
+		
 		if(app.getGuiManager() != null && app.showView(App.VIEW_EUCLIDIAN3D)){
 			((EuclidianView) app.getEuclidianView3D()).updateFonts();
 		}
@@ -181,4 +183,5 @@ public abstract class App3DCompanion extends AppCompanion {
 	public Settings newSettings() {
 		return new Settings(3);
 	}
+	
 }
