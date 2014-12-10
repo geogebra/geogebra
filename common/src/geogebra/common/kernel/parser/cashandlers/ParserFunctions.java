@@ -263,8 +263,8 @@ public class ParserFunctions {
 		put(1, "y", Operation.YCOORD, null);
 		put(1, "z", Operation.ZCOORD, null);
 
-		put(2, "nroot", Operation.NROOT);
-		put(2, "NRoot", Operation.NROOT);
+		put(2, "nroot", Operation.NROOT, "( <x>, <n> )");
+		put(2, "NRoot", Operation.NROOT, null);
 
 		put(1, "Real", Operation.REAL, null);
 		put(1, "real", Operation.REAL);
@@ -318,7 +318,7 @@ public class ParserFunctions {
 		put(1, app.getFunction("imaginary"), Operation.IMAGINARY);
 		put(1, app.getFunction("fractionalPart"), Operation.FRACTIONAL_PART);
 
-		put(2, app.getFunction("nroot"), Operation.NROOT);
+		put(2, app.getFunction("nroot"), Operation.NROOT, "( <x>, <n> )");
 	}
 
 	/**
