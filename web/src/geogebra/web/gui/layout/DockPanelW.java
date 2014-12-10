@@ -264,6 +264,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 		this.id = id;
 		this.title = title;
 		this.defaultToolbarString = toolbar;
+
+		// this is different in Web and Desktop!
+		setToolbarString(defaultToolbarString);
+
 		this.menuOrder = menuOrder;
 		this.menuShortcut = menuShortcut;
 		this.hasStyleBar = hasStyleBar;
