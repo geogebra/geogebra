@@ -2003,6 +2003,10 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	width: 100%;
 }
 
+.SpreadsheetWrapView {
+	background-color: #FFFFFF;
+}
+
 /**
  * According to the CSS2 specification, width will be the greater of
  * this width property and the computed width...
@@ -2650,6 +2654,11 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	right: 15px;
 	cursor: pointer;
 	cursor: hand;
+}
+
+.GeoGebraFileChooser .buttonPanel .saveButton {
+	background-color: #6161FF;
+	color: #FFFFFF;
 }
 
 /*-------- RECOVER AUTO SAVED DIALOG ------------*/
