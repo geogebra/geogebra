@@ -3193,6 +3193,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	font-weight: bold;
 	padding: 1px 10px;
 	border-bottom: 1px solid lightgray;
+	cursor: default;
 }
 
 .inputHelp-cmdSyntax {
@@ -3203,7 +3204,10 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	text-indent: -25px;
 	line-height: 120%;
 	word-wrap: normal;
+	cursor: hand;
+	cursor: pointer;
 }
+
 body.application[dir=rtl] .inputHelp-cmdSyntax {
 	padding-left: 0px;
 	padding-right: 35px;

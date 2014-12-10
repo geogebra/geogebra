@@ -17,14 +17,11 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
-import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.animation.client.AnimationScheduler;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -37,7 +34,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public abstract class AlgebraViewWeb extends Tree implements LayerView,
-        SetLabels, AlgebraView, OpenHandler<TreeItem>, BlurHandler {
+        SetLabels, AlgebraView, OpenHandler<TreeItem> {
 
 	protected final AppW app; // parent appame
 	protected final Localization loc;
@@ -82,9 +79,12 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/* for SortMode.LAYER */
 	private TreeItem rootLayer;
 	private HashMap<Integer, TreeItem> layerNodesMap;
-	
 	private GeoElement lastSelectedGeo = null;
+	protected HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(500);
+	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
+	private StringBuilder sbXML;
 
+	 
 	public AlgebraViewWeb(AppW app) {
 		super(new TreeImages());
 		this.app = app;
@@ -93,14 +93,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		this.addOpenHandler(this);
 	}
 
-	protected HashMap<GeoElement, TreeItem> nodeTable = new HashMap<GeoElement, TreeItem>(
-	        500);
-
-
-	
-	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
-	
-	 
     /**
 	 * schedule a repaint
 	 */
@@ -213,8 +205,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				        ((GeoElement) geo).doHighlighting());
 		}
 	}
-
-	private StringBuilder sbXML;
 
 	private void updateCollapsedNodesIndices() {
 
@@ -519,7 +509,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			// set the root
 			clear();
-			// addItem(rootOrder);
+			if (isAlgebraInputVisible()) {
+				super.addItem(inputPanelTreeItem);
+			} 
 			break;
 
 		case TYPE:
@@ -538,7 +530,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 			// set the root
 			clear();
-			// addItem(rootType);
+			if (isAlgebraInputVisible()) {
+				super.addItem(inputPanelTreeItem);
+			} 
 			break;
 		case LAYER:
 			// don't re-init anything
@@ -826,18 +820,11 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 	}
 
-	private void checkEmpty() {
-		if(this.inputPanel != null && this.nodeTable.isEmpty()){
-			((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(false);
-			
-		}
-    }
 
 	public void clearView() {
 		nodeTable.clear();
 		clearTree();
 		showAlgebraInput();
-		checkEmpty();
 	}
 
 	/**
@@ -850,7 +837,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	protected void removeAuxiliaryNode() {
 		removeItem(auxiliaryNode);
-		checkEmpty();
 	}
 
 	/**
@@ -1023,15 +1009,12 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public void setInputPanel(final AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
-		this.inputPanel.getTextField().addBlurHandler(this);
-		showAlgebraInput();
 		if(inputPanel != null){
-			//make sure we do not  trigger long touch here
+			//make sure we do not trigger long touch here
 			inputPanel.getTextField().addDomHandler(new TouchStartHandler(){
 
 				@Override
                 public void onTouchStart(TouchStartEvent event) {
-				   checkEmpty();
 	               event.stopPropagation();
 	                
                 }}, TouchStartEvent.getType());
@@ -1039,11 +1022,11 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 				@Override
                 public void onMouseDown(MouseDownEvent event) {
-					checkEmpty();
 	               //event.stopPropagation();
 	                
                 }}, MouseDownEvent.getType());
 		}
+		showAlgebraInput();
 	}
 
 	public void setShowAlgebraInput(boolean show) {
@@ -1091,8 +1074,10 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 	}
 	
-	@Override
-    public void onBlur(BlurEvent event) {
-		((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(true);
-    }
+	/**
+	 * @return true if {@link #nodeTable} is empty
+	 */
+	public boolean isNodeTableEmpty() {
+		 return this.nodeTable.isEmpty();
+	}
 }

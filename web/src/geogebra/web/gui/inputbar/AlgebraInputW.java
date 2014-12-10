@@ -6,6 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.App;
 import geogebra.common.main.GWTKeycodes;
 import geogebra.common.main.MyError;
 import geogebra.common.util.AsyncOperation;
@@ -15,6 +16,8 @@ import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
+import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
+import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.dom.client.Style.Unit;
@@ -227,6 +230,9 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	public void onFocus(FocusEvent event) {
+		if(((AlgebraViewWeb) app.getGuiManager().getAlgebraView()).isNodeTableEmpty()) {
+			((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(false);	
+		}
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
 		app.getSelectionManager().clearSelectedGeos();
@@ -234,6 +240,7 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	}
 
 	public void onBlur(BlurEvent event) {
+		((AlgebraDockPanelW)app.getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(true);	
 		Object source = event.getSource();
 		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
 		this.focused = false;
