@@ -1099,7 +1099,10 @@ public class DockManagerW extends DockManager {
 		else if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D))
 			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
 		// what else can it be??
+		else if (app.getGuiManager().hasProbabilityCalculator() && app.getGuiManager().getProbabilityCalculator().isShowing())
+			app.getGuiManager().setActiveToolbarId(App.VIEW_PROBABILITY_CALCULATOR);
 		else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
+			// algebra view has no toolbar!
 			app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);
 		else //?
 			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
