@@ -13,6 +13,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.cas.view.CASStylebarW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.ImageFactory;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.app.GGWToolBar;
@@ -1028,7 +1029,20 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * sets the active toolbar
 	 */
 	protected void setActiveToolBar() {
-		App.debug("unimplemented");
+		if (hasToolbar()) {
+			((GuiManagerW) app.getGuiManager()).setActiveToolbarId(getViewId());
+		} else {
+			// Is this necessary in Web?
+			((GuiManagerW) app.getGuiManager()).getToolbarPanel()
+					.setActiveToolbar(-1);
+		}
+		// Is this necessary in Web? (Desktop also had the following:)
+		// switching the view may cause shrinking of help panel,
+		// we need an update here
+		//((GuiManagerW) app.getGuiManager()).getToolbarPanel().validate();
+		//((GuiManagerW) app.getGuiManager()).getToolbarPanel().updateHelpText();
+
+		//App.debug("unimplemented");
 	}
 
 	/**
