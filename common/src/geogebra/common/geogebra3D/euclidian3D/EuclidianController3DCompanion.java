@@ -374,11 +374,14 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 		}
 
 		((EuclidianController3D) ec).setMouseInformation(point3D);
-		/*
-		 * if (((GeoElement) path).isGeoList())
-		 * Application.printStacktrace("TODO: path==GeoList"); else
-		 */
 		point3D.doPath();
+		
+		// try to capture point
+		tmpCoords1.set(point3D.getInhomCoordsInD3());
+		if (checkPointCapturingXYThenZ(tmpCoords1)){
+			point3D.setWillingCoords(tmpCoords1);
+			point3D.doPath();
+		}
 
 		return point3D;
 	}
@@ -423,19 +426,28 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				point3D.setCoords(captureCoords, false);
 			}
 			
+		}else{
+			
+			// try to capture coords
+			tmpCoords1.set(point3D.getInhomCoordsInD3());
+			if (checkPointCapturingXYThenZ(tmpCoords1)){
+				point3D.setWillingCoords(tmpCoords1);
+				point3D.doRegion();
+			}
+
 		}
 
 		((EuclidianController3D) ec).view3D.setCursor3DType(EuclidianView3D.PREVIEW_POINT_REGION);
 
 		if (!forPreviewable) {
+
 			GeoPoint3D ret = (GeoPoint3D) ec.getKernel().getManager3D().Point3DIn(
 					null, region, false);
 			ret.set((GeoElement) point3D);
 			// ret.setRegion(region);
 			ret.doRegion();
 
-			// Application.debug("ici");
-
+			
 			return ret;
 		}
 
