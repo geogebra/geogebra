@@ -35,10 +35,10 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 		);
 
 		this.app = app;
-		this.setOpenInFrame(true);
+		//this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
 		
-	    this.app = app;
+	    //this.app = app;
     }
 	@Override
     public void onResize(){
