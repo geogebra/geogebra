@@ -312,6 +312,11 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
 	    final int count = frameLayout.getWidgetCount();
 	    childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
+	    	if(bg == frameLayout.getWidget(i)){
+	    		return;
+	    	}
+	    }
+	    for(int i = 0; i<count;i++){
 	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
 	    	frameLayout.getWidget(i).setVisible(false);
 	    }
