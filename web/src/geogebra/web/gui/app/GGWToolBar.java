@@ -190,29 +190,32 @@ public class GGWToolBar extends Composite implements RequiresResize{
             }
 		}, KeyUpEvent.getType());
 		
-		openSearchButton = new StandardButton(pr.button_open_search(),null,32);
-		openSearchButton.addFastClickHandler(new FastClickHandler() {
-			@Override
-            public void onClick(Widget source) {
-				app.openSearch(null);
-            }
-		});
+		final boolean exam = ((AppW)app).getLAF().isExam();
+		if (!exam) {
+			openSearchButton = new StandardButton(pr.button_open_search(),null,32);
+			openSearchButton.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick(Widget source) {
+					app.openSearch(null);
+				}
+			});
 		
-		openSearchButton.addDomHandler(new KeyUpHandler(){
-			public void onKeyUp(KeyUpEvent event) {
-	            if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
-	            	app.openSearch(null);
-	            }
-	            if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
-	            	GGWToolBar.this.selectMenuButton(1);
-	            }
-	            if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT){
-	            	GGWToolBar.this.toolBar.selectMenu(-1);
-	            }
-            }
-		}, KeyUpEvent.getType());
+			openSearchButton.addDomHandler(new KeyUpHandler(){
+				public void onKeyUp(KeyUpEvent event) {
+					if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER){
+						app.openSearch(null);
+					}
+					if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT){
+						GGWToolBar.this.selectMenuButton(1);
+					}
+					if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT){
+						GGWToolBar.this.toolBar.selectMenu(-1);
+					}
+				}
+			}, KeyUpEvent.getType());
 		
-		this.rightButtonPanel.add(openSearchButton);
+			this.rightButtonPanel.add(openSearchButton);
+		}
 		this.rightButtonPanel.add(openMenuButton);
 		}
 		toolBarPanel.add(rightButtonPanel);	

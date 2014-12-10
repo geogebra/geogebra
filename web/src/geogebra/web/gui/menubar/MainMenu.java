@@ -67,15 +67,22 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void init() {
 		this.app.getLoginOperation().getView().add(this);
-		this.createFileMenu();
+		final boolean exam = ((AppW)app).getLAF().isExam();
+		if (!exam) {
+			this.createFileMenu();
+		}
 		this.createPerspectivesMenu();
 		this.createEditMenu();
 		this.createViewMenu();
 		this.createOptionsMenu();
 		this.createToolsMenu();
-		this.createHelpMenu();
-		this.createUserMenu();
-		this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+		if (!exam) {
+			this.createHelpMenu();
+			this.createUserMenu();
+			this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
+		} else {
+			this.menus = new GMenuBar[]{editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu};
+		}
 		
 		for(int i=0; i<menus.length; i++){
 			final int next = (i+1)%menus.length;
@@ -118,7 +125,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			@Override
 			public void onBrowserEvent(Event event) {
 				
-				if (DOM.eventGetType(event) == Event.ONCLICK) {
+				if (!exam && DOM.eventGetType(event) == Event.ONCLICK) {
 					Element target = DOM.eventGetTarget(event);
 					int index = findDividerIndex(target);
 					//check if SignIn was clicked
@@ -158,7 +165,9 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		};
 		this.menuPanel.addStyleName("menuPanel");
 		
-		this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
+		if (!exam) {
+			this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
+		}
 		this.menuPanel.add(editMenu, setHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
@@ -166,12 +175,13 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(!app.getLAF().isSmart() && !app.getLAF().isTablet()){
 			this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
-		
-		this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
-		if(app.getNetworkOperation().isOnline()){
-			render(true);
+		if (!exam) {
+			this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
+			if(app.getNetworkOperation().isOnline()){
+				render(true);
+			}
+			app.getNetworkOperation().getView().add(this);
 		}
-		app.getNetworkOperation().getView().add(this);
 	    this.add(menuPanel);	    
 	}
 

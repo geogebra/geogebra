@@ -3313,7 +3313,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		createBasicTab();
 
-		tabs = Arrays.asList(
+		boolean exam = ((AppW)app).getLAF().isExam();
+		if (!exam) {
+			tabs = Arrays.asList(
 				basicTab,
 				addTextTab(),
 				addSliderTab(),
@@ -3323,6 +3325,17 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				addAdvancedTab(),
 				addAlgebraTab(),
 				addScriptTab());
+		} else {
+			tabs = Arrays.asList(
+					basicTab,
+					addTextTab(),
+					addSliderTab(),
+					addColorTab(),
+					addStyleTab(),
+					addPositionTab(),
+					addAdvancedTab(),
+					addAlgebraTab());
+		}
 
 		for (OptionsTab tab: tabs) {
 			tab.addToTabPanel();
