@@ -987,7 +987,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 		if (hasFocus) {
 			// request focus and change toolbar if necessary
-			if (openInFrame) {
+			if (isOpenInFrame()) {
 				// TODO frame.requestFocus();
 			} else {
 				/*

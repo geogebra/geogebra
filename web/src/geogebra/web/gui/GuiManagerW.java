@@ -1281,7 +1281,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		setToolBarDefinition(def);
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
-			toolbarPanel.setActiveToolbar(new Integer(toolbarID));
+			getToolbarPanel().setActiveToolbar(new Integer(toolbarID));
 			updateToolbar();
 		}
 		this.toolbarID = toolbarID;
