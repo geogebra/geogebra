@@ -1273,6 +1273,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		drawable3DMap.remove(geo);
 		geosToBeAdded.remove(geo);
+		
+		repaintView();
 	}
 
 	/**
