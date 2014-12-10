@@ -27,7 +27,7 @@ public class ToolbarSubemuW extends FlowPanel {
 	/**
 	 * Application
 	 */
-	private AppW app;
+	protected AppW app;
 	
 	/**
 	 * Panel containing the arrow.
@@ -37,7 +37,7 @@ public class ToolbarSubemuW extends FlowPanel {
 	/**
 	 * Item list containing the submenu items.
 	 */
-	private UnorderedList itemList;
+	protected UnorderedList itemList;
 
 	private double maxHeight;
 
@@ -110,16 +110,29 @@ public class ToolbarSubemuW extends FlowPanel {
 	 * @return the newly created {@code ListItem}
 	 */
 	public ListItem addItem(int addMode) {
-		ListItem listItem = new ListItem();
-		
-		Image image = new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(addMode), 32);
-		Label label = new Label(app.getToolName(addMode));
-		listItem.add(image);
-		listItem.add(label);
+		ListItem listItem = createListItem(addMode);
 		listItem.getElement().setAttribute("mode", addMode + "");
 		itemList.add(listItem);
 		
 		return listItem;
+	}
+
+	protected ListItem createListItem(int mode) {
+		ListItem listItem = new ListItem();
+		
+		Image image = createImage(mode);
+		Label label = createLabel(mode);
+		listItem.add(image);
+		listItem.add(label);
+		return listItem;
+	}
+
+	protected Image createImage(int mode) {
+		return new NoDragImage(((GGWToolBar)app.getToolbar()).getImageURL(mode), 32);
+	}
+
+	protected Label createLabel(int mode) {
+		return new Label(app.getToolName(mode));
 	}
 	
 	/**
@@ -131,7 +144,5 @@ public class ToolbarSubemuW extends FlowPanel {
 
 	public void setMaxHeight(int d) {
 		itemList.getElement().getStyle().setProperty("maxHeight", d+"px");
-		
-		
     }
 }

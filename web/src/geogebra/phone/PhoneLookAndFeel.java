@@ -2,7 +2,7 @@ package geogebra.phone;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.main.AppW;
-import geogebra.phone.gui.views.browseView.MaterialListElementP;
+import geogebra.phone.gui.view.material.browser.MaterialListElementP;
 import geogebra.web.gui.browser.MaterialListElement;
 import geogebra.web.gui.laf.GLookAndFeel;
 

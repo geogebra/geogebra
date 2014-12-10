@@ -768,7 +768,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		return algebraView;
 	}
 
-	private void initAlgebraController() {
+	protected void initAlgebraController() {
 		if (algebraController == null) {
 			algebraController = new AlgebraControllerW(app.getKernel());
 		}

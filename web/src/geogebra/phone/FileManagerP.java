@@ -12,11 +12,11 @@ public class FileManagerP extends FileManagerT {
 	
 	@Override
 	public void addMaterial(final Material mat) {
-		Phone.getGUI().getMaterialListPanel().addMaterial(mat, false, true);
+		//Phone.getGUI().getMaterialListPanel().addMaterial(mat, false, true);
 	}
 	
 	@Override
 	public void removeFile(final Material mat) {
-		Phone.getGUI().getMaterialListPanel().removeMaterial(mat);
+		//Phone.getGUI().getMaterialListPanel().removeMaterial(mat);
 	}
 }

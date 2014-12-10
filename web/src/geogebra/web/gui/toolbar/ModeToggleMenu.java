@@ -45,11 +45,11 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	private static final long serialVersionUID = 1L;
 
 	private FlowPanel tbutton;
-	private ToolbarSubemuW submenu;
+	protected ToolbarSubemuW submenu;
 
 	private AppW app;
 
-	private ToolBarW toolbar;
+	protected ToolBarW toolbar;
 
 	private final Vector<Integer> menu;
 	
@@ -87,7 +87,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
     }
 
 	private void buildGui(){
-		submenu = new ToolbarSubemuW(app, order);
+		submenu = createToolbarSubmenu(app, order);
 		add(submenu);
 
 		for (int k = 0; k < menu.size(); k++) {
@@ -108,9 +108,12 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 		}
 
 		hideMenu();
-
 	}
-	
+
+	protected ToolbarSubemuW createToolbarSubmenu(AppW app, int order) {
+		return new ToolbarSubemuW(app, order);
+	}
+
 	public void setButtonTabIndex(int index){
 		tbutton.getElement().setTabIndex(index);
 	}
@@ -156,13 +159,13 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	 * @param visible if true sets the menu visible, otherwise it hides it
 	 */
 	public void setMenuVisibility(boolean visible) {
-		if (submenu != null) {
-			submenu.setVisible(visible);
-			if (visible) {
-				app.registerPopup(submenu);
-			} else {
-				app.unregisterPopup(submenu);
-			}
+		if (submenu == null) {
+			return;
+		}
+		if (visible) {
+			showMenu();
+		} else {
+			hideMenu();
 		}
 	}
 	

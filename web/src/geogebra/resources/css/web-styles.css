@@ -58,6 +58,7 @@ body.application,article {
 .GeoGebraFrame select,
 .GeoGebraFrame textarea,
 .gwt-TextArea,
+.gwt-SuggestBox,
 .GeoGebraFrame iframe.objectPropertiesTextEditor
 	{
 	border: #DCDCDC solid 1px;
@@ -4685,6 +4686,8 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	list-style-type: none;
 }
 
+
+
 /* ########################################
    ###          ALGEBRA VIEW            ###
    ######################################## */
@@ -4705,12 +4708,22 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 /* ########################################
    ###         GRAPHICS VIEW            ###
    ######################################## */
+   
+.GGWToolbar .phonetoolbar_mainItem {
+	padding: 0px;
+	margin: 0px;
+}
+
+.GGWToolbar-opened {
+	width: 85px;
+}
+
 /* ########################################
    ###           BROWSE VIEW            ###
    ######################################## */
 .PhoneGUI .searchDiv {
-	margin-left: 0px;
-	margin-top: 0px;
+	margin-left: 5px;
+	margin-top: 5px;
 }
 
 .PhoneGUI .materialListElement .fileLinks {
@@ -4728,6 +4741,21 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	overflow:auto;
 }
 
+.PhoneHeader .searchDiv {
+	
+}
+
+.PhoneHeader .searchDiv input.gwt-TextBox {
+	padding-left: 32px;
+	padding-right:2px;
+	width:32px;
+}
+
+.PhoneHeader .searchDiv input.gwt-TextBox:FOCUS {
+	padding-left: 32px;
+	padding-right:35px;
+	width:200px;
+}
 
 /* ########################################
    ###        DATA ANALYSIS VIEW        ###

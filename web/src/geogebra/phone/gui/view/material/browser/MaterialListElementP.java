@@ -1,11 +1,9 @@
-package geogebra.phone.gui.views.browseView;
+package geogebra.phone.gui.view.material.browser;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.phone.Phone;
-import geogebra.phone.gui.views.ViewsContainer.View;
 import geogebra.web.gui.browser.MaterialListElement;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -20,29 +18,29 @@ public class MaterialListElementP extends MaterialListElement {
 
 	@Override
 	protected void closeBrowseView() {
-		Phone.getGUI().scrollTo(View.Graphics);
+		//Phone.getGUI().scrollTo(View.Graphics);
 	}
 
 	@Override
 	protected void markSelected() {
 		this.state = State.Selected;
-		Phone.getGUI().getMaterialListPanel().disableMaterials();
-		Phone.getGUI().getMaterialListPanel().rememberSelected(this);
+		//Phone.getGUI().getMaterialListPanel().disableMaterials();
+		//Phone.getGUI().getMaterialListPanel().rememberSelected(this);
 
 		this.addStyleName("selected");
 	}
 	
 	@Override
 	protected void onEdit() {
-		Phone.getGUI().getMaterialListPanel().disableMaterials();		
+		//Phone.getGUI().getMaterialListPanel().disableMaterials();		
 		if (!isLocal) {
 			if(material.getType() == MaterialType.book){
 				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
 
 					@Override
 					public void onLoaded(final List<Material> response) {
-						Phone.getGUI().getMaterialListPanel().clearMaterials();
-						Phone.getGUI().getMaterialListPanel().addGGTMaterials(response);
+						//Phone.getGUI().getMaterialListPanel().clearMaterials();
+						//Phone.getGUI().getMaterialListPanel().addGGTMaterials(response);
 					}
 				});
 				return;
@@ -63,12 +61,12 @@ public class MaterialListElementP extends MaterialListElement {
 	
 	@Override
 	protected void remove() {
-		Phone.getGUI().getMaterialListPanel().removeMaterial(this.material);
+		//Phone.getGUI().getMaterialListPanel().removeMaterial(this.material);
 	}
 	
 	@Override
     protected void setAllMaterialsDefault() {
-		Phone.getGUI().getMaterialListPanel().setDefaultStyle(false);
+		//Phone.getGUI().getMaterialListPanel().setDefaultStyle(false);
 	}
 	
 

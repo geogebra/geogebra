@@ -201,7 +201,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 			ToolbarItem ob = toolbarVec.get(i);
 			Vector<Integer> menu = ob.getMenu();
 
-			ModeToggleMenu mtm = new ModeToggleMenu(app, menu, this, i);
+			ModeToggleMenu mtm = createModeToggleMenu(app, menu, i);
 			mtm.setButtonTabIndex(-1);
 
 			modeToggleMenus.add(mtm);
@@ -218,6 +218,10 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 			modeToggleMenus.get(0).setButtonTabIndex(0);
 	}
 
+	protected ModeToggleMenu createModeToggleMenu(AppW app, Vector<Integer> menu, int order) {
+		return new ModeToggleMenu(app, menu, this, order); 
+	}
+	
 	private Vector<ToolbarItem> getToolbarVec() {
 		Vector<ToolbarItem> toolbarVec;
 		try {
