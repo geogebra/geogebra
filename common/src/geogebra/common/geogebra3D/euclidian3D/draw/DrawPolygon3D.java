@@ -385,7 +385,6 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void updatePreview() {
 		
-		
 		// intersection curve
 		if (segmentsPoints == null){
 			//App.debug(this);
@@ -476,6 +475,10 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 	
 	@Override
 	public void disposePreview() {
+		
+		// first update preview to ensure segments arrays are correct
+		updatePreview();
+		
 		super.disposePreview();
 		
 		// dispose segments
@@ -485,10 +488,12 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 			}
 		}
 
-		
+		// we may reuse it
+		if (segmentsPoints != null){
+			segmentsPoints.clear();
+		}
 	}
-
-
+	
 
 	@Override
 	public boolean doHighlighting(){

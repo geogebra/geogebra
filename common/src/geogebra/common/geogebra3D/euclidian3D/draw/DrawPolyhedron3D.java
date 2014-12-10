@@ -337,6 +337,19 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		}
 		
 	}
+	
+//	public void hidePreview(){
+//		if (previewBasisIsFinished){
+//			previewBasisIsFinished = false;
+//
+//			if (previewAlgo != null){	
+//				previewAlgo.remove();	
+//				previewAlgo = null;
+//			}
+//		}else{
+//			drawPolygon3D.hidePreview();
+//		}
+//	}
 
 
 

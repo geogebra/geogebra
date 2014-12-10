@@ -3674,8 +3674,17 @@ public abstract class EuclidianController3D extends EuclidianController {
 	public void setMode(int newMode) {
 		
 
-		if (newMode != EuclidianConstants.MODE_INTERSECTION_CURVE)
+		// clear specific modes fields
+		
+		// clear intersections
+		if (newMode != EuclidianConstants.MODE_INTERSECTION_CURVE){
 			intersectionCurveList.clear();
+		}
+		
+		// clear pyramid/prism basis
+		pyramidBasis = null;
+		
+		
 		super.setMode(newMode);
 		
 		initPointMoveMode();
