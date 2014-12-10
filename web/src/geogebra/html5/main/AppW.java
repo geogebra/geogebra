@@ -1376,7 +1376,9 @@ public abstract class AppW extends App implements SetLabels{
 		// Initialize the signIn operation
 		loginOperation = op;
 		if (getNetworkOperation().isOnline()) {
-			initGoogleDriveEventFlow();
+			if(this.getLAF() != null && this.getLAF().externalDriveSupported()){
+				initGoogleDriveEventFlow();
+			}
 			loginOperation.performTokenLogin();
 		}else{
 			loginOperation.startOffline();
