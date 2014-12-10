@@ -15,7 +15,6 @@
  */
 package geogebra.web.gui.util;
 
-import geogebra.common.main.App;
 import geogebra.html5.gui.util.CancelEventTimer;
 
 import java.util.ArrayList;
@@ -1365,14 +1364,11 @@ public class PopupPanel extends SimplePanel implements SourcesPopupEvents,
     int type = nativeEvent.getTypeInt();
 
     if ((type & Event.TOUCHEVENTS) != 0) { // it is a touch event
-      App.debug("touch event");
       CancelEventTimer.touchEventOccured();
     }
 
     if ((type & Event.MOUSEEVENTS) != 0) {
-      App.debug("mouse event");
       if (CancelEventTimer.cancelMouseEvent()) {
-        App.debug("cancel mouse event");
         return;
       }
     }
