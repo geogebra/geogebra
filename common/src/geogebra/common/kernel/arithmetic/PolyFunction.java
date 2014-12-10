@@ -249,7 +249,7 @@ public class PolyFunction implements RealRootDerivFunction {
 		
 		double[] polyCoeffs = poly.getCoeffs();
 		
-		for (int i = 0 ; i < degree ; i++) {
+		for (int i = 0 ; i <= degree ; i++) {
 			if (!Kernel.isEqual(polyCoeffs[i], coeffs[i])) {
 				return false;
 			}
