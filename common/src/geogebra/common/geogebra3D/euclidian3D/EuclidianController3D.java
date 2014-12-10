@@ -1365,7 +1365,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 								.previewBasisIsFinished();
 						pyramidBasis = getSelectedPointsND();
 						// cancel last switch of point move mode
-						switchPointMoveMode();
+						cancelSwitchPointMoveModeIfNeeded();
 						return null;
 					}
 				}
@@ -1538,6 +1538,12 @@ public abstract class EuclidianController3D extends EuclidianController {
 			pointMoveMode = GeoPointND.MOVE_MODE_XY;
 		}
 		
+	}
+	
+	private void cancelSwitchPointMoveModeIfNeeded(){
+		if (!draggingOccuredBeforeRelease && movedGeoPoint != null && movedGeoPoint.isIndependent()){
+			switchPointMoveMode();
+		}
 	}
 	
 	private void initPointMoveMode(){
@@ -3839,6 +3845,19 @@ public abstract class EuclidianController3D extends EuclidianController {
 		clearSelection(selectedPolyhedron, false);
 		clearSelection(selectedQuadric, false);
 		clearSelection(selectedQuadricLimited, false);
+	}
+	
+	
+	@Override
+	protected GeoElement[] polygon() {
+
+		if (polygonMode == POLYGON_NORMAL){
+			// cancel last switch
+			cancelSwitchPointMoveModeIfNeeded();
+		}
+		
+		return super.polygon();
+				
 	}
 	
 }
