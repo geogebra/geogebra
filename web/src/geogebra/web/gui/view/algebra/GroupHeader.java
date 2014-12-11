@@ -14,7 +14,7 @@ import com.google.gwt.user.client.ui.TreeItem;
 public class GroupHeader extends FlowPanel{
 	
 	protected GroupNameLabel il;
-	private Image img;
+	Image img;
 	public GroupHeader(SelectionManager selection, TreeItem parent, String strlab, SafeUri showUrl,SafeUri hiddenUrl) {
 		
 		this.setStyleName("elemHeading");
@@ -51,7 +51,7 @@ public class GroupHeader extends FlowPanel{
 		{
 			//String html = "<img src=\"" + text + "\" style=\"height: 19px;margin-right: 5px;\">";
 			if(img == null){
-				Image img = new Image(text);
+				img = new Image(text);
 				this.add(img);
 			}else{
 				img.setUrl(text);
