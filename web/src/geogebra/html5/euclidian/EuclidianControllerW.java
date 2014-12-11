@@ -84,8 +84,8 @@ LongTouchHandler {
 	private PointerEvent waitingMouseMove = null;
 
 	public EnvironmentStyleW style = new EnvironmentStyleW(); 
-	
-	
+
+
 	/**
 	 * different modes of a multitouch-event
 	 */
@@ -170,30 +170,30 @@ LongTouchHandler {
 	private int previousMode = -1;
 
 	private double originalRadius;
-	
+
 	private LongTouchManager longTouchManager;
-	
+
 	public EnvironmentStyleW getEnvironmentStyle () {
 		return style;
 	}
-	
-	
+
+
 
 	/**
 	 * recalculates cached styles concerning browser environment
 	 */
 	@Override
 	public void calculateEnvironment() {
-	    style = new EnvironmentStyleW();
-	    style.setWidthScale(getEnvWidthScale());
-	    style.setHeightScale(getEnvHeightScale());
-	    style.setxOffset(getEnvXoffset());
-	    style.setyOffset(getEnvYoffset());
-	    style.setScaleX(((AppW) app).getArticleElement().getScaleX());
-	    style.setScaleY(((AppW) app).getArticleElement().getScaleY());
-	    style.setScrollLeft(Window.getScrollLeft());
-	    style.setScrollTop(Window.getScrollTop());
-    }
+		style = new EnvironmentStyleW();
+		style.setWidthScale(getEnvWidthScale());
+		style.setHeightScale(getEnvHeightScale());
+		style.setxOffset(getEnvXoffset());
+		style.setyOffset(getEnvYoffset());
+		style.setScaleX(((AppW) app).getArticleElement().getScaleX());
+		style.setScaleY(((AppW) app).getArticleElement().getScaleY());
+		style.setScrollLeft(Window.getScrollLeft());
+		style.setScrollTop(Window.getScrollTop());
+	}
 
 
 
@@ -204,7 +204,7 @@ LongTouchHandler {
 		}
 		return 0;
 	}
-	
+
 	private float getEnvHeightScale() {
 		EuclidianViewW v = (EuclidianViewW) view;
 		if (v.g2p.getOffsetHeight() != 0) {
@@ -212,17 +212,17 @@ LongTouchHandler {
 		}
 		return 0;
 	}
-	
+
 	private int getEnvXoffset(){
 		//return EuclidianViewXOffset;
 		//the former solution doesn't update on scrolling
 		return Math.round((((EuclidianViewW) view).getAbsoluteLeft() - Window.getScrollLeft()));
-				
+
 	}
-	
-	
+
+
 	//private int EuclidianViewXOffset;
-	
+
 	//private int EuclidianViewYOffset;
 	/**
 	 * @return offset to get correct getY() in mouseEvents
@@ -232,24 +232,24 @@ LongTouchHandler {
 		//the former solution doesn't update on scrolling
 		return ((EuclidianViewW) view).getAbsoluteTop() - Window.getScrollTop();
 	}
-	
-	
-	
+
+
+
 
 	private boolean EuclidianOffsetsInited = false;
-	
+
 	public boolean isOffsetsUpToDate(){
 		return EuclidianOffsetsInited;
 	}
-	
+
 	private Timer repaintTimer = new Timer() {
 		@Override
 		public void run() {
 			moveIfWaiting();
 		}
 	};
-//	private boolean ignoreNextMouseEvent;
-	
+	//	private boolean ignoreNextMouseEvent;
+
 	public void moveIfWaiting(){
 		long time = System.currentTimeMillis();
 		if(this.waitingMouseMove != null){
@@ -261,9 +261,9 @@ LongTouchHandler {
 			GeoGebraProfiler.moveEventsIgnored--;
 			this.onTouchMoveNow(waitingTouchMove, time);
 		}
-		
+
 	}
-	
+
 	public EuclidianControllerW(Kernel kernel) {
 		super(kernel.getApplication());
 		setKernel(kernel);
@@ -285,43 +285,43 @@ LongTouchHandler {
 		tempNum = new MyDouble(kernel);
 		longTouchManager = LongTouchManager.getInstance();
 	}
-	
+
 	public void handleLongTouch(int x, int y) {
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH, ZeroOffset.instance);
 		event.setIsRightClick(true);
 		wrapMouseReleased(event);
 	}
-	
+
 	public  void setView(EuclidianView view) {
 		this.view = view;
 	}
 
 	public void onGestureChange(GestureChangeEvent event) {
-		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		//AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
-				//event.preventDefault();
-				//event.stopPropagation();
+		//event.preventDefault();
+		//event.stopPropagation();
 	}
 
 	public void onGestureEnd(GestureEndEvent event) {
-		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		//AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
-				//event.preventDefault();
-				//event.stopPropagation();
+		//event.preventDefault();
+		//event.stopPropagation();
 	}
 
 	public void onGestureStart(GestureStartEvent event) {
-		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		//AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		//to not move the canvas (later some sophisticated handling must be find out)
-				//event.preventDefault();
-				//event.stopPropagation();
+		//event.preventDefault();
+		//event.stopPropagation();
 	}
 
 	public void onTouchCancel(TouchCancelEvent event) {
-		 //AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
-		 Log.debug(event.getAssociatedType().getName());
+		//AbstractEvent e = geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
+		Log.debug(event.getAssociatedType().getName());
 	}
-	
+
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
@@ -355,15 +355,15 @@ LongTouchHandler {
 		}
 		CancelEventTimer.touchEventOccured();
 	}
-	
+
 	public void twoTouchMove(Touch touch, Touch touch2) {
 		AbstractEvent first = PointerEvent.wrapEvent(touch,this);
 		AbstractEvent second = PointerEvent.wrapEvent(touch2,this);
 		this.twoTouchMove(first.getX(), first.getY(), second.getX(), second.getY());
 		first.release();
 		second.release();
-	    
-    }
+
+	}
 
 
 
@@ -376,27 +376,27 @@ LongTouchHandler {
 		this.lastMoveEvent = time;
 		//in SMART we actually get move events even if mouse button is up ...
 		if (!DRAGMODE_MUST_BE_SELECTED) {
-			 wrapMouseMoved(event);
-		 } else {
-			 wrapMouseDragged(event);
-		 }
-		
-	    this.waitingTouchMove = null;
-	    this.waitingMouseMove = null;
-	    int dragTime = (int) (System.currentTimeMillis()-time);
-	    GeoGebraProfiler.dragTime += dragTime;
-	    if(dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH){
-	    	EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
-	    }
-	    
-	    moveCounter++;
-    }
+			wrapMouseMoved(event);
+		} else {
+			wrapMouseDragged(event);
+		}
+
+		this.waitingTouchMove = null;
+		this.waitingMouseMove = null;
+		int dragTime = (int) (System.currentTimeMillis()-time);
+		GeoGebraProfiler.dragTime += dragTime;
+		if(dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH){
+			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
+		}
+
+		moveCounter++;
+	}
 
 	/**
 	 * ignore events after first touchEnd of a multi touch event
 	 */
 	private boolean ignoreEvent = false;
-	
+
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
 		DRAGMODE_MUST_BE_SELECTED = false;
@@ -450,12 +450,12 @@ LongTouchHandler {
 		moveCounter = 0;
 		ignoreEvent = false;
 	}
-	
+
 	public void preventTouchIfNeeded(TouchStartEvent event) {
 		if((!isTextfieldHasFocus())&&(!comboBoxHit())){
 			event.preventDefault();
 		}
-    }
+	}
 
 
 
@@ -466,7 +466,7 @@ LongTouchHandler {
 		this.twoTouchStart(first.getX(), first.getY(), second.getX(), second.getY());
 		first.release();
 		second.release();
-    }
+	}
 
 
 
@@ -487,13 +487,13 @@ LongTouchHandler {
 				double ds = deltaSum;
 				deltaSum = 0;
 				wrapMouseWheelMoved(x,y,ds,
-						 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
+						event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
 			}
-		//normal scrolling
+			//normal scrolling
 		}else{
 			deltaSum=0;
 			wrapMouseWheelMoved(x,y,delta,
-				 event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
+					event.isShiftKeyDown() || event.isMetaKeyDown(), event.isAltKeyDown());
 		}
 		event.preventDefault(); 
 	}
@@ -505,7 +505,7 @@ LongTouchHandler {
 
 
 	public void onMouseOver(MouseOverEvent event) {
-		 wrapMouseEntered();
+		wrapMouseEntered();
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
@@ -542,8 +542,8 @@ LongTouchHandler {
 		event.preventDefault();
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
-		
-		
+
+
 		if(time < this.lastMoveEvent + EuclidianViewW.DELAY_BETWEEN_MOVE_EVENTS){
 			boolean wasWaiting = waitingTouchMove != null || waitingMouseMove !=null;
 			this.waitingMouseMove = e;
@@ -554,21 +554,21 @@ LongTouchHandler {
 			}
 			return;
 		}
-		
+
 		onMouseMoveNow(e,time);
 	}
 
 	public void onMouseMoveNow(PointerEvent event,long time) {
 		this.lastMoveEvent = time;
-		 if (!DRAGMODE_MUST_BE_SELECTED) {
-			 wrapMouseMoved(event);
-		 } else {
-			 wrapMouseDragged(event);
-		 }
-		 event.release();
-		 this.waitingMouseMove = null;
-		 this.waitingTouchMove = null;
-		 int dragTime = (int) (System.currentTimeMillis()-time);
+		if (!DRAGMODE_MUST_BE_SELECTED) {
+			wrapMouseMoved(event);
+		} else {
+			wrapMouseDragged(event);
+		}
+		event.release();
+		this.waitingMouseMove = null;
+		this.waitingTouchMove = null;
+		int dragTime = (int) (System.currentTimeMillis()-time);
 		GeoGebraProfiler.dragTime += dragTime;
 		if(dragTime > EuclidianViewW.DELAY_UNTIL_MOVE_FINISH){
 			EuclidianViewW.DELAY_UNTIL_MOVE_FINISH = dragTime + 10;
@@ -578,13 +578,13 @@ LongTouchHandler {
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		
+
 		if(CancelEventTimer.cancelMouseEvent()){
 			return;
 		}
 
 		Event.releaseCapture(event.getRelativeElement());
-		
+
 		if(moveCounter  < 2){
 			resetModeAfterFreehand();
 		}
@@ -595,7 +595,7 @@ LongTouchHandler {
 		this.moveIfWaiting();
 		EuclidianViewW.resetDelay();
 		DRAGMODE_MUST_BE_SELECTED = false;
-		
+
 
 		//hide dialogs if they are open
 		if (app.getGuiManager() != null)
@@ -607,7 +607,7 @@ LongTouchHandler {
 		resetModeAfterFreehand();
 	}
 
-	
+
 
 
 	public void onMouseDown(MouseDownEvent event) {
@@ -636,7 +636,7 @@ LongTouchHandler {
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
 		}
-		
+
 		wrapMousePressed(event);
 		//hide PopUp if no hits was found.
 		if (view.getHits().isEmpty() && this.view.hasStyleBar()) {
@@ -644,7 +644,7 @@ LongTouchHandler {
 		}
 		event.release();
 	}
-	
+
 	private boolean comboBoxHit() {
 		if(view.getHits() == null){
 			return false;
@@ -657,7 +657,7 @@ LongTouchHandler {
 			}
 		}
 		return false;
-    }
+	}
 
 
 
@@ -667,7 +667,7 @@ LongTouchHandler {
 		ToolTipManagerW ttm = ToolTipManagerW.sharedInstance();
 		//ttm.setInitialDelay(defaultInitialDelay / 2);
 		//ttm.setEnabled((AppW.getAllowToolTips());
-		
+
 	}
 
 
@@ -675,7 +675,7 @@ LongTouchHandler {
 	@Override
 	protected void resetToolTipManager() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -685,14 +685,14 @@ LongTouchHandler {
 	}
 	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
 	public LinkedList<PointerEvent> getMouseEventPool() {
-	    return mousePool;
-    }
+		return mousePool;
+	}
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
 	private boolean comboboxFocused;
 
 	public LinkedList<PointerEvent> getTouchEventPool() {
-	    return touchPool;
-    }
+		return touchPool;
+	}
 
 	@Override
 	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) { 
@@ -700,12 +700,12 @@ LongTouchHandler {
 	}
 
 	public boolean isComboboxFocused(){
-	    return this.comboboxFocused;
-    }
+		return this.comboboxFocused;
+	}
 
-    public void setComboboxFocused(boolean flag){
-    	this.comboboxFocused = flag;
-    }
+	public void setComboboxFocused(boolean flag){
+		this.comboboxFocused = flag;
+	}
 
 
 	public int touchEventX(int clientX) {
@@ -728,9 +728,9 @@ LongTouchHandler {
 	 * @return the multiplier that must be used to multiply the native event coordinates
 	 */
 	public float getScaleXMultiplier() {
-	    return style.getScaleXMultiplier();
-    }
-	
+		return style.getScaleXMultiplier();
+	}
+
 	/**
 	 * @return the multiplier that must be used to multiply the native event coordinates
 	 */
@@ -739,23 +739,23 @@ LongTouchHandler {
 	}
 
 	public int mouseEventX(int clientX) {
-		 return Math.round((clientX)  *
-			(1 / style.getScaleX()) *
+		return Math.round((clientX)  *
+				(1 / style.getScaleX()) *
 				(1 / style.getHeightScale()));
-   }
+	}
 
 	public int mouseEventY(int clientY) {
-		 return Math.round((clientY)  *
-			(1 / style.getScaleY()) *
+		return Math.round((clientY)  *
+				(1 / style.getScaleY()) *
 				(1 / style.getHeightScale()));
-    }
+	}
 
 
 
 	public int getEvID() {
-	    return view.getViewID();
-    }
-	
+		return view.getViewID();
+	}
+
 	@Override
 	public void twoTouchMove(double x1d, double y1d, double x2d, double y2d) {
 		int x1 = (int) x1d;
@@ -774,7 +774,7 @@ LongTouchHandler {
 			}
 			double newRatioY = this.scale * (y1 - y2) / this.oldDistance;
 			this.view.setCoordSystem(this.view.getXZero(),
-			        this.view.getYZero(), this.view.getXscale(), newRatioY);
+					this.view.getYZero(), this.view.getXscale(), newRatioY);
 			break;
 		case zoomX:
 			if(this.scale == 0){
@@ -782,7 +782,7 @@ LongTouchHandler {
 			}
 			double newRatioX = this.scale * (x1 - x2) / this.oldDistance;
 			this.view.setCoordSystem(this.view.getXZero(),
-			        this.view.getYZero(), newRatioX, this.view.getYscale());
+					this.view.getYZero(), newRatioX, this.view.getYscale());
 			break;
 		case circle3Points:
 			double dist = MyMath.length(x1 - x2, y1 - y2);
@@ -791,9 +791,9 @@ LongTouchHandler {
 
 			for (GeoPointND p : scaleConic.getFreeInputPoints(this.view)) {
 				double newX = midpoint[0] + (originalPointX[i] - midpoint[0])
-				        * scale;
+						* scale;
 				double newY = midpoint[1] + (originalPointY[i] - midpoint[1])
-				        * scale;
+						* scale;
 				p.setCoords(newX, newY, 1.0);
 				p.updateCascade();
 				i++;
@@ -807,9 +807,9 @@ LongTouchHandler {
 			// index 0 is the midpoint, index 1 is the point on the circle
 			GeoPointND p = scaleConic.getFreeInputPoints(this.view).get(1);
 			double newX = midpoint[0] + (originalPointX[1] - midpoint[0])
-			        * scale;
+					* scale;
 			double newY = midpoint[1] + (originalPointY[1] - midpoint[1])
-			        * scale;
+					* scale;
 			p.setCoords(newX, newY, 1.0);
 			p.updateCascade();
 			kernel.notifyRepaint();
@@ -820,11 +820,11 @@ LongTouchHandler {
 
 			GeoPoint center = (GeoPoint) this.scaleConic.getParentAlgorithm().input[0];
 			GeoNumeric newRadius = new GeoNumeric(
-			        this.kernel.getConstruction(), this.scale
-			                * this.originalRadius);
+					this.kernel.getConstruction(), this.scale
+					* this.originalRadius);
 
 			scaleConic.setParentAlgorithm(new AlgoCirclePointRadius(this.kernel
-			        .getConstruction(), center, newRadius));
+					.getConstruction(), center, newRadius));
 			scaleConic.setCircle(center, newRadius.getDouble());
 			scaleConic.updateCascade();
 			kernel.notifyUpdate(scaleConic);
@@ -840,7 +840,7 @@ LongTouchHandler {
 			if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > MIN_MOVE) {
 				view.rememberOrigins();
 				view.translateCoordSystemInPixels(centerX - oldCenterX, centerY
-				        - oldCenterY, 0, EuclidianConstants.MODE_TRANSLATEVIEW);
+						- oldCenterY, 0, EuclidianConstants.MODE_TRANSLATEVIEW);
 
 				oldCenterX = centerX;
 				oldCenterY = centerY;
@@ -874,25 +874,25 @@ LongTouchHandler {
 			this.oldDistance = x1 - x2;
 			this.scale = this.view.getXscale();
 		} else if (hits1.size() > 0
-		        && hits2.size() > 0
-		        && hits1.get(0) == hits2.get(0)
-		        && hits1.get(0) instanceof GeoConic
-		        // isClosedPath: true for circle and ellipse
-		        && ((GeoConic) hits1.get(0)).isClosedPath()
-		        && ((((GeoConic) hits1.get(0)).getFreeInputPoints(this.view) != null && ((GeoConic) hits1
-		                .get(0)).getFreeInputPoints(this.view).size() >= 2)
-		                || (hits1.get(0).getParentAlgorithm() != null && hits1
-		                        .get(0).getParentAlgorithm().input[1]
-		                        .isIndependent()) || (hits1.get(0)
-		                .getParentAlgorithm() != null && !hits1.get(0)
-		                .getParentAlgorithm().input[1].labelSet))) {
+				&& hits2.size() > 0
+				&& hits1.get(0) == hits2.get(0)
+				&& hits1.get(0) instanceof GeoConic
+				// isClosedPath: true for circle and ellipse
+				&& ((GeoConic) hits1.get(0)).isClosedPath()
+				&& ((((GeoConic) hits1.get(0)).getFreeInputPoints(this.view) != null && ((GeoConic) hits1
+						.get(0)).getFreeInputPoints(this.view).size() >= 2)
+						|| (hits1.get(0).getParentAlgorithm() != null && hits1
+						.get(0).getParentAlgorithm().input[1]
+								.isIndependent()) || (hits1.get(0)
+										.getParentAlgorithm() != null && !hits1.get(0)
+										.getParentAlgorithm().input[1].labelSet))) {
 			this.scaleConic = (GeoConic) hits1.get(0);
 			// TODO: select scaleConic
 
 			if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view).size() >= 3) {
 				this.multitouchMode = scaleMode.circle3Points;
 			} else if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
-			        .size() == 2) {
+					.size() == 2) {
 				this.multitouchMode = scaleMode.circle2Points;
 			} else {
 				this.multitouchMode = scaleMode.circleRadius;
@@ -903,10 +903,10 @@ LongTouchHandler {
 			super.twoTouchStart(x1, y1, x2, y2);
 
 			midpoint = new double[] { scaleConic.getMidpoint().getX(),
-			        scaleConic.getMidpoint().getY() };
+					scaleConic.getMidpoint().getY() };
 
 			ArrayList<GeoPointND> points = scaleConic
-			        .getFreeInputPoints(this.view);
+					.getFreeInputPoints(this.view);
 			this.originalPointX = new double[points.size()];
 			this.originalPointY = new double[points.size()];
 			for (int i = 0; i < points.size(); i++) {
@@ -928,16 +928,16 @@ LongTouchHandler {
 	@Override
 	protected void switchModeForMousePressed(AbstractEvent e) {
 		startPosition = new GPoint(e.getX(), e.getY());
-		
+
 		super.switchModeForMousePressed(e);
 
 		if (this.selPoints() == 0
-		        && (this.mode == EuclidianConstants.MODE_JOIN
-		                || this.mode == EuclidianConstants.MODE_SEGMENT
-		                || this.mode == EuclidianConstants.MODE_RAY
-		                || this.mode == EuclidianConstants.MODE_VECTOR
-		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+				&& (this.mode == EuclidianConstants.MODE_JOIN
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
@@ -946,7 +946,7 @@ LongTouchHandler {
 			e.release();
 
 			if (this.mode == EuclidianConstants.MODE_REGULAR_POLYGON
-			        && this.view.getPreviewDrawable() == null) {
+					&& this.view.getPreviewDrawable() == null) {
 				this.view.setPreview(view.createPreviewSegment(selectedPoints));
 			}
 
@@ -957,21 +957,21 @@ LongTouchHandler {
 
 	@Override
 	protected boolean createNewPoint(Hits hits, boolean onPathPossible,
-	        boolean inRegionPossible, boolean intersectPossible,
-	        boolean doSingleHighlighting, boolean complex) {
+			boolean inRegionPossible, boolean intersectPossible,
+			boolean doSingleHighlighting, boolean complex) {
 		boolean newPointCreated = super.createNewPoint(hits, onPathPossible,
-		        inRegionPossible, intersectPossible, doSingleHighlighting,
-		        complex);
+				inRegionPossible, intersectPossible, doSingleHighlighting,
+				complex);
 
 		GeoElement point = this.view.getHits().getFirstHit(Test.GEOPOINT);
 		if (!newPointCreated
-		        && this.selPoints() == 1
-		        && (this.mode == EuclidianConstants.MODE_JOIN
-		                || this.mode == EuclidianConstants.MODE_SEGMENT
-		                || this.mode == EuclidianConstants.MODE_RAY
-		                || this.mode == EuclidianConstants.MODE_VECTOR
-		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+				&& this.selPoints() == 1
+				&& (this.mode == EuclidianConstants.MODE_JOIN
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 			handleMovedElement(point, false, PointerEventType.MOUSE);
 		}
 
@@ -993,18 +993,18 @@ LongTouchHandler {
 			super.wrapMouseDragged(event);
 		}
 		if (movedGeoPoint != null
-		        && (this.mode == EuclidianConstants.MODE_JOIN
-		                || this.mode == EuclidianConstants.MODE_SEGMENT
-		                || this.mode == EuclidianConstants.MODE_RAY
-		                || this.mode == EuclidianConstants.MODE_VECTOR
-		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+				&& (this.mode == EuclidianConstants.MODE_JOIN
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
 			// nothing was dragged
 			super.wrapMouseMoved(event);
 		}
 
 		if (view.getPreviewDrawable() != null
-		        && event.getType() == PointerEventType.TOUCH) {
+				&& event.getType() == PointerEventType.TOUCH) {
 			this.view.updatePreviewableForProcessMode();
 		}
 	}
@@ -1029,19 +1029,19 @@ LongTouchHandler {
 		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
 
 		if (this.mode == EuclidianConstants.MODE_JOIN
-		        || this.mode == EuclidianConstants.MODE_SEGMENT
-		        || this.mode == EuclidianConstants.MODE_RAY
-		        || this.mode == EuclidianConstants.MODE_VECTOR
-		        || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
-		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
+				|| this.mode == EuclidianConstants.MODE_SEGMENT
+				|| this.mode == EuclidianConstants.MODE_RAY
+				|| this.mode == EuclidianConstants.MODE_VECTOR
+				|| this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
+				|| this.mode == EuclidianConstants.MODE_SEMICIRCLE
+				|| this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
 
 			if (getDistance(startPosition,
-			        new GPoint(event.getX(), event.getY())) < this.app
-			        .getCapturingThreshold(event.getType())) {
+					new GPoint(event.getX(), event.getY())) < this.app
+					.getCapturingThreshold(event.getType())) {
 
 				this.view.setHits(new GPoint(event.getX(), event.getY()),
-				        event.getType());
+						event.getType());
 
 				if (this.selPoints() == 1 && !view.getHits().contains(p)) {
 					super.wrapMouseReleased(event);
@@ -1053,7 +1053,7 @@ LongTouchHandler {
 			super.wrapMouseReleased(event);
 
 			this.view.setHits(new GPoint(event.getX(), event.getY()),
-			        event.getType());
+					event.getType());
 			Hits hits = view.getHits();
 
 			if (p != null && hits.getFirstHit(Test.GEOPOINTND) == null) {
@@ -1062,7 +1062,7 @@ LongTouchHandler {
 				}
 				createNewPointForModeOther(hits);
 				this.view.setHits(new GPoint(event.getX(), event.getY()),
-				        event.getType());
+						event.getType());
 				hits = view.getHits();
 				switchModeForProcessMode(hits, event.isControlDown(), null);
 			}
@@ -1075,9 +1075,9 @@ LongTouchHandler {
 	protected boolean moveAxesPossible() {
 		return super.moveAxesPossible() && this.moveAxesAllowed;
 	}
-	
+
 	private boolean freehandModePrepared = false;
-	
+
 	protected void prepareModeForFreehand() {
 		if (selectedPoints.size() != 0) {
 			// make sure to switch only for the first point
@@ -1086,7 +1086,7 @@ LongTouchHandler {
 
 		// defined at the beginning, because it is modified for some modes
 		GeoPoint point = (GeoPoint) this.view.getHits().getFirstHit(
-		        Test.GEOPOINT);
+				Test.GEOPOINT);
 		if (point == null && this.movedGeoPoint instanceof GeoPoint) {
 			point = (GeoPoint) this.movedGeoPoint;
 		}
@@ -1098,8 +1098,8 @@ LongTouchHandler {
 			// the point will be deleted if no circle can be built, therefore
 			// make sure that only a newly created point is set
 			point = (this.pointCreated != null)
-			        && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
-			        : null;
+					&& movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
+							: null;
 		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
@@ -1170,14 +1170,14 @@ LongTouchHandler {
 	@Override
 	protected boolean processZoomRectangle() {
 		boolean processed = super.processZoomRectangle();
-	    if (processed) {
-	    	selectionStartPoint.setLocation(mouseLoc);
-	    }
-	    return processed;
+		if (processed) {
+			selectionStartPoint.setLocation(mouseLoc);
+		}
+		return processed;
 	}
 
 	@Override
-    protected void updateSelectionRectangle(boolean keepScreenRatio) {
+	protected void updateSelectionRectangle(boolean keepScreenRatio) {
 		if (!shouldUpdateSelectionRectangle()) {
 			return;
 		}
@@ -1196,6 +1196,12 @@ LongTouchHandler {
 		double distSqr = (dx * dx) + (dy * dy);
 		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
-	
+
+	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, 
+			Hits hits) { 
+		ArrayList<GeoElement> geos = selectedGeos1 != null &&
+				selectedGeos1.isEmpty() ? getAppSelectedGeos(): selectedGeos1;	
+		app.getGuiManager().showPopupMenu(geos, view, mouseLoc); 
+	} 
 
 }

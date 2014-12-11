@@ -17,6 +17,7 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.common.gui.view.properties.PropertiesView;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.javax.swing.GTextComponent;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -262,7 +263,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		if (geos == null || !app.letShowPopupMenu())
 			return;
 
-		if (app.getKernel().isAxis(geos.get(0))) {
+		if (!geos.isEmpty() && app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(view, p);
 		} else {
 
@@ -906,9 +907,11 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 													  // not already done
 			}
 		} else if (isMacroFile && success) {
-			// setToolBarDefinition(ToolbarW.getAllTools(app));
-			// (app).updateToolBar();
-			// (app).updateContentPane();
+
+			//setToolBarDefinition(ToolbarW.getAllTools(app));
+			refreshCustomToolsInToolBar();
+			//(app).updateToolBar();
+			//(app).updateContentPane();
 		}
 
 		// force JavaScript ggbOnInit(); to be called
@@ -1676,5 +1679,47 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return "";
 
 		return getGeneralToolbar().getDefaultToolbarString();
+	}
+	
+	public void refreshCustomToolsInToolBar() {
+		int macroCount = kernel.getMacroNumber();
+
+		// add the ones that have (showInToolbar == true) into the toolbar if
+		// they are not already there.
+		StringBuilder customToolBar = new StringBuilder("");
+		for (int i = 0; i < macroCount; i++) {
+			Macro macro = kernel.getMacro(i);
+			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
+			if (macro.isShowInToolBar()
+					&& !(getToolbarDefinition().contains(String
+							.valueOf(macroMode)))) {
+				customToolBar.append(" " + macroMode);
+			}
+		}
+
+		String toolbarDef = getToolbarDefinition().trim();
+		String last = "";
+		try {
+			// get the last tool mode number in the toolbar def string
+			String[] tools = toolbarDef.split(" ");
+			last = tools[tools.length - 1];
+			int lastToolId = Integer.parseInt(last);
+
+			if (lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
+				setToolBarDefinition(toolbarDef + customToolBar.toString());
+			} else {
+				setToolBarDefinition(toolbarDef + " ||"
+						+ customToolBar.toString());
+			}
+		} catch (NumberFormatException e) {
+			// could not identify the last tool so just add the custom tools
+			// onto the end
+			if (last.contains("|")) {
+				setToolBarDefinition(toolbarDef + customToolBar.toString());
+			} else {
+				setToolBarDefinition(toolbarDef + " ||"
+						+ customToolBar.toString());
+			}
+		}
 	}
 }

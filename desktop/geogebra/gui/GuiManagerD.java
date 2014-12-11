@@ -1076,7 +1076,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 		Component invoker = ((EuclidianViewInterfaceDesktop) view).getJPanel();
 
-		if (app.getKernel().isAxis(geos.get(0))) {
+		if (!geos.isEmpty() && app.getKernel().isAxis(geos.get(0))) {
 			showDrawingPadPopup(invoker, p);
 		} else {
 			// clear highlighting and selections in views
