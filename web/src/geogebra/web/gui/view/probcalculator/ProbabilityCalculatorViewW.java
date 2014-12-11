@@ -780,10 +780,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		updateDiscreteTable();
     }
 	
-	private class MyTabLayoutPanel extends TabLayoutPanel {
+	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
 
 		public MyTabLayoutPanel(int splitterSize, Unit px) {
 	        super(splitterSize, px);
+	        this.addDomHandler(this, ClickEvent.getType());
         }
 		
 		@Override
@@ -804,6 +805,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 						((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() + 25, height);
 				//((ProbabilityTableW) table).getWrappedPanel().setHeight(height + "px");
 			}
+		}
+
+		@Override
+		public void onClick(ClickEvent event) {
+			app.setActiveView(App.VIEW_PROBABILITY_CALCULATOR);
 		}
 	}
 
