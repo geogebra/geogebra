@@ -121,6 +121,7 @@ LongTouchHandler {
 	 * Threshold for the selection rectangle distance squared (10 pixel circle)
 	 */
 	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
+	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
 
 	/**
 	 * threshold for moving in case of a multitouch-event (pixel)
@@ -984,7 +985,9 @@ LongTouchHandler {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
 		if (!shouldCancelDrag()) {
-			setModeToFreehand();
+			if (shouldSetToFreehandMode())  {
+				setModeToFreehand();
+			}
 			// Set capture events only if the mouse is actually down, 
 			// because we need to release the capture on mouse up.
 			if (waitingMouseMove == null && waitingTouchMove == null) {
@@ -1128,11 +1131,6 @@ LongTouchHandler {
 	 * 
 	 */
 	protected void setModeToFreehand() {
-		// if this mode doesn't support freehand 
-		// or the mode was already set
-		if (pen == null || penMode(mode)|| !freehandModePrepared) {
-			return;
-		}
 		// only executed if one of the specified modes is set
 		this.previousMode = this.mode;
 		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
@@ -1196,7 +1194,9 @@ LongTouchHandler {
 		double distSqr = (dx * dx) + (dy * dy);
 		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
-
+	private boolean shouldSetToFreehandMode() {
+		return (draggingBeyondThreshold && pen != null && !penMode(mode) && freehandModePrepared);
+	}
 	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, 
 			Hits hits) { 
 		ArrayList<GeoElement> geos = selectedGeos1 != null &&
