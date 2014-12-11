@@ -125,7 +125,7 @@ public class ViewPanelContainer extends SimplePanel implements
 	private ViewPanelWithStylebar createViewPanelWithStylebar(View view) {
 		ViewPanelWithStylebar viewPanel = new ViewPanelWithStylebar();
 		viewPanel.setPanel(view.getViewPanel());
-		viewPanel.setStyleBar(view.getStyleBarPanel());
+		viewPanel.setStyleBar(view.getStyleBar());
 		return viewPanel;
 	}
 

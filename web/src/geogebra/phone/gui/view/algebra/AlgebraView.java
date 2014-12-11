@@ -3,7 +3,7 @@ package geogebra.phone.gui.view.algebra;
 import geogebra.html5.main.AppW;
 import geogebra.phone.gui.view.AbstractView;
 import geogebra.phone.gui.view.HeaderPanel;
-import geogebra.phone.gui.view.StyleBarPanel;
+import geogebra.phone.gui.view.StyleBar;
 import geogebra.phone.gui.view.ViewPanel;
 import geogebra.web.css.GuiResources;
 
@@ -31,7 +31,7 @@ public class AlgebraView extends AbstractView {
 	}
 
 	@Override
-	public StyleBarPanel createStyleBarPanel() {
+	public StyleBar createStyleBar() {
 		return null;
 	}
 

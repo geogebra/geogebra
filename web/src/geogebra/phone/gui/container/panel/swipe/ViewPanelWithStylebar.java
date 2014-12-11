@@ -1,10 +1,11 @@
 package geogebra.phone.gui.container.panel.swipe;
 
 import geogebra.html5.gui.ResizeListener;
-import geogebra.phone.gui.view.StyleBarPanel;
+import geogebra.phone.gui.view.StyleBar;
 import geogebra.phone.gui.view.ViewPanel;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.dom.client.Style.Position;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -16,7 +17,9 @@ public class ViewPanelWithStylebar extends AbsolutePanel implements
 		ResizeListener {
 
 	private ViewPanel panel;
-	private StyleBarPanel styleBar;
+	
+	private StyleBar styleBar;
+	private StyleBarContainer styleBarContainer;
 
 	public void onResize() {
 		refreshPanel();
@@ -32,6 +35,9 @@ public class ViewPanelWithStylebar extends AbsolutePanel implements
 		if (panel == null) {
 			return;
 		}
+		if (this.panel != null) {
+			remove(this.panel);
+		}
 		this.panel = panel;
 		add(panel);
 		refreshPanel();
@@ -42,12 +48,16 @@ public class ViewPanelWithStylebar extends AbsolutePanel implements
 	 * 
 	 * @param styleBar the style bar
 	 */
-	public void setStyleBar(StyleBarPanel styleBar) {
+	public void setStyleBar(StyleBar styleBar) {
 		if (styleBar == null) {
 			return;
 		}
+		if (this.styleBar != null) {
+			remove(this.styleBarContainer);
+		}
 		this.styleBar = styleBar;
-		add(styleBar);
+		this.styleBarContainer = new StyleBarContainer(styleBar);
+		add(styleBarContainer);
 		refreshStyleBar();
 	}
 
@@ -69,11 +79,13 @@ public class ViewPanelWithStylebar extends AbsolutePanel implements
 		if (styleBar == null) {
 			return;
 		}
-		Widget styleBarWidget = styleBar.asWidget();
-		styleBarWidget.setHeight("40px");
-		styleBarWidget.setWidth("40px");
+		Widget styleBarWidget = styleBarContainer;
+		//styleBarWidget.setHeight("40px");
+		//styleBarWidget.setWidth("40px");
 		Style styleBarStyle = styleBarWidget.getElement().getStyle();
 		styleBarStyle.setRight(0, Unit.PX);
+		styleBarStyle.setTop(0, Unit.PX);
+		styleBarStyle.setPosition(Position.ABSOLUTE);
 		styleBarStyle.setZIndex(1);
 	}
 }

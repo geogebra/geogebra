@@ -22,6 +22,6 @@ public interface View {
 	/**
 	 * @return the stylebar of the view, if exists, null otherwise
 	 */
-	StyleBarPanel getStyleBarPanel();
+	StyleBar getStyleBar();
 
 }

@@ -22,9 +22,9 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 
 	private EuclidianViewW euclidianView;
 
-	public EuclidianViewPanel(AppW app) {
+	public EuclidianViewPanel(AppW app, EuclidianViewW euclidianView) {
 		super(app);
-		euclidianView = app.getEuclidianView1();
+		this.euclidianView = euclidianView;
 
 		euclidianView.g2p = new GGraphics2DW(Canvas.createIfSupported());
 		euclidianView.g2p.setView(euclidianView);

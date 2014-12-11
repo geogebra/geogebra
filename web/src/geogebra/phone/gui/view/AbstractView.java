@@ -9,7 +9,7 @@ public abstract class AbstractView implements View {
 	protected ImageResource icon;
 	protected ViewPanel viewPanel;
 	protected HeaderPanel headerPanel;
-	protected StyleBarPanel styleBarPanel;
+	protected StyleBar styleBar;
 
 	protected AppW app;
 
@@ -38,11 +38,11 @@ public abstract class AbstractView implements View {
 		return headerPanel;
 	}
 
-	public StyleBarPanel getStyleBarPanel() {
-		if (styleBarPanel == null) {
-			styleBarPanel = createStyleBarPanel();
+	public StyleBar getStyleBar() {
+		if (styleBar == null) {
+			styleBar = createStyleBar();
 		}
-		return styleBarPanel;
+		return styleBar;
 	}
 
 	protected abstract ImageResource createViewIcon();
@@ -51,5 +51,5 @@ public abstract class AbstractView implements View {
 
 	protected abstract HeaderPanel createHeaderPanel();
 
-	protected abstract StyleBarPanel createStyleBarPanel();
+	protected abstract StyleBar createStyleBar();
 }

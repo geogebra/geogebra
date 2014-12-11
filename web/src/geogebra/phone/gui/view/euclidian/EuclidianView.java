@@ -4,7 +4,7 @@ import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.phone.gui.view.AbstractView;
 import geogebra.phone.gui.view.HeaderPanel;
-import geogebra.phone.gui.view.StyleBarPanel;
+import geogebra.phone.gui.view.StyleBar;
 import geogebra.phone.gui.view.ViewPanel;
 import geogebra.web.css.GuiResources;
 
@@ -21,7 +21,7 @@ public class EuclidianView extends AbstractView {
 
 	@Override
 	protected ViewPanel createViewPanel() {
-		return new EuclidianViewPanel(app);
+		return new EuclidianViewPanel(app, euclidianView);
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class EuclidianView extends AbstractView {
 	}
 
 	@Override
-	public StyleBarPanel createStyleBarPanel() {
-		return new EuclidianStyleBarPanel(euclidianView.getStyleBar());
+	public StyleBar createStyleBar() {
+		return new EuclidianStyleBar(euclidianView.getStyleBar());
 	}
 }
