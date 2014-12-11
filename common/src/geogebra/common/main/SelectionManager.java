@@ -313,12 +313,12 @@ public class SelectionManager {
 
 		// GeoElements may have other GeoElements as subelements,
 		// and this means that the subelements should be tackled first,
-		// in order to prevent them being tackles twice, and this way
+		// in order to prevent them being tackled twice, and this way
 		// negating the negative, doing nothing and other complications
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron() &&
+			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron() && !geo.isGeoPolyLine() &&
 					geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED &&
 					geo.getGeoClassType() != GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
@@ -328,7 +328,7 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (geo.isGeoPolygon() || geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
+			if (geo.isGeoPolygon() || geo.isGeoPolyLine() || geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle();
 			}
