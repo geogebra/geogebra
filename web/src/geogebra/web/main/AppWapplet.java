@@ -224,13 +224,15 @@ public class AppWapplet extends AppW {
 		if (articleElement.getDataParamShowToolBar(showToolBar)) {
 			attachToolbar();
 		}
-
+		if (this.getInputPosition() == InputPositon.top && articleElement.getDataParamShowAlgebraInput(showAlgebraInput)) {
+			attachAlgebraInput();
+		}
 		attachSplitLayoutPanel();
-
+		
 		// showAlgebraInput should come from data-param,
 		// this is just a 'second line of defense'
 		// otherwise it can be used for taking ggb settings into account too
-		if (articleElement.getDataParamShowAlgebraInput(showAlgebraInput)) {
+		if (this.getInputPosition() == InputPositon.bottom && articleElement.getDataParamShowAlgebraInput(showAlgebraInput)) {
 			attachAlgebraInput();
 		}
 		

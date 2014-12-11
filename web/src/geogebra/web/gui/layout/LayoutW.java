@@ -5,6 +5,7 @@ import geogebra.common.gui.Layout;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.main.AppW;
@@ -97,10 +98,11 @@ public class LayoutW extends Layout implements SettingListener {
 
 				// change the dock panel layout
 				dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
-
 				if(!app.isIniting()) {
 					app.updateToolBar();
 					app.updateMenubar();
+					app.updateContentPane();
+				}else if(app.showAlgebraInput() && app.getInputPosition() != InputPositon.algebraView){
 					app.updateContentPane();
 				}
 				return changed;

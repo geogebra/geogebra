@@ -28,7 +28,7 @@ public class TimerSystemW {
 	public static int spreadsheetMillis = 334; // = 3 FPS
 	*/
 
-	AppW app;
+	final AppW app;
 
 	private Timer repaintTimer;
 
@@ -60,6 +60,9 @@ public class TimerSystemW {
 	 * suggests views to repaint
 	 */
 	boolean suggestRepaint(){
+		if(app.getKernel() == null){
+			return false;
+		}
 		return app.getKernel().notifySuggestRepaint();	
 	}
 
