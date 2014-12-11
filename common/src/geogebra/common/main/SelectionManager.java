@@ -310,11 +310,25 @@ public class SelectionManager {
 	 */
 	final public void showHideSelection() {
 
+		// At first, single GeoElements should come, with no subgeos
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			geo.setEuclidianVisible(!geo.isEuclidianVisible());
-			geo.updateVisualStyle();
+			if (!geo.isGeoPolygon()) {
+				geo.setEuclidianVisible(!geo.isEuclidianVisible());
+				geo.updateVisualStyle();
+			}
 		}
+
+		// GeoPolygons come last, to prevent their segments being changed twice
+		// TODO: is there any other Geo Class that should be put here?
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			if (geo.isGeoPolygon()) {
+				geo.setEuclidianVisible(!geo.isEuclidianVisible());
+				geo.updateVisualStyle();
+			}
+		}
+
 		kernel.notifyRepaint();
 		updateSelection();
 	}
