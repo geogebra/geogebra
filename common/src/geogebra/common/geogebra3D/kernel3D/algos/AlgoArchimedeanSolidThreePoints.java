@@ -196,7 +196,7 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron{
 		
 	}
 	
-	private Coords v1l = new Coords(4), v2l = new Coords(4), vnl = new Coords(4);
+	private Coords v1l = new Coords(4), v2l = new Coords(4), vnl = new Coords(4), tmpCoords = new Coords(4);
 
 	@Override
 	public void compute() {
@@ -246,14 +246,14 @@ public class AlgoArchimedeanSolidThreePoints extends AlgoPolyhedron{
 		matrix.setVz(vnl);
 		
 		// check C is third point
-		if (!cC.equalsForKernel(matrix.mul(coords[2]), Kernel.STANDARD_PRECISION)){
+		if (!cC.equalsForKernel(tmpCoords.setMul(matrix,coords[2]), Kernel.STANDARD_PRECISION)){
 			setUndefined();
 			return;
 		}
 		
 		// set points
 		for (int i=0; i<coords.length-3; i++){
-			outputPoints.getElement(i).setCoords(matrix.mul(coords[i+3]),true);
+			outputPoints.getElement(i).setCoords(tmpCoords.setMul(matrix,coords[i+3]),true);
 		}
 		
 		//update volume

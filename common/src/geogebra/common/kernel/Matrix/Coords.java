@@ -1714,4 +1714,27 @@ public class Coords {
 		return s;
 	}
 	
+	/**
+	 * set this = m*v
+	 * @param m matrix
+	 * @param v vector
+	 * @return this
+	 */
+	public Coords setMul(CoordMatrix m, Coords v) {
+
+
+		for (int i = 1; i <= getLength(); i++) {
+
+			double r = 0;
+			for (int n = 1; n <= m.getColumns(); n++){
+				r += m.get(i, n) * v.get(n);
+			}
+
+			set(i, r);
+		}
+
+		return this;
+	}
+
+	
 }
