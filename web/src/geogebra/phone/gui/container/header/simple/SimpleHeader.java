@@ -87,6 +87,7 @@ public class SimpleHeader extends FlowPanel implements Header {
 		}
 		headerView.setActive(true);
 		activeView = view;
+		leftFloatPanel.clear();
 		HeaderPanel headerPanel = view.getHeaderPanel();
 		if (headerPanel != null) {
 			leftFloatPanel.setWidget(headerPanel);

@@ -6,7 +6,7 @@ import geogebra.phone.gui.container.ViewContainer;
 import geogebra.phone.gui.container.header.Header;
 import geogebra.phone.gui.container.header.simple.SimpleHeader;
 import geogebra.phone.gui.container.panel.Panel;
-import geogebra.phone.gui.container.panel.simple.SwipePanel;
+import geogebra.phone.gui.container.panel.swipe.ViewPanelContainer;
 import geogebra.phone.gui.event.EventUtil;
 import geogebra.phone.gui.event.ViewChangeEvent;
 import geogebra.phone.gui.event.ViewChangeHandler;
@@ -29,7 +29,7 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 	private Panel panel;
 
 	private List<ResizeListener> resizeListeners;
-	
+
 	private View activeView;
 
 	public PhoneUI(AppW app) {
@@ -40,17 +40,24 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 
 		resizeListeners = new ArrayList<ResizeListener>();
 
+		createHeader();
+		createPanel();
+
+		Window.addResizeHandler(this);
+
+		EventUtil.addViewChangeHandler(ViewChangeEvent.getType(), this);
+	}
+
+	private void createHeader() {
 		header = new SimpleHeader(app);
 		add(header);
 		resizeListeners.add(header);
+	}
 
-		panel = new SwipePanel();
+	private void createPanel() {
+		panel = new ViewPanelContainer();
 		add(panel);
 		resizeListeners.add(panel);
-
-		Window.addResizeHandler(this);
-		
-		EventUtil.addViewChangeHandler(ViewChangeEvent.getType(), this);
 	}
 
 	public void addView(View view) {
@@ -78,8 +85,8 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 	}
 
 	public void onResize() {
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight());
-		for (final ResizeListener res : this.resizeListeners) {
+		setPixelSize(Window.getClientWidth(), Window.getClientHeight());
+		for (final ResizeListener res : resizeListeners) {
 			res.onResize();
 		}
 		showView(activeView);

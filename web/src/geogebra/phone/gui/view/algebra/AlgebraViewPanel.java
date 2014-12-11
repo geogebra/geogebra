@@ -23,4 +23,9 @@ public class AlgebraViewPanel extends AbstractViewPanel {
 	protected String getViewPanelStyleName() {
 		return "algebraViewPanel";
 	}
+
+	@Override
+	public void onResize() {
+		super.onResize();
+	}
 }
