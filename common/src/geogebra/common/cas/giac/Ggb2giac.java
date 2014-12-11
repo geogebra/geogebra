@@ -6,6 +6,14 @@ import java.util.TreeMap;
 /***
  * # Command translation table from GeoGebra to giac # e.g. Factor[ 2(x+3) ]
  * is translated to factor( 2*(x+3) ) ###
+ * 
+ * Giac Constants
+ * 
+ * 
+ * DOM_INT = 2
+ * DOM_IDENT = 6
+ * DOM_LIST = 7
+ * DOM_RAT = 10
  */
 
 public class Ggb2giac {
@@ -99,7 +107,7 @@ public class Ggb2giac {
 		p("Derivative.3", 
 				"regroup(diff(%0,%1,%2))");
 		p("Determinant.1", "det(%0)");
-		p("Dimension.1", "when(%0[0]=='pnt' && size(%0[1])>1,size(%0[1]),dim(%0))");
+		p("Dimension.1", "[[ggbdimarg:=%0], when(ggbdimarg[0]=='pnt',when(is3dpoint(ggbdimarg),3,2),dim(ggbdimarg))][1]");
 		p("Div.2",
 				"[[[ggbdivarg0:=%0],[ggbdivarg1:=%1]],if type(ggbdivarg0)==DOM_INT && type(ggbdivarg1)==DOM_INT then iquo(ggbdivarg0,ggbdivarg1) else quo(ggbdivarg0,ggbdivarg1,x) fi][1]");
 		p("Division.2",
@@ -357,12 +365,7 @@ public class Ggb2giac {
 		
 		// flatten1 is non-recursive flatten
 		p("Join.N","flatten1(%)");
-		
-		//p("Last.1",
-		//		"{%0[dim(%0)-1]}");
-		//p("Last.2",
-		//		"%0[size(%0)-%1..size(%0)-1]");
-		
+			
 		p("Laplace.1", "[[ggblaparg0:=%0],when(lname(ggblaparg0)[0]=ggbtmpvart, laplace(ggblaparg0, ggbtmpvart, ggbtmpvars), laplace(ggblaparg0, lname(ggblaparg0)[0]))][1]");
 		p("Laplace.2", "laplace(%0, %1)");
 		p("Laplace.3", "laplace(%0, %1, %2)");
@@ -370,7 +373,7 @@ public class Ggb2giac {
 		p("InverseLaplace.2", "ilaplace(%0, %1)");
 		p("InverseLaplace.3", "ilaplace(%0, %1, %2)");
 		
-		p("Last.1", "[[ggblastarg0:=%0],{when(type(ggblastarg0)==DOM_LIST,(ggblastarg0)[dim(ggblastarg0)-1],(ggblastarg0)[dim(ggblastarg0)])}][1]");
+		p("Last.1", "[[ggblastarg0:=%0],{when(type(ggblastarg0)==DOM_LIST,(ggblastarg0)[size(ggblastarg0)-1],(ggblastarg0)[dim(ggblastarg0)])}][1]");
 		p("Last.2", "[[[ggblastarg0:=%0],[ggblastarg1:=%1]],when(type(ggblastarg0)==DOM_LIST,(ggblastarg0)[size(ggblastarg0)-ggblastarg1..size(ggblastarg0)-1],seq((ggblastarg0)[j],j,dim(ggblastarg0)-ggblastarg1+1,dim(ggblastarg0)))][1]");
 
 		
