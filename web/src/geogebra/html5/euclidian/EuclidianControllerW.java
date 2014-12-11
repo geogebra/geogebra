@@ -1197,9 +1197,5 @@ LongTouchHandler {
 		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
 	
-	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
-			Hits hits) {
 
-		app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
-	}
 }

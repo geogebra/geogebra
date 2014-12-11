@@ -13,18 +13,15 @@
 package geogebra.euclidian;
 
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.MyDouble;
-import geogebra.common.kernel.geos.GeoElement;
 import geogebra.main.AppD;
 
 import java.awt.Component;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
-import java.util.ArrayList;
 
 import javax.swing.ToolTipManager;
 
@@ -191,9 +188,5 @@ public class EuclidianControllerD extends
 		evjpanel.addComponentListener(this);
 	}
 
-	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
-			Hits hits) {
 
-		app.getGuiManager().showPopupMenu(getAppSelectedGeos(), view, mouseLoc);
-	}
 }
