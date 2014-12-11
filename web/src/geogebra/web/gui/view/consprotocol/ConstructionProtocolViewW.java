@@ -8,6 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.ConstructionProtocolSettings;
+import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.awt.GColorW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
@@ -30,7 +31,11 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class ConstructionProtocolViewW extends ConstructionProtocolView implements SetLabels{
+/**
+ * Web implementation of ConstructionProtocol
+ *
+ */
+public class ConstructionProtocolViewW extends ConstructionProtocolView implements SetLabels, SettingListener{
 
 	private ConstructionProtocolNavigationW protNavBar;
 	/** contains a scrollPanel with the {@link #table constructionstep-table} **/
@@ -83,6 +88,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		
 		ConstructionProtocolSettings cps = app.getSettings().getConstructionProtocol();
 		settingsChanged(cps);
+		cps.addListener(this);
 	}
 	
 	/**
@@ -160,7 +166,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
     public void setLabels(){
     	initGUI();
     }
-	public void initGUI(){
+    
+	private void initGUI(){
 		//remove all columns if there are
 		int colCount = table.getColumnCount();
 		for(int i=0; i<colCount; i++){
@@ -228,6 +235,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 //		repaint();	
 	}
 	
+	/**
+     * @param colsVisibility intended visibility of columns 
+     */
 	private void setColsVisibility(boolean[] colsVisibility) {
 		//TODO
 	}
@@ -264,7 +274,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 				@Override
                 public void run() {
-					markRowsAtive(row2);
+					markRowsActive(row2);
 	                
                 }});
 			
@@ -276,7 +286,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	 * marks the rows (up to {@code index}) selected
 	 * @param index int
 	 */
-	private void markRowsAtive(int index) {
+	void markRowsActive(int index) {
 		for (int i = 0; i < table.getRowCount(); i++) {
 			if (i <= index) {
 				GColorW color = (GColorW) data.getRow(i).getGeo().getAlgebraColor();
@@ -287,20 +297,30 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		}
 	}
 	
+	/**
+	 * @return widget representing this view
+	 */
 	public FlowPanel getCpPanel(){
 		return cpPanel;
 	}
 	
-	public void repaint(){
+	@Override
+    public void repaint(){
 		tableInit();
 	}
 	
-	private void makeTableRowsDragable() {
+	/**
+	 * Make all currrent rows draggable
+	 */
+	void makeTableRowsDragable() {
 	    for (int i = 0; i < table.getRowCount(); i++) {
 	    		table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
 	    }
     }	
 	
+	/**
+	 * Rebuild construction table
+	 */
 	public void tableInit(){
 //		data.updateAll();
 		table.setRowCount(data.getrowList().size());
@@ -313,9 +333,14 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	    });
 		scrollToConstructionStep();
 	}
-	
+	/**
+	 * Web implementation of ConstructionTableData
+	 */
 	class ConstructionTableDataW extends ConstructionTableData{
 
+		/**
+		 * @param gui gui element on which we delegate setLabels
+		 */
 		public ConstructionTableDataW(SetLabels gui){
 			super(gui);
 //			ctDataImpl = new MyGAbstractTableModel();
@@ -323,9 +348,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		
 		/**
 		 * 
-		 * @param fromIndex
-		 * @param toIndex
-		 * @return 
+		 * @param fromIndex from
+		 * @param toIndex to
+		 * @return whether something changed
 		 */
 		public boolean moveInConstructionList(int fromIndex, int toIndex) {
 			boolean changed = kernel.moveInConstructionList(fromIndex, toIndex);
@@ -358,10 +383,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			}
 		}
 
-		public void updateAll(){
-			// avoid too frequent App.debug messages in Trunk version
-			// the goal of App.debug is debugging anyway
-			// App.debug("ConstuctionTableDataW - implementation needed - just finishing");
+		@Override
+        public void updateAll(){
 			int size = rowList.size();
 
 			for (int i = 0; i < size; ++i) {
@@ -371,6 +394,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		}
 	}
 
+	/**
+	 * @return stylebar
+	 */
 	public StyleBarW getStyleBar() {
 	    if(styleBar == null){
 	    	styleBar = new ConstructionProtocolStyleBarW((AppW) this.app);
