@@ -151,7 +151,7 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return "";
+		return getCommandDescription(tpl);
 	}
 
 	@Override
@@ -348,7 +348,12 @@ public abstract class GeoLocusND<T extends MyPoint> extends GeoElement implement
 	 */
 	@Override
 	final public boolean isLabelValueShowable() {
-		return false;
+		return true;
+	}
+
+	@Override
+	final public boolean isLabelShowable() {
+		return true;
 	}
 
 	/**
