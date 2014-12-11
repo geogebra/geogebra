@@ -667,6 +667,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return;
 		getAlgebraView();
 		algebraView.setShowAuxiliaryObjects(flag);
+		app.getSettings().getAlgebra().setShowAuxiliaryObjects(flag);
 	}
 
 	private void initAlgebraController() {
