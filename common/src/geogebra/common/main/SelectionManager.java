@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoTextField;
+import geogebra.common.plugin.GeoClass;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -310,20 +311,32 @@ public class SelectionManager {
 	 */
 	final public void showHideSelection() {
 
-		// At first, single GeoElements should come, with no subgeos
+		// GeoElements may have other GeoElements as subelements,
+		// and this means that the subelements should be tackled first,
+		// in order to prevent them being tackles twice, and this way
+		// negating the negative, doing nothing and other complications
+
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (!geo.isGeoPolygon()) {
+			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron() &&
+					geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED &&
+					geo.getGeoClassType() != GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle();
 			}
 		}
 
-		// GeoPolygons come last, to prevent their segments being changed twice
-		// TODO: is there any other Geo Class that should be put here?
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (geo.isGeoPolygon()) {
+			if (geo.isGeoPolygon() || geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
+				geo.setEuclidianVisible(!geo.isEuclidianVisible());
+				geo.updateVisualStyle();
+			}
+		}
+
+		for (int i = 0; i < selectedGeos.size(); i++) {
+			GeoElement geo = selectedGeos.get(i);
+			if (geo.isGeoPolyhedron() || geo.getGeoClassType() == GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle();
 			}
