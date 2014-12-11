@@ -259,7 +259,16 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 				else
 					break;
 			}
-			markRowsAtive(row);
+			final int row2 = row;
+			app.getGuiManager().invokeLater(new Runnable(){
+
+				@Override
+                public void run() {
+					markRowsAtive(row2);
+	                
+                }});
+			
+			
 		}
 	}
 	
@@ -288,7 +297,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	
 	private void makeTableRowsDragable() {
 	    for (int i = 0; i < table.getRowCount(); i++) {
-	    	table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
+	    		table.getRowElement(i).setDraggable(Element.DRAGGABLE_TRUE);
 	    }
     }	
 	
@@ -297,7 +306,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		table.setRowCount(data.getrowList().size());
 	    table.setRowData(0, data.getrowList());
 	    table.setVisibleRange(0, data.getrowList().size()+1);
-	    makeTableRowsDragable();
+	    app.getGuiManager().invokeLater(new Runnable(){
+	    	public void run(){
+	    		makeTableRowsDragable();
+	    	}
+	    });
 		scrollToConstructionStep();
 	}
 	
