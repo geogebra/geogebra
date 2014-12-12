@@ -1,5 +1,7 @@
 package geogebra.common.geogebra3D.util;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoVector3D;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.CopyPaste;
@@ -25,6 +27,17 @@ public class CopyPaste3D extends CopyPaste {
 
 			if (geo.isGeoElement3D()) {
 				// TODO: implementation!
+
+				if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
+						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector3D)) {
+
+					if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
+						geos.add(geo.getParentAlgorithm().getInput()[0]);
+					}
+					if (!geos.contains(geo.getParentAlgorithm().getInput()[1])) {
+						geos.add(geo.getParentAlgorithm().getInput()[1]);
+					}
+				}
 			}
 		}
 	}
