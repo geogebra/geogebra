@@ -24,6 +24,7 @@ import geogebra.common.factories.AwtFactory;
 import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
+import geogebra.common.javax.swing.SwingConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.KernelCAS;
@@ -89,8 +90,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
-
-import javax.swing.SwingConstants;
 
 import org.xml.sax.SAXException;
 

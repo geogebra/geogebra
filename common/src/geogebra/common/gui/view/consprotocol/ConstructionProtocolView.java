@@ -2,6 +2,7 @@ package geogebra.common.gui.view.consprotocol;
 
 import geogebra.common.gui.SetLabels;
 import geogebra.common.javax.swing.GImageIcon;
+import geogebra.common.javax.swing.SwingConstants;
 import geogebra.common.javax.swing.table.GAbstractTableModel;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
@@ -14,8 +15,6 @@ import geogebra.common.util.IndexHTMLBuilder;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import javax.swing.SwingConstants;
 
 public class ConstructionProtocolView {
 	
