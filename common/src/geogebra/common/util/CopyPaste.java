@@ -59,27 +59,35 @@ import java.util.TreeSet;
  */
 public class CopyPaste {
 
+	// this CopyPaste.INSTANCE shall either be CopyPaste or CopyPaste3D
+	// determined by App.initFactories, AppD, App3D, AppW, AppWapplet3D, AppWapplication3D
+	public static CopyPaste INSTANCE = null;
+
+	public CopyPaste() {
+		// dummy, for now
+	}
+
 	// labelPrefix has to contain something else than big letters,
 	// otherwise the parsed label could be regarded as a spreadsheet label
 	// see GeoElement.isSpreadsheetLabel
 	// check if name is valid for geo
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
-	protected static HashSet<Macro> copiedMacros;
-	protected static StringBuilder copiedXML;
-	protected static ArrayList<String> copiedXMLlabels;
+	protected HashSet<Macro> copiedMacros;
+	protected StringBuilder copiedXML;
+	protected ArrayList<String> copiedXMLlabels;
 
-	protected static StringBuilder copiedXMLforSameWindow;
-	protected static ArrayList<String> copiedXMLlabelsforSameWindow;
-	protected static EuclidianViewInterfaceCommon copySource;
-	protected static Object copyObject, copyObject2;
+	protected StringBuilder copiedXMLforSameWindow;
+	protected ArrayList<String> copiedXMLlabelsforSameWindow;
+	protected EuclidianViewInterfaceCommon copySource;
+	protected Object copyObject, copyObject2;
 
 	/**
 	 * Returns whether the clipboard is empty
 	 * 
 	 * @return whether the clipboard is empty
 	 */
-	public static boolean isEmpty() {
+	public boolean isEmpty() {
 		if (copiedXML == null)
 			return true;
 
@@ -92,7 +100,7 @@ public class CopyPaste {
 	 * @param geos
 	 *            input and output
 	 */
-	protected static void removeFixedSliders(ArrayList<ConstructionElement> geos) {
+	protected void removeFixedSliders(ArrayList<ConstructionElement> geos) {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
@@ -111,7 +119,7 @@ public class CopyPaste {
 	 * may be repositioned)
 	 * 
 	 */
-	protected static void removeDependentFromAxes(
+	protected void removeDependentFromAxes(
 			ArrayList<ConstructionElement> geos, App app) {
 
 		ConstructionElement geo;
@@ -147,7 +155,7 @@ public class CopyPaste {
 		}
 	}
 
-	protected static void removeHavingMacroPredecessors(
+	protected void removeHavingMacroPredecessors(
 			ArrayList<ConstructionElement> geos, boolean copymacro) {
 
 		GeoElement geo, geo2;
@@ -196,103 +204,108 @@ public class CopyPaste {
 	 * @param geos
 	 *            input and output
 	 */
-	protected static void addSubGeos(ArrayList<ConstructionElement> geos) {
+	protected void addSubGeos(ArrayList<ConstructionElement> geos) {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
 			if(geo.getParentAlgorithm()==null)
 				continue;
-			if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints)
-					|| (geo.isGeoSegment() && geo.getParentAlgorithm() instanceof AlgoJoinPointsSegment)
-					|| (geo.isGeoRay() && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay)
-					|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector)) {
 
-				if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
-					geos.add(geo.getParentAlgorithm().getInput()[0]);
-				}
-				if (!geos.contains(geo.getParentAlgorithm().getInput()[1])) {
-					geos.add(geo.getParentAlgorithm().getInput()[1]);
-				}
-			} else if (geo.isGeoPolygon()) {
-				if (geo.getParentAlgorithm() instanceof AlgoPolygon) {
-					GeoPointND[] points = ((AlgoPolygon) (geo
-							.getParentAlgorithm())).getPoints();
-					for (int j = 0; j < points.length; j++) {
-						if (!geos.contains(points[j])) {
-							geos.add((GeoElement) points[j]);
+			if (!geo.isGeoElement3D()) {
+				if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints)
+						|| (geo.isGeoSegment() && geo.getParentAlgorithm() instanceof AlgoJoinPointsSegment)
+						|| (geo.isGeoRay() && geo.getParentAlgorithm() instanceof AlgoJoinPointsRay)
+						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector)) {
+
+					if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
+						geos.add(geo.getParentAlgorithm().getInput()[0]);
+					}
+					if (!geos.contains(geo.getParentAlgorithm().getInput()[1])) {
+						geos.add(geo.getParentAlgorithm().getInput()[1]);
+					}
+				} else if (geo.isGeoPolygon()) {
+					if (geo.getParentAlgorithm() instanceof AlgoPolygon) {
+						GeoPointND[] points = ((AlgoPolygon) (geo
+								.getParentAlgorithm())).getPoints();
+						for (int j = 0; j < points.length; j++) {
+							if (!geos.contains(points[j])) {
+								geos.add((GeoElement) points[j]);
+							}
+						}
+						GeoElement[] ogeos = ((AlgoPolygon) (geo
+								.getParentAlgorithm())).getOutput();
+						for (int j = 0; j < ogeos.length; j++) {
+							if (!geos.contains(ogeos[j]) && ogeos[j].isGeoSegment()) {
+								geos.add(ogeos[j]);
+							}
+						}
+					} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
+						GeoElement[] pgeos = ((geo
+								.getParentAlgorithm())).getInput();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j]) && pgeos[j].isGeoPoint()) {
+								geos.add(pgeos[j]);
+							}
+						}
+						GeoElement[] ogeos = ((geo
+								.getParentAlgorithm())).getOutput();
+						for (int j = 0; j < ogeos.length; j++) {
+							if (!geos.contains(ogeos[j])
+									&& (ogeos[j].isGeoSegment() || ogeos[j]
+											.isGeoPoint())) {
+								geos.add(ogeos[j]);
+							}
 						}
 					}
-					GeoElement[] ogeos = ((AlgoPolygon) (geo
-							.getParentAlgorithm())).getOutput();
-					for (int j = 0; j < ogeos.length; j++) {
-						if (!geos.contains(ogeos[j]) && ogeos[j].isGeoSegment()) {
-							geos.add(ogeos[j]);
+				} else if (geo instanceof GeoPolyLine) {
+					if (geo.getParentAlgorithm() instanceof AlgoPolyLine) {
+						GeoElement[] pgeos = ((GetPointsAlgo) (geo
+								.getParentAlgorithm())).getPoints();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j])) {
+								geos.add(pgeos[j]);
+							}
 						}
 					}
-				} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
-					GeoElement[] pgeos = ((geo
-							.getParentAlgorithm())).getInput();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j]) && pgeos[j].isGeoPoint()) {
-							geos.add(pgeos[j]);
+				} else if (geo.isGeoConic()) {
+					if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						if (!geos.contains(pgeos[0]))
+							geos.add(pgeos[0]);
+						if (!geos.contains(pgeos[1]))
+							geos.add(pgeos[1]);
+					} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
+							|| geo.getParentAlgorithm()instanceof AlgoEllipseHyperbolaFociPoint) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						if (!geos.contains(pgeos[0]))
+							geos.add(pgeos[0]);
+						if (!geos.contains(pgeos[1]))
+							geos.add(pgeos[1]);
+						if (!geos.contains(pgeos[2]))
+							geos.add(pgeos[2]);
+					} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j]))
+								geos.add(pgeos[j]);
 						}
-					}
-					GeoElement[] ogeos = ((geo
-							.getParentAlgorithm())).getOutput();
-					for (int j = 0; j < ogeos.length; j++) {
-						if (!geos.contains(ogeos[j])
-								&& (ogeos[j].isGeoSegment() || ogeos[j]
-										.isGeoPoint())) {
-							geos.add(ogeos[j]);
-						}
-					}
-				}
-			} else if (geo instanceof GeoPolyLine) {
-				if (geo.getParentAlgorithm() instanceof AlgoPolyLine) {
-					GeoElement[] pgeos = ((GetPointsAlgo) (geo
-							.getParentAlgorithm())).getPoints();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j])) {
-							geos.add(pgeos[j]);
-						}
-					}
-				}
-			} else if (geo.isGeoConic()) {
-				if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints) {
-					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
-					if (!geos.contains(pgeos[0]))
-						geos.add(pgeos[0]);
-					if (!geos.contains(pgeos[1]))
-						geos.add(pgeos[1]);
-				} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
-						|| geo.getParentAlgorithm()instanceof AlgoEllipseHyperbolaFociPoint) {
-					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
-					if (!geos.contains(pgeos[0]))
-						geos.add(pgeos[0]);
-					if (!geos.contains(pgeos[1]))
-						geos.add(pgeos[1]);
-					if (!geos.contains(pgeos[2]))
-						geos.add(pgeos[2]);
-				} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints) {
-					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
-					for (int j = 0; j < pgeos.length; j++) {
-						if (!geos.contains(pgeos[j]))
-							geos.add(pgeos[j]);
-					}
-				} else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
-					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
-					if (!geos.contains(pgeos[0]))
-						geos.add(pgeos[0]);
-				}
-			} else if (geo.isGeoList()) {
-				if (geo.getParentAlgorithm().getClassName()
-						.equals(Commands.Sequence)) {
-					GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
-					if (pgeos.length > 1) {
+					} else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 						if (!geos.contains(pgeos[0]))
 							geos.add(pgeos[0]);
 					}
+				} else if (geo.isGeoList()) {
+					if (geo.getParentAlgorithm().getClassName()
+							.equals(Commands.Sequence)) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						if (pgeos.length > 1) {
+							if (!geos.contains(pgeos[0]))
+								geos.add(pgeos[0]);
+						}
+					}
 				}
+			} else {
+				
 			}
 		}
 	}
@@ -307,7 +320,7 @@ public class CopyPaste {
 	 *            input and output
 	 * @return just the predecessor and intermediate geos for future handling
 	 */
-	protected static ArrayList<ConstructionElement> addPredecessorGeos(
+	protected ArrayList<ConstructionElement> addPredecessorGeos(
 			ArrayList<ConstructionElement> geos) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
@@ -343,7 +356,7 @@ public class CopyPaste {
 	 *            input and output
 	 * @return the possible side-effect geos
 	 */
-	protected static ArrayList<ConstructionElement> addAlgosDependentFromInside(
+	protected ArrayList<ConstructionElement> addAlgosDependentFromInside(
 			ArrayList<ConstructionElement> conels, boolean putdown, boolean copymacro) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
@@ -417,7 +430,7 @@ public class CopyPaste {
 	 * @param conels
 	 * @param selected
 	 */
-	protected static ArrayList<ConstructionElement> removeFreeNonselectedGeoNumerics(
+	protected ArrayList<ConstructionElement> removeFreeNonselectedGeoNumerics(
 			ArrayList<ConstructionElement> conels,
 			ArrayList<GeoElement> selected) {
 
@@ -445,7 +458,7 @@ public class CopyPaste {
 	 * @param conels
 	 * @param geostohide
 	 */
-	protected static void beforeSavingToXML(
+	protected void beforeSavingToXML(
 			ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostohide, boolean samewindow, boolean putdown) {
 
@@ -501,7 +514,7 @@ public class CopyPaste {
 	 * @param conels
 	 * @param geostoshow
 	 */
-	protected static void afterSavingToXML(
+	protected void afterSavingToXML(
 			ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostoshow, boolean putdown) {
 
@@ -545,7 +558,7 @@ public class CopyPaste {
 	 * @param geos the set of GeoElement's that should be copied
 	 * @param putdown boolean which means the InsertFile case
 	 */
-	public static void copyToXML(App app,
+	public void copyToXML(App app,
 			ArrayList<GeoElement> geos, boolean putdown) {
 
 		boolean copyMacrosPresume = true;
@@ -688,7 +701,7 @@ public class CopyPaste {
 	/**
 	 * In some situations, we may need to clear the clipboard
 	 */
-	public static void clearClipboard() {
+	public void clearClipboard() {
 		copiedXML = null;
 		copiedXMLlabels = new ArrayList<String>();
 		copiedXMLforSameWindow = null;
@@ -705,7 +718,7 @@ public class CopyPaste {
 	 * @param app
 	 * @param labels
 	 */
-	protected static void handleLabels(App app,
+	protected void handleLabels(App app,
 			ArrayList<String> labels, boolean putdown) {
 
 		Kernel kernel = app.getKernel();
@@ -786,7 +799,7 @@ public class CopyPaste {
 	 * @param app
 	 * @return boolean
 	 */
-	public static boolean pasteFast(App app) {
+	public boolean pasteFast(App app) {
 		if (app.getActiveEuclidianView() != copySource)
 			return false;
 		if (copyObject != copyObject2)
@@ -800,7 +813,7 @@ public class CopyPaste {
 	 * 
 	 * @param app
 	 */
-	public static void pasteFromXML(App app, boolean putdown) {
+	public void pasteFromXML(App app, boolean putdown) {
 
 		if (copiedXML == null)
 			return;
@@ -900,7 +913,7 @@ public class CopyPaste {
 	 * would be better if this were called every time when kernel.storeUndoInfo
 	 * called and there wasn't anything deleted
 	 */
-	public static void pastePutDownCallback(App app) {
+	public void pastePutDownCallback(App app) {
 		if (pasteFast(app)) {
 			copyObject = app.getKernel().getConstruction().getUndoManager()
 					.getCurrentUndoInfo();

@@ -665,7 +665,7 @@ public abstract class GlobalKeyDispatcher {
 	 */
 	protected void handleCtrlV() {
 		app.setWaitCursor();
-		CopyPaste.pasteFromXML(app, false);
+		CopyPaste.INSTANCE.pasteFromXML(app, false);
 		app.setDefaultCursor();
 	}
 
@@ -682,7 +682,7 @@ public abstract class GlobalKeyDispatcher {
 	protected void handleCtrlC() {
 		// Copy selected geos
 		app.setWaitCursor();
-		CopyPaste.copyToXML(app, selection.getSelectedGeos(), false);
+		CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(), false);
 		app.updateMenubar();
 		app.setDefaultCursor();	
 	}

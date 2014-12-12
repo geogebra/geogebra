@@ -2,6 +2,7 @@ package geogebra.geogebra3D.web.main;
 
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.geogebra3D.util.CopyPaste3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.main.AppCompanion;
@@ -132,6 +133,7 @@ public class AppWapplication3D extends AppWapplication {
 		
 		super.initFactories();
 		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryW();
+		geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste3D();
 	}
 	
 	

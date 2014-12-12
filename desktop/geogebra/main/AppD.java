@@ -722,6 +722,9 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		geogebra.common.euclidian.EuclidianStatic.prototype = new geogebra.euclidian.EuclidianStaticD();
 
+		if (!is3D()) {
+			geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
+		}
 	}
 
 	private static void handleHelpVersionArgs(CommandLineArguments args) {
@@ -5101,12 +5104,12 @@ public class AppD extends App implements KeyEventDispatcher {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		CopyPaste.copyToXML(ad, new ArrayList<GeoElement>(ad.getKernel()
-				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
-				true);
+		CopyPaste.INSTANCE.copyToXML(ad, new ArrayList<GeoElement>(ad
+				.getKernel().getConstruction()
+				.getGeoSetWithCasCellsConstructionOrder()), true);
 
 		// and paste
-		CopyPaste.pasteFromXML(this, true);
+		CopyPaste.INSTANCE.pasteFromXML(this, true);
 
 		// forgotten something important!
 		// ad should be closed!

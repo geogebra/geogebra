@@ -98,7 +98,7 @@ public class UndoManagerD extends UndoManager {
 			@Override
 			public void run() {
 				doStoreUndoInfo(currentUndoXML);
-				CopyPaste.pastePutDownCallback(app);
+				CopyPaste.INSTANCE.pastePutDownCallback(app);
 			}
 		};
 		undoSaverThread.start();

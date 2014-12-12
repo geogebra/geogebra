@@ -51,6 +51,7 @@ import geogebra.common.move.views.OfflineView;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AsyncOperation;
+import geogebra.common.util.CopyPaste;
 import geogebra.common.util.Language;
 import geogebra.common.util.MD5EncrypterGWTImpl;
 import geogebra.common.util.NormalizerMinimal;
@@ -268,6 +269,9 @@ public abstract class AppW extends App implements SetLabels{
 		geogebra.common.factories.SwingFactory.setPrototype(new geogebra.html5.factories.SwingFactoryW());
 		geogebra.common.util.StringUtil.prototype = new geogebra.common.util.StringUtil();
 		geogebra.common.factories.CASFactory.setPrototype(new geogebra.html5.factories.CASFactoryW());
+		if (!is3D()) {
+			geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste();
+		}
 	}
 	
 	protected void afterCoreObjectsInited() { } // TODO: abstract?

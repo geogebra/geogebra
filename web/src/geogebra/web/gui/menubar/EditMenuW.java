@@ -64,7 +64,7 @@ public class EditMenuW extends GMenuBar {
 				@Override
                 public void doExecute() {
 					app.setWaitCursor();
-					CopyPaste.copyToXML(app, selection.getSelectedGeos(), false);
+					CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(), false);
 					initActions(); // app.updateMenubar(); - it's needn't to
 								   // update the all menubar here
 					app.setDefaultCursor();
@@ -82,7 +82,7 @@ public class EditMenuW extends GMenuBar {
 			});
 
 		// paste menu
-		if (!CopyPaste.isEmpty())
+		if (!CopyPaste.INSTANCE.isEmpty())
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icon_edit_paste().getSafeUri().asString(),
 			        app.getMenu("Paste"), true), true, new MenuCommand(app) {
@@ -90,7 +90,7 @@ public class EditMenuW extends GMenuBar {
 				@Override
 				public void doExecute() {
 					app.setWaitCursor();
-					CopyPaste.pasteFromXML(app, false);
+					CopyPaste.INSTANCE.pasteFromXML(app, false);
 					app.setDefaultCursor();
 				}
 			});

@@ -228,7 +228,8 @@ public class EditMenuD extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				CopyPaste.copyToXML(app, selection.getSelectedGeos(), false);
+				CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(),
+						false);
 				app.updateMenubar();
 				app.setDefaultCursor();
 			}
@@ -240,7 +241,7 @@ public class EditMenuD extends BaseMenu {
 
 			public void actionPerformed(ActionEvent e) {
 				app.setWaitCursor();
-				CopyPaste.pasteFromXML(app, false);
+				CopyPaste.INSTANCE.pasteFromXML(app, false);
 				app.setDefaultCursor();
 			}
 		};
@@ -323,7 +324,7 @@ public class EditMenuD extends BaseMenu {
 				.getEuclidianController().getJustCreatedGeos().isEmpty());
 
 		copyAction.setEnabled(!selection.getSelectedGeos().isEmpty());
-		pasteAction.setEnabled(!CopyPaste.isEmpty());
+		pasteAction.setEnabled(!CopyPaste.INSTANCE.isEmpty());
 
 		deleteAction.setEnabled(layer != -1 || justCreated);
 		deleteItem.setVisible(layer != -1 || justCreated);

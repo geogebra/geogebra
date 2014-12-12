@@ -26,6 +26,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianController3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.main.App3DCompanion;
+import geogebra.common.geogebra3D.util.CopyPaste3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -290,8 +291,6 @@ public class App3D extends AppD {
 		return new GuiManager3D(this);
 	}
 
-
-
 	// /////////////////////////////////////
 	// COMMANDS
 	// /////////////////////////////////////
@@ -454,6 +453,7 @@ public class App3D extends AppD {
 		super.initFactories();
 
 		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryD();
+		geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste3D();
 
 	}
 
@@ -519,12 +519,12 @@ public class App3D extends AppD {
 		// afterwards, the file is loaded into "ad" in theory,
 		// so we have to use the CopyPaste class to copy it
 
-		CopyPaste.copyToXML(ad, new ArrayList<GeoElement>(ad.getKernel()
-				.getConstruction().getGeoSetWithCasCellsConstructionOrder()),
-				true);
+		CopyPaste.INSTANCE.copyToXML(ad, new ArrayList<GeoElement>(ad
+				.getKernel().getConstruction()
+				.getGeoSetWithCasCellsConstructionOrder()), true);
 
 		// and paste
-		CopyPaste.pasteFromXML(this, true);
+		CopyPaste.INSTANCE.pasteFromXML(this, true);
 
 		// forgotten something important!
 		// ad should be closed!
