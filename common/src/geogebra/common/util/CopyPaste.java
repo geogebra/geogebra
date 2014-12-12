@@ -59,6 +59,12 @@ import java.util.TreeSet;
  */
 public class CopyPaste {
 
+	// labelPrefix has to contain something else than big letters,
+	// otherwise the parsed label could be regarded as a spreadsheet label
+	// see GeoElement.isSpreadsheetLabel
+	// check if name is valid for geo
+	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
+
 	// this CopyPaste.INSTANCE shall either be CopyPaste or CopyPaste3D
 	// determined by App.initFactories, AppD, App3D, AppW, AppWapplet3D, AppWapplication3D
 	public static CopyPaste INSTANCE = null;
@@ -66,12 +72,6 @@ public class CopyPaste {
 	public CopyPaste() {
 		// dummy, for now
 	}
-
-	// labelPrefix has to contain something else than big letters,
-	// otherwise the parsed label could be regarded as a spreadsheet label
-	// see GeoElement.isSpreadsheetLabel
-	// check if name is valid for geo
-	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
 	protected HashSet<Macro> copiedMacros;
 	protected StringBuilder copiedXML;
@@ -304,8 +304,6 @@ public class CopyPaste {
 						}
 					}
 				}
-			} else {
-				
 			}
 		}
 	}
