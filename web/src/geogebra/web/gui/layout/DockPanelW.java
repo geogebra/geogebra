@@ -1031,18 +1031,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 	protected void setActiveToolBar() {
 		if (hasToolbar()) {
 			((GuiManagerW) app.getGuiManager()).setActiveToolbarId(getViewId());
-		} else {
-			// Is this necessary in Web?
-			((GuiManagerW) app.getGuiManager()).getToolbarPanel()
-					.setActiveToolbar(-1);
-		}
-		// Is this necessary in Web? (Desktop also had the following:)
-		// switching the view may cause shrinking of help panel,
-		// we need an update here
-		//((GuiManagerW) app.getGuiManager()).getToolbarPanel().validate();
-		//((GuiManagerW) app.getGuiManager()).getToolbarPanel().updateHelpText();
-
-		//App.debug("unimplemented");
+		} 
 	}
 
 	/**
@@ -1053,8 +1042,6 @@ public abstract class DockPanelW extends ResizeComposite implements
 	 * 
 	 */
 	protected void setTitleLabelFocus() {
-
-		App.debug(this.getPlainTitle() + " title is bold? " + titleIsBold());
 
 		if (titleIsBold()) {
 			titleBarPanel.addStyleName("TitleBarPanel-focus");
