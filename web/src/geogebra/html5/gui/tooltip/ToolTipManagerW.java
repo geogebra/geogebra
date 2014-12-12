@@ -231,16 +231,24 @@ public class ToolTipManagerW {
 				helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.viewSavedFile + ")");
 			}
 			
-			helpLabel.addDomHandler(new MouseDownHandler() {
-				public void onMouseDown(MouseDownEvent event) {
-					openWindow(helpURL);
-				}
-			}, MouseDownEvent.getType());
-			helpLabel.addDomHandler(new TouchStartHandler() {
-				public void onTouchStart(TouchStartEvent event) {
-					openWindow(helpURL);
-				}
-			}, TouchStartEvent.getType());
+			/*
+			 * In "exam" mode the question mark is shown, but when clicking on it,
+			 * the tooltip disappears. It is important to disallow showing an external page in exam mode.
+			 * TODO: the best would be not show the question mark at all.
+			 */
+			final boolean exam = ((AppW)app).getLAF().isExam();
+			if (!exam) {
+				helpLabel.addDomHandler(new MouseDownHandler() {
+					public void onMouseDown(MouseDownEvent event) {
+						openWindow(helpURL);
+					}
+				}, MouseDownEvent.getType());
+				helpLabel.addDomHandler(new TouchStartHandler() {
+					public void onTouchStart(TouchStartEvent event) {
+						openWindow(helpURL);
+					}
+				}, TouchStartEvent.getType());
+			}
 			helpLabel.addStyleName("manualLink");
 			bottomInfoTipPanel.add(helpLabel);
 		}
