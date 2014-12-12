@@ -88,6 +88,7 @@ import geogebra.gui.app.GeoGebraFrame;
 import geogebra.gui.dialog.AxesStyleListRenderer;
 import geogebra.gui.dialog.DashListRenderer;
 import geogebra.gui.dialog.PointStyleListRenderer;
+import geogebra.gui.layout.DockPanel;
 import geogebra.io.MyXMLioD;
 import geogebra.kernel.AnimationManagerD;
 import geogebra.kernel.UndoManagerD;
@@ -1383,9 +1384,26 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (hasEuclidianView2EitherShowingOrNot(1)) {
 			getEuclidianView2(1).resetXYMinMaxObjects();
 		}
+
+		resetAllToolbars();
+
 		// reload the saved/(default) preferences
 		GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
 		resetUniqueId();
+	}
+
+	private void resetAllToolbars() {
+
+		GuiManagerD gm = (GuiManagerD) getGuiManager();
+
+		DockPanel[] panels = gm.getLayout().getDockManager().getPanels();
+		for (DockPanel panel : panels) {
+			if (panel.canCustomizeToolbar()) {
+				panel.setToolbarString(panel.getDefaultToolbarString());
+			}
+		}
+
+		gm.setToolBarDefinition(gm.getDefaultToolbarString());
 	}
 
 	private String regressionFileName = null;
@@ -2019,8 +2037,8 @@ public class AppD extends App implements KeyEventDispatcher {
 					icon = getToolBarImage("mode_tool.png", border);
 				} else {
 					// use image as icon
-					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage(),
-							border));
+					icon = new ImageIcon(ImageManagerD.addBorder(
+							img.getImage(), border));
 				}
 			} catch (Exception e) {
 				App.debug("macro does not exist: ID = " + macroID);
