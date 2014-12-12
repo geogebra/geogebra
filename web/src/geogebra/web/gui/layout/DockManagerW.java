@@ -1098,7 +1098,7 @@ public class DockManagerW extends DockManager {
 		if (guiManager.hasCasView() && getPanel(App.VIEW_CAS) != null && getPanel(App.VIEW_CAS).isVisible()) {
 			toolbarID = App.VIEW_CAS;
 		} else if (guiManager.hasSpreadsheetView() && getPanel(App.VIEW_SPREADSHEET) != null && getPanel(App.VIEW_SPREADSHEET).isVisible()) {
-			toolbarID = App.VIEW_SPREADSHEET);
+			toolbarID = App.VIEW_SPREADSHEET;
 		} else if (app.getEuclidianView1().isShowing()) {
 			toolbarID = App.VIEW_EUCLIDIAN;
 		} else if (app.hasEuclidianView2(1) && app.getEuclidianView2(1).isShowing()) {
