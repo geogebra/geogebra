@@ -617,8 +617,8 @@ public class Ggb2giac {
 				"expand(subst(sum(subst(%0,%1,ggbsumvar@1),ggbsumvar@1,%2,%3), ggbsumvar@1, %1))");
 
 		// GeoGebra counts elements from 1, giac from 0
-		p("Take.3",
-				"%0[%1-1..%2-1]");
+		//p("Take.3", "%0[%1-1..%2-1]");
+		p("Take.3", "[[[ggbtakearg0:=%0],[ggbtakearg1:=%1],[ggbtakearg2:=%2]],ggbtakearg0[ggbtakearg1-1..ggbtakearg2-1]][1]");
 		p("TaylorSeries.3",
 				"convert(series(%0,x,%1,%2),polynom)");
 		p("TaylorSeries.4",
