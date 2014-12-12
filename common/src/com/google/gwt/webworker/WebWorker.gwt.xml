@@ -1,7 +1,0 @@
-<!DOCTYPE document SYSTEM
-    "http://google-web-toolkit.googlecode.com/svn/releases/1.7/distro-source/core/src/gwt-module.dtd">
-<module>
-  <inherits name="com.google.gwt.core.Core" />
-  <define-linker name="dedicatedworker"
-    class="com.google.gwt.webworker.linker.DedicatedWorkerLinker" />
-</module>
