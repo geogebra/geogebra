@@ -62,8 +62,26 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 		return false;
 	}-*/;
 
+	native void exitExam() /*-{
+	  $wnd.close();
+	}-*/;
+	
 	private void initActions() {
 
+		final boolean exam = ((AppW)app).getLAF().isExam();
+		if (exam) {
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("Close"), true),true,new MenuCommand(app) {
+
+				@Override
+				public void doExecute() {
+					// set Firefox dom.allow_scripts_to_close_windows in about:config to true to make this work
+					exitExam();
+				}
+			});
+			return;
+		}
+		
+		
 		// this is enabled always
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_file_new().getSafeUri().asString(),app.getMenu("New"), true),true,new MenuCommand(app) {
 

@@ -68,9 +68,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	private void init() {
 		this.app.getLoginOperation().getView().add(this);
 		final boolean exam = ((AppW)app).getLAF().isExam();
-		if (!exam) {
-			this.createFileMenu();
-		}
+		this.createFileMenu();
 		this.createPerspectivesMenu();
 		this.createEditMenu();
 		this.createViewMenu();
@@ -81,7 +79,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.createUserMenu();
 			this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
 		} else {
-			this.menus = new GMenuBar[]{editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu};
+			this.menus = new GMenuBar[]{editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, fileMenu};
 		}
 		
 		for(int i=0; i<menus.length; i++){
@@ -167,7 +165,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		
 		if (!exam) {
 			this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
-		}
+			}
 		this.menuPanel.add(editMenu, setHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
@@ -181,6 +179,8 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				render(true);
 			}
 			app.getNetworkOperation().getView().add(this);
+		} else {
+			this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
 		}
 	    this.add(menuPanel);	    
 	}
