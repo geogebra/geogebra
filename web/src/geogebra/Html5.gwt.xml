@@ -25,8 +25,7 @@
 
 
   <!-- compile only for Firefox / Chrome / Safari - choose one: reduces permutation time --> 
-  <set-property name="user.agent" value="safari, gecko1_8, ie9" />
-  <!--<set-property name="user.agent" value="safari, gecko1_8" /> -->
+
   <add-linker name="xsiframe" />
   
   <!-- Define a custom App Cache linker -->
