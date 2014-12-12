@@ -36,10 +36,10 @@ import geogebra.common.kernel.algos.Algos;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.GetPointsAlgo;
 import geogebra.common.kernel.commands.Commands;
-import geogebra.common.kernel.geos.GeoAxis;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPolyLine;
+import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
@@ -123,6 +123,26 @@ public class CopyPaste {
 			} else if (geo.getAllIndependentPredecessors().contains(
 					app.getKernel().getYAxis())) {
 				geos.remove(i);
+			} else if (app.is3D()) {
+				if (geo.getAllIndependentPredecessors().contains(
+						app.getKernel().getXAxis3D())) {
+					geos.remove(i);
+				} else if (geo.getAllIndependentPredecessors().contains(
+						app.getKernel().getYAxis3D())) {
+					geos.remove(i);
+				} else if (geo.getAllIndependentPredecessors().contains(
+						app.getKernel().getZAxis3D())) {
+					geos.remove(i);
+				} else if (geo.getAllIndependentPredecessors().contains(
+						app.getKernel().getXOYPlane())) {
+					geos.remove(i);
+				} else if (geo.getAllIndependentPredecessors().contains(
+						app.getKernel().getClippingCube())) {
+					geos.remove(i);
+				} else if (geo.getAllIndependentPredecessors().contains(
+						app.getKernel().getSpace())) {
+					geos.remove(i);
+				}
 			}
 		}
 	}
@@ -303,7 +323,10 @@ public class CopyPaste {
 			while (it.hasNext()) {
 				geo2 = it.next();
 				if (!ret.contains(geo2) && !geos.contains(geo2)
-						&& !(geo2 instanceof GeoAxis)) {
+						&& !(geo2 instanceof GeoAxisND)
+						&& (geo2 != geo2.getKernel().getXOYPlane())
+						&& (geo2 != geo2.getKernel().getClippingCube())
+						&& (geo2 != geo2.getKernel().getSpace())) {
 					ret.add(geo2);
 				}
 			}

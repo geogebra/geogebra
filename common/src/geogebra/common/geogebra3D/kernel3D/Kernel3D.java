@@ -111,14 +111,17 @@ public class Kernel3D extends Kernel {
 
 	}
 
+	@Override
 	public GeoAxisND getXAxis3D() {
 		return ((Construction3D) cons).getXAxis3D();
 	}
 
+	@Override
 	public GeoAxisND getYAxis3D() {
 		return ((Construction3D) cons).getYAxis3D();
 	}
 
+	@Override
 	public GeoAxis3D getZAxis3D() {
 		return ((Construction3D) cons).getZAxis3D();
 	}
@@ -127,7 +130,8 @@ public class Kernel3D extends Kernel {
 	public GeoPlane3DConstant getXOYPlane() {
 		return ((Construction3D) cons).getXOYPlane();
 	}
-	
+
+	@Override
 	public GeoClippingCube3D getClippingCube(){
 		return ((Construction3D) cons).getClippingCube();
 	}

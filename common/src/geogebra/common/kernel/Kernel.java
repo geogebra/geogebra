@@ -64,6 +64,7 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
+import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
@@ -5080,4 +5081,23 @@ public class Kernel {
 		return (GeoElement) algo.getVector();
 	}
 
+	// for compatibility/interfacing with 3D
+	public GeoAxisND getXAxis3D() {
+		return null;
+	}
+
+	// for compatibility/interfacing with 3D
+	public GeoAxisND getYAxis3D() {
+		return null;
+	}
+
+	// for compatibility/interfacing with 3D
+	public GeoAxisND getZAxis3D() {
+		return null;
+	}
+
+	// for compatibility/interfacing with 3D
+	public GeoElement getClippingCube(){
+		return null;
+	}
 }
