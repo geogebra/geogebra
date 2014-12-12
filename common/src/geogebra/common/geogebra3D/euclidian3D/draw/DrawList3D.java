@@ -84,23 +84,23 @@ public class DrawList3D extends Drawable3D {
 			}
 		}
 		
-		
+		/*
  		// check if a new update is needed in a next loop
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (/*createdByDrawList() ||*/ !d.getGeoElement().isLabelSet()) {
+			if (!d.getGeoElement().isLabelSet()) {
 				//App.debug("\n"+geoList+"\n -- "+d.getGeoElement()+" -- "+d.waitForUpdate());
 				if (d.waitForUpdate()){
 					return false;
 				}
 			}
-		}
+		}*/
 
 		
     	return true;
 	}
 	
-
+/* http://dev.geogebra.org/trac/changeset/37937 kills ManySpheres.ggb
 	@Override
 	public boolean waitForUpdate(){
 		for (int i = 0; i < drawables.size(); i++) {
@@ -114,7 +114,7 @@ public class DrawList3D extends Drawable3D {
 
 		return false;
 	}
-
+*/
 	
 	@Override
 	protected void updateForView() {
