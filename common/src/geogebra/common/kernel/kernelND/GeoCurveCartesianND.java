@@ -7,6 +7,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.algos.AlgoDependentFunction;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.Function;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
@@ -472,5 +473,7 @@ public abstract class GeoCurveCartesianND extends GeoElement implements Traceabl
 	protected abstract GeoCurveCartesianND newGeoCurveCartesian(Construction cons);
 
 	protected GeoCurveCartesianND derivGeoFun;
+
+	public abstract ExpressionValue evaluateCurve(double double1);
 
 }
