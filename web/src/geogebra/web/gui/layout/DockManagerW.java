@@ -9,6 +9,7 @@ import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
 import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.gui.laf.GLookAndFeel;
@@ -1085,27 +1086,35 @@ public class DockManagerW extends DockManager {
 	/**
 	 * set active toolbar to default
 	 */
-	private void setActiveToolBarDefault(){
+	private void setActiveToolBarDefault() {
+
+		GuiManagerInterfaceW guiManager = app.getGuiManager();
+
+		// default
+		int toolbarID = App.VIEW_EUCLIDIAN;
+
 		// show CAS-toolbar in CAS-perspective (same for Spreadsheet)
 		// in the other perspectives use Euclidian-toolbar (if available)
-		if (app.getGuiManager().hasCasView() && getPanel(App.VIEW_CAS) != null && getPanel(App.VIEW_CAS).isVisible())
-			app.getGuiManager().setActiveToolbarId(App.VIEW_CAS);
-		else if (app.getGuiManager().hasSpreadsheetView() && getPanel(App.VIEW_SPREADSHEET) != null && getPanel(App.VIEW_SPREADSHEET).isVisible())
-			app.getGuiManager().setActiveToolbarId(App.VIEW_SPREADSHEET);
-		else if (app.getEuclidianView1().isShowing())
-			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
-		else if (app.hasEuclidianView2(1) && app.getEuclidianView2(1).isShowing())
-			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN2);
-		else if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D))
-			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN3D);
-		// what else can it be??
-		else if (app.getGuiManager().hasProbabilityCalculator() && app.getGuiManager().getProbabilityCalculator().isShowing())
-			app.getGuiManager().setActiveToolbarId(App.VIEW_PROBABILITY_CALCULATOR);
-		else if (app.getGuiManager().hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing())
+		if (guiManager.hasCasView() && getPanel(App.VIEW_CAS) != null && getPanel(App.VIEW_CAS).isVisible()) {
+			toolbarID = App.VIEW_CAS;
+		} else if (guiManager.hasSpreadsheetView() && getPanel(App.VIEW_SPREADSHEET) != null && getPanel(App.VIEW_SPREADSHEET).isVisible()) {
+			toolbarID = App.VIEW_SPREADSHEET);
+		} else if (app.getEuclidianView1().isShowing()) {
+			toolbarID = App.VIEW_EUCLIDIAN;
+		} else if (app.hasEuclidianView2(1) && app.getEuclidianView2(1).isShowing()) {
+			toolbarID = App.VIEW_EUCLIDIAN2;
+		} else if (app.hasEuclidianView3D() && app.showView(App.VIEW_EUCLIDIAN3D)) {
+			toolbarID = App.VIEW_EUCLIDIAN3D;
+			// what else can it be??
+		} else if (guiManager.hasProbabilityCalculator() && app.getGuiManager().getProbabilityCalculator().isShowing()) {
+			toolbarID = App.VIEW_PROBABILITY_CALCULATOR;
+		} else if (guiManager.hasAlgebraView() && app.getGuiManager().getAlgebraView().isShowing()) {
 			// algebra view has no toolbar!
-			app.getGuiManager().setActiveToolbarId(App.VIEW_ALGEBRA);
-		else //?
-			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
+			toolbarID = App.VIEW_ALGEBRA;
+		} 
+
+		guiManager.setActiveToolbarId(toolbarID);
+
 	}
 	
 	/**
