@@ -165,9 +165,9 @@ public abstract class Drawable3D extends DrawableND {
 
 	//picking
 	//private boolean m_isPicked = false;	
-	/** most far picking value, used for odering elements with openGL picking */
+	/** most far picking value, used for ordering elements with openGL picking */
 	private double zPickFar; 
-	/** nearest picking value, used for odering elements with openGL picking */	
+	/** nearest picking value, used for ordering elements with openGL picking */	
 	private double zPickNear;
 
 	/** (r,g,b,a) vector */
