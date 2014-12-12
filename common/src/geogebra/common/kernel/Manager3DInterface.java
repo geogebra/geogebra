@@ -1,6 +1,5 @@
 package geogebra.common.kernel;
 
-import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
 import geogebra.common.kernel.Matrix.CoordMatrix;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
@@ -45,6 +44,7 @@ public interface Manager3DInterface {
 
 	/** Point3D label with cartesian coordinates (x,y,z) */
 	public GeoElement Point3D(String label, double x, double y, double z, boolean coords2D);
+	public GeoElement Point3D(double x, double y, double z, boolean coords2D);
 
 	/**
 	 * Point dependent on arithmetic expression with variables, represented by a
@@ -893,7 +893,7 @@ public interface Manager3DInterface {
 	 */
 	public GeoConicPartND CircleArcSector3D(String label, GeoPointND A, GeoPointND B, GeoPointND C, GeoDirectionND orientation, int type);
 
-	public GeoLine3D Line3D(String label, ExpressionValue[] coefX,
+	public GeoLineND Line3D(String label, ExpressionValue[] coefX,
 			ExpressionValue[] coefY, ExpressionValue[] coefZ);
 
 

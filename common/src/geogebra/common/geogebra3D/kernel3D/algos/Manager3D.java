@@ -108,6 +108,17 @@ public class Manager3D implements Manager3DInterface {
 
 		return p;
 	}
+	
+	final public GeoPoint3D Point3D(double x, double y, double z, boolean coords2D) {
+		GeoPoint3D p = new GeoPoint3D(cons);
+		if (coords2D)
+			p.setCartesian();
+		else
+			p.setCartesian3D();
+		p.setCoords(x, y, z, 1.0);
+
+		return p;
+	}
 
 	/**
 	 * Point dependent on arithmetic expression with variables, represented by a

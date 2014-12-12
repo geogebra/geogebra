@@ -256,7 +256,7 @@ public class AlgebraProcessor3D extends AlgebraProcessor {
 				line.setParameter(fv.getSetVarString());
 				line.setLabel(label);
 				}else{
-					line = kernel.getManager3D().Line3D(label, coefX, coefY, coefZ);
+					line = (GeoLine3D) kernel.getManager3D().Line3D(label, coefX, coefY, coefZ);
 				
 				}
 				line.setParameter(fv.getSetVarString());

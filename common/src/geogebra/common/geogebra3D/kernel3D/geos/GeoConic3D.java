@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
+import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
@@ -724,8 +725,8 @@ implements RotateableND, MirrorableAtPlane, ViewCreator {
 	}
 
 
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){
-		euclidianViewForPlane = view;
+	public void setEuclidianViewForPlane(EuclidianViewCompanion view){
+		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
 
 }

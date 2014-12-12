@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
+import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
 import geogebra.common.kernel.Construction;
@@ -558,8 +559,8 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 
 
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){
-		euclidianViewForPlane = view;
+	public void setEuclidianViewForPlane(EuclidianViewCompanion view){
+		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
 	
 	public Coords getDirectionInD3() {

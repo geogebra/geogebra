@@ -1,6 +1,5 @@
 package geogebra.common.kernel.parser.cashandlers;
 
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.CASException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
@@ -249,8 +248,7 @@ public class CommandDispatcherGiac {
 					a = args.getItem(0).evaluateDouble();
 					b = args.getItem(1).evaluateDouble();
 					double c = args.getItem(2).evaluateDouble();
-					GeoPoint3D point = new GeoPoint3D(kernel.getConstruction());
-					point.setCoords(a,  b, c, 1);
+					GeoElement point = kernel.getManager3D().Point3D(null, a, b, c, false);
 					return new ExpressionNode(kernel, point);
 				default:
 					throw new CASException("Giac: bad number of args for point(): "+args.getLength());

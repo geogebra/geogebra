@@ -1,5 +1,6 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
+import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.transform.MirrorableAtPlane;
@@ -614,8 +615,8 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface, V
 		euclidianViewForPlane.doRemove();
 	}
 
-	public void setEuclidianViewForPlane(EuclidianViewForPlaneCompanion view){
-		euclidianViewForPlane = view;
+	public void setEuclidianViewForPlane(EuclidianViewCompanion view){
+		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
 
 	public boolean hasView2DVisible(){
