@@ -17,6 +17,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
+import geogebra.web.main.GDevice;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -178,7 +179,7 @@ public class Tablet implements EntryPoint {
 	 * create app frame
 	 */
 	protected void createGeoGebraAppFrame(){
-		appFrame = new GeoGebraAppFrame(new TabletLookAndFeel(), new TabletDevice(), (AppletFactory) GWT.create(AppletFactory.class) );
+		appFrame = new GeoGebraAppFrame(new TabletLookAndFeel(), (GDevice) GWT.create(TabletDevice.class), (AppletFactory) GWT.create(AppletFactory.class) );
 		appFrame.addStyleName("Tablet");
 	}
 	

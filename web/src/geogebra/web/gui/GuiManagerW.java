@@ -486,11 +486,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public boolean showView(final int viewId) {
-		/*
-		 * 8 Element e = Document.get().getElementById("View_" + viewId); if (e
-		 * != null) { return !(e.getStyle().getDisplay().equals("none") ||
-		 * e.getStyle() .getVisibility().equals("hidden")); } return false;
-		 */
+		
 
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();

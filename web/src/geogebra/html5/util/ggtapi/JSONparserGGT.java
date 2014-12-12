@@ -74,7 +74,7 @@ public class JSONparserGGT {
 		result.add(toMaterial(obj));
 	}
 
-	private static Material toMaterial(JSONObject obj) {
+	public static Material toMaterial(JSONObject obj) {
 		Material.MaterialType type = MaterialType.ggb;
 		if(getString(obj, "type").length() > 0){
 			try{
