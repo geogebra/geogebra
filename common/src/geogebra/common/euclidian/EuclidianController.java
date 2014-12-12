@@ -21,7 +21,6 @@ import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian.modes.ModeDelete;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -501,9 +500,9 @@ public abstract class EuclidianController {
 						if (geo instanceof GeoPoint) {
 							setStartPointLocation(((GeoPoint) geo).getInhomX(),
 									((GeoPoint) geo).getInhomY());
-						} else if (geo instanceof GeoPoint3D) {
-							setStartPointLocation(((GeoPoint3D)geo).getInhomX(),
-									((GeoPoint3D)geo).getInhomY());
+						} else if (geo.isGeoElement3D()) {
+							setStartPointLocation(((GeoPointND)geo).getInhomX(),
+									((GeoPointND)geo).getInhomY());
 						}
 						firstMoveable = false;
 					} else if (geo.isGeoText()) {
