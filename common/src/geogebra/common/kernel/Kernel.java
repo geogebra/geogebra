@@ -7,7 +7,6 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.factories.FormatFactory;
-import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.SetOrientation;
 import geogebra.common.io.MyXMLHandler;
@@ -5048,13 +5047,13 @@ public class Kernel {
 	 * set correct string mode regarding active euclidian view
 	 * @param point point
 	 */
-	public void setStringMode(GeoPoint3D point){
-		
+	public void setStringMode(GeoPointND point){
+
 		if(cons.isFileLoading()){
 			// nothing to do : string mode will be set from the XML
 			return;
 		}
-		
+
 		if (app.getActiveEuclidianView().isEuclidianView3D()){
 			point.setCartesian3D();
 		}else{
