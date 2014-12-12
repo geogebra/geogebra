@@ -1,10 +1,12 @@
 package geogebra.web.gui.app;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
@@ -14,17 +16,12 @@ import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RequiresResize;
 
-public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
+public class GGWFrameLayoutPanel extends LayoutPanel {
 
 	private boolean menuClosed = true;
 
@@ -54,35 +51,21 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		mainPanel = new MyDockPanelLayout(Style.Unit.PX);
 		mainPanel.add(dockPanel);
 
-		dockPanel.addDomHandler(new TouchStartHandler() {
+		ClickStartHandler.init(dockPanel, new ClickStartHandler() {
 			@Override
-            public void onTouchStart(TouchStartEvent event) {
-				Timer timer = new Timer() {
-					@Override
-					public void run() {
-						CancelEventTimer.touchEventOccured();
-						showKeyBoard(false, null);
-					}
-				};
-				timer.schedule(0);
-			}
-		}, TouchStartEvent.getType());
-
-		dockPanel.addDomHandler(new MouseDownHandler() {
-			@Override
-            public void onMouseDown(MouseDownEvent event) {
-				Timer timer = new Timer() {
-					@Override
-					public void run() {
-						if(!CancelEventTimer.cancelMouseEvent()){
+			public void onClickStart(int x, int y, final PointerEventType type) {
+				if (!CancelEventTimer.cancelKeyboardHide()) {
+					Timer timer = new Timer() {
+						@Override
+						public void run() {
 							showKeyBoard(false, null);
-						}						
-					}
-				};
-				timer.schedule(0);
+						}
+					};
+					timer.schedule(0);
+				}
 			}
-		}, MouseDownEvent.getType());
-		
+		});
+
 		add(glassPane);
 		add(mainPanel);
 	}
@@ -138,6 +121,23 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements RequiresResize {
 		} else {
 			keyBoard.resetKeyboardState();
 		}
+		this.mainPanel.add(this.dockPanel);
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				onResize();
+				dockPanel.onResize();
+			}
+		};
+		timer.schedule(0);
+	}
+
+	public void updateKeyBoard(AutoCompleteTextFieldW textField){
+		this.mainPanel.clear();
+		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
+		keyBoard.show();
+			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight()); 
 		this.mainPanel.add(this.dockPanel);
 
 		Timer timer = new Timer() {

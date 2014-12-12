@@ -11,6 +11,7 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
@@ -484,6 +485,9 @@ public class AppWapplication extends AppW {
 	@Override
     public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
 		getAppFrame().showKeyBoard(true, autoCompleteTextFieldW);
+		if(autoCompleteTextFieldW != null){
+			CancelEventTimer.keyboardSetVisible();
+		}
     }
 
 	@Override
@@ -491,7 +495,8 @@ public class AppWapplication extends AppW {
 		getAppFrame().showKeyBoard(false, null);
 	}
 	
-	public void openMaterial(String s, final Runnable onError) {
+	@Override
+    public void openMaterial(String s, final Runnable onError) {
 		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(s, new MaterialCallback(){
 
 			@Override
@@ -524,7 +529,8 @@ public class AppWapplication extends AppW {
 		device.copyEVtoClipboard(ev);
 	}
 	
-	public boolean isOffline() {
+	@Override
+    public boolean isOffline() {
 		return device.isOffline(this);
     }
 

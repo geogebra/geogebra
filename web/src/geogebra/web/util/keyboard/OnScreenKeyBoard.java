@@ -136,18 +136,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		this.mode = mode;
 		if(mode == KeyboardMode.NUMBER){
 			textField.setFocus(false);
-//			NativeEvent event = Document.get().createBlurEvent();
-//			textField.getTextField().onBrowserEvent(Event.as(event));
-
 			content.setVisible(true);
-			frameLayoutPanel.showKeyBoard(true, textField);
+			frameLayoutPanel.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			content.setVisible(false);
-			frameLayoutPanel.showKeyBoard(true, textField);			
+			frameLayoutPanel.updateKeyBoard(textField);
 			textField.setFocus(true);
 		}
 	}
-	
+
 	/**
 	 * @return the keyboard mode
 	 */

@@ -166,7 +166,8 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 	        absoluteEuclidianPanel.add(w,x,y);
         }
 
-		public boolean remove(Widget w) {
+		@Override
+        public boolean remove(Widget w) {
 			return absoluteEuclidianPanel.remove(w);
         }
 
@@ -219,11 +220,13 @@ public class EuclidianDockPanelW extends EuclidianDockPanelWAbstract implements 
 		return this;
 	}
 
-	public AbsolutePanel getAbsolutePanel() {
+	@Override
+    public AbsolutePanel getAbsolutePanel() {
 		return euclidianpanel.getAbsolutePanel();
 	}
 
-	public EuclidianView getEuclidianView() {
+	@Override
+    public EuclidianView getEuclidianView() {
 		if (app != null)
 			return app.getEuclidianView1();
 		return null;
