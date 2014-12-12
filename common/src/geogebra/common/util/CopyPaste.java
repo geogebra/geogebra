@@ -14,7 +14,6 @@ package geogebra.common.util;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
-import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -703,7 +702,7 @@ public class CopyPaste {
 						geo.removeView(App.VIEW_EUCLIDIAN3D);
 						app.getEuclidianView3D().remove(geo);
 					}
-				} else if (app.getActiveEuclidianView() instanceof EuclidianView3D) {
+				} else if (app.getActiveEuclidianView() == app.getEuclidianView3D()) {
 					app.removeFromEuclidianView(geo);
 					if (app.getEuclidianView3D() != null) {
 						geo.addView(App.VIEW_EUCLIDIAN3D);
