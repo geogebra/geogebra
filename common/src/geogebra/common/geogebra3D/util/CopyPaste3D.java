@@ -12,13 +12,7 @@ public class CopyPaste3D extends CopyPaste {
 		// dummy, for now
 	}
 
-	/**
-	 * copyToXML - Step 2 Add subgeos of geos like points of a segment or line
-	 * or polygon These are copied anyway but this way they won't be hidden
-	 * 
-	 * @param geos
-	 *            input and output
-	 */
+	@Override
 	protected void addSubGeos(ArrayList<ConstructionElement> geos) {
 		// even in 3D, there may be a lot of 2D objects
 		super.addSubGeos(geos);
