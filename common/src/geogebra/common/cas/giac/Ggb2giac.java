@@ -863,7 +863,7 @@ public class Ggb2giac {
 
 		// regroup: y = -2 a + b + 2x -> y = 2x - 2 a + b 
 		// don't want normal(), eg Line[(a,b),(c,d)]
-		p("Line.2","[[ggbarg0:=%0],[ggbarg1:=%1],when(is3dpoint(ggbarg0),ggbarg0+t*(ggbarg1-ggbarg0),regroup(equation(line(ggbarg0,ggbarg1))))][2]");
+		p("Line.2","[[ggblinearg0:=%0],[ggblinearg1:=%1],when(is3dpoint(ggblinearg0),ggblinearg0+t*(ggblinearg1-ggblinearg0),regroup(equation(line(ggblinearg0,ggblinearg1))))][2]");
 		
 		//p("Midpoint.2", "[[ggbans:=factor((normal(convert(coordinates(midpoint(%0,%1)),25))))]," +
 		//		"(ggbans[0],ggbans[1])][1]");
