@@ -1,9 +1,11 @@
 package geogebra.common.geogebra3D.util;
 
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygonRegular3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoVector3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -73,6 +75,16 @@ public class CopyPaste3D extends CopyPaste {
 									&& (ogeos[j].isGeoSegment() || ogeos[j]
 											.isGeoPoint())) {
 								geos.add(ogeos[j]);
+							}
+						}
+					}
+				} else if (geo instanceof GeoPolyLine3D) {
+					if (geo.getParentAlgorithm() instanceof AlgoPolyLine3D) {
+						GeoPointND[] pgeos = ((AlgoPolyLine3D) (geo
+								.getParentAlgorithm())).getPointsND();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j])) {
+								geos.add((GeoElement) pgeos[j]);
 							}
 						}
 					}
