@@ -148,8 +148,14 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		super(euclidiancontroller, viewNo, settings);
 		
 		EVPanel = newMyEuclidianViewPanel();
-		
-		initBaseComponents(EVPanel, euclidiancontroller, -1);
+
+		// It seems this constructor is only called from PlotPanelEuclidianViewW currently,
+		// so this -1 is changed to viewNo because EVNO_GENERAL is needed for
+		// making sure that this view does not change the toolbar, code in EuclidianControllerW
+		// if you think it is not Okay, then use (-1) in EuclidianControllerW instead of EVNO_GENERAL
+		// at mouse events which call setActiveToolbarId #plotpanelevno
+		//initBaseComponents(EVPanel, euclidiancontroller, -1);
+		initBaseComponents(EVPanel, euclidiancontroller, viewNo);
 
 		g2p.getCanvas().addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {

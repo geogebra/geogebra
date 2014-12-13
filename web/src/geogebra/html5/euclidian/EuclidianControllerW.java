@@ -426,7 +426,10 @@ LongTouchHandler {
 	}
 
 	public void onTouchStart(TouchStartEvent event) {
-		if (app.getGuiManager() != null){
+		if ((app.getGuiManager() != null) && (this.getViewID() != EuclidianView.EVNO_GENERAL)) {
+			// Probability calculator plot panel view should not set active toolbar ID
+			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW, #plotpanelevno
+			// probably both are Okay not changing the toolbar to full Graphics view toolbar
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		}
 		JsArray<Touch> targets = event.getTargetTouches();
@@ -631,7 +634,10 @@ LongTouchHandler {
 	}
 
 	public void onPointerEventStart(AbstractEvent event){
-		if (app.getGuiManager() != null){
+		if ((app.getGuiManager() != null) && (this.getViewID() != EuclidianView.EVNO_GENERAL)) {
+			// Probability calculator plot panel view should not set active toolbar ID
+			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW, #plotpanelevno
+			// probably both are Okay not changing the toolbar to full Graphics view toolbar 
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		}
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
