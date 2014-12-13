@@ -47,6 +47,7 @@ public class CopyPaste3D extends CopyPaste {
 					// be shown in any case when they have common parent algo inputs
 					Iterator<GeoPolygon3D> polysit = ((GeoPolyhedron)geo).getPolygons().iterator();
 					GeoPolygon3D psnext;
+					GeoPointND[] pspoints;
 					while (polysit.hasNext()) {
 						psnext = polysit.next();
 						if (!geos.contains(psnext) && geo.getAllIndependentPredecessors().containsAll(psnext.getAllIndependentPredecessors())) {
@@ -65,8 +66,15 @@ public class CopyPaste3D extends CopyPaste {
 					for (int j = 0; j < segm.length; j++) {
 						if (!geos.contains(segm[j]) && geo.getAllIndependentPredecessors().containsAll(segm[j].getAllIndependentPredecessors())) {
 							geos.add(segm[j]);
+							GeoPointND[] pspoints2 = { segm[j].getStartPoint(), segm[j].getEndPoint() };
+							for (int k = 0; k < pspoints2.length; k++) {
+								if (!geos.contains(pspoints2[k]) && geo.getAllIndependentPredecessors().containsAll(((GeoElement)(pspoints2[k])).getAllIndependentPredecessors())) {
+									geos.add((GeoElement)(pspoints2[k]));
+								}
+							}
 						}
 					}
+
 					
 				} else if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
 						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector3D)) {
