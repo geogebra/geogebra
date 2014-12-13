@@ -10,12 +10,16 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygonRegular3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.util.CopyPaste;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class CopyPaste3D extends CopyPaste {
 
@@ -37,7 +41,34 @@ public class CopyPaste3D extends CopyPaste {
 			if (geo.isGeoElement3D()) {
 				// TODO: implementation!
 
-				if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
+				if (geo.isGeoPolyhedron()) {
+					// there are many kinds of algorithm to create a GeoPolyhedron,
+					// but the essence is that its faces, edges and points should
+					// be shown in any case when they have common parent algo inputs
+					Iterator<GeoPolygon3D> polysit = ((GeoPolyhedron)geo).getPolygons().iterator();
+					GeoPolygon3D psnext;
+					while (polysit.hasNext()) {
+						psnext = polysit.next();
+						if (!geos.contains(psnext) && geo.getAllIndependentPredecessors().containsAll(psnext.getAllIndependentPredecessors())) {
+							geos.add(psnext);
+						}
+					}
+					Iterator<GeoPolygon> ps2 = ((GeoPolyhedron)geo).getPolygonsLinked().iterator();
+					GeoPolygon ps2n;
+					while (ps2.hasNext()) {
+						ps2n = ps2.next();
+						if (!geos.contains(ps2n) && geo.getAllIndependentPredecessors().containsAll(ps2n.getAllIndependentPredecessors())) {
+							geos.add(ps2n);
+						}
+					}
+					GeoSegment3D[] segm = ((GeoPolyhedron)geo).getSegments3D();
+					for (int j = 0; j < segm.length; j++) {
+						if (!geos.contains(segm[j]) && geo.getAllIndependentPredecessors().containsAll(segm[j].getAllIndependentPredecessors())) {
+							geos.add(segm[j]);
+						}
+					}
+					
+				} else if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
 						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector3D)) {
 
 					if (!geos.contains(geo.getParentAlgorithm().getInput()[0])) {
