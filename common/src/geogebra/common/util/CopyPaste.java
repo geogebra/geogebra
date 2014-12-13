@@ -21,6 +21,7 @@ import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
+import geogebra.common.kernel.algos.AlgoDependentList;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.algos.AlgoJoinPoints;
@@ -295,12 +296,23 @@ public class CopyPaste {
 							geos.add(pgeos[0]);
 					}
 				} else if (geo.isGeoList()) {
+					// TODO: note that there are a whole lot of other list algos
+					// that might need to be supported! 3D cases come here too,
+					// because GeoList is 2D object! Or we should make a separate
+					// method just for GeoList! It would also be good, for nested
+					// lists in lists and GeoElements with subGeos in lists! (new ticket)
 					if (geo.getParentAlgorithm().getClassName()
 							.equals(Commands.Sequence)) {
 						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 						if (pgeos.length > 1) {
 							if (!geos.contains(pgeos[0]))
 								geos.add(pgeos[0]);
+						}
+					} else if (geo.getParentAlgorithm() instanceof AlgoDependentList) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j]))
+								geos.add(pgeos[j]);
 						}
 					}
 				}
