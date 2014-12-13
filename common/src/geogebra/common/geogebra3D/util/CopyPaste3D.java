@@ -1,5 +1,8 @@
 package geogebra.common.geogebra3D.util;
 
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoCircle3DThreePoints;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoConicFivePoints3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoEllipseHyperbolaFociPoint3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
@@ -96,8 +99,8 @@ public class CopyPaste3D extends CopyPaste {
 							geos.add(pgeos[0]);
 						if (!geos.contains(pgeos[1]))
 							geos.add(pgeos[1]);
-					} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
-							|| geo.getParentAlgorithm()instanceof AlgoEllipseHyperbolaFociPoint) {
+					} else*/ if (geo.getParentAlgorithm() instanceof AlgoCircle3DThreePoints
+							|| geo.getParentAlgorithm()instanceof AlgoEllipseHyperbolaFociPoint3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 						if (!geos.contains(pgeos[0]))
 							geos.add(pgeos[0]);
@@ -105,13 +108,13 @@ public class CopyPaste3D extends CopyPaste {
 							geos.add(pgeos[1]);
 						if (!geos.contains(pgeos[2]))
 							geos.add(pgeos[2]);
-					} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints) {
+					} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints3D) {
 						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j]))
 								geos.add(pgeos[j]);
 						}
-					} else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
+					} /*else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 						if (!geos.contains(pgeos[0]))
 							geos.add(pgeos[0]);
