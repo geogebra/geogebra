@@ -3693,7 +3693,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		
 		super.setMode(newMode);
 		
-		initPointMoveMode();
+		if(!temporaryMode){
+			initPointMoveMode();
+		}
 	}
 
 	@Override
