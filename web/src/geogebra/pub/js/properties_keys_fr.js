@@ -187,7 +187,7 @@ __GGB__keysVar.fr.command = {
     "ConstructionStep": "EtapeConstruction",
     "ConstructionStep.Syntax": "[ ]\n[ <Objet> ]",
     "ContingencyTable": "TableContingences",
-    "ContingencyTable.Syntax": "[ <Liste de textes>, <Liste de textes> ]\n[ <Liste de textes>, <Liste de textes>, <Options> ]\n[ <Liste des valeurs de Ligne>, <Liste des valeurs de Colonne>, <Table des effectifs> ]\n[ <Liste des valeurs de Ligne>, <Liste des valeurs de Colonne>, <Table des effectifs>, <Options> ]",
+    "ContingencyTable.Syntax": "[ <Liste de textes>, <Liste de textes> ]\n[ <Liste de textes>, <Liste de textes>, <Options> ]\n[ <Liste TitresLignes>, <Liste TitresColonnes>, <Matrice D\xe9pouill\xe9e> ]\n[ <Liste TitresLignes>, <Liste TitresColonnes>, <Matrice D\xe9pouill\xe9e>, <Options> ]",
     "ContinuedFraction": "FractionContinue",
     "ContinuedFraction.Syntax": "[ <Nombre> ]\n[ <Nombre>, <Niveau> ]\n[ <Nombre>, <Niveau>, <Enligne true|false> ]",
     "ContourPlot": "CourbeNiveau",
