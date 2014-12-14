@@ -1480,23 +1480,19 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	public double distanceToPath(PathOrPoint path){
 
-		if (!hasWillingCoords()){
-			return path.toGeoElement().distance(this);
-		}
-
-
-
-		//Region region = getRegion();
-		//setRegion(null);
 		Coords coordsOld = getInhomCoords().copyVector();
-		
+				
 		if (tmpWillingCoords == null){
 			tmpWillingCoords = Coords.createInhomCoorsInD3();
 		}
 		if (tmpWillingDirection == null){
 			tmpWillingDirection = new Coords(4);
 		}
-		tmpWillingCoords.set(getWillingCoords());
+		if (hasWillingCoords()){
+			tmpWillingCoords.set(getWillingCoords());
+		}else{
+			tmpWillingCoords.set(coordsOld);
+		}
 		if (hasWillingDirection()){
 			tmpWillingDirection.set(getWillingDirection());
 		}else{

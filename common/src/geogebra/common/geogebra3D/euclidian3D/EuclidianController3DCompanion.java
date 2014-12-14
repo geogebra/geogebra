@@ -46,9 +46,9 @@ public class EuclidianController3DCompanion extends EuclidianControllerFor3DComp
 				
 				Coords coords = movedGeoPoint3D.getInhomCoordsInD(3);
 				if (checkPointCapturingXYThenZ(coords)){
-					movedGeoPoint3D.setWillingCoordsUndefined();
+					movedGeoPoint3D.setWillingCoords(coords);
 					movedGeoPoint3D.setWillingDirectionUndefined();
-					movedGeoPoint3D.setCoords(coords, true);
+					movedGeoPoint3D.doPath();
 				}
 
 			} else if (movedGeoPoint3D.hasRegion()) {
