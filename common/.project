@@ -48,7 +48,6 @@
 	</buildSpec>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.google.gwt.eclipse.core.gwtNature</nature>
 		<nature>sf.eclipse.javacc.javaccnature</nature>
 	</natures>
 </projectDescription>
