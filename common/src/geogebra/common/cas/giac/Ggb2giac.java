@@ -181,8 +181,7 @@ public class Ggb2giac {
 		// alternative for exact answers
 		// "Beta(exact(%0)/2,%1/2,%0*%2/(%0*%2+%1),1)");
 		
-		// flatten1 is non-recursive flatten
-		p("Flatten.1", "flatten1(%0)");
+		p("Flatten.1", "flatten(%0)");
 
 		p("First.1", "[[ggbfiarg0:=%0],{when(type(ggbfiarg0)==DOM_LIST,(ggbfiarg0)[0],(ggbfiarg0)[1])}][1]");
 		p("First.2", "[[[ggbfiarg0:=%0],[ggbfiarg1:=%1]],when(type(ggbfiarg0)==DOM_LIST,(ggbfiarg0)[0..ggbfiarg1-1],seq((ggbfiarg0)[j],j,1,ggbfiarg1))][1]");
