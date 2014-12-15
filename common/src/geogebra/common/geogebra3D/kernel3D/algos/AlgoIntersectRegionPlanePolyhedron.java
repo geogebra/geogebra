@@ -630,13 +630,23 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		}
 
 
-		if (notFound)
+		if (notFound){
 			b=null;
-		else
+		}else{
 			//remove the segment found: not usable anymore
-			removeSegmentCoords(i-1,p2);
+//			removeSegmentCoords(i-1,p2);
+			removeSegmentCoordsIndex = i - 1;
+			removeSegmentCoordsPolygon = p2;
+		}
 
 		return b;
+	}
+	
+	private int removeSegmentCoordsIndex;
+	private GeoPolygon removeSegmentCoordsPolygon;
+	
+	private void removeSegmentCoords(){
+		removeSegmentCoords(removeSegmentCoordsIndex, removeSegmentCoordsPolygon);
 	}
 	
 	private void removeSegmentCoords(int index, GeoPolygon p2){
@@ -652,18 +662,30 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	/**
 	 * find next vertex linking a vertex of the polyhedron to next segment
 	 * @param startPoint start vertex
-	 * @param oldPoint vertex before startPoint
+	 * @param oldParent vertex before startPoint
 	 * @return next vertex
 	 */
-	private CoordsWithParent nextVertex(CoordsWithParent startPoint, GeoElementND oldPoint){
+	private CoordsWithParent nextVertex(CoordsWithParent startPoint, GeoElementND oldParent, GeoElementND firstParent){
 		
 		CoordsWithParent b;
+		CoordsWithParent bFirstPoint = null;
+		GeoPolygon pFirstPoint = null;
+		int indexFirstPoint = 0;
 		
 		// 1) try keep same poly (interior point)
 		if (newCoordsList.containsKey(p)){
-			b=nextVertex(p, startPoint, oldPoint);
-			if (b!=null)
-				return b;
+			b=nextVertex(p, startPoint, oldParent);
+			if (b!=null){
+				if (b.parent == firstParent){ // we may try another face to get greater polygon
+					bFirstPoint = b;
+					pFirstPoint = p;
+					indexFirstPoint = removeSegmentCoordsIndex;
+				}else{ 
+					//App.debug("same: "+startPoint.parent+" -- "+oldParent+" : "+b);
+					removeSegmentCoords();
+					return b;
+				}
+			}
 		}
 		
 		
@@ -680,16 +702,30 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 			if (p2 != p && newCoordsList.containsKey(p2)){					
 				//App.debug("\npoly2:"+p2);
 				//try to find next vertex
-				b=nextVertex(p2, startPoint, oldPoint);
+				b=nextVertex(p2, startPoint, oldParent);
 				if (b!=null){ //if found
-					p=p2;
-					//App.debug("\nb.parent:"+b.parent);
-					return b;
+					if (b.parent == firstParent){ // we may try another face to get greater polygon
+						bFirstPoint = b;
+						pFirstPoint = p2;
+						indexFirstPoint = removeSegmentCoordsIndex;
+					}else{ // this one is ok
+						p=p2;
+						removeSegmentCoords();
+						//App.debug("other: "+firstParent+" -- "+b.parent);
+						return b;
+					}
 				}
 			}
 		}
-		
-		//3) return null: no next vertex
+
+		//3) return same as first point
+		if (bFirstPoint != null){
+			removeSegmentCoords(indexFirstPoint, pFirstPoint);
+			p = pFirstPoint;
+			return bFirstPoint;
+		}
+
+		//4) return null: no next vertex
 		return null;
 		
 	}
@@ -705,6 +741,12 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		//take first segment for the face p
 		segmentCoords = newCoordsList.get(p);
 		
+		if (segmentCoords.isEmpty()){
+			// may occur when the plane goes through some edge
+			newCoordsList.remove(p);
+			return null;
+		}
+		
 		//start with first point of the segment
 		CoordsWithParent firstPoint = segmentCoords.get(0).p1;
 		CoordsWithParent startPoint = segmentCoords.get(0).p2;
@@ -715,9 +757,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 		//at first oldParent is null, so polygons A-B-A are possible
 		GeoElementND oldParent = null;
 		while (startPoint.parent!=firstPoint.parent){
-			//if (!startPoint.isEqual(oldPoint))
 			vertices.add(startPoint);
-			CoordsWithParent c = nextVertex(startPoint,oldParent);
+			CoordsWithParent c = nextVertex(startPoint, oldParent, firstPoint.parent);
 			if (c==null) //no next point
 				return null;
 			oldParent = startPoint.parent;
@@ -772,6 +813,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 	@Override
 	public void compute() {
 		
+		
 		//set intersection vertices
 		//(set it here since maybe some faces are included in the plane)
 		if (verticesList == null)
@@ -818,7 +860,7 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 
 			//start with one face, set a polygon, then get a new face, etc.
 			while (newCoordsList.size()!=0){
-				//App.debug(newCoordsList.keySet());
+				//App.debug(""+newCoordsList.keySet());
 				p = newCoordsList.firstKey();
 				Vertices vertices = addVertices();
 				if (vertices!=null){ //prevent not matching search
