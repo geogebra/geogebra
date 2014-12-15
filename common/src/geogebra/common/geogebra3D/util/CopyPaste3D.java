@@ -13,6 +13,7 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedronNet;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.algos.ConstructionElement;
@@ -66,6 +67,36 @@ public class CopyPaste3D extends CopyPaste {
 						}
 					}
 					GeoSegment3D[] segm = ((GeoPolyhedron)geo).getSegments3D();
+					for (int j = 0; j < segm.length; j++) {
+						if (!geos.contains(segm[j]) && geo.getAllIndependentPredecessors().containsAll(segm[j].getAllIndependentPredecessors())) {
+							geos.add(segm[j]);
+							GeoPointND[] pspoints2 = { segm[j].getStartPoint(), segm[j].getEndPoint() };
+							for (int k = 0; k < pspoints2.length; k++) {
+								if (!geos.contains(pspoints2[k]) && geo.getAllIndependentPredecessors().containsAll(((GeoElement)(pspoints2[k])).getAllIndependentPredecessors())) {
+									geos.add((GeoElement)(pspoints2[k]));
+								}
+							}
+						}
+					}
+				} else if (geo instanceof GeoPolyhedronNet) {
+					Iterator<GeoPolygon3D> polysit = ((GeoPolyhedronNet)geo).getPolygons().iterator();
+					GeoPolygon3D psnext;
+					GeoPointND[] pspoints;
+					while (polysit.hasNext()) {
+						psnext = polysit.next();
+						if (!geos.contains(psnext) && geo.getAllIndependentPredecessors().containsAll(psnext.getAllIndependentPredecessors())) {
+							geos.add(psnext);
+						}
+					}
+					Iterator<GeoPolygon> ps2 = ((GeoPolyhedronNet)geo).getPolygonsLinked().iterator();
+					GeoPolygon ps2n;
+					while (ps2.hasNext()) {
+						ps2n = ps2.next();
+						if (!geos.contains(ps2n) && geo.getAllIndependentPredecessors().containsAll(ps2n.getAllIndependentPredecessors())) {
+							geos.add(ps2n);
+						}
+					}
+					GeoSegment3D[] segm = ((GeoPolyhedronNet)geo).getSegments3D();
 					for (int j = 0; j < segm.length; j++) {
 						if (!geos.contains(segm[j]) && geo.getAllIndependentPredecessors().containsAll(segm[j].getAllIndependentPredecessors())) {
 							geos.add(segm[j]);
