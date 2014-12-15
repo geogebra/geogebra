@@ -197,6 +197,10 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				
 		}
 		
+		private void start(){
+			current = lowest;
+		}
+		
 		
 		public int compareTo(Vertices o) {
 			
@@ -213,6 +217,8 @@ public class AlgoIntersectRegionPlanePolyhedron extends AlgoIntersectPathPlanePo
 				return 1;
 			
 			//compare neighbors 
+			start();
+			o.start();
 			int visited = 0;
 			while (visited<size()){
 				Coords thisCoords = next();
