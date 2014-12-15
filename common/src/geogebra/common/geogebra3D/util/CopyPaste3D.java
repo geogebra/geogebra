@@ -7,6 +7,8 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygonRegular3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedConicHeightCone;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedConicHeightCylinder;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedPointPointRadiusCone;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedPointPointRadiusCylinder;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoVector3D;
@@ -110,7 +112,9 @@ public class CopyPaste3D extends CopyPaste {
 					}
 				} else if (geo instanceof GeoQuadric3DLimited) {
 					if (geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCone ||
-						geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCylinder) {
+						geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCylinder ||
+						geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCone ||
+						geo.getParentAlgorithm() instanceof AlgoQuadricLimitedConicHeightCylinder) {
 						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j]) && geo.getAllIndependentPredecessors().containsAll(pgeos[j].getAllIndependentPredecessors())) {
