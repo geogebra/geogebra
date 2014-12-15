@@ -7,10 +7,13 @@ import geogebra.common.geogebra3D.kernel3D.algos.AlgoJoinPoints3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoPolygonRegular3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedPointPointRadiusCone;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoQuadricLimitedPointPointRadiusCylinder;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyLine3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolygon3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPolyhedron;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoSegment3D;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.geos.GeoElement;
@@ -74,7 +77,22 @@ public class CopyPaste3D extends CopyPaste {
 							}
 						}
 					}
-
+				} else if (geo instanceof GeoQuadric3DLimited) {
+					if (geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCone ||
+						geo.getParentAlgorithm() instanceof AlgoQuadricLimitedPointPointRadiusCylinder) {
+						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j]) && geo.getAllIndependentPredecessors().containsAll(pgeos[j].getAllIndependentPredecessors())) {
+								geos.add(pgeos[j]);
+							}
+						}
+						pgeos = geo.getParentAlgorithm().getOutput();
+						for (int j = 0; j < pgeos.length; j++) {
+							if (!geos.contains(pgeos[j]) && geo.getAllIndependentPredecessors().containsAll(pgeos[j].getAllIndependentPredecessors())) {
+								geos.add(pgeos[j]);
+							}
+						}
+					}
 					
 				} else if ((geo.isGeoLine() && geo.getParentAlgorithm() instanceof AlgoJoinPoints3D)
 						|| (geo.isGeoVector() && geo.getParentAlgorithm() instanceof AlgoVector3D)) {
