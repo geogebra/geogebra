@@ -2,6 +2,7 @@ package geogebra.web.gui.menubar;
 
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.move.views.BooleanRenderable;
+import geogebra.common.util.AsyncOperation;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
@@ -77,12 +78,19 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				@Override
 				public void doExecute() {
 					// set Firefox dom.allow_scripts_to_close_windows in about:config to true to make this work
-					int ret = GOptionPaneW.INSTANCE.showConfirmDialog(app, app.getPlain("ExitExamConfirm"), app.getPlain("ExitExamConfirmTitle"),
-					        GOptionPane.OK_CANCEL_OPTION, GOptionPane.WARNING_MESSAGE,
-					        null);
-					if (ret == 0) {
-						exitExam();
-					}
+					String[] optionNames = { app.getMenu("Cancel"), app.getMenu("Shut down") };
+
+					GOptionPaneW.INSTANCE.showOptionDialog(app, app.getMenu("ExitExamConfirm"), app.getMenu("ExitExamConfirmTitle"),
+					        GOptionPane.CUSTOM_OPTION, GOptionPane.WARNING_MESSAGE, null,
+					        optionNames, new AsyncOperation() {
+						        @Override
+						        public void callback(Object obj) {
+						        	String[] dialogResult = (String[])obj;
+							        if ("1".equals(dialogResult[0])) {
+							        	exitExam();
+							        }
+						        }
+					        });
 				}
 			});
 			return;

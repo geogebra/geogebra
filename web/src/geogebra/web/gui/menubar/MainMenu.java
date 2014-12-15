@@ -163,9 +163,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		};
 		this.menuPanel.addStyleName("menuPanel");
 		
-		if (!exam) {
-			this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
-			}
+		this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
 		this.menuPanel.add(editMenu, setHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
 		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
 		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
@@ -179,8 +177,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 				render(true);
 			}
 			app.getNetworkOperation().getView().add(this);
-		} else {
-			this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
 		}
 	    this.add(menuPanel);	    
 	}
