@@ -79,7 +79,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 			this.createUserMenu();
 			this.menus = new GMenuBar[]{fileMenu,editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, helpMenu};
 		} else {
-			this.menus = new GMenuBar[]{editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu, fileMenu};
+			this.menus = new GMenuBar[]{fileMenu, editMenu,perspectivesMenu,viewMenu, optionsMenu, toolsMenu};
 		}
 		
 		for(int i=0; i<menus.length; i++){
