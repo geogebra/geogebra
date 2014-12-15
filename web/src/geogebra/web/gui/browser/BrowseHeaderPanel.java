@@ -17,8 +17,6 @@ import geogebra.web.gui.AuxiliaryHeaderPanel;
 import geogebra.web.gui.browser.SearchPanel.SearchListener;
 import geogebra.web.gui.util.StandardButton;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -241,17 +239,10 @@ public class BrowseHeaderPanel extends AuxiliaryHeaderPanel implements
 		if(this.searchPanel != null){
 			this.searchPanel.setLabels();
 		}
-		GWT.runAsync(new RunAsyncCallback() {
-			
+		app.getGuiManager().invokeLater(new Runnable(){
 			@Override
-			public void onSuccess() {
+			public void run() {
 				onResize();
-			}
-			
-			@Override
-			public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-				
 			}
 		});
 	}
