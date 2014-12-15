@@ -4,11 +4,11 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.arithmetic.Command;
-import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
@@ -56,7 +56,7 @@ public class CmdSpline extends CommandProcessor {
 				GeoNumberValue degreeNum=(GeoNumberValue) arg[1]; 
 				AlgoSpline algo = new AlgoSpline(cons, c.getLabel(),
 						(GeoList) arg[0],degreeNum);
-				GeoCurveCartesian list = algo.getSpline();
+				GeoCurveCartesianND list = algo.getSpline();
 				GeoElement[] ret = { list };
 				return ret;
 			}
@@ -73,7 +73,7 @@ public class CmdSpline extends CommandProcessor {
 		}
 	}
 
-	private GeoCurveCartesian Spline(String label, GeoList list) {
+	private GeoCurveCartesianND Spline(String label, GeoList list) {
 		AlgoSpline algo = new AlgoSpline(cons, label,
 				list,new GeoNumeric(cons,3));
 		return algo.getSpline();
