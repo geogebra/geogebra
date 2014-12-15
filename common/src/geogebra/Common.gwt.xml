@@ -9,9 +9,6 @@
 
   <!-- Other module inherits                                      -->
 
-  <!-- Specify the app entry point class.                         -->
-  <entry-point class='geogebra.common.Common'/>
-
   <!-- Specify the paths for translatable code                    -->
   <source path='common'/>
   <super-source path='jre' />
