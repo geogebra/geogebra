@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -15,6 +16,10 @@ import com.google.gwt.storage.client.Storage;
 
 /**
  * Manager for files from {@link Storage localStorage}
+ * 
+ * JSON including the base64 and metadata is stored under "file_<local id>_<title>" key.
+ * The id field inside JSON is for Tube id, is not affected by local id. Local id can
+ * still be found inside title => we need to extract title after we load file from LS.
  *
  */
 public class FileManagerW extends FileManager {
@@ -31,6 +36,7 @@ public class FileManagerW extends FileManager {
 
 	@Override
     public void delete(final Material mat) {
+		App.debug("DELETING"+mat.getTitle());
 		if(this.stockStore != null){
 			this.stockStore.removeItem(mat.getTitle());
 			removeFile(mat);
