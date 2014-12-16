@@ -168,6 +168,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			}
 		};
 	}
+
+	/**
+	 * Creates a new RadioButtonTreeItem for displaying/editing an existing GeoElement
+	 * @param ge the existing GeoElement to display/edit
+	 * @param showUrl the marble to be shown when the GeoElement is visible
+	 * @param hiddenUrl the marble to be shown when the GeoElement is invisible
+	 */
 	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
 		geo = ge;
@@ -249,7 +256,83 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
 	}
-	
+
+	/**
+	 * Creates a new RadioButtonTreeItem for creating a brand new GeoElement
+	 * or executing a new command which might not result in any GeoElement(s)
+	 * ... no marble, no input GeoElement here.
+	 */
+	public RadioButtonTreeItem(Kernel kern) {
+		super();
+		//geo = ge;
+		kernel = kern;
+		app = (AppW)kernel.getApplication();
+		av = app.getAlgebraView();
+		selection = app.getSelectionManager();
+		this.setStyleName("elem");
+
+		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+
+		//add(radio);
+
+		SpanElement se = DOM.createSpan().cast();
+		se.getStyle().setProperty("display", "-moz-inline-box");
+		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+		//se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
+		se.setDir("ltr");
+		ihtml = new InlineHTML();
+		ihtml.addDoubleClickHandler(this);
+		ihtml.addClickHandler(this);
+		ihtml.addMouseMoveHandler(this);
+		ihtml.addMouseDownHandler(this);
+		ihtml.addMouseOverHandler(this);
+		ihtml.addMouseOutHandler(this);
+		ihtml.addTouchStartHandler(this);
+		ihtml.addTouchMoveHandler(this);
+		ihtml.addTouchEndHandler(this);
+		add(ihtml);
+		ihtml.getElement().appendChild(se);
+
+		SpanElement se2 = DOM.createSpan().cast();
+		se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
+		ihtml.getElement().appendChild(se2);
+		//String text = "";
+		/*if (geo.isIndependent()) {
+			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
+		} else {
+			switch (kernel.getAlgebraStyle()) {
+			case Kernel.ALGEBRA_STYLE_VALUE:
+				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_DEFINITION:
+				geo.addLabelTextOrHTML(
+					geo.getDefinitionDescription(StringTemplate.defaultTemplate),getBuilder(se));
+				break;
+
+			case Kernel.ALGEBRA_STYLE_COMMAND:
+				geo.addLabelTextOrHTML(
+					geo.getCommandDescription(StringTemplate.defaultTemplate), getBuilder(se));
+				break;
+			}
+		}*/
+		// if enabled, render with LaTeX
+		if (av.isRenderLaTeX()) {
+			String latexStr = " ";
+			seNoLatex = se;
+			this.needsUpdate = true;
+			av.repaintView();
+		} else {
+			seNoLatex = se;
+		}
+		//FIXME: geo.getLongDescription() doesn't work
+		//geo.getKernel().getApplication().setTooltipFlag();
+		//se.setTitle(geo.getLongDescription());
+		//geo.getKernel().getApplication().clearTooltipFlag();
+		longTouchManager = LongTouchManager.getInstance();
+	}
+
 	public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);
 	}
