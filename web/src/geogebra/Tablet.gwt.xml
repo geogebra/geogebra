@@ -53,6 +53,8 @@
     <when-type-is class="geogebra.web.gui.ImageFactory" />    
   </replace-with>
   
+  <!-- Switch the replace-with rule to 2D when compiling for slow tablets -->
+  <!--replace-with class="geogebra.web.gui.applet.AppletFactory2D"-->
   <replace-with class="geogebra.geogebra3D.AppletFactory3D">
     <when-type-is class="geogebra.web.gui.applet.AppletFactory" />    
   </replace-with>
