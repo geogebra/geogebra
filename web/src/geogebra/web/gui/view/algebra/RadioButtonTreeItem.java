@@ -142,29 +142,41 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private IndexHTMLBuilder getBuilder(final SpanElement se){
 		return new IndexHTMLBuilder(false){
 			Element sub = null;
-			public void append(String s){
+			@Override
+            public void append(String s){
+
 				if(sub == null){
 					se.appendChild(Document.get().createTextNode(s));
 				}else{
 					sub.appendChild(Document.get().createTextNode(s));
 				}
 			}
-			public void startIndex(){
+			@Override
+            public void startIndex(){
 				sub = Document.get().createElement("sub");
 				sub.getStyle().setFontSize((int)(app.getFontSize() *0.8), Unit.PX);
 			}
-			public void endIndex(){
+			@Override
+            public void endIndex(){
 				se.appendChild(sub);
 				sub = null;				
 			}
-			public String toString(){
+			@Override
+            public String toString(){
 				if(sub != null){
 					endIndex();
 				}
 				return se.getInnerHTML();
 			}
-			public void clear(){
+			@Override
+            public void clear(){
 				se.removeAllChildren();
+				sub = null;
+			}
+			
+			@Override
+            public boolean canAppendRawHtml() {
+				return false;
 			}
 		};
 	}
@@ -333,7 +345,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
-	public void handleLongTouch(int x, int y) {
+	@Override
+    public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);
 	}
 
@@ -379,7 +392,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		// check for new text
 		if (!newLaTeX) {
 			if (geo.isIndependent()) {
-				 geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
+				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			} else {
 				switch (kernel.getAlgebraStyle()) {
 				case Kernel.ALGEBRA_STYLE_VALUE:
@@ -450,12 +463,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			mout = false;
 			tb.setFocus(true);
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-				public void execute() {
+				@Override
+                public void execute() {
 					tb.setFocus(true);
 				}
 			});
 			tb.addKeyDownHandler(new KeyDownHandler() {
-				public void onKeyDown(KeyDownEvent kevent) {
+				@Override
+                public void onKeyDown(KeyDownEvent kevent) {
 					if (kevent.getNativeKeyCode() == 13) {
 						remove(tb);
 						add(ihtml);
@@ -468,7 +483,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			});
 			tb.addBlurHandler(new BlurHandler() {
-				public void onBlur(BlurEvent bevent) {
+				@Override
+                public void onBlur(BlurEvent bevent) {
 					if (mout) {
 						remove(tb);
 						add(ihtml);
@@ -477,12 +493,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			});
 			tb.addMouseOverHandler(new MouseOverHandler() {
-				public void onMouseOver(MouseOverEvent moevent) {
+				@Override
+                public void onMouseOver(MouseOverEvent moevent) {
 					mout = false;
 				}
 			});
 			tb.addMouseOutHandler(new MouseOutHandler() {
-				public void onMouseOut(MouseOutEvent moevent) {
+				@Override
+                public void onMouseOut(MouseOutEvent moevent) {
 					mout = true;
 					tb.setFocus(true);
 				}
@@ -508,7 +526,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		doUpdate();
 	}
 
-	public void stopEditing(String newValue0) {
+	@Override
+    public void stopEditing(String newValue0) {
 
 		thisIsEdited = false;
 		av.cancelEditing();
@@ -560,7 +579,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		doUpdate();
 	}
 
-	public void onDoubleClick(DoubleClickEvent evt) {
+	@Override
+    public void onDoubleClick(DoubleClickEvent evt) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -575,7 +595,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}
 
-	public void onMouseDown(MouseDownEvent event) {
+	@Override
+    public void onMouseDown(MouseDownEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -585,7 +606,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		event.stopPropagation();
 	}
 
-	public void onClick(ClickEvent evt) {
+	@Override
+    public void onClick(ClickEvent evt) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -593,7 +615,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		onPointerUp(wrappedEvent);
 	}
 
-	public void onMouseMove(MouseMoveEvent evt) {
+	@Override
+    public void onMouseMove(MouseMoveEvent evt) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -602,19 +625,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	
-	public void onMouseOver(MouseOverEvent event) {
+	@Override
+    public void onMouseOver(MouseOverEvent event) {
 		ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
 	}
 
-	public void onMouseOut(MouseOutEvent event) {
+	@Override
+    public void onMouseOut(MouseOutEvent event) {
 		ToolTipManagerW.sharedInstance().showToolTip(null);	    
     }
 	
-	public GeoElement getGeo() {
+	@Override
+    public GeoElement getGeo() {
 	    return geo;
     }
 
-	public void onTouchEnd(TouchEndEvent event) {
+	@Override
+    public void onTouchEnd(TouchEndEvent event) {
 	    longTouchManager.cancelTimer();
 	    JsArray<Touch> changed = event.getChangedTouches();
 	    AbstractEvent wrappedEvent = PointerEvent.wrapEvent(changed.get(0), ZeroOffset.instance);
@@ -622,7 +649,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	    CancelEventTimer.touchEventOccured();
     }
 
-	public void onTouchMove(TouchMoveEvent event) {
+	@Override
+    public void onTouchMove(TouchMoveEvent event) {
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.rescheduleTimerIfRunning(this, x, y);
@@ -632,7 +660,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		CancelEventTimer.touchEventOccured();
 	}
 
-	public void onTouchStart(TouchStartEvent event) {
+	@Override
+    public void onTouchStart(TouchStartEvent event) {
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.scheduleTimer(this, x, y);

@@ -4471,9 +4471,10 @@ public abstract class GeoElement extends ConstructionElement implements
 			strAlgebraDescTextOrHTMLneedsUpdate = false;
 		}else{
 			//TODO in some cases we don't need this
-			if (hasIndexLabel()) {
-				indicesToHTML(strAlgebraDescTextOrHTML, builder);
-			} else {
+			if(!builder.canAppendRawHtml()){
+				indicesToHTML(strAlgebraDescription, builder);
+			}
+			else {
 				builder.clear();
 				builder.append(strAlgebraDescTextOrHTML);
 			}

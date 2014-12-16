@@ -1,6 +1,7 @@
 package geogebra.common.util;
 
 
+
 public class IndexHTMLBuilder {
 	private StringBuilder sb;
 	private boolean needsTag;
@@ -30,5 +31,8 @@ public class IndexHTMLBuilder {
 	}
 	public void clear() {
 		sb.setLength(needsTag ? "<html>".length() : 0);
+	}
+	public boolean canAppendRawHtml() {
+		return true;
 	}
 }
