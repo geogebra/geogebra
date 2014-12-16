@@ -1273,10 +1273,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// only do this if toolbar string not null, otherwise this may
 		String def = layout.getDockManager().getPanel(toolbarID)
 		        .getToolbarString();
-		if (def == null && this.generalToolbarDefinition != null) {
+		if ((def == null || "".equals(def)) && this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
 		}
-
 		setToolBarDefinition(def);
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
@@ -1303,10 +1302,12 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return;
 		}
 		generalToolbarDefinition = toolBarDefinition;
+		App.printStacktrace("general"+toolBarDefinition);
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
 	public void setToolBarDefinition(final String toolBarDefinition) {
+		App.printStacktrace("partial"+toolBarDefinition);
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 

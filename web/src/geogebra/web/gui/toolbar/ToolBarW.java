@@ -149,8 +149,8 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 					break;
 				}
 			}
-
-			if (!success) {
+			
+			if (!success && tmpMode !=getFirstMode()) {
 				mode = setMode(getFirstMode());
 
 			}
