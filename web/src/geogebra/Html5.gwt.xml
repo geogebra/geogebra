@@ -6,9 +6,9 @@
   <inherits name="com.google.gwt.resources.Resources" />
    <!-- Other module inherits        -->
     <!-- GeoGebraTube upload -->
-  <inherits name="com.google.gwt.http.HTTP"/>  
-
-  <inherits name='geogebra.Common'/>
+  <inherits name="com.google.gwt.http.HTTP"/>
+   <inherits name='com.google.gwt.user.User'/> 
+   <inherits name='geogebra.Common'/>
   <!-- CAS -->
  
  <!-- inherits name="org.vectomatic.libgwtsvg" />  -->
