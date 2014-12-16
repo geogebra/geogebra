@@ -2,7 +2,6 @@
 <module rename-to='web'>
   <!-- Inherit the core Web Toolkit stuff.                        -->
   <!-- Priority matters! Latter definitions override former (even in former xml-s -->
-  <inherits name='com.google.gwt.user.User'/>
   <inherits name="com.google.gwt.resources.Resources" />
    <!-- Other module inherits        -->
   
@@ -23,10 +22,6 @@
  
  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
  <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
- 
-  
-
-  <inherits name="com.google.gwt.uibinder.UiBinder" />
  
   <!-- Specify the app entry point class.                         -->
   <entry-point class='geogebra.web.Web'/>
