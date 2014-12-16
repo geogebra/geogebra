@@ -158,7 +158,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			}
 			@Override
             public void endIndex(){
-				se.appendChild(sub);
+				if(sub != null){
+					se.appendChild(sub);
+				}
 				sub = null;				
 			}
 			@Override
