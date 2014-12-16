@@ -1923,8 +1923,21 @@ var Style = P(MathCommand, function(_, _super) {
 
 //fonts
 LatexCmds.mathrm = bind(Style, '\\mathrm', 'span', 'class="roman font"');
+
+/*LatexCmds.em = LatexCmds.italic = LatexCmds.italics =
+LatexCmds.emph = LatexCmds.textit = LatexCmds.textsl*/
 LatexCmds.mathit = bind(Style, '\\mathit', 'i', 'class="font"');
+LatexCmds.em = bind(Style, '\\em', 'i', 'class="font"');
+LatexCmds.italic = bind(Style, '\\italic', 'i', 'class="font"');
+LatexCmds.italics = bind(Style, '\\italics', 'i', 'class="font"');
+LatexCmds.textit = bind(Style, '\\textit', 'i', 'class="font"');
+LatexCmds.textsl = bind(Style, '\\textsl', 'i', 'class="font"');
+
 LatexCmds.mathbf = bind(Style, '\\mathbf', 'b', 'class="font"');
+LatexCmds.bold = bind(Style, '\\bold', 'b', 'class="font"');
+LatexCmds.strong = bind(Style, '\\strong', 'b', 'class="font"');
+LatexCmds.textbf = bind(Style, '\\textbf', 'b', 'class="font"');
+
 LatexCmds.mathsf = bind(Style, '\\mathsf', 'span', 'class="sans-serif font"');
 LatexCmds.mathtt = bind(Style, '\\mathtt', 'span', 'class="monospace font"');
 //text-decoration
@@ -3936,11 +3949,8 @@ function makeTextBlock(latex, tagName, attrs) {
   });
 }
 
-LatexCmds.em = LatexCmds.italic = LatexCmds.italics =
-LatexCmds.emph = LatexCmds.textit = LatexCmds.textsl =
-  makeTextBlock('\\textit', 'i', 'class="text"');
-LatexCmds.strong = LatexCmds.bold = LatexCmds.textbf =
-  makeTextBlock('\\textbf', 'b', 'class="text"');
+
+
 LatexCmds.sf = LatexCmds.textsf =
   makeTextBlock('\\textsf', 'span', 'class="sans-serif text"');
 LatexCmds.tt = LatexCmds.texttt =
