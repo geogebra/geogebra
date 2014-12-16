@@ -7,7 +7,7 @@
   
     <!-- GeoGebraTube upload -->
   <inherits name="com.google.gwt.http.HTTP"/>  
-  <inherits name='com.google.gwt.xml.XML' /> 
+  <inherits name="com.google.gwt.json.JSON" />
   <inherits name='geogebra.Html5'/>
   <!-- CAS -->
   
@@ -54,9 +54,9 @@
        
        For more information, please read
        http://dev.geogebra.org/trac/wiki/GWTCompilation -->
-  <extend-property name="locale" values="ar"/>
+
    
-    <inherits name="com.google.gwt.json.JSON" />
+
   
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->

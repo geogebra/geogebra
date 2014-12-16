@@ -9,8 +9,7 @@
   
 
     <!-- GeoGebraTube upload -->
-  <inherits name="com.google.gwt.http.HTTP"/>  
-  <inherits name='com.google.gwt.xml.XML' /> 
+  <inherits name="com.google.gwt.http.HTTP"/>
   <inherits name='geogebra.Html5'/>
   <!-- CAS -->
   

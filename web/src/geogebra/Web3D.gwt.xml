@@ -10,8 +10,9 @@
   
    
   <!-- GeoGebraTube upload -->
-  <inherits name="com.google.gwt.http.HTTP"/>  
-  <inherits name='com.google.gwt.xml.XML' /> 
+  <inherits name="com.google.gwt.http.HTTP"/>
+  <inherits name="com.google.gwt.json.JSON" /> 
+  
   
   <!-- CAS -->
   
@@ -62,7 +63,7 @@
   
    
   
-    <inherits name="com.google.gwt.json.JSON" />
+    
   
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->

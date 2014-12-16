@@ -3,19 +3,11 @@ package geogebra.html5.io;
 
 import geogebra.common.io.DocHandler;
 import geogebra.common.io.QDParser;
-import geogebra.common.main.App;
 
 import java.io.StringReader;
-import java.util.LinkedHashMap;
 
-import com.google.gwt.core.shared.GWT;
-import com.google.gwt.xml.client.Attr;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NamedNodeMap;
-import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
-import com.google.gwt.xml.client.XMLParser;
+
+
 
 public class GwtXmlParser implements XmlParser {
 	
@@ -47,7 +39,7 @@ public class GwtXmlParser implements XmlParser {
 		}
     }
 
-	private void recursiveElementWalk(DocHandler docHandler, Element element) throws Exception {
+	/*private void recursiveElementWalk(DocHandler docHandler, Element element) throws Exception {
 		docHandler.startElement(element.getTagName(), getAttributesFor(element));
 
 		NodeList children = element.getChildNodes();
@@ -60,9 +52,9 @@ public class GwtXmlParser implements XmlParser {
 			}
 
 		docHandler.endElement(element.getTagName());
-	}
+	}*/
 
-	private LinkedHashMap<String, String> getAttributesFor(Element element) {
+	/*private LinkedHashMap<String, String> getAttributesFor(Element element) {
 		LinkedHashMap<String, String> copiedAttributes = new LinkedHashMap<String, String>();
 		NamedNodeMap attributes = element.getAttributes();
 		if (element.hasAttributes())
@@ -72,6 +64,6 @@ public class GwtXmlParser implements XmlParser {
 			}
 
 		return copiedAttributes;
-	}
+	}*/
 	
 }
