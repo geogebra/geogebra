@@ -80,21 +80,21 @@ public class WinFileManager extends FileManager {
 	}-*/;
 	
 	@Override
-    public void openMaterial(final Material material) {
-		openMaterialNative(material.getTitle());
+    public void openMaterial(final Material mat) {
+		getBase64(mat.getTitle(), new NativeSaveCallback(){
+
+			@Override
+            public void onSuccess(String fileID) {
+	            mat.setBase64(fileID);
+	            doOpen(mat);
+            }
+
+			@Override
+            public void onFailure() {
+	            // TODO Auto-generated method stub
+	            
+            }});
     }
-
-	private native void openMaterialNative(String title) /*-{
-		if($wnd.android && $wnd.android.openFile){
-			$wnd.android.openFile(title);
-		}
-    }-*/;
-
-
-
-
-
-
 
 	@Override
     public void delete(Material mat) {
@@ -111,6 +111,42 @@ public class WinFileManager extends FileManager {
 		}
     }-*/;
 
+	
+	@Override
+    public void upload(final Material mat){
+		
+		getBase64(mat.getTitle(), new NativeSaveCallback(){
+
+			@Override
+            public void onSuccess(String fileID) {
+	            mat.setBase64(fileID);
+	            doUpload(mat);
+            }
+
+			@Override
+            public void onFailure() {
+	            // TODO Auto-generated method stub
+	            
+            }});
+		
+	}
+	void doOpen(Material mat){
+		super.openMaterial(mat);
+	}
+	
+	void doUpload(Material mat){
+		super.upload(mat);
+	}
+	
+	private native void getBase64(String s, NativeSaveCallback nsc)/*-{
+		if($wnd.android && $wnd.android.getBase64){
+			$wnd.android.getBase64(title,function(jsString){
+	    		nsc.@geogebra.touch.NativeSaveCallback::onSuccess(Ljava/lang/String;)(jsString);
+	    	});
+		}
+	}-*/;
+	
+	
 
 
 
@@ -164,12 +200,31 @@ public class WinFileManager extends FileManager {
 
 
 	@Override
-    public void uploadUsersMaterials() {
-	    // TODO Auto-generated method stub
+    public native void uploadUsersMaterials() /*-{
+		var that = this;
+	    if($wnd.android && $wnd.android.getFiles){
+	    	$wnd.android.getFiles(function(jsString){
+	    		that.@geogebra.touch.WinFileManager::uploadMaterials(Ljava/lang/String;)(jsString);
+	    	});
+	    }
 	    
-    }
+    }-*/;
 
-
+	private void uploadMaterials(String jsString){
+		JSONArray jv = JSONParser.parseLenient(jsString).isArray();
+		for(int i = 0; i < jv.size(); i++){
+			final Material mat = JSONparserGGT.toMaterial( jv.get(i).isObject());
+			if (mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
+				if (mat.getId() == 0) {
+					upload(mat);
+				} else {
+					sync(mat);
+				}
+			}
+			
+		}
+		
+	}
 
 	private void addMaterials(String jsString){
 		JSONArray jv = JSONParser.parseLenient(jsString).isArray();

@@ -88,7 +88,7 @@ public abstract class FileManager implements FileManagerI {
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {
 			        	if (parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp()) {
-			        		ToolTipManagerW.sharedInstance().showBottomMessage("Note that there are several versions of: " + parseResponse.get(0).getTitle(), true);
+			        		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getPlain("SeveralVersionsOfA", parseResponse.get(0).getTitle()) , true);
 			        		mat.setId(0);
 			        	} else if (parseResponse.size() == 0) {
 			        		mat.setId(0);

@@ -80,7 +80,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
 		this.isLocal = isLocal;
-		this.isOwnMaterial = isLocal || m.getAuthor().equals(app.getLoginOperation().getUserName());
+		this.isOwnMaterial = (isLocal && "".equals(m.getAuthor())) || m.getAuthor().equals(app.getLoginOperation().getUserName());
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {

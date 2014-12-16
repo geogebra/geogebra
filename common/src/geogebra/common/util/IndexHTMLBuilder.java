@@ -35,4 +35,8 @@ public class IndexHTMLBuilder {
 	public boolean canAppendRawHtml() {
 		return true;
 	}
+	public void appendHTML(String str) {
+		sb.append(StringUtil.toHTMLString(str));
+		
+	}
 }

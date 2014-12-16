@@ -4733,8 +4733,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			case '_':
 				// write everything before _
 				if (i > startPos) {
-					sbIndicesToHTML.append(StringUtil.toHTMLString(str
-							.substring(startPos, i)));
+					sbIndicesToHTML.appendHTML(str
+							.substring(startPos, i));
 				}
 				startPos = i + 1;
 				depth++;
@@ -4743,8 +4743,8 @@ public abstract class GeoElement extends ConstructionElement implements
 				// several chars)
 				if ((startPos < length) && (str.charAt(startPos) != '{')) {
 					sbIndicesToHTML.startIndex();
-					sbIndicesToHTML.append(StringUtil.toHTMLString(str
-							.substring(startPos, startPos + 1)));
+					sbIndicesToHTML.appendHTML(str
+							.substring(startPos, startPos + 1));
 					sbIndicesToHTML.endIndex();
 					depth--;
 				} else {
@@ -4757,8 +4757,8 @@ public abstract class GeoElement extends ConstructionElement implements
 			case '}':
 				if (depth > 0) {
 					if (i > startPos) {
-						sbIndicesToHTML.append(StringUtil.toHTMLString(str
-								.substring(startPos, i)));
+						sbIndicesToHTML.appendHTML(str
+								.substring(startPos, i));
 					}
 					sbIndicesToHTML.endIndex();
 					startPos = i + 1;
@@ -4769,8 +4769,8 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		if (startPos < length) {
-			sbIndicesToHTML.append(StringUtil.toHTMLString(str
-					.substring(startPos)));
+			sbIndicesToHTML.appendHTML(str
+					.substring(startPos));
 		}
 	}
 

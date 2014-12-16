@@ -180,6 +180,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
             public boolean canAppendRawHtml() {
 				return false;
 			}
+			
+			public void appendHTML(String str) {
+				append(str);
+			}
 		};
 	}
 
