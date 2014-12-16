@@ -276,6 +276,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 */
 	public RadioButtonTreeItem(Kernel kern) {
 		super();
+
+		// this method is still not able to show an editing box!
+
 		//geo = ge;
 		kernel = kern;
 		app = (AppW)kernel.getApplication();
@@ -334,7 +337,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			String latexStr = " ";
 			seNoLatex = se;
 			this.needsUpdate = true;
-			av.repaintView();
+
+			// here it complains that geo is undefined
+			//this.doUpdate();
+			//this.startEditing();
 		} else {
 			seNoLatex = se;
 		}
