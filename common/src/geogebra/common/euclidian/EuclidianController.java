@@ -7401,13 +7401,29 @@ public abstract class EuclidianController {
 			}
 		}
 	}
+	
+	protected boolean isDraggingBeyondThreshold() {
+		return Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD
+				|| Math.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD;
+	}
+
+	/**
+	 * @return true, if the freehand mode is prepared (e.g. polygons, circle)
+	 */
+	protected boolean freehandModePrepared() {
+		return false;
+	}
 
 	protected void handleMouseDragged(boolean repaint, AbstractEvent event) {
 		startCollectingMinorRepaints();
 		if (!draggingBeyondThreshold
-				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD
-				|| Math.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD)) {
+				&& isDraggingBeyondThreshold()) {
 			draggingBeyondThreshold = true;
+		}
+		if (freehandModePrepared()) {
+			stopCollectingMinorRepaints();
+			// no repaint, so that the line drawn by the freehand mode will not disappear
+			return;
 		}
 		if (draggingBeyondThreshold && mode == EuclidianConstants.MODE_DELETE) {
 			getDeleteMode().handleMouseDraggedForDelete(event,getDeleteToolSize(),false);
@@ -8091,26 +8107,14 @@ public abstract class EuclidianController {
 		}
 	}
 
-	/**
-	 * Handles MouseEvents which should drag-delete.
-	 * Will delete all objects except for PenStrokes inside
-	 *  the square of size <b>deleteSize</b>, for PenStrokes only those
-	 *  points which lie inside this square will be deleted.
-	 * @param e the mouseEvent (e.g. received by the EuclidianController)
-	 * @param deleteSize size of the delete tool, e.g. getDeleteToolSize()
-	 * @param onlyStrokes if set only strokes will be deleted nothing else
-	 */
-	
-
 	protected static boolean penMode(int mode2) {
 		switch (mode2) {
-		case EuclidianConstants.MODE_PEN:
-		//case EuclidianConstants.MODE_PENCIL:
-		case EuclidianConstants.MODE_FREEHAND_SHAPE:
-			return true;
+			case EuclidianConstants.MODE_PEN:
+			//case EuclidianConstants.MODE_PENCIL:
+			case EuclidianConstants.MODE_FREEHAND_SHAPE:
+				return true;
 		}
-
-	return false;
+		return false;
 	}
 
 	/**
@@ -8851,7 +8855,6 @@ public abstract class EuclidianController {
 		}
 		
 		
-	
 		if (penMode(mode) && penDragged) {
 			getPen().handleMouseReleasedForPenMode(right, x, y);
 			app.storeUndoInfo();

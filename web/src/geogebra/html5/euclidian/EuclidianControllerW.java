@@ -1086,6 +1086,7 @@ LongTouchHandler {
 	}
 
 	private boolean freehandModePrepared = false;
+	private boolean freehandModeSet = false;
 
 	protected void prepareModeForFreehand() {
 		if (selectedPoints.size() != 0) {
@@ -1141,6 +1142,7 @@ LongTouchHandler {
 		this.previousMode = this.mode;
 		this.mode = EuclidianConstants.MODE_FREEHAND_SHAPE;
 		moveMode = MOVE_NONE;
+		freehandModeSet = true;
 	}
 
 	/**
@@ -1154,7 +1156,8 @@ LongTouchHandler {
 			freehandModePrepared = false;
 			pen = null;
 		}
-		if (previousMode != -1) {
+		if (freehandModeSet) {
+			freehandModeSet = false;
 			this.mode = previousMode;
 			moveMode = MOVE_NONE;
 			view.setPreview(switchPreviewableForInitNewMode(this.mode));
@@ -1201,7 +1204,7 @@ LongTouchHandler {
 		return distSqr > SELECTION_RECT_THRESHOLD_SQR;
 	}
 	private boolean shouldSetToFreehandMode() {
-		return (draggingBeyondThreshold && pen != null && !penMode(mode) && freehandModePrepared);
+		return (isDraggingBeyondThreshold() && pen != null && !penMode(mode) && freehandModePrepared);
 	}
 	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1, 
 			Hits hits) { 
@@ -1210,4 +1213,8 @@ LongTouchHandler {
 		app.getGuiManager().showPopupMenu(geos, view, mouseLoc); 
 	} 
 
+	@Override
+	protected boolean freehandModePrepared() {
+	    return freehandModePrepared;
+	}
 }
