@@ -339,7 +339,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			this.needsUpdate = true;
 
 			// here it complains that geo is undefined
-			//this.doUpdate();
+			//this.doUpdate();//although this may be okay now
 			//this.startEditing();
 		} else {
 			seNoLatex = se;
@@ -368,10 +368,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
-			String text = geo.getLaTeXAlgebraDescription(true,
-			        StringTemplate.latexTemplate);
-			if ((text != null) && geo.isLaTeXDrawableGeo()
-			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
+			String text = " ";
+			if (geo != null) {
+				text = geo.getLaTeXAlgebraDescription(true,
+						StringTemplate.latexTemplate);
+				if ((text != null) && geo.isLaTeXDrawableGeo()
+						&& (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
+					newLaTeX = true;
+				}
+			} else {
 				newLaTeX = true;
 			}
 			// now we have text and how to display it (newLaTeX/LaTeX)
@@ -433,9 +438,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 
 		
-
-		radio.setChecked(geo.isEuclidianVisible());
-		
+		if (geo != null && radio != null) {
+			radio.setChecked(geo.isEuclidianVisible());
+		}
 	}
 	
 	private void updateColor(SpanElement se){
