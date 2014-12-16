@@ -41,6 +41,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	protected AlgebraInputW inputPanel;
+	protected RadioButtonTreeItem inputPanelLatex;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -1009,6 +1010,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public void setInputPanel(final AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
+		if (app.isPrerelease()) {
+			this.inputPanelTreeItem = new TreeItem(new RadioButtonTreeItem(kernel));
+		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
 			inputPanel.getTextField().addDomHandler(new TouchStartHandler(){
@@ -1054,7 +1058,11 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			super.removeItem(inputPanelTreeItem);
 		}
 		if(this.app.getInputPosition() == InputPositon.algebraView){
-			inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+			if (app.isPrerelease() && false) {
+				inputPanelTreeItem = super.addItem(inputPanelLatex);
+			} else {
+				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
+			}
 		}
 	}
 	
