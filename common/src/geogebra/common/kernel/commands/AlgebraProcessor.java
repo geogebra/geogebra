@@ -1847,7 +1847,6 @@ public class AlgebraProcessor {
 	 * @throws MyError e.g. for invalid operation
 	 */
 	public final GeoElement[] processEquation(Equation equ) throws MyError {
-		Log.debug(equ.getRHS());
 		if(equ.getLHS().unwrap() instanceof FunctionVariable && !equ.getRHS().containsFreeFunctionVariable()
 				&& !equ.getRHS().evaluatesToNumber(true)){
 			equ.getRHS().setLabel(equ.getLHS().toString(StringTemplate.defaultTemplate));
