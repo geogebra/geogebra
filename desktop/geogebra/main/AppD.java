@@ -557,7 +557,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// size to 12. TODO: Determine font size here for all OS's.
 		int fontSize = 12; // This will be overridden by
 							// geogebra.common.main.xml.default-preferences.xml
-		if (LINUX) {
+		if (LINUX && !isApplet && isPrerelease()) {
 			Runtime r = Runtime.getRuntime();
 			Process p;
 			try {
@@ -579,7 +579,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				e.printStackTrace();
 			}
 		}
-		if (WINDOWS) {
+		if (WINDOWS && !isApplet && isPrerelease()) {
 			Integer dpi;
 			try {
 				// There can be quite many similar entries. The order of these
@@ -601,7 +601,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					fontSize = dpi / 8;
 				}
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
+				error("DPI detection failure");
 				e.printStackTrace();
 			}
 		}
@@ -5283,6 +5283,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				while ((c = is.read()) != -1)
 					sw.append((char) c);
 			} catch (IOException ex) {
+				//
 			}
 
 			String output = sw.toString();
@@ -5299,21 +5300,25 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			// skip spaces or tabs
 			for (;;) {
-				if (i > output.length())
+				if (i > output.length()) {
 					break;
+				}
 				char c = output.charAt(i);
-				if (c != ' ' && c != '\t')
+				if (c != ' ' && c != '\t') {
 					break;
+				}
 				++i;
 			}
 
 			// take everything until end of line
 			for (;;) {
-				if (i > output.length())
+				if (i > output.length()) {
 					break;
+				}
 				char c = output.charAt(i);
-				if (c == '\r' || c == '\n')
+				if (c == '\r' || c == '\n') {
 					break;
+				}
 				sw.append(c);
 				++i;
 			}
