@@ -29,7 +29,11 @@ public class CmdDelete extends CmdScripting {
 
 		switch (n) {
 		case 1:
-			arg = resArgs(c);
+			try{
+				arg = resArgs(c);
+			}catch(Error e){
+				return;
+			}
 			ok[0] = arg[0].isGeoElement();
 			if (ok[0]) {
 				GeoElement geo = arg[0];
