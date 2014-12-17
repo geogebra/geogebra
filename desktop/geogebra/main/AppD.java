@@ -470,17 +470,6 @@ public class AppD extends App implements KeyEventDispatcher {
 			App.debug("Not setting up logging via LogManager");
 		}
 
-		// needed for JavaScript getCommandName(), getValueString() to work
-		// (security problem running non-locally)
-		if (isApplet) {
-			preferredSize = appletImpl.getJApplet().getSize();
-			// needs command.properties in main.jar
-			// causes problems when not in English
-			// initCommandBundle();
-		} else {
-			preferredSize = new Dimension(800, 600);
-		}
-
 		fontManager = new FontManagerD();
 		initImageManager(mainComp);
 
@@ -502,7 +491,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// set flag to avoid multiple calls of setLabels() and
 		// updateContentPane()
 		initing = true;
-		setFontSize(12);
 
 		// This is needed because otherwise Exception might come and
 		// GeoGebra may exit. (dockPanel not entirely defined)
@@ -563,6 +551,44 @@ public class AppD extends App implements KeyEventDispatcher {
 					currentImagePath = new File(path);
 				}
 			}
+		}
+
+		// Fonts must be changed here since default preferences will set font
+		// size to 12. TODO: Determine font size here for all OS's.
+		int fontSize = 12; // This will be overridden by
+							// geogebra.common.main.xml.default-preferences.xml
+		if (LINUX) {
+			Runtime r = Runtime.getRuntime();
+			Process p;
+			try {
+				p = r.exec(new String[] { "bash", "-c",
+						"xdpyinfo | grep dots | awk '{print $2}' | cut -f1 -dx" });
+				p.waitFor();
+				BufferedReader b = new BufferedReader(new InputStreamReader(
+						p.getInputStream()));
+				String result = b.readLine();
+				b.close();
+				int dpi = Integer.parseInt(result);
+				debug("Detected DPI is " + dpi);
+				fontSize = dpi / 8;
+			} catch (Exception e) {
+				// Something went wrong:
+				error("DPI detection failure");
+				e.printStackTrace();
+			}
+		}
+		fontSize = 2 * (fontSize / 2); // ensuring odd number
+		setFontSize(fontSize);
+		// needed for JavaScript getCommandName(), getValueString() to work
+		// (security problem running non-locally)
+		if (isApplet) {
+			preferredSize = appletImpl.getJApplet().getSize();
+			// needs command.properties in main.jar
+			// causes problems when not in English
+			// initCommandBundle();
+		} else {
+			preferredSize = new Dimension(800 * fontSize / 12,
+					600 * fontSize / 12);
 		}
 
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
