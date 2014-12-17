@@ -167,24 +167,13 @@ public class GgbAPIW  extends geogebra.common.plugin.GgbAPI {
 	}
 
 	public String getBase64(boolean includeThumbnail) {
-		Map<String,String>archiveContent = null;
 		StoreString storeString = new StoreString();
-		try{
-		
-		
-    	archiveContent = createArchiveContent(includeThumbnail);
-	}catch(Throwable t){
-		t.printStackTrace();
-	}
+    	Map<String,String>archiveContent = createArchiveContent(includeThumbnail);
     	JavaScriptObject jso = prepareToEntrySet(archiveContent);
     	if (Browser.webWorkerSupported) {
 			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
     	}
-    	try{
 		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
-    	}catch(Throwable t){
-    		t.printStackTrace();
-    	}
 		return storeString.getResult();
 
     }
