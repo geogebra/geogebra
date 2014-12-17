@@ -342,7 +342,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}*/
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()) {
-			String latexStr = " ";
+			String latexStr = "0";
 			seNoLatex = se;
 			this.needsUpdate = true;
 
@@ -457,7 +457,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public boolean isThisEdited() {
-		return thisIsEdited;
+		return thisIsEdited || newCreationMode;
 	}
 
 	public void cancelEditing() {
@@ -473,9 +473,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void startEditing() {
 		thisIsEdited = true;
 		if (newCreationMode) {
-			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex);
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex, false);
 		} else if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
-			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex);
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex, true);
 		} else {
 			remove(ihtml);
 			tb = new GTextBox();

@@ -681,7 +681,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the same element as in drawEquationMathQuillGGB
 	 */
 	public static native void editEquationMathQuillGGB(RadioButtonTreeItem rbti,
-	        Element parentElement) /*-{
+	        Element parentElement, boolean deselect) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
 
@@ -706,7 +706,9 @@ public class DrawEquationWeb extends DrawEquation {
 							if (code == 13) {
 								@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 							} else if (code == 27) {
-								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								if (deselect) {
+									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								}
 							}
 							event.stopPropagation();
 							event.preventDefault();
@@ -714,25 +716,25 @@ public class DrawEquationWeb extends DrawEquation {
 						});
 
 		// hacking to deselect the editing when the user does something else like in Desktop
-		var mousein = {};
-		mousein.mout = false;
-		$wnd.mousein = mousein;
-		$wnd
-				.$ggbQuery(elsecondInside)
-				.focusout(
-						function(event) {
-							if ($wnd.mousein.mout) {
-								@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-							}
-							event.stopPropagation();
-							event.preventDefault();
-							return false;
-						}).mouseenter(function(event2) {
+		if (deselect) {
+			var mousein = {};
+			mousein.mout = false;
+			$wnd.mousein = mousein;
+			$wnd.$ggbQuery(elsecondInside)
+				.focusout(function(event) {
+					if ($wnd.mousein.mout) {
+						@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+					}
+					event.stopPropagation();
+					event.preventDefault();
+					return false;
+				}).mouseenter(function(event2) {
 					$wnd.mousein.mout = false;
 				}).mouseleave(function(event3) {
 					$wnd.mousein.mout = true;
 					$wnd.$ggbQuery(this).focus();
 				});
+		}
 	}-*/;
 
 	public static native void escEditingEquationMathQuillGGB(
