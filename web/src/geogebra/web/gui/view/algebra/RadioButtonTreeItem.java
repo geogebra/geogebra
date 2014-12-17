@@ -409,7 +409,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			} 
 		}
 		// check for new text
-		if (!newLaTeX && !newCreationMode) {
+		if (!newLaTeX) {
 			if (geo.isIndependent()) {
 				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			} else {
@@ -725,7 +725,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					boolean ind2 = av.getLastSelectedGeo().isIndependent();
 
 					if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-						Iterator<GeoElement> it = geo.getKernel().getConstruction().getGeoSetLabelOrder().iterator();
+						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
 						boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
 								compareTo(av.getLastSelectedGeo().getLabel(StringTemplate.defaultTemplate)) < 0;
 
@@ -785,7 +785,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			return;
 
 		// tell EuclidianView to handle mouse over
-		EuclidianViewInterfaceCommon ev = geo.getKernel().getApplication().getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = kernel.getApplication().getActiveEuclidianView();
 		ev.mouseMovedOver(geo);
 
 		// highlight the geos
