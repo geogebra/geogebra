@@ -74,17 +74,24 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 		if (source == insertBtn) {
 	    	String data;
 	    	String name;
+	    	boolean camera = false;
 	    	if (webcamPanel == null) { // file upload
 	    		data = uploadImagePanel.getImageDataURL();
 	    		name = uploadImagePanel.getFileName();
+	    		
 	    	} else { // webcam
 	    		data = webcamPanel.getImageDataURL();
 	    		name = "webcam";
+	    		camera = true;
 	    	}
 	    	if (!loc.isLabelSet()) {
 	    		loc.setLabel(null);
 	    	}
-	    	app.imageDropHappened(name, data, "", loc, 640, 480);
+	    	if(camera){
+	    		app.imageDropHappened(name, data, "", loc, 640, 480);
+	    	}else{
+	    		app.imageDropHappened(name, data, "", loc, 0, 0);
+	    	}
 	    	hide();
 	    } else if (source == cancelBtn) {
 	    	hide();
