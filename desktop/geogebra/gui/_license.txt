@@ -237,17 +237,17 @@ required by the GPL) should take the form of (at least) a mention of our
 name, an appropriate copyright notice and a link to our website located
 at http://www.geogebra.org.
 
-4. The GeoGebra language and image files (including all user interface
-"translation" files, image and style sheet files in the GeoGebra
-application and applets) and all GeoGebra documentation (including
-"GeoGebra Help", "GeoGebra Quickstart" and all other documentation
-files found on the GeoGebra webservers) are licensed to you under the
-terms of the Creative Commons Attribution-NonCommercial-ShareAlike
-licence (version 3.0 or later), the current text of which can be found
-via this link: http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode.
-Attribution (as required by that Creative Commons license) should take
-the form of (at least) a mention of our name, an appropriate copyright
-notice and a link to our website located at http://www.geogebra.org.
+4. The GeoGebra language files (including all user interface
+"translation" files in the GeoGebra application and applets) and all
+GeoGebra documentation (including "GeoGebra Help", "GeoGebra Quickstart"
+and all other documentation files found on the GeoGebra webservers) are
+licensed to you under the terms of the Creative Commons
+Attribution-NonCommercial-ShareAlike licence (version 3.0 or later), the
+current text of which can be found via this link:
+http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode. Attribution
+(as required by that Creative Commons license) should take the form of
+(at least) a mention of our name, an appropriate copyright notice and a
+link to our website located at http://www.geogebra.org.
 
 5. The Software (and all related materials and resources) are licensed
 to you WITHOUT ANY WARRANTY and on an AS IS basis including without
@@ -296,7 +296,7 @@ in full force and effect.
 13. This License shall be governed by and interpreted in accordance with
 Austrian law.
 
-These License terms were last updated in December 2014.
+These License terms were last updated in April 2013.
 
 ------------------------------------------------------------------------
 Libraries used by GeoGebra:
