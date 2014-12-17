@@ -97,6 +97,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
+	private boolean newCreationMode = false;
 	private boolean mout = false;
 
 	private SpanElement seMayLatex;
@@ -284,6 +285,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		super();
 
 		// this method is still not able to show an editing box!
+		newCreationMode = true;
 
 		//geo = ge;
 		kernel = kern;
@@ -345,8 +347,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			this.needsUpdate = true;
 
 			// here it complains that geo is undefined
-			//this.doUpdate();//although this may be okay now
-			//this.startEditing();
+			doUpdate();
+			startEditing();
 		} else {
 			seNoLatex = se;
 		}
@@ -407,7 +409,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			} 
 		}
 		// check for new text
-		if (!newLaTeX) {
+		if (!newLaTeX && !newCreationMode) {
 			if (geo.isIndependent()) {
 				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 			} else {
@@ -443,15 +445,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			}
 		}
 
-		
 		if (geo != null && radio != null) {
 			radio.setChecked(geo.isEuclidianVisible());
 		}
 	}
-	
+
 	private void updateColor(SpanElement se){
-		se.getStyle()
-        .setColor(GColor.getColorString(geo.getAlgebraColor()));
+		if (geo != null) {
+			se.getStyle().setColor(GColor.getColorString(geo.getAlgebraColor()));
+		}
 	}
 
 	public boolean isThisEdited() {
@@ -470,7 +472,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void startEditing() {
 		thisIsEdited = true;
-		if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
+		if (newCreationMode) {
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex);
+		} else if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex);
 		} else {
 			remove(ihtml);
