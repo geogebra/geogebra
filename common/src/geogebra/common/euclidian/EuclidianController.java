@@ -5652,6 +5652,14 @@ public abstract class EuclidianController {
 	}
 
 	protected final void moveVector(boolean repaint) {
+
+		moveVector();
+		
+		updateAfterMove((GeoElement) movedGeoVector, repaint);
+		
+	}
+	
+	protected void moveVector(){
 		GeoPointND P = movedGeoVector.getStartPoint();
 		if (P == null) {
 			moveVector(xRW - transformCoordsOffset[0], yRW - transformCoordsOffset[1]);
@@ -5659,9 +5667,6 @@ public abstract class EuclidianController {
 			Coords c = view.getCompanion().getCoordsForView(P);
 			moveVector(xRW - c.getX(), yRW - c.getY());
 		}
-		
-		updateAfterMove((GeoElement) movedGeoVector, repaint);
-		
 	}
 	
 	protected final void moveVector(double x, double y){
@@ -8050,8 +8055,7 @@ public abstract class EuclidianController {
 				GeoElement[] qq = getAlgoDispatcher().Translate(null, (GeoElement) q, vec);
 				AlgoVector newVecAlgo = new AlgoVector(kernel.getConstruction(), null,
 						(GeoPointND) pp[0], (GeoPointND) qq[0]);
-				transformCoordsOffset[0] = xRW;
-				transformCoordsOffset[1] = yRW;
+				setTranslateStart(topHit);
 
 				// make sure vector looks the same when translated
 				pp[0].setEuclidianVisible(p.isEuclidianVisible());
@@ -8086,25 +8090,32 @@ public abstract class EuclidianController {
 		}
 
 		if (topHit.isTranslateable() || topHit instanceof GeoPoly) {
-			GeoVector vec;
+			GeoVectorND vec;
 			if (topHit instanceof GeoPoly) {
 				// for polygons, we need a labelled vector so that all
 				// the vertices move together
-				vec = getAlgoDispatcher().Vector(null, 0, 0);
+				vec = getAlgoDispatcher().Vector(null);
 				vec.setEuclidianVisible(false);
-				vec.setAuxiliaryObject(true);
+				((GeoElement) vec).setAuxiliaryObject(true);
 			} else {
-				vec = getAlgoDispatcher().Vector(0, 0);
+				vec = getAlgoDispatcher().Vector();
 			}
-			getAlgoDispatcher().Translate(null, hits.get(0), vec);
-			transformCoordsOffset[0] = xRW;
-			transformCoordsOffset[1] = yRW;
+			getAlgoDispatcher().TranslateND(null, topHit, vec);
+			setTranslateStart(topHit);
 
 			app.setMode(EuclidianConstants.MODE_MOVE,ModeSetter.TOOLBAR);
 			movedGeoVector = vec;
 			moveMode = MOVE_VECTOR_NO_GRID;
 			return;
 		}
+	}
+	
+	/**
+	 * set translate start infos
+	 */
+	protected void setTranslateStart(GeoElement geo){
+		transformCoordsOffset[0] = xRW;
+		transformCoordsOffset[1] = yRW;
 	}
 
 	protected static boolean penMode(int mode2) {

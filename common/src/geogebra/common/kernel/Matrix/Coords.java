@@ -910,6 +910,18 @@ public class Coords {
 		projectPlane(m.getVx(), m.getVy(), v, m.getOrigin(), globalCoords);
 	}
 	
+	public void projectPlaneThruVIfPossible(Coords vx, Coords vy, Coords vz, Coords o, Coords v, Coords globalCoords) {
+		// check if v is parallel to plane
+		if (Kernel.isEqual(vz.dotproduct(v), 0.0,
+				Kernel.STANDARD_PRECISION)){
+			projectPlane(vx, vy, vz, o, globalCoords);
+			return;
+		}
+
+
+		projectPlane(vx, vy, v, o, globalCoords);
+	}
+
 	public void projectPlaneThruVIfPossibleInPlaneCoords(CoordMatrix m, Coords v, Coords inPlaneCoords) {
 
 		// check if v is parallel to plane

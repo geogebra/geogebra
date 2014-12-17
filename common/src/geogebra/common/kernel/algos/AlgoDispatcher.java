@@ -100,6 +100,14 @@ public class AlgoDispatcher {
 		v.setLabel(label); // invokes add()
 		return v;
 	}
+	
+	public GeoVectorND Vector(String label){
+		return Vector(label, 0, 0);
+	}
+
+	public GeoVectorND Vector(){
+		return Vector(0, 0);
+	}
 
 	/** Vector label with cartesian coordinates (x,y) */
 	final public GeoVector Vector(double x, double y) {
@@ -1425,6 +1433,11 @@ public class AlgoDispatcher {
 			GeoVec3D v) {
 		Transform t = new TransformTranslate(cons, v);
 		return t.transform(geoTrans, label);
+	}
+	
+	public GeoElement[] TranslateND(String label, GeoElement geoTrans,
+			GeoVectorND v) {
+		return Translate(label, geoTrans, (GeoVec3D) v);
 	}
 
 	/**

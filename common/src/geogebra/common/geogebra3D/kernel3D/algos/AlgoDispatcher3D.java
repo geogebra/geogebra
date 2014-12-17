@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.geogebra3D.kernel3D.commands.CommandProcessor3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoVector3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Manager3DInterface;
@@ -262,5 +263,26 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		
 		return super.copyFreePoint(point, view);
 	}
+	
+	
+	@Override
+	public GeoVectorND Vector(String label){
+		return (GeoVectorND) getManager3D().Vector3D(label, 0, 0, 0);
+	}
+
+	@Override
+	public GeoVectorND Vector(){
+		GeoVector3D v = new GeoVector3D(cons);
+		v.setCoords(0, 0, 0, 0);
+		v.setMode(Kernel.COORD_CARTESIAN_3D);
+		return v;
+	}
+	
+	@Override
+	public GeoElement[] TranslateND(String label, GeoElement geoTrans,
+			GeoVectorND v) {
+		return getManager3D().Translate3D(label, geoTrans, v);
+	}
+
 
 }

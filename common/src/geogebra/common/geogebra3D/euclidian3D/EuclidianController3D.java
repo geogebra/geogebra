@@ -3410,6 +3410,48 @@ public abstract class EuclidianController3D extends EuclidianController {
 		startPoint3D.projectPlaneThruVIfPossible(
 				CoordMatrix4x4.IDENTITY, view3D.getViewDirection(), startPoint3DxOy);
 	}
+	
+	@Override
+	protected void setTranslateStart(GeoElement geo){
+		super.setTranslateStart(geo);
+		startPoint3D.set(view3D.getCursor3D().getInhomCoordsInD3());
+		if (geo.isGeoPlane()){
+			translateDirection = geo.getMainDirection();
+		}else{
+			translateDirection = null;
+		}
+		
+	}
+	
+	@Override
+	protected void moveVector(){
+		
+		Coords o = view3D.getPickPoint(mouseLoc);
+		view3D.toSceneCoords3D(o);
+		if (translateDirection == null){
+			o.projectPlaneThruVIfPossible(Coords.VX, Coords.VY, Coords.VZ, startPoint3D, view3D.getViewDirection(), tmpCoords);
+		}else{
+			startPoint3D.projectNearLine(o, view3D.getViewDirection(), translateDirection, tmpCoords);			
+		}
+		
+		
+		GeoPointND P = movedGeoVector.getStartPoint();
+		if (P == null) {
+			tmpCoords.setSub(tmpCoords, startPoint3D);
+		} else {
+			tmpCoords.setSub(tmpCoords, P.getInhomCoordsInD3());
+		}
+		
+		
+		if (movedGeoVector.isGeoElement3D()){
+			((GeoVector3D) movedGeoVector).setCoords(tmpCoords);
+		}else{
+			moveVector(tmpCoords.getX(), tmpCoords.getY());
+		}
+
+	}
+	
+	private Coords translateDirection;
 
 	@Override
 	public void setStartPointLocationWithOrigin(double x, double y) {
