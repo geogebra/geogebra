@@ -535,11 +535,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		av.cancelEditing();
 
 		if (newValue != null) {
-			boolean redefine = !geo.isPointOnPath();
-			GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-					geo, newValue, redefine, true);
-			if (geo2 != null)
-				geo = geo2;
+			if (geo != null) {
+				boolean redefine = !geo.isPointOnPath();
+				GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
+						geo, newValue, redefine, true);
+				if (geo2 != null)
+					geo = geo2;
+			} else {
+				// TODO create new GeoElement
+			}
 		}
 
 		// maybe it's possible to enter something which is LaTeX
@@ -589,11 +593,16 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			}
 			// Formula Hacks ended.
-			boolean redefine = !geo.isPointOnPath();
-			GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-					geo, sb.toString(), redefine, true);
-			if (geo2 != null)
-				geo = geo2;
+			if (geo != null) {
+				boolean redefine = !geo.isPointOnPath();
+				GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
+						geo, sb.toString(), redefine, true);
+				if (geo2 != null)
+					geo = geo2;
+			} else {
+				// TODO: create new GeoElement!
+				
+			}
 		}
 
 		// maybe it's possible to enter something which is non-LaTeX
@@ -648,7 +657,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	
 	@Override
     public void onMouseOver(MouseOverEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
+		if (geo != null) {
+			ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
+		}
 	}
 
 	@Override
@@ -763,11 +774,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		} 
 		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
-			app.getActiveEuclidianView().clickedGeo(geo, event.isControlDown());
+			if (geo != null) {
+				app.getActiveEuclidianView().clickedGeo(geo, event.isControlDown());
+			}
 			//event.release();
 		} else 
 			// tell selection listener about click
-			app.geoElementSelected(geo, false);
+			if (geo != null) {
+				app.geoElementSelected(geo, false);
+			}
 
 
 		// Alt click: copy definition to input field
@@ -786,7 +801,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		// tell EuclidianView to handle mouse over
 		EuclidianViewInterfaceCommon ev = kernel.getApplication().getActiveEuclidianView();
-		ev.mouseMovedOver(geo);
+		if (geo != null) {
+			ev.mouseMovedOver(geo);
+		}
 
 		// highlight the geos
 		//getElement().getStyle().setBackgroundColor("rgb(200,200,245)");
@@ -809,23 +826,24 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		SelectionManager selection = app.getSelectionManager();
 		GPoint point = new GPoint(x + Window.getScrollLeft(), y
 		        + Window.getScrollTop());
-		if (selection.containsSelectedGeo(geo)) {// popup
+		if (geo != null) {
+			if (selection.containsSelectedGeo(geo)) {// popup
 			                                     // menu for
 			                                     // current
 			                                     // selection
 			                                     // (including
 			                                     // selected
 			                                     // object)
-			((GuiManagerW) app.getGuiManager()).showPopupMenu(
-			        selection.getSelectedGeos(), av, point);
-		} else {// select only this object and popup menu
-			selection.clearSelectedGeos(false);
-			selection.addSelectedGeo(geo, true, true);
-			ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
-			temp.add(geo);
+				((GuiManagerW) app.getGuiManager()).showPopupMenu(
+						selection.getSelectedGeos(), av, point);
+			} else {// select only this object and popup menu
+				selection.clearSelectedGeos(false);
+				selection.addSelectedGeo(geo, true, true);
+				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
+				temp.add(geo);
 
-			((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
+				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
+			}
 		}
 	}
 }
-
