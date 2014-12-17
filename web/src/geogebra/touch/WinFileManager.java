@@ -138,7 +138,7 @@ public class WinFileManager extends FileManager {
 		super.upload(mat);
 	}
 	
-	private native void getBase64(String s, NativeSaveCallback nsc)/*-{
+	private native void getBase64(String title, NativeSaveCallback nsc)/*-{
 		if($wnd.android && $wnd.android.getBase64){
 			$wnd.android.getBase64(title,function(jsString){
 	    		nsc.@geogebra.touch.NativeSaveCallback::onSuccess(Ljava/lang/String;)(jsString);
@@ -214,7 +214,7 @@ public class WinFileManager extends FileManager {
 		JSONArray jv = JSONParser.parseLenient(jsString).isArray();
 		for(int i = 0; i < jv.size(); i++){
 			final Material mat = JSONparserGGT.toMaterial( jv.get(i).isObject());
-			if (mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
+			if ("".equals(mat.getAuthor()) || mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
 				if (mat.getId() == 0) {
 					upload(mat);
 				} else {
