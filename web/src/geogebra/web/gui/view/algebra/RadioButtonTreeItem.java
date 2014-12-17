@@ -457,16 +457,21 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	public boolean isThisEdited() {
-		return thisIsEdited || newCreationMode;
+		return thisIsEdited;
 	}
 
 	public void cancelEditing() {
-		if (LaTeX) {
-			DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
-		} else {
-			remove(tb);
-			add(ihtml);
-			stopEditingSimple(tb.getText());
+		// as this method is only called from AlgebraViewWeb.update,
+		// and in that context, this should not cancel editing in case of newCreationMode,
+		// we can put an if check here safely for the present time
+		if (!newCreationMode) {
+			if (LaTeX) {
+				DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
+			} else {
+				remove(tb);
+				add(ihtml);
+				stopEditingSimple(tb.getText());
+			}
 		}
 	}
 
