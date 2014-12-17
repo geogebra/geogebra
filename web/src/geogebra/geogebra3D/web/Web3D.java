@@ -168,6 +168,7 @@ public class Web3D extends Web {
 	private native void exportGGBElementRenderer() /*-{
 	 	$wnd.renderGGBElement = $entry(@geogebra.geogebra3D.web.Web3D::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;));
 		@geogebra.html5.gui.GeoGebraFrame::renderGGBElementReady()();
+		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{

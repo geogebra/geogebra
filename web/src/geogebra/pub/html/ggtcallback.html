@@ -11,11 +11,11 @@
 
 
     function sendToken() {
-        window.opener.$wnd.postMessage(JSON.stringify({action: "logintoken", msg: getURLParameter("token")}), "*");
+        window.opener.postMessage(JSON.stringify({action: "logintoken", msg: getURLParameter("token")}), "*");
     }
     
     function sendURL() {
-    	window.opener.$wnd.postMessage(JSON.stringify({action: "openfromggt", msg: getURLParameter("url")}), "*");
+    	window.opener.postMessage(JSON.stringify({action: "openfromggt", msg: getURLParameter("url")}), "*");
     }
 
 	if (getURLParameter("token") !== null) {

@@ -171,6 +171,7 @@ public class Web implements EntryPoint {
 	private native void exportGGBElementRenderer() /*-{
 	 	$wnd.renderGGBElement = $entry(@geogebra.web.Web::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
 		@geogebra.html5.gui.GeoGebraFrame::renderGGBElementReady()();
+		window.addEventListener("message",function(event){$wnd.postMessage(event.data,"*");});
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{
