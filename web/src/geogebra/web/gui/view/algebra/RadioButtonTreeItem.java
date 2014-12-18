@@ -215,10 +215,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		add(radio);
 
 		SpanElement se = DOM.createSpan().cast();
-		se.getStyle().setProperty("display", "-moz-inline-box");
-		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
-		se.setDir("ltr");
+		updateNewStatic(se);
+		updateColor(se);
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
 		ihtml.addClickHandler(this);
@@ -300,10 +298,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//add(radio);
 
 		SpanElement se = DOM.createSpan().cast();
-		se.getStyle().setProperty("display", "-moz-inline-box");
-		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		//se.getStyle().setColor( GColor.getColorString( geo.getAlgebraColor() ) );
-		se.setDir("ltr");
+		updateNewStatic(se);
+
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
 		ihtml.addClickHandler(this);
@@ -397,15 +393,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				updateColor(seMayLatex);
 			} else if (newLaTeX) {
 				SpanElement se = DOM.createSpan().cast();
-				se.getStyle().setProperty("display", "-moz-inline-box");
-				se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+				updateNewStatic(se);
 				updateColor(se);
 				ihtml.getElement().replaceChild(se, seNoLatex);
 				text = DrawEquationWeb.inputLatexCosmetics(text);
 				seMayLatex = se;
 				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}");
 				LaTeX = true;
-			} 
+			}
 		} else if (geo == null) {
 			newLaTeX = true;
 		}
@@ -437,8 +432,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				updateColor(seNoLatex);
 			}  else {
 				SpanElement se = DOM.createSpan().cast();
-				se.getStyle().setProperty("display", "-moz-inline-box");
-				se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+				updateNewStatic(se);
 				updateColor(se);
 				ihtml.getElement().replaceChild(se, seMayLatex);
 				seNoLatex = se;
@@ -448,6 +442,19 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (geo != null && radio != null) {
 			radio.setChecked(geo.isEuclidianVisible());
+		}
+	}
+
+	private void updateNewStatic(SpanElement se) {
+		se.getStyle().setProperty("display", "-moz-inline-box");
+		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+		se.setDir("ltr");
+		if (newCreationMode) {
+			// I will let others style this more professionally
+			// se.getStyle().setProperty("border", "black solid 1px");
+
+			// this should be used in combination with the root block!
+			se.addClassName("hasCursorPermanent");
 		}
 	}
 

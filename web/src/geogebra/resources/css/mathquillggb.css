@@ -46,6 +46,8 @@
 .mathquillggb-embedded-latex .mathquillggb-editable {
   margin: 1px;
 }
+.hasCursorPermanent.mathquillggb-rendered-math,
+.hasCursorPermanent .mathquillggb-rendered-math,
 .mathquillggb-editable.hasCursor,
 .mathquillggb-editable .hasCursor {
   	border: #6161FF solid 1px;
