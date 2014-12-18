@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
 
@@ -109,13 +110,14 @@ public class CmdFunction extends CommandProcessor {
 					ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();	
 					conditions.add(intervalGeo);
 					mayUseIndependent = false;
-
+					
 					// copied from CmdIf from here
 
 					expr = new ExpressionNode(kernelA, wrap(conditions.get(0), fv,
 							mayUseIndependent), Operation.IF, wrap(geoFun,
 									fv, mayUseIndependent));
-
+					Log.debug(expr);
+					Log.debug(arg[0]);
 					Function fun = new Function(expr, fv);
 					if (mayUseIndependent) {
 						return new GeoElement[] { new GeoFunction(cons, label, fun) };
@@ -146,12 +148,21 @@ public class CmdFunction extends CommandProcessor {
 					boolean oldFlag = kernelA.getConstruction()
 							.isSuppressLabelsActive();
 					kernelA.getConstruction().setSuppressLabelCreation(true);
-					c.getArgument(0).resolveVariables();
+					
+					
 					c.getArgument(1).resolveVariables();
 					c.getArgument(2).resolveVariables();
-					GeoFunction condFun = (GeoFunction) kernelA
+					
+					GeoFunction condFun;
+					if(c.getArgument(0).unwrap() instanceof Command){
+						condFun = (GeoFunction) kernelA
+								.getAlgebraProcessor().processCommand((Command)c.getArgument(0).unwrap(),true)[0];
+					}else{
+						c.getArgument(0).resolveVariables();
+						condFun = (GeoFunction) kernelA
 							.getAlgebraProcessor().processFunction(
 									new Function(c.getArgument(0), fv))[0];
+					}
 					GeoElement low = kernelA.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(1))[0];
 					GeoElement high = kernelA.getAlgebraProcessor()
