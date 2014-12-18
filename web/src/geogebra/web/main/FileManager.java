@@ -9,6 +9,8 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseGUI;
+import geogebra.web.gui.browser.SignInButton;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.util.SaveCallback;
@@ -186,5 +188,21 @@ public abstract class FileManager implements FileManagerI {
 	 */
 	public AppW getApp() {
 		return this.app;
+	}
+	
+	public final boolean save(AppW app){
+		//not logged in and can't log in
+		if (!app.getLoginOperation().isLoggedIn()
+				&& (!app.getNetworkOperation().isOnline() || app.getLoginOperation().mayLogIn())) {
+			saveLoggedOut(app);
+		//not logged in and possible to log in
+		} else if (!app.getLoginOperation().isLoggedIn()) {
+			app.getGuiManager().listenToLogin();
+			((SignInButton) app.getLAF().getSignInButton(app)).login();
+		//logged in
+		} else {
+			((DialogManagerW) app.getDialogManager()).showSaveDialog();
+		}
+		return true;
 	}
 }

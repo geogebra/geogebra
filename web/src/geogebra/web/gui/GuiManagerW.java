@@ -1302,12 +1302,10 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			return;
 		}
 		generalToolbarDefinition = toolBarDefinition;
-		App.printStacktrace("general"+toolBarDefinition);
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
 	public void setToolBarDefinition(final String toolBarDefinition) {
-		App.printStacktrace("partial"+toolBarDefinition);
 		strCustomToolbarDefinition = toolBarDefinition;
 	}
 
@@ -1662,7 +1660,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			save();
 		} else if (this.uploadWaiting && event instanceof StayLoggedOutEvent) {
 			this.uploadWaiting = false;
-			openFilePicker();
+			((AppW) app).getFileManager().saveLoggedOut((AppW) app);
 		}
 	}
 

@@ -7,7 +7,6 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
-import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
@@ -57,17 +56,11 @@ public class WinFileManager extends FileManager {
 	    // not in touch either
 	    
     }
-
-	@Override
-    public boolean save(AppW app) {
-		if (!app.isOffline() && !app.getLoginOperation().isLoggedIn()) {
-			app.getGuiManager().listenToLogin();
-			((SignInButton) app.getLAF().getSignInButton(app)).login();
-		} else {
-			((DialogManagerW) app.getDialogManager()).showSaveDialog();
-		}
-		return true;
-    }
+	
+	public void saveLoggedOut(AppW app){
+		((DialogManagerW) app.getDialogManager()).showSaveDialog();
+	}
+	
 	@Override
     public void rename(String newTitle, Material mat) {
 	    renameNative(mat.getTitle(), newTitle);

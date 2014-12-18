@@ -292,7 +292,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * </br>- material is new or was private, than link to GGT
 	 */
 	protected void onSave() {
-		if (app.isOffline()) {
+		if (app.isOffline() || !app.getLoginOperation().isLoggedIn()) {
 			saveLocal();
 		} else if (app.getFileManager().getFileProvider() == Provider.GOOGLE) {
 			uploadToDrive();

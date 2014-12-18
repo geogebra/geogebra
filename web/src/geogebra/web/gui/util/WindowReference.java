@@ -2,7 +2,6 @@ package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
-import geogebra.common.move.events.StayLoggedOutEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.views.EventRenderable;
@@ -81,7 +80,7 @@ public class WindowReference implements EventRenderable {
 			public void execute(double timestamp) {
 				if (instance != null && instance.closed()) {
 					if(lOW != null){
-				    	lOW.onEvent(new StayLoggedOutEvent(null));
+				    	lOW.stayLoggedOut();
 				    }
 					cleanWindowReferences();
 				} else {

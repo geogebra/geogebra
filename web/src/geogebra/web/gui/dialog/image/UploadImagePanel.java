@@ -1,5 +1,6 @@
 package geogebra.web.gui.dialog.image;
 
+import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.Element;
@@ -78,10 +79,14 @@ public class UploadImagePanel extends VerticalPanel {
 		this.fileData = fileData;
 		this.fileName = fileName;
 		if (previewImg == null) {
+			try{
 			previewImg = new Image(fileData);
 			previewImg.setWidth(previewWidth + "px");
 			previewImg.setHeight(previewHeight + "px");
 			add(previewImg);
+			}catch(Throwable e){
+				App.debug("ImageProblem"+e.getMessage());
+			}
 		} else {
 			previewImg.setUrl(fileData);
 		}

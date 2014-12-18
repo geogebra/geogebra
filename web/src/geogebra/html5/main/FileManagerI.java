@@ -30,4 +30,6 @@ public interface FileManagerI {
 	public void deleteAutoSavedFile();
 
 	boolean save(AppW app);
+
+	void saveLoggedOut(AppW app);
 }
