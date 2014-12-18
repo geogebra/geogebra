@@ -11,9 +11,10 @@ public interface SurfaceEvaluable {
 	/**
 	 * @param u first parameter
 	 * @param v second parameter
-	 * @return point for parameters v
+	 * @return point for parameters u, v
 	 */
 	public Coords evaluatePoint(double u, double v);
+	
 	/**
 	 * @param i index of parameter
 	 * @return minimal value for i-th parameter

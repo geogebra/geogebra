@@ -236,6 +236,33 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
+
+	public void startTrianglesWireFrame(){
+		// lines
+		manager.startGeometry(Manager.Type.LINE_LOOP);
+
+		manager.setDummyTexture();
+
+		manager.color(0f,0f,0f,1f);
+	}
+	
+	public void startTrianglesWireFrameSurface(){
+		// lines
+		manager.startGeometry(Manager.Type.TRIANGLES);
+
+		manager.setDummyTexture();
+
+		manager.color(1f,0f,0f,0.25f);
+	}
+	
+	public void vertex(Coords p){
+		manager.vertex(p);
+	}
+	
+	public void endGeometry(){
+		manager.endGeometry();
+	}
+	
 	
 	/**
 	 * 

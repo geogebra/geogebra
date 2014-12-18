@@ -108,9 +108,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		currentSplit = new ArrayList<DrawSurface3D.Corner>(); 
 		nextSplit = new ArrayList<DrawSurface3D.Corner>();
+		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
 		currentSplit.add(corner);
-		split(4);
-		corner.draw(surface);
+		split(3);
+//		corner.draw(surface);
+		
+		for (CornerAndCenter cc : drawList){
+			cc.draw(surface);
+		}
 
 		
 		setSurfaceIndex(surface.end());
@@ -197,18 +202,29 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 	}
 	
+	
+	protected Coords evaluatePoint(double u, double v){
+		return surfaceGeo.evaluatePoint(u, v);
+	}
+	
 	private class Corner{
-		private Coords p;
-		private double u, v;
+		Coords p;
+		double u, v;
 		
 		
-		private Corner a, l; // above, left
+		Corner a, l; // above, left
 		
 		
 		public Corner(double u, double v){
 			this.u = u;
 			this.v = v;
-			p = surfaceGeo.evaluatePoint(u, v);
+			p = evaluatePoint(u, v);
+		}
+		
+		public Corner(double u, double v, Coords p){
+			this.u = u;
+			this.v = v;
+			this.p = p;
 		}
 
 		
@@ -247,7 +263,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				return;
 			}
 			
-			surface.drawQuadWireFrame(
+			//surface.drawQuadWireFrame(
+			surface.drawQuad(
 					a.l.p, 
 					a.p, 
 					p, 
@@ -255,64 +272,159 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 		
 		
-		public void split(boolean recordNext){
+		public void split(boolean splitNext){
 			
+			// middle parameters
 			double um, vm;
-			
-			// south
-			Corner s;
 			if (l.a == null){ // already splitted on left
-				s = l;
-				um = s.u;
+				um = l.u;
 			}else{ // split on left
 				um = (u + l.u)/2;
-				s = new Corner(um, v);
-				s.l = l;
-				l = s;
 			}
-			
-			// east
-			Corner e;
 			if (a.l == null){ // already splitted on above
-				e = a;
 				vm = a.v;
 			}else{ // split on above
 				vm = (v + a.v)/2;
-				e = new Corner(u, vm);
-				e.a = a;
-				a = e;
 			}
 			
-			// middle
-			Corner m = new Corner(um, vm);
-			s.a = m;
-			e.l = m;
 			
-			// north
-			Corner n = new Corner(um, e.a.v);
-			n.l = e.a.l;
-			e.a.l = n;
-			m.a = n;
+			// middle point
+			Coords pm = evaluatePoint(um, vm);
 			
-			
-			// west
-			Corner w = new Corner(s.l.u, vm);
-			w.a = s.l.a;
-			s.l.a = w;
-			m.l = w;			
-			
-			
-			// split again
-			if (recordNext){
+			if (splitNext){
+
+				// south
+				Corner s;
+				if (l.a == null){ // already splitted on left
+					s = l;
+				}else{ // split on left
+					s = new Corner(um, v);
+					s.l = l;
+					l = s;
+				}
+
+				// east
+				Corner e;
+				if (a.l == null){ // already splitted on above
+					e = a;
+				}else{ // split on above
+					e = new Corner(u, vm);
+					e.a = a;
+					a = e;
+				}
+
+				// middle
+				Corner m = new Corner(um, vm, pm);
+				s.a = m;
+				e.l = m;
+
+				// north
+				Corner n = new Corner(um, e.a.v);
+				n.l = e.a.l;
+				e.a.l = n;
+				m.a = n;
+
+
+				// west
+				Corner w = new Corner(s.l.u, vm);
+				w.a = s.l.a;
+				s.l.a = w;
+				m.l = w;			
+
+
+				// split again
 				nextSplit.add(this);
 				nextSplit.add(s);
 				nextSplit.add(e);
 				nextSplit.add(m);
+			}else{
+				drawList.add(new CornerAndCenter(this, pm));
 			}
+		
 		}
 	
 	}
 	
+	
+	private class CornerAndCenter{
+		private Corner corner;
+		private Coords center;
+		
+		public CornerAndCenter(Corner corner, Coords center){
+			set(corner, center);
+		}
+		
+		public void set(Corner corner, Coords center){
+			this.corner = corner;
+			this.center = center;
+		}
+		
+		public void draw(PlotterSurface surface){
+			surface.startTrianglesWireFrame();
+			drawVertices(surface);
+			surface.endGeometry();
+			
+			surface.startTrianglesWireFrameSurface();
+			drawVertices(surface);
+			surface.endGeometry();
+			
+			
+		}
+		
+		private void drawVertices(PlotterSurface surface){
+
+			
+			Corner current, sw, ne;
+			
+			// go left
+			current = corner;	
+			do{
+				surface.vertex(center);
+				surface.vertex(current.l.p);
+				surface.vertex(current.p);
+				current = current.l;
+			}while(current.a == null);			
+			double u = current.u;
+			sw = current;
+			
+			// go above
+			current = corner;	
+			do{
+				surface.vertex(center);
+				surface.vertex(current.p);
+				surface.vertex(current.a.p);
+				current = current.a;
+			}while(current.l == null);			
+			double v = current.v;
+			ne = current;
+			
+			// west side
+			current = sw;
+			do{
+				surface.vertex(center);
+				surface.vertex(current.a.p);
+				surface.vertex(current.p);
+				current = current.a;
+			}while(current.v > v);	
+			
+			// north side
+			current = ne;
+			do{
+				surface.vertex(center);
+				surface.vertex(current.p);
+				surface.vertex(current.l.p);
+				current = current.l;
+			}while(current.u > u);	
+			
+			
+		}
+		
+	}
+	
+	/**
+	 * list of things to draw
+	 */
+	ArrayList<CornerAndCenter> drawList;
 
 		
 }
