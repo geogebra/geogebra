@@ -193,7 +193,7 @@ public abstract class FileManager implements FileManagerI {
 	public final boolean save(AppW app){
 		//not logged in and can't log in
 		if (!app.getLoginOperation().isLoggedIn()
-				&& (!app.getNetworkOperation().isOnline() || app.getLoginOperation().mayLogIn())) {
+				&& (!app.getNetworkOperation().isOnline() || !app.getLoginOperation().mayLogIn())) {
 			saveLoggedOut(app);
 		//not logged in and possible to log in
 		} else if (!app.getLoginOperation().isLoggedIn()) {

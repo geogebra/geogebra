@@ -423,7 +423,7 @@ public class FileManagerT extends FileManager {
 								cb.onFailure(result.getError());
 							}
 						});
-						//reader.readAsText(entry);
+						reader.readAsText(entry);
 					}
 					
 					public void onFailure(FileError error) {
