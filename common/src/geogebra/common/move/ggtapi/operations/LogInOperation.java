@@ -1,6 +1,7 @@
 package geogebra.common.move.ggtapi.operations;
 
 import geogebra.common.main.App;
+import geogebra.common.move.events.StayLoggedOutEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginAttemptEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
@@ -63,9 +64,17 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	 * 					in the Login Event. 
 	 */
 	public void performTokenLogin(String token, boolean automatic) {
+		if("".equals(token)){
+			stayLoggedOut();
+		}
 		doPerformTokenLogin(new GeoGebraTubeUser(token), automatic);
 	}
 	
+	public void stayLoggedOut() {
+		getModel().stayLoggedOut();
+		onEvent(new StayLoggedOutEvent(null));
+	}
+
 	public void performCookieLogin(String cookie) {
 		doPerformTokenLogin(new GeoGebraTubeUser(null, cookie), true);
 	}
@@ -139,5 +148,9 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	public void startOffline() {
 		getModel().startOffline(getGeoGebraTubeAPI());
 		
+	}
+
+	public boolean mayLogIn() {
+		return getModel().mayLogIn();
 	}
 }
