@@ -78,6 +78,15 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		submenu.addRadioButtonMenuItems(this, fsfi, fontActionCommands, pos, false);
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, (MenuBar) submenu);
+
+		/* Just a proof of concept, work in progress!
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, new ScheduledCommand() {
+			public void execute() {
+				// just a proof of concept!
+				OptionsMenuW.this.getItems().get(3).getElement().getParentElement().appendChild(((RadioButtonMenuBarW)submenu).getElement());
+			}
+		});
+		*/
 	}
 	
 
