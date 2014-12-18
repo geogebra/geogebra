@@ -13,6 +13,8 @@ import geogebra.common.move.models.BaseModel;
 public abstract class AuthenticationModel extends BaseModel {
 	private GeoGebraTubeUser loggedInUser = null;
 
+	private boolean stayLoggedOut;
+
 	/**
 	 * token name for user logged in got back from GGT
 	 */
@@ -61,7 +63,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * Parses the response, and sets model dependent things (localStorage, etc).
 	 */
 	public void onLoginSuccess(GeoGebraTubeUser user, String json) {
-		
+		this.stayLoggedOut = false;
 		// Remember the logged in user
 		this.loggedInUser = user;
 		storeLastUser(json);
@@ -78,6 +80,7 @@ public abstract class AuthenticationModel extends BaseModel {
 	 * error happened, cleanup, etc
 	 */
 	public void onLoginError(GeoGebraTubeUser user) {
+		this.stayLoggedOut = false;
 		if (getLoginToken() != null) {
 			clearLoginToken();
 		}
@@ -131,4 +134,13 @@ public abstract class AuthenticationModel extends BaseModel {
 	}
 
 	public abstract String loadLastUser();
+
+	public void stayLoggedOut() {
+		this.stayLoggedOut = true;
+	}
+	
+	public boolean mayLogIn(){
+		return !stayLoggedOut;
+	}
+	
 }
