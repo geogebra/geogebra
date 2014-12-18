@@ -206,7 +206,35 @@ public class PlotterSurface {
 		manager.endGeometry();
 	}
 	
-	
+	public void drawQuadWireFrame(Coords p1, Coords p2, Coords p3, Coords p4){
+		
+		// lines
+		manager.startGeometry(Manager.Type.LINE_LOOP);
+		
+		manager.setDummyTexture();
+		
+		manager.color(0f,0f,0f,1f);
+		
+		manager.vertex(p1);
+		manager.vertex(p2);
+		manager.vertex(p3);
+		manager.vertex(p4);
+		manager.endGeometry();
+		
+		
+		// surface
+		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
+		
+		manager.setDummyTexture();
+		
+		manager.color(1f,0f,0f,0.5f);
+		
+		manager.vertex(p1);
+		manager.vertex(p2);
+		manager.vertex(p4);
+		manager.vertex(p3);
+		manager.endGeometry();
+	}
 	
 	
 	/**

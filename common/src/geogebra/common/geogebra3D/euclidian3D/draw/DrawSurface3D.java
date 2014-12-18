@@ -7,6 +7,8 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 
+import java.util.ArrayList;
+
 /**
  * Class for drawing a 2-var function
  * 
@@ -96,19 +98,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		limit1 = cullingBoxDelta * MAX_DIAGONAL_QUAD_LENGTH;
 		limit2 = cullingBoxDelta * MAX_CENTER_QUAD_DISTANCE;
 		
-		Coords p1 = surfaceGeo.evaluatePoint(uMin, vMin);
-		Coords p2 = surfaceGeo.evaluatePoint(uMax, vMin);
-		Coords p3 = surfaceGeo.evaluatePoint(uMin, vMax);
-		Coords p4 = surfaceGeo.evaluatePoint(uMax, vMax);
-		
-		Node tlNode = new Node(p1);
-		Node trNode = new Node(p2);
-		Node blNode = new Node(p3);
-		Node surfaceGlobal= new Node(p4);
 		
 		surface.start(getReusableSurfaceIndex());
+		
+		Corner al = new Corner(uMin, vMin);
+		Corner a = new Corner(uMax, vMin);
+		Corner l = new Corner(uMin, vMax);
+		Corner corner = new Corner(uMax, vMax, a, l, al);
+		
+		currentSplit = new ArrayList<DrawSurface3D.Corner>(); 
+		nextSplit = new ArrayList<DrawSurface3D.Corner>();
+		currentSplit.add(corner);
+		split(4);
+		corner.draw(surface);
 
-		splitOrDraw(surface, 0, 0, surfaceGlobal,tlNode,trNode,blNode, MAX_SPLIT);
 		
 		setSurfaceIndex(surface.end());
 
@@ -116,77 +119,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 	
 	
-	private void splitOrDraw(PlotterSurface surface, long TLu, long TLv, Node currentNode, Node aboveLeft, Node above, Node left, long iDelta)
-	{
-		
-		
-		if (iDelta>1) {
-			
-			double diagLength = Math.max(aboveLeft.pointPos.distance(currentNode.pointPos),above.pointPos.distance(left.pointPos));
-			
-			Coords centerValue1 = (aboveLeft.pointPos.add(currentNode.pointPos)).mul(0.5);
-			Coords centerValue2 = (above.pointPos.add(left.pointPos)).mul(0.5);
-
-			iDelta /=2;
-			
-			long Tu = TLu+iDelta;
-			long Lv = TLv+iDelta;
-			currentNode.tl = new Node(Tu, Lv);
-			
-			double centerDistance = Math.max(currentNode.tl.pointPos.distance(centerValue1),currentNode.tl.pointPos.distance(centerValue2));
-
-			//this split test is temporary
-			if ((iDelta>=MIN_SPLIT)
-					||((diagLength>limit1)&&(centerDistance>limit2))
-					&&((inCullingBox(currentNode.pointPos))||(inCullingBox(aboveLeft.pointPos))||(inCullingBox(above.pointPos))||(inCullingBox(left.pointPos)))){
-
-
-				long Ru = TLu+2*iDelta;
-				long Bv = TLv+2*iDelta;
-
-
-				if (aboveLeft.br == null){
-					aboveLeft.br = new Node(aboveLeft);
-				}
-				if (above.bl == null){
-					above.bl = new Node(Tu, TLv);
-				}
-				if (left.tr == null){
-					left.tr = new Node(TLu, Lv);
-				}
-
-				splitOrDraw(surface, TLu, TLv, currentNode.tl, aboveLeft.br, above.bl, left.tr, iDelta);
-
-
-				currentNode.tr = new Node(Ru, Lv);
-				if (above.br == null){
-					above.br = new Node(above);
-				}
-
-				splitOrDraw(surface, Tu, TLv, currentNode.tr, above.bl, above.br, currentNode.tl, iDelta);
-
-
-				currentNode.bl = new Node(Tu, Bv);
-				if (left.br == null){
-					left.br = new Node(left);
-				}
-
-				splitOrDraw(surface, TLu, Lv, currentNode.bl, left.tr, currentNode.tl, left.br, iDelta);
-
-				currentNode.br = new Node(currentNode);
-
-				splitOrDraw(surface, Tu, Lv, currentNode.br, currentNode.tl, currentNode.tr, currentNode.bl, iDelta);
-			
-			}else{		
-				//draw
-				surface.drawQuadNoTexture(aboveLeft.pointPos,above.pointPos,currentNode.pointPos,left.pointPos);
-			}
-
-		}else{		
-			//draw
-			surface.drawQuadNoTexture(aboveLeft.pointPos,above.pointPos,currentNode.pointPos,left.pointPos);
-		}
-	}
 
 	@Override
 	protected void updateForView() {
@@ -236,31 +168,151 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		else {return false;}
 	}
 	
+	
+	private ArrayList<Corner> currentSplit;
 
-	class Node {
-		private Coords pointPos;
-		private Node tl, tr, bl, br; // top-left child and other children
+	/**
+	 * list of next corners to split
+	 */
+	ArrayList<Corner> nextSplit;
 
-		public Node(Coords p, Node tl, Node tr, Node bl, Node br) {
-			this.pointPos = p;
-			this.tl = tl;
-			this.tr = tr;
-			this.bl = bl;
-			this.br = br;
+	private void split(int depth){
+		
+		boolean recordNext = depth > 1;
+		for (Corner corner : currentSplit){
+			corner.split(recordNext);
 		}
 		
-		public Node(Coords p) {
-			this.pointPos = p;
+		
+		if (recordNext){
+			// swap stacks
+			ArrayList<Corner> tmp = currentSplit;
+			currentSplit = nextSplit;
+			nextSplit = tmp;
+			nextSplit.clear();
+			// split again
+			split(depth - 1);
 		}
 		
-		public Node(long u, long v){
-			this(surfaceGeo.evaluatePoint(uMin+u*uDelta, vMin+v*vDelta));
-		}
 		
-		public Node(Node node){
-			this.pointPos = node.pointPos;
-		}
-
 	}
 	
+	private class Corner{
+		private Coords p;
+		private double u, v;
+		
+		
+		private Corner a, l; // above, left
+		
+		
+		public Corner(double u, double v){
+			this.u = u;
+			this.v = v;
+			p = surfaceGeo.evaluatePoint(u, v);
+		}
+
+		
+		public Corner(double u, double v, Corner a, Corner l, Corner al){
+			this(u, v);
+			
+			// neighbors
+			this.a = a;
+			this.l = l;
+			
+			// neighbors of neighbors
+			l.a = al;
+			a.l = al;
+
+		}
+		
+		public void draw(PlotterSurface surface){
+			if (a!=null && l!=null){
+				drawQuad(surface);
+				a.draw(surface);
+				l.drawLeft(surface);
+			}
+		} 
+		
+		private void drawLeft(PlotterSurface surface){
+			if (l!=null){
+				drawQuad(surface);
+				l.drawLeft(surface);
+			}
+
+		}
+		
+		private void drawQuad(PlotterSurface surface){
+			
+			if (a == null || a.l == null){
+				return;
+			}
+			
+			surface.drawQuadWireFrame(
+					a.l.p, 
+					a.p, 
+					p, 
+					l.p);
+		}
+		
+		
+		public void split(boolean recordNext){
+			
+			double um, vm;
+			
+			// south
+			Corner s;
+			if (l.a == null){ // already splitted on left
+				s = l;
+				um = s.u;
+			}else{ // split on left
+				um = (u + l.u)/2;
+				s = new Corner(um, v);
+				s.l = l;
+				l = s;
+			}
+			
+			// east
+			Corner e;
+			if (a.l == null){ // already splitted on above
+				e = a;
+				vm = a.v;
+			}else{ // split on above
+				vm = (v + a.v)/2;
+				e = new Corner(u, vm);
+				e.a = a;
+				a = e;
+			}
+			
+			// middle
+			Corner m = new Corner(um, vm);
+			s.a = m;
+			e.l = m;
+			
+			// north
+			Corner n = new Corner(um, e.a.v);
+			n.l = e.a.l;
+			e.a.l = n;
+			m.a = n;
+			
+			
+			// west
+			Corner w = new Corner(s.l.u, vm);
+			w.a = s.l.a;
+			s.l.a = w;
+			m.l = w;			
+			
+			
+			// split again
+			if (recordNext){
+				nextSplit.add(this);
+				nextSplit.add(s);
+				nextSplit.add(e);
+				nextSplit.add(m);
+			}
+		}
+	
+	}
+	
+
+		
 }
