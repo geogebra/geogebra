@@ -342,7 +342,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}*/
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()) {
-			String latexStr = "0";
 			seNoLatex = se;
 			this.needsUpdate = true;
 
@@ -376,7 +375,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
-			String text = " ";
+			String text = "(0+1+2)^2";
 			if (geo != null) {
 				text = geo.getLaTeXAlgebraDescription(true,
 						StringTemplate.latexTemplate);
@@ -407,6 +406,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}");
 				LaTeX = true;
 			} 
+		} else if (geo == null) {
+			newLaTeX = true;
 		}
 		// check for new text
 		if (!newLaTeX) {
