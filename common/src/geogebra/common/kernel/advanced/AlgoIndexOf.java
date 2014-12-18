@@ -117,6 +117,11 @@ public class AlgoIndexOf extends AlgoElement {
     	}
     	
     	if (hayStack.isGeoText()){
+    		//undefined haystack <=> getTextString is null
+    		if(((GeoText)hayStack).getTextString()==null){
+    			index.setUndefined();
+    			return;
+    		}
     		int pos = ((GeoText)hayStack).getTextString().indexOf(((GeoText)needle).getTextString(), startAt);
     		if (pos > -1) {
     			index.setValue(pos+1);
@@ -133,6 +138,5 @@ public class AlgoIndexOf extends AlgoElement {
     	}
    }
 
-	// TODO Consider locusequability
   
 }
