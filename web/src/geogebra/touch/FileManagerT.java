@@ -606,7 +606,7 @@ public class FileManagerT extends FileManager {
 									@Override
                                     public void onSuccess(String result) {
 										final Material mat = JSONparserGGT.parseMaterial(result);
-										if (mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
+										if ("".equals(mat.getAuthor()) || mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
 											if (mat.getId() == 0) {
 												upload(mat);
 											} else {
