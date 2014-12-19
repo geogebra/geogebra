@@ -4,7 +4,6 @@ package geogebra.touch;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -147,30 +146,27 @@ public class WinFileManager extends FileManager {
 
 
 	@Override
-    public void saveFile(final SaveCallback cb) {
-	    getApp().getGgbApi().getBase64(true, new StringHandler(){
+    public void saveFile(String base64,final SaveCallback cb) {
+	 
+		final Material mat = WinFileManager.this.createMaterial("");
+        String meta = mat.toJson().toString();
+        WinFileManager.this.doSave(base64, getApp().getLocalID(), getApp().getKernel().getConstruction().getTitle(), meta,
+        		new NativeSaveCallback(){
 
-			@Override
-            public void handle(String base64) {
-				final Material mat = WinFileManager.this.createMaterial("");
-	            String meta = mat.toJson().toString();
-	            WinFileManager.this.doSave(base64, getApp().getLocalID(), getApp().getKernel().getConstruction().getTitle(), meta,
-	            		new NativeSaveCallback(){
+					@Override
+                    public void onSuccess(String fileID) {
+						getApp().setLocalID(Integer.parseInt(fileID));
+                        cb.onSaved(mat, true);
+                        
+                    }
 
-							@Override
-                            public void onSuccess(String fileID) {
-								getApp().setLocalID(Integer.parseInt(fileID));
-	                            cb.onSaved(mat, true);
-	                            
-                            }
-
-							@Override
-                            public void onFailure() {
-	                            cb.onError();
-	                            
-                            }});
-	            
-            }});
+					@Override
+                    public void onFailure() {
+                        cb.onError();
+                        
+                    }});
+        
+            
 	    
     }
 

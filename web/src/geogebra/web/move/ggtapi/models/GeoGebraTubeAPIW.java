@@ -6,7 +6,6 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
-import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
 import com.google.gwt.http.client.Request;
@@ -244,13 +243,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple
 	 * @param filename String
 	 * @param cb MaterialCallback
 	 */
-	public void uploadMaterial(final AppW app, final String filename, final MaterialCallback cb) {
-		app.getGgbApi().getBase64(true, new StringHandler(){
+	public void uploadMaterial(final AppW app, final String filename, String base64, final MaterialCallback cb) {
 
-			@Override
-            public void handle(String s) {
-				performRequest(UploadRequest.getRequestElement(app, filename, s).toJSONString(), cb);
-            }});
+				performRequest(UploadRequest.getRequestElement(app, filename, base64).toJSONString(), cb);
+
 	}
 	
 	/**

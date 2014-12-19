@@ -28,7 +28,12 @@ public abstract class FileManager implements FileManagerI {
     }
 	
 	public abstract void delete(final Material mat);
-	public abstract void saveFile(final SaveCallback cb);
+	/**
+	 * 
+	 * @param base64 only a hint, we can send null and it will be resolved
+	 * @param cb
+	 */
+	public abstract void saveFile(String base64, final SaveCallback cb);
 	public abstract void uploadUsersMaterials();
 	protected abstract void getFiles(MaterialFilter materialFilter);
 	
@@ -118,7 +123,9 @@ public abstract class FileManager implements FileManagerI {
 	    	public void onLoaded(final List<Material> parseResponse) {
 	    		if (parseResponse.size() == 1) {
 	    			mat.setTitle(localKey);
-	    			delete(mat);
+	    			if(!FileManager.this.shouldKeep(mat.getId())){
+	    				delete(mat);
+	    			}
 	    			final Material newMat = parseResponse.get(0);
 	    			newMat.setThumbnail(mat.getThumbnail());		    		
 		    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(newMat, false);
@@ -130,6 +137,10 @@ public abstract class FileManager implements FileManagerI {
 	    		//TODO
 	    	}
 	    });
+    }
+
+	public boolean shouldKeep(int id) {
+	    return true;
     }
 
 	/**

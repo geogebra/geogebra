@@ -17,6 +17,7 @@ import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
+import geogebra.html5.main.StringHandler;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseResources;
 import geogebra.web.gui.dialog.DialogBoxW;
@@ -363,15 +364,23 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	    	app.setLocalID(-1);
 	    }
 	    app.getKernel().getConstruction().setTitle(this.title.getText());
-	    ((FileManager)app.getFileManager()).saveFile(new SaveCallback(app) {
-	    	@Override
-	    	public void onSaved(final Material mat, final boolean isLocal) {
-	    		super.onSaved(mat, isLocal);
-	    		runAfterSaveCallback();
-	    	}
-	    });
+	    app.getGgbApi().getBase64(true, new StringHandler(){
+
+			@Override
+            public void handle(String s) {
+				((FileManager)app.getFileManager()).saveFile(s, new SaveCallback(app) {
+			    	@Override
+			    	public void onSaved(final Material mat, final boolean isLocal) {
+			    		super.onSaved(mat, isLocal);
+			    		runAfterSaveCallback();
+			    	}
+			    });
+				hide();
+            }});
 	    
-		hide();
+	    
+	    
+		
     }
 
 	/**
@@ -421,17 +430,35 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * Handles the upload of the file and closes the dialog.
 	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
-	private void uploadToGgt(MaterialCallback materialCallback) {
+	private void uploadToGgt(final MaterialCallback materialCallback) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
-		if (!this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-			app.resetUniqueId();
-			doUploadToGgt(materialCallback);
-		} else if (app.getUniqueId() == null) {
-			doUploadToGgt(materialCallback);
-		}
-		else {
-			handleSync(materialCallback);
-		}
+		app.getGgbApi().getBase64(true, new StringHandler(){
+
+			@Override
+            public void handle(String base64) {
+				if (!SaveDialogW.this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
+					app.resetUniqueId();
+					doUploadToGgt(base64,materialCallback);
+				} else if (app.getUniqueId() == null) {
+					doUploadToGgt(base64,materialCallback);
+				}
+				else {
+					handleSync(base64,materialCallback);
+				}
+				if(app.getFileManager().shouldKeep(0)){
+					((FileManager)app.getFileManager()).saveFile(base64, new SaveCallback(app) {
+				    	@Override
+				    	public void onSaved(final Material mat, final boolean isLocal) {
+				    		super.onSaved(mat, isLocal);
+				    		runAfterSaveCallback();
+				    	}
+				    });
+				}
+	            
+            }
+			
+		});
+		
 		hide();
 	}
 
@@ -461,7 +488,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		app.getGgbApi().getBase64(true, callback);
     }
 
-	private void handleSync(final MaterialCallback materialCallback) {
+	void handleSync(final String base64, final MaterialCallback materialCallback) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(app.getUniqueId(), new MaterialCallback(){
 
 			@Override
@@ -471,11 +498,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 						app.resetUniqueId();
 						ToolTipManagerW.sharedInstance().showBottomMessage(((LocalizationW) app.getLocalization()).getMenu("SeveralVersionsOfA", parseResponse.get(0).getTitle()), false);
 					}
-					doUploadToGgt(materialCallback);
+					doUploadToGgt(base64, materialCallback);
 				} else {
 					// if the file was deleted meanwhile (parseResponse.size() == 0)
 					app.resetUniqueId();
-					doUploadToGgt(materialCallback);
+					doUploadToGgt(base64, materialCallback);
 				}
 			}
 			
@@ -491,8 +518,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * does the upload of the actual opened file to GeoGebraTube
 	 * @param materialCallback {@link MaterialCallback}
 	 */
-	void doUploadToGgt(MaterialCallback materialCallback) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(), materialCallback);
+	void doUploadToGgt(String base64, MaterialCallback materialCallback) {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(),base64, materialCallback);
 	}
 	
 	@Override

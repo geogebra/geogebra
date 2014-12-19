@@ -32,4 +32,6 @@ public interface FileManagerI {
 	boolean save(AppW app);
 
 	void saveLoggedOut(AppW app);
+
+	boolean shouldKeep(int i);
 }

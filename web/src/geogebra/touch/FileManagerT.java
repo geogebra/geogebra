@@ -5,7 +5,6 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -443,10 +442,8 @@ public class FileManagerT extends FileManager {
 	 * @param cb {@link SaveCallback}
 	 */
 	@Override
-	public void saveFile(final SaveCallback cb) {
-		final StringHandler base64saver = new StringHandler() {
-			@Override
-			public void handle(final String s) {
+	public void saveFile(final String base64, final SaveCallback cb) {
+		
 				 
 				createID(new Callback<Integer, String>() {
 
@@ -475,8 +472,8 @@ public class FileManagerT extends FileManager {
 
 									@Override
 									public void onSuccess(final FileWriter writer) {
-										writer.write(s);
-										createMetaData(key, cb, s);
+										writer.write(base64);
+										createMetaData(key, cb, base64);
 									}
 
 									@Override
@@ -495,9 +492,7 @@ public class FileManagerT extends FileManager {
                     }
 
 				});
-			}
-		};
-		getApp().getGgbApi().getBase64(true, base64saver);
+			
 	}
 	
 	/**

@@ -43,30 +43,26 @@ public class FileManagerW extends FileManager {
     }
 
 	@Override
-    public void saveFile(final SaveCallback cb) {
+    public void saveFile(String base64, final SaveCallback cb) {
 		if(this.stockStore == null){
 			return;
 		}
-		final StringHandler base64saver = new StringHandler() {
-			@Override
-			public void handle(final String s) {
-				final Material mat = createMaterial(s);
-				int id;
+		
+		final Material mat = createMaterial(base64);
+		int id;
 
-				if (getApp().getLocalID() == -1) {
-					id = createID();
-					getApp().setLocalID(id);
-				} else {
-					id = getApp().getLocalID();
-				}
-				String key = createKeyString(id, getApp().getKernel().getConstruction().getTitle());
-				mat.setTitle(key);
-				stockStore.setItem(key, mat.toJson().toString());
-				cb.onSaved(mat, true);
-			}
-		};
-
-		getApp().getGgbApi().getBase64(true, base64saver);
+		if (getApp().getLocalID() == -1) {
+			id = createID();
+			getApp().setLocalID(id);
+		} else {
+			id = getApp().getLocalID();
+		}
+		String key = createKeyString(id, getApp().getKernel().getConstruction().getTitle());
+		mat.setTitle(key);
+		stockStore.setItem(key, mat.toJson().toString());
+		cb.onSaved(mat, true);
+			
+		
     }
 
 	/**
@@ -119,7 +115,7 @@ public class FileManagerW extends FileManager {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
 				final Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
-				if (mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
+				if ("".equals(mat.getAuthor()) || mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
 					if (mat.getId() == 0) {
 						upload(mat);
 					} else {
@@ -129,6 +125,11 @@ public class FileManagerW extends FileManager {
 			}
 		}	
 	}
+	
+	@Override
+    public boolean shouldKeep(int id) {
+	    return false;
+    }
 
 	@Override
     public void rename(String newTitle, Material mat) {
