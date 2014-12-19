@@ -225,11 +225,12 @@ public class GgbScript extends Script {
 				numChars += work.get(i-1).length();
 			}
 			if (oldLabel.equals(work.get(i))) {
-				if (i+1 < work.size() &&
-					work.get(i+1) != null &&
-					work.get(i+1).length() > 0) {
-
-					if ("[".equals(work.get(i+1).charAt(0))) {
+				// in theory, i+1 is always less than work.size(),
+				// because it is an odd number, and in theory,
+				// there is at least a non-null element there
+				// but better to check...
+				if (i+1 < work.size() && work.get(i+1) != null) {
+					if ((work.get(i+1).length() > 0) && "[".equals(work.get(i+1).charAt(0))) {
 						// Now it's still possible that oldLabel
 						// is used as a command name here,
 						// so we have to rule out that possibility first.
@@ -238,38 +239,41 @@ public class GgbScript extends Script {
 						numChars += oldLabel.length();
 						continue;
 					}
-
-					// We also have to rule out the case when
-					// the string is used as a "string",
-					// or used as e.g. "blabla !!* string ---+ ".
-					// The easiest way to do that is to count the
-					// number of " signs in the string until our
-					// string, except the \" signs, and if it's odd,
-					// then we're probably in a string.
-					// For this computation, we use numChars.
-
-					forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");// String: /"
-					forLength2 = forLength1.replaceAll("\"", "");// String: "
-					lengthChars = forLength1.length() - forLength2.length();
-
-					if (lengthChars % 2 == 1) {
-						// there is an odd number of living " signs before this
-						// whole-word token, and this means that we're in a
-						// string, so this whole-word token doesn't matter
-						numChars += oldLabel.length();
-						continue;
-					}
-
-					// If the string equals to "e" or "i",
-					// and we get here, then they mean their
-					// geo labels, but only after they get
-					// them, and if they get them in the script,
-					// then some original "e" or "i" constants
-					// may be renamed as well... however, we
-					// guess it's no problem as in the second
-					// running of the script they should all mean
-					// the geos, and it's the bug of the code elsewhere
 				}
+
+				// We also have to rule out the case when
+				// the string is used as a "string",
+				// or used as e.g. "blabla !!* string ---+ ".
+				// The easiest way to do that is to count the
+				// number of " signs in the string until our
+				// string, except the \" signs, and if it's odd,
+				// then we're probably in a string.
+				// For this computation, we use numChars.
+
+				forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");// String: /"
+				forLength2 = forLength1.replaceAll("\"", "");// String: "
+				lengthChars = forLength1.length() - forLength2.length();
+
+				if (lengthChars % 2 == 1) {
+					// there is an odd number of living " signs before this
+					// whole-word token, and this means that we're in a
+					// string, so this whole-word token doesn't matter
+					numChars += oldLabel.length();
+					continue;
+				}
+
+				// If the string equals to "e" or "i",
+				// and we get here, then they mean their
+				// geo labels, but only after they get
+				// them, and if they get them in the script,
+				// then some original "e" or "i" constants
+				// may be renamed as well... however, we
+				// guess it's no problem as in the second
+				// running of the script they should all mean
+				// the geos, and it's the bug of the code elsewhere
+
+				// numChars should be reassigned after it is used,
+				// but still before "work" is redefined
 				if (work.get(i) != null) {
 					numChars += work.get(i).length();
 				}

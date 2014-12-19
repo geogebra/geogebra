@@ -1090,26 +1090,30 @@ public class StringUtil {
        
     }
 
-	public static ArrayList<String> wholeWordTokenize(String input) {
-		return wholeWordTokenize(input, false);
-	}
-
 	/**
-	 * Tokenize a string so that every odd indices of the returned
+	 * Tokenize a string so that every even indices (e.g. 0) of the returned
 	 * array should contain a String not containing any letters (or digits),
-	 * and every odd incides of it should contain a String
+	 * and every odd incides (e.g. 1) of it should contain a String
 	 * having only letters (or digits).
 	 *  
 	 * @param input the input String
 	 * @return the tokenized String
 	 */
-	public static ArrayList<String> wholeWordTokenize(String input, boolean international) {
+	public static ArrayList<String> wholeWordTokenize(String input) {
 		// ArrayList is easier for now as we don't know
 		// the length of the returned String yet
 		ArrayList<String> ret = new ArrayList<String>();
 		Character actChar;
 		String actWord = "";
-		boolean odd = true;
+
+		// 1st, 2nd, 3rd, 4th, ...
+		// 0,   1,   2,   3, ...
+
+		// parity of the number of elements already in the ret Array
+		// or in other words, whether we are going to add a word
+		// in the next step
+		boolean odd = false;
+
 		for (int i = 0; i < input.length(); i++) {
 			actChar = input.charAt(i);
 			// although the syntax might not allow whole words
@@ -1117,23 +1121,25 @@ public class StringUtil {
 			// here, as it is easier and will not change the outcome
 			if (isLetterOrDigitOrUnderscore(actChar)) {
 				if (odd) {
-					ret.add(actWord);
-					actWord = "" + actChar;
-					odd = false;
-				} else {
-					actWord += actChar;
-				}
-			} else {
-				if (odd) {
 					actWord += actChar;
 				} else {
 					ret.add(actWord);
 					actWord = "" + actChar;
 					odd = true;
 				}
+			} else {
+				if (odd) {
+					ret.add(actWord);
+					actWord = "" + actChar;
+					odd = false;
+				} else {
+					actWord += actChar;
+				}
 			}
 		}
 		ret.add(actWord);
+
+		// the last one should always be a non-word, like the first one
 		if (!odd) {
 			ret.add("");
 		}
