@@ -394,9 +394,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	void onConfirmDelete() {
 		this.setVisible(false);
 		setAllMaterialsDefault();
-		if (this.isLocal) {
-			this.app.getFileManager().delete(this.material);
-		} else {
+		this.app.getFileManager().delete(this.material);
+		if (!this.isLocal) {
 			
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).deleteMaterial(this.app, this.material, new MaterialCallback() {
 
