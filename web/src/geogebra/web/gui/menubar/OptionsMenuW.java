@@ -12,7 +12,9 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.GeoGebraPreferencesW;
 
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuBar;
+import com.google.gwt.user.client.ui.MenuItem;
 
 /**
  * The "Options" menu.
@@ -77,18 +79,25 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		}
 
 		submenu.addRadioButtonMenuItems(this, fsfi, fontActionCommands, pos, false);
+
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, (MenuBar) submenu);
 
-		/* Just a proof of concept, work in progress!
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, new ScheduledCommand() {
+		//addItemGGBWay(app, this, (MenuBar)submenu);
+	}
+
+	private static MenuItem addedItem = null;
+	public static void addItemGGBWay(App app, final MenuBar menuclass, final MenuBar submenu) {
+		addedItem = menuclass.addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, new ScheduledCommand() {
 			public void execute() {
-				// just a proof of concept!
-				OptionsMenuW.this.getItems().get(3).getElement().getParentElement().appendChild(((RadioButtonMenuBarW)submenu).getElement());
+				addItemGGBWayHelper(submenu);
 			}
 		});
-		*/
 	}
-	
+	public static void addItemGGBWayHelper(final MenuBar submenu) {
+		if (addedItem != null)
+			// this is not working
+			addedItem.getElement().getParentElement().appendChild(submenu.getElement());
+	}
 
 	private void addLanguageMenu() {
 
