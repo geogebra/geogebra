@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
@@ -123,11 +124,13 @@ public abstract class FileManager implements FileManagerI {
 	    	public void onLoaded(final List<Material> parseResponse) {
 	    		if (parseResponse.size() == 1) {
 	    			mat.setTitle(localKey);
+	    			App.debug("GGG uploading"+localKey);
 	    			if(!FileManager.this.shouldKeep(mat.getId())){
 	    				delete(mat);
 	    			}else{
-	    				FileManager.this.setTubeID(FileManager.this.getIDFromKey(localKey), mat.getId());
+	    				FileManager.this.setTubeID(localKey, mat.getId());
 	    			}
+	    			App.debug("GGG parse"+localKey);
 	    			final Material newMat = parseResponse.get(0);
 	    			newMat.setThumbnail(mat.getThumbnail());		    		
 		    		((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(newMat, false);
@@ -141,7 +144,7 @@ public abstract class FileManager implements FileManagerI {
 	    });
     }
 
-	public  abstract void setTubeID(int localID, int id);
+	public  abstract void setTubeID(String localKey, int id);
 
 	public boolean shouldKeep(int id) {
 	    return true;

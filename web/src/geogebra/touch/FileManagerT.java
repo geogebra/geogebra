@@ -670,8 +670,8 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-    public void setTubeID(int localID, int tubeID) {
-	    this.createMetaData(this.createKeyString(localID, getApp().getKernel().getConstruction().getTitle()),
+    public void setTubeID(String localID, int tubeID) {
+	    this.createMetaData(localID,
 	    		tubeID, null);
 	    
     }

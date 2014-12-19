@@ -243,7 +243,7 @@ public class WinFileManager extends FileManager {
 
 
 	@Override
-    public void setTubeID(int localID, int id) {
+    public void setTubeID(String localID, int id) {
 	    // TODO Auto-generated method stub
 	    
     }
