@@ -10,6 +10,7 @@ import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
+import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
@@ -40,7 +41,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel {
 
 	private boolean algebraBottom = false;
 
-	private AppW app;
+	AppW app;
 
 	public GGWFrameLayoutPanel() {
 		super();
@@ -79,7 +80,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel {
 		if(app.showAlgebraInput()){
 			switch (app.getInputPosition()) {
 			case top:
-			dockPanel.addNorth(getCommandLine(), GLookAndFeelI.COMMAND_LINE_HEIGHT);
+				dockPanel.addNorth(getCommandLine(), GLookAndFeelI.COMMAND_LINE_HEIGHT);
 				break;
 			case bottom:
 				dockPanel.addSouth(getCommandLine(), GLookAndFeelI.COMMAND_LINE_HEIGHT);
@@ -128,6 +129,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel {
 			public void run() {
 				onResize();
 				dockPanel.onResize();
+				scrollToInputField();
 			}
 		};
 		timer.schedule(0);
@@ -145,9 +147,23 @@ public class GGWFrameLayoutPanel extends LayoutPanel {
 			public void run() {
 				onResize();
 				dockPanel.onResize();
+				scrollToInputField();
 			}
 		};
 		timer.schedule(0);
+	}
+
+	/**
+	 * Scroll to the input-field, if the input-field is in the algebraView.
+	 */
+	void scrollToInputField(){
+		if (app.showAlgebraInput()
+		        && app.getInputPosition() == InputPositon.algebraView) {
+			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
+			        .getDockManager()
+			        .getPanel(geogebra.common.main.App.VIEW_ALGEBRA)))
+			        .scrollToBottom();
+		}
 	}
 
 	//this should be extedns MyDockLayoutPanel to get out somehow the overflow:hidden to show the toolbar.

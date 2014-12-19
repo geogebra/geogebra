@@ -29,7 +29,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String E = "\u212F"; // TODO use (not displayed
 	                                          // correctly)
 	private static final String I = "\u03AF";
-	
+
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 
 	/**
@@ -38,8 +38,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 */
 	public boolean enablePositioning = false;
 	private GGWFrameLayoutPanel frameLayoutPanel;
-	
-	public static OnScreenKeyBoard getInstance(AutoCompleteTextFieldW textField, GGWFrameLayoutPanel frameLayoutPanel) {
+
+	public static OnScreenKeyBoard getInstance(
+	        AutoCompleteTextFieldW textField,
+	        GGWFrameLayoutPanel frameLayoutPanel) {
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
 		}
@@ -111,30 +113,36 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			} else {
 				textField.insertString(text);
 			}
-			textField.setFocus(false);
+			if (textField != null) {
+				// textField could be null after onEnter()
+				textField.setFocus(false);
+			}
 		}
 
 		event.stopPropagation();
 	}
-	
+
 	/**
 	 * The text field to be used
-	 * @param textField the text field connected to the keyboard
+	 * 
+	 * @param textField
+	 *            the text field connected to the keyboard
 	 */
 	public void setTextField(AutoCompleteTextFieldW textField) {
-		this.textField = textField; 
+		this.textField = textField;
 	}
 
 	private void setFrameLayoutPanel(GGWFrameLayoutPanel frameLayoutPanel) {
-	    this.frameLayoutPanel = frameLayoutPanel;
-    }
+		this.frameLayoutPanel = frameLayoutPanel;
+	}
 
 	/**
-	 * @param mode the keyboard mode
+	 * @param mode
+	 *            the keyboard mode
 	 */
 	public void setKeyboardMode(final KeyboardMode mode) {
 		this.mode = mode;
-		if(mode == KeyboardMode.NUMBER){
+		if (mode == KeyboardMode.NUMBER) {
 			textField.setFocus(false);
 			content.setVisible(true);
 			frameLayoutPanel.updateKeyBoard(textField);
@@ -151,7 +159,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public KeyboardMode getKeyboardMode() {
 		return mode;
 	}
-	
+
 	/**
 	 * @return true iff the systems virtual keyboard should be used
 	 */

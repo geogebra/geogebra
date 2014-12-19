@@ -133,6 +133,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	private static com.google.gwt.regexp.shared.RegExp syntaxArgPattern = com.google.gwt.regexp.shared.RegExp
 	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
+	/**
+	 * whether to show an instance of OnScreenKeyBoard or not (in this case the
+	 * system keyboard is shown on tablets)
+	 */
 	public static boolean showOnScreenKeyBoard = false;
 	private int actualFontSize = 14;
 

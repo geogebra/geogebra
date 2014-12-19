@@ -1,5 +1,10 @@
 package geogebra.html5.gui.util;
 
+/**
+ * The static methods of this class should be used to check for duplicated
+ * events (e.g. TouchStart and MouseDown) and to prevent that one event is
+ * unintentionally used for multiple purposes (e.g. open and close keyboard)
+ */
 public class CancelEventTimer {
 
 	private static long lastTouchEvent = 0;
