@@ -1370,7 +1370,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 					}
 				}
 
-				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false) != 0 || (!selectionPreview && hits.contains(selectedPoints.get(0)))){
+				if (addSelectedPoint(hits, GeoPolygon.POLYGON_MAX_POINTS, false) != 0 
+						|| 
+						(!selectionPreview && !selectedPoints.isEmpty() && hits.contains(selectedPoints.get(0)))
+						){
 					return null; // add/remove point : don't check polygon
 				}
 			}
