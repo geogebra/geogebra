@@ -219,10 +219,9 @@ public class GgbScript extends Script {
 		int numChars = 0, lengthChars;
 		String forLength1, forLength2;
 		for (int i = 1; i < work.size(); i += 2) {
-			if (i > 1 && work.get(i-2) != null) {
-				numChars += work.get(i-2).length();
-			}
 			if (work.get(i-1) != null) {
+				// this is even, so will not be changed,
+				// because only odd places are checked and replaced
 				numChars += work.get(i-1).length();
 			}
 			if (oldLabel.equals(work.get(i))) {
@@ -236,6 +235,7 @@ public class GgbScript extends Script {
 						// so we have to rule out that possibility first.
 						// Luckily, command names are always followed
 						// by a [, as far as we know, so it is easy.
+						numChars += oldLabel.length();
 						continue;
 					}
 
@@ -256,6 +256,7 @@ public class GgbScript extends Script {
 						// there is an odd number of living " signs before this
 						// whole-word token, and this means that we're in a
 						// string, so this whole-word token doesn't matter
+						numChars += oldLabel.length();
 						continue;
 					}
 
@@ -269,10 +270,15 @@ public class GgbScript extends Script {
 					// running of the script they should all mean
 					// the geos, and it's the bug of the code elsewhere
 				}
+				if (work.get(i) != null) {
+					numChars += work.get(i).length();
+				}
 				// this is really something to be renamed!
 				// ...or not? TODO: check
 				work.set(i, newLabel);
 				ret = true;
+			} else if (work.get(i) != null) {
+				numChars += work.get(i).length();
 			}
 		}
 		text = StringUtil.joinTokens(work, null);
