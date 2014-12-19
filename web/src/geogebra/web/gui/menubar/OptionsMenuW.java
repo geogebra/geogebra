@@ -82,12 +82,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, (MenuBar) submenu);
 
-		//addItemGGBWay(app, this, (MenuBar)submenu);
+		//addItemGGBWay(this, MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), (MenuBar)submenu);
 	}
 
 	private static MenuItem addedItem = null;
-	public static void addItemGGBWay(App app, final MenuBar menuclass, final MenuBar submenu) {
-		addedItem = menuclass.addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, new ScheduledCommand() {
+	public static void addItemGGBWay(final MenuBar menuclass, String text, final MenuBar submenu) {
+		addedItem = menuclass.addItem(text, true, new ScheduledCommand() {
 			public void execute() {
 				addItemGGBWayHelper(submenu);
 			}
@@ -96,7 +96,12 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 	public static void addItemGGBWayHelper(final MenuBar submenu) {
 		if (addedItem != null)
 			// this is not working
-			addedItem.getElement().getParentElement().appendChild(submenu.getElement());
+			// addedItem.getElement() is a HTML TD (table cell element)
+			// inserting a DIV beside it does not work (works wrongly)
+			// getParentElement() should not be used, but the content put inside
+
+			// this does not work either, wrong CSS?:
+			addedItem.getElement().appendChild(submenu.getElement());
 	}
 
 	private void addLanguageMenu() {
