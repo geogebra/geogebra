@@ -734,29 +734,29 @@ public class StringUtil {
 
 		// TODO: Maybe this could be more efficient
 		// check roman first (most common)
-		if ((ch >= 0x30 && ch <= 0x39)
-		|| (ch >= 0x660 && ch <= 0x669)
-		|| (ch >= 0x6f0 && ch <= 0x6f9)
-		|| (ch >= 0x966 && ch <= 0x96f)
-		|| (ch >= 0x9e6 && ch <= 0x9ef)
-		|| (ch >= 0xa66 && ch <= 0xa6f)
-		|| (ch >= 0xae6 && ch <= 0xaef)
-		|| (ch >= 0xb66 && ch <= 0xb6f)
-		|| (ch >= 0xbe6 && ch <= 0xbef) // Java (5?) bug: \u0BE6 not recognized by Character.isDigit()
-		|| (ch >= 0xc66 && ch <= 0xc6f)
-		|| (ch >= 0xce6 && ch <= 0xcef)
-		|| (ch >= 0xd66 && ch <= 0xd6f)
-		|| (ch >= 0xe50 && ch <= 0xe59)
-		|| (ch >= 0xed0 && ch <= 0xed9)
-		|| (ch >= 0xf20 && ch <= 0xf29)
-		|| (ch >= 0x1040 && ch <= 0x1049)
-		|| (ch >= 0x17e0 && ch <= 0x17e9)
-		|| (ch >= 0x1810 && ch <= 0x1819)
-		|| (ch >= 0x1b50 && ch <= 0x1b59) // not recognized by Java's version of Character.isDigit() !
-		|| (ch >= 0x1bb0 && ch <= 0x1bb9) // not recognized by Java's version of Character.isDigit() !
-		|| (ch >= 0x1c40 && ch <= 0x1c49) // not recognized by Java's version of Character.isDigit() !
-		|| (ch >= 0x1c50 && ch <= 0x1c59) // not recognized by Java's version of Character.isDigit() !
-		 || (ch >= 0xa8d0 && ch <= 0xa8d9) // not recognized by Java's version of Character.isDigit() !
+		if ((ch >= '\u0030' && ch <= '\u0039')
+		|| (ch >= '\u0660' && ch <= '\u0669')
+		|| (ch >= '\u06f0' && ch <= '\u06f9')
+		|| (ch >= '\u0966' && ch <= '\u096f')
+		|| (ch >= '\u09e6' && ch <= '\u09ef')
+		|| (ch >= '\u0a66' && ch <= '\u0a6f')
+		|| (ch >= '\u0ae6' && ch <= '\u0aef')
+		|| (ch >= '\u0b66' && ch <= '\u0b6f')
+		|| (ch >= '\u0be6' && ch <= '\u0bef') // Java (5?) bug: \u0BE6 not recognized by Character.isDigit()
+		|| (ch >= '\u0c66' && ch <= '\u0c6f')
+		|| (ch >= '\u0ce6' && ch <= '\u0cef')
+		|| (ch >= '\u0d66' && ch <= '\u0d6f')
+		|| (ch >= '\u0e50' && ch <= '\u0e59')
+		|| (ch >= '\u0ed0' && ch <= '\u0ed9')
+		|| (ch >= '\u0f20' && ch <= '\u0f29')
+		|| (ch >= '\u1040' && ch <= '\u1049')
+		|| (ch >= '\u17e0' && ch <= '\u17e9')
+		|| (ch >= '\u1810' && ch <= '\u1819')
+		|| (ch >= '\u1b50' && ch <= '\u1b59') // not recognized by Java's version of Character.isDigit() !
+		|| (ch >= '\u1bb0' && ch <= '\u1bb9') // not recognized by Java's version of Character.isDigit() !
+		|| (ch >= '\u1c40' && ch <= '\u1c49') // not recognized by Java's version of Character.isDigit() !
+		|| (ch >= '\u1c50' && ch <= '\u1c59') // not recognized by Java's version of Character.isDigit() !
+		 || (ch >= '\ua8d0' && ch <= '\ua8d9') // not recognized by Java's version of Character.isDigit() !
 // following not handled by GeoGebra's parser
 //		|| (ch >= 0x1369 && ch <= 0x1371) // Ethiopic
 //		|| (ch >= 0x1946 && ch <= 0x194F) // Limbu
@@ -796,24 +796,24 @@ public class StringUtil {
 	{
 		// From Parser.jj, compatibility with internationalized Unicode characters
 		// TODO: Maybe this could be more efficient
-		if ((c >= 0x41 && c <= 0x5a) || //upper case (A-Z)
-			(c >= 0x61 && c <= 0x7a) || //lower case (a-z)
-			(c == 0xb7) || // middle dot (for Catalan)
-			(c >= 0xc0 && c <= 0xd6) || //accentuated letters
-			(c >= 0xd8 && c <= 0xf6) || //accentuated letters
-			(c >= 0xf8 && c <= 0x1bf) || //accentuated letters
-			(c >= 0x1c4 && c <= 0x2a8) || //accentuated letters 
-			(c >= 0x391 && c <= 0x3f3) || // Greek
-			(c >= 0x401 && c <= 0x481) || // Cyrillic
-			(c >= 0x490 && c <= 0x4f9) || // Cyrillic
-			(c >= 0x531 && c <= 0x1ffc) || // a lot of signs (Arabic, accentuated, ...)
-			(c >= 0x3041 && c <= 0x3357) || // Asian letters
-			(c >= 0x4e00 && c <= 0xd7a3) || // Asian letters
-			(c >= 0xf71d && c <= 0xfa2d) || // Asian letters
-			(c >= 0xfb13 && c <= 0xfdfb) || // Armenian, Hebrew, Arabic
-			(c >= 0xfe80 && c <= 0xfefc) || // Arabic
-			(c >= 0xff66 && c <= 0xff9d) || // Katakana
-			(c >= 0xffa1 && c <= 0xffdc) // Hangul
+		if ((c >= '\u0041' && c <= '\u005a') || //upper case (A-Z)
+			(c >= '\u0061' && c <= '\u007a') || //lower case (a-z)
+			(c == '\u00b7') || // middle dot (for Catalan)
+			(c >= '\u00c0' && c <= '\u00d6') || //accentuated letters
+			(c >= '\u00d8' && c <= '\u00f6') || //accentuated letters
+			(c >= '\u00f8' && c <= '\u01bf') || //accentuated letters
+			(c >= '\u01c4' && c <= '\u02a8') || //accentuated letters 
+			(c >= '\u0391' && c <= '\u03f3') || // Greek
+			(c >= '\u0401' && c <= '\u0481') || // Cyrillic
+			(c >= '\u0490' && c <= '\u04f9') || // Cyrillic
+			(c >= '\u0531' && c <= '\u1ffc') || // a lot of signs (Arabic, accentuated, ...)
+			(c >= '\u3041' && c <= '\u3357') || // Asian letters
+			(c >= '\u4e00' && c <= '\ud7a3') || // Asian letters
+			(c >= '\uf71d' && c <= '\ufa2d') || // Asian letters
+			(c >= '\ufb13' && c <= '\ufdfb') || // Armenian, Hebrew, Arabic
+			(c >= '\ufe80' && c <= '\ufefc') || // Arabic
+			(c >= '\uff66' && c <= '\uff9d') || // Katakana
+			(c >= '\uffa1' && c <= '\uffdc') // Hangul
 			) {
 			return true;
 		}
