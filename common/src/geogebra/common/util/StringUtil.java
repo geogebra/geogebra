@@ -1140,7 +1140,8 @@ public class StringUtil {
 		ret.add(actWord);
 
 		// the last one should always be a non-word, like the first one
-		if (!odd) {
+		// but odd should have changed sign in the previous command
+		if (odd) {
 			ret.add("");
 		}
 		return ret;
