@@ -473,7 +473,7 @@ public class FileManagerT extends FileManager {
 									@Override
 									public void onSuccess(final FileWriter writer) {
 										writer.write(base64);
-										createMetaData(key, cb, base64);
+										createMetaData(key, getApp().getUniqueId() == null ? 0 : Integer.parseInt(getApp().getUniqueId()), cb);
 									}
 
 									@Override
@@ -546,7 +546,7 @@ public class FileManagerT extends FileManager {
 	 * @param cb {@link SaveCallback}
 	 * @param base64 String
 	 */
-	void createMetaData(final String key, final SaveCallback cb, final String base64) {
+	void createMetaData(final String key, final int tubeID, final SaveCallback cb) {
 
 		getMetaFile(META_PREFIX + key, createIfNotExist, new Callback<FileEntry, FileError>(){
 
@@ -556,22 +556,28 @@ public class FileManagerT extends FileManager {
 
 					@Override
 					public void onSuccess(final FileWriter writer) {
-						final Material mat = createMaterial(base64);
+						final Material mat = createMaterial("");
 						mat.setTitle(key);
 						writer.write(mat.toJson().toString());
-						cb.onSaved(mat, true);
+						if(cb != null){
+							cb.onSaved(mat, true);
+						}
 					}
 
 					@Override
 					public void onFailure(final FileError error) {
-						cb.onError();
+						if(cb != null){
+							cb.onError();
+						}
 					}
 				});
 			} 
 
 			@Override
 			public void onFailure(final FileError error) {
-				cb.onError();
+				if(cb != null){
+					cb.onError();
+				}
 			}
 		});
 	}
@@ -661,6 +667,97 @@ public class FileManagerT extends FileManager {
 
 	public void saveLoggedOut(AppW app){
 		((DialogManagerW) app.getDialogManager()).showSaveDialog();
+	}
+
+	@Override
+    public void setTubeID(int localID, int tubeID) {
+	    this.createMetaData(this.createKeyString(localID, getApp().getKernel().getConstruction().getTitle()),
+	    		tubeID, null);
+	    
+    }
+	
+	public void openMaterial(final Material material) {
+		this.getBase64(material.getTitle(),new Callback<String,FileError>(){
+
+			
+
+			@Override
+            public void onFailure(FileError reason) {
+	            // TODO Auto-generated method stub
+	            
+            }
+
+			@Override
+            public void onSuccess(String result) {
+				 material.setBase64(result);
+		         doOpenMaterial(material);
+	            
+            }});
+	}
+	
+	private void getBase64(final String title, final Callback<String, FileError> cb) {
+	    getGgbDir(new Callback<DirectoryEntry,FileError>(){
+
+			@Override
+            public void onFailure(FileError reason) {
+	            // TODO Auto-generated method stub
+	            
+            }
+
+			@Override
+            public void onSuccess(DirectoryEntry result) {
+	            result.getFile(title + FileManagerT.FILE_EXT, dontCreateIfNotExist, 
+	            		new FileCallback<FileEntry,FileError>(){
+
+							@Override
+                            public void onSuccess(FileEntry entry) {
+	                            readFile(entry, cb);
+	                            
+                            }
+
+							@Override
+                            public void onFailure(FileError error) {
+	                            // TODO Auto-generated method stub
+	                            
+                            }});
+	            
+            }});
+	    
+    }
+	
+	protected void readFile(FileEntry entry,final Callback<String, FileError> cb){
+		entry.getFile(new FileCallback<FileObject, FileError>() {
+			
+			public void onSuccess(FileObject entry) {
+				final FileReader reader = PhoneGapManager
+						.getPhoneGap()
+						.getFile()
+						.createReader();
+				
+				reader.setOnloadCallback(new ReaderCallback<FileReader>() {
+					public void onCallback(FileReader result) {
+						cb.onSuccess(result.getResult());
+					}
+				});
+				
+				reader.setOnErrorCallback(new ReaderCallback<FileReader>() {
+					public void onCallback(FileReader result) {
+						cb.onFailure(result.getError());
+					}
+				});
+				reader.readAsText(entry);
+			}
+
+			@Override
+            public void onFailure(FileError error) {
+	            // TODO Auto-generated method stub
+	            
+            }});
+		
+	}
+
+	protected void doOpenMaterial(Material m){
+		super.openMaterial(m);
 	}
 	
 }

@@ -195,4 +195,10 @@ public class FileManagerW extends FileManager {
 	public void saveLoggedOut(AppW app ){
 		app.getGuiManager().openFilePicker();
 	}
+
+	@Override
+    public void setTubeID(int localID, int id) {
+	    //implement this if we need offline cache in Chromeapp
+	    
+    }
 }

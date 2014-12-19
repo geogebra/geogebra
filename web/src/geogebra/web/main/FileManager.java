@@ -125,6 +125,8 @@ public abstract class FileManager implements FileManagerI {
 	    			mat.setTitle(localKey);
 	    			if(!FileManager.this.shouldKeep(mat.getId())){
 	    				delete(mat);
+	    			}else{
+	    				FileManager.this.setTubeID(FileManager.this.getIDFromKey(localKey), mat.getId());
 	    			}
 	    			final Material newMat = parseResponse.get(0);
 	    			newMat.setThumbnail(mat.getThumbnail());		    		
@@ -138,6 +140,8 @@ public abstract class FileManager implements FileManagerI {
 	    	}
 	    });
     }
+
+	public  abstract void setTubeID(int localID, int id);
 
 	public boolean shouldKeep(int id) {
 	    return true;
@@ -216,4 +220,6 @@ public abstract class FileManager implements FileManagerI {
 		}
 		return true;
 	}
+
+	
 }
