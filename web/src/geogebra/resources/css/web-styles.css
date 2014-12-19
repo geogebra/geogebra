@@ -2657,8 +2657,8 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	cursor: hand;
 }
 
-.GeoGebraFileChooser .buttonPanel .saveButton {
-	background-color: #6161FF;
+.GeoGebraFileChooser .buttonPanel .saveButton, .GeoGebraFileChooser .buttonPanel .saveButton.button-up-disabled {
+	background-color: #6161FF !important;
 	color: #FFFFFF;
 }
 
@@ -4089,6 +4089,11 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	color: #6666FF;
 	float: left;
 	padding-top: 22px;
+}
+
+.languageGUI .locationTitle {
+	text-align: center;
+	float: none;
 }
 
 .headerSecond {
