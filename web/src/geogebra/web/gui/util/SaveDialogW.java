@@ -449,6 +449,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					handleSync(base64,materialCallback);
 				}
 				if(app.getFileManager().shouldKeep(0)){
+					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager)app.getFileManager()).saveFile(base64, new SaveCallback(app) {
 				    	@Override
 				    	public void onSaved(final Material mat, final boolean isLocal) {
