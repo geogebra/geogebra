@@ -847,6 +847,10 @@ public class CopyPaste {
 				return;
 		}
 
+		// it turned out to be necessary for e.g. handleLabels
+		boolean scriptsBlocked = app.isBlockUpdateScripts();
+		app.setBlockUpdateScripts(true);
+
 		//don't update selection
 		app.getActiveEuclidianView().getEuclidianController().clearSelections(true,false);
 		//don't update properties view
@@ -907,6 +911,8 @@ public class CopyPaste {
 			}
 			handleLabels(app, copiedXMLlabels, putdown);
 		}
+
+		app.setBlockUpdateScripts(scriptsBlocked);
 
 		if (!putdown) {
 			app.getActiveEuclidianView().getEuclidianController()
