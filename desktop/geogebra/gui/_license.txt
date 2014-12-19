@@ -218,16 +218,15 @@ published by the Free Software Foundation and the Creative Commons
 Corporation. In the event of any conflict between those additional terms
 and the terms of this License, the latter shall prevail.
 
-2. The GeoGebra installers and web services (including the various
-materials and resources available at http://www.geogebratube.org) are
-licensed to you (on a limited, non-exclusive, personal, non-transferable
-and royalty-free license) under which you are free to use, copy,
-distribute, modify and transmit the GeoGebra installers and web services
-PROVIDED THAT you only do so for non-commercial purposes (without
-charging a fee to any third party) and PROVIDED THAT you attribute the
-work to us by (at least) mentioning our name, including an appropriate
-copyright notice and providing a link to our website located at
-http://www.geogebra.org.
+2. The GeoGebra installers, web services and various copyright materials,
+graphics and resources made available are licensed to you on a limited,
+non-exclusive, personal, non-transferable and royalty-free license under
+which you are free to use, copy, distribute, modify and transmit the GeoGebra
+installers, web services and the copyright materials PROVIDED THAT you only
+do so for non-commercial purposes (without charging a fee to any third party)
+and PROVIDED THAT you attribute the work to us by (at least) mentioning our
+name, including an appropriate copyright notice and providing a link to our
+website located at http://www.geogebra.org
 
 3. The GeoGebra source code is licensed to you under the terms of the
 GNU General Public License (version 3 or later) as published by the Free
@@ -237,17 +236,18 @@ required by the GPL) should take the form of (at least) a mention of our
 name, an appropriate copyright notice and a link to our website located
 at http://www.geogebra.org.
 
-4. The GeoGebra language files (including all user interface
-"translation" files in the GeoGebra application and applets) and all
-GeoGebra documentation (including "GeoGebra Help", "GeoGebra Quickstart"
-and all other documentation files found on the GeoGebra webservers) are
-licensed to you under the terms of the Creative Commons
+4. The GeoGebra language files (including all user interface "translation"
+files in the GeoGebra application and applets), all GeoGebra documentation
+(including  "GeoGebra Help", "GeoGebra Quickstart" and all other
+documentation files found on the GeoGebra webservers) and all GeoGebra
+user interface image and style files (including logos, icons and style
+sheets) are licensed to you under the terms of the Creative Commons
 Attribution-NonCommercial-ShareAlike licence (version 3.0 or later), the
 current text of which can be found via this link:
 http://creativecommons.org/licenses/by-nc-sa/3.0/legalcode. Attribution
-(as required by that Creative Commons license) should take the form of
-(at least) a mention of our name, an appropriate copyright notice and a
-link to our website located at http://www.geogebra.org.
+(as required by that Creative Commons license) should take the form of (at
+least) a mention of our name, an appropriate copyright notice and a link
+to our website located at http://www.geogebra.org.
 
 5. The Software (and all related materials and resources) are licensed
 to you WITHOUT ANY WARRANTY and on an AS IS basis including without
@@ -296,7 +296,7 @@ in full force and effect.
 13. This License shall be governed by and interpreted in accordance with
 Austrian law.
 
-These License terms were last updated in April 2013.
+These License terms were last updated in December 2014.
 
 ------------------------------------------------------------------------
 Libraries used by GeoGebra:
