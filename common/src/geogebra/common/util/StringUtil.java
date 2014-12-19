@@ -731,7 +731,8 @@ public class StringUtil {
 	 * see also MyDouble.parseDouble()
 	 */
 	public static boolean isDigit(char ch) {
-		
+
+		// TODO: Maybe this could be more efficient
 		// check roman first (most common)
 		if ((ch >= 0x30 && ch <= 0x39)
 		|| (ch >= 0x660 && ch <= 0x669)
@@ -795,24 +796,24 @@ public class StringUtil {
 	{
 		// From Parser.jj, compatibility with internationalized Unicode characters
 		// TODO: Maybe this could be more efficient
-		if ((c >= '\u0041' && c <= '\u005a') || //upper case (A-Z)
-			(c >= '\u0061' && c <= '\u007a') || //lower case (a-z)
-			(c == '\u00b7') || // middle dot (for Catalan)
-			(c >= '\u00c0' && c <= '\u00d6') || //accentuated letters
-			(c >= '\u00d8' && c <= '\u00f6') || //accentuated letters
-			(c >= '\u00f8' && c <= '\u01bf') || //accentuated letters
-			(c >= '\u01c4' && c <= '\u02a8') || //accentuated letters 
-			(c >= '\u0391' && c <= '\u03f3') || // Greek
-			(c >= '\u0401' && c <= '\u0481') || // Cyrillic
-			(c >= '\u0490' && c <= '\u04f9') || // Cyrillic
-			(c >= '\u0531' && c <= '\u1ffc') || // a lot of signs (Arabic, accentuated, ...)
-			(c >= '\u3041' && c <= '\u3357') || // Asian letters
-			(c >= '\u4e00' && c <= '\ud7a3') || // Asian letters
-			(c >= '\uf71d' && c <= '\ufa2d') || // Asian letters
-			(c >= '\ufb13' && c <= '\ufdfb') || // Armenian, Hebrew, Arabic
-			(c >= '\ufe80' && c <= '\ufefc') || // Arabic
-			(c >= '\uff66' && c <= '\uff9d') || // Katakana
-			(c >= '\uffa1' && c <= '\uffdc') // Hangul
+		if ((c >= 0x41 && c <= 0x5a) || //upper case (A-Z)
+			(c >= 0x61 && c <= 0x7a) || //lower case (a-z)
+			(c == 0xb7) || // middle dot (for Catalan)
+			(c >= 0xc0 && c <= 0xd6) || //accentuated letters
+			(c >= 0xd8 && c <= 0xf6) || //accentuated letters
+			(c >= 0xf8 && c <= 0x1bf) || //accentuated letters
+			(c >= 0x1c4 && c <= 0x2a8) || //accentuated letters 
+			(c >= 0x391 && c <= 0x3f3) || // Greek
+			(c >= 0x401 && c <= 0x481) || // Cyrillic
+			(c >= 0x490 && c <= 0x4f9) || // Cyrillic
+			(c >= 0x531 && c <= 0x1ffc) || // a lot of signs (Arabic, accentuated, ...)
+			(c >= 0x3041 && c <= 0x3357) || // Asian letters
+			(c >= 0x4e00 && c <= 0xd7a3) || // Asian letters
+			(c >= 0xf71d && c <= 0xfa2d) || // Asian letters
+			(c >= 0xfb13 && c <= 0xfdfb) || // Armenian, Hebrew, Arabic
+			(c >= 0xfe80 && c <= 0xfefc) || // Arabic
+			(c >= 0xff66 && c <= 0xff9d) || // Katakana
+			(c >= 0xffa1 && c <= 0xffdc) // Hangul
 			) {
 			return true;
 		}
