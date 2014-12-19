@@ -96,10 +96,17 @@ public abstract class FileManager implements FileManagerI {
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {
 			        	if (parseResponse.size() == 1 && parseResponse.get(0).getModified() > mat.getSyncStamp()) {
+			        		if(FileManager.this.shouldKeep(mat.getId()) && mat.getModified() < mat.getSyncStamp()){
+			        				App.debug("Local copy of "+mat.getId()+" is up to date.");
+			        				return;
+			        		}
+			        		
 			        		ToolTipManagerW.sharedInstance().showBottomMessage(app.getLocalization().getPlain("SeveralVersionsOfA", parseResponse.get(0).getTitle()) , true);
 			        		mat.setId(0);
 			        	} else if (parseResponse.size() == 0) {
 			        		mat.setId(0);
+			        	} else {
+			        		FileManager.this.updateFile(mat.getTitle(),parseResponse.get(0));
 			        	}
 				        upload(mat);
 			        }
@@ -110,6 +117,8 @@ public abstract class FileManager implements FileManagerI {
 			        }
 		        });
 	}
+
+	protected abstract void updateFile(String title, Material material);
 
 	/**
 	 * uploads the material and removes it from localStorage

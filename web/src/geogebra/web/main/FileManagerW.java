@@ -201,4 +201,10 @@ public class FileManagerW extends FileManager {
 	    //implement this if we need offline cache in Chromeapp
 	    
     }
+
+	@Override
+    protected void updateFile(String title, Material material) {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

@@ -247,6 +247,18 @@ public class WinFileManager extends FileManager {
 	    // TODO Auto-generated method stub
 	    
     }
+
+
+
+
+
+
+
+	@Override
+    protected void updateFile(String title, Material material) {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 	
 	

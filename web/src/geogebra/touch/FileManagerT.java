@@ -25,6 +25,7 @@ import com.googlecode.gwtphonegap.client.file.FileReader;
 import com.googlecode.gwtphonegap.client.file.FileSystem;
 import com.googlecode.gwtphonegap.client.file.FileWriter;
 import com.googlecode.gwtphonegap.client.file.Flags;
+import com.googlecode.gwtphonegap.client.file.Metadata;
 import com.googlecode.gwtphonegap.client.file.ReaderCallback;
 import com.googlecode.gwtphonegap.collection.shared.LightArray;
 
@@ -268,8 +269,25 @@ public class FileManagerT extends FileManager {
 											mat = new Material(0, MaterialType.ggb);
 											mat.setTitle(getTitleFromKey(key));
 										}
-										if (filter.check(mat)) {
-											addMaterial(mat);
+										final Material mat1 = mat;
+										fileEntry.getMetadata(new FileCallback<Metadata,FileError>(){
+
+											@Override
+                                            public void onFailure(
+                                                    FileError reason) {
+	                                            // TODO Auto-generated method stub
+	                                            
+                                            }
+
+											@Override
+                                            public void onSuccess(
+                                                    Metadata result) {
+												mat1.setModified(result.getModificationTime().getTime() / 1000);
+	                                            
+                                            }});
+										
+										if (filter.check(mat1)) {
+											addMaterial(mat1);
 										}
                                     }
 									@Override
@@ -758,6 +776,35 @@ public class FileManagerT extends FileManager {
 
 	protected void doOpenMaterial(Material m){
 		super.openMaterial(m);
+	}
+	
+	protected void doUpload(Material m){
+		super.upload(m);
+	}
+
+	@Override
+    protected void updateFile(String title, Material material) {
+	    // TODO Auto-generated method stub
+	    
+    }
+	
+	@Override
+    public void upload(final Material mat){
+		
+		getBase64(mat.getTitle(), new Callback<String,FileError>(){
+
+			@Override
+            public void onSuccess(String fileID) {
+	            mat.setBase64(fileID);
+	            doUpload(mat);
+            }
+
+			@Override
+            public void onFailure(FileError fe) {
+	            // TODO Auto-generated method stub
+	            
+            }});
+		
 	}
 	
 }
