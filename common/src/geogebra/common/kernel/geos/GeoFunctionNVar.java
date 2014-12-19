@@ -504,6 +504,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		// For 3D
 		/////////////////////////////////////////
 		
+		private double[] tmp = new double[2];
+		
 	 /** used if 2-var function, for plotting 
 	 * @param u x-coord 
 	 * @param v y-coord
@@ -512,13 +514,18 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		 public Coords evaluatePoint(double u, double v){
 
 			 Coords p = new Coords(3);
-			 double val = fun.evaluate(new double[] {u,v});
+			 evaluatePoint(u, v, p);
+			 return p;
+
+		 }
+
+		 public void evaluatePoint(double u, double v, Coords p){
+			 tmp[0] = u;
+			 tmp[1] = v;
+			 double val = fun.evaluate(tmp);
 			 p.set(1, u);
 			 p.set(2, v);
 			 p.set(3, val);
-//			 p.set(3, Double.isNaN(val)?0:val);
-
-			 return p;
 
 		 }
 	 

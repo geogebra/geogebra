@@ -110,7 +110,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		nextSplit = new ArrayList<DrawSurface3D.Corner>();
 		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
 		currentSplit.add(corner);
-		split(3);
+		split(4);
 //		corner.draw(surface);
 		
 		for (CornerAndCenter cc : drawList){
@@ -184,8 +184,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private void split(int depth){
 		
 		boolean recordNext = depth > 1;
+//		int test = 0;
 		for (Corner corner : currentSplit){
 			corner.split(recordNext);
+//			corner.split(recordNext && (test % 3 == 0));
+//			test++;
 		}
 		
 		
@@ -203,8 +206,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 	
 	
+	private Coords evaluatedPoint = new Coords(3);
+	
+	
 	protected Coords evaluatePoint(double u, double v){
-		return surfaceGeo.evaluatePoint(u, v);
+		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
+		return evaluatedPoint.copyVector();
 	}
 	
 	private class Corner{

@@ -56,16 +56,23 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		set(curve);
 	}
 
-	public Coords evaluateSurface(double u, double v) {
-		return evaluateSurface(new double[] { u, v });
+	private double[] tmp = new double[2];
+
+	private void evaluateSurface(double u, double v, Coords p) {
+		tmp[0] = u;
+		tmp[1] = v;
+		evaluateSurface(tmp, p);
 	}
+	
+	 public void evaluatePoint(double u, double v, Coords p){
+		 evaluateSurface(u, v, p);
+	 }
 
-	public Coords evaluateSurface(double[] uv) {
-		Coords p = new Coords(3);
-		for (int i = 0; i < 3; i++)
+	private void evaluateSurface(double[] uv, Coords p) {
+		for (int i = 0; i < 3; i++){
 			p.set(i + 1, fun[i].evaluate(uv));
+		}
 
-		return p;
 	}
 
 	/*
@@ -166,7 +173,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	// FUNCTIONAL2VAR
 
 	public Coords evaluatePoint(double u, double v) {
-		return evaluateSurface(u, v);
+		Coords p = new Coords(3);
+		evaluateSurface(u, v, p);
+		return p;
 	}
 
 	public Coords evaluateNormal(double u, double v) {

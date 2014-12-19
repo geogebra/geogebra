@@ -16,6 +16,13 @@ public interface SurfaceEvaluable {
 	public Coords evaluatePoint(double u, double v);
 	
 	/**
+	 * @param u first parameter
+	 * @param v second parameter
+	 * @param point point set for parameters u, v
+	 */
+	public void evaluatePoint(double u, double v, Coords point);
+	
+	/**
 	 * @param i index of parameter
 	 * @return minimal value for i-th parameter
 	 */
