@@ -110,7 +110,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		nextSplit = new ArrayList<DrawSurface3D.Corner>();
 		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
 		currentSplit.add(corner);
-		split(4);
+		split(5);
 //		corner.draw(surface);
 		
 		for (CornerAndCenter cc : drawList){
@@ -160,6 +160,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 	private boolean inCullingBox(Coords p) {
+		
 		if ( //(p.isDefined())
 				//&& (p.isFinite())
 				//&&
@@ -169,8 +170,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				&& (p.getY()<cullingBox[3])
 				&& (p.getZ()>cullingBox[4])
 				&& (p.getZ()<cullingBox[5])) {
-			return true;}
-		else {return false;}
+			return true;
+		}
+		
+		return false;
 	}
 	
 	
@@ -184,10 +187,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private void split(int depth){
 		
 		boolean recordNext = depth > 1;
-//		int test = 0;
+//		int test = 1;
 		for (Corner corner : currentSplit){
 			corner.split(recordNext);
-//			corner.split(recordNext && (test % 3 == 0));
+//			corner.split(recordNext && (test % 3 != 0));
 //			test++;
 		}
 		
@@ -211,7 +214,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	
 	protected Coords evaluatePoint(double u, double v){
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
-		return evaluatedPoint.copyVector();
+		if (inCullingBox(evaluatedPoint)){
+			return evaluatedPoint.copyVector();
+		}
+		
+		return Coords.UNDEFINED;
 	}
 	
 	private class Corner{
@@ -345,7 +352,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				nextSplit.add(e);
 				nextSplit.add(m);
 			}else{
-				drawList.add(new CornerAndCenter(this, pm));
+				if (pm.isNotFinalUndefined()){
+					drawList.add(new CornerAndCenter(this, pm));
+				}
 			}
 		
 		}
@@ -367,28 +376,36 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 		
 		public void draw(PlotterSurface surface){
+			
+			this.surface = surface;
+			
 			surface.startTrianglesWireFrame();
-			drawVertices(surface);
+			drawVertices();
 			surface.endGeometry();
 			
 			surface.startTrianglesWireFrameSurface();
-			drawVertices(surface);
+			drawVertices();
 			surface.endGeometry();
-			
 			
 		}
 		
-		private void drawVertices(PlotterSurface surface){
-
+		private PlotterSurface surface;
+		
+		private void drawVertices(){
 			
 			Corner current, sw, ne;
 			
 			// go left
 			current = corner;	
+			p2 = current.p;
 			do{
-				surface.vertex(center);
-				surface.vertex(current.l.p);
-				surface.vertex(current.p);
+				p1 = current.l.p;
+				if (p1.isNotFinalUndefined()){
+					if (p2.isNotFinalUndefined()){
+						drawTriangle();
+					}
+					p2 = p1;
+				}
 				current = current.l;
 			}while(current.a == null);			
 			double u = current.u;
@@ -397,9 +414,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// go above
 			current = corner;	
 			do{
-				surface.vertex(center);
-				surface.vertex(current.p);
-				surface.vertex(current.a.p);
+				p1 = current.p;
+				p2 = current.a.p;
+				drawTriangle();
 				current = current.a;
 			}while(current.l == null);			
 			double v = current.v;
@@ -408,22 +425,31 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// west side
 			current = sw;
 			do{
-				surface.vertex(center);
-				surface.vertex(current.a.p);
-				surface.vertex(current.p);
+				p1 = current.a.p;
+				p2 = current.p;
+				drawTriangle();
 				current = current.a;
 			}while(current.v > v);	
 			
 			// north side
 			current = ne;
 			do{
-				surface.vertex(center);
-				surface.vertex(current.p);
-				surface.vertex(current.l.p);
+				p1 = current.p;
+				p2 = current.l.p;
+				drawTriangle();
 				current = current.l;
 			}while(current.u > u);	
 			
 			
+		}
+		
+
+		private Coords p1, p2;
+		
+		private void drawTriangle(){
+			surface.vertex(center);
+			surface.vertex(p1);
+			surface.vertex(p2);
 		}
 		
 	}
