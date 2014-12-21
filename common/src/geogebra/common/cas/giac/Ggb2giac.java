@@ -70,7 +70,11 @@ public class Ggb2giac {
 				"covariance(%0,%1)");
 		p("Covariance.1",
 				"normal(covariance(%0))");
+		
+		// also in ExpressionNode for d⊗e
 		p("Cross.2", "[[[ggbcrossarg0:=%0], [ggbcrossarg1:=%1]],when(is3dpoint(ggbcrossarg0)||is3dpoint(ggbcrossarg1),point(cross(ggbcrossarg0,ggbcrossarg1)),cross(ggbcrossarg0,ggbcrossarg1))][1]");
+		
+		
 		p("ComplexRoot.1", "normal(cZeros(%0,x))");
 		p("CSolutions.1",
 				"ggbsort([[[ggbcsans:=0/0],[ggbcsans:=%0],[ggbvars:=lname(ggbcsans)]],"+
