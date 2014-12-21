@@ -2462,7 +2462,7 @@ __GGB__keysVar.uk.plain = {
     "Italic": "\u041a\u0443\u0440\u0441\u0438\u0432",
     "JavaScript": "JavaScript",
     "Keyboard": "\u041a\u043b\u0430\u0432\u0456\u0430\u0442\u0443\u0440\u0430",
-    "LaTeXFormula": "LaTeX \u0444\u043e\u0440\u043c\u0443\u043b\u0430",
+    "LaTeXFormula": "LaTeX",
     "LaTeXHelp": "\u0414\u043e\u0432\u0456\u0434\u043a\u0430 LaTeX",
     "Large": "\u0412\u0435\u043b\u0438\u043a\u0438\u0439",
     "LatexFontSize": "\u0420\u043e\u0437\u043c\u0456\u0440 \u0448\u0440\u0438\u0444\u0442\u0443 \u0434\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u0430:",
