@@ -1748,5 +1748,12 @@ public class Coords {
 		return this;
 	}
 
+
+
+	public boolean isNotFinalUndefined() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 }
