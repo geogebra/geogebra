@@ -313,4 +313,8 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 		return isCASVector;
 	}
 
+	public int getDimension() {
+		return 2;
+	}
+
 }

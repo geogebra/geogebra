@@ -739,7 +739,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			} else if (left.evaluatesToVectorNotPoint() && right.evaluatesToVectorNotPoint()) {
 				
-				//App.debug(left.getClass()+" "+right.getClass());
+				//Log.debug(left.getClass()+" "+right.getClass());
 				// eg vectors (1,2)+(3,4)
 				sb.append(leftStr);
 				sb.append("+");
@@ -747,25 +747,65 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			} else if (right instanceof MyVecNDNode && left instanceof MyVecNDNode) {
 				
-				//App.debug(left.getClass()+" "+right.getClass());
-				if (((MyVecNDNode)left).isCASVector()&& ((MyVecNDNode)right).isCASVector()) {
-					// eg (1,2)+(3,4)
+				MyVecNDNode leftVN = (MyVecNDNode) left;
+				MyVecNDNode rightVN = (MyVecNDNode) right;
+				
+				//Log.debug(left.getClass()+" "+right.getClass());
+				
+				boolean leftIsVector = leftVN.isCASVector();
+				boolean rightIsVector = rightVN.isCASVector();
+				
+				if (leftIsVector && rightIsVector) {
+					// Vector + Vector
 					sb.append(leftStr);
 					sb.append("+");
 					sb.append(rightStr);
 					
-				} else {				
-					// eg (1,2)+(3,4)
+				} else if (!leftIsVector && !rightIsVector) {
+					// Point + Point
 					sb.append("point(");
 					sb.append(leftStr);
 					sb.append("+");
 					sb.append(rightStr);
 					sb.append(")");
+				} else {
+					if (leftVN.getDimension() == 3 || rightVN.getDimension() == 3) {
+						sb.append("point(");
+						sb.append("xcoord(");
+						sb.append(leftStr);
+						sb.append(')');
+						sb.append("+");
+						sb.append("xcoord(");
+						sb.append(rightStr);
+						sb.append("),");
+						sb.append("ycoord(");
+						sb.append(leftStr);
+						sb.append(')');
+						sb.append("+");
+						sb.append("ycoord(");
+						sb.append(rightStr);
+						sb.append("),");
+						sb.append("zcoord(");
+						sb.append(leftStr);
+						sb.append(')');
+						sb.append("+");
+						sb.append("zcoord(");
+						sb.append(rightStr);
+						sb.append(")");
+						sb.append(")");
+					} else {
+						sb.append("point(");
+						sb.append(leftStr);
+						sb.append("+");
+						sb.append(rightStr);
+						sb.append(")");
+						
+					}					
 				}
 
 			} else if (isNDvector(right) && isNDvector(left)) {
 				
-				//App.debug(left.getClass()+" "+right.getClass());
+				//Log.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)+(3,4)
 				sb.append("point(");
 				sb.append(leftStr);
@@ -774,7 +814,7 @@ public class StringTemplate implements ExpressionNodeConstants {
 				sb.append(")");
 
 			} else {
-				//App.debug("default method" + left.getClass()+" "+right.getClass());
+				//Log.debug("default method" + left.getClass()+" "+right.getClass());
 
 				sb.append('(');
 				sb.append(leftStr);
@@ -1006,21 +1046,62 @@ public class StringTemplate implements ExpressionNodeConstants {
 
 			} else if (right instanceof MyVecNDNode && left instanceof MyVecNDNode) {
 				
-				//App.debug(left.getClass()+" "+right.getClass());
-				if (((MyVecNDNode)left).isCASVector()&& ((MyVecNDNode)right).isCASVector()) {
-					// eg (1,2)-(3,4)
+				MyVecNDNode leftVN = (MyVecNDNode) left;
+				MyVecNDNode rightVN = (MyVecNDNode) right;
+				
+				//Log.debug(left.getClass()+" "+right.getClass());
+				
+				boolean leftIsVector = leftVN.isCASVector();
+				boolean rightIsVector = rightVN.isCASVector();
+				
+				if (leftIsVector && rightIsVector) {
+					// Vector + Vector
 					sb.append(leftStr);
 					sb.append("-");
 					sb.append(rightStr);
 					
-				} else {				
-					// eg (1,2)-(3,4)
+				} else if (!leftIsVector && !rightIsVector) {
+					// Point + Point
 					sb.append("point(");
 					sb.append(leftStr);
 					sb.append("-");
 					sb.append(rightStr);
 					sb.append(")");
+				} else {
+					if (leftVN.getDimension() == 3 || rightVN.getDimension() == 3) {
+						sb.append("point(");
+						sb.append("xcoord(");
+						sb.append(leftStr);
+						sb.append(')');
+						sb.append("-");
+						sb.append("xcoord(");
+						sb.append(rightStr);
+						sb.append("),");
+						sb.append("ycoord(");
+						sb.append(leftStr);
+						sb.append(')');
+						sb.append("-");
+						sb.append("ycoord(");
+						sb.append(rightStr);
+						sb.append("),");
+						sb.append("zcoord(");
+						sb.append(leftStr);
+						sb.append(')');
+						sb.append("-");
+						sb.append("zcoord(");
+						sb.append(rightStr);
+						sb.append(")");
+						sb.append(")");
+					} else {
+						sb.append("point(");
+						sb.append(leftStr);
+						sb.append("-");
+						sb.append(rightStr);
+						sb.append(")");
+						
+					}					
 				}
+
 
 			} else if (isNDvector(right) && isNDvector(left)) {
 				//App.debug(left.getClass()+" "+right.getClass());

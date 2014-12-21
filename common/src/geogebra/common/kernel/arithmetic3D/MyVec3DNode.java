@@ -381,4 +381,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		return isCASVector;
 	}
 
+	public int getDimension() {
+		return 3;
+	}
+
 }
