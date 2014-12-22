@@ -150,11 +150,22 @@ public class AlgoIntersectLineCurve extends AlgoElement{
 
 		// substitute x = x(t), y=y(t) into
 		// ax + by + c
-		// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
-		ExpressionNode enx = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getX() / coeffs.getZ()), Operation.MULTIPLY, xFun);
-		ExpressionNode eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY() / coeffs.getZ()), Operation.MULTIPLY, yFun);
-		enx = enx.plus(eny).plus(1);
+		ExpressionNode enx, eny;
+		
+		if (Kernel.isZero(coeffs.getZ())) {
+			enx = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getX()), Operation.MULTIPLY, xFun);
+			eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY()), Operation.MULTIPLY, yFun);
+			enx = enx.plus(eny);
 
+		} else {
+			// Normalizing to (a/c)x + (b/c)y + 1 seems to work better
+			enx = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getX() / coeffs.getZ()), Operation.MULTIPLY, xFun);
+			eny = new ExpressionNode(kernel, new MyDouble(kernel, coeffs.getY() / coeffs.getZ()), Operation.MULTIPLY, yFun);
+			enx = enx.plus(eny).plus(1);
+			
+		}
+		
+		
 		// wrap in a function 		
 		GeoFunction geoFun = enx.buildFunction(fv);
 
