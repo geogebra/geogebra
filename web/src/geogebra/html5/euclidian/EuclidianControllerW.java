@@ -431,6 +431,10 @@ LongTouchHandler {
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW, #plotpanelevno
 			// probably both are Okay not changing the toolbar to full Graphics view toolbar
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+		} else {
+			setMode(EuclidianConstants.MODE_MOVE);
+			//app.setMode(EuclidianConstants.MODE_MOVE);
+			//app.getGuiManager().updateToolbar();
 		}
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
@@ -639,6 +643,10 @@ LongTouchHandler {
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW, #plotpanelevno
 			// probably both are Okay not changing the toolbar to full Graphics view toolbar 
 			((GuiManagerInterfaceW)app.getGuiManager()).setActiveToolbarId(App.VIEW_EUCLIDIAN);
+		} else {
+			setMode(EuclidianConstants.MODE_MOVE);
+			//app.setMode(EuclidianConstants.MODE_MOVE);
+			//app.getGuiManager().updateToolbar();
 		}
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)&&(!isTextfieldHasFocus())){
 			DRAGMODE_MUST_BE_SELECTED = true;
