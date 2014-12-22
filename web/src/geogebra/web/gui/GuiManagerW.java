@@ -1283,6 +1283,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			updateToolbar();
 		}
 		this.toolbarID = toolbarID;
+
+		// in theory, it should do not harm to also set mode here:
+		app.set1rstMode();
 	}
 
 	@Override
