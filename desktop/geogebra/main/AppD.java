@@ -491,6 +491,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// set flag to avoid multiple calls of setLabels() and
 		// updateContentPane()
 		initing = true;
+		setFontSize(12);
 
 		// This is needed because otherwise Exception might come and
 		// GeoGebra may exit. (dockPanel not entirely defined)
@@ -605,8 +606,9 @@ public class AppD extends App implements KeyEventDispatcher {
 				e.printStackTrace();
 			}
 		}
-		fontSize = 2 * (fontSize / 2); // ensuring odd number
-		setFontSize(fontSize);
+		// fontSize = 2 * (fontSize / 2); // ensuring odd number
+		// setFontSize(fontSize);
+
 		// needed for JavaScript getCommandName(), getValueString() to work
 		// (security problem running non-locally)
 		if (isApplet) {
