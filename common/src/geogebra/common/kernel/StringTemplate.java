@@ -17,6 +17,7 @@ import geogebra.common.util.NumberFormatAdapter;
 import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.common.util.debug.Log;
 /**
  * StringTemplate provides a container for all settings we might need
  * when serializing ExpressionValues to screen / XML / CAS input / export.
@@ -803,10 +804,19 @@ public class StringTemplate implements ExpressionNodeConstants {
 					}					
 				}
 
+			} else if (right.evaluatesToNonComplex2DVector() && left.evaluatesToNonComplex2DVector()) {
+				// eg f: (x, y) = (3, 2) + t (5, 1)
+				sb.append("point(");
+				sb.append(leftStr);
+				sb.append("+");
+				sb.append(rightStr);
+				sb.append(')');
+				
 			} else if (isNDvector(right) && isNDvector(left)) {
 				
-				//Log.debug(left.getClass()+" "+right.getClass());
+				Log.debug(left.getClass()+" "+right.getClass());
 				// eg Evaluate[(1,2,3)+Vector[(10,20,30)]]
+				// eg f: (x, y, z) = (3, 2, 1) + t (5, 1, -3)
 				sb.append("point(");
 				sb.append("xcoord(");
 				sb.append(leftStr);
@@ -1121,9 +1131,18 @@ public class StringTemplate implements ExpressionNodeConstants {
 				}
 
 
+			} else if (right.evaluatesToNonComplex2DVector() && left.evaluatesToNonComplex2DVector()) {
+				// eg f: (x, y) = (3, 2) - t (5, 1)
+				sb.append("point(");
+				sb.append(leftStr);
+				sb.append("-");
+				sb.append(rightStr);
+				sb.append(')');
+				
 			} else if (isNDvector(right) && isNDvector(left)) {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
+				// eg f: (x, y, z) = (3, 2, 1) - t (5, 1, -3)
 				sb.append("point(");
 				sb.append("xcoord(");
 				sb.append(leftStr);
