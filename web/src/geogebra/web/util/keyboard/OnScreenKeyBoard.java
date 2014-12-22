@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
  */
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
-	protected static OnScreenKeyBoard instance;
+	private static OnScreenKeyBoard instance;
 	private FlowPanel content = new FlowPanel();
 	private AutoCompleteTextFieldW textField;
 
@@ -39,6 +39,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public boolean enablePositioning = false;
 	private GGWFrameLayoutPanel frameLayoutPanel;
 
+	/**
+	 * creates a keyboard instance
+	 * 
+	 * @param textField the textField to receive the key-events
+	 * @param frameLayoutPanel
+	 * @return instance of onScreenKeyBoard
+	 */
 	public static OnScreenKeyBoard getInstance(
 	        AutoCompleteTextFieldW textField,
 	        GGWFrameLayoutPanel frameLayoutPanel) {
@@ -50,7 +57,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		return instance;
 	}
 
-	protected OnScreenKeyBoard() {
+	/**
+	 * should not be called; use getInstance instead
+	 */
+	private OnScreenKeyBoard() {
 		super(true);
 		addStyleName("KeyBoard");
 		createKeyBoard();
@@ -63,6 +73,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 	}
 
+	/**
+	 * Enter-key was pressed
+	 */
 	public void onEnter() {
 		NativeEvent event = Document.get().createKeyUpEvent(false, false,
 		        false, false, 13);
@@ -70,7 +83,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		this.hide();
 	}
 
-	protected void createKeyBoard() {
+	private void createKeyBoard() {
 		String[] icons = new String[] { "a²", "a³", "a^b", "x", "y", "z", // first
 		        // line
 		        "(", ")", "[", "]", "<", ">", // second line
@@ -167,6 +180,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		return mode == KeyboardMode.TEXT;
 	}
 
+	/**
+	 * set the keyboard state to the default state
+	 */
 	public void resetKeyboardState() {
 		mode = KeyboardMode.NUMBER;
 		content.setVisible(true);

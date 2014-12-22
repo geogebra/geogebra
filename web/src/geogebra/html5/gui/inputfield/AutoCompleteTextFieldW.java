@@ -80,6 +80,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	 */
 	private static final int ENTER = 13;
 
+	/**
+	 * code for FocusEvent
+	 */
+	private static final int FOCUS = 0x00800;
+
 	private AppW app;
 	private Localization loc;
 	private StringBuilder curWord;
@@ -181,7 +186,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 
 			@Override
 			public void onBrowserEvent(Event event) {
-			    super.onBrowserEvent(event);
+				if(showOnScreenKeyBoard && DOM.eventGetType(event) == FOCUS){
+			    	requestFocus();
+			    } else {
+			    	super.onBrowserEvent(event);
+			    }
 
 			    // react on enter from system on screen keyboard or hardware keyboard
 			    if(DOM.eventGetType(event) == KEY_UP && event.getKeyCode() == ENTER){
@@ -1409,9 +1418,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
     public void requestFocus() {
 		if(showOnScreenKeyBoard) {
 			app.showKeyboard(this);
+		} else {
+			textField.setFocus(true);
 		}
-		// set focus only if onScreenKeyBoard is not shown
-		textField.setFocus(!showOnScreenKeyBoard);
+
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
 			app.getSelectionManager().addSelectedGeo(geoUsedForInputBox);
@@ -1471,12 +1481,12 @@ public class AutoCompleteTextFieldW extends FlowPanel implements
 	}
 
 	/**
-	 * @param hanlder
+	 * @param handler
 	 * Adds a focus handler to the wrapped textfield.
 	 */
 	public HandlerRegistration addFocusHandler(
-            FocusHandler hanlder) {
-	    return textField.getValueBox().addFocusHandler(hanlder);
+            FocusHandler handler) {
+	    return textField.getValueBox().addFocusHandler(handler);
 	    
     }
 
