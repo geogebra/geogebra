@@ -806,11 +806,29 @@ public class StringTemplate implements ExpressionNodeConstants {
 			} else if (isNDvector(right) && isNDvector(left)) {
 				
 				//Log.debug(left.getClass()+" "+right.getClass());
-				// eg (1,2)+(3,4)
+				// eg Evaluate[(1,2,3)+Vector[(10,20,30)]]
 				sb.append("point(");
+				sb.append("xcoord(");
 				sb.append(leftStr);
+				sb.append(')');
 				sb.append("+");
+				sb.append("xcoord(");
 				sb.append(rightStr);
+				sb.append("),");
+				sb.append("ycoord(");
+				sb.append(leftStr);
+				sb.append(')');
+				sb.append("+");
+				sb.append("ycoord(");
+				sb.append(rightStr);
+				sb.append("),");
+				sb.append("zcoord(");
+				sb.append(leftStr);
+				sb.append(')');
+				sb.append("+");
+				sb.append("zcoord(");
+				sb.append(rightStr);
+				sb.append(")");
 				sb.append(")");
 
 			} else {
@@ -1107,9 +1125,27 @@ public class StringTemplate implements ExpressionNodeConstants {
 				//App.debug(left.getClass()+" "+right.getClass());
 				// eg (1,2)-(3,4)
 				sb.append("point(");
+				sb.append("xcoord(");
 				sb.append(leftStr);
+				sb.append(')');
 				sb.append("-");
+				sb.append("xcoord(");
 				sb.append(rightStr);
+				sb.append("),");
+				sb.append("ycoord(");
+				sb.append(leftStr);
+				sb.append(')');
+				sb.append("-");
+				sb.append("ycoord(");
+				sb.append(rightStr);
+				sb.append("),");
+				sb.append("zcoord(");
+				sb.append(leftStr);
+				sb.append(')');
+				sb.append("-");
+				sb.append("zcoord(");
+				sb.append(rightStr);
+				sb.append(")");
 				sb.append(")");
 
 			} else {
