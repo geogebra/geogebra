@@ -8480,12 +8480,13 @@ public abstract class EuclidianController {
 			// if(panel != null) {
 			// app.getGuiManager().getLayout().getDockManager().setFocusedPanel(panel);
 			// }
-			app.getGuiManager().setFocusedPanel(event,false);		
+			app.getGuiManager().setFocusedPanel(event,false);
 			app.getGuiManager().mousePressedForPropertiesView();
-			
+			if (getViewID() == EuclidianView.EVNO_GENERAL) {
+				setMode(EuclidianConstants.MODE_MOVE);
+			}
 		}
-		
-		
+
 		setMouseLocation(event);
 	
 		if (handleMousePressedForViewButtons()) {
