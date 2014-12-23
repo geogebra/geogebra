@@ -4,11 +4,7 @@ import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.menubar.MainMenu;
 
-import com.google.gwt.event.logical.shared.CloseEvent;
-import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -49,33 +45,12 @@ public class ExamLookAndFeel extends GLookAndFeel{
 	 * (makes no sense for SMART widget)
 	 */
 	public void addWindowClosingHandler(final AppW app) {
-		// popup when the user wants to exit accidentally
-        this.windowClosingHandler = Window.addWindowClosingHandler(new Window.ClosingHandler() {
-            public void onWindowClosing(ClosingEvent event) {
-            	event.setMessage(app.getLocalization().getPlain("CloseApplicationLoseUnsavedData"));
-            }
-        });
-        
-        if (this.windowCloseHandler == null) {
-            //onClose is called, if user leaves the page correct
-            //not called if browser crashes
-            this.windowCloseHandler = Window.addCloseHandler(new CloseHandler<Window>() {
-    			
-    			@Override
-    			public void onClose(CloseEvent<Window> event) {
-    				app.getFileManager().deleteAutoSavedFile();
-    			}
-    		});
-        }
 	}
 
 	/**
 	 * removes the {@link com.google.gwt.user.client.Window.ClosingHandler}
 	 */
 	public void removeWindowClosingHandler() {
-		if (this.windowClosingHandler != null) {
-			this.windowClosingHandler.removeHandler();
-		}
 	}
 	
 	/**

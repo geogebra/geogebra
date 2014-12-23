@@ -102,6 +102,10 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 		toolBarPanel.addStyleName("toolbarPanel");
+		final boolean exam = ((AppW)app).getLAF().isExam();
+		if (exam) {
+			toolBarPanel.addStyleName("toolbarPanelExam");
+		}
 		toolBPanel.setStyleName("toolBPanel");
 		
 		//toolBarPanel.setSize("100%", "100%");
