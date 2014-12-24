@@ -406,8 +406,8 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	private native double getNativeDelta(NativeEvent evt) /*-{
-	                                                      return -evt.wheelDelta;
-	                                                      }-*/;
+		return -evt.wheelDelta;
+	}-*/;
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {
@@ -419,8 +419,8 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		// hide dialogs if they are open
 		int x = event.getClientX() + Window.getScrollLeft();
 		int y = event.getClientY() + Window.getScrollTop(); // why scrollLeft &
-															// scrollTop; see
-															// ticket #4049
+		                                                    // scrollTop; see
+		                                                    // ticket #4049
 
 		int ex = ((EuclidianView3DW) view).getAbsoluteLeft();
 		int ey = ((EuclidianView3DW) view).getAbsoluteTop();
