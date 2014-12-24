@@ -172,51 +172,64 @@ public class AlgoAreConcyclic extends AlgoElement implements
 			int[] degree4 = inputPoint4.getDegrees();
 
 			int[] degree = new int[1];
-			degree[0]=Math.max(degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[0],
-							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[0],
-							Math.max( degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[1],
-							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[1],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[0] + degree3[0] +   degree3[2],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[1] + degree3[0] +   degree3[2],
-							Math.max( 2*degree1[0] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
-							Math.max( 2*degree1[1] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
-							Math.max( 2*degree1[2] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[2] + degree3[0] +   degree3[2],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[0] + degree3[1] +   degree3[2],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[1] + degree3[1] +   degree3[2],
-							Math.max( 2*degree1[0] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
-							Math.max( 2*degree1[1] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
-							Math.max( 2*degree1[2] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[2] + degree3[1] +   degree3[2],
-							Math.max( degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[2],
-							Math.max( degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[2],
-							Math.max(2*degree4[0],
-							Math.max( 2*degree1[2] + degree2[1] + degree2[2] + 2*degree3[0] +   degree4[0],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[2] + 2*degree3[0] +   degree4[0],
-							Math.max( 2*degree1[2] + degree2[1] + degree2[2] + 2*degree3[1] +   degree4[0],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[2] + 2*degree3[1] +   degree4[0],
-							Math.max( 2*degree1[2] + 2*degree2[0] + degree3[1] + degree3[2] +   degree4[0],
-							Math.max( 2*degree1[2] + 2*degree2[1] + degree3[1] + degree3[2] +   degree4[0],
-							Math.max( 2*degree1[0] + 2*degree2[2] + degree3[1] + degree3[2] +   degree4[0],
-							Math.max( 2*degree1[1] + 2*degree2[2] + degree3[1] + degree3[2] +   degree4[0],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[0] + 2*degree3[2] +   degree4[0],
-							Math.max( degree1[1] + degree1[2] + 2*degree2[1] + 2*degree3[2] +   degree4[0],
-							Math.max( 2*degree1[0] + degree2[1] + degree2[2] + 2*degree3[2] +   degree4[0],
-							Math.max( 2*degree1[1] + degree2[1] + degree2[2] + 2*degree3[2] +   degree4[0],
-							Math.max(2*degree4[1],
-							Math.max( 2*degree1[2] + degree2[0] + degree2[2] + 2*degree3[0] +   degree4[1],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[2] + 2*degree3[0] +   degree4[1],
-							Math.max( 2*degree1[2] + degree2[0] + degree2[2] + 2*degree3[1] +   degree4[1],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[2] + 2*degree3[1] +   degree4[1],
-							Math.max( 2*degree1[2] + 2*degree2[0] + degree3[0] + degree3[2] +   degree4[1],
-							Math.max( 2*degree1[2] + 2*degree2[1] + degree3[0] + degree3[2] +   degree4[1],
-							Math.max( 2*degree1[0] + 2*degree2[2] + degree3[0] + degree3[2] +   degree4[1],
-							Math.max( 2*degree1[1] + 2*degree2[2] + degree3[0] + degree3[2] +   degree4[1],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[0] + 2*degree3[2] +   degree4[1],
-							Math.max( degree1[0] + degree1[2] + 2*degree2[1] + 2*degree3[2] +   degree4[1],
-							Math.max( 2*degree1[0] + degree2[0] + degree2[2] + 2*degree3[2] +   degree4[1],
-							Math.max( 2*degree1[1] + degree2[0] + degree2[2] + 2*degree3[2] +   degree4[1],
-							Math.max(degree4[2], 2*degree4[2])))))))))))))))))))))))))))))))))))))))))))));
+			
+			int[] list = {degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[0],
+							degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[0],
+							degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[1],
+							degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[1],
+							degree1[1] + degree1[2] + 2*degree2[0] + degree3[0] +   degree3[2],
+							degree1[1] + degree1[2] + 2*degree2[1] + degree3[0] +   degree3[2],
+							2*degree1[0] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
+							2*degree1[1] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
+							2*degree1[2] + degree2[1] + degree2[2] + degree3[0] +   degree3[2],
+							degree1[1] + degree1[2] + 2*degree2[2] + degree3[0] +   degree3[2],
+							degree1[0] + degree1[2] + 2*degree2[0] + degree3[1] +   degree3[2],
+							degree1[0] + degree1[2] + 2*degree2[1] + degree3[1] +   degree3[2],
+							2*degree1[0] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
+							2*degree1[1] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
+							2*degree1[2] + degree2[0] + degree2[2] + degree3[1] +   degree3[2],
+							degree1[0] + degree1[2] + 2*degree2[2] + degree3[1] +   degree3[2],
+							degree1[1] + degree1[2] + degree2[0] + degree2[2] +   2*degree3[2],
+							degree1[0] + degree1[2] + degree2[1] + degree2[2] +   2*degree3[2],
+							2*degree4[0],
+							2*degree1[2] + degree2[1] + degree2[2] + 2*degree3[0] +   degree4[0],
+							degree1[1] + degree1[2] + 2*degree2[2] + 2*degree3[0] +   degree4[0],
+							2*degree1[2] + degree2[1] + degree2[2] + 2*degree3[1] +   degree4[0],
+							degree1[1] + degree1[2] + 2*degree2[2] + 2*degree3[1] +   degree4[0],
+							2*degree1[2] + 2*degree2[0] + degree3[1] + degree3[2] +   degree4[0],
+							2*degree1[2] + 2*degree2[1] + degree3[1] + degree3[2] +   degree4[0],
+							2*degree1[0] + 2*degree2[2] + degree3[1] + degree3[2] +   degree4[0],
+							2*degree1[1] + 2*degree2[2] + degree3[1] + degree3[2] +   degree4[0],
+							degree1[1] + degree1[2] + 2*degree2[0] + 2*degree3[2] +   degree4[0],
+							degree1[1] + degree1[2] + 2*degree2[1] + 2*degree3[2] +   degree4[0],
+							2*degree1[0] + degree2[1] + degree2[2] + 2*degree3[2] +   degree4[0],
+							2*degree1[1] + degree2[1] + degree2[2] + 2*degree3[2] +   degree4[0],
+							2*degree4[1],
+							 2*degree1[2] + degree2[0] + degree2[2] + 2*degree3[0] +   degree4[1],
+							degree1[0] + degree1[2] + 2*degree2[2] + 2*degree3[0] +   degree4[1],
+							2*degree1[2] + degree2[0] + degree2[2] + 2*degree3[1] +   degree4[1],
+							degree1[0] + degree1[2] + 2*degree2[2] + 2*degree3[1] +   degree4[1],
+							2*degree1[2] + 2*degree2[0] + degree3[0] + degree3[2] +   degree4[1],
+							2*degree1[2] + 2*degree2[1] + degree3[0] + degree3[2] +   degree4[1],
+							 2*degree1[0] + 2*degree2[2] + degree3[0] + degree3[2] +   degree4[1],
+							2*degree1[1] + 2*degree2[2] + degree3[0] + degree3[2] +   degree4[1],
+							degree1[0] + degree1[2] + 2*degree2[0] + 2*degree3[2] +   degree4[1],
+							degree1[0] + degree1[2] + 2*degree2[1] + 2*degree3[2] +   degree4[1],
+							2*degree1[0] + degree2[0] + degree2[2] + 2*degree3[2] +   degree4[1],
+							2*degree1[1] + degree2[0] + degree2[2] + 2*degree3[2] +   degree4[1],
+							degree4[2], 2*degree4[2]};
+			
+			// find max of list
+			int max = list[0];
+			for (int i = 1 ; i < list.length ; i++) {
+				if (list[i] > max) {
+					max = list[i];
+				}
+			}
+			
+			degree[0]=max;
+
+			
 			return degree;
 		}
 		throw new NoSymbolicParametersException();
