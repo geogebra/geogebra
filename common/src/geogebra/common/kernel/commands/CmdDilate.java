@@ -68,7 +68,6 @@ public class CmdDilate extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
 
 	/**
 	 * dilate geoRot by r from origin
@@ -78,21 +77,23 @@ public class CmdDilate extends CommandProcessor {
 		Transform t = new TransformDilate(cons, r);
 		return t.transform(geoDil, label);
 	}
-	
+
 	/**
 	 * 
-	 * @param label label
-	 * @param geoDil dilated geo
-	 * @param r number value
-	 * @param point point
+	 * @param label
+	 *            label
+	 * @param geoDil
+	 *            dilated geo
+	 * @param r
+	 *            number value
+	 * @param point
+	 *            point
 	 * @return result of dilate of geoDil about r, point
 	 */
 	protected GeoElement[] Dilate(String label, GeoElement geoDil,
 			NumberValue r, GeoElement point) {
-		
+
 		return getAlgoDispatcher().Dilate(label, geoDil, r, (GeoPoint) point);
 	}
-	
-	
 
 }

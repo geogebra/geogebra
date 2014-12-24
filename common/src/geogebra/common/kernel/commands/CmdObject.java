@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *Object
+ * Object
  */
 public class CmdObject extends CommandProcessor {
 	/**

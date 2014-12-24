@@ -36,22 +36,25 @@ public class CmdParabola extends CommandProcessor {
 				GeoElement[] ret = { parabola(c.getLabel(),
 						(GeoPointND) arg[0], (GeoLineND) arg[1]) };
 				return ret;
-			} 
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param label label
-	 * @param a point
-	 * @param d line
+	 * @param label
+	 *            label
+	 * @param a
+	 *            point
+	 * @param d
+	 *            line
 	 * @return point-line parabola
 	 */
-	protected GeoElement parabola(String label, GeoPointND a, GeoLineND d){
+	protected GeoElement parabola(String label, GeoPointND a, GeoLineND d) {
 		return getAlgoDispatcher().Parabola(label, a, d);
 	}
 }

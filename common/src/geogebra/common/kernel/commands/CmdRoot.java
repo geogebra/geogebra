@@ -41,9 +41,8 @@ public class CmdRoot extends CommandProcessor {
 		// roots of polynomial
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0].isGeoFunctionable())){				
-				GeoFunction gf = ((GeoFunctionable) arg[0])
-						.getGeoFunction();
+			if ((arg[0].isGeoFunctionable())) {
+				GeoFunction gf = ((GeoFunctionable) arg[0]).getGeoFunction();
 				return Root(c, gf);
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -53,16 +52,15 @@ public class CmdRoot extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoFunctionable())
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
+
 				AlgoRootNewton algo = new AlgoRootNewton(cons, c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
-			} 
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
-			
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 			// root in interval
 		case 3:
@@ -70,15 +68,16 @@ public class CmdRoot extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoFunctionable()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				
-				AlgoRootInterval algo = new AlgoRootInterval(cons, c.getLabel(),
+
+				AlgoRootInterval algo = new AlgoRootInterval(cons,
+						c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getRootPoint() };
 				return ret;
-			} 
-				throw argErr(app, c.getName(), getBadArg(ok,arg));
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -90,25 +89,26 @@ public class CmdRoot extends CommandProcessor {
 	 * can be simplified to factors of polynomials, e.g. sqrt(x) to x)
 	 */
 	final private GeoPoint[] Root(Command c, GeoFunction f) {
-		
+
 		// special case for If
 		// non-polynomial -> undefined
 		ExpressionNode exp = f.getFunctionExpression();
 		if (exp.getOperation().equals(Operation.IF)) {
-			
-			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(cons, c.getLabels(),
-					f);
+
+			AlgoRootsPolynomialInterval algo = new AlgoRootsPolynomialInterval(
+					cons, c.getLabels(), f);
 			GeoPoint[] g = algo.getRootPoints();
 			return g;
 
 		}
-		
+
 		// allow functions that can be simplified to factors of polynomials
-		if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(true) && f.isDefined())
+		if (!f.getConstruction().isFileLoading()
+				&& !f.isPolynomialFunction(true) && f.isDefined())
 			throw argErr(app, c.getName(), f);
 
-
-		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(), f);
+		AlgoRootsPolynomial algo = new AlgoRootsPolynomial(cons, c.getLabels(),
+				f);
 		GeoPoint[] g = algo.getRootPoints();
 		return g;
 	}

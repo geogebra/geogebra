@@ -15,13 +15,14 @@ import geogebra.common.kernel.discrete.CmdTravelingSalesman;
 import geogebra.common.kernel.discrete.CmdVoronoi;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ * class to split off some CmdXXX classes into another jar (for faster applet
+ * loading)
  *
  */
 public class CommandDispatcherDiscrete implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel){
-		switch(c){
-		
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+		switch (c) {
+
 		case TriangleCenter:
 			return new CmdKimberling(kernel);
 		case Barycenter:

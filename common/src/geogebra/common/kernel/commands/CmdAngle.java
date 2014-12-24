@@ -20,7 +20,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.main.MyError;
 
-
 /**
  * Angle[ number ] Angle[ <GeoPolygon> ] Angle[ <GeoConic> ] Angle[ <GeoVector>
  * ] Angle[ <GeoPoint> ] Angle[ <GeoVector>, <GeoVector> ] Angle[ <GeoLine>,
@@ -43,19 +42,24 @@ public class CmdAngle extends CommandProcessor {
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-		
-		return process(c,n,ok);
+
+		return process(c, n, ok);
 	}
 
 	/**
 	 * 
-	 * @param c command
-	 * @param n arguments length
-	 * @param ok ok check
+	 * @param c
+	 *            command
+	 * @param n
+	 *            arguments length
+	 * @param ok
+	 *            ok check
 	 * @return result
-	 * @throws MyError argument / length error
+	 * @throws MyError
+	 *             argument / length error
 	 */
-	protected GeoElement[] process(Command c, int n, boolean ok[]) throws MyError {
+	protected GeoElement[] process(Command c, int n, boolean ok[])
+			throws MyError {
 
 		GeoElement[] arg;
 
@@ -98,16 +102,16 @@ public class CmdAngle extends CommandProcessor {
 			}
 			// angle from number
 			else if (arg[0].isGeoNumeric()) {
-				
-				AlgoAngleNumeric algo = new AlgoAngleNumeric(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+
+				AlgoAngleNumeric algo = new AlgoAngleNumeric(cons,
+						c.getLabel(), (GeoNumeric) arg[0]);
 
 				GeoElement[] ret = { algo.getAngle() };
 				return ret;
 			}
 			// angle from number
 			else if (arg[0].isGeoPoint() || arg[0].isGeoVector()) {
-				
+
 				return anglePointOrVector(c.getLabel(), arg[0]);
 			}
 			// angle of conic or polygon
@@ -123,10 +127,10 @@ public class CmdAngle extends CommandProcessor {
 
 		case 2:
 			arg = resArgs(c);
-			
+
 			GeoElement[] ret = process2(c, arg, ok);
-			
-			if (ret != null){
+
+			if (ret != null) {
 				return ret;
 			}
 
@@ -136,170 +140,192 @@ public class CmdAngle extends CommandProcessor {
 			}
 			throw argErr(app, c.getName(), arg[0]);
 
-
 		case 3:
 			arg = resArgs(c);
-			
+
 			ret = process3(c, arg, ok);
-			
-			if (ret != null){
+
+			if (ret != null) {
 				return ret;
 			}
 
 			// syntax error
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
-
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * process angle when 2 arguments
-	 * @param c command
-	 * @param arg arguments
-	 * @param ok ok array
+	 * 
+	 * @param c
+	 *            command
+	 * @param arg
+	 *            arguments
+	 * @param ok
+	 *            ok array
 	 * @return result (if one)
 	 */
-	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
-		
+	protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok) {
+
 		GeoElement arg0 = arg[0];
 		GeoElement arg1 = arg[1];
-		
+
 		if (arg0.isGeoPoint()) {
 			arg0 = kernelA.wrapInVector((GeoPointND) arg0);
 		}
-		
+
 		if (arg1.isGeoPoint()) {
 			arg1 = kernelA.wrapInVector((GeoPointND) arg1);
 		}
-		
-		
+
 		// angle between vectors
-		if ((ok[0] = (arg0.isGeoVector()))
-				&& (ok[1] = (arg0.isGeoVector()))) {
+		if ((ok[0] = (arg0.isGeoVector())) && (ok[1] = (arg0.isGeoVector()))) {
 			return angle(c.getLabel(), (GeoVectorND) arg0, (GeoVectorND) arg1);
 		}
-		
+
 		// angle between lines
-		if ((ok[0] = (arg[0].isGeoLine()))
-				&& (ok[1] = (arg[1].isGeoLine()))) {
+		if ((ok[0] = (arg[0].isGeoLine())) && (ok[1] = (arg[1].isGeoLine()))) {
 			return angle(c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]);
 		}
 
 		return null;
 	}
-	
+
 	/**
 	 * process angle when 3 arguments
-	 * @param c command
-	 * @param arg arguments
-	 * @param ok ok array
+	 * 
+	 * @param c
+	 *            command
+	 * @param arg
+	 *            arguments
+	 * @param ok
+	 *            ok array
 	 * @return result (if one)
 	 */
-	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok){
+	protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok) {
 
 		// angle between three points
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoPoint()))
+		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
-			return angle(c.getLabel(),
-					(GeoPointND) arg[0], (GeoPointND) arg[1],
-					(GeoPointND) arg[2]);
+			return angle(c.getLabel(), (GeoPointND) arg[0],
+					(GeoPointND) arg[1], (GeoPointND) arg[2]);
 		}
-		
+
 		// fixed angle
-		if ((ok[0] = (arg[0].isGeoPoint()))
-				&& (ok[1] = (arg[1].isGeoPoint()))
+		if ((ok[0] = (arg[0].isGeoPoint())) && (ok[1] = (arg[1].isGeoPoint()))
 				&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 			return angle(c.getLabels(), (GeoPointND) arg[0],
 					(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
-		} 
+		}
 
 		return null;
 	}
-	
+
 	/**
 	 * fixed angle
-	 * @param labels labels
-	 * @param p1 point to rotate
-	 * @param p2 center
-	 * @param a angle
+	 * 
+	 * @param labels
+	 *            labels
+	 * @param p1
+	 *            point to rotate
+	 * @param p2
+	 *            center
+	 * @param a
+	 *            angle
 	 * @return angle and rotated point
 	 */
-	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2, GeoNumberValue a){
-		return getAlgoDispatcher().Angle(labels, (GeoPoint) p1, (GeoPoint) p2, a, true);
+	protected GeoElement[] angle(String[] labels, GeoPointND p1, GeoPointND p2,
+			GeoNumberValue a) {
+		return getAlgoDispatcher().Angle(labels, (GeoPoint) p1, (GeoPoint) p2,
+				a, true);
 	}
-	
-	
+
 	/**
-	 * @param label label
-	 * @param p1 first point
-	 * @param p2 second point
-	 * @param p3 third point
+	 * @param label
+	 *            label
+	 * @param p1
+	 *            first point
+	 * @param p2
+	 *            second point
+	 * @param p3
+	 *            third point
 	 * @return angle between 3 points
 	 */
-	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2, GeoPointND p3){
-		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoPoint) p1, (GeoPoint) p2, (GeoPoint) p3) };
+	protected GeoElement[] angle(String label, GeoPointND p1, GeoPointND p2,
+			GeoPointND p3) {
+		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoPoint) p1,
+				(GeoPoint) p2, (GeoPoint) p3) };
 		return ret;
 	}
-	
-	
+
 	/**
-	 * @param label label
-	 * @param g first line
-	 * @param h second line
+	 * @param label
+	 *            label
+	 * @param g
+	 *            first line
+	 * @param h
+	 *            second line
 	 * @return angle between lines
 	 */
-	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h){
-		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoLine) g, (GeoLine) h) };
+	protected GeoElement[] angle(String label, GeoLineND g, GeoLineND h) {
+		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoLine) g,
+				(GeoLine) h) };
 		return ret;
 	}
-	
-	
+
 	/**
-	 * @param label label
-	 * @param v first vector
-	 * @param w second vector
+	 * @param label
+	 *            label
+	 * @param v
+	 *            first vector
+	 * @param w
+	 *            second vector
 	 * @return angle between vectors
 	 */
-	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w){
-		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoVector) v, (GeoVector) w) };
+	protected GeoElement[] angle(String label, GeoVectorND v, GeoVectorND w) {
+		GeoElement[] ret = { getAlgoDispatcher().Angle(label, (GeoVector) v,
+				(GeoVector) w) };
 		return ret;
 	}
-	
+
 	/**
-	 * @param label label
-	 * @param v vector or point
+	 * @param label
+	 *            label
+	 * @param v
+	 *            vector or point
 	 * @return angle between Ox and vector/point
 	 */
-	protected GeoElement[] anglePointOrVector(String label, GeoElement v){
+	protected GeoElement[] anglePointOrVector(String label, GeoElement v) {
 		AlgoAngleVector algo = new AlgoAngleVector(cons, label, (GeoVec3D) v);
 		GeoElement[] ret = { algo.getAngle() };
 		return ret;
 	}
-	
-	
+
 	/**
-	 * @param label label
-	 * @param c conic
+	 * @param label
+	 *            label
+	 * @param c
+	 *            conic
 	 * @return angle between Ox and conic first eigen vector
 	 */
-	protected GeoElement[] angle(String label, GeoConicND c){
+	protected GeoElement[] angle(String label, GeoConicND c) {
 		AlgoAngleConic algo = new AlgoAngleConic(cons, label, (GeoConic) c);
 		GeoElement[] ret = { algo.getAngle() };
 		return ret;
 	}
-	
+
 	/**
-	 * @param labels label
-	 * @param p polygon
+	 * @param labels
+	 *            label
+	 * @param p
+	 *            polygon
 	 * @return angles of the polygon
 	 */
-	protected GeoElement[] angle(String[] labels, GeoPolygon p){
+	protected GeoElement[] angle(String[] labels, GeoPolygon p) {
 		return getAlgoDispatcher().Angles(labels, p);
 	}
-	
-	
+
 }

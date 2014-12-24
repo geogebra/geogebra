@@ -44,8 +44,8 @@ public class CmdDiameter extends CommandProcessor {
 			// diameter line conjugate to line relative to conic
 			if ((ok[0] = (arg[0].isGeoLine()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				GeoElement[] ret = { diameter(c.getLabel(),
-						(GeoLineND) arg[0], (GeoConicND) arg[1]) };
+				GeoElement[] ret = { diameter(c.getLabel(), (GeoLineND) arg[0],
+						(GeoConicND) arg[1]) };
 				return ret;
 			}
 			if (!ok[0])
@@ -56,26 +56,32 @@ public class CmdDiameter extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param label label
-	 * @param l line
-	 * @param c conic
+	 * @param label
+	 *            label
+	 * @param l
+	 *            line
+	 * @param c
+	 *            conic
 	 * @return diameter line
 	 */
-	protected GeoElement diameter(String label, GeoLineND l, GeoConicND c){
-		return  getAlgoDispatcher().DiameterLine(label, l, c);
+	protected GeoElement diameter(String label, GeoLineND l, GeoConicND c) {
+		return getAlgoDispatcher().DiameterLine(label, l, c);
 	}
-	
+
 	/**
 	 * 
-	 * @param label label
-	 * @param v vector
-	 * @param c conic
+	 * @param label
+	 *            label
+	 * @param v
+	 *            vector
+	 * @param c
+	 *            conic
 	 * @return diameter line
 	 */
-	protected GeoElement diameter(String label, GeoVectorND v, GeoConicND c){
-		return  getAlgoDispatcher().DiameterLine(label, v, c);
+	protected GeoElement diameter(String label, GeoVectorND v, GeoConicND c) {
+		return getAlgoDispatcher().DiameterLine(label, v, c);
 	}
 }

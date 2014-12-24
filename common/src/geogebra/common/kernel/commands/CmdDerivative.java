@@ -48,11 +48,13 @@ public class CmdDerivative extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 2:
-			boolean suppress = cons.isSuppressLabelsActive(); //we need to reset this later #2356			
+			boolean suppress = cons.isSuppressLabelsActive(); // we need to
+																// reset this
+																// later #2356
 			try {
 				arg = resArgs(c);
 				// Derivative[ f(x), 2]
-				if ((arg[0].isGeoFunction()||arg[0].isGeoCurveCartesian())
+				if ((arg[0].isGeoFunction() || arg[0].isGeoCurveCartesian())
 						&& arg[1] instanceof GeoNumberValue) {
 					double order = ((GeoNumberValue) arg[1]).getDouble();
 
@@ -64,7 +66,7 @@ public class CmdDerivative extends CommandProcessor {
 						if (arg[1].getParentAlgorithm() == null) {
 							// Derivative[f,n] -> don't want f'' for name
 							// Derivative[f,2] -> do want f'' for name
-							constant = !arg[1].isLabelSet(); 
+							constant = !arg[1].isLabelSet();
 						} else {
 							// eg Derivative[f,n+2] -> don't want f'''' for name
 							constant = false;
@@ -92,15 +94,16 @@ public class CmdDerivative extends CommandProcessor {
 				if (arg2[0] instanceof CasEvaluableFunction
 						&& arg2[1].isGeoNumeric()) {
 
-					CasEvaluableFunction f = (CasEvaluableFunction)arg2[0];
+					CasEvaluableFunction f = (CasEvaluableFunction) arg2[0];
 					FunctionVariable[] vars = f.getFunctionVariables();
 
 					String var = arg2[1].getLabelSimple();
 
-					// distinguish between Derivative[ f, a] and Derivative[ f, p] for f(a,b) = a + b and slider 'p'
+					// distinguish between Derivative[ f, a] and Derivative[ f,
+					// p] for f(a,b) = a + b and slider 'p'
 					boolean ok = false;
 					if (vars != null) {
-						for (int i = 0 ; i < vars.length ; i++) {
+						for (int i = 0; i < vars.length; i++) {
 							if (vars[i].getSetVarString().equals(var)) {
 								ok = true;
 								break;
@@ -113,7 +116,7 @@ public class CmdDerivative extends CommandProcessor {
 								(CasEvaluableFunction) arg2[0], // function
 								(GeoNumeric) arg2[1], null) }; // var
 						return ret;
-					}  // else fall through
+					} // else fall through
 
 				}
 			} catch (Throwable t) {
@@ -125,7 +128,8 @@ public class CmdDerivative extends CommandProcessor {
 			if (arg[0] instanceof CasEvaluableFunction
 					&& arg[1].isGeoFunction()) {
 				GeoNumeric var = new GeoNumeric(cons);
-				var.setLocalVariableLabel(arg[1].toString(StringTemplate.defaultTemplate));
+				var.setLocalVariableLabel(arg[1]
+						.toString(StringTemplate.defaultTemplate));
 				GeoElement[] ret = { Derivative(label,
 						(CasEvaluableFunction) arg[0], // function
 						var, null) }; // var
@@ -136,10 +140,11 @@ public class CmdDerivative extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 
 		case 3:
-			// Derivative[ f(a,b), a, 2 ]			
+			// Derivative[ f(a,b), a, 2 ]
 			try {
 				arg = resArgsLocalNumVar(c, 1, 1);
-				if (arg[0] instanceof CasEvaluableFunction && arg[1].isGeoNumeric()
+				if (arg[0] instanceof CasEvaluableFunction
+						&& arg[1].isGeoNumeric()
 						&& arg[2] instanceof GeoNumberValue) {
 					GeoElement[] ret = { Derivative(label,
 							(CasEvaluableFunction) arg[0], // function
@@ -149,13 +154,14 @@ public class CmdDerivative extends CommandProcessor {
 			} catch (Throwable t) {
 				t.printStackTrace();
 			}
-			
+
 			arg = resArgs(c);
 			// Derivative[ f(x, y), x, 2]
 			if (arg[0] instanceof GeoFunctionNVar && arg[1].isGeoFunction()
 					&& arg[2] instanceof GeoNumberValue) {
 				GeoNumeric var = new GeoNumeric(cons);
-				var.setLocalVariableLabel(arg[1].toString(StringTemplate.defaultTemplate));
+				var.setLocalVariableLabel(arg[1]
+						.toString(StringTemplate.defaultTemplate));
 				GeoElement[] ret = { Derivative(label,
 						(GeoFunctionNVar) arg[0], // function
 						var, (GeoNumberValue) arg[2]) }; // var
@@ -181,13 +187,18 @@ public class CmdDerivative extends CommandProcessor {
 
 		return geo.getFreeLabel(label);
 	}
-	
+
 	/**
 	 * Computes n-th derivative of f
-	 * @param label label for output
-	 * @param f function
-	 * @param var variable
-	 * @param n derivative degree
+	 * 
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 * @param var
+	 *            variable
+	 * @param n
+	 *            derivative degree
 	 * @return derivaive
 	 */
 	public GeoElement Derivative(String label, CasEvaluableFunction f,

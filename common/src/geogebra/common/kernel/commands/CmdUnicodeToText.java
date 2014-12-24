@@ -13,7 +13,9 @@ import geogebra.common.main.MyError;
 public class CmdUnicodeToText extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdUnicodeToText(Kernel kernel) {
 		super(kernel);
@@ -28,14 +30,14 @@ public class CmdUnicodeToText extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				AlgoUnicodeToText algo = new AlgoUnicodeToText(cons, c.getLabel(),
-						(GeoList) arg[0]);
+				AlgoUnicodeToText algo = new AlgoUnicodeToText(cons,
+						c.getLabel(), (GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-		
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

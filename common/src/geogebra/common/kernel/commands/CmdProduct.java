@@ -12,19 +12,20 @@ import geogebra.common.main.MyError;
 
 /**
  * Product[ list ]
+ * 
  * @author Michael Borcherds
  * @version 2008-02-16
  */
-public class CmdProduct extends CommandProcessor{
+public class CmdProduct extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdProduct(Kernel kernel) {
 		super(kernel);
 	}
-
-
 
 	@Override
 	public GeoElement[] process(geogebra.common.kernel.arithmetic.Command c)
@@ -37,19 +38,19 @@ public class CmdProduct extends CommandProcessor{
 		if (arg.length == 0) {
 			throw argNumErr(app, c.getName(), n);
 		}
-		if(!arg[0].isGeoList())
+		if (!arg[0].isGeoList())
 			throw argErr(app, c.getName(), arg[0]);
-		GeoList list = (GeoList)arg[0];
+		GeoList list = (GeoList) arg[0];
 		switch (n) {
 		case 1:
 			if (list.get(0).isMatrix()) {
-				AlgoProductMatrices algo = new AlgoProductMatrices(cons, c.getLabel(), list);
+				AlgoProductMatrices algo = new AlgoProductMatrices(cons,
+						c.getLabel(), list);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
-			{
+			if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 				AlgoProduct algo = new AlgoProduct(cons, c.getLabel(), list);
 
 				GeoElement[] ret = { algo.getResult() };
@@ -60,10 +61,10 @@ public class CmdProduct extends CommandProcessor{
 			// Product[<List of Numbers>, <Number>]
 			if (arg[1].isGeoNumeric()) {
 
-				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
-				{
+				if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 
-					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoNumeric)arg[1]);
+					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),
+							list, (GeoNumeric) arg[1]);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
@@ -71,11 +72,11 @@ public class CmdProduct extends CommandProcessor{
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			// Product[<List of Numbers>, <Frequency>]
-			else if (arg[1].isGeoList()){
-				if (((GeoList)arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) 
-				{
+			else if (arg[1].isGeoList()) {
+				if (((GeoList) arg[0]).getGeoElementForPropertiesDialog() instanceof GeoNumberValue) {
 
-					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),list,(GeoList)arg[1]);
+					AlgoProduct algo = new AlgoProduct(cons, c.getLabel(),
+							list, (GeoList) arg[1]);
 
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
@@ -90,5 +91,3 @@ public class CmdProduct extends CommandProcessor{
 	}
 
 }
-
-

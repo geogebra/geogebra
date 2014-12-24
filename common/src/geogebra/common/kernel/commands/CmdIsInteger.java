@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *IsInteger
+ * IsInteger
  */
 public class CmdIsInteger extends CommandProcessor {
 
@@ -32,7 +32,7 @@ public class CmdIsInteger extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				
+
 				AlgoIsInteger algo = new AlgoIsInteger(cons, c.getLabel(),
 						(GeoNumeric) arg[0]);
 

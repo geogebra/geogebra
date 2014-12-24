@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- *Append
+ * Append
  */
 public class CmdAppend extends CommandProcessor {
 
@@ -32,14 +32,14 @@ public class CmdAppend extends CommandProcessor {
 		case 2:
 
 			if (arg[0].isGeoList()) {
-				
+
 				AlgoAppend algo = new AlgoAppend(cons, c.getLabel(),
 						(GeoList) arg[0], arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[1].isGeoList()) {
-				
+
 				AlgoAppend algo = new AlgoAppend(cons, c.getLabel(), arg[0],
 						(GeoList) arg[1]);
 

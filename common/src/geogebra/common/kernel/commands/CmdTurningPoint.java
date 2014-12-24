@@ -31,9 +31,9 @@ public class CmdTurningPoint extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				
-				AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(cons,
-						c.getLabels(),
+
+				AlgoTurningPointPolynomial algo = new AlgoTurningPointPolynomial(
+						cons, c.getLabels(),
 						((GeoFunctionable) arg[0]).getGeoFunction());
 
 				return algo.getRootPoints();

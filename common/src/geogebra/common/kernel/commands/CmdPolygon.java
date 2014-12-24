@@ -1,6 +1,5 @@
 package geogebra.common.kernel.commands;
 
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -9,15 +8,16 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
-
 /**
- * Polygon[ <GeoPoint>, ..., <GeoPoint> ]
- * Polygon[ <GeoPoint>, <GeoPoint>, <Number>] for regular polygon
+ * Polygon[ <GeoPoint>, ..., <GeoPoint> ] Polygon[ <GeoPoint>, <GeoPoint>,
+ * <Number>] for regular polygon
  */
 public class CmdPolygon extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdPolygon(Kernel kernel) {
 		super(kernel);
@@ -29,35 +29,41 @@ public class CmdPolygon extends CommandProcessor {
 		GeoElement[] arg;
 
 		arg = resArgs(c);
-		
-		return process(c,n,arg);
+
+		return process(c, n, arg);
 	}
-		
+
 	/**
 	 * 
-	 * @param c command to process
-	 * @param n number of args
-	 * @param arg args already resolved
+	 * @param c
+	 *            command to process
+	 * @param n
+	 *            number of args
+	 * @param arg
+	 *            args already resolved
 	 * @return list of resulting geos
-	 * @throws MyError error if problem occurs
+	 * @throws MyError
+	 *             error if problem occurs
 	 */
-	protected GeoElement[] process(Command c, int n, GeoElement[] arg) throws MyError {
+	protected GeoElement[] process(Command c, int n, GeoElement[] arg)
+			throws MyError {
 
 		switch (n) {
-		case 0 :
+		case 0:
 			throw argNumErr(app, c.getName(), n);
-			//G.Sturr 2010-3-14
+			// G.Sturr 2010-3-14
 		case 1:
 			if (arg[0].isGeoList())
-				return getAlgoDispatcher().Polygon(c.getLabels(), (GeoList) arg[0]);
-			//END G.Sturr
+				return getAlgoDispatcher().Polygon(c.getLabels(),
+						(GeoList) arg[0]);
+			// END G.Sturr
 
-		case 3:        
+		case 3:
 			// regular polygon
-			if (arg[0].isGeoPoint() && 
-					arg[1].isGeoPoint() &&
-					arg[2] instanceof GeoNumberValue)
-				return regularPolygon(c.getLabels(), (GeoPointND) arg[0], (GeoPointND) arg[1], (GeoNumberValue) arg[2]);		
+			if (arg[0].isGeoPoint() && arg[1].isGeoPoint()
+					&& arg[2] instanceof GeoNumberValue)
+				return regularPolygon(c.getLabels(), (GeoPointND) arg[0],
+						(GeoPointND) arg[1], (GeoNumberValue) arg[2]);
 
 		default:
 			// polygon for given points
@@ -72,30 +78,34 @@ public class CmdPolygon extends CommandProcessor {
 			}
 			// everything ok
 			return polygon(c.getLabels(), points, is3D);
-		}	
+		}
 	}
-	
+
 	/**
 	 * 
-	 * @param is3D true if already 3D
-	 * @param geo geo to check
+	 * @param is3D
+	 *            true if already 3D
+	 * @param geo
+	 *            geo to check
 	 * @return true if is already 3D or geo is 3D
 	 */
-	protected boolean checkIs3D(boolean is3D, GeoElement geo){
+	protected boolean checkIs3D(boolean is3D, GeoElement geo) {
 		return false; // check only in 3D mode
 	}
-	
+
 	/**
 	 * 
 	 * @param labels
 	 * @param points
-	 * @param is3D if in 3D mode
+	 * @param is3D
+	 *            if in 3D mode
 	 * @return polygon for points
 	 */
-	protected GeoElement[] polygon(String[] labels, GeoPointND[] points, boolean is3D){
+	protected GeoElement[] polygon(String[] labels, GeoPointND[] points,
+			boolean is3D) {
 		return kernelA.Polygon(labels, points);
 	}
-	
+
 	/**
 	 * 
 	 * @param labels
@@ -104,7 +114,8 @@ public class CmdPolygon extends CommandProcessor {
 	 * @param n
 	 * @return regular polygon
 	 */
-	protected GeoElement[] regularPolygon(String[] labels, GeoPointND A, GeoPointND B, GeoNumberValue n){
+	protected GeoElement[] regularPolygon(String[] labels, GeoPointND A,
+			GeoPointND B, GeoNumberValue n) {
 		return getAlgoDispatcher().RegularPolygon(labels, A, B, n);
 	}
 }

@@ -42,15 +42,16 @@ public class CmdCurveCartesian extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg[4] instanceof GeoNumberValue)) {
-				
+
 				// make sure Curve[i,i,i,i,i] gives an error
 				checkDependency(arg, c.getName(), 3, 2);
 				checkDependency(arg, c.getName(), 4, 2);
-				
-				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons, c.getLabel(),
-						new NumberValue[] {(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]},
-						(GeoNumeric) arg[2], (GeoNumberValue) arg[3],
-						(GeoNumberValue) arg[4]);
+
+				AlgoCurveCartesian algo = new AlgoCurveCartesian(cons,
+						c.getLabel(), new NumberValue[] {
+								(GeoNumberValue) arg[0],
+								(GeoNumberValue) arg[1] }, (GeoNumeric) arg[2],
+						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
 				GeoElement[] ret = { algo.getCurve() };
 
 				return ret;

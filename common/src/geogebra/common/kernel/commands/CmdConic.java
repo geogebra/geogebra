@@ -11,8 +11,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
 /**
- * Conic[ <List> ]
- * Conic[ five GeoPoints ]
+ * Conic[ <List> ] Conic[ five GeoPoints ]
  */
 public class CmdConic extends CommandProcessor {
 
@@ -35,7 +34,7 @@ public class CmdConic extends CommandProcessor {
 			if (arg[0].isGeoList())
 				return Conic(c.getLabel(), (GeoList) arg[0]);
 		case 5:
-			for (int i = 0 ; i < 5  ; i++) {
+			for (int i = 0; i < 5; i++) {
 				if (!arg[i].isGeoPoint()) {
 					throw argErr(app, c.getName(), arg[i]);
 				}
@@ -55,7 +54,6 @@ public class CmdConic extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
 
 	/**
 	 * conic from coefficients
@@ -70,14 +68,15 @@ public class CmdConic extends CommandProcessor {
 		return new GeoElement[] { algo.getConic() };
 
 	}
-	
-	
+
 	/**
-	 * @param label label
-	 * @param arg points
+	 * @param label
+	 *            label
+	 * @param arg
+	 *            points
 	 * @return conic 5 points
 	 */
-	protected GeoElement Conic(String label, GeoElement[] arg){
+	protected GeoElement Conic(String label, GeoElement[] arg) {
 		GeoPoint[] points = { (GeoPoint) arg[0], (GeoPoint) arg[1],
 				(GeoPoint) arg[2], (GeoPoint) arg[3], (GeoPoint) arg[4] };
 		return getAlgoDispatcher().Conic(label, points);

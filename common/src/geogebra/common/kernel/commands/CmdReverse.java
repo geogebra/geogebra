@@ -6,24 +6,23 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * Reverse[ <List> ]
- * Michael Borcherds 2008-02-16
+ * Reverse[ <List> ] Michael Borcherds 2008-02-16
  */
 public class CmdReverse extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdReverse(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoReverse algo = new AlgoReverse(cons, a, b);
 		return algo.getResult();
 	}
-
 
 }

@@ -10,8 +10,7 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
- * Element[ <list>, <n> ]
- * Element[ <point>, <n> ]
+ * Element[ <list>, <n> ] Element[ <point>, <n> ]
  */
 public class CmdElement extends CommandProcessor {
 
@@ -40,7 +39,7 @@ public class CmdElement extends CommandProcessor {
 			// list
 			if ((ok[0] = arg[0].isGeoList() || arg[0] instanceof GeoList)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				
+
 				AlgoListElement algo = new AlgoListElement(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 
@@ -49,27 +48,27 @@ public class CmdElement extends CommandProcessor {
 			}
 			App.printStacktrace(arg[0]);
 			App.printStacktrace(arg[1]);
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
-			
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
 		default:
 			arg = resArgs(c);
 			// list
-			GeoNumberValue[] nvs = new GeoNumberValue[n-1];
-			if (!arg[0].isGeoList()){
+			GeoNumberValue[] nvs = new GeoNumberValue[n - 1];
+			if (!arg[0].isGeoList()) {
 				App.printStacktrace(arg[0]);
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			for (int i = 1; i < n; i++) {
 				if (arg[i] instanceof GeoNumberValue)
 					nvs[i - 1] = (GeoNumberValue) arg[i];
-				else{
+				else {
 					App.printStacktrace(arg[0]);
 					throw argErr(app, c.getName(), arg[i]);
 				}
 			}
 
-			AlgoListElement algo = new AlgoListElement(cons, c.getLabel(), (GeoList) arg[0],
-					nvs);
+			AlgoListElement algo = new AlgoListElement(cons, c.getLabel(),
+					(GeoList) arg[0], nvs);
 
 			GeoElement[] ret = { algo.getElement() };
 			return ret;

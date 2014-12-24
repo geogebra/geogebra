@@ -10,9 +10,8 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- * GCD[ <Number>, <Number> ]
- * GCD[list]
- * adapted from CmdMax by Michael Borcherds 2008-01-03
+ * GCD[ <Number>, <Number> ] GCD[list] adapted from CmdMax by Michael Borcherds
+ * 2008-01-03
  */
 public class CmdGCD extends CommandProcessor {
 	/**
@@ -35,7 +34,7 @@ public class CmdGCD extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				
+
 				AlgoListGCD algo = new AlgoListGCD(cons, c.getLabel(),
 						(GeoList) arg[0]);
 
@@ -43,21 +42,20 @@ public class CmdGCD extends CommandProcessor {
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-		
-		case 2:			
+
+		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue) &&
-				(ok[1] = arg[1] instanceof GeoNumberValue)) 
-			{
-				
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+
 				AlgoGCD algo = new AlgoGCD(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-				
+
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

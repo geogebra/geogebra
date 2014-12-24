@@ -13,7 +13,7 @@ import geogebra.common.main.MyError;
  * 
  * 
  * Nyquist [ <List of coefficents of numerator> , <List of coefficents of
- * denominator> ] 
+ * denominator> ]
  * 
  * Nyquist [ <List of coefficents of numerator> , <List of coefficents of
  * denominator>, omega ]
@@ -56,7 +56,8 @@ public class CmdNyquist extends CommandProcessor {
 			}
 			if (arg[2] instanceof GeoNumberValue) {
 				algo = new AlgoTransferFunction(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoNumberValue) arg[2]);
+						(GeoList) arg[0], (GeoList) arg[1],
+						(GeoNumberValue) arg[2]);
 				ret = new GeoElement[1];
 				ret[0] = algo.getResult();
 				return ret;

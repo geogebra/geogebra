@@ -91,17 +91,15 @@ import geogebra.common.kernel.advanced.CmdVerticalText;
 import geogebra.common.kernel.advanced.CmdZip;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ * class to split off some CmdXXX classes into another jar (for faster applet
+ * loading)
  *
  */
 public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel){
-		switch(c){
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+		switch (c) {
 		// advanced
 
-			
-			
-			
 		case Factors:
 			return new CmdFactors(kernel);
 		case IntersectPath:
@@ -198,8 +196,8 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 			return new CmdReducedRowEchelonForm(kernel);
 		case Determinant:
 			return new CmdDeterminant(kernel);
-		//case MatrixPlot:
-		//	return new CmdMatrixPlot(kernel);
+			// case MatrixPlot:
+			// return new CmdMatrixPlot(kernel);
 		case Identity:
 			return new CmdIdentity(kernel);
 		case Centroid:
@@ -267,9 +265,9 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case AttachCopyToView:
 			return new CmdAttachCopyToView(kernel);
 		case Divisors:
-			return new CmdDivisorsOrDivisorsSum(kernel,false);
+			return new CmdDivisorsOrDivisorsSum(kernel, false);
 		case DivisorsSum:
-			return new CmdDivisorsOrDivisorsSum(kernel,true);
+			return new CmdDivisorsOrDivisorsSum(kernel, true);
 		case Dimension:
 			return new CmdDimension(kernel);
 		case DivisorsList:
@@ -277,21 +275,21 @@ public class CommandDispatcherAdvanced implements CommandDispatcherInterface {
 		case IsPrime:
 			return new CmdIsPrime(kernel);
 		case LeftSide:
-			return new CmdLeftRightSide(kernel,true);
+			return new CmdLeftRightSide(kernel, true);
 		case RightSide:
-			return new CmdLeftRightSide(kernel,false);
+			return new CmdLeftRightSide(kernel, false);
 		case Division:
 			return new CmdDivision(kernel);
 		case MatrixRank:
-			return new CmdMatrixRank(kernel);				
+			return new CmdMatrixRank(kernel);
 		case CommonDenominator:
 			return new CmdCommonDenominator(kernel);
 		case ToPoint:
-			return new CmdToComplexPolar(kernel,Kernel.COORD_CARTESIAN);
+			return new CmdToComplexPolar(kernel, Kernel.COORD_CARTESIAN);
 		case ToComplex:
-			return new CmdToComplexPolar(kernel,Kernel.COORD_COMPLEX);
+			return new CmdToComplexPolar(kernel, Kernel.COORD_COMPLEX);
 		case ToPolar:
-			return new CmdToComplexPolar(kernel,Kernel.COORD_POLAR);
+			return new CmdToComplexPolar(kernel, Kernel.COORD_POLAR);
 		case NSolveODE:
 			return new CmdNSolveODE(kernel);
 		case Rate:

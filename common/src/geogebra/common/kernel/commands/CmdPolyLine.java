@@ -1,6 +1,5 @@
 package geogebra.common.kernel.commands;
 
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoPolyLine;
 import geogebra.common.kernel.arithmetic.Command;
@@ -10,14 +9,15 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
-
 /**
  * Polyline[ <GeoPoint>, ..., <GeoPoint> ]
  */
 public class CmdPolyLine extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdPolyLine(Kernel kernel) {
 		super(kernel);
@@ -30,7 +30,7 @@ public class CmdPolyLine extends CommandProcessor {
 
 		arg = resArgs(c);
 		switch (n) {
-		case 0 :
+		case 0:
 			throw argNumErr(app, c.getName(), n);
 		case 1:
 			if (arg[0].isGeoList())
@@ -47,9 +47,8 @@ public class CmdPolyLine extends CommandProcessor {
 
 			return PolyLine(c.getLabels(), (GeoList) arg[0]);
 
-
 		default:
-			
+
 			int size = n;
 			boolean penStroke = false;
 
@@ -57,42 +56,44 @@ public class CmdPolyLine extends CommandProcessor {
 				// pen stroke
 				// last argument is boolean (normally true)
 				size = size - 1;
-				penStroke = ((GeoBoolean)arg[arg.length - 1]).getBoolean();
-			} 
+				penStroke = ((GeoBoolean) arg[arg.length - 1]).getBoolean();
+			}
 
-				// polygon for given points
-				GeoPointND[] points = new GeoPointND[size];
-				// check arguments
-				boolean is3D = false;
-				for (int i = 0; i < size; i++) {
-					if (!(arg[i].isGeoPoint()))
-						throw argErr(app, c.getName(), arg[i]);
-					points[i] = (GeoPointND) arg[i];
-					is3D = checkIs3D(is3D, arg[i]);
-				}
-				// everything ok
-				return PolyLine(c.getLabels(), points, penStroke, is3D);
-			
+			// polygon for given points
+			GeoPointND[] points = new GeoPointND[size];
+			// check arguments
+			boolean is3D = false;
+			for (int i = 0; i < size; i++) {
+				if (!(arg[i].isGeoPoint()))
+					throw argErr(app, c.getName(), arg[i]);
+				points[i] = (GeoPointND) arg[i];
+				is3D = checkIs3D(is3D, arg[i]);
+			}
+			// everything ok
+			return PolyLine(c.getLabels(), points, penStroke, is3D);
+
 		}
 	}
-	
 
 	protected GeoElement[] PolyLine(String[] labels, GeoList pointList) {
 		AlgoPolyLine algo = new AlgoPolyLine(cons, labels, pointList);
 		return algo.getOutput();
 	}
-	
+
 	/**
 	 * 
-	 * @param is3D true if already 3D
-	 * @param geo geo to check
+	 * @param is3D
+	 *            true if already 3D
+	 * @param geo
+	 *            geo to check
 	 * @return true if is already 3D or geo is 3D
 	 */
-	protected boolean checkIs3D(boolean is3D, GeoElement geo){
+	protected boolean checkIs3D(boolean is3D, GeoElement geo) {
 		return false; // check only in 3D mode
 	}
-	
-	protected GeoElement[] PolyLine(String[] labels, GeoPointND[] points, boolean penStroke, boolean is3D) {
+
+	protected GeoElement[] PolyLine(String[] labels, GeoPointND[] points,
+			boolean penStroke, boolean is3D) {
 		return kernelA.PolyLine(labels, points, penStroke);
 	}
 

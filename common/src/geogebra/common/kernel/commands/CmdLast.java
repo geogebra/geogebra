@@ -12,6 +12,7 @@ import geogebra.common.main.MyError;
 
 /**
  * Last[ <List>,n ]
+ * 
  * @author Michael Borcherds
  * @version 2008-03-04
  */
@@ -31,44 +32,38 @@ public class CmdLast extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		
+
 		switch (n) {
 		case 1:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						Last(c.getLabel(),
-						(GeoList) arg[0], null ) };
+				GeoElement[] ret = { Last(c.getLabel(), (GeoList) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = { 
-						Last(c.getLabel(),
-						(GeoText) arg[0], null ) };
+				GeoElement[] ret = { Last(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
-		
+
 		case 2:
 			boolean list = arg[0].isGeoList();
 			boolean text = arg[0].isGeoText();
-			if ( list && arg[1].isGeoNumeric() ) {
-				GeoElement[] ret = { 
-						Last(c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1] ) };
+			if (list && arg[1].isGeoNumeric()) {
+				GeoElement[] ret = { Last(c.getLabel(), (GeoList) arg[0],
+						(GeoNumeric) arg[1]) };
 				return ret;
-			} else if ( text && arg[1].isGeoNumeric() ) {
-				GeoElement[] ret = { 
-						Last(c.getLabel(),
-						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
+			} else if (text && arg[1].isGeoNumeric()) {
+				GeoElement[] ret = { Last(c.getLabel(), (GeoText) arg[0],
+						(GeoNumeric) arg[1]) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), (list && text) ? arg[1] : arg[0]);
-		
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * Last[string,n] Michael Borcherds
 	 */
@@ -86,7 +81,5 @@ public class CmdLast extends CommandProcessor {
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
-
-
 
 }

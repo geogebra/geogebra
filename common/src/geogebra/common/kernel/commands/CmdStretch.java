@@ -43,8 +43,7 @@ public class CmdStretch extends CommandProcessor {
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
 						|| arg[0].isGeoPolygon() || arg[0].isGeoList()) {
 
-					ret = Stretch(label, arg[0], (GeoVec3D) arg[1],
-							null);
+					ret = Stretch(label, arg[0], (GeoVec3D) arg[1], null);
 					return ret;
 
 				}
@@ -74,7 +73,6 @@ public class CmdStretch extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
 
 	/**
 	 * apply matrix Michael Borcherds 2010-05-27

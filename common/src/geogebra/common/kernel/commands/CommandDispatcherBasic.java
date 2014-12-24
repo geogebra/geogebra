@@ -7,12 +7,13 @@ import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.plugin.Operation;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ * class to split off some CmdXXX classes into another jar (for faster applet
+ * loading)
  *
  */
 public class CommandDispatcherBasic implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel){
-		switch(c){
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+		switch (c) {
 		// basic
 
 		case Tangent:
@@ -43,19 +44,19 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdCountIf(kernel);
 		case UnitVector:
 			return new CmdUnitVector(kernel);
-			
+
 		case UnitPerpendicularVector:
 		case UnitOrthogonalVector:
 			return new CmdUnitOrthogonalVector(kernel);
-			
+
 		case Text:
 			return new CmdText(kernel);
 		case Vector:
 			return new CmdVector(kernel);
 		case Dot:
-			return new CmdCAStoOperation(kernel,Operation.MULTIPLY);
+			return new CmdCAStoOperation(kernel, Operation.MULTIPLY);
 		case Cross:
-			return new CmdCAStoOperation(kernel,Operation.VECTORPRODUCT);
+			return new CmdCAStoOperation(kernel, Operation.VECTORPRODUCT);
 		case PolyLine:
 			return new CmdPolyLine(kernel);
 		case PointIn:
@@ -64,11 +65,11 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdLine(kernel);
 		case Ray:
 			return new CmdRay(kernel);
-			
+
 		case AngleBisector:
 		case AngularBisector:
 			return new CmdAngularBisector(kernel);
-			
+
 		case Segment:
 			return new CmdSegment(kernel);
 		case Slope:
@@ -89,16 +90,19 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case Arc:
 			return new CmdArcSector(kernel, GeoConicNDConstants.CONIC_PART_ARC);
 		case Sector:
-			return new CmdArcSector(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
+			return new CmdArcSector(kernel,
+					GeoConicNDConstants.CONIC_PART_SECTOR);
 
 		case CircleArc:
 		case CircularArc:
-				return new CmdCircleArcSector(kernel, GeoConicNDConstants.CONIC_PART_ARC);
+			return new CmdCircleArcSector(kernel,
+					GeoConicNDConstants.CONIC_PART_ARC);
 
 		case CircleSector:
 		case CircularSector:
-			return new CmdCircleArcSector(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
-		
+			return new CmdCircleArcSector(kernel,
+					GeoConicNDConstants.CONIC_PART_SECTOR);
+
 		case CircumcircleSector:
 		case CircumcircularSector:
 			return new CmdCircumcircleSector(kernel);
@@ -141,15 +145,16 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 		case RectangleSum:
 			return new CmdRectangleSum(kernel);
 
-
 		case UpperSum:
 			return new CmdUpperSum(kernel);
 		case TrapezoidalSum:
 			return new CmdTrapezoidalSum(kernel);
 		case Ellipse:
-			return new CmdEllipseHyperbola(kernel, GeoConicNDConstants.CONIC_ELLIPSE);
+			return new CmdEllipseHyperbola(kernel,
+					GeoConicNDConstants.CONIC_ELLIPSE);
 		case Hyperbola:
-			return new CmdEllipseHyperbola(kernel, GeoConicNDConstants.CONIC_HYPERBOLA);
+			return new CmdEllipseHyperbola(kernel,
+					GeoConicNDConstants.CONIC_HYPERBOLA);
 		case Conic:
 			return new CmdConic(kernel);
 		case Circle:
@@ -164,13 +169,13 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdElement(kernel);
 		case Sequence:
 			return new CmdSequence(kernel);
-		//case ContourPlot:
-		//	return new CmdContourPlot(kernel);
-			
+			// case ContourPlot:
+			// return new CmdContourPlot(kernel);
+
 		case Reflect:
 		case Mirror:
 			return new CmdMirror(kernel);
-			
+
 		case Dilate:
 			return new CmdDilate(kernel);
 		case Rotate:
@@ -186,7 +191,6 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdCorner(kernel);
 		case Name:
 			return new CmdName(kernel);
-
 
 		case Diameter:
 		case ConjugateDiameter:
@@ -255,8 +259,8 @@ public class CommandDispatcherBasic implements CommandDispatcherInterface {
 			return new CmdDefined(kernel);
 		case Spline:
 			return new CmdSpline(kernel);
-		//case Nyquist:
-		//	return new CmdNyquist(kernel);
+			// case Nyquist:
+			// return new CmdNyquist(kernel);
 		case FormulaText:
 		case LaTeX:
 			return new CmdLaTeX(kernel);

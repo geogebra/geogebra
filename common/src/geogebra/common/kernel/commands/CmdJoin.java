@@ -9,7 +9,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
 /**
- *Join
+ * Join
  */
 public class CmdJoin extends CommandProcessor {
 
@@ -47,8 +47,7 @@ public class CmdJoin extends CommandProcessor {
 
 		default:
 			// try to create list of numbers
-			GeoList list = wrapInList(kernelA, arg, arg.length,
-					GeoClass.LIST);
+			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.LIST);
 			if (list != null) {
 				GeoElement[] ret = { Join(c.getLabel(), list) };
 				return ret;
@@ -56,7 +55,7 @@ public class CmdJoin extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * Join[list,list] Michael Borcherds
 	 */
@@ -65,6 +64,5 @@ public class CmdJoin extends CommandProcessor {
 		GeoList list2 = algo.getResult();
 		return list2;
 	}
-
 
 }

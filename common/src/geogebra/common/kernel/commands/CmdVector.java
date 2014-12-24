@@ -1,6 +1,5 @@
 package geogebra.common.kernel.commands;
 
-
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -8,15 +7,15 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
-
-
 /**
  * Vector[ <GeoPoint>, <GeoPoint> ] Vector[ <GeoPoint> ]
  */
 public class CmdVector extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdVector(Kernel kernel) {
 		super(kernel);
@@ -29,11 +28,11 @@ public class CmdVector extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 1 :
+		case 1:
 			arg = resArgs(c);
-			if (arg[0] .isGeoPoint()) {
-				GeoElement[] ret =
-				{ (GeoElement) getAlgoDispatcher().Vector(c.getLabel(), (GeoPointND) arg[0])};
+			if (arg[0].isGeoPoint()) {
+				GeoElement[] ret = { (GeoElement) getAlgoDispatcher().Vector(
+						c.getLabel(), (GeoPointND) arg[0]) };
 				return ret;
 			}
 
@@ -43,53 +42,50 @@ public class CmdVector extends CommandProcessor {
 			 * 
 			 * @see AlgoLinePointVector.getCmdXML()
 			 */
-			else if (arg[0] .isGeoVector()) {
+			else if (arg[0].isGeoVector()) {
 				// maybe we have to set a label here
-				if (!cons.isSuppressLabelsActive() && !arg[0].isLabelSet()) {            	           
+				if (!cons.isSuppressLabelsActive() && !arg[0].isLabelSet()) {
 					arg[0].setLabel(c.getLabel());
 
 					// make sure that arg[0] is in construction list
 					if (arg[0].isIndependent())
 						cons.addToConstructionList(arg[0], true);
-					else 
-						cons.addToConstructionList(arg[0].getParentAlgorithm(), true);
-				}       
+					else
+						cons.addToConstructionList(arg[0].getParentAlgorithm(),
+								true);
+				}
 				GeoElement[] ret = { arg[0] };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
 
-		case 2 :
+		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0] .isGeoPoint()))
-					&& (ok[1] = (arg[1] .isGeoPoint()))) {
-				GeoElement[] ret =
-				{
-						vector(
-								c.getLabel(),
-								(GeoPointND) arg[0],
-								(GeoPointND) arg[1])};
+			if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoPoint()))) {
+				GeoElement[] ret = { vector(c.getLabel(), (GeoPointND) arg[0],
+						(GeoPointND) arg[1]) };
 				return ret;
 			}
-			
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
-			
-		default :
+
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
+		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param label vector name
-	 * @param p0 first point
-	 * @param p1 second point
+	 * @param label
+	 *            vector name
+	 * @param p0
+	 *            first point
+	 * @param p1
+	 *            second point
 	 * @return vector (p0,p1)
 	 */
-	protected GeoElement vector(String label, GeoPointND p0, GeoPointND p1){
-		return getAlgoDispatcher().Vector(
-				label,
-				(GeoPoint) p0,
-				(GeoPoint) p1);
+	protected GeoElement vector(String label, GeoPointND p0, GeoPointND p1) {
+		return getAlgoDispatcher().Vector(label, (GeoPoint) p0, (GeoPoint) p1);
 	}
 }

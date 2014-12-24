@@ -33,7 +33,7 @@ public class CmdRadius extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0] instanceof GeoQuadricND) {
-				
+
 				AlgoRadius algo = new AlgoRadius(cons, c.getLabel(),
 						(GeoQuadricND) arg[0]);
 

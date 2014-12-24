@@ -20,12 +20,13 @@ import geogebra.common.kernel.cas.CmdTrigCombine;
 import geogebra.common.kernel.cas.CmdTrigExpand;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ * class to split off some CmdXXX classes into another jar (for faster applet
+ * loading)
  *
  */
 public class CommandDispatcherCAS implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel){
-		switch(c){
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+		switch (c) {
 
 		case LocusEquation:
 			return LocusEquation.newCmdLocusEquation(kernel);
@@ -70,9 +71,9 @@ public class CommandDispatcherCAS implements CommandDispatcherInterface {
 		case ImplicitDerivative:
 			return new CmdImplicitDerivative(kernel);
 		case NextPrime:
-			return new CmdNextPreviousPrime(kernel,true);
+			return new CmdNextPreviousPrime(kernel, true);
 		case PreviousPrime:
-			return new CmdNextPreviousPrime(kernel,false);
+			return new CmdNextPreviousPrime(kernel, false);
 		}
 		return null;
 	}

@@ -61,138 +61,139 @@ import geogebra.common.kernel.scripting.CmdZoomIn;
 import geogebra.common.kernel.scripting.CmdZoomOut;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ * class to split off some CmdXXX classes into another jar (for faster applet
+ * loading)
  *
  */
 public class CommandDispatcherScripting implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel){
-		switch(c){
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+		switch (c) {
 		// scripting
-					case RigidPolygon:
-						return new CmdRigidPolygon(kernel);
-					case Relation:
-						return new CmdRelation(kernel);
-					case CopyFreeObject:
-						return new CmdCopyFreeObject(kernel);
-					case SetColor:
-						return new CmdSetColor(kernel);
-					case SetBackgroundColor:
-						return new CmdSetBackgroundColor(kernel);
-					case SetDynamicColor:
-						return new CmdSetDynamicColor(kernel);
-					case SetConditionToShowObject:
-						return new CmdSetConditionToShowObject(kernel);
-					case SetFilling:
-						return new CmdSetFilling(kernel);
-					case SetLineThickness:
-						return new CmdSetLineThickness(kernel);
-					case SetLineStyle:
-						return new CmdLineStyle(kernel);
-					case SetPointStyle:
-						return new CmdSetPointStyle(kernel);
-					case SetPointSize:
-						return new CmdSetPointSize(kernel);
-					case SetFixed:
-						return new CmdSetFixed(kernel);
-					case SetTrace:
-						return new CmdSetTrace(kernel);
-					case Rename:
-						return new CmdRename(kernel);
-					case HideLayer:
-						return new CmdHideLayer(kernel);
-					case ShowLayer:
-						return new CmdShowLayer(kernel);
-					case SetCoords:
-						return new CmdSetCoords(kernel);
-					case Pan:
-						return new CmdPan(kernel);
-					case CenterView:
-						return new CmdCenterView(kernel);
-					case ZoomIn:
-						return new CmdZoomIn(kernel);
-					case SetSeed:
-						return new CmdSetSeed(kernel);
-					case ZoomOut:
-						return new CmdZoomOut(kernel);
-					case SetActiveView:
-						return new CmdSetActiveView(kernel);
-					case SelectObjects:
-						return new CmdSelectObjects(kernel);
-					case SetLayer:
-						return new CmdSetLayer(kernel);
-					case SetCaption:
-						return new CmdSetCaption(kernel);
-					case SetLabelMode:
-						return new CmdSetLabelMode(kernel);
-					case SetTooltipMode:
-						return new CmdSetTooltipMode(kernel);
-					case UpdateConstruction:
-						return new CmdUpdateConstruction(kernel);
-					case SetValue:
-						return new CmdSetValue(kernel);
-					case PlaySound:
-						return new CmdPlaySound(kernel);
-					case ParseToNumber:
-						return new CmdParseToNumber(kernel);
-					case ParseToFunction:
-						return new CmdParseToFunction(kernel);
-					case StartAnimation:
-						return new CmdStartAnimation(kernel);
-					case SetPerspective:
-						return new CmdPerspective(kernel);
-					case StartLogging:
-						return new CmdStartLogging(kernel);
-					case StopLogging:
-						return new CmdStopLogging(kernel);
-					case Delete:
-						return new CmdDelete(kernel);
-					case Slider:
-						return new CmdSlider(kernel);
-					case Checkbox:
-						return new CmdCheckbox(kernel);
-					case InputBox:	
-					case Textfield:
-						return new CmdTextfield(kernel);
-					case Button:
-						return new CmdButton(kernel);
-					case Execute:
-						return new CmdExecute(kernel);
-					case GetTime:
-						return new CmdGetTime(kernel);
-					case ShowLabel:
-						return new CmdShowLabel(kernel);
-					case SetAxesRatio:
-						return new CmdSetAxesRatio(kernel);
-					case SetVisibleInView:
-						return new CmdSetVisibleInView(kernel);
-					case ShowAxes:
-						return new CmdShowAxes(kernel);
-					case ShowGrid:
-						return new CmdShowGrid(kernel);
-					case SlowPlot:
-						return new CmdSlowPlot(kernel);
-					case ToolImage:
-						return new CmdToolImage(kernel);		
-					case Turtle: 
-						return new CmdTurtle(kernel);
-					case TurtleForward:
-						return new CmdTurtleForward(kernel);
-					case TurtleBack:
-						return new CmdTurtleBack(kernel);
-					case TurtleLeft:
-						return new CmdTurtleLeft(kernel);
-					case TurtleRight:
-						return new CmdTurtleRight(kernel);
-					case TurtleUp:
-						return new CmdTurtleUp(kernel);
-					case TurtleDown:
-						return new CmdTurtleDown(kernel);
-					case RunClickScript:
-						return new CmdRunClickScript(kernel);
-					case RunUpdateScript:
-						return new CmdRunUpdateScript(kernel);
-					//case DensityPlot:
-					//	return new CmdDensityPlot(kernel);
+		case RigidPolygon:
+			return new CmdRigidPolygon(kernel);
+		case Relation:
+			return new CmdRelation(kernel);
+		case CopyFreeObject:
+			return new CmdCopyFreeObject(kernel);
+		case SetColor:
+			return new CmdSetColor(kernel);
+		case SetBackgroundColor:
+			return new CmdSetBackgroundColor(kernel);
+		case SetDynamicColor:
+			return new CmdSetDynamicColor(kernel);
+		case SetConditionToShowObject:
+			return new CmdSetConditionToShowObject(kernel);
+		case SetFilling:
+			return new CmdSetFilling(kernel);
+		case SetLineThickness:
+			return new CmdSetLineThickness(kernel);
+		case SetLineStyle:
+			return new CmdLineStyle(kernel);
+		case SetPointStyle:
+			return new CmdSetPointStyle(kernel);
+		case SetPointSize:
+			return new CmdSetPointSize(kernel);
+		case SetFixed:
+			return new CmdSetFixed(kernel);
+		case SetTrace:
+			return new CmdSetTrace(kernel);
+		case Rename:
+			return new CmdRename(kernel);
+		case HideLayer:
+			return new CmdHideLayer(kernel);
+		case ShowLayer:
+			return new CmdShowLayer(kernel);
+		case SetCoords:
+			return new CmdSetCoords(kernel);
+		case Pan:
+			return new CmdPan(kernel);
+		case CenterView:
+			return new CmdCenterView(kernel);
+		case ZoomIn:
+			return new CmdZoomIn(kernel);
+		case SetSeed:
+			return new CmdSetSeed(kernel);
+		case ZoomOut:
+			return new CmdZoomOut(kernel);
+		case SetActiveView:
+			return new CmdSetActiveView(kernel);
+		case SelectObjects:
+			return new CmdSelectObjects(kernel);
+		case SetLayer:
+			return new CmdSetLayer(kernel);
+		case SetCaption:
+			return new CmdSetCaption(kernel);
+		case SetLabelMode:
+			return new CmdSetLabelMode(kernel);
+		case SetTooltipMode:
+			return new CmdSetTooltipMode(kernel);
+		case UpdateConstruction:
+			return new CmdUpdateConstruction(kernel);
+		case SetValue:
+			return new CmdSetValue(kernel);
+		case PlaySound:
+			return new CmdPlaySound(kernel);
+		case ParseToNumber:
+			return new CmdParseToNumber(kernel);
+		case ParseToFunction:
+			return new CmdParseToFunction(kernel);
+		case StartAnimation:
+			return new CmdStartAnimation(kernel);
+		case SetPerspective:
+			return new CmdPerspective(kernel);
+		case StartLogging:
+			return new CmdStartLogging(kernel);
+		case StopLogging:
+			return new CmdStopLogging(kernel);
+		case Delete:
+			return new CmdDelete(kernel);
+		case Slider:
+			return new CmdSlider(kernel);
+		case Checkbox:
+			return new CmdCheckbox(kernel);
+		case InputBox:
+		case Textfield:
+			return new CmdTextfield(kernel);
+		case Button:
+			return new CmdButton(kernel);
+		case Execute:
+			return new CmdExecute(kernel);
+		case GetTime:
+			return new CmdGetTime(kernel);
+		case ShowLabel:
+			return new CmdShowLabel(kernel);
+		case SetAxesRatio:
+			return new CmdSetAxesRatio(kernel);
+		case SetVisibleInView:
+			return new CmdSetVisibleInView(kernel);
+		case ShowAxes:
+			return new CmdShowAxes(kernel);
+		case ShowGrid:
+			return new CmdShowGrid(kernel);
+		case SlowPlot:
+			return new CmdSlowPlot(kernel);
+		case ToolImage:
+			return new CmdToolImage(kernel);
+		case Turtle:
+			return new CmdTurtle(kernel);
+		case TurtleForward:
+			return new CmdTurtleForward(kernel);
+		case TurtleBack:
+			return new CmdTurtleBack(kernel);
+		case TurtleLeft:
+			return new CmdTurtleLeft(kernel);
+		case TurtleRight:
+			return new CmdTurtleRight(kernel);
+		case TurtleUp:
+			return new CmdTurtleUp(kernel);
+		case TurtleDown:
+			return new CmdTurtleDown(kernel);
+		case RunClickScript:
+			return new CmdRunClickScript(kernel);
+		case RunUpdateScript:
+			return new CmdRunUpdateScript(kernel);
+			// case DensityPlot:
+			// return new CmdDensityPlot(kernel);
 		}
 		return null;
 	}

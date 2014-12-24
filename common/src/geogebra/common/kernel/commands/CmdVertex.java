@@ -46,26 +46,29 @@ public class CmdVertex extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
-				
-				AlgoVertexConic algo = newAlgoVertexConic(cons, c.getLabels(), (GeoConicND) arg[0]);
+
+				AlgoVertexConic algo = newAlgoVertexConic(cons, c.getLabels(),
+						(GeoConicND) arg[0]);
 
 				return (GeoElement[]) algo.getVertex();
 			}
 			if (arg[0] instanceof GeoPoly) {
-				
-				AlgoVertexPolygon algo = kernelA.getAlgoDispatcher().newAlgoVertexPolygon(cons, c.getLabels(), (GeoPoly) arg[0]);
+
+				AlgoVertexPolygon algo = kernelA.getAlgoDispatcher()
+						.newAlgoVertexPolygon(cons, c.getLabels(),
+								(GeoPoly) arg[0]);
 
 				return algo.getVertex();
 			}
 			if (arg[0] instanceof GeoFunctionNVar) {
-				
-				AlgoVertexIneq algo = new AlgoVertexIneq(cons,c.getLabels(), (GeoFunctionNVar) arg[0]);
+
+				AlgoVertexIneq algo = new AlgoVertexIneq(cons, c.getLabels(),
+						(GeoFunctionNVar) arg[0]);
 
 				return algo.getVertex();
-			}
-			else if (arg[0] instanceof GeoNumberValue) {
-				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(c.getLabel(),
-						(GeoNumberValue) arg[0], null) };
+			} else if (arg[0] instanceof GeoNumberValue) {
+				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(
+						c.getLabel(), (GeoNumberValue) arg[0], null) };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), arg[0]);
@@ -76,15 +79,15 @@ public class CmdVertex extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoPoly))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
-				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons, c.getLabel(),
-						(GeoPoly) arg[0], (GeoNumberValue) arg[1]);
+
+				AlgoVertexPolygon algo = newAlgoVertexPolygon(cons,
+						c.getLabel(), (GeoPoly) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { (GeoElement) algo.getOneVertex() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoImage()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
+
 				AlgoImageCorner algo = new AlgoImageCorner(cons, c.getLabel(),
 						(GeoImage) arg[0], (GeoNumberValue) arg[1]);
 
@@ -95,7 +98,7 @@ public class CmdVertex extends CommandProcessor {
 			// Corner[ <Text>, <number> ]
 			else if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
+
 				AlgoTextCorner algo = new AlgoTextCorner(cons, c.getLabel(),
 						(GeoText) arg[0], (GeoNumberValue) arg[1]);
 
@@ -104,19 +107,19 @@ public class CmdVertex extends CommandProcessor {
 				// Michael Borcherds 2007-11-26 END
 			} else if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(c.getLabel(),
-						(GeoNumberValue) arg[1], (GeoNumberValue) arg[0]) };
+				GeoElement[] ret = { (GeoElement) cornerOfDrawingPad(
+						c.getLabel(), (GeoNumberValue) arg[1],
+						(GeoNumberValue) arg[0]) };
 				return ret;
-				
+
 			} else {
-				throw argErr(app, c.getName(), getBadArg(ok,arg));
+				throw argErr(app, c.getName(), getBadArg(ok, arg));
 			}
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-
 
 	/**
 	 * Corner of Drawing Pad Michael Borcherds 2008-05-10
@@ -127,8 +130,7 @@ public class CmdVertex extends CommandProcessor {
 				number, ev);
 		return algo.getCorner();
 	}
-	
-	
+
 	/**
 	 * @param cons
 	 * @param label
@@ -136,17 +138,19 @@ public class CmdVertex extends CommandProcessor {
 	 * @param v
 	 * @return algo for one of the corners of a polygon/polyline
 	 */
-	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons, String label, GeoPoly p, GeoNumberValue v){	
+	protected AlgoVertexPolygon newAlgoVertexPolygon(Construction cons,
+			String label, GeoPoly p, GeoNumberValue v) {
 		return new AlgoVertexPolygon(cons, label, p, v);
 	}
-	
+
 	/**
 	 * @param cons
 	 * @param labels
 	 * @param conic
 	 * @return algo for "corners" of a conic
 	 */
-	protected AlgoVertexConic newAlgoVertexConic(Construction cons, String[] labels, GeoConicND conic){		
+	protected AlgoVertexConic newAlgoVertexConic(Construction cons,
+			String[] labels, GeoConicND conic) {
 		return new AlgoVertexConic(cons, labels, conic);
 	}
 

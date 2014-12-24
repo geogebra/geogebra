@@ -29,14 +29,15 @@ public class CmdAngularBisector extends CommandProcessor {
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
-		
+
 		return process(c, n, ok);
 	}
-	
-	protected GeoElement[] process(Command c, int n, boolean[] ok) throws MyError {
+
+	protected GeoElement[] process(Command c, int n, boolean[] ok)
+			throws MyError {
 
 		GeoElement[] arg;
-		
+
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
@@ -76,31 +77,39 @@ public class CmdAngularBisector extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
 
 	/**
 	 * 
-	 * @param labels labels
-	 * @param g first line
-	 * @param h second line
+	 * @param labels
+	 *            labels
+	 * @param g
+	 *            first line
+	 * @param h
+	 *            second line
 	 * @return angular bisector for two lines
 	 */
-	protected GeoElement[] angularBisector(String[] labels, GeoLineND g, GeoLineND h){
+	protected GeoElement[] angularBisector(String[] labels, GeoLineND g,
+			GeoLineND h) {
 
-		return getAlgoDispatcher().AngularBisector(labels, (GeoLine) g, (GeoLine) h);
+		return getAlgoDispatcher().AngularBisector(labels, (GeoLine) g,
+				(GeoLine) h);
 	}
-	
+
 	/**
-	 * @param label label
-	 * @param A first point
-	 * @param B second point
-	 * @param C third point
+	 * @param label
+	 *            label
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
 	 * @return angular bisector for three points
 	 */
-	protected GeoElement angularBisector(String label, GeoPointND A, GeoPointND B, GeoPointND C){
+	protected GeoElement angularBisector(String label, GeoPointND A,
+			GeoPointND B, GeoPointND C) {
 
-		return getAlgoDispatcher().AngularBisector(label,
-				(GeoPoint) A, (GeoPoint) B,
-				(GeoPoint) C) ;
+		return getAlgoDispatcher().AngularBisector(label, (GeoPoint) A,
+				(GeoPoint) B, (GeoPoint) C);
 	}
 }

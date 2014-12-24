@@ -1,6 +1,7 @@
 package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
+
 /** same as CmdPerimeter */
 public class CmdCircumference extends CmdPerimeter {
 	/**

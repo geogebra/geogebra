@@ -5,15 +5,18 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
+
 /**
  * Handles CAS commands in input bar by showing appropriate message
+ * 
  * @author zbynek
  *
  */
 public class CAScmdProcessor extends CommandProcessor {
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public CAScmdProcessor(Kernel kernel) {
 		super(kernel);
@@ -22,7 +25,8 @@ public class CAScmdProcessor extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException {
-		throw new MyError(loc,loc.getPlain("CASViewOnly",loc.getCommand(c.getName())));
+		throw new MyError(loc, loc.getPlain("CASViewOnly",
+				loc.getCommand(c.getName())));
 	}
 
 }

@@ -36,8 +36,9 @@ public class CmdTrapezoidalSum extends CommandProcessor {
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
 					&& (ok[3] = (arg[3] instanceof GeoNumberValue))) {
-				
-				AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal(cons, c.getLabel(),
+
+				AlgoSumTrapezoidal algo = new AlgoSumTrapezoidal(cons,
+						c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
 						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
 						(GeoNumberValue) arg[3]);
@@ -45,7 +46,7 @@ public class CmdTrapezoidalSum extends CommandProcessor {
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

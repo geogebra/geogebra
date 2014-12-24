@@ -50,8 +50,8 @@ public class CmdFunction extends CommandProcessor {
 			GeoElement[] arg = resArgs(c);
 			if (arg[0].isGeoList()) {
 
-				AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons, c.getLabel(),
-						(GeoList) arg[0]);
+				AlgoFunctionFreehand algo = new AlgoFunctionFreehand(cons,
+						c.getLabel(), (GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getFunction() };
 				return ret;
@@ -61,17 +61,18 @@ public class CmdFunction extends CommandProcessor {
 			varName = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			c.setArgument(1, c.getArgument(2));
 			c.setArgument(2, c.getArgument(3));
-			//fall through
+			// fall through
 		case 3:
 
 			// file might be saved with old Function[sin(x),1,2]
 			if (!cons.isFileLoading()) {
 				FunctionVariable fv = null;
 				if (varName != null
-						|| kernelA.getConstruction().getRegisteredFunctionVariable() != null) {
+						|| kernelA.getConstruction()
+								.getRegisteredFunctionVariable() != null) {
 					if (varName == null)
 						varName = kernelA.getConstruction()
-						.getRegisteredFunctionVariable();
+								.getRegisteredFunctionVariable();
 					fv = new FunctionVariable(kernelA, varName);
 					int r = c.getArgument(0).replaceVariables(varName, fv);
 					c.getArgument(0).replaceVariables(varName, fv);
@@ -80,49 +81,54 @@ public class CmdFunction extends CommandProcessor {
 					}
 				}
 				// new code: convert Function[sin(x),1,2] to If[1<=x<=2, sin(x)]
-				
+
 				arg = resArgs(c);
 				if ((ok[0] = (arg[0].isGeoFunctionable()))
 						&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 						&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
 
-
-
 					label = c.getLabel();
 
-					GeoFunction geoFun = ((GeoFunctionable) arg[0]).getGeoFunction();
+					GeoFunction geoFun = ((GeoFunctionable) arg[0])
+							.getGeoFunction();
 					GeoNumberValue low = (GeoNumberValue) arg[1];
 					GeoNumberValue high = (GeoNumberValue) arg[2];
 
-					if(fv == null){
+					if (fv == null) {
 						fv = new FunctionVariable(kernelA);
 					}
 
 					// construct the equivalent of parsing a<=x<=b
-					ExpressionNode left = new ExpressionNode(kernelA, low, Operation.LESS_EQUAL, fv);
-					ExpressionNode right = new ExpressionNode(kernelA, fv, Operation.LESS_EQUAL, high);
-					ExpressionNode interval = new ExpressionNode(kernelA, left, Operation.AND_INTERVAL, right);
+					ExpressionNode left = new ExpressionNode(kernelA, low,
+							Operation.LESS_EQUAL, fv);
+					ExpressionNode right = new ExpressionNode(kernelA, fv,
+							Operation.LESS_EQUAL, high);
+					ExpressionNode interval = new ExpressionNode(kernelA, left,
+							Operation.AND_INTERVAL, right);
 					Function intervalFun = new Function(interval, fv);
-					AlgoDependentFunction intervalAlgo = new AlgoDependentFunction(cons, intervalFun);
+					AlgoDependentFunction intervalAlgo = new AlgoDependentFunction(
+							cons, intervalFun);
 					cons.removeFromConstructionList(intervalAlgo);
 					GeoFunction intervalGeo = intervalAlgo.getFunction();
 
-					ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();	
+					ArrayList<GeoFunction> conditions = new ArrayList<GeoFunction>();
 					conditions.add(intervalGeo);
 					mayUseIndependent = false;
-					
+
 					// copied from CmdIf from here
 
-					expr = new ExpressionNode(kernelA, wrap(conditions.get(0), fv,
-							mayUseIndependent), Operation.IF, wrap(geoFun,
-									fv, mayUseIndependent));
+					expr = new ExpressionNode(kernelA, wrap(conditions.get(0),
+							fv, mayUseIndependent), Operation.IF, wrap(geoFun,
+							fv, mayUseIndependent));
 					Log.debug(expr);
 					Log.debug(arg[0]);
 					Function fun = new Function(expr, fv);
 					if (mayUseIndependent) {
-						return new GeoElement[] { new GeoFunction(cons, label, fun) };
+						return new GeoElement[] { new GeoFunction(cons, label,
+								fun) };
 					}
-					AlgoDependentFunction algo = new AlgoDependentFunction(cons, label, fun);
+					AlgoDependentFunction algo = new AlgoDependentFunction(
+							cons, label, fun);
 					return new GeoElement[] { algo.getFunction() };
 
 				}
@@ -130,17 +136,14 @@ public class CmdFunction extends CommandProcessor {
 
 			}
 
-
-
-
 			// old code, just for when file loading
 
-
 			if (varName != null
-					|| kernelA.getConstruction().getRegisteredFunctionVariable() != null) {
+					|| kernelA.getConstruction()
+							.getRegisteredFunctionVariable() != null) {
 				if (varName == null)
 					varName = kernelA.getConstruction()
-					.getRegisteredFunctionVariable();
+							.getRegisteredFunctionVariable();
 				FunctionVariable fv = new FunctionVariable(kernelA, varName);
 				int r = c.getArgument(0).replaceVariables(varName, fv);
 				c.getArgument(0).replaceVariables(varName, fv);
@@ -148,20 +151,21 @@ public class CmdFunction extends CommandProcessor {
 					boolean oldFlag = kernelA.getConstruction()
 							.isSuppressLabelsActive();
 					kernelA.getConstruction().setSuppressLabelCreation(true);
-					
-					
+
 					c.getArgument(1).resolveVariables();
 					c.getArgument(2).resolveVariables();
-					
+
 					GeoFunction condFun;
-					if(c.getArgument(0).unwrap() instanceof Command){
-						condFun = (GeoFunction) kernelA
-								.getAlgebraProcessor().processCommand((Command)c.getArgument(0).unwrap(),true)[0];
-					}else{
+					if (c.getArgument(0).unwrap() instanceof Command) {
+						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
+								.processCommand(
+										(Command) c.getArgument(0).unwrap(),
+										true)[0];
+					} else {
 						c.getArgument(0).resolveVariables();
-						condFun = (GeoFunction) kernelA
-							.getAlgebraProcessor().processFunction(
-									new Function(c.getArgument(0), fv))[0];
+						condFun = (GeoFunction) kernelA.getAlgebraProcessor()
+								.processFunction(
+										new Function(c.getArgument(0), fv))[0];
 					}
 					GeoElement low = kernelA.getAlgebraProcessor()
 							.processExpressionNode(c.getArgument(1))[0];
@@ -175,8 +179,8 @@ public class CmdFunction extends CommandProcessor {
 					c.getArgument(0).resolveVariables();
 
 					kernelA.getConstruction().setSuppressLabelCreation(oldFlag);
-					return new GeoElement[] { Function(c.getLabel(),
-							condFun, (NumberValue) low, (NumberValue) high) };
+					return new GeoElement[] { Function(c.getLabel(), condFun,
+							(NumberValue) low, (NumberValue) high) };
 				}
 			}
 			arg = resArgs(c);
@@ -203,8 +207,6 @@ public class CmdFunction extends CommandProcessor {
 		return boolFun.getFunctionExpression().deepCopy(kernelA)
 				.traverse(VariablePolyReplacer.getReplacer(fv)).wrap();
 	}
-
-
 
 	/**
 	 * function limited to interval [a, b]

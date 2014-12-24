@@ -40,27 +40,31 @@ public class CmdRotate extends CommandProcessor {
 		case 2:
 			// ROTATE AROUND CENTER (0,0)
 			arg = resArgs(c);
-			return process2(c,arg,ok);
-			
+			return process2(c, arg, ok);
 
 		case 3:
 			// ROTATION AROUND POINT
 			arg = resArgs(c);
-			return process3(c,arg,ok);
+			return process3(c, arg, ok);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * process for 2 args
-	 * @param c command
-	 * @param arg args
-	 * @param ok is that ok ?
+	 * 
+	 * @param c
+	 *            command
+	 * @param arg
+	 *            args
+	 * @param ok
+	 *            is that ok ?
 	 * @return geos
 	 */
-	final protected GeoElement[] process2(Command c, GeoElement[] arg, boolean[] ok){
+	final protected GeoElement[] process2(Command c, GeoElement[] arg,
+			boolean[] ok) {
 
 		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))) {
 			GeoNumberValue phi = (GeoNumberValue) arg[1];
@@ -68,19 +72,22 @@ public class CmdRotate extends CommandProcessor {
 			return Rotate(c.getLabel(), arg[0], phi);
 		}
 
-		throw argErr(app, c.getName(), getBadArg(ok,arg));
+		throw argErr(app, c.getName(), getBadArg(ok, arg));
 	}
-
-	
 
 	/**
 	 * process for 3 args
-	 * @param c command
-	 * @param arg args
-	 * @param ok is that ok ?
+	 * 
+	 * @param c
+	 *            command
+	 * @param arg
+	 *            args
+	 * @param ok
+	 *            is that ok ?
 	 * @return geos
 	 */
-	final protected GeoElement[] process3(Command c, GeoElement[] arg, boolean[] ok){
+	final protected GeoElement[] process3(Command c, GeoElement[] arg,
+			boolean[] ok) {
 
 		if ((ok[0] = true) && (ok[1] = (arg[1] instanceof GeoNumberValue))
 				&& (ok[2] = (arg[2].isGeoPoint()))) {
@@ -91,10 +98,8 @@ public class CmdRotate extends CommandProcessor {
 			return getAlgoDispatcher().Rotate(c.getLabel(), arg[0], phi, Q);
 		}
 
-		throw argErr(app, c.getName(), getBadArg(ok,arg));
+		throw argErr(app, c.getName(), getBadArg(ok, arg));
 	}
-
-
 
 	/**
 	 * rotate geoRot by angle phi around (0,0)
@@ -104,6 +109,5 @@ public class CmdRotate extends CommandProcessor {
 		Transform t = new TransformRotate(cons, phi);
 		return t.transform(geoRot, label);
 	}
-
 
 }

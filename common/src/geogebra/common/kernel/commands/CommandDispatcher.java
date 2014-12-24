@@ -186,10 +186,13 @@ public abstract class CommandDispatcher {
 		}
 
 		if (cmdProc == null)
-			throw new MyError(app.getLocalization(), app.getLocalization().getError("UnknownCommand") + " : "
+			throw new MyError(app.getLocalization(), app.getLocalization()
+					.getError("UnknownCommand")
+					+ " : "
 					+ app.getLocalization().getCommand(c.getName()));
 
-		// switch on macro mode to avoid labeling of output if desired Solve[{e^-(x*x/2)=1,x>0},x]
+		// switch on macro mode to avoid labeling of output if desired
+		// Solve[{e^-(x*x/2)=1,x>0},x]
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		if (!labelOutput)
 			cons.setSuppressLabelCreation(true);
@@ -286,12 +289,11 @@ public abstract class CommandDispatcher {
 	 */
 	public CommandProcessor commandTableSwitch(String cmdName) {
 		try {
-			
+
 			Commands command = Commands.valueOf(cmdName);
 			switch (command) {
 
-			
-// scripting
+			// scripting
 			case RigidPolygon:
 			case Relation:
 			case CopyFreeObject:
@@ -345,7 +347,7 @@ public abstract class CommandDispatcher {
 			case ShowGrid:
 			case SlowPlot:
 			case ToolImage:
-			case Turtle: 
+			case Turtle:
 			case TurtleForward:
 			case TurtleBack:
 			case TurtleLeft:
@@ -354,16 +356,11 @@ public abstract class CommandDispatcher {
 			case TurtleDown:
 			case RunClickScript:
 			case RunUpdateScript:
-			//case DensityPlot:
-				return getScriptingDispatcher().dispatch(command,kernel);
-	
-				
-				
-				
-				
+				// case DensityPlot:
+				return getScriptingDispatcher().dispatch(command, kernel);
+
 				// advanced
-				
-				
+
 			case IntersectPath:
 			case IntersectRegion:
 			case Direction:
@@ -371,13 +368,12 @@ public abstract class CommandDispatcher {
 			case TaylorPolynomial:
 			case TaylorSeries:
 
-				
 			case SecondAxis:
 			case MinorAxis:
-				
+
 			case SemiMinorAxisLength:
 			case SecondAxisLength:
-				
+
 			case Directrix:
 			case Numerator:
 			case Denominator:
@@ -417,23 +413,23 @@ public abstract class CommandDispatcher {
 			case Transpose:
 			case ReducedRowEchelonForm:
 			case Determinant:
-			//case MatrixPlot:
+				// case MatrixPlot:
 			case Identity:
 			case Centroid:
 			case MajorAxis:
 			case FirstAxis:
-			
+
 			case SemiMajorAxisLength:
 			case FirstAxisLength:
-				
+
 			case AxisStepX:
 			case AxisStepY:
 			case ConstructionStep:
 			case Polar:
-			
+
 			case LinearEccentricity:
 			case Excentricity:
-			
+
 			case Eccentricity:
 			case Axes:
 			case IndexOf:
@@ -474,17 +470,15 @@ public abstract class CommandDispatcher {
 			case Payment:
 			case FutureValue:
 			case PresentValue:
-				return getAdvancedDispatcher().dispatch(command,kernel);
-				
-				
-				
+				return getAdvancedDispatcher().dispatch(command, kernel);
+
 				// basic
-				
+
 			case Tangent:
 			case Length:
 			case UnitPerpendicularVector:
 			case UnitOrthogonalVector:
-				
+
 			case Sort:
 			case BarChart:
 			case Product:
@@ -505,10 +499,10 @@ public abstract class CommandDispatcher {
 			case PointIn:
 			case Line:
 			case Ray:
-				
+
 			case AngleBisector:
 			case AngularBisector:
-				
+
 			case Segment:
 			case Slope:
 			case Angle:
@@ -528,7 +522,7 @@ public abstract class CommandDispatcher {
 			case CircumcircularSector:
 			case CircumcircleArc:
 			case CircumcircularArc:
-			
+
 			case Polygon:
 			case Area:
 			case Circumference:
@@ -540,7 +534,7 @@ public abstract class CommandDispatcher {
 			case TurningPoint:
 			case Polynomial:
 			case Spline:
-			//case Nyquist:
+				// case Nyquist:
 			case Function:
 			case Curve:
 			case CurveCartesian:
@@ -559,11 +553,11 @@ public abstract class CommandDispatcher {
 			case Center:
 			case Element:
 			case Sequence:
-			//case ContourPlot:
-				
+				// case ContourPlot:
+
 			case Reflect:
 			case Mirror:
-			
+
 			case Dilate:
 			case Rotate:
 			case Translate:
@@ -573,19 +567,18 @@ public abstract class CommandDispatcher {
 			case Corner:
 			case Name:
 
-			
 			case Diameter:
 			case ConjugateDiameter:
-				
+
 			case LineBisector:
 			case PerpendicularBisector:
-				
+
 			case OrthogonalLine:
 			case PerpendicularLine:
 
 			case OrthogonalVector:
 			case PerpendicularVector:
-				
+
 			case Random:
 			case RandomBetween:
 
@@ -593,7 +586,7 @@ public abstract class CommandDispatcher {
 
 			case Binomial:
 			case BinomialCoefficient:
-				
+
 			case Mod:
 			case Div:
 			case Min:
@@ -611,13 +604,13 @@ public abstract class CommandDispatcher {
 			case FractionText:
 			case KeepIf:
 			case IsInteger:
-			
+
 			case Defined:
 			case IsDefined:
 
 			case FormulaText:
 			case LaTeX:
-				return getBasicDispatcher().dispatch(command,kernel);
+				return getBasicDispatcher().dispatch(command, kernel);
 
 			case CFactor:
 			case CIFactor:
@@ -635,10 +628,8 @@ public abstract class CommandDispatcher {
 			case Solutions:
 			case Solve:
 			case Substitute:
-			case ToExponential:		
+			case ToExponential:
 				return new CAScmdProcessor(kernel);
-				
-
 
 				// ************** STATS ***************
 
@@ -767,7 +758,7 @@ public abstract class CommandDispatcher {
 			case ZProportionEstimate:
 			case ZProportionTest:
 			case Zipf:
-				return getStatsDispatcher().dispatch(command,kernel);
+				return getStatsDispatcher().dispatch(command, kernel);
 
 			case TriangleCenter:
 			case Barycenter:
@@ -782,9 +773,8 @@ public abstract class CommandDispatcher {
 			case DelauneyTriangulation:
 			case TravelingSalesman:
 			case ShortestDistance:
-				return getDiscreteDispatcher().dispatch(command,kernel);
-				
-				
+				return getDiscreteDispatcher().dispatch(command, kernel);
+
 			case LocusEquation:
 			case Envelope:
 			case Expand:
@@ -810,66 +800,74 @@ public abstract class CommandDispatcher {
 			case ImplicitDerivative:
 			case NextPrime:
 			case PreviousPrime:
-				return getCASDispatcher().dispatch(command,kernel);
+				return getCASDispatcher().dispatch(command, kernel);
 			default:
-				Log.error("missing case in CommandDispatcher "+cmdName);
+				Log.error("missing case in CommandDispatcher " + cmdName);
 				return null;
 			}
 		} catch (Exception e) {
-			Log.warn("command not found / CAS command called:"
-					+ cmdName);
+			Log.warn("command not found / CAS command called:" + cmdName);
 		}
 		return null;
 	}
-	
+
 	private CommandDispatcherStats statsDispatcher = null;
+
 	private CommandDispatcherStats getStatsDispatcher() {
-		if(statsDispatcher == null) {
+		if (statsDispatcher == null) {
 			statsDispatcher = new CommandDispatcherStats();
 		}
 		return statsDispatcher;
 	}
-	/** dispatcher for discrete math*/
+
+	/** dispatcher for discrete math */
 	protected CommandDispatcherInterface discreteDispatcher = null;
-	/** @return dispatcher for discrete math*/
+
+	/** @return dispatcher for discrete math */
 	protected CommandDispatcherInterface getDiscreteDispatcher() {
-		if(discreteDispatcher == null) {
+		if (discreteDispatcher == null) {
 			discreteDispatcher = new CommandDispatcherDiscrete();
 		}
 		return discreteDispatcher;
 	}
-	/** dispatcher for CAS commands*/
+
+	/** dispatcher for CAS commands */
 	protected CommandDispatcherInterface casDispatcher = null;
-	/** @return dispatcher for CAS commands*/
+
+	/** @return dispatcher for CAS commands */
 	protected CommandDispatcherInterface getCASDispatcher() {
-		if(casDispatcher == null) {
+		if (casDispatcher == null) {
 			casDispatcher = new CommandDispatcherCAS();
 		}
 		return casDispatcher;
 	}
 
-	/** dispatcher for scripting commands*/
+	/** dispatcher for scripting commands */
 	protected CommandDispatcherInterface scriptingDispatcher = null;
-	/** @return dispatcher for scripting commands*/
+
+	/** @return dispatcher for scripting commands */
 	protected CommandDispatcherInterface getScriptingDispatcher() {
-		if(scriptingDispatcher == null) {
+		if (scriptingDispatcher == null) {
 			scriptingDispatcher = new CommandDispatcherScripting();
 		}
 		return scriptingDispatcher;
 	}
-	/** dispatcher for advanced commands*/
+
+	/** dispatcher for advanced commands */
 	protected CommandDispatcherInterface advancedDispatcher = null;
-	/** @return dispatcher for advanced commands*/
+
+	/** @return dispatcher for advanced commands */
 	protected CommandDispatcherInterface getAdvancedDispatcher() {
-		if(advancedDispatcher == null) {
+		if (advancedDispatcher == null) {
 			advancedDispatcher = new CommandDispatcherAdvanced();
 		}
 		return advancedDispatcher;
 	}
 
 	private CommandDispatcherBasic basicDispatcher = null;
+
 	private CommandDispatcherBasic getBasicDispatcher() {
-		if(basicDispatcher == null) {
+		if (basicDispatcher == null) {
 			basicDispatcher = new CommandDispatcherBasic();
 		}
 		return basicDispatcher;

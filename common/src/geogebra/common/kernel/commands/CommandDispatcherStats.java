@@ -4,12 +4,13 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.statistics.*;
 
 /**
- * class to split off some CmdXXX classes into another jar (for faster applet loading)
+ * class to split off some CmdXXX classes into another jar (for faster applet
+ * loading)
  *
  */
 public class CommandDispatcherStats implements CommandDispatcherInterface {
-	public CommandProcessor dispatch(Commands c, Kernel kernel){
-		switch(c){
+	public CommandProcessor dispatch(Commands c, Kernel kernel) {
+		switch (c) {
 		case RandomElement:
 			return new CmdRandomElement(kernel);
 		case RandomPolynomial:
@@ -84,7 +85,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case CorrelationCoefficient:
 		case PMCC:
 			return new CmdPMCC(kernel);
-		
+
 		case SampleSDX:
 			return new CmdSampleSDX(kernel);
 		case SampleSDY:
@@ -97,7 +98,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case FitLine:
 		case FitLineY:
 			return new CmdFitLineY(kernel);
-		
+
 		case FitLineX:
 			return new CmdFitLineX(kernel);
 		case FitPoly:
@@ -225,7 +226,7 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case Uniform:
 			return new CmdUniform(kernel);
 		case Erlang:
-			return new CmdErlang(kernel);			
+			return new CmdErlang(kernel);
 		case CellRange:
 			return new CmdCellRange(kernel); // cell range for spreadsheet
 												// like A1:A5
@@ -242,8 +243,8 @@ public class CommandDispatcherStats implements CommandDispatcherInterface {
 		case FillCells:
 			return new CmdFillCells(kernel);
 		case Cell:
-			return new CmdCell(kernel);			
-			
+			return new CmdCell(kernel);
+
 		case Frequency:
 			return new CmdFrequency(kernel);
 		case ZProportionTest:

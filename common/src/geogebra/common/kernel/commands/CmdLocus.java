@@ -34,16 +34,17 @@ public class CmdLocus extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0] instanceof FunctionalNVar) || arg[0].isGeoLocus()) && (ok[1] = arg[1].isGeoPoint())) {
-				
+			if ((ok[0] = (arg[0] instanceof FunctionalNVar)
+					|| arg[0].isGeoLocus())
+					&& (ok[1] = arg[1].isGeoPoint())) {
+
 				AlgoIntegralODE algo = new AlgoIntegralODE(cons, c.getLabel(),
-						 arg[0], 
-						(GeoPoint) arg[1]);
+						arg[0], (GeoPoint) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() }; // var
 				return ret;
 			}
-			
+
 			// second argument has to be point on path
 			else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
@@ -63,7 +64,8 @@ public class CmdLocus extends CommandProcessor {
 				GeoPoint p1 = (GeoPoint) arg[0];
 				GeoNumeric p2 = (GeoNumeric) arg[1];
 
-				GeoElement[] ret = { getAlgoDispatcher().Locus(c.getLabel(), p1, p2) };
+				GeoElement[] ret = { getAlgoDispatcher().Locus(c.getLabel(),
+						p1, p2) };
 				return ret;
 			} else {
 				throw argErr(app, c.getName(), getBadArg(ok, arg));
@@ -74,14 +76,17 @@ public class CmdLocus extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
-	 * @param label label
-	 * @param p1 dependent point
-	 * @param p2 point on path
+	 * @param label
+	 *            label
+	 * @param p1
+	 *            dependent point
+	 * @param p2
+	 *            point on path
 	 * @return locus
 	 */
-	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2){
+	protected GeoElement locus(String label, GeoPointND p1, GeoPointND p2) {
 		return getAlgoDispatcher().Locus(label, (GeoPoint) p1, (GeoPoint) p2);
 	}
 }

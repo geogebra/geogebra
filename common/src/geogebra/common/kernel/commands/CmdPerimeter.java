@@ -10,8 +10,7 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.main.MyError;
 
 /**
- * Perimeter[ <GeoPolygon> ]
- * Perimeter[ <Conic> ]
+ * Perimeter[ <GeoPolygon> ] Perimeter[ <Conic> ]
  */
 public class CmdPerimeter extends CommandProcessor {
 	/**
@@ -33,26 +32,26 @@ public class CmdPerimeter extends CommandProcessor {
 		case 1:
 			// Perimeter[ <GeoPolygon> ]
 			arg = resArgs(c);
-			if ( (arg[0].isGeoPolygon())) {
+			if ((arg[0].isGeoPolygon())) {
 
-				GeoElement[] ret = { getAlgoDispatcher().Perimeter(c.getLabel(),
-						(GeoPolygon) arg[0]) };
+				GeoElement[] ret = { getAlgoDispatcher().Perimeter(
+						c.getLabel(), (GeoPolygon) arg[0]) };
 				return ret;
 
 				// Perimeter[ <Conic> ]
-			} else if ( (arg[0].isGeoConic())) {
+			} else if ((arg[0].isGeoConic())) {
 
-				GeoElement[] ret = { getAlgoDispatcher().Circumference(c.getLabel(),
-						(GeoConicND) arg[0]) };
+				GeoElement[] ret = { getAlgoDispatcher().Circumference(
+						c.getLabel(), (GeoConicND) arg[0]) };
 				return ret;
 
-			} else if ( (arg[0].isGeoLocus())) {
-				//Perimeter[locus]
-				
-				AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons, c.getLabel(),
-						(GeoLocus) arg[0]);
+			} else if ((arg[0].isGeoLocus())) {
+				// Perimeter[locus]
 
-				GeoElement[] ret = {  algo.getResult() };
+				AlgoPerimeterLocus algo = new AlgoPerimeterLocus(cons,
+						c.getLabel(), (GeoLocus) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else

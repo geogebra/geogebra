@@ -31,37 +31,35 @@ public class CmdLaTeX extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			arg = resArgs(c, true);	
-			AlgoLaTeX algo = new AlgoLaTeX(cons, c.getLabel(),
-					arg[0]);
+			arg = resArgs(c, true);
+			AlgoLaTeX algo = new AlgoLaTeX(cons, c.getLabel(), arg[0]);
 
 			GeoElement[] ret = { algo.getGeoText() };
 			return ret;
 
 		case 2:
 
-			arg = resArgs(c, true);	
+			arg = resArgs(c, true);
 			if (arg[1].isGeoBoolean()) {
-				GeoElement[] ret2 = { LaTeX(c.getLabel(),
-						arg[0], (GeoBoolean)arg[1], null) };
+				GeoElement[] ret2 = { LaTeX(c.getLabel(), arg[0],
+						(GeoBoolean) arg[1], null) };
 				return ret2;
 			}
-			throw argErr(app, c.getName(), arg[1]);   
+			throw argErr(app, c.getName(), arg[1]);
 
 		case 3:
 
-			arg = resArgs(c,true);	
+			arg = resArgs(c, true);
 			if (arg[1].isGeoBoolean() && arg[2].isGeoBoolean()) {
-				GeoElement[] ret2 = { LaTeX(c.getLabel(),
-						arg[0], (GeoBoolean)arg[1], (GeoBoolean)arg[2]) };
+				GeoElement[] ret2 = { LaTeX(c.getLabel(), arg[0],
+						(GeoBoolean) arg[1], (GeoBoolean) arg[2]) };
 				return ret2;
 			}
 
 			else if (!arg[1].isGeoBoolean())
 				throw argErr(app, c.getName(), arg[1]);
-			else 
+			else
 				throw argErr(app, c.getName(), arg[2]);
-
 
 		default:
 			throw argNumErr(app, c.getName(), n);

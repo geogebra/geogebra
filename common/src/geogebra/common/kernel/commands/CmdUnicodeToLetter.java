@@ -13,7 +13,9 @@ import geogebra.common.main.MyError;
 public class CmdUnicodeToLetter extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdUnicodeToLetter(Kernel kernel) {
 		super(kernel);
@@ -22,23 +24,22 @@ public class CmdUnicodeToLetter extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if ( arg[0] instanceof GeoNumberValue) 
-			{
-				AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter(cons, c.getLabel(),
-						(GeoNumberValue) arg[0]);
+			if (arg[0] instanceof GeoNumberValue) {
+				AlgoUnicodeToLetter algo = new AlgoUnicodeToLetter(cons,
+						c.getLabel(), (GeoNumberValue) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-						
+
 			}
 			throw argErr(app, c.getName(), arg[0]);
-		
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

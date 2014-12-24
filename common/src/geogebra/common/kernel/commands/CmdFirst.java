@@ -13,9 +13,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- * First[ <List>,n ]
- * Michael Borcherds
- * 2008-03-04
+ * First[ <List>,n ] Michael Borcherds 2008-03-04
  */
 public class CmdFirst extends CommandProcessor {
 	/**
@@ -33,19 +31,15 @@ public class CmdFirst extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		
+
 		switch (n) {
 		case 1:
 
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						First(c.getLabel(),
-						(GeoList) arg[0], null ) };
+				GeoElement[] ret = { First(c.getLabel(), (GeoList) arg[0], null) };
 				return ret;
 			} else if (arg[0].isGeoText()) {
-				GeoElement[] ret = { 
-						First(c.getLabel(),
-						(GeoText) arg[0], null ) };
+				GeoElement[] ret = { First(c.getLabel(), (GeoText) arg[0], null) };
 				return ret;
 			} else
 				throw argErr(app, c.getName(), arg[0]);
@@ -53,32 +47,30 @@ public class CmdFirst extends CommandProcessor {
 			boolean list = arg[0].isGeoList();
 			boolean string = arg[0].isGeoText();
 			boolean locus = arg[0].isGeoLocus();
-			if ( list && arg[1].isGeoNumeric() ) {
-				GeoElement[] ret = { 
-						First(c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1] ) };
+			if (list && arg[1].isGeoNumeric()) {
+				GeoElement[] ret = { First(c.getLabel(), (GeoList) arg[0],
+						(GeoNumeric) arg[1]) };
 				return ret;
-			} else if ( string && arg[1].isGeoNumeric() ) {
-				GeoElement[] ret = { 
-						First(c.getLabel(),
-						(GeoText) arg[0], (GeoNumeric) arg[1] ) };
+			} else if (string && arg[1].isGeoNumeric()) {
+				GeoElement[] ret = { First(c.getLabel(), (GeoText) arg[0],
+						(GeoNumeric) arg[1]) };
 				return ret;
-			} else if ( locus && arg[1].isGeoNumeric() ) {
-				
+			} else if (locus && arg[1].isGeoNumeric()) {
+
 				AlgoFirstLocus algo = new AlgoFirstLocus(cons, c.getLabel(),
 						(GeoLocus) arg[0], (GeoNumeric) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else
-				throw argErr(app, c.getName(), (list && string) ? arg[1] : arg[0]);
-			
-		
+				throw argErr(app, c.getName(), (list && string) ? arg[1]
+						: arg[0]);
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * First[string,n] Michael Borcherds
 	 */
@@ -87,7 +79,6 @@ public class CmdFirst extends CommandProcessor {
 		GeoText list2 = algo.getResult();
 		return list2;
 	}
-	
 
 	/**
 	 * First[list,n] Michael Borcherds

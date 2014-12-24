@@ -35,7 +35,7 @@ public class CmdDiv extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
+
 				AlgoDiv algo = new AlgoDiv(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
@@ -43,9 +43,10 @@ public class CmdDiv extends CommandProcessor {
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunction()))
 					&& (ok[1] = (arg[1].isGeoFunction()))) {
-				
-				AlgoPolynomialDiv algo = new AlgoPolynomialDiv(cons, c.getLabel(),
-						(GeoFunction) arg[0], (GeoFunction) arg[1]);
+
+				AlgoPolynomialDiv algo = new AlgoPolynomialDiv(cons,
+						c.getLabel(), (GeoFunction) arg[0],
+						(GeoFunction) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

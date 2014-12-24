@@ -32,8 +32,9 @@ public class CmdFocus extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoConic()) {
-				
-				AlgoFocus algo = newAlgoFocus(cons, c.getLabels(), (GeoConicND) arg[0]);
+
+				AlgoFocus algo = newAlgoFocus(cons, c.getLabels(),
+						(GeoConicND) arg[0]);
 				return (GeoElement[]) algo.getFocus();
 
 			}
@@ -51,7 +52,8 @@ public class CmdFocus extends CommandProcessor {
 	 * @param c
 	 * @return new AlgoFocus
 	 */
-	protected AlgoFocus newAlgoFocus(Construction cons, String[] labels, GeoConicND c){
+	protected AlgoFocus newAlgoFocus(Construction cons, String[] labels,
+			GeoConicND c) {
 		return new AlgoFocus(cons, labels, c);
 	}
 }

@@ -41,7 +41,6 @@ public class CmdMirror extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		
 
 		switch (n) {
 		case 2:
@@ -49,10 +48,10 @@ public class CmdMirror extends CommandProcessor {
 
 			GeoElement[] ret = process2(label, arg, ok);
 
-			if (ret != null){
+			if (ret != null) {
 				return ret;
 			}
-			
+
 			// syntax error
 
 			if (!ok[0])
@@ -63,18 +62,22 @@ public class CmdMirror extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * process angle when 2 arguments
-	 * @param label for the result
-	 * @param arg arguments
-	 * @param ok ok array
+	 * 
+	 * @param label
+	 *            for the result
+	 * @param arg
+	 *            arguments
+	 * @param ok
+	 *            ok array
 	 * @return result (if one)
 	 */
-	protected GeoElement[] process2(String label, GeoElement[] arg, boolean[] ok){
+	protected GeoElement[] process2(String label, GeoElement[] arg, boolean[] ok) {
 
 		GeoElement[] ret = new GeoElement[1];
-		
+
 		if (arg[1].isGeoConic()) { // mirror point in circle Michael
 			// Borcherds 2008-02-10
 			GeoConic conic1 = (GeoConic) arg[1];
@@ -82,8 +85,7 @@ public class CmdMirror extends CommandProcessor {
 			if (conic1.getType() == GeoConicNDConstants.CONIC_CIRCLE
 					&& arg[0].isGeoConic() || arg[0].isGeoPoint()
 					|| arg[0] instanceof GeoCurveCartesian
-					|| arg[0] instanceof GeoLine
-					|| arg[0] instanceof GeoPoly
+					|| arg[0] instanceof GeoLine || arg[0] instanceof GeoPoly
 					|| arg[0] instanceof GeoFunction
 					|| arg[0] instanceof GeoList
 					|| arg[0] instanceof GeoImplicitPoly) {

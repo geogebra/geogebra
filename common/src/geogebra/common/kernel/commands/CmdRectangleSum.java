@@ -14,10 +14,12 @@ import geogebra.common.main.MyError;
 public class CmdRectangleSum extends CommandProcessor {
 
 	/**
-	* Create new command processor
-	* @param kernel kernel
-	*/
-	public CmdRectangleSum (Kernel kernel) {
+	 * Create new command processor
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
+	public CmdRectangleSum(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -28,28 +30,27 @@ public class CmdRectangleSum extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 5 :
+		case 5:
 			arg = resArgs(c);
-			if ((ok[0] = (arg[0] .isGeoFunctionable()))
-					&& (ok[1] = (arg[1]  instanceof GeoNumberValue))
-					&& (ok[2] = (arg[2]  instanceof GeoNumberValue))
-					&& (ok[3] = (arg[3]  instanceof GeoNumberValue))					
-					&& (ok[4] = (arg[4]  instanceof GeoNumberValue))) {
-				
-				AlgoSumRectangle algo = new AlgoSumRectangle(cons, c.getLabel(),
+			if ((ok[0] = (arg[0].isGeoFunctionable()))
+					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
+					&& (ok[2] = (arg[2] instanceof GeoNumberValue))
+					&& (ok[3] = (arg[3] instanceof GeoNumberValue))
+					&& (ok[4] = (arg[4] instanceof GeoNumberValue))) {
+
+				AlgoSumRectangle algo = new AlgoSumRectangle(cons,
+						c.getLabel(),
 						((GeoFunctionable) arg[0]).getGeoFunction(),
-						(GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2],
-						(GeoNumberValue) arg[3],								
-						(GeoNumberValue) arg[4]);
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
-		default :
+		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-}//CmdRectangleSum
+}// CmdRectangleSum

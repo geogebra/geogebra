@@ -15,7 +15,7 @@ import geogebra.common.kernel.parser.ParseException;
 import geogebra.common.main.MyError;
 
 /**
- *KeepIf (also see CmdCountIf)
+ * KeepIf (also see CmdCountIf)
  */
 public class CmdKeepIf extends CommandProcessor {
 
@@ -40,31 +40,34 @@ public class CmdKeepIf extends CommandProcessor {
 
 		case 3:
 			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3)}]
-			
+
 			// eg KeepIf[x(A)<3, A+B, {1,2,3}]
 			arg1Str = c.getArgument(1).toString(StringTemplate.defaultTemplate);
 			try {
-				if(!arg1Str.equals(kernelA.getParser().parseLabel(arg1Str))){
-					throw argErr(app, c.getName(), new MyStringBuffer(kernelA, arg1Str));
+				if (!arg1Str.equals(kernelA.getParser().parseLabel(arg1Str))) {
+					throw argErr(app, c.getName(), new MyStringBuffer(kernelA,
+							arg1Str));
 				}
 			} catch (ParseException e) {
-				throw argErr(app, c.getName(), new MyStringBuffer(kernelA, arg1Str));
+				throw argErr(app, c.getName(), new MyStringBuffer(kernelA,
+						arg1Str));
 			}
-			
+
 			GeoElement[] vars = new GeoElement[1];
 			GeoList[] over = new GeoList[1];
 			boolean oldval = cons.isSuppressLabelsActive();
-			try{
-				cons.setSuppressLabelCreation(true);	
-				arg = resArgsForZip(c,vars,over);
-			}finally{
-				for (GeoElement localVar : vars){ 
-					if(localVar!=null)
-						cons.removeLocalVariable(localVar.getLabel(StringTemplate.defaultTemplate));
+			try {
+				cons.setSuppressLabelCreation(true);
+				arg = resArgsForZip(c, vars, over);
+			} finally {
+				for (GeoElement localVar : vars) {
+					if (localVar != null)
+						cons.removeLocalVariable(localVar
+								.getLabel(StringTemplate.defaultTemplate));
 				}
 				cons.setSuppressLabelCreation(oldval);
 			}
-						
+
 			if (arg instanceof GeoBoolean) {
 
 				GeoElement[] ret = getResult3(c, (GeoBoolean) arg, vars, over);
@@ -76,7 +79,8 @@ public class CmdKeepIf extends CommandProcessor {
 		case 2:
 			args = resArgs(c);
 
-			if ((ok[0] = args[0] instanceof GeoFunction)&&(ok[1] = args[1].isGeoList())) {
+			if ((ok[0] = args[0] instanceof GeoFunction)
+					&& (ok[1] = args[1].isGeoList())) {
 				GeoFunction booleanFun = (GeoFunction) args[0];
 				if ((ok[0] = booleanFun.isBooleanFunction())
 						&& (ok[1] = args[1].isGeoList())) {
@@ -86,7 +90,7 @@ public class CmdKeepIf extends CommandProcessor {
 				}
 			}
 
-			throw argErr(app, c.getName(), getBadArg(ok,args));
+			throw argErr(app, c.getName(), getBadArg(ok, args));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
@@ -95,30 +99,43 @@ public class CmdKeepIf extends CommandProcessor {
 
 	/**
 	 * Returns result for two-parametric version of this command
-	 * @param c construction
-	 * @param booleanFun condition
-	 * @param args both arguments
+	 * 
+	 * @param c
+	 *            construction
+	 * @param booleanFun
+	 *            condition
+	 * @param args
+	 *            both arguments
 	 * @return result of the command
 	 */
-	protected GeoElement[] getResult2(ValidExpression c, GeoFunction booleanFun, GeoElement[] args) {
-		AlgoKeepIf algo = new AlgoKeepIf(cons, c.getLabel(), booleanFun, ((GeoList) args[1]));
+	protected GeoElement[] getResult2(ValidExpression c,
+			GeoFunction booleanFun, GeoElement[] args) {
+		AlgoKeepIf algo = new AlgoKeepIf(cons, c.getLabel(), booleanFun,
+				((GeoList) args[1]));
 		GeoElement[] ret = { algo.getResult() };
-		
+
 		return ret;
 	}
 
 	/**
 	 * Returns result for two-parametric version of this command
-	 * @param c construction
-	 * @param arg condition
-	 * @param vars list of variables
-	 * @param over list of lists we iterate over
+	 * 
+	 * @param c
+	 *            construction
+	 * @param arg
+	 *            condition
+	 * @param vars
+	 *            list of variables
+	 * @param over
+	 *            list of lists we iterate over
 	 * @return result of the command
 	 */
-	protected GeoElement[] getResult3(ValidExpression c, GeoBoolean arg, GeoElement[] vars, GeoList[] over) {
-		AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), arg, vars[0], over[0]);
+	protected GeoElement[] getResult3(ValidExpression c, GeoBoolean arg,
+			GeoElement[] vars, GeoList[] over) {
+		AlgoKeepIf3 algo = new AlgoKeepIf3(cons, c.getLabel(), arg, vars[0],
+				over[0]);
 		GeoElement[] ret = { algo.getResult() };
-		
+
 		return ret;
 	}
 }

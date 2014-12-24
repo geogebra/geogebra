@@ -15,7 +15,7 @@ import geogebra.common.main.MyError;
  * ]
  */
 public class CmdArcSector extends CommandProcessor {
-	
+
 	/**
 	 * arc/sector
 	 */
@@ -26,7 +26,8 @@ public class CmdArcSector extends CommandProcessor {
 	 * 
 	 * @param kernel
 	 *            kernel
-	 * @param type arc/sector
+	 * @param type
+	 *            arc/sector
 	 */
 	public CmdArcSector(Kernel kernel, int type) {
 		super(kernel);
@@ -45,24 +46,19 @@ public class CmdArcSector extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))
 					&& (ok[2] = (arg[2] instanceof GeoNumberValue))) {
-				
-				GeoElement[] ret = {
-						arcSector(
-						c.getLabel(),
+
+				GeoElement[] ret = { arcSector(c.getLabel(),
 						(GeoConicND) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2])
-				};
+						(GeoNumberValue) arg[2]) };
 
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoConic()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				
-				GeoElement[] ret = {
-						arcSector(c.getLabel(),
+
+				GeoElement[] ret = { arcSector(c.getLabel(),
 						(GeoConicND) arg[0], (GeoPointND) arg[1],
-						(GeoPointND) arg[2])
-				};
+						(GeoPointND) arg[2]) };
 
 				return ret;
 			} else {
@@ -79,36 +75,44 @@ public class CmdArcSector extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param label label
-	 * @param conic conic
-	 * @param start start value
-	 * @param end end value
+	 * @param label
+	 *            label
+	 * @param conic
+	 *            conic
+	 * @param start
+	 *            start value
+	 * @param end
+	 *            end value
 	 * @return conic part
 	 */
-	protected GeoElement arcSector(String label, GeoConicND conic, GeoNumberValue start, GeoNumberValue end){
+	protected GeoElement arcSector(String label, GeoConicND conic,
+			GeoNumberValue start, GeoNumberValue end) {
 		AlgoConicPartConicParameters algo = new AlgoConicPartConicParameters(
 				cons, label, conic, start, end, type);
 
 		return algo.getConicPart();
 	}
-	
-	
+
 	/**
-	 * @param label label
-	 * @param conic conic
-	 * @param start start point
-	 * @param end end point
+	 * @param label
+	 *            label
+	 * @param conic
+	 *            conic
+	 * @param start
+	 *            start point
+	 * @param end
+	 *            end point
 	 * @return conic part
 	 */
-	protected GeoElement arcSector(String label, GeoConicND conic, GeoPointND start, GeoPointND end){
-		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(
-				cons, label, conic, start, end, type);
+	protected GeoElement arcSector(String label, GeoConicND conic,
+			GeoPointND start, GeoPointND end) {
+		AlgoConicPartConicPoints algo = new AlgoConicPartConicPoints(cons,
+				label, conic, start, end, type);
 
 		return algo.getConicPart();
 	}
-	
+
 }

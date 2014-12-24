@@ -32,57 +32,63 @@ public abstract class CmdOneOrTwoListsFunction extends CommandProcessor {
 		GeoElement[] arg;
 		arg = resArgs(c);
 		switch (n) {
-		case 0:throw argNumErr(app, c.getName(), n);
+		case 0:
+			throw argNumErr(app, c.getName(), n);
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						doCommand(c.getLabel(),
-						(GeoList) arg[0]) };
+				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-		
-		case 2:			
+
+		case 2:
 			arg = resArgs(c);
-			if ((arg[0].isGeoList()) &&
-				(arg[1].isGeoList())) 
-			{
-				GeoElement[] ret = { 
-						doCommand(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1]) };
+			if ((arg[0].isGeoList()) && (arg[1].isGeoList())) {
+				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0],
+						(GeoList) arg[1]) };
 				return ret;
-				
-			}  else if(!(arg[0] instanceof VectorValue && arg[1] instanceof VectorValue))
+
+			} else if (!(arg[0] instanceof VectorValue && arg[1] instanceof VectorValue))
 				throw argErr(app, c.getName(), arg[0]);
-			
-		
-        default :
-        	 
-        	if (arg[0] instanceof VectorValue) {
-                // try to create list of points (eg FitExp[])
-              	 GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
-                   if (list != null) {
-                  	 GeoElement[] ret = { doCommand(c.getLabel(), list)};
-                       return ret;             	     	 
-                   } 		
-        	}
+
+		default:
+
+			if (arg[0] instanceof VectorValue) {
+				// try to create list of points (eg FitExp[])
+				GeoList list = wrapInList(kernelA, arg, arg.length,
+						GeoClass.POINT);
+				if (list != null) {
+					GeoElement[] ret = { doCommand(c.getLabel(), list) };
+					return ret;
+				}
+			}
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
+
 	/**
-     * Perform the actual command
-     * @param label label for output
-     * @param list input list
-     * @return resulting element
-     */
-    abstract protected GeoElement doCommand(String label, GeoList list);
-    /**
-     * Perform the actual command
-     * @param label label for output
-     * @param listX first input list
-     * @param listY second input list
-     * @return resulting element
-     */
-    abstract protected GeoElement doCommand(String label, GeoList listX, GeoList listY);     
+	 * Perform the actual command
+	 * 
+	 * @param label
+	 *            label for output
+	 * @param list
+	 *            input list
+	 * @return resulting element
+	 */
+	abstract protected GeoElement doCommand(String label, GeoList list);
+
+	/**
+	 * Perform the actual command
+	 * 
+	 * @param label
+	 *            label for output
+	 * @param listX
+	 *            first input list
+	 * @param listY
+	 *            second input list
+	 * @return resulting element
+	 */
+	abstract protected GeoElement doCommand(String label, GeoList listX,
+			GeoList listY);
 }

@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
- *FractionText
+ * FractionText
  */
 public class CmdFractionText extends CommandProcessor {
 
@@ -34,16 +34,16 @@ public class CmdFractionText extends CommandProcessor {
 		case 1:
 
 			if (arg[0] instanceof GeoNumberValue) {
-				
-				AlgoFractionText algo = new AlgoFractionText(cons, c.getLabel(),
-						(GeoNumberValue) arg[0]);
+
+				AlgoFractionText algo = new AlgoFractionText(cons,
+						c.getLabel(), (GeoNumberValue) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[0].isGeoPoint()) {
-				
-				AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons, c.getLabel(),
-						(GeoPointND) arg[0]);
+
+				AlgoFractionTextPoint algo = new AlgoFractionTextPoint(cons,
+						c.getLabel(), (GeoPointND) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

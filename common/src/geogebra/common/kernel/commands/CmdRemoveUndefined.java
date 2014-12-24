@@ -9,13 +9,16 @@ import geogebra.common.main.MyError;
 
 /**
  * Clean[ <List> ]
+ * 
  * @author Michael Borcherds
  * @version 2008-03-06
  */
 public class CmdRemoveUndefined extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdRemoveUndefined(Kernel kernel) {
 		super(kernel);
@@ -26,14 +29,14 @@ public class CmdRemoveUndefined extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		
+
 		switch (n) {
 		case 1:
 
 			if (arg[0].isGeoList()) {
-				
-				AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons, c.getLabel(),
-						(GeoList) arg[0]);
+
+				AlgoRemoveUndefined algo = new AlgoRemoveUndefined(cons,
+						c.getLabel(), (GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

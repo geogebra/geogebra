@@ -2,7 +2,6 @@ package geogebra.common.kernel.commands;
 
 import geogebra.common.kernel.Kernel;
 
-
 /**
  * Corner[ <Image>, <number> ]
  */

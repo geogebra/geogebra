@@ -48,8 +48,9 @@ public class CmdTranslate extends CommandProcessor {
 
 			if ((ok[0] = (arg[0].isGeoVector()))
 					&& (ok[1] = (arg[1].isGeoPoint()))) {
-				
-				AlgoTranslateVector algo = getAlgoTranslateVector(label, arg[0], arg[1]);
+
+				AlgoTranslateVector algo = getAlgoTranslateVector(label,
+						arg[0], arg[1]);
 
 				ret[0] = (GeoElement) algo.getTranslatedVector();
 
@@ -57,10 +58,10 @@ public class CmdTranslate extends CommandProcessor {
 			} else if ((ok[0] = (arg[0] instanceof Translateable
 					|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
 					&& (ok[1] = (arg[1] instanceof GeoVec3D))) {
-				
+
 				// 2D Vectors, Points
 				GeoVec3D v = (GeoVec3D) arg[1];
-				
+
 				ret = getAlgoDispatcher().Translate(label, arg[0], v);
 				return ret;
 			}
@@ -76,15 +77,20 @@ public class CmdTranslate extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param label label
-	 * @param v input vector
-	 * @param P starting point
+	 * @param label
+	 *            label
+	 * @param v
+	 *            input vector
+	 * @param P
+	 *            starting point
 	 * @return new algo translate vector
 	 */
-	protected AlgoTranslateVector getAlgoTranslateVector(String label, GeoElement v, GeoElement P){
-		return new AlgoTranslateVector(cons, label, (GeoVector) v, (GeoPointND) P);
+	protected AlgoTranslateVector getAlgoTranslateVector(String label,
+			GeoElement v, GeoElement P) {
+		return new AlgoTranslateVector(cons, label, (GeoVector) v,
+				(GeoPointND) P);
 	}
 }

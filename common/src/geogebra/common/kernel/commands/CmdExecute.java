@@ -30,7 +30,8 @@ public class CmdExecute extends CommandProcessor {
 		arg = resArgs(c);
 		if (n > 10)
 			throw argNumErr(app, c.getName(), n);
-		if (arg[0].isGeoList() && ((GeoList) arg[0]).size()==0 || !arg[0].isDefined())
+		if (arg[0].isGeoList() && ((GeoList) arg[0]).size() == 0
+				|| !arg[0].isDefined())
 			return new GeoElement[] {};
 		if ((!arg[0].isGeoList())
 				|| (!((GeoList) arg[0]).getGeoElementForPropertiesDialog()
@@ -47,12 +48,12 @@ public class CmdExecute extends CommandProcessor {
 		for (int i = 0; i < list.size(); i++) {
 			try {
 				String cmdText = ((GeoText) list.get(i)).getTextString();
-				for(int k=1;k<n;k++)
-					cmdText = cmdText.replace("%"+k, arg[k].getLabel(StringTemplate.maxPrecision));
+				for (int k = 1; k < n; k++)
+					cmdText = cmdText.replace("%" + k,
+							arg[k].getLabel(StringTemplate.maxPrecision));
 				kernelA.getAlgebraProcessor()
-				.processAlgebraCommandNoExceptionHandling(cmdText
-						, false,
-						false, true, false);
+						.processAlgebraCommandNoExceptionHandling(cmdText,
+								false, false, true, false);
 			} catch (MyError e) {
 				app.showError(e);
 				break;

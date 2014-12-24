@@ -9,13 +9,16 @@ import geogebra.common.main.MyError;
 
 /**
  * Clean[ <List> ]
+ * 
  * @author Michael Borcherds
  * @version 2008-03-06
  */
 public class CmdRemove extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdRemove(Kernel kernel) {
 		super(kernel);
@@ -26,13 +29,13 @@ public class CmdRemove extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		
+
 		switch (n) {
 		case 2:
 
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList()) ) {
-				
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
+
 				AlgoRemove algo = new AlgoRemove(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
 
