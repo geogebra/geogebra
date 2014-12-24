@@ -12,39 +12,43 @@ import java.awt.event.MouseListener;
  * Controller for CAS cell
  *
  */
-public class CASTableCellController extends geogebra.common.cas.view.CASTableCellController implements KeyListener, MouseListener{
-	
+public class CASTableCellController extends
+		geogebra.common.cas.view.CASTableCellController implements KeyListener,
+		MouseListener {
+
 	private CASViewD view;
 	private CASTableD table;
 	private AppD app;
 	private CASTableCellEditorD tableCellEditor;
 	private boolean rightClick = false;
-	
+
 	/**
-	 * @param view CAS view
+	 * @param view
+	 *            CAS view
 	 */
-	public CASTableCellController(CASViewD view) {		
+	public CASTableCellController(CASViewD view) {
 		this.view = view;
 		this.app = view.getApplication();
 		table = view.getConsoleTable();
-		tableCellEditor = table.getEditor();		
+		tableCellEditor = table.getEditor();
 	}
 
 	public void keyPressed(KeyEvent e) {
-		Object src = e.getSource();		
+		Object src = e.getSource();
 		boolean consumed = e.isConsumed();
 		if (src == tableCellEditor.getInputArea())
 			consumed = handleKeyPressedInputTextField(e);
-		if(!consumed)
+		if (!consumed)
 			view.getApplication().getGlobalKeyDispatcher().handleGeneralKeys(e);
 	}
 
 	private boolean handleKeyPressedInputTextField(final KeyEvent e) {
-		if (e.isConsumed()) return true;
-		
+		if (e.isConsumed())
+			return true;
+
 		boolean consumeEvent = false;
 		boolean needUndo = false;
-		
+
 		int selectedRow = table.getSelectedRow();
 		int rowCount = table.getRowCount();
 
@@ -58,7 +62,7 @@ public class CASTableCellController extends geogebra.common.cas.view.CASTableCel
 			// copied/selected etc..
 			return true;
 		case KeyEvent.VK_ENTER:
-			handleEnterKey(geogebra.euclidian.event.KeyEvent.wrapEvent(e),app);
+			handleEnterKey(geogebra.euclidian.event.KeyEvent.wrapEvent(e), app);
 			consumeEvent = true;
 			// needUndo remains false because handleEnterKey handles Undo!
 			break;
@@ -66,24 +70,22 @@ public class CASTableCellController extends geogebra.common.cas.view.CASTableCel
 		case KeyEvent.VK_UP:
 			if (selectedRow >= 1) {
 				table.startEditingRow(selectedRow - 1);
-			} 
-			else if (view.isRowEmpty(0)) {
+			} else if (view.isRowEmpty(0)) {
 				// insert empty row at beginning
 				table.insertRow(0, null, true);
 				needUndo = true;
-			}			
+			}
 			consumeEvent = true;
 			break;
-			
+
 		case KeyEvent.VK_DOWN:
 			if (selectedRow != rowCount - 1) {
 				table.startEditingRow(selectedRow + 1);
-			} 
-			else {
+			} else {
 				// insert empty row at end
 				view.insertRow(null, true);
 				needUndo = true;
-			}	
+			}
 			consumeEvent = true;
 			break;
 		}
@@ -93,7 +95,7 @@ public class CASTableCellController extends geogebra.common.cas.view.CASTableCel
 		if (consumeEvent) {
 			e.consume();
 		}
-		
+
 		if (needUndo) {
 			// store undo info
 			view.getApp().storeUndoInfo();
@@ -116,22 +118,22 @@ public class CASTableCellController extends geogebra.common.cas.view.CASTableCel
 		this.rightClick = rightClick;
 	}
 
-
 	public void mouseReleased(MouseEvent e) {
-		setRightClick(AppD.isRightClickForceMetaDown(e));	
+		setRightClick(AppD.isRightClickForceMetaDown(e));
 		if (isRightClick()) {
-				RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
-						(GeoCasCell)tableCellEditor.getCellEditorValue(), tableCellEditor, table, RowContentPopupMenu.Panel.INPUT);
-				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+			RowContentPopupMenu popupMenu = new RowContentPopupMenu(app,
+					(GeoCasCell) tableCellEditor.getCellEditorValue(),
+					tableCellEditor, table, RowContentPopupMenu.Panel.INPUT);
+			popupMenu.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
-	
+
 	public void keyReleased(KeyEvent arg0) {
-		//do nothing; we use keyPressed
+		// do nothing; we use keyPressed
 	}
 
 	public void keyTyped(KeyEvent arg0) {
-		//do nothing; we use keyPressed
+		// do nothing; we use keyPressed
 	}
 
 	public void mouseClicked(MouseEvent e) {
@@ -141,19 +143,17 @@ public class CASTableCellController extends geogebra.common.cas.view.CASTableCel
 
 	public void mouseEntered(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void mousePressed(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
-	}
-	
 
+	}
 
 }

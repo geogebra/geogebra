@@ -10,8 +10,6 @@ import java.io.OutputStream;
 // having all methods of Graphics2D. None of his methods is used
 class MyGraphics2D extends EpsGraphics {
 
-
-
 	public MyGraphics2D(String title, OutputStream outputStream, int minX,
 			int minY, int maxX, int maxY, ColorMode colorMode)
 			throws IOException {

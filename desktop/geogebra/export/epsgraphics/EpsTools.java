@@ -37,8 +37,8 @@ import java.io.IOException;
  */
 public class EpsTools {
 	/* This class should not be instantiated. */
-	private EpsTools(){
-		
+	private EpsTools() {
+
 	}
 
 	/**

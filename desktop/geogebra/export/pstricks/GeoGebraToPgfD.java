@@ -16,9 +16,8 @@ import geogebra.common.main.App;
 
 import java.io.IOException;
 
-public class GeoGebraToPgfD extends GeoGebraToPgf{
+public class GeoGebraToPgfD extends GeoGebraToPgf {
 
-	
 	public GeoGebraToPgfD(App app) {
 		super(app);
 	}
@@ -26,20 +25,20 @@ public class GeoGebraToPgfD extends GeoGebraToPgf{
 	@Override
 	protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2) {
-		try{
+		try {
 			return new MyGraphicsPgf(ef, inequality, euclidianView2);
-		}catch(Exception ex){
+		} catch (Exception ex) {
 			ex.printStackTrace();
 			return null;
 		}
 	}
 
-	class MyGraphicsPgf extends MyGraphics{
+	class MyGraphicsPgf extends MyGraphics {
 
-		
-		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq, EuclidianView euclidianView) throws IOException {
+		public MyGraphicsPgf(FunctionalNVar geo, Inequality ineq,
+				EuclidianView euclidianView) throws IOException {
 
-			super(geo,ineq,euclidianView);
+			super(geo, ineq, euclidianView);
 		}
 
 		@Override
@@ -47,7 +46,7 @@ public class GeoGebraToPgfD extends GeoGebraToPgf{
 			((GeoElement) geo).setLineType(ineq.getBorder().lineType);
 			switch (ineq.getType()) {
 			case INEQUALITY_CONIC:
-				GeoConicND conic = ineq.getConicBorder();				
+				GeoConicND conic = ineq.getConicBorder();
 				if (conic.getType() == GeoConicNDConstants.CONIC_ELLIPSE
 						|| conic.getType() == GeoConicNDConstants.CONIC_CIRCLE) {
 					((GeoElement) conic).setObjColor(((GeoElement) geo)
@@ -55,13 +54,14 @@ public class GeoGebraToPgfD extends GeoGebraToPgf{
 					conic.setType(GeoConicNDConstants.CONIC_ELLIPSE);
 					((GeoElement) conic).setAlphaValue(((GeoElement) geo)
 							.getAlphaValue());
-					((GeoElement) conic).setHatchingAngle((int)((GeoElement) geo)
-							.getHatchingAngle());
+					((GeoElement) conic)
+							.setHatchingAngle((int) ((GeoElement) geo)
+									.getHatchingAngle());
 					((GeoElement) conic).setHatchingDistance(((GeoElement) geo)
 							.getHatchingDistance());
 					((GeoElement) conic).setFillType(((GeoElement) geo)
 							.getFillType());
-					drawGeoConic((GeoConic) conic);	
+					drawGeoConic((GeoConic) conic);
 					break;
 				}
 			case INEQUALITY_PARAMETRIC_Y:
@@ -73,24 +73,27 @@ public class GeoGebraToPgfD extends GeoGebraToPgf{
 				double zeroY = ds[5] * ds[3];
 				double zeroX = ds[4] * (-ds[0]);
 				GPathIterator path = s.getPathIterator(null);
-				GColor c=((GeoElement)geo).getObjectColor();
-				code.append("\\draw[");;
-				code.append(LineOptionCode((GeoElement)geo,true));
+				GColor c = ((GeoElement) geo).getObjectColor();
+				code.append("\\draw[");
+				;
+				code.append(LineOptionCode((GeoElement) geo, true));
 				code.append("]");
 				double precX = Integer.MAX_VALUE;
-				double precY = Integer.MAX_VALUE;		
+				double precY = Integer.MAX_VALUE;
 				while (!path.isDone()) {
 					path.currentSegment(coords);
 					if (coords[0] == precX && coords[1] == precY) {
-						code.delete(code.length()-2, code.length());
+						code.delete(code.length() - 2, code.length());
 						code.append(";\n\\draw[");
-						code.append(LineOptionCode((GeoElement)geo,true));
+						code.append(LineOptionCode((GeoElement) geo, true));
 						code.append("]");
 					} else {
-						double x1=(coords[0] - zeroX) / ds[4];
-						double y1=-(coords[1] - zeroY) / ds[5];
-						if (y1>ymax) y1=ymax;
-						if (y1<ymin) y1=ymin;
+						double x1 = (coords[0] - zeroX) / ds[4];
+						double y1 = -(coords[1] - zeroY) / ds[5];
+						if (y1 > ymax)
+							y1 = ymax;
+						if (y1 < ymin)
+							y1 = ymin;
 						code.append("(");
 						code.append(format(x1));
 						code.append(",");
@@ -101,8 +104,8 @@ public class GeoGebraToPgfD extends GeoGebraToPgf{
 					precY = coords[1];
 					path.next();
 				}
-				int i=code.lastIndexOf(")");
-				code.delete(i+1, code.length());
+				int i = code.lastIndexOf(")");
+				code.delete(i + 1, code.length());
 				code.append(";\n");
 				break;
 			}

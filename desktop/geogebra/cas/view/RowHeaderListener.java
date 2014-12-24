@@ -19,7 +19,8 @@ import javax.swing.event.ListSelectionListener;
  * Handles mouse and key events in row headers of the CAS table
  *
  */
-public class RowHeaderListener extends MouseAdapter implements KeyListener, ListSelectionListener, MouseMotionListener {
+public class RowHeaderListener extends MouseAdapter implements KeyListener,
+		ListSelectionListener, MouseMotionListener {
 
 	private final CASTableD table;
 	private final JList rowHeader;
@@ -27,15 +28,16 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 	private boolean rightClick;
 
 	/**
-	 * @param table CAS table
-	 * @param rowHeader row headers
+	 * @param table
+	 *            CAS table
+	 * @param rowHeader
+	 *            row headers
 	 */
 	public RowHeaderListener(CASTableD table, JList rowHeader) {
 		this.table = table;
 		this.rowHeader = rowHeader;
 	}
 
-	
 	@Override
 	public void mousePressed(MouseEvent e) {
 		rightClick = AppD.isRightClick(e);
@@ -57,7 +59,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 			table.stopEditing();
 			mousePressedRow = mouseDraggedRow;
 		}
-		if(AppD.isControlDown(e))
+		if (AppD.isControlDown(e))
 			rowHeader.addSelectionInterval(mousePressedRow, mouseDraggedRow);
 		else
 			rowHeader.setSelectionInterval(mousePressedRow, mouseDraggedRow);
@@ -69,7 +71,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 		// handle marble click
 		int releasedRow = table.rowAtPoint(e.getPoint());
-		
+
 		try {
 			RowHeaderRenderer rhr = (RowHeaderRenderer) rowHeader
 					.getCellRenderer().getListCellRendererComponent(rowHeader,
@@ -98,17 +100,17 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 			// this can come, if one clicked on an empty header
 			Log.warn("No cas cell " + releasedRow);
 		}
-		
+
 		mousePressedRow = -1;
 		// handle right click
-		
 
 		if (rightClick) {
-			if(!rowHeader.isSelectedIndex(releasedRow)){
+			if (!rowHeader.isSelectedIndex(releasedRow)) {
 				rowHeader.setSelectedIndex(releasedRow);
 			}
-			if(rowHeader.getSelectedIndices().length>0){
-				RowHeaderPopupMenuD popupMenu = new RowHeaderPopupMenuD(rowHeader, table);
+			if (rowHeader.getSelectedIndices().length > 0) {
+				RowHeaderPopupMenuD popupMenu = new RowHeaderPopupMenuD(
+						rowHeader, table);
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		}
@@ -116,7 +118,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		//not needed, we handle mouse events in mouseReleased
+		// not needed, we handle mouse events in mouseReleased
 	}
 
 	public void mouseMoved(MouseEvent e) {
@@ -142,23 +144,22 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener, List
 			// store undo info
 			table.getApplication().storeUndoInfo();
 		}
-		
+
 	}
 
 	public void keyReleased(KeyEvent e) {
-		//not needed, we handle key events in keyPressed
+		// not needed, we handle key events in keyPressed
 	}
 
 	public void keyTyped(KeyEvent e) {
-		//not needed, we handle key events in keyPressed
+		// not needed, we handle key events in keyPressed
 	}
 
-
 	public void valueChanged(ListSelectionEvent e) {
-		ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+		ListSelectionModel lsm = (ListSelectionModel) e.getSource();
 		int minIndex = lsm.getMinSelectionIndex();
-        int maxIndex = lsm.getMaxSelectionIndex();
-        if (minIndex == maxIndex)
-        	table.startEditingRow(minIndex);
+		int maxIndex = lsm.getMaxSelectionIndex();
+		if (minIndex == maxIndex)
+			table.startEditingRow(minIndex);
 	}
 }

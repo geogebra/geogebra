@@ -9,18 +9,18 @@ import java.awt.event.InputEvent;
 import java.util.LinkedList;
 
 public class MouseEventD extends AbstractEvent implements MouseEventND {
-	
+
 	public static LinkedList<MouseEventD> pool = new LinkedList<MouseEventD>();
 	private java.awt.event.MouseEvent event;
 	private int id;
-	
+
 	private MouseEventD(java.awt.event.MouseEvent e) {
 		App.debug("possible missing release()");
 		this.event = e;
 	}
-	
+
 	public static AbstractEvent wrapEvent(java.awt.event.MouseEvent e) {
-		if(!pool.isEmpty()){
+		if (!pool.isEmpty()) {
 			MouseEventD wrap = pool.getLast();
 			wrap.event = e;
 			pool.removeLast();
@@ -31,8 +31,8 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 
 	@Override
 	public GPoint getPoint() {
-		
-		return new GPoint(event.getPoint().x,event.getPoint().y);
+
+		return new GPoint(event.getPoint().x, event.getPoint().y);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 	}
 
 	public static java.awt.event.MouseEvent getEvent(AbstractEvent e) {
-		return ((MouseEventD)e).event;
+		return ((MouseEventD) e).event;
 	}
 
 	@Override
@@ -94,10 +94,10 @@ public class MouseEventD extends AbstractEvent implements MouseEventND {
 		return event.isPopupTrigger();
 	}
 
-	public java.awt.Component getComponent() {		
+	public java.awt.Component getComponent() {
 		return event.getComponent();
 	}
-	
+
 	@Override
 	public PointerEventType getType() {
 		return PointerEventType.MOUSE;

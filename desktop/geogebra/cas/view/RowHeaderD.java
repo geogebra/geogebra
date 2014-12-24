@@ -19,13 +19,16 @@ public class RowHeaderD extends JList implements RowHeader {
 	 */
 	public static final int ROW_HEADER_WIDTH = 30;
 
-
 	/**
-	 * @param table CAS table
-	 * @param multipleIntervalSelection whether multiple intervals should be possible to select
-	 * @param lsModel selection model
+	 * @param table
+	 *            CAS table
+	 * @param multipleIntervalSelection
+	 *            whether multiple intervals should be possible to select
+	 * @param lsModel
+	 *            selection model
 	 */
-	public RowHeaderD(CASTableD table, boolean multipleIntervalSelection, ListSelectionModel lsModel) {
+	public RowHeaderD(CASTableD table, boolean multipleIntervalSelection,
+			ListSelectionModel lsModel) {
 		setModel(new RowHeaderListModel(table));
 		setSelectionModel(lsModel);
 		if (multipleIntervalSelection) {
@@ -46,9 +49,10 @@ public class RowHeaderD extends JList implements RowHeader {
 		addMouseListener(rhl);
 		addMouseMotionListener(rhl);
 		addKeyListener(rhl);
-		//this.getSelectionModel().addListSelectionListener(rhl);
-		table.getSelectionModel().setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-		//table.getSelectionModel().addListSelectionListener(this);
+		// this.getSelectionModel().addListSelectionListener(rhl);
+		table.getSelectionModel().setSelectionMode(
+				ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		// table.getSelectionModel().addListSelectionListener(this);
 		table.setRowSelectionAllowed(true);
 	}
 

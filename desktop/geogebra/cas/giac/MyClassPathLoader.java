@@ -9,18 +9,22 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Adapted from http://www.jotschi.de/Uncategorized/2011/09/26/jogl2-jogamp-classpathloader-for-native-libraries.html
+ * Adapted from
+ * http://www.jotschi.de/Uncategorized/2011/09/26/jogl2-jogamp-classpathloader
+ * -for-native-libraries.html
  *
  */
 public class MyClassPathLoader {
 
 	/**
 	 * Loads the given library with the libname from the classpath root
-	 * @param libname eg javagiac or javagiac64
+	 * 
+	 * @param libname
+	 *            eg javagiac or javagiac64
 	 * @return success
 	 */
 	public boolean loadLibrary(String libname) {
-		
+
 		String extension, prefix;
 		if (AppD.WINDOWS) {
 			prefix = "";
@@ -33,17 +37,17 @@ public class MyClassPathLoader {
 			prefix = "lib";
 			extension = ".so";
 		}
-		
+
 		String filename = prefix + libname + extension;
 		InputStream ins = ClassLoader.getSystemResourceAsStream(filename);
-		
+
 		if (ins == null) {
 			App.error(filename + " not found");
 			return false;
 		}
-		
+
 		String fname = prefix + libname + Math.random() + extension;
-			
+
 		try {
 
 			// Math.random() to avoid problems with 2 instances
@@ -52,7 +56,7 @@ public class MyClassPathLoader {
 			tmpFile.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
-			App.debug("error loading: "+fname);
+			App.debug("error loading: " + fname);
 			return false;
 		}
 

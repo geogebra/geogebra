@@ -49,14 +49,13 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 	private boolean stop;
 	private boolean errorOccured;
 	private Thread[] threads;
-	
-	//stops all working threads
+
+	// stops all working threads
 	private void interruptThreads() {
 		for (Thread t : threads) {
 			t.interrupt();
 		}
 	}
-
 
 	/**
 	 * Takes the result back from the threads.
@@ -83,8 +82,7 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 
 	@Override
 	protected final ProofResult computeNd(HashSet<Variable> freeVariables,
-			HashMap<Variable, BigInteger> values, int deg,
-			SymbolicParameters s) {
+			HashMap<Variable, BigInteger> values, int deg, SymbolicParameters s) {
 		int n = freeVariables.size();
 		Variable[] variables = new Variable[n];
 		Iterator<Variable> it = freeVariables.iterator();
@@ -93,7 +91,7 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 		}
 
 		coordinatesQueue.clear();
-		verifiedPoints=new AtomicInteger(0);
+		verifiedPoints = new AtomicInteger(0);
 		stop = false;
 		errorOccured = false;
 
@@ -110,7 +108,7 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 		Runtime runtime = Runtime.getRuntime();
 		int useProcessors = runtime.availableProcessors() - 1;
 		useProcessors = 0; // do not use threads until #3399 is fixed
-		
+
 		pointTesters = new PointTester[useProcessors];
 		threads = new Thread[useProcessors];
 
@@ -272,11 +270,11 @@ public class ProverReciosMethod extends AbstractProverReciosMethod {
 			nrOfTests = 0;
 			while (!Thread.interrupted()) {
 
-					try {
-						coordinates = prover.coordinatesQueue.take();
-					} catch (InterruptedException e) {
-						return;
-					}
+				try {
+					coordinates = prover.coordinatesQueue.take();
+				} catch (InterruptedException e) {
+					return;
+				}
 
 				for (int i = 0; i < coordinates.length; i++) {
 					this.values.put(variables[i], coordinates[i]);

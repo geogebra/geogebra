@@ -247,10 +247,10 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	 */
 	private void draw(Shape s, String action) {
 		if (s != null) {
-			
+
 			// 20120115 bugfix: stroke needs to be appended each time
 			appendStroke();
-			
+
 			if (!_transform.isIdentity()) {
 				s = _transform.createTransformedShape(s);
 			}
@@ -405,8 +405,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		}
 		ColorModel cm = img.getColorModel();
 		WritableRaster wr = img.copyData(null);
-		BufferedImage img1 = new BufferedImage(cm, wr, cm
-				.isAlphaPremultiplied(), properties);
+		BufferedImage img1 = new BufferedImage(cm, wr,
+				cm.isAlphaPremultiplied(), properties);
 		AffineTransform at = AffineTransform.getTranslateInstance(
 				img.getMinX(), img.getMinY());
 		at.preConcatenate(xform);
@@ -546,8 +546,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 	}
 
 	/*
-	 * 20120115 bugfix: stroke needs to be appended each time
-	 * (non-Javadoc)
+	 * 20120115 bugfix: stroke needs to be appended each time (non-Javadoc)
+	 * 
 	 * @see java.awt.Graphics2D#setStroke(java.awt.Stroke)
 	 */
 	@Override
@@ -887,8 +887,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 		}
 		_font = font;
 		if (!getAccurateTextMode()) {
-			append("/" + _font.getPSName() + " findfont "
-					+ _font.getSize() + " scalefont setfont");
+			append("/" + _font.getPSName() + " findfont " + _font.getSize()
+					+ " scalefont setfont");
 		}
 	}
 
@@ -1287,9 +1287,8 @@ public class EpsGraphics extends java.awt.Graphics2D {
 						line.append("00");
 					}
 				} else if (this.colorMode.equals(ColorMode.GRAYSCALE)) {
-					line
-							.append(toHexString((color.getRed()
-									+ color.getGreen() + color.getBlue()) / 3));
+					line.append(toHexString((color.getRed() + color.getGreen() + color
+							.getBlue()) / 3));
 				} else {// TODO: no difference between RGB and CMYK
 					line.append(toHexString(color.getRed())
 							+ toHexString(color.getGreen())

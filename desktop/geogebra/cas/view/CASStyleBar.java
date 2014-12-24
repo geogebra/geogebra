@@ -137,27 +137,32 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			applyTextSize(targetGeos);
 		} else if (source == btnUseAsText) {
 			int i = casView.getConsoleTable().getEditingRow();
-			int pos = ((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTableD.COL_CAS_CELLS)).getCaretPosition();
+			int pos = ((CASTableCellEditorD) casView.getConsoleTable()
+					.getCellEditor(i, CASTableD.COL_CAS_CELLS))
+					.getCaretPosition();
 			applyUseAsText(targetGeos);
 			casView.getConsoleTable().startEditingRow(i);
-			((CASTableCellEditorD)casView.getConsoleTable().getCellEditor(i,CASTableD.COL_CAS_CELLS)).setCaretPosition(pos);
-		}else if (source == btnShowKeyboard) {
-			if(((GuiManagerInterfaceD)app.getGuiManager())!=null){
+			((CASTableCellEditorD) casView.getConsoleTable().getCellEditor(i,
+					CASTableD.COL_CAS_CELLS)).setCaretPosition(pos);
+		} else if (source == btnShowKeyboard) {
+			if (((GuiManagerInterfaceD) app.getGuiManager()) != null) {
 				if (AppD.isVirtualKeyboardActive()
-						&& !((GuiManagerD)app.getGuiManager()).showVirtualKeyboard()) {
+						&& !((GuiManagerD) app.getGuiManager())
+								.showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
-					((GuiManagerD)app.getGuiManager()).getVirtualKeyboard().toggleNumeric(true);
+					((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
+					((GuiManagerD) app.getGuiManager()).getVirtualKeyboard()
+							.toggleNumeric(true);
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					((GuiManagerD)app.getGuiManager()).toggleKeyboard(
-							AppD.isVirtualKeyboardActive());
-					((GuiManagerD)app.getGuiManager()).getVirtualKeyboard().toggleNumeric(
-							AppD.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD
+							.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager()).getVirtualKeyboard()
+							.toggleNumeric(AppD.isVirtualKeyboardActive());
 				}
 			}
 		}
@@ -193,8 +198,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 				.getSelectedColor());
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo instanceof GeoCasCell
-					) {
+			if (geo instanceof GeoCasCell) {
 				((GeoCasCell) geo)
 						.setFontColor(new geogebra.awt.GColorD(color));
 				geo.updateRepaint();
@@ -222,7 +226,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			fontStyle += 1;
 		if (btnItalic.isSelected())
 			fontStyle += 2;
-		App.printStacktrace(geos.size()+"");
+		App.printStacktrace(geos.size() + "");
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			Log.debug(((GeoCasCell) geo).getGeoText());
@@ -276,11 +280,12 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		add(btnTextColor);
 		add(btnBold);
 		add(btnItalic);
-		
-		btnShowKeyboard =       new MyToggleButton(app.getImageIcon("cas-keyboard.png"), iconHeight);    
+
+		btnShowKeyboard = new MyToggleButton(
+				app.getImageIcon("cas-keyboard.png"), iconHeight);
 		btnShowKeyboard.addActionListener(this);
 		add(btnShowKeyboard);
-		//add(btnTextSize); //TODO: Fix text size
+		// add(btnTextSize); //TODO: Fix text size
 
 		popupBtnList = newPopupBtnList();
 		toggleBtnList = newToggleBtnList();

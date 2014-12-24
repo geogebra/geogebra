@@ -33,8 +33,11 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	private final CASTableCellEditorD editor;
 	private final CASTableD table;
 	private final AppD app;
-	
-	public enum Panel { OUTPUT, INPUT}
+
+	public enum Panel {
+		OUTPUT, INPUT
+	}
+
 	private Panel clickedPanel;
 
 	/**
@@ -45,17 +48,19 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	 * @param table
 	 *            needed to get the {@link AppD}
 	 */
-	public RowContentPopupMenu(AppD app, GeoCasCell value, CASTableCellEditorD editor , CASTableD table) {
+	public RowContentPopupMenu(AppD app, GeoCasCell value,
+			CASTableCellEditorD editor, CASTableD table) {
 		this.value = value;
 		this.table = table;
 		this.editor = editor;
 		this.app = app;
 		this.clickedPanel = Panel.OUTPUT;
-		
+
 		initMenu();
 	}
-	
-	public RowContentPopupMenu(AppD app, GeoCasCell value, CASTableCellEditorD editor, CASTableD table, Panel clickedPanel) {
+
+	public RowContentPopupMenu(AppD app, GeoCasCell value,
+			CASTableCellEditorD editor, CASTableD table, Panel clickedPanel) {
 		this.value = value;
 		this.table = table;
 		this.editor = editor;
@@ -66,34 +71,36 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 	}
 
 	private void initMenu() {
-		switch(clickedPanel) {
+		switch (clickedPanel) {
 		case OUTPUT:
-			JMenuItem copyItem = new JMenuItem(table.getApplication().getMenu("Copy"));
+			JMenuItem copyItem = new JMenuItem(table.getApplication().getMenu(
+					"Copy"));
 			copyItem.setActionCommand("copy");
 			copyItem.addActionListener(this);
 			add(copyItem);
 			addSeparator();
-	
-			JMenuItem copyToLatexItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsLaTeX"));
+
+			JMenuItem copyToLatexItem = new JMenuItem(table.getApplication()
+					.getMenu("CopyAsLaTeX"));
 			copyToLatexItem.setActionCommand("copyAsLatex");
 			copyToLatexItem.addActionListener(this);
 			add(copyToLatexItem);
-			
-			JMenuItem copyToLibreOfficeItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsLibreOfficeFormula"));
+
+			JMenuItem copyToLibreOfficeItem = new JMenuItem(table
+					.getApplication().getMenu("CopyAsLibreOfficeFormula"));
 			copyToLibreOfficeItem.setActionCommand("copyAsLibreOfficeMath");
 			copyToLibreOfficeItem.addActionListener(this);
 			add(copyToLibreOfficeItem);
 
-			JMenuItem copyToImageItem = new JMenuItem(
-					table.getApplication().getMenu("CopyAsImage"));
+			JMenuItem copyToImageItem = new JMenuItem(table.getApplication()
+					.getMenu("CopyAsImage"));
 			copyToImageItem.setActionCommand("copyAsImage");
 			copyToImageItem.addActionListener(this);
 			add(copyToImageItem);
 			break;
 		case INPUT:
-			JMenuItem pasteItem = new JMenuItem(table.getApplication().getMenu("Paste"));
+			JMenuItem pasteItem = new JMenuItem(table.getApplication().getMenu(
+					"Paste"));
 			pasteItem.setActionCommand("paste");
 			pasteItem.addActionListener(this);
 			add(pasteItem);
@@ -108,8 +115,8 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 		handleCopy(e);
 		handlePaste(e);
 	}
-	
-	private void handleCopy(ActionEvent e){
+
+	private void handleCopy(ActionEvent e) {
 		String ac = e.getActionCommand();
 
 		Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
@@ -117,55 +124,58 @@ public class RowContentPopupMenu extends JPopupMenu implements ActionListener {
 
 		if (ac.equals("copy")) {
 			data = new StringSelection(
-                    // use xmlTemplate so that sin(2x) -> sin(2*x) 
-					// so that it can be pasted into other software 
+			// use xmlTemplate so that sin(2x) -> sin(2*x)
+			// so that it can be pasted into other software
 					value.getOutput(StringTemplate.xmlTemplate));
 		} else if (ac.equals("copyAsLatex")) {
 			String latexOutput = value.getLaTeXOutput();
 			data = new StringSelection(StringUtil.toLaTeXString(latexOutput,
 					true));
-			
+
 		} else if (ac.equals("copyAsLibreOfficeMath")) {
-			String libreofficeOutput = value.getOutput(StringTemplate.libreofficeTemplate);
+			String libreofficeOutput = value
+					.getOutput(StringTemplate.libreofficeTemplate);
 			data = new StringSelection(libreofficeOutput);
 
 		} else if (ac.equals("copyAsImage")) {
 			ImageIcon latexIcon = new ImageIcon();
-			AppD app = (AppD)table.getApplication();
-			Font latexFont = new Font(app.getPlainFont().getName(),
-					app.getPlainFont().getStyle(), app
-							.getPlainFont().getSize() - 1);
+			AppD app = (AppD) table.getApplication();
+			Font latexFont = new Font(app.getPlainFont().getName(), app
+					.getPlainFont().getStyle(),
+					app.getPlainFont().getSize() - 1);
 
-			app.getDrawEquation().drawLatexImageIcon(app,
-					latexIcon, value.getLaTeXOutput(), latexFont, false,
-					geogebra.awt.GColorD.getAwtColor(value.getAlgebraColor()), table.getBackground());
+			app.getDrawEquation().drawLatexImageIcon(app, latexIcon,
+					value.getLaTeXOutput(), latexFont, false,
+					geogebra.awt.GColorD.getAwtColor(value.getAlgebraColor()),
+					table.getBackground());
 
 			data = new ImageSelection(latexIcon.getImage());
 		}
-		
+
 		if (data != null) {
 			sysClip.setContents(data, null);
-		}		
+		}
 	}
-	
-	private void handlePaste(ActionEvent e){
+
+	private void handlePaste(ActionEvent e) {
 		String ac = e.getActionCommand();
 		String data = "";
 		Clipboard sysClip = Toolkit.getDefaultToolkit().getSystemClipboard();
-		
-		if(ac.equals("paste")){
+
+		if (ac.equals("paste")) {
 			Transferable contents = sysClip.getContents(null);
-		    boolean hasTransferableText = (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
-		    if ( hasTransferableText ) {
-		      try {
-		        data = (String)contents.getTransferData(DataFlavor.stringFlavor);
-		      }
-		      catch (Exception ex) {
-		        System.out.println(ex);
-		        ex.printStackTrace();
-		      }
-		    }
-		    editor.insertText(data);
+			boolean hasTransferableText = (contents != null)
+					&& contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+			if (hasTransferableText) {
+				try {
+					data = (String) contents
+							.getTransferData(DataFlavor.stringFlavor);
+				} catch (Exception ex) {
+					System.out.println(ex);
+					ex.printStackTrace();
+				}
+			}
+			editor.insertText(data);
 			app.storeUndoInfo();
 		}
 	}

@@ -250,26 +250,29 @@ public class CASTableCellEditorD extends CASTableCell implements
 		char ch = e.getKeyChar();
 		JTextComponent inputArea = getInputArea();
 		String text = inputArea.getText();
-		
+
 		// check for special characters, which insert some text
 		// from the previous cell
 		if (editingRow == 0 || text.length() != 0) {
 			return;
 		}
-		
-		GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(editingRow - 1);
+
+		GeoCasCell selCellValue = view.getConsoleTable().getGeoCasCell(
+				editingRow - 1);
 
 		if (!selCellValue.isError()) {
 			switch (ch) {
 			case ' ':
 			case '|':
 				// insert output of previous row (not in parentheses)
-				inputArea.setText(selCellValue.getOutputRHS(StringTemplate.defaultTemplate) + " ");
+				inputArea.setText(selCellValue
+						.getOutputRHS(StringTemplate.defaultTemplate) + " ");
 				e.consume();
 				break;
 			case ')':
 				// insert output of previous row in parentheses
-				String prevOutput = selCellValue.getOutputRHS(StringTemplate.defaultTemplate);
+				String prevOutput = selCellValue
+						.getOutputRHS(StringTemplate.defaultTemplate);
 				inputArea.setText("(" + prevOutput + ")");
 				e.consume();
 				break;
@@ -278,7 +281,8 @@ public class CASTableCellEditorD extends CASTableCell implements
 		// insert input of previous row
 		// should work on errors also
 		if ('=' == ch) {
-			inputArea.setText(selCellValue.getInput(StringTemplate.defaultTemplate));
+			inputArea.setText(selCellValue
+					.getInput(StringTemplate.defaultTemplate));
 			e.consume();
 		}
 	}

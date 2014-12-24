@@ -34,13 +34,13 @@ import java.awt.geom.Rectangle2D;
  */
 public interface Drawable {
 
-    /**
-     * Draws the object in the rectangle using the provide graphics context.
-     * 
-     * @param g2
-     *            the graphics device.
-     * @param area
-     *            the area inside which the object should be drawn.
-     */
-    public void draw(Graphics2D g2, Rectangle2D area);
+	/**
+	 * Draws the object in the rectangle using the provide graphics context.
+	 * 
+	 * @param g2
+	 *            the graphics device.
+	 * @param area
+	 *            the area inside which the object should be drawn.
+	 */
+	public void draw(Graphics2D g2, Rectangle2D area);
 }

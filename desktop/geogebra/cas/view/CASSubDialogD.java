@@ -43,7 +43,7 @@ import javax.swing.table.TableCellEditor;
 public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
 	private CASViewD casView;
 
@@ -52,7 +52,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	private JPanel optionPane, btPanel, captionPanel;
 	private JTable replaceTable;
 	private JDialog dialog;
-	
+
 	private static final int DEFAULT_TABLE_WIDTH = 200;
 	private static final int DEFAULT_TABLE_HEIGHT = 150;
 	private static final int DEFAULT_TABLE_CELL_HEIGHT = 21;
@@ -61,19 +61,21 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	/**
 	 * Substitute dialog for CAS.
 	 * 
-	 * @param casView view
+	 * @param casView
+	 *            view
 	 * @param prefix
 	 *            before selection, not effected by the substitution
 	 * @param evalText
 	 *            the String which will be substituted
 	 * @param postfix
 	 *            after selection, not effected by the substitution
-	 * @param editRow row to edit
+	 * @param editRow
+	 *            row to edit
 	 */
 	public CASSubDialogD(CASViewD casView, String prefix, String evalText,
 			String postfix, int editRow) {
 		super(prefix, evalText, postfix, editRow);
-		
+
 		this.casView = casView;
 		this.app = casView.getApp();
 
@@ -86,8 +88,10 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	 * 
 	 */
 	protected void createGUI() {
-		//do not dock the substitution dialog to the main frame: ticket 1832
-		dialog = new JDialog((JFrame) ((LayoutD) app.getGuiManager().getLayout()).getDockManager().getPanel(App.VIEW_CAS).getFrame());
+		// do not dock the substitution dialog to the main frame: ticket 1832
+		dialog = new JDialog((JFrame) ((LayoutD) app.getGuiManager()
+				.getLayout()).getDockManager().getPanel(App.VIEW_CAS)
+				.getFrame());
 		dialog.setModal(false);
 		Localization loc = getApp().getLocalization();
 		dialog.setTitle(loc.getPlain("Substitute") + " - "
@@ -96,7 +100,6 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 
 		GeoCasCell cell = casView.getConsoleTable().getGeoCasCell(editRow);
 
-		
 		initData(cell);
 
 		Vector<String> header = new Vector<String>();
@@ -137,7 +140,7 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 					addRow(true);
 			}
 		});
-		
+
 		// buttons
 		btEval = new JButton(EVAL_SYM);
 		btEval.setToolTipText(loc.getMenuTooltip("Evaluate"));
@@ -200,7 +203,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 						.asList(new String[] { "", "" })));
 				replaceTable.revalidate();
 				dialog.pack();
-				Rectangle r = replaceTable.getCellRect(replaceTable.getRowCount() - 1, col, false);
+				Rectangle r = replaceTable.getCellRect(
+						replaceTable.getRowCount() - 1, col, false);
 				scrollPane.getViewport().scrollRectToVisible(r);
 				if (editor != null) {
 					replaceTable.editCellAt(row, col);
@@ -230,7 +234,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	}
 
 	/**
-	 * @param flag true to set dialog to visible
+	 * @param flag
+	 *            true to set dialog to visible
 	 */
 	public void setVisible(boolean flag) {
 		casView.setSubstituteDialog(flag ? this : null);
@@ -245,7 +250,8 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 	/**
 	 * if editing insert inStr at current caret position
 	 * 
-	 * @param inStr string to insert
+	 * @param inStr
+	 *            string to insert
 	 */
 	public void insertText(String inStr) {
 		if (inStr == null)
@@ -314,26 +320,27 @@ public class CASSubDialogD extends CASSubDialog implements ActionListener {
 			delegate.insertString(text);
 		}
 	}
-	
+
 	/**
-	 * @param flag true to set dialog always on top
+	 * @param flag
+	 *            true to set dialog always on top
 	 */
 	public void setAlwaysOnTop(boolean flag) {
 		dialog.setAlwaysOnTop(flag);
 	}
-	
+
 	/**
 	 * @return true if dialog is showing
 	 */
 	public boolean isShowing() {
 		return dialog.isShowing();
 	}
-	
+
 	@Override
 	protected CASView getCASView() {
 		return casView;
 	}
-	
+
 	/**
 	 * @return dialog
 	 */
