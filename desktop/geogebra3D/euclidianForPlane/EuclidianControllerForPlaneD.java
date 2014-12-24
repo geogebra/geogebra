@@ -24,15 +24,16 @@ public class EuclidianControllerForPlaneD extends EuclidianControllerD {
 
 	/**
 	 * constructor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public EuclidianControllerForPlaneD(Kernel kernel) {
 		super(kernel);
 	}
 
-
 	@Override
-	protected EuclidianControllerCompanion newCompanion(){
+	protected EuclidianControllerCompanion newCompanion() {
 		return new EuclidianControllerForPlaneCompanion(this);
 	}
 }

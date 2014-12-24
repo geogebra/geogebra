@@ -20,59 +20,54 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		super(view, useCanvas);
 		// TODO Auto-generated constructor stub
 	}
-	
-
-
 
 	@Override
-	public void setHits(GPoint mouseLoc, int threshold){
+	public void setHits(GPoint mouseLoc, int threshold) {
 
-			// sets the flag and mouse location for openGL picking
-			setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);
-		
-    }
-    
-    @Override
-	public GeoElement getLabelHit(GPoint mouseLoc){
-    	
-    	return view3D.getHits3D().getLabelHit();
-    }
-    
+		// sets the flag and mouse location for openGL picking
+		setMouseLoc(mouseLoc, Renderer.PICKING_MODE_LABELS);
 
-    @Override
-    public void pickIntersectionCurves() {
+	}
 
-    	ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
-    			.getEuclidianController()).getIntersectionCurves();
+	@Override
+	public GeoElement getLabelHit(GPoint mouseLoc) {
 
-    	int bufSize = curves.size();
-    	// IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);
-    	// Drawable3D[] drawHits=createDrawableListForPicking(bufSize);
-    	if (bufSize > geoToPickSize) {
-    		selectBuffer = createSelectBufferForPicking(bufSize);
-    		drawHits = createDrawableListForPicking(bufSize);
-    		oldGeoToPickSize = -1;
-    	}
+		return view3D.getHits3D().getLabelHit();
+	}
 
-    	setGLForPicking();
-    	pushSceneMatrix();
+	@Override
+	public void pickIntersectionCurves() {
 
-    	// picking objects
-    	for (IntersectionCurve intersectionCurve : curves) {
-    		Drawable3D d = intersectionCurve.drawable;
-    		d.setZPick(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
-    		pick(d, true, PickingType.POINT_OR_CURVE);
-    	}
+		ArrayList<IntersectionCurve> curves = ((EuclidianController3D) view3D
+				.getEuclidianController()).getIntersectionCurves();
 
-    	// set off the scene matrix
-    	jogl.getGL2().glPopMatrix();
+		int bufSize = curves.size();
+		// IntBuffer selectBuffer=createSelectBufferForPicking(bufSize);
+		// Drawable3D[] drawHits=createDrawableListForPicking(bufSize);
+		if (bufSize > geoToPickSize) {
+			selectBuffer = createSelectBufferForPicking(bufSize);
+			drawHits = createDrawableListForPicking(bufSize);
+			oldGeoToPickSize = -1;
+		}
 
-    	storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are
-    	// passed as null
+		setGLForPicking();
+		pushSceneMatrix();
 
-    	jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
-    }
+		// picking objects
+		for (IntersectionCurve intersectionCurve : curves) {
+			Drawable3D d = intersectionCurve.drawable;
+			d.setZPick(Float.NEGATIVE_INFINITY, Float.NEGATIVE_INFINITY);
+			pick(d, true, PickingType.POINT_OR_CURVE);
+		}
 
+		// set off the scene matrix
+		jogl.getGL2().glPopMatrix();
+
+		storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are
+		// passed as null
+
+		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
+	}
 
 	private IntBuffer createSelectBufferForPicking(int bufSize) {
 		// Set Up the Selection Buffer
@@ -82,12 +77,11 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 													// Array For Selection
 		return ret;
 	}
-	
-	
+
 	@Override
 	protected void doPick() {
 
-		//App.debug("geoToPickSize = "+geoToPickSize);
+		// App.debug("geoToPickSize = "+geoToPickSize);
 		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer) {
 			int bufSize = geoToPickSize * 2 + 1 + 20; // TODO remove "+20" due
 														// to intersection curve
@@ -147,7 +141,6 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
 	}
 
-	
 	private void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop,
 			int labelLoop) {
 
@@ -181,7 +174,10 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 					drawHits[num].setZPick(zNear, zFar);
 				} else { // if for hits array, some checks are done
 							// App.debug("\n"+drawHits[num].getGeoElement());
-					if (!((EuclidianController3D) view3D.getEuclidianController()).useInputDepthForHitting()//(mouse instanceof GPointWithZ)
+					if (!((EuclidianController3D) view3D
+							.getEuclidianController())
+							.useInputDepthForHitting()// (mouse instanceof
+														// GPointWithZ)
 							|| intersectsMouse3D(zNear, zFar,
 									((GPointWithZ) mouse).getZ())) { // check if
 																		// mouse
@@ -211,8 +207,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 			}
 		}
 	}
-	
-	
+
 	/**
 	 * returns the depth between 0 and 2, in double format, from an integer
 	 * offset lowest is depth, nearest is the object
@@ -225,9 +220,8 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		return (float) (selectBuffer.get(ptr) & 0xffffffffL) / 0x7fffffff;
 	}
 
-    
-    @Override
-	public boolean useLogicalPicking(){
+	@Override
+	public boolean useLogicalPicking() {
 		return false;
 	}
 

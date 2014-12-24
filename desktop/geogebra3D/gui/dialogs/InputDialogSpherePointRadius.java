@@ -1,6 +1,5 @@
 package geogebra3D.gui.dialogs;
 
-
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -13,13 +12,13 @@ import geogebra.main.AppD;
  * 
  *
  */
-public class InputDialogSpherePointRadius extends InputDialogRadius{
-	
+public class InputDialogSpherePointRadius extends InputDialogRadius {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private GeoPointND geoPoint;
 
 	/**
@@ -30,15 +29,16 @@ public class InputDialogSpherePointRadius extends InputDialogRadius{
 	 * @param point
 	 * @param kernel
 	 */
-	public InputDialogSpherePointRadius(AppD app, String title, InputHandler handler, GeoPointND point, Kernel kernel) {
+	public InputDialogSpherePointRadius(AppD app, String title,
+			InputHandler handler, GeoPointND point, Kernel kernel) {
 		super(app, title, handler, kernel);
-		
+
 		geoPoint = point;
 
 	}
 
 	@Override
-	protected GeoElement createOutput(NumberValue num){
+	protected GeoElement createOutput(NumberValue num) {
 		return kernel.getManager3D().Sphere(null, geoPoint, num);
 	}
 

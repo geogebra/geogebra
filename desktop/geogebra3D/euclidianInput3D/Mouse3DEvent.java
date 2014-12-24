@@ -9,24 +9,27 @@ import java.awt.Component;
 
 /**
  * Class for 3D mouse event
+ * 
  * @author mathieu
  *
  */
-public class Mouse3DEvent extends AbstractEvent implements MouseEventND{
+public class Mouse3DEvent extends AbstractEvent implements MouseEventND {
 
 	private GPoint point;
-	
+
 	private Component component;
-	
+
 	/**
 	 * constructor
-	 * @param point point
+	 * 
+	 * @param point
+	 *            point
 	 */
-	public Mouse3DEvent(GPoint point, Component component){
+	public Mouse3DEvent(GPoint point, Component component) {
 		this.point = point;
 		this.component = component;
 	}
-	
+
 	@Override
 	public GPoint getPoint() {
 		return point;
@@ -44,7 +47,7 @@ public class Mouse3DEvent extends AbstractEvent implements MouseEventND{
 
 	@Override
 	public void release() {
-		//nothing to do		
+		// nothing to do
 	}
 
 	@Override
@@ -88,12 +91,11 @@ public class Mouse3DEvent extends AbstractEvent implements MouseEventND{
 	public boolean isPopupTrigger() {
 		return false;
 	}
-	
 
-	public java.awt.Component getComponent() {		
+	public java.awt.Component getComponent() {
 		return component;
 	}
-	
+
 	@Override
 	public PointerEventType getType() {
 		return PointerEventType.MOUSE;

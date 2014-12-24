@@ -64,7 +64,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	protected Robot robot;
 	protected int robotX, robotY;
 	protected double[] inputPosition;
-	
 
 	/**
 	 * constructor
@@ -78,7 +77,6 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		super(kernel);
 
 		this.input3D = input3d;
-		
 
 		// glasses position
 		glassesPosition = new Coords(3);
@@ -102,7 +100,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		// robot
 		robot = null;
-		if (input3d.useMouseRobot()){
+		if (input3d.useMouseRobot()) {
 			try {
 				robot = new Robot();
 			} catch (AWTException e) {
@@ -119,11 +117,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	private void setPositionXYOnPanel(double[] absolutePos, Coords panelPos) {
-		
-		input3D.setPositionXYOnPanel(absolutePos, panelPos, 
-				screenHalfWidth, screenHalfHeight, 
-				panelPosition.x, panelPosition.y, 
-				panelDimension.width, panelDimension.height);		
+
+		input3D.setPositionXYOnPanel(absolutePos, panelPos, screenHalfWidth,
+				screenHalfHeight, panelPosition.x, panelPosition.y,
+				panelDimension.width, panelDimension.height);
 	}
 
 	@Override
@@ -188,14 +185,14 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			if (input3D.hasMouse(view3D)) {
 				if (!input3D.useInputDepthForHitting()
 						|| mouse3DPosition.getZ() < view3D.getRenderer()
-						.getEyeToScreenDistance()) {
+								.getEyeToScreenDistance()) {
 
 					updateMouse3DEvent();
 
 					// mouse orientation
 					mouse3DOrientation.set(input3D.getMouse3DOrientation());
-					
-					//App.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
+
+					// App.debug("\nstart: "+startMouse3DOrientation+"\ncurrent: "+mouse3DOrientation);
 
 					if (input3D.isRightPressed()) { // process right press
 						processRightPress();
@@ -224,7 +221,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 					}
 				}
 
-			} else if (robot != null){ // bird outside the view
+			} else if (robot != null) { // bird outside the view
 
 				// process right press / release
 				if (input3D.isRightPressed()) {
@@ -266,46 +263,43 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 		return mouse3DPosition;
 	}
-	
-	private void storeOrientation(){
+
+	private void storeOrientation() {
 		startMouse3DOrientation.set(mouse3DOrientation);
-		startOrientationMatrix = startMouse3DOrientation.getRotMatrix();	
+		startOrientationMatrix = startMouse3DOrientation.getRotMatrix();
 
 		toSceneRotMatrix.set(view3D.getUndoRotationMatrix());
-		
 
 	}
-	
+
 	private Quaternion currentRot;
-	
+
 	/**
 	 * calc current rotation
 	 */
-	protected void calcCurrentRot(){
-		currentRot = startMouse3DOrientation
-				.leftDivide(mouse3DOrientation);
+	protected void calcCurrentRot() {
+		currentRot = startMouse3DOrientation.leftDivide(mouse3DOrientation);
 
 		// get the relative quaternion and rotation matrix in scene coords
 		rotV.set(startOrientationMatrix.mul(currentRot.getVector()));
 		currentRot.setVector(toSceneRotMatrix.mul(rotV));
 	}
-	
+
 	/**
 	 * 
 	 * @return current/start rotation as a matrix
 	 */
-	protected CoordMatrix getCurrentRotMatrix(){
+	protected CoordMatrix getCurrentRotMatrix() {
 		return currentRot.getRotMatrix();
 	}
-	
+
 	/**
 	 * 
 	 * @return current rotation quaternion
 	 */
-	protected Quaternion getCurrentRotQuaternion(){
+	protected Quaternion getCurrentRotQuaternion() {
 		return currentRot;
 	}
-
 
 	private void processRightPress() {
 
@@ -315,9 +309,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 			view.rememberOrigins();
 			((EuclidianViewInput3D) view).setStartPos(startMouse3DPosition);
 
-			storeOrientation();			
-			
-			
+			storeOrientation();
 
 			// to-the-right screen vector in scene coords
 			vx = toSceneRotMatrix.mul(Coords.VX);
@@ -428,7 +420,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	 * 
 	 * }
 	 */
-	
+
 	private GPointWithZ mouse3DLoc = new GPointWithZ();
 
 	private void updateMouse3DEvent() {
@@ -443,10 +435,10 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	}
 
 	@Override
-	protected void setMouseLocation(AbstractEvent event) {		
-		if (input3D.currentlyUseMouse2D()){
+	protected void setMouseLocation(AbstractEvent event) {
+		if (input3D.currentlyUseMouse2D()) {
 			super.setMouseLocation(event);
-		}else{
+		} else {
 			mouseLoc = event.getPoint();
 		}
 	}
@@ -455,9 +447,9 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	protected void updateMovedGeoPointStartValues(Coords coords) {
-		if (input3D.currentlyUseMouse2D()){
+		if (input3D.currentlyUseMouse2D()) {
 			super.updateMovedGeoPointStartValues(coords);
-		}else{
+		} else {
 			movedGeoPointStartCoords.set(coords);
 		}
 	}
@@ -470,23 +462,23 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 		return input3D.isLeftPressed() || input3D.isRightPressed();
 	}
 
-//	@Override
-//	public void addListenersTo(Component evjpanel) {
-//		// restrict to the minimum : all will be done by the 3D mouse
-//		evjpanel.addComponentListener(this);
-//		evjpanel.addMouseListener(this);
-//	}
+	// @Override
+	// public void addListenersTo(Component evjpanel) {
+	// // restrict to the minimum : all will be done by the 3D mouse
+	// evjpanel.addComponentListener(this);
+	// evjpanel.addMouseListener(this);
+	// }
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		if (input3D.currentlyUseMouse2D()){
+		if (input3D.currentlyUseMouse2D()) {
 			super.mousePressed(e);
 		}
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		if (input3D.currentlyUseMouse2D()){
+		if (input3D.currentlyUseMouse2D()) {
 			super.mouseReleased(e);
 		}
 	}
@@ -495,77 +487,76 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 	public boolean hasInput3D() {
 		return true;
 	}
-	
+
 	@Override
 	public boolean useInputDepthForHitting() {
 		return input3D.useInputDepthForHitting();
 	}
-	
-	
+
 	@Override
-	final protected boolean handleMovedElementFreePlane(){
+	final protected boolean handleMovedElementFreePlane() {
 		if (movedGeoElement.isGeoPlane()) {
 			moveMode = MOVE_PLANE;
 			setMovedGeoPlane(movedGeoElement);
 
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	protected GeoPlane3D movedGeoPlane;
 	protected CoordSys movedGeoPlaneStartCoordSys;
 	private Coords movedGeoStartPosition;
-	
+
 	protected ArrayList<GeoPointND> stickyPoints;
-	
-	
+
 	/**
 	 * set plane to move
-	 * @param geo moved geo
+	 * 
+	 * @param geo
+	 *            moved geo
 	 */
 	public void setMovedGeoPlane(GeoElement geo) {
 
 		movedGeoPlane = (GeoPlane3D) geo;
 
-		
-
-		if(movedGeoPlaneStartCoordSys == null){
+		if (movedGeoPlaneStartCoordSys == null) {
 			movedGeoPlaneStartCoordSys = new CoordSys(2);
 		}
 		movedGeoPlaneStartCoordSys.set(movedGeoPlane.getCoordSys());
-		
-		if(movedGeoStartPosition == null){
+
+		if (movedGeoStartPosition == null) {
 			movedGeoStartPosition = new Coords(4);
 		}
-		movedGeoStartPosition.set(mouse3DPosition); 
-		
-		updateMovedGeoPointStartValues(view3D.getCursor3D().getInhomCoordsInD(3));
+		movedGeoStartPosition.set(mouse3DPosition);
 
+		updateMovedGeoPointStartValues(view3D.getCursor3D()
+				.getInhomCoordsInD(3));
 
 		view3D.setDragCursor();
-		
+
 		// set sticky points
-		if (stickyPoints == null){
+		if (stickyPoints == null) {
 			stickyPoints = new ArrayList<GeoPointND>();
-		}else{
+		} else {
 			stickyPoints.clear();
 		}
-		
-		for (GeoElement geo1 : geo.getConstruction().getGeoSetConstructionOrder()){
-			if (geo1.isGeoPoint() && geo1.isVisibleInView3D() && !geo1.isChildOf(geo)){
+
+		for (GeoElement geo1 : geo.getConstruction()
+				.getGeoSetConstructionOrder()) {
+			if (geo1.isGeoPoint() && geo1.isVisibleInView3D()
+					&& !geo1.isChildOf(geo)) {
 				stickyPoints.add((GeoPointND) geo1);
 			}
 		}
-		
-	}
-	
-	@Override
-	public float getPointCapturingPercentage(){
-		return 2f*super.getPointCapturingPercentage();
+
 	}
 
+	@Override
+	public float getPointCapturingPercentage() {
+		return 2f * super.getPointCapturingPercentage();
+	}
 
 	@Override
 	public boolean cursor3DVisibleForCurrentMode(int cursorType) {
@@ -579,7 +570,7 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 
 	@Override
 	public GPoint getMouseLoc() {
-		if (input3D.currentlyUseMouse2D()){
+		if (input3D.currentlyUseMouse2D()) {
 			return super.getMouseLoc();
 		}
 

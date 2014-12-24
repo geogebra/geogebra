@@ -9,8 +9,6 @@ import geogebra.gui.util.MyToggleButton;
 
 import java.util.ArrayList;
 
-
-
 /**
  * StyleBar for view for plane
  * 
@@ -23,49 +21,45 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	
-	
-	private MyToggleButton btnCenterAndOrientation;
 
+	private MyToggleButton btnCenterAndOrientation;
 
 	/**
 	 * Common constructor.
+	 * 
 	 * @param ev
 	 */
 	public EuclidianStyleBarForPlane(EuclidianViewForPlaneD ev) {
 		super(ev);
 	}
-	
 
 	@Override
-	protected void addGraphicsDecorationsButtons(){
-		//add(btnShowAxes);
+	protected void addGraphicsDecorationsButtons() {
+		// add(btnShowAxes);
 		add(btnShowGrid);
 	}
-	
+
 	@Override
-	protected void addBtnRotateView(){
+	protected void addBtnRotateView() {
 
 		add(btnCenterAndOrientation);
 
 	}
-	
 
 	@Override
-	protected boolean isVisibleInThisView(GeoElement geo){
-		return geo.isVisibleInView3D() ;
+	protected boolean isVisibleInThisView(GeoElement geo) {
+		return geo.isVisibleInView3D();
 	}
-	
-	
+
 	@Override
-	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
-		
+	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+
 		if (source.equals(btnCenterAndOrientation)) {
-			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) ((EuclidianView) ev).getCompanion();
+			EuclidianViewForPlaneCompanion companion = (EuclidianViewForPlaneCompanion) ((EuclidianView) ev)
+					.getCompanion();
 			companion.updateCenterAndOrientationRegardingView();
 			companion.updateScaleRegardingView();
-		}else
+		} else
 			super.processSource(source, targetGeos);
 	}
 
@@ -73,11 +67,11 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 	protected void createButtons() {
 
 		super.createButtons();
-		
+
 		// ========================================
 		// button
-		btnCenterAndOrientation = new MyToggleButton(app.getImageIcon("standard_view.gif"),
-				iconHeight) {
+		btnCenterAndOrientation = new MyToggleButton(
+				app.getImageIcon("standard_view.gif"), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -89,30 +83,24 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 		};
 		btnCenterAndOrientation.addActionListener(this);
 
-		
-	}	
-	
-	
-	@Override
-	public void setLabels(){
-		super.setLabels();
-		btnCenterAndOrientation.setToolTipText(loc.getPlainTooltip("stylebar.ViewDefault"));
-		
 	}
-	
+
 	@Override
-	public void updateGUI(){
+	public void setLabels() {
+		super.setLabels();
+		btnCenterAndOrientation.setToolTipText(loc
+				.getPlainTooltip("stylebar.ViewDefault"));
+
+	}
+
+	@Override
+	public void updateGUI() {
 		super.updateGUI();
-		
+
 		btnCenterAndOrientation.removeActionListener(this);
 		btnCenterAndOrientation.setSelected(false);
 		btnCenterAndOrientation.addActionListener(this);
-		
-		
 
-		
 	}
-	
-	
 
 }

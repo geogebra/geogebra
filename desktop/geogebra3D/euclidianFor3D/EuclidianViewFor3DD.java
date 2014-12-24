@@ -15,11 +15,16 @@ import geogebra.euclidian.EuclidianViewD;
 public class EuclidianViewFor3DD extends EuclidianViewD {
 
 	/**
-	 * @param ec controller
-	 * @param showAxes show the axes
-	 * @param showGrid shos the grid
-	 * @param evno dock panel id
-	 * @param settings euclidian settings
+	 * @param ec
+	 *            controller
+	 * @param showAxes
+	 *            show the axes
+	 * @param showGrid
+	 *            shos the grid
+	 * @param evno
+	 *            dock panel id
+	 * @param settings
+	 *            euclidian settings
 	 */
 	public EuclidianViewFor3DD(EuclidianController ec, boolean[] showAxes,
 			boolean showGrid, int evno, EuclidianSettings settings) {
@@ -27,12 +32,9 @@ public class EuclidianViewFor3DD extends EuclidianViewD {
 
 	}
 
-	
 	@Override
-	protected EuclidianViewCompanion newEuclidianViewCompanion(){
+	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewFor3DCompanion(this);
 	}
-	
-	
-	
+
 }

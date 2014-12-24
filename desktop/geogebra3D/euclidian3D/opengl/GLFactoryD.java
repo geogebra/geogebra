@@ -5,22 +5,21 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory;
 
 /**
  * GL factory for desktop
+ * 
  * @author mathieu
  *
  */
-public class GLFactoryD extends GLFactory{
+public class GLFactoryD extends GLFactory {
 
 	/**
 	 * constructor
 	 */
-	public GLFactoryD(){
-		
+	public GLFactoryD() {
+
 	}
-	
-	
-	
+
 	@Override
-	final public GLBuffer newBuffer(){
+	final public GLBuffer newBuffer() {
 		return new GLBufferD();
 	}
 }

@@ -155,16 +155,14 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 		return true;
 	}
 
-	
 	@Override
 	public double getScreenZOffset() {
-		if (input3D != null && input3D.useScreenZOffset()){
+		if (input3D != null && input3D.useScreenZOffset()) {
 			return clippingCubeDrawable.getHorizontalDiagonal() / 2;
 		}
-		
+
 		return super.getScreenZOffset();
 	}
-	
 
 	private Coords startPos;
 
@@ -493,15 +491,14 @@ public class EuclidianViewInput3D extends EuclidianView3DD {
 	/*
 	 * @Override protected void setDefault2DCursor() { setTransparentCursor(); }
 	 */
-	
-	
+
 	@Override
 	public boolean hasMouse() {
-		
-		if (input3D.currentlyUseMouse2D()){
+
+		if (input3D.currentlyUseMouse2D()) {
 			return super.hasMouse();
 		}
-		
+
 		return input3D.hasMouse(this);
 	}
 }

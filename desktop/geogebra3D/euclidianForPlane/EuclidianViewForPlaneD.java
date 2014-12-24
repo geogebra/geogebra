@@ -15,44 +15,40 @@ import geogebra.euclidian.EuclidianViewD;
  * @author matthieu
  *
  */
-public class EuclidianViewForPlaneD extends EuclidianViewD implements EuclidianViewForPlaneInterface {
+public class EuclidianViewForPlaneD extends EuclidianViewD implements
+		EuclidianViewForPlaneInterface {
 
-
-	
 	/**
 	 * 
-	 * @param ec controller
-	 * @param plane plane creating this view
-	 * @param settings euclidian settings
+	 * @param ec
+	 *            controller
+	 * @param plane
+	 *            plane creating this view
+	 * @param settings
+	 *            euclidian settings
 	 */
-	public EuclidianViewForPlaneD(EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
-		super(ec, new boolean[]{ false, false }, false, EVNO_GENERAL, settings); //TODO euclidian settings
-		
+	public EuclidianViewForPlaneD(EuclidianController ec, ViewCreator plane,
+			EuclidianSettings settings) {
+		super(ec, new boolean[] { false, false }, false, EVNO_GENERAL, settings); // TODO
+																					// euclidian
+																					// settings
+
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}
-	
+
 	@Override
-	protected EuclidianViewCompanion newEuclidianViewCompanion(){
+	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewForPlaneCompanion(this);
 	}
-	
 
-
-	
 	@Override
-	public EuclidianViewForPlaneCompanion getCompanion(){
+	public EuclidianViewForPlaneCompanion getCompanion() {
 		return (EuclidianViewForPlaneCompanion) super.getCompanion();
 	}
-	
 
-
-	
-	
 	@Override
-	protected EuclidianStyleBarD newEuclidianStyleBar(){
+	protected EuclidianStyleBarD newEuclidianStyleBar() {
 		return new EuclidianStyleBarForPlane(this);
 	}
-	
-	
-	
+
 }

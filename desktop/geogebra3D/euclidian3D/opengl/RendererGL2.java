@@ -25,7 +25,6 @@ public abstract class RendererGL2 extends RendererD {
 
 	// openGL variables
 	protected GLU glu = new GLU();
-	
 
 	protected IntBuffer selectBuffer;
 
@@ -37,19 +36,25 @@ public abstract class RendererGL2 extends RendererD {
 	 */
 	public RendererGL2(EuclidianView3D view, boolean useCanvas) {
 		super(view, useCanvas);
-		
+
 		App.debug("Renderer without shaders created");
 	}
-	
+
 	@Override
-	public void setClipPlanes(double[][] minMax){
-		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();		
-		setClipPlane(0, mInvTranspose.mul( new Coords(1,0,0,-minMax[0][0])).get());
-		setClipPlane(1, mInvTranspose.mul( new Coords(-1,0,0,minMax[0][1])).get());
-		setClipPlane(2, mInvTranspose.mul( new Coords(0,1,0,-minMax[1][0])).get());
-		setClipPlane(3, mInvTranspose.mul( new Coords(0,-1,0,minMax[1][1])).get());
-		setClipPlane(4, mInvTranspose.mul( new Coords(0,0,1,-minMax[2][0])).get());
-		setClipPlane(5, mInvTranspose.mul( new Coords(0,0,-1,minMax[2][1])).get());
+	public void setClipPlanes(double[][] minMax) {
+		CoordMatrix mInvTranspose = view3D.getToSceneMatrixTranspose();
+		setClipPlane(0, mInvTranspose.mul(new Coords(1, 0, 0, -minMax[0][0]))
+				.get());
+		setClipPlane(1, mInvTranspose.mul(new Coords(-1, 0, 0, minMax[0][1]))
+				.get());
+		setClipPlane(2, mInvTranspose.mul(new Coords(0, 1, 0, -minMax[1][0]))
+				.get());
+		setClipPlane(3, mInvTranspose.mul(new Coords(0, -1, 0, minMax[1][1]))
+				.get());
+		setClipPlane(4, mInvTranspose.mul(new Coords(0, 0, 1, -minMax[2][0]))
+				.get());
+		setClipPlane(5, mInvTranspose.mul(new Coords(0, 0, -1, minMax[2][1]))
+				.get());
 	}
 
 	private void setClipPlane(int n, double[] equation) {
@@ -68,13 +73,11 @@ public abstract class RendererGL2 extends RendererD {
 		jogl.getGL2().glPopMatrix();
 	}
 
-
-
 	@Override
 	public void setColor(float r, float g, float b, float a) {
-		jogl.getGL2().glColor4f(r,g,b,a);
+		jogl.getGL2().glColor4f(r, g, b, a);
 	}
-	
+
 	private double[] tmpDouble16 = new double[16];
 
 	@Override
@@ -146,9 +149,11 @@ public abstract class RendererGL2 extends RendererD {
 				double f = eyeToScreenDistance
 						/ (eyeToScreenDistance - ((GPointWithZ) mouse).getZ() - view3D
 								.getScreenZOffset());
-				x = dim.width / 2 + f * (x + glassesEyeSep - glassesEyesSide - dim.width / 2)
+				x = dim.width / 2 + f
+						* (x + glassesEyeSep - glassesEyesSide - dim.width / 2)
 						- glassesEyeSep + glassesEyesSide;
-				y = dim.height / 2 + f * (y + glassesEyesHeight - dim.height / 2) 
+				y = dim.height / 2 + f
+						* (y + glassesEyesHeight - dim.height / 2)
 						- glassesEyesHeight;
 
 			}
@@ -177,9 +182,6 @@ public abstract class RendererGL2 extends RendererD {
 		jogl.getGL2().glLoadMatrixd(tmpDouble16, 0);
 	}
 
-
-
-	
 	@Override
 	public void glLoadName(int loop) {
 		jogl.getGL2().glLoadName(loop);
@@ -187,8 +189,10 @@ public abstract class RendererGL2 extends RendererD {
 
 	@Override
 	protected void setLightPosition(float[] values) {
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, values, 0);
-		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, values, 0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT0, GLlocal.GL_POSITION, values,
+				0);
+		jogl.getGL2().glLightfv(GLlocal.GL_LIGHT1, GLlocal.GL_POSITION, values,
+				0);
 	}
 
 	@Override
@@ -311,8 +315,8 @@ public abstract class RendererGL2 extends RendererD {
 		// seems to be sensible to canvas location on screen and to parent
 		// relative location
 		// (try docked with neighboors / undocked or docked alone)
-		int y0 = (canvas.getParent().getLocation().y
-				+ canvas.getLocationOnScreen().y ) % 2;
+		int y0 = (canvas.getParent().getLocation().y + canvas
+				.getLocationOnScreen().y) % 2;
 
 		// App.debug("\nparent.y="+canvas.getParent().getLocation().y+"\ncanvas.y="+canvas.getLocation().y+"\nscreen.y="+canvas.getLocationOnScreen().y+"\nh="+h+"\ny0="+y0);
 		// App.debug("== "+w+" * "+h+" = "+(w*h)+"\ny0="+y0);
@@ -336,9 +340,9 @@ public abstract class RendererGL2 extends RendererD {
 			enableClipPlanes();
 
 	}
-	
+
 	@Override
-	final public void updateOrthoValues(){
+	final public void updateOrthoValues() {
 		// nothing to do here
 	}
 
@@ -370,9 +374,12 @@ public abstract class RendererGL2 extends RendererD {
 			eyesep1 = glassesEyeSep1;
 		}
 
-		jogl.getGL2().glFrustum(perspLeft + eyesep1 - glassesEyesSide1, perspRight + eyesep1 - glassesEyesSide1,
-				perspBottom - glassesEyesHeight1, perspTop - glassesEyesHeight1, perspNear, perspFar);
-		jogl.getGL2().glTranslated(eyesep - glassesEyesSide,  -glassesEyesHeight, perspFocus);
+		jogl.getGL2().glFrustum(perspLeft + eyesep1 - glassesEyesSide1,
+				perspRight + eyesep1 - glassesEyesSide1,
+				perspBottom - glassesEyesHeight1,
+				perspTop - glassesEyesHeight1, perspNear, perspFar);
+		jogl.getGL2().glTranslated(eyesep - glassesEyesSide,
+				-glassesEyesHeight, perspFocus);
 	}
 
 	@Override
@@ -396,125 +403,111 @@ public abstract class RendererGL2 extends RendererD {
 
 	@Override
 	final public void disableTextures() {
-		//bindTexture(-1);
+		// bindTexture(-1);
 		getGL().glDisable(GLlocal.GL_TEXTURE_2D);
-		
+
 	}
-	
-    @Override
-	public void setLineWidth(int width){
-    	jogl.getGL2().glLineWidth(width);
-    }   
-    
-    
-    
+
 	@Override
-	public void enableFading(){  
+	public void setLineWidth(int width) {
+		jogl.getGL2().glLineWidth(width);
+	}
+
+	@Override
+	public void enableFading() {
 		enableTextures();
 		getTextures().loadTextureLinear(Textures.FADING);
 	}
-	
 
-	
 	private int currentDash = Textures.DASH_INIT;
 
-
 	@Override
-	public void enableDash(){  
+	public void enableDash() {
 		currentDash = Textures.DASH_INIT;
 		enableTextures();
 	}
-	
-	
+
 	@Override
-	protected float[] getLightPosition(){
+	protected float[] getLightPosition() {
 		return LIGHT_POSITION_D;
 	}
-	
-	
+
 	@Override
-	public void setDashTexture(int index){
-		if (currentDash == index){
+	public void setDashTexture(int index) {
+		if (currentDash == index) {
 			return;
 		}
-		
+
 		currentDash = index;
 		bindTexture(getTextures().getIndex(index));
 		setTextureNearest();
 	}
 
 	@Override
-	protected void drawSurfacesOutline(){
-		
+	protected void drawSurfacesOutline() {
+
 		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_LINE);
 		setLineWidth(5f);
-		
+
 		setCullFaceFront();
 		disableLighting();
 		disableBlending();
 
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
-		drawable3DLists.drawTranspClosedCurved(this); 
-		if (drawable3DLists.containsClippedSurfaces()){ 
+		drawable3DLists.drawTranspClosedCurved(this);
+		if (drawable3DLists.containsClippedSurfaces()) {
 			enableClipPlanesIfNeeded();
-			drawable3DLists.drawTranspClipped(this); 
-			disableClipPlanesIfNeeded(); 
+			drawable3DLists.drawTranspClipped(this);
+			disableClipPlanesIfNeeded();
 		}
 
 		enableBlending();
 		enableLighting();
 		setCullFaceBack();
-		
+
 		jogl.getGL2().glPolygonMode(GLlocal.GL_BACK, GLlocal.GL_FILL);
-		
+
 	}
-	
-	
 
-    protected static final int[] GL_CLIP_PLANE = {GLlocal.GL_CLIP_PLANE0, GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2, GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4, GLlocal.GL_CLIP_PLANE5};
-    
+	protected static final int[] GL_CLIP_PLANE = { GLlocal.GL_CLIP_PLANE0,
+			GLlocal.GL_CLIP_PLANE1, GLlocal.GL_CLIP_PLANE2,
+			GLlocal.GL_CLIP_PLANE3, GLlocal.GL_CLIP_PLANE4,
+			GLlocal.GL_CLIP_PLANE5 };
 
-    @Override
-    protected void enableClipPlanes() {
-    	for (int n = 0; n < 6; n++)
-    		enableClipPlane(n);
-    }
-    
-    @Override
+	@Override
+	protected void enableClipPlanes() {
+		for (int n = 0; n < 6; n++)
+			enableClipPlane(n);
+	}
+
+	@Override
 	protected void disableClipPlanes() {
 		for (int n = 0; n < 6; n++)
 			disableClipPlane(n);
 	}
 
+	protected void enableClipPlane(int n) {
+		getGL().glEnable(GL_CLIP_PLANE[n]);
+	}
 
-    protected void enableClipPlane(int n){
-    	getGL().glEnable( GL_CLIP_PLANE[n] );   	
-    }
-
-    protected void disableClipPlane(int n){
-    	getGL().glDisable( GL_CLIP_PLANE[n] );   	
-    }
-    
-
-    @Override
-	public void setLabelOrigin(Coords origin){
-    	// only used in shaders
-    }
-
-
+	protected void disableClipPlane(int n) {
+		getGL().glDisable(GL_CLIP_PLANE[n]);
+	}
 
 	@Override
-	public void enableLighting(){
+	public void setLabelOrigin(Coords origin) {
+		// only used in shaders
+	}
+
+	@Override
+	public void enableLighting() {
 		getGL().glEnable(GLlocal.GL_LIGHTING);
 	}
 
-
 	@Override
-	public void disableLighting(){
+	public void disableLighting() {
 		getGL().glDisable(GLlocal.GL_LIGHTING);
 	}
-	
-	
 
 }

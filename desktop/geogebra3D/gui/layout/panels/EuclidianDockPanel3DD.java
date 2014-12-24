@@ -18,22 +18,22 @@ import javax.swing.JComponent;
  */
 public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public EuclidianDockPanel3DD(AppD app) {
-		super(
-			App.VIEW_EUCLIDIAN3D,	// view id 
-			"GraphicsView3D", 				// view title
-			ToolBar.getAllToolsNoMacros3D(),// toolbar string
-			true,						// style bar?
-			6,							// menu order
-			'3' // ctrl-shift-3
+		super(App.VIEW_EUCLIDIAN3D, // view id
+				"GraphicsView3D", // view title
+				ToolBar.getAllToolsNoMacros3D(),// toolbar string
+				true, // style bar?
+				6, // menu order
+				'3' // ctrl-shift-3
 		);
-		
+
 		setApp(app);
-		
+
 		setEmbeddedSize(300);
 	}
 
@@ -41,108 +41,105 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	protected JComponent loadComponent() {
 		return ((EuclidianView3DD) app.getEuclidianView3D()).getJPanel();
 	}
-	
+
 	@Override
 	protected JComponent loadStyleBar() {
-		return (JComponent)  ((App3D)app).getEuclidianView3D().getStyleBar();
+		return (JComponent) ((App3D) app).getEuclidianView3D().getStyleBar();
 	}
-	
+
 	@Override
 	public EuclidianView getEuclidianView() {
-		return ((App3D)app).getEuclidianView3D();
+		return ((App3D) app).getEuclidianView3D();
 	}
-	
-	
+
 	@Override
 	public boolean isEuclidianDockPanel3D() {
 		return true;
 	}
-	
-	
-	
-	
+
 	@Override
-	public ImageIcon getIcon() { 
-			return app.getImageIcon("menu_view_graphics3D.png");
+	public ImageIcon getIcon() {
+		return app.getImageIcon("menu_view_graphics3D.png");
 	}
-	
+
 	/**
 	 * force openGL to refresh
-	 * @param manager dock manager
+	 * 
+	 * @param manager
+	 *            dock manager
 	 */
-	public void refresh(DockManager manager){
-		
-		if (!isVisible()){
+	public void refresh(DockManager manager) {
+
+		if (!isVisible()) {
 			return;
 		}
 
-		if (isOpenInFrame()){
-			// just put the panel in a main window and put it again in a frame to force openGL to restart
+		if (isOpenInFrame()) {
+			// just put the panel in a main window and put it again in a frame
+			// to force openGL to restart
 			unwindowPanel();
 			windowPanel();
-		}else{
-			// if 3D view is alone, we put algebra view in main window to avoid gray panel
-			boolean isAlone = manager.containsLessThanTwoPanels();	
+		} else {
+			// if 3D view is alone, we put algebra view in main window to avoid
+			// gray panel
+			boolean isAlone = manager.containsLessThanTwoPanels();
 			DockPanel algebraPanel = null;
-			if (isAlone){
+			if (isAlone) {
 				algebraPanel = manager.getPanel(App.VIEW_ALGEBRA);
-				if (algebraPanel.isVisible()){
-					// algebra view is visible and in a frame, so we put it in the main window
+				if (algebraPanel.isVisible()) {
+					// algebra view is visible and in a frame, so we put it in
+					// the main window
 					algebraPanel.unwindowPanel();
-				}else{
+				} else {
 					// makes algebraPanel = null as a flag
 					algebraPanel = null;
 					manager.show(App.VIEW_ALGEBRA);
 				}
 			}
-			// just put the panel in a frame and put it again in main window to force openGL to restart
+			// just put the panel in a frame and put it again in main window to
+			// force openGL to restart
 			windowPanel();
 			unwindowPanel();
 
 			// we put algebra view in old state again
-			if (isAlone){
-				if (algebraPanel == null){
+			if (isAlone) {
+				if (algebraPanel == null) {
 					// algebra panel was not visible before
 					manager.hide(App.VIEW_ALGEBRA, false);
-				}else{
+				} else {
 					// algebra panel was visible in a frame before
 					algebraPanel.windowPanel();
 				}
 			}
 		}
 	}
-	
-	
-	
+
 	@Override
-	public boolean updateResizeWeight(){
+	public boolean updateResizeWeight() {
 
 		resumeRenderer();
-		
+
 		return true;
 	}
-	
-	
+
 	@Override
 	public void updatePanel() {
-		
+
 		super.updatePanel();
-		
+
 		resumeRenderer();
-		
+
 	}
-	
+
 	/**
 	 * ensure that 3D animator is running
 	 */
-	public void resumeRenderer(){
-		
-		if (visible){ 
-			((App3D)app).getEuclidianView3D().getRenderer().resumeAnimator();
+	public void resumeRenderer() {
+
+		if (visible) {
+			((App3D) app).getEuclidianView3D().getRenderer().resumeAnimator();
 		}
-		
+
 	}
-	
-	
 
 }

@@ -1,6 +1,5 @@
 package geogebra3D.gui.dialogs;
 
-
 import geogebra.common.gui.InputHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -13,13 +12,13 @@ import geogebra.main.AppD;
  * 
  *
  */
-public class InputDialogCylinderTwoPointsRadius extends InputDialogRadius{
-	
+public class InputDialogCylinderTwoPointsRadius extends InputDialogRadius {
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private GeoPointND a, b;
 
 	/**
@@ -30,16 +29,17 @@ public class InputDialogCylinderTwoPointsRadius extends InputDialogRadius{
 	 * @param point
 	 * @param kernel
 	 */
-	public InputDialogCylinderTwoPointsRadius(AppD app, String title, InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
+	public InputDialogCylinderTwoPointsRadius(AppD app, String title,
+			InputHandler handler, GeoPointND a, GeoPointND b, Kernel kernel) {
 		super(app, title, handler, kernel);
-		
+
 		this.a = a;
 		this.b = b;
 
 	}
 
 	@Override
-	protected GeoElement createOutput(NumberValue num){
+	protected GeoElement createOutput(NumberValue num) {
 		return kernel.getManager3D().CylinderLimited(null, a, b, num)[0];
 	}
 
