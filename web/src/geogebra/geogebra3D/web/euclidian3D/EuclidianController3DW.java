@@ -406,8 +406,8 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	private native double getNativeDelta(NativeEvent evt) /*-{
-		return -evt.wheelDelta;
-	}-*/;
+	                                                      return -evt.wheelDelta;
+	                                                      }-*/;
 
 	@Override
 	public void onMouseOver(MouseOverEvent event) {

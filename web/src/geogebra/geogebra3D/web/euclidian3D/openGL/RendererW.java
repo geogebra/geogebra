@@ -70,7 +70,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	private WebGLUniformLocation centerLocation; // center
 	private WebGLUniformLocation enableClipPlanesLocation,
 	        clipPlanesMinLocation, clipPlanesMaxLocation; // enable / disable
-														  // clip planes
+	                                                      // clip planes
 	private WebGLUniformLocation labelRenderingLocation, labelOriginLocation;
 
 	private WebGLBuffer vboVertices, vboColors, vboNormals, vboTextureCoords;
@@ -658,16 +658,16 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 			d.updateForHitting(); // we may need an update
 			if (!d.hit(hitting)
 			        || d.getPickingType() != PickingType.POINT_OR_CURVE) { // we
-																		   // assume
-																		   // that
-																		   // hitting
-																		   // infos
-																		   // are
-																		   // updated
-																		   // from
-																		   // last
-																		   // mouse
-																		   // move
+				                                                           // assume
+				                                                           // that
+				                                                           // hitting
+				                                                           // infos
+				                                                           // are
+				                                                           // updated
+				                                                           // from
+				                                                           // last
+				                                                           // mouse
+				                                                           // move
 				d.setZPick(Double.NEGATIVE_INFINITY, Double.NEGATIVE_INFINITY);
 			}
 
@@ -1065,11 +1065,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
 		        WebGLRenderingContext.TEXTURE_WRAP_S,
 		        WebGLRenderingContext.CLAMP_TO_EDGE); // prevent repeating the
-													  // texture
+		                                              // texture
 		glContext.texParameteri(WebGLRenderingContext.TEXTURE_2D,
 		        WebGLRenderingContext.TEXTURE_WRAP_T,
 		        WebGLRenderingContext.CLAMP_TO_EDGE); // prevent repeating the
-													  // texture
+		                                              // texture
 
 	}
 
