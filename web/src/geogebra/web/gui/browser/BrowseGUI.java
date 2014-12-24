@@ -315,8 +315,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	protected void updateViewSizes() {
-		this.container.setPixelSize((int)app.getWidth(),
-		        (int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.container.setPixelSize((int) app.getWidth(), (int) app.getHeight()
+		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}
@@ -327,13 +327,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	private void setAvailableProviders() {
-		if(this.providerPanel == null){
+		if (this.providerPanel == null) {
 			return;
 		}
 		this.providerPanel.clear();
 		this.providerPanel.add(locationTube);
 		this.providerPanel.add(locationLocal);
-		
+
 		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
 		if (user != null && user.hasGoogleDrive() && !app.getLAF().isSmart()) {
