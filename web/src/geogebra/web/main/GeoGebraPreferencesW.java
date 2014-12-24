@@ -20,9 +20,9 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 	public void clearPreferences() {
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
-		if(stockStore!=null){
+		if (stockStore != null) {
 			stockStore.removeItem(XML_USER_PREFERENCES);
-	       	stockStore.removeItem(XML_DEFAULT_OBJECT_PREFERENCES);
+			stockStore.removeItem(XML_DEFAULT_OBJECT_PREFERENCES);
 		}
 
 	}
@@ -31,15 +31,16 @@ public class GeoGebraPreferencesW extends GeoGebraPreferences {
 
 		app.setXML(GuiResources.INSTANCE.preferencesXML().getText(), false);
 	}
-	
+
 	public void saveXMLPreferences(App app) {
 		String xml = app.getPreferencesXML();
 		Storage stockStore = null;
 		stockStore = Storage.getLocalStorageIfSupported();
-		if(stockStore!=null){
+		if (stockStore != null) {
 			stockStore.setItem(XML_USER_PREFERENCES, xml);
-	       	String xmlDef = app.getKernel().getConstruction().getConstructionDefaults().getCDXML();
-	       	stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
+			String xmlDef = app.getKernel().getConstruction()
+			        .getConstructionDefaults().getCDXML();
+			stockStore.setItem(XML_DEFAULT_OBJECT_PREFERENCES, xmlDef);
 		}
 	}
 }

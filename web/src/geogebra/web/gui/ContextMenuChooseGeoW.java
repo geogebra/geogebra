@@ -20,36 +20,40 @@ import com.google.gwt.user.client.ui.MenuItem;
 
 public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
-
 	/**
 	 * 
 	 */
 	protected EuclidianView view;
-	
+
 	/**
 	 * polygons/polyhedra parents of segments, polygons, ...
 	 */
 	private TreeSet<GeoElement> metas;
-	
+
 	private ArrayList<GeoElement> selectedGeos;
 	private geogebra.common.awt.GPoint loc;
 	private MenuBar selectAnotherMenu;
-	
+
 	/**
 	 * 
-	 * @param app application
-	 * @param view view
-	 * @param selectedGeos selected geos
-	 * @param geos geos
-	 * @param location place to show
+	 * @param app
+	 *            application
+	 * @param view
+	 *            view
+	 * @param selectedGeos
+	 *            selected geos
+	 * @param geos
+	 *            geos
+	 * @param location
+	 *            place to show
 	 */
-	public ContextMenuChooseGeoW(AppW app, EuclidianView view, 
-			ArrayList<GeoElement> selectedGeos,
-			ArrayList<GeoElement> geos, GPoint location, geogebra.common.awt.GPoint invokerLocation) {
+	public ContextMenuChooseGeoW(AppW app, EuclidianView view,
+	        ArrayList<GeoElement> selectedGeos, ArrayList<GeoElement> geos,
+	        GPoint location, geogebra.common.awt.GPoint invokerLocation) {
 		super(app, selectedGeos, location);
-		
-		//return if just one geo, or if first geos more than one
-		if (geos.size()<2 || selectedGeos.size()>1) {
+
+		// return if just one geo, or if first geos more than one
+		if (geos.size() < 2 || selectedGeos.size() > 1) {
 			justOneGeo = false;
 			addOtherItems();
 			return;
@@ -57,31 +61,29 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		justOneGeo = true;
 
-		//section to choose a geo
-		//addSeparator();
+		// section to choose a geo
+		// addSeparator();
 		addSelectAnotherMenu(view.getMode());
 		addOtherItems();
-		
+
 		this.loc = invokerLocation;
 		this.selectedGeos = selectedGeos;
 		this.geos = geos;
 		this.view = view;
-		
+
 		GeoElement geoSelected = selectedGeos.get(0);
-		
-		
-		//add geos
+
+		// add geos
 		metas = new TreeSet<GeoElement>();
-		
-		for (GeoElement geo1 : geos){
-			if (geo1!=geoSelected){//don't add selected geo
+
+		for (GeoElement geo1 : geos) {
+			if (geo1 != geoSelected) {// don't add selected geo
 				addGeo(geo1);
 			}
-			
-			
-			if (geo1.getMetasLength() > 0){
-				for (GeoElement meta : ((FromMeta) geo1).getMetas()){
-					if (!metas.contains(meta)){
+
+			if (geo1.getMetasLength() > 0) {
+				for (GeoElement meta : ((FromMeta) geo1).getMetas()) {
+					if (!metas.contains(meta)) {
 						addGeo(meta);
 					}
 				}
@@ -89,64 +91,64 @@ public class ContextMenuChooseGeoW extends ContextMenuGeoElementW {
 
 		}
 	}
-	
+
 	private class MyMouseOverListener implements EventListener {
-		
+
 		private GeoElement geo;
-		
+
 		public MyMouseOverListener(GeoElement geo) {
-	        this.geo = geo;
-        }
+			this.geo = geo;
+		}
 
 		public void onBrowserEvent(Event event) {
 			view.getEuclidianController().doSingleHighlighting(geo);
 			App.debug("view.getEuclidianController().doSingleHighlighting(geo) called");
-        }
-		
+		}
+
 	}
 
 	private void addGeo(GeoElement geo) {
 
 		// prevent selection of xOy plane
-		if (geo == app.getKernel().getXOYPlane()){
+		if (geo == app.getKernel().getXOYPlane()) {
 			return;
 		}
-		
-		
-	    GeoAction chooser = new GeoAction(geo);
-	    MenuItem mi = new MenuItem(getDescription(geo, false), true, chooser);
-	    DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
-	    DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
-	    
-	    selectAnotherMenu.addItem(mi);
-	    metas.add(geo);
-	    
-	    
-    }
-	
+
+		GeoAction chooser = new GeoAction(geo);
+		MenuItem mi = new MenuItem(getDescription(geo, false), true, chooser);
+		DOM.setEventListener(mi.getElement(), new MyMouseOverListener(geo));
+		DOM.sinkEvents(mi.getElement(), Event.ONMOUSEOVER);
+
+		selectAnotherMenu.addItem(mi);
+		metas.add(geo);
+
+	}
+
 	private class GeoAction implements Command {
-		
+
 		private GeoElement geo;
-		
+
 		public GeoAction(GeoElement geo) {
 			this.geo = geo;
 		}
-		
+
 		public void execute() {
-			geoActionCmd(this.geo,selectedGeos,geos,view, loc);
-        }
-		
+			geoActionCmd(this.geo, selectedGeos, geos, view, loc);
+		}
+
 	}
 
 	private void addSelectAnotherMenu(int mode) {
-	    selectAnotherMenu = new MenuBar(true);
-	    MenuItem selectAnotherMenuItem;
-	    if (mode == EuclidianConstants.MODE_MOVE){
-	    	selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"), selectAnotherMenu);
-		}else{
-			selectAnotherMenuItem = new MenuItem(app.getMenu("PerformToolOn"), selectAnotherMenu);			
+		selectAnotherMenu = new MenuBar(true);
+		MenuItem selectAnotherMenuItem;
+		if (mode == EuclidianConstants.MODE_MOVE) {
+			selectAnotherMenuItem = new MenuItem(app.getMenu("SelectAnother"),
+			        selectAnotherMenu);
+		} else {
+			selectAnotherMenuItem = new MenuItem(app.getMenu("PerformToolOn"),
+			        selectAnotherMenu);
 		}
-	    selectAnotherMenuItem.addStyleName("mi_no_image");
-	    wrappedPopup.addItem(selectAnotherMenuItem);
-    }
+		selectAnotherMenuItem.addStyleName("mi_no_image");
+		wrappedPopup.addItem(selectAnotherMenuItem);
+	}
 }

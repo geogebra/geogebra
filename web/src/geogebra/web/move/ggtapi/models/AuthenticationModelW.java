@@ -1,6 +1,5 @@
 package geogebra.web.move.ggtapi.models;
 
-
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.plugin.Event;
 import geogebra.common.plugin.EventType;
@@ -13,12 +12,12 @@ import com.google.gwt.storage.client.Storage;
  *
  */
 public class AuthenticationModelW extends AuthenticationModel {
-	
+
 	private static final String GGB_LAST_USER = "last_user";
 	protected Storage storage = null;
 	private String authToken = null;
 	private AppW app;
-	
+
 	/**
 	 * creates a new login model for Web
 	 */
@@ -29,12 +28,12 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	@Override
 	public void storeLoginToken(String token) {
-		if(this.app!=null){
+		if (this.app != null) {
 			ensureInited();
-			this.app.dispatchEvent(new Event(EventType.LOGIN,null,token));
+			this.app.dispatchEvent(new Event(EventType.LOGIN, null, token));
 		}
 		this.authToken = token;
-		if(storage == null){
+		if (storage == null) {
 			return;
 		}
 		storage.setItem(GGB_TOKEN_KEY_NAME, token);
@@ -42,10 +41,10 @@ public class AuthenticationModelW extends AuthenticationModel {
 
 	@Override
 	public String getLoginToken() {
-		if(authToken!=null){
+		if (authToken != null) {
 			return authToken;
 		}
-		if(storage == null){
+		if (storage == null) {
 			return null;
 		}
 		return storage.getItem(GGB_TOKEN_KEY_NAME);
@@ -55,12 +54,12 @@ public class AuthenticationModelW extends AuthenticationModel {
 	public void clearLoginToken() {
 		app.getLoginOperation().getGeoGebraTubeAPI().logout(this.authToken);
 		this.authToken = null;
-		//this should log the user out of other systems too
-		if(this.app!=null){
+		// this should log the user out of other systems too
+		if (this.app != null) {
 			ensureInited();
-			this.app.dispatchEvent(new Event(EventType.LOGIN,null,""));
+			this.app.dispatchEvent(new Event(EventType.LOGIN, null, ""));
 		}
-		if(storage == null){
+		if (storage == null) {
 			return;
 		}
 		storage.removeItem(GGB_TOKEN_KEY_NAME);
@@ -68,31 +67,32 @@ public class AuthenticationModelW extends AuthenticationModel {
 	}
 
 	private boolean inited = false;
+
 	private void ensureInited() {
-		if(!(app instanceof AppW)){
+		if (!(app instanceof AppW)) {
 			return;
 		}
-		if(inited || ((AppW)app).getLAF().getLoginListener() == null){
+		if (inited || ((AppW) app).getLAF().getLoginListener() == null) {
 			return;
 		}
 		inited = true;
-	    app.getGgbApi().registerClientListener("loginListener");
-    }
+		app.getGgbApi().registerClientListener("loginListener");
+	}
 
 	@Override
-    protected void storeLastUser(String username) {
-	    if(storage == null){
+	protected void storeLastUser(String username) {
+		if (storage == null) {
 			return;
 		}
 		storage.setItem(GGB_LAST_USER, username);
-	    
-    }
+
+	}
 
 	@Override
-    public String loadLastUser() {
-		if(storage == null){
+	public String loadLastUser() {
+		if (storage == null) {
 			return null;
 		}
 		return storage.getItem(GGB_LAST_USER);
-    }
+	}
 }

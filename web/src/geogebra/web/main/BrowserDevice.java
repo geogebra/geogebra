@@ -54,8 +54,8 @@ public class BrowserDevice implements GDevice {
 	}
 
 	@Override
-    public ConstructionProtocolView getConstructionProtocolView(AppW app) {
-	    return new ConstructionProtocolViewW(app);
-    }
+	public ConstructionProtocolView getConstructionProtocolView(AppW app) {
+		return new ConstructionProtocolViewW(app);
+	}
 
 }

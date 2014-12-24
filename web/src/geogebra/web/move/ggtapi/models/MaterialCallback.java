@@ -11,9 +11,10 @@ public abstract class MaterialCallback {
 	public abstract void onLoaded(List<Material> parseResponse);
 
 	public void onError(Throwable exception) {
-	    Log.error(exception.getMessage());
-	    //TODO
-	    ToolTipManagerW.sharedInstance().showBottomMessage(exception.getMessage(), true);
-    }
+		Log.error(exception.getMessage());
+		// TODO
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+		        exception.getMessage(), true);
+	}
 
 }

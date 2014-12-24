@@ -5,14 +5,14 @@ import geogebra.common.move.events.BaseEvent;
 /**
  * @author gabor
  * 
- * Used for notify things if drive loaded
+ *         Used for notify things if drive loaded
  *
  */
 public class GoogleDriveLoadedEvent extends BaseEvent {
 
 	public GoogleDriveLoadedEvent() {
-	    super("Drive loaded");
-    }
+		super("Drive loaded");
+	}
 
 	@Override
 	public void trigger() {

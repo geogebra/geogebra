@@ -36,61 +36,61 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  */
 public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 
-	/** 
-	 * Application 
+	/**
+	 * Application
 	 */
 	private AppW app;
-	
+
 	/**
 	 * Vertical panel containing sub-panels.
 	 */
 	private VerticalPanel panel;
-	
+
 	/**
 	 * Panel containing the combo box for selecting the slider.
 	 */
 	private HorizontalPanel sliderPanel;
-	
+
 	/**
 	 * Panel containing options elements.
 	 */
 	private HorizontalPanel optionsPanel;
-	
+
 	/**
 	 * Panel containing the OK and Cancel button
 	 */
 	private FlowPanel bottomPanel;
-	
+
 	/**
 	 * Combo box for selecting the slider.
 	 */
 	private ListBox sliderComboBox;
-	
+
 	/**
 	 * Button exports the GIF.
 	 */
 	private Button saveBtn;
-	
+
 	/**
 	 * Cancels exporting and closes the window.
 	 */
 	private Button cancelBtn;
-	
+
 	/**
 	 * The time in milliseconds between the frames.
 	 */
 	private InputPanelW timeBetweenFramesInput;
-	
+
 	/**
 	 * Checkbox to set the GIF to infinite loop
 	 */
 	private CheckBox isLoop;
-	
+
 	/**
 	 * The list of sliders.
 	 */
 	private List<GeoElement> geoNumerics;
-	
+
 	/**
 	 * The index of the selected slider.
 	 */
@@ -107,9 +107,9 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		initGUI();
 		refreshGUI();
 	}
-	
+
 	public void exportAnimatedGIF(FrameCollectorW gifEncoder, GeoNumeric num,
-			int n, double val, double min, double max, double step) {
+	        int n, double val, double min, double max, double step) {
 		Log.debug("exporting animation");
 		for (int i = 0; i < n; i++) {
 
@@ -118,8 +118,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 			num.setValue(val);
 			num.updateRepaint();
 
-			geogebra.html5.gawt.GBufferedImageW img = ((EuclidianViewW) app.getActiveEuclidianView())
-					.getExportImage(1);
+			geogebra.html5.gawt.GBufferedImageW img = ((EuclidianViewW) app
+			        .getActiveEuclidianView()).getExportImage(1);
 			if (img == null) {
 				Log.error("image null");
 			} else {
@@ -139,7 +139,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	private void initGUI() {
 		addStyleName("GeoGebraPopup");
 		add(panel = new VerticalPanel());
-		panel.add(sliderPanel = new HorizontalPanel()); 
+		panel.add(sliderPanel = new HorizontalPanel());
 		sliderPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		sliderPanel.add(new Label(app.getPlain("Slider") + ":"));
 		sliderPanel.add(sliderComboBox = new ListBox());
@@ -147,25 +147,26 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		panel.add(optionsPanel = new HorizontalPanel());
 		optionsPanel.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 		optionsPanel.add(new Label(app.getPlain("TimeBetweenFrames") + ":"));
-		optionsPanel.add(timeBetweenFramesInput = new InputPanelW("500", app, 5, false));
+		optionsPanel.add(timeBetweenFramesInput = new InputPanelW("500", app,
+		        5, false));
 		optionsPanel.add(new Label("ms"));
 		optionsPanel.add(isLoop = new CheckBox(app.getPlain("AnimationLoop")));
-		
+
 		panel.add(bottomPanel = new FlowPanel());
 		bottomPanel.add(saveBtn = new Button(app.getPlain("Apply")));
 		bottomPanel.add(cancelBtn = new Button(app.getPlain("Cancel")));
-		
+
 		// buttons
 		saveBtn.addClickHandler(this);
 		cancelBtn.addClickHandler(this);
-		
+
 		bottomPanel.setStyleName("DialogButtonPanel");
 
 		getCaption().setText(app.getPlain("AnimatedGIFExport"));
 		setGlassEnabled(true);
 		isLoop.getElement().getStyle().setMarginLeft(15, Unit.PX);
 	}
-	
+
 	/**
 	 * This method should be called before reusing this dialog.
 	 */
@@ -180,14 +181,15 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 			GeoElement geo = it.next();
 			if (geo.isGeoNumeric() && ((GeoNumeric) geo).isIntervalMinActive()
 			        && ((GeoNumeric) geo).isIntervalMaxActive()) {
-				sliderComboBox.addItem(geo.toString(StringTemplate.defaultTemplate));
+				sliderComboBox.addItem(geo
+				        .toString(StringTemplate.defaultTemplate));
 				geoNumerics.add(geo);
 			}
 		}
 		selectedGeo = 0;
 		boolean enabled = geoNumerics.size() != 0;
 		timeBetweenFramesInput.getTextComponent().setText("500");
-		
+
 		isLoop.setEnabled(enabled);
 		timeBetweenFramesInput.setEnabled(enabled);
 		saveBtn.setEnabled(enabled);
@@ -196,21 +198,23 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 
 	public void onClick(ClickEvent event) {
 		if (event.getSource() == cancelBtn) { // cancel button clicked
-	    	hide();
-	    } else { // save button clicked
-	    	export();
-	    	hide();
-	    }
-    }
-	
+			hide();
+		} else { // save button clicked
+			export();
+			hide();
+		}
+	}
+
 	private void export() {
-		// implementation taken and modified from :AnimationExportDialog.export()
+		// implementation taken and modified from
+		// :AnimationExportDialog.export()
 		// TODO: factor out the export method to a common class
 		int timeBetweenFrames = 500;
 
 		// try to parse text field value (and check that it is > 0)
 		try {
-			timeBetweenFrames = Integer.parseInt(timeBetweenFramesInput.getText());
+			timeBetweenFrames = Integer.parseInt(timeBetweenFramesInput
+			        .getText());
 
 			// negative values or zero are bad too
 			if (timeBetweenFrames <= 0) {
@@ -222,7 +226,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		}
 
 		app.getKernel().getAnimatonManager().stopAnimation();
-		
+
 		GeoNumeric num = (GeoNumeric) geoNumerics.get(selectedGeo);
 
 		int type = num.getAnimationType();
@@ -254,7 +258,7 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 			val = min;
 			break;
 		default: // GeoElement.ANIMATION_INCREASING:
-					// GeoElement.ANIMATION_INCREASING_ONCE:
+			     // GeoElement.ANIMATION_INCREASING_ONCE:
 			step = num.getAnimationStep();
 			n = (int) ((max - min) / step);
 			if (Kernel.isZero(((max - min) / step) - n))
@@ -263,9 +267,10 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 				n = 1;
 			val = min;
 		}
-		
-		final AnimatedGifEncoderW gifEncoder = new AnimatedGifEncoderW(timeBetweenFrames, isLoop.getValue());
-		
+
+		final AnimatedGifEncoderW gifEncoder = new AnimatedGifEncoderW(
+		        timeBetweenFrames, isLoop.getValue());
+
 		FrameCollectorW collector = new FrameCollectorW() {
 
 			public void addFrame(GBufferedImageW img) {

@@ -20,5 +20,5 @@ public interface GDevice {
 
 	public BrowseGUI getBrowseGUI(AppW app);
 
-	public ConstructionProtocolView getConstructionProtocolView(AppW app);	
+	public ConstructionProtocolView getConstructionProtocolView(AppW app);
 }

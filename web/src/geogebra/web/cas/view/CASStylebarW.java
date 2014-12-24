@@ -19,30 +19,30 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
+public class CASStylebarW extends StyleBarW implements ClickHandler,
+        PopupMenuHandler {
 
-public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHandler{
-	
 	private MyToggleButton2 btnUseAsText;
 	private int iconHeight = 18;
 	private GDimensionW iconDimension = new GDimensionW(16, iconHeight);
 	private ColorPopupMenuButton btnTextColor;
 	private MyToggleButton2 btnBold;
 	private MyToggleButton2 btnItalic;
-	private boolean needUndo=false;
+	private boolean needUndo = false;
 	private ArrayList<GeoElement> selectedRows;
 	private CASViewW casView;
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton2[] toggleBtnList;
 
-	public CASStylebarW(CASViewW view, AppW app){
+	public CASStylebarW(CASViewW view, AppW app) {
 		super(app, App.VIEW_CAS);
 		casView = view;
 		selectedRows = new ArrayList<GeoElement>();
 		initGUI();
 		addStyleName("CASStyleBar");
 	}
-	
-	private void initGUI(){
+
+	private void initGUI() {
 		createTextButtons();
 		add(btnUseAsText);
 		add(btnTextColor);
@@ -54,25 +54,26 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		updateStyleBar();
 	}
 
-	private void createTextButtons(){
+	private void createTextButtons() {
 
-		btnUseAsText = new MyToggleButton2(app.getPlain("Text").substring(0, 1), iconHeight) {
+		btnUseAsText = new MyToggleButton2(
+		        app.getPlain("Text").substring(0, 1), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
-			
+
 				setVisible(true);
 				btnUseAsText.setSelected(checkGeoText(geos));
 
 			}
 		};
 		btnUseAsText.addClickHandler(this);
-	
+
 		final GDimensionW textColorIconSize = new GDimensionW(20, iconHeight);
 		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
-				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
+		        ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			private static final long serialVersionUID = 1L;
 
@@ -84,7 +85,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
-							.getGeoElementForPropertiesDialog();
+					        .getGeoElementForPropertiesDialog();
 					GColor geoColor = ((GeoCasCell) geo).getFontColor();
 					updateColorTable();
 
@@ -97,25 +98,26 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 						this.setIcon(getButtonIcon());
 					}
 
-//					setFgColor(geoColor);
+					// setFgColor(geoColor);
 					setFontStyle(((TextProperties) geo).getFontStyle());
 				}
 			}
 
-//			@Override
-//			public ImageIcon getButtonIcon() {
-//				return GeoGebraIcon.createTextSymbolIcon("A",
-//						app.getPlainFont(), textColorIconSize,
-//						geogebra.awt.GColorD.getAwtColor(getSelectedColor()),
-//						null);
-//			}
+			// @Override
+			// public ImageIcon getButtonIcon() {
+			// return GeoGebraIcon.createTextSymbolIcon("A",
+			// app.getPlainFont(), textColorIconSize,
+			// geogebra.awt.GColorD.getAwtColor(getSelectedColor()),
+			// null);
+			// }
 
 		};
 
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
-	
-		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight) {
+
+		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1),
+		        iconHeight) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -125,17 +127,18 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 				setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
-							.getGeoElementForPropertiesDialog();
+					        .getGeoElementForPropertiesDialog();
 					int style = ((TextProperties) geo).getFontStyle();
 					btnBold.setValue(style == GFontW.BOLD
-							|| style == (GFontW.BOLD + geogebra.common.awt.GFont.ITALIC));
+					        || style == (GFontW.BOLD + geogebra.common.awt.GFont.ITALIC));
 				}
 			}
 		};
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("CAS_boldbutton");
-		
-		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight) {
+
+		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1),
+		        iconHeight) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -145,17 +148,17 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 				this.setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
-							.getGeoElementForPropertiesDialog();
+					        .getGeoElementForPropertiesDialog();
 					int style = ((GeoCasCell) geo).getGeoText().getFontStyle();
 					btnItalic.setSelected(style == GFontW.ITALIC
-							|| style == (GFontW.BOLD + GFontW.ITALIC));
+					        || style == (GFontW.BOLD + GFontW.ITALIC));
 				}
 			}
 		};
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("CAS_italicbutton");
 	}
-	
+
 	/**
 	 * @param geos
 	 *            list of selected cells
@@ -174,49 +177,50 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		}
 		return geosOK;
 	}
-	
+
 	public int getOffsetHeight() {
-	    // TODO Auto-generated method stub
-	    return 0;
-    }
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
 	@Override
-    public void setOpen(boolean showStyleBar) {
-	    // TODO Auto-generated method stub
-	    
-    }
-	
-	public void onClick(ClickEvent e){
+	public void setOpen(boolean showStyleBar) {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void onClick(ClickEvent e) {
 		Object source = e.getSource();
 
-		needUndo  = false;
+		needUndo = false;
 
 		processSource(source, selectedRows);
 
 		if (needUndo) {
 			app.storeUndoInfo();
 			needUndo = false;
-		}		
+		}
 	}
-	
-	private void processSource(Object source,
-            ArrayList<GeoElement> targetGeos) {
-		if (source == btnBold){
+
+	private void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+		if (source == btnBold) {
 			applyFontStyle(targetGeos);
 		} else if (source == btnItalic) {
 			applyFontStyle(targetGeos);
 		} else if (source == btnUseAsText) {
-//			btnUseAsText.onClick(null);
+			// btnUseAsText.onClick(null);
 			int i = casView.getConsoleTable().getEditingRow();
-//			int pos = (casView.getConsoleTable().getEditor().getCaretPosition();
+			// int pos =
+			// (casView.getConsoleTable().getEditor().getCaretPosition();
 			applyUseAsText(targetGeos);
-			if (i>0) casView.getConsoleTable().startEditingRow(i);			
+			if (i > 0)
+				casView.getConsoleTable().startEditingRow(i);
 		}
-		
+
 		updateStyleBar();
-	    
-    }
-	
+
+	}
+
 	private void applyFontStyle(ArrayList<GeoElement> geos) {
 		int fontStyle = 0;
 		if (btnBold.isSelected())
@@ -226,7 +230,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo instanceof GeoCasCell
-					&& ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
+			        && ((GeoCasCell) geo).getGeoText().getFontStyle() != fontStyle) {
 				((GeoCasCell) geo).getGeoText().setFontStyle(fontStyle);
 				geo.updateRepaint();
 				needUndo = true;
@@ -244,8 +248,8 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		selectedRows.add(geo);
 		updateStyleBar();
 	}
-	
-	public void updateStyleBar(){
+
+	public void updateStyleBar() {
 		for (int i = 0; i < popupBtnList.length; i++) {
 			try {
 				popupBtnList[i].update(selectedRows.toArray());
@@ -263,7 +267,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 		}
 
 	}
-	
+
 	/**
 	 * @return array of toggle buttons
 	 */
@@ -275,24 +279,23 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 	 * @return array of popup buttons
 	 */
 	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnTextColor/*, btnTextSize */};
+		return new PopupMenuButton[] { btnTextColor /* , btnTextSize */};
 	}
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo instanceof GeoCasCell
-					) {
+			if (geo instanceof GeoCasCell) {
 				btnTextColor.getSelectedColor();
 				((GeoCasCell) geo)
-						.setFontColor(btnTextColor.getSelectedColor());
+				        .setFontColor(btnTextColor.getSelectedColor());
 				geo.updateRepaint();
 				needUndo = true;
 			}
 		}
 	}
-	
+
 	private void applyUseAsText(ArrayList<GeoElement> geos) {
 		casView.getConsoleTable().stopEditing();
 		// btnUseAsText
@@ -312,9 +315,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler, PopupMenuHa
 				applyTextColor(selectedRows);
 			}
 		}
-	    
-    }
-	
-	
+
+	}
 
 }

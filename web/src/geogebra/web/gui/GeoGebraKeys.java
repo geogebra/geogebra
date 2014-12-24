@@ -21,32 +21,33 @@ public class GeoGebraKeys implements KeyDownHandler, KeyUpHandler {
 	private static StringBuilder altCodes = new StringBuilder();
 
 	private boolean altPressed;
-	
+
 	AppW app;
 
 	public GeoGebraKeys(AppW app) {
 		this.app = app;
 	}
-	
-	public void onKeyDown(KeyDownEvent e) {  
+
+	public void onKeyDown(KeyDownEvent e) {
 		// swallow eg ctrl-a ctrl-b ctrl-p on Mac
-		//AG dont worry about this yet if (Application.MAC_OS && e.isControlDown())
-		//AG	e.consume();
-		//Application.debug("keyPressed");
+		// AG dont worry about this yet if (Application.MAC_OS &&
+		// e.isControlDown())
+		// AG e.consume();
+		// Application.debug("keyPressed");
 	}
 
 	public void onKeyUp(KeyUpEvent e) {
-		
-		//Application.debug("keyTyped"+e.getKeyChar());
+
+		// Application.debug("keyTyped"+e.getKeyChar());
 		if (e.isAltKeyDown()) {
 			if (!altPressed) {
 				altCodes.setLength(0);
-				//Application.debug("alt pressed");
+				// Application.debug("alt pressed");
 			}
 			altPressed = true;
 		} else {
 			if (altCodes.length() > 0) {
-				
+
 				// intercept wrong character and replace with correct Alt-code
 				char insertStr = (char) Integer.parseInt(altCodes.toString());
 				TextBox comp = (TextBox) e.getSource();
@@ -55,14 +56,14 @@ public class GeoGebraKeys implements KeyDownHandler, KeyUpHandler {
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, pos));
 				sb.append(insertStr);
-				sb.append(oldText.substring(pos));            
+				sb.append(oldText.substring(pos));
 				comp.setText(sb.toString());
 
 				comp.setCursorPos(pos + 1);
 				e.stopPropagation();
-				
+
 			}
-			
+
 			altPressed = false;
 			altCodes.setLength(0);
 		}
@@ -73,9 +74,6 @@ public class GeoGebraKeys implements KeyDownHandler, KeyUpHandler {
 		if (e.isAltKeyDown() && e.isControlKeyDown())
 			return;
 
-		
-		
-
-	}   
+	}
 
 }

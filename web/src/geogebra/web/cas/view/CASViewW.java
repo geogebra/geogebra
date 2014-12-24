@@ -13,8 +13,6 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.user.client.ui.Widget;
 
-
-
 public class CASViewW extends CASView {
 
 	private CASComponentW component;
@@ -23,59 +21,61 @@ public class CASViewW extends CASView {
 	private CASStylebarW styleBar;
 	private CASSubDialogW subDialog;
 
-	public CASViewW(AppW app){
+	public CASViewW(AppW app) {
 		component = new CASComponentW();
 		kernel = app.getKernel();
 		this.app = app;
-		
-		getCAS();	
+
+		getCAS();
 
 		// init commands subtable for cas-commands in inputbar-help
 		kernel.getAlgebraProcessor().enableCAS();
-		
+
 		// CAS input/output cells
-		CASTableControllerW ml = new CASTableControllerW(this,app);
-		consoleTable = new CASTableW(app,ml,this);	
+		CASTableControllerW ml = new CASTableControllerW(this, app);
+		consoleTable = new CASTableW(app, ml, this);
 		component.add(consoleTable);
-		//SelectionHandler.disableTextSelectInternal(component.getElement(), true);
+		// SelectionHandler.disableTextSelectInternal(component.getElement(),
+		// true);
 		// input handler
 		casInputHandler = new CASInputHandler(this);
-		
+
 		component.addDomHandler(ml, MouseDownEvent.getType());
 		component.addDomHandler(ml, MouseUpEvent.getType());
 		component.addDomHandler(ml, MouseMoveEvent.getType());
 		component.addDomHandler(ml, TouchStartEvent.getType());
 		component.addDomHandler(ml, TouchMoveEvent.getType());
 		component.addDomHandler(ml, TouchEndEvent.getType());
-		
+
 		getCAS().initCurrentCAS();
 		getCAS().getCurrentCAS().reset();
-				
+
 	}
+
 	public void repaintView() {
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	public boolean hasFocus() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	public boolean isShowing() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-    public CASTableW getConsoleTable() {
-	    return consoleTable;
-    }
+	public CASTableW getConsoleTable() {
+		return consoleTable;
+	}
 
 	@Override
-    public AppW getApp() {
-	    return app;
-    }
+	public AppW getApp() {
+		return app;
+	}
 
 	@Override
 	public void showSubstituteDialog(String prefix, String evalText,
@@ -83,29 +83,31 @@ public class CASViewW extends CASView {
 		App.debug("Before creation");
 		if (subDialog != null && subDialog.getDialog().isShowing())
 			return;
-		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText,
-		        postfix, selRow);
+		CASSubDialogW d = new CASSubDialogW(this, prefix, evalText, postfix,
+		        selRow);
 		d.getDialog().center();
 		d.getDialog().show();
 		App.debug("CASSubDialogCreated");
 		subDialog = d;
 
-    }
-	
+	}
+
 	public Widget getComponent() {
-	    return component;
-    }
+		return component;
+	}
+
 	public CASStylebarW getCASStyleBar() {
 		if (styleBar == null) {
 			styleBar = newCASStyleBar();
 		}
 		return styleBar;
-    }
+	}
+
 	private CASStylebarW newCASStyleBar() {
 		return new CASStylebarW(this, app);
-    }
-	
-	public boolean suggestRepaint(){
+	}
+
+	public boolean suggestRepaint() {
 		// not used for this view
 		return false;
 	}

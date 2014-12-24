@@ -28,16 +28,18 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Popup menu for web.
+ * 
  * @author Judit Elias
  */
-public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implements AttachedToDOM{
-
+public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu
+        implements AttachedToDOM {
 
 	protected PopupPanel popupPanel;
 	protected PopupMenuBar popupMenu;
 	private int popupMenuSize = 0;
-	/* popup panel for submenu
-	 * this field used to avoid having more submenu at the same time 
+	/*
+	 * popup panel for submenu this field used to avoid having more submenu at
+	 * the same time
 	 */
 	GPopupMenuW subPopup;
 	private AppW app;
@@ -45,233 +47,252 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	/**
 	 * @param app
 	 * 
-	 * Creates a popup menu. App needed for get environment style
+	 *            Creates a popup menu. App needed for get environment style
 	 */
-	public GPopupMenuW(AppW app){
+	public GPopupMenuW(AppW app) {
 		this.app = app;
 		popupPanel = new PopupPanel();
-		Browser.scale(popupPanel.getElement(), app.getArticleElement().getScaleX(), 0, 0);
+		Browser.scale(popupPanel.getElement(), app.getArticleElement()
+		        .getScaleX(), 0, 0);
 		popupMenu = new PopupMenuBar(true);
 		popupMenu.setAutoOpen(true);
 		popupPanel.add(popupMenu);
-		
-		popupPanel.addCloseHandler(new CloseHandler<PopupPanel>(){
+
+		popupPanel.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			public void onClose(CloseEvent<PopupPanel> event) {
-				if (subPopup != null){
+				if (subPopup != null) {
 					subPopup.removeFromDOM();
 					subPopup = null;
 				}
-            }
-			
+			}
+
 		});
-		
+
 		popupPanel.setAutoHideEnabled(true);
 	}
-	
+
 	/*
 	 * Constructor for submenu-popups
 	 */
-	public GPopupMenuW(MenuBar mb){
+	public GPopupMenuW(MenuBar mb) {
 		popupPanel = new PopupPanel();
 		popupPanel.add(mb);
 	}
-	
-//	public void add(MenuItem mi) {
-//	    impl.addItem(mi);
-//	    
-//    }
-	
-	public void setVisible(boolean v){
+
+	// public void add(MenuItem mi) {
+	// impl.addItem(mi);
+	//
+	// }
+
+	public void setVisible(boolean v) {
 		popupPanel.setVisible(v);
 	}
-	
+
 	/**
-	 * Shows the popup menu, ensures that the popup menu must be on the client area.
+	 * Shows the popup menu, ensures that the popup menu must be on the client
+	 * area.
 	 */
-	public void show(GPoint p){
+	public void show(GPoint p) {
 		int top = p.getY();
 		int left = p.getX();
 		boolean newPoz = false;
 		showAtPoint(p);
-		if (left + popupPanel.getOffsetWidth() * app.getArticleElement().getScaleX() > Window.getClientWidth()  + Window.getScrollLeft()){
-			left = Window.getClientWidth() - popupPanel.getOffsetWidth()+Window.getScrollLeft();
+		if (left + popupPanel.getOffsetWidth()
+		        * app.getArticleElement().getScaleX() > Window.getClientWidth()
+		        + Window.getScrollLeft()) {
+			left = Window.getClientWidth() - popupPanel.getOffsetWidth()
+			        + Window.getScrollLeft();
 			newPoz = true;
-		}else{
+		} else {
 			left = (int) (left * app.getArticleElement().getScaleX());
 		}
-		if (top + popupPanel.getOffsetHeight() * app.getArticleElement().getScaleY() > Window.getClientHeight()  + Window.getScrollTop()){
-			top = Window.getClientHeight() - popupPanel.getOffsetHeight()+ Window.getScrollTop();
+		if (top + popupPanel.getOffsetHeight()
+		        * app.getArticleElement().getScaleY() > Window
+		        .getClientHeight() + Window.getScrollTop()) {
+			top = Window.getClientHeight() - popupPanel.getOffsetHeight()
+			        + Window.getScrollTop();
 			newPoz = true;
-		}else{
-			top = (int) (top * app.getArticleElement().getScaleY());	
+		} else {
+			top = (int) (top * app.getArticleElement().getScaleY());
 		}
-		
-		
-		
-		if (newPoz || !Kernel.isEqual(1, app.getArticleElement().getScaleX())){
+
+		if (newPoz || !Kernel.isEqual(1, app.getArticleElement().getScaleX())) {
 			popupPanel.setPopupPosition(left, top);
-			App.debug(left+"x"+top);
+			App.debug(left + "x" + top);
 		}
 	}
-	
+
 	/**
 	 * Shows the popup menu at the p point, independently of there is enough
 	 * place for the popup menu. (Maybe some details of the popup menu won't be
 	 * visible.)
 	 */
-	public void showAtPoint(GPoint p){
+	public void showAtPoint(GPoint p) {
 		popupPanel.setPopupPosition(p.getX(), p.getY());
 		popupPanel.show();
 	}
-	
+
 	public void show(Canvas c, int x, int y) {
-		show(new GPoint((int) (c.getAbsoluteLeft() / app.getArticleElement().getScaleX() +x),
-				(int) (c.getAbsoluteTop() / app.getArticleElement().getScaleY()+y)));
+		show(new GPoint(
+		        (int) (c.getAbsoluteLeft()
+		                / app.getArticleElement().getScaleX() + x),
+		        (int) (c.getAbsoluteTop() / app.getArticleElement().getScaleY() + y)));
 	}
 
 	public void show(Widget c, int x, int y) {
-		show(new GPoint(c.getAbsoluteLeft()+x, c.getAbsoluteTop()+y));
+		show(new GPoint(c.getAbsoluteLeft() + x, c.getAbsoluteTop() + y));
 	}
 
-	public void removeFromDOM(){
+	public void removeFromDOM() {
 		removeSubPopup();
 		popupPanel.removeFromParent();
 	}
-	
-	public void clearItems(){
+
+	public void clearItems() {
 		popupMenu.clearItems();
 	}
-	
-	public int getComponentCount(){
+
+	public int getComponentCount() {
 		return popupMenuSize;
 	}
-	
-	public void addSeparator(){
+
+	public void addSeparator() {
 		popupMenu.addSeparator();
 	}
-	
-	private void addHideCommandFor(MenuItem item){
+
+	private void addHideCommandFor(MenuItem item) {
 		MenuBar submenu = item.getSubMenu();
-		if (submenu==null){
+		if (submenu == null) {
 			final ScheduledCommand oldCmd = item.getScheduledCommand();
-			ScheduledCommand cmd = new ScheduledCommand(){
+			ScheduledCommand cmd = new ScheduledCommand() {
 				public void execute() {
 					oldCmd.execute();
 					popupPanel.hide();
-	            }
+				}
 			};
 			item.setScheduledCommand(cmd);
 		} else {
-//			CloseHandler<PopupPanel> closehandler = new CloseHandler<PopupPanel>(){
-//				public void onClose(CloseEvent<PopupPanel> event) {
-//	                App.debug("popuppanel closed");
-//                }
-//			}; 
-//			submenu.addCloseHandler(closehandler);
-//			submenu.addHandler(closehandler, CloseEvent.getType());			
-			
-			submenu.addHandler(new ClickHandler(){
+			// CloseHandler<PopupPanel> closehandler = new
+			// CloseHandler<PopupPanel>(){
+			// public void onClose(CloseEvent<PopupPanel> event) {
+			// App.debug("popuppanel closed");
+			// }
+			// };
+			// submenu.addCloseHandler(closehandler);
+			// submenu.addHandler(closehandler, CloseEvent.getType());
+
+			submenu.addHandler(new ClickHandler() {
 				public void onClick(ClickEvent event) {
-	                popupPanel.hide();
-                }
+					popupPanel.hide();
+				}
 			}, ClickEvent.getType());
-		}		
+		}
 	}
-	
-	private ImageResource getSubMenuIcon(boolean isRTL){
-		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL() : GuiResources.INSTANCE.menuBarSubMenuIconLTR();
+
+	private ImageResource getSubMenuIcon(boolean isRTL) {
+		return isRTL ? GuiResources.INSTANCE.menuBarSubMenuIconRTL()
+		        : GuiResources.INSTANCE.menuBarSubMenuIconLTR();
 	}
-	
-//	public void addItem(final MenuItem item) {
-//		addHideCommandFor(item);
-//	    popupMenu.addItem(item);
-//	    popupMenuSize++;
-//    }
-	
+
+	// public void addItem(final MenuItem item) {
+	// addHideCommandFor(item);
+	// popupMenu.addItem(item);
+	// popupMenuSize++;
+	// }
+
 	public void addItem(final MenuItem item) {
 		final MenuBar subMenu = item.getSubMenu();
 		addHideCommandFor(item);
-		if (subMenu == null){
+		if (subMenu == null) {
 			popupMenu.addItem(item);
-		}
-		else {
+		} else {
 			// The submenu is not added for the menu as submenu,
-			// but this will be placed on a different popup panel. 
+			// but this will be placed on a different popup panel.
 			// In this way we can set this popup panel's position easily.
 			String itemHTML = item.getHTML();
 			ScheduledCommand itemCommand = null;
 			final MenuItem newItem = new MenuItem(itemHTML, true, itemCommand);
 			newItem.setStyleName(item.getStyleName());
 			newItem.getElement().setAttribute("hasPopup", "true");
-			popupMenu.addItem(newItem);			
-			itemCommand = new ScheduledCommand(){
+			popupMenu.addItem(newItem);
+			itemCommand = new ScheduledCommand() {
 				public void execute() {
 					int xCord, yCord;
-					if (subPopup != null) subPopup.removeFromDOM();
-	                subPopup = new GPopupMenuW(subMenu);	                
-	                subPopup.setVisible(true);
-	                int xPercent = 0; 
-	                //Calculate the position of the "submenu", and show it
-	                if (LocaleInfo.getCurrentLocale().isRTL()){
-	                	xCord = getLeftSubPopupXCord();
-	                	if (xCord < 0){ 
-	                		xCord = getRightSubPopupXCord();
-	                	}else{
-	                		xPercent = 100;
-	                	}
-	                } else {
-	                	xCord = getRightSubPopupXCord();
-	                	if (xCord + getSubPopupWidth()> Window.getClientWidth()){
-	                		xCord = getLeftSubPopupXCord();
-	                		xPercent = 100;
-	                	}
-	                }
-	                yCord = Math.min(newItem.getAbsoluteTop(), Window.getClientHeight()-getSubPopupHeight());
-	                Browser.scale(subPopup.getPopupPanel().getElement(), app.getArticleElement().getScaleX(), xPercent, 0);
-	                subPopup.showAtPoint(new GPoint(xCord,yCord));
-                }	
+					if (subPopup != null)
+						subPopup.removeFromDOM();
+					subPopup = new GPopupMenuW(subMenu);
+					subPopup.setVisible(true);
+					int xPercent = 0;
+					// Calculate the position of the "submenu", and show it
+					if (LocaleInfo.getCurrentLocale().isRTL()) {
+						xCord = getLeftSubPopupXCord();
+						if (xCord < 0) {
+							xCord = getRightSubPopupXCord();
+						} else {
+							xPercent = 100;
+						}
+					} else {
+						xCord = getRightSubPopupXCord();
+						if (xCord + getSubPopupWidth() > Window
+						        .getClientWidth()) {
+							xCord = getLeftSubPopupXCord();
+							xPercent = 100;
+						}
+					}
+					yCord = Math.min(newItem.getAbsoluteTop(),
+					        Window.getClientHeight() - getSubPopupHeight());
+					Browser.scale(subPopup.getPopupPanel().getElement(), app
+					        .getArticleElement().getScaleX(), xPercent, 0);
+					subPopup.showAtPoint(new GPoint(xCord, yCord));
+				}
 			};
 			newItem.setScheduledCommand(itemCommand);
-			
-			//adding arrow for the menuitem
+
+			// adding arrow for the menuitem
 			Element td = DOM.createTD();
 			DOM.setElementProperty(td, "vAlign", "middle");
 			td.addClassName("subMenuIcon");
-			ImageResource imgRes = getSubMenuIcon(LocaleInfo.getCurrentLocale().isRTL());
-			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes).getSafeHtml());
+			ImageResource imgRes = getSubMenuIcon(LocaleInfo.getCurrentLocale()
+			        .isRTL());
+			td.setInnerSafeHtml(AbstractImagePrototype.create(imgRes)
+			        .getSafeHtml());
 			newItem.getElement().setAttribute("colspan", "1");
-			DOM.appendChild((Element) newItem.getElement().getParentNode(), td);								
+			DOM.appendChild((Element) newItem.getElement().getParentNode(), td);
 		}
-	    popupMenuSize++;
-	    
-	    item.addStyleName("gPopupMenu_item");
-    }
-	
+		popupMenuSize++;
+
+		item.addStyleName("gPopupMenu_item");
+	}
+
 	/**
 	 * @return the width of the submenu.
 	 */
-	public int getSubPopupWidth(){
+	public int getSubPopupWidth() {
 		int width;
 		boolean shown = subPopup.popupPanel.isShowing();
-    	if (!shown) subPopup.popupPanel.show();
-        width = subPopup.popupPanel.getOffsetWidth();
-        if (!shown) subPopup.popupPanel.hide();
-        return width;
+		if (!shown)
+			subPopup.popupPanel.show();
+		width = subPopup.popupPanel.getOffsetWidth();
+		if (!shown)
+			subPopup.popupPanel.hide();
+		return width;
 	}
 
 	/**
 	 * @return the height of the submenu.
 	 */
-	public int getSubPopupHeight(){
+	public int getSubPopupHeight() {
 		int ret;
 		boolean shown = subPopup.popupPanel.isShowing();
-    	if (!shown) subPopup.popupPanel.show();
-        ret = subPopup.popupPanel.getOffsetHeight();
-        if (!shown) subPopup.popupPanel.hide();
-        return ret;
+		if (!shown)
+			subPopup.popupPanel.show();
+		ret = subPopup.popupPanel.getOffsetHeight();
+		if (!shown)
+			subPopup.popupPanel.hide();
+		return ret;
 	}
-	
+
 	/**
 	 * Gets the submenu's suggested absolute left position in pixels, as
 	 * measured from the browser window's client area, in case of the submenu is
@@ -279,12 +300,12 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	 * 
 	 * @return submenu's left position in pixels
 	 */
-	public int getLeftSubPopupXCord(){
+	public int getLeftSubPopupXCord() {
 		int xCord;
-        xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth();
-        return xCord;	
+		xCord = popupPanel.getAbsoluteLeft() - getSubPopupWidth();
+		return xCord;
 	}
-	
+
 	/**
 	 * Gets the submenu's suggested absolute left position in pixels, as
 	 * measured from the browser window's client area, in case of the submenu is
@@ -292,20 +313,22 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 	 * 
 	 * @return submenu's left position in pixels
 	 */
-	public int getRightSubPopupXCord(){
-		return popupPanel.getAbsoluteLeft() + (int) (popupPanel.getOffsetWidth() * app.getArticleElement().getScaleX());
+	public int getRightSubPopupXCord() {
+		return popupPanel.getAbsoluteLeft()
+		        + (int) (popupPanel.getOffsetWidth() * app.getArticleElement()
+		                .getScaleX());
 	}
 
 	public void addItem(GCheckBoxMenuItem item) {
-	    addItem(item.getMenuItem());
-	    
-    }
-	
-	public void hide(){
+		addItem(item.getMenuItem());
+
+	}
+
+	public void hide() {
 		popupPanel.hide();
 	}
 
-	public MenuBar getPopupMenu(){
+	public MenuBar getPopupMenu() {
 		return popupMenu;
 	}
 
@@ -313,16 +336,16 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 		return popupPanel;
 	}
 
-	public void removeSubPopup(){
-		if (subPopup != null){
+	public void removeSubPopup() {
+		if (subPopup != null) {
 			subPopup.removeFromDOM();
 			subPopup = null;
 		}
 	}
-	
-	private class PopupMenuBar extends MenuBar{
-		
-		public PopupMenuBar(boolean vertical){
+
+	private class PopupMenuBar extends MenuBar {
+
+		public PopupMenuBar(boolean vertical) {
 			super(vertical);
 		}
 
@@ -334,23 +357,23 @@ public class GPopupMenuW extends geogebra.common.javax.swing.GPopupMenu implemen
 			}
 			return null;
 		}
-		
+
 		@Override
-        public void onBrowserEvent(Event event) {
+		public void onBrowserEvent(Event event) {
 			switch (DOM.eventGetType(event)) {
-				case Event.ONMOUSEOVER: {
-					MenuItem item = findItem(DOM.eventGetTarget(event));
-					if (item != null){
-						if (item.getElement().getAttribute("hasPopup") == "true"){
-							item.getScheduledCommand().execute();
-						} else removeSubPopup();
-					}
-					break;
+			case Event.ONMOUSEOVER: {
+				MenuItem item = findItem(DOM.eventGetTarget(event));
+				if (item != null) {
+					if (item.getElement().getAttribute("hasPopup") == "true") {
+						item.getScheduledCommand().execute();
+					} else
+						removeSubPopup();
 				}
-			}			
+				break;
+			}
+			}
 			super.onBrowserEvent(event);
-		}		
+		}
 	}
-	
 
 }

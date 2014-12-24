@@ -29,23 +29,24 @@ import com.google.gwt.view.client.ListDataProvider;
 
 /**
  * Dialog to substitute expressions in CAS Input.
+ * 
  * @author balazs.bencze
  *
  */
 public class CASSubDialogW extends CASSubDialog implements ClickHandler {
-		
+
 	private Button btSub, btEval, btNumeric;
 	private VerticalPanel optionPane;
 	private ScrollPanel tablePane;
 	private HorizontalPanel btPanel;
-	
+
 	private DialogBox dialog;
 	private CellTable<SubstituteValue> table;
 	private List<SubstituteValue> list;
-	
+
 	private AppW app;
 	private CASViewW casView;
-	
+
 	private static final int DEFAULT_TABLE_WIDTH = 225;
 	private static final int DEFAULT_TABLE_HEIGHT = 240;
 	private static final int DEFAULT_BUTTON_WIDTH = 40;
@@ -53,28 +54,32 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	/**
 	 * Substitute dialog for CAS.
 	 * 
-	 * @param casView view
+	 * @param casView
+	 *            view
 	 * @param prefix
 	 *            before selection, not effected by the substitution
 	 * @param evalText
 	 *            the String which will be substituted
 	 * @param postfix
 	 *            after selection, not effected by the substitution
-	 * @param editRow row to edit
+	 * @param editRow
+	 *            row to edit
 	 */
-	public CASSubDialogW(CASViewW casView, String prefix, String evalText, String postfix, int editRow) {
+	public CASSubDialogW(CASViewW casView, String prefix, String evalText,
+	        String postfix, int editRow) {
 		super(prefix, evalText, postfix, editRow);
-		
+
 		this.casView = casView;
 		this.app = casView.getApp();
-		
+
 		createGUI();
 	}
 
 	private void createGUI() {
 		Caption caption = new CaptionImpl();
 		Localization loc = app.getLocalization();
-		caption.setText(loc.getPlain("Substitute") + " - " + loc.getCommand("Row") + " " + (editRow + 1));
+		caption.setText(loc.getPlain("Substitute") + " - "
+		        + loc.getCommand("Row") + " " + (editRow + 1));
 		dialog = new DialogBox(true, false, caption);
 		dialog.addStyleName("CAS_subDialog");
 		dialog.addStyleName("GeoGebraPopup");
@@ -90,7 +95,7 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		// do not refresh the headers and footers every time the data is updated
 		table.setAutoHeaderRefreshDisabled(true);
 		table.setAutoFooterRefreshDisabled(true);
-	    
+
 		initData(cell);
 		createTableColumns();
 		fillTableColumns();
@@ -99,54 +104,55 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		btEval = new Button(EVAL_SYM);
 		btEval.setTitle(loc.getMenuTooltip("Evaluate"));
 		btEval.addClickHandler(this);
-		
+
 		btNumeric = new Button(NUM_SYM);
 		btNumeric.setTitle(loc.getMenuTooltip("Numeric"));
 		btNumeric.addClickHandler(this);
-		
+
 		btSub = new Button(loc.getPlain(SUB_SYM));
 		btSub.setTitle(loc.getMenuTooltip("Substitute"));
 		btSub.addClickHandler(this);
-		
+
 		btPanel = new HorizontalPanel();
-		
+
 		tablePane = new ScrollPanel(table);
 		tablePane.setWidth(DEFAULT_TABLE_WIDTH + "px");
 		tablePane.setHeight(DEFAULT_TABLE_HEIGHT + "px");
-		
+
 		optionPane.add(tablePane);
 		optionPane.add(btPanel);
-		
+
 		btPanel.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		
+
 		btPanel.add(btEval);
 		btPanel.setCellWidth(btEval, DEFAULT_BUTTON_WIDTH + "px");
 		btPanel.add(btNumeric);
 		btPanel.setCellWidth(btNumeric, DEFAULT_BUTTON_WIDTH + "px");
 		btPanel.add(btSub);
 		btPanel.setCellWidth(btSub, DEFAULT_BUTTON_WIDTH + "px");
-    }
+	}
 
 	private void fillTableColumns() {
 		ListDataProvider<SubstituteValue> dataProvider = new ListDataProvider<CASSubDialog.SubstituteValue>();
 		dataProvider.addDataDisplay(table);
 		list = dataProvider.getList();
-	    for (int i = 0; i < data.size(); i++) {
-	    	Vector<String> vec = data.get(i);
-	    	list.add(new SubstituteValue(vec.get(0), vec.get(1)));
-	    }
-	    
-    }
+		for (int i = 0; i < data.size(); i++) {
+			Vector<String> vec = data.get(i);
+			list.add(new SubstituteValue(vec.get(0), vec.get(1)));
+		}
+
+	}
 
 	private void createTableColumns() {
 		// old expression column
-	    Column<SubstituteValue, String> oldVal = new Column<CASSubDialogW.SubstituteValue, String>(new EditTextCell()) {
-	    	@Override
-	    	public String getCellStyleNames(Context context,
-	    	        SubstituteValue object) {
-	    	    return "CAS_substitute_editTextCell";
-	    	}
-	    	
+		Column<SubstituteValue, String> oldVal = new Column<CASSubDialogW.SubstituteValue, String>(
+		        new EditTextCell()) {
+			@Override
+			public String getCellStyleNames(Context context,
+			        SubstituteValue object) {
+				return "CAS_substitute_editTextCell";
+			}
+
 			@Override
 			public String getValue(SubstituteValue object) {
 				return object.getVariable();
@@ -157,23 +163,24 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		oldVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			public void update(int index, SubstituteValue object, String value) {
 				object.setVariable(value);
-				if ((index == (getTable().getRowCount() - 1)) 
-						&& object.getValue() != null 
-						&& object.getVariable() != null 
-						&& !"".equals(object.getValue())
-						&& !"".equals(object.getVariable())) {
+				if ((index == (getTable().getRowCount() - 1))
+				        && object.getValue() != null
+				        && object.getVariable() != null
+				        && !"".equals(object.getValue())
+				        && !"".equals(object.getVariable())) {
 					getList().add(new SubstituteValue("", ""));
 				}
 			}
 		});
-		
-		Column<SubstituteValue, String> newVal = new Column<CASSubDialogW.SubstituteValue, String>(new EditTextCell()) {
+
+		Column<SubstituteValue, String> newVal = new Column<CASSubDialogW.SubstituteValue, String>(
+		        new EditTextCell()) {
 			@Override
-	    	public String getCellStyleNames(Context context,
-	    	        SubstituteValue object) {
-	    	    return "CAS_substitute_editTextCell";
-	    	}
-			
+			public String getCellStyleNames(Context context,
+			        SubstituteValue object) {
+				return "CAS_substitute_editTextCell";
+			}
+
 			@Override
 			public String getValue(SubstituteValue object) {
 				return object.getValue();
@@ -184,21 +191,21 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 		newVal.setFieldUpdater(new FieldUpdater<CASSubDialog.SubstituteValue, String>() {
 			public void update(int index, SubstituteValue object, String value) {
 				object.setValue(value);
-				if ((index == (getTable().getRowCount() - 1)) 
-						&& object.getValue() != null 
-						&& object.getVariable() != null 
-						&& !"".equals(object.getValue())
-						&& !"".equals(object.getVariable())) {
+				if ((index == (getTable().getRowCount() - 1))
+				        && object.getValue() != null
+				        && object.getVariable() != null
+				        && !"".equals(object.getValue())
+				        && !"".equals(object.getVariable())) {
 					getList().add(new SubstituteValue("", ""));
 				}
 			}
 		});
-    }
+	}
 
 	@Override
-    protected CASView getCASView() {
-	    return casView;
-    }
+	protected CASView getCASView() {
+		return casView;
+	}
 
 	/**
 	 * @return dialog
@@ -208,23 +215,23 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 	}
 
 	public void onClick(ClickEvent event) {
-	    Object src = event.getSource();
-	    stopEditing();
-	    if (btEval == src) {
-	    	if (apply(ACTION_EVALUATE)) 
-	    		dialog.hide(false);
-	    } else if (btNumeric == src) {
-	    	if (apply(ACTION_NUMERIC))
-	    		dialog.hide(false);
-	    } else if (btSub == src) {
-	    	if (apply(ACTION_SUBSTITUTE)) 
-	    		dialog.hide(false);
-	    }
-    }
-	
+		Object src = event.getSource();
+		stopEditing();
+		if (btEval == src) {
+			if (apply(ACTION_EVALUATE))
+				dialog.hide(false);
+		} else if (btNumeric == src) {
+			if (apply(ACTION_NUMERIC))
+				dialog.hide(false);
+		} else if (btSub == src) {
+			if (apply(ACTION_SUBSTITUTE))
+				dialog.hide(false);
+		}
+	}
+
 	private void stopEditing() {
 		data.setSize(list.size());
-		for(int i = 0; i < list.size(); i++) {
+		for (int i = 0; i < list.size(); i++) {
 			Vector<String> vec = data.get(i);
 			if (vec == null) {
 				vec = new Vector<String>();
@@ -235,14 +242,14 @@ public class CASSubDialogW extends CASSubDialog implements ClickHandler {
 			vec.set(1, list.get(i).getValue());
 		}
 	}
-	
+
 	/**
 	 * @return list of substitution values
 	 */
 	public List<SubstituteValue> getList() {
 		return list;
 	}
-	
+
 	/**
 	 * @return CellTable showing the list of substitution values
 	 */

@@ -5,15 +5,15 @@ import geogebra.common.move.events.BaseEvent;
 /**
  * @author gabor
  * 
- * event used to sign out from Google Drive
+ *         event used to sign out from Google Drive
  *
  */
 public class GoogleLogOutEvent extends BaseEvent {
 
 	public GoogleLogOutEvent() {
-	    super("google logout");
-	    // TODO Auto-generated constructor stub
-    }
+		super("google logout");
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public void trigger() {

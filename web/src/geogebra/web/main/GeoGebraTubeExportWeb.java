@@ -16,13 +16,13 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.http.client.URL;
 
-
 /**
  * Export GeoGebra worksheet to GeoGebraTube.
  * 
  * @author Florian Sonner
  */
-public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeExport {
+public class GeoGebraTubeExportWeb extends
+        geogebra.common.export.GeoGebraTubeExport {
 
 	public GeoGebraTubeExportWeb(App app) {
 		super(app);
@@ -35,24 +35,25 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 	protected StringBuffer getPostData(String base64) throws IOException {
 		Construction cons = app.getKernel().getConstruction();
-		
+
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("data=");
-		stringBuffer.append(encode(macros == null ? base64 : getBase64Tools(macros)));
+		stringBuffer.append(encode(macros == null ? base64
+		        : getBase64Tools(macros)));
 
 		stringBuffer.append("&title=");
 		stringBuffer.append(encode(cons.getTitle()));
-		
+
 		stringBuffer.append("&pretext=");
 		stringBuffer.append(encode(cons.getWorksheetText(0)));
-		
+
 		stringBuffer.append("&posttext=");
 		stringBuffer.append(encode(cons.getWorksheetText(1)));
-		
+
 		stringBuffer.append("&version=");
 		stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
-		
+
 		return stringBuffer;
 	}
 
@@ -60,47 +61,58 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 		// encode '+'
 		// for some reason encode(postData) doesn't work
 		postData = postData.replace("+", "%2B");
-		
+
 		try {
-			Request response = rb.sendRequest(postData, new RequestCallback()
-			{
+			Request response = rb.sendRequest(postData, new RequestCallback() {
 
 				public void onError(Request request, Throwable exception) {
-					App.debug("onError: " + request.toString() + " " + exception.toString());
+					App.debug("onError: " + request.toString() + " "
+					        + exception.toString());
 				}
-				public void onResponseReceived(Request request, Response response) {
+
+				public void onResponseReceived(Request request,
+				        Response response) {
 
 					if (response.getStatusCode() == Response.SC_OK) {
 
-						App.debug("result from server: "+response.getText());
+						App.debug("result from server: " + response.getText());
 
-						final UploadResults results = new UploadResults(response.getText());
+						final UploadResults results = new UploadResults(
+						        response.getText());
 
-						if(results.HasError()) {
-							statusLabelSetText(app.getLocalization().getPlain("UploadError",results.getStatus()));
+						if (results.HasError()) {
+							statusLabelSetText(app.getLocalization().getPlain(
+							        "UploadError", results.getStatus()));
 							setEnabled(false);
 
-							App.debug("Upload failed. Response: " + response.getText());
+							App.debug("Upload failed. Response: "
+							        + response.getText());
 						} else {
-							App.debug("Opening URL: " + uploadURL + "/" + results.getUID());
-							app.showURLinBrowser(uploadURL + "/" + results.getUID());
+							App.debug("Opening URL: " + uploadURL + "/"
+							        + results.getUID());
+							app.showURLinBrowser(uploadURL + "/"
+							        + results.getUID());
 							hideDialog();
 						}
 					} else { // not Response.SC_OK
-						App.debug("Upload failed. Response: #" + response.getStatusCode() + " - " + response.getStatusText());
+						App.debug("Upload failed. Response: #"
+						        + response.getStatusCode() + " - "
+						        + response.getStatusText());
 
 						App.debug(response.getText());
 
-						statusLabelSetText(loc.getPlain("UploadError", Integer.toString(response.getStatusCode())));
+						statusLabelSetText(loc.getPlain("UploadError",
+						        Integer.toString(response.getStatusCode())));
 						setEnabled(false);
 						pack();
 
 					}
 
-				}});
-		}
-		catch (RequestException e) {
-			statusLabelSetText(loc.getPlain("UploadError", Integer.toString(500)));
+				}
+			});
+		} catch (RequestException e) {
+			statusLabelSetText(loc.getPlain("UploadError",
+			        Integer.toString(500)));
 			setEnabled(false);
 			pack();
 
@@ -108,7 +120,7 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 		}
 	}
 
-    public void uploadWorksheetSimple(String base64) {
+	public void uploadWorksheetSimple(String base64) {
 		this.macros = null;
 
 		showDialog();
@@ -117,28 +129,31 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 
 		try {
 
-			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uploadURL);
-			rb.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-			//rb.setHeader("Accept-Language", "app.getLocaleStr()");
+			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
+			        uploadURL);
+			rb.setHeader("Content-Type",
+			        "application/x-www-form-urlencoded; charset=utf-8");
+			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
 
 			String postData = getPostData(base64).toString();
 
 			doUploadWorksheet(rb, postData);
 		} catch (Exception e) {
-			statusLabelSetText(loc.getPlain("UploadError", Integer.toString(400)));
+			statusLabelSetText(loc.getPlain("UploadError",
+			        Integer.toString(400)));
 			setEnabled(false);
 			pack();
 
 			App.debug(e.getMessage());
 
 		}
-    }
+	}
 
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
 	@Override
-    public void uploadWorksheet(ArrayList<Macro> macrosIn) {
+	public void uploadWorksheet(ArrayList<Macro> macrosIn) {
 
 		this.macros = macrosIn;
 
@@ -147,73 +162,76 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 		Construction cons = app.getKernel().getConstruction();
 
 		try {
-			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, uploadURL);
-			rb.setHeader("Content-Type", "application/x-www-form-urlencoded; charset=utf-8");
-			//rb.setHeader("Accept-Language", "app.getLocaleStr()");
+			RequestBuilder rb = new RequestBuilder(RequestBuilder.POST,
+			        uploadURL);
+			rb.setHeader("Content-Type",
+			        "application/x-www-form-urlencoded; charset=utf-8");
+			// rb.setHeader("Accept-Language", "app.getLocaleStr()");
 
 			String postData = getPostData().toString();
 			doUploadWorksheet(rb, postData);
 		} catch (Exception e) {
-			statusLabelSetText(loc.getPlain("UploadError", Integer.toString(400)));
+			statusLabelSetText(loc.getPlain("UploadError",
+			        Integer.toString(400)));
 			setEnabled(false);
 			pack();
 
 			App.debug(e.getMessage());
 
 		}
-	}	
+	}
 
 	@Override
 	protected String encode(String str) {
 		if (str != null) {
 			return URL.encode(str);
-		} 
-		
+		}
+
 		App.printStacktrace("passed null");
 		return "";
 
 	}
 
 	@Override
-    protected  void setMaximum(int i){
+	protected void setMaximum(int i) {
 		App.debug("Unimplemented " + i);
 	}
 
 	@Override
-    protected  void setMinimum(int i){
+	protected void setMinimum(int i) {
 		App.debug("Unimplemented " + i);
 	}
 
 	@Override
-    protected  void setIndeterminate(boolean b){
+	protected void setIndeterminate(boolean b) {
 		App.debug("Unimplemented " + b);
 	}
 
 	@Override
-    protected  void setValue(int end){
-		App.debug("Unimplemented " + end );
+	protected void setValue(int end) {
+		App.debug("Unimplemented " + end);
 	}
 
 	@Override
-    protected  void setEnabled(boolean b){
+	protected void setEnabled(boolean b) {
 		App.debug("Unimplemented " + b);
 	}
 
 	/**
-	 * Shows a small dialog with a progress bar. 
+	 * Shows a small dialog with a progress bar.
 	 */
 	@Override
-    protected void showDialog(){
+	protected void showDialog() {
 		App.debug("Unimplemented");
 	}
 
 	@Override
-    protected void statusLabelSetText(String plain) {
+	protected void statusLabelSetText(String plain) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(plain, true);
 	}
 
 	@Override
-    protected  void pack() {
+	protected void pack() {
 		App.debug("Unimplemented");
 	}
 
@@ -221,15 +239,14 @@ public class GeoGebraTubeExportWeb extends geogebra.common.export.GeoGebraTubeEx
 	 * Hides progress dialog.
 	 */
 	@Override
-    public void hideDialog(){
+	public void hideDialog() {
 		App.debug("Unimplemented");
 	}
 
 	@Override
-    protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
+	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
 		App.debug("Unimplemented");
-	    return null;
-    }
-
+		return null;
+	}
 
 }

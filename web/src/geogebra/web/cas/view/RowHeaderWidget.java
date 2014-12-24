@@ -25,19 +25,19 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		add(label);
 		add(marble);
 		if (cell != null)
-			CASInputHandler.handleMarble(cell,this);
-		marble.addClickHandler(new MarbleClickHandler(cell,this));
-		addDomHandler(new RowHeaderHandler(app, casTableW, this), MouseUpEvent.getType());
+			CASInputHandler.handleMarble(cell, this);
+		marble.addClickHandler(new MarbleClickHandler(cell, this));
+		addDomHandler(new RowHeaderHandler(app, casTableW, this),
+		        MouseUpEvent.getType());
 	}
-	
-	public void setLabel(String text){
-		((Label)(getWidget(0))).setText(text);
+
+	public void setLabel(String text) {
+		((Label) (getWidget(0))).setText(text);
 	}
-	
-	public int getIndex(){
-		return Integer.parseInt(((Label)(getWidget(0))).getText()) - 1;
+
+	public int getIndex() {
+		return Integer.parseInt(((Label) (getWidget(0))).getText()) - 1;
 	}
-	
 
 	public void setMarbleValue(boolean value) {
 		if (value == oldValue)
@@ -57,14 +57,15 @@ public class RowHeaderWidget extends VerticalPanel implements MarbleRenderer {
 		private GeoCasCell cell;
 		private RowHeaderWidget rowHeaderWidget;
 
-		protected MarbleClickHandler(GeoCasCell cell, RowHeaderWidget rowHeaderWidget) {
+		protected MarbleClickHandler(GeoCasCell cell,
+		        RowHeaderWidget rowHeaderWidget) {
 			this.cell = cell;
 			this.rowHeaderWidget = rowHeaderWidget;
 		}
 
 		public void onClick(ClickEvent event) {
 			cell.toggleTwinGeoEuclidianVisible();
-			CASInputHandler.handleMarble(cell,rowHeaderWidget);
+			CASInputHandler.handleMarble(cell, rowHeaderWidget);
 			event.stopPropagation();
 		}
 	}

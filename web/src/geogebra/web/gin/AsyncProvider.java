@@ -19,11 +19,11 @@ package geogebra.web.gin;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * An object capable of providing an instance of type T asynchronously
- * via {@link AsyncCallback}. The instance is created within a
- * GWT.runAsync block using the following template:
+ * An object capable of providing an instance of type T asynchronously via
+ * {@link AsyncCallback}. The instance is created within a GWT.runAsync block
+ * using the following template:
  * 
- *  <pre style=code>
+ * <pre style=code>
  *      public void get(final AsyncCallback<T> callback) {
  *        GWT.runAsync(new RunAsyncCallback() {
  *          public void onSuccess() {
@@ -34,14 +34,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *          }
  *        }
  *      }
- *  </pre>
- *   
+ * </pre>
+ * 
  */
 public interface AsyncProvider<T> {
 
-  /**
-   * @param callback Callback used to pass the instance of T or an exception
-   *    if there is an issue creating that instance.
-   */
-  void get(AsyncCallback<T> callback);
+	/**
+	 * @param callback
+	 *            Callback used to pass the instance of T or an exception if
+	 *            there is an issue creating that instance.
+	 */
+	void get(AsyncCallback<T> callback);
 }

@@ -15,39 +15,42 @@ import com.google.gwt.storage.client.Storage;
 /**
  * Manager for files from {@link Storage localStorage}
  * 
- * JSON including the base64 and metadata is stored under "file_<local id>_<title>" key.
- * The id field inside JSON is for Tube id, is not affected by local id. Local id can
- * still be found inside title => we need to extract title after we load file from LS.
+ * JSON including the base64 and metadata is stored under
+ * "file_<local id>_<title>" key. The id field inside JSON is for Tube id, is
+ * not affected by local id. Local id can still be found inside title => we need
+ * to extract title after we load file from LS.
  *
  */
 public class FileManagerW extends FileManager {
-	
+
 	/** locale storage */
 	Storage stockStore = Storage.getLocalStorageIfSupported();
-	
+
 	/**
-	 * @param app {@link AppW}
+	 * @param app
+	 *            {@link AppW}
 	 */
 	public FileManagerW(final AppW app) {
 		super(app);
 	}
 
 	@Override
-    public void delete(final Material mat) {
-		App.debug("DELETING"+mat.getTitle());
-		if(this.stockStore != null){
+	public void delete(final Material mat) {
+		App.debug("DELETING" + mat.getTitle());
+		if (this.stockStore != null) {
 			this.stockStore.removeItem(mat.getTitle());
 			removeFile(mat);
 		}
-		((BrowseGUI) getApp().getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
-    }
+		((BrowseGUI) getApp().getGuiManager().getBrowseGUI())
+		        .setMaterialsDefaultStyle();
+	}
 
 	@Override
-    public void saveFile(String base64, final SaveCallback cb) {
-		if(this.stockStore == null){
+	public void saveFile(String base64, final SaveCallback cb) {
+		if (this.stockStore == null) {
 			return;
 		}
-		
+
 		final Material mat = createMaterial(base64);
 		int id;
 
@@ -57,16 +60,17 @@ public class FileManagerW extends FileManager {
 		} else {
 			id = getApp().getLocalID();
 		}
-		String key = createKeyString(id, getApp().getKernel().getConstruction().getTitle());
+		String key = createKeyString(id, getApp().getKernel().getConstruction()
+		        .getTitle());
 		mat.setTitle(key);
 		stockStore.setItem(key, mat.toJson().toString());
 		cb.onSaved(mat, true);
-			
-		
-    }
+
+	}
 
 	/**
 	 * creates a new ID
+	 * 
 	 * @return int ID
 	 */
 	int createID() {
@@ -81,10 +85,10 @@ public class FileManagerW extends FileManager {
 			}
 		}
 		return nextFreeID;
-    }
-	
+	}
+
 	@Override
-    protected void getFiles(final MaterialFilter filter) {
+	protected void getFiles(final MaterialFilter filter) {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
@@ -92,7 +96,8 @@ public class FileManagerW extends FileManager {
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
-				Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
+				Material mat = JSONparserGGT.parseMaterial(this.stockStore
+				        .getItem(key));
 				if (mat == null) {
 					mat = new Material(0, MaterialType.ggb);
 					mat.setTitle(getTitleFromKey(key));
@@ -103,19 +108,21 @@ public class FileManagerW extends FileManager {
 			}
 		}
 	}
-	
 
 	@Override
-	public void uploadUsersMaterials() {		
+	public void uploadUsersMaterials() {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
-		
+
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
-				final Material mat = JSONparserGGT.parseMaterial(this.stockStore.getItem(key));
-				if ("".equals(mat.getAuthor()) || mat.getAuthor().equals(getApp().getLoginOperation().getUserName())) {
+				final Material mat = JSONparserGGT
+				        .parseMaterial(this.stockStore.getItem(key));
+				if ("".equals(mat.getAuthor())
+				        || mat.getAuthor().equals(
+				                getApp().getLoginOperation().getUserName())) {
 					if (mat.getId() == 0) {
 						upload(mat);
 					} else {
@@ -123,17 +130,17 @@ public class FileManagerW extends FileManager {
 					}
 				}
 			}
-		}	
+		}
 	}
-	
-	@Override
-    public boolean shouldKeep(int id) {
-	    return false;
-    }
 
 	@Override
-    public void rename(String newTitle, Material mat) {
-		if(this.stockStore == null){
+	public boolean shouldKeep(int id) {
+		return false;
+	}
+
+	@Override
+	public void rename(String newTitle, Material mat) {
+		if (this.stockStore == null) {
 			return;
 		}
 		this.stockStore.removeItem(mat.getTitle());
@@ -143,8 +150,8 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-    public void autoSave() {
-		if(this.stockStore == null){
+	public void autoSave() {
+		if (this.stockStore == null) {
 			return;
 		}
 		final StringHandler base64saver = new StringHandler() {
@@ -156,25 +163,25 @@ public class FileManagerW extends FileManager {
 		};
 
 		getApp().getGgbApi().getBase64(true, base64saver);
-    }
+	}
 
 	@Override
-    public boolean isAutoSavedFileAvailable() {
-	    if (stockStore != null && stockStore.getItem(AUTO_SAVE_KEY) != null) {
-	    	return true;
-	    }
-	    return false;
-    }
-	
+	public boolean isAutoSavedFileAvailable() {
+		if (stockStore != null && stockStore.getItem(AUTO_SAVE_KEY) != null) {
+			return true;
+		}
+		return false;
+	}
+
 	/**
-	 * opens the auto-saved file.
-	 * call first {@code isAutoSavedFileAvailable}
+	 * opens the auto-saved file. call first {@code isAutoSavedFileAvailable}
 	 */
 	@Override
 	public void restoreAutoSavedFile() {
-		Material autoSaved = JSONparserGGT.parseMaterial(stockStore.getItem(AUTO_SAVE_KEY));
-		//maybe another user restores the file, so reset
-		//sensitive data
+		Material autoSaved = JSONparserGGT.parseMaterial(stockStore
+		        .getItem(AUTO_SAVE_KEY));
+		// maybe another user restores the file, so reset
+		// sensitive data
 		autoSaved.setAuthor("");
 		autoSaved.setAuthorURL("");
 		autoSaved.setId(0);
@@ -183,28 +190,26 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-    public void deleteAutoSavedFile() {
-		if(this.stockStore == null){
+	public void deleteAutoSavedFile() {
+		if (this.stockStore == null) {
 			return;
 		}
-	    this.stockStore.removeItem(AUTO_SAVE_KEY);
-    }
-	
-	
-	
-	public void saveLoggedOut(AppW app ){
+		this.stockStore.removeItem(AUTO_SAVE_KEY);
+	}
+
+	public void saveLoggedOut(AppW app) {
 		app.getGuiManager().openFilePicker();
 	}
 
 	@Override
-    public void setTubeID(String localID, int id) {
-	    //implement this if we need offline cache in Chromeapp
-	    
-    }
+	public void setTubeID(String localID, int id) {
+		// implement this if we need offline cache in Chromeapp
+
+	}
 
 	@Override
-    protected void updateFile(String title, Material material) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void updateFile(String title, Material material) {
+		// TODO Auto-generated method stub
+
+	}
 }

@@ -23,7 +23,8 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 
 	public void onKeyUp(KeyUpEvent e) {
 
-		boolean modifierKeyPressed = app.isMacOS() ? e.isControlKeyDown() : e.isAltKeyDown();
+		boolean modifierKeyPressed = app.isMacOS() ? e.isControlKeyDown() : e
+		        .isAltKeyDown();
 
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
@@ -31,11 +32,13 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 		if (e.isAltKeyDown() && e.isControlKeyDown())
 			modifierKeyPressed = false;
 
-		//Application.debug(e+"");
-		
+		// Application.debug(e+"");
+
 		String insertString = "";
-		
-		//switch (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US).charAt(0)) {
+
+		// switch
+		// (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US).charAt(0))
+		// {
 		switch (Character.toChars(e.getNativeEvent().getCharCode())[0]) {
 		case 'o':
 			insertString = "\u00b0"; // degree symbol
@@ -45,38 +48,37 @@ public class AngleTextFieldW extends GTextBox implements KeyUpHandler {
 			break;
 		}
 
-		if (modifierKeyPressed 
-				&& !insertString.equals(""))
-		{
+		if (modifierKeyPressed && !insertString.equals("")) {
 			int start = getCursorPos();
 			int end = start + getSelectionLength();
-			//    clear selection if there is one
+			// clear selection if there is one
 			if (start != end) {
 				int pos = getCursorPos();
 				String oldText = getText();
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, start));
-				sb.append(oldText.substring(end));            
+				sb.append(oldText.substring(end));
 				setText(sb.toString());
-				if (pos < sb.length()) setCursorPos(pos);
+				if (pos < sb.length())
+					setCursorPos(pos);
 			}
 
 			String oldText = getText();
-			
+
 			// don't insert more than one degree sign or pi *in total*
-			if (oldText.indexOf('\u00b0') == -1 && oldText.indexOf('\u03c0') == -1) {
+			if (oldText.indexOf('\u00b0') == -1
+			        && oldText.indexOf('\u03c0') == -1) {
 				int pos = oldText.length(); // getCaretPosition();
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, pos));
 				sb.append(insertString);
-				sb.append(oldText.substring(pos));            
+				sb.append(oldText.substring(pos));
 				setText(sb.toString());
 				setCursorPos(pos + insertString.length());
 			}
 
-			//e.consume();
+			// e.consume();
 		}
 	}
-
 
 }

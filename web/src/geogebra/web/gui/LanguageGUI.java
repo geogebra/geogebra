@@ -24,6 +24,7 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	private FlowPanel fp = new FlowPanel();
 	private ArrayList<Label> labels;
 	private int cols;
+
 	public LanguageGUI(AppW app) {
 		this.app = app;
 		this.setStyleName("languageGUI");
@@ -33,18 +34,18 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 
 	private void addContent() {
 		fp.setStyleName("contentPanel");
-		
+
 		labels = new ArrayList<Label>();
 		cols = estimateCols();
 		for (Language l : Language.values()) {
-			if(!l.fullyTranslated && app.isPrerelease()){
+			if (!l.fullyTranslated && app.isPrerelease()) {
 				continue;
 			}
 
 			StringBuilder sb = new StringBuilder();
 
 			String text = l.name;
-			
+
 			if (text != null) {
 
 				char ch = text.toUpperCase().charAt(0);
@@ -63,7 +64,8 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 				final Label label = new Label(text);
 				final Language current = l;
 
-				if (current.localeGWT.equals(app.getLocalization().getLocaleStr())) {
+				if (current.localeGWT.equals(app.getLocalization()
+				        .getLocaleStr())) {
 					this.activeLanguage = label;
 					activeLanguage.addStyleName("activeLanguage");
 				}
@@ -77,14 +79,14 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	private void placeLabels() {
-		int rows = labels.size() / cols ;
-		for(int i = 0; i < rows * cols; i++){
+		int rows = labels.size() / cols;
+		for (int i = 0; i < rows * cols; i++) {
 			int col = i % cols;
 			int row = i / cols;
 			fp.add(labels.get(col * rows + row));
 		}
-		for(int i = 0; i < labels.size(); i++){
-			if(labels.get(i).getParent() == fp){
+		for (int i = 0; i < labels.size(); i++) {
+			if (labels.get(i).getParent() == fp) {
 				continue;
 			}
 			fp.add(labels.get(i));
@@ -92,12 +94,12 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		FlowPanel clear = new FlowPanel();
 		clear.setStyleName("clear");
 		fp.add(clear);
-	    
-    }
-	
-	public void onResize(){
+
+	}
+
+	public void onResize() {
 		int newCols = estimateCols();
-		if(newCols != cols){
+		if (newCols != cols) {
 			cols = newCols;
 			fp.clear();
 			placeLabels();
@@ -106,8 +108,8 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	private int estimateCols() {
-	    return Math.max(1, (int) (app.getWidth() - 20) /350);
-    }
+		return Math.max(1, (int) (app.getWidth() - 20) / 350);
+	}
 
 	private ClickHandler getHandler(final Language current, final Label label) {
 		return new ClickHandler() {
@@ -116,13 +118,19 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 			public void onClick(ClickEvent event) {
 				boolean newDirRTL = Localization
 				        .rightToLeftReadingOrder(current.localeGWT);
-				Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 365);
-				Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp, "geogebra.org", "/", false);
-				if(app.getLoginOperation().isLoggedIn()){
-					app.getLoginOperation().getGeoGebraTubeAPI().setUserLanguage(current.localeGWT,
-							app.getLoginOperation().getModel().getLoginToken());
+				Date exp = new Date(System.currentTimeMillis() + 1000 * 60 * 60
+				        * 24 * 365);
+				Cookies.setCookie("GeoGebraLangUI", current.localeGWT, exp,
+				        "geogebra.org", "/", false);
+				if (app.getLoginOperation().isLoggedIn()) {
+					app.getLoginOperation()
+					        .getGeoGebraTubeAPI()
+					        .setUserLanguage(
+					                current.localeGWT,
+					                app.getLoginOperation().getModel()
+					                        .getLoginToken());
 				}
-				
+
 				app.setUnsaved();
 
 				// On changing language from LTR/RTL the page will
@@ -132,36 +140,34 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 				// Otherwise only the language will change, and the
 				// setting related with language.
 				if (newDirRTL != app.getLocalization().rightToLeftReadingOrder) {
-					//TODO change direction
+					// TODO change direction
 				}
 				app.setLanguage(current.localeGWT);
 				LanguageGUI.this.setActiveLabel(label);
 				LanguageGUI.this.close();
 			}
 		};
-    }
+	}
 
 	protected void setActiveLabel(Label label) {
 		activeLanguage.removeStyleName("activeLanguage");
 		activeLanguage = label;
 		activeLanguage.addStyleName("activeLanguage");
-	    
-    }
+
+	}
 
 	native static JavaScriptObject saveBase64ToLocalStorage() /*-{
-		return function(base64) {
-			try {
-				localStorage.setItem("reloadBase64String", base64);
-				@geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
-			} catch (e) {
-				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
-			} finally {
-				$wnd.location.reload();
-			}
-		}
-	}-*/;
-
-	
+	                                                          return function(base64) {
+	                                                          try {
+	                                                          localStorage.setItem("reloadBase64String", base64);
+	                                                          @geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
+	                                                          } catch (e) {
+	                                                          @geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+	                                                          } finally {
+	                                                          $wnd.location.reload();
+	                                                          }
+	                                                          }
+	                                                          }-*/;
 
 	private void addHeader() {
 		this.header = new LanguageHeaderPanel(app.getLocalization(), this);

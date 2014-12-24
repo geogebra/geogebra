@@ -43,55 +43,58 @@ import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-
 public class AppWapplication extends AppW {
-	
+
 	private final int AUTO_SAVE_PERIOD = 60000;
 	private GeoGebraAppFrame appFrame = null;
 	private GuiManagerInterfaceW guiManager = null;
 	private ObjectPool objectPool;
-	//TODO remove GUI stuff from appW
-	private LanguageGUI lg;	
+	// TODO remove GUI stuff from appW
+	private LanguageGUI lg;
 	private AuthenticationModelW authenticationModel = null;
 	private boolean menuInited = false;
 	private CustomizeToolbarGUI ct;
 	protected final GDevice device;
-	
 
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
 	 * 
-	 * @param article {@link ArticleElement}
-	 * @param geoGebraAppFrame {@link GeoGebraAppFrame}
-	 * @param undoActive boolean
-	 * @param dimension int
-	 * @param laf {@link GLookAndFeel}
+	 * @param article
+	 *            {@link ArticleElement}
+	 * @param geoGebraAppFrame
+	 *            {@link GeoGebraAppFrame}
+	 * @param undoActive
+	 *            boolean
+	 * @param dimension
+	 *            int
+	 * @param laf
+	 *            {@link GLookAndFeel}
 	 */
-	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
-	        boolean undoActive, int dimension, GLookAndFeel laf, GDevice device) {
+	public AppWapplication(ArticleElement article,
+	        GeoGebraAppFrame geoGebraAppFrame, boolean undoActive,
+	        int dimension, GLookAndFeel laf, GDevice device) {
 		super(article, dimension, laf);
 		this.device = device;
 		maybeStartAutosave();
-		
+
 		this.appFrame = geoGebraAppFrame;
-		if(this.getLAF().isSmart()){
-			if(article.getScaleX() < 0.75){
+		if (this.getLAF().isSmart()) {
+			if (article.getScaleX() < 0.75) {
 				appFrame.getElement().addClassName("zoomed2");
 				article.setAttribute("data-scalex", "0.6");
 				article.setAttribute("data-scaley", "0.6");
-			}else{
+			} else {
 				article.setAttribute("data-scalex", "0.8");
 				article.setAttribute("data-scaley", "0.8");
 				appFrame.getElement().addClassName("zoomed");
 			}
 			RootPanel.getBodyElement().addClassName("zoomedBody");
-			
+
 			Element el = DOM.getElementById("ggbsplash");
-			if(el != null){
+			if (el != null) {
 				el.removeFromParent();
 			}
-		}
-		else {
+		} else {
 			RootPanel.getBodyElement().addClassName("application");
 		}
 		appFrame.app = this;
@@ -101,11 +104,7 @@ public class AppWapplication extends AppW {
 		appCanvasHeight = appFrame.getCanvasCountedHeight();
 		appCanvasWidth = appFrame.getCanvasCountedWidth();
 
-		
-
 		initCommonObjects();
-		
-		
 
 		this.euclidianViewPanel = appFrame.getEuclidianView1Panel();
 		this.canvas = euclidianViewPanel.getCanvas();
@@ -113,58 +112,67 @@ public class AppWapplication extends AppW {
 		initCoreObjects(undoActive, this);
 		// user authentication handling
 		initSignInEventFlow(new LoginOperationW(this));
-		
+
 		afterCoreObjectsInited();
 		App.debug("after core");
 		resetFonts();
 		// initing = true;
 		removeDefaultContextMenu();
-		
+
 		String token = Location.getParameter("token");
 		App.debug("checked token");
-	    if(token != null && !"".equals(token)){
-	    	App.debug("LTOKEN set via URL");
-	    	this.getLoginOperation().performTokenLogin(token, false);
-			this.showBrowser(((GuiManagerW) this.getGuiManager()).getBrowseGUI());
+		if (token != null && !"".equals(token)) {
+			App.debug("LTOKEN set via URL");
+			this.getLoginOperation().performTokenLogin(token, false);
+			this.showBrowser(((GuiManagerW) this.getGuiManager())
+			        .getBrowseGUI());
 			nativeLoggedIn();
-	    }else{
-	    	if(Cookies.getCookie("SSID") != null){
-	    		this.getLoginOperation().performCookieLogin(Cookies.getCookie("SSID"));
+		} else {
+			if (Cookies.getCookie("SSID") != null) {
+				this.getLoginOperation().performCookieLogin(
+				        Cookies.getCookie("SSID"));
 			}
-	    }
+		}
 	}
 
 	private void maybeStartAutosave() {
-	    if(!this.getLAF().autosaveSupported()){
-	    	return;
-	    }
+		if (!this.getLAF().autosaveSupported()) {
+			return;
+		}
 
 		if (getFileManager().isAutoSavedFileAvailable()
-				&& this.getArticleElement().getDataParamTubeID().length() == 0
-				&& this.getArticleElement().getDataParamBase64String().length() == 0
-				&& this.getArticleElement().getDataParamJSON().length() == 0) {
-			((DialogManagerW) getDialogManager()).showRecoverAutoSavedDialog(this);
+		        && this.getArticleElement().getDataParamTubeID().length() == 0
+		        && this.getArticleElement().getDataParamBase64String().length() == 0
+		        && this.getArticleElement().getDataParamJSON().length() == 0) {
+			((DialogManagerW) getDialogManager())
+			        .showRecoverAutoSavedDialog(this);
 		} else {
-			this.startAutoSave();			
+			this.startAutoSave();
 		}
-	    
-    }
+
+	}
 
 	private native void nativeLoggedIn() /*-{
-		if(typeof ggbOnLoggedIn == "function"){
-			ggbOnLoggedIn();
-		}
-    }-*/;
+	                                     if(typeof ggbOnLoggedIn == "function"){
+	                                     ggbOnLoggedIn();
+	                                     }
+	                                     }-*/;
 
 	/*************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb with undo enabled
 	 * 
-	 * @param article {@link ArticleElement}
-	 * @param geoGebraAppFrame {@link GeoGebraAppFrame}
-	 * @param dimension int
-	 * @param laf {@link GLookAndFeel}
+	 * @param article
+	 *            {@link ArticleElement}
+	 * @param geoGebraAppFrame
+	 *            {@link GeoGebraAppFrame}
+	 * @param dimension
+	 *            int
+	 * @param laf
+	 *            {@link GLookAndFeel}
 	 */
-	public AppWapplication(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf, GDevice device) {
+	public AppWapplication(ArticleElement article,
+	        GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf,
+	        GDevice device) {
 		this(article, geoGebraAppFrame, true, dimension, laf, device);
 		App.debug("Application created");
 	}
@@ -175,37 +183,36 @@ public class AppWapplication extends AppW {
 	public GeoGebraAppFrame getAppFrame() {
 		return appFrame;
 	}
-	
+
 	/**
-	 * if there are unsaved changes, 
-	 * the file is saved to the localStorage.
+	 * if there are unsaved changes, the file is saved to the localStorage.
 	 */
 	public void startAutoSave() {
 		Timer timer = new Timer() {
 
 			@Override
-            public void run() {
+			public void run() {
 				if (!isSaved()) {
 					getFileManager().autoSave();
 				}
-            }
+			}
 		};
 		timer.scheduleRepeating(AUTO_SAVE_PERIOD);
 	}
-	
+
 	@Override
 	public void setSaved() {
 		super.setSaved();
 		getFileManager().deleteAutoSavedFile();
 		getLAF().removeWindowClosingHandler();
 	}
-	
+
 	@Override
 	public void setUnsaved() {
 		super.setUnsaved();
 		getLAF().addWindowClosingHandler(this);
 	}
-	
+
 	@Override
 	public GuiManagerInterfaceW getGuiManager() {
 		return guiManager;
@@ -228,20 +235,17 @@ public class AppWapplication extends AppW {
 		return new GuiManagerW(AppWapplication.this, this.device);
 	}
 
-	
-
 	@Override
 	protected final void afterCoreObjectsInited() {
 		initGuiManager();
 		appFrame.onceAfterCoreObjectsInited();
-		appFrame.finishAsyncLoading(articleElement, this);		
+		appFrame.finishAsyncLoading(articleElement, this);
 	}
 
 	@Override
-    public void appSplashCanNowHide() {
-		
-			attachViews();
-		
+	public void appSplashCanNowHide() {
+
+		attachViews();
 
 		// Well, it may cause freeze if we attach this too early
 
@@ -263,21 +267,26 @@ public class AppWapplication extends AppW {
 	}
 
 	private boolean first = true;
-	@Override
-    public void afterLoadFileAppOrNot() {
-		String perspective = getArticleElement().getDataParamPerspective();
-		getGuiManager().getLayout().setPerspectives(getTmpPerspectives(),PerspectiveDecoder.decode(perspective, this.getKernel().getParser(), 
-				ToolBar.getAllToolsNoMacros(true)));
 
-		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
-		
-		if(first){
+	@Override
+	public void afterLoadFileAppOrNot() {
+		String perspective = getArticleElement().getDataParamPerspective();
+		getGuiManager().getLayout().setPerspectives(
+		        getTmpPerspectives(),
+		        PerspectiveDecoder.decode(perspective, this.getKernel()
+		                .getParser(), ToolBar.getAllToolsNoMacros(true)));
+
+		getScriptManager().ggbOnInit(); // put this here from Application
+										// constructor because we have to delay
+										// scripts until the EuclidianView is
+										// shown
+
+		if (first) {
 			initUndoInfoSilent();
-		}else{
+		} else {
 			kernel.initUndoInfo();
 		}
 		first = false;
-
 
 		stopCollectingRepaints();
 		// Well, it may cause freeze if we attach this too early
@@ -290,7 +299,7 @@ public class AppWapplication extends AppW {
 		this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();
 		GeoGebraProfiler.getInstance().profileEnd();
-		((GGWToolBar)this.getToolbar()).updateToolbarPanel();
+		((GGWToolBar) this.getToolbar()).updateToolbarPanel();
 		onOpenFile();
 	}
 
@@ -298,16 +307,18 @@ public class AppWapplication extends AppW {
 	public void updateViewSizes() {
 		getEuclidianViewpanel().deferredOnResize();
 		if (hasEuclidianView2(1)) {
-			((GuiManagerW)getGuiManager()).getEuclidianView2DockPanel(1).deferredOnResize();
+			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
+			        .deferredOnResize();
 		}
 		if (getGuiManager().hasSpreadsheetView()) {
-			DockPanel sp = getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_SPREADSHEET);
+			DockPanel sp = getGuiManager().getLayout().getDockManager()
+			        .getPanel(App.VIEW_SPREADSHEET);
 			if (sp != null) {
 				sp.deferredOnResize();
 			}
 		}
 		appFrame.setMenuHeight(getInputPosition() == InputPositon.bottom);
-    }
+	}
 
 	@Override
 	public boolean menubarRestricted() {
@@ -320,21 +331,21 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-    public void updateCenterPanel(boolean updateUI) {
-		if(showAlgebraInput()){
+	public void updateCenterPanel(boolean updateUI) {
+		if (showAlgebraInput()) {
 			appFrame.getAlgebraInput().attachApp(this);
 		}
 		if (isUsingFullGui()) {
 			appFrame.setFrameLayout();
 		} else {
-			//TODO: handle applets?
-			//centerPanel.add(this.getEuclidianViewpanel());
+			// TODO: handle applets?
+			// centerPanel.add(this.getEuclidianViewpanel());
 		}
 
 		appFrame.onResize();
-		
+
 		if (updateUI) {
-			//SwingUtilities.updateComponentTreeUI(centerPanel);
+			// SwingUtilities.updateComponentTreeUI(centerPanel);
 		}
 	}
 
@@ -369,7 +380,7 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 		// this method is overridden in each subclass of AppW,
 		// in order to override the behaviour in AppWeb
 	}
@@ -377,44 +388,45 @@ public class AppWapplication extends AppW {
 	@Override
 	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
-			dialogManager = new DialogManagerW(this); 
-			if (getGoogleDriveOperation() != null){
-				((GoogleDriveOperationW)getGoogleDriveOperation()).getView().add((DialogManagerW)dialogManager);
+			dialogManager = new DialogManagerW(this);
+			if (getGoogleDriveOperation() != null) {
+				((GoogleDriveOperationW) getGoogleDriveOperation()).getView()
+				        .add((DialogManagerW) dialogManager);
 			}
 		}
 		return dialogManager;
 	}
-	
-    @Override
-    public Element getFrameElement(){
-		return  appFrame.getElement();
-	}
-    
-   @Override
-    public void showBrowser(HeaderPanel bg) {
-	    appFrame.showBrowser(bg);
-    }
-	
+
 	@Override
-	public void toggleMenu(){
-		if(!this.menuInited ){
+	public Element getFrameElement() {
+		return appFrame.getElement();
+	}
+
+	@Override
+	public void showBrowser(HeaderPanel bg) {
+		appFrame.showBrowser(bg);
+	}
+
+	@Override
+	public void toggleMenu() {
+		if (!this.menuInited) {
 			appFrame.getMenuBar().init(this);
 			this.menuInited = true;
 		}
 		boolean menuOpen = appFrame.toggleMenu();
-		if(!menuOpen && this.getGuiManager()!=null){
+		if (!menuOpen && this.getGuiManager() != null) {
 			this.getGuiManager().setDraggingViews(false, true);
 		}
-		if(menuOpen){
+		if (menuOpen) {
 			this.getGuiManager().refreshDraggingViews();
 		}
 	}
 
 	@Override
-    public void openSearch(String query) {
+	public void openSearch(String query) {
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI(query));
-    }
-	
+	}
+
 	@Override
 	public LanguageGUI getLanguageGUI() {
 		if (this.lg == null) {
@@ -422,7 +434,7 @@ public class AppWapplication extends AppW {
 		}
 		return this.lg;
 	}
-	
+
 	@Override
 	protected CustomizeToolbarGUI getCustomizeToolbarGUI() {
 		if (this.ct == null) {
@@ -430,38 +442,39 @@ public class AppWapplication extends AppW {
 		}
 		return this.ct;
 	}
-	
+
 	@Override
 	public void uploadToGeoGebraTube() {
 		showURLinBrowserWaiterFixedDelay();
 		final GeoGebraTubeExportWeb ggbtube = new GeoGebraTubeExportWeb(this);
-		getGgbApi().getBase64(true, new StringHandler(){
+		getGgbApi().getBase64(true, new StringHandler() {
 
 			@Override
-            public void handle(String s) {
-	            ggbtube.uploadWorksheetSimple(s);
-	            
-            }});
+			public void handle(String s) {
+				ggbtube.uploadWorksheetSimple(s);
+
+			}
+		});
 	}
 
 	@Override
-    public void set1rstMode() {
+	public void set1rstMode() {
 		GGWToolBar.set1rstMode(this);
-    }
+	}
 
 	@Override
-    protected void initGoogleDriveEventFlow() {
-		
+	protected void initGoogleDriveEventFlow() {
+
 		googleDriveOperation = new GoogleDriveOperationW(this);
-		
+
 		if (getNetworkOperation().isOnline()) {
 			googleDriveOperation.initGoogleDriveApi();
 		}
-		
+
 	}
-	
+
 	@Override
-    public final FileManagerI getFileManager() {
+	public final FileManagerI getFileManager() {
 		if (this.fm == null) {
 			this.fm = this.device.getFileManager(this);
 		}
@@ -469,11 +482,11 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-    protected void updateTreeUI() {
-			((ZoomSplitLayoutPanel)getSplitLayoutPanel()).forceLayout();
-			//updateComponentTreeUI();
-    }
-	
+	protected void updateTreeUI() {
+		((ZoomSplitLayoutPanel) getSplitLayoutPanel()).forceLayout();
+		// updateComponentTreeUI();
+	}
+
 	@Override
 	public void setLabels() {
 		super.setLabels();
@@ -483,78 +496,77 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-    public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
+	public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
 		getAppFrame().showKeyBoard(true, autoCompleteTextFieldW);
-		if(autoCompleteTextFieldW != null){
+		if (autoCompleteTextFieldW != null) {
 			CancelEventTimer.keyboardSetVisible();
 		}
-    }
+	}
 
 	@Override
-    public void hideKeyboard(){
+	public void hideKeyboard() {
 		getAppFrame().showKeyBoard(false, null);
 	}
-	
-	@Override
-    public void openMaterial(String s, final Runnable onError) {
-		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(s, new MaterialCallback(){
 
-			@Override
-			public void onLoaded(final List<Material> parseResponse) {
-				if (parseResponse.size() == 1) {
-					Material material = parseResponse.get(0);
-					material.setSyncStamp(System.currentTimeMillis() / 1000);
-					getGgbApi().setBase64(material.getBase64());
-					setActiveMaterial(material);
-				} else {
-					onError.run();
-				}
-			}
-			
-			@Override
-			public void onError(Throwable error) {
-				onError.run();
-			}
-		});
-        
-    }
-	
 	@Override
-    public void copyEVtoClipboard() {
+	public void openMaterial(String s, final Runnable onError) {
+		((GeoGebraTubeAPIW) getLoginOperation().getGeoGebraTubeAPI()).getItem(
+		        s, new MaterialCallback() {
+
+			        @Override
+			        public void onLoaded(final List<Material> parseResponse) {
+				        if (parseResponse.size() == 1) {
+					        Material material = parseResponse.get(0);
+					        material.setSyncStamp(System.currentTimeMillis() / 1000);
+					        getGgbApi().setBase64(material.getBase64());
+					        setActiveMaterial(material);
+				        } else {
+					        onError.run();
+				        }
+			        }
+
+			        @Override
+			        public void onError(Throwable error) {
+				        onError.run();
+			        }
+		        });
+
+	}
+
+	@Override
+	public void copyEVtoClipboard() {
 		device.copyEVtoClipboard(getEuclidianView1());
 	}
 
 	@Override
-    public void copyEVtoClipboard(EuclidianViewW ev) {
+	public void copyEVtoClipboard(EuclidianViewW ev) {
 		device.copyEVtoClipboard(ev);
 	}
-	
-	@Override
-    public boolean isOffline() {
-		return device.isOffline(this);
-    }
 
 	@Override
-    public boolean isSelectionRectangleAllowed() {
-	    return true;
-    }
+	public boolean isOffline() {
+		return device.isOffline(this);
+	}
+
+	@Override
+	public boolean isSelectionRectangleAllowed() {
+		return true;
+	}
 
 	@Override
 	public native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
-		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
-		// although it's strange that .contentEditable is not set to true
-		var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-		copyFrom.value = str;
-		copyFrom.select();
-		$doc.execCommand('copy');
-	}-*/;
+	                                                                     // solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
+	                                                                     // although it's strange that .contentEditable is not set to true
+	                                                                     var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+	                                                                     copyFrom.value = str;
+	                                                                     copyFrom.select();
+	                                                                     $doc.execCommand('copy');
+	                                                                     }-*/;
 
 	@Override
 	public void showConfirmDialog(String title, String mess) {
-		GOptionPaneW.INSTANCE.showInputDialog(this, "", title,
-				mess,
-				GOptionPane.OK_CANCEL_OPTION,
-				GOptionPane.PLAIN_MESSAGE,
-				null, null, null);
+		GOptionPaneW.INSTANCE.showInputDialog(this, "", title, mess,
+		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
+		        null, null);
 	}
 }

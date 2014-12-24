@@ -42,7 +42,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	/**
 	 * creates a keyboard instance
 	 * 
-	 * @param textField the textField to receive the key-events
+	 * @param textField
+	 *            the textField to receive the key-events
 	 * @param frameLayoutPanel
 	 * @return instance of onScreenKeyBoard
 	 */

@@ -15,7 +15,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Graphical representation of CAS cells in Web 
+ * Graphical representation of CAS cells in Web
+ * 
  * @author Zbynek Konecny
  *
  */
@@ -26,34 +27,40 @@ public class CASTableCellW extends VerticalPanel {
 	private String textBeforeEdit;
 	private AutoCompleteTextFieldW textField;
 	private String outputText;
+
 	/**
 	 * Creates new graphical representation of CAS cell
-	 * @param casCell cas cell value
+	 * 
+	 * @param casCell
+	 *            cas cell value
 	 */
 	public CASTableCellW(GeoCasCell casCell) {
 		this.casCell = casCell;
 		inputPanel = new Label();
 		inputPanel.addStyleName("CAS_inputPanel");
-		if(casCell!=null){
-			inputPanel.setText(casCell.getInput(StringTemplate.defaultTemplate));
+		if (casCell != null) {
+			inputPanel
+			        .setText(casCell.getInput(StringTemplate.defaultTemplate));
 		}
 		add(inputPanel);
 
 		Label outputLabel = new Label();
 		outputText = "";
-		if (casCell!=null && casCell.showOutput()) {
+		if (casCell != null && casCell.showOutput()) {
 			if (casCell.getLaTeXOutput() != null && !casCell.isError()) {
 				SpanElement outputSpan = DOM.createSpan().cast();
 				String eqstring = DrawEquationWeb.inputLatexCosmetics(casCell
-		                .getLaTeXOutput());
+				        .getLaTeXOutput());
 				int el = eqstring.length();
 				eqstring = DrawEquationWeb.stripEqnArray(eqstring);
-				DrawEquationWeb.drawEquationMathQuillGGB(outputSpan, eqstring, 0, 0,
-				        outputLabel.getElement(),false, el == eqstring.length(), true, 0);
-				outputSpan.getStyle().setColor(GColor.getColorString(casCell.getAlgebraColor()));
+				DrawEquationWeb.drawEquationMathQuillGGB(outputSpan, eqstring,
+				        0, 0, outputLabel.getElement(), false,
+				        el == eqstring.length(), true, 0);
+				outputSpan.getStyle().setColor(
+				        GColor.getColorString(casCell.getAlgebraColor()));
 				outputLabel.getElement().appendChild(outputSpan);
 			} else {
-				if(casCell.isError()){
+				if (casCell.isError()) {
 					outputLabel.getElement().getStyle().setColor("red");
 				}
 				outputLabel.setText(casCell
@@ -62,24 +69,25 @@ public class CASTableCellW extends VerticalPanel {
 			outputText = casCell.getOutput(StringTemplate.defaultTemplate);
 		}
 		outputPanel = new FlowPanel();
-		if (casCell!=null) {
+		if (casCell != null) {
 			Label commentLabel = new Label();
-				commentLabel.addStyleName("CAS_commentLabel");
-				commentLabel.setText(casCell.getCommandAndComment());
-				//commentLabel.getElement().getStyle().setColor("gray");
+			commentLabel.addStyleName("CAS_commentLabel");
+			commentLabel.setText(casCell.getCommandAndComment());
+			// commentLabel.getElement().getStyle().setColor("gray");
 			outputPanel.add(commentLabel);
 		}
-		
+
 		outputPanel.add(outputLabel);
 		outputPanel.setStyleName("CAS_outputPanel");
 		add(outputPanel);
 
 	}
-	
+
 	/**
-	 * @param editor field for editing
+	 * @param editor
+	 *            field for editing
 	 */
-	public void startEditing(AutoCompleteTextFieldW editor){
+	public void startEditing(AutoCompleteTextFieldW editor) {
 		clear();
 		add(editor);
 		textField = editor;
@@ -88,12 +96,12 @@ public class CASTableCellW extends VerticalPanel {
 		add(outputPanel);
 		editor.requestFocus();
 	}
-	
+
 	/**
 	 * Remove editor and show input normally, update the CAS cell input
 	 */
-	public void stopEditing(){
-		if(!textBeforeEdit.equals(textField.getText())){
+	public void stopEditing() {
+		if (!textBeforeEdit.equals(textField.getText())) {
 			casCell.setInput(textField.getText());
 			inputPanel.setText(textField.getText());
 		}
@@ -101,60 +109,64 @@ public class CASTableCellW extends VerticalPanel {
 		add(inputPanel);
 		add(outputPanel);
 	}
+
 	/**
 	 * Remove editor and show input normally
 	 */
-	public void cancelEditing(){
-		clear();		
+	public void cancelEditing() {
+		clear();
 		add(inputPanel);
 		add(outputPanel);
 	}
-	
-	public void setInput(){
+
+	public void setInput() {
 		casCell.setInput(textField.getText());
 	}
-	
+
 	/**
 	 * @return cas cell represented by this object
 	 */
-	public GeoCasCell getCASCell(){
+	public GeoCasCell getCASCell() {
 		return casCell;
 	}
-	
-	public void setFont(){
+
+	public void setFont() {
 		setFont(casCell.getGeoText().getFontStyle());
 	}
-	
+
 	public void setFont(int fontStyle) {
 		if (inputPanel != null) {
-			if ((fontStyle & GFont.BOLD) != 0){
+			if ((fontStyle & GFont.BOLD) != 0) {
 				inputPanel.addStyleName("bold");
-			} else inputPanel.removeStyleName("bold");
+			} else
+				inputPanel.removeStyleName("bold");
 		}
-		
-		if ((fontStyle & GFont.ITALIC) != 0){
+
+		if ((fontStyle & GFont.ITALIC) != 0) {
 			inputPanel.addStyleName("italic");
-		} else inputPanel.removeStyleName("italic");
+		} else
+			inputPanel.removeStyleName("italic");
 
 	}
 
 	public void setColor() {
 		GColor newColor = casCell.getFontColor();
-		inputPanel.getElement().getStyle().setColor(GColor.getColorString(newColor));	
-    }
-	
+		inputPanel.getElement().getStyle()
+		        .setColor(GColor.getColorString(newColor));
+	}
+
 	public Widget getOutputWidget() {
 		return outputPanel;
 	}
-	
+
 	public String getInputString() {
 		return inputPanel.getText();
 	}
-	
+
 	public String getOutputString() {
 		return outputText;
 	}
-	
+
 	public void insertInput(String input) {
 		if (textField == null) {
 			return;

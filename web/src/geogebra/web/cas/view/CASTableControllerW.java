@@ -34,18 +34,18 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
 public class CASTableControllerW extends CASTableCellController implements
-        MouseDownHandler, MouseUpHandler, MouseMoveHandler,
-        KeyHandler, BlurHandler, TouchStartHandler, TouchEndHandler,
-        TouchMoveHandler, LongTouchHandler {
+        MouseDownHandler, MouseUpHandler, MouseMoveHandler, KeyHandler,
+        BlurHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler,
+        LongTouchHandler {
 
 	private CASViewW view;
 	private AppW app;
 	private int startSelectRow;
-	
+
 	private LongTouchManager longTouchManager;
 	private boolean mouseDown;
 	private boolean touchDown;
-	
+
 	private boolean contextOpened;
 
 	public CASTableControllerW(CASViewW casViewW, AppW app) {
@@ -53,20 +53,20 @@ public class CASTableControllerW extends CASTableCellController implements
 		this.app = app;
 		longTouchManager = LongTouchManager.getInstance();
 	}
-	
+
 	public void handleLongTouch(int x, int y) {
 		CASTableW table = view.getConsoleTable();
 		if (!table.isSelectedIndex(startSelectRow)) {
 			table.setSelectedRows(startSelectRow, startSelectRow);
 		}
 		if (table.getSelectedRows().length > 0) {
-			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app
-			        .getGuiManager()).getCASContextMenu(null, table);
+			RowHeaderPopupMenuW popupMenu = ((GuiManagerW) app.getGuiManager())
+			        .getCASContextMenu(null, table);
 			popupMenu.show(new GPoint(x, y));
 			contextOpened = true;
 		}
 	}
-	
+
 	/**
 	 * Sets the toolbar to CAS
 	 */
@@ -78,9 +78,11 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	/**
-	 * Copies the output of a cell into the cell being edited
-	 * if there is an editing cell and a cell output was clicked.
-	 * @param event event
+	 * Copies the output of a cell into the cell being edited if there is an
+	 * editing cell and a cell output was clicked.
+	 * 
+	 * @param event
+	 *            event
 	 * @return true if copying happened
 	 */
 	private boolean copyOutputIfSource(HumanInputEvent<?> event) {
@@ -91,7 +93,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		}
 		return false;
 	}
-	
+
 	private boolean copyOutputToEditingCell(CASTableCellW clickedCell) {
 		CASTableW table = view.getConsoleTable();
 		CASTableCellW editingCell = table.getEditingCell();
@@ -114,7 +116,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		mouseDown = false;
 		onPointerUp(event);
 		event.stopPropagation();
-		
+
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
@@ -124,7 +126,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		mouseDown = true;
 		handleMouseDownSelection(event);
 		onPointerDown();
-		
+
 		event.stopPropagation();
 	}
 
@@ -132,7 +134,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		setActiveToolbar();
 		((GuiManagerW) app.getGuiManager()).removePopup();
 	}
-	
+
 	private void onPointerUp(HumanInputEvent<?> event) {
 		if (copyOutputIfSource(event)) {
 			event.stopPropagation();
@@ -157,7 +159,8 @@ public class CASTableControllerW extends CASTableCellController implements
 			longTouchManager.cancelTimer();
 			return;
 		}
-		longTouchManager.rescheduleTimerIfRunning(this, EventUtil.getTouchOrClickClientX(event),
+		longTouchManager.rescheduleTimerIfRunning(this,
+		        EventUtil.getTouchOrClickClientX(event),
 		        EventUtil.getTouchOrClickClientY(event));
 		handleTouchMoveSelection(event);
 		CancelEventTimer.touchEventOccured();
@@ -177,8 +180,8 @@ public class CASTableControllerW extends CASTableCellController implements
 	public void onTouchStart(TouchStartEvent event) {
 		handleTouchStartSelection(event);
 		touchDown = true;
-		longTouchManager.scheduleTimer(this, 
-				EventUtil.getTouchOrClickClientX(event),
+		longTouchManager.scheduleTimer(this,
+		        EventUtil.getTouchOrClickClientX(event),
 		        EventUtil.getTouchOrClickClientY(event));
 		onPointerDown();
 		CancelEventTimer.touchEventOccured();
@@ -192,7 +195,8 @@ public class CASTableControllerW extends CASTableCellController implements
 			return;
 		}
 		int currentRow = point.getY();
-		if (event.getNativeButton() == Event.BUTTON_RIGHT && selectionContainsRow(currentRow)) {
+		if (event.getNativeButton() == Event.BUTTON_RIGHT
+		        && selectionContainsRow(currentRow)) {
 			// do nothing
 		} else if (event.isShiftKeyDown()) {
 			table.setSelectedRows(startSelectRow, currentRow);
@@ -203,7 +207,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			table.setSelectedRows(currentRow, currentRow);
 		}
 	}
-	
+
 	private boolean selectionContainsRow(int row) {
 		CASTableW table = view.getConsoleTable();
 		for (Integer item : table.getSelectedRows()) {
@@ -216,7 +220,8 @@ public class CASTableControllerW extends CASTableCellController implements
 	private void handleMouseMoveSelection(MouseMoveEvent event) {
 		CASTableW table = view.getConsoleTable();
 		GPoint point = table.getPointForEvent(event);
-		if (point == null || point.getX() != CASTableW.COL_CAS_HEADER || startSelectRow < 0 || !mouseDown) {
+		if (point == null || point.getX() != CASTableW.COL_CAS_HEADER
+		        || startSelectRow < 0 || !mouseDown) {
 			return;
 		}
 		int currentRow = point.getY();
@@ -226,7 +231,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			table.addSelectedRows(currentRow, currentRow);
 		}
 	}
-	
+
 	private void handleTouchStartSelection(TouchStartEvent event) {
 		CASTableW table = view.getConsoleTable();
 		GPoint point = table.getPointForEvent(event);
@@ -238,7 +243,7 @@ public class CASTableControllerW extends CASTableCellController implements
 		startSelectRow = currentRow;
 		table.setSelectedRows(currentRow, currentRow);
 	}
-	
+
 	private void handleTouchMoveSelection(TouchMoveEvent event) {
 		CASTableW table = view.getConsoleTable();
 		GPoint point = table.getPointForEvent(event);
@@ -311,7 +316,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			view.getConsoleTable().setFirstRowFront(false);
 		}
 	}
-	
+
 	private Cell getCellForEvent(HumanInputEvent<?> event) {
 		CASTableW table = view.getConsoleTable();
 		return table.getCellForEvent(event);

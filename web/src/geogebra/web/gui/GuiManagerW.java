@@ -486,7 +486,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	public boolean showView(final int viewId) {
-		
 
 		try {
 			return layout.getDockManager().getPanel(viewId).isVisible();
@@ -900,14 +899,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				updateFrameSize(); // checks internally if frame is available
 				if (app.needsSpreadsheetTableModel())
 					(app).getSpreadsheetTableModel(); // ensure create one if
-													  // not already done
+					                                  // not already done
 			}
 		} else if (isMacroFile && success) {
 
-			//setToolBarDefinition(ToolbarW.getAllTools(app));
+			// setToolBarDefinition(ToolbarW.getAllTools(app));
 			refreshCustomToolsInToolBar();
-			//(app).updateToolBar();
-			//(app).updateContentPane();
+			// (app).updateToolBar();
+			// (app).updateContentPane();
 		}
 
 		// force JavaScript ggbOnInit(); to be called
@@ -1273,7 +1272,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// only do this if toolbar string not null, otherwise this may
 		String def = layout.getDockManager().getPanel(toolbarID)
 		        .getToolbarString();
-		if ((def == null || "".equals(def)) && this.generalToolbarDefinition != null) {
+		if ((def == null || "".equals(def))
+		        && this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
 		}
 		setToolBarDefinition(def);
@@ -1285,7 +1285,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		this.toolbarID = toolbarID;
 
 		// in theory, it should do not harm to also set mode here:
-//		app.set1rstMode();
+		// app.set1rstMode();
 	}
 
 	@Override
@@ -1522,7 +1522,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				this.browseGUI.loadAllMaterials();
 			}
 		}
-		if (query != null ) {
+		if (query != null) {
 			this.browseGUI.displaySearchResults(query);
 		}
 		return this.browseGUI;
@@ -1536,16 +1536,16 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-
-    public void invokeLater(final Runnable runnable) {
-	    Scheduler.get().scheduleDeferred(new ScheduledCommand(){
+	public void invokeLater(final Runnable runnable) {
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
 
 			@Override
-            public void execute() {
-	            runnable.run();
-            }});   
-    }
-	
+			public void execute() {
+				runnable.run();
+			}
+		});
+	}
+
 	@Override
 	public int getEuclidianViewCount() {
 		return euclidianView2 == null ? 0 : euclidianView2.size();
@@ -1634,26 +1634,26 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	private native JavaScriptObject getDownloadCallback(String title) /*-{
-        var _this = this;
-        return function(ggbZip) {
-            var URL = $wnd.URL || $wnd.webkitURL;
-            var ggburl = URL.createObjectURL(ggbZip);
+	                                                                  var _this = this;
+	                                                                  return function(ggbZip) {
+	                                                                  var URL = $wnd.URL || $wnd.webkitURL;
+	                                                                  var ggburl = URL.createObjectURL(ggbZip);
 
-            if ($wnd.navigator.msSaveBlob) {
-                //works for chrome and internet explorer
-                $wnd.navigator.msSaveBlob(ggbZip, title);
-            } else {
-                //works for firefox
-                var a = document.createElement("a");
-                document.body.appendChild(a);
-                a.style = "display: none";
-                a.href = ggburl;
-                a.download = title;
-                a.click();
-                //		        window.URL.revokeObjectURL(url);
-            }
-        }
-	}-*/;
+	                                                                  if ($wnd.navigator.msSaveBlob) {
+	                                                                  //works for chrome and internet explorer
+	                                                                  $wnd.navigator.msSaveBlob(ggbZip, title);
+	                                                                  } else {
+	                                                                  //works for firefox
+	                                                                  var a = document.createElement("a");
+	                                                                  document.body.appendChild(a);
+	                                                                  a.style = "display: none";
+	                                                                  a.href = ggburl;
+	                                                                  a.download = title;
+	                                                                  a.click();
+	                                                                  //		        window.URL.revokeObjectURL(url);
+	                                                                  }
+	                                                                  }
+	                                                                  }-*/;
 
 	@Override
 	public final void renderEvent(final BaseEvent event) {
@@ -1678,7 +1678,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		return getGeneralToolbar().getDefaultToolbarString();
 	}
-	
+
 	public void refreshCustomToolsInToolBar() {
 		int macroCount = kernel.getMacroNumber();
 
@@ -1689,8 +1689,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			Macro macro = kernel.getMacro(i);
 			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
 			if (macro.isShowInToolBar()
-					&& !(getToolbarDefinition().contains(String
-							.valueOf(macroMode)))) {
+			        && !(getToolbarDefinition().contains(String
+			                .valueOf(macroMode)))) {
 				customToolBar.append(" " + macroMode);
 			}
 		}
@@ -1707,7 +1707,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				setToolBarDefinition(toolbarDef + customToolBar.toString());
 			} else {
 				setToolBarDefinition(toolbarDef + " ||"
-						+ customToolBar.toString());
+				        + customToolBar.toString());
 			}
 		} catch (NumberFormatException e) {
 			// could not identify the last tool so just add the custom tools
@@ -1716,7 +1716,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				setToolBarDefinition(toolbarDef + customToolBar.toString());
 			} else {
 				setToolBarDefinition(toolbarDef + " ||"
-						+ customToolBar.toString());
+				        + customToolBar.toString());
 			}
 		}
 	}

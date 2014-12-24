@@ -20,8 +20,8 @@ public class ImageResizer {
 	 *            width of the resized image
 	 * @param height
 	 *            height of the resized image
-	 * @return the data URL of the resized image or the original data URL in case
-	 *         of no resize happened
+	 * @return the data URL of the resized image or the original data URL in
+	 *         case of no resize happened
 	 */
 	public static String resizeImage(String imgDataURL, int width, int height) {
 		Image image = new Image(imgDataURL);

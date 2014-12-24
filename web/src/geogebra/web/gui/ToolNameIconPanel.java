@@ -75,15 +75,14 @@ public class ToolNameIconPanel extends VerticalPanel {
 		mainWidget.add(pToolHelp);
 
 		VerticalPanel iconPanel = new VerticalPanel();
-		icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()
-		        ),32);
+		icon = new NoDragImage(GGWToolBar.safeURI(GGWToolBar
+		        .getMyIconResourceBundle().mode_tool_32()), 32);
 		Button labelIcon = new Button(app.getMenu("Icon") + " ...");
 		labelIcon.addClickHandler(new ClickHandler() {
 
 			@SuppressWarnings("unused")
-            public void onClick(ClickEvent event) {
-				(new UploadImageDialog(
-				        (AppW) app, ICON_WIDTH , ICON_HEIGHT ) {
+			public void onClick(ClickEvent event) {
+				(new UploadImageDialog((AppW) app, ICON_WIDTH, ICON_HEIGHT) {
 
 					public void onClick(ClickEvent ev) {
 						Object source = ev.getSource();
@@ -156,10 +155,11 @@ public class ToolNameIconPanel extends VerticalPanel {
 			iconFileName = fileName;
 			icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
 		} else {
-			icon.setUrl(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle().mode_tool_32()));
+			icon.setUrl(GGWToolBar.safeURI(GGWToolBar.getMyIconResourceBundle()
+			        .mode_tool_32()));
 			iconFileName = null;
 		}
-		
+
 		updateMacro();
 	}
 
@@ -216,12 +216,12 @@ public class ToolNameIconPanel extends VerticalPanel {
 	}
 
 	public void setMacro(Macro m) {
-		
-	    tfCmdName.setText(m == null ? "": m.getCommandName());
-	    tfToolName.setText(m == null ? "": m.getToolName());
-	    tfToolHelp.setText(m == null ? "": m.getToolHelp());
-	    showTool.setValue(m == null ? false: m.isShowInToolBar());
-	    setIconFileName(m == null ? "": m.getIconFileName());
+
+		tfCmdName.setText(m == null ? "" : m.getCommandName());
+		tfToolName.setText(m == null ? "" : m.getToolName());
+		tfToolHelp.setText(m == null ? "" : m.getToolHelp());
+		showTool.setValue(m == null ? false : m.isShowInToolBar());
+		setIconFileName(m == null ? "" : m.getIconFileName());
 	}
 
 }

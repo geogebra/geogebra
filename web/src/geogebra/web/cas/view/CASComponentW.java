@@ -8,30 +8,31 @@ import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Event.NativePreviewHandler;
 import com.google.gwt.user.client.ui.ScrollPanel;
 
-public class CASComponentW extends ScrollPanel implements ScrollHandler, NativePreviewHandler {
-	
+public class CASComponentW extends ScrollPanel implements ScrollHandler,
+        NativePreviewHandler {
+
 	private boolean scrollHappened;
-	
-	public CASComponentW(){
+
+	public CASComponentW() {
 		this.getElement().setClassName("casView");
 		addScrollHandler(this);
 		Event.addNativePreviewHandler(this);
 	}
 
 	public void onScroll(ScrollEvent event) {
-	    scrollHappened = true;
-    }
+		scrollHappened = true;
+	}
 
 	public void onPreviewNativeEvent(NativePreviewEvent event) {
 		Element element = Element.as(event.getNativeEvent().getEventTarget());
-	    if (this.getElement().isOrHasChild(element)) {
-	    	if (event.getTypeInt() == Event.ONTOUCHEND) {
-	    		if (scrollHappened) {
-	    			event.cancel();
-	    			scrollHappened = false;
-	    		}
-	    	}
-	    }
-    }
-	
+		if (this.getElement().isOrHasChild(element)) {
+			if (event.getTypeInt() == Event.ONTOUCHEND) {
+				if (scrollHappened) {
+					event.cancel();
+					scrollHappened = false;
+				}
+			}
+		}
+	}
+
 }
