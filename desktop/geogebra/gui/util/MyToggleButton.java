@@ -9,6 +9,7 @@ import javax.swing.JButton;
 
 /**
  * Custom toggle button for use in stylebars
+ * 
  * @author G. Sturr
  *
  */

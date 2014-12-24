@@ -36,7 +36,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	/**
 	 * Determines if the given file is a root in the navigatable tree(s).
 	 * 
-	 * @param f a <code>File</code> object representing a directory
+	 * @param f
+	 *            a <code>File</code> object representing a directory
 	 * @return <code>true</code> if <code>f</code> is a root in the navigatable
 	 *         tree.
 	 * @see #isFileSystemRoot
@@ -60,7 +61,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Returns true if the file (directory) can be visited. Returns false if the
 	 * directory cannot be traversed.
 	 * 
-	 * @param f the <code>File</code>
+	 * @param f
+	 *            the <code>File</code>
 	 * @return <code>true</code> if the file/directory can be traversed,
 	 *         otherwise <code>false</code>
 	 * @see JFileChooser#isTraversable
@@ -75,7 +77,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Name of a file, directory, or folder as it would be displayed in a system
 	 * file browser
 	 * 
-	 * @param f a <code>File</code> object
+	 * @param f
+	 *            a <code>File</code> object
 	 * @return the file name as it would be displayed by a native file chooser
 	 * @see JFileChooser#getName
 	 */
@@ -96,7 +99,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Type description for a file, directory, or folder as it would be
 	 * displayed in a system file browser.
 	 * 
-	 * @param f a <code>File</code> object
+	 * @param f
+	 *            a <code>File</code> object
 	 * @return the file type description as it would be displayed by a native
 	 *         file chooser or null if no native information is available.
 	 * @see JFileChooser#getTypeDescription
@@ -110,7 +114,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Icon for a file, directory, or folder as it would be displayed in a
 	 * system file browser.
 	 * 
-	 * @param f a <code>File</code> object
+	 * @param f
+	 *            a <code>File</code> object
 	 * @return an icon as it would be displayed by a native file chooser, null
 	 *         if not available
 	 * @see JFileChooser#getIcon
@@ -120,13 +125,15 @@ public class RestrictedFileSystemView extends FileSystemView {
 		if (f != null) {
 			return UIManager.getIcon(f.isDirectory() ? "FileView.directoryIcon"
 					: "FileView.fileIcon");
-		} 
+		}
 		return null;
 	}
 
 	/**
-	 * @param folder a <code>File</code> object repesenting a directory
-	 * @param file a <code>File</code> object
+	 * @param folder
+	 *            a <code>File</code> object repesenting a directory
+	 * @param file
+	 *            a <code>File</code> object
 	 * @return <code>true</code> if <code>folder</code> is a directory and
 	 *         contains <code>file</code>.
 	 */
@@ -134,13 +141,15 @@ public class RestrictedFileSystemView extends FileSystemView {
 	public boolean isParent(File folder, File file) {
 		if (folder == null || file == null) {
 			return false;
-		} 
+		}
 		return folder.equals(file.getParentFile());
 	}
 
 	/**
-	 * @param parent a <code>File</code> object repesenting a directory
-	 * @param fileName a name of a file or folder which exists in <code>parent</code>
+	 * @param parent
+	 *            a <code>File</code> object repesenting a directory
+	 * @param fileName
+	 *            a name of a file or folder which exists in <code>parent</code>
 	 * @return a File object. This is normally constructed with <code>new
 	 * File(parent, fileName)</code>.
 	 */
@@ -154,7 +163,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * to a special folder such as <code>"Desktop"</code>. Used by UI classes to
 	 * decide if a folder is selectable when doing directory choosing.
 	 * 
-	 * @param f a <code>File</code> object
+	 * @param f
+	 *            a <code>File</code> object
 	 * @return <code>true</code> if <code>f</code> is a real file or directory.
 	 */
 	@Override
@@ -174,7 +184,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Is dir the root of a tree in the file system, such as a drive or
 	 * partition.
 	 * 
-	 * @param dir a <code>File</code> object representing a directory
+	 * @param dir
+	 *            a <code>File</code> object representing a directory
 	 * @return <code>true</code> if <code>f</code> is a root of a filesystem
 	 * @see #isRoot
 	 */
@@ -190,7 +201,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * The default implementation has no way of knowing, so always returns
 	 * false.
 	 * 
-	 * @param dir a directory
+	 * @param dir
+	 *            a directory
 	 * @return <code>false</code> always
 	 */
 	@Override
@@ -205,7 +217,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * The default implementation has no way of knowing, so always returns
 	 * false.
 	 * 
-	 * @param dir a directory
+	 * @param dir
+	 *            a directory
 	 * @return <code>false</code> always
 	 */
 	@Override
@@ -220,7 +233,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * The default implementation has no way of knowing, so always returns
 	 * false.
 	 * 
-	 * @param dir a directory
+	 * @param dir
+	 *            a directory
 	 * @return <code>false</code> always
 	 */
 	@Override
@@ -276,7 +290,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 	public File createFileObject(File dir, String filename) {
 		if (dir == null) {
 			return new File(filename);
-		} 
+		}
 		return new File(dir, filename);
 	}
 
@@ -343,7 +357,7 @@ public class RestrictedFileSystemView extends FileSystemView {
 						}
 					}
 					return f;
-				} 
+				}
 				return psf;
 			}
 		}
@@ -354,7 +368,8 @@ public class RestrictedFileSystemView extends FileSystemView {
 	 * Creates a new <code>File</code> object for <code>f</code> with correct
 	 * behavior for a file system root directory.
 	 * 
-	 * @param f a <code>File</code> object representing a file system root
+	 * @param f
+	 *            a <code>File</code> object representing a file system root
 	 *            directory, for example "/" on Unix or "C:\" on Windows.
 	 * @return a new <code>File</code> object
 	 */

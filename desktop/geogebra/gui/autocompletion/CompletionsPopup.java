@@ -38,36 +38,40 @@ import javax.swing.event.PopupMenuListener;
 import javax.swing.text.BadLocationException;
 
 /**
- * Provides completion popup for {@link AutoCompleteTextFieldD}.
- * Derived from OptionsPopup.
+ * Provides completion popup for {@link AutoCompleteTextFieldD}. Derived from
+ * OptionsPopup.
  * 
  * @author Arnaud Delobelle
  */
 public class CompletionsPopup {
 	private final AutoCompleteTextFieldD textField;
 	private final int maxPopupRowCount;
-	
+
 	private final JPopupMenu popup;
 	private final DelegatingListModel listModel;
 	private final JList list;
-	
+
 	private DocumentListener textFieldDocListener;
 	private KeyListener keyListener;
 	private KeyListener[] textFieldKeyListeners;
 	private int current_length;
-	
+
 	/**
 	 * Initializes components and registers event listeners.
 	 * 
-	 * @param textField The text field
-	 * @param listCellRenderer A list cell renderer which visualizes the options 
-	 *                         returned by the provided {@link CompletionProvider}
-	 * @param maxPopupRowCount The maximal number of rows for the options popup
+	 * @param textField
+	 *            The text field
+	 * @param listCellRenderer
+	 *            A list cell renderer which visualizes the options returned by
+	 *            the provided {@link CompletionProvider}
+	 * @param maxPopupRowCount
+	 *            The maximal number of rows for the options popup
 	 */
-	public CompletionsPopup(AutoCompleteTextFieldD textField, ListCellRenderer listCellRenderer, int maxPopupRowCount) {
+	public CompletionsPopup(AutoCompleteTextFieldD textField,
+			ListCellRenderer listCellRenderer, int maxPopupRowCount) {
 		this.textField = textField;
 		this.maxPopupRowCount = maxPopupRowCount;
-		
+
 		// Initialize components
 		listModel = new DelegatingListModel();
 		list = new JList(listModel);
@@ -78,18 +82,20 @@ public class CompletionsPopup {
 		popup.add(new JScrollPane(list));
 		popup.setBorder(BorderFactory.createEmptyBorder());
 		popup.setFocusable(false);
-		current_length=-1;// current length of sentence
+		current_length = -1;// current length of sentence
 		registerListeners();
 	}
-	
+
 	/**
 	 * Set the font to display the completions
-	 * @param font the new font
+	 * 
+	 * @param font
+	 *            the new font
 	 */
 	public void setFont(Font font) {
 		list.setFont(font);
 	}
-	
+
 	private class PopupListener implements PopupMenuListener {
 
 		public void popupMenuCanceled(PopupMenuEvent e) {
@@ -97,55 +103,61 @@ public class CompletionsPopup {
 
 		public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
 			textField.removeKeyListener(keyListener);
-			for (KeyListener listener: textFieldKeyListeners) {
+			for (KeyListener listener : textFieldKeyListeners) {
 				textField.addKeyListener(listener);
-			}			
+			}
 		}
 
 		public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
 			// Remove key listeners and replace with own;
 			textFieldKeyListeners = textField.getKeyListeners();
-			for (KeyListener listener: textFieldKeyListeners) {
+			for (KeyListener listener : textFieldKeyListeners) {
 				textField.removeKeyListener(listener);
 			}
 			textField.addKeyListener(keyListener);
 		}
 	}
-		
+
 	private void registerListeners() {
-		// Suggest completions on text changes, store reference to listener object
+		// Suggest completions on text changes, store reference to listener
+		// object
 		textFieldDocListener = new DocumentListener() {
 			public void removeUpdate(DocumentEvent e) {
 			}
-			
-			public void insertUpdate(DocumentEvent e) { /*showCompletions();*/ 
-				if(current_length!=e.getOffset())
-				{
+
+			public void insertUpdate(DocumentEvent e) { /* showCompletions(); */
+				if (current_length != e.getOffset()) {
 					hidePopup();
-					current_length=e.getOffset();				
+					current_length = e.getOffset();
 				}
 			}
-			public void changedUpdate(DocumentEvent e) { 
-				}
+
+			public void changedUpdate(DocumentEvent e) {
+			}
 		};
-		
+
 		textField.getDocument().addDocumentListener(textFieldDocListener);
 		// Handle special keys (e.g. navigation)
 		keyListener = new KeyAdapter() {
-			@Override public void keyPressed(KeyEvent e) { 
-				handleSpecialKeys(e); 
-				}			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				handleSpecialKeys(e);
+			}
 		};
 		// Hide popup when text field loses focus
 		textField.addFocusListener(new FocusAdapter() {
-			@Override public void focusLost(FocusEvent e) {
+			@Override
+			public void focusLost(FocusEvent e) {
 				hidePopup();
-				current_length=-1;
+				current_length = -1;
 			}
 		});
 		// Allow the user click on an option for completion
 		list.addMouseListener(new MouseAdapter() {
-			@Override public void mouseClicked(MouseEvent e) { handleMouseClick(e); }
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				handleMouseClick(e);
+			}
 		});
 		// This doesn't work very well :(
 		textField.addHierarchyBoundsListener(new HierarchyBoundsAdapter() {
@@ -158,7 +170,7 @@ public class CompletionsPopup {
 		});
 		popup.addPopupMenuListener(new PopupListener());
 	}
-	
+
 	protected void placePopup() {
 		Rectangle startRect;
 		try {
@@ -170,9 +182,10 @@ public class CompletionsPopup {
 		// Try to show popup just beneath the word to be completed
 		popup.show(textField, startRect.x, startRect.y + startRect.height);
 		// If it overlaps the word, then show the popup above the word
-		if (popup.getLocationOnScreen().y - textField.getLocationOnScreen().y < startRect.y + startRect.height) {
+		if (popup.getLocationOnScreen().y - textField.getLocationOnScreen().y < startRect.y
+				+ startRect.height) {
 			popup.show(textField, startRect.x, startRect.y - popup.getHeight());
-		}		
+		}
 	}
 
 	public void showCompletions() {
@@ -193,8 +206,8 @@ public class CompletionsPopup {
 			hidePopup();
 		}
 	}
-	
-	private void showPopup() {		
+
+	private void showPopup() {
 		// Adjust size of the popup if necessary
 		int newPopupRowCount = Math.min(listModel.getSize(), maxPopupRowCount);
 		list.setVisibleRowCount(newPopupRowCount);
@@ -203,7 +216,7 @@ public class CompletionsPopup {
 		popup.pack();
 		placePopup();
 	}
-	
+
 	private boolean isPopupVisible() {
 		return popup.isVisible();
 	}
@@ -216,43 +229,44 @@ public class CompletionsPopup {
 		list.clearSelection();
 		// Reinstate textField's key listeners
 	}
-	
+
 	public void handleSpecialKeys(KeyEvent keyEvent) {
 		if (!isPopupVisible()) {
 			return;
 		}
-		
-		switch(keyEvent.getKeyCode()) {
-		case VK_ESCAPE:			// [ESC] cancels the popup
+
+		switch (keyEvent.getKeyCode()) {
+		case VK_ESCAPE: // [ESC] cancels the popup
 			textField.cancelAutoCompletion();
 			hidePopup();
 			keyEvent.consume();
 			break;
-		case VK_ENTER:			// [ENTER] validates the completions
-			textField.validateAutoCompletion(list.getSelectedIndex(),textField.getCompletions());
+		case VK_ENTER: // [ENTER] validates the completions
+			textField.validateAutoCompletion(list.getSelectedIndex(),
+					textField.getCompletions());
 			hidePopup();
 			keyEvent.consume();
 			break;
-		case VK_DOWN:			// [DOWN] next completion
-		case VK_TAB:			// [TAB]
+		case VK_DOWN: // [DOWN] next completion
+		case VK_TAB: // [TAB]
 			navigateRelative(+1);
 			keyEvent.consume();
 			break;
-		case VK_UP:				// [UP] prev. completion
+		case VK_UP: // [UP] prev. completion
 			navigateRelative(-1);
 			keyEvent.consume();
-			break;	
-		case VK_PAGE_DOWN:		// [PAGE_DOWN]
+			break;
+		case VK_PAGE_DOWN: // [PAGE_DOWN]
 			navigateRelative(+maxPopupRowCount - 1);
 			keyEvent.consume();
 			break;
-		case VK_PAGE_UP:		// [PAGE_UP]
+		case VK_PAGE_UP: // [PAGE_UP]
 			navigateRelative(-maxPopupRowCount + 1);
 			keyEvent.consume();
 			break;
 		default:
 			hidePopup();
-			current_length=-1;
+			current_length = -1;
 			textField.processKeyEvent(keyEvent);
 		}
 	}
@@ -261,30 +275,31 @@ public class CompletionsPopup {
 		boolean up = offset < 0;
 		int end = listModel.getSize() - 1;
 		int index = list.getSelectedIndex();
-		
+
 		// Wrap around
 		if (-1 == index) {
 			index = up ? end : 0;
 		} else if (0 == index && up || end == index && !up) {
-			index = - 1;
+			index = -1;
 		} else {
 			index += offset;
 			index = max(0, min(end, index));
 		}
 
-		if(-1 == index) {
+		if (-1 == index) {
 			list.clearSelection();
 		} else {
 			list.setSelectedIndex(index);
 			list.ensureIndexIsVisible(index);
 		}
 	}
-	
+
 	private void handleMouseClick(MouseEvent e) {
 		if (SwingUtilities.isLeftMouseButton(e)) {
-			textField.validateAutoCompletion(list.getSelectedIndex(),textField.getCompletions());
+			textField.validateAutoCompletion(list.getSelectedIndex(),
+					textField.getCompletions());
 			hidePopup();
-			current_length=-1;
-		} 
+			current_length = -1;
+		}
 	}
 }

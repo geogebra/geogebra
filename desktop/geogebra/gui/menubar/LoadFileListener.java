@@ -10,13 +10,13 @@ import java.io.File;
 
 public class LoadFileListener implements ActionListener {
 
-		private AppD app;
-		private File file;
-		
-		public LoadFileListener(AppD app, File file) {
-			this.app = app;
-			this.file = file;
-		}
+	private AppD app;
+	private File file;
+
+	public LoadFileListener(AppD app, File file) {
+		this.app = app;
+		this.file = file;
+	}
 
 	public void actionPerformed(ActionEvent e) {
 		if (file.exists()) {
@@ -30,7 +30,8 @@ public class LoadFileListener implements ActionListener {
 				} else {
 					if (app.isSaved() || app.saveCurrentFile()) {
 						// open file in application window
-						((GuiManagerD) app.getGuiManager()).loadFile(file, false);
+						((GuiManagerD) app.getGuiManager()).loadFile(file,
+								false);
 					}
 				}
 			} else {

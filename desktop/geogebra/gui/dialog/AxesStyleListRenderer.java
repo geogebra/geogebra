@@ -36,7 +36,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 	private int pointSize = 4;
 	private Line2D.Double tempLine = new Line2D.Double();
 	private GeneralPath gp = new GeneralPath();
-	private static BasicStroke borderStroke = EuclidianStaticD.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = EuclidianStaticD
+			.getDefaultStrokeAwt();
 
 	public AxesStyleListRenderer() {
 		setOpaque(true);
@@ -47,7 +48,8 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		// get the selected point style
-		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL : ((Integer) value).intValue();
+		style = value == null ? EuclidianStyleConstants.AXES_LINE_TYPE_FULL
+				: ((Integer) value).intValue();
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);
@@ -73,7 +75,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 		g2.fillRect(0, 0, getWidth(), getHeight());
 
 		g2.setPaint(Color.BLACK);
-		
+
 		g2.setStroke(borderStroke);
 		switch (style) {
 		case EuclidianStyleConstants.AXES_LINE_TYPE_TWO_ARROWS:
@@ -82,24 +84,28 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
 			g2.draw(tempLine);
 
-			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2 + arrowSize);
+			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2
+					+ arrowSize);
 			g2.draw(tempLine);
 
-			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2 - arrowSize);
+			tempLine.setLine(0, HEIGHT / 2, 0 + arrowSize, HEIGHT / 2
+					- arrowSize);
 			g2.draw(tempLine);
 
 			// fall through
 		case EuclidianStyleConstants.AXES_LINE_TYPE_ARROW:
 		default:
 
-			// right-arrow 
+			// right-arrow
 
-			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2 + arrowSize);
+			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2
+					+ arrowSize);
 			g2.draw(tempLine);
 
-			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2 - arrowSize);
+			tempLine.setLine(WIDTH, HEIGHT / 2, WIDTH - arrowSize, HEIGHT / 2
+					- arrowSize);
 			g2.draw(tempLine);
-			 // fall through
+			// fall through
 		case EuclidianStyleConstants.AXES_LINE_TYPE_FULL:
 			// just a line
 			tempLine.setLine(0, HEIGHT / 2, WIDTH, HEIGHT / 2);
@@ -115,7 +121,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			gp.moveTo(0, HEIGHT / 2);
 			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 + arrowSize);
 			gp.lineTo(0 + filledArrowLength, HEIGHT / 2 - arrowSize);
-			
+
 			g2.fill(gp);
 
 			// fall through
@@ -129,7 +135,7 @@ public class AxesStyleListRenderer extends JPanel implements ListCellRenderer {
 			gp.moveTo(WIDTH, HEIGHT / 2);
 			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 + arrowSize);
 			gp.lineTo(WIDTH - filledArrowLength, HEIGHT / 2 - arrowSize);
-			
+
 			g2.fill(gp);
 
 		}

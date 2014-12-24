@@ -15,26 +15,27 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.text.JTextComponent;
 
-public abstract class InputDialogRotate extends AngleInputDialog implements KeyListener {
+public abstract class InputDialogRotate extends AngleInputDialog implements
+		KeyListener {
 
 	protected GeoPolygon[] polys;
 	protected GeoElement[] selGeos;
-	
-	protected EuclidianController ec; // we need to know which controller called for rotate
+
+	protected EuclidianController ec; // we need to know which controller called
+										// for rotate
 
 	protected static String defaultRotateAngle = "45\u00b0"; // 45 degrees
 
 	public InputDialogRotate(AppD app, String title, InputHandler handler,
-			GeoPolygon[] polys, GeoElement[] selGeos, 
-			EuclidianController ec) {
+			GeoPolygon[] polys, GeoElement[] selGeos, EuclidianController ec) {
 		super(app, app.getPlain("Angle"), title, defaultRotateAngle, false,
 				handler, false);
 
 		this.polys = polys;
 		this.selGeos = selGeos;
-		
+
 		this.ec = ec;
-		
+
 		this.inputPanel.getTextComponent().addKeyListener(this);
 
 	}
@@ -60,14 +61,14 @@ public abstract class InputDialogRotate extends AngleInputDialog implements KeyL
 		}
 	}
 
-	protected abstract boolean processInput(); 
+	protected abstract boolean processInput();
 
 	@Override
 	public void windowGainedFocus(WindowEvent arg0) {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void keyTyped(KeyEvent e) {

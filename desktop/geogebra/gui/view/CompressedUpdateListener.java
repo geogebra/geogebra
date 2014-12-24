@@ -14,59 +14,59 @@ import javax.swing.Timer;
  * @author Lucas Binter
  */
 public class CompressedUpdateListener implements ActionListener {
-  private Timer updateTimer;
-  private Set<GeoElement> updateSet;
+	private Timer updateTimer;
+	private Set<GeoElement> updateSet;
 
-  private CompressedView view;
+	private CompressedView view;
 
-  private final ReentrantLock lock;
+	private final ReentrantLock lock;
 
-  private boolean isWorking = false;
+	private boolean isWorking = false;
 
-  /**
-   * @param timer
-   *          the updateTimer to invoke / use
-   * @param set
-   *          a set containing all changed geo elements
-   * @param view
-   *          the compressedView attached this ActionListener is attached to
-   * @param lock
-   *          the lock to avoid loosing changed GeoElements (view.update(geo) =>
-   *          set.add(geo) lock)
-   */
-  public CompressedUpdateListener(CompressedView view, Timer timer,
-      Set<GeoElement> set, ReentrantLock lock) {
-    updateTimer = timer;
-    updateSet = set;
-    this.view = view;
-    this.lock = lock;
-  }
+	/**
+	 * @param timer
+	 *            the updateTimer to invoke / use
+	 * @param set
+	 *            a set containing all changed geo elements
+	 * @param view
+	 *            the compressedView attached this ActionListener is attached to
+	 * @param lock
+	 *            the lock to avoid loosing changed GeoElements
+	 *            (view.update(geo) => set.add(geo) lock)
+	 */
+	public CompressedUpdateListener(CompressedView view, Timer timer,
+			Set<GeoElement> set, ReentrantLock lock) {
+		updateTimer = timer;
+		updateSet = set;
+		this.view = view;
+		this.lock = lock;
+	}
 
-  public void actionPerformed(ActionEvent e) {
-    if (updateSet.isEmpty()) {
-      return;
-    }
-    if (isWorking) {
-      updateTimer.start();
-      return;
-    }
+	public void actionPerformed(ActionEvent e) {
+		if (updateSet.isEmpty()) {
+			return;
+		}
+		if (isWorking) {
+			updateTimer.start();
+			return;
+		}
 
-    GeoElement[] work;
-    lock.lock();
-    {
-      updateTimer.start();
-      isWorking = true;
+		GeoElement[] work;
+		lock.lock();
+		{
+			updateTimer.start();
+			isWorking = true;
 
-      work = new GeoElement[updateSet.size()];
-      updateSet.toArray(work);
-      updateSet.clear();
-    }
-    lock.unlock();
+			work = new GeoElement[updateSet.size()];
+			updateSet.toArray(work);
+			updateSet.clear();
+		}
+		lock.unlock();
 
-    for (GeoElement geo : work) {
-      view.updateNow(geo);
-    }
-    isWorking = false;
-  }
+		for (GeoElement geo : work) {
+			view.updateNow(geo);
+		}
+		isWorking = false;
+	}
 
 }

@@ -102,7 +102,8 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		if (flag) {
 			// add all currently selected geos to output list
-			ArrayList<GeoElement> selGeos = app.getSelectionManager().getSelectedGeos();
+			ArrayList<GeoElement> selGeos = app.getSelectionManager()
+					.getSelectedGeos();
 			for (int i = 0; i < selGeos.size(); i++) {
 				GeoElement geo = selGeos.get(i);
 				outputList.addElement(geo);
@@ -197,8 +198,8 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			tabbedPane.setSelectedIndex(1);
 
 			// show error message
-			app.showError(app.getLocalization().getError("Tool.CreationFailed") + "\n"
-					+ e.getMessage());
+			app.showError(app.getLocalization().getError("Tool.CreationFailed")
+					+ "\n" + e.getMessage());
 			e.printStackTrace();
 			newTool = null;
 			return false;
@@ -220,8 +221,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		AppD appToSave = app;
 		if (app.getMacro() != null)
-			appToSave = (AppD) app.getMacro().getKernel()
-					.getApplication();
+			appToSave = (AppD) app.getMacro().getKernel().getApplication();
 
 		Kernel kernel = appToSave.getKernel();
 		String cmdName = namePanel.getCommandName();
@@ -239,7 +239,8 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		if (newTool.isShowInToolBar()) {
 			int mode = kernel.getMacroID(newTool)
 					+ EuclidianConstants.MACRO_MODE_ID_OFFSET;
-			((GuiManagerD)appToSave.getGuiManager()).addToToolbarDefinition(mode);
+			((GuiManagerD) appToSave.getGuiManager())
+					.addToToolbarDefinition(mode);
 			appToSave.updateToolBar();
 			appToSave.setMode(mode);
 		}
@@ -291,8 +292,9 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 		} else {
 			App.debug("not compatible");
-			JOptionPane.showMessageDialog(this, app.getLocalization().getError("InvalidInput")
-					+ ":\n" + macro.toString());
+			JOptionPane.showMessageDialog(this,
+					app.getLocalization().getError("InvalidInput") + ":\n"
+							+ macro.toString());
 		}
 	}
 
@@ -354,6 +356,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		cbOutputAddList = new DefaultComboBoxModel();
 		cbInputAddList = new DefaultComboBoxModel() {
 			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void removeElement(Object geo) {
 				super.removeElement(geo);
@@ -426,7 +429,7 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 			tabbedPane.addTab(app.getMenu("NameIcon"), null, namePanel, null);
 
 			app.setComponentOrientation(this);
-			
+
 			setResizable(true);
 			pack();
 			// center
@@ -451,13 +454,15 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 		namePanel.setIconFileName(macro.getIconFileName());
 		for (int i = 0; i < macro.getMacroInput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroInput()[i].getLabel(StringTemplate.defaultTemplate));
+					macro.getMacroInput()[i]
+							.getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.inputList.add(0, el);
 		}
 		for (int i = 0; i < macro.getMacroOutput().length; i++) {
 			GeoElement el = app.getKernel().lookupLabel(
-					macro.getMacroOutput()[i].getLabel(StringTemplate.defaultTemplate));
+					macro.getMacroOutput()[i]
+							.getLabel(StringTemplate.defaultTemplate));
 			if (el != null)
 				this.outputList.add(0, el);
 		}
@@ -745,20 +750,18 @@ public class ToolCreationDialog extends javax.swing.JDialog implements
 
 	}
 
-
 	public static boolean isMyCellRenderer(ListCellRenderer renderer) {
 		return (renderer instanceof MyCellRenderer);
 	}
 }
 
-
-
 class MyCellRenderer extends DefaultListCellRenderer {
 	private static final long serialVersionUID = 1L;
-	
-	public MyCellRenderer(){
-		
+
+	public MyCellRenderer() {
+
 	}
+
 	/*
 	 * This is the only method defined by ListCellRenderer. We just reconfigure
 	 * the Jlabel each time we're called.
@@ -781,7 +784,7 @@ class MyCellRenderer extends DefaultListCellRenderer {
 			if (value instanceof String) {
 				setText((String) value);
 			} else if (value instanceof Integer) {
-				setText(value+"");		
+				setText(value + "");
 			} else {
 				GeoElement geo = (GeoElement) value;
 				String text = geo.getLongDescriptionHTML(true, true);

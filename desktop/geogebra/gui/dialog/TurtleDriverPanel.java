@@ -17,7 +17,7 @@ public class TurtleDriverPanel extends JPanel implements ActionListener,
 		SetLabels {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private GeoTurtle t;
 	private JButton btnFD, btnBK, btnLT, btnRT, btnShape, btnClear;
 	private double distance = 1, angle = 10;
@@ -60,12 +60,12 @@ public class TurtleDriverPanel extends JPanel implements ActionListener,
 		Box vBox = Box.createVerticalBox();
 		vBox.add(motionPanel);
 		vBox.add(statusPanel);
-		
+
 		this.setLayout(new BorderLayout());
 		this.add(vBox, BorderLayout.CENTER);
-		
-		((AppD)t.getKernel().getApplication()).setComponentOrientation(this);
-	
+
+		((AppD) t.getKernel().getApplication()).setComponentOrientation(this);
+
 	}
 
 	public void actionPerformed(ActionEvent e) {

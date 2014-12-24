@@ -6,11 +6,11 @@ import java.util.List;
  * Interface for specifying a custom completion provider.
  * 
  * @param <T>
- *            The type of the completions options (most of the time this
- *            will be simple strings)
+ *            The type of the completions options (most of the time this will be
+ *            simple strings)
  */
 public interface CompletionProvider<T> {
-	
+
 	/**
 	 * This method is called repeatedly while the user is typing. It should
 	 * return a list of suitable completion options for the prefix.
@@ -21,7 +21,6 @@ public interface CompletionProvider<T> {
 	 */
 	List<T> getCompletionOptions(String prefix);
 
-	
 	/**
 	 * Converts a completion option to a string which can be displayed.
 	 * 
@@ -29,5 +28,5 @@ public interface CompletionProvider<T> {
 	 * @return The string which will be displayed in the options popup
 	 */
 	String toString(T option);
-	
+
 }

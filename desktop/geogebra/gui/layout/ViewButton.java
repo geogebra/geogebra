@@ -34,7 +34,7 @@ public class ViewButton extends DockButton implements ActionListener {
 		this.app = app;
 		this.panel = panel;
 		this.viewId = panel.getViewId();
-		
+
 		Icon ic = null;
 		if (panel.getIcon() != null) {
 			ic = panel.getIcon();

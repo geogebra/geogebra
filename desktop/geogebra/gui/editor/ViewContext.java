@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.gui.editor;
 
@@ -27,35 +27,35 @@ import javax.swing.text.ViewFactory;
 public abstract class ViewContext implements ViewFactory {
 
 	/**
-     * Contains the colors of the different tokens
-     */
-    public Color[] tokenColors;
+	 * Contains the colors of the different tokens
+	 */
+	public Color[] tokenColors;
 
-    /**
-     * The font to use
-     */
-    public Font tokenFont;
-    
-    
-    /**
-     * @param font	Font to be set
-     */
-    public void setTokenFont(Font font){
-    	tokenFont = font;
-    }
+	/**
+	 * The font to use
+	 */
+	public Font tokenFont;
 
-    /**
-     * Contains the attributes (underline or stroke) of the different tokens
-     */
-    public int[] tokenAttrib;
+	/**
+	 * @param font
+	 *            Font to be set
+	 */
+	public void setTokenFont(Font font) {
+		tokenFont = font;
+	}
 
-    /**
-     * @return the view to use to render the document
-     */
-    public abstract View getCurrentView();
-    
-    /**
+	/**
+	 * Contains the attributes (underline or stroke) of the different tokens
+	 */
+	public int[] tokenAttrib;
+
+	/**
+	 * @return the view to use to render the document
+	 */
+	public abstract View getCurrentView();
+
+	/**
 	 * {@inheritDoc}
-     */
-    public abstract View create(Element elem);
+	 */
+	public abstract View create(Element elem);
 }

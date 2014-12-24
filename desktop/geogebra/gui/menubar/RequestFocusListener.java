@@ -13,7 +13,7 @@ public class RequestFocusListener implements ActionListener {
 		this.frame = frame;
 	}
 
-	public void actionPerformed(ActionEvent arg0) {		
+	public void actionPerformed(ActionEvent arg0) {
 		frame.toFront();
 		frame.requestFocus();
 	}

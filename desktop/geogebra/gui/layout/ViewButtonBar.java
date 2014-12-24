@@ -53,10 +53,10 @@ public class ViewButtonBar extends JToolBar {
 		// get the PropertiesView dock panel first
 		for (DockPanel panel : dockPanels) {
 			if (panel.getViewId() == AppD.VIEW_PROPERTIES) {
-				//viewButtons.add(new ViewButton(app, panel));
+				// viewButtons.add(new ViewButton(app, panel));
 			}
 		}
-					
+
 		// iterate through the dock panels
 		for (DockPanel panel : dockPanels) {
 
@@ -82,20 +82,21 @@ public class ViewButtonBar extends JToolBar {
 		for (ViewButton btn : viewButtons) {
 			DockPanel panel = btn.getPanel();
 
-				btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
+			btn.setSelected(app.getGuiManager().showView(btn.getViewId()));
 
-				if (panel.getViewId() != App.VIEW_PROPERTIES 
-						&& panel.getViewId() != App.VIEW_ASSIGNMENT) 
-					add(btn);
+			if (panel.getViewId() != App.VIEW_PROPERTIES
+					&& panel.getViewId() != App.VIEW_ASSIGNMENT)
+				add(btn);
 		}
-		
+
 		// spacer
-		//add(Box.createVerticalStrut(20));
-		
+		// add(Box.createVerticalStrut(20));
+
 		// add properties view button
-		//add(viewButtons.get(0));
-		
-		viewButtons.get(0).setSelected(app.getGuiManager().showView(viewButtons.get(0).getViewId()));
+		// add(viewButtons.get(0));
+
+		viewButtons.get(0).setSelected(
+				app.getGuiManager().showView(viewButtons.get(0).getViewId()));
 	}
 
 }

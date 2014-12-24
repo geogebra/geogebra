@@ -62,7 +62,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 	private JPanel intervalPanel, sliderPanel, animationPanel;
 	private boolean useTabbedPane;
 	private boolean actionPerforming;
-	
+
 	private boolean widthUnit = false;
 
 	public SliderPanel(AppD app, PropertiesPanelD propPanel,
@@ -111,7 +111,7 @@ public class SliderPanel extends JPanel implements ActionListener,
 			textField.addActionListener(this);
 			textField.addFocusListener(this);
 			p.add(textField);
-			if (i==2) //width
+			if (i == 2) // width
 				p.add(lbWidthUnit);
 			p.setAlignmentX(Component.LEFT_ALIGNMENT);
 
@@ -182,14 +182,12 @@ public class SliderPanel extends JPanel implements ActionListener,
 		coSliderHorizontal.setSelectedIndex(selectedIndex);
 		coSliderHorizontal.addActionListener(this);
 
-		
 		tLabels[0].setText(app.getPlain("min") + ":");
 		tLabels[1].setText(app.getPlain("max") + ":");
-		tLabels[2].setText(app.getPlain("Width") + ":"); 
-		
+		tLabels[2].setText(app.getPlain("Width") + ":");
+
 		model.setLabelForWidthUnit();
-		
-		
+
 		stepPanel.setLabels();
 		speedPanel.setLabels();
 	}
@@ -206,26 +204,23 @@ public class SliderPanel extends JPanel implements ActionListener,
 		for (int i = 0; i < tfields.length; i++) {
 			tfields[i].removeActionListener(this);
 		}
-		
+
 		coSliderHorizontal.removeActionListener(this);
 		cbSliderFixed.removeActionListener(this);
 		cbRandom.removeActionListener(this);
-		
+
 		model.updateProperties();
 
 		for (int i = 0; i < tfields.length; i++) {
 			tfields[i].addActionListener(this);
 		}
-		
+
 		coSliderHorizontal.addActionListener(this);
 		cbSliderFixed.addActionListener(this);
 		cbRandom.addActionListener(this);
 
 		return this;
 	}
-	
-
-
 
 	/**
 	 * handle textfield changes
@@ -261,16 +256,16 @@ public class SliderPanel extends JPanel implements ActionListener,
 		actionPerforming = true;
 		String inputText = source.getText().trim();
 		boolean emptyString = inputText.equals("");
-		
+
 		NumberValue value = new MyDouble(kernel, Double.NaN);
 		if (!emptyString) {
 			value = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
 					false);
 		}
 
-		if (source == tfMin) { 
+		if (source == tfMin) {
 			model.applyMin(value);
-		} else if (source == tfMax) { 
+		} else if (source == tfMax) {
 			model.applyMax(value);
 		} else if (source == tfWidth) {
 			model.applyWidth(value.getDouble());
@@ -295,32 +290,30 @@ public class SliderPanel extends JPanel implements ActionListener,
 
 	public void updateFonts() {
 		Font font = app.getPlainFont();
-		
+
 		cbSliderFixed.setFont(font);
 		cbRandom.setFont(font);
 		coSliderHorizontal.setFont(font);
 
-
 		for (int i = 0; i < tLabels.length; ++i) {
 			tLabels[i].setFont(font);
 		}
-		
+
 		tfMin.setFont(font);
 		tfMax.setFont(font);
 		tfWidth.setFont(font);
-		
-		for (int i = 0; i < tfields.length; ++i) 
+
+		for (int i = 0; i < tfields.length; ++i)
 			tfields[i].setFont(font);
-		
 
 		stepPanel.updateFonts();
 		speedPanel.updateFonts();
-		
+
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setMinText(String text) {

@@ -496,11 +496,11 @@ public class MyTextField extends JTextField implements ActionListener,
 	private void drawText(String str, boolean selected/* , Color bg */) {
 		if ("".equals(str))
 			return;
-		
+
 		// compute advance
 		FontMetrics metrics = g2.getFontMetrics(font);
 		float advance = metrics.stringWidth(str);
-		
+
 		if (selected) {
 			g2.setColor(getSelectionColor());
 			g2.fillRect((int) pos - scrollOffset + insets.left, textBottom
@@ -520,7 +520,7 @@ public class MyTextField extends JTextField implements ActionListener,
 				&& pos + advance - scrollOffset <= width) {
 			g2.drawString(str, pos - scrollOffset + insets.left, textBottom);
 		}
-		
+
 		pos += advance;
 	}
 

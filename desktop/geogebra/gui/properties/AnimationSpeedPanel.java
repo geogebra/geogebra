@@ -25,32 +25,32 @@ import javax.swing.JTextField;
 
 /**
  * panel for animation speed
+ * 
  * @author adapted from AnimationStepPanel
  */
-public class AnimationSpeedPanel
-	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-	IAnimationSpeedListener {
-	
+public class AnimationSpeedPanel extends JPanel implements ActionListener,
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+		IAnimationSpeedListener {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private AnimationSpeedModel model;
 	private JTextField tfAnimSpeed;
-	private JComboBox animationModeCB;	
+	private JComboBox animationModeCB;
 	private JLabel modeLabel, speedLabel;
-	private AppD app;	
+	private AppD app;
 	private Kernel kernel;
 
 	public AnimationSpeedPanel(AppD app) {
 		this.app = app;
 		this.kernel = app.getKernel();
-		
+
 		model = new AnimationSpeedModel(app, this);
-		
-			// combo box for 
+
+		// combo box for
 		animationModeCB = new JComboBox();
 		modeLabel = new JLabel();
-		
+
 		// text field for animation step
 		speedLabel = new JLabel();
 		tfAnimSpeed = new JTextField(5);
@@ -68,14 +68,14 @@ public class AnimationSpeedPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		animPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(animPanel);
-		
+
 		setLabels();
 	}
-	
+
 	public void setLabels() {
 		modeLabel.setText(app.getPlain("Repeat") + ": ");
 		speedLabel.setText(app.getPlain("AnimationSpeed") + ": ");
-		
+
 		int selectedIndex = animationModeCB.getSelectedIndex();
 		animationModeCB.removeActionListener(this);
 		animationModeCB.removeAllItems();
@@ -83,14 +83,14 @@ public class AnimationSpeedPanel
 		animationModeCB.setSelectedIndex(selectedIndex);
 		animationModeCB.addActionListener(this);
 	}
-	
+
 	public void setPartOfSliderPanel() {
-		model.setShowSliders(true); 
+		model.setShowSliders(true);
 	}
 
-	public JPanel update(Object[] geos) {		
+	public JPanel update(Object[] geos) {
 		model.setGeos(geos);
-		if (!model.checkGeos()) { //geos,partOfSliderPanel))
+		if (!model.checkGeos()) { // geos,partOfSliderPanel))
 			return null;
 		}
 
@@ -102,20 +102,19 @@ public class AnimationSpeedPanel
 		return this;
 	}
 
-
 	/**
 	 * handle textfield changes
 	 */
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == tfAnimSpeed)
 			doActionPerformed();
-		else if (e.getSource() == animationModeCB) 
+		else if (e.getSource() == animationModeCB)
 			setType(animationModeCB.getSelectedIndex());
 	}
 
 	private void doActionPerformed() {
-		NumberValue animSpeed = 
-			kernel.getAlgebraProcessor().evaluateToNumeric(tfAnimSpeed.getText(), false);
+		NumberValue animSpeed = kernel.getAlgebraProcessor().evaluateToNumeric(
+				tfAnimSpeed.getText(), false);
 		if (animSpeed != null) {
 			model.applySpeedChanges(animSpeed);
 		}
@@ -123,14 +122,14 @@ public class AnimationSpeedPanel
 	}
 
 	private void setType(int type) {
-		
+
 		if (!model.hasGeos()) {
 			return;
 		}
 		model.applyTypeChanges(type);
-		
+
 		update(model.getGeos());
-		
+
 	}
 
 	public void focusGained(FocusEvent arg0) {
@@ -142,22 +141,22 @@ public class AnimationSpeedPanel
 
 	public void updateFonts() {
 		Font font = app.getPlainFont();
-		
+
 		modeLabel.setFont(font);
 		speedLabel.setFont(font);
 		animationModeCB.setFont(font);
-		
+
 		tfAnimSpeed.setFont(font);
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setSelectedIndex(int index) {
 		animationModeCB.setSelectedIndex(index);
-		
+
 	}
 
 	public void addItem(String item) {
@@ -170,6 +169,6 @@ public class AnimationSpeedPanel
 
 	public void setSelectedItem(String item) {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

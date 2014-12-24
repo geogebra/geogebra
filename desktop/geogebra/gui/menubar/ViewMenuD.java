@@ -11,8 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JMenuItem;
 
 /**
- * The "View" menu for the applet.
- * For application use ViewMenuApplication class
+ * The "View" menu for the applet. For application use ViewMenuApplication class
  */
 public class ViewMenuD extends BaseMenu {
 	private static final long serialVersionUID = 1L;
@@ -53,10 +52,9 @@ public class ViewMenuD extends BaseMenu {
 		// F9 and Ctrl-R both work, but F9 doesn't on MacOS, so we must display
 		// Ctrl-R
 		setMenuShortCutAccelerator(mi, 'R');
-		
+
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
-
 
 	}
 
@@ -65,7 +63,7 @@ public class ViewMenuD extends BaseMenu {
 	 */
 	@Override
 	protected void initActions() {
-		
+
 		refreshAction = new AbstractAction(app.getMenu("Refresh"),
 				new ImageIcon(app.getRefreshViewImage())) {
 			private static final long serialVersionUID = 1L;
@@ -87,13 +85,12 @@ public class ViewMenuD extends BaseMenu {
 
 	@Override
 	public void update() {
-		//do nothing
+		// do nothing
 	}
-
-
 
 	/**
 	 * Tells if the 3D View is shown in the current window
+	 * 
 	 * @return whether 3D View is switched on
 	 */
 	public boolean is3DViewShown() {
@@ -104,6 +101,5 @@ public class ViewMenuD extends BaseMenu {
 		}
 		return false;
 	}
-	
 
 }

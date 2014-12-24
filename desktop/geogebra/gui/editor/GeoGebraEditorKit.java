@@ -9,7 +9,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.gui.editor;
 
@@ -24,49 +24,50 @@ import javax.swing.text.ViewFactory;
  *
  */
 public class GeoGebraEditorKit extends DefaultEditorKit {
-	
+
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * The mimetype for a GeoGebra code
-     */
-    public static final String MIMETYPE = "text/geogebra";
-	
+	 * The mimetype for a GeoGebra code
+	 */
+	public static final String MIMETYPE = "text/geogebra";
+
 	private GeoGebraContext preferences;
 	private AppD app;
-	
+
 	/**
 	 * 
-	 * @param app the Application where this kit is used
+	 * @param app
+	 *            the Application where this kit is used
 	 */
 	public GeoGebraEditorKit(AppD app) {
 		this.app = app;
 	}
-	
-	/**
-     * {@inheritDoc}
-     */
-    @Override
-	public String getContentType() {
-        return MIMETYPE;
-    }
-	
-	/**
-     * @return the context associated with the ScilabDocument
-     */
-    public GeoGebraContext getStylePreferences() {
-        if (preferences == null) {
-            preferences = new GeoGebraContext(app);
-        }
 
-        return preferences;
-    }
-    
 	/**
-     * {@inheritDoc}
-     */
-    @Override
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String getContentType() {
+		return MIMETYPE;
+	}
+
+	/**
+	 * @return the context associated with the ScilabDocument
+	 */
+	public GeoGebraContext getStylePreferences() {
+		if (preferences == null) {
+			preferences = new GeoGebraContext(app);
+		}
+
+		return preferences;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
 	public ViewFactory getViewFactory() {
-        return getStylePreferences();
-    }
+		return getStylePreferences();
+	}
 }

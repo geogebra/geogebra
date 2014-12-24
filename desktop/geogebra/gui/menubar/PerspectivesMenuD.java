@@ -17,37 +17,35 @@ class PerspectivesMenuD extends BaseMenu {
 
 	LayoutD layout;
 
-	private AbstractAction
-	changePerspectiveAction,
-	managePerspectivesAction,
-	savePerspectiveAction
-	;
+	private AbstractAction changePerspectiveAction, managePerspectivesAction,
+			savePerspectiveAction;
+
 	/**
 	 * Creates new perspectives menu
+	 * 
 	 * @param app
-	 * @param layout 
+	 * @param layout
 	 */
 	public PerspectivesMenuD(AppD app, LayoutD layout) {
 		super(app, app.getMenu("Perspectives"));
-		
+
 		this.layout = layout;
 
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
 	}
-	
+
 	/**
 	 * Initialize the menu items.
 	 */
 	@Override
-	protected void initItems()
-	{
-		
+	protected void initItems() {
+
 		if (!initialized) {
 			// menus not created yet, so nothing to do
 			return;
 		}
 
-		
 		Perspective[] defaultPerspectives = geogebra.common.gui.Layout.defaultPerspectives;
 
 		for (int i = 0; i < defaultPerspectives.length; ++i) {
@@ -74,22 +72,22 @@ class PerspectivesMenuD extends BaseMenu {
 			}
 			addSeparator();
 		}
-		
-		// diable menu item to manage perspectives if there is no user perspective
+
+		// diable menu item to manage perspectives if there is no user
+		// perspective
 		managePerspectivesAction.setEnabled(perspectives.length != 0);
 
 		add(managePerspectivesAction);
 		add(savePerspectiveAction);
 	}
-	
+
 	/**
 	 * Initialize the actions.
 	 */
 	@Override
-	protected void initActions()
-	{
-		savePerspectiveAction = new AbstractAction(app
-				.getMenu("SaveCurrentPerspective"), app.getEmptyIcon()) {
+	protected void initActions() {
+		savePerspectiveAction = new AbstractAction(
+				app.getMenu("SaveCurrentPerspective"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -97,8 +95,8 @@ class PerspectivesMenuD extends BaseMenu {
 			}
 		};
 
-		managePerspectivesAction = new AbstractAction(app
-				.getMenu("ManagePerspectives"), app.getEmptyIcon()) {
+		managePerspectivesAction = new AbstractAction(
+				app.getMenu("ManagePerspectives"), app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

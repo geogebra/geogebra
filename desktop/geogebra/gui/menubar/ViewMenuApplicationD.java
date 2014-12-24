@@ -17,19 +17,19 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 
-public class ViewMenuApplicationD extends ViewMenuD{
-	
+public class ViewMenuApplicationD extends ViewMenuD {
+
 	private AbstractAction showKeyboardAction, showAlgebraInputAction;
 
 	private JCheckBoxMenuItem cbShowKeyboard, cbShowInputBar;
-	
+
 	private ShowViewAction[] showViews;
 	private JCheckBoxMenuItem[] cbViews;
-	
+
 	private AbstractAction showLayoutOptionsAction;
 	/*
-	* Checkbox for construction protocol view.
-	*/
+	 * Checkbox for construction protocol view.
+	 */
 	private JCheckBoxMenuItem cbConsprot;
 
 	/**
@@ -40,7 +40,6 @@ public class ViewMenuApplicationD extends ViewMenuD{
 		// TODO Auto-generated constructor stub
 	}
 
-	
 	/**
 	 * Initialize the menu items.
 	 */
@@ -51,7 +50,7 @@ public class ViewMenuApplicationD extends ViewMenuD{
 			return;
 		}
 		initViewItems(this);
-		
+
 		JMenuItem mi;
 
 		// show/hide keyboard
@@ -61,16 +60,17 @@ public class ViewMenuApplicationD extends ViewMenuD{
 			KeyboardSettings kbs = app.getSettings().getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
-				VirtualKeyboard vk = ((GuiManagerD)app.getGuiManager()).getVirtualKeyboard();
+				VirtualKeyboard vk = ((GuiManagerD) app.getGuiManager())
+						.getVirtualKeyboard();
 				vk.setVisible(true);
 			}
 			add(cbShowKeyboard);
 		}
-		
+
 		cbShowInputBar = new JCheckBoxMenuItem(showAlgebraInputAction);
 		app.setEmptyIcon(cbShowInputBar);
 		add(cbShowInputBar);
-		
+
 		addSeparator();
 
 		mi = add(showLayoutOptionsAction);
@@ -79,9 +79,10 @@ public class ViewMenuApplicationD extends ViewMenuD{
 
 		super.initItems();
 	}
-	
+
 	/**
-	 * Initialize the actions, which used by applet only (and not by application).
+	 * Initialize the actions, which used by applet only (and not by
+	 * application).
 	 */
 	@Override
 	protected void initActions() {
@@ -105,24 +106,25 @@ public class ViewMenuApplicationD extends ViewMenuD{
 			public void actionPerformed(ActionEvent e) {
 
 				if (AppD.isVirtualKeyboardActive()
-						&& !((GuiManagerD)app.getGuiManager()).showVirtualKeyboard()) {
+						&& !((GuiManagerD) app.getGuiManager())
+								.showVirtualKeyboard()) {
 
 					// if keyboard is active but hidden, just show it
-					((GuiManagerD)app.getGuiManager()).toggleKeyboard(true);
+					((GuiManagerD) app.getGuiManager()).toggleKeyboard(true);
 					update();
 
 				} else {
 
 					AppD.setVirtualKeyboardActive(!AppD
 							.isVirtualKeyboardActive());
-					((GuiManagerD)app.getGuiManager()).toggleKeyboard(
-							AppD.isVirtualKeyboardActive());
+					((GuiManagerD) app.getGuiManager()).toggleKeyboard(AppD
+							.isVirtualKeyboardActive());
 					update();
 				}
 
 			}
 		};
-		
+
 		showAlgebraInputAction = new AbstractAction(app.getMenu("InputField")) {
 			private static final long serialVersionUID = 1L;
 
@@ -131,11 +133,11 @@ public class ViewMenuApplicationD extends ViewMenuD{
 				app.updateContentPane();
 			}
 		};
-		
+
 		super.initActions();
 
 	}
-	
+
 	private void initViewActions() {
 		if (!initialized) {
 			return;
@@ -165,7 +167,6 @@ public class ViewMenuApplicationD extends ViewMenuD{
 					continue;
 				}
 
-
 				action = new ShowViewAction(panel);
 
 				showViews[i] = action;
@@ -173,35 +174,37 @@ public class ViewMenuApplicationD extends ViewMenuD{
 			}
 		}
 	}
-	
-	private class ShowViewAction extends AbstractAction{
+
+	private class ShowViewAction extends AbstractAction {
 
 		private DockPanel panel;
 		private int viewId;
 		private JCheckBoxMenuItem cb;
-		
-		public ShowViewAction(DockPanel panel){
+
+		public ShowViewAction(DockPanel panel) {
 			super(app.getPlain(panel.getViewTitle()));
-			this.panel=panel;
+			this.panel = panel;
 			viewId = panel.getViewId();
 		}
-		
-		public void setCheckBox(JCheckBoxMenuItem cb){
-			this.cb=cb;
+
+		public void setCheckBox(JCheckBoxMenuItem cb) {
+			this.cb = cb;
 		}
-		
+
 		public void actionPerformed(ActionEvent arg0) {
-			
-			((GuiManagerD)app.getGuiManager()).setShowView(
-					!((GuiManagerD)app.getGuiManager()).showView(viewId), viewId);
-			
-			//ensure check box is correctly selected/unselected for case where hide aborted
+
+			((GuiManagerD) app.getGuiManager()).setShowView(
+					!((GuiManagerD) app.getGuiManager()).showView(viewId),
+					viewId);
+
+			// ensure check box is correctly selected/unselected for case where
+			// hide aborted
 			cb.setSelected(panel.isVisible());
-			
+
 		}
-		
+
 	}
-	
+
 	@Override
 	public void update() {
 		if (!initialized) {
@@ -226,7 +229,7 @@ public class ViewMenuApplicationD extends ViewMenuD{
 		// menuToolBar.setEnabled(app.showToolBar());
 
 	}
-	
+
 	private void updateViews() {
 
 		if (!initialized) {
@@ -246,13 +249,13 @@ public class ViewMenuApplicationD extends ViewMenuD{
 					continue;
 				}
 
-				cbViews[i].setSelected(((GuiManagerD)app.getGuiManager()).showView(
-						panel.getViewId()));
+				cbViews[i].setSelected(((GuiManagerD) app.getGuiManager())
+						.showView(panel.getViewId()));
 				++i;
 			}
 		}
 	}
-	
+
 	private void initViewItems(JMenu menu) {
 		if (!initialized) {
 			return;
@@ -292,20 +295,21 @@ public class ViewMenuApplicationD extends ViewMenuD{
 
 				menu.add(cb);
 				cbViews[i] = cb;
-				if (panel instanceof ConstructionProtocolDockPanel) cbConsprot = cb;
+				if (panel instanceof ConstructionProtocolDockPanel)
+					cbConsprot = cb;
 				++i;
 			}
 		}
 	}
-	
+
 	/**
-	 * Checkbox of Construction protocol view will be checked if visible is true.
-	 * Otherwise won't be checked.
+	 * Checkbox of Construction protocol view will be checked if visible is
+	 * true. Otherwise won't be checked.
+	 * 
 	 * @param visible
 	 */
-	public void updateCPView(boolean selected){
+	public void updateCPView(boolean selected) {
 		cbConsprot.setSelected(selected);
 	}
-
 
 }

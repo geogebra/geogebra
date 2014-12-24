@@ -20,37 +20,36 @@ import javax.swing.event.MenuListener;
  */
 abstract class BaseMenu extends JMenu implements MenuListener {
 	private static final long serialVersionUID = 2394839950861976156L;
-	
+
 	/**
 	 * An instance of the application.
 	 */
 	protected AppD app;
-	
+
 	protected boolean initialized = false;
 
 	/**
 	 * Construct a new sub-menu and assign the application attribute.
 	 * 
 	 * @param app
-	 * @param text		The title of this menu
+	 * @param text
+	 *            The title of this menu
 	 */
-	public BaseMenu(AppD app, String text)
-	{
+	public BaseMenu(AppD app, String text) {
 		super(text);
-		
+
 		this.app = app;
-		
+
 		// don't add any menu items until menu is opened
 		// makes GeoGebra load faster
 		addMenuListener(this);
 	}
-	
+
 	/**
 	 * Update this menu.
 	 */
 	public abstract void update();
-	
-	
+
 	/**
 	 * Set the shortcut for a menu item.
 	 * 
@@ -64,56 +63,57 @@ abstract class BaseMenu extends JMenu implements MenuListener {
 	}
 
 	/**
-	 * Set the shortcut for a menu item which requires SHIFT to be pressed as well. 
+	 * Set the shortcut for a menu item which requires SHIFT to be pressed as
+	 * well.
 	 * 
 	 * @param mi
 	 * @param acc
 	 */
 	protected void setMenuShortCutShiftAccelerator(JMenuItem mi, char acc) {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
-				.getMenuShortcutKeyMask()
-				+ Event.SHIFT_MASK);
+				.getMenuShortcutKeyMask() + Event.SHIFT_MASK);
 		mi.setAccelerator(ks);
 	}
-	
+
 	/**
-	 * Set the shortcut for a menu item which requires SHIFT + ALT to be pressed as well. 
+	 * Set the shortcut for a menu item which requires SHIFT + ALT to be pressed
+	 * as well.
 	 * 
 	 * @param mi
 	 * @param acc
 	 */
 	protected void setMenuShortCutShiftAltAccelerator(JMenuItem mi, char acc) {
 		KeyStroke ks = KeyStroke.getKeyStroke(acc, Toolkit.getDefaultToolkit()
-				.getMenuShortcutKeyMask()
-				+ Event.SHIFT_MASK + Event.ALT_MASK);
+				.getMenuShortcutKeyMask() + Event.SHIFT_MASK + Event.ALT_MASK);
 		mi.setAccelerator(ks);
 	}
-	
+
 	final public void menuDeselected(MenuEvent e) {
-		// nothing to do here		
+		// nothing to do here
 	}
 
 	final public void menuCanceled(MenuEvent e) {
-		// nothing to do here		
+		// nothing to do here
 	}
 
 	public void menuSelected(MenuEvent e) {
-		App.debug("Menu opening: "+getClass());
-			
+		App.debug("Menu opening: " + getClass());
+
 		if (getItemCount() == 0) {
 			App.debug("creating menu items");
-			//UIManager.put("Menu.acceleratorFont",  app.getPlainFont());
+			// UIManager.put("Menu.acceleratorFont", app.getPlainFont());
 			UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 			initialized = true;
-			//AbstractApplication.debug("building menu");
+			// AbstractApplication.debug("building menu");
 			initActions();
 			initItems();
 			update();
 			GeoGebraMenuBar.setMenuFontRecursive(this, app.getPlainFont());
-		} 
+		}
 	}
 
 	protected abstract void initActions();
+
 	protected abstract void initItems();
 
 }

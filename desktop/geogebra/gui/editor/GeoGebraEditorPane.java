@@ -46,7 +46,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		MouseListener, MouseMotionListener, FocusListener {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final int GEOGEBRA = 0;
 	private static final int LATEX = 1;
 	private static final int JAVASCRIPT = 2;
@@ -68,7 +68,9 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 
 	/**
 	 * Default Constructor
-	 * @param app app
+	 * 
+	 * @param app
+	 *            app
 	 *
 	 * @param rows
 	 *            the number of rows to use
@@ -80,10 +82,10 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		this.app = app;
 		this.rows = rows;
 		this.cols = cols;
-		
-		// TODO temporarily remove the caretListener 
+
+		// TODO temporarily remove the caretListener
 		// It causes a np exception with the PropertiesView.... why?
-		//	addCaretListener(this);
+		// addCaretListener(this);
 
 		addMouseMotionListener(this);
 		addMouseListener(this);
@@ -138,67 +140,53 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 		this.rowHeight = getFontMetrics(getFont()).getHeight();
 	}
 
-	public void updateFont(Font f){
-		((ViewContext)getEditorKit().getViewFactory()).setTokenFont(f);
+	public void updateFont(Font f) {
+		((ViewContext) getEditorKit().getViewFactory()).setTokenFont(f);
 		super.setFont(f);
 		revalidate();
 	}
-	
+
 	// =================================================================
 	//
-	// TODO These two methods are preventing the script editor from scrolling. Do we
+	// TODO These two methods are preventing the script editor from scrolling.
+	// Do we
 	// need them, can they be removed?
 
 	/**
 	 * {@inheritDoc}
 	 */
-	
-	/*
-	@Override
-	public Dimension getPreferredSize() {
-		Dimension dim = super.getPreferredSize();
-		dim = (dim == null) ? new Dimension(400, 400) : dim;
-		if (cols != 0) {
-			dim.width = cols * columnWidth;
-		}
-		if (rows != 0) {
-			dim.height = rows * rowHeight;
-		}
 
-		return dim;
-	}
-	*/
-	
+	/*
+	 * @Override public Dimension getPreferredSize() { Dimension dim =
+	 * super.getPreferredSize(); dim = (dim == null) ? new Dimension(400, 400) :
+	 * dim; if (cols != 0) { dim.width = cols * columnWidth; } if (rows != 0) {
+	 * dim.height = rows * rowHeight; }
+	 * 
+	 * return dim; }
+	 */
 
 	/**
 	 * {@inheritDoc}
 	 */
-	
+
 	/*
-	@Override
-	public Dimension getPreferredScrollableViewportSize() {
-		return new Dimension(cols * columnWidth, rows * rowHeight);
-	}
+	 * @Override public Dimension getPreferredScrollableViewportSize() { return
+	 * new Dimension(cols * columnWidth, rows * rowHeight); }
 	 */
-	
-	
+
 	// =================================================================
-	
-	
-	
-	
-	
+
 	/**
-	 * Returns preferred dimension for the given number of rows and columns
-	 * when using the current font.
+	 * Returns preferred dimension for the given number of rows and columns when
+	 * using the current font.
 	 * 
 	 * @param row
 	 * @param column
 	 * @return
 	 */
 	public Dimension getPreferredSizeFromRowColumn(int row, int column) {
-		
-		Dimension dim = new Dimension(400, 400); 
+
+		Dimension dim = new Dimension(400, 400);
 		if (column != 0) {
 			dim.width = cols * columnWidth;
 		}
@@ -208,10 +196,7 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 
 		return dim;
 	}
-	
-	
-	
-	
+
 	/**
 	 * Add a new KeywordListener
 	 *
@@ -291,9 +276,11 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 				if (rtok == GeoGebraLexerConstants.COMMAND) {
 					try {
 						HelpOnKeywordPanel panel = HelpOnKeywordPanel
-								.getInstance(app, getDocument().getText(
-										lexer.start + lexer.yychar(),
-										lexer.yylength()));
+								.getInstance(
+										app,
+										getDocument().getText(
+												lexer.start + lexer.yychar(),
+												lexer.yylength()));
 						Point p = this.getLocationOnScreen();
 						Rectangle r = modelToView(pos);
 						if (helpPopup != null) {
@@ -305,10 +292,9 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 						helpPopup.show();
 					} catch (BadLocationException ex) {
 						//
-					}
-					catch (IllegalComponentStateException ex) {			
+					} catch (IllegalComponentStateException ex) {
 						//
-					}				
+					}
 				}
 			} else {
 				if (helpPopup != null) {
@@ -482,7 +468,5 @@ public class GeoGebraEditorPane extends JEditorPane implements CaretListener,
 	public Point getMousePoint() {
 		return mousePoint;
 	}
-	
-	
 
 }

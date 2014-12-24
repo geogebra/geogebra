@@ -10,18 +10,18 @@ import java.text.DateFormat;
 
 import javax.swing.JFormattedTextField;
 
-public class MyFormattedTextField extends JFormattedTextField implements FocusListener, VirtualKeyboardListener {
-	
+public class MyFormattedTextField extends JFormattedTextField implements
+		FocusListener, VirtualKeyboardListener {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	GuiManagerD guiManager;
-	
+
 	public MyFormattedTextField(GuiManagerD guiManager) {
 		super();
 		this.guiManager = guiManager;
 		addFocusListener(this);
 
-		
 	}
 
 	public MyFormattedTextField(GuiManagerD guiManager, DateFormat date) {
@@ -35,37 +35,37 @@ public class MyFormattedTextField extends JFormattedTextField implements FocusLi
 	}
 
 	public void focusLost(FocusEvent e) {
-		guiManager.setCurrentTextfield(null, !(e.getOppositeComponent() instanceof VirtualKeyboard));
-		
+		guiManager.setCurrentTextfield(null,
+				!(e.getOppositeComponent() instanceof VirtualKeyboard));
+
 	}
-	
+
 	public void insertString(String text) {
 
 		int start = getSelectionStart();
-		int end = getSelectionEnd();        
-		//    clear selection if there is one
+		int end = getSelectionEnd();
+		// clear selection if there is one
 		if (start != end) {
 			int pos = getCaretPosition();
 			String oldText = getText();
 			StringBuilder sb = new StringBuilder();
 			sb.append(oldText.substring(0, start));
-			sb.append(oldText.substring(end));            
+			sb.append(oldText.substring(end));
 			setText(sb.toString());
-			if (pos < sb.length()) setCaretPosition(pos);
+			if (pos < sb.length())
+				setCaretPosition(pos);
 		}
 
-		
 		int pos = getCaretPosition();
 		String oldText = getText();
 		StringBuilder sb = new StringBuilder();
 		sb.append(oldText.substring(0, pos));
 		sb.append(text);
-		sb.append(oldText.substring(pos));            
+		sb.append(oldText.substring(pos));
 		setText(sb.toString());
 
 		setCaretPosition(pos + text.length());
-		
-		
+
 	}
 
 }

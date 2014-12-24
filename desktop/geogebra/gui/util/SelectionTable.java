@@ -1,7 +1,5 @@
 package geogebra.gui.util;
 
-
-
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.main.AppD;
 
@@ -37,7 +35,7 @@ import javax.swing.table.TableColumn;
 public class SelectionTable extends JTable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
 	private MyCellRenderer renderer;
 	private DefaultTableModel model;
@@ -45,8 +43,7 @@ public class SelectionTable extends JTable {
 	private int rollOverRow = -1;
 	private int rollOverColumn = -1;
 
-
-	private int sliderValue;	
+	private int sliderValue;
 
 	private int horizontalAlignment = SwingConstants.LEFT;
 
@@ -56,19 +53,16 @@ public class SelectionTable extends JTable {
 		this.showSelection = showSelection;
 	}
 
-
 	public void setHorizontalAlignment(int horizontalAlignment) {
 		this.horizontalAlignment = horizontalAlignment;
 	}
 
-
-
 	private Object[] data;
 	private int numRows, numColumns, rowHeight, columnWidth;
+
 	public int getColumnWidth() {
 		return columnWidth;
 	}
-
 
 	private Dimension iconSize;
 
@@ -80,34 +74,38 @@ public class SelectionTable extends JTable {
 	public void setAlpha(float alpha) {
 		this.alpha = alpha;
 	}
+
 	public void setFgColor(Color fgColor) {
 		this.fgColor = fgColor;
 		repaint();
 	}
+
 	public void setBgColor(Color bgColor) {
 		this.bgColor = bgColor;
 	}
 
-
 	boolean useColorSwatchBorder = false;
+
 	public void setUseColorSwatchBorder(boolean useColorSwatchBorder) {
 		this.useColorSwatchBorder = useColorSwatchBorder;
 		setCellDimensions();
 	}
 
 	private String[] toolTipArray = null;
+
 	/**
-	 * sets the tooTip strings for the selection table; 
-	 * the toolTipArray should have a 1-1 correspondence with the data array 
+	 * sets the tooTip strings for the selection table; the toolTipArray should
+	 * have a 1-1 correspondence with the data array
+	 * 
 	 * @param toolTipArray
 	 */
 	public void setToolTipArray(String[] toolTipArray) {
 		this.toolTipArray = toolTipArray;
 	}
 
-
 	/********************************************************
 	 * Constructor
+	 * 
 	 * @param app
 	 * @param data
 	 * @param rows
@@ -115,51 +113,49 @@ public class SelectionTable extends JTable {
 	 * @param iconSize
 	 * @param mode
 	 */
-	public SelectionTable(AppD app, Object[] data, int rows, int columns, Dimension iconSize, geogebra.common.gui.util.SelectionTable mode){
+	public SelectionTable(AppD app, Object[] data, int rows, int columns,
+			Dimension iconSize, geogebra.common.gui.util.SelectionTable mode) {
 
-		this.app = app;	
+		this.app = app;
 		this.mode = mode;
 		this.iconSize = iconSize;
-		if(mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)
+		if (mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)
 			data = createLatexIconArray((String[]) data);
 		this.data = data;
 
-		//=======================================
+		// =======================================
 		// determine the dimensions of the table
 
-		// rows = -1, cols = -1  ==> square table to fit data
-		if(rows == -1 && columns == -1){
+		// rows = -1, cols = -1 ==> square table to fit data
+		if (rows == -1 && columns == -1) {
 			rows = (int) Math.floor(Math.sqrt(data.length));
 			columns = (int) Math.ceil(1.0 * data.length / rows);
 		}
 
-		// rows = -1  ==> fixed cols, rows added to fit data
-		else if(rows == -1){
-			rows = (int) (Math.ceil(1.0 *data.length / columns));
+		// rows = -1 ==> fixed cols, rows added to fit data
+		else if (rows == -1) {
+			rows = (int) (Math.ceil(1.0 * data.length / columns));
 		}
 
 		// cols = -1 ==> fixed rows, cols added to fit data
-		else if(columns == -1){
+		else if (columns == -1) {
 			columns = (int) (1.0 * Math.ceil(data.length / rows));
 		}
-		
+
 		numRows = rows;
 		numColumns = columns;
-		
-		//=======================================
-		
-		
+
+		// =======================================
+
 		// set the table model with the data
 		populateModel(data);
 
-
-		//=======================================	
+		// =======================================
 		// set cell renderer
 		renderer = new MyCellRenderer();
 		this.setDefaultRenderer(Object.class, renderer);
 
-
-		//=======================================
+		// =======================================
 		// set various display properties
 		this.setAutoResizeMode(AUTO_RESIZE_OFF);
 		this.setAutoCreateColumnsFromModel(false);
@@ -175,7 +171,7 @@ public class SelectionTable extends JTable {
 		setCellSelectionEnabled(true);
 		setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-		//=======================================
+		// =======================================
 		// add listener for mouse roll over
 		RollOverListener rollOverListener = new RollOverListener();
 		addMouseMotionListener(rollOverListener);
@@ -183,73 +179,68 @@ public class SelectionTable extends JTable {
 
 	}
 
-
-
 	/** Disables cell editing */
 	@Override
-	public boolean isCellEditable(int rowIndex, int vColIndex) { 
-		return false; 
-	}  
+	public boolean isCellEditable(int rowIndex, int vColIndex) {
+		return false;
+	}
 
+	/** Loads a one dimensional array of data into the table model */
+	public void populateModel(Object[] data) {
 
-
-	/** Loads a one dimensional array of data into the table model*/
-	public void populateModel( Object [] data){
-		
 		model = new DefaultTableModel(numRows, numColumns);
-		int r=0;
-		int c=0;
-		
-		for(int i=0; i < Math.min(data.length, this.numRows * this.numColumns); i++){
+		int r = 0;
+		int c = 0;
+
+		for (int i = 0; i < Math.min(data.length, this.numRows
+				* this.numColumns); i++) {
 			model.setValueAt(data[i], r, c);
 			++c;
-			if(c == this.numColumns){
+			if (c == this.numColumns) {
 				c = 0;
 				++r;
 			}
 		}
-		
+
 		setModel(model);
 	}
 
-
-	public ImageIcon[] createLatexIconArray(String[] symbols){
+	public ImageIcon[] createLatexIconArray(String[] symbols) {
 		ImageIcon[] iconArray = new ImageIcon[symbols.length];
-		for(int i= 0; i < symbols.length; i++){
-			iconArray[i] = GeoGebraIcon.createLatexIcon(app, symbols[i], app.getPlainFont(), true, Color.BLACK, null);
+		for (int i = 0; i < symbols.length; i++) {
+			iconArray[i] = GeoGebraIcon.createLatexIcon(app, symbols[i],
+					app.getPlainFont(), true, Color.BLACK, null);
 		}
 		return iconArray;
 	}
 
-
-
-
 	// set cell dimensions
-	private void setCellDimensions(){
+	private void setCellDimensions() {
 
 		int padding = useColorSwatchBorder ? 1 : 4;
 
 		// match row height to specified icon height
-		// when mode=text then let font size adjust row height automatically  
-		if(!(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT || mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)){		
-			rowHeight = iconSize.height + padding;	
-		} else{
+		// when mode=text then let font size adjust row height automatically
+		if (!(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT || mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)) {
+			rowHeight = iconSize.height + padding;
+		} else {
 			rowHeight = getMaxRowHeight(this) + padding;
 		}
 
 		setRowHeight(rowHeight);
 
-
 		// set the column widths
 		columnWidth = iconSize.width + padding;
 		int w;
-		for (int i = 0; i < getColumnCount(); ++ i) {	
-			// for mode=text, adjust column width to the maximum width in the column	
-			if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT || mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX){
-				w = getMaxColumnWidth(this,i); 
+		for (int i = 0; i < getColumnCount(); ++i) {
+			// for mode=text, adjust column width to the maximum width in the
+			// column
+			if (mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT
+					|| mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX) {
+				w = getMaxColumnWidth(this, i);
 				getColumnModel().getColumn(i).setPreferredWidth(w);
 				columnWidth = Math.max(w, columnWidth);
-			}else{
+			} else {
 				getColumnModel().getColumn(i).setPreferredWidth(columnWidth);
 			}
 
@@ -257,17 +248,14 @@ public class SelectionTable extends JTable {
 		repaint();
 	}
 
-
-	public void updateFonts(){
+	public void updateFonts() {
 		setFont(app.getPlainFont());
 		setCellDimensions();
 	}
 
-
-	//==============================================
-	//    Listeners
-	//==============================================
-
+	// ==============================================
+	// Listeners
+	// ==============================================
 
 	private class RollOverListener extends MouseInputAdapter {
 
@@ -282,13 +270,13 @@ public class SelectionTable extends JTable {
 		public void mouseMoved(MouseEvent e) {
 			int row = rowAtPoint(e.getPoint());
 			int column = columnAtPoint(e.getPoint());
-			if( row != rollOverRow || column != rollOverColumn ) {
+			if (row != rollOverRow || column != rollOverColumn) {
 				rollOverRow = row;
 				rollOverColumn = column;
 
-				if(toolTipArray!=null){
-					int index = getColumnCount() * row  + column;
-					if(index < data.length)
+				if (toolTipArray != null) {
+					int index = getColumnCount() * row + column;
+					if (index < data.length)
 						setToolTipText(toolTipArray[index]);
 					else
 						setToolTipText(null);
@@ -298,35 +286,32 @@ public class SelectionTable extends JTable {
 		}
 	}
 
+	// ==============================================
+	// Getters/Setters
+	// ==============================================
 
-
-
-
-	//==============================================
-	//    Getters/Setters
-	//==============================================
-
-
-	public int getSelectedIndex(){
-		int index = this.getColumnCount() * this.getSelectedRow()  + this.getSelectedColumn();
-		if(index <-1) index = -1;
+	public int getSelectedIndex() {
+		int index = this.getColumnCount() * this.getSelectedRow()
+				+ this.getSelectedColumn();
+		if (index < -1)
+			index = -1;
 		return index;
 	}
 
-	public void setSelectedIndex(int index){
-		if(index == -1){
+	public void setSelectedIndex(int index) {
+		if (index == -1) {
 			this.clearSelection();
 			return;
 		}
-		int row = (int) Math.floor(index / getColumnCount()) ;
+		int row = (int) Math.floor(index / getColumnCount());
 		int column = index - (row * getColumnCount());
 		this.changeSelection(row, column, false, false);
 		rollOverRow = -1;
 		rollOverColumn = -1;
 	}
 
-	public Object getSelectedValue(){
-		if(getSelectedRow() != -1 && getSelectedColumn() != -1)
+	public Object getSelectedValue() {
+		if (getSelectedRow() != -1 && getSelectedColumn() != -1)
 			return model.getValueAt(getSelectedRow(), getSelectedColumn());
 		return null;
 	}
@@ -339,24 +324,23 @@ public class SelectionTable extends JTable {
 		this.sliderValue = sliderValue;
 	}
 
-
-	public Object[] getData(){
+	public Object[] getData() {
 		return data;
 	}
 
-
-
-	public ImageIcon getDataIcon(Object value){
+	public ImageIcon getDataIcon(Object value) {
 
 		ImageIcon icon = null;
-		if(value == null) return 
-		GeoGebraIcon.createEmptyIcon(1, 1);
-		//GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true, false, true, iconSize , Color.GRAY, null);
+		if (value == null)
+			return GeoGebraIcon.createEmptyIcon(1, 1);
+		// GeoGebraIcon.createStringIcon("\u00D8", app.getPlainFont(), true,
+		// false, true, iconSize , Color.GRAY, null);
 
-		switch (mode){
+		switch (mode) {
 
 		case MODE_IMAGE:
-			icon = GeoGebraIcon.createFileImageIcon( app, (String)value, alpha, iconSize);
+			icon = GeoGebraIcon.createFileImageIcon(app, (String) value, alpha,
+					iconSize);
 			break;
 
 		case MODE_ICON:
@@ -369,82 +353,77 @@ public class SelectionTable extends JTable {
 		return icon;
 	}
 
-
-	//==============================================
-	//    Cell Renderer
-	//==============================================
-
+	// ==============================================
+	// Cell Renderer
+	// ==============================================
 
 	class MyCellRenderer extends JLabel implements TableCellRenderer {
 
 		private static final long serialVersionUID = 1L;
-		
-		private Border normalBorder, selectedBorder, rollOverBorder, paddingBorder;
+
+		private Border normalBorder, selectedBorder, rollOverBorder,
+				paddingBorder;
 		private Color selectionColor, rollOverColor;
 
 		public MyCellRenderer() {
 
-			//TODO --- selection color should be centralized, not from spreadsheet
+			// TODO --- selection color should be centralized, not from
+			// spreadsheet
 
-			selectionColor =  geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR) ;
-			rollOverColor =  Color.LIGHT_GRAY;
+			selectionColor = geogebra.awt.GColorD
+					.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+			rollOverColor = Color.LIGHT_GRAY;
 
-			paddingBorder = BorderFactory.createEmptyBorder(0,5,0,5);
+			paddingBorder = BorderFactory.createEmptyBorder(0, 5, 0, 5);
 
 			rollOverBorder = BorderFactory.createLineBorder(Color.GRAY, 3);
 			normalBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
-			if(mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)
+			if (mode == geogebra.common.gui.util.SelectionTable.MODE_LATEX)
 				selectedBorder = rollOverBorder;
 			else
 				selectedBorder = BorderFactory.createLineBorder(Color.BLACK, 3);
 
 			setOpaque(true);
 			setHorizontalAlignment(CENTER);
-			setVerticalAlignment(CENTER);		
+			setVerticalAlignment(CENTER);
 
 		}
 
-
-		public Component getTableCellRendererComponent(JTable table, Object value,
-				boolean isSelected,boolean hasFocus, int row,int column) 
-		{
+		public Component getTableCellRendererComponent(JTable table,
+				Object value, boolean isSelected, boolean hasFocus, int row,
+				int column) {
 			setAlignmentX(CENTER_ALIGNMENT);
 			setAlignmentY(CENTER_ALIGNMENT);
 
-			if(mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT){
+			if (mode == geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 				this.setHorizontalAlignment(horizontalAlignment);
 				this.setVerticalAlignment(SwingConstants.CENTER);
-				setText((String)value);
-				setFont(app.getFontCanDisplayAwt((String)value, Font.PLAIN));
+				setText((String) value);
+				setFont(app.getFontCanDisplayAwt((String) value, Font.PLAIN));
 				setBorder(paddingBorder);
 
-			}else{		
+			} else {
 				setText("");
 				setIcon(getDataIcon(value));
 			}
 
-
-			if(useColorSwatchBorder){
+			if (useColorSwatchBorder) {
 				setBackground(table.getBackground());
 				if (showSelection && isSelected) {
 					setBorder(selectedBorder);
-				} 
-				else if(row == rollOverRow && column == rollOverColumn) {
+				} else if (row == rollOverRow && column == rollOverColumn) {
 					setBorder(rollOverBorder);
-				}
-				else{			
+				} else {
 					setBorder(normalBorder);
 				}
 
-			}else{
+			} else {
 
 				if (showSelection && isSelected) {
 					setBackground(selectionColor);
-				} 
-				else if(row == rollOverRow && column == rollOverColumn) {
+				} else if (row == rollOverRow && column == rollOverColumn) {
 					setBackground(rollOverColor);
-				}
-				else{
+				} else {
 					setBackground(table.getBackground());
 				}
 			}
@@ -453,25 +432,23 @@ public class SelectionTable extends JTable {
 		}
 	}
 
-
-
-
 	/**
 	 * Finds the maximum preferred width of a column.
 	 */
-	public int getMaxColumnWidth(JTable table, int column){
+	public int getMaxColumnWidth(JTable table, int column) {
 
-		TableColumn tableColumn = table.getColumnModel().getColumn(column); 
+		TableColumn tableColumn = table.getColumnModel().getColumn(column);
 
 		// iterate through the rows and find the preferred width
 		int maxPrefWidth = 0;
 		int colPrefWidth = 0;
 		for (int row = 0; row < table.getRowCount(); row++) {
-			if(table.getValueAt(row, column)!=null){
-				colPrefWidth = (int) table.getCellRenderer(row, column)
-				.getTableCellRendererComponent(table,
-						table.getValueAt(row, column), false, false,
-						row, column).getPreferredSize().getWidth();
+			if (table.getValueAt(row, column) != null) {
+				colPrefWidth = (int) table
+						.getCellRenderer(row, column)
+						.getTableCellRendererComponent(table,
+								table.getValueAt(row, column), false, false,
+								row, column).getPreferredSize().getWidth();
 				maxPrefWidth = Math.max(maxPrefWidth, colPrefWidth);
 			}
 		}
@@ -479,24 +456,25 @@ public class SelectionTable extends JTable {
 		return maxPrefWidth + table.getIntercellSpacing().width;
 	}
 
-
 	/**
 	 * Finds the maximum preferred height of all cells.
 	 */
-	public int getMaxRowHeight(JTable table){
+	public int getMaxRowHeight(JTable table) {
 
-		TableColumn tableColumn; 
+		TableColumn tableColumn;
 
 		// iterate through all cells
 		int maxPrefHeight = 0;
 		int cellPrefHeight = 0;
 		for (int r = 0; r < table.getRowCount(); r++) {
 			for (int c = 0; c < table.getColumnCount(); c++) {
-				tableColumn = table.getColumnModel().getColumn(c); 
-				if(table.getValueAt(r, c) != null){
-					cellPrefHeight = (int) table.getCellRenderer(r, c).getTableCellRendererComponent(table,
-							table.getValueAt(r, c), false, false,
-							r, c).getPreferredSize().getHeight();
+				tableColumn = table.getColumnModel().getColumn(c);
+				if (table.getValueAt(r, c) != null) {
+					cellPrefHeight = (int) table
+							.getCellRenderer(r, c)
+							.getTableCellRendererComponent(table,
+									table.getValueAt(r, c), false, false, r, c)
+							.getPreferredSize().getHeight();
 					maxPrefHeight = Math.max(maxPrefHeight, cellPrefHeight);
 				}
 			}

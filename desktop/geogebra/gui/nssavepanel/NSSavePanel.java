@@ -10,7 +10,7 @@ public class NSSavePanel {
 			throw new RuntimeException(err);
 		}
 	}
-	
+
 	public native String saveDialog(String title, String extension);
-	
+
 }

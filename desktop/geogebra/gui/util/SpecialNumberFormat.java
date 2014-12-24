@@ -14,31 +14,27 @@ import javax.swing.JRadioButtonMenuItem;
 
 /**
  * Utility class to support non-default number formatting in a component.
- * Includes methods to store a user-selected number format, to apply the format and
- * to create a "Rounding" menu.
+ * Includes methods to store a user-selected number format, to apply the format
+ * and to create a "Rounding" menu.
  * 
  * Code is adapted from gui.menubar.OptionsMenu
- *  
+ * 
  * @author G. Sturr
  * 
  */
 public class SpecialNumberFormat implements ActionListener {
 
-	
 	private AppD app;
 	private SpecialNumberFormatInterface invoker;
-	
+
 	private JMenu menuDecimalPlaces;
-	
+
 	/**
-	 * Default number format  
+	 * Default number format
 	 */
 	private int printFigures = -1;
 	private int printDecimals = 4;
-	
-	
-	
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -46,59 +42,57 @@ public class SpecialNumberFormat implements ActionListener {
 	 * @param invoker
 	 *            : the component utilizing this number format class
 	 */
-	public SpecialNumberFormat(AppD app, SpecialNumberFormatInterface invoker){
-		
+	public SpecialNumberFormat(AppD app, SpecialNumberFormatInterface invoker) {
+
 		this.app = app;
 		this.invoker = invoker;
 	}
-	
-	
-	
-	
+
 	public int getPrintFigures() {
 		return printFigures;
 	}
+
 	public int getPrintDecimals() {
 		return printDecimals;
 	}
-	
-	
+
 	/**
-	 * Converts number to string using the currently selected format 
-	 * @param x number
+	 * Converts number to string using the currently selected format
+	 * 
+	 * @param x
+	 *            number
 	 * @return formated string
 	 */
-	public String format(double x){
+	public String format(double x) {
 		StringTemplate highPrecision;
 		// override the default decimal place setting
-		if(printDecimals >= 0)
-			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA, printDecimals,false);
+		if (printDecimals >= 0)
+			highPrecision = StringTemplate.printDecimals(StringType.GEOGEBRA,
+					printDecimals, false);
 		else
-			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA, printFigures,false);
+			highPrecision = StringTemplate.printFigures(StringType.GEOGEBRA,
+					printFigures, false);
 
 		// get the formatted string
-		String result = app.getKernel().format(x,highPrecision);
+		String result = app.getKernel().format(x, highPrecision);
 
 		return result;
 	}
 
-	
-	
-	
 	/**
-	 * Creates a menu with number format options
-	 * Note: this menu is derived from 
+	 * Creates a menu with number format options Note: this menu is derived from
+	 * 
 	 * @return
 	 */
-	public JMenu createMenuDecimalPlaces(){
+	public JMenu createMenuDecimalPlaces() {
 		menuDecimalPlaces = new JMenu(app.getMenu("Rounding"));
 		String[] strDecimalSpaces = app.getLocalization().getRoundingMenu();
 
-		addRadioButtonMenuItems(menuDecimalPlaces, this,
-				strDecimalSpaces, App.strDecimalSpacesAC, 0);
+		addRadioButtonMenuItems(menuDecimalPlaces, this, strDecimalSpaces,
+				App.strDecimalSpacesAC, 0);
 
-		updateMenuDecimalPlaces(); 
-		
+		updateMenuDecimalPlaces();
+
 		return menuDecimalPlaces;
 	}
 
@@ -120,16 +114,14 @@ public class SpecialNumberFormat implements ActionListener {
 
 		try {
 			((JRadioButtonMenuItem) menuDecimalPlaces.getMenuComponent(pos))
-			.setSelected(true);
+					.setSelected(true);
 		} catch (Exception e) {
 		}
-		
-		app.setComponentOrientation(menuDecimalPlaces);
 
+		app.setComponentOrientation(menuDecimalPlaces);
 
 	}
 
-	
 	/**
 	 * Create a set of radio buttons automatically.
 	 * 
@@ -162,7 +154,6 @@ public class SpecialNumberFormat implements ActionListener {
 		}
 	}
 
-	
 	/**
 	 * Listener for the Rounding menu. Notifies the invoking component of a
 	 * format change with invoker.changedNumberFormat().
@@ -180,9 +171,9 @@ public class SpecialNumberFormat implements ActionListener {
 
 				printDecimals = decimals;
 				printFigures = -1;
-				
+
 				invoker.changedNumberFormat();
-				
+
 			} catch (Exception ex) {
 				app.showError(e.toString());
 			}
@@ -193,20 +184,17 @@ public class SpecialNumberFormat implements ActionListener {
 			try {
 				String decStr = cmd.substring(0, 2).trim();
 				int figures = Integer.parseInt(decStr);
-				//	 Application.debug("figures " + figures);
+				// Application.debug("figures " + figures);
 
 				printFigures = figures;
 				printDecimals = -1;
-				
+
 				invoker.changedNumberFormat();
-				
+
 			} catch (Exception ex) {
 				app.showError(e.toString());
 			}
 		}
 	}
 
-
-	
-	
 }

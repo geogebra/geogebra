@@ -25,12 +25,13 @@ public class InputDialogDilate extends InputDialogD {
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
-	
+
 	private EuclidianController ec;
 
 	public InputDialogDilate(AppD app, String title, InputHandler handler,
-			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel, EuclidianController ec) {
-		super(app.getFrame(), false,app.getLocalization());
+			GeoPointND[] points, GeoElement[] selGeos, Kernel kernel,
+			EuclidianController ec) {
+		super(app.getFrame(), false, app.getLocalization());
 
 		this.app = app;
 		inputHandler = handler;
@@ -38,7 +39,7 @@ public class InputDialogDilate extends InputDialogD {
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
-		
+
 		this.ec = ec;
 
 		createGUI(title, loc.getMenu("Dilate.Factor"), false, DEFAULT_COLUMNS,
@@ -121,7 +122,7 @@ public class InputDialogDilate extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void keyTyped(KeyEvent e) {

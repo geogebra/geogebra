@@ -47,8 +47,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.text.JTextComponent;
 
-public class InputDialogD extends geogebra.common.gui.dialog.InputDialog implements ActionListener,
-		WindowFocusListener, VirtualKeyboardListener, UpdateFonts, WindowListener {
+public class InputDialogD extends geogebra.common.gui.dialog.InputDialog
+		implements ActionListener, WindowFocusListener,
+		VirtualKeyboardListener, UpdateFonts, WindowListener {
 
 	protected AppD app;
 	protected final LocalizationD loc;
@@ -67,7 +68,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	protected JButton btApply, btCancel, btProperties, btOK, btHelp;
 
 	protected JCheckBox checkBox;
-	
+
 	protected JDialog wrappedDialog;
 
 	/**
@@ -83,6 +84,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		this(app, message, title, initString, autoComplete, handler, false,
 				false, null);
 	}
+
 	/**
 	 * @param app
 	 * @param message
@@ -93,11 +95,12 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	 * @param selectInitText
 	 */
 	public InputDialogD(AppD app, String message, String title,
-			String initString, boolean autoComplete, InputHandler handler,boolean selectInitText) {
+			String initString, boolean autoComplete, InputHandler handler,
+			boolean selectInitText) {
 		this(app, message, title, initString, autoComplete, handler, false,
 				selectInitText, null);
 	}
-	
+
 	/**
 	 * Creates a non-modal standard input dialog.
 	 * 
@@ -116,7 +119,6 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 				false, geo);
 	}
 
-	
 	/**
 	 * @param app
 	 * @param message
@@ -153,7 +155,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 			boolean modal, boolean selectInitText, GeoElement geo,
 			JCheckBox checkBox, DialogType type) {
 
-		this(app.getFrame(), modal,app.getLocalization());
+		this(app.getFrame(), modal, app.getLocalization());
 		this.app = app;
 		this.geo = geo;
 		this.inputHandler = handler;
@@ -177,13 +179,13 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		// prepare the input panel text selection
 		if (initString != null && selectInitText) {
 			inputPanel.selectText();
-		} 
+		}
 
 		// finalize the GUI
 		centerOnScreen();
-		
+
 		app.setComponentOrientation(wrappedDialog);
-		
+
 		wrappedDialog.setResizable(true);
 		wrappedDialog.pack();
 	}
@@ -194,7 +196,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 	 * @param frame
 	 * @param modal
 	 */
-	protected InputDialogD(JFrame frame, boolean modal,LocalizationD loc) {
+	protected InputDialogD(JFrame frame, boolean modal, LocalizationD loc) {
 		this.loc = loc;
 		this.wrappedDialog = new JDialog(frame, modal) {
 			@Override
@@ -418,7 +420,8 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 				setVisible(false);
 				tempArrayList.clear();
 				tempArrayList.add(geo);
-				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS, tempArrayList);
+				app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
+						tempArrayList);
 
 			}
 		} catch (Exception ex) {
@@ -427,8 +430,6 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		}
 		// setVisible(!finished);
 	}
-
-	
 
 	// ===================================================
 	// Visibility Handlers
@@ -466,63 +467,64 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog impleme
 		if (!wrappedDialog.isModal()) {
 			app.setSelectionListenerMode(sl);
 		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void windowLostFocus(WindowEvent arg0) {
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(null,
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(null,
 				!(arg0.getOppositeWindow() instanceof VirtualKeyboard));
 	}
-	
+
 	public JDialog getWrappedDialog() {
 		return wrappedDialog;
 	}
 
-
 	public void updateFonts() {
-		
+
 		Font font = app.getPlainFont();
-		
 
 		wrappedDialog.setFont(font);
-		
+
 		inputPanel.updateFonts();
 
 		btOK.setFont(font);
 		btCancel.setFont(font);
 		btApply.setFont(font);
 		btProperties.setFont(font);
-		
+
 	}
+
 	public void windowOpened(WindowEvent e) {
-		//not needed
+		// not needed
 	}
+
 	public void windowClosing(WindowEvent e) {
-		//not needed
+		// not needed
 	}
+
 	public void windowClosed(WindowEvent e) {
-		//this one is actually useful, overriden in subclass(es)
+		// this one is actually useful, overriden in subclass(es)
 	}
+
 	public void windowIconified(WindowEvent e) {
-		//not needed
-		
+		// not needed
+
 	}
+
 	public void windowDeiconified(WindowEvent e) {
-		//not needed
+		// not needed
 	}
+
 	public void windowActivated(WindowEvent e) {
-		//not needed
+		// not needed
 	}
+
 	public void windowDeactivated(WindowEvent e) {
-		//not needed
+		// not needed
 	}
 
 	public void handleDialogVisibilityChange(boolean isVisible) {
 		// to be overridden by subclasses
 	}
-
-
-
-
 
 }

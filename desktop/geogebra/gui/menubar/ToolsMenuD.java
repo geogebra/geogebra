@@ -14,27 +14,26 @@ import javax.swing.AbstractAction;
 class ToolsMenuD extends BaseMenu {
 	private static final long serialVersionUID = -2012951866084095682L;
 
-	private AbstractAction
-		toolbarConfigAction,
-		showCreateToolsAction,
-		showManageToolsAction
-	;
-	
+	private AbstractAction toolbarConfigAction, showCreateToolsAction,
+			showManageToolsAction;
+
 	/**
 	 * Creates tools menu
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public ToolsMenuD(AppD app) {
 		super(app, app.getMenu("Tools"));
-		
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
 	}
-	
+
 	/**
 	 * Initialize the menu items.
 	 */
-	private void updateItems()
-	{
+	private void updateItems() {
 		if (!initialized) {
 			// menus not created yet, so nothing to do
 			return;
@@ -51,16 +50,14 @@ class ToolsMenuD extends BaseMenu {
 		app.setComponentOrientation(this);
 
 	}
-	
+
 	/**
 	 * Initialize the actions.
 	 */
 	@Override
-	protected void initActions()
-	{
-		toolbarConfigAction = new AbstractAction(app
-				.getMenu("Toolbar.Customize")
-				+ " ...", app.getEmptyIcon()) {
+	protected void initActions() {
+		toolbarConfigAction = new AbstractAction(
+				app.getMenu("Toolbar.Customize") + " ...", app.getEmptyIcon()) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -68,9 +65,9 @@ class ToolsMenuD extends BaseMenu {
 			}
 		};
 
-		showCreateToolsAction = new AbstractAction(app
-				.getMenu("Tool.CreateNew")
-				+ " ...", app.getImageIcon("tool.png")) {
+		showCreateToolsAction = new AbstractAction(
+				app.getMenu("Tool.CreateNew") + " ...",
+				app.getImageIcon("tool.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -91,7 +88,7 @@ class ToolsMenuD extends BaseMenu {
 	}
 
 	@Override
-	public void update() {		
+	public void update() {
 		updateItems();
 	}
 

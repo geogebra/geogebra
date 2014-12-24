@@ -178,7 +178,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				// System.out.println("Window Closing");
 				// if closed with the X, stop it auto-opening
 				AppD.setVirtualKeyboardActive(false);
-				((GuiManagerD)app.getGuiManager()).updateMenubar();
+				((GuiManagerD) app.getGuiManager()).updateMenubar();
 			}
 
 			public void windowDeactivated(WindowEvent arg0) {
@@ -266,12 +266,12 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			cpWidth = windowWidth;
 		if (cpHeight == 0)
 			cpHeight = windowHeight;
-		if(getKeyboardMode()==KEYBOARD_NUMERIC){
+		if (getKeyboardMode() == KEYBOARD_NUMERIC) {
 			buttonSizeX = 0.15 + cpWidth / (buttonColsNum - 0.0);
 			buttonSizeY = 0.25 + cpHeight / (buttonRowsNum + 1.0);
-		}else{
+		} else {
 			buttonSizeX = 0.15 + (double) cpWidth / (double) (buttonCols);
-			buttonSizeY = 0.25 + (double) cpHeight / (double) (buttonRows + 1);	
+			buttonSizeY = 0.25 + (double) cpHeight / (double) (buttonRows + 1);
 		}
 		// if (buttonSize < 20) buttonSize = 20;
 
@@ -290,19 +290,25 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	}
 
 	public void updateButtons() {
-		if(getKeyboardMode()==KEYBOARD_NUMERIC && !shrink){
+		if (getKeyboardMode() == KEYBOARD_NUMERIC && !shrink) {
 			shrink = true;
 			windowResized();
-			/*int baseWidth = (int) (windowWidth*buttonColsNum/(double)buttonCols);
-			setSize(baseWidth,windowHeight);
-			setPreferredSize(new Dimension(baseWidth,windowHeight));*/
+			/*
+			 * int baseWidth = (int)
+			 * (windowWidth*buttonColsNum/(double)buttonCols);
+			 * setSize(baseWidth,windowHeight); setPreferredSize(new
+			 * Dimension(baseWidth,windowHeight));
+			 */
 		}
-		if(getKeyboardMode()!=KEYBOARD_NUMERIC && shrink){
+		if (getKeyboardMode() != KEYBOARD_NUMERIC && shrink) {
 			shrink = false;
 			windowResized();
-			/*int baseWidth = (int) (windowWidth*buttonCols/(double)buttonColsNum);
-			setSize(baseWidth,windowHeight);
-			setPreferredSize(new Dimension(baseWidth,windowHeight));*/
+			/*
+			 * int baseWidth = (int)
+			 * (windowWidth*buttonCols/(double)buttonColsNum);
+			 * setSize(baseWidth,windowHeight); setPreferredSize(new
+			 * Dimension(baseWidth,windowHeight));
+			 */
 		}
 		for (int i = 1; i <= buttonRows; i++)
 			for (int j = 0; j < buttonCols; j++)
@@ -360,7 +366,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				(int) buttonSizeY));
 		SpaceButton.setLocation(new Point((int) (buttonSizeX * 4d),
 				(int) (buttonSizeY * 4d)));
-		SpaceButton.setVisible(getKeyboardMode()!=KEYBOARD_NUMERIC);
+		SpaceButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 
 	}
 
@@ -373,7 +379,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		CapsLockButton.setFont(getFont((int) (minButtonSize()), false));
 
 		setColor(CapsLockButton);
-		CapsLockButton.setVisible(getKeyboardMode()!=KEYBOARD_NUMERIC);
+		CapsLockButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 	}
 
 	void updateCtrlButton() {
@@ -383,7 +389,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				(int) (buttonSizeY * 4d)));
 
 		CtrlButton.setFont(getFont((int) (minButtonSize() / 2), false));
-		CtrlButton.setVisible(getKeyboardMode()!=KEYBOARD_NUMERIC);
+		CtrlButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 		setColor(CtrlButton);
 	}
 
@@ -396,7 +402,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		AltButton.setFont(getFont((int) (minButtonSize() / 2), false));
 
 		setColor(AltButton);
-		AltButton.setVisible(getKeyboardMode()!=KEYBOARD_NUMERIC);
+		AltButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 		if (sbAlt != null)
 			sbAlt.setLength(0);
 	}
@@ -408,7 +414,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				(int) (buttonSizeY * 4d)));
 
 		AltGrButton.setFont(getFont((int) (minButtonSize() / 2), false));
-		AltGrButton.setVisible(getKeyboardMode()!=KEYBOARD_NUMERIC);
+		AltGrButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 		setColor(AltGrButton);
 
 	}
@@ -420,17 +426,17 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				(int) (buttonSizeY * 4d)));
 
 		MathButton.setFont(getFont((int) (minButtonSize()), false));
-		MathButton.setVisible(getKeyboardMode()!=KEYBOARD_NUMERIC);
+		MathButton.setVisible(getKeyboardMode() != KEYBOARD_NUMERIC);
 		setColor(MathButton);
 	}
-	
+
 	private void updateNumericButton() {
-		NumericButton
-				.setSize(new Dimension((int) (buttonSizeX), (int) buttonSizeY));
-		if(getKeyboardMode()!=KEYBOARD_NUMERIC){
+		NumericButton.setSize(new Dimension((int) (buttonSizeX),
+				(int) buttonSizeY));
+		if (getKeyboardMode() != KEYBOARD_NUMERIC) {
 			NumericButton.setLocation(new Point((int) (buttonSizeX * 13),
-				(int) (buttonSizeY * 4d)));
-		}else{
+					(int) (buttonSizeY * 4d)));
+		} else {
 			NumericButton.setLocation(new Point((int) (buttonSizeX * 10),
 					(int) (buttonSizeY * 2d)));
 		}
@@ -450,11 +456,10 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	private void updateGreekButton() {
 		GreekButton.setSize(new Dimension((int) (buttonSizeX),
 				(int) buttonSizeY));
-		if(getKeyboardMode()!=KEYBOARD_NUMERIC){
-		GreekButton.setLocation(new Point((int) (buttonSizeX * 12),
-				(int) (buttonSizeY * 4d)));
-		}
-		else{
+		if (getKeyboardMode() != KEYBOARD_NUMERIC) {
+			GreekButton.setLocation(new Point((int) (buttonSizeX * 12),
+					(int) (buttonSizeY * 4d)));
+		} else {
 			GreekButton.setLocation(new Point((int) (buttonSizeX * 10),
 					(int) (buttonSizeY * 1d)));
 		}
@@ -467,14 +472,13 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	private void updateEnglishButton() {
 		EnglishButton.setSize(new Dimension((int) (buttonSizeX),
 				(int) buttonSizeY));
-		if(getKeyboardMode()!=KEYBOARD_NUMERIC){
-		EnglishButton.setLocation(new Point((int) (buttonSizeX * 11),
-				(int) (buttonSizeY * 4d)));
-	}
-	else{
-		EnglishButton.setLocation(new Point((int) (buttonSizeX * 10),
-				(int) (buttonSizeY * 0d)));
-	}
+		if (getKeyboardMode() != KEYBOARD_NUMERIC) {
+			EnglishButton.setLocation(new Point((int) (buttonSizeX * 11),
+					(int) (buttonSizeY * 4d)));
+		} else {
+			EnglishButton.setLocation(new Point((int) (buttonSizeX * 10),
+					(int) (buttonSizeY * 0d)));
+		}
 		EnglishButton.setFont(getFont((int) (minButtonSize()), false));
 
 		EnglishButton.setVisible(true);
@@ -579,9 +583,11 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}
 		return MathButton;
 	}
-	public void toggleNumeric(boolean numeric){
+
+	public void toggleNumeric(boolean numeric) {
 		setMode(numeric ? KEYBOARD_NUMERIC : KEYBOARD_NORMAL, null);
 	}
+
 	private JToggleButton getNumericButton() {
 		if (NumericButton == null) {
 
@@ -590,19 +596,20 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			NumericButton.setToolTipText(app.getMenu("Keyboard.Numeric"));
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));
-			NumericButton.addActionListener(new java.awt.event.ActionListener() {
-				public void actionPerformed(java.awt.event.ActionEvent e) {
+			NumericButton
+					.addActionListener(new java.awt.event.ActionListener() {
+						public void actionPerformed(java.awt.event.ActionEvent e) {
 
-					getGreekButton().setSelected(false);
-					getEnglishButton().setSelected(false);
+							getGreekButton().setSelected(false);
+							getEnglishButton().setSelected(false);
 
-					if (getKeyboardMode() != KEYBOARD_NUMERIC)
-						setMode(KEYBOARD_NUMERIC, null);
-					else
-						setMode(KEYBOARD_NORMAL, null);
+							if (getKeyboardMode() != KEYBOARD_NUMERIC)
+								setMode(KEYBOARD_NUMERIC, null);
+							else
+								setMode(KEYBOARD_NORMAL, null);
 
-				}
-			});
+						}
+					});
 		}
 		return NumericButton;
 	}
@@ -723,7 +730,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 				setMode(KEYBOARD_SOLIDUS, kbLocale);
 				return;
 
-			//case '\u0060': // grave
+				// case '\u0060': // grave
 			case '\u0300': // combining grave
 				setMode(KEYBOARD_GRAVE, kbLocale);
 				return;
@@ -800,8 +807,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 					updateAltButton();
 
 					// type Unicode char
-					((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(c + "",
-							false, false, false);
+					((GuiManagerD) app.getGuiManager())
+							.insertStringIntoTextfield(c + "", false, false,
+									false);
 
 					asb.setLength(0);
 					return;
@@ -823,16 +831,16 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		}
 
 		if (app != null)
-			((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(addchar,
-					getAltButton().isSelected(), getCtrlButton().isSelected(),
-					getCapsLockButton().isSelected());
+			((GuiManagerD) app.getGuiManager()).insertStringIntoTextfield(
+					addchar, getAltButton().isSelected(), getCtrlButton()
+							.isSelected(), getCapsLockButton().isSelected());
 		else
 			getKeyboard().doType(getAltButton().isSelected(),
 					getCtrlButton().isSelected(),
 					getCapsLockButton().isSelected(), addchar);
 
 		// no special keys pressed, reset to normal (except eg Greek)
-		if(getKeyboardMode()!=KEYBOARD_NUMERIC)
+		if (getKeyboardMode() != KEYBOARD_NUMERIC)
 			setMode(KEYBOARD_NORMAL, kbLocale);
 
 	}
@@ -907,7 +915,8 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (ret1 == null)
 			App.debug("KB Error: " + sb.toString());
 
-		sb.append(getKeyboardMode()); // append 'A' for acute , ' ' for default etc
+		sb.append(getKeyboardMode()); // append 'A' for acute , ' ' for default
+										// etc
 
 		KeyboardKeys ret2 = myKeys.get(sb.toString());
 
@@ -932,7 +941,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 					.getLowerCase();
 
 			Buttons[i][j].setText(processSpecialKeys(text));
-			
+
 			Buttons[i][j].addMouseListener(new MouseAdapter() {
 				@Override
 				public void mousePressed(MouseEvent e) {
@@ -1003,11 +1012,11 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	}
 
 	private String processSpecialKeys(String text) {
-		
+
 		// check first for speed
 		if (!text.startsWith("<"))
 			return text;
-		
+
 		if (text.equals("<enter>"))
 			return unicodeString('\u21b2', "");
 		if (text.equals("<backspace>"))
@@ -1025,11 +1034,11 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (text.equals("<E>"))
 			return "\u00D710\u207F"; // *10^n
 		if (text.equals("<multiply>"))
-			return Unicode.multiply+"";
+			return Unicode.multiply + "";
 		if (text.equals("<divide>"))
 			return Unicode.divide;
 		if (text.equals("<minus>"))
-			return Unicode.minus+"";
+			return Unicode.minus + "";
 		return text;
 	}
 
@@ -1050,20 +1059,23 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		} else {
 			Buttons[i][j].setText(processSpecialKeys(k.getLowerCase()));
 		}
-		if(getKeyboardMode()==KEYBOARD_NUMERIC && (i>5 || j>6 || (i==5 && j >4))){
+		if (getKeyboardMode() == KEYBOARD_NUMERIC
+				&& (i > 5 || j > 6 || (i == 5 && j > 4))) {
 			Buttons[i][j].setVisible(false);
-		}else{
+		} else {
 			Buttons[i][j].setVisible(true);
 		}
-		setTooltip(i,j);
+		setTooltip(i, j);
 		// skip a row (for spacebar etc)
 		int ii = (i == 5 && getKeyboardMode() != KEYBOARD_NUMERIC) ? 6 : i;
 
 		int height = (int) buttonSizeY;
 		int width = (int) buttonSizeX;
 		int xOffset = 0;
-		if(getKeyboardMode() == KEYBOARD_NUMERIC)
-			xOffset = (j>0 ?1:0)+(j>1 && i<5 ?1:0)+(j>2?1:0) +(j>2 && i<5?1:0)+ (j>4?1:0) +(i==5 && j>0?7:0);
+		if (getKeyboardMode() == KEYBOARD_NUMERIC)
+			xOffset = (j > 0 ? 1 : 0) + (j > 1 && i < 5 ? 1 : 0)
+					+ (j > 2 ? 1 : 0) + (j > 2 && i < 5 ? 1 : 0)
+					+ (j > 4 ? 1 : 0) + (i == 5 && j > 0 ? 7 : 0);
 		// enter key: double height
 		if (i == 3 && j == 13)
 			Buttons[i][j].setVisible(getKeyboardMode() == KEYBOARD_MATH);
@@ -1074,10 +1086,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (i == 5 && j == 0 && getKeyboardMode() == KEYBOARD_NUMERIC)
 			width *= 4.5;
 
-		Buttons[i][j]
-				.setBounds(new Rectangle((int) (0.5 + buttonSizeX * (j+0.5*xOffset)),
-						(int) (0.5 + buttonSizeY * (ii - 1)),
-						width, height));
+		Buttons[i][j].setBounds(new Rectangle((int) (0.5 + buttonSizeX
+				* (j + 0.5 * xOffset)), (int) (0.5 + buttonSizeY * (ii - 1)),
+				width, height));
 
 		String text = Buttons[i][j].getText();
 		int len = text.length();
@@ -1092,14 +1103,12 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 			// make sure extra-wide characters fit (eg <=> \u21d4 )
 
-
-				FontRenderContext frc = new FontRenderContext(null, true, true);
-				double wideCharWidth = getCurrentFont().getStringBounds(
-						wideChar + "", frc).getWidth();
-				double charWidth = getCurrentFont().getStringBounds(text, frc)
-						.getWidth();
-				boolean oversize = charWidth > wideCharWidth;
-
+			FontRenderContext frc = new FontRenderContext(null, true, true);
+			double wideCharWidth = getCurrentFont().getStringBounds(
+					wideChar + "", frc).getWidth();
+			double charWidth = getCurrentFont().getStringBounds(text, frc)
+					.getWidth();
+			boolean oversize = charWidth > wideCharWidth;
 
 			if (oversize) {
 				Buttons[i][j].setFont(getFont((int) minButtonSize() * 10 / 12,
@@ -1113,12 +1122,12 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 			int width2 = fm.stringWidth(Buttons[i][j].getText()); // wide arrow
 																	// <=>
 			int w2 = fm.stringWidth(wideChar + "");
-			if (i == 4 && j==2 && getKeyboardMode()==KEYBOARD_NUMERIC){
-				Buttons[i][j].setFont(getFont((int) (minButtonSize() * 1.5* w2 / width2),
-						false));	
-			}else{
-			Buttons[i][j].setFont(getFont((int) (minButtonSize() * w2 / width2),
-					false));
+			if (i == 4 && j == 2 && getKeyboardMode() == KEYBOARD_NUMERIC) {
+				Buttons[i][j].setFont(getFont(
+						(int) (minButtonSize() * 1.5 * w2 / width2), false));
+			} else {
+				Buttons[i][j].setFont(getFont(
+						(int) (minButtonSize() * w2 / width2), false));
 			}
 		}
 
@@ -1126,27 +1135,24 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 
 	private void setTooltip(int i, int j) {
 		String text = null;
-		if(getKeyboardMode()==KEYBOARD_NUMERIC){
+		if (getKeyboardMode() == KEYBOARD_NUMERIC) {
 			String src = Buttons[i][j].getText();
-			if(":=".equals(src)){
+			if (":=".equals(src)) {
 				text = "Assignment";
-			}
-			else if("$".equals(src)){
+			} else if ("$".equals(src)) {
 				text = "DynamicReference";
-			}
-			else if("#".equals(src)){
+			} else if ("#".equals(src)) {
 				text = "StaticReference";
-			}
-			else if((Unicode.VECTOR_PRODUCT+"").equals(src)){
+			} else if ((Unicode.VECTOR_PRODUCT + "").equals(src)) {
 				text = "VectorProduct";
 			}
-			
-			if(text!=null)
-				text = app.getMenu("Symbol."+text);
+
+			if (text != null)
+				text = app.getMenu("Symbol." + text);
 		}
-		
+
 		Buttons[i][j].setToolTipText(text);
-		
+
 	}
 
 	private Font getCurrentFont() {
@@ -1343,9 +1349,9 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	}
 
 	private void insertAutoRepeatString() {
-		((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(timerInsertStr,
-				getAltButton().isSelected(), getCtrlButton().isSelected(),
-				getCapsLockButton().isSelected());
+		((GuiManagerD) app.getGuiManager()).insertStringIntoTextfield(
+				timerInsertStr, getAltButton().isSelected(), getCtrlButton()
+						.isSelected(), getCapsLockButton().isSelected());
 	}
 
 	final void stopAutoRepeat() {
@@ -1367,7 +1373,6 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		this.windowHeight = windowHeight;
 		setSize(windowWidth, windowHeight);
 	}
-
 
 	public void setKeyboardOpacity(float opacity) {
 		this.opacity = opacity;

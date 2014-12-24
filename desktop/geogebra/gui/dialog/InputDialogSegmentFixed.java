@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.WindowEvent;
 
 /**
- *	Dialog for "Segment with given length" tool
+ * Dialog for "Segment with given length" tool
  */
 public class InputDialogSegmentFixed extends InputDialogD {
 
@@ -76,6 +76,6 @@ public class InputDialogSegmentFixed extends InputDialogD {
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 }

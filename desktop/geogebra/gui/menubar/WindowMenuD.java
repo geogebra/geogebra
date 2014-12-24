@@ -18,27 +18,25 @@ import javax.swing.UIManager;
  */
 class WindowMenuD extends BaseMenu {
 	private static final long serialVersionUID = -5087344097832121548L;
-	
-	private AbstractAction
-		newWindowAction
-	;
+
+	private AbstractAction newWindowAction;
 
 	public WindowMenuD(AppD app) {
 		super(app, app.getMenu("Window"));
 
-		// items are added to the menu when it's opened, see BaseMenu: addMenuListener(this);
+		// items are added to the menu when it's opened, see BaseMenu:
+		// addMenuListener(this);
 	}
-	
+
 	/**
 	 * Initialize and update the items.
 	 */
 	@Override
-	public void initItems()
-	{
+	public void initItems() {
 		if (!initialized) {
 			return;
 		}
-		
+
 		removeAll();
 		JMenuItem mit = add(newWindowAction);
 		setMenuShortCutAccelerator(mit, 'N');
@@ -52,15 +50,16 @@ class WindowMenuD extends BaseMenu {
 		StringBuilder sb = new StringBuilder();
 		ButtonGroup bg = new ButtonGroup();
 		JRadioButtonMenuItem mi;
-		
+
 		int current = -1;
-		
+
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = ggbInstances.get(i);
 			AppD application = ggb.getApplication();
-			if (app == application) current = i;
+			if (app == application)
+				current = i;
 		}
-		
+
 		for (int i = 0; i < size; i++) {
 			GeoGebraFrame ggb = ggbInstances.get(i);
 			AppD application = ggb.getApplication();
@@ -78,25 +77,26 @@ class WindowMenuD extends BaseMenu {
 				mi.setSelected(true);
 			ActionListener al = new RequestFocusListener(ggb);
 			mi.addActionListener(al);
-			if (i == ((current+1)%size) ) setMenuShortCutShiftAccelerator(mi, 'N');
-			else if (i == ((current-1+size)%size) ) setMenuShortCutShiftAltAccelerator(mi, 'N');
+			if (i == ((current + 1) % size))
+				setMenuShortCutShiftAccelerator(mi, 'N');
+			else if (i == ((current - 1 + size) % size))
+				setMenuShortCutShiftAltAccelerator(mi, 'N');
 			bg.add(mi);
 			add(mi);
 		}
-		
+
 		// support for right-to-left languages
 		app.setComponentOrientation(this);
 
 	}
-	
+
 	/**
 	 * Initialize the actions.
 	 */
 	@Override
-	protected void initActions()
-	{
-		newWindowAction = new AbstractAction(app.getMenu("NewWindow"), app
-				.getImageIcon("document-new.png")) {
+	protected void initActions() {
+		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
+				app.getImageIcon("document-new.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

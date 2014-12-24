@@ -35,7 +35,8 @@ public class GeoGebraContext extends ViewContext {
 	/**
 	 * TOKENS : A Map which contains the names of keywords
 	 */
-	public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(14);
+	public static final Map<String, Integer> TOKENS = new HashMap<String, Integer>(
+			14);
 
 	static {
 		TOKENS.put("Default", LexerConstants.DEFAULT);
@@ -78,11 +79,9 @@ public class GeoGebraContext extends ViewContext {
 
 	private static final Map<String, Integer> attribMap = new HashMap<String, Integer>();
 
-	/* 0 for nothing
-	 * 1 to underline
-	 * 2 to stroke
-	 * 4 to highlight
-	 * Just add 1,2 & 4 to combine
+	/*
+	 * 0 for nothing 1 to underline 2 to stroke 4 to highlight Just add 1,2 & 4
+	 * to combine
 	 */
 	static {
 		attribMap.put("Default", 0);

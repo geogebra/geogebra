@@ -133,7 +133,8 @@ public class CheckboxCreationDialog extends JDialog implements
 
 		// create caption panel
 		JLabel captionLabel = new JLabel(loc.getMenu("Button.Caption") + ":");
-		String initString = geoBoolean == null ? "" : geoBoolean.getCaption(StringTemplate.defaultTemplate);
+		String initString = geoBoolean == null ? "" : geoBoolean
+				.getCaption(StringTemplate.defaultTemplate);
 		InputPanelD ip = new InputPanelD(initString, app, 1, 15, true);
 		tfCaption = ip.getTextComponent();
 		if (tfCaption instanceof AutoCompleteTextFieldD) {
@@ -172,7 +173,7 @@ public class CheckboxCreationDialog extends JDialog implements
 
 		// Make this dialog display it.
 		setContentPane(optionPane);
-		
+
 		app.setComponentOrientation(this);
 	}
 

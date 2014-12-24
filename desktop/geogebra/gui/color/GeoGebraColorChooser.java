@@ -11,81 +11,82 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.colorchooser.DefaultColorSelectionModel;
 
 /**
- * Extends JColorChooser to do the following:
- * 1) Replace the default color chooser panels with an instance of GeoGebraColorChooserPanel
- * 2) Handle null color selection 
- * 3) Localize dialog button strings using GeoGebra properties
+ * Extends JColorChooser to do the following: 1) Replace the default color
+ * chooser panels with an instance of GeoGebraColorChooserPanel 2) Handle null
+ * color selection 3) Localize dialog button strings using GeoGebra properties
  * 
  * @author G Sturr
  *
  */
-public class GeoGebraColorChooser extends JColorChooser{
-	
+public class GeoGebraColorChooser extends JColorChooser {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
-	
-	public GeoGebraColorChooser(AppD app){
+
+	public GeoGebraColorChooser(AppD app) {
 		this.app = app;
 		setSelectionModel(new MyColorSelectionModel());
-		
+
 		// remove default chooser panels and replace with our custom panel
-		AbstractColorChooserPanel panels[] = { new GeoGebraColorChooserPanel(app) };
+		AbstractColorChooserPanel panels[] = { new GeoGebraColorChooserPanel(
+				app) };
 		setChooserPanels(panels);
-		
+
 		// hide the default preview panel
 		setPreviewPanel(new JLabel());
-		
+
 		setLabels();
 	}
-	
+
 	private boolean isNullSelection = false;
-	
+
 	/**
-	 * Returns true is the current color selection should be treated as a null selection.
-	 * (JColorChooser cannot handle a null selected color)
+	 * Returns true is the current color selection should be treated as a null
+	 * selection. (JColorChooser cannot handle a null selected color)
+	 * 
 	 * @return
 	 */
 	public boolean isNullSelection() {
 		return isNullSelection;
 	}
 
-	
-	protected class MyColorSelectionModel extends DefaultColorSelectionModel{
+	protected class MyColorSelectionModel extends DefaultColorSelectionModel {
 		private static final long serialVersionUID = 1L;
+
 		@Override
-		public void setSelectedColor(Color color){
+		public void setSelectedColor(Color color) {
 			boolean isNullColor = color == null;
-			
-			// set the null selection flag 
-			if(!isNullColor == isNullSelection){
+
+			// set the null selection flag
+			if (!isNullColor == isNullSelection) {
 				isNullSelection = isNullColor;
-				// super.setSelectedColor() does not always fire state changed events,
+				// super.setSelectedColor() does not always fire state changed
+				// events,
 				// e.g. when the new color is the same as the old one
-				fireStateChanged();	 		
+				fireStateChanged();
 			}
-			super.setSelectedColor(color); 
+			super.setSelectedColor(color);
 		}
 	}
-	
-	
-	public void setLabels(){
-		
-		UIManager.put("ColorChooser.okText",app.getPlain("OK"));
+
+	public void setLabels() {
+
+		UIManager.put("ColorChooser.okText", app.getPlain("OK"));
 		UIManager.put("ColorChooser.cancelText", app.getPlain("Cancel"));
 		UIManager.put("ColorChooser.resetText", app.getMenu("Reset"));
-		
+
 		AbstractColorChooserPanel[] panels = getChooserPanels();
-		for(int i=0; i<panels.length; i++){
+		for (int i = 0; i < panels.length; i++) {
 			AbstractColorChooserPanel panel = panels[i];
 			if (panel instanceof GeoGebraColorChooserPanel)
 				((GeoGebraColorChooserPanel) panel).setLabels();
 		}
 	}
-	
-	public void updateFonts(){
+
+	public void updateFonts() {
 		AbstractColorChooserPanel[] panels = getChooserPanels();
-		for(int i=0; i<panels.length; i++){
+		for (int i = 0; i < panels.length; i++) {
 			AbstractColorChooserPanel panel = panels[i];
 			if (panel instanceof GeoGebraColorChooserPanel)
 				((GeoGebraColorChooserPanel) panel).updateFonts();

@@ -15,14 +15,14 @@ import javax.swing.ImageIcon;
 import javax.swing.border.AbstractBorder;
 
 /**
- * Extended Border class that adds simulated buttons to the right border of a JTextField.
- * See MyTextField and AutoCompleteTextField for usage.
+ * Extended Border class that adds simulated buttons to the right border of a
+ * JTextField. See MyTextField and AutoCompleteTextField for usage.
  * 
  * @author G. Sturr
  *
  */
-public class BorderButtonD extends AbstractBorder
-implements MouseListener, MouseMotionListener{
+public class BorderButtonD extends AbstractBorder implements MouseListener,
+		MouseMotionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -38,12 +38,12 @@ implements MouseListener, MouseMotionListener{
 	private ActionListener[] al;
 	private Cursor otherCursor = Cursor.getDefaultCursor();
 	private boolean isMouseOverIconRegion = false;
-	
-	private int maxIconCount = 4;
 
+	private int maxIconCount = 4;
 
 	/**************************************
 	 * Constructs a BorderButton
+	 * 
 	 * @param borderOwner
 	 */
 	public BorderButtonD(Component borderOwner) {
@@ -52,26 +52,27 @@ implements MouseListener, MouseMotionListener{
 
 		// register our mouseListener, making sure it is the first one added
 		MouseListener[] ml = borderOwner.getMouseListeners();
-		for(int i=0; i < ml.length; i++)
+		for (int i = 0; i < ml.length; i++)
 			borderOwner.removeMouseListener(ml[i]);
 		borderOwner.addMouseListener(this);
-		for(int i=0; i < ml.length; i++)
+		for (int i = 0; i < ml.length; i++)
 			borderOwner.addMouseListener(ml[i]);
-		
+
 		// register mouseMotionListener
 		borderOwner.addMouseMotionListener(this);
-		
+
 		icon = new ImageIcon[maxIconCount];
 		isVisibleIcon = new boolean[maxIconCount];
 		isMouseOverIcon = new boolean[maxIconCount];
 		iconRect = new Rectangle[maxIconCount];
 		al = new ActionListener[maxIconCount];
 
-		for(int i = 0; i < maxIconCount; i++){
+		for (int i = 0; i < maxIconCount; i++) {
 			icon[i] = new ImageIcon();
 			iconRect[i] = new Rectangle();
 			isMouseOverIcon[i] = false;
-			// need default visibility = false so that focus lost/gained visibility works
+			// need default visibility = false so that focus lost/gained
+			// visibility works
 			isVisibleIcon[i] = false;
 		}
 	}
@@ -81,15 +82,15 @@ implements MouseListener, MouseMotionListener{
 
 		int offset = hGap;
 		int xStart = x + w - getTotalInsetWidth();
-		int yMid = y + h/2;
+		int yMid = y + h / 2;
 
-
-		for(int i = 0; i < icon.length; i++){
-			if(icon[i] != null && isVisibleIcon[i]){
-				g.drawImage(icon[i].getImage(), xStart + offset, yMid - icon[i].getIconHeight()/2 , null);
+		for (int i = 0; i < icon.length; i++) {
+			if (icon[i] != null && isVisibleIcon[i]) {
+				g.drawImage(icon[i].getImage(), xStart + offset,
+						yMid - icon[i].getIconHeight() / 2, null);
 
 				iconRect[i].x = xStart + offset;
-				iconRect[i].y = yMid - icon[i].getIconHeight()/2 ;
+				iconRect[i].y = yMid - icon[i].getIconHeight() / 2;
 				iconRect[i].width = icon[i].getIconWidth();
 				iconRect[i].height = icon[i].getIconHeight();
 
@@ -98,27 +99,29 @@ implements MouseListener, MouseMotionListener{
 		}
 	}
 
-	public void setBorderButton(int index, ImageIcon icon, ActionListener listener){
-		if(index < 0 || index > maxIconCount) return;
+	public void setBorderButton(int index, ImageIcon icon,
+			ActionListener listener) {
+		if (index < 0 || index > maxIconCount)
+			return;
 		this.icon[index] = icon;
 		al[index] = listener;
 	}
 
-	public void setIconVisible(int index, boolean isVisible){
-		if(index < 0 || index > maxIconCount) return;
+	public void setIconVisible(int index, boolean isVisible) {
+		if (index < 0 || index > maxIconCount)
+			return;
 		isVisibleIcon[index] = isVisible;
 		this.borderOwner.validate();
 	}
 
-	public boolean isIconVisible(int index){
+	public boolean isIconVisible(int index) {
 		return isVisibleIcon[index];
 	}
-	
-	
-	private int getTotalInsetWidth(){
+
+	private int getTotalInsetWidth() {
 		int insetWidth = 0;
-		for(int i = 0; i < icon.length; i++){	
-			if(isVisibleIcon[i])
+		for (int i = 0; i < icon.length; i++) {
+			if (isVisibleIcon[i])
 				insetWidth += icon[i].getIconWidth() + hGap;
 		}
 		return insetWidth;
@@ -134,109 +137,102 @@ implements MouseListener, MouseMotionListener{
 		return false;
 	}
 
-	private void swapCursor(){ 
-		Cursor tmp = borderOwner.getCursor(); 
-		borderOwner.setCursor(otherCursor); 
-		otherCursor = tmp; 
-	} 
-	
-	//=============================================
-	//  Mouse Listeners
-	//=============================================
+	private void swapCursor() {
+		Cursor tmp = borderOwner.getCursor();
+		borderOwner.setCursor(otherCursor);
+		otherCursor = tmp;
+	}
 
-	public void mouseDragged(MouseEvent e) {}
+	// =============================================
+	// Mouse Listeners
+	// =============================================
+
+	public void mouseDragged(MouseEvent e) {
+	}
 
 	public void mouseMoved(MouseEvent e) {
-		
+
 		boolean isOver = e.getPoint().x > iconRect[0].x;
-		if(isMouseOverIconRegion != isOver){
+		if (isMouseOverIconRegion != isOver) {
 			isMouseOverIconRegion = isOver;
 			swapCursor();
 		}
-		
-		for(int i=0; i < iconRect.length; i++){
+
+		for (int i = 0; i < iconRect.length; i++) {
 			isOver = iconRect[i].contains(e.getPoint());
-			if(isMouseOverIcon[i] != isOver){
+			if (isMouseOverIcon[i] != isOver) {
 				isMouseOverIcon[i] = isOver;
 				borderOwner.repaint();
 			}
 		}
 	}
 
-	public void mouseClicked(MouseEvent e) {}
-	public void mouseEntered(MouseEvent e) {}
-	public void mouseExited(MouseEvent e) {}
-	
-	public void mousePressed(MouseEvent e) {	
-		for(int i=0; i < iconRect.length; i++){
-			if(isMouseOverIcon[i]){
+	public void mouseClicked(MouseEvent e) {
+	}
+
+	public void mouseEntered(MouseEvent e) {
+	}
+
+	public void mouseExited(MouseEvent e) {
+	}
+
+	public void mousePressed(MouseEvent e) {
+		for (int i = 0; i < iconRect.length; i++) {
+			if (isMouseOverIcon[i]) {
 				e.consume();
-				ActionEvent ae = new ActionEvent(this,ActionEvent.ACTION_PERFORMED, i + cmdSuffix);
+				ActionEvent ae = new ActionEvent(this,
+						ActionEvent.ACTION_PERFORMED, i + cmdSuffix);
 				al[i].actionPerformed(ae);
 			}
 		}
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		for(int i=0; i < iconRect.length; i++){
-			if(isMouseOverIcon[i]){
+		for (int i = 0; i < iconRect.length; i++) {
+			if (isMouseOverIcon[i]) {
 				e.consume();
 			}
 		}
 	}
 
 	/**************************************************************
-	 * TODO  Main --- for testing, remove later
+	 * TODO Main --- for testing, remove later
 	 **************************************************************/
-/*
-	private static void createAndShowGUI() {
-		//Create and set up the window.
-		JFrame frame = new JFrame("Test");
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(150, 150));
-
-
-		JTextField tf = new JTextField("Some text here");
-		tf.setColumns(3);
-
-		
-
-		ActionListener al = new ActionListener(){
-
-			public void actionPerformed(ActionEvent e) {
-				String cmd = e.getActionCommand();
-				if(cmd.endsWith(cmdSuffix)){
-					int i = Integer.parseInt(cmd.substring(0, 1));
-				}			
-			}	
-		};
-
-		BorderButton btnBorder = new BorderButton(tf);
-		btnBorder.setBorderButton(0, GeoGebraIcon.createTreeIcon(), al);
-		btnBorder.setBorderButton(1, GeoGebraIcon.createTreeIcon(), al);
-		
-		Border tfBorder = tf.getBorder();
-		tf.setBorder(BorderFactory.createCompoundBorder(tfBorder, btnBorder));
-
-		//tf.setBorder(BorderFactory.createEtchedBorder());
-
-
-		JPanel p = new JPanel(new BorderLayout());
-		p.add(tf, BorderLayout.NORTH);
-
-		frame.getContentPane().add(p, BorderLayout.CENTER);
-		frame.pack();
-		frame.setVisible(true);
-	}
-
-	public static void main(String[] args) {
-		javax.swing.SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				createAndShowGUI();
-			}
-		});
-	}
-
-*/
+	/*
+	 * private static void createAndShowGUI() { //Create and set up the window.
+	 * JFrame frame = new JFrame("Test");
+	 * frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	 * frame.setPreferredSize(new Dimension(150, 150));
+	 * 
+	 * 
+	 * JTextField tf = new JTextField("Some text here"); tf.setColumns(3);
+	 * 
+	 * 
+	 * 
+	 * ActionListener al = new ActionListener(){
+	 * 
+	 * public void actionPerformed(ActionEvent e) { String cmd =
+	 * e.getActionCommand(); if(cmd.endsWith(cmdSuffix)){ int i =
+	 * Integer.parseInt(cmd.substring(0, 1)); } } };
+	 * 
+	 * BorderButton btnBorder = new BorderButton(tf);
+	 * btnBorder.setBorderButton(0, GeoGebraIcon.createTreeIcon(), al);
+	 * btnBorder.setBorderButton(1, GeoGebraIcon.createTreeIcon(), al);
+	 * 
+	 * Border tfBorder = tf.getBorder();
+	 * tf.setBorder(BorderFactory.createCompoundBorder(tfBorder, btnBorder));
+	 * 
+	 * //tf.setBorder(BorderFactory.createEtchedBorder());
+	 * 
+	 * 
+	 * JPanel p = new JPanel(new BorderLayout()); p.add(tf, BorderLayout.NORTH);
+	 * 
+	 * frame.getContentPane().add(p, BorderLayout.CENTER); frame.pack();
+	 * frame.setVisible(true); }
+	 * 
+	 * public static void main(String[] args) {
+	 * javax.swing.SwingUtilities.invokeLater(new Runnable() { public void run()
+	 * { createAndShowGUI(); } }); }
+	 */
 
 }

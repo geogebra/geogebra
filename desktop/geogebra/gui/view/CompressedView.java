@@ -12,32 +12,26 @@ import geogebra.common.kernel.geos.GeoElement;
  * @author Lucas Binter
  */
 public interface CompressedView extends View {
-  /**
-   * This function should invoke view.update(geo) directly
-   * 
-   * @param geo
-   *          the GeoElement which has changed
-   */
-  public void updateNow(GeoElement geo);
+	/**
+	 * This function should invoke view.update(geo) directly
+	 * 
+	 * @param geo
+	 *            the GeoElement which has changed
+	 */
+	public void updateNow(GeoElement geo);
 
-  /**
-   * Calls the original repaint() function
-   * You need to overwrite the repaint function with an empty one to get the desired effect
-   * 
-   */
-  public void repaintNow();
+	/**
+	 * Calls the original repaint() function You need to overwrite the repaint
+	 * function with an empty one to get the desired effect
+	 * 
+	 */
+	public void repaintNow();
 
-  /**
-   * e.g.:
-   * 
-   * @Override
-   *           final public void repaint() {
-   *           if (!repaintTimer.isRunning()) {
-   *           repaintNow();
-   *           }else{
-   *           repaintTimer.start();
-   *           }
-   *           }
-   */
-  public void repaint();
+	/**
+	 * e.g.:
+	 * 
+	 * @Override final public void repaint() { if (!repaintTimer.isRunning()) {
+	 *           repaintNow(); }else{ repaintTimer.start(); } }
+	 */
+	public void repaint();
 }

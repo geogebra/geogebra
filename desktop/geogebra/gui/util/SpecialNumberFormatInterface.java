@@ -1,7 +1,7 @@
 package geogebra.gui.util;
 
 /**
- * Interface for SpecialNumberFormat. 
+ * Interface for SpecialNumberFormat.
  */
 public interface SpecialNumberFormatInterface {
 
@@ -10,5 +10,5 @@ public interface SpecialNumberFormatInterface {
 	 * number format has changed.
 	 */
 	public void changedNumberFormat();
-	
+
 }

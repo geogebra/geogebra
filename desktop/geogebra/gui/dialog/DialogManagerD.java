@@ -324,8 +324,7 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 		cons.setSuppressLabelCreation(true);
 
 		NumberChangeSignInputHandler handler = new NumberChangeSignInputHandler(
-				app.getKernel().getAlgebraProcessor(),
-				callback, app, oldVal);
+				app.getKernel().getAlgebraProcessor(), callback, app, oldVal);
 		NumberChangeSignInputDialog id = new NumberChangeSignInputDialog(
 				((AppD) app), message, title, initText, handler, changingSign,
 				checkBoxText);
@@ -333,7 +332,6 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 
 		cons.setSuppressLabelCreation(oldVal);
 
-		
 	}
 
 	@Override

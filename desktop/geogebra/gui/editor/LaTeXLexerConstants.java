@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.gui.editor;
 
@@ -19,48 +19,48 @@ package geogebra.gui.editor;
  */
 public interface LaTeXLexerConstants extends LexerConstants {
 
-	  /**
-     * Number of known tokens
-     */
-    public static final int NUMBEROFTOKENS = 12;
+	/**
+	 * Number of known tokens
+	 */
+	public static final int NUMBEROFTOKENS = 12;
 
-    /**
-     * AMP : token '&' in array env
-     */
-    public static final int AMP = 4;
+	/**
+	 * AMP : token '&' in array env
+	 */
+	public static final int AMP = 4;
 
-    /**
-     * SUBSUP : '_' or '^'
-     */
-    public static final int SUBSUP = 5;
+	/**
+	 * SUBSUP : '_' or '^'
+	 */
+	public static final int SUBSUP = 5;
 
-    /**
-     * NUMBER : I don't know ;)
-     */
-    public static final int NUMBER = 6;
+	/**
+	 * NUMBER : I don't know ;)
+	 */
+	public static final int NUMBER = 6;
 
-    /**
-     * OPENCLOSE : '{' or ']'
-     */
-    public static final int OPENCLOSE = 7;
+	/**
+	 * OPENCLOSE : '{' or ']'
+	 */
+	public static final int OPENCLOSE = 7;
 
-    /**
-     * COMMAND : commands such as \frac
-     */
-    public static final int COMMAND = 8;  
-    
-    /**
-     * DOLLAR : '$'
-     */
-    public static final int DOLLAR = 9;
-    
-    /**
-     * COMMAND : commands such as \frac
-     */
-    public static final int COMMENTS = 10;
-    
-    /**
-     * EOF : End Of File
-     */
-    public static final int EOF = 11;	
+	/**
+	 * COMMAND : commands such as \frac
+	 */
+	public static final int COMMAND = 8;
+
+	/**
+	 * DOLLAR : '$'
+	 */
+	public static final int DOLLAR = 9;
+
+	/**
+	 * COMMAND : commands such as \frac
+	 */
+	public static final int COMMENTS = 10;
+
+	/**
+	 * EOF : End Of File
+	 */
+	public static final int EOF = 11;
 }

@@ -30,7 +30,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 	GeoElement[] selGeos;
 
 	private Kernel kernel;
-	
+
 	private EuclidianController ec;
 
 	public InputDialogAngleFixed(AppD app, String title, InputHandler handler,
@@ -43,7 +43,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		this.points = points;
 		this.selGeos = selGeos;
 		this.kernel = kernel;
-		
+
 		this.ec = ec;
 
 		this.inputPanel.getTextComponent().addKeyListener(this);
@@ -113,7 +113,7 @@ public class InputDialogAngleFixed extends AngleInputDialog implements
 		if (!wrappedDialog.isModal()) {
 			app.setCurrentSelectionListener(null);
 		}
-		((GuiManagerD)app.getGuiManager()).setCurrentTextfield(this, true);
+		((GuiManagerD) app.getGuiManager()).setCurrentTextfield(this, true);
 	}
 
 	public void keyTyped(KeyEvent e) {

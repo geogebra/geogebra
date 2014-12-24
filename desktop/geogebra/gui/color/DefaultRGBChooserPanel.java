@@ -1,41 +1,40 @@
 
-
 /* DefaultRGHChooserPanel.java --
-Copyright (C) 2004 Free Software Foundation, Inc.
+ Copyright (C) 2004 Free Software Foundation, Inc.
 
-This file is part of GNU Classpath.
+ This file is part of GNU Classpath.
 
-GNU Classpath is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2, or (at your option)
-any later version.
+ GNU Classpath is free software; you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation; either version 2, or (at your option)
+ any later version.
 
-GNU Classpath is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
+ GNU Classpath is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with GNU Classpath; see the file COPYING.  If not, write to the
-Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-02111-1307 USA.
+ You should have received a copy of the GNU General Public License
+ along with GNU Classpath; see the file COPYING.  If not, write to the
+ Free Software Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ 02111-1307 USA.
 
-Linking this library statically or dynamically with other modules is
-making a combined work based on this library.  Thus, the terms and
-conditions of the GNU General Public License cover the whole
-combination.
+ Linking this library statically or dynamically with other modules is
+ making a combined work based on this library.  Thus, the terms and
+ conditions of the GNU General Public License cover the whole
+ combination.
 
-As a special exception, the copyright holders of this library give you
-permission to link this library with independent modules to produce an
-executable, regardless of the license terms of these independent
-modules, and to copy and distribute the resulting executable under
-terms of your choice, provided that you also meet, for each linked
-independent module, the terms and conditions of the license of that
-module.  An independent module is a module which is not derived from
-or based on this library.  If you modify this library, you may extend
-this exception to your version of the library, but you are not
-obligated to do so.  If you do not wish to do so, delete this
-exception statement from your version. */
+ As a special exception, the copyright holders of this library give you
+ permission to link this library with independent modules to produce an
+ executable, regardless of the license terms of these independent
+ modules, and to copy and distribute the resulting executable under
+ terms of your choice, provided that you also meet, for each linked
+ independent module, the terms and conditions of the license of that
+ module.  An independent module is a module which is not derived from
+ or based on this library.  If you modify this library, you may extend
+ this exception to your version of the library, but you are not
+ obligated to do so.  If you do not wish to do so, delete this
+ exception statement from your version. */
 
 package geogebra.gui.color;
 
@@ -62,14 +61,13 @@ import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-
 /**
- *  RGB color chooser panel for the JColorChooser adapted for GeoGebra. 
- *  The color is selected using three sliders that represent the RGB values.
+ * RGB color chooser panel for the JColorChooser adapted for GeoGebra. The color
+ * is selected using three sliders that represent the RGB values.
  */
-public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
-{
+public class DefaultRGBChooserPanel extends AbstractColorChooserPanel {
 	private static final long serialVersionUID = 1L;
+
 	/**
 	 * This class handles the slider value changes for all three sliders.
 	 */
@@ -77,7 +75,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 		/**
 		 * This method is called whenever any of the slider values change.
 		 *
-		 * @param e The ChangeEvent.
+		 * @param e
+		 *            The ChangeEvent.
 		 */
 		public void stateChanged(ChangeEvent e) {
 			if (internalChange)
@@ -95,7 +94,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 		/**
 		 * This method is called whenever any of the JSpinners change values.
 		 *
-		 * @param e The ChangeEvent.
+		 * @param e
+		 *            The ChangeEvent.
 		 */
 		public void stateChanged(ChangeEvent e) {
 			if (internalChange)
@@ -149,15 +149,12 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/** The spinner that handles the blue values. */
 	private transient JSpinner BSpinner;
 
-
-
 	private MyPreviewPanel previewPanel;
 	protected AppD app;
 
-	public JComponent getPreview(){
+	public JComponent getPreview() {
 		return previewPanel;
 	}
-
 
 	/*****************************************************
 	 * Creates a new DefaultRGBChooserPanel object.
@@ -174,7 +171,7 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	 */
 	@Override
 	public String getDisplayName() {
-		return "RGB";   
+		return "RGB";
 	}
 
 	/**
@@ -187,29 +184,29 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 		int rgb = c.getRGB();
 
 		int red = rgb >> 16 & 0xff;
-			int green = rgb >> 8 & 0xff;
-			int blue = rgb & 0xff;
+		int green = rgb >> 8 & 0xff;
+		int blue = rgb & 0xff;
 
-			internalChange = true;
+		internalChange = true;
 
-			if (R != null)
-				R.setValue(red);
-			if (RSpinner != null)
-				RSpinner.setValue(new Integer(red));
-			if (G != null)
-				G.setValue(green);
-			if (GSpinner != null)
-				GSpinner.setValue(new Integer(green));
-			if (B != null)
-				B.setValue(blue);
-			if (BSpinner != null)
-				BSpinner.setValue(new Integer(blue));
+		if (R != null)
+			R.setValue(red);
+		if (RSpinner != null)
+			RSpinner.setValue(new Integer(red));
+		if (G != null)
+			G.setValue(green);
+		if (GSpinner != null)
+			GSpinner.setValue(new Integer(green));
+		if (B != null)
+			B.setValue(blue);
+		if (BSpinner != null)
+			BSpinner.setValue(new Integer(blue));
 
-			internalChange = false;
-			setLabels();
-			
-			revalidate();
-			repaint();
+		internalChange = false;
+		setLabels();
+
+		revalidate();
+		repaint();
 	}
 
 	/**
@@ -253,14 +250,11 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 		B.setMinorTickSpacing(17);
 
 		RSpinner = new JSpinner(new SpinnerNumberModel(R.getValue(),
-				R.getMinimum(),
-				R.getMaximum(), 1));
+				R.getMinimum(), R.getMaximum(), 1));
 		GSpinner = new JSpinner(new SpinnerNumberModel(G.getValue(),
-				G.getMinimum(),
-				G.getMaximum(), 1));
+				G.getMinimum(), G.getMaximum(), 1));
 		BSpinner = new JSpinner(new SpinnerNumberModel(B.getValue(),
-				B.getMinimum(),
-				B.getMaximum(), 1));
+				B.getMinimum(), B.getMaximum(), 1));
 
 		redLabel.setLabelFor(R);
 		greenLabel.setLabelFor(G);
@@ -307,7 +301,6 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 		bag.gridy = 3;
 		add(previewPanel, bag);
 
-
 		installListeners();
 
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -316,7 +309,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/**
 	 * This method uninstalls the chooser panel from the JColorChooser.
 	 *
-	 * @param chooser The JColorChooser to remove this chooser panel from.
+	 * @param chooser
+	 *            The JColorChooser to remove this chooser panel from.
 	 */
 	@Override
 	public void uninstallChooserPanel(JColorChooser chooser) {
@@ -393,7 +387,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/**
 	 * This method paints the default RGB chooser panel.
 	 *
-	 * @param g The Graphics object to paint with.
+	 * @param g
+	 *            The Graphics object to paint with.
 	 */
 	@Override
 	public void paint(Graphics g) {
@@ -403,26 +398,26 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 	/**
 	 * Sets the labels for the current locale.
 	 */
-	public void setLabels(){
+	public void setLabels() {
 		redLabel.setText(app.getMenu("Red"));
 		greenLabel.setText(app.getMenu("Green"));
 		blueLabel.setText(app.getMenu("Blue"));
 	}
-
 
 	/**
 	 * Extension of JPanel the displays the currently selected color next to the
 	 * originally chosen color.
 	 * 
 	 */
-	class MyPreviewPanel extends JPanel{
+	class MyPreviewPanel extends JPanel {
 		private static final long serialVersionUID = 1L;
+
 		public MyPreviewPanel() {
-			this.setPreferredSize(new Dimension(140,25));
+			this.setPreferredSize(new Dimension(140, 25));
 			Border border = BorderFactory.createCompoundBorder(
 					BorderFactory.createLineBorder(Color.DARK_GRAY, 1),
 					BorderFactory.createLineBorder(Color.LIGHT_GRAY, 1));
-			//this.setBorder(border);
+			// this.setBorder(border);
 		}
 
 		@Override
@@ -432,9 +427,8 @@ public class DefaultRGBChooserPanel extends AbstractColorChooserPanel
 			g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
 
 			g.setColor(this.getBackground());
-			g.fillRect(0, 0, (getWidth() - 1)/2, (getHeight() - 1));
+			g.fillRect(0, 0, (getWidth() - 1) / 2, (getHeight() - 1));
 		}
 	}
 
 }
-

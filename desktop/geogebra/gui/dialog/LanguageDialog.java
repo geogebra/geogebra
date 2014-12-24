@@ -68,7 +68,7 @@ public class LanguageDialog extends JDialog {
 		getContentPane().add(createLanguageSelectionPanel(),
 				BorderLayout.CENTER);
 		createButtonPanel();
-		//getContentPane().add(createButtonPanel(), BorderLayout.SOUTH);
+		// getContentPane().add(createButtonPanel(), BorderLayout.SOUTH);
 
 		setLabels();
 		pack();
@@ -188,7 +188,7 @@ public class LanguageDialog extends JDialog {
 		scroller.setPreferredSize(d);
 		scroller.getVerticalScrollBar().setUnitIncrement(30);
 		scroller.setBorder(BorderFactory.createEmptyBorder());
-		 
+
 		JPanel p = new JPanel(new BorderLayout());
 		p.add(scroller, BorderLayout.CENTER);
 		// p.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));

@@ -33,7 +33,7 @@ import javax.swing.LookAndFeel;
 public class HelpOnKeywordPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static HelpOnKeywordPanel instance;
 	private static JTextArea textarea;
 
@@ -66,7 +66,8 @@ public class HelpOnKeywordPanel extends JPanel {
 			instance = new HelpOnKeywordPanel();
 		}
 
-		String help = app.getLocalization().getCommand(app.getReverseCommand(command) + Localization.syntaxStr);
+		String help = app.getLocalization().getCommand(
+				app.getReverseCommand(command) + Localization.syntaxStr);
 		String[] lines = help.split("\n");
 		int cols = 1;
 		for (int i = 0; i < lines.length; i++) {

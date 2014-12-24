@@ -31,17 +31,16 @@ class DockButton extends JToggleButton {
 	public DockButton(AppD app) {
 		super();
 		this.app = app;
-		
+
 		setFocusable(false);
 		setFocusPainted(false);
 		setBorderPainted(false);
 		setContentAreaFilled(false);
-		setMargin(new Insets(0,0,5,0));
-		
+		setMargin(new Insets(0, 0, 5, 0));
+
 		addMouseListener(new ToolTipMouseAdapter());
 	}
-	
-	
+
 	@Override
 	public void setIcon(Icon ic) {
 
@@ -93,8 +92,8 @@ class DockButton extends JToggleButton {
 
 		@Override
 		public void mouseExited(MouseEvent e) {
-			ToolTipManager.sharedInstance().setInitialDelay(
-					defaultInitialDelay);
+			ToolTipManager.sharedInstance()
+					.setInitialDelay(defaultInitialDelay);
 		}
 	}
 

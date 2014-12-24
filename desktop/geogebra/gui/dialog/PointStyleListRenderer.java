@@ -18,8 +18,8 @@ import javax.swing.JPanel;
 import javax.swing.ListCellRenderer;
 
 /**
- * @author George Sturr 2009-9-19 This class defines the ComboBox renderer
- *         where the user chooses the point style for GeoPoint
+ * @author George Sturr 2009-9-19 This class defines the ComboBox renderer where
+ *         the user chooses the point style for GeoPoint
  * 
  */
 
@@ -32,10 +32,10 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 	private Ellipse2D.Double circle = new Ellipse2D.Double();
 	private Line2D.Double line1, line2, line3, line4;
 	private GeneralPath gp = null;
-	private static BasicStroke borderStroke = EuclidianStaticD.getDefaultStrokeAwt();
+	private static BasicStroke borderStroke = EuclidianStaticD
+			.getDefaultStrokeAwt();
 	private static BasicStroke[] crossStrokes = new BasicStroke[10];
 
-	
 	public PointStyleListRenderer() {
 		setOpaque(true);
 	}
@@ -44,7 +44,8 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 			int index, boolean isSelected, boolean cellHasFocus) {
 
 		// get the selected point style
-		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT : ((Integer) value).intValue();
+		pointStyle = value == null ? EuclidianStyleConstants.POINT_STYLE_DOT
+				: ((Integer) value).intValue();
 
 		if (isSelected) {
 			setBackground(Color.LIGHT_GRAY);
@@ -60,7 +61,7 @@ public class PointStyleListRenderer extends JPanel implements ListCellRenderer {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		
+
 		// paint cell background
 		if (getBackground() == Color.LIGHT_GRAY) {
 			g2.setPaint(Color.LIGHT_GRAY);

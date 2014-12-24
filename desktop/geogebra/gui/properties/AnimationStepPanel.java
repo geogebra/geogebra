@@ -23,20 +23,19 @@ import javax.swing.JPanel;
 
 /**
  * panel for animation step
+ * 
  * @author Markus Hohenwarter
  */
-public class AnimationStepPanel
-	extends JPanel
-	implements ActionListener, FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
-	ITextFieldListener
-{
-	
+public class AnimationStepPanel extends JPanel implements ActionListener,
+		FocusListener, UpdateablePropertiesPanel, SetLabels, UpdateFonts,
+		ITextFieldListener {
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private AnimationStepModel model;
-	private JLabel label;	
+	private JLabel label;
 	private AngleTextField tfAnimStep;
-	
+
 	private Kernel kernel;
 
 	public AnimationStepPanel(AppD app) {
@@ -57,21 +56,21 @@ public class AnimationStepPanel
 		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 		animPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		add(animPanel);
-				
+
 		setLabels();
 	}
-	
+
 	public void setLabels() {
 		label.setText(kernel.getApplication().getPlain("AnimationStep") + ": ");
-	}	
-	
+	}
+
 	public void setPartOfSliderPanel() {
 		model.setPartOfSlider(true);
 	}
 
-	public JPanel update(Object[] geos) {		
+	public JPanel update(Object[] geos) {
 		model.setGeos(geos);
-		
+
 		if (!model.checkGeos()) {
 			return null;
 		}
@@ -81,7 +80,6 @@ public class AnimationStepPanel
 		tfAnimStep.addActionListener(this);
 		return this;
 	}
-
 
 	/**
 	 * handle textfield changes
@@ -93,7 +91,7 @@ public class AnimationStepPanel
 
 	private void doActionPerformed() {
 		model.applyChanges(kernel.getAlgebraProcessor().evaluateToNumeric(
-				tfAnimStep.getText(),true));
+				tfAnimStep.getText(), true));
 		update(model.getGeos());
 	}
 
@@ -106,14 +104,14 @@ public class AnimationStepPanel
 
 	public void updateFonts() {
 		Font font = ((AppD) kernel.getApplication()).getPlainFont();
-		
+
 		label.setFont(font);
 		tfAnimStep.setFont(font);
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void setText(String text) {

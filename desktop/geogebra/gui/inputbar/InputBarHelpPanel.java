@@ -71,7 +71,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private InputBarHelpPanel thisPanel;
 	private Color bgColor = Color.WHITE;
 
-	//TODO remove?
+	// TODO remove?
 	private Color titleColor;
 
 	private MyJTree cmdTree, fcnTree;
@@ -110,7 +110,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		thisPanel = this;
 		this.setOpaque(true);
 		// this.setBackground(Color.blue);
-		titleColor = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
+		titleColor = geogebra.awt.GColorD
+				.getAwtColor(GeoGebraColorConstants.TABLE_BACKGROUND_COLOR_HEADER);
 		bgColor = this.getBackground().brighter();
 
 		createFunctionPanel();
@@ -239,8 +240,10 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private void createFunctionPanel() {
 
-		functionTable = new SelectionTable(app, TableSymbols.getTranslatedFunctions(app), -1, 2,
-				new Dimension(20, 16), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		functionTable = new SelectionTable(app,
+				TableSymbols.getTranslatedFunctions(app), -1, 2, new Dimension(
+						20, 16),
+				geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		functionTable.setShowGrid(true);
 		functionTable.setHorizontalAlignment(SwingConstants.LEFT);
 		functionTable.setBorder(BorderFactory.createLineBorder(functionTable
@@ -319,9 +322,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	public void setLabels() {
 		setLabels(true);
 	}
-	
+
 	private void setLabels(boolean setCommands) {
-		if(setCommands)
+		if (setCommands)
 			setCommands();
 		cmdTreeModel.setRoot(rootSubCommands);
 		cmdTreeModel.reload();
@@ -406,7 +409,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			}
 		});
 	}
-	
+
 	public void setCommands() {
 		if (rootSubCommands == null)
 			rootSubCommands = new DefaultMutableTreeNode();
@@ -422,7 +425,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		// load the sub-command nodes
 		for (int i = 0; i < subDict.length; i++) {
 			if (subDict[i].isEmpty())
-			    continue;
+				continue;
 
 			// add stem node: sub-command set name
 			String name = app.getKernel().getAlgebraProcessor()
@@ -533,7 +536,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				rollOverCommand = cmd;
 				StringBuilder sb = new StringBuilder();
 				cmd = app.getReverseCommand(cmd); // internal name
-				CommandProcessor.getCommandSyntax(sb, app.getLocalization(), cmd, -1);
+				CommandProcessor.getCommandSyntax(sb, app.getLocalization(),
+						cmd, -1);
 
 				JTextArea t = new JTextArea(sb.toString());
 				t.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
@@ -546,7 +550,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				item.setIcon(app.getImageIcon("help.png"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						((GuiManagerD)app.getGuiManager()).openCommandHelp(rollOverCommand);
+						((GuiManagerD) app.getGuiManager())
+								.openCommandHelp(rollOverCommand);
 					}
 				});
 
@@ -653,29 +658,29 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		Style def = StyleContext.getDefaultStyleContext().getStyle(
 				StyleContext.DEFAULT_STYLE);
 		Style regular = doc.addStyle("regular", def);
-		
+
 		// changed to use getFontCanDisplayAwt() so that Armenian displays OK
-		StyleConstants.setFontFamily(def, app.getFontCanDisplayAwt(description).getFamily());
-		
+		StyleConstants.setFontFamily(def, app.getFontCanDisplayAwt(description)
+				.getFamily());
+
 		Style s = doc.addStyle("italic", regular);
 		StyleConstants.setItalic(s, true);
 
 		SimpleAttributeSet attrs = new SimpleAttributeSet();
-		if(description.length() > 10){
+		if (description.length() > 10) {
 			StyleConstants.setFirstLineIndent(attrs, -50);
 			StyleConstants.setLeftIndent(attrs, 50);
 			StyleConstants.setBold(attrs, false);
-		}else{
-			// fix for indent problem with short strings on some platforms 
+		} else {
+			// fix for indent problem with short strings on some platforms
 			StyleConstants.setFirstLineIndent(attrs, 0);
 			StyleConstants.setLeftIndent(attrs, 0);
 			StyleConstants.setBold(attrs, true);
 		}
-		
+
 		doc.setParagraphAttributes(0, doc.getLength(), attrs, false);
 
-		if (GeoGebraConstants.CAS_VIEW_ENABLED
-				&& loc.isCASCommand(cmd)) {
+		if (GeoGebraConstants.CAS_VIEW_ENABLED && loc.isCASCommand(cmd)) {
 			if (!description.equals(cmd + Localization.syntaxStr))
 				try {
 					doc.insertString(doc.getLength(), description + "\n",
@@ -714,7 +719,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private class MyRenderer extends DefaultTreeCellRenderer {
 
 		private static final long serialVersionUID = 1L;
-		
+
 		private Color selectionColor, rollOverColor;
 
 		public MyRenderer() {
@@ -722,8 +727,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 			setClosedIcon(app.getImageIcon("tree-open.png"));
 			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
 
-			selectionColor = geogebra.awt.GColorD.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
-			 // this.getBackgroundSelectionColor()
+			selectionColor = geogebra.awt.GColorD
+					.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
+			// this.getBackgroundSelectionColor()
 			rollOverColor = Color.LIGHT_GRAY;
 
 			this.setTextSelectionColor(Color.black);
@@ -788,11 +794,13 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		else if (e.getSource() == btnOnlineHelp) {
 			if (selectedCommand != null) {
-				((GuiManagerD)app.getGuiManager()).openCommandHelp(selectedCommand);
+				((GuiManagerD) app.getGuiManager())
+						.openCommandHelp(selectedCommand);
 			} else if (selectedFunction != null)
-				((GuiManagerD)app.getGuiManager()).openHelp(App.WIKI_OPERATORS);
+				((GuiManagerD) app.getGuiManager())
+						.openHelp(App.WIKI_OPERATORS);
 			else
-				((GuiManagerD)app.getGuiManager()).openHelp("InputBar");
+				((GuiManagerD) app.getGuiManager()).openHelp("InputBar");
 		}
 
 		else if (e.getSource() == btnPaste) {
@@ -803,13 +811,13 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private void doPaste() {
 
 		if (selectedFunction != null) {
-			((AlgebraInput) ((GuiManagerD)app.getGuiManager()).getAlgebraInput())
-					.insertString(selectedFunction);
+			((AlgebraInput) ((GuiManagerD) app.getGuiManager())
+					.getAlgebraInput()).insertString(selectedFunction);
 		}
 
 		if (selectedCommand != null) {
-			((AlgebraInput) ((GuiManagerD)app.getGuiManager()).getAlgebraInput())
-					.insertCommand(selectedCommand);
+			((AlgebraInput) ((GuiManagerD) app.getGuiManager())
+					.getAlgebraInput()).insertCommand(selectedCommand);
 		}
 	}
 
@@ -819,12 +827,14 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	 * ().getAlgebraInput()).getInputPanel().insertString(cmd);
 	 * //((AlgebraInput)
 	 * ((GuiManagerD)app.getGuiManager()).getAlgebraInput()).insertString(cmd);
-	 * //((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(cmd, false,false,false);
+	 * //((GuiManagerD)app.getGuiManager()).insertStringIntoTextfield(cmd,
+	 * false,false,false);
 	 * 
 	 * 
-	 * if(((GuiManagerD)app.getGuiManager()).getCurrentKeyboardListener() != null){
-	 * VirtualKeyboardListener tf =
-	 * ((GuiManagerD)app.getGuiManager()).getCurrentKeyboardListener(); tf.insertString(cmd); }
+	 * if(((GuiManagerD)app.getGuiManager()).getCurrentKeyboardListener() !=
+	 * null){ VirtualKeyboardListener tf =
+	 * ((GuiManagerD)app.getGuiManager()).getCurrentKeyboardListener();
+	 * tf.insertString(cmd); }
 	 * 
 	 * 
 	 * }
@@ -841,7 +851,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private class MyJTree extends JTree {
 
 		private static final long serialVersionUID = 1L;
-		
+
 		public int rollOverRow = -1;
 
 		public MyJTree(TreeModel tm) {

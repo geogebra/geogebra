@@ -9,7 +9,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.gui.editor;
 
@@ -17,29 +17,31 @@ import java.util.EventListener;
 
 /**
  * The interface KeywordListener is useful to listen to a keyword event.
+ * 
  * @author Calixte DENIZET
  */
 public interface KeywordListener extends EventListener {
 
-	
-    /**
-     * ONMOUSECLICKED
-     */
-    int ONMOUSECLICKED = 1;
-    
-    /**
-     * ONMOUSEOVER
-     */
-    int ONMOUSEOVER = 2;
+	/**
+	 * ONMOUSECLICKED
+	 */
+	int ONMOUSECLICKED = 1;
 
-    /**
-     * Called when a keyword is caught
-     * @param e a KeywordEvent
-     */
-    void caughtKeyword(KeywordEvent e);
-    
-    /**
-     * @return the type of the listener
-     */
-    int getType();
+	/**
+	 * ONMOUSEOVER
+	 */
+	int ONMOUSEOVER = 2;
+
+	/**
+	 * Called when a keyword is caught
+	 * 
+	 * @param e
+	 *            a KeywordEvent
+	 */
+	void caughtKeyword(KeywordEvent e);
+
+	/**
+	 * @return the type of the listener
+	 */
+	int getType();
 }

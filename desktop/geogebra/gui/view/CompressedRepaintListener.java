@@ -9,18 +9,18 @@ import java.awt.event.ActionListener;
  */
 public class CompressedRepaintListener implements ActionListener {
 
-  private CompressedView view;
+	private CompressedView view;
 
-  /**
-   * @param view
-   *          the compressedView attached this ActionListener is attached to
-   */
-  public CompressedRepaintListener(CompressedView view) {
-    this.view = view;
-  }
+	/**
+	 * @param view
+	 *            the compressedView attached this ActionListener is attached to
+	 */
+	public CompressedRepaintListener(CompressedView view) {
+		this.view = view;
+	}
 
-  public void actionPerformed(ActionEvent e) {
-    view.repaintNow();
-  }
+	public void actionPerformed(ActionEvent e) {
+		view.repaintNow();
+	}
 
 }
