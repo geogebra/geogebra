@@ -48,11 +48,11 @@ import org.freehep.util.UserProperties;
 
 /**
  * Implementation of <tt>VectorGraphics</tt> that writes the output to a PDF
- * file. Users of this class have to generate a <tt>PDFWriter</tt> and create
- * an instance by invoking the factory method or the constructor. Document
- * specific settings like page size can then be made by the appropriate setter
- * methods. Before starting to draw, <tt>startExport()</tt> must be called.
- * When drawing is finished, call <tt>endExport()</tt>.
+ * file. Users of this class have to generate a <tt>PDFWriter</tt> and create an
+ * instance by invoking the factory method or the constructor. Document specific
+ * settings like page size can then be made by the appropriate setter methods.
+ * Before starting to draw, <tt>startExport()</tt> must be called. When drawing
+ * is finished, call <tt>endExport()</tt>.
  * 
  * @author Simon Fischer
  * @author Mark Donszelmann
@@ -62,17 +62,18 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		MultiPageDocument, FontUtilities.ShowString {
 
 	/*
-	 * ================================================================================
-	 * Table of Contents: ------------------ 1. Constructors & Factory Methods
-	 * 2. Document Settings 3. Header, Trailer, Multipage & Comments 3.1 Header &
-	 * Trailer 3.2 MultipageDocument methods 4. Create & Dispose 5. Drawing
-	 * Methods 5.1. shapes (draw/fill) 5.1.1. lines, rectangles, round
+	 * ==========================================================================
+	 * ====== Table of Contents: ------------------ 1. Constructors & Factory
+	 * Methods 2. Document Settings 3. Header, Trailer, Multipage & Comments 3.1
+	 * Header & Trailer 3.2 MultipageDocument methods 4. Create & Dispose 5.
+	 * Drawing Methods 5.1. shapes (draw/fill) 5.1.1. lines, rectangles, round
 	 * rectangles 5.1.2. polylines, polygons 5.1.3. ovals, arcs 5.1.4. shapes
-	 * 5.2. Images 5.3. Strings 6. Transformations 7. Clipping 8. Graphics State /
-	 * Settings 8.1. stroke/linewidth 8.2. paint/color 8.3. font 8.4. rendering
-	 * hints 9. Private/Utility Methods 9.1. drawing, shape creation 9.2. font,
-	 * strings 9.3. images 9.4. transformations 10. Auxiliary
-	 * ================================================================================
+	 * 5.2. Images 5.3. Strings 6. Transformations 7. Clipping 8. Graphics State
+	 * / Settings 8.1. stroke/linewidth 8.2. paint/color 8.3. font 8.4.
+	 * rendering hints 9. Private/Utility Methods 9.1. drawing, shape creation
+	 * 9.2. font, strings 9.3. images 9.4. transformations 10. Auxiliary
+	 * ========
+	 * ========================================================================
 	 */
 
 	private static final String rootKey = PDFGraphics2D.class.getName();
@@ -139,8 +140,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		defaultProperties.setProperty(VERSION, VERSION5);
 		defaultProperties.setProperty(COMPRESS, true);
 		defaultProperties.setProperty(PAGE_SIZE, PageConstants.INTERNATIONAL);
-		defaultProperties.setProperty(PAGE_MARGINS, PageConstants
-				.getMargins(PageConstants.SMALL));
+		defaultProperties.setProperty(PAGE_MARGINS,
+				PageConstants.getMargins(PageConstants.SMALL));
 		defaultProperties.setProperty(ORIENTATION, PageConstants.PORTRAIT);
 		defaultProperties.setProperty(FIT_TO_PAGE, true);
 		defaultProperties.setProperty(EMBED_FONTS, false);
@@ -233,9 +234,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	private Dimension pageSize = null;
 
 	/*
-	 * ================================================================================ |
-	 * 1. Constructors & Factory Methods
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 1. Constructors & Factory Methods
+	 * ================================
+	 * ================================================
 	 */
 
 	public PDFGraphics2D(File file, Dimension size)
@@ -287,9 +289,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 2. Document Settings
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 2. Document Settings
+	 * ============================================
+	 * ====================================
 	 */
 	public void setMultiPage(boolean multiPage) {
 		this.multiPage = multiPage;
@@ -310,9 +313,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 3. Header, Trailer, Multipage & Comments
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 3. Header, Trailer, Multipage & Comments
+	 * ========================
+	 * ========================================================
 	 */
 	/* 3.1 Header & Trailer */
 
@@ -453,10 +457,9 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		for (int i = 1; i <= currentPage; i++) {
 			String prev = i > 1 ? "Outline" + (i - 1) : null;
 			String next = i < currentPage ? "Outline" + (i + 1) : null;
-			PDFOutline outline = os.openOutline("Outline" + i, (String) titles
-					.get(i - 1), "Outlines", prev, next);
-			outline
-					.setDest(new Object[] { os.ref("Page" + i), os.name("Fit") });
+			PDFOutline outline = os.openOutline("Outline" + i,
+					(String) titles.get(i - 1), "Outlines", prev, next);
+			outline.setDest(new Object[] { os.ref("Page" + i), os.name("Fit") });
 			os.close(outline);
 		}
 
@@ -579,6 +582,13 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 					+ "Call openPage() to start a new one.");
 			return;
 		}
+
+		// fix for FVG-279 unbalanced q/Q operators (too many q's)
+		// copied from
+		// https://github.com/freehep/freehep-vectorgraphics/commit/7bf7c5330cc9f611606c2e6baf357299e1ab4e98#diff-2d9048e77f77e779cb2d230d3d0a963a
+		writeGraphicsRestore();
+		writeGraphicsRestore();
+
 		os.close(pageStream);
 		pageStream = null;
 
@@ -611,8 +621,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 			LineMetrics metrics = headerFont.getLineMetrics("mM",
 					getFontRenderContext());
 			writeLine(pageTrafo, headerFont, headerText, -metrics.getLeading()
-					- headerFont.getSize2D() / 2, TEXT_BOTTOM, -headerFont
-					.getSize2D() / 2, headerUnderline);
+					- headerFont.getSize2D() / 2, TEXT_BOTTOM,
+					-headerFont.getSize2D() / 2, headerUnderline);
 
 		}
 	}
@@ -622,8 +632,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 			LineMetrics metrics = footerFont.getLineMetrics("mM",
 					getFontRenderContext());
 			double y = getHeight() + footerFont.getSize2D() / 2;
-			writeLine(pageTrafo, footerFont, footerText, y
-					+ metrics.getLeading(), TEXT_TOP, y, footerUnderline);
+			writeLine(pageTrafo, footerFont, footerText,
+					y + metrics.getLeading(), TEXT_TOP, y, footerUnderline);
 		}
 	}
 
@@ -647,9 +657,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 4. Create & Dispose
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 4. Create & Dispose
+	 * ==============================================
+	 * ==================================
 	 */
 
 	public Graphics create() {
@@ -682,10 +693,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 5. Drawing Methods
-	 * ================================================================================ /*
-	 * 5.1.4. shapes
+	 * ==========================================================================
+	 * ====== | 5. Drawing Methods
+	 * ==============================================
+	 * ================================== /* 5.1.4. shapes
 	 */
 	public void draw(Shape s) {
 		try {
@@ -780,9 +791,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 6. Transformations
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 6. Transformations
+	 * ==============================================
+	 * ==================================
 	 */
 	/** Write the given transformation matrix to the file. */
 	protected void writeTransform(AffineTransform t) throws IOException {
@@ -790,9 +802,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 7. Clipping
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 7. Clipping
+	 * ======================================================
+	 * ==========================
 	 */
 	protected void writeSetClip(Shape s) throws IOException {
 		// clear old clip
@@ -819,14 +832,14 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		}
 
 		if (s instanceof Rectangle2D) {
-			pageStream.move(((Rectangle2D) s).getMinX(), ((Rectangle2D) s)
-					.getMinY());
-			pageStream.line(((Rectangle2D) s).getMaxX(), ((Rectangle2D) s)
-					.getMinY());
-			pageStream.line(((Rectangle2D) s).getMaxX(), ((Rectangle2D) s)
-					.getMaxY());
-			pageStream.line(((Rectangle2D) s).getMinX(), ((Rectangle2D) s)
-					.getMaxY());
+			pageStream.move(((Rectangle2D) s).getMinX(),
+					((Rectangle2D) s).getMinY());
+			pageStream.line(((Rectangle2D) s).getMaxX(),
+					((Rectangle2D) s).getMinY());
+			pageStream.line(((Rectangle2D) s).getMaxX(),
+					((Rectangle2D) s).getMaxY());
+			pageStream.line(((Rectangle2D) s).getMinX(),
+					((Rectangle2D) s).getMaxY());
 			pageStream.closePath();
 			pageStream.clip();
 			pageStream.endPath();
@@ -843,9 +856,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 8. Graphics State
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 8. Graphics State
+	 * ================================================
+	 * ================================
 	 */
 	/* 8.1. stroke/linewidth */
 	protected void writeWidth(float width) throws IOException {
@@ -947,9 +961,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 9. Auxiliary
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 9. Auxiliary
+	 * ====================================================
+	 * ============================
 	 */
 	public GraphicsConfiguration getDeviceConfiguration() {
 		writeWarning(getClass() + ": getDeviceConfiguration() not implemented.");
@@ -972,9 +987,10 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	}
 
 	/*
-	 * ================================================================================ |
-	 * 10. Private/Utility
-	 * ================================================================================
+	 * ==========================================================================
+	 * ====== | 10. Private/Utility
+	 * ==============================================
+	 * ==================================
 	 */
 	public void showString(Font font, String str) throws IOException {
 		String fontRef = fontTable.fontReference(font, isProperty(EMBED_FONTS),
@@ -991,8 +1007,8 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 	 *      org.freehep.graphicsio.font.FontUtilities.ShowString)
 	 */
 	private void showCharacterCodes(String str) throws IOException {
-		FontUtilities.showString(getFont(), str, Lookup.getInstance().getTable(
-				"PDFLatin"), this);
+		FontUtilities.showString(getFont(), str,
+				Lookup.getInstance().getTable("PDFLatin"), this);
 	}
 
 	private double getWidth() {
@@ -1010,11 +1026,9 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 				getPropertyInsets(PAGE_MARGINS), getProperty(ORIENTATION));
 		return pageSize.getHeight() - margins.top - margins.bottom;
 	}
-	
-	
+
 	/**
-	 * Michael Borcherds (GeoGebra)
-	 * added to allow override of page size
+	 * Michael Borcherds (GeoGebra) added to allow override of page size
 	 * 
 	 * @param size
 	 * @param orientation
@@ -1024,18 +1038,17 @@ public class PDFGraphics2D extends AbstractVectorGraphicsIO implements
 		if (pageSize != null) {
 			return pageSize;
 		}
-		
+
 		return PageConstants.getSize(size, orientation);
 	}
 
 	/**
-	 * Michael Borcherds (GeoGebra)
-	 * added to allow override of page size
+	 * Michael Borcherds (GeoGebra) added to allow override of page size
 	 * 
 	 * @param d
 	 */
 	public void setPageSize(Dimension d) {
-		pageSize  = d;	
+		pageSize = d;
 	}
 
 }
