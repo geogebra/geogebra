@@ -1,6 +1,5 @@
 package geogebra.html5.kernel.external;
 
-
 /*
  * Copyright 1998 Sun Microsystems, Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -71,12 +70,10 @@ final class ChainEnd {
 	 */
 	public CurveLink linkTo(ChainEnd that) {
 		if (etag == AreaOp.ETAG_IGNORE || that.etag == AreaOp.ETAG_IGNORE) {
-			throw new InternalError(
-					"ChainEnd linked more than once!");
+			throw new InternalError("ChainEnd linked more than once!");
 		}
 		if (etag == that.etag) {
-			throw new InternalError(
-					"Linking chains of the same type!");
+			throw new InternalError("Linking chains of the same type!");
 		}
 		ChainEnd enter, exit;
 		// assert(partner.etag != that.partner.etag);

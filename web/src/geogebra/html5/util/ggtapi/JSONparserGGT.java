@@ -76,10 +76,10 @@ public class JSONparserGGT {
 
 	public static Material toMaterial(JSONObject obj) {
 		Material.MaterialType type = MaterialType.ggb;
-		if(getString(obj, "type").length() > 0){
-			try{
+		if (getString(obj, "type").length() > 0) {
+			try {
 				type = MaterialType.valueOf(getString(obj, "type"));
-			}catch(Throwable t){
+			} catch (Throwable t) {
 				Log.error("Unknown material type:" + getString(obj, "type"));
 			}
 		}
@@ -134,7 +134,7 @@ public class JSONparserGGT {
 		}
 		return Integer.parseInt(obj.get(string).isString().stringValue());
 	}
-	
+
 	private static boolean getBoolean(JSONObject obj, String string, boolean def) {
 		if (obj.get(string) == null
 		        || "".equals(obj.get(string).isString().stringValue())) {

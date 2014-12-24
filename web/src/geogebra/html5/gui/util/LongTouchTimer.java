@@ -142,7 +142,7 @@ public class LongTouchTimer extends Timer {
 			}
 		}
 	}
-	
+
 	public void cancelTimer() {
 		x = 0;
 		y = 0;

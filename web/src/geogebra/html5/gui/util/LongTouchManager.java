@@ -36,9 +36,12 @@ public class LongTouchManager {
 	/**
 	 * Schedules the timer with a default delay value.
 	 * 
-	 * @param handler long touch event handler
-	 * @param x the x-coordinate of the touch
-	 * @param y the y-coordinate of the touch
+	 * @param handler
+	 *            long touch event handler
+	 * @param x
+	 *            the x-coordinate of the touch
+	 * @param y
+	 *            the y-coordinate of the touch
 	 */
 	public void scheduleTimer(LongTouchHandler handler, int x, int y) {
 		if (timer == null) {
@@ -50,13 +53,17 @@ public class LongTouchManager {
 	/**
 	 * Schedules the timer with {@code delayMillis} delay value.
 	 * 
-	 * @param handler long touch event handler
-	 * @param x the x-coordinate of the touch
-	 * @param y the y-coordinate of the touch
-	 * @param delayMillis delay value
+	 * @param handler
+	 *            long touch event handler
+	 * @param x
+	 *            the x-coordinate of the touch
+	 * @param y
+	 *            the y-coordinate of the touch
+	 * @param delayMillis
+	 *            delay value
 	 */
 	public void scheduleTimer(LongTouchHandler handler, int x, int y,
-			int delayMillis) {
+	        int delayMillis) {
 		if (timer == null) {
 			timer = new LongTouchTimer();
 		}
@@ -66,9 +73,12 @@ public class LongTouchManager {
 	/**
 	 * Reschedules the timer if it is running, with a default delay value.
 	 * 
-	 * @param handler long touch event handler
-	 * @param x the x-coordinate of the touch
-	 * @param y the y-coordinate of the touch
+	 * @param handler
+	 *            long touch event handler
+	 * @param x
+	 *            the x-coordinate of the touch
+	 * @param y
+	 *            the y-coordinate of the touch
 	 */
 	public void rescheduleTimerIfRunning(LongTouchHandler handler, int x, int y) {
 		rescheduleTimerIfRunning(handler, x, y, true);
@@ -77,14 +87,18 @@ public class LongTouchManager {
 	/**
 	 * Reschedules the timer if it is running, with a default delay value.
 	 * 
-	 * @param handler long touch event handler
-	 * @param x the x-coordinate of the touch
-	 * @param y the y-coordinate of the touch
-	 * @param shouldCancel if true, the timer will be cancelled if the mouse
-	 *        moved too much
+	 * @param handler
+	 *            long touch event handler
+	 * @param x
+	 *            the x-coordinate of the touch
+	 * @param y
+	 *            the y-coordinate of the touch
+	 * @param shouldCancel
+	 *            if true, the timer will be cancelled if the mouse moved too
+	 *            much
 	 */
 	public void rescheduleTimerIfRunning(LongTouchHandler handler, int x,
-			int y, boolean shouldCancel) {
+	        int y, boolean shouldCancel) {
 		if (timer == null) {
 			return;
 		}
@@ -95,15 +109,20 @@ public class LongTouchManager {
 	 * Reschedules the timer if it is running, with {@code delayMillis} delay
 	 * value.
 	 * 
-	 * @param handler long touch event handler
-	 * @param x the x-coordinate of the touch
-	 * @param y the y-coordinate of the touch
-	 * @param delayMillis delay value
-	 * @param shouldCancel if true, the timer will be cancelled if the mouse
-	 *        moved too much
+	 * @param handler
+	 *            long touch event handler
+	 * @param x
+	 *            the x-coordinate of the touch
+	 * @param y
+	 *            the y-coordinate of the touch
+	 * @param delayMillis
+	 *            delay value
+	 * @param shouldCancel
+	 *            if true, the timer will be cancelled if the mouse moved too
+	 *            much
 	 */
 	public void rescheduleTimerIfRunning(LongTouchHandler handler, int x,
-			int y, int delayMillis, boolean shouldCancel) {
+	        int y, int delayMillis, boolean shouldCancel) {
 		if (timer == null) {
 			return;
 		}

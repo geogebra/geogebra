@@ -20,12 +20,12 @@ public class TabletDeviceWin extends TouchDevice {
 	public BrowseGUI getBrowseGUI(AppW app) {
 		return new TabletBrowseGUI(app);
 	}
-	
+
 	@Override
 	public boolean isOffline(AppW app) {
 		return !app.getNetworkOperation().isOnline();
 	}
-	
+
 	@Override
 	public UploadImageDialog getImageInputDialog(AppW app) {
 		return new ImageInputDialog(app);

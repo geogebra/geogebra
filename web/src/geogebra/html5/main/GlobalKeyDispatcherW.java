@@ -20,8 +20,8 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
  * Handles keyboard events.
  */
 public class GlobalKeyDispatcherW extends
-        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler, KeyDownHandler, KeyPressHandler {
-
+        geogebra.common.main.GlobalKeyDispatcher implements KeyUpHandler,
+        KeyDownHandler, KeyPressHandler {
 
 	private static boolean controlDown = false;
 	private static boolean shiftDown = false;
@@ -43,13 +43,14 @@ public class GlobalKeyDispatcherW extends
 	 * Used if we need tab working properly
 	 */
 	public boolean InFocus = true;
-	
+
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public GlobalKeyDispatcherW(App app) {
 		super(app);
-    }
+	}
 
 	@Override
 	public void handleFunctionKeyForAlgebraInput(int i, GeoElement geo) {
@@ -58,16 +59,16 @@ public class GlobalKeyDispatcherW extends
 	}
 
 	public void onKeyPress(KeyPressEvent event) {
-		App.debug("Key pressed:"+event.getCharCode());
+		App.debug("Key pressed:" + event.getCharCode());
 		setDownKeys(event);
 		event.stopPropagation();
-		if (InFocus ) {
+		if (InFocus) {
 			event.preventDefault();
 		}
-		
-		//this needs to be done in onKeyPress -- keyUp is not case sensitive
-		if(!event.isAltKeyDown() && !event.isControlKeyDown()){
-			App.debug("Key pressed:"+event.getCharCode());
+
+		// this needs to be done in onKeyPress -- keyUp is not case sensitive
+		if (!event.isAltKeyDown() && !event.isControlKeyDown()) {
+			App.debug("Key pressed:" + event.getCharCode());
 			this.renameStarted(event.getCharCode());
 		}
 	}
@@ -78,24 +79,26 @@ public class GlobalKeyDispatcherW extends
 			event.preventDefault();
 		}
 		event.stopPropagation();
-		//now it is private, but can be public, also it is void, but can return boolean as in desktop, if needed
+		// now it is private, but can be public, also it is void, but can return
+		// boolean as in desktop, if needed
 		dispatchEvent(event);
-    }
+	}
 
 	private void dispatchEvent(KeyUpEvent event) {
-	    //we Must find out something here to identify the component that fired this, like class names for example,
-		//id-s or data-param-attributes
-		
-		//we have keypress here only
-		//do this only, if we really have focus
+		// we Must find out something here to identify the component that fired
+		// this, like class names for example,
+		// id-s or data-param-attributes
+
+		// we have keypress here only
+		// do this only, if we really have focus
 		App.debug(InFocus + "");
 		if (InFocus) {
 			handleKeyPressed(event);
 		} else if (event.getNativeKeyCode() == com.google.gwt.event.dom.client.KeyCodes.KEY_ENTER) {
 			InFocus = true;
 		}
-	    
-    }
+
+	}
 
 	private boolean handleKeyPressed(KeyUpEvent event) {
 		// GENERAL KEYS:
@@ -106,98 +109,103 @@ public class GlobalKeyDispatcherW extends
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
-		//if (handleSelectedGeosKeys(event, app.getSelectionManager().getSelectedGeos())) {
-		//	return true;
-		//}
+		// if (handleSelectedGeosKeys(event,
+		// app.getSelectionManager().getSelectedGeos())) {
+		// return true;
+		// }
 
 		return false;
-    }
+	}
 
 	/**
-	 * Handles key event by disassembling it into primitive types and handling it using the mothod
-	 * from common 
-	 * @param event event
+	 * Handles key event by disassembling it into primitive types and handling
+	 * it using the mothod from common
+	 * 
+	 * @param event
+	 *            event
 	 * @return whether event was consumed
 	 */
 	public boolean handleGeneralKeys(KeyUpEvent event) {
-		
-		return handleGeneralKeys(KeyCodes.translateGWTcode(event.getNativeKeyCode()), event.isShiftKeyDown(), event.isControlKeyDown(), event.isAltKeyDown(), false, true);
+
+		return handleGeneralKeys(
+		        KeyCodes.translateGWTcode(event.getNativeKeyCode()),
+		        event.isShiftKeyDown(), event.isControlKeyDown(),
+		        event.isAltKeyDown(), false, true);
 
 	}
-	
+
 	private boolean handleSelectedGeosKeys(KeyUpEvent event,
-			ArrayList<GeoElement> geos) {
-		
-		return handleSelectedGeosKeys(KeyCodes.translateGWTcode(event.getNativeKeyCode()), geos, event.isShiftKeyDown(), event.isControlKeyDown(), event.isAltKeyDown(), false);
+	        ArrayList<GeoElement> geos) {
+
+		return handleSelectedGeosKeys(
+		        KeyCodes.translateGWTcode(event.getNativeKeyCode()), geos,
+		        event.isShiftKeyDown(), event.isControlKeyDown(),
+		        event.isAltKeyDown(), false);
 	}
 
 	public boolean handleSelectedGeosKeysNative(NativeEvent event) {
 		return handleSelectedGeosKeys(
-			geogebra.common.main.KeyCodes.translateGWTcode(event.getKeyCode()),
-			selection.getSelectedGeos(),
-			event.getShiftKey(),
-			event.getCtrlKey(),
-			event.getAltKey(), false);
+		        geogebra.common.main.KeyCodes.translateGWTcode(event
+		                .getKeyCode()), selection.getSelectedGeos(),
+		        event.getShiftKey(), event.getCtrlKey(), event.getAltKey(),
+		        false);
 	}
 
 	public void onKeyDown(KeyDownEvent event) {
 		setDownKeys(event);
-		//AbstractApplication.debug("onkeydown");
-		
-	    event.stopPropagation();
+		// AbstractApplication.debug("onkeydown");
+
+		event.stopPropagation();
 
 		// SELECTED GEOS:
 		// handle function keys, arrow keys, +/- keys for selected geos, etc.
 		boolean handled = handleSelectedGeosKeys(
-			KeyCodes.translateGWTcode(
-				event.getNativeKeyCode()),
-			app.getSelectionManager().getSelectedGeos(),
-			event.isShiftKeyDown(),
-			event.isControlKeyDown(),
-			event.isAltKeyDown(),
-			false);
-		//if not handled, do not consume so that keyPressed works
+		        KeyCodes.translateGWTcode(event.getNativeKeyCode()), app
+		                .getSelectionManager().getSelectedGeos(),
+		        event.isShiftKeyDown(), event.isControlKeyDown(),
+		        event.isAltKeyDown(), false);
+		// if not handled, do not consume so that keyPressed works
 		if (InFocus && handled) {
 			event.preventDefault();
 		}
-    }
+	}
 
 	@Override
-    protected boolean handleCtrlShiftN(boolean isAltDown) {
-	    App.debug("unimplemented");
-	    return false;
-    }
+	protected boolean handleCtrlShiftN(boolean isAltDown) {
+		App.debug("unimplemented");
+		return false;
+	}
 
 	@Override
-    protected boolean handleEnter() {
+	protected boolean handleEnter() {
 		if (((AppW) app).isUsingFullGui()
-				&& ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
-			if (app.showAlgebraInput()){
-//					&& !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
-//							.hasFocus()) {
+		        && ((GuiManagerInterfaceW) app.getGuiManager()).noMenusOpen()) {
+			if (app.showAlgebraInput()) {
+				// && !((GuiManagerW) app.getGuiManager()).getAlgebraInput()
+				// .hasFocus()) {
 
 				((GuiManagerInterfaceW) app.getGuiManager()).getAlgebraInput()
-						.requestFocus();
+				        .requestFocus();
 
 				return true;
 			}
 		}
 
 		return false;
-    }
+	}
 
 	@Override
-    protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
-	    App.debug("unimplemented");
-    }
-
-	@Override
-    protected void createNewWindow() {
+	protected void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos) {
 		App.debug("unimplemented");
-    }
+	}
 
 	@Override
-    protected void showPrintPreview(App app2) {
+	protected void createNewWindow() {
 		App.debug("unimplemented");
-    }
+	}
+
+	@Override
+	protected void showPrintPreview(App app2) {
+		App.debug("unimplemented");
+	}
 }

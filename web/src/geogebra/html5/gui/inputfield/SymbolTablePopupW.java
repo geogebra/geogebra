@@ -24,16 +24,16 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 		this.app = app;
 		this.textField = autoCompleteTextField;
 		createSymbolTable();
-		
+
 		this.addDomHandler(new MouseDownHandler() {
-			
+
 			@Override
 			public void onMouseDown(MouseDownEvent event) {
-					// used because autoCompleteTextField should not loose focus
-					event.preventDefault();
+				// used because autoCompleteTextField should not loose focus
+				event.preventDefault();
 			}
 		}, MouseDownEvent.getType());
-		
+
 		// prevent autohide when clicking on the popup button
 		addAutoHidePartner(invoker.getElement());
 		addStyleName("SymbolTablePopup");
@@ -61,10 +61,9 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 	 * Ensure the popup toggle button is updated after hiding
 	 */
 	@Override
-    public void hide(boolean autoClosed){
+	public void hide(boolean autoClosed) {
 		super.hide(autoClosed);
 		textField.toggleSymbolButton(false);
 	}
-	
-	
+
 }

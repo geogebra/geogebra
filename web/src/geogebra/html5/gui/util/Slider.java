@@ -20,113 +20,114 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.HasValue;
 
-public class Slider extends FocusWidget implements HasChangeHandlers, HasValue<Integer>, MouseDownHandler, MouseUpHandler, MouseMoveHandler {
-	
+public class Slider extends FocusWidget implements HasChangeHandlers,
+        HasValue<Integer>, MouseDownHandler, MouseUpHandler, MouseMoveHandler {
+
 	private Element range;
 	private boolean valueChangeHandlerInitialized;
 	private Integer valueOnDragStart;
-	 
+
 	public Slider() {
-		this(0,100);
+		this(0, 100);
 	}
 
 	public Slider(int min, int max) {
-	   range = Document.get().createElement("input");
-	   range.setAttribute("type", "range");
-	   range.setAttribute("min", String.valueOf(min));
-	   range.setAttribute("max", String.valueOf(max));   
-	   setRangeValue(range,String.valueOf(min));
-	   setElement(range);
-	   addMouseDownHandler(this);
-	   //addMouseMoveHandler(this);
-	   addMouseUpHandler(this);
-	   
-    }
+		range = Document.get().createElement("input");
+		range.setAttribute("type", "range");
+		range.setAttribute("min", String.valueOf(min));
+		range.setAttribute("max", String.valueOf(max));
+		setRangeValue(range, String.valueOf(min));
+		setElement(range);
+		addMouseDownHandler(this);
+		// addMouseMoveHandler(this);
+		addMouseUpHandler(this);
+
+	}
 
 	private native void setRangeValue(Element range, String value) /*-{
-	   range.value = value;
-    }-*/;
+		range.value = value;
+	}-*/;
 
 	public Integer getValue() {
-	   return Integer.valueOf(getRangeValue(range));
-    }
+		return Integer.valueOf(getRangeValue(range));
+	}
 
-	private native  String getRangeValue(Element range) /*-{
-	    return range.value;
-    }-*/;
+	private native String getRangeValue(Element range) /*-{
+		return range.value;
+	}-*/;
 
 	public void setMinimum(int min) {
-	    range.setAttribute("min", String.valueOf(min));
-    }
+		range.setAttribute("min", String.valueOf(min));
+	}
 
 	public void setMaximum(int max) {
 		range.setAttribute("max", String.valueOf(max));
-    };
+	};
 
 	public void setMajorTickSpacing(int step) {
 		range.setAttribute("step", String.valueOf(step));
-    }
+	}
 
 	public void setMinorTickSpacing(int step) {
 		range.setAttribute("step", String.valueOf(step));
-    }
+	}
 
 	public void setPaintTicks(boolean b) {
 		App.debug("not applicable for range");
-    }
+	}
 
 	public void setPaintLabels(boolean b) {
 		App.debug("not applicable for range");
-    }
+	}
 
 	public GDimensionW getPreferredSize() {
-	   return new GDimensionW(100,10);
-    }
+		return new GDimensionW(100, 10);
+	}
 
 	public HandlerRegistration addValueChangeHandler(
-            ValueChangeHandler<Integer> handler) {
-		 if (!valueChangeHandlerInitialized) {
-		      valueChangeHandlerInitialized = true;
-		      addChangeHandler(new ChangeHandler() {
-		        public void onChange(ChangeEvent event) {
-		          ValueChangeEvent.fire(Slider.this, getValue());
-		        }
-		      });
-		    }
-		    return addHandler(handler, ValueChangeEvent.getType());
-    }
+	        ValueChangeHandler<Integer> handler) {
+		if (!valueChangeHandlerInitialized) {
+			valueChangeHandlerInitialized = true;
+			addChangeHandler(new ChangeHandler() {
+				public void onChange(ChangeEvent event) {
+					ValueChangeEvent.fire(Slider.this, getValue());
+				}
+			});
+		}
+		return addHandler(handler, ValueChangeEvent.getType());
+	}
 
 	public void setValue(Integer value) {
-		setValue(value,false);
-    }
+		setValue(value, false);
+	}
 
 	public void setValue(Integer value, boolean fireEvents) {
-		//Integer oldValue = getValue();
-	    setSliderValue(String.valueOf(value));
-	    //if (fireEvents) {
-	    //  ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
-	    //}
-    }
+		// Integer oldValue = getValue();
+		setSliderValue(String.valueOf(value));
+		// if (fireEvents) {
+		// ValueChangeEvent.fireIfNotEqual(this, oldValue, value);
+		// }
+	}
 
 	private void setSliderValue(String value) {
-	   setRangeValue(range, value);
-    }
+		setRangeValue(range, value);
+	}
 
 	public HandlerRegistration addChangeHandler(ChangeHandler handler) {
 		return addDomHandler(handler, ChangeEvent.getType());
-    }
+	}
 
 	public void onMouseUp(MouseUpEvent event) {
-	   ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
-	    
-    }
+		ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
+
+	}
 
 	public void onMouseDown(MouseDownEvent event) {
-	   valueOnDragStart = getValue();
-    }
+		valueOnDragStart = getValue();
+	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-	    event.stopPropagation();
-    }
+		event.stopPropagation();
+	}
 
 }

@@ -22,7 +22,7 @@ public final class ArticleElement extends Element {
 	 * @return
 	 */
 	public static ArticleElement as(Element element) {
-		//assert element.getTagName().equalsIgnoreCase(TAG);
+		// assert element.getTagName().equalsIgnoreCase(TAG);
 		return (ArticleElement) element;
 	}
 
@@ -48,7 +48,8 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * @return the data-param-id article attribute as String if set else AppWeb.DEFAULT_APPLET_ID
+	 * @return the data-param-id article attribute as String if set else
+	 *         AppWeb.DEFAULT_APPLET_ID
 	 */
 	public String getDataParamId() {
 		String ret = this.getAttribute("data-param-id");
@@ -56,27 +57,27 @@ public final class ArticleElement extends Element {
 			return AppW.DEFAULT_APPLET_ID;
 		return ret;
 	}
-	
-	/** 
-	* @return the data-param-filename article attribute as String if set else empty String 
-	*/ 
-	public String getDataParamFileName() { 
-		String ret = this.getAttribute("data-param-filename"); 
-		return (ret != null) ? ret : ""; 
+
+	/**
+	 * @return the data-param-filename article attribute as String if set else
+	 *         empty String
+	 */
+	public String getDataParamFileName() {
+		String ret = this.getAttribute("data-param-filename");
+		return (ret != null) ? ret : "";
 	}
-	
+
 	public String getDataParamJSON() {
-		String ret = this.getAttribute("data-param-json"); 
-		return (ret != null) ? ret : ""; 
+		String ret = this.getAttribute("data-param-json");
+		return (ret != null) ? ret : "";
 	}
 
 	/**
-	 * Determines if the "data-param-guiOff" article attribute is set to true
-	 * If it is set to true, the GuiManager should never be created,
-	 * and only a single Graphics View should show in web applets,
-	 * regardless of what is there in the ggb file's construction.
-	 * This is for speedup, but its drawback is that it should be
-	 * decided before the AppW is created.
+	 * Determines if the "data-param-guiOff" article attribute is set to true If
+	 * it is set to true, the GuiManager should never be created, and only a
+	 * single Graphics View should show in web applets, regardless of what is
+	 * there in the ggb file's construction. This is for speedup, but its
+	 * drawback is that it should be decided before the AppW is created.
 	 * 
 	 * @return the data-param-guiOff (default: false)
 	 */
@@ -85,32 +86,36 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * Determines if the "data-param-enableLabelDrags" article attribute is set to true
+	 * Determines if the "data-param-enableLabelDrags" article attribute is set
+	 * to true
 	 * 
 	 * @return the data-param-enableLabelDrags (default: true)
 	 */
 	public boolean getDataParamEnableLabelDrags() {
-		return (!"false".equals(this.getAttribute("data-param-enableLabelDrags")));
+		return (!"false".equals(this
+		        .getAttribute("data-param-enableLabelDrags")));
 	}
 
 	/**
-	 * Determines if the "data-param-enableRightClick" article attribute is set to true
+	 * Determines if the "data-param-enableRightClick" article attribute is set
+	 * to true
 	 * 
 	 * @return the data-param-enableRightClick (default: true)
 	 */
 	public boolean getDataParamEnableRightClick() {
-		return (!"false".equals(this.getAttribute("data-param-enableRightClick")));
+		return (!"false".equals(this
+		        .getAttribute("data-param-enableRightClick")));
 	}
 
-
 	/**
-	 * @return the data-param-ggbbase64 article attribute as String if set else empty String
+	 * @return the data-param-ggbbase64 article attribute as String if set else
+	 *         empty String
 	 */
 	public String getDataParamBase64String() {
 		String ret = this.getAttribute("data-param-ggbbase64");
-		return ( ret != null) ? ret : "";
+		return (ret != null) ? ret : "";
 	}
-	
+
 	/**
 	 * @return the data-param-showMenuBar (default: false)
 	 */
@@ -122,7 +127,7 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-showToolBar (default: false)
 	 */
 	public boolean getDataParamShowToolBar(boolean def) {
-		if(getDataParamShowMenuBar(false)){
+		if (getDataParamShowMenuBar(false)) {
 			return true;
 		}
 		return getBoolParam("data-param-showToolBar", def);
@@ -135,19 +140,18 @@ public final class ArticleElement extends Element {
 	public String getDataParamCustomToolBar() {
 		return this.getAttribute("data-param-customToolBar");
 	}
-	
-	
 
 	/**
 	 * @return the data-param-showAlgebraInput (default: true)
 	 */
 	public boolean getDataParamShowAlgebraInput(boolean def) {
-		return getBoolParam("data-param-showAlgebraInput",def);
+		return getBoolParam("data-param-showAlgebraInput", def);
 	}
 
 	private boolean getBoolParam(String attr, boolean def) {
-	    return (def && !"false".equals(this.getAttribute(attr))) || "true".equals(this.getAttribute(attr));
-    }
+		return (def && !"false".equals(this.getAttribute(attr)))
+		        || "true".equals(this.getAttribute(attr));
+	}
 
 	/**
 	 * @return the data-param-showResetIcon (default: false)
@@ -155,27 +159,30 @@ public final class ArticleElement extends Element {
 	public boolean getDataParamShowResetIcon() {
 		return ("true".equals(this.getAttribute("data-param-showResetIcon")));
 	}
-	
+
 	/**
 	 * @return the data-param-showAnimationButton (default: true)
 	 */
 	public boolean getDataParamShowAnimationButton() {
-		return (!"false".equals(this.getAttribute("data-param-showAnimationButton")));
+		return (!"false".equals(this
+		        .getAttribute("data-param-showAnimationButton")));
 	}
-	
+
 	public int getDataParamCapturingThreshold() {
 		int threshold = App.DEFAULT_THRESHOLD;
-		if("".equals(this.getAttribute("data-param-capturingThreshold"))){
+		if ("".equals(this.getAttribute("data-param-capturingThreshold"))) {
 			return threshold;
 		}
-		try{
-			threshold = Integer.parseInt(this.getAttribute("data-param-capturingThreshold"));
-		}catch(Throwable t){
-			Log.error("Invalid capturing threshold: " + this.getAttribute("data-param-capturingThreshold"));
+		try {
+			threshold = Integer.parseInt(this
+			        .getAttribute("data-param-capturingThreshold"));
+		} catch (Throwable t) {
+			Log.error("Invalid capturing threshold: "
+			        + this.getAttribute("data-param-capturingThreshold"));
 		}
 		return threshold;
 	}
-	
+
 	/**
 	 * eg "de"
 	 * 
@@ -184,7 +191,7 @@ public final class ArticleElement extends Element {
 	public String getDataParamLanguage() {
 		return this.getAttribute("data-param-language");
 	}
-	
+
 	/**
 	 * 
 	 * eg "AT"
@@ -200,65 +207,69 @@ public final class ArticleElement extends Element {
 	 * @return the data-param-allowJSscripting (default: true)
 	 */
 	public boolean getDataParamUseBrowserForJS() {
-		return (!"false".equals(this.getAttribute("data-param-useBrowserForJS")));
+		return (!"false"
+		        .equals(this.getAttribute("data-param-useBrowserForJS")));
 	}
-	
-	
-	
+
 	/**
 	 * @return the data-param-enableShiftDragZoom (default: true)
 	 */
 	public boolean getDataParamShiftDragZoomEnabled() {
-		return (!"false".equals(this.getAttribute("data-param-enableShiftDragZoom")));
+		return (!"false".equals(this
+		        .getAttribute("data-param-enableShiftDragZoom")));
 	}
-	
 
 	/**
 	 * @return integer value of the data-param-width, 0 if not present
 	 */
 	public int getDataParamWidth() {
 		String width = this.getAttribute("data-param-width");
-	    return (width != null && !width.equals("")) ? Integer.parseInt(width, 10)  : 0; 
-    }
+		return (width != null && !width.equals("")) ? Integer.parseInt(width,
+		        10) : 0;
+	}
 
 	/**
 	 * @return integer value of the data-param-height, 0 if not present
 	 */
 	public int getDataParamHeight() {
 		String height = this.getAttribute("data-param-height");
-		return (height != null && !height.equals("")) ? Integer.parseInt(height, 10)  : 0; 
+		return (height != null && !height.equals("")) ? Integer.parseInt(
+		        height, 10) : 0;
 	}
-	
+
 	/**
 	 * @return integer value of the data-param-minwidth, 0 if not present
 	 */
 	public int getDataParamMinWidth() {
 		String width = this.getAttribute("data-param-minwidth");
-	    return (width != null && !width.equals("")) ? Integer.parseInt(width, 10)  : 0; 
-    }
+		return (width != null && !width.equals("")) ? Integer.parseInt(width,
+		        10) : 0;
+	}
 
 	/**
 	 * @return integer value of the data-param-minheight, 0 if not present
 	 */
 	public int getDataParamMinHeight() {
 		String height = this.getAttribute("data-param-minheight");
-		return (height != null && !height.equals("")) ? Integer.parseInt(height, 10)  : 0; 
+		return (height != null && !height.equals("")) ? Integer.parseInt(
+		        height, 10) : 0;
 	}
-	
+
 	/**
 	 * @return integer value of the data-param-maxwidth, 0 if not present
 	 */
 	public int getDataParamMaxWidth() {
 		String width = this.getAttribute("data-param-maxwidth");
-	    return (width != null && !width.equals("")) ? Integer.parseInt(width, 10)  : 0; 
-    }
-	
+		return (width != null && !width.equals("")) ? Integer.parseInt(width,
+		        10) : 0;
+	}
+
 	/**
 	 * @return the array containing the minwidth and minheight as integers
 	 */
 	public int[] getDataParamMinDimensions() {
 		String minDimensions = this.getAttribute("data-param-mindimensions");
-		int [] result = null;
+		int[] result = null;
 		if (minDimensions != null && !"".equals(minDimensions)) {
 			result = new int[2];
 			result[0] = Integer.parseInt(minDimensions.split(",")[0]);
@@ -266,13 +277,13 @@ public final class ArticleElement extends Element {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @return the array containing the maxwidth and maxheight as integers
 	 */
 	public int[] getDataParamMaxDimensions() {
 		String maxDimensions = this.getAttribute("data-param-maxdimensions");
-		int [] result = null;
+		int[] result = null;
 		if (maxDimensions != null && !"".equals(maxDimensions)) {
 			result = new int[2];
 			result[0] = Integer.parseInt(maxDimensions.split(",")[0]);
@@ -280,7 +291,7 @@ public final class ArticleElement extends Element {
 		}
 		return result;
 	}
-	
+
 	/**
 	 * @return wheter the applet should fit to screen
 	 */
@@ -293,7 +304,8 @@ public final class ArticleElement extends Element {
 	 */
 	public int getDataParamMaxHeight() {
 		String height = this.getAttribute("data-param-maxheight");
-		return (height != null && !height.equals("")) ? Integer.parseInt(height, 10)  : 0; 
+		return (height != null && !height.equals("")) ? Integer.parseInt(
+		        height, 10) : 0;
 	}
 
 	public String getDataParamBorder() {
@@ -306,14 +318,15 @@ public final class ArticleElement extends Element {
 	public boolean getDataParamShowLogging() {
 		return ("true".equals(this.getAttribute("data-param-showLogging")));
 	}
-	
+
 	/**
 	 * @return the data-param-allowSymbolTable (default: true)
 	 */
 	public boolean getDataParamAllowSymbolTable() {
-		return (!"false".equals(this.getAttribute("data-param-allowSymbolTable")));
+		return (!"false".equals(this
+		        .getAttribute("data-param-allowSymbolTable")));
 	}
-	
+
 	/**
 	 * 
 	 * @return that the article element has (inherited) direction attribute
@@ -327,20 +340,14 @@ public final class ArticleElement extends Element {
 			return this.currentStyle.direction === "rtl";
 		}
 		return false;
-	 }-*/;
-	
-	private static native String getTransform(JavaScriptObject style) /*-{
-	return 	style.transform ||
-			style.webkitTransform ||
-			style.MozTransform ||
-			style.msTransform ||
-			style.oTransform ||
-			"";
 	}-*/;
 
+	private static native String getTransform(JavaScriptObject style) /*-{
+		return style.transform || style.webkitTransform || style.MozTransform
+				|| style.msTransform || style.oTransform || "";
+	}-*/;
 
-	
-	private float getEnvScaleX() {		
+	private float getEnvScaleX() {
 		return envScale("x");
 	}
 
@@ -349,44 +356,45 @@ public final class ArticleElement extends Element {
 	}
 
 	private native float envScale(String type) /*-{
-		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/,
-			style = $wnd.getComputedStyle(this),
-			transform,
-			matches;
+		var matrixRegex = /matrix\((-?\d*\.?\d+),\s*0,\s*0,\s*(-?\d*\.?\d+),\s*0,\s*0\)/, style = $wnd
+				.getComputedStyle(this), transform, matches;
 		if (style) {
-			transform = @geogebra.html5.util.ArticleElement::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
-			matches = transform.match(matrixRegex); 
+					transform = @geogebra.html5.util.ArticleElement::getTransform(Lcom/google/gwt/core/client/JavaScriptObject;)(style),
+					matches = transform.match(matrixRegex);
 			if (matches && matches.length) {
 				if (type === "x") {
 					return $wnd.parseFloat(matches[1]);
 				} else {
 					return $wnd.parseFloat(matches[2]);
 				}
-		   	} else if (transform.indexOf("scale") === 0) {
-		   		return $wnd.parseFloat(transform.substr(transform.indexOf("(") + 1));
+			} else if (transform.indexOf("scale") === 0) {
+				return $wnd.parseFloat(transform
+						.substr(transform.indexOf("(") + 1));
 			}
-		   		
+
 		}
-		return 1;		
+		return 1;
 	}-*/;
-	
+
 	/**
 	 * @return the CSS scale attached to the article element
 	 */
 	public float getScaleX() {
-		//no instance fields in subclasses of Element, so no way to asign it to a simple field
+		// no instance fields in subclasses of Element, so no way to asign it to
+		// a simple field
 		if ("".equals(this.getAttribute("data-scalex"))) {
 			this.setAttribute("data-scalex", String.valueOf(getEnvScaleX()));
 		}
 		return Float.parseFloat(this.getAttribute("data-scalex"));
 	}
-	
+
 	/**
 	 * @return the CSS scale attached to the article element
 	 * 
 	 */
 	public float getScaleY() {
-		//no instance fields in subclasses of Element, so no way to asign it to a simple field
+		// no instance fields in subclasses of Element, so no way to asign it to
+		// a simple field
 		if ("".equals(this.getAttribute("data-scaley"))) {
 			this.setAttribute("data-scaley", String.valueOf(getEnvScaleY()));
 		}
@@ -394,22 +402,24 @@ public final class ArticleElement extends Element {
 	}
 
 	/**
-	 * @return the data-param-heightcrop attribute, that will be
-	 * cropped from the applet height
+	 * @return the data-param-heightcrop attribute, that will be cropped from
+	 *         the applet height
 	 */
 	public int getDataParamHeightCrop() {
 		String crop = this.getAttribute("data-param-heightcrop");
-		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)  : 0; 
-    }
-	
+		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)
+		        : 0;
+	}
+
 	/**
-	 * @return the data-param-widthcrop attribute,
-	 * taht will be cropped from the applet width
+	 * @return the data-param-widthcrop attribute, taht will be cropped from the
+	 *         applet width
 	 */
 	public int getDataParamWidthCrop() {
 		String crop = this.getAttribute("data-param-widthcrop");
-		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)  : 0; 
-    }
+		return (crop != null && !crop.equals("")) ? Integer.parseInt(crop, 10)
+		        : 0;
+	}
 
 	/**
 	 * @return default false
@@ -419,68 +429,70 @@ public final class ArticleElement extends Element {
 	}
 
 	public boolean getDataParamApp() {
-		return "true".equals(this.getAttribute("data-param-app")); 
-    }
-	
+		return "true".equals(this.getAttribute("data-param-app"));
+	}
+
 	public boolean getDataParamScreenshotGenerator() {
-		return "true".equals(this.getAttribute("data-param-screenshotGenerator")); 
-    }
+		return "true".equals(this
+		        .getAttribute("data-param-screenshotGenerator"));
+	}
 
 	public String getDataParamLAF() {
-	    return this.getAttribute("data-param-laf");
-    }
+		return this.getAttribute("data-param-laf");
+	}
 
 	/**
 	 * @return wheter focus prevented (use in multiple applets)
 	 */
 	public boolean preventFocus() {
-	   return this.getAttribute("data-param-preventFocus") != null;
-    }
+		return this.getAttribute("data-param-preventFocus") != null;
+	}
 
 	public String getDataClientID() {
-	    return this.getAttribute("data-param-clientid");
-    }
+		return this.getAttribute("data-param-clientid");
+	}
 
 	public String getDataParamPerspective() {
 		String ret = this.getAttribute("data-param-perspective");
 		return ret == null ? "" : ret;
-    }
+	}
 
 	public double getDataParamScale() {
 		String scale = this.getAttribute("data-param-scale");
 		double ret = 1;
-		try{
+		try {
 			ret = Double.valueOf(scale);
-		}
-		catch(Throwable t){
+		} catch (Throwable t) {
 			Log.warn("Invalid scale");
 		}
 		return ret;
-	    
-    }
+
+	}
 
 	public void adjustScale() {
-		if(getDataParamApp() || (getAttribute("data-scalex") != null && !"".equals(getAttribute("data-scalex")))){
+		if (getDataParamApp()
+		        || (getAttribute("data-scalex") != null && !""
+		                .equals(getAttribute("data-scalex")))) {
 			return;
 		}
 		double externalScale = getDataParamScale();
-		setAttribute("data-scalex", ""+(externalScale * envScale("x")));
-		setAttribute("data-scaley", ""+(externalScale * envScale("y")));
-		
+		setAttribute("data-scalex", "" + (externalScale * envScale("x")));
+		setAttribute("data-scaley", "" + (externalScale * envScale("y")));
+
 		Element parent = this.getParentElement();
-		if(parent.getParentElement()!=null && "applet_container".equals(parent.getParentElement().getId())){
+		if (parent.getParentElement() != null
+		        && "applet_container".equals(parent.getParentElement().getId())) {
 			parent = parent.getParentElement();
 		}
-		Browser.scale(parent,externalScale,0,0);
-    }
+		Browser.scale(parent, externalScale, 0, 0);
+	}
 
 	public boolean getDataParamPrerelease() {
-	    return "true".equals(getAttribute("data-param-prerelease"));
-    }
+		return "true".equals(getAttribute("data-param-prerelease"));
+	}
 
 	public String getDataParamTubeID() {
-	    return getAttribute("data-param-tubeid");
-    }
-	
-	
+		return getAttribute("data-param-tubeid");
+	}
+
 }

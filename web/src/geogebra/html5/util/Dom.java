@@ -7,21 +7,22 @@ import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.user.client.DOM;
 
 public class Dom extends DOM {
-	
+
 	/**
 	 * @param className
 	 * @return NodeList of elements found by className
 	 */
-	public static native NodeList<Element> getElementsByClassName(String className) /*-{
+	public static native NodeList<Element> getElementsByClassName(
+	        String className) /*-{
 		return $doc.getElementsByClassName(className);
 	}-*/;
-	
+
 	/**
 	 * @param selector
 	 * @return Nodelist of elements found by the selector
 	 */
 	public static native NodeList<Element> querySelectorAll(String selector) /*-{
-		return $doc.querySelectorAll(selector); 
+		return $doc.querySelectorAll(selector);
 	}-*/;
 
 	/**
@@ -29,13 +30,15 @@ public class Dom extends DOM {
 	 * @return first Element found by selector className
 	 */
 	public static native Element querySelector(String className) /*-{
-	    return $doc.querySelector("."+className);
-    }-*/;
-	
+		return $doc.querySelector("." + className);
+	}-*/;
+
 	/**
 	 * 
-	 * @param event a native event
-	 * @param element the element to be tested
+	 * @param event
+	 *            a native event
+	 * @param element
+	 *            the element to be tested
 	 * @return true iff event targets the element or its children
 	 */
 	public static boolean eventTargetsElement(NativeEvent event, Element element) {

@@ -29,7 +29,6 @@ package geogebra.html5.openjdk.awt.geom;
 import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GRectangle2D;
 
-
 /**
  * The <code>Rectangle2D</code> class describes a rectangle defined by a
  * location (x,&nbsp;y) and dimension (w&nbsp;x&nbsp;h).
@@ -41,7 +40,8 @@ import geogebra.common.awt.GRectangle2D;
  * @version 1.29, 12/19/03
  * @author Jim Graham
  */
-public abstract class Rectangle2D extends RectangularShape implements GRectangle2D {
+public abstract class Rectangle2D extends RectangularShape implements
+        GRectangle2D {
 	/**
 	 * The bitmask that indicates that a point lies to the left of this
 	 * <code>Rectangle2D</code>.
@@ -275,7 +275,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 			 * of x/y and w/h are not similar. By converting to double before
 			 * the addition we force the addition to be carried out in double to
 			 * avoid rounding error in the comparison.
-			 *
+			 * 
 			 * See bug 4320890 for problems that this inaccuracy causes.
 			 */
 			int out = 0;
@@ -365,7 +365,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		 */
 		public String toString() {
 			return getClass().getName() + "[x=" + x + ",y=" + y + ",w=" + width
-					+ ",h=" + height + "]";
+			        + ",h=" + height + "]";
 		}
 	}
 
@@ -619,7 +619,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		 */
 		public String toString() {
 			return getClass().getName() + "[x=" + x + ",y=" + y + ",w=" + width
-					+ ",h=" + height + "]";
+			        + ",h=" + height + "]";
 		}
 	}
 
@@ -787,18 +787,14 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 	 * @return the bounding box of this <code>Rectangle2D</code>.
 	 * @since 1.2
 	 */
-	//public Rectangle2D getBounds2D() {
-	//	throw new InternalError("Clone() is not supported by GWT");
-		/*
-		try {
-			return (Rectangle2D) clone();
-		} catch (Exception e) {
-			throw new awt.client.exception.InternalError(e.getMessage(), e.getCause());
-		}
-		*/
+	// public Rectangle2D getBounds2D() {
+	// throw new InternalError("Clone() is not supported by GWT");
+	/*
+	 * try { return (Rectangle2D) clone(); } catch (Exception e) { throw new
+	 * awt.client.exception.InternalError(e.getMessage(), e.getCause()); }
+	 */
 
-	//}
-
+	// }
 
 	/**
 	 * Tests if a specified coordinate is inside the boundary of this
@@ -815,14 +811,14 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		double x0 = getX();
 		double y0 = getY();
 		return (x >= x0 && y >= y0 && x < x0 + getWidth() && y < y0
-				+ getHeight());
+		        + getHeight());
 	}
-	
+
 	public boolean contains(int x, int y) {
 		double x0 = getX();
 		double y0 = getY();
 		return (x >= x0 && y >= y0 && x < x0 + getWidth() && y < y0
-				+ getHeight());
+		        + getHeight());
 	}
 
 	/**
@@ -848,9 +844,9 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		double x0 = getX();
 		double y0 = getY();
 		return (x + w > x0 && y + h > y0 && x < x0 + getWidth() && y < y0
-				+ getHeight());
+		        + getHeight());
 	}
-	
+
 	public boolean intersects(int x, int y, int w, int h) {
 		if (isEmpty() || w <= 0 || h <= 0) {
 			return false;
@@ -858,7 +854,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		double x0 = getX();
 		double y0 = getY();
 		return (x + w > x0 && y + h > y0 && x < x0 + getWidth() && y < y0
-				+ getHeight());
+		        + getHeight());
 	}
 
 	/**
@@ -884,7 +880,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		double x0 = getX();
 		double y0 = getY();
 		return (x >= x0 && y >= y0 && (x + w) <= x0 + getWidth() && (y + h) <= y0
-				+ getHeight());
+		        + getHeight());
 	}
 
 	/**
@@ -922,7 +918,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 	 * @since 1.2
 	 */
 	public static void intersect(GRectangle2D src1, GRectangle2D src2,
-			Rectangle2D dest) {
+	        Rectangle2D dest) {
 		double x1 = Math.max(src1.getMinX(), src2.getMinX());
 		double y1 = Math.max(src1.getMinY(), src2.getMinY());
 		double x2 = Math.min(src1.getMaxX(), src2.getMaxX());
@@ -964,7 +960,7 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 	 * @since 1.2
 	 */
 	public static void union(Rectangle2D src1, Rectangle2D src2,
-			Rectangle2D dest) {
+	        Rectangle2D dest) {
 		double x1 = Math.min(src1.getMinX(), src2.getMinX());
 		double y1 = Math.min(src1.getMinY(), src2.getMinY());
 		double x2 = Math.max(src1.getMaxX(), src2.getMaxX());
@@ -1108,8 +1104,8 @@ public abstract class Rectangle2D extends RectangularShape implements GRectangle
 		if (obj instanceof Rectangle2D) {
 			Rectangle2D r2d = (Rectangle2D) obj;
 			return ((getX() == r2d.getX()) && (getY() == r2d.getY())
-					&& (getWidth() == r2d.getWidth()) && (getHeight() == r2d
-					.getHeight()));
+			        && (getWidth() == r2d.getWidth()) && (getHeight() == r2d
+			            .getHeight()));
 		}
 		return false;
 	}

@@ -12,7 +12,8 @@ import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPanelWAbstract, RequiresResize {
+public class EuclidianSimplePanelW extends AbsolutePanel implements
+        EuclidianPanelWAbstract, RequiresResize {
 
 	AppW app;
 	int oldHeight = 0;
@@ -21,10 +22,10 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 	Canvas eview1 = null;// static foreground
 
 	/**
-	 * This constructor is used by the Application
-	 * and by the other constructor
+	 * This constructor is used by the Application and by the other constructor
 	 * 
-	 * @param stylebar (is there stylebar?)
+	 * @param stylebar
+	 *            (is there stylebar?)
 	 */
 	public EuclidianSimplePanelW(boolean stylebar) {
 		super();
@@ -34,6 +35,7 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 
 	/**
 	 * This constructor is used by the applet
+	 * 
 	 * @param application
 	 * @param stylebar
 	 */
@@ -50,17 +52,17 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 
 		return this;
 	}
-	
+
 	public Canvas getCanvas() {
-	    return eview1;
-    }
+		return eview1;
+	}
 
 	public Panel getEuclidianPanel() {
-	    return this;
-    }
+		return this;
+	}
 
 	public void attachApp(App app) {
-		this.app = (AppW)app;
+		this.app = (AppW) app;
 	}
 
 	public EuclidianSimplePanelW getEuclidianView1Wrapper() {
@@ -96,14 +98,14 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 				oldWidth = w;
 			}
 		}
-    }
+	}
 
 	public void deferredOnResize() {
 
 		// There is probably no need for deferred call here, but what if yes?
 
 		Scheduler.get().scheduleDeferred(onResizeCmd);
-		//onResize();
+		// onResize();
 	}
 
 	Scheduler.ScheduledCommand onResizeCmd = new Scheduler.ScheduledCommand() {
@@ -112,5 +114,6 @@ public class EuclidianSimplePanelW extends AbsolutePanel implements EuclidianPan
 		}
 	};
 
-	public void updateNavigationBar() { }
+	public void updateNavigationBar() {
+	}
 }

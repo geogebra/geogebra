@@ -6,23 +6,26 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.MaterialListElement;
 
 public class TabletMaterialElement extends MaterialListElement {
-	
-	public TabletMaterialElement(final Material m, final AppW app, final boolean isLocal) {
+
+	public TabletMaterialElement(final Material m, final AppW app,
+	        final boolean isLocal) {
 		super(m, app, isLocal);
 	}
-	
+
 	@Override
-    public void onView() {
-		((GuiManagerW) app.getGuiManager()).getBrowseGUI().setMaterialsDefaultStyle();
+	public void onView() {
+		((GuiManagerW) app.getGuiManager()).getBrowseGUI()
+		        .setMaterialsDefaultStyle();
 		if (!isLocal) {
-			loadNative(getMaterial().getId(), getMaterial().getTitle(), app.getLoginOperation().getModel().getLoginToken());
+			loadNative(getMaterial().getId(), getMaterial().getTitle(), app
+			        .getLoginOperation().getModel().getLoginToken());
 		}
-		
+
 	}
-	
+
 	private native void loadNative(int id, String title, String token) /*-{
-    	if($wnd.android){
-    		$wnd.android.open(id, title, token);
-    	}
+		if ($wnd.android) {
+			$wnd.android.open(id, title, token);
+		}
 	}-*/;
 }

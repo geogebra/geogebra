@@ -17,7 +17,6 @@
  **********************************************/
 package geogebra.vectomatic;
 
-
 import geogebra.html5.Browser;
 import geogebra.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
@@ -42,30 +41,31 @@ import com.google.gwt.user.rebind.StringSourceWriter;
 public class SVGResourceGenerator extends AbstractResourceGenerator {
 
 	@Override
-	public String createAssignment(
-		TreeLogger logger, 
-		ResourceContext context,
-		JMethod method) throws UnableToCompleteException {
+	public String createAssignment(TreeLogger logger, ResourceContext context,
+	        JMethod method) throws UnableToCompleteException {
 
 		// Extract the SVG name from the @Source annotation
-	    URL[] resources = ResourceGeneratorUtil.findResources(logger, context, method);
+		URL[] resources = ResourceGeneratorUtil.findResources(logger, context,
+		        method);
 		if (resources.length != 1) {
-			logger.log(TreeLogger.ERROR, "Exactly one resource must be specified", null);
+			logger.log(TreeLogger.ERROR,
+			        "Exactly one resource must be specified", null);
 			throw new UnableToCompleteException();
 		}
 		URL resource = resources[0];
 
 		// The SVGResource is implemented as an anonymous inner class
 		// xxx = new SVGResource() {
-		//   public OMSVGSVGElement getSvg() {
-		//     return OMSVGParser.parse("...");
-		//   }
+		// public OMSVGSVGElement getSvg() {
+		// return OMSVGParser.parse("...");
+		// }
 		// };
 		String toWrite = Util.readURLAsString(resource);
-		/*if (getValidated(method)) {
-			SVGValidator.validate(toWrite, resource.toExternalForm(), logger, null);
-		}*/
-		
+		/*
+		 * if (getValidated(method)) { SVGValidator.validate(toWrite,
+		 * resource.toExternalForm(), logger, null); }
+		 */
+
 		SourceWriter sw = new StringSourceWriter();
 		sw.println("new " + SVGResource.class.getName() + "() {");
 		sw.indent();
@@ -74,26 +74,29 @@ public class SVGResourceGenerator extends AbstractResourceGenerator {
 		// Convenience when examining the generated code.
 		sw.println("// " + resource.toExternalForm());
 
-	    sw.println("@Override");
-	    sw.println("public String getName() {");
-	    sw.indent();
-	    sw.println("return \"" + method.getName() + "\";");
-	    sw.outdent();
-	    sw.println("}");
-	    
-	    sw.println("@Override");
-	    sw.println("public String getUrl() {");
-	    sw.indent();
-		sw.println("return \"data:image/svg+xml;base64,\" + " + Browser.class.getName() + ".base64encode(svg);");
-	    sw.outdent();
-	    sw.println("}");
+		sw.println("@Override");
+		sw.println("public String getName() {");
+		sw.indent();
+		sw.println("return \"" + method.getName() + "\";");
+		sw.outdent();
+		sw.println("}");
 
-	    sw.println("@Override");
-	    sw.println("public " + SafeUri.class.getName() + " getSafeUri() {");
-	    sw.indent();
-		sw.println("return " + UriUtils.class.getName() + ".fromSafeConstant(\"data:image/svg+xml;base64,\" + " + Browser.class.getName() + ".base64encode(svg));");
-	    sw.outdent();
-	    sw.println("}");
+		sw.println("@Override");
+		sw.println("public String getUrl() {");
+		sw.indent();
+		sw.println("return \"data:image/svg+xml;base64,\" + "
+		        + Browser.class.getName() + ".base64encode(svg);");
+		sw.outdent();
+		sw.println("}");
+
+		sw.println("@Override");
+		sw.println("public " + SafeUri.class.getName() + " getSafeUri() {");
+		sw.indent();
+		sw.println("return " + UriUtils.class.getName()
+		        + ".fromSafeConstant(\"data:image/svg+xml;base64,\" + "
+		        + Browser.class.getName() + ".base64encode(svg));");
+		sw.outdent();
+		sw.println("}");
 
 		sw.outdent();
 		sw.println("}");
@@ -101,6 +104,4 @@ public class SVGResourceGenerator extends AbstractResourceGenerator {
 		return sw.toString();
 	}
 
-	
-	
 }

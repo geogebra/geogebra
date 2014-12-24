@@ -6,17 +6,19 @@ import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
+
 //import geogebra.web.gui.view.spreadsheet.MyTableW;
 
 public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
 	public interface ChangeListener {
 		public void dimensionChange();
+
 		public void valueChange();
 	}
 
 	private MyTable table;
-	
+
 	ChangeListener listener = null;
 
 	// try with one-dimension ArrayList to represent two dimensions
@@ -46,7 +48,7 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		if (listener != null)
 			listener.dimensionChange();
 		attachView();
-		isIniting=false;
+		isIniting = false;
 	}
 
 	/**
@@ -57,17 +59,17 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 	public ArrayList<Object> getDefaultTableModel() {
 		return defaultTableModel;
 	}
-	
-	public void attachMyTable(MyTable table){
+
+	public void attachMyTable(MyTable table) {
 		this.table = table;
 		Object value;
 		if (table != null)
 			for (int i = 0; i < rowNum; i++)
 				for (int j = 0; j < colNum; j++)
-					if ((value = getValueAt(i,j)) != null)
+					if ((value = getValueAt(i, j)) != null)
 						table.updateTableCellValue(value, i, j);
 	}
-		
+
 	@Override
 	public int getRowCount() {
 		return rowNum;
@@ -102,15 +104,15 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 		} else if (colNum > columnCount) {
 			for (int i = rowNum - 1; i >= 0; i--)
 				for (int j = colNum - 1; j >= columnCount; j--)
-					defaultTableModel.remove(i*colNum + j);
+					defaultTableModel.remove(i * colNum + j);
 		} else {
 			defaultTableModel.ensureCapacity(rowNum * columnCount);
 			for (int i = rowNum - 1; i >= 0; i--)
 				for (int j = colNum; j < columnCount; j++)
-					if (i*colNum + j >= defaultTableModel.size())
+					if (i * colNum + j >= defaultTableModel.size())
 						defaultTableModel.add(null);
 					else
-						defaultTableModel.add(i*colNum + j, null);
+						defaultTableModel.add(i * colNum + j, null);
 		}
 		colNum = columnCount;
 		if (listener != null)
@@ -119,8 +121,8 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
-		return defaultTableModel.get(row*colNum+column);
-}
+		return defaultTableModel.get(row * colNum + column);
+	}
 
 	@Override
 	public void setValueAt(Object value, int row, int column) {
@@ -156,19 +158,19 @@ public class SpreadsheetTableModelW extends SpreadsheetTableModel {
 
 	public void repaint() {
 		App.debug("unimplemented");
-    }
+	}
 
 	public boolean isShowing() {
 		App.debug("unimplemented");
-	    return false;
-    }
+		return false;
+	}
 
 	public void setChangeListener(ChangeListener cl) {
 		listener = cl;
 	}
-	
-	public boolean suggestRepaint(){
-		//repaint not needed
+
+	public boolean suggestRepaint() {
+		// repaint not needed
 		return false;
 	}
 }

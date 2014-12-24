@@ -13,25 +13,27 @@ public class ScriptManagerW extends ScriptManager {
 
 	private String ggbApplet = AppW.DEFAULT_APPLET_ID;
 	private JavaScriptObject api;
+
 	/**
-	 * @param app application
+	 * @param app
+	 *            application
 	 */
 	public ScriptManagerW(AppW app) {
 		super(app);
 
-	    // this should contain alphanumeric characters only,
-	    // but it is not checked otherwise
-	    ggbApplet = app.getDataParamId();
+		// this should contain alphanumeric characters only,
+		// but it is not checked otherwise
+		ggbApplet = app.getDataParamId();
 
-	    api = initAppletFunctions(app.getGgbApi());
-    }
-	
+		api = initAppletFunctions(app.getGgbApi());
+	}
+
 	public static native void runCallback(JavaScriptObject onLoadCallback) /*-{
 		if (typeof onLoadCallback === "function") {
 			onLoadCallback();
 		}
 	}-*/;
-	
+
 	public static native void ggbOnInitStatic() /*-{
 		if (typeof $wnd.ggbOnInit === 'function')
 			$wnd.ggbOnInit();
@@ -41,52 +43,53 @@ public class ScriptManagerW extends ScriptManager {
 		if (typeof $wnd.ggbOnInit === 'function')
 			$wnd.ggbOnInit(arg, self);
 	}-*/;
-	
+
 	@Override
-	public void ggbOnInit() {		
-		try{
-			App.debug("almost there"+app.useBrowserForJavaScript());
-			//assignGgbApplet();
+	public void ggbOnInit() {
+		try {
+			App.debug("almost there" + app.useBrowserForJavaScript());
+			// assignGgbApplet();
 			if (app.useBrowserForJavaScript()) {
-			
-				String param = ((AppW)app).getDataParamId();
+
+				String param = ((AppW) app).getDataParamId();
 				if (param == null || "".equals(param)) {
 					ggbOnInitStatic();
 				} else {
 					ggbOnInit(param, api);
 				}
-				
-			
+
 			} else {
-				// call only if libraryJavaScript is not the default (ie do nothing)
-				if (!app.getKernel().getLibraryJavaScript().equals(Kernel.defaultLibraryJavaScript))
-					app.evalJavaScript(app,"ggbOnInit();"+app.getKernel().getLibraryJavaScript(), null);			
-				
+				// call only if libraryJavaScript is not the default (ie do
+				// nothing)
+				if (!app.getKernel().getLibraryJavaScript()
+				        .equals(Kernel.defaultLibraryJavaScript))
+					app.evalJavaScript(app, "ggbOnInit();"
+					        + app.getKernel().getLibraryJavaScript(), null);
+
 			}
-			
-		}catch(Throwable t){
+
+		} catch (Throwable t) {
 			App.debug(t.getMessage());
 		}
-		//set this to run always
+		// set this to run always
 		String articleid = ((AppW) app).getArticleId();
 		if (articleid != null) {
 			AppW.appletOnLoad(articleid);
 		}
-		if (((AppW) app).getGeoGebraFrame() != null && ((AppW) app).getGeoGebraFrame().onLoadCallback != null) {
+		if (((AppW) app).getGeoGebraFrame() != null
+		        && ((AppW) app).getGeoGebraFrame().onLoadCallback != null) {
 			runCallback(((AppW) app).getGeoGebraFrame().onLoadCallback);
 		}
 	}
-	
-	
 
 	@Override
-    public void callJavaScript(String jsFunction, Object[] args) {
-	    app.callAppletJavaScript(jsFunction, args);	    
-    }
-	
+	public void callJavaScript(String jsFunction, Object[] args) {
+		app.callAppletJavaScript(jsFunction, args);
+	}
+
 	// TODO - needed for every ggm instance
 	private native JavaScriptObject initAppletFunctions(
-			geogebra.html5.main.GgbAPIW ggbAPI) /*-{
+	        geogebra.html5.main.GgbAPIW ggbAPI) /*-{
 
 		var ggbApplet = this.@geogebra.html5.main.ScriptManagerW::ggbApplet;
 
@@ -108,22 +111,22 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getBase64 = function(param1, param2) {
-			if(param2 === false){
+			if (param2 === false) {
 				return ggbAPI.@geogebra.html5.main.GgbAPIW::getBase64(Z)(false);
 			}
-			if(param2 === true){
+			if (param2 === true) {
 				return ggbAPI.@geogebra.html5.main.GgbAPIW::getBase64(Z)(true);
 			}
-			if(param2){
+			if (param2) {
 				return ggbAPI.@geogebra.html5.main.GgbAPIW::getBase64(ZLcom/google/gwt/core/client/JavaScriptObject;)(param1, param2);
-			}else if(param1){
+			} else if (param1) {
 				return ggbAPI.@geogebra.html5.main.GgbAPIW::getBase64(ZLcom/google/gwt/core/client/JavaScriptObject;)(false, param1);
-			}else{
+			} else {
 				return ggbAPI.@geogebra.html5.main.GgbAPIW::getBase64()();
 			}
-			
+
 		}
-		
+
 		api.setBase64 = function(base64string) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::setBase64(Ljava/lang/String;)(base64string);
 		}
@@ -135,7 +138,7 @@ public class ScriptManagerW extends ScriptManager {
 		api.login = function(token) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::login(Ljava/lang/String;)(token);
 		};
-		
+
 		api.logout = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::logout()();
 		};
@@ -155,10 +158,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.evalCommandCAS = function(cmdString) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::evalCommandCAS(Ljava/lang/String;)(cmdString);
 		};
-		
-		api.evalGeoGebraCAS = function(cmdString) { 
-	 		return ggbAPI.@geogebra.html5.main.GgbAPIW::evalGeoGebraCAS(Ljava/lang/String;)(cmdString); 
-	 	};
+
+		api.evalGeoGebraCAS = function(cmdString) {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::evalGeoGebraCAS(Ljava/lang/String;)(cmdString);
+		};
 
 		api.setFixed = function(objName, flag) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::setFixed(Ljava/lang/String;Z)(objName,flag);
@@ -171,7 +174,7 @@ public class ScriptManagerW extends ScriptManager {
 		api.setUndoPoint = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::setUndoPoint()();
 		};
-		
+
 		api.setSaved = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::setSaved()();
 		};
@@ -179,12 +182,10 @@ public class ScriptManagerW extends ScriptManager {
 		api.initCAS = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::initCAS()();
 		};
-		
+
 		api.uploadToGeoGebraTube = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::uploadToGeoGebraTube()();
 		};
-		
-		
 
 		// This is not yet used in GeoGebraWeb
 		//api.setErrorDialogsActive = function(flag) {
@@ -204,7 +205,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.getVisible = function(objName, view) {
-			if(view){
+			if (view) {
 				return ggbAPI.@geogebra.html5.main.GgbAPIW::getVisible(Ljava/lang/String;I)(objName,view);
 			}
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getVisible(Ljava/lang/String;)(objName);
@@ -239,7 +240,7 @@ public class ScriptManagerW extends ScriptManager {
 		};
 
 		api.setCorner = function(objName, x, y, index) {
-			if(!index){
+			if (!index) {
 				index = 1;
 			}
 			ggbAPI.@geogebra.html5.main.GgbAPIW::setCorner(Ljava/lang/String;DDI)(objName,x,y,index);
@@ -332,11 +333,11 @@ public class ScriptManagerW extends ScriptManager {
 		api.getValueString = function(objName) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getValueString(Ljava/lang/String;)(objName);
 		};
-		
+
 		api.getListValue = function(objName, index) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getListValue(Ljava/lang/String;I)(objName, index);
 		};
-		
+
 		api.getDefinitionString = function(objName) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getDefinitionString(Ljava/lang/String;)(objName);
 		};
@@ -363,67 +364,67 @@ public class ScriptManagerW extends ScriptManager {
 
 		api.setValue = function(objName, x) {
 			// #4035 
- 		    // need to support possible syntax error 
- 		    // eg setValue("a","3") rather than setValue("a",3) 
- 		    if (typeof x === "string") { 
- 		    	if (x ===  "true") { 
- 		        	x = true; 
- 		        } else if (x === "false") { 
- 		        	x = false; 
- 		        } else { 
- 		        	// force string -> number (might give NaN) 
- 		        	x = x * 1; 
- 		        } 
- 		    } 
+			// need to support possible syntax error 
+			// eg setValue("a","3") rather than setValue("a",3) 
+			if (typeof x === "string") {
+				if (x === "true") {
+					x = true;
+				} else if (x === "false") {
+					x = false;
+				} else {
+					// force string -> number (might give NaN) 
+					x = x * 1;
+				}
+			}
 
- 		    if (typeof x !== "number" && typeof x !== "boolean") { 
- 		    	// avoid possible strange effects 
- 		        return; 
- 		    }
- 		    ggbAPI.@geogebra.html5.main.GgbAPIW::setValue(Ljava/lang/String;D)(objName,x);
+			if (typeof x !== "number" && typeof x !== "boolean") {
+				// avoid possible strange effects 
+				return;
+			}
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setValue(Ljava/lang/String;D)(objName,x);
 		};
 
 		api.setTextValue = function(objName, x) {
- 		    
- 		    x = x + ""; 
 
- 		    if (typeof objName !== "string") { 
- 		    	// avoid possible strange effects 
- 		        return; 
- 		    }
- 		    ggbAPI.@geogebra.html5.main.GgbAPIW::setTextValue(Ljava/lang/String;Ljava/lang/String;)(objName,x);
+			x = x + "";
+
+			if (typeof objName !== "string") {
+				// avoid possible strange effects 
+				return;
+			}
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setTextValue(Ljava/lang/String;Ljava/lang/String;)(objName,x);
 		};
 
 		api.setListValue = function(objName, x, y) {
 			// #4035 
- 		    // need to support possible syntax error 
- 		    if (typeof x === "string") { 
- 		    	if (x ===  "true") { 
- 		        	x = 1; 
- 		        } else if (x === "false") { 
- 		        	x = 0; 
- 		        } else { 
- 		        	// force string -> number (might give NaN) 
- 		        	x = x * 1; 
- 		        } 
- 		    } 
+			// need to support possible syntax error 
+			if (typeof x === "string") {
+				if (x === "true") {
+					x = 1;
+				} else if (x === "false") {
+					x = 0;
+				} else {
+					// force string -> number (might give NaN) 
+					x = x * 1;
+				}
+			}
 
- 		    if (typeof y === "string") { 
- 		    	if (y ===  "true") { 
- 		        	y = 1; 
- 		        } else if (y === "false") { 
- 		        	y = 0; 
- 		        } else { 
- 		        	// force string -> number (might give NaN) 
- 		        	y = y * 1; 
- 		        } 
- 		    } 
+			if (typeof y === "string") {
+				if (y === "true") {
+					y = 1;
+				} else if (y === "false") {
+					y = 0;
+				} else {
+					// force string -> number (might give NaN) 
+					y = y * 1;
+				}
+			}
 
- 		    if (typeof x !== "number" || typeof y !== "number") { 
- 		    	// avoid possible strange effects 
- 		        return; 
- 		    }
- 		    ggbAPI.@geogebra.html5.main.GgbAPIW::setListValue(Ljava/lang/String;DD)(objName,x,y);
+			if (typeof x !== "number" || typeof y !== "number") {
+				// avoid possible strange effects 
+				return;
+			}
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setListValue(Ljava/lang/String;DD)(objName,x,y);
 		};
 
 		api.setRepaintingActive = function(flag) {
@@ -461,7 +462,7 @@ public class ScriptManagerW extends ScriptManager {
 		api.setMode = function(mode) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::setMode(I)(mode);
 		};
-		
+
 		api.openMaterial = function(material) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::openMaterial(Ljava/lang/String;)(material);
 		};
@@ -474,7 +475,7 @@ public class ScriptManagerW extends ScriptManager {
 		api.registerAddListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::registerAddListener(Ljava/lang/String;)(JSFunctionName);
 		};
-		
+
 		api.registerStoreUndoListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::registerStoreUndoListener(Ljava/lang/String;)(JSFunctionName);
 		};
@@ -514,11 +515,11 @@ public class ScriptManagerW extends ScriptManager {
 		api.unregisterUpdateListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::unregisterUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
-		
+
 		api.registerClientListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::registerClientListener(Ljava/lang/String;)(JSFunctionName);
 		};
-		
+
 		api.unregisterClientListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::unregisterClientListener(Ljava/lang/String;)(JSFunctionName);
 		};
@@ -530,107 +531,107 @@ public class ScriptManagerW extends ScriptManager {
 		api.unregisterObjectUpdateListener = function(JSFunctionName) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
-		
+
 		api.undo = function(repaint) {
-				ggbAPI.@geogebra.html5.main.GgbAPIW::undo(Z)(repaint == true);
+			ggbAPI.@geogebra.html5.main.GgbAPIW::undo(Z)(repaint == true);
 		};
-		
+
 		api.redo = function(repaint) {
-				ggbAPI.@geogebra.html5.main.GgbAPIW::redo(Z)(repaint == true);
+			ggbAPI.@geogebra.html5.main.GgbAPIW::redo(Z)(repaint == true);
 		};
-		
-		api.newConstruction = function(){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::newConstruction()();
+
+		api.newConstruction = function() {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::newConstruction()();
 		};
-		
-		api.debug = function(str){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::debug(Ljava/lang/String;)(str);
+
+		api.debug = function(str) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::debug(Ljava/lang/String;)(str);
 		};
-		
-		api.startEditing = function(str){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::startEditing()();
+
+		api.startEditing = function(str) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::startEditing()();
 		};
-		
-		api.setWidth = function(width){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::setWidth(I)(width);
+
+		api.setWidth = function(width) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setWidth(I)(width);
 		};
-		
-		api.setHeight = function(height){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::setHeight(I)(height);
+
+		api.setHeight = function(height) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setHeight(I)(height);
 		};
-		
-		api.setSize = function(width, height){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::setSize(II)(width, height);
+
+		api.setSize = function(width, height) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setSize(II)(width, height);
 		};
-		
-		api.enableRightClick = function(enable){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::enableRightClick(Z)(enable);
+
+		api.enableRightClick = function(enable) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::enableRightClick(Z)(enable);
 		};
-		
-		api.enableLabelDrags = function(enable){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::enableLabelDrags(Z)(enable);
+
+		api.enableLabelDrags = function(enable) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::enableLabelDrags(Z)(enable);
 		};
-		
-		api.enableShiftDragZoom = function(enable){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::enableShiftDragZoom(Z)(enable);
+
+		api.enableShiftDragZoom = function(enable) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::enableShiftDragZoom(Z)(enable);
 		};
-		
-		api.showToolBar = function(show){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::showToolBar(Z)(show);
+
+		api.showToolBar = function(show) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::showToolBar(Z)(show);
 		};
-		
-		api.showMenuBar = function(show){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::showMenuBar(Z)(show);
+
+		api.showMenuBar = function(show) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::showMenuBar(Z)(show);
 		};
-		
-		api.showAlgebraInput = function(show){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::showAlgebraInput(Z)(show);
+
+		api.showAlgebraInput = function(show) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::showAlgebraInput(Z)(show);
 		};
-		
-		api.showResetIcon = function(show){ 
-				ggbAPI.@geogebra.html5.main.GgbAPIW::showResetIcon(Z)(show);
+
+		api.showResetIcon = function(show) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::showResetIcon(Z)(show);
 		};
-		
-		api.getViewProperties = function(show){ 
-				return ggbAPI.@geogebra.html5.main.GgbAPIW::getViewProperties(I)(show);
+
+		api.getViewProperties = function(show) {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::getViewProperties(I)(show);
 		};
-		
-		api.setFont = function(label, size, bold, italic, serif){
-				ggbAPI.@geogebra.html5.main.GgbAPIW::setFont(Ljava/lang/String;IZZZ)(label,size,bold, italic,serif);
+
+		api.setFont = function(label, size, bold, italic, serif) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setFont(Ljava/lang/String;IZZZ)(label,size,bold, italic,serif);
 		};
-		
-		api.insertImage = function(url){
-				ggbAPI.@geogebra.html5.main.GgbAPIW::insertImage(Ljava/lang/String;)(url);
+
+		api.insertImage = function(url) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::insertImage(Ljava/lang/String;)(url);
 		};
-		
-		api.recalculateEnvironments = function(){
-				ggbAPI.@geogebra.html5.main.GgbAPIW::recalculateEnvironments()();
+
+		api.recalculateEnvironments = function() {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::recalculateEnvironments()();
 		};
-		
-		api.isIndependent = function(label){
-				return ggbAPI.@geogebra.html5.main.GgbAPIW::isIndependent(Ljava/lang/String;)(label);
+
+		api.isIndependent = function(label) {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::isIndependent(Ljava/lang/String;)(label);
 		};
-		
-		api.isMoveable = function(label){
-				return ggbAPI.@geogebra.html5.main.GgbAPIW::isMoveable(Ljava/lang/String;)(label);
+
+		api.isMoveable = function(label) {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::isMoveable(Ljava/lang/String;)(label);
 		};
-		
-		api.setPerspective = function(code){
-				ggbAPI.@geogebra.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code);
+
+		api.setPerspective = function(code) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setPerspective(Ljava/lang/String;)(code);
 		};
-		
-		api.getPNGBase64 = function(exportScale, transparent, dpi){
+
+		api.getPNGBase64 = function(exportScale, transparent, dpi) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getPNGBase64(DZD)(exportScale,transparent,dpi);
 		}
-		
-		api.getFileJSON = function(){
+
+		api.getFileJSON = function() {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::getFileJSON(Z)(false);
-		}	
-		
-		api.setLanguage = function(lang){
+		}
+
+		api.setLanguage = function(lang) {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang);
-		}	
-		
+		}
+
 		api.remove = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::removeApplet()();
 			$doc[ggbApplet] = $wnd[ggbApplet] = api = null;

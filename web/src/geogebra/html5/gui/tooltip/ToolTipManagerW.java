@@ -59,10 +59,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author G. Sturr
  */
 public class ToolTipManagerW {
-	
+
 	/**
-	 * The toolTip can include a link. depending on the
-	 * type of the link, another picture has to be added.
+	 * The toolTip can include a link. depending on the type of the link,
+	 * another picture has to be added.
 	 */
 	public enum ToolTipLinkType {
 		/**
@@ -70,7 +70,7 @@ public class ToolTipManagerW {
 		 */
 		Help,
 		/**
-		 *TODO another picture is needed
+		 * TODO another picture is needed
 		 */
 		ViewSavedFile;
 	}
@@ -184,8 +184,9 @@ public class ToolTipManagerW {
 
 		questionMark = GuiResourcesSimple.INSTANCE.questionMark().getSafeUri()
 		        .asString();
-		viewSavedFile = GuiResourcesSimple.INSTANCE.viewSaved().getSafeUri().asString();
-		
+		viewSavedFile = GuiResourcesSimple.INSTANCE.viewSaved().getSafeUri()
+		        .asString();
+
 		bottomInfoTipPanel = new HorizontalPanel();
 		bottomInfoTipPanel.setStyleName("infoTooltip");
 		bottomInfoTipPanel.add(bottomInfoTipHTML);
@@ -206,11 +207,15 @@ public class ToolTipManagerW {
 	// BottomInfoToolTip
 	// =====================================
 	/**
-	 * @param text String
-	 * @param helpURL String
-	 * @param link {@link ToolTipLinkType}
+	 * @param text
+	 *            String
+	 * @param helpURL
+	 *            String
+	 * @param link
+	 *            {@link ToolTipLinkType}
 	 */
-	public void showBottomInfoToolTip(String text, final String helpURL, ToolTipLinkType link, AppW app) {
+	public void showBottomInfoToolTip(String text, final String helpURL,
+	        ToolTipLinkType link, AppW app) {
 		if (blockToolTip) {
 			return;
 		}
@@ -221,22 +226,26 @@ public class ToolTipManagerW {
 			bottomInfoTipPanel.remove(helpLabel);
 		}
 
-		boolean online = app == null || app.getNetworkOperation() == null || app.getNetworkOperation().isOnline();
+		boolean online = app == null || app.getNetworkOperation() == null
+		        || app.getNetworkOperation().isOnline();
 		if (helpURL != null && helpURL.length() > 0 && link != null && online) {
 			helpLabel = new Label();
-			
+
 			if (link.equals(ToolTipLinkType.Help)) {
-				helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.questionMark + ")");
+				helpLabel.getElement().getStyle()
+				        .setBackgroundImage("url(" + this.questionMark + ")");
 			} else if (link.equals(ToolTipLinkType.ViewSavedFile)) {
-				helpLabel.getElement().getStyle().setBackgroundImage("url(" + this.viewSavedFile + ")");
+				helpLabel.getElement().getStyle()
+				        .setBackgroundImage("url(" + this.viewSavedFile + ")");
 			}
-			
+
 			/*
-			 * In "exam" mode the question mark is shown, but when clicking on it,
-			 * the tooltip disappears. It is important to disallow showing an external page in exam mode.
-			 * TODO: the best would be not show the question mark at all.
+			 * In "exam" mode the question mark is shown, but when clicking on
+			 * it, the tooltip disappears. It is important to disallow showing
+			 * an external page in exam mode. TODO: the best would be not show
+			 * the question mark at all.
 			 */
-			final boolean exam = ((AppW)app).getLAF().isExam();
+			final boolean exam = ((AppW) app).getLAF().isExam();
 			if (!exam) {
 				helpLabel.addDomHandler(new MouseDownHandler() {
 					public void onMouseDown(MouseDownEvent event) {
@@ -276,7 +285,7 @@ public class ToolTipManagerW {
 		blockToolTip = false;
 		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
 		        + "</html>", "", null, null);
-		
+
 		blockToolTip = true;
 		if (closeAutomatic) {
 			timer = new Timer() {
@@ -296,8 +305,8 @@ public class ToolTipManagerW {
 	 *            that should be opened
 	 */
 	native void openWindow(String url)/*-{
-		$wnd.open(url);
-	}-*/;
+	                                  $wnd.open(url);
+	                                  }-*/;
 
 	public void hideBottomInfoToolTip() {
 		cancelTimer();

@@ -25,7 +25,7 @@ public class GFontW extends geogebra.common.awt.GFont {
 	}
 
 	public GFontW(String fontStyle) {
-		this.setFontStyle(fontStyle);			
+		this.setFontStyle(fontStyle);
 	}
 
 	public GFontW(String name, int style, int size) {
@@ -36,10 +36,10 @@ public class GFontW extends geogebra.common.awt.GFont {
 		} else {
 			fontFamily = name;
 		}
-	    fontSize = size+"";
-	    setFontStyle(style);
-	    
-    }
+		fontSize = size + "";
+		setFontStyle(style);
+
+	}
 
 	public void setFontStyle(String fontStyle) {
 		this.fontStyle = fontStyle;
@@ -50,7 +50,8 @@ public class GFontW extends geogebra.common.awt.GFont {
 	}
 
 	public String getFullFontString() {
-		return fontStyle+" "+fontVariant+" "+fontWeight+" "+fontSize+"px/"+lineHeight+"px "+fontFamily;
+		return fontStyle + " " + fontVariant + " " + fontWeight + " "
+		        + fontSize + "px/" + lineHeight + "px " + fontFamily;
 	}
 
 	public void setFontVariant(String fontVariant) {
@@ -101,8 +102,9 @@ public class GFontW extends geogebra.common.awt.GFont {
 	}
 
 	@Override
-    public int canDisplayUpTo(String textString) {
-		// Suppose that everything will work well as it is difficult to determine
+	public int canDisplayUpTo(String textString) {
+		// Suppose that everything will work well as it is difficult to
+		// determine
 		// if a character is displayable or not
 		return -1;
 	}
@@ -117,7 +119,7 @@ public class GFontW extends geogebra.common.awt.GFont {
 			setFontWeight(NORMAL_STR);
 			setFontStyle(ITALIC_STR);
 			break;
-		case (BOLD+ITALIC):
+		case (BOLD + ITALIC):
 			setFontWeight(BOLD_STR);
 			setFontStyle(ITALIC_STR);
 			break;
@@ -128,67 +130,67 @@ public class GFontW extends geogebra.common.awt.GFont {
 	}
 
 	/**
-	 * @param fontSize font size
+	 * @param fontSize
+	 *            font size
 	 */
 	public void setFontSize(int fontSize) {
-		this.fontSize = "" + fontSize; 
+		this.fontSize = "" + fontSize;
 	}
-	
+
 	@Override
-    public int getSize() {
+	public int getSize() {
 		return Integer.parseInt(fontSize);
 	}
-	
+
 	@Override
-    public boolean isItalic() {
+	public boolean isItalic() {
 		return fontStyle.equals(ITALIC_STR);
 	}
-	
+
 	@Override
-    public boolean isBold() {
+	public boolean isBold() {
 		return fontWeight.equals(BOLD_STR);
 	}
 
 	@Override
-    public int getStyle() {
-	    return (isBold() ? BOLD : 0) + (isItalic() ? ITALIC : 0);
-    }
+	public int getStyle() {
+		return (isBold() ? BOLD : 0) + (isItalic() ? ITALIC : 0);
+	}
 
 	@Override
-    public geogebra.common.awt.GFont deriveFont(int plain2, int fontSize) {
-	    GFontW ret = new GFontW(fontStyle);
-	    ret.setFontStyle(plain2);
-	    ret.setFontSize(fontSize);
-	    return ret;
-    }
+	public geogebra.common.awt.GFont deriveFont(int plain2, int fontSize) {
+		GFontW ret = new GFontW(fontStyle);
+		ret.setFontStyle(plain2);
+		ret.setFontSize(fontSize);
+		return ret;
+	}
 
 	@Override
-    public geogebra.common.awt.GFont deriveFont(int i) {
-	    App.debug("implementation needed or OK");
-	    GFontW ret = new GFontW(fontStyle);
-	    ret.setFontStyle(i);
-	    ret.setFontSize(fontSize);
-	    return ret;
-    }
+	public geogebra.common.awt.GFont deriveFont(int i) {
+		App.debug("implementation needed or OK");
+		GFontW ret = new GFontW(fontStyle);
+		ret.setFontStyle(i);
+		ret.setFontSize(fontSize);
+		return ret;
+	}
 
 	@Override
-    public String getFontName() {
-	    App.debug("implementation needed or OK");
-	    return fontFamily;
-    }
-	
+	public String getFontName() {
+		App.debug("implementation needed or OK");
+		return fontFamily;
+	}
+
 	@Override
-	public boolean equals(Object font){
-		if (font instanceof GFontW){
+	public boolean equals(Object font) {
+		if (font instanceof GFontW) {
 			GFontW fontW = (GFontW) font;
 			return fontFamily.equals(fontW.fontFamily)
-					&&  fontSize.equals(fontW.fontSize)
-					&&  fontStyle.equals(fontW.fontStyle)
-					&&  fontVariant.equals(fontW.fontVariant)
-					&&  fontWeight.equals(fontW.fontWeight)
-					&&  lineHeight.equals(fontW.lineHeight)
-					;
-					
+			        && fontSize.equals(fontW.fontSize)
+			        && fontStyle.equals(fontW.fontStyle)
+			        && fontVariant.equals(fontW.fontVariant)
+			        && fontWeight.equals(fontW.fontWeight)
+			        && lineHeight.equals(fontW.lineHeight);
+
 		}
 
 		return false;

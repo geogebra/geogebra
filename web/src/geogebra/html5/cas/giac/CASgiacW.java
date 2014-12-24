@@ -18,51 +18,56 @@ import com.google.gwt.core.client.RunAsyncCallback;
 
 /**
  * Web implementation of Giac CAS
+ * 
  * @author Michael Borcherds, based on Reduce version
  *
  */
 public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
-	
 
 	/** kernel */
 	Kernel kernel;
 	/** flag indicating that JS file was loaded */
 	boolean jsLoaded = false;
 	private Evaluate giac;
-	
+
 	/**
 	 * Creates new CAS
-	 * @param casParser parser
-	 * @param parserTools scientific notation convertor
-	 * @param kernel kernel
+	 * 
+	 * @param casParser
+	 *            parser
+	 * @param parserTools
+	 *            scientific notation convertor
+	 * @param kernel
+	 *            kernel
 	 */
-	public CASgiacW(CASparser casParser, CasParserTools parserTools, Kernel kernel) {
+	public CASgiacW(CASparser casParser, CasParserTools parserTools,
+	        Kernel kernel) {
 		super(casParser);
 		this.parserTools = parserTools;
 		this.kernel = kernel;
 
 		App.setCASVersionString("Giac/JS");
 		App.debug("starting CAS");
-		if(Browser.externalCAS()){
+		if (Browser.externalCAS()) {
 			App.debug("switching to external");
-			//CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+			// CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
 			this.jsLoaded = true;
-		}else 
+		} else
 		// asynchronous initialization, runs update as callback
-		//try NaCl first
+		// try NaCl first
 		if (geogebra.html5.cas.giac.PNaCl.isEnabled()) {
 			geogebra.html5.cas.giac.PNaCl.get().initialize();
-		} else if(Browser.isFloat64supported() && !kernel.getApplication().isScreenshotGenerator()
-				&& !Browser.isAndroidVersionLessThan(4.4)){
+		} else if (Browser.isFloat64supported()
+		        && !kernel.getApplication().isScreenshotGenerator()
+		        && !Browser.isAndroidVersionLessThan(4.4)) {
 			initialize();
 		}
-		
-		
+
 	}
 
 	@Override
 	public String evaluateCAS(String exp) {
-		if(!jsLoaded){
+		if (!jsLoaded) {
 			return "?";
 		}
 		try {
@@ -72,9 +77,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 			String ret = evaluateRaw(processedExp);
 
 			return postProcess(ret);
-			
-		//} catch (TimeoutException toe) {
-		//	throw new Error(toe.getMessage());
+
+			// } catch (TimeoutException toe) {
+			// throw new Error(toe.getMessage());
 		} catch (Throwable e) {
 			App.debug("evaluateGiac: " + e.getMessage());
 			return "?";
@@ -82,29 +87,29 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 	}
 
 	/*
-	 * called from JavaScript when the CAS is loaded
-	 * (non-Javadoc)
+	 * called from JavaScript when the CAS is loaded (non-Javadoc)
+	 * 
 	 * @see geogebra.common.kernel.cas.CASGenericInterface#initCAS()
 	 */
 	public void initCAS() {
 		// not called?
 	}
-	
+
 	public synchronized String evaluate(String s) {
-		if(!jsLoaded){
+		if (!jsLoaded) {
 			return "?";
 		}
 		if (!giacSetToGeoGebraMode) {
 			nativeEvaluateRaw(initString, Log.logger != null);
 			giacSetToGeoGebraMode = true;
 		}
-		
-		nativeEvaluateRaw("timeout "+(timeoutMillis/1000), false);
-		
+
+		nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
+
 		nativeEvaluateRaw(specialFunctions, false);
-		
+
 		String exp;
-		GLookAndFeelI laf = ((AppW)kernel.getApplication()).getLAF();
+		GLookAndFeelI laf = ((AppW) kernel.getApplication()).getLAF();
 		if (laf != null && !laf.isSmart()) {
 			// evalfa makes sure rootof() converted to decimal
 			// eg @rootof({{-4,10,-440,2025},{1,0,10,-200,375}})
@@ -112,67 +117,67 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		} else {
 			exp = s;
 		}
-		
+
 		App.debug("giac  input:" + exp);
 		String ret = nativeEvaluateRaw(exp, true);
 		App.debug("giac output:" + ret);
-		
+
 		return ret;
 	}
 
 	private native String nativeEvaluateRaw(String s, boolean showOutput) /*-{
-		if (typeof $wnd.evalGeoGebraCASExternal === 'function'){
+		if (typeof $wnd.evalGeoGebraCASExternal === 'function') {
 			return $wnd.evalGeoGebraCASExternal(s);
 		}
 		if (typeof Float64Array === 'undefined') {
 			$wnd.console.log("Typed arrays not supported, Giac won't work");
 			return "?";
 		}
-		
+
 		if (showOutput) {
-			$wnd.console.log("js giac  input:"+s);
+			$wnd.console.log("js giac  input:" + s);
 		}
-		
-		caseval = $wnd.__ggb__giac.cwrap('_ZN4giac7casevalEPKc', 'string', ['string']);  
-		
+
+		caseval = $wnd.__ggb__giac.cwrap('_ZN4giac7casevalEPKc', 'string',
+				[ 'string' ]);
+
 		var ret = caseval(s);
-		
+
 		if (showOutput) {
-			$wnd.console.log("js giac output:"+ret);
+			$wnd.console.log("js giac output:" + ret);
 		}
-		
+
 		return ret
 	}-*/;
 
 	public void initialize() {
-					GWT.runAsync(new RunAsyncCallback() {
-						public void onSuccess() {
-							App.debug("giac.js loading success");
-							JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
-							CASgiacW.this.jsLoaded = true;
-							CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
-						}
-		
-						public void onFailure(Throwable reason) {
-							App.debug("giac.js loading failure");
-						}
-					});
+		GWT.runAsync(new RunAsyncCallback() {
+			public void onSuccess() {
+				App.debug("giac.js loading success");
+				JavaScriptInjector.inject(CASResources.INSTANCE.giacJs());
+				CASgiacW.this.jsLoaded = true;
+				CASgiacW.this.kernel.getApplication().getGgbApi().initCAS();
+			}
+
+			public void onFailure(Throwable reason) {
+				App.debug("giac.js loading failure");
+			}
+		});
 	}
 
 	public void evaluateGeoGebraCASAsync(AsynchronousCommand c) {
-	    // TODO Auto-generated method stub
-	    
-    }
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public String evaluate(String exp, long timeoutMilliseconds) {
-	    return evaluate(exp);
-    }
+	public String evaluate(String exp, long timeoutMilliseconds) {
+		return evaluate(exp);
+	}
 
 	public void clearResult() {
-	    // not needed
-	    
-    }
-	
+		// not needed
+
+	}
 
 }

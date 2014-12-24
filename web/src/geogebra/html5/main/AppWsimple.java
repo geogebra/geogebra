@@ -30,14 +30,14 @@ public class AppWsimple extends AppW {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWsimple(ArticleElement ae, GeoGebraFrame gf, final boolean undoActive) {
+	public AppWsimple(ArticleElement ae, GeoGebraFrame gf,
+	        final boolean undoActive) {
 		super(ae, 2, null);
 		this.frame = gf;
 		setAppletHeight(frame.getComputedHeight());
 		setAppletWidth(frame.getComputedWidth());
 
 		this.useFullGui = false;
-
 
 		Log.info("GeoGebra " + GeoGebraConstants.VERSION_STRING + " "
 		        + GeoGebraConstants.BUILD_DATE + " "
@@ -47,7 +47,7 @@ public class AppWsimple extends AppW {
 
 		// TODO: EuclidianSimplePanelW
 		this.euclidianViewPanel = new EuclidianSimplePanelW(this, false);
-		//(EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
+		// (EuclidianDockPanelW)getGuiManager().getLayout().getDockManager().getPanel(App.VIEW_EUCLIDIAN);
 		this.canvas = this.euclidianViewPanel.getCanvas();
 		canvas.setWidth("1px");
 		canvas.setHeight("1px");
@@ -57,7 +57,7 @@ public class AppWsimple extends AppW {
 		afterCoreObjectsInited();
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
-		if(Browser.runningLocal()){
+		if (Browser.runningLocal()) {
 			new GeoGebraTubeAPIWSimple().checkAvailable(null);
 		}
 	}
@@ -66,7 +66,7 @@ public class AppWsimple extends AppW {
 	protected void afterCoreObjectsInited() {
 		// Code to run before buildApplicationPanel
 
-		//initGuiManager();// TODO: comment it out
+		// initGuiManager();// TODO: comment it out
 
 		GeoGebraFrame.finishAsyncLoading(articleElement, frame, this);
 		initing = false;
@@ -75,20 +75,26 @@ public class AppWsimple extends AppW {
 	public void buildApplicationPanel() {
 		if (frame != null) {
 			frame.clear();
-			frame.add((Widget)getEuclidianViewpanel());
-			getEuclidianViewpanel().setPixelSize(
-					getSettings().getEuclidian(1).getPreferredSize().getWidth(),
-					getSettings().getEuclidian(1).getPreferredSize().getHeight());
+			frame.add((Widget) getEuclidianViewpanel());
+			getEuclidianViewpanel()
+			        .setPixelSize(
+			                getSettings().getEuclidian(1).getPreferredSize()
+			                        .getWidth(),
+			                getSettings().getEuclidian(1).getPreferredSize()
+			                        .getHeight());
 		}
 	}
 
 	@Override
-    public void afterLoadFileAppOrNot() {
+	public void afterLoadFileAppOrNot() {
 
 		buildApplicationPanel();
 
-		getScriptManager().ggbOnInit();	// put this here from Application constructor because we have to delay scripts until the EuclidianView is shown
-		
+		getScriptManager().ggbOnInit(); // put this here from Application
+										// constructor because we have to delay
+										// scripts until the EuclidianView is
+										// shown
+
 		initUndoInfoSilent();
 
 		getEuclidianView1().synCanvasSize();
@@ -97,83 +103,82 @@ public class AppWsimple extends AppW {
 
 		getEuclidianView1().doRepaint2();
 		stopCollectingRepaints();
-		if(frame.splash != null){
+		if (frame.splash != null) {
 			frame.splash.canNowHide();
 		}
 		if (!articleElement.preventFocus()) {
 			requestFocusInWindow();
 		}
 		setDefaultCursor();
-		GeoGebraFrame.useDataParamBorder(getArticleElement(), getGeoGebraFrame());
+		GeoGebraFrame.useDataParamBorder(getArticleElement(),
+		        getGeoGebraFrame());
 		GeoGebraProfiler.getInstance().profileEnd();
-    }
+	}
 
 	@Override
 	public void focusLost() {
-		GeoGebraFrame.useDataParamBorder(
-				getArticleElement(),
-				getGeoGebraFrame());
+		GeoGebraFrame.useDataParamBorder(getArticleElement(),
+		        getGeoGebraFrame());
 		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 
 	@Override
 	public void focusGained() {
-		GeoGebraFrame.useFocusedBorder(
-				getArticleElement(),
-				getGeoGebraFrame());
+		GeoGebraFrame.useFocusedBorder(getArticleElement(), getGeoGebraFrame());
 	}
 
 	@Override
-    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
 
 		// not sure this is needed here
 
-		/*if (widthDiff != 0 || heightDiff != 0)
-			getEuclidianViewpanel().setPixelSize(
-				getEuclidianViewpanel().getOffsetWidth() + widthDiff,
-				getEuclidianViewpanel().getOffsetHeight() + heightDiff);
-		*/
+		/*
+		 * if (widthDiff != 0 || heightDiff != 0)
+		 * getEuclidianViewpanel().setPixelSize(
+		 * getEuclidianViewpanel().getOffsetWidth() + widthDiff,
+		 * getEuclidianViewpanel().getOffsetHeight() + heightDiff);
+		 */
 	}
-	
+
 	@Override
-    public Element getFrameElement(){
+	public Element getFrameElement() {
 		return frame.getElement();
 	}
-	
+
 	@Override
-    public HasAppletProperties getAppletFrame() {
+	public HasAppletProperties getAppletFrame() {
 		return frame;
 	}
-	
+
 	@Override
-    public String getArticleId() {
+	public String getArticleId() {
 		return articleElement.getId();
 	}
 
 	@Override
-    public void openSearch(String query) {
-	    //no browser
-    }
+	public void openSearch(String query) {
+		// no browser
+	}
 
 	@Override
-    public void uploadToGeoGebraTube() {
-	    //no upload
-	    
-    }
+	public void uploadToGeoGebraTube() {
+		// no upload
+
+	}
 
 	@Override
-    public void set1rstMode() {
-	    setMoveMode();
-    }
+	public void set1rstMode() {
+		setMoveMode();
+	}
 
 	@Override
-    protected void updateTreeUI() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void updateTreeUI() {
+		// TODO Auto-generated method stub
+
+	}
 
 	@Override
-    public boolean isSelectionRectangleAllowed() {
-	    return getToolbar() != null;
-    }
+	public boolean isSelectionRectangleAllowed() {
+		return getToolbar() != null;
+	}
 }

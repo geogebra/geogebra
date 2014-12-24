@@ -11,15 +11,15 @@ public class InternalError extends RuntimeException {
 
 	private static final long serialVersionUID = -6518450317013799532L;
 
-	public InternalError(){
+	public InternalError() {
 		super();
 	}
 
-	public InternalError(String message){
+	public InternalError(String message) {
 		super(message);
 	}
 
-	public InternalError(String message, Throwable cause){
+	public InternalError(String message, Throwable cause) {
 		super(message, cause);
 	}
 }

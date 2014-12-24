@@ -5,5 +5,5 @@ public interface ErrorHandler {
 	void showError(String msg);
 
 	void setActive(boolean b);
-	
+
 }

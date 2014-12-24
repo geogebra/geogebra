@@ -16,11 +16,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
  * Web implementation of the Relation Tool information window.
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * Thanks to Laszlo Gal and Judit Elias for many hints.
+ * 
+ * @author Zoltan Kovacs <zoltan@geogebra.org> Thanks to Laszlo Gal and Judit
+ *         Elias for many hints.
  */
 
-public class RelationPaneW extends DialogBox implements RelationPane, ClickHandler {
+public class RelationPaneW extends DialogBox implements RelationPane,
+        ClickHandler {
 
 	@Override
 	public void setGlassEnabled(boolean enabled) {
@@ -33,23 +35,23 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 	private int rels;
 	private FlowPanel[] texts;
 	private FlowPanel[] buttons;
-	
+
 	public void showDialog(String title, RelationRow[] relations, App app) {
 
 		// setGlassEnabled(true);
 		addStyleName("DialogBox");
-		
+
 		DialogBox db = new DialogBox();
 		FlowPanel fp = new FlowPanel();
-		
-		rels = relations.length; 
-		
+
+		rels = relations.length;
+
 		btnCallbacks = new Button[rels];
 		callbacks = new RelationMore[rels];
 		texts = new FlowPanel[rels];
 		buttons = new FlowPanel[rels];
-		
-		for (int i=0; i<rels; ++i) {
+
+		for (int i = 0; i < rels; ++i) {
 			texts[i] = new FlowPanel();
 			buttons[i] = new FlowPanel();
 			HTML text = new HTML(relations[i].info);
@@ -62,11 +64,12 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 				btnCallbacks[i].addClickHandler(this);
 				buttons[i].add(btnCallbacks[i]);
 			}
-			fp.add(geogebra.html5.gui.util.LayoutUtil.panelRow(texts[i],buttons[i]));
+			fp.add(geogebra.html5.gui.util.LayoutUtil.panelRow(texts[i],
+			        buttons[i]));
 		}
 
 		db.add(fp);
-		
+
 		btnOK = new Button();
 		btnOK.addClickHandler(this);
 
@@ -92,7 +95,7 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 		setText(title);
 		center();
 		show();
-		}
+	}
 
 	@Override
 	public void onClick(ClickEvent event) {
@@ -101,14 +104,14 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 		if (source == btnOK) {
 			hide();
 		}
-		
-		for (int i=0; i<rels; ++i) {
+
+		for (int i = 0; i < rels; ++i) {
 			if (source == btnCallbacks[i]) {
 				callbacks[i].action(this, i);
 			}
 		}
 	}
-	
+
 	public void updateRow(int row, RelationRow relation) {
 		texts[row].clear();
 		HTML text = new HTML(relation.info);
@@ -117,5 +120,5 @@ public class RelationPaneW extends DialogBox implements RelationPane, ClickHandl
 		if (callbacks[row] == null) {
 			buttons[row].setVisible(false);
 		}
-    }	
+	}
 }

@@ -31,9 +31,11 @@ public class DrawEquationWeb extends DrawEquation {
 
 	static boolean scriptloaded = false;
 
-	//private HashMap<String, SpanElement> equations = new HashMap<String, SpanElement>();
-	//private HashMap<String, Integer> equationAges = new HashMap<String, Integer>();
-	
+	// private HashMap<String, SpanElement> equations = new HashMap<String,
+	// SpanElement>();
+	// private HashMap<String, Integer> equationAges = new HashMap<String,
+	// Integer>();
+
 	private DrawElementManager elementManager;
 
 	public DrawEquationWeb() {
@@ -47,27 +49,28 @@ public class DrawEquationWeb extends DrawEquation {
 	public void setUseJavaFontsForLaTeX(App app, boolean b) {
 		// not relevant for web
 	}
-	
+
 	public static String inputLatexCosmetics(String eqstringin) {
 
 		String eqstring = eqstringin;
-		
+
 		eqstring = eqstring.replace('\n', ' ');
-		
+
 		eqstring = eqstring.replace("\\%", "%");
 
 		if (eqstring.indexOf("{\\it ") > -1) {
-			
-			//replace {\it A} by A
+
+			// replace {\it A} by A
 			// (not \italic{A} )
-			
+
 			RegExp italic = RegExp.compile("(.*)\\{\\\\it (.*?)\\}(.*)");
-			
+
 			MatchResult matcher;
-			
+
 			while ((matcher = italic.exec(eqstring)) != null) {
-				
-				eqstring = matcher.getGroup(1) + " " + matcher.getGroup(2) + matcher.getGroup(3);
+
+				eqstring = matcher.getGroup(1) + " " + matcher.getGroup(2)
+				        + matcher.getGroup(3);
 			}
 		}
 
@@ -80,18 +83,18 @@ public class DrawEquationWeb extends DrawEquation {
 
 		// remove $s
 		eqstring = eqstring.trim();
-		if (eqstring.length() > 2) { 
-			while (eqstring.startsWith("$")) 
-				eqstring = eqstring.substring(1).trim(); 
-			while (eqstring.endsWith("$")) 
-				eqstring = eqstring.substring(0, eqstring.length() - 1).trim(); 
-		} else if ("$$".equals(eqstring)) { 
-			eqstring = ""; 
-			// the rest cases: do not remove single $ 
-		} else if ("\\$".equals(eqstring)) { 
-			eqstring = "\\text{$}"; 
-		} 
-		
+		if (eqstring.length() > 2) {
+			while (eqstring.startsWith("$"))
+				eqstring = eqstring.substring(1).trim();
+			while (eqstring.endsWith("$"))
+				eqstring = eqstring.substring(0, eqstring.length() - 1).trim();
+		} else if ("$$".equals(eqstring)) {
+			eqstring = "";
+			// the rest cases: do not remove single $
+		} else if ("\\$".equals(eqstring)) {
+			eqstring = "\\text{$}";
+		}
+
 		eqstring = eqstring.replace("\\\\", "\\cr ");
 
 		// remove all \; and \,
@@ -107,11 +110,11 @@ public class DrawEquationWeb extends DrawEquation {
 		eqstring = eqstring.replace(" \\!", " ");
 		eqstring = eqstring.replace("\\!", " ");
 
-		// substitute every \$ with $ 
-	 	eqstring = eqstring.replace("\\$", "$"); 
+		// substitute every \$ with $
+		eqstring = eqstring.replace("\\$", "$");
 
-		//eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
-		//eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
+		// eqstring = eqstring.replace("\\left\\{", "\\lbrace ");
+		// eqstring = eqstring.replace("\\right\\}", "\\rbrace ");
 
 		// this might remove necessary space
 		// eqstring = eqstring.replace(" ", "");
@@ -134,12 +137,12 @@ public class DrawEquationWeb extends DrawEquation {
 			        + eqstring.substring(index1 + 6, index2) + "}"
 			        + eqstring.substring(index2 + 1);
 		}
-		
+
 		// avoid grey rectangle
 		if (eqstring.trim().equals("")) {
 			eqstring = "\\text{}";
 		}
-				
+
 		return eqstring;
 	}
 
@@ -150,39 +153,28 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
 	public void clearLaTeXes(EuclidianViewW ev) {
-		
+
 		elementManager.clearLaTeXes(ev);
-		
+
 		/*
-		Iterator<String> eei = equations.keySet().iterator();
-		ArrayList<String> dead = new ArrayList<String>();
-		while (eei.hasNext()) {
-			String eqID = eei.next();
-
-			if (eqID.length() < 1)
-				continue;
-			else if (!eqID.substring(0, 1).equals("0") &&
-					 !eqID.substring(0, 1).equals(""+ev.getEuclidianViewNo()))
-				continue;
-
-			Integer age = equationAges.get(eqID);
-			if (age == null)
-				age = 0;
-			if (age > 5) {// clearLaTeXes can be called this much until redraw
-				Element toclear = equations.get(eqID);
-				Element tcparent = toclear.getParentElement();
-				tcparent.removeChild(toclear);
-				dead.add(eqID);// avoid concurrent modification exception
-			} else {
-				equationAges.put(eqID, ++age);
-				equations.get(eqID).getStyle().setDisplay(Style.Display.NONE);
-			}
-		}
-		for (int i = dead.size() - 1; i >= 0; i--) {
-			equations.remove(dead.get(i));
-			equationAges.remove(dead.get(i));
-		}
-		*/
+		 * Iterator<String> eei = equations.keySet().iterator();
+		 * ArrayList<String> dead = new ArrayList<String>(); while
+		 * (eei.hasNext()) { String eqID = eei.next();
+		 * 
+		 * if (eqID.length() < 1) continue; else if (!eqID.substring(0,
+		 * 1).equals("0") && !eqID.substring(0,
+		 * 1).equals(""+ev.getEuclidianViewNo())) continue;
+		 * 
+		 * Integer age = equationAges.get(eqID); if (age == null) age = 0; if
+		 * (age > 5) {// clearLaTeXes can be called this much until redraw
+		 * Element toclear = equations.get(eqID); Element tcparent =
+		 * toclear.getParentElement(); tcparent.removeChild(toclear);
+		 * dead.add(eqID);// avoid concurrent modification exception } else {
+		 * equationAges.put(eqID, ++age);
+		 * equations.get(eqID).getStyle().setDisplay(Style.Display.NONE); } }
+		 * for (int i = dead.size() - 1; i >= 0; i--) {
+		 * equations.remove(dead.get(i)); equationAges.remove(dead.get(i)); }
+		 */
 	}
 
 	/**
@@ -193,19 +185,15 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            latexes of only this EuclidianView - TODO: implement
 	 */
 	public void deleteLaTeXes(EuclidianViewW ev) {
-		
+
 		elementManager.deleteLaTeXes(ev);
-		
+
 		/*
-		Iterator<SpanElement> eei = equations.values().iterator();
-		while (eei.hasNext()) {
-			Element toclear = eei.next();
-			Element tcparent = toclear.getParentElement();
-			tcparent.removeChild(toclear);
-		}
-		equations.clear();
-		equationAges.clear();
-		*/
+		 * Iterator<SpanElement> eei = equations.values().iterator(); while
+		 * (eei.hasNext()) { Element toclear = eei.next(); Element tcparent =
+		 * toclear.getParentElement(); tcparent.removeChild(toclear); }
+		 * equations.clear(); equationAges.clear();
+		 */
 	}
 
 	/**
@@ -235,40 +223,44 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	@Override
-    public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
+	public GDimension drawEquation(App app1, GeoElement geo, GGraphics2D g2,
 	        int x, int y, String latexString0, GFont font, boolean serif,
-	        GColor fgColor, GColor bgColor, boolean useCache, boolean updateAgain) {
+	        GColor fgColor, GColor bgColor, boolean useCache,
+	        boolean updateAgain) {
 
-		String latexString = latexString0; 
+		String latexString = latexString0;
 
-		if (latexString == null) 
+		if (latexString == null)
 			return null;
 
-		double rotateDegree = 0; 
+		double rotateDegree = 0;
 
-		if (latexString.startsWith("\\rotatebox{")) { 
-			// getting rotation degree... 
+		if (latexString.startsWith("\\rotatebox{")) {
+			// getting rotation degree...
 
-			// chop "\\rotatebox{" 
-			latexString = latexString.substring(11); 
+			// chop "\\rotatebox{"
+			latexString = latexString.substring(11);
 
-			// get value 
-			int index = latexString.indexOf("}{ "); 
-			rotateDegree = Double.parseDouble(latexString.substring(0, index)); 
+			// get value
+			int index = latexString.indexOf("}{ ");
+			rotateDegree = Double.parseDouble(latexString.substring(0, index));
 
-			// chop "}{" 
-			latexString = latexString.substring(index + 3); 
+			// chop "}{"
+			latexString = latexString.substring(index + 3);
 
-			// chop " }" 
-			latexString = latexString.substring(0, latexString.length() - 2); 
+			// chop " }"
+			latexString = latexString.substring(0, latexString.length() - 2);
 
-			if (latexString.startsWith("\\text{ ")) { 
-				// chop "text", seems to prevent the sqrt sign showing 
-				latexString = latexString.substring(7); 
-				latexString = latexString.substring(0, latexString.length() - 3);
+			if (latexString.startsWith("\\text{ ")) {
+				// chop "text", seems to prevent the sqrt sign showing
+				latexString = latexString.substring(7);
+				latexString = latexString
+				        .substring(0, latexString.length() - 3);
 
 				// put back "\\text{ " if it is not harmful
-				if (latexString.indexOf("{") <= 0 && latexString.indexOf("\\") <= 0 && latexString.indexOf("}") <= 0) {
+				if (latexString.indexOf("{") <= 0
+				        && latexString.indexOf("\\") <= 0
+				        && latexString.indexOf("}") <= 0) {
 					// heuristics: no latex
 					latexString = "\\text{ " + latexString + " } ";
 				}
@@ -286,37 +278,39 @@ public class DrawEquationWeb extends DrawEquation {
 			if (((EuclidianView) view).getBackgroundCommon() == bgColor) {
 				shouldPaintBackground = false;
 			}
-		}		
-		
+		}
+
 		/*
-		if (bgColor == null)
-			shouldPaintBackground = false;
-		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) && !geo.isVisibleInView(App.VIEW_EUCLIDIAN2))
-			shouldPaintBackground = false;
-		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN2) && 
-			(app1.getEuclidianView1().getBackgroundCommon() == bgColor))
-			shouldPaintBackground = false;
-		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
-				!app1.hasEuclidianView2EitherShowingOrNot())
-			shouldPaintBackground = false;
-		else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
-				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
-			shouldPaintBackground = false;
-		else if ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
-				!app1.hasEuclidianView2EitherShowingOrNot())
-			shouldPaintBackground = false;
-		else if ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
-				(app1.getEuclidianView2().getBackgroundCommon() == bgColor))
-			shouldPaintBackground = false;
+		 * if (bgColor == null) shouldPaintBackground = false; else if
+		 * (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
+		 * !geo.isVisibleInView(App.VIEW_EUCLIDIAN2)) shouldPaintBackground =
+		 * false; else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN2) &&
+		 * (app1.getEuclidianView1().getBackgroundCommon() == bgColor))
+		 * shouldPaintBackground = false; else if
+		 * (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
+		 * !app1.hasEuclidianView2EitherShowingOrNot()) shouldPaintBackground =
+		 * false; else if (!geo.isVisibleInView(App.VIEW_EUCLIDIAN) &&
+		 * (app1.getEuclidianView2().getBackgroundCommon() == bgColor))
+		 * shouldPaintBackground = false; else if
+		 * ((app1.getEuclidianView1().getBackgroundCommon() == bgColor) &&
+		 * !app1.hasEuclidianView2EitherShowingOrNot()) shouldPaintBackground =
+		 * false; else if ((app1.getEuclidianView1().getBackgroundCommon() ==
+		 * bgColor) && (app1.getEuclidianView2().getBackgroundCommon() ==
+		 * bgColor)) shouldPaintBackground = false;
 		 */
 
-		if (geo.isGeoText() && ((GeoText)geo).isMathML()) {
+		if (geo.isGeoText() && ((GeoText) geo).isMathML()) {
 			// assume that the script is loaded; it is part of resources
-			// so we will probably get width and height OK, no need to update again
+			// so we will probably get width and height OK, no need to update
+			// again
 			JsArrayInteger jai = drawEquationCanvasMath(
-				((GGraphics2DW)g2).getCanvas().getContext2d(), latexString, x, y,
-				(fgColor == null) ? null : GColor.getColorString(fgColor),
-				!shouldPaintBackground ? null : GColor.getColorString(bgColor));
+			        ((GGraphics2DW) g2).getCanvas().getContext2d(),
+			        latexString,
+			        x,
+			        y,
+			        (fgColor == null) ? null : GColor.getColorString(fgColor),
+			        !shouldPaintBackground ? null : GColor
+			                .getColorString(bgColor));
 			return new geogebra.html5.awt.GDimensionW(jai.get(0), jai.get(1));
 		}
 
@@ -326,37 +320,33 @@ public class DrawEquationWeb extends DrawEquation {
 		String eqstring = inputLatexCosmetics(latexString);
 
 		if (geo instanceof TextProperties) {
-			if ((((TextProperties)geo).getFontStyle() & GFont.ITALIC) == 0) {
+			if ((((TextProperties) geo).getFontStyle() & GFont.ITALIC) == 0) {
 				// set to be not italic
-				eqstring = "\\mathrm{"+ eqstring +"}";
-			} //else {
-				// italics needed? Try this! (Testing needed...)
-				//eqstring = "\\mathit{"+ eqstring +"}";
-			//}
-			//if ((((TextProperties)geo).getFontStyle() & GFont.BOLD) != 0) {
-				// bold needed? Try this! (Testing needed...)
-				//eqstring = "\\mathbf{"+ eqstring +"}";
-			//}
-			if (!((TextProperties)geo).isSerifFont()) {
+				eqstring = "\\mathrm{" + eqstring + "}";
+			} // else {
+			  // italics needed? Try this! (Testing needed...)
+			  // eqstring = "\\mathit{"+ eqstring +"}";
+			  // }
+			  // if ((((TextProperties)geo).getFontStyle() & GFont.BOLD) != 0) {
+			  // bold needed? Try this! (Testing needed...)
+			  // eqstring = "\\mathbf{"+ eqstring +"}";
+			  // }
+			if (!((TextProperties) geo).isSerifFont()) {
 				// forcing sans-serif
-				eqstring = "\\mathsf{"+ eqstring +"}";
+				eqstring = "\\mathsf{" + eqstring + "}";
 			}
 		}
 
-		
 		/*
-		// whether we are painting on EV1 now
-		boolean visible1 =
-				(((GGraphics2DW)g2).getCanvas() == ((AppWeb)app1).getCanvas());
-
-		// whether we are painting on EV2 now
-		boolean visible2 = false;
-		if (((AppWeb)app1).hasEuclidianView2()) {
-			if (((GGraphics2DW)g2).getCanvas() == ((GGraphics2DW)app1.getEuclidianView2().getGraphicsForPen()).getCanvas()) {
-				visible2 = true;
-			}
-		}
-		*/
+		 * // whether we are painting on EV1 now boolean visible1 =
+		 * (((GGraphics2DW)g2).getCanvas() == ((AppWeb)app1).getCanvas());
+		 * 
+		 * // whether we are painting on EV2 now boolean visible2 = false; if
+		 * (((AppWeb)app1).hasEuclidianView2()) { if
+		 * (((GGraphics2DW)g2).getCanvas() ==
+		 * ((GGraphics2DW)app1.getEuclidianView2
+		 * ().getGraphicsForPen()).getCanvas()) { visible2 = true; } }
+		 */
 
 		/*************************************************************************
 		 * If g2 is not painting in EV1 or EV2, then assume g2 is being used for
@@ -367,44 +357,44 @@ public class DrawEquationWeb extends DrawEquation {
 		 *************************************************************************/
 
 		/*
-		GGraphics2DW g2visible = (GGraphics2DW)g2;
-		if (!visible1 && !visible2) {
-			if (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) {
-				if (app1.getEuclidianView2().getTempGraphics2D(font) == g2) {
-					g2visible = (GGraphics2DW)((AppWeb)app1).getEuclidianView2().getGraphicsForPen();
-				} else if (app1.getEuclidianView1().getTempGraphics2D(font) == g2) {
-					g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1()).getGraphicsForPen();
-				}
-			} else {
-				g2visible = (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1()).getGraphicsForPen();
-			}
-		}
-		*/
+		 * GGraphics2DW g2visible = (GGraphics2DW)g2; if (!visible1 &&
+		 * !visible2) { if
+		 * (((AppWeb)app1).hasEuclidianView2EitherShowingOrNot()) { if
+		 * (app1.getEuclidianView2().getTempGraphics2D(font) == g2) { g2visible
+		 * =
+		 * (GGraphics2DW)((AppWeb)app1).getEuclidianView2().getGraphicsForPen();
+		 * } else if (app1.getEuclidianView1().getTempGraphics2D(font) == g2) {
+		 * g2visible =
+		 * (GGraphics2DW)((EuclidianView)((AppWeb)app1).getEuclidianView1
+		 * ()).getGraphicsForPen(); } } else { g2visible =
+		 * (GGraphics2DW)((EuclidianView
+		 * )((AppWeb)app1).getEuclidianView1()).getGraphicsForPen(); } }
+		 */
 
-		
-		boolean hasActualParent = ((GGraphics2DW)g2).getCanvas().isAttached() ;
-		
-		
+		boolean hasActualParent = ((GGraphics2DW) g2).getCanvas().isAttached();
+
 		// Set relative font size
 		int fontSizeR = 16;
 		if (fontSize <= 10)
 			fontSizeR = 10;
 
-		// Determine id string 
+		// Determine id string
 		String eqstringid = eqstring;
 		if (rotateDegree != 0) {
 			// adding rotateDegree again, just for the id
-			eqstringid = "\\rotatebox{" + rotateDegree + "}{ " + eqstring + " }";
+			eqstringid = "\\rotatebox{" + rotateDegree + "}{ " + eqstring
+			        + " }";
 		}
 		eqstringid = "\\scaling{" + eqstringid + "}{ " + fontSize + "}";
 		eqstringid = eqstringid + "@" + geo.getID();
 
 		// Try to get an existing element that uses this id string.
 		// If no matching element exists a new element is created.
-		SpanElement ih = (SpanElement) elementManager.getElement((GGraphics2DW) g2, eqstringid);
-				
+		SpanElement ih = (SpanElement) elementManager.getElement(
+		        (GGraphics2DW) g2, eqstringid);
+
 		if (ih == null) {
-			
+
 			// create a new latex element
 			ih = DOM.createSpan().cast();
 			ih.getStyle().setPosition(Style.Position.ABSOLUTE);
@@ -412,8 +402,9 @@ public class DrawEquationWeb extends DrawEquation {
 			int el = eqstring.length();
 			eqstring = stripEqnArray(eqstring);
 
-			// register the element with initial age = 0 
-			elementManager.registerElement((GGraphics2DW) g2, ih, eqstringid, 0);
+			// register the element with initial age = 0
+			elementManager
+			        .registerElement((GGraphics2DW) g2, ih, eqstringid, 0);
 
 			// draw it
 			Element parentElement = elementManager
@@ -426,10 +417,10 @@ public class DrawEquationWeb extends DrawEquation {
 				// set a flag that the kernel needs a new update
 				app1.getKernel().setUpdateAgain(true);
 
-		} else{
-			
+		} else {
+
 			// reset the element's age counter
-			elementManager.setElementAge((GGraphics2DW) g2, eqstringid, 0);		
+			elementManager.setElementAge((GGraphics2DW) g2, eqstringid, 0);
 		}
 
 		if (hasActualParent) {
@@ -446,32 +437,37 @@ public class DrawEquationWeb extends DrawEquation {
 				// so the background color should be set to ih's last child
 				if (ih.getLastChild() != null) {
 					Element ihc = ih.getLastChild().cast();
-					ihc.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+					ihc.getStyle().setBackgroundColor(
+					        GColor.getColorString(bgColor));
 				} else {
-					ih.getStyle().setBackgroundColor(GColor.getColorString(bgColor));
+					ih.getStyle().setBackgroundColor(
+					        GColor.getColorString(bgColor));
 				}
 			}
 
 			if (fgColor != null)
-				ih.getStyle().setColor(GColor.getColorString(fgColor));		
+				ih.getStyle().setColor(GColor.getColorString(fgColor));
 		}
-		
+
 		ih.getStyle().setDisplay(Style.Display.INLINE);
 
-		// get the dimensions 
+		// get the dimensions
 		GDimension ret = null;
-		ret = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, true)),
-				(int)Math.ceil(getScaledHeight(ih, true)));
+		ret = new geogebra.html5.awt.GDimensionW(
+		        (int) Math.ceil(getScaledWidth(ih, true)),
+		        (int) Math.ceil(getScaledHeight(ih, true)));
 
-		// adjust dimensions for rotation 
+		// adjust dimensions for rotation
 		if (rotateDegree != 0) {
-			GDimension ret0 = new geogebra.html5.awt.GDimensionW((int)Math.ceil(getScaledWidth(ih, false)),
-		 			(int)Math.ceil(getScaledHeight(ih, false)));
+			GDimension ret0 = new geogebra.html5.awt.GDimensionW(
+			        (int) Math.ceil(getScaledWidth(ih, false)),
+			        (int) Math.ceil(getScaledHeight(ih, false)));
 
 			GDimension corr = computeCorrection(ret, ret0, rotateDegree);
 
 			if (hasActualParent) {
-				// if it's not visible, leave at its previous place to prevent lag
+				// if it's not visible, leave at its previous place to prevent
+				// lag
 				ih.getStyle().setLeft(x - corr.getWidth(), Style.Unit.PX);
 				ih.getStyle().setTop(y - corr.getHeight(), Style.Unit.PX);
 			}
@@ -479,15 +475,13 @@ public class DrawEquationWeb extends DrawEquation {
 
 		return ret;
 	}
-	
-		
-	
+
 	public static native double getScaledWidth(Element el, boolean inside) /*-{
 		var ell = el;
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
 			if (ell.lastChild && inside) {//elsecondInside 
-				ell = ell.lastChild; 
+				ell = ell.lastChild;
 			}
 		}
 		if (ell.getBoundingClientRect) {
@@ -506,7 +500,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (el.lastChild) {//elsecond
 			ell = el.lastChild;
 			if (ell.lastChild && inside) {//elsecondInside 
-				ell = ell.lastChild; 
+				ell = ell.lastChild;
 			}
 		}
 		if (ell.getBoundingClientRect) {
@@ -521,8 +515,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
-	 * The JavaScript/$ggbQuery bit of drawing an equation with MathQuillGGB More
-	 * could go into GWT, but it was easier with JSNI
+	 * The JavaScript/$ggbQuery bit of drawing an equation with MathQuillGGB
+	 * More could go into GWT, but it was easier with JSNI
 	 * 
 	 * @param el
 	 *            the element which should be drawn
@@ -536,8 +530,10 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            true = normal LaTeX, flase = LaTeX with \begin{eqnarray} in
 	 *            the beginning
 	 */
-	public static native void drawEquationMathQuillGGB(Element el, String htmlt, int fontSize, int fontSizeRel,
-	        Element parentElement, boolean addOverlay, boolean noEqnArray, boolean visible, double rotateDegree) /*-{
+	public static native void drawEquationMathQuillGGB(Element el,
+	        String htmlt, int fontSize, int fontSizeRel, Element parentElement,
+	        boolean addOverlay, boolean noEqnArray, boolean visible,
+	        double rotateDegree) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -568,21 +564,21 @@ public class DrawEquationWeb extends DrawEquation {
 			el.appendChild(elfirst);
 		}
 
-		var elsecond = $doc.createElement("div"); 
+		var elsecond = $doc.createElement("div");
 
 		if (addOverlay) {
-			var elthirdBefore = $doc.createElement("span"); 
-			elthirdBefore.style.position = "absolute"; 
-			elthirdBefore.style.zIndex = 2; 
-			elthirdBefore.style.top = "0px"; 
-			elthirdBefore.style.bottom = "0px"; 
-			elthirdBefore.style.left = "0px"; 
-			elthirdBefore.style.right = "0px"; 
+			var elthirdBefore = $doc.createElement("span");
+			elthirdBefore.style.position = "absolute";
+			elthirdBefore.style.zIndex = 2;
+			elthirdBefore.style.top = "0px";
+			elthirdBefore.style.bottom = "0px";
+			elthirdBefore.style.left = "0px";
+			elthirdBefore.style.right = "0px";
 			elsecond.appendChild(elthirdBefore);
 		}
 
-		var elsecondInside = $doc.createElement("span"); 
-		elsecondInside.innerHTML = htmlt; 
+		var elsecondInside = $doc.createElement("span");
+		elsecondInside.innerHTML = htmlt;
 
 		if (fontSizeRel != 0) {
 			elsecond.style.fontSize = fontSizeRel + "px";
@@ -673,15 +669,16 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
-	 * Edits a MathQuillGGB equation which was created by drawEquationMathQuillGGB
+	 * Edits a MathQuillGGB equation which was created by
+	 * drawEquationMathQuillGGB
 	 * 
 	 * @param rbti
 	 *            the tree item for callback
 	 * @param parentElement
 	 *            the same element as in drawEquationMathQuillGGB
 	 */
-	public static native void editEquationMathQuillGGB(RadioButtonTreeItem rbti,
-	        Element parentElement, boolean deselect) /*-{
+	public static native void editEquationMathQuillGGB(
+	        RadioButtonTreeItem rbti, Element parentElement, boolean deselect) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
 
@@ -689,9 +686,10 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 
-		var elsecondInside = elsecond.lastChild; 
+		var elsecondInside = elsecond.lastChild;
 
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb('editable').focus(); 
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb(
+				'editable').focus();
 
 		$wnd
 				.$ggbQuery(elsecondInside)
@@ -720,20 +718,22 @@ public class DrawEquationWeb extends DrawEquation {
 			var mousein = {};
 			mousein.mout = false;
 			$wnd.mousein = mousein;
-			$wnd.$ggbQuery(elsecondInside)
-				.focusout(function(event) {
-					if ($wnd.mousein.mout) {
-						@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-					}
-					event.stopPropagation();
-					event.preventDefault();
-					return false;
-				}).mouseenter(function(event2) {
-					$wnd.mousein.mout = false;
-				}).mouseleave(function(event3) {
-					$wnd.mousein.mout = true;
-					$wnd.$ggbQuery(this).focus();
-				});
+			$wnd
+					.$ggbQuery(elsecondInside)
+					.focusout(
+							function(event) {
+								if ($wnd.mousein.mout) {
+									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								}
+								event.stopPropagation();
+								event.preventDefault();
+								return false;
+							}).mouseenter(function(event2) {
+						$wnd.mousein.mout = false;
+					}).mouseleave(function(event3) {
+						$wnd.mousein.mout = true;
+						$wnd.$ggbQuery(this).focus();
+					});
 		}
 	}-*/;
 
@@ -768,7 +768,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}
 
 	/**
-	 * Updates a MathQuillGGB equation which was created by drawEquationMathQuillGGB
+	 * Updates a MathQuillGGB equation which was created by
+	 * drawEquationMathQuillGGB
 	 * 
 	 * @param parentElement
 	 *            the same element as in drawEquationMathQuillGGB
@@ -780,15 +781,16 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecondInside = elsecond.lastChild;
 
 		if (noEqnArray) {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt).mathquillggb();
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt)
+					.mathquillggb();
 
 			// Make sure the length of brackets and square roots are OK
 			$wnd.setTimeout(function() {
 				$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', htmlt);
 			});
 		} else {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt).mathquillggb(
-					'eqnarray');
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').html(htmlt)
+					.mathquillggb('eqnarray');
 
 			// Make sure the length of brackets and square roots are OK
 			//			$wnd.setTimeout(function() {
@@ -816,8 +818,8 @@ public class DrawEquationWeb extends DrawEquation {
 		return htmlt;
 	}
 
-	public static native JsArrayInteger drawEquationCanvasMath(
-			Context2d ctx, String mathmlStr, int x, int y, String fg, String bg) /*-{
+	public static native JsArrayInteger drawEquationCanvasMath(Context2d ctx,
+	        String mathmlStr, int x, int y, String fg, String bg) /*-{
 
 		// Gabor's code a bit simplified
 
@@ -847,17 +849,20 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 		if (bg) {
-			box = $wnd.cvm.box.Frame.instanciate({ background: bg }, box);
+			box = $wnd.cvm.box.Frame.instanciate({
+				background : bg
+			}, box);
 		}
 
 		var height = box.ascent - box.descent;
 
 		box.drawOnCanvas(ctx, x, y + box.ascent);
 
-		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ]; 
+		return [ $wnd.parseInt(box.width, 10), $wnd.parseInt(height, 10) ];
 	}-*/;
 
-	public static GDimension computeCorrection(GDimension dim, GDimension dimSmall, double rotateDegree) {
+	public static GDimension computeCorrection(GDimension dim,
+	        GDimension dimSmall, double rotateDegree) {
 
 		int dimWidth = dim.getWidth();
 		if (dimWidth <= 0)
@@ -886,11 +891,13 @@ public class DrawEquationWeb extends DrawEquation {
 
 			rotateDegreeForTrig *= Math.PI / 180;
 
-			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians actually!
+			// Now rotateDegreeForTrig is between 0 and PI/2, it is in radians
+			// actually!
 			// INPUT for algorithm got: rotateDegreeForTrig, dimWidth, dimHeight
 
 			// dimWidth and dimHeight are the scaled and rotated dims...
-			// only the scaled, but not rotated versions should be computed from them:
+			// only the scaled, but not rotated versions should be computed from
+			// them:
 
 			double helper = Math.cos(2 * rotateDegreeForTrig);
 
@@ -912,16 +919,23 @@ public class DrawEquationWeb extends DrawEquation {
 				dimWidth0 *= helper / (dimHeight0 + dimWidth0);
 				dimHeight0 = helper - dimWidth0;
 			} else {
-				dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth * Math.sin(rotateDegreeForTrig)) / helper;
-				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight * Math.sin(rotateDegreeForTrig)) / helper;
+				dimHeight0 = (dimHeight * Math.cos(rotateDegreeForTrig) - dimWidth
+				        * Math.sin(rotateDegreeForTrig))
+				        / helper;
+				dimWidth0 = (dimWidth * Math.cos(rotateDegreeForTrig) - dimHeight
+				        * Math.sin(rotateDegreeForTrig))
+				        / helper;
 			}
 
 			// dimHeight0 and dimWidth0 are the values this algorithm needs
 
-			double dimHalfDiag = Math.sqrt(dimWidth0 * dimWidth0 + dimHeight0 * dimHeight0) / 2.0;
+			double dimHalfDiag = Math.sqrt(dimWidth0 * dimWidth0 + dimHeight0
+			        * dimHeight0) / 2.0;
 
-			// We also have to compute the bigger and lesser degrees at the diagonals
-			// Tangents will be positive, as they take positive numbers (and in radians)
+			// We also have to compute the bigger and lesser degrees at the
+			// diagonals
+			// Tangents will be positive, as they take positive numbers (and in
+			// radians)
 			// between 0 and Math.PI / 2
 
 			double diagDegreeWidth = Math.atan(dimHeight0 / dimWidth0);
@@ -930,7 +944,8 @@ public class DrawEquationWeb extends DrawEquation {
 			diagDegreeWidth += rotateDegreeForTrig;
 			diagDegreeHeight += rotateDegreeForTrig;
 
-			// diagDegreeWidth might slide through the other part, so substract it from Math.PI, if necessary
+			// diagDegreeWidth might slide through the other part, so substract
+			// it from Math.PI, if necessary
 			if (diagDegreeWidth > Math.PI / 2)
 				diagDegreeWidth = Math.PI - diagDegreeWidth;
 
@@ -947,7 +962,6 @@ public class DrawEquationWeb extends DrawEquation {
 			dimLeftCorr = dimWidth0 / 2.0 - dimLeftCorr;
 		}
 
-		return new GDimensionW((int)dimLeftCorr, (int)dimTopCorr);
+		return new GDimensionW((int) dimLeftCorr, (int) dimTopCorr);
 	}
 }
-

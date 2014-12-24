@@ -64,17 +64,18 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.Widget;
 
-public class EuclidianViewW extends EuclidianView implements EuclidianViewWInterface  {
-	
+public class EuclidianViewW extends EuclidianView implements
+        EuclidianViewWInterface {
+
 	public static int DELAY_UNTIL_MOVE_FINISH = 150;
 
 	public static final int DELAY_BETWEEN_MOVE_EVENTS = 30;
-	
+
 	public geogebra.html5.awt.GGraphics2DW g2p = null;
 	private GGraphics2D g2dtemp;
 	public geogebra.html5.awt.GGraphics2DW g4copy = null;
 	private geogebra.common.awt.GColor backgroundColor = GColor.white;
-	
+
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
 			doRepaint2();
@@ -84,37 +85,38 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
 	private long lastRepaint;
-	
+
 	public boolean isInFocus = false;
 
 	AppW app = (AppW) super.app;
 
 	protected ImageElement resetImage, playImage, pauseImage, upArrowImage,
-	downArrowImage;
-	
+	        downArrowImage;
+
 	protected EuclidianPanelWAbstract EVPanel;
 	private MsZoomer msZoomer;
+
 	/**
 	 * @param euclidianViewPanel
 	 * @param euclidiancontroller
 	 * @param showAxes
 	 * @param showGrid
-	 * @param evNo 
+	 * @param evNo
 	 * @param settings
 	 */
 	public EuclidianViewW(EuclidianPanelWAbstract euclidianViewPanel,
-            EuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid, int evNo, EuclidianSettings settings) {
-		
+	        EuclidianController euclidiancontroller, boolean[] showAxes,
+	        boolean showGrid, int evNo, EuclidianSettings settings) {
+
 		super(euclidiancontroller, evNo, settings);
-		
+
 		EVPanel = euclidianViewPanel;
-		
+
 		initBaseComponents(euclidianViewPanel, euclidiancontroller, evNo);
 
 		g2p.getCanvas().addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
-				if(!CancelEventTimer.cancelMouseEvent()){
+				if (!CancelEventTimer.cancelMouseEvent()) {
 					app.closePopups();
 				}
 			}
@@ -125,41 +127,46 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 				app.closePopups();
 			}
 		}, TouchStartEvent.getType());
-    }
-	
+	}
+
 	/**
 	 * @param euclidiancontroller
 	 * @param showAxes
 	 * @param showGrid
 	 * @param settings
 	 */
-	public EuclidianViewW(EuclidianController euclidiancontroller, boolean[] showAxes,
-            boolean showGrid, int viewNo, EuclidianSettings settings) {
-		
+	public EuclidianViewW(EuclidianController euclidiancontroller,
+	        boolean[] showAxes, boolean showGrid, int viewNo,
+	        EuclidianSettings settings) {
+
 		this(euclidiancontroller, viewNo, settings);
 
 	}
-	
+
 	/**
 	 * @param euclidiancontroller
 	 * @param settings
 	 */
-	public EuclidianViewW(EuclidianController euclidiancontroller, int viewNo, EuclidianSettings settings) {
+	public EuclidianViewW(EuclidianController euclidiancontroller, int viewNo,
+	        EuclidianSettings settings) {
 		super(euclidiancontroller, viewNo, settings);
-		
+
 		EVPanel = newMyEuclidianViewPanel();
 
-		// It seems this constructor is only called from PlotPanelEuclidianViewW currently,
+		// It seems this constructor is only called from PlotPanelEuclidianViewW
+		// currently,
 		// so this -1 is changed to viewNo because EVNO_GENERAL is needed for
-		// making sure that this view does not change the toolbar, code in EuclidianControllerW
-		// if you think it is not Okay, then use (-1) in EuclidianControllerW instead of EVNO_GENERAL
+		// making sure that this view does not change the toolbar, code in
+		// EuclidianControllerW
+		// if you think it is not Okay, then use (-1) in EuclidianControllerW
+		// instead of EVNO_GENERAL
 		// at mouse events which call setActiveToolbarId #plotpanelevno
-		//initBaseComponents(EVPanel, euclidiancontroller, -1);
+		// initBaseComponents(EVPanel, euclidiancontroller, -1);
 		initBaseComponents(EVPanel, euclidiancontroller, viewNo);
 
 		g2p.getCanvas().addDomHandler(new MouseDownHandler() {
 			public void onMouseDown(MouseDownEvent event) {
-				if(!CancelEventTimer.cancelMouseEvent()){
+				if (!CancelEventTimer.cancelMouseEvent()) {
 					app.closePopups();
 				}
 			}
@@ -171,10 +178,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 			}
 		}, TouchStartEvent.getType());
 	}
-	
 
-	
-	
 	/**
 	 * @param list
 	 *            list
@@ -189,73 +193,67 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		d.resetDrawType();
 
 	}
+
 	@Override
-    public
-	final void drawActionObjects(GGraphics2D g)
-	{
-		//not part of canvas, not needed
+	public final void drawActionObjects(GGraphics2D g) {
+		// not part of canvas, not needed
 	}
 
 	@Override
-	protected final void setAntialiasing(GGraphics2D g2)
-	{
-		//always on
+	protected final void setAntialiasing(GGraphics2D g2) {
+		// always on
 	}
-	
+
 	@Override
-    public final GFont getFont() {
+	public final GFont getFont() {
 		return new GFontW(g2p.getFont());
-    }
+	}
 
+	public final GColor getBackgroundCommon() {
+		return backgroundColor;
+	}
 
-    public final GColor getBackgroundCommon() {
-	    return backgroundColor ;
-    }
 	@Override
-    public final void setBackground(GColor bgColor) {
+	public final void setBackground(GColor bgColor) {
 		if (bgColor != null)
-			backgroundColor = AwtFactory.prototype.newColor(
-			bgColor.getRed(),
-			bgColor.getGreen(),
-			bgColor.getBlue(),
-			bgColor.getAlpha());
-    }
-	
+			backgroundColor = AwtFactory.prototype.newColor(bgColor.getRed(),
+			        bgColor.getGreen(), bgColor.getBlue(), bgColor.getAlpha());
+	}
+
 	@Override
-	public final GGraphics2D getTempGraphics2D(GFont fontForGraphics)
-	{
+	public final GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
 		// TODO
 		if (this.g2dtemp == null)
-			this.g2dtemp = new geogebra.html5.awt.GGraphics2DW(Canvas.createIfSupported());
+			this.g2dtemp = new geogebra.html5.awt.GGraphics2DW(
+			        Canvas.createIfSupported());
 		this.g2dtemp.setFont(fontForGraphics);
 		return this.g2dtemp;
 	}
-	
-	@Override
-    protected final MyZoomer newZoomer() {
-	    return new MyZoomerW(this);
-    }
-	
 
 	@Override
-    public final void paintBackground(geogebra.common.awt.GGraphics2D g2) {
-		if(this.isGridOrAxesShown() || this.hasBackgroundImages() || this.tracing
-				|| app.showResetIcon() || kernel.needToShowAnimationButton()){
-			((geogebra.html5.awt.GGraphics2DW)g2).drawGraphics(
-				(geogebra.html5.awt.GGraphics2DW)bgGraphics, 0, 0, null);
-		}else{
-			((geogebra.html5.awt.GGraphics2DW)g2).fillWith(this.getBackgroundCommon());
-		}
-		
+	protected final MyZoomer newZoomer() {
+		return new MyZoomerW(this);
 	}
-	
-	
+
+	@Override
+	public final void paintBackground(geogebra.common.awt.GGraphics2D g2) {
+		if (this.isGridOrAxesShown() || this.hasBackgroundImages()
+		        || this.tracing || app.showResetIcon()
+		        || kernel.needToShowAnimationButton()) {
+			((geogebra.html5.awt.GGraphics2DW) g2).drawGraphics(
+			        (geogebra.html5.awt.GGraphics2DW) bgGraphics, 0, 0, null);
+		} else {
+			((geogebra.html5.awt.GGraphics2DW) g2).fillWith(this
+			        .getBackgroundCommon());
+		}
+
+	}
+
 	/**
-     * This doRepaint method should be used instead of repaintView in cases
-     * when the repaint should be done immediately
-     */
-	public final void doRepaint2()
-	{
+	 * This doRepaint method should be used instead of repaintView in cases when
+	 * the repaint should be done immediately
+	 */
+	public final void doRepaint2() {
 		long time = System.currentTimeMillis();
 		((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
@@ -263,61 +261,55 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
-		
+
 	}
-	
+
 	/**
 	 * Gets the coordinate space width of the &lt;canvas&gt;.
 	 * 
 	 * @return the logical width
 	 */
-	public int getWidth()
-	{
+	public int getWidth() {
 		return this.g2p.getCoordinateSpaceWidth();
 	}
+
 	/**
 	 * Gets the coordinate space height of the &lt;canvas&gt;.
 	 * 
 	 * @return the logical height
 	 */
-	public int getHeight()
-	{
+	public int getHeight() {
 		return this.g2p.getCoordinateSpaceHeight();
 	}
-	
+
 	public void clearView() {
 		resetLists();
 		updateBackgroundImage(); // clear traces and images
 		// resetMode();
-		if(app.getGuiManager()!=null){
+		if (app.getGuiManager() != null) {
 			app.getGuiManager().clearAbsolutePanels();
 		}
-    }
-	
-	@Override
-	protected final void setHeight(int h)
-	{
-		//TODO: not clear what should we do
 	}
 
 	@Override
-	protected final void setWidth(int h)
-	{
-		//TODO: not clear what should we do
+	protected final void setHeight(int h) {
+		// TODO: not clear what should we do
 	}
-	
+
 	@Override
-    public final GGraphics2DW getGraphicsForPen() {
-	    return g2p;
-    }
-	
+	protected final void setWidth(int h) {
+		// TODO: not clear what should we do
+	}
+
+	@Override
+	public final GGraphics2DW getGraphicsForPen() {
+		return g2p;
+	}
+
 	public final boolean isShowing() {
-	  	return
-	  			g2p != null &&
-	  			g2p.getCanvas() != null &&
-	  			g2p.getCanvas().isAttached() &&
-	  			g2p.getCanvas().isVisible();
-    }
+		return g2p != null && g2p.getCanvas() != null
+		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
+	}
 
 	public String getExportImageDataUrl(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
@@ -326,8 +318,8 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		Canvas c4 = Canvas.createIfSupported();
 		c4.setCoordinateSpaceWidth(width);
 		c4.setCoordinateSpaceHeight(height);
-		c4.setWidth(width+"px");
-		c4.setHeight(height+"px");
+		c4.setWidth(width + "px");
+		c4.setHeight(height + "px");
 		g4copy = new geogebra.html5.awt.GGraphics2DW(c4);
 		this.app.exporting = true;
 		exportPaintPre(g4copy, scale, transparency);
@@ -335,11 +327,11 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		this.app.exporting = false;
 		return g4copy.getCanvas().toDataUrl();
 	}
-	
+
 	public GBufferedImageW getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
-	
+
 	public GBufferedImageW getExportImage(double scale, boolean transparency) {
 		int width = (int) Math.floor(getExportWidth() * scale);
 		int height = (int) Math.floor(getExportHeight() * scale);
@@ -347,7 +339,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		exportPaint(new GGraphics2DW(img.getCanvas()), scale, transparency);
 		return img;
 	}
-	
+
 	/**
 	 * @param canvas
 	 *            canvas
@@ -357,16 +349,16 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	public void exportPaint(Canvas canvas, double scale) {
 		exportPaint(new GGraphics2DW(canvas), scale, false);
 	}
-	
+
 	@Override
-	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale,
-			boolean transparency) {
+	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d,
+	        double scale, boolean transparency) {
 		g2d.scale(scale, scale);
 
 		// clipping on selection rectangle
 		if (getSelectionRectangle() != null) {
 			GRectangle rect = getSelectionRectangle();
-			g2d.setClip(0, 0, (int)rect.getWidth(), (int)rect.getHeight());
+			g2d.setClip(0, 0, (int) rect.getWidth(), (int) rect.getHeight());
 			g2d.translate(-rect.getX(), -rect.getY());
 			// Application.debug(rect.x+" "+rect.y+" "+rect.width+" "+rect.height);
 		} else {
@@ -416,73 +408,72 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 
 		setAntialiasing(g2d);
 	}
-	
+
 	/**
 	 * repaintView just calls this method
 	 */
-    public void repaint() {
+	public void repaint() {
 
-    	// TODO: this is a temporary hack until the timer system can handle TextPreview view
-    	// (or ignore timer system because text preview only draws one geo)
-    	if(getViewID() == App.VIEW_TEXT_PREVIEW || getViewID() < 0){
-    		doRepaint();
-    		return;
-    	}
-    	if (getEuclidianController().isCollectingRepaints()){
-    		getEuclidianController().setCollectedRepaints(true);
-    		return;
-    	}
+		// TODO: this is a temporary hack until the timer system can handle
+		// TextPreview view
+		// (or ignore timer system because text preview only draws one geo)
+		if (getViewID() == App.VIEW_TEXT_PREVIEW || getViewID() < 0) {
+			doRepaint();
+			return;
+		}
+		if (getEuclidianController().isCollectingRepaints()) {
+			getEuclidianController().setCollectedRepaints(true);
+			return;
+		}
 
-    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-    		getApplication().ensureTimerRunning();
-    		waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
-    	}
-    }
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
+			getApplication().ensureTimerRunning();
+			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+		}
+	}
 
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
-    
-    /**
+
+	/**
 	 * schedule a repaint
 	 */
-	public void doRepaint() {		
+	public void doRepaint() {
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
-	
+
 	/**
 	 * timer system suggests a repaint
 	 */
-	public boolean suggestRepaint(){
-				
-				
-		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+	public boolean suggestRepaint() {
+
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			return false;
 		}
 
-		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
-			if (isShowing()){
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG) {
+			if (isShowing()) {
 				doRepaint();
 				waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 			}
 			return true;
 		}
-		
+
 		waitForRepaint--;
 		return true;
 	}
-	
 
-
-    
-    public void setCoordinateSpaceSize(int width, int height) {
-    	int oldWidth = g2p.getCoordinateSpaceWidth();
-    	int oldHeight = g2p.getCoordinateSpaceHeight();
+	public void setCoordinateSpaceSize(int width, int height) {
+		int oldWidth = g2p.getCoordinateSpaceWidth();
+		int oldHeight = g2p.getCoordinateSpaceHeight();
 		g2p.setCoordinateSpaceSize(width, height);
 		try {
 			app.syncAppletPanelSize(width - oldWidth, height - oldHeight, evNo);
 
 			// just resizing the AbsolutePanelSmart, not the whole of DockPanel
-			g2p.getCanvas().getElement().getParentElement().getStyle().setWidth(width, Style.Unit.PX);
-			g2p.getCanvas().getElement().getParentElement().getStyle().setHeight(height, Style.Unit.PX);
+			g2p.getCanvas().getElement().getParentElement().getStyle()
+			        .setWidth(width, Style.Unit.PX);
+			g2p.getCanvas().getElement().getParentElement().getStyle()
+			        .setHeight(height, Style.Unit.PX);
 			getEuclidianController().calculateEnvironment();
 		} catch (Exception exc) {
 			App.debug("Problem with the parent element of the canvas");
@@ -492,7 +483,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
-	
+
 	public String getCanvasBase64WithTypeString() {
 
 		// TODO: make this more perfect, like in Desktop
@@ -507,16 +498,19 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 			thy /= ratio;
 
 		Canvas canv = Canvas.createIfSupported();
-		canv.setCoordinateSpaceHeight((int)thy);
-		canv.setCoordinateSpaceWidth((int)thx);
-		canv.setWidth((int)thx+"px");
-		canv.setHeight((int)thy+"px");
+		canv.setCoordinateSpaceHeight((int) thy);
+		canv.setCoordinateSpaceWidth((int) thx);
+		canv.setWidth((int) thx + "px");
+		canv.setHeight((int) thy + "px");
 		Context2d c2 = canv.getContext2d();
 
-		//g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
-		if(bgGraphics!=null)
-			c2.drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
-		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int)thx, (int)thy);
+		// g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(),
+		// 0, 0, (int)thx, (int)thy);
+		if (bgGraphics != null)
+			c2.drawImage(((GGraphics2DW) bgGraphics).getCanvas()
+			        .getCanvasElement(), 0, 0, (int) thx, (int) thy);
+		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int) thx,
+		        (int) thy);
 
 		return canv.toDataUrl();
 	}
@@ -540,83 +534,77 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 
 		updateBackgroundImage();
 	}
-	
+
 	public void createImage() {
 		bgImage = new GBufferedImageW(getWidth(), getHeight(), 0, false);
 		bgGraphics = bgImage.createGraphics();
 	}
 
-	
 	public double getMinSamplePoints() {
 		return 40;
 	}
 
-	/*public double getMaxBendOfScreen() {
-		return MAX_BEND_OFF_SCREEN;
-	}*
+	/*
+	 * public double getMaxBendOfScreen() { return MAX_BEND_OFF_SCREEN; }*
+	 * 
+	 * public double getMaxBend() { return MAX_BEND; }
+	 * 
+	 * public int getMaxDefinedBisections() { return MAX_DEFINED_BISECTIONS; }
+	 */
 
-	public double getMaxBend() {
-		return MAX_BEND;
-	}
-
-	public int getMaxDefinedBisections() {
-		return MAX_DEFINED_BISECTIONS;
-	}*/
-	
 	public double getMinPixelDistance() {
-		return this.g2p == null || g2p.getScale() <= 1 ? 0.5 : 1 ;
+		return this.g2p == null || g2p.getScale() <= 1 ? 0.5 : 1;
 	}
 
-	/*public int getMaxZeroCount() {
-		return MAX_ZERO_COUNT;
-	}*/
+	/*
+	 * public int getMaxZeroCount() { return MAX_ZERO_COUNT; }
+	 */
 
 	public double getMaxPixelDistance() {
-		return this.g2p == null || g2p.getScale() <= 1 ? 15 : 30 ;
+		return this.g2p == null || g2p.getScale() <= 1 ? 15 : 30;
 	}
 
 	public static void resetDelay() {
 		DELAY_UNTIL_MOVE_FINISH = 150;
-    }
+	}
 
-	/*public int getMaxProblemBisections() {
-		return MAX_PROBLEM_BISECTIONS;
-	}*/
+	/*
+	 * public int getMaxProblemBisections() { return MAX_PROBLEM_BISECTIONS; }
+	 */
 	public long getLastRepaintTime() {
 		return lastRepaint;
 	}
 
-	
-	
 	/**
 	 * @return new panel
 	 */
-	protected MyEuclidianViewPanel newMyEuclidianViewPanel(){
+	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
 		return new MyEuclidianViewPanel(this);
 	}
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
-            EuclidianController euclidiancontroller, int evNo) {
-		
-	    Canvas canvas = euclidianViewPanel.getCanvas();
-	    this.evNo = evNo;
-	 
-		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);	
+	        EuclidianController euclidiancontroller, int evNo) {
+
+		Canvas canvas = euclidianViewPanel.getCanvas();
+		this.evNo = evNo;
+
+		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);
 		g2p.setView(this);
 
 		updateFonts();
 		initView(true);
 		attachView();
-	
-		((EuclidianControllerW)euclidiancontroller).setView(this);
-		
 
-		if(this.getViewID() != App.VIEW_TEXT_PREVIEW){
+		((EuclidianControllerW) euclidiancontroller).setView(this);
+
+		if (this.getViewID() != App.VIEW_TEXT_PREVIEW) {
 			registerKeyHandlers(canvas);
-			registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianControllerW) euclidiancontroller);
+			registerMouseTouchGestureHandlers(euclidianViewPanel,
+			        (EuclidianControllerW) euclidiancontroller);
 		}
 
-		// the canvas should have a tab index to capture key events in Internet Explorer
+		// the canvas should have a tab index to capture key events in Internet
+		// Explorer
 		canvas.setTabIndex(10000);
 
 		canvas.addBlurHandler(new BlurHandler() {
@@ -624,60 +612,58 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 				focusLost();
 			}
 		});
-		
+
 		canvas.addFocusHandler(new FocusHandler() {
 			public void onFocus(FocusEvent fe) {
 				focusGained();
 			}
 		});
-		
-		
-		//euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller, KeyPressEvent.getType());
-//		euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
-//		euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
-//		euclidianViewPanel.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-		
+
+		// euclidianViewPanel.addDomHandler((EuclidianController)euclidiancontroller,
+		// KeyPressEvent.getType());
+		// euclidianViewPanel.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
+		// euclidianViewPanel.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
+		// euclidianViewPanel.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
+
 		if ((evNo == 1) || (evNo == 2)) {
 			EuclidianSettings es = this.app.getSettings().getEuclidian(evNo);
 			settingsChanged(es);
 			es.addListener(this);
 		}
-    }
+	}
 
-	
-	
-	
-	
-	private void registerKeyHandlers(Canvas canvas){
-		
+	private void registerKeyHandlers(Canvas canvas) {
+
 		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-		
+
 	}
-	
-	private void registerMouseTouchGestureHandlers(EuclidianPanelWAbstract euclidianViewPanel, EuclidianControllerW euclidiancontroller){
+
+	private void registerMouseTouchGestureHandlers(
+	        EuclidianPanelWAbstract euclidianViewPanel,
+	        EuclidianControllerW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		
+
 		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-		
-		if(Browser.supportsPointerEvents()){
+
+		if (Browser.supportsPointerEvents()) {
 			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
-			MsZoomer.attachTo(evPanel.getElement(),msZoomer);
+			MsZoomer.attachTo(evPanel.getElement(), msZoomer);
 			return;
 		}
-		
-		if(app.getLAF() != null){
-			if(app.getLAF().registerHandlers(evPanel, euclidiancontroller))
-			
-			return;
+
+		if (app.getLAF() != null) {
+			if (app.getLAF().registerHandlers(evPanel, euclidiancontroller))
+
+				return;
 		}
-		
+
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
@@ -685,14 +671,16 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		evPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
-		
+
 	}
-	
+
 	// STROKES
-	protected static geogebra.html5.awt.GBasicStrokeW standardStroke = new geogebra.html5.awt.GBasicStrokeW(1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
+	protected static geogebra.html5.awt.GBasicStrokeW standardStroke = new geogebra.html5.awt.GBasicStrokeW(
+	        1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 	protected static geogebra.html5.awt.GBasicStrokeW selStroke = new geogebra.html5.awt.GBasicStrokeW(
-			1.0f + EuclidianStyleConstants.SELECTION_ADD, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
+	        1.0f + EuclidianStyleConstants.SELECTION_ADD,
+	        GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);
 
 	protected boolean unitAxesRatio;
 
@@ -705,12 +693,9 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	static public geogebra.html5.awt.GBasicStrokeW getDefaultSelectionStroke() {
 		return selStroke;
 	}
-	
-	
-	/* Code for dashed lines removed in r23713*/
 
-	
-	
+	/* Code for dashed lines removed in r23713 */
+
 	/**
 	 * Gets pixel width of the &lt;canvas&gt;.
 	 * 
@@ -719,7 +704,7 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	public int getPhysicalWidth() {
 		return g2p.getOffsetWidth();
 	}
-	
+
 	/**
 	 * Gets pixel height of the &lt;canvas&gt;.
 	 * 
@@ -728,31 +713,30 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 	public int getPhysicalHeight() {
 		return g2p.getOffsetHeight();
 	}
-	
+
 	public int getAbsoluteTop() {
 		return g2p.getAbsoluteTop();
 	}
-	
+
 	public int getAbsoluteLeft() {
 		return g2p.getAbsoluteLeft();
 	}
 
 	public EuclidianControllerW getEuclidianController() {
-		return (EuclidianControllerW)euclidianController;
+		return (EuclidianControllerW) euclidianController;
 	}
 
 	@Override
-    protected void initCursor() {
+	protected void initCursor() {
 		setDefaultCursor();
-    }
+	}
 
 	@Override
-    protected void setStyleBarMode(int mode) {
+	protected void setStyleBarMode(int mode) {
 		if (hasStyleBar()) {
 			getStyleBar().setMode(mode);
 		}
-    }
-
+	}
 
 	private ImageElement getResetImage() {
 		if (resetImage == null) {
@@ -777,24 +761,24 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 
 	public boolean hitAnimationButton(int x, int y) {
 		// draw button in focused EV only
-				if (!drawPlayButtonInThisView()) {
-					return false;
-				}
+		if (!drawPlayButtonInThisView()) {
+			return false;
+		}
 
-				return kernel.needToShowAnimationButton() && (x <= 20)
-						&& (y >= (getHeight() - 20));
-    }
+		return kernel.needToShowAnimationButton() && (x <= 20)
+		        && (y >= (getHeight() - 20));
+	}
 
 	@Override
-    public boolean requestFocusInWindow() {
-		//without tabindex canvas cannot receive mouse events in IE
-		if(Browser.isIE()){
+	public boolean requestFocusInWindow() {
+		// without tabindex canvas cannot receive mouse events in IE
+		if (Browser.isIE()) {
 			g2p.getCanvas().setTabIndex(10000);
 		}
-		g2p.getCanvas().getCanvasElement().focus();	
+		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;
-    }
+	}
 
 	public void focusLost() {
 		if (isInFocus) {
@@ -814,26 +798,25 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_default");
-    }
+	}
 
 	public void setHitCursor() {
 		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_hit");
-    }
-	
+	}
 
-	
 	@Override
-	protected EuclidianStyleBar newEuclidianStyleBar(){
-		if(app.getGuiManager() == null){
+	protected EuclidianStyleBar newEuclidianStyleBar() {
+		if (app.getGuiManager() == null) {
 			return null;
 		}
 		return app.getGuiManager().newEuclidianStylebar(this);
 	}
-	
+
 	@Override
-	final protected void drawAnimationButtons(final geogebra.common.awt.GGraphics2D g2) {
+	final protected void drawAnimationButtons(
+	        final geogebra.common.awt.GGraphics2D g2) {
 
 		// draw button in focused EV only
 		if (!drawPlayButtonInThisView()) {
@@ -850,43 +833,43 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 			g2.setColor(geogebra.common.awt.GColor.lightGray);
 		}
 
-		g2.setStroke(geogebra.common.euclidian.EuclidianStatic.getDefaultStroke());
+		g2.setStroke(geogebra.common.euclidian.EuclidianStatic
+		        .getDefaultStroke());
 
 		// draw pause or play button
 		g2.drawRect(x - 2, y - 2, 18, 18);
 		final ImageElement img = kernel.isAnimationRunning() ? getPauseImage()
-				: getPlayImage();
+		        : getPlayImage();
 		if (img.getPropertyBoolean("complete")) {
 			g2.drawImage(new GBufferedImageW(img), null, x, y);
 		} else {
-			ImageWrapper.nativeon(img,
-				"load",
-				new ImageLoadCallback() {
-					public void onLoad() {
-						g2.drawImage(new GBufferedImageW(img), null, x, y);
-					}
+			ImageWrapper.nativeon(img, "load", new ImageLoadCallback() {
+				public void onLoad() {
+					g2.drawImage(new GBufferedImageW(img), null, x, y);
 				}
-			);
+			});
 		}
 	}
 
-	
-
 	@Override
-  public void setPreferredSize(GDimension preferredSize) {
-	if(this.preferredSize!= null && this.preferredSize.equals(preferredSize)){
-		return;
+	public void setPreferredSize(GDimension preferredSize) {
+		if (this.preferredSize != null
+		        && this.preferredSize.equals(preferredSize)) {
+			return;
+		}
+		this.preferredSize = preferredSize;
+		g2p.setPreferredSize(preferredSize);
+		updateSize();
+		setReIniting(false);
 	}
-	this.preferredSize = preferredSize;
-    g2p.setPreferredSize(preferredSize);
-    updateSize();
-    setReIniting(false);
-  }
 
 	/**
 	 * Updates the size of the canvas and coordinate system
-	 * @param width the new width (in pixel)
-	 * @param height the new height (in pixel)
+	 * 
+	 * @param width
+	 *            the new width (in pixel)
+	 * @param height
+	 *            the new height (in pixel)
 	 */
 	public void setPreferredSize(int width, int height) {
 		setPreferredSize(new geogebra.html5.awt.GDimensionW(width, height));
@@ -900,107 +883,102 @@ public class EuclidianViewW extends EuclidianView implements EuclidianViewWInter
 		} else {
 			g2p.getCanvas().addStyleName("cursor_drag");
 		}
-    }
+	}
 
 	public void setToolTipText(String plainTooltip) {
-	    ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);    
-    }
+		ToolTipManagerW.sharedInstance().showToolTip(plainTooltip);
+	}
 
 	public void setResizeXAxisCursor() {
 		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeXAxis");
-    }
+	}
 
 	public void setResizeYAxisCursor() {
 		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_resizeYAxis");
-    }
-	
+	}
 
 	public void setMoveCursor() {
 		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_move");
-    }
+	}
 
 	@Override
-    public void setTransparentCursor() {
+	public void setTransparentCursor() {
 		this.app.resetCursor();
 		g2p.getCanvas().setStyleName("");
 		g2p.getCanvas().addStyleName("cursor_transparent");
-    }
+	}
 
 	@Override
-    public void setEraserCursor() {
-		Log.warn("setEraserCursor() unimplemented");	    
-    }
+	public void setEraserCursor() {
+		Log.warn("setEraserCursor() unimplemented");
+	}
 
 	public boolean hasFocus() {
-	    // changed to return true, otherwise Arrow keys don't work to pan the view, see GlobalKeyDispatcher
-		//return isInFocus;
+		// changed to return true, otherwise Arrow keys don't work to pan the
+		// view, see GlobalKeyDispatcher
+		// return isInFocus;
 		return true;
-    }
-
-	@Override
-    public void add(GBox box) {
-		if (EVPanel != null)
-			EVPanel.getAbsolutePanel().add(
-	    		GBoxW.getImpl(box),
-	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
-    }
-
-	@Override
-    public void remove(GBox box) {
-		if (EVPanel != null)
-			EVPanel.getAbsolutePanel().remove(
-	    		GBoxW.getImpl(box));
 	}
 
 	@Override
-	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g){
+	public void add(GBox box) {
+		if (EVPanel != null)
+			EVPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
+			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
+	}
+
+	@Override
+	public void remove(GBox box) {
+		if (EVPanel != null)
+			EVPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+	}
+
+	@Override
+	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g) {
 		int w = getWidth();
-		((GGraphics2DW)g).getCanvas().getContext2d().drawImage(
-			getResetImage(), w - 18, 2);
+		((GGraphics2DW) g).getCanvas().getContext2d()
+		        .drawImage(getResetImage(), w - 18, 2);
 	}
-
 
 	public void synCanvasSizeWithApp(int canvasWidth, int canvasHeight) {
 		g2p.setWidth(canvasWidth);
 		g2p.setHeight(canvasHeight);
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
-    }
+	}
 
 	@Override
-    protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
-            GColor penColor, int penLineStyle, int penSize) {
-	    App.debug("doDrawPoints() unimplemented");
-	    
-    }
-	
-	/*needed because set the id of canvas*/
+	protected void doDrawPoints(GeoImage gi, List<GPoint> penPoints2,
+	        GColor penColor, int penLineStyle, int penSize) {
+		App.debug("doDrawPoints() unimplemented");
+
+	}
+
+	/* needed because set the id of canvas */
 	@Override
-    public void setEuclidianViewNo(int evNo) {
+	public void setEuclidianViewNo(int evNo) {
 		if (evNo >= 2) {
 			this.evNo = evNo;
 		}
 	}
 
-
 	public void requestFocus() {
-	    App.debug("unimplemented");
-    }
-
+		App.debug("unimplemented");
+	}
 
 	public void resetMsZoomer() {
-	    if(msZoomer!= null){
-	    	msZoomer.reset();
-	    }
-    }
-	
+		if (msZoomer != null) {
+			msZoomer.reset();
+		}
+	}
+
 	public Canvas getCanvas() {
-	    return g2p.getCanvas();
-    }
-	
+		return g2p.getCanvas();
+	}
+
 }

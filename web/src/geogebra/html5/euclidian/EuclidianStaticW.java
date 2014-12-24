@@ -16,16 +16,18 @@ import com.google.gwt.core.client.Scheduler;
 
 public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic {
 
-	public EuclidianStaticW(){
-		
+	public EuclidianStaticW() {
+
 	}
+
 	@Override
 	protected GRectangle doDrawMultilineLaTeX(App app,
-	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2, GFont font,
-	        GColor fgColor, GColor bgColor, String labelDesc, int x,
-	        int y, boolean serif) {
+	        GGraphics2D tempGraphics, GeoElement geo, GGraphics2D g2,
+	        GFont font, GColor fgColor, GColor bgColor, String labelDesc,
+	        int x, int y, boolean serif) {
 
-		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y, labelDesc, font, serif, fgColor, bgColor, false, true);
+		GDimension dim = app.getDrawEquation().drawEquation(app, geo, g2, x, y,
+		        labelDesc, font, serif, fgColor, bgColor, false, true);
 
 		return new Rectangle(x, y, dim.getWidth(), dim.getHeight());
 	}
@@ -43,9 +45,11 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 	private int repaintsFromHereInProgress = 0;
 
 	@Override
-	protected void doFillAfterImageLoaded(final geogebra.common.awt.GShape shape, final geogebra.common.awt.GGraphics2D g3, geogebra.common.awt.GBufferedImage gi, final App app)
-	{
-		if (((GBufferedImageW)gi).isLoaded()) {
+	protected void doFillAfterImageLoaded(
+	        final geogebra.common.awt.GShape shape,
+	        final geogebra.common.awt.GGraphics2D g3,
+	        geogebra.common.awt.GBufferedImage gi, final App app) {
+		if (((GBufferedImageW) gi).isLoaded()) {
 			// when the image is already loaded, no new repaint is necessary
 			// in theory, the image will be loaded after some repaints so
 			// this will not be an infinite loop ...
@@ -53,34 +57,36 @@ public class EuclidianStaticW extends geogebra.common.euclidian.EuclidianStatic 
 		} else if (repaintsFromHereInProgress == 0) {
 			// the if condition makes sure there will be no infinite loop
 
-			// note: AFAIK (?), DOM's addEventListener method can add more listeners 
-			ImageWrapper.nativeon(
-				((GBufferedImageW)gi).getImageElement(), 
-				"load", 
-				new ImageLoadCallback() { 
-					public void onLoad() {
-						if (!repaintDeferred) {
-							repaintDeferred = true;
-							// otherwise, at the first time, issue a complete repaint
-							// but schedule it deferred to avoid conflicts in repaints
-							Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
-								public void execute() {
-									repaintDeferred = false;
-									repaintsFromHereInProgress++;
-									((EuclidianViewW)app.getEuclidianView1()).doRepaint();
-									if (app.hasEuclidianView2(1))
-										((EuclidianViewW)app.getEuclidianView2(1)).doRepaint();
-									repaintsFromHereInProgress--;
-								}
-							});
-						}
-					} 
-				}
-			);
+			// note: AFAIK (?), DOM's addEventListener method can add more
+			// listeners
+			ImageWrapper.nativeon(((GBufferedImageW) gi).getImageElement(),
+			        "load", new ImageLoadCallback() {
+				        public void onLoad() {
+					        if (!repaintDeferred) {
+						        repaintDeferred = true;
+						        // otherwise, at the first time, issue a
+								// complete repaint
+						        // but schedule it deferred to avoid conflicts
+								// in repaints
+						        Scheduler.get().scheduleDeferred(
+						                new Scheduler.ScheduledCommand() {
+							                public void execute() {
+								                repaintDeferred = false;
+								                repaintsFromHereInProgress++;
+								                ((EuclidianViewW) app
+								                        .getEuclidianView1())
+								                        .doRepaint();
+								                if (app.hasEuclidianView2(1))
+									                ((EuclidianViewW) app
+									                        .getEuclidianView2(1))
+									                        .doRepaint();
+								                repaintsFromHereInProgress--;
+							                }
+						                });
+					        }
+				        }
+			        });
 		}
 	}
-
-
-	
 
 }

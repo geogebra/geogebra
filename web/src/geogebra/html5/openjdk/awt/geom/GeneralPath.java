@@ -57,7 +57,8 @@ import geogebra.html5.kernel.external.Curve;
  * @version 1.59, 12/19/03
  * @author Jim Graham
  */
-public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.GGeneralPath {
+public final class GeneralPath implements Shape, Cloneable,
+        geogebra.common.awt.GGeneralPath {
 	/**
 	 * An even-odd winding rule for determining the interior of a path.
 	 */
@@ -144,7 +145,7 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	}
 
 	GeneralPath(int windingRule, byte[] pointTypes, int numTypes,
-			float[] pointCoords, int numCoords) {
+	        float[] pointCoords, int numCoords) {
 
 		// used to construct from native
 
@@ -209,8 +210,8 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 					break;
 				}
 				if (pointTypes[numTypes - 1] != SEG_CLOSE
-						&& pointCoords[numCoords - 2] == coords[0]
-						&& pointCoords[numCoords - 1] == coords[1]) {
+				        && pointCoords[numCoords - 2] == coords[0]
+				        && pointCoords[numCoords - 1] == coords[1]) {
 					// Collapse out initial moveto/lineto
 					break;
 				}
@@ -223,7 +224,7 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 				break;
 			case SEG_CUBICTO:
 				curveTo(coords[0], coords[1], coords[2], coords[3], coords[4],
-						coords[5]);
+				        coords[5]);
 				break;
 			case SEG_CLOSE:
 				closePath();
@@ -281,8 +282,6 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 		 */
 	}
 
-
-
 	/**
 	 * Closes the current subpath by drawing a straight line back to the
 	 * coordinates of the last <code>moveTo</code>. If the path is already
@@ -315,7 +314,7 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 			return ((cross & 1) != 0);
 		}
 	}
-	
+
 	public boolean contains(int x, int y) {
 		if (numTypes < 2) {
 			return false;
@@ -343,7 +342,7 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	 */
 	public boolean contains(double x, double y, double w, double h) {
 		Crossings c = Crossings.findCrossings(getPathIterator(null), x, y, x
-				+ w, y + h);
+		        + w, y + h);
 		return (c != null && c.covers(y, y + h));
 	}
 
@@ -405,8 +404,8 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	 * @param x3
 	 *            ,&nbsp;y3 the coordinates of the final endpoint
 	 */
-	public void curveTo(float x1, float y1, float x2, float y2,
-			float x3, float y3) {
+	public void curveTo(float x1, float y1, float x2, float y2, float x3,
+	        float y3) {
 		needRoom(1, 6, true);
 		pointTypes[numTypes++] = SEG_CUBICTO;
 		pointCoords[numCoords++] = x1;
@@ -420,8 +419,8 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	/**
 	 * Return the bounding box of the path.
 	 *
-	 * @return a {@link GRectangleW.client.Rectangle} object that bounds the current
-	 *         path.
+	 * @return a {@link GRectangleW.client.Rectangle} object that bounds the
+	 *         current path.
 	 */
 	public GRectangle getBounds() {
 		return getBounds2D().getBounds();
@@ -538,13 +537,13 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	 */
 	public boolean intersects(double x, double y, double w, double h) {
 		Crossings c = Crossings.findCrossings(getPathIterator(null), x, y, x
-				+ w, y + h);
+		        + w, y + h);
 		return (c == null || !c.isEmpty());
 	}
-	
+
 	public boolean intersects(int x, int y, int w, int h) {
 		Crossings c = Crossings.findCrossings(getPathIterator(null), x, y, x
-				+ w, y + h);
+		        + w, y + h);
 		return (c == null || !c.isEmpty());
 	}
 
@@ -637,7 +636,7 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	public void setWindingRule(int rule) {
 		if (rule != WIND_EVEN_ODD && rule != WIND_NON_ZERO) {
 			throw new IllegalArgumentException("winding rule must be "
-					+ "WIND_EVEN_ODD or " + "WIND_NON_ZERO");
+			        + "WIND_EVEN_ODD or " + "WIND_NON_ZERO");
 		}
 		windingRule = rule;
 	}
@@ -657,7 +656,7 @@ public final class GeneralPath implements Shape, Cloneable, geogebra.common.awt.
 	private void needRoom(int newTypes, int newCoords, boolean needMove) {
 		if (needMove && numTypes == 0) {
 			throw new IllegalPathStateException("missing initial moveto "
-					+ "in path definition");
+			        + "in path definition");
 		}
 		int size = pointCoords.length;
 		if (numCoords + newCoords > size) {

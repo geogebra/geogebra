@@ -11,14 +11,15 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Label;
 
-public class SliderPanel extends FlowPanel implements HasChangeHandlers, HasValue<Integer> {
+public class SliderPanel extends FlowPanel implements HasChangeHandlers,
+        HasValue<Integer> {
 
 	private Slider slider;
 	private Label minLabel;
 	private Label maxLabel;
 
 	public SliderPanel() {
-		this(0,100);
+		this(0, 100);
 	}
 
 	public SliderPanel(int min, int max) {
@@ -28,9 +29,8 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers, HasValu
 		add(slider);
 		maxLabel = new Label(String.valueOf(max));
 		add(maxLabel);
-		setStyleName("optionsSlider");		
+		setStyleName("optionsSlider");
 	}
-
 
 	public Integer getValue() {
 		return slider.getValue();
@@ -63,16 +63,16 @@ public class SliderPanel extends FlowPanel implements HasChangeHandlers, HasValu
 	}
 
 	public GDimensionW getPreferredSize() {
-		return new GDimensionW(180,10);
+		return new GDimensionW(180, 10);
 	}
 
 	public HandlerRegistration addValueChangeHandler(
-			ValueChangeHandler<Integer> handler) {
+	        ValueChangeHandler<Integer> handler) {
 		return slider.addValueChangeHandler(handler);
 	}
 
 	public void setValue(Integer value) {
-		slider.setValue(value,false);
+		slider.setValue(value, false);
 	}
 
 	public void setValue(Integer value, boolean fireEvents) {

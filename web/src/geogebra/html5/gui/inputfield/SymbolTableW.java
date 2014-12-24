@@ -81,7 +81,7 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 
 		Cell clickCell = getCellForEvent(event);
 
-		if(clickCell == null){
+		if (clickCell == null) {
 			// click on the gap between two buttons
 			return;
 		}

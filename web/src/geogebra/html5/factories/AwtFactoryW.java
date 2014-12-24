@@ -51,10 +51,10 @@ import geogebra.html5.openjdk.awt.geom.Rectangle2D;
  */
 public class AwtFactoryW extends AwtFactory {
 
-	public AwtFactoryW(){
+	public AwtFactoryW() {
 		GColor.initColors(this);
 	}
-	
+
 	@Override
 	public GColor newColor(int RGB) {
 		return new geogebra.html5.awt.GColorW(RGB);
@@ -72,7 +72,7 @@ public class AwtFactoryW extends AwtFactory {
 
 	@Override
 	public GColor newColor(float red, float green, float blue, float alpha) {
-		return new geogebra.html5.awt.GColorW(red,green,blue,alpha);
+		return new geogebra.html5.awt.GColorW(red, green, blue, alpha);
 	}
 
 	@Override
@@ -96,8 +96,8 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-	public GBufferedImage newBufferedImage(int pixelWidth,
-	        int pixelHeight, int typeIntArgb) {
+	public GBufferedImage newBufferedImage(int pixelWidth, int pixelHeight,
+	        int typeIntArgb) {
 		return new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb);
 	}
 
@@ -110,12 +110,11 @@ public class AwtFactoryW extends AwtFactory {
 	public GPoint2D newPoint2D() {
 		return new geogebra.html5.awt.GPoint2DW();
 	}
-	
+
 	@Override
 	public GPoint2D newPoint2D(double x, double y) {
 		return new geogebra.html5.awt.GPoint2DW(x, y);
 	}
-
 
 	@Override
 	public GRectangle newRectangle(int x, int y) {
@@ -125,18 +124,22 @@ public class AwtFactoryW extends AwtFactory {
 	@Override
 	public GGeneralPath newGeneralPath() {
 		// default winding rule changed for ggb50 (for Polygons) #3983
-		return new GeneralPath(geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD);
+		return new GeneralPath(
+		        geogebra.html5.openjdk.awt.geom.GeneralPath.WIND_EVEN_ODD);
 	}
 
 	@Override
 	public GBasicStroke newMyBasicStroke(float f) {
-		return new geogebra.html5.awt.GBasicStrokeW(f,geogebra.html5.awt.GBasicStrokeW.CAP_ROUND,geogebra.html5.awt.GBasicStrokeW.JOIN_ROUND);
+		return new geogebra.html5.awt.GBasicStrokeW(f,
+		        geogebra.html5.awt.GBasicStrokeW.CAP_ROUND,
+		        geogebra.html5.awt.GBasicStrokeW.JOIN_ROUND);
 	}
 
 	@Override
 	public GBasicStroke newBasicStroke(float width, int endCap, int lineJoin,
 	        float miterLimit, float[] dash, float f) {
-		return new geogebra.html5.awt.GBasicStrokeW(width, endCap, lineJoin, miterLimit, dash, f);
+		return new geogebra.html5.awt.GBasicStrokeW(width, endCap, lineJoin,
+		        miterLimit, dash, f);
 	}
 
 	@Override
@@ -150,128 +153,130 @@ public class AwtFactoryW extends AwtFactory {
 	}
 
 	@Override
-    public GEllipse2DDouble newEllipse2DDouble() {
-	    return new Ellipse2D.Double();
-    }
+	public GEllipse2DDouble newEllipse2DDouble() {
+		return new Ellipse2D.Double();
+	}
 
 	@Override
-    public GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
+	public GEllipse2DFloat newEllipse2DFloat(int i, int j, int k, int l) {
 		return new Ellipse2D.Float(i, j, k, l);
-    }
+	}
 
 	@Override
-    public GBasicStroke newBasicStroke(float f) {
-	    return new geogebra.html5.awt.GBasicStrokeW(f);
-    }
+	public GBasicStroke newBasicStroke(float f) {
+		return new geogebra.html5.awt.GBasicStrokeW(f);
+	}
 
 	@Override
 	// CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
 	// see #1699
-    public GBasicStroke newBasicStrokeJoinMitre(float f) {
-	    return new geogebra.html5.awt.GBasicStrokeW(f, GBasicStroke.CAP_SQUARE, GBasicStroke.JOIN_MITER);
-    }
+	public GBasicStroke newBasicStrokeJoinMitre(float f) {
+		return new geogebra.html5.awt.GBasicStrokeW(f, GBasicStroke.CAP_SQUARE,
+		        GBasicStroke.JOIN_MITER);
+	}
 
 	@Override
-    public GRectangle newRectangle() {
+	public GRectangle newRectangle() {
 		return new Rectangle();
-    }
+	}
 
 	@Override
-    public GArc2D newArc2D() {
+	public GArc2D newArc2D() {
 		return new Arc2D.Double();
-    }
+	}
 
 	@Override
-    public GQuadCurve2D newQuadCurve2D() {
+	public GQuadCurve2D newQuadCurve2D() {
 		return new QuadCurve2D.Double();
-    }
+	}
 
 	/*
-	@Override
-    public Area newArea(GeneralPathClipped hypRight) {
-	    AbstractApplication.debug("implementation needed really"); // TODO Auto-generated
-	    return null;
-    }
-    */
+	 * @Override public Area newArea(GeneralPathClipped hypRight) {
+	 * AbstractApplication.debug("implementation needed really"); // TODO
+	 * Auto-generated return null; }
+	 */
 
 	@Override
-    public GArea newArea() {
+	public GArea newArea() {
 		return new Area();
-    }
+	}
 
 	@Override
-    public GArea newArea(GShape shape) {
+	public GArea newArea(GShape shape) {
 		return new Area(shape);
-    }
+	}
 
 	@Override
-    public GGeneralPath newGeneralPath(int rule) {
+	public GGeneralPath newGeneralPath(int rule) {
 		return new GeneralPath(rule);
-    }
+	}
 
 	@Override
-    public GCubicCurve2D newCubicCurve2D() {
+	public GCubicCurve2D newCubicCurve2D() {
 		return new geogebra.html5.awt.GCubicCurve2DW();
-    }
+	}
 
 	@Override
-    public GBasicStroke newBasicStroke(float f, int cap, int join) {
-	    return new geogebra.html5.awt.GBasicStrokeW(f,cap,join);
-    }
+	public GBasicStroke newBasicStroke(float f, int cap, int join) {
+		return new geogebra.html5.awt.GBasicStrokeW(f, cap, join);
+	}
 
 	@Override
-    public GTextLayout newTextLayout(String string, GFont fontLine,
-            GFontRenderContext frc) {
-	    return new geogebra.html5.awt.font.GTextLayoutW(string,fontLine,(geogebra.html5.awt.GFontRenderContextW) frc);
-    }
+	public GTextLayout newTextLayout(String string, GFont fontLine,
+	        GFontRenderContext frc) {
+		return new geogebra.html5.awt.font.GTextLayoutW(string, fontLine,
+		        (geogebra.html5.awt.GFontRenderContextW) frc);
+	}
 
 	@Override
-    public GAlphaComposite newAlphaComposite(int srcOver, float alpha) {
-	   return new geogebra.html5.awt.GAlphaCompositeW(srcOver,alpha);
-    }
+	public GAlphaComposite newAlphaComposite(int srcOver, float alpha) {
+		return new geogebra.html5.awt.GAlphaCompositeW(srcOver, alpha);
+	}
 
 	@Override
-    public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
-            int i, GColor bg) {
-	    return new GGradientPaintW(x,y,bg2,x2,i,bg);
-    }
-	
-	@Override
-    public FocusListener newFocusListener(Object listener) {
-	    return new geogebra.html5.event.FocusListenerW(listener);
-    }
+	public GGradientPaint newGradientPaint(int x, int y, GColor bg2, int x2,
+	        int i, GColor bg) {
+		return new GGradientPaintW(x, y, bg2, x2, i, bg);
+	}
 
 	@Override
-    public Component newComponent(Object component) {
-		App.debug("newComponent: implementation needed really"); // TODO Auto-generated
-	    return null;
-    }
+	public FocusListener newFocusListener(Object listener) {
+		return new geogebra.html5.event.FocusListenerW(listener);
+	}
 
 	@Override
-    public ActionListener newActionListener(ActionListenerI listener) {
+	public Component newComponent(Object component) {
+		App.debug("newComponent: implementation needed really"); // TODO
+																 // Auto-generated
+		return null;
+	}
+
+	@Override
+	public ActionListener newActionListener(ActionListenerI listener) {
 		return new geogebra.html5.event.ActionListenerW(listener);
-    }
+	}
 
 	@Override
-    public GFont newFont(String name, int style, int size) {
-	    return new GFontW(name, style, size);
-    }
+	public GFont newFont(String name, int style, int size) {
+		return new GFontW(name, style, size);
+	}
 
 	@Override
-    public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
-	    return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight, typeIntArgb).getImageElement(), false);
-    }
+	public MyImage newMyImage(int pixelWidth, int pixelHeight, int typeIntArgb) {
+		return new MyImageW(new GBufferedImageW(pixelWidth, pixelHeight,
+		        typeIntArgb).getImageElement(), false);
+	}
 
 	@Override
-    public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
-	    return new GTexturePaintW((GBufferedImageW)subimage);
-    }
+	public GPaint newTexturePaint(GBufferedImage subimage, GRectangle rect) {
+		return new GTexturePaintW((GBufferedImageW) subimage);
+	}
 
 	@Override
-    public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
-	    return new GTexturePaintW(new GBufferedImageW(((MyImageW) subimage).getImage()));
+	public GPaint newTexturePaint(MyImage subimage, GRectangle rect) {
+		return new GTexturePaintW(new GBufferedImageW(
+		        ((MyImageW) subimage).getImage()));
 
-    }
-
+	}
 
 }

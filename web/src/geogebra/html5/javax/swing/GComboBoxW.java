@@ -24,24 +24,28 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 	 */
 	public GComboBoxW(final App app, final int view) {
 		this.impl = new ListBox();
-		impl.addFocusHandler(new FocusHandler(){
+		impl.addFocusHandler(new FocusHandler() {
 
 			@Override
-            public void onFocus(FocusEvent event) {
-				
-				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2(1) : app.getEuclidianView1());
-				
-	            ev.getEuclidianController().setComboboxFocused(true);
-            }});
-		impl.addBlurHandler(new BlurHandler(){
+			public void onFocus(FocusEvent event) {
+
+				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app
+				        .getEuclidianView2(1) : app.getEuclidianView1());
+
+				ev.getEuclidianController().setComboboxFocused(true);
+			}
+		});
+		impl.addBlurHandler(new BlurHandler() {
 
 			@Override
-            public void onBlur(BlurEvent event) {
-				
-				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app.getEuclidianView2(1) : app.getEuclidianView1());
+			public void onBlur(BlurEvent event) {
 
-	            ev.getEuclidianController().setComboboxFocused(false);
-            }});
+				EuclidianViewW ev = (EuclidianViewW) (view == App.VIEW_EUCLIDIAN2 ? app
+				        .getEuclidianView2(1) : app.getEuclidianView1());
+
+				ev.getEuclidianController().setComboboxFocused(false);
+			}
+		});
 	}
 
 	@Override
@@ -63,12 +67,14 @@ public class GComboBoxW extends geogebra.common.javax.swing.AbstractJComboBox {
 
 	@Override
 	public void setForeground(GColor objectColor) {
-		impl.getElement().getStyle().setColor(GColor.getColorString(objectColor));
+		impl.getElement().getStyle()
+		        .setColor(GColor.getColorString(objectColor));
 	}
 
 	@Override
 	public void setBackground(GColor color) {
-		impl.getElement().getStyle().setBackgroundColor(GColor.getColorString(color));
+		impl.getElement().getStyle()
+		        .setBackgroundColor(GColor.getColorString(color));
 	}
 
 	@Override

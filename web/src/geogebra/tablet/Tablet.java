@@ -1,6 +1,5 @@
 package geogebra.tablet;
 
-
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -40,28 +39,33 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
  */
 public class Tablet implements EntryPoint {
 
-	//zum testen von private zu public
+	// zum testen von private zu public
 	public static GeoGebraAppFrame appFrame;
-	
-	public void t(final String s,final AlgebraProcessor ap) throws Exception{
-		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true, false);
+
+	public void t(final String s, final AlgebraProcessor ap) throws Exception {
+		ap.processAlgebraCommandNoExceptionHandling(s, false, false, true,
+		        false);
 	}
-	
+
 	private static ArrayList<ArticleElement> getGeoGebraMobileTags() {
-		final NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		final NodeList<Element> nodes = Dom
+		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		final ArrayList<ArticleElement> articleNodes = new ArrayList<ArticleElement>();
 		for (int i = 0; i < nodes.getLength(); i++) {
 			final Date creationDate = new Date();
-			nodes.getItem(i).setId(GeoGebraConstants.GGM_CLASS_NAME+i+creationDate.getTime());
+			nodes.getItem(i).setId(
+			        GeoGebraConstants.GGM_CLASS_NAME + i
+			                + creationDate.getTime());
 			articleNodes.add(ArticleElement.as(nodes.getItem(i)));
 		}
 		return articleNodes;
 	}
-	
+
 	private static boolean checkAppNeeded() {
-		final NodeList<Element> nodes = Dom.getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
+		final NodeList<Element> nodes = Dom
+		        .getElementsByClassName(GeoGebraConstants.GGM_CLASS_NAME);
 		for (int i = 0; i < nodes.getLength(); i++) {
-			if("true".equals(nodes.getItem(i).getAttribute("data-param-app"))){
+			if ("true".equals(nodes.getItem(i).getAttribute("data-param-app"))) {
 				return true;
 			}
 		}
@@ -73,35 +77,34 @@ public class Tablet implements EntryPoint {
 	 */
 
 	public void onModuleLoad() {
-		if(RootPanel.getBodyElement().getAttribute("data-param-laf")!=null
-				&& !"".equals(RootPanel.getBodyElement().getAttribute("data-param-laf"))){
-			//loading touch, ignore.
-			return;			
+		if (RootPanel.getBodyElement().getAttribute("data-param-laf") != null
+		        && !"".equals(RootPanel.getBodyElement().getAttribute(
+		                "data-param-laf"))) {
+			// loading touch, ignore.
+			return;
 		}
 		Browser.checkFloat64();
 		PhoneGapManager.initializePhoneGap(new BackButtonPressedHandler() {
 
 			@Override
-			public void onBackButtonPressed(
-					final BackButtonPressedEvent event) {
+			public void onBackButtonPressed(final BackButtonPressedEvent event) {
 				goBack();
 			}
 		});
-		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
-		//GeoGebraProfiler.init(new GeoGebraProfilerW());
+		// use GeoGebraProfilerW if you want to profile, SilentProfiler for
+		// production
+		// GeoGebraProfiler.init(new GeoGebraProfilerW());
 		GeoGebraProfiler.init(new SilentProfiler());
-		
+
 		GeoGebraProfiler.getInstance().profile();
 
 		CustomElements.registerGeoGebraWebElement();
 		exportGGBElementRenderer();
-		
-		
-		
-//		setLocaleToQueryParam();
-				
+
+		// setLocaleToQueryParam();
+
 		if (!Tablet.checkAppNeeded()) {
-			//we dont want to parse out of the box sometimes...
+			// we dont want to parse out of the box sometimes...
 			if (!calledFromExtension()) {
 				loadAppletAsync();
 			} else {
@@ -110,140 +113,143 @@ public class Tablet implements EntryPoint {
 		} else {
 			loadAppAsync();
 		}
-		
-		//just debug for now
+
+		// just debug for now
 		PNaCl.exportPNaCltoConsole();
-		
-//		phoneGap.initializePhoneGap();
-		
-						
+
+		// phoneGap.initializePhoneGap();
+
 	}
 
 	public static void goBack() {
-		if(appFrame!= null && appFrame.app != null){
+		if (appFrame != null && appFrame.app != null) {
 			if (appFrame.isBrowserShowing()) {
-				appFrame.hideBrowser(((GuiManagerW) appFrame.app.getGuiManager()).getBrowseGUI());
+				appFrame.hideBrowser(((GuiManagerW) appFrame.app
+				        .getGuiManager()).getBrowseGUI());
 			}
 		}
 	}
 
 	private void loadExtensionAsync() {
-		//GWT.runAsync(new RunAsyncCallback() {
-			
-		//	public void onSuccess() {
-				ResourcesInjector.injectResources();
-				 exportArticleTagRenderer();
-				    //export other methods if needed
-				    //call the registered methods if any
-				    GGW_ext_webReady();
-		//	}
-			
-		//	public void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-				
-		//	}
-		//});
-	   
-    }
+		// GWT.runAsync(new RunAsyncCallback() {
+
+		// public void onSuccess() {
+		ResourcesInjector.injectResources();
+		exportArticleTagRenderer();
+		// export other methods if needed
+		// call the registered methods if any
+		GGW_ext_webReady();
+		// }
+
+		// public void onFailure(Throwable reason) {
+		// TODO Auto-generated method stub
+
+		// }
+		// });
+
+	}
 
 	public static void loadAppletAsync() {
-	    //GWT.runAsync(new RunAsyncCallback() {
-			
-			//public void onSuccess() {
-				startGeoGebra(getGeoGebraMobileTags());
-			//}
-			
-			//ublic void onFailure(Throwable reason) {
-				// TODO Auto-generated method stub
-				
-			//}
-		//});
-    }
+		// GWT.runAsync(new RunAsyncCallback() {
+
+		// public void onSuccess() {
+		startGeoGebra(getGeoGebraMobileTags());
+		// }
+
+		// ublic void onFailure(Throwable reason) {
+		// TODO Auto-generated method stub
+
+		// }
+		// });
+	}
 
 	private void loadAppAsync() {
-	    //GWT.runAsync(new RunAsyncCallback() {
-		//	public void onSuccess() {
-				ResourcesInjector.injectResources();
-				createGeoGebraAppFrame();
-		//	}
+		// GWT.runAsync(new RunAsyncCallback() {
+		// public void onSuccess() {
+		ResourcesInjector.injectResources();
+		createGeoGebraAppFrame();
+		// }
 
-		//	public void onFailure(Throwable reason) {
-		//		Log.debug(reason);
-		//	}
-		//});
-	    
-    }
-	
-	
+		// public void onFailure(Throwable reason) {
+		// Log.debug(reason);
+		// }
+		// });
+
+	}
+
 	/**
 	 * create app frame
 	 */
-	protected void createGeoGebraAppFrame(){
-		appFrame = new GeoGebraAppFrame(new TabletLookAndFeel(), (GDevice) GWT.create(TabletDevice.class), (AppletFactory) GWT.create(AppletFactory.class) );
+	protected void createGeoGebraAppFrame() {
+		appFrame = new GeoGebraAppFrame(new TabletLookAndFeel(),
+		        (GDevice) GWT.create(TabletDevice.class),
+		        (AppletFactory) GWT.create(AppletFactory.class));
 		appFrame.addStyleName("Tablet");
 	}
-	
 
-	
 	native void exportArticleTagRenderer() /*-{
-	    $wnd.GGW_ext.render = $entry(@geogebra.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-    }-*/;
-	
+	                                       $wnd.GGW_ext.render = $entry(@geogebra.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+	                                       }-*/;
+
 	private native void exportGGBElementRenderer() /*-{
-	 	$wnd.renderGGBElement = $entry(@geogebra.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
-		@geogebra.html5.gui.GeoGebraFrame::renderGGBElementReady()();
-	}-*/;
-    
+	                                               $wnd.renderGGBElement = $entry(@geogebra.tablet.Tablet::renderArticleElement(Lcom/google/gwt/dom/client/Element;Lcom/google/gwt/core/client/JavaScriptObject;))
+	                                               @geogebra.html5.gui.GeoGebraFrame::renderGGBElementReady()();
+	                                               }-*/;
+
 	private native boolean calledFromExtension() /*-{
-	    return (typeof $wnd.GGW_ext !== "undefined");
-    }-*/;
-	
-	public static void renderArticleElement(final Element el, JavaScriptObject clb){
-		GeoGebraFrameBoth.renderArticleElement(el, (AppletFactory) GWT.create(AppletFactory.class) , new TabletLookAndFeel(), clb);
+	                                             return (typeof $wnd.GGW_ext !== "undefined");
+	                                             }-*/;
+
+	public static void renderArticleElement(final Element el,
+	        JavaScriptObject clb) {
+		GeoGebraFrameBoth.renderArticleElement(el,
+		        (AppletFactory) GWT.create(AppletFactory.class),
+		        new TabletLookAndFeel(), clb);
 	}
-	
+
 	/*
-	 * This method should never be called. Only copyed to external javascript files,
-	 * if we like to use GeoGebraWeb as an library, and call its methods depending on
-	 * it is loaded or not.
+	 * This method should never be called. Only copyed to external javascript
+	 * files, if we like to use GeoGebraWeb as an library, and call its methods
+	 * depending on it is loaded or not.
 	 */
 	private native void copyThisJsIfYouLikeToUseGeoGebraWebAsExtension() /*-{
-		//GGW_ext namespace must be a property of the global scope
-		window.GGW_ext = {
-			startupFunctions : []
-		};
-		
-		//register methods that will be called if web is loaded,
-		//or if it is loaded, will be called immediately
-		//GGW_ext.webReady("render",articleelement);
-		GGW_ext.webReady = function(functionName, args) {
-			if (typeof GGW_ext[functionName] === "function") {
-				//web loaded
-				this[functionName].apply(args);
-			} else {
-				this.startupFunctions.push([functionName,args]);
-			}	
-		}
-	}-*/;
-	
+	                                                                     //GGW_ext namespace must be a property of the global scope
+	                                                                     window.GGW_ext = {
+	                                                                     startupFunctions : []
+	                                                                     };
+	                                                                     
+	                                                                     //register methods that will be called if web is loaded,
+	                                                                     //or if it is loaded, will be called immediately
+	                                                                     //GGW_ext.webReady("render",articleelement);
+	                                                                     GGW_ext.webReady = function(functionName, args) {
+	                                                                     if (typeof GGW_ext[functionName] === "function") {
+	                                                                     //web loaded
+	                                                                     this[functionName].apply(args);
+	                                                                     } else {
+	                                                                     this.startupFunctions.push([functionName,args]);
+	                                                                     }	
+	                                                                     }
+	                                                                     }-*/;
+
 	private native void GGW_ext_webReady() /*-{
-		var functions = null,
-			i,l;
-		if (typeof $wnd.GGW_ext === "object") {
-			if ($wnd.GGW_ext.startupFunctions && $wnd.GGW_ext.startupFunctions.length) {
-				functions = $wnd.GGW_ext.startupFunctions;
-				for (i = 0, l = functions.length; i < l; i++) {
-					if (typeof $wnd.GGW_ext[functions[i][0]] === "function") {
-						$wnd.GGW_ext[functions[i][0]](functions[i][1]);
-					}
-				}
-			} 
-		}
-	}-*/;
-	
-	
+	                                       var functions = null,
+	                                       i,l;
+	                                       if (typeof $wnd.GGW_ext === "object") {
+	                                       if ($wnd.GGW_ext.startupFunctions && $wnd.GGW_ext.startupFunctions.length) {
+	                                       functions = $wnd.GGW_ext.startupFunctions;
+	                                       for (i = 0, l = functions.length; i < l; i++) {
+	                                       if (typeof $wnd.GGW_ext[functions[i][0]] === "function") {
+	                                       $wnd.GGW_ext[functions[i][0]](functions[i][1]);
+	                                       }
+	                                       }
+	                                       } 
+	                                       }
+	                                       }-*/;
+
 	static void startGeoGebra(final ArrayList<ArticleElement> geoGebraMobileTags) {
-		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags, (AppletFactory) GWT.create(AppletFactory.class) , new TabletLookAndFeel());	   
-    }
+		geogebra.web.gui.applet.GeoGebraFrameBoth.main(geoGebraMobileTags,
+		        (AppletFactory) GWT.create(AppletFactory.class),
+		        new TabletLookAndFeel());
+	}
 
 }

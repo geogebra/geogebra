@@ -266,7 +266,7 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 		if (optionButtons == null) {
 			return;
 		}
-		
+
 		for (int i = 0; i < optionButtons.length; i++) {
 			if (source == optionButtons[i]) {
 				returnOption = i;
@@ -416,9 +416,9 @@ public class GOptionPaneW extends DialogBox implements GOptionPane,
 
 		switch (type) {
 		case 1:
-			showConfirmDialog(app, "Something went wrong.",
-			        "Error Dialog", GOptionPane.OK_CANCEL_OPTION,
-			        GOptionPane.ERROR_MESSAGE, null);
+			showConfirmDialog(app, "Something went wrong.", "Error Dialog",
+			        GOptionPane.OK_CANCEL_OPTION, GOptionPane.ERROR_MESSAGE,
+			        null);
 			break;
 		case 2:
 			showConfirmDialog(app, "The beer is free.", "Information Dialog",

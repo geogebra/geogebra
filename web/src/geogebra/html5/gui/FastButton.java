@@ -7,6 +7,7 @@ import com.google.gwt.dom.client.Touch;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.CustomButton;
+
 /**
  * 
  * GWT Implementation influenced by Google's FastPressElement: <a
@@ -57,9 +58,9 @@ public abstract class FastButton extends CustomButton {
 		// I am not going to sink Mouse events since
 		// I don't think we will gain anything
 
-		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS ); // Event.TOUCHEVENTS adds
-														// all (Start, End,
-														// Cancel, Change)
+		sinkEvents(Event.ONCLICK | Event.TOUCHEVENTS); // Event.TOUCHEVENTS adds
+		                                               // all (Start, End,
+		                                               // Cancel, Change)
 
 		this.handlers = new ArrayList<FastClickHandler>();
 
@@ -126,7 +127,7 @@ public abstract class FastButton extends CustomButton {
 
 	@Override
 	public void onBrowserEvent(Event event) {
-		if(!this.isEnabled()){
+		if (!this.isEnabled()) {
 			event.stopPropagation();
 			return;
 		}
@@ -227,12 +228,12 @@ public abstract class FastButton extends CustomButton {
 				// is y above element
 				boolean yTop = this.getAbsoluteTop() > yCord;
 				boolean yBottom = (this.getAbsoluteTop() + this
-						.getOffsetHeight()) < yCord; // y below
+				        .getOffsetHeight()) < yCord; // y below
 
 				// is x to the left of element
 				boolean xLeft = this.getAbsoluteLeft() > xCord;
 				boolean xRight = (this.getAbsoluteLeft() + this
-						.getOffsetWidth()) < xCord; // x to the right
+				        .getOffsetWidth()) < xCord; // x to the right
 
 				if (yTop || yBottom || xLeft || xRight) {
 					this.touchMoved = true;

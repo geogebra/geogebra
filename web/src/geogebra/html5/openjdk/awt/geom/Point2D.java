@@ -40,7 +40,7 @@ import geogebra.common.awt.GPoint2D;
  * @version 1.18, 12/19/03
  * @author Jim Graham
  */
-public abstract class Point2D extends GPoint2D{
+public abstract class Point2D extends GPoint2D {
 	/**
 	 * The <code>Double</code> class defines a point specified in
 	 * <code>double</code> precision.
@@ -131,21 +131,20 @@ public abstract class Point2D extends GPoint2D{
 		}
 
 		@Override
-        public void setX(double x) {
-	        this.x = x;
-        }
+		public void setX(double x) {
+			this.x = x;
+		}
 
 		@Override
-        public void setY(double y) {
-	        this.y = y;
-        }
+		public void setY(double y) {
+			this.y = y;
+		}
 
-		//@Override
-		//public Object duplicate() {
-		//	return new Point2D.Double(this.x, this.y);
-		//}
-		
-		
+		// @Override
+		// public Object duplicate() {
+		// return new Point2D.Double(this.x, this.y);
+		// }
+
 	}
 
 	/**
@@ -252,20 +251,20 @@ public abstract class Point2D extends GPoint2D{
 		}
 
 		@Override
-        public void setX(double x) {
-	        this.x = (float) x;
-	        
-        }
+		public void setX(double x) {
+			this.x = (float) x;
+
+		}
 
 		@Override
-        public void setY(double y) {
-	        this.y= (float) y;
-        }
+		public void setY(double y) {
+			this.y = (float) y;
+		}
 
-		//@Override
-		//public Object duplicate() {
-		//	return new Point2D.Float(this.x, this.y);
-		//}
+		// @Override
+		// public Object duplicate() {
+		// return new Point2D.Float(this.x, this.y);
+		// }
 	}
 
 	/**
@@ -433,6 +432,5 @@ public abstract class Point2D extends GPoint2D{
 	public void setLocation(Point2D p) {
 		setLocation(p.getX(), p.getY());
 	}
-	
-	
+
 }

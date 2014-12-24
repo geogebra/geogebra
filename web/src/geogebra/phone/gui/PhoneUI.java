@@ -21,7 +21,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class PhoneUI extends VerticalPanel implements ViewContainer,
-		ViewChangeHandler, ResizeHandler {
+        ViewChangeHandler, ResizeHandler {
 
 	private AppW app;
 

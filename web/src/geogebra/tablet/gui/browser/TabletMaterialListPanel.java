@@ -10,17 +10,18 @@ import com.google.gwt.user.client.Window;
 public class TabletMaterialListPanel extends MaterialListPanel {
 
 	public TabletMaterialListPanel(final AppW app) {
-	    super(app);
-	    this.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
-    }
-	
+		super(app);
+		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
+		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+	}
+
 	@Override
 	public void onResize() {
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
+		        - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		for (final MaterialListElement elem : this.materials) {
 			elem.onResize();
 		}
 	}
-	
-	
+
 }

@@ -4,14 +4,13 @@ import geogebra.html5.kernel.HasTimerAction;
 
 public class Timer extends com.google.gwt.user.client.Timer {
 	private HasTimerAction am;
-	private int timerDelay; 
+	private int timerDelay;
 	private boolean isrunning;
-	
-	
+
 	public Timer(int delay, HasTimerAction animationManager) {
 		am = animationManager;
 		timerDelay = delay;
-		//scheduleRepeating(delay);
+		// scheduleRepeating(delay);
 		isrunning = false;
 		// TODO Auto-generated constructor stub
 	}
@@ -20,9 +19,11 @@ public class Timer extends com.google.gwt.user.client.Timer {
 	public void run() {
 		this.am.actionPerformed();
 	}
+
 	/**
-	 * TODO this method somehow doubles isRunning which is implemented in GWT 2.6
-	 * We shall remove it once we switch to GWT >= 2.6.
+	 * TODO this method somehow doubles isRunning which is implemented in GWT
+	 * 2.6 We shall remove it once we switch to GWT >= 2.6.
+	 * 
 	 * @return whether timer is running or not
 	 */
 	public boolean isGgbRunning() {
@@ -34,7 +35,7 @@ public class Timer extends com.google.gwt.user.client.Timer {
 			scheduleRepeating(timerDelay);
 			isrunning = true;
 		}
-		
+
 	}
 
 	public void stop() {

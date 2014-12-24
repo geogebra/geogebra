@@ -6,20 +6,21 @@ import com.google.gwt.user.client.ui.FlowPanel;
 
 /**
  * Wrapper for com.google.gwt.user.client.ui.FlowPanel
+ * 
  * @author judit
  *
  */
 public class GPanelW extends GPanel {
 	private FlowPanel impl = null;
 
-	public GPanelW(){
+	public GPanelW() {
 		impl = new FlowPanel();
 	}
-	
-	public FlowPanel getImpl(){
+
+	public FlowPanel getImpl() {
 		return impl;
 	}
-	
+
 	@Override
 	public void setVisible(boolean visible) {
 		impl.setVisible(visible);

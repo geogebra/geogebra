@@ -9,53 +9,53 @@ import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.browser.TabletSignInButton;
 import geogebra.web.gui.laf.GLookAndFeel;
 
-
 public class TabletLookAndFeel extends GLookAndFeel {
-	
+
 	public static final int PROVIDER_PANEL_WIDTH = 0;
 
 	@Override
-    public void addWindowClosingHandler(AppW app) {
-	   //no close message on tablet
-    }
-	
-	@Override
-	public void removeWindowClosingHandler() {
-		//no close message on tablet
+	public void addWindowClosingHandler(AppW app) {
+		// no close message on tablet
 	}
 
 	@Override
-    public String getType() {
-	    return "tablet";
-    }
+	public void removeWindowClosingHandler() {
+		// no close message on tablet
+	}
+
+	@Override
+	public String getType() {
+		return "tablet";
+	}
 
 	public boolean isTablet() {
 		return true;
 	}
 
 	@Override
-    public boolean copyToClipboardSupported() {
-	    return true;
-    }
+	public boolean copyToClipboardSupported() {
+		return true;
+	}
 
 	@Override
-    public SignInButton getSignInButton(final App app) {
-	    return new TabletSignInButton(app);
-    }
+	public SignInButton getSignInButton(final App app) {
+		return new TabletSignInButton(app);
+	}
 
 	@Override
-    public MaterialListElement getMaterialElement(final Material m, final AppW app, boolean isLocal) {
-	    return new TabletMaterialElement(m, app, isLocal);
-    }
-	
+	public MaterialListElement getMaterialElement(final Material m,
+	        final AppW app, boolean isLocal) {
+		return new TabletMaterialElement(m, app, isLocal);
+	}
+
 	@Override
-    public boolean exportSupported() {
-	    return false;
-    }
-	
+	public boolean exportSupported() {
+		return false;
+	}
+
 	@Override
-    public boolean externalDriveSupported() {
-	    return false;
-    }
+	public boolean externalDriveSupported() {
+		return false;
+	}
 
 }

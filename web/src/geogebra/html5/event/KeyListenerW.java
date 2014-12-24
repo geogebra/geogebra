@@ -8,7 +8,7 @@ import com.google.gwt.event.dom.client.KeyPressHandler;
 
 public class KeyListenerW implements KeyPressHandler {
 	private KeyHandler handler;
-	
+
 	public KeyListenerW(KeyHandler handler) {
 		this.handler = handler;
 	}

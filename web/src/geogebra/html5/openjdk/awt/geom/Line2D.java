@@ -33,8 +33,6 @@ import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
-
-
 /**
  * This <code>Line2D</code> represents a line segment in (x,&nbsp;y) coordinate
  * space. This class, like all of the Java 2D API, uses a default coordinate
@@ -402,11 +400,10 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 *         <code>false</code> otherwise.
 	 */
 	public static boolean linesIntersect(double X1, double Y1, double X2,
-			double Y2, double X3, double Y3, double X4, double Y4) {
+	        double Y2, double X3, double Y3, double X4, double Y4) {
 		return ((relativeCCW(X1, Y1, X2, Y2, X3, Y3)
-				* relativeCCW(X1, Y1, X2, Y2, X4, Y4) <= 0) && (relativeCCW(X3,
-				Y3, X4, Y4, X1, Y1)
-				* relativeCCW(X3, Y3, X4, Y4, X2, Y2) <= 0));
+		        * relativeCCW(X1, Y1, X2, Y2, X4, Y4) <= 0) && (relativeCCW(X3,
+		        Y3, X4, Y4, X1, Y1) * relativeCCW(X3, Y3, X4, Y4, X2, Y2) <= 0));
 	}
 
 	/**
@@ -428,7 +425,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptSegDist(double, double, double, double, double, double)
 	 */
 	public static double ptLineDist(double X1, double Y1, double X2, double Y2,
-			double PX, double PY) {
+	        double PX, double PY) {
 		return Math.sqrt(ptLineDistSq(X1, Y1, X2, Y2, PX, PY));
 	}
 
@@ -452,7 +449,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptSegDistSq(double, double, double, double, double, double)
 	 */
 	public static double ptLineDistSq(double X1, double Y1, double X2,
-			double Y2, double PX, double PY) {
+	        double Y2, double PX, double PY) {
 		// Adjust vectors relative to X1,Y1
 		// X2,Y2 becomes relative vector from X1,Y1 to end of segment
 		X2 -= X1;
@@ -494,7 +491,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptLineDist(double, double, double, double, double, double)
 	 */
 	public static double ptSegDist(double X1, double Y1, double X2, double Y2,
-			double PX, double PY) {
+	        double PX, double PY) {
 		return Math.sqrt(ptSegDistSq(X1, Y1, X2, Y2, PX, PY));
 	}
 
@@ -519,7 +516,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptLineDistSq(double, double, double, double, double, double)
 	 */
 	public static double ptSegDistSq(double X1, double Y1, double X2,
-			double Y2, double PX, double PY) {
+	        double Y2, double PX, double PY) {
 		// Adjust vectors relative to X1,Y1
 		// X2,Y2 becomes relative vector from X1,Y1 to end of segment
 		X2 -= X1;
@@ -605,7 +602,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 *         two specified coordinates.
 	 */
 	public static int relativeCCW(double X1, double Y1, double X2, double Y2,
-			double PX, double PY) {
+	        double PX, double PY) {
 		X2 -= X1;
 		Y2 -= Y1;
 		PX -= X1;
@@ -664,7 +661,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	public boolean contains(double x, double y) {
 		return false;
 	}
-	
+
 	public boolean contains(int x, int y) {
 		return false;
 	}
@@ -835,7 +832,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	public boolean intersects(double x, double y, double w, double h) {
 		return intersects(new Rectangle2D.Double(x, y, w, h));
 	}
-	
+
 	public boolean intersects(int x, int y, int w, int h) {
 		return intersects(new Rectangle2D.Double(x, y, w, h));
 	}
@@ -869,7 +866,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 */
 	public boolean intersectsLine(double X1, double Y1, double X2, double Y2) {
 		return linesIntersect(X1, Y1, X2, Y2, getX1(), getY1(), getX2(),
-				getY2());
+		        getY2());
 	}
 
 	/**
@@ -882,7 +879,7 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 */
 	public boolean intersectsLine(Line2D l) {
 		return linesIntersect(l.getX1(), l.getY1(), l.getX2(), l.getY2(),
-				getX1(), getY1(), getX2(), getY2());
+		        getX1(), getY1(), getX2(), getY2());
 	}
 
 	/**
@@ -916,8 +913,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptSegDist(Point2D)
 	 */
 	public double ptLineDist(Point2D pt) {
-		return ptLineDist(getX1(), getY1(), getX2(), getY2(), pt.getX(), pt
-				.getY());
+		return ptLineDist(getX1(), getY1(), getX2(), getY2(), pt.getX(),
+		        pt.getY());
 	}
 
 	/**
@@ -953,8 +950,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptSegDistSq(Point2D)
 	 */
 	public double ptLineDistSq(Point2D pt) {
-		return ptLineDistSq(getX1(), getY1(), getX2(), getY2(), pt.getX(), pt
-				.getY());
+		return ptLineDistSq(getX1(), getY1(), getX2(), getY2(), pt.getX(),
+		        pt.getY());
 	}
 
 	/**
@@ -990,8 +987,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptLineDist(Point2D)
 	 */
 	public double ptSegDist(Point2D pt) {
-		return ptSegDist(getX1(), getY1(), getX2(), getY2(), pt.getX(), pt
-				.getY());
+		return ptSegDist(getX1(), getY1(), getX2(), getY2(), pt.getX(),
+		        pt.getY());
 	}
 
 	/**
@@ -1027,8 +1024,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #ptLineDistSq(Point2D)
 	 */
 	public double ptSegDistSq(Point2D pt) {
-		return ptSegDistSq(getX1(), getY1(), getX2(), getY2(), pt.getX(), pt
-				.getY());
+		return ptSegDistSq(getX1(), getY1(), getX2(), getY2(), pt.getX(),
+		        pt.getY());
 	}
 
 	/**
@@ -1062,8 +1059,8 @@ public abstract class Line2D implements Shape, Cloneable, GLine2D {
 	 * @see #relativeCCW(double, double, double, double, double, double)
 	 */
 	public int relativeCCW(Point2D p) {
-		return relativeCCW(getX1(), getY1(), getX2(), getY2(), p.getX(), p
-				.getY());
+		return relativeCCW(getX1(), getY1(), getX2(), getY2(), p.getX(),
+		        p.getY());
 	}
 
 	/**

@@ -20,7 +20,8 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 		super(null);
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeelI laf) {
+	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf,
+	        GLookAndFeelI laf) {
 		AppW app = new AppWsimple(ae, gf);
 		WebStatic.lastApp = app;
 		return app;
@@ -28,8 +29,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 
 	/**
 	 * Main entry points called by geogebra.web.Web.startGeoGebra()
+	 * 
 	 * @param geoGebraMobileTags
-	 *          list of &lt;article&gt; elements of the web page
+	 *            list of &lt;article&gt; elements of the web page
 	 */
 	public static void main(ArrayList<ArticleElement> geoGebraMobileTags) {
 
@@ -37,26 +39,27 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 			final GeoGebraFrame inst = new GeoGebraFrameSimple();
 			inst.ae = articleElement;
 			GeoGebraLogger.startLogger(inst.ae);
-			inst.createSplash(articleElement);	
-			if(WebStatic.panelForApplets == null){
+			inst.createSplash(articleElement);
+			if (WebStatic.panelForApplets == null) {
 				RootPanel.get(articleElement.getId()).add(inst);
-			}else{
+			} else {
 				WebStatic.panelForApplets.add(inst);
 			}
 		}
 	}
-	
-	
+
 	/**
-	 * @param el html element to render into
+	 * @param el
+	 *            html element to render into
 	 */
 	public static void renderArticleElement(Element el, JavaScriptObject clb) {
-		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameSimple(), clb);
+		GeoGebraFrame.renderArticleElementWithFrame(el,
+		        new GeoGebraFrameSimple(), clb);
 	}
 
 	@Override
-    public void showBrowser(HeaderPanel bg) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void showBrowser(HeaderPanel bg) {
+		// TODO Auto-generated method stub
+
+	}
 }

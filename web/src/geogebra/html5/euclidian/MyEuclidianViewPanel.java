@@ -7,7 +7,8 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.Panel;
 
-public class MyEuclidianViewPanel extends AbsolutePanel implements EuclidianPanelWAbstract {
+public class MyEuclidianViewPanel extends AbsolutePanel implements
+        EuclidianPanelWAbstract {
 
 	protected Canvas canvas;
 	private EuclidianView ev;
@@ -25,7 +26,7 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements EuclidianPane
 	/**
 	 * create the canvas
 	 */
-	protected void createCanvas(){
+	protected void createCanvas() {
 		canvas = Canvas.createIfSupported();
 	}
 
@@ -47,7 +48,7 @@ public class MyEuclidianViewPanel extends AbsolutePanel implements EuclidianPane
 	}
 
 	public void onResize() {
-		//	ev.setCoordinateSpaceSizeDirectly(100, 100);
+		// ev.setCoordinateSpaceSizeDirectly(100, 100);
 	}
 
 	public void deferredOnResize() {

@@ -19,7 +19,7 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
 	@Override
 	protected boolean parseUserDataFromResponse(GeoGebraTubeUser user,
-	        String response) {		
+	        String response) {
 		return false;
 	}
 
@@ -27,13 +27,20 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 	protected String buildTokenLoginRequest(String loginToken, String cookie) {
 		return "";
 	}
-	
+
 	@Override
-    public String getClientInfo() {
-		if(!Browser.runningLocal()){
+	public String getClientInfo() {
+		if (!Browser.runningLocal()) {
 			return "";
 		}
-	    return "\"client\":{\"-id\":"+new JSONString(Location.getHref()+":"+GeoGebraConstants.VERSION_STRING+(GWT.getModuleBaseURL().contains("geogebra.org")?"":":pack")).toString()+", \"-type\":\"web\", \"-language\":"+new JSONString(Browser.navigatorLanguage()).toString()+"},";
-    }
+		return "\"client\":{\"-id\":"
+		        + new JSONString(Location.getHref()
+		                + ":"
+		                + GeoGebraConstants.VERSION_STRING
+		                + (GWT.getModuleBaseURL().contains("geogebra.org") ? ""
+		                        : ":pack")).toString()
+		        + ", \"-type\":\"web\", \"-language\":"
+		        + new JSONString(Browser.navigatorLanguage()).toString() + "},";
+	}
 
 }

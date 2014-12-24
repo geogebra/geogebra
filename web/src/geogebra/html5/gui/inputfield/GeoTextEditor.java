@@ -140,15 +140,16 @@ public class GeoTextEditor extends RichTextArea {
 
 	public void updateFonts() {
 
-		if(!initialized){
+		if (!initialized) {
 			return;
 		}
-		
+
 		font = (GFontW) app.getPlainFontCommon();
 		String fontSize = app.getFontSize() + "";
 		String fontFamily = font.getFontFamily();
 
-		// note: formatter cannot be used here because pixel font-size is not supported
+		// note: formatter cannot be used here because pixel font-size is not
+		// supported
 
 		getBody().setAttribute("style",
 		        "font-family:" + fontFamily + "; font-size:" + fontSize + "px");
@@ -158,7 +159,7 @@ public class GeoTextEditor extends RichTextArea {
 		if (!initialized) {
 			return null;
 		}
-		if(IFrameElement.as(getElement()) == null){
+		if (IFrameElement.as(getElement()) == null) {
 			return null;
 		}
 		return IFrameElement.as(getElement()).getContentDocument();

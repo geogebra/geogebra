@@ -10,8 +10,9 @@ import geogebra.html5.cas.giac.CASgiacW;
 public class CASFactoryW extends CASFactory {
 
 	@Override
-    public CASGenericInterface newGiac(CASparser p, CasParserTools t, Kernel kernel) {
+	public CASGenericInterface newGiac(CASparser p, CasParserTools t,
+	        Kernel kernel) {
 		return new CASgiacW(p, t, kernel);
-    }
+	}
 
 }

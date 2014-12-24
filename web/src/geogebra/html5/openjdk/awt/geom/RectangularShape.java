@@ -30,8 +30,6 @@ import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GRectangle;
 import geogebra.common.awt.GRectangle2D;
 
-
-
 /**
  * <code>RectangularShape</code> is the base class for a number of {@link Shape}
  * objects whose geometry is defined by a rectangular frame. This class does not
@@ -101,7 +99,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 		double x2 = Math.ceil(x + width);
 		double y2 = Math.ceil(y + height);
 		return new Rectangle((int) x1, (int) y1, (int) (x2 - x1),
-				(int) (y2 - y1));
+		        (int) (y2 - y1));
 	}
 
 	/**
@@ -191,8 +189,6 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	public double getMinY() {
 		return getY();
 	}
-
-	
 
 	/**
 	 * Returns the width of the framing rectangle in <code>double</code>
@@ -301,7 +297,7 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 *            ,&nbsp;cornerY the corner point coordinates
 	 */
 	public void setFrameFromCenter(double centerX, double centerY,
-			double cornerX, double cornerY) {
+	        double cornerX, double cornerY) {
 		double halfW = Math.abs(cornerX - centerX);
 		double halfH = Math.abs(cornerY - centerY);
 		setFrame(centerX - halfW, centerY - halfH, halfW * 2.0, halfH * 2.0);
@@ -319,8 +315,8 @@ public abstract class RectangularShape implements Shape, Cloneable {
 	 *            the specified corner <code>Point2D</code>
 	 */
 	public void setFrameFromCenter(Point2D center, Point2D corner) {
-		setFrameFromCenter(center.getX(), center.getY(), corner.getX(), corner
-				.getY());
+		setFrameFromCenter(center.getX(), center.getY(), corner.getX(),
+		        corner.getY());
 	}
 
 	/**

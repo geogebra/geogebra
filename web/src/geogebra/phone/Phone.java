@@ -27,20 +27,22 @@ public class Phone implements EntryPoint {
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
-		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(),  new PhoneDevice(), (AppletFactory) GWT.create(AppletFactory.class) );
+		appFrame = new GeoGebraAppFrameP(new PhoneLookAndFeel(),
+		        new PhoneDevice(),
+		        (AppletFactory) GWT.create(AppletFactory.class));
 		PhoneGapManager.initializePhoneGap(null);
 		PhoneGapManager.getPhoneGap().getEvent().getBackButton()
-				.addBackButtonPressedHandler(new BackButtonPressedHandler() {
+		        .addBackButtonPressedHandler(new BackButtonPressedHandler() {
 
-					@Override
-					public void onBackButtonPressed(
-							final BackButtonPressedEvent event) {
-						goBack();
-					}
-				});
+			        @Override
+			        public void onBackButtonPressed(
+			                final BackButtonPressedEvent event) {
+				        goBack();
+			        }
+		        });
 		ResourcesInjector.injectResources();
 	}
-	
+
 	private static void addViews() {
 		AlgebraView view = new AlgebraView(appFrame.app);
 		phoneGui.addView(view);

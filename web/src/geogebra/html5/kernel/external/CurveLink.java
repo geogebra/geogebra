@@ -1,6 +1,5 @@
 package geogebra.html5.kernel.external;
 
-
 /*
  * Copyright 1998 Sun Microsystems, Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -39,19 +38,19 @@ final class CurveLink {
 		this.ybot = yend;
 		this.etag = etag;
 		if (ytop < curve.getYTop() || ybot > curve.getYBot()) {
-			throw new InternalError("bad curvelink ["
-					+ ytop + "=>" + ybot + "] for " + curve);
+			throw new InternalError("bad curvelink [" + ytop + "=>" + ybot
+			        + "] for " + curve);
 		}
 	}
 
 	public boolean absorb(Curve curve, double ystart, double yend, int etag) {
 		if (this.curve != curve || this.etag != etag || ybot < ystart
-				|| ytop > yend) {
+		        || ytop > yend) {
 			return false;
 		}
 		if (ystart < curve.getYTop() || yend > curve.getYBot()) {
-			throw new InternalError("bad curvelink ["
-					+ ystart + "=>" + yend + "] for " + curve);
+			throw new InternalError("bad curvelink [" + ystart + "=>" + yend
+			        + "] for " + curve);
 		}
 		this.ytop = Math.min(ytop, ystart);
 		this.ybot = Math.max(ybot, yend);

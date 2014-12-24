@@ -9,7 +9,9 @@ import com.google.gwt.user.client.ui.Widget;
 public interface FastClickHandler extends EventHandler {
 	/**
 	 * Called when a FastClickEvent is fired.
-	 * @param source the widget that fired the event.
+	 * 
+	 * @param source
+	 *            the widget that fired the event.
 	 */
 	void onClick(Widget source);
 }

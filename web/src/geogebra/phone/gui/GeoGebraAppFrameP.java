@@ -9,7 +9,7 @@ import geogebra.web.main.GDevice;
 public class GeoGebraAppFrameP extends GeoGebraAppFrame {
 
 	public GeoGebraAppFrameP(GLookAndFeel laf, GDevice device,
-			AppletFactory factory) {
+	        AppletFactory factory) {
 		super(laf, device, factory);
 	}
 

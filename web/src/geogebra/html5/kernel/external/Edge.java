@@ -1,6 +1,5 @@
 package geogebra.html5.kernel.external;
 
-
 /*
  * Copyright 1998 Sun Microsystems, Inc.  All Rights Reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
@@ -27,100 +26,97 @@ package geogebra.html5.kernel.external;
  */
 
 final class Edge {
-    static final int INIT_PARTS = 4;
-    static final int GROW_PARTS = 10;
+	static final int INIT_PARTS = 4;
+	static final int GROW_PARTS = 10;
 
-    Curve curve;
-    int ctag;
-    int etag;
-    double activey;
-    int equivalence;
+	Curve curve;
+	int ctag;
+	int etag;
+	double activey;
+	int equivalence;
 
-    public Edge(Curve c, int ctag) {
-        this(c, ctag, AreaOp.ETAG_IGNORE);
-    }
+	public Edge(Curve c, int ctag) {
+		this(c, ctag, AreaOp.ETAG_IGNORE);
+	}
 
-    public Edge(Curve c, int ctag, int etag) {
-        this.curve = c;
-        this.ctag = ctag;
-        this.etag = etag;
-    }
+	public Edge(Curve c, int ctag, int etag) {
+		this.curve = c;
+		this.ctag = ctag;
+		this.etag = etag;
+	}
 
-    public Curve getCurve() {
-        return curve;
-    }
+	public Curve getCurve() {
+		return curve;
+	}
 
-    public int getCurveTag() {
-        return ctag;
-    }
+	public int getCurveTag() {
+		return ctag;
+	}
 
-    public int getEdgeTag() {
-        return etag;
-    }
+	public int getEdgeTag() {
+		return etag;
+	}
 
-    public void setEdgeTag(int etag) {
-        this.etag = etag;
-    }
+	public void setEdgeTag(int etag) {
+		this.etag = etag;
+	}
 
-    public int getEquivalence() {
-        return equivalence;
-    }
+	public int getEquivalence() {
+		return equivalence;
+	}
 
-    public void setEquivalence(int eq) {
-        equivalence = eq;
-    }
+	public void setEquivalence(int eq) {
+		equivalence = eq;
+	}
 
-    private Edge lastEdge;
-    private int lastResult;
-    private double lastLimit;
+	private Edge lastEdge;
+	private int lastResult;
+	private double lastLimit;
 
-    public int compareTo(Edge other, double yrange[]) {
-        if (other == lastEdge && yrange[0] < lastLimit) {
-            if (yrange[1] > lastLimit) {
-                yrange[1] = lastLimit;
-            }
-            return lastResult;
-        }
-        if (this == other.lastEdge && yrange[0] < other.lastLimit) {
-            if (yrange[1] > other.lastLimit) {
-                yrange[1] = other.lastLimit;
-            }
-            return 0-other.lastResult;
-        }
-        //long start = System.currentTimeMillis();
-        int ret = curve.compareTo(other.curve, yrange);
-        //long end = System.currentTimeMillis();
-        /*
-        System.out.println("compare: "+
-                           ((System.identityHashCode(this) <
-                             System.identityHashCode(other))
-                            ? this+" to "+other
-                            : other+" to "+this)+
-                           " == "+ret+" at "+yrange[1]+
-                           " in "+(end-start)+"ms");
-         */
-        lastEdge = other;
-        lastLimit = yrange[1];
-        lastResult = ret;
-        return ret;
-    }
+	public int compareTo(Edge other, double yrange[]) {
+		if (other == lastEdge && yrange[0] < lastLimit) {
+			if (yrange[1] > lastLimit) {
+				yrange[1] = lastLimit;
+			}
+			return lastResult;
+		}
+		if (this == other.lastEdge && yrange[0] < other.lastLimit) {
+			if (yrange[1] > other.lastLimit) {
+				yrange[1] = other.lastLimit;
+			}
+			return 0 - other.lastResult;
+		}
+		// long start = System.currentTimeMillis();
+		int ret = curve.compareTo(other.curve, yrange);
+		// long end = System.currentTimeMillis();
+		/*
+		 * System.out.println("compare: "+ ((System.identityHashCode(this) <
+		 * System.identityHashCode(other)) ? this+" to "+other :
+		 * other+" to "+this)+ " == "+ret+" at "+yrange[1]+
+		 * " in "+(end-start)+"ms");
+		 */
+		lastEdge = other;
+		lastLimit = yrange[1];
+		lastResult = ret;
+		return ret;
+	}
 
-    public void record(double yend, int etag) {
-        this.activey = yend;
-        this.etag = etag;
-    }
+	public void record(double yend, int etag) {
+		this.activey = yend;
+		this.etag = etag;
+	}
 
-    public boolean isActiveFor(double y, int etag) {
-        return (this.etag == etag && this.activey >= y);
-    }
+	public boolean isActiveFor(double y, int etag) {
+		return (this.etag == etag && this.activey >= y);
+	}
 
-    public String toString() {
-        return ("Edge["+curve+
-                ", "+
-                (ctag == AreaOp.CTAG_LEFT ? "L" : "R")+
-                ", "+
-                (etag == AreaOp.ETAG_ENTER ? "I" :
-                 (etag == AreaOp.ETAG_EXIT ? "O" : "N"))+
-                "]");
-    }
+	public String toString() {
+		return ("Edge["
+		        + curve
+		        + ", "
+		        + (ctag == AreaOp.CTAG_LEFT ? "L" : "R")
+		        + ", "
+		        + (etag == AreaOp.ETAG_ENTER ? "I"
+		                : (etag == AreaOp.ETAG_EXIT ? "O" : "N")) + "]");
+	}
 }

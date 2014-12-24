@@ -3,10 +3,11 @@ package geogebra.html5.awt;
 public class GPathIteratorW implements geogebra.common.awt.GPathIterator {
 
 	geogebra.html5.openjdk.awt.geom.PathIterator impl;
-	
-	public GPathIteratorW(geogebra.html5.openjdk.awt.geom.PathIterator pathIterator) {
-	    impl = pathIterator;
-    }
+
+	public GPathIteratorW(
+	        geogebra.html5.openjdk.awt.geom.PathIterator pathIterator) {
+		impl = pathIterator;
+	}
 
 	public int getWindingRule() {
 		return impl.getWindingRule();

@@ -16,7 +16,7 @@ public class AppletFactoryPhone implements AppletFactory {
 	}
 
 	public AppW getApplication(ArticleElement article, GeoGebraAppFrame fr,
-			GLookAndFeel laf, GDevice device) {
+	        GLookAndFeel laf, GDevice device) {
 		return new AppP(article, fr, laf, device);
 	}
 

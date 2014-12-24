@@ -31,7 +31,6 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GEllipse2DDouble;
 import geogebra.common.awt.GEllipse2DFloat;
 
-
 /**
  * The <code>Ellipse2D</code> class describes an ellipse that is defined by a
  * bounding rectangle.
@@ -376,7 +375,7 @@ public abstract class Ellipse2D extends RectangularShape {
 		double normy = (y - getY()) / ellh - 0.5;
 		return (normx * normx + normy * normy) < 0.25;
 	}
-	
+
 	public boolean contains(int x, int y) {
 		// Normalize the coordinates compared to the ellipse
 		// having a center at 0,0 and a radius of 0.5.
@@ -492,7 +491,7 @@ public abstract class Ellipse2D extends RectangularShape {
 		}
 		return (nearx * nearx + neary * neary) < 0.25;
 	}
-	
+
 	/**
 	 * Tests if the interior of this <code>Ellipse2D</code> entirely contains
 	 * the specified rectangular area.
@@ -509,7 +508,7 @@ public abstract class Ellipse2D extends RectangularShape {
 	 */
 	public boolean contains(double x, double y, double w, double h) {
 		return (contains(x, y) && contains(x + w, y) && contains(x, y + h) && contains(
-				x + w, y + h));
+		        x + w, y + h));
 	}
 
 	/**

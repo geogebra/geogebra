@@ -41,7 +41,7 @@ public class GColorW extends GColor {
 		setBlue(b);
 		setAlpha(255);
 	}
-	
+
 	public GColorW(int r, int g, int b, int alpha) {
 		setRed(r);
 		setGreen(g);
@@ -50,40 +50,38 @@ public class GColorW extends GColor {
 	}
 
 	public GColorW(float r, float g, float b, float alpha) {
-		if (r>1) 
-			r=1;
-		if (r<0)
-			r=0;
-		
-		if (g>1) 
-			g=1;
-		if (g<0)
-			g=0;
-		
-		
-		if (b>1) 
-			b=1;
-		if (b<0)
-			b=0;
-		
-		
-		setRed((int) (r*255));
-		setGreen((int) (g*255));
-		setBlue((int) (b*255));
-		setAlpha((int) (alpha*255));
-		
+		if (r > 1)
+			r = 1;
+		if (r < 0)
+			r = 0;
+
+		if (g > 1)
+			g = 1;
+		if (g < 0)
+			g = 0;
+
+		if (b > 1)
+			b = 1;
+		if (b < 0)
+			b = 0;
+
+		setRed((int) (r * 255));
+		setGreen((int) (g * 255));
+		setBlue((int) (b * 255));
+		setAlpha((int) (alpha * 255));
+
 	}
 
 	public GColorW(float red, float green, float blue) {
-	    this(red,green,blue,1);
-    }
+		this(red, green, blue, 1);
+	}
 
 	public void setRed(int r) {
 		this.r = r;
 	}
 
 	@Override
-    public int getRed() {
+	public int getRed() {
 		return r;
 	}
 
@@ -92,7 +90,7 @@ public class GColorW extends GColor {
 	}
 
 	@Override
-    public int getGreen() {
+	public int getGreen() {
 		return g;
 	}
 
@@ -101,7 +99,7 @@ public class GColorW extends GColor {
 	}
 
 	@Override
-    public int getBlue() {
+	public int getBlue() {
 		return b;
 	}
 
@@ -110,44 +108,44 @@ public class GColorW extends GColor {
 	}
 
 	@Override
-    public int getAlpha() {
+	public int getAlpha() {
 		return alpha;
-	}
-	
-	@Override
-    public boolean equals(Object object){
-		if(!(object instanceof GColorW)){
-			return false;
-		}
-		GColorW other = (GColorW)object;
-		return other.r == this.r && other.g == this.g 
-				&& other.b == this.b && other.alpha == this.alpha;
 	}
 
 	@Override
-    public void getRGBColorComponents(float[] rgb) {
+	public boolean equals(Object object) {
+		if (!(object instanceof GColorW)) {
+			return false;
+		}
+		GColorW other = (GColorW) object;
+		return other.r == this.r && other.g == this.g && other.b == this.b
+		        && other.alpha == this.alpha;
+	}
+
+	@Override
+	public void getRGBColorComponents(float[] rgb) {
 		rgb[0] = (float) (getRed() / 255.0);
 		rgb[1] = (float) (getGreen() / 255.0);
 		rgb[2] = (float) (getBlue() / 255.0);
-		
+
 	}
 
 	public int getRGBOnly() {
-		return (((getRed()*256)+ getGreen())* 256)+getBlue();
+		return (((getRed() * 256) + getGreen()) * 256) + getBlue();
 	}
-	
+
 	@Override
-    public GColorW darker() {
-    	return new GColorW(Math.max((int)(getRed()  *FACTOR), 0), 
-			 Math.max((int)(getGreen()*FACTOR), 0),
-			 Math.max((int)(getBlue() *FACTOR), 0));
-    }
+	public GColorW darker() {
+		return new GColorW(Math.max((int) (getRed() * FACTOR), 0), Math.max(
+		        (int) (getGreen() * FACTOR), 0), Math.max(
+		        (int) (getBlue() * FACTOR), 0));
+	}
 
 	@Override
 	public geogebra.common.awt.GColor brighter() {
-		return new GColorW(Math.min((int)(getRed()  /FACTOR), 255), 
-				 Math.min((int)(getGreen()/FACTOR), 255),
-				 Math.min((int)(getBlue() /FACTOR), 255));
+		return new GColorW(Math.min((int) (getRed() / FACTOR), 255), Math.min(
+		        (int) (getGreen() / FACTOR), 255), Math.min(
+		        (int) (getBlue() / FACTOR), 255));
 	}
 
 	// this could have been in GColor,

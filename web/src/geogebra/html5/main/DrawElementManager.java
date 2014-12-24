@@ -139,8 +139,8 @@ public class DrawElementManager {
 	// =================================================================
 
 	private HashMap<String, ElementRecord> getElementMap(GGraphics2DW g2) {
-	    return getElementMap(dummyCheck(g2));
-    }
+		return getElementMap(dummyCheck(g2));
+	}
 
 	/**
 	 * Clears all elements from a given EuclidianView by either hiding them or
@@ -182,14 +182,14 @@ public class DrawElementManager {
 			// and hide the element
 			if (age > 5) {
 				elem.removeFromParent();
-				//don't remove directly as that may confuse the iterator
+				// don't remove directly as that may confuse the iterator
 				toRemove.add(keyString);
 			} else {
 				elementMap.get(keyString).age++;
 				elem.getStyle().setDisplay(Style.Display.NONE);
 			}
 		}
-		for(String key:toRemove){
+		for (String key : toRemove) {
 			elementMap.remove(key);
 		}
 	}
@@ -258,7 +258,7 @@ public class DrawElementManager {
 		Iterator<Integer> it = elementMapCollection.keySet().iterator();
 		while (it.hasNext()) {
 			Integer g2 = it.next();
-			App.debug("ID:"+g2);
+			App.debug("ID:" + g2);
 			Iterator<String> it2 = getElementMap(g2).keySet().iterator();
 			while (it2.hasNext()) {
 				String s = "   element string: " + it2.next();

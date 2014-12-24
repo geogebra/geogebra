@@ -15,7 +15,8 @@ public class SwingFactoryW extends SwingFactory {
 	@Override
 	public AutoCompleteTextField newAutoCompleteTextField(int length,
 	        App application, Drawable drawTextField) {
-		return new geogebra.html5.gui.inputfield.AutoCompleteTextFieldW(length, application, drawTextField);
+		return new geogebra.html5.gui.inputfield.AutoCompleteTextFieldW(length,
+		        application, drawTextField);
 	}
 
 	@Override
@@ -29,13 +30,13 @@ public class SwingFactoryW extends SwingFactory {
 	}
 
 	@Override
-    public AbstractJComboBox newJComboBox(App app, int view) {
-	    return new geogebra.html5.javax.swing.GComboBoxW(app, view);
-    }
+	public AbstractJComboBox newJComboBox(App app, int view) {
+		return new geogebra.html5.javax.swing.GComboBoxW(app, view);
+	}
 
 	@Override
-    public GPanel newGPanel() {
-	    return new geogebra.html5.javax.swing.GPanelW();
-    }
+	public GPanel newGPanel() {
+		return new geogebra.html5.javax.swing.GPanelW();
+	}
 
 }

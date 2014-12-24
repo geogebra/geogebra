@@ -7,14 +7,15 @@ import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.GDevice;
 
 public class AppP extends AppWapplication3D {
-	
-	public AppP(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame, GLookAndFeel laf, GDevice device) {
+
+	public AppP(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
+	        GLookAndFeel laf, GDevice device) {
 		super(article, geoGebraAppFrame, laf, device);
 	}
 
 	public AppP(ArticleElement article, GeoGebraAppFrame geoGebraAppFrame,
-			boolean undoActive, int dimension, GLookAndFeel laf, GDevice device) {
+	        boolean undoActive, int dimension, GLookAndFeel laf, GDevice device) {
 		super(article, geoGebraAppFrame, undoActive, dimension, laf, device);
 	}
-	
+
 }

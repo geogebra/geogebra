@@ -9,27 +9,29 @@ import com.googlecode.gwtphonegap.client.PhoneGapAvailableHandler;
 import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 
 public class PhoneGapManager {
-	
+
 	private static PhoneGap phoneGap = (PhoneGap) GWT.create(PhoneGap.class);
-	
+
 	public static PhoneGap getPhoneGap() {
 		return phoneGap;
 	}
 
 	public static void initializePhoneGap(final BackButtonPressedHandler handler) {
-		if(handler != null){
-		phoneGap.addHandler(new PhoneGapAvailableHandler(){
+		if (handler != null) {
+			phoneGap.addHandler(new PhoneGapAvailableHandler() {
 
-			@Override
-            public void onPhoneGapAvailable(PhoneGapAvailableEvent event) {
-				try{
-					phoneGap.getEvent().getBackButton().addBackButtonPressedHandler(handler);
-				}catch(Throwable t){
-					App.error("No back button event.");
+				@Override
+				public void onPhoneGapAvailable(PhoneGapAvailableEvent event) {
+					try {
+						phoneGap.getEvent().getBackButton()
+						        .addBackButtonPressedHandler(handler);
+					} catch (Throwable t) {
+						App.error("No back button event.");
+					}
+
 				}
-	            
-            }});
+			});
 		}
-	    phoneGap.initializePhoneGap();
-    }
+		phoneGap.initializePhoneGap();
+	}
 }

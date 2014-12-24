@@ -25,10 +25,10 @@ public abstract class TouchDevice implements GDevice {
 	}
 
 	native void nativeShare(String base64, String title)/*-{
-		if ($wnd.android) {
-			$wnd.android.share(base64, title, 'png');
-		}
-	}-*/;
+	                                                    if ($wnd.android) {
+	                                                    $wnd.android.share(base64, title, 'png');
+	                                                    }
+	                                                    }-*/;
 
 	@Override
 	public void setMinWidth(GeoGebraAppFrame frame) {
@@ -46,7 +46,7 @@ public abstract class TouchDevice implements GDevice {
 	public UploadImageDialog getImageInputDialog(AppW app) {
 		return new ImageInputDialogT(app);
 	}
-	
+
 	@Override
 	public ConstructionProtocolView getConstructionProtocolView(AppW app) {
 		return new ConstructionProtocolViewT(app);

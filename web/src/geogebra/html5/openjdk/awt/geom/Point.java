@@ -27,7 +27,6 @@
 
 package geogebra.html5.openjdk.awt.geom;
 
-
 /**
  * A point representing a location in (x, y) coordinate space, specified in
  * integer precision.
@@ -251,25 +250,25 @@ public class Point extends Point2D {
 	}
 
 	@Override
-    public void setX(double x) {
-	    this.x = (int) x;
-	    
-    }
+	public void setX(double x) {
+		this.x = (int) x;
+
+	}
 
 	@Override
-    public void setY(double y) {
-	    this.y = (int) y;
-	    
-    }
+	public void setY(double y) {
+		this.y = (int) y;
+
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see com.davetrudes.jung.client.util.GWTCloneable#duplicate()
 	 */
-	//@Override
-	//public Object duplicate() {
-	//	return new Point(this.x, this.y);
-	//}
+	// @Override
+	// public Object duplicate() {
+	// return new Point(this.x, this.y);
+	// }
 
 }

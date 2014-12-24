@@ -10,5 +10,5 @@ public class AppPapplet extends AppWapplet3D {
 	public AppPapplet(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
 		super(ae, gf, laf);
 	}
-	
+
 }

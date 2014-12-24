@@ -10,24 +10,25 @@ import com.google.gwt.user.client.Window;
 public class TabletBrowseGUI extends BrowseGUI {
 
 	public TabletBrowseGUI(final AppW app) {
-	    super(app);
-    }
-	
+		super(app);
+	}
+
 	@Override
 	protected void addContent() {
 		this.container.add(this.materialListPanel);
 		this.setContentWidget(this.container);
 	}
-	
-	@Override 
+
+	@Override
 	protected void initMaterialListPanel() {
 		this.materialListPanel = new TabletMaterialListPanel(app);
 		this.addResizeListener(this.materialListPanel);
 	}
-	
+
 	@Override
 	protected void updateViewSizes() {
-		this.container.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
+		this.container.setPixelSize(Window.getClientWidth(),
+		        Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
 		for (final ResizeListener res : this.resizeListeners) {
 			res.onResize();
 		}

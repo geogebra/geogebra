@@ -2,9 +2,9 @@ package geogebra.html5.javax.swing;
 
 import geogebra.html5.gui.textbox.GTextBox;
 
-public class GSpinnerW extends GTextBox{
+public class GSpinnerW extends GTextBox {
 
-	public GSpinnerW(){
+	public GSpinnerW() {
 		super();
 		getElement().setAttribute("type", "number");
 		this.setValue("2");
@@ -13,40 +13,41 @@ public class GSpinnerW extends GTextBox{
 		setStepValue(0.25);
 		addStyleName("ggbSpinner");
 	}
-	
-	public void setMinValue(Double value){
+
+	public void setMinValue(Double value) {
 		getElement().setAttribute("min", value.toString());
 	}
-	
-	public void setMaxValue(Double value){
+
+	public void setMaxValue(Double value) {
 		getElement().setAttribute("max", value.toString());
 	}
 
-	public void setStepValue(Double value){
+	public void setStepValue(Double value) {
 		getElement().setAttribute("step", value.toString());
 	}
 
-	public void setMinValue(Integer value){
+	public void setMinValue(Integer value) {
 		getElement().setAttribute("min", value.toString());
 	}
-	
-	public void setMaxValue(Integer value){
+
+	public void setMaxValue(Integer value) {
 		getElement().setAttribute("max", value.toString());
 	}
 
-	public void setStepValue(Integer value){
+	public void setStepValue(Integer value) {
 		getElement().setAttribute("step", value.toString());
 	}
-	
-	public double getMinValue(Double value){
+
+	public double getMinValue(Double value) {
 		return Double.parseDouble(getElement().getAttribute("min"));
 	}
-	
-	public double getMaxValue(Double value){
+
+	public double getMaxValue(Double value) {
 		return Double.parseDouble(getElement().getAttribute("max"));
 	}
-	public double getStepValue(Double value){
+
+	public double getStepValue(Double value) {
 		return Double.parseDouble(getElement().getAttribute("step"));
 	}
-	
+
 }

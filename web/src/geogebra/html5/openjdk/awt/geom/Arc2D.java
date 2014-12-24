@@ -31,7 +31,6 @@ import geogebra.common.awt.GAffineTransform;
 import geogebra.common.awt.GArc2D;
 import geogebra.common.awt.GRectangle2D;
 
-
 /**
  * <CODE>Arc2D</CODE> is the abstract superclass for all objects that store a 2D
  * arc defined by a bounding rectangle, start angle, angular extent (length of
@@ -120,7 +119,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 		 */
 		public Double(double x, double y, double w, double h, double start,
-				double extent, int type) {
+		        double extent, int type) {
 			super(type);
 			this.x = x;
 			this.y = y;
@@ -161,7 +160,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 		 */
 		public Double(Rectangle2D ellipseBounds, double start, double extent,
-				int type) {
+		        int type) {
 			super(type);
 			this.x = ellipseBounds.getX();
 			this.y = ellipseBounds.getY();
@@ -289,7 +288,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 		 */
 		public void setArc(double x, double y, double w, double h,
-				double angSt, double angExt, int closure) {
+		        double angSt, double angExt, int closure) {
 			this.setArcType(closure);
 			this.x = x;
 			this.y = y;
@@ -388,7 +387,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 		 */
 		public Float(float x, float y, float w, float h, float start,
-				float extent, int type) {
+		        float extent, int type) {
 			super(type);
 			this.x = x;
 			this.y = y;
@@ -429,7 +428,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 		 */
 		public Float(Rectangle2D ellipseBounds, float start, float extent,
-				int type) {
+		        int type) {
 			super(type);
 			this.x = (float) ellipseBounds.getX();
 			this.y = (float) ellipseBounds.getY();
@@ -557,7 +556,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 		 */
 		public void setArc(double x, double y, double w, double h,
-				double angSt, double angExt, int closure) {
+		        double angSt, double angExt, int closure) {
 			this.setArcType(closure);
 			this.x = (float) x;
 			this.y = (float) y;
@@ -584,7 +583,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 */
 		protected Rectangle2D makeBounds(double x, double y, double w, double h) {
 			return new Rectangle2D.Float((float) x, (float) y, (float) w,
-					(float) h);
+			        (float) h);
 		}
 	}
 
@@ -616,8 +615,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 */
 	public static double remainder(double a, double b) {
 		return Math.signum(a)
-				* (Math.abs(a) - Math.abs(b)
-						* Math.floor(Math.abs(a) / Math.abs(b)));
+		        * (Math.abs(a) - Math.abs(b)
+		                * Math.floor(Math.abs(a) / Math.abs(b)));
 	}
 
 	/*
@@ -724,8 +723,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		double x2 = Math.cos(angle);
 		double y2 = Math.sin(angle);
 		boolean inside = (Line2D.relativeCCW(x1, y1, x2, y2, 2 * normx,
-				2 * normy)
-				* Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
+		        2 * normy) * Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
 		return inarc ? !inside : inside;
 	}
 
@@ -775,11 +773,10 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		double x2 = Math.cos(angle);
 		double y2 = Math.sin(angle);
 		boolean inside = (Line2D.relativeCCW(x1, y1, x2, y2, 2 * normx,
-				2 * normy)
-				* Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
+		        2 * normy) * Line2D.relativeCCW(x1, y1, x2, y2, 0, 0) >= 0);
 		return inarc ? !inside : inside;
 	}
-	
+
 	/**
 	 * Determine whether or not the interior of the arc entirely contains the
 	 * specified rectangle.
@@ -1037,13 +1034,13 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 */
 		if (ayc >= y && ayc <= yh) { // 0 and 180
 			if ((sx < xw && ex < xw && axc < xw && axw > x && containsAngle(0))
-					|| (sx > x && ex > x && axc > x && ax < xw && containsAngle(180))) {
+			        || (sx > x && ex > x && axc > x && ax < xw && containsAngle(180))) {
 				return true;
 			}
 		}
 		if (axc >= x && axc <= xw) { // 90 and 270
 			if ((sy > y && ey > y && ayc > y && ay < yh && containsAngle(90))
-					|| (sy < yh && ey < yh && ayc < yh && ayh > y && containsAngle(270))) {
+			        || (sy < yh && ey < yh && ayc < yh && ayh > y && containsAngle(270))) {
 				return true;
 			}
 		}
@@ -1058,7 +1055,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		if (type == PIE || Math.abs(ext) > 180) {
 			// for PIE: try to find intersections with pie slices
 			if (rect.intersectsLine(axc, ayc, sx, sy)
-					|| rect.intersectsLine(axc, ayc, ex, ey)) {
+			        || rect.intersectsLine(axc, ayc, ex, ey)) {
 				return true;
 			}
 		} else {
@@ -1070,13 +1067,13 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 
 		// finally check the rectangle corners inside the arc
 		if (contains(x, y) || contains(x + w, y) || contains(x, y + h)
-				|| contains(x + w, y + h)) {
+		        || contains(x + w, y + h)) {
 			return true;
 		}
 
 		return false;
 	}
-	
+
 	public boolean intersects(int x, int y, int w, int h) {
 
 		double aw = getWidth();
@@ -1122,13 +1119,13 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		 */
 		if (ayc >= y && ayc <= yh) { // 0 and 180
 			if ((sx < xw && ex < xw && axc < xw && axw > x && containsAngle(0))
-					|| (sx > x && ex > x && axc > x && ax < xw && containsAngle(180))) {
+			        || (sx > x && ex > x && axc > x && ax < xw && containsAngle(180))) {
 				return true;
 			}
 		}
 		if (axc >= x && axc <= xw) { // 90 and 270
 			if ((sy > y && ey > y && ayc > y && ay < yh && containsAngle(90))
-					|| (sy < yh && ey < yh && ayc < yh && ayh > y && containsAngle(270))) {
+			        || (sy < yh && ey < yh && ayc < yh && ayh > y && containsAngle(270))) {
 				return true;
 			}
 		}
@@ -1143,7 +1140,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 		if (type == PIE || Math.abs(ext) > 180) {
 			// for PIE: try to find intersections with pie slices
 			if (rect.intersectsLine(axc, ayc, sx, sy)
-					|| rect.intersectsLine(axc, ayc, ex, ey)) {
+			        || rect.intersectsLine(axc, ayc, ex, ey)) {
 				return true;
 			}
 		} else {
@@ -1155,7 +1152,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 
 		// finally check the rectangle corners inside the arc
 		if (contains(x, y) || contains(x + w, y) || contains(x, y + h)
-				|| contains(x + w, y + h)) {
+		        || contains(x + w, y + h)) {
 			return true;
 		}
 
@@ -1252,8 +1249,8 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 *            The <CODE>Arc2D</CODE> to use to set the arc's values.
 	 */
 	public void setArc(Arc2D a) {
-		setArc(a.getX(), a.getY(), a.getWidth(), a.getHeight(), a
-				.getAngleStart(), a.getAngleExtent(), a.type);
+		setArc(a.getX(), a.getY(), a.getWidth(), a.getHeight(),
+		        a.getAngleStart(), a.getAngleExtent(), a.type);
 	}
 
 	/**
@@ -1277,7 +1274,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 	 */
 	public abstract void setArc(double x, double y, double w, double h,
-			double angSt, double angExt, int closure);
+	        double angSt, double angExt, int closure);
 
 	/**
 	 * Sets the location, size, angular extents, and closure type of this arc to
@@ -1300,9 +1297,9 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 	 */
 	public void setArc(Point2D loc, Dimension2D size, double angSt,
-			double angExt, int closure) {
+	        double angExt, int closure) {
 		setArc(loc.getX(), loc.getY(), size.getWidth(), size.getHeight(),
-				angSt, angExt, closure);
+		        angSt, angExt, closure);
 	}
 
 	/**
@@ -1323,9 +1320,9 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 	 */
 	public void setArc(Rectangle2D rect, double angSt, double angExt,
-			int closure) {
+	        int closure) {
 		setArc(rect.getX(), rect.getY(), rect.getWidth(), rect.getHeight(),
-				angSt, angExt, closure);
+		        angSt, angExt, closure);
 	}
 
 	/**
@@ -1349,9 +1346,9 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 *            {@link #CHORD CHORD}, or {@link #PIE PIE}.
 	 */
 	public void setArcByCenter(double x, double y, double radius, double angSt,
-			double angExt, int closure) {
+	        double angExt, int closure) {
 		setArc(x - radius, y - radius, radius * 2.0, radius * 2.0, angSt,
-				angExt, closure);
+		        angExt, closure);
 	}
 
 	/**
@@ -1375,7 +1372,7 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 *            The radius of the arc. (Specified in double precision.)
 	 */
 	public void setArcByTangent(Point2D p1, Point2D p2, Point2D p3,
-			double radius) {
+	        double radius) {
 		double ang1 = Math.atan2(p1.getY() - p2.getY(), p1.getX() - p2.getX());
 		double ang2 = Math.atan2(p3.getY() - p2.getY(), p3.getX() - p2.getX());
 		double diff = ang2 - ang1;
@@ -1446,9 +1443,9 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	}
 
 	private boolean contains(double x, double y, double w, double h,
-			GRectangle2D origrect) {
+	        GRectangle2D origrect) {
 		if (!(contains(x, y) && contains(x + w, y) && contains(x, y + h) && contains(
-				x + w, y + h))) {
+		        x + w, y + h))) {
 			return false;
 		}
 		// If the shape is convex then we have done all the testing
@@ -1498,5 +1495,5 @@ public abstract class Arc2D extends RectangularShape implements GArc2D {
 	 * @return a <code>Rectangle2D</code> that is the bounding box of this arc.
 	 */
 	protected abstract Rectangle2D makeBounds(double x, double y, double w,
-			double h);
+	        double h);
 }

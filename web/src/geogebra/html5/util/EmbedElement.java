@@ -5,13 +5,13 @@ import com.google.gwt.dom.client.Element;
 /**
  * @author gabor
  * 
- * Embedelement for embed elements
+ *         Embedelement for embed elements
  *
  */
 public class EmbedElement extends Element {
-	
+
 	static final String TAG = "embed";
-	
+
 	/**
 	 * @param element
 	 *            Assert, that the given {@link Element} is compatible with this
@@ -19,15 +19,16 @@ public class EmbedElement extends Element {
 	 * @return
 	 */
 	public static EmbedElement as(Element element) {
-		//assert element.getTagName().equalsIgnoreCase(TAG);
+		// assert element.getTagName().equalsIgnoreCase(TAG);
 		return (EmbedElement) element;
 	}
 
 	protected EmbedElement() {
 	}
-	
+
 	/**
-	 * @param msg to pNaCl embed
+	 * @param msg
+	 *            to pNaCl embed
 	 */
 	public native final void postMessage(String msg) /*-{
 		this.postMessage(msg);

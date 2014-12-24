@@ -32,7 +32,6 @@ import geogebra.common.awt.GPathIterator;
 import geogebra.common.awt.GPoint2D;
 import geogebra.common.awt.GShape;
 
-
 /**
  * The <code>AffineTransform</code> class represents a 2D affine transform that
  * performs a linear mapping from 2D coordinates to other 2D coordinates that
@@ -42,9 +41,10 @@ import geogebra.common.awt.GShape;
  * <p>
  * Such a coordinate transformation can be represented by a 3 row by 3 column
  * matrix with an implied last row of [ 0 0 1 ]. This matrix transforms source
- * coordinates <code>(x,&nbsp;y)</code> into destination coordinates <code>(x',&nbsp;y')</code> by
- * considering them to be a column vector and multiplying the coordinate vector
- * by the matrix according to the following process:
+ * coordinates <code>(x,&nbsp;y)</code> into destination coordinates
+ * <code>(x',&nbsp;y')</code> by considering them to be a column vector and
+ * multiplying the coordinate vector by the matrix according to the following
+ * process:
  *
  * <pre>
  * [ x']   [  m00  m01  m02  ] [ x ]   [ m00x + m01y + m02 ]
@@ -321,10 +321,10 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	private static final int HI_SHEAR = APPLY_SHEAR << HI_SHIFT;
 
 	private static int rot90conversion[] = { APPLY_SHEAR,
-			APPLY_SHEAR | APPLY_TRANSLATE, APPLY_SHEAR,
-			APPLY_SHEAR | APPLY_TRANSLATE, APPLY_SCALE,
-			APPLY_SCALE | APPLY_TRANSLATE, APPLY_SHEAR | APPLY_SCALE,
-			APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE, };
+	        APPLY_SHEAR | APPLY_TRANSLATE, APPLY_SHEAR,
+	        APPLY_SHEAR | APPLY_TRANSLATE, APPLY_SCALE,
+	        APPLY_SCALE | APPLY_TRANSLATE, APPLY_SHEAR | APPLY_SCALE,
+	        APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE, };
 
 	/**
 	 * Returns a transform representing a rotation transformation. The matrix
@@ -385,7 +385,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *         around the specified point by the specified angle of rotation.
 	 */
 	public static AffineTransform getRotateInstance(double theta, double x,
-			double y) {
+	        double y) {
 		AffineTransform Tx = new AffineTransform();
 		Tx.setToRotation(theta, x, y);
 		return Tx;
@@ -587,7 +587,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            matrix
 	 */
 	public AffineTransform(double m00, double m10, double m01, double m11,
-			double m02, double m12) {
+	        double m02, double m12) {
 		this.m00 = m00;
 		this.m10 = m10;
 		this.m01 = m01;
@@ -634,7 +634,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            matrix
 	 */
 	public AffineTransform(float m00, float m10, float m01, float m11,
-			float m02, float m12) {
+	        float m02, float m12) {
 		this.m00 = m00;
 		this.m10 = m10;
 		this.m01 = m01;
@@ -671,7 +671,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	}
 
 	private AffineTransform(double m00, double m10, double m01, double m11,
-			double m02, double m12, int state) {
+	        double m02, double m12, int state) {
 		this.m00 = m00;
 		this.m10 = m10;
 		this.m01 = m01;
@@ -913,7 +913,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *                if the matrix cannot be inverted.
 	 */
 	public AffineTransform createInverse()
-			throws NoninvertibleTransformException {
+	        throws NoninvertibleTransformException {
 		double det;
 		switch (state) {
 		default:
@@ -923,47 +923,47 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 			det = m00 * m11 - m01 * m10;
 			if (Math.abs(det) <= Double.MIN_VALUE) {
 				throw new NoninvertibleTransformException("Determinant is "
-						+ det);
+				        + det);
 			}
 			return new AffineTransform(m11 / det, -m10 / det, -m01 / det, m00
-					/ det, (m01 * m12 - m11 * m02) / det, (m10 * m02 - m00
-					* m12)
-					/ det, (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE));
+			        / det, (m01 * m12 - m11 * m02) / det, (m10 * m02 - m00
+			        * m12)
+			        / det, (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE));
 		case (APPLY_SHEAR | APPLY_SCALE):
 			det = m00 * m11 - m01 * m10;
 			if (Math.abs(det) <= Double.MIN_VALUE) {
 				throw new NoninvertibleTransformException("Determinant is "
-						+ det);
+				        + det);
 			}
 			return new AffineTransform(m11 / det, -m10 / det, -m01 / det, m00
-					/ det, 0.0, 0.0, (APPLY_SHEAR | APPLY_SCALE));
+			        / det, 0.0, 0.0, (APPLY_SHEAR | APPLY_SCALE));
 		case (APPLY_SHEAR | APPLY_TRANSLATE):
 			if (m01 == 0.0 || m10 == 0.0) {
 				throw new NoninvertibleTransformException("Determinant is 0");
 			}
 			return new AffineTransform(0.0, 1.0 / m01, 1.0 / m10, 0.0, -m12
-					/ m10, -m02 / m01, (APPLY_SHEAR | APPLY_TRANSLATE));
+			        / m10, -m02 / m01, (APPLY_SHEAR | APPLY_TRANSLATE));
 		case (APPLY_SHEAR):
 			if (m01 == 0.0 || m10 == 0.0) {
 				throw new NoninvertibleTransformException("Determinant is 0");
 			}
 			return new AffineTransform(0.0, 1.0 / m01, 1.0 / m10, 0.0, 0.0,
-					0.0, (APPLY_SHEAR));
+			        0.0, (APPLY_SHEAR));
 		case (APPLY_SCALE | APPLY_TRANSLATE):
 			if (m00 == 0.0 || m11 == 0.0) {
 				throw new NoninvertibleTransformException("Determinant is 0");
 			}
 			return new AffineTransform(1.0 / m00, 0.0, 0.0, 1.0 / m11, -m02
-					/ m00, -m12 / m11, (APPLY_SCALE | APPLY_TRANSLATE));
+			        / m00, -m12 / m11, (APPLY_SCALE | APPLY_TRANSLATE));
 		case (APPLY_SCALE):
 			if (m00 == 0.0 || m11 == 0.0) {
 				throw new NoninvertibleTransformException("Determinant is 0");
 			}
 			return new AffineTransform(1.0 / m00, 0.0, 0.0, 1.0 / m11, 0.0,
-					0.0, (APPLY_SCALE));
+			        0.0, (APPLY_SCALE));
 		case (APPLY_TRANSLATE):
 			return new AffineTransform(1.0, 0.0, 0.0, 1.0, -m02, -m12,
-					(APPLY_TRANSLATE));
+			        (APPLY_TRANSLATE));
 		case (APPLY_IDENTITY):
 			return new AffineTransform();
 		}
@@ -1035,7 +1035,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            the number of vector coordinate pairs to be transformed
 	 */
 	public void deltaTransform(double[] srcPts, int srcOff, double[] dstPts,
-			int dstOff, int numPts) {
+	        int dstOff, int numPts) {
 		double M00, M01, M10, M11; // For caching
 		if (dstPts == srcPts && dstOff > srcOff && dstOff < srcOff + numPts * 2) {
 			// If the arrays overlap partially with the destination higher
@@ -1178,7 +1178,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 		AffineTransform a = (AffineTransform) obj;
 
 		return ((m00 == a.m00) && (m01 == a.m01) && (m02 == a.m02)
-				&& (m10 == a.m10) && (m11 == a.m11) && (m12 == a.m12));
+		        && (m10 == a.m10) && (m11 == a.m11) && (m12 == a.m12));
 	}
 
 	/**
@@ -1365,7 +1365,6 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 		return type;
 	}
 
-
 	/**
 	 * Inverse transforms an array of double precision coordinates by this
 	 * transform. The two coordinate array sections can be exactly the same or
@@ -1394,7 +1393,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *                if the matrix cannot be inverted.
 	 */
 	public void inverseTransform(double[] srcPts, int srcOff, double[] dstPts,
-			int dstOff, int numPts) throws NoninvertibleTransformException {
+	        int dstOff, int numPts) throws NoninvertibleTransformException {
 		double M00, M01, M02, M10, M11, M12; // For caching
 		double det;
 		if (dstPts == srcPts && dstOff > srcOff && dstOff < srcOff + numPts * 2) {
@@ -1424,7 +1423,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 			det = M00 * M11 - M01 * M10;
 			if (Math.abs(det) <= Double.MIN_VALUE) {
 				throw new NoninvertibleTransformException("Determinant is "
-						+ det);
+				        + det);
 			}
 			while (--numPts >= 0) {
 				double x = srcPts[srcOff++] - M02;
@@ -1441,7 +1440,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 			det = M00 * M11 - M01 * M10;
 			if (Math.abs(det) <= Double.MIN_VALUE) {
 				throw new NoninvertibleTransformException("Determinant is "
-						+ det);
+				        + det);
 			}
 			while (--numPts >= 0) {
 				double x = srcPts[srcOff++];
@@ -1537,7 +1536,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *                if the matrix cannot be inverted.
 	 */
 	public Point2D inverseTransform(Point2D ptSrc, Point2D ptDst)
-			throws NoninvertibleTransformException {
+	        throws NoninvertibleTransformException {
 		if (ptDst == null) {
 			if (ptSrc instanceof Point2D.Double) {
 				ptDst = new Point2D.Double();
@@ -1560,10 +1559,10 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 			double det = m00 * m11 - m01 * m10;
 			if (Math.abs(det) <= Double.MIN_VALUE) {
 				throw new NoninvertibleTransformException("Determinant is "
-						+ det);
+				        + det);
 			}
 			ptDst.setLocation((x * m11 - y * m01) / det, (y * m00 - x * m10)
-					/ det);
+			        / det);
 			return ptDst;
 		case (APPLY_SHEAR | APPLY_TRANSLATE):
 			x -= m02;
@@ -1886,7 +1885,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 			}
 			int state = rot90conversion[this.state];
 			if ((state & (APPLY_SHEAR | APPLY_SCALE)) == APPLY_SCALE
-					&& m00 == 1.0 && m11 == 1.0) {
+			        && m00 == 1.0 && m11 == 1.0) {
 				state -= APPLY_SCALE;
 			}
 			this.state = state;
@@ -1982,7 +1981,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 			if (m00 == 1.0 && m11 == 1.0) {
 				this.state = (state &= APPLY_TRANSLATE);
 				this.type = (state == APPLY_IDENTITY ? TYPE_IDENTITY
-						: TYPE_TRANSLATION);
+				        : TYPE_TRANSLATION);
 			} else {
 				this.type = TYPE_UNKNOWN;
 			}
@@ -2240,7 +2239,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            matrix
 	 */
 	public void setTransform(double m00, double m10, double m01, double m11,
-			double m02, double m12) {
+	        double m02, double m12) {
 		this.m00 = m00;
 		this.m10 = m10;
 		this.m01 = m01;
@@ -2330,8 +2329,8 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 */
 	public String toString() {
 		return ("AffineTransform[[" + _matround(m00) + ", " + _matround(m01)
-				+ ", " + _matround(m02) + "], [" + _matround(m10) + ", "
-				+ _matround(m11) + ", " + _matround(m12) + "]]");
+		        + ", " + _matround(m02) + "], [" + _matround(m10) + ", "
+		        + _matround(m11) + ", " + _matround(m12) + "]]");
 	}
 
 	/**
@@ -2360,7 +2359,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            the number of point objects to be transformed
 	 */
 	public void transform(double[] srcPts, int srcOff, double[] dstPts,
-			int dstOff, int numPts) {
+	        int dstOff, int numPts) {
 		double M00, M01, M02, M10, M11, M12; // For caching
 		if (dstPts == srcPts && dstOff > srcOff && dstOff < srcOff + numPts * 2) {
 			// If the arrays overlap partially with the destination higher
@@ -2484,7 +2483,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            the number of point objects to be transformed
 	 */
 	public void transform(double[] srcPts, int srcOff, float[] dstPts,
-			int dstOff, int numPts) {
+	        int dstOff, int numPts) {
 		double M00, M01, M02, M10, M11, M12; // For caching
 		switch (state) {
 		default:
@@ -2596,7 +2595,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            the number of points to be transformed
 	 */
 	public void transform(float[] srcPts, int srcOff, double[] dstPts,
-			int dstOff, int numPts) {
+	        int dstOff, int numPts) {
 		double M00, M01, M02, M10, M11, M12; // For caching
 		switch (state) {
 		default:
@@ -2711,7 +2710,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            the number of points to be transformed
 	 */
 	public void transform(float[] srcPts, int srcOff, float[] dstPts,
-			int dstOff, int numPts) {
+	        int dstOff, int numPts) {
 		double M00, M01, M02, M10, M11, M12; // For caching
 		if (dstPts == srcPts && dstOff > srcOff && dstOff < srcOff + numPts * 2) {
 			// If the arrays overlap partially with the destination higher
@@ -2906,7 +2905,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 *            the number of point objects to be transformed
 	 */
 	public void transform(Point2D[] ptSrc, int srcOff, Point2D[] ptDst,
-			int dstOff, int numPts) {
+	        int dstOff, int numPts) {
 		int state = this.state;
 		while (--numPts >= 0) {
 			// Copy source coords into local variables in case src == dst
@@ -2928,7 +2927,7 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 				/* NOTREACHED */
 			case (APPLY_SHEAR | APPLY_SCALE | APPLY_TRANSLATE):
 				dst.setLocation(x * m00 + y * m01 + m02, x * m10 + y * m11
-						+ m12);
+				        + m12);
 				break;
 			case (APPLY_SHEAR | APPLY_SCALE):
 				dst.setLocation(x * m00 + y * m01, x * m10 + y * m11);
@@ -3247,12 +3246,12 @@ public class AffineTransform implements Cloneable, GAffineTransform {
 	 * AffineTransform and not part of the public specification. The state
 	 * variable's value needs to be recalculated on the fly by the readObject
 	 * method as it is in the 6-argument matrix constructor.
-	 *
-	 *
+	 * 
+	 * 
 	 * private void writeObject(java.io.ObjectOutputStream s) throws
 	 * java.lang.ClassNotFoundException, java.io.IOException {
 	 * s.defaultWriteObject(); }
-	 *
+	 * 
 	 * private void readObject(java.io.ObjectInputStream s) throws
 	 * java.lang.ClassNotFoundException, java.io.IOException {
 	 * s.defaultReadObject(); updateState(); }

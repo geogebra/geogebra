@@ -20,19 +20,22 @@ public class UndoManagerW extends UndoManager {
 	 */
 	Storage storage;
 
-	protected class AppStateWeb implements AppState{
+	protected class AppStateWeb implements AppState {
 		private String key;
-		AppStateWeb(String xmls){
+
+		AppStateWeb(String xmls) {
 			if (storage != null) {
-				storage.setItem(key = TEMP_STORAGE_PREFIX+nextKeyNum++, xmls);
+				storage.setItem(key = TEMP_STORAGE_PREFIX + nextKeyNum++, xmls);
 			}
 		}
-		public String getXML(){
+
+		public String getXML() {
 			if (storage == null) {
 				return null;
 			}
 			return storage.getItem(key);
 		}
+
 		public void delete() {
 			if (storage != null) {
 				storage.removeItem(key);
@@ -41,13 +44,13 @@ public class UndoManagerW extends UndoManager {
 	}
 
 	public UndoManagerW(Construction cons) {
-	    super(cons);
-	    App.debug("trying to init storage");
-	    if(Browser.supportsSessionStorage()){
-	    	storage = Storage.getSessionStorageIfSupported();
-	    }
-	    App.debug("storage done");
-    }
+		super(cons);
+		App.debug("trying to init storage");
+		if (Browser.supportsSessionStorage()) {
+			storage = Storage.getSessionStorageIfSupported();
+		}
+		App.debug("storage done");
+	}
 
 	@Override
 	public void processXML(String xml) throws Exception {
@@ -58,16 +61,17 @@ public class UndoManagerW extends UndoManager {
 	public void storeUndoInfoAfterPasteOrAdd() {
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
-		final StringBuilder currentUndoXML = construction.getCurrentUndoXML(true);
+		final StringBuilder currentUndoXML = construction
+		        .getCurrentUndoXML(true);
 
-		//Thread undoSaverThread = new Thread() {
-		//	@Override
-		//	public void run() {
-				doStoreUndoInfo(currentUndoXML);
-				CopyPaste.INSTANCE.pastePutDownCallback(app);
-		//	}
-		//};
-		//undoSaverThread.start();
+		// Thread undoSaverThread = new Thread() {
+		// @Override
+		// public void run() {
+		doStoreUndoInfo(currentUndoXML);
+		CopyPaste.INSTANCE.pastePutDownCallback(app);
+		// }
+		// };
+		// undoSaverThread.start();
 	}
 
 	@Override
@@ -75,25 +79,28 @@ public class UndoManagerW extends UndoManager {
 
 		// this can cause a java.lang.OutOfMemoryError for very large
 		// constructions
-		final StringBuilder currentUndoXML = construction.getCurrentUndoXML(true);
+		final StringBuilder currentUndoXML = construction
+		        .getCurrentUndoXML(true);
 
-		//Thread undoSaverThread = new Thread() {
-		//	@Override
-		//	public void run() {
+		// Thread undoSaverThread = new Thread() {
+		// @Override
+		// public void run() {
 
-				doStoreUndoInfo(currentUndoXML);
-				if (refresh)
-					restoreCurrentUndoInfo();
+		doStoreUndoInfo(currentUndoXML);
+		if (refresh)
+			restoreCurrentUndoInfo();
 
-		//	}
-		//};
-		//undoSaverThread.start();
+		// }
+		// };
+		// undoSaverThread.start();
 
 	}
 
 	/**
 	 * Adds construction state to undo info list.
-	 * @param undoXML string builder with construction XML
+	 * 
+	 * @param undoXML
+	 *            string builder with construction XML
 	 */
 	synchronized void doStoreUndoInfo(final StringBuilder undoXML) {
 
@@ -102,14 +109,14 @@ public class UndoManagerW extends UndoManager {
 			AppState appStateToAdd = new AppStateWeb(undoXML.toString());
 			iterator.add(appStateToAdd);
 			pruneStateList();
-			app.getEventDispatcher().dispatchEvent(new Event(EventType.STOREUNDO, null));
+			app.getEventDispatcher().dispatchEvent(
+			        new Event(EventType.STOREUNDO, null));
 
 		} catch (Exception e) {
 			App.debug("storeUndoInfo: " + e.toString());
 			e.printStackTrace();
 		} catch (Error err) {
-			App.debug("UndoManager.storeUndoInfo: "
-					+ err.toString());
+			App.debug("UndoManager.storeUndoInfo: " + err.toString());
 			err.printStackTrace();
 		}
 		updateUndoActions();

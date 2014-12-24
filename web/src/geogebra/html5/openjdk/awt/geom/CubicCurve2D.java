@@ -121,7 +121,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		 *            point of the resulting <code>CubicCurve2D</code>
 		 */
 		public Double(double x1, double y1, double ctrlx1, double ctrly1,
-				double ctrlx2, double ctrly2, double x2, double y2) {
+		        double ctrlx2, double ctrly2, double x2, double y2) {
 			setCurve(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
 		}
 
@@ -136,7 +136,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			double top = Math.min(Math.min(y1, y2), Math.min(ctrly1, ctrly2));
 			double right = Math.max(Math.max(x1, x2), Math.max(ctrlx1, ctrlx2));
 			double bottom = Math
-					.max(Math.max(y1, y2), Math.max(ctrly1, ctrly2));
+			        .max(Math.max(y1, y2), Math.max(ctrly1, ctrly2));
 			return new Rectangle2D.Double(left, top, right - left, bottom - top);
 		}
 
@@ -282,8 +282,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		 *            end point of this <code>CubicCurve2D</code>
 		 */
 		public void setCurve(double x1, double y1, double ctrlx1,
-				double ctrly1, double ctrlx2, double ctrly2, double x2,
-				double y2) {
+		        double ctrly1, double ctrlx2, double ctrly2, double x2,
+		        double y2) {
 			this.x1 = x1;
 			this.y1 = y1;
 			this.ctrlx1 = ctrlx1;
@@ -370,7 +370,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		 *            point of the resulting <code>CubicCurve2D</code>
 		 */
 		public Float(float x1, float y1, float ctrlx1, float ctrly1,
-				float ctrlx2, float ctrly2, float x2, float y2) {
+		        float ctrlx2, float ctrly2, float x2, float y2) {
 			setCurve(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2, x2, y2);
 		}
 
@@ -529,8 +529,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		 *            end point of this <code>CubicCurve2D</code>
 		 */
 		public void setCurve(double x1, double y1, double ctrlx1,
-				double ctrly1, double ctrlx2, double ctrly2, double x2,
-				double y2) {
+		        double ctrly1, double ctrlx2, double ctrly2, double x2,
+		        double y2) {
 			this.x1 = (float) x1;
 			this.y1 = (float) y1;
 			this.ctrlx1 = (float) ctrlx1;
@@ -559,7 +559,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		 *            end point of this <code>CubicCurve2D</code>
 		 */
 		public void setCurve(float x1, float y1, float ctrlx1, float ctrly1,
-				float ctrlx2, float ctrly2, float x2, float y2) {
+		        float ctrlx2, float ctrly2, float x2, float y2) {
 			this.x1 = x1;
 			this.y1 = y1;
 			this.ctrlx1 = ctrlx1;
@@ -602,9 +602,9 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *         specified coordinates.
 	 */
 	public static double getFlatness(double x1, double y1, double ctrlx1,
-			double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
+	        double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
 		return Math.sqrt(getFlatnessSq(x1, y1, ctrlx1, ctrly1, ctrlx2, ctrly2,
-				x2, y2));
+		        x2, y2));
 	}
 
 	/**
@@ -624,8 +624,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 */
 	public static double getFlatness(double coords[], int offset) {
 		return getFlatness(coords[offset + 0], coords[offset + 1],
-				coords[offset + 2], coords[offset + 3], coords[offset + 4],
-				coords[offset + 5], coords[offset + 6], coords[offset + 7]);
+		        coords[offset + 2], coords[offset + 3], coords[offset + 4],
+		        coords[offset + 5], coords[offset + 6], coords[offset + 7]);
 	}
 
 	/**
@@ -649,9 +649,9 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *         represented by the specified coordinates.
 	 */
 	public static double getFlatnessSq(double x1, double y1, double ctrlx1,
-			double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
+	        double ctrly1, double ctrlx2, double ctrly2, double x2, double y2) {
 		return Math.max(Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx1, ctrly1),
-				Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx2, ctrly2));
+		        Line2D.ptSegDistSq(x1, y1, x2, y2, ctrlx2, ctrly2));
 
 	}
 
@@ -673,8 +673,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 */
 	public static double getFlatnessSq(double coords[], int offset) {
 		return getFlatnessSq(coords[offset + 0], coords[offset + 1],
-				coords[offset + 2], coords[offset + 3], coords[offset + 4],
-				coords[offset + 5], coords[offset + 6], coords[offset + 7]);
+		        coords[offset + 2], coords[offset + 3], coords[offset + 4],
+		        coords[offset + 5], coords[offset + 6], coords[offset + 7]);
 	}
 
 	/**
@@ -777,7 +777,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *            the subdivided curve
 	 */
 	public static void subdivide(CubicCurve2D src, CubicCurve2D left,
-			CubicCurve2D right) {
+	        CubicCurve2D right) {
 		double x1 = src.getX1();
 		double y1 = src.getY1();
 		double ctrlx1 = src.getCtrlX1();
@@ -800,11 +800,11 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		centery = (ctrly12 + ctrly21) / 2.0;
 		if (left != null) {
 			left.setCurve(x1, y1, ctrlx1, ctrly1, ctrlx12, ctrly12, centerx,
-					centery);
+			        centery);
 		}
 		if (right != null) {
 			right.setCurve(centerx, centery, ctrlx21, ctrly21, ctrlx2, ctrly2,
-					x2, y2);
+			        x2, y2);
 		}
 	}
 
@@ -841,7 +841,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *            coordinates
 	 */
 	public static void subdivide(double src[], int srcoff, double left[],
-			int leftoff, double right[], int rightoff) {
+	        int leftoff, double right[], int rightoff) {
 		double x1 = src[srcoff + 0];
 		double y1 = src[srcoff + 1];
 		double ctrlx1 = src[srcoff + 2];
@@ -897,18 +897,18 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 * point of inflection for that cubic equation are also ignored.
 	 */
 	private static int evalCubic(double vals[], int num, boolean include0,
-			boolean include1, double inflect[], double c1, double cp1,
-			double cp2, double c2) {
+	        boolean include1, double inflect[], double c1, double cp1,
+	        double cp2, double c2) {
 		int j = 0;
 		for (int i = 0; i < num; i++) {
 			double t = vals[i];
 			if ((include0 ? t >= 0 : t > 0)
-					&& (include1 ? t <= 1 : t < 1)
-					&& (inflect == null || inflect[1]
-							+ (2 * inflect[2] + 3 * inflect[3] * t) * t != 0)) {
+			        && (include1 ? t <= 1 : t < 1)
+			        && (inflect == null || inflect[1]
+			                + (2 * inflect[2] + 3 * inflect[3] * t) * t != 0)) {
 				double u = 1 - t;
 				vals[j++] = c1 * u * u * u + 3 * cp1 * t * u * u + 3 * cp2 * t
-						* t * u + c2 * t * t * t;
+				        * t * u + c2 * t * t * t;
 			}
 		}
 		return j;
@@ -922,19 +922,19 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 * = (C1 - val) + (3CP1 - 3C1) t + (3C1 - 6CP1 + 3CP2) t^2 + (C2 - 3CP2 +
 	 * 3CP1 - C1) t^3 0 = C + Bt + At^2 + Dt^3 C = C1 - val B = 3CP1 - 3C1 A =
 	 * 3CP2 - 6CP1 + 3C1 D = C2 - 3CP2 + 3CP1 - C1
-	 *
+	 * 
 	 * @param x,&nbsp;y the coordinates of the upper left corner of the
 	 * specified rectangular shape
-	 *
+	 * 
 	 * @param w the width of the specified rectangular shape
-	 *
+	 * 
 	 * @param h the height of the specified rectangular shape
-	 *
+	 * 
 	 * @return <code>true</code> if the shape intersects the interior of the the
 	 * specified set of rectangular coordinates; <code>false</code> otherwise.
 	 */
 	private static void fillEqn(double eqn[], double val, double c1,
-			double cp1, double cp2, double c2) {
+	        double cp1, double cp2, double c2) {
 		eqn[0] = c1 - val;
 		eqn[1] = (cp1 - c1) * 3.0;
 		eqn[2] = (cp2 - cp1 - cp1 + c1) * 3.0;
@@ -972,7 +972,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 					return t;
 			} else { /* t == target */
 				return (delta > 0 ? (target + java.lang.Double.MIN_VALUE)
-						: (target - java.lang.Double.MIN_VALUE));
+				        : (target - java.lang.Double.MIN_VALUE));
 			}
 			double newt = t + delta;
 			if (t == newt) {
@@ -982,7 +982,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			if (delta * origdelta < 0) {
 				// We have reversed our path.
 				int tag = (origt < t ? getTag(target, origt, t) : getTag(
-						target, t, origt));
+				        target, t, origt));
 				if (tag != INSIDE) {
 					// Local minima found away from target - return the middle
 					return (origt + t) / 2;
@@ -1001,20 +1001,20 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 * to calculate the roots when there are 3 of them. Since the cosine method
 	 * can have an error of +/- 1E-14 we need to make sure that we don't make
 	 * any bad decisions due to an error.
-	 *
+	 * 
 	 * If the root is not near one of the endpoints, then we will only have a
 	 * slight inaccuracy in calculating the x intercept which will only cause a
 	 * slightly wrong answer for some points very close to the curve. While the
 	 * results in that case are not as accurate as they could be, they are not
 	 * disastrously inaccurate either.
-	 *
+	 * 
 	 * On the other hand, if the error happens near one end of the curve, then
 	 * our processing to reject values outside of the t=[0,1] range will fail
 	 * and the results of that failure will be disastrous since for an entire
 	 * horizontal range of test points, we will either overcount or undercount
 	 * the crossings and get a wrong answer for all of them, even when they are
 	 * clearly and obviously inside or outside the curve.
-	 *
+	 * 
 	 * To work around this problem, we try a couple of Newton-Raphson iterations
 	 * to see if the true root is closer to the endpoint or further away. If it
 	 * is further away, then we can stop since we know we are on the right side
@@ -1113,7 +1113,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// First check for a crossing of the line connecting the endpoints
 		double dy = y2 - y1;
 		if ((dy > 0.0 && y >= y1 && y <= y2)
-				|| (dy < 0.0 && y <= y1 && y >= y2)) {
+		        || (dy < 0.0 && y <= y1 && y >= y2)) {
 			if (x < x1 + (y - y1) * (x2 - x1) / dy) {
 				crossings++;
 			}
@@ -1130,7 +1130,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		fillEqn(eqn, y, y1, ctrly1, ctrly2, y2);
 		int roots = solveCubic(eqn, res);
 		roots = evalCubic(res, roots, include0, include1, eqn, x1, ctrlx1,
-				ctrlx2, x2);
+		        ctrlx2, x2);
 		while (--roots >= 0) {
 			if (x < res[roots]) {
 				crossings++;
@@ -1138,7 +1138,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		}
 		return ((crossings & 1) == 1);
 	}
-	
+
 	public boolean contains(int x, int y) {
 		// We count the "Y" crossings to determine if the point is
 		// inside the curve bounded by its closing line.
@@ -1150,7 +1150,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// First check for a crossing of the line connecting the endpoints
 		double dy = y2 - y1;
 		if ((dy > 0.0 && y >= y1 && y <= y2)
-				|| (dy < 0.0 && y <= y1 && y >= y2)) {
+		        || (dy < 0.0 && y <= y1 && y >= y2)) {
 			if (x < x1 + (y - y1) * (x2 - x1) / dy) {
 				crossings++;
 			}
@@ -1167,7 +1167,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		fillEqn(eqn, y, y1, ctrly1, ctrly2, y2);
 		int roots = solveCubic(eqn, res);
 		roots = evalCubic(res, roots, include0, include1, eqn, x1, ctrlx1,
-				ctrlx2, x2);
+		        ctrlx2, x2);
 		while (--roots >= 0) {
 			if (x < res[roots]) {
 				crossings++;
@@ -1195,7 +1195,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// endpoints form either one or two convex halves with
 		// the closing line segment as an edge of both sides.
 		if (!(contains(x, y) && contains(x + w, y) && contains(x + w, y + h) && contains(
-				x, y + h))) {
+		        x, y + h))) {
 			return false;
 		}
 		// Either the rectangle is entirely inside one of the convex
@@ -1296,7 +1296,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 */
 	public double getFlatness() {
 		return getFlatness(getX1(), getY1(), getCtrlX1(), getCtrlY1(),
-				getCtrlX2(), getCtrlY2(), getX2(), getY2());
+		        getCtrlX2(), getCtrlY2(), getX2(), getY2());
 	}
 
 	/**
@@ -1308,7 +1308,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 */
 	public double getFlatnessSq() {
 		return getFlatnessSq(getX1(), getY1(), getCtrlX1(), getCtrlY1(),
-				getCtrlX2(), getCtrlY2(), getX2(), getY2());
+		        getCtrlX2(), getCtrlY2(), getX2(), getY2());
 	}
 
 	/**
@@ -1353,6 +1353,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *         <code>CubicCurve2D</code>.
 	 */
 	public abstract double getX1();
+
 	/**
 	 * Returns the X coordinate of the end point in double precision.
 	 *
@@ -1360,6 +1361,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *         <code>CubicCurve2D</code>.
 	 */
 	public abstract double getX2();
+
 	/**
 	 * Returns the Y coordinate of the start point in double precision.
 	 *
@@ -1427,19 +1429,19 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// Trivially reject if all points are entirely to one side of
 		// the rectangle.
 		if (x1tag < INSIDE && x2tag < INSIDE && ctrlx1tag < INSIDE
-				&& ctrlx2tag < INSIDE) {
+		        && ctrlx2tag < INSIDE) {
 			return false; // All points left
 		}
 		if (y1tag < INSIDE && y2tag < INSIDE && ctrly1tag < INSIDE
-				&& ctrly2tag < INSIDE) {
+		        && ctrly2tag < INSIDE) {
 			return false; // All points above
 		}
 		if (x1tag > INSIDE && x2tag > INSIDE && ctrlx1tag > INSIDE
-				&& ctrlx2tag > INSIDE) {
+		        && ctrlx2tag > INSIDE) {
 			return false; // All points right
 		}
 		if (y1tag > INSIDE && y2tag > INSIDE && ctrly1tag > INSIDE
-				&& ctrly2tag > INSIDE) {
+		        && ctrly2tag > INSIDE) {
 			return false; // All points below
 		}
 
@@ -1449,12 +1451,12 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// above and thus repeat those tests, but take more time
 		// and cover more cases
 		if (inwards(x1tag, x2tag, ctrlx1tag)
-				&& inwards(y1tag, y2tag, ctrly1tag)) {
+		        && inwards(y1tag, y2tag, ctrly1tag)) {
 			// First endpoint on border with either edge moving inside
 			return true;
 		}
 		if (inwards(x2tag, x1tag, ctrlx2tag)
-				&& inwards(y2tag, y1tag, ctrly2tag)) {
+		        && inwards(y2tag, y1tag, ctrly2tag)) {
 			// Second endpoint on border with either edge moving inside
 			return true;
 		}
@@ -1490,7 +1492,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			// otherwise there is no way for that part of the curve to
 			// "return" to meet its endpoint
 			return (num == 2 && getTag(res[0], x, x + w)
-					* getTag(res[1], x, x + w) <= 0);
+			        * getTag(res[1], x, x + w) <= 0);
 		}
 
 		// Y ranges overlap. Now we examine the X ranges
@@ -1507,7 +1509,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			// otherwise there is no way for that part of the curve to
 			// "return" to meet its endpoint
 			return (num == 2 && getTag(res[0], y, y + h)
-					* getTag(res[1], y, y + h) <= 0);
+			        * getTag(res[1], y, y + h) <= 0);
 		}
 
 		// The X and Y ranges of the endpoints overlap the X and Y
@@ -1521,13 +1523,13 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			c1tag = x1tag;
 		} else {
 			c1tag = getTag((k + dx * (y1tag < INSIDE ? y : y + h)) / dy, x, x
-					+ w);
+			        + w);
 		}
 		if (y2tag == INSIDE) {
 			c2tag = x2tag;
 		} else {
 			c2tag = getTag((k + dx * (y2tag < INSIDE ? y : y + h)) / dy, x, x
-					+ w);
+			        + w);
 		}
 		// If the part of the line segment that intersects the Y range
 		// of the rectangle crosses it horizontally - trivially accept
@@ -1586,7 +1588,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		tags[num] = c1tag;
 		Arrays.sort(tags);
 		return ((num >= 1 && tags[0] * tags[1] <= 0) || (num >= 3 && tags[2]
-				* tags[3] <= 0));
+		        * tags[3] <= 0));
 	}
 
 	public boolean intersects(int x, int y, int w, int h) {
@@ -1626,19 +1628,19 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// Trivially reject if all points are entirely to one side of
 		// the rectangle.
 		if (x1tag < INSIDE && x2tag < INSIDE && ctrlx1tag < INSIDE
-				&& ctrlx2tag < INSIDE) {
+		        && ctrlx2tag < INSIDE) {
 			return false; // All points left
 		}
 		if (y1tag < INSIDE && y2tag < INSIDE && ctrly1tag < INSIDE
-				&& ctrly2tag < INSIDE) {
+		        && ctrly2tag < INSIDE) {
 			return false; // All points above
 		}
 		if (x1tag > INSIDE && x2tag > INSIDE && ctrlx1tag > INSIDE
-				&& ctrlx2tag > INSIDE) {
+		        && ctrlx2tag > INSIDE) {
 			return false; // All points right
 		}
 		if (y1tag > INSIDE && y2tag > INSIDE && ctrly1tag > INSIDE
-				&& ctrly2tag > INSIDE) {
+		        && ctrly2tag > INSIDE) {
 			return false; // All points below
 		}
 
@@ -1648,12 +1650,12 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		// above and thus repeat those tests, but take more time
 		// and cover more cases
 		if (inwards(x1tag, x2tag, ctrlx1tag)
-				&& inwards(y1tag, y2tag, ctrly1tag)) {
+		        && inwards(y1tag, y2tag, ctrly1tag)) {
 			// First endpoint on border with either edge moving inside
 			return true;
 		}
 		if (inwards(x2tag, x1tag, ctrlx2tag)
-				&& inwards(y2tag, y1tag, ctrly2tag)) {
+		        && inwards(y2tag, y1tag, ctrly2tag)) {
 			// Second endpoint on border with either edge moving inside
 			return true;
 		}
@@ -1689,7 +1691,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			// otherwise there is no way for that part of the curve to
 			// "return" to meet its endpoint
 			return (num == 2 && getTag(res[0], x, x + w)
-					* getTag(res[1], x, x + w) <= 0);
+			        * getTag(res[1], x, x + w) <= 0);
 		}
 
 		// Y ranges overlap. Now we examine the X ranges
@@ -1706,7 +1708,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			// otherwise there is no way for that part of the curve to
 			// "return" to meet its endpoint
 			return (num == 2 && getTag(res[0], y, y + h)
-					* getTag(res[1], y, y + h) <= 0);
+			        * getTag(res[1], y, y + h) <= 0);
 		}
 
 		// The X and Y ranges of the endpoints overlap the X and Y
@@ -1720,13 +1722,13 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 			c1tag = x1tag;
 		} else {
 			c1tag = getTag((k + dx * (y1tag < INSIDE ? y : y + h)) / dy, x, x
-					+ w);
+			        + w);
 		}
 		if (y2tag == INSIDE) {
 			c2tag = x2tag;
 		} else {
 			c2tag = getTag((k + dx * (y2tag < INSIDE ? y : y + h)) / dy, x, x
-					+ w);
+			        + w);
 		}
 		// If the part of the line segment that intersects the Y range
 		// of the rectangle crosses it horizontally - trivially accept
@@ -1785,9 +1787,9 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 		tags[num] = c1tag;
 		Arrays.sort(tags);
 		return ((num >= 1 && tags[0] * tags[1] <= 0) || (num >= 3 && tags[2]
-				* tags[3] <= 0));
+		        * tags[3] <= 0));
 	}
-	
+
 	/**
 	 * Tests if the shape intersects the interior of a specified
 	 * <code>Rectangle2D</code>.
@@ -1809,8 +1811,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *            the specified <code>CubicCurve2D</code>
 	 */
 	public void setCurve(CubicCurve2D c) {
-		setCurve(c.getX1(), c.getY1(), c.getCtrlX1(), c.getCtrlY1(), c
-				.getCtrlX2(), c.getCtrlY2(), c.getX2(), c.getY2());
+		setCurve(c.getX1(), c.getY1(), c.getCtrlX1(), c.getCtrlY1(),
+		        c.getCtrlX2(), c.getCtrlY2(), c.getX2(), c.getY2());
 	}
 
 	/**
@@ -1831,7 +1833,7 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *            point of this <code>CubicCurve2D</code>
 	 */
 	public abstract void setCurve(double x1, double y1, double ctrlx1,
-			double ctrly1, double ctrlx2, double ctrly2, double x2, double y2);
+	        double ctrly1, double ctrlx2, double ctrly2, double x2, double y2);
 
 	/**
 	 * Sets the location of the endpoints and controlpoints of this curve to the
@@ -1846,8 +1848,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 */
 	public void setCurve(double[] coords, int offset) {
 		setCurve(coords[offset + 0], coords[offset + 1], coords[offset + 2],
-				coords[offset + 3], coords[offset + 4], coords[offset + 5],
-				coords[offset + 6], coords[offset + 7]);
+		        coords[offset + 3], coords[offset + 4], coords[offset + 5],
+		        coords[offset + 6], coords[offset + 7]);
 	}
 
 	/**
@@ -1868,8 +1870,8 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 *            point of this curve
 	 */
 	public void setCurve(Point2D p1, Point2D cp1, Point2D cp2, Point2D p2) {
-		setCurve(p1.getX(), p1.getY(), cp1.getX(), cp1.getY(), cp2.getX(), cp2
-				.getY(), p2.getX(), p2.getY());
+		setCurve(p1.getX(), p1.getY(), cp1.getX(), cp1.getY(), cp2.getX(),
+		        cp2.getY(), p2.getX(), p2.getY());
 	}
 
 	/**
@@ -1886,9 +1888,9 @@ public abstract class CubicCurve2D implements Shape, Cloneable {
 	 */
 	public void setCurve(Point2D[] pts, int offset) {
 		setCurve(pts[offset + 0].getX(), pts[offset + 0].getY(),
-				pts[offset + 1].getX(), pts[offset + 1].getY(), pts[offset + 2]
-						.getX(), pts[offset + 2].getY(),
-				pts[offset + 3].getX(), pts[offset + 3].getY());
+		        pts[offset + 1].getX(), pts[offset + 1].getY(),
+		        pts[offset + 2].getX(), pts[offset + 2].getY(),
+		        pts[offset + 3].getX(), pts[offset + 3].getY());
 	}
 
 	/**

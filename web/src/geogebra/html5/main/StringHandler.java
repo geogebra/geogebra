@@ -1,5 +1,5 @@
 package geogebra.html5.main;
 
-public interface StringHandler{
+public interface StringHandler {
 	void handle(String s);
 }

@@ -10,8 +10,11 @@ import com.google.gwt.user.client.ui.Widget;
 public interface GLookAndFeelI {
 	public static final int COMMAND_LINE_HEIGHT = 43;
 	public static final int TOOLBAR_HEIGHT = 53;
+
 	boolean isSmart();
+
 	boolean isExam();
+
 	boolean isTablet();
 
 	String getType();
@@ -23,14 +26,15 @@ public interface GLookAndFeelI {
 	MainMenuI getMenuBar(AppW app);
 
 	void addWindowClosingHandler(AppW app);
-	
+
 	void removeWindowClosingHandler();
 
 	boolean copyToClipboardSupported();
 
 	Object getLoginListener();
 
-	boolean registerHandlers(Widget evPanel, EuclidianControllerW euclidiancontroller);
+	boolean registerHandlers(Widget evPanel,
+	        EuclidianControllerW euclidiancontroller);
 
 	boolean autosaveSupported();
 

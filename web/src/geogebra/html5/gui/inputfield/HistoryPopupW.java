@@ -48,7 +48,7 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler,
 
 		originalTextEditorContent = textField.getText();
 		historyList.clear();
-		historyList.setVisibleItemCount(Math.min(Math.max(list.size(),2), 10));
+		historyList.setVisibleItemCount(Math.min(Math.max(list.size(), 2), 10));
 
 		for (String link : list) {
 			historyList.addItem(link);

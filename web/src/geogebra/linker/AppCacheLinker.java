@@ -29,10 +29,10 @@ import com.google.gwt.core.ext.linker.Shardable;
  */
 @Shardable
 public class AppCacheLinker extends SimpleAppCacheLinker {
-  @Override
-  protected String[] otherCachedFiles() {
-    return new String[] {
-    		
-    };
-  }
+	@Override
+	protected String[] otherCachedFiles() {
+		return new String[] {
+
+		};
+	}
 }
