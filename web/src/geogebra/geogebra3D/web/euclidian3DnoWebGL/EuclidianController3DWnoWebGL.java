@@ -14,72 +14,68 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 
 /**
  * (dummy) controller for 3D view, for browsers that don't support webGL
+ * 
  * @author mathieu
  *
  */
-public class EuclidianController3DWnoWebGL extends EuclidianController3DW{
+public class EuclidianController3DWnoWebGL extends EuclidianController3DW {
 
 	/**
 	 * constructor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public EuclidianController3DWnoWebGL(Kernel kernel) {
-	    super(kernel);
-    }
+		super(kernel);
+	}
 
 	@Override
-    public void onMouseDown(MouseDownEvent event) {
+	public void onMouseDown(MouseDownEvent event) {
 		// nothing to do here
 	}
-	
+
 	@Override
-    public void onMouseUp(MouseUpEvent event) {
+	public void onMouseUp(MouseUpEvent event) {
 		// nothing to do here
 	}
-	
-	
+
 	@Override
-    public void onMouseMove(MouseMoveEvent event) {
+	public void onMouseMove(MouseMoveEvent event) {
 		// nothing to do here
 	}
-	
+
 	@Override
-    public void onMouseMoveNow(PointerEvent event,long time) {
+	public void onMouseMoveNow(PointerEvent event, long time) {
 		// nothing to do here
 	}
-	
-	
+
 	@Override
-    public void onMouseWheel(MouseWheelEvent event) {
+	public void onMouseWheel(MouseWheelEvent event) {
 		// nothing to do here
 	}
-	
+
 	@Override
-    public void onTouchMove(TouchMoveEvent event) {
+	public void onTouchMove(TouchMoveEvent event) {
 		// nothing to do here
 	}
-	
+
 	@Override
-    public void onTouchEnd(TouchEndEvent event) {
+	public void onTouchEnd(TouchEndEvent event) {
 		// nothing to do here
 	}
-	
+
 	@Override
-    public void onTouchStart(TouchStartEvent event) {
+	public void onTouchStart(TouchStartEvent event) {
 		// nothing to do here
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public void calculateEnvironment() {
-		if(view instanceof EuclidianView3DWnoWebGL){
-			((EuclidianView3DWnoWebGL)view).onResize();
+		if (view instanceof EuclidianView3DWnoWebGL) {
+			((EuclidianView3DWnoWebGL) view).onResize();
 			view.repaint();
 		}
-    }
-	
-	
+	}
+
 }

@@ -51,66 +51,72 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * 3D view
+ * 
  * @author mathieu
  *
  */
-public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWInterface {
-	
+public class EuclidianView3DW extends EuclidianView3D implements
+        EuclidianViewWInterface {
+
 	protected EuclidianPanelWAbstract EVPanel;
-	
+
 	private AppW app = (AppW) super.app;
 	public boolean isInFocus = false;
 
 	/**
 	 * constructor
-	 * @param ec euclidian controller
-	 * @param settings euclidian settings
+	 * 
+	 * @param ec
+	 *            euclidian controller
+	 * @param settings
+	 *            euclidian settings
 	 */
 	public EuclidianView3DW(EuclidianController3D ec, EuclidianSettings settings) {
-	    super(ec, settings);
-	    
-	    initBaseComponents(EVPanel, ec);    
+		super(ec, settings);
 
-		//initView(true);
-		
+		initBaseComponents(EVPanel, ec);
+
+		// initView(true);
+
 		getRenderer().init();
-	    
-    }
-	
-	
+
+	}
+
 	public geogebra.html5.awt.GGraphics2DW g2p = null;
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
-            EuclidianController euclidiancontroller) {
-		
-	    Canvas canvas = euclidianViewPanel.getCanvas();
+	        EuclidianController euclidiancontroller) {
+
+		Canvas canvas = euclidianViewPanel.getCanvas();
 		setEvNo(canvas);
-	 
-		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);	
+
+		this.g2p = new geogebra.html5.awt.GGraphics2DW(canvas);
 		g2p.setView(this);
 
 		updateFonts();
 		initView(true);
 		attachView();
-	
-		((EuclidianController3DW)euclidiancontroller).setView(this);
+
+		((EuclidianController3DW) euclidiancontroller).setView(this);
 
 		registerKeyHandlers(canvas);
-		registerMouseTouchGestureHandlers(euclidianViewPanel, (EuclidianController3DW) euclidiancontroller);
-		
-		// Canvas should have a tab index to capture key events in Internet Explorer
+		registerMouseTouchGestureHandlers(euclidianViewPanel,
+		        (EuclidianController3DW) euclidiancontroller);
+
+		// Canvas should have a tab index to capture key events in Internet
+		// Explorer
 		canvas.setTabIndex(10000);
-		
+
 		canvas.addBlurHandler(new BlurHandler() {
 			@Override
-            public void onBlur(BlurEvent be) {
+			public void onBlur(BlurEvent be) {
 				focusLost();
 			}
 		});
-		
+
 		canvas.addFocusHandler(new FocusHandler() {
 			@Override
-            public void onFocus(FocusEvent fe) {
+			public void onFocus(FocusEvent fe) {
 				focusGained();
 			}
 		});
@@ -118,49 +124,46 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		EuclidianSettings es = this.app.getSettings().getEuclidian(3);
 		settingsChanged(es);
 		es.addListener(this);
-    }
-	
-	
-	private void setEvNo( Canvas canvas) {
+	}
 
-		canvas.getElement().setId("View_"+ App.VIEW_EUCLIDIAN3D);
+	private void setEvNo(Canvas canvas) {
+
+		canvas.getElement().setId("View_" + App.VIEW_EUCLIDIAN3D);
 		this.evNo = EVNO_3D;
 	}
-	
+
 	@Override
 	public void setEuclidianViewNo(int evNo) {
 		this.evNo = evNo;
-		//this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN3D);
+		// this.g2p.getCanvas().getElement().setId("View_"+App.VIEW_EUCLIDIAN3D);
 	}
-	
-	private void registerKeyHandlers(Canvas canvas){
-		
+
+	private void registerKeyHandlers(Canvas canvas) {
+
 		canvas.addKeyDownHandler(this.app.getGlobalKeyDispatcher());
 		canvas.addKeyUpHandler(this.app.getGlobalKeyDispatcher());
 		canvas.addKeyPressHandler(this.app.getGlobalKeyDispatcher());
-		
-	}
-	
-	
 
-	private void registerMouseTouchGestureHandlers(EuclidianPanelWAbstract euclidianViewPanel, EuclidianController3DW euclidiancontroller){
+	}
+
+	private void registerMouseTouchGestureHandlers(
+	        EuclidianPanelWAbstract euclidianViewPanel,
+	        EuclidianController3DW euclidiancontroller) {
 		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
 		evPanel.addDomHandler(euclidiancontroller, MouseWheelEvent.getType());
-		
+
 		evPanel.addDomHandler(euclidiancontroller, MouseMoveEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOverEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseOutEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
-		
+
 		/*
-		if(Browser.supportsPointerEvents()){
-			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
-			MsZoomer.attachTo(evPanel.getElement(),msZoomer);
-			return;
-		}
-		*/
-		
+		 * if(Browser.supportsPointerEvents()){ msZoomer = new
+		 * MsZoomer((IsEuclidianController) euclidianController);
+		 * MsZoomer.attachTo(evPanel.getElement(),msZoomer); return; }
+		 */
+
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchMoveEvent.getType());
@@ -168,10 +171,9 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		evPanel.addDomHandler(euclidiancontroller, GestureStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, GestureChangeEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, GestureEndEvent.getType());
-		
+
 	}
-	
-	
+
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
@@ -186,226 +188,183 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		}
 	}
 
-	
 	/**
 	 * @return panel component
 	 */
 	public Widget getComponent() {
-	    return EVPanel.getAbsolutePanel();
-    }
-	
-	
-	
-	
-	
-	
-	
-	////////////////////////////////////////////////////////////
+		return EVPanel.getAbsolutePanel();
+	}
+
+	// //////////////////////////////////////////////////////////
 	// MyEuclidianViewPanel
-	////////////////////////////////////////////////////////////
-	
+	// //////////////////////////////////////////////////////////
+
 	/**
 	 * current dockPanel (if exists)
 	 */
 	EuclidianDockPanel3DW dockPanel = null;
-	
+
 	/**
 	 * 
-	 * @param dockPanel current dockPanel (if exists)
+	 * @param dockPanel
+	 *            current dockPanel (if exists)
 	 */
-	public void setDockPanel(EuclidianDockPanel3DW dockPanel){
+	public void setDockPanel(EuclidianDockPanel3DW dockPanel) {
 		this.dockPanel = dockPanel;
 	}
-	
 
-	
-    protected MyEuclidianViewPanel newMyEuclidianViewPanel(){
+	protected MyEuclidianViewPanel newMyEuclidianViewPanel() {
 		return new MyEuclidianViewPanel3D(this);
 	}
-	
+
 	/**
 	 * panel for 3D
+	 * 
 	 * @author mathieu
 	 *
 	 */
-	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements RequiresResize {
-		
+	private class MyEuclidianViewPanel3D extends MyEuclidianViewPanel implements
+	        RequiresResize {
+
 		private RendererW renderer;
-		
+
 		/**
 		 * constructor
-		 * @param ev euclidian view
+		 * 
+		 * @param ev
+		 *            euclidian view
 		 */
 		public MyEuclidianViewPanel3D(EuclidianView ev) {
-	        super(ev);
-        }
-		
+			super(ev);
+		}
+
 		@Override
-        protected void createCanvas(){
+		protected void createCanvas() {
 			renderer = (RendererW) getRenderer();
 			canvas = renderer.getGLCanvas();
 		}
-		
+
 		@Override
 		public void onResize() {
 			super.onResize();
-			if (dockPanel != null){
+			if (dockPanel != null) {
 				int w = dockPanel.getComponentInteriorWidth();
 				int h = dockPanel.getComponentInteriorHeight();
 
-				// if non positive values, use frame bounds (e.g. when set perspective)
-				if (w <= 0 || h <= 0 ){
-					//GRectangle r = dockPanel.getFrameBounds();
+				// if non positive values, use frame bounds (e.g. when set
+				// perspective)
+				if (w <= 0 || h <= 0) {
+					// GRectangle r = dockPanel.getFrameBounds();
 					w = dockPanel.getEmbeddedDimWidth();
 					h = dockPanel.getEmbeddedDimHeight();
 				}
-				
-				
 
-				//App.debug("------------------ resize -----------------------");
-				//App.debug("w = "+w+" , h = "+h);
+				// App.debug("------------------ resize -----------------------");
+				// App.debug("w = "+w+" , h = "+h);
 				renderer.setView(0, 0, w, h);
 				getEuclidianController().calculateEnvironment();
-				
+
 			}
 		}
-		
+
 	}
-	
-	
+
 	private boolean readyToRender = false;
-	
+
 	/**
 	 * tells the view that all is ready for GL rendering
 	 */
-	public void setReadyToRender(){
+	public void setReadyToRender() {
 		readyToRender = true;
 		repaintView();
 	}
 
-
-	
 	@Override
 	public void repaintView() {
 
 		repaint();
 	}
 
+	@Override
+	public void setToolTipText(String plainTooltip) {
+		// TODO Auto-generated method stub
 
-
-
-
+	}
 
 	@Override
-    public void setToolTipText(String plainTooltip) {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-
+	public boolean hasFocus() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-    public boolean hasFocus() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
+	public void requestFocus() {
+		// TODO Auto-generated method stub
 
-
+	}
 
 	@Override
-    public void requestFocus() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-
-
-	@Override
-    public int getWidth() {
+	public int getWidth() {
 		return this.g2p.getCoordinateSpaceWidth();
-    }
-
-
+	}
 
 	@Override
-    public int getHeight() {
+	public int getHeight() {
 		return this.g2p.getCoordinateSpaceHeight();
-    }
-
-
+	}
 
 	@Override
-    public final boolean isShowing() {
-	  	return
-	  			g2p != null &&
-	  			g2p.getCanvas() != null &&
-	  			g2p.getCanvas().isAttached() &&
-	  			g2p.getCanvas().isVisible();
-    }
-
-
+	public final boolean isShowing() {
+		return g2p != null && g2p.getCanvas() != null
+		        && g2p.getCanvas().isAttached() && g2p.getCanvas().isVisible();
+	}
 
 	@Override
-    protected void createPanel() {
+	protected void createPanel() {
 		EVPanel = newMyEuclidianViewPanel();
-		
-    }
 
-
+	}
 
 	@Override
-    protected Renderer createRenderer() {
-	    return new RendererW(this);
-    }
-
-
+	protected Renderer createRenderer() {
+		return new RendererW(this);
+	}
 
 	@Override
-    protected boolean getShiftDown() {
-	    // TODO Auto-generated method stub
-	    return false;
-    }
-
-
+	protected boolean getShiftDown() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 	@Override
-    protected void setDefault2DCursor() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void setDefault2DCursor() {
+		// TODO Auto-generated method stub
 
-
+	}
 
 	@Override
-    public GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
+	public GGraphics2D getTempGraphics2D(GFont fontForGraphics) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-    public GFont getFont() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
+	public GFont getFont() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-    protected void setHeight(int h) {
-		//TODO: not clear what should we do
-	    
-    }
+	protected void setHeight(int h) {
+		// TODO: not clear what should we do
 
-
+	}
 
 	@Override
-    protected void setWidth(int h) {
-		//TODO: not clear what should we do
-	    
-    }
+	protected void setWidth(int h) {
+		// TODO: not clear what should we do
 
+	}
 
 	@Override
 	final protected void setStyleBarMode(int mode) {
@@ -414,259 +373,216 @@ public class EuclidianView3DW extends EuclidianView3D implements EuclidianViewWI
 		}
 	}
 
+	@Override
+	protected void updateSizeKeepDrawables() {
+		// TODO Auto-generated method stub
 
+	}
 
 	@Override
-    protected void updateSizeKeepDrawables() {
-	    // TODO Auto-generated method stub
-	    
-    }
-
-
-
-	@Override
-    public boolean requestFocusInWindow() {
-		if(Browser.isIE()){
+	public boolean requestFocusInWindow() {
+		if (Browser.isIE()) {
 			g2p.getCanvas().setTabIndex(10000);
 		}
-		g2p.getCanvas().getCanvasElement().focus();	
+		g2p.getCanvas().getCanvasElement().focus();
 		focusGained();
 		return true;
-    }
-
-
+	}
 
 	@Override
-    public void paintBackground(GGraphics2D g2) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void paintBackground(GGraphics2D g2) {
+		// TODO Auto-generated method stub
 
-
+	}
 
 	@Override
-    public void drawActionObjects(GGraphics2D g) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void drawActionObjects(GGraphics2D g) {
+		// TODO Auto-generated method stub
 
-
+	}
 
 	@Override
-    protected void setAntialiasing(GGraphics2D g2) {
-	    // TODO Auto-generated method stub
-	    
-    }
+	protected void setAntialiasing(GGraphics2D g2) {
+		// TODO Auto-generated method stub
 
-
+	}
 
 	@Override
-    public void setBackground(GColor bgColor) {
-		if (bgColor != null){
+	public void setBackground(GColor bgColor) {
+		if (bgColor != null) {
 			this.bgColor = bgColor;
-			if (renderer!=null){
+			if (renderer != null) {
 				renderer.setWaitForUpdateClearColor();
 			}
-		}	    
-    }
-
-
+		}
+	}
 
 	@Override
 	public void setPreferredSize(GDimension preferredSize) {
-		if (g2p != null && g2p.getContext() != null){
+		if (g2p != null && g2p.getContext() != null) {
 			g2p.setPreferredSize(preferredSize);
 			updateSize();
 			setReIniting(false);
 		}
 	}
 
-
+	@Override
+	protected MyZoomer newZoomer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 	@Override
-    protected MyZoomer newZoomer() {
-	    // TODO Auto-generated method stub
-	    return null;
-    }
-
-
-
-	@Override
-    public void add(GBox box) {
+	public void add(GBox box) {
 		if (EVPanel != null)
-			EVPanel.getAbsolutePanel().add(
-	    		GBoxW.getImpl(box),
-	    		(int)box.getBounds().getX(), (int)box.getBounds().getY());
-    }
-
-
+			EVPanel.getAbsolutePanel().add(GBoxW.getImpl(box),
+			        (int) box.getBounds().getX(), (int) box.getBounds().getY());
+	}
 
 	@Override
-    public void remove(GBox box) {
+	public void remove(GBox box) {
 		if (EVPanel != null)
-			EVPanel.getAbsolutePanel().remove(
-	    		GBoxW.getImpl(box));
-    }
-
-
+			EVPanel.getAbsolutePanel().remove(GBoxW.getImpl(box));
+	}
 
 	@Override
-    public void setTransparentCursor() {
-	    // TODO Auto-generated method stub
-	    
-    }
+	public void setTransparentCursor() {
+		// TODO Auto-generated method stub
 
-
+	}
 
 	@Override
-    protected EuclidianStyleBar newEuclidianStyleBar() {
-	    return new EuclidianStyleBar3DW(this);
-    }
-	
-	
+	protected EuclidianStyleBar newEuclidianStyleBar() {
+		return new EuclidianStyleBar3DW(this);
+	}
+
 	@Override
-    public int getAbsoluteTop() {
+	public int getAbsoluteTop() {
 		return g2p.getAbsoluteTop();
 	}
-	
+
 	@Override
-    public int getAbsoluteLeft() {
+	public int getAbsoluteLeft() {
 		return g2p.getAbsoluteLeft();
 	}
 
-
 	@Override
-    public Canvas getCanvas() {
-	    return g2p.getCanvas();
-    }
-
+	public Canvas getCanvas() {
+		return g2p.getCanvas();
+	}
 
 	/**
 	 * the file has been set by the App
-	 * @param file file
+	 * 
+	 * @param file
+	 *            file
 	 */
 	public void setCurrentFile(HashMap<String, String> file) {
-	    // used only when no webGL
-	    
-    }
-	
-	
-	
-	
-	
-	
+		// used only when no webGL
+
+	}
+
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		@Override
-        public void execute(double ts) {
+		public void execute(double ts) {
 			doRepaint2();
 		}
 	};
 
-	
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 
 	private long lastRepaint;
 
-
-
 	/**
-	 * This doRepaint method should be used instead of repaintView in cases
-	 * when the repaint should be done immediately
+	 * This doRepaint method should be used instead of repaintView in cases when
+	 * the repaint should be done immediately
 	 */
-	public final void doRepaint2(){
-		
+	public final void doRepaint2() {
+
 		long time = System.currentTimeMillis();
-		//((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
+		// ((DrawEquationWeb) this.app.getDrawEquation()).clearLaTeXes(this);
 		this.updateBackgroundIfNecessary();
-		
-//		paint(this.g2p);
-		if (readyToRender){
+
+		// paint(this.g2p);
+		if (readyToRender) {
 			renderer.drawScene();
 		}
-		
 
-		 
 		getEuclidianController().setCollectedRepaints(false);
 		lastRepaint = System.currentTimeMillis() - time;
 		GeoGebraProfiler.addRepaint(lastRepaint);
-		
-		if (waitForNewRepaint){
+
+		if (waitForNewRepaint) {
 			kernel.notifyControllersMoveIfWaiting();
 			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
-		}else{
+		} else {
 			waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 		}
 
 	}
-	
+
 	@Override
-    public long getLastRepaintTime() {
+	public long getLastRepaintTime() {
 		return lastRepaint;
 	}
 
-	
 	@Override
-    public void repaint() {
-//	    if (readyToRender){
-//	    	renderer.drawScene();
-//	    }
-	    
-	    if (getEuclidianController().isCollectingRepaints()){
-    		getEuclidianController().setCollectedRepaints(true);
-    		return;
-    	}
+	public void repaint() {
+		// if (readyToRender){
+		// renderer.drawScene();
+		// }
 
-    	if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
-    		getApplication().ensureTimerRunning();
-    		waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
-    	}
-    }
-	
+		if (getEuclidianController().isCollectingRepaints()) {
+			getEuclidianController().setCollectedRepaints(true);
+			return;
+		}
+
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
+			getApplication().ensureTimerRunning();
+			waitForRepaint = TimerSystemW.EUCLIDIAN_LOOPS;
+		}
+	}
+
 	@Override
-    final public void waitForNewRepaint(){
+	final public void waitForNewRepaint() {
 		waitForNewRepaint = true;
 	}
 
-	
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private boolean waitForNewRepaint = false;
-	
 
-	 
-    /**
+	/**
 	 * schedule a repaint
 	 */
-	public void doRepaint() {		
+	public void doRepaint() {
 		repaintScheduler.requestAnimationFrame(repaintCallback);
 	}
-	
+
 	/**
 	 * timer system suggests a repaint
 	 */
 	@Override
-    public boolean suggestRepaint(){
-		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG){
+	public boolean suggestRepaint() {
+		if (waitForRepaint == TimerSystemW.SLEEPING_FLAG) {
 			return false;
 		}
 
-		if (waitForRepaint == TimerSystemW.REPAINT_FLAG){
-			if (isShowing()){
-				doRepaint();	
+		if (waitForRepaint == TimerSystemW.REPAINT_FLAG) {
+			if (isShowing()) {
+				doRepaint();
 			}
 			return true;
 		}
-		
+
 		waitForRepaint--;
 		return true;
 	}
 
-
 	@Override
-    public void exportPaintPre(GGraphics2D g2d, double scale,
-            boolean transparency) {
-	    // TODO Auto-generated method stub
-	    
-    }
-	
-	
+	public void exportPaintPre(GGraphics2D g2d, double scale,
+	        boolean transparency) {
+		// TODO Auto-generated method stub
+
+	}
+
 }

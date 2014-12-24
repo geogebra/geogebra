@@ -18,61 +18,59 @@ import com.google.gwt.user.client.ui.Widget;
  * @author matthieu
  *
  */
-public class EuclidianViewForPlaneW extends EuclidianViewW implements EuclidianViewForPlaneInterface {
+public class EuclidianViewForPlaneW extends EuclidianViewW implements
+        EuclidianViewForPlaneInterface {
 
-
-	
 	/**
 	 * 
-	 * @param euclidianViewPanel view panel
-	 * @param ec controller
-	 * @param plane plane creating this view
-	 * @param settings euclidian settings
+	 * @param euclidianViewPanel
+	 *            view panel
+	 * @param ec
+	 *            controller
+	 * @param plane
+	 *            plane creating this view
+	 * @param settings
+	 *            euclidian settings
 	 */
-	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel, EuclidianController ec, ViewCreator plane, EuclidianSettings settings) {
-		super(euclidianViewPanel, ec, new boolean[]{ false, false }, false, EVNO_GENERAL, settings);
-		
+	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel,
+	        EuclidianController ec, ViewCreator plane,
+	        EuclidianSettings settings) {
+		super(euclidianViewPanel, ec, new boolean[] { false, false }, false,
+		        EVNO_GENERAL, settings);
+
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}
-	
+
 	@Override
-	protected EuclidianViewCompanion newEuclidianViewCompanion(){
+	protected EuclidianViewCompanion newEuclidianViewCompanion() {
 		return new EuclidianViewForPlaneCompanion(this);
 	}
-	
 
-
-	
 	@Override
-	public EuclidianViewForPlaneCompanion getCompanion(){
+	public EuclidianViewForPlaneCompanion getCompanion() {
 		return (EuclidianViewForPlaneCompanion) super.getCompanion();
 	}
-	
 
 	/**
 	 * @return panel component
 	 */
 	public Widget getComponent() {
-	    return EVPanel.getAbsolutePanel();
-    }
-	
-	
-//	@Override
-//    public final void repaint() {
-//
-//		// temporary hack : use timer instead
-//		doRepaint();
-//     }
-	
+		return EVPanel.getAbsolutePanel();
+	}
+
+	// @Override
+	// public final void repaint() {
+	//
+	// // temporary hack : use timer instead
+	// doRepaint();
+	// }
+
 	/**
 	 * 
 	 * @return dock panel
 	 */
-	public EuclidianDockPanelForPlaneW getDockPanel(){
+	public EuclidianDockPanelForPlaneW getDockPanel() {
 		return (EuclidianDockPanelForPlaneW) EVPanel;
 	}
 
-	
-	
-	
 }

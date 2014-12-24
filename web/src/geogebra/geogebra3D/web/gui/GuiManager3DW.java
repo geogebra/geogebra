@@ -15,53 +15,55 @@ import com.google.gwt.user.client.Command;
 
 /**
  * web gui manager for 3D
+ * 
  * @author mathieu
  *
  */
 public class GuiManager3DW extends GuiManagerW {
 
 	private DockPanelW euclidian3Dpanel;
+
 	/**
 	 * constructor
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public GuiManager3DW(AppW app, GDevice device) {
-	    super(app, device);
-    }
+		super(app, device);
+	}
 
-	
 	@Override
-    protected boolean initLayoutPanels() {
+	protected boolean initLayoutPanels() {
 
-		if (super.initLayoutPanels()){
+		if (super.initLayoutPanels()) {
 			this.euclidian3Dpanel = new EuclidianDockPanel3DW(app);
 			layout.registerPanel(this.euclidian3Dpanel);
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
-	
-	public DockPanelW getEuclidian3DPanel(){
+
+	public DockPanelW getEuclidian3DPanel() {
 		return this.euclidian3Dpanel;
 	}
-	
-	
+
 	@Override
-    public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
-			geogebra.common.awt.GPoint p) {
+	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
+	        geogebra.common.awt.GPoint p) {
 
 		// clear highlighting and selections in views
 		app.getActiveEuclidianView().resetMode();
-		getDrawingPadpopupMenu3D(p.x, p.y).show(((EuclidianView3DW) view).g2p.getCanvas(), p.x, p.y);
+		getDrawingPadpopupMenu3D(p.x, p.y).show(
+		        ((EuclidianView3DW) view).g2p.getCanvas(), p.x, p.y);
 	}
-	
+
 	private ContextMenuGeoElementW getDrawingPadpopupMenu3D(int x, int y) {
 		currentPopup = new ContextMenuGraphicsWindow3DW((AppW) app, x, y);
 		return (ContextMenuGeoElementW) currentPopup;
 	}
-
 
 	/**
 	 * 
@@ -78,8 +80,8 @@ public class GuiManager3DW extends GuiManagerW {
 				getApp().updateMenubar();
 			}
 		};
-	} 
-	
+	}
+
 	/**
 	 * 
 	 * @return command to show/hide 3D grid
@@ -95,8 +97,7 @@ public class GuiManager3DW extends GuiManagerW {
 				getApp().updateMenubar();
 			}
 		};
-	}   
-
+	}
 
 	/**
 	 * 
@@ -107,17 +108,17 @@ public class GuiManager3DW extends GuiManagerW {
 
 			public void execute() {
 				// toggle axes
-				((EuclidianView3DW) getApp().getEuclidianView3D()).getSettings().togglePlane();
+				((EuclidianView3DW) getApp().getEuclidianView3D())
+				        .getSettings().togglePlane();
 				// getApp().getEuclidianView().repaint();
 				getApp().storeUndoInfo();
 				getApp().updateMenubar();
 			}
 		};
-	}   
-
+	}
 
 	@Override
-    protected PropertiesViewW newPropertiesViewW(AppW app){
+	protected PropertiesViewW newPropertiesViewW(AppW app) {
 		return new PropertiesView3DW(app);
 	}
 

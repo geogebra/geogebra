@@ -10,29 +10,31 @@ import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 
 /**
  * (dummy) renderer for 3D view, for browsers that don't support webGL
+ * 
  * @author mathieu
  *
  */
-public class RendererWnoWebGL extends RendererW{
+public class RendererWnoWebGL extends RendererW {
 
 	/**
 	 * constructor
-	 * @param view 3D view
+	 * 
+	 * @param view
+	 *            3D view
 	 */
 	public RendererWnoWebGL(EuclidianView3DW view) {
 		super(view);
 	}
 
 	@Override
-	protected void createGLContext(){
+	protected void createGLContext() {
 		// no webGL context here...
 	}
-	
+
 	@Override
-	protected void setGLViewPort(int w, int h){
+	protected void setGLViewPort(int w, int h) {
 		// no webGL context here...
 	}
-	
 
 	@Override
 	protected void start() {
@@ -45,35 +47,24 @@ public class RendererWnoWebGL extends RendererW{
 	}
 
 	@Override
-	public void drawScene(){
+	public void drawScene() {
 		// no webGL context here...
 	}
 
 	@Override
-	protected void draw(){
+	protected void draw() {
 		// no webGL context here...
 	}
-
-
 
 	@Override
 	protected void clearColorBuffer() {
 		// no webGL context here...
 	}
 
-
-
-
-
-
-
 	@Override
 	protected void clearDepthBuffer() {
 		// no webGL context here...
 	}
-
-
-
 
 	@Override
 	public void enableCulling() {
@@ -110,8 +101,6 @@ public class RendererWnoWebGL extends RendererW{
 		// no webGL context here...
 	}
 
-
-
 	@Override
 	public void enableDepthMask() {
 		// no webGL context here...
@@ -132,12 +121,10 @@ public class RendererWnoWebGL extends RendererW{
 		// no webGL context here...
 	}
 
-
 	@Override
 	public void setColor(float r, float g, float b, float a) {
 		// no webGL context here...
 	}
-
 
 	@Override
 	public void setLayer(float l) {
@@ -150,24 +137,18 @@ public class RendererWnoWebGL extends RendererW{
 		// no webGL context here...
 	}
 
-
 	@Override
 	public void setColorMask(boolean r, boolean g, boolean b, boolean a) {
 		// no webGL context here...
 	}
-
-
 
 	@Override
 	protected void setLightPosition(float[] values) {
 		// no webGL context here...
 	}
 
-
-
-
 	@Override
-	protected void setLight(int light){
+	protected void setLight(int light) {
 
 		// no webGL context here...
 	}
@@ -177,19 +158,16 @@ public class RendererWnoWebGL extends RendererW{
 		// no webGL context here...
 	}
 
-
 	@Override
 	protected void setView() {
 
 		// no webGL context here...
 	}
 
-
 	@Override
 	public void genTextures2D(int number, int[] index) {
 		// no webGL context here...
 	}
-
 
 	@Override
 	public void bindTexture(int index) {
@@ -197,30 +175,25 @@ public class RendererWnoWebGL extends RendererW{
 	}
 
 	@Override
-	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg){
-		// no webGL context here...
-	}
-
-
-
-	@Override
-	public void textureImage2D(int sizeX, int sizeY, byte[] buf){
+	public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg) {
 		// no webGL context here...
 	}
 
 	@Override
-	public void setTextureLinear(){
+	public void textureImage2D(int sizeX, int sizeY, byte[] buf) {
 		// no webGL context here...
 	}
-
 
 	@Override
-	public void setTextureNearest(){
-
+	public void setTextureLinear() {
 		// no webGL context here...
 	}
 
+	@Override
+	public void setTextureNearest() {
 
+		// no webGL context here...
+	}
 
 	@Override
 	public void loadColorBuffer(GLBuffer fbColors, int length) {
@@ -242,24 +215,15 @@ public class RendererWnoWebGL extends RendererW{
 		// no webGL context here...
 	}
 
-
 	@Override
 	public void draw(Type type, int length) {
 		// no webGL context here...
 	}
 
-
-
 	@Override
 	protected void setDepthFunc() {
 		// no webGL context here...
 	}
-
-
-
-
-
-
 
 	@Override
 	protected void enablePolygonOffsetFill() {
@@ -272,27 +236,24 @@ public class RendererWnoWebGL extends RendererW{
 	}
 
 	@Override
-	final public void disableTextures(){
+	final public void disableTextures() {
 		// no webGL context here...
 	}
 
 	@Override
-	protected void setCurrentTextureType(int type){
+	protected void setCurrentTextureType(int type) {
 		// no webGL context here...
 	}
-
 
 	@Override
-	public void enableLighting(){
+	public void enableLighting() {
 		// no webGL context here...
 	}
-
 
 	@Override
-	public void disableLighting(){
+	public void disableLighting() {
 		// no webGL context here...
 	}
-
 
 	@Override
 	protected void enableClipPlanes() {
@@ -305,10 +266,8 @@ public class RendererWnoWebGL extends RendererW{
 	}
 
 	@Override
-	public void setLabelOrigin(Coords origin){
+	public void setLabelOrigin(Coords origin) {
 		// no webGL context here...
 	}
-
-
 
 }

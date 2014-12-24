@@ -19,99 +19,98 @@ import java.util.ArrayList;
  * 
  * @author mathieu
  *
- * Companion for 3D application in desktop
+ *         Companion for 3D application in desktop
  */
 public class App3DCompanionW extends App3DCompanion {
 
 	/**
 	 * constructor
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
 	public App3DCompanionW(App app) {
 		super(app);
 	}
-	
+
 	@Override
-	protected EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, EuclidianSettings evSettings, boolean panelSettings){
+	protected EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
+	        ViewCreator plane, EuclidianSettings evSettings,
+	        boolean panelSettings) {
 
 		// create dock panel
-		panel = new EuclidianDockPanelForPlaneW(app);		
+		panel = new EuclidianDockPanelForPlaneW(app);
 		panel.loadComponent();
-		EuclidianViewForPlaneW view = new EuclidianViewForPlaneW(panel, new EuclidianControllerForPlaneW(app.getKernel()), plane, evSettings);
+		EuclidianViewForPlaneW view = new EuclidianViewForPlaneW(panel,
+		        new EuclidianControllerForPlaneW(app.getKernel()), plane,
+		        evSettings);
 		panel.setView(view);
-
 
 		((LayoutW) app.getGuiManager().getLayout()).registerPanel(panel);
 
-
-		if (panelSettings){
-			//panel.setFrameBounds(new Rectangle(600, 400));
+		if (panelSettings) {
+			// panel.setFrameBounds(new Rectangle(600, 400));
 			panel.setVisible(true);
-			//panel.toggleStyleBar();
+			// panel.toggleStyleBar();
 
-
-			((LayoutW) app.getGuiManager().getLayout()).getDockManager().show(panel);
+			((LayoutW) app.getGuiManager().getLayout()).getDockManager().show(
+			        panel);
 
 		}
 
 		return view.getCompanion();
 	}
-	
 
-	
 	private EuclidianDockPanelForPlaneW panel;
 
-	
 	/**
 	 * 
 	 * @return current dockpanel for plane
 	 */
 	@Override
-    public DockPanel getPanelForPlane(){
+	public DockPanel getPanelForPlane() {
 		return panel;
 	}
 
-
-
 	private ArrayList<EuclidianDockPanelForPlaneW> panelForPlaneList;
-	
+
 	@Override
-	public void storeViewCreators(){
-		
-		if (panelForPlaneList==null)
+	public void storeViewCreators() {
+
+		if (panelForPlaneList == null)
 			panelForPlaneList = new ArrayList<EuclidianDockPanelForPlaneW>();
 		else
 			panelForPlaneList.clear();
-		
-		DockPanel[] panels = ((DockManagerW) app.getGuiManager().getLayout().getDockManager()).getPanels();
-		for (int i=0; i<panels.length; i++){
-			if (panels[i] instanceof EuclidianDockPanelForPlaneW){
+
+		DockPanel[] panels = ((DockManagerW) app.getGuiManager().getLayout()
+		        .getDockManager()).getPanels();
+		for (int i = 0; i < panels.length; i++) {
+			if (panels[i] instanceof EuclidianDockPanelForPlaneW) {
 				panelForPlaneList.add((EuclidianDockPanelForPlaneW) panels[i]);
 			}
 		}
-		
+
 	}
-	
 
 	@Override
-	public void recallViewCreators(){
+	public void recallViewCreators() {
 
-		for (EuclidianDockPanelForPlaneW p : panelForPlaneList){
+		for (EuclidianDockPanelForPlaneW p : panelForPlaneList) {
 			EuclidianViewForPlaneW view = p.getView();
-			GeoElement geo = app.getKernel().lookupLabel(((GeoElement) view.getCompanion().getPlane()).getLabelSimple());
-			if (geo!=null && (geo instanceof ViewCreator)){
+			GeoElement geo = app.getKernel().lookupLabel(
+			        ((GeoElement) view.getCompanion().getPlane())
+			                .getLabelSimple());
+			if (geo != null && (geo instanceof ViewCreator)) {
 				ViewCreator plane = (ViewCreator) geo;
 				view.getCompanion().setPlane(plane);
 				plane.setEuclidianViewForPlane(view.getCompanion());
 				view.getCompanion().updateForPlane();
-			}else{
-				//no more creator : remove
+			} else {
+				// no more creator : remove
 				p.getView().getCompanion().doRemove();
 			}
 		}
 	}
-	
-	
 
 	@Override
 	public void resetEuclidianViewForPlaneIds() {
@@ -122,25 +121,25 @@ public class App3DCompanionW extends App3DCompanion {
 	 * recalculates views environments.
 	 */
 	public void recalculateEnvironments() {
-		if(euclidianViewForPlaneCompanionList == null){
+		if (euclidianViewForPlaneCompanionList == null) {
 			return;
 		}
-		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
+		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
 			vfpc.getView().getEuclidianController().calculateEnvironment();
 		}
 	}
-	
+
 	/**
 	 * update view for plane sizes
 	 */
-	public void updateViewSizes(){
-		if(euclidianViewForPlaneCompanionList == null){
+	public void updateViewSizes() {
+		if (euclidianViewForPlaneCompanionList == null) {
 			return;
 		}
-		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
-			((EuclidianViewForPlaneW) vfpc.getView()).getDockPanel().deferredOnResize();
+		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
+			((EuclidianViewForPlaneW) vfpc.getView()).getDockPanel()
+			        .deferredOnResize();
 		}
 	}
-	
 
 }

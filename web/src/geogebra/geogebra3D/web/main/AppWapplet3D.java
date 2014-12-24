@@ -26,113 +26,108 @@ import geogebra.web.main.BrowserDevice;
 
 import java.util.HashMap;
 
-public class AppWapplet3D extends AppWapplet{
+public class AppWapplet3D extends AppWapplet {
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
 	public AppWapplet3D(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
-	    super(ae, gf, 3, laf);
-    }
+		super(ae, gf, 3, laf);
+	}
 
 	@Override
-    protected Kernel newKernel(App this_app){
+	protected Kernel newKernel(App this_app) {
 		return App3DW.newKernel(this_app);
 	}
-	
 
 	@Override
-    public boolean hasEuclidianView3D() {
+	public boolean hasEuclidianView3D() {
 		return this.euclidianController3D != null;
 	}
 
 	@Override
-    public EuclidianView3DInterface getEuclidianView3D() {
-		//Window.alert("getEuclidianView3D()");
-		if(this.euclidianView3D == null){
-			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D, getSettings().getEuclidian(3));
+	public EuclidianView3DInterface getEuclidianView3D() {
+		// Window.alert("getEuclidianView3D()");
+		if (this.euclidianView3D == null) {
+			euclidianView3D = App3DW.newEuclidianView3DW(euclidianController3D,
+			        getSettings().getEuclidian(3));
 			App.printStacktrace("");
 		}
 		return euclidianView3D;
 	}
-	
+
 	@Override
 	public void initEuclidianViews() {
 
 		super.initEuclidianViews();
 		euclidianController3D = App3DW.newEuclidianController3DW(kernel);
-		
 
 	}
-	
-	
+
 	@Override
-    protected GuiManagerW newGuiManager() {
+	protected GuiManagerW newGuiManager() {
 		return App3DW.newGuiManager(this, new BrowserDevice());
 	}
-
 
 	private GCheckBoxMenuItem itemEuclidian3D;
 
 	@Override
 	public boolean supportsView(int viewID) {
-		if(viewID == App.VIEW_EUCLIDIAN3D){
+		if (viewID == App.VIEW_EUCLIDIAN3D) {
 			return true;
 		}
 		return super.supportsView(viewID);
 	}
-	
-	
+
 	@Override
 	public void recalculateEnvironments() {
-		
+
 		super.recalculateEnvironments();
-		
-	    if (getEuclidianView3D() != null) {
-	    	getEuclidianView3D().getEuclidianController().calculateEnvironment();
-	    }
-	    
-	    ((App3DCompanionW) companion).recalculateEnvironments();
-    }
-	
-	
+
+		if (getEuclidianView3D() != null) {
+			getEuclidianView3D().getEuclidianController()
+			        .calculateEnvironment();
+		}
+
+		((App3DCompanionW) companion).recalculateEnvironments();
+	}
+
 	@Override
-    protected void initFactories(){
-		
+	protected void initFactories() {
+
 		super.initFactories();
 		geogebra.common.geogebra3D.euclidian3D.openGL.GLFactory.prototype = new GLFactoryW();
 		geogebra.common.util.CopyPaste.INSTANCE = new CopyPaste3D();
 	}
-	
+
 	@Override
-    public void updateViewSizes(){
+	public void updateViewSizes() {
 		super.updateViewSizes();
-		if(((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()!=null){
-			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel().deferredOnResize();
+		if (((GuiManager3DW) getGuiManager()).getEuclidian3DPanel() != null) {
+			((GuiManager3DW) getGuiManager()).getEuclidian3DPanel()
+			        .deferredOnResize();
 		}
 		((App3DCompanionW) companion).updateViewSizes();
 	}
-	
-	
+
 	@Override
 	public void updateStyleBars() {
 		super.updateStyleBars();
-		if(showView(App.VIEW_EUCLIDIAN3D)){
+		if (showView(App.VIEW_EUCLIDIAN3D)) {
 			getEuclidianView3D().getStyleBar().updateStyleBar();
 		}
 	}
-	
+
 	@Override
-    public boolean isEuclidianView3Dinited() {
+	public boolean isEuclidianView3Dinited() {
 		return euclidianView3D != null;
 	}
-	
-	
-	
-	
+
 	@Override
-    public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel, EuclidianController ec, 
-			boolean[] showAxes, boolean showGrid, int id, EuclidianSettings settings){
-		return App3DW.newEuclidianView(evPanel, ec, showAxes, showGrid, id, settings);
+	public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel,
+	        EuclidianController ec, boolean[] showAxes, boolean showGrid,
+	        int id, EuclidianSettings settings) {
+		return App3DW.newEuclidianView(evPanel, ec, showAxes, showGrid, id,
+		        settings);
 	}
 
 	@Override
@@ -140,21 +135,20 @@ public class AppWapplet3D extends AppWapplet{
 		return App3DW.newEuclidianController(kernel);
 
 	}
-	
-	@Override
-    protected AppCompanion newAppCompanion(){
-		return new App3DCompanionW(this);
-	}
-	
 
 	@Override
-    public void setCurrentFile(HashMap<String, String> file) {
+	protected AppCompanion newAppCompanion() {
+		return new App3DCompanionW(this);
+	}
+
+	@Override
+	public void setCurrentFile(HashMap<String, String> file) {
 		super.setCurrentFile(file);
-		if(this.isEuclidianView3Dinited()){
+		if (this.isEuclidianView3Dinited()) {
 			((EuclidianView3DW) getEuclidianView3D()).setCurrentFile(file);
 		}
 	}
-	
+
 	@Override
 	public DialogManager getDialogManager() {
 		if (dialogManager == null) {
@@ -162,16 +156,16 @@ public class AppWapplet3D extends AppWapplet{
 		}
 		return dialogManager;
 	}
-	
 
 	@Override
-    public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
-		if (evno == EuclidianView.EVNO_3D && hasEuclidianView3D() && getEuclidianView3D().isShowing()) {// or the EuclidianView 2
+	public void syncAppletPanelSize(int widthDiff, int heightDiff, int evno) {
+		if (evno == EuclidianView.EVNO_3D && hasEuclidianView3D()
+		        && getEuclidianView3D().isShowing()) {// or the EuclidianView 2
 			if (getSplitLayoutPanel() != null)
 				getSplitLayoutPanel().setPixelSize(
-					getSplitLayoutPanel().getOffsetWidth() + widthDiff,
-					getSplitLayoutPanel().getOffsetHeight() + heightDiff);
-		}else{
+				        getSplitLayoutPanel().getOffsetWidth() + widthDiff,
+				        getSplitLayoutPanel().getOffsetHeight() + heightDiff);
+		} else {
 			super.syncAppletPanelSize(widthDiff, heightDiff, evno);
 		}
 	}

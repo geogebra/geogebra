@@ -22,17 +22,18 @@ import com.google.gwt.resources.client.ImageResource;
 
 /**
  * style bar for 3D view
+ * 
  * @author mathieu
  *
  */
 public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	private RotateViewPopup btnRotateView;
-	
+
 	private ClippingPopup btnClipping;
 
-	private MyToggleButton2 btnShowGrid3D; 
-	
+	private MyToggleButton2 btnShowGrid3D;
+
 	private AxesAndPlanePopup btnShowAxesAndPlane;
 
 	private PopupMenuButton btnViewDirection;
@@ -41,452 +42,459 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	/**
 	 * constructor
-	 * @param ev euclidian view
+	 * 
+	 * @param ev
+	 *            euclidian view
 	 */
 	public EuclidianStyleBar3DW(EuclidianView ev) {
-	    super(ev);
-	    optionType = optionType.EUCLIDIAN3D;
-    }
-	
-	
+		super(ev);
+		optionType = optionType.EUCLIDIAN3D;
+	}
+
 	@Override
-    public EuclidianView3D getView(){
+	public EuclidianView3D getView() {
 		return (EuclidianView3D) ev;
 	}
-	
-	
+
 	@Override
-	protected void createDefaultMap(){
-		
+	protected void createDefaultMap() {
+
 		super.createDefaultMap();
-		
+
 		EuclidianStyleBarStatic3D.addToDefaultMap(defaultGeoMap);
-		
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	private void setIcon(PopupMenuButton button, ImageResource icon){
-		AppResourcesConverter.setIcon(icon, button); 
+
+	private void setIcon(PopupMenuButton button, ImageResource icon) {
+		AppResourcesConverter.setIcon(icon, button);
 	}
-	
+
 	@Override
 	protected void createButtons() {
 
 		super.createButtons();
-		
-		
-		//========================================
+
+		// ========================================
 		// rotate view button
-		btnRotateView = new RotateViewPopup(StyleBar3DResources.INSTANCE.rotateViewPlay(), StyleBar3DResources.INSTANCE.rotateViewPause());
+		btnRotateView = new RotateViewPopup(
+		        StyleBar3DResources.INSTANCE.rotateViewPlay(),
+		        StyleBar3DResources.INSTANCE.rotateViewPause());
 		btnRotateView.addPopupHandler(this);
-//		btnRotateView.addActionListener(this);
-		
-		//========================================
+		// btnRotateView.addActionListener(this);
+
+		// ========================================
 		// clipping button
 		ImageOrText[] clippingIcons = new ImageOrText[4];
-		for (int i = 0 ; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			clippingIcons[i] = new ImageOrText();
 		}
-		clippingIcons[0].url = StyleBarResources.INSTANCE.stylingbar_empty().getSafeUri().asString();
-		clippingIcons[1].url = StyleBar3DResources.INSTANCE.clippingSmall().getSafeUri().asString();
-		clippingIcons[2].url = StyleBar3DResources.INSTANCE.clippingMedium().getSafeUri().asString();
-		clippingIcons[3].url = StyleBar3DResources.INSTANCE.clippingBig().getSafeUri().asString();
-		btnClipping = new ClippingPopup(app, clippingIcons, 1, 4, geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
-//		btnClipping = new PopupMenuButtonForView3D(){
-//			@Override
-//		    protected void fireActionPerformed() {
-//				getView().setClippingReduction(btnClipping.getSliderValue());
-//		    }
-//			
-//			@Override
-//            protected void onClickAction(){			
-//				getView().toggleShowAndUseClippingCube();
-//			}
-//		};	
-//		setIcon(btnClipping, StyleBar3DResources.INSTANCE.clippingBig());
-//		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
-//		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
-//		btnClipping.getMySlider().setMajorTickSpacing(1);
-//		btnClipping.getMySlider().setMinorTickSpacing(1);
-//		btnClipping.getMySlider().setPaintTicks(true);
-//		//btnClipping.getMySlider().setPaintTrack(true);
-//		//btnClipping.getMySlider().setSnapToTicks(true);
-//		btnClipping.setSliderValue(getView().getClippingReduction());
+		clippingIcons[0].url = StyleBarResources.INSTANCE.stylingbar_empty()
+		        .getSafeUri().asString();
+		clippingIcons[1].url = StyleBar3DResources.INSTANCE.clippingSmall()
+		        .getSafeUri().asString();
+		clippingIcons[2].url = StyleBar3DResources.INSTANCE.clippingMedium()
+		        .getSafeUri().asString();
+		clippingIcons[3].url = StyleBar3DResources.INSTANCE.clippingBig()
+		        .getSafeUri().asString();
+		btnClipping = new ClippingPopup(app, clippingIcons, 1, 4,
+		        geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
+		// btnClipping = new PopupMenuButtonForView3D(){
+		// @Override
+		// protected void fireActionPerformed() {
+		// getView().setClippingReduction(btnClipping.getSliderValue());
+		// }
+		//
+		// @Override
+		// protected void onClickAction(){
+		// getView().toggleShowAndUseClippingCube();
+		// }
+		// };
+		// setIcon(btnClipping, StyleBar3DResources.INSTANCE.clippingBig());
+		// btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
+		// btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
+		// btnClipping.getMySlider().setMajorTickSpacing(1);
+		// btnClipping.getMySlider().setMinorTickSpacing(1);
+		// btnClipping.getMySlider().setPaintTicks(true);
+		// //btnClipping.getMySlider().setPaintTrack(true);
+		// //btnClipping.getMySlider().setSnapToTicks(true);
+		// btnClipping.setSliderValue(getView().getClippingReduction());
 		btnClipping.addPopupHandler(this);
 
-		
-		
-		//========================================
-		/* rotate x text field
-		textRotateX = new JTextField(3);
-		textRotateX.addActionListener(this);
-		*/
-		
-		//========================================
+		// ========================================
+		/*
+		 * rotate x text field textRotateX = new JTextField(3);
+		 * textRotateX.addActionListener(this);
+		 */
+
+		// ========================================
 		// view direction button
-		
+
 		ImageOrText[] directionIcons = new ImageOrText[4];
-		for (int i = 0 ; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			directionIcons[i] = new ImageOrText();
 		}
-		directionIcons[0].url = StyleBar3DResources.INSTANCE.viewXY().getSafeUri().asString();
-		directionIcons[1].url = StyleBar3DResources.INSTANCE.viewXZ().getSafeUri().asString();
-		directionIcons[2].url = StyleBar3DResources.INSTANCE.viewYZ().getSafeUri().asString();
-		directionIcons[3].url = StyleBar3DResources.INSTANCE.standardViewRotate().getSafeUri().asString();
+		directionIcons[0].url = StyleBar3DResources.INSTANCE.viewXY()
+		        .getSafeUri().asString();
+		directionIcons[1].url = StyleBar3DResources.INSTANCE.viewXZ()
+		        .getSafeUri().asString();
+		directionIcons[2].url = StyleBar3DResources.INSTANCE.viewYZ()
+		        .getSafeUri().asString();
+		directionIcons[3].url = StyleBar3DResources.INSTANCE
+		        .standardViewRotate().getSafeUri().asString();
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addPopupHandler(this);
-//		btnViewDefault = new MyToggleButtonForEV(StyleBar3DResources.INSTANCE.standardViewRotate(), iconHeight);
-//		
-//		btnViewDefault.addValueChangeHandler(this);
-//		
-//		
-//		//========================================
-//		// view xy button	
-//		btnViewXY = new MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewXY(), iconHeight);
-//		
-//		btnViewXY.addValueChangeHandler(this);
-//		
-//		//========================================
-//		// view xz button	
-//		btnViewXZ = new MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewXZ(), iconHeight);
-//		
-//		btnViewXZ.addValueChangeHandler(this);		
-//		
-//		//========================================
-//		// view yz button	
-//		btnViewYZ = new MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewYZ(), iconHeight);
-//		
-//		btnViewYZ.addValueChangeHandler(this);	
-		
-		//========================================
+		// btnViewDefault = new
+		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.standardViewRotate(),
+		// iconHeight);
+		//
+		// btnViewDefault.addValueChangeHandler(this);
+		//
+		//
+		// //========================================
+		// // view xy button
+		// btnViewXY = new
+		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewXY(),
+		// iconHeight);
+		//
+		// btnViewXY.addValueChangeHandler(this);
+		//
+		// //========================================
+		// // view xz button
+		// btnViewXZ = new
+		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewXZ(),
+		// iconHeight);
+		//
+		// btnViewXZ.addValueChangeHandler(this);
+		//
+		// //========================================
+		// // view yz button
+		// btnViewYZ = new
+		// MyToggleButtonForEV(StyleBar3DResources.INSTANCE.viewYZ(),
+		// iconHeight);
+		//
+		// btnViewYZ.addValueChangeHandler(this);
+
+		// ========================================
 		// projection view button
 		ImageOrText[] projectionIcons = new ImageOrText[4];
-		for (int i = 0 ; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			projectionIcons[i] = new ImageOrText();
 		}
-		projectionIcons[0].url = StyleBar3DResources.INSTANCE.viewOrthographic().getSafeUri().asString();
-		projectionIcons[1].url = StyleBar3DResources.INSTANCE.viewPerspective().getSafeUri().asString();
-		projectionIcons[2].url = StyleBar3DResources.INSTANCE.viewGlasses().getSafeUri().asString();
-		projectionIcons[3].url = StyleBar3DResources.INSTANCE.viewOblique().getSafeUri().asString();
+		projectionIcons[0].url = StyleBar3DResources.INSTANCE
+		        .viewOrthographic().getSafeUri().asString();
+		projectionIcons[1].url = StyleBar3DResources.INSTANCE.viewPerspective()
+		        .getSafeUri().asString();
+		projectionIcons[2].url = StyleBar3DResources.INSTANCE.viewGlasses()
+		        .getSafeUri().asString();
+		projectionIcons[3].url = StyleBar3DResources.INSTANCE.viewOblique()
+		        .getSafeUri().asString();
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addPopupHandler(this);
-		
+
 	}
-
-
-
 
 	private class ProjectionPopup extends PopupMenuButton {
 		private static final long serialVersionUID = 1L;
-		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons){
-			super(app, projectionIcons, 1, projectionIcons.length, new GDimensionW(20, iconHeight),
-					geogebra.common.gui.util.SelectionTable.MODE_ICON, true, false);
+
+		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
+			super(app, projectionIcons, 1, projectionIcons.length,
+			        new GDimensionW(20, iconHeight),
+			        geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
+			        false);
 			setIcon(projectionIcons[getView().getProjection()]);
 		}
-		
 
 		@Override
 		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0  && mode != EuclidianConstants.MODE_PEN);	  
+			this.setVisible(geos.length == 0
+			        && mode != EuclidianConstants.MODE_PEN);
 		}
-		
+
 		/*
-		@Override
-		public Point getToolTipLocation(MouseEvent e) {
-			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
-		}
-		*/
+		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
+		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
+		 */
 
 	}
-	
+
 	private class RotateViewPopup extends PopupMenuButtonForView3D {
-		
-		public RotateViewPopup(ImageResource playIcon, ImageResource pauseIcon){
+
+		public RotateViewPopup(ImageResource playIcon, ImageResource pauseIcon) {
 			super();
-			
+
 			this.playIcon = new ImageOrText();
 			this.playIcon.url = playIcon.getSafeUri().asString();
 			this.pauseIcon = new ImageOrText();
 			this.pauseIcon.url = pauseIcon.getSafeUri().asString();
-			
+
 			setIcon(this.playIcon);
-			
+
 			getMySlider().setMinimum(-10);
 			getMySlider().setMaximum(10);
 			getMySlider().setMajorTickSpacing(10);
 			getMySlider().setMinorTickSpacing(1);
 			getMySlider().setPaintTicks(true);
-			//getMySlider().setPaintTrack(false);
-			//getMySlider().setSnapToTicks(true);
+			// getMySlider().setPaintTrack(false);
+			// getMySlider().setSnapToTicks(true);
 			setSliderValue(5);
 
 		}
 
 		private ImageOrText pauseIcon, playIcon;
 
-
-
 		@Override
 		protected void fireActionPerformed() {
-			getView().setRotContinueAnimation(0, getSliderValue()*0.01);
-			if (getSliderValue() == 0){
+			getView().setRotContinueAnimation(0, getSliderValue() * 0.01);
+			if (getSliderValue() == 0) {
 				setIcon(playIcon);
-			}else{
+			} else {
 				setIcon(pauseIcon);
 			}
 		}
 
 		@Override
-		protected void onClickAction(){
-			if (getView().isRotAnimatedContinue()){
+		protected void onClickAction() {
+			if (getView().isRotAnimatedContinue()) {
 				getView().stopRotAnimation();
 				setIcon(playIcon);
-			}else{
-				getView().setRotContinueAnimation(0, getSliderValue()*0.01);
+			} else {
+				getView().setRotContinueAnimation(0, getSliderValue() * 0.01);
 				setIcon(pauseIcon);
 			}
 		}
 	}
-	
-	
-	private class PopupMenuButtonForView3D extends PopupMenuButton /*implements ClickHandler*/{
 
-		public PopupMenuButtonForView3D(){
-			super(EuclidianStyleBar3DW.this.app, null, -1, -1, new GDimensionW(20, iconHeight), geogebra.common.gui.util.SelectionTable.MODE_ICON,  false,  true);
+	private class PopupMenuButtonForView3D extends PopupMenuButton /*
+																	 * implements
+																	 * ClickHandler
+																	 */{
+
+		public PopupMenuButtonForView3D() {
+			super(EuclidianStyleBar3DW.this.app, null, -1, -1, new GDimensionW(
+			        20, iconHeight),
+			        geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
+			        true);
 		}
 
 		@Override
 		public void update(Object[] geos) {
-			this.setVisible(geos.length == 0 && mode != EuclidianConstants.MODE_PEN);	  
+			this.setVisible(geos.length == 0
+			        && mode != EuclidianConstants.MODE_PEN);
 		}
-		
+
 		/*
-		public void onClick(ClickEvent event) {
-			App.debug("onClick : "+this);
-	    }
-	    */
-		
+		 * public void onClick(ClickEvent event) { App.debug("onClick : "+this);
+		 * }
+		 */
+
 		/*
-		@Override
-		public Point getToolTipLocation(MouseEvent e) {
-			return new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y);
-		}
-		*/
-		
+		 * @Override public Point getToolTipLocation(MouseEvent e) { return new
+		 * Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
+		 */
 
 	}
 
-	protected boolean processSourceForAxesAndGrid(Object source){
+	protected boolean processSourceForAxesAndGrid(Object source) {
 		if (source.equals(btnShowAxesAndPlane)) {
 			btnShowAxesAndPlane.setEVFromIndex();
 			return true;
 		}
-		
+
 		return false;
-		
+
 	}
-	
 
 	@Override
-	protected void processSource(Object source, ArrayList<GeoElement> targetGeos){
-		
-		//App.debug("source = "+source);
-		
+	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+
+		// App.debug("source = "+source);
+
 		/*
-		if (source.equals(btnShowPlane)) {
-			getView().togglePlane();
-			getView().repaintView();
-			*/
-		
+		 * if (source.equals(btnShowPlane)) { getView().togglePlane();
+		 * getView().repaintView();
+		 */
+
 		if (source.equals(btnClipping)) {
 			int index = btnClipping.getSelectedIndex();
-			if (index == 0){
+			if (index == 0) {
 				getView().setUseClippingCube(false);
 				getView().setShowClippingCube(false);
-			}else{
+			} else {
 				getView().setUseClippingCube(true);
 				getView().setShowClippingCube(true);
 				getView().getSettings().setClippingReduction(index - 1);
 			}
 			getView().repaintView();
-			
-		}else if (source.equals(btnViewDirection)) {
+
+		} else if (source.equals(btnViewDirection)) {
 			int si = btnViewDirection.getSelectedIndex();
-			switch(si){
+			switch (si) {
 			case 0:
-				getView().setRotAnimation(-90,90,true);
+				getView().setRotAnimation(-90, 90, true);
 				break;
 			case 1:
-				getView().setRotAnimation(-90,0,true);
+				getView().setRotAnimation(-90, 0, true);
 				break;
 			case 2:
-				getView().setRotAnimation(0,0,true);
+				getView().setRotAnimation(0, 0, true);
 				break;
 			case 3:
-				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,EuclidianView3D.ANGLE_ROT_XOY,false);
+				getView().setRotAnimation(EuclidianView3D.ANGLE_ROT_OZ,
+				        EuclidianView3D.ANGLE_ROT_XOY, false);
 				break;
 			}
-		}else if (source.equals(btnViewProjection)) {
+		} else if (source.equals(btnViewProjection)) {
 			int si = btnViewProjection.getSelectedIndex();
-			switch(si){
+			switch (si) {
 			case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
-				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
+				getView().getSettings().setProjection(
+				        EuclidianView3D.PROJECTION_ORTHOGRAPHIC);
 				break;
 			case EuclidianView3D.PROJECTION_PERSPECTIVE:
-				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_PERSPECTIVE);
+				getView().getSettings().setProjection(
+				        EuclidianView3D.PROJECTION_PERSPECTIVE);
 				break;
 			case EuclidianView3D.PROJECTION_GLASSES:
-				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_GLASSES);
+				getView().getSettings().setProjection(
+				        EuclidianView3D.PROJECTION_GLASSES);
 				break;
 			case EuclidianView3D.PROJECTION_OBLIQUE:
-				getView().getSettings().setProjection(EuclidianView3D.PROJECTION_OBLIQUE);
+				getView().getSettings().setProjection(
+				        EuclidianView3D.PROJECTION_OBLIQUE);
 				break;
 			}
 			getView().repaintView();
-		}else
+		} else
 			super.processSource(source, targetGeos);
 	}
-	
-	
-	
-	protected void createAxesAndGridButtons(){
-		
+
+	protected void createAxesAndGridButtons() {
+
 		// ========================================
 		// show axes button
 		ImageOrText[] axesAndPlaneIcons = new ImageOrText[4];
-		for (int i = 0; i < 4; i++){
+		for (int i = 0; i < 4; i++) {
 			axesAndPlaneIcons[i] = new ImageOrText();
 		}
-		axesAndPlaneIcons[0].url = StyleBarResources.INSTANCE.stylingbar_empty().getSafeUri().asString();
-		axesAndPlaneIcons[1].url = StyleBarResources.INSTANCE.axes().getSafeUri().asString();
-		axesAndPlaneIcons[2].url = StyleBar3DResources.INSTANCE.plane().getSafeUri().asString();
-		axesAndPlaneIcons[3].url = StyleBar3DResources.INSTANCE.axes_plane().getSafeUri().asString();
+		axesAndPlaneIcons[0].url = StyleBarResources.INSTANCE
+		        .stylingbar_empty().getSafeUri().asString();
+		axesAndPlaneIcons[1].url = StyleBarResources.INSTANCE.axes()
+		        .getSafeUri().asString();
+		axesAndPlaneIcons[2].url = StyleBar3DResources.INSTANCE.plane()
+		        .getSafeUri().asString();
+		axesAndPlaneIcons[3].url = StyleBar3DResources.INSTANCE.axes_plane()
+		        .getSafeUri().asString();
 
-		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1, 4,
-				geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				getView());
+		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1,
+		        4, geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowAxesAndPlane.addPopupHandler(this);
-		
-		
-		
+
 		// ========================================
 		// show grid button
-		btnShowGrid3D = new MyToggleButtonForEV(StyleBarResources.INSTANCE.grid(), iconHeight);
+		btnShowGrid3D = new MyToggleButtonForEV(
+		        StyleBarResources.INSTANCE.grid(), iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
-		
+
 	}
-	
-	protected MyToggleButton2 getAxesOrGridToggleButton(){
+
+	protected MyToggleButton2 getAxesOrGridToggleButton() {
 		return btnShowGrid3D;
 	}
-	
-	protected PopupMenuButton getAxesOrGridPopupMenuButton(){
+
+	protected PopupMenuButton getAxesOrGridPopupMenuButton() {
 		return btnShowAxesAndPlane;
 	}
 
 	@Override
-	protected void addAxesAndGridButtons(){	
+	protected void addAxesAndGridButtons() {
 		add(btnShowAxesAndPlane);
-		add(btnShowGrid3D);		
+		add(btnShowGrid3D);
 	}
 
 	@Override
-	protected void addBtnRotateView(){
-		
-		
+	protected void addBtnRotateView() {
+
 		add(btnRotateView);
-		
+
 		add(btnViewDirection);
-		
+
 		add(btnClipping);
 		add(btnViewProjection);
 	}
 
 	@Override
-	protected boolean isVisibleInThisView(GeoElement geo){
-		return geo.isVisibleInView3D() ;
+	protected boolean isVisibleInThisView(GeoElement geo) {
+		return geo.isVisibleInView3D();
 	}
-	
-	
+
 	@Override
-    protected void setToolTips() {
+	protected void setToolTips() {
 
 		super.setToolTips();
-		
-	    Localization loc = app.getLocalization();
-		btnRotateView.setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		btnViewDirection.setToolTipArray(
-				new String[] {
-						loc.getPlainTooltip("stylebar.ViewXY"),
-						loc.getPlainTooltip("stylebar.ViewXZ"),
-						loc.getPlainTooltip("stylebar.ViewYZ"),
-						loc.getPlainTooltip("stylebar.ViewDefaultRotate")
-				});
+
+		Localization loc = app.getLocalization();
+		btnRotateView
+		        .setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
+		btnViewDirection.setToolTipArray(new String[] {
+		        loc.getPlainTooltip("stylebar.ViewXY"),
+		        loc.getPlainTooltip("stylebar.ViewXZ"),
+		        loc.getPlainTooltip("stylebar.ViewYZ"),
+		        loc.getPlainTooltip("stylebar.ViewDefaultRotate") });
 
 		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
-		btnViewProjection.setToolTipText(loc.getPlainTooltip("stylebar.ViewProjection"));
-		btnViewProjection.setToolTipArray(
-				new String[] {
-						loc.getPlainTooltip("stylebar.ParallelProjection"),
-						loc.getPlainTooltip("stylebar.PerspectiveProjection"),
-						loc.getPlainTooltip("stylebar.GlassesProjection"),
-						loc.getPlainTooltip("stylebar.ObliqueProjection")
-				});
-	    
-	    
+		btnViewProjection.setToolTipText(loc
+		        .getPlainTooltip("stylebar.ViewProjection"));
+		btnViewProjection.setToolTipArray(new String[] {
+		        loc.getPlainTooltip("stylebar.ParallelProjection"),
+		        loc.getPlainTooltip("stylebar.PerspectiveProjection"),
+		        loc.getPlainTooltip("stylebar.GlassesProjection"),
+		        loc.getPlainTooltip("stylebar.ObliqueProjection") });
+
 	}
-	
-	
-	@Override
-	public void updateGUI(){
-		
-		super.updateGUI();
-		
-		btnClipping.updateGUI();
-		
-	}
-	
-	
-	
 
 	@Override
-	protected PopupMenuButton[] newPopupBtnList(){
+	public void updateGUI() {
+
+		super.updateGUI();
+
+		btnClipping.updateGUI();
+
+	}
+
+	@Override
+	protected PopupMenuButton[] newPopupBtnList() {
 		PopupMenuButton[] superList = super.newPopupBtnList();
-		PopupMenuButton[] ret = new PopupMenuButton[superList.length+4];
-		for (int i=0; i<superList.length; i++)
-			ret[i]=superList[i];
-		
+		PopupMenuButton[] ret = new PopupMenuButton[superList.length + 4];
+		for (int i = 0; i < superList.length; i++)
+			ret[i] = superList[i];
+
 		int index = superList.length;
-		ret[index]=btnRotateView;index++;
-		ret[index]=btnViewDirection;index++;
-		ret[index]=btnClipping;index++;
-		ret[index]=btnViewProjection;
+		ret[index] = btnRotateView;
+		index++;
+		ret[index] = btnViewDirection;
+		index++;
+		ret[index] = btnClipping;
+		index++;
+		ret[index] = btnViewProjection;
 		return ret;
 	}
-	
 
-	
-	
-	protected void setActionCommands(){
+	protected void setActionCommands() {
 		setActionCommand(btnShowGrid3D, "showGrid");
 		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
-	
-	protected void setAxesAndGridToolTips(Localization loc){
+
+	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid3D.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
-		btnShowAxesAndPlane.setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
+		btnShowAxesAndPlane
+		        .setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 	}
-	
-	protected void updateAxesAndGridGUI(){
+
+	protected void updateAxesAndGridGUI() {
 		btnShowGrid3D.removeValueChangeHandler();
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
@@ -495,5 +503,5 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnShowAxesAndPlane.setIndexFromEV();
 
 	}
-	
+
 }

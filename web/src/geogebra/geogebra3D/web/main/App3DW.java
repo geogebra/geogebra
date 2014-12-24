@@ -30,19 +30,20 @@ public class App3DW {
 	 * @param this_app
 	 * @return new kernel
 	 */
-	static final protected Kernel newKernel(App this_app){
+	static final protected Kernel newKernel(App this_app) {
 		return new Kernel3DW(this_app);
 	}
-	
+
 	/**
 	 * 
 	 * @param this_app
 	 * @return new Gui manager
 	 */
-	static final protected GuiManagerW newGuiManager(AppW this_app, GDevice device) {
+	static final protected GuiManagerW newGuiManager(AppW this_app,
+	        GDevice device) {
 		return new GuiManager3DW(this_app, device);
 	}
-	
+
 	/**
 	 * 
 	 * @param evPanel
@@ -53,9 +54,12 @@ public class App3DW {
 	 * @param settings
 	 * @return new euclidian view
 	 */
-	static final public EuclidianViewW newEuclidianView(EuclidianPanelWAbstract evPanel, EuclidianController ec, 
-			boolean[] showAxes, boolean showGrid, int id, EuclidianSettings settings){
-		return new EuclidianViewFor3DW(evPanel, ec, showAxes, showGrid, id, settings);
+	static final public EuclidianViewW newEuclidianView(
+	        EuclidianPanelWAbstract evPanel, EuclidianController ec,
+	        boolean[] showAxes, boolean showGrid, int id,
+	        EuclidianSettings settings) {
+		return new EuclidianViewFor3DW(evPanel, ec, showAxes, showGrid, id,
+		        settings);
 	}
 
 	/**
@@ -67,30 +71,34 @@ public class App3DW {
 		return new EuclidianControllerFor3DW(kernel);
 
 	}
-	
+
 	/**
 	 * 
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 * @return new controller for 3D view
 	 */
-	static final public EuclidianController3DW newEuclidianController3DW(Kernel kernel){
-		if(Browser.supportsWebGL()){
+	static final public EuclidianController3DW newEuclidianController3DW(
+	        Kernel kernel) {
+		if (Browser.supportsWebGL()) {
 			return new EuclidianController3DW(kernel);
 		}
-		
+
 		return new EuclidianController3DWnoWebGL(kernel);
 	}
-		
+
 	/**
 	 * 
-	 * @param ec controller for 3D view
+	 * @param ec
+	 *            controller for 3D view
 	 * @return new 3D view
 	 */
-	static final public EuclidianView3DW newEuclidianView3DW(EuclidianController3DW ec, EuclidianSettings settings){
-		if(Browser.supportsWebGL()){
+	static final public EuclidianView3DW newEuclidianView3DW(
+	        EuclidianController3DW ec, EuclidianSettings settings) {
+		if (Browser.supportsWebGL()) {
 			return new EuclidianView3DW(ec, settings);
 		}
-		
+
 		return new EuclidianView3DWnoWebGL(ec, settings);
 	}
 

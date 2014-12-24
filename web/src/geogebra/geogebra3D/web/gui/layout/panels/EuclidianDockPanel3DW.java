@@ -15,30 +15,29 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 	 */
 	public static final int DEFAULT_WIDTH = 480;
 
-
 	/**
 	 * constructor
-
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 * 
 	 */
 	public EuclidianDockPanel3DW(App app) {
-		super(
-				App.VIEW_EUCLIDIAN3D,	// view id 
-				"GraphicsView3D", 				// view title
-				ToolBar.getAllToolsNoMacros3D(),					// toolbar string
-				true,					// style bar?
-				4,							// menu order
-				'3' // ctrl-shift-3
-			);
+		super(App.VIEW_EUCLIDIAN3D, // view id
+		        "GraphicsView3D", // view title
+		        ToolBar.getAllToolsNoMacros3D(), // toolbar string
+		        true, // style bar?
+		        4, // menu order
+		        '3' // ctrl-shift-3
+		);
 		setViewImage(getResources().styleBar_graphics3dView());
 
 		this.app = (AppW) app;
 		this.setOpenInFrame(true);
 		this.setEmbeddedSize(DEFAULT_WIDTH);
-		
-	    //this.app = app;
-    }
+
+		// this.app = app;
+	}
 
 	@Override
 	protected Widget loadComponent() {
@@ -49,24 +48,19 @@ public class EuclidianDockPanel3DW extends EuclidianDockPanelWAbstract {
 
 	@Override
 	public void showView(boolean b) {
-		
+
 	}
-	
-	
+
 	@Override
 	protected Widget loadStyleBar() {
 		return (Widget) getEuclidianView().getStyleBar();
 	}
 
-
 	@Override
-    public EuclidianView3DW getEuclidianView() {
+	public EuclidianView3DW getEuclidianView() {
 		if (app != null)
 			return (EuclidianView3DW) app.getEuclidianView3D();
 		return null;
-    }
+	}
 
-	
-
-	
 }

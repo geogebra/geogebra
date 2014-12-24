@@ -27,275 +27,300 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Properties for 3D view (web)
+ * 
  * @author mathieu
  *
  */
 public class OptionsEuclidian3DW extends OptionsEuclidianW {
-	
+
 	private AxisTab zAxisTab;
-	
+
 	private ProjectionTab projectionTab;
-	
+
 	/**
 	 * basic tab for 3D
+	 * 
 	 * @author mathieu
 	 *
 	 */
 	protected class BasicTab3D extends BasicTab {
-		
+
 		private CheckBox cbYAxisVertical;
 		private CheckBox cbUseClipping, cbShowClipping;
 		private FlowPanel clippingOptionsPanel, boxSizePanel;
 		private Label clippingOptionsTitle, boxSizeTitle;
-		private RadioButton radioClippingSmall, radioClippingMedium, radioClippingLarge;
-		
+		private RadioButton radioClippingSmall, radioClippingMedium,
+		        radioClippingLarge;
+
 		/**
 		 * constructor
 		 */
 		public BasicTab3D() {
 			super();
-			
+
 			addClippingOptionsPanel();
-			
+
 		}
-		
+
 		@Override
-        protected void indentDimPanel(){
-			//TODO remove this and implement stuff for 3D
+		protected void indentDimPanel() {
+			// TODO remove this and implement stuff for 3D
 		}
-		
+
 		@Override
-        protected void addToDimPanel(Widget w){
-			//TODO remove this and implement stuff for 3D
+		protected void addToDimPanel(Widget w) {
+			// TODO remove this and implement stuff for 3D
 		}
-		
-		
+
 		@Override
-        protected void fillMiscPanel(){
-			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel, btBackgroundColor));
+		protected void fillMiscPanel() {
+			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel,
+			        btBackgroundColor));
 		}
-		
-		
+
 		@Override
-        protected void applyBackgroundColor(GColor color){
+		protected void applyBackgroundColor(GColor color) {
 			model.applyBackgroundColor(3, color);
 		}
-		
+
 		@Override
-        protected void addAxesOptionsPanel() {
-			
+		protected void addAxesOptionsPanel() {
+
 			cbYAxisVertical = new CheckBox();
 			cbYAxisVertical.setStyleName("YAxisVertical");
-			
-			cbYAxisVertical.addClickHandler(new ClickHandler(){
+
+			cbYAxisVertical.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setYAxisVertical(cbYAxisVertical.getValue());
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).setYAxisVertical(cbYAxisVertical
+					        .getValue());
 					view.repaintView();
-				}});
-			
+				}
+			});
+
 			super.addAxesOptionsPanel();
 		}
-		
+
 		@Override
-        protected void fillAxesOptionsPanel(){
+		protected void fillAxesOptionsPanel() {
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes));
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbYAxisVertical));
 		}
-		
-        private void addClippingOptionsPanel() {
-        	
-        	// clipping options panel
-        	clippingOptionsTitle = new Label();
-        	clippingOptionsTitle.setStyleName("panelTitle");
-        	clippingOptionsPanel = new FlowPanel();
-    		cbUseClipping = new CheckBox();
-    		cbUseClipping.setStyleName("checkBoxPanel");
-    		clippingOptionsPanel.add(cbUseClipping);
-    		//clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10, 0)));
-    		cbShowClipping = new CheckBox();
-    		cbShowClipping.setStyleName("checkBoxPanel");
-    		clippingOptionsPanel.add(cbShowClipping);
-    		
-    		add(clippingOptionsTitle);
+
+		private void addClippingOptionsPanel() {
+
+			// clipping options panel
+			clippingOptionsTitle = new Label();
+			clippingOptionsTitle.setStyleName("panelTitle");
+			clippingOptionsPanel = new FlowPanel();
+			cbUseClipping = new CheckBox();
+			cbUseClipping.setStyleName("checkBoxPanel");
+			clippingOptionsPanel.add(cbUseClipping);
+			// clippingOptionsPanel.add(Box.createRigidArea(new Dimension(10,
+			// 0)));
+			cbShowClipping = new CheckBox();
+			cbShowClipping.setStyleName("checkBoxPanel");
+			clippingOptionsPanel.add(cbShowClipping);
+
+			add(clippingOptionsTitle);
 			indent(clippingOptionsPanel);
 
-			cbUseClipping.addClickHandler(new ClickHandler(){
+			cbUseClipping.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setUseClippingCube(cbUseClipping.getValue());
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).setUseClippingCube(cbUseClipping
+					        .getValue());
 					view.repaintView();
-				}});
-			
-			cbShowClipping.addClickHandler(new ClickHandler(){
+				}
+			});
+
+			cbShowClipping.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).setShowClippingCube(cbShowClipping.getValue());
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).setShowClippingCube(cbShowClipping
+					        .getValue());
 					view.repaintView();
-				}});
-
+				}
+			});
 
 			// clipping box size
 			boxSizeTitle = new Label();
 			boxSizeTitle.setStyleName("panelTitle");
-        	boxSizePanel = new FlowPanel();
-        	radioClippingSmall = new RadioButton("radioClipping");
+			boxSizePanel = new FlowPanel();
+			radioClippingSmall = new RadioButton("radioClipping");
 			radioClippingMedium = new RadioButton("radioClipping");
 			radioClippingLarge = new RadioButton("radioClipping");
 			boxSizePanel.add(radioClippingSmall);
 			boxSizePanel.add(radioClippingMedium);
 			boxSizePanel.add(radioClippingLarge);
-			
+
 			add(boxSizeTitle);
 			indent(boxSizePanel);
 
-			radioClippingSmall.addClickHandler(new ClickHandler(){
+			radioClippingSmall.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings().setClippingReduction(GeoClippingCube3D.REDUCTION_SMALL);
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).getSettings()
+					        .setClippingReduction(
+					                GeoClippingCube3D.REDUCTION_SMALL);
 					view.repaintView();
-				}});
+				}
+			});
 
-			radioClippingMedium.addClickHandler(new ClickHandler(){
+			radioClippingMedium.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings().setClippingReduction(GeoClippingCube3D.REDUCTION_MEDIUM);
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).getSettings()
+					        .setClippingReduction(
+					                GeoClippingCube3D.REDUCTION_MEDIUM);
 					view.repaintView();
-				}});
+				}
+			});
 
-			radioClippingLarge.addClickHandler(new ClickHandler(){
+			radioClippingLarge.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings().setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).getSettings()
+					        .setClippingReduction(
+					                GeoClippingCube3D.REDUCTION_LARGE);
 					view.repaintView();
-				}});
+				}
+			});
 
 		}
-        
-        /**
-         * update clipping properties (use and size)
-         */
-        public void update3DProperties(){
-        	
-        	cbYAxisVertical.setValue(((EuclidianView3D) view).getYAxisVertical());
-        	
-        	cbUseClipping.setValue(((EuclidianView3D) view).useClippingCube());
-        	cbShowClipping.setValue(((EuclidianView3D) view).showClippingCube());
-        	
-    		int flag = ((EuclidianView3D) view).getClippingReduction();
-    		radioClippingSmall
-    				.setValue(flag == GeoClippingCube3D.REDUCTION_SMALL);
-    		radioClippingMedium
-    				.setValue(flag == GeoClippingCube3D.REDUCTION_MEDIUM);
-    		radioClippingLarge
-    				.setValue(flag == GeoClippingCube3D.REDUCTION_LARGE);
-        	
-        }
-        
+
+		/**
+		 * update clipping properties (use and size)
+		 */
+		public void update3DProperties() {
+
+			cbYAxisVertical.setValue(((EuclidianView3D) view)
+			        .getYAxisVertical());
+
+			cbUseClipping.setValue(((EuclidianView3D) view).useClippingCube());
+			cbShowClipping
+			        .setValue(((EuclidianView3D) view).showClippingCube());
+
+			int flag = ((EuclidianView3D) view).getClippingReduction();
+			radioClippingSmall
+			        .setValue(flag == GeoClippingCube3D.REDUCTION_SMALL);
+			radioClippingMedium
+			        .setValue(flag == GeoClippingCube3D.REDUCTION_MEDIUM);
+			radioClippingLarge
+			        .setValue(flag == GeoClippingCube3D.REDUCTION_LARGE);
+
+		}
+
 		@Override
-        public void setLabels() {
+		public void setLabels() {
 			super.setLabels();
-			
+
 			cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
-			
+
 			clippingOptionsTitle.setText(app.getPlain("Clipping"));
 			cbUseClipping.setText(app.getPlain("UseClipping"));
 			cbShowClipping.setText(app.getPlain("ShowClipping"));
-			
+
 			boxSizeTitle.setText(app.getPlain("BoxSize"));
 			radioClippingSmall.setText(app.getPlain("BoxSize.small"));
 			radioClippingMedium.setText(app.getPlain("BoxSize.medium"));
 			radioClippingLarge.setText(app.getPlain("BoxSize.large"));
 		}
-		
-		
+
 	}
-	
+
 	@Override
-    protected GridTab newGridTab(){
+	protected GridTab newGridTab() {
 		return new GridTab3D();
 	}
 
-	
 	private class GridTab3D extends GridTab {
 
 		public GridTab3D() {
-	       super();
-        }
-		
+			super();
+		}
+
 		@Override
-        protected void addGridType(FlowPanel gridTickAnglePanel){
+		protected void addGridType(FlowPanel gridTickAnglePanel) {
 			// TODO remove this when implemented
 		}
 
 		@Override
-        protected void addOnlyFor2D(Widget w){
+		protected void addOnlyFor2D(Widget w) {
 			// TODO remove this when implemented
 		}
-		
-		protected void setGridTypeLabel(){
-			lblGridType.setText(app.getPlain("GridType")+" : "+app.getMenu("Cartesian"));
+
+		protected void setGridTypeLabel() {
+			lblGridType.setText(app.getPlain("GridType") + " : "
+			        + app.getMenu("Cartesian"));
 		}
 	}
-	
-	
+
 	private class ProjectionTab extends EuclidianTab {
-		
+
 		private ProjectionButtons projectionButtons;
-		
+
 		private FlowPanel orthoPanel, perspPanel, obliquePanel, glassesPanel;
 		private Label orthoTitle, perspTitle, obliqueTitle, glassesTitle;
 
-		private AutoCompleteTextFieldW tfPersp, tfGlassesEyeSep, tfObliqueAngle, tfObliqueFactor;
-		private Label tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel, tfObliqueFactorLabel;
+		private AutoCompleteTextFieldW tfPersp, tfGlassesEyeSep,
+		        tfObliqueAngle, tfObliqueFactor;
+		private Label tfPerspLabel, tfGlassesLabel, tfObliqueAngleLabel,
+		        tfObliqueFactorLabel;
 		private CheckBox cbGlassesGray, cbGlassesShutDownGreen;
-		
+
 		private class ProjectionButtons {
 
 			private ToggleButton[] buttons;
 
 			private int buttonSelected;
 
-			
 			private class ClickHandleProjectionButton implements ClickHandler {
-				
-				private int index; 
-				
+
+				private int index;
+
 				/**
 				 * constructor
-				 * @param index button index
+				 * 
+				 * @param index
+				 *            button index
 				 */
-				public ClickHandleProjectionButton(int index){
+				public ClickHandleProjectionButton(int index) {
 					this.index = index;
 				}
 
 				@Override
-                public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings().setProjection(index);	 
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).getSettings().setProjection(index);
 					view.repaintView();
-                }
-				
+				}
+
 			}
 
 			private ProjectionButtons() {
 
-
 				buttons = new ToggleButton[4];
 
-				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new ToggleButton(new Image(StyleBar3DResources.INSTANCE.viewOrthographic()));
-				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new ToggleButton(new Image(StyleBar3DResources.INSTANCE.viewPerspective()));
-				buttons[EuclidianView3D.PROJECTION_GLASSES] = new ToggleButton(new Image(StyleBar3DResources.INSTANCE.viewGlasses()));
-				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new ToggleButton(new Image(StyleBar3DResources.INSTANCE.viewOblique()));
+				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new ToggleButton(
+				        new Image(StyleBar3DResources.INSTANCE
+				                .viewOrthographic()));
+				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new ToggleButton(
+				        new Image(
+				                StyleBar3DResources.INSTANCE.viewPerspective()));
+				buttons[EuclidianView3D.PROJECTION_GLASSES] = new ToggleButton(
+				        new Image(StyleBar3DResources.INSTANCE.viewGlasses()));
+				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new ToggleButton(
+				        new Image(StyleBar3DResources.INSTANCE.viewOblique()));
 
-
-				for (int i = 0; i < 4; i++){
-					buttons[i].addClickHandler(new ClickHandleProjectionButton(i));
+				for (int i = 0; i < 4; i++) {
+					buttons[i].addClickHandler(new ClickHandleProjectionButton(
+					        i));
 				}
 
 				buttonSelected = ((EuclidianView3D) view).getProjection();
@@ -314,54 +339,53 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			}
 
 		}
-		
+
 		public ProjectionTab() {
 			super();
-			
+
 			projectionButtons = new ProjectionButtons();
-			
-			
+
 			// orthographic projection
 			orthoTitle = new Label("");
 			orthoTitle.setStyleName("panelTitle");
 			orthoPanel = new FlowPanel();
-			orthoPanel.add(projectionButtons.getButton(EuclidianView3D.PROJECTION_ORTHOGRAPHIC));
+			orthoPanel.add(projectionButtons
+			        .getButton(EuclidianView3D.PROJECTION_ORTHOGRAPHIC));
 			add(orthoTitle);
 			indent(orthoPanel);
-			
-			
+
 			// perspective projection
 			perspTitle = new Label("");
 			perspTitle.setStyleName("panelTitle");
-			perspPanel = new FlowPanel();		
+			perspPanel = new FlowPanel();
 			tfPerspLabel = new Label("");
 			tfPersp = getTextField();
 			tfPersp.addKeyHandler(new KeyHandler() {
 
 				@Override
-                public void keyReleased(KeyEvent e) {
+				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processPerspText();
 					}
-				}});
+				}
+			});
 
-			tfPersp.addFocusListener(new FocusListenerW(this){
+			tfPersp.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					processPerspText();
-				}	
+				}
 			});
 			FlowPanel tfPerspPanel = new FlowPanel();
 			tfPerspPanel.setStyleName("panelRowCell");
 			tfPerspPanel.add(tfPerspLabel);
 			tfPerspPanel.add(tfPersp);
-			perspPanel.add(LayoutUtil.panelRow(
-					projectionButtons.getButton(EuclidianView3D.PROJECTION_PERSPECTIVE), 
-					tfPerspPanel));
+			perspPanel.add(LayoutUtil.panelRow(projectionButtons
+			        .getButton(EuclidianView3D.PROJECTION_PERSPECTIVE),
+			        tfPerspPanel));
 			add(perspTitle);
 			indent(perspPanel);
-			
-			
+
 			// glasses projection (two images)
 			glassesTitle = new Label("");
 			glassesTitle.setStyleName("panelTitle");
@@ -371,49 +395,51 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfGlassesEyeSep.addKeyHandler(new KeyHandler() {
 
 				@Override
-                public void keyReleased(KeyEvent e) {
+				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processGlassesEyeSepText();
 					}
-				}});
-			tfGlassesEyeSep.addFocusListener(new FocusListenerW(this){
+				}
+			});
+			tfGlassesEyeSep.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					processGlassesEyeSepText();
-				}	
+				}
 			});
 			cbGlassesGray = new CheckBox(app.getPlain("GrayScale"));
-			cbGlassesGray.addClickHandler(new ClickHandler(){
+			cbGlassesGray.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
+				public void onClick(ClickEvent event) {
 					((EuclidianView3D) view).setGlassesGrayScaled(cbGlassesGray
-							.getValue());
+					        .getValue());
 					view.repaintView();
-                }});		
-			cbGlassesShutDownGreen= new CheckBox(app.getPlain("ShutDownGreen"));
-			cbGlassesShutDownGreen.addClickHandler(new ClickHandler(){
+				}
+			});
+			cbGlassesShutDownGreen = new CheckBox(app.getPlain("ShutDownGreen"));
+			cbGlassesShutDownGreen.addClickHandler(new ClickHandler() {
 
 				@Override
-                public void onClick(ClickEvent event) {
+				public void onClick(ClickEvent event) {
 					((EuclidianView3D) view)
-					.setGlassesShutDownGreen(cbGlassesShutDownGreen
-							.getValue());
+					        .setGlassesShutDownGreen(cbGlassesShutDownGreen
+					                .getValue());
 					view.repaintView();
-                }});
+				}
+			});
 			FlowPanel tfGlassesPanel = new FlowPanel();
 			tfGlassesPanel.setStyleName("panelRowCell");
 			tfGlassesPanel.add(tfGlassesLabel);
 			tfGlassesPanel.add(tfGlassesEyeSep);
 			tfGlassesPanel.add(cbGlassesGray);
 			tfGlassesPanel.add(cbGlassesShutDownGreen);
-			glassesPanel.add(LayoutUtil.panelRow(
-					projectionButtons.getButton(EuclidianView3D.PROJECTION_GLASSES), 
-					tfGlassesPanel));
+			glassesPanel.add(LayoutUtil.panelRow(projectionButtons
+			        .getButton(EuclidianView3D.PROJECTION_GLASSES),
+			        tfGlassesPanel));
 			add(glassesTitle);
 			indent(glassesPanel);
 
-			
 			// oblique projection
 			obliqueTitle = new Label("");
 			obliqueTitle.setStyleName("panelTitle");
@@ -423,34 +449,36 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliqueAngle.addKeyHandler(new KeyHandler() {
 
 				@Override
-                public void keyReleased(KeyEvent e) {
+				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processObliqueAngleText();
 					}
-				}});
+				}
+			});
 
-			tfObliqueAngle.addFocusListener(new FocusListenerW(this){
+			tfObliqueAngle.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					processObliqueAngleText();
-				}	
+				}
 			});
 			tfObliqueFactorLabel = new Label("");
 			tfObliqueFactor = getTextField();
 			tfObliqueFactor.addKeyHandler(new KeyHandler() {
 
 				@Override
-                public void keyReleased(KeyEvent e) {
+				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						processObliqueFactorText();
 					}
-				}});
+				}
+			});
 
-			tfObliqueFactor.addFocusListener(new FocusListenerW(this){
+			tfObliqueFactor.addFocusListener(new FocusListenerW(this) {
 				@Override
-				protected void wrapFocusLost(){
+				protected void wrapFocusLost() {
 					processObliqueFactorText();
-				}	
+				}
 			});
 			FlowPanel tfObliquePanel = new FlowPanel();
 			tfObliquePanel.setStyleName("panelRowCell");
@@ -458,16 +486,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			tfObliquePanel.add(tfObliqueAngle);
 			tfObliquePanel.add(tfObliqueFactorLabel);
 			tfObliquePanel.add(tfObliqueFactor);
-			obliquePanel.add(LayoutUtil.panelRow(
-					projectionButtons.getButton(EuclidianView3D.PROJECTION_OBLIQUE), 
-					tfObliquePanel));
+			obliquePanel.add(LayoutUtil.panelRow(projectionButtons
+			        .getButton(EuclidianView3D.PROJECTION_OBLIQUE),
+			        tfObliquePanel));
 			add(obliqueTitle);
 			indent(obliquePanel);
-			
 
 		}
-		
-		protected void processPerspText(){
+
+		protected void processPerspText() {
 			try {
 				double val = Double.parseDouble(tfPersp.getText());
 				if (!Double.isNaN(val)) {
@@ -478,17 +505,17 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 					}
 
 					((EuclidianView3D) view)
-							.setProjectionPerspectiveEyeDistance(val);
+					        .setProjectionPerspectiveEyeDistance(val);
 					view.repaintView();
 				}
 			} catch (NumberFormatException e) {
 				tfPersp.setText(""
-						+ ((EuclidianView3D) view)
-								.getProjectionPerspectiveEyeDistance());
+				        + ((EuclidianView3D) view)
+				                .getProjectionPerspectiveEyeDistance());
 			}
 		}
-		
-		protected void processGlassesEyeSepText(){
+
+		protected void processGlassesEyeSepText() {
 			try {
 				double val = Double.parseDouble(tfGlassesEyeSep.getText());
 				if (!Double.isNaN(val)) {
@@ -502,11 +529,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""
-						+ ((EuclidianView3D) view).getEyeSep());
+				        + ((EuclidianView3D) view).getEyeSep());
 			}
 		}
 
-		protected void processObliqueAngleText(){
+		protected void processObliqueAngleText() {
 			try {
 				double val = Double.parseDouble(tfObliqueAngle.getText());
 				if (!Double.isNaN(val)) {
@@ -516,12 +543,11 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueAngle.setText(""
-						+ ((EuclidianView3D) view).getProjectionObliqueAngle());
+				        + ((EuclidianView3D) view).getProjectionObliqueAngle());
 			}
 		}
-		
 
-		protected void processObliqueFactorText(){
+		protected void processObliqueFactorText() {
 			try {
 				double val = Double.parseDouble(tfObliqueFactor.getText());
 				if (!Double.isNaN(val)) {
@@ -534,130 +560,124 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				}
 			} catch (NumberFormatException e) {
 				tfObliqueFactor
-						.setText(""
-								+ ((EuclidianView3D) view)
-										.getProjectionObliqueFactor());
+				        .setText(""
+				                + ((EuclidianView3D) view)
+				                        .getProjectionObliqueFactor());
 			}
 		}
-		
 
-		
 		protected void indent(FlowPanel panel) {
 			FlowPanel indent = new FlowPanel();
 			indent.setStyleName("panelIndent");
 			indent.add(panel);
 			add(indent);
-	
-        }
-		
-		
+
+		}
 
 		@Override
-        public void setLabels() {
+		public void setLabels() {
 			orthoTitle.setText(app.getPlain("Orthographic"));
-			
+
 			perspTitle.setText(app.getPlain("Perspective"));
-			tfPerspLabel.setText(app.getPlain(app.getPlain("EyeDistance") + ":"));
-			
+			tfPerspLabel
+			        .setText(app.getPlain(app.getPlain("EyeDistance") + ":"));
+
 			glassesTitle.setText(app.getPlain("Glasses"));
 			tfGlassesLabel.setText(app.getPlain("EyesSeparation") + ":");
 			cbGlassesGray.setText(app.getPlain("GrayScale"));
 			cbGlassesShutDownGreen.setText(app.getPlain("ShutDownGreen"));
-		
-			
+
 			obliqueTitle.setText(app.getPlain("Oblique"));
 			tfObliqueAngleLabel.setText(app.getPlain("Angle") + ":");
 			tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
 
-	        
-        }
-		
+		}
+
 		/**
 		 * update text values
 		 */
-		public void updateGUI(){
-			tfPersp.setText("" + ((EuclidianView3D) view).getProjectionPerspectiveEyeDistance());
+		public void updateGUI() {
+			tfPersp.setText(""
+			        + ((EuclidianView3D) view)
+			                .getProjectionPerspectiveEyeDistance());
 			tfGlassesEyeSep.setText("" + ((EuclidianView3D) view).getEyeSep());
 			cbGlassesGray.setValue(((EuclidianView3D) view)
-					.isGlassesGrayScaled());
+			        .isGlassesGrayScaled());
 			cbGlassesShutDownGreen.setValue(((EuclidianView3D) view)
-					.isGlassesShutDownGreen());
+			        .isGlassesShutDownGreen());
 			tfObliqueAngle.setText(""
-					+ ((EuclidianView3D) view).getProjectionObliqueAngle());
+			        + ((EuclidianView3D) view).getProjectionObliqueAngle());
 			tfObliqueFactor.setText(""
-					+ ((EuclidianView3D) view).getProjectionObliqueFactor());
+			        + ((EuclidianView3D) view).getProjectionObliqueFactor());
 
-			
 		}
 	}
 
 	/**
 	 * constructor
-	 * @param app application
-	 * @param view 3D view
+	 * 
+	 * @param app
+	 *            application
+	 * @param view
+	 *            3D view
 	 */
 	public OptionsEuclidian3DW(AppW app, EuclidianViewInterfaceCommon view) {
-	    super(app, view);
+		super(app, view);
 
-    }
-	
-	
+	}
+
 	@Override
-    protected BasicTab newBasicTab(){
+	protected BasicTab newBasicTab() {
 		return new BasicTab3D();
 	}
 
 	@Override
-    public void updateGUI() {
+	public void updateGUI() {
 		((BasicTab3D) basicTab).update3DProperties();
 		projectionTab.updateGUI();
 		super.updateGUI();
 	}
-	
+
 	@Override
-    public void setLabels() {
-		
+	public void setLabels() {
+
 		TabBar tabBar = tabPanel.getTabBar();
-		
-	    super.setLabels(tabBar, 4);
-	    
-	    tabBar.setTabText(3, app.getPlain("zAxis"));
-	    zAxisTab.setLabels();
-	    
-	    tabBar.setTabText(5, app.getPlain("Projection"));
-	    projectionTab.setLabels();
-	    
-    }
-	
+
+		super.setLabels(tabBar, 4);
+
+		tabBar.setTabText(3, app.getPlain("zAxis"));
+		zAxisTab.setLabels();
+
+		tabBar.setTabText(5, app.getPlain("Projection"));
+		projectionTab.setLabels();
+
+	}
+
 	@Override
-    protected void addAxesTabs(){
+	protected void addAxesTabs() {
 		super.addAxesTabs();
 		addZAxisTab();
 	}
-	
+
 	@Override
-    protected AxisTab newAxisTab(int axis){
+	protected AxisTab newAxisTab(int axis) {
 		return new AxisTab(axis, true);
 	}
-	
+
 	private void addZAxisTab() {
 		zAxisTab = newAxisTab(EuclidianOptionsModel.Z_AXIS);
 		tabPanel.add(zAxisTab, "z");
 	}
-	
+
 	@Override
-    protected void addTabs(){
+	protected void addTabs() {
 		super.addTabs();
 		addProjectionTab();
 	}
-	
+
 	private void addProjectionTab() {
 		projectionTab = new ProjectionTab();
 		tabPanel.add(projectionTab, "projection");
 	}
-	
-	
-	
-	
-	
+
 }

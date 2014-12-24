@@ -20,18 +20,15 @@ import geogebra.html5.euclidian.EuclidianControllerW;
 /**
  * euclidian controller for 2D view with 3D geos
  */
-public class EuclidianControllerFor3DW extends
-		EuclidianControllerW {
+public class EuclidianControllerFor3DW extends EuclidianControllerW {
 
 	public EuclidianControllerFor3DW(Kernel kernel) {
 		super(kernel);
 	}
-	
 
 	@Override
-	protected EuclidianControllerCompanion newCompanion(){
+	protected EuclidianControllerCompanion newCompanion() {
 		return new EuclidianControllerFor3DCompanion(this);
 	}
-	
 
 }
