@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel;
 
@@ -16,11 +16,12 @@ package geogebra.common.kernel;
  * @author Markus Hohenwarter
  */
 public class PathParameter {
-	/** parameter value*/
+	/** parameter value */
 	public double t;
 	private int pathType = -1;
-	
-	//private boolean isDefined; //tells if parameters have been fed with "real" numbers
+
+	// private boolean isDefined; //tells if parameters have been fed with
+	// "real" numbers
 
 	/**
 	 * Creates new path parameter
@@ -28,24 +29,28 @@ public class PathParameter {
 	public PathParameter() {
 		t = Double.NaN;
 	}
-	
+
 	/**
 	 * Copy constructor
-	 * @param pp path parameter to copy
+	 * 
+	 * @param pp
+	 *            path parameter to copy
 	 */
-	public PathParameter(PathParameter pp){
+	public PathParameter(PathParameter pp) {
 		set(pp);
 	}
-	
+
 	/**
-	 * @param t value of parameter
+	 * @param t
+	 *            value of parameter
 	 */
 	public PathParameter(double t) {
 		this.t = t;
 	}
-	
+
 	/**
-	 * @param pp path parameter to copy
+	 * @param pp
+	 *            path parameter to copy
 	 */
 	final public void set(PathParameter pp) {
 		t = pp.t;
@@ -60,7 +65,8 @@ public class PathParameter {
 	}
 
 	/**
-	 * @param pathType new path type (for conics conic type)
+	 * @param pathType
+	 *            new path type (for conics conic type)
 	 */
 	public final void setPathType(int pathType) {
 		this.pathType = pathType;
@@ -72,19 +78,19 @@ public class PathParameter {
 	public final double getT() {
 		return t;
 	}
-	
+
 	/**
-	 * @param t new value of parameter
+	 * @param t
+	 *            new value of parameter
 	 */
 	public final void setT(double t) {
-		if (Double.isNaN(t)){
-			//isDefined=false;
+		if (Double.isNaN(t)) {
+			// isDefined=false;
 			return;
 		}
-		
+
 		this.t = t;
-		//isDefined=true;
+		// isDefined=true;
 	}
-	
-	
+
 }

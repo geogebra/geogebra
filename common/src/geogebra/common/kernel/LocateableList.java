@@ -6,8 +6,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 import java.util.ArrayList;
 
-
-
 /**
  * List of Locateables linked to a point
  * 
@@ -16,77 +14,72 @@ import java.util.ArrayList;
  */
 
 public class LocateableList extends ArrayList<Locateable> {
-	
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 9060255316180319972L;
 	private GeoPointND point;
 
-	
-	/** constructor
-	 * @param point point
+	/**
+	 * constructor
+	 * 
+	 * @param point
+	 *            point
 	 */
-	public LocateableList(GeoPointND point){
+	public LocateableList(GeoPointND point) {
 		super();
 		this.point = point;
 	}
-	
-	
+
 	/**
-	 * Tells this point that the given Locateable has this point
-	 * as start point.
-	 * @param l locateable
+	 * Tells this point that the given Locateable has this point as start point.
+	 * 
+	 * @param l
+	 *            locateable
 	 */
-	public void registerLocateable(Locateable l) {	
-		if (contains(l)) return;
-		
+	public void registerLocateable(Locateable l) {
+		if (contains(l))
+			return;
+
 		// add only locateables that are not already
 		// part of the updateSet of this point
 		AlgoElement parentAlgo = l.toGeoElement().getParentAlgorithm();
-		if (parentAlgo == null ||
-			!(((GeoElement) point).algoUpdateSetContains(parentAlgo))) {
+		if (parentAlgo == null
+				|| !(((GeoElement) point).algoUpdateSetContains(parentAlgo))) {
 			// add the locatable
-			add(l);			
+			add(l);
 		}
 	}
-	
-	
+
 	/**
-	 * Tells this point that the given Locatable no longer has this point
-	 * as start point.
-	 * @param l locateable
+	 * Tells this point that the given Locatable no longer has this point as
+	 * start point.
+	 * 
+	 * @param l
+	 *            locateable
 	 */
 	public void unregisterLocateable(Locateable l) {
 		remove(l);
 	}
-	
-	
-	
-	
+
 	/**
-	 * Tells Locateables that their start point is removed
-	 * and calls super.remove()
+	 * Tells Locateables that their start point is removed and calls
+	 * super.remove()
 	 */
-	public void doRemove(){
-		
+	public void doRemove() {
+
 		// copy locateableList into array
-		Object [] locs = toArray();	
+		Object[] locs = toArray();
 		clear();
-		
-		// tell all locateables 
-		for (int i=0; i < locs.length; i++) {		
+
+		// tell all locateables
+		for (int i = 0; i < locs.length; i++) {
 			Locateable loc = (Locateable) locs[i];
-			loc.removeStartPoint(point);				
-			loc.toGeoElement().updateCascade();			
-		}		
-		
+			loc.removeStartPoint(point);
+			loc.toGeoElement().updateCascade();
+		}
+
 	}
-	
-	
-	
-	
-	
-	
 
 }

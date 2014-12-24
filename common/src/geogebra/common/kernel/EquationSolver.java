@@ -26,6 +26,7 @@ import org.apache.commons.math.analysis.solvers.LaguerreSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolver;
 import org.apache.commons.math.analysis.solvers.UnivariateRealSolverFactory;
 import org.apache.commons.math.complex.Complex;
+
 /**
  * Class for solving polynomial equations
  */
@@ -34,9 +35,12 @@ public class EquationSolver implements EquationSolverInterface {
 	private static final double LAGUERRE_EPS = 1E-5;
 	private LaguerreSolver laguerreSolver;
 	private UnivariateRealSolver rootFinderBrent, rootFinderNewton;
+
 	/**
 	 * Createsnew equation solver
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public EquationSolver(Kernel kernel) {
 		// we need someone to polish our roots
@@ -86,7 +90,6 @@ public class EquationSolver implements EquationSolverInterface {
 		return Math.max(0, realRoots);
 	}
 
-	
 	final public int polynomialComplexRoots(double[] real, double complex[]) {
 		int ret = -1;
 		switch (real.length - 1) { // degree of polynomial
@@ -134,13 +137,12 @@ public class EquationSolver implements EquationSolverInterface {
 		return solveQuadratic(eqn, eqn, Kernel.STANDARD_PRECISION);
 	}
 
-	
-	final public int solveQuadratic(double eqn[], double res[],double eps) {
+	final public int solveQuadratic(double eqn[], double res[], double eps) {
 		double a = eqn[2];
 		double b = eqn[1];
 		double c = eqn[0];
 		int roots = 0;
-		
+
 		if (Math.abs(a) < eps) {
 			// The quadratic parabola has degenerated to a line.
 			if (Math.abs(b) < eps)
@@ -148,17 +150,17 @@ public class EquationSolver implements EquationSolverInterface {
 				return -1;
 			res[roots++] = -c / b;
 
-		} else if (Math.abs(b) < eps * a){ // a*x^2 + c = 0
+		} else if (Math.abs(b) < eps * a) { // a*x^2 + c = 0
 			double x2 = -c / a;
-			if (Kernel.isZero(x2, eps)){
+			if (Kernel.isZero(x2, eps)) {
 				res[roots++] = 0;
-			} else if (x2 < 0){ // no roots			
+			} else if (x2 < 0) { // no roots
 				return 0;
-			}else{
+			} else {
 				res[roots++] = Math.sqrt(x2);
 				res[roots++] = -Math.sqrt(x2);
 			}
-			
+
 		} else {
 			// From Numerical Recipes, 5.6, Quadratic and Cubic Equations
 			double d = b * b - 4.0 * a * c;
@@ -188,8 +190,10 @@ public class EquationSolver implements EquationSolverInterface {
 	}
 
 	/**
-	 * @param real put coefficients here on input, receive real parts on output
-	 * @param complex imaginary parts on output
+	 * @param real
+	 *            put coefficients here on input, receive real parts on output
+	 * @param complex
+	 *            imaginary parts on output
 	 * @return number of roots
 	 */
 	final public static int solveQuadraticComplex(double real[],
@@ -272,7 +276,7 @@ public class EquationSolver implements EquationSolverInterface {
 	 * 
 	 * solve_cubic.c - finds the real roots of x^3 + a x^2 + b x + c = 0
 	 */
-	final public int solveCubic(double eqn[], double res[],double eps) {
+	final public int solveCubic(double eqn[], double res[], double eps) {
 
 		int roots = 0;
 		double d = eqn[3];
@@ -305,14 +309,15 @@ public class EquationSolver implements EquationSolverInterface {
 
 		// Application.debug(Math.abs(CR2 - CQ3)+"");
 
-		if (Math.abs(R) < Kernel.STANDARD_PRECISION && Math.abs(Q) < Kernel.STANDARD_PRECISION) // if
-																			// (R
-																			// ==
-																			// 0
-																			// &&
-																			// Q
-																			// ==
-																			// 0)
+		if (Math.abs(R) < Kernel.STANDARD_PRECISION
+				&& Math.abs(Q) < Kernel.STANDARD_PRECISION) // if
+		// (R
+		// ==
+		// 0
+		// &&
+		// Q
+		// ==
+		// 0)
 		{
 			res[roots++] = -a / 3;
 			res[roots++] = -a / 3;
@@ -326,19 +331,22 @@ public class EquationSolver implements EquationSolverInterface {
 		// |2a+3| *kernel.STANDARD_PRECISION
 		// for simplicity, it (may be) about 10* max(CR2,CR3)/|2a+3| *
 		// kernel.STANDARD_PRECISION
-		// else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * kernel.STANDARD_PRECISION)
+		// else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) *
+		// kernel.STANDARD_PRECISION)
 		// // else if (CR2 == CQ3)
 		else if (Math.abs(CR2 - CQ3) < Math.max(CR2, CQ3) * 10
-				/ Math.max(1, Math.abs(2 * a + 3)) * Kernel.STANDARD_PRECISION) // else if
-																		// (CR2
-																		// ==
-																		// CQ3)
+				/ Math.max(1, Math.abs(2 * a + 3)) * Kernel.STANDARD_PRECISION) // else
+																				// if
+		// (CR2
+		// ==
+		// CQ3)
 		{
 			// this test is actually R2 == Q3, written in a form suitable
 			// for exact computation with integers
 
 			// Due to finite precision some double roots may be missed, and
-			// considered to be a pair of complex roots z = x +/- kernel.STANDARD_PRECISION
+			// considered to be a pair of complex roots z = x +/-
+			// kernel.STANDARD_PRECISION
 			// i
 			// close to the real axis.
 
@@ -381,7 +389,6 @@ public class EquationSolver implements EquationSolverInterface {
 		}
 	}// */
 
-	
 	/*
 	 * This pruning step is necessary since solveCubic uses the cosine function
 	 * to calculate the roots when there are 3 of them. Since the cosine method
@@ -727,7 +734,7 @@ public class EquationSolver implements EquationSolverInterface {
 	public int solveQuartic(double eqn[], double res[], double eps) {
 
 		if (Math.abs(eqn[4]) < 0)
-			return solveCubic(eqn, res,  Kernel.STANDARD_PRECISION);
+			return solveCubic(eqn, res, Kernel.STANDARD_PRECISION);
 
 		double a = eqn[3] / eqn[4], b = eqn[2] / eqn[4], c = eqn[1] / eqn[4], d = eqn[0]
 				/ eqn[4];
@@ -1000,6 +1007,7 @@ public class EquationSolver implements EquationSolverInterface {
 	/**
 	 * Returns a comparator for Complex objects. (sorts on real part coordinate)
 	 * If equal does return zero (deletes duplicates!)
+	 * 
 	 * @return comparator for complex numbers
 	 */
 	public static Comparator<Complex> getComparatorReal() {

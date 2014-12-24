@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel;
 
@@ -18,5 +18,5 @@ import geogebra.common.kernel.kernelND.GeoElementND;
  * @author Markus Hohenwarter
  */
 public interface Path extends PathOrPoint, GeoElementND {
-	//just tagging interface
+	// just tagging interface
 }

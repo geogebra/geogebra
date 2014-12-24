@@ -19,7 +19,9 @@ import java.util.ArrayList;
 
 /**
  * Path mover for locus
- * @param <T> for 2D/3D locus
+ * 
+ * @param <T>
+ *            for 2D/3D locus
  */
 public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 
@@ -29,7 +31,8 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	/**
 	 * Creates new path mover for given locus
 	 * 
-	 * @param locus locus
+	 * @param locus
+	 *            locus
 	 */
 	public PathMoverLocus(GeoLocusND<T> locus) {
 		super(locus);
@@ -173,7 +176,8 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	}
 
 	/**
-	 * @param new_param param of next point
+	 * @param new_param
+	 *            param of next point
 	 * @return true if there is not continous line from cur_param to new_param
 	 */
 	protected boolean noLineTo(double new_param) {
@@ -203,9 +207,10 @@ public class PathMoverLocus<T extends MyPoint> extends PathMoverGeneric {
 	}
 
 	/**
-	 * @param param initial parameter
-	 * @return parameter of nearest point with line to / move to
-	 *         or min/max param if not found 
+	 * @param param
+	 *            initial parameter
+	 * @return parameter of nearest point with line to / move to or min/max
+	 *         param if not found
 	 */
 	protected double borderParam(double param) {
 

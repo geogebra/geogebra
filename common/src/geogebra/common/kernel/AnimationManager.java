@@ -11,25 +11,25 @@ import java.util.TreeSet;
  * Updates all animated geos based on slider ticks
  */
 public abstract class AnimationManager {
-	/** animation time*/
+	/** animation time */
 	public final static int STANDARD_ANIMATION_TIME = 10; // secs
-	/** max frames per second*/
+	/** max frames per second */
 	public final static int MAX_ANIMATION_FRAME_RATE = 30; // frames per second
 	/** min frames per second */
 	public final static int MIN_ANIMATION_FRAME_RATE = 2; // frames per second
 	/** kernel */
 	protected Kernel kernel;
-	/** animated geos*/
+	/** animated geos */
 	protected ArrayList<GeoElement> animatedGeos;
-	/** changed geos*/
+	/** changed geos */
 	protected ArrayList<Animatable> changedGeos;
-	/** current frame rate*/
+	/** current frame rate */
 	protected double frameRate = MAX_ANIMATION_FRAME_RATE;
 	private boolean needToShowAnimationButton;
-	
-	
+
 	/**
-	 * @param kernel2 kernel
+	 * @param kernel2
+	 *            kernel
 	 */
 	public AnimationManager(Kernel kernel2) {
 		this.kernel = kernel2;
@@ -41,6 +41,7 @@ public abstract class AnimationManager {
 	 * Returns whether the animation button needs to be drawn in the graphics
 	 * view. This is only needed when there are animated geos with non-dynamic
 	 * speed.
+	 * 
 	 * @return true if we need to draw animation button
 	 */
 	final public boolean needToShowAnimationButton() {
@@ -121,16 +122,17 @@ public abstract class AnimationManager {
 			updateNeedToShowAnimationButton();
 		}
 	}
-	
+
 	/**
 	 * Returns whether the animation is currently paused, i.e. the animation is
 	 * not running but there are elements with "Animation on" set.
+	 * 
 	 * @return true when paused
 	 */
 	public boolean isPaused() {
 		return !isRunning() && animatedGeos.size() > 0;
 	}
-	
+
 	/**
 	 * Empties list of animated geos
 	 */
@@ -143,7 +145,7 @@ public abstract class AnimationManager {
 		animatedGeos.clear();
 		updateNeedToShowAnimationButton();
 	}
-	
+
 	/**
 	 * Adapts the frame rate depending on how long it took to compute the last
 	 * frame.
@@ -174,7 +176,7 @@ public abstract class AnimationManager {
 		}
 
 	}
-	
+
 	private TreeSet<AlgoElement> tempSet;
 
 	private TreeSet<AlgoElement> getTempSet() {
@@ -183,11 +185,11 @@ public abstract class AnimationManager {
 		}
 		return tempSet;
 	}
-	
+
 	/**
 	 * Perform one step
 	 */
-	protected void sliderStep(){
+	protected void sliderStep() {
 		// skip animation frames while kernel is saving XML
 		if (kernel.isSaving())
 			return;
@@ -197,10 +199,11 @@ public abstract class AnimationManager {
 		changedGeos.clear();
 
 		// perform animation step for all animatedGeos
-		// go right to left to ensure removing geos animated once does not kill this #4193
+		// go right to left to ensure removing geos animated once does not kill
+		// this #4193
 		int size = animatedGeos.size();
 
-		for (int i = size -1; i >= 0; i--) {
+		for (int i = size - 1; i >= 0; i--) {
 			Animatable anim = (Animatable) animatedGeos.get(i);
 			boolean changed = anim.doAnimationStep(frameRate);
 			if (changed)
@@ -214,31 +217,36 @@ public abstract class AnimationManager {
 			kernel.notifyRepaint();
 			// check frame rate
 			long compTime = System.currentTimeMillis() - startTime;
-			if(kernel.getApplication().getEuclidianView1()!=null){
-				compTime += kernel.getApplication().getEuclidianView1().getLastRepaintTime();
+			if (kernel.getApplication().getEuclidianView1() != null) {
+				compTime += kernel.getApplication().getEuclidianView1()
+						.getLastRepaintTime();
 			}
-			if(kernel.getApplication().hasEuclidianView2(1)){
-				compTime += kernel.getApplication().getEuclidianView2(1).getLastRepaintTime();
+			if (kernel.getApplication().hasEuclidianView2(1)) {
+				compTime += kernel.getApplication().getEuclidianView2(1)
+						.getLastRepaintTime();
 			}
 			adaptFrameRate(compTime);
 			// System.out.println("UPDATE compTime: " + compTime +
 			// ", frameRate: " + frameRate);
 		}
 	}
-	
+
 	/**
 	 * @return whether the animation is currently running.
 	 */
 	public abstract boolean isRunning();
-	
+
 	/**
-	 * @param i delay in miliseconds
+	 * @param i
+	 *            delay in miliseconds
 	 */
 	protected abstract void setTimerDelay(int i);
+
 	/**
 	 * stops timer
 	 */
 	protected abstract void stopTimer();
+
 	/**
 	 * starts timer
 	 */

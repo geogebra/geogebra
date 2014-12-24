@@ -17,24 +17,30 @@ public class KernelCAS {
 
 	/**
 	 * GeoCasCell dependent on other variables, e.g. m := c + 3
-	 * @param geoCasCell the dependent cell
+	 * 
+	 * @param geoCasCell
+	 *            the dependent cell
 	 * 
 	 * @return resulting casCell created using geoCasCell.copy().
 	 */
-	final public static GeoCasCell DependentCasCell(GeoCasCell geoCasCell) {	
+	final public static GeoCasCell DependentCasCell(GeoCasCell geoCasCell) {
 		AlgoDependentCasCell algo = new AlgoDependentCasCell(geoCasCell);
 		return algo.getCasCell();
 	}
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param P point
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param P
+	 *            point
+	 * @param f
+	 *            function
 	 * @return tangent to function through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label, GeoPointND P,
-			GeoFunction f) {
+	public static GeoLine Tangent(Construction cons, String label,
+			GeoPointND P, GeoFunction f) {
 		AlgoTangentFunctionPoint algo = new AlgoTangentFunctionPoint(cons,
 				label, P, f);
 		GeoLine t = algo.getTangent();
@@ -42,15 +48,20 @@ public class KernelCAS {
 		t.update();
 		return t;
 	}
+
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param P point
-	 * @param f curve
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param P
+	 *            point
+	 * @param f
+	 *            curve
 	 * @return tangent to curve through point
 	 */
-	public static GeoLine Tangent(Construction cons, String label, GeoPointND P,
-			GeoCurveCartesian f) {
+	public static GeoLine Tangent(Construction cons, String label,
+			GeoPointND P, GeoCurveCartesian f) {
 		AlgoTangentCurve algo = new AlgoTangentCurve(cons, label, P, f);
 		GeoLine t = algo.getTangent();
 		t.setToExplicit();

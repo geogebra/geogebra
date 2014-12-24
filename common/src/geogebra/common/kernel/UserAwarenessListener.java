@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel;
 
@@ -17,21 +17,21 @@ package geogebra.common.kernel;
  *
  */
 public interface UserAwarenessListener {
-	
+
 	// Custom Tool Methods
 	public void addMacro(Macro newMacro);
-	
+
 	public void removeMacro(Macro macro);
-	
+
 	public void removeAllMacros();
-	
+
 	public void setMacroCommandName(Macro macro, String cmdName);
 
 	// File Loading Methods
-	public void fileLoading( String fileName );
-	
-	public void fileLoadComplete( boolean success );
-	
+	public void fileLoading(String fileName);
+
+	public void fileLoadComplete(boolean success);
+
 	// Perspective Methods
-	public void perspectiveChanged( String perspectiveId );
+	public void perspectiveChanged(String perspectiveId);
 }

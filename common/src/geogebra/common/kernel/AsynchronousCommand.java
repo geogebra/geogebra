@@ -13,27 +13,32 @@ package geogebra.common.kernel;
 
 /**
  * Interface for classes that can call CAS asynchronously and receive callbacks
+ * 
  * @author Zbynek Konecny
  */
 public interface AsynchronousCommand {
 	/**
-	 * This flag switches using asyncronous CAS on or off in Desktop,
-	 * has no effect in Web.
+	 * This flag switches using asyncronous CAS on or off in Desktop, has no
+	 * effect in Web.
 	 */
-	public boolean USE_ASYNCHRONOUS=false;
-	
-	/**
-	 * @param output CAS output as GeoGebra string
-	 * @param requestID request number
-	 */
-	public void handleCASoutput(String output,int requestID);
+	public boolean USE_ASYNCHRONOUS = false;
 
 	/**
-	 * @param exception exception caused by given request
-	 * @param requestID request number
+	 * @param output
+	 *            CAS output as GeoGebra string
+	 * @param requestID
+	 *            request number
+	 */
+	public void handleCASoutput(String output, int requestID);
+
+	/**
+	 * @param exception
+	 *            exception caused by given request
+	 * @param requestID
+	 *            request number
 	 */
 	public void handleException(Throwable exception, int requestID);
-	
+
 	/**
 	 * @return whether caching is allowed for this command
 	 */

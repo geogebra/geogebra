@@ -1,16 +1,11 @@
 package geogebra.common.kernel;
 
-
 /**
  * Normalized path that uses a path parameter in range [0,1].
  * 
  * @author Markus Hohenwarter
  */
 public class PathNormalizer {
-
-	
-
-	
 
 	/**
 	 * Converts path parameter value tn from range [0, 1] to [min, max].
@@ -24,7 +19,7 @@ public class PathNormalizer {
 	 * @return parameter value in [min, max]
 	 */
 	public static double toParentPathParameter(double pn, double min, double max) {
-		double tn=pn;
+		double tn = pn;
 		// for Points as Paths (min=max=0)
 		if (min == max)
 			return min;
@@ -68,7 +63,7 @@ public class PathNormalizer {
 	 */
 	public static double toNormalizedPathParameter(double p, double min,
 			double max) {
-		double t= p;
+		double t = p;
 		// for Points as Paths (min=max=0)
 		if (min == max) {
 			return 0;
@@ -110,12 +105,11 @@ public class PathNormalizer {
 		return (t - min) / (max - min);
 	}
 
-
-
 	/**
 	 * Function t: (-1, 1) -> (-inf, +inf)
 	 * 
-	 * @param t parameter from (-1,1)
+	 * @param t
+	 *            parameter from (-1,1)
 	 * @return parameter in (-1,1) to be mapped into all reals
 	 */
 	public static double infFunction(double t) {
@@ -125,7 +119,8 @@ public class PathNormalizer {
 	/**
 	 * Function z: (-inf, +inf) -> (-1, 1)
 	 * 
-	 * @param z arbitrary parameter
+	 * @param z
+	 *            arbitrary parameter
 	 * @return arbitrary parameter to be mapped into (-1,1)
 	 */
 	public static double inverseInfFunction(double z) {
@@ -134,16 +129,6 @@ public class PathNormalizer {
 		}
 		return z / (1 - z);
 	}
-
-	
-
-
-
-
-
-
-
-	
 
 	/*
 	 * TEST

@@ -31,7 +31,9 @@ public class MacroKernel extends Kernel {
 
 	/**
 	 * Creates new kernel for macro
-	 * @param parentKernel kernel of construction in which we want to use this macro
+	 * 
+	 * @param parentKernel
+	 *            kernel of construction in which we want to use this macro
 	 */
 	public MacroKernel(Kernel parentKernel) {
 		this.parentKernel = parentKernel;
@@ -51,6 +53,7 @@ public class MacroKernel extends Kernel {
 	public final boolean isMacroKernel() {
 		return true;
 	}
+
 	/**
 	 * @return kernel for construction using this macro
 	 */
@@ -67,14 +70,17 @@ public class MacroKernel extends Kernel {
 	// super.setUseTempVariablePrefix(flag);
 	// }
 	/**
-	 * @param label reserved label
+	 * @param label
+	 *            reserved label
 	 */
 	public void addReservedLabel(String label) {
 		macroCons.addReservedLabel(label);
 	}
 
 	/**
-	 * @param flag when true, variables are looked up in parent construction as well
+	 * @param flag
+	 *            when true, variables are looked up in parent construction as
+	 *            well
 	 */
 	public void setGlobalVariableLookup(boolean flag) {
 		macroCons.setGlobalVariableLookup(flag);
@@ -82,8 +88,11 @@ public class MacroKernel extends Kernel {
 
 	/**
 	 * Sets macro construction of this kernel via XML string.
-	 * @param xmlString XML representation of the construction
-	 * @throws Exception if reading XML fails
+	 * 
+	 * @param xmlString
+	 *            XML representation of the construction
+	 * @throws Exception
+	 *             if reading XML fails
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		macroCons.loadXML(xmlString);
@@ -199,19 +208,19 @@ public class MacroKernel extends Kernel {
 	public boolean hasCasCache() {
 		return parentKernel.hasCasCache();
 	}
-	
+
 	@Override
-	public GeoElement copy3D(GeoElement geo){
+	public GeoElement copy3D(GeoElement geo) {
 		return parentKernel.copy3D(geo);
 	}
-	
+
 	@Override
 	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
 		return parentKernel.copyInternal3D(cons, geo);
 	}
-	
+
 	@Override
-	protected AlgoDispatcher newAlgoDispatcher(Construction cons1){
+	protected AlgoDispatcher newAlgoDispatcher(Construction cons1) {
 		return this.parentKernel.newAlgoDispatcher(cons1);
 	}
 

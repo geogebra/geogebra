@@ -17,7 +17,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 /**
  * Slider mover for GeoNumeric and AlgoLocusSlider
  */
-public class SliderMover extends PathMoverGeneric{
+public class SliderMover extends PathMoverGeneric {
 
 	private static final int BOUNDS_FIXED = 1;
 	private static final int BOUNDS_INFINITE = 2;
@@ -29,14 +29,16 @@ public class SliderMover extends PathMoverGeneric{
 	/**
 	 * Creates new path mover for given path
 	 * 
-	 * @param path slider
+	 * @param path
+	 *            slider
 	 */
 	public SliderMover(GeoNumeric path) {
 		this.slider = path;
 	}
 
 	/**
-	 * @param p initial value
+	 * @param p
+	 *            initial value
 	 */
 	public void init(GeoNumeric p) {
 		init(p.getValue());
@@ -108,16 +110,17 @@ public class SliderMover extends PathMoverGeneric{
 		// System.out.println("  max_step_width : " + max_step_width);
 	}
 
-
 	/**
-	 * @param p store current position to p
+	 * @param p
+	 *            store current position to p
 	 */
 	public void getCurrentPosition(GeoNumeric p) {
 		calcPoint(p);
 	}
 
 	/**
-	 * @param p number to store result
+	 * @param p
+	 *            number to store result
 	 * @return true if it was possible
 	 */
 	public boolean getNext(GeoNumeric p) {
@@ -184,7 +187,8 @@ public class SliderMover extends PathMoverGeneric{
 	/**
 	 * Updates path parameter of point p from curr_param
 	 * 
-	 * @param p point to store result
+	 * @param p
+	 *            point to store result
 	 */
 	protected void calcPoint(GeoNumeric p) {
 		double param;

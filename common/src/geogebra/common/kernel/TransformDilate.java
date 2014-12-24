@@ -16,24 +16,30 @@ public class TransformDilate extends Transform {
 
 	/** dilation coefficient */
 	protected NumberValue ratio;
-	/** dilation center*/
+	/** dilation center */
 	protected GeoPointND center;
 
 	/**
-	 * @param cons construction
-	 * @param ratio dilation ratio
+	 * @param cons
+	 *            construction
+	 * @param ratio
+	 *            dilation ratio
 	 */
-	public TransformDilate(Construction cons,NumberValue ratio) {
+	public TransformDilate(Construction cons, NumberValue ratio) {
 		this.ratio = ratio;
 		this.cons = cons;
 	}
 
 	/**
-	 * @param cons construction
-	 * @param ratio dilation ratio
-	 * @param center dilation center
+	 * @param cons
+	 *            construction
+	 * @param ratio
+	 *            dilation ratio
+	 * @param center
+	 *            dilation center
 	 */
-	public TransformDilate(Construction cons,NumberValue ratio, GeoPointND center) {
+	public TransformDilate(Construction cons, NumberValue ratio,
+			GeoPointND center) {
 		this.ratio = ratio;
 		this.center = center;
 		this.cons = cons;

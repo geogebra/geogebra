@@ -7,12 +7,15 @@ package geogebra.common.kernel;
 public interface EquationSolverInterface {
 
 	/**
-	 * @param eqn coefficients
-	 * @param roots roots
-	 * @param eps precision
+	 * @param eqn
+	 *            coefficients
+	 * @param roots
+	 *            roots
+	 * @param eps
+	 *            precision
 	 * @return number of roots
 	 */
-	int solveCubic(double[] eqn, double[] roots,double eps);
+	int solveCubic(double[] eqn, double[] roots, double eps);
 
 	/**
 	 * Solves the quadratic whose coefficients are in the <code>eqn</code> array
@@ -28,9 +31,13 @@ public interface EquationSolverInterface {
 	 * A return value of <code>-1</code> is used to distinguish a constant
 	 * equation, which might be always 0 or never 0, from an equation that has
 	 * no zeroes.
-	 * @param equation coefficients
-	 * @param roots roots
-	 * @param eps precision
+	 * 
+	 * @param equation
+	 *            coefficients
+	 * @param roots
+	 *            roots
+	 * @param eps
+	 *            precision
 	 * 
 	 * @return the number of roots, or <code>-1</code> if the equation is a
 	 *         constant.
@@ -38,19 +45,24 @@ public interface EquationSolverInterface {
 	int solveQuadratic(double[] equation, double[] roots, double eps);
 
 	/**
-	 * @param equation coefficients
-	 * @param roots roots
-	 * @param eps precision
+	 * @param equation
+	 *            coefficients
+	 * @param roots
+	 *            roots
+	 * @param eps
+	 *            precision
 	 * @return number of roots
 	 */
 	int solveQuartic(double[] equation, double[] roots, double eps);
+
 	/**
 	 * Computes all roots of a polynomial using Laguerre's method for degrees >
 	 * 3. The roots are polished and only distinct roots are returned.
 	 * 
 	 * @param roots
 	 *            array with the coefficients of the polynomial
-	 * @param multiple true to allow multiple roots
+	 * @param multiple
+	 *            true to allow multiple roots
 	 * @return number of realRoots found
 	 */
 	int polynomialRoots(double[] roots, boolean multiple);
@@ -58,8 +70,11 @@ public interface EquationSolverInterface {
 	/**
 	 * Computes all roots of a polynomial using Laguerre's method for degrees >
 	 * 3. The roots are polished and only distinct roots are returned.
-	 * @param real real parts
-	 * @param complex complex parts
+	 * 
+	 * @param real
+	 *            real parts
+	 * @param complex
+	 *            complex parts
 	 * 
 	 * @return number of realRoots found
 	 */

@@ -95,29 +95,30 @@ public class Construction {
 		geoTable = new HashMap<String, GeoElement>(200);
 		initGeoTables();
 	}
+
 	/** maps arbconst indices to related numbers */
-	public Map<Integer,GeoNumeric> constsM= new TreeMap<Integer,GeoNumeric>();
-			/** maps arbint indices to related numbers */
-	public Map<Integer,GeoNumeric> intsM= new TreeMap<Integer,GeoNumeric>();
-			/** maps arbcomplex indices to related numbers */
-	public Map<Integer,GeoNumeric> complexNumbersM = new TreeMap<Integer,GeoNumeric>();
-	
-	/** used to keep track if file is 3D or just 2D
+	public Map<Integer, GeoNumeric> constsM = new TreeMap<Integer, GeoNumeric>();
+	/** maps arbint indices to related numbers */
+	public Map<Integer, GeoNumeric> intsM = new TreeMap<Integer, GeoNumeric>();
+	/** maps arbcomplex indices to related numbers */
+	public Map<Integer, GeoNumeric> complexNumbersM = new TreeMap<Integer, GeoNumeric>();
+
+	/**
+	 * used to keep track if file is 3D or just 2D
 	 * 
-	 *  cleared in Construction.newConstructionDefaults()
-	 *  (after default geos are loaded)
-	 *  
-	 *  */
+	 * cleared in Construction.newConstructionDefaults() (after default geos are
+	 * loaded)
+	 * 
+	 * */
 	public TreeSet<GeoClass> usedGeos = new TreeSet<GeoClass>();
 
-	
 	/**
 	 * creates the ConstructionDefaults consDefaults
 	 */
 	protected void newConstructionDefaults() {
 		consDefaults = new ConstructionDefaults(this);
 	}
-	
+
 	// list of Macro commands used in this construction
 	// TODO: specify type once Macro is ported
 	private ArrayList<Macro> usedMacros;
@@ -240,7 +241,6 @@ public class Construction {
 		yAxis = new GeoAxis(this, GeoAxisND.Y_AXIS);
 	}
 
-	
 	/**
 	 * Construction constants (xAxis, yAxis, ...)
 	 *
@@ -249,7 +249,7 @@ public class Construction {
 		/**
 		 * not a constant
 		 */
-		NOT, 
+		NOT,
 		/**
 		 * x axis
 		 */
@@ -269,24 +269,23 @@ public class Construction {
 		/**
 		 * space
 		 */
-		SPACE		
+		SPACE
 	}
 
-	
 	/**
 	 * 
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return which constant geo (xAxis, yAxis, ...)
 	 */
-	public Constants isConstantElement(GeoElement geo){
-		if (geo==xAxis)
+	public Constants isConstantElement(GeoElement geo) {
+		if (geo == xAxis)
 			return Constants.X_AXIS;
-		if (geo==yAxis)
+		if (geo == yAxis)
 			return Constants.Y_AXIS;
-		
+
 		return Constants.NOT;
 	}
-	
 
 	/**
 	 * Renames xAxis and yAxis in the geoTable and sets *AxisLocalName-s
@@ -572,7 +571,7 @@ public class Construction {
 	final public void removeLocalVariable(String varname) {
 		if (localVariableTable != null) {
 			GeoElement geo = localVariableTable.remove(varname);
-			if(geo!=null)
+			if (geo != null)
 				geo.undoLocalVariableLabel();
 		}
 	}
@@ -806,8 +805,7 @@ public class Construction {
 		updateConstructionIndex(pos);
 
 		// update cas row references
-		if (ce instanceof GeoCasCell
-				|| (ce instanceof AlgoCasCellInterface))
+		if (ce instanceof GeoCasCell || (ce instanceof AlgoCasCellInterface))
 			updateCasCellRows();
 
 		updateAllConstructionProtocolAlgorithms(); // Michael Borcherds
@@ -911,7 +909,7 @@ public class Construction {
 	 */
 	public final void unregisterEuclidianViewCE(EuclidianViewCE elem) {
 		euclidianViewCE.remove(elem);
-		if(this.corner5Algos != null){
+		if (this.corner5Algos != null) {
 			this.corner5Algos.remove(elem);
 		}
 	}
@@ -925,16 +923,16 @@ public class Construction {
 	 */
 	public boolean notifyEuclidianViewCE(boolean onlyCorner5) {
 		boolean didUpdate = false;
-		ArrayList<EuclidianViewCE> toUpdate = onlyCorner5 ? this.corner5Algos : this.euclidianViewCE;
-		if(toUpdate == null){
+		ArrayList<EuclidianViewCE> toUpdate = onlyCorner5 ? this.corner5Algos
+				: this.euclidianViewCE;
+		if (toUpdate == null) {
 			return false;
 		}
 		int size = toUpdate.size();
 		AlgorithmSet updateSet = null;
 		for (int i = 0; i < size; i++) {
 			didUpdate = true;
-			boolean needsUpdateCascade = toUpdate.get(i)
-					.euclidianViewUpdate();
+			boolean needsUpdateCascade = toUpdate.get(i).euclidianViewUpdate();
 			if (needsUpdateCascade) {
 				if (updateSet == null)
 					updateSet = new AlgorithmSet();
@@ -979,7 +977,7 @@ public class Construction {
 			num.updateRandomGeo();
 		}
 	}
-	
+
 	/**
 	 * Updates all free random numbers of this construction.
 	 */
@@ -997,7 +995,6 @@ public class Construction {
 			}
 		}
 	}
-	
 
 	/**
 	 * Adds a number to the set of random numbers of this construction.
@@ -1030,12 +1027,12 @@ public class Construction {
 	final public void updateConstruction() {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		updateConstructionRunning = true;
-		try {			
+		try {
 			// G.Sturr 2010-5-28: turned this off so that random numbers can be
 			// traced
 			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
 			// kernel.app.getGuiManager().startCollectingSpreadsheetTraces();
-	
+
 			// update all independent GeoElements
 			int size = ceList.size();
 			for (int i = 0; i < size; ++i) {
@@ -1044,75 +1041,75 @@ public class Construction {
 					ce.update();
 				}
 			}
-	
-			// update all free random numbers() (dependent random numbers will be updated from algo list)
+
+			// update all free random numbers() (dependent random numbers will
+			// be updated from algo list)
 			// no update cascade is done: algos will be updated
 			updateAllFreeRandomGeosNoCascade();
-	
+
 			// init and update all algorithms
 			// make sure we call algo.initNearToRelationship() fist
 			// for all algorithms because algo.update() could have
 			// the side-effect to call updateCascade() for points
 			// that have locateables (see GeoPoint.update())
 			size = algoList.size();
-	
+
 			// init near to relationship for all algorithms:
 			// this makes sure intersection points stay at their saved positions
 			for (int i = 0; i < size; ++i) {
 				AlgoElement algo = algoList.get(i);
 				algo.initForNearToRelationship();
 			}
-	
-			// copy array to avoid problems with the list changing during the loop
+
+			// copy array to avoid problems with the list changing during the
+			// loop
 			// eg Polygon[A,B,RandomBetween[4,5]]
 			// http://www.geogebra.org/forum/viewtopic.php?p=56618
-			ArrayList<AlgoElement> tempList = new ArrayList<AlgoElement>(algoList);
-	
+			ArrayList<AlgoElement> tempList = new ArrayList<AlgoElement>(
+					algoList);
+
 			// update all algorithms
 			for (int i = 0; i < size; ++i) {
 				AlgoElement algo = tempList.get(i);
-	
+
 				// reinit near to relationship to make sure points stay at their
 				// saved position
 				// keep this line, see
 				// http://code.google.com/p/geogebra/issues/detail?id=62
 				algo.initForNearToRelationship();
-	
+
 				// update algorithm
 				algo.update();
 			}
-	
+
 			// G.Sturr 2010-5-28:
 			// if (!kernel.isMacroKernel() && kernel.app.hasGuiManager())
 			// kernel.app.getGuiManager().stopCollectingSpreadsheetTraces();
-		}
-		finally {
+		} finally {
 			updateConstructionRunning = false;
 		}
 	}
-	
+
 	/**
 	 * Similar to updateConstruction, but only updates CAS cells
 	 */
 	final public void updateCasCells() {
 		// collect notifyUpdate calls using xAxis as dummy geo
 		updateConstructionRunning = true;
-		try {			
+		try {
 			// update all independent GeoElements
 			// check the size every time as Delete may change it
 			for (int i = 0; i < ceList.size(); ++i) {
 				ConstructionElement ce = ceList.get(i);
-				if ((ce.isGeoElement() && ((GeoElement)ce).isGeoCasCell())
-						|| ((ce instanceof AlgoElement)&& ce instanceof AlgoCasCellInterface)) {
+				if ((ce.isGeoElement() && ((GeoElement) ce).isGeoCasCell())
+						|| ((ce instanceof AlgoElement) && ce instanceof AlgoCasCellInterface)) {
 					ce.update();
 				}
 			}
-		}
-		finally {
+		} finally {
 			updateConstructionRunning = false;
 		}
 	}
-
 
 	/**
 	 * Returns this construction in XML format. GeoGebra File Format.
@@ -1135,7 +1132,7 @@ public class Construction {
 			// worksheet text
 			if (worksheetTextDefined()) {
 				sb.append("\t<worksheetText above=\"");
-				StringUtil.encodeXML(sb,getWorksheetText(0));
+				StringUtil.encodeXML(sb, getWorksheetText(0));
 				sb.append("\" below=\"");
 				StringUtil.encodeXML(sb, getWorksheetText(1));
 				sb.append("\"/>\n");
@@ -1151,11 +1148,13 @@ public class Construction {
 
 	/**
 	 * Appends minimal version of the construction XML to given string builder.
-	 * Only elements/commands are preserved,
-	 * the rest is ignored. 
-	 * @param sb String builder 
+	 * Only elements/commands are preserved, the rest is ignored.
+	 * 
+	 * @param sb
+	 *            String builder
 	 */
-	public void getConstructionElementsXML(StringBuilder sb, boolean getListenersToo) {
+	public void getConstructionElementsXML(StringBuilder sb,
+			boolean getListenersToo) {
 
 		ConstructionElement ce;
 		int size = ceList.size();
@@ -1167,14 +1166,16 @@ public class Construction {
 
 	/**
 	 * Appends minimal version of the construction XML to given string builder.
-	 * OGP version.
-	 * Only elements/commands are preserved,
-	 * the rest is ignored. 
-	 * @param sb String builder 
-	 * @param statement The statement to prove
+	 * OGP version. Only elements/commands are preserved, the rest is ignored.
+	 * 
+	 * @param sb
+	 *            String builder
+	 * @param statement
+	 *            The statement to prove
 	 */
-	public void getConstructionElementsXML_OGP(StringBuilder sb, GeoElement statement) {
-		
+	public void getConstructionElementsXML_OGP(StringBuilder sb,
+			GeoElement statement) {
+
 		ConstructionElement ce;
 		int size = ceList.size();
 		for (int i = 0; i < size; ++i) {
@@ -1187,9 +1188,10 @@ public class Construction {
 		// Inserting Prove* element:
 		statement.getAlgorithmList().get(0).getXML_OGP(sb);
 	}
-	
+
 	/**
 	 * Returns this construction in regression file .out format.
+	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 * 
 	 * @param sb
@@ -1258,24 +1260,24 @@ public class Construction {
 			return null;
 		return ceList.get(index);
 	}
-	
+
 	/**
 	 * 
 	 * @return first geo if exists
 	 */
-	public GeoElement getFirstGeo(){
-		
+	public GeoElement getFirstGeo() {
+
 		ConstructionElement ce = null;
 		GeoElement geo = null;
 		int index = 0;
-		
-		while(index<ceList.size() && geo == null){
+
+		while (index < ceList.size() && geo == null) {
 			ce = ceList.get(index);
 			if (ce instanceof GeoElement)
 				geo = (GeoElement) ce;
 			index++;
 		}
-		
+
 		return geo;
 
 	}
@@ -1349,47 +1351,46 @@ public class Construction {
 	public void replace(GeoElement oldGeo, GeoElement newGeo) throws Exception {
 		if (oldGeo == null || newGeo == null || oldGeo == newGeo)
 			return;
-		//assignment v=? should make v undefined, not change its type
+		// assignment v=? should make v undefined, not change its type
 		if (oldGeo.isIndependent() && newGeo instanceof GeoNumeric
 				&& newGeo.isIndependent() && !newGeo.isDefined()) {
 			oldGeo.setUndefined();
 			oldGeo.updateRepaint();
 			return;
 		}
-		
-		
-		//App.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
-		
-		// if an object is redefined the same (eg in a script) rather than 
+
+		// App.debug(oldGeo.getCommandDescription(StringTemplate.maxPrecision)+newGeo.getCommandDescription(StringTemplate.maxPrecision));
+
+		// if an object is redefined the same (eg in a script) rather than
 		// reloading the whole XML, just update it
-		if(oldGeo.getCommandDescription(StringTemplate.maxPrecision).equals(
-				newGeo.getCommandDescription(StringTemplate.maxPrecision)) &&
-				oldGeo.getParentAlgorithm()!=null){
+		if (oldGeo.getCommandDescription(StringTemplate.maxPrecision).equals(
+				newGeo.getCommandDescription(StringTemplate.maxPrecision))
+				&& oldGeo.getParentAlgorithm() != null) {
 			ArrayList<AlgoElement> ae = new ArrayList<AlgoElement>();
 			ae.add(oldGeo.getParentAlgorithm());
-			
+
 			// make sure typing a=random() twice updates OK
 			oldGeo.getParentAlgorithm().updateUnlabeledRandomGeos();
-			
+
 			// make sure b=a+1 also updates
 			AlgoElement.updateCascadeAlgos(ae);
-			//repaint here to make sure #4114 is OK
+			// repaint here to make sure #4114 is OK
 			kernel.notifyRepaint();
 			return;
 		}
-			
+
 		// if oldGeo does not have any children, we can simply
 		// delete oldGeo and give newGeo the name of oldGeo
 		if (!oldGeo.hasChildren()) {
 			String oldGeoLabel = oldGeo.getLabelSimple();
 			newGeo.moveDependencies(oldGeo);
-			isRemovingGeoToReplaceIt=true;
+			isRemovingGeoToReplaceIt = true;
 			oldGeo.remove();
-			isRemovingGeoToReplaceIt=false;
-			
-			//set properties first, set label later. See #933
+			isRemovingGeoToReplaceIt = false;
+
+			// set properties first, set label later. See #933
 			newGeo.setAllVisualProperties(oldGeo, false);
-			
+
 			if (newGeo.isIndependent())
 				addToConstructionList(newGeo, true);
 			else {
@@ -1409,7 +1410,7 @@ public class Construction {
 
 			return;
 		}
-		
+
 		// check for circular definition
 		if (newGeo.isChildOf(oldGeo)) {
 
@@ -1470,11 +1471,12 @@ public class Construction {
 			return;
 		}
 		App app = kernel.getApplication();
-		
+
 		// store views for plane
 		app.getCompanion().storeViewCreators();
-		
-		SelectionManager selection = kernel.getApplication().getSelectionManager();
+
+		SelectionManager selection = kernel.getApplication()
+				.getSelectionManager();
 		boolean moveMode = app.getMode() == EuclidianConstants.MODE_MOVE
 				&& selection.getSelectedGeos().size() > 0;
 		String oldSelection = null;
@@ -1499,30 +1501,30 @@ public class Construction {
 			app.getActiveEuclidianView().getEuclidianController()
 					.handleMovedElement(selGeo, false, PointerEventType.MOUSE);
 		}
-		
+
 		// recall views for plane
 		app.getCompanion().recallViewCreators();
 	}
-	
+
 	private boolean isGettingXMLForReplace;
-	
+
 	/**
 	 * 
 	 * @return true if is getting XML for replace
 	 */
-	public boolean isGettingXMLForReplace(){
+	public boolean isGettingXMLForReplace() {
 		return isGettingXMLForReplace;
 	}
-	
-	
+
 	private boolean isRemovingGeoToReplaceIt = false;
-	
+
 	/**
 	 * 
-	 * @return true if construction is removing an old geo to replace it 
-	 * (used to prevent closing of object properties when replacing a single geo)
+	 * @return true if construction is removing an old geo to replace it (used
+	 *         to prevent closing of object properties when replacing a single
+	 *         geo)
 	 */
-	public boolean isRemovingGeoToReplaceIt(){
+	public boolean isRemovingGeoToReplaceIt() {
 		return isRemovingGeoToReplaceIt;
 	}
 
@@ -1599,8 +1601,8 @@ public class Construction {
 	 * @param newGeo
 	 *            replacement
 	 */
-	protected StringBuilder doReplaceInXML(StringBuilder consXML, GeoElement oldGeo,
-			GeoElement newGeo) {
+	protected StringBuilder doReplaceInXML(StringBuilder consXML,
+			GeoElement oldGeo, GeoElement newGeo) {
 		String oldXML, newXML; // a = old string, b = new string
 
 		AlgoElement oldGeoAlgo = oldGeo.getParentAlgorithm();
@@ -1613,10 +1615,10 @@ public class Construction {
 		// set label to get replaceable XML
 		if (newGeo.isLabelSet()) { // newGeo already exists in construction
 			// oldGeo is replaced by newGeo, so oldGeo get's newGeo's label
-			if(!oldGeo.getLabelSimple().equals(newGeo.getLabelSimple())){
+			if (!oldGeo.getLabelSimple().equals(newGeo.getLabelSimple())) {
 				oldGeo.setLabelSimple(newGeo.getLabelSimple());
 
-				// reload consXML to get the new name in the description of 
+				// reload consXML to get the new name in the description of
 				// dependent elements
 				isGettingXMLForReplace = true;
 				consXML = getCurrentUndoXML(false);
@@ -1643,15 +1645,16 @@ public class Construction {
 					// do nothing
 				}
 			}
-			
+
 			isGettingXMLForReplace = true;
 			oldXML = (oldGeoAlgo == null) ? oldGeo.getXML() : oldGeoAlgo
 					.getXML();
-			if (newGeoAlgo == null){
+			if (newGeoAlgo == null) {
 				newXML = newGeo.getXML();
-			}else{
+			} else {
 				newXML = newGeoAlgo.getXML();
-				// get new geo inputs to check if we have to put the newXML further in consXML
+				// get new geo inputs to check if we have to put the newXML
+				// further in consXML
 				newGeoInputs = newGeoAlgo.getInput();
 			}
 			isGettingXMLForReplace = false;
@@ -1669,11 +1672,10 @@ public class Construction {
 		int pos = consXML.indexOf(oldXML);
 		if (pos < 0) {
 			restoreCurrentUndoInfo();
-			App
-					.debug("replace failed: oldXML string not found:\n"
-							+ oldXML);
+			App.debug("replace failed: oldXML string not found:\n" + oldXML);
 			// Application.debug("consXML=\n" + consXML);
-			throw new MyError(getApplication().getLocalization(), "ReplaceFailed");
+			throw new MyError(getApplication().getLocalization(),
+					"ReplaceFailed");
 		}
 
 		// System.out.println("REDEFINE: oldGeo: " + oldGeo + ", newGeo: " +
@@ -1682,34 +1684,31 @@ public class Construction {
 		// oldXML.length()));
 		// System.out.println(" new XML:\n" + newXML);
 		// System.out.println("END redefine.");
-		
-		
-		
+
 		// get inputs position in consXML: we want to put new geo after that
 		int inputEndPos = -1;
-		if (newGeoInputs != null && newGeoInputs.length > 0){			
-			int labelPos = 0;			
-			for (int i = 0 ; i < newGeoInputs.length ; i++){
+		if (newGeoInputs != null && newGeoInputs.length > 0) {
+			int labelPos = 0;
+			for (int i = 0; i < newGeoInputs.length; i++) {
 				String label = newGeoInputs[i].getLabelSimple();
-				if (label != null){
-					int labelPos0 = consXML.indexOf("label=\""+label+"\"");
-					if (labelPos0 > labelPos){
+				if (label != null) {
+					int labelPos0 = consXML.indexOf("label=\"" + label + "\"");
+					if (labelPos0 > labelPos) {
 						labelPos = labelPos0;
 						inputEndPos = consXML.indexOf("</element>", labelPos) + 11;
 					}
-				}			
-			}			
+				}
+			}
 		}
-				
 
 		// replace oldXML by newXML in consXML
-		if (pos >= inputEndPos){
+		if (pos >= inputEndPos) {
 			// old pos is ok
 			consXML.replace(pos, pos + oldXML.length(), newXML);
-		}else{
+		} else {
 			// we put new geo after its inputs
 			consXML.insert(inputEndPos, newXML);
-			consXML.replace(pos, pos + oldXML.length(), "");		
+			consXML.replace(pos, pos + oldXML.length(), "");
 		}
 
 		return consXML;
@@ -1725,7 +1724,7 @@ public class Construction {
 	 *            empty construction.
 	 */
 	public void setStep(int s) {
-		//App.debug("setStep"+step+" "+s);
+		// App.debug("setStep"+step+" "+s);
 
 		if (s == step || s < -1 || s >= ceList.size())
 			return;
@@ -1737,9 +1736,10 @@ public class Construction {
 		kernel.setNotifyConstructionProtocolViewAboutAddRemoveActive(false);
 
 		if (s < step) {
-			//we must go from high to low there as otherwise the CAS cells would 
-			//rearrange their numbers meanwhile
-			for (int i = step; i >= s+1; i--) {
+			// we must go from high to low there as otherwise the CAS cells
+			// would
+			// rearrange their numbers meanwhile
+			for (int i = step; i >= s + 1; i--) {
 				ceList.get(i).notifyRemove();
 			}
 		} else {
@@ -1907,7 +1907,7 @@ public class Construction {
 	 *            to be removed
 	 * @see #putCasCellLabel(GeoCasCell, String)
 	 */
-	
+
 	public void removeCasCellLabel(String variable) {
 		if (geoCasCellTable != null) {
 			geoCasCellTable.remove(variable);
@@ -2016,7 +2016,7 @@ public class Construction {
 
 		// global var handling
 		GeoElement geo = geoTableVarLookup(label1);
-		
+
 		// STANDARD CASE: variable name found
 		if (geo != null) {
 			return checkConstructionStep(geo);
@@ -2055,16 +2055,15 @@ public class Construction {
 				// geo found for name that includes $ signs
 				return checkConstructionStep(geo);
 			}
-			if(labelString.charAt(0)>='0' && labelString.charAt(0)<='9'){
+			if (labelString.charAt(0) >= '0' && labelString.charAt(0) <= '9') {
 				int cell = 0;
-				try{
+				try {
 					cell = Integer.parseInt(labelWithout$.toString());
-					}
-				catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if(cell>0){
-					return this.getCasCell(cell-1);
+				if (cell > 0) {
+					return this.getCasCell(cell - 1);
 				}
 			}
 		}
@@ -2123,16 +2122,19 @@ public class Construction {
 	 *            label to be checked
 	 * @param includeCASvariables
 	 *            whether GeoCasCell labels should be checked too
-	 * @param includeDummies 
-	 * 				when true, this method also checks that label is not used for a CAS dummy
+	 * @param includeDummies
+	 *            when true, this method also checks that label is not used for
+	 *            a CAS dummy
 	 * @return true iff label is not occupied by any GeoElement.
 	 */
-	public boolean isFreeLabel(String label, boolean includeCASvariables, boolean includeDummies) {
+	public boolean isFreeLabel(String label, boolean includeCASvariables,
+			boolean includeDummies) {
 		if (label == null) {
 			return false;
 		}
-		if(!fileLoading && getKernel().getApplication().
-				getParserFunctions().isReserved(label))
+		if (!fileLoading
+				&& getKernel().getApplication().getParserFunctions()
+						.isReserved(label))
 			return false;
 		// check standard geoTable
 		if (geoTable.containsKey(label))
@@ -2143,7 +2145,7 @@ public class Construction {
 				&& geoCasCellTable.containsKey(label)) {
 			return false;
 		}
-		
+
 		if (includeDummies && casDummies.contains(label)) {
 			return false;
 		}
@@ -2199,17 +2201,17 @@ public class Construction {
 	protected boolean updateConstructionOrder(GeoCasCell casCell) {
 		// collect all predecessors of casCell
 		TreeSet<GeoElement> allPred = new TreeSet<GeoElement>();
-		if(casCell.getGeoElementVariables()!=null){
-		for (GeoElement directInput : casCell.getGeoElementVariables()) {
-			allPred.addAll(directInput.getAllPredecessors());
-			allPred.add(directInput);
+		if (casCell.getGeoElementVariables() != null) {
+			for (GeoElement directInput : casCell.getGeoElementVariables()) {
+				allPred.addAll(directInput.getAllPredecessors());
+				allPred.add(directInput);
+			}
 		}
-		}
-		
+
 		if (allPred.size() == 0) { // there are no predecessors
 			return false; // nothing changed
 		}
-		
+
 		// Find max construction index of casCell's predecessors
 		int maxPredIndex = 0;
 		for (GeoElement pred : allPred) {
@@ -2227,7 +2229,8 @@ public class Construction {
 		// maybe we can move casCell down in the construction list
 		int maxCellIndex = casCell.getMaxConstructionIndex();
 		if (maxCellIndex >= maxPredIndex) {
-			moveInConstructionList(casCell, maxPredIndex + (maxCellIndex > maxPredIndex ? 1 : 0));
+			moveInConstructionList(casCell, maxPredIndex
+					+ (maxCellIndex > maxPredIndex ? 1 : 0));
 			return true;
 		}
 
@@ -2347,17 +2350,17 @@ public class Construction {
 		else {
 			result = new GeoNumeric(this);
 		}
-		
+
 		// set result as empty cell geo
 		result.setUndefined();
 		result.setEmptySpreadsheetCell(true);
-		
+
 		// make sure that label creation is turned on
 		boolean oldSuppressLabelsActive = isSuppressLabelsActive();
 		setSuppressLabelCreation(false);
 
 		// set 0 and label
-		//result.setZero();
+		// result.setZero();
 		result.setAuxiliaryObject(true);
 		result.setLabel(label);
 
@@ -2457,8 +2460,7 @@ public class Construction {
 			} else if (geo1 != null && geo1 instanceof NumberValue) {
 				GeoElement geo2 = kernel.lookupLabel(label.charAt(1) + "");
 				if (geo2 != null && geo2 instanceof NumberValue) {
-					ExpressionNode node = new ExpressionNode(kernel,
-							geo1,
+					ExpressionNode node = new ExpressionNode(kernel, geo1,
 							Operation.MULTIPLY, geo2);
 					AlgoDependentNumber algo = new AlgoDependentNumber(this,
 							null, node, false);
@@ -2469,14 +2471,14 @@ public class Construction {
 
 		} else if (label.length() == 1) {
 			if (label.equals("O")) {
-				
+
 				createdGeo = new GeoPoint(this, 0d, 0d, 1d);
 				label = "O";
 				auxilliary = true;
 				fix = true;
-			} 
-		} 
-		
+			}
+		}
+
 		// handle i or e case
 		if (createdGeo != null) {
 
@@ -2695,8 +2697,11 @@ public class Construction {
 	public StringBuilder getCurrentUndoXML(boolean getListenersToo) {
 		return MyXMLio.getUndoXML(this, getListenersToo);
 	}
+
 	/**
-	 * Each construction has its own IO because of strong coupling between those.
+	 * Each construction has its own IO because of strong coupling between
+	 * those.
+	 * 
 	 * @return MyXMLio for this construction
 	 */
 	public MyXMLio getXMLio() {
@@ -2730,7 +2735,7 @@ public class Construction {
 			undoManager.processXML(consXML.toString());
 			kernel.notifyReset();
 			// Update construction is done during parsing XML
-			//kernel.updateConstruction();
+			// kernel.updateConstruction();
 		} catch (Exception e) {
 			restoreCurrentUndoInfo();
 			throw e;
@@ -2773,56 +2778,68 @@ public class Construction {
 	public GeoElement getOutputGeo() {
 		return outputGeo == null ? new GeoNumeric(this) : outputGeo;
 	}
+
 	private TreeSet<String> registredFV = new TreeSet<String>();
+
 	/**
-	 * Registers function variable that should be recognized in If and Function commands
-	 * @param fv local function variable
+	 * Registers function variable that should be recognized in If and Function
+	 * commands
+	 * 
+	 * @param fv
+	 *            local function variable
 	 */
 	public void registerFunctionVariable(String fv) {
-		if(fv == null)
+		if (fv == null)
 			registredFV.clear();
 		else
 			registredFV.add(fv);
-		
+
 	}
+
 	/**
 	 * 
-	 * @param s variable name
+	 * @param s
+	 *            variable name
 	 * @return whether s is among registred function variables
 	 */
-	public boolean isRegistredFunctionVariable(String s){
+	public boolean isRegistredFunctionVariable(String s) {
 		return registredFV.contains(s);
 	}
+
 	/**
-	 * Returns function variable that should be recognized in If and Function commands
+	 * Returns function variable that should be recognized in If and Function
+	 * commands
+	 * 
 	 * @return local function variable or null if there is none
 	 */
-	public String getRegisteredFunctionVariable(){
+	public String getRegisteredFunctionVariable() {
 		Iterator<String> it = registredFV.iterator();
-		if(it.hasNext())
-				return it.next();
+		if (it.hasNext())
+			return it.next();
 		return null;
 	}
-	
+
 	private boolean fileLoading;
 	private boolean updateConstructionRunning;
-	
+
 	/**
-	 * Let construction know about file being loaded.
-	 * When this is true, user defined objects called sin, cos, ...
-	 * are accepted 
-	 * @param b true if file is loading
+	 * Let construction know about file being loaded. When this is true, user
+	 * defined objects called sin, cos, ... are accepted
+	 * 
+	 * @param b
+	 *            true if file is loading
 	 */
 	public void setFileLoading(boolean b) {
-		fileLoading = b;	
+		fileLoading = b;
 	}
 
 	/**
 	 * @return whether we are just loading a file
 	 */
-	public boolean isFileLoading(){
+	public boolean isFileLoading() {
 		return fileLoading;
 	}
+
 	// update all indices >= pos
 
 	/**
@@ -2831,8 +2848,9 @@ public class Construction {
 	public boolean isUpdateConstructionRunning() {
 		return updateConstructionRunning;
 	}
+
 	private final TreeSet<String> casDummies = new TreeSet<String>();
-	
+
 	/**
 	 * @return set of names that are used by CAS for dummies
 	 */
@@ -2867,45 +2885,45 @@ public class Construction {
 	 * return algoSet; }
 	 */
 
-	
-	
-	
-	
-
 	/** algo set currently updated by GeoElement.updateDependentObjects() */
 	private AlgorithmSet algoSetCurrentlyUpdated;
 	private boolean spreadsheetTraces;
 	private boolean allowUnboundedAngles = true;
-	
-	/** set the algo set currently updated by GeoElement.updateDependentObjects() 
-	 * @param algoSetCurrentlyUpdated algo set
+
+	/**
+	 * set the algo set currently updated by GeoElement.updateDependentObjects()
+	 * 
+	 * @param algoSetCurrentlyUpdated
+	 *            algo set
 	 * */
-	public void setAlgoSetCurrentlyUpdated(AlgorithmSet algoSetCurrentlyUpdated){
+	public void setAlgoSetCurrentlyUpdated(AlgorithmSet algoSetCurrentlyUpdated) {
 		this.algoSetCurrentlyUpdated = algoSetCurrentlyUpdated;
 	}
-	
+
 	/**
 	 * 
-	 * @return the algo set currently updated by GeoElement.updateDependentObjects() 
+	 * @return the algo set currently updated by
+	 *         GeoElement.updateDependentObjects()
 	 */
-	public AlgorithmSet getAlgoSetCurrentlyUpdated(){
+	public AlgorithmSet getAlgoSetCurrentlyUpdated() {
 		return algoSetCurrentlyUpdated;
 	}
 
 	/**
-	 * @param b new value of update construction flag
+	 * @param b
+	 *            new value of update construction flag
 	 */
 	public void setUpdateConstructionRunning(boolean b) {
-		updateConstructionRunning = b;		
+		updateConstructionRunning = b;
 	}
-	
+
 	/**
 	 * @return a copy of the set of all geo labels that are currently being used
 	 */
 	public Set<String> getAllGeoLabels() {
 		return new HashSet<String>(geoTable.keySet());
 	}
-	
+
 	/**
 	 * @return a copy of the set of all labels that are currently being used
 	 */
@@ -2930,33 +2948,35 @@ public class Construction {
 	public void addTracingGeo() {
 		spreadsheetTraces = true;
 	}
-	
+
 	public void setAllowUnboundedAngles(boolean b) {
 		this.allowUnboundedAngles = b;
 	}
-	
+
 	/**
 	 * @return whether unbounded angles are allowed on file load
 	 */
 	public boolean isAllowUnboundedAngles() {
 		return this.allowUnboundedAngles;
-	}	
+	}
 
 	private ArrayList<AlgoElement> casAlgos = new ArrayList<AlgoElement>();
+
 	public void addCASAlgo(AlgoElement algoCasBase) {
 		casAlgos.add(algoCasBase);
 	}
-	
-	public void recomputeCASalgos(){
-		for(AlgoElement algo: casAlgos){
-			if(!algo.getOutput(0).isLabelSet()){
+
+	public void recomputeCASalgos() {
+		for (AlgoElement algo : casAlgos) {
+			if (!algo.getOutput(0).isLabelSet()) {
 				if (algo instanceof AlgoCasBase) {
 					((AlgoCasBase) algo).clearCasEvalMap("");
 					algo.compute();
 				} else if (algo instanceof AlgoUsingTempCASalgo) {
 					((AlgoUsingTempCASalgo) algo).refreshCASResults();
 					algo.compute();
-				} else if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
+				} else if (algo instanceof UsesCAS
+						|| algo instanceof AlgoCasCellInterface) {
 					// eg Limit, LimitAbove, LimitBelow, SolveODE
 					// AlgoCasCellInterface: eg Solve[x^2]
 					algo.compute();
@@ -2983,8 +3003,9 @@ public class Construction {
 			for (int i = 0; i < size; ++i) {
 				ConstructionElement ce = ceList.get(i);
 				if (ce.isGeoElement()) {
-					if(((GeoElement)ce).isGeoText() && ((GeoElement)ce).getParentAlgorithm() != null){
-						((GeoElement)ce).getParentAlgorithm().update();
+					if (((GeoElement) ce).isGeoText()
+							&& ((GeoElement) ce).getParentAlgorithm() != null) {
+						((GeoElement) ce).getParentAlgorithm().update();
 					}
 					ce.update();
 				}
@@ -2998,18 +3019,18 @@ public class Construction {
 	public void updateConstructionLaTeX() {
 		boolean oldFlag = this.kernel.getApplication().isBlockUpdateScripts();
 		this.kernel.getApplication().setBlockUpdateScripts(true);
-		//TODO we do not need the whole construction update here
+		// TODO we do not need the whole construction update here
 		this.updateConstruction();
 		this.kernel.getApplication().setBlockUpdateScripts(oldFlag);
-		
+
 	}
-	
+
 	/**
 	 * 
 	 * @param algo
 	 */
 	public void registerCorner5(EuclidianViewCE algo) {
-		if(this.corner5Algos == null){
+		if (this.corner5Algos == null) {
 			this.corner5Algos = new ArrayList<EuclidianViewCE>();
 		}
 		this.corner5Algos.add(algo);
@@ -3019,11 +3040,10 @@ public class Construction {
 		String[] varNames = new String[this.registredFV.size()];
 		Iterator<String> it = this.registredFV.iterator();
 		int i = 0;
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			varNames[i++] = it.next();
 		}
 		return varNames;
 	}
-	
 
 }

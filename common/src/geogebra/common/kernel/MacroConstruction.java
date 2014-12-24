@@ -8,9 +8,8 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 package geogebra.common.kernel;
-
 
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.util.StringUtil;
@@ -19,29 +18,34 @@ import java.util.HashSet;
 
 /**
  * Construction for macros.
-  */
+ */
 public class MacroConstruction extends Construction {
-	
+
 	private Construction parentCons;
 	private HashSet<String> reservedLabels;
 	private boolean globalVariableLookup = false;
-	
+
 	/**
 	 * Creates new macro construction
-	 * @param kernel Kernel
+	 * 
+	 * @param kernel
+	 *            Kernel
 	 */
 	public MacroConstruction(MacroKernel kernel) {
 		super(kernel, kernel.getParentKernel().getConstruction());
 		parentCons = kernel.getParentKernel().getConstruction();
 		reservedLabels = new HashSet<String>();
-		//allow using reserved function names in marco constructions
+		// allow using reserved function names in marco constructions
 		super.setFileLoading(true);
-	}		   
-	
+	}
+
 	/**
-	 * Set construction via XML string.	 
-	 * @param xmlString XML string of the construction
-	 * @throws Exception if there is a problem while reading XML
+	 * Set construction via XML string.
+	 * 
+	 * @param xmlString
+	 *            XML string of the construction
+	 * @throws Exception
+	 *             if there is a problem while reading XML
 	 */
 	public void loadXML(String xmlString) throws Exception {
 		if (undoManager == null)
@@ -50,38 +54,44 @@ public class MacroConstruction extends Construction {
 		undoManager.processXML(xmlString);
 		this.setFileLoading(false);
 	}
-	
+
 	/**
-	 * Adds label to the list of reserved labels. Such labels
-	 * will not be looked up in the parent construction in lookup();
-	 * @param label reserved label
+	 * Adds label to the list of reserved labels. Such labels will not be looked
+	 * up in the parent construction in lookup();
+	 * 
+	 * @param label
+	 *            reserved label
 	 */
 	public void addReservedLabel(String label) {
-		if (label != null) {			
-			reservedLabels.add(label);						
+		if (label != null) {
+			reservedLabels.add(label);
 		}
 	}
-	
-    /**
-     * Returns a GeoElement for the given label. Note: 
-     * construction index is ignored here. If no geo is found for
-     * the specified label a lookup is made in the parent construction.
-     * @return may return null
-     */      	    	   
-    @Override
-	public final GeoElement lookupLabel(String label, boolean autoCreate) {//package private
-    	if (label == null) return null;
+
+	/**
+	 * Returns a GeoElement for the given label. Note: construction index is
+	 * ignored here. If no geo is found for the specified label a lookup is made
+	 * in the parent construction.
+	 * 
+	 * @return may return null
+	 */
+	@Override
+	public final GeoElement lookupLabel(String label, boolean autoCreate) {// package
+																			// private
+		if (label == null)
+			return null;
 
 		String label1 = label;
 
-    	// local var handling
-		if (localVariableTable != null) {        	
-        	GeoElement localGeo = localVariableTable.get(label1);        
-            if (localGeo != null) return localGeo;
-        }
-    	    	       
-        // global var handling        
-        GeoElement geo = geoTableVarLookup(label1);
+		// local var handling
+		if (localVariableTable != null) {
+			GeoElement localGeo = localVariableTable.get(label1);
+			if (localGeo != null)
+				return localGeo;
+		}
+
+		// global var handling
+		GeoElement geo = geoTableVarLookup(label1);
 
 		// STANDARD CASE: variable name found
 		if (geo != null) {
@@ -116,16 +126,15 @@ public class MacroConstruction extends Construction {
 				// geo found for name that includes $ signs
 				return geo;
 			}
-			if(labelString.charAt(0)>='0' && labelString.charAt(0)<='9'){
+			if (labelString.charAt(0) >= '0' && labelString.charAt(0) <= '9') {
 				int cell = 0;
-				try{
+				try {
 					cell = Integer.parseInt(labelWithout$.toString());
-					}
-				catch(Exception e){
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				if(cell>0){
-					return this.getCasCell(cell-1);
+				if (cell > 0) {
+					return this.getCasCell(cell - 1);
 				}
 			}
 		}
@@ -145,29 +154,32 @@ public class MacroConstruction extends Construction {
 			}
 		}
 
-        if (globalVariableLookup && !isReservedLabel(label1)) {
-        	// try parent construction        	
-        	 geo =  parentCons.lookupLabel(label1, autoCreate); 
-        }
-        return geo;                   
-    }
-    
-    private boolean isReservedLabel(String label) {
-    	return reservedLabels.contains(label);        	
-    }
+		if (globalVariableLookup && !isReservedLabel(label1)) {
+			// try parent construction
+			geo = parentCons.lookupLabel(label1, autoCreate);
+		}
+		return geo;
+	}
 
-    /**
-     * Returns true if geos of parent costruction can be referenced
-     * @return true if geos of parent costruction can be referenced
-     */
+	private boolean isReservedLabel(String label) {
+		return reservedLabels.contains(label);
+	}
+
+	/**
+	 * Returns true if geos of parent costruction can be referenced
+	 * 
+	 * @return true if geos of parent costruction can be referenced
+	 */
 	public boolean isGlobalVariableLookup() {
 		return globalVariableLookup;
 	}
 
-	 /**
-     * Set to true if geos of parent costruction should be referenced
-     * @param globalVariableLookup true if geos of parent costruction should be referenced
-     */
+	/**
+	 * Set to true if geos of parent costruction should be referenced
+	 * 
+	 * @param globalVariableLookup
+	 *            true if geos of parent costruction should be referenced
+	 */
 	public void setGlobalVariableLookup(boolean globalVariableLookup) {
 		this.globalVariableLookup = globalVariableLookup;
 	}

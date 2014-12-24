@@ -17,10 +17,12 @@ public class TransformMirror extends Transform {
 
 	/** Element used for mirroring */
 	protected GeoElement mirror;
-	
+
 	/**
-	 * @param cons construction
-	 * @param mirror mirror
+	 * @param cons
+	 *            construction
+	 * @param mirror
+	 *            mirror
 	 */
 	protected TransformMirror(Construction cons, GeoElement mirror) {
 		this.mirror = mirror;
@@ -28,28 +30,34 @@ public class TransformMirror extends Transform {
 	}
 
 	/**
-	 * @param cons construction
-	 * @param mirrorPoint mirror point
+	 * @param cons
+	 *            construction
+	 * @param mirrorPoint
+	 *            mirror point
 	 */
-	public TransformMirror(Construction cons,GeoPoint mirrorPoint) {
+	public TransformMirror(Construction cons, GeoPoint mirrorPoint) {
 		mirror = mirrorPoint;
 		this.cons = cons;
 	}
 
 	/**
-	 * @param cons construction
-	 * @param mirrorCircle mirror circle
+	 * @param cons
+	 *            construction
+	 * @param mirrorCircle
+	 *            mirror circle
 	 */
-	public TransformMirror(Construction cons,GeoConic mirrorCircle) {
+	public TransformMirror(Construction cons, GeoConic mirrorCircle) {
 		mirror = mirrorCircle;
 		this.cons = cons;
 	}
 
 	/**
-	 * @param cons construction
-	 * @param mirrorLine mirror line
+	 * @param cons
+	 *            construction
+	 * @param mirrorLine
+	 *            mirror line
 	 */
-	public TransformMirror(Construction cons,GeoLine mirrorLine) {
+	public TransformMirror(Construction cons, GeoLine mirrorLine) {
 		mirror = mirrorLine;
 		this.cons = cons;
 	}
@@ -66,16 +74,15 @@ public class TransformMirror extends Transform {
 		}
 		return algo;
 	}
-	
+
 	@Override
 	public boolean isAffine() {
-		return ! mirror.isGeoConic();
+		return !mirror.isGeoConic();
 	}
-	
+
 	@Override
 	public boolean changesOrientation() {
 		return mirror.isGeoLine() || mirror.isGeoConic();
-	}	
+	}
 
 }
-

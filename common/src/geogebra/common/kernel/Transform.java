@@ -30,7 +30,8 @@ public abstract class Transform {
 	public static String transformedGeoLabel(GeoElement geo) {
 		if (geo.isGeoFunction()) {
 			if (geo.isLabelSet() && !geo.hasIndexLabel())
-				return geo.getFreeLabel(geo.getLabel(StringTemplate.defaultTemplate));
+				return geo.getFreeLabel(geo
+						.getLabel(StringTemplate.defaultTemplate));
 			return null;
 		}
 
@@ -44,10 +45,11 @@ public abstract class Transform {
 	/**
 	 * Apply the transform to given element and set label for result
 	 * 
-	 * @param geo input geo
+	 * @param geo
+	 *            input geo
 	 * @return transformed geo
 	 */
-	
+
 	public GeoElement doTransform(GeoElement geo) {
 		return getTransformAlgo(geo).getResult();
 	}
@@ -56,8 +58,10 @@ public abstract class Transform {
 	protected Construction cons;
 
 	/**
-	 * @param label label for transformed polygon
-	 * @param poly input polygon
+	 * @param label
+	 *            label for transformed polygon
+	 * @param poly
+	 *            input polygon
 	 * @return transformed polygon
 	 */
 	final public GeoElement[] transformPoly(String label, GeoPolygon poly) {
@@ -67,20 +71,22 @@ public abstract class Transform {
 	/**
 	 * Apply the transform to given element and set label for result
 	 * 
-	 * @param transformedLabel label for transformed geo
-	 * @param geo input geo
+	 * @param transformedLabel
+	 *            label for transformed geo
+	 * @param geo
+	 *            input geo
 	 * @return transformed geo
 	 */
-	
+
 	public GeoElement[] transform(GeoElement geo, String transformedLabel) {
 		String label = transformedLabel;
-		
+
 		// for geo with parent algorithm that handles the transformation
 		AlgoElement algo = geo.getParentAlgorithm();
-		if ((algo != null) && (algo instanceof AlgoTransformable)){
+		if ((algo != null) && (algo instanceof AlgoTransformable)) {
 			return ((AlgoTransformable) algo).getTransformedOutput(this);
 		}
-		
+
 		// for polygons we transform
 		if (geo instanceof GeoPoly && this.isAffine()) {
 			GeoPoly poly = (GeoPoly) geo;
@@ -119,13 +125,14 @@ public abstract class Transform {
 	/**
 	 * Returns algo that will be used for traansforming given geo
 	 * 
-	 * @param geo input geo
+	 * @param geo
+	 *            input geo
 	 * @return algo that will be used for traansforming given geo
 	 */
 	protected abstract AlgoTransformation getTransformAlgo(GeoElement geo);
 
-	private GeoElement[] transformPoly(String label,
-			GeoPoly oldPoly, GeoPointND[] transformedPoints) {
+	private GeoElement[] transformPoly(String label, GeoPoly oldPoly,
+			GeoPointND[] transformedPoints) {
 		// get label for polygon
 		String[] polyLabel = null;
 		if (label == null) {
@@ -141,8 +148,7 @@ public abstract class Transform {
 		// use visibility of points for transformed points
 		GeoPointND[] oldPoints = oldPoly.getPoints();
 		for (int i = 0; i < oldPoints.length; i++) {
-			setVisualStyleForTransformations(
-					(GeoElement) oldPoints[i], 
+			setVisualStyleForTransformations((GeoElement) oldPoints[i],
 					(GeoElement) transformedPoints[i]);
 			cons.getKernel().notifyUpdate((GeoElement) transformedPoints[i]);
 		}
@@ -156,9 +162,7 @@ public abstract class Transform {
 			ret = cons.getKernel().PolyLineND(polyLabel, transformedPoints);
 
 		for (int i = 0; i < ret.length; i++) {
-			setVisualStyleForTransformations(
-					(GeoElement) oldPoly, 
-					ret[i]);
+			setVisualStyleForTransformations((GeoElement) oldPoly, ret[i]);
 		}
 
 		return ret;
@@ -167,10 +171,11 @@ public abstract class Transform {
 	/**
 	 * Applies the transform to all points
 	 * 
-	 * @param points input points
+	 * @param points
+	 *            input points
 	 * @return array of transformed points
 	 */
-	
+
 	public GeoPointND[] transformPoints(GeoPointND[] points) {
 		// dilate all points
 		GeoPointND[] newPoints = new GeoPointND[points.length];
@@ -187,10 +192,11 @@ public abstract class Transform {
 	/**
 	 * Applies the transform to a conic
 	 * 
-	 * @param conic input conic
+	 * @param conic
+	 *            input conic
 	 * @return transformed conic
 	 */
-	
+
 	public GeoConicND getTransformedConic(GeoConicND conic) {
 		GeoConicND ret = (GeoConicND) doTransform(conic);
 		ret.setVisualStyleForTransformations(conic);
@@ -200,10 +206,11 @@ public abstract class Transform {
 	/**
 	 * Applies the transform to a line
 	 * 
-	 * @param line input line
+	 * @param line
+	 *            input line
 	 * @return transformed line
 	 */
-	
+
 	public GeoElement getTransformedLine(GeoLineND line) {
 		GeoElement ret = doTransform((GeoElement) line);
 		ret.setVisualStyleForTransformations((GeoElement) line);
@@ -215,7 +222,7 @@ public abstract class Transform {
 	 * 
 	 * @return true by default, overriden e.g. for circle inverse
 	 */
-	
+
 	public boolean isAffine() {
 		return true;
 	}
@@ -225,7 +232,7 @@ public abstract class Transform {
 	 * 
 	 * @return true iff similar
 	 */
-	
+
 	public boolean isSimilar() {
 		return true;
 	}
@@ -235,18 +242,21 @@ public abstract class Transform {
 	 * 
 	 * @return true iff changes orientation of objects
 	 */
-	
+
 	public boolean changesOrientation() {
 		return false;
 	}
-	
 
 	/**
 	 * set the visual style of transformed geo regarding input
-	 * @param input input geo
-	 * @param transformed transformed geo
+	 * 
+	 * @param input
+	 *            input geo
+	 * @param transformed
+	 *            transformed geo
 	 */
-	static final public void setVisualStyleForTransformations(GeoElement input, GeoElement transformed){
+	static final public void setVisualStyleForTransformations(GeoElement input,
+			GeoElement transformed) {
 		transformed.setEuclidianVisible(input.isSetEuclidianVisible());
 		transformed.setVisualStyleForTransformations(input);
 	}

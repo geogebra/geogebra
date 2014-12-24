@@ -20,12 +20,17 @@ public class TransformShearOrStretch extends Transform {
 	private NumberValue num;
 
 	/**
-	 * @param cons construction
-	 * @param line line determining shear/stretch direction
-	 * @param num shear/stretch ratio
-	 * @param shear true to shear, false to stretch
+	 * @param cons
+	 *            construction
+	 * @param line
+	 *            line determining shear/stretch direction
+	 * @param num
+	 *            shear/stretch ratio
+	 * @param shear
+	 *            true to shear, false to stretch
 	 */
-	public TransformShearOrStretch(Construction cons,GeoVec3D line, GeoNumeric num, boolean shear) {
+	public TransformShearOrStretch(Construction cons, GeoVec3D line,
+			GeoNumeric num, boolean shear) {
 		this.shear = shear;
 		this.line = line;
 		this.num = num;
@@ -38,15 +43,15 @@ public class TransformShearOrStretch extends Transform {
 				shear);
 		return algo;
 	}
-	
+
 	@Override
 	public boolean isSimilar() {
 		return false;
 	}
-	
+
 	@Override
 	public boolean changesOrientation() {
-		return !shear && num.getDouble()<0;
-	}	
+		return !shear && num.getDouble() < 0;
+	}
 
 }

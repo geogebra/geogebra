@@ -99,21 +99,22 @@ import java.util.TreeSet;
 
 /**
  * Provides methods for computation
+ * 
  * @author Markus
  */
 public class Kernel {
 
 	/**
-	 * Maximal number of spreadsheet columns
-	 *  if these are increased above 32000, you need to change traceRow to an int[]
+	 * Maximal number of spreadsheet columns if these are increased above 32000,
+	 * you need to change traceRow to an int[]
 	 */
 	public static int MAX_SPREADSHEET_COLUMNS_DESKTOP = 9999;
-	/** Maximal number of spreadsheet rows*/
+	/** Maximal number of spreadsheet rows */
 	public static int MAX_SPREADSHEET_ROWS_DESKTOP = 9999;
 
 	public static int MAX_SPREADSHEET_COLUMNS_VISIBLE = MAX_SPREADSHEET_COLUMNS_DESKTOP;
 	public static int MAX_SPREADSHEET_ROWS_VISIBLE = MAX_SPREADSHEET_ROWS_DESKTOP;
-	
+
 	/** string for +- */
 	public static String STRING_PLUS_MINUS = "\u00B1 ";
 	/** string for -+ */
@@ -144,12 +145,12 @@ public class Kernel {
 
 	private boolean viewReiniting = false;
 	private boolean undoActive = false;
-	
+
 	// Views may register to be informed about
 	// changes to the Kernel
 	// (add, remove, update)
 	// TODO why exactly 20 views?
-	/** List of attached views*/
+	/** List of attached views */
 	protected ArrayList<View> views = new ArrayList<View>();
 	protected boolean addingPolygon = false;
 	protected GeoElement newPolygon;
@@ -157,21 +158,22 @@ public class Kernel {
 	protected ArrayList<UserAwarenessListener> userAwarenessListeners;
 	/** Construction */
 	protected Construction cons;
-	/** Algebra processor*/
+	/** Algebra processor */
 	protected AlgebraProcessor algProcessor;
 	/** Evaluator for ExpressionNode */
 	protected ExpressionNodeEvaluator expressionNodeEvaluator;
-	
-	/** CAS variable handling 
+
+	/**
+	 * CAS variable handling
 	 * 
-	 * must start with a letter before 'x' so that variable ordering works in Giac
+	 * must start with a letter before 'x' so that variable ordering works in
+	 * Giac
 	 * 
-	 * If this is changed, it also needs changing 
+	 * If this is changed, it also needs changing
 	 * 
 	 * */
 	public static final String TMP_VARIABLE_PREFIX = "ggbtmpvar";
-	
-	
+
 	// Continuity on or off, default: false since V3.0
 	private boolean continuous = false;
 	public PathRegionHandling usePathAndRegionParameters = PathRegionHandling.ON;
@@ -199,7 +201,7 @@ public class Kernel {
 	final public static double SQRT_2_HALF = Math.sqrt(2.0) / 2.0;
 	/** One degree (Pi/180) */
 	final public static double PI_180 = Math.PI / 180;
-	/** Radian to degree ratio (180/Pi)*/
+	/** Radian to degree ratio (180/Pi) */
 	final public static double CONST_180_PI = 180 / Math.PI;
 
 	/** maximum precision of double numbers */
@@ -207,12 +209,12 @@ public class Kernel {
 	/** reciprocal of maximum precision of double numbers */
 	public final static double INV_MAX_DOUBLE_PRECISION = 1E15;
 
-	/** maximum CAS results cached*/
+	/** maximum CAS results cached */
 	public static int GEOGEBRA_CAS_CACHE_SIZE = 500;
 
 	// print precision
 	public static final int STANDARD_PRINT_DECIMALS = 2;
-	//private double PRINT_PRECISION = 1E-2;
+	// private double PRINT_PRECISION = 1E-2;
 	private NumberFormatAdapter nf;
 	private final ScientificFormatAdapter sf;
 	public boolean useSignificantFigures = false;
@@ -240,10 +242,8 @@ public class Kernel {
 	/** maximum reasonable precision */
 	public final static double MAX_PRECISION = 1E-12;
 
-	/** maximum axes can zoom to */ 
- 	private final static double AXES_PRECISION = 1E-14; 
- 	
-
+	/** maximum axes can zoom to */
+	private final static double AXES_PRECISION = 1E-14;
 
 	// private String stringTemplate.getPi(); // for pi
 
@@ -277,8 +277,11 @@ public class Kernel {
 	// setResolveUnkownVarsAsDummyGeos
 	private boolean resolveUnkownVarsAsDummyGeos = false;
 
-	private boolean updateEVAgain = false; // used for DrawEquationWeb and DrawText in GGW
-	private boolean forceUpdatingBoundingBox = false; // used for DrawEquationWeb and DrawText in GGW
+	private boolean updateEVAgain = false; // used for DrawEquationWeb and
+											// DrawText in GGW
+	private boolean forceUpdatingBoundingBox = false; // used for
+														// DrawEquationWeb and
+														// DrawText in GGW
 
 	private final StringBuilder sbBuildExplicitLineEquation = new StringBuilder(
 			50);
@@ -297,7 +300,8 @@ public class Kernel {
 	private Object concurrentModificationLock = new Object();
 
 	/**
-	 * @param app Application
+	 * @param app
+	 *            Application
 	 */
 	public Kernel(App app) {
 		this();
@@ -333,7 +337,8 @@ public class Kernel {
 	}
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
 	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
@@ -341,7 +346,8 @@ public class Kernel {
 	}
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 * @return a new 3D manager TODO: reduce visibility after refactoring
 	 */
 	public Manager3DInterface newManager3D(Kernel kernel) {
@@ -349,13 +355,12 @@ public class Kernel {
 	}
 
 	/**
-	 * Synchronized means that no two Threads can simultaneously
-	 * enter any blocks locked by the same lock object, 
-	 * but they can only wait for the active Thread to exit from
-	 * these blocks... as there is only one lock object and
-	 * these methods probably do not call other synchronized
-	 * code blocks, it probably does not cause any problem
-	 *  
+	 * Synchronized means that no two Threads can simultaneously enter any
+	 * blocks locked by the same lock object, but they can only wait for the
+	 * active Thread to exit from these blocks... as there is only one lock
+	 * object and these methods probably do not call other synchronized code
+	 * blocks, it probably does not cause any problem
+	 * 
 	 * @return Object unique to the Application instance
 	 */
 	public Object getConcurrentModificationLock() {
@@ -407,8 +412,10 @@ public class Kernel {
 	/**
 	 * creates a new MyXMLHandler (used for 3D)
 	 * 
-	 * @param kernel kernel
-	 * @param cons1 construction
+	 * @param kernel
+	 *            kernel
+	 * @param cons1
+	 *            construction
 	 * @return a new MyXMLHandler
 	 */
 	public MyXMLHandler newMyXMLHandler(Kernel kernel, Construction cons1) {
@@ -416,8 +423,9 @@ public class Kernel {
 	}
 
 	/**
-	 * @Deprecated Please get the app elsewhere! App will be separated from the Kernel in the future,
-	 * instead a class with settings for the Kernel will be introduced. - Matthias
+	 * @Deprecated Please get the app elsewhere! App will be separated from the
+	 *             Kernel in the future, instead a class with settings for the
+	 *             Kernel will be introduced. - Matthias
 	 * @return chaos
 	 */
 	final public App getApplication() {
@@ -503,7 +511,7 @@ public class Kernel {
 	// blue);
 
 	protected AnimationManager animationManager;
-	
+
 	/*
 	 * If the data-param-showAnimationButton parameter for applet is false, be
 	 * sure not to show the animation button. In this case the value of
@@ -511,10 +519,10 @@ public class Kernel {
 	 */
 	private boolean showAnimationButton = true;
 
-	public void setShowAnimationButton(boolean showAB){
+	public void setShowAnimationButton(boolean showAB) {
 		showAnimationButton = showAB;
 	}
-	
+
 	final public boolean isAnimationRunning() {
 		return animationManager != null && animationManager.isRunning();
 	}
@@ -524,7 +532,8 @@ public class Kernel {
 	}
 
 	final public boolean needToShowAnimationButton() {
-		if (!showAnimationButton ) return false;  
+		if (!showAnimationButton)
+			return false;
 		return animationManager != null
 				&& animationManager.needToShowAnimationButton();
 	}
@@ -542,8 +551,7 @@ public class Kernel {
 			LinkedHashMap<String, String> attrs) {
 
 		if (!(geo instanceof GeoVec3D)) {
-			App.debug("wrong element type for <coords>: "
-					+ geo.getClass());
+			App.debug("wrong element type for <coords>: " + geo.getClass());
 			return false;
 		}
 		GeoVec3D v = (GeoVec3D) geo;
@@ -555,7 +563,7 @@ public class Kernel {
 			v.hasUpdatePrevilege = true;
 			v.setCoords(x, y, z);
 			return true;
-			
+
 		} catch (Exception e) {
 			return false;
 		}
@@ -587,23 +595,26 @@ public class Kernel {
 
 	/**
 	 * Returns the ConstructionElement for the given construction index.
-	 * @param index construction index
+	 * 
+	 * @param index
+	 *            construction index
 	 * @return corresponding element
 	 */
 	public ConstructionElement getConstructionElement(int index) {
 		return cons.getConstructionElement(index);
 	}
-	
+
 	/**
 	 * 
 	 * @return first geo if exists
 	 */
-	public GeoElement getFirstGeo(){
+	public GeoElement getFirstGeo() {
 		return cons.getFirstGeo();
 	}
 
 	/**
-	 * @param step new construction step
+	 * @param step
+	 *            new construction step
 	 */
 	public void setConstructionStep(int step) {
 		if (cons.getStep() != step) {
@@ -711,8 +722,11 @@ public class Kernel {
 
 	/**
 	 * Move object at position from to position to in current construction.
-	 * @param from original position
-	 * @param to target position
+	 * 
+	 * @param from
+	 *            original position
+	 * @param to
+	 *            target position
 	 * @return true if succesful
 	 */
 	public boolean moveInConstructionList(int from, int to) {
@@ -720,16 +734,18 @@ public class Kernel {
 	}
 
 	/**
-	 * Find geos with caption ending %style=... in this kernel,
-	 * and set their visual styles to those geos in the
-	 * otherKernel which have the same %style=... caption ending;
-	 * as well as set %style=defaultStyle for all geos
+	 * Find geos with caption ending %style=... in this kernel, and set their
+	 * visual styles to those geos in the otherKernel which have the same
+	 * %style=... caption ending; as well as set %style=defaultStyle for all
+	 * geos
 	 * 
 	 * @param otherKernel
 	 */
 	public void setVisualStyles(Kernel otherKernel) {
-		TreeSet<GeoElement> okts = otherKernel.getConstruction().getGeoSetWithCasCellsConstructionOrder();
-		ArrayList<GeoElement> selected = getApplication().getSelectionManager().getSelectedGeos();
+		TreeSet<GeoElement> okts = otherKernel.getConstruction()
+				.getGeoSetWithCasCellsConstructionOrder();
+		ArrayList<GeoElement> selected = getApplication().getSelectionManager()
+				.getSelectedGeos();
 
 		// maybe it's efficient to pre-filter this set to only contain
 		// elements that have "%style=" styling
@@ -818,11 +834,13 @@ public class Kernel {
 	}
 
 	/**
-	 * @param flag switches on or off putting scripts into XML
+	 * @param flag
+	 *            switches on or off putting scripts into XML
 	 */
 	public void setSaveScriptsToXML(boolean flag) {
 		saveScriptsToXML = flag;
 	}
+
 	/**
 	 * 
 	 * @return whether scripts should be put into XML or not
@@ -841,6 +859,7 @@ public class Kernel {
 
 	/**
 	 * States whether the continuity heuristic is active.
+	 * 
 	 * @returns whether continuous mode is on
 	 */
 	final public boolean isContinuous() {
@@ -856,18 +875,23 @@ public class Kernel {
 	}
 
 	/**
-	 * States whether path/region parameters are used. 
-	 * Also test if point is defined (if not, use parameters).
-	 * @param point point
+	 * States whether path/region parameters are used. Also test if point is
+	 * defined (if not, use parameters).
+	 * 
+	 * @param point
+	 *            point
 	 * @return true if given point should use path/region parameter
 	 */
 	final public boolean usePathAndRegionParameters(GeoPointND point) {
-		return usePathAndRegionParameters == PathRegionHandling.ON || (!point.isDefined());
+		return usePathAndRegionParameters == PathRegionHandling.ON
+				|| (!point.isDefined());
 	}
 
 	/**
 	 * Turns the using of path/region parameters on or off.
-	 * @param flag new flag for using path/region parameters
+	 * 
+	 * @param flag
+	 *            new flag for using path/region parameters
 	 */
 	public void setUsePathAndRegionParameters(PathRegionHandling flag) {
 		this.usePathAndRegionParameters = flag;
@@ -876,25 +900,28 @@ public class Kernel {
 	// loading mode: true when a ggb file is being loaded. Devised for backward
 	// compatibility.
 	private boolean loadingMode;
-	/** 
+
+	/**
 	 * 
-	 * @param b true to indicate that file is being loaded
+	 * @param b
+	 *            true to indicate that file is being loaded
 	 */
 	public void setLoadingMode(boolean b) {
 		loadingMode = b;
 	}
-	
-	public void notifyOpeningFile( String fileName ){
-		for( UserAwarenessListener listener: this.userAwarenessListeners ){
+
+	public void notifyOpeningFile(String fileName) {
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.fileLoading(fileName);
 		}
 	}
-	
-	public void notifyFileOpenComplete( boolean success ){
-		for( UserAwarenessListener listener: this.userAwarenessListeners ){
+
+	public void notifyFileOpenComplete(boolean success) {
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.fileLoadComplete(success);
 		}
 	}
+
 	/**
 	 * @return whether file is being loaded
 	 */
@@ -902,7 +929,7 @@ public class Kernel {
 		return loadingMode;
 	}
 
-	final private static char sign(double x) { 
+	final private static char sign(double x) {
 		if (x > 0) {
 			return '+';
 		}
@@ -918,15 +945,14 @@ public class Kernel {
 		return notifyConstructionProtocolViewAboutAddRemoveActive;
 	}
 
-
 	// see http://code.google.com/p/google-web-toolkit/issues/detail?id=4097
 	public final StringBuilder buildImplicitEquation(double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
-			char op, StringTemplate tpl) {
+			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			boolean needsZ, char op, StringTemplate tpl) {
 
 		sbBuildImplicitEquation.setLength(0);
-		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation,
-				numbers, vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
+		double[] temp = buildImplicitVarPart(sbBuildImplicitEquation, numbers,
+				vars, KEEP_LEADING_SIGN || (op == '='), CANCEL_DOWN, needsZ,
 				tpl);
 
 		sbBuildImplicitEquation.append(' ');
@@ -967,11 +993,9 @@ public class Kernel {
 		sb.append(format(-x, tpl));
 		return;
 	}
-	
-	
 
-	final public void formatSignedCoefficientPlusMinus(double x, StringBuilder sb,
-			StringTemplate tpl) {
+	final public void formatSignedCoefficientPlusMinus(double x,
+			StringBuilder sb, StringTemplate tpl) {
 		if (x == -1.0) {
 			sb.append(STRING_MINUS_PLUS);
 			return;
@@ -1075,8 +1099,11 @@ public class Kernel {
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
 	 * ScientificFormat.
-	 * @param number number
-	 * @param tpl string template
+	 * 
+	 * @param number
+	 *            number
+	 * @param tpl
+	 *            string template
 	 * @return formated number as string
 	 */
 	final public String formatRaw(double number, StringTemplate tpl) {
@@ -1089,11 +1116,11 @@ public class Kernel {
 		}
 		StringType casPrintForm = tpl.getStringType();
 		switch (casPrintForm) {
-		
-			// to avoid 1/3 = 0
+
+		// to avoid 1/3 = 0
 		case PGF:
 			return Double.toString(x);
-			
+
 			// number formatting for XML string output
 		case GEOGEBRA_XML:
 			if (isLongInteger) {
@@ -1121,10 +1148,11 @@ public class Kernel {
 				// notation
 				if ((abs >= 10E-3) && (abs < 10E7)) {
 					String ret = Double.toString(x);
-					
+
 					// convert 0.125 to 1/8 so Giac treats it as an exact number
 					// Note: exact(0.3333333333333) gives 1/3
-					if (casPrintForm.equals(StringType.GIAC) && ret.indexOf('.') > -1) {
+					if (casPrintForm.equals(StringType.GIAC)
+							&& ret.indexOf('.') > -1) {
 						return StringUtil.wrapInExact(ret);
 					}
 
@@ -1132,7 +1160,7 @@ public class Kernel {
 				}
 				// convert scientific notation 1.0E-20 to 1*10^(-20)
 				String scientificStr = Double.toString(x);
-				
+
 				return tpl.convertScientificNotation(scientificStr);
 			}
 
@@ -1145,7 +1173,7 @@ public class Kernel {
 			} else if (x == Math.PI) {
 				return tpl.getPi();
 			}
-			
+
 			boolean useSF = tpl.useScientific(useSignificantFigures);
 
 			// ROUNDING hack
@@ -1190,16 +1218,19 @@ public class Kernel {
 
 	/**
 	 * Formats the value of x using the currently set NumberFormat or
-	 * ScientificFormat. 
+	 * ScientificFormat.
 	 * 
 	 * converts to localised digits if appropriate
-	 * @param x number
-	 * @param tpl string template
+	 * 
+	 * @param x
+	 *            number
+	 * @param tpl
+	 *            string template
 	 * @return formated string
 	 */
 
 	final public String format(double x, StringTemplate tpl) {
-//App.printStacktrace(x+"");
+		// App.printStacktrace(x+"");
 		String ret = formatRaw(x, tpl);
 
 		if (app.getLocalization().unicodeZero != '0') {
@@ -1214,7 +1245,8 @@ public class Kernel {
 	 */
 	public String internationalizeDigits(String num, StringTemplate tpl) {
 
-		if (!tpl.internationalizeDigits() || !getLocalization().isUsingLocalizedDigits()) {
+		if (!tpl.internationalizeDigits()
+				|| !getLocalization().isUsingLocalizedDigits()) {
 			return num;
 		}
 
@@ -1223,9 +1255,9 @@ public class Kernel {
 		} else {
 			formatSB.setLength(0);
 		}
-		
+
 		boolean negative = num.charAt(0) == '-';
-		
+
 		int start = 0;
 
 		// make sure minus sign works in Arabic
@@ -1241,19 +1273,20 @@ public class Kernel {
 
 		for (int i = start; i < num.length(); i++) {
 
-			char c = RTL ? num.charAt(num.length() -(negative?0:1) - i) : num.charAt(i);
+			char c = RTL ? num.charAt(num.length() - (negative ? 0 : 1) - i)
+					: num.charAt(i);
 			if (c == '.') {
 				c = getLocalization().unicodeDecimalPoint;
 			} else if ((c >= '0') && (c <= '9')) {
 
 				// convert to eg Arabic Numeral
-				c += app.getLocalization().unicodeZero - '0'; 
+				c += app.getLocalization().unicodeZero - '0';
 			}
 
 			formatSB.append(c);
 		}
 
-		if (RTL) {			
+		if (RTL) {
 			formatSB.append(Unicode.RightToLeftMark);
 		}
 
@@ -1262,9 +1295,13 @@ public class Kernel {
 
 	/**
 	 * calls formatPiERaw() and converts to localised digits if appropriate
-	 * @param x number
-	 * @param numF number format
-	 * @param tpl string template
+	 * 
+	 * @param x
+	 *            number
+	 * @param numF
+	 *            number format
+	 * @param tpl
+	 *            string template
 	 * @return formated number with e's and pi's replaced by suitable symbols
 	 */
 	final public String formatPiE(double x, NumberFormatAdapter numF,
@@ -1280,9 +1317,14 @@ public class Kernel {
 
 	private final StringBuilder sbBuildImplicitEquation = new StringBuilder(80);
 
-	/** copy array a to array b 
-	 * @param a input array
-	 * @param b output array */
+	/**
+	 * copy array a to array b
+	 * 
+	 * @param a
+	 *            input array
+	 * @param b
+	 *            output array
+	 */
 	final static void copy(double[] a, double[] b) {
 		for (int i = 0; i < a.length; i++) {
 			b[i] = a[i];
@@ -1290,9 +1332,12 @@ public class Kernel {
 	}
 
 	/**
-	 *  change signs of double array values, write result to array b
-	 * @param a input array
-	 * @param b output array
+	 * change signs of double array values, write result to array b
+	 * 
+	 * @param a
+	 *            input array
+	 * @param b
+	 *            output array
 	 */
 	final static void negative(double[] a, double[] b) {
 		for (int i = 0; i < a.length; i++) {
@@ -1300,10 +1345,16 @@ public class Kernel {
 		}
 	}
 
-	/** Computes c[] = a[] / b 
-	 * @param a array of dividends
-	 * @param b divisor
-	 * @param c array for results*/
+	/**
+	 * Computes c[] = a[] / b
+	 * 
+	 * @param a
+	 *            array of dividends
+	 * @param b
+	 *            divisor
+	 * @param c
+	 *            array for results
+	 */
 	final static void divide(double[] a, double b, double[] c) {
 		for (int i = 0; i < a.length; i++) {
 			c[i] = a[i] / b;
@@ -1312,8 +1363,11 @@ public class Kernel {
 
 	/**
 	 * greatest common divisor
-	 * @param m firs number
-	 * @param n second number
+	 * 
+	 * @param m
+	 *            firs number
+	 * @param n
+	 *            second number
 	 * @return GCD of given numbers
 	 */
 	final public static long gcd(long m, long n) {
@@ -1334,7 +1388,9 @@ public class Kernel {
 	/**
 	 * Compute greatest common divisor of given doubles. Note: all double values
 	 * are cast to long.
-	 * @param numbers array of numbers
+	 * 
+	 * @param numbers
+	 *            array of numbers
 	 * @return GCD of given numbers
 	 */
 	final public static double gcd(double[] numbers) {
@@ -1349,8 +1405,11 @@ public class Kernel {
 	 * Round a double to the given scale e.g. roundToScale(5.32, 1) = 5.0,
 	 * roundToScale(5.32, 0.5) = 5.5, roundToScale(5.32, 0.25) = 5.25,
 	 * roundToScale(5.32, 0.1) = 5.3
-	 * @param x number
-	 * @param scale rounding step
+	 * 
+	 * @param x
+	 *            number
+	 * @param scale
+	 *            rounding step
 	 * @return rounded number
 	 */
 	final public static double roundToScale(double x, double scale) {
@@ -1360,11 +1419,15 @@ public class Kernel {
 		return Math.round(x / scale) * scale;
 	}
 
-	/** compares double arrays:
-	 * @param a first array
-	 * @param b second array
-	* @return true if (isEqual(a[i], b[i]) == true) for all i
-	*/
+	/**
+	 * compares double arrays:
+	 * 
+	 * @param a
+	 *            first array
+	 * @param b
+	 *            second array
+	 * @return true if (isEqual(a[i], b[i]) == true) for all i
+	 */
 	final static boolean isEqual(double[] a, double[] b) {
 		for (int i = 0; i < a.length; ++i) {
 			if (!isEqual(a[i], b[i])) {
@@ -1381,9 +1444,12 @@ public class Kernel {
 	 * Math.PI; else return Double.NaN; }
 	 */
 
-	/** Computes max of abs(a[i])
-	 * @param a array of numbers
-	 * @return max of abs(a[i]) 
+	/**
+	 * Computes max of abs(a[i])
+	 * 
+	 * @param a
+	 *            array of numbers
+	 * @return max of abs(a[i])
 	 */
 	final static double maxAbs(double[] a) {
 		double temp, max = Math.abs(a[0]);
@@ -1398,17 +1464,24 @@ public class Kernel {
 
 	/**
 	 * Builds lhs of lhs = 0
-	 * @param numbers coefficients
-	 * @param vars variable names
-	 * @param KEEP_LEADING_SIGN true to keep leading sign
-	 * @param CANCEL_DOWN true to allow canceling 2x+4y -> x+2y
-	 * @param tpl string template
+	 * 
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            variable names
+	 * @param KEEP_LEADING_SIGN
+	 *            true to keep leading sign
+	 * @param CANCEL_DOWN
+	 *            true to allow canceling 2x+4y -> x+2y
+	 * @param tpl
+	 *            string template
 	 * @return string representing LHS
 	 */
 	final public StringBuilder buildLHS(double[] numbers, String[] vars,
-			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ, StringTemplate tpl) {
+			boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
+			StringTemplate tpl) {
 		sbBuildLHS.setLength(0);
-		double[] temp = buildImplicitVarPart(sbBuildLHS,numbers, vars,
+		double[] temp = buildImplicitVarPart(sbBuildLHS, numbers, vars,
 				KEEP_LEADING_SIGN, CANCEL_DOWN, needsZ, tpl);
 
 		// add constant coeff
@@ -1452,9 +1525,10 @@ public class Kernel {
 	}
 
 	// lhs of implicit equation without constant coeff
-	final private double[] buildImplicitVarPart(StringBuilder sbBuildImplicitVarPart, double[] numbers,
-			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN, boolean needsZ,
-			StringTemplate tpl) {
+	final private double[] buildImplicitVarPart(
+			StringBuilder sbBuildImplicitVarPart, double[] numbers,
+			String[] vars, boolean KEEP_LEADING_SIGN, boolean CANCEL_DOWN,
+			boolean needsZ, StringTemplate tpl) {
 
 		double[] temp = new double[numbers.length];
 
@@ -1516,7 +1590,8 @@ public class Kernel {
 				abs = temp[i];
 			}
 
-			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures || (needsZ && i == 2)) {
+			if ((abs >= tpl.getPrecision(nf)) || useSignificantFigures
+					|| (needsZ && i == 2)) {
 				sbBuildImplicitVarPart.append(sign);
 				sbBuildImplicitVarPart.append(formatCoeff(abs, tpl));
 				sbBuildImplicitVarPart.append(vars[i]);
@@ -1525,26 +1600,33 @@ public class Kernel {
 		return temp;
 	}
 
-	//private final StringBuilder sbBuildImplicitVarPart = new StringBuilder(80);
+	// private final StringBuilder sbBuildImplicitVarPart = new
+	// StringBuilder(80);
 
 	/**
 	 * 
-	 * @param x value
+	 * @param x
+	 *            value
 	 * @param tpl
 	 * @return true if x is built as "0"
 	 */
-	private boolean isZeroFigure(double x, StringTemplate tpl){
+	private boolean isZeroFigure(double x, StringTemplate tpl) {
 		return !useSignificantFigures && (Math.abs(x) <= tpl.getPrecision(nf));
 	}
-	
-	
+
 	/**
 	 * form: y^2 = f(x) (coeff of y = 0)
-	 * @param numbers coefficients
-	 * @param vars variables
-	 * @param pos position of y^2 coefficient
-	 * @param KEEP_LEADING_SIGN whether leading sign should be kept
-	 * @param tpl string template
+	 * 
+	 * @param numbers
+	 *            coefficients
+	 * @param vars
+	 *            variables
+	 * @param pos
+	 *            position of y^2 coefficient
+	 * @param KEEP_LEADING_SIGN
+	 *            whether leading sign should be kept
+	 * @param tpl
+	 *            string template
 	 * @return explicit equation of conic
 	 */
 	public final StringBuilder buildExplicitConicEquation(double[] numbers,
@@ -1650,75 +1732,82 @@ public class Kernel {
 	}
 
 	private StringBuilder sbFormatSF;
-	
+
 	/**
 	 * append "two coeffs" expression
-	 * @param plusMinusX says if we want "+-" before x coeffs
-	 * @param x first coeff
-	 * @param y second coeff
-	 * @param s1 first string
-	 * @param s2 second string
-	 * @param tpl template
-	 * @param sbBuildValueString string builder
+	 * 
+	 * @param plusMinusX
+	 *            says if we want "+-" before x coeffs
+	 * @param x
+	 *            first coeff
+	 * @param y
+	 *            second coeff
+	 * @param s1
+	 *            first string
+	 * @param s2
+	 *            second string
+	 * @param tpl
+	 *            template
+	 * @param sbBuildValueString
+	 *            string builder
 	 */
-	public final void appendTwoCoeffs(boolean plusMinusX, double x, double y, String s1, String s2, StringTemplate tpl, StringBuilder sbBuildValueString){
-		
-		
-		if (isZeroFigure(x, tpl)){
-			if (isZeroFigure(y, tpl)){
+	public final void appendTwoCoeffs(boolean plusMinusX, double x, double y,
+			String s1, String s2, StringTemplate tpl,
+			StringBuilder sbBuildValueString) {
+
+		if (isZeroFigure(x, tpl)) {
+			if (isZeroFigure(y, tpl)) {
 				sbBuildValueString.append("0");
-			}else{
+			} else {
 				String coeff = formatCoeff(y, tpl);
 				sbBuildValueString.append(coeff);
-				if (coeff.length() > 0){
+				if (coeff.length() > 0) {
 					sbBuildValueString.append(" "); // no need if no coeff
 				}
 				sbBuildValueString.append(s2);
 			}
-		}else{
-			if (plusMinusX){
+		} else {
+			if (plusMinusX) {
 				formatSignedCoefficientPlusMinus(x, sbBuildValueString, tpl);
 				sbBuildValueString.append(" ");
-			}else{
+			} else {
 				String coeff = formatCoeff(x, tpl);
 				sbBuildValueString.append(coeff);
-				if (coeff.length() > 0){
+				if (coeff.length() > 0) {
 					sbBuildValueString.append(" "); // no need if no coeff
 				}
-			}			
+			}
 			sbBuildValueString.append(s1);
-			
-			if (!isZeroFigure(y, tpl)){
+
+			if (!isZeroFigure(y, tpl)) {
 				sbBuildValueString.append(" ");
 				formatSignedCoefficient(y, sbBuildValueString, tpl);
 				sbBuildValueString.append(" ");
 				sbBuildValueString.append(s2);
-			}			
-		}
-		
-	}
-	
-	
-	public final void appendTwoCoeffs(double x, double y, StringTemplate tpl, StringBuilder sbBuildValueString){
-		
-		
-		if (isZeroFigure(x, tpl)){
-			if (isZeroFigure(y, tpl)){
-				sbBuildValueString.append("0");
-			}else{
-				formatSignedPlusMinus(y, sbBuildValueString, tpl);
 			}
-		}else{
-			sbBuildValueString.append(format(x, tpl));
-			
-			if (!isZeroFigure(y, tpl)){
-				sbBuildValueString.append(" ");
-				formatSignedPlusMinus(y, sbBuildValueString, tpl);
-			}			
 		}
-		
+
 	}
 
+	public final void appendTwoCoeffs(double x, double y, StringTemplate tpl,
+			StringBuilder sbBuildValueString) {
+
+		if (isZeroFigure(x, tpl)) {
+			if (isZeroFigure(y, tpl)) {
+				sbBuildValueString.append("0");
+			} else {
+				formatSignedPlusMinus(y, sbBuildValueString, tpl);
+			}
+		} else {
+			sbBuildValueString.append(format(x, tpl));
+
+			if (!isZeroFigure(y, tpl)) {
+				sbBuildValueString.append(" ");
+				formatSignedPlusMinus(y, sbBuildValueString, tpl);
+			}
+		}
+
+	}
 
 	/** doesn't show 1 or -1 */
 	private final String formatCoeff(double x, StringTemplate tpl) { // TODO
@@ -1753,14 +1842,12 @@ public class Kernel {
 		if (isZero(q)) {
 			sbBuildExplicitLineEquation.append(vars[0]);
 
-			
 			sbBuildExplicitLineEquation.append(' ');
 			if (numbers[0] < MIN_PRECISION) {
 				op = oppositeSign(op);
 			}
 			sbBuildExplicitLineEquation.append(op);
 			sbBuildExplicitLineEquation.append(' ');
-
 
 			sbBuildExplicitLineEquation.append(format(-numbers[2] / numbers[0],
 					tpl));
@@ -1769,14 +1856,13 @@ public class Kernel {
 
 		// standard case: y-coeff not 0
 		sbBuildExplicitLineEquation.append(vars[1]);
-		
+
 		sbBuildExplicitLineEquation.append(' ');
 		if (numbers[1] < MIN_PRECISION) {
 			op = oppositeSign(op);
 		}
 		sbBuildExplicitLineEquation.append(op);
 		sbBuildExplicitLineEquation.append(' ');
-
 
 		// x coeff
 		d = -numbers[0] / q;
@@ -1817,13 +1903,14 @@ public class Kernel {
 	}
 
 	/** is abs(x) < epsilon ? */
-	final public static boolean isZero(double x,double eps) {
+	final public static boolean isZero(double x, double eps) {
 		return (-eps < x) && (x < eps);
 	}
-	
+
 	/**
-	 * @param a array of numbers
-	 * @return whether all given numbers are zero within current precision 
+	 * @param a
+	 *            array of numbers
+	 * @return whether all given numbers are zero within current precision
 	 */
 	final static boolean isZero(double[] a) {
 		for (int i = 0; i < a.length; i++) {
@@ -1835,15 +1922,17 @@ public class Kernel {
 	}
 
 	/**
-	 * @param x number
-	 * @return whether fractional part of the number is zero within current precision (false for +/-Infinity, NaN
+	 * @param x
+	 *            number
+	 * @return whether fractional part of the number is zero within current
+	 *         precision (false for +/-Infinity, NaN
 	 */
 	final public static boolean isInteger(double x) {
-		
+
 		if (Double.isInfinite(x) || Double.isNaN(x)) {
 			return false;
 		}
-		
+
 		if (x > 1E17 || x < -1E17) {
 			return true;
 		}
@@ -1859,7 +1948,8 @@ public class Kernel {
 		if (x == y) {
 			return true;
 		}
-		return ((x - STANDARD_PRECISION) <= y) && (y <= (x + STANDARD_PRECISION));
+		return ((x - STANDARD_PRECISION) <= y)
+				&& (y <= (x + STANDARD_PRECISION));
 	}
 
 	final public static boolean isEqual(double x, double y, double eps) {
@@ -1878,16 +1968,18 @@ public class Kernel {
 
 	/**
 	 * 
-	 * @param x first value
-	 * @param y second value
+	 * @param x
+	 *            first value
+	 * @param y
+	 *            second value
 	 * @return 0 if x ~ y ; -1 if x < y ; 1 if x > y
 	 */
 	final public static int compare(double x, double y) {
-		if (isGreater(x, y)){
+		if (isGreater(x, y)) {
 			return 1;
 		}
-		
-		if (isGreater(y, x)){
+
+		if (isGreater(y, x)) {
 			return -1;
 		}
 
@@ -1896,9 +1988,13 @@ public class Kernel {
 
 	/**
 	 * Returns whether x is greater than y
-	 * @param x x
-	 * @param y y
-	 * @param eps tolerance 
+	 * 
+	 * @param x
+	 *            x
+	 * @param y
+	 *            y
+	 * @param eps
+	 *            tolerance
 	 * @return true if x > y + eps
 	 */
 	final public static boolean isGreater(double x, double y, double eps) {
@@ -1938,10 +2034,14 @@ public class Kernel {
 	 * Checks if x is close (Kernel.MIN_PRECISION) to a decimal fraction, eg
 	 * 2.800000000000001. If it is, the decimal fraction eg 2.8 is returned,
 	 * otherwise x is returned.
-	 * @param x input number
-	 * @param precision specifies how many decimals digits are accepted in results -- e.g. 0.001 to allow three digits
-	 * @return input number; rounded with given precision if the rounding error is less than this
-	 * kernel's minimal precision
+	 * 
+	 * @param x
+	 *            input number
+	 * @param precision
+	 *            specifies how many decimals digits are accepted in results --
+	 *            e.g. 0.001 to allow three digits
+	 * @return input number; rounded with given precision if the rounding error
+	 *         is less than this kernel's minimal precision
 	 */
 
 	final public static double checkDecimalFraction(double x, double precision) {
@@ -1979,19 +2079,21 @@ public class Kernel {
 
 	/**
 	 * Returns formated angle (in degrees if necessary)
-	 * @param phi angle in radians
-	 * @param tpl string template
+	 * 
+	 * @param phi
+	 *            angle in radians
+	 * @param tpl
+	 *            string template
 	 * @return formated angle
 	 */
-	final public StringBuilder formatAngle(double phi, StringTemplate tpl, boolean unbounded) {
+	final public StringBuilder formatAngle(double phi, StringTemplate tpl,
+			boolean unbounded) {
 		// STANDARD_PRECISION * 10 as we need a little leeway as we've converted
 		// from radians
 		StringBuilder ret = formatAngle(phi, 10, tpl, unbounded);
-		
+
 		return ret;
 	}
-
-	
 
 	final public StringBuilder formatAngle(double alpha, double precision,
 			StringTemplate tpl, boolean unbounded) {
@@ -2059,15 +2161,17 @@ public class Kernel {
 		}
 
 	}
+
 	/** default global JavaScript */
 	final public static String defaultLibraryJavaScript = "function ggbOnInit() {}";
-	
+
 	private String libraryJavaScript = defaultLibraryJavaScript;
+
 	/** Resets global JavaSrcript to default value */
 	public void resetLibraryJavaScript() {
 		setLibraryJavaScript(defaultLibraryJavaScript);
 	}
-	
+
 	public void setLibraryJavaScript(String str) {
 		App.debug(str);
 		libraryJavaScript = str;
@@ -2076,7 +2180,7 @@ public class Kernel {
 		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');ggbApplet.registerObjectUpdateListener('A','listener');}function listener() {//java.lang.System.out.println('add listener called'); var x = ggbApplet.getXcoord('A');var y = ggbApplet.getYcoord('A');var len = Math.sqrt(x*x + y*y);if (len > 5) { x=x*5/len; y=y*5/len; }ggbApplet.unregisterObjectUpdateListener('A');ggbApplet.setCoords('A',x,y);ggbApplet.registerObjectUpdateListener('A','listener');}";
 		// libraryJavaScript =
 		// "function ggbOnInit() {ggbApplet.evalCommand('A=(1,2)');}";
-		
+
 		app.getScriptManager().setGlobalScript();
 	}
 
@@ -2092,9 +2196,6 @@ public class Kernel {
 	public TreeSet<GeoElement> getPointSet() {
 		return getConstruction().getGeoSetLabelOrder(GeoClass.POINT);
 	}
-	
-
-
 
 	/*******************************************************
 	 * SAVING
@@ -2142,7 +2243,8 @@ public class Kernel {
 	}
 
 	/**
-	 * @param str string, possibly containing CAS prefix several times
+	 * @param str
+	 *            string, possibly containing CAS prefix several times
 	 * @return string without CAS prefixes
 	 */
 	final public static String removeCASVariablePrefix(final String str) {
@@ -2153,7 +2255,8 @@ public class Kernel {
 	 * @return String where CAS variable prefixes are removed again, e.g.
 	 *         "ggbcasvar1a" is turned into "a" and
 	 */
-	final public static String removeCASVariablePrefix(final String str, final String replace) {
+	final public static String removeCASVariablePrefix(final String str,
+			final String replace) {
 		// e.g. "ggbtmpvar1a" is changed to "a"
 		// need a space when called from GeoGebraCAS.evaluateGeoGebraCAS()
 		// so that eg Derivative[1/(-x+E2)] works (want 2 E2 not 2E2) #1595,
@@ -2266,7 +2369,7 @@ public class Kernel {
 		// Application.printStacktrace(""+silentMode);
 
 	}
-	
+
 	/**
 	 * Sets whether unknown variables should be resolved as GeoDummyVariable
 	 * objects.
@@ -2287,14 +2390,17 @@ public class Kernel {
 	}
 
 	/**
-	 * @param casString String to evaluate
-	 * @param arbconst arbitrary constant
-	 * @return  result string (null possible)
+	 * @param casString
+	 *            String to evaluate
+	 * @param arbconst
+	 *            arbitrary constant
+	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
 	public String evaluateGeoGebraCAS(String casString,
 			MyArbitraryConstant arbconst) throws Throwable {
-		return evaluateGeoGebraCAS(casString, arbconst, StringTemplate.numericNoLocal);
+		return evaluateGeoGebraCAS(casString, arbconst,
+				StringTemplate.numericNoLocal);
 	}
 
 	/**
@@ -2303,7 +2409,8 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	final public String evaluateGeoGebraCAS(String exp, MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
+	final public String evaluateGeoGebraCAS(String exp,
+			MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
 		return evaluateGeoGebraCAS(exp, false, arbconst, tpl);
 	}
 
@@ -2315,8 +2422,10 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	final public String evaluateCachedGeoGebraCAS(String exp,MyArbitraryConstant  arbconst) throws Throwable {
-		return evaluateGeoGebraCAS(exp, true, arbconst, StringTemplate.numericNoLocal);
+	final public String evaluateCachedGeoGebraCAS(String exp,
+			MyArbitraryConstant arbconst) throws Throwable {
+		return evaluateGeoGebraCAS(exp, true, arbconst,
+				StringTemplate.numericNoLocal);
 	}
 
 	/**
@@ -2328,8 +2437,8 @@ public class Kernel {
 	 * @return result string (null possible)
 	 * @throws Throwable
 	 */
-	private String evaluateGeoGebraCAS(String exp, boolean useCaching, MyArbitraryConstant arbconst, StringTemplate tpl)
-			throws Throwable {
+	private String evaluateGeoGebraCAS(String exp, boolean useCaching,
+			MyArbitraryConstant arbconst, StringTemplate tpl) throws Throwable {
 		String result = null;
 		if (useCaching && hasCasCache()) {
 			result = getCasCache().get(exp);
@@ -2349,16 +2458,18 @@ public class Kernel {
 	}
 
 	/**
-	 * @param exp RAW Giac expression to evaluate
+	 * @param exp
+	 *            RAW Giac expression to evaluate
 	 * @return result from Giac
-	 * @throws Throwable error
+	 * @throws Throwable
+	 *             error
 	 */
 	public String evaluateRawGeoGebraCAS(String exp) throws Throwable {
 		String result = null;
 		if (hasCasCache()) {
 			result = getCasCache().get(exp);
 			if (result != null) {
-				//Log.debug("result from cache " + result);
+				// Log.debug("result from cache " + result);
 				// caching worked
 				return result;
 			}
@@ -2394,7 +2505,9 @@ public class Kernel {
 
 	/**
 	 * G.Sturr 2009-10-18
-	 * @param style Algebra style, see ALGEBRA_STYLE_*
+	 * 
+	 * @param style
+	 *            Algebra style, see ALGEBRA_STYLE_*
 	 */
 	final public void setAlgebraStyle(int style) {
 		algebraStyle = style;
@@ -2427,56 +2540,65 @@ public class Kernel {
 		return ggbCasCache != null;
 	}
 
-	protected double[] xmin = new double[1], xmax = new double[1], ymin = new double[1], ymax = new double[1], xscale = new double[1], yscale = new double[1];
+	protected double[] xmin = new double[1], xmax = new double[1],
+			ymin = new double[1], ymax = new double[1], xscale = new double[1],
+			yscale = new double[1];
 	// for 2nd Graphics View
-	
+
 	private boolean graphicsView2showing = false;
 
 	/**
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
 	 * used in EudlidianView. The scale is the number of pixels per unit.
 	 * (useful for some algorithms like findminimum). All
-	 * @param view view
-	 * @param xmin left x-coord
-	 * @param xmax right x-coord
-	 * @param ymin bottom y-coord
-	 * @param ymax top y-coord
-	 * @param xscale x scale (pixels per unit)
-	 * @param yscale y scale (pixels per unit)
+	 * 
+	 * @param view
+	 *            view
+	 * @param xmin
+	 *            left x-coord
+	 * @param xmax
+	 *            right x-coord
+	 * @param ymin
+	 *            bottom y-coord
+	 * @param ymax
+	 *            top y-coord
+	 * @param xscale
+	 *            x scale (pixels per unit)
+	 * @param yscale
+	 *            y scale (pixels per unit)
 	 */
 	final public void setEuclidianViewBounds(int viewNo, double xmin,
 			double xmax, double ymin, double ymax, double xscale, double yscale) {
-		int view = viewNo -1;
-		
+		int view = viewNo - 1;
+
 		if (view < 0 || viewNo < 0) {
 			return;
 		}
-		
-		if(view >= this.xmin.length){
-			
-			this.xmin = prolong(this.xmin,viewNo);
-			this.xmax = prolong(this.xmin,viewNo);
-			
-			this.ymin = prolong(this.ymin,viewNo);
-			this.ymax = prolong(this.ymax,viewNo);
-			
-			this.xscale = prolong(this.xscale,viewNo);
-			this.yscale = prolong(this.yscale,viewNo);
+
+		if (view >= this.xmin.length) {
+
+			this.xmin = prolong(this.xmin, viewNo);
+			this.xmax = prolong(this.xmin, viewNo);
+
+			this.ymin = prolong(this.ymin, viewNo);
+			this.ymax = prolong(this.ymax, viewNo);
+
+			this.xscale = prolong(this.xscale, viewNo);
+			this.yscale = prolong(this.yscale, viewNo);
 		}
-			this.xmin[view] = xmin;
-			this.xmax[view] = xmax;
-			this.ymin[view] = ymin;
-			this.ymax[view] = ymax;
-			this.xscale[view] = xscale;
-			this.yscale[view] = yscale;
-			
-		
+		this.xmin[view] = xmin;
+		this.xmax[view] = xmax;
+		this.ymin[view] = ymin;
+		this.ymax[view] = ymax;
+		this.xscale[view] = xscale;
+		this.yscale[view] = yscale;
+
 		graphicsView2showing = getApplication().isShowingMultipleEVs();
 		notifyEuclidianViewCE();
 	}
 
 	protected double[] prolong(double[] xmin2, int viewNo) {
-		
+
 		double[] ret = new double[viewNo];
 		System.arraycopy(xmin2, 0, ret, 0, xmin2.length);
 		return ret;
@@ -2487,15 +2609,18 @@ public class Kernel {
 	 * {@linkplain #getViewBoundsForGeo}
 	 * 
 	 * @see #getViewBoundsForGeo
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return minimal x-bound of all views displaying geo
 	 */
 	public double getViewsXMin(GeoElement geo) {
 		return getViewBoundsForGeo(geo)[0];
 	}
+
 	/**
 	 * @see #getViewBoundsForGeo
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return maximal x-bound of all views displaying geo
 	 */
 	public double getViewsXMax(GeoElement geo) {
@@ -2504,15 +2629,18 @@ public class Kernel {
 
 	/**
 	 * @see #getViewBoundsForGeo
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return minimal y-bound of all views displaying geo
 	 */
 	public double getViewsYMin(GeoElement geo) {
 		return getViewBoundsForGeo(geo)[2];
 	}
+
 	/**
 	 * @see #getViewBoundsForGeo
-	 * @param geo geo
+	 * @param geo
+	 *            geo
 	 * @return maximal y-bound of all views displaying geo
 	 */
 	public double getViewsYMax(GeoElement geo) {
@@ -2534,21 +2662,22 @@ public class Kernel {
 		cons.notifyEuclidianViewCE(false);
 	}
 
-	/** 
-	 * @param clearScripts (true when called from File -> New,
-	 * false after loading a file otherwise the GlobalJavascript is wrongly deleted)
+	/**
+	 * @param clearScripts
+	 *            (true when called from File -> New, false after loading a file
+	 *            otherwise the GlobalJavascript is wrongly deleted)
 	 */
 	public void clearConstruction(boolean clearScripts) {
-		
+
 		if (clearScripts) {
 			resetLibraryJavaScript();
-	
+
 			// This needs to happen *before* cons.clearConstruction() is called
 			// as clearConstruction calls notifyClearView which triggers the
 			// updating of the Python Script
-			//resetLibraryPythonScript();
+			// resetLibraryPythonScript();
 		}
-		if(this.ggbCAS != null){
+		if (this.ggbCAS != null) {
 			this.ggbCAS.getCurrentCAS().clearResult();
 		}
 		if (macroManager != null)
@@ -2621,20 +2750,19 @@ public class Kernel {
 		}
 		return getXmax();
 	}
-	
-	
+
 	final public double getXmax(int i) {
 		return xmax[i];
 	}
-	
+
 	final public double getXmin(int i) {
 		return xmin[i];
 	}
-	
+
 	final public double getYmax(int i) {
 		return ymax[i];
 	}
-	
+
 	final public double getYmin(int i) {
 		return ymin[i];
 	}
@@ -2642,29 +2770,31 @@ public class Kernel {
 	final public double getYscale(int i) {
 		return yscale[i];
 	}
-	
+
 	final public double getXscale(int i) {
 		return xscale[i];
 	}
-	
+
 	/**
-	 * @param i used in 3D 
+	 * @param i
+	 *            used in 3D
 	 */
 	public double getZmax(int i) {
 		return 0;
 	}
-	
 
 	/**
-	 * @param i used in 3D 
+	 * @param i
+	 *            used in 3D
 	 */
 	public double getZmin(int i) {
 		return 0;
 	}
-	
+
 	/**
 	 * 
-	 * @param i used in 3D only
+	 * @param i
+	 *            used in 3D only
 	 * @return 3D view z scale
 	 */
 	public double getZscale(int i) {
@@ -2716,7 +2846,7 @@ public class Kernel {
 		} else if (ev1 && !ev2) {
 			return yscale[0];
 		}
-		return getYscale(); 
+		return getYscale();
 	}
 
 	public synchronized GeoGebraCasInterface getGeoGebraCAS() {
@@ -3086,14 +3216,14 @@ public class Kernel {
 		case EuclidianConstants.MODE_PEN:
 			return "Pen";
 
-		//case EuclidianConstants.MODE_PENCIL:
-		//	return "Pencil";
+			// case EuclidianConstants.MODE_PENCIL:
+			// return "Pencil";
 
 		case EuclidianConstants.MODE_FREEHAND_SHAPE:
 			return "FreehandShape";
 
-		//case EuclidianConstants.MODE_VISUAL_STYLE:
-		//	return "VisualStyle";
+			// case EuclidianConstants.MODE_VISUAL_STYLE:
+			// return "VisualStyle";
 
 		case EuclidianConstants.MODE_FITLINE:
 			return "FitLine";
@@ -3261,7 +3391,7 @@ public class Kernel {
 			viewBounds[4] = Math.max(viewBounds[4], ev.getXscale());
 			viewBounds[5] = Math.max(viewBounds[5], ev.getYscale());
 		}
-		
+
 	}
 
 	final public GeoAxis getXAxis() {
@@ -3279,7 +3409,6 @@ public class Kernel {
 	public void updateLocalAxesNames() {
 		cons.updateLocalAxesNames();
 	}
-
 
 	private boolean notifyRepaint = true;
 
@@ -3303,18 +3432,18 @@ public class Kernel {
 			}
 		}
 	}
-	
+
 	public final void notifyControllersMoveIfWaiting() {
 		if (notifyRepaint && notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof EuclidianView) {
-					((EuclidianView) view).getEuclidianController().moveIfWaiting();
+					((EuclidianView) view).getEuclidianController()
+							.moveIfWaiting();
 				}
 			}
 		}
 	}
-	
-	
+
 	public final boolean notifySuggestRepaint() {
 		boolean needed = false;
 		if (notifyViewsActive) {
@@ -3340,7 +3469,7 @@ public class Kernel {
 		for (View view : views) {
 			view.clearView();
 		}
-		
+
 	}
 
 	public void clearJustCreatedGeosInViews() {
@@ -3348,7 +3477,7 @@ public class Kernel {
 			for (View view : views) {
 				if (view instanceof EuclidianViewInterfaceSlim) {
 					((EuclidianViewInterfaceSlim) view)
-					.getEuclidianController().clearJustCreatedGeos();
+							.getEuclidianController().clearJustCreatedGeos();
 				}
 			}
 		}
@@ -3372,10 +3501,10 @@ public class Kernel {
 
 				notifyEuclidianViewCE();
 				notifyReset();
-				//algebra settings need to be applied after remaking tree
+				// algebra settings need to be applied after remaking tree
 				if (app.getGuiManager() != null)
 					app.getGuiManager().applyAlgebraViewSettings();
-				
+
 				viewReiniting = false;
 			} else {
 				// Application.debug("Deactivate VIEWS");
@@ -3386,24 +3515,23 @@ public class Kernel {
 		}
 	}
 
-
 	/* *******************************************************
 	 * methods for view-Pattern (Model-View-Controller)
 	 * ******************************************************
 	 */
 
 	public void attach(View view) {
-		
-		if (!views.contains(view)){
+
+		if (!views.contains(view)) {
 			views.add(view);
 		}
 
 		printAttachedViews();
 
 	}
-	
+
 	private void printAttachedViews() {
-		
+
 		// can give java.util.ConcurrentModificationException
 		try {
 			if (!notifyViewsActive) {
@@ -3439,10 +3567,10 @@ public class Kernel {
 	 * 
 	 * @param mode
 	 */
-	final public void notifyModeChanged(int mode,ModeSetter m) {
+	final public void notifyModeChanged(int mode, ModeSetter m) {
 		if (notifyViewsActive) {
 			for (View view : views) {
-				view.setMode(mode,m);
+				view.setMode(mode, m);
 			}
 		}
 	}
@@ -3476,30 +3604,32 @@ public class Kernel {
 	private boolean spreadsheetBatchRunning;
 
 	private void notifyRenameListenerAlgos() {
-		// #4073 command Object[] registers rename listeners 
-		if (cons != null && !cons.isFileLoading() && !this.isSpreadsheetBatchRunning()) {
+		// #4073 command Object[] registers rename listeners
+		if (cons != null && !cons.isFileLoading()
+				&& !this.isSpreadsheetBatchRunning()) {
 			AlgoElement.updateCascadeAlgos(renameListenerAlgos);
 		}
 	}
-	
+
 	public boolean isSpreadsheetBatchRunning() {
 		return this.spreadsheetBatchRunning;
 	}
-	
-	public void setSpreadsheetBatchRunning(boolean b){
+
+	public void setSpreadsheetBatchRunning(boolean b) {
 		this.spreadsheetBatchRunning = b;
-		if(!b){
+		if (!b) {
 			notifyRenameListenerAlgos();
 		}
 	}
 
 	/**
-	 * Currently, this method should rename every oldLabel
-	 * to newLabel in GgbScript-type objects, for use of
-	 * CopyPaste and InsertFile
+	 * Currently, this method should rename every oldLabel to newLabel in
+	 * GgbScript-type objects, for use of CopyPaste and InsertFile
 	 * 
-	 * @param oldLabel the label to be renamed from
-	 * @param newLabel the label to be renamed to
+	 * @param oldLabel
+	 *            the label to be renamed from
+	 * @param newLabel
+	 *            the label to be renamed to
 	 * @return whether any renaming happened
 	 */
 	final public boolean renameLabelInScripts(String oldLabel, String newLabel) {
@@ -3540,11 +3670,11 @@ public class Kernel {
 
 	public final void notifyAdd(GeoElement geo) {
 		if (notifyViewsActive) {
-			if( addingPolygon && geo.labelSet ){
-				if( geo.getXMLtypeString().equalsIgnoreCase("Polygon")){
+			if (addingPolygon && geo.labelSet) {
+				if (geo.getXMLtypeString().equalsIgnoreCase("Polygon")) {
 					this.newPolygon = geo;
 				}
-					
+
 			}
 			for (View view : views) {
 				if ((view.getViewID() != App.VIEW_CONSTRUCTION_PROTOCOL)
@@ -3556,8 +3686,8 @@ public class Kernel {
 
 		notifyRenameListenerAlgos();
 	}
-	
-	public final void addingPolygon(){
+
+	public final void addingPolygon() {
 		if (notifyViewsActive) {
 			this.addingPolygon = true;
 			for (View view : views) {
@@ -3567,8 +3697,8 @@ public class Kernel {
 			}
 		}
 	}
-	
-	public final void notifyPolygonAdded(){
+
+	public final void notifyPolygonAdded() {
 		if (notifyViewsActive) {
 
 			for (View view : views) {
@@ -3578,8 +3708,8 @@ public class Kernel {
 			}
 		}
 	}
-	
-	public final void notifyRemoveGroup(){
+
+	public final void notifyRemoveGroup() {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof ClientView) {
@@ -3599,13 +3729,13 @@ public class Kernel {
 					view.remove(geo);
 				}
 			}
-			
+
 		}
 
 		notifyRenameListenerAlgos();
 	}
-	
-	public final void movingGeoSet(){
+
+	public final void movingGeoSet() {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof ClientView) {
@@ -3614,8 +3744,8 @@ public class Kernel {
 			}
 		}
 	}
-	
-	public final void movedGeoSet( ArrayList<GeoElement> elmSet ){
+
+	public final void movedGeoSet(ArrayList<GeoElement> elmSet) {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof ClientView) {
@@ -3626,32 +3756,30 @@ public class Kernel {
 	}
 
 	public final void notifyUpdate(GeoElement geo) {
-		//event dispatcher should not collect calls to stay compatible with 4.0
+		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
 			for (View view : views) {
 				view.update(geo);
 			}
 		}
 	}
-	
+
 	public final void notifyUpdateLocation(GeoElement geo) {
-		//event dispatcher should not collect calls to stay compatible with 4.0
+		// event dispatcher should not collect calls to stay compatible with 4.0
 		if (notifyViewsActive) {
 			for (View view : views) {
-				//we already told event dispatcher
-				if(view instanceof UpdateLocationView){
-					((UpdateLocationView)view).updateLocation(geo);
-				}else{					
+				// we already told event dispatcher
+				if (view instanceof UpdateLocationView) {
+					((UpdateLocationView) view).updateLocation(geo);
+				} else {
 					view.update(geo);
 				}
 			}
 		}
 
-//		App.printStacktrace("notifyUpdate " + geo);
+		// App.printStacktrace("notifyUpdate " + geo);
 	}
 
-
-	
 	public final void notifyUpdateVisualStyle(GeoElement geo) {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3677,8 +3805,8 @@ public class Kernel {
 
 		notifyRenameListenerAlgos();
 	}
-	
-	public final void notifyRenameUpdatesComplete(){
+
+	public final void notifyRenameUpdatesComplete() {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof ClientView) {
@@ -3687,13 +3815,13 @@ public class Kernel {
 			}
 		}
 	}
-	
-	public void notifyPerspectiveChanged( String perspectiveId ){
-		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+
+	public void notifyPerspectiveChanged(String perspectiveId) {
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.perspectiveChanged(perspectiveId);
 		}
 	}
-	
+
 	public void notifyPaste() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -3708,7 +3836,8 @@ public class Kernel {
 		if (notifyViewsActive) {
 			for (View view : views) {
 				if (view instanceof ClientView) {
-					((ClientView) view).pasteElmsComplete(app.getSelectionManager().getSelectedGeos());
+					((ClientView) view).pasteElmsComplete(app
+							.getSelectionManager().getSelectedGeos());
 				}
 			}
 		}
@@ -3721,16 +3850,16 @@ public class Kernel {
 	public boolean isViewReiniting() {
 		return viewReiniting;
 	}
-	
+
 	/* *******************************************************
 	 * methods for managing user awareness listeners
 	 * ******************************************************
 	 */
-	public void addUserAwarenessListener(UserAwarenessListener listener){
+	public void addUserAwarenessListener(UserAwarenessListener listener) {
 		this.userAwarenessListeners.add(listener);
 	}
-	
-	public void removeUserAwarenessListener(UserAwarenessListener listener){
+
+	public void removeUserAwarenessListener(UserAwarenessListener listener) {
 		this.userAwarenessListeners.remove(listener);
 	}
 
@@ -3750,7 +3879,7 @@ public class Kernel {
 			notifyRepaint();
 		}
 	}
-	
+
 	public void updateConstructionLanguage() {
 
 		// views are notified about update at the end of this method
@@ -3763,15 +3892,16 @@ public class Kernel {
 			notifyRepaint();
 		}
 	}
-	
+
 	/**
 	 * update construction n times
-	 * @param n 
+	 * 
+	 * @param n
 	 */
 	public void updateConstruction(int n) {
 
 		// views are notified about update at the end of this method
-		for (int i = 0; i<n; i++){
+		for (int i = 0; i < n; i++) {
 			cons.updateConstruction();
 		}
 
@@ -3797,8 +3927,7 @@ public class Kernel {
 	/* ******************************
 	 * redo / undo for current construction *****************************
 	 */
-	
-	
+
 	private boolean isGettingUndo;
 
 	public synchronized boolean isGettingUndo() {
@@ -3834,27 +3963,28 @@ public class Kernel {
 			cons.initUndoInfo();
 		}
 	}
-	
+
 	/** selected geos names just before undo/redo */
 	private ArrayList<String> selectedGeosNames = new ArrayList<String>();
-	
+
 	/**
 	 * store selected geos names
 	 */
-	public void storeSelectedGeosNames(){
+	public void storeSelectedGeosNames() {
 		selectedGeosNames.clear();
-		for(GeoElement geo: getApplication().getSelectionManager().getSelectedGeos())
+		for (GeoElement geo : getApplication().getSelectionManager()
+				.getSelectedGeos())
 			selectedGeosNames.add(geo.getLabelSimple());
 	}
-	
+
 	/**
 	 * set geos selected from their names
 	 */
-	public void recallSelectedGeosNames(){
+	public void recallSelectedGeosNames() {
 		ArrayList<GeoElement> list = new ArrayList<GeoElement>();
-		for (String name: selectedGeosNames){
+		for (String name : selectedGeosNames) {
 			GeoElement geo = lookupLabel(name);
-			if (geo!=null)
+			if (geo != null)
 				list.add(geo);
 		}
 		getApplication().getSelectionManager().setSelectedGeos(list);
@@ -3930,19 +4060,24 @@ public class Kernel {
 	}
 
 	final public ExpressionNode handleTrigPower(String image,
-			ExpressionNode en, String operation) {		
-		
-		if("x".equals(operation) || "y".equals(operation)|| "z".equals(operation)){
-			return new ExpressionNode(this,new ExpressionNode(this,new FunctionVariable(this,operation),Operation.POWER,convertIndexToNumber(image)),
-					Operation.MULTIPLY_OR_FUNCTION,en);
+			ExpressionNode en, String operation) {
+
+		if ("x".equals(operation) || "y".equals(operation)
+				|| "z".equals(operation)) {
+			return new ExpressionNode(this, new ExpressionNode(this,
+					new FunctionVariable(this, operation), Operation.POWER,
+					convertIndexToNumber(image)),
+					Operation.MULTIPLY_OR_FUNCTION, en);
 		}
-		GeoElement ge=lookupLabel(operation);
-		Operation type = app.getParserFunctions().get(operation, 1);	
-		if(ge!=null || type ==null){
-				return new ExpressionNode(this,new ExpressionNode(this,new Variable(this,operation),Operation.POWER,convertIndexToNumber(image)),
-						Operation.MULTIPLY_OR_FUNCTION,en);
+		GeoElement ge = lookupLabel(operation);
+		Operation type = app.getParserFunctions().get(operation, 1);
+		if (ge != null || type == null) {
+			return new ExpressionNode(this, new ExpressionNode(this,
+					new Variable(this, operation), Operation.POWER,
+					convertIndexToNumber(image)),
+					Operation.MULTIPLY_OR_FUNCTION, en);
 		}
-			
+
 		// sin^(-1)(x) -> ArcSin(x)
 		if (image.indexOf(Unicode.Superscript_Minus) > -1) {
 			// String check = ""+Unicode.Superscript_Minus +
@@ -3987,7 +4122,7 @@ public class Kernel {
 																				// "("
 																				// at
 																				// end
-		
+
 		return md;
 
 	}
@@ -3995,10 +4130,6 @@ public class Kernel {
 	/***********************************
 	 * FACTORY METHODS FOR GeoElements
 	 ***********************************/
-
-
-
-
 
 	private GeoVec2D imaginaryUnit;
 
@@ -4027,11 +4158,11 @@ public class Kernel {
 			return null;
 		}
 	}
-	
-	public Localization getLocalization(){
+
+	public Localization getLocalization() {
 		return getApplication().getLocalization();
 	}
-	
+
 	private boolean kernelHas3DObjects() {
 		Iterator<GeoClass> it = cons.usedGeos.iterator();
 
@@ -4039,18 +4170,18 @@ public class Kernel {
 
 		while (it.hasNext()) {
 			GeoClass geoType = it.next();
-			
+
 			if (geoType.is3D) {
-				App.debug("found 3D geo: "+geoType.xmlName);
+				App.debug("found 3D geo: " + geoType.xmlName);
 				kernelHas3DObjects = true;
 				break;
 			}
 		}
-		
+
 		if (kernelHas3DObjects) {
 			App.error("kernel has 3D objects");
 		}
-		
+
 		return kernelHas3DObjects;
 	}
 
@@ -4061,14 +4192,11 @@ public class Kernel {
 
 		// kernel settings
 		sb.append("<kernel>\n");
-		
-		
-		
+
 		// is 3D?
-		if (kernelHas3DObjects()){
+		if (kernelHas3DObjects()) {
 			sb.append("\t<uses3D val=\"true\"/>\n");
 		}
-
 
 		// continuity: true or false, since V3.0
 		sb.append("\t<continuous val=\"");
@@ -4078,7 +4206,6 @@ public class Kernel {
 		sb.append("\t<usePathAndRegionParameters val=\"");
 		sb.append(usePathAndRegionParameters.getXML());
 		sb.append("\"/>\n");
-		
 
 		if (useSignificantFigures) {
 			// significant figures
@@ -4133,8 +4260,8 @@ public class Kernel {
 
 			sb.append("\t<casSettings");
 			sb.append(" timeout=\"");
-			sb.append(MyXMLHandler.getTimeoutOption(
-				app.getSettings().getCasSettings().getTimeoutMilliseconds() / 1000));
+			sb.append(MyXMLHandler.getTimeoutOption(app.getSettings()
+					.getCasSettings().getTimeoutMilliseconds() / 1000));
 			sb.append("\"");
 			sb.append(" expRoots=\"");
 			sb.append(app.getSettings().getCasSettings().getShowExpAsRoots());
@@ -4148,7 +4275,7 @@ public class Kernel {
 	/* **********************************
 	 * MACRO handling *********************************
 	 */
-	
+
 	/**
 	 * Creates a new macro within the kernel. A macro is a user defined command
 	 * in GeoGebra.
@@ -4158,8 +4285,8 @@ public class Kernel {
 			macroManager = new MacroManager(getApplication());
 		}
 		macroManager.addMacro(macro);
-		
-		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.addMacro(macro);
 		}
 	}
@@ -4170,8 +4297,8 @@ public class Kernel {
 	public void removeMacro(Macro macro) {
 		if (macroManager != null)
 			macroManager.removeMacro(macro);
-		
-		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.removeMacro(macro);
 		}
 	}
@@ -4184,8 +4311,8 @@ public class Kernel {
 			getApplication().removeMacroCommands();
 			macroManager.removeAllMacros();
 		}
-		
-		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.removeAllMacros();
 		}
 	}
@@ -4201,12 +4328,12 @@ public class Kernel {
 		if (nameUsed || cmdName == null || cmdName.length() == 0)
 			return false;
 
-		for( UserAwarenessListener listener : this.userAwarenessListeners ){
+		for (UserAwarenessListener listener : this.userAwarenessListeners) {
 			listener.setMacroCommandName(macro, cmdName);
 		}
-		
+
 		macroManager.setMacroCommandName(macro, cmdName);
-		
+
 		return true;
 	}
 
@@ -4322,7 +4449,9 @@ public class Kernel {
 		case 'f': // function
 			if (type.equals("function")) {
 				return new GeoFunction(cons1);
-			} else if (type.equals("functionconditional")) { //had special class fror v <5.0
+			} else if (type.equals("functionconditional")) { // had special
+																// class fror v
+																// <5.0
 				return new GeoFunction(cons1);
 			} else {
 				return new GeoFunctionNVar(cons1);
@@ -4359,7 +4488,7 @@ public class Kernel {
 			else if (type.equals("polygon"))
 				return new GeoPolygon(cons1, null);
 			else if (type.equals("polyline"))
-				return new GeoPolyLine(cons1, new GeoPointND[]{});
+				return new GeoPolyLine(cons1, new GeoPointND[] {});
 			else
 				// parabola, parallelLines, point // bug in GeoGebra 2.6c
 				return new GeoConic(cons1);
@@ -4402,27 +4531,31 @@ public class Kernel {
 	 */
 	public ExpressionNode convertNumberValueToExpressionNode(GeoElement geo) {
 		AlgoElement algo = geo.getParentAlgorithm();
-		Traversing ifReplacer = new Traversing(){
+		Traversing ifReplacer = new Traversing() {
 
 			@Override
 			public ExpressionValue process(ExpressionValue ev) {
-				if(ev instanceof GeoElement){
-					return Kernel.this.convertNumberValueToExpressionNode((GeoElement)ev).unwrap();
+				if (ev instanceof GeoElement) {
+					return Kernel.this.convertNumberValueToExpressionNode(
+							(GeoElement) ev).unwrap();
 				}
 				return ev;
 			}
-			
+
 		};
-		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoDependentNumber) {
+		if (!geo.isLabelSet() && algo != null
+				&& algo instanceof AlgoDependentNumber) {
 			AlgoDependentNumber algoDep = (AlgoDependentNumber) algo;
-			return algoDep.getExpression().getCopy(this).traverse(ifReplacer).wrap();
+			return algoDep.getExpression().getCopy(this).traverse(ifReplacer)
+					.wrap();
 		}
-		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoDependentBoolean) {
+		if (!geo.isLabelSet() && algo != null
+				&& algo instanceof AlgoDependentBoolean) {
 			AlgoDependentBoolean algoDep = (AlgoDependentBoolean) algo;
 			return algoDep.getExpression().getCopy(this);
 		}
-		if(!geo.isLabelSet() && algo != null && algo instanceof AlgoIf){
-			return ((AlgoIf)algo).toExpression();
+		if (!geo.isLabelSet() && algo != null && algo instanceof AlgoIf) {
+			return ((AlgoIf) algo).toExpression();
 		}
 		return new ExpressionNode(this, geo);
 	}
@@ -4430,11 +4563,11 @@ public class Kernel {
 	final public GeoElement[] VectorPolygon(String[] labels, GeoPointND[] points) {
 
 		/*
-		cons.setSuppressLabelCreation(true);
-		getAlgoDispatcher().Circle(null, (GeoPoint) points[0],
-				new MyDouble(cons.getKernel(), points[0].distance(points[1])));
-		cons.setSuppressLabelCreation(oldMacroMode);
-		*/
+		 * cons.setSuppressLabelCreation(true); getAlgoDispatcher().Circle(null,
+		 * (GeoPoint) points[0], new MyDouble(cons.getKernel(),
+		 * points[0].distance(points[1])));
+		 * cons.setSuppressLabelCreation(oldMacroMode);
+		 */
 
 		StringBuilder sb = new StringBuilder();
 
@@ -4484,58 +4617,64 @@ public class Kernel {
 	}
 
 	/**
-	 * makes a copy of a polygon that can be dragged and rotated but stays congruent to original
+	 * makes a copy of a polygon that can be dragged and rotated but stays
+	 * congruent to original
+	 * 
 	 * @param poly
-	 * @param offset2 
-	 * @param offset 
+	 * @param offset2
+	 * @param offset
 	 * @return
 	 */
-	final public GeoElement[] RigidPolygon(GeoPolygon poly, double offsetX, double offsetY) {
-		
-		GeoPointND [] p = new GeoPointND[poly.getPointsLength()];
-		
+	final public GeoElement[] RigidPolygon(GeoPolygon poly, double offsetX,
+			double offsetY) {
+
+		GeoPointND[] p = new GeoPointND[poly.getPointsLength()];
+
 		// create free point p0
 		p[0] = poly.getPoint(0).copy();
 		p[0].setLabel(null);
-		
+
 		GeoSegmentND[] segs = poly.getSegments();
 		GeoPointND[] pts = poly.getPoints();
-				
+
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		// create p1 = point on circle (so it can be dragged to rotate the whole shape)
-		GeoConicND circle = getAlgoDispatcher().Circle(null, p[0], poly.getSegments()[0]);
+		// create p1 = point on circle (so it can be dragged to rotate the whole
+		// shape)
+		GeoConicND circle = getAlgoDispatcher().Circle(null, p[0],
+				poly.getSegments()[0]);
 		cons.setSuppressLabelCreation(oldMacroMode);
 
-		p[1] = getAlgoDispatcher().Point(null, circle, poly.getPoint(1).inhomX, poly.getPoint(1).inhomY,
-				true, false, true);
-		
+		p[1] = getAlgoDispatcher().Point(null, circle, poly.getPoint(1).inhomX,
+				poly.getPoint(1).inhomY, true, false, true);
+
 		p[1].setLabel(null);
-		
+
 		boolean oldVal = isUsingInternalCommandNames();
 		setUseInternalCommandNames(true);
-				
+
 		StringBuilder sb = new StringBuilder();
-		
-		for (int i = 2 ; i < poly.getPointsLength() ; i++) {
-			
+
+		for (int i = 2; i < poly.getPointsLength(); i++) {
+
 			// build string like
-			// Rotate[B_1 + (l, 0), Angle[C - B] + Angle[B_1 - A_1] - Angle[B - A], B_1]
-			//        
-			
+			// Rotate[B_1 + (l, 0), Angle[C - B] + Angle[B_1 - A_1] - Angle[B -
+			// A], B_1]
+			//
+
 			sb.setLength(0);
 			sb.append("Rotate[");
 			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("+ (");
-			sb.append(segs[i-1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(segs[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append(", 0), Angle[");
 			sb.append(pts[i].getLabel(StringTemplate.defaultTemplate)); // C
 			sb.append("-");
 			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate)); // B
 			sb.append("] + Angle[");
-			sb.append(p[i -1].getLabel(StringTemplate.defaultTemplate));
+			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("-");
-			sb.append(p[i -2].getLabel(StringTemplate.defaultTemplate));
+			sb.append(p[i - 2].getLabel(StringTemplate.defaultTemplate));
 			sb.append("] - Angle[");
 			sb.append(pts[i - 1].getLabel(StringTemplate.defaultTemplate)); // B
 			sb.append("-");
@@ -4543,39 +4682,39 @@ public class Kernel {
 			sb.append("],");
 			sb.append(p[i - 1].getLabel(StringTemplate.defaultTemplate));
 			sb.append("]");
-			
-			//app.debug(sb.toString());
-			
-			p[i] = getAlgebraProcessor().evaluateToPoint(
-					sb.toString(), true, false);
+
+			// app.debug(sb.toString());
+
+			p[i] = getAlgebraProcessor().evaluateToPoint(sb.toString(), true,
+					false);
 			p[i].setLabel(null);
 			p[i].setEuclidianVisible(false);
 			p[i].update();
-			
+
 		}
-		
+
 		setUseInternalCommandNames(oldVal);
-		
+
 		AlgoPolygon algo = new AlgoPolygon(cons, null, p);
 		GeoElement[] ret = { algo.getGeoElements()[0] };
-		
+
 		GeoPointND firstPoint = ((GeoPolygon) ret[0]).getPoints()[0];
-		
+
 		firstPoint.updateCoords2D();
-		
-		firstPoint.setCoords(firstPoint.getX2D() + offsetX, firstPoint.getY2D() + offsetY, 1.0);
+
+		firstPoint.setCoords(firstPoint.getX2D() + offsetX, firstPoint.getY2D()
+				+ offsetY, 1.0);
 		firstPoint.updateRepaint();
 
-		
-		
 		return ret;
 	}
-	
-	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle, GeoPointND point1){
-		 return getAlgoDispatcher().Point(null, circle, point1.getInhomX(), point1.getInhomY(),
-					true, false, true);
+
+	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle,
+			GeoPointND point1) {
+		return getAlgoDispatcher().Point(null, circle, point1.getInhomX(),
+				point1.getInhomY(), true, false, true);
 	}
-	
+
 	final public GeoElement[] RigidPolygon(String[] labels, GeoPointND[] points) {
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 
@@ -4585,7 +4724,7 @@ public class Kernel {
 		cons.setSuppressLabelCreation(oldMacroMode);
 
 		GeoPointND p = RigidPolygonPointOnCircle(circle, points[1]);
-		
+
 		try {
 			(cons).replace((GeoElement) points[1], (GeoElement) p);
 			points[1] = p;
@@ -4601,9 +4740,11 @@ public class Kernel {
 		double xB = points[1].getInhomX();
 		double yB = points[1].getInhomY();
 
-		GeoVec2D a = new GeoVec2D(cons.getKernel(), xB - xA, yB - yA); // vector AB
-		GeoVec2D b = new GeoVec2D(cons.getKernel(), yA - yB, xB - xA); // perpendicular to
-															// AB
+		GeoVec2D a = new GeoVec2D(cons.getKernel(), xB - xA, yB - yA); // vector
+																		// AB
+		GeoVec2D b = new GeoVec2D(cons.getKernel(), yA - yB, xB - xA); // perpendicular
+																		// to
+		// AB
 		// changed to use this instead of Unit(Orthoganal)Vector
 		// https://www.geogebra.org/forum/viewtopic.php?f=13&p=82764#p82764
 		double aLength = Math.sqrt(a.inner(a));
@@ -4620,7 +4761,8 @@ public class Kernel {
 			double xC = points[i].getInhomX();
 			double yC = points[i].getInhomY();
 
-			GeoVec2D d = new GeoVec2D(cons.getKernel(), xC - xA, yC - yA); // vector AC
+			GeoVec2D d = new GeoVec2D(cons.getKernel(), xC - xA, yC - yA); // vector
+																			// AC
 
 			// make string like this
 			// A+3.76UnitVector[Segment[A,B]]+-1.74UnitPerpendicularVector[Segment[A,B]]
@@ -4658,7 +4800,7 @@ public class Kernel {
 				return null;
 			}
 		}
-		
+
 		setUseInternalCommandNames(oldVal);
 
 		points[0].update();
@@ -4666,24 +4808,21 @@ public class Kernel {
 		return getAlgoDispatcher().Polygon(labels, points);
 
 	}
-	
-	
+
 	/**
-	 * @param is3D used in 3D 
+	 * @param is3D
+	 *            used in 3D
 	 */
-	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D){
+	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
 		sb.append("]]");
 	}
-
-
-
 
 	/**
 	 * tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
 	 */
 	final public GeoLine Tangent(String label, GeoPointND P, GeoCurveCartesian f) {
-		
-		return KernelCAS.Tangent(cons,  label,  P,  f);
+
+		return KernelCAS.Tangent(cons, label, P, f);
 	}
 
 	/**
@@ -4718,8 +4857,6 @@ public class Kernel {
 	public MacroKernel newMacroKernel() {
 		return new MacroKernel(this);
 	}
-
-
 
 	public void notifyChangeLayer(GeoElement ge, int layer, int layer2) {
 		app.updateMaxLayerUsed(layer2);
@@ -4756,7 +4893,7 @@ public class Kernel {
 		if (ggbCasCache != null) {
 			ggbCasCache.clear();
 		}
-		if(ggbCAS!=null){
+		if (ggbCAS != null) {
 			ggbCAS.clearCache();
 		}
 	}
@@ -4777,9 +4914,9 @@ public class Kernel {
 
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if(geo instanceof FunctionalNVar){
+			if (geo instanceof FunctionalNVar) {
 				FunctionNVar fun = ((FunctionalNVar) geo).getFunction();
-				
+
 				if (fun != null) {
 					fun.clearCasEvalMap("");
 				}
@@ -4802,13 +4939,14 @@ public class Kernel {
 			} else if (algo instanceof AlgoUsingTempCASalgo) {
 				((AlgoUsingTempCASalgo) algo).refreshCASResults();
 				algo.compute();
-			} else if (algo instanceof UsesCAS || algo instanceof AlgoCasCellInterface) {
+			} else if (algo instanceof UsesCAS
+					|| algo instanceof AlgoCasCellInterface) {
 				// eg Limit, LimitAbove, LimitBelow, SolveODE
 				// AlgoCasCellInterface: eg Solve[x^2]
 				algo.compute();
 			}
-			if(geo.isGeoCasCell() && algo == null){
-				((GeoCasCell)geo).computeOutput();
+			if (geo.isGeoCasCell() && algo == null) {
+				((GeoCasCell) geo).computeOutput();
 			}
 			al.add(geo);
 		}
@@ -4816,7 +4954,7 @@ public class Kernel {
 		GeoElement.updateCascade(al, new TreeSet<AlgoElement>(), true);
 		cons.setUpdateConstructionRunning(false);
 	}
-	
+
 	public GeoElement[] PolygonND(String[] labels, GeoPointND[] P) {
 		return getAlgoDispatcher().Polygon(labels, P);
 	}
@@ -4824,7 +4962,7 @@ public class Kernel {
 	public GeoElement[] PolyLineND(String[] labels, GeoPointND[] P) {
 		return getAlgoDispatcher().PolyLine(labels, P, false);
 	}
-	
+
 	/**
 	 * over-ridden in Kernel3D
 	 * 
@@ -4835,10 +4973,10 @@ public class Kernel {
 	 */
 	public GeoRayND RayND(String transformedLabel, GeoPointND geoPointND,
 			GeoPointND geoPointND2) {
-		return getAlgoDispatcher().Ray(transformedLabel, (GeoPoint)geoPointND,
-			(GeoPoint)geoPointND2);
+		return getAlgoDispatcher().Ray(transformedLabel, (GeoPoint) geoPointND,
+				(GeoPoint) geoPointND2);
 	}
-	
+
 	/**
 	 * over-ridden in Kernel3D
 	 * 
@@ -4850,13 +4988,10 @@ public class Kernel {
 	 */
 	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
 			GeoDirectionND direction) {
-		return getAlgoDispatcher().OrthogonalLine(label, (GeoPoint) P, (GeoLine) l);
+		return getAlgoDispatcher().OrthogonalLine(label, (GeoPoint) P,
+				(GeoLine) l);
 	}
 
-
-
-
-	
 	/**
 	 * over-ridden in Kernel3D
 	 * 
@@ -4870,29 +5005,29 @@ public class Kernel {
 		return getAlgoDispatcher().Segment(label, (GeoPoint) P, (GeoPoint) Q);
 	}
 
-
 	private AlgoDispatcher algoDispatcher;
+
 	public AlgoDispatcher getAlgoDispatcher() {
 		if (algoDispatcher == null) {
 			algoDispatcher = newAlgoDispatcher(cons);
 		}
 		return algoDispatcher;
 	}
-	
+
 	/**
 	 * 
 	 * @return new instance of AlgoDispatcher
 	 */
-	protected AlgoDispatcher newAlgoDispatcher(Construction cons1){
+	protected AlgoDispatcher newAlgoDispatcher(Construction cons1) {
 		return new AlgoDispatcher(cons1);
 	}
 
 	public GeoRayND Ray(String label, GeoPoint p, GeoPoint q) {
-		return getAlgoDispatcher().Ray(label,  p,  q);
+		return getAlgoDispatcher().Ray(label, p, q);
 	}
 
 	public GeoSegmentND Segment(String label, GeoPoint p, GeoPoint q) {
-		return getAlgoDispatcher().Segment(label,  p,  q);
+		return getAlgoDispatcher().Segment(label, p, q);
 	}
 
 	public GeoElement[] Polygon(String[] labels, GeoPointND[] p) {
@@ -4902,8 +5037,6 @@ public class Kernel {
 	public GeoElement[] PolyLine(String[] labels, GeoPointND[] p, boolean b) {
 		return getAlgoDispatcher().PolyLine(labels, p, b);
 	}
-
-
 
 	public void initAfterAsync(App app1) {
 		this.app = app1;
@@ -4925,9 +5058,10 @@ public class Kernel {
 	public AlgebraProcessor getAlgPForAsync() {
 		return algProcessor;
 	}
-	
+
 	/**
 	 * used in 3D
+	 * 
 	 * @return xOy plane
 	 */
 	public GeoCoordSys2D getXOYPlane() {
@@ -4936,6 +5070,7 @@ public class Kernel {
 
 	/**
 	 * used in 3D
+	 * 
 	 * @return global space
 	 */
 	public GeoDirectionND getSpace() {
@@ -4973,7 +5108,7 @@ public class Kernel {
 	public boolean useCASforDerivatives() {
 		return !app.isScreenshotGenerator();
 	}
-	
+
 	public boolean useCASforIntegrals() {
 		return !app.isScreenshotGenerator();
 	}
@@ -4985,7 +5120,7 @@ public class Kernel {
 			}
 		}
 	}
-	
+
 	public void notifyEndBatchUpdate() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -4997,13 +5132,13 @@ public class Kernel {
 	public void setViewsLabels() {
 		if (notifyViewsActive) {
 			for (View view : views) {
-				if(view instanceof SetLabels){
-					((SetLabels)view).setLabels();
+				if (view instanceof SetLabels) {
+					((SetLabels) view).setLabels();
 				}
 			}
 		}
 	}
-	
+
 	public void setViewsOrientation() {
 		if (notifyViewsActive) {
 			for (View view : views) {
@@ -5017,62 +5152,65 @@ public class Kernel {
 	/**
 	 * 
 	 * @return true if algo (e.g. AlgoOrthoLinePointLine) doens't need to say
-	 * that we work in (or parallel to) xOy plane
+	 *         that we work in (or parallel to) xOy plane
 	 */
-	final public boolean noNeedToSpecifyXOYPlane(){
-		return getXOYPlane() == null || getApplication().getActiveEuclidianView().isDefault2D();
+	final public boolean noNeedToSpecifyXOYPlane() {
+		return getXOYPlane() == null
+				|| getApplication().getActiveEuclidianView().isDefault2D();
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param geo
 	 * @return 3D copy of the geo (if exists)
 	 */
-	public GeoElement copy3D(GeoElement geo){
+	public GeoElement copy3D(GeoElement geo) {
 		return geo.copy();
 	}
-	
+
 	/**
 	 * 
-	 * @param cons1 target cons
+	 * @param cons1
+	 *            target cons
 	 * @param geo
 	 * @return 3D copy internal of the geo (if exists)
 	 */
 	public GeoElement copyInternal3D(Construction cons1, GeoElement geo) {
 		return geo.copyInternal(cons1);
 	}
-	
-	
+
 	/**
 	 * set correct string mode regarding active euclidian view
-	 * @param point point
+	 * 
+	 * @param point
+	 *            point
 	 */
-	public void setStringMode(GeoPointND point){
+	public void setStringMode(GeoPointND point) {
 
-		if(cons.isFileLoading()){
+		if (cons.isFileLoading()) {
 			// nothing to do : string mode will be set from the XML
 			return;
 		}
 
-		if (app.getActiveEuclidianView().isEuclidianView3D()){
+		if (app.getActiveEuclidianView().isEuclidianView3D()) {
 			point.setCartesian3D();
-		}else{
+		} else {
 			point.setCartesian();
 		}
 		point.update();
 	}
 
 	public boolean isParsingFor3D() {
-		if(getLoadingMode()){
+		if (getLoadingMode()) {
 			return false;
 		}
-		EuclidianViewInterfaceCommon ev = getApplication().getActiveEuclidianView();
-		if(ev.isEuclidianView3D() || ev.isShowing()){
+		EuclidianViewInterfaceCommon ev = getApplication()
+				.getActiveEuclidianView();
+		if (ev.isEuclidianView3D() || ev.isShowing()) {
 			return ev.isEuclidianView3D();
 		}
 		return getApplication().showView(App.VIEW_EUCLIDIAN3D);
-		
+
 	}
 
 	public GeoElement wrapInVector(GeoPointND pt) {
@@ -5097,7 +5235,7 @@ public class Kernel {
 	}
 
 	// for compatibility/interfacing with 3D
-	public GeoElement getClippingCube(){
+	public GeoElement getClippingCube() {
 		return null;
 	}
 }

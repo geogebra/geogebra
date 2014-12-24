@@ -16,10 +16,12 @@ public class TransformTranslate extends Transform {
 	private GeoVec3D transVec;
 
 	/**
-	 * @param cons construction
-	 * @param transVec translation vector
+	 * @param cons
+	 *            construction
+	 * @param transVec
+	 *            translation vector
 	 */
-	public TransformTranslate(Construction cons,GeoVec3D transVec) {
+	public TransformTranslate(Construction cons, GeoVec3D transVec) {
 		this.transVec = transVec;
 		this.cons = cons;
 	}

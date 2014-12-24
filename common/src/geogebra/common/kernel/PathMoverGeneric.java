@@ -23,60 +23,61 @@ public class PathMoverGeneric implements PathMover {
 	private static final int BOUNDS_INFINITE = 2;
 	private static final int BOUNDS_FIXED_INFINITE = 3;
 	private static final int BOUNDS_INFINITE_FIXED = 4;
-	
+
 	/** minimal number of steps for this particular instance */
 	public int MIN_STEPS_INSTANCE = MIN_STEPS;
-	/**path */
+	/** path */
 	protected Path path;
 	/** start parameter */
 	protected double start_param;
-	/** start param + param extent*/
+	/** start param + param extent */
 	protected double start_paramUP;
-	/** start param - param extent*/
+	/** start param - param extent */
 	protected double start_paramDOWN;
 	/** current parameter */
 	protected double curr_param;
 	/** last parameter */
-	protected double last_param; 
-	/** difference between max and min params*/
+	protected double last_param;
+	/** difference between max and min params */
 	protected double param_extent;
-	/** minimal parameter*/
+	/** minimal parameter */
 	protected double min_param;
 	/** maximal parameter */
 	protected double max_param;
 	/** maximal step width */
-	protected double max_step_width; 
-	/** step width*/
-	protected double step_width; 
-	/** finite border in case of semi-infinite path*/
+	protected double max_step_width;
+	/** step width */
+	protected double step_width;
+	/** finite border in case of semi-infinite path */
 	protected double offset;
 	/** mode (BOUNDS_INFINITE, BOUNDS_FIXED, ..) */
 	protected int mode;
-	/** positive orientation*/
+	/** positive orientation */
 	protected boolean posOrientation;
-	/** true if we just arrived at max*/
+	/** true if we just arrived at max */
 	protected boolean maxBorderSet;
-	/** true if we just arrived at min*/
+	/** true if we just arrived at min */
 	protected boolean minBorderSet;
-	/** true if we arrived at max in last step*/
+	/** true if we arrived at max in last step */
 	protected boolean lastMaxBorderSet;
-	/** true if we just arrived at min in last step*/
+	/** true if we just arrived at min in last step */
 	protected boolean lastMinBorderSet;
 
 	/**
 	 * Creates new path mover for given path
 	 * 
-	 * @param path path
+	 * @param path
+	 *            path
 	 */
 	public PathMoverGeneric(Path path) {
 		this.path = path;
 	}
-	
+
 	/**
 	 * Creates new path mover
 	 */
 	public PathMoverGeneric() {
-		
+
 	}
 
 	public void init(GeoPointND p, int min_steps) {
@@ -154,9 +155,8 @@ public class PathMoverGeneric implements PathMover {
 
 		max_step_width = param_extent / MIN_STEPS_INSTANCE;
 
-		if (max_step_width < MIN_STEP_WIDTH ||
-			Double.isNaN(max_step_width) ||
-			Double.isInfinite(max_step_width)) {
+		if (max_step_width < MIN_STEP_WIDTH || Double.isNaN(max_step_width)
+				|| Double.isInfinite(max_step_width)) {
 			// case should not happen, by the way
 			max_step_width = MIN_STEP_WIDTH;
 		}
@@ -246,7 +246,8 @@ public class PathMoverGeneric implements PathMover {
 	/**
 	 * Updates path parameter of point p from curr_param
 	 * 
-	 * @param p point
+	 * @param p
+	 *            point
 	 */
 	protected void calcPoint(GeoPointND p) {
 		double param;
@@ -338,8 +339,8 @@ public class PathMoverGeneric implements PathMover {
 				return true;
 			}
 
-			if (step_width == NEG_MIN_STEP_WIDTH ||
-				step_width == MIN_STEP_WIDTH) {
+			if (step_width == NEG_MIN_STEP_WIDTH
+					|| step_width == MIN_STEP_WIDTH) {
 				return false;
 			}
 			if (step_width >= 0.0d) {

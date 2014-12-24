@@ -10,27 +10,39 @@ public interface CASParserInterface {
 	/**
 	 * Parses the given expression and resolves variables as GeoDummy objects.
 	 * The result is returned as a ValidExpression.
-	 * @param inValue GeoGebraCAS input
+	 * 
+	 * @param inValue
+	 *            GeoGebraCAS input
 	 * @return parsed expression
-	 * @throws CASException if something goes wrong (invalid input)
+	 * @throws CASException
+	 *             if something goes wrong (invalid input)
 	 */
-	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue, Kernel kernel) throws CASException;
+	ValidExpression parseGeoGebraCASInputAndResolveDummyVars(String inValue,
+			Kernel kernel) throws CASException;
+
 	/**
 	 * Parses the given expression and returns it as a ValidExpression.
-	 * @param inValue GeoGebraCAS input
+	 * 
+	 * @param inValue
+	 *            GeoGebraCAS input
 	 * @return parsed expression
-	 * @throws CASException something goes wrong
+	 * @throws CASException
+	 *             something goes wrong
 	 */
-	ValidExpression parseGeoGebraCASInput(final String inValue) throws CASException;
+	ValidExpression parseGeoGebraCASInput(final String inValue)
+			throws CASException;
 
 	/**
 	 * Replace variables with dummy objects
-	 * @param outputVe value to process
+	 * 
+	 * @param outputVe
+	 *            value to process
 	 */
 	void resolveVariablesForCAS(ExpressionValue outputVe, Kernel kernel);
 
 	/**
-	 * @param string internal name of command
+	 * @param string
+	 *            internal name of command
 	 * @return localized name of command
 	 */
 	String getTranslatedCASCommand(final String string);

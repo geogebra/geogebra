@@ -9,21 +9,22 @@ import java.util.ListIterator;
  * Undo manager common to Desktop and Web
  */
 public abstract class UndoManager {
-	
+
 	/** maximum capacity of undo info list: you can undo MAX_CAPACITY - 1 steps */
 	private static final int MAX_CAPACITY = 100;
-	
+
 	/**
 	 * Interface for application state
+	 * 
 	 * @author kondr
 	 *
 	 */
 	protected interface AppState {
-		/** deletes this application state (i.e. deletes file)*/
+		/** deletes this application state (i.e. deletes file) */
 		void delete();
-		
+
 	}
-	
+
 	/** application */
 	public App app;
 	/** construction */
@@ -31,19 +32,25 @@ public abstract class UndoManager {
 	/** list of undo steps */
 	protected LinkedList<AppState> undoInfoList;
 	/** invariant: iterator.previous() is current state */
-	public ListIterator<AppState> iterator; 
+	public ListIterator<AppState> iterator;
+
 	/**
-	 * @param cons construction
-	*/
+	 * @param cons
+	 *            construction
+	 */
 	public UndoManager(Construction cons) {
 		construction = cons;
 		app = cons.getApplication();
 		undoInfoList = new LinkedList<AppState>();
 	}
+
 	/**
 	 * Processes XML
-	 * @param string XML string
-	 * @throws Exception on trouble with parsing or running commands
+	 * 
+	 * @param string
+	 *            XML string
+	 * @throws Exception
+	 *             on trouble with parsing or running commands
 	 */
 	public abstract void processXML(String string) throws Exception;
 
@@ -69,7 +76,7 @@ public abstract class UndoManager {
 			updateUndoActions();
 		}
 	}
-	
+
 	/**
 	 * Update undo/redo buttons in GUI
 	 */
@@ -88,14 +95,13 @@ public abstract class UndoManager {
 		return ret;
 	}
 
-	
 	/**
 	 * Store undo info
 	 */
 	public void storeUndoInfo() {
 		storeUndoInfo(false);
 	}
-	
+
 	/**
 	 * Reloads construction state at current position of undo list (this is
 	 * needed for "cancel" actions).
@@ -107,7 +113,7 @@ public abstract class UndoManager {
 		updateUndoActions();
 		app.getKernel().recallSelectedGeosNames();
 	}
-	
+
 	/**
 	 * Clears undo info list and adds current state to the undo info list.
 	 */
@@ -115,12 +121,10 @@ public abstract class UndoManager {
 		clearUndoInfo();
 		storeUndoInfo();
 	}
-	
-	
 
-	
 	/**
 	 * Returns whether undo operation is possible or not.
+	 * 
 	 * @return whether undo operation is possible or not.
 	 */
 	public boolean undoPossible() {
@@ -131,6 +135,7 @@ public abstract class UndoManager {
 
 	/**
 	 * Returns whether redo operation is possible or not.
+	 * 
 	 * @return whether redo operation is possible or not.
 	 */
 	public boolean redoPossible() {
@@ -143,19 +148,23 @@ public abstract class UndoManager {
 	 * Stores undo info after pasting or adding new objects
 	 */
 	public abstract void storeUndoInfoAfterPasteOrAdd();
-	
+
 	/**
 	 * Stores undo info
-	 * @param refresh true to restore current
+	 * 
+	 * @param refresh
+	 *            true to restore current
 	 */
 	public abstract void storeUndoInfo(boolean refresh);
-	
+
 	/**
 	 * Loads undo info
-	 * @param state stored state
+	 * 
+	 * @param state
+	 *            stored state
 	 */
 	protected abstract void loadUndoInfo(AppState state);
-	
+
 	/**
 	 * Clears all undo information
 	 */
@@ -163,11 +172,11 @@ public abstract class UndoManager {
 		undoInfoList.clear();
 		iterator = undoInfoList.listIterator();
 	}
-	
+
 	/**
 	 * Removes all stored states newer than current or too old
 	 */
-	public void pruneStateList(){
+	public void pruneStateList() {
 		// remove everything after the insert position until end of
 		// list
 		AppState appState = null;

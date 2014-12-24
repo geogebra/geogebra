@@ -14,7 +14,7 @@ public class PointPairList {
 	private PointPair head;
 	private int size = 0;
 	private boolean isStrict = true;
-	
+
 	/**
 	 * @return whether this list is empty
 	 */
@@ -27,18 +27,24 @@ public class PointPairList {
 	 */
 	public final void clear() {
 		head = null;
-		isStrict=true;
+		isStrict = true;
 		size = 0;
 	}
 
 	/**
 	 * Inserts pair (indexD, indexQ) in ascending order of distance where alive
 	 * points come before others and points Q on path come before others.
-	 * @param indexD index of point in D
-	 * @param isPalive tru if point in P is alive
-	 * @param indexQ  index of point in Q
-	 * @param isQonPath true if point in Q is on path
-	 * @param distance distance between point in D and point in Q
+	 * 
+	 * @param indexD
+	 *            index of point in D
+	 * @param isPalive
+	 *            tru if point in P is alive
+	 * @param indexQ
+	 *            index of point in Q
+	 * @param isQonPath
+	 *            true if point in Q is on path
+	 * @param distance
+	 *            distance between point in D and point in Q
 	 */
 	public final void insertPointPair(int indexD, boolean isPalive, int indexQ,
 			boolean isQonPath, double distance) {
@@ -59,12 +65,13 @@ public class PointPairList {
 				break;
 			currentPair = currentPair.next;
 		}
-		
-		//check strictness
-		//TODO: check relevance of isQonPath
-		//if (currentPair.isPalive && newPair.isPalive && !reallySmallerThan(currentPair,newPair)) 
-		//	isStrict = false;
-		
+
+		// check strictness
+		// TODO: check relevance of isQonPath
+		// if (currentPair.isPalive && newPair.isPalive &&
+		// !reallySmallerThan(currentPair,newPair))
+		// isStrict = false;
+
 		// add after currentPair
 		newPair.next = currentPair.next;
 		currentPair.next = newPair;
@@ -113,11 +120,13 @@ public class PointPairList {
 		// both not on path
 		return (a.dist < b.dist);
 	}
-	
+
 	/**
 	 * Removes all PointPairs where indexP == pair.indexP or indexQ ==
 	 * pair.indexQ
-	 * @param pair pair such that pairs with one same point must be removed
+	 * 
+	 * @param pair
+	 *            pair such that pairs with one same point must be removed
 	 */
 	public final void removeAllPairs(PointPair pair) {
 		if (head == null)
@@ -150,14 +159,13 @@ public class PointPairList {
 	public final PointPair getHead() {
 		return head;
 	}
-	
+
 	/**
 	 * @return true
 	 */
 	public final boolean isStrict() {
 		isStrict = true;
-		
-		
+
 		return isStrict;
 	}
 
@@ -167,37 +175,41 @@ public class PointPairList {
 	public final int size() {
 		return size;
 	}
-	
+
 	/**
 	 * already assumed that the list is sorted.
-	 * @param indexQ index of Q-point 
+	 * 
+	 * @param indexQ
+	 *            index of Q-point
 	 * @return index of closest P-point
 	 */
 	public final int getClosestPWithindexQ(int indexQ) {
-		
+
 		PointPair pair = this.getHead();
-		while (pair!=null) {
-			if (pair.indexQ==indexQ)
+		while (pair != null) {
+			if (pair.indexQ == indexQ)
 				return pair.indexP;
 			pair = pair.next;
 		}
-		return -1; //indexQ not found
+		return -1; // indexQ not found
 	}
-	
+
 	/**
 	 * already assumed that the list is sorted.
-	 * @param indexP index of P-point 
+	 * 
+	 * @param indexP
+	 *            index of P-point
 	 * @return index of closest Q-point
 	 */
 	public final int getClosestQWithindexP(int indexP) {
-		
+
 		PointPair pair = this.getHead();
-		while (pair!=null) {
-			if (pair.indexP==indexP)
+		while (pair != null) {
+			if (pair.indexP == indexP)
 				return pair.indexP;
 			pair = pair.next;
 		}
-		return -1; //indexQ not found
+		return -1; // indexQ not found
 	}
 	/*
 	 * final public String toString() { StringBuilder sb = new StringBuilder();

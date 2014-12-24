@@ -144,9 +144,9 @@ public class ConstructionDefaults {
 	// polygons
 	/** default color for polygons */
 	public static final GColor colPolygon = GeoGebraColorConstants.BROWN; // new
-																				// Color(153,
-																				// 51,
-																				// 0);
+																			// Color(153,
+																			// 51,
+																			// 0);
 	/** default alpha for inequalities */
 	public static final float DEFAULT_INEQUALITY_ALPHA = 0.25f;
 
@@ -200,9 +200,9 @@ public class ConstructionDefaults {
 	public static final int LABEL_VISIBLE_POINTS_ONLY = 3;
 	/** label visible based on default geos */
 	public static final int LABEL_VISIBLE_USE_DEFAULTS = 4;
-	
-	/** default font size multiplier */ 
- 	public static final double DEFAULT_BUTTON_SIZE = 2; 
+
+	/** default font size multiplier */
+	public static final double DEFAULT_BUTTON_SIZE = 2;
 
 	/** construction */
 	protected Construction cons;
@@ -327,13 +327,13 @@ public class ConstructionDefaults {
 		seg.setObjColor(colLine);
 		seg.setDefaultGeoType(DEFAULT_SEGMENT);
 		defaultGeoElements.put(DEFAULT_SEGMENT, seg);
-		
+
 		// segment
-				GeoRay ray = new GeoRay(cons);
-				ray.setLocalVariableLabel("Segment");
-				ray.setObjColor(colLine);
-				ray.setDefaultGeoType(DEFAULT_RAY);
-				defaultGeoElements.put(DEFAULT_RAY, ray);
+		GeoRay ray = new GeoRay(cons);
+		ray.setLocalVariableLabel("Segment");
+		ray.setObjColor(colLine);
+		ray.setDefaultGeoType(DEFAULT_RAY);
+		defaultGeoElements.put(DEFAULT_RAY, ray);
 
 		GeoFunctionNVar inequality = new GeoFunctionNVar(cons);
 		// inequality.setLocalVariableLabel("Inequality");
@@ -348,7 +348,7 @@ public class ConstructionDefaults {
 
 		// function n var
 		GeoFunctionNVar functionNV = new GeoFunctionNVar(cons);
-		//functionNV.setLocalVariableLabel("function");
+		// functionNV.setLocalVariableLabel("function");
 		functionNV.setObjColor(colQuadric);
 		functionNV.setAlphaValue(DEFAULT_QUADRIC_ALPHA);
 		functionNV.setDefaultGeoType(DEFAULT_FUNCTION_NVAR);
@@ -376,7 +376,6 @@ public class ConstructionDefaults {
 		polyline.setObjColor(colLine);
 		polyline.setDefaultGeoType(DEFAULT_POLYLINE);
 		defaultGeoElements.put(DEFAULT_POLYLINE, polyline);
-		
 
 		// conic
 		GeoConic conic = new GeoConic(cons);
@@ -424,8 +423,8 @@ public class ConstructionDefaults {
 		angle.setSliderFixed(true);
 		angle.setObjColor(colAngle);
 		angle.setAlphaValue(DEFAULT_ANGLE_ALPHA);
-		angle.setDrawable(true,false); 
-		angle.setDrawable(true,false);
+		angle.setDrawable(true, false);
+		angle.setDrawable(true, false);
 		angle.setArcSize(angleSize);
 		/*
 		 * we have to set min/max/increment/speed here because
@@ -436,10 +435,10 @@ public class ConstructionDefaults {
 		angle.setAnimationStep(GeoAngle.DEFAULT_SLIDER_INCREMENT_ANGLE);
 		angle.setAnimationSpeed(GeoNumeric.DEFAULT_SLIDER_SPEED);
 		angle.setDefaultGeoType(DEFAULT_ANGLE);
-		// can't do this here for sliders as it affects Angle[A,B,C] too 
+		// can't do this here for sliders as it affects Angle[A,B,C] too
 		// see GeoNumeric.setSliderFromDefault()
-	 	//angle.setLineThickness(GeoNumeric.DEFAULT_THICKNESS); 
-	 	angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE); 
+		// angle.setLineThickness(GeoNumeric.DEFAULT_THICKNESS);
+		angle.setSliderWidth(GeoNumeric.DEFAULT_SLIDER_WIDTH_PIXEL_ANGLE);
 		angle.setLineTypeHidden(EuclidianStyleConstants.LINE_TYPE_HIDDEN_AS_NOT_HIDDEN);
 		defaultGeoElements.put(DEFAULT_ANGLE, angle);
 
@@ -511,20 +510,23 @@ public class ConstructionDefaults {
 				+ "\">\n");
 		sb.append("<construction>\n");
 		for (GeoElement geo : defaultGeoElements.values()) {
-			getXML(geo,sb);
+			getXML(geo, sb);
 		}
 		sb.append("</construction>\n");
 		sb.append("</geogebra>\n");
 
 		return sb.toString();
 	}
-	
+
 	/**
 	 * put geo XML in string builder for default settings
-	 * @param geo geo
-	 * @param sb string builder
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param sb
+	 *            string builder
 	 */
-	protected void getXML(GeoElement geo, StringBuilder sb){
+	protected void getXML(GeoElement geo, StringBuilder sb) {
 		geo.getXML(false, sb);
 	}
 
@@ -539,7 +541,6 @@ public class ConstructionDefaults {
 		return defaultGeoElements.get(type);
 	}
 
-	
 	/**
 	 * Adds a key/value pair to defaultGeoElements. (used by
 	 * Euclidian.EuclidianStyleBar to restore a default geo to previous state)
@@ -561,11 +562,11 @@ public class ConstructionDefaults {
 	 * @return the default type
 	 */
 	public int getDefaultType(GeoElement geo) {
-	
+
 		return getDefaultType(geo, geo.getGeoClassType());
-		
+
 	}
-	
+
 	/**
 	 * return the default type of the geo
 	 * 
@@ -675,7 +676,7 @@ public class ConstructionDefaults {
 			break;
 		case RAY:
 			type = DEFAULT_RAY;
-			break;	
+			break;
 
 		default:
 			// all object types that are not specifically supported
@@ -704,7 +705,7 @@ public class ConstructionDefaults {
 	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset) {
 		setDefaultVisualStyles(geo, isReset, true);
 	}
-	
+
 	/**
 	 * Sets default color for given geo. Note: this is mostly kept for downward
 	 * compatibility.
@@ -713,10 +714,11 @@ public class ConstructionDefaults {
 	 *            The element which needs new default visual styles
 	 * @param isReset
 	 *            If the visual styles should be reset
-	 * @param setEuclidianVisible 
+	 * @param setEuclidianVisible
 	 *            If eucldianVisible should be set
 	 */
-	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset, boolean setEuclidianVisible) {
+	final public void setDefaultVisualStyles(GeoElement geo, boolean isReset,
+			boolean setEuclidianVisible) {
 		// all object types that are not specifically supported
 		// should get the default values of a line
 		// int type = DEFAULT_LINE;
@@ -727,9 +729,13 @@ public class ConstructionDefaults {
 		App app = cons.getApplication();
 
 		if (defaultGeo != null) {
-			if (!setEuclidianVisible || geo.isGeoNumeric()){ // don't affect euclidianVisible for slider/angle
-				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo, isReset);
-			}else{
+			if (!setEuclidianVisible || geo.isGeoNumeric()) { // don't affect
+																// euclidianVisible
+																// for
+																// slider/angle
+				geo.setAllVisualPropertiesExceptEuclidianVisible(defaultGeo,
+						isReset);
+			} else {
 				geo.setAllVisualProperties(defaultGeo, isReset);
 			}
 			if (geo instanceof GeoFunction)
@@ -810,12 +816,12 @@ public class ConstructionDefaults {
 		setDefaultAngleSize(angleSize);
 		setDefaultFilling(filling);
 	}
-	
+
 	/**
 	 * 
 	 * @return current default line thickness
 	 */
-	public int getDefaultLineThickness(){
+	public int getDefaultLineThickness() {
 		return lineThickness;
 	}
 
@@ -823,20 +829,17 @@ public class ConstructionDefaults {
 	 * 
 	 * @return current default point size
 	 */
-	public int getDefaultPointSize(){
+	public int getDefaultPointSize() {
 		return pointSize;
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return current default angle size
 	 */
-	public int getDefaultAngleSize(){
+	public int getDefaultAngleSize() {
 		return angleSize;
 	}
-	
-
 
 	/**
 	 * @param angleSize0

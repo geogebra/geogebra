@@ -429,9 +429,12 @@ public class LocusEquation {
 	}
 
 	/**
-	 * @param geo result
-	 * @param algo algorithm
-	 * @param scope scope
+	 * @param geo
+	 *            result
+	 * @param algo
+	 *            algorithm
+	 * @param scope
+	 *            scope
 	 * @return equation element
 	 */
 	public static EquationElementInterface eqnMirror(GeoElement geo,
@@ -441,7 +444,6 @@ public class LocusEquation {
 
 	}
 
-	
 	/**
 	 * @param geo
 	 *            result
@@ -597,14 +599,17 @@ public class LocusEquation {
 		return new CmdLocusEquation(kernel);
 	}
 
-	
 	/**
 	 * Creates equation for free line
-	 * @param line line
-	 * @param scope scope
+	 * 
+	 * @param line
+	 *            line
+	 * @param scope
+	 *            scope
 	 * @return line equation
 	 */
-	public static EquationElementInterface eqnLine(GeoLine line, EquationScopeInterface scope) {
+	public static EquationElementInterface eqnLine(GeoLine line,
+			EquationScopeInterface scope) {
 		return new EquationFreeLine(line, (EquationScope) scope);
 	}
 

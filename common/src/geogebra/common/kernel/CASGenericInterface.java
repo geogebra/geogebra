@@ -78,74 +78,94 @@ public interface CASGenericInterface extends SettingListener {
 
 	/**
 	 * Appends list start marker to the builder (eg {)
-	 * @param sbCASCommand string builder
+	 * 
+	 * @param sbCASCommand
+	 *            string builder
 	 */
 	void appendListStart(StringBuilder sbCASCommand);
+
 	/**
 	 * Appends list start marker to the builder (eg })
-	 * @param sbCASCommand string builder
+	 * 
+	 * @param sbCASCommand
+	 *            string builder
 	 */
 	void appendListEnd(StringBuilder sbCASCommand);
-	
+
 	/**
 	 * 
-	 * @param inputExpression input
-	 * @param arbconst constant handler
+	 * @param inputExpression
+	 *            input
+	 * @param arbconst
+	 *            constant handler
 	 * @return evaluated input
 	 */
 	public ExpressionValue evaluateToExpression(
-			final ValidExpression inputExpression, MyArbitraryConstant arbconst, Kernel kernel);
+			final ValidExpression inputExpression,
+			MyArbitraryConstant arbconst, Kernel kernel);
 
 	/**
-	 * @param exp input
+	 * @param exp
+	 *            input
 	 * @return output
 	 */
 	String evaluateCAS(String exp);
-	
+
 	/**
-	 * @param constructRestrictions construct restrictions (hypotheses)
-	 * @param vars existing variables
-	 * @param varsToEliminate variables to be eliminated
+	 * @param constructRestrictions
+	 *            construct restrictions (hypotheses)
+	 * @param vars
+	 *            existing variables
+	 * @param varsToEliminate
+	 *            variables to be eliminated
 	 * @return locus equation
 	 */
-	String createLocusEquationScript(
-			String constructRestrictions,
-			String vars, String varsToEliminate);
+	String createLocusEquationScript(String constructRestrictions, String vars,
+			String varsToEliminate);
 
 	/**
 	 * Creates a program to return the elimination ideal in factorized form.
-	 * @param polys input polynomials (comma separated strings)
-	 * @param elimVars variables to eliminate (comma separated strings)
+	 * 
+	 * @param polys
+	 *            input polynomials (comma separated strings)
+	 * @param elimVars
+	 *            variables to eliminate (comma separated strings)
 	 * @return factors in the same form as Singular gives
 	 */
-	public String createEliminateFactorizedScript(
-			String polys, String elimVars);
-	
-	
+	public String createEliminateFactorizedScript(String polys, String elimVars);
+
 	/**
 	 * Creates a program to check if an equation system has no solution, using
 	 * Groebner basis w.r.t. the revgradlex order.
-
-	 * @param substitutions e.g [v1=0,v2=1]
-	 * @param polys polynomials, e.g. "v1+v2-3*v4-10"
-	 * @param freeVars free variables
-	 * @param dependantVars dependent variables
-	 * @param transcext use coefficient form transcendent extension 
+	 * 
+	 * @param substitutions
+	 *            e.g [v1=0,v2=1]
+	 * @param polys
+	 *            polynomials, e.g. "v1+v2-3*v4-10"
+	 * @param freeVars
+	 *            free variables
+	 * @param dependantVars
+	 *            dependent variables
+	 * @param transcext
+	 *            use coefficient form transcendent extension
 	 * @return the program code
 	 */
-	public String createGroebnerSolvableScript( 
-			HashMap<Variable,Integer>substitutions, String polys,
+	public String createGroebnerSolvableScript(
+			HashMap<Variable, Integer> substitutions, String polys,
 			String freeVars, String dependantVars, boolean transcext);
-		
+
 	/**
-	 * @param rawResult output from eliminate() and coeffs() commands
-	 * @param cas the currently used CAS
+	 * @param rawResult
+	 *            output from eliminate() and coeffs() commands
+	 * @param cas
+	 *            the currently used CAS
 	 * @return 2D array of coefficients
 	 */
 	double[][] getBivarPolyCoefficients(String rawResult, GeoGebraCAS cas);
 
 	/**
-	 * Make sure the result of async computation is cleared to avoid potential timing problems
+	 * Make sure the result of async computation is cleared to avoid potential
+	 * timing problems
 	 */
 	void clearResult();
 

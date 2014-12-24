@@ -25,23 +25,25 @@ import java.util.Iterator;
 import java.util.SortedSet;
 
 /**
- * Compares two objects, first numerically, then symbolically
- * (when the "More..." button is pressed).
- * The original contents of this file has been moved into
- * RelationNumerical.java and extensively rewritten.
- *  
+ * Compares two objects, first numerically, then symbolically (when the
+ * "More..." button is pressed). The original contents of this file has been
+ * moved into RelationNumerical.java and extensively rewritten.
+ * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class Relation {
 	/**
-	 * @param app currently used application 
-	 * @param ra first object
-	 * @param rb second object
+	 * @param app
+	 *            currently used application
+	 * @param ra
+	 *            first object
+	 * @param rb
+	 *            second object
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
-
 	 */
-	public static void showRelation(final App app, final GeoElement ra, final GeoElement rb) {
+	public static void showRelation(final App app, final GeoElement ra,
+			final GeoElement rb) {
 		// Forcing CAS to load. This will be essential for the web version
 		// to run the Prove[Are...] commands with getting no "undefined":
 		GeoGebraCAS cas = (GeoGebraCAS) ra.getKernel().getGeoGebraCAS();
@@ -54,7 +56,9 @@ public class Relation {
 		// Creating Relation popup window:
 		RelationPane tablePane = app.getFactory().newRelationPane();
 		// Computing numerical results and collecting them alphabetically:
-		SortedSet<Report> relInfosAll = RelationNumerical.sortAlphabetically(new RelationNumerical(app.getKernel()).relation(ra, rb));
+		SortedSet<Report> relInfosAll = RelationNumerical
+				.sortAlphabetically(new RelationNumerical(app.getKernel())
+						.relation(ra, rb));
 		// Collecting information for showing them in the popup window:
 		Iterator<Report> it = relInfosAll.iterator();
 		int rels = relInfosAll.size();
@@ -71,11 +75,11 @@ public class Relation {
 			i++;
 		}
 		final RelationRow rr[] = new RelationRow[rels];
-		for (i=0; i<rels; i++) {
+		for (i = 0; i < rels; i++) {
 			rr[i] = new RelationRow();
 			final String relInfo = relInfos[i].replace("\n", "<br>");
 			// First information shown (result of numerical checks):
-			rr[i].info = "<html>" + relInfo + "<br>" 
+			rr[i].info = "<html>" + relInfo + "<br>"
 					+ app.getPlain("CheckedNumerically") + "</html>";
 			final RelationCommand relAlgo = relAlgos[i];
 
@@ -84,32 +88,39 @@ public class Relation {
 				public void action(RelationPane table, int row) {
 					final RelationRow rel = new RelationRow();
 					Boolean result = checkGenerally(relAlgo, ra, rb);
-					Localization loc = ra.getConstruction().getApplication().getLocalization();
+					Localization loc = ra.getConstruction().getApplication()
+							.getLocalization();
 					String and = loc.getMenu("Symbol.And").toLowerCase();
 					rel.info = "<html>";
 					if (result != null && !result) {
 						// Prove==false
-						rel.info += relInfo + "<br><b>" + app.getPlain("ButNotGenerallyTrue") + "</b>";
+						rel.info += relInfo + "<br><b>"
+								+ app.getPlain("ButNotGenerallyTrue") + "</b>";
 					} else {
-						// We don't show the second information unless ProveDetails is unsuccessful.
-					
+						// We don't show the second information unless
+						// ProveDetails is unsuccessful.
+
 						// Third info start:
 						String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
-						// This style is defined in the CSS. It is harmless in desktop but
+						// This style is defined in the CSS. It is harmless in
+						// desktop but
 						// helpful to show nice list look in web:
 						String liStyle = "class=\"RelationTool\"";
-						// Third information shown (result of ProveDetails command):
+						// Third information shown (result of ProveDetails
+						// command):
 						if (ndgResult.length == 1) {
 							// ProveDetails=={true} or =={false} or ==undefined
 							rel.info += relInfo + "<br><b>";
 							if ("".equals(ndgResult[0])) {
 								// ProveDetails==undefined
 								if (result != null && result) {
-									// Using Prove's result (since ProveDetails couldn't find any interesting):
+									// Using Prove's result (since ProveDetails
+									// couldn't find any interesting):
 									rel.info += app.getPlain("GenerallyTrue");
 								} else {
 									// Prove==ProveDetails==undefined
-									rel.info += app.getPlain("PossiblyGenerallyTrue");
+									rel.info += app
+											.getPlain("PossiblyGenerallyTrue");
 								}
 							} else if ("1".equals(ndgResult[0])) {
 								// ProveDetails=={true}
@@ -122,51 +133,61 @@ public class Relation {
 						} else {
 							int ndgs = ndgResult.length;
 							if ((ndgs == 2) && ("...".equals(ndgResult[1]))) {
-							// 	UnderCertainConditionsA
-								rel.info += loc.getPlain("UnderCertainConditionsA", "<ul><li " + liStyle + ">" +
-										relInfo + "</ul>");
+								// UnderCertainConditionsA
+								rel.info += loc.getPlain(
+										"UnderCertainConditionsA", "<ul><li "
+												+ liStyle + ">" + relInfo
+												+ "</ul>");
 
 							} else {
 								// GenerallyTrueAcondB
-								String conds = "<ul>"; 
+								String conds = "<ul>";
 								for (int j = 1; j < ndgs; ++j) {
 									conds += "<li " + liStyle + ">";
 									conds += ndgResult[j];
-									if ( (j < ndgs - 1) ) {
+									if ((j < ndgs - 1)) {
 										conds += " " + and;
 									}
 								}
 								conds += "</ul>";
-								rel.info += loc.getPlain("GenerallyTrueAcondB", 
-										"<ul><li " + liStyle + ">" + relInfo + "</ul>", conds);
-								}
+								rel.info += loc.getPlain("GenerallyTrueAcondB",
+										"<ul><li " + liStyle + ">" + relInfo
+												+ "</ul>", conds);
+							}
 						}
 					}
 					rel.info += "</html>";
 					rel.callback = null;
-					table.updateRow(row, rel);				
-					}
+					table.updateRow(row, rel);
+				}
 			};
-			
-			if (relBools[i]!=null && relBools[i] && relAlgos[i] != null) {
+
+			if (relBools[i] != null && relBools[i] && relAlgos[i] != null) {
 				rr[i].callback = rm;
 			}
 		}
-		
-		tablePane.showDialog(GeoGebraConstants.APPLICATION_NAME + " - " + app.getLocalization().getCommand("Relation"), rr,
-				ra.getConstruction().getApplication());
+
+		tablePane.showDialog(GeoGebraConstants.APPLICATION_NAME + " - "
+				+ app.getLocalization().getCommand("Relation"), rr, ra
+				.getConstruction().getApplication());
 	}
 
 	/**
 	 * Tries to compute if a geometry statement holds generally.
-	 * @param command Are... command
-	 * @param g1 first object
-	 * @param g2 second object
-	 * @return true if statement holds generally, false if it does not hold, null if cannot be decided by GeoGebra
+	 * 
+	 * @param command
+	 *            Are... command
+	 * @param g1
+	 *            first object
+	 * @param g2
+	 *            second object
+	 * @return true if statement holds generally, false if it does not hold,
+	 *         null if cannot be decided by GeoGebra
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	final public static Boolean checkGenerally(RelationCommand command, GeoElement g1, GeoElement g2) {
+	final public static Boolean checkGenerally(RelationCommand command,
+			GeoElement g1, GeoElement g2) {
 		Boolean ret = null;
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
@@ -208,17 +229,23 @@ public class Relation {
 		o[0].remove();
 		return ret;
 	}
-	
+
 	/**
 	 * Tries to compute a necessary condition for a given statement to hold.
-	 * @param command Are... command
-	 * @param g1 first object
-	 * @param g2 second object
-	 * @return [""]: undefined, ["0"]: false, ["1"]: always true, ["1", cond1, cond2, ...]: true under cond1 and cond2 and ...
+	 * 
+	 * @param command
+	 *            Are... command
+	 * @param g1
+	 *            first object
+	 * @param g2
+	 *            second object
+	 * @return [""]: undefined, ["0"]: false, ["1"]: always true, ["1", cond1,
+	 *         cond2, ...]: true under cond1 and cond2 and ...
 	 * 
 	 * @author Zoltan Kovacs <zoltan@geogebra.org>
 	 */
-	final public static String[] getNDGConditions(RelationCommand command, GeoElement g1, GeoElement g2) {
+	final public static String[] getNDGConditions(RelationCommand command,
+			GeoElement g1, GeoElement g2) {
 		Construction cons = g1.getConstruction();
 		GeoElement root = new GeoBoolean(cons);
 		AlgoElement ae = null;
@@ -266,7 +293,7 @@ public class Relation {
 			for (int i = 0; i < condsSize; ++i) {
 				String cond = conds.get(i).toString();
 				// Removing quotes:
-				ret[i+1] = cond.substring(1,cond.length()-1);
+				ret[i + 1] = cond.substring(1, cond.length() - 1);
 			}
 		} else {
 			ret = new String[1];
@@ -288,4 +315,3 @@ public class Relation {
 		return ret;
 	}
 }
-

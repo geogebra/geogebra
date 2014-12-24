@@ -14,10 +14,12 @@ package geogebra.common.kernel;
 
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.util.MyMath;
+
 /**
- * Lightweight point with lineTo flag that can be easily transformed into GeoPoint 
+ * Lightweight point with lineTo flag that can be easily transformed into
+ * GeoPoint
  */
-public class MyPoint extends geogebra.common.awt.GPoint2D{
+public class MyPoint extends geogebra.common.awt.GPoint2D {
 	/** x-coord */
 	public double x;
 	/** y-coord */
@@ -27,9 +29,13 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 
 	/**
 	 * Creates new MyPoint
-	 * @param x x-coord
-	 * @param y y-coord
-	 * @param lineTo lineto flag
+	 * 
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
+	 * @param lineTo
+	 *            lineto flag
 	 */
 	public MyPoint(double x, double y, boolean lineTo) {
 		this.x = x;
@@ -42,8 +48,10 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	}
 
 	/**
-	 * @param px x-coordinate
-	 * @param py y-coordinate
+	 * @param px
+	 *            x-coordinate
+	 * @param py
+	 *            y-coordinate
 	 * @return euclidian distance to otherpoint squared
 	 */
 	public double distSqr(double px, double py) {
@@ -53,8 +61,10 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	}
 
 	/**
-	 * @param px x-coord
-	 * @param py y-coord
+	 * @param px
+	 *            x-coord
+	 * @param py
+	 *            y-coord
 	 * @return true if points are equal (Kernel.MIN_PRECISION)
 	 */
 	public boolean isEqual(double px, double py) {
@@ -68,7 +78,8 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	}
 
 	/**
-	 * @param p other point
+	 * @param p
+	 *            other point
 	 * @return euclidian distance from p
 	 */
 	public double distance(MyPoint p) {
@@ -77,14 +88,15 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 
 	/**
 	 * Converts this into GeoPoint
-	 * @param cons construction for the new point 
+	 * 
+	 * @param cons
+	 *            construction for the new point
 	 * @return GeoPoint equivalent
 	 */
 	public GeoPoint getGeoPoint(Construction cons) {
 		return new GeoPoint(cons, null, x, y, 1.0);
 	}
-	
-	
+
 	/**
 	 * @return lineTo flag
 	 */
@@ -96,32 +108,31 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	public double getX() {
 		return x;
 	}
-	
+
 	@Override
 	public double getY() {
 		return y;
 	}
-	
+
 	public double getZ() {
 		return 0;
 	}
 
 	@Override
 	public double distance(double x1, double y1) {
-	    return geogebra.common.awt.GPoint2D.distanceSq(getX(), getY(), x1, y1);
+		return geogebra.common.awt.GPoint2D.distanceSq(getX(), getY(), x1, y1);
 	}
-
 
 	@Override
 	public void setX(double x) {
 		this.x = x;
 	}
-	
+
 	@Override
 	public void setY(double y) {
 		this.y = y;
 	}
-	
+
 	@Override
 	public double distance(geogebra.common.awt.GPoint2D q) {
 		return distance(q.getX(), q.getY());
@@ -129,7 +140,8 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 
 	/**
 	 * 
-	 * @param point point
+	 * @param point
+	 *            point
 	 * @return true if same (x,y)
 	 */
 	public boolean isEqual(MyPoint point) {
@@ -140,30 +152,31 @@ public class MyPoint extends geogebra.common.awt.GPoint2D{
 	 * 
 	 * @return true if coords are finite numbers
 	 */
-	public boolean isFinite(){
+	public boolean isFinite() {
 		return isFinite(x) && isFinite(y);
 	}
-	
-	/**
-	 * 
-	 * @param value value
-	 * @return true if the value is finite number
-	 */
-	static final protected boolean isFinite(double value){
-		return !java.lang.Double.isInfinite(value) && !java.lang.Double.isInfinite(value);
-	}
-	
-	
 
 	/**
 	 * 
-	 * @param t parameter
-	 * @param point2 second point
+	 * @param value
+	 *            value
+	 * @return true if the value is finite number
+	 */
+	static final protected boolean isFinite(double value) {
+		return !java.lang.Double.isInfinite(value)
+				&& !java.lang.Double.isInfinite(value);
+	}
+
+	/**
+	 * 
+	 * @param t
+	 *            parameter
+	 * @param point2
+	 *            second point
 	 * @return (1-t) * this + t * point2
 	 */
-	public MyPoint barycenter(double t, MyPoint point2){
-		return new MyPoint((1 - t) * x + t * point2.x,
-				(1 - t) * y + t * point2.y, 
-				false);
+	public MyPoint barycenter(double t, MyPoint point2) {
+		return new MyPoint((1 - t) * x + t * point2.x, (1 - t) * y + t
+				* point2.y, false);
 	}
 }
