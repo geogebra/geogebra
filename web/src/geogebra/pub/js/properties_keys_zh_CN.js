@@ -2739,7 +2739,7 @@ __GGB__keysVar.zh_CN.plain = {
     "TextAfterConstruction": "\u7ed8\u56fe\u533a\u540e\u7684\u6587\u672c",
     "TextBeforeConstruction": "\u7ed8\u56fe\u533a\u524d\u7684\u6587\u672c",
     "TextField": "\u8f93\u5165\u6846",
-    "TextfieldLength": "\u8f93\u5165\u6846\u5bbd\u5ea6",
+    "TextfieldLength": "\u8f93\u5165\u6846\u5bbd\u957f\u5ea6",
     "ThanksForSigningIn": "\u611f\u8c22\u767b\u5f55\u5230 GeoGebraTube!",
     "Thickness": "\u7ebf\u5f84",
     "TickDistance": "\u95f4\u8ddd",
