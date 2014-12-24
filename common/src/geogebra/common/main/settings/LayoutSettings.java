@@ -1,6 +1,5 @@
 package geogebra.common.main.settings;
 
-
 import java.util.LinkedList;
 
 /**
@@ -10,21 +9,22 @@ import java.util.LinkedList;
  */
 public class LayoutSettings extends AbstractSettings {
 	/**
-	 * Show the title bar of views. If disabled, the style bar is always visible.
+	 * Show the title bar of views. If disabled, the style bar is always
+	 * visible.
 	 */
 	private boolean showTitleBar = true;
-	
+
 	/**
-	 * Ignore the layout of newly loaded documents. Useful for users who wish to keep
-	 * their preferred screen layout.
+	 * Ignore the layout of newly loaded documents. Useful for users who wish to
+	 * keep their preferred screen layout.
 	 */
 	private boolean ignoreDocumentLayout = false;
-	
+
 	/**
 	 * Allow the style bar.
 	 */
 	private boolean allowStyleBar = true;
-	
+
 	/**
 	 * 
 	 */
@@ -43,10 +43,11 @@ public class LayoutSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param showTitleBar the showTitleBar to set
+	 * @param showTitleBar
+	 *            the showTitleBar to set
 	 */
 	public void setShowTitleBar(boolean showTitleBar) {
-		if(this.showTitleBar != showTitleBar) {
+		if (this.showTitleBar != showTitleBar) {
 			this.showTitleBar = showTitleBar;
 			settingChanged();
 		}
@@ -60,10 +61,11 @@ public class LayoutSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param ignoreDocumentLayout the ignoreDocumentLayout to set
+	 * @param ignoreDocumentLayout
+	 *            the ignoreDocumentLayout to set
 	 */
 	public void setIgnoreDocumentLayout(boolean ignoreDocumentLayout) {
-		if(this.ignoreDocumentLayout != ignoreDocumentLayout) {
+		if (this.ignoreDocumentLayout != ignoreDocumentLayout) {
 			this.ignoreDocumentLayout = ignoreDocumentLayout;
 			settingChanged();
 		}
@@ -77,12 +79,13 @@ public class LayoutSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param allowStyleBar the allowStyleBar to set
+	 * @param allowStyleBar
+	 *            the allowStyleBar to set
 	 */
 	public void setAllowStyleBar(boolean allowStyleBar) {
-		if(this.allowStyleBar != allowStyleBar) {
+		if (this.allowStyleBar != allowStyleBar) {
 			this.allowStyleBar = allowStyleBar;
 			settingChanged();
 		}
-	}	
+	}
 }

@@ -38,7 +38,7 @@ import geogebra.common.util.Unicode;
  * @author Markus Hohenwarter
  */
 public final class DrawList extends Drawable implements RemoveNeeded {
-	/** coresponding list as geo*/
+	/** coresponding list as geo */
 	GeoList geoList;
 	// private ArrayList drawables = new ArrayList();
 	private DrawListArray drawables;
@@ -50,18 +50,18 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	private geogebra.common.javax.swing.GLabel label;
 	private geogebra.common.javax.swing.GBox box;
 
-
 	/**
 	 * Creates new drawable list
 	 * 
-	 * @param view view
-	 * @param geoList list
+	 * @param view
+	 *            view
+	 * @param geoList
+	 *            list
 	 */
 	public DrawList(EuclidianView view, GeoList geoList) {
 		this.view = view;
 		this.geoList = geoList;
 		geo = geoList;
-
 
 		reset();
 
@@ -70,28 +70,28 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	private void reset() {
 
-
 		if (geoList.drawAsComboBox()) {
 
 			if (label == null) {
-				label = view.getApplication().getSwingFactory().newJLabel("Label", true);
+				label = view.getApplication().getSwingFactory()
+						.newJLabel("Label", true);
 				label.setVisible(true);
 			}
 
 			if (comboBox == null) {
 				comboBox = geoList.getComboBox(view.getViewID());
 				comboBox.setVisible(true);
-				comboBox.addActionListener(AwtFactory.prototype.newActionListener(new DrawList.ActionListener()));				
+				comboBox.addActionListener(AwtFactory.prototype
+						.newActionListener(new DrawList.ActionListener()));
 			}
 
-
 			if (box == null) {
-				box = view.getApplication().getSwingFactory().createHorizontalBox(
-						view.getEuclidianController());
+				box = view.getApplication().getSwingFactory()
+						.createHorizontalBox(view.getEuclidianController());
 				box.add(label);
 				box.add(comboBox);
 			}
-			view.add(box);		
+			view.add(box);
 
 		} else {
 
@@ -112,11 +112,12 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			if (!isVisible) {
 				return;
 			}
-			
+
 			// eg size changed etc
 			geoList.rebuildComboxBoxIfNecessary(comboBox);
 
-			// don't need to worry about labeling options, just check if caption set or not
+			// don't need to worry about labeling options, just check if caption
+			// set or not
 			if (geo.getRawCaption() != null) {
 				// get caption to show r
 				String caption = geo.getCaption(StringTemplate.defaultTemplate);
@@ -133,12 +134,15 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			if (!geo.isLabelVisible()) {
 				label.setText("");
 			}
-			
-			int fontSize = (int) (view.getFontSize() * geoList.getFontSizeMultiplier());
+
+			int fontSize = (int) (view.getFontSize() * geoList
+					.getFontSizeMultiplier());
 			App app = view.getApplication();
 
 			geogebra.common.awt.GFont vFont = view.getFont();
-			geogebra.common.awt.GFont font = app.getFontCanDisplay(comboBox.getItemAt(0).toString(), false, vFont.getStyle(), fontSize);
+			geogebra.common.awt.GFont font = app
+					.getFontCanDisplay(comboBox.getItemAt(0).toString(), false,
+							vFont.getStyle(), fontSize);
 
 			label.setOpaque(false);
 			comboBox.setFont(font);
@@ -146,7 +150,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			comboBox.setForeground(geo.getObjectColor());
 			label.setForeground(geo.getObjectColor());
 			geogebra.common.awt.GColor bgCol = geo.getBackgroundColor();
-			comboBox.setBackground(bgCol != null ? bgCol : view.getBackgroundCommon());
+			comboBox.setBackground(bgCol != null ? bgCol : view
+					.getBackgroundCommon());
 
 			comboBox.setFocusable(true);
 			comboBox.setEditable(false);
@@ -156,8 +161,9 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			xLabel = geo.labelOffsetX;
 			yLabel = geo.labelOffsetY;
 			geogebra.common.awt.GDimension prefSize = box.getPreferredSize();
-			labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(), prefSize.getHeight());
-			box.setBounds(labelRectangle);			
+			labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth(),
+					prefSize.getHeight());
+			box.setBounds(labelRectangle);
 		} else {
 			isVisible = geoList.isEuclidianVisible();
 			if (!isVisible)
@@ -175,11 +181,11 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 					continue;
 
 				// add drawable for listElement
-				// if (addToDrawableList(listElement, drawablePos, oldDrawableSize))
+				// if (addToDrawableList(listElement, drawablePos,
+				// oldDrawableSize))
 				if (drawables.addToDrawableList(listElement, drawablePos,
 						oldDrawableSize, this))
 					drawablePos++;
-
 
 			}
 
@@ -192,13 +198,14 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			// draw trace
 			if (geoList.getTrace()) {
 				isTracing = true;
-				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2 = view
+						.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
 				if (isTracing) {
 					isTracing = false;
-					//view.updateBackground();
+					// view.updateBackground();
 				}
 			}
 		}
@@ -224,8 +231,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (!geoList.drawAsComboBox()) {
 
 			g2.setPaint(geo.getObjectColor());
@@ -236,7 +242,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 					Drawable d = (Drawable) drawables.get(i);
 					// draw only those drawables that have been created by this
 					// list;
-					// if d belongs to another object, we don't want to mess with it
+					// if d belongs to another object, we don't want to mess
+					// with it
 					// here
 					if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
 						d.draw(g2);
@@ -245,7 +252,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			}
 		}
 	}
-
 
 	@Override
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
@@ -269,7 +275,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 					Drawable d = (Drawable) drawables.get(i);
 					// draw only those drawables that have been created by this
 					// list;
-					// if d belongs to another object, we don't want to mess with it
+					// if d belongs to another object, we don't want to mess
+					// with it
 					// here
 					if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
 						d.getGeoElement().setHighlighted(doHighlight);
@@ -288,10 +295,10 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public boolean hit(int x, int y, int hitThreshold) {
 
 		if (geoList.drawAsComboBox()) {
-			//App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " + box.getBounds().getY());
+			// App.debug(x + ", " + y + ": " + box.getBounds().getX() + ", " +
+			// box.getBounds().getY());
 			return box.getBounds().contains(x, y);
-		} 
-
+		}
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
@@ -307,8 +314,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 
 		if (geoList.drawAsComboBox()) {
-			return rect.contains(labelRectangle);			
-		} 
+			return rect.contains(labelRectangle);
+		}
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
@@ -324,8 +331,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	public boolean intersectsRectangle(GRectangle rect) {
 		if (geoList.drawAsComboBox()) {
 			return box.getBounds().intersects(rect);
-		} 
-
+		}
 
 		int size = drawables.size();
 		for (int i = 0; i < size; i++) {
@@ -343,7 +349,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	final public geogebra.common.awt.GRectangle getBounds() {
 		if (geoList.drawAsComboBox()) {
 			return null;
-		} 
+		}
 
 		if (!geo.isEuclidianVisible())
 			return null;
@@ -356,7 +362,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			geogebra.common.awt.GRectangle bb = d.getBounds();
 			if (bb != null) {
 				if (result == null)
-					result = geogebra.common.factories.AwtFactory.prototype.newRectangle(bb); // changed () to (bb) bugfix,
+					result = geogebra.common.factories.AwtFactory.prototype
+							.newRectangle(bb); // changed () to (bb) bugfix,
 				// otherwise top-left of screen
 				// is always included
 				// add bounding box of list element
@@ -381,7 +388,6 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	}
 
-
 	@Override
 	final public GeoElement getGeoElement() {
 		return geo;
@@ -394,6 +400,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 
 	/**
 	 * Listens to events in this combobox
+	 * 
 	 * @author Michael + Judit
 	 */
 	public class ActionListener extends
@@ -401,7 +408,8 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 			ActionListenerI {
 
 		/**
-		 * @param e action event
+		 * @param e
+		 *            action event
 		 */
 		public void actionPerformed(ActionEvent e) {
 			geoList.setSelectedIndex(comboBox.getSelectedIndex(), true);
@@ -410,7 +418,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 	}
 
 	/**
-	 * Resets the drawables when draw as combobox option is toggled 
+	 * Resets the drawables when draw as combobox option is toggled
 	 */
 	public void resetDrawType() {
 
@@ -425,7 +433,7 @@ public final class DrawList extends Drawable implements RemoveNeeded {
 		} else {
 			view.remove(box);
 		}
-		
+
 		reset();
 
 		update();

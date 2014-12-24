@@ -52,9 +52,14 @@ public class DrawRay extends Drawable implements Previewable {
 	private double[] a = new double[2];
 	private double[] v = new double[2];
 
-	/** Creates new DrawRay 
-	 * @param view view
-	 * @param ray ray*/
+	/**
+	 * Creates new DrawRay
+	 * 
+	 * @param view
+	 *            view
+	 * @param ray
+	 *            ray
+	 */
 	public DrawRay(EuclidianView view, GeoLineND ray) {
 		this.view = view;
 		this.ray = ray;
@@ -66,14 +71,17 @@ public class DrawRay extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawSegment for preview.
 	 * 
-	 * @param view view
-	 * @param points preview points
+	 * @param view
+	 *            view
+	 * @param points
+	 *            preview points
 	 */
 	public DrawRay(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
 
-		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_RAY);
+		geo = view.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_RAY);
 
 		updatePreview();
 	}
@@ -82,13 +90,13 @@ public class DrawRay extends Drawable implements Previewable {
 	final public void update() {
 		update(true);
 	}
-	
+
 	/**
-	 * @param showLabel true if label should be shown
+	 * @param showLabel
+	 *            true if label should be shown
 	 */
 	public void update(boolean showLabel) {
-		
-		
+
 		isVisible = geo.isEuclidianVisible();
 		if (isVisible) {
 			// calc direction vector of ray in screen coords
@@ -100,8 +108,8 @@ public class DrawRay extends Drawable implements Previewable {
 
 			// calc start point of ray in screen coords
 			Coords A = view.getCoordsForView(ray.getStartInhomCoords());
-			
-			if (tmpCoords2 == null){
+
+			if (tmpCoords2 == null) {
 				tmpCoords2 = new Coords(2);
 			}
 			tmpCoords2.setX(equation.getY());
@@ -110,73 +118,73 @@ public class DrawRay extends Drawable implements Previewable {
 
 		}
 	}
-	
+
 	private Coords tmpCoords2;
 
-		
-		
-
 	/**
-	 * @param startPoint start point
-	 * @param direction direction
-	 * @param showLabel true if label should be shown
+	 * @param startPoint
+	 *            start point
+	 * @param direction
+	 *            direction
+	 * @param showLabel
+	 *            true if label should be shown
 	 */
 	public void update(Coords startPoint, Coords direction, boolean showLabel) {
 
 		labelVisible = showLabel && geo.isLabelVisible();
 		updateStrokes(ray);
 
-			// calc start point of ray in screen coords
-			a[0] = startPoint.getX();
-			a[1] = startPoint.getY();
-			view.toScreenCoords(a);
+		// calc start point of ray in screen coords
+		a[0] = startPoint.getX();
+		a[1] = startPoint.getY();
+		view.toScreenCoords(a);
 
-			v[0] = direction.getX() * view.getXscale();
-			v[1] = direction.getY() * view.getYscale();
+		v[0] = direction.getX() * view.getXscale();
+		v[1] = direction.getY() * view.getYscale();
 
-			setClippedLine();
+		setClippedLine();
 
-			// line on screen?
-			if (!line.intersects(0, 0, view.getWidth(), view.getHeight())) {
-				isVisible = false;
-				// don't return here to make sure that getBounds() works for
-				// offscreen points too
+		// line on screen?
+		if (!line.intersects(0, 0, view.getWidth(), view.getHeight())) {
+			isVisible = false;
+			// don't return here to make sure that getBounds() works for
+			// offscreen points too
+		}
+
+		// draw trace
+		if (ray.getTrace()) {
+			isTracing = true;
+			geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+			if (g2 != null)
+				drawTrace(g2);
+		} else {
+			if (isTracing) {
+				isTracing = false;
+				// view.updateBackground();
 			}
+		}
 
-			// draw trace
-			if (ray.getTrace()) {
-				isTracing = true;
-				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
-				if (g2 != null)
-					drawTrace(g2);
+		// label position
+		// use unit perpendicular vector to move away from line
+		if (labelVisible) {
+			labelDesc = geo.getLabelDescription();
+
+			double nx = v[0];
+			double ny = -v[1];
+			double length = MyMath.length(nx, ny);
+			double unit;
+			if (length > 0.0) {
+				unit = 16d / length;
 			} else {
-				if (isTracing) {
-					isTracing = false;
-					//view.updateBackground();
-				}
+				nx = 0.0;
+				ny = 1.0;
+				unit = 16d;
 			}
+			xLabel = (int) (a[0] + v[0] / 2.0 + nx * unit);
+			yLabel = (int) (a[1] + v[1] / 2.0 + ny * unit);
+			addLabelOffset();
+		}
 
-			// label position
-			// use unit perpendicular vector to move away from line
-			if (labelVisible) {
-				labelDesc = geo.getLabelDescription();
-
-				double nx = v[0];
-				double ny = -v[1];
-				double length = MyMath.length(nx, ny);
-				double unit;
-				if (length > 0.0) {
-					unit = 16d / length;
-				} else {
-					nx = 0.0;
-					ny = 1.0;
-					unit = 16d;
-				}
-				xLabel = (int) (a[0] + v[0] / 2.0 + nx * unit);
-				yLabel = (int) (a[1] + v[1] / 2.0 + ny * unit);
-				addLabelOffset();
-			}
-		
 	}
 
 	private void setClippedLine() {
@@ -208,8 +216,8 @@ public class DrawRay extends Drawable implements Previewable {
 		} else {
 			// A off screen
 			// clip ray at screen, that's important for huge coordinates of A
-			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(a[0], a[1],
-					a[0] + lambda * v[0], a[1] + lambda * v[1],
+			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+					a[0], a[1], a[0] + lambda * v[0], a[1] + lambda * v[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
 					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
@@ -245,7 +253,8 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	/**
-	 * @param objStroke stroke
+	 * @param objStroke
+	 *            stroke
 	 */
 	final public void setStroke(geogebra.common.awt.GBasicStroke objStroke) {
 		this.objStroke = objStroke;
@@ -272,8 +281,8 @@ public class DrawRay extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.GPoint2D endPoint = 
-			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype
+			.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -323,16 +332,16 @@ public class DrawRay extends Drawable implements Previewable {
 	}
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
-		if (isVisible) {         
-            g2.setPaint(geo.getObjectColor());
-            updateStrokes(geo);
-            g2.setStroke(objStroke);            
-			g2.draw(line); 
+		if (isVisible) {
+			g2.setPaint(geo.getObjectColor());
+			updateStrokes(geo);
+			g2.setStroke(objStroke);
+			g2.draw(line);
 		}
 	}
 
 	public void disposePreview() {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -360,15 +369,12 @@ public class DrawRay extends Drawable implements Previewable {
 	public boolean intersectsRectangle(GRectangle rect) {
 		return line.intersects(rect);
 	}
-	
-	
+
 	/**
 	 * set visible
 	 */
-	public void setIsVisible(){
+	public void setIsVisible() {
 		isVisible = true;
 	}
-	
-	
 
 }

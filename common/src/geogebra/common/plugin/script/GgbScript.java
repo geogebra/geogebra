@@ -11,27 +11,28 @@ import geogebra.common.util.StringUtil;
 import java.util.ArrayList;
 
 /**
- * @author arno
- * Script class for GgbScript scripts
+ * @author arno Script class for GgbScript scripts
  */
 public class GgbScript extends Script {
-	
+
 	private AlgebraProcessor proc;
-	
+
 	/**
-	 * @param app the script's application
-	 * @param scriptText the script's source code
+	 * @param app
+	 *            the script's application
+	 * @param scriptText
+	 *            the script's source code
 	 */
 	public GgbScript(App app, String scriptText) {
 		super(app, scriptText);
 		this.proc = app.getKernel().getAlgebraProcessor();
 	}
-	
+
 	@Override
 	public String getText() {
 		return script2LocalizedScript(app, text);
 	}
-	
+
 	@Override
 	public void run(Event evt) throws ScriptError {
 		String scriptText;
@@ -50,16 +51,13 @@ public class GgbScript extends Script {
 				continue;
 			}
 			try {
-				proc.processAlgebraCommandNoExceptionHandling(line, false, false, true, false);
+				proc.processAlgebraCommandNoExceptionHandling(line, false,
+						false, true, false);
 			} catch (Throwable e) {
-				throw new ScriptError( 
-					app.getLocalization().getPlain(
-						"ErrorInScriptAtLineAFromObjectB",
-						(i + 1) + "",
-						evt.target.getLabel(StringTemplate.defaultTemplate)
-					) 
-					+ "\n" + e.getLocalizedMessage()
-				);
+				throw new ScriptError(app.getLocalization().getPlain(
+						"ErrorInScriptAtLineAFromObjectB", (i + 1) + "",
+						evt.target.getLabel(StringTemplate.defaultTemplate))
+						+ "\n" + e.getLocalizedMessage());
 			}
 		}
 	}
@@ -68,7 +66,7 @@ public class GgbScript extends Script {
 		final String[] starr = splitScriptByCommands(st);
 		final StringBuilder retone = new StringBuilder();
 		for (int i = 0; i < starr.length; i++) {
-			if ((i % 2) == 0 || isFunction(starr,i,app)) {
+			if ((i % 2) == 0 || isFunction(starr, i, app)) {
 				retone.append(starr[i]);
 			} else {
 				retone.append(app.getLocalization().getCommand(starr[i]));
@@ -77,18 +75,21 @@ public class GgbScript extends Script {
 		return retone.toString();
 	}
 
-	private static boolean isFunction(String[] starr, int i,App app) {
-		if(i>=starr.length-1 || starr[i+1].startsWith("["))
+	private static boolean isFunction(String[] starr, int i, App app) {
+		if (i >= starr.length - 1 || starr[i + 1].startsWith("["))
 			return false;
-		if(app.getKernel().lookupLabel(starr[i])!=null)
-			return true;		
+		if (app.getKernel().lookupLabel(starr[i]) != null)
+			return true;
 		return false;
 	}
 
 	/**
 	 * Delocalize a script
-	 * @param app the application
-	 * @param st the script text
+	 * 
+	 * @param app
+	 *            the application
+	 * @param st
+	 *            the script text
 	 * @return the text of the delocalized script
 	 */
 	public static String localizedScript2Script(App app, String st) {
@@ -99,7 +100,8 @@ public class GgbScript extends Script {
 				retone.append(starr[i]);
 			} else {
 				// allow English language command in French scripts
-				if (!isFunction(starr,i,app) && app.getInternalCommand(starr[i]) != null) {
+				if (!isFunction(starr, i, app)
+						&& app.getInternalCommand(starr[i]) != null) {
 					retone.append(app.getInternalCommand(starr[i]));
 				} else {
 					// fallback for wrong call in English already
@@ -154,7 +156,7 @@ public class GgbScript extends Script {
 					retone = new StringBuilder();
 					just_before_bracket = false;
 					before_bracket = true;
-				} else if (!bracketAt(st,i) && (st.charAt(i) != ' ')) {
+				} else if (!bracketAt(st, i) && (st.charAt(i) != ' ')) {
 					just_before_bracket = false;
 					before_bracket = false;
 					if (st.charAt(i) == '"') {
@@ -168,14 +170,14 @@ public class GgbScript extends Script {
 					before_bracket = false;
 					if (st.charAt(i) == '"') {
 						in_string = true;
-					} else if (bracketAt(st,i)) {
+					} else if (bracketAt(st, i)) {
 						just_before_bracket = true;
 					}
 				}
 			} else {
 				if (st.charAt(i) == '"') {
 					in_string = true;
-				} else if (bracketAt(st,i)) {
+				} else if (bracketAt(st, i)) {
 					just_before_bracket = true;
 				}
 			}
@@ -190,7 +192,7 @@ public class GgbScript extends Script {
 	}
 
 	private static boolean bracketAt(String st, int i) {
-		return (st.charAt(i) == '[') || (st.charAt(i) == '(');		
+		return (st.charAt(i) == '[') || (st.charAt(i) == '(');
 	}
 
 	@Override
@@ -204,14 +206,14 @@ public class GgbScript extends Script {
 	}
 
 	/**
-	 * The text of this script is modified by changing every
-	 * whole word oldLabel to newLabel.
+	 * The text of this script is modified by changing every whole word oldLabel
+	 * to newLabel.
 	 * 
 	 * @return whether any renaming happened
 	 */
 	public boolean renameGeo(String oldLabel, String newLabel) {
-		if (oldLabel == null || "".equals(oldLabel) ||
-			newLabel == null || "".equals(newLabel)) {
+		if (oldLabel == null || "".equals(oldLabel) || newLabel == null
+				|| "".equals(newLabel)) {
 			return false;
 		}
 		ArrayList<String> work = StringUtil.wholeWordTokenize(text);
@@ -219,18 +221,19 @@ public class GgbScript extends Script {
 		int numChars = 0, lengthChars;
 		String forLength1, forLength2;
 		for (int i = 1; i < work.size(); i += 2) {
-			if (work.get(i-1) != null) {
+			if (work.get(i - 1) != null) {
 				// this is even, so will not be changed,
 				// because only odd places are checked and replaced
-				numChars += work.get(i-1).length();
+				numChars += work.get(i - 1).length();
 			}
 			if (oldLabel.equals(work.get(i))) {
 				// in theory, i+1 is always less than work.size(),
 				// because it is an odd number, and in theory,
 				// there is at least a non-null element there
 				// but better to check...
-				if (i+1 < work.size() && work.get(i+1) != null) {
-					if ((work.get(i+1).length() > 0) && "[".equals(work.get(i+1).charAt(0))) {
+				if (i + 1 < work.size() && work.get(i + 1) != null) {
+					if ((work.get(i + 1).length() > 0)
+							&& "[".equals(work.get(i + 1).charAt(0))) {
 						// Now it's still possible that oldLabel
 						// is used as a command name here,
 						// so we have to rule out that possibility first.
@@ -250,7 +253,8 @@ public class GgbScript extends Script {
 				// then we're probably in a string.
 				// For this computation, we use numChars.
 
-				forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");// String: /"
+				forLength1 = text.substring(0, numChars).replaceAll("\\\"", "");// String:
+																				// /"
 				forLength2 = forLength1.replaceAll("\"", "");// String: "
 				lengthChars = forLength1.length() - forLength2.length();
 

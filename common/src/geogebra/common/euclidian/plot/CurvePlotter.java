@@ -11,12 +11,11 @@ import java.util.ArrayList;
 
 /**
  * Class to plot x->f(x) functions and 2D/3D parametric curves
+ * 
  * @author mathieu
  *
  */
 public class CurvePlotter {
-	
-
 
 	// low quality settings
 	// // maximum and minimum distance between two plot points in pixels
@@ -37,36 +36,28 @@ public class CurvePlotter {
 	//
 	// // the curve is sampled at least at this many positions to plot it
 	// private static final int MIN_SAMPLE_POINTS = 5;
-	
-	
-	
-	
-	
 
 	private static int countPoints = 0;
 	private static long countEvaluations = 0;
-	
-	
+
 	/** ways to overcome discontinuity */
-	public enum Gap{
-	/** draw a line */
-	 LINE_TO ,
-	 /** skip it*/
-	 MOVE_TO ,
-	 /** follow along bottom of screen*/
-	 RESET_XMIN ,
-	 /** follow along left side of screen*/
-	 RESET_YMIN ,
-	 /** follow along top of screen*/
-	 RESET_XMAX ,
-	 /** follow along right side of screen*/
-	 RESET_YMAX, 
-	 /** go to corner (for cartesian curves) */
-	 CORNER ,
+	public enum Gap {
+		/** draw a line */
+		LINE_TO,
+		/** skip it */
+		MOVE_TO,
+		/** follow along bottom of screen */
+		RESET_XMIN,
+		/** follow along left side of screen */
+		RESET_YMIN,
+		/** follow along top of screen */
+		RESET_XMAX,
+		/** follow along right side of screen */
+		RESET_YMAX,
+		/** go to corner (for cartesian curves) */
+		CORNER,
 	}
 
-	
-	
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
@@ -99,9 +90,9 @@ public class CurvePlotter {
 		// ensure MIN_PLOT_POINTS
 		double max_param_step = Math.abs(t2 - t1) / view.getMinSamplePoints();
 		// plot Interval [t1, t2]
-		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step, view,
-				gp, calcLabelPos, moveToAllowed);
-		if(moveToAllowed==Gap.CORNER){
+		GPoint labelPoint = plotInterval(curve, t1, t2, 0, max_param_step,
+				view, gp, calcLabelPos, moveToAllowed);
+		if (moveToAllowed == Gap.CORNER) {
 			gp.corner();
 		}
 		// System.out.println(" plot points: " + countPoints + ", evaluations: "
@@ -110,8 +101,9 @@ public class CurvePlotter {
 
 		return labelPoint;
 	}
-	
+
 	private static int plotIntervals = 0;
+
 	/**
 	 * Draws a parametric curve (x(t), y(t)) for t in [t1, t2].
 	 * 
@@ -129,7 +121,7 @@ public class CurvePlotter {
 			double t2, int intervalDepth, double max_param_step,
 			EuclidianView view, PathPlotter gp, boolean calcLabelPos,
 			Gap moveToAllowed) {
-		//Log.debug(++plotIntervals);
+		// Log.debug(++plotIntervals);
 		// plot interval for t in [t1, t2]
 		// If we run into a problem, i.e. an undefined point f(t), we bisect
 		// the interval and plot both intervals [left, (left + right)/2] and
@@ -142,13 +134,13 @@ public class CurvePlotter {
 		// The following algorithm by John Gillam avoids multiple
 		// evaluations of the curve for the same parameter value t
 		// see an explanation of this algorithm below.
-		//double x0, y0; 
+		// double x0, y0;
 		double t;
-		//double x, y;
-		//double moveX = 0, moveY = 0;
+		// double x, y;
+		// double moveX = 0, moveY = 0;
 		double[] move = curve.newDoubleArray();
-		for (int i = 0 ; i < move.length ; i++){
-			move[i] = 0; 
+		for (int i = 0; i < move.length; i++) {
+			move[i] = 0;
 		}
 		boolean onScreen = false;
 		boolean nextLineToNeedsMoveToFirst = false;
@@ -164,8 +156,7 @@ public class CurvePlotter {
 					max_param_step, view, gp, calcLabelPos, moveToAllowed,
 					labelPoint);
 		}
-		eval0 = Cloner.clone(eval); 
-
+		eval0 = Cloner.clone(eval);
 
 		// evaluate for t2
 		curve.evaluateCurve(t2, eval);
@@ -179,7 +170,6 @@ public class CurvePlotter {
 		onScreen = view.isOnView(eval);
 		eval1 = Cloner.clone(eval);
 
-
 		// first point
 		gp.firstPoint(eval0, moveToAllowed);
 
@@ -189,8 +179,8 @@ public class CurvePlotter {
 		int dyadicStack[] = new int[LENGTH];
 		int depthStack[] = new int[LENGTH];
 		double[][] posStack = new double[LENGTH][];
-		//double xStack[] = new double[LENGTH];
-		//double yStack[] = new double[LENGTH];
+		// double xStack[] = new double[LENGTH];
+		// double yStack[] = new double[LENGTH];
 		boolean onScreenStack[] = new boolean[LENGTH];
 		double divisors[] = new double[LENGTH];
 		divisors[0] = t2 - t1;
@@ -230,17 +220,20 @@ public class CurvePlotter {
 			// pixel distance from last point OK?
 			distanceOK = segOffScreen || isDistanceOK(diff, view);
 			// angle from last segment OK?
-			angleOK = isAngleOK(prevDiff, diff,
-					segOffScreen ? view.getMaxBendOfScreen() : view.getMaxBend());
+			angleOK = isAngleOK(
+					prevDiff,
+					diff,
+					segOffScreen ? view.getMaxBendOfScreen() : view
+							.getMaxBend());
 
 			// bisect interval as long as ...
 			while ( // max bisection depth not reached
 			depth < view.getMaxDefinedBisections() &&
 			// distance not ok or angle not ok or step too big
 					(!distanceOK || !angleOK || divisors[depth] > max_param_step)
-					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t, 0, 6]
-					&& countDiffZeros < view.getMaxZeroCount()
-					) {
+					// make sure we don't get stuck on eg Curve[0sin(t), 0t, t,
+					// 0, 6]
+					&& countDiffZeros < view.getMaxZeroCount()) {
 				// push stacks
 				dyadicStack[top] = i;
 				depthStack[top] = depth;
@@ -274,7 +267,7 @@ public class CurvePlotter {
 
 				eval1 = Cloner.clone(eval);
 				diff = view.getOnScreenDiff(eval0, eval1);
-				
+
 				if (Kernel.isZero(diff[0]) && Kernel.isZero(diff[1])) {
 					countDiffZeros++;
 				} else {
@@ -286,8 +279,11 @@ public class CurvePlotter {
 				// pixel distance from last point OK?
 				distanceOK = segOffScreen || isDistanceOK(diff, view);
 				// angle from last segment OK?
-				angleOK = isAngleOK(prevDiff, diff,
-						segOffScreen ? view.getMaxBendOfScreen() : view.getMaxBend());
+				angleOK = isAngleOK(
+						prevDiff,
+						diff,
+						segOffScreen ? view.getMaxBendOfScreen() : view
+								.getMaxBend());
 
 			} // end of while-loop for interval bisections
 
@@ -303,10 +299,9 @@ public class CurvePlotter {
 					lineTo = isContinuous(curve, left, t,
 							view.getMaxProblemBisections());
 				}
-			}else
-				if (moveToAllowed == Gap.CORNER) {
-					gp.corner(eval1);
-				}
+			} else if (moveToAllowed == Gap.CORNER) {
+				gp.corner(eval1);
+			}
 
 			// do lineTo or moveTo
 			if (lineTo) {
@@ -364,14 +359,14 @@ public class CurvePlotter {
 
 		return labelPoint;
 	}
-	
+
 	/**
 	 * Returns true when x is either NaN or infinite.
 	 */
 	private static boolean isUndefined(double x) {
 		return Double.isNaN(x) || Double.isInfinite(x);
 	}
-	
+
 	/**
 	 * Returns true when at least one element of eval is either NaN or infinite.
 	 */
@@ -382,7 +377,7 @@ public class CurvePlotter {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Plots an interval where f(t1) or f(t2) is undefined.
 	 */
@@ -451,11 +446,7 @@ public class CurvePlotter {
 		else
 			return labelPoint2;
 	}
-	
 
-	
-	
-	
 	/**
 	 * Returns whether curve is defined for c(t-eps) and c(t + eps).
 	 */
@@ -480,23 +471,19 @@ public class CurvePlotter {
 		// c(t-eps) or c(t+eps) is undefined
 		return false;
 	}
-	
-	
-	
+
 	/**
 	 * Returns whether the pixel distance from the last point is smaller than
 	 * MAX_PIXEL_DISTANCE in all directions.
 	 */
-	private static boolean isDistanceOK(double[] diff,EuclidianView view) {
-		for (double d : diff){
-			if (Math.abs(d) > view.getMaxPixelDistance()){
+	private static boolean isDistanceOK(double[] diff, EuclidianView view) {
+		for (double d : diff) {
+			if (Math.abs(d) > view.getMaxPixelDistance()) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	
 
 	/**
 	 * Returns whether the angle between the vectors (vx, vy) and (wx, wy) is
@@ -513,7 +500,7 @@ public class CurvePlotter {
 		// |det(v, w)| < MAX_BEND * (v . w)
 
 		double innerProduct = 0;
-		for (int i = 0 ; i < v.length ; i++){
+		for (int i = 0; i < v.length; i++) {
 			innerProduct += v[i] * w[i];
 		}
 		if (isUndefined(innerProduct)) {
@@ -525,19 +512,18 @@ public class CurvePlotter {
 			// angle < 90 degrees
 			// small angle: |det(v, w)| < MAX_BEND * (v . w)
 			double det;
-			if (v.length < 3){
+			if (v.length < 3) {
 				det = Math.abs(v[0] * w[1] - v[1] * w[0]);
-			}else{
+			} else {
 				double d1 = v[0] * w[1] - v[1] * w[0];
 				double d2 = v[1] * w[2] - v[2] * w[1];
 				double d3 = v[2] * w[0] - v[0] * w[2];
-				det = Math.sqrt(d1*d1+d2*d2+d3*d3);
+				det = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
 			}
 			return det < bend * innerProduct;
 		}
 	}
 
-	
 	/**
 	 * Checks if c is continuous in the interval [t1, t2]. We assume that c(t1)
 	 * and c(t2) are both defined.
@@ -595,8 +581,7 @@ public class CurvePlotter {
 				t1 = m;
 			}
 
-			if (Kernel.isEqual(t1, t2,
-					Kernel.MAX_DOUBLE_PRECISION))
+			if (Kernel.isEqual(t1, t2, Kernel.MAX_DOUBLE_PRECISION))
 				return true;
 			// System.out.println("  largest dist: " + dist + ", [" + t1 + ", "
 			// + t2 +"]");
@@ -610,12 +595,6 @@ public class CurvePlotter {
 		// ", dist: " + dist);
 		return ret;
 	}
-	
-	
-	
-	
-	
-	
 
 	/**
 	 * Sets borders to a defined interval in [a, b] if possible.
@@ -624,9 +603,9 @@ public class CurvePlotter {
 	 */
 	private static boolean getDefinedInterval(CurveEvaluable curve, double a,
 			double b, double[] borders) {
-		
+
 		double[] eval = curve.newDoubleArray();
-		
+
 		// check first and last point in interval
 		curve.evaluateCurve(a, eval);
 		countEvaluations++;
@@ -656,15 +635,18 @@ public class CurvePlotter {
 
 		return !isUndefined(borders);
 	}
-	
-	
+
 	/**
 	 * draw list of points
-	 * @param gp path plotter that actually draws the points list
-	 * @param pointList list of points
+	 * 
+	 * @param gp
+	 *            path plotter that actually draws the points list
+	 * @param pointList
+	 *            list of points
 	 * @return last point drawn
 	 */
-	static public double[] draw(PathPlotter gp, ArrayList<? extends MyPoint> pointList) {
+	static public double[] draw(PathPlotter gp,
+			ArrayList<? extends MyPoint> pointList) {
 		double[] coords = gp.newDoubleArray();
 
 		// this is for making sure that there is no lineto from nothing
@@ -679,7 +661,7 @@ public class CurvePlotter {
 			// don't add infinite points
 			// otherwise hit-testing doesn't work
 			if (p.isFinite()) {
-				if (gp.copyCoords(p, coords)){
+				if (gp.copyCoords(p, coords)) {
 
 					if (p.lineTo && !linetofirst) {
 						gp.lineTo(coords);
@@ -687,7 +669,7 @@ public class CurvePlotter {
 						gp.moveTo(coords);
 					}
 					linetofirst = false;
-				}else{
+				} else {
 					linetofirst = true;
 				}
 			} else {

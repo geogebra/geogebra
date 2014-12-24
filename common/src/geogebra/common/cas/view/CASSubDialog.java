@@ -11,56 +11,61 @@ import java.util.Vector;
 
 /**
  * Common class for substitution dialogs
+ * 
  * @author balazs.bencze
  *
  */
 public abstract class CASSubDialog {
-	
+
 	/**
 	 * Class containing row information
 	 */
 	protected static class SubstituteValue {
 		private String variable;
 		private String value;
-		
+
 		/**
-		 * @param var old expression
-		 * @param val new expression
+		 * @param var
+		 *            old expression
+		 * @param val
+		 *            new expression
 		 */
 		public SubstituteValue(String var, String val) {
 			variable = var;
 			value = val;
 		}
-		
+
 		/**
 		 * @return old expression
 		 */
 		public String getVariable() {
 			return variable;
 		}
-		
+
 		/**
-		 * @param var variable
+		 * @param var
+		 *            variable
 		 */
 		public void setVariable(String var) {
 			variable = var;
 		}
-		
+
 		/**
 		 * @return new expression
 		 */
 		public String getValue() {
 			return value;
 		}
-		
+
 		/**
-		 * @param val value
+		 * @param val
+		 *            value
 		 */
 		public void setValue(String val) {
 			value = val;
 		}
 	}
-	
+
 	/** Editing row from CAS table */
 	protected int editRow;
 	/** Evaluation prefix */
@@ -69,14 +74,14 @@ public abstract class CASSubDialog {
 	protected String evalText;
 	/** Evaluation postfix */
 	protected String postfix;
-	
+
 	/** Evaluation symbol */
 	protected static final String EVAL_SYM = "=";
 	/** Numeric symbol */
 	protected static final String NUM_SYM = "\u2248";
 	/** Substitute symbol */
 	protected static final String SUB_SYM = "\u2713";
-	
+
 	/** Evaluation action command */
 	protected static final String ACTION_EVALUATE = "Evaluate";
 	/** Numeric action command */
@@ -88,25 +93,31 @@ public abstract class CASSubDialog {
 	protected Vector<Vector<String>> data;
 
 	/**
-	 * @param prefix before selection, not effected by the substitution
-	 * @param evalText the String which will be substituted
-	 * @param postfix after selection, not effected by the substitution
-	 * @param editRow row to edit
+	 * @param prefix
+	 *            before selection, not effected by the substitution
+	 * @param evalText
+	 *            the String which will be substituted
+	 * @param postfix
+	 *            after selection, not effected by the substitution
+	 * @param editRow
+	 *            row to edit
 	 */
-	public CASSubDialog(String prefix, String evalText, String postfix, int editRow) {
+	public CASSubDialog(String prefix, String evalText, String postfix,
+			int editRow) {
 		this.prefix = prefix;
 		this.evalText = evalText;
 		this.postfix = postfix;
 		this.editRow = editRow;
 	}
-		
+
 	/**
 	 * @return casView
 	 */
 	protected abstract CASView getCASView();
-	
+
 	/**
-	 * @param cell initialize table with cell information
+	 * @param cell
+	 *            initialize table with cell information
 	 */
 	protected void initData(GeoCasCell cell) {
 		HashSet<GeoElement> vars = new HashSet<GeoElement>();
@@ -128,8 +139,7 @@ public abstract class CASSubDialog {
 					break;
 				}
 			}
-			if (i == data.size()
-					|| !data.get(i).firstElement().equals(nextVar)) {
+			if (i == data.size() || !data.get(i).firstElement().equals(nextVar)) {
 				row.add(nextVar);
 				row.add("");
 				data.insertElementAt(row, i);
@@ -140,18 +150,19 @@ public abstract class CASSubDialog {
 		row.add("");
 		data.add(row);
 	}
-	
+
 	private static void addVariables(GeoElement var, HashSet<GeoElement> vars) {
-		if(var instanceof GeoCasCell){
-			ValidExpression ve = ((GeoCasCell)var).getOutputValidExpression();
-			if(ve!=null)
+		if (var instanceof GeoCasCell) {
+			ValidExpression ve = ((GeoCasCell) var).getOutputValidExpression();
+			if (ve != null)
 				vars.addAll(ve.getVariables());
-		}
-		else vars.add(var);
+		} else
+			vars.add(var);
 	}
-	
+
 	/**
-	 * @param actionCommand Evaluate || Numeric || Substitute
+	 * @param actionCommand
+	 *            Evaluate || Numeric || Substitute
 	 * @return true iff any substitution applied
 	 */
 	protected boolean apply(String actionCommand) {
@@ -169,7 +180,8 @@ public abstract class CASSubDialog {
 					substList.append(',');
 					substComment.append(',');
 				}
-				fromExpr = getCASView().resolveCASrowReferences(fromExpr, editRow);
+				fromExpr = getCASView().resolveCASrowReferences(fromExpr,
+						editRow);
 				toExpr = getCASView().resolveCASrowReferences(toExpr, editRow);
 				substList.append(fromExpr);
 				substList.append('=');
@@ -180,8 +192,8 @@ public abstract class CASSubDialog {
 			}
 		}
 		substList.append('}');
-		
-		if ("{}".equals(substList.toString())) 
+
+		if ("{}".equals(substList.toString()))
 			return false;
 
 		// make sure pure substitute is not evaluated

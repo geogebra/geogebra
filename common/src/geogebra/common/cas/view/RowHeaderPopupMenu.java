@@ -6,12 +6,13 @@ public class RowHeaderPopupMenu {
 
 	protected App app;
 
-	public String getDeleteString(int [] selRows) {
+	public String getDeleteString(int[] selRows) {
 		String strRows;
 		if (selRows.length == 1) {
-			strRows = app.getLocalization().getPlain("DeleteRowA", Integer.toString(selRows[0]+1));			
+			strRows = app.getLocalization().getPlain("DeleteRowA",
+					Integer.toString(selRows[0] + 1));
 		} else {
-			strRows = app.getLocalization().getPlain("DeleteARows", 
+			strRows = app.getLocalization().getPlain("DeleteARows",
 					Integer.toString(selRows.length));
 		}
 		return strRows;

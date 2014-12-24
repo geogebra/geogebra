@@ -39,8 +39,10 @@ public class DrawPolyLine extends Drawable implements Previewable {
 	private ArrayList<?> points;
 
 	/**
-	 * @param view view 
-	 * @param poly polyline
+	 * @param view
+	 *            view
+	 * @param poly
+	 *            polyline
 	 */
 	public DrawPolyLine(EuclidianView view, GeoPolyLine poly) {
 		this.view = view;
@@ -52,14 +54,18 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	/**
 	 * Creates a new DrawPolygon for preview.
-	 * @param view view
-	 * @param points preview points
+	 * 
+	 * @param view
+	 *            view
+	 * @param points
+	 *            preview points
 	 */
 	public DrawPolyLine(EuclidianView view, ArrayList<?> points) {
 		this.view = view;
 		this.points = points;
-		
-		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POLYLINE);
+
+		geo = view.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYLINE);
 
 		updatePreview();
 	}
@@ -80,26 +86,25 @@ public class DrawPolyLine extends Drawable implements Previewable {
 				// don't return here to make sure that getBounds() works for
 				// offscreen points too
 			}
-		
 
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2 = view
+						.getBackgroundGraphics();
 				if (g2 != null)
 					drawTrace(g2);
 			} else {
 				if (isTracing) {
 					isTracing = false;
-					//view.updateBackground();
+					// view.updateBackground();
 				}
 			}
 		}
 	}
 
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
@@ -113,7 +118,7 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		} else {
 			gp.reset();
 		}
-		
+
 		// first point
 		pts[0].getInhomCoords(coords);
 		view.toScreenCoords(coords);
@@ -191,8 +196,8 @@ public class DrawPolyLine extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.GPoint2D endPoint = 
-			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype
+			.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -234,15 +239,15 @@ public class DrawPolyLine extends Drawable implements Previewable {
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-            g2.setPaint(getObjectColor());
-            updateStrokes(geo);
+			g2.setPaint(getObjectColor());
+			updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
 		}
 	}
 
 	public void disposePreview() {
-		//do nothing
+		// do nothing
 	}
 
 	@Override

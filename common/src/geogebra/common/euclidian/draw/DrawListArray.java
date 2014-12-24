@@ -22,7 +22,8 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	/**
 	 * common constructor
 	 * 
-	 * @param view view
+	 * @param view
+	 *            view
 	 */
 	public DrawListArray(EuclidianViewInterfaceSlim view) {
 
@@ -33,10 +34,14 @@ public class DrawListArray extends ArrayList<DrawableND> {
 	/**
 	 * Add the listElement's drawable
 	 * 
-	 * @param listElement element to insert
-	 * @param drawablePos position to insert
-	 * @param oldDrawableSize old size of drawable list
-	 * @param drawList list in which we might find drawable for given geo
+	 * @param listElement
+	 *            element to insert
+	 * @param drawablePos
+	 *            position to insert
+	 * @param oldDrawableSize
+	 *            old size of drawable list
+	 * @param drawList
+	 *            list in which we might find drawable for given geo
 	 * @return false if the drawable == null
 	 */
 	public boolean addToDrawableList(GeoElement listElement, int drawablePos,
@@ -66,22 +71,28 @@ public class DrawListArray extends ArrayList<DrawableND> {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * For 3D: remove old drawable
-	 * @param oldDrawable old drawable at same position
-	 * @param listElement list element
-	 * @param drawList list that wants to add this geo
+	 * 
+	 * @param oldDrawable
+	 *            old drawable at same position
+	 * @param listElement
+	 *            list element
+	 * @param drawList
+	 *            list that wants to add this geo
 	 * @return new drawable
 	 */
-	protected DrawableND getDrawable(DrawableND oldDrawable, GeoElement listElement, DrawableND drawList) {
+	protected DrawableND getDrawable(DrawableND oldDrawable,
+			GeoElement listElement, DrawableND drawList) {
 		return getDrawable(listElement, drawList);
 	}
 
 	/**
 	 * update the drawable
 	 * 
-	 * @param d drawable to be updated
+	 * @param d
+	 *            drawable to be updated
 	 */
 	protected void update(DrawableND d) {
 		d.update();
@@ -89,8 +100,11 @@ public class DrawListArray extends ArrayList<DrawableND> {
 
 	/**
 	 * Returns UPDATED drawable for the geo
-	 * @param listElement geo
-	 * @param drawList list that wants to add this geo
+	 * 
+	 * @param listElement
+	 *            geo
+	 * @param drawList
+	 *            list that wants to add this geo
 	 * @return drawable for the geo
 	 */
 	private DrawableND getDrawable(GeoElement listElement, DrawableND drawList) {
@@ -101,14 +115,15 @@ public class DrawListArray extends ArrayList<DrawableND> {
 			d = createDrawableND(listElement);// view.createDrawableND(listElement);
 			if (d != null)
 				d.setCreatedByDrawList(drawList);
-		}else{
+		} else {
 			update(d);
 		}
 		return d;
 	}
 
 	/**
-	 * @param listElement geo
+	 * @param listElement
+	 *            geo
 	 * @return the drawable create by the view for this geo
 	 */
 	protected DrawableND createDrawableND(GeoElement listElement) {

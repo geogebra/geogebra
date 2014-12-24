@@ -1,6 +1,5 @@
 package geogebra.common.main.settings;
 
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -16,7 +15,7 @@ import java.util.LinkedList;
  */
 public class Settings {
 	private final EuclidianSettings[] euclidianSettings;
-	
+
 	private HashMap<String, EuclidianSettings> euclidianSettingsForPlane;
 
 	private AlgebraSettings algebraSettings;
@@ -38,27 +37,29 @@ public class Settings {
 	/**
 	 * Initialize settings using the constructors of the setting container
 	 * classes.
-	 * @param euclidianLength 2 or 3 euclidian views
+	 * 
+	 * @param euclidianLength
+	 *            2 or 3 euclidian views
 	 */
 	public Settings(int euclidianLength) {
 		euclidianSettings = new EuclidianSettings[euclidianLength];
-		
+
 		euclidianSettingsForPlane = new HashMap<String, EuclidianSettings>();
 
 		resetSettings();
 	}
-	
-	private EuclidianSettings createEuclidanSettings(int i){
-		
+
+	private EuclidianSettings createEuclidanSettings(int i) {
+
 		EuclidianSettings base = null;
-		if (i != 0){
+		if (i != 0) {
 			base = euclidianSettings[0];
 		}
-		
-		if (i == 2){ // 3D view
+
+		if (i == 2) { // 3D view
 			return new EuclidianSettings3D(base);
 		}
-		
+
 		return new EuclidianSettings(base);
 	}
 
@@ -77,19 +78,21 @@ public class Settings {
 				}
 			}
 		}
-		
-		for (EuclidianSettings settings : euclidianSettingsForPlane.values()){
-			settings.reset();			
+
+		for (EuclidianSettings settings : euclidianSettingsForPlane.values()) {
+			settings.reset();
 		}
 
 		if (algebraSettings == null) {
 			algebraSettings = new AlgebraSettings();
 		} else {
-			//make this way to be sure that treeMode is set to 1 before calling settingChanged()
-			LinkedList<SettingListener> listeners = algebraSettings.getListeners();
+			// make this way to be sure that treeMode is set to 1 before calling
+			// settingChanged()
+			LinkedList<SettingListener> listeners = algebraSettings
+					.getListeners();
 			algebraSettings = new AlgebraSettings();
 			algebraSettings.setListeners(listeners);
-			algebraSettings.settingChanged();					
+			algebraSettings.settingChanged();
 		}
 
 		if (spreadsheetSettings == null) {
@@ -176,7 +179,7 @@ public class Settings {
 		for (EuclidianSettings settings : euclidianSettings) {
 			settings.endBatch();
 		}
-		
+
 		for (EuclidianSettings settings : euclidianSettingsForPlane.values()) {
 			settings.endBatch();
 		}
@@ -200,39 +203,44 @@ public class Settings {
 	public final EuclidianSettings getEuclidian(int number) {
 		return euclidianSettings[number - 1];
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param plane name of the plane creator
+	 * @param plane
+	 *            name of the plane creator
 	 * @return settings of view for this plane
 	 */
-	public final EuclidianSettings getEuclidianForPlane(String plane){
+	public final EuclidianSettings getEuclidianForPlane(String plane) {
 		return euclidianSettingsForPlane.get(plane);
 	}
 
-	
 	/**
 	 * map the plane/settings
-	 * @param plane name of the plane creator
-	 * @param settings settings
+	 * 
+	 * @param plane
+	 *            name of the plane creator
+	 * @param settings
+	 *            settings
 	 */
-	public final void setEuclidianSettingsForPlane(String plane, EuclidianSettings settings){
+	public final void setEuclidianSettingsForPlane(String plane,
+			EuclidianSettings settings) {
 		euclidianSettingsForPlane.put(plane, settings);
 	}
-	
+
 	/**
 	 * clear all settings for plane
 	 */
-	public final void clearEuclidianSettingsForPlane(){
+	public final void clearEuclidianSettingsForPlane() {
 		euclidianSettingsForPlane.clear();
 	}
-	
+
 	/**
 	 * remove settings for this plane
-	 * @param plane name of the plane creator
+	 * 
+	 * @param plane
+	 *            name of the plane creator
 	 */
-	public final void removeEuclidianSettingsForPlane(String plane){
+	public final void removeEuclidianSettingsForPlane(String plane) {
 		euclidianSettingsForPlane.remove(plane);
 	}
 
@@ -261,7 +269,7 @@ public class Settings {
 					spreadsheetSettings.getListeners());
 		}
 	}
-	
+
 	/**
 	 * @return Settings of the probability calculator view.
 	 */

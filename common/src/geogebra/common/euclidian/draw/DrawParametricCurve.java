@@ -29,7 +29,6 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.kernelND.CurveEvaluable;
 import geogebra.common.main.App;
 
-
 /**
  * Draws graphs of parametric curves and functions
  * 
@@ -40,7 +39,6 @@ public class DrawParametricCurve extends Drawable {
 	private CurveEvaluable curve;
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible, fillCurve;
-
 
 	/**
 	 * Creates graphical representation of the curve
@@ -89,7 +87,9 @@ public class DrawParametricCurve extends Drawable {
 			view.toScreenCoords(eval);
 			labelPoint = new GPoint((int) eval[0], (int) eval[1]);
 		} else {
-			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp, labelVisible, fillCurve ? CurvePlotter.Gap.CORNER : CurvePlotter.Gap.MOVE_TO);
+			labelPoint = CurvePlotter.plotCurve(curve, min, max, view, gp,
+					labelVisible, fillCurve ? CurvePlotter.Gap.CORNER
+							: CurvePlotter.Gap.MOVE_TO);
 		}
 
 		// gp on screen?
@@ -98,7 +98,7 @@ public class DrawParametricCurve extends Drawable {
 			// don't return here to make sure that getBounds() works for
 			// offscreen points too
 		}
-		
+
 		if (labelPoint != null) {
 			xLabel = labelPoint.x;
 			yLabel = labelPoint.y;
@@ -147,7 +147,7 @@ public class DrawParametricCurve extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				//view.updateBackground();
+				// view.updateBackground();
 			}
 		}
 	}
@@ -168,7 +168,7 @@ public class DrawParametricCurve extends Drawable {
 			if (fillCurve) {
 				try {
 					// fill using default/hatching/image as appropriate
-					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); 
+					fill(g2, (geo.isInverseFill() ? getShape() : gp), false);
 
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
@@ -183,10 +183,8 @@ public class DrawParametricCurve extends Drawable {
 		}
 	}
 
-
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(getObjectColor());
 		g2.setStroke(objStroke);
 		g2.drawWithValueStrokePure(gp);
@@ -197,47 +195,53 @@ public class DrawParametricCurve extends Drawable {
 		if (isVisible) {
 			GShape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {
-				//strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
+				// strokedShape = new
+				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return t.intersects(x - hitThreshold, y - hitThreshold,
 						2 * hitThreshold, 2 * hitThreshold);
 			}
-			
+
 			// workaround for #2364
 			if (geo.isGeoFunction()) {
 				GeoFunction f = (GeoFunction) geo;
 				double rwx = view.toRealWorldCoordX(x);
 				double low = view.toRealWorldCoordY(y + hitThreshold);
 				double high = view.toRealWorldCoordY(y - hitThreshold);
-				double dx = hitThreshold*view.getInvXscale();
+				double dx = hitThreshold * view.getInvXscale();
 				double left = f.evaluate(rwx - dx);
-				if(left >= low && left <= high){
+				if (left >= low && left <= high) {
 					return true;
 				}
 				double right = f.evaluate(rwx + dx);
-				if(right >= low && right <= high){
+				if (right >= low && right <= high) {
 					return true;
 				}
 				double middle = f.evaluate(rwx);
-				if(middle >= low && middle <= high){
+				if (middle >= low && middle <= high) {
 					return true;
 				}
-				if((right < low && left < low && middle < low) || (right > high && left > high && middle > high)
-						|| (!MyDouble.isFinite(right) && !MyDouble.isFinite(left) && !MyDouble.isFinite(middle))){
+				if ((right < low && left < low && middle < low)
+						|| (right > high && left > high && middle > high)
+						|| (!MyDouble.isFinite(right)
+								&& !MyDouble.isFinite(left) && !MyDouble
+									.isFinite(middle))) {
 					return false;
 				}
-				App.debug("FALLBACK TO BUGGY AWT:"+middle+":"+low+"-"+high);
+				App.debug("FALLBACK TO BUGGY AWT:" + middle + ":" + low + "-"
+						+ high);
 				return gp.intersects(x - hitThreshold, y - hitThreshold,
-					2 * hitThreshold, 2 * hitThreshold) && !gp.contains(x - hitThreshold, y - hitThreshold,
-							2 * hitThreshold, 2 * hitThreshold);
+						2 * hitThreshold, 2 * hitThreshold)
+						&& !gp.contains(x - hitThreshold, y - hitThreshold,
+								2 * hitThreshold, 2 * hitThreshold);
 			}
-			
+
 			// not GeoFunction, eg parametric
 			return strokedShape.intersects(x - hitThreshold, y - hitThreshold,
-						2 * hitThreshold, 2 * hitThreshold);			
-			
+					2 * hitThreshold, 2 * hitThreshold);
+
 		}
 		return false;
 		/*
@@ -250,15 +254,16 @@ public class DrawParametricCurve extends Drawable {
 		if (isVisible) {
 			GShape t = geo.isInverseFill() ? getShape() : gp;
 			if (strokedShape == null) {
-				//strokedShape = new geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
+				// strokedShape = new
+				// geogebra.awt.GenericShape(geogebra.awt.BasicStroke.getAwtStroke(objStroke).createStrokedShape(geogebra.awt.GenericShape.getAwtShape(gp)));
 				strokedShape = objStroke.createStrokedShape(gp);
 			}
 			if (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled()) {
 				return t.intersects(rect);
 			}
-			
-			return strokedShape.intersects(rect);			
-			
+
+			return strokedShape.intersects(rect);
+
 		}
 		return false;
 	}

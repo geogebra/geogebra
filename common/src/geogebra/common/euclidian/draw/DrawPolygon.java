@@ -72,8 +72,9 @@ public class DrawPolygon extends Drawable implements Previewable {
 	public DrawPolygon(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
-		
-		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
+
+		geo = view.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_POLYGON);
 
 		updatePreview();
 	}
@@ -91,8 +92,11 @@ public class DrawPolygon extends Drawable implements Previewable {
 				return;
 			gp.closePath();
 			if (geo.isInverseFill()) {
-				setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
-				getShape().subtract(geogebra.common.factories.AwtFactory.prototype.newArea(gp));
+				setShape(geogebra.common.factories.AwtFactory.prototype
+						.newArea(view.getBoundingPath()));
+				getShape().subtract(
+						geogebra.common.factories.AwtFactory.prototype
+								.newArea(gp));
 			}
 			// polygon on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())
@@ -104,24 +108,25 @@ public class DrawPolygon extends Drawable implements Previewable {
 			// draw trace
 			if (poly.getTrace()) {
 				isTracing = true;
-				geogebra.common.awt.GGraphics2D g2 = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2 = view
+						.getBackgroundGraphics();
 				if (g2 != null)
 					fill(g2, gp, false);
 			} else {
 				if (isTracing) {
 					isTracing = false;
-					//view.updateBackground();
+					// view.updateBackground();
 				}
 			}
 
 		}
 	}
-	
-	private Coords getCoords(int i){
-		if (poly!=null){
+
+	private Coords getCoords(int i) {
+		if (poly != null) {
 			return view.getCoordsForView(poly.getPoint3D(i));
 		}
-		
+
 		return view.getCoordsForView(points.get(i).getInhomCoordsInD3());
 	}
 
@@ -176,11 +181,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 	@Override
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			fill(g2,  (geo.isInverseFill() ? getShape() : 
-				gp), false); // fill
-																	// using
-																	// default/hatching/image
-																	// as
+			fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
+																		// using
+																		// default/hatching/image
+																		// as
 			// appropriate
 
 			if (geo.doHighlighting()) {
@@ -214,8 +218,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.GPoint2D endPoint = 
-			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype
+			.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -274,7 +278,8 @@ public class DrawPolygon extends Drawable implements Previewable {
 							double y1 = intersection.y / intersection.z;
 
 							double d = MyMath.length(x1 - xRW, y1 - yRW);
-							//App.debug("angle = "+angle+"\nang2 = "+ang2+"\n("+x1+","+y1+")");// "+xRW+","+yRW);
+							// App.debug("angle = "+angle+"\nang2 = "+ang2+"\n("+x1+","+y1+")");//
+							// "+xRW+","+yRW);
 							// Application.debug(x1+","+y1);
 							if (d < dist) {
 								nearestX = x1;
@@ -315,19 +320,19 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-			
-			fill(g2,  (geo.isInverseFill() ? getShape() : gp), false);
+
+			fill(g2, (geo.isInverseFill() ? getShape() : gp), false);
 
 			g2.setPaint(getObjectColor());
 			updateStrokes(geo);
 			g2.setStroke(objStroke);
 			g2.draw(gp);
-			
+
 		}
 	}
 
 	public void disposePreview() {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -367,12 +372,10 @@ public class DrawPolygon extends Drawable implements Previewable {
 
 	@Override
 	public GArea getShape() {
-		if (geo.isInverseFill()||super.getShape()!=null)
+		if (geo.isInverseFill() || super.getShape() != null)
 			return super.getShape();
 		setShape(AwtFactory.prototype.newArea(gp));
 		return super.getShape();
 	}
-	
-	
 
 }

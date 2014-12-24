@@ -12,17 +12,21 @@ public class DockSplitPaneData {
 	private int orientation;
 
 	/**
-	 * @param location location
-	 * @param dividerLocation divider position
-	 * @param orientation vertical or horizontal (JSplitPane.HORIZONTAL_SPLIT or JSplitPane.VERTICAL_SPLIT)
+	 * @param location
+	 *            location
+	 * @param dividerLocation
+	 *            divider position
+	 * @param orientation
+	 *            vertical or horizontal (JSplitPane.HORIZONTAL_SPLIT or
+	 *            JSplitPane.VERTICAL_SPLIT)
 	 */
-	public DockSplitPaneData(String location, double dividerLocation, int orientation)
-	{
+	public DockSplitPaneData(String location, double dividerLocation,
+			int orientation) {
 		this.location = location;
 		this.dividerLocation = dividerLocation;
 		this.orientation = orientation;
 	}
-	
+
 	/**
 	 * @return The location definition string of the split pane
 	 */
@@ -36,14 +40,14 @@ public class DockSplitPaneData {
 	public double getDividerLocation() {
 		return dividerLocation;
 	}
-	
+
 	/**
 	 * @return The orientation of the saved split pane
 	 */
 	public int getOrientation() {
 		return orientation;
 	}
-	
+
 	/**
 	 * @return XML representation
 	 */

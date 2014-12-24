@@ -51,14 +51,15 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	// private Arc2D.Double fillArc = new Arc2D.Double();
 	private GArc2D drawArc = AwtFactory.prototype.newArc2D();
-	private GGeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael Borcherds
-														// 2007-11-19
+	private GGeneralPath polygon = AwtFactory.prototype.newGeneralPath(); // Michael
+																			// Borcherds
+	// 2007-11-19
 	private GEllipse2DDouble dot90degree;
 	private GShape shape;
 	private double m[] = new double[2];
 	private double coords[] = new double[2];
 	private double[] firstVec = new double[2];
-	
+
 	private boolean drawDot;
 	private GeoPoint[] previewTempPoints;
 
@@ -89,7 +90,6 @@ public class DrawAngle extends Drawable implements Previewable {
 		this.angle = angle;
 		geo = angle;
 
-
 		init();
 
 		if (algo != null) {
@@ -100,8 +100,10 @@ public class DrawAngle extends Drawable implements Previewable {
 	/**
 	 * Creates a new DrawAngle for preview
 	 * 
-	 * @param view view
-	 * @param points list of points
+	 * @param view
+	 *            view
+	 * @param points
+	 *            list of points
 	 */
 	public DrawAngle(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
@@ -117,16 +119,17 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	private void init() {
-		firstVec = new double[]{1,0};
-		m = new double[]{0,0};
-		if(angle.getDrawAlgorithm() instanceof AlgoAngle){
-			algo = ((AlgoAngle)angle.getDrawAlgorithm());
+		firstVec = new double[] { 1, 0 };
+		m = new double[] { 0, 0 };
+		if (angle.getDrawAlgorithm() instanceof AlgoAngle) {
+			algo = ((AlgoAngle) angle.getDrawAlgorithm());
 		}
 	}
 
 	/**
 	 * 
-	 * @param pt point
+	 * @param pt
+	 *            point
 	 * @return true if coords are in this view
 	 */
 	public boolean inView(Coords pt) {
@@ -135,34 +138,38 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	/**
 	 * 
-	 * @param p point
-	 * @return coords of the point in view 
+	 * @param p
+	 *            point
+	 * @return coords of the point in view
 	 */
-	final public Coords getCoordsInView(GeoPointND p){
+	final public Coords getCoordsInView(GeoPointND p) {
 		return getCoordsInView(p.getInhomCoordsInD3());
 	}
-	
+
 	/**
 	 * 
-	 * @param p point
-	 * @return coords of the point in view 
+	 * @param p
+	 *            point
+	 * @return coords of the point in view
 	 */
-	public Coords getCoordsInView(Coords p){
+	public Coords getCoordsInView(Coords p) {
 		return p;
 	}
-	
 
 	/**
 	 * Used for view from plane (may be reverse oriented)
-	 * @param start initial start
-	 * @param extent angle extent
+	 * 
+	 * @param start
+	 *            initial start
+	 * @param extent
+	 *            angle extent
 	 * @return angle start
 	 */
 	protected double getAngleStart(double start, double extent) {
 		return start;
 	}
-	
-	private void setNotVisible(){
+
+	private void setNotVisible() {
 		isVisible = false;
 		shape = null;
 		labelVisible = false;
@@ -172,12 +179,12 @@ public class DrawAngle extends Drawable implements Previewable {
 	final public void update() {
 		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()))
 			init();
-		
+
 		isVisible = true;
 
 		if (!geo.isEuclidianVisible() || Kernel.isZero(angle.getValue())) {
 			setNotVisible();
-			//we may return here; the object is not offscreen, but invisible.
+			// we may return here; the object is not offscreen, but invisible.
 			return;
 		}
 		labelVisible = geo.isLabelVisible();
@@ -186,17 +193,16 @@ public class DrawAngle extends Drawable implements Previewable {
 		maxRadius = Double.POSITIVE_INFINITY;
 
 		// set vertex and first vector to determine start angle
-		if (algo == null){
+		if (algo == null) {
 			setNotVisible();
 			return;
 		}
-		
-		if (!algo.updateDrawInfo(m, firstVec, this)){
+
+		if (!algo.updateDrawInfo(m, firstVec, this)) {
 			setNotVisible();
 			return;
 		}
-				
-				
+
 		// calc start angle
 		double angSt = Math.atan2(firstVec[1], firstVec[0]);
 		if (Double.isNaN(angSt) || Double.isInfinite(angSt)) {
@@ -219,10 +225,10 @@ public class DrawAngle extends Drawable implements Previewable {
 			App.error("shouldn't be drawable");
 			break;
 
-		//case GeoAngle.ANGLE_ISCLOCKWISE:
-		//	angSt += angExt;
-		//	angExt = 2.0 * Math.PI - angExt;
-		//	break;
+		// case GeoAngle.ANGLE_ISCLOCKWISE:
+		// angSt += angExt;
+		// angExt = 2.0 * Math.PI - angExt;
+		// break;
 
 		case NOTREFLEX:
 			if (angExt > Math.PI) {
@@ -252,7 +258,7 @@ public class DrawAngle extends Drawable implements Previewable {
 		show90degrees = view.getRightAngleStyle() != EuclidianStyleConstants.RIGHT_ANGLE_STYLE_NONE
 				&& angle.isEmphasizeRightAngle()
 				&& Kernel.isEqual(angExt, Kernel.PI_HALF);
-		
+
 		// set coords to screen coords of vertex
 		coords[0] = m[0];
 		coords[1] = m[1];
@@ -315,15 +321,15 @@ public class DrawAngle extends Drawable implements Previewable {
 								* Math.sin(angSt + Kernel.PI_HALF)));
 				square.lineTo(
 						(float) (coords[0] + length
-								* Math.cos(angSt + Kernel.PI_HALF)
-								+ offset * Math.cos(angSt) + offset
+								* Math.cos(angSt + Kernel.PI_HALF) + offset
+								* Math.cos(angSt) + offset
 								* Math.cos(angSt + Kernel.PI_HALF)),
 						(float) (coords[1] - length
 								* Math.sin(angSt + Kernel.PI_HALF)
 								* view.getScaleRatio() - offset
 								* Math.sin(angSt) - offset
 								* Math.sin(angSt + Kernel.PI_HALF)));
-				shape = square;  //FIXME
+				shape = square; // FIXME
 
 				break;
 
@@ -344,7 +350,8 @@ public class DrawAngle extends Drawable implements Previewable {
 
 				// set arc in real world coords and transform to screen coords
 				drawArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.PIE);
-				shape = view.getCoordTransform().createTransformedShape(drawArc);
+				shape = view.getCoordTransform()
+						.createTransformedShape(drawArc);
 				break;
 			}
 		}
@@ -364,7 +371,8 @@ public class DrawAngle extends Drawable implements Previewable {
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc1 = view.getCoordTransform().createTransformedShape(decoArc);
+				shapeArc1 = view.getCoordTransform().createTransformedShape(
+						decoArc);
 				break;
 
 			case GeoElement.DECORATION_ANGLE_THREE_ARCS:
@@ -372,11 +380,13 @@ public class DrawAngle extends Drawable implements Previewable {
 				r = (arcSize - rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc1 = view.getCoordTransform().createTransformedShape(decoArc);
+				shapeArc1 = view.getCoordTransform().createTransformedShape(
+						decoArc);
 				r = (arcSize - 2 * rdiff) * view.getInvXscale();
 				decoArc.setArcByCenter(m[0], m[1], r, -as, -ae, GArc2D.OPEN);
 				// transform arc to screen coords
-				shapeArc2 = view.getCoordTransform().createTransformedShape(decoArc);
+				shapeArc2 = view.getCoordTransform().createTransformedShape(
+						decoArc);
 				break;
 
 			case GeoElement.DECORATION_ANGLE_ONE_TICK:
@@ -445,15 +455,19 @@ public class DrawAngle extends Drawable implements Previewable {
 				double size = 4d + geo.lineThickness / 4d;
 				size = size * 0.9d;
 
-				p2[0] = p1[0] + (1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
-				p2[1] = p1[1] + (1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
-																				// end
-																				// 1
+				p2[0] = p1[0] + (1 * n[0] + 3 * v[0]) * size
+						* view.getInvXscale();
+				p2[1] = p1[1] + (1 * n[1] + 3 * v[1]) * size
+						* view.getInvYscale(); // arrow
+				// end
+				// 1
 
-				p3[0] = p1[0] + (-1 * n[0] + 3 * v[0]) * size * view.getInvXscale();
-				p3[1] = p1[1] + (-1 * n[1] + 3 * v[1]) * size * view.getInvYscale(); // arrow
-																				// end
-																				// 2
+				p3[0] = p1[0] + (-1 * n[0] + 3 * v[0]) * size
+						* view.getInvXscale();
+				p3[1] = p1[1] + (-1 * n[1] + 3 * v[1]) * size
+						* view.getInvYscale(); // arrow
+				// end
+				// 2
 
 				view.toScreenCoords(p1);
 				view.toScreenCoords(p2);
@@ -518,8 +532,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(angle
-						.getObjectColor());
+				g2.setPaint(angle.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(shape);
 			}
@@ -578,8 +591,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			}
 
 			if (labelVisible) {
-				g2.setPaint(angle
-						.getLabelColor());
+				g2.setPaint(angle.getLabelColor());
 				g2.setFont(view.getFontAngle());
 				drawLabel(g2);
 			}
@@ -619,7 +631,7 @@ public class DrawAngle extends Drawable implements Previewable {
 	final public boolean isInside(GRectangle rect) {
 		return shape != null && rect.contains(shape.getBounds());
 	}
-	
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return shape != null && shape.intersects(rect);
@@ -651,8 +663,9 @@ public class DrawAngle extends Drawable implements Previewable {
 		// init the conic for preview
 		Construction cons = previewTempPoints[0].getConstruction();
 
-		AlgoAnglePoints algoPreview = new AlgoAnglePoints(cons, previewTempPoints[0],
-				previewTempPoints[1], previewTempPoints[2]);
+		AlgoAnglePoints algoPreview = new AlgoAnglePoints(cons,
+				previewTempPoints[0], previewTempPoints[1],
+				previewTempPoints[2]);
 		cons.removeFromConstructionList(algoPreview);
 
 		geo = algoPreview.getAngle();
@@ -663,8 +676,8 @@ public class DrawAngle extends Drawable implements Previewable {
 	}
 
 	final public void updatePreview() {
-		
-		if(geo == null || prevPoints.size() != 2){
+
+		if (geo == null || prevPoints.size() != 2) {
 			setNotVisible();
 			return;
 		}
@@ -675,7 +688,7 @@ public class DrawAngle extends Drawable implements Previewable {
 			previewTempPoints[i].setCoords(p, true);
 		}
 		previewTempPoints[0].updateCascade();
-		
+
 	}
 
 	final public void updateMousePos(double xRW, double yRW) {
@@ -689,29 +702,32 @@ public class DrawAngle extends Drawable implements Previewable {
 
 	final public void drawPreview(GGraphics2D g2) {
 		isVisible = geo != null && prevPoints.size() == 2;
-		//shape may be null if the second point is placed and mouse did not yet move away from it
-		if(shape!=null){
+		// shape may be null if the second point is placed and mouse did not yet
+		// move away from it
+		if (shape != null) {
 			draw(g2);
 		}
 	}
 
 	public void disposePreview() {
-		//do nothing
+		// do nothing
 	}
 
 	/**
-	 * @param vertexScreen RW vertex coordinates
+	 * @param vertexScreen
+	 *            RW vertex coordinates
 	 */
 	public void toScreenCoords(double[] vertexScreen) {
 		view.toScreenCoords(vertexScreen);
-		
+
 	}
 
 	/**
-	 * @param d maximal radius
+	 * @param d
+	 *            maximal radius
 	 */
 	public void setMaxRadius(double d) {
 		this.maxRadius = d;
-		
+
 	}
 }

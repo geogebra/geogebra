@@ -12,6 +12,7 @@ import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+
 /**
  * Drawable representation of box plots
  *
@@ -26,8 +27,10 @@ public class DrawBoxPlot extends Drawable {
 	private double OUTLIER_SIZE = 4;
 
 	/**
-	 * @param view view
-	 * @param n number (boxplot)
+	 * @param view
+	 *            view
+	 * @param n
+	 *            number (boxplot)
 	 */
 	public DrawBoxPlot(EuclidianView view, GeoNumeric n) {
 		this.view = view;
@@ -51,8 +54,7 @@ public class DrawBoxPlot extends Drawable {
 		if (isVisible) {
 			try {
 				if (geo.doHighlighting()) {
-					g2.setPaint(sum
-							.getSelColor());
+					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
 					g2.draw(gp);
 				}
@@ -69,8 +71,7 @@ public class DrawBoxPlot extends Drawable {
 
 			try {
 				if (geo.lineThickness > 0) {
-					g2.setPaint(sum
-							.getObjectColor());
+					g2.setPaint(sum.getObjectColor());
 					g2.setStroke(objStroke);
 					g2.draw(gp);
 				}
@@ -96,7 +97,7 @@ public class DrawBoxPlot extends Drawable {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
-	
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return gp != null && gp.intersects(rect);
@@ -208,10 +209,9 @@ public class DrawBoxPlot extends Drawable {
 		coords[1] = -yScale + yOff;
 		view.toScreenCoords(coords);
 		gp.lineTo(coords[0], coords[1]);
-		
+
 		ArrayList<Double> outliers = algo.getOutliers();
-		
-		
+
 		if (outliers != null) {
 			Iterator<Double> it = outliers.iterator();
 
@@ -219,11 +219,11 @@ public class DrawBoxPlot extends Drawable {
 				coords[0] = it.next().doubleValue();
 				coords[1] = yOff;
 				view.toScreenCoords(coords);
-				
+
 				// draw cross
-				gp.moveTo(coords[0] - OUTLIER_SIZE , coords[1] - OUTLIER_SIZE);
+				gp.moveTo(coords[0] - OUTLIER_SIZE, coords[1] - OUTLIER_SIZE);
 				gp.lineTo(coords[0] + OUTLIER_SIZE, coords[1] + OUTLIER_SIZE);
-				gp.moveTo(coords[0] - OUTLIER_SIZE , coords[1] + OUTLIER_SIZE);
+				gp.moveTo(coords[0] - OUTLIER_SIZE, coords[1] + OUTLIER_SIZE);
 				gp.lineTo(coords[0] + OUTLIER_SIZE, coords[1] - OUTLIER_SIZE);
 			}
 		}
@@ -243,7 +243,7 @@ public class DrawBoxPlot extends Drawable {
 		}
 
 	}
-	
+
 	/**
 	 * Returns the bounding box of this Drawable in screen coordinates.
 	 */

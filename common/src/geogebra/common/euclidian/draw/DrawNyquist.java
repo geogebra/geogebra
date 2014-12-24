@@ -103,7 +103,7 @@ public class DrawNyquist extends Drawable {
 	}
 
 	private void drawArrow(GGraphics2D g2) {
-		int i = (int)(coordsList.size() / 2.3 );
+		int i = (int) (coordsList.size() / 2.3);
 		double x1 = view.toScreenCoordXd(coordsList.get(i).getX());
 		double y1 = view.toScreenCoordYd(coordsList.get(i).getY());
 		double y2 = view.toScreenCoordYd(coordsList.get(i - 1).getY());

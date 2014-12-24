@@ -31,7 +31,9 @@ public class DrawBarGraph extends Drawable {
 		/** step graph */
 		STEP_GRAPH_CONTINUOUS,
 		/** stick graph */
-		STEP_GRAPH_JUMP}
+		STEP_GRAPH_JUMP
+	}
+
 	private DrawType drawType = DrawType.VERTICAL_BAR;
 
 	// point types -- given by user, hence not enum
@@ -51,9 +53,9 @@ public class DrawBarGraph extends Drawable {
 	private boolean isVisible, labelVisible;
 	private double[] coords = new double[2];
 	/*
-	 * Use an array  to  customize  bars
+	 * Use an array to customize bars
 	 */
-	private GeneralPathClipped []gp;
+	private GeneralPathClipped[] gp;
 	private GeoNumeric sum;
 	private AlgoBarChart algo;
 	private ArrayList<GeoPoint> pts;
@@ -111,29 +113,28 @@ public class DrawBarGraph extends Drawable {
 
 	@Override
 	public void draw(geogebra.common.awt.GGraphics2D g2) {
-		//Save fill, color and alfa of object 
+		// Save fill, color and alfa of object
 		GColor color = geo.getSelColor();
-		FillType fillType=geo.getFillType();
-		int hatchingDistance=geo.getHatchingDistance();
-		String symbol=geo.getFillSymbol();
-		double hatchingAngle=geo.getHatchingAngle();
-		String fileName=geo.getImageFileName();
-		float alpha=geo.getAlphaValue();
-		AlgoBarChart algop=(AlgoBarChart)geo.getParentAlgorithm();
+		FillType fillType = geo.getFillType();
+		int hatchingDistance = geo.getHatchingDistance();
+		String symbol = geo.getFillSymbol();
+		double hatchingAngle = geo.getHatchingAngle();
+		String fileName = geo.getImageFileName();
+		float alpha = geo.getAlphaValue();
+		AlgoBarChart algop = (AlgoBarChart) geo.getParentAlgorithm();
 		int k;
 		if (isVisible) {
 			try {
 				if (geo.doHighlighting()) {
 					g2.setPaint(sum.getSelColor());
 					g2.setStroke(selStroke);
-					for(int i=0;i<gp.length;i++){
-						k=i+1;
+					for (int i = 0; i < gp.length; i++) {
+						k = i + 1;
 						if (algop.getBarColor(k) != null) {
-							GColor col=algop.getBarColor(k);
-							g2.setPaint(AwtFactory.prototype.newColor(col.getRed(),
-									col.getGreen(),
-									col.getBlue(),
-									col.getAlpha()));
+							GColor col = algop.getBarColor(k);
+							g2.setPaint(AwtFactory.prototype.newColor(
+									col.getRed(), col.getGreen(),
+									col.getBlue(), col.getAlpha()));
 						}
 						g2.draw(gp[i]);
 					}
@@ -148,39 +149,40 @@ public class DrawBarGraph extends Drawable {
 					/*
 					 * Use tags for draw if there are
 					 */
-					for (int i=0;i<gp.length;i++) {
-						k=i+1;
+					for (int i = 0; i < gp.length; i++) {
+						k = i + 1;
 						if (algop.getBarColor(k) != null) {
-							GColor col=algop.getBarColor(k);
+							GColor col = algop.getBarColor(k);
 							geo.setObjColor(col);
 							geo.setAlphaValue(col.getAlpha());
 						}
-						if (algop.getBarAlpha(k)!=-1.0) {
+						if (algop.getBarAlpha(k) != -1.0) {
 							geo.setAlphaValue(algop.getBarAlpha(k));
 						}
 
 						geo.setFillType(algop.getBarFillType(k));
 
-
-						if (algop.getBarSymbol(k)!=null) {
+						if (algop.getBarSymbol(k) != null) {
 							geo.setFillSymbol(algop.getBarSymbol(k));
-						} 
-						if (algop.getBarImage(k)!=null) {
+						}
+						if (algop.getBarImage(k) != null) {
 							geo.setImageFileName(algop.getBarImage(k));
 						}
-						if (algop.getBarHatchDistance(k)!=-1) {
-							geo.setHatchingDistance(algop.getBarHatchDistance(k));
+						if (algop.getBarHatchDistance(k) != -1) {
+							geo.setHatchingDistance(algop
+									.getBarHatchDistance(k));
 						}
-						if (algop.getBarHatchAngle(k)!=-1) {
+						if (algop.getBarHatchAngle(k) != -1) {
 							geo.setHatchingAngle(algop.getBarHatchAngle(k));
 						}
-						
-						fill(g2, gp[i], false); // fill using default/hatching/image as
-											// appropriate
-						//Restore values
+
+						fill(g2, gp[i], false); // fill using
+												// default/hatching/image as
+						// appropriate
+						// Restore values
 						geo.setObjColor(color);
 						geo.setFillType(fillType);
-						geo.setHatchingAngle((int)hatchingAngle);
+						geo.setHatchingAngle((int) hatchingAngle);
 						geo.setHatchingDistance(hatchingDistance);
 						geo.setFillSymbol(symbol);
 						geo.setImageFileName(fileName);
@@ -196,14 +198,13 @@ public class DrawBarGraph extends Drawable {
 				if (geo.lineThickness > 0) {
 					g2.setPaint(getObjectColor());
 					g2.setStroke(objStroke);
-					for(int i=0;i<gp.length;i++) {
-						k=i+1;
+					for (int i = 0; i < gp.length; i++) {
+						k = i + 1;
 						if (algop.getBarColor(k) != null) {
-							GColor col=algop.getBarColor(k);
-							g2.setPaint(AwtFactory.prototype.newColor(col.getRed(),
-									col.getGreen(),
-									col.getBlue(),
-									geo.getLineOpacity()));
+							GColor col = algop.getBarColor(k);
+							g2.setPaint(AwtFactory.prototype.newColor(
+									col.getRed(), col.getGreen(),
+									col.getBlue(), geo.getLineOpacity()));
 						}
 						g2.draw(gp[i]);
 					}
@@ -234,10 +235,11 @@ public class DrawBarGraph extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		if (gp != null){
-			for(int i=0;i<gp.length;i++){
-				if ((gp[i].contains(x, y) || gp[i].intersects(x, y, hitThreshold))){
-						setToolTip(i);
+		if (gp != null) {
+			for (int i = 0; i < gp.length; i++) {
+				if ((gp[i].contains(x, y) || gp[i].intersects(x, y,
+						hitThreshold))) {
+					setToolTip(i);
 					return true;
 				}
 			}
@@ -247,9 +249,9 @@ public class DrawBarGraph extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		if (gp != null ){
-			for(int i=0;i<gp.length;i++){
-				if (gp[i].intersects(rect)){
+		if (gp != null) {
+			for (int i = 0; i < gp.length; i++) {
+				if (gp[i].intersects(rect)) {
 					return true;
 				}
 			}
@@ -279,7 +281,7 @@ public class DrawBarGraph extends Drawable {
 			init();
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(sum);
-			
+
 		// init gp
 		gp = new GeneralPathClipped[algo.getIntervals()];
 		for (int i = 0; i < gp.length; i++) {
@@ -472,7 +474,7 @@ public class DrawBarGraph extends Drawable {
 			coords[0] = xVal[N - 1] + halfWidth;
 			coords[1] = yVal[N - 1];
 			view.toScreenCoords(coords);
-			gp[gp.length-1].lineTo(coords[0], coords[1]);
+			gp[gp.length - 1].lineTo(coords[0], coords[1]);
 
 			break;
 
@@ -501,9 +503,9 @@ public class DrawBarGraph extends Drawable {
 		isVisible = false;
 		// don't return here to make sure that getBounds() works for
 		// off screen points too
-		for (int i=0;i<gp.length;i++){
-			if (gp[i].intersects(0, 0, view.getWidth(), view.getHeight())) {				
-				isVisible=true;
+		for (int i = 0; i < gp.length; i++) {
+			if (gp[i].intersects(0, 0, view.getWidth(), view.getHeight())) {
+				isVisible = true;
 				break;
 			}
 		}
@@ -530,12 +532,12 @@ public class DrawBarGraph extends Drawable {
 
 		// adjust the lists
 		if (n > pts.size()) {
-			// add 
+			// add
 			for (int i = pts.size(); i < n; i++) {
 				addPt();
 			}
 		} else if (n < pts.size()) {
-			// remove 
+			// remove
 			for (int i = n; n < pts.size(); i++) {
 				pts.remove(i);
 				drawPoints.remove(i);
@@ -553,8 +555,8 @@ public class DrawBarGraph extends Drawable {
 		pts.add(p);
 		drawPoints.add(d);
 	}
-	
-	private void setToolTip(int barIndex){
+
+	private void setToolTip(int barIndex) {
 		algo.setToolTipText(barIndex);
 		view.setToolTipText(null);
 	}

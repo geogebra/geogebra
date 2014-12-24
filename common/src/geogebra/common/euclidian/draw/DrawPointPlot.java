@@ -51,7 +51,8 @@ public class DrawPointPlot extends Drawable {
 	 *            view
 	 * @param pointList
 	 *            list of GeoPoints to plot
-	 * @param drawType type
+	 * @param drawType
+	 *            type
 	 */
 	public DrawPointPlot(EuclidianView view, GeoList pointList,
 			DrawType drawType) {
@@ -222,12 +223,11 @@ public class DrawPointPlot extends Drawable {
 			}
 		} else if (n < drawPoints.size()) {
 			// remove
-			for (int i = n; n < drawPoints.size(); ) {
+			for (int i = n; n < drawPoints.size();) {
 				drawPoints.remove(i);
 			}
 		}
 	}
-
 
 	/**
 	 * Sets the real world height of a point so that it fits in a stack of dots
@@ -242,7 +242,7 @@ public class DrawPointPlot extends Drawable {
 
 		// get y coord for the stacked dot
 		y = (view.getYZero() - pointSize); // first dot on axis
-		y = y - 2 * (dotCount - 1) * pointSize *scaleFactor; // higher dot
+		y = y - 2 * (dotCount - 1) * pointSize * scaleFactor; // higher dot
 		y = view.toRealWorldCoordY(y);
 
 		// set the y coord of the GeoPoint
@@ -258,7 +258,7 @@ public class DrawPointPlot extends Drawable {
 
 		pointSize = pointList.getPointSize();
 		double h = 2 * pointSize * view.getInvXscale();
-		scaleFactor  = ((AlgoDotPlot)algo).getScaleFactor();
+		scaleFactor = ((AlgoDotPlot) algo).getScaleFactor();
 
 		GeoPoint pt = null;
 		GeoList xList = ((AlgoDotPlot) algo).getUniqueXList();

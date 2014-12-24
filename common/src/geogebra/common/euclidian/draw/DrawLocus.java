@@ -38,8 +38,11 @@ public class DrawLocus extends Drawable {
 
 	/**
 	 * Creates new drawable for given locus
-	 * @param view view
-	 * @param locus locus
+	 * 
+	 * @param view
+	 *            view
+	 * @param locus
+	 *            locus
 	 */
 	public DrawLocus(EuclidianView view, GeoLocusND<? extends MyPoint> locus) {
 		this.view = view;
@@ -70,7 +73,8 @@ public class DrawLocus extends Drawable {
 			labelDesc = geo.getLabelDescription();
 			xLabel = (int) (lastPointCoords[0] - 5);
 			yLabel = (int) (lastPointCoords[1] + 4 + view.getFontSize());
-			addLabelOffsetEnsureOnScreen(1.25, 1.0); // we add 25% width for sure
+			addLabelOffsetEnsureOnScreen(1.25, 1.0); // we add 25% width for
+														// sure
 		}
 
 		// draw trace
@@ -83,19 +87,20 @@ public class DrawLocus extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				//view.updateBackground();
+				// view.updateBackground();
 			}
 		}
 		if (geo.isInverseFill()) {
-			setShape(geogebra.common.factories.AwtFactory.prototype.newArea(view.getBoundingPath()));
-			getShape().subtract(geogebra.common.factories.AwtFactory.prototype.newArea(gp));
+			setShape(geogebra.common.factories.AwtFactory.prototype
+					.newArea(view.getBoundingPath()));
+			getShape().subtract(
+					geogebra.common.factories.AwtFactory.prototype.newArea(gp));
 		}
 
 	}
 
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
 			g2.setPaint(getObjectColor());
 			g2.setStroke(objStroke);
@@ -108,7 +113,6 @@ public class DrawLocus extends Drawable {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		else
 			gp.reset();
-		
 
 		lastPointCoords = CurvePlotter.draw(gp, pointList);
 	}
@@ -133,10 +137,10 @@ public class DrawLocus extends Drawable {
 				try {
 
 					fill(g2, (geo.isInverseFill() ? getShape() : gp), false); // fill
-																			// using
-																			// default/hatching/image
-																			// as
-																			// appropriate
+																				// using
+																				// default/hatching/image
+																				// as
+																				// appropriate
 
 				} catch (Exception e) {
 					System.err.println(e.getMessage());
@@ -181,9 +185,9 @@ public class DrawLocus extends Drawable {
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(gp.getBounds());
 	}
-	
+
 	@Override
-	public boolean intersectsRectangle(GRectangle rect){
+	public boolean intersectsRectangle(GRectangle rect) {
 		return gp.intersects(rect);
 	}
 

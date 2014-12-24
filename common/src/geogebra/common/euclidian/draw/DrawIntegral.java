@@ -48,9 +48,12 @@ public class DrawIntegral extends Drawable {
 	/**
 	 * Creates new drawable for integral
 	 * 
-	 * @param view view
-	 * @param n integral
-	 * @param casObject true if n was created from a GeoCasCell
+	 * @param view
+	 *            view
+	 * @param n
+	 *            integral
+	 * @param casObject
+	 *            true if n was created from a GeoCasCell
 	 */
 	public DrawIntegral(EuclidianView view, GeoNumeric n, boolean casObject) {
 		this.view = view;
@@ -74,15 +77,18 @@ public class DrawIntegral extends Drawable {
 		a = algo.getA();
 		b = algo.getB();
 	}
-	
+
 	private void initFromCasObject() {
 		AlgoCasCellInterface algo = (AlgoCasCellInterface) n.getDrawAlgorithm();
 		GeoCasCell cell = algo.getCasCell();
 		Command cmd = cell.getInputVE().getTopLevelCommand();
 		Kernel kernel = cmd.getKernel();
-		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0).wrap().replaceCasCommands()));
-		a = new MyDouble(cmd.getKernel(), cmd.getArgument(1).wrap().replaceCasCommands().evaluateDouble());
-		b = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap().replaceCasCommands().evaluateDouble());
+		f = new GeoFunction(kernel.getConstruction(), new Function(cmd
+				.getArgument(0).wrap().replaceCasCommands()));
+		a = new MyDouble(cmd.getKernel(), cmd.getArgument(1).wrap()
+				.replaceCasCommands().evaluateDouble());
+		b = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap()
+				.replaceCasCommands().evaluateDouble());
 	}
 
 	@Override
@@ -92,7 +98,8 @@ public class DrawIntegral extends Drawable {
 			return;
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(n);
-		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm()) || isCasObject)
+		if (!geo.getDrawAlgorithm().equals(geo.getParentAlgorithm())
+				|| isCasObject)
 			init();
 
 		if (gp == null)
@@ -130,8 +137,7 @@ public class DrawIntegral extends Drawable {
 		}
 
 		gp.moveTo(ax, y0);
-		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false,
-				Gap.LINE_TO);
+		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false, Gap.LINE_TO);
 		gp.lineTo(bx, y0);
 		gp.lineTo(ax, y0);
 

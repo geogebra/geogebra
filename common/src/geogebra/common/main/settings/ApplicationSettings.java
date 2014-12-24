@@ -1,6 +1,5 @@
 package geogebra.common.main.settings;
 
-
 import java.util.LinkedList;
 
 /**
@@ -11,6 +10,7 @@ public class ApplicationSettings extends AbstractSettings {
 	public ApplicationSettings(LinkedList<SettingListener> listeners) {
 		super(listeners);
 	}
+
 	// TODO add your settings here
 
 	public ApplicationSettings() {

@@ -8,14 +8,15 @@ import geogebra.common.plugin.ScriptError;
 import geogebra.common.plugin.ScriptType;
 
 /**
- * @author arno
- * Class for JavaScript scripts
+ * @author arno Class for JavaScript scripts
  */
 public class JsScript extends Script {
 
 	/**
-	 * @param app the script's application
-	 * @param text the script's source code
+	 * @param app
+	 *            the script's application
+	 * @param text
+	 *            the script's source code
 	 */
 	public JsScript(App app, String text) {
 		super(app, text);
@@ -47,11 +48,9 @@ public class JsScript extends Script {
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			throw new ScriptError(
-					app.getPlain(update ? "OnUpdate" : "OnClick") + " "
-					+ label + ":\n" + app.getPlain("ErrorInJavaScript")
-					+ "\n" + e.getLocalizedMessage()
-			);
+			throw new ScriptError(app.getPlain(update ? "OnUpdate" : "OnClick")
+					+ " " + label + ":\n" + app.getPlain("ErrorInJavaScript")
+					+ "\n" + e.getLocalizedMessage());
 		}
 	}
 
@@ -59,15 +58,15 @@ public class JsScript extends Script {
 	public ScriptType getType() {
 		return ScriptType.JAVASCRIPT;
 	}
-	
+
 	@Override
 	public Script copy() {
 		return new JsScript(app, text);
 	}
 
 	/**
-	 * The text of this script is modified by changing every
-	 * whole word oldLabel to newLabel.
+	 * The text of this script is modified by changing every whole word oldLabel
+	 * to newLabel.
 	 * 
 	 * @return whether any renaming happened
 	 */

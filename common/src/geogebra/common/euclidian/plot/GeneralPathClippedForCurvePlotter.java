@@ -11,36 +11,39 @@ import geogebra.common.util.Cloner;
 
 /**
  * General path clipped with methods for CurvePlotter
+ * 
  * @author mathieu
  *
  */
-public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implements PathPlotter {
+public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped
+		implements PathPlotter {
 
 	/**
 	 * constructor
-	 * @param view Euclidian view
+	 * 
+	 * @param view
+	 *            Euclidian view
 	 */
 	public GeneralPathClippedForCurvePlotter(EuclidianViewInterfaceSlim view) {
 		super(view);
 	}
-	
-	public void lineTo(double[] pos){
+
+	public void lineTo(double[] pos) {
 		drawTo(pos, true);
 	}
 
-	public void moveTo(double[] pos){
+	public void moveTo(double[] pos) {
 		drawTo(pos, false);
 	}
-	
+
 	public void drawTo(double[] pos, boolean lineTo) {
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		drawTo(p[0], p[1], lineTo);
 	}
-	
+
 	private void drawTo(double x, double y, boolean lineTo) {
 		GPoint2D point = getCurrentPoint();
-
 
 		// no points in path yet
 		if (point == null) {
@@ -58,26 +61,20 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 			}
 
 		}
-		
-		
-	}
-	
-	
-	
-	
-	
 
-	public void corner(){
+	}
+
+	public void corner() {
 		MyPoint fp = firstPoint();
-		if (fp!=null){
-			corner(fp.x,fp.y);
+		if (fp != null) {
+			corner(fp.x, fp.y);
 			closePath();
 		}
 
 	}
 
 	public void corner(double[] pos) {
-		
+
 		double[] p = Cloner.clone(pos);
 		((EuclidianView) view).toScreenCoords(p);
 		corner(p[0], p[1]);
@@ -88,45 +85,43 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 		int w = view.getWidth();
 		int h = view.getHeight();
 		GPoint2D pt = getCurrentPoint();
-		if(pt==null){						
+		if (pt == null) {
 			return;
 		}
 		double x = pt.getX();
 		double y = pt.getY();
-		
 
-		if((x<0 && x0>w) || (x>w && x0<0)){
+		if ((x < 0 && x0 > w) || (x > w && x0 < 0)) {
 			drawTo(x, -10, true);
 			drawTo(x0, -10, true);
 			return;
 		}
-				
-		if((y<0 && y0>h)||(y>h && y0<0)){
-			drawTo(-10,y, true);
-			drawTo(-10,y0, true);
+
+		if ((y < 0 && y0 > h) || (y > h && y0 < 0)) {
+			drawTo(-10, y, true);
+			drawTo(-10, y0, true);
 			return;
 		}
-		
-		if((x>w || x<0) && (y0<0 || y0>h)){
-			drawTo(x,y0, true);
+
+		if ((x > w || x < 0) && (y0 < 0 || y0 > h)) {
+			drawTo(x, y0, true);
 			return;
 		}
-		
-		if((x0>w || x0<0) && (y<0 || y>h)){
-			drawTo(x0,y, true);
+
+		if ((x0 > w || x0 < 0) && (y < 0 || y > h)) {
+			drawTo(x0, y, true);
 			return;
 		}
-		
+
 	}
-	
-	
-	public void firstPoint(double pos[], Gap moveToAllowed){
-		
+
+	public void firstPoint(double pos[], Gap moveToAllowed) {
+
 		double[] p = Cloner.clone(pos);
-		((EuclidianView) view).toScreenCoords(p);	
+		((EuclidianView) view).toScreenCoords(p);
 		final double x0 = p[0];
 		final double y0 = p[1];
-		
+
 		// FIRST POINT
 		// c(t1) and c(t2) are defined, lets go ahead and move to our first
 		// point (x0, y0)
@@ -168,24 +163,21 @@ public class GeneralPathClippedForCurvePlotter extends GeneralPathClipped implem
 			drawTo(x0, y0, true);
 		}
 	}
-	
-	public double[] newDoubleArray(){
+
+	public double[] newDoubleArray() {
 		return new double[2];
 	}
 
-	public boolean copyCoords(MyPoint point, double[] ret){
-		
-		if (!Kernel.isZero(point.getZ())){
+	public boolean copyCoords(MyPoint point, double[] ret) {
+
+		if (!Kernel.isZero(point.getZ())) {
 			return false;
 		}
-		
+
 		ret[0] = point.x;
 		ret[1] = point.y;
-		
+
 		return true;
 	}
-
-	
-	
 
 }

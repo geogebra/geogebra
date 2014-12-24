@@ -26,9 +26,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 
-
-
-
 /**
  * Checkbox for free GeoBoolean object.
  * 
@@ -40,44 +37,49 @@ public final class DrawBoolean extends Drawable {
 
 	private boolean isVisible;
 
-	//private JCheckBox checkBox;
-	//private boolean hit = false;
+	// private JCheckBox checkBox;
+	// private boolean hit = false;
 	private String oldCaption;
-	//private BooleanCheckBoxListener cbl;
-	
-	private GPoint textSize = new GPoint(0,0);
-	
+	// private BooleanCheckBoxListener cbl;
+
+	private GPoint textSize = new GPoint(0, 0);
+
 	private CheckBoxIcon checkBoxIcon;
 
-	/** Creates new DrawText 
-	 * @param view view
-	 * @param geoBool boolean (checkbox)*/
+	/**
+	 * Creates new DrawText
+	 * 
+	 * @param view
+	 *            view
+	 * @param geoBool
+	 *            boolean (checkbox)
+	 */
 	public DrawBoolean(EuclidianView view, GeoBoolean geoBool) {
 		this.view = view;
 		this.geoBool = geoBool;
 		geo = geoBool;
-		
+
 		checkBoxIcon = new CheckBoxIcon(view);
-		
+
 		// action listener for checkBox
-		//cbl = new BooleanCheckBoxListener();
-		//checkBox = new JCheckBox();
-		//checkBox.addItemListener(cbl);
-		//checkBox.addMouseListener(cbl);
-		//checkBox.addMouseMotionListener(cbl);
-		//checkBox.setFocusable(false);
-		//checkBox.setVisible(false);
-		//view.add(checkBox);
-		
+		// cbl = new BooleanCheckBoxListener();
+		// checkBox = new JCheckBox();
+		// checkBox.addItemListener(cbl);
+		// checkBox.addMouseListener(cbl);
+		// checkBox.addMouseMotionListener(cbl);
+		// checkBox.setFocusable(false);
+		// checkBox.setVisible(false);
+		// view.add(checkBox);
+
 		update();
 	}
 
 	@Override
 	final public void update() {
 		isVisible = geo.isEuclidianVisible();
-		//checkBox.setVisible(isVisible);
-    	// return here, object is invisible, not just offscreen
-		if(!isVisible){
+		// checkBox.setVisible(isVisible);
+		// return here, object is invisible, not just offscreen
+		if (!isVisible) {
 			return;
 		}
 		updateStrokes(geoBool);
@@ -88,105 +90,103 @@ public final class DrawBoolean extends Drawable {
 			String caption = geoBool.getCaption(StringTemplate.defaultTemplate);
 			if (!caption.equals(oldCaption)) {
 				oldCaption = caption;
-				labelDesc = caption; //GeoElement.indicesToHTML(caption, true);
-			}	
-			//checkBox.setText(labelDesc);
+				labelDesc = caption; // GeoElement.indicesToHTML(caption, true);
+			}
+			// checkBox.setText(labelDesc);
 		} else {
 			// don't show label
 			oldCaption = "";
 			labelDesc = "";
-// Michael Borcherds 2007-10-18 BEGIN changed so that vertical position of checkbox doesn't change when label is shown/hidden
-//			checkBox.setText("");
-			//checkBox.setText(" ");
-// Michael Borcherds 2007-10-18 END
-		}			
-		
-		//checkBox.setOpaque(false);		
-		//checkBox.setFont(view.fontPoint);
-		//checkBox.setForeground(geoBool.getObjectColor());
-		
-		// set checkbox state		
-		//checkBox.removeItemListener(cbl);
-		//checkBox.setSelected(geoBool.getBoolean());
-		//checkBox.addItemListener(cbl);
-		
-		updateLabel();
-		
-		//checkBox.
+			// Michael Borcherds 2007-10-18 BEGIN changed so that vertical
+			// position of checkbox doesn't change when label is shown/hidden
+			// checkBox.setText("");
+			// checkBox.setText(" ");
+			// Michael Borcherds 2007-10-18 END
+		}
 
-		
-		
+		// checkBox.setOpaque(false);
+		// checkBox.setFont(view.fontPoint);
+		// checkBox.setForeground(geoBool.getObjectColor());
+
+		// set checkbox state
+		// checkBox.removeItemListener(cbl);
+		// checkBox.setSelected(geoBool.getBoolean());
+		// checkBox.addItemListener(cbl);
+
+		updateLabel();
+
+		// checkBox.
+
 	}
-	
+
 	private void updateLabel() {
 		xLabel = geo.labelOffsetX;
-		yLabel = geo.labelOffsetY;		
+		yLabel = geo.labelOffsetY;
 		int size = view.getBooleanSize();
-		GDimension prefSize = AwtFactory.prototype.newDimension(size + 12,size + 12);//checkBox.getPreferredSize();
-		labelRectangle.setBounds(xLabel, yLabel,
-				prefSize.getWidth() + ((textSize == null) ? 0 : textSize.x),
-				prefSize.getHeight());
-			
-		//checkBox.setBounds(labelRectangle);	
+		GDimension prefSize = AwtFactory.prototype.newDimension(size + 12,
+				size + 12);// checkBox.getPreferredSize();
+		labelRectangle.setBounds(xLabel, yLabel, prefSize.getWidth()
+				+ ((textSize == null) ? 0 : textSize.x), prefSize.getHeight());
+
+		// checkBox.setBounds(labelRectangle);
 	}
 
 	@Override
 	final public void draw(geogebra.common.awt.GGraphics2D g2) {
 
-		if (isVisible) {		
-			
+		if (isVisible) {
+
 			int size = view.getBooleanSize();
 
 			g2.setFont(view.getFontPoint());
-			g2.setStroke(EuclidianStatic.getDefaultStroke()); 
-			
-			checkBoxIcon.paintIcon(geoBool.getBoolean(), geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5, geoBool.labelOffsetY + 5);
-			
+			g2.setStroke(EuclidianStatic.getDefaultStroke());
+
+			checkBoxIcon.paintIcon(geoBool.getBoolean(),
+					geoBool.doHighlighting(), g2, geoBool.labelOffsetX + 5,
+					geoBool.labelOffsetY + 5);
+
 			g2.setPaint(geo.getObjectColor());
-			textSize = EuclidianStatic.drawIndexedString(view.getApplication(), g2, labelDesc, geoBool.labelOffsetX + size + 9, geoBool.labelOffsetY + (size + 9) / 2 + 5, false,false);
-			
+			textSize = EuclidianStatic.drawIndexedString(view.getApplication(),
+					g2, labelDesc, geoBool.labelOffsetX + size + 9,
+					geoBool.labelOffsetY + (size + 9) / 2 + 5, false, false);
+
 			updateLabel();
 		}
-			
-		/*
-		if (isVisible) {		
-			// the button is drawn as a swing component by the view
-			// They are Swing components and children of the view
 
-			// draw label rectangle
-			if (geo.doHighlighting()) {
-				g2.setStroke(objStroke);
-				g2.setPaint(Color.lightGray);
-				g2.draw(labelRectangle);
-				
-				Application.debug("highlight drawn");
-				checkBox.setBorder(BorderFactory.createEtchedBorder());
-			}				
-		}
-		*/
+		/*
+		 * if (isVisible) { // the button is drawn as a swing component by the
+		 * view // They are Swing components and children of the view
+		 * 
+		 * // draw label rectangle if (geo.doHighlighting()) {
+		 * g2.setStroke(objStroke); g2.setPaint(Color.lightGray);
+		 * g2.draw(labelRectangle);
+		 * 
+		 * Application.debug("highlight drawn");
+		 * checkBox.setBorder(BorderFactory.createEtchedBorder()); } }
+		 */
 	}
 
 	/**
 	 * Removes button from view again
 	 */
 	final public void remove() {
-		//view.remove(checkBox);
+		// view.remove(checkBox);
 	}
 
-    /**
-     * was this object clicked at? (mouse pointer
-     * location (x,y) in screen coords)
-     */
-    @Override
+	/**
+	 * was this object clicked at? (mouse pointer location (x,y) in screen
+	 * coords)
+	 */
+	@Override
 	final public boolean hit(int x, int y, int hitThreshold) {
-		return super.hitLabel(x, y);				      
-    }
-    
+		return super.hitLabel(x, y);
+	}
+
 	@Override
 	final public boolean isInside(GRectangle rect) {
 		return rect.contains(labelRectangle);
 	}
-	
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return rect.intersects(labelRectangle);
@@ -209,14 +209,15 @@ public final class DrawBoolean extends Drawable {
 	final public void setGeoElement(GeoElement geo) {
 		this.geo = geo;
 	}
-	
+
 	/**
 	 * Replcement for Swing component
+	 * 
 	 * @author Michael
 	 *
 	 */
 	public static class CheckBoxIcon {
-		
+
 		// Michael Borcherds 2008-05-11
 		// used this as an outline only:
 		// http://www.java2s.com/Open-Source/Java-Document/6.0-JDK-Modules-com.sun.java/swing/com/sun/java/swing/plaf/windows/WindowsIconFactory.java.htm
@@ -224,90 +225,100 @@ public final class DrawBoolean extends Drawable {
 		// option for double-size added
 		// replaced UIManager.getColor() with numbers from:
 		// http://www.java2s.com/Tutorial/Java/0240__Swing/ListingUIDefaultProperties.htm
-		
-		//int csize = 13;
-		
+
+		// int csize = 13;
+
 		private EuclidianView ev;
-		
-		/** background color when highlighted*/
-		public static GColor highlightBackground = AwtFactory.prototype.newColor(248, 248, 248);
-		
+
+		/** background color when highlighted */
+		public static GColor highlightBackground = AwtFactory.prototype
+				.newColor(248, 248, 248);
+
 		/**
 		 * Creates new checkbox icon
-		 * @param ev view
+		 * 
+		 * @param ev
+		 *            view
 		 */
-		public CheckBoxIcon(EuclidianView ev)
-		{
-			this.ev=ev;
+		public CheckBoxIcon(EuclidianView ev) {
+			this.ev = ev;
 		}
-		
-        /**
-         * Draws the checkbox on graphics
-         * @param checked true if checked
-         * @param highlighted true to highlight
-         * @param g graphics
-         * @param x x coordinate (left edge)
-         * @param y y coordinate (upper edge)
-         */
-        public void paintIcon(boolean checked, boolean highlighted, GGraphics2D g, int x, int y) {
 
-            
-            int csize = ev.getBooleanSize();
-            
-            {
-                // outer bevel
-                if (true) {               	
-                	// Draw rounded border
-                	g.setColor(AwtFactory.prototype.newColor(220, 220, 220));
-                	g.drawRoundRect(x, y, csize, csize, csize/5, csize/5);
-                	
-                	// Draw rectangle with rounded borders
-                	if (highlighted) {
-                        g.setColor(highlightBackground);
-                    } else {
-                        g.setColor(GColor.white);
-                    }
-                    g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2, csize/5, csize/5);
-                } 
+		/**
+		 * Draws the checkbox on graphics
+		 * 
+		 * @param checked
+		 *            true if checked
+		 * @param highlighted
+		 *            true to highlight
+		 * @param g
+		 *            graphics
+		 * @param x
+		 *            x coordinate (left edge)
+		 * @param y
+		 *            y coordinate (upper edge)
+		 */
+		public void paintIcon(boolean checked, boolean highlighted,
+				GGraphics2D g, int x, int y) {
 
-                g.setColor(AwtFactory.prototype.newColor(102, 102, 102));
+			int csize = ev.getBooleanSize();
 
-                // paint check
-                
-                if (checked) {
-                  if (csize == 13)
-                  {
-                	  g.setStroke(AwtFactory.prototype.newBasicStroke(2f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
-                	  g.drawLine(x + 2, y + 7, x + 5, y + 10);
-                	  g.drawLine(x + 5, y + 10, x + 10, y + 3);
-                    
-                  }
-                  else
-                  { // csize == 26              	  
-                	  g.setStroke(AwtFactory.prototype.newBasicStroke(4f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND));
-                	  g.drawLine(x + 5, y + 15, x + 10, y + 20);
-                	  g.drawLine(x + 10, y + 20, x + 20, y + 6);
-                	  
-                  }
-                }
-            }
-        }
+			{
+				// outer bevel
+				if (true) {
+					// Draw rounded border
+					g.setColor(AwtFactory.prototype.newColor(220, 220, 220));
+					g.drawRoundRect(x, y, csize, csize, csize / 5, csize / 5);
 
-        /**
-         * @return checkbox width
-         */
-        public int getIconWidth() {
-     
-                return ev.getBooleanSize();
-           
-        }
+					// Draw rectangle with rounded borders
+					if (highlighted) {
+						g.setColor(highlightBackground);
+					} else {
+						g.setColor(GColor.white);
+					}
+					g.fillRoundRect(x + 1, y + 1, csize - 2, csize - 2,
+							csize / 5, csize / 5);
+				}
 
-        /**
-         * @return checkbox height
-         */
-        public int getIconHeight() {
-                return ev.getBooleanSize();
-            
-        }
-    }
+				g.setColor(AwtFactory.prototype.newColor(102, 102, 102));
+
+				// paint check
+
+				if (checked) {
+					if (csize == 13) {
+						g.setStroke(AwtFactory.prototype
+								.newBasicStroke(2f, GBasicStroke.CAP_ROUND,
+										GBasicStroke.JOIN_ROUND));
+						g.drawLine(x + 2, y + 7, x + 5, y + 10);
+						g.drawLine(x + 5, y + 10, x + 10, y + 3);
+
+					} else { // csize == 26
+						g.setStroke(AwtFactory.prototype
+								.newBasicStroke(4f, GBasicStroke.CAP_ROUND,
+										GBasicStroke.JOIN_ROUND));
+						g.drawLine(x + 5, y + 15, x + 10, y + 20);
+						g.drawLine(x + 10, y + 20, x + 20, y + 6);
+
+					}
+				}
+			}
+		}
+
+		/**
+		 * @return checkbox width
+		 */
+		public int getIconWidth() {
+
+			return ev.getBooleanSize();
+
+		}
+
+		/**
+		 * @return checkbox height
+		 */
+		public int getIconHeight() {
+			return ev.getBooleanSize();
+
+		}
 	}
+}

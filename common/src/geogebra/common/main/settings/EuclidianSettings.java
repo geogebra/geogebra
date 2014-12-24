@@ -17,7 +17,7 @@ import geogebra.common.util.Unicode;
  * is determined in {@link Settings}.
  */
 public class EuclidianSettings extends AbstractSettings {
-	public static final int[] DELETE_SIZES = {20, 40, 80};
+	public static final int[] DELETE_SIZES = { 20, 40, 80 };
 
 	/**
 	 * Color of the euclidian view's background.
@@ -64,7 +64,7 @@ public class EuclidianSettings extends AbstractSettings {
 		this.euclidianSettings1 = euclidianSettings1;
 		xZero = EuclidianView.XZERO_STANDARD;
 		yZero = EuclidianView.YZERO_STANDARD;
-		preferredSize = AwtFactory.prototype.newDimension(0,0);
+		preferredSize = AwtFactory.prototype.newDimension(0, 0);
 		resetNoFire();
 	}
 
@@ -80,13 +80,14 @@ public class EuclidianSettings extends AbstractSettings {
 
 	private void resetNoFire() {
 		gridDistances = null;
-		axisNumberingDistances = new double[]{ Double.NaN, Double.NaN, Double.NaN};
-		
+		axisNumberingDistances = new double[] { Double.NaN, Double.NaN,
+				Double.NaN };
+
 		xminObject = null;
 		xmaxObject = null;
 		yminObject = null;
 		ymaxObject = null;
-		
+
 		setGridLineStyle(EuclidianStyleConstants.LINE_TYPE_DASHED_SHORT);
 		setAxesLineStyle(EuclidianStyleConstants.AXES_LINE_TYPE_ARROW);
 		setAxesColor(GColor.black); // Michael Borcherds 2008-01-26 was darkgray
@@ -285,12 +286,13 @@ public class EuclidianSettings extends AbstractSettings {
 	protected int[] axesTickStyles = {
 			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
 			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR,
-			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR};
+			EuclidianStyleConstants.AXES_TICK_STYLE_MAJOR };
 
 	// for axes labeling with numbers
 	protected boolean[] automaticAxesNumberingDistances = { true, true, true };
 
-	protected double axisNumberingDistances[] = new double[] { Double.NaN, Double.NaN, Double.NaN};
+	protected double axisNumberingDistances[] = new double[] { Double.NaN,
+			Double.NaN, Double.NaN };
 
 	// distances between grid lines
 	protected boolean automaticGridDistance = true;
@@ -298,7 +300,7 @@ public class EuclidianSettings extends AbstractSettings {
 	protected double xZero;
 
 	protected double yZero;
-	
+
 	private double xscale = EuclidianView.SCALE_STANDARD;
 
 	private double yscale = EuclidianView.SCALE_STANDARD;
@@ -320,8 +322,6 @@ public class EuclidianSettings extends AbstractSettings {
 	private Double lockedAxesRatio = null;
 
 	private int deleteToolSize = EuclidianConstants.DEFAULT_ERASER_SIZE;
-
-
 
 	public boolean getAllowShowMouseCoords() {
 		return allowShowMouseCoords;
@@ -370,8 +370,9 @@ public class EuclidianSettings extends AbstractSettings {
 		if ((axisLabel == null) || (axisLabel.length() == 0)) {
 			changed = axesLabels[axis] != null;
 			axesLabels[axis] = null;
-		} else  {
-			changed = axesLabels[axis] != null ? !axesLabels[axis].equals(axisLabel): true;
+		} else {
+			changed = axesLabels[axis] != null ? !axesLabels[axis]
+					.equals(axisLabel) : true;
 			changed = !axisLabel.equals(axesLabels[axis]);
 			axesLabels[axis] = axisLabel;
 		}
@@ -420,11 +421,10 @@ public class EuclidianSettings extends AbstractSettings {
 	public double getAxisNumberingDistanceY() {
 		return axisNumberingDistances[1];
 	}
-	
+
 	public double getAxisNumberingDistance(int i) {
 		return axisNumberingDistances[i];
 	}
-
 
 	/**
 	 * 
@@ -451,7 +451,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		settingChanged();
 	}
-	
+
 	public void setAxisNumberingDistance(int i, double dist) {
 
 		axisNumberingDistances[i] = dist;
@@ -463,7 +463,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setAutomaticAxesNumberingDistance(boolean flag, int axis,
 			boolean callsc) {
-		
+
 		if (automaticAxesNumberingDistances[axis] != flag) {
 			automaticAxesNumberingDistances[axis] = flag;
 
@@ -613,7 +613,6 @@ public class EuclidianSettings extends AbstractSettings {
 	public double getYZero() {
 		return yZero;
 	}
-	
 
 	/**
 	 * Returns xscale of this view. The scale is the number of pixels in screen
@@ -631,18 +630,18 @@ public class EuclidianSettings extends AbstractSettings {
 		return yscale;
 	}
 
-	public boolean hasDynamicBounds(){
-		return xminObject!=null && yminObject!=null && xmaxObject!=null && ymaxObject!=null;
+	public boolean hasDynamicBounds() {
+		return xminObject != null && yminObject != null && xmaxObject != null
+				&& ymaxObject != null;
 	}
+
 	public void setCoordSystem(double xZero, double yZero, double xscale,
 			double yscale) {
-		if (Double.isNaN(xscale)
-				|| (xscale < Kernel.MAX_DOUBLE_PRECISION)
+		if (Double.isNaN(xscale) || (xscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (xscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
-		if (Double.isNaN(yscale)
-				|| (yscale < Kernel.MAX_DOUBLE_PRECISION)
+		if (Double.isNaN(yscale) || (yscale < Kernel.MAX_DOUBLE_PRECISION)
 				|| (yscale > Kernel.INV_MAX_DOUBLE_PRECISION)) {
 			return;
 		}
@@ -675,7 +674,7 @@ public class EuclidianSettings extends AbstractSettings {
 	public boolean setShowAxes(boolean x, boolean y) {
 		boolean changedX = this.setShowAxis(0, x);
 		return this.setShowAxis(1, y) || changedX;
-		//settingChanged() is called from those above
+		// settingChanged() is called from those above
 
 	}
 
@@ -683,7 +682,7 @@ public class EuclidianSettings extends AbstractSettings {
 		boolean changed = this.setShowAxis(0, flag);
 		changed = this.setShowAxis(1, flag) || changed;
 		return this.setShowAxis(2, flag) || changed;
-		//settingChanged() is called from those above
+		// settingChanged() is called from those above
 
 	}
 
@@ -695,8 +694,8 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 		return true;
 	}
-	
-	public void setShowGridSetting(boolean show){
+
+	public void setShowGridSetting(boolean show) {
 		showGrid = show;
 	}
 
@@ -769,7 +768,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 	public void setDrawBorderAxes(int axis, boolean value) {
 		if ((axis == 0) || (axis == 1)) {
-			if(drawBorderAxes[axis] == value)
+			if (drawBorderAxes[axis] == value)
 				return;
 			drawBorderAxes[axis] = value;
 			settingChanged();
@@ -781,20 +780,20 @@ public class EuclidianSettings extends AbstractSettings {
 	}
 
 	public void setLockedAxesRatio(double ratio) {
-		if(lockedAxesRatio == ratio)
+		if (lockedAxesRatio == ratio)
 			return;
 		lockedAxesRatio = ratio;
 		settingChanged();
 	}
-	
-	public Double getLockedAxesRatio(){
+
+	public Double getLockedAxesRatio() {
 		return lockedAxesRatio;
 	}
-	
+
 	public void setBoldAxes(boolean bold) {
 		int oldAxesLineStyle = axesLineStyle;
 		axesLineStyle = EuclidianView.getBoldAxes(bold, axesLineStyle);
-		
+
 		if (oldAxesLineStyle != axesLineStyle) {
 			settingChanged();
 		}
@@ -803,13 +802,12 @@ public class EuclidianSettings extends AbstractSettings {
 	public int getDeleteToolSize() {
 		return this.deleteToolSize;
 	}
-	
+
 	public void setDeleteToolSize(int size) {
 		this.deleteToolSize = size;
 	}
 
-	
-	public void addAxisXML(int i, StringBuilder sbxml){
+	public void addAxisXML(int i, StringBuilder sbxml) {
 		sbxml.append("\t<axis id=\"");
 		sbxml.append(i);
 		sbxml.append("\" show=\"");
@@ -851,7 +849,7 @@ public class EuclidianSettings extends AbstractSettings {
 
 		sbxml.append("\"/>\n");
 	}
-	
+
 	/**
 	 * Returns axis label including &lt;b> and &lt;i>
 	 * 
@@ -863,27 +861,25 @@ public class EuclidianSettings extends AbstractSettings {
 		return axesLabels[i];
 	}
 
-
-
 	public void setXscale(double scale) {
-		if (this.xscale != scale){
+		if (this.xscale != scale) {
 			this.xscale = scale;
 			settingChanged();
 		}
 	}
 
 	public void setYscale(double scale) {
-		if (this.yscale != scale){
+		if (this.yscale != scale) {
 			this.yscale = scale;
 			settingChanged();
 		}
-		
+
 	}
 
 	/**
 	 * @return if it's about 3D
 	 */
-	public boolean is3D(){
+	public boolean is3D() {
 		return false;
 	}
 

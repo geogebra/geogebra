@@ -40,7 +40,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 
-
 /**
  * 
  * @author Markus
@@ -52,13 +51,14 @@ public final class DrawPoint extends Drawable {
 
 	// used by getSelectionDiamaterMin()
 	private static final int SELECTION_RADIUS_MIN = 12;
-	
+
 	/**
 	 * 
-	 * @param threshold controller threshold
+	 * @param threshold
+	 *            controller threshold
 	 * @return distance threshold to select a point
 	 */
-	public static final int getSelectionThreshold(int threshold){
+	public static final int getSelectionThreshold(int threshold) {
 		return threshold + SELECTION_RADIUS_MIN;
 	}
 
@@ -67,8 +67,10 @@ public final class DrawPoint extends Drawable {
 	private int diameter, hightlightDiameter, pointSize;
 	private boolean isVisible, labelVisible;
 	// for dot and selection
-	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
-	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype.newEllipse2DDouble();
+	private geogebra.common.awt.GEllipse2DDouble circle = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
+	private geogebra.common.awt.GEllipse2DDouble circleHighlight = geogebra.common.factories.AwtFactory.prototype
+			.newEllipse2DDouble();
 	private geogebra.common.awt.GLine2D line1, line2, line3, line4;// for cross
 	private geogebra.common.awt.GGeneralPath gp = null;
 
@@ -84,8 +86,10 @@ public final class DrawPoint extends Drawable {
 	/**
 	 * Creates new DrawPoint
 	 * 
-	 * @param view view
-	 * @param P point to be drawn
+	 * @param view
+	 *            view
+	 * @param P
+	 *            point to be drawn
 	 */
 	public DrawPoint(EuclidianView view, GeoPointND P) {
 		this(view, P, false);
@@ -94,9 +98,12 @@ public final class DrawPoint extends Drawable {
 	/**
 	 * Creates new DrawPoint
 	 * 
-	 * @param view View
-	 * @param P point to be drawn
-	 * @param isPreview true iff preview
+	 * @param view
+	 *            View
+	 * @param P
+	 *            point to be drawn
+	 * @param isPreview
+	 *            true iff preview
 	 */
 	public DrawPoint(EuclidianView view, GeoPointND P, boolean isPreview) {
 		this.view = view;
@@ -110,10 +117,9 @@ public final class DrawPoint extends Drawable {
 
 		update();
 	}
-	
-		
 
 	private double[] coords1 = new double[2];
+
 	@Override
 	final public void update() {
 
@@ -123,7 +129,6 @@ public final class DrawPoint extends Drawable {
 
 		isVisible = geo.isEuclidianVisible();
 
-		
 		if (isPreview) {
 			Coords p = P.getInhomCoordsInD2();
 			coords1[0] = p.getX();
@@ -138,20 +143,21 @@ public final class DrawPoint extends Drawable {
 				coords1[1] = p.getY();
 			}
 		}
-		
+
 		// trace to spreadsheet is no longer bound to EV
 		if (!isVisible)
 			return;
 
-		
 		update(coords1);
 	}
-	
+
 	/**
 	 * update regarding coords values
-	 * @param coords2 (x,y) real world coords
+	 * 
+	 * @param coords2
+	 *            (x,y) real world coords
 	 */
-	final public void update(double[] coords2){
+	final public void update(double[] coords2) {
 
 		isVisible = true;
 		labelVisible = geo.isLabelVisible();
@@ -178,8 +184,6 @@ public final class DrawPoint extends Drawable {
 
 		double xUL = (coords[0] - pointSize);
 		double yUL = (coords[1] - pointSize);
-		
-		
 
 		// Florian Sonner 2008-07-17
 		int pointStyle = P.getPointStyle();
@@ -253,12 +257,16 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
-				line2 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line1 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
+				line2 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
 			}
 			if (line3 == null) {
-				line3 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
-				line4 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line3 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
+				line4 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, xUL, (yB + yUL) / 2);
 			line2.setLine(xUL, (yB + yUL) / 2, (xUL + xR) / 2, yB);
@@ -271,8 +279,10 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
-				line2 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line1 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
+				line2 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
 			}
 			line1.setLine((xUL + xR) / 2, yUL, (xUL + xR) / 2, yB);
 			line2.setLine(xUL, (yB + yUL) / 2, xR, (yB + yUL) / 2);
@@ -283,8 +293,10 @@ public final class DrawPoint extends Drawable {
 			yB = coords[1] + pointSize;
 
 			if (line1 == null) {
-				line1 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
-				line2 = geogebra.common.factories.AwtFactory.prototype.newLine2D();
+				line1 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
+				line2 = geogebra.common.factories.AwtFactory.prototype
+						.newLine2D();
 			}
 			line1.setLine(xUL, yUL, xR, yB);
 			line2.setLine(xUL, yB, xR, yUL);
@@ -304,8 +316,6 @@ public final class DrawPoint extends Drawable {
 		circleHighlight.setFrame(xUL - HIGHLIGHT_OFFSET,
 				yUL - HIGHLIGHT_OFFSET, hightlightDiameter, hightlightDiameter);
 
-
-
 		// draw trace
 		if (P.getTrace()) {
 			isTracing = true;
@@ -315,7 +325,7 @@ public final class DrawPoint extends Drawable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				//view.updateBackground();
+				// view.updateBackground();
 			}
 		}
 
@@ -337,7 +347,8 @@ public final class DrawPoint extends Drawable {
 
 	private Drawable drawable;
 
-	private void drawClippedSection(GeoElement geo2, geogebra.common.awt.GGraphics2D g2) {
+	private void drawClippedSection(GeoElement geo2,
+			geogebra.common.awt.GGraphics2D g2) {
 
 		switch (geo2.getGeoClassType()) {
 		case LINE:
@@ -373,9 +384,9 @@ public final class DrawPoint extends Drawable {
 
 			view.toScreenCoords(coords1);
 
-			geogebra.common.awt.GEllipse2DFloat circleClip = 
-					geogebra.common.factories.AwtFactory.prototype.newEllipse2DFloat((int) coords1[0] - 30,
-					(int) coords1[1] - 30, 60, 60);
+			geogebra.common.awt.GEllipse2DFloat circleClip = geogebra.common.factories.AwtFactory.prototype
+					.newEllipse2DFloat((int) coords1[0] - 30,
+							(int) coords1[1] - 30, 60, 60);
 			g2.clip(circleClip);
 			geo2.forceEuclidianVisible(true);
 			drawable.update();
@@ -474,8 +485,7 @@ public final class DrawPoint extends Drawable {
 	}
 
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 
 		// Florian Sonner 2008-07-17
@@ -502,16 +512,16 @@ public final class DrawPoint extends Drawable {
 		int r = getSelectionThreshold(hitThreshold);
 		double dx = coords[0] - x;
 		double dy = coords[1] - y;
-		return dx < r && dx > -r && dx*dx + dy*dy <= r * r;
+		return dx < r && dx > -r && dx * dx + dy * dy <= r * r;
 	}
 
 	@Override
 	final public boolean isInside(geogebra.common.awt.GRectangle rect) {
 		return rect.contains(circle.getBounds());
 	}
-	
+
 	@Override
-	public boolean intersectsRectangle(GRectangle rect){
+	public boolean intersectsRectangle(GRectangle rect) {
 		return circle.intersects(rect);
 	}
 
@@ -526,13 +536,15 @@ public final class DrawPoint extends Drawable {
 		}
 
 		int selRadius = pointSize + HIGHLIGHT_OFFSET;
-		int minRadius = view.getApplication().getCapturingThreshold(PointerEventType.MOUSE) + SELECTION_RADIUS_MIN;
-		if (selRadius < minRadius){
+		int minRadius = view.getApplication().getCapturingThreshold(
+				PointerEventType.MOUSE)
+				+ SELECTION_RADIUS_MIN;
+		if (selRadius < minRadius) {
 			selRadius = minRadius;
 		}
 
-		return AwtFactory.prototype.newRectangle((int)coords[0] - selRadius, (int)coords[1] - selRadius,
-				2 * selRadius, 2 * selRadius);
+		return AwtFactory.prototype.newRectangle((int) coords[0] - selRadius,
+				(int) coords[1] - selRadius, 2 * selRadius, 2 * selRadius);
 	}
 
 	@Override
@@ -547,40 +559,43 @@ public final class DrawPoint extends Drawable {
 
 	/*
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
-	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
-	 * see #1699
+	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
-	final private static geogebra.common.awt.GBasicStroke getEmptyStroke(int pointSize) {
+	final private static geogebra.common.awt.GBasicStroke getEmptyStroke(
+			int pointSize) {
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
 
 		if (emptyStrokes[pointSize] == null)
-			emptyStrokes[pointSize] = AwtFactory.prototype.newBasicStrokeJoinMitre(pointSize / 2f);
+			emptyStrokes[pointSize] = AwtFactory.prototype
+					.newBasicStrokeJoinMitre(pointSize / 2f);
 
 		return emptyStrokes[pointSize];
 	}
 
 	/*
 	 * pointSize can be more than 9 (set from JavaScript, SetPointSize[])
-	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT
-	 * see #1699
+	 * CAP_BUTT, JOIN_MITER behaves differently on JRE & GWT see #1699
 	 */
-	final private static geogebra.common.awt.GBasicStroke getFillStroke(int pointSize) {
+	final private static geogebra.common.awt.GBasicStroke getFillStroke(
+			int pointSize) {
 
 		if (pointSize > 9)
 			return AwtFactory.prototype.newBasicStroke(pointSize / 2f);
 
 		if (fillStrokes[pointSize] == null)
-			fillStrokes[pointSize] = AwtFactory.prototype.newBasicStroke(pointSize / 2f);
+			fillStrokes[pointSize] = AwtFactory.prototype
+					.newBasicStroke(pointSize / 2f);
 
 		return fillStrokes[pointSize];
 	}
 
 	/**
-	 * @param pointType point style
+	 * @param pointType
+	 *            point style
 	 */
 	public void setPointStyle(int pointType) {
-		if(pointType == this.P.getPointStyle()){
+		if (pointType == this.P.getPointStyle()) {
 			return;
 		}
 		P.setPointStyle(pointType);

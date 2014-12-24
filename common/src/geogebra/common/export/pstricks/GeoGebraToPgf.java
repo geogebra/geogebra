@@ -481,11 +481,11 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		// between a and b
 		double a = algo.getA().getDouble();
 		double b = algo.getB().getDouble();
-		if (a==Double.NEGATIVE_INFINITY){
-			a=xmin;
+		if (a == Double.NEGATIVE_INFINITY) {
+			a = xmin;
 		}
-		if (b==Double.POSITIVE_INFINITY){
-			b=xmax;
+		if (b == Double.POSITIVE_INFINITY) {
+			b = xmax;
 		}
 		String value = f.toValueString(getStringTemplate());
 		value = killSpace(StringUtil.toLaTeXString(value, true));
@@ -1425,7 +1425,6 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		sb.append(lineBuilder.toString() + close + cycle);
 	}
 
-
 	@Override
 	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
 		// \parametricplot[algebraic=true,linecolor=red]
@@ -1448,9 +1447,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		String fy = geo.getFunY(getStringTemplate());
 		fy = killSpace(StringUtil.toLaTeXString(fy, true));
 		fy = fy.replaceAll("\\^", "**");
-		//It seems that only for the parametric curve are not required grades
-		fx=fx.replaceAll("\\*180/pi", "");
-		fy=fy.replaceAll("\\*180/pi", "");
+		// It seems that only for the parametric curve are not required grades
+		fx = fx.replaceAll("\\*180/pi", "");
+		fy = fy.replaceAll("\\*180/pi", "");
 		String variable = geo.getVarString(getStringTemplate());
 		boolean warning = !(variable.equals("t"));
 		if (warning)

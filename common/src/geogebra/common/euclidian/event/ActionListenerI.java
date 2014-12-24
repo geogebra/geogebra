@@ -2,6 +2,7 @@ package geogebra.common.euclidian.event;
 
 /**
  * Interface for listener class wrapped by ActionListener
+ * 
  * @author judit
  */
 public interface ActionListenerI {

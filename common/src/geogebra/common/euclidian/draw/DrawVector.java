@@ -58,9 +58,14 @@ public class DrawVector extends Drawable implements Previewable {
 	private boolean arrowheadVisible, lineVisible;
 	private ArrayList<GeoPointND> points;
 
-	/** Creates new DrawVector 
-	 * @param view view
-	 * @param v vector*/
+	/**
+	 * Creates new DrawVector
+	 * 
+	 * @param view
+	 *            view
+	 * @param v
+	 *            vector
+	 */
 	public DrawVector(EuclidianView view, GeoVectorND v) {
 		this.view = view;
 		this.v = v;
@@ -70,13 +75,16 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	/**
-	 * @param view view
-	 * @param points start point and end point
+	 * @param view
+	 *            view
+	 * @param points
+	 *            start point and end point
 	 */
 	public DrawVector(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
-		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_VECTOR);
+		geo = view.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_VECTOR);
 		updatePreview();
 	}
 
@@ -131,8 +139,6 @@ public class DrawVector extends Drawable implements Previewable {
 			addLabelOffset();
 		}
 
-
-
 		// draw trace
 		// a vector is a Locateable and it might
 		// happen that there are several update() calls
@@ -144,7 +150,7 @@ public class DrawVector extends Drawable implements Previewable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				//view.updateBackground();
+				// view.updateBackground();
 			}
 		}
 	}
@@ -162,17 +168,16 @@ public class DrawVector extends Drawable implements Previewable {
 		// calculate endpoint F at base of arrow
 
 		// changed to make arrow-heads a bit bigger for line thickness 8-13
-		double factor = lineThickness < 8 ?
-				12.0 + lineThickness :
-				3 * lineThickness;
+		double factor = lineThickness < 8 ? 12.0 + lineThickness
+				: 3 * lineThickness;
 
-		double length = MyMath.length(coordsV[0],coordsV[1]);
-		
+		double length = MyMath.length(coordsV[0], coordsV[1]);
+
 		// decrease arrowhead size if it's longer than the vector
 		if (length < factor) {
 			factor = length;
 		}
-		
+
 		if (length > 0.0) {
 			coordsV[0] = (coordsV[0] * factor) / length;
 			coordsV[1] = (coordsV[1] * factor) / length;
@@ -192,8 +197,8 @@ public class DrawVector extends Drawable implements Previewable {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
 			// check if any of vector is on-screen
-			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
-					coordsA[1], coordsB[0], coordsB[1],
+			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+					coordsA[0], coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
 					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
@@ -211,8 +216,9 @@ public class DrawVector extends Drawable implements Previewable {
 						-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
 								+ EuclidianStatic.CLIP_DISTANCE);
 				if (clippedPoints != null)
-					line.setLine(clippedPoints[0].getX(), clippedPoints[0].getY(),
-							clippedPoints[1].getX(), clippedPoints[1].getY());
+					line.setLine(clippedPoints[0].getX(),
+							clippedPoints[0].getY(), clippedPoints[1].getX(),
+							clippedPoints[1].getY());
 				else
 					lineVisible = false;
 			}
@@ -248,21 +254,20 @@ public class DrawVector extends Drawable implements Previewable {
 		if (isVisible) {
 			if (traceDrawingNeeded) {
 				traceDrawingNeeded = false;
-				geogebra.common.awt.GGraphics2D g2d = view.getBackgroundGraphics();
+				geogebra.common.awt.GGraphics2D g2d = view
+						.getBackgroundGraphics();
 				if (g2d != null)
 					drawTrace(g2d);
 			}
 
 			if (geo.doHighlighting()) {
-				g2.setPaint(((GeoElement) v)
-						.getSelColor());
+				g2.setPaint(((GeoElement) v).getSelColor());
 				g2.setStroke(selStroke);
 				if (lineVisible)
 					g2.draw(line);
 			}
 
-			g2.setPaint(((GeoElement) v)
-					.getObjectColor());
+			g2.setPaint(((GeoElement) v).getObjectColor());
 			g2.setStroke(objStroke);
 			if (lineVisible)
 				g2.draw(line);
@@ -271,18 +276,15 @@ public class DrawVector extends Drawable implements Previewable {
 
 			if (labelVisible) {
 				g2.setFont(view.getFontVector());
-				g2.setPaint(((GeoElement) v)
-						.getLabelColor());
+				g2.setPaint(((GeoElement) v).getLabelColor());
 				drawLabel(g2);
 			}
 		}
 	}
 
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
-		g2.setPaint(((GeoElement) v)
-				.getObjectColor());
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+		g2.setPaint(((GeoElement) v).getObjectColor());
 		g2.setStroke(objStroke);
 		if (lineVisible)
 			g2.draw(line);
@@ -304,8 +306,8 @@ public class DrawVector extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.GPoint2D endPoint = 
-			geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype
+			.newPoint2D();
 
 	final public void updateMousePos(double xRWmouse, double yRWmouse) {
 		double xRW = xRWmouse;
@@ -348,9 +350,9 @@ public class DrawVector extends Drawable implements Previewable {
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
 		if (isVisible) {
-            g2.setPaint(geo.getObjectColor());
-            updateStrokes(geo);
-            g2.setStroke(objStroke);  
+			g2.setPaint(geo.getObjectColor());
+			updateStrokes(geo);
+			g2.setStroke(objStroke);
 			if (arrowheadVisible)
 				g2.fill(gp);
 			if (lineVisible)
@@ -359,7 +361,7 @@ public class DrawVector extends Drawable implements Previewable {
 	}
 
 	public void disposePreview() {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -373,8 +375,6 @@ public class DrawVector extends Drawable implements Previewable {
 		return (lineVisible && rect.contains(line.getBounds()))
 				|| (arrowheadVisible && rect.contains(gp.getBounds()));
 	}
-	
-	
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
@@ -404,8 +404,9 @@ public class DrawVector extends Drawable implements Previewable {
 			ret = line.getBounds();
 
 		if (arrowheadVisible)
-			ret = (ret == null) ? AwtFactory.prototype.newRectangle(gp.getBounds()):
-		AwtFactory.prototype.newRectangle(ret.union(gp.getBounds()));
+			ret = (ret == null) ? AwtFactory.prototype.newRectangle(gp
+					.getBounds()) : AwtFactory.prototype.newRectangle(ret
+					.union(gp.getBounds()));
 
 		return ret;
 	}

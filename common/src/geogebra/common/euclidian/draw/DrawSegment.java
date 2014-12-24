@@ -82,8 +82,9 @@ public class DrawSegment extends Drawable implements Previewable {
 	public DrawSegment(EuclidianView view, ArrayList<GeoPointND> points) {
 		this.view = view;
 		this.points = points;
-		
-		geo = view.getKernel().getConstruction().getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT);
+
+		geo = view.getKernel().getConstruction().getConstructionDefaults()
+				.getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT);
 
 		updatePreview();
 	}
@@ -93,7 +94,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		isVisible = geo.isEuclidianVisible();
 		if (!isVisible)
 			return;
-		
+
 		Coords A = view.getCoordsForView(s.getStartInhomCoords());
 		// check if in view
 		if (!Kernel.isZero(A.getZ())) {
@@ -106,17 +107,20 @@ public class DrawSegment extends Drawable implements Previewable {
 			isVisible = false;
 			return;
 		}
-		
+
 		update(A, B);
 	}
-		
+
 	/**
 	 * update with A, B for end points
-	 * @param A end point
-	 * @param B end point
+	 * 
+	 * @param A
+	 *            end point
+	 * @param B
+	 *            end point
 	 */
 	final public void update(Coords A, Coords B) {
-		
+
 		labelVisible = geo.isLabelVisible();
 		updateStrokes(geo);
 
@@ -137,8 +141,8 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			// A or B off screen
 			// clip at screen, that's important for huge coordinates
-			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(coordsA[0],
-					coordsA[1], coordsB[0], coordsB[1],
+			geogebra.common.awt.GPoint2D[] clippedPoints = ClipLine.getClipped(
+					coordsA[0], coordsA[1], coordsB[0], coordsB[1],
 					-EuclidianStatic.CLIP_DISTANCE, view.getWidth()
 							+ EuclidianStatic.CLIP_DISTANCE,
 					-EuclidianStatic.CLIP_DISTANCE, view.getHeight()
@@ -160,7 +164,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		} else {
 			if (isTracing) {
 				isTracing = false;
-				//view.updateBackground();
+				// view.updateBackground();
 			}
 		}
 
@@ -195,7 +199,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
 				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
-													// changed from 3 to 6
+											// changed from 3 to 6
 				for (int i = 0; i < decoTicks.length; i++)
 					decoTicks[i] = AwtFactory.prototype.newLine2D();
 			}
@@ -343,8 +347,7 @@ public class DrawSegment extends Drawable implements Previewable {
 
 		if (isVisible) {
 			if (geo.doHighlighting()) {
-				g2.setPaint(
-						geo.getSelColor());
+				g2.setPaint(geo.getSelColor());
 				g2.setStroke(selStroke);
 				g2.draw(line);
 			}
@@ -354,8 +357,9 @@ public class DrawSegment extends Drawable implements Previewable {
 			g2.draw(line);
 
 			// added by Lo�c BEGIN
-			//decoTicks is null for zero length segments
-			if (geo.decorationType != GeoElement.DECORATION_NONE && decoTicks!=null) {
+			// decoTicks is null for zero length segments
+			if (geo.decorationType != GeoElement.DECORATION_NONE
+					&& decoTicks != null) {
 				g2.setStroke(decoStroke);
 
 				switch (geo.decorationType) {
@@ -400,8 +404,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			// END
 
 			if (labelVisible) {
-				g2.setPaint(
-						geo.getLabelColor());
+				g2.setPaint(geo.getLabelColor());
 				g2.setFont(view.getFontLine());
 				drawLabel(g2);
 			}
@@ -409,8 +412,7 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	@Override
-	protected
-	final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
+	protected final void drawTrace(geogebra.common.awt.GGraphics2D g2) {
 		g2.setPaint(geo.getObjectColor());
 		g2.setStroke(objStroke);
 		g2.draw(line);
@@ -432,7 +434,8 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 	}
 
-	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype.newPoint2D();
+	private geogebra.common.awt.GPoint2D endPoint = geogebra.common.factories.AwtFactory.prototype
+			.newPoint2D();
 
 	final public void updateMousePos(double mouseRWx, double mouseRWy) {
 		double xRW = mouseRWx;
@@ -472,16 +475,16 @@ public class DrawSegment extends Drawable implements Previewable {
 	}
 
 	final public void drawPreview(geogebra.common.awt.GGraphics2D g2) {
-		if (isVisible) {    
-            g2.setPaint(geo.getObjectColor());
-            updateStrokes(geo);
-            g2.setStroke(objStroke);            
-			g2.draw(line); 
+		if (isVisible) {
+			g2.setPaint(geo.getObjectColor());
+			updateStrokes(geo);
+			g2.setStroke(objStroke);
+			g2.draw(line);
 		}
 	}
 
 	public void disposePreview() {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -496,7 +499,7 @@ public class DrawSegment extends Drawable implements Previewable {
 		return line != null && rect.contains(line.getP1())
 				&& rect.contains(line.getP2());
 	}
-	
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return line.intersects(rect);
@@ -522,11 +525,11 @@ public class DrawSegment extends Drawable implements Previewable {
 		}
 		return AwtFactory.prototype.newRectangle(line.getBounds());
 	}
-	
+
 	/**
 	 * set visible
 	 */
-	public void setIsVisible(){
+	public void setIsVisible() {
 		isVisible = true;
 	}
 

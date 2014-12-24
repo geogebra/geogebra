@@ -37,7 +37,8 @@ public class DrawInequality extends Drawable {
 	/**
 	 * Creates new drawable linear inequality
 	 * 
-	 * @param view view
+	 * @param view
+	 *            view
 	 * @param function
 	 *            boolean 2-var function
 	 */
@@ -57,8 +58,7 @@ public class DrawInequality extends Drawable {
 
 	}
 
-	private DrawInequality(IneqTree tree, EuclidianView view,
-			GeoElement geo) {
+	private DrawInequality(IneqTree tree, EuclidianView view, GeoElement geo) {
 		this.view = view;
 		this.geo = geo;
 		setForceNoFill(true);
@@ -74,12 +74,14 @@ public class DrawInequality extends Drawable {
 		if (!isVisible)
 			return;
 		labelVisible = geo.isLabelVisible();
-		
+
 		// init gp
 		updateRecursive(function.getIneqs());
 		labelDesc = geo.getLabelDescription();
-		if ((geo instanceof GeoFunction) && ((GeoFunction) geo).showOnAxis()
-				&& !"y".equals(((GeoFunction) geo).getVarString(StringTemplate.defaultTemplate))) {
+		if ((geo instanceof GeoFunction)
+				&& ((GeoFunction) geo).showOnAxis()
+				&& !"y".equals(((GeoFunction) geo)
+						.getVarString(StringTemplate.defaultTemplate))) {
 			TreeSet<Double> zeros = new TreeSet<Double>();
 			((GeoFunction) geo).getIneqs().getZeros(zeros);
 			// radius of the dots
@@ -109,14 +111,14 @@ public class DrawInequality extends Drawable {
 			updateStrokes(geo);
 		} else
 			gpAxis = null;
-		
+
 	}
 
 	private void updateRecursive(IneqTree it) {
 		updateTrees(it);
 		operation = it.getOperation();
 		updateShape();
-		if(left!=null){
+		if (left != null) {
 			yLabel = left.yLabel;
 			xLabel = left.xLabel;
 		}
@@ -130,8 +132,9 @@ public class DrawInequality extends Drawable {
 				createDrawable();
 			} else if (ineq.getType() == IneqType.INEQUALITY_CONIC) {
 				ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
-				if(drawable instanceof DrawConic){
-					((DrawConic)drawable).setIgnoreSingularities(!ineq.isStrict() == ineq.isAboveBorder());
+				if (drawable instanceof DrawConic) {
+					((DrawConic) drawable).setIgnoreSingularities(!ineq
+							.isStrict() == ineq.isAboveBorder());
 				}
 			}
 			drawable.update();
@@ -140,7 +143,8 @@ public class DrawInequality extends Drawable {
 			yLabel = drawable.yLabel;
 		}
 		if (geo.isInverseFill() && !isForceNoFill()) {
-			geogebra.common.awt.GArea b = AwtFactory.prototype.newArea(view.getBoundingPath());
+			geogebra.common.awt.GArea b = AwtFactory.prototype.newArea(view
+					.getBoundingPath());
 			b.subtract(getShape());
 			setShape(b);
 		}
@@ -162,16 +166,19 @@ public class DrawInequality extends Drawable {
 			drawable = new DrawInequality1Var(ineq, view, geo, true);
 			break;
 		case INEQUALITY_CONIC:
-			drawable = new DrawConic(view, ineq.getConicBorder(), !ineq.isStrict() == ineq.isAboveBorder());
+			drawable = new DrawConic(view, ineq.getConicBorder(),
+					!ineq.isStrict() == ineq.isAboveBorder());
 			ineq.getConicBorder().setInverseFill(ineq.isAboveBorder());
 			break;
 		case INEQUALITY_LINEAR:
 			drawable = new DrawLine(view, ineq.getLineBorder());
 			ineq.getLineBorder().setInverseFill(ineq.isAboveBorder());
-			break;	
-		/*case IneqType.INEQUALITY_IMPLICIT:
-			drawable = new DrawImplicitPoly(view, ineq.getImpBorder());
-			break; TODO put this back when implicit polynomial can be shaded*/ 
+			break;
+		/*
+		 * case IneqType.INEQUALITY_IMPLICIT: drawable = new
+		 * DrawImplicitPoly(view, ineq.getImpBorder()); break; TODO put this
+		 * back when implicit polynomial can be shaded
+		 */
 		default:
 			App.debug("Unhandled inequality type");
 			return;
@@ -181,7 +188,8 @@ public class DrawInequality extends Drawable {
 	}
 
 	private void updateShape() {
-		if (operation.equals(Operation.AND)||operation.equals(Operation.AND_INTERVAL)) {			
+		if (operation.equals(Operation.AND)
+				|| operation.equals(Operation.AND_INTERVAL)) {
 			setShape(left.getShape());
 			getShape().intersect(right.getShape());
 		} else if (operation.equals(Operation.OR)) {
@@ -197,7 +205,7 @@ public class DrawInequality extends Drawable {
 		} else if (operation.equals(Operation.NOT)) {
 			setShape(AwtFactory.prototype.newArea(view.getBoundingPath()));
 			getShape().subtract(left.getShape());
-		}		
+		}
 	}
 
 	private void updateTrees(IneqTree it) {
@@ -221,9 +229,10 @@ public class DrawInequality extends Drawable {
 	private static boolean matchBorder(GeoElement border, Drawable d) {
 		if (d instanceof DrawConic && ((DrawConic) d).getConic().equals(border))
 			return true;
-		/*if (d instanceof DrawImplicitPoly
-				&& ((DrawImplicitPoly) d).getPoly().equals(border))
-			return true;*/
+		/*
+		 * if (d instanceof DrawImplicitPoly && ((DrawImplicitPoly)
+		 * d).getPoly().equals(border)) return true;
+		 */
 		if (d instanceof DrawParametricInequality
 				&& ((DrawParametricInequality) d).getBorder().equals(border))
 			return ((DrawParametricInequality) d).isXparametric();
@@ -237,21 +246,21 @@ public class DrawInequality extends Drawable {
 			return;
 		if (operation.equals(Operation.NO_OPERATION)) {
 			if (drawable != null) {
-				drawable.updateStrokesJustLineThickness(geo); 
-				if(geo.getLineThickness()>0)
+				drawable.updateStrokesJustLineThickness(geo);
+				if (geo.getLineThickness() > 0)
 					drawable.draw(g2);
 			}
 		} else {
 			if (left != null) {
-				left.updateStrokesJustLineThickness(geo); 
+				left.updateStrokesJustLineThickness(geo);
 				left.draw(g2);
 			}
 			if (right != null) {
-				right.updateStrokesJustLineThickness(geo); 
+				right.updateStrokesJustLineThickness(geo);
 				right.draw(g2);
 			}
 		}
-		if (!isForceNoFill()) {			
+		if (!isForceNoFill()) {
 			if (gpAxis != null) {
 				if (geo.doHighlighting()) {
 					g2.setPaint(geo.getSelColor());
@@ -267,18 +276,18 @@ public class DrawInequality extends Drawable {
 				}
 
 			} else {
-				if (geo.getFillType()!=GeoElement.FillType.IMAGE) { 
-					// make sure line thickness set for hatching 
-					updateStrokes(geo); 
-				} 				
-				
+				if (geo.getFillType() != GeoElement.FillType.IMAGE) {
+					// make sure line thickness set for hatching
+					updateStrokes(geo);
+				}
+
 				fill(g2, getShape(), true);
 			}
 		}
-		
+
 		if (labelVisible) {
 			g2.setFont(view.getFontConic());
-			g2.setPaint(geo.getLabelColor());			
+			g2.setPaint(geo.getLabelColor());
 			drawLabel(g2);
 		}
 	}
@@ -292,7 +301,8 @@ public class DrawInequality extends Drawable {
 		double[] coords = new double[] { view.toRealWorldCoordX(x),
 				view.toRealWorldCoordY(y) };
 		if (geo instanceof GeoFunction
-				&& ((GeoFunction) geo).getVarString(StringTemplate.defaultTemplate).equals("y"))
+				&& ((GeoFunction) geo).getVarString(
+						StringTemplate.defaultTemplate).equals("y"))
 			return ((GeoFunction) geo).getFunction().evaluateBoolean(coords[1]);
 		return ((FunctionalNVar) geo).getFunction().evaluateBoolean(coords);
 
@@ -300,8 +310,8 @@ public class DrawInequality extends Drawable {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		if(!geo.isEuclidianVisible())
-			return false;		
+		if (!geo.isEuclidianVisible())
+			return false;
 		if (geo instanceof GeoFunction && ((GeoFunction) geo).showOnAxis()
 				&& Math.abs(y - view.toScreenCoordY(0)) > hitThreshold)
 			return false;

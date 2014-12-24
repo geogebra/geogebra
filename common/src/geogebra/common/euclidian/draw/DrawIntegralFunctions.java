@@ -45,16 +45,19 @@ public class DrawIntegralFunctions extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 	private boolean isVisible, labelVisible;
 	private boolean isCasObject;
-	
 
 	/**
 	 * Creates drawable for integral between two functions
 	 * 
-	 * @param view view
-	 * @param n integral between functions
-	 * @param casObject true if n was created from a GeoCasCell
+	 * @param view
+	 *            view
+	 * @param n
+	 *            integral between functions
+	 * @param casObject
+	 *            true if n was created from a GeoCasCell
 	 */
-	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n, boolean casObject) {
+	public DrawIntegralFunctions(EuclidianView view, GeoNumeric n,
+			boolean casObject) {
 		this.view = view;
 		this.n = n;
 		geo = n;
@@ -79,16 +82,20 @@ public class DrawIntegralFunctions extends Drawable {
 		a = algo.getA();
 		b = algo.getB();
 	}
-	
+
 	private void initFromCasObject() {
 		AlgoCasCellInterface algo = (AlgoCasCellInterface) n.getDrawAlgorithm();
 		GeoCasCell cell = algo.getCasCell();
 		Command cmd = cell.getInputVE().getTopLevelCommand();
 		Kernel kernel = cmd.getKernel();
-		f = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(0).wrap().replaceCasCommands()));
-		g = new GeoFunction(kernel.getConstruction(), new Function(cmd.getArgument(1).wrap().replaceCasCommands()));
-		a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap().replaceCasCommands().evaluateDouble());
-		b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).wrap().replaceCasCommands().evaluateDouble());
+		f = new GeoFunction(kernel.getConstruction(), new Function(cmd
+				.getArgument(0).wrap().replaceCasCommands()));
+		g = new GeoFunction(kernel.getConstruction(), new Function(cmd
+				.getArgument(1).wrap().replaceCasCommands()));
+		a = new MyDouble(cmd.getKernel(), cmd.getArgument(2).wrap()
+				.replaceCasCommands().evaluateDouble());
+		b = new MyDouble(cmd.getKernel(), cmd.getArgument(3).wrap()
+				.replaceCasCommands().evaluateDouble());
 	}
 
 	@Override
@@ -126,10 +133,8 @@ public class DrawIntegralFunctions extends Drawable {
 			gp = new GeneralPathClippedForCurvePlotter(view);
 		gp.reset();
 		gp.moveTo(ax, ay);
-		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false,
-				Gap.LINE_TO);
-		CurvePlotter.plotCurve(g, bRW, aRW, view, gp, false,
-				Gap.LINE_TO);
+		CurvePlotter.plotCurve(f, aRW, bRW, view, gp, false, Gap.LINE_TO);
+		CurvePlotter.plotCurve(g, bRW, aRW, view, gp, false, Gap.LINE_TO);
 		gp.closePath();
 
 		// gp on screen?
@@ -179,7 +184,7 @@ public class DrawIntegralFunctions extends Drawable {
 		return gp != null
 				&& (gp.contains(x, y) || gp.intersects(x, y, hitThreshold));
 	}
-	
+
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return gp != null && gp.intersects(rect);

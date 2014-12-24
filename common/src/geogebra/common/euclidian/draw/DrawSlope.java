@@ -49,8 +49,10 @@ public class DrawSlope extends Drawable {
 	/**
 	 * Creates new drawable for slope
 	 * 
-	 * @param view view
-	 * @param slope slope number
+	 * @param view
+	 *            view
+	 * @param slope
+	 *            slope number
 	 */
 	public DrawSlope(EuclidianView view, GeoNumeric slope) {
 		this.view = view;
@@ -103,9 +105,9 @@ public class DrawSlope extends Drawable {
 			gp.moveTo(x, y);
 			gp.lineTo(xright, y);
 			gp.lineTo(xright, y - height);
-			//closePath important for clipping: #4048
+			// closePath important for clipping: #4048
 			gp.closePath();
-			Log.debug((view.getXscale() * slopeTriangleSize)/(0.0 + height));
+			Log.debug((view.getXscale() * slopeTriangleSize) / (0.0 + height));
 			// gp on screen?
 			if (!gp.intersects(0, 0, view.getWidth(), view.getHeight())) {
 				isVisible = false;
@@ -125,11 +127,11 @@ public class DrawSlope extends Drawable {
 						sb.append(' ');
 						sb.append(geo.getLabel(tpl));
 						sb.append(" = ");
-						sb.append(kernel.format(rwHeight,tpl));
+						sb.append(kernel.format(rwHeight, tpl));
 						break;
 
 					case GeoElement.LABEL_VALUE:
-						sb.append(kernel.format(rwHeight,tpl));
+						sb.append(kernel.format(rwHeight, tpl));
 						break;
 
 					default: // case GeoElement.LABEL_NAME:
@@ -170,15 +172,13 @@ public class DrawSlope extends Drawable {
 			}
 
 			if (geo.lineThickness > 0) {
-				g2.setPaint(slope
-						.getObjectColor());
+				g2.setPaint(slope.getObjectColor());
 				g2.setStroke(objStroke);
 				g2.draw(gp);
 			}
 
 			if (labelVisible) {
-				g2.setPaint(slope
-						.getLabelColor());
+				g2.setPaint(slope.getLabelColor());
 				g2.setFont(view.getFontLine());
 				drawLabel(g2);
 				g2.drawString(horLabel, xLabelHor, yLabelHor);
@@ -194,8 +194,7 @@ public class DrawSlope extends Drawable {
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
-		return gp != null
-				&& (gp.intersects(rect));
+		return gp != null && (gp.intersects(rect));
 	}
 
 	@Override

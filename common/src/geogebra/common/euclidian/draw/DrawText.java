@@ -22,14 +22,13 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 
-
-
 /**
  * Drawable representation of text
+ * 
  * @author Markus
  */
 public final class DrawText extends Drawable {
-	
+
 	/**
 	 * color used to draw rectangle around text when highlighted
 	 */
@@ -53,15 +52,19 @@ public final class DrawText extends Drawable {
 	/**
 	 * Creates new DrawText
 	 * 
-	 * @param view view
-	 * @param text text
+	 * @param view
+	 *            view
+	 * @param text
+	 *            text
 	 */
 	public DrawText(EuclidianView view, GeoText text) {
 		this.view = view;
 		this.text = text;
 		geo = text;
 
-		textFont = view.getApplication().getPlainFontCommon()
+		textFont = view
+				.getApplication()
+				.getPlainFontCommon()
 				.deriveFont(geogebra.common.awt.GFont.PLAIN, view.getFontSize());
 
 		// this is needed as (bold) LaTeX texts are created with isLaTeX = false
@@ -127,18 +130,19 @@ public final class DrawText extends Drawable {
 		oldYpos = yLabel;
 
 		boolean fontChanged = doUpdateFontSize();
-		
-		//some commented code for LaTeX speedup removed in r22321
 
-		//We need check for null bounding box because of SetValue[text,Text["a",(1,1)]] makes it null
+		// some commented code for LaTeX speedup removed in r22321
+
+		// We need check for null bounding box because of
+		// SetValue[text,Text["a",(1,1)]] makes it null
 		if (text.isNeedsUpdatedBoundingBox()
-				&& (textChanged || positionChanged || fontChanged ||
-					text.getKernel().getForceUpdatingBoundingBox()|| text.getBoundingBox()==null) ) {
+				&& (textChanged || positionChanged || fontChanged
+						|| text.getKernel().getForceUpdatingBoundingBox() || text
+						.getBoundingBox() == null)) {
 			// ensure that bounding box gets updated by drawing text once
 			if (isLaTeX)
 				drawMultilineLaTeX(view.getTempGraphics2D(textFont), textFont,
-						geo.getObjectColor(),
-						view.getBackgroundCommon());
+						geo.getObjectColor(), view.getBackgroundCommon());
 			else
 				drawMultilineText(view.getTempGraphics2D(textFont), textFont);
 
@@ -163,10 +167,11 @@ public final class DrawText extends Drawable {
 				// needed to calculate labelRectangle
 				if (isLaTeX) {
 					drawMultilineLaTeX(view.getTempGraphics2D(textFont),
-							textFont, geo
-									.getObjectColor(), view.getBackgroundCommon());
+							textFont, geo.getObjectColor(),
+							view.getBackgroundCommon());
 				} else {
-					drawMultilineText(view.getTempGraphics2D(textFont), textFont);
+					drawMultilineText(view.getTempGraphics2D(textFont),
+							textFont);
 				}
 				g2.setStroke(objStroke);
 				g2.setPaint(bg);
@@ -177,12 +182,11 @@ public final class DrawText extends Drawable {
 				g2.setPaint(geo.getObjectColor());
 				g2.setFont(textFont);
 				g2.setStroke(objStroke); // needed eg for \sqrt
-				drawMultilineLaTeX(g2, textFont,
-						geo.getObjectColor(),
+				drawMultilineLaTeX(g2, textFont, geo.getObjectColor(),
 						bg != null ? bg : view.getBackgroundCommon());
 			} else {
 				g2.setPaint(geo.getObjectColor());
-				//g2.setFont(textFont);
+				// g2.setFont(textFont);
 				drawMultilineText(g2, textFont);
 			}
 
@@ -227,7 +231,6 @@ public final class DrawText extends Drawable {
 		return rect.contains(labelRectangle);
 	}
 
-
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
 		return labelRectangle.intersects(rect);
@@ -253,11 +256,13 @@ public final class DrawText extends Drawable {
 
 	private boolean doUpdateFontSize() {
 		// text's font size is relative to the global font size
-		int newFontSize = (int) Math.max(4, view.getFontSize() * text.getFontSizeMultiplier());
+		int newFontSize = (int) Math.max(4,
+				view.getFontSize() * text.getFontSizeMultiplier());
 		int newFontStyle = text.getFontStyle();
 		boolean newSerifFont = text.isSerifFont();
 
-		if (text.getTextString() != null && textFont.canDisplayUpTo(text.getTextString()) != -1
+		if (text.getTextString() != null
+				&& textFont.canDisplayUpTo(text.getTextString()) != -1
 				|| fontSize != newFontSize || fontStyle != newFontStyle
 				|| newSerifFont != serifFont) {
 			super.updateFontSize();

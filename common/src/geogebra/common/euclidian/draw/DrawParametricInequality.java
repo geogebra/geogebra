@@ -13,8 +13,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 
 /**
- * Drawable for drawing inequalities like x<sin(y) or y<x^3.
- *	Never stands of its own, always part of DrawInequality tree
+ * Drawable for drawing inequalities like x<sin(y) or y<x^3. Never stands of its
+ * own, always part of DrawInequality tree
  */
 class DrawParametricInequality extends Drawable {
 
@@ -22,9 +22,13 @@ class DrawParametricInequality extends Drawable {
 	private GeneralPathClippedForCurvePlotter gp;
 
 	/**
-	 * @param ineq parametric inequality
-	 * @param view view
-	 * @param geo top level element (the function which may consist of several inequalities)
+	 * @param ineq
+	 *            parametric inequality
+	 * @param view
+	 *            view
+	 * @param geo
+	 *            top level element (the function which may consist of several
+	 *            inequalities)
 	 */
 	protected DrawParametricInequality(Inequality ineq, EuclidianView view,
 			GeoElement geo) {
@@ -46,7 +50,7 @@ class DrawParametricInequality extends Drawable {
 	}
 
 	@Override
-	public void draw(geogebra.common.awt.GGraphics2D g2) {			
+	public void draw(geogebra.common.awt.GGraphics2D g2) {
 		if (geo.doHighlighting()) {
 			g2.setPaint(geo.getSelColor());
 			g2.setStroke(selStroke);
@@ -61,7 +65,6 @@ class DrawParametricInequality extends Drawable {
 			g2.setStroke(objStroke);
 			g2.drawWithValueStrokePure(gp);
 		}
-
 
 	}
 
@@ -101,27 +104,27 @@ class DrawParametricInequality extends Drawable {
 		GPoint labelPos;
 		if (paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X) {
 			double bx = view.toRealWorldCoordY(-10);
-			double ax = view.toRealWorldCoordY(view.getHeight() + 10);				
-			double axEv = view.toScreenCoordYd(ax);				
-			if (paramIneq.isAboveBorder()) {					
+			double ax = view.toRealWorldCoordY(view.getHeight() + 10);
+			double axEv = view.toScreenCoordYd(ax);
+			if (paramIneq.isAboveBorder()) {
 				gp.moveTo(view.getWidth() + 10, axEv);
 				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
 						true, Gap.RESET_XMAX);
 				gp.lineTo(view.getWidth() + 10, gp.getCurrentPoint().getY());
 				gp.lineTo(view.getWidth() + 10, axEv);
 				gp.closePath();
-			} else {					
+			} else {
 				gp.moveTo(-10, axEv);
 				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
 						true, Gap.RESET_XMIN);
 				gp.lineTo(-10, gp.getCurrentPoint().getY());
 				gp.lineTo(-10, axEv);
 				gp.closePath();
-			}				
+			}
 		} else {
 			double ax = view.toRealWorldCoordX(-10);
-			double bx = view.toRealWorldCoordX(view.getWidth() + 10);				
-			double axEv = view.toScreenCoordXd(ax);				
+			double bx = view.toRealWorldCoordX(view.getWidth() + 10);
+			double axEv = view.toScreenCoordXd(ax);
 			if (paramIneq.isAboveBorder()) {
 				gp.moveTo(axEv, -10);
 				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
@@ -132,24 +135,24 @@ class DrawParametricInequality extends Drawable {
 			} else {
 				gp.moveTo(axEv, view.getHeight() + 10);
 				labelPos = CurvePlotter.plotCurve(border, ax, bx, view, gp,
-						true, Gap.RESET_YMAX);					
+						true, Gap.RESET_YMAX);
 				gp.lineTo(gp.getCurrentPoint().getX(), view.getHeight() + 10);
 				gp.lineTo(axEv, view.getHeight() + 10);
 				gp.closePath();
 			}
 			border.evaluateCurve(ax);
-			
+
 		}
 		if (this.geo.isLabelVisible()) {
 			xLabel = labelPos.getX();
-			yLabel = labelPos.getY();				
+			yLabel = labelPos.getY();
 			addLabelOffset();
 		}
 
 	}
 
 	/**
-	 * @return true when x is the parameter (false for y) 
+	 * @return true when x is the parameter (false for y)
 	 */
 	boolean isXparametric() {
 		return paramIneq.getType() == IneqType.INEQUALITY_PARAMETRIC_X;

@@ -40,12 +40,13 @@ public class DrawTurtle extends Drawable {
 	private boolean isVisible, labelVisible;
 	/** list of paths */
 	protected ArrayList<PartialPath> pathList;
-	
+
 	private GRectangle boundRect;
 
 	private double turnAngle = 0.0;
 
-	private geogebra.common.awt.GRectangle turtleImageBounds = AwtFactory.prototype.newRectangle();
+	private geogebra.common.awt.GRectangle turtleImageBounds = AwtFactory.prototype
+			.newRectangle();
 	private double imageSize = 10;
 	private double[] currentCoords = new double[2];
 	private GAffineTransform at = AwtFactory.prototype.newAffineTransform();
@@ -64,27 +65,27 @@ public class DrawTurtle extends Drawable {
 		update();
 		turtle.setCoords(turtle.inhomX, turtle.inhomY);
 	}
-	
+
 	private static class PartialPath {
 		public GColor color;
 		public int thickness;
 		public GeneralPathClipped path1;
 		private GBasicStroke stroke;
-		
+
 		public PartialPath(GColor c, int th, GeneralPathClipped p) {
 			color = c;
 			thickness = th;
 			path1 = p;
-			stroke =  AwtFactory.prototype.newBasicStroke(thickness);
+			stroke = AwtFactory.prototype.newBasicStroke(thickness);
 		}
-		
+
 		public void draw(GGraphics2D g2) {
 			g2.setColor(color);
 			g2.setStroke(stroke);
 			g2.draw(path1);
 		}
 	}
-	
+
 	private class DrawState implements GeoTurtle.DrawState {
 		private boolean penDown = true;
 		private GColor penColor = GColor.BLACK;
@@ -94,7 +95,7 @@ public class DrawTurtle extends Drawable {
 		private GeneralPathClipped currentPath;
 		// private GeoPointND currentPosition = turtle.getStartPoint();
 		double coords[] = new double[2];
-		
+
 		public DrawState() {
 			currentPath = new GeneralPathClipped(getView());
 			penDown = false;
@@ -102,11 +103,11 @@ public class DrawTurtle extends Drawable {
 			penDown = true;
 			nlines = 0;
 		}
-		
+
 		public void setPen(boolean down) {
 			penDown = down;
 		}
-		
+
 		public void move(GeoPointND newPosition) {
 			newPosition.getInhomCoords(coords);
 			getView().toScreenCoords(coords);
@@ -122,8 +123,8 @@ public class DrawTurtle extends Drawable {
 			double[] newCoords = new double[2];
 			newPosition.getInhomCoords(newCoords);
 			getView().toScreenCoords(newCoords);
-			coords[0] = coords[0]*(1d - progress) + newCoords[0]*progress;
-			coords[1] = coords[1]*(1d - progress) + newCoords[1]*progress;
+			coords[0] = coords[0] * (1d - progress) + newCoords[0] * progress;
+			coords[1] = coords[1] * (1d - progress) + newCoords[1] * progress;
 			if (penDown) {
 				currentPath.lineTo(coords[0], coords[1]);
 				nlines += 1;
@@ -131,38 +132,39 @@ public class DrawTurtle extends Drawable {
 				currentPath.moveTo(coords[0], coords[1]);
 			}
 		}
-		
+
 		public void turn(double angle) {
 			turnAngle1 += angle;
 		}
-		
+
 		public void partialTurn(double angle, double progress) {
-			turnAngle1 += angle*progress;
+			turnAngle1 += angle * progress;
 		}
-		
+
 		public void setColor(GColor color) {
 			if (penColor != color) {
 				finishPartialPath();
 				penColor = color;
 			}
 		}
-		
+
 		public void setThickness(int thickness) {
 			if (penThickness != thickness) {
 				finishPartialPath();
 				penThickness = thickness;
 			}
 		}
-		
+
 		public void finishPartialPath() {
 			if (nlines > 0) {
-				pathList.add(new PartialPath(penColor, penThickness, currentPath));
+				pathList.add(new PartialPath(penColor, penThickness,
+						currentPath));
 			}
 			currentPath = new GeneralPathClipped(getView());
 			currentPath.moveTo(coords[0], coords[1]);
 		}
 	}
-	
+
 	@Override
 	final public void update() {
 
@@ -171,7 +173,7 @@ public class DrawTurtle extends Drawable {
 		if (isVisible) {
 			labelVisible = geo.isLabelVisible();
 			updateStrokes(turtle);
-			
+
 			if (pathList == null) {
 				pathList = new ArrayList<PartialPath>();
 			} else {
@@ -188,7 +190,7 @@ public class DrawTurtle extends Drawable {
 			// which know how to draw themselves on a Graphic2D.
 			// Iteration stops when ncommands is reached, the current
 			// in-progress limit.
-			
+
 			for (GeoTurtle.Command cmd : turtle.getTurtleCommandList()) {
 				if (ncommands-- > 0) {
 					cmd.draw(ds);
@@ -211,11 +213,12 @@ public class DrawTurtle extends Drawable {
 		isVisible = getBounds() != null
 				&& getBounds().intersects(0, 0, view.getWidth(),
 						view.getHeight());
-		if(isVisible){
+		if (isVisible) {
 			at.setTransform(1, 0, 0, 1, 1, 0);
 			at.translate(currentCoords[0], currentCoords[1]);
 			at.rotate(-turnAngle);
-			if(geo.getFillImage()==null) updateTurtleShape();
+			if (geo.getFillImage() == null)
+				updateTurtleShape();
 		}
 	}
 
@@ -226,7 +229,7 @@ public class DrawTurtle extends Drawable {
 
 			// TODO: handle variable line thickness
 			g2.setStroke(objStroke);
-			
+
 			for (PartialPath path : pathList) {
 				path.draw(g2);
 			}
@@ -244,23 +247,25 @@ public class DrawTurtle extends Drawable {
 				g2.setFont(view.getFontPoint());
 				drawLabel(g2);
 			}
-			
-			// draw turtle		
+
+			// draw turtle
 			if (turtle.getFillImage() != null) {
 				int imgWidth = turtle.getFillImage().getWidth();
 				int imgHeight = turtle.getFillImage().getHeight();
 				GAffineTransform originTransform = g2.getTransform();
 				g2.transform(at);
-				//temp - until x,y parameters won't be used in drawImage on desktop for SVG images
-				if(turtle.getFillImage().isSVG() && !turtle.kernel.getApplication().isHTML5Applet())
-					g2.translate(-imgWidth/2, -imgHeight/2);
-				g2.drawImage(turtle.getFillImage(),-imgWidth/2, -imgHeight/2);
+				// temp - until x,y parameters won't be used in drawImage on
+				// desktop for SVG images
+				if (turtle.getFillImage().isSVG()
+						&& !turtle.kernel.getApplication().isHTML5Applet())
+					g2.translate(-imgWidth / 2, -imgHeight / 2);
+				g2.drawImage(turtle.getFillImage(), -imgWidth / 2,
+						-imgHeight / 2);
 				g2.setTransform(originTransform);
 			} else {
-				// draw rotated turtle				
-				drawTurtleShape(g2);				
+				// draw rotated turtle
+				drawTurtleShape(g2);
 			}
-			
 
 		}
 	}
@@ -329,7 +334,8 @@ public class DrawTurtle extends Drawable {
 	// TODO: handle images when Common supports loading internal images
 	// ===================================================
 
-	private GEllipse2DDouble ellipse = AwtFactory.prototype.newEllipse2DDouble();
+	private GEllipse2DDouble ellipse = AwtFactory.prototype
+			.newEllipse2DDouble();
 	private GBasicStroke stroke1 = AwtFactory.prototype.newBasicStroke(1f);
 	private GBasicStroke stroke2 = AwtFactory.prototype.newBasicStroke(2f);
 	private GGeneralPath gPath = AwtFactory.prototype.newGeneralPath();
@@ -371,148 +377,109 @@ public class DrawTurtle extends Drawable {
 		// g2.draw(ellipse);
 
 	}
-	
-	private void updateTurtleShape(){
+
+	private void updateTurtleShape() {
 		int r = 8; // turtle radius
 		float x, y;
 		gPath.reset();
 
+		// back legs
 
-			// back legs
-			
-			x = (float) (1.3 * r * Math.cos(Math.PI / 6));
-			y = (float) (1.3 * r * Math.sin(Math.PI / 6));
-			gPath.moveTo(0, 0);
-			gPath.lineTo(-x, y);
-			gPath.moveTo(0, 0);
-			gPath.lineTo(-x, -y);
-			
+		x = (float) (1.3 * r * Math.cos(Math.PI / 6));
+		y = (float) (1.3 * r * Math.sin(Math.PI / 6));
+		gPath.moveTo(0, 0);
+		gPath.lineTo(-x, y);
+		gPath.moveTo(0, 0);
+		gPath.lineTo(-x, -y);
 
-			// front legs
-			x = (float) (1.2 * r * Math.cos(Math.PI / 4));
-			y = (float) (1.2 * r * Math.sin(Math.PI / 4));
-			gPath.moveTo(0, 0);
-			gPath.lineTo(x, y);
-			gPath.moveTo(0, 0);
-			gPath.lineTo(x, -y);
-			legs = gPath.createTransformedShape(at);
+		// front legs
+		x = (float) (1.2 * r * Math.cos(Math.PI / 4));
+		y = (float) (1.2 * r * Math.sin(Math.PI / 4));
+		gPath.moveTo(0, 0);
+		gPath.lineTo(x, y);
+		gPath.moveTo(0, 0);
+		gPath.lineTo(x, -y);
+		legs = gPath.createTransformedShape(at);
 
-			// head
-			ellipse.setFrame(r - 3, -3, 6, 6);
-			head = at.createTransformedShape(ellipse);
-			// body
-			ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
-			body = at.createTransformedShape(ellipse);
-			
-			
-			// pen color dot
-			ellipse.setFrame(-3, -3, 6, 6);
-			dot = at.createTransformedShape(ellipse);
-			//g2.setColor(Color.black);
-			//g2.draw(ellipse);
-		
+		// head
+		ellipse.setFrame(r - 3, -3, 6, 6);
+		head = at.createTransformedShape(ellipse);
+		// body
+		ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
+		body = at.createTransformedShape(ellipse);
+
+		// pen color dot
+		ellipse.setFrame(-3, -3, 6, 6);
+		dot = at.createTransformedShape(ellipse);
+		// g2.setColor(Color.black);
+		// g2.draw(ellipse);
+
 	}
-	
+
 	/**
 	 * Draw turtle shapes.
 	 * 
 	 * @param g2
 	 **/
 	/*
-	private void drawTurtleShape(geogebra.common.awt.GGraphics2D g2,
-			int shapeNumber, GColor penColor) {
-
-		int r = 8; // turtle radius
-		float x, y;
-		gPath.reset();
-
-		switch (shapeNumber) {
-
-		case 0: // no turtle is drawn
-			break;
-
-		case 1: // ellipse body with legs and head
-
-			// back legs
-			g2.setStroke(stroke2);
-			x = (float) (1.3 * r * Math.cos(Math.PI / 6));
-			y = (float) (1.3 * r * Math.sin(Math.PI / 6));
-			gPath.moveTo(0, 0);
-			gPath.lineTo(-x, y);
-			gPath.moveTo(0, 0);
-			gPath.lineTo(-x, -y);
-			g2.setColor(GColor.black);
-			g2.draw(gPath);
-
-			// front legs
-			g2.setStroke(stroke2);
-			x = (float) (1.2 * r * Math.cos(Math.PI / 4));
-			y = (float) (1.2 * r * Math.sin(Math.PI / 4));
-			gPath.moveTo(0, 0);
-			gPath.lineTo(x, y);
-			gPath.moveTo(0, 0);
-			gPath.lineTo(x, -y);
-			g2.setColor(GColor.black);
-			gPath.createTransformedShape(at);
-			g2.draw(gPath);
-
-			g2.setStroke(stroke1);
-
-			// head
-			ellipse.setFrame(r - 3, -3, 6, 6);
-			g2.setColor(GColor.gray);
-			g2.fill(ellipse);
-			g2.setColor(GColor.black);
-			g2.draw(ellipse);
-			
-			// body
-			ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
-			g2.setColor(GColor.green);
-			g2.fill(ellipse);
-			g2.setColor(GColor.black);
-			g2.draw(ellipse);
-			
-			// pen color dot
-			ellipse.setFrame(-3, -3, 6, 6);
-			g2.setColor(turtle.getPenColor());
-			g2.fill(ellipse);
-			//g2.setColor(Color.black);
-			//g2.draw(ellipse);
-
-			break;
-
-		case 2: // triangle shape
-
-			g2.setStroke(stroke1);
-
-			// body
-			ellipse.setFrame(-r, -r, 2 * r, 2 * r);
-			g2.setColor(GColor.green);
-			g2.fill(ellipse);
-			g2.setColor(GColor.black);
-			g2.draw(ellipse);
-
-			// triangle
-			x = (float) (r * Math.cos(2*Math.PI / 3));
-			y = (float) (r * Math.sin(2*Math.PI / 3));
-			gPath.moveTo(r, 0);
-			gPath.lineTo(x, y);
-			gPath.lineTo(x, -y);
-			gPath.lineTo(r, 0);
-			g2.setColor(penColor);
-			g2.fill(gPath);
-
-			break;
-
-		case 3:
-
-			GImage img = turtle.getTurtleImageList().get(0);
-			GAffineTransform tr = g2.getTransform(); 
-			g2.setTransform(at);
-			g2.drawImage(img, -8, -8);
-			g2.setTransform(tr);
-
-		}
-	}
-	*/
+	 * private void drawTurtleShape(geogebra.common.awt.GGraphics2D g2, int
+	 * shapeNumber, GColor penColor) {
+	 * 
+	 * int r = 8; // turtle radius float x, y; gPath.reset();
+	 * 
+	 * switch (shapeNumber) {
+	 * 
+	 * case 0: // no turtle is drawn break;
+	 * 
+	 * case 1: // ellipse body with legs and head
+	 * 
+	 * // back legs g2.setStroke(stroke2); x = (float) (1.3 * r *
+	 * Math.cos(Math.PI / 6)); y = (float) (1.3 * r * Math.sin(Math.PI / 6));
+	 * gPath.moveTo(0, 0); gPath.lineTo(-x, y); gPath.moveTo(0, 0);
+	 * gPath.lineTo(-x, -y); g2.setColor(GColor.black); g2.draw(gPath);
+	 * 
+	 * // front legs g2.setStroke(stroke2); x = (float) (1.2 * r *
+	 * Math.cos(Math.PI / 4)); y = (float) (1.2 * r * Math.sin(Math.PI / 4));
+	 * gPath.moveTo(0, 0); gPath.lineTo(x, y); gPath.moveTo(0, 0);
+	 * gPath.lineTo(x, -y); g2.setColor(GColor.black);
+	 * gPath.createTransformedShape(at); g2.draw(gPath);
+	 * 
+	 * g2.setStroke(stroke1);
+	 * 
+	 * // head ellipse.setFrame(r - 3, -3, 6, 6); g2.setColor(GColor.gray);
+	 * g2.fill(ellipse); g2.setColor(GColor.black); g2.draw(ellipse);
+	 * 
+	 * // body ellipse.setFrame(-r, -r, 2 * r, 1.8 * r);
+	 * g2.setColor(GColor.green); g2.fill(ellipse); g2.setColor(GColor.black);
+	 * g2.draw(ellipse);
+	 * 
+	 * // pen color dot ellipse.setFrame(-3, -3, 6, 6);
+	 * g2.setColor(turtle.getPenColor()); g2.fill(ellipse);
+	 * //g2.setColor(Color.black); //g2.draw(ellipse);
+	 * 
+	 * break;
+	 * 
+	 * case 2: // triangle shape
+	 * 
+	 * g2.setStroke(stroke1);
+	 * 
+	 * // body ellipse.setFrame(-r, -r, 2 * r, 2 * r);
+	 * g2.setColor(GColor.green); g2.fill(ellipse); g2.setColor(GColor.black);
+	 * g2.draw(ellipse);
+	 * 
+	 * // triangle x = (float) (r * Math.cos(2*Math.PI / 3)); y = (float) (r *
+	 * Math.sin(2*Math.PI / 3)); gPath.moveTo(r, 0); gPath.lineTo(x, y);
+	 * gPath.lineTo(x, -y); gPath.lineTo(r, 0); g2.setColor(penColor);
+	 * g2.fill(gPath);
+	 * 
+	 * break;
+	 * 
+	 * case 3:
+	 * 
+	 * GImage img = turtle.getTurtleImageList().get(0); GAffineTransform tr =
+	 * g2.getTransform(); g2.setTransform(at); g2.drawImage(img, -8, -8);
+	 * g2.setTransform(tr);
+	 * 
+	 * } }
+	 */
 }

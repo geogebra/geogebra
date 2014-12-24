@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * DrawImplicitPoly.java
@@ -24,39 +24,46 @@ import geogebra.common.kernel.implicit.GeoImplicitPoly;
  * Draw GeoImplicitPoly on euclidian view
  */
 public class DrawImplicitPoly extends DrawLocus {
-	
+
 	private GeoImplicitPoly implicitPoly;
-	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ part, 1=>fill positiv part
-	
+
+	// private int fillSign; //0=>no filling, only curve -1=>fill the negativ
+	// part, 1=>fill positiv part
+
 	/**
 	 * Creates new drawable for implicit polynomial
-	 * @param view view
-	 * @param implicitPoly implicit polynomial
+	 * 
+	 * @param view
+	 *            view
+	 * @param implicitPoly
+	 *            implicit polynomial
 	 */
-	public DrawImplicitPoly(EuclidianView view,GeoImplicitPoly implicitPoly) {
+	public DrawImplicitPoly(EuclidianView view, GeoImplicitPoly implicitPoly) {
 		super(view, implicitPoly.getLocus());
-		this.view=view;
+		this.view = view;
 		this.implicitPoly = implicitPoly;
-		this.geo=implicitPoly;
+		this.geo = implicitPoly;
 		update();
 	}
-	
+
 	@Override
-	public geogebra.common.awt.GArea getShape(){
+	public geogebra.common.awt.GArea getShape() {
 		return geogebra.common.factories.AwtFactory.prototype.newArea();
 	}
+
 	/**
-	 * Returns the poly to be draw
-	 * (might not be equal to geo, if this is part of bigger geo)
+	 * Returns the poly to be draw (might not be equal to geo, if this is part
+	 * of bigger geo)
+	 * 
 	 * @return poly
 	 */
 	public GeoImplicitPoly getPoly() {
 		return implicitPoly;
 	}
-	
+
 	@Override
-	public boolean hit(int x, int y, int hitThreshold){
-		if(implicitPoly.getDeg()==0){
+	public boolean hit(int x, int y, int hitThreshold) {
+		if (implicitPoly.getDeg() == 0) {
 			return false;
 		}
 		return super.hit(x, y, hitThreshold);

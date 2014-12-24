@@ -13,7 +13,7 @@ public abstract class AbstractEvent {
 	public abstract void release();
 
 	public abstract int getX();
-	
+
 	public abstract int getY();
 
 	public abstract boolean isRightClick();
@@ -27,7 +27,7 @@ public abstract class AbstractEvent {
 	public abstract boolean isMiddleClick();
 
 	public abstract boolean isPopupTrigger();
-	
-	public abstract PointerEventType getType(); 
+
+	public abstract PointerEventType getType();
 
 }

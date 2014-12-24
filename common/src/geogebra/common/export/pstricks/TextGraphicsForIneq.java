@@ -6,8 +6,6 @@ import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.Inequality;
 import geogebra.common.kernel.geos.GeoElement;
 
-
-
 public class TextGraphicsForIneq extends TextGraphics {
 	public TextGraphicsForIneq(FunctionalNVar geo2, Inequality ineq2,
 			EuclidianView euclidianView) {
@@ -16,6 +14,7 @@ public class TextGraphicsForIneq extends TextGraphics {
 		this.view = euclidianView;
 		this.ds = geo.getKernel().getViewBoundsForGeo((GeoElement) geo);
 	}
+
 	protected double[] ds;
 	protected Inequality ineq;
 	protected EuclidianView view;

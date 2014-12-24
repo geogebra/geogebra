@@ -1,6 +1,5 @@
 package geogebra.common.main.settings;
 
-
 import java.util.LinkedList;
 
 /**
@@ -11,26 +10,27 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	 * Show construction protocol.
 	 */
 	private boolean showConstructionProtocol;
-	
+
 	/**
 	 * Delay between changes of items while playing.
 	 */
 	private double playDelay = 2; // in seconds
-	
+
 	/**
 	 * Show the play button.
 	 */
 	private boolean showPlayButton = true;
-	
+
 	/**
 	 * Show the construction protocol button.
 	 */
 	private boolean showConsProtButton = true;
-	
+
 	/**
 	 * Show the visibility of construction protocol's columns
 	 */
-	private static final boolean defaultCpColumnsVisible[] = {true, true, false, true, false, true, true, false};
+	private static final boolean defaultCpColumnsVisible[] = { true, true,
+			false, true, false, true, true, false };
 	private boolean cpColumnsVisible[] = defaultCpColumnsVisible;
 
 	public ConstructionProtocolSettings(LinkedList<SettingListener> listeners) {
@@ -49,10 +49,11 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param flag the showConsProtButton to set
+	 * @param flag
+	 *            the showConsProtButton to set
 	 */
 	public void setShowConsProtButton(boolean flag) {
-		if(showConsProtButton != flag) {
+		if (showConsProtButton != flag) {
 			this.showConsProtButton = flag;
 			settingChanged();
 		}
@@ -66,10 +67,11 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param flag the showPlayButton to set
+	 * @param flag
+	 *            the showPlayButton to set
 	 */
 	public void setShowPlayButton(boolean flag) {
-		if(showPlayButton != flag) {
+		if (showPlayButton != flag) {
 			this.showPlayButton = flag;
 			settingChanged();
 		}
@@ -83,10 +85,11 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param playDelay the playDelay to set
+	 * @param playDelay
+	 *            the playDelay to set
 	 */
 	public void setPlayDelay(double playDelay) {
-		if(this.playDelay != playDelay) {
+		if (this.playDelay != playDelay) {
 			this.playDelay = playDelay;
 			settingChanged();
 		}
@@ -100,28 +103,28 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 	}
 
 	/**
-	 * @param flag the showConstructionProtocol to set
+	 * @param flag
+	 *            the showConstructionProtocol to set
 	 */
 	public void setShowConstructionProtocol(boolean flag) {
-		if(showConstructionProtocol != flag) {
+		if (showConstructionProtocol != flag) {
 			this.showConstructionProtocol = flag;
 			settingChanged();
 		}
 	}
 
-	public boolean[] getColsVisibility(){
+	public boolean[] getColsVisibility() {
 		return cpColumnsVisible;
 	}
 
 	public void setColsVisibility(boolean[] cpColumnsVisible) {
 		// TODO Auto-generated method stub
-	/*	Iterator it = attrs.keySet().iterator();
-		int colCounter = 0;
-		while (it.hasNext()) { 
-			Object ob = attrs.get(it.next()); 
-			boolean isVisible = parseBoolean((String) ob);
-		*/	
-			//TODO: data.columns[colCounter] = isVisible
+		/*
+		 * Iterator it = attrs.keySet().iterator(); int colCounter = 0; while
+		 * (it.hasNext()) { Object ob = attrs.get(it.next()); boolean isVisible
+		 * = parseBoolean((String) ob);
+		 */
+		// TODO: data.columns[colCounter] = isVisible
 
 		this.cpColumnsVisible = new boolean[defaultCpColumnsVisible.length];
 
@@ -134,6 +137,6 @@ public class ConstructionProtocolSettings extends AbstractSettings {
 				this.cpColumnsVisible[i] = cpColumnsVisible[i];
 
 		settingChanged();
-		
+
 	}
 }

@@ -1,6 +1,7 @@
 package geogebra.common.cas.view;
+
 /**
- * Interface for CAS row header 
+ * Interface for CAS row header
  */
 public interface RowHeader {
 	/**

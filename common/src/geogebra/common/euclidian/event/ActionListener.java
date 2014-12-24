@@ -1,14 +1,13 @@
 package geogebra.common.euclidian.event;
 
+public abstract class ActionListener {
 
-public abstract class ActionListener{
-	
-	private ActionListenerI listenerClass;	
+	private ActionListenerI listenerClass;
 
 	public void wrapActionPerformed(ActionEvent event) {
 		listenerClass.actionPerformed(event);
 	}
-	
+
 	public Object getListenerClass() {
 		return listenerClass;
 	}

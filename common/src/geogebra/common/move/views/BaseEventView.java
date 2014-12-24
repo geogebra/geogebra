@@ -8,11 +8,12 @@ import geogebra.common.move.events.BaseEvent;
  * @author stefan
  */
 public class BaseEventView extends BaseView<EventRenderable> {
-	
+
 	/**
 	 * Notifies all view components of an event
 	 * 
-	 * @param event The event that occured.
+	 * @param event
+	 *            The event that occured.
 	 */
 	public void onEvent(BaseEvent event) {
 		if (this.viewComponents != null) {

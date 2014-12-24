@@ -51,8 +51,11 @@ public final class DrawImage extends Drawable {
 
 	/**
 	 * Creates new drawable image
-	 * @param view view
-	 * @param geoImage image
+	 * 
+	 * @param view
+	 *            view
+	 * @param geoImage
+	 *            image
 	 */
 	public DrawImage(EuclidianView view, GeoImage geoImage) {
 		this.view = view;
@@ -79,11 +82,10 @@ public final class DrawImage extends Drawable {
 		if (geo.getAlphaValue() != alpha) {
 			alpha = geo.getAlphaValue();
 			alphaComp = AwtFactory.prototype.newAlphaComposite(
-					geogebra.common.awt.GAlphaComposite.SRC_OVER,alpha);
+					geogebra.common.awt.GAlphaComposite.SRC_OVER, alpha);
 		}
 
-		image = geoImage
-				.getFillImage();
+		image = geoImage.getFillImage();
 		int width = image.getWidth();
 		int height = image.getHeight();
 		absoluteLocation = geoImage.isAbsoluteScreenLocActive();
@@ -112,8 +114,9 @@ public final class DrawImage extends Drawable {
 			}
 
 			// set transform according to corners
-			at.setTransform(view.getCoordTransform()); // last transform: real world
-													// -> screen
+			at.setTransform(view.getCoordTransform()); // last transform: real
+														// world
+														// -> screen
 			at.translate(ax, ay); // translate to first corner A
 
 			if (B == null) {
@@ -180,7 +183,8 @@ public final class DrawImage extends Drawable {
 
 			// calculate bounding box for isInside
 			boundingBox.setBounds(0, 0, width, height);
-			geogebra.common.awt.GShape shape = at.createTransformedShape(boundingBox);
+			geogebra.common.awt.GShape shape = at
+					.createTransformedShape(boundingBox);
 			boundingBox = shape.getBounds();
 
 			try {
@@ -200,11 +204,10 @@ public final class DrawImage extends Drawable {
 							&& Kernel.isEqual(at.getScaleY(), 1.0,
 									Kernel.MAX_PRECISION)
 							&& Kernel.isEqual(at.getShearX(), 0.0,
-									Kernel.MAX_PRECISION) && Kernel
-								.isEqual(at.getShearY(), 0.0,
-										Kernel.MAX_PRECISION));
+									Kernel.MAX_PRECISION) && Kernel.isEqual(
+							at.getShearY(), 0.0, Kernel.MAX_PRECISION));
 		}
-		
+
 		if (isInBackground != geoImage.isInBackground()) {
 			isInBackground = !isInBackground;
 			if (isInBackground) {
@@ -218,11 +221,11 @@ public final class DrawImage extends Drawable {
 		if (isInBackground)
 			view.updateBackgroundImage();
 	}
-	
-	public boolean checkInBackground(){
-		if(isInBackground != geoImage.isInBackground()){
+
+	public boolean checkInBackground() {
+		if (isInBackground != geoImage.isInBackground()) {
 			update();
-		}else{
+		} else {
 			setNeedsUpdate(true);
 		}
 		return isInBackground && geoImage.isInBackground();
@@ -234,8 +237,10 @@ public final class DrawImage extends Drawable {
 			geogebra.common.awt.GComposite oldComp = g3.getComposite();
 			if (alpha >= 0f && alpha < 1f) {
 				if (alphaComp == null)
-					alphaComp = AwtFactory.prototype.newAlphaComposite(
-							geogebra.common.awt.GAlphaComposite.SRC_OVER, alpha);
+					alphaComp = AwtFactory.prototype
+							.newAlphaComposite(
+									geogebra.common.awt.GAlphaComposite.SRC_OVER,
+									alpha);
 				g3.setComposite(alphaComp);
 			}
 
@@ -252,7 +257,8 @@ public final class DrawImage extends Drawable {
 				g3.transform(at);
 
 				// improve rendering quality for transformed images
-				Object oldInterpolationHint = g3.setInterpolationHint(needsInterpolationRenderingHint);
+				Object oldInterpolationHint = g3
+						.setInterpolationHint(needsInterpolationRenderingHint);
 
 				// g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
 
@@ -310,16 +316,21 @@ public final class DrawImage extends Drawable {
 
 	/**
 	 * Draws highligting (not implemented)
-	 * @param at2 transform
-	 * @param g2 graphics 
+	 * 
+	 * @param at2
+	 *            transform
+	 * @param g2
+	 *            graphics
 	 */
 	private void drawHighlighting(geogebra.common.awt.GAffineTransform at2,
 			geogebra.common.awt.GGraphics2D g2) {
 		// TODO Auto-generated method stub
 
 	}
+
 	/**
 	 * Returns whether this is background image
+	 * 
 	 * @return true for background images
 	 */
 	boolean isInBackground() {
@@ -344,8 +355,6 @@ public final class DrawImage extends Drawable {
 		}
 		return labelRectangle.contains(hitCoords[0], hitCoords[1]);
 	}
-	
-	
 
 	@Override
 	public boolean intersectsRectangle(GRectangle rect) {
@@ -354,8 +363,6 @@ public final class DrawImage extends Drawable {
 
 		return rect.intersects(boundingBox);
 	}
-
-
 
 	private double[] hitCoords = new double[2];
 
