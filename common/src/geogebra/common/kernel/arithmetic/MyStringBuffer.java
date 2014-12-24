@@ -30,8 +30,10 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	private Kernel kernel;
 
 	/**
-	 * @param kernel Kernel
-	 * @param str text
+	 * @param kernel
+	 *            Kernel
+	 * @param str
+	 *            text
 	 */
 	public MyStringBuffer(Kernel kernel, String str) {
 		sb = new StringBuilder(str);
@@ -39,15 +41,18 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	/**
-	 * @param str text to append
+	 * @param str
+	 *            text to append
 	 */
 	public void append(String str) {
 		sb.append(str);
 	}
 
 	/**
-	 * @param pos position to insert (same as in String#insert)
-	 * @param str text to insert
+	 * @param pos
+	 *            position to insert (same as in String#insert)
+	 * @param str
+	 *            text to insert
 	 */
 	public void insert(int pos, String str) {
 		sb.insert(pos, str);
@@ -63,7 +68,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	}
 
 	public void resolveVariables() {
-		//MyStringBuffer never has variables
+		// MyStringBuffer never has variables
 	}
 
 	public boolean isConstant() {
@@ -104,7 +109,7 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 		return sb2.toString();
 	}
 
-	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return sb.toString();
 	}
 
@@ -119,8 +124,8 @@ public class MyStringBuffer extends ValidExpression implements TextValue {
 	public Kernel getKernel() {
 		return kernel;
 	}
-	
-	public ExpressionNode wrap(){
+
+	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 }

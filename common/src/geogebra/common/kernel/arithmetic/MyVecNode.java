@@ -31,7 +31,8 @@ import java.util.HashSet;
  * 
  * @author Markus
  */
-public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNode {
+public class MyVecNode extends ValidExpression implements VectorValue,
+		MyVecNDNode {
 
 	/**
 	 * x coordinate
@@ -45,8 +46,11 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	private Kernel kernel;
 	private boolean isCASVector = false;
 
-	/** Creates new MyVec2D 
-	 * @param kernel kernel
+	/**
+	 * Creates new MyVec2D
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public MyVecNode(Kernel kernel) {
 		this.kernel = kernel;
@@ -55,9 +59,13 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	/**
 	 * Creates new MyVec2D with coordinates (x,y) as ExpresssionNodes. Both
 	 * nodes must evaluate to NumberValues.
-	 * @param kernel kernel
-	 * @param x x-coord
-	 * @param y y-coord
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param x
+	 *            x-coord
+	 * @param y
+	 *            y-coord
 	 */
 	public MyVecNode(Kernel kernel, ExpressionValue x, ExpressionValue y) {
 		this(kernel);
@@ -65,7 +73,8 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
-		MyVecNode ret = new MyVecNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1));
+		MyVecNode ret = new MyVecNode(kernel1, x.deepCopy(kernel1),
+				y.deepCopy(kernel1));
 		ret.mode = mode;
 		if (isCASVector()) {
 			ret.setCASVector();
@@ -93,8 +102,10 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	}
 
 	/**
-	 * @param r radius
-	 * @param phi phase
+	 * @param r
+	 *            radius
+	 * @param phi
+	 *            phase
 	 */
 	public void setPolarCoords(ExpressionValue r, ExpressionValue phi) {
 		setCoords(r, phi);
@@ -122,12 +133,14 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 		ExpressionValue evx = x.evaluate(tpl);
 		if (!(evx instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evx.toString(tpl) };
-			throw new MyParseError(kernel.getApplication().getLocalization(), str);
+			throw new MyParseError(kernel.getApplication().getLocalization(),
+					str);
 		}
 		ExpressionValue evy = y.evaluate(tpl);
 		if (!(evy instanceof NumberValue)) {
 			String[] str = { "NumberExpected", evy.toString(tpl) };
-			throw new MyParseError(kernel.getApplication().getLocalization(), str);
+			throw new MyParseError(kernel.getApplication().getLocalization(),
+					str);
 		}
 
 		if (mode == Kernel.COORD_POLAR) {
@@ -145,7 +158,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 
 	@Override
 	public String toString(StringTemplate tpl) {
-		return toString(tpl,false);
+		return toString(tpl, false);
 	}
 
 	private String toString(StringTemplate tpl, boolean values) {
@@ -162,7 +175,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 				sb.append(")*sin(");
 				sb.append(print(y, values, tpl));
 				sb.append("))");
-			} else {			
+			} else {
 				sb.append(isCASVector() ? "ggbvect[" : "point(");
 				sb.append(print(x, values, tpl));
 				sb.append(',');
@@ -174,13 +187,12 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 		default: // continue below
 
 			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
-				
+
 				sb.append(" \\binom{");
 				sb.append(print(x, values, tpl));
 				sb.append("}{");
 				sb.append(print(y, values, tpl));
 				sb.append("}");
-				
 
 			} else {
 
@@ -196,18 +208,16 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 			}
 			break;
 		}
-		
+
 		return sb.toString();
 	}
-
-
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return toString(tpl, true);
 	}
 
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl, !symbolic);
 	}
 
@@ -259,7 +269,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	// could be vector or point
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
-		return isCASVector;//this.mode != Kernel.COORD_COMPLEX;
+		return isCASVector;// this.mode != Kernel.COORD_COMPLEX;
 	}
 
 	public boolean isNumberValue() {
@@ -281,7 +291,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
-		if(v!=this)
+		if (v != this)
 			return v;
 		x = x.traverse(t);
 		y = y.traverse(t);
@@ -289,7 +299,7 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	}
 
 	@Override
-	public boolean inspect(Inspecting t){
+	public boolean inspect(Inspecting t) {
 		return t.check(this) || x.inspect(t) || y.inspect(t);
 	}
 
@@ -304,8 +314,8 @@ public class MyVecNode extends ValidExpression implements VectorValue, MyVecNDNo
 	public void setCASVector() {
 		isCASVector = true;
 	}
-	
-	public ExpressionNode wrap(){
+
+	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 

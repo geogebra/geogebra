@@ -2,13 +2,16 @@ package geogebra.common.kernel.cas;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.algos.AlgoElement;
+
 /**
  * Abstract class for algos that use some CAS algo as helper
  */
-public abstract class AlgoUsingTempCASalgo extends AlgoElement implements UsesCAS {
+public abstract class AlgoUsingTempCASalgo extends AlgoElement implements
+		UsesCAS {
 
 	/**
-	 * @param c construction
+	 * @param c
+	 *            construction
 	 */
 	public AlgoUsingTempCASalgo(Construction c) {
 		super(c);
@@ -16,8 +19,10 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement implements UsesCA
 	}
 
 	/**
-	 * @param c construction
-	 * @param addToConstructionList whether we want this in construction list
+	 * @param c
+	 *            construction
+	 * @param addToConstructionList
+	 *            whether we want this in construction list
 	 */
 	public AlgoUsingTempCASalgo(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
@@ -31,17 +36,17 @@ public abstract class AlgoUsingTempCASalgo extends AlgoElement implements UsesCA
 
 	@Override
 	public void remove() {
-		if(removed)
+		if (removed)
 			return;
 		super.remove();
 		if (algoCAS != null)
 			algoCAS.remove();
 	}
-	
-	
+
 	/**
-	 * Creates a temporary CAS algorithm, computes it, stores the results and deletes the algorithm from the construction
+	 * Creates a temporary CAS algorithm, computes it, stores the results and
+	 * deletes the algorithm from the construction
 	 */
 	public abstract void refreshCASResults();
-	
+
 }

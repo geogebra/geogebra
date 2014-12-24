@@ -10,15 +10,16 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- * Division[number, number]
- * Division[number, polynomial]
+ * Division[number, number] Division[number, polynomial]
+ * 
  * @author zbynek
  *
  */
 public class CmdDivision extends CommandProcessor {
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdDivision(Kernel kernel) {
 		super(kernel);
@@ -35,17 +36,18 @@ public class CmdDivision extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
-				AlgoDivision algo = new AlgoDivision(cons,c.getLabel(),
+
+				AlgoDivision algo = new AlgoDivision(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret = {  algo.getResult() };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoFunction()))
 					&& (ok[1] = (arg[1].isGeoFunction()))) {
-				
-				AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,c.getLabel(),
-						(GeoFunction) arg[0], (GeoFunction) arg[1]);
+
+				AlgoPolynomialDivision algo = new AlgoPolynomialDivision(cons,
+						c.getLabel(), (GeoFunction) arg[0],
+						(GeoFunction) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

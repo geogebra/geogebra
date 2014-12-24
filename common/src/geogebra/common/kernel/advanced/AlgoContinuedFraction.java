@@ -37,21 +37,23 @@ public class AlgoContinuedFraction extends AlgoElement {
 	private boolean dotsNeeded;
 
 	public AlgoContinuedFraction(Construction cons, String label,
-			GeoNumberValue num, GeoNumberValue level,GeoBoolean shorthand) {
-		this(cons, num, level,shorthand);
+			GeoNumberValue num, GeoNumberValue level, GeoBoolean shorthand) {
+		this(cons, num, level, shorthand);
 		text.setLabel(label);
 	}
 
-	AlgoContinuedFraction(Construction cons, GeoNumberValue num, GeoNumberValue level,GeoBoolean shorthand) {
+	AlgoContinuedFraction(Construction cons, GeoNumberValue num,
+			GeoNumberValue level, GeoBoolean shorthand) {
 		super(cons);
 		this.num = num;
 		this.level = level;
 		this.shorthand = shorthand;
 		text = new GeoText(cons);
-		
-		text.setFormulaType(kernel.getApplication().getPreferredFormulaRenderingType());
+
+		text.setFormulaType(kernel.getApplication()
+				.getPreferredFormulaRenderingType());
 		text.setLaTeX(true, false);
-		
+
 		text.setIsTextCommand(true); // stop editing as text
 
 		setInputOutput();
@@ -60,21 +62,22 @@ public class AlgoContinuedFraction extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.ContinuedFraction;
-    } 
+		return Commands.ContinuedFraction;
+	}
 
 	@Override
 	protected void setInputOutput() {
-		int inputLength = 1 + (level ==null ? 0:1)+(shorthand ==null ? 0:1);
+		int inputLength = 1 + (level == null ? 0 : 1)
+				+ (shorthand == null ? 0 : 1);
 		input = new GeoElement[inputLength];
 		input[0] = num.toGeoElement();
 		int shorthandPos = 1;
 		if (level != null) {
-			shorthandPos =2;
+			shorthandPos = 2;
 			input[1] = level.toGeoElement();
-		} 
-		if(shorthand!=null){
-			input[shorthandPos]= shorthand;
+		}
+		if (shorthand != null) {
+			input[shorthandPos] = shorthand;
 		}
 
 		setOutputLength(1);
@@ -108,9 +111,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 					text.setTextString(sb.toString());
 				} else {
 					sb.setLength(0);
-					
+
 					sb.append("<apply><plus/>");
-					
+
 					for (int i = 0; i < steps - 1; i++) {
 						sb.append("<cn>");
 						sb.append(denominators[i]);
@@ -129,7 +132,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 						sb.append("</apply></apply>");
 					}
 					sb.append("</apply>");
-					
+
 					App.debug(sb.toString());
 					text.setTextString(sb.toString());
 				}
@@ -139,10 +142,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 					text.setTextString(kernel.format(
 							Math.round(num.getDouble()), tpl));
 				} else {
-					if(shorthand==null || !shorthand.getBoolean()){
-						appendLongLatex(steps,tpl);
-					}
-					else{
+					if (shorthand == null || !shorthand.getBoolean()) {
+						appendLongLatex(steps, tpl);
+					} else {
 						sb.setLength(0);
 						if (num.getDouble() < 0) {
 							sb.append('-');
@@ -155,7 +157,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 							sb.append(kernel.format(denominators[i], tpl));
 							sb.append(",");
 						}
-						sb.append(kernel.format(denominators[steps-1], tpl));
+						sb.append(kernel.format(denominators[steps - 1], tpl));
 						if (dotsNeeded) {
 							sb.append(",\\ldots");
 						}
@@ -174,7 +176,7 @@ public class AlgoContinuedFraction extends AlgoElement {
 		}
 	}
 
-	private void appendLongLatex(int steps,StringTemplate tpl) {
+	private void appendLongLatex(int steps, StringTemplate tpl) {
 		sb.setLength(0);
 		int start = 0;
 		if (num.getDouble() < 0) {
@@ -197,9 +199,9 @@ public class AlgoContinuedFraction extends AlgoElement {
 		for (int i = 0; i < steps - 1; i++) {
 			sb.append("}");
 		}
-		//App.debug(sb.toString());
+		// App.debug(sb.toString());
 		text.setTextString(sb.toString());
-		
+
 	}
 
 	/*
@@ -265,22 +267,22 @@ public class AlgoContinuedFraction extends AlgoElement {
 			FractionNumerator = Math.floor(decimal * FractionDenominator + 0.5); // Rounding
 																					// Function
 			steps++;
-			
-			//we are too close to integer, next step would be uncertain
-			if(Kernel.isEqual(Z, Math.floor(Z))){
+
+			// we are too close to integer, next step would be uncertain
+			if (Kernel.isEqual(Z, Math.floor(Z))) {
 				denominators[steps] = (long) Math.floor(Z);
 				dotsNeeded = false;
 				steps++;
 				break;
 			}
-			
-			//the approximation is within standard precision
+
+			// the approximation is within standard precision
 			if (Math.abs((decimal - (FractionNumerator / FractionDenominator))) <= AccuracyFactor) {
 				denominators[steps] = (long) Math.floor(Z);
 				steps++;
 				break;
 			}
-			
+
 		} while ((maxSteps == 0 || steps < maxSteps) && Z != Math.floor(Z)
 				&& steps < denominators.length);
 		return steps;

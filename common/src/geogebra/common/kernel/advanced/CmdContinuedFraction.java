@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *FractionText
+ * FractionText
  */
 public class CmdContinuedFraction extends CommandProcessor {
 
@@ -35,41 +35,46 @@ public class CmdContinuedFraction extends CommandProcessor {
 
 			if (arg[0] instanceof GeoNumberValue) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(GeoNumberValue) arg[0],null,null) };
+						(GeoNumberValue) arg[0], null, null) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 		case 2:
-			if ((ok[0]=arg[0] instanceof GeoNumberValue)&&(ok[1]=arg[1].isGeoBoolean())) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1].isGeoBoolean())) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(GeoNumberValue) arg[0],null,(GeoBoolean) arg[1]) };
+						(GeoNumberValue) arg[0], null, (GeoBoolean) arg[1]) };
 				return ret;
 			}
-			if ((ok[0]=arg[0] instanceof GeoNumberValue)&&(ok[1]=arg[1] instanceof GeoNumberValue)) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(GeoNumberValue) arg[0],(GeoNumberValue) arg[1],null) };
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], null) };
 				return ret;
 			}
-			
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 3:
 
-			
-			if ((ok[0]=arg[0] instanceof GeoNumberValue)&&(ok[1]=arg[1] instanceof GeoNumberValue)&&(ok[2]=arg[2].isGeoBoolean())) {
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2].isGeoBoolean())) {
 				GeoElement[] ret = { ContinuedFraction(c.getLabel(),
-						(GeoNumberValue) arg[0],(GeoNumberValue) arg[1],(GeoBoolean) arg[2]) };
+						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+						(GeoBoolean) arg[2]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
-	
-	final private GeoText ContinuedFraction(String label, GeoNumberValue num, GeoNumberValue level,GeoBoolean shortHand) {
-		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label, num, level,shortHand);
+
+	final private GeoText ContinuedFraction(String label, GeoNumberValue num,
+			GeoNumberValue level, GeoBoolean shortHand) {
+		AlgoContinuedFraction algo = new AlgoContinuedFraction(cons, label,
+				num, level, shortHand);
 		GeoText text = algo.getResult();
 		return text;
 	}

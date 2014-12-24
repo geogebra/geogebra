@@ -114,12 +114,11 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = A;
-		if (gc!=null){
-			input[1]=gc;
+		if (gc != null) {
+			input[1] = gc;
 		} else {
 			input[1] = f;
 		}
-		
 
 		super.setOutputLength(1);
 		super.setOutput(0, v);
@@ -135,8 +134,8 @@ public class AlgoCurvatureVectorCurve extends AlgoElement {
 	public final void compute() {
 		try {
 			double t2, t4, x, y, evals, tvalue;
-			if (gc!=null){
-				f=new GeoCurveCartesian(cons);
+			if (gc != null) {
+				f = new GeoCurveCartesian(cons);
 				gc.toGeoCurveCartesian(f);
 				cas();
 			}

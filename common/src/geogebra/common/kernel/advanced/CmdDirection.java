@@ -33,8 +33,7 @@ public class CmdDirection extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
-				GeoElement[] ret = { Direction(c.getLabel(),
-						(GeoLine) arg[0]) };
+				GeoElement[] ret = { Direction(c.getLabel(), (GeoLine) arg[0]) };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
@@ -43,7 +42,6 @@ public class CmdDirection extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
 
 	/**
 	 * Direction vector of line g

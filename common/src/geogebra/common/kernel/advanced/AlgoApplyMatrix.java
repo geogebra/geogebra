@@ -187,7 +187,8 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		b = ((NumberValue) (matrix.get(1, 0))).getDouble();
 		c = ((NumberValue) (matrix.get(0, 1))).getDouble();
 		d = ((NumberValue) (matrix.get(1, 1))).getDouble();
-		return (arc == null || arc.positiveOrientation()) ^ (((a * d) - (b * c)) < 0);
+		return (arc == null || arc.positiveOrientation())
+				^ (((a * d) - (b * c)) < 0);
 	}
 
 	@Override
@@ -199,7 +200,7 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		}
 
 	}
-	
+
 	@Override
 	public double getAreaScaleFactor() {
 		double a = ((NumberValue) (matrix.get(0, 0))).getDouble();
@@ -211,5 +212,4 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 
 	// TODO Consider locusequability
 
-	
 }

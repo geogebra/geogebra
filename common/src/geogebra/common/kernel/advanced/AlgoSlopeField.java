@@ -18,9 +18,7 @@ import java.util.ArrayList;
 
 /**
  * 
- * eg SlopeField[ x/y ]
- * eg SlopeField[ x/y, 20 ]
- * eg SlopeField[ x/y, 20, 0.8 ]
+ * eg SlopeField[ x/y ] eg SlopeField[ x/y, 20 ] eg SlopeField[ x/y, 20, 0.8 ]
  * eg SlopeField[ x/y, 20, 0.8, 0, 0, 5, 5 ]
  * 
  * @author michael
@@ -30,11 +28,11 @@ public class AlgoSlopeField extends AlgoElement {
 
 	private FunctionalNVar func; // input
 	private GeoNumeric n, lengthRatio, minX, minY, maxX, maxY;
-	//private GeoList g; // output        
-	private GeoLocus locus; // output   
+	// private GeoList g; // output
+	private GeoLocus locus; // output
 	@SuppressWarnings("javadoc")
 	ArrayList<MyPoint> al;
-	
+
 	private AlgoNumerator numAlgo;
 	private AlgoDenominator denAlgo;
 	private FunctionalNVar num, den;
@@ -42,19 +40,30 @@ public class AlgoSlopeField extends AlgoElement {
 	private EuclidianView mainView;
 
 	/**
-	 * @param cons cons
-	 * @param label label
-	 * @param func fucntion
-	 * @param n length of grid
-	 * @param lengthRatio between 0 and 1
-	 * @param minX minX
-	 * @param minY minY
-	 * @param maxX maxX
-	 * @param maxY maxY
+	 * @param cons
+	 *            cons
+	 * @param label
+	 *            label
+	 * @param func
+	 *            fucntion
+	 * @param n
+	 *            length of grid
+	 * @param lengthRatio
+	 *            between 0 and 1
+	 * @param minX
+	 *            minX
+	 * @param minY
+	 *            minY
+	 * @param maxX
+	 *            maxX
+	 * @param maxY
+	 *            maxY
 	 */
-	public AlgoSlopeField(Construction cons, String label, FunctionalNVar func, GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX, GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
+	public AlgoSlopeField(Construction cons, String label, FunctionalNVar func,
+			GeoNumeric n, GeoNumeric lengthRatio, GeoNumeric minX,
+			GeoNumeric minY, GeoNumeric maxX, GeoNumeric maxY) {
 		super(cons);
-		this.func = func;            	
+		this.func = func;
 
 		this.n = n;
 		this.lengthRatio = lengthRatio;
@@ -67,22 +76,22 @@ public class AlgoSlopeField extends AlgoElement {
 		denAlgo = new AlgoDenominator(cons, func);
 		cons.removeFromConstructionList(numAlgo);
 		cons.removeFromConstructionList(denAlgo);
-		
+
 		num = (FunctionalNVar) numAlgo.getGeoElements()[0];
 		den = (FunctionalNVar) denAlgo.getGeoElements()[0];
-		
+
 		quotient = num.isDefined() && den.isDefined();
-		
+
 		if (!quotient) {
 			cons.removeFromAlgorithmList(numAlgo);
 			cons.removeFromAlgorithmList(denAlgo);
 		}
-		
-		//g = new GeoList(cons);   
+
+		// g = new GeoList(cons);
 		locus = new GeoLocus(cons);
-		setInputOutput(); // for AlgoElement        
+		setInputOutput(); // for AlgoElement
 		compute();
-		//g.setLabel(label);
+		// g.setLabel(label);
 		locus.setLabel(label);
 
 		cons.registerEuclidianViewCE(this);
@@ -91,31 +100,43 @@ public class AlgoSlopeField extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.SlopeField;
-    }
+		return Commands.SlopeField;
+	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 
 		int noOfInputs = 1;
-		if (n != null) noOfInputs++;
-		if (lengthRatio != null) noOfInputs++;
-		if (minX != null) noOfInputs++;
-		if (minY != null) noOfInputs++;
-		if (maxX != null) noOfInputs++;
-		if (maxY != null) noOfInputs++;
+		if (n != null)
+			noOfInputs++;
+		if (lengthRatio != null)
+			noOfInputs++;
+		if (minX != null)
+			noOfInputs++;
+		if (minY != null)
+			noOfInputs++;
+		if (maxX != null)
+			noOfInputs++;
+		if (maxY != null)
+			noOfInputs++;
 
 		input = new GeoElement[noOfInputs];
 		int i = 0;
 
-		input[i++] = (GeoElement)func;
-		if (n != null) input[i++] = n;
-		if (lengthRatio != null) input[i++] = lengthRatio;
-		if (minX != null) input[i++] = minX;
-		if (minY != null) input[i++] = minY;
-		if (maxX != null) input[i++] = maxX;
-		if (maxY != null) input[i++] = maxY;
+		input[i++] = (GeoElement) func;
+		if (n != null)
+			input[i++] = n;
+		if (lengthRatio != null)
+			input[i++] = lengthRatio;
+		if (minX != null)
+			input[i++] = minX;
+		if (minY != null)
+			input[i++] = minY;
+		if (maxX != null)
+			input[i++] = maxX;
+		if (maxY != null)
+			input[i++] = maxY;
 
 		super.setOutputLength(1);
 		super.setOutput(0, locus);
@@ -130,15 +151,17 @@ public class AlgoSlopeField extends AlgoElement {
 	}
 
 	@Override
-	public final void compute() {       
-		if (!((GeoElement)func).isDefined()) {
+	public final void compute() {
+		if (!((GeoElement) func).isDefined()) {
 			locus.setUndefined();
 			return;
-		}    
+		}
 
-		if (al == null) al = new ArrayList<MyPoint>();
-		else al.clear();
-		
+		if (al == null)
+			al = new ArrayList<MyPoint>();
+		else
+			al.clear();
+
 		mainView = null;
 		double xmax = -Double.MAX_VALUE;
 		double ymin = Double.MAX_VALUE;
@@ -148,12 +171,14 @@ public class AlgoSlopeField extends AlgoElement {
 		if (minX != null) {
 			xmax = maxX.getDouble();
 			ymax = maxY.getDouble();
-			xmin = minX.getDouble(); 
+			xmin = minX.getDouble();
 			ymin = minY.getDouble();
 			mainView = kernel.getApplication().getEuclidianView1();
-			if (kernel.getApplication().hasEuclidianView2(1) && kernel.getApplication().getEuclidianView2(1).isVisibleInThisView(locus)
+			if (kernel.getApplication().hasEuclidianView2(1)
+					&& kernel.getApplication().getEuclidianView2(1)
+							.isVisibleInThisView(locus)
 					&& !mainView.isVisibleInThisView(locus)) {
-					mainView = kernel.getApplication().getEuclidianView2(1);
+				mainView = kernel.getApplication().getEuclidianView2(1);
 			}
 		} else {
 
@@ -163,21 +188,26 @@ public class AlgoSlopeField extends AlgoElement {
 
 			if (view.isVisibleInThisView(locus)) {
 				mainView = view;
-				xmax = Math.max(xmax,  view.toRealWorldCoordX((view.getWidth())));
-				ymax = Math.max(ymax,  view.toRealWorldCoordY(0));
-				xmin = Math.min(xmin,  view.toRealWorldCoordX(0));
-				ymin = Math.min(ymin,  view.toRealWorldCoordY((view.getHeight())));
+				xmax = Math
+						.max(xmax, view.toRealWorldCoordX((view.getWidth())));
+				ymax = Math.max(ymax, view.toRealWorldCoordY(0));
+				xmin = Math.min(xmin, view.toRealWorldCoordX(0));
+				ymin = Math.min(ymin,
+						view.toRealWorldCoordY((view.getHeight())));
 			}
 
 			if (kernel.getApplication().hasEuclidianView2(1)) {
-				EuclidianView view2 = kernel.getApplication().getEuclidianView2(1);
+				EuclidianView view2 = kernel.getApplication()
+						.getEuclidianView2(1);
 				if (view2.isVisibleInThisView(locus)) {
-					if(mainView == null)
+					if (mainView == null)
 						mainView = view2;
-					xmax = Math.max(xmax,  view2.toRealWorldCoordX((view.getWidth())));
-					ymax = Math.max(ymax,  view2.toRealWorldCoordY(0));
-					xmin = Math.min(xmin,  view2.toRealWorldCoordX(0));
-					ymin = Math.min(ymin,  view2.toRealWorldCoordY((view.getHeight())));
+					xmax = Math.max(xmax,
+							view2.toRealWorldCoordX((view.getWidth())));
+					ymax = Math.max(ymax, view2.toRealWorldCoordY(0));
+					xmin = Math.min(xmin, view2.toRealWorldCoordX(0));
+					ymin = Math.min(ymin,
+							view2.toRealWorldCoordY((view.getHeight())));
 				}
 			}
 		}
@@ -185,7 +215,7 @@ public class AlgoSlopeField extends AlgoElement {
 		// if it's visible in at least one view, calculate visible portion
 		if (xmax > -Double.MAX_VALUE) {
 			int nD = (int) (n == null ? 39 : n.getDouble() - 1);
-			
+
 			if (nD < 2 || nD > 100) {
 				nD = 39;
 			}
@@ -193,38 +223,44 @@ public class AlgoSlopeField extends AlgoElement {
 			double xStep = (xmax - xmin) / nD;
 			double yStep = (ymax - ymin) / nD;
 
-			
+			double length = (lengthRatio == null ? 0.5 : lengthRatio
+					.getDouble());
 
-			double length = (lengthRatio == null ? 0.5 : lengthRatio.getDouble());
-			
-			if (length < 0 || length > 1 || Double.isInfinite(length) || Double.isNaN(length)) {
+			if (length < 0 || length > 1 || Double.isInfinite(length)
+					|| Double.isNaN(length)) {
 				length = 0.5;
 			}
-			
-			length = Math.min(xStep,yStep*mainView.getScaleRatio()) * length * 0.5;
-			//double yLength = yStep * length * 0.5;
-			
-			boolean funcOfJustY = func instanceof GeoFunction && ((GeoFunction)func).isFunctionOfY();
 
-			//AbstractApplication.debug(xStep+" "+yStep+" "+step);
+			length = Math.min(xStep, yStep * mainView.getScaleRatio()) * length
+					* 0.5;
+			// double yLength = yStep * length * 0.5;
 
-			for (double xx = xmin ; xx < xmax + xStep / 2 ; xx += xStep) {
-				for (double yy = ymin ; yy < ymax + yStep / 2 ; yy += yStep) {
+			boolean funcOfJustY = func instanceof GeoFunction
+					&& ((GeoFunction) func).isFunctionOfY();
 
-					double [] input1 = {xx, yy};
-					//double gradient = func.evaluate(input1);
+			// AbstractApplication.debug(xStep+" "+yStep+" "+step);
 
-					//AbstractApplication.debug(num.isDefined()+" "+den.isDefined());
+			for (double xx = xmin; xx < xmax + xStep / 2; xx += xStep) {
+				for (double yy = ymin; yy < ymax + yStep / 2; yy += yStep) {
+
+					double[] input1 = { xx, yy };
+					// double gradient = func.evaluate(input1);
+
+					// AbstractApplication.debug(num.isDefined()+" "+den.isDefined());
 
 					if (num.isDefined() && den.isDefined()) {
 						// quotient function like x / y
 
 						// make sure eg SlopeField[(2 - y) / 2] works
-						boolean numfuncOfJustY = num instanceof GeoFunction && ((GeoFunction)num).isFunctionOfY();
-						boolean denfuncOfJustY = den instanceof GeoFunction && ((GeoFunction)den).isFunctionOfY();
+						boolean numfuncOfJustY = num instanceof GeoFunction
+								&& ((GeoFunction) num).isFunctionOfY();
+						boolean denfuncOfJustY = den instanceof GeoFunction
+								&& ((GeoFunction) den).isFunctionOfY();
 
-						double numD = numfuncOfJustY ? ((GeoFunction)num).evaluate(input1[1]) : num.evaluate(input1);
-						double denD = denfuncOfJustY ? ((GeoFunction)den).evaluate(input1[1]) : den.evaluate(input1);
+						double numD = numfuncOfJustY ? ((GeoFunction) num)
+								.evaluate(input1[1]) : num.evaluate(input1);
+						double denD = denfuncOfJustY ? ((GeoFunction) den)
+								.evaluate(input1[1]) : den.evaluate(input1);
 
 						if (Kernel.isZero(denD)) {
 							if (Kernel.isZero(numD)) {
@@ -233,26 +269,26 @@ public class AlgoSlopeField extends AlgoElement {
 								al.add(new MyPoint(xx, yy, true));
 							} else {
 								// vertical line
-								drawLine(0,1, length, xx, yy);							
+								drawLine(0, 1, length, xx, yy);
 							}
 						} else {
 
 							// standard case
 							double gradient = numD / denD;
-							drawLine(1,gradient, length, xx, yy);
+							drawLine(1, gradient, length, xx, yy);
 						}
 					} else {
 						// non-quotient function like x y
 						double gradient;
-						
+
 						if (funcOfJustY) {
 							// eg SlopeField[y]
-							gradient = ((GeoFunction)func).evaluate(input1[1]);
+							gradient = ((GeoFunction) func).evaluate(input1[1]);
 						} else {
 							// standard case
 							gradient = func.evaluate(input1);
 						}
-						drawLine(1,gradient, length, xx, yy);
+						drawLine(1, gradient, length, xx, yy);
 
 					}
 
@@ -260,38 +296,35 @@ public class AlgoSlopeField extends AlgoElement {
 			}
 		}
 
-
-
 		locus.setPoints(al);
 		locus.setDefined(true);
 
 	}
-	
-	private void drawLine(double dx, double dy, double length, double xx, double yy) {
-		/*double theta = Math.atan(gradient);
-		double dx = Math.cos(theta);
-		double dy = Math.sin(theta);*/
-		double dyScaled = dy *mainView.getScaleRatio();
-		double coeff = Math.sqrt(dx*dx+dyScaled*dyScaled);
-		dx *= length/coeff;
-		dy *= length/coeff;
+
+	private void drawLine(double dx, double dy, double length, double xx,
+			double yy) {
+		/*
+		 * double theta = Math.atan(gradient); double dx = Math.cos(theta);
+		 * double dy = Math.sin(theta);
+		 */
+		double dyScaled = dy * mainView.getScaleRatio();
+		double coeff = Math.sqrt(dx * dx + dyScaled * dyScaled);
+		dx *= length / coeff;
+		dy *= length / coeff;
 		al.add(new MyPoint(xx - dx, yy - dy, false));
 		al.add(new MyPoint(xx + dx, yy + dy, true));
 
 	}
-	
-    @Override
+
+	@Override
 	public void remove() {
-    	if(removed)
+		if (removed)
 			return;
-        super.remove();
-	    ((GeoElement) func).removeAlgorithm(numAlgo);
-	    ((GeoElement) func).removeAlgorithm(denAlgo);
-    }
+		super.remove();
+		((GeoElement) func).removeAlgorithm(numAlgo);
+		((GeoElement) func).removeAlgorithm(denAlgo);
+	}
 
 	// TODO Consider locusequability
 
-
-
 }
-

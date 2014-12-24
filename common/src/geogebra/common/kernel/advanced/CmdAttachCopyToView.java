@@ -39,7 +39,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 			arg = resArgs(c);
 
 			if (arg[1] instanceof NumberValue) {
-				GeoPointND corner1, corner3, screenCorner1,screenCorner3;
+				GeoPointND corner1, corner3, screenCorner1, screenCorner3;
 				int viewID = (int) ((NumberValue) arg[1]).getDouble();
 				EuclidianView ev;
 				if (viewID == 2)
@@ -52,14 +52,13 @@ public class CmdAttachCopyToView extends CommandProcessor {
 					corner3 = new GeoPoint(kernelA.getConstruction());
 					screenCorner1 = new GeoPoint(kernelA.getConstruction());
 					screenCorner3 = new GeoPoint(kernelA.getConstruction());
-					if(ev!=null){
+					if (ev != null) {
 						corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 						corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
 						screenCorner1.setCoords(0, ev.getHeight(), 1);
 						screenCorner3.setCoords(ev.getWidth(), 0, 1);
 					}
-				} 
-				else {
+				} else {
 					if (arg[2].isGeoPoint())
 						corner1 = (GeoPointND) arg[2];
 					else
@@ -77,17 +76,20 @@ public class CmdAttachCopyToView extends CommandProcessor {
 					else
 						throw argErr(app, c.getName(), arg[5]);
 				}
-				
+
 				if (arg[0].isMatrixTransformable() || arg[0].isGeoFunction()
-						|| arg[0].isGeoPolygon() || arg[0].isGeoPolyLine() || arg[0].isGeoList()) {
-					
-					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,arg[0], (NumberValue)arg[1],
-							corner1, corner3, screenCorner1,screenCorner3);
+						|| arg[0].isGeoPolygon() || arg[0].isGeoPolyLine()
+						|| arg[0].isGeoList()) {
+
+					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,
+							arg[0], (NumberValue) arg[1], corner1, corner3,
+							screenCorner1, screenCorner3);
 
 					ret = new GeoElement[] { algo.getResult() };
-					if(n==2 && ev!=app.getActiveEuclidianView()){
+					if (n == 2 && ev != app.getActiveEuclidianView()) {
 						ret[0].addView(ev.getViewID());
-						ret[0].removeView(app.getActiveEuclidianView().getViewID());
+						ret[0].removeView(app.getActiveEuclidianView()
+								.getViewID());
 						app.getActiveEuclidianView().remove(ret[0]);
 						ev.add(ret[0]);
 					}

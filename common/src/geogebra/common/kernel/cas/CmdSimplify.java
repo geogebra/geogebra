@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *Simplify
+ * Simplify
  */
 public class CmdSimplify extends CommandProcessor {
 
@@ -33,16 +33,17 @@ public class CmdSimplify extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0].isCasEvaluableObject())) {
-				
-				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
-						(CasEvaluableFunction) arg[0], Commands.Simplify);
+
+				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(
+						cons, c.getLabel(), (CasEvaluableFunction) arg[0],
+						Commands.Simplify);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((arg[0].isGeoText())) {
-				
-				AlgoSimplifyText algo = new AlgoSimplifyText(cons, c.getLabel(),
-						(GeoText) arg[0]);
+
+				AlgoSimplifyText algo = new AlgoSimplifyText(cons,
+						c.getLabel(), (GeoText) arg[0]);
 
 				GeoElement[] ret = { algo.getGeoText() };
 				return ret;

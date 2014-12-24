@@ -33,9 +33,9 @@ public class CmdParameter extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				
-				AlgoParabolaParameter algo = new AlgoParabolaParameter(cons, c.getLabel(),
-						(GeoConic) arg[0]);
+
+				AlgoParabolaParameter algo = new AlgoParabolaParameter(cons,
+						c.getLabel(), (GeoConic) arg[0]);
 
 				GeoElement[] ret = { algo.getParameter() };
 				return ret;

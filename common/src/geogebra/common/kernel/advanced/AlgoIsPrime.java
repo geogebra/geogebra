@@ -24,24 +24,24 @@ public class AlgoIsPrime extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[]{number.toGeoElement()};
+		input = new GeoElement[] { number.toGeoElement() };
 		setDependencies();
 	}
 
 	@Override
 	public void compute() {
 		double n = Math.round(number.getDouble());
-    	result.setDefined();
-    	if (n == 1) {
-    		result.setValue(false);
-    		return;
-    	}
-    	
-    	if (n < 2 || n > AlgoPrimeFactorization.LARGEST_INTEGER) {
-    		result.setUndefined();
-    		return;
-    	}
-    	result.setValue(true);
+		result.setDefined();
+		if (n == 1) {
+			result.setValue(false);
+			return;
+		}
+
+		if (n < 2 || n > AlgoPrimeFactorization.LARGEST_INTEGER) {
+			result.setUndefined();
+			return;
+		}
+		result.setValue(true);
 		for (int i = 2; i <= n / i; i++) {
 			if (n % i == 0) {
 				result.setValue(false);

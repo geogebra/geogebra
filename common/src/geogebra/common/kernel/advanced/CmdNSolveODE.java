@@ -11,6 +11,7 @@ import geogebra.common.main.MyError;
 
 /**
  * NSolveODE
+ * 
  * @author Bencze Balazs
  */
 public class CmdNSolveODE extends CommandProcessor {
@@ -37,15 +38,15 @@ public class CmdNSolveODE extends CommandProcessor {
 		if (!arg[2].isGeoList()) {
 			throw argErr(app, c.getName(), arg[2]);
 		}
-		int dim1 = ((GeoList)arg[0]).size();
-		int dim2 = ((GeoList)arg[2]).size();
-		for(int i = 0; i < dim1; i++) {
-			if (!(((GeoList)arg[0]).get(i) instanceof FunctionalNVar)) {
+		int dim1 = ((GeoList) arg[0]).size();
+		int dim2 = ((GeoList) arg[2]).size();
+		for (int i = 0; i < dim1; i++) {
+			if (!(((GeoList) arg[0]).get(i) instanceof FunctionalNVar)) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
 		}
-		for(int i = 0; i < dim2; i++) {
-			if (!(((GeoList)arg[2]).get(i)).isGeoNumeric()) {
+		for (int i = 0; i < dim2; i++) {
+			if (!(((GeoList) arg[2]).get(i)).isGeoNumeric()) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
 		}
@@ -55,11 +56,12 @@ public class CmdNSolveODE extends CommandProcessor {
 		if (dim1 == 0) {
 			throw argErr(app, c.getName(), arg[0]);
 		}
-		
+
 		if (n == 4) {
-			if ((ok[0] = true)			// already checked before
-					&& (ok[1] = arg[1].isGeoNumeric())
-					&& (ok[2] = true)	// already checked before
+			if ((ok[0] = true) // already checked before
+					&& (ok[1] = arg[1].isGeoNumeric()) && (ok[2] = true) // already
+																			// checked
+																			// before
 					&& (ok[3] = arg[3].isGeoNumeric())) {
 				GeoElement[] ret = getAlgoDispatcher().NSolveODE(c.getLabels(),
 						(GeoList) arg[0], (GeoNumeric) arg[1],

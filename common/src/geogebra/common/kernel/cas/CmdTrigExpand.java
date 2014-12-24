@@ -8,15 +8,17 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
+
 /**
- * TrigExpand[<Function>]
- * TrigExpand[<Function>, <Target Function>]
+ * TrigExpand[<Function>] TrigExpand[<Function>, <Target Function>]
+ * 
  * @author Zbynek Konecny
  */
 public class CmdTrigExpand extends CommandProcessor {
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdTrigExpand(Kernel kernel) {
 		super(kernel);
@@ -32,16 +34,19 @@ public class CmdTrigExpand extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0].isCasEvaluableObject())) {
-				AlgoTrigExpand algo= new AlgoTrigExpand(kernelA.getConstruction(),c.getLabel(),
-						(CasEvaluableFunction) arg[0],null); 
-				return new GeoElement[]{algo.getResult()};
-			} 
+				AlgoTrigExpand algo = new AlgoTrigExpand(
+						kernelA.getConstruction(), c.getLabel(),
+						(CasEvaluableFunction) arg[0], null);
+				return new GeoElement[] { algo.getResult() };
+			}
 		case 2:
-			if ((arg[0].isCasEvaluableObject()) && (arg[1] instanceof GeoFunction)) {
-				AlgoTrigExpand algo= new AlgoTrigExpand(kernelA.getConstruction(),c.getLabel(),
-						(CasEvaluableFunction) arg[0],(GeoFunction)arg[1]); 
-				return new GeoElement[]{algo.getResult()};
-			} 	
+			if ((arg[0].isCasEvaluableObject())
+					&& (arg[1] instanceof GeoFunction)) {
+				AlgoTrigExpand algo = new AlgoTrigExpand(
+						kernelA.getConstruction(), c.getLabel(),
+						(CasEvaluableFunction) arg[0], (GeoFunction) arg[1]);
+				return new GeoElement[] { algo.getResult() };
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 			// more than one argument

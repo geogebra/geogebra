@@ -22,15 +22,17 @@ import geogebra.common.main.MyError;
 
 /**
  * AreEqual[<Object>, <Object>]
- * @author Simon Weitzhofer
- * 17th of may 2012 
+ * 
+ * @author Simon Weitzhofer 17th of may 2012
  *
  */
 public class CmdAreEqual extends CommandProcessor {
 
 	/**
 	 * Create new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdAreEqual(Kernel kernel) {
 		super(kernel);
@@ -39,18 +41,19 @@ public class CmdAreEqual extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException {
-		int n=c.getArgumentNumber();
+		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n==2) {
-			
-			AlgoAreEqual algo = new AlgoAreEqual(cons, c.getLabel(), arg[0], arg[1]);
+		if (n == 2) {
+
+			AlgoAreEqual algo = new AlgoAreEqual(cons, c.getLabel(), arg[0],
+					arg[1]);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);
-		
+
 	}
 
 }

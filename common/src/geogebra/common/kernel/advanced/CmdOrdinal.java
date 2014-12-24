@@ -29,17 +29,16 @@ public class CmdOrdinal extends CommandProcessor {
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
-			if (arg[0].isGeoNumeric()) 
-			{
+			if (arg[0].isGeoNumeric()) {
 				AlgoOrdinal algo = new AlgoOrdinal(cons, c.getLabel(),
 						(GeoNumeric) arg[0]);
 
-				GeoElement[] ret = {algo.getResult() };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-						
-			} 
+
+			}
 			throw argErr(app, c.getName(), arg[0]);
-		
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

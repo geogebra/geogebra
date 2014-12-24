@@ -28,7 +28,9 @@ public class CmdAreCollinear extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdAreCollinear(Kernel kernel) {
 		super(kernel);
@@ -37,27 +39,28 @@ public class CmdAreCollinear extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException {
-		int n=c.getArgumentNumber();
+		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n==3) {
-			if (!(arg[0] instanceof GeoPoint )){
+		if (n == 3) {
+			if (!(arg[0] instanceof GeoPoint)) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
-			if (!(arg[1] instanceof GeoPoint )){
+			if (!(arg[1] instanceof GeoPoint)) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			if (!(arg[2] instanceof GeoPoint )){
+			if (!(arg[2] instanceof GeoPoint)) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
-			
-			AlgoAreCollinear algo = new AlgoAreCollinear(cons, c.getLabel(), (GeoPoint) arg[0],(GeoPoint) arg[1],(GeoPoint) arg[2]);
+
+			AlgoAreCollinear algo = new AlgoAreCollinear(cons, c.getLabel(),
+					(GeoPoint) arg[0], (GeoPoint) arg[1], (GeoPoint) arg[2]);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);
-		
+
 	}
 
 }

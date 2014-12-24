@@ -18,7 +18,9 @@ public class AlgoDivisorsSum extends AlgoElement {
 	private AlgoPrimeFactorization factors;
 	private GeoList factorList;
 	private boolean sum;
-	public AlgoDivisorsSum(Construction c,String label,NumberValue number, boolean sum) {
+
+	public AlgoDivisorsSum(Construction c, String label, NumberValue number,
+			boolean sum) {
 		super(c);
 		this.number = number;
 		this.sum = sum;
@@ -33,39 +35,40 @@ public class AlgoDivisorsSum extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[]{number.toGeoElement()};
+		input = new GeoElement[] { number.toGeoElement() };
 		setDependencies();
 	}
 
 	@Override
 	public void compute() {
-		if(!factorList.isDefined()||!Kernel.isInteger(number.getDouble())){
+		if (!factorList.isDefined() || !Kernel.isInteger(number.getDouble())) {
 			result.setUndefined();
 			return;
 		}
 		long res = 1;
-		for(int i=0;i<factorList.size();i++){
+		for (int i = 0; i < factorList.size(); i++) {
 			GeoList pair = (GeoList) factorList.get(i);
-			double exp = ((NumberValue)pair.get(1)).getDouble();
-			if(sum){
-				double prime = ((NumberValue)pair.get(0)).getDouble();
+			double exp = ((NumberValue) pair.get(1)).getDouble();
+			if (sum) {
+				double prime = ((NumberValue) pair.get(0)).getDouble();
 				Log.debug(prime);
-				res = res * Math.round((Math.pow(prime, exp+1)-1)/(prime-1.0));
-			}
-			else{
-				res = res * Math.round(exp+1);
+				res = res
+						* Math.round((Math.pow(prime, exp + 1) - 1)
+								/ (prime - 1.0));
+			} else {
+				res = res * Math.round(exp + 1);
 			}
 		}
 		result.setValue(res);
 	}
-	
-	public GeoNumeric getResult(){
+
+	public GeoNumeric getResult() {
 		return result;
 	}
 
 	@Override
 	public Commands getClassName() {
-    	if(sum)
+		if (sum)
 			return Commands.DivisorsSum;
 		return Commands.Divisors;
 	}

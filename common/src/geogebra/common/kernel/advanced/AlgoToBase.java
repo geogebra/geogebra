@@ -10,8 +10,10 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.util.StringUtil;
 
 import java.math.BigInteger;
+
 /**
  * Allows conversion of numbers to different bases via ToBase[number, base]
+ * 
  * @author zbynek
  *
  */
@@ -22,13 +24,17 @@ public class AlgoToBase extends AlgoElement {
 	private GeoText result;
 
 	/**
-	 * @param c construction
-	 * @param label label for output
-	 * @param base base
-	 * @param number number
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param base
+	 *            base
+	 * @param number
+	 *            number
 	 */
-	public AlgoToBase(Construction c, String label, NumberValue number, NumberValue base
-			) {
+	public AlgoToBase(Construction c, String label, NumberValue number,
+			NumberValue base) {
 		super(c);
 		this.base = base;
 		this.number = number;
@@ -81,7 +87,7 @@ public class AlgoToBase extends AlgoElement {
 			StringBuilder sb = new StringBuilder(digits);
 			sb.append(intPart);
 			sb.append('.');
-			for(int i=0;i < digits- decimalPart.length();i++){
+			for (int i = 0; i < digits - decimalPart.length(); i++) {
 				sb.append('0');
 			}
 			sb.append(decimalPart);
@@ -92,7 +98,7 @@ public class AlgoToBase extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.ToBase;
-    } 
+		return Commands.ToBase;
+	}
 
 }

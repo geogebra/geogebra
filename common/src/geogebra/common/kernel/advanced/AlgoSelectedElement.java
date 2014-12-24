@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.advanced;
 
@@ -19,13 +19,12 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
  * n-th element of a GeoList object.
  * 
- * Note: the type of the returned GeoElement object is determined
- * by the type of the first list element. If the list is initially empty,
- * a GeoNumeric object is created for element.
+ * Note: the type of the returned GeoElement object is determined by the type of
+ * the first list element. If the list is initially empty, a GeoNumeric object
+ * is created for element.
  * 
  * @author Markus Hohenwarter
  * @version 15-07-2007
@@ -33,76 +32,78 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoSelectedElement extends AlgoElement {
 
-	private GeoList geoList; //input
-    private GeoElement element; //output	
+	private GeoList geoList; // input
+	private GeoElement element; // output
 
-    /**
-     * Creates new selected element algo
-     * @param cons
-     * @param label
-     * @param geoList
-     */
-    public AlgoSelectedElement(Construction cons, String label, GeoList geoList) {
-        super(cons);
-        this.geoList = geoList;
-               
-        // init return element as copy of first list element
-        if (geoList.size() > 0) {
-        	// create copy of first GeoElement in list
-        	element = geoList.get(0).copyInternal(cons);        
-        } 
+	/**
+	 * Creates new selected element algo
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param geoList
+	 */
+	public AlgoSelectedElement(Construction cons, String label, GeoList geoList) {
+		super(cons);
+		this.geoList = geoList;
 
-        // desperate case: empty list
-        else {        	        	        	
-        	element = new GeoNumeric(cons);
-        }      
+		// init return element as copy of first list element
+		if (geoList.size() > 0) {
+			// create copy of first GeoElement in list
+			element = geoList.get(0).copyInternal(cons);
+		}
 
-        setInputOutput();
-        compute();
-        element.setLabel(label);
-    }
+		// desperate case: empty list
+		else {
+			element = new GeoNumeric(cons);
+		}
 
-    @Override
+		setInputOutput();
+		compute();
+		element.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.SelectedElement;
-    }
+		return Commands.SelectedElement;
+	}
 
-    @Override
-	protected void setInputOutput(){
-    	
-        input = new GeoElement[1];
-        input[0] = geoList;
+	@Override
+	protected void setInputOutput() {
 
-        setOutputLength(1);
-        setOutput(0,element);
-        setDependencies(); // done by AlgoElement
-    }
+		input = new GeoElement[1];
+		input[0] = geoList;
 
-    /**
-     * Returns the selected element
-     * @return selected element
-     */
-    public GeoElement getElement() {
-        return element;
-    }
+		setOutputLength(1);
+		setOutput(0, element);
+		setDependencies(); // done by AlgoElement
+	}
 
-    @Override
+	/**
+	 * Returns the selected element
+	 * 
+	 * @return selected element
+	 */
+	public GeoElement getElement() {
+		return element;
+	}
+
+	@Override
 	public final void compute() {
-    	if (!geoList.isDefined()) {
-        	element.setUndefined();
-    		return;
-    	}
-    	
+		if (!geoList.isDefined()) {
+			element.setUndefined();
+			return;
+		}
+
 		GeoElement geo = geoList.getSelectedElement();
 		// check type:
 		if (geo != null && geo.getGeoClassType() == element.getGeoClassType()) {
 			element.set(geo);
-			
+
 		} else {
 			element.setUndefined();
 		}
-    }
+	}
 
 	// TODO Consider locusequability
-    
+
 }

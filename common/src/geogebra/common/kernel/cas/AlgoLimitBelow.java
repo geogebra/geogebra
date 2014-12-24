@@ -24,10 +24,14 @@ import geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoLimitBelow extends AlgoLimit {
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f function
-	 * @param num number
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 * @param num
+	 *            number
 	 */
 	public AlgoLimitBelow(Construction cons, String label, GeoFunction f,
 			NumberValue num) {
@@ -40,7 +44,7 @@ public class AlgoLimitBelow extends AlgoLimit {
 	}
 
 	@Override
-	protected int getDirection(){
+	protected int getDirection() {
 		return 1;
 	}
 

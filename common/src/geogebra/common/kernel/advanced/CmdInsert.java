@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *Insert
+ * Insert
  */
 public class CmdInsert extends CommandProcessor {
 
@@ -32,15 +32,15 @@ public class CmdInsert extends CommandProcessor {
 		switch (n) {
 		case 3:
 
-			if ((ok[0]=arg[1].isGeoList()) && (ok[1]=arg[2].isGeoNumeric())) {
-				
+			if ((ok[0] = arg[1].isGeoList()) && (ok[1] = arg[2].isGeoNumeric())) {
+
 				AlgoInsert algo = new AlgoInsert(cons, c.getLabel(), arg[0],
 						(GeoList) arg[1], (GeoNumeric) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

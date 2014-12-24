@@ -36,18 +36,23 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 	private GeoList g; // output
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
 	 */
 	public AlgoCoefficients(Construction cons, String label, GeoFunction f) {
 		this(cons, f);
 		g.setLabel(label);
 	}
-	
+
 	/**
-	 * @param cons construction
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
 	 */
 	public AlgoCoefficients(Construction cons, GeoFunction f) {
 		super(cons);
@@ -59,10 +64,10 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 		compute();
 	}
 
-	 @Override
-		public Commands getClassName() {
-	        return Commands.Coefficients;
-	    }
+	@Override
+	public Commands getClassName() {
+		return Commands.Coefficients;
+	}
 
 	// for AlgoElement
 	@Override
@@ -89,11 +94,11 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 			return;
 		}
 
-
 		Function inFun = f.getFunction();
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
+				false, false);
 
 		if (poly != null) {
 
@@ -102,34 +107,32 @@ public class AlgoCoefficients extends AlgoElement implements UsesCAS {
 			g.clear();
 			g.setDefined(true);
 
-			for (int i = coeffs.length - 1 ; i >=0 ; i--) {
+			for (int i = coeffs.length - 1; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
 			}
 
 			return;
 		} else if (f.getParentAlgorithm() instanceof FitAlgo) {
-			
+
 			FitAlgo fitAlgo = (FitAlgo) f.getParentAlgorithm();
-			
+
 			double[] coeffs = fitAlgo.getCoeffs();
-			
+
 			g.clear();
 			g.setDefined(true);
-			
-			for (int i = coeffs.length - 1 ; i >=0 ; i--) {
+
+			for (int i = coeffs.length - 1; i >= 0; i--) {
 				g.add(new GeoNumeric(cons, coeffs[i]));
 			}
-			
+
 			return;
 
-			
-			//App.debug(fitAlgo.P.getEntry(0,0)+" "+fitAlgo.P.getEntry(0,1));
+			// App.debug(fitAlgo.P.getEntry(0,0)+" "+fitAlgo.P.getEntry(0,1));
 		}
 
 		// not a polynomial
 		g.setUndefined();
 		return;
-
 
 	}
 

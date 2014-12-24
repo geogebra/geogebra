@@ -25,11 +25,16 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param c curve
-	 * @param A start point
-	 * @param B end point
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param c
+	 *            curve
+	 * @param A
+	 *            start point
+	 * @param B
+	 *            end point
 	 */
 	public AlgoLengthCurve2Points(Construction cons, String label,
 			GeoCurveCartesian c, GeoPoint A, GeoPoint B) {
@@ -48,8 +53,8 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -93,5 +98,5 @@ public class AlgoLengthCurve2Points extends AlgoUsingTempCASalgo {
 		lengthCurve = new LengthCurve(derivative);
 	}
 
-	//locus equability makes no sense here
+	// locus equability makes no sense here
 }

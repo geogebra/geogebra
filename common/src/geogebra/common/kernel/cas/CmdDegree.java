@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 
 /**
- *Degree
+ * Degree
  */
 public class CmdDegree extends CommandProcessor {
 

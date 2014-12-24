@@ -10,13 +10,15 @@ import geogebra.common.main.MyError;
 
 /**
  * MatrixRank[Matrix]
+ * 
  * @author zbynek
  *
  */
 public class CmdMatrixRank extends CommandProcessor {
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdMatrixRank(Kernel kernel) {
 		super(kernel);
@@ -30,8 +32,9 @@ public class CmdMatrixRank extends CommandProcessor {
 			throw argNumErr(app, c.getName(), args.length);
 		if (!args[0].isGeoList())
 			throw argErr(app, c.getName(), args[0]);
-		
-		AlgoMatrixRank algo = new AlgoMatrixRank(cons,c.getLabel(), (GeoList) args[0]);
+
+		AlgoMatrixRank algo = new AlgoMatrixRank(cons, c.getLabel(),
+				(GeoList) args[0]);
 
 		return new GeoElement[] { algo.getResult() };
 	}

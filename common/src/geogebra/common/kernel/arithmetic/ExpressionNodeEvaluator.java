@@ -27,10 +27,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	private static final StringTemplate errorTemplate = StringTemplate.defaultTemplate;
 	private Localization l10n;
 	protected Kernel kernel;
-	
+
 	/**
 	 * Creates new expression node evaluator
-	 * @param l10n localization for errors
+	 * 
+	 * @param l10n
+	 *            localization for errors
 	 */
 	public ExpressionNodeEvaluator(Localization l10n, Kernel kernel) {
 		this.l10n = l10n;
@@ -78,48 +80,63 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// NON-List operations (apart from EQUAL_BOOLEAN and list + text)
 		return handleOp(operation, lt, rt, left, right, tpl, holdsLaTeXtext);
 	}
-	
-	protected ExpressionValue handleOp(Operation op, ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX){
+
+	protected ExpressionValue handleOp(Operation op, ExpressionValue lt,
+			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
+			StringTemplate tpl, boolean holdsLaTeX) {
 		return op.handle(this, lt, rt, left, right, tpl, holdsLaTeX);
 	}
-	
+
 	/**
 	 * 
-	 * @param myList list (matrix)
-	 * @param rt vector
+	 * @param myList
+	 *            list (matrix)
+	 * @param rt
+	 *            vector
 	 * @return list (matrix) * vector/point
 	 */
-	protected ExpressionValue multiply(MyList myList, VectorNDValue rt){
-		if (rt instanceof VectorValue) {	
-			return multiply2D(myList, myList.getMatrixRows(), myList.getMatrixCols(), (VectorValue) rt);
-		} 
-		
+	protected ExpressionValue multiply(MyList myList, VectorNDValue rt) {
+		if (rt instanceof VectorValue) {
+			return multiply2D(myList, myList.getMatrixRows(),
+					myList.getMatrixCols(), (VectorValue) rt);
+		}
+
 		return null;
 	}
-	
+
 	/**
 	 * 
-	 * @param myList list (matrix)
-	 * @param rows matrix rows length
-	 * @param cols matrix cols length
-	 * @param rt vector
+	 * @param myList
+	 *            list (matrix)
+	 * @param rows
+	 *            matrix rows length
+	 * @param cols
+	 *            matrix cols length
+	 * @param rt
+	 *            vector
 	 * @return list (matrix) * 2D vector / point
 	 */
-	final protected ExpressionValue multiply2D(MyList myList, int rows, int cols, VectorValue rt){
+	final protected ExpressionValue multiply2D(MyList myList, int rows,
+			int cols, VectorValue rt) {
 
 		return multiply2D(myList, rows, cols, rt, rt.getVector());
 	}
-		
+
 	/**
-	 * @param myList list (matrix)
-	 * @param rows matrix rows length
-	 * @param cols matrix cols length
-	 * @param rt vector
-	 * @param myVec vector set to result
+	 * @param myList
+	 *            list (matrix)
+	 * @param rows
+	 *            matrix rows length
+	 * @param cols
+	 *            matrix cols length
+	 * @param rt
+	 *            vector
+	 * @param myVec
+	 *            vector set to result
 	 * @return list (matrix) * 2D vector / point
 	 */
-	final protected ExpressionValue multiply2D(MyList myList, int rows, int cols, VectorNDValue rt, GeoVec2D myVec){
+	final protected ExpressionValue multiply2D(MyList myList, int rows,
+			int cols, VectorNDValue rt, GeoVec2D myVec) {
 
 		if ((rows == 2) && (cols == 2)) {
 			// 2x2 matrix
@@ -131,7 +148,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			myVec.multiplyMatrixAffine(myList, rt);
 			return myVec;
 		}
-		
+
 		return null;
 	}
 
@@ -139,11 +156,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
 			Operation operation, StringTemplate tpl) {
 		if (lt instanceof ListValue) {
-			if ((operation == Operation.MULTIPLY) && rt instanceof VectorNDValue) {
+			if ((operation == Operation.MULTIPLY)
+					&& rt instanceof VectorNDValue) {
 				MyList myList = ((ListValue) lt).getMyList();
-				if(myList.isMatrix()){
+				if (myList.isMatrix()) {
 					ExpressionValue ret = multiply(myList, (VectorNDValue) rt);
-					if (ret != null){
+					if (ret != null) {
 						return ret;
 					}
 				}
@@ -162,7 +180,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// we cannot use elseif here as we might need multiplication
 			if ((operation != Operation.IF_LIST)
-					&& (operation != Operation.EQUAL_BOOLEAN) 
+					&& (operation != Operation.EQUAL_BOOLEAN)
 					&& (operation != Operation.NOT_EQUAL // ditto
 					) && (operation != Operation.IS_SUBSET_OF // ditto
 					) && (operation != Operation.IS_SUBSET_OF_STRICT // ditto
@@ -173,8 +191,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 																// get
 					// first element
 					) && !(rt instanceof VectorValue) // eg {1,2} + (1,2)
-					&& !(rt instanceof TextValue)) // bugfix "" + {1,2} Michael Borcherds
-											// 2008-06-05
+					&& !(rt instanceof TextValue)) // bugfix "" + {1,2} Michael
+													// Borcherds
+			// 2008-06-05
 			{
 				MyList myList = ((ListValue) lt).getMyList();
 				// list lt operation rt
@@ -190,11 +209,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				&& !operation.equals(Operation.NOT_EQUAL) // ditto
 				&& !operation.equals(Operation.FUNCTION_NVAR) // ditto
 				&& !operation.equals(Operation.FREEHAND) // ditto
-				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg {1,2} + (1,2)
-				&& !(lt instanceof TextValue) // bugfix "" + {1,2} Michael Borcherds
+				&& !(lt instanceof VectorValue && operation.isPlusorMinus()) // eg
+																				// {1,2}
+																				// +
+																				// (1,2)
+				&& !(lt instanceof TextValue) // bugfix "" + {1,2} Michael
+												// Borcherds
 				// 2008-06-05
 				&& !operation.equals(Operation.IS_ELEMENT_OF)) {
-			
+
 			if (operation == Operation.MULTIPLY && lt instanceof VectorValue) {
 				MyList myList = ((ListValue) rt).getMyList();
 				boolean isMatrix = myList.isMatrix();
@@ -234,7 +257,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		return null;
 	}
 
-	/** 
+	/**
 	 * Checks whether first object equals second
 	 * 
 	 * @param kernel
@@ -309,11 +332,13 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	}
 
 	/**
-	 * @param arg vector or line
-	 * @param op XCOORD or REAL
+	 * @param arg
+	 *            vector or line
+	 * @param op
+	 *            XCOORD or REAL
 	 * @return x coordinate
 	 */
-	public ExpressionValue handleXcoord(ExpressionValue arg,Operation op) {
+	public ExpressionValue handleXcoord(ExpressionValue arg, Operation op) {
 		if (arg instanceof VectorValue) {
 			return new MyDouble(kernel, ((VectorValue) arg).getVector().getX());
 		} else if (arg instanceof Vector3DValue) {
@@ -322,16 +347,19 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof GeoLine) {
 			return new MyDouble(kernel, ((GeoLine) arg).x);
 		} else
-			return polynomialOrDie(arg, op, op==Operation.XCOORD?  "x(":"real(");
+			return polynomialOrDie(arg, op, op == Operation.XCOORD ? "x("
+					: "real(");
 
 	}
+
 	/**
-	 * @param arg vector or line
-	 * @param op YCOORD or IMAGINARY
+	 * @param arg
+	 *            vector or line
+	 * @param op
+	 *            YCOORD or IMAGINARY
 	 * @return y coordinate
 	 */
-	public ExpressionValue handleYcoord(ExpressionValue arg,Operation op) {
-
+	public ExpressionValue handleYcoord(ExpressionValue arg, Operation op) {
 
 		// y(vector)
 		if (arg instanceof VectorValue) {
@@ -342,15 +370,21 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		} else if (arg instanceof GeoLine) {
 			return new MyDouble(kernel, ((GeoLine) arg).y);
 		} else
-			return polynomialOrDie(arg, op, op==Operation.YCOORD?  "y(":"imaginary(");
+			return polynomialOrDie(arg, op, op == Operation.YCOORD ? "y("
+					: "imaginary(");
 	}
 
 	/**
 	 * Performs multiplication
-	 * @param lt left argument
-	 * @param rt right argument
-	 * @param tpl string template (may be  string concatenation)
-	 * @param holdsLaTeXtext whether parent node holds LaTeX
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            right argument
+	 * @param tpl
+	 *            string template (may be string concatenation)
+	 * @param holdsLaTeXtext
+	 *            whether parent node holds LaTeX
 	 * @return result
 	 */
 	public ExpressionValue handleMult(ExpressionValue lt, ExpressionValue rt,
@@ -359,10 +393,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		GeoVec2D vec;
 		MyStringBuffer msb;
 		Polynomial poly;
-		
-		//App.debug(lt.getClass()+" "+lt.toString());
-		//App.debug(rt.getClass()+" "+rt.toString());
 
+		// App.debug(lt.getClass()+" "+lt.toString());
+		// App.debug(rt.getClass()+" "+rt.toString());
 
 		if (lt instanceof NumberValue) {
 			// number * number
@@ -423,18 +456,21 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 			// vector * vector (inner/dot product)
 			else if (rt instanceof VectorNDValue) {
-				if (((VectorNDValue) lt).getMode() == Kernel.COORD_COMPLEX || ((VectorNDValue) rt).getMode() == Kernel.COORD_COMPLEX ) {
+				if (((VectorNDValue) lt).getMode() == Kernel.COORD_COMPLEX
+						|| ((VectorNDValue) rt).getMode() == Kernel.COORD_COMPLEX) {
 					// complex multiply
-					return complexMult((VectorNDValue) lt, (VectorNDValue) rt, kernel);
+					return complexMult((VectorNDValue) lt, (VectorNDValue) rt,
+							kernel);
 				}
-				return innerProduct((VectorNDValue) lt, (VectorNDValue) rt, kernel);
+				return innerProduct((VectorNDValue) lt, (VectorNDValue) rt,
+						kernel);
 			}
-			return illegalBinary(lt,rt, "IllegalMultiplication","*");
-			
+			return illegalBinary(lt, rt, "IllegalMultiplication", "*");
+
 		}
 		// polynomial * polynomial
 
-		 else if (lt instanceof TextValue) {
+		else if (lt instanceof TextValue) {
 			msb = ((TextValue) lt).getText();
 			if (holdsLaTeXtext) {
 				msb.append(rt.toLaTeXString(false, tpl));
@@ -461,58 +497,71 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				}
 			}
 			return msb;
-		} 
-		
-		
-		return illegalBinary(lt,rt, "IllegalMultiplication","*");
+		}
+
+		return illegalBinary(lt, rt, "IllegalMultiplication", "*");
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param en number
-	 * @param ev vector
+	 * @param en
+	 *            number
+	 * @param ev
+	 *            vector
 	 * @return en*ev
 	 */
-	protected ExpressionValue multiply(NumberValue en, VectorNDValue ev){
+	protected ExpressionValue multiply(NumberValue en, VectorNDValue ev) {
 		GeoVec2D vec = ((VectorValue) ev).getVector();
 		GeoVec2D.mult(vec, en.getDouble(), vec);
 		return vec;
 	}
-	
+
 	/**
 	 * 
-	 * @param ev1 first vector
-	 * @param ev2 second vector
-	 * @param kernel kernel
+	 * @param ev1
+	 *            first vector
+	 * @param ev2
+	 *            second vector
+	 * @param kernel
+	 *            kernel
 	 * @return ev1*ev2 complex product
 	 */
-	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel){
+	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2,
+			Kernel kernel) {
 		GeoVec2D vec = ((VectorValue) ev1).getVector();
 		GeoVec2D.complexMultiply(vec, ((VectorValue) ev2).getVector(), vec);
 		return vec;
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param ev1 first vector
-	 * @param ev2 second vector
-	 * @param kernel kernel
+	 * @param ev1
+	 *            first vector
+	 * @param ev2
+	 *            second vector
+	 * @param kernel
+	 *            kernel
 	 * @return ev1*ev2 inner product
 	 */
-	protected ExpressionValue innerProduct(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel){
+	protected ExpressionValue innerProduct(VectorNDValue ev1,
+			VectorNDValue ev2, Kernel kernel) {
 		MyDouble num = new MyDouble(kernel);
-		GeoVec2D.inner(((VectorValue) ev1).getVector(), ((VectorValue) ev2).getVector(), num);
+		GeoVec2D.inner(((VectorValue) ev1).getVector(),
+				((VectorValue) ev2).getVector(), num);
 		return num;
 	}
-	
+
 	/**
 	 * Performs addition
-	 * @param lt left argument
-	 * @param rt right argument
-	 * @param tpl string template (may be  string concatenation)
-	 * @param holdsLaTeXtext whether parent node holds LaTeX
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            right argument
+	 * @param tpl
+	 *            string template (may be string concatenation)
+	 * @param holdsLaTeXtext
+	 *            whether parent node holds LaTeX
 	 * @return result
 	 */
 	public ExpressionValue handlePlus(ExpressionValue lt, ExpressionValue rt,
@@ -550,7 +599,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			MyList list = ((ListValue) lt).getMyList();
 			if (list.size() > 0) {
 				ExpressionValue ev = list.getListElement(0);
-				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as point, ev is evaluated before
+				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as
+													// point, ev is evaluated
+													// before
 					// + point
 					vec = ((VectorValue) rt).getVector();
 					GeoVec2D.add(vec, ((ListValue) lt), vec);
@@ -569,7 +620,9 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			MyList list = ((ListValue) rt).getMyList();
 			if (list.size() > 0) {
 				ExpressionValue ev = list.getListElement(0);
-				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as point, ev is evaluated before
+				if (ev instanceof NumberValue) { // eg {1,2} + (1,2) treat as
+													// point, ev is evaluated
+													// before
 					// + point
 					vec = ((VectorValue) lt).getVector();
 					GeoVec2D.add(vec, ((ListValue) rt), vec);
@@ -615,17 +668,23 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		else {
 			str = new String[] { "IllegalAddition", lt.toString(errorTemplate),
 					"+", rt.toString(errorTemplate) };
-			App.error(lt.getClass() +""+rt.getClass());
+			App.error(lt.getClass() + "" + rt.getClass());
 			throw new MyError(l10n, str);
 		}
 
 	}
+
 	/**
 	 * Performs division
-	 * @param lt left argument (evaluated)
-	 * @param rt right argument (evaluated)
-	 * @param left left argument before evaluation
-	 * @param right right argument before evaluation
+	 * 
+	 * @param lt
+	 *            left argument (evaluated)
+	 * @param rt
+	 *            right argument (evaluated)
+	 * @param left
+	 *            left argument before evaluation
+	 * @param right
+	 *            right argument before evaluation
 	 * 
 	 * @return result
 	 */
@@ -665,7 +724,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			}
 		}
 		// polynomial / polynomial
-		
+
 		// vector / vector (complex division Michael Borcherds 2007-12-09)
 		else if (lt instanceof VectorValue && rt instanceof VectorValue) {
 			vec = ((VectorValue) lt).getVector();
@@ -693,10 +752,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			throw new MyError(l10n, str);
 		}
 	}
+
 	/**
 	 * Performs subtraction
-	 * @param lt left argument (evaluated)
-	 * @param rt right argument (evaluated)
+	 * 
+	 * @param lt
+	 *            left argument (evaluated)
+	 * @param rt
+	 *            right argument (evaluated)
 	 * @return result
 	 */
 	public ExpressionValue handleMinus(ExpressionValue lt, ExpressionValue rt) {
@@ -747,18 +810,23 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			return vec;
 		}
 		// polynomial - polynomial
-		 else {
+		else {
 			str = new String[] { "IllegalSubtraction",
 					lt.toString(errorTemplate), "-", rt.toString(errorTemplate) };
 			App.debug(lt.getClass() + "," + rt.getClass());
 			throw new MyError(l10n, str);
 		}
 	}
+
 	/**
 	 * Performs power
-	 * @param lt left argument (evaluated)
-	 * @param rt right argument (evaluated)
-	 * @param right right argument before evaluation
+	 * 
+	 * @param lt
+	 *            left argument (evaluated)
+	 * @param rt
+	 *            right argument (evaluated)
+	 * @param right
+	 *            right argument before evaluation
 	 * 
 	 * @return result
 	 */
@@ -903,8 +971,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		// polynomial ^ number
 		else {
 			App.printStacktrace("ExpressionNodeEvaluator.handlePower()");
-			 App.debug("Problem in ExpressionNodeEvaluator.handlePower(): lt :" + lt.getClass()
-			 + ", rt: " + rt.getClass());
+			App.debug("Problem in ExpressionNodeEvaluator.handlePower(): lt :"
+					+ lt.getClass() + ", rt: " + rt.getClass());
 			str = new String[] { "IllegalExponent", lt.toString(errorTemplate),
 					"^", rt.toString(errorTemplate) };
 			throw new MyError(l10n, str);
@@ -913,11 +981,15 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Computes value of function in given point (or throws error)
-	 * @param lt function
-	 * @param rt value of variable
+	 * 
+	 * @param lt
+	 *            function
+	 * @param rt
+	 *            value of variable
 	 * @return value of function at given point
 	 */
-	public ExpressionValue handleFunction(ExpressionValue lt, ExpressionValue rt, ExpressionValue left) {
+	public ExpressionValue handleFunction(ExpressionValue lt,
+			ExpressionValue rt, ExpressionValue left) {
 		String[] str;
 		// function(number)
 		if (rt instanceof NumberValue) {
@@ -929,21 +1001,28 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 							((GeoFunction) lt).evaluateBoolean(arg.getDouble()));
 				}
 				return arg.getNumber().apply((Evaluatable) lt);
-			} else if (lt instanceof GeoCasCell && ((GeoCasCell)lt).getOutputValidExpression() instanceof Function) {
-				// first we give the expression to the cas 
+			} else if (lt instanceof GeoCasCell
+					&& ((GeoCasCell) lt).getOutputValidExpression() instanceof Function) {
+				// first we give the expression to the cas
 				// and then the result of that to the geogebra
 				// so that the cas result will be converted
-				ExpressionNode node = new ExpressionNode(kernel, lt, Operation.FUNCTION, rt);
+				ExpressionNode node = new ExpressionNode(kernel, lt,
+						Operation.FUNCTION, rt);
 				FunctionExpander fex = FunctionExpander.getCollector();
-				node = (ExpressionNode) node.wrap().getCopy(kernel).traverse(fex);
-				String result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(node, null, StringTemplate.numericNoLocal, kernel);
+				node = (ExpressionNode) node.wrap().getCopy(kernel)
+						.traverse(fex);
+				String result = kernel.getGeoGebraCAS().evaluateGeoGebraCAS(
+						node, null, StringTemplate.numericNoLocal, kernel);
 				boolean mode = kernel.isSilentMode();
 				kernel.setSilentMode(true);
-				GeoElement geo = kernel.getAlgebraProcessor().processAlgebraCommand(result, false)[0];
+				GeoElement geo = kernel.getAlgebraProcessor()
+						.processAlgebraCommand(result, false)[0];
 				kernel.setSilentMode(mode);
 				return geo;
-			} else if (left instanceof GeoCasCell && ((GeoCasCell)left).getTwinGeo() instanceof GeoLine){
-				return ((NumberValue) rt).getNumber().apply((Evaluatable) ((GeoCasCell)left).getTwinGeo());
+			} else if (left instanceof GeoCasCell
+					&& ((GeoCasCell) left).getTwinGeo() instanceof GeoLine) {
+				return ((NumberValue) rt).getNumber().apply(
+						(Evaluatable) ((GeoCasCell) left).getTwinGeo());
 			} else {
 				Log.debug(lt);
 			}
@@ -971,12 +1050,14 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		throw new MyError(l10n, str);
 
 	}
-	
-	
+
 	/**
 	 * Evaluate function in multiple variables
-	 * @param lt left argument (function)
-	 * @param rt right argument (MyList of variable values)
+	 * 
+	 * @param lt
+	 *            left argument (function)
+	 * @param rt
+	 *            right argument (MyList of variable values)
 	 * @return result (number)
 	 */
 	public ExpressionValue handleFunctionNVar(ExpressionValue lt,
@@ -1007,8 +1088,7 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 				} else if ((funN.getVarNumber() == 2)
 						&& (ev instanceof MyVecNode)) {
 					MyVecNode pt = (MyVecNode) ev;
-					double[] vals = new double[] {
-							pt.getX().evaluateDouble(),
+					double[] vals = new double[] { pt.getX().evaluateDouble(),
 							pt.getY().evaluateDouble() };
 					if (funN.isBooleanFunction()) {
 						return new MyBoolean(kernel, funN.evaluateBoolean(vals));
@@ -1016,8 +1096,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					return new MyDouble(kernel, funN.evaluate(vals));
 				} else if ((ev instanceof ListValue)
 						&& ((ListValue) ev).getMyList().getListElement(0)
-								.evaluate(StringTemplate.defaultTemplate)
-								 instanceof NumberValue) { //TODO can we avoid evaluate here
+								.evaluate(StringTemplate.defaultTemplate) instanceof NumberValue) { // TODO
+																									// can
+																									// we
+																									// avoid
+																									// evaluate
+																									// here
 					double[] vals = ((ListValue) ev).toDouble();
 					if (vals != null) {
 						if (funN.isBooleanFunction()) {
@@ -1052,26 +1136,36 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		String[] str3 = { "IllegalArgument", rt.toString(errorTemplate) };
 		throw new MyError(l10n, str3);
 	}
-	
+
 	/**
 	 * Throw error for unary boolean operation
-	 * @param arg operation argument 
-	 * @param opname operation string
+	 * 
+	 * @param arg
+	 *            operation argument
+	 * @param opname
+	 *            operation string
 	 * @return nothing (error is thrown)
-	 * @throws MyError (always)
+	 * @throws MyError
+	 *             (always)
 	 */
 	public ExpressionValue illegalBoolean(ExpressionValue arg, String opname) {
 		String[] str = new String[] { "IllegalBoolean", opname,
 				arg.toString(errorTemplate) };
 		throw new MyError(l10n, str);
 	}
+
 	/**
-	 * Throw illegal argument exception for multivariable  builtin function
-	 * @param lt left argument
-	 * @param rt right argument
-	 * @param opname operation name
+	 * Throw illegal argument exception for multivariable builtin function
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            right argument
+	 * @param opname
+	 *            operation name
 	 * @return nothing (error is thrown)
-	 * @throws MyError (always)
+	 * @throws MyError
+	 *             (always)
 	 */
 	public ExpressionValue illegalArgument(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
@@ -1083,9 +1177,12 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw simple illegal argument exception
-	 * @param arg argument
+	 * 
+	 * @param arg
+	 *            argument
 	 * @return nothing (error is thrown)
-	 * @throws MyError (always)
+	 * @throws MyError
+	 *             (always)
 	 */
 	public ExpressionValue illegalArgument(ExpressionValue arg) {
 		String[] str = new String[] { "IllegalArgument",
@@ -1095,12 +1192,18 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw error for infix binary operation
-	 * @param lt left argument
-	 * @param rt right argument
-	 * @param type type (InvalidMultiplication, InvalidAddition, ...)
-	 * @param opname operator string
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            right argument
+	 * @param type
+	 *            type (InvalidMultiplication, InvalidAddition, ...)
+	 * @param opname
+	 *            operator string
 	 * @return nothing (error is thrown)
-	 * @throws MyError (always)
+	 * @throws MyError
+	 *             (always)
 	 */
 	public ExpressionValue illegalBinary(ExpressionValue lt,
 			ExpressionValue rt, String type, String opname) {
@@ -1112,11 +1215,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw illegal comparison error
-	 * @param lt left argument
-	 * @param rt rigt argument
-	 * @param opname comparison operator
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            rigt argument
+	 * @param opname
+	 *            comparison operator
 	 * @return nothing (error is thrown)
-	 * @throws MyError (always)
+	 * @throws MyError
+	 *             (always)
 	 */
 	public ExpressionValue illegalComparison(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
@@ -1128,11 +1236,16 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 
 	/**
 	 * Throw illegal list operation error
-	 * @param lt left argument
-	 * @param rt rigt argument
-	 * @param opname list operator
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            rigt argument
+	 * @param opname
+	 *            list operator
 	 * @return nothing (error is thrown)
-	 * @throws MyError (always)
+	 * @throws MyError
+	 *             (always)
 	 */
 	public ExpressionValue illegalListOp(ExpressionValue lt,
 			ExpressionValue rt, String opname) {
@@ -1141,29 +1254,41 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		throw new MyError(l10n, str);
 
 	}
-	
+
 	/**
-	 * Check whether lt is constant polynomial and compute op(lt) if it is; if not
-	 * throw illegal argument "opname lt)"
-	 * @param lt argument
-	 * @param op operation
-	 * @param opname operation name (including "(")
+	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
+	 * not throw illegal argument "opname lt)"
+	 * 
+	 * @param lt
+	 *            argument
+	 * @param op
+	 *            operation
+	 * @param opname
+	 *            operation name (including "(")
 	 * @return op(lt) or error
-	 * @throws MyError if not polynomial or not constant
+	 * @throws MyError
+	 *             if not polynomial or not constant
 	 */
 	public ExpressionValue polynomialOrDie(ExpressionValue lt, Operation op,
 			String opname) {
 		return polynomialOrDie(lt, op, opname, ")");
 	}
+
 	/**
-	 * Check whether lt is constant polynomial and compute op(lt) if it is; if not
-	 * throw illegal argument "prefix lt suffix"
-	 * @param lt argument
-	 * @param op operation
-	 * @param prefix prefix of error message
-	 * @param suffix of error message
+	 * Check whether lt is constant polynomial and compute op(lt) if it is; if
+	 * not throw illegal argument "prefix lt suffix"
+	 * 
+	 * @param lt
+	 *            argument
+	 * @param op
+	 *            operation
+	 * @param prefix
+	 *            prefix of error message
+	 * @param suffix
+	 *            of error message
 	 * @return op(lt) if lt is constant poly
-	 * @throws MyError if not polynomial or not constant
+	 * @throws MyError
+	 *             if not polynomial or not constant
 	 */
 	public ExpressionValue polynomialOrDie(ExpressionValue lt, Operation op,
 			String prefix, String suffix) {
@@ -1172,33 +1297,40 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 		throw new MyError(l10n, strings);
 
 	}
-	
+
 	/**
 	 * Performs vector product
-	 * @param lt left argument
-	 * @param rt right argument
-	 * @param tpl string template (may be  string concatenation)
-	 * @param holdsLaTeXtext whether parent node holds LaTeX
+	 * 
+	 * @param lt
+	 *            left argument
+	 * @param rt
+	 *            right argument
+	 * @param tpl
+	 *            string template (may be string concatenation)
+	 * @param holdsLaTeXtext
+	 *            whether parent node holds LaTeX
 	 * @return result
 	 */
-	public ExpressionValue handleVectorProduct(ExpressionValue lt, ExpressionValue rt,
-			StringTemplate tpl, boolean holdsLaTeXtext) {
-		
+	public ExpressionValue handleVectorProduct(ExpressionValue lt,
+			ExpressionValue rt, StringTemplate tpl, boolean holdsLaTeXtext) {
+
 		if (lt instanceof VectorNDValue && rt instanceof VectorNDValue) {
 			return vectorProduct((VectorNDValue) lt, (VectorNDValue) rt);
 		}
-		
+
 		return illegalBinary(lt, rt, "IllegalMultiplication",
 				ExpressionNodeConstants.strVECTORPRODUCT);
 	}
-	
+
 	/**
 	 * 
-	 * @param v1 first vector
-	 * @param v2 second vector
+	 * @param v1
+	 *            first vector
+	 * @param v2
+	 *            second vector
 	 * @return v1 * v2 vector product
 	 */
-	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2){
+	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2) {
 		GeoVecInterface vec1 = v1.getVector();
 		GeoVecInterface vec2 = v2.getVector();
 		MyDouble num = new MyDouble(kernel);
@@ -1209,5 +1341,5 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 	public Kernel getKernel() {
 		return kernel;
 	}
-	
+
 }

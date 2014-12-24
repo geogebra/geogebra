@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *PrimeFactors
+ * PrimeFactors
  */
 public class CmdPrimeFactors extends CommandProcessor {
 
@@ -32,9 +32,9 @@ public class CmdPrimeFactors extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				
-				AlgoPrimeFactors algo = new AlgoPrimeFactors(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+
+				AlgoPrimeFactors algo = new AlgoPrimeFactors(cons,
+						c.getLabel(), (GeoNumeric) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

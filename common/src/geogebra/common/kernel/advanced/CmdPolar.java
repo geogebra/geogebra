@@ -50,13 +50,13 @@ public class CmdPolar extends CommandProcessor {
 						(GeoLineND) arg[0], (GeoConicND) arg[1]) };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * polar line to P relative to c
 	 */
@@ -72,6 +72,5 @@ public class CmdPolar extends CommandProcessor {
 		AlgoPolarPoint algo = new AlgoPolarPoint(cons, label, c, line);
 		return (GeoElement) algo.getPoint();
 	}
-
 
 }

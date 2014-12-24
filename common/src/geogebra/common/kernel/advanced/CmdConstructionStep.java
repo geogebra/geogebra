@@ -7,8 +7,8 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- * ConstructionStep[]
- * ConstructionStep[ &lt;Object> ]
+ * ConstructionStep[] ConstructionStep[ &lt;Object> ]
+ * 
  * @author Michael Borcherds
  * @version 2008-03-06
  */
@@ -32,14 +32,16 @@ public class CmdConstructionStep extends CommandProcessor {
 
 		switch (n) {
 		case 0:
-			
-			AlgoConstructionStep algo = new AlgoConstructionStep(cons, c.getLabel());
-			GeoElement[] ret = {algo.getResult() };
+
+			AlgoConstructionStep algo = new AlgoConstructionStep(cons,
+					c.getLabel());
+			GeoElement[] ret = { algo.getResult() };
 			return ret;
 
 		case 1:
-			AlgoStepObject algo2 = new AlgoStepObject(cons, c.getLabel(), arg[0]);
-			GeoElement[] ret2 = {  algo2.getResult() };
+			AlgoStepObject algo2 = new AlgoStepObject(cons, c.getLabel(),
+					arg[0]);
+			GeoElement[] ret2 = { algo2.getResult() };
 			return ret2;
 
 		default:

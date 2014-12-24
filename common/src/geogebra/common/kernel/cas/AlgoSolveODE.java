@@ -25,6 +25,7 @@ import org.apache.commons.math.ode.sampling.StepInterpolator;
 
 /**
  * eg SolveODE[x/y,x(A),y(A),5,0.1]
+ * 
  * @author michael
  *
  */
@@ -33,7 +34,7 @@ public class AlgoSolveODE extends AlgoElement {
 	private FunctionalNVar f0; // input
 	private FunctionalNVar f1;
 	private GeoNumeric x, y, end, step; // input
-	private GeoLocus locus; // output   
+	private GeoLocus locus; // output
 	@SuppressWarnings("javadoc")
 	ArrayList<MyPoint> al;
 	private AlgoNumerator numAlgo;
@@ -44,23 +45,33 @@ public class AlgoSolveODE extends AlgoElement {
 	boolean quotient;
 
 	/**
-	 * @param cons cons
-	 * @param label label
-	 * @param f0 numerator of function (if f1 != null), otherwise function
-	 * @param f1 denominator, or null
-	 * @param x start x
-	 * @param y start y
-	 * @param end end
-	 * @param step step
+	 * @param cons
+	 *            cons
+	 * @param label
+	 *            label
+	 * @param f0
+	 *            numerator of function (if f1 != null), otherwise function
+	 * @param f1
+	 *            denominator, or null
+	 * @param x
+	 *            start x
+	 * @param y
+	 *            start y
+	 * @param end
+	 *            end
+	 * @param step
+	 *            step
 	 */
-	public AlgoSolveODE(Construction cons, String label, FunctionalNVar f0, FunctionalNVar f1, GeoNumeric x, GeoNumeric y, GeoNumeric end, GeoNumeric step) {
+	public AlgoSolveODE(Construction cons, String label, FunctionalNVar f0,
+			FunctionalNVar f1, GeoNumeric x, GeoNumeric y, GeoNumeric end,
+			GeoNumeric step) {
 		super(cons);
-		this.f0 = f0;            	
-		this.f1 = f1;            	
-		this.x = x;            	
-		this.y = y;            	   	
-		this.end = end;            	
-		this.step = step;          
+		this.f0 = f0;
+		this.f1 = f1;
+		this.x = x;
+		this.y = y;
+		this.end = end;
+		this.step = step;
 
 		if (f1 == null) {
 			numAlgo = new AlgoNumerator(cons, f0);
@@ -71,23 +82,23 @@ public class AlgoSolveODE extends AlgoElement {
 			num = (FunctionalNVar) numAlgo.getGeoElements()[0];
 			den = (FunctionalNVar) denAlgo.getGeoElements()[0];
 			quotient = num.isDefined() && den.isDefined();
-			
+
 			if (!quotient) {
 				cons.removeFromAlgorithmList(numAlgo);
 				cons.removeFromAlgorithmList(denAlgo);
 			}
-			
+
 		} else {
 			num = f0;
 			den = f1;
 			quotient = true;
 		}
 
-		//g = new GeoList(cons);   
+		// g = new GeoList(cons);
 		locus = new GeoLocus(cons);
-		setInputOutput(); // for AlgoElement        
+		setInputOutput(); // for AlgoElement
 		compute();
-		//g.setLabel(label);
+		// g.setLabel(label);
 		locus.setLabel(label);
 	}
 
@@ -102,8 +113,9 @@ public class AlgoSolveODE extends AlgoElement {
 		input = new GeoElement[f1 == null ? 5 : 6];
 		int i = 0;
 
-		input[i++] = (GeoElement)f0;
-		if (f1 != null) input[i++] = (GeoElement)f1;
+		input[i++] = (GeoElement) f0;
+		if (f1 != null)
+			input[i++] = (GeoElement) f1;
 		input[i++] = x;
 		input[i++] = y;
 		input[i++] = end;
@@ -119,28 +131,34 @@ public class AlgoSolveODE extends AlgoElement {
 	 * @return locus
 	 */
 	public GeoLocus getResult() {
-		//return g;
+		// return g;
 		return locus;
 	}
 
 	@Override
-	public final void compute() {       
-		if (!((GeoElement)f0).isDefined() || !x.isDefined() || !y.isDefined() || !step.isDefined() || !end.isDefined() || Kernel.isZero(step.getDouble())) {
-			//g.setUndefined();
+	public final void compute() {
+		if (!((GeoElement) f0).isDefined() || !x.isDefined() || !y.isDefined()
+				|| !step.isDefined() || !end.isDefined()
+				|| Kernel.isZero(step.getDouble())) {
+			// g.setUndefined();
 			locus.setUndefined();
 			return;
-		}    
+		}
 
-		//g.clear();
-		if (al == null) al = new ArrayList<MyPoint>();
-		else al.clear();
+		// g.clear();
+		if (al == null)
+			al = new ArrayList<MyPoint>();
+		else
+			al.clear();
 
-		//FirstOrderIntegrator integrator = new DormandPrince853Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
-		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(step.getDouble());
+		// FirstOrderIntegrator integrator = new
+		// DormandPrince853Integrator(1.0e-8, 100.0, 1.0e-10, 1.0e-10);
+		FirstOrderIntegrator integrator = new ClassicalRungeKuttaIntegrator(
+				step.getDouble());
 		FirstOrderDifferentialEquations ode;
 
 		if (!quotient) {
-			ode = new ODE(f0); 
+			ode = new ODE(f0);
 		} else {
 			ode = new ODE2(num, den);
 		}
@@ -149,10 +167,12 @@ public class AlgoSolveODE extends AlgoElement {
 		al.add(new MyPoint(x.getDouble(), y.getDouble(), false));
 
 		double[] yy = new double[] { y.getDouble() }; // initial state
-		double[] yy2 = new double[] { x.getDouble(), y.getDouble() }; // initial state
+		double[] yy2 = new double[] { x.getDouble(), y.getDouble() }; // initial
+																		// state
 		try {
 			if (!quotient)
-				integrator.integrate(ode, x.getDouble(), yy, end.getDouble(), yy);
+				integrator.integrate(ode, x.getDouble(), yy, end.getDouble(),
+						yy);
 			else
 				integrator.integrate(ode, 0.0, yy2, end.getDouble(), yy2);
 		} catch (DerivativeException e) {
@@ -165,7 +185,7 @@ public class AlgoSolveODE extends AlgoElement {
 			return;
 		} // now y contains final state at time t=16.0
 
-		//g.setDefined(true);
+		// g.setDefined(true);
 		locus.setPoints(al);
 		locus.setDefined(true);
 
@@ -176,24 +196,26 @@ public class AlgoSolveODE extends AlgoElement {
 			//
 		}
 
-		public boolean requiresDenseOutput() { return false; }
+		public boolean requiresDenseOutput() {
+			return false;
+		}
 
-		public void handleStep(StepInterpolator interpolator, boolean isLast) throws DerivativeException {
-			double   t = interpolator.getCurrentTime();
+		public void handleStep(StepInterpolator interpolator, boolean isLast)
+				throws DerivativeException {
+			double t = interpolator.getCurrentTime();
 			double[] y1 = interpolator.getInterpolatedState();
-			//System.out.println(t + " " + y[0]);
+			// System.out.println(t + " " + y[0]);
 
 			if (!quotient) {
 				al.add(new MyPoint(t, y1[0], true));
-			}
-			else
-			{
+			} else {
 				al.add(new MyPoint(y1[0], y1[1], true));
 			}
 
 		}
 	};
-	//integrator.addStepHandler(stepHandler);
+
+	// integrator.addStepHandler(stepHandler);
 
 	private static class ODE implements FirstOrderDifferentialEquations {
 
@@ -209,12 +231,12 @@ public class AlgoSolveODE extends AlgoElement {
 
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double input[] = {t, y[0]};
+			double input[] = { t, y[0] };
 
 			// special case for f(y)= (substitute y not x)
-					// eg SolveODE[y, x(A), y(A), 5, 0.1]
-			if (f instanceof GeoFunction && ((GeoFunction)f).isFunctionOfY()) {
-				yDot[0] = ((GeoFunction)f).evaluate(y[0]);
+			// eg SolveODE[y, x(A), y(A), 5, 0.1]
+			if (f instanceof GeoFunction && ((GeoFunction) f).isFunctionOfY()) {
+				yDot[0] = ((GeoFunction) f).evaluate(y[0]);
 			} else
 				yDot[0] = f.evaluate(input);
 
@@ -237,20 +259,20 @@ public class AlgoSolveODE extends AlgoElement {
 
 		public void computeDerivatives(double t, double[] y, double[] yDot) {
 
-			double input[] = {y[0], y[1]};
+			double input[] = { y[0], y[1] };
 
 			// special case for f(y)= (substitute y not x)
-					// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
-			if (y1 instanceof GeoFunction && ((GeoFunction)y1).isFunctionOfY()) {
-				yDot[0] = ((GeoFunction)y1).evaluate(y[1]);
+			// eg SolveODE[-y, x, x(A), y(A), 5, 0.1]
+			if (y1 instanceof GeoFunction && ((GeoFunction) y1).isFunctionOfY()) {
+				yDot[0] = ((GeoFunction) y1).evaluate(y[1]);
 			} else
 				yDot[0] = y1.evaluate(input);
 
 			// special case for f(y)= (substitute y not x)
 			// eg SolveODE[-x, y, x(A), y(A), 5, 0.1]
-			if (y0 instanceof GeoFunction && ((GeoFunction)y0).isFunctionOfY()) {
-				yDot[1] = ((GeoFunction)y0).evaluate(y[1]);
-			} else 
+			if (y0 instanceof GeoFunction && ((GeoFunction) y0).isFunctionOfY()) {
+				yDot[1] = ((GeoFunction) y0).evaluate(y[1]);
+			} else
 				yDot[1] = y0.evaluate(input);
 
 		}
@@ -259,16 +281,15 @@ public class AlgoSolveODE extends AlgoElement {
 
 	@Override
 	public void remove() {
-    	if(removed)
+		if (removed)
 			return;
-        super.remove();
-        
-        if (f1 == null) {
-    	    ((GeoElement) f0).removeAlgorithm(numAlgo);
-    	    ((GeoElement) f0).removeAlgorithm(denAlgo);        	
-        }
-    }
+		super.remove();
+
+		if (f1 == null) {
+			((GeoElement) f0).removeAlgorithm(numAlgo);
+			((GeoElement) f0).removeAlgorithm(denAlgo);
+		}
+	}
 
 	// TODO Consider locusequability
 }
-

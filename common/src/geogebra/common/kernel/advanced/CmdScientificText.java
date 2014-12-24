@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *SurdText
+ * SurdText
  */
 public class CmdScientificText extends CommandProcessor {
 
@@ -36,28 +36,29 @@ public class CmdScientificText extends CommandProcessor {
 				GeoElement[] ret = { ScientificText(c.getLabel(),
 						(GeoNumeric) arg[0], null) };
 				return ret;
-			} 
+			}
 
-				throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
+			throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
 		case 2:
 
 			if (arg[0].isGeoNumeric() && arg[1].isGeoNumeric()) {
 				GeoElement[] ret = { ScientificText(c.getLabel(),
 						(GeoNumeric) arg[0], (GeoNumeric) arg[1]) };
 				return ret;
-			} 
+			}
 
-				throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
+			throw argErr(app, c.getName(), arg[arg[0].isGeoNumeric() ? 1 : 0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
-	 * ScientificText[number] 
+	 * ScientificText[number]
 	 */
-	final private GeoText ScientificText(String label, GeoNumeric num, GeoNumeric prec) {
+	final private GeoText ScientificText(String label, GeoNumeric num,
+			GeoNumeric prec) {
 		AlgoScientificText algo = new AlgoScientificText(cons, label, num, prec);
 		GeoText text = algo.getResult();
 		return text;

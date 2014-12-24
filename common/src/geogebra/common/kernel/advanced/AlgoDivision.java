@@ -11,11 +11,12 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 public class AlgoDivision extends AlgoElement {
 
-	private GeoNumberValue a,b;
+	private GeoNumberValue a, b;
 	private GeoNumeric num, mod;
 	private GeoList result;
-	public AlgoDivision(Construction cons, String label, GeoNumberValue dividend,
-			GeoNumberValue divisor) {
+
+	public AlgoDivision(Construction cons, String label,
+			GeoNumberValue dividend, GeoNumberValue divisor) {
 		super(cons);
 		a = dividend;
 		b = divisor;
@@ -27,13 +28,13 @@ public class AlgoDivision extends AlgoElement {
 		setInputOutput();
 		compute();
 		result.setLabel(label);
-		
+
 	}
 
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[] {a.toGeoElement(),b.toGeoElement()};
+		input = new GeoElement[] { a.toGeoElement(), b.toGeoElement() };
 		setDependencies();
 	}
 
@@ -41,29 +42,31 @@ public class AlgoDivision extends AlgoElement {
 	public void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
 
-    		double numerator = a.getDouble();
-    		double denominator = b.getDouble();
-    		
-    		if (Math.abs(numerator) > MyDouble.LARGEST_INTEGER || Math.abs(denominator) > MyDouble.LARGEST_INTEGER) {
-    			result.setUndefined();
-    			return;
-    		}
-    		result.setDefined(true);
-    		double m = numerator % Math.abs(denominator);
-    		if (m < 0) m += Math.abs(denominator);
-    		mod.setValue(m);
-    		
-    		num.setValue(Math.round((numerator-m)/denominator));
-    	} else {
-    		result.setUndefined();
-    	}
+			double numerator = a.getDouble();
+			double denominator = b.getDouble();
+
+			if (Math.abs(numerator) > MyDouble.LARGEST_INTEGER
+					|| Math.abs(denominator) > MyDouble.LARGEST_INTEGER) {
+				result.setUndefined();
+				return;
+			}
+			result.setDefined(true);
+			double m = numerator % Math.abs(denominator);
+			if (m < 0)
+				m += Math.abs(denominator);
+			mod.setValue(m);
+
+			num.setValue(Math.round((numerator - m) / denominator));
+		} else {
+			result.setUndefined();
+		}
 
 	}
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.Division;
-    } 
+		return Commands.Division;
+	}
 
 	public GeoElement getResult() {
 		return result;

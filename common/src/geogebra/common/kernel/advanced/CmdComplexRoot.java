@@ -33,15 +33,17 @@ public class CmdComplexRoot extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoFunctionable()) {
-				
+
 				GeoFunction f = ((GeoFunctionable) arg[0]).getGeoFunction();
-				
-				// allow functions that can be simplified to factors of polynomials
-				if (!f.getConstruction().isFileLoading() && !f.isPolynomialFunction(true))
+
+				// allow functions that can be simplified to factors of
+				// polynomials
+				if (!f.getConstruction().isFileLoading()
+						&& !f.isPolynomialFunction(true))
 					return null;
 
-				AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(cons,
-						c.getLabels(), f);
+				AlgoComplexRootsPolynomial algo = new AlgoComplexRootsPolynomial(
+						cons, c.getLabels(), f);
 
 				return algo.getRootPoints();
 			}

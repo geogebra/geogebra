@@ -11,8 +11,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *Factors[ &lt;Function> ]
- *Factors[ &lt;Number> ]
+ * Factors[ &lt;Function> ] Factors[ &lt;Number> ]
  */
 public class CmdFactors extends CommandProcessor {
 
@@ -42,10 +41,10 @@ public class CmdFactors extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} else	if (arg[0].isGeoNumeric()) {
+			} else if (arg[0].isGeoNumeric()) {
 
-				AlgoPrimeFactorization algo = new AlgoPrimeFactorization(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+				AlgoPrimeFactorization algo = new AlgoPrimeFactorization(cons,
+						c.getLabel(), (GeoNumeric) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

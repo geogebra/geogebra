@@ -31,10 +31,10 @@ public class CmdIdentity extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		if (!(arg[0] instanceof GeoNumberValue))
 			throw argErr(app, c.getName(), arg[0]);
-		
-		AlgoIdentity algo= new AlgoIdentity(kernelA.getConstruction(),
-				c.getLabel(),(GeoNumberValue)arg[0]);
-		return new GeoElement[]{algo.getResult()};
-		
+
+		AlgoIdentity algo = new AlgoIdentity(kernelA.getConstruction(),
+				c.getLabel(), (GeoNumberValue) arg[0]);
+		return new GeoElement[] { algo.getResult() };
+
 	}
 }

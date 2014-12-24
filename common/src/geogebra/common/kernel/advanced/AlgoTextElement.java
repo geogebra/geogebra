@@ -54,8 +54,8 @@ public class AlgoTextElement extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Element;
-    }
+		return Commands.Element;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -65,7 +65,7 @@ public class AlgoTextElement extends AlgoElement {
 		input[1] = numGeo;
 
 		super.setOutputLength(1);
-        super.setOutput(0, textOut);
+		super.setOutput(0, textOut);
 		setDependencies(); // done by AlgoElement
 	}
 

@@ -7,6 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
+
 /**
  * 
  * Trilinear[point,point,point,coord,coord,coord]
@@ -33,22 +34,22 @@ public class CmdTrilinear extends CommandProcessor {
 		switch (n) {
 		case 6:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoPoint()) &&
-					(ok[1] = arg[1].isGeoPoint()) &&
-					(ok[2] = arg[2].isGeoPoint()) &&
-					(ok[3] = arg[3] instanceof GeoNumberValue) &&
-					(ok[4] = arg[5] instanceof GeoNumberValue) &&
-					(ok[5] = arg[5] instanceof GeoNumberValue)) {
-				
-				AlgoTrilinear algo = new AlgoTrilinear(cons, c.getLabel(),
-						(GeoPoint)arg[0], (GeoPoint)arg[1], (GeoPoint)arg[2],
-						(GeoNumberValue) arg[3], (GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);
+			if ((ok[0] = arg[0].isGeoPoint()) && (ok[1] = arg[1].isGeoPoint())
+					&& (ok[2] = arg[2].isGeoPoint())
+					&& (ok[3] = arg[3] instanceof GeoNumberValue)
+					&& (ok[4] = arg[5] instanceof GeoNumberValue)
+					&& (ok[5] = arg[5] instanceof GeoNumberValue)) {
 
-				GeoElement[] ret = { algo.getResult() } ;
+				AlgoTrilinear algo = new AlgoTrilinear(cons, c.getLabel(),
+						(GeoPoint) arg[0], (GeoPoint) arg[1],
+						(GeoPoint) arg[2], (GeoNumberValue) arg[3],
+						(GeoNumberValue) arg[4], (GeoNumberValue) arg[5]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-				
-			} 
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

@@ -33,17 +33,18 @@ import java.util.List;
  */
 public class Function extends FunctionNVar implements RealRootFunction,
 		Functional, RealRootDerivFunction {
-	
+
 	/** function expression */
 	private Function derivative;
 
+	private static final double MAX_EXPAND_DEGREE = 10;
 
-	private static final double MAX_EXPAND_DEGREE = 10; 
 	/**
 	 * Creates new Function from expression where x is the variable. Note: call
 	 * {@link #initFunction()} after this constructor.
 	 * 
-	 * @param expression function expression
+	 * @param expression
+	 *            function expression
 	 */
 	public Function(ExpressionNode expression) {
 		super(expression);
@@ -53,8 +54,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates new Function from expression where the function variable in
 	 * expression is already known.
 	 * 
-	 * @param exp function expression
-	 * @param fVar function variable
+	 * @param exp
+	 *            function expression
+	 * @param fVar
+	 *            function variable
 	 */
 	public Function(ExpressionNode exp, FunctionVariable fVar) {
 		super(exp, new FunctionVariable[] { fVar });
@@ -64,7 +67,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates a Function that has no expression yet. Use setExpression() to do
 	 * this later.
 	 * 
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public Function(Kernel kernel) {
 		super(kernel);
@@ -76,7 +80,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param f
 	 *            source function
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public Function(Function f, Kernel kernel) {
 		super(f.expression.getCopy(kernel));
@@ -102,7 +107,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	public void setExpression(ExpressionNode exp, FunctionVariable var) {
 		super.setExpression(exp, new FunctionVariable[] { var });
-		
+
 		derivative = null;
 	}
 
@@ -140,8 +145,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 		return super.initFunction();
 	}
+
 	/**
-	 * Initializes function variables  without resolving commands in the expression
+	 * Initializes function variables without resolving commands in the
+	 * expression
 	 */
 	public void initFunctionVars() {
 		if (fVars == null) {
@@ -149,11 +156,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			fVars = new FunctionVariable[] { new FunctionVariable(kernel) };
 		}
 	}
-	
+
 	/**
 	 * Returns this function's value at position x.
 	 * 
-	 * @param x position
+	 * @param x
+	 *            position
 	 * @return f(x)
 	 */
 	public double evaluate(double x) {
@@ -171,12 +179,14 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Returns this function's value at position x. (Note: use this method if
 	 * isBooleanFunction() returns true.
 	 * 
-	 * @param x position
+	 * @param x
+	 *            position
 	 * @return f(x)
 	 */
 	final public boolean evaluateBoolean(double x) {
 		fVars[0].set(x);
-		return ((BooleanValue) expression.evaluate(StringTemplate.defaultTemplate)).getBoolean();
+		return ((BooleanValue) expression
+				.evaluate(StringTemplate.defaultTemplate)).getBoolean();
 	}
 
 	/**
@@ -238,8 +248,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				double temp;
 				switch (en.getOperation()) {
 				case PLUS:
-					temp = Kernel.checkDecimalFraction(num.getDouble()
-							- vx);
+					temp = Kernel.checkDecimalFraction(num.getDouble() - vx);
 					if (Kernel.isZero(temp)) {
 						expression = expression.replace(en, fVars[0]).wrap();
 					} else if (temp < 0) {
@@ -251,8 +260,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 					return;
 
 				case MINUS:
-					temp = Kernel.checkDecimalFraction(num.getDouble()
-							+ vx);
+					temp = Kernel.checkDecimalFraction(num.getDouble() + vx);
 					if (Kernel.isZero(temp)) {
 						expression = expression.replace(en, fVars[0]).wrap();
 					} else if (temp < 0) {
@@ -271,11 +279,11 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			}
 		} else if (left instanceof ExpressionNode) {
 			translateX((ExpressionNode) left, vx);
-		}else if (left instanceof MyNumberPair) {
+		} else if (left instanceof MyNumberPair) {
 			translateX(((MyNumberPair) left).getX().wrap(), vx);
 			translateX(((MyNumberPair) left).getY().wrap(), vx);
-		}else if(left instanceof MyList){
-			for(int i=0; i < ((MyList)left).size(); i++){
+		} else if (left instanceof MyList) {
+			for (int i = 0; i < ((MyList) left).size(); i++) {
 				translateX(((MyList) left).getListElement(i).wrap(), vx);
 			}
 		}
@@ -285,12 +293,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			en.setRight(shiftXnode(vx));
 		} else if (right instanceof ExpressionNode) {
 			translateX((ExpressionNode) right, vx);
-		}else if(right instanceof MyList){
-			for(int i=0; i < ((MyList)right).size(); i++){
+		} else if (right instanceof MyList) {
+			for (int i = 0; i < ((MyList) right).size(); i++) {
 				translateX(((MyList) right).getListElement(i).wrap(), vx);
 			}
 		}
-		
+
 	}
 
 	// node for (x - vx)
@@ -316,7 +324,9 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 *            vertical translation
 	 */
 	final public void translateY(double vy) {
-		if(expression.getRight() instanceof MyDouble) { // is there a constant number to the right
+		if (expression.getRight() instanceof MyDouble) { // is there a constant
+															// number to the
+															// right
 			MyDouble num = (MyDouble) expression.getRight();
 			if (num == fVars[0]) { // right side might be the function variable
 				addNumber(Kernel.checkDecimalFraction(vy));
@@ -325,8 +335,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			double temp;
 			switch (expression.getOperation()) {
 			case PLUS:
-				temp = Kernel
-						.checkDecimalFraction(num.getDouble() + vy);
+				temp = Kernel.checkDecimalFraction(num.getDouble() + vy);
 				if (Kernel.isZero(temp)) {
 					expression = expression.getLeftTree();
 				} else if (temp < 0) {
@@ -338,8 +347,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 				break;
 
 			case MINUS:
-				temp = Kernel
-						.checkDecimalFraction(num.getDouble() - vy);
+				temp = Kernel.checkDecimalFraction(num.getDouble() - vy);
 				if (Kernel.isZero(temp)) {
 					expression = expression.getLeftTree();
 				} else if (temp < 0) {
@@ -395,7 +403,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	final public LinkedList<PolyFunction> getPolynomialFactors(
 			boolean rootFindingSimplification) {
 		// try to get symbolic polynomial factors
-		LinkedList<PolyFunction> result = getSymbolicPolynomialFactors(rootFindingSimplification,false);
+		LinkedList<PolyFunction> result = getSymbolicPolynomialFactors(
+				rootFindingSimplification, false);
 
 		// if this didn't work try to get numeric polynomial factors
 		if (result == null) {
@@ -410,7 +419,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * SymbolicPolyFunction) objects is returned. Note: may return null if the
 	 * n-th derivative is no polynomial.
 	 * 
-	 * @param n derivative order
+	 * @param n
+	 *            derivative order
 	 * 
 	 * @param rootFindingSimplification
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
@@ -424,7 +434,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			return null;
 
 		// try to get symbolic polynomial factors
-		return deriv.getSymbolicPolynomialFactors(rootFindingSimplification,false);
+		return deriv.getSymbolicPolynomialFactors(rootFindingSimplification,
+				false);
 	}
 
 	/**
@@ -434,16 +445,20 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * 
 	 * @param n
 	 *            order
-	 * @param skipCASfallback when true, answer is computed without CAS; in case of failure null is returned
+	 * @param skipCASfallback
+	 *            when true, answer is computed without CAS; in case of failure
+	 *            null is returned
 	 * @return derivative
 	 * 
 	 */
-	final public PolyFunction getNumericPolynomialDerivative(int n,boolean skipCASfallback) {
+	final public PolyFunction getNumericPolynomialDerivative(int n,
+			boolean skipCASfallback) {
 		// we expand the numerical expression of this function (all variables
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the derivative of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false,skipCASfallback);
+		PolyFunction poly = expandToPolyFunction(expression, false,
+				skipCASfallback);
 		if (poly != null) { // we got a polynomial
 			for (int i = 0; i < n; i++) {
 				poly = poly.getDerivative();
@@ -454,8 +469,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 	/**
 	 * Tries to expand this function to a polynomial with numeric coefficients
-	 * and returns its integral as a PolyFunction object. (without +c)
-	 * Note: may return null if it's not a polynomial.
+	 * and returns its integral as a PolyFunction object. (without +c) Note: may
+	 * return null if it's not a polynomial.
 	 * 
 	 * @return integral
 	 * 
@@ -465,7 +480,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		// are
 		// replaced by their values) and try to get a polynomial.
 		// Then we take the integral of this polynomial.
-		PolyFunction poly = expandToPolyFunction(expression, false,true);
+		PolyFunction poly = expandToPolyFunction(expression, false, true);
 		if (poly != null) { // we got a polynomial
 			poly = poly.getIntegral();
 
@@ -482,11 +497,13 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * @param rootFindingSimplification
 	 *            for root finding factors may be simplified, e.g. sqrt(x) may
 	 *            be simplified to x
-	 * @param assumeFalseIfCASNeeded if we can't resolve this as polynomial without CAS and this flag is tue, we assume it's not a polynomial
+	 * @param assumeFalseIfCASNeeded
+	 *            if we can't resolve this as polynomial without CAS and this
+	 *            flag is tue, we assume it's not a polynomial
 	 * @return all symbolic non-constant polynomial factors of this function
 	 */
 	public LinkedList<PolyFunction> getSymbolicPolynomialFactors(
-			boolean rootFindingSimplification,boolean assumeFalseIfCASNeeded) {
+			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
 		if (factorParentExp != expression) {
 			// new expression
 			factorParentExp = expression;
@@ -496,7 +513,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			else
 				symbolicPolyFactorList.clear();
 			symbolicPolyFactorListDefined = addPolynomialFactors(expression,
-					symbolicPolyFactorList, true, rootFindingSimplification,assumeFalseIfCASNeeded);
+					symbolicPolyFactorList, true, rootFindingSimplification,
+					assumeFalseIfCASNeeded);
 		}
 
 		if (symbolicPolyFactorListDefined && symbolicPolyFactorList.size() > 0) {
@@ -525,7 +543,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			numericPolyFactorList.clear();
 
 		boolean success = addPolynomialFactors(expression,
-				numericPolyFactorList, false, rootFindingSimplification,false);
+				numericPolyFactorList, false, rootFindingSimplification, false);
 		if (success && numericPolyFactorList.size() > 0) {
 			return numericPolyFactorList;
 		}
@@ -545,15 +563,16 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 */
 	private boolean addPolynomialFactors(ExpressionValue ev,
 			List<PolyFunction> l, boolean symbolic,
-			boolean rootFindingSimplification,boolean assumeFalseIfCASNeeded) {
+			boolean rootFindingSimplification, boolean assumeFalseIfCASNeeded) {
 		if (ev.isExpressionNode()) {
 			ExpressionNode node = (ExpressionNode) ev;
 			switch (node.getOperation()) {
 			case MULTIPLY:
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
-						rootFindingSimplification,assumeFalseIfCASNeeded)
+						rootFindingSimplification, assumeFalseIfCASNeeded)
 						&& addPolynomialFactors(node.getRight(), l, symbolic,
-								rootFindingSimplification,assumeFalseIfCASNeeded);
+								rootFindingSimplification,
+								assumeFalseIfCASNeeded);
 
 				// try some simplifications of factors for root finding
 			case POWER:
@@ -582,11 +601,13 @@ public class Function extends FunctionNVar implements RealRootFunction,
 							// left^0 = 1
 							return addPolynomialFactors(
 									new MyDouble(kernel, 1), l, symbolic,
-									rootFindingSimplification,assumeFalseIfCASNeeded);
+									rootFindingSimplification,
+									assumeFalseIfCASNeeded);
 						else if (rightVal > 0)
 							// left ^ right = 0 <=> left = 0 for right > 0
 							return addPolynomialFactors(node.getLeft(), l,
-									symbolic, rootFindingSimplification,assumeFalseIfCASNeeded);
+									symbolic, rootFindingSimplification,
+									assumeFalseIfCASNeeded);
 					} else { // division
 						if (Kernel.isZero(rightVal)) {
 							// left / 0 = undefined
@@ -594,7 +615,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 						}
 						// left / right = 0 <=> left = 0 for right != null
 						return addPolynomialFactors(node.getLeft(), l,
-								symbolic, rootFindingSimplification,assumeFalseIfCASNeeded);
+								symbolic, rootFindingSimplification,
+								assumeFalseIfCASNeeded);
 					}
 				}
 				break;
@@ -607,7 +629,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 				// these functions can be omitted as f(x) = 0 iff x = 0
 				return addPolynomialFactors(node.getLeft(), l, symbolic,
-						rootFindingSimplification,assumeFalseIfCASNeeded);
+						rootFindingSimplification, assumeFalseIfCASNeeded);
 			}
 		}
 
@@ -616,7 +638,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		if (!ev.isConstant()) {
 			// build the factor: expanded ev, get the coefficients and build
 			// a polynomial with them
-			PolyFunction factor = expandToPolyFunction(ev, symbolic,assumeFalseIfCASNeeded);
+			PolyFunction factor = expandToPolyFunction(ev, symbolic,
+					assumeFalseIfCASNeeded);
 			if (factor == null)
 				return false; // did not work
 			l.add(factor);
@@ -628,22 +651,25 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Expands the given expression and builds a PolyFunction (or
 	 * SymbolicPolyFunction) object with the coefficients of the resulting
 	 * polynomial.
-	 * @param ev expression value to be expanded
+	 * 
+	 * @param ev
+	 *            expression value to be expanded
 	 * 
 	 * @return null when node is not a polynomial
 	 * @param symbolic
 	 *            true for symbolic coefficients (SymbolicPolyFunction), false
 	 *            for numeric coefficients (PolyFunction)
-	 * @param assumeFalseIfCASNeeded true to assume that function is not polynomial
-	 *  if we couldn't prove it's polynomial without CAS
+	 * @param assumeFalseIfCASNeeded
+	 *            true to assume that function is not polynomial if we couldn't
+	 *            prove it's polynomial without CAS
 	 */
 	public PolyFunction expandToPolyFunction(ExpressionValue ev,
-			boolean symbolic,boolean assumeFalseIfCASNeeded) {
-		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev,
-				symbolic);
-		//TODO: make sure expandToPolyFunctionNoCas does not mess with ev instead of the next line
+			boolean symbolic, boolean assumeFalseIfCASNeeded) {
+		PolyFunction polyFunNoCas = expandToPolyFunctionNoCas(ev, symbolic);
+		// TODO: make sure expandToPolyFunctionNoCas does not mess with ev
+		// instead of the next line
 		initFunction();
-		if(polyFunNoCas!=null || assumeFalseIfCASNeeded)
+		if (polyFunNoCas != null || assumeFalseIfCASNeeded)
 			return polyFunNoCas;
 		ExpressionNode node;
 		if (ev.isExpressionNode()) {
@@ -654,9 +680,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		}
 
 		// get coefficients as strings
-		
-		
-		
+
 		String function, var;
 		StringTemplate tpl = StringTemplate.giacTemplate;
 		// See #1322
@@ -667,7 +691,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			// this is not a valid polynomial
 			return null;
 		} finally {
-			//do nothing
+			// do nothing
 		}
 
 		String[] strCoeffs = kernel.getPolynomialCoeffs(function, var);
@@ -705,56 +729,60 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			return null;
 		}
 	}
-	private ExpressionNode zeroExpr = new ExpressionNode(kernel,new MyDouble(kernel,0));
+
+	private ExpressionNode zeroExpr = new ExpressionNode(kernel, new MyDouble(
+			kernel, 0));
+
 	private PolyFunction expandToPolyFunctionNoCas(ExpressionValue ev,
-			boolean symbolic){
+			boolean symbolic) {
 		PolyFunction polyFun = null;
-		FunctionVariable xVar=new FunctionVariable(kernel,"x");
+		FunctionVariable xVar = new FunctionVariable(kernel, "x");
 		ExpressionValue[][] coeff = null;
 		int terms = -1;
-		ExpressionValue evCopy=ev.deepCopy(kernel);
+		ExpressionValue evCopy = ev.deepCopy(kernel);
 		ExpressionNode replaced;
-		VariableReplacer varep = VariableReplacer.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate),
-				xVar, kernel);
-		if (evCopy instanceof ExpressionNode){
-			replaced = 
-					((ExpressionNode) evCopy).traverse(varep).wrap();
+		VariableReplacer varep = VariableReplacer
+				.getReplacer(fVars[0].toString(StringTemplate.defaultTemplate),
+						xVar, kernel);
+		if (evCopy instanceof ExpressionNode) {
+			replaced = ((ExpressionNode) evCopy).traverse(varep).wrap();
 		} else {
-			replaced = (new ExpressionNode(kernel,evCopy)).traverse(varep).wrap();
+			replaced = (new ExpressionNode(kernel, evCopy)).traverse(varep)
+					.wrap();
 		}
-		Equation equ = new Equation(kernel,replaced,new MyDouble(kernel,0));
-		
-		try{
+		Equation equ = new Equation(kernel, replaced, new MyDouble(kernel, 0));
+
+		try {
 			coeff = Polynomial.fromNode(replaced, equ).getCoeff();
 			terms = coeff.length;
+		} catch (Throwable t) {
+			App.debug(ev + " couldn't be transformed to polynomial");
 		}
-		catch(Throwable t){
-			App.debug(ev+" couldn't be transformed to polynomial");
-		}
-		if(terms == -1 || !equ.isPolynomial())
+		if (terms == -1 || !equ.isPolynomial())
 			return null;
-		if(!symbolic){
-			double [] coeffValues = new double[terms];
-			for(int i=0;i<coeff.length;i++){
+		if (!symbolic) {
+			double[] coeffValues = new double[terms];
+			for (int i = 0; i < coeff.length; i++) {
 				if (coeff[i][0] instanceof ExpressionNode) {
-					coeffValues[i]=coeff[i][0].evaluateDouble(); //for ticket #2276 ---Tam
+					coeffValues[i] = coeff[i][0].evaluateDouble(); // for ticket
+																	// #2276
+																	// ---Tam
 				} else {
-					coeffValues[i]=coeff[i][0] instanceof NumberValue ?
-						((NumberValue)coeff[i][0]).getDouble() : 0;
+					coeffValues[i] = coeff[i][0] instanceof NumberValue ? ((NumberValue) coeff[i][0])
+							.getDouble() : 0;
 				}
-	
 
 			}
 			polyFun = new PolyFunction(coeffValues);
-		}else{
+		} else {
 			ExpressionNode[] coeffExpr = new ExpressionNode[terms];
-			for(int i=0;i<coeff.length;i++){
-				coeffExpr[i]= coeff[i][0]==null?zeroExpr
-						:new ExpressionNode(kernel,coeff[i][0]);
+			for (int i = 0; i < coeff.length; i++) {
+				coeffExpr[i] = coeff[i][0] == null ? zeroExpr
+						: new ExpressionNode(kernel, coeff[i][0]);
 			}
 			polyFun = new SymbolicPolyFunction(coeffExpr);
 		}
-		
+
 		return polyFun;
 	}
 
@@ -771,8 +799,7 @@ public class Function extends FunctionNVar implements RealRootFunction,
 			e.printStackTrace();
 			return null;
 		} catch (Error e) {
-			App.debug("error in evaluateToExpressionNode: "
-					+ str);
+			App.debug("error in evaluateToExpressionNode: " + str);
 			e.printStackTrace();
 			return null;
 		}
@@ -822,49 +849,57 @@ public class Function extends FunctionNVar implements RealRootFunction,
 
 	/**
 	 * 
-	 * @param n derivative order
-	 * @param keepFractions true for 123/100, false for 1.23 in coefficients
-	 * @param fast if true -> use fast non-CAS derivatives
+	 * @param n
+	 *            derivative order
+	 * @param keepFractions
+	 *            true for 123/100, false for 1.23 in coefficients
+	 * @param fast
+	 *            if true -> use fast non-CAS derivatives
 	 * @return n-th derivative
 	 */
 	final Function getDerivative(int n, boolean keepFractions, boolean fast) {
-		
-		
-		 // check if it's a polynomial
-		 PolyFunction polyDeriv = getNumericPolynomialDerivative(n,true);
-		 
-		 // it it is...
-		 if (polyDeriv != null) {
-			 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
 
-			 // NB keepFractions ignored, so different answer given for f(x) = 3x^2 / 5, f'(x)
-			 boolean factor = getExpression().inspect(new Inspecting(){ 
-				 
-				                                        @Override 
-				                                         public boolean check(ExpressionValue v) { 
-				                                                if(v instanceof ExpressionNode && ((ExpressionNode)v).getOperation() == Operation.POWER){ 
-				 	                                                        if(((ExpressionNode)v).getLeft().unwrap().isExpressionNode() && ((ExpressionNode)v).getRight().evaluateDouble() > Function.MAX_EXPAND_DEGREE){ 
-				 	                                                                return true; 
-				                                                        } 
-				                                               } 
-			                                               return false; 
-			                                     }}); 
-			                              if(factor){ 
-			                                     return getDerivativeNoCAS(n); 
-				                            } 
-				 	return polyDeriv.getFunction(kernel, getFunctionVariable()); 
+		// check if it's a polynomial
+		PolyFunction polyDeriv = getNumericPolynomialDerivative(n, true);
+
+		// it it is...
+		if (polyDeriv != null) {
+			// ... we can calculate the derivative without loading the CAS
+			// (*much* faster, especially in web)
+
+			// NB keepFractions ignored, so different answer given for f(x) =
+			// 3x^2 / 5, f'(x)
+			boolean factor = getExpression().inspect(new Inspecting() {
+
+				@Override
+				public boolean check(ExpressionValue v) {
+					if (v instanceof ExpressionNode
+							&& ((ExpressionNode) v).getOperation() == Operation.POWER) {
+						if (((ExpressionNode) v).getLeft().unwrap()
+								.isExpressionNode()
+								&& ((ExpressionNode) v).getRight()
+										.evaluateDouble() > Function.MAX_EXPAND_DEGREE) {
+							return true;
+						}
+					}
+					return false;
+				}
+			});
+			if (factor) {
+				return getDerivativeNoCAS(n);
+			}
+			return polyDeriv.getFunction(kernel, getFunctionVariable());
 		}
-		 
-		 if (fast || !kernel.useCASforDerivatives()) {
-			 
-			 return getDerivativeNoCAS(n);
-			 
-		 }
-		
+
+		if (fast || !kernel.useCASforDerivatives()) {
+
+			return getDerivativeNoCAS(n);
+
+		}
+
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
 		String varStr = fVars[0].toString(StringTemplate.prefixedDefault);
-		
 
 		StringBuilder sb = new StringBuilder();
 		sb.append("Derivative[");
@@ -878,8 +913,8 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		sb.append(",");
 		sb.append(n);
 		sb.append("]");
-		//for derivative we don't need arbconst
-		return (Function) evalCasCommand(sb.toString(), true,null);
+		// for derivative we don't need arbconst
+		return (Function) evalCasCommand(sb.toString(), true, null);
 	}
 
 	/**
@@ -892,17 +927,19 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	public static Function getDerivativeQuotient(Function funX, Function funY) {
 		if (funX.fVars == null)
 			return null;
-		
+
 		// use fast non-CAS method
 		Function xDashed = funX.getDerivativeNoCAS(1);
 		Function yDashed = funY.getDerivativeNoCAS(1);
-		
+
 		FunctionVariable fv = xDashed.getFunctionVariable();
-		
+
 		// make sure both functions use same variable
-		ExpressionValue yDashedEv = yDashed.getExpression().replace(yDashed.getFunctionVariable(), fv);
-		
-		ExpressionNode en = new ExpressionNode(funX.getKernel(), yDashedEv, Operation.DIVIDE, xDashed.getExpression());
+		ExpressionValue yDashedEv = yDashed.getExpression().replace(
+				yDashed.getFunctionVariable(), fv);
+
+		ExpressionNode en = new ExpressionNode(funX.getKernel(), yDashedEv,
+				Operation.DIVIDE, xDashed.getExpression());
 
 		return new Function(en, fv);
 	}
@@ -911,9 +948,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Creates the difference expression (a - b) and stores the result in
 	 * Function c.
 	 * 
-	 * @param a minuend
-	 * @param b subtrahend
-	 * @param c difference
+	 * @param a
+	 *            minuend
+	 * @param b
+	 *            subtrahend
+	 * @param c
+	 *            difference
 	 */
 	final public static void difference(Function a, Function b, Function c) {
 		// copy only the second function and replace b.fVar by a.fVar
@@ -935,9 +975,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * Function c. This is needed for the intersection of function a and line ax
 	 * + by + c = 0. b != 0 is assumed.
 	 * 
-	 * @param f minuend
-	 * @param line subtrahend (as line)
-	 * @param c difference
+	 * @param f
+	 *            minuend
+	 * @param line
+	 *            subtrahend (as line)
+	 * @param c
+	 *            difference
 	 */
 	final public static void difference(Function f, GeoLine line, Function c) {
 		// build expression for line: ax + by + c = 0 (with b != 0)
@@ -1042,61 +1085,62 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		return expression.includesNonContinuousIntegral();
 	}
 
-	public GeoFunction getGeoFunction(){
+	public GeoFunction getGeoFunction() {
 		GeoFunction gf = new GeoFunction(kernel.getConstruction());
 		gf.setFunction(this);
 		return gf;
 	}
 
 	/**
-	 * @param n order of derivative
+	 * @param n
+	 *            order of derivative
 	 * @return derivative calculated without the CAS
 	 */
 	public Function getDerivativeNoCAS(int n) {
-		
+
 		ExpressionNode expDeriv = expression;
-		
-		for (int i = 0 ; i < n ; i++) {
+
+		for (int i = 0; i < n; i++) {
 			expDeriv = expDeriv.derivative(fVars[0]);
 		}
-		expDeriv.simplifyConstantIntegers(); 
+		expDeriv.simplifyConstantIntegers();
 		return new Function(expDeriv, fVars[0]);
 	}
 
 	/**
-	 * @return integral calculated without the CAS
-	 * (will work only for very simple functions eg sin(3x))
+	 * @return integral calculated without the CAS (will work only for very
+	 *         simple functions eg sin(3x))
 	 */
 	public Function getIntegralNoCAS() {
-		
+
 		return new Function(expression.integral(fVars[0]), fVars[0]);
 	}
 
 	/**
-	 * Evaluates polynomial and its derivative 
-	 */		 
+	 * Evaluates polynomial and its derivative
+	 */
 	public double[] evaluateDerivFunc(double x) {
-		
+
 		double[] ret = new double[2];
 		ret[0] = this.evaluate(x);
-		
+
 		if (isBooleanFunction) {
 			ret[1] = Double.NaN;
 			return ret;
 		}
-		
+
 		if (derivative == null) {
 			derivative = getDerivative(1, false, true);
 		}
-		
+
 		ret[1] = derivative.evaluate(x);
-		
+
 		return ret;
-		
+
 	}
 
 	public double evaluateDerivative(double x) {
-		
+
 		if (isBooleanFunction) {
 			return Double.NaN;
 		}
@@ -1104,10 +1148,10 @@ public class Function extends FunctionNVar implements RealRootFunction,
 		if (derivative == null) {
 			derivative = getDerivative(1, false, true);
 		}
-		
+
 		return derivative.evaluate(x);
 	}
-	
+
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
 		return expression.derivative(fv);
@@ -1117,6 +1161,5 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	public ExpressionValue integral(FunctionVariable fv) {
 		return expression.integral(fv);
 	}
-
 
 }

@@ -8,31 +8,36 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.arithmetic;
 
 import geogebra.common.kernel.geos.GeoFunction;
 
-
 /**
  * Element which can be considered function (function, line)
  *
  */
-public interface Functional extends Evaluatable{
+public interface Functional extends Evaluatable {
 	/**
 	 * Returns the function
+	 * 
 	 * @return function
 	 */
 	public Function getFunction();
+
 	/**
 	 * Returns the function
+	 * 
 	 * @return function
 	 */
 	public GeoFunction getGeoFunction();
+
 	/**
 	 * Returns the function's derivative wrapped in GeoElement
-	 * @param order order of the derivative
+	 * 
+	 * @param order
+	 *            order of the derivative
 	 * @return wrapped derivative
 	 */
 	public GeoFunction getGeoDerivative(int order);

@@ -128,8 +128,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 			if (Kernel.isZero(ad)) { // only x
 				diffExp = fVar;
 			} else if (ad > 0) { // (x - a)
-				diffExp = new ExpressionNode(kernel, fVar,
-						Operation.MINUS, new MyDouble(kernel, ad));
+				diffExp = new ExpressionNode(kernel, fVar, Operation.MINUS,
+						new MyDouble(kernel, ad));
 			} else { // (x + a)
 				diffExp = new ExpressionNode(kernel, fVar, Operation.PLUS,
 						new MyDouble(kernel, -ad));
@@ -161,8 +161,8 @@ public class AlgoTaylorSeries extends AlgoElement {
 					break;
 				default:
 					powerExp = new ExpressionNode(kernel, new ExpressionNode(
-							kernel, diffExp, Operation.POWER,
-							new MyDouble(kernel, k)), Operation.DIVIDE,
+							kernel, diffExp, Operation.POWER, new MyDouble(
+									kernel, k)), Operation.DIVIDE,
 							new ExpressionNode(kernel, new MyDouble(kernel, k),
 									Operation.FACTORIAL, null));
 				}
@@ -205,7 +205,6 @@ public class AlgoTaylorSeries extends AlgoElement {
 		g.setFunction(seriesFun);
 		g.setDefined(true);
 	}
-
 
 	// TODO Consider locusequability
 

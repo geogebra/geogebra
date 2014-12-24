@@ -21,7 +21,7 @@ public class CmdCASCommand1Arg extends CommandProcessor {
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdCASCommand1Arg(Kernel kernel,Commands cmd) {
+	public CmdCASCommand1Arg(Kernel kernel, Commands cmd) {
 		super(kernel);
 		this.cmd = cmd;
 	}
@@ -37,8 +37,8 @@ public class CmdCASCommand1Arg extends CommandProcessor {
 		case 1:
 			if (arg[0] instanceof CasEvaluableFunction) {
 
-				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(cons, c.getLabel(),
-						(CasEvaluableFunction) arg[0], cmd);
+				AlgoCasBaseSingleArgument algo = new AlgoCasBaseSingleArgument(
+						cons, c.getLabel(), (CasEvaluableFunction) arg[0], cmd);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

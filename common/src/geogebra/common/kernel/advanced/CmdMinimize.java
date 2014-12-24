@@ -29,24 +29,23 @@ public class CmdMinimize extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-        case 2 :
-            arg = resArgs(c);
-            if ((ok[0] = (arg[0] .isGeoElement()))
-                && (ok[1] = (arg[1] .isGeoNumeric()))) {
-            	
-        		AlgoMinimize algo = new AlgoMinimize(cons, c.getLabel(),
-                        (NumberValue)arg[0],
-                        (GeoNumeric) arg[1]); 
+		case 2:
+			arg = resArgs(c);
+			if ((ok[0] = (arg[0].isGeoElement()))
+					&& (ok[1] = (arg[1].isGeoNumeric()))) {
 
-        		GeoElement[] ret= { algo.getResult() };
+				AlgoMinimize algo = new AlgoMinimize(cons, c.getLabel(),
+						(NumberValue) arg[0], (GeoNumeric) arg[1]);
 
-                return ret;
-            }
-            throw argErr(app,c.getName(),getBadArg(ok,arg));
+				GeoElement[] ret = { algo.getResult() };
+
+				return ret;
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
-	}//process(command)
+	}// process(command)
 
-}//CmdMinimze(kernel)
+}// CmdMinimze(kernel)
 

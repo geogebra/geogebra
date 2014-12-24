@@ -52,7 +52,8 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * Creates new MyList
 	 * 
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public MyList(Kernel kernel) {
 		this(kernel, 20);
@@ -61,7 +62,8 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * Creates new MyList of given length
 	 * 
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 * @param size
 	 *            length of the list
 	 */
@@ -72,8 +74,11 @@ public class MyList extends ValidExpression implements ListValue,
 
 	/**
 	 * Create new MyList
-	 * @param kernel kernel
-	 * @param isFlatList true for flat lists, false for matrices etc.
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param isFlatList
+	 *            true for flat lists, false for matrices etc.
 	 */
 	public MyList(Kernel kernel, boolean isFlatList) {
 		this(kernel);
@@ -88,7 +93,8 @@ public class MyList extends ValidExpression implements ListValue,
 	/**
 	 * Adds expression value to the list
 	 * 
-	 * @param arg element to add
+	 * @param arg
+	 *            element to add
 	 */
 	public void addListElement(ExpressionValue arg) {
 		listElements.add(arg);
@@ -117,8 +123,10 @@ public class MyList extends ValidExpression implements ListValue,
 	 * Replaces all Variable objects with the given varName in this list by the
 	 * given FunctionVariable object.
 	 * 
-	 * @param varName variable name
-	 * @param fVar replacement variable
+	 * @param varName
+	 *            variable name
+	 * @param fVar
+	 *            replacement variable
 	 * @return number of replacements done
 	 */
 	public int replaceVariables(String varName, FunctionVariable fVar) {
@@ -130,7 +138,8 @@ public class MyList extends ValidExpression implements ListValue,
 				replacements += ((ExpressionNode) element).replaceVariables(
 						varName, fVar);
 			} else if (element instanceof Variable) {
-				if (varName.equals(((Variable) element).getName(StringTemplate.defaultTemplate))) {
+				if (varName.equals(((Variable) element)
+						.getName(StringTemplate.defaultTemplate))) {
 					listElements.set(i, fVar);
 					replacements++;
 				}
@@ -150,10 +159,12 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            value that should be applied to this list using the given
 	 *            operation
 	 * @author Markus Hohenwarter
-	 * @param tpl string template in case of concatenation
+	 * @param tpl
+	 *            string template in case of concatenation
 	 */
-	final public void applyRight(Operation operation, ExpressionValue value,StringTemplate tpl) {
-		apply(operation, value, true,tpl);
+	final public void applyRight(Operation operation, ExpressionValue value,
+			StringTemplate tpl) {
+		apply(operation, value, true, tpl);
 	}
 
 	/**
@@ -166,10 +177,12 @@ public class MyList extends ValidExpression implements ListValue,
 	 *            value that should be applied to this list using the given
 	 *            operation
 	 * @author Markus Hohenwarter
-	 * @param tpl string template in case of string concatenation
+	 * @param tpl
+	 *            string template in case of string concatenation
 	 */
-	final public void applyLeft(Operation operation, ExpressionValue value,StringTemplate tpl) {
-		apply(operation, value, false,tpl);
+	final public void applyLeft(Operation operation, ExpressionValue value,
+			StringTemplate tpl) {
+		apply(operation, value, false, tpl);
 	}
 
 	private boolean isDefined = true;
@@ -201,7 +214,8 @@ public class MyList extends ValidExpression implements ListValue,
 							Operation.MULTIPLY, rightV);
 
 					// multiply two cells...
-					ExpressionValue operationResult = tempNode.evaluate(StringTemplate.defaultTemplate);
+					ExpressionValue operationResult = tempNode
+							.evaluate(StringTemplate.defaultTemplate);
 
 					totalNode = new ExpressionNode(kernel, totalVal,
 							Operation.PLUS, operationResult);
@@ -210,7 +224,8 @@ public class MyList extends ValidExpression implements ListValue,
 					// totalNode.setOperation(ExpressionNode.PLUS);
 
 					// ...then add the result to a running total
-					totalVal = totalNode.evaluate(StringTemplate.defaultTemplate);
+					totalVal = totalNode
+							.evaluate(StringTemplate.defaultTemplate);
 
 				}
 				tempNode = new ExpressionNode(kernel, totalVal);
@@ -236,10 +251,12 @@ public class MyList extends ValidExpression implements ListValue,
 	 * @param right
 	 *            true for <this> <operation> <value>, false for <value>
 	 *            <operation> <this>
-	 * @param tpl string template in case we do string concatenation here
+	 * @param tpl
+	 *            string template in case we do string concatenation here
 	 * @author Markus Hohenwarter
 	 */
-	private void apply(Operation operation, ExpressionValue value, boolean right,StringTemplate tpl) {
+	private void apply(Operation operation, ExpressionValue value,
+			boolean right, StringTemplate tpl) {
 		int size = size();
 
 		// if (!right)
@@ -250,8 +267,8 @@ public class MyList extends ValidExpression implements ListValue,
 		// value);
 
 		// matrix ^ integer
-		if (right && operation == Operation.POWER && value instanceof NumberValue
-				&& isMatrix()) {
+		if (right && operation == Operation.POWER
+				&& value instanceof NumberValue && isMatrix()) {
 
 			double power = ((NumberValue) value).getDouble();
 			// Application.debug("matrix ^ "+power);
@@ -439,6 +456,7 @@ public class MyList extends ValidExpression implements ListValue,
 
 	/**
 	 * Inverts matrix (doesn't do any internal changes)
+	 * 
 	 * @return inversion of this
 	 */
 	public MyList invert() {
@@ -463,12 +481,14 @@ public class MyList extends ValidExpression implements ListValue,
 		listElements.clear();
 	}
 
-	private static boolean isEquation(ExpressionValue ex){
-		if(ex instanceof Equation || (ex instanceof ExpressionNode &&
-				((ExpressionNode)ex).getLeft() instanceof Equation) )
+	private static boolean isEquation(ExpressionValue ex) {
+		if (ex instanceof Equation
+				|| (ex instanceof ExpressionNode && ((ExpressionNode) ex)
+						.getLeft() instanceof Equation))
 			return true;
 		return false;
 	}
+
 	private boolean isMatrix(MyList LHlist) {
 		// check if already calculated
 		if (matrixRows > 0 && matrixCols > 0)
@@ -484,9 +504,10 @@ public class MyList extends ValidExpression implements ListValue,
 			// Application.debug("MULT LISTS"+size);
 
 			// check LHlist is a matrix
-			if(isEquation(LHlist.getListElement(0)))
+			if (isEquation(LHlist.getListElement(0)))
 				return false;
-			ExpressionValue singleValue = LHlist.getListElement(0).evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue singleValue = LHlist.getListElement(0).evaluate(
+					StringTemplate.defaultTemplate);
 			if (singleValue == null) {
 				matrixRows = matrixCols = 0;
 				return false;
@@ -494,7 +515,9 @@ public class MyList extends ValidExpression implements ListValue,
 
 			if (singleValue instanceof ListValue) {
 				LHcols = ((ListValue) singleValue).getMyList().size();
-				if (LHcols > 0 && isEquation(((ListValue) singleValue).getListElement(0)))
+				if (LHcols > 0
+						&& isEquation(((ListValue) singleValue)
+								.getListElement(0)))
 					return false;
 				// Application.debug("LHrows"+LHrows);
 				if (LHrows > 1)
@@ -502,9 +525,10 @@ public class MyList extends ValidExpression implements ListValue,
 														// length
 					{
 						// Application.debug(i);
-						if(isEquation(LHlist.getListElement(i)))
+						if (isEquation(LHlist.getListElement(i)))
 							return false;
-						singleValue = LHlist.getListElement(i).evaluate(StringTemplate.defaultTemplate);
+						singleValue = LHlist.getListElement(i).evaluate(
+								StringTemplate.defaultTemplate);
 						// Application.debug("size"+((ListValue)singleValue).getMyList().size());
 						if (singleValue.evaluatesToList()) {
 							MyList list = ((ListValue) singleValue).getMyList();
@@ -539,16 +563,21 @@ public class MyList extends ValidExpression implements ListValue,
 
 	// Michael Borcherds 2008-04-15
 	/**
-	 * @param list matrix
-	 * @param row row number (starts with 0)
-	 * @param col col number (starts with 0)
+	 * @param list
+	 *            matrix
+	 * @param row
+	 *            row number (starts with 0)
+	 * @param col
+	 *            col number (starts with 0)
 	 * @return cell of a list at given position
 	 */
 	public static ExpressionValue getCell(MyList list, int row, int col) {
-		ExpressionValue singleValue = list.getListElement(col).evaluate(StringTemplate.defaultTemplate);
+		ExpressionValue singleValue = list.getListElement(col).evaluate(
+				StringTemplate.defaultTemplate);
 		if (singleValue instanceof ListValue) {
 			ExpressionValue ret = (((ListValue) singleValue).getMyList()
-					.getListElement(row)).evaluate(StringTemplate.defaultTemplate);
+					.getListElement(row))
+					.evaluate(StringTemplate.defaultTemplate);
 			// if (ret.isListValue()) Application.debug("isList*********");
 			return ret;
 		}
@@ -564,13 +593,14 @@ public class MyList extends ValidExpression implements ListValue,
 		 */
 	}
 
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		StringBuilder toLaTeXString = new StringBuilder();
 		if (size() == 0) {
 			// in schools the emptyset symbol is typically not used, see #
 			// return "\\emptyset";
-			
-			// changed from "\\{ \\}" as MathQuillGGB doesn't render that correctly
+
+			// changed from "\\{ \\}" as MathQuillGGB doesn't render that
+			// correctly
 			return "\\left\\{ \\right\\}";
 		} else if (isMatrix()) {
 			if (kernel.getApplication().isHTML5Applet()) {
@@ -581,7 +611,8 @@ public class MyList extends ValidExpression implements ListValue,
 					toLaTeXString.append("\\ggbtr{");
 					for (int j = 0; j < singleValue.size(); j++) {
 						toLaTeXString.append("\\ggbtd{");
-						toLaTeXString.append(singleValue.getListElement(j).toLaTeXString(symbolic,tpl));
+						toLaTeXString.append(singleValue.getListElement(j)
+								.toLaTeXString(symbolic, tpl));
 						toLaTeXString.append("}");
 					}
 					toLaTeXString.append("}");
@@ -589,7 +620,7 @@ public class MyList extends ValidExpression implements ListValue,
 				toLaTeXString.append("}\\right)");
 			} else {
 				toLaTeXString.append("\\left(\\begin{array}{");
-				for (int i = 0; i < matrixCols ; i++) {
+				for (int i = 0; i < matrixCols; i++) {
 					toLaTeXString.append("l");
 				}
 				toLaTeXString.append("}");
@@ -597,16 +628,17 @@ public class MyList extends ValidExpression implements ListValue,
 				for (int i = 0; i < size(); i++) {
 					ListValue singleValue = (ListValue) getListElement(i)
 							.evaluate(StringTemplate.defaultTemplate);
-					
+
 					if (singleValue.size() > 0) {
 						toLaTeXString.append(singleValue.getListElement(0)
-								.toLaTeXString(symbolic,tpl));
+								.toLaTeXString(symbolic, tpl));
 						for (int j = 1; j < singleValue.size(); j++) {
 							toLaTeXString.append("&");
-							toLaTeXString.append(singleValue.getListElement(j).toLaTeXString(symbolic,tpl));
+							toLaTeXString.append(singleValue.getListElement(j)
+									.toLaTeXString(symbolic, tpl));
 						}
 					}
-					
+
 					toLaTeXString.append("\\\\");
 				}
 				toLaTeXString.append("\\end{array}\\right)");
@@ -619,13 +651,13 @@ public class MyList extends ValidExpression implements ListValue,
 			if (lastIndex > -1) {
 				for (int i = 0; i < lastIndex; i++) {
 					ExpressionValue exp = listElements.get(i);
-					toLaTeXString.append(exp.toLaTeXString(symbolic,tpl));
+					toLaTeXString.append(exp.toLaTeXString(symbolic, tpl));
 					toLaTeXString.append(", ");
 				}
 
 				// last element
 				ExpressionValue exp = listElements.get(lastIndex);
-				toLaTeXString.append(exp.toLaTeXString(symbolic,tpl));
+				toLaTeXString.append(exp.toLaTeXString(symbolic, tpl));
 			}
 
 			toLaTeXString.append(" \\right\\} ");
@@ -637,7 +669,7 @@ public class MyList extends ValidExpression implements ListValue,
 	public String toString(StringTemplate tpl) {
 		return toString(tpl, false);
 	}
-	
+
 	// Michael Borcherds 2008-02-04
 	// adapted from GeoList
 	private String toString(StringTemplate tpl, boolean valueMode) {
@@ -653,13 +685,15 @@ public class MyList extends ValidExpression implements ListValue,
 		if (lastIndex > -1) {
 			for (int i = 0; i < lastIndex; i++) {
 				ExpressionValue exp = listElements.get(i);
-				sb.append(valueMode? exp.toOutputValueString(tpl) : exp.toString(tpl)); // .toOutputValueString());
+				sb.append(valueMode ? exp.toOutputValueString(tpl) : exp
+						.toString(tpl)); // .toOutputValueString());
 				sb.append(", ");
 			}
 
 			// last element
 			ExpressionValue exp = listElements.get(lastIndex);
-			sb.append(valueMode? exp.toOutputValueString(tpl) : exp.toString(tpl));
+			sb.append(valueMode ? exp.toOutputValueString(tpl) : exp
+					.toString(tpl));
 		}
 
 		if (tpl.hasType(StringType.LATEX)) {
@@ -681,7 +715,8 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param i index
+	 * @param i
+	 *            index
 	 * @return i-th element of the list
 	 */
 	public ExpressionValue getListElement(int i) {
@@ -691,7 +726,6 @@ public class MyList extends ValidExpression implements ListValue,
 	/*
 	 * public String toString() { }
 	 */
-
 
 	public boolean isConstant() {
 		return getVariables().size() == 0;
@@ -711,15 +745,16 @@ public class MyList extends ValidExpression implements ListValue,
 		MyList c = new MyList(kernel1, size());
 
 		for (int i = 0; i < size; i++) {
-			c.addListElement(listElements.get(i).deepCopy(kernel1));	
+			c.addListElement(listElements.get(i).deepCopy(kernel1));
 		}
 		return c;
 	}
-	
-	
+
 	/**
 	 * Deep copy, except for geo elements
-	 * @param kernel1 kernel for result
+	 * 
+	 * @param kernel1
+	 *            kernel for result
 	 * @return deep copy, except for geo elements
 	 */
 	public ExpressionValue deepCopyExGeo(Kernel kernel1) {
@@ -732,8 +767,6 @@ public class MyList extends ValidExpression implements ListValue,
 		}
 		return c;
 	}
-	
-		
 
 	public HashSet<GeoElement> getVariables() {
 		HashSet<GeoElement> varSet = new HashSet<GeoElement>();
@@ -766,19 +799,22 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param a needle
-	 * @param myList haystack
+	 * @param a
+	 *            needle
+	 * @param myList
+	 *            haystack
 	 * @return true iff myList contains a
 	 */
 	public static boolean isElementOf(ExpressionValue a, MyList myList) {
 		// Application.debug(a.getClass()+"");
 
 		for (int i = 0; i < myList.size(); i++) {
-			ExpressionValue ev = myList.getListElement(i).evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue ev = myList.getListElement(i).evaluate(
+					StringTemplate.defaultTemplate);
 
 			// g:x=0, g isElementOf {x=0} gives null here
 			// see #1535
-			if (ev == null){
+			if (ev == null) {
 				App.debug(myList.getListElement(i).getClass().getName());
 				continue;
 			}
@@ -791,20 +827,24 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param list1 haystack
-	 * @param list2 list of needles
-	 * @param tpl string template
+	 * @param list1
+	 *            haystack
+	 * @param list2
+	 *            list of needles
+	 * @param tpl
+	 *            string template
 	 * @return true iff list2 is subset of list1
 	 */
-	public static boolean listContains(MyList list1, MyList list2, StringTemplate tpl) {
+	public static boolean listContains(MyList list1, MyList list2,
+			StringTemplate tpl) {
 		if (list2.size() == 0) {
 			// the empty set is a subset of all sets
-			return true; 
+			return true;
 		}
-		
+
 		// removed, bug: {1, 2, 2, 2} IS_SUBSET_OF {3, 2, 1}
-		//if (list1.size() < list2.size())
-		//	return false;
+		// if (list1.size() < list2.size())
+		// return false;
 
 		for (int i = 0; i < list2.size(); i++) {
 			ExpressionValue ev2 = list2.getListElement(i).evaluate(tpl);
@@ -828,17 +868,21 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param list1 haystack
-	 * @param list2 list of needles
-	 * @param tpl template (in case there are string concatenations)
+	 * @param list1
+	 *            haystack
+	 * @param list2
+	 *            list of needles
+	 * @param tpl
+	 *            template (in case there are string concatenations)
 	 * @return true iff list2 is proper subset of list1
 	 */
-	public static boolean listContainsStrict(MyList list1, MyList list2, StringTemplate tpl) {
-		
+	public static boolean listContainsStrict(MyList list1, MyList list2,
+			StringTemplate tpl) {
+
 		// removed, bug: {1, 2, 2, 2} IS_STRICT_SUBSET_OF {3, 2, 1}
-		//if (list1.size() <= list2.size())
-		//	return false;
-		
+		// if (list1.size() <= list2.size())
+		// return false;
+
 		// the empty set is a strict subset of everything except itself
 		if (list2.size() == 0) {
 			return (list1.size() != 0);
@@ -864,10 +908,12 @@ public class MyList extends ValidExpression implements ListValue,
 
 		// now must check sets aren't equal
 		for (int i = 0; i < list1.size(); i++) {
-			ExpressionValue ev1 = list1.getListElement(i).evaluate(StringTemplate.defaultTemplate);
+			ExpressionValue ev1 = list1.getListElement(i).evaluate(
+					StringTemplate.defaultTemplate);
 			boolean hasEqualMember = false;
 			for (int j = 0; j < list2.size(); j++) {
-				ExpressionValue ev2 = list2.getListElement(j).evaluate(StringTemplate.defaultTemplate);
+				ExpressionValue ev2 = list2.getListElement(j).evaluate(
+						StringTemplate.defaultTemplate);
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					hasEqualMember = true;
 					break;
@@ -885,13 +931,15 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @param kernel kernel
-	 * @param list1 minuend
-	 * @param list2 subtrahend
+	 * @param kernel
+	 *            kernel
+	 * @param list1
+	 *            minuend
+	 * @param list2
+	 *            subtrahend
 	 * @return set difference of the lists
 	 */
-	public static MyList setDifference(Kernel kernel, MyList list1,
-			MyList list2) {
+	public static MyList setDifference(Kernel kernel, MyList list1, MyList list2) {
 
 		if (list2.size() == 0)
 			return list1;
@@ -905,7 +953,8 @@ public class MyList extends ValidExpression implements ListValue,
 			ExpressionValue ev1 = ev0.evaluate(StringTemplate.defaultTemplate);
 			boolean addToList = true;
 			for (int j = 0; j < list2.size(); j++) {
-				ExpressionValue ev2 = list2.getListElement(j).evaluate(StringTemplate.defaultTemplate);
+				ExpressionValue ev2 = list2.getListElement(j).evaluate(
+						StringTemplate.defaultTemplate);
 				if (ExpressionNode.isEqual(ev1, ev2)) {
 					addToList = false;
 					break;
@@ -923,11 +972,12 @@ public class MyList extends ValidExpression implements ListValue,
 		return toValueString(tpl);
 	}
 
-	
 	/**
-	 * Computes vector product of this and other list,
-	 * the result is stored in this list
-	 * @param list other list
+	 * Computes vector product of this and other list, the result is stored in
+	 * this list
+	 * 
+	 * @param list
+	 *            other list
 	 */
 	public void vectorProduct(MyList list) {
 		// tempX/Y needed because a and c can be the same variable
@@ -978,50 +1028,54 @@ public class MyList extends ValidExpression implements ListValue,
 	}
 
 	/**
-	 * @return true iff this list is defined (not result of e.g. singular matrix inverse)
+	 * @return true iff this list is defined (not result of e.g. singular matrix
+	 *         inverse)
 	 */
 	public boolean isDefined() {
 		return isDefined;
 	}
 
 	public void replaceChildrenByValues(GeoElement geo) {
-		for(int i=0;i<size();i++){
+		for (int i = 0; i < size(); i++) {
 			ExpressionValue insert = getListElement(i);
-			if(insert instanceof ReplaceChildrenByValues)
-				((ReplaceChildrenByValues)insert).replaceChildrenByValues(geo);
+			if (insert instanceof ReplaceChildrenByValues)
+				((ReplaceChildrenByValues) insert).replaceChildrenByValues(geo);
 		}
-		
+
 	}
 
 	/**
 	 * Same as deep copy, but doesn't deep copy elements
-	 * @param kernel2 kernel
+	 * 
+	 * @param kernel2
+	 *            kernel
 	 * @return copy of this list
 	 */
 	public MyList getCopy(Kernel kernel2) {
-		MyList ret = new MyList(kernel,size());
-		for(int i=0;i<size();i++){
-			ret.listElements.add(ExpressionNode.copy(listElements.get(i), kernel2));
+		MyList ret = new MyList(kernel, size());
+		for (int i = 0; i < size(); i++) {
+			ret.listElements.add(ExpressionNode.copy(listElements.get(i),
+					kernel2));
 		}
 		return ret;
 	}
 
 	@Override
-	public ExpressionValue traverse(Traversing t){
+	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
-		for(int i=0;i<size();i++){
+		for (int i = 0; i < size(); i++) {
 			ExpressionValue insert = getListElement(i);
-			listElements.set(i,insert.traverse(t));
+			listElements.set(i, insert.traverse(t));
 		}
 		return v;
 	}
-	
+
 	@Override
-	public boolean inspect(Inspecting t){
-		if(t.check(this))
+	public boolean inspect(Inspecting t) {
+		if (t.check(this))
 			return true;
-		for(int i=0;i<size();i++){
-			if((getListElement(i)).inspect(t)){
+		for (int i = 0; i < size(); i++) {
+			if ((getListElement(i)).inspect(t)) {
 				return true;
 			}
 		}
@@ -1035,8 +1089,8 @@ public class MyList extends ValidExpression implements ListValue,
 	public int getLength() {
 		return listElements.size();
 	}
-	
-	public ExpressionNode wrap(){
+
+	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 

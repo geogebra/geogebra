@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *LimitAbove
+ * LimitAbove
  */
 public class CmdLimitAbove extends CommandProcessor {
 
@@ -32,7 +32,8 @@ public class CmdLimitAbove extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			if ((ok = arg[0].isGeoFunction()) && (arg[1] instanceof GeoNumberValue)) {
+			if ((ok = arg[0].isGeoFunction())
+					&& (arg[1] instanceof GeoNumberValue)) {
 				AlgoLimitAbove algo = new AlgoLimitAbove(cons, c.getLabel(),
 						(GeoFunction) arg[0], (GeoNumberValue) arg[1]);
 

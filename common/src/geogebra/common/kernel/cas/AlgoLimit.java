@@ -27,20 +27,25 @@ import geogebra.common.kernel.geos.GeoNumeric;
  * 
  * @author Michael Borcherds
  */
-public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesCAS {
-	/** function whose limit we are finding*/
+public class AlgoLimit extends AlgoElement implements AsynchronousCommand,
+		UsesCAS {
+	/** function whose limit we are finding */
 	protected GeoFunction f;
 	/** input number */
-	protected NumberValue num; 
+	protected NumberValue num;
 	/** result */
 	protected GeoNumeric outNum;
 	private String limitString;
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f function
-	 * @param num number
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 * @param num
+	 *            number
 	 */
 	public AlgoLimit(Construction cons, String label, GeoFunction f,
 			NumberValue num) {
@@ -70,7 +75,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = f;
-		input[1] =  num.toGeoElement();
+		input[1] = num.toGeoElement();
 
 		setOutputLength(1);
 		setOutput(0, outNum);
@@ -83,7 +88,7 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 	public GeoNumeric getResult() {
 		return outNum;
 	}
-	
+
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
 
 	// over-ridden in LimitAbove/Below
@@ -94,16 +99,18 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 			return;
 		}
 		limitString = f.getLimit(num.getDouble(), getDirection());
-		if (f==null) {
+		if (f == null) {
 			outNum.setUndefined();
 			return;
 		}
-		
+
 		try {
-			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString, arbconst);
-			
+			String numStr = kernel.evaluateCachedGeoGebraCAS(limitString,
+					arbconst);
+
 			// handles Infinity, ?
-			outNum.setValue(kernel.getAlgebraProcessor().evaluateToNumeric(numStr, true).getDouble());
+			outNum.setValue(kernel.getAlgebraProcessor()
+					.evaluateToNumeric(numStr, true).getDouble());
 		} catch (Throwable e) {
 			e.printStackTrace();
 			outNum.setUndefined();
@@ -111,31 +118,32 @@ public class AlgoLimit extends AlgoElement implements AsynchronousCommand, UsesC
 		}
 
 	}
-	
-	public String getCasInput(){
+
+	public String getCasInput() {
 		return limitString;
 	}
+
 	/**
 	 * 
 	 * @return direction -- 0 default, -1 above, +1 below
 	 */
-	protected int getDirection(){
+	protected int getDirection() {
 		return 0;
 	}
 
 	public void handleCASoutput(String output, int requestID) {
-		
-		NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(
-					output, true);
+
+		NumberValue nv = kernel.getAlgebraProcessor().evaluateToNumeric(output,
+				true);
 		outNum.setValue(nv.getDouble());
-		if(USE_ASYNCHRONOUS)
+		if (USE_ASYNCHRONOUS)
 			outNum.updateCascade();
-		
+
 	}
 
-	public void handleException(Throwable exception,int id) {
+	public void handleException(Throwable exception, int id) {
 		outNum.setUndefined();
-		
+
 	}
 
 	public boolean useCacheing() {

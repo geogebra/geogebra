@@ -34,7 +34,7 @@ public class CmdIsInRegion extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 		if (!arg[1].isRegion())
 			throw argErr(app, c.getName(), arg[1]);
-		
+
 		AlgoIsInRegion algo = new AlgoIsInRegion(cons, c.getLabel(),
 				(GeoPointND) arg[0], (Region) arg[1]);
 

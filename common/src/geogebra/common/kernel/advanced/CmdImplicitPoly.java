@@ -13,6 +13,7 @@ import geogebra.common.kernel.implicit.AlgoImplicitPolyThroughPoints;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
+
 /**
  * 
  * ImplicitPoly[ &lt;Function> ]
@@ -29,9 +30,7 @@ public class CmdImplicitPoly extends CommandProcessor {
 		super(kernel);
 	}
 
-	
 	private GeoElement doCommand(String a, GeoList b, Command c) {
-		
 
 		AlgoImplicitPolyThroughPoints algo = new AlgoImplicitPolyThroughPoints(
 				cons, a, b);
@@ -61,12 +60,12 @@ public class CmdImplicitPoly extends CommandProcessor {
 				if (fvars.length != 2) {
 					throw new MyError(app.getLocalization(), "InvalidEquation");
 				}
-				GeoElement[] ret = { getAlgoDispatcher().ImplicitPoly(c.getLabel(),
-						((GeoFunctionNVar) arg[0])) };
+				GeoElement[] ret = { getAlgoDispatcher().ImplicitPoly(
+						c.getLabel(), ((GeoFunctionNVar) arg[0])) };
 				return ret;
 			} else {
-				App.debug(arg[0] + ": " + arg[0].getGeoClassType()
-						+ "; " + arg[0].getClass());
+				App.debug(arg[0] + ": " + arg[0].getGeoClassType() + "; "
+						+ arg[0].getClass());
 				throw argErr(app, c.getName(), arg[0]);
 			}
 
@@ -81,9 +80,8 @@ public class CmdImplicitPoly extends CommandProcessor {
 					throw argErr(app, c.getName(), arg[i]);
 				}
 			}
-	
-			GeoList list = wrapInList(kernelA, arg, arg.length,
-					GeoClass.POINT);
+
+			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.POINT);
 			if (list != null) {
 				GeoElement[] ret = { doCommand(c.getLabel(), list, c) };
 				return ret;

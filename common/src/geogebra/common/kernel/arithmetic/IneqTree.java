@@ -81,6 +81,7 @@ public class IneqTree {
 
 	/**
 	 * Recomputes coefficients
+	 * 
 	 * @return true if this tree contains valid inequalities
 	 */
 	public boolean updateCoef() {
@@ -102,6 +103,7 @@ public class IneqTree {
 
 	/**
 	 * recomputeSize needed to make this up to date
+	 * 
 	 * @return number of inequalities in this tree
 	 */
 	public int getSize() {
@@ -109,7 +111,8 @@ public class IneqTree {
 	}
 
 	/**
-	 * @param i index
+	 * @param i
+	 *            index
 	 * @return i-th inequality in the tree in left to right order
 	 */
 	public Inequality get(int i) {
@@ -140,7 +143,8 @@ public class IneqTree {
 	}
 
 	/**
-	 * @param zeros set to which zeros should be added
+	 * @param zeros
+	 *            set to which zeros should be added
 	 */
 	public void getZeros(Set<Double> zeros) {
 		if (ineq != null) {

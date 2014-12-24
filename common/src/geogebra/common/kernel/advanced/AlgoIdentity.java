@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Algo for Identity[n]
+ * 
  * @author zbynek
  *
  */
@@ -18,9 +19,12 @@ public class AlgoIdentity extends AlgoElement {
 	private GeoList result;
 
 	/**
-	 * @param c construction
-	 * @param label label for output
-	 * @param n size of the matrix
+	 * @param c
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param n
+	 *            size of the matrix
 	 */
 	public AlgoIdentity(Construction c, String label, GeoNumberValue n) {
 		super(c);
@@ -65,7 +69,7 @@ public class AlgoIdentity extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.Identity;
-    } 
+		return Commands.Identity;
+	}
 
 }

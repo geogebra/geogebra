@@ -56,8 +56,9 @@ public class CmdOsculatingCircle extends CommandProcessor {
 			}
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoConic()))) {
-				AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(cons,
-						c.getLabel(), (GeoPoint) arg[0], (GeoConic) arg[1]);
+				AlgoOsculatingCircleCurve algo = new AlgoOsculatingCircleCurve(
+						cons, c.getLabel(), (GeoPoint) arg[0],
+						(GeoConic) arg[1]);
 				GeoElement[] ret = { algo.getCircle() };
 				return ret;
 			}

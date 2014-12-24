@@ -33,9 +33,9 @@ public class CmdCentroid extends CommandProcessor {
 			arg = resArgs(c);
 			ok[0] = arg[0].isGeoPolygon();
 			if (ok[0]) {
-				
-				AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons, c.getLabel(),
-						(GeoPolygon) arg[0]);
+
+				AlgoCentroidPolygon algo = new AlgoCentroidPolygon(cons,
+						c.getLabel(), (GeoPolygon) arg[0]);
 
 				GeoElement[] ret = { algo.getPoint() };
 				return ret;

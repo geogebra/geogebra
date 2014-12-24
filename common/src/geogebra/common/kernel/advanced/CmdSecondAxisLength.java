@@ -33,9 +33,9 @@ public class CmdSecondAxisLength extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				
-				AlgoAxisSecondLength algo = new AlgoAxisSecondLength(cons, c.getLabel(),
-						(GeoConic) arg[0]);
+
+				AlgoAxisSecondLength algo = new AlgoAxisSecondLength(cons,
+						c.getLabel(), (GeoConic) arg[0]);
 
 				GeoElement[] ret = { algo.getLength() };
 				return ret;

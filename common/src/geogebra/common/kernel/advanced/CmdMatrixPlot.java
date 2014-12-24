@@ -7,23 +7,22 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * ReducedRowEchelonForm[ <List> ]
- * Michael Borcherds 
+ * ReducedRowEchelonForm[ <List> ] Michael Borcherds
  */
 public class CmdMatrixPlot extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdMatrixPlot(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
-		AlgoMatrixPlot algo = new AlgoMatrixPlot(cons,
-				a, b);
+	final protected GeoElement doCommand(String a, GeoList b) {
+		AlgoMatrixPlot algo = new AlgoMatrixPlot(cons, a, b);
 		return algo.getResult();
 	}
 

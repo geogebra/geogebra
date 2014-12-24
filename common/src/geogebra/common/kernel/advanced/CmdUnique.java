@@ -24,7 +24,7 @@ public class CmdUnique extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		GeoElement[] arg;
 		arg = resArgs(c);
 
@@ -32,7 +32,7 @@ public class CmdUnique extends CommandProcessor {
 
 		case 1:
 			if (arg[0].isGeoList()) {
-				
+
 				AlgoUnique algo = new AlgoUnique(cons, c.getLabel(),
 						(GeoList) arg[0]);
 

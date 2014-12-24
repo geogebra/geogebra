@@ -9,6 +9,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
+
 /**
  * Algorithm for ImplicitDerivative[f(x,y)]
  *
@@ -16,12 +17,16 @@ import geogebra.common.kernel.geos.GeoFunctionNVar;
 public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 
 	private GeoFunctionNVar result;
-	private FunctionalNVar functional; 
+	private FunctionalNVar functional;
+
 	/**
-     * @param cons construction
-     * @param label label for output
-     * @param functional function of two variables
-     */
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param functional
+	 *            function of two variables
+	 */
 	public AlgoImplicitDerivative(Construction cons, String label,
 			FunctionalNVar functional) {
 		super(cons);
@@ -30,20 +35,22 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 		setInputOutput();
 		compute();
 		result.setLabel(label);
-		
+
 	}
 
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		if(functional instanceof GeoFunctionNVar)
-			input = new GeoElement[]{(GeoFunctionNVar)functional};
-		if(functional instanceof GeoFunction)
-			input = new GeoElement[]{(GeoFunction)functional};
+		if (functional instanceof GeoFunctionNVar)
+			input = new GeoElement[] { (GeoFunctionNVar) functional };
+		if (functional instanceof GeoFunction)
+			input = new GeoElement[] { (GeoFunction) functional };
 		setDependencies();
 
 	}
+
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	@Override
 	public void compute() {
 		StringTemplate tpl = StringTemplate.prefixedDefault;
@@ -51,10 +58,10 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 		sb.append("ImplicitDerivative(");
 		sb.append(functional.toValueString(tpl));
 		sb.append(")");
-		
-		try{
-			String functionOut = kernel
-					.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
+
+		try {
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(
+					sb.toString(), arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				result.setUndefined();
 			} else {
@@ -62,20 +69,20 @@ public class AlgoImplicitDerivative extends AlgoElement implements UsesCAS {
 				result.set(kernel.getAlgebraProcessor().evaluateToFunctionNVar(
 						functionOut, true));
 			}
-			}catch(Throwable e){
-				result.setUndefined();
-			}
+		} catch (Throwable e) {
+			result.setUndefined();
+		}
 	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.ImplicitDerivative;
 	}
-	
+
 	/**
 	 * @return resulting derivative
 	 */
-	public GeoFunctionNVar getResult(){
+	public GeoFunctionNVar getResult() {
 		return result;
 	}
 

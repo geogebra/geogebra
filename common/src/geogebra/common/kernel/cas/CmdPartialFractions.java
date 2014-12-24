@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *PartialFractions
+ * PartialFractions
  */
 public class CmdPartialFractions extends CommandProcessor {
 
@@ -31,9 +31,9 @@ public class CmdPartialFractions extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0] instanceof CasEvaluableFunction) {
-				
-				AlgoPartialFractions algo = new AlgoPartialFractions(cons, c.getLabel(),
-						(CasEvaluableFunction) arg[0]);
+
+				AlgoPartialFractions algo = new AlgoPartialFractions(cons,
+						c.getLabel(), (CasEvaluableFunction) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

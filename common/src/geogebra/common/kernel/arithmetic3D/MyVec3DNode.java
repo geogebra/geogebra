@@ -39,7 +39,8 @@ import java.util.HashSet;
  * 
  * @author Markus + ggb3D
  */
-public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVecNDNode {
+public class MyVec3DNode extends ValidExpression implements Vector3DValue,
+		MyVecNDNode {
 
 	private ExpressionValue x, y, z;
 	// private int mode = Kernel.COORD_CARTESIAN;
@@ -48,8 +49,12 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	private int mode = Kernel.COORD_CARTESIAN_3D;
 	private boolean isCASVector = false;
 
-	/** Creates new MyVec3D 
-	 * @param kernel kernel */
+	/**
+	 * Creates new MyVec3D
+	 * 
+	 * @param kernel
+	 *            kernel
+	 */
 	public MyVec3DNode(Kernel kernel) {
 		this.kernel = kernel;
 		kernel.getConstruction().usedGeos.add(GeoClass.POINT3D);
@@ -58,10 +63,15 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	/**
 	 * Creates new MyPoint3DNode with coordinates (x,y,z) as ExpresssionNodes.
 	 * Both nodes must evaluate to NumberValues.
-	 * @param kernel kernel
-	 * @param x x coordinate
-	 * @param y y coordinate
-	 * @param z z coordinate
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordinate
+	 * @param z
+	 *            z coordinate
 	 */
 	public MyVec3DNode(Kernel kernel, ExpressionValue x, ExpressionValue y,
 			ExpressionValue z) {
@@ -70,8 +80,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	}
 
 	public ExpressionValue deepCopy(Kernel kernel1) {
-		MyVec3DNode ret =  new MyVec3DNode(kernel1, x.deepCopy(kernel1), y.deepCopy(kernel1),
-				z.deepCopy(kernel1));
+		MyVec3DNode ret = new MyVec3DNode(kernel1, x.deepCopy(kernel1),
+				y.deepCopy(kernel1), z.deepCopy(kernel1));
 		ret.mode = mode;
 		if (isCASVector()) {
 			ret.setCASVector();
@@ -136,16 +146,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 			throw new MyParseError(kernel.getLocalization(), str);
 		}
 
-
 		if (mode == Kernel.COORD_SPHERICAL) {
 			double r = ((NumberValue) evx).getDouble();
 			// allow negative radius for US
 			double theta = ((NumberValue) evy).getDouble();
 			double phi = ((NumberValue) evz).getDouble();
-			double[] ret = { 
-					r * Math.cos(theta) * Math.cos(phi), 
-					r * Math.sin(theta) * Math.cos(phi),
-					r * Math.sin(phi)};
+			double[] ret = { r * Math.cos(theta) * Math.cos(phi),
+					r * Math.sin(theta) * Math.cos(phi), r * Math.sin(phi) };
 			return ret;
 		}
 
@@ -157,7 +164,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 
 	}
 
-
 	@Override
 	final public String toString(StringTemplate tpl) {
 		return toString(tpl, false);
@@ -166,7 +172,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	private String toString(StringTemplate tpl, boolean values) {
 		StringBuilder sb = new StringBuilder();
 		switch (tpl.getStringType()) {
-		case GIAC:			
+		case GIAC:
 			switch (mode) {
 			case Kernel.COORD_SPHERICAL:
 				sb.append("point((");
@@ -204,7 +210,6 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		default:
 			if (isCASVector && tpl.getStringType().equals(StringType.LATEX)) {
 
-
 				if (kernel.getApplication().isHTML5Applet()) {
 					sb.append(" \\left( \\ggbtable{");
 
@@ -212,16 +217,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 					sb.append(sb.append(print(x, values, tpl)));
 					sb.append("} }");
 
-
 					sb.append("\\ggbtr{ \\ggbtdL{  ");
 					sb.append(sb.append(print(y, values, tpl)));
 					sb.append("} }");
 
-
 					sb.append("\\ggbtr{ \\ggbtdL{  ");
 					sb.append(sb.append(print(z, values, tpl)));
 					sb.append("} }");
-
 
 					sb.append("} \\right) ");
 
@@ -233,7 +235,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 					sb.append(print(y, values, tpl));
 					sb.append("\\\\ ");
 					sb.append(print(z, values, tpl));
-					sb.append("\\\\ \\end{tabular} \\right)	");			
+					sb.append("\\\\ \\end{tabular} \\right)	");
 				}
 			} else {
 				sb.append(tpl.leftBracket());
@@ -248,7 +250,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		return sb.toString();
 	}
 
-	private void appendSeparator(StringBuilder sb){
+	private void appendSeparator(StringBuilder sb) {
 		if (mode == Kernel.COORD_CARTESIAN_3D)
 			sb.append(", ");
 		else
@@ -260,7 +262,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		return toString(tpl, true);
 	}
 
-	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
@@ -317,13 +319,12 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	// could be vector or point?
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
-		return isCASVector;//this.mode != Kernel.COORD_COMPLEX;
+		return isCASVector;// this.mode != Kernel.COORD_COMPLEX;
 	}
 
 	public Geo3DVec getVector() {
-		Geo3DVec ret = kernel.getManager3D().newGeo3DVec( x.evaluateDouble(),
-				y.evaluateDouble(),
-				z.evaluateDouble());
+		Geo3DVec ret = kernel.getManager3D().newGeo3DVec(x.evaluateDouble(),
+				y.evaluateDouble(), z.evaluateDouble());
 		return ret;
 	}
 
@@ -334,7 +335,7 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
-		if(ev!=this)
+		if (ev != this)
 			return ev;
 		x = x.traverse(t);
 		y = y.traverse(t);
@@ -342,9 +343,8 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		return this;
 	}
 
-
 	@Override
-	public boolean inspect(Inspecting t){
+	public boolean inspect(Inspecting t) {
 		return t.check(this) || x.inspect(t) || y.inspect(t) || z.inspect(t);
 	}
 
@@ -357,12 +357,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 		return true;
 	}
 
-	public void setSphericalPolarCoords(ExpressionValue r, ExpressionValue theta, ExpressionValue phi) {
+	public void setSphericalPolarCoords(ExpressionValue r,
+			ExpressionValue theta, ExpressionValue phi) {
 		setCoords(r, theta, phi);
 		mode = Kernel.COORD_SPHERICAL;
 	}
 
-	public int getMode(){
+	public int getMode() {
 		return mode;
 	}
 
@@ -370,13 +371,13 @@ public class MyVec3DNode extends ValidExpression implements Vector3DValue, MyVec
 	 * LaTeX form needs to be different in CAS
 	 */
 	public void setCASVector() {
-		isCASVector  = true;
+		isCASVector = true;
 	}
-	
-	public ExpressionNode wrap(){
+
+	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
-	
+
 	public boolean isCASVector() {
 		return isCASVector;
 	}

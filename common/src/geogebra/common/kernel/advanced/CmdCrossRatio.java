@@ -36,17 +36,17 @@ public class CmdCrossRatio extends CommandProcessor {
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))
 					&& (ok[3] = (arg[3].isGeoPoint()))) {
-				
+
 				AlgoCrossRatio cross = new AlgoCrossRatio(cons, c.getLabel(),
 						(GeoPoint) arg[0], (GeoPoint) arg[1],
 						(GeoPoint) arg[2], (GeoPoint) arg[3]);
-				
+
 				GeoElement[] ret = { cross.getResult() };
 				return ret;
 			}
-			
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
-			
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

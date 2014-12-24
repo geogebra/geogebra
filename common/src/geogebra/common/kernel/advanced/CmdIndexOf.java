@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *Append
+ * Append
  */
 public class CmdIndexOf extends CommandProcessor {
 
@@ -33,14 +33,14 @@ public class CmdIndexOf extends CommandProcessor {
 		switch (n) {
 		case 2:
 			if (arg[1].isGeoText() && arg[0].isGeoText()) {
-				
-				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(),
-						arg[0], arg[1]);
+
+				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
+						arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if (arg[1].isGeoList()) {
-				
+
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
 						arg[1]);
 
@@ -53,7 +53,7 @@ public class CmdIndexOf extends CommandProcessor {
 			boolean[] ok = new boolean[2];
 			if ((ok[0] = arg[1].isGeoText() && arg[0].isGeoText())
 					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
-				
+
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(),
 						(GeoText) arg[0], (GeoText) arg[1],
 						(GeoNumberValue) arg[2]);
@@ -62,7 +62,7 @@ public class CmdIndexOf extends CommandProcessor {
 				return ret;
 			} else if ((ok[0] = arg[1].isGeoList())
 					&& (ok[1] = arg[2] instanceof GeoNumberValue)) {
-				
+
 				AlgoIndexOf algo = new AlgoIndexOf(cons, c.getLabel(), arg[0],
 						(GeoList) arg[1], (GeoNumberValue) arg[2]);
 

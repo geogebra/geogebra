@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
- *DynamicCoordinates
+ * DynamicCoordinates
  */
 public class CmdDynamicCoordinates extends CommandProcessor {
 
@@ -35,10 +35,10 @@ public class CmdDynamicCoordinates extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint() && arg[0].isMoveable()))
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (arg[2] instanceof GeoNumberValue)) {
-				
-				AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(cons, c.getLabel(),
-						(GeoPoint) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
+
+				AlgoDynamicCoordinates algo = new AlgoDynamicCoordinates(cons,
+						c.getLabel(), (GeoPoint) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getPoint() };
 				return ret;

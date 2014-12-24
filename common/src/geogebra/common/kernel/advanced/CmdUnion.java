@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.main.MyError;
 
 /**
- *Union
+ * Union
  */
 public class CmdUnion extends CommandProcessor {
 
@@ -33,19 +33,18 @@ public class CmdUnion extends CommandProcessor {
 		case 2:
 
 			if (arg[0].isGeoList() && arg[1].isGeoList()) {
-				
+
 				AlgoUnion algo = new AlgoUnion(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
+			} else if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {
+				GeoElement[] ret = getAlgoDispatcher().Union(c.getLabels(),
+						(GeoPolygon) arg[0], (GeoPolygon) arg[1]);
+				return ret;
 			} else
-				if (arg[0].isGeoPolygon() && arg[1].isGeoPolygon()) {
-					GeoElement[] ret = getAlgoDispatcher().Union(c.getLabels(), (GeoPolygon) arg[0],
-							(GeoPolygon) arg[1]);
-					return ret;
-				} else
-					throw argErr(app, c.getName(), arg[0]);
+				throw argErr(app, c.getName(), arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

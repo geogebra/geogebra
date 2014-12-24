@@ -30,12 +30,17 @@ public class AlgoPolynomialDiv extends AlgoElement {
 	private GeoFunction g; // output
 
 	private StringBuilder sb = new StringBuilder();
+
 	/**
-     * @param cons construction
-     * @param label label for output
-     * @param f1 divided function
-     * @param f2 divisor function
-     */
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f1
+	 *            divided function
+	 * @param f2
+	 *            divisor function
+	 */
 	public AlgoPolynomialDiv(Construction cons, String label, GeoFunction f1,
 			GeoFunction f2) {
 		super(cons);
@@ -50,8 +55,8 @@ public class AlgoPolynomialDiv extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Div;
-    }
+		return Commands.Div;
+	}
 
 	// for AlgoElement
 	@Override
@@ -71,7 +76,9 @@ public class AlgoPolynomialDiv extends AlgoElement {
 	public GeoFunction getResult() {
 		return g;
 	}
+
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	@Override
 	public final void compute() {
 		if (!f1.isDefined() || !f2.isDefined()) {
@@ -95,8 +102,8 @@ public class AlgoPolynomialDiv extends AlgoElement {
 			sb.append(")");
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String functionOut = kernel
-					.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
+			String functionOut = kernel.evaluateCachedGeoGebraCAS(
+					sb.toString(), arbconst);
 			if (functionOut == null || functionOut.length() == 0) {
 				g.setUndefined();
 			} else {

@@ -34,11 +34,11 @@ public class CmdMaximize extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoElement()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))) {
-				
-				AlgoMaximize algo = new AlgoMaximize(cons, c.getLabel(), (NumberValue)arg[0],
-						(GeoNumeric) arg[1]);
-				
-        		GeoElement[] ret= { algo.getResult() };
+
+				AlgoMaximize algo = new AlgoMaximize(cons, c.getLabel(),
+						(NumberValue) arg[0], (GeoNumeric) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 
 				return ret;
 			}

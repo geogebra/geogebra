@@ -34,9 +34,12 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 	private GeoNumeric num; // output
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
 	 */
 	public AlgoDegree(Construction cons, String label, GeoFunction f) {
 		super(cons);
@@ -51,8 +54,8 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Degree;
-    }
+		return Commands.Degree;
+	}
 
 	// for AlgoElement
 	@Override
@@ -77,12 +80,12 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 			num.setUndefined();
 			return;
 		}
-		
-		
+
 		Function inFun = f.getFunction();
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
+				false, false);
 
 		if (poly != null) {
 
@@ -94,7 +97,6 @@ public class AlgoDegree extends AlgoElement implements UsesCAS {
 		// not a polynomial
 		num.setUndefined();
 		return;
-
 
 	}
 

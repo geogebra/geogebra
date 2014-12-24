@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *VerticalText
+ * VerticalText
  */
 public class CmdVerticalText extends CommandProcessor {
 	/**
@@ -32,26 +32,25 @@ public class CmdVerticalText extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoText()) {
-				
-				AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(),
-						(GeoText) arg[0]);
+
+				AlgoVerticalText algo = new AlgoVerticalText(cons,
+						c.getLabel(), (GeoText) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-			
+
 		case 2:
-			
-			if ((ok[0] = (arg[0].isGeoText()))
-					&& (ok[1] = arg[1].isGeoPoint())) {
-				AlgoVerticalText algo = new AlgoVerticalText(cons, c.getLabel(),
-						(GeoText) arg[0],  (GeoPoint) arg[1]);
+
+			if ((ok[0] = (arg[0].isGeoText())) && (ok[1] = arg[1].isGeoPoint())) {
+				AlgoVerticalText algo = new AlgoVerticalText(cons,
+						c.getLabel(), (GeoText) arg[0], (GeoPoint) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok, arg));     
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

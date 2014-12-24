@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.main.MyError;
 
 /**
- *Coefficients
+ * Coefficients
  */
 public class CmdCoefficients extends CommandProcessor {
 
@@ -32,15 +32,15 @@ public class CmdCoefficients extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0].isGeoFunction())) {
-				
-				AlgoCoefficients algo = new AlgoCoefficients(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
+
+				AlgoCoefficients algo = new AlgoCoefficients(cons,
+						c.getLabel(), (GeoFunction) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((arg[0].isGeoConic())) {
-				
-				AlgoConicCoefficients algo = new AlgoConicCoefficients(cons, c.getLabel(),
-						(GeoConic) arg[0]);
+
+				AlgoConicCoefficients algo = new AlgoConicCoefficients(cons,
+						c.getLabel(), (GeoConic) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else

@@ -15,15 +15,12 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.linear.Array2DRowRealMatrix;
 
-
 /**
- * @author  michael
- * Brioschi formula
- * http://en.wikipedia.org/wiki/Gaussian_curvature
+ * @author michael Brioschi formula
+ *         http://en.wikipedia.org/wiki/Gaussian_curvature
  * 
- * test-cases
- * E := 1+v^2; F := 2*u*v; G := 1+u^2;
- * K = (u^2+v^2)/(1+u^2+v^2-3u^2v^2)^2
+ *         test-cases E := 1+v^2; F := 2*u*v; G := 1+u^2; K =
+ *         (u^2+v^2)/(1+u^2+v^2-3u^2v^2)^2
  * 
  * 
  */
@@ -33,27 +30,31 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 	private GeoNumberValue param1, param2; // input
 	private GeoSurfaceCartesian3D surface;
 
-	private GeoFunctionNVar e, f, g; 
-	private GeoFunctionNVar eu, ev, fu, fv, gu, gv, evv, fuv, guu; // partial derivatives
+	private GeoFunctionNVar e, f, g;
+	private GeoFunctionNVar eu, ev, fu, fv, gu, gv, evv, fuv, guu; // partial
+																	// derivatives
 	private GeoNumeric n; // output
 
 	private Array2DRowRealMatrix matrix1 = new Array2DRowRealMatrix(3, 3);
 	private Array2DRowRealMatrix matrix2 = new Array2DRowRealMatrix(3, 3);
 
-
-	private AlgoDerivative algoCASeu, algoCASev, algoCASevv, algoCASfu, algoCASfv, algoCASfuv, algoCASgu, algoCASgv, algoCASguu;
+	private AlgoDerivative algoCASeu, algoCASev, algoCASevv, algoCASfu,
+			algoCASfv, algoCASfuv, algoCASgu, algoCASgv, algoCASguu;
 
 	@SuppressWarnings("javadoc")
-	public AlgoCurvatureSurfaceParametric(Construction cons, String label, GeoNumberValue param1, GeoNumberValue param2, GeoSurfaceCartesian3D f){
+	public AlgoCurvatureSurfaceParametric(Construction cons, String label,
+			GeoNumberValue param1, GeoNumberValue param2,
+			GeoSurfaceCartesian3D f) {
 		this(cons, param1, param2, f);
 
 		if (label != null) {
 			n.setLabel(label);
-		} 
+		}
 	}
 
 	@SuppressWarnings("javadoc")
-	AlgoCurvatureSurfaceParametric(Construction cons, GeoNumberValue param1, GeoNumberValue param2, GeoSurfaceCartesian3D surface) {
+	AlgoCurvatureSurfaceParametric(Construction cons, GeoNumberValue param1,
+			GeoNumberValue param2, GeoSurfaceCartesian3D surface) {
 		super(cons);
 		this.param1 = param1;
 		this.param2 = param2;
@@ -71,7 +72,6 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		e = new GeoFunctionNVar(cons, functions[0]);
 		f = new GeoFunctionNVar(cons, functions[1]);
 		g = new GeoFunctionNVar(cons, functions[2]);
-
 
 		GeoNumeric u = new GeoNumeric(cons);
 		u.setLocalVariableLabel(vars[0].getSetVarString());
@@ -128,7 +128,7 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 
 	// for AlgoElement
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[3];
 		input[0] = (GeoElement) param1;
 		input[1] = (GeoElement) param2;
@@ -149,7 +149,9 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		if (!param1.isDefined() || !param2.isDefined() || eu == null || ev == null || fu == null || fv == null || gu == null || gv == null || evv == null || fuv == null || guu == null) {
+		if (!param1.isDefined() || !param2.isDefined() || eu == null
+				|| ev == null || fu == null || fv == null || gu == null
+				|| gv == null || evv == null || fuv == null || guu == null) {
 			n.setUndefined();
 			return;
 		}
@@ -157,7 +159,7 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		double x = param1.getDouble();
 		double y = param2.getDouble();
 
-		double[] xy = {x, y};
+		double[] xy = { x, y };
 
 		double eEval = e.evaluate(xy);
 		double fEval = f.evaluate(xy);
@@ -173,12 +175,20 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		double guuEval = guu.evaluate(xy);
 
 		// Brioschi formula
-		//http://math.stackexchange.com/questions/270231/calculation-of-gaussian-curvature-from-first-fundamental-form
-		//A := Matrix([[-diff(E,v,v)/2+diff(F,u,v)-diff(G,u,u)/2, diff(E,u)/2, diff(F,u)-diff(E,v)/2], [diff(F,v)-diff(G,u)/2, E, F], [diff(G,v)/2, F, G]]);
-		//B := Matrix([[0, diff(E,v)/2, diff(G,u)/2], [diff(E,v)/2, E, F], [diff(G,u)/2, F, G]]);
+		// http://math.stackexchange.com/questions/270231/calculation-of-gaussian-curvature-from-first-fundamental-form
+		// A := Matrix([[-diff(E,v,v)/2+diff(F,u,v)-diff(G,u,u)/2, diff(E,u)/2,
+		// diff(F,u)-diff(E,v)/2], [diff(F,v)-diff(G,u)/2, E, F], [diff(G,v)/2,
+		// F, G]]);
+		// B := Matrix([[0, diff(E,v)/2, diff(G,u)/2], [diff(E,v)/2, E, F],
+		// [diff(G,u)/2, F, G]]);
 
-		double[][] m1 = {{-evvEval/2+fuvEval-guuEval/2,euEval/2,fuEval-evEval/2}, {fvEval-guEval/2, eEval, fEval}, {gvEval/2,fEval,gEval} };
-		double[][] m2 = {{0,evEval/2,guEval/2}, {evEval/2, eEval, fEval}, {guEval/2,fEval,gEval} };
+		double[][] m1 = {
+				{ -evvEval / 2 + fuvEval - guuEval / 2, euEval / 2,
+						fuEval - evEval / 2 },
+				{ fvEval - guEval / 2, eEval, fEval },
+				{ gvEval / 2, fEval, gEval } };
+		double[][] m2 = { { 0, evEval / 2, guEval / 2 },
+				{ evEval / 2, eEval, fEval }, { guEval / 2, fEval, gEval } };
 
 		matrix1.setSubMatrix(m1, 0, 0);
 		@SuppressWarnings("deprecation")
@@ -191,15 +201,15 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 
 		double k = (det1 - det2) / (denomSqrt * denomSqrt);
 
-		n.setValue(k);	       	      
+		n.setValue(k);
 
 	}
 
 	@Override
 	public void remove() {
-		if(removed)
+		if (removed)
 			return;
-		super.remove();  
+		super.remove();
 		((GeoElement) param1).removeAlgorithm(algoCASeu);
 		((GeoElement) param2).removeAlgorithm(algoCASeu);
 		surface.removeAlgorithm(algoCASeu);
@@ -229,6 +239,5 @@ public class AlgoCurvatureSurfaceParametric extends AlgoElement {
 		((GeoElement) param2).removeAlgorithm(algoCASguu);
 		surface.removeAlgorithm(algoCASguu);
 	}
-
 
 }

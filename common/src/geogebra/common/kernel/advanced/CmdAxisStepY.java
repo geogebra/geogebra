@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *AxisStepY
+ * AxisStepY
  */
 public class CmdAxisStepY extends CommandProcessor {
 

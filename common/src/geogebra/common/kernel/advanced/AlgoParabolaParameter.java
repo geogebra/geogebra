@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoParabolaParameter.java
@@ -28,65 +28,69 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoParabolaParameter extends AlgoElement {
-    
-    private GeoConic c;  // input
-    private GeoNumeric num;     // output                  
-    
-    public AlgoParabolaParameter(Construction cons, String label, GeoConic c) {        
-        super(cons);
-        this.c = c;                                                              
-        num = new GeoNumeric(cons);                
-        setInputOutput(); // for AlgoElement                
-        compute();              
-        num.setLabel(label);            
-    }   
-    
-    @Override
+
+	private GeoConic c; // input
+	private GeoNumeric num; // output
+
+	public AlgoParabolaParameter(Construction cons, String label, GeoConic c) {
+		super(cons);
+		this.c = c;
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
+		num.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Parameter;
-    }
-    
-    @Override
+		return Commands.Parameter;
+	}
+
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_PARABOLA;
-    }
-        
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_PARABOLA;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = c;        
-        
-        super.setOutputLength(1);
-        super.setOutput(0, num);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoNumeric getParameter() { return num; }    
-    GeoConic getConic() { return c; }        
-    
-    // set parameter of parabola
-    @Override
-	public final void compute() {        
-        if (c.type == GeoConicNDConstants.CONIC_PARABOLA)
-            num.setValue(c.p);
-        else 
-            num.setUndefined();
-    }
-    
-    @Override
+		input = new GeoElement[1];
+		input[0] = c;
+
+		super.setOutputLength(1);
+		super.setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoNumeric getParameter() {
+		return num;
+	}
+
+	GeoConic getConic() {
+		return c;
+	}
+
+	// set parameter of parabola
+	@Override
+	public final void compute() {
+		if (c.type == GeoConicNDConstants.CONIC_PARABOLA)
+			num.setValue(c.p);
+		else
+			num.setUndefined();
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("ParameterOfA",c.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("ParameterOfA", c.getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
 }

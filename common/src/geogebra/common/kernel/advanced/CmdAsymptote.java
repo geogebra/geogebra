@@ -37,26 +37,24 @@ public class CmdAsymptote extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				
-				AlgoAsymptote algo = new AlgoAsymptote(cons, c.getLabels(), (GeoConic) arg[0]);
+
+				AlgoAsymptote algo = new AlgoAsymptote(cons, c.getLabels(),
+						(GeoConic) arg[0]);
 				return algo.getAsymptotes();
 
-			} else if (arg[0].isGeoFunction())
-			{
-				
-				AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
+			} else if (arg[0].isGeoFunction()) {
+
+				AlgoAsymptoteFunction algo = new AlgoAsymptoteFunction(cons,
+						c.getLabel(), (GeoFunction) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			}
-			else if (arg[0].isGeoImplicitPoly()) {
-				
-				AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(cons,
-						c.getLabel(),
-						(GeoImplicitPoly) arg[0]);
+			} else if (arg[0].isGeoImplicitPoly()) {
 
-				GeoElement[] ret =  { algo.getResult() } ;
+				AlgoAsymptoteImplicitPoly algo = new AlgoAsymptoteImplicitPoly(
+						cons, c.getLabel(), (GeoImplicitPoly) arg[0]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);

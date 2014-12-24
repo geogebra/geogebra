@@ -28,7 +28,8 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 /**
  * Algorithm for tangent of function
  */
-public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo {
+public class AlgoTangentFunctionPoint extends AlgoElement implements
+		TangentAlgo {
 
 	private GeoPointND P; // input
 	private GeoLine tangent; // output
@@ -39,10 +40,14 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	private AlgoDerivative algo;
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param P point on function
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param P
+	 *            point on function
+	 * @param f
+	 *            function
 	 */
 	public AlgoTangentFunctionPoint(Construction cons, String label,
 			GeoPointND P, GeoFunction f) {
@@ -51,9 +56,12 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	}
 
 	/**
-	 * @param cons construction
-	 * @param P point on function
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param P
+	 *            point on function
+	 * @param f
+	 *            function
 	 */
 	public AlgoTangentFunctionPoint(Construction cons, GeoPointND P,
 			GeoFunction f) {
@@ -135,15 +143,15 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements TangentAlgo
 	GeoPoint getTangentPoint() {
 		return T;
 	}
-	
-    public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
-        if (geo != f)
-            return null;
-        if (line != tangent) {
-        	return null;
-        }
-        return T;
-    }
+
+	public GeoPoint getTangentPoint(GeoElement geo, GeoLine line) {
+		if (geo != f)
+			return null;
+		if (line != tangent) {
+			return null;
+		}
+		return T;
+	}
 
 	// calc tangent at x=a
 	@Override

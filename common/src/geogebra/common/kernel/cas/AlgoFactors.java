@@ -32,11 +32,15 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 	private GeoList g; // output
 
 	private StringBuilder sb = new StringBuilder();
+
 	/**
-     * @param cons construction
-     * @param label label for output
-     * @param f function
-     */
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 */
 	public AlgoFactors(Construction cons, String label, GeoFunction f) {
 		super(cons);
 		cons.addCASAlgo(this);
@@ -70,7 +74,9 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 	public GeoList getResult() {
 		return g;
 	}
+
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	@Override
 	public final void compute() {
 		if (!f.isDefined()) {
@@ -91,17 +97,19 @@ public class AlgoFactors extends AlgoElement implements UsesCAS {
 			sb.append("))");
 			// cached evaluation of MPReduce as we are only using variable
 			// values
-			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),arbconst);
+			String listOut = kernel.evaluateCachedGeoGebraCAS(sb.toString(),
+					arbconst);
 
 			if (listOut == null || listOut.length() == 0) {
 				g.setUndefined();
 			} else {
 				// read result back into list
 				g.set(kernel.getAlgebraProcessor().evaluateToList(listOut));
-				// force first element in each row to be a function, even if constant
-				for(int i=0;i<g.size() && g.get(i) instanceof GeoList;i++){
+				// force first element in each row to be a function, even if
+				// constant
+				for (int i = 0; i < g.size() && g.get(i) instanceof GeoList; i++) {
 					GeoList factor = (GeoList) g.get(i);
-					if(factor.get(0) instanceof GeoNumeric){
+					if (factor.get(0) instanceof GeoNumeric) {
 						GeoElement constant = factor.get(0);
 						GeoElement exponent = factor.get(1);
 						factor.remove(1);

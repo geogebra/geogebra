@@ -33,8 +33,8 @@ public class CmdCompleteSquare extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoFunction()) {
-				AlgoCompleteSquare algo = new AlgoCompleteSquare(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
+				AlgoCompleteSquare algo = new AlgoCompleteSquare(cons,
+						c.getLabel(), (GeoFunction) arg[0]);
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}

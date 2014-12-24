@@ -30,21 +30,33 @@ public class AlgoSolveODE2 extends AlgoElement {
 	private GeoNumeric x, y, yDot, end, step; // input
 	// private GeoList g; // output
 	private GeoLocus locus; // output
-	/** points of the locus*/
+	/** points of the locus */
 	ArrayList<MyPoint> al;
 
 	/**
-	 * SolveODE[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End x>, <Step>] 
-	 * @param cons construction
-	 * @param label label for output
-	 * @param b b 
-	 * @param c c
-	 * @param f function
-	 * @param x start x
-	 * @param y start y
-	 * @param yDot start y'
-	 * @param end end parameter
-	 * @param step step
+	 * SolveODE[ <b(x)>, <c(x)>, <f(x)>, <Start x>, <Start y>, <Start y'>, <End
+	 * x>, <Step>]
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param b
+	 *            b
+	 * @param c
+	 *            c
+	 * @param f
+	 *            function
+	 * @param x
+	 *            start x
+	 * @param y
+	 *            start y
+	 * @param yDot
+	 *            start y'
+	 * @param end
+	 *            end parameter
+	 * @param step
+	 *            step
 	 */
 	public AlgoSolveODE2(Construction cons, String label, GeoFunctionable b,
 			GeoFunctionable c, GeoFunctionable f, GeoNumeric x, GeoNumeric y,
@@ -69,8 +81,8 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.SolveODE;
-    }
+		return Commands.SolveODE;
+	}
 
 	// for AlgoElement
 	@Override
@@ -146,7 +158,7 @@ public class AlgoSolveODE2 extends AlgoElement {
 
 	private StepHandler stepHandler = new StepHandler() {
 		public void reset() {
-			//do nothing
+			// do nothing
 		}
 
 		private Construction cons1 = kernel.getConstruction();
@@ -202,5 +214,5 @@ public class AlgoSolveODE2 extends AlgoElement {
 	}
 
 	// TODO Consider locusequability
-	
+
 }

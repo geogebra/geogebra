@@ -41,8 +41,8 @@ public class AlgoUnion extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Union;
-    }
+		return Commands.Union;
+	}
 
 	@Override
 	protected void setInputOutput() {

@@ -23,7 +23,7 @@ public class AlgoDivisorsList extends AlgoElement {
 	private AlgoPrimeFactorization factors;
 	private GeoList factorList;
 	List<Long> factList = new ArrayList<Long>();
-	
+
 	public AlgoDivisorsList(Construction cons, String label, NumberValue number) {
 		super(cons);
 		this.number = number;
@@ -38,52 +38,51 @@ public class AlgoDivisorsList extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		setOnlyOutput(result);
-		input = new GeoElement[]{number.toGeoElement()};
+		input = new GeoElement[] { number.toGeoElement() };
 		setDependencies();
 
 	}
 
 	@Override
 	public void compute() {
-		if(!factorList.isDefined()||!Kernel.isInteger(number.getDouble())){
+		if (!factorList.isDefined() || !Kernel.isInteger(number.getDouble())) {
 			result.setUndefined();
 			return;
 		}
-		
+
 		int oldLength = 1;
 		factList.clear();
 		factList.add(1L);
-		for(int i=0;i<factorList.size();i++){
+		for (int i = 0; i < factorList.size(); i++) {
 			GeoList pair = (GeoList) factorList.get(i);
-			double exp = ((NumberValue)pair.get(1)).getDouble();
-			double prime = ((NumberValue)pair.get(0)).getDouble();
+			double exp = ((NumberValue) pair.get(1)).getDouble();
+			double prime = ((NumberValue) pair.get(0)).getDouble();
 			long power = Math.round(prime);
-			for(int k=1;k<=exp;k++){
-				for(int j=0;j<oldLength;j++){
-					factList.add(factList.get(j)*power);
+			for (int k = 1; k <= exp; k++) {
+				for (int j = 0; j < oldLength; j++) {
+					factList.add(factList.get(j) * power);
 				}
 				power *= Math.round(prime);
 			}
 			oldLength = factList.size();
-			
+
 		}
 		result.setDefined(true);
 		result.clear();
-		Set<Long> sortedSet= new TreeSet<Long>();
-		sortedSet.addAll(factList);   
-		 Iterator<Long> iterator = sortedSet.iterator();
-	     
-	        while (iterator.hasNext()) {
-	     	   result.add(new GeoNumeric(cons,iterator.next()));
-	        }      
-	        
+		Set<Long> sortedSet = new TreeSet<Long>();
+		sortedSet.addAll(factList);
+		Iterator<Long> iterator = sortedSet.iterator();
+
+		while (iterator.hasNext()) {
+			result.add(new GeoNumeric(cons, iterator.next()));
+		}
 
 	}
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.DivisorsList;
-    } 
+		return Commands.DivisorsList;
+	}
 
 	public GeoList getResult() {
 		return result;

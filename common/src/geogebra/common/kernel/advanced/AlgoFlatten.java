@@ -27,8 +27,8 @@ import geogebra.common.kernel.geos.GeoList;
  */
 public class AlgoFlatten extends AlgoElement {
 
-	private GeoList inputList; //input
-	private GeoList outputList; //output
+	private GeoList inputList; // input
+	private GeoList outputList; // output
 
 	public AlgoFlatten(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -46,19 +46,20 @@ public class AlgoFlatten extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.Flatten;
 	}
-	
+
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
-    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
-    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+		// make sure that x(Element[list,1]) will work even if the output list's
+		// length is zero
+		outputList.setTypeStringForXML(inputList.getTypeStringForXML());
 
-    	input = new GeoElement[1];
+		input = new GeoElement[1];
 
 		input[0] = inputList;
 
 		super.setOutputLength(1);
-        super.setOutput(0, outputList);
+		super.setOutput(0, outputList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -72,20 +73,20 @@ public class AlgoFlatten extends AlgoElement {
 		if (!inputList.isDefined()) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
 		outputList.setDefined(true);
 		outputList.clear();
 
-		flatten(outputList,inputList);
+		flatten(outputList, inputList);
 	}
-	
-	private void flatten(GeoList outputList, GeoList list){
-		int size=list.size();
-		for (int i=0; i<size;i++){
-			GeoElement element=list.get(i);
-			if (element.isGeoList()){
-				flatten(outputList, (GeoList)element);
+
+	private void flatten(GeoList outputList, GeoList list) {
+		int size = list.size();
+		for (int i = 0; i < size; i++) {
+			GeoElement element = list.get(i);
+			if (element.isGeoList()) {
+				flatten(outputList, (GeoList) element);
 			} else
 				outputList.add(element.copyInternal(cons));
 		}

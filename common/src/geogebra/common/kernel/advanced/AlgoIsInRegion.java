@@ -11,9 +11,9 @@ import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Determine whether point is in region.
+ * 
  * @author kondr
  * 
  */
@@ -24,7 +24,8 @@ public class AlgoIsInRegion extends AlgoElement {
 	private GeoBoolean result;
 
 	/**
-	 * Creates new algo 
+	 * Creates new algo
+	 * 
 	 * @param c
 	 * @param label
 	 * @param pi
@@ -42,9 +43,9 @@ public class AlgoIsInRegion extends AlgoElement {
 	}
 
 	@Override
-	public void compute() {		
+	public void compute() {
 		pi.updateCoords2D();
-		result.setValue(region.isInRegion(pi.getX2D(),pi.getY2D()));
+		result.setValue(region.isInRegion(pi.getX2D(), pi.getY2D()));
 	}
 
 	@Override
@@ -57,8 +58,9 @@ public class AlgoIsInRegion extends AlgoElement {
 		setDependencies();
 	}
 
-	/** 
+	/**
 	 * Returns true iff point is in region.
+	 * 
 	 * @return true iff point is in region
 	 */
 	public GeoBoolean getResult() {

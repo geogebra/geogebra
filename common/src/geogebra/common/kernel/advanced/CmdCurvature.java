@@ -40,37 +40,40 @@ public class CmdCurvature extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoFunctionable()))) {
-				
+
 				AlgoCurvature algo = new AlgoCurvature(cons, c.getLabel(),
 						(GeoPointND) arg[0], (GeoFunction) arg[1]);
 				GeoElement[] ret = { algo.getResult() };
-				
+
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoCurveCartesian()))) {
-				
-				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons, c.getLabel(),
-						(GeoPointND) arg[0], (GeoCurveCartesianND) arg[1]);
-				
+
+				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
+						c.getLabel(), (GeoPointND) arg[0],
+						(GeoCurveCartesianND) arg[1]);
+
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			} else if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1] instanceof GeoFunctionNVar))) {
-				
+
 				// Gaussian Curvature
-				AlgoCurvatureSurface algo = new AlgoCurvatureSurface(cons, c.getLabel(),
-						(GeoPointND) arg[0], (GeoFunctionNVar) arg[1]);
-				
+				AlgoCurvatureSurface algo = new AlgoCurvatureSurface(cons,
+						c.getLabel(), (GeoPointND) arg[0],
+						(GeoFunctionNVar) arg[1]);
+
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} if ((ok[0] = (arg[0].isGeoPoint()))
-					&& (ok[1] = (arg[1].isGeoConic()))){
-				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons, c.getLabel(),
-						(GeoPointND) arg[0], (GeoConicND)arg[1]);
-				GeoElement[] ret = { algo.getResult() };
-				return ret;			
 			}
-			
+			if ((ok[0] = (arg[0].isGeoPoint()))
+					&& (ok[1] = (arg[1].isGeoConic()))) {
+				AlgoCurvatureCurve algo = new AlgoCurvatureCurve(cons,
+						c.getLabel(), (GeoPointND) arg[0], (GeoConicND) arg[1]);
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+
 			if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
@@ -78,27 +81,26 @@ public class CmdCurvature extends CommandProcessor {
 
 		case 3:
 			arg = resArgs(c);
-		if ((ok[0] = (arg[0].isNumberValue()))
-				&& (ok[1] = (arg[1].isNumberValue()))
-				&& (ok[2] = (arg[2] instanceof GeoSurfaceCartesian3D))
-				) {
-			
-			// Gaussian Curvature
-			AlgoCurvatureSurfaceParametric algo = new AlgoCurvatureSurfaceParametric(cons, c.getLabel(),
-					(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoSurfaceCartesian3D) arg[2]);
-			
-			GeoElement[] ret = { algo.getResult() };
-			return ret;
-		}
-		
-		if (!ok[0]) {
-			throw argErr(app, c.getName(), arg[0]);
-		}
-		if (!ok[1]) {
-			throw argErr(app, c.getName(), arg[1]);
-		}
-		throw argErr(app, c.getName(), arg[2]);
+			if ((ok[0] = (arg[0].isNumberValue()))
+					&& (ok[1] = (arg[1].isNumberValue()))
+					&& (ok[2] = (arg[2] instanceof GeoSurfaceCartesian3D))) {
 
+				// Gaussian Curvature
+				AlgoCurvatureSurfaceParametric algo = new AlgoCurvatureSurfaceParametric(
+						cons, c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoSurfaceCartesian3D) arg[2]);
+
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+
+			if (!ok[0]) {
+				throw argErr(app, c.getName(), arg[0]);
+			}
+			if (!ok[1]) {
+				throw argErr(app, c.getName(), arg[1]);
+			}
+			throw argErr(app, c.getName(), arg[2]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

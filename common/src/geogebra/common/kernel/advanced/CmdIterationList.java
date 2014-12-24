@@ -23,33 +23,29 @@ public class CmdIterationList extends CommandProcessor {
 		super(kernel);
 	}
 
-	
-@Override
-final public  GeoElement[] process(Command c) throws MyError {
-    int n = c.getArgumentNumber();
-    boolean[] ok = new boolean[n]; 
-    GeoElement[] arg;
-    
-    switch (n) {    	
-    	case 3 :
-    		arg = resArgs(c);
-            if ((ok[0] = arg[0].isGeoFunction())
-               	 && (ok[1] = arg[1] instanceof GeoNumberValue)
-               	 && (ok[2] = arg[2] instanceof GeoNumberValue))
-               {
-        		AlgoIterationList algo = new AlgoIterationList(cons, c.getLabel(),
-                        (GeoFunction) arg[0],
-                        (GeoNumberValue) arg[1],
-                        (GeoNumberValue) arg[2]);
+	@Override
+	final public GeoElement[] process(Command c) throws MyError {
+		int n = c.getArgumentNumber();
+		boolean[] ok = new boolean[n];
+		GeoElement[] arg;
 
-            	GeoElement[] ret = { algo.getResult() };
-                   return ret; 
-               } 
-               throw argErr(app, c.getName(), getBadArg(ok,arg));	
-               	                   		    		     
+		switch (n) {
+		case 3:
+			arg = resArgs(c);
+			if ((ok[0] = arg[0].isGeoFunction())
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+				AlgoIterationList algo = new AlgoIterationList(cons,
+						c.getLabel(), (GeoFunction) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-        default :
-            throw argNumErr(app, c.getName(), n);
-    }
-}
+				GeoElement[] ret = { algo.getResult() };
+				return ret;
+			}
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
+		default:
+			throw argNumErr(app, c.getName(), n);
+		}
+	}
 }

@@ -33,7 +33,7 @@ public class CmdFirstAxis extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				
+
 				AlgoAxisFirst algo = new AlgoAxisFirst(cons, c.getLabel(),
 						(GeoConic) arg[0]);
 

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDependentNumber.java
@@ -24,60 +24,63 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
  * Returns the name of a GeoElement as a GeoText.
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoStepObject extends AlgoElement {
 
-	private GeoElement inputGeo; //input
-    protected GeoNumeric num;     // output          
-    //private Construction cons;
-        
-    public AlgoStepObject(Construction cons, String label, GeoElement inputGeo) {
-    	super(cons);
-    	//this.cons=cons;
-        this.inputGeo = inputGeo;  
-        
-        num = new GeoNumeric(cons); 
-        setInputOutput(); // for AlgoElement
-        
-        compute();     
-            
-        num.setLabel(label);
-   }   
-    
-    @Override
+	private GeoElement inputGeo; // input
+	protected GeoNumeric num; // output
+
+	// private Construction cons;
+
+	public AlgoStepObject(Construction cons, String label, GeoElement inputGeo) {
+		super(cons);
+		// this.cons=cons;
+		this.inputGeo = inputGeo;
+
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
+
+		compute();
+
+		num.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.ConstructionStep;
 	}
-    
-    // for AlgoElement
+
+	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = inputGeo;
-           
-        super.setOutputLength(1);
-        super.setOutput(0, num);
-        setDependencies(); // done by AlgoElement
-    }    
-	
-    public GeoNumeric getResult() { return num; }        
- 
-    @Override
+		input = new GeoElement[1];
+		input[0] = inputGeo;
+
+		super.setOutputLength(1);
+		super.setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoNumeric getResult() {
+		return num;
+	}
+
+	@Override
 	final public boolean wantsConstructionProtocolUpdate() {
-    	return true;
-    }
-    
-    // calc the current value of the arithmetic tree
-    @Override
-	public final void compute() {  
-    	double step=inputGeo.getConstructionIndex();
-    	num.setValue(step+1);
-    }         
+		return true;
+	}
+
+	// calc the current value of the arithmetic tree
+	@Override
+	public final void compute() {
+		double step = inputGeo.getConstructionIndex();
+		num.setValue(step + 1);
+	}
 
 	// TODO Consider locusequability
 }

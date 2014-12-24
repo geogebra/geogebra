@@ -104,18 +104,18 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 		return circle;
 	}
 
-    @Override
+	@Override
 	public final void compute() {
-    	// undefined unless A is a point on f
-        if (gc == null && !f.isOnPath(A, Kernel.MIN_PRECISION)) {
-        	circle.setUndefined();
-        	return;
-        }
-    	if (gc != null) {
-    		if(!gc.isOnPath(A, Kernel.MIN_PRECISION)){
-    			circle.setUndefined();
-            	return;    			
-    		}
+		// undefined unless A is a point on f
+		if (gc == null && !f.isOnPath(A, Kernel.MIN_PRECISION)) {
+			circle.setUndefined();
+			return;
+		}
+		if (gc != null) {
+			if (!gc.isOnPath(A, Kernel.MIN_PRECISION)) {
+				circle.setUndefined();
+				return;
+			}
 			f = new GeoCurveCartesian(cons);
 			gc.toGeoCurveCartesian(f);
 			// Catch curvature and curvature vector
@@ -126,19 +126,18 @@ public class AlgoOsculatingCircleCurve extends AlgoElement {
 			App.debug(v.toValueString(StringTemplate.defaultTemplate));
 			App.debug(curv.toValueString(StringTemplate.defaultTemplate));
 		}
-    	// bugfix Michael Borcherds
-    	
-        
-    	double radius = 1/Math.abs(curv.getValue());
-    	double r2 = radius*radius;
-    	double x = r2 * v.x;
-    	double y = r2 * v.y;
-    	
-    	R.setCoords(A.inhomX + x, A.inhomY + y, 1.0);
-    	App.debug(R.toValueString(StringTemplate.defaultTemplate));
-    	App.debug(A.toValueString(StringTemplate.defaultTemplate));
-    	circle.setCircle(R, A);	
-    }
+		// bugfix Michael Borcherds
+
+		double radius = 1 / Math.abs(curv.getValue());
+		double r2 = radius * radius;
+		double x = r2 * v.x;
+		double y = r2 * v.y;
+
+		R.setCoords(A.inhomX + x, A.inhomY + y, 1.0);
+		App.debug(R.toValueString(StringTemplate.defaultTemplate));
+		App.debug(A.toValueString(StringTemplate.defaultTemplate));
+		circle.setCircle(R, A);
+	}
 
 	@Override
 	public void remove() {

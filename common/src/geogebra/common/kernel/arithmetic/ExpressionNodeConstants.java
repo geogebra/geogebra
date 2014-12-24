@@ -6,14 +6,14 @@ import geogebra.common.util.Unicode;
  * String constants + String types
  */
 public interface ExpressionNodeConstants {
-	
+
 	/** String types */
 	public enum StringType {
-		/**XML*/
+		/** XML */
 		GEOGEBRA_XML,
-		/**default*/
+		/** default */
 		GEOGEBRA,
-		/** maxima*/
+		/** maxima */
 		GIAC,
 		/** LaTeX */
 		LATEX,
@@ -28,11 +28,12 @@ public interface ExpressionNodeConstants {
 		/** OGP */
 		OGP
 	}
+
 	/** prefix for CAS row reference ($) */
 	public static final String CAS_ROW_REFERENCE_PREFIX = "$";
-	/** prefix used when serializing unicode characters to CAS*/
+	/** prefix used when serializing unicode characters to CAS */
 	public static final String UNICODE_PREFIX = "unicode";
-	/** delimiter used when serializing unicode characters to CAS*/
+	/** delimiter used when serializing unicode characters to CAS */
 	public static final String UNICODE_DELIMITER = "u";
 
 	// public static final int NO_OPERATION = Integer.MIN_VALUE;
@@ -57,7 +58,7 @@ public interface ExpressionNodeConstants {
 	/** perpendicular */
 	public static final String strPERPENDICULAR = "\u22a5";
 	/** vector product */
-	public static final String strVECTORPRODUCT = Unicode.VECTOR_PRODUCT+"";
+	public static final String strVECTORPRODUCT = Unicode.VECTOR_PRODUCT + "";
 	/** is element of */
 	public static final String strIS_ELEMENT_OF = "\u2208";
 	/** is subset of */

@@ -9,8 +9,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- * Invert[ <Function> ]
- * Invert[ <Matrix> ]
+ * Invert[ <Function> ] Invert[ <Matrix> ]
  */
 public class CmdInvert extends CommandProcessor {
 
@@ -34,15 +33,15 @@ public class CmdInvert extends CommandProcessor {
 			arg = resArgs(c);
 
 			if (arg[0].isGeoFunction()) {
-				
-				AlgoFunctionInvert algo = new AlgoFunctionInvert(cons, c.getLabel(),
-						(GeoFunction) arg[0]);
+
+				AlgoFunctionInvert algo = new AlgoFunctionInvert(cons,
+						c.getLabel(), (GeoFunction) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (arg[0].isGeoList()) {
-				
+
 				AlgoInvert algo = new AlgoInvert(cons, c.getLabel(),
 						(GeoList) arg[0]);
 

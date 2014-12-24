@@ -48,29 +48,36 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * kernel
 	 */
 	protected Kernel kernel;
-	
+
 	/**
 	 * Do not use integer operations beyond this bound
 	 */
 	public static double LARGEST_INTEGER = 9007199254740992.0; // 0x020000000000000
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 */
 	public MyDouble(Kernel kernel) {
 		this(kernel, 0.0);
 	}
 
-	/** Creates new MyDouble 
-	 * @param kernel kernel
-	 * @param x value*/
+	/**
+	 * Creates new MyDouble
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param x
+	 *            value
+	 */
 	public MyDouble(Kernel kernel, double x) {
 		this.kernel = kernel;
 		val = x;
 	}
 
 	/**
-	 * @param d MyDouble to copy
+	 * @param d
+	 *            MyDouble to copy
 	 */
 	public MyDouble(MyDouble d) {
 		kernel = d.kernel;
@@ -81,8 +88,11 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	/**
 	 * called from the parser power must be a string of unicode superscript
 	 * digits
-	 * @param kernel kernel
-	 * @param power superscript power
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param power
+	 *            superscript power
 	 */
 	public MyDouble(Kernel kernel, String power) {
 		this.kernel = kernel;
@@ -144,14 +154,15 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
-	 * @param x new value
+	 * @param x
+	 *            new value
 	 */
 	public void set(double x) {
 		val = x;
 	}
 
 	public void resolveVariables() {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -163,29 +174,30 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			return kernel.formatAngle(angleVal, tpl, false).toString();
 		}
 
-		//String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
+		// String ret = kernel.format(Kernel.checkDecimalFraction(val), tpl);
 		String ret = kernel.format((val), tpl);
 
 		switch (tpl.getStringType()) {
 		case GIAC:
-			// convert eg 0.125 to exact(0.125) so that Giac does an exact calculation with it
+			// convert eg 0.125 to exact(0.125) so that Giac does an exact
+			// calculation with it
 			// numbers entered in the CAS View are handled by MySpecialDoule
 			// this code is just used when accessing a GeoGebra object
 			// eg Input Bar: f(x)=x^-0.5
-			//     CAS View: Integral[f,1,Infinity]
-			
+			// CAS View: Integral[f,1,Infinity]
+
 			if (val == Math.PI) {
 				return "pi";
 			}
 			if (val == Math.E) {
 				return "e";
 			}
-			
+
 			// Note: exact(0.3333333333333) gives 1/3
 			if (ret.indexOf('.') > -1) {
 				return StringUtil.wrapInExact(ret);
 			}
-			
+
 			return ret;
 
 		default:
@@ -198,7 +210,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return toString(tpl);
 	}
 
-	final public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	final public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		return toString(tpl);
 	}
 
@@ -222,19 +234,31 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		return this;
 	}
 
-	/** c = a + b 
-	 * @param a 1st summand
-	 * @param b 2nd summand 
-	 * @param c result*/
+	/**
+	 * c = a + b
+	 * 
+	 * @param a
+	 *            1st summand
+	 * @param b
+	 *            2nd summand
+	 * @param c
+	 *            result
+	 */
 	final public static void add(MyDouble a, NumberValue b, MyDouble c) {
 		c.isAngle = a.isAngle && b.isAngle();
 		c.set(a.val + b.getDouble());
 	}
 
-	/** c = a - b 
-	 * @param a subtrahend
-	 * @param b minuend
-	 * @param c result*/
+	/**
+	 * c = a - b
+	 * 
+	 * @param a
+	 *            subtrahend
+	 * @param b
+	 *            minuend
+	 * @param c
+	 *            result
+	 */
 	final public static void sub(MyDouble a, NumberValue b, MyDouble c) {
 		c.isAngle = a.isAngle && b.isAngle();
 		c.set(a.val - b.getDouble());
@@ -244,9 +268,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * c = a * b
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
-	 * @param a 1st factor
-	 * @param b 2nd factor
-	 * @param c result
+	 * 
+	 * @param a
+	 *            1st factor
+	 * @param b
+	 *            2nd factor
+	 * @param c
+	 *            result
 	 * */
 	final public static void mult(MyDouble a, NumberValue b, MyDouble c) {
 		c.isAngle = a.isAngle || b.isAngle();
@@ -272,9 +300,13 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	 * c = a * b
 	 * http://functions.wolfram.com/Constants/ComplexInfinity/introductions
 	 * /Symbols/ShowAll.html
-	 * @param a 1st factor
-	 * @param b 2nd factor
-	 * @param c result
+	 * 
+	 * @param a
+	 *            1st factor
+	 * @param b
+	 *            2nd factor
+	 * @param c
+	 *            result
 	 * */
 	final public static void mult(MyDouble a, double b, MyDouble c) {
 		c.isAngle = a.isAngle;
@@ -296,47 +328,70 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		c.set(a.val * b);
 	}
 
-	/** c = a / b 
-	 * @param a dividend
-	 * @param b divisor
-	 * @param c result*/
+	/**
+	 * c = a / b
+	 * 
+	 * @param a
+	 *            dividend
+	 * @param b
+	 *            divisor
+	 * @param c
+	 *            result
+	 */
 	final public static void div(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
 		c.set(a.val / b.val);
 	}
 
-	/** c = pow(a,b) 
-	 * @param a base
-	 * @param b exponent
-	 * @param c result*/
+	/**
+	 * c = pow(a,b)
+	 * 
+	 * @param a
+	 *            base
+	 * @param b
+	 *            exponent
+	 * @param c
+	 *            result
+	 */
 	final public static void pow(MyDouble a, MyDouble b, MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
-		
+
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (Kernel.isZero(b.val) && (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
+		if (Kernel.isZero(b.val)
+				&& (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
 			c.set(Double.NaN);
 			return;
 		}
 
 		c.set(Math.pow(a.val, b.val));
 	}
-	/** c = -pow(-a,b) 
-	 * @param a base
-	 * @param b exponent
-	 * @param c result*/
-	final public static void powDoubleSgnChange(MyDouble a, MyDouble b, MyDouble c) {
+
+	/**
+	 * c = -pow(-a,b)
+	 * 
+	 * @param a
+	 *            base
+	 * @param b
+	 *            exponent
+	 * @param c
+	 *            result
+	 */
+	final public static void powDoubleSgnChange(MyDouble a, MyDouble b,
+			MyDouble c) {
 		c.isAngle = a.isAngle && !b.isAngle;
-		
+
 		// Infinity ^ 0 -> NaN
 		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
-		if (Kernel.isZero(b.val) && (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
+		if (Kernel.isZero(b.val)
+				&& (Double.isInfinite(a.val) || Double.isNaN(a.val))) {
 			c.set(Double.NaN);
 			return;
 		}
 
 		c.set(-Math.pow(-a.val, b.val));
 	}
+
 	/**
 	 * @return cos(this)
 	 */
@@ -346,6 +401,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		checkZero();
 		return this;
 	}
+
 	/**
 	 * @return sin(this)
 	 */
@@ -372,8 +428,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	final public MyDouble tan() {
 		// Math.tan() gives a very large number for tan(pi/2)
 		// but should be undefined for pi/2, 3pi/2, 5pi/2, etc.
-		if (Kernel.isEqual(Math.abs(val) % Math.PI,
-				Kernel.PI_HALF)) {
+		if (Kernel.isEqual(Math.abs(val) % Math.PI, Kernel.PI_HALF)) {
 			val = Double.NaN;
 		} else {
 			val = Math.tan(val);
@@ -382,6 +437,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return acos(this)
 	 */
@@ -390,6 +446,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		set(Math.acos(val));
 		return this;
 	}
+
 	/**
 	 * @return asin(this)
 	 */
@@ -398,6 +455,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		set(Math.asin(val));
 		return this;
 	}
+
 	/**
 	 * @return atan(this)
 	 */
@@ -406,8 +464,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		set(Math.atan(val));
 		return this;
 	}
+
 	/**
-	 * @param y y
+	 * @param y
+	 *            y
 	 * @return atan2(this,y)
 	 */
 	final public MyDouble atan2(NumberValue y) {
@@ -415,6 +475,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		set(Math.atan2(val, y.getDouble()));
 		return this;
 	}
+
 	/**
 	 * @return log(this)
 	 */
@@ -423,8 +484,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
-	 * @param base logarithm base
+	 * @param base
+	 *            logarithm base
 	 * @return log_base(this)
 	 */
 	final public MyDouble log(NumberValue base) {
@@ -432,6 +495,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return erf(this)
 	 */
@@ -440,7 +504,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
-	
+
 	/**
 	 * @return inverf(this)
 	 */
@@ -451,7 +515,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
-	 * @param order order
+	 * @param order
+	 *            order
 	 * @return polygamma(this,order)
 	 */
 	final public MyDouble polygamma(NumberValue order) {
@@ -459,6 +524,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return psi(this)
 	 */
@@ -467,6 +533,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return log_10(this)
 	 */
@@ -475,6 +542,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return log_2(this)
 	 */
@@ -483,6 +551,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return exp(this)
 	 */
@@ -491,6 +560,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return sqrt(this)
 	 */
@@ -499,6 +569,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return cbrt(this)
 	 */
@@ -507,6 +578,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return abs(this)
 	 */
@@ -514,6 +586,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		val = Math.abs(val);
 		return this;
 	}
+
 	/**
 	 * @return floor(this)
 	 */
@@ -522,14 +595,14 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// kernel.checkInteger() needed otherwise floor(60�) gives 59�
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
-					* Math.floor(Kernel.checkInteger(val
-							* Kernel.CONST_180_PI)));
+					* Math.floor(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
 			set(Math.floor(Kernel.checkInteger(val)));
 		}
 		return this;
 	}
+
 	/**
 	 * @return ceil(this)
 	 */
@@ -538,22 +611,21 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// kernel.checkInteger() needed otherwise ceil(241�) fails
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
 			set(Kernel.PI_180
-					* Math.ceil(Kernel.checkInteger(val
-							* Kernel.CONST_180_PI)));
+					* Math.ceil(Kernel.checkInteger(val * Kernel.CONST_180_PI)));
 		} else {
 			// number or angle in radians
 			set(Math.ceil(Kernel.checkInteger(val)));
 		}
 		return this;
 	}
+
 	/**
 	 * @return round(this)
 	 */
 	final public MyDouble round() {
 		// angle in degrees
 		if (isAngle && kernel.getAngleUnit() == Kernel.ANGLE_DEGREE) {
-			set(Kernel.PI_180
-					* MyDouble.doRound(val * Kernel.CONST_180_PI));
+			set(Kernel.PI_180 * MyDouble.doRound(val * Kernel.CONST_180_PI));
 		} else {
 			// number or angle in radians
 			set(MyDouble.doRound(val));
@@ -562,7 +634,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	final public MyDouble round(double digits) {
-		if(!Kernel.isInteger(digits)){
+		if (!Kernel.isInteger(digits)) {
 			set(Double.NaN);
 		}
 		double pow = Math.pow(10, digits);
@@ -571,6 +643,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		set(val / pow);
 		return this;
 	}
+
 	/**
 	 * Java quirk/bug Round(NaN) = 0
 	 */
@@ -586,6 +659,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		// return x;
 
 	}
+
 	/**
 	 * @return sgn(this)
 	 */
@@ -594,6 +668,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return cosh(this)
 	 */
@@ -602,6 +677,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return sinh(this)
 	 */
@@ -610,6 +686,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return tanh(this)
 	 */
@@ -618,6 +695,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return acosh(this)
 	 */
@@ -626,6 +704,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return asinh(this)
 	 */
@@ -634,6 +713,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return csc(this)
 	 */
@@ -642,6 +722,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return sec(this)
 	 */
@@ -659,6 +740,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return csch(this)
 	 */
@@ -667,6 +749,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return sech(this)
 	 */
@@ -675,6 +758,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return coth(this)
 	 */
@@ -683,6 +767,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return atanh(this)
 	 */
@@ -691,6 +776,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return atanh(this)
 	 */
@@ -699,6 +785,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return atanh(this)
 	 */
@@ -707,7 +794,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
-	
+
 	/**
 	 * @return atanh(this)
 	 */
@@ -716,6 +803,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
 	 * @return this!
 	 */
@@ -735,7 +823,8 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
-	 * @param lt function to evaluate
+	 * @param lt
+	 *            function to evaluate
 	 * @return value of lt(this)
 	 */
 	final public MyDouble apply(Evaluatable lt) {
@@ -776,7 +865,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	final public GeoElement toGeoElement() {
-		GeoNumeric num = new GeoNumeric(kernel.getConstruction(),val);
+		GeoNumeric num = new GeoNumeric(kernel.getConstruction(), val);
 		return num;
 	}
 
@@ -790,19 +879,25 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	/**
 	 * parse eg 3.45645% -> 3.45645/100
-	 * @param app application for showing errors
-	 * @param str string representation ending with %
+	 * 
+	 * @param app
+	 *            application for showing errors
+	 * @param str
+	 *            string representation ending with %
 	 * @return value as fraction
 	 */
 	public static double parsePercentage(Localization app, String str) {
 		return parseDouble(app, str.substring(0, str.length() - 1)) / 100;
 	}
 
-
 	/**
-	 * extension of StringUtil.parseDouble() to cope with unicode digits eg Arabic
-	 * @param str string to be parsed
-	 * @param app application for showing errors
+	 * extension of StringUtil.parseDouble() to cope with unicode digits eg
+	 * Arabic
+	 * 
+	 * @param str
+	 *            string to be parsed
+	 * @param app
+	 *            application for showing errors
 	 * @return value
 	 */
 	public static double parseDouble(Localization app, String str) {
@@ -875,7 +970,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 			sb.append(ch + "");
 		}
 		try {
-		return StringUtil.parseDouble(sb.toString());
+			return StringUtil.parseDouble(sb.toString());
 		} catch (Exception e) {
 			// eg try to parse "1.2.3", "1..2"
 			throw new MyError(app, "InvalidInput");
@@ -889,18 +984,21 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		 */
 
 	}
+
 	/**
-	 * @param lt lt
+	 * @param lt
+	 *            lt
 	 * @return gammaIncompleteRegularized(lt,this)
 	 */
 	public ExpressionValue gammaIncompleteRegularized(NumberValue lt) {
-		val = MyMath2.gammaIncompleteRegularized(lt.getDouble(),
-				val);
+		val = MyMath2.gammaIncompleteRegularized(lt.getDouble(), val);
 		isAngle = false;
 		return this;
 	}
+
 	/**
-	 * @param lt lt
+	 * @param lt
+	 *            lt
 	 * @return gammaIncomplete(lt,this)
 	 */
 	public ExpressionValue gammaIncomplete(NumberValue lt) {
@@ -908,8 +1006,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
-	 * @param lt lt
+	 * @param lt
+	 *            lt
 	 * @return beta(lt,this)
 	 */
 	public ExpressionValue beta(NumberValue lt) {
@@ -917,8 +1017,10 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
-	 * @param lt lt
+	 * @param lt
+	 *            lt
 	 * @return betaIncomplete(lt,this)
 	 */
 	public ExpressionValue betaIncomplete(VectorValue lt) {
@@ -927,14 +1029,15 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		isAngle = false;
 		return this;
 	}
+
 	/**
-	 * @param lt lt
+	 * @param lt
+	 *            lt
 	 * @return betaIncompleteRegularized(lt,this)
 	 */
 	public ExpressionValue betaIncompleteRegularized(VectorValue lt) {
 		GeoVec2D vec = lt.getVector();
-		val = MyMath2.betaIncompleteRegularized(vec.getX(),
-				vec.getY(), val);
+		val = MyMath2.betaIncompleteRegularized(vec.getX(), vec.getY(), val);
 		isAngle = false;
 		return this;
 	}
@@ -975,7 +1078,7 @@ public class MyDouble extends ValidExpression implements NumberValue,
 
 	@Override
 	public int hashCode() {
-		return (int) (val*1000);
+		return (int) (val * 1000);
 	}
 
 	public boolean isDefined() {
@@ -983,18 +1086,21 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	}
 
 	/**
-	 * @return fractional part using Wolfram's convention (fractionalPart(-0.6)=-0.6)
+	 * @return fractional part using Wolfram's convention
+	 *         (fractionalPart(-0.6)=-0.6)
 	 */
 	public ExpressionValue fractionalPart() {
-		return new MyDouble(kernel,val>0?val-Math.floor(val):val-Math.ceil(val));
+		return new MyDouble(kernel, val > 0 ? val - Math.floor(val) : val
+				- Math.ceil(val));
 	}
+
 	/**
 	 * @return rieman zeta of this number
 	 */
 	public ExpressionValue zeta() {
-		return new MyDouble(kernel,MyMath2.zeta(val));
+		return new MyDouble(kernel, MyMath2.zeta(val));
 	}
-	
+
 	@Override
 	public ExpressionValue derivative(FunctionVariable fv) {
 		return new MyDouble(kernel, 0);
@@ -1004,16 +1110,17 @@ public class MyDouble extends ValidExpression implements NumberValue,
 	public ExpressionValue integral(FunctionVariable fv) {
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY, fv);
 	}
-	
+
 	/**
-	 * @param d number
+	 * @param d
+	 *            number
 	 * @return whether d is valid finite real number
 	 */
-	public static boolean isFinite(double d){
+	public static boolean isFinite(double d) {
 		return !Double.isNaN(d) && !Double.isInfinite(d);
 	}
-	
-	public ExpressionNode wrap(){
+
+	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 }

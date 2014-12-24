@@ -9,19 +9,18 @@ import geogebra.common.main.MyError;
 
 /**
  * Barycenter[ &lt;List of points>, &lt; list of weights> ]
+ * 
  * @author Darko
  *
  */
-public class CmdBarycenter extends CommandProcessor 
-{
+public class CmdBarycenter extends CommandProcessor {
 	/**
 	 * Create new command processor
 	 * 
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdBarycenter(Kernel kernel) 
-	{
+	public CmdBarycenter(Kernel kernel) {
 		super(kernel);
 	}
 
@@ -34,17 +33,16 @@ public class CmdBarycenter extends CommandProcessor
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0].isGeoList()) &&
-					(ok[1] = arg[1].isGeoList())) {
-				
-				AlgoBarycenter algo = new AlgoBarycenter(cons, c.getLabel(),
-						(GeoList)arg[0], (GeoList)arg[1]);
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())) {
 
-				GeoElement[] ret = { algo.getResult() } ;
+				AlgoBarycenter algo = new AlgoBarycenter(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoList) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-				
+
 			}
-			if(!ok[0])
+			if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			throw argErr(app, c.getName(), arg[1]);
 		default:

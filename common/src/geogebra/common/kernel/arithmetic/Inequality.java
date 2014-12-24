@@ -35,29 +35,30 @@ public class Inequality {
 	 * Inequality type
 	 */
 	public enum IneqType {
-	/** can be used e.g. by PointIn, but cannot be drawn */
-	INEQUALITY_INVALID,
+		/** can be used e.g. by PointIn, but cannot be drawn */
+		INEQUALITY_INVALID,
 
-	/** x > f(y) */
-	INEQUALITY_PARAMETRIC_X,
-	/** y > f(x) */
-	INEQUALITY_PARAMETRIC_Y,
-	
-	/** f(x,y) >0, f is linear */
-	INEQUALITY_LINEAR,
-	/** f(x,y) >0, f is quadratic */
-	INEQUALITY_CONIC,
-	/** f(x,y) >0, degree of f greater than 2 */
-	INEQUALITY_IMPLICIT,
-	
-	/** inequality with one variable */
-	INEQUALITY_1VAR_X,
-	/** inequality with one variable, called y */
-	INEQUALITY_1VAR_Y
+		/** x > f(y) */
+		INEQUALITY_PARAMETRIC_X,
+		/** y > f(x) */
+		INEQUALITY_PARAMETRIC_Y,
+
+		/** f(x,y) >0, f is linear */
+		INEQUALITY_LINEAR,
+		/** f(x,y) >0, f is quadratic */
+		INEQUALITY_CONIC,
+		/** f(x,y) >0, degree of f greater than 2 */
+		INEQUALITY_IMPLICIT,
+
+		/** inequality with one variable */
+		INEQUALITY_1VAR_X,
+		/** inequality with one variable, called y */
+		INEQUALITY_1VAR_Y
 	}
+
 	private Operation op = Operation.LESS;
 	private IneqType type;
-	/*private GeoImplicitPoly impBorder;*/
+	/* private GeoImplicitPoly impBorder; */
 	private GeoConic conicBorder;
 	private GeoLine lineBorder;
 	private GeoFunction funBorder;
@@ -67,29 +68,35 @@ public class Inequality {
 	private ExpressionNode normal;
 	private FunctionVariable[] fv;
 	private MyDouble coef;
-	private GeoPoint[] zeros;	
-	// if variable x or y appears with 0 coef, we want to replace the 
+	private GeoPoint[] zeros;
+	// if variable x or y appears with 0 coef, we want to replace the
 	// variable by 0 itself to avoid errors on computation
-	private MyDouble zeroDummy0,zeroDummy1;
+	private MyDouble zeroDummy0, zeroDummy1;
 
 	/**
 	 * check whether ExpressionNodes are evaluable to instances of Polynomial or
 	 * NumberValue and build an Inequality out of them
 	 * 
-	 * @param kernel Kernel
-	 * @param lhs left hand side of the equation
-	 * @param rhs right hand side of the equation
-	 * @param op operation
-	 * @param fv variable
-	 * @param function function to which this ineq belongs 
+	 * @param kernel
+	 *            Kernel
+	 * @param lhs
+	 *            left hand side of the equation
+	 * @param rhs
+	 *            right hand side of the equation
+	 * @param op
+	 *            operation
+	 * @param fv
+	 *            variable
+	 * @param function
+	 *            function to which this ineq belongs
 	 */
 	public Inequality(Kernel kernel, ExpressionValue lhs, ExpressionValue rhs,
 			Operation op, FunctionVariable[] fv, FunctionalNVar function) {
 
 		this.op = op;
 		this.kernel = kernel;
-		this.fv = fv;		
-		
+		this.fv = fv;
+
 		if (op.equals(Operation.GREATER) || op.equals(Operation.GREATER_EQUAL)) {
 			normal = new ExpressionNode(kernel, lhs, Operation.MINUS, rhs);
 
@@ -99,22 +106,22 @@ public class Inequality {
 		update();
 	}
 
-	private void update() {		
+	private void update() {
 		if (fv.length == 1) {
 			init1varFunction(0);
-			if(!funBorder.isPolynomialFunction(false)){
+			if (!funBorder.isPolynomialFunction(false)) {
 				type = IneqType.INEQUALITY_INVALID;
-			}
-			else if (fv[0].toString(StringTemplate.defaultTemplate).equals("y")) {
+			} else if (fv[0].toString(StringTemplate.defaultTemplate).equals(
+					"y")) {
 				type = IneqType.INEQUALITY_1VAR_Y;
 			} else
 				type = IneqType.INEQUALITY_1VAR_X;
 
 			return;
 		}
-		if(zeroDummy0!=null)
+		if (zeroDummy0 != null)
 			normal.replace(zeroDummy0, fv[0]).wrap();
-		if(zeroDummy1!=null)
+		if (zeroDummy1 != null)
 			normal.replace(zeroDummy1, fv[1]).wrap();
 		Double coefY = normal.getCoefficient(fv[1]);
 		Double coefX = normal.getCoefficient(fv[0]);
@@ -124,8 +131,8 @@ public class Inequality {
 			coef = new MyDouble(kernel, -coefY);
 			isAboveBorder = coefY > 0;
 			ExpressionNode m = new ExpressionNode(kernel, new ExpressionNode(
-					kernel, normal, Operation.DIVIDE, coef),
-					Operation.PLUS, fv[1]);
+					kernel, normal, Operation.DIVIDE, coef), Operation.PLUS,
+					fv[1]);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[0]);
 			type = IneqType.INEQUALITY_PARAMETRIC_Y;
@@ -134,72 +141,71 @@ public class Inequality {
 			coef = new MyDouble(kernel, -coefX);
 			isAboveBorder = coefX > 0;
 			ExpressionNode m = new ExpressionNode(kernel, new ExpressionNode(
-					kernel, normal, Operation.DIVIDE, coef),
-					Operation.PLUS, fv[0]);
+					kernel, normal, Operation.DIVIDE, coef), Operation.PLUS,
+					fv[0]);
 			m.simplifyLeafs();
 			fun = new Function(m, fv[1]);
 			type = IneqType.INEQUALITY_PARAMETRIC_X;
 		} else if (coefX != null && Kernel.isZero(coefX) && coefY == null) {
 			zeroDummy0 = new MyDouble(kernel, 0);
-			normal.replace(fv[0], zeroDummy0 ).wrap();
+			normal.replace(fv[0], zeroDummy0).wrap();
 			init1varFunction(1);
-			type = funBorder.isPolynomialFunction(false) ?				
-				IneqType.INEQUALITY_1VAR_Y:IneqType.INEQUALITY_INVALID;
+			type = funBorder.isPolynomialFunction(false) ? IneqType.INEQUALITY_1VAR_Y
+					: IneqType.INEQUALITY_INVALID;
 		} else if (coefY != null && Kernel.isZero(coefY) && coefX == null) {
 			zeroDummy1 = new MyDouble(kernel, 0);
 			normal.replace(fv[1], zeroDummy1).wrap();
 			init1varFunction(0);
-			type = funBorder.isPolynomialFunction(false) ?				
-					IneqType.INEQUALITY_1VAR_X:IneqType.INEQUALITY_INVALID;
-		}
-		else {						
-			FunctionVariable xVar=new FunctionVariable(kernel,"x");
-			FunctionVariable yVar=new FunctionVariable(kernel,"y");
-			ExpressionNode replaced = 
-					((ExpressionNode) normal.deepCopy(kernel)).replace(fv[0], xVar).wrap().
-					replace(fv[1], yVar).wrap();
-			Equation equ=new Equation(kernel,replaced,new MyDouble(kernel,0));				
-			
-			equ.initEquation();			
-			
-			if(!equ.isPolynomial()){
+			type = funBorder.isPolynomialFunction(false) ? IneqType.INEQUALITY_1VAR_X
+					: IneqType.INEQUALITY_INVALID;
+		} else {
+			FunctionVariable xVar = new FunctionVariable(kernel, "x");
+			FunctionVariable yVar = new FunctionVariable(kernel, "y");
+			ExpressionNode replaced = ((ExpressionNode) normal.deepCopy(kernel))
+					.replace(fv[0], xVar).wrap().replace(fv[1], yVar).wrap();
+			Equation equ = new Equation(kernel, replaced, new MyDouble(kernel,
+					0));
+
+			equ.initEquation();
+
+			if (!equ.isPolynomial()) {
 				type = IneqType.INEQUALITY_INVALID;
 				return;
 			}
-			Polynomial newBorder =  equ.getNormalForm();
-			if(newBorder.degree()<2){
+			Polynomial newBorder = equ.getNormalForm();
+			if (newBorder.degree() < 2) {
 				if (lineBorder == null)
 					lineBorder = new GeoLine(kernel.getConstruction());
-				//conicBorder.setLabel("res");
+				// conicBorder.setLabel("res");
 				ExpressionValue[][] evs = equ.getNormalForm().getCoeff();
-				lineBorder.setCoords(GeoConic.evalCoeff(evs, 1, 0),GeoConic.evalCoeff(evs, 0, 1),GeoConic.evalCoeff(evs, 0, 0));
+				lineBorder.setCoords(GeoConic.evalCoeff(evs, 1, 0),
+						GeoConic.evalCoeff(evs, 0, 1),
+						GeoConic.evalCoeff(evs, 0, 0));
 				type = IneqType.INEQUALITY_LINEAR;
-				border = lineBorder;						
-				isAboveBorder = coefY < 0 || coefY==0.0 && coefX>0;
-			}
-			else if(newBorder.degree()==2){
+				border = lineBorder;
+				isAboveBorder = coefY < 0 || coefY == 0.0 && coefX > 0;
+			} else if (newBorder.degree() == 2) {
 				if (conicBorder == null)
 					conicBorder = new GeoConic(kernel.getConstruction());
-				//conicBorder.setLabel("res");
+				// conicBorder.setLabel("res");
 				conicBorder.setCoeffs(equ.getNormalForm().getCoeff());
 				type = IneqType.INEQUALITY_CONIC;
-				border = conicBorder;						
-				setAboveBorderFromConic();	
-			}
-			else{
+				border = conicBorder;
+				setAboveBorderFromConic();
+			} else {
 				type = IneqType.INEQUALITY_INVALID;
 				return;
 			}
-			//TODO implicit ineq	
-			/*if (newBorder.isGeoLine()) {
-				type = IneqType.INEQUALITY_CONIC;
-				if (conicBorder == null)
-					conicBorder = new GeoConic(kernel.getConstruction());				
-				border = conicBorder;
-			}}*/
+			// TODO implicit ineq
+			/*
+			 * if (newBorder.isGeoLine()) { type = IneqType.INEQUALITY_CONIC; if
+			 * (conicBorder == null) conicBorder = new
+			 * GeoConic(kernel.getConstruction()); border = conicBorder; }}
+			 */
 		}
-		Log.trace(type+":"+coefX+","+coefY);
-		if (type == IneqType.INEQUALITY_PARAMETRIC_X || type == IneqType.INEQUALITY_PARAMETRIC_Y) {
+		Log.trace(type + ":" + coefX + "," + coefY);
+		if (type == IneqType.INEQUALITY_PARAMETRIC_X
+				|| type == IneqType.INEQUALITY_PARAMETRIC_Y) {
 			funBorder = new GeoFunction(kernel.getConstruction());
 			funBorder.setFunction(fun);
 			if (type == IneqType.INEQUALITY_PARAMETRIC_X) {
@@ -216,25 +222,25 @@ public class Inequality {
 	}
 
 	private void setAboveBorderFromConic() {
-		if(conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY
-	 ||conicBorder.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT){
+		if (conicBorder.getType() == GeoConicNDConstants.CONIC_EMPTY
+				|| conicBorder.getType() == GeoConicNDConstants.CONIC_SINGLE_POINT) {
 			isAboveBorder = conicBorder.evaluateInSignificantPoint() >= 0;
 			return;
 		}
-		isAboveBorder = conicBorder.evaluateInSignificantPoint()<0;		
+		isAboveBorder = conicBorder.evaluateInSignificantPoint() < 0;
 	}
-	
+
 	private void init1varFunction(int varIndex) {
 		Construction cons = kernel.getConstruction();
 		boolean supress = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		//funBorder for inequality f(x)>g(x) is function f(x)-g(x)
+		// funBorder for inequality f(x)>g(x) is function f(x)-g(x)
 		funBorder = new GeoFunction(cons);
-		funBorder.setFunction(new Function(normal, fv[varIndex]));		
+		funBorder.setFunction(new Function(normal, fv[varIndex]));
 		zeros = RootMultiple(funBorder);
-		/*for(int i=0;i<zeros.length;i++){
-			Application.debug(zeros[i]);
-		}*/
+		/*
+		 * for(int i=0;i<zeros.length;i++){ Application.debug(zeros[i]); }
+		 */
 		cons.setSuppressLabelCreation(supress);
 		border = funBorder;
 		if (isStrict()) {
@@ -254,7 +260,6 @@ public class Inequality {
 		return g;
 	}
 
-
 	/**
 	 * Updates the coefficient k in y<k*f(x) for parametric, for implicit runs
 	 * full update.
@@ -271,7 +276,7 @@ public class Inequality {
 		}
 		if (coefVal == null || coefVal == 0
 				|| (otherVal != null && Math.abs(otherVal) > Math.abs(coefVal)))
-			update();		
+			update();
 		else {
 			isAboveBorder = coefVal > 0;
 			coef.set(-coefVal);
@@ -279,13 +284,13 @@ public class Inequality {
 
 	}
 
-	//TODO remove?
+	// TODO remove?
 	/**
 	 * @return implicit border
 	 */
-	/* public GeoImplicitPoly getImpBorder() {
-		return impBorder;
-	} */ 
+	/*
+	 * public GeoImplicitPoly getImpBorder() { return impBorder; }
+	 */
 
 	@Override
 	final public String toString() {
@@ -341,7 +346,7 @@ public class Inequality {
 	public GeoConic getConicBorder() {
 		return conicBorder;
 	}
-	
+
 	/**
 	 * @return the lineBorder
 	 */

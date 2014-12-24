@@ -33,7 +33,7 @@ public class CmdDirectrix extends CommandProcessor {
 
 			// asymptotes to conic
 			if (arg[0].isGeoConic()) {
-				
+
 				AlgoDirectrix algo = new AlgoDirectrix(cons, c.getLabel(),
 						(GeoConic) arg[0]);
 

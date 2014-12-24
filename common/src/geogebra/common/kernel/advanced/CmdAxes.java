@@ -37,8 +37,9 @@ public class CmdAxes extends CommandProcessor {
 
 			// asymptotes to conic/quadric
 			if (arg[0] instanceof GeoQuadricND) {
-				
-				AlgoAxesQuadricND algo = axesConic(cons, c.getLabels(), (GeoQuadricND) arg[0]);
+
+				AlgoAxesQuadricND algo = axesConic(cons, c.getLabels(),
+						(GeoQuadricND) arg[0]);
 				return (GeoElement[]) algo.getAxes();
 
 			}
@@ -48,17 +49,21 @@ public class CmdAxes extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * 
-	 * @param cons1 construction
-	 * @param labels labels
-	 * @param c conic
+	 * @param cons1
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param c
+	 *            conic
 	 * @return axes algo
 	 */
-	protected AlgoAxesQuadricND axesConic(Construction cons1, String[] labels, GeoQuadricND c){
-		
+	protected AlgoAxesQuadricND axesConic(Construction cons1, String[] labels,
+			GeoQuadricND c) {
+
 		return new AlgoAxes(cons1, labels, (GeoConic) c);
-		
+
 	}
 }

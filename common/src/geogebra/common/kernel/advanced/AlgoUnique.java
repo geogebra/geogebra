@@ -30,18 +30,17 @@ import org.apache.commons.math.stat.Frequency;
 
 public class AlgoUnique extends AlgoElement {
 
-	private GeoList dataList; //input
-	private GeoList uniqueList; //output	
-	
+	private GeoList dataList; // input
+	private GeoList uniqueList; // output
+
 	private Frequency f;
 
-
-	public AlgoUnique(Construction cons, String label, GeoList dataList ) {
+	public AlgoUnique(Construction cons, String label, GeoList dataList) {
 		this(cons, dataList);
 		uniqueList.setLabel(label);
 	}
 
-	public AlgoUnique(Construction cons, GeoList dataList ) {
+	public AlgoUnique(Construction cons, GeoList dataList) {
 		super(cons);
 		this.dataList = dataList;
 
@@ -58,16 +57,17 @@ public class AlgoUnique extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
-    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
-		uniqueList.setTypeStringForXML(dataList.getTypeStringForXML());  	
+		// make sure that x(Element[list,1]) will work even if the output list's
+		// length is zero
+		uniqueList.setTypeStringForXML(dataList.getTypeStringForXML());
 
-    	input = new GeoElement[1];
+		input = new GeoElement[1];
 		input[0] = dataList;
 
 		super.setOutputLength(1);
-        super.setOutput(0, uniqueList);
+		super.setOutput(0, uniqueList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -77,38 +77,40 @@ public class AlgoUnique extends AlgoElement {
 
 	@Override
 	public final void compute() {
-	
+
 		// Validate input arguments
 		if (!dataList.isDefined() || dataList.size() == 0) {
-			uniqueList.setUndefined();		
-			return; 		
+			uniqueList.setUndefined();
+			return;
 		}
 
-		if( !( dataList.getElementType() .equals(GeoClass.TEXT) 
-				|| dataList.getElementType() .equals(GeoClass.NUMERIC ))) {
-			uniqueList.setUndefined();		
+		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
+				.getElementType().equals(GeoClass.NUMERIC))) {
+			uniqueList.setUndefined();
 			return;
 		}
 
 		uniqueList.setDefined(true);
 		uniqueList.clear();
 
-		// Load the data into f, an instance of Frequency class 
-		if(f == null)
-		 f = new FrequencyGgb();
+		// Load the data into f, an instance of Frequency class
+		if (f == null)
+			f = new FrequencyGgb();
 		f.clear();
-		for (int i=0 ; i < dataList.size(); i++) {
-			if(dataList.getElementType() .equals(GeoClass.TEXT))
-				f.addValue(((GeoText)dataList.get(i)).toValueString(StringTemplate.defaultTemplate));
-			if(dataList.getElementType() .equals(GeoClass.NUMERIC))
-				f.addValue(new MyDouble(kernel, ((GeoNumeric)dataList.get(i)).getDouble()));
+		for (int i = 0; i < dataList.size(); i++) {
+			if (dataList.getElementType().equals(GeoClass.TEXT))
+				f.addValue(((GeoText) dataList.get(i))
+						.toValueString(StringTemplate.defaultTemplate));
+			if (dataList.getElementType().equals(GeoClass.NUMERIC))
+				f.addValue(new MyDouble(kernel, ((GeoNumeric) dataList.get(i))
+						.getDouble()));
 		}
 
-		// Get the unique value list 	
-		if(dataList.getElementType() .equals(GeoClass.TEXT)) {
+		// Get the unique value list
+		if (dataList.getElementType().equals(GeoClass.TEXT)) {
 			// handle string data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
-			while(itr.hasNext()) {		
+			while (itr.hasNext()) {
 				String s = (String) itr.next();
 				GeoText text = new GeoText(cons);
 				text.setTextString(s);
@@ -117,11 +119,11 @@ public class AlgoUnique extends AlgoElement {
 		} else {
 			// handle numeric data
 			Iterator<Comparable<?>> itr = f.valuesIterator();
-			while(itr.hasNext()) {		
+			while (itr.hasNext()) {
 				MyDouble n = (MyDouble) itr.next();
-				uniqueList.add(new GeoNumeric(cons,n.getDouble()));
+				uniqueList.add(new GeoNumeric(cons, n.getDouble()));
 			}
-		} 
+		}
 	}
 
 	// TODO Consider locusequability

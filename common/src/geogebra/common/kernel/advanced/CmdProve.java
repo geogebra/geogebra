@@ -28,18 +28,18 @@ public class CmdProve extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-	
-		switch(n) {
+
+		switch (n) {
 		case 1:
 			if (arg[0] instanceof BooleanValue) {
-				
+
 				AlgoProve algo = new AlgoProve(cons, c.getLabel(), arg[0]);
 
 				GeoElement[] ret = { algo.getGeoBoolean() };
 				return ret;
-				}
+			}
 			throw argErr(app, c.getName(), arg[0]);
-			
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 

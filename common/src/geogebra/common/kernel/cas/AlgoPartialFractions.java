@@ -25,9 +25,12 @@ import geogebra.common.kernel.geos.CasEvaluableFunction;
  */
 public class AlgoPartialFractions extends AlgoCasBase {
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f function
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
 	 */
 	public AlgoPartialFractions(Construction cons, String label,
 			CasEvaluableFunction f) {
@@ -35,11 +38,12 @@ public class AlgoPartialFractions extends AlgoCasBase {
 	}
 
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 
 		// f.getVarString() can return a number in wrong alphabet (need ASCII)
-		
+
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
 		String varStr = f.getVarString(tpl);
@@ -50,8 +54,7 @@ public class AlgoPartialFractions extends AlgoCasBase {
 		sbAE.append(varStr);
 		sbAE.append("]");
 
-		g.setUsingCasCommand(sbAE.toString(), f, false,arbconst);
+		g.setUsingCasCommand(sbAE.toString(), f, false, arbconst);
 	}
-
 
 }

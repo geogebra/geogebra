@@ -7,9 +7,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
-	/**
-	 * Flatten[ <GeoList> ]
-	 */
+/**
+ * Flatten[ <GeoList> ]
+ */
 public class CmdFlatten extends CommandProcessor {
 
 	/**
@@ -25,17 +25,18 @@ public class CmdFlatten extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
-		if (n!=1) {
+
+		if (n != 1) {
 			throw argNumErr(app, c.getName(), n);
 		}
-		
+
 		GeoElement arg;
 		arg = resArgs(c)[0];
 
 		if (arg.isGeoList()) {
-			
-			AlgoFlatten algo = new AlgoFlatten(cons, c.getLabel(), (GeoList) arg);
+
+			AlgoFlatten algo = new AlgoFlatten(cons, c.getLabel(),
+					(GeoList) arg);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;

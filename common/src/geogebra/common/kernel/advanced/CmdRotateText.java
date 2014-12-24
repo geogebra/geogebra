@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *RotateText
+ * RotateText
  */
 public class CmdRotateText extends CommandProcessor {
 	/**
@@ -33,7 +33,7 @@ public class CmdRotateText extends CommandProcessor {
 		case 2:
 			if ((ok[0] = (arg[0].isGeoText()))
 					&& (ok[1] = arg[1].isGeoNumeric())) {
-				
+
 				AlgoRotateText algo = new AlgoRotateText(cons, c.getLabel(),
 						(GeoText) arg[0], (GeoNumeric) arg[1]);
 

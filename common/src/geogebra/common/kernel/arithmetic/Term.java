@@ -37,28 +37,36 @@ public class Term implements Comparable<Object>, Serializable {
 	/** coefficient */
 	ExpressionValue coefficient; // has to evaluate() to NumberValue
 	private StringBuilder variables;
-	//private Kernel kernel;
+
+	// private Kernel kernel;
 
 	/**
-	 * @param coeff coefficient
-	 * @param vars variables string, eg. "xxy"
+	 * @param coeff
+	 *            coefficient
+	 * @param vars
+	 *            variables string, eg. "xxy"
 	 */
 	public Term(ExpressionValue coeff, String vars) {
 		this(coeff, new StringBuilder(vars));
 	}
 
 	/**
-	 * @param kernel kernel
-	 * @param coeff coefficient
-	 * @param vars variables string, eg. "xxy"
+	 * @param kernel
+	 *            kernel
+	 * @param coeff
+	 *            coefficient
+	 * @param vars
+	 *            variables string, eg. "xxy"
 	 */
 	public Term(Kernel kernel, double coeff, String vars) {
 		this(new MyDouble(kernel, coeff), new StringBuilder(vars));
 	}
 
 	/**
-	 * @param coeff coefficient
-	 * @param vars variables StringBuilder
+	 * @param coeff
+	 *            coefficient
+	 * @param vars
+	 *            variables StringBuilder
 	 */
 	public Term(ExpressionValue coeff, StringBuilder vars) {
 		setCoefficient(coeff);
@@ -67,12 +75,15 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * Copy constructor
-	 * @param t term to copy
-	 * @param kernel kernel for coefficient
+	 * 
+	 * @param t
+	 *            term to copy
+	 * @param kernel
+	 *            kernel for coefficient
 	 */
-	public Term(Term t,Kernel kernel) {
+	public Term(Term t, Kernel kernel) {
 		variables = new StringBuilder(t.variables.toString());
-		setCoefficient(ExpressionNode.copy(t.coefficient,kernel));
+		setCoefficient(ExpressionNode.copy(t.coefficient, kernel));
 	}
 
 	/**
@@ -83,7 +94,8 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	/**
-	 * @param coeff changes coefficient
+	 * @param coeff
+	 *            changes coefficient
 	 */
 	void setCoefficient(ExpressionValue coeff) {
 		coefficient = coeff;
@@ -97,7 +109,8 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	/**
-	 * @param vars new variables string, eg. "xxy"
+	 * @param vars
+	 *            new variables string, eg. "xxy"
 	 */
 	void setVariables(String vars) {
 		variables.setLength(0);
@@ -105,7 +118,8 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	/**
-	 * @param vars new variables as string
+	 * @param vars
+	 *            new variables as string
 	 */
 	void setVariables(StringBuilder vars) {
 		variables.setLength(0);
@@ -128,6 +142,7 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * Total degree of this term
+	 * 
 	 * @return degree
 	 */
 	int degree() {
@@ -136,7 +151,9 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * degree of eg x xxxyy returns 3 for x, 2 for y
-	 * @param var term whose degree we want
+	 * 
+	 * @param var
+	 *            term whose degree we want
 	 * @return degree
 	 */
 	int degree(char var) {
@@ -150,16 +167,19 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * add a number to this term's coefficient
-	 * @param number number to add
+	 * 
+	 * @param number
+	 *            number to add
 	 */
 	void addToCoefficient(ExpressionValue number, Kernel kernel) {
 		setCoefficient(add(coefficient, number, kernel));
 	}
 
 	// return a + b
-	private ExpressionValue add(ExpressionValue a, ExpressionValue b, Kernel kernel) {
-		boolean aconst = false;//a.isConstant();
-		boolean bconst = false;//b.isConstant();
+	private ExpressionValue add(ExpressionValue a, ExpressionValue b,
+			Kernel kernel) {
+		boolean aconst = false;// a.isConstant();
+		boolean bconst = false;// b.isConstant();
 		double aval, bval;
 
 		// add constant?
@@ -178,10 +198,12 @@ public class Term implements Comparable<Object>, Serializable {
 					switch (ben.getOperation()) {
 					// a + (b.left + b.right) = (a + b.left) + b.right
 					case PLUS:
-						return add(add(a, ben.getLeft(), kernel), ben.getRight(), kernel);
+						return add(add(a, ben.getLeft(), kernel),
+								ben.getRight(), kernel);
 						// a + (b.left - b.right) = (a + b.left) - b.right
 					case MINUS:
-						return sub(add(a, ben.getLeft(), kernel), ben.getRight(), kernel);
+						return sub(add(a, ben.getLeft(), kernel),
+								ben.getRight(), kernel);
 					}
 				}
 			} // else
@@ -192,20 +214,22 @@ public class Term implements Comparable<Object>, Serializable {
 			return new ExpressionNode(kernel, a, Operation.PLUS, b);
 	}
 
-	private ExpressionValue sub(ExpressionValue a, ExpressionValue b, Kernel kernel) {
+	private ExpressionValue sub(ExpressionValue a, ExpressionValue b,
+			Kernel kernel) {
 		return add(a, multiply(new MyDouble(kernel, -1.0d), b, kernel), kernel);
 	}
 
 	/**
 	 * multiply this term with another term
-	 * @param t multiplier
+	 * 
+	 * @param t
+	 *            multiplier
 	 */
 	void multiply(Term t, Kernel kernel) {
 		setCoefficient(multiply(coefficient, t.coefficient, kernel));
 		variables.append(t.variables);
 		sort(variables);
 	}
-	
 
 	/**
 	 * multiply this term with another term return a new Term
@@ -219,14 +243,17 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * multiply this term with a number
-	 * @param number multiplier
+	 * 
+	 * @param number
+	 *            multiplier
 	 */
 	void multiply(ExpressionValue number, Kernel kernel) {
 		setCoefficient(multiply(coefficient, number, kernel));
 	}
 
 	// c = a * b
-	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b, Kernel kernel) {
+	private ExpressionValue multiply(ExpressionValue a, ExpressionValue b,
+			Kernel kernel) {
 		// multiply constant?
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -270,14 +297,17 @@ public class Term implements Comparable<Object>, Serializable {
 
 	/**
 	 * divide this term with a number
-	 * @param number divisor
+	 * 
+	 * @param number
+	 *            divisor
 	 */
 	void divide(ExpressionValue number, Kernel kernel) {
 		setCoefficient(divide(coefficient, number, kernel));
 	}
 
 	// c = a / b
-	private ExpressionValue divide(ExpressionValue a, ExpressionValue b, Kernel kernel) {
+	private ExpressionValue divide(ExpressionValue a, ExpressionValue b,
+			Kernel kernel) {
 		// divide constants
 		boolean aconst = a.isConstant();
 		boolean bconst = b.isConstant();
@@ -297,7 +327,8 @@ public class Term implements Comparable<Object>, Serializable {
 				switch (ben.getOperation()) {
 				// a / (b.left / b.right) = (a / b.left) * b.right
 				case DIVIDE:
-					return multiply(divide(a, ben.getLeft(), kernel), ben.getRight(), kernel);
+					return multiply(divide(a, ben.getLeft(), kernel),
+							ben.getRight(), kernel);
 				}
 			}
 			return new ExpressionNode(kernel, a, Operation.DIVIDE, b);
@@ -342,7 +373,8 @@ public class Term implements Comparable<Object>, Serializable {
 	}
 
 	/**
-	 * @param var var name
+	 * @param var
+	 *            var name
 	 * @return True if contins given variable
 	 */
 	boolean contains(String var) {
@@ -356,12 +388,15 @@ public class Term implements Comparable<Object>, Serializable {
 
 	@Override
 	@Deprecated
-	public String toString(){
+	public String toString() {
 		return toString(StringTemplate.defaultTemplate);
 	}
+
 	/**
 	 * Serialize to string according to given template
-	 * @param tpl template
+	 * 
+	 * @param tpl
+	 *            template
 	 * @return string representation
 	 */
 	public String toString(StringTemplate tpl) {
@@ -381,7 +416,7 @@ public class Term implements Comparable<Object>, Serializable {
 			sb.append('-');
 			sb.append(var);
 		} else {
-			sb.append(coeffString(coefficient,tpl));
+			sb.append(coeffString(coefficient, tpl));
 			if (var != null) {
 				sb.append(' ');
 				sb.append(var);
@@ -390,7 +425,7 @@ public class Term implements Comparable<Object>, Serializable {
 		return sb.toString();
 	}
 
-	private String coeffString(ExpressionValue ev,StringTemplate tpl) {
+	private String coeffString(ExpressionValue ev, StringTemplate tpl) {
 		if (ev instanceof GeoElement)
 			return ((GeoElement) ev).getLabel(tpl);
 		else if (ev instanceof ExpressionNode) {
@@ -411,15 +446,15 @@ public class Term implements Comparable<Object>, Serializable {
 
 	private String variableString(StringTemplate tpl) {
 		String str = variables.toString();
-		
-		if((tpl.hasType(StringType.GIAC)) && variables.length()>=1){
-			
+
+		if ((tpl.hasType(StringType.GIAC)) && variables.length() >= 1) {
+
 			StringBuilder sb = new StringBuilder("(");
-			
-			for(int i=0;i<str.length();i++){
-				if(i>0)
+
+			for (int i = 0; i < str.length(); i++) {
+				if (i > 0)
 					sb.append('*');
-				sb.append(tpl.printVariableName(str.charAt(0)+""));
+				sb.append(tpl.printVariableName(str.charAt(0) + ""));
 			}
 			sb.append(')');
 			return sb.toString();
@@ -428,7 +463,7 @@ public class Term implements Comparable<Object>, Serializable {
 		case 1:
 			return str;
 		case 2:
-			
+
 			if (str.equals("xx")) {
 				return "x\u00b2";
 			}

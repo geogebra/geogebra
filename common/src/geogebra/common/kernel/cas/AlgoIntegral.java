@@ -33,23 +33,31 @@ public class AlgoIntegral extends AlgoCasBase {
 
 	private GeoNumeric var;
 	private boolean allowConstant;
-	
+
 	/**
-     * @param cons construction
-     * @param label label for output
-     * @param f function
-	 * @param var variable
-     */
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 * @param var
+	 *            variable
+	 */
 	public AlgoIntegral(Construction cons, String label,
 			CasEvaluableFunction f, GeoNumeric var) {
 		this(cons, f, var, true);
 		g.toGeoElement().setLabel(label);
 	}
+
 	/**
-     * @param cons construction
-     * @param f function
-	 * @param var variable
-     */
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param var
+	 *            variable
+	 */
 	public AlgoIntegral(Construction cons, CasEvaluableFunction f,
 			GeoNumeric var, boolean allowConstant) {
 		super(cons, f, Commands.Integral);
@@ -76,47 +84,51 @@ public class AlgoIntegral extends AlgoCasBase {
 		setOutput(0, g.toGeoElement());
 		setDependencies(); // done by AlgoElement
 	}
+
 	private MyArbitraryConstant arbconst = new MyArbitraryConstant(this);
+
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 
-		 if (f instanceof GeoFunction) {
-			 Function inFun = ((GeoFunction)f).getFunction();
-			 
-				if (!kernel.useCASforIntegrals()) {
-					
-					inFun = inFun.getIntegralNoCAS();
-					
-					if (inFun == null) {
-						((GeoFunction)g).setDefined(false);
-					}
-					
-					((GeoFunction)g).setFunction(inFun);
-					((GeoFunction)g).setDefined(true);
-					return;
+		if (f instanceof GeoFunction) {
+			Function inFun = ((GeoFunction) f).getFunction();
+
+			if (!kernel.useCASforIntegrals()) {
+
+				inFun = inFun.getIntegralNoCAS();
+
+				if (inFun == null) {
+					((GeoFunction) g).setDefined(false);
 				}
-			 // check if it's a polynomial
-			 PolyFunction polyDeriv = inFun.getNumericPolynomialIntegral();
-			 
-			 // it it is...
-			 if (polyDeriv != null) {
-				 // ... we can calculate the derivative without loading the CAS (*much* faster, especially in web)
-				 Function funDeriv = polyDeriv.getFunction(kernel, inFun.getFunctionVariable());
-				 
-				 //App.debug(f.toString());
-				 //App.debug(funDeriv.toString());
-				 
-				 ((GeoFunction)g).setFunction(funDeriv);
-				 ((GeoFunction)g).setDefined(true);
-				 return;
-			 }
-		 }
+
+				((GeoFunction) g).setFunction(inFun);
+				((GeoFunction) g).setDefined(true);
+				return;
+			}
+			// check if it's a polynomial
+			PolyFunction polyDeriv = inFun.getNumericPolynomialIntegral();
+
+			// it it is...
+			if (polyDeriv != null) {
+				// ... we can calculate the derivative without loading the CAS
+				// (*much* faster, especially in web)
+				Function funDeriv = polyDeriv.getFunction(kernel,
+						inFun.getFunctionVariable());
+
+				// App.debug(f.toString());
+				// App.debug(funDeriv.toString());
+
+				((GeoFunction) g).setFunction(funDeriv);
+				((GeoFunction) g).setDefined(true);
+				return;
+			}
+		}
 		// var.getLabel() can return a number in wrong alphabet (need ASCII)
-		
+
 		// get variable string with tmp prefix,
 		// e.g. "x" becomes "ggbtmpvarx" here
 		String varStr = var != null ? var.getLabel(tpl) : f.getVarString(tpl);
-		
+
 		sbAE.setLength(0);
 		sbAE.append("Integral[%");
 		sbAE.append(",");
@@ -124,7 +136,8 @@ public class AlgoIntegral extends AlgoCasBase {
 		sbAE.append("]");
 
 		// find symbolic derivative of f
-		g.setUsingCasCommand(sbAE.toString(), f, true, this.allowConstant ? arbconst : null);
+		g.setUsingCasCommand(sbAE.toString(), f, true,
+				this.allowConstant ? arbconst : null);
 	}
 
 	@Override
@@ -137,7 +150,8 @@ public class AlgoIntegral extends AlgoCasBase {
 		} else {
 			// Michael Borcherds 2008-03-30
 			// simplified to allow better Chinese translation
-			sb.append(getLoc().getPlain("IntegralOfA", f.toGeoElement().getLabel(tpl)));
+			sb.append(getLoc().getPlain("IntegralOfA",
+					f.toGeoElement().getLabel(tpl)));
 		}
 
 		if (!f.toGeoElement().isIndependent()) { // show the symbolic

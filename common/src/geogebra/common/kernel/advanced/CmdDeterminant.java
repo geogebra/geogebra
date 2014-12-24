@@ -6,8 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * Determinant[ <List> ]
- * Michael Borcherds 
+ * Determinant[ <List> ] Michael Borcherds
  */
 public class CmdDeterminant extends CmdOneListFunction {
 	/**
@@ -21,8 +20,7 @@ public class CmdDeterminant extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoDeterminant algo = new AlgoDeterminant(cons, a, b);
 		return algo.getResult();
 	}

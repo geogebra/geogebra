@@ -20,8 +20,8 @@ import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
 
 /**
- * Parametric derivative of a curve c. The parametric derivative of a 
- * curve c(t) = (x(t), y(t)) is defined as (x(t), y'(t)/x'(t)).
+ * Parametric derivative of a curve c. The parametric derivative of a curve c(t)
+ * = (x(t), y(t)) is defined as (x(t), y'(t)/x'(t)).
  * 
  * @author Markus Hohenwarter
  */
@@ -30,9 +30,12 @@ public class AlgoParametricDerivative extends AlgoElement {
 	private GeoCurveCartesian curve, paramDeriv;
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param curve curve
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param curve
+	 *            curve
 	 */
 	public AlgoParametricDerivative(Construction cons, String label,
 			GeoCurveCartesian curve) {
@@ -51,19 +54,19 @@ public class AlgoParametricDerivative extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.ParametricDerivative;
-    } 
+		return Commands.ParametricDerivative;
+	}
 
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = curve;
-		
+
 		setOutputLength(1);
 		setOutput(0, paramDeriv);
 		setDependencies(); // done by AlgoElement
 	}
-	
+
 	/**
 	 * @return parametric derivative
 	 */
@@ -77,17 +80,18 @@ public class AlgoParametricDerivative extends AlgoElement {
 			paramDeriv.setUndefined();
 			return;
 		}
-		
+
 		// compute parametric derivative
 		// (x(t), y'(t)/x'(t))
 		paramDeriv.setParametricDerivative(curve);
 	}
 
 	// TODO Consider locusequability
-	
+
 	@Override
 	final public String toString(StringTemplate tpl) {
-                
-	    return getLoc().getPlain("ParametricDerivativeOfA",curve.toGeoElement().getLabel(tpl));
-    }
+
+		return getLoc().getPlain("ParametricDerivativeOfA",
+				curve.toGeoElement().getLabel(tpl));
+	}
 }

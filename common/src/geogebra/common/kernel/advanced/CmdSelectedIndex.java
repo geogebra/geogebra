@@ -33,9 +33,9 @@ public class CmdSelectedIndex extends CommandProcessor {
 			if (arg[0].isGeoList())
 
 			{
-				
-				AlgoSelectedIndex algo = new AlgoSelectedIndex(cons, c.getLabel(),
-						(GeoList) arg[0]);
+
+				AlgoSelectedIndex algo = new AlgoSelectedIndex(cons,
+						c.getLabel(), (GeoList) arg[0]);
 
 				GeoElement[] ret = { algo.getElement() };
 				return ret;

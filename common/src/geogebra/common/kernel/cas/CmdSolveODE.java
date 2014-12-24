@@ -13,7 +13,7 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
- *SolveODE
+ * SolveODE
  */
 public class CmdSolveODE extends CommandProcessor {
 
@@ -37,25 +37,25 @@ public class CmdSolveODE extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if ((arg[0] instanceof CasEvaluableFunction)) {
-				
+
 				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
 						(CasEvaluableFunction) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app,c.getName(),arg[0]);
+			throw argErr(app, c.getName(), arg[0]);
 		case 2:
-			if ((ok[0]=arg[0] instanceof CasEvaluableFunction)&&
-					(ok[1]=arg[1] instanceof GeoPointND)) {
-				
+			if ((ok[0] = arg[0] instanceof CasEvaluableFunction)
+					&& (ok[1] = arg[1] instanceof GeoPointND)) {
+
 				AlgoSolveODECas algo = new AlgoSolveODECas(cons, c.getLabel(),
-						(CasEvaluableFunction) arg[0],(GeoPointND)arg[1]);
+						(CasEvaluableFunction) arg[0], (GeoPointND) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 			}
-			throw argErr(app,c.getName(),getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 		case 5:
 			if ((ok[0] = arg[0] instanceof FunctionalNVar)
 					&& (ok[1] = arg[1].isGeoNumeric())
@@ -93,7 +93,7 @@ public class CmdSolveODE extends CommandProcessor {
 					&& (ok[5] = arg[5].isGeoNumeric())
 					&& (ok[6] = arg[6].isGeoNumeric())
 					&& (ok[7] = arg[7].isGeoNumeric())) {
-				
+
 				AlgoSolveODE2 algo = new AlgoSolveODE2(cons, c.getLabel(),
 						(GeoFunctionable) arg[0], (GeoFunctionable) arg[1],
 						(GeoFunctionable) arg[2], (GeoNumeric) arg[3],
@@ -110,8 +110,6 @@ public class CmdSolveODE extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
-
 
 	final private GeoLocus SolveODE(String label, FunctionalNVar f,
 			FunctionalNVar g, GeoNumeric x, GeoNumeric y, GeoNumeric end,

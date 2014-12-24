@@ -19,16 +19,21 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
 	private GeoNumeric t0, t1; // input
 	private GeoCurveCartesian c; // c1 is c'(x)
-	
+
 	private GeoNumeric length; // output
 	private RealRootFunction lengthCurve; // is T = sqrt(a'(t)^2+b'(t)^2)
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param c curve
-	 * @param t0 start parameter
-	 * @param t1 end parameter
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param c
+	 *            curve
+	 * @param t0
+	 *            start parameter
+	 * @param t1
+	 *            end parameter
 	 */
 	public AlgoLengthCurve(Construction cons, String label,
 			GeoCurveCartesian c, GeoNumeric t0, GeoNumeric t1) {
@@ -47,8 +52,8 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -61,6 +66,7 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 		setOutput(0, length);
 		setDependencies(); // done by AlgoElement
 	}
+
 	/**
 	 * @return resulting length
 	 */
@@ -82,7 +88,8 @@ public class AlgoLengthCurve extends AlgoUsingTempCASalgo {
 	public void refreshCASResults() {
 		// First derivative of curve f
 		algoCAS = new AlgoDerivative(cons, c);
-		GeoCurveCartesian c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS).getResult();
+		GeoCurveCartesian c1 = (GeoCurveCartesian) ((AlgoDerivative) algoCAS)
+				.getResult();
 		cons.removeFromConstructionList(algoCAS);
 		lengthCurve = new LengthCurve(c1);
 	}

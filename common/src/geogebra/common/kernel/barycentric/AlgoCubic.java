@@ -16,29 +16,35 @@ import geogebra.common.kernel.parser.Parser;
 import geogebra.common.main.AlgoCubicSwitchParams;
 import geogebra.common.main.App;
 
-
 /**
  * @author Darko Drakulic
  * @version 23-10-2011
  * 
- *  This class makes a curve in barycentric coordinates 
- *          
+ *          This class makes a curve in barycentric coordinates
+ * 
  */
 
 public class AlgoCubic extends AlgoElement {
 
-	
 	private GeoPoint A, B, C; // input
-	private NumberValue n;	// number of curve
+	private NumberValue n; // number of curve
 	private GeoImplicitPoly poly; // output
+
 	/**
 	 * Creates new triangle cubic algo
-	 * @param cons construction
-	 * @param label label
-	 * @param A first point
-	 * @param B second point
-	 * @param C third point
-	 * @param e index in CTC
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 * @param e
+	 *            index in CTC
 	 */
 	public AlgoCubic(Construction cons, String label, GeoPoint A, GeoPoint B,
 			GeoPoint C, NumberValue e) {
@@ -50,7 +56,7 @@ public class AlgoCubic extends AlgoElement {
 		this.n = e;
 		poly = new GeoImplicitPoly(cons);
 		setInputOutput();
-		compute();		
+		compute();
 		poly.setLabel(label);
 	}
 
@@ -72,8 +78,10 @@ public class AlgoCubic extends AlgoElement {
 		setOutput(0, poly);
 		setDependencies(); // done by AlgoElement
 	}
+
 	/**
 	 * Returns the resulting curve
+	 * 
 	 * @return the resulting curve
 	 */
 	public GeoImplicitPoly getResult() {
@@ -98,20 +106,20 @@ public class AlgoCubic extends AlgoElement {
 		double y2 = B.inhomY;
 		double x3 = C.inhomX;
 		double y3 = C.inhomY;
-		
+
 		String equation = "";
-		
-		double det = (-x2 + x3)*(y1 - y3) + (x1 - x3)*(y2 - y3);
-		if(Kernel.isZero(det)){
+
+		double det = (-x2 + x3) * (y1 - y3) + (x1 - x3) * (y2 - y3);
+		if (Kernel.isZero(det)) {
 			poly.setUndefined();
 			return;
 		}
-		String Astr =  "(" + (x3-x2)/det + "*y  + "+
-				(y2 - y3)/det+"*x - " + ((x3-x2)*y3+(y2 - y3)*x3)/det + ")";
-		String Bstr =  "(" + (x1-x3)/det + "*y  + "+
-				(y3 - y1)/det+"*x - " + ((x1-x3)*y1+(y3 - y1)*x1)/det + ")";
-		String Cstr =  "(" + (x2-x1)/det + "*y  + "+
-				(y1 - y2)/det+"*x - " + ((x2-x1)*y2+(y1 - y2)*x2)/det + ")";
+		String Astr = "(" + (x3 - x2) / det + "*y  + " + (y2 - y3) / det
+				+ "*x - " + ((x3 - x2) * y3 + (y2 - y3) * x3) / det + ")";
+		String Bstr = "(" + (x1 - x3) / det + "*y  + " + (y3 - y1) / det
+				+ "*x - " + ((x1 - x3) * y1 + (y3 - y1) * x1) / det + ")";
+		String Cstr = "(" + (x2 - x1) / det + "*y  + " + (y1 - y2) / det
+				+ "*x - " + ((x2 - x1) * y2 + (y1 - y2) * x2) / det + ")";
 
 		equation = kernel.getApplication().cubicSwitch(
 				new AlgoCubicSwitchParams(n.getDouble(), a, b, c));
@@ -127,22 +135,22 @@ public class AlgoCubic extends AlgoElement {
 		equation = equation.replace("a", "" + a);
 		equation = equation.replace("b", "" + b);
 		equation = equation.replace("c", "" + c);
-		
+
 		Parser parser = getKernel().getParser();
 		AlgebraProcessor algebraProcessor = getKernel().getAlgebraProcessor();
-		
-	 	ValidExpression ve = null;
-		try{ 
-		 	ve = parser.parseGeoGebraExpression(equation); 
-		 	GeoImplicitPoly result = (GeoImplicitPoly)(algebraProcessor.processEquation((Equation) ve,true)[0]); 
-		 	result.remove();
-		 	poly.setCoeff(result.getCoeff());
-		 	poly.setDefined();
-		} catch(ParseException e) 
-	 	{ 
+
+		ValidExpression ve = null;
+		try {
+			ve = parser.parseGeoGebraExpression(equation);
+			GeoImplicitPoly result = (GeoImplicitPoly) (algebraProcessor
+					.processEquation((Equation) ve, true)[0]);
+			result.remove();
+			poly.setCoeff(result.getCoeff());
+			poly.setDefined();
+		} catch (ParseException e) {
 			poly.setUndefined();
-	 		App.error(equation); 
-	 	} 
+			App.error(equation);
+		}
 	}
 
 	// TODO Consider locusequability

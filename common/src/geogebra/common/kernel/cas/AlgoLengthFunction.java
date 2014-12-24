@@ -21,23 +21,34 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 	private GeoFunction f; // f1 is f'(x)
 	private GeoNumeric length; // output
 	private RealRootFunction lengthFunction; // is T = sqrt(1+(f')^2)
+
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f function
-	 * @param A start parameter
-	 * @param B end parameter
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            function
+	 * @param A
+	 *            start parameter
+	 * @param B
+	 *            end parameter
 	 */
 	public AlgoLengthFunction(Construction cons, String label, GeoFunction f,
 			GeoNumeric A, GeoNumeric B) {
 		this(cons, f, A, B);
 		length.setLabel(label);
 	}
+
 	/**
-	 * @param cons construction
-	 * @param f function
-	 * @param A start parameter
-	 * @param B end parameter
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            function
+	 * @param A
+	 *            start parameter
+	 * @param B
+	 *            end parameter
 	 */
 	public AlgoLengthFunction(Construction cons, GeoFunction f, GeoNumeric A,
 			GeoNumeric B) {
@@ -55,8 +66,8 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -86,6 +97,7 @@ public class AlgoLengthFunction extends AlgoUsingTempCASalgo {
 				lengthFunction, a, b));
 		length.setValue(lenVal);
 	}
+
 	@Override
 	public void refreshCASResults() {
 		// First derivative of function f

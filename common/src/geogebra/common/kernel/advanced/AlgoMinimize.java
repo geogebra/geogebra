@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.advanced;
 
@@ -17,38 +17,43 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
- * AlgoMinimize
- * Command Minimize[ <dependent variable>, <independent variable> ] (and Minimize[] )
- * which searches for the independent variable which gives the 
+ * AlgoMinimize Command Minimize[ <dependent variable>, <independent variable> ]
+ * (and Minimize[] ) which searches for the independent variable which gives the
  * smallest result for the dependent variable.
  * 
- *  Extends abstract class AlgoOptimize
- *  
- * @author 	Hans-Petter Ulven
+ * Extends abstract class AlgoOptimize
+ * 
+ * @author Hans-Petter Ulven
  * @version 20.02.2011
  * 
  */
 
-public class AlgoMinimize extends AlgoOptimize{
+public class AlgoMinimize extends AlgoOptimize {
 
-	/** Constructor for Minimize
-	 * @param cons construction
-	 * @param label label for output
-	 * @param dep dependent value
-	 * @param indep independent number*/
-	public AlgoMinimize(Construction cons,String label,NumberValue dep,GeoNumeric indep){
-		super(cons,label,dep,indep,OptimizationType.MINIMIZE);
-		//cons.registerEuclididanViewAlgo(this);
-	}//Constructor for Maximize
-	
+	/**
+	 * Constructor for Minimize
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param dep
+	 *            dependent value
+	 * @param indep
+	 *            independent number
+	 */
+	public AlgoMinimize(Construction cons, String label, NumberValue dep,
+			GeoNumeric indep) {
+		super(cons, label, dep, indep, OptimizationType.MINIMIZE);
+		// cons.registerEuclididanViewAlgo(this);
+	}// Constructor for Maximize
 
-    @Override
+	@Override
 	public Commands getClassName() {
-    	return Commands.Minimize;
-    }//getClassName()    
+		return Commands.Minimize;
+	}// getClassName()
 
 	// TODO Consider locusequability
 
-}//class AlgoMinimize
+}// class AlgoMinimize

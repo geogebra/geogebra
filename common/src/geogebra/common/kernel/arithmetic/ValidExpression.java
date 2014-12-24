@@ -58,7 +58,7 @@ public abstract class ValidExpression implements ExpressionValue {
 	 */
 	public void addLabel(String label) {
 		initLabels();
-		//App.printStacktrace(label+":"+(label==null));
+		// App.printStacktrace(label+":"+(label==null));
 		labels.add(label);
 	}
 
@@ -196,8 +196,8 @@ public abstract class ValidExpression implements ExpressionValue {
 		}
 
 		StringBuilder sb = new StringBuilder();
-		//make sure we do not prepend null when 
-		//assignment type is none.
+		// make sure we do not prepend null when
+		// assignment type is none.
 		switch (assignmentType) {
 		case DEFAULT:
 			sb.append(getLabelForAssignment());
@@ -224,7 +224,7 @@ public abstract class ValidExpression implements ExpressionValue {
 			return toLaTeXString(true, tpl);
 		}
 
-		StringBuilder sb = new StringBuilder();		
+		StringBuilder sb = new StringBuilder();
 		switch (assignmentType) {
 		case DEFAULT:
 			sb.append(tpl.printVariableName(getLabelForAssignment()));
@@ -235,7 +235,7 @@ public abstract class ValidExpression implements ExpressionValue {
 			sb.append(getDelayedAssignmentOperatorLaTeX());
 			break;
 		}
-		
+
 		sb.append(toLaTeXString(true, tpl));
 		return sb.toString();
 	}
@@ -310,13 +310,13 @@ public abstract class ValidExpression implements ExpressionValue {
 	/**
 	 * Evaluates like function, a complex expression
 	 * 
-	 * @return function 
+	 * @return function
 	 */
 	public Function evaluateComplex() {
 		ExpressionValue ev = evaluate(StringTemplate.defaultTemplate);
 		return (Function) ev;
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	@Override
 	@Deprecated
@@ -331,8 +331,8 @@ public abstract class ValidExpression implements ExpressionValue {
 	public ExpressionValue traverse(final Traversing t) {
 		return t.process(this);
 	}
-	
-	public boolean inspect(Inspecting t){
+
+	public boolean inspect(Inspecting t) {
 		return t.check(this);
 	}
 
@@ -349,27 +349,26 @@ public abstract class ValidExpression implements ExpressionValue {
 					+ "," + ((ExpressionNode) s).getOperation() + ","
 					+ debugString(((ExpressionNode) s).getRight()) + ")";
 		if (s instanceof Equation)
-			return "Eq(" + debugString(((Equation) s).getLHS())
-					+ ",=,"
+			return "Eq(" + debugString(((Equation) s).getLHS()) + ",=,"
 					+ debugString(((Equation) s).getRHS()) + ")";
-		if (s instanceof MyList){
+		if (s instanceof MyList) {
 			StringBuilder sb = new StringBuilder("MyList(");
-			for(int i=0;i<((MyList)s).size();i++){
-				if(i>0)
+			for (int i = 0; i < ((MyList) s).size(); i++) {
+				if (i > 0)
 					sb.append(",");
-				sb.append(debugString(((MyList)s).getListElement(i)));
+				sb.append(debugString(((MyList) s).getListElement(i)));
 			}
 			sb.append(')');
 			return sb.toString();
 		}
-		if (s instanceof Command){
+		if (s instanceof Command) {
 			StringBuilder sb = new StringBuilder("Cmd:");
-			sb.append(((Command)s).getName());
+			sb.append(((Command) s).getName());
 			sb.append("(");
-			for(int i=0;i<((Command)s).getArgumentNumber();i++){
-				if(i>0)
+			for (int i = 0; i < ((Command) s).getArgumentNumber(); i++) {
+				if (i > 0)
 					sb.append(",");
-				sb.append(debugString(((Command)s).getArgument(i).unwrap()));
+				sb.append(debugString(((Command) s).getArgument(i).unwrap()));
 			}
 			sb.append(')');
 			return sb.toString();
@@ -385,74 +384,79 @@ public abstract class ValidExpression implements ExpressionValue {
 	}
 
 	public abstract ExpressionNode wrap();
-	
+
 	public boolean hasCoords() {
 		return false;
 	}
-	
+
 	public ExpressionValue derivative(FunctionVariable fv) {
-		App.debug("derivative from "+this.getClass());
+		App.debug("derivative from " + this.getClass());
 		return null;
 	}
 
 	public ExpressionValue integral(FunctionVariable fv) {
-		App.debug("integral from "+this.getClass());
+		App.debug("integral from " + this.getClass());
 		return null;
 	}
 
-	
-	public boolean isExpressionNode() {	
-		return false;
-	}
-	
-	public boolean evaluatesToText() {	
+	public boolean isExpressionNode() {
 		return false;
 	}
 
-	public boolean evaluatesToList() {	
+	public boolean evaluatesToText() {
 		return false;
 	}
-	
+
+	public boolean evaluatesToList() {
+		return false;
+	}
+
 	public boolean evaluatesToNonComplex2DVector() {
 		return false;
 	}
-	
+
 	public boolean evaluatesToVectorNotPoint() {
 		return false;
 	}
-	
+
 	public boolean evaluatesTo3DVector() {
 		return false;
 	}
-	
-	
+
 	/**
 	 * print expression as value or geo label
-	 * @param x2 expression
-	 * @param values value or label
-	 * @param tpl template
+	 * 
+	 * @param x2
+	 *            expression
+	 * @param values
+	 *            value or label
+	 * @param tpl
+	 *            template
 	 * @return value or geo
 	 */
-	protected static String print(ExpressionValue x2, boolean values, StringTemplate tpl) {
-		if(values){
+	protected static String print(ExpressionValue x2, boolean values,
+			StringTemplate tpl) {
+		if (values) {
 			return x2.toValueString(tpl);
 		}
 		return x2.isGeoElement() ? ((GeoElement) x2).getLabel(tpl) : x2
 				.toString(tpl);
 	}
-	
-	public final boolean containsFunctionVariable(){
-		return this.inspect(new Inspecting(){
+
+	public final boolean containsFunctionVariable() {
+		return this.inspect(new Inspecting() {
 
 			@Override
 			public boolean check(ExpressionValue v) {
 				return v instanceof FunctionVariable;
-			}});
+			}
+		});
 	}
+
 	/**
 	 * Here we just check for number values, overridden in ExpressionNode
 	 */
-	public boolean evaluatesToNumber(boolean def){
+	public boolean evaluatesToNumber(boolean def) {
 		return this.isNumberValue();
 	}
 

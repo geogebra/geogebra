@@ -35,15 +35,16 @@ public class CmdAffineRatio extends CommandProcessor {
 			if ((ok[0] = (arg[0].isGeoPoint()))
 					&& (ok[1] = (arg[1].isGeoPoint()))
 					&& (ok[2] = (arg[2].isGeoPoint()))) {
-				
-				AlgoAffineRatio affine = new AlgoAffineRatio(cons, c.getLabel(), (GeoPoint) arg[0],
-						(GeoPoint) arg[1], (GeoPoint) arg[2]);
-				
+
+				AlgoAffineRatio affine = new AlgoAffineRatio(cons,
+						c.getLabel(), (GeoPoint) arg[0], (GeoPoint) arg[1],
+						(GeoPoint) arg[2]);
+
 				GeoElement[] ret = { affine.getResult() };
 				return ret;
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
-			
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}

@@ -7,10 +7,13 @@ import geogebra.common.kernel.roots.RealRootFunction;
  * T = sqrt(a'(t)^2+b'(t)^2)
  */
 public class LengthCurve implements RealRootFunction {
-	private	GeoCurveCartesian c1;
+	private GeoCurveCartesian c1;
+
 	/**
 	 * Curve length function for numeric estimation of curve length
-	 * @param c1 derivative of measured curve
+	 * 
+	 * @param c1
+	 *            derivative of measured curve
 	 */
 	public LengthCurve(GeoCurveCartesian c1) {
 		this.c1 = c1;

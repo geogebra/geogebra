@@ -10,7 +10,8 @@ class LengthFunction implements RealRootFunction {
 	private final GeoFunction f1;
 
 	/**
-	 * @param f1 derivative of measured function
+	 * @param f1
+	 *            derivative of measured function
 	 */
 	public LengthFunction(GeoFunction f1) {
 		this.f1 = f1;

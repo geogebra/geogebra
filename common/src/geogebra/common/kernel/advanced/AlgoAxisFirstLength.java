@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAxisFirstLength.java
@@ -27,67 +27,71 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoAxisFirstLength extends AlgoElement {
-    
-    private GeoConic c;  // input
-    private GeoNumeric num;     // output                  
-    
-    public AlgoAxisFirstLength(Construction cons, String label,GeoConic c) {      
-        super(cons);  
-        this.c = c;                                                              
-        num = new GeoNumeric(cons);                
-        setInputOutput(); // for AlgoElement                
-        compute();              
-        num.setLabel(label);            
-    }   
-    
-    @Override
-	public Commands getClassName() {
-        return Commands.FirstAxisLength;
-    }
-    
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = c;        
-        
-        setOutputLength(1);
-        setOutput(0,num);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoNumeric getLength() { return num; }    
-    GeoConic getConic() { return c; }        
-    
-    // set excentricity
-    @Override
-	public final void compute() {  
-        switch (c.type) {
-            case GeoConicNDConstants.CONIC_CIRCLE:                               
-            case GeoConicNDConstants.CONIC_HYPERBOLA:
-            case GeoConicNDConstants.CONIC_ELLIPSE:
-                num.setValue(c.getHalfAxis(0));
-                break;
-                            
-            default:
-                num.setUndefined();            
-        }        
-    }
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("FirstAxisLengthOfA",c.getLabel(tpl));
 
-    }
+	private GeoConic c; // input
+	private GeoNumeric num; // output
+
+	public AlgoAxisFirstLength(Construction cons, String label, GeoConic c) {
+		super(cons);
+		this.c = c;
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
+		num.setLabel(label);
+	}
+
+	@Override
+	public Commands getClassName() {
+		return Commands.FirstAxisLength;
+	}
+
+	// for AlgoElement
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[1];
+		input[0] = c;
+
+		setOutputLength(1);
+		setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoNumeric getLength() {
+		return num;
+	}
+
+	GeoConic getConic() {
+		return c;
+	}
+
+	// set excentricity
+	@Override
+	public final void compute() {
+		switch (c.type) {
+		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+			num.setValue(c.getHalfAxis(0));
+			break;
+
+		default:
+			num.setUndefined();
+		}
+	}
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("FirstAxisLengthOfA", c.getLabel(tpl));
+
+	}
 
 	// TODO Consider locusequability
 }

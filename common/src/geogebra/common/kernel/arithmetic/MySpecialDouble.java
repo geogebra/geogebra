@@ -39,19 +39,21 @@ public class MySpecialDouble extends MyDouble {
 	private static MySpecialDouble eulerConstant;
 
 	/**
-	 * @param kernel kernel
-	 * @param val value
-	 * @param str string representation 
+	 * @param kernel
+	 *            kernel
+	 * @param val
+	 *            value
+	 * @param str
+	 *            string representation
 	 */
 	public MySpecialDouble(Kernel kernel, double val, String str) {
 		super(kernel, val);
-		
-		//Reduce can't handle .5*8
+
+		// Reduce can't handle .5*8
 		originalString = StringUtil.cannonicNumber(str);
-		
-		
+
 		strToString = originalString;
-		if(strToString == null)
+		if (strToString == null)
 			strToString = "0";
 		// check if this is a letter constant, e.g. Pi or Euler number
 		char firstChar = strToString.charAt(0);
@@ -59,8 +61,7 @@ public class MySpecialDouble extends MyDouble {
 				|| firstChar == Unicode.degreeChar;
 		scientificNotation = strToString.indexOf("E") > 0;
 		keepOriginalString = !isLetterConstant
-				&& ( scientificNotation
-						|| Double.isInfinite(val));
+				&& (scientificNotation || Double.isInfinite(val));
 
 		if (keepOriginalString) {
 			BigDecimal bd = new BigDecimal(strToString);
@@ -83,7 +84,9 @@ public class MySpecialDouble extends MyDouble {
 
 	/**
 	 * Copy constructor.
-	 * @param sd special double to copy
+	 * 
+	 * @param sd
+	 *            special double to copy
 	 */
 	public MySpecialDouble(MySpecialDouble sd) {
 		super(sd);
@@ -107,14 +110,15 @@ public class MySpecialDouble extends MyDouble {
 	}
 
 	/**
-	 * Force this number to keep original input 
+	 * Force this number to keep original input
 	 */
 	public void setKeepOriginalString() {
 		keepOriginalString = true;
 	}
 
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 * @return E as MySpecialDouble
 	 */
 	public static MySpecialDouble getEulerConstant(Kernel kernel) {
@@ -138,18 +142,19 @@ public class MySpecialDouble extends MyDouble {
 			return super.toString(tpl);
 		}
 		if (!isLetterConstant) {
-			//serializing to CAS -- simply print input
+			// serializing to CAS -- simply print input
 
-			
 			if (tpl.hasType(StringType.GIAC)) {
-				
+
 				return tpl.convertScientificNotationGiac(originalString);
 			}
-			
-			//if we are printing result of numeric and user didn't force us to use significant digits
-			//print the original string
-			if (keepOriginalString || (!tpl.useScientific(kernel.useSignificantFigures) && !strToString.contains("."))
-					|| tpl.allowMoreDigits()) {
+
+			// if we are printing result of numeric and user didn't force us to
+			// use significant digits
+			// print the original string
+			if (keepOriginalString
+					|| (!tpl.useScientific(kernel.useSignificantFigures) && !strToString
+							.contains(".")) || tpl.allowMoreDigits()) {
 				if (scientificNotation) {
 					// change 5.1E-20 to 5.1*10^(-20) or 5.1 \cdot 10^{-20}
 					return tpl.convertScientificNotation(strToString);
@@ -194,16 +199,16 @@ public class MySpecialDouble extends MyDouble {
 					return "\\mathit{e_{\\gamma}}";
 				}
 				return "\\textit{e}";
-				//return Unicode.EULER_STRING; 
+				// return Unicode.EULER_STRING;
 			}
 			break;
 		}
 
 		return strToString;
 	}
-	
+
 	@Override
-	public void set(double val){
+	public void set(double val) {
 		super.set(val);
 		setFromOutside = true;
 	}

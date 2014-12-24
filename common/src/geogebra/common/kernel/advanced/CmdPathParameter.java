@@ -15,7 +15,9 @@ public class CmdPathParameter extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdPathParameter(Kernel kernel) {
 		super(kernel);
@@ -30,9 +32,9 @@ public class CmdPathParameter extends CommandProcessor {
 		case 1:
 			arg = resArgs(c);
 			if ((arg[0].isGeoPoint())) {
-				
-				AlgoPathParameter algo = new AlgoPathParameter(cons, c.getLabel(),
-						(GeoPoint) arg[0]);
+
+				AlgoPathParameter algo = new AlgoPathParameter(cons,
+						c.getLabel(), (GeoPoint) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

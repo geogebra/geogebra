@@ -54,7 +54,7 @@ import java.util.Iterator;
  * @author Markus
  */
 public class ExpressionNode extends ValidExpression implements
-ExpressionNodeConstants, ReplaceChildrenByValues {
+		ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	private Localization loc;
 	private Kernel kernel;
@@ -89,7 +89,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * */
 	public ExpressionNode(Kernel kernel, ExpressionValue left,
 			Operation operation, ExpressionValue right) {
-		
+
 		this.kernel = kernel;
 		loc = kernel.getLocalization();
 
@@ -303,14 +303,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			ret = en.getCopy(kernel);
 		}
 		// deep copy
-		//important to check for commands before we call isConstant as that might
-		//result in evaluation, FunctionNVar important because of FunctionExpander
-		else if (
-				 (ev.inspect(Inspecting.CommandFinder.INSTANCE))
-				|| ev.isConstant() 
-				|| ev instanceof FunctionNVar
-				|| ev instanceof Equation
-				|| ev instanceof MyVecNode
+		// important to check for commands before we call isConstant as that
+		// might
+		// result in evaluation, FunctionNVar important because of
+		// FunctionExpander
+		else if ((ev.inspect(Inspecting.CommandFinder.INSTANCE))
+				|| ev.isConstant() || ev instanceof FunctionNVar
+				|| ev instanceof Equation || ev instanceof MyVecNode
 				|| ev instanceof MyVec3DNode) {
 			ret = ev.deepCopy(kernel);
 		} else {
@@ -568,8 +567,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * right, ExpressionNode.FUNCTION, polyX); } } }
 	 */
 
-
-
 	/**
 	 * Returns whether this ExpressionNode should evaluate to a GeoVector. This
 	 * method returns true when all GeoElements in this tree are GeoVectors and
@@ -641,7 +638,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		return false;
 	}
-	
+
 	/**
 	 * Returns true if this tree includes eg abs(), If[] function
 	 * 
@@ -650,9 +647,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	final public boolean includesNonContinuousIntegral() {
 		if (Operation.integralIsNonContinuous(operation)) {
-			return true;			
+			return true;
 		}
-		
+
 		if (left.isExpressionNode()
 				&& ((ExpressionNode) left).includesNonContinuousIntegral()) {
 			return true;
@@ -695,7 +692,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				replacements++;
 			}
 		} else if (left instanceof Command) {
-			replacements += ((Command)left).replaceVariables(varName, fVar);
+			replacements += ((Command) left).replaceVariables(varName, fVar);
 		}
 		if (left instanceof GeoDummyVariable) {
 			if (varName.equals(((GeoDummyVariable) left)
@@ -769,7 +766,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// left tree
 		if (left.isExpressionNode()) {
 			((ExpressionNode) left)
-			.replaceXYZnodes(xVar, yVar, zVar, undecided);
+					.replaceXYZnodes(xVar, yVar, zVar, undecided);
 		}
 		// right tree
 		if ((right != null) && right.isExpressionNode()) {
@@ -806,7 +803,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 		case POWER:
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode) left).hasBrackets()) {
+					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION
+					&& !((ExpressionNode) left).hasBrackets()) {
 				right = new ExpressionNode(kernel,
 						((ExpressionNode) left).getRight(), Operation.POWER,
 						right);
@@ -816,7 +814,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 		case FACTORIAL:
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode) left).hasBrackets()) {
+					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION
+					&& !((ExpressionNode) left).hasBrackets()) {
 				right = new ExpressionNode(kernel,
 						((ExpressionNode) left).getRight(),
 						Operation.FACTORIAL, null);
@@ -825,7 +824,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 		case SQRT_SHORT:
 			if (left.isExpressionNode()
-					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION && !((ExpressionNode) left).hasBrackets()) {
+					&& ((ExpressionNode) left).operation == Operation.MULTIPLY_OR_FUNCTION
+					&& !((ExpressionNode) left).hasBrackets()) {
 				right = ((ExpressionNode) left).getRight();
 				left = new ExpressionNode(kernel,
 						((ExpressionNode) left).getLeft(), Operation.SQRT, null);
@@ -839,19 +839,20 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue ev = t.process(this);
-		if(ev!=this)
+		if (ev != this)
 			return ev;
 		left = left.traverse(t);
 		if (right != null)
 			right = right.traverse(t);
-		//if we did some replacement in a leaf, 
-		//we might need to update the leaf flag (#3512)
+		// if we did some replacement in a leaf,
+		// we might need to update the leaf flag (#3512)
 		return ev.unwrap().wrap();
 	}
 
 	@Override
-	public boolean inspect(Inspecting t){
-		return t.check(this) || left.inspect(t) || (right!=null && right.inspect(t));
+	public boolean inspect(Inspecting t) {
+		return t.check(this) || left.inspect(t)
+				|| (right != null && right.inspect(t));
 	}
 
 	public void replaceChildrenByValues(GeoElement geo) {
@@ -886,7 +887,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			return left.contains(ev);
 		}
 		return left.contains(ev) || right.contains(ev);
-	}	
+	}
 
 	/**
 	 * @return true if contains CAS evaluable function
@@ -941,7 +942,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	protected final Polynomial makePolynomialTree(Equation equ) {
 		Polynomial lt;
 		Polynomial rt = null;
-		
+
 		if (operation == Operation.FUNCTION_NVAR) {
 			if ((left instanceof FunctionalNVar) && (right instanceof MyList)) {
 				MyList list = ((MyList) right);
@@ -957,29 +958,29 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 								equ.setFunctionDependent(en
 										.containsFunctionVariable());
 							}
-							// we may only make polynomial trees after replacement
+							// we may only make polynomial trees after
+							// replacement
 							// en.makePolynomialTree(equ);
 							ev = en;
-						} else if (list.getListElement(i)
-								instanceof FunctionVariable) {
+						} else if (list.getListElement(i) instanceof FunctionVariable) {
 							equ.setFunctionDependent(true);
 						}
-						expr = expr.replace(
-								func.getFunctionVariables()[i], ev).wrap();
+						expr = expr.replace(func.getFunctionVariables()[i], ev)
+								.wrap();
 					}
 				} else {
 					throw new MyError(loc,
 							new String[] { "IllegalArgumentNumber" });
 				}
-				
-				if(equ.isFunctionDependent()){
+
+				if (equ.isFunctionDependent()) {
 					return expr.makePolynomialTree(equ);
 				}
 			}
 		} else if (operation == Operation.FUNCTION) {
 			if (left instanceof GeoFunction) {
 				Function func = ((Functional) left).getFunction();
-				
+
 				if (right instanceof ExpressionNode) {
 					if (!equ.isFunctionDependent()) {
 						equ.setFunctionDependent(((ExpressionNode) right)
@@ -990,40 +991,45 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				} else if (right instanceof FunctionVariable) {
 					equ.setFunctionDependent(true);
 				}
-				if(equ.isFunctionDependent()){
+				if (equ.isFunctionDependent()) {
 					ExpressionNode expr = func.getExpression().getCopy(kernel);
-					expr = expr.replace(func.getFunctionVariable(), right).wrap();
+					expr = expr.replace(func.getFunctionVariable(), right)
+							.wrap();
 					return expr.makePolynomialTree(equ);
 				}
 			}
 		}
 		if (!polynomialOperation(operation)) {
-			if(left instanceof ValidExpression && ((ValidExpression)left).containsFunctionVariable()){
+			if (left instanceof ValidExpression
+					&& ((ValidExpression) left).containsFunctionVariable()) {
 				equ.setIsPolynomial(false);
 			}
-			if(right instanceof ValidExpression && ((ValidExpression)right).containsFunctionVariable()){
+			if (right instanceof ValidExpression
+					&& ((ValidExpression) right).containsFunctionVariable()) {
 				equ.setIsPolynomial(false);
 			}
-			return new Polynomial(kernel, new Term( new ExpressionNode(
-					kernel, left, operation, right), ""));
+			return new Polynomial(kernel, new Term(new ExpressionNode(kernel,
+					left, operation, right), ""));
 		}
 
 		// transfer left subtree
 		if (left.isExpressionNode()) {
 			lt = ((ExpressionNode) left).makePolynomialTree(equ);
-		} else if(left instanceof FunctionVariable){
-			lt = new Polynomial(kernel, ((FunctionVariable)left).getSetVarString());
+		} else if (left instanceof FunctionVariable) {
+			lt = new Polynomial(kernel,
+					((FunctionVariable) left).getSetVarString());
 		} else {
-			lt = new Polynomial(kernel, new Term( left, ""));
+			lt = new Polynomial(kernel, new Term(left, ""));
 		}
 
 		// transfer right subtree
 		if (right != null) {
 			if (right.isExpressionNode()) {
 				rt = ((ExpressionNode) right).makePolynomialTree(equ);
-			}  else if(right instanceof FunctionVariable){
-				rt = new Polynomial(kernel, ((FunctionVariable)right).getSetVarString());
-			} else { 
+			} else if (right instanceof FunctionVariable) {
+				rt = new Polynomial(kernel,
+						((FunctionVariable) right).getSetVarString());
+			} else {
 				if (right instanceof MyList) {
 					MyList list = (MyList) right;
 					for (int i = 0; i < list.size(); i++) {
@@ -1033,7 +1039,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						}
 					}
 				}
-				//both for f(x,x) and x+3 we don't need the second argument wrapped
+				// both for f(x,x) and x+3 we don't need the second argument
+				// wrapped
 				return lt.apply(operation, right, equ);
 			}
 		}
@@ -1071,77 +1078,78 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	@Override
 	final public boolean evaluatesToNonComplex2DVector() {
-		if(operation == Operation.RANDOM 
-				|| operation == Operation.XCOORD 
+		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD
-				|| operation == Operation.ABS
+				|| operation == Operation.ZCOORD || operation == Operation.ABS
 				|| operation == Operation.ARG) {
 			return false;
 		}
-		if(isLeaf()){
+		if (isLeaf()) {
 			return left.evaluatesToNonComplex2DVector();
 		}
-		//sin(vector), conjugate(vector), ... are complex numbers
-		if(Operation.isSimpleFunction(operation) || operation == Operation.CONJUGATE){
+		// sin(vector), conjugate(vector), ... are complex numbers
+		if (Operation.isSimpleFunction(operation)
+				|| operation == Operation.CONJUGATE) {
 			return false;
 		}
 		boolean leftVector = left.evaluatesToNonComplex2DVector();
 		boolean rightVector = right.evaluatesToNonComplex2DVector();
 		boolean ret = leftVector || rightVector;
-		
-		if(leftVector && rightVector && (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)){
+
+		if (leftVector
+				&& rightVector
+				&& (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)) {
 			ret = false;
 		}
 
 		return ret;
 	}
-	
+
 	@Override
 	final public boolean evaluatesToVectorNotPoint() {
-		if(operation == Operation.RANDOM 
-				|| operation == Operation.XCOORD 
+		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD
-				|| operation == Operation.ABS
+				|| operation == Operation.ZCOORD || operation == Operation.ABS
 				|| operation == Operation.ARG) {
 			return false;
 		}
-		if(isLeaf()){
+		if (isLeaf()) {
 			return left.evaluatesToVectorNotPoint();
 		}
-		//sin(vector), conjugate(vector), ... are complex numbers
-		if(Operation.isSimpleFunction(operation) || operation == Operation.CONJUGATE){
+		// sin(vector), conjugate(vector), ... are complex numbers
+		if (Operation.isSimpleFunction(operation)
+				|| operation == Operation.CONJUGATE) {
 			return false;
 		}
 		boolean leftVector = left.evaluatesToVectorNotPoint();
 		boolean rightVector = right.evaluatesToVectorNotPoint();
 		boolean ret = leftVector || rightVector;
-		
-		if(leftVector && rightVector && (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)){
+
+		if (leftVector
+				&& rightVector
+				&& (operation == Operation.MULTIPLY || operation == Operation.VECTORPRODUCT)) {
 			ret = false;
 		}
 
 		return ret;
 	}
-	
+
 	@Override
 	final public boolean evaluatesTo3DVector() {
-		if(operation == Operation.RANDOM 
-				|| operation == Operation.XCOORD 
+		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
 				|| operation == Operation.ZCOORD) {
 			return false;
 		}
-		if(isLeaf()){
+		if (isLeaf()) {
 			return left.evaluatesTo3DVector();
 		}
 
 		boolean leftVector = left.evaluatesTo3DVector();
 		boolean rightVector = right.evaluatesTo3DVector();
 		boolean ret = leftVector || rightVector;
-		
-		if(leftVector && rightVector && operation == Operation.MULTIPLY){
+
+		if (leftVector && rightVector && operation == Operation.MULTIPLY) {
 			ret = false;
 		}
 
@@ -1342,8 +1350,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// expression node
 
 				// we could group the factors of all possible numerators here.
-				//we won't do that. http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
-				//numerGroup();
+				// we won't do that.
+				// http://www.geogebra.org/forum/viewtopic.php?f=22&t=29017
+				// numerGroup();
 
 				String leftStr = null, rightStr = null;
 				if (symbolic && left.isGeoElement()) {
@@ -1360,15 +1369,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (symbolic && right.isGeoElement()) {
 						rightStr = ((GeoElement) right).getLabel(tpl);
 					} else if (right.isExpressionNode()) {
-						rightStr = ((ExpressionNode) right).getCASstring(
-								tpl, symbolic);
+						rightStr = ((ExpressionNode) right).getCASstring(tpl,
+								symbolic);
 					} else {
 						rightStr = symbolic ? right.toString(tpl) : right
 								.toValueString(tpl);
 					}
 				}
-				ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl, kernel);
-						
+				ret = ExpressionNode.operationToString(left, right, operation,
+						leftStr, rightStr, !symbolic, tpl, kernel);
+
 			}
 		} finally {
 			// do nothing
@@ -1385,20 +1395,27 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * Decide whether the current expression value must be expanded
-	 * for OpenGeoProver. This code helps both the Wu and the Area method.
-	 * @param ev left or right side of the expression
+	 * Decide whether the current expression value must be expanded for
+	 * OpenGeoProver. This code helps both the Wu and the Area method.
+	 * 
+	 * @param ev
+	 *            left or right side of the expression
 	 * @return if expansion is required
 	 */
 	final private boolean expandForOGP(ExpressionValue ev) {
 		// The following types of operations and GeoElements are supported.
 		// See also the OGP code for the available (parsable) expressions.
-		if (operation.equals(Operation.EQUAL_BOOLEAN) && ev instanceof GeoSegment)
-			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]" format expressions
-		return ((operation.equals(Operation.EQUAL_BOOLEAN) || operation.equals(Operation.DIVIDE)
-				|| operation.equals(Operation.MULTIPLY) || operation.equals(Operation.MINUS)
-				|| operation.equals(Operation.PLUS) || operation.equals(Operation.POWER))
-				&& (ev instanceof GeoSegment || ev instanceof GeoPolygon || ev instanceof GeoNumeric));
+		if (operation.equals(Operation.EQUAL_BOOLEAN)
+				&& ev instanceof GeoSegment)
+			return false; // don't expand "AreEqual[Segment[X,Y],Segment[Z,W]]"
+							// format expressions
+		return ((operation.equals(Operation.EQUAL_BOOLEAN)
+				|| operation.equals(Operation.DIVIDE)
+				|| operation.equals(Operation.MULTIPLY)
+				|| operation.equals(Operation.MINUS)
+				|| operation.equals(Operation.PLUS) || operation
+					.equals(Operation.POWER)) && (ev instanceof GeoSegment
+				|| ev instanceof GeoPolygon || ev instanceof GeoNumeric));
 	}
 
 	/**
@@ -1462,7 +1479,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if (right != null) {
 			if (right.isGeoElement()) {
 				if (tpl.getStringType().equals(StringType.OGP)
-						&&  expandForOGP(right)) {
+						&& expandForOGP(right)) {
 					rightStr = ((GeoElement) right).getCommandDescription(tpl);
 				} else
 					rightStr = ((GeoElement) right).getLabel(tpl);
@@ -1470,7 +1487,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				rightStr = right.toString(tpl);
 			}
 		}
-		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, false, tpl, kernel);
+		return ExpressionNode.operationToString(left, right, operation,
+				leftStr, rightStr, false, tpl, kernel);
 	}
 
 	/** like toString() but with current values of variables */
@@ -1490,7 +1508,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toValueString(tpl);
 		}
 
-		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl, kernel);
+		return ExpressionNode.operationToString(left, right, operation,
+				leftStr, rightStr, true, tpl, kernel);
 	}
 
 	final public String toOutputValueString(StringTemplate tpl) {
@@ -1508,7 +1527,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			rightStr = right.toOutputValueString(tpl);
 		}
 
-		return ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, true, tpl, kernel);
+		return ExpressionNode.operationToString(left, right, operation,
+				leftStr, rightStr, true, tpl, kernel);
 	}
 
 	/**
@@ -1548,7 +1568,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 
 		// build latex string
-		ret = ExpressionNode.operationToString(left, right, operation, leftStr, rightStr, !symbolic, tpl, kernel);
+		ret = ExpressionNode.operationToString(left, right, operation, leftStr,
+				rightStr, !symbolic, tpl, kernel);
 
 		return checkMathml(ret, tpl);
 	}
@@ -1565,31 +1586,47 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * Returns a string representation of a node. 
-	 * @param left left subtree
-	 * @param right right subtree
-	 * @param operation operation
-	 * @param leftStr serialized left subtree
-	 * @param rightStr serialized right subtree
-	 * @param valueForm whether to show value or symbols
-	 * @param tpl string template
+	 * Returns a string representation of a node.
+	 * 
+	 * @param left
+	 *            left subtree
+	 * @param right
+	 *            right subtree
+	 * @param operation
+	 *            operation
+	 * @param leftStr
+	 *            serialized left subtree
+	 * @param rightStr
+	 *            serialized right subtree
+	 * @param valueForm
+	 *            whether to show value or symbols
+	 * @param tpl
+	 *            string template
 	 * @return string representation of a node.
 	 */
-	final public static String operationToString(ExpressionValue left, ExpressionValue right, Operation operation, String leftStr, String rightStr,
-			boolean valueForm, StringTemplate tpl, Kernel kernel) {
+	final public static String operationToString(ExpressionValue left,
+			ExpressionValue right, Operation operation, String leftStr,
+			String rightStr, boolean valueForm, StringTemplate tpl,
+			Kernel kernel) {
 		ExpressionValue leftEval;
 		StringBuilder sb = new StringBuilder();
 
 		StringType stringType = tpl.getStringType();
 		Localization loc = kernel.getLocalization();
 		switch (operation) {
-		case NO_OPERATION: return leftStr;
-		case NOT: return tpl.notString(left,leftStr);
+		case NO_OPERATION:
+			return leftStr;
+		case NOT:
+			return tpl.notString(left, leftStr);
 
-		case OR: return tpl.orString(left, right, leftStr, rightStr);
-		case AND_INTERVAL: return tpl.andIntervalString(left, right, leftStr, rightStr,valueForm);
+		case OR:
+			return tpl.orString(left, right, leftStr, rightStr);
+		case AND_INTERVAL:
+			return tpl.andIntervalString(left, right, leftStr, rightStr,
+					valueForm);
 
-		case AND: return tpl.andString(left,right,leftStr,rightStr);
+		case AND:
+			return tpl.andString(left, right, leftStr, rightStr);
 
 		case IMPLICATION:
 			if (stringType.equals(StringType.MATHML)) {
@@ -1608,7 +1645,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 
 				case LIBRE_OFFICE:
-					sb.append("toward"); //don't know if it is correct TAM 5/28/2012
+					sb.append("toward"); // don't know if it is correct TAM
+											// 5/28/2012
 					break;
 
 				default:
@@ -1626,7 +1664,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			} else if (stringType.equals(StringType.OGP)) {
 				sb.append("AreEqual[" + leftStr + "," + rightStr + "]");
 			} else {
-				
+
 				if (tpl.getStringType().equals(StringType.GIAC)) {
 					sb.append("when(ggb\\_is\\_zero(simplify(");
 					tpl.append(sb, leftStr, left, operation);
@@ -1635,7 +1673,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append("))),true,false)");
 				} else {
 
-					tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.equalSign());
+					tpl.infixBinary(sb, left, right, operation, leftStr,
+							rightStr, tpl, tpl.equalSign());
 				}
 			}
 			break;
@@ -1644,7 +1683,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<neq/>", leftStr, rightStr);
 			} else {
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.notEqualSign());
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.notEqualSign());
 			}
 			break;
 
@@ -1693,7 +1733,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// {1,2,3,3} union {} = {1,2,3}
 				sb.append(") union {},true,false");
 			} else {
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.subsetSign());
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.subsetSign());
 			}
 			break;
 
@@ -1714,7 +1755,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append("union {}),true,false");
 			} else {
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.strictSubsetSign());
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.strictSubsetSign());
 			}
 			break;
 
@@ -1745,11 +1787,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(strSET_DIFFERENCE);
 				}
 				sb.append(' ');
-				if(right.isExpressionNode() && right.wrap().getOperation()==Operation.SET_DIFFERENCE){
+				if (right.isExpressionNode()
+						&& right.wrap().getOperation() == Operation.SET_DIFFERENCE) {
 					sb.append(tpl.leftBracket());
 					sb.append(rightStr);
 					sb.append(tpl.rightBracket());
-				}else{
+				} else {
 					tpl.append(sb, rightStr, right, operation);
 				}
 				// sb.append(rightStr);
@@ -1760,8 +1803,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<lt/>", leftStr, rightStr);
 			} else {
-				
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.lessSign());				
+
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.lessSign());
 			}
 			break;
 
@@ -1769,7 +1813,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<gt/>", leftStr, rightStr);
 			} else {
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.greaterSign());				
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.greaterSign());
 			}
 			break;
 
@@ -1777,15 +1822,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<leq/>", leftStr, rightStr);
 			} else {
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.leqSign());				
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.leqSign());
 			}
 			break;
 
 		case GREATER_EQUAL:
 			if (stringType.equals(StringType.MATHML)) {
 				MathmlTemplate.mathml(sb, "<qeq/>", leftStr, rightStr);
-			} else  {
-				tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.geqSign());				
+			} else {
+				tpl.infixBinary(sb, left, right, operation, leftStr, rightStr,
+						tpl, tpl.geqSign());
 			}
 			break;
 
@@ -1794,7 +1841,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("AreParallel[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.parallelSign());
+			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl,
+					tpl.parallelSign());
 			break;
 
 		case PERPENDICULAR:
@@ -1802,14 +1850,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("ArePerpendicular[" + leftStr + "," + rightStr + "]");
 				break;
 			}
-			tpl.infixBinary(sb, left, right, operation,leftStr, rightStr, tpl, tpl.perpSign());
+			tpl.infixBinary(sb, left, right, operation, leftStr, rightStr, tpl,
+					tpl.perpSign());
 			break;
 
 		case VECTORPRODUCT:
 			if (stringType.equals(StringType.MATHML)) {
-				MathmlTemplate.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
+				MathmlTemplate
+						.mathml(sb, "<vectorproduct/>", leftStr, rightStr);
 			} else if (stringType.equals(StringType.GIAC)) {
-				
+
 				// from Ggb2Giac Cross.2
 				sb.append("[[[ggbcrossarg0:=");
 				sb.append(leftStr);
@@ -1842,15 +1892,17 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case PLUS:
 			return tpl.plusString(left, right, leftStr, rightStr, valueForm);
 		case MINUS:
-			return tpl.minusString(left, right, leftStr, rightStr, valueForm, loc);
+			return tpl.minusString(left, right, leftStr, rightStr, valueForm,
+					loc);
 
 		case MULTIPLY:
-			return tpl.multiplyString(left, right, leftStr, rightStr, valueForm, loc);
+			return tpl.multiplyString(left, right, leftStr, rightStr,
+					valueForm, loc);
 		case DIVIDE:
 			return tpl.divideString(left, right, leftStr, rightStr, valueForm);
 
 		case POWER:
-			return tpl.powerString(left,right,leftStr, rightStr,valueForm);
+			return tpl.powerString(left, right, leftStr, rightStr, valueForm);
 
 		case FACTORIAL:
 			switch (stringType) {
@@ -1860,7 +1912,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			case LIBRE_OFFICE:
 				sb.append("fact {");
 				if ((leftStr.charAt(0) != '-') && // no unary
-						left.isLeaf()) { 
+						left.isLeaf()) {
 					sb.append(leftStr);
 				} else {
 					sb.append('(');
@@ -1888,63 +1940,66 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COS:
-			trig(kernel, left, leftStr,sb,"<cos/>","\\cos","COS(","cos","cos",
-					tpl, loc, true);
+			trig(kernel, left, leftStr, sb, "<cos/>", "\\cos", "COS(", "cos",
+					"cos", tpl, loc, true);
 			break;
 
 		case SIN:
-			trig(kernel, left, leftStr,sb,"<sin/>","\\sin","SIN(","sin","sin",
-					tpl, loc, true);
+			trig(kernel, left, leftStr, sb, "<sin/>", "\\sin", "SIN(", "sin",
+					"sin", tpl, loc, true);
 			break;
 
 		case TAN:
-			trig(kernel, left, leftStr,sb,"<tan/>","\\tan","TAN(","tan","tan",
-					tpl, loc, true);
+			trig(kernel, left, leftStr, sb, "<tan/>", "\\tan", "TAN(", "tan",
+					"tan", tpl, loc, true);
 			break;
 
 		case CSC:
-			trig(kernel, left, leftStr,sb,"<csc/>","\\csc","CSC(","csc","csc",
-					tpl, loc, true);
+			trig(kernel, left, leftStr, sb, "<csc/>", "\\csc", "CSC(", "csc",
+					"csc", tpl, loc, true);
 			break;
 
 		case SEC:
-			trig(kernel, left, leftStr,sb,"<sec/>","\\sec","SEC(","sec","sec",
-					tpl, loc, true);
+			trig(kernel, left, leftStr, sb, "<sec/>", "\\sec", "SEC(", "sec",
+					"sec", tpl, loc, true);
 			break;
 
 		case COT:
-			trig(kernel, left, leftStr,sb,"<cot/>","\\cot","COT(","cot","cot",
-					tpl, loc, true);
+			trig(kernel, left, leftStr, sb, "<cot/>", "\\cot", "COT(", "cot",
+					"cot", tpl, loc, true);
 			break;
 
 		case CSCH:
-			trig(kernel, left, leftStr,sb,"<csch/>","\\csch","CSCH(","csch","func csch",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<csch/>", "\\csch", "CSCH(",
+					"csch", "func csch", tpl, loc, false);
 			break;
 
 		case SECH:
-			trig(kernel, left, leftStr,sb,"<sech/>","\\sech","SECH(","sech","func sech",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<sech/>", "\\sech", "SECH(",
+					"sech", "func sech", tpl, loc, false);
 			break;
 
 		case COTH:
-			trig(kernel, left, leftStr,sb,"<coth/>","\\coth","COTH(","coth","coth",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<coth/>", "\\coth", "COTH(",
+					"coth", "coth", tpl, loc, false);
 			break;
 
 		case ARCCOS:
-			trig(kernel, left, leftStr,sb,"<arccos/>","\\arccos","ACOS(","acos","arccos",degFix("acos",left,kernel),
-					tpl,loc,false);
+			trig(kernel, left, leftStr, sb, "<arccos/>", "\\arccos", "ACOS(",
+					"acos", "arccos", degFix("acos", left, kernel), tpl, loc,
+					false);
 			break;
 
 		case ARCSIN:
-			trig(kernel, left, leftStr,sb,"<arcsin/>","\\arcsin","ASIN(","asin","arcsin",degFix("asin",left,kernel),
-					tpl,loc,false);
+			trig(kernel, left, leftStr, sb, "<arcsin/>", "\\arcsin", "ASIN(",
+					"asin", "arcsin", degFix("asin", left, kernel), tpl, loc,
+					false);
 			break;
 
 		case ARCTAN:
-			trig(kernel, left, leftStr,sb,"<arctan/>","\\arctan","ATAN(","atan","arctan",degFix("atan",left,kernel),
-					tpl,loc,false);
+			trig(kernel, left, leftStr, sb, "<arctan/>", "\\arctan", "ATAN(",
+					"atan", "arctan", degFix("atan", left, kernel), tpl, loc,
+					false);
 			break;
 
 		case ARCTAN2:
@@ -1963,7 +2018,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					break;
 
 				case GIAC:
-					sb.append(degFix("atan2",left,kernel));
+					sb.append(degFix("atan2", left, kernel));
 					sb.append("(");
 					break;
 
@@ -1978,46 +2033,48 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case COSH:
-			trig(kernel, left, leftStr,sb,"<cosh/>","\\cosh","COSH(","cosh","cosh",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<cosh/>", "\\cosh", "COSH(",
+					"cosh", "cosh", tpl, loc, false);
 			break;
 
 		case SINH:
-			trig(kernel, left, leftStr,sb,"<sinh/>","\\sinh","SINH(","sinh","sinh",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<sinh/>", "\\sinh", "SINH(",
+					"sinh", "sinh", tpl, loc, false);
 			break;
 
 		case TANH:
-			trig(kernel, left, leftStr,sb,"<tanh/>","\\tanh","TANH(","tanh","tanh",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<tanh/>", "\\tanh", "TANH(",
+					"tanh", "tanh", tpl, loc, false);
 			break;
 
 		case ACOSH:
-			trig(kernel, left, leftStr,sb,"<arccosh/>","\\acosh","ACOSH(","acosh","arcosh",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<arccosh/>", "\\acosh", "ACOSH(",
+					"acosh", "arcosh", tpl, loc, false);
 			break;
 		case ASINH:
-			trig(kernel, left, leftStr,sb,"<arcsinh/>","\\asinh","ASINH(","asinh","arsinh",
-					tpl, loc, false);			
+			trig(kernel, left, leftStr, sb, "<arcsinh/>", "\\asinh", "ASINH(",
+					"asinh", "arsinh", tpl, loc, false);
 			break;
 
 		case ATANH:
-			trig(kernel, left, leftStr,sb,"<arctanh/>","\\atanh","ATANH(","atanh","artanh",
-					tpl, loc, false);
+			trig(kernel, left, leftStr, sb, "<arctanh/>", "\\atanh", "ATANH(",
+					"atanh", "artanh", tpl, loc, false);
 			break;
 		case REAL:
-			trig(kernel, left, leftStr,sb,"<real/>","\\real","","real","real","re",
-					tpl,loc,false);
+			trig(kernel, left, leftStr, sb, "<real/>", "\\real", "", "real",
+					"real", "re", tpl, loc, false);
 			break;
 		case IMAGINARY:
-			trig(kernel, left, leftStr,sb,"<imaginary/>","\\imaginary","","imaginary","imaginary","im",
-					tpl,loc,false);
+			trig(kernel, left, leftStr, sb, "<imaginary/>", "\\imaginary", "",
+					"imaginary", "imaginary", "im", tpl, loc, false);
 			break;
 		case FRACTIONAL_PART:
-			//trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
-			// Giac: problem with fPart, use custom definition instead, see CASgiacW
-			trig(kernel, left, leftStr,sb,"<todo/>","\\fractionalPart","","fractionalPart","fractionalPart","fractionalPart",
-					tpl,loc,false);
+			// trig(leftStr,sb,"<todo/>","\\fractionalPart","","","fractionalPart","fractionalPart","fractionalPart","fPart",
+			// Giac: problem with fPart, use custom definition instead, see
+			// CASgiacW
+			trig(kernel, left, leftStr, sb, "<todo/>", "\\fractionalPart", "",
+					"fractionalPart", "fractionalPart", "fractionalPart", tpl,
+					loc, false);
 			break;
 		case ZETA:
 			switch (stringType) {
@@ -2043,13 +2100,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("\\Ci \\left( ");
 				break;
 
-
 			case LIBRE_OFFICE:
 				sb.append("func Ci left (");
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left,  "Ci");
+				appendReduceFunction(sb, left, "Ci");
 				break;
 			default:
 				sb.append("cosIntegral(");
@@ -2068,7 +2124,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left,  "Si");
+				appendReduceFunction(sb, left, "Si");
 				break;
 
 			default:
@@ -2087,7 +2143,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				appendReduceFunction(sb, left,  "Ei");
+				appendReduceFunction(sb, left, "Ei");
 				break;
 
 			default:
@@ -2194,8 +2250,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case LOGB:
 			switch (stringType) {
 			case MATHML:
-				MathmlTemplate.mathml(sb, "<log/>", "<logbase>", leftStr, "</logbase>", "",
-						rightStr, "");
+				MathmlTemplate.mathml(sb, "<log/>", "<logbase>", leftStr,
+						"</logbase>", "", rightStr, "");
 				break;
 			case LATEX:
 				sb.append("\\log_{");
@@ -2246,13 +2302,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(tpl.rightBracket());
 				break;
 
-
 			case GIAC:
 				// *******************
 				// arguments swapped
 				// swapped back in CommandDispatcherGiac
 				// *******************
-				appendReduceFunction(sb, left,  "Psi");
+				appendReduceFunction(sb, left, "Psi");
 				sb.append(rightStr);
 				sb.append(',');
 				sb.append(leftStr);
@@ -2300,9 +2355,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(leftStr);
 				sb.append(tpl.rightBracket());
 				break;
-				
+
 			case GIAC:
-				appendReduceFunction(sb, left,  "Psi");
+				appendReduceFunction(sb, left, "Psi");
 				sb.append(leftStr);
 				sb.append(')');
 				break;
@@ -2367,7 +2422,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(")");
 				break;
 			case GIAC:
-				sb.append("log("); 
+				sb.append("log(");
 				sb.append(leftStr);
 				sb.append(")/log(2)");
 				break;
@@ -2386,7 +2441,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case LATEX:
 				sb.append("\\sqrt[");
-				sb.append(rightStr);		
+				sb.append(rightStr);
 				sb.append("]{");
 				sb.append(leftStr);
 				sb.append('}');
@@ -2413,7 +2468,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(rightStr);
 					sb.append(')');
 				} else {
-					// was simplify(surd(, causes problems with output from cubic formula, eg x^3 - 6x^2 - 7x + 9
+					// was simplify(surd(, causes problems with output from
+					// cubic formula, eg x^3 - 6x^2 - 7x + 9
 					sb.append("surd(");
 					sb.append(leftStr);
 					sb.append(',');
@@ -2421,13 +2477,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					sb.append(")");
 				}
 				break;
-			default: //MAXIMA, MPREDUCE, PSTRICKS, ...
+			default: // MAXIMA, MPREDUCE, PSTRICKS, ...
 				sb.append("(");
 				sb.append(leftStr);
 				sb.append(")^(1/(");
 				sb.append(rightStr);
 				sb.append("))");
-				break;	
+				break;
 			}
 			break;
 
@@ -2458,8 +2514,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case CBRT:
 			switch (stringType) {
 			case MATHML:
-				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3", "</degree>", "",
-						leftStr, "");
+				MathmlTemplate.mathml(sb, "<root/>", "<degree>", "3",
+						"</degree>", "", leftStr, "");
 				break;
 			case LATEX:
 				sb.append("\\sqrt[3]{");
@@ -2473,7 +2529,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 
 			case GIAC:
-				// was simplify(surd(, causes problems with output from cubic formula, eg x^3 - 6x^2 - 7x + 9
+				// was simplify(surd(, causes problems with output from cubic
+				// formula, eg x^3 - 6x^2 - 7x + 9
 				sb.append("surd(");
 				sb.append(leftStr);
 				sb.append(",3)");
@@ -2667,7 +2724,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("round(");
 			}
 			sb.append(leftStr);
-			if(right instanceof NumberValue && (!Double.isNaN(((NumberValue)right).getDouble()) || right.isGeoElement()) ){
+			if (right instanceof NumberValue
+					&& (!Double.isNaN(((NumberValue) right).getDouble()) || right
+							.isGeoElement())) {
 				sb.append(", ");
 				sb.append(rightStr);
 			}
@@ -2730,7 +2789,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("igamma(");
 				break;
 
-
 			default:
 				sb.append("gammaRegularized(");
 			}
@@ -2740,11 +2798,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			
+
 			if (stringType == StringType.GIAC) {
 				sb.append(",1");
 			}
-			
+
 			sb.append(tpl.rightBracket());
 			break;
 
@@ -2779,7 +2837,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				break;
 			case LIBRE_OFFICE:
 				sb.append("%BETA left(");
-				break;	
+				break;
 
 			case GIAC:
 				sb.append("Beta(");
@@ -2819,11 +2877,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			else
 				sb.append(", ");
 			sb.append(rightStr);
-			
+
 			if (stringType == StringType.GIAC) {
 				sb.append(",1");
 			}
-			
+
 			sb.append(tpl.rightBracket());
 			break;
 
@@ -2845,7 +2903,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case XCOORD:
-			if (valueForm && (leftEval = left.evaluate(tpl)) instanceof VectorValue) {
+			if (valueForm
+					&& (leftEval = left.evaluate(tpl)) instanceof VectorValue) {
 				sb.append(kernel.format(((VectorValue) leftEval).getVector()
 						.getX(), tpl));
 			} else if (valueForm
@@ -2918,7 +2977,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			break;
 
 		case ZCOORD:
-			if (valueForm && (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
+			if (valueForm
+					&& (leftEval = left.evaluate(tpl)) instanceof Vector3DValue) {
 				sb.append(kernel.format(
 						((Vector3DValue) leftEval).getPointAsDouble()[2], tpl));
 			} else if (valueForm
@@ -2951,16 +3011,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case MULTIPLY_OR_FUNCTION:
 			Log.debug("Operation not resolved");
-			//FALL THROUGH
+			// FALL THROUGH
 		case FUNCTION:
 
-			if (stringType == StringType.GIAC
-					&& right instanceof ListValue) {
-				//TODO: does this ever get called?
+			if (stringType == StringType.GIAC && right instanceof ListValue) {
+				// TODO: does this ever get called?
 
-				ListValue list = (ListValue)right;
+				ListValue list = (ListValue) right;
 
-				//eg seq(sin({4,5,6}[j]),j,0,2)
+				// eg seq(sin({4,5,6}[j]),j,0,2)
 				// DON'T USE i (sqrt(-1) in Giac)
 				sb.append("seq(");
 				sb.append(leftStr);
@@ -2971,7 +3030,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(')');
 				break;
 			}
-			
+
 			// GeoFunction and GeoFunctionConditional should not be expanded
 			if (left instanceof GeoFunction) {
 				GeoFunction geo = (GeoFunction) left;
@@ -2990,8 +3049,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					var.setVarString(rightStr);
 					if (stringType.equals(StringType.LIBRE_OFFICE))
 						sb.append("func ");
-					//do not recompute the expression string if we are plugging in the same variable; #3481
-					String rhString = oldVarStr.equals(rightStr) ? leftStr : geo.getLabel(tpl);
+					// do not recompute the expression string if we are plugging
+					// in the same variable; #3481
+					String rhString = oldVarStr.equals(rightStr) ? leftStr
+							: geo.getLabel(tpl);
 					sb.append(rhString);
 					var.setVarString(oldVarStr);
 				}
@@ -3025,7 +3086,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			}
 			break;
 
-			// TODO: put back into case FUNCTION_NVAR:, see #1115
+		// TODO: put back into case FUNCTION_NVAR:, see #1115
 		case ELEMENT_OF:
 			sb.append(loc.getCommand("Element"));
 			sb.append('[');
@@ -3081,11 +3142,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				}
 				// no parameters for LeftSide[a], Derivative[sin(x+y),y], etc
 				// parameters for unknown cas functions
-				if(!left.isGeoElement() || ((GeoElement)left).isLabelSet() 
-						|| left instanceof GeoDummyVariable 
+				if (!left.isGeoElement() || ((GeoElement) left).isLabelSet()
+						|| left instanceof GeoDummyVariable
 						|| left instanceof GeoCasCell) {
 					sb.append(tpl.leftBracket());
-					
+
 					// rightStr is a list of arguments, e.g. {2, 3}
 					// drop the curly braces { and }
 					// or list( and ) in case of mpreduce
@@ -3112,11 +3173,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			sb.append(tpl.rightBracket());
 			break;
 		case DIFF:
-			//we only serialize this temporarily during GIAC parsing, so only default template needed
-			//GIAC template added for safety
-			if(tpl.hasType(StringType.GIAC)){
+			// we only serialize this temporarily during GIAC parsing, so only
+			// default template needed
+			// GIAC template added for safety
+			if (tpl.hasType(StringType.GIAC)) {
 				sb.append("diff(");
-			}else{
+			} else {
 				sb.append("ggbdiff(");
 			}
 			sb.append(leftStr);
@@ -3125,7 +3187,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			sb.append(")");
 		case DERIVATIVE: // e.g. f''
 			// labeled GeoElements should not be expanded
-			if (tpl.hasType(StringType.GIAC)){
+			if (tpl.hasType(StringType.GIAC)) {
 				sb.append("diff(");
 				sb.append(leftStr);
 				break;
@@ -3166,8 +3228,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				// GeoElement value
 				sb.append(leftStr);
 			} else {
-				//maybe wrongly parsed dynamic reference in CAS -- TODO decide whether we need this
-				if(!left.isGeoElement()){
+				// maybe wrongly parsed dynamic reference in CAS -- TODO decide
+				// whether we need this
+				if (!left.isGeoElement()) {
 					sb.append('$');
 					sb.append(leftStr);
 					break;
@@ -3232,22 +3295,22 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case SUM:
 			if (stringType == StringType.LATEX) {
 				sb.append("\\sum_{");
-				sb.append(((MyNumberPair)left).y.toString(tpl));
+				sb.append(((MyNumberPair) left).y.toString(tpl));
 				sb.append("=");
-				sb.append(((MyNumberPair)right).x.toString(tpl));
+				sb.append(((MyNumberPair) right).x.toString(tpl));
 				sb.append("}^{");
-				sb.append(((MyNumberPair)right).y.toString(tpl));
+				sb.append(((MyNumberPair) right).y.toString(tpl));
 				sb.append("}");
-				sb.append(((MyNumberPair)left).x.toString(tpl));
+				sb.append(((MyNumberPair) left).x.toString(tpl));
 			} else if (stringType == StringType.LIBRE_OFFICE) {
 				sb.append("sum from{");
-				sb.append(((MyNumberPair)left).y.toString(tpl));
+				sb.append(((MyNumberPair) left).y.toString(tpl));
 				sb.append("=");
-				sb.append(((MyNumberPair)right).x.toString(tpl));
+				sb.append(((MyNumberPair) right).x.toString(tpl));
 				sb.append("} to{");
-				sb.append(((MyNumberPair)right).y.toString(tpl));
+				sb.append(((MyNumberPair) right).y.toString(tpl));
 				sb.append("}");
-				sb.append(((MyNumberPair)left).x.toString(tpl));
+				sb.append(((MyNumberPair) left).x.toString(tpl));
 			} else {
 				if (stringType == StringType.GIAC) {
 					sb.append("sum(");
@@ -3260,7 +3323,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(")");
 				// AbstractApplication.debug(sb);
 			}
-			break;	
+			break;
 		case SUBSTITUTION:
 			if (stringType == StringType.LATEX) {
 				sb.append("\\left.");
@@ -3273,7 +3336,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append("right rline_{");
 				sb.append(leftStr);
-				sb.append("}");	
+				sb.append("}");
 			} else {
 				if (stringType == StringType.GIAC) {
 					sb.append("subst(");
@@ -3305,7 +3368,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(rightStr);
 				sb.append(']');
 			}
-			break;	
+			break;
 		case IF_ELSE:
 			if (stringType == StringType.GIAC) {
 				sb.append("when(");
@@ -3326,39 +3389,40 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append("]");
 			}
 			break;
-			
-		case IF_LIST:
-				if (stringType == StringType.GIAC) {
-					sb.append(loc.getCommand("piecewise("));
-				}
-				else if (tpl.isPrintLocalizedCommandNames()) {
-					sb.append(loc.getCommand("If"));
-					sb.append("[");
-				}else{
-					sb.append("If");
-					sb.append("[");
-				}
-				
-				MyList cond = (MyList) left;
-				MyList fn = (MyList) right;
-				for(int i=0; i<cond.size(); i++){
-					if(i > 0){
-						sb.append(", ");
-					}
-					sb.append(valueForm ? cond.getListElement(i).toValueString(tpl) : cond.getListElement(i).toString(tpl));
-					sb.append(", ");
-					sb.append(valueForm ? fn.getListElement(i).toValueString(tpl) : fn.getListElement(i).toString(tpl));
-				}
-				if(fn.size() > cond.size()){
-					sb.append(", ");
-					sb.append(valueForm ? fn.getListElement(fn.size() -1).toValueString(tpl) : 
-						fn.getListElement(fn.size() -1).toString(tpl));
-				}
-				
-				sb.append(stringType == StringType.GIAC ? ")" : "]");
-			
-			break;
 
+		case IF_LIST:
+			if (stringType == StringType.GIAC) {
+				sb.append(loc.getCommand("piecewise("));
+			} else if (tpl.isPrintLocalizedCommandNames()) {
+				sb.append(loc.getCommand("If"));
+				sb.append("[");
+			} else {
+				sb.append("If");
+				sb.append("[");
+			}
+
+			MyList cond = (MyList) left;
+			MyList fn = (MyList) right;
+			for (int i = 0; i < cond.size(); i++) {
+				if (i > 0) {
+					sb.append(", ");
+				}
+				sb.append(valueForm ? cond.getListElement(i).toValueString(tpl)
+						: cond.getListElement(i).toString(tpl));
+				sb.append(", ");
+				sb.append(valueForm ? fn.getListElement(i).toValueString(tpl)
+						: fn.getListElement(i).toString(tpl));
+			}
+			if (fn.size() > cond.size()) {
+				sb.append(", ");
+				sb.append(valueForm ? fn.getListElement(fn.size() - 1)
+						.toValueString(tpl) : fn.getListElement(fn.size() - 1)
+						.toString(tpl));
+			}
+
+			sb.append(stringType == StringType.GIAC ? ")" : "]");
+
+			break;
 
 		default:
 			sb.append("unhandled operation " + operation);
@@ -3366,39 +3430,34 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return sb.toString();
 	}
 
-	
-
-	
-
-	
-
-	private static String degFix(String string, ExpressionValue left, Kernel kernel) {
-		if(kernel.getInverseTrigReturnsAngle()){
-			return "deg"+string;
+	private static String degFix(String string, ExpressionValue left,
+			Kernel kernel) {
+		if (kernel.getInverseTrigReturnsAngle()) {
+			return "deg" + string;
 		}
 		return string;
 	}
 
-	
-	
-	private static void trig(Kernel kernel, ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
-			String libreOffice,
+	private static void trig(Kernel kernel, ExpressionValue left,
+			String leftStr, StringBuilder sb, String mathml, String latex,
+			String psTricks, String key, String libreOffice,
 			StringTemplate tpl, Localization loc, boolean needDegrees) {
 
 		// send "key" for Giac
-		trig(kernel, left, leftStr, sb, mathml, latex,  psTricks, key,
-				libreOffice, key,
-				tpl,loc, needDegrees);
-
+		trig(kernel, left, leftStr, sb, mathml, latex, psTricks, key,
+				libreOffice, key, tpl, loc, needDegrees);
 
 	}
 
 	/**
-	 * @param left left expression (might need context-aware serialization for GIAC) 
+	 * @param left
+	 *            left expression (might need context-aware serialization for
+	 *            GIAC)
 	 */
-	private static void trig(Kernel kernel, ExpressionValue left, String leftStr, StringBuilder sb, String mathml, String latex, String psTricks, String key,
-			String libreOffice, String giac,
-			StringTemplate tpl,Localization loc,boolean needDegrees) {
+	private static void trig(Kernel kernel, ExpressionValue left,
+			String leftStr, StringBuilder sb, String mathml, String latex,
+			String psTricks, String key, String libreOffice, String giac,
+			StringTemplate tpl, Localization loc, boolean needDegrees) {
 		if (tpl.hasType(StringType.MATHML)) {
 			MathmlTemplate.mathml(sb, mathml, leftStr, null);
 		} else {
@@ -3407,40 +3466,52 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (kernel.getApplication().isHTML5Applet()) {
 					String translatedKey = loc.getFunction(key);
 
-					// supported operators in MathQuillGGB - TODO: are there more?
-					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh".indexOf(translatedKey) > -1) {
+					// supported operators in MathQuillGGB - TODO: are there
+					// more?
+					if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh"
+							.indexOf(translatedKey) > -1) {
 
 						/*
-						 * It is important to do this for MathQuill edited in Algebra view
-						 * more times, e.g. f(x)=x, f(x)=x+sin(x), f(x)=x+sin(x)+cos(x)
+						 * It is important to do this for MathQuill edited in
+						 * Algebra view more times, e.g. f(x)=x, f(x)=x+sin(x),
+						 * f(x)=x+sin(x)+cos(x)
 						 * 
 						 * By the way, if things are translated differently,
-						 * then it would probably be better to just use "latex" instead of \\"translatedKey"
+						 * then it would probably be better to just use "latex"
+						 * instead of \\"translatedKey"
 						 */
 						sb.append(" \\");
 						sb.append(translatedKey);
-					} else if ("cossech arcsh arcch arcth argsh argch argth arcos arcosh arsinh artanh arch arsh arth ch sh th cth sen tg asen atg arcsen arctg senh tgh asenh atgh arcsenh arctgh cotg cotgh".indexOf(translatedKey) > -1) {
-						// International trigonometric functions - not everything!
+					} else if ("cossech arcsh arcch arcth argsh argch argth arcos arcosh arsinh artanh arch arsh arth ch sh th cth sen tg asen atg arcsen arctg senh tgh asenh atgh arcsenh arctgh cotg cotgh"
+							.indexOf(translatedKey) > -1) {
+						// International trigonometric functions - not
+						// everything!
 						// These are also entered into mathquillggb.js!
 
 						sb.append(" \\");
 						sb.append(translatedKey);
 
-					/*} else if ("exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg".indexOf(key) > -1) {
-						// This branch might be helping in cases for what we did not care yet;
-						// allowing entering the command, but renaming it to a syntax that is known to MathQuill.
-						// Tested on Spanish, f(x)=arcos(x)+sin(x) --> f(x)=acos(x)+sin(x)
-						// OK, but it would be better to support "arcos"
-						// Tested on Arabic, (x)"Arabic letters" --> f(x)=sin(x) instead of f(x)=(x)"Arabic letters"
-						// Maybe wrong than before, maybe better (with Arabic, things looked nice)
-						// Thus this else branch might not be needed if we support "arcos" and other forms in the previous branch
-						sb.append(" \\");
-						sb.append(key);*/
-		
+						/*
+						 * } else if (
+						 * "exp lg ln log sin cos tan cot sec csc sinh cosh tanh coth sech csch arcsin arccos arctan asin acos atan asinh acosh atanh arcsinh arccosh arctanh sen tg"
+						 * .indexOf(key) > -1) { // This branch might be helping
+						 * in cases for what we did not care yet; // allowing
+						 * entering the command, but renaming it to a syntax
+						 * that is known to MathQuill. // Tested on Spanish,
+						 * f(x)=arcos(x)+sin(x) --> f(x)=acos(x)+sin(x) // OK,
+						 * but it would be better to support "arcos" // Tested
+						 * on Arabic, (x)"Arabic letters" --> f(x)=sin(x)
+						 * instead of f(x)=(x)"Arabic letters" // Maybe wrong
+						 * than before, maybe better (with Arabic, things looked
+						 * nice) // Thus this else branch might not be needed if
+						 * we support "arcos" and other forms in the previous
+						 * branch sb.append(" \\"); sb.append(key);
+						 */
+
 					} else {
 						sb.append(" ");
 						sb.append(translatedKey);
-						sb.append(" ");	
+						sb.append(" ");
 					}
 				} else if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append("\\operatorname{");
@@ -3452,7 +3523,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(" \\left( ");
 				break;
 			case LIBRE_OFFICE:
-				if(!libreOffice.equals(loc.getFunction(key))){
+				if (!libreOffice.equals(loc.getFunction(key))) {
 					sb.append("func ");
 
 				}
@@ -3468,10 +3539,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				sb.append(psTricks);
 				break;
 			default:
-				if(tpl.isPrintLocalizedCommandNames()){
+				if (tpl.isPrintLocalizedCommandNames()) {
 					sb.append(loc.getFunction(key));
-				}
-				else{	
+				} else {
 					sb.append(key);
 				}
 				sb.append("(");
@@ -3486,7 +3556,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	}
 
-	private static void appendReduceFunction(StringBuilder sb,ExpressionValue left, String string) {
+	private static void appendReduceFunction(StringBuilder sb,
+			ExpressionValue left, String string) {
 		if (left instanceof ListValue) {
 			sb.append("applyfunction(");
 			sb.append(string);
@@ -3499,15 +3570,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * @param exp expression
+	 * @param exp
+	 *            expression
 	 * @return whether top level operation is * or /
 	 */
 	public static boolean isMultiplyOrDivide(ExpressionNode exp) {
 		return exp.getOperation().equals(Operation.MULTIPLY)
 				|| exp.getOperation().equals(Operation.DIVIDE);
 	}
-
-	
 
 	/**
 	 * return operation number for expression nodes and -1 for other expression
@@ -3537,19 +3607,26 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 	@Override
 	public boolean evaluatesToList() {
-		if(isLeaf()){
+		if (isLeaf()) {
 			return left.evaluatesToList();
 		}
 		// eg. sin(list), f(list)
-		if(Operation.isSimpleFunction(operation) || operation == Operation.FUNCTION){
+		if (Operation.isSimpleFunction(operation)
+				|| operation == Operation.FUNCTION) {
 			return left.evaluatesToList();
 		}
-		if(operation == Operation.IS_ELEMENT_OF || operation == Operation.IS_SUBSET_OF || operation == Operation.IS_SUBSET_OF_STRICT
-				|| operation == Operation.EQUAL_BOOLEAN || operation == Operation.NOT_EQUAL
-				|| operation == Operation.FREEHAND || operation == Operation.ELEMENT_OF || operation == Operation.FUNCTION_NVAR){
+		if (operation == Operation.IS_ELEMENT_OF
+				|| operation == Operation.IS_SUBSET_OF
+				|| operation == Operation.IS_SUBSET_OF_STRICT
+				|| operation == Operation.EQUAL_BOOLEAN
+				|| operation == Operation.NOT_EQUAL
+				|| operation == Operation.FREEHAND
+				|| operation == Operation.ELEMENT_OF
+				|| operation == Operation.FUNCTION_NVAR) {
 			return false;
 		}
-		if(left.evaluatesToList() || (right != null && right.evaluatesToList())){
+		if (left.evaluatesToList()
+				|| (right != null && right.evaluatesToList())) {
 			return true;
 		}
 		return false;
@@ -3561,8 +3638,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if (leaf) {
 			return left.evaluatesToText();
 		}
-		return (operation.equals(Operation.PLUS) || operation.equals(Operation.MULTIPLY) )&& 
-				(left.evaluatesToText() || right.evaluatesToText());
+		return (operation.equals(Operation.PLUS) || operation
+				.equals(Operation.MULTIPLY))
+				&& (left.evaluatesToText() || right.evaluatesToText());
 	}
 
 	@Override
@@ -3586,7 +3664,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		} else if (ev1 instanceof TextValue && ev2 instanceof TextValue) {
 			return ((TextValue) ev1).toValueString(
 					StringTemplate.defaultTemplate).equals(
-							((TextValue) ev2)
+					((TextValue) ev2)
 							.toValueString(StringTemplate.defaultTemplate));
 		} else if (ev1 instanceof VectorValue && ev2 instanceof VectorValue) {
 			return ((VectorValue) ev1).getVector().isEqual(
@@ -3621,7 +3699,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			boolean symbolic) {
 		if (ev.isLeaf() && (ev instanceof NumberValue)) {
 			// function variables need to be kept
-			if (ev instanceof FunctionVariable || ev instanceof GeoDummyVariable) {
+			if (ev instanceof FunctionVariable
+					|| ev instanceof GeoDummyVariable) {
 				return false;
 			} else if (ev instanceof MySpecialDouble) {
 				// special doubles like pi, degree, rad need to be kept
@@ -3658,8 +3737,6 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		}
 		return null;
 	}
-
-	
 
 	/**
 	 * If the expression is linear in fv, returns the corresponding coefficient.
@@ -3721,15 +3798,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * appends a string to sb, brackets are put around it if the order of
 	 * operation dictates
 	 */
-	
 
 	/**
-	 * @param op operation
+	 * @param op
+	 *            operation
 	 * @return whether this operation returns boolean and can be used in chain
-	 * eg. x < y <=z
+	 *         eg. x < y <=z
 	 */
 	public static boolean chainedBooleanOp(Operation op) {
-		switch(op){
+		switch (op) {
 		case EQUAL_BOOLEAN:
 		case NOT_EQUAL:
 		case IS_SUBSET_OF:
@@ -3739,8 +3816,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case GREATER:
 		case GREATER_EQUAL:
 		case PERPENDICULAR:
-		case PARALLEL:	
-			return true;	
+		case PARALLEL:
+			return true;
 		}
 		return false;
 	}
@@ -3748,8 +3825,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	private static boolean isConstantDouble(ExpressionValue ev, double v) {
 		ExpressionValue base = ev.unwrap();
 		return base instanceof MyDouble && base.isConstant()
-				// don't use Kernel.isEqual() to check == 0 
-				// as can lose leading coefficient of polynomial		
+		// don't use Kernel.isEqual() to check == 0
+		// as can lose leading coefficient of polynomial
 				&& v == ((MyDouble) base).getDouble();
 	}
 
@@ -3791,8 +3868,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return result this <= d
 	 */
 	public ExpressionNode lessThanEqual(double d) {
-		return new ExpressionNode(kernel, this, Operation.LESS_EQUAL, new MyDouble(
-				kernel, d));
+		return new ExpressionNode(kernel, this, Operation.LESS_EQUAL,
+				new MyDouble(kernel, d));
 	}
 
 	/**
@@ -3921,7 +3998,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * @param n order of polygamma
+	 * @param n
+	 *            order of polygamma
 	 * @return result of polyganma(n, this)
 	 */
 	public ExpressionNode polygamma(double n) {
@@ -4063,8 +4141,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		if (d == 0) {
 			return this;
 		}
-		return new ExpressionNode(kernel, new MyDouble(
-				kernel, d), Operation.PLUS, this);
+		return new ExpressionNode(kernel, new MyDouble(kernel, d),
+				Operation.PLUS, this);
 	}
 
 	/**
@@ -4073,11 +4151,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return result of multiply
 	 */
 	public ExpressionNode multiply(double d) {
-		if (d == 0 || isConstantDouble(this,0)) {
-			// don't use Kernel.isZero() to check == 0 
-			// as can lose leading coefficient of polynomial		
+		if (d == 0 || isConstantDouble(this, 0)) {
+			// don't use Kernel.isZero() to check == 0
+			// as can lose leading coefficient of polynomial
 			return new ExpressionNode(kernel, 0);
-		} else if (Kernel.isEqual(1,  d)) {
+		} else if (Kernel.isEqual(1, d)) {
 			return this;
 		}
 		return new ExpressionNode(kernel, this, Operation.MULTIPLY,
@@ -4091,13 +4169,14 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 */
 	public ExpressionNode multiplyR(double d) {
 		if (d == 0) {
-			// don't use Kernel.isZero() to check == 0 
-			// as can lose leading coefficient of polynomial		
+			// don't use Kernel.isZero() to check == 0
+			// as can lose leading coefficient of polynomial
 			return new ExpressionNode(kernel, 0);
-		} else if (Kernel.isEqual(1,  d)) {
+		} else if (Kernel.isEqual(1, d)) {
 			return this;
 		}
-		return new ExpressionNode(kernel, new MyDouble(kernel, d), Operation.MULTIPLY, this);
+		return new ExpressionNode(kernel, new MyDouble(kernel, d),
+				Operation.MULTIPLY, this);
 	}
 
 	/**
@@ -4108,11 +4187,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public ExpressionNode power(double d) {
 		if (Kernel.isZero(d)) {
 			return new ExpressionNode(kernel, 1);
-		} else if (Kernel.isEqual(1,  d) || isConstantDouble(this, 1) || isConstantDouble(this, 0)) {
+		} else if (Kernel.isEqual(1, d) || isConstantDouble(this, 1)
+				|| isConstantDouble(this, 0)) {
 			return this;
 		}
-		return new ExpressionNode(kernel, this, Operation.POWER,
-				new MyDouble(kernel, d));
+		return new ExpressionNode(kernel, this, Operation.POWER, new MyDouble(
+				kernel, d));
 	}
 
 	/**
@@ -4148,9 +4228,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return result of multiplication
 	 */
 	public ExpressionNode multiply(ExpressionValue v2) {
-		if (isConstantDouble(v2, 0) || isConstantDouble(this,1))
+		if (isConstantDouble(v2, 0) || isConstantDouble(this, 1))
 			return v2.wrap();
-		if (isConstantDouble(v2, 1) || isConstantDouble(this,0))
+		if (isConstantDouble(v2, 1) || isConstantDouble(this, 0))
 			return this;
 		return new ExpressionNode(kernel, v2, Operation.MULTIPLY, this);
 	}
@@ -4174,8 +4254,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return resulting power
 	 */
 	public ExpressionNode power(ExpressionValue v2) {
-		if(isConstantDouble(v2,0))
-			return new ExpressionNode(kernel,1);
+		if (isConstantDouble(v2, 0))
+			return new ExpressionNode(kernel, 1);
 		if (isConstantDouble(v2, 1))
 			return this;
 		return new ExpressionNode(kernel, this, Operation.POWER, v2);
@@ -4208,12 +4288,12 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	public ExpressionNode divide(double d) {
 		if (d == 1) {
 			// don't use Kernel.isEqual() to check == 1
-			// as can lose leading coefficient of polynomial		
+			// as can lose leading coefficient of polynomial
 			return this;
 		}
 		if (d == -1) {
 			// don't use Kernel.isEqual() to check == -1
-			// as can lose leading coefficient of polynomial		
+			// as can lose leading coefficient of polynomial
 			return this.multiplyR(-1);
 		}
 
@@ -4234,25 +4314,26 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	 * @return negation of this expression (optimizes negation of >,<,=>,<=)
 	 */
 	public ExpressionNode negation() {
-		
+
 		Operation opNegated = this.operation.negate();
-		
+
 		if (Operation.NOT.equals(opNegated)) {
 			// unary, not binary
-			return new ExpressionNode(kernel, this, Operation.NOT, null);			
+			return new ExpressionNode(kernel, this, Operation.NOT, null);
 		}
-		
+
 		return new ExpressionNode(kernel, left, opNegated, right);
-		
+
 	}
 
 	/**
 	 * @param toRoot
 	 *            true to replace powers by roots
-	 * @param maxRoot do not use roots higher than that
+	 * @param maxRoot
+	 *            do not use roots higher than that
 	 * @return this node with replaced powers / roots
 	 */
-	public boolean replacePowersRoots(boolean toRoot,int maxRoot ) {
+	public boolean replacePowersRoots(boolean toRoot, int maxRoot) {
 		boolean didReplacement = false;
 
 		if (toRoot && getOperation() == Operation.POWER
@@ -4261,7 +4342,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			ExpressionNode rightLeaf = (ExpressionNode) getRight();
 
 			// replaces 1 DIVIDE 2 by SQRT 2, and same for CBRT
-			if ((rightLeaf.getOperation() == Operation.DIVIDE) && rightLeaf.isConstant()) {
+			if ((rightLeaf.getOperation() == Operation.DIVIDE)
+					&& rightLeaf.isConstant()) {
 				if (rightLeaf.getRight()
 						.toString(StringTemplate.defaultTemplate).equals("2")) {
 					setOperation(Operation.SQRT);
@@ -4270,12 +4352,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 						.toString(StringTemplate.defaultTemplate).equals("3")) {
 					setOperation(Operation.CBRT);
 					hit = true;
-				}
-				else if (!rightLeaf.getRight().unwrap().isExpressionNode() && rightLeaf.getRight() instanceof NumberValue &&
-						Kernel.isInteger(((NumberValue)rightLeaf.getRight()).getDouble()) &&
-						((NumberValue)rightLeaf.getRight()).getDouble()<=maxRoot) {
+				} else if (!rightLeaf.getRight().unwrap().isExpressionNode()
+						&& rightLeaf.getRight() instanceof NumberValue
+						&& Kernel
+								.isInteger(((NumberValue) rightLeaf.getRight())
+										.getDouble())
+						&& ((NumberValue) rightLeaf.getRight()).getDouble() <= maxRoot) {
 					setOperation(Operation.NROOT);
-					setRight(new MyDouble(kernel,((NumberValue)rightLeaf.getRight()).getDouble()));
+					setRight(new MyDouble(kernel,
+							((NumberValue) rightLeaf.getRight()).getDouble()));
 					hit = true;
 				}
 				if (hit) {
@@ -4283,22 +4368,21 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (rightLeaf.getLeft()
 							.toString(StringTemplate.defaultTemplate)
 							.equals("1")) {
-						if(operation!=Operation.NROOT)
+						if (operation != Operation.NROOT)
 							setRight(new MyDouble(kernel, Double.NaN));
 					} else { // to parse x^(c/2) to sqrt(x^c)
 						double c = 1;
-						if(rightLeaf.getLeft().isConstant())
+						if (rightLeaf.getLeft().isConstant())
 							c = rightLeaf.getLeft().evaluateDouble();
-						if(c<0){
+						if (c < 0) {
 
-							setRight(new ExpressionNode(kernel,getLeft().wrap().power(-c),
-									getOperation(),getRight() 
-									));
+							setRight(new ExpressionNode(kernel, getLeft()
+									.wrap().power(-c), getOperation(),
+									getRight()));
 							setOperation(Operation.DIVIDE);
-							setLeft(new MyDouble(kernel,1.0));
+							setLeft(new MyDouble(kernel, 1.0));
 
-						}
-						else 	
+						} else
 							setLeft(new ExpressionNode(kernel, getLeft(),
 									Operation.POWER, rightLeaf.getLeft()));
 					}
@@ -4313,13 +4397,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				power = new ExpressionNode(kernel, new MyDouble(kernel, 1),
 						Operation.DIVIDE, new MyDouble(kernel, 2));
 				hit = true;
-			}
-			else if (getOperation() == Operation.CBRT) {
+			} else if (getOperation() == Operation.CBRT) {
 				power = new ExpressionNode(kernel, new MyDouble(kernel, 1),
 						Operation.DIVIDE, new MyDouble(kernel, 3));
 				hit = true;
-			}
-			else if (getOperation() == Operation.NROOT) {
+			} else if (getOperation() == Operation.NROOT) {
 				power = new ExpressionNode(kernel, new MyDouble(kernel, 1),
 						Operation.DIVIDE, right);
 				hit = true;
@@ -4360,21 +4442,21 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	@Override
-	public ExpressionValue unwrap(){
-		if(isLeaf())
+	public ExpressionValue unwrap() {
+		if (isLeaf())
 			return getLeft();
 		return this;
 	}
 
 	@Override
-	public ExpressionNode wrap(){
+	public ExpressionNode wrap() {
 		return this;
 	}
 
 	@Override
 	public boolean hasCoords() {
-		if (isLeaf() )
-			return left!=null && left.hasCoords();
+		if (isLeaf())
+			return left != null && left.hasCoords();
 		return getLeft().hasCoords() || getRight().hasCoords();
 	}
 
@@ -4402,73 +4484,110 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					return wrap(new MyDouble(kernel, 0d));
 				}
 
-				return wrap(left).power(wrap(right).subtract(1)).multiply(left.derivative(fv)).multiply(right);
+				return wrap(left).power(wrap(right).subtract(1))
+						.multiply(left.derivative(fv)).multiply(right);
 			}
 
-
-			return wrap(left).power(right).multiply(wrap(right.derivative(fv)).multiply(wrap(left).ln()).plus(wrap(right).multiply(left.derivative(fv)).divide(left)));
+			return wrap(left).power(right).multiply(
+					wrap(right.derivative(fv)).multiply(wrap(left).ln()).plus(
+							wrap(right).multiply(left.derivative(fv)).divide(
+									left)));
 
 		case NO_OPERATION:
 			return wrap(left.derivative(fv));
-		case DIVIDE:			
+		case DIVIDE:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left).derivative(fv).divide(right);
 			}
-			return wrap(left.derivative(fv)).multiply(right).subtract(wrap(right.derivative(fv)).multiply(left)).divide(wrap(right).square());
-		case MULTIPLY:			
+			return wrap(left.derivative(fv)).multiply(right)
+					.subtract(wrap(right.derivative(fv)).multiply(left))
+					.divide(wrap(right).square());
+		case MULTIPLY:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left).derivative(fv).multiply(right);
 			}
 			if (left.isNumberValue() && !left.contains(fv)) {
 				return wrap(right).derivative(fv).multiply(left);
 			}
-			return wrap(left).multiply(right.derivative(fv)).plus(wrap(right).multiply(left.derivative(fv)));
-		case PLUS:			
+			return wrap(left).multiply(right.derivative(fv)).plus(
+					wrap(right).multiply(left.derivative(fv)));
+		case PLUS:
 			return wrap(left.derivative(fv)).plus(right.derivative(fv));
-		case MINUS:			
+		case MINUS:
 			return wrap(left.derivative(fv)).subtract(right.derivative(fv));
-		case SIN:			
-			return new ExpressionNode(kernel, left, Operation.COS, null).multiply((left).derivative(fv));
-		case COS:			
-			return new ExpressionNode(kernel, left, Operation.SIN, null).multiply((left).derivative(fv)).multiply(-1);
-		case TAN:			
-			return new ExpressionNode(kernel, left, Operation.SEC, null).square().multiply((left).derivative(fv));
-		case SEC:			
-			return new ExpressionNode(kernel, left, Operation.SEC, null).multiply(new ExpressionNode(kernel, left, Operation.TAN, null)).multiply((left).derivative(fv));
-		case CSC:			
-			return new ExpressionNode(kernel, left, Operation.CSC, null).multiply(new ExpressionNode(kernel, left, Operation.COT, null)).multiply((left).derivative(fv)).multiply(-1);
-		case COT:			
-			return new ExpressionNode(kernel, left, Operation.CSC, null).square().multiply((left).derivative(fv)).multiply(-1);
-		case SINH:			
-			return new ExpressionNode(kernel, left, Operation.COSH, null).multiply((left).derivative(fv));
-		case COSH:			
-			return new ExpressionNode(kernel, left, Operation.SINH, null).multiply((left).derivative(fv));
-		case TANH:			
-			return new ExpressionNode(kernel, left, Operation.SECH, null).square().multiply((left).derivative(fv));
-		case SECH:			
-			return new ExpressionNode(kernel, left, Operation.SECH, null).multiply(new ExpressionNode(kernel, left, Operation.TANH, null)).multiply((left).derivative(fv)).multiply(-1);
-		case CSCH:			
-			return new ExpressionNode(kernel, left, Operation.CSCH, null).multiply(new ExpressionNode(kernel, left, Operation.COTH, null)).multiply((left).derivative(fv)).multiply(-1);
-		case COTH:			
-			return new ExpressionNode(kernel, left, Operation.CSCH, null).square().multiply((left).derivative(fv)).multiply(-1);
+		case SIN:
+			return new ExpressionNode(kernel, left, Operation.COS, null)
+					.multiply((left).derivative(fv));
+		case COS:
+			return new ExpressionNode(kernel, left, Operation.SIN, null)
+					.multiply((left).derivative(fv)).multiply(-1);
+		case TAN:
+			return new ExpressionNode(kernel, left, Operation.SEC, null)
+					.square().multiply((left).derivative(fv));
+		case SEC:
+			return new ExpressionNode(kernel, left, Operation.SEC, null)
+					.multiply(
+							new ExpressionNode(kernel, left, Operation.TAN,
+									null)).multiply((left).derivative(fv));
+		case CSC:
+			return new ExpressionNode(kernel, left, Operation.CSC, null)
+					.multiply(
+							new ExpressionNode(kernel, left, Operation.COT,
+									null)).multiply((left).derivative(fv))
+					.multiply(-1);
+		case COT:
+			return new ExpressionNode(kernel, left, Operation.CSC, null)
+					.square().multiply((left).derivative(fv)).multiply(-1);
+		case SINH:
+			return new ExpressionNode(kernel, left, Operation.COSH, null)
+					.multiply((left).derivative(fv));
+		case COSH:
+			return new ExpressionNode(kernel, left, Operation.SINH, null)
+					.multiply((left).derivative(fv));
+		case TANH:
+			return new ExpressionNode(kernel, left, Operation.SECH, null)
+					.square().multiply((left).derivative(fv));
+		case SECH:
+			return new ExpressionNode(kernel, left, Operation.SECH, null)
+					.multiply(
+							new ExpressionNode(kernel, left, Operation.TANH,
+									null)).multiply((left).derivative(fv))
+					.multiply(-1);
+		case CSCH:
+			return new ExpressionNode(kernel, left, Operation.CSCH, null)
+					.multiply(
+							new ExpressionNode(kernel, left, Operation.COTH,
+									null)).multiply((left).derivative(fv))
+					.multiply(-1);
+		case COTH:
+			return new ExpressionNode(kernel, left, Operation.CSCH, null)
+					.square().multiply((left).derivative(fv)).multiply(-1);
 
 		case ARCSIN:
-			return wrap(left.derivative(fv)).divide(wrap(left).square().subtractR(1).sqrt());
+			return wrap(left.derivative(fv)).divide(
+					wrap(left).square().subtractR(1).sqrt());
 		case ARCCOS:
-			return wrap(left.derivative(fv)).divide(wrap(left).square().subtractR(1).sqrt()).multiply(-1);
+			return wrap(left.derivative(fv)).divide(
+					wrap(left).square().subtractR(1).sqrt()).multiply(-1);
 		case ARCTAN:
-			return wrap(left.derivative(fv)).divide(wrap(left).square().plus(1));
+			return wrap(left.derivative(fv))
+					.divide(wrap(left).square().plus(1));
 
 		case ASINH:
-			return wrap(left.derivative(fv)).divide(wrap(left).square().plus(1).sqrt());
+			return wrap(left.derivative(fv)).divide(
+					wrap(left).square().plus(1).sqrt());
 		case ACOSH:
 			// sqrt(x+1)sqrt(x-1) not sqrt(x^2-1) as has wrong domain
-			return wrap(left.derivative(fv)).divide(wrap(left).plus(1).sqrt().multiply(wrap(left).subtract(1).sqrt()));
+			return wrap(left.derivative(fv)).divide(
+					wrap(left).plus(1).sqrt()
+							.multiply(wrap(left).subtract(1).sqrt()));
 		case ATANH:
-			return wrap(left.derivative(fv)).divide(wrap(left).square().subtractR(1));
+			return wrap(left.derivative(fv)).divide(
+					wrap(left).square().subtractR(1));
 
 		case ABS:
-			return wrap(left.derivative(fv)).multiply(left).divide(wrap(left).abs());
+			return wrap(left.derivative(fv)).multiply(left).divide(
+					wrap(left).abs());
 
 		case SGN:
 			// 0/x
@@ -4478,16 +4597,20 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			return wrap(left.derivative(fv)).multiply(wrap(left).exp());
 
 		case SI:
-			return wrap(left.derivative(fv)).multiply(wrap(left).sin().divide(left));
+			return wrap(left.derivative(fv)).multiply(
+					wrap(left).sin().divide(left));
 
 		case CI:
-			return wrap(left.derivative(fv)).multiply(wrap(left).cos().divide(left));
+			return wrap(left.derivative(fv)).multiply(
+					wrap(left).cos().divide(left));
 
 		case EI:
-			return wrap(left.derivative(fv)).multiply(wrap(left).exp().divide(left));
+			return wrap(left.derivative(fv)).multiply(
+					wrap(left).exp().divide(left));
 
 		case ERF:
-			return wrap(left.derivative(fv)).multiply(wrap(2)).divide(wrap(left).square().exp().multiply(wrap(Math.PI).sqrt()));
+			return wrap(left.derivative(fv)).multiply(wrap(2)).divide(
+					wrap(left).square().exp().multiply(wrap(Math.PI).sqrt()));
 
 		case PSI:
 			return wrap(left.derivative(fv)).multiply(wrap(left).polygamma(1));
@@ -4495,7 +4618,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		case POLYGAMMA:
 			if (left.isNumberValue() && !left.contains(fv)) {
 				double n = ((NumberValue) left).getDouble();
-				return wrap(right.derivative(fv)).multiply(wrap(right).polygamma(n + 1));
+				return wrap(right.derivative(fv)).multiply(
+						wrap(right).polygamma(n + 1));
 			}
 
 			// TODO: general method (not possible?)
@@ -4506,16 +4630,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
 
-			return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.derivative(fv));
+			return new ExpressionNode(kernel, np, Operation.IF_ELSE,
+					right.derivative(fv));
 
 		case IF:
 
-			return new ExpressionNode(kernel, left, Operation.IF, right.derivative(fv));
-			
+			return new ExpressionNode(kernel, left, Operation.IF,
+					right.derivative(fv));
+
 		case IF_LIST:
 			MyList rtDiff = new MyList(kernel);
 			MyList rt = (MyList) right;
-			for(int i=0;i<rt.size();i++){
+			for (int i = 0; i < rt.size(); i++) {
 				rtDiff.addListElement(rt.getListElement(i).derivative(fv));
 			}
 			return new ExpressionNode(kernel, left, Operation.IF_LIST, rtDiff);
@@ -4532,16 +4658,18 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case LOGB:
 			if (left.isNumberValue() && !left.contains(fv)) {
-				return wrap(right.derivative(fv)).divide(right).divide(Math.log(((NumberValue) left).getDouble()));
+				return wrap(right.derivative(fv)).divide(right).divide(
+						Math.log(((NumberValue) left).getDouble()));
 			}
 
 			// TODO: general method
 			break;
 
-
-		case NROOT:			
+		case NROOT:
 			if (right.isNumberValue() && !right.contains(fv)) {
-				return wrap(left.derivative(fv)).multiply(wrap(left).nroot(right)).divide(wrap(left).multiply(right));
+				return wrap(left.derivative(fv)).multiply(
+						wrap(left).nroot(right)).divide(
+						wrap(left).multiply(right));
 			}
 
 			// TODO general method
@@ -4549,31 +4677,36 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case SQRT:
 		case SQRT_SHORT:
-			return wrap(left.derivative(fv)).multiply(wrap(left).power(-0.5)).divide(2);
+			return wrap(left.derivative(fv)).multiply(wrap(left).power(-0.5))
+					.divide(2);
 		case CBRT:
 			// wrong domain
-			//return wrap(left.derivative(fv)).multiply(wrap(left).power(-2d/3d)).divide(3);
+			// return
+			// wrap(left.derivative(fv)).multiply(wrap(left).power(-2d/3d)).divide(3);
 			// correct domain
-			return wrap(left.derivative(fv)).divide(wrap(left).square().cbrt()).divide(3);
+			return wrap(left.derivative(fv)).divide(wrap(left).square().cbrt())
+					.divide(3);
 
-			
 		case FUNCTION:
 			if (left instanceof GeoFunction) {
 				Function fun = ((GeoFunction) left).getFunction();
 				FunctionVariable fv2 = fun.fVars[0];
 				ExpressionValue deriv = fun.derivative(fv2);
-				
+
 				Function fun2 = new Function((ExpressionNode) deriv, fv2);
-				GeoFunction geoFun = new GeoFunction(kernel.getConstruction(), fun2);
-				
-				ExpressionNode ret = new ExpressionNode(kernel, geoFun, Operation.FUNCTION, fv2);
-				
+				GeoFunction geoFun = new GeoFunction(kernel.getConstruction(),
+						fun2);
+
+				ExpressionNode ret = new ExpressionNode(kernel, geoFun,
+						Operation.FUNCTION, fv2);
+
 				return ret;
 			}
 			break;
 		}
 
-		App.error("unhandled operation in derivative() (no CAS version): "+operation.toString());
+		App.error("unhandled operation in derivative() (no CAS version): "
+				+ operation.toString());
 
 		// undefined
 		return wrap(Double.NaN);
@@ -4599,7 +4732,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 				if (!Double.isNaN(index) && !Double.isInfinite(index)) {
 
 					if (Kernel.isZero(index + 1)) {
-						return new ExpressionNode(kernel, left, Operation.LOG, null);
+						return new ExpressionNode(kernel, left, Operation.LOG,
+								null);
 					}
 					return wrap(left).power(index + 1).divide(index + 1);
 				}
@@ -4631,9 +4765,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 						// (exp)^-1 -> ln(abs(exp))
 						if (Kernel.isEqual(index, -1)) {
-							return wrap(left).abs().ln().divide(coeff);							
+							return wrap(left).abs().ln().divide(coeff);
 						}
-						return wrap(left).power(index + 1).divide(coeff * ((index + 1)));
+						return wrap(left).power(index + 1).divide(
+								coeff * ((index + 1)));
 					}
 
 					coeff = getLinearCoefficientDiv(fv, left);
@@ -4641,9 +4776,10 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 					if (!Double.isNaN(coeff)) {
 						if (Kernel.isEqual(index, -1)) {
 							// (exp)^-1 -> ln(abs(exp))
-							return wrap(left).abs().ln().multiply(coeff);							
+							return wrap(left).abs().ln().multiply(coeff);
 						}
-						return wrap(left).power(index + 1).multiply(coeff / ((index + 1)));
+						return wrap(left).power(index + 1).multiply(
+								coeff / ((index + 1)));
 					}
 				}
 
@@ -4653,18 +4789,19 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 		case NO_OPERATION:
 			return wrap(left.integral(fv));
-		case DIVIDE:		
+		case DIVIDE:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left.integral(fv)).divide(right);
 			}
 
-			if (left.isNumberValue()  && !left.contains(fv) && right == fv) {
+			if (left.isNumberValue() && !left.contains(fv) && right == fv) {
 				// eg 4/x
-				return new ExpressionNode(kernel, fv, Operation.LOG, null).multiply(left);
+				return new ExpressionNode(kernel, fv, Operation.LOG, null)
+						.multiply(left);
 			}
 			break;
 
-		case MULTIPLY:			
+		case MULTIPLY:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				return wrap(left.integral(fv)).multiplyR(right);
 			} else if (left.isNumberValue() && !left.contains(fv)) {
@@ -4674,15 +4811,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			// can't do by parts without simplification (use Polynomial?)
 			break;
 
-		case PLUS:			
+		case PLUS:
 			return wrap(left.integral(fv)).plus(right.integral(fv));
-		case MINUS:			
+		case MINUS:
 			return wrap(left.integral(fv)).subtract(right.integral(fv));
-		case SIN:		
+		case SIN:
 			return linearIntegral(-1, Operation.COS, fv);
-		case COS:			
+		case COS:
 			return linearIntegral(1, Operation.SIN, fv);
-		case TAN:			
+		case TAN:
 			double coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
@@ -4692,40 +4829,44 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).sec().abs().ln().multiply(coeff);	
+				return wrap(left).sec().abs().ln().multiply(coeff);
 			}
 
 			break;
 
-		case SEC:			
+		case SEC:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).sec().plus(wrap(left).tan()).abs().ln().divide(coeff);
+				return wrap(left).sec().plus(wrap(left).tan()).abs().ln()
+						.divide(coeff);
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).sec().plus(wrap(left).tan()).abs().ln().multiply(coeff);	
+				return wrap(left).sec().plus(wrap(left).tan()).abs().ln()
+						.multiply(coeff);
 			}
 
 			break;
-		case CSC:			
+		case CSC:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).cosec().plus(wrap(left).cot()).abs().ln().divide(-coeff);
+				return wrap(left).cosec().plus(wrap(left).cot()).abs().ln()
+						.divide(-coeff);
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).cosec().plus(wrap(left).cot()).abs().ln().multiply(-coeff);	
+				return wrap(left).cosec().plus(wrap(left).cot()).abs().ln()
+						.multiply(-coeff);
 			}
 
 			break;
-		case COT:			
+		case COT:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
@@ -4735,15 +4876,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).sin().abs().ln().multiply(coeff);	
+				return wrap(left).sin().abs().ln().multiply(coeff);
 			}
 
 			break;
-		case SINH:			
+		case SINH:
 			return linearIntegral(1, Operation.COSH, fv);
-		case COSH:			
+		case COSH:
 			return linearIntegral(1, Operation.SINH, fv);
-		case TANH:			
+		case TANH:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
@@ -4753,39 +4894,41 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).cosh().abs().ln().multiply(coeff);	
+				return wrap(left).cosh().abs().ln().multiply(coeff);
 			}
 
 			break;
-		case SECH:			
+		case SECH:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).exp().atan().divide(coeff/2);
+				return wrap(left).exp().atan().divide(coeff / 2);
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).exp().atan().multiply(2 * coeff);	
+				return wrap(left).exp().atan().multiply(2 * coeff);
 			}
 
 			break;
-		case CSCH:			
+		case CSCH:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).cosech().plus(wrap(left).coth()).abs().ln().divide(-coeff);
+				return wrap(left).cosech().plus(wrap(left).coth()).abs().ln()
+						.divide(-coeff);
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).cosech().plus(wrap(left).coth()).abs().ln().multiply(-coeff);	
+				return wrap(left).cosech().plus(wrap(left).coth()).abs().ln()
+						.multiply(-coeff);
 			}
 
 			break;
-		case COTH:			
+		case COTH:
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
@@ -4795,7 +4938,7 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).sinh().abs().ln().multiply(coeff);	
+				return wrap(left).sinh().abs().ln().multiply(coeff);
 			}
 
 			break;
@@ -4828,24 +4971,28 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 
 			np = new MyNumberPair(kernel, np.x, np.y.derivative(fv));
 
-			return new ExpressionNode(kernel, np, Operation.IF_ELSE, right.integral(fv));
+			return new ExpressionNode(kernel, np, Operation.IF_ELSE,
+					right.integral(fv));
 
 		case IF:
 
-			return new ExpressionNode(kernel, left, Operation.IF, right.integral(fv));
+			return new ExpressionNode(kernel, left, Operation.IF,
+					right.integral(fv));
 
 		case LOG:
 			// base e (ln)
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).ln().multiply(left).subtract(left).divide(coeff);
+				return wrap(left).ln().multiply(left).subtract(left)
+						.divide(coeff);
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).ln().multiply(left).subtract(left).multiply(coeff);
+				return wrap(left).ln().multiply(left).subtract(left)
+						.multiply(coeff);
 			}
 
 			break;
@@ -4854,13 +5001,15 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).ln().multiply(left).subtract(left).divide(wrap(10).ln().multiply(coeff));
+				return wrap(left).ln().multiply(left).subtract(left)
+						.divide(wrap(10).ln().multiply(coeff));
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).ln().multiply(left).subtract(left).multiply(coeff).divide(wrap(10).ln());
+				return wrap(left).ln().multiply(left).subtract(left)
+						.multiply(coeff).divide(wrap(10).ln());
 			}
 
 			break;
@@ -4869,31 +5018,35 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficient(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).ln().multiply(left).subtract(left).divide(wrap(2).ln().multiply(coeff));
+				return wrap(left).ln().multiply(left).subtract(left)
+						.divide(wrap(2).ln().multiply(coeff));
 			}
 
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).ln().multiply(left).subtract(left).multiply(coeff).divide(wrap(2).ln());
+				return wrap(left).ln().multiply(left).subtract(left)
+						.multiply(coeff).divide(wrap(2).ln());
 			}
 
 			break;
 
-
-
-		case NROOT:			
+		case NROOT:
 			if (right.isNumberValue() && !right.contains(fv)) {
 				coeff = getLinearCoefficient(fv, left);
 
 				if (!Double.isNaN(coeff)) {
-					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateDouble() + 1) * coeff);
+					return wrap(left).nroot(right).multiply(left)
+							.multiply(right)
+							.divide((right.evaluateDouble() + 1) * coeff);
 				}
 
 				coeff = getLinearCoefficientDiv(fv, left);
 
 				if (!Double.isNaN(coeff)) {
-					return wrap(left).nroot(right).multiply(left).multiply(right).divide((right.evaluateDouble() + 1) / coeff);
+					return wrap(left).nroot(right).multiply(left)
+							.multiply(right)
+							.divide((right.evaluateDouble() + 1) / coeff);
 				}
 			}
 
@@ -4910,7 +5063,8 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).sqrt().multiply(left).multiply(coeff * 2d / 3d);
+				return wrap(left).sqrt().multiply(left)
+						.multiply(coeff * 2d / 3d);
 			}
 
 			break;
@@ -4924,43 +5078,48 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			coeff = getLinearCoefficientDiv(fv, left);
 
 			if (!Double.isNaN(coeff)) {
-				return wrap(left).cbrt().multiply(left).multiply(coeff * 3d / 4d);
+				return wrap(left).cbrt().multiply(left)
+						.multiply(coeff * 3d / 4d);
 			}
 
 			break;
 
 		}
 
-		App.error("unhandled operation in integral() (no CAS version): "+operation.toString());
+		App.error("unhandled operation in integral() (no CAS version): "
+				+ operation.toString());
 
 		// undefined
 		return wrap(Double.NaN);
 	}
 
-
 	/**
-	 * @param n n
+	 * @param n
+	 *            n
 	 * @return nth root of this
 	 */
 	public ExpressionNode nroot(ExpressionValue n) {
 		return new ExpressionNode(kernel, this, Operation.NROOT, n);
 	}
 
-	private ExpressionNode linearIntegral(int i, Operation op, FunctionVariable fv) {
+	private ExpressionNode linearIntegral(int i, Operation op,
+			FunctionVariable fv) {
 		if (left == fv) {
-			return new ExpressionNode(kernel, left, op, null).multiplyR(i);				
+			return new ExpressionNode(kernel, left, op, null).multiplyR(i);
 		}
 
 		double coeff = getLinearCoefficient(fv, left);
 
 		if (!Double.isNaN(coeff)) {
-			return new ExpressionNode(kernel, left, op, null).multiplyR(i).divide(coeff);		
+			return new ExpressionNode(kernel, left, op, null).multiplyR(i)
+					.divide(coeff);
 		}
 
 		coeff = getLinearCoefficientDiv(fv, left);
 
 		if (!Double.isNaN(coeff)) {
-			return new ExpressionNode(kernel, left, op, null).multiply(coeff).multiplyR(i);		
+			return new ExpressionNode(kernel, left, op, null).multiply(coeff)
+					.multiplyR(i);
 		}
 
 		App.debug("not linear integral");
@@ -4968,12 +5127,13 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * get coefficient from simple linear expression with coefficient as divide eg 
-	 * 3 * x + 1
+	 * get coefficient from simple linear expression with coefficient as divide
+	 * eg 3 * x + 1
 	 * 
 	 * returns Double.NaN if it's not in the correct form
 	 */
-	private static double getLinearCoefficient(FunctionVariable fv, ExpressionValue ev2) {
+	private static double getLinearCoefficient(FunctionVariable fv,
+			ExpressionValue ev2) {
 
 		// just x
 		if (ev2 == fv) {
@@ -4985,15 +5145,16 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		Operation op;
 
 		// 3x+1 or 1+3x or 3x-1 or 1-3x
-		if (ev.isExpressionNode() && (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus() ) {
+		if (ev.isExpressionNode()
+				&& (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus()) {
 			ExpressionNode en = (ExpressionNode) ev;
 
 			if (en.left.isNumberValue() && !en.left.contains(fv)) {
-				//strip off the "+1" etc
+				// strip off the "+1" etc
 				ev = en.right;
 				factor = op.equals(Operation.PLUS) ? 1 : -1;
 			} else if (en.right.isNumberValue() && !en.right.contains(fv)) {
-				//strip off the "+1" etc
+				// strip off the "+1" etc
 				ev = en.left;
 				factor = 1;
 			}
@@ -5002,17 +5163,21 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// x+2 or 2-x
 		if (ev == fv) {
 			return factor;
-		}		
+		}
 
 		// 3*x or x*3
-		if (ev.isExpressionNode() && ((ExpressionNode) ev).getOperation().equals(Operation.MULTIPLY) ) {
+		if (ev.isExpressionNode()
+				&& ((ExpressionNode) ev).getOperation().equals(
+						Operation.MULTIPLY)) {
 			ExpressionNode en = (ExpressionNode) ev;
-			if (en.left == fv && en.right.isNumberValue() && !en.right.contains(fv)) {
+			if (en.left == fv && en.right.isNumberValue()
+					&& !en.right.contains(fv)) {
 				return ((NumberValue) en.right).getDouble() * factor;
-				//return wrap(en.right).multiply(factor);
-			} else if (en.right == fv && en.left.isNumberValue() && !en.left.contains(fv)) {
+				// return wrap(en.right).multiply(factor);
+			} else if (en.right == fv && en.left.isNumberValue()
+					&& !en.left.contains(fv)) {
 				return ((NumberValue) en.left).getDouble() * factor;
-				//return wrap(en.left).multiply(factor);
+				// return wrap(en.left).multiply(factor);
 			}
 		}
 
@@ -5021,36 +5186,41 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	/**
-	 * get coefficient from simple linear expression with coefficient as divide eg 
-	 * x / 3 + 1
+	 * get coefficient from simple linear expression with coefficient as divide
+	 * eg x / 3 + 1
 	 * 
 	 * returns Double.NaN if it's not in the correct form
 	 */
-	private static double getLinearCoefficientDiv(FunctionVariable fv, ExpressionValue ev2) {
+	private static double getLinearCoefficientDiv(FunctionVariable fv,
+			ExpressionValue ev2) {
 
 		ExpressionValue ev = ev2;
 		double factor = 1;
 		Operation op;
 
 		// x/3+1 or 1+x/3 or x/3-1 or 1-x/3
-		if (ev.isExpressionNode() && (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus() ) {
+		if (ev.isExpressionNode()
+				&& (op = ((ExpressionNode) ev).getOperation()).isPlusorMinus()) {
 			ExpressionNode en = (ExpressionNode) ev;
 
 			if (en.left.isNumberValue() && !en.left.contains(fv)) {
-				//strip off the "+1" etc
+				// strip off the "+1" etc
 				ev = en.right;
 				factor = op.equals(Operation.PLUS) ? 1 : -1;
 			} else if (en.right.isNumberValue() && !en.right.contains(fv)) {
-				//strip off the "+1" etc
+				// strip off the "+1" etc
 				ev = en.left;
 				factor = 1;
 			}
 		}
 
 		// x/3
-		if (ev.isExpressionNode() && ((ExpressionNode) ev).getOperation().equals(Operation.DIVIDE) ) {
+		if (ev.isExpressionNode()
+				&& ((ExpressionNode) ev).getOperation()
+						.equals(Operation.DIVIDE)) {
 			ExpressionNode en = (ExpressionNode) ev;
-			if (en.left == fv && en.right.isNumberValue() && !en.right.contains(fv)) {
+			if (en.left == fv && en.right.isNumberValue()
+					&& !en.right.contains(fv)) {
 				return ((NumberValue) en.right).getDouble() * factor;
 			}
 		}
@@ -5063,31 +5233,37 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		return new MyDouble(kernel, n).wrap();
 	}
 
-	
-
 	/**
 	 * @return whether the top-level operation is IF / IF_ELSE
 	 */
-	public boolean isConditional(){
-		return operation == Operation.IF || operation == Operation.IF_ELSE || operation == Operation.IF_LIST;
+	public boolean isConditional() {
+		return operation == Operation.IF || operation == Operation.IF_ELSE
+				|| operation == Operation.IF_LIST;
 	}
-	
-	public boolean isConditionalDeep(){
+
+	public boolean isConditionalDeep() {
 		return isConditional()
-				|| (left instanceof ExpressionNode && ((ExpressionNode)left).isConditionalDeep())
-				|| (right instanceof ExpressionNode && ((ExpressionNode)right).isConditionalDeep());
+				|| (left instanceof ExpressionNode && ((ExpressionNode) left)
+						.isConditionalDeep())
+				|| (right instanceof ExpressionNode && ((ExpressionNode) right)
+						.isConditionalDeep());
 	}
 
 	/**
 	 * Builds an if-else expression based on this condition
-	 * @param ifBranch if branch
-	 * @param elseBranch else branch
+	 * 
+	 * @param ifBranch
+	 *            if branch
+	 * @param elseBranch
+	 *            else branch
 	 * @return if-else expression
 	 */
-	public ExpressionNode ifElse(ExpressionValue ifBranch, ExpressionValue elseBranch) {
-		return new ExpressionNode(kernel,new MyNumberPair(kernel,this,ifBranch),Operation.IF_ELSE,elseBranch);
+	public ExpressionNode ifElse(ExpressionValue ifBranch,
+			ExpressionValue elseBranch) {
+		return new ExpressionNode(kernel, new MyNumberPair(kernel, this,
+				ifBranch), Operation.IF_ELSE, elseBranch);
 	}
-	
+
 	@Override
 	public double evaluateDouble() {
 		if (isLeaf()) {
@@ -5102,8 +5278,9 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			// right.evaluateDouble();
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
-		case POWER:  return left.isNumberValue() ? Math.pow(left.evaluateDouble(),
-			 right.evaluateDouble()) : super.evaluateDouble();
+		case POWER:
+			return left.isNumberValue() ? Math.pow(left.evaluateDouble(),
+					right.evaluateDouble()) : super.evaluateDouble();
 		case SIN:
 			return Math.sin(left.evaluateDouble());
 		case COS:
@@ -5115,11 +5292,11 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 		// wehen necessary
 		return super.evaluateDouble();
 	}
-	
-	
+
 	/**
-	 * Replaces some CAS commands unknown to GeoGebra
-	 * This may change the structure of the ExpressionNode
+	 * Replaces some CAS commands unknown to GeoGebra This may change the
+	 * structure of the ExpressionNode
+	 * 
 	 * @return the expression node with replaced commands
 	 */
 	public ExpressionNode replaceCasCommands() {
@@ -5135,78 +5312,84 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 	}
 
 	public ExpressionNode apply(Operation operation2) {
-		return new ExpressionNode(kernel,this,operation2,null);
+		return new ExpressionNode(kernel, this, operation2, null);
 	}
-	
+
 	public ExpressionNode apply(Operation operation2, ExpressionValue arg) {
-		return new ExpressionNode(kernel,this,operation2,arg);
+		return new ExpressionNode(kernel, this, operation2, arg);
 	}
 
 	/**
 	 * @return whether this contains FVar that is not part of equation or list
 	 */
 	public boolean containsFreeFunctionVariable() {
-		return checkForFreeVars(left) || (right!=null && checkForFreeVars(right))
-				|| (operation == Operation.FUNCTION_NVAR && right instanceof MyList && ((ValidExpression) right).containsFunctionVariable());
+		return checkForFreeVars(left)
+				|| (right != null && checkForFreeVars(right))
+				|| (operation == Operation.FUNCTION_NVAR
+						&& right instanceof MyList && ((ValidExpression) right)
+							.containsFunctionVariable());
 	}
 
 	private boolean checkForFreeVars(ExpressionValue ev) {
-		if(ev instanceof FunctionVariable){
+		if (ev instanceof FunctionVariable) {
 			return true;
 		}
-		if(ev instanceof ExpressionNode){
-			return ((ExpressionNode)ev).containsFreeFunctionVariable();
+		if (ev instanceof ExpressionNode) {
+			return ((ExpressionNode) ev).containsFreeFunctionVariable();
 		}
-		if(ev instanceof MyVecNode){
-			return checkForFreeVars(((MyVecNode)ev).getX()) || checkForFreeVars(((MyVecNode)ev).getY());
+		if (ev instanceof MyVecNode) {
+			return checkForFreeVars(((MyVecNode) ev).getX())
+					|| checkForFreeVars(((MyVecNode) ev).getY());
 		}
 		return false;
 	}
 
 	@Override
 	public boolean evaluatesToNumber(boolean def) {
-		if(operation == Operation.RANDOM 
-				|| operation == Operation.XCOORD 
+		if (operation == Operation.RANDOM || operation == Operation.XCOORD
 				|| operation == Operation.YCOORD
-				|| operation == Operation.ZCOORD
-				|| operation == Operation.ABS
+				|| operation == Operation.ZCOORD || operation == Operation.ABS
 				|| operation == Operation.ARG) {
 			return true;
 		}
-		if(this.isLeaf() || Operation.isSimpleFunction(this.operation)){
+		if (this.isLeaf() || Operation.isSimpleFunction(this.operation)) {
 			return left.evaluatesToNumber(def);
 		}
-		//both numbers
-		if(right != null && left.evaluatesToNumber(def) && right.evaluatesToNumber(def)){
+		// both numbers
+		if (right != null && left.evaluatesToNumber(def)
+				&& right.evaluatesToNumber(def)) {
 			return true;
 		}
-		//number (*) NaN
-		if(right != null && left.evaluatesToNumber(def) && !right.evaluatesToNumber(def)){
+		// number (*) NaN
+		if (right != null && left.evaluatesToNumber(def)
+				&& !right.evaluatesToNumber(def)) {
 			return false;
 		}
 		// NaN (*) number
-		if(right != null && left.evaluatesToNumber(def) && !right.evaluatesToNumber(def)){
+		if (right != null && left.evaluatesToNumber(def)
+				&& !right.evaluatesToNumber(def)) {
 			return this.operation == Operation.POWER;
 		}
 		// NaN (*) NaN
-		if(right != null && !left.evaluatesToNumber(def) && !right.evaluatesToNumber(def)){
-			if(operation == Operation.PLUS || operation == Operation.MINUS){
+		if (right != null && !left.evaluatesToNumber(def)
+				&& !right.evaluatesToNumber(def)) {
+			if (operation == Operation.PLUS || operation == Operation.MINUS) {
 				return false;
 			}
 		}
-		
+
 		return def;
 	}
 
 	public HashSet<GeoElement> getUnconditionalVars() {
 		// TODO Auto-generated method stub
-		if(!this.isConditionalDeep()){
+		if (!this.isConditionalDeep()) {
 			return null;
 		}
 		if (leaf) {
 			return left.getVariables();
 		}
-		if(isConditional()){
+		if (isConditional()) {
 			return new HashSet<GeoElement>();
 		}
 		HashSet<GeoElement> leftVars = left.getVariables();
@@ -5220,5 +5403,5 @@ ExpressionNodeConstants, ReplaceChildrenByValues {
 			return leftVars;
 		}
 	}
-	
+
 }

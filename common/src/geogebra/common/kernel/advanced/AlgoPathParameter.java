@@ -21,8 +21,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 
-
-
 /**
  * Adapted from AlgoPerimeterPoly
  */
@@ -59,7 +57,7 @@ public class AlgoPathParameter extends AlgoElement {
 		input[0] = point;
 
 		super.setOutputLength(1);
-        super.setOutput(0, value);
+		super.setOutput(0, value);
 		setDependencies();
 	}
 
@@ -69,19 +67,20 @@ public class AlgoPathParameter extends AlgoElement {
 			value.setUndefined();
 			return;
 		}
-		
+
 		Path p = point.getPath();
-		
-		//Application.debug(point.getPathParameter().getT()+" "+p.getMinParameter()+" "+p.getMaxParameter());
-		
-		value.setValue(PathNormalizer.toNormalizedPathParameter(point.getPathParameter().getT(), p.getMinParameter(), p.getMaxParameter()));
-	
+
+		// Application.debug(point.getPathParameter().getT()+" "+p.getMinParameter()+" "+p.getMaxParameter());
+
+		value.setValue(PathNormalizer.toNormalizedPathParameter(point
+				.getPathParameter().getT(), p.getMinParameter(), p
+				.getMaxParameter()));
+
 	}
-				
 
 	public GeoNumeric getResult() {
 		return value;
-	}	
+	}
 
 	// TODO Consider locusequability
 }

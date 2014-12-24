@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * VectorValue.java
@@ -18,20 +18,20 @@ the Free Software Foundation.
 
 package geogebra.common.kernel.arithmetic3D;
 
-
 import geogebra.common.kernel.arithmetic.VectorNDValue;
 import geogebra.common.kernel.kernelND.Geo3DVec;
 
 /**
  *
- * @author  Markus + ggb3D
+ * @author Markus + ggb3D
  */
-public interface Vector3DValue extends VectorNDValue { 
-	/** 
-	 * Converts vector to array of coords 
+public interface Vector3DValue extends VectorNDValue {
+	/**
+	 * Converts vector to array of coords
+	 * 
 	 * @return array of coords
 	 */
-    public double[] getPointAsDouble();    
+	public double[] getPointAsDouble();
 
 	public Geo3DVec getVector();
 }

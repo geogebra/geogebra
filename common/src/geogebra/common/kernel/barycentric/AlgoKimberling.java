@@ -9,33 +9,40 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.AlgoKimberlingWeightsParams;
 
-
 /**
- * @author Zbynek Konecny, credit goes to Jason Cantarella of the Univerity of Georgia
- * for creating a perl script which was used to create this class.
+ * @author Zbynek Konecny, credit goes to Jason Cantarella of the Univerity of
+ *         Georgia for creating a perl script which was used to create this
+ *         class.
  * @version 30-09-2011
  * 
- *  This class calculates n-th Kimberling center of a triangle. 
- *          
+ *          This class calculates n-th Kimberling center of a triangle.
+ * 
  */
 
 public class AlgoKimberling extends AlgoElement {
 
-	
 	private GeoPoint A, B, C; // input
 	private GeoPoint M; // output
 	private NumberValue n;
+
 	/**
 	 * Creates new algo for triangle center
-	 * @param cons construction
-	 * @param label label
-	 * @param A first point
-	 * @param B second point
-	 * @param C third point
-	 * @param n index in ETC
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 * @param n
+	 *            index in ETC
 	 */
-	public AlgoKimberling(Construction cons, String label, GeoPoint A, GeoPoint B,
-			GeoPoint C, NumberValue n) {
+	public AlgoKimberling(Construction cons, String label, GeoPoint A,
+			GeoPoint B, GeoPoint C, NumberValue n) {
 		super(cons);
 		kernel.getApplication().getAlgoKimberlingWeights();
 		this.A = A;
@@ -44,7 +51,7 @@ public class AlgoKimberling extends AlgoElement {
 		this.n = n;
 		M = new GeoPoint(cons);
 		setInputOutput();
-		compute();		
+		compute();
 		M.setLabel(label);
 	}
 
@@ -66,6 +73,7 @@ public class AlgoKimberling extends AlgoElement {
 		setOutput(0, M);
 		setDependencies(); // done by AlgoElement
 	}
+
 	/**
 	 * @return resulting point
 	 */
@@ -81,23 +89,27 @@ public class AlgoKimberling extends AlgoElement {
 		double b = C.distance(A);
 		double a = B.distance(C);
 		double m = Math.min(Math.min(a, b), c);
-		a = a/m;
-		b= b/m;
-		c= c/m;
+		a = a / m;
+		b = b / m;
+		c = c / m;
 		int k = (int) n.getDouble();
 
 		if (kernel.getApplication().getAlgoKimberlingWeights() == null) {
 			M.setUndefined();
 		} else {
-			double wA = kernel.getApplication().kimberlingWeight(new AlgoKimberlingWeightsParams(k, a, b, c));
-			double wB = kernel.getApplication().kimberlingWeight(new AlgoKimberlingWeightsParams(k, b, c, a));
-			double wC = kernel.getApplication().kimberlingWeight(new AlgoKimberlingWeightsParams(k, c, a, b));
+			double wA = kernel.getApplication().kimberlingWeight(
+					new AlgoKimberlingWeightsParams(k, a, b, c));
+			double wB = kernel.getApplication().kimberlingWeight(
+					new AlgoKimberlingWeightsParams(k, b, c, a));
+			double wC = kernel.getApplication().kimberlingWeight(
+					new AlgoKimberlingWeightsParams(k, c, a, b));
 			double w = wA + wB + wC;
-			if(Double.isNaN(w) ||Kernel.isZero(w))
+			if (Double.isNaN(w) || Kernel.isZero(w))
 				M.setUndefined();
-			else	
-				M.setCoords((A.x / A.z * wA + B.x / B.z * wB + C.x / C.z * wC) / w,
-					(A.y / A.z * wA + B.y / B.z * wB + C.y / C.z * wC) / w, 1);
+			else
+				M.setCoords((A.x / A.z * wA + B.x / B.z * wB + C.x / C.z * wC)
+						/ w, (A.y / A.z * wA + B.y / B.z * wB + C.y / C.z * wC)
+						/ w, 1);
 		}
 	}
 

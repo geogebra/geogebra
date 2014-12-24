@@ -47,12 +47,18 @@ public class AlgoZip extends AlgoElement {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
-	 * @param cons construction
 	 * 
-	 * @param label label for the list
-	 * @param expression expression (first argument of zip
-	 * @param vars variables
-	 * @param over lists from which the variables should be taken
+	 * @param cons
+	 *            construction
+	 * 
+	 * @param label
+	 *            label for the list
+	 * @param expression
+	 *            expression (first argument of zip
+	 * @param vars
+	 *            variables
+	 * @param over
+	 *            lists from which the variables should be taken
 	 */
 	public AlgoZip(Construction cons, String label, GeoElement expression,
 			GeoElement[] vars, GeoList[] over) {
@@ -63,10 +69,15 @@ public class AlgoZip extends AlgoElement {
 
 	/**
 	 * Creates a new algorithm to create a sequence of objects that form a list.
-	 * @param cons construction
-	 * @param expression expression (first argument of zip
-	 * @param vars variables
-	 * @param over lists from which the variables should be taken
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param expression
+	 *            expression (first argument of zip
+	 * @param vars
+	 *            variables
+	 * @param over
+	 *            lists from which the variables should be taken
 	 */
 	AlgoZip(Construction cons, GeoElement expression, GeoElement[] vars,
 			GeoList[] over) {
@@ -101,7 +112,7 @@ public class AlgoZip extends AlgoElement {
 			input[2 * i + 1] = vars[i];
 			input[2 * i + 2] = over[i];
 		}
-		if(varCount > listCount){
+		if (varCount > listCount) {
 			input[listCount + varCount] = vars[varCount - 1];
 		}
 		setOutputLength(1);
@@ -117,8 +128,7 @@ public class AlgoZip extends AlgoElement {
 	 * but must be in input array because of GetCommandDescription method).
 	 */
 	@Override
-	public
-	GeoElement[] getInputForUpdateSetPropagation() {
+	public GeoElement[] getInputForUpdateSetPropagation() {
 		GeoElement[] realInput = new GeoElement[listCount + 1];
 		realInput[0] = expression;
 		for (int i = 0; i < listCount; i++) {
@@ -141,8 +151,8 @@ public class AlgoZip extends AlgoElement {
 		if (updateRunning)
 			return;
 		updateRunning = true;
-		//only set undefined when some *input list* is undefined
-		for (int i = 2; i < input.length; i+=2) {
+		// only set undefined when some *input list* is undefined
+		for (int i = 2; i < input.length; i += 2) {
 			if (!input[i].isDefined()) {
 				list.setUndefined();
 				updateRunning = false;
@@ -200,9 +210,7 @@ public class AlgoZip extends AlgoElement {
 					long mem = kernel.getApplication().freeMemory();
 					list.clearCache();
 					kernel.initUndoInfo(); // clear all undo info
-					App
-							.debug("AlgoZip aborted: free memory reached "
-									+ mem);
+					App.debug("AlgoZip aborted: free memory reached " + mem);
 					return;
 				}
 
@@ -252,16 +260,15 @@ public class AlgoZip extends AlgoElement {
 		// copy current expression value to listElement
 		if (!expIsFunctionOrCurve) {
 			listElement.set(expression);
-			if(listElement.isGeoList()){
-				for (int j = 0; j < varCount; j++){
-					((GeoList)listElement).replaceChildrenByValues(vars[j]);
+			if (listElement.isGeoList()) {
+				for (int j = 0; j < varCount; j++) {
+					((GeoList) listElement).replaceChildrenByValues(vars[j]);
 				}
 			}
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
 					&& drawAlgo instanceof DrawInformationAlgo) {
-				App.debug(expression.getDrawAlgorithm().getClass()
-						.getName());
+				App.debug(expression.getDrawAlgorithm().getClass().getName());
 				listElement.setDrawAlgorithm(((DrawInformationAlgo) drawAlgo)
 						.copy());
 				listElement.setEuclidianVisible(true);
@@ -308,8 +315,7 @@ public class AlgoZip extends AlgoElement {
 				long mem = kernel.getApplication().freeMemory();
 				list.clearCache();
 				kernel.initUndoInfo(); // clear all undo info
-				App.debug("AlgoZip aborted: free memory reached "
-						+ mem);
+				App.debug("AlgoZip aborted: free memory reached " + mem);
 				return;
 			}
 
@@ -318,15 +324,15 @@ public class AlgoZip extends AlgoElement {
 
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
-			if (expression.isDefined()){
+			if (expression.isDefined()) {
 				listElement.set(expression);
-				if(listElement.isGeoList()){
-					for (int j = 0; j < varCount; j++){
-						((GeoList)listElement).replaceChildrenByValues(vars[j]);
+				if (listElement.isGeoList()) {
+					for (int j = 0; j < varCount; j++) {
+						((GeoList) listElement)
+								.replaceChildrenByValues(vars[j]);
 					}
 				}
-			}
-			else
+			} else
 				listElement.setUndefined();
 			if (listElement instanceof GeoNumeric
 					&& listElement.getDrawAlgorithm() instanceof DrawInformationAlgo) {
@@ -356,8 +362,8 @@ public class AlgoZip extends AlgoElement {
 		// set local variable to given value
 		for (int i = 0; i < listCount; i++)
 			vars[i].set(over[i].get(index));
-		if(varCount > listCount){
-			((GeoNumeric)vars[varCount-1]).setValue(index + 1);
+		if (varCount > listCount) {
+			((GeoNumeric) vars[varCount - 1]).setValue(index + 1);
 		}
 
 		// update var's algorithms until we reach expression

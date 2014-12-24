@@ -33,7 +33,7 @@ public class CmdNumerator extends CommandProcessor {
 			arg = resArgs(c);
 
 			if (arg[0] instanceof FunctionalNVar) {
-				
+
 				AlgoNumerator algo = new AlgoNumerator(cons, c.getLabel(),
 						(FunctionalNVar) arg[0]);
 

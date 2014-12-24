@@ -28,10 +28,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 
 /**
- * @author Victor Franco Espino 
+ * @author Victor Franco Espino
  * @version 11-02-2007
  * 
- *         tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
+ *          tangent to Curve f in point P: (b'(t), -a'(t),
+ *          a'(t)*b(t)-a(t)*b'(t))
  */
 
 public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
@@ -46,10 +47,14 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 	private AlgoDerivative algo;
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param P point on function
-	 * @param f curve
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param P
+	 *            point on function
+	 * @param f
+	 *            curve
 	 */
 	public AlgoTangentCurve(Construction cons, String label, GeoPointND P,
 			GeoCurveCartesian f) {
@@ -59,16 +64,17 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		initialize(f);
 		setInputOutput(); // for AlgoElement
 		compute();
-		tangent.setLabel(label);	
+		tangent.setLabel(label);
 	}
 
 	/**
-	 * @param f1 cartesian curve (input)
+	 * @param f1
+	 *            cartesian curve (input)
 	 */
 	public void initialize(GeoCurveCartesian f1) {
-		
+
 		this.f = f1;
-		
+
 		// check if P is defined as a point of the curve's graph
 		pointOnCurve = false;
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
@@ -77,16 +83,18 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint) {
 
 			// special code for curve(t)
-			
-			AlgoDependentPoint algoDP = (AlgoDependentPoint) P.getParentAlgorithm();
-			
+
+			AlgoDependentPoint algoDP = (AlgoDependentPoint) P
+					.getParentAlgorithm();
+
 			ExpressionNode en = algoDP.getExpressionNode();
-			
-			if (en.getOperation() == Operation.VEC_FUNCTION && en.getLeft().unwrap() == f) {
+
+			if (en.getOperation() == Operation.VEC_FUNCTION
+					&& en.getLeft().unwrap() == f) {
 				pointOnCurveSpecial = true;
 				pointOnCurveSpecialParam = en.getRight().unwrap();
 			}
-			
+
 		}
 
 		if (pointOnCurve || pointOnCurveSpecial) {
@@ -170,7 +178,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 
 		// calc the tangent;
 		double tvalue;
-		
+
 		if (pointOnCurve) {
 			tvalue = P.getPathParameter().t;
 		} else if (pointOnCurveSpecialParam != null) {
@@ -178,7 +186,7 @@ public class AlgoTangentCurve extends AlgoElement implements TangentAlgo {
 		} else {
 			tvalue = f.getClosestParameter(P, f.getMinParameter());
 		}
-		
+
 		f.evaluateCurve(tvalue, feval);
 		df.evaluateCurve(tvalue, dfeval);
 		tangent.setCoords(-dfeval[1], dfeval[0], feval[0] * dfeval[1]

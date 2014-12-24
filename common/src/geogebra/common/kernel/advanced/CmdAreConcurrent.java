@@ -28,7 +28,9 @@ public class CmdAreConcurrent extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdAreConcurrent(Kernel kernel) {
 		super(kernel);
@@ -37,27 +39,28 @@ public class CmdAreConcurrent extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
 			CircularDefinitionException {
-		int n=c.getArgumentNumber();
+		int n = c.getArgumentNumber();
 		GeoElement[] arg;
 		arg = resArgs(c);
-		if (n==3) {
-			if (!(arg[0] instanceof GeoLine )){
+		if (n == 3) {
+			if (!(arg[0] instanceof GeoLine)) {
 				throw argErr(app, c.getName(), arg[0]);
 			}
-			if (!(arg[1] instanceof GeoLine )){
+			if (!(arg[1] instanceof GeoLine)) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			if (!(arg[2] instanceof GeoLine )){
+			if (!(arg[2] instanceof GeoLine)) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
-			
-			AlgoAreConcurrent algo = new AlgoAreConcurrent(cons, c.getLabel(), (GeoLine) arg[0],(GeoLine) arg[1],(GeoLine) arg[2]);
+
+			AlgoAreConcurrent algo = new AlgoAreConcurrent(cons, c.getLabel(),
+					(GeoLine) arg[0], (GeoLine) arg[1], (GeoLine) arg[2]);
 
 			GeoElement[] ret = { algo.getResult() };
 			return ret;
 		}
 		throw argNumErr(app, c.getName(), n);
-		
+
 	}
 
 }

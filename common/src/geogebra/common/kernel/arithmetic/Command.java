@@ -37,7 +37,8 @@ import java.util.Set;
  * 
  * @author Markus
  */
-public class Command extends ValidExpression implements ReplaceChildrenByValues, GetItem{
+public class Command extends ValidExpression implements
+		ReplaceChildrenByValues, GetItem {
 
 	// list of arguments
 	private ArrayList<ExpressionNode> args = new ArrayList<ExpressionNode>();
@@ -48,13 +49,14 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	private GeoElement[] evalGeos; // evaluated Elements
 	private Macro macro; // command may correspond to a macro
 	private boolean allowEvaluationForTypeCheck = true;
-	
 
 	/**
 	 * Creates a new command object.
 	 * 
-	 * @param kernel kernel
-	 * @param name internal name or translated name
+	 * @param kernel
+	 *            kernel
+	 * @param name
+	 *            internal name or translated name
 	 * @param translateName
 	 *            true to translate name to internal
 	 * 
@@ -66,8 +68,10 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	/**
 	 * Creates a new command object.
 	 * 
-	 * @param kernel kernel
-	 * @param name internal name or translated name
+	 * @param kernel
+	 *            kernel
+	 * @param name
+	 *            internal name or translated name
 	 * @param translateName
 	 *            true to translate name to internal
 	 * @param allowEvaluationForTypeCheck
@@ -89,8 +93,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		if (translateName && !kernel.isUsingInternalCommandNames()) {
 			// translate command name to internal name
 			this.name = app.getReverseCommand(name);
-			// in CAS functions get parsed as commands as well and we want to keep the name
-			if(this.name==null)
+			// in CAS functions get parsed as commands as well and we want to
+			// keep the name
+			if (this.name == null)
 				this.name = name;
 		} else {
 			this.name = name;
@@ -102,7 +107,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	/**
-	 * @param arg argument to add
+	 * @param arg
+	 *            argument to add
 	 */
 	public void addArgument(ExpressionNode arg) {
 		args.add(arg);
@@ -111,7 +117,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	/**
 	 * Returns the name of the variable at the specified argument position. If
 	 * there is no variable name at this position, null is returned.
-	 * @param i position
+	 * 
+	 * @param i
+	 *            position
 	 * @return name of the variable at the specified argument position
 	 */
 	public String getVariableName(int i) {
@@ -128,8 +136,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			GeoElement geo = ((GeoElement) ev);
 			if (geo.isLabelSet())
 				return ((GeoElement) ev).getLabelSimple();
-		} else if(ev instanceof FunctionVariable){
-			return ((FunctionVariable)ev).getSetVarString();
+		} else if (ev instanceof FunctionVariable) {
+			return ((FunctionVariable) ev).getSetVarString();
 		} else if (ev instanceof Function) {
 			String str = ev.toString(StringTemplate.defaultTemplate);
 			if (str.length() == 1 && StringUtil.isLetter(str.charAt(0)))
@@ -154,9 +162,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return args.toArray(new ExpressionNode[0]);
 	}
 
-	
 	/**
-	 * @param i index
+	 * @param i
+	 *            index
 	 * @return i-th argument
 	 */
 	public ExpressionNode getArgument(int i) {
@@ -164,14 +172,15 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	/**
-	 * @param i index
-	 * @param en argument
+	 * @param i
+	 *            index
+	 * @param en
+	 *            argument
 	 */
 	public void setArgument(int i, ExpressionNode en) {
 		args.set(i, en);
 	}
 
-	
 	/**
 	 * @return number of arguments
 	 */
@@ -179,7 +188,6 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return args.size();
 	}
 
-	
 	/**
 	 * @return internal command name
 	 */
@@ -187,27 +195,25 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return name;
 	}
 
-	
 	@Override
 	public String toString(StringTemplate tpl) {
-		return toString(true, false,tpl);
+		return toString(true, false, tpl);
 	}
 
-	
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		return toString(false, false,tpl);
+		return toString(false, false, tpl);
 	}
 
 	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
-		return toString(symbolic, true,tpl);
+		return toString(symbolic, true, tpl);
 	}
 
-	private String toString(boolean symbolic, boolean LaTeX,StringTemplate tpl) {
+	private String toString(boolean symbolic, boolean LaTeX, StringTemplate tpl) {
 		switch (tpl.getStringType()) {
 		case GIAC:
-			return (kernel.getGeoGebraCAS())
-					.getCASCommand(name, args, symbolic,tpl);
+			return (kernel.getGeoGebraCAS()).getCASCommand(name, args,
+					symbolic, tpl);
 		case LATEX:
 			if (sbToString == null)
 				sbToString = new StringBuilder();
@@ -306,9 +312,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	private StringBuilder sbToString;
 
 	private static String toString(ExpressionValue ev, boolean symbolic,
-			boolean LaTeX,StringTemplate tpl) {
+			boolean LaTeX, StringTemplate tpl) {
 		if (LaTeX) {
-			return ev.toLaTeXString(symbolic,tpl);
+			return ev.toLaTeXString(symbolic, tpl);
 		}
 		return symbolic ? ev.toString(tpl) : ev.toValueString(tpl);
 	}
@@ -322,7 +328,6 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		return geos;
 	}
 
-	
 	@Override
 	public ExpressionValue evaluate(StringTemplate tpl) {
 		// not yet evaluated: process command
@@ -333,7 +338,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			return evalGeos[0];
 		}
 		App.debug("invalid command evaluation: " + name);
-		throw new MyError(app.getLocalization(), app.getLocalization().getError("InvalidInput") + ":\n" + this);
+		throw new MyError(app.getLocalization(), app.getLocalization()
+				.getError("InvalidInput") + ":\n" + this);
 
 	}
 
@@ -362,7 +368,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			evalGeos = evaluateMultiple();
 
 		if (evalGeos == null || evalGeos.length == 0)
-			throw new MyError(app.getLocalization(), app.getLocalization().getError("InvalidInput") + ":\n" + this);
+			throw new MyError(app.getLocalization(), app.getLocalization()
+					.getError("InvalidInput") + ":\n" + this);
 
 		for (int i = 0; i < evalGeos.length; i++)
 			if (!evalGeos[i].isConstant())
@@ -375,13 +382,10 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		// return evaluate().isLeaf();
 		return true;
 	}
-	
+
 	/*
-	 * Type checking with evaluate
-	 * Try to evaluate using GeoGebra
-	 * if fails, try with CAS
-	 * else throw Exception
-	 * 
+	 * Type checking with evaluate Try to evaluate using GeoGebra if fails, try
+	 * with CAS else throw Exception
 	 */
 
 	public boolean isNumberValue() {
@@ -391,8 +395,9 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		try {
 			return evaluate(StringTemplate.defaultTemplate).isNumberValue();
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
-			if (ev != null )
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
+			if (ev != null)
 				return ev.unwrap().isNumberValue();
 			throw ex;
 		}
@@ -404,10 +409,11 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			return false;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
+			return evaluate(StringTemplate.defaultTemplate) instanceof VectorValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
-			if (ev != null )
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
+			if (ev != null)
 				return ev.unwrap().evaluatesToNonComplex2DVector();
 			throw ex;
 		}
@@ -419,10 +425,11 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			return false;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate)  instanceof VectorValue;
+			return evaluate(StringTemplate.defaultTemplate) instanceof VectorValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
-			if (ev != null )
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
+			if (ev != null)
 				return ev.unwrap().evaluatesToNonComplex2DVector();
 			throw ex;
 		}
@@ -433,13 +440,15 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		if (!allowEvaluationForTypeCheck) {
 			return false;
 		}
-		if(app.getInternalCommand(name) == null && kernel.getMacro(name) == null){
+		if (app.getInternalCommand(name) == null
+				&& kernel.getMacro(name) == null) {
 			return false;
 		}
 		try {
 			return evaluate(StringTemplate.defaultTemplate).evaluatesToText();
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
 			if (ev != null)
 				return ev.unwrap().evaluatesToText();
 			throw ex;
@@ -480,17 +489,19 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 	@Override
 	public boolean evaluatesToList() {
-		if("x".equals(getName()) || "y".equals(getName()) || "z".equals(getName()) || "If".equals(getName())){
+		if ("x".equals(getName()) || "y".equals(getName())
+				|| "z".equals(getName()) || "If".equals(getName())) {
 			return this.getArgument(0).evaluatesToList();
 		}
 		if (!allowEvaluationForTypeCheck) {
 			return false;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate)  instanceof ListValue;
+			return evaluate(StringTemplate.defaultTemplate) instanceof ListValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
-			if (ev != null )
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
+			if (ev != null)
 				return ev.unwrap() instanceof ListValue;
 			throw ex;
 		}
@@ -505,7 +516,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	}
 
 	/**
-	 * @param macro macro associated with this command
+	 * @param macro
+	 *            macro associated with this command
 	 */
 	public final void setMacro(Macro macro) {
 		this.macro = macro;
@@ -516,22 +528,21 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 			return false;
 		}
 		try {
-			return evaluate(StringTemplate.defaultTemplate)  instanceof Vector3DValue;
+			return evaluate(StringTemplate.defaultTemplate) instanceof Vector3DValue;
 		} catch (MyError ex) {
-			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS().evaluateToExpression(this, null, kernel);
-			if (ev != null )
+			ExpressionValue ev = kernel.getGeoGebraCAS().getCurrentCAS()
+					.evaluateToExpression(this, null, kernel);
+			if (ev != null)
 				return ev.unwrap() instanceof Vector3DValue;
 			throw ex;
 		}
 	}
 
-	
 	@Override
 	public boolean isTopLevelCommand() {
 		return true;
 	}
 
-	
 	@Override
 	public Command getTopLevelCommand() {
 		return this;
@@ -544,7 +555,7 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	@Override
 	public ExpressionValue traverse(Traversing t) {
 		ExpressionValue v = t.process(this);
-		if(v!=this)
+		if (v != this)
 			return v;
 		for (int i = 0; i < args.size(); i++) {
 			ExpressionNode en = args.get(i).traverse(t).wrap();
@@ -552,13 +563,13 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 		}
 		return this;
 	}
-	
+
 	@Override
-	public boolean inspect(Inspecting t){
-		if(t.check(this))
+	public boolean inspect(Inspecting t) {
+		if (t.check(this))
 			return true;
-		for(int i = 0;i < args.size(); i++){
-			if(args.get(i).inspect(t))
+		for (int i = 0; i < args.size(); i++) {
+			if (args.get(i).inspect(t))
 				return true;
 		}
 		return false;
@@ -567,51 +578,50 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 	public ExpressionValue getItem(int i) {
 		return args.get(i);
 	}
-	
+
 	@Override
-	public boolean hasCoords(){
-		if("x".equals(name) || "y".equals(name) || "z".equals(name))
+	public boolean hasCoords() {
+		if ("x".equals(name) || "y".equals(name) || "z".equals(name))
 			return false;
 		return true;
 	}
-	
-	
-	
-	
-	
 
 	/**
 	 * for commands with different output types and that need to know each
 	 * lenght to set labels correctly
 	 */
 	private int[] outputSizes;
-	
+
 	/**
 	 * set output sizes
-	 * @param sizes output sizes
+	 * 
+	 * @param sizes
+	 *            output sizes
 	 */
-	public void setOutputSizes(int[] sizes){
+	public void setOutputSizes(int[] sizes) {
 		outputSizes = sizes;
 	}
-	
+
 	/**
 	 * 
 	 * @return output sizes
 	 */
-	public int[] getOutputSizes(){
+	public int[] getOutputSizes() {
 		return outputSizes;
 	}
 
 	public int getLength() {
 		return getArgumentNumber();
 	}
-	
+
 	/**
-	 * Replaces all Variable objects with the given varName in the arguments by the
-	 * given FunctionVariable object.
+	 * Replaces all Variable objects with the given varName in the arguments by
+	 * the given FunctionVariable object.
 	 * 
-	 * @param varName variable name
-	 * @param fVar replacement variable
+	 * @param varName
+	 *            variable name
+	 * @param fVar
+	 *            replacement variable
 	 * @return number of replacements done
 	 */
 	public int replaceVariables(String varName, FunctionVariable fVar) {
@@ -623,8 +633,8 @@ public class Command extends ValidExpression implements ReplaceChildrenByValues,
 
 		return replacements;
 	}
-	
-	public ExpressionNode wrap(){
+
+	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
 
