@@ -33,8 +33,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoAnglePoints extends AlgoAnglePointsND implements
 		DrawInformationAlgo {
 
-
-	
 	public AlgoAnglePoints(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C) {
 		this(cons, label, A, B, C, null);
@@ -54,7 +52,7 @@ public class AlgoAnglePoints extends AlgoAnglePointsND implements
 
 	public AlgoAnglePoints(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C) {
-		
+
 		this(cons, A, B, C, null);
 	}
 
@@ -67,19 +65,15 @@ public class AlgoAnglePoints extends AlgoAnglePointsND implements
 		// compute angle
 		compute();
 	}
-	
-	
+
 	/**
 	 * used as a helper algo (for AlgoAnglePolygon)
+	 * 
 	 * @param cons
 	 */
 	protected AlgoAnglePoints(Construction cons) {
 		super(cons);
 	}
-	
-
-
-
 
 	public AlgoAnglePoints(GeoPointND A, GeoPointND B, GeoPointND C) {
 		super(A.toGeoElement().cons, false);
@@ -90,13 +84,8 @@ public class AlgoAnglePoints extends AlgoAnglePointsND implements
 
 	@Override
 	public AlgoAnglePoints copy() {
-		return new AlgoAnglePoints(An.copy(),
-				Bn.copy(), Cn.copy());
+		return new AlgoAnglePoints(An.copy(), Bn.copy(), Cn.copy());
 	}
-
-
-
-
 
 	// calc angle between vectors A-B and C-B
 	// angle in range [0, pi]
@@ -120,8 +109,8 @@ public class AlgoAnglePoints extends AlgoAnglePointsND implements
 		wx = C.inhomX - bx;
 		wy = C.inhomY - by;
 
-		if (Kernel.isZero(vx) && Kernel.isZero(vy)
-				|| Kernel.isZero(wx) && Kernel.isZero(wy)) {
+		if (Kernel.isZero(vx) && Kernel.isZero(vy) || Kernel.isZero(wx)
+				&& Kernel.isZero(wy)) {
 			angle.setUndefined();
 			return;
 		}
@@ -137,30 +126,25 @@ public class AlgoAnglePoints extends AlgoAnglePointsND implements
 		angle.setValue(value);
 	}
 
-
 	// TODO Consider locusequability
-	
-	
 
-	/////////////////////////////////
+	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
-	/////////////////////////////////
+	// ///////////////////////////////
 
-	
 	@Override
-	protected int getInputLengthForXML(){
+	protected int getInputLengthForXML() {
 		return getInputLengthForXMLMayNeedXOYPlane();
-	}	
-		
+	}
+
 	@Override
-	protected int getInputLengthForCommandDescription(){
+	protected int getInputLengthForCommandDescription() {
 		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
-	
+
 	@Override
 	public GeoElement getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-	
-	
+
 }

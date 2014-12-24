@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *SetCaption
+ * SetCaption
  */
 public class CmdSetCaption extends CmdScripting {
 
@@ -23,8 +23,7 @@ public class CmdSetCaption extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -35,12 +34,11 @@ public class CmdSetCaption extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				geo.setCaption(((GeoText) arg[1]).getTextString());
-				
+
 				geo.setLabelMode(GeoElement.LABEL_CAPTION);
-				
+
 				geo.updateRepaint();
 
-				
 				return;
 			}
 			throw argErr(app, c.getName(), arg[1]);

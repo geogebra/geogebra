@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoLengthVector.java
@@ -25,61 +25,60 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
-
 /**
  * Length of a segment.
- * @author  mathieu
- * @version 
+ * 
+ * @author mathieu
+ * @version
  */
 public class AlgoLengthSegment extends AlgoElement {
 
-    private GeoSegmentND seg; // input
-    private GeoNumeric num; // output 
-    
-    public AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
-        super(cons);
-        this.seg = seg;
-        num = new GeoNumeric(cons);
-        setInputOutput(); // for AlgoElement
+	private GeoSegmentND seg; // input
+	private GeoNumeric num; // output
 
-        // compute length
-        compute();
-        num.setLabel(label);
-    }
+	public AlgoLengthSegment(Construction cons, String label, GeoSegmentND seg) {
+		super(cons);
+		this.seg = seg;
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
 
-    @Override
+		// compute length
+		compute();
+		num.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = (GeoElement) seg;
+		input = new GeoElement[1];
+		input[0] = (GeoElement) seg;
 
-        super.setOutputLength(1);
-        super.setOutput(0, num);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getLength() {
-        return num;
-    }
-    
+	public GeoNumeric getLength() {
+		return num;
+	}
 
-    // calc length of vector v   
-    @Override
+	// calc length of vector v
+	@Override
 	public final void compute() {
-    	
-        num.setValue(seg.getLength());
-    }
 
-    @Override
+		num.setValue(seg.getLength());
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        return getLoc().getPlain("LengthOfA",((GeoElement) seg).getLabel(tpl));
+		return getLoc().getPlain("LengthOfA", ((GeoElement) seg).getLabel(tpl));
 
-    }
+	}
 
 	// TODO Consider locusequability
 }

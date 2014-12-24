@@ -20,24 +20,21 @@ import geogebra.common.main.App;
 
 import org.apache.commons.math.distribution.PoissonDistribution;
 
-
-
 /**
  * 
  * @author G. Sturr
  */
 
 public class AlgoPoisson extends AlgoDistribution {
-	
-	
 
-	
-	public AlgoPoisson(Construction cons, String label, NumberValue a,NumberValue b, GeoBoolean isCumulative) {
-		super(cons, label, a, b, null, isCumulative); 
+	public AlgoPoisson(Construction cons, String label, NumberValue a,
+			NumberValue b, GeoBoolean isCumulative) {
+		super(cons, label, a, b, null, isCumulative);
 	}
 
-	public AlgoPoisson(Construction cons, NumberValue a,NumberValue b, GeoBoolean isCumulative) {
-		super(cons, a, b, null, isCumulative); 
+	public AlgoPoisson(Construction cons, NumberValue a, NumberValue b,
+			GeoBoolean isCumulative) {
+		super(cons, a, b, null, isCumulative);
 	}
 
 	@Override
@@ -49,27 +46,23 @@ public class AlgoPoisson extends AlgoDistribution {
 	@SuppressWarnings("deprecation")
 	public final void compute() {
 
-
-		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined()
+				&& input[2].isDefined()) {
 			double param = a.getDouble();
-			double val = b.getDouble();	
+			double val = b.getDouble();
 			try {
 				PoissonDistribution dist = getPoissonDistribution(param);
-				if(isCumulative.getBoolean())
-					num.setValue(dist.cumulativeProbability(val));  // P(X <= val)
+				if (isCumulative.getBoolean())
+					num.setValue(dist.cumulativeProbability(val)); // P(X <=
+																	// val)
 				else
-					num.setValue(dist.probability(val));   // P(X = val)
-			}
-			catch (Exception e) {
+					num.setValue(dist.probability(val)); // P(X = val)
+			} catch (Exception e) {
 				App.debug(e.getMessage());
-				num.setUndefined();        			
+				num.setUndefined();
 			}
 		} else
 			num.setUndefined();
-	}       
-
+	}
 
 }
-
-
-

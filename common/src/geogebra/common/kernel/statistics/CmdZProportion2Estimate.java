@@ -8,7 +8,8 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- * ZProportion2Estimate[ <Sample Proportion 1 >, <Sample Size 1>, <Sample Proportion 2 >, <Sample Size 2>, <Level> ]
+ * ZProportion2Estimate[ <Sample Proportion 1 >, <Sample Size 1>, <Sample
+ * Proportion 2 >, <Sample Size 2>, <Level> ]
  */
 public class CmdZProportion2Estimate extends CommandProcessor {
 	/**
@@ -31,26 +32,22 @@ public class CmdZProportion2Estimate extends CommandProcessor {
 		switch (n) {
 
 		case 5:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())
-			) {
-				
-				AlgoZProportion2Estimate algo = new AlgoZProportion2Estimate(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3],
-						(GeoNumeric) arg[4]
-								);
+					&& (ok[4] = arg[4].isGeoNumeric())) {
+
+				AlgoZProportion2Estimate algo = new AlgoZProportion2Estimate(
+						cons, c.getLabel(), (GeoNumeric) arg[0],
+						(GeoNumeric) arg[1], (GeoNumeric) arg[2],
+						(GeoNumeric) arg[3], (GeoNumeric) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} 
-			
+			}
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:

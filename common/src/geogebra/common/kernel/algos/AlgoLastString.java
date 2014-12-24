@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -19,45 +19,46 @@ import geogebra.common.kernel.geos.GeoText;
 
 /**
  * Take first n objects from a list
+ * 
  * @author Michael Borcherds
  * @version 2008-03-04
  */
 
 public class AlgoLastString extends AlgoFirstString {
 
+	public AlgoLastString(Construction cons, String label, GeoText inputText,
+			GeoNumeric n) {
+		super(cons, label, inputText, n);
+	}
 
-    public AlgoLastString(Construction cons, String label, GeoText inputText, GeoNumeric n) {
-        super(cons, label, inputText, n);
-    }
-
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Last;
-    }
+		return Commands.Last;
+	}
 
-    @Override
+	@Override
 	public final void compute() {
-    	String str = inputText.getTextString();
-    	
-    	if (str == null) {
-    		outputText.setUndefined();
-    		return;
-    	}
-    	
-    	size = str.length();
-    	int outsize = n == null ? 1 : (int)n.getDouble();
-    	
-    	if (!inputText.isDefined() ||  size == 0 || outsize < 0 || outsize > size) {
-    		outputText.setUndefined();
-    		return;
-    	} 
-       
-    	    	
-    	if (outsize == 0) {
-    		outputText.setTextString(""); // return empty string
-    	} else {
-    		outputText.setTextString(str.substring(size - outsize));
-    	}
-   }
-  
+		String str = inputText.getTextString();
+
+		if (str == null) {
+			outputText.setUndefined();
+			return;
+		}
+
+		size = str.length();
+		int outsize = n == null ? 1 : (int) n.getDouble();
+
+		if (!inputText.isDefined() || size == 0 || outsize < 0
+				|| outsize > size) {
+			outputText.setUndefined();
+			return;
+		}
+
+		if (outsize == 0) {
+			outputText.setTextString(""); // return empty string
+		} else {
+			outputText.setTextString(str.substring(size - outsize));
+		}
+	}
+
 }

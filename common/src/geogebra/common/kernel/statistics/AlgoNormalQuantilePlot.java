@@ -27,21 +27,17 @@ import org.apache.commons.math.MathException;
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
-
 /**
- * Creates a Normal Quantile Plot. 
+ * Creates a Normal Quantile Plot.
  * 
- * Input: list of unsorted raw numeric data 
- * Output: list containing 
- * (1) points forming a normal quantile plot for the raw data and
- * (2) a linear function for the qq line. 
+ * Input: list of unsorted raw numeric data Output: list containing (1) points
+ * forming a normal quantile plot for the raw data and (2) a linear function for
+ * the qq line.
  * 
- * Point ordering: 
- * x-coords = data values
- * y-coords = expected z-scores
+ * Point ordering: x-coords = data values y-coords = expected z-scores
  * 
  * 
- * The algorithm follows the description given by: 
+ * The algorithm follows the description given by:
  * http://en.wikipedia.org/wiki/Normal_probability_plot
  * http://www.itl.nist.gov/div898/handbook/eda/section3/normprpl.htm
  * 
@@ -50,13 +46,14 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
 
 public class AlgoNormalQuantilePlot extends AlgoElement {
 
-	private GeoList inputList; //input
-	private GeoList outputList; //output	
+	private GeoList inputList; // input
+	private GeoList outputList; // output
 	private int size;
 	private double[] zValues;
 	private double[] sortedData;
 
-	public AlgoNormalQuantilePlot(Construction cons, String label, GeoList inputList) {		
+	public AlgoNormalQuantilePlot(Construction cons, String label,
+			GeoList inputList) {
 		this(cons, inputList);
 		outputList.setLabel(label);
 	}
@@ -77,12 +74,12 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
 		setOutputLength(1);
-		setOutput(0,outputList);
+		setOutput(0, outputList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -90,23 +87,23 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		return outputList;
 	}
 
-	private void calculateZValues(int n){
+	private void calculateZValues(int n) {
 
-		zValues = new double[n];    	
+		zValues = new double[n];
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
 		double x;
 
 		try {
-			x = 1 - Math.pow(0.5, 1.0/n);
+			x = 1 - Math.pow(0.5, 1.0 / n);
 			zValues[0] = normalDist.inverseCumulativeProbability(x);
 
-			for(int i = 2; i<n; i++){
-				x = (i - 0.3175)/(n + 0.365);
-				zValues[i-1] = normalDist.inverseCumulativeProbability(x);
+			for (int i = 2; i < n; i++) {
+				x = (i - 0.3175) / (n + 0.365);
+				zValues[i - 1] = normalDist.inverseCumulativeProbability(x);
 			}
 
-			x = Math.pow(0.5, 1.0/n);
-			zValues[n-1] = normalDist.inverseCumulativeProbability(x); 
+			x = Math.pow(0.5, 1.0 / n);
+			zValues[n - 1] = normalDist.inverseCumulativeProbability(x);
 
 		} catch (MathException e) {
 			// TODO Auto-generated catch block
@@ -115,7 +112,7 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 	}
 
-	private GeoSegment getQQLineSegment(){
+	private GeoSegment getQQLineSegment() {
 
 		SummaryStatistics stats = new SummaryStatistics();
 		for (int i = 0; i < sortedData.length; i++) {
@@ -126,15 +123,15 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 		double min = stats.getMin();
 		double max = stats.getMax();
 
-		// qq line: y = (1/sd)x - mean/sd 
-		
+		// qq line: y = (1/sd)x - mean/sd
+
 		GeoPoint startPoint = new GeoPoint(cons);
-		startPoint.setCoords(min, (min/sd) - mean/sd, 1.0);
+		startPoint.setCoords(min, (min / sd) - mean / sd, 1.0);
 		GeoPoint endPoint = new GeoPoint(cons);
-		endPoint.setCoords(max, (max/sd) - mean/sd, 1.0);
+		endPoint.setCoords(max, (max / sd) - mean / sd, 1.0);
 		GeoSegment seg = new GeoSegment(cons, startPoint, endPoint);
 		seg.calcLength();
-		
+
 		return seg;
 	}
 
@@ -143,14 +140,14 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 
 		// validate
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
 		// convert geoList to sorted array of double
 		sortedData = new double[size];
-		for (int i=0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
 				NumberValue num = (NumberValue) geo;
@@ -159,40 +156,41 @@ public class AlgoNormalQuantilePlot extends AlgoElement {
 			} else {
 				outputList.setUndefined();
 				return;
-			}    		    		
-		}   
+			}
+		}
 		Arrays.sort(sortedData);
 
 		// create the z values
 		calculateZValues(size);
-		
-		// prepare output list. Pre-existing geos will be recycled, 
+
+		// prepare output list. Pre-existing geos will be recycled,
 		// but extra geos are removed when outputList is too long
 		outputList.setDefined(true);
 		for (int i = outputList.size() - 1; i >= size; i--) {
 			GeoElement extraGeo = outputList.get(i);
 			extraGeo.remove();
 			outputList.remove(extraGeo);
-			
-		}	
-		int oldListSize = outputList.size();
-		
 
-		// iterate through the sorted data and create the normal quantile points 
+		}
+		int oldListSize = outputList.size();
+
+		// iterate through the sorted data and create the normal quantile points
 
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		for(int i = 0; i<sortedData.length; i++) {
-			if(i<oldListSize)
-				((GeoPoint)outputList.get(i)).setCoords(sortedData[i], zValues[i], 1.0);
+		for (int i = 0; i < sortedData.length; i++) {
+			if (i < oldListSize)
+				((GeoPoint) outputList.get(i)).setCoords(sortedData[i],
+						zValues[i], 1.0);
 			else
-				outputList.add(new GeoPoint(cons, null, sortedData[i], zValues[i], 1.0));
-		}      
+				outputList.add(new GeoPoint(cons, null, sortedData[i],
+						zValues[i], 1.0));
+		}
 
 		// create qq line segment and add it to the list
 		outputList.add(getQQLineSegment());
-		
+
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 	}
 

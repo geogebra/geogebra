@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *InversePoisson
+ * InversePoisson
  */
 public class CmdInversePoisson extends CommandProcessor {
 
@@ -33,9 +33,10 @@ public class CmdInversePoisson extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				
-				AlgoInversePoisson algo = new AlgoInversePoisson(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+
+				AlgoInversePoisson algo = new AlgoInversePoisson(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

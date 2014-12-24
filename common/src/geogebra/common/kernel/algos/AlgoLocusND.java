@@ -67,27 +67,19 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	protected GeoPointND Pcopy, Qcopy, PstartPos, QstartPos;
 	protected double lastX, lastY;
 
-	protected double[]
-	maxXdist, 
-	maxYdist, 
-	xmin = new double[3], 
-	xmax = new double[3], 
-	ymin = new double[3], 
-	ymax = new double[3], 
-	farXmin = new double[3], 
-	farXmax = new double[3], 
-	farYmin = new double[3], 
-	farYmax = new double[3];
+	protected double[] maxXdist, maxYdist, xmin = new double[3],
+			xmax = new double[3], ymin = new double[3], ymax = new double[3],
+			farXmin = new double[3], farXmax = new double[3],
+			farYmin = new double[3], farYmax = new double[3];
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 	private GRectangle2D[] nearToScreenRect = {
-			geogebra.common.factories.AwtFactory.prototype.newRectangle2D(), 
-			geogebra.common.factories.AwtFactory.prototype.newRectangle2D(), 
-			geogebra.common.factories.AwtFactory.prototype.newRectangle2D()
-	}; 
+			geogebra.common.factories.AwtFactory.prototype.newRectangle2D(),
+			geogebra.common.factories.AwtFactory.prototype.newRectangle2D(),
+			geogebra.common.factories.AwtFactory.prototype.newRectangle2D() };
 
 	private boolean continuous;
-	protected boolean[] lastFarAway = {false, false, false};
+	protected boolean[] lastFarAway = { false, false, false };
 	private boolean foundDefined;
 	private boolean maxTimeExceeded;
 	private Construction macroCons;
@@ -97,16 +89,17 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	private TreeSet<ConstructionElement> locusConsOrigElements;
 	private TreeSet<GeoElement> Qin;
 
-	private int views = 1; 
+	private int views = 1;
 
 	// private Updater updater;
 
 	// Constructor called from AlgoLocusList
-	public AlgoLocusND(Construction cons, GeoPointND Q, GeoPointND P, int min_steps, boolean registerCE) {
+	public AlgoLocusND(Construction cons, GeoPointND Q, GeoPointND P,
+			int min_steps, boolean registerCE) {
 		super(cons);
-		
+
 		createMaxDistances();
-		
+
 		MIN_STEPS_INSTANCE = min_steps;
 		this.movingPoint = P;
 		this.locusPoint = Q;
@@ -116,11 +109,11 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		createStartPos(cons);
 
-		//we may need locus in init when something goes wrong
+		// we may need locus in init when something goes wrong
 		locus = newGeoLocus(cons);
 		init();
 		updateScreenBorders();
-		
+
 		setInputOutput(); // for AlgoElement
 
 		if (registerCE) {
@@ -138,25 +131,29 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	/**
 	 * create max distances arrays
 	 */
-	protected void createMaxDistances(){
+	protected void createMaxDistances() {
 		maxXdist = new double[3];
 		maxYdist = new double[3];
 	}
-	
+
 	/**
 	 * create start pos points
-	 * @param cons construction
+	 * 
+	 * @param cons
+	 *            construction
 	 */
 	abstract protected void createStartPos(Construction cons);
-	
+
 	/**
 	 * 
-	 * @param cons construction
+	 * @param cons
+	 *            construction
 	 * @return new GeoLocus
 	 */
 	abstract protected GeoLocusND<T> newGeoLocus(Construction cons);
 
-	public AlgoLocusND(Construction cons, String label, GeoPointND Q, GeoPointND P) {
+	public AlgoLocusND(Construction cons, String label, GeoPointND Q,
+			GeoPointND P) {
 		this(cons, Q, P, PathMover.MIN_STEPS, true);
 		locus.setLabel(label);
 	}
@@ -197,16 +194,16 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	public GeoPointND getQ() {
 		return locusPoint;
 	}
-	
+
 	/**
-	 * A way more descriptive name for
-	 * the getter.
+	 * A way more descriptive name for the getter.
+	 * 
 	 * @return dependent point Q
 	 */
 	public GeoPointND getLocusPoint() {
 		return locusPoint;
 	}
-	
+
 	/**
 	 * @return moving point P.
 	 */
@@ -216,7 +213,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 	private void init() {
 		// copy the construction
-		Qin = ((GeoElement) locusPoint).getAllPredecessors(); // all parents of Q
+		Qin = ((GeoElement) locusPoint).getAllPredecessors(); // all parents of
+																// Q
 
 		// get intersection of all children of P and all parents of Q
 		locusConsOrigElements = new TreeSet<ConstructionElement>();
@@ -225,7 +223,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		while (it.hasNext()) {
 			GeoElement parent = it.next();
 
-			if (parent.isLabelSet() && parent.isChildOf((GeoElement) movingPoint)) {
+			if (parent.isLabelSet()
+					&& parent.isChildOf((GeoElement) movingPoint)) {
 				// note: locusConsOrigElements will contain AlgoElement and
 				// GeoElement objects
 				Macro.addDependentElement(parent, locusConsOrigElements,
@@ -237,12 +236,15 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// Note: we have to undo this at the end of this method !!!
 		boolean isLabeledP = movingPoint.isLabelSet();
 		if (!isLabeledP) {
-			((GeoElement) movingPoint).setLabelSimple(((GeoElement) movingPoint).getDefaultLabel());
+			((GeoElement) movingPoint)
+					.setLabelSimple(((GeoElement) movingPoint)
+							.getDefaultLabel());
 			((GeoElement) movingPoint).labelSet = true;
 		}
 		boolean isLabeledQ = locusPoint.isLabelSet();
 		if (!isLabeledQ) {
-			((GeoElement) locusPoint).setLabelSimple(((GeoElement) locusPoint).getDefaultLabel());
+			((GeoElement) locusPoint).setLabelSimple(((GeoElement) locusPoint)
+					.getDefaultLabel());
 			((GeoElement) locusPoint).labelSet = true;
 		}
 
@@ -251,16 +253,19 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 		// instead, add the moving point by adding incidences of it to the path
 		// at the same time (see buildLocusMacroConstruction)
-		// note: this will add the parent algo of the moving point, which is AlgoPointOnPath...
+		// note: this will add the parent algo of the moving point, which is
+		// AlgoPointOnPath...
 
-		// In theory, this is not harmful as locusConsOrigElements is just used in AlgoLocus,
-		// and macroCons.updateConstruction is only called one time, after resetMacroConstruction
-		Macro.addDependentElement((GeoElement) movingPoint, locusConsOrigElements,
-				usedAlgoIds);
+		// In theory, this is not harmful as locusConsOrigElements is just used
+		// in AlgoLocus,
+		// and macroCons.updateConstruction is only called one time, after
+		// resetMacroConstruction
+		Macro.addDependentElement((GeoElement) movingPoint,
+				locusConsOrigElements, usedAlgoIds);
 
 		// add locus creating point and its algorithm to locusConsOrigElements
-		Macro.addDependentElement((GeoElement) locusPoint, locusConsOrigElements,
-				usedAlgoIds);
+		Macro.addDependentElement((GeoElement) locusPoint,
+				locusConsOrigElements, usedAlgoIds);
 
 		// create macro construction
 		buildLocusMacroConstruction(locusConsOrigElements);
@@ -337,7 +342,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			ConstructionElement ce = it.next();
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) ce;
-				macroKernel.addReservedLabel(geo.getLabel(StringTemplate.defaultTemplate));
+				macroKernel.addReservedLabel(geo
+						.getLabel(StringTemplate.defaultTemplate));
 			}
 		}
 
@@ -349,16 +355,19 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
-			Pcopy = (GeoPointND) macroKernel.lookupLabel(((GeoElement) movingPoint).getLabelSimple());
+			Pcopy = (GeoPointND) macroKernel
+					.lookupLabel(((GeoElement) movingPoint).getLabelSimple());
 			((GeoElement) Pcopy).setFixed(false);
 			Pcopy.setPath(movingPoint.getPath());
 
 			// alternative way to add the incidence of the path to Pcopy
 			// see init()
-			//Pcopy.addIncidence((GeoElement)path);
-			//AlgoIntersectLineConic.resetPossibleSpecialCase();//not implemented
+			// Pcopy.addIncidence((GeoElement)path);
+			// AlgoIntersectLineConic.resetPossibleSpecialCase();//not
+			// implemented
 
-			Qcopy = (GeoPointND) macroKernel.lookupLabel(((GeoElement) locusPoint).getLabelSimple());
+			Qcopy = (GeoPointND) macroKernel
+					.lookupLabel(((GeoElement) locusPoint).getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
 			/*
@@ -399,15 +408,15 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 				// do not copy functions, their expressions already
 				// include references to the correct other geos
 				if (!geoOrig.isGeoFunction()) {
-					GeoElement geoCopy = macroCons.lookupLabel(geoOrig.getLabelSimple());
+					GeoElement geoCopy = macroCons.lookupLabel(geoOrig
+							.getLabelSimple());
 					if (geoCopy != null) {
 						try {
 							geoCopy.set(geoOrig);
 							geoCopy.update();
 						} catch (Exception e) {
-							App
-									.debug("AlgoLocus: error in resetMacroConstruction(): "
-											+ e.getMessage());
+							App.debug("AlgoLocus: error in resetMacroConstruction(): "
+									+ e.getMessage());
 						}
 					}
 				}
@@ -506,8 +515,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 						if (Qcopy.isDefined() && !Qcopy.isInfinite()) {
 							// draw point
-							insertPoint(Qcopy,
-									distanceSmall(Qcopy, true));
+							insertPoint(Qcopy, distanceSmall(Qcopy, true));
 							prevQcopyDefined = true;
 						}
 					}
@@ -515,8 +523,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 					// PARAMETER jump: !lineTo
 					else {
 						// draw point
-						insertPoint(Qcopy,
-								distanceSmall(Qcopy, true));
+						insertPoint(Qcopy, distanceSmall(Qcopy, true));
 						prevQcopyDefined = true;
 					}
 				}
@@ -551,8 +558,8 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 						finishedRun = true;
 					} else {
 						// decrease step until another step is possible
-						while (!pathMover.hasNext() && pathMover.smallerStep()){
-							//do nothing
+						while (!pathMover.hasNext() && pathMover.smallerStep()) {
+							// do nothing
 						}
 						// no smaller step possible: run finished
 						if (!pathMover.hasNext())
@@ -608,25 +615,28 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 		// Application.debug("LOCUS COMPUTE updateCascades: " + countUpdates +
 		// ", cache used: " + useCache);
 	}
-	
+
 	/**
 	 * 
-	 * @param point point
+	 * @param point
+	 *            point
 	 * @return true if point is not equal to last coords
 	 */
 	abstract protected boolean differentFromLast(GeoPointND point);
-	
+
 	/**
 	 * 
-	 * @param p1 first point
-	 * @param p2 second point
+	 * @param p1
+	 *            first point
+	 * @param p2
+	 *            second point
 	 * @return true if p1 and p2 has same coords for min precision
 	 */
 	abstract protected boolean areEqual(GeoPointND p1, GeoPointND p2);
 
 	private static boolean isPathIterable(GeoElement geoElement) {
-		if(geoElement.isGeoImplicitPoly())
-			return ((GeoImplicitPoly)geoElement).isOnScreen();
+		if (geoElement.isGeoImplicitPoly())
+			return ((GeoImplicitPoly) geoElement).isOnScreen();
 		return geoElement.isDefined();
 	}
 
@@ -657,8 +667,7 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 
 				// if it takes too much time to calculate a single step, we stop
 				if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-					App.debug("AlgoLocus: max time exceeded "
-							+ updateTime);
+					App.debug("AlgoLocus: max time exceeded " + updateTime);
 					maxTimeExceeded = true;
 				}
 
@@ -727,170 +736,176 @@ public abstract class AlgoLocusND<T extends MyPoint> extends AlgoElement {
 	protected double[] paramCache = new double[3];
 	private T[] qcopyCache = createQCopyCache();
 	private int cacheIndex = 0;
-	
-	
+
 	/**
 	 * 
 	 * @return new q copy cache
 	 */
 	abstract protected T[] createQCopyCache();
-	
+
 	/**
 	 * set point's coords to copy
-	 * @param copy copy
-	 * @param point point
+	 * 
+	 * @param copy
+	 *            copy
+	 * @param point
+	 *            point
 	 */
 	abstract protected void setQCopyCache(T copy, GeoPointND point);
-	
+
 	/**
 	 * 
 	 * @return new instance for cache
 	 */
 	abstract protected T newCache();
-	
+
 	/**
 	 * insert point
-	 * @param point point
-	 * @param lineTo if line to
+	 * 
+	 * @param point
+	 *            point
+	 * @param lineTo
+	 *            if line to
 	 */
 	abstract protected void insertPoint(GeoPointND point, boolean lineTo);
-	
+
 	/**
 	 * 
-	 * @param point point
+	 * @param point
+	 *            point
 	 * @return if the point is far away
 	 */
 	abstract protected boolean isFarAway(GeoPointND point, int i);
 
-
-	
 	/**
 	 * 
-	 * @param Q point
-	 * @param rectangle rectangle
+	 * @param Q
+	 *            point
+	 * @param rectangle
+	 *            rectangle
 	 * @return if distance ok for the point in this rectangle
 	 */
 	abstract protected boolean distanceOK(GeoPointND Q, GRectangle2D rectangle);
 
 	private boolean distanceOK(GeoPointND Q) {
-		boolean[] distanceOK = {false, false, false};
+		boolean[] distanceOK = { false, false, false };
 
-		for (int i = 0 ; i < distanceOK.length ; i++){
+		for (int i = 0; i < distanceOK.length; i++) {
 			if (lastFarAway[i] && isFarAway(Q, i)) {
 				distanceOK[i] = distanceOK(Q, nearToScreenRect[i]);
 			} else {
 				distanceOK[i] = distanceSmall(Q, false);
 			}
 		}
-		
-		for (int i = 0 ; i < distanceOK.length ; i++){
-			if (!distanceOK[i]){
+
+		for (int i = 0; i < distanceOK.length; i++) {
+			if (!distanceOK[i]) {
 				return false;
 			}
 		}
 
-	 	return true;
+		return true;
 	}
 
 	/**
 	 * 
-	 * @param Q point
+	 * @param Q
+	 *            point
 	 * @param orInsteadOfAnd
 	 * @return true if distance is small to last point
 	 */
-	abstract protected boolean distanceSmall(GeoPointND Q, boolean orInsteadOfAnd);
+	abstract protected boolean distanceSmall(GeoPointND Q,
+			boolean orInsteadOfAnd);
 
-	protected boolean[] visibleEV = {false, false, false};
+	protected boolean[] visibleEV = { false, false, false };
 
-	boolean isVisibleInEV(int i) { 
-		switch(i){
+	boolean isVisibleInEV(int i) {
+		switch (i) {
 		case 1:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN)) 
-				return false; 
-			if (!kernel.getApplication().getEuclidianView1().isShowing()) 
-				return false; 
-			return true; 
-			
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN))
+				return false;
+			if (!kernel.getApplication().getEuclidianView1().isShowing())
+				return false;
+			return true;
+
 		case 2:
-			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2)) 
-				return false; 
-			if (!kernel.getApplication().hasEuclidianView2(1)) 
-				return false; 
-			return true; 
-			
+			if (!locus.isVisibleInView(App.VIEW_EUCLIDIAN2))
+				return false;
+			if (!kernel.getApplication().hasEuclidianView2(1))
+				return false;
+			return true;
+
 		case 3:
-			if (!locus.isVisibleInView3D()) 
-				return false; 
-			if (kernel.getApplication().isEuclidianView3Dinited()) 
-				return kernel.getApplication().getEuclidianView3D().isShowing(); 
+			if (!locus.isVisibleInView3D())
+				return false;
+			if (kernel.getApplication().isEuclidianView3Dinited())
+				return kernel.getApplication().getEuclidianView3D().isShowing();
 		}
 		return false;
-		
-	} 
 
+	}
 
 	void updateScreenBordersIfNecessary() {
-		for (int i = 0 ; i < visibleEV.length ; i++){
-			if (isVisibleInEV(i+1) != visibleEV[i]){
+		for (int i = 0; i < visibleEV.length; i++) {
+			if (isVisibleInEV(i + 1) != visibleEV[i]) {
 				updateScreenBorders();
 				return;
 			}
 		}
 	}
-	
+
 	void updateScreenBorders(int i) {
 
-		xmax[i] = kernel.getXmax(i); 
-		xmin[i] = kernel.getXmin(i); 
-		ymax[i] = kernel.getYmax(i); 
-		ymin[i] = kernel.getYmin(i); 
+		xmax[i] = kernel.getXmax(i);
+		xmin[i] = kernel.getXmin(i);
+		ymax[i] = kernel.getYmax(i);
+		ymin[i] = kernel.getYmin(i);
 
 		setMaxDistances(i);
 
+		// near to screen rectangle
+		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i], farXmax[i]
+				- farXmin[i], farYmax[i] - farYmin[i]);
 
-		// near to screen rectangle 
-		nearToScreenRect[i].setFrame(farXmin[i], farYmin[i], farXmax[i] - farXmin[i], farYmax[i] - farYmin[i]); 
-
-		
-		//App.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" -- "+xmax[i]+","+ymax[i]);
+		// App.debug(viewIndex+" -- "+xmin[i]+","+ymin[i]+" -- "+xmax[i]+","+ymax[i]);
 	}
-	
-	protected void setMaxDistances(int i){
-		maxXdist[i] = MAX_X_PIXEL_DIST / kernel.getXscale(i); // widthRW / 100; 
-		maxYdist[i] = MAX_Y_PIXEL_DIST / kernel.getYscale(i); // heightRW / 100; 
-		
-		// we take a bit more than the screen 
-		// itself so that we don't loose locus 
-		// lines too often 
-		// that leave and reenter the screen 
-		double widthRW = xmax[i] - xmin[i]; 
-		double heightRW = ymax[i] - ymin[i]; 
 
-		farXmin[i] = xmin[i] - widthRW / 2; 
-		farXmax[i] = xmax[i] + widthRW / 2; 
-		farYmin[i] = ymin[i] - heightRW / 2; 
-		farYmax[i] = ymax[i] + heightRW / 2; 
+	protected void setMaxDistances(int i) {
+		maxXdist[i] = MAX_X_PIXEL_DIST / kernel.getXscale(i); // widthRW / 100;
+		maxYdist[i] = MAX_Y_PIXEL_DIST / kernel.getYscale(i); // heightRW / 100;
+
+		// we take a bit more than the screen
+		// itself so that we don't loose locus
+		// lines too often
+		// that leave and reenter the screen
+		double widthRW = xmax[i] - xmin[i];
+		double heightRW = ymax[i] - ymin[i];
+
+		farXmin[i] = xmin[i] - widthRW / 2;
+		farXmax[i] = xmax[i] + widthRW / 2;
+		farYmin[i] = ymin[i] - heightRW / 2;
+		farYmax[i] = ymax[i] + heightRW / 2;
 
 	}
 
 	void updateScreenBorders() {
 
-		for (int i = 0 ; i < visibleEV.length ; i++){
-			visibleEV[i] = isVisibleInEV(i+1);
+		for (int i = 0; i < visibleEV.length; i++) {
+			visibleEV[i] = isVisibleInEV(i + 1);
 		}
 
-		if (visibleEV[0] && visibleEV[1]) { 
-			views = 2; 
+		if (visibleEV[0] && visibleEV[1]) {
+			views = 2;
 		} else {
-			views = 1; 
-		} 
-		
-		if (visibleEV[2]) {
-			views ++;
+			views = 1;
 		}
 
-		for (int i = 0 ; i < visibleEV.length ; i++){
-			if (visibleEV[i]) { 
+		if (visibleEV[2]) {
+			views++;
+		}
+
+		for (int i = 0; i < visibleEV.length; i++) {
+			if (visibleEV[i]) {
 				updateScreenBorders(i);
 			}
 		}

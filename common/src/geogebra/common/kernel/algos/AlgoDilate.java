@@ -75,11 +75,11 @@ public class AlgoDilate extends AlgoTransformation {
 
 		inGeo = A;
 		rgeo = r.toGeoElement();
-		
+
 		outGeo = getResultTemplate(inGeo);
-		if(outGeo instanceof Dilateable)
-        	out = (Dilateable)outGeo;
-		
+		if (outGeo instanceof Dilateable)
+			out = (Dilateable) outGeo;
+
 		setInputOutput();
 		compute();
 
@@ -135,18 +135,18 @@ public class AlgoDilate extends AlgoTransformation {
 			return;
 		}
 
-    	setOutGeo();		
-    	
-    	out.dilate(r, getPointCoords());
-    	
+		setOutGeo();
+
+		out.dilate(r, getPointCoords());
+
 		if (inGeo.isLimitedPath())
 			this.transformLimitedPath(inGeo, outGeo);
 	}
-	
+
 	/**
 	 * set inGeo to outGeo
 	 */
-	protected void setOutGeo(){
+	protected void setOutGeo() {
 		outGeo.set(inGeo);
 	}
 
@@ -160,19 +160,18 @@ public class AlgoDilate extends AlgoTransformation {
 				rgeo.getLabel(tpl), sLabel);
 
 	}
-	
+
 	/**
 	 * 
 	 * @return point coords for dilate
 	 */
-	protected Coords getPointCoords(){
-		if (S == null){
+	protected Coords getPointCoords() {
+		if (S == null) {
 			return Coords.O;
 		}
-		
+
 		return S.getInhomCoords();
 	}
-	
 
 	@Override
 	protected void transformLimitedPath(GeoElement a, GeoElement b) {

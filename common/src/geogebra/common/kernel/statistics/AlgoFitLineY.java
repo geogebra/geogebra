@@ -46,11 +46,11 @@ public class AlgoFitLineY extends AlgoElement {
 		this.geoList = geoList;
 
 		g = new GeoLine(cons);
-        // ignore default (implicit)
-        // for FitXXX we always want "y=..."
-        g.setToExplicit();
+		// ignore default (implicit)
+		// for FitXXX we always want "y=..."
+		g.setToExplicit();
 
-        setInputOutput(); // for AlgoElement
+		setInputOutput(); // for AlgoElement
 
 		compute();
 	}
@@ -97,21 +97,21 @@ public class AlgoFitLineY extends AlgoElement {
 			if (geo.isGeoPoint()) {
 				double x;
 				double y;
-				if (geo.isGeoElement3D()){
+				if (geo.isGeoElement3D()) {
 					Coords coords = ((GeoPointND) geo).getInhomCoordsInD3();
-					if (!Kernel.isZero(coords.getZ())){
+					if (!Kernel.isZero(coords.getZ())) {
 						g.setUndefined();
 						return;
 					}
 					x = coords.getX();
 					y = coords.getY();
-				}else{
+				} else {
 					double xy[] = new double[2];
 					((GeoPoint) geo).getInhomCoords(xy);
 					x = xy[0];
 					y = xy[1];
 				}
-				
+
 				sigmax += x;
 				sigmay += y;
 				sigmaxx += x * x;

@@ -19,7 +19,7 @@ import geogebra.common.util.debug.Log;
 import java.util.Iterator;
 
 /**
- *SetValue
+ * SetValue
  */
 public class CmdSetValue extends CmdScripting {
 
@@ -34,22 +34,22 @@ public class CmdSetValue extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		arg = resArgs(c);
 		boolean ok;
-
 
 		switch (n) {
 		case 2:
 			setValue2(arg);
 			return;
 		case 3:
-			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent())) && arg[1] instanceof NumberValue) {
+			if ((ok = (arg[0].isGeoList() && arg[0].isIndependent()))
+					&& arg[1] instanceof NumberValue) {
 
-				boolean success = setValue3(kernelA, (GeoList)arg[0], (int) ((NumberValue)arg[1]).getDouble(), arg[2]);
-				
+				boolean success = setValue3(kernelA, (GeoList) arg[0],
+						(int) ((NumberValue) arg[1]).getDouble(), arg[2]);
+
 				if (!success) {
 					throw argErr(app, c.getName(), arg[1]);
 				}
@@ -65,8 +65,7 @@ public class CmdSetValue extends CmdScripting {
 	}
 
 	/**
-	 * sets a value of a list 
-	 * (or extends the list if you set element n+1)
+	 * sets a value of a list (or extends the list if you set element n+1)
 	 * 
 	 * @param kernel
 	 * @param list
@@ -74,12 +73,13 @@ public class CmdSetValue extends CmdScripting {
 	 * @param arg2
 	 * @return
 	 */
-	public static boolean setValue3(Kernel kernel, GeoList list, int nn, GeoElement arg2) {
+	public static boolean setValue3(Kernel kernel, GeoList list, int nn,
+			GeoElement arg2) {
 
 		if (nn < 1 || nn > list.size() + 1) {
 			return false;
 		}
-		if(nn > list.size()){
+		if (nn > list.size()) {
 			list.add((GeoElement) arg2.deepCopy(kernel));
 			list.updateRepaint();
 			return true;
@@ -90,7 +90,7 @@ public class CmdSetValue extends CmdScripting {
 				NumberValue num = (NumberValue) arg2;
 				((GeoNumeric) geo).setValue(num.getDouble());
 			} else {
-				geo.set(arg2);						
+				geo.set(arg2);
 			}
 		} else {
 			Log.debug(geo.getParentAlgorithm());
@@ -125,19 +125,21 @@ public class CmdSetValue extends CmdScripting {
 		if (arg[0].isGeoFunction() && arg[1].isGeoFunctionable()) {
 			// eg f(x)=x^2
 			// SetValue[f,1]
-			GeoFunction fun = (GeoFunction)arg[0];
+			GeoFunction fun = (GeoFunction) arg[0];
 			GeoFunctionable val = (GeoFunctionable) arg[1];
 			fun.set(val.getGeoFunction());
 			fun.updateRepaint();
 		} else if (arg[0].isGeoList() && arg[1].isNumberValue()) {
-			((GeoList) arg[0]).setSelectedIndex((int)Math.round(arg[1].evaluateDouble()) - 1, true);
-			
+			((GeoList) arg[0]).setSelectedIndex(
+					(int) Math.round(arg[1].evaluateDouble()) - 1, true);
+
 		} else if (arg[0].isIndependent() || arg[0].isMoveable()) {
 			if (arg[0].isGeoNumeric() && arg[1] instanceof NumberValue) {
 				NumberValue num = (NumberValue) arg[1];
 				((GeoNumeric) arg[0]).setValue(num.getDouble());
 			} else {
-				if (arg[1].isGeoNumeric() && Double.isNaN(arg[1].evaluateDouble())) {
+				if (arg[1].isGeoNumeric()
+						&& Double.isNaN(arg[1].evaluateDouble())) {
 					// eg SetValue[a,?] for line
 					arg[0].setUndefined();
 				} else {
@@ -145,21 +147,25 @@ public class CmdSetValue extends CmdScripting {
 				}
 			}
 			arg[0].updateRepaint();
-		} else if (arg[1] instanceof NumberValue && arg[0].isGeoNumeric() && arg[0].getParentAlgorithm() instanceof SetRandomValue) {
+		} else if (arg[1] instanceof NumberValue && arg[0].isGeoNumeric()
+				&& arg[0].getParentAlgorithm() instanceof SetRandomValue) {
 			// eg a = RandomBetween[0,10]
 			SetRandomValue algo = (SetRandomValue) arg[0].getParentAlgorithm();
-			algo.setRandomValue(((NumberValue)arg[1]).getDouble());
-		} else if (arg[1] instanceof NumberValue && arg[0].getParentAlgorithm() instanceof AlgoDependentNumber) {
+			algo.setRandomValue(((NumberValue) arg[1]).getDouble());
+		} else if (arg[1] instanceof NumberValue
+				&& arg[0].getParentAlgorithm() instanceof AlgoDependentNumber) {
 			// eg a = random()
-			double val = ((NumberValue)arg[1]).getDouble();
+			double val = ((NumberValue) arg[1]).getDouble();
 			if (val >= 0 && val <= 1) {
-				AlgoDependentNumber al = (AlgoDependentNumber)arg[0].getParentAlgorithm();
+				AlgoDependentNumber al = (AlgoDependentNumber) arg[0]
+						.getParentAlgorithm();
 				ExpressionNode en = al.getExpression();
 				if (en.getOperation().equals(Operation.RANDOM)) {
-					GeoNumeric num = ((GeoNumeric)al.getOutput()[0]);
+					GeoNumeric num = ((GeoNumeric) al.getOutput()[0]);
 					num.setValue(val);
 					num.updateRepaint();
 				}
 			}
-		}	}
+		}
+	}
 }

@@ -23,7 +23,6 @@ import geogebra.common.util.StringUtil;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
-
 /**
  * 
  * 
@@ -31,69 +30,70 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  */
 public class AlgoZMeanTest extends AlgoElement {
 
-
-	private GeoNumeric hypMean, mean, sd, n; //input
+	private GeoNumeric hypMean, mean, sd, n; // input
 	private GeoList list; // input
-	private GeoText tail; //input
-	private GeoList  result;     // output   
+	private GeoText tail; // input
+	private GeoList result; // output
 
 	/**
 	 * @param cons
 	 * @param label
 	 * @param mean
-	 * @param sd 
+	 * @param sd
 	 * @param n
 	 * @param hypMean
 	 * @param tail
 	 */
-	public AlgoZMeanTest(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
-		this( cons,  mean,  sd,  n,  hypMean,  tail);
+	public AlgoZMeanTest(Construction cons, String label, GeoNumeric mean,
+			GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+		this(cons, mean, sd, n, hypMean, tail);
 		result.setLabel(label);
 	}
 
 	/**
 	 * @param cons
 	 * @param mean
-	 * @param sd 
+	 * @param sd
 	 * @param n
 	 * @param hypMean
 	 * @param tail
 	 */
-	public AlgoZMeanTest(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
+	public AlgoZMeanTest(Construction cons, GeoNumeric mean, GeoNumeric sd,
+			GeoNumeric n, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.hypMean = hypMean;
 		this.tail = tail;
 		this.mean = mean;
 		this.sd = sd;
 		this.n = n;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
-		compute();      
-		
+		compute();
+
 	}
-	
+
 	/**
 	 * @param cons
 	 * @param label
 	 * @param mean
-	 * @param sd 
+	 * @param sd
 	 * @param n
 	 * @param hypMean
 	 * @param tail
 	 */
-	public AlgoZMeanTest(Construction cons, String label, GeoList list, GeoNumeric sd, GeoNumeric hypMean, GeoText tail) {
+	public AlgoZMeanTest(Construction cons, String label, GeoList list,
+			GeoNumeric sd, GeoNumeric hypMean, GeoText tail) {
 		super(cons);
 		this.hypMean = hypMean;
 		this.tail = tail;
 		this.list = list;
 		this.sd = sd;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
-
 
 	@Override
 	public Commands getClassName() {
@@ -101,7 +101,7 @@ public class AlgoZMeanTest extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		if (list == null) {
 			input = new GeoElement[5];
@@ -109,16 +109,15 @@ public class AlgoZMeanTest extends AlgoElement {
 			input[1] = sd;
 			input[2] = n;
 			input[3] = hypMean;
-			input[4] = tail;	
+			input[4] = tail;
 		} else {
 			input = new GeoElement[4];
 			input[0] = list;
 			input[1] = sd;
 			input[2] = hypMean;
-			input[3] = tail;	
+			input[3] = tail;
 
 		}
-
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
@@ -143,20 +142,20 @@ public class AlgoZMeanTest extends AlgoElement {
 			testType = "two";
 		} else {
 			result.setUndefined();
-			return;			
+			return;
 		}
 
 		double mean1;
-		double n1;	
+		double n1;
 
 		if (list == null) {
 			mean1 = mean.getDouble();
-			n1 = n.getDouble();	
+			n1 = n.getDouble();
 		} else {
 			mean1 = list.mean();
 			n1 = list.size();
 		}
-		
+
 		double hyp = hypMean.getDouble();
 		double sd1 = sd.getDouble();
 
@@ -164,7 +163,7 @@ public class AlgoZMeanTest extends AlgoElement {
 		double testStatistic = (mean1 - hyp) / se;
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
-		double P=0;
+		double P = 0;
 		try {
 			P = normalDist.cumulativeProbability(testStatistic);
 		} catch (Exception e) {
@@ -175,23 +174,18 @@ public class AlgoZMeanTest extends AlgoElement {
 		if ("right".equals(testType)) {
 			P = 1 - P;
 		} else if ("two".equals(testType)) {
-			if (testStatistic < 0) { 
-				P = 2 * P; 
-			} 
-			else { 
-				P = 2 * ( 1 - P);
+			if (testStatistic < 0) {
+				P = 2 * P;
+			} else {
+				P = 2 * (1 - P);
 			}
 		}
 
 		// put these results into the output list
 		result.clear();
 		result.add(new GeoNumeric(cons, P));
-		result.add(new GeoNumeric(cons,testStatistic));
+		result.add(new GeoNumeric(cons, testStatistic));
 
 	}
-
-	
-
-	
 
 }

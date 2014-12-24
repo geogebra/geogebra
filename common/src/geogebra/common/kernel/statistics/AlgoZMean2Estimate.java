@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
-
 /**
  * 
  * 
@@ -29,40 +28,43 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  */
 public class AlgoZMean2Estimate extends AlgoElement {
 
-
-	private GeoNumeric  mean, sd, n, mean_2, sd_2, n_2, level; //input
+	private GeoNumeric mean, sd, n, mean_2, sd_2, n_2, level; // input
 	private GeoList list, list2;
-	private GeoList  result;     // output   
+	private GeoList result; // output
 	private double me;
 	private double se;
-	
+
 	/**
 	 * @param cons
 	 * @param label
-	 * @param mean 
-	 * @param sd 
+	 * @param mean
+	 * @param sd
 	 * @param n
-	 * @param mean_2 
-	 * @param sd_2 
-	 * @param n_2 
-	 * @param level 
+	 * @param mean_2
+	 * @param sd_2
+	 * @param n_2
+	 * @param level
 	 */
-	public AlgoZMean2Estimate(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoNumeric level) {
+	public AlgoZMean2Estimate(Construction cons, String label, GeoNumeric mean,
+			GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2,
+			GeoNumeric n_2, GeoNumeric level) {
 		this(cons, mean, sd, n, mean_2, sd_2, n_2, level);
 		result.setLabel(label);
 	}
 
 	/**
 	 * @param cons
-	 * @param mean 
-	 * @param sd 
+	 * @param mean
+	 * @param sd
 	 * @param n
-	 * @param mean_2 
-	 * @param sd_2 
-	 * @param n_2 
-	 * @param level 
+	 * @param mean_2
+	 * @param sd_2
+	 * @param n_2
+	 * @param level
 	 */
-	public AlgoZMean2Estimate(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2, GeoNumeric n_2, GeoNumeric level) {
+	public AlgoZMean2Estimate(Construction cons, GeoNumeric mean,
+			GeoNumeric sd, GeoNumeric n, GeoNumeric mean_2, GeoNumeric sd_2,
+			GeoNumeric n_2, GeoNumeric level) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
@@ -71,13 +73,12 @@ public class AlgoZMean2Estimate extends AlgoElement {
 		this.sd_2 = sd_2;
 		this.n_2 = n_2;
 		this.level = level;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 	}
-	
-	
+
 	/**
 	 * @param cons
 	 * @param label
@@ -87,11 +88,8 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	 * @param sd_2
 	 * @param level
 	 */
-	public AlgoZMean2Estimate(Construction cons, String label,
-			GeoList list,
-			GeoList list2,
-			GeoNumeric sd,
-			GeoNumeric sd_2, GeoNumeric level) {
+	public AlgoZMean2Estimate(Construction cons, String label, GeoList list,
+			GeoList list2, GeoNumeric sd, GeoNumeric sd_2, GeoNumeric level) {
 		super(cons);
 
 		this.list = list;
@@ -99,13 +97,12 @@ public class AlgoZMean2Estimate extends AlgoElement {
 		this.list2 = list2;
 		this.sd_2 = sd_2;
 		this.level = level;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
-
 
 	@Override
 	public Commands getClassName() {
@@ -113,7 +110,7 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		if (list == null) {
 			input = new GeoElement[7];
@@ -130,9 +127,8 @@ public class AlgoZMean2Estimate extends AlgoElement {
 			input[1] = sd;
 			input[2] = list2;
 			input[3] = sd_2;
-			input[4] = level;			
+			input[4] = level;
 		}
-
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
@@ -144,55 +140,54 @@ public class AlgoZMean2Estimate extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
-	
-	public double getME(){
+
+	public double getME() {
 		return me;
 	}
 
-	public double getSE(){
+	public double getSE() {
 		return se;
 	}
-	
 
 	@Override
 	public final void compute() {
-		
+
 		if (!sd.isDefined() || !sd_2.isDefined() || !level.isDefined()) {
 			result.setUndefined();
-			return;			
+			return;
 		}
 
 		double n1, n2, mean1, mean2;
-		double sd1 = sd.getDouble();		
-		double sd2 = sd_2.getDouble();		
+		double sd1 = sd.getDouble();
+		double sd2 = sd_2.getDouble();
 		double cLevel = level.getDouble();
 
 		if (list == null) {
-			
-			if (!n.isDefined() || !n_2.isDefined() || !mean.isDefined() || !mean_2.isDefined()) {
+
+			if (!n.isDefined() || !n_2.isDefined() || !mean.isDefined()
+					|| !mean_2.isDefined()) {
 				result.setUndefined();
 				return;
 			}
 
-			n1 = n.getDouble();		
-			n2 = n_2.getDouble();		
+			n1 = n.getDouble();
+			n2 = n_2.getDouble();
 			mean1 = mean.getDouble();
 			mean2 = mean_2.getDouble();
 
 		} else {
-			
+
 			if (!list.isDefined() || !list2.isDefined()) {
 				result.setUndefined();
 				return;
 			}
-			
+
 			n1 = list.size();
 			n2 = list2.size();
 
 			mean1 = list.mean();
 			mean2 = list2.mean();
 		}
-
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
 
@@ -217,7 +212,4 @@ public class AlgoZMean2Estimate extends AlgoElement {
 
 	}
 
-	
-
-	
 }

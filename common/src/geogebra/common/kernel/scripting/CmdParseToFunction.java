@@ -34,22 +34,25 @@ public class CmdParseToFunction extends CommandProcessor {
 		switch (n) {
 		case 2:
 			arg = resArgs(c);
-			if ((ok = (arg[0].isGeoFunction() || arg[0].isGeoFunctionNVar())) && arg[1].isGeoText()) {
-				
+			if ((ok = (arg[0].isGeoFunction() || arg[0].isGeoFunctionNVar()))
+					&& arg[1].isGeoText()) {
+
 				GeoElement fun = arg[0];
-				if(!fun.isLabelSet()){
+				if (!fun.isLabelSet()) {
 					AlgoElement algo = fun.getParentAlgorithm();
-					if(algo instanceof AlgoDependentGeoCopy){
+					if (algo instanceof AlgoDependentGeoCopy) {
 						fun = algo.getInput(0);
 					}
 				}
-				
+
 				String str = ((GeoText) arg[1]).getTextString();
 
 				try {
-					GeoElement parsed = arg[0].isGeoFunction() ? kernelA.getAlgebraProcessor().evaluateToFunction(
-							str, true):kernelA.getAlgebraProcessor().evaluateToFunctionNVar(
-									str, true);
+					GeoElement parsed = arg[0].isGeoFunction() ? kernelA
+							.getAlgebraProcessor()
+							.evaluateToFunction(str, true) : kernelA
+							.getAlgebraProcessor().evaluateToFunctionNVar(str,
+									true);
 					fun.set(parsed);
 					fun.updateCascade();
 				} catch (Exception e) {

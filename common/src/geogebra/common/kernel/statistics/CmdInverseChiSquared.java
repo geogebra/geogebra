@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *InverseChiSquared
+ * InverseChiSquared
  */
 public class CmdInverseChiSquared extends CommandProcessor {
 
@@ -33,15 +33,16 @@ public class CmdInverseChiSquared extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				
-				AlgoInverseChiSquared algo = new AlgoInverseChiSquared(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+
+				AlgoInverseChiSquared algo = new AlgoInverseChiSquared(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			}
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

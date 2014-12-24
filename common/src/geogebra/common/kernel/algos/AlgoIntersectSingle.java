@@ -15,12 +15,14 @@ import java.util.ArrayList;
 /**
  * Single intersection point
  */
-public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlgoForLocusEquation {
+public class AlgoIntersectSingle extends AlgoIntersect implements
+		RestrictionAlgoForLocusEquation {
 
 	// input
 	private AlgoIntersect algo;
-	private GeoNumberValue index; // index of point in algo, can be input directly or be
-						// calculated from refPoint
+	private GeoNumberValue index; // index of point in algo, can be input
+									// directly or be
+	// calculated from refPoint
 	private GeoPoint refPoint; // reference point in algo to calculate index;
 								// can be null or undefined
 
@@ -32,9 +34,13 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 	/**
 	 * Creates algo for single intersection close to given point
-	 * @param label label for output
-	 * @param algo intersection algo with multiple outputs
-	 * @param refPoint point close to desired intersection
+	 * 
+	 * @param label
+	 *            label for output
+	 * @param algo
+	 *            intersection algo with multiple outputs
+	 * @param refPoint
+	 *            point close to desired intersection
 	 */
 	public AlgoIntersectSingle(String label, AlgoIntersect algo,
 			GeoPoint refPoint) {
@@ -48,7 +54,6 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		setInputOutput();
 		initForNearToRelationship();
 		compute();
-		
 
 		point.setLabel(label);
 		addIncidence();
@@ -56,11 +61,16 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 	/**
 	 * Creates algo for single intersection with given index
-	 * @param label label for output
-	 * @param algo intersection algo with multiple outputs
-	 * @param index index, starting with 1
+	 * 
+	 * @param label
+	 *            label for output
+	 * @param algo
+	 *            intersection algo with multiple outputs
+	 * @param index
+	 *            index, starting with 1
 	 */
-	public AlgoIntersectSingle(String label, AlgoIntersect algo, GeoNumberValue index) {
+	public AlgoIntersectSingle(String label, AlgoIntersect algo,
+			GeoNumberValue index) {
 		super(algo.cons);
 		this.algo = algo;
 		algo.addUser(); // this algorithm is a user of algo
@@ -75,18 +85,23 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		setInputOutput();
 		initForNearToRelationship();
 		compute();
-		//setIncidence();
+		// setIncidence();
 		point.setLabel(label);
 		addIncidence();
 	}
+
 	/**
 	 * Creates algo for single intersection with given index
-	 * @param label label for output
-	 * @param algo intersection algo with multiple outputs
-	 * @param index index, starting with 0
+	 * 
+	 * @param label
+	 *            label for output
+	 * @param algo
+	 *            intersection algo with multiple outputs
+	 * @param index
+	 *            index, starting with 0
 	 */
 	public AlgoIntersectSingle(String label, AlgoIntersect algo, int index) {
-		this(label,algo,new GeoNumeric(algo.getConstruction(),index+1));
+		this(label, algo, new GeoNumeric(algo.getConstruction(), index + 1));
 	}
 
 	private void addIncidence() {
@@ -103,7 +118,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 		} else if (algo instanceof AlgoIntersectLineConic) {
 			point.addIncidence(((AlgoIntersectLineConic) algo).getLine(), false);
-			point.addIncidence(((AlgoIntersectLineConic) algo).getConic(), false);
+			point.addIncidence(((AlgoIntersectLineConic) algo).getConic(),
+					false);
 
 			// this is already done in point.addIncidence()
 			// ((AlgoIntersectLineConic)algo).getConic().addPointOnConic(point);
@@ -121,8 +137,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Intersect;
-    }
+		return Commands.Intersect;
+	}
 
 	@Override
 	public int getRelatedModeID() {
@@ -152,9 +168,10 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 		setDependencies(); // done by AlgoElement
 	}
-	
+
 	/**
 	 * Added for LocusEqu
+	 * 
 	 * @return inner algo.
 	 */
 	public AlgoIntersect getAlgo() {
@@ -197,8 +214,8 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 
 	@Override
 	public void compute() {
-		if(index!=null)
-			idx = Math.max(0,(int)index.getDouble()-1);
+		if (index != null)
+			idx = Math.max(0, (int) index.getDouble() - 1);
 		parentOutput = algo.getIntersectionPoints();
 
 		if (point != null) {
@@ -207,7 +224,7 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 																		// compatability
 				algo.setIntersectionPoint(idx, point);
 				point.hasUpdatePrevilege = false;
-			} 
+			}
 		}
 
 		// update index if reference point has been defined
@@ -248,19 +265,21 @@ public class AlgoIntersectSingle extends AlgoIntersect implements RestrictionAlg
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (refPoint == null) {
-			return getLoc().getPlain("IntersectionPointOfAB", input[0].getLabel(tpl),
-					input[1].getLabel(tpl));
+			return getLoc().getPlain("IntersectionPointOfAB",
+					input[0].getLabel(tpl), input[1].getLabel(tpl));
 		}
-		return getLoc().getPlain("IntersectionPointOfABNearC", input[0].getLabel(tpl),
-				input[1].getLabel(tpl), input[2].getLabel(tpl));
+		return getLoc().getPlain("IntersectionPointOfABNearC",
+				input[0].getLabel(tpl), input[1].getLabel(tpl),
+				input[2].getLabel(tpl));
 	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectSingle(geo, this, scope);
 	}
 

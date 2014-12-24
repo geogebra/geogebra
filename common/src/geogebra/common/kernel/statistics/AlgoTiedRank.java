@@ -23,21 +23,18 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import org.apache.commons.math.stat.ranking.NaturalRanking;
 import org.apache.commons.math.stat.ranking.TiesStrategy;
 
-
 /**
  * List ranking using tie strategy.
  */
 
 public class AlgoTiedRank extends AlgoElement {
 
-	
-	private GeoList inputList; //input
-	private GeoList outputList; //output	
+	private GeoList inputList; // input
+	private GeoList outputList; // output
 	private int size;
 	private NaturalRanking rankingAlgorithm;
 	private double[] inputArray;
 	private double[] outputArray;
-
 
 	public AlgoTiedRank(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -56,7 +53,7 @@ public class AlgoTiedRank extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
@@ -72,28 +69,26 @@ public class AlgoTiedRank extends AlgoElement {
 	public final void compute() {
 
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			outputList.setUndefined();
 			return;
-		} 
-
+		}
 
 		inputArray = new double[size];
 
-		// load input value array from  geoList
-		for (int i=0; i < size; i++) {
+		// load input value array from geoList
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
 				NumberValue num = (NumberValue) geo;
-				inputArray[i] = num.getDouble();	
+				inputArray[i] = num.getDouble();
 			} else {
 				outputList.setUndefined();
 				return;
-			}    		    		
-		}   
+			}
+		}
 
-		
-		if(rankingAlgorithm == null)
+		if (rankingAlgorithm == null)
 			rankingAlgorithm = new NaturalRanking(TiesStrategy.AVERAGE);
 
 		outputArray = rankingAlgorithm.rank(inputArray);
@@ -101,12 +96,11 @@ public class AlgoTiedRank extends AlgoElement {
 		// copy the ranks back into a list
 		outputList.setDefined(true);
 		outputList.clear();
-		for (int i=0 ; i<size ; i++){
+		for (int i = 0; i < size; i++) {
 			outputList.add(new GeoNumeric(cons, outputArray[i]));
 		}
 	}
 
 	// TODO Consider locusequability
-
 
 }

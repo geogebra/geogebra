@@ -33,13 +33,13 @@ public class CmdTMean2Estimate extends CommandProcessor {
 		switch (n) {
 
 		case 4:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoList())
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				
-				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1], (GeoNumeric) arg[2], (GeoBoolean) arg[3]);
+
+				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons,
+						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1],
+						(GeoNumeric) arg[2], (GeoBoolean) arg[3]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
@@ -54,25 +54,20 @@ public class CmdTMean2Estimate extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[3]);
 
 		case 8:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())
 					&& (ok[6] = arg[6].isGeoNumeric())
-					&& (ok[7] = arg[7].isGeoBoolean()))
-			{
-				
-				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3], 
-						(GeoNumeric) arg[4],
-						(GeoNumeric) arg[5],
-						(GeoNumeric) arg[6],
-						(GeoBoolean) arg[7]);
+					&& (ok[7] = arg[7].isGeoBoolean())) {
+
+				AlgoTMean2Estimate algo = new AlgoTMean2Estimate(cons,
+						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
+						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
+						(GeoNumeric) arg[6], (GeoBoolean) arg[7]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

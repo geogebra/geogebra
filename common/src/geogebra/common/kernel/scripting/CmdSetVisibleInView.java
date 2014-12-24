@@ -10,7 +10,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *SetVisibleInView
+ * SetVisibleInView
  */
 public class CmdSetVisibleInView extends CmdScripting {
 
@@ -25,8 +25,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -35,13 +34,11 @@ public class CmdSetVisibleInView extends CmdScripting {
 			if (!(arg[1] instanceof NumberValue))
 				throw argErr(app, c.getName(), arg[1]);
 
-
 			if (arg[2].isGeoBoolean()) {
 
 				GeoElement geo = arg[0];
-				
 
-				int viewNo = (int)((NumberValue)arg[1]).getDouble();
+				int viewNo = (int) ((NumberValue) arg[1]).getDouble();
 
 				EuclidianViewInterfaceSlim ev = null;
 
@@ -50,7 +47,8 @@ public class CmdSetVisibleInView extends CmdScripting {
 					ev = app.getEuclidianView1();
 					break;
 				case 2:
-					if (!app.hasEuclidianView2(1)) break;
+					if (!app.hasEuclidianView2(1))
+						break;
 					ev = app.getEuclidianView2(1);
 					break;
 				default:
@@ -58,7 +56,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 				}
 
 				if (ev != null) {
-					boolean show = ((GeoBoolean)arg[2]).getBoolean();
+					boolean show = ((GeoBoolean) arg[2]).getBoolean();
 
 					if (show) {
 						geo.setEuclidianVisible(true);
@@ -68,7 +66,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 						geo.removeView(ev.getViewID());
 						ev.remove(geo);
 					}
-					
+
 					geo.updateRepaint();
 				}
 
@@ -81,4 +79,3 @@ public class CmdSetVisibleInView extends CmdScripting {
 		}
 	}
 }
-

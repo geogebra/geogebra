@@ -181,8 +181,6 @@ public class AlgoTTest extends AlgoElement {
 			// sample statistics input
 		} else {
 
-
-
 			// check for valid standard deviation and sample size
 			if (sd.getDouble() < 0 || n.getDouble() < 2) {
 				result.setUndefined();
@@ -210,7 +208,7 @@ public class AlgoTTest extends AlgoElement {
 				e.printStackTrace();
 				result.setUndefined();
 				return;
-				
+
 			} catch (MathException e) {
 				e.printStackTrace();
 				result.setUndefined();

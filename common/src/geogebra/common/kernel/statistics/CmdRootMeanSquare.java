@@ -11,18 +11,18 @@ import geogebra.common.kernel.geos.GeoList;
 public class CmdRootMeanSquare extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdRootMeanSquare(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoRootMeanSquare algo = new AlgoRootMeanSquare(cons, a, b);
 		return algo.getResult();
 	}
-
 
 }

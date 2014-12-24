@@ -35,9 +35,13 @@ public class AlgoObject extends AlgoElement {
 
 	/**
 	 * Creates new algorithm for Object[name].
-	 * @param cons construction
-	 * @param label label
-	 * @param text object name
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param text
+	 *            object name
 	 */
 	public AlgoObject(Construction cons, String label, GeoText text) {
 		super(cons);
@@ -62,8 +66,8 @@ public class AlgoObject extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Object;
-    }
+		return Commands.Object;
+	}
 
 	// for AlgoElement
 	@Override
@@ -143,8 +147,7 @@ public class AlgoObject extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);
 			if (geo != null) {
-				Iterator<AlgoElement> it = geo.getAlgoUpdateSet()
-						.getIterator();
+				Iterator<AlgoElement> it = geo.getAlgoUpdateSet().getIterator();
 				while (it.hasNext()) {
 					refObject.addToUpdateSetOnly(it.next());
 				}

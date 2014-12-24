@@ -89,7 +89,7 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 
 	}
 
-	 protected void init() {
+	protected void init() {
 		// TODO Auto-generated method stub
 		spaceDim = 2;
 	}
@@ -158,7 +158,8 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 				Coords segStart = seg.getPointInD(2, 0);
 				Coords segEnd = seg.getPointInD(2, 1);
 				if (((GeoLine) g).isOnPath(segStart, Kernel.STANDARD_PRECISION)
-						&& ((GeoLine) g).isOnPath(segEnd, Kernel.STANDARD_PRECISION)) {
+						&& ((GeoLine) g).isOnPath(segEnd,
+								Kernel.STANDARD_PRECISION)) {
 					newCoords.put(((GeoLine) g).getPossibleParameter(segStart),
 							segStart);
 					newCoords.put(((GeoLine) g).getPossibleParameter(segEnd),
@@ -176,161 +177,167 @@ public class AlgoIntersectLinePolygonalRegion extends AlgoElement {
 	protected void intersectionsSegments(GeoLineND g, GeoPolygon p,
 			TreeMap<Double, Coords> newCoords,
 			TreeMap<Double, Coords[]> newSegmentCoords) {
-		
-    	
-    	if (newCoords==null )
-    		return;
 
-    	if (newCoords.isEmpty()) {
-    		//TODO: inverse fill
-    		if (!p.isInverseFill() &&
-    				g instanceof GeoSegmentND &&
-    				p.isInRegion(((GeoSegmentND)g).getStartPoint(),false))
-    			newSegmentCoords.put(0.0,  new Coords[] {
-    					((GeoSegmentND)g).getStartPoint().getInhomCoordsInD(spaceDim),
-    					((GeoSegmentND)g).getEndPoint().getInhomCoordsInD(spaceDim)});
-    		
-    		return;
-    	}
-    	//traversing algorithm for dealing with degenerated case
-    	
-       	double minKey = newCoords.firstKey();
-    	double maxKey = newCoords.lastKey();
-    	double tOld, tFirst, tLast;
-    	Coords coordsOld, coordsFirst, coordsLast;
-    	
-    	boolean isEnteringRegion = true; // true: entering; false: quitting;
-    	
-    	//the following variables will be used only
-    	//when the line enters the region through a vertex of the polygon
-    	boolean segmentAlongLine = false; //true when a positive length of segment is going to be
-    	//contained in the result.
-    	
- 
-    	//initiate tOld and coordsOld
-    	if (g.getMinParameter()>=maxKey){
-    		tFirst = g.getMinParameter();
-    		//coordsFirst = ((GeoLine) g).startPoint.getCoordsInD2();
-    		tLast = g.getMaxParameter();
-    		//coordsLast = ((GeoLine) g).endPoint.getCoordsInD2();
-    	} else {
-    		tFirst = g.getMaxParameter();
-    		//coordsFirst = ((GeoLine) g).endPoint.getCoordsInD2();
-    		tLast = g.getMinParameter();
-    		//coordsLast = ((GeoLine) g).startPoint.getCoordsInD2();
-    	}
-    	coordsFirst = ((GeoLine)g).getPointInD(spaceDim, tFirst).getInhomCoordsInSameDimension();
-    	coordsLast = ((GeoLine)g).getPointInD(spaceDim, tLast).getInhomCoordsInSameDimension();
-    	
-    	//deal with the first point
-    	tOld = tFirst;
-   		coordsOld = ((GeoLine)g).getPointInD(spaceDim, tOld).getInhomCoordsInSameDimension();//TODO optimize it
+		if (newCoords == null)
+			return;
 
-   		isEnteringRegion = (p.isInRegion(coordsOld.get(1),coordsOld.get(2))
-    			&& !Kernel.isEqual(tOld, maxKey));
-    	if (isEnteringRegion) 
-    		newSegmentCoords.put(tOld,
-    				new Coords[] {coordsFirst, newCoords.get(maxKey)}
-    		);
-    	isEnteringRegion = !isEnteringRegion;
-    	
-    	tOld = maxKey;
-    	coordsOld = newCoords.get(maxKey);
+		if (newCoords.isEmpty()) {
+			// TODO: inverse fill
+			if (!p.isInverseFill() && g instanceof GeoSegmentND
+					&& p.isInRegion(((GeoSegmentND) g).getStartPoint(), false))
+				newSegmentCoords.put(0.0,
+						new Coords[] {
+								((GeoSegmentND) g).getStartPoint()
+										.getInhomCoordsInD(spaceDim),
+								((GeoSegmentND) g).getEndPoint()
+										.getInhomCoordsInD(spaceDim) });
 
-    	//loop for all possible change of region
-    	while (tOld > minKey) {
-    		double tNew = newCoords.subMap(minKey, tOld).lastKey();
+			return;
+		}
+		// traversing algorithm for dealing with degenerated case
 
-    		//Check multiplicity at tLast
-    		//i.e. how many times g crosses the border at tLast
-    		int tOld_m = 0;
-    		int tOld_mRight = 0;
-    		int tOld_mLeft = 0;
-    		
-    		Coords gRight = g.getDirectionInD3().crossProduct(p.getCoordSys().getNormal());
-    		
-    		for (int i = 0; i<p.getPointsLength(); i++) {
-    			GeoSegmentND currSeg = p.getSegments()[i];
-    			
-    			if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
-    				tOld_m++;
-    			} else {
-    				continue;
-    			}
-    				
-    			if (coordsOld.getInhomCoords().isEqual(currSeg.getStartInhomCoords())
-    					|| coordsOld.getInhomCoords().isEqual(currSeg.getEndInhomCoords()) ) {
-    				tOld_m--;
-    				
-    				double currSegIncline = currSeg.getDirectionInD3().dotproduct(gRight);
-    				if (Kernel.isGreater(currSegIncline, 0))
-    					tOld_mRight++;
-    				else if (Kernel.isGreater(0, currSegIncline))
-    					tOld_mLeft++;
-    				else {//logically saying currSeg is along the line; can have potential computational problem unknown
-    					segmentAlongLine = true;
-    					tOld_m--;
-    				}
-    			}
-    		}
-    		
-    		if (tOld_mRight != 0 || tOld_mLeft != 0)
-    			if (tOld_mRight >= tOld_mLeft) {
-    				tOld_mRight -= tOld_mLeft;
-    				tOld_m += tOld_mLeft;
-    				tOld_mLeft=0;
-    			} else if (tOld_mRight < tOld_mLeft) {
-    				tOld_mLeft -= tOld_mRight;
-    				tOld_m += tOld_mRight;
-    				tOld_mRight=0;
-    			}
-    				
-    		//This is the main equation of this algorithm.
-    		//When the line meeting some segment,
-    		//default assumes that only one segment is involved,
-    		//and the line must be entering (isEnteringRegion=true)
-    		//or quitting (isEnteringRegion=false) the region.
-    		//If it turns out that the crossing is even number of  times,
-    		//revert isEnteringRegion.
-    		isEnteringRegion ^= (tOld_m % 2 == 0);
-    				
-    		if (segmentAlongLine) { //unconditionally add the segment
-    			//isEnteringRegion won't change
-    			newSegmentCoords.put(tOld,  new Coords[] {
-		    			newCoords.get(tOld), 
-		    			newCoords.get(tNew)
-		    			});
-    		} else {
-    			if (isEnteringRegion) //add the segment only if it is entering the region
-    				newSegmentCoords.put(tOld,  new Coords[] {
-    						newCoords.get(tOld), 
-    						newCoords.get(tNew)
-    						});
-    			isEnteringRegion = !isEnteringRegion;
-    		}
-    		tOld = tNew;
-    		coordsOld = newCoords.get(tOld);
-    	}
-    	
-    	if(!Kernel.isEqual(tOld, tLast)) {
-    		int tOld_m = 0;
-    		for (int i = 0; i<p.getPointsLength(); i++) {
-    			GeoSegmentND currSeg = p.getSegments()[i];
-    			if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
-    				tOld_m++;
-    			} else {
-    				continue;
-    			}
-    		}
-    		isEnteringRegion ^= (tOld_m % 2 == 0);
-    			if (isEnteringRegion) //add the segment only if it is entering the region
-    				newSegmentCoords.put(tOld,  new Coords[] {
-    						newCoords.get(tOld), 
-    						coordsLast
-    						});
-    			isEnteringRegion = !isEnteringRegion;
-    	}
-   
+		double minKey = newCoords.firstKey();
+		double maxKey = newCoords.lastKey();
+		double tOld, tFirst, tLast;
+		Coords coordsOld, coordsFirst, coordsLast;
+
+		boolean isEnteringRegion = true; // true: entering; false: quitting;
+
+		// the following variables will be used only
+		// when the line enters the region through a vertex of the polygon
+		boolean segmentAlongLine = false; // true when a positive length of
+											// segment is going to be
+		// contained in the result.
+
+		// initiate tOld and coordsOld
+		if (g.getMinParameter() >= maxKey) {
+			tFirst = g.getMinParameter();
+			// coordsFirst = ((GeoLine) g).startPoint.getCoordsInD2();
+			tLast = g.getMaxParameter();
+			// coordsLast = ((GeoLine) g).endPoint.getCoordsInD2();
+		} else {
+			tFirst = g.getMaxParameter();
+			// coordsFirst = ((GeoLine) g).endPoint.getCoordsInD2();
+			tLast = g.getMinParameter();
+			// coordsLast = ((GeoLine) g).startPoint.getCoordsInD2();
+		}
+		coordsFirst = ((GeoLine) g).getPointInD(spaceDim, tFirst)
+				.getInhomCoordsInSameDimension();
+		coordsLast = ((GeoLine) g).getPointInD(spaceDim, tLast)
+				.getInhomCoordsInSameDimension();
+
+		// deal with the first point
+		tOld = tFirst;
+		coordsOld = ((GeoLine) g).getPointInD(spaceDim, tOld)
+				.getInhomCoordsInSameDimension();// TODO optimize it
+
+		isEnteringRegion = (p.isInRegion(coordsOld.get(1), coordsOld.get(2)) && !Kernel
+				.isEqual(tOld, maxKey));
+		if (isEnteringRegion)
+			newSegmentCoords.put(tOld,
+					new Coords[] { coordsFirst, newCoords.get(maxKey) });
+		isEnteringRegion = !isEnteringRegion;
+
+		tOld = maxKey;
+		coordsOld = newCoords.get(maxKey);
+
+		// loop for all possible change of region
+		while (tOld > minKey) {
+			double tNew = newCoords.subMap(minKey, tOld).lastKey();
+
+			// Check multiplicity at tLast
+			// i.e. how many times g crosses the border at tLast
+			int tOld_m = 0;
+			int tOld_mRight = 0;
+			int tOld_mLeft = 0;
+
+			Coords gRight = g.getDirectionInD3().crossProduct(
+					p.getCoordSys().getNormal());
+
+			for (int i = 0; i < p.getPointsLength(); i++) {
+				GeoSegmentND currSeg = p.getSegments()[i];
+
+				if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
+					tOld_m++;
+				} else {
+					continue;
+				}
+
+				if (coordsOld.getInhomCoords().isEqual(
+						currSeg.getStartInhomCoords())
+						|| coordsOld.getInhomCoords().isEqual(
+								currSeg.getEndInhomCoords())) {
+					tOld_m--;
+
+					double currSegIncline = currSeg.getDirectionInD3()
+							.dotproduct(gRight);
+					if (Kernel.isGreater(currSegIncline, 0))
+						tOld_mRight++;
+					else if (Kernel.isGreater(0, currSegIncline))
+						tOld_mLeft++;
+					else {// logically saying currSeg is along the line; can
+							// have potential computational problem unknown
+						segmentAlongLine = true;
+						tOld_m--;
+					}
+				}
+			}
+
+			if (tOld_mRight != 0 || tOld_mLeft != 0)
+				if (tOld_mRight >= tOld_mLeft) {
+					tOld_mRight -= tOld_mLeft;
+					tOld_m += tOld_mLeft;
+					tOld_mLeft = 0;
+				} else if (tOld_mRight < tOld_mLeft) {
+					tOld_mLeft -= tOld_mRight;
+					tOld_m += tOld_mRight;
+					tOld_mRight = 0;
+				}
+
+			// This is the main equation of this algorithm.
+			// When the line meeting some segment,
+			// default assumes that only one segment is involved,
+			// and the line must be entering (isEnteringRegion=true)
+			// or quitting (isEnteringRegion=false) the region.
+			// If it turns out that the crossing is even number of times,
+			// revert isEnteringRegion.
+			isEnteringRegion ^= (tOld_m % 2 == 0);
+
+			if (segmentAlongLine) { // unconditionally add the segment
+				// isEnteringRegion won't change
+				newSegmentCoords.put(tOld, new Coords[] { newCoords.get(tOld),
+						newCoords.get(tNew) });
+			} else {
+				if (isEnteringRegion) // add the segment only if it is entering
+										// the region
+					newSegmentCoords.put(
+							tOld,
+							new Coords[] { newCoords.get(tOld),
+									newCoords.get(tNew) });
+				isEnteringRegion = !isEnteringRegion;
+			}
+			tOld = tNew;
+			coordsOld = newCoords.get(tOld);
+		}
+
+		if (!Kernel.isEqual(tOld, tLast)) {
+			int tOld_m = 0;
+			for (int i = 0; i < p.getPointsLength(); i++) {
+				GeoSegmentND currSeg = p.getSegments()[i];
+				if (currSeg.isOnPath(coordsOld, Kernel.STANDARD_PRECISION)) {
+					tOld_m++;
+				} else {
+					continue;
+				}
+			}
+			isEnteringRegion ^= (tOld_m % 2 == 0);
+			if (isEnteringRegion) // add the segment only if it is entering the
+									// region
+				newSegmentCoords.put(tOld, new Coords[] { newCoords.get(tOld),
+						coordsLast });
+			isEnteringRegion = !isEnteringRegion;
+		}
+
 	}
 
 	private GColor BLUE_VIOLET = geogebra.common.factories.AwtFactory.prototype

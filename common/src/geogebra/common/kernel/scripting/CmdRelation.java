@@ -21,8 +21,7 @@ public class CmdRelation extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
@@ -38,8 +37,7 @@ public class CmdRelation extends CmdScripting {
 			}
 
 			// syntax error
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
-			
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

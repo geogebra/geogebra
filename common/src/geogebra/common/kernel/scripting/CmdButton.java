@@ -10,6 +10,7 @@ import geogebra.common.main.MyError;
 
 /**
  * Button[],Button[caption]
+ * 
  * @author Zbynek
  *
  */
@@ -32,32 +33,30 @@ public class CmdButton extends CommandProcessor {
 
 		// dummy
 
-		
-		
 		switch (n) {
 		case 1:
-			
+
 			arg = resArgs(c);
-			if (arg[0].isGeoText()){
+			if (arg[0].isGeoText()) {
 				String caption = ((GeoText) arg[0]).getTextString();
 				GeoButton gb = new GeoButton(cons);
 				gb.setLabelVisible(true);
-				gb.setLabel(c.getLabel());	
+				gb.setLabel(c.getLabel());
 				gb.setCaption(caption);
 				gb.updateRepaint();
-				return new GeoElement[] {gb};
+				return new GeoElement[] { gb };
 			}
-			throw argErr(app, c.getName(), arg[0]);			
-		case 0:			
-			GeoButton gb = new GeoButton(cons);		
+			throw argErr(app, c.getName(), arg[0]);
+		case 0:
+			GeoButton gb = new GeoButton(cons);
 			gb.setLabelVisible(true);
-			gb.setLabel(c.getLabel());	
+			gb.setLabel(c.getLabel());
 			gb.updateRepaint();
-			return new GeoElement[] {gb};
+			return new GeoElement[] { gb };
 
 		default:
 			throw argNumErr(app, c.getName(), n);
 		}
-		
+
 	}
 }

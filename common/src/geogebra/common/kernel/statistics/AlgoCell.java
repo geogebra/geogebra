@@ -36,10 +36,14 @@ public class AlgoCell extends AlgoElement {
 	private GeoElement[] inputForUpdateSetPropagation;
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param a column
-	 * @param b row
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param a
+	 *            column
+	 * @param b
+	 *            row
 	 */
 	public AlgoCell(Construction cons, String label, NumberValue a,
 			NumberValue b) {
@@ -145,8 +149,7 @@ public class AlgoCell extends AlgoElement {
 			// of the newly referenced geo
 			refObject.addToUpdateSetOnly(this);
 			if (geo != null) {
-				Iterator<AlgoElement> it = geo.getAlgoUpdateSet()
-						.getIterator();
+				Iterator<AlgoElement> it = geo.getAlgoUpdateSet().getIterator();
 				while (it.hasNext()) {
 					refObject.addToUpdateSetOnly(it.next());
 				}
@@ -164,8 +167,6 @@ public class AlgoCell extends AlgoElement {
 		}
 		return inputForUpdateSetPropagation;
 	}
-
-	
 
 	// TODO Consider locusequability
 

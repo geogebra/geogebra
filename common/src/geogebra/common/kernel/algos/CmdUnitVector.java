@@ -26,20 +26,20 @@ public class CmdUnitVector extends CommandProcessor {
 	@Override
 	final public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		GeoElement[] arg;
 
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoLine()) {
-				
+
 				AlgoUnitVector algo = algo(c.getLabel(), (GeoLineND) arg[0]);
 
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
 				return ret;
 			} else if (arg[0].isGeoVector()) {
-				
+
 				AlgoUnitVector algo = algo(c.getLabel(), (GeoVectorND) arg[0]);
 
 				GeoElement[] ret = { (GeoElement) algo.getVector() };
@@ -52,36 +52,41 @@ public class CmdUnitVector extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * process command in case arg is not a line nor a vector
+	 * 
 	 * @param c
 	 * @param arg
 	 * @return result
 	 * @throws MyError
 	 */
-	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg) throws MyError {
+	protected GeoElement[] processNotLineNotVector(Command c, GeoElement arg)
+			throws MyError {
 		throw argErr(app, c.getName(), arg);
 	}
-	
+
 	/**
 	 * 
-	 * @param label vector name
-	 * @param line line
+	 * @param label
+	 *            vector name
+	 * @param line
+	 *            line
 	 * @return algo for this line
 	 */
-	protected AlgoUnitVector algo(String label, GeoLineND line){
+	protected AlgoUnitVector algo(String label, GeoLineND line) {
 		return new AlgoUnitVectorLine(cons, label, line);
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param label vector name
-	 * @param v vector
+	 * @param label
+	 *            vector name
+	 * @param v
+	 *            vector
 	 * @return algo for this vector
 	 */
-	protected AlgoUnitVector algo(String label, GeoVectorND v){
+	protected AlgoUnitVector algo(String label, GeoVectorND v) {
 		return new AlgoUnitVectorVector(cons, label, v);
 	}
 }

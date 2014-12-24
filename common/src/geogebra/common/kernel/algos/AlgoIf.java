@@ -45,8 +45,8 @@ public class AlgoIf extends AlgoElement {
 	 * @param elseGeo
 	 *            may be null
 	 */
-	public AlgoIf(Construction cons, String label, ArrayList<GeoBoolean> conditions,
-			ArrayList<GeoElement> alternatives) {
+	public AlgoIf(Construction cons, String label,
+			ArrayList<GeoBoolean> conditions, ArrayList<GeoElement> alternatives) {
 		super(cons);
 		this.conditions = conditions;
 		this.alternatives = alternatives;
@@ -54,12 +54,12 @@ public class AlgoIf extends AlgoElement {
 		this.result = alternatives.get(0);
 		// create output GeoElement of same type as ifGeo
 		int i = 1;
-		while(i<alternatives.size() && Test.canSet(alternatives.get(i), result)) {
+		while (i < alternatives.size()
+				&& Test.canSet(alternatives.get(i), result)) {
 			result = alternatives.get(i);
 			i++;
-		} 
+		}
 		result = result.copyInternal(cons);
-		
 
 		setInputOutput(); // for AlgoElement
 
@@ -77,12 +77,12 @@ public class AlgoIf extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[conditions.size() + alternatives.size()];
-		for(int i =0; i< this.conditions.size(); i++){
-			input[2*i] = conditions.get(i);
-			input[2*i+1] = alternatives.get(i);
+		for (int i = 0; i < this.conditions.size(); i++) {
+			input[2 * i] = conditions.get(i);
+			input[2 * i + 1] = alternatives.get(i);
 		}
-		if(alternatives.size() > conditions.size()){
-			input[input.length - 1] = alternatives.get(alternatives.size() -1);
+		if (alternatives.size() > conditions.size()) {
+			input[input.length - 1] = alternatives.get(alternatives.size() - 1);
 		}
 
 		super.setOutputLength(1);
@@ -98,19 +98,17 @@ public class AlgoIf extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		
-
 		try {
-			for(int i = 0; i< conditions.size();i++){
-			if (conditions.get(i).getBoolean()) {
-				result.set(alternatives.get(i));
-				if (alternatives.get(i).getDrawAlgorithm() instanceof DrawInformationAlgo) {
-					result.setDrawAlgorithm(((DrawInformationAlgo) alternatives.get(i)
-							.getDrawAlgorithm()).copy());
+			for (int i = 0; i < conditions.size(); i++) {
+				if (conditions.get(i).getBoolean()) {
+					result.set(alternatives.get(i));
+					if (alternatives.get(i).getDrawAlgorithm() instanceof DrawInformationAlgo) {
+						result.setDrawAlgorithm(((DrawInformationAlgo) alternatives
+								.get(i).getDrawAlgorithm()).copy());
+					}
+					return;
 				}
-				return;
-			} 
-			GeoElement last = alternatives.get(alternatives.size()-1);
+				GeoElement last = alternatives.get(alternatives.size() - 1);
 				if (conditions.size() == alternatives.size())
 					result.setUndefined();
 				else
@@ -119,7 +117,7 @@ public class AlgoIf extends AlgoElement {
 					result.setDrawAlgorithm(((DrawInformationAlgo) last
 							.getDrawAlgorithm()).copy());
 				}
-			
+
 			}
 		} catch (Exception e) {
 			// e.printStackTrace();
@@ -131,25 +129,27 @@ public class AlgoIf extends AlgoElement {
 	public ExpressionNode toExpression() {
 		if (this.alternatives.size() == 1) {
 			return new ExpressionNode(kernel,
-					kernel.convertNumberValueToExpressionNode(this.conditions.get(0)),
-					Operation.IF,
-					kernel.convertNumberValueToExpressionNode(this.alternatives.get(0)));
-		}else if(this.conditions.size() == 1){
-		return new ExpressionNode(kernel, new MyNumberPair(kernel,
-				kernel.convertNumberValueToExpressionNode(this.conditions.get(0)),
-				kernel.convertNumberValueToExpressionNode(this.alternatives.get(0))),
-				Operation.IF_ELSE,
-				kernel.convertNumberValueToExpressionNode(this.alternatives.get(1)));
+					kernel.convertNumberValueToExpressionNode(this.conditions
+							.get(0)), Operation.IF,
+					kernel.convertNumberValueToExpressionNode(this.alternatives
+							.get(0)));
+		} else if (this.conditions.size() == 1) {
+			return new ExpressionNode(kernel, new MyNumberPair(kernel,
+					kernel.convertNumberValueToExpressionNode(this.conditions
+							.get(0)),
+					kernel.convertNumberValueToExpressionNode(this.alternatives
+							.get(0))), Operation.IF_ELSE,
+					kernel.convertNumberValueToExpressionNode(this.alternatives
+							.get(1)));
 		}
 		MyList cond = new MyList(kernel), funs = new MyList(kernel);
-		for(GeoBoolean f:conditions){
+		for (GeoBoolean f : conditions) {
 			cond.addListElement(kernel.convertNumberValueToExpressionNode(f));
 		}
-		for(GeoElement f:alternatives){
+		for (GeoElement f : alternatives) {
 			funs.addListElement(kernel.convertNumberValueToExpressionNode(f));
 		}
-		return new ExpressionNode(kernel,
-				cond, Operation.IF_LIST, funs);
+		return new ExpressionNode(kernel, cond, Operation.IF_LIST, funs);
 	}
 
 	// TODO Consider locusequability

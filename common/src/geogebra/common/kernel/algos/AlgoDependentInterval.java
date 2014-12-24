@@ -11,43 +11,45 @@ import geogebra.common.kernel.geos.GeoInterval;
  */
 public class AlgoDependentInterval extends AlgoDependentFunction {
 
-
 	/**
-	 * @param cons construction
-	 * @param fun input interval
+	 * @param cons
+	 *            construction
+	 * @param fun
+	 *            input interval
 	 */
 	AlgoDependentInterval(Construction cons, Function fun) {
-        super(cons);
-        this.fun = fun;
-        f = new GeoInterval(cons);
-        f.setFunction(fun);
-        
-  
-        setInputOutput(); // for AlgoElement
-        
-        compute();
-    }
+		super(cons);
+		this.fun = fun;
+		f = new GeoInterval(cons);
+		f.setFunction(fun);
+
+		setInputOutput(); // for AlgoElement
+
+		compute();
+	}
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param fun input interval
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param fun
+	 *            input interval
 	 */
-	public AlgoDependentInterval(Construction cons, String label,
-			Function fun) {
-        this(cons, fun);
-            
-       	f.setLabel(label);
+	public AlgoDependentInterval(Construction cons, String label, Function fun) {
+		this(cons, fun);
+
+		f.setLabel(label);
 	}
 
 	@Override
 	public Algos getClassName() {
 		return Algos.Expression;
 	}
-    
-    @Override
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-    	return f.toSymbolicString(tpl);
-    }
+		return f.toSymbolicString(tpl);
+	}
 
 }

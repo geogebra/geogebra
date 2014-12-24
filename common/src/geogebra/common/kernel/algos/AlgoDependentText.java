@@ -52,9 +52,8 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 
 		text = new GeoText(cons);
 		setInputOutput(); // for AlgoElement
-		
-		text.initSpreadsheetTraceableCase();
 
+		text.initSpreadsheetTraceableCase();
 
 		// compute value of dependent number
 		compute();
@@ -99,9 +98,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 	@Override
 	protected void setInputOutput() {
 		input = root.getGeoElementVariables();
-		for(int i=0;i<input.length;i++)
-			if(input[i].isGeoText())
-				((GeoText)input[i]).addTextDescendant(text);
+		for (int i = 0; i < input.length; i++)
+			if (input[i].isGeoText())
+				((GeoText) input[i]).addTextDescendant(text);
 		super.setOutputLength(1);
 		super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
@@ -124,25 +123,29 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 			oldTpl = tpl;
 			for (int i = 0; i < input.length; i++) {
 				if (input[i].isGeoText() && !input[i].isLabelSet()
-						&& input[i].getParentAlgorithm()!=null){
+						&& input[i].getParentAlgorithm() != null) {
 					input[i].setVisualStyle(text);
 					input[i].getParentAlgorithm().update();
 				}
 			}
 		}
-		
+
 		nodeToGeoText(root, text, tpl);
 
 	}
-	
+
 	/**
 	 * Converts expression node to geotext
 	 * 
-	 * @param root expression
-	 * @param text text
-	 * @param tpl string template
+	 * @param root
+	 *            expression
+	 * @param text
+	 *            text
+	 * @param tpl
+	 *            string template
 	 */
-	public final static void nodeToGeoText(ExpressionNode root, GeoText text, StringTemplate tpl){
+	public final static void nodeToGeoText(ExpressionNode root, GeoText text,
+			StringTemplate tpl) {
 		try {
 			boolean latex = text.isLaTeX();
 			root.setHoldsLaTeXtext(latex);
@@ -168,48 +171,41 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		return root.toString(tpl);
 	}
 
-	public void setSpreadsheetTraceableText(){
+	public void setSpreadsheetTraceableText() {
 
 		/*
-		AbstractApplication.debug("\nroot: "+root+
-				"\nleft: "+root.getLeftTree()+
-				"\nright: "+root.getRightTree()+
-				"\ngeos:"+root.getVariables()+
-				"\nright geos:"+root.getRightTree().getVariables()
-				);
-				//*/
+		 * AbstractApplication.debug("\nroot: "+root+
+		 * "\nleft: "+root.getLeftTree()+ "\nright: "+root.getRightTree()+
+		 * "\ngeos:"+root.getVariables()+
+		 * "\nright geos:"+root.getRightTree().getVariables() ); //
+		 */
 
-		
-		//  find first NumberValue in expression and replace
+		// find first NumberValue in expression and replace
 		numToTraceSet = false;
 		ExpressionNode copy = getSpecialCopy(root);
-		
-		//AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
 
-		//if (numToTrace != null) {
-		//	AbstractApplication.debug("YYY"+numToTrace.toOutputValueString(StringTemplate.defaultTemplate));			
-		//}
-		
+		// AbstractApplication.printStacktrace("XXX"+copy.evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
+
+		// if (numToTrace != null) {
+		// AbstractApplication.debug("YYY"+numToTrace.toOutputValueString(StringTemplate.defaultTemplate));
+		// }
+
 		text.setSpreadsheetTraceable(copy, numToTrace);
 
-		//AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
-		//AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false, StringTemplate.defaultTemplate));
-
-
-
+		// AbstractApplication.debug("\nleft string : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toValueString(StringTemplate.defaultTemplate));
+		// AbstractApplication.debug("\nleft string latex : "+root.getLeftTree().evaluate(StringTemplate.defaultTemplate).toLaTeXString(false,
+		// StringTemplate.defaultTemplate));
 
 	}
-	
-	
+
 	private ExpressionValue numToTrace;
-	
-	
+
 	// adpated from ExpressionNode.getCopy()
 	private ExpressionNode getSpecialCopy(ExpressionNode en) {
 		// Application.debug("getCopy() input: " + this);
 		ExpressionNode newNode = null;
 		ExpressionValue lev = null, rev = null;
-		
+
 		ExpressionValue left = en.getLeft();
 		ExpressionValue right = en.getRight();
 
@@ -229,9 +225,9 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		}
 
 		// set member vars that are not set by constructors
-		//newNode.forceVector = forceVector;
-		//newNode.forcePoint = forcePoint;
-		//newNode.forceFunction = forceFunction;
+		// newNode.forceVector = forceVector;
+		// newNode.forcePoint = forcePoint;
+		// newNode.forceFunction = forceFunction;
 		// Application.debug("getCopy() output: " + newNode);
 		return newNode;
 	}
@@ -247,22 +243,21 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		ExpressionValue ret = null;
 		// Application.debug("copy ExpressionValue input: " + ev);
 		if (ev.isNumberValue()) {
-			//************
+			// ************
 			// replace first encountered NumberValue, eg x(A) with empty string
-			// and make note 
+			// and make note
 			// ************
 			setNumToTrace(ev);
 			ret = new MyStringBuffer(kernel, " ... ");
 		} else if (ev instanceof ExpressionNode) {
 			ExpressionNode en = (ExpressionNode) ev;
 			ret = getSpecialCopy(en);
-		//} else if (ev instanceof MyList) {
-		//	MyList en = (MyList) ev;
-		//	ret = getCopy(kernel, en);
+			// } else if (ev instanceof MyList) {
+			// MyList en = (MyList) ev;
+			// ret = getCopy(kernel, en);
 		}
 		// deep copy
-		else if ( ev.isConstant()
-				|| (ev instanceof Command)) {
+		else if (ev.isConstant() || (ev instanceof Command)) {
 			ret = ev.deepCopy(kernel);
 		} else if (ev.isGeoElement()) {
 			// eg FormulaText[x(A)]
@@ -276,7 +271,7 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 				} else {
 					ret = ev;
 				}
-			}else {
+			} else {
 				ret = ev;
 			}
 		} else {
@@ -285,14 +280,14 @@ public class AlgoDependentText extends AlgoElement implements DependentAlgo {
 		// Application.debug("copy ExpressionValue output: " + ev);
 		return ret;
 	}
-	
+
 	private boolean numToTraceSet;
-	
-	private void setNumToTrace(ExpressionValue ev){
-		if (!numToTraceSet){
+
+	private void setNumToTrace(ExpressionValue ev) {
+		if (!numToTraceSet) {
 			numToTrace = ev;
 			numToTraceSet = true;
-		}else
+		} else
 			numToTrace = null;
 	}
 

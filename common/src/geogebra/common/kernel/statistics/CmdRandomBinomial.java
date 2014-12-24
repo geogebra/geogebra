@@ -12,15 +12,16 @@ public class CmdRandomBinomial extends CmdTwoNumFunction {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdRandomBinomial(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, NumberValue b, NumberValue c)
-	{
+	protected GeoElement doCommand(String a, NumberValue b, NumberValue c) {
 		AlgoRandomBinomial algo = new AlgoRandomBinomial(cons, a, b, c);
 		return algo.getResult();
 	}

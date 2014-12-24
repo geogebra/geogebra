@@ -23,102 +23,114 @@ import java.util.TreeSet;
  *
  */
 public abstract class AbstractProverReciosMethod {
-	
-	
+
 	private static GeoElement[] fixedPoints;
-	
-	
+
 	/**
-	 * The prover which tries to prove the statement with the help of Tomas Recios method.
-	 * @param prover the prover input object 
+	 * The prover which tries to prove the statement with the help of Tomas
+	 * Recios method.
+	 * 
+	 * @param prover
+	 *            the prover input object
 	 * @return The result of the prove.
 	 */
-	public ProofResult prove(Prover prover){
+	public ProofResult prove(Prover prover) {
 
 		SymbolicParameters s;
 
 		if (prover.getStatement() instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo)prover.getStatement()).getSymbolicParameters());
+			s = (((SymbolicParametersAlgo) prover.getStatement())
+					.getSymbolicParameters());
 		else if (prover.getStatement().getParentAlgorithm() instanceof SymbolicParametersAlgo)
-			s = (((SymbolicParametersAlgo)prover.getStatement().getParentAlgorithm()).getSymbolicParameters());
-		else return ProofResult.UNKNOWN;
-		
+			s = (((SymbolicParametersAlgo) prover.getStatement()
+					.getParentAlgorithm()).getSymbolicParameters());
+		else
+			return ProofResult.UNKNOWN;
+
 		HashSet<Variable> variables;
-		
+
 		try {
 			variables = s.getFreeVariables();
 		} catch (NoSymbolicParametersException e) {
 			return ProofResult.UNKNOWN;
 		}
-		
+
 		// setting two points fixed (the first to (0,0) and the second to (0,1))
 		// all other variables are stores in freeVariables
-		Iterator<Variable> it=variables.iterator();
-		HashMap<Variable, BigInteger> values=new HashMap<Variable, BigInteger>();
-		TreeSet<Variable> fixedVariables=new TreeSet<Variable>(new Comparator<Variable>(){
-			public int compare(Variable v1, Variable v2) {
-				String nameV1, nameV2;
-				if (v1.getParent()==null || (nameV1=v1.getParent().getLabel(StringTemplate.defaultTemplate))==null){
-					if (v2.getParent()==null || v1.getParent().getLabel(StringTemplate.defaultTemplate)==null){
-						return v1.compareTo(v2);
+		Iterator<Variable> it = variables.iterator();
+		HashMap<Variable, BigInteger> values = new HashMap<Variable, BigInteger>();
+		TreeSet<Variable> fixedVariables = new TreeSet<Variable>(
+				new Comparator<Variable>() {
+					public int compare(Variable v1, Variable v2) {
+						String nameV1, nameV2;
+						if (v1.getParent() == null
+								|| (nameV1 = v1.getParent().getLabel(
+										StringTemplate.defaultTemplate)) == null) {
+							if (v2.getParent() == null
+									|| v1.getParent().getLabel(
+											StringTemplate.defaultTemplate) == null) {
+								return v1.compareTo(v2);
+							}
+							return -1;
+						}
+						if (v2.getParent() == null
+								|| (nameV2 = v2.getParent().getLabel(
+										StringTemplate.defaultTemplate)) == null) {
+							return 1;
+						}
+						int compareNames = nameV1.compareTo(nameV2);
+						if (compareNames == 0) {
+							return v1.compareTo(v2);
+						}
+						return compareNames;
 					}
-					return -1;
-				}
-				if (v2.getParent()==null || (nameV2=v2.getParent().getLabel(StringTemplate.defaultTemplate))==null){
-					return 1;
-				}
-				int compareNames=nameV1.compareTo(nameV2);
-				if (compareNames==0){
-					return v1.compareTo(v2);
-				}
-				return compareNames;
-			}	
-		});
-		HashSet<Variable> freeVariables=new HashSet<Variable>();
-		while(it.hasNext()){
-			Variable fv=it.next();
-			if (fv.getTwin()==null || !variables.contains(fv.getTwin())){
+				});
+		HashSet<Variable> freeVariables = new HashSet<Variable>();
+		while (it.hasNext()) {
+			Variable fv = it.next();
+			if (fv.getTwin() == null || !variables.contains(fv.getTwin())) {
 				freeVariables.add(fv);
 				continue;
 			}
 			fixedVariables.add(fv);
 		}
-		
+
 		it = fixedVariables.iterator();
-		int nrOfFixedPoints=0;
-		GeoElement fixedElement1=null, fixedElement2=null;
-		while (it.hasNext()){
+		int nrOfFixedPoints = 0;
+		GeoElement fixedElement1 = null, fixedElement2 = null;
+		while (it.hasNext()) {
 			Variable var;
-			if (nrOfFixedPoints==0){
+			if (nrOfFixedPoints == 0) {
 				var = it.next();
 				values.put(var, BigInteger.ZERO);
 				values.put(it.next(), BigInteger.ZERO);
-				fixedElement1=var.getParent();
-				nrOfFixedPoints=1;
-			} else if (nrOfFixedPoints==1){
+				fixedElement1 = var.getParent();
+				nrOfFixedPoints = 1;
+			} else if (nrOfFixedPoints == 1) {
 				var = it.next();
 				values.put(var, BigInteger.ZERO);
 				values.put(it.next(), BigInteger.ONE);
-				fixedElement2=var.getParent();
-				nrOfFixedPoints=2;
+				fixedElement2 = var.getParent();
+				nrOfFixedPoints = 2;
 			} else {
 				freeVariables.add(it.next());
 			}
 		}
-		
-		if (nrOfFixedPoints==1){
-			fixedPoints=new GeoElement[1];
-			fixedPoints[0]=fixedElement1;
-		} else if (nrOfFixedPoints==2){
-			fixedPoints=new GeoElement[2];
-			fixedPoints[0]=fixedElement1;
-			fixedPoints[1]=fixedElement2;
+
+		if (nrOfFixedPoints == 1) {
+			fixedPoints = new GeoElement[1];
+			fixedPoints[0] = fixedElement1;
+		} else if (nrOfFixedPoints == 2) {
+			fixedPoints = new GeoElement[2];
+			fixedPoints[0] = fixedElement1;
+			fixedPoints[1] = fixedElement2;
 		}
-		
-		int nrFreeVariables=freeVariables.size();
-		if (nrFreeVariables>5) {
+
+		int nrFreeVariables = freeVariables.size();
+		if (nrFreeVariables > 5) {
 			// It would take too much time, it's better to find another method.
-			// TODO: This is not a problem in the method, it is in the implementation.
+			// TODO: This is not a problem in the method, it is in the
+			// implementation.
 			// FIXME: Make the implementation faster.
 			App.debug("Recio's method is currently disabled when # of free variables > 5");
 			return ProofResult.UNKNOWN;
@@ -130,20 +142,20 @@ public abstract class AbstractProverReciosMethod {
 		} catch (NoSymbolicParametersException e) {
 			return ProofResult.UNKNOWN;
 		}
-		int deg=0;
-		for (int i:degs){
-			deg=Math.max(deg, i);
+		int deg = 0;
+		for (int i : degs) {
+			deg = Math.max(deg, i);
 		}
 
 		switch (nrFreeVariables) {
-			case 0:
-				return compute0d(values, s);
-			case 1:
-				return compute1d(freeVariables,values,deg,s);
-			case 2:
- 				return compute2d(freeVariables, values, deg, s);
-			default:
-				return computeNd(freeVariables, values, deg, s);
+		case 0:
+			return compute0d(values, s);
+		case 1:
+			return compute1d(freeVariables, values, deg, s);
+		case 2:
+			return compute2d(freeVariables, values, deg, s);
+		default:
+			return computeNd(freeVariables, values, deg, s);
 		}
 
 	}
@@ -163,8 +175,7 @@ public abstract class AbstractProverReciosMethod {
 		return ProofResult.TRUE;
 	}
 
-	private static ProofResult compute1d(
-			final HashSet<Variable> freeVariables,
+	private static ProofResult compute1d(final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
 			final SymbolicParameters s) {
 		Variable variable = freeVariables.iterator().next();
@@ -183,7 +194,7 @@ public abstract class AbstractProverReciosMethod {
 		}
 		return ProofResult.TRUE;
 	}
-	
+
 	private static ProofResult compute2d(final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
 			final SymbolicParameters s) {
@@ -215,28 +226,35 @@ public abstract class AbstractProverReciosMethod {
 		}
 		return ProofResult.TRUE;
 	}
-	
+
 	/**
-	 * More complicated calculations are done by multiple threads
-	 * in desktop
+	 * More complicated calculations are done by multiple threads in desktop
 	 * 
-	 * @param freeVariables The free variables ruling the construction
-	 * @param values The values for the fixed variables (If e.g. one point gets fixed coordinates (0,0) and another (0,1)
-	 * @param deg The bound for the degree of the statement
-	 * @param s The Symbolic parameters class that is used to test the statement for a fixed point 
+	 * @param freeVariables
+	 *            The free variables ruling the construction
+	 * @param values
+	 *            The values for the fixed variables (If e.g. one point gets
+	 *            fixed coordinates (0,0) and another (0,1)
+	 * @param deg
+	 *            The bound for the degree of the statement
+	 * @param s
+	 *            The Symbolic parameters class that is used to test the
+	 *            statement for a fixed point
 	 * @return the result of the proof
 	 */
-	
-	protected abstract ProofResult computeNd(final HashSet<Variable> freeVariables,
+
+	protected abstract ProofResult computeNd(
+			final HashSet<Variable> freeVariables,
 			final HashMap<Variable, BigInteger> values, final int deg,
 			final SymbolicParameters s);
 
 	/**
 	 * Returns the elements which are fixed by Recio's method prover
+	 * 
 	 * @return the fixed elements
 	 */
 	public static GeoElement[] getFixedPoints() {
 		return fixedPoints;
 	}
-	
+
 }

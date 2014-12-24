@@ -32,7 +32,7 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 
 		// output is random number
 		cons.addRandomGeo(num);
-}
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -42,20 +42,21 @@ public class AlgoRandom extends AlgoTwoNumFunction implements SetRandomValue {
 	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
-			num.setValue(cons.getApplication().getRandomIntegerBetween(a.getDouble(), b.getDouble()));
+			num.setValue(cons.getApplication().getRandomIntegerBetween(
+					a.getDouble(), b.getDouble()));
 		} else
 			num.setUndefined();
-		
+
 	}
 
 	public void setRandomValue(double d) {
 		d = Math.round(Kernel.checkInteger(d));
-		
+
 		if (d >= a.getDouble() && d <= b.getDouble()) {
 			num.setValue(d);
 			num.updateRepaint();
 		}
-			
+
 	}
 
 }

@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.LabelManager;
 import geogebra.common.main.MyError;
 
 /**
- *Rename
+ * Rename
  */
 public class CmdRename extends CmdScripting {
 
@@ -26,8 +26,7 @@ public class CmdRename extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -48,21 +47,22 @@ public class CmdRename extends CmdScripting {
 				args[1].resolveVariables();
 				arg[1] = resArg(args[1])[0];
 			} catch (Error e) {
-				// if there's a problem with the second argument, just wrap in quotes in case it's a color
+				// if there's a problem with the second argument, just wrap in
+				// quotes in case it's a color
 				// eg SetColor[A,blue] rather than SetColor[A,"blue"]
-				arg[1] = new GeoText(cons, args[1].toString(StringTemplate.defaultTemplate));
+				arg[1] = new GeoText(cons,
+						args[1].toString(StringTemplate.defaultTemplate));
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
-
 
 			if (arg[1].isGeoText()) {
 
 				GeoElement geo = arg[0];
 
-				if (LabelManager.checkName(geo, ((GeoText) arg[1]).getTextString())) {
+				if (LabelManager.checkName(geo,
+						((GeoText) arg[1]).getTextString())) {
 					geo.rename(((GeoText) arg[1]).getTextString());
 					geo.updateRepaint();
-
 
 					return;
 				}

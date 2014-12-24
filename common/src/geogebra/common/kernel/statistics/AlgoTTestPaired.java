@@ -33,25 +33,24 @@ import org.apache.commons.math.stat.inference.TTestImpl;
  */
 public class AlgoTTestPaired extends AlgoElement {
 
-	
-	private GeoList geoList0, geoList1; //input
-	private GeoText tail; //input
-	private GeoList  result;     // output   
+	private GeoList geoList0, geoList1; // input
+	private GeoText tail; // input
+	private GeoList result; // output
 	private TTestImpl tTestImpl;
 	private double[] val0, val1;
 
-	public AlgoTTestPaired(Construction cons, String label, GeoList geoList0, GeoList geoList1, GeoText tail) {
+	public AlgoTTestPaired(Construction cons, String label, GeoList geoList0,
+			GeoList geoList1, GeoText tail) {
 		super(cons);
 		this.geoList0 = geoList0;
 		this.geoList1 = geoList1;
 		this.tail = tail;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
-
 
 	@Override
 	public Commands getClassName() {
@@ -59,7 +58,7 @@ public class AlgoTTestPaired extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		input = new GeoElement[3];
 		input[0] = geoList0;
@@ -74,25 +73,22 @@ public class AlgoTTestPaired extends AlgoElement {
 		return result;
 	}
 
-
-	private double adjustedPValue(double p, double testStatistic){
+	private double adjustedPValue(double p, double testStatistic) {
 
 		// two sided test
-		if (StringUtil.isNotEqual(tail.getTextString())) 
+		if (StringUtil.isNotEqual(tail.getTextString()))
 			return p;
 
 		// one sided test
-		else if((tail.getTextString().equals(">") && testStatistic > 0)
+		else if ((tail.getTextString().equals(">") && testStatistic > 0)
 				|| (tail.getTextString().equals("<") && testStatistic < 0))
-			return p/2;
+			return p / 2;
 		else
-			return 1 - p/2;
+			return 1 - p / 2;
 	}
-
 
 	@Override
 	public final void compute() {
-
 
 		if (!(StringUtil.isInequality(tail.getTextString()))) {
 			result.setUndefined();
@@ -101,13 +97,12 @@ public class AlgoTTestPaired extends AlgoElement {
 
 		double p, testStat;
 
-
 		// sample data input
 
-		int size= geoList0.size();
-		if(!geoList1.isDefined() || geoList1.size() != size){
-			result.setUndefined();	
-			return;			
+		int size = geoList0.size();
+		if (!geoList1.isDefined() || geoList1.size() != size) {
+			result.setUndefined();
+			return;
 		}
 
 		// create number value arrays
@@ -116,7 +111,7 @@ public class AlgoTTestPaired extends AlgoElement {
 		GeoElement geo0, geo1;
 		NumberValue num0, num1;
 
-		for (int i=0; i < size; i++) {
+		for (int i = 0; i < size; i++) {
 			geo0 = geoList0.get(i);
 			geo1 = geoList1.get(i);
 			if (geo0 instanceof NumberValue && geo1 instanceof NumberValue) {
@@ -128,26 +123,24 @@ public class AlgoTTestPaired extends AlgoElement {
 			} else {
 				result.setUndefined();
 				return;
-			}    		    		
-		}   
+			}
+		}
 
 		try {
-			
+
 			// get the test statistic and p
-			if(tTestImpl == null)
+			if (tTestImpl == null)
 				tTestImpl = new TTestImpl();
 			testStat = tTestImpl.pairedT(val0, val1);
 			p = tTestImpl.pairedTTest(val0, val1);
 			testStat = tTestImpl.pairedT(val0, val1);
 			p = adjustedPValue(p, testStat);
 
-			
 			// put these results into the output list
 			result.clear();
 			result.add(new GeoNumeric(cons, p));
-			result.add(new GeoNumeric(cons,testStat));
-			
-			
+			result.add(new GeoNumeric(cons, testStat));
+
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		} catch (MathException e) {

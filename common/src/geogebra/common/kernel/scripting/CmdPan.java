@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *Pan
+ * Pan
  */
 public class CmdPan extends CmdScripting {
 
@@ -24,8 +24,7 @@ public class CmdPan extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean ok;
 
@@ -38,10 +37,9 @@ public class CmdPan extends CmdScripting {
 				GeoNumeric y = (GeoNumeric) arg[1];
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
-				ev.translateCoordSystemInPixels((int) x.getDouble(), -(int) y
-						.getDouble(), 0, EuclidianController.MOVE_VIEW);
+				ev.translateCoordSystemInPixels((int) x.getDouble(),
+						-(int) y.getDouble(), 0, EuclidianController.MOVE_VIEW);
 
-				
 				return;
 			} else if (!ok)
 				throw argErr(app, c.getName(), arg[0]);
@@ -49,17 +47,18 @@ public class CmdPan extends CmdScripting {
 				throw argErr(app, c.getName(), arg[1]);
 		case 3:
 			arg = resArgs(c);
-			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric() && arg[2].isGeoNumeric()) {
+			if ((ok = arg[0].isGeoNumeric()) && arg[1].isGeoNumeric()
+					&& arg[2].isGeoNumeric()) {
 
 				GeoNumeric x = (GeoNumeric) arg[0];
 				GeoNumeric y = (GeoNumeric) arg[1];
 				GeoNumeric z = (GeoNumeric) arg[2];
 				EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 				ev.rememberOrigins();
-				ev.translateCoordSystemInPixels((int) x.getDouble(), -(int) y
-						.getDouble(), (int) z.getDouble(), EuclidianController.MOVE_VIEW);
+				ev.translateCoordSystemInPixels((int) x.getDouble(),
+						-(int) y.getDouble(), (int) z.getDouble(),
+						EuclidianController.MOVE_VIEW);
 
-				
 				return;
 			} else if (!ok)
 				throw argErr(app, c.getName(), arg[0]);

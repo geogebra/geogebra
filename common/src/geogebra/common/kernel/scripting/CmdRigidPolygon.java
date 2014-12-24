@@ -32,32 +32,38 @@ public class CmdRigidPolygon extends CommandProcessor {
 		arg = resArgs(c);
 		switch (n) {
 
-		case 1: if (arg[0].isGeoPolygon()) {
-			
-			EuclidianViewInterfaceCommon view = kernelA.getApplication().getActiveEuclidianView();
-			
-			double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
+		case 1:
+			if (arg[0].isGeoPolygon()) {
 
-			GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0], offset, -offset);
-			
-			return ret;
-		}
-		
-		// else fall through
-		
+				EuclidianViewInterfaceCommon view = kernelA.getApplication()
+						.getActiveEuclidianView();
+
+				double offset = view.toRealWorldCoordX(view.getWidth()) / 15;
+
+				GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0],
+						offset, -offset);
+
+				return ret;
+			}
+
+			// else fall through
+
 		case 0:
 		case 2:
 			throw argNumErr(app, c.getName(), n);
 
-		case 3: if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue && arg[2] instanceof GeoNumberValue) {
-			
-			GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0], ((GeoNumberValue)arg[1]).getDouble(), 
-					((GeoNumberValue)arg[2]).getDouble());
-			
-			return ret;
-		}
-		
-		// else fall through
+		case 3:
+			if (arg[0].isGeoPolygon() && arg[1] instanceof GeoNumberValue
+					&& arg[2] instanceof GeoNumberValue) {
+
+				GeoElement[] ret = kernelA.RigidPolygon((GeoPolygon) arg[0],
+						((GeoNumberValue) arg[1]).getDouble(),
+						((GeoNumberValue) arg[2]).getDouble());
+
+				return ret;
+			}
+
+			// else fall through
 		default:
 
 			// polygon for given points

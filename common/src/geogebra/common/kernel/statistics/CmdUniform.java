@@ -9,15 +9,16 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
+
 /**
- * Uniform[min,max,x]
- * Uniform[min,max,value]
- * Uniform[min,max,value,cumulative]
+ * Uniform[min,max,x] Uniform[min,max,value] Uniform[min,max,value,cumulative]
  */
 public class CmdUniform extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdUniform(Kernel kernel) {
 		super(kernel);
@@ -34,29 +35,37 @@ public class CmdUniform extends CommandProcessor {
 
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[2].isGeoFunction()
+					|| !((GeoFunction) arg[2]).toString(
+							StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
 			if (arg[3].isGeoBoolean()) {
-				cumulative = (BooleanValue)arg[3];
+				cumulative = (BooleanValue) arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);
 
 			// fall through
-		case 3:			
-			if ((ok = arg[0] instanceof GeoNumberValue) && (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
+		case 3:
+			if ((ok = arg[0] instanceof GeoNumberValue)
+					&& (arg[1] instanceof GeoNumberValue)) {
+				if (arg[2].isGeoFunction()
+						&& ((GeoFunction) arg[2]).toString(
+								StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1], cumulative);
+					AlgoUniformDF algo = new AlgoUniformDF(cons, c.getLabel(),
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							cumulative);
 					return algo.getGeoElements();
 
-				} else if (arg[2] instanceof GeoNumberValue) 
-				{
-					AlgoUniform algo = new AlgoUniform(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1], (GeoNumberValue)arg[2]);
+				} else if (arg[2] instanceof GeoNumberValue) {
+					AlgoUniform algo = new AlgoUniform(cons, c.getLabel(),
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2]);
 					return algo.getGeoElements();
 
-				}  else
+				} else
 					throw argErr(app, c.getName(), arg[2]);
 			}
 			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);

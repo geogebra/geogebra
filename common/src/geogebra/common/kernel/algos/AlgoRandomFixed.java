@@ -21,30 +21,32 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Random number on file load, but fixed after that
- * @author  Michael
- * @version 
+ * 
+ * @author Michael
+ * @version
  */
 public class AlgoRandomFixed extends AlgoElement {
 
-	protected NumberValue a, b;  // input
-	protected GeoNumeric num;     // output         
+	protected NumberValue a, b; // input
+	protected GeoNumeric num; // output
 
 	double random, aLast = Double.NaN, bLast = Double.NaN;
 
-	public AlgoRandomFixed(Construction cons, String label, NumberValue a, NumberValue b) {       
+	public AlgoRandomFixed(Construction cons, String label, NumberValue a,
+			NumberValue b) {
 		this(cons, a, b);
 		num.setLabel(label);
-	}   
+	}
 
-	protected AlgoRandomFixed(Construction cons, NumberValue a, NumberValue b) {       
-		super(cons); 
+	protected AlgoRandomFixed(Construction cons, NumberValue a, NumberValue b) {
+		super(cons);
 		this.a = a;
 		this.b = b;
-		num = new GeoNumeric(cons); 
+		num = new GeoNumeric(cons);
 		setInputOutput();
 
 		compute();
-	}   
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -54,7 +56,7 @@ public class AlgoRandomFixed extends AlgoElement {
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		input =  new GeoElement[3];
+		input = new GeoElement[3];
 		input[0] = a.toGeoElement();
 		input[1] = b.toGeoElement();
 		input[2] = new GeoBoolean(cons, true); // dummy
@@ -62,21 +64,23 @@ public class AlgoRandomFixed extends AlgoElement {
 		super.setOutputLength(1);
 		super.setOutput(0, num);
 		setDependencies(); // done by AlgoElement
-	}    
+	}
 
-	public GeoNumeric getResult() { return num; }
-
+	public GeoNumeric getResult() {
+		return num;
+	}
 
 	@Override
 	public void compute() {
 
 		if (input[0].isDefined() && input[1].isDefined()) {
 			if (a.getDouble() != aLast || b.getDouble() != bLast) {
-				
+
 				// change random number only if a or b has changed
 				aLast = a.getDouble();
 				bLast = b.getDouble();
-				random = cons.getApplication().getRandomIntegerBetween(a.getDouble(), b.getDouble());
+				random = cons.getApplication().getRandomIntegerBetween(
+						a.getDouble(), b.getDouble());
 				num.setValue(random);
 
 			} else {
@@ -87,11 +91,8 @@ public class AlgoRandomFixed extends AlgoElement {
 			num.setUndefined();
 		}
 
-	}        
+	}
 
 	// TODO Consider locusequability
 
 }
-
-
-

@@ -20,9 +20,7 @@ import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.main.MyError;
 
 /**
- * ShowAxex[]
- * ShowAxes[<Boolean>]
- * ShowAxes[<View ID>, <Boolean]
+ * ShowAxex[] ShowAxes[<Boolean>] ShowAxes[<View ID>, <Boolean]
  */
 public class CmdShowAxes extends CmdScripting {
 
@@ -37,10 +35,9 @@ public class CmdShowAxes extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		EuclidianViewInterfaceCommon ev = null;
 
 		arg = resArgs(c);
@@ -53,24 +50,23 @@ public class CmdShowAxes extends CmdScripting {
 		case 1:
 			if (!(arg[0] instanceof BooleanValue))
 				throw argErr(app, c.getName(), arg[0]);
-			
-			boolean show = ((BooleanValue)arg[0]).getBoolean();
+
+			boolean show = ((BooleanValue) arg[0]).getBoolean();
 			ev = app.getActiveEuclidianView();
 			ev.setShowAxis(show);
 			ev.repaintView();
-			
+
 			break;
 		case 2:
 			if (!(arg[0] instanceof NumberValue))
 				throw argErr(app, c.getName(), arg[0]);
 			if (!(arg[1] instanceof BooleanValue))
 				throw argErr(app, c.getName(), arg[1]);
-			
-			show = ((BooleanValue)arg[1]).getBoolean();
 
-			
-			switch ((int)(((NumberValue)arg[0]).getDouble())) {
-			case 2: 
+			show = ((BooleanValue) arg[1]).getBoolean();
+
+			switch ((int) (((NumberValue) arg[0]).getDouble())) {
+			case 2:
 				if (app.hasEuclidianView2(1)) {
 					ev = app.getEuclidianView2(1);
 				}
@@ -80,10 +76,10 @@ public class CmdShowAxes extends CmdScripting {
 					ev = app.getEuclidianView3D();
 				}
 				break;
-			default: 
+			default:
 				ev = app.getEuclidianView1();
 			}
-			if(ev != null){
+			if (ev != null) {
 				ev.setShowAxis(show);
 				ev.repaintView();
 			}
@@ -94,4 +90,3 @@ public class CmdShowAxes extends CmdScripting {
 		}
 	}
 }
-

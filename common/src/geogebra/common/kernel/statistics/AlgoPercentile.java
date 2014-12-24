@@ -22,25 +22,22 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.stat.descriptive.rank.Percentile;
 
-
 /**
- * Returns the percentile for a given percentage  in a list of numbers
+ * Returns the percentile for a given percentage in a list of numbers
  */
 
 public class AlgoPercentile extends AlgoElement {
 
-	
-	private GeoList inputList; //input
-	private GeoNumeric value; //input
-	private GeoNumeric result; //output	
+	private GeoList inputList; // input
+	private GeoNumeric value; // input
+	private GeoNumeric result; // output
 	private int size;
 	private Percentile percentile;
 	private double[] inputArray;
 	private double val;
 
-
-
-	public AlgoPercentile(Construction cons, String label, GeoList inputList, GeoNumeric value) {
+	public AlgoPercentile(Construction cons, String label, GeoList inputList,
+			GeoNumeric value) {
 		super(cons);
 		this.inputList = inputList;
 		this.value = value;
@@ -57,7 +54,7 @@ public class AlgoPercentile extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = inputList;
 		input[1] = value;
@@ -73,44 +70,43 @@ public class AlgoPercentile extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		//==========================
+		// ==========================
 		// validation
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
-			result.setUndefined();
-			return;
-		} 
-
-		if(value == null){
-			result.setUndefined();
-			return;
-		}
-		val = value.getDouble()*100;
-
-		if(val <= 0 || val > 100){
+		if (!inputList.isDefined() || size == 0) {
 			result.setUndefined();
 			return;
 		}
 
+		if (value == null) {
+			result.setUndefined();
+			return;
+		}
+		val = value.getDouble() * 100;
 
-		//==========================
+		if (val <= 0 || val > 100) {
+			result.setUndefined();
+			return;
+		}
+
+		// ==========================
 		// compute result
 
 		inputArray = new double[size];
 
-		// load input value array from  geoList
-		for (int i=0; i < size; i++) {
+		// load input value array from geoList
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
 				NumberValue num = (NumberValue) geo;
-				inputArray[i] = num.getDouble();	
+				inputArray[i] = num.getDouble();
 			} else {
 				result.setUndefined();
 				return;
-			}    		    		
-		}   
+			}
+		}
 
-		if(percentile == null)
+		if (percentile == null)
 			percentile = new Percentile();
 
 		percentile.setData(inputArray);
@@ -118,6 +114,5 @@ public class AlgoPercentile extends AlgoElement {
 	}
 
 	// TODO Consider locusequability
-
 
 }

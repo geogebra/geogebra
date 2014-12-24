@@ -6,8 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * HarmonicMean[ list ]
- * adapted from CmdLcm by Michael Borcherds 2008-02-16
+ * HarmonicMean[ list ] adapted from CmdLcm by Michael Borcherds 2008-02-16
  */
 public class CmdHarmonicMean extends CmdOneListFunction {
 	/**
@@ -21,11 +20,9 @@ public class CmdHarmonicMean extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoHarmonicMean algo = new AlgoHarmonicMean(cons, a, b);
 		return algo.getResult();
 	}
-
 
 }

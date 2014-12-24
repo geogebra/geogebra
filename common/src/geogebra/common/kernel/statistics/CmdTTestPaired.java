@@ -32,10 +32,9 @@ public class CmdTTestPaired extends CommandProcessor {
 		switch (n) {
 
 		case 3:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoList())
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoText())) {
-				
+
 				AlgoTTestPaired algo = new AlgoTTestPaired(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoList) arg[1], (GeoText) arg[2]);
 
@@ -46,7 +45,7 @@ public class CmdTTestPaired extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])
 				throw argErr(app, c.getName(), arg[1]);
-			else 
+			else
 				throw argErr(app, c.getName(), arg[2]);
 
 		default:

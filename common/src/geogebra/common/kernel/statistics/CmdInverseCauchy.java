@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *InverseCauchy
+ * InverseCauchy
  */
 public class CmdInverseCauchy extends CommandProcessor {
 
@@ -34,10 +34,10 @@ public class CmdInverseCauchy extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-				
-				AlgoInverseCauchy algo = new AlgoInverseCauchy(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
+
+				AlgoInverseCauchy algo = new AlgoInverseCauchy(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

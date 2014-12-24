@@ -30,7 +30,6 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 
 	private Coords centerPointCoords;
 
-
 	/**
 	 * Creates a new regular polygon algorithm
 	 * 
@@ -51,31 +50,27 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 		super(c, labels, A1, B1, num, null);
 	}
 
-
 	@Override
-	protected GeoPolygon newGeoPolygon(Construction cons){
+	protected GeoPolygon newGeoPolygon(Construction cons) {
 		return new GeoPolygon(cons);
 	}
 
 	@Override
-	protected GeoElement newGeoPoint(Construction cons){
+	protected GeoElement newGeoPoint(Construction cons) {
 		GeoPoint newPoint = new GeoPoint(cons);
 		newPoint.setCoords(0, 0, 1);
 		return newPoint;
 	}
-	
-	
-	
 
 	@Override
-	protected void setCenterPoint(int n, double beta){
+	protected void setCenterPoint(int n, double beta) {
 
 		double xA = ((GeoPoint) A).inhomX;
 		double yA = ((GeoPoint) A).inhomY;
-		
+
 		double xB = ((GeoPoint) B).inhomX;
 		double yB = ((GeoPoint) B).inhomY;
-		
+
 		// some temp values
 		double mx = (xA + xB) / 2; // midpoint of AB
 		double my = (yA + yB) / 2;
@@ -89,10 +84,9 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 				.setCoords(mx + tanBetaHalf * nx, my + tanBetaHalf * ny, 1.0);
 		centerPointCoords = centerPoint.getInhomCoords();
 	}
-	
-	
+
 	@Override
-	protected void rotate(GeoPointND point){
+	protected void rotate(GeoPointND point) {
 		point.rotate(rotAngle, centerPointCoords);
 	}
 
@@ -115,17 +109,15 @@ public class AlgoPolygonRegular extends AlgoPolygonRegularND {
 		getPoly().setParentAlgorithm(this);
 
 	}
-	
+
 	@Override
-	final protected void setDirection(GeoDirectionND direction){
+	final protected void setDirection(GeoDirectionND direction) {
 		// used only in 3D
 	}
 
-
 	public void calcCentroid(GeoPoint p) {
-		p.setCoords((GeoPoint)centerPoint);
-		
+		p.setCoords((GeoPoint) centerPoint);
+
 	}
-	
 
 }

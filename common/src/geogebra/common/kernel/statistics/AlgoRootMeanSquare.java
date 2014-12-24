@@ -20,22 +20,16 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
-
-
 /**
  * Returns the harmonic mean for a list of numbers
  */
 
 public class AlgoRootMeanSquare extends AlgoElement {
 
-	
-	private GeoList inputList; //input
-	private GeoNumeric result; //output	
+	private GeoList inputList; // input
+	private GeoNumeric result; // output
 	private int size;
 	private double sum;
-
-
 
 	public AlgoRootMeanSquare(Construction cons, String label, GeoList inputList) {
 		super(cons);
@@ -53,12 +47,12 @@ public class AlgoRootMeanSquare extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
 		setOutputLength(1);
-		setOutput(0,result);
+		setOutput(0, result);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -69,36 +63,34 @@ public class AlgoRootMeanSquare extends AlgoElement {
 	@Override
 	public final void compute() {
 
-		//==========================
+		// ==========================
 		// validation
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			result.setUndefined();
 			return;
-		} 
+		}
 
-
-		//==========================
+		// ==========================
 		// compute result
 
 		sum = 0;
 
-		// load input value array from  geoList
-		for (int i=0; i < size; i++) {
+		// load input value array from geoList
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
 				double d = ((NumberValue) geo).getDouble();
-				sum += d*d;	
+				sum += d * d;
 			} else {
 				result.setUndefined();
 				return;
-			}    		    		
-		}   
+			}
+		}
 
-		result.setValue(Math.sqrt(sum/size));
+		result.setValue(Math.sqrt(sum / size));
 	}
 
 	// TODO Consider locusequability
-
 
 }

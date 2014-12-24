@@ -7,8 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- *  Mean[ list ] or  Mean[ list, frequency ]
- *  Michael Borcherds 2008-04-12
+ * Mean[ list ] or Mean[ list, frequency ] Michael Borcherds 2008-04-12
  */
 public class CmdMean extends CmdOneListFunction {
 	/**
@@ -22,16 +21,16 @@ public class CmdMean extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoMean algo = new AlgoMean(cons, a, b);
 		return algo.getResult();
 	}
 
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list,
+			GeoList freq) {
 		AlgoMean algo = new AlgoMean(cons, a, list, freq);
-		return algo.getResult(); 
+		return algo.getResult();
 	}
 
 }

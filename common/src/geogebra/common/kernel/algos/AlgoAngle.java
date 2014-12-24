@@ -14,38 +14,44 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public abstract class AlgoAngle extends AlgoElement{
+public abstract class AlgoAngle extends AlgoElement {
 
 	/**
 	 * default constructor
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public AlgoAngle(Construction c) {
 		super(c);
 		initCoords();
-		
+
 	}
-	
+
 	/**
 	 * init Coords values
 	 */
-	protected void initCoords(){
+	protected void initCoords() {
 		// none here
 	}
-	
+
 	/**
 	 * Creates new algorithm
-	 * @param c construction
-	 * @param addToConstructionList true to add this to construction list
+	 * 
+	 * @param c
+	 *            construction
+	 * @param addToConstructionList
+	 *            true to add this to construction list
 	 */
 	protected AlgoAngle(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
 	}
-	
-	
+
 	/**
 	 * create a new GeoAngle with interval as default angle
-	 * @param cons construction
+	 * 
+	 * @param cons
+	 *            construction
 	 * @return new GeoAngle
 	 */
 	protected GeoAngle newGeoAngle(Construction cons) {
@@ -53,17 +59,17 @@ public abstract class AlgoAngle extends AlgoElement{
 		ret.setDrawable(true);
 		return ret;
 	}
-	
-    @Override
+
+	@Override
 	final public Commands getClassName() {
-        return Commands.Angle;
-    }
-    
-    @Override
+		return Commands.Angle;
+	}
+
+	@Override
 	final public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ANGLE;
-    }
-	
+		return EuclidianConstants.MODE_ANGLE;
+	}
+
 	/**
 	 * 
 	 * @return normal vector
@@ -71,31 +77,36 @@ public abstract class AlgoAngle extends AlgoElement{
 	public Coords getVn() {
 		return Coords.VZ;
 	}
-	
-	
-	
+
 	/**
 	 * update draw info for 2D drawable
-	 * @param m angle apex
-	 * @param firstVec base line direction
-	 * @param drawable 2D drawable
+	 * 
+	 * @param m
+	 *            angle apex
+	 * @param firstVec
+	 *            base line direction
+	 * @param drawable
+	 *            2D drawable
 	 * @return true if visible
 	 */
-	public abstract boolean updateDrawInfo(double[]m,double[] firstVec, DrawAngle drawable);
-	
+	public abstract boolean updateDrawInfo(double[] m, double[] firstVec,
+			DrawAngle drawable);
+
 	/**
-	 * @param drawCoords coords (center, v1, v2) for drawing
+	 * @param drawCoords
+	 *            coords (center, v1, v2) for drawing
 	 * @return true if visible
 	 */
 	public abstract boolean getCoordsInD3(Coords[] drawCoords);
-	
-    /**
-     * 
-     * @param vertex start point
-     * @return true if vertex is not correct center for drawing the angle
-     */
-    static final protected boolean centerIsNotDrawable(GeoPointND vertex){
-    	return vertex == null || !vertex.isDefined() || vertex.isInfinite();
-    }
+
+	/**
+	 * 
+	 * @param vertex
+	 *            start point
+	 * @return true if vertex is not correct center for drawing the angle
+	 */
+	static final protected boolean centerIsNotDrawable(GeoPointND vertex) {
+		return vertex == null || !vertex.isDefined() || vertex.isInfinite();
+	}
 
 }

@@ -22,24 +22,23 @@ public class CmdDelete extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
 		switch (n) {
 		case 1:
-			try{
+			try {
 				arg = resArgs(c);
-			}catch(Error e){
+			} catch (Error e) {
 				return;
 			}
 			ok[0] = arg[0].isGeoElement();
 			if (ok[0]) {
 				GeoElement geo = arg[0];
-				
+
 				if (geo.isLabelSet())
-				// delete object
+					// delete object
 					geo.removeOrSetUndefinedIfHasFixedDescendent();
 				return;
 			}

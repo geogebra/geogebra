@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *Gamma Distribution
+ * Gamma Distribution
  */
 public class CmdGamma extends CommandProcessor {
 
@@ -30,33 +30,38 @@ public class CmdGamma extends CommandProcessor {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
-		
+
 		arg = resArgs(c);
 
 		BooleanValue cumulative = null; // default for n=3 (false)
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[2].isGeoFunction()
+					|| !((GeoFunction) arg[2]).toString(
+							StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
-			
+
 			if (arg[3].isGeoBoolean()) {
 				cumulative = (BooleanValue) arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);
 
 			// fall through
-		case 3:			
-			if ((ok[0] = arg[0] instanceof GeoNumberValue) && (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
+		case 3:
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
+				if (arg[2].isGeoFunction()
+						&& ((GeoFunction) arg[2]).toString(
+								StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoGammaDF algo = new AlgoGammaDF(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1], cumulative);
+					AlgoGammaDF algo = new AlgoGammaDF(cons, c.getLabel(),
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							cumulative);
 					return algo.getGeoElements();
 
-
-
 				} else if (arg[2] instanceof GeoNumberValue) {
-					
+
 					AlgoGamma algo = new AlgoGamma(cons, c.getLabel(),
 							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 							(GeoNumberValue) arg[2]);
@@ -66,14 +71,13 @@ public class CmdGamma extends CommandProcessor {
 				} else
 					throw argErr(app, c.getName(), arg[2]);
 
-				} else if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				
+			} else if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			else if (!ok[1])
+				throw argErr(app, c.getName(), arg[1]);
 
-			default:
-				throw argNumErr(app, c.getName(), n);
-			}
+		default:
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
+}

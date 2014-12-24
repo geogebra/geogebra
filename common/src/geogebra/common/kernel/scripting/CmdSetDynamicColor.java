@@ -12,7 +12,7 @@ import geogebra.common.main.MyError;
 import java.util.ArrayList;
 
 /**
- *SetDynamicColor
+ * SetDynamicColor
  */
 public class CmdSetDynamicColor extends CmdScripting {
 
@@ -27,8 +27,7 @@ public class CmdSetDynamicColor extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement[] arg2;
 		switch (n) {
@@ -42,18 +41,18 @@ public class CmdSetDynamicColor extends CmdScripting {
 				GeoElement geo = arg2[0];
 
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
-				listItems.add(arg2[1]); 
-				listItems.add(arg2[2]); 
-				listItems.add(arg2[3]); 
-				//listItems.add((GeoElement) arg2[4]); // no opacity 
-				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
+				listItems.add(arg2[1]);
+				listItems.add(arg2[2]);
+				listItems.add(arg2[3]);
+				// listItems.add((GeoElement) arg2[4]); // no opacity
+				AlgoDependentList algo = new AlgoDependentList(cons, listItems,
+						false);
 				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
 				geo.updateRepaint();
 
-				
 				return;
 
 			} else if (!ok[1])
@@ -71,20 +70,20 @@ public class CmdSetDynamicColor extends CmdScripting {
 					&& (ok[4] = arg2[4] instanceof GeoNumberValue)) {
 
 				GeoElement geo = arg2[0];
-				
+
 				ArrayList<GeoElement> listItems = new ArrayList<GeoElement>();
-				listItems.add(arg2[1]); 
-				listItems.add(arg2[2]); 
-				listItems.add(arg2[3]); 
-				listItems.add(arg2[4]); // opacity 
-				AlgoDependentList algo = new AlgoDependentList(cons, listItems, false);
+				listItems.add(arg2[1]);
+				listItems.add(arg2[2]);
+				listItems.add(arg2[3]);
+				listItems.add(arg2[4]); // opacity
+				AlgoDependentList algo = new AlgoDependentList(cons, listItems,
+						false);
 				kernelA.getConstruction().removeFromConstructionList(algo);
 				GeoList list = algo.getGeoList();
 
 				geo.setColorFunction(list);
 				geo.updateRepaint();
 
-				
 				return;
 
 			} else if (!ok[1])

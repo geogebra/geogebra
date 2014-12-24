@@ -60,31 +60,31 @@ public class AlgoCellRange extends AlgoElement {
 		this.endCell = endCell;
 		setInputOutput();
 
-	
 		geoList.setLabel(label);
 	}
 
 	@Override
 	public Algos getClassName() {
-		// rather than writing <command name="CellRange"> <input a0="B2" a1="B3" a2="B4" etc />
+		// rather than writing <command name="CellRange"> <input a0="B2" a1="B3"
+		// a2="B4" etc />
 		// write an expression: <expression label="list1" exp="A1:A3" />
-        return Algos.Expression;
-    }
+		return Algos.Expression;
+	}
 
 	@Override
 	public void remove() {
-		if(removed)
+		if (removed)
 			return;
-		
+
 		// remove this from item update sets
-		for (GeoElement geo : listItems){
+		for (GeoElement geo : listItems) {
 			geo.removeFromUpdateSets(this);
 		}
-		
+
 		super.remove();
 
-		cons.getApplication().getSpreadsheetTableModel()
-				.getCellRangeManager().unregisterCellRangeListenerAlgo(this);
+		cons.getApplication().getSpreadsheetTableModel().getCellRangeManager()
+				.unregisterCellRangeListenerAlgo(this);
 
 		clearGeoList();
 	}
@@ -100,13 +100,16 @@ public class AlgoCellRange extends AlgoElement {
 
 	/**
 	 * update list (add/remove geo)
-	 * @param geo geo to add/remove
-	 * @param isRemoveAction true if remove, false if add
+	 * 
+	 * @param geo
+	 *            geo to add/remove
+	 * @param isRemoveAction
+	 *            true if remove, false if add
 	 */
 	public void updateList(GeoElement geo, boolean isRemoveAction) {
-				
+
 		if (listItems.contains(geo)) {
-		    // exit if geo is already in the list
+			// exit if geo is already in the list
 			if (!isRemoveAction) {
 				return;
 			}
@@ -115,71 +118,72 @@ public class AlgoCellRange extends AlgoElement {
 		} else {
 			listItems = initCellRangeList(startCoords, endCoords);
 		}
-		
+
 		updateList();
 		update();
 		geoList.updateRepaint();
 	}
-	
-	private void updateList(){
+
+	private void updateList() {
 		geoList.clear();
-    	for (GeoElement geo : listItems){
-    		add(geo);
-    	}      
+		for (GeoElement geo : listItems) {
+			add(geo);
+		}
 	}
-	
-	private void add(GeoElement geo){
-		
+
+	private void add(GeoElement geo) {
+
 		// add to geo list
 		geoList.add(geo);
-		
+
 		// add this to geo update set
 		geo.addToUpdateSetOnly(this);
-		
-		
+
 		// add to list update set to geo update set
 		Iterator<AlgoElement> it = geoList.getAlgoUpdateSet().getIterator();
-		while (it.hasNext()){
+		while (it.hasNext()) {
 			geo.addToUpdateSetOnly(it.next());
 		}
-		
+
 	}
-	
+
 	/**
 	 * add geo at location into the list
-	 * @param geo element
-	 * @param loc location on spreadsheet
+	 * 
+	 * @param geo
+	 *            element
+	 * @param loc
+	 *            location on spreadsheet
 	 */
 	public void addToList(GeoElement geo, GPoint loc) {
-		
+
 		// check if we just add at the end of the list
-		if (loc.x >= maxExistingCol && loc.y > maxExistingRow){
+		if (loc.x >= maxExistingCol && loc.y > maxExistingRow) {
 			maxExistingCol = loc.x;
 			maxExistingRow = loc.y;
 			addToList(geo);
-		}else{ // recompute the list
+		} else { // recompute the list
 			updateList(geo, false);
 		}
 	}
-	
+
 	private void addToList(GeoElement geo) {
 
 		listItems.add(geo);
 
 		add(geo);
-		
+
 		geoList.updateRepaint();
-		
+
 	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-	
+
 		startCoords = GeoElementSpreadsheet
 				.getSpreadsheetCoordsForLabel(startCell);
-		endCoords = GeoElementSpreadsheet
-				.getSpreadsheetCoordsForLabel(endCell);
+		endCoords = GeoElementSpreadsheet.getSpreadsheetCoordsForLabel(endCell);
 		toStringOutput = startCell + ":" + endCell;
 
 		cellRange = new CellRange(cons.getApplication(), startCoords.x,
@@ -187,19 +191,16 @@ public class AlgoCellRange extends AlgoElement {
 
 		// build list with cells in range
 		listItems = initCellRangeList(startCoords, endCoords);
-		
 
 		// create dependent geoList for cells in range
-		geoList = new GeoListForCellRange(cons, this); 
-		
+		geoList = new GeoListForCellRange(cons, this);
 
 		// input: size 0
 		// needed for XML saving only
 		input = new GeoElement[0];
-		
+
 		updateList();
 		update();
-
 
 		super.setOutputLength(1);
 		super.setOutput(0, geoList);
@@ -207,12 +208,12 @@ public class AlgoCellRange extends AlgoElement {
 		setDependenciesOutputOnly();
 
 		// see this.getClassName() for better solution
-		 // change input now for XML saving
-		 //input = new GeoElement[2];
-		 //input[0] = startCell;
-		 //input[1] = endCell;
+		// change input now for XML saving
+		// input = new GeoElement[2];
+		// input[0] = startCell;
+		// input[1] = endCell;
 	}
-	
+
 	/**
 	 * max column location for existing values
 	 */
@@ -248,7 +249,7 @@ public class AlgoCellRange extends AlgoElement {
 
 		maxExistingCol = minCol - 1;
 		maxExistingRow = minRow - 1;
-		
+
 		// build the list
 		for (int colIndex = minCol; colIndex <= maxCol; colIndex++) {
 			for (int rowIndex = minRow; rowIndex <= maxRow; rowIndex++) {
@@ -267,8 +268,8 @@ public class AlgoCellRange extends AlgoElement {
 				// we got the cell object, add it to the list
 				listItems.add(geo);
 				maxExistingCol = colIndex;
-				maxExistingRow = rowIndex; // we want max existing row in max col
-				
+				maxExistingRow = rowIndex; // we want max existing row in max
+											// col
 
 				// make sure that this cell object cannot be renamed by the user
 				// renaming would move the object outside of our range
@@ -312,26 +313,25 @@ public class AlgoCellRange extends AlgoElement {
 		GPoint[] ret = { startCoords, endCoords };
 		return ret;
 	}
-	
+
 	/**
 	 * add algo to input items update sets
+	 * 
 	 * @param algo
 	 */
-	public void addToItemsAlgoUpdateSets(AlgoElement algo){
-		for (GeoElement geo : listItems){
+	public void addToItemsAlgoUpdateSets(AlgoElement algo) {
+		for (GeoElement geo : listItems) {
 			geo.addToUpdateSetOnly(algo);
 		}
 	}
-	
-	public String getStart(){
+
+	public String getStart() {
 		return startCell;
 	}
-	
-	public String getEnd(){
+
+	public String getEnd() {
 		return endCell;
 	}
-
-
 
 	// TODO Consider locusequability
 }

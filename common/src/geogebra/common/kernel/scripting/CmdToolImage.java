@@ -12,7 +12,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 
 /**
- *ToolImage
+ * ToolImage
  */
 public class CmdToolImage extends CommandProcessor {
 	/**
@@ -28,7 +28,7 @@ public class CmdToolImage extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		GeoElement[] arg;
 		arg = resArgs(c);
 
@@ -38,14 +38,15 @@ public class CmdToolImage extends CommandProcessor {
 
 				int mode = (int) ((GeoNumeric) arg[0]).getDouble();
 
-				String modeStr = StringUtil.toLowerCase(kernelA.getModeText(mode));
+				String modeStr = StringUtil.toLowerCase(kernelA
+						.getModeText(mode));
 
 				if ("".equals(modeStr))
 					throw argErr(app, c.getName(), arg[0]);
 
 				String fileName = app.getImageManager().createImage(
-				"/geogebra/gui/toolbar/images/64/mode_" + modeStr
-						+ ".png",app);
+						"/geogebra/gui/toolbar/images/64/mode_" + modeStr
+								+ ".png", app);
 				GeoImage geoImage = new GeoImage(app.getKernel()
 						.getConstruction());
 				geoImage.setImageFileName(fileName);

@@ -23,7 +23,7 @@ public class CmdDotPlot extends CommandProcessor {
 	public CmdDotPlot(Kernel kernel) {
 		super(kernel);
 	}
-	
+
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
@@ -34,48 +34,46 @@ public class CmdDotPlot extends CommandProcessor {
 		switch (n) {
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { 
-						doCommand(c.getLabel(),
-								(GeoList) arg[0]) };
+				GeoElement[] ret = { doCommand(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
-			} 
+			}
 			throw argErr(app, c.getName(), arg[0]);
-			
+
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
 				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1]);
-				GeoElement[] ret = {algo.getResult() };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-				
-			}else if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())) {
+
+			} else if ((ok[0] = arg[0].isGeoList())
+					&& (ok[1] = arg[1].isGeoBoolean())) {
 				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoBoolean) arg[1], null);
-				GeoElement[] ret = {algo.getResult() };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} 
-			else if (!ok[0])
+			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
-			else 
+			else
 				throw argErr(app, c.getName(), arg[1]);
-	
+
 		case 3:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoBoolean())
 					&& (ok[2] = arg[2].isGeoNumeric())) {
 				AlgoDotPlot algo = new AlgoDotPlot(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoBoolean) arg[1],(GeoNumeric) arg[2]);
-				GeoElement[] ret = {algo.getResult() };
+						(GeoList) arg[0], (GeoBoolean) arg[1],
+						(GeoNumeric) arg[2]);
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			}
-				else if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
-				else 
-					throw argErr(app, c.getName(), arg[2]);
-		
-        default :     	
-        	throw argNumErr(app, c.getName(), n);
+			} else if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			else if (!ok[1])
+				throw argErr(app, c.getName(), arg[1]);
+			else
+				throw argErr(app, c.getName(), arg[2]);
+
+		default:
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
 

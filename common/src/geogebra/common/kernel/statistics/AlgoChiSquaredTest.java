@@ -125,7 +125,7 @@ public class AlgoChiSquaredTest extends AlgoElement {
 		// store observed and expected values in arrays
 
 		// Three cases must be handled:
-		// 1) <List of Observed, List of Expected>  (the GOF test)
+		// 1) <List of Observed, List of Expected> (the GOF test)
 		// 2) <Matrix of Observed, Matrix of Expected>
 		// 3) <Matrix of Observed>, here we compute the expected counts based on
 		// the hypothesis of independence:

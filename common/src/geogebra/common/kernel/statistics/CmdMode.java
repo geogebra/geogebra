@@ -20,8 +20,7 @@ public class CmdMode extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoMode algo = new AlgoMode(cons, a, b);
 		return algo.getResult();
 	}

@@ -6,13 +6,14 @@ import geogebra.common.main.MyError;
 
 /**
  * Make turtle move back
- * @author arno
- * TurtleBack[ <Turtle>, <distance> ]
+ * 
+ * @author arno TurtleBack[ <Turtle>, <distance> ]
  */
 public class CmdTurtleBack extends CmdTurtleCommand {
 
 	/**
-	 * @param kernel the kernel
+	 * @param kernel
+	 *            the kernel
 	 */
 	public CmdTurtleBack(Kernel kernel) {
 		super(kernel);

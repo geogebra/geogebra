@@ -15,11 +15,12 @@ import geogebra.common.main.MyError;
 import geogebra.common.util.StringUtil;
 
 /**
- *SetColor
+ * SetColor
  */
 public class CmdSetColor extends CmdScripting {
 	/** true for CmdSetBackgroundColor */
 	protected boolean background = false;
+
 	/**
 	 * Create new command processor
 	 * 
@@ -33,35 +34,36 @@ public class CmdSetColor extends CmdScripting {
 	@Override
 	protected void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
 
 		boolean oldMacroMode = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		if (n == 2) {
 			// adapted from resArgs()
-			
+
 			ExpressionNode[] args = c.getArguments();
 			arg = new GeoElement[args.length];
-	
+
 			// resolve first argument
 			args[0].resolveVariables();
 			arg[0] = resArg(args[0])[0];
-	
+
 			try {
 				// resolve second argument
 				args[1].resolveVariables();
 				arg[1] = resArg(args[1])[0];
 			} catch (Error e) {
-				// if there's a problem with the second argument, just wrap in quotes in case it's a color
+				// if there's a problem with the second argument, just wrap in
+				// quotes in case it's a color
 				// eg SetColor[A,blue] rather than SetColor[A,"blue"]
-				arg[1] = new GeoText(cons, args[1].toString(StringTemplate.defaultTemplate));
+				arg[1] = new GeoText(cons,
+						args[1].toString(StringTemplate.defaultTemplate));
 			}
 			cons.setSuppressLabelCreation(oldMacroMode);
 		} else {
 			arg = resArgs(c);
 		}
-		
+
 		switch (n) {
 		case 2:
 
@@ -70,33 +72,33 @@ public class CmdSetColor extends CmdScripting {
 
 			try {
 
-				String color = StringUtil.removeSpaces(
-						((GeoText) arg[1]).getTextString());
+				String color = StringUtil.removeSpaces(((GeoText) arg[1])
+						.getTextString());
 				// lookup Color
-				//HashMap<String, Color> colors = app.getColorsHashMap();
-				//Color col = colors.get(color);
-				
-				GColor col = GeoGebraColorConstants.getGeogebraColor(app,  color);
+				// HashMap<String, Color> colors = app.getColorsHashMap();
+				// Color col = colors.get(color);
+
+				GColor col = GeoGebraColorConstants
+						.getGeogebraColor(app, color);
 
 				// support for translated color names
-				//if (col == null) {
-				//	// translate to English
-				//	color = app.reverseGetColor(color).toUpperCase();
-				//	col = (Color) colors.get(color);
-				//	// Application.debug(color);
-				//}
+				// if (col == null) {
+				// // translate to English
+				// color = app.reverseGetColor(color).toUpperCase();
+				// col = (Color) colors.get(color);
+				// // Application.debug(color);
+				// }
 
-				if (col == null) 
+				if (col == null)
 					throw argErr(app, c.getName(), arg[1]);
-				
-				
+
 				if (background)
 					arg[0].setBackgroundColor(col);
 				else
 					arg[0].setObjColor(col);
-				
-				arg[0].updateRepaint();				
-				
+
+				arg[0].updateRepaint();
+
 				return;
 
 			} catch (Exception e) {
@@ -127,12 +129,14 @@ public class CmdSetColor extends CmdScripting {
 					blue = 255;
 
 				if (background)
-					arg[0].setBackgroundColor(AwtFactory.prototype.newColor(red, green, blue));
+					arg[0].setBackgroundColor(AwtFactory.prototype.newColor(
+							red, green, blue));
 				else
-					arg[0].setObjColor(AwtFactory.prototype.newColor(red, green, blue));
-				
+					arg[0].setObjColor(AwtFactory.prototype.newColor(red,
+							green, blue));
+
 				arg[0].updateRepaint();
-				
+
 				return;
 
 			} else if (!ok[1])

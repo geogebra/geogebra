@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -20,83 +20,85 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Take last n objects from a list
+ * 
  * @author Michael Borcherds
  * @version 2008-03-04
  */
 
 public class AlgoLast extends AlgoElement {
 
-	private GeoList inputList; //input
-	private GeoNumeric n; //input
-    private GeoList outputList; //output	
-    private int size;
+	private GeoList inputList; // input
+	private GeoNumeric n; // input
+	private GeoList outputList; // output
+	private int size;
 
-    public AlgoLast(Construction cons, String label, GeoList inputList, GeoNumeric n) {
-        super(cons);
-        this.inputList = inputList;
-        this.n=n;
+	public AlgoLast(Construction cons, String label, GeoList inputList,
+			GeoNumeric n) {
+		super(cons);
+		this.inputList = inputList;
+		this.n = n;
 
-               
-        outputList = new GeoList(cons);
+		outputList = new GeoList(cons);
 
-        setInputOutput();
-        compute();
-        outputList.setLabel(label);
-    }
+		setInputOutput();
+		compute();
+		outputList.setLabel(label);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Last;
-    }
+		return Commands.Last;
+	}
 
-    @Override
-	protected void setInputOutput(){
-    	    	
-    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
-    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+	@Override
+	protected void setInputOutput() {
 
-    	if (n != null) {
-	        input = new GeoElement[2];
-	        input[0] = inputList;
-	        input[1] = n;
-    	}
-    	else
-    	{
-            input = new GeoElement[1];
-            input[0] = inputList;
-        }    		
+		// make sure that x(Element[list,1]) will work even if the output list's
+		// length is zero
+		outputList.setTypeStringForXML(inputList.getTypeStringForXML());
 
-        super.setOutputLength(1);
-        super.setOutput(0, outputList);
-        setDependencies(); // done by AlgoElement
-    }
+		if (n != null) {
+			input = new GeoElement[2];
+			input[0] = inputList;
+			input[1] = n;
+		} else {
+			input = new GeoElement[1];
+			input[0] = inputList;
+		}
 
-    public GeoList getResult() {
-        return outputList;
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, outputList);
+		setDependencies(); // done by AlgoElement
+	}
 
-    @Override
+	public GeoList getResult() {
+		return outputList;
+	}
+
+	@Override
 	public final void compute() {
-    	
-    	size = inputList.size();
-    	
-    	int outsize = n == null ? 1 : (int)n.getDouble();
-    	
-    	if (!inputList.isDefined() ||  size == 0 || outsize < 0 || outsize > size) {
-    		outputList.setUndefined();
-    		return;
-    	} 
-       
-    	outputList.setDefined(true);
-    	outputList.clear();
-    	
-    	if (outsize == 0) return; // return empty list
-    	
-    	for (int i=size-outsize ; i<size ; i++) {
-    		outputList.add(inputList.get(i).copyInternal(cons));
-    	}
-   }
+
+		size = inputList.size();
+
+		int outsize = n == null ? 1 : (int) n.getDouble();
+
+		if (!inputList.isDefined() || size == 0 || outsize < 0
+				|| outsize > size) {
+			outputList.setUndefined();
+			return;
+		}
+
+		outputList.setDefined(true);
+		outputList.clear();
+
+		if (outsize == 0)
+			return; // return empty list
+
+		for (int i = size - outsize; i < size; i++) {
+			outputList.add(inputList.get(i).copyInternal(cons));
+		}
+	}
 
 	// TODO Consider locusequability
-  
+
 }

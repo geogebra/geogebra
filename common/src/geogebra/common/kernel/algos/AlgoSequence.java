@@ -222,7 +222,10 @@ public class AlgoSequence extends AlgoElement {
 			return;
 		updateRunning = true;
 		for (int i = 1; i < input.length; i++) {
-			if (input[i] != var && !input[i].isDefined()) { // don't check the var itself (maybe undefined at last loop) 
+			if (input[i] != var && !input[i].isDefined()) { // don't check the
+															// var itself (maybe
+															// undefined at last
+															// loop)
 				list.setUndefined();
 				updateRunning = false;
 				return;
@@ -289,7 +292,7 @@ public class AlgoSequence extends AlgoElement {
 
 		if (!isEmpty) {
 			// needed capacity
-			if(Double.isInfinite((to - from) / step)){
+			if (Double.isInfinite((to - from) / step)) {
 				list.setUndefined();
 				return;
 			}
@@ -359,8 +362,8 @@ public class AlgoSequence extends AlgoElement {
 		// copy current expression value to listElement
 		if (!expIsFunctionOrCurve) {
 			listElement.set(expression);
-			if(listElement.isGeoList()){
-				((GeoList)listElement).replaceChildrenByValues(var);
+			if (listElement.isGeoList()) {
+				((GeoList) listElement).replaceChildrenByValues(var);
 			}
 			AlgoElement drawAlgo = expression.getDrawAlgorithm();
 			if (listElement instanceof GeoNumeric
@@ -423,10 +426,10 @@ public class AlgoSequence extends AlgoElement {
 
 			// copy expression value to listElement
 			// if it's undefined, just copy the undefined property
-			if (expression.isDefined()){
+			if (expression.isDefined()) {
 				listElement.set(expression);
-				if(listElement.isGeoList()){
-					((GeoList)listElement).replaceChildrenByValues(var);
+				if (listElement.isGeoList()) {
+					((GeoList) listElement).replaceChildrenByValues(var);
 				}
 			} else {
 				listElement.setUndefined();

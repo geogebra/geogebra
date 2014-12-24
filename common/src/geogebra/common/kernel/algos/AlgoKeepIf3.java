@@ -20,27 +20,33 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.main.MyError;
 
 /**
- * Take objects from the middle of a list
- * adapted from AlgoKeepIf
+ * Take objects from the middle of a list adapted from AlgoKeepIf
+ * 
  * @author Michael Borcherds
  */
 
 public class AlgoKeepIf3 extends AlgoElement {
 
-	private GeoList inputList; //input
-	private GeoList outputList; //output	
-	private GeoBoolean bool;     // input
+	private GeoList inputList; // input
+	private GeoList outputList; // output
+	private GeoBoolean bool; // input
 	private GeoElement var;
 	private int size;
 
 	/**
-	 * @param cons construction
-	 * @param label label 
-	 * @param bool boolean filter (dependent on var)
-	 * @param var variable to be substituted
-	 * @param inputList list
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param bool
+	 *            boolean filter (dependent on var)
+	 * @param var
+	 *            variable to be substituted
+	 * @param inputList
+	 *            list
 	 */
-	public AlgoKeepIf3(Construction cons, String label, GeoBoolean bool, GeoElement var, GeoList inputList) {
+	public AlgoKeepIf3(Construction cons, String label, GeoBoolean bool,
+			GeoElement var, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		this.var = var;
@@ -59,7 +65,7 @@ public class AlgoKeepIf3 extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		input = new GeoElement[3];
 		input[0] = bool;
@@ -86,23 +92,25 @@ public class AlgoKeepIf3 extends AlgoElement {
 		if (!inputList.isDefined()) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0) return;
+		if (size == 0)
+			return;
 
 		try {
-			for (int i=0 ; i<size ; i++) {
+			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
 				var.set(geo);
 				this.setStopUpdateCascade(true);
-				var.getAlgoUpdateSet().updateAllUntil(bool.getParentAlgorithm());
+				var.getAlgoUpdateSet()
+						.updateAllUntil(bool.getParentAlgorithm());
 				if (bool.getBoolean()) {
 					outputList.add(geo.copyInternal(cons));
 				}
-				this.setStopUpdateCascade(false);   
+				this.setStopUpdateCascade(false);
 			}
 		} catch (MyError e) {
 			// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3),1}]
@@ -111,10 +119,6 @@ public class AlgoKeepIf3 extends AlgoElement {
 			return;
 		}
 
-	} 	
-
-	
-
-	
+	}
 
 }

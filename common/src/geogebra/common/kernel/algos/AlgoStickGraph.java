@@ -31,11 +31,10 @@ public class AlgoStickGraph extends AlgoBarChart {
 	 */
 	public AlgoStickGraph(Construction cons, String label, GeoList list1) {
 
-		super(cons, label, list1, null, null, null,
-				null, null, AlgoBarChart.TYPE_STICKGRAPH);
+		super(cons, label, list1, null, null, null, null, null,
+				AlgoBarChart.TYPE_STICKGRAPH);
 
 	}
-	
 
 	/******************************************************
 	 * StickGraph[<list of points, <horizontal>]
@@ -45,14 +44,14 @@ public class AlgoStickGraph extends AlgoBarChart {
 	 * @param list1
 	 * @param list2
 	 */
-	public AlgoStickGraph(Construction cons, String label, GeoList list1, GeoBoolean isHorizontal) {
+	public AlgoStickGraph(Construction cons, String label, GeoList list1,
+			GeoBoolean isHorizontal) {
 
-		super(cons, label, list1, null, null, isHorizontal,
-				null, null, AlgoBarChart.TYPE_STICKGRAPH);
+		super(cons, label, list1, null, null, isHorizontal, null, null,
+				AlgoBarChart.TYPE_STICKGRAPH);
 
 	}
-	
-	
+
 	/******************************************************
 	 * StickGraph[<x list>, <y list>]
 	 * 
@@ -64,8 +63,8 @@ public class AlgoStickGraph extends AlgoBarChart {
 	public AlgoStickGraph(Construction cons, String label, GeoList list1,
 			GeoList list2) {
 
-		super(cons, label, list1, list2, null, null,
-				null, null, AlgoBarChart.TYPE_STICKGRAPH);
+		super(cons, label, list1, list2, null, null, null, null,
+				AlgoBarChart.TYPE_STICKGRAPH);
 
 	}
 
@@ -77,13 +76,13 @@ public class AlgoStickGraph extends AlgoBarChart {
 	 * @param list2
 	 */
 	public AlgoStickGraph(Construction cons, GeoList list1, GeoList list2) {
-		super(cons, list1, list2, null, null,
-				null, null, AlgoBarChart.TYPE_STICKGRAPH);
+		super(cons, list1, list2, null, null, null, null,
+				AlgoBarChart.TYPE_STICKGRAPH);
 	}
 
 	/**
-	 * /******************************************************
-	 * StickGraph[<x list>, <y list>, <Horizontal>] 
+	 * /****************************************************** StickGraph[<x
+	 * list>, <y list>, <Horizontal>]
 	 * 
 	 * @param cons
 	 * @param label
@@ -93,28 +92,27 @@ public class AlgoStickGraph extends AlgoBarChart {
 	 */
 	public AlgoStickGraph(Construction cons, String label, GeoList list1,
 			GeoList list2, GeoBoolean isHorizontal) {
-		
-		super(cons, label, list1, list2, null,
-				isHorizontal, null, null, AlgoBarChart.TYPE_STICKGRAPH);
+
+		super(cons, label, list1, list2, null, isHorizontal, null, null,
+				AlgoBarChart.TYPE_STICKGRAPH);
 	}
 
-	
 	/**
-	 * /******************************************************
-	 * StickGraph[<x list>, <y list>, <Horizontal>] (no label)
+	 * /****************************************************** StickGraph[<x
+	 * list>, <y list>, <Horizontal>] (no label)
 	 * 
 	 * @param cons
 	 * @param list1
 	 * @param list2
 	 * @param isHorizontal
 	 */
-	public AlgoStickGraph(Construction cons, GeoList list1,
-			GeoList list2, GeoBoolean isHorizontal) {
-		
-		super(cons, list1, list2, null,
-				isHorizontal, null, null, AlgoBarChart.TYPE_STICKGRAPH);
+	public AlgoStickGraph(Construction cons, GeoList list1, GeoList list2,
+			GeoBoolean isHorizontal) {
+
+		super(cons, list1, list2, null, isHorizontal, null, null,
+				AlgoBarChart.TYPE_STICKGRAPH);
 	}
-	
+
 	@Override
 	public Commands getClassName() {
 		return Commands.StickGraph;

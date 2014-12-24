@@ -107,7 +107,7 @@ public class AlgoFitSin extends AlgoElement {
 	private static boolean error = false; // General catch-all
 
 	// / --- GeoGebra obligatory: --- ///
-	
+
 	private GeoList geolist; // input
 	private GeoFunction geofunction; // output
 
@@ -416,22 +416,22 @@ public class AlgoFitSin extends AlgoElement {
 			m42 = m24;
 			m43 = m34;
 
-			n = RegressionMath.det44(m11, m12, m13, m14, m21, m22, m23, m24, m31, m32,
-					m33, m34, m41, m42, m43, m44);
+			n = RegressionMath.det44(m11, m12, m13, m14, m21, m22, m23, m24,
+					m31, m32, m33, m34, m41, m42, m43, m44);
 
 			if (Math.abs(n) < EPSSING) { // Sinular matrix?
 				error = true;
 				errorMsg("Singular matrix...");
 				da = db = dc = dd = 0; // To stop it all...
 			} else {
-				da = RegressionMath.det44(b1, m12, m13, m14, b2, m22, m23, m24, b3,
-						m32, m33, m34, b4, m42, m43, m44) / n;
-				db = RegressionMath.det44(m11, b1, m13, m14, m21, b2, m23, m24, m31,
-						b3, m33, m34, m41, b4, m43, m44) / n;
-				dc = RegressionMath.det44(m11, m12, b1, m14, m21, m22, b2, m24, m31,
-						m32, b3, m34, m41, m42, b4, m44) / n;
-				dd = RegressionMath.det44(m11, m12, m13, b1, m21, m22, m23, b2, m31,
-						m32, m33, b3, m41, m42, m43, b4) / n;
+				da = RegressionMath.det44(b1, m12, m13, m14, b2, m22, m23, m24,
+						b3, m32, m33, m34, b4, m42, m43, m44) / n;
+				db = RegressionMath.det44(m11, b1, m13, m14, m21, b2, m23, m24,
+						m31, b3, m33, m34, m41, b4, m43, m44) / n;
+				dc = RegressionMath.det44(m11, m12, b1, m14, m21, m22, b2, m24,
+						m31, m32, b3, m34, m41, m42, b4, m44) / n;
+				dd = RegressionMath.det44(m11, m12, m13, b1, m21, m22, m23, b2,
+						m31, m32, m33, b3, m41, m42, m43, b4) / n;
 
 				newa = a + da;
 				newb = b + db;
@@ -574,7 +574,7 @@ public class AlgoFitSin extends AlgoElement {
 		for (int i = 0; i < size; i++) {
 			geoelement = geolist.get(i);
 			if (geoelement instanceof GeoPoint) {
-				sortedSet.add((GeoPoint)geoelement);
+				sortedSet.add((GeoPoint) geoelement);
 			} else {
 				error = true;
 			}// if point
@@ -599,8 +599,8 @@ public class AlgoFitSin extends AlgoElement {
 	}// getPoints()
 
 	// Noisekiller
-	private final static boolean nearmaxmin(double a, double b,
-			int state, int current, double max, double min) {
+	private final static boolean nearmaxmin(double a, double b, int state,
+			int current, double max, double min) {
 		if ((state == 1) && (current == -1)) { // A real max-change?
 			if (max > a + NOISEKILLER * b) {
 				return true;

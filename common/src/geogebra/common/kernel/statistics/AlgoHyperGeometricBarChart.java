@@ -44,8 +44,8 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 			NumberValue sampleSize, GeoBoolean isCumulative, NumberValue a,
 			NumberValue b, double[] vals, double[] borders, int N) {
 		super(n, p, sampleSize, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC, a, b, vals,
-				borders, N);
+				AlgoBarChart.TYPE_BARCHART_HYPERGEOMETRIC, a, b, vals, borders,
+				N);
 	}
 
 	@Override
@@ -53,7 +53,6 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 		return Commands.HyperGeometric;
 	}
 
-	
 	@Override
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
@@ -67,5 +66,5 @@ public class AlgoHyperGeometricBarChart extends AlgoBarChart {
 						.getB().deepCopy(kernel), Cloner.clone(getValues()),
 				Cloner.clone(getLeftBorder()), getIntervals());
 	}
-	
+
 }

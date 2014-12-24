@@ -55,5 +55,5 @@ public class AlgoExponential extends AlgoDistribution {
 		} else
 			num.setUndefined();
 	}
-	
+
 }

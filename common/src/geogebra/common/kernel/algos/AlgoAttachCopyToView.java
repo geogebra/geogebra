@@ -170,7 +170,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 			return;
 		}
 		if (inGeo.isGeoFunction()) {
-			//skip this
+			// skip this
 		} else {
 			outGeo.set(inGeo);
 		}
@@ -186,29 +186,35 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		double c1y = ev.toRealWorldCoordY(c5.getY() / c5.getZ());
 		double c3x = ev.toRealWorldCoordX(c7.getX() / c7.getZ());
 		double c3y = ev.toRealWorldCoordY(c7.getY() / c7.getZ());
-		double[][] m1 = MyMath.adjoint(
-				c1.getX() / c1.getZ(), c1.getY() / c1.getZ(), 1,
-				c3.getX() / c3.getZ(), c3.getY() / c3.getZ(), 1, 
-				c1.getX() / c1.getZ(), c3.getY() / c3.getZ(), 1);
-		double[][] m2 = new double[][]{{c1x,c3x,c1x},{c1y,c3y,c3y},{1,1,1}};
-		double[][] m = MyMath.multiply(m2,m1);
-		if(!(inGeo instanceof GeoFunction)){
-				out.matrixTransform(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1],
-				m[1][2], m[2][0], m[2][1], m[2][2]);
-				//TODO check why we need this when result has points on it
-				
-				outGeo.updateCascade();
-		}else{
-			transformFunction(m[0][0]/m[2][2],m[0][2]/m[2][2],m[1][1]/m[2][2],m[1][2]/m[2][2]);
+		double[][] m1 = MyMath.adjoint(c1.getX() / c1.getZ(),
+				c1.getY() / c1.getZ(), 1, c3.getX() / c3.getZ(),
+				c3.getY() / c3.getZ(), 1, c1.getX() / c1.getZ(),
+				c3.getY() / c3.getZ(), 1);
+		double[][] m2 = new double[][] { { c1x, c3x, c1x }, { c1y, c3y, c3y },
+				{ 1, 1, 1 } };
+		double[][] m = MyMath.multiply(m2, m1);
+		if (!(inGeo instanceof GeoFunction)) {
+			out.matrixTransform(m[0][0], m[0][1], m[0][2], m[1][0], m[1][1],
+					m[1][2], m[2][0], m[2][1], m[2][2]);
+			// TODO check why we need this when result has points on it
+
+			outGeo.updateCascade();
+		} else {
+			transformFunction(m[0][0] / m[2][2], m[0][2] / m[2][2], m[1][1]
+					/ m[2][2], m[1][2] / m[2][2]);
 		}
 	}
 
 	private void transformFunction(double d, double e, double f, double g) {
-		Function fun = ((GeoFunction)inGeo).getFunction();
+		Function fun = ((GeoFunction) inGeo).getFunction();
 		ExpressionNode expr = fun.getExpression().getCopy(kernel);
-		expr = expr.replace(fun.getFunctionVariable(), new ExpressionNode(kernel,fun.getFunctionVariable()).multiply(1/d).plus(-e/d)).wrap();
-		Function fun2 = new Function(expr.multiply(f).plus(g),fun.getFunctionVariable());
-		((GeoFunction)outGeo).setFunction(fun2);
+		expr = expr.replace(
+				fun.getFunctionVariable(),
+				new ExpressionNode(kernel, fun.getFunctionVariable()).multiply(
+						1 / d).plus(-e / d)).wrap();
+		Function fun2 = new Function(expr.multiply(f).plus(g),
+				fun.getFunctionVariable());
+		((GeoFunction) outGeo).setFunction(fun2);
 	}
 
 	@Override
@@ -244,7 +250,7 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		input[1].removeAlgorithm(this);
 		viewID = new GeoNumeric(cons, viewID2);
 		input[1] = viewID.toGeoElement();
-		
+
 	}
 
 	@Override

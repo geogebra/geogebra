@@ -33,12 +33,12 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  */
 public class AlgoTMean2Estimate extends AlgoElement {
 
-	
-	private GeoList geoList1, geoList2; //input
-	private GeoNumeric geoLevel, geoMean1, geoSD1, geoN1, geoMean2, geoSD2, geoN2; //input
-	private GeoBoolean geoPooled; //input
+	private GeoList geoList1, geoList2; // input
+	private GeoNumeric geoLevel, geoMean1, geoSD1, geoN1, geoMean2, geoSD2,
+			geoN2; // input
+	private GeoBoolean geoPooled; // input
 
-	private GeoList  result; // output   
+	private GeoList result; // output
 
 	private double[] val1, val2;
 	private int size1, size2;
@@ -48,8 +48,9 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	private TDistributionImpl tDist;
 	private double difference;
 
-
-	public AlgoTMean2Estimate(Construction cons, String label, GeoList geoList1, GeoList geoList2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
+	public AlgoTMean2Estimate(Construction cons, String label,
+			GeoList geoList1, GeoList geoList2, GeoNumeric geoLevel,
+			GeoBoolean geoPooled) {
 		super(cons);
 		this.geoList1 = geoList1;
 		this.geoList2 = geoList2;
@@ -63,23 +64,26 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		this.geoSD2 = null;
 		this.geoN2 = null;
 
-		
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
 
-	public AlgoTMean2Estimate(Construction cons, String label, GeoNumeric geoMean1, GeoNumeric geoSD1, GeoNumeric geoN1,
-			GeoNumeric geoMean2, GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
+	public AlgoTMean2Estimate(Construction cons, String label,
+			GeoNumeric geoMean1, GeoNumeric geoSD1, GeoNumeric geoN1,
+			GeoNumeric geoMean2, GeoNumeric geoSD2, GeoNumeric geoN2,
+			GeoNumeric geoLevel, GeoBoolean geoPooled) {
 		this(cons, geoMean1, geoSD1, geoN1, geoMean2, geoSD2, geoN2, geoLevel,
 				geoPooled);
 		result.setLabel(label);
 	}
 
-	public AlgoTMean2Estimate(Construction cons, GeoNumeric geoMean1, GeoNumeric geoSD1, GeoNumeric geoN1,
-			GeoNumeric geoMean2, GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel, GeoBoolean geoPooled) {
+	public AlgoTMean2Estimate(Construction cons, GeoNumeric geoMean1,
+			GeoNumeric geoSD1, GeoNumeric geoN1, GeoNumeric geoMean2,
+			GeoNumeric geoSD2, GeoNumeric geoN2, GeoNumeric geoLevel,
+			GeoBoolean geoPooled) {
 		super(cons);
 		this.geoList1 = null;
 		this.geoList2 = null;
@@ -93,15 +97,11 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		this.geoSD2 = geoSD2;
 		this.geoN2 = geoN2;
 
-		
-
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 	}
-
-	
 
 	@Override
 	public Commands getClassName() {
@@ -109,16 +109,16 @@ public class AlgoTMean2Estimate extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
-		if(geoList1 != null){
+		if (geoList1 != null) {
 			input = new GeoElement[4];
 			input[0] = geoList1;
 			input[1] = geoList2;
 			input[2] = geoLevel;
 			input[3] = geoPooled;
 
-		}else{
+		} else {
 			input = new GeoElement[8];
 			input[0] = geoMean1;
 			input[1] = geoSD1;
@@ -138,84 +138,91 @@ public class AlgoTMean2Estimate extends AlgoElement {
 		return result;
 	}
 
-
-
 	/**
-	 * Computes approximate degrees of freedom for 2-sample t-estimate.
-	 * (code from Apache commons, TTestImpl class)
+	 * Computes approximate degrees of freedom for 2-sample t-estimate. (code
+	 * from Apache commons, TTestImpl class)
 	 *
-	 * @param v1 first sample variance
-	 * @param v2 second sample variance
-	 * @param n1 first sample n
-	 * @param n2 second sample n
+	 * @param v1
+	 *            first sample variance
+	 * @param v2
+	 *            second sample variance
+	 * @param n1
+	 *            first sample n
+	 * @param n2
+	 *            second sample n
 	 * @return approximate degrees of freedom
 	 */
-	private static double getDegreeOfFreedom(double v1, double v2, double n1, double n2, boolean pooled) {
-		
-		if(pooled)
+	private static double getDegreeOfFreedom(double v1, double v2, double n1,
+			double n2, boolean pooled) {
+
+		if (pooled)
 			return n1 + n2 - 2;
-		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2))) /
-		((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2) /
-				(n2 * n2 * (n2 - 1d)));
+		return (((v1 / n1) + (v2 / n2)) * ((v1 / n1) + (v2 / n2)))
+				/ ((v1 * v1) / (n1 * n1 * (n1 - 1d)) + (v2 * v2)
+						/ (n2 * n2 * (n2 - 1d)));
 	}
 
-
 	/**
-	 * Computes margin of error for 2-sample t-estimate; 
-	 * this is the half-width of the confidence interval
+	 * Computes margin of error for 2-sample t-estimate; this is the half-width
+	 * of the confidence interval
 	 * 
-	 * @param v1 first sample variance
-	 * @param v2 second sample variance
-	 * @param n1 first sample n
-	 * @param n2 second sample n
-	 * @param confLevel confidence level
+	 * @param v1
+	 *            first sample variance
+	 * @param v2
+	 *            second sample variance
+	 * @param n1
+	 *            first sample n
+	 * @param n2
+	 *            second sample n
+	 * @param confLevel
+	 *            confidence level
 	 * @return margin of error for 2 mean interval estimate
 	 * @throws MathException
 	 */
-	private double getMarginOfError(double v1, double n1, double v2, double n2, double confLevel, boolean pooled) throws MathException {
+	private double getMarginOfError(double v1, double n1, double v2, double n2,
+			double confLevel, boolean pooled) throws MathException {
 
-		if(pooled){
-			
-			double pooledVariance = ((n1  - 1) * v1 + (n2 -1) * v2 ) / (n1 + n2 - 2);
+		if (pooled) {
+
+			double pooledVariance = ((n1 - 1) * v1 + (n2 - 1) * v2)
+					/ (n1 + n2 - 2);
 			double se = Math.sqrt(pooledVariance * (1d / n1 + 1d / n2));
-			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2, pooled));
-			double a = tDist.inverseCumulativeProbability((confLevel + 1d)/2);
+			tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2,
+					pooled));
+			double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 			return a * se;
-			
-		
+
 		}
 		double se = Math.sqrt((v1 / n1) + (v2 / n2));
-		tDist = new TDistributionImpl(getDegreeOfFreedom(v1, v2, n1, n2, pooled));
-		double a = tDist.inverseCumulativeProbability((confLevel + 1d)/2);
+		tDist = new TDistributionImpl(
+				getDegreeOfFreedom(v1, v2, n1, n2, pooled));
+		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * se;
 
 	}
 
-
-
 	@Override
 	public final void compute() {
 
-		try 
-		{
+		try {
 
 			// get statistics from sample data input
-			if(input.length == 4){
+			if (input.length == 4) {
 
-				size1= geoList1.size();
-				if(!geoList1.isDefined() || size1 < 2){
-					result.setUndefined();	
-					return;			
+				size1 = geoList1.size();
+				if (!geoList1.isDefined() || size1 < 2) {
+					result.setUndefined();
+					return;
 				}
 
-				size2= geoList2.size();
-				if(!geoList2.isDefined() || size2 < 2){
-					result.setUndefined();	
-					return;			
+				size2 = geoList2.size();
+				if (!geoList2.isDefined() || size2 < 2) {
+					result.setUndefined();
+					return;
 				}
 
 				val1 = new double[size1];
-				for (int i=0; i < size1; i++) {
+				for (int i = 0; i < size1; i++) {
 					GeoElement geo = geoList1.get(i);
 					if (geo instanceof NumberValue) {
 						NumberValue num = (NumberValue) geo;
@@ -224,11 +231,11 @@ public class AlgoTMean2Estimate extends AlgoElement {
 					} else {
 						result.setUndefined();
 						return;
-					}    		    		
-				}   
+					}
+				}
 
 				val2 = new double[size2];
-				for (int i=0; i < size2; i++) {
+				for (int i = 0; i < size2; i++) {
 					GeoElement geo = geoList2.get(i);
 					if (geo instanceof NumberValue) {
 						NumberValue num = (NumberValue) geo;
@@ -237,9 +244,8 @@ public class AlgoTMean2Estimate extends AlgoElement {
 					} else {
 						result.setUndefined();
 						return;
-					}    		    		
-				}   
-
+					}
+				}
 
 				stats = new SummaryStatistics();
 				for (int i = 0; i < val1.length; i++) {
@@ -258,48 +264,44 @@ public class AlgoTMean2Estimate extends AlgoElement {
 				n2 = stats.getN();
 				var2 = stats.getVariance();
 				mean2 = stats.getMean();
-				
-				
-			}else{
+
+			} else {
 				mean1 = geoMean1.getDouble();
-				var1 = geoSD1.getDouble()*geoSD1.getDouble();
+				var1 = geoSD1.getDouble() * geoSD1.getDouble();
 				n1 = geoN1.getDouble();
 
 				mean2 = geoMean2.getDouble();
-				var2 = geoSD2.getDouble()*geoSD2.getDouble();
-				n2 = geoN2.getDouble();	
+				var2 = geoSD2.getDouble() * geoSD2.getDouble();
+				n2 = geoN2.getDouble();
 			}
 
-			
 			level = geoLevel.getDouble();
 			pooled = geoPooled.getBoolean();
-			
 
 			// validate statistics
-			if(level < 0 || level > 1 || var1 < 0 || n1 < 1 || var2 < 0 || n2 < 1){
+			if (level < 0 || level > 1 || var1 < 0 || n1 < 1 || var2 < 0
+					|| n2 < 1) {
 				result.setUndefined();
 				return;
 			}
 
-
-			// get interval estimate 
+			// get interval estimate
 			me = getMarginOfError(var1, n1, var2, n2, level, pooled);
-			
-			
-			// return list = {low limit, high limit, difference, margin of error, df }
-			difference = mean1 -mean2;
+
+			// return list = {low limit, high limit, difference, margin of
+			// error, df }
+			difference = mean1 - mean2;
 			result.clear();
 			boolean oldSuppress = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			result.add(new GeoNumeric(cons, difference - me));
 			result.add(new GeoNumeric(cons, difference + me));
-			//result.add(new GeoNumeric(cons, difference));
-			//result.add(new GeoNumeric(cons, me));
-			//result.add(new GeoNumeric(cons, getDegreeOfFreedom(var1, var2, n1, n2, pooled)));
-			
+			// result.add(new GeoNumeric(cons, difference));
+			// result.add(new GeoNumeric(cons, me));
+			// result.add(new GeoNumeric(cons, getDegreeOfFreedom(var1, var2,
+			// n1, n2, pooled)));
+
 			cons.setSuppressLabelCreation(oldSuppress);
-
-
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

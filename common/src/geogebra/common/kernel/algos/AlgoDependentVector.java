@@ -79,7 +79,8 @@ public class AlgoDependentVector extends AlgoElement implements DependentAlgo {
 	@Override
 	public final void compute() {
 		try {
-			temp = ((VectorValue) root.evaluate(StringTemplate.defaultTemplate)).getVector();
+			temp = ((VectorValue) root.evaluate(StringTemplate.defaultTemplate))
+					.getVector();
 			v.x = temp.getX();
 			v.y = temp.getY();
 		} catch (Exception e) {

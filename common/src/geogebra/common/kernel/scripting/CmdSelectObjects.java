@@ -7,7 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *SelectObjects
+ * SelectObjects
  */
 public class CmdSelectObjects extends CmdScripting {
 
@@ -22,11 +22,8 @@ public class CmdSelectObjects extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-
-		
 
 		app.getSelectionManager().clearSelectedGeos(false);
 
@@ -35,20 +32,17 @@ public class CmdSelectObjects extends CmdScripting {
 			for (int i = 0; i < n; i++) {
 				if ((arg[i].isGeoElement())) {
 					GeoElement geo = arg[i];
-					app.getSelectionManager().addSelectedGeo(geo,false,false);
+					app.getSelectionManager().addSelectedGeo(geo, false, false);
 				}
 			}
-			
+
 			kernelA.notifyRepaint();
 
-		}else{
+		} else {
 			kernelA.notifyRepaint();
 			app.updateSelection(false);
 		}
-			
-		
-		
-		
+
 		return;
 
 	}

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoRotateVector.java
@@ -26,101 +26,102 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVector;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoRotateVector extends AlgoElement {
 
-    private GeoVector A; // input
-    private GeoNumeric angle; // input
-    private GeoVector B; // output        
+	private GeoVector A; // input
+	private GeoNumeric angle; // input
+	private GeoVector B; // output
 
-    /**
-     * Creates new algo for vector rotation
-     * @param cons
-     * @param label
-     * @param A
-     * @param angle
-     */
-    AlgoRotateVector(
-        Construction cons,
-        String label,
-        GeoVector A,
-        GeoNumeric angle) {
-        super(cons);
-        this.A = A;
-        this.angle = angle;
+	/**
+	 * Creates new algo for vector rotation
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param A
+	 * @param angle
+	 */
+	AlgoRotateVector(Construction cons, String label, GeoVector A,
+			GeoNumeric angle) {
+		super(cons);
+		this.A = A;
+		this.angle = angle;
 
-        // create new Vector
-        B = new GeoVector(cons);
-        setInputOutput();
+		// create new Vector
+		B = new GeoVector(cons);
+		setInputOutput();
 
-        compute();
-        B.setLabel(label);
-    }
+		compute();
+		B.setLabel(label);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Rotate;
-    }
+		return Commands.Rotate;
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ROTATE_BY_ANGLE;
-    }
+		return EuclidianConstants.MODE_ROTATE_BY_ANGLE;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = A;
-        input[1] = angle;
+		input = new GeoElement[2];
+		input[0] = A;
+		input[1] = angle;
 
-        setOutputLength(1);
-        setOutput(0,B);
-        setDependencies(); // done by AlgoElement
-    }
+		setOutputLength(1);
+		setOutput(0, B);
+		setDependencies(); // done by AlgoElement
+	}
 
-    /**
-     * Returns the input vector
-     * @return input vector
-     */
-    GeoVector getVector() {
-        return A;
-    }
-    
-    /**
-     * Returns the rotation angle
-     * @return rotation angle
-     */
-    GeoNumeric getAngle() {
-        return angle;
-    }
-    
-    /**
-     * Returns the resulting vector
-     * @return resulting vector
-     */
-    GeoVector getRotatedVector() {
-        return B;
-    }
+	/**
+	 * Returns the input vector
+	 * 
+	 * @return input vector
+	 */
+	GeoVector getVector() {
+		return A;
+	}
 
-    // calc rotated Vector
-    @Override
+	/**
+	 * Returns the rotation angle
+	 * 
+	 * @return rotation angle
+	 */
+	GeoNumeric getAngle() {
+		return angle;
+	}
+
+	/**
+	 * Returns the resulting vector
+	 * 
+	 * @return resulting vector
+	 */
+	GeoVector getRotatedVector() {
+		return B;
+	}
+
+	// calc rotated Vector
+	@Override
 	public final void compute() {
-        B.setCoords(A);
-        B.rotate(angle);
-    }
+		B.setCoords(A);
+		B.rotate(angle);
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-    	return getLoc().getPlain("ARotatedByAngleB",A.getLabel(tpl),angle.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("ARotatedByAngleB", A.getLabel(tpl),
+				angle.getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
 }

@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *SetLabelMode
+ * SetLabelMode
  */
 public class CmdSetLabelMode extends CmdScripting {
 
@@ -23,8 +23,7 @@ public class CmdSetLabelMode extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -37,7 +36,6 @@ public class CmdSetLabelMode extends CmdScripting {
 				geo.setLabelMode((int) ((GeoNumeric) arg[1]).getDouble());
 				geo.updateRepaint();
 
-				
 				return;
 			}
 			throw argErr(app, c.getName(), arg[1]);

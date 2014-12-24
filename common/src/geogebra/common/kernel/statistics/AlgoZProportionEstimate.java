@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
-
 /**
  * 
  * 
@@ -29,34 +28,35 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  */
 public class AlgoZProportionEstimate extends AlgoElement {
 
-
-	private GeoNumeric proportion, n, level; //input
-	private GeoList  result;     // output   
+	private GeoNumeric proportion, n, level; // input
+	private GeoList result; // output
 	private double se;
 	private double me;
+
 	/**
 	 * @param cons
 	 * @param label
 	 * @param proportion
 	 * @param n
-	 * @param level 
+	 * @param level
 	 */
-	public AlgoZProportionEstimate(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
+	public AlgoZProportionEstimate(Construction cons, String label,
+			GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
 		this(cons, proportion, n, level);
 		result.setLabel(label);
 	}
 
-	public AlgoZProportionEstimate(Construction cons, GeoNumeric proportion, GeoNumeric n, GeoNumeric level) {
+	public AlgoZProportionEstimate(Construction cons, GeoNumeric proportion,
+			GeoNumeric n, GeoNumeric level) {
 		super(cons);
 		this.proportion = proportion;
 		this.n = n;
 		this.level = level;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 	}
-	
 
 	@Override
 	public Commands getClassName() {
@@ -64,13 +64,12 @@ public class AlgoZProportionEstimate extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		input = new GeoElement[3];
 		input[0] = proportion;
 		input[1] = n;
 		input[2] = level;
-
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
@@ -82,26 +81,25 @@ public class AlgoZProportionEstimate extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
-	
+
 	/**
 	 * @return margin of error
 	 */
-	public double getME(){
+	public double getME() {
 		return me;
 	}
 
 	/**
 	 * @return standard error
 	 */
-	public double getSE(){
+	public double getSE() {
 		return se;
 	}
 
 	@Override
 	public final void compute() {
 
-
-		double n1 = n.getDouble();		
+		double n1 = n.getDouble();
 		double phat = proportion.getDouble();
 		double cLevel = level.getDouble();
 
@@ -127,7 +125,4 @@ public class AlgoZProportionEstimate extends AlgoElement {
 
 	}
 
-	
-
-	
 }

@@ -123,7 +123,7 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 			outputfunction.setUndefined();
 			return;
 		}// if wrong contents in lists
-		
+
 		try {
 			// Get points as x[] and y[] from lists
 			if (!makeDataArrays()) {
@@ -208,4 +208,3 @@ public class AlgoFitNL extends AlgoElement implements FitAlgo {
 	// TODO Consider locusequability
 
 }
-

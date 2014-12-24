@@ -38,58 +38,55 @@ import java.util.ArrayList;
 
 public class AlgoFrequencyPolygon extends AlgoElement {
 
-	private GeoList list1, list2, list3; //input
-	private GeoBoolean isCumulative, useDensity; //input
+	private GeoList list1, list2, list3; // input
+	private GeoBoolean isCumulative, useDensity; // input
 	private GeoNumeric density;
-	private GeoPolyLine outputPolyLine; //output
+	private GeoPolyLine outputPolyLine; // output
 
-	private GeoPointND[] points = null; 
+	private GeoPointND[] points = null;
 	private AlgoHistogram algoHistogram;
 
 	private boolean right = false;
+
 	/**
 	 * Creates a frequency polygon from two data lists.
-	 * @param cons construction
-	 * @param label label for the histogram
-	 * @param list1 list of boundaries
-	 * @param list2 list of heights or raw data
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for the histogram
+	 * @param list1
+	 *            list of boundaries
+	 * @param list2
+	 *            list of heights or raw data
 	 */
-	public AlgoFrequencyPolygon(Construction cons, String label,
-			GeoList list1, GeoList list2) {
-		this(cons, label, null, list1, list2, null, null, null);		
+	public AlgoFrequencyPolygon(Construction cons, String label, GeoList list1,
+			GeoList list2) {
+		this(cons, label, null, list1, list2, null, null, null);
 	}
 
-
 	/**
-	 * /**
-	 * Creates frequency polygon from two data lists with parameter specifications.
+	 * /** Creates frequency polygon from two data lists with parameter
+	 * specifications.
 	 * 
 	 * @param cons
 	 * @param label
 	 * @param isCumulative
-	 * @param list1 
+	 * @param list1
 	 * @param list2
 	 * @param useDensity
 	 * @param density
 	 */
 	public AlgoFrequencyPolygon(Construction cons, String label,
-			GeoBoolean isCumulative,					   
-			GeoList list1, 
-			GeoList list2, 
-			GeoList list3, 
-			GeoBoolean useDensity, 
-			GeoNumeric density) {
+			GeoBoolean isCumulative, GeoList list1, GeoList list2,
+			GeoList list3, GeoBoolean useDensity, GeoNumeric density) {
 
 		this(cons, isCumulative, list1, list2, list3, useDensity, density);
 		outputPolyLine.setLabel(label);
 	}
 
-	public AlgoFrequencyPolygon(Construction cons,
-			GeoBoolean isCumulative,					   
-			GeoList list1, 
-			GeoList list2, 
-			GeoList list3, 
-			GeoBoolean useDensity, 
+	public AlgoFrequencyPolygon(Construction cons, GeoBoolean isCumulative,
+			GeoList list1, GeoList list2, GeoList list3, GeoBoolean useDensity,
 			GeoNumeric density) {
 		super(cons);
 		this.list1 = list1;
@@ -112,117 +109,116 @@ public class AlgoFrequencyPolygon extends AlgoElement {
 
 	@Override
 	protected void setInputOutput() {
-		
+
 		ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
-		
-		if(isCumulative != null) {
+
+		if (isCumulative != null) {
 			tempList.add(isCumulative);
 		}
 		tempList.add(list1);
 		tempList.add(list2);
-		if(list3 != null){
+		if (list3 != null) {
 			tempList.add(list3);
 		}
-		if(useDensity != null){
+		if (useDensity != null) {
 			tempList.add(useDensity);
 		}
-		if(density != null){
+		if (density != null) {
 			tempList.add(density);
 		}
 		input = new GeoElement[tempList.size()];
 		input = tempList.toArray(input);
-						
-		
-		
-		
+
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		algoHistogram = new AlgoHistogram(cons, isCumulative, list1,
-					list2, list3, useDensity, density, right);
-		
+		algoHistogram = new AlgoHistogram(cons, isCumulative, list1, list2,
+				list3, useDensity, density, right);
+
 		cons.setSuppressLabelCreation(suppressLabelCreation);
 
-		
 		setOutput();
 
 		// parent of output
-		outputPolyLine.setParentAlgorithm(this);       
-		cons.addToAlgorithmList(this); 
+		outputPolyLine.setParentAlgorithm(this);
+		cons.addToAlgorithmList(this);
 
 		setDependencies(); // done by AlgoElement
 	}
 
-	
 	private void setOutput() {
-		super.setOutputLength(1);           
-		super.setOutput(0, outputPolyLine);        
+		super.setOutputLength(1);
+		super.setOutput(0, outputPolyLine);
 	}
-
 
 	public GeoPolyLine getResult() {
 		return outputPolyLine;
 	}
-	
+
 	@Override
 	public final void compute() {
 
 		// update our histogram to get class borders and y values
 		algoHistogram.update();
-		
-		if(!algoHistogram.getOutput()[0].isDefined()) {
-			outputPolyLine.setUndefined();
-			return;
-		}		
-		double[] leftBorder = algoHistogram.getLeftBorder();
-		if(leftBorder == null || leftBorder.length < 2) {
-			outputPolyLine.setUndefined();
-			return;
-		}		
-		double[] yValue  = algoHistogram.getYValue();
-		if(yValue == null || yValue.length < 2) {
+
+		if (!algoHistogram.getOutput()[0].isDefined()) {
 			outputPolyLine.setUndefined();
 			return;
 		}
-		
-		// if we got this far everything is ok; now define the polyLine 
+		double[] leftBorder = algoHistogram.getLeftBorder();
+		if (leftBorder == null || leftBorder.length < 2) {
+			outputPolyLine.setUndefined();
+			return;
+		}
+		double[] yValue = algoHistogram.getYValue();
+		if (yValue == null || yValue.length < 2) {
+			outputPolyLine.setUndefined();
+			return;
+		}
+
+		// if we got this far everything is ok; now define the polyLine
 		outputPolyLine.setDefined();
 
 		// remember old number of points
-		int oldPointsLength = points == null ? 0 : points.length;	
-		
+		int oldPointsLength = points == null ? 0 : points.length;
+
 		// create a new point array
-		boolean doCumulative = (isCumulative != null && isCumulative.getBoolean());
-		int size = doCumulative ? yValue.length : yValue.length+1;
+		boolean doCumulative = (isCumulative != null && isCumulative
+				.getBoolean());
+		int size = doCumulative ? yValue.length : yValue.length + 1;
 		points = new GeoPoint[size];
-	
-		// create points and load the point array  
+
+		// create points and load the point array
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
-		if(doCumulative){
+		if (doCumulative) {
 			points[0] = new GeoPoint(cons, null, leftBorder[0], 0.0, 1.0);
-			for (int i = 0; i < yValue.length-1; i++) {
-				points[i+1] = new GeoPoint(cons, null, leftBorder[i+1], yValue[i], 1.0);
+			for (int i = 0; i < yValue.length - 1; i++) {
+				points[i + 1] = new GeoPoint(cons, null, leftBorder[i + 1],
+						yValue[i], 1.0);
 			}
-		}else{
-			double midpoint = leftBorder[0]-0.5*(leftBorder[1]-leftBorder[0]);
+		} else {
+			double midpoint = leftBorder[0] - 0.5
+					* (leftBorder[1] - leftBorder[0]);
 			points[0] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
-			for (int i = 0; i < yValue.length-1; i++) {
-				midpoint = 0.5*(leftBorder[i+1] + leftBorder[i]);
-				points[i+1] = new GeoPoint(cons, null, midpoint, yValue[i], 1.0);
+			for (int i = 0; i < yValue.length - 1; i++) {
+				midpoint = 0.5 * (leftBorder[i + 1] + leftBorder[i]);
+				points[i + 1] = new GeoPoint(cons, null, midpoint, yValue[i],
+						1.0);
 			}
-			midpoint = 1.5*leftBorder[yValue.length-1] -.5*(leftBorder[yValue.length-2]);
+			midpoint = 1.5 * leftBorder[yValue.length - 1] - .5
+					* (leftBorder[yValue.length - 2]);
 			points[yValue.length] = new GeoPoint(cons, null, midpoint, 0.0, 1.0);
-		}	
+		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);
-		
+
 		// update the polyLine
 		outputPolyLine.setPoints(points);
 		if (oldPointsLength != points.length)
-			setOutput();    	
+			setOutput();
 
-	}  
+	}
 
 	// TODO Consider locusequability
 

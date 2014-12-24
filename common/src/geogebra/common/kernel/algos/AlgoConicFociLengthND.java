@@ -48,7 +48,7 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 		this.a = a;
 		ageo = a.toGeoElement();
 		setOrientation(orientation);
-		
+
 		conic = newGeoConic(cons);
 		setInputOutput(); // for AlgoElement
 
@@ -56,37 +56,39 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 		compute();
 		conic.setLabel(label);
 	}
-	
 
 	/**
 	 * init Coords values
 	 */
-	protected void initCoords(){
+	protected void initCoords() {
 		// none here
 	}
-	
+
 	/**
 	 * set orientation (in 3D)
-	 * @param orientation orientation
+	 * 
+	 * @param orientation
+	 *            orientation
 	 */
 	abstract protected void setOrientation(GeoDirectionND orientation);
-	
+
 	/**
-     * 
-     * @param cons construction
-     * @return new conic
-     */
-    abstract protected GeoConicND newGeoConic(Construction cons);
-	
-	 /**
-     * set the input
-     */
+	 * 
+	 * @param cons
+	 *            construction
+	 * @return new conic
+	 */
+	abstract protected GeoConicND newGeoConic(Construction cons);
+
+	/**
+	 * set the input
+	 */
 	abstract protected void setInput();
-	
+
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-		
+
 		setInput();
 
 		super.setOutputLength(1);
@@ -105,7 +107,7 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 	public GeoPointND getFocus2() {
 		return B;
 	}
-	
+
 	public NumberValue getLength() {
 		return a;
 	}
@@ -115,13 +117,13 @@ public abstract class AlgoConicFociLengthND extends AlgoElement {
 	public void compute() {
 		conic.setEllipseHyperbola(getA2d(), getB2d(), a.getDouble());
 	}
-	
+
 	/**
 	 * 
 	 * @return point A 2d coords
 	 */
 	abstract protected GeoPoint getA2d();
-	
+
 	/**
 	 * 
 	 * @return point B 2d coords

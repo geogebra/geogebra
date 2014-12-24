@@ -38,18 +38,15 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 	protected GeoPointND An, Bn, Cn; // input
 	protected GeoAngle angle; // output
 
-
 	protected AlgoAnglePolygon algoAnglePoly;
 
 	transient protected double bx, by, vx, vy, wx, wy;
-	
+
 	public AlgoAnglePointsND(Construction cons, String label, GeoPointND A,
 			GeoPointND B, GeoPointND C, GeoDirectionND orientation) {
 		this(cons, A, B, C, orientation);
 		angle.setLabel(label);
 	}
-
-
 
 	public AlgoAnglePointsND(Construction cons, GeoPointND A, GeoPointND B,
 			GeoPointND C, GeoDirectionND orientation) {
@@ -61,45 +58,50 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		// compute angle
 		compute();
 	}
-	
+
 	/**
 	 * set input
-	 * @param A first point
-	 * @param B second point
-	 * @param C third point
-	 * @param orientation orientation (can be null)
+	 * 
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 * @param C
+	 *            third point
+	 * @param orientation
+	 *            orientation (can be null)
 	 */
-	protected void setInput(GeoPointND A, GeoPointND B,
-			GeoPointND C, GeoDirectionND orientation){
+	protected void setInput(GeoPointND A, GeoPointND B, GeoPointND C,
+			GeoDirectionND orientation) {
 
 		this.An = A;
 		this.Bn = B;
 		this.Cn = C;
 	}
-	
+
 	/**
 	 * used as a helper algo (for AlgoAnglePolygon)
+	 * 
 	 * @param cons
 	 */
 	protected AlgoAnglePointsND(Construction cons) {
 		super(cons);
-		angle = new GeoAngle(cons); //not setting the angle interval
+		angle = new GeoAngle(cons); // not setting the angle interval
 		angle.setDrawable(true);
 	}
-	
+
 	/**
 	 * set the points
+	 * 
 	 * @param A
 	 * @param B
 	 * @param C
 	 */
-	public void setABC(GeoPointND A, GeoPointND B, GeoPointND C){
+	public void setABC(GeoPointND A, GeoPointND B, GeoPointND C) {
 		this.An = A;
 		this.Bn = B;
 		this.Cn = C;
 	}
-
-
 
 	public AlgoAnglePointsND(GeoPointND A, GeoPointND B, GeoPointND C,
 			Construction cons) {
@@ -117,11 +119,10 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		this.Bn = B;
 		this.Cn = C;
 	}
-	
+
 	protected AlgoAnglePointsND(Construction c, boolean addToConstructionList) {
 		super(c, addToConstructionList);
 	}
-
 
 	void setAlgoAnglePolygon(AlgoAnglePolygon algo) {
 		algoAnglePoly = algo;
@@ -142,7 +143,7 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 
 	@Override
 	public void remove() {
-		if(removed)
+		if (removed)
 			return;
 		if (algoAnglePoly != null)
 			algoAnglePoly.remove();
@@ -174,32 +175,31 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		return Cn;
 	}
 
-
-
 	@Override
 	public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
 		if (algoAnglePoly != null) {
-			return getLoc().getPlain("AngleBetweenABCofD", An.getLabel(tpl), Bn
-					.getLabel(tpl), Cn.getLabel(tpl), algoAnglePoly.getPolygon()
-					.getNameDescription());
+			return getLoc().getPlain("AngleBetweenABCofD", An.getLabel(tpl),
+					Bn.getLabel(tpl), Cn.getLabel(tpl),
+					algoAnglePoly.getPolygon().getNameDescription());
 		}
 		return getLoc().getPlain("AngleBetweenABC", An.getLabel(tpl),
 				Bn.getLabel(tpl), Cn.getLabel(tpl));
 	}
 
 	@Override
-	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
+	public boolean updateDrawInfo(double[] m, double[] firstVec,
+			DrawAngle drawable) {
 		Coords v = drawable.getCoordsInView(Bn);
 		if (!drawable.inView(v)) {
 			return false;
 		}
-		
+
 		m[0] = v.get()[0];
 		m[1] = v.get()[1];
-		
+
 		Coords ptCoords = drawable.getCoordsInView(An);
 		if (!drawable.inView(ptCoords)) {
 			return false;
@@ -234,29 +234,24 @@ public abstract class AlgoAnglePointsND extends AlgoAngle implements
 		secondVecScreen[0] -= vertexScreen[0];
 		secondVecScreen[1] -= vertexScreen[1];
 
-		drawable.setMaxRadius(0.5 * Math.sqrt(Math.min(
-				firstVecScreen[0] * firstVecScreen[0] + firstVecScreen[1]
-						* firstVecScreen[1], secondVecScreen[0]
-						* secondVecScreen[0] + secondVecScreen[1]
+		drawable.setMaxRadius(0.5 * Math.sqrt(Math.min(firstVecScreen[0]
+				* firstVecScreen[0] + firstVecScreen[1] * firstVecScreen[1],
+				secondVecScreen[0] * secondVecScreen[0] + secondVecScreen[1]
 						* secondVecScreen[1])));
 		return true;
 
 	}
-	
-	
+
 	@Override
-	public boolean getCoordsInD3(Coords[] drawCoords){
+	public boolean getCoordsInD3(Coords[] drawCoords) {
 		Coords center = getB().getInhomCoordsInD3();
 		drawCoords[0] = center;
 		drawCoords[1] = getA().getInhomCoordsInD3().sub(center);
 		drawCoords[2] = getC().getInhomCoordsInD3().sub(center);
-		
+
 		return true;
 	}
 
 	// TODO Consider locusequability
-	
-	
-	
-	
+
 }

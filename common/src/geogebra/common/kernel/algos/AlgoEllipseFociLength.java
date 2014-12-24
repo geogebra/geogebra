@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoEllipseFociLength.java
@@ -29,53 +29,48 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Ellipse for given foci and first semi-axis length
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoEllipseFociLength extends AlgoConicFociLength {
 
-	public AlgoEllipseFociLength(
-		        Construction cons,
-		        String label,
-		        GeoPointND A,
-		        GeoPointND B,
-		        NumberValue a) {
-		        super(cons, label, A, B, a);		       
-		    }
+	public AlgoEllipseFociLength(Construction cons, String label, GeoPointND A,
+			GeoPointND B, NumberValue a) {
+		super(cons, label, A, B, a);
+	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.Ellipse;
 	}
-	
+
 	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
-    }
-    
-	
+		return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
+	}
+
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnEllipseFociLength(geo, this, scope);
 	}
-	
 
-	/////////////////////////////////
+	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
-	/////////////////////////////////
-
+	// ///////////////////////////////
 
 	@Override
-	protected int getInputLengthForXML(){
+	protected int getInputLengthForXML() {
 		return getInputLengthForXMLMayNeedXOYPlane();
-	}	
+	}
 
 	@Override
-	protected int getInputLengthForCommandDescription(){
+	protected int getInputLengthForCommandDescription() {
 		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
 
@@ -84,12 +79,12 @@ public class AlgoEllipseFociLength extends AlgoConicFociLength {
 		return getInputMaybeXOYPlane(i);
 	}
 
-
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("EllipseWithFociABandFirstAxisLengthC",A.getLabel(tpl),
-				B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
+		return getLoc().getPlain("EllipseWithFociABandFirstAxisLengthC",
+				A.getLabel(tpl), B.getLabel(tpl),
+				a.toGeoElement().getLabel(tpl));
 	}
 
 }

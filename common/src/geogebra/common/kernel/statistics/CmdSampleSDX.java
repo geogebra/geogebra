@@ -4,9 +4,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.commands.CmdOneOrTwoListsFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+
 /**
- * SampleSDX[List of points]
- * SampleSDX[List of numbers, list of numbers]
+ * SampleSDX[List of points] SampleSDX[List of numbers, list of numbers]
  */
 public class CmdSampleSDX extends CmdOneOrTwoListsFunction {
 	/**
@@ -20,17 +20,14 @@ public class CmdSampleSDX extends CmdOneOrTwoListsFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoListSampleSDX algo = new AlgoListSampleSDX(cons, a, b);
 		return algo.getResult();
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
-	{
+	final protected GeoElement doCommand(String a, GeoList b, GeoList c) {
 		return null;
 	}
-
 
 }

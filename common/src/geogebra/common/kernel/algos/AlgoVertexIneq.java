@@ -21,8 +21,6 @@ import geogebra.common.main.App;
 import java.util.ArrayList;
 import java.util.List;
 
-
-
 public class AlgoVertexIneq extends AlgoElement {
 
 	private OutputHandler<GeoElement> outputPoints;
@@ -135,13 +133,13 @@ public class AlgoVertexIneq extends AlgoElement {
 				intParamParam(a, b, ai, bi, true);
 				break;
 			case INEQUALITY_PARAMETRIC_Y:
-				intParamXParamY(a, b,ai,bi);
+				intParamXParamY(a, b, ai, bi);
 				break;
 			case INEQUALITY_LINEAR:
 				intParamXLinear(a, b, ai, bi);
 				break;
 			case INEQUALITY_CONIC:
-				intParamConic(a, b,ai,bi,true);
+				intParamConic(a, b, ai, bi, true);
 				break;
 			case INEQUALITY_1VAR_X:
 				intParamOneVar(a, b, ai, bi, true);
@@ -159,7 +157,7 @@ public class AlgoVertexIneq extends AlgoElement {
 				intParamYLinear(a, b, ai, bi);
 				break;
 			case INEQUALITY_CONIC:
-				intParamConic(a, b, ai, bi,false);
+				intParamConic(a, b, ai, bi, false);
 				break;
 			case INEQUALITY_1VAR_X:
 				intParamYX(a, b);
@@ -220,8 +218,8 @@ public class AlgoVertexIneq extends AlgoElement {
 
 		if (helpers[i][j] == null) {
 			if (a.getFunBorder().isPolynomialFunction(false)) {
-				setHelper(i, j, kernel.getAlgoDispatcher().getIntersectionAlgorithm(
-						a.getFunBorder(), helperLine));
+				setHelper(i, j, kernel.getAlgoDispatcher()
+						.getIntersectionAlgorithm(a.getFunBorder(), helperLine));
 			} else {
 				setHelper(
 						i,
@@ -259,8 +257,8 @@ public class AlgoVertexIneq extends AlgoElement {
 				setHelper(
 						i,
 						j,
-						kernel.getAlgoDispatcher().getIntersectionAlgorithm(a.getFunBorder(),
-								b.getLineBorder()));
+						kernel.getAlgoDispatcher().getIntersectionAlgorithm(
+								a.getFunBorder(), b.getLineBorder()));
 			} else {
 				setHelper(
 						i,
@@ -310,11 +308,14 @@ public class AlgoVertexIneq extends AlgoElement {
 
 	}
 
-	private void intParamConic(Inequality a, Inequality b,int i,int j,boolean transpose) {
+	private void intParamConic(Inequality a, Inequality b, int i, int j,
+			boolean transpose) {
 		initHelpers();
-		double[] mat = b.getConicBorder().getMatrix(); 
-		if(transpose)
-			b.getConicBorder().setMatrix(new double[]{mat[1],mat[0],mat[2],mat[3],mat[5],mat[4]});
+		double[] mat = b.getConicBorder().getMatrix();
+		if (transpose)
+			b.getConicBorder().setMatrix(
+					new double[] { mat[1], mat[0], mat[2], mat[3], mat[5],
+							mat[4] });
 		if (helpers[i][j] == null) {
 			if (a.getFunBorder().isPolynomialFunction(false)) {
 				setHelper(i, j,
@@ -323,10 +324,10 @@ public class AlgoVertexIneq extends AlgoElement {
 			} else {
 				// TODO
 			}
-		}else{
+		} else {
 			helpers[i][j].compute();
 		}
-		if(transpose)
+		if (transpose)
 			b.getConicBorder().setMatrix(mat);
 		if (helpers[i][j] != null) {
 			addVertices(helpers[i][j], transpose);
@@ -349,8 +350,8 @@ public class AlgoVertexIneq extends AlgoElement {
 				setHelper(
 						i,
 						j,
-						kernel.getAlgoDispatcher().getIntersectionAlgorithm(a.getFunBorder(),
-								b.getLineBorder()));
+						kernel.getAlgoDispatcher().getIntersectionAlgorithm(
+								a.getFunBorder(), b.getLineBorder()));
 			} else {
 				setHelper(
 						i,
@@ -368,33 +369,31 @@ public class AlgoVertexIneq extends AlgoElement {
 
 	}
 
-	private void intParamXParamY(Inequality a, Inequality b,int i,int j) {
+	private void intParamXParamY(Inequality a, Inequality b, int i, int j) {
 		initHelpers();
-		ExpressionNode exp = a.getFunBorder().getFunctionExpression().getCopy(kernel).wrap();
-		FunctionVariable aVar = a.getFunBorder().getFunction().getFunctionVariable();
-		exp = exp.replace(aVar, b.getFunBorder().getFunctionExpression()).wrap();
-		if(helperFunction==null)
+		ExpressionNode exp = a.getFunBorder().getFunctionExpression()
+				.getCopy(kernel).wrap();
+		FunctionVariable aVar = a.getFunBorder().getFunction()
+				.getFunctionVariable();
+		exp = exp.replace(aVar, b.getFunBorder().getFunctionExpression())
+				.wrap();
+		if (helperFunction == null)
 			helperFunction = new GeoFunction(cons);
-		helperFunction.setFunction(new Function(exp,b.getFunBorder().getFunction().getFunctionVariable()));
-		helperLine.setCoords(1,-1,0);
+		helperFunction.setFunction(new Function(exp, b.getFunBorder()
+				.getFunction().getFunctionVariable()));
+		helperLine.setCoords(1, -1, 0);
 		if (helpers[i][j] == null) {
 
 			if (helperFunction.isPolynomialFunction(false)) {
-				setHelper(
-						i,
-						j,
-						kernel.getAlgoDispatcher().getIntersectionAlgorithm(helperFunction,
-								helperLine));
+				setHelper(i, j, kernel.getAlgoDispatcher()
+						.getIntersectionAlgorithm(helperFunction, helperLine));
 			} else {
-				setHelper(
-						i,
-						j,
-						new AlgoIntersectFunctionLineNewton(cons, helperFunction, helperLine,
-								new GeoPoint(cons)));
+				setHelper(i, j, new AlgoIntersectFunctionLineNewton(cons,
+						helperFunction, helperLine, new GeoPoint(cons)));
 			}
 		} else
 			helpers[i][j].compute();
-		
+
 		GeoElement[] output = helpers[i][j].getOutput();
 		for (int k = 0; k < output.length; k++) {
 			GeoPoint pt = (GeoPoint) output[k];
@@ -570,10 +569,6 @@ public class AlgoVertexIneq extends AlgoElement {
 	public Commands getClassName() {
 		return Commands.Vertex;
 	}
-
-	
-
-	
 
 	/**
 	 * @return resulting vertices

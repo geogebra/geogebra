@@ -32,38 +32,43 @@ public class CmdLogistic extends CommandProcessor {
 
 		BooleanValue cumulative = null; // default for n=3
 		arg = resArgs(c);
-		
+
 		switch (n) {
 		case 4:
-			if (!arg[2].isGeoFunction() || !((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
+			if (!arg[2].isGeoFunction()
+					|| !((GeoFunction) arg[2]).toString(
+							StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[2]);
 			}
-			
+
 			if (arg[3].isGeoBoolean()) {
-				cumulative = (BooleanValue)arg[3];
+				cumulative = (BooleanValue) arg[3];
 			} else
 				throw argErr(app, c.getName(), arg[3]);
-			
+
 			// fall through
-		case 3:			
-			if ((ok = arg[0] instanceof GeoNumberValue) && (arg[1] instanceof GeoNumberValue)) {
-				if (arg[2].isGeoFunction() && ((GeoFunction)arg[2]).toString(StringTemplate.defaultTemplate).equals("x")) {
-									
-					AlgoLogisticDF algo = new AlgoLogisticDF(cons, c.getLabel(), (GeoNumberValue)arg[0], (GeoNumberValue)arg[1], cumulative);
-					return algo.getGeoElements();
-					
-					
-				} else if (arg[2] instanceof GeoNumberValue) 
-				{
-					AlgoLogistic algo = new AlgoLogistic(cons, c.getLabel(), (GeoNumberValue)arg[0],
-							(GeoNumberValue)arg[1], (GeoNumberValue)arg[2]);
+		case 3:
+			if ((ok = arg[0] instanceof GeoNumberValue)
+					&& (arg[1] instanceof GeoNumberValue)) {
+				if (arg[2].isGeoFunction()
+						&& ((GeoFunction) arg[2]).toString(
+								StringTemplate.defaultTemplate).equals("x")) {
+
+					AlgoLogisticDF algo = new AlgoLogisticDF(cons,
+							c.getLabel(), (GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1], cumulative);
 					return algo.getGeoElements();
 
-					
-				}  else
+				} else if (arg[2] instanceof GeoNumberValue) {
+					AlgoLogistic algo = new AlgoLogistic(cons, c.getLabel(),
+							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
+							(GeoNumberValue) arg[2]);
+					return algo.getGeoElements();
+
+				} else
 					throw argErr(app, c.getName(), arg[2]);
-		} 
-		throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
+			}
+			throw argErr(app, c.getName(), ok ? arg[1] : arg[0]);
 
 		default:
 			throw argNumErr(app, c.getName(), n);

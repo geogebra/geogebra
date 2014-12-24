@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoLengthVector.java
@@ -26,67 +26,68 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.util.MyMath;
 
-
 /**
  * Length of a vector or point.
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoLengthVector extends AlgoElement {
 
-    private GeoVec3D v; // input
-    private GeoNumeric num; // output 
-    
-    private double [] coords = new double[2];
-    
-    public AlgoLengthVector(Construction cons, String label, GeoVec3D v) {
-        super(cons);
-        this.v = v;
-        num = new GeoNumeric(cons);
-        setInputOutput(); // for AlgoElement
+	private GeoVec3D v; // input
+	private GeoNumeric num; // output
 
-        // compute length
-        compute();
-        num.setLabel(label);
-    }
+	private double[] coords = new double[2];
 
-    @Override
+	public AlgoLengthVector(Construction cons, String label, GeoVec3D v) {
+		super(cons);
+		this.v = v;
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
+
+		// compute length
+		compute();
+		num.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = v;
+		input = new GeoElement[1];
+		input[0] = v;
 
-        super.setOutputLength(1);
-        super.setOutput(0, num);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getLength() {
-        return num;
-    }
-    GeoVec3D getv() {
-        return v;
-    }
+	public GeoNumeric getLength() {
+		return num;
+	}
 
-    // calc length of vector v   
-    @Override
+	GeoVec3D getv() {
+		return v;
+	}
+
+	// calc length of vector v
+	@Override
 	public final void compute() {
-    	v.getInhomCoords(coords);
-        num.setValue(MyMath.length(coords[0], coords[1]));
-    }
+		v.getInhomCoords(coords);
+		num.setValue(MyMath.length(coords[0], coords[1]));
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("LengthOfA",v.getLabel(tpl));
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("LengthOfA", v.getLabel(tpl));
 
-    }
+	}
 
 	// TODO Consider locusequability
 }

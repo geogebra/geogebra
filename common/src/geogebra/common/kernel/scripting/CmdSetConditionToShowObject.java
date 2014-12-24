@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *SetConditionToShowObject
+ * SetConditionToShowObject
  */
 public class CmdSetConditionToShowObject extends CmdScripting {
 
@@ -24,8 +24,7 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		GeoElement arg2[];
 		switch (n) {
@@ -43,7 +42,6 @@ public class CmdSetConditionToShowObject extends CmdScripting {
 				}
 				geo.updateRepaint();
 
-				
 				return;
 			}
 			throw argErr(app, c.getName(), arg2[1]);

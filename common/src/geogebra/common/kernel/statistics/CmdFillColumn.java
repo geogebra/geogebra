@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *FillColumn
+ * FillColumn
  */
 public class CmdFillColumn extends CommandProcessor {
 
@@ -50,7 +50,8 @@ public class CmdFillColumn extends CommandProcessor {
 					GeoElement cellGeo = list.get(row).copy();
 
 					try {
-						kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col, cellGeo);
+						kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(
+								app, row, col, cellGeo);
 					} catch (Exception e) {
 						e.printStackTrace();
 						throw argErr(app, c.getName(), arg[1]);

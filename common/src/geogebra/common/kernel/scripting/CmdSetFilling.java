@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *SetFilling
+ * SetFilling
  */
 public class CmdSetFilling extends CmdScripting {
 
@@ -23,8 +23,7 @@ public class CmdSetFilling extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -37,7 +36,6 @@ public class CmdSetFilling extends CmdScripting {
 				geo.setAlphaValue((float) ((NumberValue) arg[1]).getDouble());
 				geo.updateRepaint();
 
-				
 				return;
 			}
 			throw argErr(app, c.getName(), arg[1]);

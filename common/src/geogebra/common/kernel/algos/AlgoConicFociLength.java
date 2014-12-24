@@ -34,42 +34,38 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public abstract class AlgoConicFociLength extends AlgoConicFociLengthND {
 
-
 	public AlgoConicFociLength(
 			// package private
 			Construction cons, String label, GeoPointND A, GeoPointND B,
 			NumberValue a) {
 		super(cons, label, A, B, a, null);
 	}
-	
-	
+
 	@Override
-	protected void setOrientation(GeoDirectionND orientation){
+	protected void setOrientation(GeoDirectionND orientation) {
 		// no need in 2D
 	}
-	
-	
-    @Override
-	protected GeoConicND newGeoConic(Construction cons){
-    	return new GeoConic(cons);
-    }
-	
+
 	@Override
-	protected void setInput(){
+	protected GeoConicND newGeoConic(Construction cons) {
+		return new GeoConic(cons);
+	}
+
+	@Override
+	protected void setInput() {
 		input = new GeoElement[3];
 		input[0] = (GeoElement) A;
 		input[1] = (GeoElement) B;
 		input[2] = ageo;
 	}
-	
 
 	@Override
-	protected GeoPoint getA2d(){
+	protected GeoPoint getA2d() {
 		return (GeoPoint) A;
 	}
-	
+
 	@Override
-	protected GeoPoint getB2d(){
+	protected GeoPoint getB2d() {
 		return (GeoPoint) B;
 	}
 }

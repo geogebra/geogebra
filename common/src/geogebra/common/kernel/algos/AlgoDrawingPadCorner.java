@@ -30,8 +30,8 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 	protected NumberValue number;
 	protected NumberValue evNum;
 
-	protected AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
-			NumberValue evNum, double absCorner) {
+	protected AlgoDrawingPadCorner(Construction cons, String label,
+			NumberValue number, NumberValue evNum, double absCorner) {
 		super(cons);
 		this.number = number;
 		this.evNum = evNum; // can be null
@@ -43,24 +43,25 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.setLabel(label);
 
 		cons.registerEuclidianViewCE(this);
-		if(Kernel.isEqual(number.getDouble(),absCorner)){
+		if (Kernel.isEqual(number.getDouble(), absCorner)) {
 			cons.registerCorner5(this);
 		}
 
 	}
-	
-	public AlgoDrawingPadCorner(Construction cons, String label, NumberValue number,
-			NumberValue evNum) {
+
+	public AlgoDrawingPadCorner(Construction cons, String label,
+			NumberValue number, NumberValue evNum) {
 		this(cons, label, number, evNum, 5);
 
 	}
-	
+
 	/**
 	 * 
-	 * @param cons construction
+	 * @param cons
+	 *            construction
 	 * @return new point
 	 */
-	protected GeoPointND newGeoPoint(Construction cons){
+	protected GeoPointND newGeoPoint(Construction cons) {
 		return new GeoPoint(cons);
 	}
 
@@ -107,7 +108,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			if (!app.hasEuclidianView2(1)) {
 				corner.setUndefined();
 				return;
-			} 
+			}
 			ev = app.getEuclidianView2(1);
 		}
 
@@ -137,7 +138,7 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 			// doesn't work very well as it receives updates only when
 			// EuclidianView is changed
 			corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
-			
+
 			break;
 		default:
 			corner.setUndefined();
@@ -153,7 +154,6 @@ public class AlgoDrawingPadCorner extends AlgoElement {
 		corner.updateCascade();
 		return false;
 	}
-
 
 	// TODO Consider locusequability
 

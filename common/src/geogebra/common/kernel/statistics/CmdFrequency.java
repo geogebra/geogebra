@@ -35,17 +35,15 @@ public class CmdFrequency extends CommandProcessor {
 
 		case 1:
 			if (arg[0].isGeoList()) {
-				GeoElement[] ret = { Frequency(c.getLabel(),
-						(GeoList) arg[0]) };
+				GeoElement[] ret = { Frequency(c.getLabel(), (GeoList) arg[0]) };
 				return ret;
 
-			} 
+			}
 			throw argErr(app, c.getName(), arg[0]);
-			
 
 		case 2:
 
-			//  arg[0] = is cumulative,  arg[1] = data list,
+			// arg[0] = is cumulative, arg[1] = data list,
 			if ((arg[0].isGeoBoolean()) && (arg[1].isGeoList())) {
 				GeoElement[] ret = { Frequency(c.getLabel(),
 						(GeoBoolean) arg[0], (GeoList) arg[1]) };
@@ -59,7 +57,7 @@ public class CmdFrequency extends CommandProcessor {
 							(GeoList) arg[0], (GeoList) arg[1]) };
 					return ret;
 				}
-				
+
 			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else {
@@ -71,41 +69,42 @@ public class CmdFrequency extends CommandProcessor {
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list
 			if ((ok[0] = arg[0].isGeoBoolean()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoList())) {
-				GeoElement[] ret = { Frequency(c.getLabel(), (GeoBoolean) arg[0],
-								(GeoList) arg[1], (GeoList) arg[2]) };
+				GeoElement[] ret = { Frequency(c.getLabel(),
+						(GeoBoolean) arg[0], (GeoList) arg[1], (GeoList) arg[2]) };
 				return ret;
 
-			} 
+			}
 			// arg[0] = class list, arg[1] = data list, arg[2] = useDensity
 			else if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoBoolean())) {
 				GeoElement[] ret = { Frequency(c.getLabel(), (GeoList) arg[0],
-								(GeoList) arg[1], (GeoBoolean) arg[2]) };
+						(GeoList) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 
-			} 
-			else if (!ok[0])
+			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])
 				throw argErr(app, c.getName(), arg[1]);
-			else 
+			else
 				throw argErr(app, c.getName(), arg[2]);
 
 		case 4:
 			arg = resArgs(c);
-			// arg[0] = class list, arg[2] = data list, arg[2] = useDensity, arg[3]= density scale factor
+			// arg[0] = class list, arg[2] = data list, arg[2] = useDensity,
+			// arg[3]= density scale factor
 			if ((ok[0] = (arg[0].isGeoList()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoBoolean()))
 					&& (ok[3] = (arg[3].isGeoNumeric()))) {
-				GeoElement[] ret = { Frequency(c.getLabel(),
-						(GeoList) arg[0], (GeoList) arg[1],
-						(GeoBoolean) arg[2], (GeoNumeric) arg[3]) };
+				GeoElement[] ret = { Frequency(c.getLabel(), (GeoList) arg[0],
+						(GeoList) arg[1], (GeoBoolean) arg[2],
+						(GeoNumeric) arg[3]) };
 				return ret;
 			}
-			
-			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list, arg[3] = useDensity
+
+			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list,
+			// arg[3] = useDensity
 			else if ((ok[0] = (arg[0].isGeoBoolean()))
 					&& (ok[1] = (arg[1].isGeoList()))
 					&& (ok[2] = (arg[2].isGeoList()))
@@ -115,7 +114,7 @@ public class CmdFrequency extends CommandProcessor {
 						(GeoList) arg[2], (GeoBoolean) arg[3]) };
 				return ret;
 			}
-			
+
 			else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])
@@ -125,25 +124,19 @@ public class CmdFrequency extends CommandProcessor {
 			else
 				throw argErr(app, c.getName(), arg[3]);
 
-			
 		case 5:
 			// arg[0] = isCumulative, arg[1] = class list, arg[2] = data list,
 			// arg[3] = useDensity, arg[4] = density scale factor,
-			if ((ok[0] = arg[0].isGeoBoolean()) 
-					&& (ok[1] = arg[1].isGeoList())
-					&& (ok[2] = arg[2].isGeoList())  
+			if ((ok[0] = arg[0].isGeoBoolean()) && (ok[1] = arg[1].isGeoList())
+					&& (ok[2] = arg[2].isGeoList())
 					&& (ok[3] = arg[3].isGeoBoolean())
-					&& (ok[4] = arg[4].isGeoNumeric())) 
-			{
-				GeoElement[] ret = { Frequency(c.getLabel(), 
-								(GeoBoolean) arg[0],
-								(GeoList) arg[1], 
-								(GeoList) arg[2], 
-								(GeoBoolean) arg[3],
-								(GeoNumeric) arg[4]) 
-				};
+					&& (ok[4] = arg[4].isGeoNumeric())) {
+				GeoElement[] ret = { Frequency(c.getLabel(),
+						(GeoBoolean) arg[0], (GeoList) arg[1],
+						(GeoList) arg[2], (GeoBoolean) arg[3],
+						(GeoNumeric) arg[4]) };
 				return ret;
-			}		
+			}
 
 			else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
@@ -160,7 +153,7 @@ public class CmdFrequency extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * Frequency[dataList] G. Sturr
 	 */
@@ -189,11 +182,10 @@ public class CmdFrequency extends CommandProcessor {
 			GeoList dataList) {
 		AlgoFrequency algo;
 
-		if(classList.getElementType() == GeoClass.TEXT){
+		if (classList.getElementType() == GeoClass.TEXT) {
 			algo = new AlgoFrequency(cons, label, classList, dataList, true);
-		}else{
-			algo = new AlgoFrequency(cons, label, null, classList,
-					dataList);
+		} else {
+			algo = new AlgoFrequency(cons, label, null, classList, dataList);
 		}
 		GeoList list = algo.getResult();
 		return list;

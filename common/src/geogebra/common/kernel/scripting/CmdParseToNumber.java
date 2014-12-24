@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *ParseToNumber
+ * ParseToNumber
  */
 public class CmdParseToNumber extends CommandProcessor {
 

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -21,51 +21,51 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
  * Returns whether an object is an integer
+ * 
  * @author Michael Borcherds
  * @version 2008-03-06
  */
 
 public class AlgoIsInteger extends AlgoElement {
 
-	private GeoNumeric inputGeo; //input
-    private GeoBoolean outputBoolean; //output	
+	private GeoNumeric inputGeo; // input
+	private GeoBoolean outputBoolean; // output
 
-    public AlgoIsInteger(Construction cons, String label, GeoNumeric inputGeo) {
-        super(cons);
-        this.inputGeo = inputGeo;
+	public AlgoIsInteger(Construction cons, String label, GeoNumeric inputGeo) {
+		super(cons);
+		this.inputGeo = inputGeo;
 
-               
-        outputBoolean = new GeoBoolean(cons);
+		outputBoolean = new GeoBoolean(cons);
 
-        setInputOutput();
-        compute();
-        outputBoolean.setLabel(label);
-    }
+		setInputOutput();
+		compute();
+		outputBoolean.setLabel(label);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
 		return Commands.IsInteger;
 	}
 
-    @Override
-	protected void setInputOutput(){
-        input = new GeoElement[1];
-        input[0] = inputGeo;
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[1];
+		input[0] = inputGeo;
 
-        super.setOutputLength(1);
-        super.setOutput(0, outputBoolean);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, outputBoolean);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoBoolean getResult() {
-        return outputBoolean;
-    }
+	public GeoBoolean getResult() {
+		return outputBoolean;
+	}
 
-    @Override
+	@Override
 	public final void compute() {
-        outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
-    }
+		outputBoolean.setValue(Kernel.isInteger(inputGeo.getDouble()));
+	}
 
 	// TODO Consider locusequability
-  
+
 }

@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *InverseHyperGeometric
+ * InverseHyperGeometric
  */
 public class CmdInverseHyperGeometric extends CommandProcessor {
 
@@ -35,11 +35,11 @@ public class CmdInverseHyperGeometric extends CommandProcessor {
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)) {
-				
-				AlgoInverseHyperGeometric algo = new AlgoInverseHyperGeometric(cons,
-						c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3]);
+
+				AlgoInverseHyperGeometric algo = new AlgoInverseHyperGeometric(
+						cons, c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+						(GeoNumberValue) arg[3]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

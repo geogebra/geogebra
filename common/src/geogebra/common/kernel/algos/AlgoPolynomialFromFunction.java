@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -29,76 +29,78 @@ import geogebra.common.kernel.parser.Parser;
 public class AlgoPolynomialFromFunction extends AlgoElement {
 
 	private GeoFunction f; // input
-    private GeoFunction g; // output         
-    private Parser parser;
-   
-    public AlgoPolynomialFromFunction(Construction cons, String label, GeoFunction f) {
-    	super(cons);
-        this.f = f;            	
-    	
-        parser = new Parser(cons.getKernel(), cons);
-        
-        g = new GeoFunction(cons);                
-        setInputOutput(); // for AlgoElement        
-        compute();
-        g.setLabel(label);
-    }
-    
-    @Override
+	private GeoFunction g; // output
+	private Parser parser;
+
+	public AlgoPolynomialFromFunction(Construction cons, String label,
+			GeoFunction f) {
+		super(cons);
+		this.f = f;
+
+		parser = new Parser(cons.getKernel(), cons);
+
+		g = new GeoFunction(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
+		g.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Polynomial;
 	}
-    
-    // for AlgoElement
-    @Override
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = f;
+		input = new GeoElement[1];
+		input[0] = f;
 
-        super.setOutputLength(1);
-        super.setOutput(0, g);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, g);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoFunction getPolynomial() {
-        return g;
-    }
+	public GeoFunction getPolynomial() {
+		return g;
+	}
 
-//  ON CHANGE: similar code is in AlgoTaylorSeries
-    @Override
-	public final void compute() {       
-        if (!f.isDefined()) {
-        	g.setUndefined();
-        	return;
-        }    
-        
+	// ON CHANGE: similar code is in AlgoTaylorSeries
+	@Override
+	public final void compute() {
+		if (!f.isDefined()) {
+			g.setUndefined();
+			return;
+		}
+
 		Function inFun = f.getFunction();
 
 		// check if it's a polynomial & get coefficients
-		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(), false,false);
+		PolyFunction poly = inFun.expandToPolyFunction(inFun.getExpression(),
+				false, false);
 
 		if (poly == null) {
 			g.setDefined(false);
-       	 return;
+			return;
 		}
 
 		double[] coeffs = poly.getCoeffs();
-        
-   		Function polyFun = AlgoPolynomialFromCoordinates.
-   			buildPolyFunctionExpression(kernel,coeffs);
 
-   		if (polyFun==null) {
-   		    g.setUndefined();
-       	    return;			   			   			
-   		}
-        
-		g.setFunction(polyFun);			
-		g.setDefined(true);		
-    }
-    
-    private double evaluateToDouble(String str) {
+		Function polyFun = AlgoPolynomialFromCoordinates
+				.buildPolyFunctionExpression(kernel, coeffs);
+
+		if (polyFun == null) {
+			g.setUndefined();
+			return;
+		}
+
+		g.setFunction(polyFun);
+		g.setDefined(true);
+	}
+
+	private double evaluateToDouble(String str) {
 		try {
-			ExpressionNode en = parser.parseExpression(str);			
+			ExpressionNode en = parser.parseExpression(str);
 			return en.evaluateDouble();
 		} catch (Exception e) {
 			return Double.NaN;

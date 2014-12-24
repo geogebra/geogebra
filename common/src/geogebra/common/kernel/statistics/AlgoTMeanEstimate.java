@@ -32,71 +32,72 @@ import org.apache.commons.math.stat.descriptive.SummaryStatistics;
  */
 public class AlgoTMeanEstimate extends AlgoElement {
 
-	
-	private GeoList geoList; //input
-	private GeoNumeric geoLevel, geoMean, geoSD, geoN; //input
-	private GeoList  result;     // output   
+	private GeoList geoList; // input
+	private GeoNumeric geoLevel, geoMean, geoSD, geoN; // input
+	private GeoList result; // output
 
 	private double[] val;
 	private double level, mean, sd, n, me;
 	private SummaryStatistics stats;
 	private TDistributionImpl tDist;
-	
 
-	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList, GeoNumeric geoLevel) {
+	public AlgoTMeanEstimate(Construction cons, String label, GeoList geoList,
+			GeoNumeric geoLevel) {
 		super(cons);
 		this.geoList = geoList;
 		this.geoLevel = geoLevel;
 		this.geoMean = null;
 		this.geoSD = null;
 		this.geoN = null;
-		
-		result = new GeoList(cons); 
+
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
 
-	public AlgoTMeanEstimate(Construction cons, String label, GeoNumeric geoMean, GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
-		this(cons, geoMean,geoSD,geoN,geoLevel);
+	public AlgoTMeanEstimate(Construction cons, String label,
+			GeoNumeric geoMean, GeoNumeric geoSD, GeoNumeric geoN,
+			GeoNumeric geoLevel) {
+		this(cons, geoMean, geoSD, geoN, geoLevel);
 		result.setLabel(label);
 	}
 
-	public AlgoTMeanEstimate(Construction cons, GeoNumeric geoMean, GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
+	public AlgoTMeanEstimate(Construction cons, GeoNumeric geoMean,
+			GeoNumeric geoSD, GeoNumeric geoN, GeoNumeric geoLevel) {
 		super(cons);
 		this.geoList = null;
 		this.geoLevel = geoLevel;
 		this.geoMean = geoMean;
 		this.geoSD = geoSD;
 		this.geoN = geoN;
-		
-		result = new GeoList(cons); 
+
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 	}
 
-	
 	@Override
 	public Commands getClassName() {
 		return Commands.TMeanEstimate;
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
-		if(geoList != null){
+		if (geoList != null) {
 			input = new GeoElement[2];
 			input[0] = geoList;
 			input[1] = geoLevel;
 
-		}else{
+		} else {
 			input = new GeoElement[4];
 			input[0] = geoMean;
 			input[1] = geoSD;
 			input[2] = geoN;
-			input[3] = geoLevel;	
+			input[3] = geoLevel;
 		}
 
 		setOnlyOutput(result);
@@ -107,34 +108,33 @@ public class AlgoTMeanEstimate extends AlgoElement {
 		return result;
 	}
 
-	public double getME(){
+	public double getME() {
 		return me;
 	}
-	
 
-	private double getMarginOfError(double sd, double n, double confLevel) throws MathException {
+	private double getMarginOfError(double sd, double n, double confLevel)
+			throws MathException {
 		tDist = new TDistributionImpl(n - 1);
-		double a = tDist.inverseCumulativeProbability((confLevel + 1d)/2);
+		double a = tDist.inverseCumulativeProbability((confLevel + 1d) / 2);
 		return a * sd / Math.sqrt(n);
 	}
 
 	@Override
 	public final void compute() {
 
-		try 
-		{
+		try {
 
 			// get statistics from sample data input
-			if(input.length == 2){
+			if (input.length == 2) {
 
-				int size= geoList.size();
-				if(!geoList.isDefined() || size < 2){
-					result.setUndefined();	
-					return;			
+				int size = geoList.size();
+				if (!geoList.isDefined() || size < 2) {
+					result.setUndefined();
+					return;
 				}
 
 				val = new double[size];
-				for (int i=0; i < size; i++) {
+				for (int i = 0; i < size; i++) {
 					GeoElement geo = geoList.get(i);
 					if (geo instanceof NumberValue) {
 						NumberValue num = (NumberValue) geo;
@@ -143,8 +143,8 @@ public class AlgoTMeanEstimate extends AlgoElement {
 					} else {
 						result.setUndefined();
 						return;
-					}    		    		
-				}   
+					}
+				}
 
 				stats = new SummaryStatistics();
 				for (int i = 0; i < val.length; i++) {
@@ -154,40 +154,35 @@ public class AlgoTMeanEstimate extends AlgoElement {
 				n = stats.getN();
 				sd = stats.getStandardDeviation();
 				mean = stats.getMean();
-				
-			}else{
-					
+
+			} else {
+
 				mean = geoMean.getDouble();
 				sd = geoSD.getDouble();
 				n = geoN.getDouble();
 			}
 
 			level = geoLevel.getDouble();
-			
+
 			// validate statistics
-			if(level < 0 || level > 1 || sd < 0 || n < 1){
+			if (level < 0 || level > 1 || sd < 0 || n < 1) {
 				result.setUndefined();
 				return;
 			}
 
-
-
-			// get interval estimate 
+			// get interval estimate
 			me = getMarginOfError(sd, n, level);
-			
-			
+
 			// return list = {low limit, high limit, mean, margin of error, df }
 			result.clear();
 			boolean oldSuppress = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
 			result.add(new GeoNumeric(cons, mean - me));
 			result.add(new GeoNumeric(cons, mean + me));
-			//result.add(new GeoNumeric(cons, mean));
-			//result.add(new GeoNumeric(cons, me));
-			//result.add(new GeoNumeric(cons, n-1)); // df
+			// result.add(new GeoNumeric(cons, mean));
+			// result.add(new GeoNumeric(cons, me));
+			// result.add(new GeoNumeric(cons, n-1)); // df
 			cons.setSuppressLabelCreation(oldSuppress);
-			
-
 
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();

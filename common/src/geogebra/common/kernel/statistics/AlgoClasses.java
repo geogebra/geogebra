@@ -98,8 +98,8 @@ public class AlgoClasses extends AlgoElement {
 			return;
 		}
 
-		if (!(dataList.getElementType() .equals(GeoClass.TEXT) || dataList
-				.getElementType() .equals(GeoClass.NUMERIC))) {
+		if (!(dataList.getElementType().equals(GeoClass.TEXT) || dataList
+				.getElementType().equals(GeoClass.NUMERIC))) {
 			classList.setUndefined();
 			return;
 		}
@@ -115,7 +115,7 @@ public class AlgoClasses extends AlgoElement {
 		String minGeoString;
 		String maxGeoString;
 
-		if (dataList.getElementType() .equals(GeoClass.NUMERIC)) {
+		if (dataList.getElementType().equals(GeoClass.NUMERIC)) {
 			minGeoValue = ((GeoNumeric) dataList.get(0)).getDouble();
 			maxGeoValue = ((GeoNumeric) dataList.get(0)).getDouble();
 			for (int i = 1; i < dataList.size(); i++) {
@@ -125,10 +125,13 @@ public class AlgoClasses extends AlgoElement {
 			}
 
 		} else {
-			minGeoString = ((GeoText) dataList.get(0)).toValueString(StringTemplate.defaultTemplate);
-			maxGeoString = ((GeoText) dataList.get(0)).toValueString(StringTemplate.defaultTemplate);
+			minGeoString = ((GeoText) dataList.get(0))
+					.toValueString(StringTemplate.defaultTemplate);
+			maxGeoString = ((GeoText) dataList.get(0))
+					.toValueString(StringTemplate.defaultTemplate);
 			for (int i = 1; i < dataList.size(); i++) {
-				String geoString = ((GeoText) dataList.get(i)).toValueString(StringTemplate.defaultTemplate);
+				String geoString = ((GeoText) dataList.get(i))
+						.toValueString(StringTemplate.defaultTemplate);
 				if (geoString.compareTo(minGeoString) < 0)
 					minGeoString = geoString;
 				if (geoString.compareTo(maxGeoString) < 0)

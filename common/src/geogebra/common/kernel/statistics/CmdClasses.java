@@ -34,8 +34,7 @@ public class CmdClasses extends CommandProcessor {
 		case 2:
 			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
 				AlgoClasses algo = new AlgoClasses(cons, c.getLabel(),
-						(GeoList) arg[0], null, null,
-						(GeoNumeric) arg[1]);
+						(GeoList) arg[0], null, null, (GeoNumeric) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
@@ -48,9 +47,8 @@ public class CmdClasses extends CommandProcessor {
 					&& (ok[2] = arg[2].isGeoNumeric())) {
 				AlgoClasses algo = new AlgoClasses(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						null);
-				
+						(GeoNumeric) arg[2], null);
+
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -19,54 +19,54 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
  * Minimum value of a list.
+ * 
  * @author Markus Hohenwarter
  * @version 15-07-2007
  */
 
 public class AlgoListMin extends AlgoElement {
 
-	private GeoList geoList; //input
-	private GeoList freqList; //input
-    private GeoNumeric min; //output	
+	private GeoList geoList; // input
+	private GeoList freqList; // input
+	private GeoNumeric min; // output
 
-    public AlgoListMin(Construction cons, String label, GeoList geoList, GeoList freqList) {
-        this(cons, geoList,freqList);
-        
-        min.setLabel(label);
-    }
-    
-    public AlgoListMin(Construction cons, String label, GeoList geoList) {
-        this(cons, geoList,null);
-        
-        min.setLabel(label);
-    }
+	public AlgoListMin(Construction cons, String label, GeoList geoList,
+			GeoList freqList) {
+		this(cons, geoList, freqList);
 
-    public AlgoListMin(Construction cons, GeoList geoList) {
-        this(cons, geoList,null);
-    }
+		min.setLabel(label);
+	}
 
-    
-    public AlgoListMin(Construction cons, GeoList geoList, GeoList freqList) {
-        super(cons);
-        this.geoList = geoList;
-        this.freqList = freqList;       
-        min = new GeoNumeric(cons);
+	public AlgoListMin(Construction cons, String label, GeoList geoList) {
+		this(cons, geoList, null);
 
-        setInputOutput();
-        compute();
-    }
+		min.setLabel(label);
+	}
 
-    @Override
+	public AlgoListMin(Construction cons, GeoList geoList) {
+		this(cons, geoList, null);
+	}
+
+	public AlgoListMin(Construction cons, GeoList geoList, GeoList freqList) {
+		super(cons);
+		this.geoList = geoList;
+		this.freqList = freqList;
+		min = new GeoNumeric(cons);
+
+		setInputOutput();
+		compute();
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Min;
 	}
 
-    @Override
-	protected void setInputOutput(){
-    	
+	@Override
+	protected void setInputOutput() {
+
 		if (freqList == null) {
 			input = new GeoElement[1];
 			input[0] = geoList;
@@ -76,25 +76,25 @@ public class AlgoListMin extends AlgoElement {
 			input[1] = freqList;
 		}
 
-        super.setOutputLength(1);
-        super.setOutput(0, min);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, min);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getMin() {
-        return min;
-    }
+	public GeoNumeric getMin() {
+		return min;
+	}
 
-    @Override
+	@Override
 	public final void compute() {
-    	int size = geoList.size();
-    	if (!geoList.isDefined() ||  size == 0) {
-    		min.setUndefined();
-    		return;
-    	}
-    	
-    	double minVal = Double.POSITIVE_INFINITY;
-    	
+		int size = geoList.size();
+		if (!geoList.isDefined() || size == 0) {
+			min.setUndefined();
+			return;
+		}
+
+		double minVal = Double.POSITIVE_INFINITY;
+
 		if (freqList == null) {
 
 			for (int i = 0; i < size; i++) {
@@ -107,7 +107,7 @@ public class AlgoListMin extends AlgoElement {
 					return;
 				}
 			}
-			
+
 		} else {
 
 			if (!freqList.isDefined() || freqList.size() != geoList.size()) {
@@ -120,7 +120,8 @@ public class AlgoListMin extends AlgoElement {
 				GeoElement geo = geoList.get(i);
 				GeoElement freqGeo = freqList.get(i);
 
-				if (!(geo instanceof NumberValue) || !(freqGeo  instanceof NumberValue)) {
+				if (!(geo instanceof NumberValue)
+						|| !(freqGeo instanceof NumberValue)) {
 					min.setUndefined();
 					return;
 				}
@@ -151,5 +152,5 @@ public class AlgoListMin extends AlgoElement {
 	}
 
 	// TODO Consider locusequability
-    
+
 }

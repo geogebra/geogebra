@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -20,60 +20,57 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
-
 public abstract class AlgoAngleVectorND extends AlgoAngle {
 
-    protected GeoElement vec; // input
-    protected GeoAngle angle; // output          
-    
-    protected double [] coords = new double[2];
+	protected GeoElement vec; // input
+	protected GeoAngle angle; // output
 
-    public AlgoAngleVectorND(Construction cons, String label, GeoElement vec) {
-        super(cons);
-        this.vec = vec;
-        
-        angle = newGeoAngle(cons);
-        setInputOutput(); // for AlgoElement                
-        compute();
-        angle.setLabel(label);
-    }
+	protected double[] coords = new double[2];
 
-    
-    // for AlgoElement
-    @Override
+	public AlgoAngleVectorND(Construction cons, String label, GeoElement vec) {
+		super(cons);
+		this.vec = vec;
+
+		angle = newGeoAngle(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
+		angle.setLabel(label);
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = vec;
+		input = new GeoElement[1];
+		input[0] = vec;
 
-        setOutputLength(1);
-        setOutput(0,angle);
-        setDependencies(); // done by AlgoElement
-    }
+		setOutputLength(1);
+		setOutput(0, angle);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoAngle getAngle() {
-        return angle;
-    }
-    
-        
-    @Override
+	public GeoAngle getAngle() {
+		return angle;
+	}
+
+	@Override
 	public final String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("AngleOfA",vec.getLabel(tpl));
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("AngleOfA", vec.getLabel(tpl));
 
-    }
+	}
 
-	public boolean updateDrawInfo(double[] m, double[] firstVec, DrawAngle drawable) {
-		if(vec.isGeoVector()){
-			GeoPointND vertex = ((GeoVector)vec).getStartPoint();
-			if (vertex != null)			
+	public boolean updateDrawInfo(double[] m, double[] firstVec,
+			DrawAngle drawable) {
+		if (vec.isGeoVector()) {
+			GeoPointND vertex = ((GeoVector) vec).getStartPoint();
+			if (vertex != null)
 				vertex.getInhomCoords(m);
-			return vertex!=null && vertex.isDefined() && !vertex.isInfinite();
+			return vertex != null && vertex.isDefined() && !vertex.isInfinite();
 		}
-		m[0]=0;
-		m[1]=0;	
-		return vec.isDefined();		
+		m[0] = 0;
+		m[1] = 0;
+		return vec.isDefined();
 	}
 
 	// TODO Consider locusequability

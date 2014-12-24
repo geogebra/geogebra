@@ -30,34 +30,36 @@ import geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * algorithm for Uniform[a, b, x, boolean]
- * @author  Michael
+ * 
+ * @author Michael
  */
 public class AlgoUniformDF extends AlgoElement {
 
-	private NumberValue a, b;  // input
+	private NumberValue a, b; // input
 	private BooleanValue cumulative; // optional input
-	private GeoFunction ret;     // output           
+	private GeoFunction ret; // output
 
 	@SuppressWarnings("javadoc")
-	public AlgoUniformDF(Construction cons, String label, NumberValue a, NumberValue b, BooleanValue cumulative) {       
+	public AlgoUniformDF(Construction cons, String label, NumberValue a,
+			NumberValue b, BooleanValue cumulative) {
 		this(cons, a, b, cumulative);
 		ret.setLabel(label);
-	}   
+	}
 
 	@SuppressWarnings("javadoc")
-	public AlgoUniformDF(Construction cons, NumberValue a, NumberValue b, BooleanValue cumulative) {       
-		super(cons); 
+	public AlgoUniformDF(Construction cons, NumberValue a, NumberValue b,
+			BooleanValue cumulative) {
+		super(cons);
 		this.a = a;
 		this.b = b;
 		this.cumulative = cumulative;
-		ret = DistributionFunctionFactory.zeroWhenLessThan(a,cons); 
-
+		ret = DistributionFunctionFactory.zeroWhenLessThan(a, cons);
 
 		setInputOutput(); // for AlgoElement
 
 		// compute angle
-		compute();     
-	}   
+		compute();
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -71,10 +73,10 @@ public class AlgoUniformDF extends AlgoElement {
 		// dummy function for the "x" argument, eg
 		// Normal[0,1,x]
 		// Normal[0,1,x,true]
-		FunctionVariable fv = new FunctionVariable(kernel);	
+		FunctionVariable fv = new FunctionVariable(kernel);
 		GeoFunction dummyFun = fv.wrap().buildFunction(fv);
 
-		input =  new GeoElement[cumulative == null ? 3 : 4];
+		input = new GeoElement[cumulative == null ? 3 : 4];
 		input[0] = a.toGeoElement();
 		input[1] = b.toGeoElement();
 		input[2] = dummyFun;
@@ -85,12 +87,14 @@ public class AlgoUniformDF extends AlgoElement {
 		super.setOutputLength(1);
 		super.setOutput(0, ret);
 		setDependencies(); // done by AlgoElement
-	}    
+	}
 
 	/**
 	 * @return Normal PDF or CDF function
 	 */
-	public GeoFunction getResult() { return ret; }        
+	public GeoFunction getResult() {
+		return ret;
+	}
 
 	@Override
 	public void compute() {
@@ -102,31 +106,30 @@ public class AlgoUniformDF extends AlgoElement {
 
 		if (a.getDouble() >= b.getDouble()) {
 			ret.setUndefined();
-			return;    		
-		}		
+			return;
+		}
 
 		FunctionVariable fv = ret.getFunctionVariables()[0];
-		
+
 		ExpressionNode lessThanB = fv.wrap().lessThan(b);
 
 		ExpressionNode mainBranch;
 		MyDouble rightBranch;
-		
-		if (cumulative != null && cumulative.getBoolean()) {			
+
+		if (cumulative != null && cumulative.getBoolean()) {
 			mainBranch = fv.wrap().subtract(a).divide(b.wrap().subtract(a));
-			rightBranch = new MyDouble(kernel,1);			
+			rightBranch = new MyDouble(kernel, 1);
 		} else {
 			mainBranch = b.wrap().subtract(a).reciprocate();
-			rightBranch = new MyDouble(kernel,0);			
+			rightBranch = new MyDouble(kernel, 0);
 		}
-		
-		ExpressionNode en = lessThanB.ifElse(mainBranch,rightBranch);
+
+		ExpressionNode en = lessThanB.ifElse(mainBranch, rightBranch);
 		ret.getFunctionExpression().setRight(en);
 
-		ret.setDefined(true);		
+		ret.setDefined(true);
 	}
 
 	// TODO Consider locusequability
-
 
 }

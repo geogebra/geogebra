@@ -45,7 +45,6 @@ public class AlgoName extends AlgoElement {
 	 */
 	public AlgoName(Construction cons, GeoElement geo) {
 
-
 		super(cons);
 		this.geo = geo;
 
@@ -69,14 +68,14 @@ public class AlgoName extends AlgoElement {
 	 */
 	public AlgoName(Construction cons, String label, GeoElement geo) {
 
-		this(cons,geo);
+		this(cons, geo);
 		text.setLabel(label);
 	}
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.Name;
-    } 
+		return Commands.Name;
+	}
 
 	// for AlgoElement
 	@Override

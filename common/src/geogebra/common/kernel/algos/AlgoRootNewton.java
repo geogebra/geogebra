@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -30,161 +30,161 @@ import org.apache.commons.math.analysis.solvers.BrentSolver;
 import org.apache.commons.math.analysis.solvers.NewtonSolver;
 
 /**
- * Finds one real root of a function with newtons method.
- * The first derivative of this function must exist. 
+ * Finds one real root of a function with newtons method. The first derivative
+ * of this function must exist.
  */
 public class AlgoRootNewton extends AlgoIntersectAbstract {
 
 	public static final int MAX_ITERATIONS = 100;
-	
-	private GeoFunction f; // input, g for intersection of functions       
-    private NumberValue start; // start value for root of f 
-    private GeoPoint rootPoint; // output 
 
-    private GeoElement startGeo;
-    private NewtonSolver rootFinderNewton; 
-    private BrentSolver rootFinderBrent;
+	private GeoFunction f; // input, g for intersection of functions
+	private NumberValue start; // start value for root of f
+	private GeoPoint rootPoint; // output
 
-    public AlgoRootNewton(
-        Construction cons,
-        String label,
-        GeoFunction f,
-        NumberValue start) {
-        super(cons);
-        this.f = f;
-        this.start = start;
-        startGeo = start.toGeoElement();
+	private GeoElement startGeo;
+	private NewtonSolver rootFinderNewton;
+	private BrentSolver rootFinderBrent;
 
-        // output
-        rootPoint = new GeoPoint(cons);
-        setInputOutput(); // for AlgoElement    
-        compute();
+	public AlgoRootNewton(Construction cons, String label, GeoFunction f,
+			NumberValue start) {
+		super(cons);
+		this.f = f;
+		this.start = start;
+		startGeo = start.toGeoElement();
 
-        rootPoint.setLabel(label);
-    }
+		// output
+		rootPoint = new GeoPoint(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
 
-    AlgoRootNewton(Construction cons) {
-        super(cons);
-    }
+		rootPoint.setLabel(label);
+	}
 
-    @Override
+	AlgoRootNewton(Construction cons) {
+		super(cons);
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Root;
 	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = f;
-        input[1] = startGeo;
-                
-        super.setOutputLength(1);
-        super.setOutput(0, rootPoint);
-        setDependencies();       
-    }
+		input = new GeoElement[2];
+		input[0] = f;
+		input[1] = startGeo;
 
-    public GeoPoint getRootPoint() {
-        return rootPoint;
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, rootPoint);
+		setDependencies();
+	}
 
-    @Override
+	public GeoPoint getRootPoint() {
+		return rootPoint;
+	}
+
+	@Override
 	public void compute() {
-        if (!(f.isDefined() && startGeo.isDefined())) {
-            rootPoint.setUndefined();
-        } else {
-        	double startValue = start.getDouble();
-        	Function fun = f.getFunction(startValue);        	
-        	
-            // calculate root
-            rootPoint.setCoords(calcRoot(fun, startValue), 0.0, 1.0);                       
-        }
-    }
+		if (!(f.isDefined() && startGeo.isDefined())) {
+			rootPoint.setUndefined();
+		} else {
+			double startValue = start.getDouble();
+			Function fun = f.getFunction(startValue);
 
-    public final double calcRoot(Function fun, double start) {
-    	double root = Double.NaN;
-  		if (rootFinderBrent == null)
-    		rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);
-    	
-    	// try Brent method with borders close to start value
-    	try {	
-    		
-    		// arbitrary (used to depend on screen width)
-     		double step = 1;
-    		
-     		root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(fun), 
-    				start - step, start + step, start);
-    		if (checkRoot(fun, root)) {
-    			//System.out.println("1. Brent worked: " + root);
-    			return root;
-    		}
-    	} catch (Exception e) {
-    		root = Double.NaN;
-    	}
-    	
-    	// try Brent method on valid interval around start
-    	double [] borders = getDomain(fun, start);	
+			// calculate root
+			rootPoint.setCoords(calcRoot(fun, startValue), 0.0, 1.0);
+		}
+	}
+
+	public final double calcRoot(Function fun, double start) {
+		double root = Double.NaN;
+		if (rootFinderBrent == null)
+			rootFinderBrent = new BrentSolver(Kernel.STANDARD_PRECISION);
+
+		// try Brent method with borders close to start value
 		try {
-    		root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(fun), 
-    				borders[0], borders[1], start);
-       		if (checkRoot(fun, root)) {
-    			//System.out.println("2. Brent worked: " + root);
-    			return root;
-    		}
-    	} catch (Exception e) {
-    		root = Double.NaN;
-    	}
-    	
-    	// try Newton's method
-        RealRootDerivFunction derivFun = fun.getRealRootDerivFunction();        
-        if (derivFun != null) {       	
-        	// check if fun(start) is defined
-        	double eval = fun.evaluate(start);
-        	if (Double.isNaN(eval) || Double.isInfinite(eval)) {
-        		// shift left border slightly right
-        		borders[0] =  0.9 * borders[0] + 0.1 * borders[1];
-        		start = (borders[0] + borders[1])/2;
-        	}
-        	
-        	if (rootFinderNewton == null) {
-        		rootFinderNewton = new NewtonSolver();
-        	}
-        	
-            try {        	                  	
-            	root = rootFinderNewton.solve(MAX_ITERATIONS, new RealRootDerivAdapter(derivFun), 
-            			borders[0], borders[1], start);                      
-            	if (checkRoot(fun, root)) {
-            		//System.out.println("Newton worked: " + root);
-        			return root;
-        		}
-            } 
-            catch (Exception e) {  
-            	root = Double.NaN;
-            }
-        }
-        
-       // neither Brent nor Newton worked
-       return Double.NaN;
-    }
-    
-    private static boolean checkRoot(Function fun, double root) {
-    	 // check what we got
-        return !Double.isNaN(root) && (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION );
-    }
-    
-    /**
-     * Tries to find a valid domain for the given function around it's starting value.
-     */
-    private double [] getDomain(Function fun, double start) {
-    	// arbitrary interval (used to depend on screen width)
-    	return RealRootUtil.getDefinedInterval(fun, start - 0.5, start + 0.5);
-    }
 
-    @Override
+			// arbitrary (used to depend on screen width)
+			double step = 1;
+
+			root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(
+					fun), start - step, start + step, start);
+			if (checkRoot(fun, root)) {
+				// System.out.println("1. Brent worked: " + root);
+				return root;
+			}
+		} catch (Exception e) {
+			root = Double.NaN;
+		}
+
+		// try Brent method on valid interval around start
+		double[] borders = getDomain(fun, start);
+		try {
+			root = rootFinderBrent.solve(MAX_ITERATIONS, new RealRootAdapter(
+					fun), borders[0], borders[1], start);
+			if (checkRoot(fun, root)) {
+				// System.out.println("2. Brent worked: " + root);
+				return root;
+			}
+		} catch (Exception e) {
+			root = Double.NaN;
+		}
+
+		// try Newton's method
+		RealRootDerivFunction derivFun = fun.getRealRootDerivFunction();
+		if (derivFun != null) {
+			// check if fun(start) is defined
+			double eval = fun.evaluate(start);
+			if (Double.isNaN(eval) || Double.isInfinite(eval)) {
+				// shift left border slightly right
+				borders[0] = 0.9 * borders[0] + 0.1 * borders[1];
+				start = (borders[0] + borders[1]) / 2;
+			}
+
+			if (rootFinderNewton == null) {
+				rootFinderNewton = new NewtonSolver();
+			}
+
+			try {
+				root = rootFinderNewton.solve(MAX_ITERATIONS,
+						new RealRootDerivAdapter(derivFun), borders[0],
+						borders[1], start);
+				if (checkRoot(fun, root)) {
+					// System.out.println("Newton worked: " + root);
+					return root;
+				}
+			} catch (Exception e) {
+				root = Double.NaN;
+			}
+		}
+
+		// neither Brent nor Newton worked
+		return Double.NaN;
+	}
+
+	private static boolean checkRoot(Function fun, double root) {
+		// check what we got
+		return !Double.isNaN(root)
+				&& (Math.abs(fun.evaluate(root)) < Kernel.MIN_PRECISION);
+	}
+
+	/**
+	 * Tries to find a valid domain for the given function around it's starting
+	 * value.
+	 */
+	private double[] getDomain(Function fun, double start) {
+		// arbitrary interval (used to depend on screen width)
+		return RealRootUtil.getDefinedInterval(fun, start - 0.5, start + 0.5);
+	}
+
+	@Override
 	public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("RootOfAWithInitialValueB",f.getLabel(tpl),startGeo.getLabel(tpl));
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("RootOfAWithInitialValueB", f.getLabel(tpl),
+				startGeo.getLabel(tpl));
 
-    }
+	}
 }

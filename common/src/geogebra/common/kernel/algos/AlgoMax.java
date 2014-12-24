@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * Area of polygon P[0], ..., P[n]
@@ -23,30 +23,31 @@ import geogebra.common.kernel.commands.Commands;
 
 /**
  * Computes Max[a, b]
- * @author  Markus Hohenwarterarea of conic c
- * @version 
+ * 
+ * @author Markus Hohenwarterarea of conic c
+ * @version
  */
-public class AlgoMax extends AlgoTwoNumFunction {         
-        
+public class AlgoMax extends AlgoTwoNumFunction {
+
 	/**
 	 * Creates new max algo
 	 */
-    public AlgoMax(Construction cons, String label, NumberValue a, NumberValue b) {       
-	  super(cons, label, a, b); 
-    }   
-  
-    @Override
+	public AlgoMax(Construction cons, String label, NumberValue a, NumberValue b) {
+		super(cons, label, a, b);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Max;
-    }
-      
-    @Override
+		return Commands.Max;
+	}
+
+	@Override
 	public final void compute() {
-    	if (input[0].isDefined() && input[1].isDefined()) {
-    		double max = Math.max(a.getDouble(), b.getDouble());
-    		num.setValue(max);
-    	} else
-    		num.setUndefined();
-    }       
-    
+		if (input[0].isDefined() && input[1].isDefined()) {
+			double max = Math.max(a.getDouble(), b.getDouble());
+			num.setValue(max);
+		} else
+			num.setUndefined();
+	}
+
 }

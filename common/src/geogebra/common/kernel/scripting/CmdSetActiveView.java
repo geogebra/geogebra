@@ -9,82 +9,82 @@ import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
- *SetActiveView
+ * SetActiveView
  */
 public class CmdSetActiveView extends CmdScripting {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdSetActiveView(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
-		
-		
 
-		if (!app.isUsingFullGui()) return;
-			
+		if (!app.isUsingFullGui())
+			return;
+
 		switch (n) {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoNumeric()) {
 				GeoNumeric numGeo = (GeoNumeric) arg[0];
 
-				int view = (int)numGeo.getDouble();
-				
+				int view = (int) numGeo.getDouble();
+
 				// ignore all errors (eg when a view is not available etc)
 				switch (view) {
 				case 1:
 					app.setActiveView(App.VIEW_EUCLIDIAN);
-					 break;
+					break;
 				case 2:
 					app.setActiveView(App.VIEW_EUCLIDIAN2);
-					 break;
+					break;
 				case -1:
 					app.setActiveView(App.VIEW_EUCLIDIAN3D);
-					 break;
-				// default: // might be needed when support for more than 2 Euclidian Views added 
+					break;
+				// default: // might be needed when support for more than 2
+				// Euclidian Views added
 				}
-				
+
 				return;
 
-			}else if(arg[0].isGeoText()) {
-				String code  = arg[0].toValueString(StringTemplate.defaultTemplate);
-				if (code.length() == 1){
+			} else if (arg[0].isGeoText()) {
+				String code = arg[0]
+						.toValueString(StringTemplate.defaultTemplate);
+				if (code.length() == 1) {
 					char letter = code.charAt(0);
-					switch(letter){
+					switch (letter) {
 					case 'G':
 						app.setActiveView(App.VIEW_EUCLIDIAN);
-						 break;
+						break;
 					case 'D':
 						app.setActiveView(App.VIEW_EUCLIDIAN2);
-						 break;
+						break;
 					case 'T':
 						app.setActiveView(App.VIEW_EUCLIDIAN3D);
-						 break;
+						break;
 					case 'S':
 						app.setActiveView(App.VIEW_SPREADSHEET);
-						 break;
+						break;
 					case 'A':
 						app.setActiveView(App.VIEW_ALGEBRA);
-						 break;
+						break;
 					case 'C':
 						app.setActiveView(App.VIEW_CAS);
-						 break;
+						break;
 
 					}
 				}
-				
+
 				return;
 			}
 			throw argErr(app, c.getName(), arg[0]);
-
 
 		default:
 			throw argNumErr(app, c.getName(), n);

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoSlope.java
@@ -27,94 +27,99 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
-public class AlgoSlope extends AlgoElement implements DrawInformationAlgo{
+public class AlgoSlope extends AlgoElement implements DrawInformationAlgo {
 
-    private GeoLine g; // input
-    private GeoNumeric slope; // output       
+	private GeoLine g; // input
+	private GeoNumeric slope; // output
 
-    /** Creates new AlgoDirection 
-     * @param cons construction
-     * @param label label for result
-     * @param g line
-     */
-    public AlgoSlope(Construction cons, String label, GeoLine g) {
-        super(cons);
-        this.g = g;
-        slope = new GeoNumeric(cons);
-        setInputOutput(); // for AlgoElement
+	/**
+	 * Creates new AlgoDirection
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for result
+	 * @param g
+	 *            line
+	 */
+	public AlgoSlope(Construction cons, String label, GeoLine g) {
+		super(cons);
+		this.g = g;
+		slope = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
 
-        compute();
-        slope.setLabel(label);
-        slope.setDrawable(true);
-    }
-    /**
-     * For dummy copy only
-     */
-    AlgoSlope(GeoLine g) {
-        super(g.cons, false);
-        this.g = g;
-    }
-    
+		compute();
+		slope.setLabel(label);
+		slope.setDrawable(true);
+	}
+
+	/**
+	 * For dummy copy only
+	 */
+	AlgoSlope(GeoLine g) {
+		super(g.cons, false);
+		this.g = g;
+	}
+
 	@Override
 	public Commands getClassName() {
-        return Commands.Slope;
-    }
+		return Commands.Slope;
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_SLOPE;
-    }
-   
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_SLOPE;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = g;
+		input = new GeoElement[1];
+		input[0] = g;
 
-        setOutputLength(1);
-        setOutput(0,slope);
-        setDependencies(); // done by AlgoElement
-    }
+		setOutputLength(1);
+		setOutput(0, slope);
+		setDependencies(); // done by AlgoElement
+	}
 
-    /**
-     * @return resulting slope
-     */
-    public GeoNumeric getSlope() {
-        return slope;
-    }
-    
-    /**
-     * @return the line
-     */
-    public GeoLine getg() {
-        return g;
-    }
+	/**
+	 * @return resulting slope
+	 */
+	public GeoNumeric getSlope() {
+		return slope;
+	}
 
-    // direction vector of g
-    @Override
+	/**
+	 * @return the line
+	 */
+	public GeoLine getg() {
+		return g;
+	}
+
+	// direction vector of g
+	@Override
 	public final void compute() {
-        if (g.isDefined() && !Kernel.isZero(g.y)) {
-            slope.setValue(-g.x / g.y);
-        } else {
-            slope.setUndefined();
-        }
-    }
+		if (g.isDefined() && !Kernel.isZero(g.y)) {
+			slope.setValue(-g.x / g.y);
+		} else {
+			slope.setUndefined();
+		}
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-    	return getLoc().getPlain("SlopeOfA",g.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("SlopeOfA", g.getLabel(tpl));
+	}
 
-	public DrawInformationAlgo copy() {		
-		return new AlgoSlope((GeoLine)g.copy());
+	public DrawInformationAlgo copy() {
+		return new AlgoSlope((GeoLine) g.copy());
 	}
 
 	// TODO Consider locusequability

@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.util.GgbMat;
 
-
 /**
  * Draws a matrix plot.
  * 

@@ -43,7 +43,8 @@ import geogebra.common.util.MyMath;
  * @author Markus
  * @version
  */
-public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParametersBotanaAlgo {
+public class AlgoCircleThreePoints extends AlgoElement implements
+		SymbolicParametersBotanaAlgo {
 
 	private GeoPointND A, B, C; // input
 	// protected GeoConicND circle; // output
@@ -91,11 +92,11 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 
 	private void setIncidence() {
 		if (A instanceof GeoPoint)
-			((GeoPoint) A).addIncidence( circle, false);
+			((GeoPoint) A).addIncidence(circle, false);
 		if (B instanceof GeoPoint)
-			((GeoPoint) B).addIncidence( circle, false);
+			((GeoPoint) B).addIncidence(circle, false);
 		if (C instanceof GeoPoint)
-			((GeoPoint) C).addIncidence( circle, false);
+			((GeoPoint) C).addIncidence(circle, false);
 
 	}
 
@@ -143,14 +144,14 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 
 	protected void setInput() {
 		input = new GeoElement[3];
-		input[0] =  A.toGeoElement();
-		input[1] =  B.toGeoElement();
-		input[2] =  C.toGeoElement();
+		input[0] = A.toGeoElement();
+		input[1] = B.toGeoElement();
+		input[2] = C.toGeoElement();
 	}
 
 	protected void setOutput() {
 		super.setOutputLength(1);
-		super.setOutput(0,  circle);
+		super.setOutput(0, circle);
 	}
 
 	// public GeoConicND getCircle() {
@@ -186,35 +187,36 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		by = getB().inhomY;
 		cx = getC().inhomX;
 		cy = getC().inhomY;
-		
-		//App.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
+
+		// App.debug("\n"+ax+","+ay+"\n"+bx+","+by+"\n"+cx+","+cy);
 
 		// same points
-		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ay, by)){ // A = B
-			if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)){ // A = B = C
+		if (Kernel.isEqual(ax, bx) && Kernel.isEqual(ay, by)) { // A = B
+			if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)) { // A = B = C
 				circle.setCircle(getA(), 0.0); // single point
 				return;
-			}//else{ // A = B <> C
-				ACx = cx - ax;
-				ACy = cy - ay;
-				center.setCoords(-ACy, ACx, 0.0d);
-				circle.setCircle(center, getA());
-				return;
-			//}
-		}else if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)){ // A = C <> B
+			}// else{ // A = B <> C
+			ACx = cx - ax;
+			ACy = cy - ay;
+			center.setCoords(-ACy, ACx, 0.0d);
+			circle.setCircle(center, getA());
+			return;
+			// }
+		} else if (Kernel.isEqual(ax, cx) && Kernel.isEqual(ay, cy)) { // A = C
+																		// <> B
 			ABx = bx - ax;
 			ABy = by - ay;
 			center.setCoords(-ABy, ABx, 0.0d);
 			circle.setCircle(center, getA());
 			return;
-		}else if  (Kernel.isEqual(bx, cx) && Kernel.isEqual(by, cy)){ // B = C <> A
+		} else if (Kernel.isEqual(bx, cx) && Kernel.isEqual(by, cy)) { // B = C
+																		// <> A
 			ACx = cx - ax;
 			ACy = cy - ay;
 			center.setCoords(-ACy, ACx, 0.0d);
 			circle.setCircle(center, getA());
 			return;
 		}
-				
 
 		// calc vectors AB, AC, BC
 		ABx = bx - ax;
@@ -249,7 +251,7 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 			casenr = 2;
 			maxDet = det[2];
 		}
-		
+
 		// A, B, C are collinear: set M to infinite point
 		// in perpendicular direction of AB
 		if (Kernel.isZero(maxDet)) {
@@ -301,8 +303,8 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 	public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("CircleThroughABC", A.getLabel(tpl), B.getLabel(tpl),
-				C.getLabel(tpl));
+		return getLoc().getPlain("CircleThroughABC", A.getLabel(tpl),
+				B.getLabel(tpl), C.getLabel(tpl));
 	}
 
 	public Variable[] getBotanaVars(GeoElement geo) {
@@ -319,8 +321,9 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 		Variable[] circle1vars = new Variable[2];
 		Variable[] circle2vars = new Variable[2];
 		Variable[] circle3vars = new Variable[2];
-		circle1vars = ((SymbolicParametersBotanaAlgo) input[0]).getBotanaVars(input[0]);
-		
+		circle1vars = ((SymbolicParametersBotanaAlgo) input[0])
+				.getBotanaVars(input[0]);
+
 		if (botanaVars == null) {
 			botanaVars = new Variable[4];
 			// Virtual center:
@@ -330,18 +333,22 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 			botanaVars[2] = circle1vars[0];
 			botanaVars[3] = circle1vars[1];
 		}
-		Variable[] centerVars = {botanaVars[0], botanaVars[1]};
-		circle2vars = ((SymbolicParametersBotanaAlgo) input[1]).getBotanaVars(input[1]);
-		circle3vars = ((SymbolicParametersBotanaAlgo) input[2]).getBotanaVars(input[2]);
+		Variable[] centerVars = { botanaVars[0], botanaVars[1] };
+		circle2vars = ((SymbolicParametersBotanaAlgo) input[1])
+				.getBotanaVars(input[1]);
+		circle3vars = ((SymbolicParametersBotanaAlgo) input[2])
+				.getBotanaVars(input[2]);
 
 		botanaPolynomials = new Polynomial[2];
 		// AO=OB
-		botanaPolynomials[0] = Polynomial.equidistant(circle1vars[0], circle1vars[1], 
-				centerVars[0], centerVars[1], circle2vars[0], circle2vars[1]);
+		botanaPolynomials[0] = Polynomial.equidistant(circle1vars[0],
+				circle1vars[1], centerVars[0], centerVars[1], circle2vars[0],
+				circle2vars[1]);
 		// AO=OC
-		botanaPolynomials[1] = Polynomial.equidistant(circle1vars[0], circle1vars[1], 
-				centerVars[0], centerVars[1], circle3vars[0], circle3vars[1]);
-	
+		botanaPolynomials[1] = Polynomial.equidistant(circle1vars[0],
+				circle1vars[1], centerVars[0], centerVars[1], circle3vars[0],
+				circle3vars[1]);
+
 		return botanaPolynomials;
 	}
 
@@ -349,8 +356,9 @@ public class AlgoCircleThreePoints extends AlgoElement implements SymbolicParame
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleThreePoints(geo, this, scope);
 	}
 }

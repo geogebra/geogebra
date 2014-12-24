@@ -34,7 +34,8 @@ import java.util.ArrayList;
  * 
  * @author Markus Hohenwarter
  */
-public abstract class AlgoPolygonRegularND extends AlgoElement implements PolygonAlgo {
+public abstract class AlgoPolygonRegularND extends AlgoElement implements
+		PolygonAlgo {
 	/** first input point */
 	protected final GeoPointND A; // input
 	/** second input point */
@@ -115,11 +116,14 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 						segment.setAuxiliaryObject(true);
 						boolean segmentsVisible = false;
 						int size = outputSegments.size();
-						if (size > 0){ // check if at least one segment is visible
-							for (int i = 0; i < size && !segmentsVisible ; i++){
-								segmentsVisible = segmentsVisible || outputSegments.getElement(i).isEuclidianVisible();
+						if (size > 0) { // check if at least one segment is
+										// visible
+							for (int i = 0; i < size && !segmentsVisible; i++) {
+								segmentsVisible = segmentsVisible
+										|| outputSegments.getElement(i)
+												.isEuclidianVisible();
 							}
-						}else{ // no segment yet
+						} else { // no segment yet
 							segmentsVisible = true;
 						}
 						segment.setEuclidianVisible(segmentsVisible);
@@ -144,9 +148,11 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setLabelVisible(showNewPointsLabels);
 						newPoint.setViewFlags(((GeoElement) A).getViewSet());
-						GeoBoolean conditionToShow = ((GeoElement) A).getShowObjectCondition();
+						GeoBoolean conditionToShow = ((GeoElement) A)
+								.getShowObjectCondition();
 						if (conditionToShow == null)
-							conditionToShow = ((GeoElement) B).getShowObjectCondition();
+							conditionToShow = ((GeoElement) B)
+									.getShowObjectCondition();
 						if (conditionToShow != null) {
 							try {
 								newPoint.setShowObjectCondition(conditionToShow);
@@ -160,8 +166,6 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 
 		if (!labelPointsAndSegments)
 			outputPoints.removeFromHandler(); // no segments has output
-		
-		
 
 		// create polygon
 		outputPolygon.adjustOutputSize(1);
@@ -175,8 +179,8 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 		setInputOutput();
 
 		GeoPolygon poly = getPoly();
-		
-		//set that the poly output can have different points length
+
+		// set that the poly output can have different points length
 		poly.setNotFixedPointsLength(true);
 
 		// compute poly
@@ -210,25 +214,26 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 		// make sure that we set all point and segment labels when needed
 		// updateSegmentsAndPointsLabels(points.length);
 	}
-	
-	
+
 	/**
 	 * 
 	 * @param cons
 	 * @return new GeoPolygon 2D/3D
 	 */
 	protected abstract GeoPolygon newGeoPolygon(Construction cons);
-	
+
 	/**
 	 * 
 	 * @param cons
 	 * @return new GeoPoint 2D/3D
 	 */
 	protected abstract GeoElement newGeoPoint(Construction cons);
-	
+
 	/**
 	 * set the direction (only for 3D)
-	 * @param direction direction
+	 * 
+	 * @param direction
+	 *            direction
 	 */
 	protected abstract void setDirection(GeoDirectionND direction);
 
@@ -241,8 +246,6 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 	public int getRelatedModeID() {
 		return EuclidianConstants.MODE_REGULAR_POLYGON;
 	}
-
-
 
 	/**
 	 * 
@@ -266,15 +269,16 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 
 		compute((int) Math.round(nd));
 	}
-	
+
 	/**
 	 * set the center point coords
+	 * 
 	 * @param n
 	 * @param beta
 	 */
 	protected abstract void setCenterPoint(int n, double beta);
-	
-	protected void rotatePoints(int n, double alpha){
+
+	protected void rotatePoints(int n, double alpha) {
 		// now we have the center point of the polygon and
 		// the center angle alpha between two neighbouring points
 		// let's create the points by rotating A around the center point
@@ -285,29 +289,29 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 			rotate((GeoPointND) outputPoints.getElement(k));
 		}
 	}
-	
+
 	/**
 	 * rotate the point regarding current parameters
-	 * @param point point
+	 * 
+	 * @param point
+	 *            point
 	 */
 	protected abstract void rotate(GeoPointND point);
-	
-	
+
 	/**
 	 * 
 	 * @param n
 	 * @return true if undefined
 	 */
-	protected boolean checkUnDefined(int n){
-		if(n < 3 || !A.isDefined() || !B.isDefined()){
+	protected boolean checkUnDefined(int n) {
+		if (n < 3 || !A.isDefined() || !B.isDefined()) {
 			getPoly().setUndefined();
 			numOld = n;
 			return true;
 		}
-		
+
 		return false;
 	}
-
 
 	/**
 	 * @param nd
@@ -328,11 +332,9 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 		if (checkUnDefined(n)) {
 			return;
 		}
-		
 
 		this.alpha = Kernel.PI_2 / n; // center angle ACB
 		double beta = (Math.PI - alpha) / 2; // base angle CBA = BAC
-
 
 		setCenterPoint(n, beta);
 		rotatePoints(n, alpha);
@@ -345,15 +347,15 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 
 		// update new segments
 		for (int i = numOld - 1; i < n; i++) {
-			//App.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
-			((GeoSegmentND) outputSegments.getElement(i)).modifyInputPoints(points[i],
-					points[(i + 1) % n]);
+			// App.debug(i+": "+points[i]+" , "+points[(i+1)%n]);
+			((GeoSegmentND) outputSegments.getElement(i)).modifyInputPoints(
+					points[i], points[(i + 1) % n]);
 		}
 
 		// update polygon
 		poly.setPoints(points, null, false); // don't create segments
 		GeoSegmentND[] segments = new GeoSegmentND[n];
-		for (int i = 0; i < n; i++){
+		for (int i = 0; i < n; i++) {
 			segments[i] = (GeoSegmentND) outputSegments.getElement(i);
 		}
 		poly.setSegments(segments);
@@ -363,19 +365,18 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 
 		// update region coordinate system
 		poly.updateRegionCSWithFirstPoints();
-		
+
 		numOld = n;
 	}
-	
+
 	/**
 	 * 
 	 * @return current points length
 	 */
-	public int getCurrentPointsLength(){
+	public int getCurrentPointsLength() {
 		return numOld;
 	}
-	
-	
+
 	/**
 	 * Ensures that the pointList holds n points.
 	 * 
@@ -385,7 +386,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 
 		int nOld = outputPoints.size() + 2;
 
-		//App.error("nOld="+nOld+", n="+n);
+		// App.error("nOld="+nOld+", n="+n);
 
 		if (nOld == n)
 			return;
@@ -413,10 +414,12 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 			}
 			// update last segment
 			if (n > 2)
-				((GeoSegmentND) outputSegments.getElement(n - 1)).modifyInputPoints(
-						(GeoPointND) outputPoints.getElement(n - 3), A);
+				((GeoSegmentND) outputSegments.getElement(n - 1))
+						.modifyInputPoints(
+								(GeoPointND) outputPoints.getElement(n - 3), A);
 			else
-				((GeoSegmentND) outputSegments.getElement(n - 1)).modifyInputPoints(B, A);
+				((GeoSegmentND) outputSegments.getElement(n - 1))
+						.modifyInputPoints(B, A);
 		}
 
 	}
@@ -473,38 +476,38 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements Polygo
 		}
 	}
 
-	
-	
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnPolygonRegular(geo, this, scope);
 	}
-	
+
 	public void calcArea() {
-		
+
 		// more accurate method for 2D
-		if (A instanceof GeoPoint && B instanceof GeoPoint && centerPoint instanceof GeoPoint) {
-			
+		if (A instanceof GeoPoint && B instanceof GeoPoint
+				&& centerPoint instanceof GeoPoint) {
+
 			// area = 1/2 | det(P[i], P[i+1]) |
-			double area = GeoPoint.det((GeoPoint)A, (GeoPoint)B);
-            area += GeoPoint.det((GeoPoint)B, (GeoPoint)this.centerPoint);
-            area += GeoPoint.det((GeoPoint)this.centerPoint, (GeoPoint)A);
-            area = area * this.n / 2;
-            
-            getPoly().setArea(area);
-            
-            return;
+			double area = GeoPoint.det((GeoPoint) A, (GeoPoint) B);
+			area += GeoPoint.det((GeoPoint) B, (GeoPoint) this.centerPoint);
+			area += GeoPoint.det((GeoPoint) this.centerPoint, (GeoPoint) A);
+			area = area * this.n / 2;
+
+			getPoly().setArea(area);
+
+			return;
 		}
-		
+
 		// TODO: more accurate method should be possible for 3D too
 		double radius = A.distance(centerPoint);
-				
+
 		// 1/2 a b sin(C)
-		getPoly().setArea(n * radius * radius * Math.sin(alpha) / 2.0) ;
+		getPoly().setArea(n * radius * radius * Math.sin(alpha) / 2.0);
 	}
 
 }

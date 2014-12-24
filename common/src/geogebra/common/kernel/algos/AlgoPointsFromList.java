@@ -19,47 +19,40 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 
-
 /**
- * Converts a list into a Point (or Points)
- * adapted from AlgoRootsPolynomial
+ * Converts a list into a Point (or Points) adapted from AlgoRootsPolynomial
  * 
  * @author Michael
  */
 public class AlgoPointsFromList extends AlgoElement {
 
-	private GeoList list; // input 
+	private GeoList list; // input
 	private GeoPoint[] points; // output
 
 	private String[] labels;
 	private boolean initLabels, setLabels;
 
-
-	public AlgoPointsFromList(
-			Construction cons,
-			String[] labels,
-			boolean setLabels,
-			GeoList list) {
+	public AlgoPointsFromList(Construction cons, String[] labels,
+			boolean setLabels, GeoList list) {
 		super(cons);
 		this.list = list;
 
 		this.labels = labels;
 		this.setLabels = setLabels; // should labels be used?
 
-
-				//  make sure root points is not null
+		// make sure root points is not null
 		int number = labels == null ? 1 : Math.max(1, labels.length);
 		points = new GeoPoint[0];
 		initPoints(number);
-		initLabels = true;  
+		initLabels = true;
 
-		setInputOutput(); // for AlgoElement    
-		compute();        
+		setInputOutput(); // for AlgoElement
+		compute();
 
 		// show at least one root point in algebra view
 		// this is enforced here:
 		if (!points[0].isDefined()) {
-			points[0].setCoords(0,0,1);
+			points[0].setCoords(0, 0, 1);
 			points[0].update();
 			points[0].setUndefined();
 			points[0].update();
@@ -67,7 +60,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	/**
-	 * The given labels will be used for the resulting points.   
+	 * The given labels will be used for the resulting points.
 	 */
 	public void setLabels(String[] labels) {
 		this.labels = labels;
@@ -94,7 +87,7 @@ public class AlgoPointsFromList extends AlgoElement {
 		input[0] = list;
 
 		super.setOutput(points);
-		for (int i=1; i < points.length; i++) {
+		for (int i = 1; i < points.length; i++) {
 			points[i].showUndefinedInAlgebraView(false);
 		}
 		setDependencies();
@@ -111,39 +104,41 @@ public class AlgoPointsFromList extends AlgoElement {
 			setPoints(null, null, 0);
 			return;
 		}
-		
+
 		int length = -1;
 		double[] x = new double[n];
 		double[] y = new double[n];
-		
+
 		// handle Point[ {1,2} ] case
 		if (list.size() == 2) {
-			GeoElement arg0, arg1;	
-			if ((arg0 = list.get(0)).isGeoNumeric() && (arg1 = list.get(1)).isGeoNumeric()) {
-				x[0] = ((GeoNumeric)arg0).getDouble();
-				y[0] = ((GeoNumeric)arg1).getDouble();
+			GeoElement arg0, arg1;
+			if ((arg0 = list.get(0)).isGeoNumeric()
+					&& (arg1 = list.get(1)).isGeoNumeric()) {
+				x[0] = ((GeoNumeric) arg0).getDouble();
+				y[0] = ((GeoNumeric) arg1).getDouble();
 				length = 1;
 			}
 		}
 
-		if (length == -1) {			
+		if (length == -1) {
 			// handle Point[ { {1,2}, {3,4} } ] case
-			for (int i = 0 ; i < n ; i ++) {
+			for (int i = 0; i < n; i++) {
 				GeoElement geo = list.get(i);
 				if (geo.isGeoList()) {
-					GeoList geoList = ((GeoList)geo);
+					GeoList geoList = ((GeoList) geo);
 					GeoElement geoX = geoList.get(0);
 					GeoElement geoY = geoList.get(1);
-					x[i] = ((GeoNumeric)geoX).getDouble();
-					y[i] = ((GeoNumeric)geoY).getDouble();
+					x[i] = ((GeoNumeric) geoX).getDouble();
+					y[i] = ((GeoNumeric) geoY).getDouble();
 				}
 			}
 			length = x.length;
-			
+
 		}
 
-		if (length > 0) setPoints(x, y, length);
-		
+		if (length > 0)
+			setPoints(x, y, length);
+
 	}
 
 	// roots array and number of roots
@@ -165,17 +160,18 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	// number is the number of current roots
-	private void updateLabels(int number) {  
+	private void updateLabels(int number) {
 		if (initLabels) {
 			GeoElement.setLabels(labels, points);
 			initLabels = false;
-		} else {	    
+		} else {
 			for (int i = 0; i < number; i++) {
-				//  check labeling      
+				// check labeling
 				if (!points[i].isLabelSet()) {
 					// use user specified label if we have one
-					String newLabel = (labels != null && i < labels.length) ? labels[i] : null;	            	
-					points[i].setLabel(newLabel);	                
+					String newLabel = (labels != null && i < labels.length) ? labels[i]
+							: null;
+					points[i].setLabel(newLabel);
 				}
 			}
 		}
@@ -187,17 +183,17 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	/**
-	 * Removes only one single output element if possible. 
-	 * If this is not possible the whole algorithm is removed.
+	 * Removes only one single output element if possible. If this is not
+	 * possible the whole algorithm is removed.
 	 */
 	@Override
 	public void remove(GeoElement output) {
-		// only single undefined points may be removed       
+		// only single undefined points may be removed
 		for (int i = 0; i < points.length; i++) {
 			if (points[i] == output && !points[i].isDefined()) {
-				removeRootPoint(i);      		
+				removeRootPoint(i);
 				return;
-			}            
+			}
 		}
 
 		// if we get here removing output was not possible
@@ -206,7 +202,7 @@ public class AlgoPointsFromList extends AlgoElement {
 	}
 
 	private void initPoints(int number) {
-		// make sure that there are enough points   
+		// make sure that there are enough points
 		if (points.length < number) {
 			GeoPoint[] temp = new GeoPoint[number];
 			for (int i = 0; i < points.length; i++) {
@@ -229,14 +225,13 @@ public class AlgoPointsFromList extends AlgoElement {
 		// build new rootPoints array without the removed point
 		GeoPoint[] temp = new GeoPoint[points.length - 1];
 		int i;
-		for (i=0; i < pos; i++) 
-			temp[i] = points[i];        		
-		for (i=pos+1; i < points.length; i++) 
-			temp[i-1] = points[i];
+		for (i = 0; i < pos; i++)
+			temp[i] = points[i];
+		for (i = pos + 1; i < points.length; i++)
+			temp[i - 1] = points[i];
 		points = temp;
 	}
 
 	// TODO Consider locusequability
-
 
 }

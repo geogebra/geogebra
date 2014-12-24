@@ -36,7 +36,8 @@ import java.util.TreeSet;
 /**
  * locus line for Q dependent on P where P is a slider
  */
-public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInterface {
+public class AlgoLocusSlider extends AlgoElement implements
+		AlgoLocusSliderInterface {
 
 	// TODO: update locus algorithm
 	// * locus of Q=(x(B), a) with a= integral[f(x), 0, x(B)] and B is point on
@@ -66,7 +67,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	private double lastX, lastY, maxXdist, maxYdist, xmin, xmax, ymin, ymax,
 			farXmin, farXmax, farYmin, farYmax;
 
-	private double maxXdist2, maxYdist2, xmin2, xmax2, ymin2, ymax2, farXmin2, farXmax2, farYmin2, farYmax2;
+	private double maxXdist2, maxYdist2, xmin2, xmax2, ymin2, ymax2, farXmin2,
+			farXmax2, farYmin2, farYmax2;
 
 	// private Line2D.Double tempLine = new Line2D.Double();
 	private GRectangle2D nearToScreenRect = geogebra.common.factories.AwtFactory.prototype
@@ -101,11 +103,11 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 		QstartPos = new GeoPoint(cons);
 		PstartPos = new GeoNumeric(cons);
 
-		//we may need locus in init => row order important
+		// we may need locus in init => row order important
 		locus = new GeoLocus(cons);
 		init();
 		updateScreenBorders();
-		
+
 		setInputOutput(); // for AlgoElement
 		cons.registerEuclidianViewCE(this);
 		compute();
@@ -270,7 +272,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			ConstructionElement ce = it.next();
 			if (ce.isGeoElement()) {
 				GeoElement geo = (GeoElement) ce;
-				macroKernel.addReservedLabel(geo.getLabel(StringTemplate.defaultTemplate));
+				macroKernel.addReservedLabel(geo
+						.getLabel(StringTemplate.defaultTemplate));
 			}
 		}
 
@@ -282,11 +285,13 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			macroKernel.loadXML(locusConsXML);
 
 			// get the copies of P and Q from the macro kernel
-			Pcopy = (GeoNumeric) macroKernel.lookupLabel(movingSlider.getLabelSimple());
+			Pcopy = (GeoNumeric) macroKernel.lookupLabel(movingSlider
+					.getLabelSimple());
 			Pcopy.setFixed(false);
 			// Pcopy.setPath(movingSlider.getPath());
 
-			Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint.getLabelSimple());
+			Qcopy = (GeoPoint) macroKernel.lookupLabel(locusPoint
+					.getLabelSimple());
 			macroCons = macroKernel.getConstruction();
 
 			/*
@@ -327,15 +332,15 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 				// do not copy functions, their expressions already
 				// include references to the correct other geos
 				if (!geoOrig.isGeoFunction()) {
-					GeoElement geoCopy = macroCons.lookupLabel(geoOrig.getLabelSimple());
+					GeoElement geoCopy = macroCons.lookupLabel(geoOrig
+							.getLabelSimple());
 					if (geoCopy != null) {
 						try {
 							geoCopy.set(geoOrig);
 							geoCopy.update();
 						} catch (Exception e) {
-							App
-									.debug("AlgoLocusSlider: error in resetMacroConstruction(): "
-											+ e.getMessage());
+							App.debug("AlgoLocusSlider: error in resetMacroConstruction(): "
+									+ e.getMessage());
 						}
 					}
 				}
@@ -480,10 +485,9 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 					} else {
 						// decrease step until another step is possible
 						while (!sliderMover.hasNext()
-								&& sliderMover.smallerStep()){
+								&& sliderMover.smallerStep()) {
 							// do nothing
 						}
-							
 
 						// no smaller step possible: run finished
 						if (!sliderMover.hasNext())
@@ -503,7 +507,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			Pcopy.set(PstartPos);
 			pcopyUpdateCascade();
 			if (Qcopy.inhomX != lastX || Qcopy.inhomY != lastY)
-				insertPoint(Qcopy.inhomX, Qcopy.inhomY, distanceSmall(Qcopy, true));
+				insertPoint(Qcopy.inhomX, Qcopy.inhomY,
+						distanceSmall(Qcopy, true));
 
 			// Application.debug("run: " + runs);
 			// Application.debug("pointCount: " + pointCount);
@@ -515,7 +520,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			// AND if the direction of moving along the path
 			// is positive like in the beginning
 			if (sliderMover.hasPositiveOrientation()) {
-				boolean equal = QstartPos.isEqual(Qcopy,Kernel.MIN_PRECISION);
+				boolean equal = QstartPos.isEqual(Qcopy, Kernel.MIN_PRECISION);
 				if (equal)
 					break;
 			}
@@ -567,9 +572,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 				// if it takes too much time to calculate a single step, we stop
 				if (updateTime > MAX_TIME_FOR_ONE_STEP) {
-					App
-							.debug("AlgoLocusSlider: max time exceeded "
-									+ updateTime);
+					App.debug("AlgoLocusSlider: max time exceeded "
+							+ updateTime);
 					maxTimeExceeded = true;
 				}
 
@@ -640,6 +644,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	private double[] paramCache = new double[3];
 	private GPoint2D[] qcopyCache = new GPoint2D[paramCache.length];
 	private int cacheIndex = 0;
+
 	private void insertPoint(double x, double y, boolean lineTo) {
 		pointCount++;
 
@@ -720,9 +725,9 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 	private boolean distanceSmall(GeoPoint Q, boolean orInsteadOfAnd) {
 		boolean distSmall = Math.abs(Q.inhomX - lastX) < maxXdist
-					&& Math.abs(Q.inhomY - lastY) < maxYdist;
+				&& Math.abs(Q.inhomY - lastY) < maxYdist;
 		boolean distSmall2 = Math.abs(Q.inhomX - lastX) < maxXdist2
-					&& Math.abs(Q.inhomY - lastY) < maxYdist2;
+				&& Math.abs(Q.inhomY - lastY) < maxYdist2;
 
 		if (orInsteadOfAnd) {
 			return (distSmall && visibleEV1) || (distSmall2 && visibleEV2);
@@ -751,8 +756,7 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 	}
 
 	void updateScreenBordersIfNecessary() {
-		if (isVisibleInEV1() != visibleEV1 ||
-			isVisibleInEV2() != visibleEV2) {
+		if (isVisibleInEV1() != visibleEV1 || isVisibleInEV2() != visibleEV2) {
 			updateScreenBorders();
 		}
 	}
@@ -776,8 +780,12 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 			double widthRW = xmax - xmin;
 			double heightRW = ymax - ymin;
-			maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW / 100;
-			maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW / 100;
+			maxXdist = MAX_X_PIXEL_DIST / kernel.getXscale(true, false); // widthRW
+																			// /
+																			// 100;
+			maxYdist = MAX_Y_PIXEL_DIST / kernel.getYscale(true, false); // heightRW
+																			// /
+																			// 100;
 
 			// we take a bit more than the screen
 			// itself so that we don't loose locus
@@ -790,8 +798,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			farYmax = ymax + heightRW / 2;
 
 			// near to screen rectangle
-			nearToScreenRect.setFrame(farXmin, farYmin, farXmax - farXmin, farYmax
-					- farYmin);
+			nearToScreenRect.setFrame(farXmin, farYmin, farXmax - farXmin,
+					farYmax - farYmin);
 		}
 
 		if (visibleEV2) {
@@ -802,8 +810,12 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 
 			double widthRW = xmax2 - xmin2;
 			double heightRW = ymax2 - ymin2;
-			maxXdist2 = MAX_X_PIXEL_DIST / kernel.getXscale(false, true); // widthRW / 100;
-			maxYdist2 = MAX_Y_PIXEL_DIST / kernel.getYscale(false, true); // heightRW / 100;
+			maxXdist2 = MAX_X_PIXEL_DIST / kernel.getXscale(false, true); // widthRW
+																			// /
+																			// 100;
+			maxYdist2 = MAX_Y_PIXEL_DIST / kernel.getYscale(false, true); // heightRW
+																			// /
+																			// 100;
 
 			// we take a bit more than the screen
 			// itself so that we don't loose locus
@@ -816,8 +828,8 @@ public class AlgoLocusSlider extends AlgoElement implements AlgoLocusSliderInter
 			farYmax2 = ymax2 + heightRW / 2;
 
 			// near to screen rectangle
-			nearToScreenRect2.setFrame(farXmin2, farYmin2, farXmax2 - farXmin2, farYmax2
-					- farYmin2);
+			nearToScreenRect2.setFrame(farXmin2, farYmin2, farXmax2 - farXmin2,
+					farYmax2 - farYmin2);
 		}
 	}
 

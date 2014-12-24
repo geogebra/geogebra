@@ -31,7 +31,8 @@ public class AlgoTurtle extends AlgoElement {
 	/**
 	 * @param cons
 	 *            the construction
-	 * @param label label for output
+	 * @param label
+	 *            label for output
 	 */
 	public AlgoTurtle(Construction cons, String label) {
 		super(cons);
@@ -44,7 +45,8 @@ public class AlgoTurtle extends AlgoElement {
 	}
 
 	/**
-	 * @param cons construction
+	 * @param cons
+	 *            construction
 	 */
 	protected AlgoTurtle(Construction cons) {
 		super(cons);
@@ -64,8 +66,8 @@ public class AlgoTurtle extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-    	return Commands.Turtle;
-    } 
+		return Commands.Turtle;
+	}
 
 	// for AlgoElement
 	@Override

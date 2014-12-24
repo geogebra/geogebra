@@ -12,18 +12,18 @@ public class CmdRandomElement extends CmdOneListFunction {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdRandomElement(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoRandomElement algo = new AlgoRandomElement(cons, a, b);
 		return algo.getElement();
 	}
-
 
 }

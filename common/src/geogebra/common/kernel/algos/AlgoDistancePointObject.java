@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDistancePointLine.java
@@ -38,103 +38,113 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.MyMath;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
-public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo {
+public class AlgoDistancePointObject extends AlgoElement implements
+		DistanceAlgo {
 
-    private GeoPointND P; // input
-    private GeoElement g; // input
-    private GeoNumeric dist; // output       
-    private AlgoClosestPoint closePt;
-    public AlgoDistancePointObject(
-        Construction cons,
-        String label,
-        GeoPointND P,
-        GeoElement g) {
-        super(cons);
-        this.P = P;
-        this.g = g;
-        dist = new GeoNumeric(cons);
-        closePt = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons, (Path)g, P);
-        cons.removeFromConstructionList(closePt);
-        setInputOutput(); // for AlgoElement
+	private GeoPointND P; // input
+	private GeoElement g; // input
+	private GeoNumeric dist; // output
+	private AlgoClosestPoint closePt;
 
-        // compute length
-        compute();
-        dist.setLabel(label);
-    }
+	public AlgoDistancePointObject(Construction cons, String label,
+			GeoPointND P, GeoElement g) {
+		super(cons);
+		this.P = P;
+		this.g = g;
+		dist = new GeoNumeric(cons);
+		closePt = getKernel().getAlgoDispatcher().getNewAlgoClosestPoint(cons,
+				(Path) g, P);
+		cons.removeFromConstructionList(closePt);
+		setInputOutput(); // for AlgoElement
 
-    @Override
+		// compute length
+		compute();
+		dist.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Distance;
-    }
+		return Commands.Distance;
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_DISTANCE;
-    }
-    
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_DISTANCE;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = (GeoElement) P;
-        input[1] = g;
+		input = new GeoElement[2];
+		input[0] = (GeoElement) P;
+		input[1] = g;
 
-        setOutputLength(1);
-        setOutput(0,dist);
-        setDependencies(); // done by AlgoElement
-    }
+		setOutputLength(1);
+		setOutput(0, dist);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getDistance() {
-        return dist;
-    }
-    GeoPointND getP() {
-        return P;
-    }
-    GeoElement getg() {
-        return g;
-    }
+	public GeoNumeric getDistance() {
+		return dist;
+	}
 
-    // calc length of vector v   
-    @Override
+	GeoPointND getP() {
+		return P;
+	}
+
+	GeoElement getg() {
+		return g;
+	}
+
+	// calc length of vector v
+	@Override
 	public final void compute() {
-    	if(closePt!=null)
-    		dist.setValue(closePt.getP().distance(P));
-    	else
-    		dist.setValue(g.distance(P));
-    }
+		if (closePt != null)
+			dist.setValue(closePt.getP().distance(P));
+		else
+			dist.setValue(g.distance(P));
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("DistanceOfAandB",P.getLabel(tpl),g.getLabel(tpl));
-    }
-    
-    private static final double INTERVAL_START = 30;
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("DistanceOfAandB", P.getLabel(tpl),
+				g.getLabel(tpl));
+	}
+
+	private static final double INTERVAL_START = 30;
 	private static final double INTERVAL_GROWTH = 2;
 	private static final double MAX_INTERVAL = 10000;
 
 	/**
 	 * Other classes are invited to use this method.
-	 * @param function Function
-	 * @param x x-coord of point
-	 * @param y y-coord of point
-	 * @return val such as the point (val, function(val)) is closest to point (x, y)
+	 * 
+	 * @param function
+	 *            Function
+	 * @param x
+	 *            x-coord of point
+	 * @param y
+	 *            y-coord of point
+	 * @return val such as the point (val, function(val)) is closest to point
+	 *         (x, y)
 	 */
-	public static final double getClosestFunctionValueToPoint(Function function, double x, double y) {
-		// Algorithm inspired by 
+	public static final double getClosestFunctionValueToPoint(
+			Function function, double x, double y) {
+		// Algorithm inspired by
 		// http://bact.mathcircles.org/files/Winter2011/CM2_Posters/TPham_BACTPoster.pdf
 		Kernel kernel = function.getKernel();
-		PolyFunction polyFunction = function.expandToPolyFunction(function.getExpression(), false, true);
+		PolyFunction polyFunction = function.expandToPolyFunction(
+				function.getExpression(), false, true);
 		if (polyFunction != null) {
 			PolyFunction polyDervi = polyFunction.getDerivative();
-			// calculate coeffs for 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the coordinates of point
+			// calculate coeffs for 2*(x - a) + 2(f(x) - b)f'(x) where a and b
+			// are the coordinates of point
 			// expanding it gives 2x - 2a + 2*f(x)*f'(x) - 2*b*f'(x)
 			double[] funCoeffs = polyFunction.getCoeffs();
 			double[] derivCoeffs = polyDervi.getCoeffs();
@@ -149,7 +159,7 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 			}
 			// add -2*b*f'(x)
 			for (int i = 0; i <= m; i++) {
-				eq[i] += (-2) * y * derivCoeffs[i]; 
+				eq[i] += (-2) * y * derivCoeffs[i];
 			}
 			// add 2x - 2a
 			eq[1] += 2;
@@ -162,9 +172,11 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 				return Double.NaN;
 			}
 			int k = 0;
-			double min = MyMath.distancePointFunctionAt(polyFunction, x, y, eq[0]);
+			double min = MyMath.distancePointFunctionAt(polyFunction, x, y,
+					eq[0]);
 			for (int i = 1; i < nrOfRoots; i++) {
-				double val = MyMath.distancePointFunctionAt(polyFunction, x, y, eq[i]);
+				double val = MyMath.distancePointFunctionAt(polyFunction, x, y,
+						eq[i]);
 				if (Kernel.isGreater(min, val)) {
 					min = val;
 					k = i;
@@ -177,11 +189,16 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 		Function deriv = function.getDerivative(1, true);
 		// replace derivatives' function variable with functions'
 		// we need this, so our new function created below, can be evaluated
-		deriv.traverse(Traversing.Replacer.getReplacer(deriv.getFunctionVariable(), fVar));
-		// build expression 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the coordinates of point
-		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS, new MyDouble(kernel, x));
+		deriv.traverse(Traversing.Replacer.getReplacer(
+				deriv.getFunctionVariable(), fVar));
+		// build expression 2*(x - a) + 2(f(x) - b)f'(x) where a and b are the
+		// coordinates of point
+		ExpressionNode expr = new ExpressionNode(kernel, fVar, Operation.MINUS,
+				new MyDouble(kernel, x));
 		expr = expr.multiply(2);
-		ExpressionNode expr2 = new ExpressionNode(kernel, function.getExpression(), Operation.MINUS, new MyDouble(kernel, y));
+		ExpressionNode expr2 = new ExpressionNode(kernel,
+				function.getExpression(), Operation.MINUS, new MyDouble(kernel,
+						y));
 		expr2 = expr2.multiplyR(deriv.getExpression());
 		expr2 = expr2.multiply(2);
 		expr = expr.plus(expr2);
@@ -191,7 +208,8 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 		double[] roots;
 		double left = INTERVAL_START;
 		double right = INTERVAL_START;
-		while ((roots = AlgoRoots.findRoots(geoFunc, x - left, y + right,(int)((left + right) * 10))) == null 
+		while ((roots = AlgoRoots.findRoots(geoFunc, x - left, y + right,
+				(int) ((left + right) * 10))) == null
 				&& Kernel.isGreater(MAX_INTERVAL, left)) {
 			left *= INTERVAL_GROWTH;
 			right *= INTERVAL_GROWTH;
@@ -202,7 +220,8 @@ public class AlgoDistancePointObject extends AlgoElement implements DistanceAlgo
 		int k = 0;
 		double min = MyMath.distancePointFunctionAt(function, x, y, roots[0]);
 		for (int i = 1; i < roots.length; i++) {
-			double val = MyMath.distancePointFunctionAt(function, x, y, roots[i]);
+			double val = MyMath.distancePointFunctionAt(function, x, y,
+					roots[i]);
 			if (Kernel.isGreater(min, val)) {
 				min = val;
 				k = i;

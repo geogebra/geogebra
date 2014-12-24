@@ -9,36 +9,43 @@ import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.main.MyError;
 
 /**
- * @author arno
- * Base class for turtle commands
+ * @author arno Base class for turtle commands
  */
 public abstract class CmdTurtleCommand extends CmdScripting {
 
 	/**
-	 * @param kernel the kernel
+	 * @param kernel
+	 *            the kernel
 	 */
 	public CmdTurtleCommand(Kernel kernel) {
 		super(kernel);
 	}
-	
+
 	/**
 	 * Return the turtle in the command
-	 * @param args the resolved command args
+	 * 
+	 * @param args
+	 *            the resolved command args
 	 * @return the first arg as a GeoTurtle
 	 */
 	@SuppressWarnings("static-method")
 	protected final GeoTurtle getTurtle(GeoElement[] args) {
 		return (GeoTurtle) args[0];
 	}
-	
+
 	/**
 	 * Return the second arg of the command as a double
-	 * @param cname the command name
-	 * @param args the resolved args
+	 * 
+	 * @param cname
+	 *            the command name
+	 * @param args
+	 *            the resolved args
 	 * @return the second arg as a double
-	 * @throws MyError thrown can't be done
+	 * @throws MyError
+	 *             thrown can't be done
 	 */
-	protected final double getNumArg(String cname, GeoElement[] args) throws MyError {
+	protected final double getNumArg(String cname, GeoElement[] args)
+			throws MyError {
 		if (args.length != 2) {
 			throw argNumErr(app, cname, args.length);
 		}
@@ -47,15 +54,20 @@ public abstract class CmdTurtleCommand extends CmdScripting {
 		}
 		return ((NumberValue) args[1]).getDouble();
 	}
-	
+
 	/**
 	 * Actually perform the command on the turtle
-	 * @param cname the command name
-	 * @param args all the arguments (including the turtle) 
-	 * @throws MyError possible error
+	 * 
+	 * @param cname
+	 *            the command name
+	 * @param args
+	 *            all the arguments (including the turtle)
+	 * @throws MyError
+	 *             possible error
 	 */
-	protected abstract void performTurtleCommand(String cname, GeoElement[] args) throws MyError;
-	
+	protected abstract void performTurtleCommand(String cname, GeoElement[] args)
+			throws MyError;
+
 	@Override
 	public final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();

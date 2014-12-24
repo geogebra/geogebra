@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -28,35 +28,41 @@ import geogebra.common.util.Cloner;
 public class AlgoBernoulliBarChart extends AlgoFunctionAreaSums {
 
 	/**
-	 * @param cons construction
-	 * @param label label
-	 * @param p probability 
-	 * @param isCumulative true for cumulative
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param p
+	 *            probability
+	 * @param isCumulative
+	 *            true for cumulative
 	 */
-	public AlgoBernoulliBarChart(Construction cons, String label, 
+	public AlgoBernoulliBarChart(Construction cons, String label,
 			NumberValue p, GeoBoolean isCumulative) {
-        super(cons,label, p, null, null, isCumulative, SumType.BARCHART_BERNOULLI);
-    }
-	
-	private AlgoBernoulliBarChart( 
-			NumberValue p, GeoBoolean isCumulative,NumberValue a,NumberValue b,double[]vals,
-			double[]borders,int N) {
-        super(p, null, null, isCumulative, SumType.BARCHART_BERNOULLI,a,b,vals,borders,N);
-    }
-	
-    @Override
-	public Commands getClassName() {
-        return Commands.Bernoulli;
-    }
+		super(cons, label, p, null, null, isCumulative,
+				SumType.BARCHART_BERNOULLI);
+	}
 
-	public DrawInformationAlgo copy() {		
-		GeoBoolean b = (GeoBoolean)this.getIsCumulative();
-		if(b!=null)b=(GeoBoolean)b.copy();
-		
-		return new AlgoBernoulliBarChart(
-				(NumberValue)this.getP1().deepCopy(kernel),
-				b,(NumberValue)this.getA().deepCopy(kernel),(NumberValue)this.getB().deepCopy(kernel),
-				Cloner.clone(getValues()),Cloner.clone(getLeftBorder()),getIntervals());
+	private AlgoBernoulliBarChart(NumberValue p, GeoBoolean isCumulative,
+			NumberValue a, NumberValue b, double[] vals, double[] borders, int N) {
+		super(p, null, null, isCumulative, SumType.BARCHART_BERNOULLI, a, b,
+				vals, borders, N);
+	}
+
+	@Override
+	public Commands getClassName() {
+		return Commands.Bernoulli;
+	}
+
+	public DrawInformationAlgo copy() {
+		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
+		if (b != null)
+			b = (GeoBoolean) b.copy();
+
+		return new AlgoBernoulliBarChart((NumberValue) this.getP1().deepCopy(
+				kernel), b, (NumberValue) this.getA().deepCopy(kernel),
+				(NumberValue) this.getB().deepCopy(kernel),
+				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
+				getIntervals());
 	}
 }
-

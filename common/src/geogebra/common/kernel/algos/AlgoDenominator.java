@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -25,13 +25,15 @@ import geogebra.common.kernel.commands.Commands;
  */
 public class AlgoDenominator extends AlgoNumerator {
 
-    
-
 	/**
 	 * Creates new algo for computing denominator
-	 * @param cons construction
-	 * @param label label
-	 * @param func rational function
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param func
+	 *            rational function
 	 */
 	public AlgoDenominator(Construction cons, String label, FunctionalNVar func) {
 		super(cons, label, func);
@@ -42,12 +44,12 @@ public class AlgoDenominator extends AlgoNumerator {
 	}
 
 	@Override
-    protected ExpressionValue getPart(ExpressionNode node) {
-    	return node.getRight();
-    }
+	protected ExpressionValue getPart(ExpressionNode node) {
+		return node.getRight();
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Denominator;
-    }
+		return Commands.Denominator;
+	}
 }

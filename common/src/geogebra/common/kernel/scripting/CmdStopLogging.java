@@ -22,6 +22,4 @@ public class CmdStopLogging extends CmdScripting {
 
 	}
 
-	
-
 }

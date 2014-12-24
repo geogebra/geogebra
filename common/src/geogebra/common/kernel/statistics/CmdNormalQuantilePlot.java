@@ -22,8 +22,7 @@ public class CmdNormalQuantilePlot extends CmdOneListFunction {
 
 	@Override
 	final protected GeoElement doCommand(String a, GeoList b) {
-		AlgoNormalQuantilePlot algo = new AlgoNormalQuantilePlot(cons, a,
-				b);
+		AlgoNormalQuantilePlot algo = new AlgoNormalQuantilePlot(cons, a, b);
 		return algo.getResult();
 	}
 

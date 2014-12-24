@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *InverseZipf
+ * InverseZipf
  */
 public class CmdInverseZipf extends CommandProcessor {
 
@@ -34,7 +34,7 @@ public class CmdInverseZipf extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-				
+
 				AlgoInverseZipf algo = new AlgoInverseZipf(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2]);

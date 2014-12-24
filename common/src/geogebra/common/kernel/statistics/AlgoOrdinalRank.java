@@ -24,18 +24,17 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.TreeSet;
 
-
 /**
  * Ranks of a list. Adapted from AlgoSort
+ * 
  * @author Michael Borcherds
  * @version 2010-05-27
  */
 
 public class AlgoOrdinalRank extends AlgoElement {
 
-
-	private GeoList inputList; //input
-	private GeoList outputList; //output	
+	private GeoList inputList; // input
+	private GeoList outputList; // output
 	private int size;
 
 	public AlgoOrdinalRank(Construction cons, String label, GeoList inputList) {
@@ -55,7 +54,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[1];
 		input[0] = inputList;
 
@@ -71,12 +70,12 @@ public class AlgoOrdinalRank extends AlgoElement {
 	public final void compute() {
 
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
-		GeoElement geo0 = inputList.get(0); 
+		GeoElement geo0 = inputList.get(0);
 
 		TreeSet<OrderedPair> sortedSet;
 
@@ -85,21 +84,19 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 		} else {
 			outputList.setUndefined();
-			return;    		
+			return;
 		}
 
-
 		// copy inputList into treeset
-		for (int i=0 ; i<size ; i++)
-		{
+		for (int i = 0; i < size; i++) {
 			GeoElement geo = inputList.get(i);
 			if (geo instanceof NumberValue) {
-				NumberValue num = (NumberValue) geo; 
+				NumberValue num = (NumberValue) geo;
 				OrderedPair pair = new OrderedPair(num.getDouble(), i);
 				sortedSet.add(pair);
 			} else {
 				outputList.setUndefined();
-				return;			
+				return;
 			}
 		}
 
@@ -111,27 +108,27 @@ public class AlgoOrdinalRank extends AlgoElement {
 			OrderedPair pair = iterator.next();
 			list[pair.y] = i++;
 
-		}     
+		}
 
 		// copy the ranks back into a list
 		outputList.setDefined(true);
 		outputList.clear();
-		for (i=0 ; i<size ; i++)
-		{
+		for (i = 0; i < size; i++) {
 			outputList.add(new GeoNumeric(cons, list[i]));
 		}
-
 
 	}
 
 	private class OrderedPair {
 		public double x;
 		public int y;
+
 		public OrderedPair(double x, int y) {
 			this.x = x;
 			this.y = y;
 		}
 	}
+
 	public static Comparator getComparator() {
 		if (comparator == null) {
 			comparator = new Comparator() {
@@ -148,6 +145,7 @@ public class AlgoOrdinalRank extends AlgoElement {
 
 		return comparator;
 	}
+
 	private static Comparator comparator;
 
 	// TODO Consider locusequability

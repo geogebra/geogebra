@@ -17,11 +17,10 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-
 public class AlgoJoin extends AlgoElement {
 
-	private GeoList inputList; //input
-	private GeoList outputList; //output	
+	private GeoList inputList; // input
+	private GeoList outputList; // output
 	private int size, size2;
 
 	public AlgoJoin(Construction cons, String label, GeoList inputList) {
@@ -38,21 +37,22 @@ public class AlgoJoin extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Join;
-    }
-	
+		return Commands.Join;
+	}
+
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
-    	// make sure that x(Element[list,1]) will work even if the output list's length is zero
-    	outputList.setTypeStringForXML(inputList.getTypeStringForXML());  	
+		// make sure that x(Element[list,1]) will work even if the output list's
+		// length is zero
+		outputList.setTypeStringForXML(inputList.getTypeStringForXML());
 
-    	input = new GeoElement[1];
+		input = new GeoElement[1];
 
 		input[0] = inputList;
 
 		super.setOutputLength(1);
-        super.setOutput(0, outputList);
+		super.setOutput(0, outputList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -68,12 +68,12 @@ public class AlgoJoin extends AlgoElement {
 		if (!inputList.isDefined()) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
 		outputList.setDefined(true);
 		outputList.clear();
 
-		for (int i=0 ; i < size ; i++) {
+		for (int i = 0; i < size; i++) {
 
 			GeoElement geo = inputList.get(i);
 			if (!geo.isGeoList()) {
@@ -81,14 +81,15 @@ public class AlgoJoin extends AlgoElement {
 				return;
 			}
 
-			GeoList list = (GeoList)geo;
+			GeoList list = (GeoList) geo;
 			size2 = list.size();
 
 			if (size2 > 0) {
-				for (int j=0 ; j < size2 ; j++) {
-					//GeoElement geo2 = list.get(j);
-					//Application.debug(geo.getLabel() + " " + geo2.getClass());
-					outputList.add(list.get(j).copyInternal(cons));					
+				for (int j = 0; j < size2; j++) {
+					// GeoElement geo2 = list.get(j);
+					// Application.debug(geo.getLabel() + " " +
+					// geo2.getClass());
+					outputList.add(list.get(j).copyInternal(cons));
 				}
 			}
 		}

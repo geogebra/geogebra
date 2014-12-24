@@ -6,15 +6,19 @@ import geogebra.common.kernel.commands.CommandProcessor;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
+
 /**
  * nPr[number,number]
+ * 
  * @author zbynek
  */
 public class CmdNpR extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdNpR(Kernel kernel) {
 		super(kernel);
@@ -31,8 +35,8 @@ public class CmdNpR extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = (arg[0] instanceof GeoNumberValue))
 					&& (ok[1] = (arg[1] instanceof GeoNumberValue))) {
-				
-				AlgoNpR algo = new AlgoNpR(cons,c.getLabel(),
+
+				AlgoNpR algo = new AlgoNpR(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };

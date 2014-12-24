@@ -40,9 +40,12 @@ public class AlgoANOVA extends AlgoElement {
 	private OneWayAnovaImpl anovaImpl;
 
 	/**
-	 * @param cons construction
-	 * @param label label
-	 * @param geoList list of lists of values
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param geoList
+	 *            list of lists of values
 	 */
 	public AlgoANOVA(Construction cons, String label, GeoList geoList) {
 		super(cons);

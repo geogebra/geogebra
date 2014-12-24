@@ -21,27 +21,33 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- * Take objects from the middle of a list
- * adapted from AlgoKeepIf
+ * Take objects from the middle of a list adapted from AlgoKeepIf
+ * 
  * @author Michael Borcherds
  */
 
 public class AlgoCountIf3 extends AlgoElement {
 
-	private GeoList inputList; //input
+	private GeoList inputList; // input
 	private GeoNumeric result; // output
-	private GeoBoolean bool;     // input
+	private GeoBoolean bool; // input
 	private GeoElement var;
 	private int size;
 
 	/**
-	 * @param cons construction
-	 * @param label label 
-	 * @param bool boolean filter (dependent on var)
-	 * @param var variable to be substituted
-	 * @param inputList list
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param bool
+	 *            boolean filter (dependent on var)
+	 * @param var
+	 *            variable to be substituted
+	 * @param inputList
+	 *            list
 	 */
-	public AlgoCountIf3(Construction cons, String label, GeoBoolean bool, GeoElement var, GeoList inputList) {
+	public AlgoCountIf3(Construction cons, String label, GeoBoolean bool,
+			GeoElement var, GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		this.var = var;
@@ -56,11 +62,11 @@ public class AlgoCountIf3 extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.CountIf;
-    }
+		return Commands.CountIf;
+	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		input = new GeoElement[3];
 		input[0] = bool;
@@ -87,22 +93,23 @@ public class AlgoCountIf3 extends AlgoElement {
 		if (!inputList.isDefined()) {
 			result.setUndefined();
 			return;
-		} 
+		}
 
 		int count = 0;
 
 		if (size > 0) {
 
 			try {
-				for (int i=0 ; i<size ; i++) {
+				for (int i = 0; i < size; i++) {
 					GeoElement geo = inputList.get(i);
 					var.set(geo);
 					this.setStopUpdateCascade(true);
-					var.getAlgoUpdateSet().updateAllUntil(bool.getParentAlgorithm());
+					var.getAlgoUpdateSet().updateAllUntil(
+							bool.getParentAlgorithm());
 					if (bool.getBoolean()) {
 						count++;
 					}
-					this.setStopUpdateCascade(false);   
+					this.setStopUpdateCascade(false);
 				}
 			} catch (MyError e) {
 				// eg KeepIf[x(A)<2,A,{(1,1),(2,2),(3,3),1}]
@@ -111,13 +118,9 @@ public class AlgoCountIf3 extends AlgoElement {
 				return;
 			}
 		}
-		
+
 		result.setValue(count);
 
-	} 	
-
-	
-
-	
+	}
 
 }

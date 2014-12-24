@@ -8,7 +8,7 @@ import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.main.MyError;
 
 /**
- *LineStyle
+ * LineStyle
  */
 public class CmdLineStyle extends CmdScripting {
 
@@ -23,8 +23,7 @@ public class CmdLineStyle extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -35,18 +34,17 @@ public class CmdLineStyle extends CmdScripting {
 				int style = (int) ((NumberValue) arg[1]).getDouble();
 				Integer[] types = EuclidianView.getLineTypes();
 
-				//For invalid number we assume it's 0
-				//We do this also for SetPointStyle
-				 
+				// For invalid number we assume it's 0
+				// We do this also for SetPointStyle
+
 				if (style < 0 || style >= types.length)
 					style = 0;
-				
+
 				arg[0].setLineType(types[style].intValue());
 				arg[0].updateRepaint();
 
-				
 				return;
-			} 
+			}
 			throw argErr(app, c.getName(), arg[1]);
 
 		default:

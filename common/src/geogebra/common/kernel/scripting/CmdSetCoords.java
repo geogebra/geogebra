@@ -13,7 +13,7 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.main.MyError;
 
 /**
- *SetCoords
+ * SetCoords
  */
 public class CmdSetCoords extends CmdScripting {
 
@@ -28,15 +28,15 @@ public class CmdSetCoords extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 
 		switch (n) {
 		case 3:
 			arg = resArgs(c);
-			//we don't want to change coords unless the point is free or Point[path/region]
+			// we don't want to change coords unless the point is free or
+			// Point[path/region]
 			if ((ok[0] = (arg[0] instanceof GeoVec3D && arg[0].isMoveable()))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
 					&& (ok[2] = (arg[2].isGeoNumeric()))) {
@@ -55,7 +55,6 @@ public class CmdSetCoords extends CmdScripting {
 				} else
 					throw argErr(app, c.getName(), arg[0]);
 
-				
 				return;
 
 			} else if ((ok[0] = (arg[0].isGeoTurtle()))
@@ -65,26 +64,25 @@ public class CmdSetCoords extends CmdScripting {
 				double x = ((GeoNumeric) arg[1]).getDouble();
 				double y = ((GeoNumeric) arg[2]).getDouble();
 				geo.setCoords(x, y);
-				return;				
-			} else if ((ok[0]=(arg[0] instanceof AbsoluteScreenLocateable))
+				return;
+			} else if ((ok[0] = (arg[0] instanceof AbsoluteScreenLocateable))
 					&& (ok[1] = (arg[1].isGeoNumeric()))
-					&& (ok[2] = (arg[2].isGeoNumeric()))
-					) {
+					&& (ok[2] = (arg[2].isGeoNumeric()))) {
 				double x = ((GeoNumeric) arg[1]).getDouble();
 				double y = ((GeoNumeric) arg[2]).getDouble();
-				
+
 				AbsoluteScreenLocateable asl = (AbsoluteScreenLocateable) arg[0];
-				
+
 				if (asl.isAbsoluteScreenLocActive()) {
-					asl.setAbsoluteScreenLoc((int)x, (int)y);
+					asl.setAbsoluteScreenLoc((int) x, (int) y);
 				} else {
 					asl.setRealWorldLoc(x, y);
 				}
-				
+
 				asl.updateRepaint();
-				
+
 				return;
-				
+
 			} else if (!ok[0]) {
 				throw argErr(app, c.getName(), arg[0]);
 			} else if (!ok[1]) {

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoIntersectLines.java
@@ -38,104 +38,106 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
-public class AlgoIntersectLines extends AlgoIntersectAbstract implements SymbolicParametersAlgo,
-	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
+public class AlgoIntersectLines extends AlgoIntersectAbstract implements
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
+		RestrictionAlgoForLocusEquation {
 
-    private GeoLine g, h; // input
-    private GeoPoint S; // output       
+	private GeoLine g, h; // input
+	private GeoPoint S; // output
 	private Polynomial[] polynomials;
 	private Polynomial[] botanaPolynomials;
 	private Variable[] botanaVars;
-	
-    /** Creates new AlgoJoinPoints */
-    public AlgoIntersectLines(Construction cons, String label, GeoLine g, GeoLine h) {
-        super(cons);
-        this.g = g;
-        this.h = h;
-        S = new GeoPoint(cons);
-        setInputOutput(); // for AlgoElement
 
-        // compute line through P, Q
-        compute();
+	/** Creates new AlgoJoinPoints */
+	public AlgoIntersectLines(Construction cons, String label, GeoLine g,
+			GeoLine h) {
+		super(cons);
+		this.g = g;
+		this.h = h;
+		S = new GeoPoint(cons);
+		setInputOutput(); // for AlgoElement
 
-        S.setLabel(label);
-        addIncidence();
-        
-    }
+		// compute line through P, Q
+		compute();
 
-	 /**
-     * @author Tam
-     * 
-     * for special cases of e.g. AlgoIntersectLineConic
-     */
-    private void addIncidence() {
+		S.setLabel(label);
+		addIncidence();
+
+	}
+
+	/**
+	 * @author Tam
+	 * 
+	 *         for special cases of e.g. AlgoIntersectLineConic
+	 */
+	private void addIncidence() {
 		S.addIncidence(g, false);
 		S.addIncidence(h, false);
 	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Intersect;
-    }
+		return Commands.Intersect;
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_INTERSECT;
-    }
-    
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_INTERSECT;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = g;
-        input[1] = h;
+		input = new GeoElement[2];
+		input[0] = g;
+		input[1] = h;
 
-        super.setOutputLength(1);
-        super.setOutput(0, S);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, S);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoPoint getPoint() {
-        return S;
-    }
+	public GeoPoint getPoint() {
+		return S;
+	}
 
-    // Made public for LocusEqu
-    public GeoLine geth() {
-        return g;
-    }
-    
-    // Made public for LocusEqu
-    public GeoLine getg() {
-        return h;
-    }
+	// Made public for LocusEqu
+	public GeoLine geth() {
+		return g;
+	}
 
-    // calc intersection S of lines g, h
-    @Override
-	public final void compute() {   	
-        GeoVec3D.cross(g, h, S); 
-              
-        // test the intersection point
-        // this is needed for the intersection of segments
-        if (S.isDefined()) {
-        	if (!(g.isIntersectionPointIncident(S, Kernel.MIN_PRECISION) &&
-			      h.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)) )
+	// Made public for LocusEqu
+	public GeoLine getg() {
+		return h;
+	}
+
+	// calc intersection S of lines g, h
+	@Override
+	public final void compute() {
+		GeoVec3D.cross(g, h, S);
+
+		// test the intersection point
+		// this is needed for the intersection of segments
+		if (S.isDefined()) {
+			if (!(g.isIntersectionPointIncident(S, Kernel.MIN_PRECISION) && h
+					.isIntersectionPointIncident(S, Kernel.MIN_PRECISION)))
 				S.setUndefined();
-        }
-    }
+		}
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("IntersectionPointOfAB",g.getLabel(tpl),h.getLabel(tpl));
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("IntersectionPointOfAB", g.getLabel(tpl),
+				h.getLabel(tpl));
 
-    }
+	}
 
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
@@ -143,7 +145,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 
 	public void getFreeVariables(HashSet<Variable> variables)
 			throws NoSymbolicParametersException {
-		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
@@ -153,10 +155,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
-	public int[] getDegrees()
-			throws NoSymbolicParametersException {
-		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+
+	public int[] getDegrees() throws NoSymbolicParametersException {
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
@@ -170,7 +171,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	public BigInteger[] getExactCoordinates(
 			final HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
-		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
@@ -185,7 +186,7 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)){
+		if ((g instanceof GeoSegment) || (h instanceof GeoSegment)) {
 			throw new NoSymbolicParametersException();
 		}
 		if (g != null && h != null) {
@@ -201,30 +202,35 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		/* In fact we cannot decide a statement properly if any of the inputs is a segment,
-		 * at least not algebraically (without using cylindrical algebraic decomposition or such).
-		 * But since we are doing constructive geometry, it's better to assume that
-		 * segment intersection is not a real problem. TODO: Consider adding an NDG somehow
-		 * in this case (but maybe not really important and useful).
+		/*
+		 * In fact we cannot decide a statement properly if any of the inputs is
+		 * a segment, at least not algebraically (without using cylindrical
+		 * algebraic decomposition or such). But since we are doing constructive
+		 * geometry, it's better to assume that segment intersection is not a
+		 * real problem. TODO: Consider adding an NDG somehow in this case (but
+		 * maybe not really important and useful).
 		 * 
 		 * See also AlgoIntersectLineConic.
 		 */
 		if (g != null && h != null /* && !g.isGeoSegment() && !h.isGeoSegment() */) {
-			if (botanaVars==null){
+			if (botanaVars == null) {
 				botanaVars = new Variable[2];
-				botanaVars[0]=new Variable();
-				botanaVars[1]=new Variable();
+				botanaVars[0] = new Variable();
+				botanaVars[1] = new Variable();
 			}
 			Variable[] fv = g.getBotanaVars(g);
 			botanaPolynomials = new Polynomial[2];
-			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
+			botanaPolynomials[0] = Polynomial.collinear(fv[0], fv[1], fv[2],
+					fv[3], botanaVars[0], botanaVars[1]);
 			fv = h.getBotanaVars(h);
-			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2], fv[3], botanaVars[0], botanaVars[1]); 
-			
+			botanaPolynomials[1] = Polynomial.collinear(fv[0], fv[1], fv[2],
+					fv[3], botanaVars[0], botanaVars[1]);
+
 			return botanaPolynomials;
 		}
 		throw new NoSymbolicParametersException();
@@ -234,8 +240,9 @@ public class AlgoIntersectLines extends AlgoIntersectAbstract implements Symboli
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectLines(geo, this, scope);
 	}
 }

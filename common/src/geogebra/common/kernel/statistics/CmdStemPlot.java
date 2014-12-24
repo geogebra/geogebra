@@ -50,8 +50,8 @@ public class CmdStemPlot extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[1]);
 			}
 
-			GeoElement[] ret = { StemPlot(c.getLabel(),
-					(GeoList) arg[0], (GeoNumeric) arg[1]) };
+			GeoElement[] ret = { StemPlot(c.getLabel(), (GeoList) arg[0],
+					(GeoNumeric) arg[1]) };
 			return ret;
 
 		case 0:
@@ -59,7 +59,8 @@ public class CmdStemPlot extends CommandProcessor {
 
 		default:
 
-			GeoList list = wrapInList(kernelA, arg, arg.length, GeoClass.DEFAULT);
+			GeoList list = wrapInList(kernelA, arg, arg.length,
+					GeoClass.DEFAULT);
 			if (list != null) {
 				GeoElement[] ret2 = { StemPlot(c.getLabel(), list, null) };
 				return ret2;
@@ -68,7 +69,6 @@ public class CmdStemPlot extends CommandProcessor {
 			throw argErr(app, c.getName(), arg[0]);
 		}
 	}
-	
 
 	/**
 	 * StemPlot[list] Michael Borcherds

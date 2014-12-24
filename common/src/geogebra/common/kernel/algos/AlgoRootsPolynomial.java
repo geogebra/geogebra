@@ -390,7 +390,8 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 			// if this didn't work take the derivative of the numeric
 			// expansion of this function
 			if (factorList == null) {
-				derivPoly = fun.getNumericPolynomialDerivative(derivDegree,false);
+				derivPoly = fun.getNumericPolynomialDerivative(derivDegree,
+						false);
 				evalFunction = derivPoly;
 			} else {
 				evalFunction = fun.getDerivative(derivDegree, true);
@@ -558,8 +559,7 @@ public class AlgoRootsPolynomial extends AlgoIntersect {
 	 * possible the whole algorithm is removed.
 	 */
 	@Override
-	public
-	void remove(GeoElement output) {
+	public void remove(GeoElement output) {
 		// only single undefined points may be removed
 		for (int i = 0; i < rootPoints.length; i++) {
 			if (rootPoints[i] == output && !rootPoints[i].isDefined()) {

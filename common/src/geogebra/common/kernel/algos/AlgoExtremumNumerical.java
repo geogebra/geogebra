@@ -77,7 +77,7 @@ public class AlgoExtremumNumerical extends AlgoElement {
 		this.georight = right.toGeoElement();
 
 		E = new GeoPoint(cons); // Put an extremum point in the user interface
-									// from the very start
+								// from the very start
 		E.setCoords(0.0, 0.0, 1.0);
 
 		setInputOutput();

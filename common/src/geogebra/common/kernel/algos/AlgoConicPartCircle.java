@@ -129,40 +129,39 @@ public class AlgoConicPartCircle extends AlgoConicPart {
 
 		// now take the parameters from the temp points
 		conicPart.set(conic);
-		((GeoConicPartND) conicPart).setParameters(P.getPathParameter().t, Q.getPathParameter().t,
-				true);
+		((GeoConicPartND) conicPart).setParameters(P.getPathParameter().t,
+				Q.getPathParameter().t, true);
 	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleArc(geo, this, scope);
 	}
-	
 
 	@Override
 	public GeoConicPart getConicPart() {
-        return (GeoConicPart) super.getConicPart();
-    }
-	
-	/////////////////////////////////
-	// TRICKS FOR XOY PLANE
-	/////////////////////////////////
+		return (GeoConicPart) super.getConicPart();
+	}
 
-	
+	// ///////////////////////////////
+	// TRICKS FOR XOY PLANE
+	// ///////////////////////////////
+
 	@Override
-	protected int getInputLengthForXML(){
+	protected int getInputLengthForXML() {
 		return getInputLengthForXMLMayNeedXOYPlane();
-	}	
-		
+	}
+
 	@Override
-	protected int getInputLengthForCommandDescription(){
+	protected int getInputLengthForCommandDescription() {
 		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
-	
+
 	@Override
 	public GeoElement getInput(int i) {
 		return getInputMaybeXOYPlane(i);

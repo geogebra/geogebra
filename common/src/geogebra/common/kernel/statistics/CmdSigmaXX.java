@@ -10,21 +10,21 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
 /**
- * SigmaXX[ list ]
- * adapted from CmdVariance by Michael Borcherds 2008-02-18
+ * SigmaXX[ list ] adapted from CmdVariance by Michael Borcherds 2008-02-18
  */
 public class CmdSigmaXX extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdSigmaXX(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String label, GeoList list)
-	{
+	final protected GeoElement doCommand(String label, GeoList list) {
 		GeoNumeric num;
 		GeoElement geo = list.get(0);
 		if (geo instanceof NumberValue) { // list of numbers
@@ -36,16 +36,18 @@ public class CmdSigmaXX extends CmdOneListFunction {
 		}
 		return num;
 	}
-	
+
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list,
+			GeoList freq) {
 		AlgoSigmaXX algo = new AlgoSigmaXX(cons, a, list, freq);
 		return algo.getResult();
 	}
-	
+
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq, GeoBoolean isGrouped) {
+	protected GeoElement doCommand(String a, Command c, GeoList list,
+			GeoList freq, GeoBoolean isGrouped) {
 		throw argNumErr(app, c.getName(), 3);
 	}
-	
+
 }

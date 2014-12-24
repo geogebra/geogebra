@@ -22,6 +22,7 @@ import java.util.TreeSet;
 
 /**
  * Element of the construction tree
+ * 
  * @author Markus
  */
 public abstract class ConstructionElement implements
@@ -30,7 +31,7 @@ public abstract class ConstructionElement implements
 	/** parent construction of this element */
 	public transient Construction cons;
 	/** parent kernel of this element */
-	public transient Kernel kernel; 
+	public transient Kernel kernel;
 
 	private int constIndex = -1; // index in construction list
 
@@ -40,7 +41,9 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Creates new construction element
-	 * @param c construction
+	 * 
+	 * @param c
+	 *            construction
 	 */
 	public ConstructionElement(final Construction c) {
 		ceID = ceIDcounter++;
@@ -48,7 +51,8 @@ public abstract class ConstructionElement implements
 	}
 
 	/**
-	 * @param c new construction
+	 * @param c
+	 *            new construction
 	 */
 	public void setConstruction(final Construction c) {
 		cons = c;
@@ -72,19 +76,22 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns the smallest possible construction index for this object in its
 	 * construction.
-	 * @return the smallest possible construction index for this object 
+	 * 
+	 * @return the smallest possible construction index for this object
 	 */
 	public abstract int getMinConstructionIndex();
 
 	/**
 	 * Returns the largest possible construction index for this object in its
 	 * construction.
+	 * 
 	 * @return the largest possible construction index for this object
 	 */
 	public abstract int getMaxConstructionIndex();
 
 	/**
 	 * Returns construction index in current construction.
+	 * 
 	 * @return construction index in current construction.
 	 */
 	public int getConstructionIndex() {
@@ -94,7 +101,9 @@ public abstract class ConstructionElement implements
 	/**
 	 * Sets construction index in current construction. This method should only
 	 * be called from Construction.
-	 * @param index new construction index
+	 * 
+	 * @param index
+	 *            new construction index
 	 */
 	public void setConstructionIndex(int index) {
 		constIndex = index;
@@ -103,6 +112,7 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns whether this construction element is in the construction list of
 	 * its construction.
+	 * 
 	 * @return true for elements in construction list
 	 */
 	final public boolean isInConstructionList() {
@@ -111,6 +121,7 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns whether this element is a breakpoint in the construction protocol
+	 * 
 	 * @return whether this element is a breakpoint in the construction protocol
 	 */
 	abstract public boolean isConsProtocolBreakpoint();
@@ -118,7 +129,9 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns whether this object is available at the given construction step
 	 * (this depends on this object's construction index).
-	 * @param step construction step
+	 * 
+	 * @param step
+	 *            construction step
 	 * @return whether this object is available at the given construction step
 	 */
 	public boolean isAvailableAtConstructionStep(int step) {
@@ -131,6 +144,7 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns true for an independent GeoElement and false otherwise.
+	 * 
 	 * @return true for independent GeoElement
 	 */
 	public abstract boolean isIndependent();
@@ -138,26 +152,30 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns all independent predecessors (of type GeoElement) that this
 	 * object depends on. The predecessors are sorted topologically.
+	 * 
 	 * @return all independent predecessors (of type GeoElement)
 	 */
 	public abstract TreeSet<GeoElement> getAllIndependentPredecessors();
 
 	/**
 	 * Returns XML representation of this object. GeoGebra File Format.
-	 * @param getListentersToo 
-	 * @param sb string builder
+	 * 
+	 * @param getListentersToo
+	 * @param sb
+	 *            string builder
 	 */
 	public abstract void getXML(boolean getListentersToo, StringBuilder sb);
 
 	/**
 	 * Returns XML representation of this object. OGP format.
-	 * @param sb string builder
+	 * 
+	 * @param sb
+	 *            string builder
 	 */
 	public void getXML_OGP(StringBuilder sb) {
 		getXML(false, sb);
 	}
 
-	
 	/**
 	 * Removes this object from the current construction.
 	 */
@@ -180,13 +198,16 @@ public abstract class ConstructionElement implements
 
 	/**
 	 * Returns an array with all GeoElements of this construction element.
+	 * 
 	 * @return an array with all GeoElements of this construction element.
 	 */
 	public abstract GeoElement[] getGeoElements();
+
 	/**
 	 * @return true for GeoElements
 	 */
 	public abstract boolean isGeoElement();
+
 	/**
 	 * @return true for AlgoElements
 	 */
@@ -195,15 +216,17 @@ public abstract class ConstructionElement implements
 	/**
 	 * Returns type and name of this construction element (e.g. "Point A").
 	 * Note: may return ""
+	 * 
 	 * @return type and name of this construction element (e.g. "Point A").
 	 */
 	public abstract String getNameDescription();
 
-
 	/**
 	 * Returns textual description of the definition of this construction
 	 * element (e.g. "Line through A and B"). Note: may return ""
-	 * @param tpl string template
+	 * 
+	 * @param tpl
+	 *            string template
 	 * @return textual description of the definition
 	 */
 	public abstract String getDefinitionDescription(StringTemplate tpl);
@@ -212,12 +235,10 @@ public abstract class ConstructionElement implements
 	 * Returns command that defines this construction element (e.g.
 	 * "Line[A, B]"). Note: may return ""
 	 */
-	
 
 	/**
 	 * Returns name of class. This is needed to allow code obfuscation.
 	 */
-	
 
 	/**
 	 * Returns the mode ID of a related tool.
@@ -267,17 +288,21 @@ public abstract class ConstructionElement implements
 	}
 
 	/**
-	 * @param tpl string template
+	 * @param tpl
+	 *            string template
 	 * @return command description, e.g. "Midpoint[A,B]"
 	 */
 	public abstract String getCommandDescription(StringTemplate tpl);
+
 	/**
 	 * Returns string representation of this element
-	 * @param tpl string template
+	 * 
+	 * @param tpl
+	 *            string template
 	 * @return e.g. "A=(1,2)"
 	 */
 	public abstract String toString(StringTemplate tpl);
-	
+
 	/**
 	 * @return true iff this element can be used in locus equation construction.
 	 */

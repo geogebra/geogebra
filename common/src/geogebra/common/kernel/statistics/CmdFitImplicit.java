@@ -9,7 +9,7 @@ under the terms of the GNU General Public License as published by
 the Free Software Foundation.
 
  */
-package geogebra.common.kernel.statistics; 
+package geogebra.common.kernel.statistics;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
@@ -19,11 +19,11 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
-/** 
+/**
  * FitImplicit.Syntax=[ <List of Points>, <Order> ]
  * 
  */
-public class CmdFitImplicit extends CommandProcessor{
+public class CmdFitImplicit extends CommandProcessor {
 
 	/**
 	 * Create new command processor
@@ -31,24 +31,27 @@ public class CmdFitImplicit extends CommandProcessor{
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFitImplicit(Kernel kernel) {super(kernel);}
+	public CmdFitImplicit(Kernel kernel) {
+		super(kernel);
+	}
 
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
-		int n=c.getArgumentNumber();
-		GeoElement[] arg=resArgs(c);
-		switch(n) {
+		int n = c.getArgumentNumber();
+		GeoElement[] arg = resArgs(c);
+		switch (n) {
 		case 2:
-			if(  (arg[0].isGeoList() )&& (arg[1] instanceof GeoNumberValue)  ){ 
+			if ((arg[0].isGeoList()) && (arg[1] instanceof GeoNumberValue)) {
 
-				AlgoFitImplicit algo = new AlgoFitImplicit(cons, c.getLabel(),(GeoList)arg[0],(GeoNumberValue) arg[1]);
+				AlgoFitImplicit algo = new AlgoFitImplicit(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoNumberValue) arg[1]);
 
-				GeoElement[] ret={ algo.getFit() };
+				GeoElement[] ret = { algo.getFit() };
 				return ret;
 			}
-			throw argErr(app,c.getName(),arg[0]); 
+			throw argErr(app, c.getName(), arg[0]);
 
-		default :
+		default:
 
 			throw argNumErr(app, c.getName(), n);
 		}

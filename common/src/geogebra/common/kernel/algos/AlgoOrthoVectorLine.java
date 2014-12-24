@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoOrthoVectorLine.java
@@ -28,78 +28,83 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoOrthoVectorLine extends AlgoElement {
-    
-    private GeoLine g; // input
-    private GeoVector  n;     // output       
-    
-    //private GeoPoint startPoint;
-        
-    /** Creates new AlgoOrthoVectorLine */
-    public AlgoOrthoVectorLine(Construction cons, String label, GeoLine g) {        
-        super(cons);
-        this.g = g;                
-        n = new GeoVector(cons); 
 
-        GeoPoint possStartPoint = g.getStartPoint();
-        if (possStartPoint != null && possStartPoint.isLabelSet()) {
-	        try{
-	            n.setStartPoint(possStartPoint);
-	        } catch (CircularDefinitionException e) {}
-        }
-        
-        setInputOutput(); // for AlgoElement
-        
-        // compute line through P, Q
-        n.z = 0.0d;
-        compute();      
-        n.setLabel(label);
-    }   
-    
-    @Override
+	private GeoLine g; // input
+	private GeoVector n; // output
+
+	// private GeoPoint startPoint;
+
+	/** Creates new AlgoOrthoVectorLine */
+	public AlgoOrthoVectorLine(Construction cons, String label, GeoLine g) {
+		super(cons);
+		this.g = g;
+		n = new GeoVector(cons);
+
+		GeoPoint possStartPoint = g.getStartPoint();
+		if (possStartPoint != null && possStartPoint.isLabelSet()) {
+			try {
+				n.setStartPoint(possStartPoint);
+			} catch (CircularDefinitionException e) {
+			}
+		}
+
+		setInputOutput(); // for AlgoElement
+
+		// compute line through P, Q
+		n.z = 0.0d;
+		compute();
+		n.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.OrthogonalVector;
-    }
-    
-    @Override
+		return Commands.OrthogonalVector;
+	}
+
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ORTHOGONAL;
-    }
-      
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_ORTHOGONAL;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];        
-        input[0] = g;
+		input = new GeoElement[1];
+		input[0] = g;
 
-        super.setOutputLength(1);
-        super.setOutput(0, n);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoVector getVector() { return n; }    
-    GeoLine getg() { return g; }
-    
-    // line through P normal to v
-    @Override
-	public final void compute() {        
-        n.x = g.x;
-        n.y = g.y;        
-    }       
+		super.setOutputLength(1);
+		super.setOutput(0, n);
+		setDependencies(); // done by AlgoElement
+	}
 
-    @Override
+	public GeoVector getVector() {
+		return n;
+	}
+
+	GeoLine getg() {
+		return g;
+	}
+
+	// line through P normal to v
+	@Override
+	public final void compute() {
+		n.x = g.x;
+		n.y = g.y;
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("VectorPerpendicularToA",g.getLabel(tpl));
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("VectorPerpendicularToA", g.getLabel(tpl));
 
-    }
+	}
 
 	// TODO Consider locusequability
 }

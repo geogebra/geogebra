@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *HyperGeometric
+ * HyperGeometric
  */
 public class CmdHyperGeometric extends CommandProcessor {
 
@@ -30,16 +30,16 @@ public class CmdHyperGeometric extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		
+
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-				
-				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(cons,
-						c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+
+				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
+						cons, c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -51,17 +51,17 @@ public class CmdHyperGeometric extends CommandProcessor {
 			else
 				throw argErr(app, c.getName(), arg[2]);
 
-			
 		case 4:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				
-				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(cons,
-						c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2], (GeoBoolean)arg[3]);
+
+				AlgoHyperGeometricBarChart algo = new AlgoHyperGeometricBarChart(
+						cons, c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+						(GeoBoolean) arg[3]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -74,7 +74,6 @@ public class CmdHyperGeometric extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[2]);
 			else
 				throw argErr(app, c.getName(), arg[3]);
-			
 
 		case 5:
 			arg = resArgs(c);
@@ -83,11 +82,11 @@ public class CmdHyperGeometric extends CommandProcessor {
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3] instanceof GeoNumberValue)
 					&& (ok[4] = arg[4].isGeoBoolean())) {
-				
-				AlgoHyperGeometric algo = new AlgoHyperGeometric(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2], (GeoNumberValue) arg[3],
-						(GeoBoolean) arg[4]);
+
+				AlgoHyperGeometric algo = new AlgoHyperGeometric(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2],
+						(GeoNumberValue) arg[3], (GeoBoolean) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

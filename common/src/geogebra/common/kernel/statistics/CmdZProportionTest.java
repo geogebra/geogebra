@@ -32,23 +32,20 @@ public class CmdZProportionTest extends CommandProcessor {
 		switch (n) {
 
 		case 4:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoText())
-			) {
-				
-				AlgoZProportionTest algo = new AlgoZProportionTest(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoText) arg[3]);
+					&& (ok[3] = arg[3].isGeoText())) {
+
+				AlgoZProportionTest algo = new AlgoZProportionTest(cons,
+						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2], (GeoText) arg[3]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} 
-			
+			}
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:

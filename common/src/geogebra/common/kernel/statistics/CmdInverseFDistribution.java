@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *InverseFDistribution
+ * InverseFDistribution
  */
 public class CmdInverseFDistribution extends CommandProcessor {
 
@@ -34,11 +34,10 @@ public class CmdInverseFDistribution extends CommandProcessor {
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
-				
-				AlgoInverseFDistribution algo = new AlgoInverseFDistribution(cons,
-						c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoNumberValue) arg[2]);
+
+				AlgoInverseFDistribution algo = new AlgoInverseFDistribution(
+						cons, c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

@@ -26,23 +26,29 @@ import geogebra.common.main.MyError;
 
 /**
  * Take objects from the middle of a list
+ * 
  * @author Michael Borcherds
  */
 
 public class AlgoKeepIf extends AlgoElement {
 
-	private GeoList inputList; //input
-	private GeoList outputList; //output	
-	private GeoFunction boolFun;     // input
+	private GeoList inputList; // input
+	private GeoList outputList; // output
+	private GeoFunction boolFun; // input
 	private int size;
 
 	/**
-	 * @param cons construction
-	 * @param label label 
-	 * @param boolFun boolean filter
-	 * @param inputList list
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param boolFun
+	 *            boolean filter
+	 * @param inputList
+	 *            list
 	 */
-	public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun, GeoList inputList) {
+	public AlgoKeepIf(Construction cons, String label, GeoFunction boolFun,
+			GeoList inputList) {
 		super(cons);
 		this.inputList = inputList;
 		this.boolFun = boolFun;
@@ -60,7 +66,7 @@ public class AlgoKeepIf extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = boolFun;
 		input[1] = inputList;
@@ -85,31 +91,35 @@ public class AlgoKeepIf extends AlgoElement {
 		if (!inputList.isDefined()) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
 		outputList.setDefined(true);
 		outputList.clear();
 
-		if (size == 0) return;
+		if (size == 0)
+			return;
 		/*
-		 * If val is not numeric, we use the underlying Expression of the function and 
-		 * plug the list element as variable.
-		 * Deep copy is needed so that we can plug the value repeatedly.
+		 * If val is not numeric, we use the underlying Expression of the
+		 * function and plug the list element as variable. Deep copy is needed
+		 * so that we can plug the value repeatedly.
 		 */
 		FunctionVariable var = boolFun.getFunction().getFunctionVariable();
 		try {
-			for (int i=0 ; i<size ; i++)
-			{
+			for (int i = 0; i < size; i++) {
 				GeoElement geo = inputList.get(i);
-				if(geo.isGeoNumeric()){
-					if (boolFun.evaluateBoolean(((GeoNumeric)geo).getValue()) ) {
+				if (geo.isGeoNumeric()) {
+					if (boolFun.evaluateBoolean(((GeoNumeric) geo).getValue())) {
 						outputList.add(geo.copyInternal(cons));
 					}
-				} 
-				else {
-					ExpressionNode ex = (ExpressionNode)boolFun.getFunction().getExpression().deepCopy(kernel);
-					ex = ex.replace(var, geo.evaluate(StringTemplate.defaultTemplate)).wrap();
-					if (((MyBoolean)ex.evaluate(StringTemplate.defaultTemplate)).getBoolean()) {
+				} else {
+					ExpressionNode ex = (ExpressionNode) boolFun.getFunction()
+							.getExpression().deepCopy(kernel);
+					ex = ex.replace(var,
+							geo.evaluate(StringTemplate.defaultTemplate))
+							.wrap();
+					if (((MyBoolean) ex
+							.evaluate(StringTemplate.defaultTemplate))
+							.getBoolean()) {
 						outputList.add(geo.copyInternal(cons));
 					}
 				}
@@ -121,10 +131,6 @@ public class AlgoKeepIf extends AlgoElement {
 			outputList.setUndefined();
 			return;
 		}
-	} 	
-
-	
-
-	
+	}
 
 }

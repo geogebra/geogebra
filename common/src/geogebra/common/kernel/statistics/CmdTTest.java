@@ -33,10 +33,9 @@ public class CmdTTest extends CommandProcessor {
 		switch (n) {
 
 		case 3:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoNumeric())
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoText())) {
-				
+
 				AlgoTTest algo = new AlgoTTest(cons, c.getLabel(),
 						(GeoList) arg[0], (GeoNumeric) arg[1], (GeoText) arg[2]);
 
@@ -47,22 +46,19 @@ public class CmdTTest extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[0]);
 			else if (!ok[1])
 				throw argErr(app, c.getName(), arg[1]);
-			else 
+			else
 				throw argErr(app, c.getName(), arg[2]);
 
 		case 5:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoText())
-			) {
-				
+					&& (ok[4] = arg[4].isGeoText())) {
+
 				AlgoTTest algo = new AlgoTTest(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3],
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoText) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };

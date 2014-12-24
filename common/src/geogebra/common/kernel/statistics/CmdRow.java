@@ -13,7 +13,9 @@ import geogebra.common.main.MyError;
 public class CmdRow extends CommandProcessor {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdRow(Kernel kernel) {
 		super(kernel);
@@ -27,10 +29,9 @@ public class CmdRow extends CommandProcessor {
 		switch (n) {
 		case 1:
 			// Name[ <GeoElement> ]
-			arg = resArgs(c);			
+			arg = resArgs(c);
 			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
-				AlgoRow algo = new AlgoRow(cons, c.getLabel(),
-						arg[0]);
+				AlgoRow algo = new AlgoRow(cons, c.getLabel(), arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

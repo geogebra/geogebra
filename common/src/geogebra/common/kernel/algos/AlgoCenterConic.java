@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoMidpointConic.java
@@ -25,63 +25,59 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
- * Center of a conic section. 
+ * Center of a conic section.
  */
 public class AlgoCenterConic extends AlgoCenterQuadricND {
 
-            
-
 	/**
 	 * Constructor
+	 * 
 	 * @param cons
 	 * @param label
 	 * @param c
 	 */
-    public AlgoCenterConic(Construction cons, String label, GeoConicND c) {
-        super(cons, label,c);
-    }
-    
+	public AlgoCenterConic(Construction cons, String label, GeoConicND c) {
+		super(cons, label, c);
+	}
 
-    @Override
-	public GeoPointND newGeoPoint(Construction cons){
-    	return new GeoPoint(cons);
-    }
-    
+	@Override
+	public GeoPointND newGeoPoint(Construction cons) {
+		return new GeoPoint(cons);
+	}
 
-    @Override
+	@Override
 	public GeoPointND getPoint() {
-        return midpoint;
-    }
+		return midpoint;
+	}
 
-    @Override
+	@Override
 	public void setCoords() {
 
+		switch (c.type) {
+		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+		case GeoConicNDConstants.CONIC_HYPERBOLA:
+		case GeoConicNDConstants.CONIC_SINGLE_POINT:
+		case GeoConicNDConstants.CONIC_INTERSECTING_LINES:
+			GeoVec2D b = ((GeoConicND) c).b;
+			setCoords(b.getX(), b.getY());
+			break;
 
-        switch (c.type) {
-            case GeoConicNDConstants.CONIC_CIRCLE :
-            case GeoConicNDConstants.CONIC_ELLIPSE :
-            case GeoConicNDConstants.CONIC_HYPERBOLA :
-            case GeoConicNDConstants.CONIC_SINGLE_POINT :
-            case GeoConicNDConstants.CONIC_INTERSECTING_LINES :
-            	GeoVec2D b = ((GeoConicND) c).b;
-                setCoords(b.getX(), b.getY());
-                break;
+		default:
+			// midpoint undefined
+			midpoint.setUndefined();
+		}
+	}
 
-            default :
-                // midpoint undefined
-                midpoint.setUndefined();
-        }
-    }
-    
-    /**
-     * set the coords of the midpoint
-     * @param x
-     * @param y
-     */
-    protected void setCoords(double x, double y){
-    	midpoint.setCoords(x, y, 1.0d);
-    }
+	/**
+	 * set the coords of the midpoint
+	 * 
+	 * @param x
+	 * @param y
+	 */
+	protected void setCoords(double x, double y) {
+		midpoint.setCoords(x, y, 1.0d);
+	}
 
 }

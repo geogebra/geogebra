@@ -103,12 +103,12 @@ public class AlgoFunctionInterval extends AlgoElement {
 
 	private boolean hasEqualExpressions(GeoFunction f) {
 		boolean equal;
-	
-			ExpressionNode en = f.getFunctionExpression();
 
-			equal = exp == en;
-			exp = en;
-	
+		ExpressionNode en = f.getFunctionExpression();
+
+		equal = exp == en;
+		exp = en;
+
 		return equal;
 	}
 

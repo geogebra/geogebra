@@ -32,51 +32,43 @@ public class CmdZMean2Estimate extends CommandProcessor {
 		switch (n) {
 
 		case 5:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoList())
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoNumeric())
-			) {
-				
-				AlgoZMean2Estimate algo = new AlgoZMean2Estimate(cons, c.getLabel(),
-						(GeoList) arg[0], 
-						(GeoList) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3],
+					&& (ok[4] = arg[4].isGeoNumeric())) {
+
+				AlgoZMean2Estimate algo = new AlgoZMean2Estimate(cons,
+						c.getLabel(), (GeoList) arg[0], (GeoList) arg[1],
+						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
 						(GeoNumeric) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} 
-			
+			}
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		case 7:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())
-					&& (ok[6] = arg[6].isGeoNumeric())
-			) {
-				
-				AlgoZMean2Estimate algo = new AlgoZMean2Estimate(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3],
-						(GeoNumeric) arg[4],
-						(GeoNumeric) arg[5],
+					&& (ok[6] = arg[6].isGeoNumeric())) {
+
+				AlgoZMean2Estimate algo = new AlgoZMean2Estimate(cons,
+						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
+						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoNumeric) arg[6]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} 
-			
+			}
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:

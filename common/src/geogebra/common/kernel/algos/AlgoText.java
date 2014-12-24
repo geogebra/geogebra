@@ -27,41 +27,46 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Returns the name of a GeoElement as a GeoText.
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoText extends AlgoElement {
 
-	private GeoElement geo;  // input
+	private GeoElement geo; // input
 	private GeoBoolean substituteVars, latex; // optional input
 	private GeoPointND startPoint, startPointCopy; // optional input
-	private GeoText text;     // output              
+	private GeoText text; // output
 
 	public AlgoText(Construction cons, String label, GeoElement geo) {
 		this(cons, label, geo, null, null, null);
-	}   
-
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoBoolean substituteVars) {
-		this(cons, label, geo, null, substituteVars, null);
-	}   
-	
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPointND p) {
-		this(cons, label, geo, p, null, null);
-	}   
-
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPointND p, GeoBoolean substituteVars) {
-		this(cons, label, geo, p, substituteVars, null);
-	}   
-
-	public AlgoText(Construction cons, String label, GeoElement geo, GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
-		this(cons, geo, p, substituteVars, latex);
-		text.setLabel(label);		
 	}
 
-	public AlgoText(Construction cons, GeoElement geo, GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
+	public AlgoText(Construction cons, String label, GeoElement geo,
+			GeoBoolean substituteVars) {
+		this(cons, label, geo, null, substituteVars, null);
+	}
+
+	public AlgoText(Construction cons, String label, GeoElement geo,
+			GeoPointND p) {
+		this(cons, label, geo, p, null, null);
+	}
+
+	public AlgoText(Construction cons, String label, GeoElement geo,
+			GeoPointND p, GeoBoolean substituteVars) {
+		this(cons, label, geo, p, substituteVars, null);
+	}
+
+	public AlgoText(Construction cons, String label, GeoElement geo,
+			GeoPointND p, GeoBoolean substituteVars, GeoBoolean latex) {
+		this(cons, geo, p, substituteVars, latex);
+		text.setLabel(label);
+	}
+
+	public AlgoText(Construction cons, GeoElement geo, GeoPointND p,
+			GeoBoolean substituteVars, GeoBoolean latex) {
 		super(cons);
 		this.geo = geo;
 		this.startPoint = p;
@@ -70,94 +75,98 @@ public class AlgoText extends AlgoElement {
 
 		text = new GeoText(cons);
 		text.setIsTextCommand(true); // stop editing as text
-		
+
 		// set startpoint
 		if (startPoint != null) {
 			startPointCopy = (GeoPointND) startPoint.copyInternal(cons);
-			
+
 			try {
 				text.setStartPoint(startPointCopy);
-			}
-			catch (CircularDefinitionException e) {
-				e.printStackTrace();				
+			} catch (CircularDefinitionException e) {
+				e.printStackTrace();
 			}
 			text.setAlwaysFixed(true); // disable dragging if p != null
 		}
-		
+
 		setInputOutput(); // for AlgoElement
 
 		// compute value of dependent number
-		compute();      
+		compute();
 	}
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Text;
-    }
+		return Commands.Text;
+	}
 
 	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_TEXT;
-    }
+		return EuclidianConstants.MODE_TEXT;
+	}
 
 	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
 
 		int inputs = 1;
-		if (startPoint != null) inputs++;
-		if (substituteVars != null) inputs++;
-		if (latex != null) inputs++;
-		
-		int i=0;
+		if (startPoint != null)
+			inputs++;
+		if (substituteVars != null)
+			inputs++;
+		if (latex != null)
+			inputs++;
+
+		int i = 0;
 		input = new GeoElement[inputs];
 		input[i++] = geo;
-		if(geo.isGeoText())
-			((GeoText)geo).addTextDescendant(text);
-		if (startPoint != null) input[i++] = (GeoElement) startPoint;
-		if (substituteVars != null) input[i++] = substituteVars;
-		if (latex != null) input[i++] = latex;
+		if (geo.isGeoText())
+			((GeoText) geo).addTextDescendant(text);
+		if (startPoint != null)
+			input[i++] = (GeoElement) startPoint;
+		if (substituteVars != null)
+			input[i++] = substituteVars;
+		if (latex != null)
+			input[i++] = latex;
 
 		super.setOutputLength(1);
-        super.setOutput(0, text);
+		super.setOutput(0, text);
 		setDependencies(); // done by AlgoElement
-	}    
+	}
 
-	public GeoText getGeoText() { return text; }
+	public GeoText getGeoText() {
+		return text;
+	}
 
 	@Override
-	public final void compute() {    
-		
+	public final void compute() {
+
 		// undefined text
-		if (!geo.isDefined() || 
-				(startPoint != null && !startPoint.isDefined()) ||
-				(substituteVars != null && !substituteVars.isDefined()) || 
-				(substituteVars != null && !substituteVars.isDefined())) 
-		{
+		if (!geo.isDefined() || (startPoint != null && !startPoint.isDefined())
+				|| (substituteVars != null && !substituteVars.isDefined())
+				|| (substituteVars != null && !substituteVars.isDefined())) {
 			text.setUndefined();
 			return;
 		}
-		
-		
-		
+
 		// standard case: set text
-		boolean bool = substituteVars == null ? true : substituteVars.getBoolean();
+		boolean bool = substituteVars == null ? true : substituteVars
+				.getBoolean();
 		boolean formula = latex == null ? false : latex.getBoolean();
 		if (geo.isGeoText()) {
 			// needed for eg Text commands eg Text[Text[
-			text.setTextString(((GeoText)geo).getTextString());
+			text.setTextString(((GeoText) geo).getTextString());
 		} else {
-			text.setTextString(geo.getFormulaString(text.getStringTemplate(), bool));				
+			text.setTextString(geo.getFormulaString(text.getStringTemplate(),
+					bool));
 		}
 		text.setLaTeX(formula, false);
 		text.update();
 
-		
 		// update startpoint position of text
 		if (startPointCopy != null) {
-			startPointCopy.setCoordsFromPoint(startPoint);		
+			startPointCopy.setCoordsFromPoint(startPoint);
 		}
-	}         
+	}
 
 	// TODO Consider locusequability
 }

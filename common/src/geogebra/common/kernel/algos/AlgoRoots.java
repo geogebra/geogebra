@@ -207,12 +207,12 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	}// compute()
 
 	@Override
-	protected double yAt(double x){
-		if(type == TYPE_ROOTS)
+	protected double yAt(double x) {
+		if (type == TYPE_ROOTS)
 			return 0;
 		return f1.evaluate(x);
 	}
-	
+
 	private final void compute2(GeoFunction f) {
 
 		double l = left.getDouble();
@@ -234,8 +234,8 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 
 		// / --- Algorithm --- ///
 		int n = findNumberOfSamples(l, r);
-		//make sure m is at least 1 even for invisible EV
-		int m = Math.max(n,1);
+		// make sure m is at least 1 even for invisible EV
+		int m = Math.max(n, 1);
 		try { // To catch eventual wrong indexes in arrays...
 				// Adjust samples. Some research needed to find best factor in
 				// if(numberofroots<m*factor...
@@ -253,8 +253,7 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 				m = m * 2;
 			} while (m < MAX_SAMPLES);
 			if (m > MAX_SAMPLES)
-				App
-						.debug("We have probably lost some roots...");
+				App.debug("We have probably lost some roots...");
 		} catch (Exception e) {
 			App.debug("Exception in compute() " + e.toString());
 		}// try-catch
@@ -275,8 +274,9 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 	 */
 	public static final double[] findRoots(GeoFunction f, double l, double r,
 			int samples) {
-		if(Kernel.isEqual(l, r)){
-			return Kernel.isZero(f.evaluate(l)) ? new double[]{l} : new double[0];
+		if (Kernel.isEqual(l, r)) {
+			return Kernel.isZero(f.evaluate(l)) ? new double[] { l }
+					: new double[0];
 		}
 		double[] y = new double[samples + 1]; //
 		ArrayList<Double> xlist = new ArrayList<Double>();
@@ -371,9 +371,10 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 		// n=pixels_in_visible_interval/PIXELS_BETWEEN_SAMPLES;
 
 		// EuclidianView ev = app.getEuclidianView();
-		double visiblemax =kernel.getViewsXMax(points[0]);
+		double visiblemax = kernel.getViewsXMax(points[0]);
 		double visiblemin = kernel.getViewsXMin(points[0]);
-		double visiblepixs = kernel.getApplication().countPixels(visiblemin, visiblemax);
+		double visiblepixs = kernel.getApplication().countPixels(visiblemin,
+				visiblemax);
 		// debug("Visible pixels: "+visiblepixs);
 		double pixsininterval = visiblepixs * (r - l)
 				/ (visiblemax - visiblemin);
@@ -455,8 +456,10 @@ public class AlgoRoots extends AlgoGeoPointsFunction {
 			int n = gpts.length;
 			System.out.println("Length: " + n);
 			for (int i = 0; i < n; i++) {
-				System.out.println("Label: " + gpts[i].getLabel(StringTemplate.defaultTemplate) + "     pt["
-						+ i + "]: (" + gpts[i].x + "," + gpts[i] + ")");
+				System.out.println("Label: "
+						+ gpts[i].getLabel(StringTemplate.defaultTemplate)
+						+ "     pt[" + i + "]: (" + gpts[i].x + "," + gpts[i]
+						+ ")");
 			}// for
 		} else {
 			debug("gpts was null!");

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDistanceLineLine.java
@@ -26,79 +26,77 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoDistanceLineLine extends AlgoElement {
 
-    private GeoLine g, h; // input
-    protected GeoNumeric dist; // output       
+	private GeoLine g, h; // input
+	protected GeoNumeric dist; // output
 
-    public AlgoDistanceLineLine(
-        Construction cons,
-        String label,
-        GeoLine g,
-        GeoLine h) {
-        super(cons);
-        this.h = h;
-        this.g = g;
-        dist = new GeoNumeric(cons);
-        setInputOutput(); // for AlgoElement
+	public AlgoDistanceLineLine(Construction cons, String label, GeoLine g,
+			GeoLine h) {
+		super(cons);
+		this.h = h;
+		this.g = g;
+		dist = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
 
-        // compute length
-        compute();
-        dist.setLabel(label);
-    }
+		// compute length
+		compute();
+		dist.setLabel(label);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Distance;
-    }
+		return Commands.Distance;
+	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_DISTANCE;
-    }
-    
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_DISTANCE;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = h;
-        input[1] = g;
+		input = new GeoElement[2];
+		input[0] = h;
+		input[1] = g;
 
-        super.setOutputLength(1);
-        super.setOutput(0, dist);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, dist);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getDistance() {
-        return dist;
-    }
-    GeoLine getg() {
-        return g;
-    }
-    GeoLine geth() {
-        return h;
-    }
+	public GeoNumeric getDistance() {
+		return dist;
+	}
 
-    // calc length of vector v   
-    @Override
+	GeoLine getg() {
+		return g;
+	}
+
+	GeoLine geth() {
+		return h;
+	}
+
+	// calc length of vector v
+	@Override
 	public void compute() {
-        dist.setValue(g.distance(h));
-    }
+		dist.setValue(g.distance(h));
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("DistanceOfAandB",g.getLabel(tpl),h.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("DistanceOfAandB", g.getLabel(tpl),
+				h.getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
-
 
 }

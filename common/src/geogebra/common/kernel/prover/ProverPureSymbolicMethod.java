@@ -16,19 +16,22 @@ import geogebra.common.util.debug.Log;
  *
  */
 public class ProverPureSymbolicMethod {
-	
+
 	/**
-	 * Proves the statement by using pure symbolic method 
-	 * @param statement the statement to prove
+	 * Proves the statement by using pure symbolic method
+	 * 
+	 * @param statement
+	 *            the statement to prove
 	 * @return if the proof was successful
 	 */
-	public static ProofResult prove(Prover prover){
-		
+	public static ProofResult prove(Prover prover) {
+
 		GeoElement statement = prover.getStatement();
-		
-		if (statement instanceof SymbolicParametersAlgo){
+
+		if (statement instanceof SymbolicParametersAlgo) {
 			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement;
-			SymbolicParameters parameters = statementSymbolic.getSymbolicParameters();
+			SymbolicParameters parameters = statementSymbolic
+					.getSymbolicParameters();
 			try {
 				parameters.getFreeVariables();
 				// TODO: write here Recio's prover
@@ -36,16 +39,17 @@ public class ProverPureSymbolicMethod {
 			} catch (NoSymbolicParametersException e) {
 				return ProofResult.UNKNOWN;
 			}
-		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo){
-			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement.getParentAlgorithm();
+		} else if (statement.getParentAlgorithm() instanceof SymbolicParametersAlgo) {
+			SymbolicParametersAlgo statementSymbolic = (SymbolicParametersAlgo) statement
+					.getParentAlgorithm();
 			try {
 				Polynomial[] poly = statementSymbolic.getPolynomials();
-				for (Polynomial polynomial:poly){
+				for (Polynomial polynomial : poly) {
 					Log.debug(polynomial);
-					if (!polynomial.isZero()){
+					if (!polynomial.isZero()) {
 						return ProofResult.FALSE;
 					}
-				} 
+				}
 				return ProofResult.TRUE;
 				// TODO: write here Recio's prover
 				// FIXME: No, something else is required here!

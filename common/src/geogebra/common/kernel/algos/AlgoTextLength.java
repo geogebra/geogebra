@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -18,55 +18,55 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 
-
 /**
  * Length of a GeoText object.
+ * 
  * @author Michael
  */
 
 public class AlgoTextLength extends AlgoElement {
 
-	private GeoText text; //input
-    private GeoNumeric length; //output	
+	private GeoText text; // input
+	private GeoNumeric length; // output
 
-    public AlgoTextLength(Construction cons, String label, GeoText text) {
-        super(cons);
-        this.text = text;
-               
-        length = new GeoNumeric(cons);
+	public AlgoTextLength(Construction cons, String label, GeoText text) {
+		super(cons);
+		this.text = text;
 
-        setInputOutput();
-        compute();
-        length.setLabel(label);
-    }
+		length = new GeoNumeric(cons);
 
-    @Override
+		setInputOutput();
+		compute();
+		length.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
-    @Override
-	protected void setInputOutput(){
-        input = new GeoElement[1];
-        input[0] = text;
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[1];
+		input[0] = text;
 
-        super.setOutputLength(1);
-        super.setOutput(0, length);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, length);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getLength() {
-        return length;
-    }
+	public GeoNumeric getLength() {
+		return length;
+	}
 
-    @Override
+	@Override
 	public final void compute() {
-    	if (text.isDefined())
-    		length.setValue(text.getTextString().length());
-    	else 
-    		length.setUndefined();
-    }
+		if (text.isDefined())
+			length.setValue(text.getTextString().length());
+		else
+			length.setUndefined();
+	}
 
 	// TODO Consider locusequability
-    
+
 }

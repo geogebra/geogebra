@@ -9,14 +9,15 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- * Percentile[ <List>, <Value> ]
- * G. Sturr
+ * Percentile[ <List>, <Value> ] G. Sturr
  */
 public class CmdPercentile extends CommandProcessor {
 
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdPercentile(Kernel kernel) {
 		super(kernel);
@@ -32,13 +33,12 @@ public class CmdPercentile extends CommandProcessor {
 		switch (n) {
 
 		case 2:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoNumeric())) {
-				
-				AlgoPercentile algo = new AlgoPercentile(cons, c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1]);
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
 
-				GeoElement[] ret = 
-				{ algo.getResult() };
+				AlgoPercentile algo = new AlgoPercentile(cons, c.getLabel(),
+						(GeoList) arg[0], (GeoNumeric) arg[1]);
+
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])

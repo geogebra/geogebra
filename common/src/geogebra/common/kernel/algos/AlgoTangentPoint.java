@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -28,123 +28,116 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoTangentPoint extends AlgoTangentPointND {
 
-	
+	public AlgoTangentPoint(Construction cons, String[] labels, GeoPointND P,
+			GeoConicND c) {
+		super(cons, labels, P, c);
+	}
 
-    public AlgoTangentPoint(
-        Construction cons,
-        String[] labels,
-        GeoPointND P,
-        GeoConicND c) {
-        super(cons, labels, P, c);
-    }
+	@Override
+	protected boolean isIntersectionPointIncident() {
+		return c.isIntersectionPointIncident((GeoPoint) P, Kernel.MIN_PRECISION)
+				|| P.getIncidenceList().contains(c);
+	}
 
-    
-    @Override
-	protected boolean isIntersectionPointIncident(){
-		return c.isIntersectionPointIncident((GeoPoint) P, Kernel.MIN_PRECISION) || P.getIncidenceList().contains(c);	
-    }
-    
-    @Override
-	protected void setPolar(){
-    	// the tangents are computed by intersecting the
-        // polar line of P with c
-        polar = new GeoLine(cons);
-        c.polarLine((GeoPoint) P, polar);
-        algoIntersect = new AlgoIntersectLineConic(cons, polar, (GeoConic) c);
-        //  this is only an internal Algorithm that shouldn't be in the construction list
-        cons.removeFromConstructionList(algoIntersect);
-        tangentPoints = algoIntersect.getIntersectionPoints();
-    }
-    
-    
-    @Override
-	protected void setTangentFromPolar(int i){
-    	((GeoLine) tangents[i]).setCoords(polar);
-    }
-    
-    @Override
-	protected void setTangents(){
-    	 tangents = new GeoLine[2];
-         tangents[0] = new GeoLine(cons);
-         tangents[1] = new GeoLine(cons);
-         ((GeoLine) tangents[0]).setStartPoint((GeoPoint) P);
-         ((GeoLine) tangents[1]).setStartPoint((GeoPoint) P);
-    }
+	@Override
+	protected void setPolar() {
+		// the tangents are computed by intersecting the
+		// polar line of P with c
+		polar = new GeoLine(cons);
+		c.polarLine((GeoPoint) P, polar);
+		algoIntersect = new AlgoIntersectLineConic(cons, polar, (GeoConic) c);
+		// this is only an internal Algorithm that shouldn't be in the
+		// construction list
+		cons.removeFromConstructionList(algoIntersect);
+		tangentPoints = algoIntersect.getIntersectionPoints();
+	}
 
-    
-    
-    
-    // Made public for LocusEqu
-    public GeoPoint getPoint() {
-        return (GeoPoint) P;
-    }
-    // Made public for LocusEqu
-    public GeoConic getConic() {
-        return (GeoConic) c;
-    }       
+	@Override
+	protected void setTangentFromPolar(int i) {
+		((GeoLine) tangents[i]).setCoords(polar);
+	}
 
+	@Override
+	protected void setTangents() {
+		tangents = new GeoLine[2];
+		tangents[0] = new GeoLine(cons);
+		tangents[1] = new GeoLine(cons);
+		((GeoLine) tangents[0]).setStartPoint((GeoPoint) P);
+		((GeoLine) tangents[1]).setStartPoint((GeoPoint) P);
+	}
 
-    
-    /**
-     * Inits the helping interesection algorithm to take
-     * the current position of the lines into account.
-     * This is important so the the tangent lines are not
-     * switched after loading a file
-     */
-    @Override
+	// Made public for LocusEqu
+	public GeoPoint getPoint() {
+		return (GeoPoint) P;
+	}
+
+	// Made public for LocusEqu
+	public GeoConic getConic() {
+		return (GeoConic) c;
+	}
+
+	/**
+	 * Inits the helping interesection algorithm to take the current position of
+	 * the lines into account. This is important so the the tangent lines are
+	 * not switched after loading a file
+	 */
+	@Override
 	public void initForNearToRelationship() {
-    	// if first tangent point is not on first tangent,
-    	// we switch the intersection points
-    	
-    	initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
-    }
-    
-    /**
-     * Inits the helping interesection algorithm to take
-     * the current position of the lines into account.
-     * This is important so the the tangent lines are not
-     * switched after loading a file
-     *
-     * @param tangentPoints tangent points
-     * @param tangent tangent line
-     * @param algoIntersect algo used
-     */
-    static public void initForNearToRelationship(GeoPointND[] tangentPoints, GeoLineND tangent, AlgoIntersectND algoIntersect) {
-    	// if first tangent point is not on first tangent,
-    	// we switch the intersection points
-    	
-    	GeoPoint firstTangentPoint = (GeoPoint) tangentPoints[0];
-    	
-    	if (!((GeoLine) tangent).isOnFullLine(firstTangentPoint, Kernel.MIN_PRECISION)) {
-        	algoIntersect.initForNearToRelationship();
-        	
-        	// remember first point
-    		double px = firstTangentPoint.x;
-    		double py = firstTangentPoint.y;
-    		double pz = firstTangentPoint.z;
-    		
-    		// first = second
-    		algoIntersect.setIntersectionPoint(0, tangentPoints[1]);
-    		
-    		// second = first
-    		tangentPoints[1].setCoords(px, py, pz);
-    		algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
-     	}		
-    }
+		// if first tangent point is not on first tangent,
+		// we switch the intersection points
 
+		initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
+	}
 
-    @Override
-    protected void updatePolarLine(){
-    	c.polarLine((GeoPoint) P, polar);
-    }
+	/**
+	 * Inits the helping interesection algorithm to take the current position of
+	 * the lines into account. This is important so the the tangent lines are
+	 * not switched after loading a file
+	 *
+	 * @param tangentPoints
+	 *            tangent points
+	 * @param tangent
+	 *            tangent line
+	 * @param algoIntersect
+	 *            algo used
+	 */
+	static public void initForNearToRelationship(GeoPointND[] tangentPoints,
+			GeoLineND tangent, AlgoIntersectND algoIntersect) {
+		// if first tangent point is not on first tangent,
+		// we switch the intersection points
 
+		GeoPoint firstTangentPoint = (GeoPoint) tangentPoints[0];
 
+		if (!((GeoLine) tangent).isOnFullLine(firstTangentPoint,
+				Kernel.MIN_PRECISION)) {
+			algoIntersect.initForNearToRelationship();
 
-    @Override
-	protected void updateTangents(){
-    	// calc tangents through tangentPoints
-        GeoVec3D.lineThroughPoints((GeoPoint) P, (GeoPoint) tangentPoints[0], (GeoLine) tangents[0]);
-        GeoVec3D.lineThroughPoints((GeoPoint) P, (GeoPoint) tangentPoints[1], (GeoLine) tangents[1]);
-    }
+			// remember first point
+			double px = firstTangentPoint.x;
+			double py = firstTangentPoint.y;
+			double pz = firstTangentPoint.z;
+
+			// first = second
+			algoIntersect.setIntersectionPoint(0, tangentPoints[1]);
+
+			// second = first
+			tangentPoints[1].setCoords(px, py, pz);
+			algoIntersect.setIntersectionPoint(1, tangentPoints[1]);
+		}
+	}
+
+	@Override
+	protected void updatePolarLine() {
+		c.polarLine((GeoPoint) P, polar);
+	}
+
+	@Override
+	protected void updateTangents() {
+		// calc tangents through tangentPoints
+		GeoVec3D.lineThroughPoints((GeoPoint) P, (GeoPoint) tangentPoints[0],
+				(GeoLine) tangents[0]);
+		GeoVec3D.lineThroughPoints((GeoPoint) P, (GeoPoint) tangentPoints[1],
+				(GeoLine) tangents[1]);
+	}
 
 }

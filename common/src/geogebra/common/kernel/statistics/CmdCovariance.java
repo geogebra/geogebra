@@ -6,8 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * Covariance[ &lt;list1>, <&lt;list2> ]
- * Covariance[ &lt;List of Points> ]
+ * Covariance[ &lt;list1>, <&lt;list2> ] Covariance[ &lt;List of Points> ]
  *
  */
 public class CmdCovariance extends CmdOneOrTwoListsFunction {
@@ -22,20 +21,17 @@ public class CmdCovariance extends CmdOneOrTwoListsFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoListCovariance algo = new AlgoListCovariance(cons, a, b);
 		return algo.getResult();
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
-	{
-		AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance(cons,
-				a, b, c);
+	final protected GeoElement doCommand(String a, GeoList b, GeoList c) {
+		AlgoDoubleListCovariance algo = new AlgoDoubleListCovariance(cons, a,
+				b, c);
 
 		return algo.getResult();
 	}
-
 
 }

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoParabolaPointLine.java
@@ -27,71 +27,78 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public abstract class AlgoParabolaPointLineND extends AlgoElement {
 
-    protected GeoPointND F;  // input    
-    protected GeoLineND l;  // input    
-    protected GeoConicND parabola; // output             
-            
-    public AlgoParabolaPointLineND(Construction cons, String label, GeoPointND F, GeoLineND l) {
-        this(cons, F, l);     
-        parabola.setLabel(label);
-    }   
-    
-    public AlgoParabolaPointLineND(Construction cons, GeoPointND F, GeoLineND l) {
-        super(cons);
-        this.F = F;
-        this.l = l;                
-        parabola = newGeoConic(cons); 
-        setInputOutput(); // for AlgoElement
-                
-        compute();      
-    }  
-    
-    abstract protected GeoConicND newGeoConic(Construction cons);
-    
-    @Override
-	public Commands getClassName() {
-        return Commands.Parabola;
-    }
-    
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_PARABOLA;
-    }   
-    
-    // for AlgoElement
-    @Override
-	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = (GeoElement) F;
-        input[1] = (GeoElement) l;
-        
-        super.setOutputLength(1);
-        super.setOutput(0, parabola);
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoConicND getParabola() { return parabola; }
-    // Made public for LocusEqu
-    public GeoPointND getFocus() { return F; }
-    // Made public for LocusEqu
-    public GeoLineND getLine() { return l; }
-    
-   
-    
-    @Override
-	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("ParabolaWithFocusAandDirectrixB",F.getLabel(tpl),l.getLabel(tpl));
+	protected GeoPointND F; // input
+	protected GeoLineND l; // input
+	protected GeoConicND parabola; // output
 
-    }
+	public AlgoParabolaPointLineND(Construction cons, String label,
+			GeoPointND F, GeoLineND l) {
+		this(cons, F, l);
+		parabola.setLabel(label);
+	}
+
+	public AlgoParabolaPointLineND(Construction cons, GeoPointND F, GeoLineND l) {
+		super(cons);
+		this.F = F;
+		this.l = l;
+		parabola = newGeoConic(cons);
+		setInputOutput(); // for AlgoElement
+
+		compute();
+	}
+
+	abstract protected GeoConicND newGeoConic(Construction cons);
+
+	@Override
+	public Commands getClassName() {
+		return Commands.Parabola;
+	}
+
+	@Override
+	public int getRelatedModeID() {
+		return EuclidianConstants.MODE_PARABOLA;
+	}
+
+	// for AlgoElement
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[2];
+		input[0] = (GeoElement) F;
+		input[1] = (GeoElement) l;
+
+		super.setOutputLength(1);
+		super.setOutput(0, parabola);
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoConicND getParabola() {
+		return parabola;
+	}
+
+	// Made public for LocusEqu
+	public GeoPointND getFocus() {
+		return F;
+	}
+
+	// Made public for LocusEqu
+	public GeoLineND getLine() {
+		return l;
+	}
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("ParabolaWithFocusAandDirectrixB",
+				F.getLabel(tpl), l.getLabel(tpl));
+
+	}
 
 }

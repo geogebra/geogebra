@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -18,53 +18,52 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
 /**
  * Length of a GeoLocus object.
  */
 public class AlgoLengthLocus extends AlgoElement {
 
-	private GeoLocus locus; //input
-    private GeoNumeric length; //output	
+	private GeoLocus locus; // input
+	private GeoNumeric length; // output
 
-    public AlgoLengthLocus(Construction cons, String label, GeoLocus locus) {
-        super(cons);
-        this.locus = locus;
-               
-        length = new GeoNumeric(cons);
+	public AlgoLengthLocus(Construction cons, String label, GeoLocus locus) {
+		super(cons);
+		this.locus = locus;
 
-        setInputOutput();
-        compute();
-        length.setLabel(label);
-    }
+		length = new GeoNumeric(cons);
 
-    @Override
+		setInputOutput();
+		compute();
+		length.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
-    @Override
-	protected void setInputOutput(){
-        input = new GeoElement[1];
-        input[0] = locus;
+	@Override
+	protected void setInputOutput() {
+		input = new GeoElement[1];
+		input[0] = locus;
 
-        super.setOutputLength(1);
-        super.setOutput(0, length);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, length);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoNumeric getLength() {
-        return length;
-    }
+	public GeoNumeric getLength() {
+		return length;
+	}
 
-    @Override
+	@Override
 	public final void compute() {
-    	if (locus.isDefined())
-    		length.setValue(locus.getPointLength());
-    	else 
-    		length.setUndefined();
-    }
+		if (locus.isDefined())
+			length.setValue(locus.getPointLength());
+		else
+			length.setUndefined();
+	}
 
 	// TODO Consider locusequability
-    
+
 }

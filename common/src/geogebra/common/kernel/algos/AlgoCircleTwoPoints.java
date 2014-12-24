@@ -37,10 +37,10 @@ import geogebra.common.kernel.prover.polynomial.Variable;
  * @version
  */
 public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
-	SymbolicParametersBotanaAlgo {
+		SymbolicParametersBotanaAlgo {
 
 	private Variable[] botanaVars;
-	
+
 	public AlgoCircleTwoPoints(Construction cons, GeoPoint M, GeoPoint P) {
 		super(cons, M, P);
 		setIncidence();
@@ -53,7 +53,7 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	}
 
 	private void setIncidence() {
-		((GeoPoint) getP()).addIncidence(getCircle(),false);
+		((GeoPoint) getP()).addIncidence(getCircle(), false);
 	}
 
 	@Override
@@ -86,18 +86,16 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 	 * public final void compute() { circle.setCircle(M, P); }
 	 */
 
-	
-	
 	public Variable[] getBotanaVars(GeoElement geo) {
 		if (botanaVars == null) {
 			Variable[] circle1vars = new Variable[2];
 			Variable[] centerVars = new Variable[2];
-			
+
 			GeoElement P = (GeoElement) getP();
 			GeoElement M = (GeoElement) getM();
 			circle1vars = ((SymbolicParametersBotanaAlgo) P).getBotanaVars(P);
 			centerVars = ((SymbolicParametersBotanaAlgo) M).getBotanaVars(M);
-			
+
 			botanaVars = new Variable[4];
 			// Center:
 			botanaVars[0] = centerVars[0];
@@ -115,38 +113,34 @@ public class AlgoCircleTwoPoints extends AlgoSphereNDTwoPoints implements
 		return null;
 	}
 
-
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircleTwoPoints(geo, this, scope);
 	}
-	
-	
 
-	/////////////////////////////////
+	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
-	/////////////////////////////////
+	// ///////////////////////////////
 
-	
 	@Override
-	protected int getInputLengthForXML(){
+	protected int getInputLengthForXML() {
 		return getInputLengthForXMLMayNeedXOYPlane();
-	}	
-		
+	}
+
 	@Override
-	protected int getInputLengthForCommandDescription(){
+	protected int getInputLengthForCommandDescription() {
 		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
-	
+
 	@Override
 	public GeoElement getInput(int i) {
 		return getInputMaybeXOYPlane(i);
 	}
-	
 
 	@Override
 	final public String toString(StringTemplate tpl) {

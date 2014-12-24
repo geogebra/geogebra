@@ -32,8 +32,9 @@ public class CmdRunUpdateScript extends CmdScripting {
 			if (args[0].getScript(EventType.UPDATE) == null) {
 				return;
 			}
-			
-			kernelA.getApplication().dispatchEvent(new Event(EventType.UPDATE, args[0], true));
+
+			kernelA.getApplication().dispatchEvent(
+					new Event(EventType.UPDATE, args[0], true));
 			break;
 
 		default:
@@ -42,4 +43,3 @@ public class CmdRunUpdateScript extends CmdScripting {
 
 	}
 }
-

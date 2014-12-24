@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *RandomPoisson
+ * RandomPoisson
  */
 public class CmdRandomPoisson extends CommandProcessor {
 
@@ -32,13 +32,13 @@ public class CmdRandomPoisson extends CommandProcessor {
 		case 1:
 
 			if (arg[0].isGeoNumeric()) {
-				
-				AlgoRandomPoisson algo = new AlgoRandomPoisson(cons, c.getLabel(),
-						(GeoNumeric) arg[0]);
+
+				AlgoRandomPoisson algo = new AlgoRandomPoisson(cons,
+						c.getLabel(), (GeoNumeric) arg[0]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-			} 
+			}
 			throw argErr(app, c.getName(), arg[0]);
 
 		default:

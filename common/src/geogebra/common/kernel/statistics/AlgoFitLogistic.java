@@ -105,19 +105,23 @@ public final class AlgoFitLogistic extends AlgoElement {
 	private GeoFunction geofunction; // output
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param geolist input points
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param geolist
+	 *            input points
 	 */
 	public AlgoFitLogistic(Construction cons, String label, GeoList geolist) {
 		this(cons, geolist);
 		geofunction.setLabel(label);
 	}// Constructor
 
-
 	/**
-	 * @param cons construction
-	 * @param geolist input points
+	 * @param cons
+	 *            construction
+	 * @param geolist
+	 *            input points
 	 */
 	public AlgoFitLogistic(Construction cons, GeoList geolist) {
 		super(cons);
@@ -157,7 +161,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 			errorMsg("List not properly defined or too small. (3 points needed, but the more points, the better result!)");
 			return;
 		}
-		
+
 		getPoints(); // sorts the points on x while getting them!
 		try {
 			doReg();
@@ -353,19 +357,20 @@ public final class AlgoFitLogistic extends AlgoElement {
 			m31 = m13;
 			m32 = m23;
 
-			n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32, m33);
+			n = RegressionMath.det33(m11, m12, m13, m21, m22, m23, m31, m32,
+					m33);
 
 			if (Math.abs(n) < EPSSING) { // Not singular?
 				error = true;
 				errorMsg("Singular matrix...");
 				da = db = dc = 0.0d; // to stop it all...
 			} else {
-				da = RegressionMath.det33(b1, m12, m13, b2, m22, m23, b3, m32, m33)
-						/ n;
-				db = RegressionMath.det33(m11, b1, m13, m21, b2, m23, m31, b3, m33)
-						/ n;
-				dc = RegressionMath.det33(m11, m12, b1, m21, m22, b2, m31, m32, b3)
-						/ n;
+				da = RegressionMath.det33(b1, m12, m13, b2, m22, m23, b3, m32,
+						m33) / n;
+				db = RegressionMath.det33(m11, b1, m13, m21, b2, m23, m31, b3,
+						m33) / n;
+				dc = RegressionMath.det33(m11, m12, b1, m21, m22, b2, m31, m32,
+						b3) / n;
 				newa = a + da;
 				newb = b + db;
 				newc = c + dc; // remember this and update later if ok
@@ -475,15 +480,15 @@ public final class AlgoFitLogistic extends AlgoElement {
 
 	// / --- Bj�rn Ove Thue's trick --- ///
 	// c as function of first and last point
-	private final static double c(double cx1, double cy1, double cx2, double cy2,
-			double cb) {
+	private final static double c(double cx1, double cy1, double cx2,
+			double cy2, double cb) {
 		return cy1 * cy2 * (Math.exp(cb * cx1) - Math.exp(cb * cx2))
 				/ (cy2 * Math.exp(cb * cx1) - cy1 * Math.exp(cb * cx2));
 	}// c(x1,y1,x2,y2,k)
 
 	/** a as function of first and last point */
-	private final static double a(double ax1, double ay1, double ax2, double ay2,
-			double ab) {
+	private final static double a(double ax1, double ay1, double ax2,
+			double ay2, double ab) {
 		return Math.exp(ab * (ax1 + ax2)) * (ay1 - ay2)
 				/ (ay2 * Math.exp(ab * ax1) - ay1 * Math.exp(ab * ax2));
 	}// a(x1,y1,x2,y2,b)
@@ -500,7 +505,7 @@ public final class AlgoFitLogistic extends AlgoElement {
 		sortedSet = new TreeSet<GeoPoint>(GeoPoint.getComparatorX());
 		for (int i = 0; i < size; i++) {
 			if (geolist.get(i) instanceof GeoPoint) {
-				geoelement = (GeoPoint)geolist.get(i);
+				geoelement = (GeoPoint) geolist.get(i);
 				sortedSet.add(geoelement);
 			} else {
 				error = true;

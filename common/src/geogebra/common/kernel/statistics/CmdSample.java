@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *Sample
+ * Sample
  */
 public class CmdSample extends CommandProcessor {
 
@@ -36,8 +36,8 @@ public class CmdSample extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				GeoElement[] ret = { Sample(c.getLabel(),
-						(GeoList) arg[0], (GeoNumberValue) arg[1], null) };
+				GeoElement[] ret = { Sample(c.getLabel(), (GeoList) arg[0],
+						(GeoNumberValue) arg[1], null) };
 				return ret;
 
 			}
@@ -48,9 +48,8 @@ public class CmdSample extends CommandProcessor {
 			if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				GeoElement[] ret = { Sample(c.getLabel(),
-						(GeoList) arg[0], (GeoNumberValue) arg[1],
-						(GeoBoolean) arg[2]) };
+				GeoElement[] ret = { Sample(c.getLabel(), (GeoList) arg[0],
+						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]) };
 				return ret;
 
 			}
@@ -60,7 +59,7 @@ public class CmdSample extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
+
 	/**
 	 * Sample[list,n, withReplacement] Michael Borcherds
 	 */
@@ -70,6 +69,5 @@ public class CmdSample extends CommandProcessor {
 		GeoElement ret = algo.getResult();
 		return ret;
 	}
-
 
 }

@@ -18,13 +18,12 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-
 /**
  * random element of a GeoList object.
  * 
- * Note: the type of the returned GeoElement object is determined
- * by the type of the first list element. If the list is initially empty,
- * a GeoNumeric object is created for element.
+ * Note: the type of the returned GeoElement object is determined by the type of
+ * the first list element. If the list is initially empty, a GeoNumeric object
+ * is created for element.
  * 
  * @author Michael
  * @version 2010-06-01
@@ -32,11 +31,12 @@ import geogebra.common.kernel.geos.GeoList;
 
 public class AlgoRandomElement extends AlgoElement {
 
-	private GeoList geoList; //input
-	private GeoElement element; //output	
+	private GeoList geoList; // input
+	private GeoElement element; // output
 
 	/**
 	 * Creates new random element algo
+	 * 
 	 * @param cons
 	 * @param label
 	 * @param geoList
@@ -46,18 +46,20 @@ public class AlgoRandomElement extends AlgoElement {
 		this.geoList = geoList;
 
 		// init return element as copy of first list element
-		if (geoList.size() > 0) { 
-			element = geoList.get(0).copyInternal(cons);         
-		} else if (geoList.getTypeStringForXML() != null) { 
-			// if the list was non-empty at some point before saving, get the same type of geo 
-			// saved in XML from 4.1.131.0 
-			element = kernel.createGeoElement(cons, geoList.getTypeStringForXML()); 
-		} 
+		if (geoList.size() > 0) {
+			element = geoList.get(0).copyInternal(cons);
+		} else if (geoList.getTypeStringForXML() != null) {
+			// if the list was non-empty at some point before saving, get the
+			// same type of geo
+			// saved in XML from 4.1.131.0
+			element = kernel.createGeoElement(cons,
+					geoList.getTypeStringForXML());
+		}
 
-		// desperate case: empty list 
-		else { 
-			// saved in XML from 4.0.18.0 
-			element = cons.getOutputGeo(); 
+		// desperate case: empty list
+		else {
+			// saved in XML from 4.0.18.0
+			element = cons.getOutputGeo();
 		}
 
 		setInputOutput();
@@ -71,18 +73,19 @@ public class AlgoRandomElement extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		input = new GeoElement[1];
 		input[0] = geoList;
 
 		setOutputLength(1);
-		setOutput(0,element);
+		setOutput(0, element);
 		setDependencies(); // done by AlgoElement
 	}
 
 	/**
 	 * Returns chosen element
+	 * 
 	 * @return chosen element
 	 */
 	public GeoElement getElement() {
@@ -96,11 +99,12 @@ public class AlgoRandomElement extends AlgoElement {
 			return;
 		}
 
-		GeoElement randElement = geoList.get((int)Math.floor((cons.getApplication().getRandomNumber() * geoList.size())));
+		GeoElement randElement = geoList.get((int) Math.floor((cons
+				.getApplication().getRandomNumber() * geoList.size())));
 
 		// check type:
 		if (randElement.getGeoClassType() == element.getGeoClassType()) {
-			element.set(randElement);			
+			element.set(randElement);
 		} else {
 			element.setUndefined();
 		}

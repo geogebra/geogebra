@@ -57,7 +57,7 @@ public class AlgoFocus extends AlgoElement {
 		this.c = c;
 
 		createFocus(cons);
-		
+
 		// only first undefined point should be shown in algebra window
 		focus[1].showUndefinedInAlgebraView(false);
 
@@ -68,12 +68,13 @@ public class AlgoFocus extends AlgoElement {
 
 		compute();
 	}
-	
+
 	/**
 	 * creates the focus
+	 * 
 	 * @param cons
 	 */
-	protected void createFocus(Construction cons){
+	protected void createFocus(Construction cons) {
 		focus = new GeoPoint[2];
 		for (int i = 0; i < focus.length; i++) {
 			focus[i] = new GeoPoint(cons);
@@ -122,8 +123,8 @@ public class AlgoFocus extends AlgoElement {
 
 		case GeoConicNDConstants.CONIC_PARABOLA:
 			temp1 = c.p / 2;
-			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(), b.getY() + temp1
-					* eigenvec[0].getY());
+			setCoords(0, b.getX() + temp1 * eigenvec[0].getX(), b.getY()
+					+ temp1 * eigenvec[0].getY());
 			// second focus undefined
 			focus[1].setUndefined();
 			break;
@@ -134,16 +135,17 @@ public class AlgoFocus extends AlgoElement {
 			focus[1].setUndefined();
 		}
 	}
-	
-    /**
-     * set the coords of the i-th focus
-     * @param i
-     * @param x
-     * @param y
-     */
-    protected void setCoords(int i, double x, double y){
-    	focus[i].setCoords(x,y, 1.0);
-    }
+
+	/**
+	 * set the coords of the i-th focus
+	 * 
+	 * @param i
+	 * @param x
+	 * @param y
+	 */
+	protected void setCoords(int i, double x, double y) {
+		focus[i].setCoords(x, y, 1.0);
+	}
 
 	@Override
 	public final String toString(StringTemplate tpl) {

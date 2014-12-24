@@ -18,20 +18,20 @@ import geogebra.common.kernel.commands.Commands;
 
 /**
  * Cumulative Logistic[mean, s, val]
+ * 
  * @author Michael Borcherds
  */
 
 public class AlgoLogistic extends AlgoDistribution {
 
-
-
 	@SuppressWarnings("javadoc")
-	public AlgoLogistic(Construction cons, String label, NumberValue a,NumberValue b, NumberValue c) {
+	public AlgoLogistic(Construction cons, String label, NumberValue a,
+			NumberValue b, NumberValue c) {
 		super(cons, label, a, b, c, null);
 	}
 
-	public AlgoLogistic(Construction cons, NumberValue a,
-			NumberValue b, NumberValue c) {
+	public AlgoLogistic(Construction cons, NumberValue a, NumberValue b,
+			NumberValue c) {
 		super(cons, a, b, c, null);
 	}
 
@@ -43,8 +43,8 @@ public class AlgoLogistic extends AlgoDistribution {
 	@Override
 	public final void compute() {
 
-
-		if (input[0].isDefined() && input[1].isDefined() && input[2].isDefined()) {
+		if (input[0].isDefined() && input[1].isDefined()
+				&& input[2].isDefined()) {
 			double mean = a.getDouble();
 			double s = b.getDouble();
 			double x = c.getDouble();
@@ -52,15 +52,11 @@ public class AlgoLogistic extends AlgoDistribution {
 			num.setValue(1 / (1 + Math.exp((-(x - mean)) / Math.abs(s))));
 
 			// old hack
-			//processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))", true );
-
+			// processAlgebraCommand( "1/(1+exp(-("+x+"-("+m+"))/abs("+s+")))",
+			// true );
 
 		} else
 			num.setUndefined();
-	}       
-
+	}
 
 }
-
-
-

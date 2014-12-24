@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAxes.java
@@ -26,97 +26,98 @@ import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public abstract class AlgoAxesQuadricND extends AlgoElement {
 
-    protected GeoQuadricND c; // input
-    protected GeoLineND[] axes; // output          
+	protected GeoQuadricND c; // input
+	protected GeoLineND[] axes; // output
 
-    private GeoVec2D[] eigenvec;
-    private GeoVec2D b;
+	private GeoVec2D[] eigenvec;
+	private GeoVec2D b;
 
-    protected AlgoAxesQuadricND(Construction cons, String label, GeoQuadricND c) {
-        this(cons, c);
-        GeoElement.setLabels(label, (GeoElement[]) axes);
-    }
+	protected AlgoAxesQuadricND(Construction cons, String label, GeoQuadricND c) {
+		this(cons, c);
+		GeoElement.setLabels(label, (GeoElement[]) axes);
+	}
 
-    protected AlgoAxesQuadricND(Construction cons, String[] labels, GeoQuadricND c) {
-        this(cons, c);
-        GeoElement.setLabels(labels, (GeoElement[]) axes);
-    }
+	protected AlgoAxesQuadricND(Construction cons, String[] labels,
+			GeoQuadricND c) {
+		this(cons, c);
+		GeoElement.setLabels(labels, (GeoElement[]) axes);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Axes;
-    }
+		return Commands.Axes;
+	}
 
-    private AlgoAxesQuadricND(Construction cons, GeoQuadricND c) {
-        super(cons);
-        this.c = c;
+	private AlgoAxesQuadricND(Construction cons, GeoQuadricND c) {
+		super(cons);
+		this.c = c;
 
+		createInput();
 
-        createInput();
+		setInputOutput(); // for AlgoElement
 
-        setInputOutput(); // for AlgoElement
+		compute();
+	}
 
-        compute();
-    }
-    
-    /**
-     * create axes, create and set the start point
-     */
-    protected abstract void createInput();
+	/**
+	 * create axes, create and set the start point
+	 */
+	protected abstract void createInput();
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	public void setInputOutput() {
-    	
-        input = new GeoElement[1];
-        input[0] = c;
-        
-        setOutputLength(axes.length);
-        for (int i = 0; i < axes.length; i++){
-        	setOutput(i,(GeoElement) axes[i]);
-        }      
-        
-        setDependencies(); // done by AlgoElement
-    }
 
-    public GeoLineND[] getAxes() {
-        return axes;
-    }
-    GeoQuadricND getConic() {
-        return c;
-    }
+		input = new GeoElement[1];
+		input[0] = c;
 
-    // calc axes
-    @Override
+		setOutputLength(axes.length);
+		for (int i = 0; i < axes.length; i++) {
+			setOutput(i, (GeoElement) axes[i]);
+		}
+
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoLineND[] getAxes() {
+		return axes;
+	}
+
+	GeoQuadricND getConic() {
+		return c;
+	}
+
+	// calc axes
+	@Override
 	public void compute() {
-    	
-    	for (int i = 0 ; i < axes.length ; i++){
-    		setAxisCoords(i);
-    	}
-    	
-    }
-    
-    /**
-     * set coords to i-th axis
-     * @param i axis
-     */
-    protected abstract void setAxisCoords(int i);
-    
 
-    @Override
+		for (int i = 0; i < axes.length; i++) {
+			setAxisCoords(i);
+		}
+
+	}
+
+	/**
+	 * set coords to i-th axis
+	 * 
+	 * @param i
+	 *            axis
+	 */
+	protected abstract void setAxisCoords(int i);
+
+	@Override
 	public final String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("AxisOfA",c.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("AxisOfA", c.getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
 }

@@ -31,20 +31,20 @@ public class CmdInverseLogNormal extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		case 3:			
+		case 3:
 			arg = resArgs(c);
-			if ((ok[0] = arg[0] instanceof GeoNumberValue) &&
-				(ok[1] = arg[1] instanceof GeoNumberValue) &&
-				(ok[2] = arg[2] instanceof GeoNumberValue)) 
-			{
-				AlgoInverseLogNormal algo = new AlgoInverseLogNormal(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
+			if ((ok[0] = arg[0] instanceof GeoNumberValue)
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
+					&& (ok[2] = arg[2] instanceof GeoNumberValue)) {
+				AlgoInverseLogNormal algo = new AlgoInverseLogNormal(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoNumberValue) arg[2]);
 
-				GeoElement[] ret = {algo.getResult() };
+				GeoElement[] ret = { algo.getResult() };
 				return ret;
-				
+
 			}
-			throw argErr(app, c.getName(),getBadArg(ok,arg));
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
 			throw argNumErr(app, c.getName(), n);

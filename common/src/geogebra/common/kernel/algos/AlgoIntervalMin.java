@@ -8,14 +8,13 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoInterval;
-
 
 public class AlgoIntervalMin extends AlgoIntervalAbstract {
 
@@ -25,14 +24,14 @@ public class AlgoIntervalMin extends AlgoIntervalAbstract {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Min;
-    }
+		return Commands.Min;
+	}
 
-    @Override
-	public final void compute() {    	
-    	result.setValue(interval.getMin());
-    }
+	@Override
+	public final void compute() {
+		result.setValue(interval.getMin());
+	}
 
 	// TODO Consider locusequability
-    
+
 }

@@ -49,8 +49,8 @@ public class AlgoPerimeterPoly extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Perimeter;
-    }
+		return Commands.Perimeter;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -58,7 +58,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 		input[0] = polygon;
 
 		super.setOutputLength(1);
-        super.setOutput(0, circum);
+		super.setOutput(0, circum);
 		setDependencies();
 	}
 
@@ -71,11 +71,11 @@ public class AlgoPerimeterPoly extends AlgoElement {
 			circum.setUndefined();
 			return;
 		}
-				
+
 		GeoSegmentND[] segment = polygon.getSegments();
 		double length = 0;
 		for (int i = 0; i < polygon.getPointsLength(); i++) {
-			length = length + (segment[i].getLength());		
+			length = length + (segment[i].getLength());
 		}
 		circum.setValue(length);
 	}
@@ -87,7 +87,7 @@ public class AlgoPerimeterPoly extends AlgoElement {
 	 */
 	public GeoNumeric getCircumference() {
 		return circum;
-	}	
+	}
 
 	// TODO Consider locusequability
 }

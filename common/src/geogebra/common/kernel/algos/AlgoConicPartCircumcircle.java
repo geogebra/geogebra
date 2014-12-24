@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -24,39 +24,29 @@ import geogebra.common.kernel.geos.GeoPoint;
  */
 public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
 
-	
+	public AlgoConicPartCircumcircle(Construction cons, String label,
+			GeoPoint A, GeoPoint B, GeoPoint C, int type) {
+		super(cons, label, A, B, C, type);
+	}
 
-    public AlgoConicPartCircumcircle(Construction cons, String label,
-    		GeoPoint A, GeoPoint B, GeoPoint C,
-    		int type) 
-    {
-    	super(cons, label, A, B, C, type);
-    }
-    
-    public AlgoConicPartCircumcircle(Construction cons,
-    		GeoPoint A, GeoPoint B, GeoPoint C,
-    		int type) {
-        super(cons,A,B,C,type);
-    }    	        
-    
-    
-    @Override
-	protected AlgoCircleThreePoints getAlgo(){
-    	return new AlgoCircleThreePoints(cons, getA(), getB(), getC());
-    }
-	
-    @Override
-	protected GeoConicPart createConicPart(Construction cons, int type){
-    	return new GeoConicPart(cons, type);
-    }
-    
+	public AlgoConicPartCircumcircle(Construction cons, GeoPoint A, GeoPoint B,
+			GeoPoint C, int type) {
+		super(cons, A, B, C, type);
+	}
 
+	@Override
+	protected AlgoCircleThreePoints getAlgo() {
+		return new AlgoCircleThreePoints(cons, getA(), getB(), getC());
+	}
 
-    
+	@Override
+	protected GeoConicPart createConicPart(Construction cons, int type) {
+		return new GeoConicPart(cons, type);
+	}
 
-	
 	/**
 	 * Method for LocusEqu.
+	 * 
 	 * @return first point.
 	 */
 	@Override
@@ -66,6 +56,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
 
 	/**
 	 * Method for LocusEqu.
+	 * 
 	 * @return second point.
 	 */
 	@Override
@@ -75,6 +66,7 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
 
 	/**
 	 * Method for LocusEqu.
+	 * 
 	 * @return third point.
 	 */
 	@Override
@@ -86,23 +78,24 @@ public class AlgoConicPartCircumcircle extends AlgoConicPartCircumcircleND {
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
+
 	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnCircumcircleArc(geo, this, scope);
 	}
-	
 
 	@Override
 	public GeoConicPart getConicPart() {
-        return (GeoConicPart) super.getConicPart();
-    }
-	
-    @Override
-	protected void computeSinglePoint(){
-    	GeoPoint midpoint = getA();
-    	GeoConic.setSinglePoint((GeoConic) conicPart, midpoint.inhomX, midpoint.inhomY);
-    	super.computeSinglePoint();
+		return (GeoConicPart) super.getConicPart();
 	}
-	
+
+	@Override
+	protected void computeSinglePoint() {
+		GeoPoint midpoint = getA();
+		GeoConic.setSinglePoint((GeoConic) conicPart, midpoint.inhomX,
+				midpoint.inhomY);
+		super.computeSinglePoint();
+	}
+
 }

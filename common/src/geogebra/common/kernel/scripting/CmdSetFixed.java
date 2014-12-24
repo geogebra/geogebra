@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.MyError;
 
 /**
- *SetFixed
+ * SetFixed
  */
 public class CmdSetFixed extends CmdScripting {
 
@@ -23,8 +23,7 @@ public class CmdSetFixed extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -37,7 +36,6 @@ public class CmdSetFixed extends CmdScripting {
 				geo.setFixed(((GeoBoolean) arg[1]).getBoolean());
 				geo.updateRepaint();
 
-				
 				return;
 			}
 			throw argErr(app, c.getName(), arg[1]);

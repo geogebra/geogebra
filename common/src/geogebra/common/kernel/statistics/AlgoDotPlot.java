@@ -54,13 +54,13 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 	private double scaleFactor;
 
 	public AlgoDotPlot(Construction cons, String label, GeoList inputList) {
-		
+
 		this(cons, inputList, null, null);
 		outputList.setLabel(label);
 	}
 
 	public AlgoDotPlot(Construction cons, GeoList inputList) {
-		
+
 		this(cons, inputList, null, null);
 	}
 
@@ -84,8 +84,8 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 			GeoBoolean stackDots, GeoNumeric scale) {
 		this(cons, inputList, stackDots, scale);
 		outputList.setLabel(label);
-	}	
-	
+	}
+
 	protected AlgoDotPlot(Construction cons, GeoList inputList,
 			GeoBoolean stackDots, GeoNumeric scale) {
 		super(cons);
@@ -242,10 +242,10 @@ public class AlgoDotPlot extends AlgoUsingUniqueAndFrequency {
 		return false;
 	}
 
-	public double getScaleFactor(){
+	public double getScaleFactor() {
 		return scaleFactor;
 	}
-	
+
 	// TODO Consider locusequability
 
 }

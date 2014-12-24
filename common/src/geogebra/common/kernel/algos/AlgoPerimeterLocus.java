@@ -48,8 +48,8 @@ public class AlgoPerimeterLocus extends AlgoElement {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Perimeter;
-    }
+		return Commands.Perimeter;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -57,7 +57,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 		input[0] = locus;
 
 		super.setOutputLength(1);
-        super.setOutput(0, circum);
+		super.setOutput(0, circum);
 		setDependencies();
 	}
 
@@ -70,16 +70,16 @@ public class AlgoPerimeterLocus extends AlgoElement {
 			circum.setUndefined();
 			return;
 		}
-				
+
 		ArrayList<MyPoint> points = locus.getPoints();
-		
+
 		if (points.size() < 2) {
 			circum.setUndefined();
-			return;			
+			return;
 		}
-		
+
 		MyPoint lastPoint = points.get(0);
-		
+
 		double length = 0;
 		for (int i = 1; i < points.size(); i++) {
 			MyPoint pt = points.get(i);
@@ -96,7 +96,7 @@ public class AlgoPerimeterLocus extends AlgoElement {
 	 */
 	public GeoNumeric getResult() {
 		return circum;
-	}	
+	}
 
 	// TODO Consider locusequability
 }

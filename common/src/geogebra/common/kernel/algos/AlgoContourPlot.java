@@ -209,9 +209,11 @@ public class AlgoContourPlot extends AlgoElement {
 			calcmax = val;
 		}
 		newContours += minadded > calcmin ? Math.ceil(Math.abs(minadded
-				- calcmin) / step) : 0;
+				- calcmin)
+				/ step) : 0;
 		newContours += maxadded < calcmax ? Math.ceil(Math.abs(calcmax
-				- maxadded) / step) : 0;
+				- maxadded)
+				/ step) : 0;
 		calcxmin -= xstep;
 		calcxmax += xstep;
 		calcymin -= ystep;

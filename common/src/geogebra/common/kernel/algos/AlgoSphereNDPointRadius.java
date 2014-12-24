@@ -109,7 +109,7 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 		input[1] = rgeo;
 
 		super.setOutputLength(1);
-        super.setOutput(0, sphereND);
+		super.setOutput(0, sphereND);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -120,9 +120,10 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	protected GeoPointND getM() {
 		return M;
 	}
-	
+
 	/**
 	 * Method added for LocusEqu project.
+	 * 
 	 * @return center of sphere.
 	 */
 	public GeoPointND getCenter() {
@@ -132,9 +133,10 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	protected GeoElement getRGeo() {
 		return rgeo;
 	}
-	
+
 	/**
 	 * Method added for LocusEqu project.
+	 * 
 	 * @return radius of sphere.
 	 */
 	public GeoElement getRadiusGeo() {

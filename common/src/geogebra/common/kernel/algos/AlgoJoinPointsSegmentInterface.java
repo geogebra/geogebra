@@ -14,14 +14,17 @@ public interface AlgoJoinPointsSegmentInterface {
 	 * @return polygon/polyhedron of this algo (or null)
 	 */
 	public GeoElement getPoly();
-	
-    /**
-     * modify input points
-     * @param A first point
-     * @param B second point
-     */
+
+	/**
+	 * modify input points
+	 * 
+	 * @param A
+	 *            first point
+	 * @param B
+	 *            second point
+	 */
 	public void modifyInputPoints(GeoPointND A, GeoPointND B);
-	
+
 	public void compute();
 
 }

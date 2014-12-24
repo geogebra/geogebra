@@ -61,45 +61,40 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	// (Numerical Recipes in C++, pp.406)
 
 	private SumType type;
-	
-	public enum SumType{
-	/** Upper Rieeman sum **/
-	
-	
-	UPPERSUM,
-	/** Lower Rieman sum **/
-	LOWERSUM,
-	/** Left Rieman sum (Ulven: 09.02.11) **/
-	LEFTSUM,
-	/** Rectangle sum with divider for step interval (Ulven: 09.02.11) **/
-	RECTANGLESUM,
-	/** Trapezoidal sum **/
-	TRAPEZOIDALSUM,
 
-	/** Barchart from expression **/
-	BARCHART,
-	/** Barchart from raw data **/
-	BARCHART_RAWDATA,
-	/** Barchart from (values,frequencies) **/
-	BARCHART_FREQUENCY_TABLE,
-	/** Barchart from (values,frequencies) with given width **/
-	BARCHART_FREQUENCY_TABLE_WIDTH,
+	public enum SumType {
+		/** Upper Rieeman sum **/
 
-	/**
-	 * Histogram from(class boundaries, raw data) with default density = 1 or
-	 * Histogram from(class boundaries, frequencies) no density required
-	 **/
-	HISTOGRAM,
-	/** Histogram from(class boundaries, raw data) with given density **/
-	HISTOGRAM_DENSITY,
+		UPPERSUM,
+		/** Lower Rieman sum **/
+		LOWERSUM,
+		/** Left Rieman sum (Ulven: 09.02.11) **/
+		LEFTSUM,
+		/** Rectangle sum with divider for step interval (Ulven: 09.02.11) **/
+		RECTANGLESUM,
+		/** Trapezoidal sum **/
+		TRAPEZOIDALSUM,
 
-	/** barchart of a discrete probability distribution **/
-	BARCHART_BINOMIAL,
-	BARCHART_PASCAL,
-	BARCHART_POISSON,
-	BARCHART_HYPERGEOMETRIC,
-	BARCHART_BERNOULLI,
-	BARCHART_ZIPF};
+		/** Barchart from expression **/
+		BARCHART,
+		/** Barchart from raw data **/
+		BARCHART_RAWDATA,
+		/** Barchart from (values,frequencies) **/
+		BARCHART_FREQUENCY_TABLE,
+		/** Barchart from (values,frequencies) with given width **/
+		BARCHART_FREQUENCY_TABLE_WIDTH,
+
+		/**
+		 * Histogram from(class boundaries, raw data) with default density = 1
+		 * or Histogram from(class boundaries, frequencies) no density required
+		 **/
+		HISTOGRAM,
+		/** Histogram from(class boundaries, raw data) with given density **/
+		HISTOGRAM_DENSITY,
+
+		/** barchart of a discrete probability distribution **/
+		BARCHART_BINOMIAL, BARCHART_PASCAL, BARCHART_POISSON, BARCHART_HYPERGEOMETRIC, BARCHART_BERNOULLI, BARCHART_ZIPF
+	};
 
 	// tolerance for parabolic interpolation
 	private static final double TOLERANCE = 1E-7;
@@ -215,7 +210,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param type
 	 */
 	public AlgoFunctionAreaSums(Construction cons, String label, GeoFunction f,
-			NumberValue a, NumberValue b, NumberValue n, NumberValue d, SumType type) {
+			NumberValue a, NumberValue b, NumberValue n, NumberValue d,
+			SumType type) {
 
 		super(cons);
 
@@ -233,7 +229,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
-		compute();		
+		compute();
 		sum.setDrawable(true);
 		sum.setLabel(label);
 	}
@@ -287,7 +283,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		compute();
 		sum.setDrawable(true);
 		sum.setLabel(label);
-		
+
 	}
 
 	public AlgoFunctionAreaSums(GeoNumberValue a, NumberValue b, NumberValue n,
@@ -342,8 +338,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param borders
 	 * @param N
 	 */
-	protected AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b, double[] vals,
-			double[] borders, int N, Construction cons1) {
+	protected AlgoFunctionAreaSums(GeoNumberValue a, GeoNumberValue b,
+			double[] vals, double[] borders, int N, Construction cons1) {
 		super(cons1, false);
 		type = SumType.BARCHART;
 		this.a = a;
@@ -493,8 +489,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	 * @param list1
 	 * @param n
 	 */
-	public AlgoFunctionAreaSums(Construction cons, GeoList list1,
-			GeoNumeric n) {
+	public AlgoFunctionAreaSums(Construction cons, GeoList list1, GeoNumeric n) {
 
 		super(cons);
 
@@ -509,8 +504,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		compute();
 		sum.setDrawable(true);
 	}
-	
-	
+
 	/**
 	 * Constructor for copying BarChart
 	 * 
@@ -547,8 +541,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	/**
-	 * HISTOGRAM[ <list of class boundaries>, <list of heights> ]
-	 * (no label)
+	 * HISTOGRAM[ <list of class boundaries>, <list of heights> ] (no label)
+	 * 
 	 * @param cons
 	 * @param list1
 	 * @param list2
@@ -567,11 +561,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		sum = new GeoNumeric(cons); // output
 		setInputOutput(); // for AlgoElement
 		compute();
-		
+
 		sum.setDrawable(true);
 	}
-	
-	
+
 	public AlgoFunctionAreaSums(Construction cons, double[] vals,
 			double[] borders, int N) {
 		super(cons, false);
@@ -677,7 +670,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		compute();
 		sum.setDrawable(true);
 		sum.setLabel(label);
-		
+
 		if (yval == null) {
 			yval = new double[0];
 			leftBorder = new double[0];
@@ -685,8 +678,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 	}
 
 	protected AlgoFunctionAreaSums(NumberValue p1, NumberValue p2,
-			NumberValue p3, GeoBoolean isCumulative, SumType type, NumberValue a,
-			NumberValue b, double[] vals, double[] borders, int N) {
+			NumberValue p3, GeoBoolean isCumulative, SumType type,
+			NumberValue a, NumberValue b, double[] vals, double[] borders, int N) {
 
 		super(isCumulative.getConstruction(), false);
 
@@ -717,7 +710,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		compute(true);
 		return false;
 	}
-
 
 	// for AlgoElement
 	@Override
@@ -764,29 +756,29 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			input[0] = list1;
 			input[1] = ngeo;
 			break;
-			
+
 		case HISTOGRAM:
 		case HISTOGRAM_DENSITY:
-			
+
 			ArrayList<GeoElement> tempList = new ArrayList<GeoElement>();
-			
-			if(isCumulative != null) {
+
+			if (isCumulative != null) {
 				tempList.add(isCumulative);
 			}
 			tempList.add(list1);
 			tempList.add(list2);
-			if(list3 != null){
+			if (list3 != null) {
 				tempList.add(list3);
 			}
-			if(useDensityGeo != null){
+			if (useDensityGeo != null) {
 				tempList.add(useDensityGeo);
 			}
-			if(densityGeo != null){
+			if (densityGeo != null) {
 				tempList.add(densityGeo);
 			}
 			input = new GeoElement[tempList.size()];
 			input = tempList.toArray(input);
-			
+
 			break;
 
 		case BARCHART_BERNOULLI:
@@ -921,19 +913,20 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		GeoElement geo, geo2; // temporary variables
 
 		boolean isDefined = true;
-		
-		// problem with Sequence[LowerSum[x², i, i + 1, 1], i, 1, 5] on file load
+
+		// problem with Sequence[LowerSum[x², i, i + 1, 1], i, 1, 5] on file
+		// load
 		if (sum == null) {
 			sum = new GeoNumeric(cons);
-		}			
-
+		}
 
 		switch (type) {
 		case LOWERSUM:
 		case UPPERSUM:
-			
-			if (f == null || !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
-					.isDefined())) {
+
+			if (f == null
+					|| !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
+							.isDefined())) {
 				sum.setUndefined();
 				return;
 			}
@@ -984,7 +977,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					kernel.getViewsXMax(sum));
 
 			// subsample every 5 pixels
-			double noOfSamples = kernel.getApplication().countPixels(visibleMin, visibleMax)
+			double noOfSamples = kernel.getApplication().countPixels(
+					visibleMin, visibleMax)
 					/ SAMPLE_PIXELS;
 
 			double subStep = Math.abs(visibleMax - visibleMin) / noOfSamples;
@@ -1064,15 +1058,16 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		case RECTANGLESUM:
 		case LEFTSUM:
 
-			if (f == null || !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
-					.isDefined())) {
+			if (f == null
+					|| !(f.isDefined() && ageo.isDefined() && bgeo.isDefined() && ngeo
+							.isDefined())) {
 				sum.setUndefined();
 				return;
 			}
 
 			/* Rectanglesum needs extra treatment */
 			if ((type == SumType.RECTANGLESUM) && (!dgeo.isDefined())) { // extra
-																		// parameter
+																			// parameter
 				sum.setUndefined();
 			}// if d parameter for rectanglesum
 
@@ -1102,7 +1097,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			}
 
 			totalArea = 0;
-			int upperBound = type == SumType.TRAPEZOIDALSUM ? N + 1: N;
+			int upperBound = type == SumType.TRAPEZOIDALSUM ? N + 1 : N;
 			for (int i = 0; i < upperBound; i++) { // N+1 for trapezoids
 				leftBorder[i] = ad + i * STEP;
 
@@ -1179,7 +1174,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 			if (!isDefined) {
 				sum.setUndefined();
 			}
-			
+
 			break;
 		case BARCHART_RAWDATA:
 			// BarChart[{1,1,2,3,3,3,4,5,5,5,5,5,5,5,6,8,9,10,11,12},3]
@@ -1263,7 +1258,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				yval[i] = 0;
 
 			// work out frequencies in each class
-			double datum, valueFrequency = 1;
+			double datum,
+			valueFrequency = 1;
 
 			for (int i = 0; i < list1.size(); i++) {
 				geo = list1.get(i);
@@ -1299,8 +1295,6 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				sum.setValue(list1.size() * step);
 
 			}
-
-			
 
 			break;
 
@@ -1460,10 +1454,10 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			start = ((GeoNumeric) (list1.get(0))).getDouble();
 			end = ((GeoNumeric) (list1.get(N - 2))).getDouble();
-			if(N == 2){
-				// special case, one bar 
+			if (N == 2) {
+				// special case, one bar
 				step = 1;
-			}else{
+			} else {
 				step = ((GeoNumeric) (list1.get(1))).getDouble() - start;
 			}
 			double colWidth = width.getDouble();
@@ -1514,7 +1508,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					area += yval[i] * colWidth;
 				}
 			}
-			
+
 			// area of rectangles = total frequency
 			sum.setValue(area);
 
@@ -1524,7 +1518,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 		case HISTOGRAM:
 		case HISTOGRAM_DENSITY:
-			
+
 			if (!list1.isDefined() || !list2.isDefined()) {
 				sum.setUndefined();
 				return;
@@ -1536,14 +1530,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				sum.setUndefined();
 				return;
 			}
-			
+
 			boolean useFrequency = list3 != null;
-			
-			if(useFrequency && !list3.isDefined()){
+
+			if (useFrequency && !list3.isDefined()) {
 				sum.setUndefined();
 				return;
-			}	
-			
+			}
+
 			// set the density scale factor
 			// default is 1; densityFactor == -1 means do not convert from
 			// frequency to density
@@ -1615,14 +1609,14 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				valueFrequency = 1;
 				for (int i = 0; i < list2.size(); i++) {
 					geo = list2.get(i);
-					
+
 					if (geo.isGeoNumeric())
 						datum = ((GeoNumeric) geo).getDouble();
 					else {
 						sum.setUndefined();
 						return;
 					}
-					if(useFrequency){
+					if (useFrequency) {
 						geo2 = list3.get(i);
 						if (geo2.isGeoNumeric())
 							valueFrequency = ((GeoNumeric) geo2).getDouble();
@@ -1631,13 +1625,13 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 							return;
 						}
 					}
-					
+
 					// if negative frequency, set undefined
-					if(valueFrequency < 0){
+					if (valueFrequency < 0) {
 						sum.setUndefined();
 						return;
 					}
-					
+
 					// if datum is outside the range, set undefined
 					if (datum < leftBorder[0] || datum > leftBorder[N - 1]) {
 						sum.setUndefined();
@@ -1670,7 +1664,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 						// check which class this datum is in
 						for (int j = 1; j < N; j++) {
 							if (Kernel.isGreaterEqual(leftBorder[j], datum)) {
-								yval[j - 1]+= valueFrequency;
+								yval[j - 1] += valueFrequency;
 								break;
 							}
 						}
@@ -1678,12 +1672,11 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 					}
 				}
 
-			
 			} else { // list2 contains the heights
 
 				// make sure heights not rescaled #2579
 				densityFactor = -1;
-				
+
 				if (yval == null || yval.length < N) {
 					yval = new double[N];
 					leftBorder = new double[N];
@@ -1717,7 +1710,7 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 				}
 
-				//yval[N - 1] = yval[N - 2];
+				// yval[N - 1] = yval[N - 2];
 
 				geo = list1.get(N - 1);
 				if (geo instanceof NumberValue) {
@@ -1728,9 +1721,8 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 				}
 				leftBorder[N - 1] = ((GeoNumeric) geo).getDouble();
 
-				
 			}
-			
+
 			// convert to cumulative frequencies if cumulative option is set
 			if (isCumulative != null
 					&& ((GeoBoolean) isCumulative).getBoolean()) {
@@ -1756,12 +1748,12 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 
 			// area of rectangles
 			sum.setValue(totalArea);
-			
+
 			break;
 
 		}
 	}
-	
+
 	private boolean functionDefined(double ad, double bd) {
 		double interval = (bd - ad) / CHECKPOINTS;
 		for (double temp = ad; (interval > 0 && temp < bd)
@@ -1949,11 +1941,9 @@ public abstract class AlgoFunctionAreaSums extends AlgoElement implements
 		// updateTime += (endTime - startTime );
 	}
 
-
 	/*
-	 * This should apply to every subclass. In case it does not,
-	 * a case per case should be used.
-	 * It produces a GeoNumeric, so beware GeoNumeric will be
+	 * This should apply to every subclass. In case it does not, a case per case
+	 * should be used. It produces a GeoNumeric, so beware GeoNumeric will be
 	 * treated differently than points.
 	 */
 

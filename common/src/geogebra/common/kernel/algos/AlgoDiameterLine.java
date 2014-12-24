@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDiameterLine.java
@@ -26,41 +26,41 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoDiameterLine extends AlgoDiameterLineND {
 
-    private GeoVector v;
+	private GeoVector v;
 
-    /** Creates new AlgoJoinPoints */
-    public AlgoDiameterLine(Construction cons, String label, GeoConicND c, GeoLineND g) {
-        super(cons, label, c, g);
-    }
+	/** Creates new AlgoJoinPoints */
+	public AlgoDiameterLine(Construction cons, String label, GeoConicND c,
+			GeoLineND g) {
+		super(cons, label, c, g);
+	}
 
-    @Override
-	protected void createOutput(Construction cons){
-    	diameter = new GeoLine(cons);
-    	v = new GeoVector(cons);
-    }
+	@Override
+	protected void createOutput(Construction cons) {
+		diameter = new GeoLine(cons);
+		v = new GeoVector(cons);
+	}
 
-    // calc diameter line of v relativ to c
-    @Override
+	// calc diameter line of v relativ to c
+	@Override
 	public final void compute() {
-        ((GeoLine) g).getDirection(v);
-        c.diameterLine(v, (GeoLine) diameter);
-    }
-
+		((GeoLine) g).getDirection(v);
+		c.diameterLine(v, (GeoLine) diameter);
+	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnDiameterLine(geo, this, scope);
 	}
 }

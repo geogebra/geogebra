@@ -65,7 +65,7 @@ public class AlgoRandomUniformList extends AlgoElement implements
 
 	private void ensureListSize(int n) {
 
-		//TODO: is suppress labels needed here?
+		// TODO: is suppress labels needed here?
 		boolean oldSuppressLabels = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
@@ -91,15 +91,16 @@ public class AlgoRandomUniformList extends AlgoElement implements
 			list.setUndefined();
 			return;
 		}
-		if(length.getDouble() < 1){
+		if (length.getDouble() < 1) {
 			list.setUndefined();
 			return;
 		}
-		
+
 		ensureListSize((int) length.getDouble());
 
 		for (int i = 0; i < list.size(); i++) {
-			((GeoNumeric) list.get(i)).setValue(RandomUtil.randomUniform(a.getDouble(), b.getDouble()));
+			((GeoNumeric) list.get(i)).setValue(RandomUtil.randomUniform(
+					a.getDouble(), b.getDouble()));
 		}
 
 	}

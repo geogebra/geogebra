@@ -10,7 +10,7 @@ import geogebra.common.kernel.kernelND.GeoPolyhedronInterface;
 import geogebra.common.main.MyError;
 
 /**
- *SetPointSize
+ * SetPointSize
  */
 public class CmdSetPointSize extends CmdScripting {
 
@@ -25,8 +25,7 @@ public class CmdSetPointSize extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		switch (n) {
 		case 2:
@@ -35,24 +34,23 @@ public class CmdSetPointSize extends CmdScripting {
 			boolean ok = false;
 			if (arg[1] instanceof NumberValue) {
 				ok = true;
-				
-				if (arg[0] instanceof PointProperties){
+
+				if (arg[0] instanceof PointProperties) {
 
 					int size = (int) ((NumberValue) arg[1]).getDouble();
 
-					if (size > 0){
+					if (size > 0) {
 						arg[0].setEuclidianVisibleIfNoConditionToShowObject(true);
 						((PointProperties) arg[0]).setPointSize(size);
-					}else{
+					} else {
 						arg[0].setEuclidianVisibleIfNoConditionToShowObject(false);
 					}
 					arg[0].updateRepaint();
 
-
 					return;
 				}
-				
-				if (arg[0] instanceof GeoPolyhedronInterface){
+
+				if (arg[0] instanceof GeoPolyhedronInterface) {
 
 					GeoPolyhedronInterface poly = (GeoPolyhedronInterface) arg[0];
 
@@ -60,11 +58,10 @@ public class CmdSetPointSize extends CmdScripting {
 
 					poly.setPointSizeOrVisibility(size);
 
-
 					return;
 				}
-				
-				if (arg[0].isGeoPolygon()){
+
+				if (arg[0].isGeoPolygon()) {
 
 					GeoPolygon poly = (GeoPolygon) arg[0];
 
@@ -72,16 +69,14 @@ public class CmdSetPointSize extends CmdScripting {
 
 					poly.setPointSizeOrVisibility(size);
 
-
 					return;
 				}
 			}
 
-			
-			if (!ok){
+			if (!ok) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			
+
 			throw argErr(app, c.getName(), arg[0]);
 
 		default:

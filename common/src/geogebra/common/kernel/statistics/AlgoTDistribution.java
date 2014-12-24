@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -25,48 +25,45 @@ import org.apache.commons.math.distribution.TDistribution;
 
 public class AlgoTDistribution extends AlgoDistribution {
 
-    
-    /**
-     * @param cons construction
-     * @param label lavel
-     * @param a degrees of freadom
-     * @param b variable value
-     */
-    public AlgoTDistribution(Construction cons, String label, NumberValue a,NumberValue b) {
-        super(cons, label, a, b, null, null);
-    }
-
-    public AlgoTDistribution(Construction cons, NumberValue a,
+	/**
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            lavel
+	 * @param a
+	 *            degrees of freadom
+	 * @param b
+	 *            variable value
+	 */
+	public AlgoTDistribution(Construction cons, String label, NumberValue a,
 			NumberValue b) {
-        super(cons, a, b, null, null);
+		super(cons, label, a, b, null, null);
 	}
 
-    @Override
+	public AlgoTDistribution(Construction cons, NumberValue a, NumberValue b) {
+		super(cons, a, b, null, null);
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.TDistribution;
 	}
 
-    @Override
+	@Override
 	public final void compute() {
-    	
-    	
-    	if (input[0].isDefined() && input[1].isDefined()) {
-    		    double param = a.getDouble();
-    		    double val = b.getDouble();
-        		try {
-        			TDistribution t = getTDistribution(param);
-        			num.setValue(t.cumulativeProbability(val));     // P(T <= val)
-        			
-        		}
-        		catch (Exception e) {
-        			num.setUndefined();        			
-        		}
-    	} else
-    		num.setUndefined();
-    }       
-        
-    
+
+		if (input[0].isDefined() && input[1].isDefined()) {
+			double param = a.getDouble();
+			double val = b.getDouble();
+			try {
+				TDistribution t = getTDistribution(param);
+				num.setValue(t.cumulativeProbability(val)); // P(T <= val)
+
+			} catch (Exception e) {
+				num.setUndefined();
+			}
+		} else
+			num.setUndefined();
+	}
+
 }
-
-
-

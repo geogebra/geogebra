@@ -110,19 +110,17 @@ public abstract class AlgoTransformation extends AlgoElement {
 			arc.setParameters(0, Kernel.PI_2, true);
 			if (pt == null) {
 				transformedPoint = new GeoPoint(cons);
-				pt = new AlgoClosestPoint( cons, arc, transformedPoint);
+				pt = new AlgoClosestPoint(cons, arc, transformedPoint);
 				cons.removeFromConstructionList(pt);
 			}
 			transformedPoint.removePath();
-			setTransformedObject(source.getPointParam(0),
-					transformedPoint);
+			setTransformedObject(source.getPointParam(0), transformedPoint);
 			compute();
 			transformedPoint.updateCascade();
 			// Application.debug("start"+transformedPoint);
 			double d = pt.getP().getPathParameter().getT();
 			transformedPoint.removePath();
-			setTransformedObject(source.getPointParam(1),
-					transformedPoint);
+			setTransformedObject(source.getPointParam(1), transformedPoint);
 			compute();
 			transformedPoint.updateCascade();
 			// Application.debug("end"+transformedPoint);
@@ -134,7 +132,7 @@ public abstract class AlgoTransformation extends AlgoElement {
 			setTransformedObject(a, b);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * used when transforming polygons

@@ -25,32 +25,38 @@ import org.apache.commons.math.distribution.PoissonDistribution;
 
 public class AlgoInversePoisson extends AlgoDistribution {
 
-	
 	/**
-     * @param cons construction
-     * @param label label for output
-     * @param a mean
-     * @param b variable value
-     */
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param a
+	 *            mean
+	 * @param b
+	 *            variable value
+	 */
 	public AlgoInversePoisson(Construction cons, String label, NumberValue a,
 			NumberValue b) {
 		super(cons, label, a, b, null, null);
 	}
+
 	/**
-     * @param cons construction
-     * @param a mean
-     * @param b variable value
-     */
-	public AlgoInversePoisson(Construction cons, NumberValue a,
-			NumberValue b) {
+	 * @param cons
+	 *            construction
+	 * @param a
+	 *            mean
+	 * @param b
+	 *            variable value
+	 */
+	public AlgoInversePoisson(Construction cons, NumberValue a, NumberValue b) {
 		super(cons, a, b, null, null);
 	}
-	
-	
+
 	@Override
 	public Commands getClassName() {
 		return Commands.InversePoisson;
 	}
+
 	@Override
 	public final void compute() {
 

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDirection.java
@@ -27,78 +27,79 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoVector;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoDirection extends AlgoElement {
 
-    private GeoLine g; // input
-    private GeoVector v; // output  
+	private GeoLine g; // input
+	private GeoVector v; // output
 
-    /** Creates new AlgoDirection */    
-    public AlgoDirection(Construction cons, GeoLine g) {
-    	this(cons, null, g);
-    }
-    
-    public AlgoDirection(Construction cons, String label, GeoLine g) {
-        super(cons);
-        this.g = g;
-        v = new GeoVector(cons);
+	/** Creates new AlgoDirection */
+	public AlgoDirection(Construction cons, GeoLine g) {
+		this(cons, null, g);
+	}
 
-        GeoPoint possStartPoint = g.getStartPoint();                  
-        if (possStartPoint!= null && possStartPoint.isLabelSet()) {
-	        try{
-	            v.setStartPoint(possStartPoint);
-	        } catch (CircularDefinitionException e) {}
-        }
+	public AlgoDirection(Construction cons, String label, GeoLine g) {
+		super(cons);
+		this.g = g;
+		v = new GeoVector(cons);
 
-        setInputOutput(); // for AlgoElement
+		GeoPoint possStartPoint = g.getStartPoint();
+		if (possStartPoint != null && possStartPoint.isLabelSet()) {
+			try {
+				v.setStartPoint(possStartPoint);
+			} catch (CircularDefinitionException e) {
+			}
+		}
 
-        // compute line through P, Q
-        v.z = 0.0d;
-        compute();        
-        v.setLabel(label);
-    }
+		setInputOutput(); // for AlgoElement
 
-    @Override
+		// compute line through P, Q
+		v.z = 0.0d;
+		compute();
+		v.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Direction;
-    }
+		return Commands.Direction;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = g;
+		input = new GeoElement[1];
+		input[0] = g;
 
-        super.setOutputLength(1);
-        super.setOutput(0, v);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, v);
+		setDependencies(); // done by AlgoElement
+	}
 
-    public GeoVector getVector() {
-        return v;
-    }
-    GeoLine getg() {
-        return g;
-    }
+	public GeoVector getVector() {
+		return v;
+	}
 
-    // direction vector of g
-    @Override
+	GeoLine getg() {
+		return g;
+	}
+
+	// direction vector of g
+	@Override
 	public final void compute() {
-        v.x = g.y;
-        v.y = -g.x;
-    }
+		v.x = g.y;
+		v.y = -g.x;
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("DirectionOfA",g.getLabel(tpl));
-    }
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("DirectionOfA", g.getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
 }

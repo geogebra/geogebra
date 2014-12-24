@@ -20,5 +20,5 @@ public class NoSymbolicParametersException extends Exception {
 	public NoSymbolicParametersException() {
 		super("No symbolic parameters available");
 	}
-	
+
 }

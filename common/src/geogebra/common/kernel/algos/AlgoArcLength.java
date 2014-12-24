@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoLengthVector.java
@@ -25,68 +25,71 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 
-
 /**
  * Length of an arc.
- * @author  michael
+ * 
+ * @author michael
  */
 public class AlgoArcLength extends AlgoElement {
 
-    private GeoConicPartND arc; // input
-    private GeoNumeric num; // output 
-    
-    /**
-     * @param cons cons
-     * @param label label
-     * @param arc partial conic
-     */
-    public AlgoArcLength(Construction cons, String label, GeoConicPartND arc) {
-        super(cons);
-        this.arc = arc;
-        num = new GeoNumeric(cons);
-        setInputOutput(); // for AlgoElement
+	private GeoConicPartND arc; // input
+	private GeoNumeric num; // output
 
-        // compute length
-        compute();
-        num.setLabel(label);
-    }
+	/**
+	 * @param cons
+	 *            cons
+	 * @param label
+	 *            label
+	 * @param arc
+	 *            partial conic
+	 */
+	public AlgoArcLength(Construction cons, String label, GeoConicPartND arc) {
+		super(cons);
+		this.arc = arc;
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
 
-    @Override
+		// compute length
+		compute();
+		num.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Length;
-    }
+		return Commands.Length;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = (GeoElement) arc;
+		input = new GeoElement[1];
+		input[0] = (GeoElement) arc;
 
-        super.setOutputLength(1);
-        super.setOutput(0, num);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, num);
+		setDependencies(); // done by AlgoElement
+	}
 
-    /**
-     * @return arc length
-     */
-    public GeoNumeric getArcLength() {
-        return num;
-    }
-    
+	/**
+	 * @return arc length
+	 */
+	public GeoNumeric getArcLength() {
+		return num;
+	}
 
-    // calc length of vector v   
-    @Override
+	// calc length of vector v
+	@Override
 	public final void compute() {
-    	
-        num.setValue(arc.getArcLength());
-    }
 
-    @Override
+		num.setValue(arc.getArcLength());
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        return getLoc().getPlain("ArcLengthOfA",((GeoElement) arc).getLabel(tpl));
+		return getLoc().getPlain("ArcLengthOfA",
+				((GeoElement) arc).getLabel(tpl));
 
-    }
+	}
 
 	// TODO Consider locusequability
 }

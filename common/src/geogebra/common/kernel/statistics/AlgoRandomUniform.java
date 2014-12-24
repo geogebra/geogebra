@@ -24,7 +24,8 @@ import geogebra.common.kernel.commands.Commands;
  * @author Michael Borcherds
  * @version
  */
-public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomValue {
+public class AlgoRandomUniform extends AlgoTwoNumFunction implements
+		SetRandomValue {
 
 	public AlgoRandomUniform(Construction cons, String label, NumberValue a,
 			NumberValue b) {
@@ -32,7 +33,7 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomVa
 
 		// output is random number
 		cons.addRandomGeo(num);
-}
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -42,18 +43,21 @@ public class AlgoRandomUniform extends AlgoTwoNumFunction implements SetRandomVa
 	@Override
 	public final void compute() {
 		if (input[0].isDefined() && input[1].isDefined()) {
-			num.setValue(a.getDouble() + kernel.getApplication().getRandomNumber() *( b.getDouble() - a.getDouble()));
+			num.setValue(a.getDouble()
+					+ kernel.getApplication().getRandomNumber()
+					* (b.getDouble() - a.getDouble()));
 		} else
 			num.setUndefined();
-		
+
 	}
+
 	public void setRandomValue(double d) {
-		
+
 		if (d >= a.getDouble() && d <= b.getDouble()) {
 			num.setValue(d);
 			num.updateRepaint();
 		}
-			
+
 	}
 
 }

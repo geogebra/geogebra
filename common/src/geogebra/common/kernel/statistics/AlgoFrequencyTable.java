@@ -58,8 +58,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	String[] strFrequency = null;
 
 	private StringBuilder sb = new StringBuilder();
-	
-	private void createTable(){
+
+	private void createTable() {
 		table = new GeoText(cons);
 		table.setAbsoluteScreenLoc(0, 0);
 		table.setAbsoluteScreenLocActive(true);
@@ -71,20 +71,23 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	public AlgoFrequencyTable(Construction cons, String label,
-			GeoBoolean isCumulative, GeoList classList, GeoList dataList, GeoNumeric scale) {
+			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
+			GeoNumeric scale) {
 		this(cons, label, isCumulative, classList, dataList, null, null, scale);
 	}
 
 	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density) {
-		this(cons, label, isCumulative, classList, dataList, useDensity, density, null);
+		this(cons, label, isCumulative, classList, dataList, useDensity,
+				density, null);
 	}
-	
+
 	public AlgoFrequencyTable(Construction cons, String label,
 			GeoBoolean isCumulative, GeoList classList, GeoList dataList,
 			GeoBoolean useDensity, GeoNumeric density, GeoNumeric scale) {
-		this(cons, isCumulative, classList, dataList, useDensity, density, scale);
+		this(cons, isCumulative, classList, dataList, useDensity, density,
+				scale);
 		table.setLabel(label);
 	}
 
@@ -112,8 +115,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		table.setLaTeX(true, false);
 
 	}
-	
-    
 
 	public AlgoFrequencyTable(Construction cons, String label, GeoNumeric chart) {
 		this(cons, chart);
@@ -122,7 +123,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 	public AlgoFrequencyTable(Construction cons, GeoNumeric chart) {
 		super(cons);
-		
+
 		AlgoElement algo = chart.getParentAlgorithm();
 
 		if (algo instanceof AlgoHistogram) {
@@ -185,7 +186,6 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		setOutput(0, table);
 		setDependencies(); // done by AlgoElement
 	}
-	
 
 	public GeoText getResult() {
 		return table;
@@ -211,12 +211,12 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		}
 		return strHeader;
 	}
-	
+
 	private double scaleFactor;
 
 	@Override
 	public final void compute() {
-		
+
 		switch (type) {
 		case HISTOGRAM:
 			AlgoHistogram algoHistogram = (AlgoHistogram) chart
@@ -290,29 +290,34 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 			// get the unique value list and compute frequencies for this list
 			if (classList == null) {
 
-				if (scale != null){
-					useDens = true; //we assume this will be used to compute frequencies
+				if (scale != null) {
+					useDens = true; // we assume this will be used to compute
+									// frequencies
 				}
-				
+
 				strHeader = new String[2];
 				strHeader[0] = getLoc().getMenu("Value");
-				if (useDens){
-					if (scale != null){
+				if (useDens) {
+					if (scale != null) {
 						double scaleValue = scale.getDouble();
-						if (Kernel.isEqual(scaleValue, 1.0)){
-							strHeader[1] = getLoc().getMenu("FrequencyTable.Count");
-						}else if (Kernel.isEqual(scaleValue * dataList.size(), 1)){
-							strHeader[1] = getLoc().getMenu("FrequencyTable.RelativeFrequency");
-						}else{
-							strHeader[1] = getLoc().getMenu("FrequencyTable.Frequency");
+						if (Kernel.isEqual(scaleValue, 1.0)) {
+							strHeader[1] = getLoc().getMenu(
+									"FrequencyTable.Count");
+						} else if (Kernel.isEqual(scaleValue * dataList.size(),
+								1)) {
+							strHeader[1] = getLoc().getMenu(
+									"FrequencyTable.RelativeFrequency");
+						} else {
+							strHeader[1] = getLoc().getMenu(
+									"FrequencyTable.Frequency");
 						}
-					}else{
-						strHeader[1] = getLoc().getMenu("FrequencyTable.Frequency");
-					}					
-				}else{
+					} else {
+						strHeader[1] = getLoc().getMenu(
+								"FrequencyTable.Frequency");
+					}
+				} else {
 					strHeader[1] = getLoc().getMenu("FrequencyTable.Count");
 				}
-				
 
 				strValue = new String[length];
 				strFrequency = new String[length];
@@ -322,7 +327,7 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 					strValue[i] = va.get(i).toValueString(
 							table.getStringTemplate());
 					strFrequency[i] = fr.get(i).toValueString(
-								table.getStringTemplate());
+							table.getStringTemplate());
 				}
 				createLaTeXTable(false);
 			}
@@ -336,8 +341,8 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 
 				strHeader = new String[2];
 				strHeader[0] = getLoc().getMenu("Interval");
-				strHeader[1] = useDens ? getLoc().getMenu("Frequency") : getLoc()
-						.getMenu("Count");
+				strHeader[1] = useDens ? getLoc().getMenu("Frequency")
+						: getLoc().getMenu("Count");
 
 				strValue = new String[length + 1];
 				strFrequency = new String[length + 1];
@@ -361,12 +366,13 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 	}
 
 	private void createLaTeXTable(boolean useClassList) {
-		if(kernel.getApplication().isHTML5Applet()){
+		if (kernel.getApplication().isHTML5Applet()) {
 			createLaTeXTableMQ(useClassList);
-		}else{
+		} else {
 			createLaTeXTableD(useClassList);
 		}
 	}
+
 	private void createLaTeXTableD(boolean useClassList) {
 
 		sb.setLength(0);
@@ -395,9 +401,9 @@ public class AlgoFrequencyTable extends AlgoElement implements TableAlgo {
 		}
 		sb.append("\\end{array}");
 	}
-	
+
 	private void createLaTeXTableMQ(boolean useClassList) {
-//FrequencyTable[{1,2,3,4,5}]
+		// FrequencyTable[{1,2,3,4,5}]
 		sb.setLength(0);
 		sb.append("\\ggbtable{\\ggbtrlb{\\ggbtd{");
 

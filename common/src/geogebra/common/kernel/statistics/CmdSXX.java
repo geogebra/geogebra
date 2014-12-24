@@ -6,24 +6,25 @@ import geogebra.common.kernel.commands.CmdOneOrTwoListsFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+
 /**
- * SXX[list of points]
- * SXX[list of numbers,list of numbers]
+ * SXX[list of points] SXX[list of numbers,list of numbers]
  *
  */
 
 public class CmdSXX extends CmdOneOrTwoListsFunction {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdSXX(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		GeoNumeric num;
 		GeoElement geo = b.get(0);
 		if (geo instanceof NumberValue) { // list of numbers
@@ -37,12 +38,9 @@ public class CmdSXX extends CmdOneOrTwoListsFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b, GeoList c)
-	{
-		AlgoDoubleListSXX algo = new AlgoDoubleListSXX(cons, a, b,
-				c);
+	final protected GeoElement doCommand(String a, GeoList b, GeoList c) {
+		AlgoDoubleListSXX algo = new AlgoDoubleListSXX(cons, a, b, c);
 		return algo.getResult();
 	}
-
 
 }

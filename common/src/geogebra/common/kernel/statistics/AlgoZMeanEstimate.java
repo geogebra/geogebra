@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
-
 /**
  * 
  * 
@@ -29,45 +28,44 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  */
 public class AlgoZMeanEstimate extends AlgoElement {
 
-
-	private GeoNumeric  mean, sd, n, level; //input
+	private GeoNumeric mean, sd, n, level; // input
 	GeoList list;
-	private GeoList  result;     // output
+	private GeoList result; // output
 	private double me;
-	
-	
 
 	/************************************************
 	 * @param cons
 	 * @param label
-	 * @param mean 
-	 * @param sd 
+	 * @param mean
+	 * @param sd
 	 * @param n
-	 * @param level 
+	 * @param level
 	 */
-	public AlgoZMeanEstimate(Construction cons, String label, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
+	public AlgoZMeanEstimate(Construction cons, String label, GeoNumeric mean,
+			GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
 		this(cons, mean, sd, n, level);
 		result.setLabel(label);
 	}
 
 	/************************************************
 	 * @param cons
-	 * @param mean 
-	 * @param sd 
+	 * @param mean
+	 * @param sd
 	 * @param n
-	 * @param level 
+	 * @param level
 	 */
-	public AlgoZMeanEstimate(Construction cons, GeoNumeric mean, GeoNumeric sd, GeoNumeric n, GeoNumeric level) {
+	public AlgoZMeanEstimate(Construction cons, GeoNumeric mean, GeoNumeric sd,
+			GeoNumeric n, GeoNumeric level) {
 		super(cons);
 		this.mean = mean;
 		this.sd = sd;
 		this.n = n;
 		this.level = level;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
-		
+		compute();
+
 	}
 
 	/**
@@ -77,22 +75,19 @@ public class AlgoZMeanEstimate extends AlgoElement {
 	 * @param sd
 	 * @param level
 	 */
-	public AlgoZMeanEstimate(Construction cons, String label,
-			GeoList list,
-			GeoNumeric sd,
-			GeoNumeric level) {
+	public AlgoZMeanEstimate(Construction cons, String label, GeoList list,
+			GeoNumeric sd, GeoNumeric level) {
 		super(cons);
 
 		this.list = list;
 		this.sd = sd;
 		this.level = level;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 		result.setLabel(label);
 	}
-
 
 	@Override
 	public Commands getClassName() {
@@ -100,7 +95,7 @@ public class AlgoZMeanEstimate extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		if (list == null) {
 			input = new GeoElement[4];
@@ -112,9 +107,8 @@ public class AlgoZMeanEstimate extends AlgoElement {
 			input = new GeoElement[3];
 			input[0] = list;
 			input[1] = sd;
-			input[2] = level;			
+			input[2] = level;
 		}
-
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
@@ -126,7 +120,7 @@ public class AlgoZMeanEstimate extends AlgoElement {
 	public double getME() {
 		return me;
 	}
-	
+
 	/**
 	 * @return {lower confidence limit, upper confidence limit}.
 	 */
@@ -139,21 +133,21 @@ public class AlgoZMeanEstimate extends AlgoElement {
 
 		if (!sd.isDefined() || !level.isDefined()) {
 			result.setUndefined();
-			return;			
+			return;
 		}
 
 		double n1, mean1;
-		double sd1 = sd.getDouble();		
+		double sd1 = sd.getDouble();
 		double cLevel = level.getDouble();
 
 		if (list == null) {
 
-			if (!n.isDefined() || !mean.isDefined() ) {
+			if (!n.isDefined() || !mean.isDefined()) {
 				result.setUndefined();
 				return;
 			}
 
-			n1 = n.getDouble();		
+			n1 = n.getDouble();
 			mean1 = mean.getDouble();
 
 		} else {
@@ -167,7 +161,6 @@ public class AlgoZMeanEstimate extends AlgoElement {
 
 			mean1 = list.mean();
 		}
-
 
 		NormalDistributionImpl normalDist = new NormalDistributionImpl(0, 1);
 
@@ -191,7 +184,4 @@ public class AlgoZMeanEstimate extends AlgoElement {
 
 	}
 
-	
-
-	
 }

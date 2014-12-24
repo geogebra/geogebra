@@ -7,8 +7,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * SampleVariance[ list ]
- * adapted from CmdSum by Michael Borcherds 2008-02-16
+ * SampleVariance[ list ] adapted from CmdSum by Michael Borcherds 2008-02-16
  */
 public class CmdSampleVariance extends CmdOneListFunction {
 	/**
@@ -22,14 +21,14 @@ public class CmdSampleVariance extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoSampleVariance algo = new AlgoSampleVariance(cons, a, b);
 		return algo.getResult();
 	}
-	
+
 	@Override
-	protected GeoElement doCommand(String a, Command c, GeoList list, GeoList freq) {
+	protected GeoElement doCommand(String a, Command c, GeoList list,
+			GeoList freq) {
 		AlgoSampleVariance algo = new AlgoSampleVariance(cons, a, list, freq);
 		return algo.getResult();
 	}

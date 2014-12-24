@@ -6,13 +6,14 @@ import geogebra.common.main.MyError;
 
 /**
  * Presses the pen down.
- * @author judit
- * TurtleUp[ <Turtle>]
+ * 
+ * @author judit TurtleUp[ <Turtle>]
  */
 public class CmdTurtleDown extends CmdTurtleCommand {
 
 	/**
-	 * @param kernel the kernel
+	 * @param kernel
+	 *            the kernel
 	 */
 	public CmdTurtleDown(Kernel kernel) {
 		super(kernel);

@@ -32,32 +32,28 @@ public class CmdTMeanEstimate extends CommandProcessor {
 		switch (n) {
 
 		case 2:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoNumeric())) {
-				
-				AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons, c.getLabel(),
-						(GeoList) arg[0], (GeoNumeric) arg[1]);
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())) {
+
+				AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons,
+						c.getLabel(), (GeoList) arg[0], (GeoNumeric) arg[1]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
 			} else if (!ok[0])
 				throw argErr(app, c.getName(), arg[0]);
-			else 
+			else
 				throw argErr(app, c.getName(), arg[1]);
 
 		case 4:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
-					&& (ok[3] = arg[3].isGeoNumeric()))
-			{
-				
-				AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3]);
+					&& (ok[3] = arg[3].isGeoNumeric())) {
+
+				AlgoTMeanEstimate algo = new AlgoTMeanEstimate(cons,
+						c.getLabel(), (GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2], (GeoNumeric) arg[3]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;

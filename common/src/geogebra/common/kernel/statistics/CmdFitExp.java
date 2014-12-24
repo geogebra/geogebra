@@ -5,13 +5,13 @@ import geogebra.common.kernel.commands.CmdOneListFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
-/** 
+/**
  * FitExp[<List of points>]
  * 
  * @author Hans-Petter Ulven
  * @version 12.04.08
  */
-public class CmdFitExp extends CmdOneListFunction{
+public class CmdFitExp extends CmdOneListFunction {
 
 	/**
 	 * Create new command processor
@@ -19,11 +19,12 @@ public class CmdFitExp extends CmdOneListFunction{
 	 * @param kernel
 	 *            kernel
 	 */
-	public CmdFitExp(Kernel kernel) {super(kernel);}
+	public CmdFitExp(Kernel kernel) {
+		super(kernel);
+	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoFitExp algo = new AlgoFitExp(cons, a, b);
 		return algo.getFitExp();
 	}

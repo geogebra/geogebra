@@ -25,46 +25,37 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoLocus extends AlgoLocusND<MyPoint> {
 
-	
-	public AlgoLocus(Construction cons, GeoPointND Q, GeoPointND P, int min_steps, boolean registerCE) {
+	public AlgoLocus(Construction cons, GeoPointND Q, GeoPointND P,
+			int min_steps, boolean registerCE) {
 		super(cons, Q, P, min_steps, registerCE);
 	}
-	
+
 	@Override
-	protected void createStartPos(Construction cons){
+	protected void createStartPos(Construction cons) {
 		QstartPos = new GeoPoint(cons);
 		PstartPos = new GeoPoint(cons);
 	}
-	
+
 	@Override
-	protected GeoLocus newGeoLocus(Construction cons){
+	protected GeoLocus newGeoLocus(Construction cons) {
 		return new GeoLocus(cons);
 	}
-	
-	
 
 	public AlgoLocus(Construction cons, String label, GeoPointND Q, GeoPointND P) {
 		super(cons, label, Q, P);
 	}
 
-	
-
-
-
-
-
-	
-	
 	@Override
-	protected boolean isFarAway(GeoPointND point, int i){
-		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, i);
+	protected boolean isFarAway(GeoPointND point, int i) {
+		return isFarAway(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
+				i);
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle){
-		
+	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle) {
+
 		GeoPoint Q = (GeoPoint) point;
-		
+
 		// if last point Q' was far away and Q is far away
 		// then the distance is probably OK (return true),
 		// so we probably don't need smaller step,
@@ -83,44 +74,43 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 			lengthX = -lengthX;
 		if (lengthY < 0)
 			lengthY = -lengthY;
-		return !rectangle.intersects(minX, minY, lengthX,
-				lengthY);
+		return !rectangle.intersects(minX, minY, lengthX, lengthY);
 	}
-	
+
 	@Override
 	protected boolean distanceSmall(GeoPointND point, boolean orInsteadOfAnd) {
-		
+
 		GeoPoint Q = (GeoPoint) point;
 
 		boolean[] distSmall = new boolean[3];
-		for (int i = 0 ; i < distSmall.length ; i++){
+		for (int i = 0; i < distSmall.length; i++) {
 			distSmall[i] = Math.abs(Q.inhomX - lastX) < maxXdist[i]
 					&& Math.abs(Q.inhomY - lastY) < maxYdist[i];
 		}
-		
-		if (orInsteadOfAnd) { 
-			for (int i = 0 ; i < distSmall.length ; i++){
-				if (distSmall[i] && visibleEV[i]){
+
+		if (orInsteadOfAnd) {
+			for (int i = 0; i < distSmall.length; i++) {
+				if (distSmall[i] && visibleEV[i]) {
 					return true;
 				}
 			}
 			return false;
-		} 
+		}
 
-		for (int i = 0 ; i < distSmall.length ; i++){
-			if (!distSmall[i] && visibleEV[i]){
+		for (int i = 0; i < distSmall.length; i++) {
+			if (!distSmall[i] && visibleEV[i]) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
 
 	@Override
-	protected void insertPoint(GeoPointND point, boolean lineTo){
-		insertPoint(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY, lineTo);
+	protected void insertPoint(GeoPointND point, boolean lineTo) {
+		insertPoint(((GeoPoint) point).inhomX, ((GeoPoint) point).inhomY,
+				lineTo);
 	}
-	
+
 	private void insertPoint(double x, double y, boolean lineTo) {
 		pointCount++;
 
@@ -129,7 +119,7 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		((GeoLocus) locus).insertPoint(x, y, lineTo);
 		lastX = x;
 		lastY = y;
-		for (int i = 0 ; i < lastFarAway.length ; i++){
+		for (int i = 0; i < lastFarAway.length; i++) {
 			lastFarAway[i] = isFarAway(lastX, lastY, i);
 		}
 	}
@@ -139,35 +129,32 @@ public class AlgoLocus extends AlgoLocusND<MyPoint> {
 		return farAway;
 	}
 
-	
-	
 	@Override
-	protected boolean differentFromLast(GeoPointND point){
-		return ((GeoPoint) point).inhomX != lastX || ((GeoPoint) point).inhomY != lastY;
+	protected boolean differentFromLast(GeoPointND point) {
+		return ((GeoPoint) point).inhomX != lastX
+				|| ((GeoPoint) point).inhomY != lastY;
 	}
-	
+
 	@Override
-	protected boolean areEqual(GeoPointND p1, GeoPointND p2){
-		return ((GeoPoint) p1).isEqual(((GeoPoint) p2),Kernel.MIN_PRECISION);
+	protected boolean areEqual(GeoPointND p1, GeoPointND p2) {
+		return ((GeoPoint) p1).isEqual(((GeoPoint) p2), Kernel.MIN_PRECISION);
 	}
-	
+
 	@Override
-	protected MyPoint[] createQCopyCache(){
+	protected MyPoint[] createQCopyCache() {
 		return new MyPoint[paramCache.length];
 	}
 
 	@Override
-	protected void setQCopyCache(MyPoint copy, GeoPointND point){
+	protected void setQCopyCache(MyPoint copy, GeoPointND point) {
 		copy.setX(((GeoPoint) point).inhomX);
 		copy.setY(((GeoPoint) point).inhomY);
 	}
-	
+
 	@Override
-	protected MyPoint newCache(){
+	protected MyPoint newCache() {
 		return new MyPoint();
 	}
-	
-
 
 	// TODO Consider locusequability
 

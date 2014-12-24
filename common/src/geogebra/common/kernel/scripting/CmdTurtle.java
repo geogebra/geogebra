@@ -9,9 +9,8 @@ import geogebra.common.kernel.geos.GeoTurtle;
 import geogebra.common.main.MyError;
 
 /**
- * Turtle Creation command
- * Syntax:
- *     Turtle[]
+ * Turtle Creation command Syntax: Turtle[]
+ * 
  * @author arno
  *
  */
@@ -19,7 +18,9 @@ public class CmdTurtle extends CommandProcessor {
 
 	/**
 	 * Constructor
-	 * @param kernel the kernel
+	 * 
+	 * @param kernel
+	 *            the kernel
 	 */
 	public CmdTurtle(Kernel kernel) {
 		super(kernel);

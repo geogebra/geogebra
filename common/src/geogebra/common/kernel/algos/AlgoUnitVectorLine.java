@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoOrthoVectorLine.java
@@ -24,35 +24,27 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoUnitVectorLine extends AlgoUnitVector2D {
-    
-    
-    /** Creates new AlgoOrthoVectorLine */
-    public AlgoUnitVectorLine(Construction cons, String label,GeoLineND g) {        
-        super(cons, label, (GeoElement) g);
-    } 
-    
-     
-    
-    
-    @Override
-	final protected void setXY(){
-    	x = ((GeoLine) inputGeo).y;
-    	y = -((GeoLine) inputGeo).x;
-    }
 
+	/** Creates new AlgoOrthoVectorLine */
+	public AlgoUnitVectorLine(Construction cons, String label, GeoLineND g) {
+		super(cons, label, (GeoElement) g);
+	}
+
+	@Override
+	final protected void setXY() {
+		x = ((GeoLine) inputGeo).y;
+		y = -((GeoLine) inputGeo).x;
+	}
 
 	@Override
 	final protected GeoPointND getInputStartPoint() {
 		return ((GeoLine) inputGeo).getStartPoint();
 	}
 
-
-    
 }

@@ -385,7 +385,7 @@ public class AlgoFrequency extends AlgoElement {
 				// System.out.println(" =================================");
 				// System.out.println("class freq: " + classFreq + "   " +
 				// density);
-				
+
 				if (doCumulative)
 					cumulativeClassFreq += classFreq;
 
@@ -393,7 +393,7 @@ public class AlgoFrequency extends AlgoElement {
 				double v = doCumulative ? cumulativeClassFreq : classFreq;
 				if (hasDensity) {
 					v = densityValue * v / (upperClassBound - lowerClassBound);
-				}			
+				}
 				addValue(v);
 			}
 

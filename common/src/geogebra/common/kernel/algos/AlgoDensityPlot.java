@@ -48,8 +48,8 @@ public class AlgoDensityPlot extends AlgoElement {
 	private FunctionNVar f;
 	private DecimalFormat df;
 	private GTextLayout t;
-	private GFont font = kernel.getApplication().getFontCanDisplay("-999").deriveFont(GFont.PLAIN,
-			8);
+	private GFont font = kernel.getApplication().getFontCanDisplay("-999")
+			.deriveFont(GFont.PLAIN, 8);
 	private double scaleX;
 	private double scaleY;
 	private int grade;
@@ -60,11 +60,11 @@ public class AlgoDensityPlot extends AlgoElement {
 	private boolean prevGrid;
 
 	/**
-	 * @param c 
-	 *           Construction
-	 * @param function 
-	 *           2-variables function
-	 * 	
+	 * @param c
+	 *            Construction
+	 * @param function
+	 *            2-variables function
+	 * 
 	 */
 	public AlgoDensityPlot(final Construction c, final GeoFunctionNVar function) {
 		this(c, function, -2, 2, -2, 2, false);
@@ -96,10 +96,10 @@ public class AlgoDensityPlot extends AlgoElement {
 		f = function.getFunction();
 		view = kernel.getApplication().getActiveEuclidianView();
 		this.fixed = fixed;
-		minX=-2;
-		minY=-2;
-		maxX=2;
-		maxY=2;
+		minX = -2;
+		minY = -2;
+		maxX = 2;
+		maxY = 2;
 		if (fixed) {
 			minX = lowX;
 			minY = lowY;
@@ -230,7 +230,7 @@ public class AlgoDensityPlot extends AlgoElement {
 		g.fillRect(0, imagePlusOffset, imagePlusOffset + 2 * offset, offset);
 		g.fillRect(0, offset, offset, imagePlusOffset);
 		g.fillRect(0, 0, imagePlusOffset + 2 * offset, offset);
-		g.fillRect(imagePlusOffset, offset, offset,imageSize);
+		g.fillRect(imagePlusOffset, offset, offset, imageSize);
 	}
 
 	private void showGrid() {

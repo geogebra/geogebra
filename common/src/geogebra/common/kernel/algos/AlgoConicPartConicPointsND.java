@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.algos;
 
@@ -19,126 +19,122 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicPartND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
-
 /**
  * Arc or sector defined by a conic, start- and end-point.
  */
 public abstract class AlgoConicPartConicPointsND extends AlgoConicPart {
-	
+
 	protected GeoPointND startPoint, endPoint;
-	
 
-    /**
-     * Creates a new arc or sector algorithm.
-     * The type is either GeoConicPart.CONIC_PART_ARC or 
-     * GeoConicPart.CONIC_PART_ARC       
-     */
-    public AlgoConicPartConicPointsND(Construction cons, String label,
-    		GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
-    		int type) {
-        super(cons, type);
-        conic = circle;
-        this.startPoint = startPoint;
-        this.endPoint = endPoint;                          
-        
-        // temp points
-        setTempValues();
-        
-        conicPart = newGeoConicPart(cons, type);
+	/**
+	 * Creates a new arc or sector algorithm. The type is either
+	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
+	 */
+	public AlgoConicPartConicPointsND(Construction cons, String label,
+			GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
+			int type) {
+		super(cons, type);
+		conic = circle;
+		this.startPoint = startPoint;
+		this.endPoint = endPoint;
 
-        setInputOutput(); // for AlgoElement 
-        initCoords();
-        compute();
-        setIncidence();
-        
-        conicPart.setLabel(label);
-    }  
-    
+		// temp points
+		setTempValues();
+
+		conicPart = newGeoConicPart(cons, type);
+
+		setInputOutput(); // for AlgoElement
+		initCoords();
+		compute();
+		setIncidence();
+
+		conicPart.setLabel(label);
+	}
 
 	/**
 	 * init Coords values
 	 */
-	protected void initCoords(){
+	protected void initCoords() {
 		// none here
 	}
-	
-    /**
-     * set temp values used for compute
-     */
-    abstract protected void setTempValues();
-    
-    /**
-     * 
-     * @param cons construction
-     * @param type arc/sector
-     * @return new conic part
-     */
-	protected GeoConicND newGeoConicPart(Construction cons, int type){
-    	return new GeoConicPart(cons, type);
-    }
-    
-    private void setIncidence() {
+
+	/**
+	 * set temp values used for compute
+	 */
+	abstract protected void setTempValues();
+
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param type
+	 *            arc/sector
+	 * @return new conic part
+	 */
+	protected GeoConicND newGeoConicPart(Construction cons, int type) {
+		return new GeoConicPart(cons, type);
+	}
+
+	private void setIncidence() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public GeoPointND getStartPoint() {
-    	return startPoint;
-    }
+		return startPoint;
+	}
 
-    public GeoPointND getEndPoint() {
-    	return endPoint;
-    }
-    
-    public GeoConicND getConic() {
-    	return conic;
-    }
-    
-    // for AlgoElement
-    @Override
+	public GeoPointND getEndPoint() {
+		return endPoint;
+	}
+
+	public GeoConicND getConic() {
+		return conic;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[3];
-        input[0] = conic;      
-        input[1] = (GeoElement) startPoint;
-        input[2] = (GeoElement) endPoint;
+		input = new GeoElement[3];
+		input[0] = conic;
+		input[1] = (GeoElement) startPoint;
+		input[2] = (GeoElement) endPoint;
 
-        super.setOutputLength(1);
-        super.setOutput(0, conicPart);
+		super.setOutputLength(1);
+		super.setOutput(0, conicPart);
 
-        setDependencies();
-    }
-    
-    @Override
+		setDependencies();
+	}
+
+	@Override
 	public final void compute() {
-    	
-    	computeParemeters();
-    	
-    	// now take the parameters from the temp points
-    	conicPart.set(conic);
-    	    	   	    
-    	((GeoConicPartND) conicPart).setParameters(getStartParameter(), getEndParameter(), 
-    			true);
-    }
-    
-    /**
-     * compute start and end parameters
-     */
-    abstract protected void computeParemeters();
-    
-    /**
-     * 
-     * @return start parameter value
-     */
-    abstract protected double getStartParameter();
-    
-    /**
-     * 
-     * @return end parameter value
-     */
-    abstract protected double getEndParameter();
+
+		computeParemeters();
+
+		// now take the parameters from the temp points
+		conicPart.set(conic);
+
+		((GeoConicPartND) conicPart).setParameters(getStartParameter(),
+				getEndParameter(), true);
+	}
+
+	/**
+	 * compute start and end parameters
+	 */
+	abstract protected void computeParemeters();
+
+	/**
+	 * 
+	 * @return start parameter value
+	 */
+	abstract protected double getStartParameter();
+
+	/**
+	 * 
+	 * @return end parameter value
+	 */
+	abstract protected double getEndParameter();
 
 	// TODO Consider locusequability
-    
 
 }

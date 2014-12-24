@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.MyError;
 
 /**
- *SetFixed
+ * SetFixed
  */
 public class CmdSetTrace extends CmdScripting {
 
@@ -24,8 +24,7 @@ public class CmdSetTrace extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		switch (n) {
@@ -36,10 +35,11 @@ public class CmdSetTrace extends CmdScripting {
 				GeoElement geo = arg[0];
 
 				if (geo != null && geo.isTraceable()) {
-					((Traceable) geo).setTrace(((GeoBoolean)arg[1]).getBoolean());
+					((Traceable) geo).setTrace(((GeoBoolean) arg[1])
+							.getBoolean());
 					geo.updateRepaint();
 				}
-				
+
 				return;
 			}
 			throw argErr(app, c.getName(), arg[1]);

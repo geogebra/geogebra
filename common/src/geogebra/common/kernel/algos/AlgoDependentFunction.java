@@ -35,7 +35,6 @@ import geogebra.common.util.StringUtil;
 import java.util.HashSet;
 import java.util.Iterator;
 
-
 /**
  * This class is only needed to handle dependencies
  * 
@@ -45,17 +44,23 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	/** input */
 	protected Function fun;
 	/** output */
-	protected GeoFunction f; 
+	protected GeoFunction f;
 
 	private Function expandedFun;
 	private ExpressionNode expression;
 	private boolean expContainsFunctions; // expression contains functions
 	private HashSet<GeoElement> unconditionalInput;
 
-	/** Creates new AlgoDependentFunction 
-	 * @param cons construction
-	 * @param label label for output
-	 * @param fun input function*/
+	/**
+	 * Creates new AlgoDependentFunction
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param fun
+	 *            input function
+	 */
 	public AlgoDependentFunction(Construction cons, String label, Function fun) {
 		this(cons, fun);
 
@@ -70,8 +75,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	}
 
 	/**
-	 * @param cons construction
-	 * @param fun input function
+	 * @param cons
+	 *            construction
+	 * @param fun
+	 *            input function
 	 */
 	public AlgoDependentFunction(Construction cons, Function fun) {
 		super(cons);
@@ -93,7 +100,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	}
 
 	/**
-	 * @param cons construction
+	 * @param cons
+	 *            construction
 	 */
 	protected AlgoDependentFunction(Construction cons) {
 		super(cons);
@@ -128,7 +136,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 		// check if function is defined
 		boolean isDefined = inputDefined();
-		
+
 		f.setDefined(isDefined);
 		if (isDefined && expContainsFunctions) {
 			// expand the functions and derivatives in expression tree
@@ -136,12 +144,14 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 			try { // needed for eg f(x)=floor(x) f'(x)
 
-				//boolean internationalizeDigits = Kernel.internationalizeDigits;
-				//Kernel.internationalizeDigits = false;
-				//TODO: seems that we never read internationalize digits flag here ...
+				// boolean internationalizeDigits =
+				// Kernel.internationalizeDigits;
+				// Kernel.internationalizeDigits = false;
+				// TODO: seems that we never read internationalize digits flag
+				// here ...
 				ev = expandFunctionDerivativeNodes(expression.deepCopy(kernel));
 
-				//Kernel.internationalizeDigits = internationalizeDigits;
+				// Kernel.internationalizeDigits = internationalizeDigits;
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -161,8 +171,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 			expandedFun.setExpression(node);
 			f.setFunction(expandedFun);
-			//If the label is not set (first run of compute) 
-			//isFillable will take care of updating ineqs
+			// If the label is not set (first run of compute)
+			// isFillable will take care of updating ineqs
 			if (f.isBooleanFunction() && f.isLabelSet())
 				f.resetIneqs();
 		} else if (f.isBooleanFunction())
@@ -170,7 +180,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 	}
 
 	private boolean inputDefined() {
-		if(this.unconditionalInput == null){
+		if (this.unconditionalInput == null) {
 			for (int i = 0; i < input.length; i++) {
 				if (!input[i].isDefined()) {
 					return false;
@@ -179,8 +189,8 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			return true;
 		}
 		Iterator<GeoElement> it = this.unconditionalInput.iterator();
-		while(it.hasNext()){
-			if(!it.next().isDefined()){
+		while (it.hasNext()) {
+			if (!it.next().isDefined()) {
 				return false;
 			}
 		}
@@ -189,7 +199,9 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 	/**
 	 * Expandes all FUNCTION and DERIVATIVE nodes in the given expression.
-	 * @param ev expression to expand (only ExpressionNodes are affected)
+	 * 
+	 * @param ev
+	 *            expression to expand (only ExpressionNodes are affected)
 	 * 
 	 * @return new ExpressionNode as result
 	 */
@@ -215,8 +227,7 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 						&& ((GeoElement) leftValue).isGeoFunctionConditional())
 					return node;
 
-				Function fun =  ((Functional) leftValue)
-						.getFunction();
+				Function fun = ((Functional) leftValue).getFunction();
 				FunctionVariable x = fun.getFunctionVariable();
 				// don't destroy the function
 				ExpressionNode funcExpression = fun.getExpression().getCopy(
@@ -225,27 +236,29 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				return funcExpression.replace(x,
 						expandFunctionDerivativeNodes(node.getRight())).wrap();
 			case FUNCTION_NVAR:
-				//make sure we expand $ in $A1(x,y)
+				// make sure we expand $ in $A1(x,y)
 				if (leftValue.isExpressionNode()) {
 					leftValue = expandFunctionDerivativeNodes(leftValue);
 					node.setLeft(leftValue);
 					if (leftValue.isExpressionNode())
 						return node;
 				}
-				FunctionNVar funN =  ((FunctionalNVar) leftValue)
-						.getFunction();
+				FunctionNVar funN = ((FunctionalNVar) leftValue).getFunction();
 				FunctionVariable[] xy = funN.getFunctionVariables();
 				// don't destroy the function
 				ExpressionNode funNExpression = funN.getExpression().getCopy(
 						funN.getKernel());
-				// with f(A) where A is a point we should not get there, but still
-				if(!(node.getRight() instanceof MyList))
+				// with f(A) where A is a point we should not get there, but
+				// still
+				if (!(node.getRight() instanceof MyList))
 					return ev;
 				// now replace every x in function by the expanded argument
-				for(int i=0;i<xy.length;i++)
-					funNExpression = funNExpression.replace(xy[i],
-						expandFunctionDerivativeNodes( ((MyList)node.getRight()).getListElement(i))).wrap();
-				return(funNExpression);
+				for (int i = 0; i < xy.length; i++)
+					funNExpression = funNExpression.replace(
+							xy[i],
+							expandFunctionDerivativeNodes(((MyList) node
+									.getRight()).getListElement(i))).wrap();
+				return (funNExpression);
 			case DERIVATIVE:
 				// don't expand derivative of GeoFunctionConditional
 				if (leftValue.isGeoElement()
@@ -255,10 +268,11 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 
 				int order = (int) Math.round(((NumberValue) node.getRight())
 						.getDouble());
-				if(leftValue.isExpressionNode() && (((ExpressionNode)leftValue).getOperation()==Operation.$VAR_COL
-						||((ExpressionNode)leftValue).getOperation()==Operation.$VAR_ROW
-						||((ExpressionNode)leftValue).getOperation()==Operation.$VAR_ROW_COL)) 
-					leftValue = ((ExpressionNode)leftValue).getLeft();
+				if (leftValue.isExpressionNode()
+						&& (((ExpressionNode) leftValue).getOperation() == Operation.$VAR_COL
+								|| ((ExpressionNode) leftValue).getOperation() == Operation.$VAR_ROW || ((ExpressionNode) leftValue)
+								.getOperation() == Operation.$VAR_ROW_COL))
+					leftValue = ((ExpressionNode) leftValue).getLeft();
 				return ((Functional) leftValue).getGeoDerivative(order);
 
 				// remove spreadsheet $ references, i.e. $A1 -> A1
@@ -272,18 +286,22 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 				node.setRight(expandFunctionDerivativeNodes(node.getRight()));
 				return node;
 			}
-		}else if(ev instanceof MyNumberPair){
-			((MyNumberPair)ev).setX(expandFunctionDerivativeNodes(
-					((MyNumberPair)ev).getX()));
-			((MyNumberPair)ev).setY(expandFunctionDerivativeNodes(
-					((MyNumberPair)ev).getY()));
+		} else if (ev instanceof MyNumberPair) {
+			((MyNumberPair) ev)
+					.setX(expandFunctionDerivativeNodes(((MyNumberPair) ev)
+							.getX()));
+			((MyNumberPair) ev)
+					.setY(expandFunctionDerivativeNodes(((MyNumberPair) ev)
+							.getY()));
 		}
 		return ev;
 	}
 
 	/**
-	 * @param ev expression
-	 * @return whether given expression contains operation FUNCTION, FUNCTION_NVAR or DERIVATIVE
+	 * @param ev
+	 *            expression
+	 * @return whether given expression contains operation FUNCTION,
+	 *         FUNCTION_NVAR or DERIVATIVE
 	 */
 	public static boolean containsFunctions(ExpressionValue ev) {
 		if (ev != null && ev.isExpressionNode()) {
@@ -308,7 +326,10 @@ public class AlgoDependentFunction extends AlgoElement implements DependentAlgo 
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		if (f.isLabelSet() && !tpl.isHideLHS() && (!f.isBooleanFunction() || tpl.hasType(StringType.GEOGEBRA_XML))) {
+		if (f.isLabelSet()
+				&& !tpl.isHideLHS()
+				&& (!f.isBooleanFunction() || tpl
+						.hasType(StringType.GEOGEBRA_XML))) {
 			sb.append(f.getLabel(tpl));
 			sb.append("(");
 			sb.append(f.getVarString(tpl));

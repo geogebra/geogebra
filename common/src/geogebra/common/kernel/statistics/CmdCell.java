@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *Cell
+ * Cell
  */
 public class CmdCell extends CommandProcessor {
 	/**
@@ -30,8 +30,9 @@ public class CmdCell extends CommandProcessor {
 
 		switch (n) {
 		case 2:
-			if ((ok = arg[0] instanceof GeoNumberValue) && arg[1] instanceof GeoNumberValue) {
-				
+			if ((ok = arg[0] instanceof GeoNumberValue)
+					&& arg[1] instanceof GeoNumberValue) {
+
 				AlgoCell algo = new AlgoCell(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
 

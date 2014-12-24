@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *Zipf
+ * Zipf
  */
 public class CmdZipf extends CommandProcessor {
 
@@ -34,26 +34,26 @@ public class CmdZipf extends CommandProcessor {
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)) {
-				
-				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+
+				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
-				}
-				else if (!ok[0])
-					throw argErr(app, c.getName(), arg[0]);
-				else if (!ok[1])
-					throw argErr(app, c.getName(), arg[1]);
+			} else if (!ok[0])
+				throw argErr(app, c.getName(), arg[0]);
+			else if (!ok[1])
+				throw argErr(app, c.getName(), arg[1]);
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
-					&& (ok[1] = arg[1] instanceof GeoNumberValue)					
+					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				
-				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
-						(GeoBoolean) arg[2]);
+
+				AlgoZipfBarChart algo = new AlgoZipfBarChart(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoNumberValue) arg[1], (GeoBoolean) arg[2]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -66,14 +66,14 @@ public class CmdZipf extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[2]);
 			else
 				throw argErr(app, c.getName(), arg[3]);
-			
+
 		case 4:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2] instanceof GeoNumberValue)
 					&& (ok[3] = arg[3].isGeoBoolean())) {
-				
+
 				AlgoZipf algo = new AlgoZipf(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoNumberValue) arg[2], (GeoBoolean) arg[3]);

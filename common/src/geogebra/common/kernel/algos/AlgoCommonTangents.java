@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoCommonTangents.java, dsun48 [6/26/2011]
@@ -32,104 +32,100 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoCommonTangents extends AlgoCommonTangentsND {
 
- 
-    public AlgoCommonTangents(
-                       Construction cons,
-                       String[] labels,
-                       GeoConicND c,
-                       GeoConicND c2) {
-        super(cons, labels, c, c2);
-    }
-    
-    
-    @Override
-	protected void createPoints(Construction cons){
-    	P = new GeoPoint[2];
-    	P[0] = new GeoPoint(cons);
-    	P[1] = new GeoPoint(cons);
-    }
-    
-    @Override
-	protected void setCoordsAsPoint(int index, double x, double y){
-    	((GeoPoint) P[index]).setCoords(x, y, 1);
-    }
+	public AlgoCommonTangents(Construction cons, String[] labels, GeoConicND c,
+			GeoConicND c2) {
+		super(cons, labels, c, c2);
+	}
 
-    @Override
-	protected void setCoordsAsVector(int index, double x, double y){
-    	((GeoPoint) P[index]).setCoords(x, y, 0);
-    }
+	@Override
+	protected void createPoints(Construction cons) {
+		P = new GeoPoint[2];
+		P[0] = new GeoPoint(cons);
+		P[1] = new GeoPoint(cons);
+	}
 
-    
-    @Override
-	protected void initTangents(){
-         
-         tangents = new GeoLine[2+2];
-         tangents[0] = new GeoLine(cons);
-         tangents[1] = new GeoLine(cons);
-         ((GeoLine) tangents[0]).setStartPoint((GeoPoint) P[0]);
-         ((GeoLine) tangents[1]).setStartPoint((GeoPoint) P[0]);
+	@Override
+	protected void setCoordsAsPoint(int index, double x, double y) {
+		((GeoPoint) P[index]).setCoords(x, y, 1);
+	}
 
-         tangents[0+2] = new GeoLine(cons);
-         tangents[1+2] = new GeoLine(cons);
-         ((GeoLine) tangents[0+2]).setStartPoint((GeoPoint) P[1]);
-         ((GeoLine) tangents[1+2]).setStartPoint((GeoPoint) P[1]);
+	@Override
+	protected void setCoordsAsVector(int index, double x, double y) {
+		((GeoPoint) P[index]).setCoords(x, y, 0);
+	}
 
-    }
-    
-    
-    @Override
-	protected AlgoIntersectND createAlgo(Construction cons, GeoPointND p, GeoLine line, GeoConicND conic){
-    	conic.polarLine((GeoPoint) p, line);
-        return new AlgoIntersectLineConic(cons, line, (GeoConic) conic);
-    }
-    
-    /**
-     * Inits the helping interesection algorithm to take
-     * the current position of the lines into account.
-     * This is important so the the tangent lines are not
-     * switched after loading a file
-     */
-    @Override
-	public void initForNearToRelationship() {       
-        AlgoTangentPoint.initForNearToRelationship(tangentPoints, tangents[0], algoIntersect);
-        AlgoTangentPoint.initForNearToRelationship(tangentPoints2, tangents[2], algoIntersect2);
-    }
-    
+	@Override
+	protected void initTangents() {
 
-    @Override
-    protected void updatePolarLines(){
-    	c[0].polarLine((GeoPoint) P[0], polar);
-    	c[1].polarLine((GeoPoint) P[1], polar2);
-    }
-    
-    @Override
-	protected boolean isIntersectionPointIncident(int index, GeoConicND conic){
-    	return conic.isIntersectionPointIncident((GeoPoint) P[index], Kernel.MIN_PRECISION);
-    }
-    
-    @Override
-	protected void updateTangents(GeoPointND[] tangentPoints, int index){
-    	// calc tangents through tangentPoints
-        GeoVec3D.lineThroughPoints((GeoPoint) P[index], (GeoPoint) tangentPoints[0], (GeoLine) tangents[0+2*index]);
-        GeoVec3D.lineThroughPoints((GeoPoint) P[index], (GeoPoint) tangentPoints[1], (GeoLine) tangents[1+2*index]);
-    }
-    
-    @Override
-	protected void setTangentFromPolar(int i, GeoLine line){
-    	((GeoLine) tangents[i]).setCoords(line);
-    }
-    
-    
-    @Override
-	protected double getMidpointX(int csIndex, int mpIndex){
-    	return c[mpIndex].b.getX();
-    }
+		tangents = new GeoLine[2 + 2];
+		tangents[0] = new GeoLine(cons);
+		tangents[1] = new GeoLine(cons);
+		((GeoLine) tangents[0]).setStartPoint((GeoPoint) P[0]);
+		((GeoLine) tangents[1]).setStartPoint((GeoPoint) P[0]);
 
-    @Override
-	protected double getMidpointY(int csIndex, int mpIndex){
-    	return c[mpIndex].b.getY();
-    }
-              
+		tangents[0 + 2] = new GeoLine(cons);
+		tangents[1 + 2] = new GeoLine(cons);
+		((GeoLine) tangents[0 + 2]).setStartPoint((GeoPoint) P[1]);
+		((GeoLine) tangents[1 + 2]).setStartPoint((GeoPoint) P[1]);
+
+	}
+
+	@Override
+	protected AlgoIntersectND createAlgo(Construction cons, GeoPointND p,
+			GeoLine line, GeoConicND conic) {
+		conic.polarLine((GeoPoint) p, line);
+		return new AlgoIntersectLineConic(cons, line, (GeoConic) conic);
+	}
+
+	/**
+	 * Inits the helping interesection algorithm to take the current position of
+	 * the lines into account. This is important so the the tangent lines are
+	 * not switched after loading a file
+	 */
+	@Override
+	public void initForNearToRelationship() {
+		AlgoTangentPoint.initForNearToRelationship(tangentPoints, tangents[0],
+				algoIntersect);
+		AlgoTangentPoint.initForNearToRelationship(tangentPoints2, tangents[2],
+				algoIntersect2);
+	}
+
+	@Override
+	protected void updatePolarLines() {
+		c[0].polarLine((GeoPoint) P[0], polar);
+		c[1].polarLine((GeoPoint) P[1], polar2);
+	}
+
+	@Override
+	protected boolean isIntersectionPointIncident(int index, GeoConicND conic) {
+		return conic.isIntersectionPointIncident((GeoPoint) P[index],
+				Kernel.MIN_PRECISION);
+	}
+
+	@Override
+	protected void updateTangents(GeoPointND[] tangentPoints, int index) {
+		// calc tangents through tangentPoints
+		GeoVec3D.lineThroughPoints((GeoPoint) P[index],
+				(GeoPoint) tangentPoints[0], (GeoLine) tangents[0 + 2 * index]);
+		GeoVec3D.lineThroughPoints((GeoPoint) P[index],
+				(GeoPoint) tangentPoints[1], (GeoLine) tangents[1 + 2 * index]);
+	}
+
+	@Override
+	protected void setTangentFromPolar(int i, GeoLine line) {
+		((GeoLine) tangents[i]).setCoords(line);
+	}
+
+	@Override
+	protected double getMidpointX(int csIndex, int mpIndex) {
+		return c[mpIndex].b.getX();
+	}
+
+	@Override
+	protected double getMidpointY(int csIndex, int mpIndex) {
+		return c[mpIndex].b.getY();
+	}
+
 }
 
 // Local Variables:

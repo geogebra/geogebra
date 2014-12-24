@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import com.google.gwt.regexp.shared.MatchResult;
 
 /**
- *FillCells
+ * FillCells
  */
 public class CmdFillCells extends CommandProcessor {
 
@@ -95,12 +95,14 @@ public class CmdFillCells extends CommandProcessor {
 							removePossibleGeo(GeoElementSpreadsheet
 									.getSpreadsheetCellName(minCol + 1, row));
 
-						MyPoint p = al.get(i);														
+							MyPoint p = al.get(i);
 
-							kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol,
-									new GeoNumeric(cons, p.x));
-							kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, minCol + 1,
-									new GeoNumeric(cons, p.y));
+							kernelA.getGeoElementSpreadsheet()
+									.setSpreadsheetCell(app, row, minCol,
+											new GeoNumeric(cons, p.x));
+							kernelA.getGeoElementSpreadsheet()
+									.setSpreadsheetCell(app, row, minCol + 1,
+											new GeoNumeric(cons, p.y));
 						} catch (Exception e) {
 							e.printStackTrace();
 							app.setScrollToShow(true);
@@ -123,8 +125,8 @@ public class CmdFillCells extends CommandProcessor {
 								removePossibleGeo(GeoElementSpreadsheet
 										.getSpreadsheetCellName(col, row));
 
-								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
-										geo);
+								kernelA.getGeoElementSpreadsheet()
+										.setSpreadsheetCell(app, row, col, geo);
 							} catch (Exception e) {
 								app.setScrollToShow(true);
 								e.printStackTrace();
@@ -134,13 +136,14 @@ public class CmdFillCells extends CommandProcessor {
 					app.setScrollToShow(true);
 					return ret;
 				}
-				
-				GeoList list = (GeoList)geo;
+
+				GeoList list = (GeoList) geo;
 				if (list.isMatrix()) {
 
 					int countX = 0;
 					for (int row = minRow; row <= maxRow; row++) {
-						GeoList rowList = (GeoList) list.get(countX % list.size());
+						GeoList rowList = (GeoList) list.get(countX
+								% list.size());
 						countX++;
 						int countY = 0;
 						for (int col = minCol; col <= maxCol; col++) {
@@ -151,9 +154,14 @@ public class CmdFillCells extends CommandProcessor {
 								removePossibleGeo(GeoElementSpreadsheet
 										.getSpreadsheetCellName(col, row));
 
-								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
-										rowList.get(countY % rowList.size()));
-								countY ++;
+								kernelA.getGeoElementSpreadsheet()
+										.setSpreadsheetCell(
+												app,
+												row,
+												col,
+												rowList.get(countY
+														% rowList.size()));
+								countY++;
 
 							} catch (Exception e) {
 								app.setScrollToShow(true);
@@ -163,7 +171,7 @@ public class CmdFillCells extends CommandProcessor {
 						}
 					}
 
-				} else { 
+				} else {
 					// not matrix, just use each list value in turn
 					int count = 0;
 					for (int row = minRow; row <= maxRow; row++)
@@ -175,10 +183,11 @@ public class CmdFillCells extends CommandProcessor {
 								removePossibleGeo(GeoElementSpreadsheet
 										.getSpreadsheetCellName(col, row));
 
-								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, col,
-										list.get(count % list.size()));
-								count ++;
-								
+								kernelA.getGeoElementSpreadsheet()
+										.setSpreadsheetCell(app, row, col,
+												list.get(count % list.size()));
+								count++;
+
 							} catch (Exception e) {
 								app.setScrollToShow(true);
 								e.printStackTrace();
@@ -186,15 +195,14 @@ public class CmdFillCells extends CommandProcessor {
 							}
 						}
 
-					
 				}
 
 				app.storeUndoInfo();
 				app.setScrollToShow(true);
 				return ret;
 
-			} 
-			
+			}
+
 			// arg[0] not list
 			{
 
@@ -209,8 +217,10 @@ public class CmdFillCells extends CommandProcessor {
 					GeoList list = (GeoList) arg[1];
 
 					MatchResult matcher = GeoElementSpreadsheet.spreadsheetPattern
-							.exec(arg[0].getLabel(StringTemplate.defaultTemplate));
-					int column = GeoElementSpreadsheet.getSpreadsheetColumn(matcher);
+							.exec(arg[0]
+									.getLabel(StringTemplate.defaultTemplate));
+					int column = GeoElementSpreadsheet
+							.getSpreadsheetColumn(matcher);
 					int row = GeoElementSpreadsheet.getSpreadsheetRow(matcher);
 
 					if (row == -1 || column == -1) {
@@ -234,8 +244,8 @@ public class CmdFillCells extends CommandProcessor {
 								for (int c1 = 0; c1 < cols; c1++) {
 									kernelA.getGeoElementSpreadsheet()
 											.setSpreadsheetCell(app, row + r,
-													column + c1, rowList
-															.get(c1).copy());
+													column + c1,
+													rowList.get(c1).copy());
 								}
 							}
 						} catch (Exception e) {
@@ -254,8 +264,9 @@ public class CmdFillCells extends CommandProcessor {
 						for (int i = list.size() - 1; i >= 0; i--)
 							try {
 								// Application.debug("setting "+row+" "+(column+i)+" to "+list.get(i).toString());
-								kernelA.getGeoElementSpreadsheet().setSpreadsheetCell(app, row, column
-										+ i, list.get(i).copy());
+								kernelA.getGeoElementSpreadsheet()
+										.setSpreadsheetCell(app, row,
+												column + i, list.get(i).copy());
 							} catch (Exception e) {
 								e.printStackTrace();
 								app.setScrollToShow(true);
@@ -278,11 +289,10 @@ public class CmdFillCells extends CommandProcessor {
 			throw argNumErr(app, c.getName(), n);
 		}
 	}
-	
-	
-	private void removePossibleGeo(String label){
+
+	private void removePossibleGeo(String label) {
 		GeoElement geo = kernelA.lookupLabel(label);
-		if(geo != null){
+		if (geo != null) {
 			geo.remove();
 		}
 	}

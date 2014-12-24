@@ -6,8 +6,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 
 /**
- * GeometricMean[ list ]
- * adapted from CmdLcm by Michael Borcherds 2008-02-16
+ * GeometricMean[ list ] adapted from CmdLcm by Michael Borcherds 2008-02-16
  */
 public class CmdGeometricMean extends CmdOneListFunction {
 	/**
@@ -21,11 +20,9 @@ public class CmdGeometricMean extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoGeometricMean algo = new AlgoGeometricMean(cons, a, b);
 		return algo.getResult();
 	}
-
 
 }

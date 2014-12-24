@@ -5,5 +5,5 @@ package geogebra.common.kernel.algos;
  *
  */
 public interface DependentAlgo {
-// just tagging algo
+	// just tagging algo
 }

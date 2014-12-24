@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.main.MyError;
 
 /**
- *StartAnimation
+ * StartAnimation
  */
 public class CmdStartAnimation extends CmdScripting {
 
@@ -24,12 +24,10 @@ public class CmdStartAnimation extends CmdScripting {
 	}
 
 	@Override
-	protected
-	final void perform(Command c) throws MyError {
+	protected final void perform(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 
 		// dummy
-		
 
 		switch (n) {
 		case 0:
@@ -39,13 +37,12 @@ public class CmdStartAnimation extends CmdScripting {
 
 		case 1:
 			arg = resArgs(c);
-			if ((arg[0].isGeoNumeric() && ((GeoNumeric) arg[0]).isIndependent()) ||
-					arg[0].isPointOnPath()) {				
+			if ((arg[0].isGeoNumeric() && ((GeoNumeric) arg[0]).isIndependent())
+					|| arg[0].isPointOnPath()) {
 				arg[0].setAnimating(true);
 				app.getKernel().getAnimatonManager().startAnimation();
 				return;
-			}			
-			else if (arg[0].isGeoBoolean()) {
+			} else if (arg[0].isGeoBoolean()) {
 
 				GeoBoolean geo = (GeoBoolean) arg[0];
 
@@ -62,24 +59,24 @@ public class CmdStartAnimation extends CmdScripting {
 			arg = resArgs(c);
 			boolean start = true;
 			int sliderCount = n;
-			if (arg[n-1].isGeoBoolean()){
-				start = ((GeoBoolean) arg[n-1]).getBoolean();
-				sliderCount = n-1;
+			if (arg[n - 1].isGeoBoolean()) {
+				start = ((GeoBoolean) arg[n - 1]).getBoolean();
+				sliderCount = n - 1;
 			}
-			for(int i = 0; i < sliderCount; i++)
-				if(!arg[i].isGeoNumeric() && !arg[i].isPointOnPath())
-					throw argErr(app,c.getName(),arg[i]);
-			
-			for(int i = 0; i < sliderCount; i++){
-				if(arg[i].isGeoNumeric())
+			for (int i = 0; i < sliderCount; i++)
+				if (!arg[i].isGeoNumeric() && !arg[i].isPointOnPath())
+					throw argErr(app, c.getName(), arg[i]);
+
+			for (int i = 0; i < sliderCount; i++) {
+				if (arg[i].isGeoNumeric())
 					((GeoNumeric) arg[i]).setAnimating(start);
 				else
 					((GeoPoint) arg[i]).setAnimating(start);
-				if(start)
+				if (start)
 					app.getKernel().getAnimatonManager().startAnimation();
-			} 
-			
-			return;		
+			}
+
+			return;
 		}
 	}
 }

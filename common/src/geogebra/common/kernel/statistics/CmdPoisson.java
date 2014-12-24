@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *Poisson Distribution
+ * Poisson Distribution
  */
 public class CmdPoisson extends CommandProcessor {
 
@@ -30,27 +30,27 @@ public class CmdPoisson extends CommandProcessor {
 		GeoElement[] arg;
 
 		switch (n) {
-		
+
 		case 1:
 			arg = resArgs(c);
 			if ((arg[0] instanceof GeoNumberValue)) {
-				
-				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons, c.getLabel(),
-						(GeoNumberValue) arg[0]);
+
+				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons,
+						c.getLabel(), (GeoNumberValue) arg[0]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
 			}
 			throw argErr(app, c.getName(), arg[0]);
 
-			
 		case 2:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1].isGeoBoolean())) {
-				
-				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons, c.getLabel(),
-						(GeoNumberValue) arg[0], (GeoBoolean)arg[1]);
+
+				AlgoPoissonBarChart algo = new AlgoPoissonBarChart(cons,
+						c.getLabel(), (GeoNumberValue) arg[0],
+						(GeoBoolean) arg[1]);
 
 				GeoElement[] ret = { algo.getSum() };
 				return ret;
@@ -59,13 +59,13 @@ public class CmdPoisson extends CommandProcessor {
 				throw argErr(app, c.getName(), arg[0]);
 			else
 				throw argErr(app, c.getName(), arg[1]);
-		
+
 		case 3:
 			arg = resArgs(c);
 			if ((ok[0] = arg[0] instanceof GeoNumberValue)
 					&& (ok[1] = arg[1] instanceof GeoNumberValue)
 					&& (ok[2] = arg[2].isGeoBoolean())) {
-				
+
 				AlgoPoisson algo = new AlgoPoisson(cons, c.getLabel(),
 						(GeoNumberValue) arg[0], (GeoNumberValue) arg[1],
 						(GeoBoolean) arg[2]);

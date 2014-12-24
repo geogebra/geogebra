@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.main.MyError;
 
 /**
- *Chi Squared Distribution
+ * Chi Squared Distribution
  */
 public class CmdChiSquared extends CommandProcessor {
 
@@ -28,49 +28,52 @@ public class CmdChiSquared extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		GeoElement[] arg;
-		
+
 		arg = resArgs(c);
 
 		BooleanValue cumulative = null; // default for n=2
 		switch (n) {
 		case 3:
-			
-			if (!arg[1].isGeoFunction() || !((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
+
+			if (!arg[1].isGeoFunction()
+					|| !((GeoFunction) arg[1]).toString(
+							StringTemplate.defaultTemplate).equals("x")) {
 				throw argErr(app, c.getName(), arg[1]);
 			}
-			
+
 			if (arg[2].isGeoBoolean()) {
-				cumulative = (BooleanValue)arg[2];
+				cumulative = (BooleanValue) arg[2];
 			} else
 				throw argErr(app, c.getName(), arg[2]);
 
 			// fall through
-		case 2:			
-			if (arg[0] instanceof GeoNumberValue ) {
-				if (arg[1].isGeoFunction() && ((GeoFunction)arg[1]).toString(StringTemplate.defaultTemplate).equals("x")) {
+		case 2:
+			if (arg[0] instanceof GeoNumberValue) {
+				if (arg[1].isGeoFunction()
+						&& ((GeoFunction) arg[1]).toString(
+								StringTemplate.defaultTemplate).equals("x")) {
 
-					AlgoChiSquaredDF algo = new AlgoChiSquaredDF(cons, c.getLabel(), (GeoNumberValue)arg[0], cumulative);
+					AlgoChiSquaredDF algo = new AlgoChiSquaredDF(cons,
+							c.getLabel(), (GeoNumberValue) arg[0], cumulative);
 					return algo.getGeoElements();
 
-
-
 				} else if (arg[1] instanceof GeoNumberValue) {
-					
-					AlgoChiSquared algo = new AlgoChiSquared(cons, c.getLabel(),
-							(GeoNumberValue) arg[0], (GeoNumberValue) arg[1]);
+
+					AlgoChiSquared algo = new AlgoChiSquared(cons,
+							c.getLabel(), (GeoNumberValue) arg[0],
+							(GeoNumberValue) arg[1]);
 					GeoElement[] ret = { algo.getResult() };
 					return ret;
 				} else
 					throw argErr(app, c.getName(), arg[1]);
 
-				}
-			throw argErr(app, c.getName(), arg[0]);
-				
-
-			default:
-				throw argNumErr(app, c.getName(), n);
 			}
+			throw argErr(app, c.getName(), arg[0]);
+
+		default:
+			throw argNumErr(app, c.getName(), n);
 		}
 	}
+}

@@ -19,10 +19,10 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 /**
- * Decides if the lines are parallel.
- * Can be embedded into the Prove command to work symbolically.
- * @author Simon Weitzhofer
- *  27th of April 2012
+ * Decides if the lines are parallel. Can be embedded into the Prove command to
+ * work symbolically.
+ * 
+ * @author Simon Weitzhofer 27th of April 2012
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
 public class AlgoAreParallel extends AlgoElement implements
@@ -37,13 +37,18 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	/**
 	 * Tests if two lines are parallel
-	 * @param cons The construction the lines depend on
-	 * @param label the name of the resulting boolean
-	 * @param inputLine1 the first line
-	 * @param inputLine2 the second line
+	 * 
+	 * @param cons
+	 *            The construction the lines depend on
+	 * @param label
+	 *            the name of the resulting boolean
+	 * @param inputLine1
+	 *            the first line
+	 * @param inputLine2
+	 *            the second line
 	 */
-	public AlgoAreParallel(Construction cons, String label, GeoElement inputLine1,
-			GeoElement inputLine2) {
+	public AlgoAreParallel(Construction cons, String label,
+			GeoElement inputLine1, GeoElement inputLine2) {
 		super(cons);
 		this.inputLine1 = (GeoLine) inputLine1;
 		this.inputLine2 = (GeoLine) inputLine2;
@@ -57,8 +62,8 @@ public class AlgoAreParallel extends AlgoElement implements
 
 	@Override
 	public Commands getClassName() {
-        return Commands.AreParallel;
-    }
+		return Commands.AreParallel;
+	}
 
 	@Override
 	protected void setInputOutput() {
@@ -71,12 +76,12 @@ public class AlgoAreParallel extends AlgoElement implements
 		setDependencies(); // done by AlgoElement
 	}
 
-
 	/**
 	 * Gets the result of the test
+	 * 
 	 * @return true if the lines are parallel and false otherwise
 	 */
-	
+
 	public GeoBoolean getResult() {
 		return outputBoolean;
 	}
@@ -99,20 +104,20 @@ public class AlgoAreParallel extends AlgoElement implements
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
+
 	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			int[] degree1 = inputLine1.getDegrees();
 			int[] degree2 = inputLine2.getDegrees();
 			int[] degree = new int[1];
-			degree[0]=Math.max(degree1[0]+degree2[1], degree1[1]+degree2[0]);
+			degree[0] = Math.max(degree1[0] + degree2[1], degree1[1]
+					+ degree2[0]);
 			return degree;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (inputLine1 != null && inputLine2 != null) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) input[0])
@@ -155,11 +160,14 @@ public class AlgoAreParallel extends AlgoElement implements
 		if (inputLine1 != null && inputLine2 != null) {
 			Variable[] v1 = new Variable[4];
 			Variable[] v2 = new Variable[4];
-			v1 = ((SymbolicParametersBotanaAlgo) inputLine1).getBotanaVars(inputLine1); // (a1,a2,b1,b2)
-			v2 = ((SymbolicParametersBotanaAlgo) inputLine2).getBotanaVars(inputLine2); // (c1,c2,d1,d2)
-			
+			v1 = ((SymbolicParametersBotanaAlgo) inputLine1)
+					.getBotanaVars(inputLine1); // (a1,a2,b1,b2)
+			v2 = ((SymbolicParametersBotanaAlgo) inputLine2)
+					.getBotanaVars(inputLine2); // (c1,c2,d1,d2)
+
 			botanaPolynomials = new Polynomial[1][1];
-			botanaPolynomials[0][0] = Polynomial.parallel(v1[0], v1[1], v1[2], v1[3], v2[0], v2[1], v2[2], v2[3]);
+			botanaPolynomials[0][0] = Polynomial.parallel(v1[0], v1[1], v1[2],
+					v1[3], v2[0], v2[1], v2[2], v2[3]);
 			return botanaPolynomials;
 		}
 		return null;

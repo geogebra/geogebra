@@ -9,10 +9,10 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- * ContingencyTable[ <List of Text>, <List of Text> ]
- * ContingencyTable[ <List of Text>, <List of Text>, <Options> ]
- * ContingencyTable[ <List of Row Values>, <List of Column Values>, <Frequency Table> ]
- * ContingencyTable[ <List of Row Values>, <List of Column Values>, <Frequency Table>, <Options> ]
+ * ContingencyTable[ <List of Text>, <List of Text> ] ContingencyTable[ <List of
+ * Text>, <List of Text>, <Options> ] ContingencyTable[ <List of Row Values>,
+ * <List of Column Values>, <Frequency Table> ] ContingencyTable[ <List of Row
+ * Values>, <List of Column Values>, <Frequency Table>, <Options> ]
  *
  */
 public class CmdContingencyTable extends CommandProcessor {
@@ -54,7 +54,7 @@ public class CmdContingencyTable extends CommandProcessor {
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
-				
+
 			} else if ((ok[0] = arg[0].isGeoList())
 					&& (ok[1] = arg[1].isGeoList())
 					&& (ok[2] = arg[2].isGeoList())) {

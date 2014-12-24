@@ -21,36 +21,34 @@ import geogebra.common.kernel.geos.GeoFunctionable;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 
-
-
 /**
- * Creates a residual plot. 
+ * Creates a residual plot.
  * 
- * Input: list of points (x,y)
- * Input: regression function 
- * Output: list of residual points (x, y - yPredicted)
- *  
+ * Input: list of points (x,y) Input: regression function Output: list of
+ * residual points (x, y - yPredicted)
+ * 
  * @author G.Sturr
  */
 
 public class AlgoResidualPlot extends AlgoElement {
 
-	private GeoList inputList; //input
+	private GeoList inputList; // input
 	private GeoFunctionable function;
-	private GeoList outputList; //output	
+	private GeoList outputList; // output
 	private int size;
 	private double min, max;
-	
 
-	public AlgoResidualPlot(Construction cons, String label, GeoList inputList, GeoFunctionable function2) {
+	public AlgoResidualPlot(Construction cons, String label, GeoList inputList,
+			GeoFunctionable function2) {
 		this(cons, inputList, function2);
 		outputList.setLabel(label);
 	}
 
-	public AlgoResidualPlot(Construction cons, GeoList inputList, GeoFunctionable function2) {
+	public AlgoResidualPlot(Construction cons, GeoList inputList,
+			GeoFunctionable function2) {
 		super(cons);
 		this.inputList = inputList;
-		this.function = function2;       
+		this.function = function2;
 		outputList = new GeoList(cons);
 
 		setInputOutput();
@@ -63,13 +61,13 @@ public class AlgoResidualPlot extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 		input = new GeoElement[2];
 		input[0] = inputList;
 		input[1] = function.toGeoElement();
 
 		super.setOutputLength(1);
-        super.setOutput(0, outputList);
+		super.setOutput(0, outputList);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -77,48 +75,48 @@ public class AlgoResidualPlot extends AlgoElement {
 		return outputList;
 	}
 
-	public double[] getResidualBounds(){
-		double[] bounds = {min,max}; 
+	public double[] getResidualBounds() {
+		double[] bounds = { min, max };
 		return bounds;
 	}
-	
+
 	@Override
 	public final void compute() {
 
 		size = inputList.size();
-		if (!inputList.isDefined() ||  size == 0) {
+		if (!inputList.isDefined() || size == 0) {
 			outputList.setUndefined();
 			return;
-		} 
+		}
 
 		outputList.setDefined(true);
 		outputList.clear();
 		boolean suppressLabelCreation = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
-		
+
 		GeoFunction funGeo = function.getGeoFunction();
-    	
-		double x,y, r;
+
+		double x, y, r;
 
 		min = Double.MAX_VALUE;
 		max = Double.MIN_VALUE;
-		
-		for (int i = 0 ; i < size ; i++) {
+
+		for (int i = 0; i < size; i++) {
 			GeoElement p = inputList.get(i);
 			if (p.isGeoPoint()) {
-				x = ((GeoPoint)p).getInhomX();
-				y = ((GeoPoint)p).getInhomY();
+				x = ((GeoPoint) p).getInhomX();
+				y = ((GeoPoint) p).getInhomY();
 				r = y - funGeo.evaluate(x);
-				min = Math.min(r,min);
-				max = Math.max(r,max);
+				min = Math.min(r, min);
+				max = Math.max(r, max);
 				outputList.add(new GeoPoint(cons, null, x, r, 1.0));
 			} else {
 				outputList.setUndefined();
 				return;
 			}
-		}	
+		}
 		cons.setSuppressLabelCreation(suppressLabelCreation);
-	}  
+	}
 
 	// TODO Consider locusequability
 

@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.MyError;
 
 /**
- *SlowPlot
+ * SlowPlot
  */
 public class CmdSlowPlot extends CommandProcessor {
 	/**
@@ -25,7 +25,7 @@ public class CmdSlowPlot extends CommandProcessor {
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
-		
+
 		GeoElement[] arg;
 		arg = resArgs(c);
 

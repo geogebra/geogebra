@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoPolarLine.java
@@ -25,30 +25,30 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  *
- * @author  Michael
- * @version 
+ * @author Michael
+ * @version
  */
 public class AlgoPolarPoint extends AlgoPolarPointND {
-    
-    /** Creates new AlgoPolarLine */
-    public AlgoPolarPoint(Construction cons, String label, GeoConicND c, GeoLineND line) {
-        super(cons, label, c, line);
-    }   
-    
-    @Override
-	protected GeoPointND newGeoPoint(Construction cons){
-    	return new GeoPoint(cons);
-    }
-    
-    // calc polar line of P relativ to c
-    @Override
-	public final void compute() {     
-        c.polarPoint((GeoLine) line, (GeoPoint) polar);
-    }
-    
+
+	/** Creates new AlgoPolarLine */
+	public AlgoPolarPoint(Construction cons, String label, GeoConicND c,
+			GeoLineND line) {
+		super(cons, label, c, line);
+	}
+
+	@Override
+	protected GeoPointND newGeoPoint(Construction cons) {
+		return new GeoPoint(cons);
+	}
+
+	// calc polar line of P relativ to c
+	@Override
+	public final void compute() {
+		c.polarPoint((GeoLine) line, (GeoPoint) polar);
+	}
+
 	@Override
 	public boolean isLocusEquable() {
 		// TODO: can probably be implemented

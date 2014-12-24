@@ -11,18 +11,18 @@ import geogebra.common.kernel.geos.GeoList;
 public class CmdShuffle extends CmdOneListFunction {
 	/**
 	 * Creates new command processor
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public CmdShuffle(Kernel kernel) {
 		super(kernel);
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoShuffle algo = new AlgoShuffle(cons, a, b);
 		return algo.getResult();
 	}
-
 
 }

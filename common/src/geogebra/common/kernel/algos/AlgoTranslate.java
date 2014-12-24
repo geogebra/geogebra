@@ -42,7 +42,8 @@ import java.util.HashSet;
  * @author Markus
  * @version
  */
-public class AlgoTranslate extends AlgoTransformation implements SymbolicParametersAlgo {
+public class AlgoTranslate extends AlgoTransformation implements
+		SymbolicParametersAlgo {
 
 	private Translateable out;
 	protected GeoElement inGeo;
@@ -77,10 +78,10 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 
 		inGeo = in;
 
-	    // create output object
-        outGeo = getResultTemplate(inGeo);
-        if(outGeo instanceof Translateable)
-        	out = (Translateable) outGeo;
+		// create output object
+		outGeo = getResultTemplate(inGeo);
+		if (outGeo instanceof Translateable)
+			out = (Translateable) outGeo;
 
 		setInputOutput();
 		compute();
@@ -120,23 +121,23 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 			transformList((GeoList) inGeo, (GeoList) outGeo);
 			return;
 		}
-		
+
 		if (!v.isDefined()) {
 			out.setUndefined();
 			return;
 		}
-		
+
 		setOutGeo();
 		out.translate(getVectorCoords());
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);
 		}
 	}
-	
+
 	/**
 	 * set inGeo to outGeo
 	 */
-	protected void setOutGeo(){
+	protected void setOutGeo() {
 		outGeo.set(inGeo);
 	}
 
@@ -149,8 +150,8 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 	final public String toString(StringTemplate tpl) {
 
 		// Michael Borcherds 2008-03-24 simplified code!
-		return getLoc()
-				.getPlain("TranslationOfAbyB", inGeo.getLabel(tpl), v.getLabel(tpl));
+		return getLoc().getPlain("TranslationOfAbyB", inGeo.getLabel(tpl),
+				v.getLabel(tpl));
 	}
 
 	@Override
@@ -176,29 +177,28 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
-	public int[] getDegrees()
-			throws NoSymbolicParametersException {
-		if (inGeo instanceof GeoPoint
-				&& v instanceof GeoVector) {
-			int[] degree1 = ((SymbolicParametersAlgo) inGeo)
-					.getDegrees();
-			int[] degree2 = ((SymbolicParametersAlgo) v)
-					.getDegrees();
+
+	public int[] getDegrees() throws NoSymbolicParametersException {
+		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
+			int[] degree1 = ((SymbolicParametersAlgo) inGeo).getDegrees();
+			int[] degree2 = ((SymbolicParametersAlgo) v).getDegrees();
 			int[] result = new int[3];
 
-			result[0]=Math.max(degree1[0]+degree2[2],degree2[0]+degree1[2]);
-			result[1]=Math.max(degree1[1]+degree2[2],degree2[1]+degree1[2]);
-			result[2]=degree2[2]+degree1[2];
-			
+			result[0] = Math.max(degree1[0] + degree2[2], degree2[0]
+					+ degree1[2]);
+			result[1] = Math.max(degree1[1] + degree2[2], degree2[1]
+					+ degree1[2]);
+			result[2] = degree2[2] + degree1[2];
+
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(final HashMap<Variable,BigInteger> values) throws NoSymbolicParametersException {
-		if (inGeo instanceof GeoPoint
-				&& v instanceof GeoVector) {
+	public BigInteger[] getExactCoordinates(
+			final HashMap<Variable, BigInteger> values)
+			throws NoSymbolicParametersException {
+		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			BigInteger[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getExactCoordinates(values);
 			BigInteger[] coords2 = ((SymbolicParametersAlgo) v)
@@ -218,8 +218,7 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		if (polynomials != null) {
 			return polynomials;
 		}
-		if (inGeo instanceof GeoPoint
-				&& v instanceof GeoVector) {
+		if (inGeo instanceof GeoPoint && v instanceof GeoVector) {
 			Polynomial[] coords1 = ((SymbolicParametersAlgo) inGeo)
 					.getPolynomials();
 			Polynomial[] coords2 = ((SymbolicParametersAlgo) v)
@@ -234,12 +233,11 @@ public class AlgoTranslate extends AlgoTransformation implements SymbolicParamet
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
+
 	@Override
 	public double getAreaScaleFactor() {
 		return 1;
 	}
-
 
 	// TODO Consider locusequability
 }

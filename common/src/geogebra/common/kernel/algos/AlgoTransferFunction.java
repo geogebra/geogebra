@@ -43,11 +43,12 @@ public class AlgoTransferFunction extends AlgoElement {
 			GeoList den, GeoNumberValue omegaStart) {
 		super(c);
 		this.omegaStart = omegaStart;
-		
-		gcf = new GeoTransferFunction(c, label, num, den, (int) this.omegaStart.getDouble());
+
+		gcf = new GeoTransferFunction(c, label, num, den,
+				(int) this.omegaStart.getDouble());
 		this.function = gcf.getGeoFunction();
 		this.num = num;
-		this.den = den;		
+		this.den = den;
 		setInputOutput();
 		compute();
 		gcf.setLabel(label);
@@ -57,7 +58,7 @@ public class AlgoTransferFunction extends AlgoElement {
 			GeoList den) {
 		super(c);
 		gcf = new GeoTransferFunction(c, label, num, den, 10);
-		this.function = gcf.getGeoFunction();		
+		this.function = gcf.getGeoFunction();
 		this.num = num;
 		this.den = den;
 		setInputOutput();
@@ -70,11 +71,10 @@ public class AlgoTransferFunction extends AlgoElement {
 
 		setOnlyOutput(gcf);
 
-		if(omegaStart != null){
+		if (omegaStart != null) {
 			input = new GeoElement[3];
 			input[2] = omegaStart.toGeoElement();
-		}
-		else{
+		} else {
 			input = new GeoElement[2];
 		}
 		input[0] = num;

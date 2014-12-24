@@ -41,6 +41,7 @@ public class AlgoListElement extends AlgoElement {
 	private NumberValue[] num2 = null; // input
 	private GeoElement numGeo;
 	private GeoElement element; // output
+
 	/**
 	 * Creates new labeled element algo
 	 * 
@@ -55,8 +56,7 @@ public class AlgoListElement extends AlgoElement {
 		element.setLabel(label);
 	}
 
-	public AlgoListElement(Construction cons, GeoList geoList,
-			NumberValue num) {
+	public AlgoListElement(Construction cons, GeoList geoList, NumberValue num) {
 		super(cons);
 		this.geoList = geoList;
 		this.num = num;
@@ -67,22 +67,24 @@ public class AlgoListElement extends AlgoElement {
 		// init return element as copy of initIndex list element
 		if (geoList.size() > initIndex) {
 			// create copy of initIndex GeoElement in list
-			element = getGenericElement(geoList,initIndex).copyInternal(cons);
+			element = getGenericElement(geoList, initIndex).copyInternal(cons);
 		}
 
 		// if not enough elements in list:
 		// init return element as copy of first list element
 		else if (geoList.size() > 0) {
 			// create copy of first GeoElement in list
-			
-			element = getGenericElement(geoList,0).copyInternal(cons);
+
+			element = getGenericElement(geoList, 0).copyInternal(cons);
 		}
 
-		// desperate case: empty list 
+		// desperate case: empty list
 		else if (geoList.getTypeStringForXML() != null) {
-			// if the list was non-empty at some point before saving, get the same type of geo
+			// if the list was non-empty at some point before saving, get the
+			// same type of geo
 			// saved in XML from 4.1.131.0
-			element = kernel.createGeoElement(cons, geoList.getTypeStringForXML());
+			element = kernel.createGeoElement(cons,
+					geoList.getTypeStringForXML());
 		}
 
 		// desperate case: empty list
@@ -90,24 +92,26 @@ public class AlgoListElement extends AlgoElement {
 			// saved in XML from 4.0.18.0
 			element = cons.getOutputGeo();
 		}
-		
-		if (element.isGeoPolygon()){ // ensure type will not be sticked to e.g. "triangle"
+
+		if (element.isGeoPolygon()) { // ensure type will not be sticked to e.g.
+										// "triangle"
 			((GeoPolygon) element).setNotFixedPointsLength(true);
 		}
-		
+
 		setInputOutput();
 		compute();
 	}
 
 	private static GeoElement getGenericElement(GeoList geoList, int index) {
 		GeoElement toCopy = geoList.get(index);
-		if(geoList.getElementType() == GeoClass.DEFAULT && 
-				//we have list {2,x}, not eg Factors[2x]
-				(geoList.getParentAlgorithm() == null || geoList.getParentAlgorithm() instanceof AlgoDependentList)
-				//for {a,x} also return number a, not function
-				&& !Inspecting.dynamicGeosFinder.check(toCopy)){
-			for(int i=0;i<geoList.size();i++){
-				if(Test.canSet(geoList.get(i),toCopy)){
+		if (geoList.getElementType() == GeoClass.DEFAULT &&
+		// we have list {2,x}, not eg Factors[2x]
+				(geoList.getParentAlgorithm() == null || geoList
+						.getParentAlgorithm() instanceof AlgoDependentList)
+				// for {a,x} also return number a, not function
+				&& !Inspecting.dynamicGeosFinder.check(toCopy)) {
+			for (int i = 0; i < geoList.size(); i++) {
+				if (Test.canSet(geoList.get(i), toCopy)) {
 					toCopy = geoList.get(i);
 				}
 			}
@@ -120,36 +124,37 @@ public class AlgoListElement extends AlgoElement {
 	 */
 	public AlgoListElement(Construction cons, String label, GeoList geoList,
 			NumberValue[] num2) {
-		this(cons,geoList,num2);
+		this(cons, geoList, num2);
 		element.setLabel(label);
 	}
+
 	public AlgoListElement(Construction cons, GeoList geoList,
 			NumberValue[] num2) {
 		super(cons);
-		this.geoList = geoList;		
+		this.geoList = geoList;
 		this.num2 = num2;
-		
 
 		element = null;
 		GeoElement current = geoList;
 		int k = 0;
 		try {
 			do {
-				int initIndex = Math.max(0, (int) Math.round(num2[k]
-						.getDouble()) - 1);
+				int initIndex = Math.max(0,
+						(int) Math.round(num2[k].getDouble()) - 1);
 				// init return element as copy of initIndex list element
-				if (((GeoList)current).size() > initIndex) {
+				if (((GeoList) current).size() > initIndex) {
 					// create copy of initIndex GeoElement in list
-					current = k == num2.length -1 ? getGenericElement((GeoList)current,initIndex) :
-						((GeoList)current).get(initIndex);
+					current = k == num2.length - 1 ? getGenericElement(
+							(GeoList) current, initIndex) : ((GeoList) current)
+							.get(initIndex);
 				}
 
 				// if not enough elements in list:
 				// init return element as copy of first list element
 				else if (geoList.size() > 0) {
 					// create copy of first GeoElement in list
-					current = k == num2.length -1 ? getGenericElement((GeoList)current,0) :
-						((GeoList)current).get(0);
+					current = k == num2.length - 1 ? getGenericElement(
+							(GeoList) current, 0) : ((GeoList) current).get(0);
 				}
 				k++;
 			} while (current.isGeoList() && k < num2.length);
@@ -165,7 +170,7 @@ public class AlgoListElement extends AlgoElement {
 		}
 		setInputOutput();
 		compute();
-		
+
 	}
 
 	@Override
@@ -181,10 +186,10 @@ public class AlgoListElement extends AlgoElement {
 			input[0] = geoList;
 			input[1] = numGeo;
 		} else {
-			input = new GeoElement[num2.length+1];
+			input = new GeoElement[num2.length + 1];
 			input[0] = geoList;
-			for(int i=0;i<num2.length;i++){				
-				input[i+1] = num2[i].toGeoElement();
+			for (int i = 0; i < num2.length; i++) {
+				input[i + 1] = num2[i].toGeoElement();
 			}
 		}
 
@@ -221,73 +226,74 @@ public class AlgoListElement extends AlgoElement {
 
 		} else {
 
-			for(int k=0;k<num2.length;k++)
-				if(!num2[k].toGeoElement().isDefined()) {
-				element.setUndefined();
-				return;
-			}
-
-			
-			int m = (int) Math.round(num2[num2.length-1].getDouble()) - 1;
-			GeoElement current = geoList;
-			for(int k=0;k<num2.length-1;k++){
-				int index = (int)Math.round(num2[k].getDouble()-1);
-				if(index >= 0 && current.isGeoList() && index < ((GeoList)current).size())
-					current = ((GeoList)current).get(index);
-				else{element.setUndefined(); return;}
-			}
-			
-
-				GeoList list = ((GeoList) current);
-
-				if (m>=0 && m < list.size())
-					current = list.get(m);
-				else {
+			for (int k = 0; k < num2.length; k++)
+				if (!num2[k].toGeoElement().isDefined()) {
 					element.setUndefined();
 					return;
 				}
 
-				setElement(current);
-			
+			int m = (int) Math.round(num2[num2.length - 1].getDouble()) - 1;
+			GeoElement current = geoList;
+			for (int k = 0; k < num2.length - 1; k++) {
+				int index = (int) Math.round(num2[k].getDouble() - 1);
+				if (index >= 0 && current.isGeoList()
+						&& index < ((GeoList) current).size())
+					current = ((GeoList) current).get(index);
+				else {
+					element.setUndefined();
+					return;
+				}
+			}
+
+			GeoList list = ((GeoList) current);
+
+			if (m >= 0 && m < list.size())
+				current = list.get(m);
+			else {
+				element.setUndefined();
+				return;
+			}
+
+			setElement(current);
 
 		}
 	}
 
 	private void setElement(GeoElement nth) {
 		// check type:
-		if (nth.getGeoClassType() == element.getGeoClassType() || Test.canSet(element, nth)) {
+		if (nth.getGeoClassType() == element.getGeoClassType()
+				|| Test.canSet(element, nth)) {
 			element.set(nth);
-			if(nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
-				element.setDrawAlgorithm(((DrawInformationAlgo)nth.getDrawAlgorithm()).copy());
+			if (nth.getDrawAlgorithm() instanceof DrawInformationAlgo)
+				element.setDrawAlgorithm(((DrawInformationAlgo) nth
+						.getDrawAlgorithm()).copy());
 
 		} else {
 			element.setUndefined();
 		}
-		
+
 	}
-	
-	/*@Override
-	public String getCommandDescription(StringTemplate tpl,boolean real) {
-		
-			return super.getCommandDescription(tpl,real);
-            
-        	TODO re enable this for shortSyntax flag true for 5.0
-            sb.setLength(0);
-            
-            
-            int length = input.length;
-                  
-            sb.append(geoList.getLabel()+"(");
-            // input
-            sb.append(real?input[1].getRealLabel():input[1].getLabel()); // Michael Borcherds 2008-05-15 added input.length>0 for Step[]
-            for (int i = 2; i < length; ++i) {
-                sb.append(", ");
-                sb.append(real? input[i].getRealLabel():input[i].getLabel());
-            }
-            sb.append(")");
-            return sb.toString();           
-             
-    }*/
+
+	/*
+	 * @Override public String getCommandDescription(StringTemplate tpl,boolean
+	 * real) {
+	 * 
+	 * return super.getCommandDescription(tpl,real);
+	 * 
+	 * TODO re enable this for shortSyntax flag true for 5.0 sb.setLength(0);
+	 * 
+	 * 
+	 * int length = input.length;
+	 * 
+	 * sb.append(geoList.getLabel()+"("); // input
+	 * sb.append(real?input[1].getRealLabel():input[1].getLabel()); // Michael
+	 * Borcherds 2008-05-15 added input.length>0 for Step[] for (int i = 2; i <
+	 * length; ++i) { sb.append(", "); sb.append(real?
+	 * input[i].getRealLabel():input[i].getLabel()); } sb.append(")"); return
+	 * sb.toString();
+	 * 
+	 * }
+	 */
 
 	// TODO Consider locusequability
 

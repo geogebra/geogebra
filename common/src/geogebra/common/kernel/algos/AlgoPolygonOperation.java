@@ -37,43 +37,48 @@ import com.vividsolutions.jts.geom.impl.CoordinateArraySequence;
  * 
  * Input: Two polygons
  * 
- * Output: Polygon that is the result of an intersection, 
- * union or difference operation on the input polygons.
- *  
- * Based on AlgoRegularPolygon with polygon operations performed by 
- * the Java Area class.
+ * Output: Polygon that is the result of an intersection, union or difference
+ * operation on the input polygons.
+ * 
+ * Based on AlgoRegularPolygon with polygon operations performed by the Java
+ * Area class.
  * 
  * @author G.Sturr 2010-3-14
  *
  */
 public abstract class AlgoPolygonOperation extends AlgoElement {
 
-	private GeoPolygon inPoly0; //input
-	private GeoPolygon inPoly1; //input
-	private GeoPolygon poly; //output	
+	private GeoPolygon inPoly0; // input
+	private GeoPolygon inPoly1; // input
+	private GeoPolygon poly; // output
 
-	private GeoPoint [] points;
+	private GeoPoint[] points;
 	private PolyOperation operationType;
 
 	private boolean labelPointsAndSegments;
 	private boolean labelsNeedIniting;
 
 	/** operation type */
-	public enum PolyOperation  {
+	public enum PolyOperation {
 		/** intersection */
 		INTERSECTION,
 		/** union */
 		UNION,
-		/** difference TODO -- not working*/
+		/** difference TODO -- not working */
 		DIFFERENCE
 	}
 
 	/**
-	 * @param cons construction
-	 * @param labels labels for output
-	 * @param inPoly0 first input polygon
-	 * @param inPoly1 second input polygon
-	 * @param operationType operation type (intersection, union, difference)
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels for output
+	 * @param inPoly0
+	 *            first input polygon
+	 * @param inPoly1
+	 *            second input polygon
+	 * @param operationType
+	 *            operation type (intersection, union, difference)
 	 */
 	public AlgoPolygonOperation(Construction cons, String[] labels,
 			GeoPolygon inPoly0, GeoPolygon inPoly1, PolyOperation operationType) {
@@ -109,7 +114,6 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 	}
 
-
 	@Override
 	protected void setInputOutput() {
 
@@ -124,15 +128,15 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		cons.addToAlgorithmList(this);
 
 		// setOutput(); done in compute
-		// there we just set something to be sure that getOutput doesn't return null.
+		// there we just set something to be sure that getOutput doesn't return
+		// null.
 		setOutputLength(1);
-		setOutput(0,poly);
+		setOutput(0, poly);
 		// parent of output
 		poly.setParentAlgorithm(this);
 		cons.addToAlgorithmList(this);
 
 	}
-
 
 	private void setOutput() {
 		if (points == null)
@@ -179,7 +183,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		GeoPointND[] pts0 = inPoly0.getPoints();
 		GeoPointND[] pts1 = inPoly1.getPoints();
 
-		// needed for loading some ggb40 files where number of outputs 
+		// needed for loading some ggb40 files where number of outputs
 		// can be different due to bugs
 		if (pts0.length == 0 || pts1.length == 0) {
 			return;
@@ -190,21 +194,21 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		Coords xy;
 
-		for (int i = 0 ; i < pts0.length ; i++) {
+		for (int i = 0; i < pts0.length; i++) {
 			xy = pts0[i].getCoordsInD2();
-			coordinates0[i] = new Coordinate(xy.get(1),xy.get(2));
+			coordinates0[i] = new Coordinate(xy.get(1), xy.get(2));
 		}
 
 		xy = pts0[0].getCoordsInD2();
-		coordinates0[pts0.length] = new Coordinate(xy.get(1),xy.get(2));
+		coordinates0[pts0.length] = new Coordinate(xy.get(1), xy.get(2));
 
-		for (int i = 0 ; i < pts1.length ; i++) {
+		for (int i = 0; i < pts1.length; i++) {
 			xy = pts1[i].getCoordsInD2();
-			coordinates1[i] = new Coordinate(xy.get(1),xy.get(2));
+			coordinates1[i] = new Coordinate(xy.get(1), xy.get(2));
 		}
 
 		xy = pts1[0].getCoordsInD2();
-		coordinates1[pts1.length] = new Coordinate(xy.get(1),xy.get(2));
+		coordinates1[pts1.length] = new Coordinate(xy.get(1), xy.get(2));
 
 		CoordinateArraySequence cas0 = new CoordinateArraySequence(coordinates0);
 		CoordinateArraySequence cas1 = new CoordinateArraySequence(coordinates1);
@@ -212,31 +216,29 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		GeometryFactory fact = new GeometryFactory();
 		Geometry geom;
 
-		//App.debug(poly0.toString()+" "+poly1.toString());
+		// App.debug(poly0.toString()+" "+poly1.toString());
 
 		try {
-			
+
 			LinearRing linear0 = fact.createLinearRing(cas0);
 			LinearRing linear1 = fact.createLinearRing(cas1);
 			Polygon poly0 = new Polygon(linear0, null, fact);
 			Polygon poly1 = new Polygon(linear1, null, fact);
 
-			
-			
 			switch (operationType) {
 			default:
 			case INTERSECTION:
-				geom =  poly1.intersection(poly0);
+				geom = poly1.intersection(poly0);
 				break;
 			case UNION:
-				geom =  poly1.union(poly0);
+				geom = poly1.union(poly0);
 				break;
 			case DIFFERENCE:
-				geom =  poly1.difference(poly0);
+				geom = poly1.difference(poly0);
 				break;
 			}
 		} catch (Exception e) {
-			//e.printStackTrace();
+			// e.printStackTrace();
 			updatePointsArray(0);
 			poly.setPoints(points);
 			setOutput();
@@ -246,33 +248,33 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		}
 
 		if (!(geom instanceof Polygon)) {
-			Log.warn("result not a polygon: "+geom.getGeometryType());
+			Log.warn("result not a polygon: " + geom.getGeometryType());
 			int dim = geom.getDimension();
 			int ng = geom.getNumGeometries();
-			
+
 			if (dim == 2) {
-				int ng2 =0;
+				int ng2 = 0;
 				int j2 = 0;
-				
-				for (int j=0; j<ng; j++ ) {
-					if (geom.getGeometryN(j).getDimension()==2) {
-						ng2 ++;
+
+				for (int j = 0; j < ng; j++) {
+					if (geom.getGeometryN(j).getDimension() == 2) {
+						ng2++;
 						j2 = j;
 					}
 				}
-				
-				if (ng2==1) {
+
+				if (ng2 == 1) {
 					geom = geom.getGeometryN(j2);
 				} else {
 					updatePointsArray(0);
 					poly.setPoints(points);
 					setOutput();
 					poly.setUndefined();
-					Log.warn("There are "+ ng2 + " polygons");
+					Log.warn("There are " + ng2 + " polygons");
 					return;
 				}
 			} else {
-			
+
 				updatePointsArray(0);
 				poly.setPoints(points);
 				setOutput();
@@ -284,17 +286,15 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		Polygon poly2 = (Polygon) geom;
 
-		//App.debug(poly2.getNumPoints());
+		// App.debug(poly2.getNumPoints());
 
-		//App.debug(Geometry.get(poly2));
-
+		// App.debug(Geometry.get(poly2));
 
 		Coordinate[] coordinates2 = poly2.getCoordinates();
 
-
 		// Update the points array to the correct size
 		int n = coordinates2.length;
-		//System.out.println("number of points: " + n);
+		// System.out.println("number of points: " + n);
 		int oldPointNumber = points.length;
 		if (n != oldPointNumber) {
 			updatePointsArray(n);
@@ -305,24 +305,20 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 		// Set the points to the new polygon vertices
 		for (int k = 0; k < n; k++) {
 			points[k].setCoords(coordinates2[k].x, coordinates2[k].y, 1);
-			//System.out.println("vertices: " + xcoord.get(k) + " , " + ycoord.get(k));
+			// System.out.println("vertices: " + xcoord.get(k) + " , " +
+			// ycoord.get(k));
 
 		}
 
 		// Compute area of poly (this will also set our poly geo to be defined)
 		poly.calcArea();
 
-
-		// update new points and segments 
+		// update new points and segments
 		if (n != oldPointNumber) {
 			updateSegmentsAndPointsLabels();
-		}    	  
+		}
 
-
-
-
-	}         
-
+	}
 
 	private void updateSegmentsAndPointsLabels() {
 		if (labelsNeedIniting)
@@ -330,51 +326,50 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		// set labels only when points have labels
 		/*
-		labelPointsAndSegments = labelPointsAndSegments || A.isLabelSet() || B.isLabelSet();
-
-
-		boolean pointsSegmentsShowLabel = labelPointsAndSegments && 
-				(A.isEuclidianVisible() && A.isLabelVisible() || 
-				 B.isEuclidianVisible() && B.isLabelVisible());
-
+		 * labelPointsAndSegments = labelPointsAndSegments || A.isLabelSet() ||
+		 * B.isLabelSet();
+		 * 
+		 * 
+		 * boolean pointsSegmentsShowLabel = labelPointsAndSegments &&
+		 * (A.isEuclidianVisible() && A.isLabelVisible() ||
+		 * B.isEuclidianVisible() && B.isLabelVisible());
 		 */
 
-
-		boolean pointsSegmentsShowLabel = (kernel.getApplication().getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
-				|| (kernel.getApplication().getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && 
-				cons.getConstructionDefaults().getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT).isLabelVisible());
+		boolean pointsSegmentsShowLabel = (kernel.getApplication()
+				.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON)
+				|| (kernel.getApplication().getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS && cons
+						.getConstructionDefaults()
+						.getDefaultGeo(ConstructionDefaults.DEFAULT_SEGMENT)
+						.isLabelVisible());
 
 		// set labels for points only if the original points had labels
 		if (labelPointsAndSegments) {
-			for (int i=0; i < points.length; i++) {            	
+			for (int i = 0; i < points.length; i++) {
 				if (!points[i].isLabelSet()) {
-					points[i].setLabel(null); 
+					points[i].setLabel(null);
 					points[i].setLabelVisible(pointsSegmentsShowLabel);
 				}
 			}
 		}
 
 		// update all segments and set labels for new segments
-		GeoSegmentND[] segments = poly.getSegments();    	           
-		for (int i=0; i < segments.length; i++) {   
+		GeoSegmentND[] segments = poly.getSegments();
+		for (int i = 0; i < segments.length; i++) {
 			GeoElement seg = (GeoElement) segments[i];
-			if (labelPointsAndSegments) {				
+			if (labelPointsAndSegments) {
 				if (!seg.isLabelSet()) {
 					seg.setLabel(null);
 					seg.setAuxiliaryObject(true);
 					seg.setLabelVisible(pointsSegmentsShowLabel);
-				} 
-				else {
-					pointsSegmentsShowLabel = pointsSegmentsShowLabel || seg.isLabelVisible();
+				} else {
+					pointsSegmentsShowLabel = pointsSegmentsShowLabel
+							|| seg.isLabelVisible();
 				}
-			}    			
+			}
 
-			seg.getParentAlgorithm().update(); 
+			seg.getParentAlgorithm().update();
 		}
 	}
-
-
-
 
 	/**
 	 * Ensure that the pointList holds n points.
@@ -384,7 +379,8 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		GeoPoint[] oldPoints = points;
 		int oldPointsLength = oldPoints == null ? 0 : oldPoints.length;
-		//System.out.println("update points: " + n + "  old length: " + oldPointsLength);
+		// System.out.println("update points: " + n + "  old length: " +
+		// oldPointsLength);
 
 		// new points
 		points = new GeoPoint[n];
@@ -438,7 +434,7 @@ public abstract class AlgoPolygonOperation extends AlgoElement {
 
 		algoList.clear();
 		// remove point
-		oldPoint.doRemove(); 
+		oldPoint.doRemove();
 	}
 
 }

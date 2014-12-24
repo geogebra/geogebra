@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.kernel.statistics;
 
@@ -18,25 +18,23 @@ import geogebra.common.kernel.geos.GeoList;
 
 /**
  * Standard deviation of x-coords of a list of Points
+ * 
  * @author G. Sturr
  * @version 2011-06-21
  */
 
 public class AlgoListSampleSDX extends AlgoStats2D {
 
-	
-
 	public AlgoListSampleSDX(Construction cons, String label, GeoList geoListx) {
-        super(cons,label,geoListx,AlgoStats2D.STATS_SAMPLESDX);
-    }
+		super(cons, label, geoListx, AlgoStats2D.STATS_SAMPLESDX);
+	}
 
 	public AlgoListSampleSDX(Construction cons, GeoList geoListx) {
-        super(cons,geoListx,AlgoStats2D.STATS_SAMPLESDX);
-    }
+		super(cons, geoListx, AlgoStats2D.STATS_SAMPLESDX);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.SampleSDX;
-    }
+		return Commands.SampleSDX;
+	}
 }
-

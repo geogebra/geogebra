@@ -216,22 +216,20 @@ public class AlgorithmSet {
 	 * 
 	 * @param collection
 	 */
-	final public void addAllToCollection(
-			Collection<AlgoElement> collection) {
+	final public void addAllToCollection(Collection<AlgoElement> collection) {
 		Link cur = getHead();
 		while (cur != null) {
 			collection.add(cur.algo);
 			cur = cur.next;
 		}
 	}
-	
+
 	/**
 	 * Removes all algorithms in this set from the given collection
 	 * 
 	 * @param collection
 	 */
-	final public void removeAllFromCollection(
-			Collection<AlgoElement> collection) {
+	final public void removeAllFromCollection(Collection<AlgoElement> collection) {
 		Link cur = getHead();
 		while (cur != null) {
 			collection.remove(cur.algo);
@@ -248,7 +246,8 @@ public class AlgorithmSet {
 		while (cur != null) {
 			sb.append("\n\t");
 			sb.append(cur.algo + ", constIndex: "
-					+ cur.algo.getConstructionIndex() + ", ceID: " + cur.algo.getID());
+					+ cur.algo.getConstructionIndex() + ", ceID: "
+					+ cur.algo.getID());
 			cur = cur.next;
 		}
 		sb.append("]");
@@ -289,8 +288,7 @@ public class AlgorithmSet {
 		this.head = head;
 	}
 
-	private class AlgorithmSetIterator implements
-			Iterator<AlgoElement> {
+	private class AlgorithmSetIterator implements Iterator<AlgoElement> {
 		private Link cur = getHead();
 
 		public AlgorithmSetIterator() {

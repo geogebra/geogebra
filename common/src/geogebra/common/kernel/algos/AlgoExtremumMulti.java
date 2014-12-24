@@ -172,11 +172,9 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 					m = m * 2;
 				} while (m < MAX_SAMPLES);
 				if (m > MAX_SAMPLES)
-					App
-							.debug("We have probably lost some extremums...");
+					App.debug("We have probably lost some extremums...");
 			} catch (Exception e) {
-				App.debug("Exception in compute() "
-						+ e.toString());
+				App.debug("Exception in compute() " + e.toString());
 			}// try-catch
 			if (numberOfExtremums == 0) {
 				setPoints(new double[1], 0);
@@ -262,7 +260,8 @@ public class AlgoExtremumMulti extends AlgoGeoPointsFunction {
 
 		double visiblemax = kernel.getViewsXMax(points[0]);
 		double visiblemin = kernel.getViewsXMin(points[0]);
-		double visiblepixs = kernel.getApplication().countPixels(visiblemin, visiblemax);
+		double visiblepixs = kernel.getApplication().countPixels(visiblemin,
+				visiblemax);
 		// debug("Visible pixels: "+visiblepixs);
 		double pixsininterval = visiblepixs * (r - l)
 				/ (visiblemax - visiblemin);

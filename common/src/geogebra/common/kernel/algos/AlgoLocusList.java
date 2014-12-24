@@ -49,7 +49,8 @@ public class AlgoLocusList extends AlgoElement {
 
 	private boolean shouldUpdateScreenBorders = false;
 
-	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P, int try_steps) {
+	public AlgoLocusList(Construction cons, GeoPoint Q, GeoPoint P,
+			int try_steps) {
 
 		// just ignoring try_steps here because it would
 		// probably not be OK to split MIN_STEPS any more
@@ -61,7 +62,7 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
-		//locus.setFillable(false);
+		// locus.setFillable(false);
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -80,7 +81,7 @@ public class AlgoLocusList extends AlgoElement {
 		path = P.getPath();
 
 		locus = new GeoLocus(cons);
-		//locus.setFillable(false);
+		// locus.setFillable(false);
 
 		updateScreenBorders();
 		setInputOutput(); // for AlgoElement
@@ -106,57 +107,62 @@ public class AlgoLocusList extends AlgoElement {
 		Path oldel;
 		// however...
 		try {
-			int try_steps = PathMover.MIN_STEPS / ((GeoList)path).size() + 1;
+			int try_steps = PathMover.MIN_STEPS / ((GeoList) path).size() + 1;
 			if (try_steps < MIN_STEPS_REALLY) {
 				try_steps = MIN_STEPS_REALLY;
 			}
 			int arrLocusSize = arrLocus.size();
-			for (int i = arrLocusSize - 1; i >= ((GeoList)path).size(); i--) {
+			for (int i = arrLocusSize - 1; i >= ((GeoList) path).size(); i--) {
 				arrLocus.remove(i);
 			}
 			arrLocusSize = arrLocus.size();
-			for (int i = 0; i < ((GeoList)path).size(); i++) {
-				actel = ((GeoList)path).get(i);
+			for (int i = 0; i < ((GeoList) path).size(); i++) {
+				actel = ((GeoList) path).get(i);
 				if (actel != null && actel instanceof Path) {
 					if (i < arrLocusSize) {
 						if (arrLocus.get(i) instanceof AlgoLocusList) {
-							oldel = ((AlgoLocusList)arrLocus.get(i)).getMovingPoint().getPath();
+							oldel = ((AlgoLocusList) arrLocus.get(i))
+									.getMovingPoint().getPath();
 						} else if (arrLocus.get(i) instanceof AlgoLocus) {
-							oldel = ((AlgoLocus)arrLocus.get(i)).getMovingPoint().getPath();
+							oldel = ((AlgoLocus) arrLocus.get(i))
+									.getMovingPoint().getPath();
 						} else {
 							oldel = null;
 						}
 						if (oldel == actel) {
 							if (shouldUpdateScreenBorders) {
 								if (arrLocus.get(i) instanceof AlgoLocus) {
-									((AlgoLocus)arrLocus.get(i)).updateScreenBorders();
+									((AlgoLocus) arrLocus.get(i))
+											.updateScreenBorders();
 								} else if (arrLocus.get(i) instanceof AlgoLocusList) {
-									((AlgoLocusList)arrLocus.get(i)).updateScreenBorders();
+									((AlgoLocusList) arrLocus.get(i))
+											.updateScreenBorders();
 								}
 							}
 							arrLocus.get(i).compute();
 							continue;
 						}
 					}
-					P.setPath((Path)actel);
+					P.setPath((Path) actel);
 
-					// new AlgoLocus(List) does not need updateScreenBorders and compute
+					// new AlgoLocus(List) does not need updateScreenBorders and
+					// compute
 
 					if (actel instanceof GeoList) {
-						if (((GeoList)actel).shouldUseAlgoLocusList(true)) {
+						if (((GeoList) actel).shouldUseAlgoLocusList(true)) {
 							actal = new AlgoLocusList(cons, Q, P, try_steps);
-							pathp = ((AlgoLocusList)actal).getLocus();
+							pathp = ((AlgoLocusList) actal).getLocus();
 						} else {
 							actal = new AlgoLocus(cons, Q, P, try_steps, false);
-							pathp = ((AlgoLocus)actal).getLocus();
+							pathp = ((AlgoLocus) actal).getLocus();
 						}
 					} else {
 						actal = new AlgoLocus(cons, Q, P, try_steps, false);
-						pathp = ((AlgoLocus)actal).getLocus();
+						pathp = ((AlgoLocus) actal).getLocus();
 					}
 					cons.removeFromAlgorithmList(actal);
 					cons.removeFromConstructionList(actal);
-					//cons.unregisterEuclidianViewCE(actal);
+					// cons.unregisterEuclidianViewCE(actal);
 					cons.removeFromConstructionList(pathp);
 					P.setPath(path);
 					if (i < arrLocusSize)
@@ -198,16 +204,16 @@ public class AlgoLocusList extends AlgoElement {
 	public GeoPoint getQ() {
 		return locusPoint;
 	}
-	
+
 	/**
-	 * A way more descriptive name for
-	 * the getter.
+	 * A way more descriptive name for the getter.
+	 * 
 	 * @return dependent point Q
 	 */
 	public GeoPoint getLocusPoint() {
 		return locusPoint;
 	}
-	
+
 	/**
 	 * @return moving point P.
 	 */
@@ -258,7 +264,6 @@ public class AlgoLocusList extends AlgoElement {
 		setEfficientDependencies(standardInput, efficientInput);
 	}
 
-
 	/**
 	 * Returns locus
 	 * 
@@ -289,16 +294,13 @@ public class AlgoLocusList extends AlgoElement {
 			if (actLocus instanceof AlgoLocusList)
 				actGeo = ((AlgoLocusList) actLocus).getLocus();
 			else if (actLocus instanceof AlgoLocus)
-				actGeo = (GeoLocus) ((AlgoLocus)actLocus).getLocus();
+				actGeo = (GeoLocus) ((AlgoLocus) actLocus).getLocus();
 			else
 				continue;
 			for (int j = 0; j < actGeo.getPointLength(); j++) {
-				insertPoint(
-					actGeo.getPoints().get(j).x,
-					actGeo.getPoints().get(j).y,
-					(j == 0) ? false :
-					actGeo.getPoints().get(j).lineTo
-				);
+				insertPoint(actGeo.getPoints().get(j).x, actGeo.getPoints()
+						.get(j).y, (j == 0) ? false
+						: actGeo.getPoints().get(j).lineTo);
 			}
 			if (actGeo.getPointLength() > 0)
 				foundDefined = true;
@@ -309,8 +311,8 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	private static boolean isPathIterable(GeoElement geoElement) {
-		if(geoElement.isGeoImplicitPoly())
-			return ((GeoImplicitPoly)geoElement).isOnScreen();
+		if (geoElement.isGeoImplicitPoly())
+			return ((GeoImplicitPoly) geoElement).isOnScreen();
 		return geoElement.isDefined();
 	}
 
@@ -331,8 +333,8 @@ public class AlgoLocusList extends AlgoElement {
 	}
 
 	/**
-	 * This should register the wish that screen borders should be
-	 * updated in the subloci in time
+	 * This should register the wish that screen borders should be updated in
+	 * the subloci in time
 	 */
 	void updateScreenBorders() {
 		shouldUpdateScreenBorders = true;

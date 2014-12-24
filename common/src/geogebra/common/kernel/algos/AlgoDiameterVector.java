@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDiameterLineVector.java
@@ -24,34 +24,28 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoDiameterVector extends AlgoDiameterVectorND {
 
+	/** Creates new AlgoDiameterVector */
+	public AlgoDiameterVector(Construction cons, String label, GeoConicND c,
+			GeoVectorND v) {
+		super(cons, label, c, v);
+	}
 
-    /** Creates new AlgoDiameterVector */
-    public AlgoDiameterVector(
-        Construction cons,
-        String label,
-        GeoConicND c,
-        GeoVectorND v) {
-        super(cons, label, c, v);
-    }
+	@Override
+	protected void createOutput(Construction cons) {
+		diameter = new GeoLine(cons);
+	}
 
-    @Override
-	protected void createOutput(Construction cons){
-    	diameter = new GeoLine(cons);
-    }
-
-    // calc diameter line of v relativ to c
-    @Override
+	// calc diameter line of v relativ to c
+	@Override
 	public final void compute() {
-        c.diameterLine((GeoVector) v, (GeoLine) diameter);
-    }
+		c.diameterLine((GeoVector) v, (GeoLine) diameter);
+	}
 
-    
 }

@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoElementSpreadsheet;
 import geogebra.common.main.MyError;
 
 /**
- *ColumnName
+ * ColumnName
  */
 public class CmdColumnName extends CommandProcessor {
 	/**
@@ -30,9 +30,9 @@ public class CmdColumnName extends CommandProcessor {
 		switch (n) {
 		case 1:
 
-			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0]))
-			{
-				AlgoColumnName algo = new AlgoColumnName(cons, c.getLabel(), arg[0]);
+			if (GeoElementSpreadsheet.hasSpreadsheetLabel(arg[0])) {
+				AlgoColumnName algo = new AlgoColumnName(cons, c.getLabel(),
+						arg[0]);
 				GeoElement[] ret = { algo.getGeoText() };
 
 				return ret;

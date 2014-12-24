@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoUnitVectorVector.java
@@ -24,32 +24,27 @@ import geogebra.common.kernel.geos.GeoVector;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoUnitVectorVector extends AlgoUnitVector2D {
-    
-        
-    /** Creates new AlgoOrthoVectorVector */
-    public AlgoUnitVectorVector(Construction cons, String label,GeoVectorND v) {        
-        super(cons, label, (GeoElement) v);
-    }   
-    
 
-    @Override
-	final protected void setXY(){
-    	x = ((GeoVector) inputGeo).x;
-    	y = ((GeoVector) inputGeo).y;
-    }
+	/** Creates new AlgoOrthoVectorVector */
+	public AlgoUnitVectorVector(Construction cons, String label, GeoVectorND v) {
+		super(cons, label, (GeoElement) v);
+	}
 
-
+	@Override
+	final protected void setXY() {
+		x = ((GeoVector) inputGeo).x;
+		y = ((GeoVector) inputGeo).y;
+	}
 
 	@Override
 	final protected GeoPointND getInputStartPoint() {
 		return ((GeoVector) inputGeo).getStartPoint();
-	}   
-    
+	}
+
 }

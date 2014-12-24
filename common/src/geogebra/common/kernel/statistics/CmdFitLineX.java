@@ -7,8 +7,7 @@ import geogebra.common.kernel.geos.GeoList;
 
 /**
  * 
- * FitLineX[list of points]
- * adapted from CmdLcm by Michael Borcherds 2008-01-14
+ * FitLineX[list of points] adapted from CmdLcm by Michael Borcherds 2008-01-14
  */
 public class CmdFitLineX extends CmdOneListFunction {
 	/**
@@ -22,11 +21,9 @@ public class CmdFitLineX extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoFitLineX algo = new AlgoFitLineX(cons, a, b);
 		return algo.getFitLineX();
 	}
-
 
 }

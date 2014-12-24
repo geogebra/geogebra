@@ -28,10 +28,14 @@ import geogebra.common.util.Cloner;
 public class AlgoBinomialDistBarChart extends AlgoBarChart {
 
 	/**
-	 * @param cons construction
-	 * @param label label
-	 * @param n number of trials
-	 * @param p probability of success
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param n
+	 *            number of trials
+	 * @param p
+	 *            probability of success
 	 */
 	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p) {
@@ -40,11 +44,16 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 	}
 
 	/**
-	 * @param cons construction
-	 * @param label label
-	 * @param n number of trials
-	 * @param p probability of success
-	 * @param isCumulative cumulative
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param n
+	 *            number of trials
+	 * @param p
+	 *            probability of success
+	 * @param isCumulative
+	 *            cumulative
 	 */
 	public AlgoBinomialDistBarChart(Construction cons, String label,
 			NumberValue n, NumberValue p, GeoBoolean isCumulative) {
@@ -55,9 +64,8 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 	private AlgoBinomialDistBarChart(NumberValue n, NumberValue p,
 			GeoBoolean isCumulative, NumberValue a, NumberValue b,
 			double[] vals, double[] borders, int N) {
-		super(n, p, null, isCumulative,
-				AlgoBarChart.TYPE_BARCHART_BINOMIAL, a, b, vals,
-				borders, N);
+		super(n, p, null, isCumulative, AlgoBarChart.TYPE_BARCHART_BINOMIAL, a,
+				b, vals, borders, N);
 	}
 
 	@Override
@@ -65,7 +73,6 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 		return Commands.BinomialDist;
 	}
 
-	
 	@Override
 	public DrawInformationAlgo copy() {
 		GeoBoolean b = (GeoBoolean) this.getIsCumulative();
@@ -80,5 +87,5 @@ public class AlgoBinomialDistBarChart extends AlgoBarChart {
 				Cloner.clone(getValues()), Cloner.clone(getLeftBorder()),
 				getIntervals());
 	}
-	
+
 }

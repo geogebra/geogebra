@@ -29,12 +29,17 @@ public abstract class AlgoCasBase extends AlgoElement {
 	/** Output function */
 	protected CasEvaluableFunction g;
 	private Commands cmd;
+
 	/**
-	 * Creates CAS algo and sets input, output and label.
-	 * Do not use if compute() or setInputOutput() are overriden.
-	 * @param cons construction
-	 * @param label label for output
-	 * @param f input function
+	 * Creates CAS algo and sets input, output and label. Do not use if
+	 * compute() or setInputOutput() are overriden.
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param f
+	 *            input function
 	 */
 	protected AlgoCasBase(Construction cons, String label,
 			CasEvaluableFunction f, Commands cmd) {
@@ -47,17 +52,21 @@ public abstract class AlgoCasBase extends AlgoElement {
 
 	/**
 	 * Creates CAS algo, doesn't set any input, output or label
-	 * @param cons construction
-	 * @param f input function
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param f
+	 *            input function
 	 */
-	protected AlgoCasBase(Construction cons, CasEvaluableFunction f, Commands cmd) {
+	protected AlgoCasBase(Construction cons, CasEvaluableFunction f,
+			Commands cmd) {
 		super(cons);
 		this.f = f;
 		this.cmd = cmd;
 		cons.addCASAlgo(this);
 		g = (CasEvaluableFunction) f.toGeoElement().copyInternal(cons);
 	}
-	
+
 	@Override
 	public final Commands getClassName() {
 		return cmd;
@@ -84,7 +93,7 @@ public abstract class AlgoCasBase extends AlgoElement {
 	@Override
 	public final void compute() {
 		if (!f.toGeoElement().isDefined()) {
-				g.toGeoElement().setUndefined();
+			g.toGeoElement().setUndefined();
 			return;
 		}
 
@@ -92,22 +101,22 @@ public abstract class AlgoCasBase extends AlgoElement {
 	}
 
 	/**
-	 * Build a GeoGebraCAS command, send it to CAS and use the output to
-	 * update result of this algo.
-	 * @param tpl template for serialization of the command
+	 * Build a GeoGebraCAS command, send it to CAS and use the output to update
+	 * result of this algo.
+	 * 
+	 * @param tpl
+	 *            template for serialization of the command
 	 */
 	protected abstract void applyCasCommand(StringTemplate tpl);
 
 	/**
-	* Clears the cache (needed in Web when the CAS loads)
-	* @param label not used
-	*/
-	public final void clearCasEvalMap(String label){
+	 * Clears the cache (needed in Web when the CAS loads)
+	 * 
+	 * @param label
+	 *            not used
+	 */
+	public final void clearCasEvalMap(String label) {
 		f.clearCasEvalMap(label);
 	}
-	
-	
-
-	
 
 }

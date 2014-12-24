@@ -21,7 +21,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 
 import org.apache.commons.math.distribution.NormalDistributionImpl;
 
-
 /**
  * 
  * 
@@ -29,23 +28,24 @@ import org.apache.commons.math.distribution.NormalDistributionImpl;
  */
 public class AlgoZProportion2Estimate extends AlgoElement {
 
-
-	private GeoNumeric proportion, n, proportion2, n_2, level; //input
-	private GeoList  result;     // output   
+	private GeoNumeric proportion, n, proportion2, n_2, level; // input
+	private GeoList result; // output
 	private double se;
 	private double me;
-	
+
 	/**
 	 * @param cons
 	 * @param label
 	 * @param proportion
 	 * @param n
-	 * @param proportion2 
-	 * @param n_2 
-	 * @param level 
+	 * @param proportion2
+	 * @param n_2
+	 * @param level
 	 */
-	public AlgoZProportion2Estimate(Construction cons, String label, GeoNumeric proportion, GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2, GeoNumeric level) {
-		this(cons, proportion, n, proportion2, n_2, level);		  
+	public AlgoZProportion2Estimate(Construction cons, String label,
+			GeoNumeric proportion, GeoNumeric n, GeoNumeric proportion2,
+			GeoNumeric n_2, GeoNumeric level) {
+		this(cons, proportion, n, proportion2, n_2, level);
 		result.setLabel(label);
 	}
 
@@ -53,24 +53,24 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 	 * @param cons
 	 * @param proportion
 	 * @param n
-	 * @param proportion2 
-	 * @param n_2 
-	 * @param level 
+	 * @param proportion2
+	 * @param n_2
+	 * @param level
 	 */
-	public AlgoZProportion2Estimate(Construction cons, GeoNumeric proportion, GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2, GeoNumeric level) {
+	public AlgoZProportion2Estimate(Construction cons, GeoNumeric proportion,
+			GeoNumeric n, GeoNumeric proportion2, GeoNumeric n_2,
+			GeoNumeric level) {
 		super(cons);
 		this.proportion = proportion;
 		this.n = n;
 		this.proportion2 = proportion2;
 		this.n_2 = n_2;
 		this.level = level;
-		result = new GeoList(cons); 
+		result = new GeoList(cons);
 		setInputOutput(); // for AlgoElement
 
-		compute();      
+		compute();
 	}
-
-	
 
 	@Override
 	public Commands getClassName() {
@@ -78,7 +78,7 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 	}
 
 	@Override
-	protected void setInputOutput(){
+	protected void setInputOutput() {
 
 		input = new GeoElement[5];
 		input[0] = proportion;
@@ -86,7 +86,6 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 		input[2] = proportion2;
 		input[3] = n_2;
 		input[4] = level;
-
 
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
@@ -98,28 +97,27 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 	public GeoList getResult() {
 		return result;
 	}
-	
+
 	/**
 	 * @return margin of error
 	 */
-	public double getME(){
+	public double getME() {
 		return me;
 	}
 
 	/**
 	 * @return standard error
 	 */
-	public double getSE(){
+	public double getSE() {
 		return se;
 	}
 
 	@Override
 	public final void compute() {
 
-
-		double n1 = n.getDouble();		
+		double n1 = n.getDouble();
 		double phat1 = proportion.getDouble();
-		double n2 = n_2.getDouble();		
+		double n2 = n_2.getDouble();
 		double phat2 = proportion2.getDouble();
 		double cLevel = level.getDouble();
 
@@ -146,7 +144,4 @@ public class AlgoZProportion2Estimate extends AlgoElement {
 
 	}
 
-	
-
-	
 }

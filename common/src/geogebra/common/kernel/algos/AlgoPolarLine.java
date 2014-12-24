@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoPolarLine.java
@@ -27,36 +27,37 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoPolarLine extends AlgoPolarLineND {
-    
-    /** Creates new AlgoPolarLine */
-    public AlgoPolarLine(Construction cons, String label, GeoConicND c, GeoPointND P) {
-        super(cons, label, c, P);
-    }   
-    
-    @Override
-	protected GeoLineND newGeoLine(Construction cons){
-    	return new GeoLine(cons);
-    }
-    
-    // calc polar line of P relativ to c
-    @Override
-	public final void compute() {     
-        c.polarLine((GeoPoint) P, (GeoLine) polar);
-    }
-    
+
+	/** Creates new AlgoPolarLine */
+	public AlgoPolarLine(Construction cons, String label, GeoConicND c,
+			GeoPointND P) {
+		super(cons, label, c, P);
+	}
+
+	@Override
+	protected GeoLineND newGeoLine(Construction cons) {
+		return new GeoLine(cons);
+	}
+
+	// calc polar line of P relativ to c
+	@Override
+	public final void compute() {
+		c.polarLine((GeoPoint) P, (GeoLine) polar);
+	}
+
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnPolarLine(geo, this, scope);
 	}
 }

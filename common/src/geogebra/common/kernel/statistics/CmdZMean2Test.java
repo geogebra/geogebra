@@ -33,51 +33,42 @@ public class CmdZMean2Test extends CommandProcessor {
 		switch (n) {
 
 		case 5:
-			if ((ok[0] = arg[0].isGeoList()) 
-					&& (ok[1] = arg[1].isGeoNumeric())
+			if ((ok[0] = arg[0].isGeoList()) && (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoList())
 					&& (ok[3] = arg[3].isGeoNumeric())
-					&& (ok[4] = arg[4].isGeoText())
-			) {
-				
+					&& (ok[4] = arg[4].isGeoText())) {
+
 				AlgoZMean2Test algo = new AlgoZMean2Test(cons, c.getLabel(),
-						(GeoList) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoList) arg[2],
-						(GeoNumeric) arg[3],
-						(GeoText) arg[4]);
+						(GeoList) arg[0], (GeoNumeric) arg[1],
+						(GeoList) arg[2], (GeoNumeric) arg[3], (GeoText) arg[4]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} 
-			
+			}
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		case 7:
-			if ((ok[0] = arg[0].isGeoNumeric()) 
+			if ((ok[0] = arg[0].isGeoNumeric())
 					&& (ok[1] = arg[1].isGeoNumeric())
 					&& (ok[2] = arg[2].isGeoNumeric())
 					&& (ok[3] = arg[3].isGeoNumeric())
 					&& (ok[4] = arg[4].isGeoNumeric())
 					&& (ok[5] = arg[5].isGeoNumeric())
-					&& (ok[6] = arg[6].isGeoText())
-			) {
-				
+					&& (ok[6] = arg[6].isGeoText())) {
+
 				AlgoZMean2Test algo = new AlgoZMean2Test(cons, c.getLabel(),
-						(GeoNumeric) arg[0], 
-						(GeoNumeric) arg[1],
-						(GeoNumeric) arg[2],
-						(GeoNumeric) arg[3],
-						(GeoNumeric) arg[4],
-						(GeoNumeric) arg[5],
+						(GeoNumeric) arg[0], (GeoNumeric) arg[1],
+						(GeoNumeric) arg[2], (GeoNumeric) arg[3],
+						(GeoNumeric) arg[4], (GeoNumeric) arg[5],
 						(GeoText) arg[6]);
 
 				GeoElement[] ret = { algo.getResult() };
 				return ret;
 
-			} 
-			
+			}
+
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:

@@ -35,7 +35,8 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
  * @author Markus added TYPE_SEGMENT Michael Borcherds 2008-03-14
  * @version
  */
-public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements AlgoCirclePointRadiusInterface {
+public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements
+		AlgoCirclePointRadiusInterface {
 
 	public AlgoCirclePointRadius(Construction cons, String label, GeoPoint M,
 			NumberValue r) {
@@ -88,16 +89,17 @@ public class AlgoCirclePointRadius extends AlgoSphereNDPointRadius implements Al
 	final public String toString(StringTemplate tpl) {
 		// Michael Borcherds 2008-03-30
 		// simplified to allow better Chinese translation
-		return getLoc().getPlain("CircleWithCenterAandRadiusB", getM().getLabel(tpl),
-				getRGeo().getLabel(tpl));
+		return getLoc().getPlain("CircleWithCenterAandRadiusB",
+				getM().getLabel(tpl), getRGeo().getLabel(tpl));
 	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnCirclePointRadius(geo, this, scope);
 	}
 }

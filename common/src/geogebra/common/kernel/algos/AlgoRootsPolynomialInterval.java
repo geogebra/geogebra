@@ -25,15 +25,16 @@ import geogebra.common.kernel.geos.GeoFunction;
  */
 public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 
-
-
 	private Function intervalFun;
 	private Function interval;
 
 	/**
-	 * @param cons cons
-	 * @param labels labels
-	 * @param f function
+	 * @param cons
+	 *            cons
+	 * @param labels
+	 *            labels
+	 * @param f
+	 *            function
 	 */
 	public AlgoRootsPolynomialInterval(Construction cons, String[] labels,
 			GeoFunction f) {
@@ -43,29 +44,29 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 	@Override
 	public void compute() {
 
-		
-		
 		super.compute();
-			
-		// remove points that aren't in the interval		
+
+		// remove points that aren't in the interval
 		for (int i = 0; i < rootPoints.length; i++) {
 			double xCoord = rootPoints[i].getInhomX();
-			if ( !interval.evaluateBoolean(xCoord)) {
+			if (!interval.evaluateBoolean(xCoord)) {
 				rootPoints[i].setUndefined();
 			}
 		}
 	}
-	
+
 	@Override
 	protected void computeRoots() {
 		if (f.isDefined()) {
 			if (intervalFun == null) {
 				FunctionVariable fVar = f.getFunction().getFunctionVariable();
 				// extract poly from If[0<x<10, poly]
-				intervalFun = new Function((ExpressionNode) f.getFunctionExpression().getRight(), fVar);   
-				
+				intervalFun = new Function((ExpressionNode) f
+						.getFunctionExpression().getRight(), fVar);
+
 				// extract interval
-				interval = new Function((ExpressionNode) f.getFunctionExpression().getLeft(), fVar);   
+				interval = new Function((ExpressionNode) f
+						.getFunctionExpression().getLeft(), fVar);
 
 			}
 			// get polynomial factors and calc roots
@@ -74,7 +75,5 @@ public class AlgoRootsPolynomialInterval extends AlgoRootsPolynomial {
 			curRealRoots = 0;
 		}
 	}
-
-
 
 }

@@ -11,7 +11,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
 
 /**
- *Checkbox
+ * Checkbox
  */
 public class CmdCheckbox extends CommandProcessor {
 
@@ -64,12 +64,12 @@ public class CmdCheckbox extends CommandProcessor {
 		GeoBoolean gb = new GeoBoolean(app.getKernel().getConstruction());
 		gb.setValue(true);
 		gb.setEuclidianVisible(true);
-		gb.setLabel(c.getLabel());	
-		
+		gb.setLabel(c.getLabel());
+
 		if (caption != null) {
-			gb.setLabelVisible(true);		
+			gb.setLabelVisible(true);
 			gb.setCaption(caption);
-			gb.update();				
+			gb.update();
 		}
 		try {
 
@@ -79,6 +79,6 @@ public class CmdCheckbox extends CommandProcessor {
 		} catch (CircularDefinitionException e) {
 			app.showError("CircularDefinition");
 		}
-		return new GeoElement[] {gb};
+		return new GeoElement[] { gb };
 	}
 }

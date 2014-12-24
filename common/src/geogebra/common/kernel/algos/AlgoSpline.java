@@ -160,7 +160,7 @@ public class AlgoSpline extends AlgoElement {
 			GeoPointND p = (GeoPointND) this.inputList.get(i);
 			for (int j = 0; j < dimension; j++) {
 				floatPoints[i][j] = (float) p.getInhomCoordsInD(dimension).get(
-						j+1);
+						j + 1);
 			}
 		}
 		for (i = 0; i < dimension; i++) {
@@ -285,14 +285,13 @@ public class AlgoSpline extends AlgoElement {
 		int i;
 		for (col = 1; col < length; col++) {
 			for (row = 1; row <= col; row++) {
-				float value=0;
-				for (i=0;i<dimension;i++){
-					value+= (floatPoints[row][i] - floatPoints[row - 1][i])
-					* (floatPoints[row][i] - floatPoints[row - 1][i]);
+				float value = 0;
+				for (i = 0; i < dimension; i++) {
+					value += (floatPoints[row][i] - floatPoints[row - 1][i])
+							* (floatPoints[row][i] - floatPoints[row - 1][i]);
 				}
 				cumulativeValueOfParameter[col] = cumulativeValueOfParameter[col]
-						+ (float) Math
-								.sqrt(value);
+						+ (float) Math.sqrt(value);
 			}
 		}
 		float[][] matrix = new float[(length - 1) * degreeValue][(length - 1)

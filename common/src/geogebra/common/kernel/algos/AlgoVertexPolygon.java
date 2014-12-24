@@ -33,15 +33,20 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  */
 public class AlgoVertexPolygon extends AlgoElement {
 
-	protected GeoPoly p; // input		
+	protected GeoPoly p; // input
 	private NumberValue index;
 	private GeoPointND oneVertex;
 	private OutputHandler<GeoElement> outputPoints;
+
 	/**
 	 * Creates new vertex algo
-	 * @param cons construction
-	 * @param labels labels for vertices
-	 * @param p polygon or polyline
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels for vertices
+	 * @param p
+	 *            polygon or polyline
 	 */
 
 	public AlgoVertexPolygon(Construction cons, String[] labels, GeoPoly p) {
@@ -49,33 +54,37 @@ public class AlgoVertexPolygon extends AlgoElement {
 		this(cons, p);
 		// if only one label (e.g. "A"), new labels will be A_1, A_2, ...
 		setLabels(labels);
-		 
-        update();
+
+		update();
 
 		// set labels dependencies: will be used with
 		// Construction.resolveLabelDependency()
 	}
-	
+
 	private void setLabels(String[] labels) {
-        //if only one label (e.g. "A") for more than one output, new labels will be A_1, A_2, ...
-        if (labels!=null &&
-        		labels.length==1 &&
-        		//outputPoints.size() > 1 &&
-        		labels[0]!=null &&
-        		!labels[0].equals("")) {
-        	outputPoints.setIndexLabels(labels[0]);
-        } else {
-        	
-        	outputPoints.setLabels(labels);
-        	outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel(StringTemplate.defaultTemplate));
-        }	
-    }
+		// if only one label (e.g. "A") for more than one output, new labels
+		// will be A_1, A_2, ...
+		if (labels != null && labels.length == 1 &&
+		// outputPoints.size() > 1 &&
+				labels[0] != null && !labels[0].equals("")) {
+			outputPoints.setIndexLabels(labels[0]);
+		} else {
+
+			outputPoints.setLabels(labels);
+			outputPoints.setIndexLabels(outputPoints.getElement(0).getLabel(
+					StringTemplate.defaultTemplate));
+		}
+	}
 
 	/**
-	 * @param cons construction
-	 * @param label label
-	 * @param p polygon or polyline
-	 * @param v vertex index
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param p
+	 *            polygon or polyline
+	 * @param v
+	 *            vertex index
 	 */
 	public AlgoVertexPolygon(Construction cons, String label, GeoPoly p,
 			NumberValue v) {
@@ -85,15 +94,18 @@ public class AlgoVertexPolygon extends AlgoElement {
 	}
 
 	/**
-	 * Creates algo for Vertex[poly] (many output points)
-	 * Creates new unlabeled vertex algo
-	 * @param cons construction
-	 * @param p polygon or polyline
+	 * Creates algo for Vertex[poly] (many output points) Creates new unlabeled
+	 * vertex algo
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param p
+	 *            polygon or polyline
 	 */
 	protected AlgoVertexPolygon(Construction cons, GeoPoly p) {
 		super(cons);
 		this.p = p;
-		outputPoints=createOutputPoints();
+		outputPoints = createOutputPoints();
 		outputPoints.adjustOutputSize(1);
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -101,9 +113,13 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	/**
 	 * Creates algo for Vertex[poly,n] (one output)
-	 * @param cons construction or polyline
-	 * @param p polygon or polyline
-	 * @param v vertrex index
+	 * 
+	 * @param cons
+	 *            construction or polyline
+	 * @param p
+	 *            polygon or polyline
+	 * @param v
+	 *            vertrex index
 	 */
 	AlgoVertexPolygon(Construction cons, GeoPoly p, NumberValue v) {
 		super(cons);
@@ -114,15 +130,14 @@ public class AlgoVertexPolygon extends AlgoElement {
 		compute();
 	}
 
-	
 	/**
 	 * @param cons
 	 * @return new GeoPointND
 	 */
-	public GeoPointND newGeoPoint(Construction cons){
+	public GeoPointND newGeoPoint(Construction cons) {
 		return new GeoPoint(cons);
 	}
-	
+
 	@Override
 	public Commands getClassName() {
 		return Commands.Vertex;
@@ -131,17 +146,16 @@ public class AlgoVertexPolygon extends AlgoElement {
 	// for AlgoElement
 	@Override
 	public void setInputOutput() {
-		if(index!=null){
+		if (index != null) {
 			input = new GeoElement[2];
-			input[1] = index.toGeoElement();			
+			input[1] = index.toGeoElement();
 			setOutputLength(1);
-			setOutput(0,(GeoElement) oneVertex);
-		}else{
-			input = new GeoElement[1];			
+			setOutput(0, (GeoElement) oneVertex);
+		} else {
+			input = new GeoElement[1];
 		}
-		input[0] = (GeoElement)p;
-		
-		
+		input[0] = (GeoElement) p;
+
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -156,18 +170,19 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	@Override
 	public int getOutputLength() {
-		if(index!=null) return 1;
+		if (index != null)
+			return 1;
 		return outputPoints.size();
 	}
 
 	@Override
-	public final void compute() {	
-		if(index != null){
-			if (!p.isDefined()){
+	public final void compute() {
+		if (index != null) {
+			if (!p.isDefined()) {
 				oneVertex.setUndefined();
-			}else{
-				int  i = (int)Math.floor(index.getDouble())-1;
-				if(i >= p.getPoints().length||i < 0) {
+			} else {
+				int i = (int) Math.floor(index.getDouble()) - 1;
+				if (i >= p.getPoints().length || i < 0) {
 					oneVertex.setUndefined();
 				} else {
 					setPoint(oneVertex, i);
@@ -176,45 +191,44 @@ public class AlgoVertexPolygon extends AlgoElement {
 			oneVertex.update();
 			return;
 		}
-		
-		if (!p.isDefined()){
-		  	for(int i = 0; i<outputPoints.size();i++) {
-	    		outputPoints.getElement(i).setUndefined();
-	    	}
-		  	return;
+
+		if (!p.isDefined()) {
+			for (int i = 0; i < outputPoints.size(); i++) {
+				outputPoints.getElement(i).setUndefined();
+			}
+			return;
 		}
-		
+
 		int length = p.getPoints().length;
-		//Log.debug(length);
-		if (length > outputPoints.size()){
+		// Log.debug(length);
+		if (length > outputPoints.size()) {
 			outputPoints.adjustOutputSize(length);
 			refreshOutput();
 		}
-		
-		
-		for (int i =0; i<length; i++){
-    		GeoPointND point = (GeoPointND) outputPoints.getElement(i);
-    		setPoint(point, i);   		
-    	}
-    	//other points are undefined
-    	for(int i = length;i<outputPoints.size();i++) {
-    		outputPoints.getElement(i).setUndefined();
-    	}
+
+		for (int i = 0; i < length; i++) {
+			GeoPointND point = (GeoPointND) outputPoints.getElement(i);
+			setPoint(point, i);
+		}
+		// other points are undefined
+		for (int i = length; i < outputPoints.size(); i++) {
+			outputPoints.getElement(i).setUndefined();
+		}
 	}
-	
-	
+
 	/**
 	 * set the point to the i-th of the polygon
+	 * 
 	 * @param point
 	 * @param i
 	 */
-	protected void setPoint(GeoPointND point, int i){
-		point.set(p.getPoint(i));  
+	protected void setPoint(GeoPointND point, int i) {
+		point.set(p.getPoint(i));
 	}
 
 	@Override
 	public final String toString(StringTemplate tpl) {
-		return getLoc().getPlain("VertexOfA", ((GeoElement)p).getLabel(tpl));
+		return getLoc().getPlain("VertexOfA", ((GeoElement) p).getLabel(tpl));
 
 	}
 
@@ -229,21 +243,22 @@ public class AlgoVertexPolygon extends AlgoElement {
 
 	@Override
 	public GeoElement getOutput(int i) {
-		if(index!=null)return (GeoElement) oneVertex;
+		if (index != null)
+			return (GeoElement) oneVertex;
 		return outputPoints.getElement(i);
 	}
-	
+
 	/**
 	 * @return the vertex when called as Vertex[poly,number]
 	 */
-	public GeoPointND getOneVertex(){
+	public GeoPointND getOneVertex() {
 		return oneVertex;
 	}
 
-	protected OutputHandler<GeoElement> createOutputPoints(){
+	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoPoint newElement() {
-				GeoPoint pt=new GeoPoint(cons);
+				GeoPoint pt = new GeoPoint(cons);
 				pt.setCoords(0, 0, 1);
 				pt.setParentAlgorithm(AlgoVertexPolygon.this);
 				return pt;

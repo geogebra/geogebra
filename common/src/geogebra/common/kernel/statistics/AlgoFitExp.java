@@ -94,7 +94,7 @@ public class AlgoFitExp extends AlgoElement {
 					Operation.MULTIPLY, X);
 			expr = new ExpressionNode(kernel, expr, Operation.EXP, null);
 			// 24.04.08: changed 2.71..to "e" with the null trick!
-			
+
 			ExpressionNode node = new ExpressionNode(kernel, A,
 					Operation.MULTIPLY, expr);
 			Function f = new Function(node, X);

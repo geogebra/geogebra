@@ -44,8 +44,8 @@ import java.util.Iterator;
  * 
  * @author Markus
  */
-public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicParametersBotanaAlgo,
-	RestrictionAlgoForLocusEquation{
+public class AlgoIntersectLineConic extends AlgoIntersect implements
+		SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
 	/** input line */
 	protected GeoLine g;
 	/** input conic */
@@ -55,9 +55,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	protected GeoPoint[] P, Q; // output -- Q permuted according to D
 	protected int intersectionType;
 
-	private HashMap<GeoElement,Polynomial[]> botanaPolynomials;
-	private HashMap<GeoElement,Variable[]> botanaVars;
-			
+	private HashMap<GeoElement, Polynomial[]> botanaPolynomials;
+	private HashMap<GeoElement, Variable[]> botanaVars;
+
 	private int age[]; // of defined points D
 	private int permutation[]; // of computed intersection points Q to output
 								// points P
@@ -68,7 +68,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	// for every resulting point P: has it ever been defined, i.e. is it alive?
 	private boolean isPalive[];
 
-	//private int i;
+	// private int i;
 	private boolean isDefinedAsTangent;
 	private boolean firstIntersection = true;
 	private boolean isPermutationNeeded = true;
@@ -115,15 +115,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		setInputOutput(); // for AlgoElement
 		initForNearToRelationship();
 		compute();
-		addIncidence(); //must be after compute()
+		addIncidence(); // must be after compute()
 
 	}
 
-    /**
-     * @author Tam
-     * 
-     * for special cases of e.g. AlgoIntersectLineConic
-     */
+	/**
+	 * @author Tam
+	 * 
+	 *         for special cases of e.g. AlgoIntersectLineConic
+	 */
 	private void addIncidence() {
 		for (int i = 0; i < P.length; ++i) {
 			P[i].addIncidence(g, false);
@@ -214,8 +214,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	// calc intersections of conic c and line g
 	@Override
 	public void compute() {
-		
-		
+
 		/*
 		 * no probabilistic checking anymore, see #1044
 		 */
@@ -223,9 +222,8 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// called
 		// and we don't what this.compute() to be invoked repeatedly.
 		/*
-		if (handlingSpecialCase)
-			return;
-		*/
+		 * if (handlingSpecialCase) return;
+		 */
 
 		// g is defined as tangent of c
 		if (isDefinedAsTangent) {
@@ -259,26 +257,28 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	 * section c is intersected with a line passing through a point A on c. In
 	 * this case the first intersection point should always be A.
 	 * 
-	 * Definition of special case:
-	 * There is a pre-exist point which is both dependent and incident to the conic and the line.
+	 * Definition of special case: There is a pre-exist point which is both
+	 * dependent and incident to the conic and the line.
 	 * 
-	 * i.e. there is a special case if and only if there exists one point S such that 
-	 * (1) the conic was constructed through S, or S is already some intersection point of the conic with other object;
-	 * (2) the line was constructed through S, or S is already some intersection point of the line with other object.
+	 * i.e. there is a special case if and only if there exists one point S such
+	 * that (1) the conic was constructed through S, or S is already some
+	 * intersection point of the conic with other object; (2) the line was
+	 * constructed through S, or S is already some intersection point of the
+	 * line with other object.
 	 * 
 	 * Therefore, "addIncidence()" should be called in the following Algos:
 	 * AlgoJoinPoints, AlgoJoinPointsRay, AlgoJoinPointsSegment
-	 * AlgoLinePointLine, AlgoLinePointVector, AlgoOrthoLinePointLine, AlgoOrthoLinePointVector, AlgoOrthoLinePointConic
-	 * AlgoConicFivePoints, AlgoEllipseFociPoint, AlgoHyperbolaFociPoint
-	 * AlgoIntersectLineXXX, AlgoIntersectXXXLine
-	 * AlgoIntersectConicXXX, AlgoIntersectXXXConic
-	 * AlgoPointOnPath
-	 * GeoLine.setStartPoint, GeoLine.setEndPoint
+	 * AlgoLinePointLine, AlgoLinePointVector, AlgoOrthoLinePointLine,
+	 * AlgoOrthoLinePointVector, AlgoOrthoLinePointConic AlgoConicFivePoints,
+	 * AlgoEllipseFociPoint, AlgoHyperbolaFociPoint AlgoIntersectLineXXX,
+	 * AlgoIntersectXXXLine AlgoIntersectConicXXX, AlgoIntersectXXXConic
+	 * AlgoPointOnPath GeoLine.setStartPoint, GeoLine.setEndPoint
 	 * 
 	 * @return true if this special case was handled.
 	 */
 	private boolean handleSpecialCase() {
-		// Numerical check does not work, because when a point incidentally stands on g and c, it may not be considered
+		// Numerical check does not work, because when a point incidentally
+		// stands on g and c, it may not be considered
 		// as special case
 		/*
 		 * if (g.startPoint != null && c.isOnPath(g.startPoint,
@@ -306,19 +306,19 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 							&& p.getIncidenceList().contains(g)) {
 
 						// TODO: this is just a TEMPORARY FIX for #94.
-						//if (g.isOnPath(p, Kernel.EPSILON)
-							//	&& c.isOnPath(p, Kernel.EPSILON))
-							//existingIntersection = p;
+						// if (g.isOnPath(p, Kernel.EPSILON)
+						// && c.isOnPath(p, Kernel.EPSILON))
+						// existingIntersection = p;
 
 						existingIntersection = p;
 						break;
-					} /* else if (!(p.getNonIncidenceList() != null && p //no probabilistic checking anymore. See #1044
-							.getNonIncidenceList().contains(g))
-							&& p.addIncidenceWithProbabilisticChecking(g) 
-							) {
-						existingIntersection = p;
-						break;
-					} */
+					} /*
+					 * else if (!(p.getNonIncidenceList() != null && p //no
+					 * probabilistic checking anymore. See #1044
+					 * .getNonIncidenceList().contains(g)) &&
+					 * p.addIncidenceWithProbabilisticChecking(g) ) {
+					 * existingIntersection = p; break; }
+					 */
 				}
 			}
 		}
@@ -326,9 +326,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// if existingIntersection is still not found, find a point from line g
 		// on conic c
 		if (existingIntersection == null) {
-			if(handleSpecialCasePoint(g.getStartPoint())){
+			if (handleSpecialCasePoint(g.getStartPoint())) {
 				existingIntersection = g.getStartPoint();
-			}else if(handleSpecialCasePoint(g.getEndPoint())){
+			} else if (handleSpecialCasePoint(g.getEndPoint())) {
 				existingIntersection = g.getEndPoint();
 			}
 		}
@@ -338,7 +338,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 			if (pointsOnLine != null) {
 				// get a point from pointsOnLine to see if it is on c.
 				for (int i = 0; i < pointsOnLine.size(); ++i) {
-					if(handleSpecialCasePoint(pointsOnLine.get(i))){
+					if (handleSpecialCasePoint(pointsOnLine.get(i))) {
 						existingIntersection = pointsOnLine.get(i);
 						break;
 					}
@@ -349,7 +349,6 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		// TODO: maybe there's a point neither from conic c nor from line g that
 		// is an existing intersection!
 		// efficient algorithm for this might only rely on automatic proving
-
 
 		// if existingIntersection is still not found, report no special case
 		// handled
@@ -407,7 +406,7 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	}
 
 	private boolean handleSpecialCasePoint(GeoPoint p) {
-		if(p == null){
+		if (p == null) {
 			return false;
 		}
 		if (p.isLabelSet()) { // an existing intersection should be
@@ -416,16 +415,16 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 					&& p.getIncidenceList().contains(c)) {
 
 				// TODO: this is just a TEMPORARY FIX for #94.
-				//if (g.isOnPath(p, Kernel.EPSILON)
-					//	&& c.isOnPath(p, Kernel.EPSILON))
-				//	existingIntersection = p;
+				// if (g.isOnPath(p, Kernel.EPSILON)
+				// && c.isOnPath(p, Kernel.EPSILON))
+				// existingIntersection = p;
 
 				return true;
-			} /* else if (p.addIncidenceWithProbabilisticChecking(c)) { //no probabilistic checking anymore. See #1044
-				existingIntersection = p;
-				AbstractApplication.debug(p);
-				break;
-			} */
+			} /*
+			 * else if (p.addIncidenceWithProbabilisticChecking(c)) { //no
+			 * probabilistic checking anymore. See #1044 existingIntersection =
+			 * p; AbstractApplication.debug(p); break; }
+			 */
 		}
 		return false;
 	}
@@ -505,9 +504,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 				}
 			}
 
-			//for (i = count; i < P.length; i++) {
-				//P[i].setUndefined();
-			//}
+			// for (i = count; i < P.length; i++) {
+			// P[i].setUndefined();
+			// }
 			return;
 		}
 
@@ -617,13 +616,15 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		intersectionType = ret;
 		return ret;
 	}
-	//not initializing this is important for performance
-	private static double [] xyz = new double[3];
+
+	// not initializing this is important for performance
+	private static double[] xyz = new double[3];
+
 	// do the actual computations
-	public final static synchronized int intersectLineConic(GeoLine g, GeoConicND c,
-			GeoPoint[] sol, double eps) {
+	public final static synchronized int intersectLineConic(GeoLine g,
+			GeoConicND c, GeoPoint[] sol, double eps) {
 		double[] A = c.getFlatMatrix();
-		
+
 		g.getnormalizedCoefficients(xyz);
 		double x = xyz[0];
 		double y = xyz[1];
@@ -658,15 +659,14 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 
 		// estimate err for delta; also avoid this too be too large
 		double delta = Math.min(Kernel.MIN_PRECISION,
-				Math.max(1, Math.abs(2 * d) + Math.abs(u) + Math.abs(w))
-						* eps);
+				Math.max(1, Math.abs(2 * d) + Math.abs(u) + Math.abs(w)) * eps);
 
 		// Erzeugende, Asymptote oder Treffgerade
-		if (Kernel.isZero(u,eps)) {
+		if (Kernel.isZero(u, eps)) {
 			// Erzeugende oder Asymptote
-			if (Kernel.isZero(d,eps)) {
+			if (Kernel.isZero(d, eps)) {
 				// Erzeugende
-				if (Kernel.isZero(w,eps)) {
+				if (Kernel.isZero(w, eps)) {
 					sol[0].setUndefined();
 					sol[1].setUndefined();
 					return INTERSECTION_PRODUCING_LINE;
@@ -762,25 +762,28 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 		return botanaVars.get(geo);
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			Polynomial[] ret = botanaPolynomials.get(geo);
 			if (ret != null)
 				return ret;
 		}
-		
+
 		// We cannot decide a statement yet if the conic is not a circle.
-		
-		/* In fact we cannot decide a statement properly if the "line" is a segment,
-		 * at least not algebraically (without using cylindrical algebraic decomposition or such).
-		 * But since we are doing constructive geometry, it's better to assume that
-		 * segment/circle intersection is not a real problem. TODO: Consider adding an NDG somehow
-		 * in this case (but maybe not really important and useful).
+
+		/*
+		 * In fact we cannot decide a statement properly if the "line" is a
+		 * segment, at least not algebraically (without using cylindrical
+		 * algebraic decomposition or such). But since we are doing constructive
+		 * geometry, it's better to assume that segment/circle intersection is
+		 * not a real problem. TODO: Consider adding an NDG somehow in this case
+		 * (but maybe not really important and useful).
 		 * 
 		 * See also AlgoIntersectLines.
 		 */
-		
-		if (g != null && c != null && /* !g.isGeoSegment() && */ c.isCircle()) {
+
+		if (g != null && c != null && /* !g.isGeoSegment() && */c.isCircle()) {
 			Variable[] botanaVarsThis = new Variable[2];
 			if (botanaVars == null) {
 				botanaVars = new HashMap<GeoElement, Variable[]>();
@@ -807,27 +810,32 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 				if (!otherGeo.equals(geo)) {
 					botanaPolynomialsThis = new Polynomial[3];
 					botanaVarsOther = botanaVars.get(otherGeo);
-					botanaPolynomialsThis[2] = (Polynomial.sqrDistance(botanaVarsThis[0], botanaVarsThis[1], botanaVarsOther[0], botanaVarsOther[1])
-							.multiply(new Polynomial(new Variable()))).subtract(new Polynomial(1));
+					botanaPolynomialsThis[2] = (Polynomial.sqrDistance(
+							botanaVarsThis[0], botanaVarsThis[1],
+							botanaVarsOther[0], botanaVarsOther[1])
+							.multiply(new Polynomial(new Variable())))
+							.subtract(new Polynomial(1));
 					found = true;
 				}
 			}
 			if (!found) {
 				botanaPolynomialsThis = new Polynomial[2];
 			}
-			
+
 			Variable[] vg = g.getBotanaVars(geo); // 4 variables from the line
 			Variable[] vc = c.getBotanaVars(geo); // 4 variables from the circle
-			botanaPolynomialsThis[0] = Polynomial.collinear(vg[0], vg[1], vg[2], vg[3], botanaVarsThis[0], botanaVarsThis[1]); 
-			botanaPolynomialsThis[1] = Polynomial.equidistant(vc[2], vc[3], vc[0], vc[1], botanaVarsThis[0], botanaVarsThis[1]);
+			botanaPolynomialsThis[0] = Polynomial.collinear(vg[0], vg[1],
+					vg[2], vg[3], botanaVarsThis[0], botanaVarsThis[1]);
+			botanaPolynomialsThis[1] = Polynomial.equidistant(vc[2], vc[3],
+					vc[0], vc[1], botanaVarsThis[0], botanaVarsThis[1]);
 
 			if (botanaPolynomials == null) {
 				botanaPolynomials = new HashMap<GeoElement, Polynomial[]>();
 			}
 			botanaPolynomials.put(geo, botanaPolynomialsThis);
-			
+
 			return botanaPolynomialsThis;
-			
+
 		}
 		throw new NoSymbolicParametersException();
 	}
@@ -836,8 +844,9 @@ public class AlgoIntersectLineConic extends AlgoIntersect implements SymbolicPar
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnIntersectLineConic(geo, this, scope);
 	}
 

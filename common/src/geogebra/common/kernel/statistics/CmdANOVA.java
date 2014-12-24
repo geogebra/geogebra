@@ -9,7 +9,7 @@ import geogebra.common.main.MyError;
 import geogebra.common.plugin.GeoClass;
 
 /**
- * ANOVA test 
+ * ANOVA test
  */
 public class CmdANOVA extends CommandProcessor {
 	/**
@@ -39,7 +39,7 @@ public class CmdANOVA extends CommandProcessor {
 				if (list.size() == 0)
 					throw argErr(app, c.getName(), arg[0]);
 
-				if (list.get(0).isGeoList()) { 
+				if (list.get(0).isGeoList()) {
 					GeoElement[] ret = { ANOVATest(c.getLabel(),
 							(GeoList) arg[0]) };
 					return ret;
@@ -56,20 +56,19 @@ public class CmdANOVA extends CommandProcessor {
 			}
 			// null ret should mean that an arg is not a GeoList
 			// so find the bad one
-			for(int i = 0; i <= n; i++){
-				if(!arg[i].isGeoList())
+			for (int i = 0; i <= n; i++) {
+				if (!arg[i].isGeoList())
 					throw argErr(app, c.getName(), arg[i]);
 			}
-			// throw error for any other reason ... 
+			// throw error for any other reason ...
 			throw argErr(app, c.getName(), arg[0]);
 		}
 	}
-	
+
 	final private GeoList ANOVATest(String label, GeoList dataArrayList) {
 		AlgoANOVA algo = new AlgoANOVA(cons, label, dataArrayList);
 		GeoList result = algo.getResult();
 		return result;
 	}
-
 
 }

@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoHyperbolaFociLength.java
@@ -29,52 +29,48 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Hyperbola for given foci and first semi-axis length
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
-public class AlgoHyperbolaFociLength extends AlgoConicFociLength {       
+public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 
-    public AlgoHyperbolaFociLength(
-        Construction cons,
-        String label,
-        GeoPointND A,
-        GeoPointND B,
-        NumberValue a) {
-        super(cons, label, A, B, a);
-    }
+	public AlgoHyperbolaFociLength(Construction cons, String label,
+			GeoPointND A, GeoPointND B, NumberValue a) {
+		super(cons, label, A, B, a);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
 		return Commands.Hyperbola;
 	}
-    
-    @Override
-	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
-    }   
 
+	@Override
+	public int getRelatedModeID() {
+		return EuclidianConstants.MODE_HYPERBOLA_THREE_POINTS;
+	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnHyperbolaFociLength(geo, this, scope);
 	}
 
-	/////////////////////////////////
+	// ///////////////////////////////
 	// TRICKS FOR XOY PLANE
-	/////////////////////////////////
-
+	// ///////////////////////////////
 
 	@Override
-	protected int getInputLengthForXML(){
+	protected int getInputLengthForXML() {
 		return getInputLengthForXMLMayNeedXOYPlane();
-	}	
+	}
 
 	@Override
-	protected int getInputLengthForCommandDescription(){
+	protected int getInputLengthForCommandDescription() {
 		return getInputLengthForCommandDescriptionMayNeedXOYPlane();
 	}
 
@@ -83,11 +79,11 @@ public class AlgoHyperbolaFociLength extends AlgoConicFociLength {
 		return getInputMaybeXOYPlane(i);
 	}
 
-
 	@Override
 	final public String toString(StringTemplate tpl) {
 
-		return getLoc().getPlain("HyperbolaWithFociABandFirstAxisLengthC",A.getLabel(tpl),
-				B.getLabel(tpl),a.toGeoElement().getLabel(tpl));	 
+		return getLoc().getPlain("HyperbolaWithFociABandFirstAxisLengthC",
+				A.getLabel(tpl), B.getLabel(tpl),
+				a.toGeoElement().getLabel(tpl));
 	}
 }

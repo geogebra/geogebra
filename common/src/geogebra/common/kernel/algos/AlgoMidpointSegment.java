@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoMidPoint.java
@@ -35,107 +35,106 @@ import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.HashSet;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
-public class AlgoMidpointSegment extends AlgoElement implements SymbolicParametersAlgo,
-	SymbolicParametersBotanaAlgo, RestrictionAlgoForLocusEquation {
+public class AlgoMidpointSegment extends AlgoElement implements
+		SymbolicParametersAlgo, SymbolicParametersBotanaAlgo,
+		RestrictionAlgoForLocusEquation {
 
-    private GeoSegment segment; // input
-    private GeoPoint M; // output        
-    private GeoPoint P, Q; // endpoints of segment
+	private GeoSegment segment; // input
+	private GeoPoint M; // output
+	private GeoPoint P, Q; // endpoints of segment
 
 	private Polynomial[] polynomials;
 	private Variable[] botanaVars;
 	private Polynomial[] botanaPolynomials;
 
-    
 	/** Creates new AlgoVector */
-    public AlgoMidpointSegment(Construction cons, String label, GeoSegment segment) {
-    	this(cons, segment);
-    	M.setLabel(label);
-    }
-	
-    AlgoMidpointSegment(Construction cons, GeoSegment segment) {
-        super(cons);
-        this.segment = segment;
-        
-        // create new Point
-        M = new GeoPoint(cons);
-        setInputOutput();
-        
-        P = segment.getStartPoint();
-    	Q = segment.getEndPoint();
+	public AlgoMidpointSegment(Construction cons, String label,
+			GeoSegment segment) {
+		this(cons, segment);
+		M.setLabel(label);
+	}
 
-        // compute M = (P + Q)/2
-        compute();        
-    }
+	AlgoMidpointSegment(Construction cons, GeoSegment segment) {
+		super(cons);
+		this.segment = segment;
 
-    @Override
+		// create new Point
+		M = new GeoPoint(cons);
+		setInputOutput();
+
+		P = segment.getStartPoint();
+		Q = segment.getEndPoint();
+
+		// compute M = (P + Q)/2
+		compute();
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Midpoint;
 	}
 
-    @Override
+	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_MIDPOINT;
-    }
-    
-    // for AlgoElement
-    @Override
+		return EuclidianConstants.MODE_MIDPOINT;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = segment;        
+		input = new GeoElement[1];
+		input[0] = segment;
 
-        super.setOutputLength(1);
-        super.setOutput(0, M);
-        setDependencies(); // done by AlgoElement
-    }
+		super.setOutputLength(1);
+		super.setOutput(0, M);
+		setDependencies(); // done by AlgoElement
+	}
 
-    // Created for LocusEqu
-    public GeoPoint getP() {
-    	return P;
-    }
-    
-    // Created for LocusEqu
-    public GeoPoint getQ() {
-    	return Q;
-    }
-    
-    public GeoPoint getPoint() {
-        return M;
-    }
+	// Created for LocusEqu
+	public GeoPoint getP() {
+		return P;
+	}
 
-    // calc midpoint
-    @Override
+	// Created for LocusEqu
+	public GeoPoint getQ() {
+		return Q;
+	}
+
+	public GeoPoint getPoint() {
+		return M;
+	}
+
+	// calc midpoint
+	@Override
 	public final void compute() {
-        boolean pInf = P.isInfinite();
-        boolean qInf = Q.isInfinite();
+		boolean pInf = P.isInfinite();
+		boolean qInf = Q.isInfinite();
 
-        if (!pInf && !qInf) {
-            // M = (P + Q) / 2          
-            M.setCoords(
-                (P.inhomX + Q.inhomX) / 2.0d,
-                (P.inhomY + Q.inhomY) / 2.0d,
-                1.0);
-        } else if (pInf && qInf)
-            M.setUndefined();
-        else if (pInf)
-            M.setCoords(P);
-        else // qInf
-            M.setCoords(Q);
-    }
+		if (!pInf && !qInf) {
+			// M = (P + Q) / 2
+			M.setCoords((P.inhomX + Q.inhomX) / 2.0d,
+					(P.inhomY + Q.inhomY) / 2.0d, 1.0);
+		} else if (pInf && qInf)
+			M.setUndefined();
+		else if (pInf)
+			M.setCoords(P);
+		else
+			// qInf
+			M.setCoords(Q);
+	}
 
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        return getLoc().getPlain("MidpointOfA",segment.getLabel(tpl));
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		return getLoc().getPlain("MidpointOfA", segment.getLabel(tpl));
 
-    }
+	}
 
 	public SymbolicParameters getSymbolicParameters() {
 		return new SymbolicParameters(this);
@@ -150,24 +149,24 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 		}
 		throw new NoSymbolicParametersException();
 	}
-	
-	public int[] getDegrees()
-			throws NoSymbolicParametersException {
+
+	public int[] getDegrees() throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			int[] degreeP = P.getDegrees();
 			int[] degreeQ = Q.getDegrees();
-			
-			int[] result =new int[3];
-			result[0]=Math.max(degreeP[0]+degreeQ[2],degreeQ[0]+degreeP[2]);
-			result[1] = Math.max(degreeP[1]+degreeQ[2],degreeQ[1]+degreeP[2]);
-			result[2] = degreeP[2]+degreeQ[2];
+
+			int[] result = new int[3];
+			result[0] = Math.max(degreeP[0] + degreeQ[2], degreeQ[0]
+					+ degreeP[2]);
+			result[1] = Math.max(degreeP[1] + degreeQ[2], degreeQ[1]
+					+ degreeP[2]);
+			result[2] = degreeP[2] + degreeQ[2];
 			return result;
 		}
 		throw new NoSymbolicParametersException();
 	}
 
-	public BigInteger[] getExactCoordinates(
-			HashMap<Variable, BigInteger> values)
+	public BigInteger[] getExactCoordinates(HashMap<Variable, BigInteger> values)
 			throws NoSymbolicParametersException {
 		if (P != null && Q != null) {
 			BigInteger[] pP = P.getExactCoordinates(values);
@@ -196,38 +195,40 @@ public class AlgoMidpointSegment extends AlgoElement implements SymbolicParamete
 		}
 		throw new NoSymbolicParametersException();
 	}
-    
+
 	public Variable[] getBotanaVars(GeoElement geo) {
 		return botanaVars;
 	}
 
-	public Polynomial[] getBotanaPolynomials(GeoElement geo) throws NoSymbolicParametersException {
+	public Polynomial[] getBotanaPolynomials(GeoElement geo)
+			throws NoSymbolicParametersException {
 		if (botanaPolynomials != null) {
 			return botanaPolynomials;
 		}
-		
+
 		if (P == null || Q == null)
 			throw new NoSymbolicParametersException();
-		
-		if (botanaVars==null){
+
+		if (botanaVars == null) {
 			botanaVars = new Variable[2];
-			botanaVars[0]=new Variable();
-			botanaVars[1]=new Variable();
+			botanaVars[0] = new Variable();
+			botanaVars[1] = new Variable();
 		}
-		
-		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P,Q,botanaVars);
+
+		botanaPolynomials = SymbolicParameters.botanaPolynomialsMidpoint(P, Q,
+				botanaVars);
 		return botanaPolynomials;
-		
+
 	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnMidpointSegment(geo, this, scope);
 	}
 
-    
 }

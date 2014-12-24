@@ -20,11 +20,9 @@ public class CmdOrdinalRank extends CmdOneListFunction {
 	}
 
 	@Override
-	final protected GeoElement doCommand(String a, GeoList b)
-	{
+	final protected GeoElement doCommand(String a, GeoList b) {
 		AlgoOrdinalRank algo = new AlgoOrdinalRank(cons, a, b);
 		return algo.getResult();
 	}
-
 
 }

@@ -35,7 +35,7 @@ import geogebra.common.plugin.Operation;
 public class AlgoNumerator extends AlgoElement {
 
 	private FunctionalNVar f; // input
-	private GeoElement g; // output        
+	private GeoElement g; // output
 
 	public AlgoNumerator(Construction cons, String label, FunctionalNVar f) {
 		this(cons, f);
@@ -44,14 +44,14 @@ public class AlgoNumerator extends AlgoElement {
 
 	public AlgoNumerator(Construction cons, FunctionalNVar f) {
 		super(cons);
-		this.f = f;            	
+		this.f = f;
 
 		if (f instanceof GeoFunction) {
-			g = new GeoFunction(cons);     
+			g = new GeoFunction(cons);
 		} else {
-			g = new GeoFunctionNVar(cons);             	
+			g = new GeoFunctionNVar(cons);
 		}
-		setInputOutput(); // for AlgoElement        
+		setInputOutput(); // for AlgoElement
 		compute();
 	}
 
@@ -76,83 +76,82 @@ public class AlgoNumerator extends AlgoElement {
 	}
 
 	@Override
-	public final void compute() {       
+	public final void compute() {
 		if (!f.isDefined()) {
 			g.setUndefined();
 			return;
-		}    
+		}
 
 		ExpressionNode root = f.getFunctionExpression();
 		if (root.getOperation() != Operation.DIVIDE) {
 			g.setUndefined();
 			return;
-		}    
+		}
 
 		ExpressionValue ev = getPart(root); // get Numerator
 
-		//Application.debug(root.left.getClass()+"");
+		// Application.debug(root.left.getClass()+"");
 
 		if (ev.isExpressionNode()) {
 
 			if (f instanceof GeoFunction) {
 
-				Function fun = new Function((ExpressionNode)ev, f.getFunction().getFunctionVariables()[0]);
-				((GeoFunction)g).setFunction(fun);
+				Function fun = new Function((ExpressionNode) ev, f
+						.getFunction().getFunctionVariables()[0]);
+				((GeoFunction) g).setFunction(fun);
 			} else {
-				FunctionNVar fun = new FunctionNVar((ExpressionNode)ev, f.getFunction().getFunctionVariables());       		
-				((GeoFunctionNVar)g).setFunction(fun);
+				FunctionNVar fun = new FunctionNVar((ExpressionNode) ev, f
+						.getFunction().getFunctionVariables());
+				((GeoFunctionNVar) g).setFunction(fun);
 			}
 		} else if (ev instanceof FunctionVariable) {
 			if (f instanceof GeoFunction) {
 
 				// construct function f(x) = x
-				FunctionVariable fv = new FunctionVariable(kernel);	
-				ExpressionNode en = new ExpressionNode(kernel,fv);
-				Function tempFun = new Function(en,fv);
+				FunctionVariable fv = new FunctionVariable(kernel);
+				ExpressionNode en = new ExpressionNode(kernel, fv);
+				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
-				((GeoFunction)g).setFunction(tempFun);		
+				((GeoFunction) g).setFunction(tempFun);
 
 			} else {
 
 				// construct eg f(a,b)=b
-				GeoFunctionNVar ff = ((GeoFunctionNVar)f);
+				GeoFunctionNVar ff = ((GeoFunctionNVar) f);
 				FunctionNVar fun = ff.getFunction();
-				FunctionVariable[] vars = fun.getFunctionVariables();        		
-				ExpressionNode en = new ExpressionNode(kernel,ev);    			
+				FunctionVariable[] vars = fun.getFunctionVariables();
+				ExpressionNode en = new ExpressionNode(kernel, ev);
 				FunctionNVar newFun = new FunctionNVar(en, vars);
-				((GeoFunctionNVar)g).setFunction(newFun);
-
+				((GeoFunctionNVar) g).setFunction(newFun);
 
 			}
-		}
-		else if (ev instanceof NumberValue) {
+		} else if (ev instanceof NumberValue) {
 
 			if (f instanceof GeoFunction) {
 				// construct function f(x) = 1
-				FunctionVariable fv = new FunctionVariable(kernel);	
-				ExpressionNode en = new ExpressionNode(kernel,new MyDouble(kernel, ((NumberValue)ev).getDouble()));
-				Function tempFun = new Function(en,fv);
+				FunctionVariable fv = new FunctionVariable(kernel);
+				ExpressionNode en = new ExpressionNode(kernel, new MyDouble(
+						kernel, ((NumberValue) ev).getDouble()));
+				Function tempFun = new Function(en, fv);
 				tempFun.initFunction();
-				((GeoFunction)g).setFunction(tempFun);		
+				((GeoFunction) g).setFunction(tempFun);
 			} else {
-				//GeoFunctionNVar
+				// GeoFunctionNVar
 
 				// construct eg f(a,b)=3
-				GeoFunctionNVar ff = ((GeoFunctionNVar)f);
+				GeoFunctionNVar ff = ((GeoFunctionNVar) f);
 				FunctionNVar fun = ff.getFunction();
-				FunctionVariable[] vars = fun.getFunctionVariables();        		
-				ExpressionNode en = new ExpressionNode(kernel,ev);    			
+				FunctionVariable[] vars = fun.getFunctionVariables();
+				ExpressionNode en = new ExpressionNode(kernel, ev);
 				FunctionNVar newFun = new FunctionNVar(en, vars);
-				((GeoFunctionNVar)g).setFunction(newFun);
+				((GeoFunctionNVar) g).setFunction(newFun);
 
 			}
-		}
-		else
-		{
-			//Application.debug(ev.getClass()+"");
+		} else {
+			// Application.debug(ev.getClass()+"");
 			g.setUndefined();
 			return;
-		}    
+		}
 
 	}
 

@@ -24,7 +24,8 @@ import geogebra.common.kernel.commands.Commands;
  * @author Michael Borcherds
  * @version
  */
-public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomValue {
+public class AlgoRandomNormal extends AlgoTwoNumFunction implements
+		SetRandomValue {
 
 	public AlgoRandomNormal(Construction cons, String label, NumberValue a,
 			NumberValue b) {
@@ -54,7 +55,12 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomVal
 		double fac, rsq, v1, v2;
 		do {
 			v1 = 2.0 * kernel.getApplication().getRandomNumber() - 1;
-			v2 = 2.0 * kernel.getApplication().getRandomNumber() - 1; // two random numbers from -1 to +1
+			v2 = 2.0 * kernel.getApplication().getRandomNumber() - 1; // two
+																		// random
+																		// numbers
+																		// from
+																		// -1 to
+																		// +1
 			rsq = v1 * v1 + v2 * v2;
 		} while (rsq >= 1.0 || rsq == 0.0); // keep going until they are in the
 											// unit circle
@@ -67,6 +73,6 @@ public class AlgoRandomNormal extends AlgoTwoNumFunction implements SetRandomVal
 	public void setRandomValue(double d) {
 		num.setValue(d);
 		num.updateRepaint();
-			
+
 	}
 }

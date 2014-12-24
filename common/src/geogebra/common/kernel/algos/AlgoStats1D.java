@@ -67,7 +67,6 @@ public abstract class AlgoStats1D extends AlgoElement {
 			GeoList geoList2, int stat) {
 		this(cons, label, geoList, geoList2, null, stat);
 	}
-	
 
 	protected AlgoStats1D(Construction cons, String label, GeoList geoList,
 			GeoList geoList2, GeoNumeric Truncate, int stat) {
@@ -79,7 +78,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 			int stat) {
 		this(cons, geoList, geoList2, null, stat);
 	}
-	
+
 	/**
 	 * @param cons
 	 * @param geoList
@@ -87,7 +86,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 	 * @param Truncate
 	 * @param stat
 	 */
-	protected AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2, 
+	protected AlgoStats1D(Construction cons, GeoList geoList, GeoList geoList2,
 			GeoNumeric Truncate, int stat) {
 		super(cons);
 		this.geoList = geoList;
@@ -97,14 +96,14 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		if (geoList.size() > 0 && geoList.get(0).isAngle()) {
 			result = new GeoAngle(cons);
-			
-			// allow unbounded angles (from ggb44). This could break old files (unlikely)
-			((GeoAngle)result).setAngleStyle(AngleStyle.UNBOUNDED);
+
+			// allow unbounded angles (from ggb44). This could break old files
+			// (unlikely)
+			((GeoAngle) result).setAngleStyle(AngleStyle.UNBOUNDED);
 		} else {
 			result = new GeoNumeric(cons);
 		}
-		
-		
+
 		setInputOutput();
 		compute();
 	}
@@ -123,7 +122,7 @@ public abstract class AlgoStats1D extends AlgoElement {
 		input = new GeoElement[inputList.size()];
 		inputList.toArray(input);
 		inputList.clear();
-		
+
 		setOnlyOutput(result);
 		setDependencies(); // done by AlgoElement
 	}
@@ -143,18 +142,18 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		if (geoList2 != null) {
 			if (!geoList2.isDefined()
-					// return undefined if we can't use number * freq or midpoint * freq
+			// return undefined if we can't use number * freq or midpoint * freq
 					|| !(geoList.size() == geoList2.size() || geoList.size() == geoList2
-					.size() + 1)) {
+							.size() + 1)) {
 				result.setUndefined();
 				return;
 			}
 		}
-		
+
 		// eg SigmaXX[{1, 2, 3}, {2, 4, 8}]
 		// Sum[{1, 2, 3}, {2, 4, 8}]
 		// Product[{1, 2, 3}, {2, 4, 8}]
-		
+
 		int truncate;
 		double size = geoList.size();
 
@@ -219,22 +218,24 @@ public abstract class AlgoStats1D extends AlgoElement {
 
 		// list of numbers with list of frequencies
 		else {
-			// if the number list is a list of classes, then we must use a midpoint
+			// if the number list is a list of classes, then we must use a
+			// midpoint
 			boolean useMidpoint = geoList.size() == geoList2.size() + 1;
-			size = useMidpoint?  size - 1 : size;
-			
+			size = useMidpoint ? size - 1 : size;
+
 			double val;
 			double val_by_freq;
 			for (int i = 0; i < size; i++) {
 				geo = geoList.get(i);
 				geoFreq = geoList2.get(i);
-				if (!(geo instanceof NumberValue) || !(geoFreq instanceof NumberValue)) {
+				if (!(geo instanceof NumberValue)
+						|| !(geoFreq instanceof NumberValue)) {
 					result.setUndefined();
 					return;
 				}
-				
+
 				val = ((NumberValue) geo).getDouble();
-				
+
 				// compute midpoint value if needed
 				if (useMidpoint) {
 					geo2 = geoList.get(i + 1);
@@ -246,14 +247,13 @@ public abstract class AlgoStats1D extends AlgoElement {
 				}
 
 				frequency = ((NumberValue) geoFreq).getDouble();
-				
+
 				// handle bad frequency
 				if (frequency < 0) {
 					result.setUndefined();
 					return;
 				}
-				
-				
+
 				val_by_freq = val * frequency;
 				sumVal += val_by_freq;
 				sumSquares += val * val_by_freq;
@@ -306,4 +306,3 @@ public abstract class AlgoStats1D extends AlgoElement {
 	// TODO Consider locusequability
 
 }
-

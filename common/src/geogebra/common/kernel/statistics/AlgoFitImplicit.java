@@ -29,7 +29,6 @@ import org.apache.commons.math.linear.RealVector;
 import org.apache.commons.math.linear.SingularValueDecomposition;
 import org.apache.commons.math.linear.SingularValueDecompositionImpl;
 
-
 public class AlgoFitImplicit extends AlgoElement {
 
 	private GeoList pointlist; // input
@@ -55,7 +54,7 @@ public class AlgoFitImplicit extends AlgoElement {
 		super(cons);
 
 		this.pointlist = pointlist;
-		this.orderGeo = (GeoElement)arg;
+		this.orderGeo = (GeoElement) arg;
 		fitfunction = new GeoImplicitPoly(cons);
 		setInputOutput();
 		compute();
@@ -108,21 +107,21 @@ public class AlgoFitImplicit extends AlgoElement {
 				return;
 			}
 
-			//App.debug("datasize = " + datasize);
-			//App.debug("order = " + order);
-			//App.debug("M cols = "+M.getColumnDimension());
-			//App.debug("M rows = "+M.getRowDimension());
-			//App.debug("M = "+M.toString());
+			// App.debug("datasize = " + datasize);
+			// App.debug("order = " + order);
+			// App.debug("M cols = "+M.getColumnDimension());
+			// App.debug("M rows = "+M.getRowDimension());
+			// App.debug("M = "+M.toString());
 
-			SingularValueDecomposition svd =
-					new SingularValueDecompositionImpl(M);
+			SingularValueDecomposition svd = new SingularValueDecompositionImpl(
+					M);
 
 			V = svd.getV();
 
-			//App.debug("V = "+V.toString());
+			// App.debug("V = "+V.toString());
 
-			//App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
-			//App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
+			// App.debug("size of M = "+M.getColumnDimension()+" "+M.getRowDimension());
+			// App.debug("size of V = "+V.getColumnDimension()+" "+V.getRowDimension());
 
 			makeFunction();
 
@@ -143,7 +142,7 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		// Make matrixes with the right values: M*P=Y
 		M = new Array2DRowRealMatrix(datasize, (order + 1) * (order + 2) / 2);
-		
+
 		for (int r = 0; r < datasize; r++) {
 			geo = pointlist.get(r);
 			if (!geo.isGeoPoint()) {
@@ -156,21 +155,20 @@ public class AlgoFitImplicit extends AlgoElement {
 			int c = 0;
 
 			// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
-			for (int i = 0 ; i <= order ; i++) {
-				for (int xpower = 0 ; xpower <= i ; xpower++) {
+			for (int i = 0; i <= order; i++) {
+				for (int xpower = 0; xpower <= i; xpower++) {
 
 					int ypower = i - xpower;
 
 					double val = power(x, xpower) * power(y, ypower);
-					//App.debug(val + "x^"+xpower+" * y^"+ypower);
+					// App.debug(val + "x^"+xpower+" * y^"+ypower);
 
-					M.setEntry(r, c++, val);					
+					M.setEntry(r, c++, val);
 
 				}
 			}
 
 		}
-		
 
 		return true;
 
@@ -199,21 +197,22 @@ public class AlgoFitImplicit extends AlgoElement {
 
 		int order = (int) orderGeo.evaluateDouble();
 
-		double[][] coeffs = new double[order+1][order+1];
+		double[][] coeffs = new double[order + 1][order + 1];
 
-		//App.debug("row/cols = "+V.getRowDimension() + " "+ V.getColumnDimension()+" "+(order * (order + 3) / 2 -1));
-		
-		//App.debug(V.toString());
+		// App.debug("row/cols = "+V.getRowDimension() + " "+
+		// V.getColumnDimension()+" "+(order * (order + 3) / 2 -1));
+
+		// App.debug(V.toString());
 
 		RealVector coeffsRV = V.getColumnVector(V.getColumnDimension() - 1);
 
 		int c = 0;
 
 		// create powers eg x^2y^0, x^1y^1, x^0*y^2, x, y, 1
-		for (int i = 0 ; i <= order ; i++) {
-			for (int j = 0 ; j <= i ; j++) {
+		for (int i = 0; i <= order; i++) {
+			for (int j = 0; j <= i; j++) {
 
-				coeffs[j][i-j] = coeffsRV.getEntry(c++);
+				coeffs[j][i - j] = coeffsRV.getEntry(c++);
 
 			}
 		}
