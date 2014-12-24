@@ -149,7 +149,7 @@ public class DialogManagerMinimal extends DialogManager {
 			String initText, boolean changingSign, String checkBoxText,
 			AsyncOperation callback) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

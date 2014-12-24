@@ -31,7 +31,7 @@ import org.scilab.forge.jlatexmath.TeXFormula;
  * @author Calixte DENIZET
  */
 public class LaTeXPreviewerPanel extends JPanel {
-	
+
 	private static final long serialVersionUID = 1L;
 	private static final int INSET = 3;
 	private static final Rectangle NULLRECT = new Rectangle(0, 0, 0, 0);
@@ -39,7 +39,7 @@ public class LaTeXPreviewerPanel extends JPanel {
 	private static final int defaultSize = 15;
 
 	private BufferedImage im;
-	//private Icon icon;
+	// private Icon icon;
 	private int width;
 	private int height;
 
@@ -77,18 +77,18 @@ public class LaTeXPreviewerPanel extends JPanel {
 			f = f.substring(1, f.length() - 1);
 		}
 
-        im = (BufferedImage)TeXFormula.getPartialTeXFormula(f).createBufferedImage(TeXConstants.STYLE_DISPLAY, defaultSize, Color.black, Color.white);
+		im = (BufferedImage) TeXFormula.getPartialTeXFormula(f)
+				.createBufferedImage(TeXConstants.STYLE_DISPLAY, defaultSize,
+						Color.black, Color.white);
 
-/*
-		icon = TeXFormula.getPartialTeXFormula(f).createTeXIcon(
-				TeXConstants.STYLE_DISPLAY, defaultSize);
-		if (icon == null) {
-			icon = TeXFormula.getPartialTeXFormula("").createTeXIcon(
-					TeXConstants.STYLE_DISPLAY, defaultSize);
-		}
-
-		width = icon.getIconWidth();
-		height = icon.getIconHeight();*/
+		/*
+		 * icon = TeXFormula.getPartialTeXFormula(f).createTeXIcon(
+		 * TeXConstants.STYLE_DISPLAY, defaultSize); if (icon == null) { icon =
+		 * TeXFormula.getPartialTeXFormula("").createTeXIcon(
+		 * TeXConstants.STYLE_DISPLAY, defaultSize); }
+		 * 
+		 * width = icon.getIconWidth(); height = icon.getIconHeight();
+		 */
 		width = im.getWidth();
 		height = im.getHeight();
 		Dimension dim = new Dimension(width + 2 * INSET, height + 2 * INSET);
@@ -106,13 +106,11 @@ public class LaTeXPreviewerPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		/*
-		if (icon != null) {
-			g.setColor(Color.WHITE);
-			g.fillRect(0, 0, width + 2 * INSET, height + 2 * INSET);
-			// g.setColor(Color.BLACK);
-			// g.drawRect(0, 0, width + 2 * INSET - 1, height + 2 * INSET - 1);
-			icon.paintIcon(this, g, INSET, INSET);
-		}*/
+		 * if (icon != null) { g.setColor(Color.WHITE); g.fillRect(0, 0, width +
+		 * 2 * INSET, height + 2 * INSET); // g.setColor(Color.BLACK); //
+		 * g.drawRect(0, 0, width + 2 * INSET - 1, height + 2 * INSET - 1);
+		 * icon.paintIcon(this, g, INSET, INSET); }
+		 */
 		if (im != null) {
 			g.setColor(Color.WHITE);
 			g.fillRect(0, 0, width + 2 * INSET, height + 2 * INSET);

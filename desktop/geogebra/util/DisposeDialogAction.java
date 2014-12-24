@@ -13,16 +13,16 @@ import javax.swing.JDialog;
 
 public class DisposeDialogAction extends AbstractAction {
 
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    JDialog dialog = null;
+	JDialog dialog = null;
 
-    public DisposeDialogAction(JDialog dialog) {
-	this.dialog = dialog;
-    }
+	public DisposeDialogAction(JDialog dialog) {
+		this.dialog = dialog;
+	}
 
-    public void actionPerformed(ActionEvent e) {
-	dialog.dispose();
-    }
+	public void actionPerformed(ActionEvent e) {
+		dialog.dispose();
+	}
 
 }

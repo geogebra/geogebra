@@ -15,51 +15,35 @@ import javax.swing.border.Border;
  *
  */
 public interface EuclidianViewInterfaceDesktop {
-	
 
-	
-	
 	/**
 	 * @return mouse position
 	 */
 	public java.awt.Point getMousePosition();
-	
+
 	/**
 	 * @return underlying component
 	 */
 	public JPanel getJPanel();
-	
+
 	/**
 	 * @see JPanel#setBorder(Border)
-	 * @param border new border
+	 * @param border
+	 *            new border
 	 */
 	public void setBorder(Border border);
-	
+
 	/**
-	 * @param cursor new cursor
+	 * @param cursor
+	 *            new cursor
 	 */
 	public void setCursor(Cursor cursor);
-	
-	
 
-
-
-	
-	
-
-	
 	/**
 	 * 
 	 * @return euclidian controller
 	 */
 	public EuclidianController getEuclidianController();
-
-
-	
-	
-	
-	
-
 
 	public BufferedImage getExportImage(double scale);
 

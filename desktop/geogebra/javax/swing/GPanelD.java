@@ -6,19 +6,20 @@ import javax.swing.JPanel;
 
 /**
  * Wrapper for javax.swing.JPanel
+ * 
  * @author judit
  */
-public class GPanelD extends GPanel{
+public class GPanelD extends GPanel {
 	private JPanel impl = null;
-	
-	public GPanelD(){
+
+	public GPanelD() {
 		impl = new JPanel();
 	}
 
-	public JPanel getImpl(){
+	public JPanel getImpl() {
 		return impl;
 	}
-	
+
 	@Override
 	public void setVisible(boolean visible) {
 		impl.setVisible(visible);

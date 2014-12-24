@@ -32,9 +32,9 @@ import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
 import org.scilab.forge.jlatexmath.dynamic.DynamicAtom;
 
 public class DrawEquationD extends DrawEquation {
-	private final JLabel	jl								= new JLabel();
-	boolean					drawEquationJLaTeXMathFirstCall	= true;
-	private Object			initJLaTeXMath;
+	private final JLabel jl = new JLabel();
+	boolean drawEquationJLaTeXMathFirstCall = true;
+	private Object initJLaTeXMath;
 
 	/**
 	 * Renders LaTeX equation using JLaTeXMath
@@ -51,9 +51,11 @@ public class DrawEquationD extends DrawEquation {
 	 * @return dimension of rendered equation
 	 */
 	final public Dimension drawEquationJLaTeXMath(final AppD app,
-			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
-			final geogebra.common.awt.GFont font, final boolean serif, final Color fgColor, final Color bgColor,
-			final boolean useCache, final Integer maxWidth, final Float lineSpace) {
+			final GeoElement geo, final Graphics2D g2, final int x,
+			final int y, final String text,
+			final geogebra.common.awt.GFont font, final boolean serif,
+			final Color fgColor, final Color bgColor, final boolean useCache,
+			final Integer maxWidth, final Float lineSpace) {
 		// TODO uncomment when \- works
 		// text=addPossibleBreaks(text);
 
@@ -67,9 +69,9 @@ public class DrawEquationD extends DrawEquation {
 
 			// initialise definitions
 			if (initJLaTeXMath == null) {
-				
+
 				StringBuilder initJLM = new StringBuilder();
-				
+
 				// used in ExpressionNode
 				// (for serializing GeoGebra expressions to LaTeX)
 				initJLM.append("\\DeclareMathOperator{\\sech}{sech} ");
@@ -88,24 +90,26 @@ public class DrawEquationD extends DrawEquation {
 				initJLM.append("\\DeclareMathOperator{\\fractionalPart}{fractionalPart} ");
 				initJLM.append("\\DeclareMathOperator{\\round}{round} ");
 				initJLM.append("\\newcommand{\\space}[0]{\\ } ");
-				
-				// #4068 so that we can use \questeq in Java and HTML5 
-			 	initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } "); 
-				
-				HashMap<String, geogebra.common.awt.GColor> ggbCols = GeoGebraColorConstants.getGeoGebraColors();
-				
+
+				// #4068 so that we can use \questeq in Java and HTML5
+				initJLM.append("\\newcommand{\\questeq}[0]{ \\stackrel{ \\small ?}{=} } ");
+
+				HashMap<String, geogebra.common.awt.GColor> ggbCols = GeoGebraColorConstants
+						.getGeoGebraColors();
+
 				Iterator<String> it = ggbCols.keySet().iterator();
-				
+
 				// add commands eg \red{text}
 				// same commands added to MathQuillGGB
 				while (it.hasNext()) {
 					String colStr = it.next();
-					
+
 					// can't have command eg \grey2
 					if (!Character.isDigit(colStr.charAt(colStr.length() - 1))) {
 						geogebra.common.awt.GColor col = ggbCols.get(colStr);
 
-						//eg initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}} ");
+						// eg
+						// initJLM.append("\\newcommand{\\red}[1]{\\textcolor{255,0,0}{#1}} ");
 						initJLM.append("\\newcommand{\\");
 						initJLM.append(colStr);
 						initJLM.append("}[1]{\\textcolor{");
@@ -115,14 +119,14 @@ public class DrawEquationD extends DrawEquation {
 						initJLM.append(',');
 						initJLM.append(col.getBlue());
 						initJLM.append("}{#1}} ");
-						
+
 						// generate JavaScript code for MathQuillGGB
-						//System.out.println("LatexCmds."+colStr+" = bind(Style, '\\\\"+colStr+"', '<span style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
+						// System.out.println("LatexCmds."+colStr+" = bind(Style, '\\\\"+colStr+"', '<span style=\"color:#"+StringUtil.toHexString(col)+"\"></span>');");
 
 					}
 				}
-				//AbstractApplication.debug(initJLM.toString());
-				
+				// AbstractApplication.debug(initJLM.toString());
+
 				initJLaTeXMath = new TeXFormula(initJLM.toString());
 			}
 
@@ -131,29 +135,33 @@ public class DrawEquationD extends DrawEquation {
 
 			// disable \magnification{factor} (makes Algebra View not work)
 			DefaultTeXFont.enableMagnification(false);
-			
+
 			for (Language l : Language.values()) {
-				
+
 				if (l.testChar != null) {
-					final Font testFont = app.getFontCanDisplayAwt(l.testChar, true,
-							Font.PLAIN, 12);
-					if (testFont != null)
-					{
-						TeXFormula.registerExternalFont(
-								Character.UnicodeBlock.of(l.testChar.charAt(0)),
-								testFont.getFontName());
-						//Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
+					final Font testFont = app.getFontCanDisplayAwt(l.testChar,
+							true, Font.PLAIN, 12);
+					if (testFont != null) {
+						TeXFormula
+								.registerExternalFont(Character.UnicodeBlock
+										.of(l.testChar.charAt(0)), testFont
+										.getFontName());
+						// Application.debug("LaTeX font registering: "+l.name+" "+testFont.getFontName());
 					}
-					
+
 				}
 			}
 
-
-			// Arabic is in standard Java fonts, so we don't need to search for a font
-			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
-			// Korean is in standard Java fonts, so we don't need to search for a font
-			TeXFormula.registerExternalFont(Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
-			// Japanese is in standard Java fonts, so we don't need to search for
+			// Arabic is in standard Java fonts, so we don't need to search for
+			// a font
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\u0681'), "Sans Serif", "Serif");
+			// Korean is in standard Java fonts, so we don't need to search for
+			// a font
+			TeXFormula.registerExternalFont(
+					Character.UnicodeBlock.of('\uB458'), "Sans Serif", "Serif");
+			// Japanese is in standard Java fonts, so we don't need to search
+			// for
 			// a font
 			TeXFormula.registerExternalFont(
 					Character.UnicodeBlock.of('\u30ea'), "Sans Serif", "Serif");
@@ -250,8 +258,7 @@ public class DrawEquationD extends DrawEquation {
 
 			jl.setForeground(fgColor);
 			icon.paintIcon(jl, g2, x, y);
-			return new Dimension(icon.getIconWidth(),
-					icon.getIconHeight());
+			return new Dimension(icon.getIconWidth(), icon.getIconHeight());
 
 		}
 
@@ -271,12 +278,14 @@ public class DrawEquationD extends DrawEquation {
 																 */, fgColor);
 			} else {
 				key = geo.getLaTeXCache().getCachedLaTeXKey(text,
-						font.getSize() + 3, style, new geogebra.awt.GColorD(fgColor));
+						font.getSize() + 3, style,
+						new geogebra.awt.GColorD(fgColor));
 			}
 
 			im = JLaTeXMathCache.getCachedTeXFormulaImage(key);
 
-			final int ret[] = JLaTeXMathCache.getCachedTeXFormulaDimensions(key);
+			final int ret[] = JLaTeXMathCache
+					.getCachedTeXFormulaDimensions(key);
 			width = ret[0];
 			height = ret[1];
 			// depth = ret[2];
@@ -320,43 +329,55 @@ public class DrawEquationD extends DrawEquation {
 	}
 
 	final public geogebra.common.awt.GDimension drawEquation(final App app,
-			final GeoElement geo, final geogebra.common.awt.GGraphics2D g2, final int x, final int y, final String text,
-			final geogebra.common.awt.GFont font, final boolean serif, final geogebra.common.awt.GColor fgColor,
-			final geogebra.common.awt.GColor bgColor,
-			final boolean useCache, boolean updateAgain) {
+			final GeoElement geo, final geogebra.common.awt.GGraphics2D g2,
+			final int x, final int y, final String text,
+			final geogebra.common.awt.GFont font, final boolean serif,
+			final geogebra.common.awt.GColor fgColor,
+			final geogebra.common.awt.GColor bgColor, final boolean useCache,
+			boolean updateAgain) {
 		return new geogebra.awt.GDimensionD(drawEquation((AppD) app, geo,
-				geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font, serif, fgColor,
-				bgColor, useCache, null, null));
+				geogebra.awt.GGraphics2DD.getAwtGraphics(g2), x, y, text, font,
+				serif, fgColor, bgColor, useCache, null, null));
 	}
 
 	final public static Dimension drawEquation(final AppD app,
-			final GeoElement geo, final Graphics2D g2, final int x, final int y, final String text,
-			final geogebra.common.awt.GFont font, final boolean serif, final geogebra.common.awt.GColor fgColor,
-			final geogebra.common.awt.GColor bgColor,
-			final boolean useCache, final Integer maxWidth, final Float lineSpace) {
+			final GeoElement geo, final Graphics2D g2, final int x,
+			final int y, final String text,
+			final geogebra.common.awt.GFont font, final boolean serif,
+			final geogebra.common.awt.GColor fgColor,
+			final geogebra.common.awt.GColor bgColor, final boolean useCache,
+			final Integer maxWidth, final Float lineSpace) {
 		// if (useJLaTeXMath)
 		return app.getDrawEquation().drawEquationJLaTeXMath(app, geo, g2, x, y,
-				text, font, serif, geogebra.awt.GColorD.getAwtColor(fgColor), geogebra.awt.GColorD.getAwtColor(bgColor),
-				useCache, maxWidth,
+				text, font, serif, geogebra.awt.GColorD.getAwtColor(fgColor),
+				geogebra.awt.GColorD.getAwtColor(bgColor), useCache, maxWidth,
 				lineSpace);
 		// else return drawEquationHotEqn(app, g2, x, y, text, font, fgColor,
 		// bgColor);
 	}
-	
+
 	/**
 	 * Draw a LaTeX image in the cell icon. Drawing is done twice. First draw
 	 * gives the needed size of the image. Second draw renders the image with
 	 * the correct dimensions.
-	 * @param app needed for {@link #drawEquationJLaTeXMath(AppD, GeoElement, Graphics2D, int, int, String, geogebra.common.awt.GFont, boolean, Color, Color, boolean, Integer, Float)}
-	 * @param latexIcon the LaTeX String will be drawn there
-	 * @param latex the LaTeX String to be drawn
-	 * @param font 
-	 * @param serif 
-	 * @param fgColor foreground color
-	 * @param bgColor background color
+	 * 
+	 * @param app
+	 *            needed for
+	 *            {@link #drawEquationJLaTeXMath(AppD, GeoElement, Graphics2D, int, int, String, geogebra.common.awt.GFont, boolean, Color, Color, boolean, Integer, Float)}
+	 * @param latexIcon
+	 *            the LaTeX String will be drawn there
+	 * @param latex
+	 *            the LaTeX String to be drawn
+	 * @param font
+	 * @param serif
+	 * @param fgColor
+	 *            foreground color
+	 * @param bgColor
+	 *            background color
 	 */
-	public void drawLatexImageIcon(final AppD app, ImageIcon latexIcon, final String latex,
-			final Font font, final boolean serif, final Color fgColor, final Color bgColor) {
+	public void drawLatexImageIcon(final AppD app, ImageIcon latexIcon,
+			final String latex, final Font font, final boolean serif,
+			final Color fgColor, final Color bgColor) {
 
 		// Create image with dummy size, then draw into it to get the correct
 		// size
@@ -371,11 +392,10 @@ public class DrawEquationD extends DrawEquation {
 				RenderingHints.VALUE_ANTIALIAS_ON);
 
 		geogebra.common.awt.GDimension d = new geogebra.awt.GDimensionD();
-		d = drawEquation(app, null,
-				new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex,
-				new geogebra.awt.GFontD(font), serif,
-				new geogebra.awt.GColorD(fgColor),
-				new geogebra.awt.GColorD(bgColor), true, false);
+		d = drawEquation(app, null, new geogebra.awt.GGraphics2DD(g2image), 0,
+				0, latex, new geogebra.awt.GFontD(font), serif,
+				new geogebra.awt.GColorD(fgColor), new geogebra.awt.GColorD(
+						bgColor), true, false);
 
 		// Now use this size and draw again to get the final image
 		image = new BufferedImage(d.getWidth(), d.getHeight(),
@@ -387,11 +407,10 @@ public class DrawEquationD extends DrawEquation {
 				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
 		g2image.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
 				RenderingHints.VALUE_ANTIALIAS_ON);
-		d = drawEquation(app, null,
-				new geogebra.awt.GGraphics2DD(g2image), 0, 0, latex,
-				new geogebra.awt.GFontD(font), serif,
-				new geogebra.awt.GColorD(fgColor),
-				new geogebra.awt.GColorD(bgColor), true, false);
+		d = drawEquation(app, null, new geogebra.awt.GGraphics2DD(g2image), 0,
+				0, latex, new geogebra.awt.GFontD(font), serif,
+				new geogebra.awt.GColorD(fgColor), new geogebra.awt.GColorD(
+						bgColor), true, false);
 
 		latexIcon.setImage(image);
 	}

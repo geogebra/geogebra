@@ -7,14 +7,14 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * Web implementation for the GeoGebraLogger 
+ * @author Zoltan Kovacs <zoltan@geogebra.org> Web implementation for the
+ *         GeoGebraLogger
  */
 public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 
 	private File logFile = null; // default
 	private FileWriter logFileWriter = null;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -33,9 +33,10 @@ public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 		if (msec < 10) {
 			msecS = "0" + msecS;
 		}
-		return calendar.get(Calendar.HOUR_OF_DAY) + ":" + minS + ":" + secS + "." + msecS;
+		return calendar.get(Calendar.HOUR_OF_DAY) + ":" + minS + ":" + secS
+				+ "." + msecS;
 	}
-	
+
 	@Override
 	public String getMemoryInfo() {
 		long usedK = (Runtime.getRuntime().totalMemory() - Runtime.getRuntime()
@@ -45,32 +46,34 @@ public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 				+ " max memory: " + Runtime.getRuntime().maxMemory()
 				+ "\n used memory (total-free): " + usedK + "K";
 	}
-	
+
 	@Override
 	public void setLogFile(String logFileName) {
 		if (logFile != null && logFileWriter != null) {
 			try {
 				logFileWriter.close();
 			} catch (IOException e) {
-				log(WARN, "Previous log file cannot be closed",1);
+				log(WARN, "Previous log file cannot be closed", 1);
 			}
 		}
 		logFile = new File(logFileName);
 		try {
 			logFileWriter = new FileWriter(logFile);
 		} catch (IOException e) {
-			log(WARN, "Log file " + logFileName + "cannot be opened",1);
-		}		
+			log(WARN, "Log file " + logFileName + "cannot be opened", 1);
+		}
 	}
-	
+
 	@Override
 	protected void print(String logEntry, Level level) {
-		if (getLogDestination() == LogDestination.WEB_CONSOLE ||
-				getLogDestination() == LogDestination.CONSOLES) {
+		if (getLogDestination() == LogDestination.WEB_CONSOLE
+				|| getLogDestination() == LogDestination.CONSOLES) {
 			// This is not supported in desktop.
 			// Falling back to use CONSOLE instead:
 			setLogDestination(LogDestination.CONSOLE);
-			log(WARN, "WEB_CONSOLE logging is not supported in desktop, falling back to use CONSOLE instead",1);
+			log(WARN,
+					"WEB_CONSOLE logging is not supported in desktop, falling back to use CONSOLE instead",
+					1);
 		}
 		if (getLogDestination() == LogDestination.FILE) {
 			if (logFileWriter != null) {
@@ -81,7 +84,7 @@ public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 				} catch (IOException e) {
 					// Falling back to use CONSOLE instead:
 					setLogDestination(LogDestination.CONSOLE);
-					log(WARN, "Error writing log file",1);
+					log(WARN, "Error writing log file", 1);
 					// Trying again (recursive call):
 					print(logEntry, level);
 					return;
@@ -92,8 +95,7 @@ public class GeoGebraLogger extends geogebra.common.util.debug.Log {
 		if (getLogDestination() == LogDestination.CONSOLE) {
 			if (level.getPriority() <= ERROR.getPriority()) {
 				System.err.println(logEntry);
-				}
-			else {
+			} else {
 				System.out.println(logEntry);
 			}
 			return;

@@ -28,16 +28,17 @@ public class GeoGebraApplet3D extends GeoGebraApplet {
 	 * and initializes applet if necessary.
 	 */
 	protected synchronized void initAppletImplementation() {
-		if (isAppletFullyLoaded()) return;
+		if (isAppletFullyLoaded())
+			return;
 
 		// create delegate object that implements our applet's methods
 		AppletImplementation3D applImpl = new AppletImplementation3D(this);
 
 		// initialize applet's user interface, this changes the content pane
-		applImpl.initGUI();		
+		applImpl.initGUI();
 
 		// remember the applet implementation
 		setAppletImplementation(applImpl);
-	}		
+	}
 
 }

@@ -91,7 +91,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 		cbScreenshotPicture.setSelected(false);
 
 		picPanel.add(cbDrawingPadPicture, app.getLocalization().borderWest());
-		if (((GuiManagerD)app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
+		if (((GuiManagerD) app.getGuiManager()).showView(App.VIEW_ALGEBRA)) {
 			picPanel.add(cbScreenshotPicture, BorderLayout.SOUTH);
 		}
 
@@ -167,7 +167,7 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 				runner.start();
 			}
 		});
-		
+
 		JButton clipboardButton = new JButton(app.getMenu("Clipboard"));
 		clipboardButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -180,19 +180,19 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 						try {
 							Toolkit toolkit = Toolkit.getDefaultToolkit();
 							Clipboard clipboard = toolkit.getSystemClipboard();
-							StringSelection stringSelection = new StringSelection(prot.getHTML(null, null));
+							StringSelection stringSelection = new StringSelection(
+									prot.getHTML(null, null));
 							clipboard.setContents(stringSelection, null);
 						} catch (Exception ex) {
 							app.showError("SaveFileFailed");
 							App.debug(ex.toString());
-						}	
+						}
 					}
 				};
 				runner.start();
 			}
 		});
-		
-		
+
 		JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		buttonPanel.add(exportButton);
 		buttonPanel.add(clipboardButton);
@@ -250,10 +250,10 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 	 */
 	private void exportHTML(boolean includePicture,
 			boolean includeAlgebraPicture, boolean useColors, boolean addIcons) {
-	File file, pngFile = null;
+		File file, pngFile = null;
 		File dir = null;
 		prot.setUseColors(useColors);
-		dir = ((GuiManagerD)app.getGuiManager()).showSaveDialog("", null,
+		dir = ((GuiManagerD) app.getGuiManager()).showSaveDialog("", null,
 				app.getPlain("Directories"), false, true);
 		if (dir == null)
 			return;
@@ -282,29 +282,31 @@ public class ConstructionProtocolExportDialog extends JDialog implements
 			FileWriter fw = new FileWriter(file);
 			fw.write(prot.getHTML(pngFile, thisPath));
 			fw.close();
-			
-			// This code is mostly copy-pasted from geogebra/export/WorksheetExportDialog.java.
-	        // open browser
+
+			// This code is mostly copy-pasted from
+			// geogebra/export/WorksheetExportDialog.java.
+			// open browser
 			final File HTMLfile = file;
-	        Thread runner = new Thread() {
-	        @Override
-			public void run() {    
-	                try {
-	                        // open html file in browser
-	                        ((GuiManagerD)app.getGuiManager()).showURLinBrowser(HTMLfile.toURI().toURL());
-	                } catch (Exception ex) {                        
-	                        app.showError("SaveFileFailed");
-	                        App.debug(ex.toString());
-	                } 
-	        }
-	        };
-	        runner.start();
-			
+			Thread runner = new Thread() {
+				@Override
+				public void run() {
+					try {
+						// open html file in browser
+						((GuiManagerD) app.getGuiManager())
+								.showURLinBrowser(HTMLfile.toURI().toURL());
+					} catch (Exception ex) {
+						app.showError("SaveFileFailed");
+						App.debug(ex.toString());
+					}
+				}
+			};
+			runner.start();
+
 		} catch (IOException ex) {
 			app.showError("SaveFileFailed");
 			App.debug(ex.toString());
 		}
-						
+
 	}
 
 	private BufferedImage getCenterPanelImage() {

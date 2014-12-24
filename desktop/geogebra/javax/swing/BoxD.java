@@ -7,22 +7,26 @@ import geogebra.common.javax.swing.AbstractJComboBox;
 
 /**
  * Wrapper for javax.swing.Box
+ * 
  * @author Judit Elias
  */
 public class BoxD extends geogebra.common.javax.swing.GBox {
-	
-	private javax.swing.Box impl = null; 
-	
+
+	private javax.swing.Box impl = null;
+
 	/**
 	 * Creates new wrapper Box
-	 * @param box box to be wrapped
+	 * 
+	 * @param box
+	 *            box to be wrapped
 	 */
 	public BoxD(javax.swing.Box box) {
 		this.impl = box;
 	}
-		
+
 	/**
 	 * Returns the wrapped box
+	 * 
 	 * @return wrapped box
 	 */
 	public javax.swing.Box getImpl() {
@@ -31,13 +35,13 @@ public class BoxD extends geogebra.common.javax.swing.GBox {
 
 	@Override
 	public void add(geogebra.common.javax.swing.GLabel label) {
-		impl.add(((geogebra.javax.swing.GLabelD)label).getImpl());
+		impl.add(((geogebra.javax.swing.GLabelD) label).getImpl());
 	}
 
 	@Override
 	public void add(AutoCompleteTextField textField) {
-		impl.add((geogebra.gui.inputfield.AutoCompleteTextFieldD)textField);
-		
+		impl.add((geogebra.gui.inputfield.AutoCompleteTextFieldD) textField);
+
 	}
 
 	@Override
@@ -64,7 +68,7 @@ public class BoxD extends geogebra.common.javax.swing.GBox {
 	public void validate() {
 		impl.validate();
 	}
-	
+
 	@Override
 	public void revalidate() {
 		impl.revalidate();
@@ -73,12 +77,12 @@ public class BoxD extends geogebra.common.javax.swing.GBox {
 	@Override
 	public void add(AbstractJComboBox comboBox) {
 		impl.add(GComboBoxD.getJComboBox(comboBox));
-		
+
 	}
 
-//	@Override
-//	public geogebra.common.javax.swing.Box createHorizontalBox() {
-//		return new Box(javax.swing.Box.createHorizontalBox());
-//	}
+	// @Override
+	// public geogebra.common.javax.swing.Box createHorizontalBox() {
+	// return new Box(javax.swing.Box.createHorizontalBox());
+	// }
 
 }

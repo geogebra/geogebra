@@ -6,16 +6,22 @@ import org.scilab.forge.jlatexmath.ParseException;
 import org.scilab.forge.jlatexmath.TeXConstants;
 import org.scilab.forge.jlatexmath.cache.JLaTeXMathCache;
 
-public class GeoLaTeXCache implements LaTeXCache{
+public class GeoLaTeXCache implements LaTeXCache {
 	// used by Captions, GeoText and DrawParametricCurve to cache LaTeX formulae
 	public Object keyLaTeX = null;
 
-	public Object getCachedLaTeXKey(String latex, int fontSize, int style, geogebra.common.awt.GColor fgColor) {
+	public Object getCachedLaTeXKey(String latex, int fontSize, int style,
+			geogebra.common.awt.GColor fgColor) {
 		Object newKey;
 		try {
-				
-		newKey = JLaTeXMathCache.getCachedTeXFormula(latex, TeXConstants.STYLE_DISPLAY, style, fontSize, 1 /* inset around the label*/, 
-				geogebra.awt.GColorD.getAwtColor(fgColor));
+
+			newKey = JLaTeXMathCache.getCachedTeXFormula(latex,
+					TeXConstants.STYLE_DISPLAY, style, fontSize, 1 /*
+																	 * inset
+																	 * around
+																	 * the label
+																	 */,
+					geogebra.awt.GColorD.getAwtColor(fgColor));
 		} catch (ParseException e) {
 			if (keyLaTeX != null) {
 				// remove old key from cache
@@ -34,7 +40,7 @@ public class GeoLaTeXCache implements LaTeXCache{
 			} catch (Exception ee) {
 				ee.printStackTrace();
 			}
-			//Application.debug("removing");
+			// Application.debug("removing");
 		}
 
 		keyLaTeX = newKey;
@@ -49,7 +55,7 @@ public class GeoLaTeXCache implements LaTeXCache{
 			} catch (Exception ee) {
 				ee.printStackTrace();
 			}
-		
+
 	}
 
 }

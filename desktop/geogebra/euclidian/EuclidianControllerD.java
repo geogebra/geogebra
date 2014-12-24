@@ -188,5 +188,4 @@ public class EuclidianControllerD extends
 		evjpanel.addComponentListener(this);
 	}
 
-
 }

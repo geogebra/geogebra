@@ -10,10 +10,11 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 
-public class EuclidianViewJPanel extends JPanel implements geogebra.common.euclidian.EuclidianViewJPanel {
+public class EuclidianViewJPanel extends JPanel implements
+		geogebra.common.euclidian.EuclidianViewJPanel {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	EuclidianView view;
 
 	public EuclidianViewJPanel(EuclidianView view, boolean addListeners) {
@@ -26,21 +27,20 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 		setMinimumSize(new Dimension(20, 20));
 
 		// register Listener
-		if (addListeners){
-			((EuclidianControllerListeners) view.getEuclidianController()).addListenersTo(this);
+		if (addListeners) {
+			((EuclidianControllerListeners) view.getEuclidianController())
+					.addListenersTo(this);
 		}
 
 		// enable drop transfers
 		setTransferHandler(new EuclidianViewTransferHandler(view));
 	}
-	
-	public EuclidianViewJPanel(EuclidianView view) {
-		
-		this(view, true);
-	
-	}
 
-	
+	public EuclidianViewJPanel(EuclidianView view) {
+
+		this(view, true);
+
+	}
 
 	protected Color bgColor;
 
@@ -85,12 +85,13 @@ public class EuclidianViewJPanel extends JPanel implements geogebra.common.eucli
 	}
 
 	private geogebra.awt.GGraphics2DD g2 = new geogebra.awt.GGraphics2DD(null);
+
 	@Override
 	final public void paint(Graphics g) {
-		g2.setImpl((java.awt.Graphics2D)g);
+		g2.setImpl((java.awt.Graphics2D) g);
 		view.paint(g2);
 	}
-	
+
 	public void processMouseEventImpl(MouseEvent e) {
 		processMouseEvent(e);
 	}

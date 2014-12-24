@@ -15,20 +15,20 @@ import javax.swing.Timer;
 public class AnimationManagerD extends AnimationManager implements
 		ActionListener {
 
-	
 	private Timer timer;
-	
 
 	/**
 	 * Creates new animation manager
-	 * @param kernel kernel
+	 * 
+	 * @param kernel
+	 *            kernel
 	 */
 	public AnimationManagerD(Kernel kernel) {
 		super(kernel);
 
 		timer = new Timer(1000 / MAX_ANIMATION_FRAME_RATE, this);
 	}
-	
+
 	/**
 	 * Updates all geos in the updateCascadeQueue and their dependent algorithms
 	 * and repaints all views.
@@ -37,17 +37,15 @@ public class AnimationManagerD extends AnimationManager implements
 		sliderStep();
 	}
 
-
 	@Override
 	public boolean isRunning() {
 		return timer.isRunning();
 	}
 
-
 	@Override
 	protected void setTimerDelay(int i) {
 		timer.setDelay(i);
-		
+
 	}
 
 	@Override

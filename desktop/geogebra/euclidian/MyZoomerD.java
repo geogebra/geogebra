@@ -10,22 +10,22 @@ import javax.swing.Timer;
 
 public class MyZoomerD extends MyZoomer implements ActionListener {
 	protected Timer timer; // for animation
-	
-		public MyZoomerD(EuclidianView view) {
+
+	public MyZoomerD(EuclidianView view) {
 		super(view);
 		timer = new Timer(DELAY, this);
 	}
 
 	@Override
-	protected void stopTimer(){
+	protected void stopTimer() {
 		timer.stop();
 	}
-	
+
 	@Override
-	protected boolean hasTimer(){
+	protected boolean hasTimer() {
 		return timer != null;
 	}
-	
+
 	public synchronized void actionPerformed(ActionEvent e) {
 		step();
 	}
@@ -34,5 +34,5 @@ public class MyZoomerD extends MyZoomer implements ActionListener {
 	protected void startTimer() {
 		timer.start();
 	}
-	
+
 }

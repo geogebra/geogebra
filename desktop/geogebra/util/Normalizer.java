@@ -10,18 +10,16 @@ import geogebra.common.util.NormalizerMinimal;
  */
 public class Normalizer extends NormalizerMinimal {
 
-
 	/**
 	 * 
-	 * @return an instance (java 5 or 6 compatible) 
+	 * @return an instance (java 5 or 6 compatible)
 	 */
 	public static NormalizerMinimal getInstance() {
 		return INSTANCE;
 	}
-	
 
 	private static final NormalizerMinimal INSTANCE;
-	
+
 	static {
 		try {
 			INSTANCE = getNormalizerClass();

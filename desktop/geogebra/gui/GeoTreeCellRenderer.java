@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.gui;
 
@@ -27,6 +27,7 @@ import javax.swing.tree.TreeNode;
 
 /**
  * ListCellRenderer for GeoElements
+ * 
  * @author Markus Hohenwarter
  */
 public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -34,68 +35,63 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private AppD app;
 	private ImageIcon iconShown, iconHidden;
-	
+
 	public GeoTreeCellRenderer(AppD app) {
 		this.app = app;
 		setOpaque(true);
-		
+
 		iconShown = app.getImageIcon("shown.gif");
-		iconHidden = app.getImageIcon("hidden.gif");	
+		iconHidden = app.getImageIcon("hidden.gif");
 	}
 
 	@Override
-	public Component getTreeCellRendererComponent(
-			JTree tree,
-			Object value,
-			boolean selected,
-			boolean expanded,
-			boolean leaf,
-			int row,
-			boolean hasFocus) {			
-	
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;	
-		TreeNode root = node.getRoot();				
-		
-		if (root !=  node && root != node.getParent()) {	
+	public Component getTreeCellRendererComponent(JTree tree, Object value,
+			boolean selected, boolean expanded, boolean leaf, int row,
+			boolean hasFocus) {
+
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode) value;
+		TreeNode root = node.getRoot();
+
+		if (root != node && root != node.getParent()) {
 			// GeoElement
-			GeoElement geo = (GeoElement) node.getUserObject();								
-			if (geo == null) return this;
-			
-			// ICONS               
+			GeoElement geo = (GeoElement) node.getUserObject();
+			if (geo == null)
+				return this;
+
+			// ICONS
 			if (geo.isEuclidianVisible()) {
 				setIcon(iconShown);
 			} else {
 				setIcon(iconHidden);
-			}			
-			
-			setForeground(geogebra.awt.GColorD.getAwtColor(geo.getLabelColor()));			
-			setText(geo.getLabelTextOrHTML());	
+			}
+
+			setForeground(geogebra.awt.GColorD.getAwtColor(geo.getLabelColor()));
+			setText(geo.getLabelTextOrHTML());
 			setFont(app.getFontCanDisplayAwt(getText(), Font.BOLD));
-			
-			if (geo.doHighlighting())				   
+
+			if (geo.doHighlighting())
 				setBackground(AppD.COLOR_SELECTION);
-			else 
-				setBackground(getBackgroundNonSelectionColor());								
-		} 
-		else { 
-			// type node			
+			else
+				setBackground(getBackgroundNonSelectionColor());
+		} else {
+			// type node
 			setForeground(Color.black);
-			
+
 			if (selected)
 				setBackground(AppD.COLOR_SELECTION);
 			else
 				setBackground(getBackgroundNonSelectionColor());
-			
-			setBorder(null);					
+
+			setBorder(null);
 			setText(value.toString());
-			setIcon(null);	
+			setIcon(null);
 			setFont(app.getFontCanDisplayAwt(getText()));
-			
-		}	
-		
-		return this;	
+
+		}
+
+		return this;
 	}
 }

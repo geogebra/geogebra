@@ -3,7 +3,7 @@ package geogebra.awt;
 public class GPathIteratorD implements geogebra.common.awt.GPathIterator {
 
 	java.awt.geom.PathIterator impl;
-	
+
 	public GPathIteratorD(java.awt.geom.PathIterator pathIterator) {
 		impl = pathIterator;
 	}

@@ -20,30 +20,28 @@ import javax.swing.UIManager;
  */
 public class FontManagerD extends FontManager {
 
-	private Font					boldFont, italicFont, plainFont, smallFont, serifFont, serifFontBold, javaSans,
-									javaSerif, forcedFont;
-	private int						fontSize;
-	private String					sansName, serifName;
-	
+	private Font boldFont, italicFont, plainFont, smallFont, serifFont,
+			serifFontBold, javaSans, javaSerif, forcedFont;
+	private int fontSize;
+	private String sansName, serifName;
+
 	/**
 	 * support for eg --forceFont="Esprit LT Book"
 	 */
 	public static String forcedFontName = null;
 
-	private HashMap			fontMap					= new HashMap();
-	private StringBuilder	key						= new StringBuilder();
+	private HashMap fontMap = new HashMap();
+	private StringBuilder key = new StringBuilder();
 
-	public static final String[]	FONT_NAMES_SANSSERIF	= {
-		"SansSerif", // Java
-		"Arial Unicode MS", // Windows
-		"Helvetica", // Mac OS X
-		"LucidaGrande", // Mac OS X
-		"ArialUnicodeMS" // Mac OS X
+	public static final String[] FONT_NAMES_SANSSERIF = { "SansSerif", // Java
+			"Arial Unicode MS", // Windows
+			"Helvetica", // Mac OS X
+			"LucidaGrande", // Mac OS X
+			"ArialUnicodeMS" // Mac OS X
 	};
-	public static final String[]	FONT_NAMES_SERIF		= {
-		"Serif", // Java
-		"Times New Roman", // Windows
-		"Times" // Mac OS X
+	public static final String[] FONT_NAMES_SERIF = { "Serif", // Java
+			"Times New Roman", // Windows
+			"Times" // Mac OS X
 	};
 
 	public FontManagerD() {
@@ -62,8 +60,10 @@ public class FontManagerD extends FontManager {
 
 		// certain languages need special fonts to display its characters
 		final StringBuilder testCharacters = new StringBuilder();
-		final LinkedList<String> tryFontsSansSerif = new LinkedList<String>(Arrays.asList(FONT_NAMES_SANSSERIF));
-		final LinkedList<String> tryFontsSerif = new LinkedList<String>(Arrays.asList(FONT_NAMES_SERIF));
+		final LinkedList<String> tryFontsSansSerif = new LinkedList<String>(
+				Arrays.asList(FONT_NAMES_SANSSERIF));
+		final LinkedList<String> tryFontsSerif = new LinkedList<String>(
+				Arrays.asList(FONT_NAMES_SERIF));
 
 		final String testChar = Language.getTestChar(lang);
 		if (testChar != null) {
@@ -102,36 +102,19 @@ public class FontManagerD extends FontManager {
 		/*
 		 * replaced by Unicode.getTestChar()
 		 * 
-		 * // JAPANESE
-		 * else if ("ja".equals(lang)) {
-		 * // Katakana letter N
-		 * testCharacters.append('\uff9d');
-		 * }
+		 * // JAPANESE else if ("ja".equals(lang)) { // Katakana letter N
+		 * testCharacters.append('\uff9d'); }
 		 * 
-		 * // TAMIL
-		 * else if ("ta".equals(lang)) {
-		 * // Tamil digit 1
-		 * testCharacters.append('\u0be7');
-		 * }
+		 * // TAMIL else if ("ta".equals(lang)) { // Tamil digit 1
+		 * testCharacters.append('\u0be7'); }
 		 * 
-		 * // Punjabi
-		 * else if ("pa".equals(lang)) {
-		 * testCharacters.append('\u0be7');
-		 * }
-		 * // Hindi
-		 * else if ("hi".equals(lang)) {
-		 * testCharacters.append('\u0be7');
-		 * }
-		 * // Urdu
-		 * else if ("ur".equals(lang)) {
-		 * testCharacters.append('\u0be7');
-		 * }
-		 * // Gujarati
-		 * else if ("gu".equals(lang)) {
-		 * testCharacters.append('\u0be7');
-		 * } else if ("si".equals(lang)) {
-		 * testCharacters.append('\u0d9a'); // letter a
-		 * }
+		 * // Punjabi else if ("pa".equals(lang)) {
+		 * testCharacters.append('\u0be7'); } // Hindi else if
+		 * ("hi".equals(lang)) { testCharacters.append('\u0be7'); } // Urdu else
+		 * if ("ur".equals(lang)) { testCharacters.append('\u0be7'); } //
+		 * Gujarati else if ("gu".equals(lang)) {
+		 * testCharacters.append('\u0be7'); } else if ("si".equals(lang)) {
+		 * testCharacters.append('\u0d9a'); // letter a }
 		 */
 
 		// we need roman (English) characters if possible
@@ -143,8 +126,10 @@ public class FontManagerD extends FontManager {
 		testCharacters.append(Unicode.eulerChar);
 
 		// get fonts that can display all test characters
-		fontNameSansSerif = getFontCanDisplay(tryFontsSansSerif, testCharacters.toString());
-		fontNameSerif = getFontCanDisplay(tryFontsSerif, testCharacters.toString());
+		fontNameSansSerif = getFontCanDisplay(tryFontsSansSerif,
+				testCharacters.toString());
+		fontNameSerif = getFontCanDisplay(tryFontsSerif,
+				testCharacters.toString());
 
 		// make sure we have sans serif and serif fonts
 		if (fontNameSansSerif == null) {
@@ -164,15 +149,19 @@ public class FontManagerD extends FontManager {
 	@Override
 	public void setFontSize(final int size) {
 		// current sans and sansserif font names
-		final String sans = plainFont == null ? "SansSerif" : plainFont.getFontName();
-		final String serif = serifFont == null ? "Serif" : serifFont.getFontName();
+		final String sans = plainFont == null ? "SansSerif" : plainFont
+				.getFontName();
+		final String serif = serifFont == null ? "Serif" : serifFont
+				.getFontName();
 
 		// update size
 		updateDefaultFonts(size, sans, serif);
 	}
 
-	private void updateDefaultFonts(final int size, final String sans, final String serif) {
-		if ((size == fontSize) && sans.equals(sansName) && serif.equals(serifName)) {
+	private void updateDefaultFonts(final int size, final String sans,
+			final String serif) {
+		if ((size == fontSize) && sans.equals(sansName)
+				&& serif.equals(serifName)) {
 			return;
 		}
 		fontSize = size;
@@ -199,7 +188,8 @@ public class FontManagerD extends FontManager {
 		// TODO: causes problems with multiple windows (File -> New Window)
 		setLAFFont(plainFont);
 
-		// System.out.println("Fonts updated: sans: " + sans + ", serif: " + serif);
+		// System.out.println("Fonts updated: sans: " + sans + ", serif: " +
+		// serif);
 	}
 
 	/**
@@ -210,15 +200,13 @@ public class FontManagerD extends FontManager {
 	 * @param size
 	 */
 	public Font getFont(final boolean serif, final int style, final int size) {
-		final String name = serif ?
-				getSerifFont().getFontName() :
-				getPlainFont(false).getFontName();
+		final String name = serif ? getSerifFont().getFontName()
+				: getPlainFont(false).getFontName();
 		return getFont(name, style, size);
 	}
 
 	/**
-	 * Gets a font from a HashMap to avoid multiple creations
-	 * of the same font.
+	 * Gets a font from a HashMap to avoid multiple creations of the same font.
 	 */
 	private Font getFont(final String name, final int style, final int size) {
 		// build font's key name for HashMap
@@ -245,14 +233,14 @@ public class FontManagerD extends FontManager {
 	/**
 	 * Returns a font that can display testString.
 	 */
-	public Font getFontCanDisplayAwt(final String testString, final boolean serif, final int fontStyle,
-			final int fontSize) {
-		
+	public Font getFontCanDisplayAwt(final String testString,
+			final boolean serif, final int fontStyle, final int fontSize) {
+
 		if (forcedFont != null) {
 			if (forcedFont.canDisplayUpTo(testString) == -1) {
 				return getFont(forcedFontName, fontStyle, fontSize);
 			}
-			
+
 		}
 
 		final Font appFont = serif ? serifFont : plainFont;
@@ -261,13 +249,11 @@ public class FontManagerD extends FontManager {
 		}
 
 		// check if default font is ok
-		if ((testString == null) || (appFont.canDisplayUpTo(testString) == -1))
-		{
+		if ((testString == null) || (appFont.canDisplayUpTo(testString) == -1)) {
 			if (appFont.getSize() == fontSize) {
 				if (appFont.getStyle() == fontStyle) {
 					return appFont;
-				}
-				else if (fontStyle == Font.BOLD) {
+				} else if (fontStyle == Font.BOLD) {
 					return serif ? serifFontBold : boldFont;
 				}
 			}
@@ -275,7 +261,6 @@ public class FontManagerD extends FontManager {
 			// need to compute new font
 			return getFont(appFont.getFontName(), fontStyle, fontSize);
 		}
-		
 
 		// check if standard Java fonts can be used
 		final Font javaFont = serif ? javaSerif : javaSans;
@@ -286,9 +271,9 @@ public class FontManagerD extends FontManager {
 		// no standard fonts worked: try harder and go through all
 		// fonts to find one that can display the testString
 		try {
-			final LinkedList tryFonts = serif ?
-					new LinkedList(Arrays.asList(FONT_NAMES_SERIF)) :
-					new LinkedList(Arrays.asList(FONT_NAMES_SANSSERIF));
+			final LinkedList tryFonts = serif ? new LinkedList(
+					Arrays.asList(FONT_NAMES_SERIF)) : new LinkedList(
+					Arrays.asList(FONT_NAMES_SANSSERIF));
 			final String fontName = getFontCanDisplay(tryFonts, testString);
 			return getFont(fontName, fontStyle, fontSize);
 		} catch (final Exception e) {
@@ -300,13 +285,15 @@ public class FontManagerD extends FontManager {
 	 * Tries to find a font that can display all given unicode characters.
 	 * Starts with tryFontNames first.
 	 */
-	public String getFontCanDisplay(final LinkedList tryFontNames, final String testCharacters) throws Exception {
-		// System.out.println("expensive test getFontCanDisplay, " + testCharacters);
+	public String getFontCanDisplay(final LinkedList tryFontNames,
+			final String testCharacters) throws Exception {
+		// System.out.println("expensive test getFontCanDisplay, " +
+		// testCharacters);
 
-		//if (true) {
-		//	return "Comic Sans MS";
-		//}
-		
+		// if (true) {
+		// return "Comic Sans MS";
+		// }
+
 		// try given fonts
 		if (tryFontNames != null) {
 			final Iterator it = tryFontNames.iterator();
@@ -329,11 +316,12 @@ public class FontManagerD extends FontManager {
 		int bestFont = -1;
 
 		// Determine which fonts best support the characters in testCharacters
-		final Font[] allfonts = GraphicsEnvironment.getLocalGraphicsEnvironment()
-				.getAllFonts();
+		final Font[] allfonts = GraphicsEnvironment
+				.getLocalGraphicsEnvironment().getAllFonts();
 		for (int j = 0; j < allfonts.length; j++) {
-			//App.debug(allfonts[j].toString());
-			final int charsDisplayed = allfonts[j].canDisplayUpTo(testCharacters);
+			// App.debug(allfonts[j].toString());
+			final int charsDisplayed = allfonts[j]
+					.canDisplayUpTo(testCharacters);
 			if (charsDisplayed == -1) {
 				// avoid "Monospace" font here
 				if (!allfonts[j].getFamily().equals("Monospaced")) {
@@ -368,8 +356,7 @@ public class FontManagerD extends FontManager {
 	}
 
 	final public Font getPlainFont(boolean force) {
-		if (force && 
-				forcedFont != null) {
+		if (force && forcedFont != null) {
 			return forcedFont;
 		}
 		return plainFont;
@@ -383,7 +370,6 @@ public class FontManagerD extends FontManager {
 		return serifFont;
 	}
 
-	
 	private static void setLAFFont(final Font plain) {
 		UIManager.put("ColorChooser.font", plain);
 		UIManager.put("FileChooser.font", plain);
@@ -435,7 +421,8 @@ public class FontManagerD extends FontManager {
 	@Override
 	public geogebra.common.awt.GFont getFontCanDisplay(final String testString,
 			final boolean serif, final int fontStyle, final int fontSize) {
-		return new geogebra.awt.GFontD(getFontCanDisplayAwt(testString, serif, fontStyle, fontSize));
+		return new geogebra.awt.GFontD(getFontCanDisplayAwt(testString, serif,
+				fontStyle, fontSize));
 	}
 
 }

@@ -64,11 +64,12 @@ public class WorksheetExportDialog extends JDialog {
 	MyTextField titleField;
 	private TitlePanel titlePanel;
 
-	//private JTabbedPane modeSwitch;
+	// private JTabbedPane modeSwitch;
 	private JPanel modeUploadPanel;
 
 	/**
-	 * @param app app
+	 * @param app
+	 *            app
 	 */
 	public WorksheetExportDialog(AppD app) {
 		super(app.getFrame(), true);
@@ -102,8 +103,9 @@ public class WorksheetExportDialog extends JDialog {
 		});
 
 		helpButton = new JButton(app.getMenu("Help"));
-		HelpAction helpAction = new HelpAction(app, app.getImageIcon("help.png"),
-				app.getMenu("Help"), App.WIKI_EXPORT_WORKSHEET);
+		HelpAction helpAction = new HelpAction(app,
+				app.getImageIcon("help.png"), app.getMenu("Help"),
+				App.WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
 		uploadButton = new JButton(app.getPlain("Upload"));
@@ -116,8 +118,8 @@ public class WorksheetExportDialog extends JDialog {
 						if (kernelChanged)
 							app.storeUndoInfo();
 
-
-						GeoGebraTubeExportDesktop ggtExport = new GeoGebraTubeExportDesktop(app);
+						GeoGebraTubeExportDesktop ggtExport = new GeoGebraTubeExportDesktop(
+								app);
 						ggtExport.uploadWorksheet(null);
 
 					}
@@ -138,8 +140,6 @@ public class WorksheetExportDialog extends JDialog {
 		buttonPanel.add(cancelButton);
 
 		modeUploadPanel = createUploadPanel();
-
-
 
 		// init text of text areas
 		Construction cons = kernel.getConstruction();
@@ -163,9 +163,8 @@ public class WorksheetExportDialog extends JDialog {
 		centerOnScreen();
 	}
 
-
 	private JPanel createUploadPanel() {
-		JPanel panel = new JPanel(new BorderLayout(5,5));
+		JPanel panel = new JPanel(new BorderLayout(5, 5));
 		panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
 		// title textfield
@@ -200,14 +199,16 @@ public class WorksheetExportDialog extends JDialog {
 		});
 
 		JPanel p = new JPanel(new BorderLayout(5, 5));
-		p.add(new JLabel(app.getPlain("Title") + ": "), app.getLocalization().borderWest());
+		p.add(new JLabel(app.getPlain("Title") + ": "), app.getLocalization()
+				.borderWest());
 		p.add(titleField, BorderLayout.CENTER);
 		panel.add(p, BorderLayout.NORTH);
 
 		// text areas
 		JPanel centerPanel = new JPanel(new BorderLayout(5, 5));
 		JLabel label = new JLabel(app.getPlain("TextBeforeConstruction") + ":");
-		textAboveUpload = new InputPanelD(null, app, 5, 40, true, DialogType.TextArea);
+		textAboveUpload = new InputPanelD(null, app, 5, 40, true,
+				DialogType.TextArea);
 		// JScrollPane scrollPane = new JScrollPane(textAbove);
 
 		p = new JPanel(new BorderLayout());
@@ -216,7 +217,8 @@ public class WorksheetExportDialog extends JDialog {
 		centerPanel.add(p, BorderLayout.CENTER);
 
 		label = new JLabel(app.getPlain("TextAfterConstruction") + ":");
-		textBelowUpload = new InputPanelD(null, app, 8, 40, true, DialogType.TextArea);
+		textBelowUpload = new InputPanelD(null, app, 8, 40, true,
+				DialogType.TextArea);
 
 		p = new JPanel(new BorderLayout());
 		p.add(label, BorderLayout.NORTH);
@@ -238,10 +240,8 @@ public class WorksheetExportDialog extends JDialog {
 			// the current construction
 			Construction cons = kernel.getConstruction();
 
-
 			cons.setWorksheetText(textAboveUpload.getText(), 0);
 			cons.setWorksheetText(textBelowUpload.getText(), 1);
-
 
 			super.setVisible(false);
 		}
@@ -251,9 +251,5 @@ public class WorksheetExportDialog extends JDialog {
 		pack();
 		setLocationRelativeTo(app.getMainComponent());
 	}
-
-
-
-	
 
 }

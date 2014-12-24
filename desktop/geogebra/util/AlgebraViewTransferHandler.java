@@ -21,20 +21,21 @@ import javax.swing.TransferHandler;
  * @author gsturr
  * 
  */
-public class AlgebraViewTransferHandler extends TransferHandler implements Transferable {
+public class AlgebraViewTransferHandler extends TransferHandler implements
+		Transferable {
 	private static final long serialVersionUID = 1L;
 	private AppD app;
 
-	public static DataFlavor algebraViewFlavor = new DataFlavor(AlgebraViewD.class, "algebraView");
+	public static DataFlavor algebraViewFlavor = new DataFlavor(
+			AlgebraViewD.class, "algebraView");
 	private static final DataFlavor supportedFlavors[] = { algebraViewFlavor };
 
 	private ArrayList<String> geoLabelList;
 
-
 	/****************************************
 	 * Constructor
 	 */
-	public AlgebraViewTransferHandler(AppD app){
+	public AlgebraViewTransferHandler(AppD app) {
 		this.app = app;
 	}
 
@@ -44,19 +45,20 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 	}
 
 	@Override
-	public boolean canImport(JComponent comp, DataFlavor flavor[]) {	
+	public boolean canImport(JComponent comp, DataFlavor flavor[]) {
 		return false;
 	}
 
 	@Override
 	public Transferable createTransferable(JComponent comp) {
-		if(geoLabelList == null)
+		if (geoLabelList == null)
 			geoLabelList = new ArrayList<String>();
 		else
-			geoLabelList.clear();		
+			geoLabelList.clear();
 		if (comp instanceof AlgebraViewD) {
-			ArrayList<GeoElement> geos = app.getSelectionManager().getSelectedGeos();		
-			for(GeoElement geo : geos){
+			ArrayList<GeoElement> geos = app.getSelectionManager()
+					.getSelectedGeos();
+			for (GeoElement geo : geos) {
 				geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
 			}
 
@@ -82,14 +84,13 @@ public class AlgebraViewTransferHandler extends TransferHandler implements Trans
 	}
 
 	public boolean isDataFlavorSupported(DataFlavor flavor) {
-		for(int i = 0; i < supportedFlavors.length; i++){
-			//System.out.println(flavor.getMimeType());
-			//System.out.println(supportedFlavors[i].getMimeType());
-			//System.out.println("------------");
+		for (int i = 0; i < supportedFlavors.length; i++) {
+			// System.out.println(flavor.getMimeType());
+			// System.out.println(supportedFlavors[i].getMimeType());
+			// System.out.println("------------");
 			if (supportedFlavors[i].equals(flavor))
 				return true;
 		}
 		return false;
 	}
 }
-

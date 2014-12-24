@@ -57,15 +57,16 @@ public class TitlePanel extends JPanel {
 
 	private Construction cons;
 	private LocalizationD loc;
+
 	public TitlePanel(AppD app) {
 		cons = app.getKernel().getConstruction();
 		loc = app.getLocalization();
-		
+
 		setLayout(new BorderLayout(5, 5));
 		titleField = new MyTextField(app);
 		authorField = new MyTextField(app);
-		dateField = new MyFormattedTextField((GuiManagerD) app.getGuiManager(),DateFormat
-				.getDateInstance(DateFormat.LONG));
+		dateField = new MyFormattedTextField((GuiManagerD) app.getGuiManager(),
+				DateFormat.getDateInstance(DateFormat.LONG));
 		dateField.setColumns(12);
 		dateField.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		dateField.setFont(app.getPlainFont());
@@ -90,9 +91,9 @@ public class TitlePanel extends JPanel {
 		p.add(p1, loc.borderEast());
 		add(p, BorderLayout.CENTER);
 
-		setBorder(BorderFactory.createCompoundBorder(BorderFactory
-				.createEtchedBorder(), BorderFactory.createEmptyBorder(5, 5, 5,
-				5)));
+		setBorder(BorderFactory.createCompoundBorder(
+				BorderFactory.createEtchedBorder(),
+				BorderFactory.createEmptyBorder(5, 5, 5, 5)));
 
 		// setBorder(BorderFactory.createTitledBorder(app
 		// .getPlain("Document info")));
@@ -116,7 +117,7 @@ public class TitlePanel extends JPanel {
 		authorField.addFocusListener(focusListener);
 		dateField.addFocusListener(focusListener);
 	}
-	
+
 	public void updateData() {
 		titleField.setText(cons.getTitle());
 		authorField.setText(loadAuthor());
@@ -125,19 +126,25 @@ public class TitlePanel extends JPanel {
 	}
 
 	public String configureDate(String src) {
-		
 
 		// If no date specified use current date
 		if (src.equals("")) {
-			
-			App app = cons.getApplication();
-			
-			// in form 23 September 2012 (some languages don't want eg 25e, 25ª so omit "th" for all)
-			String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "+Unicode.LeftToRightMark+"\\F"+Unicode.LeftToRightMark+" \\j" : "\\j \\F \\Y";
 
-			return CmdGetTime.buildLocalizedDate(format, new Date(), app.getLocalization());
+			App app = cons.getApplication();
+
+			// in form 23 September 2012 (some languages don't want eg 25e, 25ª
+			// so omit "th" for all)
+			String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
+					+ Unicode.LeftToRightMark
+					+ "\\F"
+					+ Unicode.LeftToRightMark
+					+ " \\j"
+					: "\\j \\F \\Y";
+
+			return CmdGetTime.buildLocalizedDate(format, new Date(),
+					app.getLocalization());
 		}
-		
+
 		return src;
 
 	}
@@ -145,9 +152,7 @@ public class TitlePanel extends JPanel {
 	public String loadAuthor() {
 		String author = cons.getAuthor();
 		if ("".equals(author)) {
-			author = 
-				GeoGebraPreferencesD.getPref()
-				.loadPreference(
+			author = GeoGebraPreferencesD.getPref().loadPreference(
 					GeoGebraPreferencesD.AUTHOR, "");
 			cons.setAuthor(author);
 		}
@@ -158,9 +163,8 @@ public class TitlePanel extends JPanel {
 		boolean kernelChanged = !author.equals(cons.getAuthor());
 		if (kernelChanged) {
 			cons.setAuthor(author);
-			GeoGebraPreferencesD.getPref()
-				.savePreference(GeoGebraPreferencesD.AUTHOR,
-					author);
+			GeoGebraPreferencesD.getPref().savePreference(
+					GeoGebraPreferencesD.AUTHOR, author);
 		}
 		return kernelChanged;
 	}
@@ -198,9 +202,9 @@ public class TitlePanel extends JPanel {
 	private void notifyListeners() {
 		int size = listeners.size();
 		for (int i = 0; i < size; i++) {
-			listeners.get(i)
-					.actionPerformed(new ActionEvent(this,
-							ActionEvent.ACTION_PERFORMED, "TitleChanged"));
+			listeners.get(i).actionPerformed(
+					new ActionEvent(this, ActionEvent.ACTION_PERFORMED,
+							"TitleChanged"));
 		}
 	}
 

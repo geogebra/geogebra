@@ -80,11 +80,11 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		}
 	}
 
-
 	/****************************************
 	 * Constructor
 	 * 
-	 * @param ev euclidian view
+	 * @param ev
+	 *            euclidian view
 	 */
 	public EuclidianViewTransferHandler(EuclidianView ev) {
 		this.ev = ev;
@@ -128,24 +128,24 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 		// give the drop target (this EV) the view focus
 		requestViewFocus();
 
-		Point mousePos = ((EuclidianViewInterfaceDesktop) ev).getMousePosition();
+		Point mousePos = ((EuclidianViewInterfaceDesktop) ev)
+				.getMousePosition();
 
 		// ------------------------------------------
 		// Import handling is done in this order:
 		// 1) PlotPanel GeoElement copies
 		// 2) Images
 		// 3) Text
-		// 4) CASTableCells 		
+		// 4) CASTableCells
 		// 5) GGB files
 		// ------------------------------------------
 
-		
-		
 		// try to get PlotPanel GeoElement copies
 		if (t.isDataFlavorSupported(PlotPanelEuclidianViewD.plotPanelFlavor)) {
-	
+
 			try {
-				AbstractAction act = (AbstractAction) t.getTransferData(PlotPanelEuclidianViewD.plotPanelFlavor);
+				AbstractAction act = (AbstractAction) t
+						.getTransferData(PlotPanelEuclidianViewD.plotPanelFlavor);
 				act.putValue("euclidianViewID", ev.getViewID());
 				act.actionPerformed(new ActionEvent(act, 0, null));
 			} catch (UnsupportedFlavorException e) {
@@ -155,47 +155,42 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 				e.printStackTrace();
 				return false;
 			}
-			
+
 			return true;
 		}
 
-		
-		
 		// try to get an image
-		boolean imageDropped = ((GuiManagerD)ev.getApplication().getGuiManager())
-				.loadImage(t, false);
+		boolean imageDropped = ((GuiManagerD) ev.getApplication()
+				.getGuiManager()).loadImage(t, false);
 		if (imageDropped)
 			return true;
 
-		
-		
-		
-		
-		
-		//handle CAS table cells as simple latex string (not dynamic!!)
-		//ToDo: make it dynamic (after ticket 2449 is finished)
-		DataFlavor[] df =t.getTransferDataFlavors();
-		for(DataFlavor d:df){
+		// handle CAS table cells as simple latex string (not dynamic!!)
+		// ToDo: make it dynamic (after ticket 2449 is finished)
+		DataFlavor[] df = t.getTransferDataFlavors();
+		for (DataFlavor d : df) {
 			Log.debug(d);
 		}
-		if(t.isDataFlavorSupported(CASTransferHandler.casTableFlavor)){
-			try{
-				
-				
-				
-				//after it is possible to refer to cas cells with "$1" we can refer dynamically 
-				
-				//String tableRef;
+		if (t.isDataFlavorSupported(CASTransferHandler.casTableFlavor)) {
+			try {
+
+				// after it is possible to refer to cas cells with "$1" we can
+				// refer dynamically
+
+				// String tableRef;
 				StringBuilder sb = new StringBuilder("FormulaText[$");
-				sb.append(1+(Integer)t.getTransferData(CASTransferHandler.casTableFlavor));
+				sb.append(1 + (Integer) t
+						.getTransferData(CASTransferHandler.casTableFlavor));
 				sb.append("]");
-				//tableRef = "$" + (cellnumber+1);
-				
-				
-				//create a GeoText on the specific mouse position
-				GeoElement[] ret = ev.getApplication().getKernel()
+				// tableRef = "$" + (cellnumber+1);
+
+				// create a GeoText on the specific mouse position
+				GeoElement[] ret = ev
+						.getApplication()
+						.getKernel()
 						.getAlgebraProcessor()
-						.processAlgebraCommandNoExceptionHandling(sb.toString(), true, false, false, false);
+						.processAlgebraCommandNoExceptionHandling(
+								sb.toString(), true, false, false, false);
 
 				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];
@@ -211,129 +206,127 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 
 				}
 
-						
 				return true;
-				} catch (Exception e) {
-					e.printStackTrace();
-					return false;
-				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				return false;
 			}
-				
+		}
 
 		// check for ggb file drop
-		boolean ggbFileDropped = ((GuiManagerD)app.getGuiManager()).handleGGBFileDrop(t);
+		boolean ggbFileDropped = ((GuiManagerD) app.getGuiManager())
+				.handleGGBFileDrop(t);
 		if (ggbFileDropped)
 			return true;
 
 		// handle all text flavors
-				if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
-						|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
-					try {
+		if (t.isDataFlavorSupported(DataFlavor.stringFlavor)
+				|| t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+			try {
 
-						String text = null; // expression to be converted into GeoText
-						boolean isLaTeX = false;
+				String text = null; // expression to be converted into GeoText
+				boolean isLaTeX = false;
 
-						// get text from AlgebraView flavor
-						if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
+				// get text from AlgebraView flavor
+				if (t.isDataFlavorSupported(AlgebraViewTransferHandler.algebraViewFlavor)) {
 
-							isLaTeX = true;
+					isLaTeX = true;
 
-							// get list of selected geo labels
-							ArrayList<String> list = (ArrayList<String>) t
-									.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
+					// get list of selected geo labels
+					ArrayList<String> list = (ArrayList<String>) t
+							.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
 
-							// exit if empty list
-							if (list.size() == 0)
-								return false;
+					// exit if empty list
+					if (list.size() == 0)
+						return false;
 
-							// single geo
-							if (list.size() == 1) {
-								text = "FormulaText[" + list.get(0) + ", true, true]";
-							}
+					// single geo
+					if (list.size() == 1) {
+						text = "FormulaText[" + list.get(0) + ", true, true]";
+					}
 
-							// multiple geos, wrap in TableText
-							else {
-								text = "TableText[";
-								for (int i = 0; i < list.size(); i++) {
+					// multiple geos, wrap in TableText
+					else {
+						text = "TableText[";
+						for (int i = 0; i < list.size(); i++) {
 
-									text += "{FormulaText[" + list.get(i)
-											+ ", true, true]}";
-									if (i < list.size() - 1) {
-										text += ",";
-									}
-								}
-								text += "]";
+							text += "{FormulaText[" + list.get(i)
+									+ ", true, true]}";
+							if (i < list.size() - 1) {
+								text += ",";
 							}
 						}
-
-						// get text from String flavor
-						else {
-							try {
-								// first try to read text line-by-line
-								Reader r = textReaderFlavor.getReaderForText(t);
-								if (r != null) {
-									StringBuilder sb = new StringBuilder();
-									String line = null;
-									BufferedReader br = new BufferedReader(r);
-									line = br.readLine();
-									while (line != null) {
-										sb.append(line + "\n");
-										line = br.readLine();
-									}
-									br.close();
-									text = sb.toString();
-								}
-							} catch (Exception e) {
-								App
-										.debug("Caught exception decoding text transfer:"
-												+ e.getMessage());
-							}
-
-							// if the reader didn't work, try to get whatever string is
-							// available
-							if (text == null)
-								text = (String) t
-										.getTransferData(DataFlavor.stringFlavor);
-
-							// exit if no text found
-							if (text == null)
-								return false;
-
-							// TODO --- validate the text? e.g. no quotes for a GeoText
-
-							// wrap text in quotes
-							text = "\"" + text + "\"";
-						}
-
-						// ---------------------------------
-						// create GeoText
-
-						GeoElement[] ret = ev.getApplication().getKernel()
-								.getAlgebraProcessor()
-								.processAlgebraCommand(text, true);
-
-						if (ret != null && ret[0] instanceof TextValue) {
-							GeoText geo = (GeoText) ret[0];
-							geo.setLaTeX(isLaTeX, false);
-
-							// TODO: h should equal the geo height, this is just an
-							// estimate
-							double h = 2 * app.getFontSize();
-
-							geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
-									ev.toRealWorldCoordY(mousePos.y - h));
-							geo.updateRepaint();
-
-						}
-
-						return true;
-
-					} catch (UnsupportedFlavorException ignored) {
-						// TODO
-					} catch (IOException ignored) {
-						// TODO
+						text += "]";
 					}
 				}
+
+				// get text from String flavor
+				else {
+					try {
+						// first try to read text line-by-line
+						Reader r = textReaderFlavor.getReaderForText(t);
+						if (r != null) {
+							StringBuilder sb = new StringBuilder();
+							String line = null;
+							BufferedReader br = new BufferedReader(r);
+							line = br.readLine();
+							while (line != null) {
+								sb.append(line + "\n");
+								line = br.readLine();
+							}
+							br.close();
+							text = sb.toString();
+						}
+					} catch (Exception e) {
+						App.debug("Caught exception decoding text transfer:"
+								+ e.getMessage());
+					}
+
+					// if the reader didn't work, try to get whatever string is
+					// available
+					if (text == null)
+						text = (String) t
+								.getTransferData(DataFlavor.stringFlavor);
+
+					// exit if no text found
+					if (text == null)
+						return false;
+
+					// TODO --- validate the text? e.g. no quotes for a GeoText
+
+					// wrap text in quotes
+					text = "\"" + text + "\"";
+				}
+
+				// ---------------------------------
+				// create GeoText
+
+				GeoElement[] ret = ev.getApplication().getKernel()
+						.getAlgebraProcessor()
+						.processAlgebraCommand(text, true);
+
+				if (ret != null && ret[0] instanceof TextValue) {
+					GeoText geo = (GeoText) ret[0];
+					geo.setLaTeX(isLaTeX, false);
+
+					// TODO: h should equal the geo height, this is just an
+					// estimate
+					double h = 2 * app.getFontSize();
+
+					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
+							ev.toRealWorldCoordY(mousePos.y - h));
+					geo.updateRepaint();
+
+				}
+
+				return true;
+
+			} catch (UnsupportedFlavorException ignored) {
+				// TODO
+			} catch (IOException ignored) {
+				// TODO
+			}
+		}
 		return false;
 	}
 
@@ -343,11 +336,11 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 	 */
 	private void requestViewFocus() {
 		if (ev.equals(app.getEuclidianView1()))
-			((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager()
-					.setFocusedPanel(App.VIEW_EUCLIDIAN);
+			((LayoutD) ((GuiManagerD) app.getGuiManager()).getLayout())
+					.getDockManager().setFocusedPanel(App.VIEW_EUCLIDIAN);
 		else
-			((LayoutD) ((GuiManagerD)app.getGuiManager()).getLayout()).getDockManager()
-					.setFocusedPanel(App.VIEW_EUCLIDIAN2);
+			((LayoutD) ((GuiManagerD) app.getGuiManager()).getLayout())
+					.getDockManager().setFocusedPanel(App.VIEW_EUCLIDIAN2);
 	}
 
 	@Override

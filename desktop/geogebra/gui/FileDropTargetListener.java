@@ -31,15 +31,15 @@ import java.util.ListIterator;
 import java.util.StringTokenizer;
 
 public class FileDropTargetListener implements DropTargetListener {
-	
+
 	static DataFlavor urlFlavor, macPictStreamFlavor;
 	static {
 
-		try { 
-			urlFlavor = 
-			new DataFlavor ("application/x-java-url; class=java.net.URL"); 			
-		} catch (ClassNotFoundException cnfe) { 
-			cnfe.printStackTrace( );
+		try {
+			urlFlavor = new DataFlavor(
+					"application/x-java-url; class=java.net.URL");
+		} catch (ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
 		}
 	}
 
@@ -76,23 +76,24 @@ public class FileDropTargetListener implements DropTargetListener {
 	}
 
 	/**
-	 * Determines if a transferable contains ggb/ggt files and attempts
-	 * to open them.
+	 * Determines if a transferable contains ggb/ggt files and attempts to open
+	 * them.
 	 * 
 	 * @param t
 	 * @return
 	 */
-	public boolean handleFileDrop(Transferable t){
+	public boolean handleFileDrop(Transferable t) {
 
-		ArrayList<File> al = getGGBfiles(t);	
+		ArrayList<File> al = getGGBfiles(t);
 
 		if (al.size() == 0) {
 			return false;
 		}
-		
+
 		boolean allGGT = true;
-		for (int i = al.size() - 1 ; i >= 0 ; i--) {
-			if (!isGGBFile(al.get(i).getName()) && !isGGTFile(al.get(i).getName())) {
+		for (int i = al.size() - 1; i >= 0; i--) {
+			if (!isGGBFile(al.get(i).getName())
+					&& !isGGTFile(al.get(i).getName())) {
 				al.remove(i);
 			} else {
 				if (!isGGTFile(al.get(i).getName())) {
@@ -101,42 +102,43 @@ public class FileDropTargetListener implements DropTargetListener {
 
 			}
 		}
-		
+
 		if (al.size() == 0) {
 			return false;
 		}
 
-		else if (allGGT || app.isSaved() || app.saveCurrentFile()) {				
-			File [] files = new File[al.size()];
-			for (int i = 0 ; i < al.size() ; i++)
+		else if (allGGT || app.isSaved() || app.saveCurrentFile()) {
+			File[] files = new File[al.size()];
+			for (int i = 0; i < al.size(); i++)
 				files[i] = al.get(i);
-			((GuiManagerD)app.getGuiManager()).doOpenFiles(files, true);			
-			return true;			
-		}			
+			((GuiManagerD) app.getGuiManager()).doOpenFiles(files, true);
+			return true;
+		}
 		return false;
 	}
-	
-	
+
 	/**
 	 * Tests if a file has the GeoGebra ggb extension
+	 * 
 	 * @param fileName
 	 * @return
 	 */
-	private static boolean isGGBFile(String fileName){
+	private static boolean isGGBFile(String fileName) {
 		int mid = fileName.lastIndexOf(".");
-	    String ext = fileName.substring(mid+1,fileName.length());
-	    return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA);
+		String ext = fileName.substring(mid + 1, fileName.length());
+		return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA);
 	}
 
 	/**
 	 * Tests if a file has the GeoGebra ggt extension
+	 * 
 	 * @param fileName
 	 * @return
 	 */
-	private static boolean isGGTFile(String fileName){
+	private static boolean isGGTFile(String fileName) {
 		int mid = fileName.lastIndexOf(".");
-	    String ext = fileName.substring(mid+1,fileName.length());
-	    return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA_TOOL);
+		String ext = fileName.substring(mid + 1, fileName.length());
+		return StringUtil.toLowerCase(ext).equals(AppD.FILE_EXT_GEOGEBRA_TOOL);
 	}
 
 	private ArrayList<File> getGGBfiles(Transferable transferable) {
@@ -145,40 +147,46 @@ public class FileDropTargetListener implements DropTargetListener {
 
 		try {
 			// try to get an image
-			if (transferable.isDataFlavorSupported (DataFlavor.imageFlavor)) { 
-				App.debug("image flavor not supported"); 
-				//Image img = (Image) trans.getTransferData (DataFlavor.imageFlavor); 
-			} else if (transferable.isDataFlavorSupported (DataFlavor.javaFileListFlavor)) {
-				//Application.debug("javaFileList is supported");
-				List<File> list = (List<File>)transferable.getTransferData(DataFlavor.javaFileListFlavor);
-				ListIterator<File> it = list.listIterator( );   
-				while (it.hasNext( )) {
-					File f = it.next( );
+			if (transferable.isDataFlavorSupported(DataFlavor.imageFlavor)) {
+				App.debug("image flavor not supported");
+				// Image img = (Image) trans.getTransferData
+				// (DataFlavor.imageFlavor);
+			} else if (transferable
+					.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
+				// Application.debug("javaFileList is supported");
+				List<File> list = (List<File>) transferable
+						.getTransferData(DataFlavor.javaFileListFlavor);
+				ListIterator<File> it = list.listIterator();
+				while (it.hasNext()) {
+					File f = it.next();
 					al.add(f);
 				}
-			} else if (transferable.isDataFlavorSupported (GuiManagerD.uriListFlavor)) {
-				//Application.debug("uri-list flavor is supported"); 
-				String uris = (String)
-				transferable.getTransferData (GuiManagerD.uriListFlavor);
+			} else if (transferable
+					.isDataFlavorSupported(GuiManagerD.uriListFlavor)) {
+				// Application.debug("uri-list flavor is supported");
+				String uris = (String) transferable
+						.getTransferData(GuiManagerD.uriListFlavor);
 
-				// url-lists are defined by rfc 2483 as crlf-delimited 
-				StringTokenizer st = new StringTokenizer (uris, "\r\n");   
-				while (st.hasMoreTokens ( )) {
-					String uriString = st.nextToken( );
-					if(uriString.startsWith("http://") && isGGBFile(uriString)){
-						((GuiManagerD)app.getGuiManager()).loadURL(uriString, true);
-					}else{
+				// url-lists are defined by rfc 2483 as crlf-delimited
+				StringTokenizer st = new StringTokenizer(uris, "\r\n");
+				while (st.hasMoreTokens()) {
+					String uriString = st.nextToken();
+					if (uriString.startsWith("http://") && isGGBFile(uriString)) {
+						((GuiManagerD) app.getGuiManager()).loadURL(uriString,
+								true);
+					} else {
 						URI uri = new URI(uriString);
 						al.add(new File(uri));
 					}
 				}
-			} else if (transferable.isDataFlavorSupported (urlFlavor)) {
+			} else if (transferable.isDataFlavorSupported(urlFlavor)) {
 				App.debug("url flavor not supported");
-				//URL url = (URL) trans.getTransferData (urlFlavor);
-			} else App.debug("flavor not supported: "+transferable);
+				// URL url = (URL) trans.getTransferData (urlFlavor);
+			} else
+				App.debug("flavor not supported: " + transferable);
 		} catch (Exception e) {
-			e.printStackTrace( );
-		} 
+			e.printStackTrace();
+		}
 
 		return al;
 	}

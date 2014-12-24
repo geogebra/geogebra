@@ -45,8 +45,7 @@ import javax.swing.JMenuItem;
  * &lt;/ul&gt;
  * </pre>
  * 
- * Log:
- * 14.02.09: Updated for the new module loading fascility. (JarManager)
+ * Log: 14.02.09: Updated for the new module loading fascility. (JarManager)
  * 
  * @author H-P Ulven
  * @version 23.02.09
@@ -59,9 +58,12 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 
 	// /// ----- Properties ----- /////
 
-	private Hashtable<String, PlugLetIF> plugintable = new Hashtable<String, PlugLetIF>(); // 1.4.2: Not generics :-\
-														// String
-														// classname,pluginclass
+	private Hashtable<String, PlugLetIF> plugintable = new Hashtable<String, PlugLetIF>(); // 1.4.2:
+																							// Not
+																							// generics
+																							// :-\
+	// String
+	// classname,pluginclass
 	// private geogebra.GeoGebra ggb= null;
 	private geogebra.main.AppD app = null;
 	private JMenu pluginmenu = null; // Make it here, let Application and
@@ -75,11 +77,12 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 	public PluginManager(AppD app) {
 		this.app = app; // ref to Ggb application
 
-		//ClassPathManipulator.addURL(addPathToJar("."), null);
-		String cb=AppD.getCodeBase().toString();
-		if(!cb.startsWith("http://")){								//16.02.09: Don't use plugins with webstart
-			ClassPathManipulator.addURL(AppD.getCodeBase(), null);            //14.02.09
-		}//if webstart
+		// ClassPathManipulator.addURL(addPathToJar("."), null);
+		String cb = AppD.getCodeBase().toString();
+		if (!cb.startsWith("http://")) { // 16.02.09: Don't use plugins with
+											// webstart
+			ClassPathManipulator.addURL(AppD.getCodeBase(), null); // 14.02.09
+		}// if webstart
 		loadProperties();
 
 	}// PluginManager()
@@ -104,12 +107,9 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			url = new URL(path);
 			ClassPathManipulator.addURL(url, null);
 		} catch (MalformedURLException e) {
-			App
-					.debug("addPath: MalformedURLExcepton for "
-							+ path);
+			App.debug("addPath: MalformedURLExcepton for " + path);
 		} catch (Throwable e) {
-			App.debug("addPath: " + e.getMessage()
-					+ " for " + path);
+			App.debug("addPath: " + e.getMessage() + " for " + path);
 		}// try-catch
 	}// addURL(String)
 
@@ -121,18 +121,24 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 
 		PlugLetIF plugin = null;
 		JMenuItem menuitem = null;
-		String menutext=null;
+		String menutext = null;
 
-		// Reflect out class and install:		debug("addPlugin: " + cname + "," + args);
+		// Reflect out class and install: debug("addPlugin: " + cname + "," +
+		// args);
 		plugin = getPluginInstance(cname); // reflect out an instance of plugin
 		if (plugin != null) {
 			debug("plugin.getMenuText(): " + plugin.getMenuText());
 			try {
 				plugin.init(app.getGgbApi(), args); // new syntax
-				menutext=plugin.getMenuText();		//23.02.09 Use menutext instead of cname! More flexible!
-				plugintable.put(menutext,plugin); //23.02.09  cname, plugin); // put in hashtable
-				menuitem = new JMenuItem(menutext);//23.02.09 plugin.getMenuText()); // make menuitem
-				menuitem.setName(menutext);//23.02.09 cname);
+				menutext = plugin.getMenuText(); // 23.02.09 Use menutext
+													// instead of cname! More
+													// flexible!
+				plugintable.put(menutext, plugin); // 23.02.09 cname, plugin);
+													// // put in hashtable
+				menuitem = new JMenuItem(menutext);// 23.02.09
+													// plugin.getMenuText()); //
+													// make menuitem
+				menuitem.setName(menutext);// 23.02.09 cname);
 				menuitem.addActionListener(this);
 				if (pluginmenu == null) {
 					pluginmenu = new JMenu("Plugins");
@@ -142,8 +148,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 				App.debug("addPlugin: " + t.toString());
 			}// try-catch
 		} else {
-			App.debug("PluginManager could not reflect out plugin "
-					+ cname);
+			App.debug("PluginManager could not reflect out plugin " + cname);
 		}// if plugin null
 	}// addPlugin(cname,patharray[],args)
 
@@ -169,7 +174,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 		for (int i = 0; i < lines.size(); i++) { // for all lines in
 													// plugin.properties
 			paths.clear();
-			args="";					//23.02.09
+			args = ""; // 23.02.09
 			line = lines.get(i);
 			line = line.trim();
 			if (line.startsWith("#") || // comment or
@@ -188,7 +193,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 						for (int j = 0; j < tokens.length; j++) {
 							token = tokens[j].trim();
 							if (token.matches(".*\\.jar")) {
-								debug("\tPath " + token);																
+								debug("\tPath " + token);
 								paths.add(token);
 							} else if (token.matches("\\{.*\\}")) { // args
 								token = token.substring(1, token.length() - 1);
@@ -201,7 +206,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 							}// if-else
 						}// for all params
 					}// if more tokens: If not: just a class,
-					// install cname:
+						// install cname:
 					addPaths(paths);
 					addPlugin(cname, args); // debug(cpm.getClassPath());
 				}// if cname not blank
@@ -219,8 +224,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			// plugin.execute(app.getGgbApi());
 			plugin.execute();
 		} else {
-			App
-					.debug("No PlugLetIF called " + name + "in plugintable!");
+			App.debug("No PlugLetIF called " + name + "in plugintable!");
 		}// if-else
 	}// actionPerformed(ActionEvent)
 
@@ -253,17 +257,13 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			Object o = get.invoke(c, emptyobj);
 			pluglet = (PlugLetIF) o;
 		} catch (NoSuchMethodException t) {
-			App.debug(method
-					+ " gives NoSuchMethodExcepton.");
+			App.debug(method + " gives NoSuchMethodExcepton.");
 		} catch (IllegalAccessException e) {
-			App.debug(method
-					+ " gives IllegalAccesException.");
+			App.debug(method + " gives IllegalAccesException.");
 		} catch (InvocationTargetException e) {
-			App.debug(method
-					+ " gives InvocationTargetException");
+			App.debug(method + " gives InvocationTargetException");
 		} catch (Throwable t) {
-			App.debug(method + " gives "
-					+ t.toString());
+			App.debug(method + " gives " + t.toString());
 		}// end try catch
 		return pluglet;
 	}// getPluginInstance()
@@ -272,11 +272,11 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 	private void loadProperties() {
 		ClassLoader loader = app.getClass().getClassLoader();
 
-		//Application.debug("PluginManager.loadProperties " + PLUGINFILE);
+		// Application.debug("PluginManager.loadProperties " + PLUGINFILE);
 
 		InputStream is = loader.getResourceAsStream(PLUGINFILE);
 		if (is == null) {
-			//Application.debug("Cannot find " + PLUGINFILE);
+			// Application.debug("Cannot find " + PLUGINFILE);
 		} else {
 			BufferedReader br = new BufferedReader(new InputStreamReader(is));
 			String line;
@@ -291,8 +291,7 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 					App.debug("Not a valid plugin.properties file");
 				}// if br
 			} catch (IOException ioe) {
-				App.debug("IOException reading "
-						+ PLUGINFILE);
+				App.debug("IOException reading " + PLUGINFILE);
 			}// try-catch
 		}// if is
 	}// loadProperties();
@@ -303,49 +302,49 @@ public class PluginManager implements ActionListener { // Listens on PluginMenu
 			App.debug(s);
 		}// if()
 	}// debug()
-	
-	 private static URL addPathToJar(String path){
-	        File file=null;
-	        URL  url=null;        
-	        try{
-	        	if(path.startsWith("http://")){	//url!
-	                //Application.debug("addPath1 "+path);
-	        		url=new URL(path);
-	        	}
-	        	else if (path.startsWith("file:/")) { // local file in correct form
-	                //Application.debug("addPath2 "+path);
-	        		url = new URL(path);
-	        	}else{							//file without path!
 
-	        		//URL codeBase=GeoGebraAppletBase.codeBase; doesn't work, returns base of HTML
-	        		
-	        		// get applet codebase
-	        		//URL codeBase = (app.getApplet()!=null) ? app.getCodeBase() : null;
-	        		
-	                if (AppD.getCodeBase()!=null)
-	                {
-	                    //Application.debug("addPath3"+path);
-	                	url = new URL(AppD.getCodeBase() + path); // running as applet
-	                }
-	                else
-	                {
-	                    //Application.debug("addPath4"+path);
-	                	file=new File(path);
-	        		    url=file.toURI().toURL();
-	                }
-	        	}
-	        	
-	        	debug("addPath "+url.toString());
-	        	
-	        	return url;
-	        }catch(MalformedURLException e) {
-	            App.debug("addPath: MalformedURLExcepton for "+path);
-	            return null;
-	        }catch(Throwable e){
-	            App.debug("addPath: "+e.getMessage()+" for "+path);
-	            return null;
-	        }//try-catch        
-	    }//addPath(String)
+	private static URL addPathToJar(String path) {
+		File file = null;
+		URL url = null;
+		try {
+			if (path.startsWith("http://")) { // url!
+				// Application.debug("addPath1 "+path);
+				url = new URL(path);
+			} else if (path.startsWith("file:/")) { // local file in correct
+													// form
+				// Application.debug("addPath2 "+path);
+				url = new URL(path);
+			} else { // file without path!
+
+				// URL codeBase=GeoGebraAppletBase.codeBase; doesn't work,
+				// returns base of HTML
+
+				// get applet codebase
+				// URL codeBase = (app.getApplet()!=null) ? app.getCodeBase() :
+				// null;
+
+				if (AppD.getCodeBase() != null) {
+					// Application.debug("addPath3"+path);
+					url = new URL(AppD.getCodeBase() + path); // running as
+																// applet
+				} else {
+					// Application.debug("addPath4"+path);
+					file = new File(path);
+					url = file.toURI().toURL();
+				}
+			}
+
+			debug("addPath " + url.toString());
+
+			return url;
+		} catch (MalformedURLException e) {
+			App.debug("addPath: MalformedURLExcepton for " + path);
+			return null;
+		} catch (Throwable e) {
+			App.debug("addPath: " + e.getMessage() + " for " + path);
+			return null;
+		}// try-catch
+	}// addPath(String)
 
 }// class PluginManager
 

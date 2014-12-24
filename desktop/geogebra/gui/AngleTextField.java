@@ -26,16 +26,17 @@ public class AngleTextField extends MyTextField implements KeyListener {
 	}
 
 	public void keyPressed(KeyEvent e) {
-		//do nothing
+		// do nothing
 	}
 
 	public void keyTyped(KeyEvent e) {
-		//do nothing
+		// do nothing
 	}
 
-	public void keyReleased(KeyEvent e) {   
-		
-		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e.isAltDown();
+	public void keyReleased(KeyEvent e) {
+
+		boolean modifierKeyPressed = AppD.MAC_OS ? e.isControlDown() : e
+				.isAltDown();
 
 		// we don't want to act when AltGr is down
 		// as it is used eg for entering {[}] is some locales
@@ -43,11 +44,12 @@ public class AngleTextField extends MyTextField implements KeyListener {
 		if (e.isAltDown() && e.isControlDown())
 			modifierKeyPressed = false;
 
-		//Application.debug(e+"");
-		
+		// Application.debug(e+"");
+
 		String insertString = "";
-		
-		switch (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US).charAt(0)) {
+
+		switch (KeyEvent.getKeyText(e.getKeyCode()).toLowerCase(Locale.US)
+				.charAt(0)) {
 		case 'o':
 			insertString = "\u00b0"; // degree symbol
 			break;
@@ -56,31 +58,31 @@ public class AngleTextField extends MyTextField implements KeyListener {
 			break;
 		}
 
-		if (modifierKeyPressed 
-				&& !insertString.equals(""))
-		{
+		if (modifierKeyPressed && !insertString.equals("")) {
 			int start = getSelectionStart();
-			int end = getSelectionEnd();        
-			//    clear selection if there is one
+			int end = getSelectionEnd();
+			// clear selection if there is one
 			if (start != end) {
 				int pos = getCaretPosition();
 				String oldText = getText();
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, start));
-				sb.append(oldText.substring(end));            
+				sb.append(oldText.substring(end));
 				setText(sb.toString());
-				if (pos < sb.length()) setCaretPosition(pos);
+				if (pos < sb.length())
+					setCaretPosition(pos);
 			}
 
 			String oldText = getText();
-			
+
 			// don't insert more than one degree sign or pi *in total*
-			if (oldText.indexOf('\u00b0') == -1 && oldText.indexOf('\u03c0') == -1) {
+			if (oldText.indexOf('\u00b0') == -1
+					&& oldText.indexOf('\u03c0') == -1) {
 				int pos = oldText.length(); // getCaretPosition();
 				StringBuilder sb = new StringBuilder();
 				sb.append(oldText.substring(0, pos));
 				sb.append(insertString);
-				sb.append(oldText.substring(pos));            
+				sb.append(oldText.substring(pos));
 				setText(sb.toString());
 				setCaretPosition(pos + insertString.length());
 			}
@@ -88,6 +90,5 @@ public class AngleTextField extends MyTextField implements KeyListener {
 			e.consume();
 		}
 	}
-
 
 }

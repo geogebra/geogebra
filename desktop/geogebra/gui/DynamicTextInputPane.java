@@ -59,7 +59,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	/**************************************
 	 * Constructs a DynamicTextInputPane
 	 * 
-	 * @param app app
+	 * @param app
+	 *            app
 	 */
 	public DynamicTextInputPane(AppD app) {
 		super();
@@ -89,7 +90,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return focusedTextComponent;
 	}
 
-	
 	public void focusGained(FocusEvent e) {
 		if (e.getSource() instanceof JTextComponent) {
 			focusedTextComponent = (JTextComponent) e.getSource();
@@ -133,12 +133,13 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		if (pos == -1) {
 			pos = getDocument().getLength(); // insert at end
 		}
-		
+
 		int mode = DynamicTextField.MODE_VALUE;
 		String s;
 
 		if (text.endsWith("]")) {
-			if (text.startsWith(s = app.getLocalization().getCommand("LaTeX") + "[")) {
+			if (text.startsWith(s = app.getLocalization().getCommand("LaTeX")
+					+ "[")) {
 
 				// strip off outer command
 				String temp = text.substring(s.length(), text.length() - 1);
@@ -158,8 +159,9 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 					mode = DynamicTextField.MODE_FORMULATEXT;
 				}
 
-			} else if (text.startsWith(s = app.getLocalization().
-					getCommand("Name") + "[")) {
+			} else if (text.startsWith(s = app.getLocalization().getCommand(
+					"Name")
+					+ "[")) {
 
 				// strip off outer command
 				text = text.substring(s.length(), text.length() - 1);
@@ -184,11 +186,13 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	/**
 	 * Converts the current editor content into a GeoText string.
-	 * @param latex boolean
+	 * 
+	 * @param latex
+	 *            boolean
 	 * @return String to convert to GeoText eg "value is "+a
 	 */
 	public String buildGeoGebraString(boolean latex) {
-		
+
 		currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
 
 		StringBuilder sb = new StringBuilder();
@@ -248,12 +252,12 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 			sb.append(content);
 			return;
 		}
-		
-		for (int i = 0 ; i < content.length() ; i++ ) {
+
+		for (int i = 0; i < content.length(); i++) {
 			char c = content.charAt(i);
 			if (c == '\"') {
 				sb.append(currentQuote);
-				
+
 				// flip open <-> closed
 				if (currentQuote == Unicode.OPEN_DOUBLE_QUOTE) {
 					currentQuote = Unicode.CLOSE_DOUBLE_QUOTE;
@@ -268,8 +272,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 * Builds and sets editor content to correspond with the text string of a
 	 * GeoText
 	 * 
-	 * @param geo GeoText
-	 * @param id id
+	 * @param geo
+	 *            GeoText
+	 * @param id
+	 *            id
 	 */
 	public void setText(GeoText geo, TextInputDialog id) {
 
@@ -293,8 +299,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	}
 
 	/**
-	 * @param en en
-	 * @param id id
+	 * @param en
+	 *            en
+	 * @param id
+	 *            id
 	 */
 	public void splitString(ExpressionNode en, TextInputDialog id) {
 		ExpressionValue left = en.getLeft();
@@ -360,9 +368,10 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 	/**
 	 * Overrides insertString to allow option offs = -1 for inserting at end.
-	 * @param offs 
-	 * @param str 
-	 * @param a 
+	 * 
+	 * @param offs
+	 * @param str
+	 * @param a
 	 */
 	public void insertString(int offs, String str, AttributeSet a) {
 		try {

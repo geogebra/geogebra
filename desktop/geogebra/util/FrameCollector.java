@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 
 /**
  * Interface for animated GIF export, needed to separate GUI from App
+ * 
  * @author Zbynek
  */
 

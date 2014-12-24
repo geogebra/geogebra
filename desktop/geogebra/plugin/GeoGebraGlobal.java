@@ -41,64 +41,67 @@ public class GeoGebraGlobal implements IdFunctionCall {
 			default:
 				throw Kit.codeBug();
 			}
-			IdFunctionObject f = new IdFunctionObject(obj, FTAG, id, name, arity, scope);
+			IdFunctionObject f = new IdFunctionObject(obj, FTAG, id, name,
+					arity, scope);
 			if (sealed) {
 				f.sealObject();
 			}
 			f.exportAsScopeProperty();
 		}
 	}
-	
-	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
+
+	public Object execIdCall(IdFunctionObject f, Context cx, Scriptable scope,
+			Scriptable thisObj, Object[] args) {
 		if (f.hasTag(FTAG)) {
 			int methodId = f.methodId();
 			switch (methodId) {
 			case Id_alert: {
-				
+
 				if (args.length != 1) {
-			        String error = argNumError(args.length, "alert( <String> )");
-			        app.showError(error);
+					String error = argNumError(args.length, "alert( <String> )");
+					app.showError(error);
 					throw new Error(error);
 				}
-				
-				Object value = (args.length != 0) ? args[0] : Undefined.instance;
-				
+
+				Object value = (args.length != 0) ? args[0]
+						: Undefined.instance;
+
 				if (!(value instanceof String)) {
-			        String error = argError(value.toString(), "alert( <String> )");
-			        app.showError(error);
+					String error = argError(value.toString(),
+							"alert( <String> )");
+					app.showError(error);
 					throw new Error(error);
 				}
-				
-				app.getGgbApi().alert((String)value);
-				
+
+				app.getGgbApi().alert((String) value);
+
 				return "";
 			}
 			case Id_prompt: {
 				Object value0 = (args.length != 0) ? args[0] : "";
 				Object value1 = (args.length > 1) ? args[1] : "";
-				/*String s = (String)JOptionPane.showInputDialog(
-	                    app.getFrame(),
-	                    value0,
-	                    "GeoGebra",
-	                    JOptionPane.PLAIN_MESSAGE,
-	                    null,
-	                    null,
-	                    value1);*/
+				/*
+				 * String s = (String)JOptionPane.showInputDialog(
+				 * app.getFrame(), value0, "GeoGebra",
+				 * JOptionPane.PLAIN_MESSAGE, null, null, value1);
+				 */
 				return app.getGgbApi().prompt(value0, value1);
 			}
 			}
 		}
 		throw f.unknown();
 	}
-	
+
 	private StringBuilder sb;
 	int[] linep = new int[1];
-	
+
 	private String argError(Object arg, String syntax) {
-		if (sb == null) sb = new StringBuilder();
-		else sb.setLength(0);
-        Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
+		if (sb == null)
+			sb = new StringBuilder();
+		else
+			sb.setLength(0);
+		Context.getSourcePositionFromStack(linep); // line number of error
+		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0] + ""));
 		sb.append("\n");
 		sb.append(loc.getError("IllegalArgument"));
 		sb.append(": ");
@@ -111,10 +114,12 @@ public class GeoGebraGlobal implements IdFunctionCall {
 	}
 
 	private String argNumError(int argNumber, String syntax) {
-		if (sb == null) sb = new StringBuilder();
-		else sb.setLength(0);
-        Context.getSourcePositionFromStack(linep); // line number of error
-		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0]+""));
+		if (sb == null)
+			sb = new StringBuilder();
+		else
+			sb.setLength(0);
+		Context.getSourcePositionFromStack(linep); // line number of error
+		sb.append(loc.getPlain("ErrorInJavaScriptAtLineA", linep[0] + ""));
 		sb.append("\n");
 		sb.append(loc.getError("IllegalArgumentNumber"));
 		sb.append(": ");
@@ -126,7 +131,8 @@ public class GeoGebraGlobal implements IdFunctionCall {
 		return sb.toString();
 	}
 
-	public static void initStandardObjects(AppD app, Scriptable scope, String arg, boolean sealed) {
+	public static void initStandardObjects(AppD app, Scriptable scope,
+			String arg, boolean sealed) {
 		geogebra.plugin.GgbAPID ggbApi = app.getGgbApi();
 		Object wrappedOut = Context.javaToJS(ggbApi, scope);
 		ScriptableObject.putProperty(scope, "ggbApplet", wrappedOut);
@@ -142,8 +148,6 @@ public class GeoGebraGlobal implements IdFunctionCall {
 
 	private static final Object FTAG = "Global";
 
-	private static final int 
-	Id_alert = 1, 
-	Id_prompt = 2, 
-		LAST_SCOPE_FUNCTION_ID = 2; 
+	private static final int Id_alert = 1, Id_prompt = 2,
+			LAST_SCOPE_FUNCTION_ID = 2;
 }

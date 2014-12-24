@@ -29,127 +29,124 @@ import javax.swing.SwingConstants;
 
 /**
  * Panel with fields to enter width and height of graphic file to be exported.
- * The ratio of init width and heigth is kept constant.
- * Use methods getSelectedWidth() and getSelectedHeight() to retrieve
- * the searched values.
+ * The ratio of init width and heigth is kept constant. Use methods
+ * getSelectedWidth() and getSelectedHeight() to retrieve the searched values.
  * 
  * @author Markus Hohenwarter
  * @author Philipp Weissenbacher (materthron@users.sourceforge.net)
  */
 public class GraphicSizePanel extends JPanel implements ActionListener,
-	FocusListener {
+		FocusListener {
 
-    /**
+	/**
      * 
      */
-    private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;
 
-    private static final int MIN = 10;
+	private static final int MIN = 10;
 
-    private static final int MAX = 5000;
+	private static final int MAX = 5000;
 
-    private int width, height;
+	private int width, height;
 
-    private double ratio;
+	private double ratio;
 
-    private JTextField tfWidth, tfHeight;
+	private JTextField tfWidth, tfHeight;
 
-    private boolean keepRatio;
+	private boolean keepRatio;
 
-    public GraphicSizePanel(AppD app, int width, int height) {
-	this(app, width, height, true);
-    }
-
-    public GraphicSizePanel(AppD app, int width, int height,
-	    boolean keepRatio) {
-	//this.app = app;
-
-	setLayout(new FlowLayout(5));
-	tfWidth = new MyTextField(app,5);
-	tfHeight = new MyTextField(app,5);
-	add(new JLabel(app.getPlain("Width") + ":"));
-	add(tfWidth);
-	add(new JLabel(app.getPlain("Height") + ":"));
-	add(tfHeight);
-	
-	tfWidth.setHorizontalAlignment(SwingConstants.RIGHT);
-	tfHeight.setHorizontalAlignment(SwingConstants.RIGHT);
-
-	setValues(width, height, keepRatio);
-
-	tfWidth.addActionListener(this);
-	tfHeight.addActionListener(this);
-	tfWidth.addFocusListener(this);
-	tfHeight.addFocusListener(this);
-    }
-
-    public void setValues(int width, int height, boolean keepRatio) {
-    	
-	this.width = width;
-	this.height = height;
-	this.keepRatio = keepRatio;
-	ratio = (double) width / height;
-
-	tfWidth.setText("" + width);
-	tfHeight.setText("" + height);
-    }
-
-    public int getSelectedWidth() {
-	return width;
-    }
-
-    public int getSelectedHeight() {
-	return height;
-    }
-
-    public void setEnabled(boolean flag) {
-	Object[] comp = getComponents();
-	for (int i = 0; i < comp.length; i++) {
-	    ((JComponent) comp[i]).setEnabled(flag);
+	public GraphicSizePanel(AppD app, int width, int height) {
+		this(app, width, height, true);
 	}
-    }
 
-    private void updateValues(Object src) {
-	if (src == tfWidth) {
-	    try {
-		int newValue = Integer.parseInt(tfWidth.getText());
-		if (MIN <= newValue && newValue <= MAX) {
-		    width = newValue;
-		}
-	    } catch (Exception e) {
-	    }
-	    tfWidth.setText("" + width);
-	    if (keepRatio) {
-		height = (int) Math.floor(width / ratio);
-		tfHeight.setText("" + height);
-	    }
+	public GraphicSizePanel(AppD app, int width, int height, boolean keepRatio) {
+		// this.app = app;
+
+		setLayout(new FlowLayout(5));
+		tfWidth = new MyTextField(app, 5);
+		tfHeight = new MyTextField(app, 5);
+		add(new JLabel(app.getPlain("Width") + ":"));
+		add(tfWidth);
+		add(new JLabel(app.getPlain("Height") + ":"));
+		add(tfHeight);
+
+		tfWidth.setHorizontalAlignment(SwingConstants.RIGHT);
+		tfHeight.setHorizontalAlignment(SwingConstants.RIGHT);
+
+		setValues(width, height, keepRatio);
+
+		tfWidth.addActionListener(this);
+		tfHeight.addActionListener(this);
+		tfWidth.addFocusListener(this);
+		tfHeight.addFocusListener(this);
 	}
-	else if (src == tfHeight) {
-	    try {
-		int newValue = Integer.parseInt(tfHeight.getText());
-		if (MIN <= newValue && newValue <= MAX) {
-		    height = newValue;
-		}
-	    } catch (Exception e) {
-	    }
-	    tfHeight.setText("" + height);
-	    if (keepRatio) {
-		width = (int) Math.floor(height * ratio);
+
+	public void setValues(int width, int height, boolean keepRatio) {
+
+		this.width = width;
+		this.height = height;
+		this.keepRatio = keepRatio;
+		ratio = (double) width / height;
+
 		tfWidth.setText("" + width);
-	    }
+		tfHeight.setText("" + height);
 	}
-    }
 
-    public void actionPerformed(ActionEvent ev) {
-	updateValues(ev.getSource());
-    }
+	public int getSelectedWidth() {
+		return width;
+	}
 
-    public void focusGained(FocusEvent ev) {
-    	//
-    }
+	public int getSelectedHeight() {
+		return height;
+	}
 
-    public void focusLost(FocusEvent ev) {
-	updateValues(ev.getSource());
-    }
+	public void setEnabled(boolean flag) {
+		Object[] comp = getComponents();
+		for (int i = 0; i < comp.length; i++) {
+			((JComponent) comp[i]).setEnabled(flag);
+		}
+	}
+
+	private void updateValues(Object src) {
+		if (src == tfWidth) {
+			try {
+				int newValue = Integer.parseInt(tfWidth.getText());
+				if (MIN <= newValue && newValue <= MAX) {
+					width = newValue;
+				}
+			} catch (Exception e) {
+			}
+			tfWidth.setText("" + width);
+			if (keepRatio) {
+				height = (int) Math.floor(width / ratio);
+				tfHeight.setText("" + height);
+			}
+		} else if (src == tfHeight) {
+			try {
+				int newValue = Integer.parseInt(tfHeight.getText());
+				if (MIN <= newValue && newValue <= MAX) {
+					height = newValue;
+				}
+			} catch (Exception e) {
+			}
+			tfHeight.setText("" + height);
+			if (keepRatio) {
+				width = (int) Math.floor(height * ratio);
+				tfWidth.setText("" + width);
+			}
+		}
+	}
+
+	public void actionPerformed(ActionEvent ev) {
+		updateValues(ev.getSource());
+	}
+
+	public void focusGained(FocusEvent ev) {
+		//
+	}
+
+	public void focusLost(FocusEvent ev) {
+		updateValues(ev.getSource());
+	}
 
 }

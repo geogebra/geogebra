@@ -5,10 +5,11 @@ import geogebra.common.util.ScientificFormatAdapter;
 import geogebra.util.NumberFormatDesktop;
 import geogebra.util.ScientificFormat;
 
-public class FormatFactoryD extends geogebra.common.factories.FormatFactory{
+public class FormatFactoryD extends geogebra.common.factories.FormatFactory {
 	@Override
-	public ScientificFormatAdapter getScientificFormat(int sigDigit, int maxWidth, boolean sciNote) {
-		return new ScientificFormat(sigDigit,maxWidth,sciNote);
+	public ScientificFormatAdapter getScientificFormat(int sigDigit,
+			int maxWidth, boolean sciNote) {
+		return new ScientificFormat(sigDigit, maxWidth, sciNote);
 	}
 
 	@Override

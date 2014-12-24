@@ -6,8 +6,8 @@ import geogebra.common.util.URLEncoder;
 import geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * Desktop implementations for various utils
+ * @author Zoltan Kovacs <zoltan@geogebra.org> Desktop implementations for
+ *         various utils
  */
 public class UtilFactoryD extends geogebra.common.factories.UtilFactory {
 

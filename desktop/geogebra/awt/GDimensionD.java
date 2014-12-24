@@ -2,15 +2,19 @@ package geogebra.awt;
 
 public class GDimensionD extends geogebra.common.awt.GDimension {
 	private java.awt.Dimension impl;
-	public GDimensionD(java.awt.Dimension dim){
+
+	public GDimensionD(java.awt.Dimension dim) {
 		impl = dim;
 	}
-	public GDimensionD(int a,int b){
-		impl = new java.awt.Dimension(a,b);
+
+	public GDimensionD(int a, int b) {
+		impl = new java.awt.Dimension(a, b);
 	}
+
 	public GDimensionD() {
 		impl = new java.awt.Dimension();
 	}
+
 	@Override
 	public int getWidth() {
 		return impl.width;
@@ -21,15 +25,17 @@ public class GDimensionD extends geogebra.common.awt.GDimension {
 		// TODO Auto-generated method stub
 		return impl.height;
 	}
-	
+
 	/**
-	 * @param d dimension, must be of the type geogebra.awt.Dimension
+	 * @param d
+	 *            dimension, must be of the type geogebra.awt.Dimension
 	 * @return AWT implementation wrapped in d
 	 */
-	public static java.awt.Dimension getAWTDimension(geogebra.common.awt.GDimension d){
-		if(!(d instanceof GDimensionD))
+	public static java.awt.Dimension getAWTDimension(
+			geogebra.common.awt.GDimension d) {
+		if (!(d instanceof GDimensionD))
 			return null;
-		return ((GDimensionD)d).impl;
+		return ((GDimensionD) d).impl;
 	}
 
 }

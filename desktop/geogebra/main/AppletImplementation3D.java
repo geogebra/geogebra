@@ -31,5 +31,4 @@ public class AppletImplementation3D extends AppletImplementation {
 		return new App3D(args, this, undoActive);
 	}
 
-
 }
