@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -21,34 +20,33 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-
 /**
  * Compute a line through a point and parallel to a vector
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 
- 
+	public AlgoRayPointVector3D(Construction cons, String label,
+			GeoPointND point, GeoVectorND v) {
+		super(cons, label, point, v);
+	}
 
-    public AlgoRayPointVector3D(Construction cons, String label, GeoPointND point, GeoVectorND v) {
-        super(cons,label,point,v);
-    }
-
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Ray;
-    }
+		return Commands.Ray;
+	}
 
-    @Override
-	protected GeoLine3D createLine(Construction cons){
-    	return new GeoRay3D(cons);
-    }
+	@Override
+	protected GeoLine3D createLine(Construction cons) {
+		return new GeoRay3D(cons);
+	}
 
-    @Override
-    final public String toString(StringTemplate tpl) {
-    	return getLoc().getPlain("RayThroughAWithDirectionB",getPoint().getLabel(tpl),getInputParallel().getLabel(tpl));
-    }
+	@Override
+	final public String toString(StringTemplate tpl) {
+		return getLoc().getPlain("RayThroughAWithDirectionB",
+				getPoint().getLabel(tpl), getInputParallel().getLabel(tpl));
+	}
 
 }

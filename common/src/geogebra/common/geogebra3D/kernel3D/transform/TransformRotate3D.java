@@ -11,24 +11,29 @@ import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * 3D rotations
+ * 
  * @author mathieu
  *
  */
-public class TransformRotate3D extends TransformRotate{
+public class TransformRotate3D extends TransformRotate {
 
 	private GeoDirectionND orientation;
-	
+
 	private GeoLineND line;
-	
+
 	/**
 	 * constructor
-	 * @param cons construction
-	 * @param angle rotation angle
-	 * @param center center
-	 * @param orientation orientation
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param angle
+	 *            rotation angle
+	 * @param center
+	 *            center
+	 * @param orientation
+	 *            orientation
 	 */
 	public TransformRotate3D(Construction cons, GeoNumberValue angle,
 			GeoPointND center, GeoDirectionND orientation) {
@@ -36,12 +41,16 @@ public class TransformRotate3D extends TransformRotate{
 		this.orientation = orientation;
 
 	}
-	
+
 	/**
 	 * constructor
-	 * @param cons construction
-	 * @param angle rotation angle
-	 * @param line line
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param angle
+	 *            rotation angle
+	 * @param line
+	 *            line
 	 */
 	public TransformRotate3D(Construction cons, GeoNumberValue angle,
 			GeoLineND line) {
@@ -49,12 +58,13 @@ public class TransformRotate3D extends TransformRotate{
 		this.line = line;
 
 	}
-	
+
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoTransformation algo = null;
-		if (line==null) //rotation about center + orientation
-			algo = new AlgoRotate3DPointOrientation(cons, geo, angle, center, orientation);
+		if (line == null) // rotation about center + orientation
+			algo = new AlgoRotate3DPointOrientation(cons, geo, angle, center,
+					orientation);
 		else
 			algo = new AlgoRotate3DLine(cons, geo, angle, line);
 		return algo;

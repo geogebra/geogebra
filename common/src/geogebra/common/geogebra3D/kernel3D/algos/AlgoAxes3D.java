@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAxes.java
@@ -24,54 +24,48 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoAxesQuadricND;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoAxes3D extends AlgoAxesQuadricND {
-	
 
+	AlgoAxes3D(Construction cons, String label, GeoQuadricND c) {
+		super(cons, label, c);
+	}
 
-    AlgoAxes3D(Construction cons, String label, GeoQuadricND c) {
-        super(cons, label, c);
-    }
+	public AlgoAxes3D(Construction cons, String[] labels, GeoQuadricND c) {
+		super(cons, labels, c);
+	}
 
-    public AlgoAxes3D(Construction cons, String[] labels, GeoQuadricND c) {
-        super(cons, labels, c);
-    }
+	@Override
+	protected void createInput() {
+		int d = c.getDimension();
+		axes = new GeoLine3D[d];
+		for (int i = 0; i < d; i++) {
+			axes[i] = new GeoLine3D(cons);
+		}
 
-    
-    @Override
-	protected void createInput(){
-    	int d = c.getDimension();
-    	axes = new GeoLine3D[d];
-    	for (int i = 0; i<d ; i++){
-    		axes[i] = new GeoLine3D(cons);
-    	}
-        
-    }
+	}
 
-    
-    private Coords midpoint;
+	private Coords midpoint;
 
-    // calc axes
-    @Override
+	// calc axes
+	@Override
 	public final void compute() {
-    	
-    	midpoint = c.getMidpoint3D();
-        
-    	super.compute();
 
-    }
+		midpoint = c.getMidpoint3D();
+
+		super.compute();
+
+	}
 
 	@Override
 	protected void setAxisCoords(int i) {
 		GeoLine3D axis = (GeoLine3D) axes[i];
 		axis.setCoord(midpoint, c.getEigenvec3D(i));
-		
+
 	}
 
-   
 }

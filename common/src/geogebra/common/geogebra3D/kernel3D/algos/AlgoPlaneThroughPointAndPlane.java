@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -21,74 +20,64 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Compute a plane through a point and parallel to another plane (or polygon)
  * 
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoPlaneThroughPointAndPlane extends AlgoPlaneThroughPoint {
 
- 
-    private GeoCoordSys2D cs; // input
+	private GeoCoordSys2D cs; // input
 
+	public AlgoPlaneThroughPointAndPlane(Construction cons, String label,
+			GeoPointND point, GeoCoordSys2D cs) {
+		super(cons, point);
+		this.cs = cs;
 
-    public AlgoPlaneThroughPointAndPlane(Construction cons, String label, GeoPointND point, GeoCoordSys2D cs) {
-        super(cons,point);
-        this.cs = cs;
-        
-        setInputOutput(new GeoElement[] {(GeoElement) point, (GeoElement) cs}, new GeoElement[] {getPlane()});
+		setInputOutput(
+				new GeoElement[] { (GeoElement) point, (GeoElement) cs },
+				new GeoElement[] { getPlane() });
 
-        // compute plane 
-        compute();
-        getPlane().setLabel(label);
-    }
+		// compute plane
+		compute();
+		getPlane().setLabel(label);
+	}
 
-
-
-
-  
-    @Override
+	@Override
 	public final void compute() {
-    	
-    	
-    	
-    	CoordSys coordsys = getPlane().getCoordSys();
-    	
-		//recompute the coord sys
-    	coordsys.resetCoordSys();
-    	
-    	if (!cs.toGeoElement().isDefined())
-    		return;
-		
-    	Coords o = getPoint().getInhomCoordsInD3();
-    	coordsys.addPoint(o);
 
-    	CoordSys inputCS = cs.getCoordSys();
-    	coordsys.addVectorWithoutCheckMadeCoordSys(inputCS.getVx());
-    	coordsys.addVectorWithoutCheckMadeCoordSys(inputCS.getVy());
+		CoordSys coordsys = getPlane().getCoordSys();
 
- 
-		
-		coordsys.makeOrthoMatrix(true,false);
+		// recompute the coord sys
+		coordsys.resetCoordSys();
+
+		if (!cs.toGeoElement().isDefined())
+			return;
+
+		Coords o = getPoint().getInhomCoordsInD3();
+		coordsys.addPoint(o);
+
+		CoordSys inputCS = cs.getCoordSys();
+		coordsys.addVectorWithoutCheckMadeCoordSys(inputCS.getVx());
+		coordsys.addVectorWithoutCheckMadeCoordSys(inputCS.getVy());
+
+		coordsys.makeOrthoMatrix(true, false);
 
 		// notice that coordsys.getEquationVector() W value is ignored
-		if (cs instanceof GeoPlane3D){
+		if (cs instanceof GeoPlane3D) {
 			coordsys.setEquationVector(o, inputCS.getEquationVector());
-		}else{
+		} else {
 			coordsys.setEquationVector(o, inputCS.getVz());
 		}
 
-        
-    }
+	}
 
-    
-    @Override
-	protected GeoElement getSecondInput(){
-    	return (GeoElement) cs;
-    }
+	@Override
+	protected GeoElement getSecondInput() {
+		return (GeoElement) cs;
+	}
 
 	// TODO Consider locusequability
 }

@@ -50,94 +50,96 @@ public class CommandDispatcher3D extends CommandDispatcher {
 			case Midpoint:
 			case Center:
 				return new CmdMidpoint3D(kernel);
-				
+
 			case Tangent:
 				return new CmdTangent3D(kernel);
-				
+
 			case Polar:
 				return new CmdPolar3D(kernel);
-				
+
 			case Diameter:
 			case ConjugateDiameter:
 				return new CmdDiameter3D(kernel);
-				
+
 			case Circle:
 				return new CmdCircle3D(kernel);
-				
+
 			case Ellipse:
-				return new CmdEllipseHyperbola3D(kernel, GeoConicNDConstants.CONIC_ELLIPSE);
+				return new CmdEllipseHyperbola3D(kernel,
+						GeoConicNDConstants.CONIC_ELLIPSE);
 			case Hyperbola:
-				return new CmdEllipseHyperbola3D(kernel, GeoConicNDConstants.CONIC_HYPERBOLA);
+				return new CmdEllipseHyperbola3D(kernel,
+						GeoConicNDConstants.CONIC_HYPERBOLA);
 			case Conic:
 				return new CmdConic3D(kernel);
-				
+
 			case CircumcircleSector:
 			case CircumcircularSector:
 				return new CmdCircumcircleSector3D(kernel);
-				
+
 			case CircumcircleArc:
 			case CircumcircularArc:
 				return new CmdCircumcircleArc3D(kernel);
-				
+
 			case Arc:
-				return new CmdArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_ARC);
+				return new CmdArcSector3D(kernel,
+						GeoConicNDConstants.CONIC_PART_ARC);
 			case Sector:
-				return new CmdArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
-				
+				return new CmdArcSector3D(kernel,
+						GeoConicNDConstants.CONIC_PART_SECTOR);
+
 			case CircleArc:
 			case CircularArc:
-					return new CmdCircleArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_ARC);
-					
+				return new CmdCircleArcSector3D(kernel,
+						GeoConicNDConstants.CONIC_PART_ARC);
+
 			case CircleSector:
 			case CircularSector:
-				return new CmdCircleArcSector3D(kernel, GeoConicNDConstants.CONIC_PART_SECTOR);
+				return new CmdCircleArcSector3D(kernel,
+						GeoConicNDConstants.CONIC_PART_SECTOR);
 
 			case Semicircle:
 				return new CmdSemicircle3D(kernel);
-				
+
 			case Parabola:
 				return new CmdParabola3D(kernel);
-				
+
 			case Corner:
 				return new CmdCorner3D(kernel);
-				
+
 			case CornerThreeD:
 				return new CmdVertexForce3D(kernel);
-				
+
 			case Locus:
 				return new CmdLocus3D(kernel);
-				
+
 			case Vertex:
 				return new CmdVertex3D(kernel);
-				
+
 			case Focus:
 				return new CmdFocus3D(kernel);
 
-				
 			case OrthogonalLine:
 				return new CmdOrthogonalLine3D(kernel);
-				
+
 			case LineBisector:
 			case PerpendicularBisector:
 				return new CmdLineBisector3D(kernel);
 
-				
-
 			case AngleBisector:
 			case AngularBisector:
 				return new CmdAngularBisector3D(kernel);
-				
+
 			case OrthogonalVector:
 				return new CmdOrthogonalVector3D(kernel);
 
 			case UnitOrthogonalVector:
 				return new CmdUnitOrthogonalVector3D(kernel);
-				
+
 			case UnitVector:
 				return new CmdUnitVector3D(kernel);
-				
-				
-			case Curve:	
+
+			case Curve:
 			case CurveCartesian:
 				return new CmdCurveCartesian3D(kernel);
 
@@ -168,40 +170,38 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdArchimedeanSolid(kernel, Commands.Dodecahedron);
 			case Icosahedron:
 				return new CmdArchimedeanSolid(kernel, Commands.Icosahedron);
-			
-			
+
 			case Net:
 				return new CmdPolyhedronNet(kernel);
-			
-			/*
-			case Polyhedron:
-				return new CmdPolyhedronConvex(kernel);
-			*/
-				
+
+				/*
+				 * case Polyhedron: return new CmdPolyhedronConvex(kernel);
+				 */
+
 			case PointIn:
 				return new CmdPointIn3D(kernel);
 
 			case Distance:
 				return new CmdDistance3D(kernel);
-				
+
 			case ClosestPoint:
 				return new CmdClosestPoint3D(kernel);
-				
+
 			case ClosestPointRegion:
 				return new CmdClosestPointRegion(kernel);
-				
+
 			case Intersect:
 				return new CmdIntersect3D(kernel);
-								
+
 			case IntersectPath:
 			case IntersectionPaths: // deprecated
 			case IntersectRegion: // deprecated
-				return new CmdIntersectPath3D(kernel);				
-				
+				return new CmdIntersectPath3D(kernel);
+
 			case IntersectCircle:
 			case IntersectConic:
-				return new CmdIntersectConic(kernel);				
-						
+				return new CmdIntersectConic(kernel);
+
 			case Sphere:
 				return new CmdSphere3D(kernel);
 
@@ -229,7 +229,7 @@ public class CommandDispatcher3D extends CommandDispatcher {
 				return new CmdTop(kernel);
 			case Ends:
 				return new CmdEnds(kernel);
-				
+
 			case Function:
 				return new CmdFunction2Var(kernel);
 
@@ -241,10 +241,10 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			case Translate:
 				return new CmdTranslate3D(kernel);
-				
+
 			case Rotate:
 				return new CmdRotate3D(kernel);
-				
+
 			case Mirror:
 				return new CmdMirror3D(kernel);
 
@@ -253,29 +253,23 @@ public class CommandDispatcher3D extends CommandDispatcher {
 
 			case Length:
 				return new CmdLength3D(kernel);
-				
-				
+
 			case Volume:
 				return new CmdVolume(kernel);
-				
+
 			case Height:
 				return new CmdHeight(kernel);
-				
-				
-				
-				
+
 			case Axes:
 				return new CmdAxes3D(kernel);
-				
-				
-			// scripting : 3D
+
+				// scripting : 3D
 			case SetViewDirection:
 				return new CmdSetViewDirection(kernel);
-				
+
 			case SetSpinSpeed:
 				return new CmdSetSpinSpeed(kernel);
-				
-				
+
 			default:
 				return super.commandTableSwitch(cmdName);
 			}

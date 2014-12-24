@@ -26,29 +26,27 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.HasHeight;
 
-
-
 /**
  *
- * @author  Mathieu
-  */
+ * @author Mathieu
+ */
 public class AlgoOrientedHeight extends AlgoElement {
 
-	private HasHeight c;  // input
-	private GeoNumeric num;     // output                  
+	private HasHeight c; // input
+	private GeoNumeric num; // output
 
-	public AlgoOrientedHeight(Construction cons, HasHeight c) {        
+	public AlgoOrientedHeight(Construction cons, HasHeight c) {
 		super(cons);
-		this.c = c;                                                              
-		num = new GeoNumeric(cons);                
-		setInputOutput(); // for AlgoElement                
-		compute();                     
-	}   
+		this.c = c;
+		num = new GeoNumeric(cons);
+		setInputOutput(); // for AlgoElement
+		compute();
+	}
 
-	public AlgoOrientedHeight(Construction cons, String label,HasHeight c) {        
-		this(cons,c);    
-		num.setLabel(label);            
-	}   
+	public AlgoOrientedHeight(Construction cons, String label, HasHeight c) {
+		this(cons, c);
+		num.setLabel(label);
+	}
 
 	@Override
 	public Commands getClassName() {
@@ -59,32 +57,32 @@ public class AlgoOrientedHeight extends AlgoElement {
 	@Override
 	protected void setInputOutput() {
 		input = new GeoElement[1];
-		input[0] = (GeoElement) c;        
+		input[0] = (GeoElement) c;
 
 		super.setOutputLength(1);
 		super.setOutput(0, num);
 		setDependencies(); // done by AlgoElement
-	}       
+	}
 
 	/**
 	 * @return algebraic height (can be negative)
 	 */
-	public GeoNumeric getOrientedHeight() { 
+	public GeoNumeric getOrientedHeight() {
 		return num;
-	} 
+	}
 
 	@Override
 	public final void compute() {
-		if (!((GeoElement) c).isDefined()){
+		if (!((GeoElement) c).isDefined()) {
 			num.setUndefined();
-		}else{
+		} else {
 			num.setValue(c.getOrientedHeight());
 		}
 	}
 
 	@Override
 	final public String toString(StringTemplate tpl) {
-		return getLoc().getPlain("HeightOfA",((GeoElement) c).getLabel(tpl));
+		return getLoc().getPlain("HeightOfA", ((GeoElement) c).getLabel(tpl));
 	}
 
 }

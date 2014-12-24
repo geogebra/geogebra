@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -21,34 +20,32 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-
 /**
  * Compute a line through a point and parallel to a vector
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoLinePointVector3D extends AlgoLinePoint {
 
- 
+	public AlgoLinePointVector3D(Construction cons, String label,
+			GeoPointND point, GeoVectorND v) {
+		super(cons, label, point, (GeoElement) v);
+	}
 
-    public AlgoLinePointVector3D(Construction cons, String label, GeoPointND point, GeoVectorND v) {
-        super(cons,label,point, (GeoElement) v);
-    }
-
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Line;
-    }
+		return Commands.Line;
+	}
 
 	@Override
 	protected Coords getDirection() {
 		return ((GeoVectorND) getInputParallel()).getCoordsInD3();
 	}
 
-
-    @Override
+	@Override
 	public String toString(StringTemplate tpl) {
-        return getLoc().getPlain("LineThroughAwithDirectionB",getPoint().getLabel(tpl),getInputParallel().getLabel(tpl));
-    }
+		return getLoc().getPlain("LineThroughAwithDirectionB",
+				getPoint().getLabel(tpl), getInputParallel().getLabel(tpl));
+	}
 }

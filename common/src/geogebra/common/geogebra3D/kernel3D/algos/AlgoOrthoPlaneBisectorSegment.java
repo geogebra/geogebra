@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -19,47 +18,43 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
-
 /**
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoOrthoPlaneBisectorSegment extends AlgoOrthoPlane {
 
- 
 	private GeoSegmentND segment; // input
 
+	public AlgoOrthoPlaneBisectorSegment(Construction cons, String label,
+			GeoSegmentND segment) {
+		super(cons);
+		this.segment = segment;
 
-    public AlgoOrthoPlaneBisectorSegment(Construction cons, String label, GeoSegmentND segment) {
-        super(cons);
-        this.segment = segment;
-        
-        setInputOutput(new GeoElement[] {(GeoElement) segment}, new GeoElement[] {getPlane()});
+		setInputOutput(new GeoElement[] { (GeoElement) segment },
+				new GeoElement[] { getPlane() });
 
-        // compute plane 
-        compute();
-        getPlane().setLabel(label);
-    }
+		// compute plane
+		compute();
+		getPlane().setLabel(label);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.PlaneBisector;
-    }
+		return Commands.PlaneBisector;
+	}
 
+	@Override
+	protected Coords getNormal() {
+		return ((GeoElement) segment).getMainDirection();
+	}
 
-
-
-    @Override
-	protected Coords getNormal(){
-    	return ((GeoElement) segment).getMainDirection();
-    }
-
-    @Override
-	protected Coords getPoint(){
-    	return segment.getPointInD(3, 0.5).getInhomCoordsInSameDimension();
-    }
+	@Override
+	protected Coords getPoint() {
+		return segment.getPointInD(3, 0.5).getInhomCoordsInSameDimension();
+	}
 
 	// TODO Consider locusequability
 

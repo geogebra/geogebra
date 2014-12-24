@@ -7,26 +7,26 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoAxisND;
 import geogebra.common.plugin.GeoClass;
 
-public class GeoAxis3D extends GeoLine3D implements GeoAxisND {	
+public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 
 	private int type;
-	
+
 	// for numbers and ticks
-	private int ticksize = 5; //TODO
+	private int ticksize = 5; // TODO
 
 	public GeoAxis3D(Construction cons) {
 		super(cons);
 	}
-	
+
 	public int getType() {
 		return type;
 	}
-		
-	public GeoAxis3D(Construction c, int type){
+
+	public GeoAxis3D(Construction c, int type) {
 		this(c);
-		
-		this.type=type;
-		
+
+		this.type = type;
+
 		switch (type) {
 		case X_AXIS_3D:
 			setCoord(Coords.O, Coords.VX);
@@ -37,21 +37,22 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		case Y_AXIS_3D:
 			setCoord(Coords.O, Coords.VY);
 			label = "yAxis3D";
-			//setObjColor(Color.GREEN);
-			setObjColor(GColor.darkGreen);//(new geogebra.awt.GColorD(0,0.5f,0));
+			// setObjColor(Color.GREEN);
+			setObjColor(GColor.darkGreen);// (new
+											// geogebra.awt.GColorD(0,0.5f,0));
 			break;
-			
+
 		case Z_AXIS_3D:
 			setCoord(Coords.O, Coords.VZ);
 			label = "zAxis";
 			setObjColor(GColor.BLUE);
 			break;
 		}
-		
+
 		labelSet = true;
 		setFixed(true);
-		setLabelVisible(false);		
-	}	
+		setLabelVisible(false);
+	}
 
 	@Override
 	public boolean isAvailableAtConstructionStep(int step) {
@@ -70,49 +71,43 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 	public GeoClass getGeoClassType() {
 		return GeoClass.AXIS3D;
 	}
-		
+
 	@Override
 	public String toValueString(StringTemplate tpl) {
 		return label;
 	}
-		
-
 
 	/**
-	 * overrides GeoElement method : this is a "constant" element, so the label is set
+	 * overrides GeoElement method : this is a "constant" element, so the label
+	 * is set
 	 */
 	@Override
 	public boolean isLabelSet() {
 		return true;
-	}	
+	}
 
 	public String getUnitLabel() {
 		// TODO Auto-generated method stub
 		return "";
 	}
 
-
 	public int getTickStyle() {
 		// TODO Auto-generated method stub
 		return 0;
 	}
 
-
 	public boolean getShowNumbers() {
 		// TODO Auto-generated method stub
 		return true;
 	}
-	
-	
-	
-	
+
 	/**
 	 * @return tick size
 	 */
-	public int getTickSize(){
+	public int getTickSize() {
 		return ticksize;
 	}
-	
+
 	@Override
 	public Coords getDirectionInD3() {
 		return new Coords(0, 0, 1, 0);
@@ -123,7 +118,6 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return true;
 	}
 
-	
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		if (tpl.isPrintLocalizedCommandNames()) {
@@ -132,17 +126,16 @@ public class GeoAxis3D extends GeoLine3D implements GeoAxisND {
 		return label;
 
 	}
-	
+
 	@Override
 	public boolean isTraceable() {
 		return false;
 	}
-	
+
 	@Override
 	final protected void getCoordsXML(StringBuilder sb) {
-		//not needed here
+		// not needed here
 	}
-	
 
 	@Override
 	public boolean isRenameable() {

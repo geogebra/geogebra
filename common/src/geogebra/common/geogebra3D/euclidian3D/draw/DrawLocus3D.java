@@ -14,8 +14,6 @@ import geogebra.common.kernel.geos.GeoLocusND;
  */
 public class DrawLocus3D extends Drawable3DCurves {
 
-
-
 	/**
 	 * @param a_view3d
 	 *            the 3D view where the curve is drawn
@@ -34,35 +32,32 @@ public class DrawLocus3D extends Drawable3DCurves {
 
 	}
 
-
-	
 	@Override
 	protected boolean updateForItSelf() {
-		
-		
+
 		EuclidianView3D view = getView3D();
-		
+
 		Renderer renderer = view.getRenderer();
 
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(getGeoElement().getLineThickness(),(float) view.getScale());		
-		brush.setAffineTexture(0f,0f);
+		brush.setThickness(getGeoElement().getLineThickness(),
+				(float) view.getScale());
+		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
-		
-		
 
 		CurvePlotter.draw(brush, ((GeoLocusND) getGeoElement()).getPoints());
 
 		setGeometryIndex(brush.end());
-		
+
 		return true;
-		
+
 	}
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
+		if (getView3D().viewChangedByZoom()
+				|| getView3D().viewChangedByTranslate()) {
 			setWaitForUpdate();
 		}
 	}
@@ -71,16 +66,15 @@ public class DrawLocus3D extends Drawable3DCurves {
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_PATH;
 	}
-	
+
 	@Override
-	public void addToDrawable3DLists(Drawable3DLists lists){
-		addToDrawable3DLists(lists,DRAW_TYPE_CLIPPED_CURVES);
+	public void addToDrawable3DLists(Drawable3DLists lists) {
+		addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
 	}
-    
-    @Override
-	public void removeFromDrawable3DLists(Drawable3DLists lists){
-    	removeFromDrawable3DLists(lists,DRAW_TYPE_CLIPPED_CURVES);
-    }
+
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists) {
+		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
+	}
 
 }
-

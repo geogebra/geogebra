@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDiameterLineVector.java
@@ -27,14 +27,13 @@ import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
-	
+
 	private Coords direction;
 
 	private GeoLine diameter2D;
@@ -43,30 +42,26 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 	private Coords diameterOrigin, diameterDirection;
 
+	/** Creates new AlgoDiameterVector */
+	public AlgoDiameterVector3D(Construction cons, String label, GeoConicND c,
+			GeoVectorND v) {
+		super(cons, label, c, v);
+	}
 
-    /** Creates new AlgoDiameterVector */
-    public AlgoDiameterVector3D(
-        Construction cons,
-        String label,
-        GeoConicND c,
-        GeoVectorND v) {
-        super(cons, label, c, v);
-    }
-
-    @Override
-	protected void createOutput(Construction cons){
-    	diameter = new GeoLine3D(cons);
+	@Override
+	protected void createOutput(Construction cons) {
+		diameter = new GeoLine3D(cons);
 		diameter2D = new GeoLine(cons);
 		diameterCoords = new double[3];
-    }
+	}
 
-    // calc diameter line of v relativ to c
-    @Override
+	// calc diameter line of v relativ to c
+	@Override
 	public final void compute() {
-    	
+
 		// check direction is parallel to coord sys
 		direction = c.getCoordSys().getNormalProjection(v.getCoordsInD3())[1];
-		if (!Kernel.isZero(direction.getZ())){
+		if (!Kernel.isZero(direction.getZ())) {
 			diameter.setUndefined();
 			return;
 		}
@@ -76,16 +71,17 @@ public class AlgoDiameterVector3D extends AlgoDiameterVectorND {
 
 		// update diameter line (3D)
 		diameter2D.getCoords(diameterCoords);
-		diameterDirection = c.getCoordSys().getVector(-diameterCoords[1], diameterCoords[0]);
-		if (Kernel.isZero(diameterCoords[0])){
-			diameterOrigin = c.getCoordSys().getPoint(0,-diameterCoords[2]/diameterCoords[1]);
-		}else{
-			diameterOrigin = c.getCoordSys().getPoint(-diameterCoords[2]/diameterCoords[0], 0);
+		diameterDirection = c.getCoordSys().getVector(-diameterCoords[1],
+				diameterCoords[0]);
+		if (Kernel.isZero(diameterCoords[0])) {
+			diameterOrigin = c.getCoordSys().getPoint(0,
+					-diameterCoords[2] / diameterCoords[1]);
+		} else {
+			diameterOrigin = c.getCoordSys().getPoint(
+					-diameterCoords[2] / diameterCoords[0], 0);
 		}
 
-
 		((GeoLine3D) diameter).setCoord(diameterOrigin, diameterDirection);
-    }
+	}
 
-    
 }

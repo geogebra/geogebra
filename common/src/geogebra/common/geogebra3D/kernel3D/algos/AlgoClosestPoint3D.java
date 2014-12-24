@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -19,47 +19,37 @@ import geogebra.common.kernel.algos.AlgoClosestPoint;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
-
-
 public class AlgoClosestPoint3D extends AlgoClosestPoint {
 
+	public AlgoClosestPoint3D(Construction c, Path path, GeoPointND point) {
+		super(c, path, point);
 
-    public AlgoClosestPoint3D(Construction c, Path path, GeoPointND point) {
-        super(c, path, point);
-        
-    }
-    
-    public AlgoClosestPoint3D(Construction cons, String label, Path path, GeoPointND point) {
-    	super(cons,label,path,point);
 	}
-    
-    protected void createOutputPoint(Construction cons, Path path){
-        P = new GeoPoint3D(cons);
-        ((GeoPoint3D) P).setPath(path);
-    }
-    
 
-    @Override
+	public AlgoClosestPoint3D(Construction cons, String label, Path path,
+			GeoPointND point) {
+		super(cons, label, path, point);
+	}
+
+	protected void createOutputPoint(Construction cons, Path path) {
+		P = new GeoPoint3D(cons);
+		((GeoPoint3D) P).setPath(path);
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.ClosestPoint;
 	}
-    
-    @Override
-	protected void setCoords(){
-    	((GeoPoint3D) P).setCoords(point);
-    }
-    
 
-    @Override
-	protected void addIncidence() {
-    	//TODO
-		
+	@Override
+	protected void setCoords() {
+		((GeoPoint3D) P).setCoords(point);
 	}
-	
 
+	@Override
+	protected void addIncidence() {
+		// TODO
 
-	
+	}
 
-    
 }

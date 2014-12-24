@@ -13,7 +13,7 @@ public class Point extends Coords {
 	public Point(double x, double y, double z) {
 		super(x, y, z, 1.0);
 	}
-	
+
 	public String toString() {
 		return "(" + getX() + ", " + getY() + ", " + getZ() + ")";
 	}

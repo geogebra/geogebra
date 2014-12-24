@@ -15,16 +15,17 @@ import geogebra.common.kernel.geos.GeoList;
  *
  */
 public class DrawList3D extends Drawable3D {
-	
-	private GeoList geoList;	
+
+	private GeoList geoList;
 	private boolean isVisible;
-	
+
 	private Drawable3DListsForDrawList3D drawable3DLists;
-	
+
 	private DrawList3DArray drawables;
 
 	/**
 	 * common constructor
+	 * 
 	 * @param view3D
 	 * @param geo
 	 */
@@ -33,89 +34,81 @@ public class DrawList3D extends Drawable3D {
 		drawables = new DrawList3DArray(view3D, this);
 		this.geoList = geo;
 		drawable3DLists = new Drawable3DListsForDrawList3D(view3D);
-		
+
 		setPickingType(PickingType.POINT_OR_CURVE);
 	}
 
 	@Override
 	protected boolean updateForItSelf() {
-		
-		//App.debug("LIST -- "+getGeoElement());
-				
+
+		// App.debug("LIST -- "+getGeoElement());
+
 		isVisible = geoList.isEuclidianVisible();
-    	if (!isVisible) return true;    	
-    	
-    	//getView3D().removeGeoToPick(drawables.size());
-    	
-    	// go through list elements and create and/or update drawables
-    	int size = geoList.size();
-    	drawables.ensureCapacity(size);
-    	int oldDrawableSize = drawables.size();
-    	 	
-    	int drawablePos = 0;
-    	for (int i=0; i < size; i++) {    		
-    		GeoElement listElement = geoList.get(i);
-    		// only new 3D elements are drawn 
-    		if (!listElement.hasDrawable3D())
-    			continue;
-    		
-    		// add drawable for listElement
-    		if (drawables.addToDrawableList(listElement, drawablePos, oldDrawableSize, this))
-    			drawablePos++;
-    		
-    	}   
-    	
-		// remove end of list
-		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
-			//getView3D().remove(drawables.get(i).getGeoElement());
-			drawable3DLists.remove((Drawable3D) drawables.get(i));
-			drawables.remove(i);
-			
+		if (!isVisible)
+			return true;
+
+		// getView3D().removeGeoToPick(drawables.size());
+
+		// go through list elements and create and/or update drawables
+		int size = geoList.size();
+		drawables.ensureCapacity(size);
+		int oldDrawableSize = drawables.size();
+
+		int drawablePos = 0;
+		for (int i = 0; i < size; i++) {
+			GeoElement listElement = geoList.get(i);
+			// only new 3D elements are drawn
+			if (!listElement.hasDrawable3D())
+				continue;
+
+			// add drawable for listElement
+			if (drawables.addToDrawableList(listElement, drawablePos,
+					oldDrawableSize, this))
+				drawablePos++;
+
 		}
 
-		
- 		// update for list of lists
+		// remove end of list
+		for (int i = drawables.size() - 1; i >= drawablePos; i--) {
+			// getView3D().remove(drawables.get(i).getGeoElement());
+			drawable3DLists.remove((Drawable3D) drawables.get(i));
+			drawables.remove(i);
+
+		}
+
+		// update for list of lists
 		for (int i = 0; i < drawables.size(); i++) {
 			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (/*createdByDrawList() ||*/ !d.getGeoElement().isLabelSet()) {
-				if (d.waitForUpdate()){
+			if (/* createdByDrawList() || */!d.getGeoElement().isLabelSet()) {
+				if (d.waitForUpdate()) {
 					d.update();
 				}
 			}
 		}
-		
+
 		/*
- 		// check if a new update is needed in a next loop
-		for (int i = 0; i < drawables.size(); i++) {
-			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (!d.getGeoElement().isLabelSet()) {
-				//App.debug("\n"+geoList+"\n -- "+d.getGeoElement()+" -- "+d.waitForUpdate());
-				if (d.waitForUpdate()){
-					return false;
-				}
-			}
-		}*/
+		 * // check if a new update is needed in a next loop for (int i = 0; i <
+		 * drawables.size(); i++) { Drawable3D d = (Drawable3D)
+		 * drawables.get(i); if (!d.getGeoElement().isLabelSet()) {
+		 * //App.debug("\n"
+		 * +geoList+"\n -- "+d.getGeoElement()+" -- "+d.waitForUpdate()); if
+		 * (d.waitForUpdate()){ return false; } } }
+		 */
 
-		
-    	return true;
+		return true;
 	}
-	
-/* http://dev.geogebra.org/trac/changeset/37937 kills ManySpheres.ggb
-	@Override
-	public boolean waitForUpdate(){
-		for (int i = 0; i < drawables.size(); i++) {
-			Drawable3D d = (Drawable3D) drawables.get(i);
-			if (!d.getGeoElement().isLabelSet()) {
-				if (d.waitForUpdate()){
-					return true;
-				}
-			}
-		}
 
-		return false;
-	}
-*/
-	
+	/*
+	 * http://dev.geogebra.org/trac/changeset/37937 kills ManySpheres.ggb
+	 * 
+	 * @Override public boolean waitForUpdate(){ for (int i = 0; i <
+	 * drawables.size(); i++) { Drawable3D d = (Drawable3D) drawables.get(i); if
+	 * (!d.getGeoElement().isLabelSet()) { if (d.waitForUpdate()){ return true;
+	 * } } }
+	 * 
+	 * return false; }
+	 */
+
 	@Override
 	protected void updateForView() {
 		int size = drawables.size();
@@ -127,187 +120,164 @@ public class DrawList3D extends Drawable3D {
 		}
 	}
 
-
-	
-	
 	@Override
-	public void addToDrawable3DLists(Drawable3DLists lists){
-		addToDrawable3DLists(lists,DRAW_TYPE_LISTS);
+	public void addToDrawable3DLists(Drawable3DLists lists) {
+		addToDrawable3DLists(lists, DRAW_TYPE_LISTS);
 	}
-    
-    @Override
-	public void removeFromDrawable3DLists(Drawable3DLists lists){
-    	removeFromDrawable3DLists(lists,DRAW_TYPE_LISTS);
-    }
-    
 
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists) {
+		removeFromDrawable3DLists(lists, DRAW_TYPE_LISTS);
+	}
 
-	
 	/**
 	 * 
 	 * @return drawable lists
 	 */
-	public Drawable3DListsForDrawList3D getDrawable3DLists(){
+	public Drawable3DListsForDrawList3D getDrawable3DLists() {
 		return drawable3DLists;
 	}
-	
-	
-	
-	
-	
+
 	@Override
 	public void drawOutline(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
+
 	@Override
 	public void drawNotTransparentSurface(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void drawGeometryHidden(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void drawHidden(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void drawHiding(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void drawTransp(Renderer renderer) {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
-	public Drawable3D drawForPicking(Renderer renderer, boolean intersection, PickingType type) {
+	public Drawable3D drawForPicking(Renderer renderer, boolean intersection,
+			PickingType type) {
 
 		// not picked as drawable
 		return null;
-		
+
 	}
 
 	@Override
-	public void drawLabel(Renderer renderer){
+	public void drawLabel(Renderer renderer) {
 		// TODO ?
 	}
-	
-	
+
 	@Override
-	public boolean drawLabelForPicking(Renderer renderer){
+	public boolean drawLabelForPicking(Renderer renderer) {
 		return false;
 	}
 
-
-    
-    
 	@Override
 	public boolean isTransparent() {
 		return false;
 	}
 
-
-	
-	
 	@Override
-	protected void updateLabel(){
-		//no label for 3D lists
+	protected void updateLabel() {
+		// no label for 3D lists
 	}
 
 	@Override
-	protected void updateLabelPosition(){
-		//no label for 3D lists
+	protected void updateLabelPosition() {
+		// no label for 3D lists
 	}
 
 	@Override
-	protected double getColorShift(){
-		return COLOR_SHIFT_NONE; //not needed here
+	protected double getColorShift() {
+		return COLOR_SHIFT_NONE; // not needed here
 	}
-	
+
 	@Override
-	public void setWaitForUpdateVisualStyle(){
-		
+	public void setWaitForUpdateVisualStyle() {
+
 		super.setWaitForUpdateVisualStyle();
-		for (DrawableND d : drawables){
+		for (DrawableND d : drawables) {
 			d.setWaitForUpdateVisualStyle();
 		}
-		
-		//also update for e.g. line width
+
+		// also update for e.g. line width
 		setWaitForUpdate();
-	}	
-	
+	}
+
 	@Override
-	public void setWaitForReset(){
-	
+	public void setWaitForReset() {
+
 		super.setWaitForReset();
-		for (DrawableND d : drawables){
+		for (DrawableND d : drawables) {
 			((Drawable3D) d).setWaitForReset();
 		}
 	}
-	
-	
-//	@Override
-//	public void setWaitForUpdate(){
-//		
-//		super.setWaitForUpdate();
-//		for (DrawableND d : drawables){
-//			d.setWaitForUpdate();
-//		}
-//	}
-	
-	
+
+	// @Override
+	// public void setWaitForUpdate(){
+	//
+	// super.setWaitForUpdate();
+	// for (DrawableND d : drawables){
+	// d.setWaitForUpdate();
+	// }
+	// }
 
 	@Override
-	protected Drawable3D getDrawablePicked(Drawable3D drawableSource){
-		
+	protected Drawable3D getDrawablePicked(Drawable3D drawableSource) {
+
 		pickOrder = drawableSource.getPickOrder();
 		setPickingType(drawableSource.getPickingType());
-		
+
 		return super.getDrawablePicked(drawableSource);
 	}
-	
 
 	private int pickOrder = DRAW_PICK_ORDER_MAX;
-	
+
 	@Override
 	public int getPickOrder() {
 		return pickOrder;
 	}
-	
-	
-	
-	
-	
+
 	@Override
-	public boolean hit(Hitting hitting){
-		
+	public boolean hit(Hitting hitting) {
+
 		boolean ret = false;
-		
+
 		double listZNear = Double.NEGATIVE_INFINITY;
 		double listZFar = Double.NEGATIVE_INFINITY;
-		for (DrawableND d : drawables){
+		for (DrawableND d : drawables) {
 			final Drawable3D d3d = (Drawable3D) d;
-			if (d3d.hitForList(hitting)){
+			if (d3d.hitForList(hitting)) {
 				double zNear = d3d.getZPickNear();
 				double zFar = d3d.getZPickFar();
-				if (!ret || zNear > listZNear){
+				if (!ret || zNear > listZNear) {
 					listZNear = zNear;
 					listZFar = zFar;
 					setPickingType(d3d.getPickingType());
@@ -316,32 +286,31 @@ public class DrawList3D extends Drawable3D {
 				}
 			}
 		}
-		
-		if (pickOrder == DRAW_PICK_ORDER_POINT){ // list of points are paths
+
+		if (pickOrder == DRAW_PICK_ORDER_POINT) { // list of points are paths
 			pickOrder = DRAW_PICK_ORDER_PATH;
 		}
-		
-		if (ret){
+
+		if (ret) {
 			setZPick(listZNear, listZFar);
 		}
-		
+
 		return ret;
-		
+
 	}
-	
+
 	/**
 	 * remove all geos to pick counter
 	 */
-	public void removeAllGeosToPick(){
+	public void removeAllGeosToPick() {
 		for (int i = 0; i < drawables.size(); i++) {
 			DrawableND d = drawables.get(i);
-			if (d instanceof DrawList3D){
+			if (d instanceof DrawList3D) {
 				((DrawList3D) d).removeAllGeosToPick();
-			}else{
+			} else {
 				getView3D().removeOneGeoToPick();
 			}
 		}
 	}
 
-	
 }

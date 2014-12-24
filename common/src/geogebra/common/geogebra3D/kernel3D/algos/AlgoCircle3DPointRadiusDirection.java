@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -21,80 +20,75 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Compute a circle with point and radius (missing direction)
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
-public class AlgoCircle3DPointRadiusDirection extends AlgoCircle3DPointDirection {
+public class AlgoCircle3DPointRadiusDirection extends
+		AlgoCircle3DPointDirection {
 
- 
+	/**
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param point
+	 * @param forAxis
+	 * @param radius
+	 */
+	public AlgoCircle3DPointRadiusDirection(Construction cons, String label,
+			GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
+		super(cons, label, point, radius.toGeoElement(), forAxis);
 
-    /**
-     * 
-     * @param cons
-     * @param label
-     * @param point
-     * @param forAxis
-     * @param radius
-     */
-    public AlgoCircle3DPointRadiusDirection(Construction cons, String label, GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
-        super(cons, label, point, radius.toGeoElement(), forAxis);
-        
+	}
 
-    }
-    
-    /**
-     * 
-     * @param cons
-     * @param label
-     * @param point
-     * @param forAxis
-     * @param radius
-     */
-    public AlgoCircle3DPointRadiusDirection(Construction cons, GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
-        super(cons, point, radius.toGeoElement(), (GeoElement) forAxis);
+	/**
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param point
+	 * @param forAxis
+	 * @param radius
+	 */
+	public AlgoCircle3DPointRadiusDirection(Construction cons,
+			GeoPointND point, NumberValue radius, GeoDirectionND forAxis) {
+		super(cons, point, radius.toGeoElement(), (GeoElement) forAxis);
 
-    }
-    
+	}
 
-    
-
-    
-    @Override
+	@Override
 	protected final double getRadius() {
-    	
-    	return ((NumberValue) getSecondInput()).getDouble();
 
-    }
+		return ((NumberValue) getSecondInput()).getDouble();
 
-    @Override
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Circle;
 	}
-    
-    /**
-     * 
-     * @return command string
-     */
-    @Override
-	final protected String getCommandString(){
-    	if (getForAxis() instanceof GeoCoordSys2D)
-    		return "CircleWithCenterARadiusBParallelToC";
-    	
-		return "CircleWithCenterAandRadiusBAxisParallelToC";
-    }
 
-    
-    @Override
-	final protected boolean setCoordSys(){
-    	if (((GeoDirectionND) getForAxis()).getDirectionInD3() == null){ // e.g. space
-    		return false;
-    	}
-    	
-    	return super.setCoordSys();
-    }
-    
+	/**
+	 * 
+	 * @return command string
+	 */
+	@Override
+	final protected String getCommandString() {
+		if (getForAxis() instanceof GeoCoordSys2D)
+			return "CircleWithCenterARadiusBParallelToC";
+
+		return "CircleWithCenterAandRadiusBAxisParallelToC";
+	}
+
+	@Override
+	final protected boolean setCoordSys() {
+		if (((GeoDirectionND) getForAxis()).getDirectionInD3() == null) { // e.g.
+																			// space
+			return false;
+		}
+
+		return super.setCoordSys();
+	}
+
 }

@@ -4,19 +4,21 @@ import java.util.ArrayList;
 
 /**
  * interface for openGL buffers
+ * 
  * @author mathieu
  *
  */
-public interface GLBuffer{
-	
+public interface GLBuffer {
 
 	/**
 	 * set this buffer with first values of array
-	 * @param array values array
-	 * @param length length to copy
+	 * 
+	 * @param array
+	 *            values array
+	 * @param length
+	 *            length to copy
 	 */
 	public void set(ArrayList<Float> array, int length);
-	
 
 	/**
 	 * 
@@ -35,7 +37,7 @@ public interface GLBuffer{
 	 * @return true if empty
 	 */
 	public boolean isEmpty();
-	
+
 	/**
 	 * says it's an empty buffer
 	 */

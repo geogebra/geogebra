@@ -8,7 +8,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoCurveCartesianND;
 
-
 public class AlgoCurveCartesian3D extends AlgoCurveCartesian {
 
 	public AlgoCurveCartesian3D(Construction cons, String label,
@@ -16,10 +15,10 @@ public class AlgoCurveCartesian3D extends AlgoCurveCartesian {
 			NumberValue to) {
 		super(cons, label, coords, localVar, from, to);
 	}
-	
+
 	@Override
-	protected GeoCurveCartesianND createCurve(Construction cons, Function[] fun){
-    	return new GeoCurveCartesian3D(cons, fun);
-    }
+	protected GeoCurveCartesianND createCurve(Construction cons, Function[] fun) {
+		return new GeoCurveCartesian3D(cons, fun);
+	}
 
 }

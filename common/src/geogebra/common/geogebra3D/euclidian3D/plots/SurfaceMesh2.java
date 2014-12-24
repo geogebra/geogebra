@@ -32,7 +32,7 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	private Coords normal;
 
 	Coords alt = null;
-	
+
 	double[] ancestorDiff;
 	double[] originalParams;
 
@@ -182,10 +182,11 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 			}
 			alt = hi;
 			f = lo;
-			ancestorDiff = new double[] {a1.params[0]-a0.params[0], a1.params[1]-a0.params[1]};
+			ancestorDiff = new double[] { a1.params[0] - a0.params[0],
+					a1.params[1] - a0.params[1] };
 			params[0] = ui;
 			params[1] = vi;
-			originalParams = new double[] {u, v};
+			originalParams = new double[] { u, v };
 		} else {
 
 			// if infinite, attempt to move in some direction
@@ -328,69 +329,69 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	 * parameter area by a constant.
 	 */
 	void generateError() {
-        Coords p0 = ((SurfaceDiamond2) parents[0]).getVertex(this);
-        Coords p1 = ((SurfaceDiamond2) parents[1]).getVertex(this);
-        Coords a0 = (ancestors[0]).getVertex(this);
-        Coords a1 = (ancestors[1]).getVertex(this);
+		Coords p0 = ((SurfaceDiamond2) parents[0]).getVertex(this);
+		Coords p1 = ((SurfaceDiamond2) parents[1]).getVertex(this);
+		Coords a0 = (ancestors[0]).getVertex(this);
+		Coords a1 = (ancestors[1]).getVertex(this);
 
-        Coords v0 = a0.sub(vertex);
-        Coords v1 = a1.sub(vertex);
-        Coords v2 = p0.sub(vertex);
-        Coords v3 = p1.sub(vertex);
+		Coords v0 = a0.sub(vertex);
+		Coords v1 = a1.sub(vertex);
+		Coords v2 = p0.sub(vertex);
+		Coords v3 = p1.sub(vertex);
 
-        double vol0 = Math.abs(v0.dotproduct(v3.crossProduct(v1)));
-        double vol1 = Math.abs(v0.dotproduct(v2.crossProduct(v1)));
+		double vol0 = Math.abs(v0.dotproduct(v3.crossProduct(v1)));
+		double vol1 = Math.abs(v0.dotproduct(v2.crossProduct(v1)));
 
-        if (vol0 == 0.0 && vol1 == 0.0) {
-                // rotate
-                vol0 = Math.abs(v2.dotproduct(v3.crossProduct(v1)));
-                vol1 = Math.abs(v2.dotproduct(v0.crossProduct(v3)));
-        }
+		if (vol0 == 0.0 && vol1 == 0.0) {
+			// rotate
+			vol0 = Math.abs(v2.dotproduct(v3.crossProduct(v1)));
+			vol1 = Math.abs(v2.dotproduct(v0.crossProduct(v3)));
+		}
 
-        if (Double.isNaN(vol0) || Double.isInfinite(vol0))
-                // use a different error measure for infinite points
-                // namely the base area times some constant
-                errors[0] = area * area * SurfaceMesh2.undefErrorConst;
-        else
-                errors[0] = vol0;
-        if (Double.isNaN(vol1) || Double.isInfinite(vol1))
-                errors[1] = area * area * SurfaceMesh2.undefErrorConst;
-        else
-                errors[1] = vol1;
+		if (Double.isNaN(vol0) || Double.isInfinite(vol0))
+			// use a different error measure for infinite points
+			// namely the base area times some constant
+			errors[0] = area * area * SurfaceMesh2.undefErrorConst;
+		else
+			errors[0] = vol0;
+		if (Double.isNaN(vol1) || Double.isInfinite(vol1))
+			errors[1] = area * area * SurfaceMesh2.undefErrorConst;
+		else
+			errors[1] = vol1;
 
-        if (errors[0] == 0.0 || errors[1] == 0.0) {
-                // sample a random point to see if we're flat
-                final double alpha = 0.123456;
-                double nu = alpha * params[0] + (1 - alpha)
-                                * ancestors[0].params[0];
-                double nv = alpha * params[1] + (1 - alpha)
-                                * ancestors[0].params[1];
-                nu = alpha * nu + (1 - alpha)
-                                * ((SurfaceDiamond2) parents[0]).params[0];
-                nv = alpha * nv + (1 - alpha)
-                                * ((SurfaceDiamond2) parents[1]).params[1];
-                Coords pt = calcVertex(nu, nv);
-                if (pt.sub(vertex).dotproduct(a0.sub(pt)) < 0.99)
-                        errors[0] = errors[1] = area * 0.1;
-        }
+		if (errors[0] == 0.0 || errors[1] == 0.0) {
+			// sample a random point to see if we're flat
+			final double alpha = 0.123456;
+			double nu = alpha * params[0] + (1 - alpha)
+					* ancestors[0].params[0];
+			double nv = alpha * params[1] + (1 - alpha)
+					* ancestors[0].params[1];
+			nu = alpha * nu + (1 - alpha)
+					* ((SurfaceDiamond2) parents[0]).params[0];
+			nv = alpha * nv + (1 - alpha)
+					* ((SurfaceDiamond2) parents[1]).params[1];
+			Coords pt = calcVertex(nu, nv);
+			if (pt.sub(vertex).dotproduct(a0.sub(pt)) < 0.99)
+				errors[0] = errors[1] = area * 0.1;
+		}
 
-        int fac = 0;
-        if (!p0.isDefined())
-                fac++;
-        if (!p1.isDefined())
-                fac++;
-        if (!a0.isDefined())
-                fac++;
-        if (!a1.isDefined())
-                fac++;
-        if (fac == 4)
-                errors[0] = errors[1] = 0;
-        else if (fac > 2) {
-                errors[0] *= 2.0;
-                errors[1] *= 2.0;
-        }
+		int fac = 0;
+		if (!p0.isDefined())
+			fac++;
+		if (!p1.isDefined())
+			fac++;
+		if (!a0.isDefined())
+			fac++;
+		if (!a1.isDefined())
+			fac++;
+		if (fac == 4)
+			errors[0] = errors[1] = 0;
+		else if (fac > 2) {
+			errors[0] *= 2.0;
+			errors[1] *= 2.0;
+		}
 	}
-	
+
 	/**
 	 * @return the area of the diamond
 	 */
@@ -431,21 +432,22 @@ class SurfaceDiamond2 extends DynamicMeshElement2 {
 	/**
 	 * @return the middle vertex of the diamond
 	 */
-//	public Coords getVertex() {
-//		return vertex;
-//	}
+	// public Coords getVertex() {
+	// return vertex;
+	// }
 
 	public Coords getVertex(SurfaceDiamond2 o) {
 		if (alt == null)
 			return vertex;
-		
-		if(o.vertex == null) {
-			//check dot product for side
-			final double c = (o.params[0] - params[0]) * ancestorDiff[0] + (o.params[1] - params[1]) * ancestorDiff[1];
-			return c < 0 ? vertex : alt;			
+
+		if (o.vertex == null) {
+			// check dot product for side
+			final double c = (o.params[0] - params[0]) * ancestorDiff[0]
+					+ (o.params[1] - params[1]) * ancestorDiff[1];
+			return c < 0 ? vertex : alt;
 		}
-		
-		if(o.alt != null || o.vertex.isDefined())
+
+		if (o.alt != null || o.vertex.isDefined())
 			return alt.isDefined() ? alt : vertex;
 		return alt.isDefined() ? vertex : alt;
 	}
@@ -800,8 +802,8 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 		maxWidth = wx > wy ? (wx > wz ? wx : wz) : (wy > wz ? wy : wz);
 		// update maxErrorCoeff
 		if (((GeoElement) function).hasLevelOfDetail())
-			setLevelOfDetail(((GeoLevelOfDetail) function)
-					.getLevelOfDetail().getValue());
+			setLevelOfDetail(((GeoLevelOfDetail) function).getLevelOfDetail()
+					.getValue());
 		desiredMaxError = maxErrorCoeff * maxWidth;
 		noUpdate = false;
 	}
@@ -816,13 +818,12 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 	public void setLevelOfDetail(double l) {
 		if (l < 0)
 			throw new RuntimeException();
-		
+
 		levelOfDetail = l;
-		//maxErrorCoeff = 1 / (Math.pow(10, 1.6 + l * 0.15));
-		//maxErrorCoeff = 1 / (Math.pow(10, 3.7 + (l-5) * 0.4));
+		// maxErrorCoeff = 1 / (Math.pow(10, 1.6 + l * 0.15));
+		// maxErrorCoeff = 1 / (Math.pow(10, 3.7 + (l-5) * 0.4));
 		maxErrorCoeff = 1 / (Math.pow(10, 1.7 + l * 0.4));
-		
-		
+
 	}
 
 	/**
@@ -835,9 +836,11 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 
 	@Override
 	protected Side tooCoarse() {
-		if (splitQueue.peek() != null && splitQueue.peek().getError() > desiredMaxError)
+		if (splitQueue.peek() != null
+				&& splitQueue.peek().getError() > desiredMaxError)
 			return Side.SPLIT;
-		else if (mergeQueue.peek() != null && mergeQueue.peek().getError() < desiredMaxError)
+		else if (mergeQueue.peek() != null
+				&& mergeQueue.peek().getError() < desiredMaxError)
 			return Side.MERGE;
 		return Side.NONE;
 	}
@@ -1026,8 +1029,8 @@ class SurfaceTriList2 extends TriList implements DynamicMeshTriList2 {
 			v[c] = (float) vertex.getX();
 			v[c + 1] = (float) vertex.getY();
 			v[c + 2] = (float) vertex.getZ();
-//			if (Double.isNaN(v[c + 2]))
-//				v[c + 2] = 0;
+			// if (Double.isNaN(v[c + 2]))
+			// v[c + 2] = 0;
 			n[c] = (float) normal.getX();
 			n[c + 1] = (float) normal.getY();
 			n[c + 2] = (float) normal.getZ();

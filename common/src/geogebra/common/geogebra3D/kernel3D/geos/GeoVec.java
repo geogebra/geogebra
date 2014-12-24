@@ -71,7 +71,6 @@ public abstract class GeoVec extends GeoElement3D {
 
 	}
 
-
 	public void setCoords(GeoVec vec) {
 		setCoords(vec.v);
 	}

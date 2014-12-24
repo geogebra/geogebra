@@ -61,19 +61,19 @@ public class ArchimedeanSolidFactory {
 
 		switch (name) {
 		case Tetrahedron:
-				return SolidDefinition.TETRAHEDRON;
+			return SolidDefinition.TETRAHEDRON;
 
 		case Cube:
-				return SolidDefinition.CUBE;
+			return SolidDefinition.CUBE;
 
 		case Octahedron:
-				return SolidDefinition.OCTAHEDRON;
+			return SolidDefinition.OCTAHEDRON;
 
 		case Dodecahedron:
-				return SolidDefinition.DODECAHEDRON;
+			return SolidDefinition.DODECAHEDRON;
 
 		case Icosahedron:
-				return SolidDefinition.ICOSAHEDRON;
+			return SolidDefinition.ICOSAHEDRON;
 
 		}
 		return null;

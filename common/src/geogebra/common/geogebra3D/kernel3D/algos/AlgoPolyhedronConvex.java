@@ -13,31 +13,26 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoPolyhedronConvex extends AlgoElement3D {
 
-
 	private GeoPointND[] pointList;
 
 	protected OutputHandler<GeoPolyhedron> outputPolyhedron;
 
-
 	protected OutputHandler<GeoSegment3D> outputSegments;
 	protected OutputHandler<GeoPolygon3D> outputPolygons;
 
-
-
-
-
 	/**
-	 * @param c construction
+	 * @param c
+	 *            construction
 	 */
-	public AlgoPolyhedronConvex(Construction c, String[] labels, GeoElement[] pointList) {
+	public AlgoPolyhedronConvex(Construction c, String[] labels,
+			GeoElement[] pointList) {
 
 		super(c);
 
 		this.pointList = new GeoPointND[pointList.length];
-		for (int i = 0 ; i < pointList.length ; i++){
+		for (int i = 0; i < pointList.length; i++) {
 			this.pointList[i] = (GeoPointND) pointList[i];
 		}
-
 
 		// set input
 		input = pointList;
@@ -46,34 +41,33 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 			input[i].addAlgorithm(this);
 		}
 
-		outputPolyhedron=new OutputHandler<GeoPolyhedron>(new elementFactory<GeoPolyhedron>() {
-			public GeoPolyhedron newElement() {
-				GeoPolyhedron p = new GeoPolyhedron(cons);
-				p.setParentAlgorithm(AlgoPolyhedronConvex.this);
-				return p;
-			}
-		});
+		outputPolyhedron = new OutputHandler<GeoPolyhedron>(
+				new elementFactory<GeoPolyhedron>() {
+					public GeoPolyhedron newElement() {
+						GeoPolyhedron p = new GeoPolyhedron(cons);
+						p.setParentAlgorithm(AlgoPolyhedronConvex.this);
+						return p;
+					}
+				});
 
 		outputPolyhedron.adjustOutputSize(1);
 
 		outputPolygons = createOutputPolygons();
 		outputSegments = createOutputSegments();
-		
+
 		// temporary code (only for 4 points)
 		GeoPolyhedron p = getPolyhedron();
-		for (int j = 3 ; j >= 0 ; j--){
+		for (int j = 3; j >= 0; j--) {
 			p.startNewFace();
-			for (int i = 0 ; i < 4 ; i++) {
-				if (i != j){
+			for (int i = 0; i < 4; i++) {
+				if (i != j) {
 					p.addPointToCurrentFace(this.pointList[i]);
 				}
 			}
 			p.endCurrentFace();
 		}
-		
-		p.createFaces();
-		
 
+		p.createFaces();
 
 		refreshOutput();
 
@@ -85,101 +79,89 @@ public class AlgoPolyhedronConvex extends AlgoElement3D {
 		updateOutputSegmentsAndPolygonsParentAlgorithms();
 	}
 
-
 	@Override
 	public void compute() {
-		//App.debug("compute");
+		// App.debug("compute");
 	}
-
 
 	/**
 	 * @return the polyhedron
 	 */
-	public GeoPolyhedron getPolyhedron(){
+	public GeoPolyhedron getPolyhedron() {
 		return outputPolyhedron.getElement(0);
 	}
-
-
 
 	@Override
 	public GetCommand getClassName() {
 		return Commands.Polyhedron;
 	}
 
-
-
-
-
-
-	private OutputHandler<GeoSegment3D> createOutputSegments(){
-		return new OutputHandler<GeoSegment3D>(new elementFactory<GeoSegment3D>() {
-			public GeoSegment3D newElement() {
-				GeoSegment3D s=new GeoSegment3D(cons);
-				//s.setParentAlgorithm(AlgoPolyhedron.this);
-				return s;
-			}
-		});
+	private OutputHandler<GeoSegment3D> createOutputSegments() {
+		return new OutputHandler<GeoSegment3D>(
+				new elementFactory<GeoSegment3D>() {
+					public GeoSegment3D newElement() {
+						GeoSegment3D s = new GeoSegment3D(cons);
+						// s.setParentAlgorithm(AlgoPolyhedron.this);
+						return s;
+					}
+				});
 	}
 
-	private OutputHandler<GeoPolygon3D> createOutputPolygons(){
-		return new OutputHandler<GeoPolygon3D>(new elementFactory<GeoPolygon3D>() {
-			public GeoPolygon3D newElement() {
-				GeoPolygon3D p=new GeoPolygon3D(cons);
-				//p.setParentAlgorithm(AlgoPolyhedron.this);
-				return p;
-			}
-		});
+	private OutputHandler<GeoPolygon3D> createOutputPolygons() {
+		return new OutputHandler<GeoPolygon3D>(
+				new elementFactory<GeoPolygon3D>() {
+					public GeoPolygon3D newElement() {
+						GeoPolygon3D p = new GeoPolygon3D(cons);
+						// p.setParentAlgorithm(AlgoPolyhedron.this);
+						return p;
+					}
+				});
 	}
 
+	private void setLabels(String[] labels) {
 
-	private void setLabels(String[] labels){
-
-		if (labels==null || labels.length <= 1)
+		if (labels == null || labels.length <= 1)
 			getPolyhedron().initLabels(labels);
-		else{
+		else {
 			getPolyhedron().setAllLabelsAreSet(true);
-			for (int i=0; i<labels.length; i++){
+			for (int i = 0; i < labels.length; i++) {
 				getOutput(i).setLabel(labels[i]);
 			}
 		}
 
 	}
 
-
 	/**
 	 * force update for segments and polygons at creation
 	 */
-	private void updateOutputSegmentsAndPolygonsParentAlgorithms(){
+	private void updateOutputSegmentsAndPolygonsParentAlgorithms() {
 		outputSegments.updateParentAlgorithm();
 		outputPolygons.updateParentAlgorithm();
 
 	}
 
-
-
 	/**
 	 * 
-	 * @param polygon polygon
+	 * @param polygon
+	 *            polygon
 	 * @return 3D coords of all points
 	 */
-	protected static final Coords[] getPointsCoords(GeoPolygon polygon){
+	protected static final Coords[] getPointsCoords(GeoPolygon polygon) {
 		int l = polygon.getPointsLength();
 		Coords[] points = new Coords[l];
-		for (int i = 0 ; i < l ; i++){
+		for (int i = 0; i < l; i++) {
 			points[i] = polygon.getPoint3D(i);
 		}
 		return points;
 	}
 
-	private void setUndefined(){
+	private void setUndefined() {
 		getPolyhedron().setUndefined();
 	}
 
 	/*
-	@Override
-	public int getRelatedModeID() {
-		return EuclidianConstants.MODE_NET;
-	}   
+	 * @Override public int getRelatedModeID() { return
+	 * EuclidianConstants.MODE_NET; }
 	 */
 
 }

@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -20,64 +19,60 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Compute a plane through a point and orthogonal to ...
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public abstract class AlgoOrthoPlanePoint extends AlgoOrthoPlane {
 
- 
 	private GeoPointND point; // input
-    private GeoElement secondInput; // input   
+	private GeoElement secondInput; // input
 
+	/**
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param point
+	 * @param secondInput
+	 */
+	public AlgoOrthoPlanePoint(Construction cons, String label,
+			GeoPointND point, GeoElement secondInput) {
+		super(cons);
+		this.point = point;
+		this.secondInput = secondInput;
 
-    /**
-     * 
-     * @param cons
-     * @param label
-     * @param point
-     * @param secondInput
-     */
-    public AlgoOrthoPlanePoint(Construction cons, String label, GeoPointND point, GeoElement secondInput) {
-        super(cons);
-        this.point = point;
-        this.secondInput = secondInput;
-        
-        setInputOutput(new GeoElement[] {(GeoElement) point, secondInput}, new GeoElement[] {getPlane()});
+		setInputOutput(new GeoElement[] { (GeoElement) point, secondInput },
+				new GeoElement[] { getPlane() });
 
-        // compute plane 
-        compute();
-        getPlane().setLabel(label);
-    }
+		// compute plane
+		compute();
+		getPlane().setLabel(label);
+	}
 
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.OrthogonalPlane;
-    }
+		return Commands.OrthogonalPlane;
+	}
 
+	@Override
+	protected Coords getPoint() {
+		return point.getInhomCoordsInD3();
+	}
 
+	/**
+	 * 
+	 * @return second input
+	 */
+	protected GeoElement getSecondInput() {
+		return secondInput;
+	}
 
-
-
-    @Override
-	protected Coords getPoint(){
-    	return point.getInhomCoordsInD3();
-    }
-    
-    /**
-     * 
-     * @return second input
-     */
-    protected GeoElement getSecondInput(){
-    	return secondInput;
-    }
-
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-    	return getLoc().getPlain("PlaneThroughAPerpendicularToB",point.getLabel(tpl),secondInput.getLabel(tpl));
+		return getLoc().getPlain("PlaneThroughAPerpendicularToB",
+				point.getLabel(tpl), secondInput.getLabel(tpl));
 
-    }
+	}
 }

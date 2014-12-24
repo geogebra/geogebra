@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoJoinPointsSegment
@@ -27,150 +27,134 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoQuadricND;
 
-
-
-
 /**
  *
- * @author  ggb3D
+ * @author ggb3D
  * 
  */
 public class AlgoIntersectPlaneQuadric extends AlgoElement3D {
 
-	
-	//inputs
+	// inputs
 	/** plane */
 	protected GeoPlane3D plane;
 	/** second coord sys */
 	protected GeoQuadricND quadric;
-	
-	//output
+
+	// output
 	/** intersection */
 	protected GeoConic3D conic;
 
+	/**
+	 * Creates new AlgoIntersectLinePlane
+	 * 
+	 * @param cons
+	 *            the construction
+	 * @param label
+	 *            name of point
+	 * @param plane
+	 *            plane
+	 * @param quadric
+	 *            quadric
+	 */
+	AlgoIntersectPlaneQuadric(Construction cons, String label,
+			GeoPlane3D plane, GeoQuadricND quadric) {
 
-    /** Creates new AlgoIntersectLinePlane 
-     * @param cons the construction
-     * @param label name of point
-     * @param plane plane
-     * @param quadric quadric
-     */    
-    AlgoIntersectPlaneQuadric(Construction cons, String label, GeoPlane3D plane, GeoQuadricND quadric) {
+		this(cons, plane, quadric);
+		conic.setLabel(label);
 
-    	this(cons, plane, quadric);
-    	conic.setLabel(label);
-    	
- 
- 
-    }
-    
- 
-    AlgoIntersectPlaneQuadric(Construction cons, GeoPlane3D plane, GeoQuadricND quadric) {
+	}
 
-    	super(cons);
+	AlgoIntersectPlaneQuadric(Construction cons, GeoPlane3D plane,
+			GeoQuadricND quadric) {
 
+		super(cons);
 
-    	this.plane = plane;
-    	this.quadric = quadric;
+		this.plane = plane;
+		this.quadric = quadric;
 
-    	conic = newConic(cons);
+		conic = newConic(cons);
 
-     	//end
-    	end();
-    	
-    	//compute();
- 
-    }
-    
-    
-    /**
-     * end of contructor for this algo
-     */
-	protected void end(){
-    	setInputOutput(new GeoElement[] {plane,quadric}, new GeoElement[] {conic});
-    }
-    
-    
+		// end
+		end();
 
-    /**
-     * 
-     * @param cons construction
-     * @return new conic for intersection
-     */
-    protected GeoConic3D newConic(Construction cons){
-    	return new GeoConic3D(cons, true);
-    }
-    
+		// compute();
 
+	}
 
-    
-    
-    
-    
-    /**
-     * return the intersection
-     * @return the intersection
-     */   
-    public GeoConic3D getConic() {
-        return conic;
-    }
-   
-    
-    
-    
+	/**
+	 * end of contructor for this algo
+	 */
+	protected void end() {
+		setInputOutput(new GeoElement[] { plane, quadric },
+				new GeoElement[] { conic });
+	}
 
-    ///////////////////////////////////////////////
-    // COMPUTE
-    
-    
-    
-    
-    @Override
-	public void compute(){
+	/**
+	 * 
+	 * @param cons
+	 *            construction
+	 * @return new conic for intersection
+	 */
+	protected GeoConic3D newConic(Construction cons) {
+		return new GeoConic3D(cons, true);
+	}
 
-    	if (!quadric.isDefined() || !plane.isDefined()){
-    		conic.setUndefined();
-    		return;
-    	}
-    	
-    	intersectPlaneQuadric(plane, quadric, conic);
-    
-    }
-    
-    private CoordMatrix cm = new CoordMatrix(3, 3);
-    private CoordMatrix tmpMatrix = new CoordMatrix(3, 4);
-    
-    public void intersectPlaneQuadric(GeoPlane3D inputPlane, GeoQuadricND inputQuad, GeoConic3D outputConic) {
-    	 
-    	CoordMatrix qm = inputQuad.getSymetricMatrix();
-    	CoordMatrix pm = inputPlane.getParametricMatrix();
-    	
-    	//sets the conic matrix from plane and quadric matrix
-    	cm.setMul(tmpMatrix.setMulT1(pm, qm), pm);
-    	
-    	//Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
-    	
-    	outputConic.setCoordSys(inputPlane.getCoordSys());
-    	outputConic.setMatrix(cm);
-    	
-    }
-    
-    @Override
+	/**
+	 * return the intersection
+	 * 
+	 * @return the intersection
+	 */
+	public GeoConic3D getConic() {
+		return conic;
+	}
+
+	// /////////////////////////////////////////////
+	// COMPUTE
+
+	@Override
+	public void compute() {
+
+		if (!quadric.isDefined() || !plane.isDefined()) {
+			conic.setUndefined();
+			return;
+		}
+
+		intersectPlaneQuadric(plane, quadric, conic);
+
+	}
+
+	private CoordMatrix cm = new CoordMatrix(3, 3);
+	private CoordMatrix tmpMatrix = new CoordMatrix(3, 4);
+
+	public void intersectPlaneQuadric(GeoPlane3D inputPlane,
+			GeoQuadricND inputQuad, GeoConic3D outputConic) {
+
+		CoordMatrix qm = inputQuad.getSymetricMatrix();
+		CoordMatrix pm = inputPlane.getParametricMatrix();
+
+		// sets the conic matrix from plane and quadric matrix
+		cm.setMul(tmpMatrix.setMulT1(pm, qm), pm);
+
+		// Application.debug("pm=\n"+pm+"\nqm=\n"+qm+"\ncm=\n"+cm);
+
+		outputConic.setCoordSys(inputPlane.getCoordSys());
+		outputConic.setMatrix(cm);
+
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.IntersectPath;
 	}
-	
-    @Override
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        StringBuilder sb = new StringBuilder();
+		StringBuilder sb = new StringBuilder();
 
-        sb.append(getLoc().getPlain("IntersectionCurveOfAB",plane.getLabel(tpl),quadric.getLabel(tpl)));
-        
-        return sb.toString();
-    }   
-    
+		sb.append(getLoc().getPlain("IntersectionCurveOfAB",
+				plane.getLabel(tpl), quadric.getLabel(tpl)));
 
-
- 
+		return sb.toString();
+	}
 
 }

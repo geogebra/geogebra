@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoMidPoint.java
@@ -23,59 +23,56 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
 
-
 /**
  *
- * @author  mathieu
- * @version 
+ * @author mathieu
+ * @version
  */
 public class AlgoMidpointSegment3D extends AlgoMidpoint3D {
-      
-	
+
 	private GeoSegmentND segment;
 
-    /** 
-     * 
-     * @param cons
-     * @param label
-     * @param segment 
-     */
-    AlgoMidpointSegment3D(Construction cons, String label, GeoSegmentND segment) {
-    	this(cons, segment);
-    	getPoint().setLabel(label);
-    }
-	
-    /**
-     * 
-     * @param cons
-     * @param segment 
-     */
-    AlgoMidpointSegment3D(Construction cons, GeoSegmentND segment) {
-        super(cons,segment);
-        this.segment=segment;
-        
-        setInputOutput(); 
+	/**
+	 * 
+	 * @param cons
+	 * @param label
+	 * @param segment
+	 */
+	AlgoMidpointSegment3D(Construction cons, String label, GeoSegmentND segment) {
+		this(cons, segment);
+		getPoint().setLabel(label);
+	}
 
-        // compute M = (P + Q)/2
-        compute();   
-    }
-    
-    // for AlgoElement
-    @Override
+	/**
+	 * 
+	 * @param cons
+	 * @param segment
+	 */
+	AlgoMidpointSegment3D(Construction cons, GeoSegmentND segment) {
+		super(cons, segment);
+		this.segment = segment;
+
+		setInputOutput();
+
+		// compute M = (P + Q)/2
+		compute();
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[1];
-        input[0] = (GeoElement) segment;        
+		input = new GeoElement[1];
+		input[0] = (GeoElement) segment;
 
-        setOnlyOutput(getPoint());
-        setDependencies(); // done by AlgoElement
-    }
+		setOnlyOutput(getPoint());
+		setDependencies(); // done by AlgoElement
+	}
 
-    
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        return getLoc().getPlain("MidpointOfA",((GeoElement) segment).getLabel(tpl));
+		return getLoc().getPlain("MidpointOfA",
+				((GeoElement) segment).getLabel(tpl));
 
-    }
-
+	}
 
 }

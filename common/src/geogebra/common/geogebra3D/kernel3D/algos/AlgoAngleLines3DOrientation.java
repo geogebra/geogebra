@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAnglePoints.java
@@ -27,22 +27,22 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 
-
 /**
  *
- * @author  mathieu
- * @version 
+ * @author mathieu
+ * @version
  */
-public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D{
-	
+public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D {
+
 	private GeoDirectionND orientation;
 
-	AlgoAngleLines3DOrientation(Construction cons, String label, GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
+	AlgoAngleLines3DOrientation(Construction cons, String label, GeoLineND g,
+			GeoLineND h, GeoDirectionND orientation) {
 		super(cons, label, g, h, orientation);
 	}
 
 	@Override
-	protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation){
+	protected void setInput(GeoLineND g, GeoLineND h, GeoDirectionND orientation) {
 		super.setInput(g, h, orientation);
 		this.orientation = orientation;
 	}
@@ -51,49 +51,50 @@ public class AlgoAngleLines3DOrientation extends AlgoAngleLines3D{
 	protected GeoAngle newGeoAngle(Construction cons1) {
 		return GeoAngle3D.newAngle3DWithDefaultInterval(cons1);
 	}
-	
-    @Override
+
+	@Override
 	public void compute() {
-    	
-    	super.compute();
-    	
-    	if (orientation == kernel.getSpace()){ // no orientation with space
-    		return;
-    	}
-    	
-    	if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())){
-    		return;
-    	}
-    	
-    	if (vn.dotproduct(orientation.getDirectionInD3()) < 0){
-    		GeoAngle a = getAngle();
-    		a.setValue(2*Math.PI-a.getValue());
-    		vn = vn.mul(-1);
-    	}
-    }
-    
-    @Override
+
+		super.compute();
+
+		if (orientation == kernel.getSpace()) { // no orientation with space
+			return;
+		}
+
+		if (!getAngle().isDefined() || Kernel.isZero(getAngle().getValue())) {
+			return;
+		}
+
+		if (vn.dotproduct(orientation.getDirectionInD3()) < 0) {
+			GeoAngle a = getAngle();
+			a.setValue(2 * Math.PI - a.getValue());
+			vn = vn.mul(-1);
+		}
+	}
+
+	@Override
 	public String toString(StringTemplate tpl) {
 
-		//return loc.getPlain("AngleBetweenABOrientedByC", getg().getLabel(tpl),
-		//		geth().getLabel(tpl), orientation.getLabel(tpl));
-		
-    	// clearer just as "angle between u and v"
-    	return getLoc().getPlain("AngleBetweenAB", getg().getLabel(tpl),
+		// return loc.getPlain("AngleBetweenABOrientedByC",
+		// getg().getLabel(tpl),
+		// geth().getLabel(tpl), orientation.getLabel(tpl));
+
+		// clearer just as "angle between u and v"
+		return getLoc().getPlain("AngleBetweenAB", getg().getLabel(tpl),
 				geth().getLabel(tpl));
 	}
-    
+
 	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[3];
-        input[0] = (GeoElement) getg();
-        input[1] = (GeoElement) geth();
-        input[2] = (GeoElement) orientation;
+		input = new GeoElement[3];
+		input[0] = (GeoElement) getg();
+		input[1] = (GeoElement) geth();
+		input[2] = (GeoElement) orientation;
 
-        setOutputLength(1);
-        setOutput(0,getAngle());
-        setDependencies(); // done by AlgoElement
-		
+		setOutputLength(1);
+		setOutput(0, getAngle());
+		setDependencies(); // done by AlgoElement
+
 	}
-	
+
 }

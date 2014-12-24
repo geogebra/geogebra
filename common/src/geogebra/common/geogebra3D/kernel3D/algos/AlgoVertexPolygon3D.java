@@ -9,9 +9,9 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Vertices of a 3D polygon
+ * 
  * @author mathieu
  *
  */
@@ -20,41 +20,36 @@ public class AlgoVertexPolygon3D extends AlgoVertexPolygon {
 	public AlgoVertexPolygon3D(Construction cons, String[] labels, GeoPoly p) {
 		super(cons, labels, p);
 	}
-	
+
 	public AlgoVertexPolygon3D(Construction cons, GeoPoly p) {
 		super(cons, p);
 	}
 
-	
 	public AlgoVertexPolygon3D(Construction cons, String label, GeoPoly p,
 			NumberValue v) {
-		super(cons,label,p,v);
+		super(cons, label, p, v);
 	}
-	
-	
+
 	@Override
-	public GeoPointND newGeoPoint(Construction cons){
+	public GeoPointND newGeoPoint(Construction cons) {
 		return new GeoPoint3D(cons);
 	}
-	
+
 	@Override
-	protected void setPoint(GeoPointND point, int i){
-		((GeoPoint3D) point).setCoords(((GeoPolygon3D) p).getPoint3D(i));  
+	protected void setPoint(GeoPointND point, int i) {
+		((GeoPoint3D) point).setCoords(((GeoPolygon3D) p).getPoint3D(i));
 	}
-	
-	
+
 	@Override
-	protected OutputHandler<GeoElement> createOutputPoints(){
+	protected OutputHandler<GeoElement> createOutputPoints() {
 		return new OutputHandler<GeoElement>(new elementFactory<GeoElement>() {
 			public GeoPoint3D newElement() {
-				GeoPoint3D pt=new GeoPoint3D(cons);
+				GeoPoint3D pt = new GeoPoint3D(cons);
 				pt.setCoords(0, 0, 0, 1);
 				pt.setParentAlgorithm(AlgoVertexPolygon3D.this);
 				return pt;
 			}
 		});
 	}
-	
-	
 
 }

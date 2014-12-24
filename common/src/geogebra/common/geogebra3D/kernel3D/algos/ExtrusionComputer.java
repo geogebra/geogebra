@@ -1,26 +1,24 @@
 package geogebra.common.geogebra3D.kernel3D.algos;
 
-
 /**
  * computer used for extrusions (prism, cylinder)
+ * 
  * @author matthieu
  *
  */
 public class ExtrusionComputer {
 
-
-
 	private AlgoForExtrusion algo;
-	
 
 	/**
 	 * 
-	 * @param algo algorithm
+	 * @param algo
+	 *            algorithm
 	 */
 	public ExtrusionComputer(AlgoForExtrusion algo) {
 		this.algo = algo;
 		algo.setExtrusionComputer(this);
-		computed=0;
+		computed = 0;
 	}
 
 	private int computed;
@@ -29,25 +27,22 @@ public class ExtrusionComputer {
 	 * compute the algo
 	 */
 	public void compute() {
-		computed++;			
+		computed++;
 	}
-	
+
 	/**
 	 * 
 	 * @return number of times computed
 	 */
-	public int getComputed(){
+	public int getComputed() {
 		return computed;
 	}
 
 	/**
 	 * @return the algo
 	 */
-	public AlgoForExtrusion getAlgo(){
+	public AlgoForExtrusion getAlgo() {
 		return algo;
 	}
 
 }
-
-
-

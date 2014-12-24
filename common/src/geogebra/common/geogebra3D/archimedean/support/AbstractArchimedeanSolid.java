@@ -86,11 +86,10 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 	/**
 	 * Reposition the solid returned by ArchiBuilder as follows:
 	 * 
-	 * <li>Still centered on the origin.
-	 * <li>The first face of the solid will be parallel to the XY plane.
-	 * <li>All points of the solid will have z values greater than or equal to
-	 * the z value of the first face of the solid.
-	 * <li>The direction vector from the first vertex to the second vertex (this
+	 * <li>Still centered on the origin. <li>The first face of the solid will be
+	 * parallel to the XY plane. <li>All points of the solid will have z values
+	 * greater than or equal to the z value of the first face of the solid. <li>
+	 * The direction vector from the first vertex to the second vertex (this
 	 * will be an edge of the first face) will be parallel to the X axis towards
 	 * the positive. firstEdgeVector = (1, 0, 0).
 	 * 
@@ -100,8 +99,10 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 	 * @throws Exception
 	 */
 
-	protected AbstractArchimedeanSolid(int[] polyTypes, int numPolys, boolean untwist) throws Exception {
-		Surface surface = new ArchiBuilder(polyTypes, numPolys, untwist).createSurface();
+	protected AbstractArchimedeanSolid(int[] polyTypes, int numPolys,
+			boolean untwist) throws Exception {
+		Surface surface = new ArchiBuilder(polyTypes, numPolys, untwist)
+				.createSurface();
 		ObjectList<OrderedTriple> ots = surface.getPoints();
 		Facet firstSide = surface.getRootFacet(0);
 		OrderedTriple firstSideNormal = firstSide.getNormal().unit();
@@ -109,7 +110,9 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		OrderedTriple firstEdgeVector = ots.get(1).minus(ots.get(0)).unit();
 		OrderedTriple desiredFirstEdgeVector = new OrderedTriple(1, 0, 0);
 
-		Quick3X3Matrix m = Quick3X3Matrix.findRotationMatrix(firstSideNormal, desiredFirstSideNormal, firstEdgeVector, desiredFirstEdgeVector);
+		Quick3X3Matrix m = Quick3X3Matrix
+				.findRotationMatrix(firstSideNormal, desiredFirstSideNormal,
+						firstEdgeVector, desiredFirstEdgeVector);
 		for (OrderedTriple ot : ots) {
 			ot.become(OrderedTriple.round(m.times(ot), 12));
 		}
@@ -148,13 +151,12 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 	 * For point order :
 	 * 
 	 * <li>first 4 points A, B, C, D would be the points of the first face other
-	 * points E, F, G, H are coming after since they are above the face (when you
-	 * go up to the center of the solid).
-	 * <li>furthermore, for points at the same z-value (here E, F, G, H), points
-	 * are ordered in the counter-clockwise order when you look at the first face,
-	 * from the center, and first point (here E) should be the one that makes the
-	 * lowest positive angle (center-A, center-E) when projected in the first face
-	 * plane
+	 * points E, F, G, H are coming after since they are above the face (when
+	 * you go up to the center of the solid). <li>furthermore, for points at the
+	 * same z-value (here E, F, G, H), points are ordered in the
+	 * counter-clockwise order when you look at the first face, from the center,
+	 * and first point (here E) should be the one that makes the lowest positive
+	 * angle (center-A, center-E) when projected in the first face plane
 	 * 
 	 * 
 	 * Center of first face is considered to be 0, 0, z-coord of first face.
@@ -176,8 +178,10 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 				OrderedTriple ot2 = vertices.get(o2);
 				double zDiff = ot1.z - ot2.z;
 				if (OrderedTriple.isApprox(zDiff, 0, 1e-8)) {
-					OrderedTriple projectedOt1 = new OrderedTriple(ot1.x, ot1.y, 0);
-					OrderedTriple projectedOt2 = new OrderedTriple(ot2.x, ot2.y, 0);
+					OrderedTriple projectedOt1 = new OrderedTriple(ot1.x,
+							ot1.y, 0);
+					OrderedTriple projectedOt2 = new OrderedTriple(ot2.x,
+							ot2.y, 0);
 					OrderedTriple cross1 = zeroAngleVector.cross(projectedOt1);
 					OrderedTriple cross2 = zeroAngleVector.cross(projectedOt2);
 					double angle1 = zeroAngleVector.degBetween(projectedOt1);
@@ -254,8 +258,8 @@ abstract class AbstractArchimedeanSolid implements IArchimedeanSolid {
 		private int[] vertexIndices;
 
 		/**
-		 * Vertices must be in clockwise order when facing the exterior side of this
-		 * face.
+		 * Vertices must be in clockwise order when facing the exterior side of
+		 * this face.
 		 * 
 		 * @param vertices
 		 */

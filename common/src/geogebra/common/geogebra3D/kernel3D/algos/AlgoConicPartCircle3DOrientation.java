@@ -8,15 +8,16 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Circular arc or sector defined by the circle's center, one point on the
- * circle (start point) and another point (angle for end-point),
- * and orientation.
+ * circle (start point) and another point (angle for end-point), and
+ * orientation.
  */
 public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 
 	private GeoDirectionND orientation;
-	
+
 	/**
 	 * constructor
+	 * 
 	 * @param cons
 	 * @param label
 	 * @param center
@@ -27,31 +28,31 @@ public class AlgoConicPartCircle3DOrientation extends AlgoConicPartCircle3D {
 	 */
 	public AlgoConicPartCircle3DOrientation(Construction cons, String label,
 			GeoPointND center, GeoPointND startPoint, GeoPointND endPoint,
-			GeoDirectionND orientation,
-			int type) {
+			GeoDirectionND orientation, int type) {
 		super(cons, label, center, startPoint, endPoint, orientation, type);
 	}
-	
+
 	@Override
-	protected void setOrientation(GeoDirectionND orientation){
+	protected void setOrientation(GeoDirectionND orientation) {
 		this.orientation = orientation;
 	}
-	
+
 	@Override
-	protected boolean getPositiveOrientation(){
-		return conic.getMainDirection().dotproduct(orientation.getDirectionInD3()) >= 0;
-	}
-	
-	@Override
-	protected void setInput(){
-		setInput(4);
-		input[3] = (GeoElement) orientation;	
+	protected boolean getPositiveOrientation() {
+		return conic.getMainDirection().dotproduct(
+				orientation.getDirectionInD3()) >= 0;
 	}
 
-	
 	@Override
-	protected void semiCircle(Coords center, Coords v1){
-		AlgoCircle3DAxisPoint.setCircle(conic, conic.getCoordSys(), center, v1, orientation.getDirectionInD3());
+	protected void setInput() {
+		setInput(4);
+		input[3] = (GeoElement) orientation;
+	}
+
+	@Override
+	protected void semiCircle(Coords center, Coords v1) {
+		AlgoCircle3DAxisPoint.setCircle(conic, conic.getCoordSys(), center, v1,
+				orientation.getDirectionInD3());
 		setConicPart(0, Math.PI);
 	}
 }

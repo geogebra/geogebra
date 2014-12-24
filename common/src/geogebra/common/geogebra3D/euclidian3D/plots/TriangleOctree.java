@@ -344,8 +344,9 @@ class TriangleOctreeNode extends OctreeNode {
 		boolean x = (i & 0x55) != 0;
 		boolean y = (i & 0x33) != 0;
 		boolean z = (i & 0x0F) != 0;
-		float[] bounds = new float[] { x ? bnds[0] : cntr[0], x ? cntr[0] : bnds[1],
-				y ? bnds[2] : cntr[1], y ? cntr[1] : bnds[3], z ? bnds[4] : cntr[2],
+		float[] bounds = new float[] { x ? bnds[0] : cntr[0],
+				x ? cntr[0] : bnds[1], y ? bnds[2] : cntr[1],
+				y ? cntr[1] : bnds[3], z ? bnds[4] : cntr[2],
 				z ? cntr[2] : bnds[5] };
 		children[i] = new TriangleOctreeNode(bounds);
 	}
@@ -353,10 +354,15 @@ class TriangleOctreeNode extends OctreeNode {
 	/**
 	 * Recursively finds the set of intersections of a segment with the objects
 	 * in the element.
-	 * @param boundingBox the axis-aligned bounding box of the segment
-	 * @param p0 the first end point of the segment
-	 * @param p1 the second end point of the segment
-	 * @param level the current level in the octree
+	 * 
+	 * @param boundingBox
+	 *            the axis-aligned bounding box of the segment
+	 * @param p0
+	 *            the first end point of the segment
+	 * @param p1
+	 *            the second end point of the segment
+	 * @param level
+	 *            the current level in the octree
 	 */
 	@Override
 	public LinkedList<float[]> segmentIntersect(float[] boundingBox,

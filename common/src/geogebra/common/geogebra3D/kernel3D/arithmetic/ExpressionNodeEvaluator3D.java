@@ -25,15 +25,17 @@ import geogebra.common.plugin.Operation;
 public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 
 	/**
-	 * @param l10n localization for errors
+	 * @param l10n
+	 *            localization for errors
 	 */
 	public ExpressionNodeEvaluator3D(Localization l10n, Kernel kernel) {
 		super(l10n, kernel);
 	}
 
 	@Override
-	public ExpressionValue handleOp(Operation op, ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
-			ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX){ // right tree
+	public ExpressionValue handleOp(Operation op, ExpressionValue lt,
+			ExpressionValue rt, ExpressionValue left, ExpressionValue right,
+			StringTemplate tpl, boolean holdsLaTeX) { // right tree
 		MyDouble num;
 		switch (op) {
 		/*
@@ -43,20 +45,20 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			// 3D vector + 3D vector
 			if (lt instanceof Vector3DValue) {
 				if (rt instanceof Vector3DValue) {
-					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).getVector();
+					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt)
+							.getVector();
 					Geo3DVec.add(vec3D,
 							(Geo3DVec) ((Vector3DValue) rt).getVector(), vec3D);
 					return vec3D;
 				} else if (rt instanceof VectorValue) {
-					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).getVector();
-					Geo3DVec.add(vec3D,
-							((VectorValue) rt).getVector(), vec3D);
+					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt)
+							.getVector();
+					Geo3DVec.add(vec3D, ((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
 			} else if (lt instanceof VectorValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).getVector();
-				Geo3DVec.add(((VectorValue) lt).getVector(), vec3D,
-						vec3D);
+				Geo3DVec.add(((VectorValue) lt).getVector(), vec3D, vec3D);
 				return vec3D;
 			}
 			break;
@@ -65,20 +67,20 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			// 3D vector - 3D vector
 			if (lt instanceof Vector3DValue) {
 				if (rt instanceof Vector3DValue) {
-					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).getVector();
+					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt)
+							.getVector();
 					Geo3DVec.sub(vec3D,
 							(Geo3DVec) ((Vector3DValue) rt).getVector(), vec3D);
 					return vec3D;
 				} else if (rt instanceof VectorValue) {
-					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).getVector();
-					Geo3DVec.sub(vec3D,
-							((VectorValue) rt).getVector(), vec3D);
+					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt)
+							.getVector();
+					Geo3DVec.sub(vec3D, ((VectorValue) rt).getVector(), vec3D);
 					return vec3D;
 				}
 			} else if (lt instanceof VectorValue && rt instanceof Vector3DValue) {
 				Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) rt).getVector();
-				Geo3DVec.sub(((VectorValue) lt).getVector(), vec3D,
-						vec3D);
+				Geo3DVec.sub(((VectorValue) lt).getVector(), vec3D, vec3D);
 				return vec3D;
 			}
 			break;
@@ -87,7 +89,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			if (rt instanceof NumberValue) {
 				// number * 3D vector
 				if (lt instanceof Vector3DValue) {
-					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt).getVector();
+					Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) lt)
+							.getVector();
 					Geo3DVec.div(vec3D, ((NumberValue) rt).getDouble(), vec3D);
 					return vec3D;
 				}
@@ -107,111 +110,103 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 			}
 			break;
 
-		
 		}
-		
+
 		return super.handleOp(op, lt, rt, left, right, tpl, holdsLaTeX);
 
 	}
-	
-	
-	
-	
-	
-	
+
 	@Override
-	protected ExpressionValue multiply(NumberValue en, VectorNDValue ev){
-		
-		if (ev instanceof Vector3DValue){
+	protected ExpressionValue multiply(NumberValue en, VectorNDValue ev) {
+
+		if (ev instanceof Vector3DValue) {
 			Geo3DVec vec3D = (Geo3DVec) ((Vector3DValue) ev).getVector();
 			Geo3DVec.mult(vec3D, en.getDouble(), vec3D);
 			return vec3D;
 		}
-		
+
 		return super.multiply(en, ev);
 	}
-	
+
 	@Override
-	protected ExpressionValue innerProduct(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel){
-		
-		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) { 
+	protected ExpressionValue innerProduct(VectorNDValue ev1,
+			VectorNDValue ev2, Kernel kernel) {
+
+		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) {
 			MyDouble num = new MyDouble(kernel);
 			Geo3DVec.inner(ev1.getVector(), ev2.getVector(), num);
 			return num;
 		}
-			
+
 		// 2D vec * 2D vec
 		return super.innerProduct(ev1, ev2, kernel);
 	}
-	
+
 	@Override
-	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2, Kernel kernel){
-		
-		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) { 
+	protected ExpressionValue complexMult(VectorNDValue ev1, VectorNDValue ev2,
+			Kernel kernel) {
+
+		if (ev1 instanceof Vector3DValue || ev2 instanceof Vector3DValue) {
 			GeoVec2D vec = new GeoVec2D(kernel);
 			Geo3DVec.complexMultiply(ev1.getVector(), ev2.getVector(), vec);
 			return vec;
 		}
 
-		
 		// 2D vec * 2D vec
 		return super.complexMult(ev1, ev2, kernel);
 	}
-	
-	
+
 	@Override
-	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2){
-		
-		if (v1.getMode() == Kernel.COORD_CARTESIAN_3D 
+	protected ExpressionValue vectorProduct(VectorNDValue v1, VectorNDValue v2) {
+
+		if (v1.getMode() == Kernel.COORD_CARTESIAN_3D
 				|| v1.getMode() == Kernel.COORD_SPHERICAL
-				|| v2.getMode() == Kernel.COORD_CARTESIAN_3D 
+				|| v2.getMode() == Kernel.COORD_CARTESIAN_3D
 				|| v2.getMode() == Kernel.COORD_SPHERICAL) {
-			
+
 			// 3D vector product
 			Geo3DVec vec3D = new Geo3DVec(this.kernel);
 			Geo3DVec.vectorProduct(v1.getVector(), v2.getVector(), vec3D);
 			return vec3D;
-						
+
 		}
-		
+
 		// 2D vector product (number)
 		return super.vectorProduct(v1, v2);
 	}
-	
-	
-	@Override
-	protected ExpressionValue multiply(MyList myList, VectorNDValue rt){
 
-		if (!myList.isMatrix()){
+	@Override
+	protected ExpressionValue multiply(MyList myList, VectorNDValue rt) {
+
+		if (!myList.isMatrix()) {
 			return null;
 		}
-				
+
 		int rows = myList.getMatrixRows();
-		int cols = myList.getMatrixCols();	
-		
-		
+		int cols = myList.getMatrixCols();
+
 		// 2D coords
-		if (rt.getMode() != Kernel.COORD_CARTESIAN_3D && rt.getMode() != Kernel.COORD_SPHERICAL){
-			if (rows == 3 && cols == 2){ // creates 3D vector from 2D coords
+		if (rt.getMode() != Kernel.COORD_CARTESIAN_3D
+				&& rt.getMode() != Kernel.COORD_SPHERICAL) {
+			if (rows == 3 && cols == 2) { // creates 3D vector from 2D coords
 				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x2 matrix * 3D vector / point
 				myVec.multiplyMatrix3x2(myList, rt);
 				return myVec;
 			}
-			
+
 			if (rt instanceof VectorValue) { // 2D vector / point
 				return multiply2D(myList, rows, cols, (VectorValue) rt);
 			}
-			
+
 			// 3D vector / point
 			GeoVec2D myVec = new GeoVec2D(this.kernel);
-			return multiply2D(myList, rows, cols, rt, myVec);				
-			
+			return multiply2D(myList, rows, cols, rt, myVec);
+
 		}
-		
-		
-		// 3D coords	
-		if (cols == 3){
+
+		// 3D coords
+		if (cols == 3) {
 			if (rows == 3) { // creates 3D vector/point
 				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x3 matrix * 3D vector / point
@@ -226,7 +221,7 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 				return myVec;
 			}
 
-		}else if (cols == 4){
+		} else if (cols == 4) {
 			if (rows == 4) { // affine multiplication
 				Geo3DVec myVec = new Geo3DVec(this.kernel);
 				// 3x3 matrix * 3D vector / point
@@ -234,11 +229,8 @@ public class ExpressionNodeEvaluator3D extends ExpressionNodeEvaluator {
 				return myVec;
 			}
 		}
-		
-		
+
 		return null;
 	}
-	
-	
-	
+
 }

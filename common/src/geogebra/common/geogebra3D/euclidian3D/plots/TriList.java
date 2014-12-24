@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D.plots;
 
-
 import geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 
 import java.util.Iterator;
@@ -10,7 +9,7 @@ import java.util.Iterator;
  * 
  * @author Andr� Eriksson
  */
-public class TriList implements Iterable<TriListElem>{
+public class TriList implements Iterable<TriListElem> {
 	/** the total amount of chunks available for allocation */
 	private int capacity;
 
@@ -147,7 +146,7 @@ public class TriList implements Iterable<TriListElem>{
 	protected float[] getVertices(TriListElem el) {
 		return getVertices(el.getIndex());
 	}
-	
+
 	/**
 	 * gets the vertices of an element
 	 * 
@@ -236,7 +235,7 @@ public class TriList implements Iterable<TriListElem>{
 
 		return t;
 	}
-	
+
 	/**
 	 * Adds a triangle to the list.
 	 * 
@@ -404,7 +403,7 @@ public class TriList implements Iterable<TriListElem>{
 			private int bucket = 0;
 
 			public boolean hasNext() {
-				return el.getNext()!=null;
+				return el.getNext() != null;
 			}
 
 			public TriListElem next() {
@@ -426,7 +425,7 @@ public class TriList implements Iterable<TriListElem>{
 	 * @return false if the triangle is null or already visible, otherwise true
 	 */
 	public boolean show(TriListElem t) {
-		
+
 		if (t == null || t.getIndex() != -1)
 			return false;
 

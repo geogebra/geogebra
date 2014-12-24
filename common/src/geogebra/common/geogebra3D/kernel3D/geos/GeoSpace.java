@@ -21,10 +21,9 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	public GeoSpace(Construction c) {
 		super(c);
 		label = "space";
-		labelSet=true;
+		labelSet = true;
 		setFixed(true);
 	}
-
 
 	@Override
 	public Coords getLabelPosition() {
@@ -53,8 +52,8 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 	}
 
 	@Override
-	public void setUndefined() { 
-		//no need here
+	public void setUndefined() {
+		// no need here
 	}
 
 	@Override
@@ -77,7 +76,7 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
 	public boolean isAvailableAtConstructionStep(int step) {
 		// this method is overwritten
@@ -86,15 +85,11 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		return true;
 	}
 
-
-	
-	
 	public Coords getDirectionInD3() {
 		// return null since there's no specific direction
 		// used for commands that should need a direction, like OrthogonalLine
 		return null;
 	}
-	
 
 	@Override
 	public String getLabel(StringTemplate tpl) {
@@ -104,12 +99,9 @@ public class GeoSpace extends GeoElement3D implements GeoDirectionND {
 		return label;
 
 	}
-	
-	
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.NONE;
 	}
 }

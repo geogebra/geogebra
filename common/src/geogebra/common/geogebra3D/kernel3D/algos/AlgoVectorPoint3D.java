@@ -7,17 +7,17 @@ import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
-
 /**
- * Vector between two points P and Q.
- * Extends AlgoVector
+ * Vector between two points P and Q. Extends AlgoVector
  * 
- * @author  ggb3D
+ * @author ggb3D
  */
 
 public class AlgoVectorPoint3D extends AlgoVectorPoint {
 
-	/** constructor
+	/**
+	 * constructor
+	 * 
 	 * @param cons
 	 * @param label
 	 * @param P
@@ -30,22 +30,20 @@ public class AlgoVectorPoint3D extends AlgoVectorPoint {
 		super(cons, P);
 	}
 
-
 	@Override
-	protected GeoVectorND createNewVector(){
+	protected GeoVectorND createNewVector() {
 
 		return new GeoVector3D(cons);
 
 	}
 
-
-
 	@Override
-	protected void setCoords(){
+	protected void setCoords() {
 		Coords coords = getP().getInhomCoordsInD3();
-		getVector().setCoords(new double[] {coords.getX(),coords.getY(),coords.getZ(),0});
+		getVector()
+				.setCoords(
+						new double[] { coords.getX(), coords.getY(),
+								coords.getZ(), 0 });
 	}
-
-
 
 }

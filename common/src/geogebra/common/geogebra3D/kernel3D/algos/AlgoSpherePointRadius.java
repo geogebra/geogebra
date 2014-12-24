@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoCirclePointRadius.java
@@ -29,54 +29,41 @@ import geogebra.common.kernel.kernelND.GeoQuadricND;
 
 /**
  *
- * @author  Markus
- * added TYPE_SEGMENT Michael Borcherds 2008-03-14	
- * @version 
+ * @author Markus added TYPE_SEGMENT Michael Borcherds 2008-03-14
+ * @version
  */
 public class AlgoSpherePointRadius extends AlgoSphereNDPointRadius {
 
+	public AlgoSpherePointRadius(Construction cons, String label, GeoPointND M,
+			NumberValue r) {
 
-	public AlgoSpherePointRadius(
-            Construction cons,
-            String label,
-            GeoPointND M,
-            NumberValue r) {
-        	
-            super(cons, label, M, r);
-        }
+		super(cons, label, M, r);
+	}
 
-	public AlgoSpherePointRadius(
-            Construction cons,
-            GeoPointND M,
-            NumberValue r) {
-        	
-            super(cons, M, r);
-        }
+	public AlgoSpherePointRadius(Construction cons, GeoPointND M, NumberValue r) {
 
-    
-    
-    @Override
-	protected GeoQuadricND createSphereND(Construction cons){
-    	return new GeoQuadric3D(cons);
-    }
-    
+		super(cons, M, r);
+	}
 
-    @Override
+	@Override
+	protected GeoQuadricND createSphereND(Construction cons) {
+		return new GeoQuadric3D(cons);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Sphere;
-    }
+		return Commands.Sphere;
+	}
 
-    public GeoQuadric3D getSphere() {
-        return (GeoQuadric3D) getSphereND();
-    }
- 
+	public GeoQuadric3D getSphere() {
+		return (GeoQuadric3D) getSphereND();
+	}
 
-
-
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        return getLoc().getPlain("SphereWithCenterAandRadiusB",getM().getLabel(tpl),getRGeo().getLabel(tpl));
-    }
+		return getLoc().getPlain("SphereWithCenterAandRadiusB",
+				getM().getLabel(tpl), getRGeo().getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
 }

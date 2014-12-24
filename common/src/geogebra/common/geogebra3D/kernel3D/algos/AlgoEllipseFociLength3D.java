@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoEllipseFociLength.java
@@ -29,42 +29,43 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
  * Ellipse for given foci and first semi-axis length
- * @author  Markus
- * @version 
+ * 
+ * @author Markus
+ * @version
  */
 public class AlgoEllipseFociLength3D extends AlgoConicFociLength3D {
 
-	public AlgoEllipseFociLength3D(
-		        Construction cons,
-		        String label,
-		        GeoPointND A,
-		        GeoPointND B,
-		        NumberValue a, GeoDirectionND orientation) {
-		        super(cons, label, A, B, a, orientation);		       
-		    }
+	public AlgoEllipseFociLength3D(Construction cons, String label,
+			GeoPointND A, GeoPointND B, NumberValue a,
+			GeoDirectionND orientation) {
+		super(cons, label, A, B, a, orientation);
+	}
 
 	@Override
 	public Commands getClassName() {
 		return Commands.Ellipse;
 	}
-	
+
 	@Override
 	public int getRelatedModeID() {
-    	return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
-    }
-    
-	
+		return EuclidianConstants.MODE_ELLIPSE_THREE_POINTS;
+	}
+
 	@Override
 	final public String toString(StringTemplate tpl) {
-		//direction is plane
-		if (orientation instanceof GeoCoordSys2D){
-			return getLoc().getPlain("EllipseWithFociABandFirstAxisLengthCParallelToD",A.getLabel(tpl),
-					B.getLabel(tpl),a.toGeoElement().getLabel(tpl),orientation.getLabel(tpl));	       
+		// direction is plane
+		if (orientation instanceof GeoCoordSys2D) {
+			return getLoc().getPlain(
+					"EllipseWithFociABandFirstAxisLengthCParallelToD",
+					A.getLabel(tpl), B.getLabel(tpl),
+					a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
 		}
 
-		//direction is line
-		return getLoc().getPlain("EllipseWithFociABandFirstAxisLengthCPerpendicularToD",A.getLabel(tpl),
-				B.getLabel(tpl),a.toGeoElement().getLabel(tpl),orientation.getLabel(tpl));	  
-    }
-	
+		// direction is line
+		return getLoc().getPlain(
+				"EllipseWithFociABandFirstAxisLengthCPerpendicularToD",
+				A.getLabel(tpl), B.getLabel(tpl),
+				a.toGeoElement().getLabel(tpl), orientation.getLabel(tpl));
+	}
+
 }

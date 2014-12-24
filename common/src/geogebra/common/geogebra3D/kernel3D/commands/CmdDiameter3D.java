@@ -8,23 +8,19 @@ import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
 
 public class CmdDiameter3D extends CmdDiameter {
-	
-	
-	
-	
+
 	public CmdDiameter3D(Kernel kernel) {
 		super(kernel);
 	}
 
-
 	@Override
-	protected GeoElement diameter(String label, GeoLineND l, GeoConicND c){
+	protected GeoElement diameter(String label, GeoLineND l, GeoConicND c) {
 
-		return  kernelA.getManager3D().DiameterLine3D(label, l, c);
+		return kernelA.getManager3D().DiameterLine3D(label, l, c);
 	}
-	
+
 	@Override
-	protected GeoElement diameter(String label, GeoVectorND v, GeoConicND c){
-		return   kernelA.getManager3D().DiameterLine3D(label, v, c);
+	protected GeoElement diameter(String label, GeoVectorND v, GeoConicND c) {
+		return kernelA.getManager3D().DiameterLine3D(label, v, c);
 	}
 }

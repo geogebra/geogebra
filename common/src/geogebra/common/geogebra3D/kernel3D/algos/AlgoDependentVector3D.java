@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoDependentVector.java
@@ -28,72 +28,78 @@ import geogebra.common.kernel.arithmetic3D.Vector3DValue;
 
 /**
  *
- * @author  Michael
- * @version 
+ * @author Michael
+ * @version
  */
-public class AlgoDependentVector3D extends AlgoElement3D implements DependentAlgo {
+public class AlgoDependentVector3D extends AlgoElement3D implements
+		DependentAlgo {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private ExpressionNode root;  // input
-    private GeoVector3D vec;     // output         
-    
-    private double[] temp;
-        
-    /** Creates new AlgoDependentVector */
-    public AlgoDependentVector3D(Construction cons, String label, ExpressionNode root) {
-    	
-    	this(cons, root);
-    	
-        vec.setLabel(label);
-    }   
-    
-    /** Creates new AlgoDependentVector */
-    public AlgoDependentVector3D(Construction cons, ExpressionNode root) {
-    	super(cons);
-        this.root = root;        
-        
-        vec = new GeoVector3D(cons); 
-        setInputOutput(); // for AlgoElement
-        
-        // compute value of dependent number
-        //v.z = 0.0d;  
-        compute();     
-    }   
-    
+	private ExpressionNode root; // input
+	private GeoVector3D vec; // output
+
+	private double[] temp;
+
+	/** Creates new AlgoDependentVector */
+	public AlgoDependentVector3D(Construction cons, String label,
+			ExpressionNode root) {
+
+		this(cons, root);
+
+		vec.setLabel(label);
+	}
+
+	/** Creates new AlgoDependentVector */
+	public AlgoDependentVector3D(Construction cons, ExpressionNode root) {
+		super(cons);
+		this.root = root;
+
+		vec = new GeoVector3D(cons);
+		setInputOutput(); // for AlgoElement
+
+		// compute value of dependent number
+		// v.z = 0.0d;
+		compute();
+	}
+
 	@Override
 	public Algos getClassName() {
 		return Algos.Expression;
 	}
-	
-    // for AlgoElement
+
+	// for AlgoElement
 	@Override
 	protected void setInputOutput() {
-        input = root.getGeoElementVariables();  
-        
-        setOnlyOutput(vec);        
-        setDependencies(); // done by AlgoElement
-    }    
-    
-    public GeoVector3D getVector3D() { return vec; }
-    
-    // calc the current value of the arithmetic tree
-    @Override
-	public final void compute() {   
-    	try {
-	        temp = ((Vector3DValue) root.evaluate(StringTemplate.defaultTemplate)).getPointAsDouble();
-	        vec.setCoords(temp);
-	    } catch (Exception e) {
-	    	vec.setUndefined();
-	    }    
-    }   
-    
-    @Override
-	final public String toString(StringTemplate tpl) {         
-            return root.toString(tpl);
-    }
+		input = root.getGeoElementVariables();
+
+		setOnlyOutput(vec);
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoVector3D getVector3D() {
+		return vec;
+	}
+
+	// calc the current value of the arithmetic tree
+	@Override
+	public final void compute() {
+		try {
+			temp = ((Vector3DValue) root
+					.evaluate(StringTemplate.defaultTemplate))
+					.getPointAsDouble();
+			vec.setCoords(temp);
+		} catch (Exception e) {
+			vec.setUndefined();
+		}
+	}
+
+	@Override
+	final public String toString(StringTemplate tpl) {
+		return root.toString(tpl);
+	}
 
 	// TODO Consider locusequability
 }

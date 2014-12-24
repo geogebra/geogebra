@@ -8,6 +8,7 @@ import java.util.HashMap;
 
 /**
  * static methods used in desktop / web for 3D style bar
+ * 
  * @author mathieu
  *
  */
@@ -15,10 +16,12 @@ public class EuclidianStyleBarStatic3D {
 
 	/**
 	 * fill map for 3D
-	 * @param defaultGeoMap map already filled for 2D
+	 * 
+	 * @param defaultGeoMap
+	 *            map already filled for 2D
 	 */
 	public static void addToDefaultMap(HashMap<Integer, Integer> defaultGeoMap) {
-		
+
 		// lines
 		defaultGeoMap.put(EuclidianConstants.MODE_ORTHOGONAL_THREE_D,
 				ConstructionDefaults.DEFAULT_LINE);
@@ -26,13 +29,13 @@ public class EuclidianStyleBarStatic3D {
 		// conics
 		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_AXIS_POINT,
 				ConstructionDefaults.DEFAULT_CONIC);
-		defaultGeoMap.put(EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
+		defaultGeoMap.put(
+				EuclidianConstants.MODE_CIRCLE_POINT_RADIUS_DIRECTION,
 				ConstructionDefaults.DEFAULT_CONIC);
 
 		// intersection curve
 		defaultGeoMap.put(EuclidianConstants.MODE_INTERSECTION_CURVE,
-				ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);	 
-
+				ConstructionDefaults3D.DEFAULT_INTERSECTION_CURVE);
 
 		// planes
 		defaultGeoMap.put(EuclidianConstants.MODE_PLANE_THREE_POINTS,

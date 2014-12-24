@@ -22,7 +22,7 @@ public interface IArchimedeanSolid {
 	 * @return an array of vertices
 	 */
 	public Point[] getVertices();
-	
+
 	public Coords[] getVerticesInABv();
 
 	/**

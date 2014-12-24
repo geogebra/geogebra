@@ -19,7 +19,6 @@ public class DrawCurve3D extends Drawable3DCurves {
 	/** handle to the curve */
 	private CurveEvaluable curve;
 
-
 	/**
 	 * @param a_view3d
 	 *            the 3D view where the curve is drawn
@@ -39,25 +38,23 @@ public class DrawCurve3D extends Drawable3DCurves {
 
 	}
 
-
-	
 	@Override
 	protected boolean updateForItSelf() {
-		
-		
+
 		EuclidianView3D view = getView3D();
-		
+
 		Renderer renderer = view.getRenderer();
 
-		PlotterBrush brush = renderer.getGeometryManager().getBrush();	
+		PlotterBrush brush = renderer.getGeometryManager().getBrush();
 		brush.start(getReusableGeometryIndex());
-		brush.setThickness(getGeoElement().getLineThickness(),(float) view.getScale());		
-		brush.setAffineTexture(0f,0f);
+		brush.setThickness(getGeoElement().getLineThickness(),
+				(float) view.getScale());
+		brush.setAffineTexture(0f, 0f);
 		brush.setLength(1f);
-		
-		double min, max; 
+
+		double min, max;
 		if (curve instanceof GeoFunction) {
-			if (((GeoFunction) curve).hasInterval()){
+			if (((GeoFunction) curve).hasInterval()) {
 				min = ((GeoFunction) curve).getIntervalMin();
 				max = ((GeoFunction) curve).getIntervalMax();
 				double minView = view.getXmin();
@@ -66,28 +63,30 @@ public class DrawCurve3D extends Drawable3DCurves {
 					min = minView;
 				if (max > maxView)
 					max = maxView;
-			}else{
+			} else {
 				min = view.getXmin();
 				max = view.getXmax();
 			}
-		}else{
+		} else {
 			min = curve.getMinParameter();
 			max = curve.getMaxParameter();
 		}
-		
-		//App.debug(min+","+max);
 
-		CurvePlotter.plotCurve(curve, min, max, view, brush, false, CurvePlotter.Gap.MOVE_TO);
+		// App.debug(min+","+max);
+
+		CurvePlotter.plotCurve(curve, min, max, view, brush, false,
+				CurvePlotter.Gap.MOVE_TO);
 
 		setGeometryIndex(brush.end());
-		
+
 		return true;
-		
+
 	}
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByZoom() || getView3D().viewChangedByTranslate()){
+		if (getView3D().viewChangedByZoom()
+				|| getView3D().viewChangedByTranslate()) {
 			updateForItSelf();
 		}
 	}
@@ -96,16 +95,15 @@ public class DrawCurve3D extends Drawable3DCurves {
 	public int getPickOrder() {
 		return DRAW_PICK_ORDER_PATH;
 	}
-	
+
 	@Override
-	public void addToDrawable3DLists(Drawable3DLists lists){
-		addToDrawable3DLists(lists,DRAW_TYPE_CLIPPED_CURVES);
+	public void addToDrawable3DLists(Drawable3DLists lists) {
+		addToDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
 	}
-    
-    @Override
-	public void removeFromDrawable3DLists(Drawable3DLists lists){
-    	removeFromDrawable3DLists(lists,DRAW_TYPE_CLIPPED_CURVES);
-    }
+
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists) {
+		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_CURVES);
+	}
 
 }
-

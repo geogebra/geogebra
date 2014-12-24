@@ -29,17 +29,16 @@ import geogebra.common.kernel.kernelND.HasVolume;
 import geogebra.common.kernel.kernelND.RotateableND;
 import geogebra.common.plugin.GeoClass;
 
-
 /**
  * Class for limited quadrics (e.g. limited cones, cylinders, ...)
  * 
  * @author mathieu
  * 
  */
-public class GeoQuadric3DLimited extends GeoQuadricND 
-implements GeoNumberValue, HasVolume, HasHeight, 
-RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
-GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
+public class GeoQuadric3DLimited extends GeoQuadricND implements
+		GeoNumberValue, HasVolume, HasHeight, RotateableND, Translateable,
+		MirrorableAtPlane, Transformable, Dilateable,
+		GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart {
 
 	/** side of the quadric */
 	private GeoQuadric3DPart side;
@@ -47,7 +46,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	private GeoConicND bottom;
 	private GeoConic3D top;
 
-	//private GeoPointND bottomPoint, topPoint;
+	// private GeoPointND bottomPoint, topPoint;
 
 	private double bottomParameter, topParameter;
 
@@ -55,52 +54,49 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	 * constructor
 	 * 
 	 * @param c
-	 *
-	public GeoQuadric3DLimited(Construction c) {
-		this(c, null, null);
-	}
-	*/
+	 * 
+	 * public GeoQuadric3DLimited(Construction c) { this(c, null, null); }
+	 */
 
 	/**
 	 * 
-	 * @param c construction
+	 * @param c
+	 *            construction
 	 */
-	public GeoQuadric3DLimited(Construction c){//, GeoPointND bottomPoint, GeoPointND topPoint) {
+	public GeoQuadric3DLimited(Construction c) {// , GeoPointND bottomPoint,
+												// GeoPointND topPoint) {
 
 		super(c);
 
-		setConstructionDefaults(); 
-		
+		setConstructionDefaults();
 
 	}
 
 	/*
-	public void setPoints(GeoPointND bottomPoint, GeoPointND topPoint) {
-		this.bottomPoint = bottomPoint;
-		this.topPoint = topPoint;
-	}
-	*/
-
+	 * public void setPoints(GeoPointND bottomPoint, GeoPointND topPoint) {
+	 * this.bottomPoint = bottomPoint; this.topPoint = topPoint; }
+	 */
 
 	public void setBottomTop(GeoConicND bottom2, GeoConic3D top) {
 		this.bottom = bottom2;
 		this.top = top;
-		
+
 		bottom.addMeta(this);
 		top.addMeta(this);
 	}
-	
+
 	public void setSide(GeoQuadric3DPart side) {
 		this.side = side;
 		side.setFromMeta(this);
 	}
-	
+
 	@Override
 	public void remove() {
 
 		bottom.removeMeta(this);
-		//no need to remove meta for side and top: theses parts will be removed too
-		
+		// no need to remove meta for side and top: theses parts will be removed
+		// too
+
 		super.remove();
 	}
 
@@ -165,7 +161,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		}
 
 	}
-	
+
 	/**
 	 * init the labels
 	 * 
@@ -205,20 +201,18 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		return topParameter;
 	}
 
-	
 	private Coords direction;
-	
-	public Coords getDirection(){
+
+	public Coords getDirection() {
 		return direction;
 	}
-	
+
 	private Coords origin;
-	
-	public Coords getOrigin(){
+
+	public Coords getOrigin() {
 		return origin;
 	}
-	
-	
+
 	/**
 	 * @param origin
 	 * @param direction
@@ -228,26 +222,25 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	 * 
 	 */
 	public void setCylinder(Coords origin, Coords direction, double r,
-			double bottomParameter,
-			double topParameter) {
+			double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
-		
+
 		// set center
 		this.origin = origin;
 
 		// set direction
 		this.direction = direction;
-		
+
 		// set bottom radius
 		this.radius = r;
-		
+
 		// set type
 		setType(QUADRIC_CYLINDER);
 
 	}
-	
+
 	/**
 	 * sets the bottom and top values for limits
 	 * 
@@ -256,32 +249,32 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	 */
 	public void setLimits(double bottomParameter, double topParameter) {
 
-			this.bottomParameter = bottomParameter;
-			this.topParameter = topParameter;
+		this.bottomParameter = bottomParameter;
+		this.topParameter = topParameter;
 
 	}
-	
+
 	private double radius;
 
-	public double getRadius(){
+	public double getRadius() {
 		return radius;
 	}
-	
-	public void setCone(Coords origin, Coords direction, double r, double bottomParameter,
-			double topParameter) {
+
+	public void setCone(Coords origin, Coords direction, double r,
+			double bottomParameter, double topParameter) {
 
 		// limits
 		setLimits(bottomParameter, topParameter);
-		
+
 		// set center
 		this.origin = origin;
 
 		// set direction
 		this.direction = direction;
-		
+
 		// set bottom radius
 		this.radius = r;
-		
+
 		// set type
 		type = QUADRIC_CONE;
 	}
@@ -314,8 +307,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		side.setObjColor(color);
 
 	}
-	
-	
+
 	@Override
 	public void setTrace(boolean trace) {
 		super.setTrace(trace);
@@ -327,9 +319,6 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		side.setTrace(trace);
 
 	}
-	
-	
-	
 
 	/** to be able to fill it with an alpha value */
 	@Override
@@ -339,7 +328,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 
 	@Override
 	public void setEuclidianVisible(boolean visible) {
-		
+
 		super.setEuclidianVisible(visible);
 		bottom.setEuclidianVisible(visible);
 		if (!silentTop)
@@ -347,39 +336,38 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		side.setEuclidianVisible(visible);
 
 	}
-	
-	
+
 	@Override
 	public void setShowObjectCondition(final GeoBoolean cond)
 			throws CircularDefinitionException {
-		
+
 		super.setShowObjectCondition(cond);
 
 		if (bottom == null)
 			return;
-		
+
 		bottom.setShowObjectCondition(cond);
 		if (!silentTop)
 			top.setShowObjectCondition(cond);
 		side.setShowObjectCondition(cond);
-		
+
 	}
-	
+
 	@Override
-	public void updateVisualStyle(){
-		
+	public void updateVisualStyle() {
+
 		super.updateVisualStyle();
 
 		if (bottom == null)
 			return;
-		
+
 		bottom.updateVisualStyle();
 		if (!silentTop)
 			top.updateVisualStyle();
 		side.updateVisualStyle();
-		
+
 	}
-	
+
 	@Override
 	public void setLineType(int type) {
 		super.setLineType(type);
@@ -390,7 +378,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		bottom.setLineType(type);
 		bottom.update();
 
-		if (!silentTop){
+		if (!silentTop) {
 			top.setLineType(type);
 			top.update();
 		}
@@ -407,7 +395,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		bottom.setLineTypeHidden(type);
 		bottom.update();
 
-		if (!silentTop){
+		if (!silentTop) {
 			top.setLineTypeHidden(type);
 			top.update();
 		}
@@ -418,11 +406,11 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		super.setLineThickness(th);
 		if (bottom == null)
 			return;
-		
+
 		bottom.setLineThickness(th);
 		bottom.update();
-		
-		if (!silentTop){
+
+		if (!silentTop) {
 			top.setLineThickness(th);
 			top.update();
 		}
@@ -489,14 +477,12 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			// copy everything
 			toStringMode = quadric.toStringMode;
 			type = quadric.type;
-			
+
 			radius = quadric.getRadius();
-			
+
 			// set from side
 			origin = side.getMidpoint3D();
 			direction = side.getEigenvec3D(2);
-			
-
 
 			defined = quadric.defined;
 
@@ -528,11 +514,11 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			volume = Double.NaN;
 			return;
 		}
-		
 
 		switch (type) {
 		case QUADRIC_CYLINDER:
-			volume = radius * radius * Math.PI * Math.abs(topParameter - bottomParameter);
+			volume = radius * radius * Math.PI
+					* Math.abs(topParameter - bottomParameter);
 			break;
 		case QUADRIC_CONE:
 			double h = Math.abs(topParameter - bottomParameter);
@@ -542,7 +528,7 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		// default:
 		// volume=Double.NaN;
 		}
-		
+
 	}
 
 	@Override
@@ -551,9 +537,9 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 			return volume;
 		return Double.NaN;
 	}
-	
+
 	@Override
-	public boolean hasFiniteVolume(){
+	public boolean hasFiniteVolume() {
 		return true;
 	}
 
@@ -562,9 +548,9 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		switch (type) {
 		case QUADRIC_CYLINDER:
 		case QUADRIC_CONE:
-			return kernel.format(volume,tpl);
+			return kernel.format(volume, tpl);
 		case QUADRIC_EMPTY:
-			return kernel.format(0,tpl);
+			return kernel.format(0, tpl);
 		}
 
 		return "todo-GeoQuadric3DLimited";
@@ -606,40 +592,33 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 	public boolean isNumberValue() {
 		return true;
 	}
-	
+
 	private boolean silentTop = false;
 
 	/**
 	 * set top as silent part (not in construction)
 	 */
 	public void setSilentTop() {
-		
+
 		silentTop = true;
-		
+
 	}
-	
-
-
 
 	@Override
 	public double getOrientedHeight() {
 		return topParameter - bottomParameter;
 	}
-	
-	
+
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
-	
-	
+
 	@Override
-	protected void setColorVisualStyle(final GeoElement geo){
+	protected void setColorVisualStyle(final GeoElement geo) {
 		setObjColor(geo.getObjectColor());
 		setAlphaValue(geo.getAlphaValue());
 	}
-
-	
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S) {
@@ -647,35 +626,33 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		bottom.rotate(r, S);
 		top.rotate(r, S);
 		side.rotate(r, S);
-		
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 
 	}
 
 	@Override
 	public void rotate(NumberValue r) {
-		
+
 		bottom.rotate(r);
 		top.rotate(r);
 		side.rotate(r);
-		
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
-
 
 	}
 
 	@Override
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		
+
 		((GeoConic3D) bottom).rotate(r, S, orientation);
 		top.rotate(r, S, orientation);
-		side.rotate(r, S, orientation);		
-		
+		side.rotate(r, S, orientation);
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
@@ -687,15 +664,14 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 
 		((GeoConic3D) bottom).rotate(r, line);
 		top.rotate(r, line);
-		side.rotate(r, line);	
-		
+		side.rotate(r, line);
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
 
-		
 	}
-	
+
 	@Override
 	final public boolean isTranslateable() {
 		return true;
@@ -706,23 +682,21 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		bottom.translate(v);
 		top.translate(v);
 		side.translate(v);
-		
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 	}
-	
-	
-	
-	////////////////////////
+
+	// //////////////////////
 	// MIRROR
-	////////////////////////
-	
+	// //////////////////////
+
 	@Override
 	public void mirror(Coords Q) {
 		bottom.mirror(Q);
 		top.mirror(Q);
 		side.mirror(Q);
-		
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
@@ -738,104 +712,88 @@ GeoQuadric3DLimitedInterface, GeoQuadric3DLimitedOrPart{
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
 	}
-	
+
 	@Override
 	public void mirror(GeoCoordSys2D plane) {
 		((MirrorableAtPlane) bottom).mirror(plane);
 		top.mirror(plane);
 		side.mirror(plane);
-		
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
 
 	}
-	
-	
-	////////////////////////
-	// DILATE
-	////////////////////////
 
+	// //////////////////////
+	// DILATE
+	// //////////////////////
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		bottom.dilate(rval, S);
 		top.dilate(rval, S);
 		side.dilate(rval, S);
-		
-		double r = Math.abs(rval.getDouble());		
-		volume *= r*r*r;
+
+		double r = Math.abs(rval.getDouble());
+		volume *= r * r * r;
 		bottomParameter *= r;
 		topParameter *= r;
-		
+
 		// get infos from side
 		origin = side.getMidpoint3D();
 		direction = side.getEigenvec3D(2);
 
-
 	}
-	
-	
-	
-	
-	
-	
+
 	@Override
 	final protected void singlePoint() {
 		type = GeoQuadricNDConstants.QUADRIC_SINGLE_POINT;
 
 	}
 
-	
-	
-	
 	@Override
-	public Coords getMidpoint2D(){
+	public Coords getMidpoint2D() {
 		return side.getMidpoint2D();
 	}
-	
 
 	@Override
-	public Coords getMidpoint(){
+	public Coords getMidpoint() {
 		return side.getMidpoint();
 	}
-	
 
 	@Override
-	public Coords getMidpoint3D(){
+	public Coords getMidpoint3D() {
 		return side.getMidpoint3D();
 	}
-	
+
 	@Override
-	public CoordMatrix getSymetricMatrix(){
+	public CoordMatrix getSymetricMatrix() {
 		return side.getSymetricMatrix();
 	}
 
-	
 	@Override
-	public double getHalfAxis(int i){
+	public double getHalfAxis(int i) {
 		return side.getHalfAxis(i);
 	}
-	
+
 	@Override
-	public int getDimension(){
+	public int getDimension() {
 		return side.getDimension();
 	}
-	
+
 	@Override
-	public Coords getEigenvec3D(int i){
+	public Coords getEigenvec3D(int i) {
 		return side.getEigenvec3D(i);
 	}
-	
-	
+
 	@Override
-	public double[] getFlatMatrix(){
+	public double[] getFlatMatrix() {
 		return side.getFlatMatrix();
 	}
-	
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 

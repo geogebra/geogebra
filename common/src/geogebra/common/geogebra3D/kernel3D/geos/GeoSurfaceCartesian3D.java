@@ -24,9 +24,8 @@ import geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		Functional2Var, SurfaceEvaluable, GeoLevelOfDetail,
-		Traceable, CasEvaluableFunction{
-
+		Functional2Var, SurfaceEvaluable, GeoLevelOfDetail, Traceable,
+		CasEvaluableFunction {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -63,13 +62,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		tmp[1] = v;
 		evaluateSurface(tmp, p);
 	}
-	
-	 public void evaluatePoint(double u, double v, Coords p){
-		 evaluateSurface(u, v, p);
-	 }
+
+	public void evaluatePoint(double u, double v, Coords p) {
+		evaluateSurface(u, v, p);
+	}
 
 	private void evaluateSurface(double[] uv, Coords p) {
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			p.set(i + 1, fun[i].evaluate(uv));
 		}
 
@@ -144,8 +143,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return GeoClass.SURFACECARTESIAN3D;
 	}
 
-
-
 	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
@@ -153,10 +150,8 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	@Override
 	public Coords getMainDirection() {
-		return Coords.VZ; //TODO
+		return Coords.VZ; // TODO
 	}
-
-	
 
 	@Override
 	public boolean isGeoElement3D() {
@@ -198,27 +193,24 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	// /////////////////////////
 	// LEVEL OF DETAIL
-	
+
 	private LevelOfDetail levelOfDetail = new LevelOfDetail();
 
 	public LevelOfDetail getLevelOfDetail() {
 		return levelOfDetail;
 	}
-	
 
 	@Override
 	public boolean hasLevelOfDetail() {
 		return true;
 	}
-	
-	
 
-	//////////////////
+	// ////////////////
 	// TRACE
-	//////////////////
+	// ////////////////
 
-	private boolean trace;	
-	
+	private boolean trace;
+
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -236,7 +228,7 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f,
 			boolean symbolic, MyArbitraryConstant arbconst) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -254,19 +246,16 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	@Override
 	public void clearCasEvalMap(String string) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public FunctionNVar[] getFunctions() {
 		return fun;
 	}
-	
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
-	
 
 }

@@ -14,8 +14,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-
-
 /**
  * 
  * Used for openGL display.
@@ -100,7 +98,7 @@ public abstract class Renderer {
 
 		// link to 3D view
 		this.view3D = view;
-		
+
 		// textures
 		textures = new Textures(this, view3D.getApplication().getImageManager());
 
@@ -120,155 +118,147 @@ public abstract class Renderer {
 	 * re-calc the display immediately
 	 */
 	abstract public void display();
-	
 
 	/**
 	 * 
 	 */
-	protected void updateViewAndDrawables(){
+	protected void updateViewAndDrawables() {
 
-        view3D.update();
-        view3D.updateOwnDrawablesNow();
-        
-        // update 3D drawables
-        drawable3DLists.updateAll();
+		view3D.update();
+		view3D.updateOwnDrawablesNow();
 
-    	// say that 3D view changed has been performed
-        view3D.resetViewChanged();
+		// update 3D drawables
+		drawable3DLists.updateAll();
+
+		// say that 3D view changed has been performed
+		view3D.resetViewChanged();
 	}
-	
-	
+
 	/**
 	 * init rendering values (clear color buffer, etc.)
 	 */
-	protected void initRenderingValues(){
-		 //clear color buffer
-        clearColorBuffer();
+	protected void initRenderingValues() {
+		// clear color buffer
+		clearColorBuffer();
 	}
 
 	/**
 	 * draw the scene
 	 */
-	public void drawScene(){
-    	
-    	//update 3D controller
-    	((EuclidianController3D) view3D.getEuclidianController()).updateInput3D();
-    	       
-        useShaderProgram();
-        
-        //picking        
-        if(waitForPick){
-        	doPick();        	
-        }
-        	
-        
-        //clip planes
-        if (waitForUpdateClipPlanes){
-        	//Application.debug(enableClipPlanes);
-        	if (enableClipPlanes)
-        		enableClipPlanes();
-        	else
-        		disableClipPlanes();
-        	waitForUpdateClipPlanes=false;
-        }
-                
-        //update 3D controller
-        ((EuclidianController3D) view3D.getEuclidianController()).update();
-        
+	public void drawScene() {
 
-//        long time = System.currentTimeMillis();
-        // update 3D view and drawables
-        updateViewAndDrawables();
-//        App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));     
-        
-        if (waitForSetStencilLines){
-        	setStencilLines();
-        }
-        
-        if (waitForDisableStencilLines){
-        	disableStencilLines();
-        }
+		// update 3D controller
+		((EuclidianController3D) view3D.getEuclidianController())
+				.updateInput3D();
 
-        
-        if (waitForUpdateClearColor) {
-        	updateClearColor();
-        	waitForUpdateClearColor=false;
-        }
-        
-        //init rendering values
-        initRenderingValues();
-        
-//        time = System.currentTimeMillis();
-        
-        if (view3D.getProjection()==EuclidianView3D.PROJECTION_GLASSES) {
- 
-        	//setStencilLines();
+		useShaderProgram();
 
+		// picking
+		if (waitForPick) {
+			doPick();
+		}
 
-        	clearDepthBuffer();
+		// clip planes
+		if (waitForUpdateClipPlanes) {
+			// Application.debug(enableClipPlanes);
+			if (enableClipPlanes)
+				enableClipPlanes();
+			else
+				disableClipPlanes();
+			waitForUpdateClipPlanes = false;
+		}
 
+		// update 3D controller
+		((EuclidianController3D) view3D.getEuclidianController()).update();
 
-        	//left eye
-        	if (view3D.isPolarized()){
-        		// draw where stencil's value is 0
-        		setStencilFunc(0);
-        	}
+		// long time = System.currentTimeMillis();
+		// update 3D view and drawables
+		updateViewAndDrawables();
+		// App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
 
-        	eye=EYE_LEFT;
-        	setColorMask();
-        	setView();
-        	draw(); 
-        	
+		if (waitForSetStencilLines) {
+			setStencilLines();
+		}
 
-        	//right eye
-           	if (view3D.isPolarized()){
-        		// draw where stencil's value is 1
-           		setStencilFunc(1);
-        	}
-           	
-        	eye=EYE_RIGHT;
-        	setColorMask();
-        	clearDepthBuffer(); //clear depth buffer
-        	setView();
-        	draw(); 
-        	
-        } else {  
-        	clearDepthBuffer();
-        	setView();
-        	draw(); 
-        }
-        
-//        App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
-        
-        // prepare correct color mask for next clear
-    	setColorMask(true,true,true,true);
-    	
-    	
-    	exportImage();
-    }
-    
+		if (waitForDisableStencilLines) {
+			disableStencilLines();
+		}
 
-    /**
-     * clear color buffer
-     */
-    abstract protected void clearColorBuffer();
+		if (waitForUpdateClearColor) {
+			updateClearColor();
+			waitForUpdateClearColor = false;
+		}
 
+		// init rendering values
+		initRenderingValues();
 
-    /**
-     * clear depth buffer
-     */
-    abstract protected void clearDepthBuffer();
+		// time = System.currentTimeMillis();
 
-    /**
-    * set value for the stencil function (equal to value)
-    * @param value stencil value
-    */
-   abstract protected void setStencilFunc(int value);
-   
-   /**
-    * do export image if needed
-    */
-   abstract protected void exportImage();
+		if (view3D.getProjection() == EuclidianView3D.PROJECTION_GLASSES) {
+
+			// setStencilLines();
+
+			clearDepthBuffer();
+
+			// left eye
+			if (view3D.isPolarized()) {
+				// draw where stencil's value is 0
+				setStencilFunc(0);
+			}
+
+			eye = EYE_LEFT;
+			setColorMask();
+			setView();
+			draw();
+
+			// right eye
+			if (view3D.isPolarized()) {
+				// draw where stencil's value is 1
+				setStencilFunc(1);
+			}
+
+			eye = EYE_RIGHT;
+			setColorMask();
+			clearDepthBuffer(); // clear depth buffer
+			setView();
+			draw();
+
+		} else {
+			clearDepthBuffer();
+			setView();
+			draw();
+		}
+
+		// App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
+
+		// prepare correct color mask for next clear
+		setColorMask(true, true, true, true);
+
+		exportImage();
+	}
+
+	/**
+	 * clear color buffer
+	 */
+	abstract protected void clearColorBuffer();
+
+	/**
+	 * clear depth buffer
+	 */
+	abstract protected void clearDepthBuffer();
+
+	/**
+	 * set value for the stencil function (equal to value)
+	 * 
+	 * @param value
+	 *            stencil value
+	 */
+	abstract protected void setStencilFunc(int value);
+
+	/**
+	 * do export image if needed
+	 */
+	abstract protected void exportImage();
 
 	/**
 	 * enable culling
@@ -299,9 +289,9 @@ public abstract class Renderer {
 	 * enable blending
 	 */
 	abstract public void enableBlending();
-	
-	protected void drawTranspNotCurved(){
-		
+
+	protected void drawTranspNotCurved() {
+
 		disableCulling();
 		drawable3DLists.drawTransp(this);
 		drawable3DLists.drawTranspClosedNotCurved(this);
@@ -314,7 +304,7 @@ public abstract class Renderer {
 		setLight(1);
 
 		drawTranspNotCurved();
-		
+
 		setCullFaceFront();
 		drawable3DLists.drawTranspClosedCurved(this);// draws inside parts
 		if (drawable3DLists.containsClippedSurfaces()) {
@@ -347,7 +337,6 @@ public abstract class Renderer {
 	protected void drawNotTransp() {
 
 		setLight(1);
-
 
 		enableBlending();
 
@@ -418,10 +407,12 @@ public abstract class Renderer {
 	 * enable lighting
 	 */
 	abstract public void enableLighting();
-	
+
 	/**
 	 * set real-world origin for label
-	 * @param origin real-world coordinates
+	 * 
+	 * @param origin
+	 *            real-world coordinates
 	 */
 	abstract public void setLabelOrigin(Coords origin);
 
@@ -429,7 +420,7 @@ public abstract class Renderer {
 	 * draw face-to screen parts (labels, ...)
 	 */
 	protected void drawFaceToScreen() {
-		
+
 		// drawing labels
 		// getGL().glEnable(GLlocal.GL_CULL_FACE);
 		// getGL().glCullFace(GLlocal.GL_BACK);
@@ -475,7 +466,6 @@ public abstract class Renderer {
 		enableClipPlanes = flag;
 	}
 
-
 	/**
 	 * enables clip planes
 	 */
@@ -486,7 +476,6 @@ public abstract class Renderer {
 	 */
 	abstract protected void disableClipPlanes();
 
-
 	/**
 	 * enable clipping if needed
 	 */
@@ -494,6 +483,7 @@ public abstract class Renderer {
 		if (!enableClipPlanes)
 			enableClipPlanes();
 	}
+
 	/**
 	 * disable clipping if needed
 	 */
@@ -501,7 +491,6 @@ public abstract class Renderer {
 		if (!enableClipPlanes)
 			disableClipPlanes();
 	}
-
 
 	/**
 	 * sets the clip planes
@@ -566,20 +555,18 @@ public abstract class Renderer {
 		setLightPosition();
 		setLight(0);
 
-		
 		// drawing the cursor
 		enableLighting();
 		disableAlphaTest();
 		enableCulling();
-		if (enableClipPlanes){
+		if (enableClipPlanes) {
 			disableClipPlanes();
 		}
 		setCullFaceBack();
 		view3D.drawCursor(this);
-		if (enableClipPlanes){
+		if (enableClipPlanes) {
 			enableClipPlanes();
 		}
-
 
 		// drawing hidden part
 		enableAlphaTest();
@@ -587,18 +574,17 @@ public abstract class Renderer {
 		drawable3DLists.drawHiddenNotTextured(this);
 		enableDash();
 		drawable3DLists.drawHiddenTextured(this);
-		enableFading(); // from RendererShaders -- check when enable textures if already done
+		enableFading(); // from RendererShaders -- check when enable textures if
+						// already done
 		drawNotTransp();
 		disableTextures();
 		disableAlphaTest();
 
-	
 		// drawing transparents parts
 		disableDepthMask();
 		enableFading();
 		drawTransp();
 		enableDepthMask();
-
 
 		disableTextures();
 		enableCulling();
@@ -660,10 +646,8 @@ public abstract class Renderer {
 		setCullFaceBack();
 		drawable3DLists.draw(this);
 
-		
 		// draw surface outlines
-		//drawSurfacesOutline();
-
+		// drawSurfacesOutline();
 
 		// FPS
 		disableLighting();
@@ -678,7 +662,7 @@ public abstract class Renderer {
 		enableDepthTest();
 		enableLighting();
 	}
-	
+
 	/**
 	 * draw outline for surfaces
 	 */
@@ -723,8 +707,6 @@ public abstract class Renderer {
 	//
 	// ///////////////////////////////////////////////////
 
-
-	
 	/**
 	 * sets the color
 	 * 
@@ -733,41 +715,36 @@ public abstract class Renderer {
 	 * 
 	 */
 	final public void setColor(Coords color) {
-		setColor(
-				(float) color.getX(),
-				(float) color.getY(),
-				(float) color.getZ(),
-				(float) color.getW()
-		);
-		
+		setColor((float) color.getX(), (float) color.getY(),
+				(float) color.getZ(), (float) color.getW());
+
 	}
-	
 
 	/**
 	 * sets the color
 	 * 
 	 * @param color
-	 *            (r,g,b,a) 	 
+	 *            (r,g,b,a)
 	 */
 	final public void setColor(GColor color) {
-		setColor(
-				color.getRed() / 255f,
-				color.getGreen() / 255f,
-				color.getBlue() / 255f,
-				color.getAlpha() / 255f
-		);
+		setColor(color.getRed() / 255f, color.getGreen() / 255f,
+				color.getBlue() / 255f, color.getAlpha() / 255f);
 	}
 
 	/**
 	 * sets the color
-	 * @param r red
-	 * @param g green
-	 * @param b blue
-	 * @param a alpha
-	 *  
+	 * 
+	 * @param r
+	 *            red
+	 * @param g
+	 *            green
+	 * @param b
+	 *            blue
+	 * @param a
+	 *            alpha
+	 * 
 	 */
 	abstract protected void setColor(float r, float g, float b, float a);
-
 
 	// arrows
 
@@ -875,8 +852,7 @@ public abstract class Renderer {
 			enableLighting();
 
 	}
-	
-	
+
 	final public void drawCompletingCursor(double value, Coords color) {
 
 		initMatrix();
@@ -1038,20 +1014,22 @@ public abstract class Renderer {
 		// on next rending, a picking will be done : see doPick()
 		waitForPick = true;
 	}
-	
-	
 
-	
 	/**
 	 * set hits for mouse location
-	 * @param mouseLoc mouse location
-	 * @param threshold threshold
+	 * 
+	 * @param mouseLoc
+	 *            mouse location
+	 * @param threshold
+	 *            threshold
 	 */
 	abstract public void setHits(GPoint mouseLoc, int threshold);
 
 	/**
 	 * set label hits for mouse location
-	 * @param mouseLoc mouse location
+	 * 
+	 * @param mouseLoc
+	 *            mouse location
 	 * @return first label hitted geo
 	 */
 	abstract public GeoElement getLabelHit(GPoint mouseLoc);
@@ -1071,7 +1049,7 @@ public abstract class Renderer {
 	 */
 	public void addOneGeoToPick() {
 		geoToPickSize++;
-		//App.debug("geoToPickSize++ ("+geoToPickSize+")");
+		// App.debug("geoToPickSize++ ("+geoToPickSize+")");
 	}
 
 	/**
@@ -1079,15 +1057,12 @@ public abstract class Renderer {
 	 */
 	public void removeOneGeoToPick() {
 		geoToPickSize--;
-		//App.debug("geoToPickSize-- ("+geoToPickSize+")");
+		// App.debug("geoToPickSize-- ("+geoToPickSize+")");
 		/*
 		 * if (geoToPickSize<0) App.printStacktrace("");
 		 */
 
 	}
-	
-
-
 
 	protected static Drawable3D[] createDrawableListForPicking(int bufSize) {
 		return new Drawable3D[bufSize];
@@ -1096,7 +1071,6 @@ public abstract class Renderer {
 	abstract protected void setGLForPicking();
 
 	abstract protected void pushSceneMatrix();
-
 
 	protected boolean intersectsMouse3D(double zNear, double zFar, double mouseZ) {
 		// App.debug("\n"+zNear+"\n"+zFar+"\n"+mouseZ+"\n"+view3D.getScreenZOffset());
@@ -1144,13 +1118,11 @@ public abstract class Renderer {
 	public void pickLabel(Drawable3D d) {
 		glLoadName(pickingLoop);
 		if (d.drawLabelForPicking(this)) {
-			//App.debug(""+d.getGeoElement());
+			// App.debug(""+d.getGeoElement());
 			drawHits[pickingLoop] = d;
 			pickingLoop++;
 		}
 	}
-
-
 
 	public double getScreenZFromPickingDepth(double z) {
 		double d = getVisibleDepth() / 2;
@@ -1170,14 +1142,16 @@ public abstract class Renderer {
 	// LIGHTS
 	// ////////////////////////////////
 
-	static final private float SQRT2_DIV2 = (float) Math.sqrt(2)/2;
-	static final protected float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f, SQRT2_DIV2 };
-	static final protected float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f, SQRT2_DIV2, 0f };
+	static final private float SQRT2_DIV2 = (float) Math.sqrt(2) / 2;
+	static final protected float[] LIGHT_POSITION_W = { SQRT2_DIV2, 0f,
+			SQRT2_DIV2 };
+	static final protected float[] LIGHT_POSITION_D = { SQRT2_DIV2, 0f,
+			SQRT2_DIV2, 0f };
 
 	protected void setLightPosition() {
 		setLightPosition(getLightPosition());
 	}
-	
+
 	/**
 	 * 
 	 * @return light position
@@ -1433,12 +1407,11 @@ public abstract class Renderer {
 
 		// viewEye();
 	}
-	
+
 	/**
 	 * for shaders : update projection matrix
 	 */
 	abstract public void updateOrthoValues();
-
 
 	/**
 	 * Set Up An Ortho View regarding left, right, bottom, front values
@@ -1447,7 +1420,6 @@ public abstract class Renderer {
 	abstract protected void viewOrtho();
 
 	protected double eyeToScreenDistance = 0;
-
 
 	final public void setNear(double val) {
 		eyeToScreenDistance = val;
@@ -1489,10 +1461,10 @@ public abstract class Renderer {
 		perspFar = perspNear + getVisibleDepth();
 
 	}
-	
-	
+
 	private void updatePerspEye() {
-		perspEye = new Coords(glassesEyesSide, glassesEyesHeight, -perspFocus, 1); // perspFocus is negative
+		perspEye = new Coords(glassesEyesSide, glassesEyesHeight, -perspFocus,
+				1); // perspFocus is negative
 	}
 
 	/**
@@ -1584,12 +1556,12 @@ public abstract class Renderer {
 	}
 
 	abstract protected void viewOblique();
-	
+
 	/**
 	 * 
 	 * @return x oblique factor
 	 */
-	public double getObliqueX(){
+	public double getObliqueX() {
 		return obliqueX;
 	}
 
@@ -1597,7 +1569,7 @@ public abstract class Renderer {
 	 * 
 	 * @return y oblique factor
 	 */
-	public double getObliqueY(){
+	public double getObliqueY() {
 		return obliqueY;
 	}
 
@@ -1700,31 +1672,33 @@ public abstract class Renderer {
 	 */
 	abstract public void bindTexture(int index);
 
-	
 	abstract public GBufferedImage createBufferedImage(DrawLabel3D label);
-	
+
 	/**
 	 * create alpha texture for label from image
-	 * @param label label
-	 * @param bimg buffered image
+	 * 
+	 * @param label
+	 *            label
+	 * @param bimg
+	 *            buffered image
 	 */
-	abstract public void createAlphaTexture(DrawLabel3D label, GBufferedImage bimg);
+	abstract public void createAlphaTexture(DrawLabel3D label,
+			GBufferedImage bimg);
 
-	
-    /**
-     * 
-     * @param val
-     * @return first power of 2 greater than val
-     */
-    public static final int firstPowerOfTwoGreaterThan(int val){
-    	
-    	int ret = 1;
-    	while(ret<val)
-    		ret*=2;   	
-    	return ret;
-    	
-    }
-    
+	/**
+	 * 
+	 * @param val
+	 * @return first power of 2 greater than val
+	 */
+	public static final int firstPowerOfTwoGreaterThan(int val) {
+
+		int ret = 1;
+		while (ret < val)
+			ret *= 2;
+		return ret;
+
+	}
+
 	/**
 	 * @param sizeX
 	 * @param sizeY
@@ -1745,114 +1719,103 @@ public abstract class Renderer {
 	/**
 	 * init the renderer
 	 */
-    public void init(){      
+	public void init() {
 
-        initShaders();
-               
-        
-        geometryManager = createManager();
-                    
-        
-        
-        //GL_LIGHT0 & GL_LIGHT1
-        float ambiant0 = 0.5f;
-        float diffuse0 = 1f-ambiant0; 
-        
-        float ambiant1 = 0.4f;
-        float diffuse1 = 1f-ambiant1;
-        
-        setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
-                
-        
-        
-        
-        //material and light
-        setColorMaterial();
-        
-        
-        //setLight(GLlocal.GL_LIGHT0);        
-        setLightModel();        
-        enableLighting();
-        
-   
-        //common enabling
-        enableDepthTest();
-        setDepthFunc();
+		initShaders();
+
+		geometryManager = createManager();
+
+		// GL_LIGHT0 & GL_LIGHT1
+		float ambiant0 = 0.5f;
+		float diffuse0 = 1f - ambiant0;
+
+		float ambiant1 = 0.4f;
+		float diffuse1 = 1f - ambiant1;
+
+		setLightAmbiantDiffuse(ambiant0, diffuse0, ambiant1, diffuse1);
+
+		// material and light
+		setColorMaterial();
+
+		// setLight(GLlocal.GL_LIGHT0);
+		setLightModel();
+		enableLighting();
+
+		// common enabling
+		enableDepthTest();
+		setDepthFunc();
 		enablePolygonOffsetFill();
-        enableCulling();
-        setCullFaceBack();
-        
-        //blending
-        setBlendFunc();
-        enableBlending();
-        updateClearColor();
-               
-        setAlphaFunc();
-        
-               
-        //normal anti-scaling
-        enableNormalNormalized();
-        
-        //textures
-        textures.init();
-       
-        //reset euclidian view
-        view3D.reset();       
-        
-        //reset picking buffer
-        needsNewPickingBuffer = true;
-        
-       	// ensure that animation is on (needed when undocking/docking 3D view)
-        resumeAnimator();        
+		enableCulling();
+		setCullFaceBack();
 
-    }  
-    
-    /**
-     * set the depth function
-     */
-    abstract protected void setDepthFunc();
-    
-    /**
-     * enable polygon offset fill
-     */
-    abstract protected void enablePolygonOffsetFill();
-    
-    
-    /**
-     * set the blend function
-     */
-    abstract protected void setBlendFunc();
+		// blending
+		setBlendFunc();
+		enableBlending();
+		updateClearColor();
 
-    /**
-     * enables normalization for normals
-     */
-    abstract protected void enableNormalNormalized();
-    
-    
+		setAlphaFunc();
+
+		// normal anti-scaling
+		enableNormalNormalized();
+
+		// textures
+		textures.init();
+
+		// reset euclidian view
+		view3D.reset();
+
+		// reset picking buffer
+		needsNewPickingBuffer = true;
+
+		// ensure that animation is on (needed when undocking/docking 3D view)
+		resumeAnimator();
+
+	}
+
+	/**
+	 * set the depth function
+	 */
+	abstract protected void setDepthFunc();
+
+	/**
+	 * enable polygon offset fill
+	 */
+	abstract protected void enablePolygonOffsetFill();
+
+	/**
+	 * set the blend function
+	 */
+	abstract protected void setBlendFunc();
+
+	/**
+	 * enables normalization for normals
+	 */
+	abstract protected void enableNormalNormalized();
+
 	/**
 	 * enable fading (e.g. for planes)
 	 */
 	abstract public void enableFading();
-	
+
 	/**
 	 * enable fading (e.g. for planes)
 	 */
-	abstract public void enableDash(); 
-	
+	abstract public void enableDash();
+
 	abstract public void setDashTexture(int index);
-	
+
 	/**
 	 * 
 	 * @return true if it uses logical picking instead of GL picking
 	 */
 	abstract public boolean useLogicalPicking();
-	
-    /**
-     * 
-     * @return hitting
-     */
-    public Hitting getHitting(){
-    	return null;
-    }
-	
+
+	/**
+	 * 
+	 * @return hitting
+	 */
+	public Hitting getHitting() {
+		return null;
+	}
+
 }

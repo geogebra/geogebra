@@ -17,19 +17,13 @@ import geogebra.common.main.MyError;
 
 public class CmdTranslate3D extends CmdTranslate {
 
-
-
-
 	public CmdTranslate3D(Kernel kernel) {
 		super(kernel);
 	}
 
-
-
-
 	@Override
 	public GeoElement[] process(Command c) throws MyError,
-	CircularDefinitionException {
+			CircularDefinitionException {
 		String label = c.getLabel();
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
@@ -40,24 +34,27 @@ public class CmdTranslate3D extends CmdTranslate {
 		case 2:
 			arg = resArgs(c);
 
-			//check if there is a 3D geo
-			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()){
+			// check if there is a 3D geo
+			if (arg[0].isGeoElement3D() || arg[1].isGeoElement3D()) {
 
 				// translate object
 				if ((ok[0] = (arg[0] instanceof Translateable
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
-						&& (ok[1] = (arg[1].isGeoVector()))) {				
-					ret = kernelA.getManager3D().Translate3D(label, arg[0], (GeoVectorND) arg[1]);
+						&& (ok[1] = (arg[1].isGeoVector()))) {
+					ret = kernelA.getManager3D().Translate3D(label, arg[0],
+							(GeoVectorND) arg[1]);
 					return ret;
 				} else if ((ok[0] = (arg[0] instanceof Translateable
 						|| arg[0] instanceof GeoPolygon || arg[0].isGeoList()))
 						&& (ok[1] = (arg[1] instanceof GeoPointND))) {
 
 					// wrap (1,2,3) as Vector[(1,2,3)]
-					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons, (GeoPointND)arg[1]);
+					AlgoVectorPoint3D algoVP = new AlgoVectorPoint3D(cons,
+							(GeoPointND) arg[1]);
 					cons.removeFromConstructionList(algoVP);
 
-					ret = kernelA.getManager3D().Translate3D(label, arg[0], algoVP.getVector());
+					ret = kernelA.getManager3D().Translate3D(label, arg[0],
+							algoVP.getVector());
 					return ret;
 				}
 			}
@@ -68,14 +65,15 @@ public class CmdTranslate3D extends CmdTranslate {
 	}
 
 	@Override
-	protected AlgoTranslateVector getAlgoTranslateVector(String label, GeoElement v, GeoElement P){
+	protected AlgoTranslateVector getAlgoTranslateVector(String label,
+			GeoElement v, GeoElement P) {
 
-		if (v.isGeoElement3D()){
-			return new AlgoTranslateVector3D(cons, label, (GeoVector3D) v, (GeoPointND) P);
+		if (v.isGeoElement3D()) {
+			return new AlgoTranslateVector3D(cons, label, (GeoVector3D) v,
+					(GeoPointND) P);
 		}
 
 		return super.getAlgoTranslateVector(label, v, P);
 	}
-
 
 }

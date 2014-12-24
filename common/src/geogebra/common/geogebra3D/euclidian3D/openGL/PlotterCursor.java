@@ -104,40 +104,34 @@ public class PlotterCursor {
 		color(0.5f, 0.5f, 0.5f);
 		// up
 		manager.normal(0, 0, 1);
-		quad(size_cube, size_cube, size_cube,
-				-size_cube, size_cube, size_cube,
-				-size_cube, -size_cube, size_cube,
-				size_cube, -size_cube, size_cube);
+		quad(size_cube, size_cube, size_cube, -size_cube, size_cube, size_cube,
+				-size_cube, -size_cube, size_cube, size_cube, -size_cube,
+				size_cube);
 		// down
 		manager.normal(0, 0, -1);
-		quad(size_cube, size_cube, -size_cube,
-				size_cube, -size_cube, -size_cube,
-				-size_cube, -size_cube, -size_cube,
-				-size_cube, size_cube, -size_cube);
+		quad(size_cube, size_cube, -size_cube, size_cube, -size_cube,
+				-size_cube, -size_cube, -size_cube, -size_cube, -size_cube,
+				size_cube, -size_cube);
 		// right
 		manager.normal(1, 0, 0);
-		quad(size_cube, size_cube, size_cube,
-				size_cube, -size_cube, size_cube,
-				size_cube, -size_cube, -size_cube,
-				size_cube, size_cube, -size_cube);
+		quad(size_cube, size_cube, size_cube, size_cube, -size_cube, size_cube,
+				size_cube, -size_cube, -size_cube, size_cube, size_cube,
+				-size_cube);
 		// left
 		manager.normal(-1, 0, 0);
-		quad(-size_cube, size_cube, size_cube,
-				-size_cube, size_cube, -size_cube,
-				-size_cube, -size_cube, -size_cube,
-				-size_cube, -size_cube, size_cube);
+		quad(-size_cube, size_cube, size_cube, -size_cube, size_cube,
+				-size_cube, -size_cube, -size_cube, -size_cube, -size_cube,
+				-size_cube, size_cube);
 		// back
 		manager.normal(0, 1, 0);
-		quad(size_cube, size_cube, size_cube,
-				size_cube, size_cube, -size_cube,
-				-size_cube, size_cube, -size_cube,
-				-size_cube, size_cube, size_cube);
+		quad(size_cube, size_cube, size_cube, size_cube, size_cube, -size_cube,
+				-size_cube, size_cube, -size_cube, -size_cube, size_cube,
+				size_cube);
 		// front
 		manager.normal(0, -1, 0);
-		quad(size_cube, -size_cube, size_cube,
-				-size_cube, -size_cube, size_cube,
-				-size_cube, -size_cube, -size_cube,
-				size_cube, -size_cube, -size_cube);
+		quad(size_cube, -size_cube, size_cube, -size_cube, -size_cube,
+				size_cube, -size_cube, -size_cube, -size_cube, size_cube,
+				-size_cube, -size_cube);
 
 		manager.endGeometry();
 		manager.endList();
@@ -148,16 +142,13 @@ public class PlotterCursor {
 		cursorSphere(0.25f, 0.25f);
 		manager.endGeometry();
 		manager.endList();
-		
+
 		// sphere
 		index[TYPE_SPHERE_HIGHLIGHTED] = manager.startNewList(-1);
 		manager.startGeometry(Manager.Type.TRIANGLES);
 		cursorSphere(0.75f, 0.25f);
 		manager.endGeometry();
 		manager.endList();
-		
-		
-		
 
 	}
 
@@ -174,31 +165,22 @@ public class PlotterCursor {
 		color(r, g, b, 1f);
 	}
 
-	
 	private void vertex(float x, float y, float z) {
 		manager.color(r, g, b, a);
 		manager.vertex(x, y, z);
 	}
-	
-	
-	private void quad(
-			float x1, float y1, float z1,
-			float x2, float y2, float z2,
-			float x3, float y3, float z3,
-			float x4, float y4, float z4){
-		
-		vertex(x1,y1,z1);
-		vertex(x2,y2,z2);
-		vertex(x3,y3,z3);
-		
-		vertex(x1,y1,z1);
-		vertex(x3,y3,z3);
-		vertex(x4,y4,z4);
+
+	private void quad(float x1, float y1, float z1, float x2, float y2,
+			float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
+
+		vertex(x1, y1, z1);
+		vertex(x2, y2, z2);
+		vertex(x3, y3, z3);
+
+		vertex(x1, y1, z1);
+		vertex(x3, y3, z3);
+		vertex(x4, y4, z4);
 	}
-			
-			
-			
-	
 
 	/**
 	 * used to say if light is on or not
@@ -253,36 +235,24 @@ public class PlotterCursor {
 		color(1, 1, 1);
 
 		// up
-		quad(thickness, size, depth,
-				-thickness, size, depth,
-				-thickness, -size, depth,
-				thickness, -size, depth);
+		quad(thickness, size, depth, -thickness, size, depth, -thickness,
+				-size, depth, thickness, -size, depth);
 
-		quad(size, thickness, depth,
-				thickness, thickness, depth,
-				thickness, -thickness, depth,
-				size, -thickness, depth);
+		quad(size, thickness, depth, thickness, thickness, depth, thickness,
+				-thickness, depth, size, -thickness, depth);
 
-		quad(-size, thickness, depth,
-				-size, -thickness, depth,
-				-thickness, -thickness, depth,
-				-thickness, thickness, depth);
+		quad(-size, thickness, depth, -size, -thickness, depth, -thickness,
+				-thickness, depth, -thickness, thickness, depth);
 
 		// down
-		quad(thickness, size, -depth,
-				thickness, -size, -depth,
-				-thickness, -size, -depth,
-				-thickness, size, -depth);
+		quad(thickness, size, -depth, thickness, -size, -depth, -thickness,
+				-size, -depth, -thickness, size, -depth);
 
-		quad(size, thickness, -depth,
-				size, -thickness, -depth,
-				thickness, -thickness, -depth,
-				thickness, thickness, -depth);
+		quad(size, thickness, -depth, size, -thickness, -depth, thickness,
+				-thickness, -depth, thickness, thickness, -depth);
 
-		quad(-size, thickness, -depth,
-				-thickness, thickness, -depth,
-				-thickness, -thickness, -depth,
-				-size, -thickness, -depth);
+		quad(-size, thickness, -depth, -thickness, thickness, -depth,
+				-thickness, -thickness, -depth, -size, -thickness, -depth);
 
 		// black parts
 		color(0, 0, 0);
@@ -449,10 +419,7 @@ public class PlotterCursor {
 			y1 = 2 * r2 * (float) Math.sin((2 * i + 1) * da);
 			z1 = 2 * r2 * (float) Math.cos((2 * i + 1) * da);
 
-			quad(-x2, y0, z0,
-					x2, y0, z0,
-					x2, y1, z1,
-					-x2, y1, z1);
+			quad(-x2, y0, z0, x2, y0, z0, x2, y1, z1, -x2, y1, z1);
 
 		}
 
@@ -533,15 +500,9 @@ public class PlotterCursor {
 				x3 = ci * rcjp;
 				y3 = si * rcjp;
 
-				quad(x1, y1, z1,
-						x2, y2, z1,
-						x3, y3, z3,
-						x4, y4, z3);
+				quad(x1, y1, z1, x2, y2, z1, x3, y3, z3, x4, y4, z3);
 
-				quad(x1, y1, -z1,
-						x4, y4, -z3,
-						x3, y3, -z3,
-						x2, y2, -z1);
+				quad(x1, y1, -z1, x4, y4, -z3, x3, y3, -z3, x2, y2, -z1);
 
 			}
 		}
@@ -582,15 +543,9 @@ public class PlotterCursor {
 	private void quadSymOz(float x1, float y1, float z1, float x2, float y2,
 			float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
 
-		quad(x1, y1, z1,
-				x2, y2, z2,
-				x3, y3, z3,
-				x4, y4, z4);
+		quad(x1, y1, z1, x2, y2, z2, x3, y3, z3, x4, y4, z4);
 
-		quad(-x1, -y1, z1,
-				-x2, -y2, z2,
-				-x3, -y3, z3,
-				-x4, -y4, z4);
+		quad(-x1, -y1, z1, -x2, -y2, z2, -x3, -y3, z3, -x4, -y4, z4);
 
 		/*
 		 * vertex(-x1,y1,z1); vertex(-x4,y4,z4); vertex(-x3,y3,z3);

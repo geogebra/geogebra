@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -20,40 +19,36 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Compute a line through a point and orthogonal to a plane (or polygon, ...)
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoOrthoLinePointPlane extends AlgoOrtho {
 
- 
+	public AlgoOrthoLinePointPlane(Construction cons, String label,
+			GeoPointND point, GeoCoordSys2D cs) {
+		super(cons, label, point, (GeoElement) cs);
+	}
 
-    public AlgoOrthoLinePointPlane(Construction cons, String label, GeoPointND point, GeoCoordSys2D cs) {
-        super(cons,label,point, (GeoElement) cs);
-    }
-
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.OrthogonalLine;
-    }
+		return Commands.OrthogonalLine;
+	}
 
+	private GeoCoordSys2D getCS() {
+		return (GeoCoordSys2D) getInputOrtho();
+	}
 
-    private GeoCoordSys2D getCS(){
-    	return (GeoCoordSys2D) getInputOrtho();
-    }
-
-  
-    @Override
+	@Override
 	public final void compute() {
-    	
-    	CoordSys coordsys = getCS().getCoordSys();
-    	
-    	getLine().setCoord(getPoint().getInhomCoordsInD3(), coordsys.getVz());
-        
-    }
+
+		CoordSys coordsys = getCS().getCoordSys();
+
+		getLine().setCoord(getPoint().getInhomCoordsInD3(), coordsys.getVz());
+
+	}
 
 	// TODO Consider locusequability
 

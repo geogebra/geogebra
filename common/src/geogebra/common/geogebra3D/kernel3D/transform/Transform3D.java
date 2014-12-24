@@ -8,9 +8,6 @@ import geogebra.common.kernel.Transform;
  * @author kondr
  * 
  */
-public abstract class Transform3D extends Transform{
-	
+public abstract class Transform3D extends Transform {
 
 }
-
-

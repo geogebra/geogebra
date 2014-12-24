@@ -8,28 +8,31 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * 3D dilate
+ * 
  * @author mathieu
  *
  */
-public class TransformDilate3D extends TransformDilate{
+public class TransformDilate3D extends TransformDilate {
 
-	
 	/**
 	 * constructor
-	 * @param cons construction
-	 * @param ratio ratio for dilate
-	 * @param center center for dilate
+	 * 
+	 * @param cons
+	 *            construction
+	 * @param ratio
+	 *            ratio for dilate
+	 * @param center
+	 *            center for dilate
 	 * 
 	 */
-	public TransformDilate3D(Construction cons,NumberValue ratio, GeoPointND center) {
+	public TransformDilate3D(Construction cons, NumberValue ratio,
+			GeoPointND center) {
 		super(cons, ratio, center);
 
 	}
-	
-	
+
 	@Override
 	protected AlgoTransformation getTransformAlgo(GeoElement geo) {
 		AlgoTransformation algo = new AlgoDilate3D(cons, geo, ratio, center);

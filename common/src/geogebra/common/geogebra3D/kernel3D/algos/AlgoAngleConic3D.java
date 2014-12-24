@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAnglePoints.java
@@ -22,37 +22,33 @@ import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 
-
 /**
  *
- * @author  mathieu
+ * @author mathieu
  */
-public class AlgoAngleConic3D extends AlgoAngleElement3D{
+public class AlgoAngleConic3D extends AlgoAngleElement3D {
 
 	private Coords o;
-	
 
 	public AlgoAngleConic3D(Construction cons, String label, GeoConic3D vec) {
 		super(cons, label, vec);
 	}
-	
+
 	@Override
-	protected final Coords getVectorCoords(){
-		
+	protected final Coords getVectorCoords() {
+
 		Coords v = ((GeoConic3D) vec).getEigenvec3D(0).copyVector();
 		return v;
 	}
-	
+
 	@Override
-	protected final Coords getOrigin(){
+	protected final Coords getOrigin() {
 		return o;
 	}
-	
+
 	@Override
-	protected final void setOrigin(){
+	protected final void setOrigin() {
 		o = ((GeoConic3D) vec).getMidpoint3D();
 	}
-	
-	
 
 }

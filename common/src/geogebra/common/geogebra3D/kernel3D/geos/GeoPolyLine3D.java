@@ -30,7 +30,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 	private Coords direction2 = null;
 	private Coords direction3 = null;
 
-
 	/** for possibly planar object */
 	private boolean isPlanar = false;
 	private Coords normal = null;
@@ -49,7 +48,6 @@ public class GeoPolyLine3D extends GeoPolyLine {
 
 	// ///////////////////////////////////////
 	// GeoPolyLine3D
-
 
 	@Override
 	public GeoClass getGeoClassType() {
@@ -126,9 +124,10 @@ public class GeoPolyLine3D extends GeoPolyLine {
 
 	@Override
 	public void pathChanged(GeoPointND P) {
-		
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(P)){
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(P)) {
 			pointChanged(P);
 			return;
 		}
@@ -320,7 +319,8 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			direction2 = points[index2].getInhomCoordsInD3().sub(
 					points[index1].getInhomCoordsInD3());
 			normal = direction1.crossProduct(direction2);
-			if (!normal.equalsForKernel(new Coords(0, 0, 0), Kernel.STANDARD_PRECISION)) {
+			if (!normal.equalsForKernel(new Coords(0, 0, 0),
+					Kernel.STANDARD_PRECISION)) {
 				break;
 			} else {
 				direction2 = null;
@@ -346,8 +346,5 @@ public class GeoPolyLine3D extends GeoPolyLine {
 			return;
 		}
 	}
-
-
-
 
 }

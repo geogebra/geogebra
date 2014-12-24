@@ -7,15 +7,17 @@ import geogebra.common.kernel.commands.Commands;
 
 /**
  * Compute the bottom of a limited quadric
+ * 
  * @author matthieu
  *
  */
 public class AlgoQuadricEndTop extends AlgoQuadricEnd {
 
-	public AlgoQuadricEndTop(Construction cons, String label, GeoQuadric3DLimited quadric) {
+	public AlgoQuadricEndTop(Construction cons, String label,
+			GeoQuadric3DLimited quadric) {
 		super(cons, label, quadric);
 	}
-	
+
 	public AlgoQuadricEndTop(Construction cons, GeoQuadric3DLimited quadric) {
 		super(cons, quadric);
 	}
@@ -32,8 +34,8 @@ public class AlgoQuadricEndTop extends AlgoQuadricEnd {
 
 	@Override
 	public Commands getClassName() {
-        return Commands.Top;
-    }
+		return Commands.Top;
+	}
 
 	// TODO Consider locusequability
 

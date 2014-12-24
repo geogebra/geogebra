@@ -40,9 +40,8 @@ import geogebra.common.plugin.Operation;
  * 
  */
 public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
-		CurveEvaluable, 
-		RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable{
-
+		CurveEvaluable, RotateableND, Translateable, MirrorableAtPlane,
+		Transformable, Dilateable {
 
 	/**
 	 * empty constructor (for ConstructionDefaults3D)
@@ -71,13 +70,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		super(curve.cons, 3);
 		set(curve);
 	}
-	
 
 	@Override
-	public Function getFun(int i){
+	public Function getFun(int i) {
 		return fun[i];
 	}
-
 
 	public Coords evaluateTangent(double t) {
 		updateDerivatives();
@@ -89,14 +86,14 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	}
 
-	public void evaluateCurve(double t, double [] out){
-	 
-		for (int i = 0; i < 3; i++){
+	public void evaluateCurve(double t, double[] out) {
+
+		for (int i = 0; i < 3; i++) {
 			out[i] = fun[i].evaluate(t);
 		}
 	}
 
-	public double[] newDoubleArray(){
+	public double[] newDoubleArray() {
 		return new double[3];
 	}
 
@@ -115,7 +112,8 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	/**
 	 * Returns the curvature at the specified point
 	 * 
-	 * @param t parameter
+	 * @param t
+	 *            parameter
 	 */
 	@Override
 	public double evaluateCurvature(double t) {
@@ -131,7 +129,7 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// compute curvature using the formula k = |f'' x f'| / |f'|^3
 		Coords cross = D1.crossProduct(D2);
-		//Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
+		// Log.debug(cross.norm() / Math.pow(D1.norm(), 3));
 		return cross.norm() / Math.pow(D1.norm(), 3);
 	}
 
@@ -139,11 +137,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		int dim = 3;
 		funD1 = new Function[dim];
 		funD2 = new Function[dim];
-		for(int i = 0; i < dim; i++){
+		for (int i = 0; i < dim; i++) {
 			funD1[i] = getFun(i).getDerivative(1, true);
 			funD2[i] = getFun(i).getDerivative(2, true);
 		}
-		
+
 	}
 
 	@Override
@@ -159,22 +157,23 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 	@Override
 	public void set(GeoElement geo) {
-		
-		if (! (geo instanceof GeoCurveCartesianND)){
+
+		if (!(geo instanceof GeoCurveCartesianND)) {
 			return;
 		}
-		
+
 		GeoCurveCartesianND geoCurve = (GeoCurveCartesianND) geo;
 
-		//fun = new Function[3];
+		// fun = new Function[3];
 		for (int i = 0; i < 2; i++) {
 			fun[i] = new Function(geoCurve.getFun(i), kernel);
 			// Application.debug(fun[i].toString());
 		}
-		if (geoCurve.isGeoElement3D()){
+		if (geoCurve.isGeoElement3D()) {
 			fun[2] = new Function(geoCurve.getFun(2), kernel);
-		}else{ // t -> (x,y,0) 2D curve
-			fun[2] = new Function(new ExpressionNode(kernel, 0), new FunctionVariable(kernel, "t"));
+		} else { // t -> (x,y,0) 2D curve
+			fun[2] = new Function(new ExpressionNode(kernel, 0),
+					new FunctionVariable(kernel, "t"));
 		}
 
 		startParam = geoCurve.getMinParameter();
@@ -213,29 +212,22 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return GeoClass.CURVE_CARTESIAN3D;
 	}
 
-
-
-
 	@Override
 	public Coords getLabelPosition() {
 		return new Coords(4); // TODO
 	}
-	
-
 
 	@Override
 	public boolean isGeoElement3D() {
 		return true;
 	}
-	
-	
 
-	//////////////////
+	// ////////////////
 	// TRACE
-	//////////////////
+	// ////////////////
 
-	private boolean trace;	
-	
+	private boolean trace;
+
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -248,56 +240,54 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public boolean getTrace() {
 		return trace;
 	}
-	
-	
-	
-	
 
 	public void rotate(NumberValue r, GeoPointND S) {
 
-		if (tmpMatrix4x4 == null){
+		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
+		CoordMatrix4x4.Rotation4x4(r.getDouble(), S.getInhomCoordsInD3(),
+				tmpMatrix4x4);
 		transform(tmpMatrix4x4);
-		
+
 	}
 
 	public void rotate(NumberValue r) {
 
-		if (tmpMatrix4x4 == null){
+		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 		CoordMatrix4x4.Rotation4x4(r.getDouble(), tmpMatrix4x4);
 		transform(tmpMatrix4x4);
-		
+
 	}
 
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		
-		if (tmpMatrix4x4 == null){
+
+		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(), r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
+		CoordMatrix4x4.Rotation4x4(orientation.getDirectionInD3().normalized(),
+				r.getDouble(), S.getInhomCoordsInD3(), tmpMatrix4x4);
 		transform(tmpMatrix4x4);
 	}
-	
+
 	private void transform(CoordMatrix4x4 m) {
 
 		// current expressions
-		ExpressionNode[] expr = new ExpressionNode[3]; 
-		for (int i = 0; i<3; i++){
+		ExpressionNode[] expr = new ExpressionNode[3];
+		for (int i = 0; i < 3; i++) {
 			expr[i] = ((Function) fun[i].deepCopy(kernel)).getExpression();
 		}
 
-		for(int row = 0; row < 3 ; row++){
+		for (int row = 0; row < 3; row++) {
 			MyDouble[] coeff = new MyDouble[4];
-			for (int i = 0; i<4; i++){
-				coeff[i] = new MyDouble(kernel, m.get(row+1, i+1));
+			for (int i = 0; i < 4; i++) {
+				coeff[i] = new MyDouble(kernel, m.get(row + 1, i + 1));
 			}
 
 			ExpressionNode trans = new ExpressionNode(kernel, coeff[3]);
-			for (int i = 0; i<3; i++){
+			for (int i = 0; i < 3; i++) {
 				trans = trans.plus(expr[i].multiply(coeff[i]));
 			}
 
@@ -305,63 +295,57 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 
 	}
-	
+
 	private CoordMatrix4x4 tmpMatrix4x4;
 
 	public void rotate(NumberValue r, GeoLineND line) {
 
-		if (tmpMatrix4x4 == null){
+		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
-		
-		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(), r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
+
+		CoordMatrix4x4.Rotation4x4(line.getDirectionInD3().normalized(),
+				r.getDouble(), line.getStartInhomCoords(), tmpMatrix4x4);
 		transform(tmpMatrix4x4);
-		
+
 	}
 
-	
-	
-	
+	public double[] getDefinedInterval(double a, double b) {
 
-	
-	
-	public double[] getDefinedInterval(double a, double b){
-		
 		return getDefinedInterval(a, b, fun[0], fun[1], fun[2]);
-		
+
 	}
-	
+
 	/**
-	 * @param a start parameter
-	 * @param b end parameter
-	 * @param funX 
-	 * @param funY 
-	 * @param funZ 
+	 * @param a
+	 *            start parameter
+	 * @param b
+	 *            end parameter
+	 * @param funX
+	 * @param funY
+	 * @param funZ
 	 * @return an interval within [a, b] where the funX, funY, funZ are defined.
 	 * 
 	 */
-	static public double[] getDefinedInterval(double a, double b, RealRootFunction funX, RealRootFunction funY, RealRootFunction funZ){
+	static public double[] getDefinedInterval(double a, double b,
+			RealRootFunction funX, RealRootFunction funY, RealRootFunction funZ) {
 
 		// compute interval for x(t)
 		double[] interval = RealRootUtil.getDefinedInterval(funX, a, b);
 
 		// compute interval for y(t) and update interval
 		RealRootUtil.updateDefinedIntervalIntersecting(funY, a, b, interval);
-		
+
 		// compute interval for z(t) and update interval
 		RealRootUtil.updateDefinedIntervalIntersecting(funZ, a, b, interval);
-		
-		return interval;
-		
-		
-	}
-	
-	
-	///////////////////////////////////////
-	// PATH
-	///////////////////////////////////////
-	
 
+		return interval;
+
+	}
+
+	// /////////////////////////////////////
+	// PATH
+	// /////////////////////////////////////
 
 	public boolean isClosedPath() {
 		return false;
@@ -370,15 +354,14 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public PathMover createPathMover() {
 		return new PathMoverGeneric(this);
 	}
-	
-	
+
 	public void pointChanged(GeoPointND P) {
 
 		// get closest parameter position on curve
 		PathParameter pp = P.getPathParameter();
 		double t = getClosestParameter(P, pp.t);
 		pp.t = t;
-		pathChanged(P,false);
+		pathChanged(P, false);
 	}
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
@@ -400,11 +383,11 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
-		pathChanged(PI,!getKernel().usePathAndRegionParameters(PI));
+		pathChanged(PI, !getKernel().usePathAndRegionParameters(PI));
 
 	}
-	
-	private void pathChanged(GeoPointND P,boolean changePoint) {
+
+	private void pathChanged(GeoPointND P, boolean changePoint) {
 
 		// if kernel doesn't use path/region parameters, do as if point changed
 		// its coords
@@ -412,7 +395,6 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 			pointChanged(P);
 			return;
 		}
-
 
 		PathParameter pp = P.getPathParameter();
 		if (pp.t < startParam)
@@ -474,32 +456,33 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 
 		// use interval around our minParam found by sampling
 		// to find minimum
-		// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
-		double left = minParam - step; 
+		// Math.max/min removed and ParametricCurveDistanceFunction modified
+		// instead
+		double left = minParam - step;
 		double right = minParam + step;
 
 		ExtremumFinder extFinder = kernel.getExtremumFinder();
 		double sampleResult = extFinder.findMinimum(left, right, distFun,
 				Kernel.MIN_PRECISION);
-		
+
 		sampleResult = adjustRange(sampleResult);
 
 		// if we have a valid startParam we try the interval around it too
 		// however, we don't check the same interval again
-		if (!Double.isNaN(startVal)
-				&& (startVal < left || right < startVal)) {
-			
-			// Math.max/min removed and ParametricCurveDistanceFunction modified instead 
-			left = startVal - step; 
+		if (!Double.isNaN(startVal) && (startVal < left || right < startVal)) {
+
+			// Math.max/min removed and ParametricCurveDistanceFunction modified
+			// instead
+			left = startVal - step;
 			right = startVal + step;
 
 			double startValResult = extFinder.findMinimum(left, right, distFun,
 					Kernel.MIN_PRECISION);
-			
-			startValResult = adjustRange(startValResult); 
-			
+
+			startValResult = adjustRange(startValResult);
+
 			if (distFun.evaluate(startValResult) < distFun
-					.evaluate(sampleResult) + Kernel.MIN_PRECISION/2) {
+					.evaluate(sampleResult) + Kernel.MIN_PRECISION / 2) {
 				return startValResult;
 			}
 		}
@@ -507,98 +490,99 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		return sampleResult;
 	}
 
-	/** 
-	 * allow a curve like Curve[sin(t), cos(t), t, 0, 12*2pi] 
-	 * to "join up" properly at 0 and 12*2pi 
-	 *  
-	 * @param startValResult 
-	 * @return startValResult adjusted to be in range [startParam, endParam] if it's just outside 
-	 */ 
-	private double adjustRange(double startValResult) { 
-		if (startValResult < startParam) { 
-			return startValResult + (endParam - startParam); 
-		} 
+	/**
+	 * allow a curve like Curve[sin(t), cos(t), t, 0, 12*2pi] to "join up"
+	 * properly at 0 and 12*2pi
+	 * 
+	 * @param startValResult
+	 * @return startValResult adjusted to be in range [startParam, endParam] if
+	 *         it's just outside
+	 */
+	private double adjustRange(double startValResult) {
+		if (startValResult < startParam) {
+			return startValResult + (endParam - startParam);
+		}
 
-		if (startValResult > endParam) { 
-			return startValResult - (endParam - startParam); 
-		} 
+		if (startValResult > endParam) {
+			return startValResult - (endParam - startParam);
+		}
 
-		return startValResult; 
+		return startValResult;
 	}
-	
-	
-	///////////////////////////////////////
-	// DISTANCE FUNCTION
-	///////////////////////////////////////
 
+	// /////////////////////////////////////
+	// DISTANCE FUNCTION
+	// /////////////////////////////////////
 
 	private class CurveCartesian3DDistanceFunction implements DistanceFunction {
-	
-		
+
 		private Coords distCoords, distDirection;
 
 		private GeoCurveCartesian3D curve;
 
 		/**
-		 * Creates a function for evaluating squared distance of (px,py)
-		 * from curve (px and py must be entered using a setter)
-		 * @param curve curve
+		 * Creates a function for evaluating squared distance of (px,py) from
+		 * curve (px and py must be entered using a setter)
+		 * 
+		 * @param curve
+		 *            curve
 		 */
-		public CurveCartesian3DDistanceFunction(GeoCurveCartesian3D curve) {		
+		public CurveCartesian3DDistanceFunction(GeoCurveCartesian3D curve) {
 			this.curve = curve;
 		}
 
 		/**
-		 * Sets the point to be used in the distance function 
-		 * @param p point
+		 * Sets the point to be used in the distance function
+		 * 
+		 * @param p
+		 *            point
 		 */
 		public void setDistantPoint(GeoPointND p) {
-			
-			if (p.isGeoElement3D()){
+
+			if (p.isGeoElement3D()) {
 				GeoPoint3D p3D = (GeoPoint3D) p;
-				
-				if (p3D.hasWillingCoords()){
+
+				if (p3D.hasWillingCoords()) {
 					distCoords = p3D.getWillingCoords();
-				}else{
+				} else {
 					distCoords = p3D.getInhomCoordsInD3();
 				}
-				
-				distDirection = p3D.getWillingDirection(); //maybe undefined
-				
-				
-			}else{
+
+				distDirection = p3D.getWillingDirection(); // maybe undefined
+
+			} else {
 				distCoords = p.getInhomCoordsInD3();
 				distDirection = null;
 			}
 		}
 
 		/**
-		 * Returns the square of the distance between the currently set
-		 * distance point and this curve at parameter position t
+		 * Returns the square of the distance between the currently set distance
+		 * point and this curve at parameter position t
 		 */
 		public double evaluate(double t) {
 
-			Coords eval = curve.evaluateCurve3D(t);		
-			if (distDirection == null || !distDirection.isDefined()){
+			Coords eval = curve.evaluateCurve3D(t);
+			if (distDirection == null || !distDirection.isDefined()) {
 				return eval.squareDistance3(distCoords);
 			}
-			
+
 			return eval.squareDistLine3(distCoords, distDirection);
 		}
 
 	}
-	
-	
+
 	// ///////////////////////////////////
 	// TRANSLATE
 	// ///////////////////////////////////
 
 	public void translate(Coords v) {
-		
+
 		// current expressions
-		for (int i = 0; i<3; i++){
-			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel)).getExpression();
-			ExpressionNode trans = expr.plus(v.get(i+1));
+		for (int i = 0; i < 3; i++) {
+			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel))
+					.getExpression();
+			ExpressionNode trans = expr.plus(v.get(i + 1));
 			fun[i].setExpression(trans);
 		}
 
@@ -608,41 +592,36 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 	public boolean isTranslateable() {
 		return true;
 	}
-	
-	////////////////////////
+
+	// //////////////////////
 	// MIRROR
-	////////////////////////
-	
+	// //////////////////////
+
 	public void mirror(Coords Q) {
-		dilate(new MyDouble(kernel, -1.0),Q);
+		dilate(new MyDouble(kernel, -1.0), Q);
 	}
 
 	public void mirror(GeoLineND line) {
 
-		transform(CoordMatrix4x4.AxialSymetry(line.getDirectionInD3().normalized(), line.getStartInhomCoords()));
+		transform(CoordMatrix4x4.AxialSymetry(line.getDirectionInD3()
+				.normalized(), line.getStartInhomCoords()));
 
-		
 	}
-	
-	
+
 	public void mirror(GeoCoordSys2D plane) {
 
 		CoordMatrix4x4 m = plane.getCoordSys().getMatrixOrthonormal();
 		transform(CoordMatrix4x4.PlaneSymetry(m.getVz(), m.getOrigin()));
-		
+
 	}
 
-	
-	////////////////////////
+	// //////////////////////
 	// DILATE
-	////////////////////////
-
-
-
+	// //////////////////////
 
 	public void dilate(NumberValue ratio, Coords P) {
 		translate(P.mul(-1));
-		for (int i = 0; i < 3; i++){
+		for (int i = 0; i < 3; i++) {
 			ExpressionNode expr = ((Function) fun[i].deepCopy(kernel))
 					.getExpression();
 			fun[i].setExpression(new ExpressionNode(kernel, ratio,
@@ -650,53 +629,51 @@ public class GeoCurveCartesian3D extends GeoCurveCartesianND implements
 		}
 		translate(P);
 	}
-	
+
 	@Override
 	public void clearCasEvalMap(String string) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public boolean isFunctionInX() {
 		return false;
 	}
 
-	
 	/*
-	public GeoVec2D evaluateCurve(double t) {
-		double z = getFun(2).evaluate(t);
-		if (Double.isNaN(z) || Double.isInfinite(z) 
-				|| !Kernel.isZero(z)){ // won't be visible in 2D view
-			return new GeoVec2D(this.kernel, Double.NaN, Double.NaN);
-		}
-		return new GeoVec2D(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t));
+	 * public GeoVec2D evaluateCurve(double t) { double z =
+	 * getFun(2).evaluate(t); if (Double.isNaN(z) || Double.isInfinite(z) ||
+	 * !Kernel.isZero(z)){ // won't be visible in 2D view return new
+	 * GeoVec2D(this.kernel, Double.NaN, Double.NaN); } return new
+	 * GeoVec2D(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t)); }
+	 */
+
+	public double distanceMax(double[] p1, double[] p2) {
+		return Math.max(
+				Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1])),
+				Math.abs(p1[2] - p2[2]));
 	}
-	*/
-	
-	public double distanceMax(double[] p1, double[] p2){
-		return Math.max(Math.max(Math.abs(p1[0] - p2[0]), Math.abs(p1[1] - p2[1])), Math.abs(p1[2] - p2[2]));
-	}
-	
+
 	/**
 	 * eg f(t) for 3D Curve
 	 * 
-	 * @param t parameter
+	 * @param t
+	 *            parameter
 	 * @return 3D Point
 	 */
 	public Geo3DVec evaluateCurve(double t) {
-		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1).evaluate(t), getFun(2).evaluate(t));
+		return new Geo3DVec(this.kernel, getFun(0).evaluate(t), getFun(1)
+				.evaluate(t), getFun(2).evaluate(t));
 	}
-	
+
 	@Override
 	protected GeoCurveCartesianND newGeoCurveCartesian(Construction cons) {
 		return new GeoCurveCartesian3D(cons);
 	}
-	
 
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
-
 
 }

@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -20,32 +19,27 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Compute a plane through a point and parallel to a line (or segment, ...)
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoLinePointLine3D extends AlgoLinePoint {
 
- 
+	public AlgoLinePointLine3D(Construction cons, String label,
+			GeoPointND point, GeoLineND line) {
+		super(cons, label, point, (GeoElement) line);
+	}
 
-    public AlgoLinePointLine3D(Construction cons, String label, GeoPointND point, GeoLineND line) {
-        super(cons,label,point, (GeoElement) line);
-    }
-
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Line;
-    }
-
+		return Commands.Line;
+	}
 
 	@Override
 	protected Coords getDirection() {
 		return getInputParallel().getMainDirection();
 	}
-
-
 
 }

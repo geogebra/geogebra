@@ -11,69 +11,55 @@ import geogebra.common.kernel.kernelND.HasSegments;
 
 import java.util.TreeMap;
 
-
-
-
 public class AlgoIntersectPlanePolygon extends AlgoIntersectLinePolygon3D {
-	
+
 	private GeoPlane3D plane;
 
-
-	
 	public AlgoIntersectPlanePolygon(Construction c, String[] labels,
-			GeoPlane3D plane, GeoPolygon p) {		
+			GeoPlane3D plane, GeoPolygon p) {
 		super(c, labels, plane, p);
-		
-        
+
 	}
 
 	@Override
-	protected void setFirstInput(GeoElement geo){
+	protected void setFirstInput(GeoElement geo) {
 		this.plane = (GeoPlane3D) geo;
-		
+
 	}
-	
-    @Override
-	protected GeoElement getFirstInput(){
-    	return (GeoElement) plane;
-    }
-
-
-	
 
 	@Override
-	protected void setIntersectionLine(){
-	
-    	Coords[] intersection = CoordMatrixUtil.intersectPlanes(
-    			plane.getCoordSys().getMatrixOrthonormal(),
-    			((GeoPolygon) p).getCoordSys().getMatrixOrthonormal());
+	protected GeoElement getFirstInput() {
+		return (GeoElement) plane;
+	}
+
+	@Override
+	protected void setIntersectionLine() {
+
+		Coords[] intersection = CoordMatrixUtil.intersectPlanes(plane
+				.getCoordSys().getMatrixOrthonormal(), ((GeoPolygon) p)
+				.getCoordSys().getMatrixOrthonormal());
 
 		o1 = intersection[0];
 		d1 = intersection[1];
-		
+
 	}
 
-	
-    @Override
-	protected void intersectionsCoords(HasSegments p, TreeMap<Double, Coords> newCoords){
+	@Override
+	protected void intersectionsCoords(HasSegments p,
+			TreeMap<Double, Coords> newCoords) {
 
-    	//intersection line is contained in polygon plane by definition
-    	intersectionsCoordsContained(p, newCoords);
-    }
-	
-  
-	
-    @Override
-	protected boolean checkParameter(double t1){
-    	return true;
-    }
+		// intersection line is contained in polygon plane by definition
+		intersectionsCoordsContained(p, newCoords);
+	}
 
-    @Override
+	@Override
+	protected boolean checkParameter(double t1) {
+		return true;
+	}
+
+	@Override
 	public Commands getClassName() {
 		return Commands.Intersect;
 	}
-	
 
-	
 }
-

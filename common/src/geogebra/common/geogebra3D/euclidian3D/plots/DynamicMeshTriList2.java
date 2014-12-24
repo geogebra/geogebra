@@ -2,7 +2,6 @@ package geogebra.common.geogebra3D.euclidian3D.plots;
 
 import geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 
-
 /**
  * A triangle list for dynamic meshes
  * 
@@ -19,7 +18,8 @@ public interface DynamicMeshTriList2 {
 	/**
 	 * @param e
 	 *            the element to add
-	 * @param i triangle index (used for surfaces)
+	 * @param i
+	 *            triangle index (used for surfaces)
 	 */
 	abstract public void add(DynamicMeshElement2 e, int i);
 
@@ -33,7 +33,8 @@ public interface DynamicMeshTriList2 {
 	/**
 	 * @param e
 	 *            the element to remove
-	 * @param i triangle index (used for surfaces)
+	 * @param i
+	 *            triangle index (used for surfaces)
 	 * @return true if the element was removed, otherwise false
 	 */
 	abstract public boolean remove(DynamicMeshElement2 e, int i);
@@ -54,14 +55,19 @@ public interface DynamicMeshTriList2 {
 
 	/**
 	 * Reevaluates vertices, error, etc. for all elements in the list.
-	 * @param currentVersion current mesh version
+	 * 
+	 * @param currentVersion
+	 *            current mesh version
 	 */
 	public void recalculate(int currentVersion);
 
 	/**
 	 * Reinserts an element into the list - used when an element is updated
-	 * @param a element to reinsert
-	 * @param version current version of the mesh
+	 * 
+	 * @param a
+	 *            element to reinsert
+	 * @param version
+	 *            current version of the mesh
 	 */
 	abstract void reinsert(DynamicMeshElement2 a, int version);
 

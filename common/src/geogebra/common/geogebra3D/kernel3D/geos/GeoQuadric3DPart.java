@@ -19,7 +19,8 @@ import geogebra.common.plugin.GeoClass;
  * @author mathieu
  * 
  */
-public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, FromMeta, GeoQuadric3DPartInterface, GeoQuadric3DLimitedOrPart {
+public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
+		FromMeta, GeoQuadric3DPartInterface, GeoQuadric3DLimitedOrPart {
 
 	/** min value for limites */
 	private double min;
@@ -54,27 +55,26 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	 * @param max
 	 */
 	public void setLimits(double min, double max) {
-		
+
 		bottom = min;
 		top = max;
-		
-		if (min<max){
+
+		if (min < max) {
 			this.min = min;
 			this.max = max;
-		}else{
+		} else {
 			this.min = max;
-			this.max = min;			
+			this.max = min;
 		}
 	}
-	
+
 	private double bottom, top;
-	
-	
-	public double getBottomParameter(){
+
+	public double getBottomParameter() {
 		return bottom;
 	}
-	
-	public double getTopParameter(){
+
+	public double getTopParameter() {
 		return top;
 	}
 
@@ -83,7 +83,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 
 		if (index == 1)
 			return min;
-		
+
 		return super.getMinParameter(index);
 	}
 
@@ -91,7 +91,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 	public double getMaxParameter(int index) {
 		if (index == 1)
 			return max;
-		
+
 		return super.getMaxParameter(index);
 	}
 
@@ -117,7 +117,7 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		switch (type) {
 		case QUADRIC_CYLINDER:
 		case QUADRIC_CONE:
-			return kernel.format(area,tpl);
+			return kernel.format(area, tpl);
 
 		}
 
@@ -151,101 +151,114 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		return parameters;
 
 	}
-	
+
 	@Override
-	protected Coords[] getProjection(Coords willingCoords, Coords willingDirection, double t1, double t2){
-		
-		if (Kernel.isGreater(t2, t1)){
+	protected Coords[] getProjection(Coords willingCoords,
+			Coords willingDirection, double t1, double t2) {
+
+		if (Kernel.isGreater(t2, t1)) {
 			return getProjectionSorted(willingCoords, willingDirection, t1, t2);
 		}
-		
-		if (Kernel.isGreater(t1, t2)){
+
+		if (Kernel.isGreater(t1, t2)) {
 			return getProjectionSorted(willingCoords, willingDirection, t2, t1);
 		}
-		
+
 		return super.getProjection(willingCoords, willingDirection, t1, t2);
-		
+
 	}
 
 	/**
 	 * try with t1, then with t2, assuming t1 < t2
-	 * @param willingCoords willing coords
-	 * @param willingDirection willing direction
-	 * @param t1 first possible parameter
-	 * @param t2 second possible parameter
+	 * 
+	 * @param willingCoords
+	 *            willing coords
+	 * @param willingDirection
+	 *            willing direction
+	 * @param t1
+	 *            first possible parameter
+	 * @param t2
+	 *            second possible parameter
 	 * @return closest point
 	 */
-	private Coords[] getProjectionSorted(Coords willingCoords, Coords willingDirection, double t1, double t2){
+	private Coords[] getProjectionSorted(Coords willingCoords,
+			Coords willingDirection, double t1, double t2) {
 
-		Coords p1 = super.getNormalProjectionParameters(willingCoords.add(willingDirection.mul(t1)));
-		
+		Coords p1 = super.getNormalProjectionParameters(willingCoords
+				.add(willingDirection.mul(t1)));
+
 		// check if first parameters are inside
-		if (Kernel.isGreater(getMinParameter(1),p1.getY())){
+		if (Kernel.isGreater(getMinParameter(1), p1.getY())) {
 			p1.setY(getMinParameter(1));
-		} else if(Kernel.isGreater(p1.getY(),getMaxParameter(1))){
+		} else if (Kernel.isGreater(p1.getY(), getMaxParameter(1))) {
 			p1.setY(getMaxParameter(1));
 		} else {
-			return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 }; // first parameters are inside
+			return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 }; // first
+																		// parameters
+																		// are
+																		// inside
 		}
-		
+
 		// first parameters are outside, check second parameters
-		Coords p2 = super.getNormalProjectionParameters(willingCoords.add(willingDirection.mul(t2)));
-		if (Kernel.isGreater(getMinParameter(1),p2.getY())){
+		Coords p2 = super.getNormalProjectionParameters(willingCoords
+				.add(willingDirection.mul(t2)));
+		if (Kernel.isGreater(getMinParameter(1), p2.getY())) {
 			p2.setY(getMinParameter(1));
-		} else if(Kernel.isGreater(p2.getY(),getMaxParameter(1))){
+		} else if (Kernel.isGreater(p2.getY(), getMaxParameter(1))) {
 			p2.setY(getMaxParameter(1));
 		} else {
-			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 }; // second parameters are inside
+			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 }; // second
+																		// parameters
+																		// are
+																		// inside
 		}
-		
+
 		// first and second parameters are outside: check nearest limit point
 		Coords l1 = getPoint(p1.getX(), p1.getY());
 		Coords l2 = getPoint(p2.getX(), p2.getY());
 		double d1 = l1.distLine(willingCoords, willingDirection);
 		double d2 = l2.distLine(willingCoords, willingDirection);
-		if (Kernel.isGreater(d1, d2)){
+		if (Kernel.isGreater(d1, d2)) {
 			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 };
 		}
 		return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 };
-		
-		
+
 	}
-	
+
 	@Override
-	public boolean isInRegion(Coords coords){
-		
-		//check first if coords is in unlimited quadric
-		if (!super.isInRegion(coords)){
+	public boolean isInRegion(Coords coords) {
+
+		// check first if coords is in unlimited quadric
+		if (!super.isInRegion(coords)) {
 			return false;
 		}
-		
-		//check if coords respect limits
+
+		// check if coords respect limits
 		Coords parameters = super.getNormalProjectionParameters(coords);
 		if (parameters.getY() < getMinParameter(1))
-			return false;		
+			return false;
 		if (parameters.getY() > getMaxParameter(1))
 			return false;
-		
-		//all ok
+
+		// all ok
 		return true;
 	}
 
-	
 	@Override
-	protected Coords getPointInRegion(double u, double v){
-		
+	protected Coords getPointInRegion(double u, double v) {
+
 		double v0;
-		if (v < getMinParameter(1)){
-			v0 = getMinParameter(1);	
-		}else if (v > getMaxParameter(1)){
+		if (v < getMinParameter(1)) {
+			v0 = getMinParameter(1);
+		} else if (v > getMaxParameter(1)) {
 			v0 = getMaxParameter(1);
-		}else{
+		} else {
 			v0 = v;
 		}
-		
+
 		return super.getPointInRegion(u, v0);
 	}
-	
+
 	// ////////////////////////
 	// AREA
 	// ////////////////////////
@@ -264,12 +277,12 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 			double r2 = getHalfAxis(0);
 			r2 *= r2;
 			double h2;
-			if (min*max < 0){ // "double-cone"
-				h2 = min*min + max*max;
-			}else{ // truncated cone
-				h2 = Math.abs(max*max - min*min);
+			if (min * max < 0) { // "double-cone"
+				h2 = min * min + max * max;
+			} else { // truncated cone
+				h2 = Math.abs(max * max - min * min);
 			}
-			area = Math.PI*h2*r2*Math.sqrt(1+1/r2);
+			area = Math.PI * h2 * r2 * Math.sqrt(1 + 1 / r2);
 			break;
 		}
 	}
@@ -298,81 +311,72 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue, Fr
 		return true;
 	}
 
-	
-
-	////////////////////////////
+	// //////////////////////////
 	// META
-	////////////////////////////
+	// //////////////////////////
 
 	private GeoElement meta = null;
 
 	@Override
-	public int getMetasLength(){
-		if (meta==null){
+	public int getMetasLength() {
+		if (meta == null) {
 			return 0;
 		}
-			
+
 		return 1;
 	}
-	
-	public GeoElement[] getMetas(){
-		return new GeoElement[] {meta};
+
+	public GeoElement[] getMetas() {
+		return new GeoElement[] { meta };
 	}
 
 	/**
-	 * @param quadric cone/cylinder that created it
+	 * @param quadric
+	 *            cone/cylinder that created it
 	 */
 	public void setFromMeta(GeoElement quadric) {
 		meta = quadric;
 	}
-	
-	
-	////////////////////////
-	// DILATE
-	////////////////////////
 
+	// //////////////////////
+	// DILATE
+	// //////////////////////
 
 	@Override
 	public void dilate(NumberValue rval, Coords S) {
 		super.dilate(rval, S);
 		double r = rval.getDouble();
-		area *= r*r;
-		
+		area *= r * r;
+
 		double rAbs = Math.abs(r);
 		bottom *= rAbs;
 		top *= rAbs;
 		min *= rAbs;
 		max *= rAbs;
-		
+
 	}
-	
-	
-	
+
 	@Override
 	protected void getXMLtagsMatrix(StringBuilder sb) {
 		// no matrix needed since it comes from an algo
 	}
-	
-	
 
 	@Override
 	protected void classifyQuadric() {
 		App.error("GeoQuadric3DPart should not need classification");
 	}
-	
-	
+
 	@Override
 	public String getTypeString() {
 		return "Surface";
 	}
-	
+
 	/**
 	 * 
-	 * @return GeoQuadric3D type string 
+	 * @return GeoQuadric3D type string
 	 */
 	public String getQuadricTypeString() {
 		return super.getTypeString();
 	}
-
 
 }

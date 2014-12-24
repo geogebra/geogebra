@@ -25,17 +25,20 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 
 	/** if set to true - the domain we're looking at is R^2 */
 	private boolean unboundedDomain;
-	
-	/** current domain for the function on the format {xmin, xmax, ymin, ymax} 
-	 *  when unboundedDomain is true, this will be slightly larger than the intervals in cullingBox */
+
+	/**
+	 * current domain for the function on the format {xmin, xmax, ymin, ymax}
+	 * when unboundedDomain is true, this will be slightly larger than the
+	 * intervals in cullingBox
+	 */
 	private double[] activeDomain = new double[4];
-	
+
 	/** */
 	private final static double domainThreshold = 0.0001;
-	
+
 	/** */
 	private final static double domainScale = 40;
-	
+
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
 
@@ -48,11 +51,11 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 	public DrawSurface3DOld(EuclidianView3D a_view3d, SurfaceEvaluable surface) {
 		super(a_view3d, (GeoElement) surface);
 		this.surface = surface;
-		
-		if (Double.isNaN(surface.getMinParameter(0))){
-			unboundedDomain=true;
-		}else{
-			unboundedDomain=false;
+
+		if (Double.isNaN(surface.getMinParameter(0))) {
+			unboundedDomain = true;
+		} else {
+			unboundedDomain = false;
 		}
 
 		updateDomain();
@@ -62,26 +65,26 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 		mesh = new SurfaceMesh2(surface, cullingBox, activeDomain);
 	}
 
-	private boolean updateDomain(){
+	private boolean updateDomain() {
 		boolean changed = false;
 		if (!unboundedDomain) {
 			double t = surface.getMinParameter(0);
-			if(t != activeDomain[0]) {
+			if (t != activeDomain[0]) {
 				changed = true;
 				activeDomain[0] = t;
 			}
 			t = surface.getMaxParameter(0);
-			if(t != activeDomain[1]) {
+			if (t != activeDomain[1]) {
 				changed = true;
 				activeDomain[1] = t;
 			}
 			t = surface.getMinParameter(1);
-			if(t != activeDomain[2]) {
+			if (t != activeDomain[2]) {
 				changed = true;
 				activeDomain[2] = t;
 			}
 			t = surface.getMaxParameter(1);
-			if(t != activeDomain[3]) {
+			if (t != activeDomain[3]) {
 				changed = true;
 				activeDomain[3] = t;
 			}
@@ -97,28 +100,31 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 		cullingBox[3] = view.getYmax();
 		cullingBox[4] = view.getZmin();
 		cullingBox[5] = view.getZmax();
-		if(unboundedDomain) {
-			//see if current culling box is inside active culling box
+		if (unboundedDomain) {
+			// see if current culling box is inside active culling box
 			final double[] cb = cullingBox;
 			final double[] ab = activeDomain;
 			boolean refit = true;
-			if (cb[0]>ab[0] && cb[2]>ab[2] && cb[1]<ab[1] && cb[3]<ab[3]) {
-				//culling box inside active culling box - test if active culling box should be shrunk
-				final double newBase = (cb[1]-cb[0])*(cb[3]-cb[2]);
-				final double activeBase = (ab[1]-ab[0])*(ab[3]-ab[2]);
-				//ratio of surface area that is visible: newBase/activeBase 
+			if (cb[0] > ab[0] && cb[2] > ab[2] && cb[1] < ab[1]
+					&& cb[3] < ab[3]) {
+				// culling box inside active culling box - test if active
+				// culling box should be shrunk
+				final double newBase = (cb[1] - cb[0]) * (cb[3] - cb[2]);
+				final double activeBase = (ab[1] - ab[0]) * (ab[3] - ab[2]);
+				// ratio of surface area that is visible: newBase/activeBase
 				// - if this is too small rendering will be slow
-				if(newBase > domainThreshold * activeBase) {
-					refit=false;
+				if (newBase > domainThreshold * activeBase) {
+					refit = false;
 				}
 			}
-			if(refit){
-				//re-fit active culling box
-				final double[] c = new double[]{(cb[0]+cb[1])*0.5, (cb[2]+cb[3])*0.5};
-				activeDomain[0] = c[0] + (cb[0]-c[0]) * domainScale;
-				activeDomain[1] = c[0] + (cb[1]-c[0]) * domainScale;
-				activeDomain[2] = c[1] + (cb[2]-c[1]) * domainScale;
-				activeDomain[3] = c[1] + (cb[3]-c[1]) * domainScale;
+			if (refit) {
+				// re-fit active culling box
+				final double[] c = new double[] { (cb[0] + cb[1]) * 0.5,
+						(cb[2] + cb[3]) * 0.5 };
+				activeDomain[0] = c[0] + (cb[0] - c[0]) * domainScale;
+				activeDomain[1] = c[0] + (cb[1] - c[0]) * domainScale;
+				activeDomain[2] = c[1] + (cb[2] - c[1]) * domainScale;
+				activeDomain[3] = c[1] + (cb[3] - c[1]) * domainScale;
 				return true;
 			}
 		}
@@ -129,9 +135,9 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getSurfaceIndex());
 	}
-	
+
 	@Override
-	protected void drawSurfaceGeometry(Renderer renderer){
+	protected void drawSurfaceGeometry(Renderer renderer) {
 		drawGeometry(renderer);
 	}
 
@@ -172,7 +178,7 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 		GeoElement geo = getGeoElement();
 
 		float uMin, uMax, vMin, vMax;
-		
+
 		if (geo instanceof Functional2Var) {
 			Functional2Var fun = (Functional2Var) geo;
 			surface.start(fun, getReusableSurfaceIndex());
@@ -183,9 +189,12 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 		} else {
 			GeoFunctionNVar fun = (GeoFunctionNVar) geo;
 			surface.start(fun, getReusableSurfaceIndex());
-			if (unboundedDomain){
-				uMin = -1; uMax = 1; vMin = -1; vMax = 1;
-			}else{
+			if (unboundedDomain) {
+				uMin = -1;
+				uMax = 1;
+				vMin = -1;
+				vMax = 1;
+			} else {
 				uMin = (float) fun.getMinParameter(0);
 				uMax = (float) fun.getMaxParameter(0);
 				vMin = (float) fun.getMinParameter(1);
@@ -208,14 +217,16 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 
 	@Override
 	protected void updateForView() {
-		if (getView3D().viewChangedByTranslate() || getView3D().viewChangedByZoom()){
-			if(updateCullingBox()){
+		if (getView3D().viewChangedByTranslate()
+				|| getView3D().viewChangedByZoom()) {
+			if (updateCullingBox()) {
 				mesh = new SurfaceMesh2(surface, cullingBox, activeDomain);
 			}
 			if (!updateForItSelf()) {
-				//the perspective has changed so the mesh has to be updated
-				//TODO: calling setWaitForUpdate() refines the whole mesh - fix?
-				setWaitForUpdate(); 
+				// the perspective has changed so the mesh has to be updated
+				// TODO: calling setWaitForUpdate() refines the whole mesh -
+				// fix?
+				setWaitForUpdate();
 			}
 		}
 	}
@@ -234,10 +245,9 @@ public class DrawSurface3DOld extends Drawable3DSurfaces {
 	public void removeFromDrawable3DLists(Drawable3DLists lists) {
 		removeFromDrawable3DLists(lists, DRAW_TYPE_CLIPPED_SURFACES);
 	}
-	
-	
+
 	@Override
-	protected void updateColors(){
+	protected void updateColors() {
 		super.updateColors();
 	}
 

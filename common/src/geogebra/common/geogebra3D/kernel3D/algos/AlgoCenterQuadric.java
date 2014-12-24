@@ -9,13 +9,15 @@ import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * center of quadric
+ * 
  * @author mathieu
  *
  */
-public class AlgoCenterQuadric extends AlgoCenterQuadricND{
+public class AlgoCenterQuadric extends AlgoCenterQuadricND {
 
 	/**
 	 * constructor
+	 * 
 	 * @param cons
 	 * @param label
 	 * @param c
@@ -41,10 +43,10 @@ public class AlgoCenterQuadric extends AlgoCenterQuadricND{
 		case GeoQuadricNDConstants.QUADRIC_CONE:
 			((GeoPoint3D) midpoint).setCoords(c.getMidpoint3D());
 			break;
-			
+
 		default:
 			// midpoint undefined
-			midpoint.setUndefined();	
+			midpoint.setUndefined();
 
 		}
 	}

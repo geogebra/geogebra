@@ -1,7 +1,5 @@
 package geogebra.common.geogebra3D.kernel3D.commands;
 
-
-
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DLimited;
 import geogebra.common.kernel.Kernel;
@@ -17,36 +15,34 @@ public class CmdIntersectConic extends CommandProcessor {
 		super(kernel);
 	}
 
-	public  GeoElement[] process(Command c) throws MyError {
+	public GeoElement[] process(Command c) throws MyError {
 		int n = c.getArgumentNumber();
 		boolean[] ok = new boolean[n];
 		GeoElement[] arg;
 
 		switch (n) {
-		case 2 :
+		case 2:
 			arg = resArgs(c);
 
 			// between 2 quadrics
 			if ((ok[0] = (arg[0] instanceof GeoQuadric3D || arg[0] instanceof GeoQuadric3DLimited))
 					&& (ok[1] = (arg[1] instanceof GeoQuadric3D || arg[1] instanceof GeoQuadric3DLimited))) {
-				GeoElement[] ret =
-						kernelA.getManager3D().IntersectAsCircle(
-								c.getLabels(),
-								(GeoQuadricND) arg[0],
-								(GeoQuadricND) arg[1]); 
+				GeoElement[] ret = kernelA.getManager3D().IntersectAsCircle(
+						c.getLabels(), (GeoQuadricND) arg[0],
+						(GeoQuadricND) arg[1]);
 				return ret;
-			} 
+			}
 
-			//intersection plane/quadric
-			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernelA, c, arg, ok);
-			if (ret != null){
+			// intersection plane/quadric
+			GeoElement ret = CmdIntersectPath3D.processQuadricPlane(kernelA, c,
+					arg, ok);
+			if (ret != null) {
 				return new GeoElement[] { ret };
 			}
-			
-			throw argErr(app, c.getName(), getBadArg(ok,arg));
-			
 
-		default :
+			throw argErr(app, c.getName(), getBadArg(ok, arg));
+
+		default:
 			throw argNumErr(app, c.getName(), n);
 		}
 	}

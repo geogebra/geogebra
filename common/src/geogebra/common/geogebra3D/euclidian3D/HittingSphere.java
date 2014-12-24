@@ -2,7 +2,6 @@ package geogebra.common.geogebra3D.euclidian3D;
 
 import geogebra.common.kernel.Matrix.Coords;
 
-
 /**
  * 
  * Hitting with a sphere
@@ -10,38 +9,40 @@ import geogebra.common.kernel.Matrix.Coords;
  * @author mathieu
  *
  */
-public class HittingSphere extends Hitting{
+public class HittingSphere extends Hitting {
 
 	/**
 	 * constructor
-	 * @param view 3D view
+	 * 
+	 * @param view
+	 *            3D view
 	 */
 	public HittingSphere(EuclidianView3D view) {
 		super(view);
 	}
-	
-	
+
 	/**
 	 * set the hits
-	 * @param pos mouse 3D location
-	 * @param threshold threshold
+	 * 
+	 * @param pos
+	 *            mouse 3D location
+	 * @param threshold
+	 *            threshold
 	 */
-	public void setHits(Coords pos, int threshold){
-		
+	public void setHits(Coords pos, int threshold) {
 
-		origin = pos; 
+		origin = pos;
 		direction = view.getViewDirection();
-		
+
 		this.threshold = threshold;
-		
+
 		setHits();
-		
+
 	}
-	
+
 	@Override
-	public boolean isSphere(){
+	public boolean isSphere() {
 		return true;
 	}
-	
 
 }

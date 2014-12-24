@@ -87,21 +87,23 @@ public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 
 	}
 
-    /**
-     * Sets the coord style
-     * @param mode new coord style
-     */
-	public void setMode(int mode ) {
-        toStringMode = mode;
-    }
-    
+	/**
+	 * Sets the coord style
+	 * 
+	 * @param mode
+	 *            new coord style
+	 */
+	public void setMode(int mode) {
+		toStringMode = mode;
+	}
 
-    /**
-     * get the coord style
-     * @return coord style
-     */
-	public int getMode(){
+	/**
+	 * get the coord style
+	 * 
+	 * @return coord style
+	 */
+	public int getMode() {
 		return toStringMode;
 	}
-	
+
 }

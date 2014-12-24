@@ -35,13 +35,13 @@ abstract class DynamicMeshElement2 {
 
 	/** set to true if the element should be ignored when drawing/updating */
 	final boolean ignoreFlag;
-	
+
 	/** the mesh the element belongs to */
 	protected final DynamicMesh2 mesh;
 
 	/** true if any evaluated point of the segment is singular */
 	protected boolean isSingular;
-	
+
 	/** axis-aligned bounding box {x_min, x_max, y_min, y_max, z_min, z_max} */
 	double[] boundingBox;
 
@@ -50,10 +50,10 @@ abstract class DynamicMeshElement2 {
 
 	/** previous version of the element - changes when the function changes */
 	protected int lastVersion;
-	
+
 	boolean updateInDrawList = false;
 
-	//bucket stuff//
+	// bucket stuff//
 	/** previous element in bucket */
 	DynamicMeshElement2 bucket_prev;
 	/** next element in bucket */
@@ -66,7 +66,7 @@ abstract class DynamicMeshElement2 {
 	/**
 	 * 
 	 * @param mesh
-	 * 			 the mesh this element belongs to 
+	 *            the mesh this element belongs to
 	 * @param level
 	 *            the relative level of the element
 	 * @param ignoreFlag
@@ -74,7 +74,8 @@ abstract class DynamicMeshElement2 {
 	 * @param version
 	 *            current version of the element
 	 */
-	public DynamicMeshElement2(DynamicMesh2 mesh, int level, boolean ignoreFlag, int version) {
+	public DynamicMeshElement2(DynamicMesh2 mesh, int level,
+			boolean ignoreFlag, int version) {
 		this.level = level;
 		this.ignoreFlag = ignoreFlag;
 		this.lastVersion = version;
@@ -83,7 +84,9 @@ abstract class DynamicMeshElement2 {
 		parents = new DynamicMeshElement2[mesh.nParents];
 	}
 
-	/**merg
+	/**
+	 * merg
+	 * 
 	 * @return the level of the element
 	 */
 	public int getLevel() {
@@ -150,15 +153,15 @@ abstract class DynamicMeshElement2 {
 	}
 
 	/**
-	 * Sets the culling flags of the element, based on the culling box.
-	 * Also handles drawing list and queue when the culling status changes.
+	 * Sets the culling flags of the element, based on the culling box. Also
+	 * handles drawing list and queue when the culling status changes.
 	 */
 	public void updateCullInfo() {
-		
-		if(this.lastVersion!=mesh.currentVersion){
+
+		if (this.lastVersion != mesh.currentVersion) {
 			mesh.drawList.reinsert(this, mesh.currentVersion);
 		}
-		
+
 		if (ignoreCull() || ignoreFlag)
 			return;
 
@@ -169,13 +172,13 @@ abstract class DynamicMeshElement2 {
 
 		// handle new culling info
 		if (prev != cullInfo || cullInfo == CullInfo2.SOMEIN) {
-		
+
 			// hide/show the element
 			setHidden(cullInfo == CullInfo2.OUT);
-			
+
 			// reinsert into priority queue
-			if (prev == CullInfo2.OUT || (cullInfo == CullInfo2.OUT
-					&& bucket_owner != null))
+			if (prev == CullInfo2.OUT
+					|| (cullInfo == CullInfo2.OUT && bucket_owner != null))
 				reinsertInQueue();
 		}
 
@@ -306,13 +309,13 @@ public abstract class DynamicMesh2 {
 
 	/** The number of children of each node */
 	final int nChildren;
-	
+
 	/** The number of parents of each node */
 	final int nParents;
 
 	/** current version of the mesh - increments when the function is changed */
 	protected int currentVersion = 0;
-	
+
 	protected boolean noUpdate = false;
 
 	/** used in optimizeSub() */
@@ -355,7 +358,7 @@ public abstract class DynamicMesh2 {
 	 * @return false if no more updates are needed
 	 */
 	public boolean optimize() {
-		 return optimizeSub(stepRefinement);
+		return optimizeSub(stepRefinement);
 	}
 
 	/**
@@ -404,30 +407,30 @@ public abstract class DynamicMesh2 {
 		long t1 = new Date().getTime();
 
 		updateCullingInfo();
-		
-		if(noUpdate)
+
+		if (noUpdate)
 			return false;
 
 		Side side = tooCoarse();
 		Side prevSide = null;
-		
+
 		boolean switched = false;
 
 		do {
-			if (side == Side.MERGE){
+			if (side == Side.MERGE) {
 				merge(mergeQueue.poll());
-			}else{
+			} else {
 				split(splitQueue.poll());
 			}
-			
-			if(prevSide != side) {
-				if(switched) {
-//					noUpdate = true;
-//					break;
+
+			if (prevSide != side) {
+				if (switched) {
+					// noUpdate = true;
+					// break;
 				}
 				switched = true;
 			}
-			
+
 			prevSide = side;
 			side = tooCoarse();
 			count++;
@@ -466,8 +469,8 @@ public abstract class DynamicMesh2 {
 		// skip if null, if already merged or if below level 1
 		if (t == null || t.getLevel() < 1 || !t.isSplit())
 			return;
-		
-		//force update
+
+		// force update
 		if (t.lastVersion != currentVersion) {
 			t.recalculate(currentVersion, false);
 		}
@@ -478,7 +481,7 @@ public abstract class DynamicMesh2 {
 
 		// mark as merged
 		t.setSplit(false);
-		
+
 		// handle children
 		for (int i = 0; i < nChildren; i++) {
 			DynamicMeshElement2 c = t.getChild(i);
@@ -515,8 +518,8 @@ public abstract class DynamicMesh2 {
 	 */
 	protected void split(DynamicMeshElement2 t) {
 		if (t == null || t.ignoreFlag)
-			return;		
-		
+			return;
+
 		// don't split an element that has already been split
 		if (t.isSplit())
 			return;
@@ -525,9 +528,9 @@ public abstract class DynamicMesh2 {
 		splitQueue.remove(t);
 		mergeQueue.add(t);
 
-//		if(((CurveSegment)t).vertices[0].getX()==7.03125)
-//			System.err.print("");
-		
+		// if(((CurveSegment)t).vertices[0].getX()==7.03125)
+		// System.err.print("");
+
 		// mark as split
 		t.setSplit(true);
 
@@ -569,18 +572,18 @@ public abstract class DynamicMesh2 {
 	 */
 	public void updateParameters() {
 		currentVersion++;
-		
+
 		noUpdate = false;
 
 		// update all elements currently in draw list
 		drawList.recalculate(currentVersion);
 
 		updateCullingInfo();
-		
+
 		// update elements in queues
 		splitQueue.recalculate(currentVersion, drawList);
 		mergeQueue.recalculate(currentVersion, drawList);
-		
+
 		updateCullingInfo();
 	}
 }

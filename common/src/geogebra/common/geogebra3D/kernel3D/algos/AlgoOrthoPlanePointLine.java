@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -19,16 +18,13 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  * Compute a plane through a point and orthogonal to a line (or segment, ...)
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoOrthoPlanePointLine extends AlgoOrthoPlanePoint {
-
-
 
 	/**
 	 * 
@@ -37,19 +33,16 @@ public class AlgoOrthoPlanePointLine extends AlgoOrthoPlanePoint {
 	 * @param point
 	 * @param line
 	 */
-    public AlgoOrthoPlanePointLine(Construction cons, String label, GeoPointND point, GeoLineND line) {
-        super(cons,label,point,(GeoElement) line);
-    }
+	public AlgoOrthoPlanePointLine(Construction cons, String label,
+			GeoPointND point, GeoLineND line) {
+		super(cons, label, point, (GeoElement) line);
+	}
 
-
-
-
-    @Override
-	protected Coords getNormal(){
-    	return ((GeoLineND) getSecondInput()).getDirectionForEquation();
-    }
+	@Override
+	protected Coords getNormal() {
+		return ((GeoLineND) getSecondInput()).getDirectionForEquation();
+	}
 
 	// TODO Consider locusequability
-
 
 }

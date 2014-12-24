@@ -51,12 +51,9 @@ import java.util.TreeMap;
  *         Class describing a GeoPolyhedron
  * 
  */
-public class GeoPolyhedron extends GeoElement3D 
-implements HasSegments, HasVolume, Traceable, 
-RotateableND, Translateable, MirrorableAtPlane, Transformable, Dilateable,
-HasHeight, Path,
-GeoPolyhedronInterface
-{
+public class GeoPolyhedron extends GeoElement3D implements HasSegments,
+		HasVolume, Traceable, RotateableND, Translateable, MirrorableAtPlane,
+		Transformable, Dilateable, HasHeight, Path, GeoPolyhedronInterface {
 
 	public static final int TYPE_PYRAMID = 1;
 	public static final int TYPE_PRISM = 3;
@@ -65,8 +62,7 @@ GeoPolyhedronInterface
 	public static final int TYPE_OCTAHEDRON = 6;
 	public static final int TYPE_DODECAHEDRON = 7;
 	public static final int TYPE_ICOSAHEDRON = 8;
-	
-	
+
 	int type;
 
 	/** vertices */
@@ -101,7 +97,6 @@ GeoPolyhedronInterface
 	/** points created by the algo */
 	protected ArrayList<GeoPoint3D> pointsCreated;
 
-
 	/** face currently constructed */
 	private ConstructionElementCycle currentFace;
 
@@ -126,21 +121,21 @@ GeoPolyhedronInterface
 		segmentsIndex = new TreeMap<ConstructionElementCycle, Long>();
 		segments = new TreeMap<Long, GeoSegment3D>();
 
-
 		segmentsLinked = new TreeMap<ConstructionElementCycle, GeoSegmentND>();
 		polygonsLinked = new ArrayList<GeoPolygon>();
 
 		pointsCreated = new ArrayList<GeoPoint3D>();
 	}
 
-
 	/**
 	 * Update segments linked set with the polygon's segment
-	 * @param polygon source polygon
+	 * 
+	 * @param polygon
+	 *            source polygon
 	 */
-	private void addSegmentsLinked(GeoPolygon polygon){
-		if (polygon.getSegments() != null){
-			for (GeoSegmentND segment: polygon.getSegments()){
+	private void addSegmentsLinked(GeoPolygon polygon) {
+		if (polygon.getSegments() != null) {
+			for (GeoSegmentND segment : polygon.getSegments()) {
 				addSegmentLinked(segment);
 			}
 		}
@@ -149,9 +144,9 @@ GeoPolyhedronInterface
 	/**
 	 * update set of segments linked to this
 	 */
-	public void updateSegmentsLinked(){
+	public void updateSegmentsLinked() {
 		segmentsLinked.clear();
-		for (GeoPolygon p : getPolygonsLinked()){
+		for (GeoPolygon p : getPolygonsLinked()) {
 			addSegmentsLinked(p);
 		}
 	}
@@ -221,9 +216,9 @@ GeoPolyhedronInterface
 	public void endCurrentFace() {
 		currentFace.setDirection();
 
-		//Application.debug(polygonsIndexMax);
+		// Application.debug(polygonsIndexMax);
 
-		//add to index
+		// add to index
 		polygonsIndex.put(currentFace, new Integer(polygonsIndexMax));
 		polygonsDescriptions.add(currentFace);
 		polygonsIndexMax++;
@@ -236,16 +231,16 @@ GeoPolyhedronInterface
 	private int topFaceIndex;
 
 	/**
-	 * says that current face created is the last face (for pyramid/prism)
-	 * (warn : call it AFTER endCurrentFace())
+	 * says that current face created is the last face (for pyramid/prism) (warn
+	 * : call it AFTER endCurrentFace())
 	 */
-	public void setCurrentFaceIsTopFace(){
+	public void setCurrentFaceIsTopFace() {
 		topFaceIndex = polygonsIndexMax - 1;
 	}
 
-
 	/**
 	 * update the faces regarding vertices and faces description
+	 * 
 	 * @deprecated since version 4.9.10.0
 	 */
 	@Deprecated
@@ -287,22 +282,21 @@ GeoPolyhedronInterface
 			s[j] = createSegment(endPoint, firstPoint);
 
 			/*
-			String st = "poly : ";
-			for (int i = 0; i < p.length; i++)
-				st += p[i].getLabel();
-			Application.debug(st);
+			 * String st = "poly : "; for (int i = 0; i < p.length; i++) st +=
+			 * p[i].getLabel(); Application.debug(st);
 			 */
 
-			GeoPolygon3D polygon = createPolygon(p, polygonsIndex.get(currentFace));
+			GeoPolygon3D polygon = createPolygon(p,
+					polygonsIndex.get(currentFace));
 			polygon.setSegments(s);
 		}
 	}
 
-
-
 	/**
 	 * creates a polygon corresponding to the index
-	 * @param index index of the polygon
+	 * 
+	 * @param index
+	 *            index of the polygon
 	 * @return polygon corresponding
 	 */
 	public GeoPolygon3D createPolygon(int index) {
@@ -319,33 +313,30 @@ GeoPolyhedronInterface
 		p[0] = endPoint; // first point for the polygon
 		GeoPointND firstPoint = endPoint;
 		int j;
-		for (j=1; j<currentFace.size(); j++) {
+		for (j = 1; j < currentFace.size(); j++) {
 			// creates edges
 			GeoPointND startPoint = endPoint;
 			endPoint = (GeoPointND) currentFace.get(j);
-			s[j-1] = createSegment(startPoint, endPoint);
+			s[j - 1] = createSegment(startPoint, endPoint);
 
 			// points for the polygon
 			p[j] = endPoint;
 
 		}
 		// last segment
-		s[j-1] = createSegment(endPoint, firstPoint);
+		s[j - 1] = createSegment(endPoint, firstPoint);
 
-
-		GeoPolygon3D polygon = createPolygon(p, index);		
+		GeoPolygon3D polygon = createPolygon(p, index);
 		polygon.setSegments(s);
 
 		return polygon;
 	}
-	
-	
 
 	/**
 	 * update the faces
 	 */
 	public void createFaces() {
-		for (int index = 0; index<polygonsDescriptions.size(); index++) {
+		for (int index = 0; index < polygonsDescriptions.size(); index++) {
 			createPolygon(index);
 		}
 	}
@@ -355,7 +346,8 @@ GeoPolyhedronInterface
 	 * 
 	 * @param points
 	 *            vertices of the polygon
-	 * @param index index in polygons map
+	 * @param index
+	 *            index in polygons map
 	 * @return the polygon
 	 */
 	public GeoPolygon3D createPolygon(GeoPointND[] points, int index) {
@@ -377,18 +369,15 @@ GeoPolyhedronInterface
 			try {
 				polygon.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception e) {
-				//circular definition
+				// circular definition
 			}
 		}
 
 		// put the polygon into the collection
 		polygons.put(index, polygon);
 
-
 		return polygon;
 	}
-
-
 
 	/**
 	 * add the polygon as a polygon linked to this (e.g basis of a prism)
@@ -400,9 +389,7 @@ GeoPolyhedronInterface
 		addSegmentsLinked(polygon);
 		polygon.addMeta(this);
 
-
 	}
-
 
 	/**
 	 * add the point as created point (by algo)
@@ -426,43 +413,46 @@ GeoPolyhedronInterface
 
 	public GeoSegmentND createSegment(GeoPointND startPoint, GeoPointND endPoint) {
 
-		//Application.debug(startPoint.getLabel() + endPoint.getLabel());
+		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
 				.SegmentDescription((GeoElement) startPoint,
 						(GeoElement) endPoint);
 
-
 		// check if this segment is not already created
-		if (segmentsIndex.containsKey(key)){
-			//Application.debug(startPoint.getLabel() + endPoint.getLabel());
-			//App.error("segmentsIndex : "+key);
+		if (segmentsIndex.containsKey(key)) {
+			// Application.debug(startPoint.getLabel() + endPoint.getLabel());
+			// App.error("segmentsIndex : "+key);
 			return segments.get(segmentsIndex.get(key));
 		}
 
 		// check if this segment is not a segment linked
-		if (segmentsLinked.containsKey(key)){
-			//App.error("segmentsLinked : "+key);
+		if (segmentsLinked.containsKey(key)) {
+			// App.error("segmentsLinked : "+key);
 			return segmentsLinked.get(key);
 		}
-		
+
 		return createNewSegment(startPoint, endPoint, key);
 
 	}
-	
+
 	/**
 	 * create new segment (if not already exists)
-	 * @param startPoint start point
-	 * @param endPoint end point
-	 * @param key key for segment
+	 * 
+	 * @param startPoint
+	 *            start point
+	 * @param endPoint
+	 *            end point
+	 * @param key
+	 *            key for segment
 	 * @return new segment
 	 */
-	protected GeoSegmentND createNewSegment(GeoPointND startPoint, GeoPointND endPoint, ConstructionElementCycle key) {
+	protected GeoSegmentND createNewSegment(GeoPointND startPoint,
+			GeoPointND endPoint, ConstructionElementCycle key) {
 
-		//App.error("new segment : "+key);
+		// App.error("new segment : "+key);
 
 		GeoSegment3D segment;
-
 
 		AlgoJoinPoints3D algoSegment = new AlgoJoinPoints3D(cons, startPoint,
 				endPoint, this, GeoClass.SEGMENT3D);
@@ -478,7 +468,7 @@ GeoPolyhedronInterface
 			try {
 				segment.setShowObjectCondition(getShowObjectCondition());
 			} catch (Exception e) {
-				//circular definition
+				// circular definition
 			}
 		}
 
@@ -487,14 +477,17 @@ GeoPolyhedronInterface
 		return segment;
 
 	}
-	
-	
+
 	/**
 	 * store the segment with the given key
-	 * @param segment segment
-	 * @param key key
+	 * 
+	 * @param segment
+	 *            segment
+	 * @param key
+	 *            key
 	 */
-	protected void storeSegment(GeoSegment3D segment, ConstructionElementCycle key){
+	protected void storeSegment(GeoSegment3D segment,
+			ConstructionElementCycle key) {
 		Long index = new Long(segmentsIndexMax);
 		segmentsIndex.put(key, index);
 		segments.put(index, segment);
@@ -504,7 +497,7 @@ GeoPolyhedronInterface
 
 	public GeoSegmentND getSegment(GeoPointND startPoint, GeoPointND endPoint) {
 
-		//Application.debug(startPoint.getLabel() + endPoint.getLabel());
+		// Application.debug(startPoint.getLabel() + endPoint.getLabel());
 
 		ConstructionElementCycle key = ConstructionElementCycle
 				.SegmentDescription((GeoElement) startPoint,
@@ -513,7 +506,6 @@ GeoPolyhedronInterface
 		// check if this segment is already created
 		if (segmentsIndex.containsKey(key))
 			return segments.get(segmentsIndex.get(key));
-
 
 		// check if this segment is a segment linked
 		if (segmentsLinked.containsKey(key))
@@ -527,7 +519,7 @@ GeoPolyhedronInterface
 				.SegmentDescription(segment.getStartPointAsGeoElement(),
 						segment.getEndPointAsGeoElement());
 
-		//App.debug("linked : "+key);
+		// App.debug("linked : "+key);
 		segmentsLinked.put(key, segment);
 	}
 
@@ -553,17 +545,19 @@ GeoPolyhedronInterface
 	 * Returns whether the method initLabels() was called for this polygon. This
 	 * is important to know whether the segments have gotten labels.
 	 * 
-	 * @return true iff all labels (of created polygons, segments, points) are set.
+	 * @return true iff all labels (of created polygons, segments, points) are
+	 *         set.
 	 */
 	final public boolean allLabelsAreSet() {
 		return allLabelsAreSet;
 	}
 
 	/**
-	 * set init labels called 
+	 * set init labels called
+	 * 
 	 * @param flag
 	 */
-	public void setAllLabelsAreSet(boolean flag){
+	public void setAllLabelsAreSet(boolean flag) {
 		allLabelsAreSet = flag;
 	}
 
@@ -621,7 +615,7 @@ GeoPolyhedronInterface
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setLabel(labels[index]);
-			//Application.debug("labels["+index+"]="+labels[index]);
+			// Application.debug("labels["+index+"]="+labels[index]);
 			index++;
 		}
 
@@ -634,7 +628,7 @@ GeoPolyhedronInterface
 		// labels for segments
 		for (GeoSegment3D segment : segments.values()) {
 			segment.setLabel(labels[index]);
-			//Application.debug("labels["+index+"]="+labels[index]+",\nsegment:"+segment.getParentAlgorithm());
+			// Application.debug("labels["+index+"]="+labels[index]+",\nsegment:"+segment.getParentAlgorithm());
 			index++;
 		}
 
@@ -777,9 +771,10 @@ GeoPolyhedronInterface
 		}
 		return ret;
 	}
-	
+
 	public GeoPolygon[] getFaces() {
-		GeoPolygon[] polygonsArray = new GeoPolygon[polygonsLinked.size()+polygons.size()];
+		GeoPolygon[] polygonsArray = new GeoPolygon[polygonsLinked.size()
+				+ polygons.size()];
 		int index = 0;
 		for (GeoPolygon polygon : polygonsLinked) {
 			polygonsArray[index] = polygon;
@@ -804,24 +799,23 @@ GeoPolyhedronInterface
 		return polygonsArray;
 	}
 
-	public Collection<GeoPolygon3D> getFacesCollection(){
+	public Collection<GeoPolygon3D> getFacesCollection() {
 		return polygons.values();
 	}
-	
-	public GeoPolygon getFace(int index){
+
+	public GeoPolygon getFace(int index) {
 		int polygonsLinkedSize = polygonsLinked.size();
-		if (index < polygonsLinkedSize){
+		if (index < polygonsLinkedSize) {
 			return polygonsLinked.get(index);
 		}
 		return polygons.get(index - polygonsLinkedSize);
 	}
 
-	public int getFacesSize(){
+	public int getFacesSize() {
 		return polygonsLinked.size() + polygons.size();
 	}
 
-
-	public GeoPolygon3D getFace3D(int index){
+	public GeoPolygon3D getFace3D(int index) {
 		return polygons.get(index);
 	}
 
@@ -833,11 +827,11 @@ GeoPolyhedronInterface
 		return polygons.values();
 	}
 
-
-
 	/**
 	 * set all polygons to reverse normals (for 3D drawing)
-	 * @param flag flag
+	 * 
+	 * @param flag
+	 *            flag
 	 */
 	public void setReverseNormalsForDrawing(boolean flag) {
 		for (GeoPolygon polygon : polygonsLinked) {
@@ -864,11 +858,10 @@ GeoPolyhedronInterface
 	@Override
 	public void setEuclidianVisible(boolean visible) {
 
-		super.setEuclidianVisible(visible);		
+		super.setEuclidianVisible(visible);
 
 		if (cons.isFileLoading())
 			return;
-
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setEuclidianVisible(visible, false);
@@ -890,11 +883,10 @@ GeoPolyhedronInterface
 	@Override
 	public void setObjColor(GColor color) {
 
-		super.setObjColor(color);		
+		super.setObjColor(color);
 
 		if (cons.isFileLoading())
 			return;
-
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setObjColor(color);
@@ -921,9 +913,9 @@ GeoPolyhedronInterface
 
 	@Override
 	public void removeColorFunction() {
-		super.removeColorFunction();		
+		super.removeColorFunction();
 
-		if (polygons == null || cons.isFileLoading()){
+		if (polygons == null || cons.isFileLoading()) {
 			return;
 		}
 
@@ -951,11 +943,11 @@ GeoPolyhedronInterface
 	}
 
 	@Override
-	public void setColorFunction(final GeoList col){
+	public void setColorFunction(final GeoList col) {
 
 		super.setColorFunction(col);
 
-		if (polygons == null || cons.isFileLoading()){
+		if (polygons == null || cons.isFileLoading()) {
 			return;
 		}
 
@@ -987,7 +979,7 @@ GeoPolyhedronInterface
 	public void setLineType(int type) {
 		super.setLineType(type);
 
-		if (polygons == null  || cons.isFileLoading())
+		if (polygons == null || cons.isFileLoading())
 			return;
 
 		for (GeoPolygon3D polygon : polygons.values()) {
@@ -1096,7 +1088,7 @@ GeoPolyhedronInterface
 			segment.updateVisualStyle();
 		}
 	}
-	
+
 	@Override
 	public void setLineThicknessOrVisibility(int th) {
 		super.setLineThickness(th);
@@ -1147,7 +1139,6 @@ GeoPolyhedronInterface
 
 	}
 
-
 	@Override
 	public GeoElement copy() {
 		return new GeoPolyhedron(this);
@@ -1160,7 +1151,7 @@ GeoPolyhedronInterface
 
 	@Override
 	public String getTypeString() {
-		switch(type){
+		switch (type) {
 		case TYPE_PRISM:
 			return "Prism";
 		case TYPE_PYRAMID:
@@ -1196,7 +1187,7 @@ GeoPolyhedronInterface
 
 	@Override
 	public void set(GeoElement geo) {
-		if (geo .isGeoPolyhedron()) {
+		if (geo.isGeoPolyhedron()) {
 			GeoPolyhedron polyhedron = (GeoPolyhedron) geo;
 
 			isDefined = polyhedron.isDefined;
@@ -1208,69 +1199,64 @@ GeoPolyhedronInterface
 			setOrientedHeight(polyhedron.getOrientedHeight());
 
 			topFaceIndex = polyhedron.topFaceIndex;
-			if (!polyhedron.polygonsLinked.isEmpty()){
+			if (!polyhedron.polygonsLinked.isEmpty()) {
 				// in this case, polyhedron has a bottom face linked
 				topFaceIndex++;
 			}
 
 			// set polygons
-			//polygons.clear();
+			// polygons.clear();
 			int index = 0;
-			for (GeoPolygon p : polyhedron.polygonsLinked){
-				if(setPolygon(index, p)){
+			for (GeoPolygon p : polyhedron.polygonsLinked) {
+				if (setPolygon(index, p)) {
 					index++;
 				}
 			}
-			for (GeoPolygon p : polyhedron.polygons.values()){
-				if(setPolygon(index, p)){
+			for (GeoPolygon p : polyhedron.polygons.values()) {
+				if (setPolygon(index, p)) {
 					index++;
 				}
 			}
-
 
 			// set last polygons undefined
-			if(!polygons.isEmpty()){
-				for (int i = index; i <= polygons.lastKey() ; i++){
+			if (!polygons.isEmpty()) {
+				for (int i = index; i <= polygons.lastKey(); i++) {
 					polygons.get(i).setUndefined();
 				}
-			}		
-
-
-
+			}
 
 			// set segments
-			//segments.clear();
+			// segments.clear();
 			index = 0;
-			for (GeoSegmentND s : polyhedron.segmentsLinked.values()){
-				if(setSegment(index, s)){
+			for (GeoSegmentND s : polyhedron.segmentsLinked.values()) {
+				if (setSegment(index, s)) {
 					index++;
 				}
 			}
-			for (GeoSegment3D s : polyhedron.segments.values()){
-				if(setSegment(index, s)){
+			for (GeoSegment3D s : polyhedron.segments.values()) {
+				if (setSegment(index, s)) {
 					index++;
 				}
 			}
 
 			// set last segments undefined
-			if (!segments.isEmpty()){
-				for (int i = index; i <= segments.lastKey() ; i++){
+			if (!segments.isEmpty()) {
+				for (int i = index; i <= segments.lastKey(); i++) {
 					segments.get((long) i).setUndefined();
 				}
 			}
 
-
 		}
 	}
 
-	private boolean setPolygon(int index, GeoPolygon p){
+	private boolean setPolygon(int index, GeoPolygon p) {
 
-		if (!p.isDefined()){
+		if (!p.isDefined()) {
 			return false;
 		}
 
 		GeoPolygon3D poly = polygons.get(index);
-		if (poly == null){
+		if (poly == null) {
 			poly = new GeoPolygon3D(getConstruction());
 			polygons.put(index, poly);
 		}
@@ -1278,14 +1264,14 @@ GeoPolyhedronInterface
 		return true;
 	}
 
-	private boolean setSegment(long index, GeoSegmentND s){
+	private boolean setSegment(long index, GeoSegmentND s) {
 
-		if (!s.isDefined()){
+		if (!s.isDefined()) {
 			return false;
 		}
 
 		GeoSegment3D seg = segments.get(index);
-		if (seg == null){
+		if (seg == null) {
 			seg = new GeoSegment3D(getConstruction());
 			segments.put(index, seg);
 		}
@@ -1380,11 +1366,10 @@ GeoPolyhedronInterface
 		return new Coords(4); // TODO
 	}
 
-
 	@Override
 	public void remove() {
 
-		for (GeoPolygon polygon : polygonsLinked){
+		for (GeoPolygon polygon : polygonsLinked) {
 			polygon.removeMeta(this);
 		}
 
@@ -1394,82 +1379,80 @@ GeoPolyhedronInterface
 			super.remove();
 	}
 
-
-	////////////////////////////
+	// //////////////////////////
 	// VOLUME
-	////////////////////////////
+	// //////////////////////////
 
 	private double volume = Double.NaN;
 
 	/**
 	 * sets the volume
-	 * @param volume volume
+	 * 
+	 * @param volume
+	 *            volume
 	 */
-	public void setVolume(double volume){
-		this.volume =  volume;
+	public void setVolume(double volume) {
+		this.volume = volume;
 	}
-
 
 	public double getVolume() {
 		return volume;
 	}
 
-
 	public boolean hasFiniteVolume() {
 		return isDefined();
 	}
 
-	////////////////////////////
+	// //////////////////////////
 	// AREA
-	////////////////////////////
+	// //////////////////////////
 
 	private double area = Double.NaN;
 
 	/**
 	 * sets the area (total area of the faces)
-	 * @param area area
+	 * 
+	 * @param area
+	 *            area
 	 */
-	public void setArea(double area){
-		this.area =  area;
+	public void setArea(double area) {
+		this.area = area;
 	}
-
 
 	/**
 	 * Note : recalc area when from pyramid/prism algo
+	 * 
 	 * @return area
 	 */
 	public double getArea() {
 
 		// if parent algo is prism/pyramid, update area from faces
 		AlgoElement algo = getParentAlgorithm();
-		if (algo != null && algo instanceof AlgoPolyhedronPoints){ 
+		if (algo != null && algo instanceof AlgoPolyhedronPoints) {
 			area = 0;
 
-			for (GeoPolygon p:polygonsLinked){
+			for (GeoPolygon p : polygonsLinked) {
 				area += p.getArea();
 			}
-			for (GeoPolygon p:polygons.values()){
-				if (p.isDefined()){
+			for (GeoPolygon p : polygons.values()) {
+				if (p.isDefined()) {
 					area += p.getArea();
 				}
 			}
 		}
 
-
 		return area;
 	}
-
 
 	public boolean hasFiniteArea() {
 		return isDefined();
 	}
 
-
-	//////////////////
+	// ////////////////
 	// TRACE
-	//////////////////
+	// ////////////////
 
-	private boolean trace;	
+	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {
@@ -1480,15 +1463,13 @@ GeoPolyhedronInterface
 		return trace;
 	}
 
-
 	public void setTrace(boolean trace) {
 
 		this.trace = trace;
 
-		if (polygons == null){
+		if (polygons == null) {
 			return;
 		}
-
 
 		for (GeoPolygon3D polygon : polygons.values()) {
 			polygon.setTrace(trace);
@@ -1509,75 +1490,68 @@ GeoPolyhedronInterface
 		getKernel().notifyRepaint();
 	}
 
-
-
-	//////////////////////////////////
+	// ////////////////////////////////
 	// TRANSFORM
-	//////////////////////////////////
-
+	// ////////////////////////////////
 
 	public void rotate(NumberValue r, GeoPointND S) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.rotate(r, S);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.rotate(r, S);
 			}
 		}
 	}
 
-
 	public void rotate(NumberValue r) {
 
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.rotate(r);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.rotate(r);
 			}
 		}
 
 	}
 
-
 	public void rotate(NumberValue r, GeoPointND S, GeoDirectionND orientation) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.rotate(r, S, orientation);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.rotate(r, S, orientation);
 			}
 		}
 	}
 
-
 	public void rotate(NumberValue r, GeoLineND line) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.rotate(r, line);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.rotate(r, line);
 			}
 		}
 
 	}
-
 
 	@Override
 	final public boolean isTranslateable() {
@@ -1585,94 +1559,90 @@ GeoPolyhedronInterface
 	}
 
 	public void translate(Coords v) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.translate(v);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.translate(v);
 			}
-		}	
+		}
 	}
 
-
-
-	////////////////////////
+	// //////////////////////
 	// MIRROR
-	////////////////////////
+	// //////////////////////
 
 	public void mirror(Coords Q) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.mirror(Q);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.mirror(Q);
 			}
-		}	
+		}
 	}
 
 	public void mirror(GeoLineND g) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.mirror(g);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.mirror(g);
 			}
-		}	
+		}
 	}
 
 	public void mirror(GeoCoordSys2D plane) {
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
 				seg.mirror(plane);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
 				p.mirror(plane);
 			}
-		}	
+		}
 	}
 
-	////////////////////////
+	// //////////////////////
 	// DILATE
-	////////////////////////
-
+	// //////////////////////
 
 	public void dilate(NumberValue rval, Coords S) {
 
-		for (GeoSegment3D seg: segments.values()){
-			if (seg.isDefined()){
-				seg.dilate(rval,S);
+		for (GeoSegment3D seg : segments.values()) {
+			if (seg.isDefined()) {
+				seg.dilate(rval, S);
 			}
 		}
 
-		for (GeoPolygon3D p : polygons.values()){
-			if (p.isDefined()){
-				p.dilate(rval,S);
+		for (GeoPolygon3D p : polygons.values()) {
+			if (p.isDefined()) {
+				p.dilate(rval, S);
 			}
-		}	
+		}
 
 		double r = rval.getDouble();
-		double rAbs = Math.abs(r);		
-		volume *= rAbs*rAbs*rAbs;
-		area *= rAbs*rAbs;
+		double rAbs = Math.abs(r);
+		volume *= rAbs * rAbs * rAbs;
+		area *= rAbs * rAbs;
 		orientedHeight *= r;
 
 	}
-
 
 	/**
 	 * oriented (positive or negative) height
@@ -1681,9 +1651,11 @@ GeoPolyhedronInterface
 
 	/**
 	 * set oriented (positive or negative) height
-	 * @param height height
+	 * 
+	 * @param height
+	 *            height
 	 */
-	public void setOrientedHeight(double height){
+	public void setOrientedHeight(double height) {
 		orientedHeight = height;
 	}
 
@@ -1691,53 +1663,45 @@ GeoPolyhedronInterface
 		return orientedHeight;
 	}
 
-
 	/**
 	 * 
 	 * @return bottom face (for pyramid & prism)
 	 */
-	public GeoPolygon getBottomFace(){
-		if (polygonsLinked.isEmpty()){
+	public GeoPolygon getBottomFace() {
+		if (polygonsLinked.isEmpty()) {
 			return polygons.get(0);
 		}
 		return polygonsLinked.get(0);
 	}
 
-
 	/**
 	 * 
 	 * @return last face (for pyramid/prism)
 	 */
-	public GeoPolygon getTopFace(){
+	public GeoPolygon getTopFace() {
 		return polygons.get(topFaceIndex);
 	}
-
-
-
 
 	/**
 	 * 
 	 * @return first side face (for prism)
 	 */
-	public GeoPolygon getFirstSideFace(){
-		if (polygonsLinked.isEmpty()){
+	public GeoPolygon getFirstSideFace() {
+		if (polygonsLinked.isEmpty()) {
 			return polygons.get(1);
 		}
 		return polygons.get(0);
 	}
-
-
 
 	/**
 	 * 
 	 * @return top point (for pyramid)
 	 */
 	public Coords getTopPoint() {
-		GeoPolygon p = getFirstSideFace();		
+		GeoPolygon p = getFirstSideFace();
 		return p.getPoint3D(p.getPointsLength() - 1);
 
 	}
-
 
 	// /////////////////////////////////
 	// Path interface
@@ -1765,8 +1729,9 @@ GeoPolyhedronInterface
 
 	public void pathChanged(GeoPointND PI) {
 
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(PI)){
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(PI)) {
 			pointChanged(PI);
 			return;
 		}
@@ -1782,14 +1747,14 @@ GeoPolyhedronInterface
 		// remember old parameter
 		double oldT = pp.getT();
 
-
 		// find the segment where the point lies
-		int index = (int) pp.getT() ;
+		int index = (int) pp.getT();
 		GeoSegmentND seg;
-		if (index < segmentsLinked.size()){
+		if (index < segmentsLinked.size()) {
 			seg = (GeoSegmentND) segmentsLinked.values().toArray()[index];
-		}else{
-			seg = (GeoSegmentND) segments.values().toArray()[index - segmentsLinked.size()];
+		} else {
+			seg = (GeoSegmentND) segments.values().toArray()[index
+					- segmentsLinked.size()];
 		}
 
 		// sets the path parameter for the segment, calc the new position of the
@@ -1797,7 +1762,7 @@ GeoPolyhedronInterface
 		pp.setT(pp.getT() - index);
 		seg.pathChanged(P);
 
-		//App.debug(seg+" , "+oldT);
+		// App.debug(seg+" , "+oldT);
 
 		// recall the old parameter
 		pp.setT(oldT);
@@ -1821,8 +1786,6 @@ GeoPolyhedronInterface
 		Coords res = null;
 		double param = 0;
 
-
-
 		// find closest point on each segment
 		PathParameter pp = P.getPathParameter();
 		int i = 0;
@@ -1830,7 +1793,7 @@ GeoPolyhedronInterface
 
 			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
 
-			if(segment.isDefined()){
+			if (segment.isDefined()) {
 				segment.pointChanged(P);
 			}
 
@@ -1858,7 +1821,7 @@ GeoPolyhedronInterface
 
 			P.setCoords(coordsOld, false); // prevent circular path.pointChanged
 
-			if(segment.isDefined()){
+			if (segment.isDefined()) {
 				segment.pointChanged(P);
 			}
 
@@ -1882,13 +1845,11 @@ GeoPolyhedronInterface
 			i++;
 		}
 
-
 		P.setCoords(res, false);
 		pp.setT(param);
 
 		P.setRegion(region);
 	}
-
 
 	public boolean isOnPath(GeoPointND PI, double eps) {
 
@@ -1909,13 +1870,11 @@ GeoPolyhedronInterface
 		return false;
 	}
 
-
 	@Override
 	public void setShowObjectCondition(final GeoBoolean cond)
 			throws CircularDefinitionException {
 
 		super.setShowObjectCondition(cond);
-
 
 		if (cons.isFileLoading())
 			return;
@@ -1940,10 +1899,10 @@ GeoPolyhedronInterface
 			((GeoElement) segment).setShowObjectCondition(cond);
 		}
 	}
-	
+
 	@Override
 	public void updateVisualStyle() {
-		
+
 		super.updateVisualStyle();
 
 		for (GeoPoint3D point : pointsCreated) {
@@ -1967,37 +1926,36 @@ GeoPolyhedronInterface
 		}
 
 	}
-	
-	public void setPointSizeOrVisibility(int size){
-		if (size > 0){
+
+	public void setPointSizeOrVisibility(int size) {
+		if (size > 0) {
 			setPointSize(size);
-		}else{
+		} else {
 			setPointNotVisibile();
 		}
-		
-		for (GeoPolygon p : polygonsLinked){
+
+		for (GeoPolygon p : polygonsLinked) {
 			p.setPointSizeOrVisibility(size);
 		}
 	}
 
-	private void setPointSize(int size){
-		for (GeoPoint3D point : pointsCreated){
+	private void setPointSize(int size) {
+		for (GeoPoint3D point : pointsCreated) {
 			point.setEuclidianVisibleIfNoConditionToShowObject(true);
 			point.setPointSize(size);
 			point.updateRepaint();
 		}
 	}
-	
-	private void setPointNotVisibile(){
-		for (GeoPoint3D point : pointsCreated){
+
+	private void setPointNotVisibile() {
+		for (GeoPoint3D point : pointsCreated) {
 			point.setEuclidianVisibleIfNoConditionToShowObject(false);
 			point.updateRepaint();
 		}
 	}
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 

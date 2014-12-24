@@ -19,23 +19,25 @@ import java.util.ArrayList;
  * 
  * @author mathieu
  *
- * Companion for 3D application
+ *         Companion for 3D application
  */
 public abstract class App3DCompanion extends AppCompanion {
-	
+
 	/**
 	 * Constructor
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
-	public App3DCompanion(App app){
+	public App3DCompanion(App app) {
 		super(app);
 	}
-	
+
 	@Override
-	public Kernel newKernel(){
+	public Kernel newKernel() {
 		return new Kernel3D(app);
 	}
-	
+
 	@Override
 	protected boolean tableVisible(int table) {
 		return !(table == CommandsConstants.TABLE_CAS || table == CommandsConstants.TABLE_ENGLISH);
@@ -44,83 +46,90 @@ public abstract class App3DCompanion extends AppCompanion {
 	// ///////////////////////////////
 	// EUCLIDIAN VIEW FOR PLANE
 	// ///////////////////////////////
-	
+
 	protected ArrayList<EuclidianViewForPlaneCompanion> euclidianViewForPlaneCompanionList;
-	
+
 	private EuclidianViewForPlaneCompanion euclidianViewForPlaneCompanion;
 
 	/**
 	 * add euclidian views for plane settings
-	 * @param sb string builder
-	 * @param asPreference save as preference flag
+	 * 
+	 * @param sb
+	 *            string builder
+	 * @param asPreference
+	 *            save as preference flag
 	 */
-	public void addCompleteUserInterfaceXMLForPlane(StringBuilder sb, boolean asPreference) {
-		if (euclidianViewForPlaneCompanionList!=null){
-			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList){
+	public void addCompleteUserInterfaceXMLForPlane(StringBuilder sb,
+			boolean asPreference) {
+		if (euclidianViewForPlaneCompanionList != null) {
+			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList) {
 				vfpc.getView().getXML(sb, asPreference);
 			}
 		}
 	}
-	
-	
+
 	@Override
 	public void getEuclidianViewXML(StringBuilder sb, boolean asPreference) {
 		super.getEuclidianViewXML(sb, asPreference);
 
-		if (app.isEuclidianView3Dinited()){
-			//TODO it would be cleaner to use EuclidianSettings here instead
+		if (app.isEuclidianView3Dinited()) {
+			// TODO it would be cleaner to use EuclidianSettings here instead
 			app.getEuclidianView3D().getXML(sb, asPreference);
 		}
 
-		if (euclidianViewForPlaneCompanionList!=null)
+		if (euclidianViewForPlaneCompanionList != null)
 			for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList)
 				vfpc.getView().getXML(sb, asPreference);
 
 	}
-	
+
 	/**
 	 * create new euclidian view for plane
-	 * @param plane plane
-	 * @param evSettings settings
+	 * 
+	 * @param plane
+	 *            plane
+	 * @param evSettings
+	 *            settings
 	 * @return view companion
 	 */
-	protected abstract EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, EuclidianSettings evSettings, boolean panelSettings);
-	
-		
+	protected abstract EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
+			ViewCreator plane, EuclidianSettings evSettings,
+			boolean panelSettings);
+
 	@Override
-	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings) {
+	public EuclidianViewForPlaneCompanion createEuclidianViewForPlane(
+			ViewCreator plane, boolean panelSettings) {
 		// create new view for plane and controller
 		Settings settings = app.getSettings();
 		String name = ((GeoElement) plane).getLabelSimple();
 		EuclidianSettings evSettings = settings.getEuclidianForPlane(name);
-		if (evSettings == null){
-			evSettings = new EuclidianSettingsForPlane(app.getEuclidianView1().getSettings());
+		if (evSettings == null) {
+			evSettings = new EuclidianSettingsForPlane(app.getEuclidianView1()
+					.getSettings());
 			evSettings.setShowGridSetting(false);
 			evSettings.setShowAxes(false, false);
-			settings.setEuclidianSettingsForPlane(name, evSettings);			
+			settings.setEuclidianSettingsForPlane(name, evSettings);
 		}
-		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane, evSettings, panelSettings);
+		euclidianViewForPlaneCompanion = createEuclidianViewForPlane(plane,
+				evSettings, panelSettings);
 		evSettings.addListener(euclidianViewForPlaneCompanion.getView());
 		euclidianViewForPlaneCompanion.getView().updateFonts();
 		euclidianViewForPlaneCompanion.addExistingGeos();
-		
-		//add it to list
-		if (euclidianViewForPlaneCompanionList==null)
+
+		// add it to list
+		if (euclidianViewForPlaneCompanionList == null)
 			euclidianViewForPlaneCompanionList = new ArrayList<EuclidianViewForPlaneCompanion>();
 		euclidianViewForPlaneCompanionList.add(euclidianViewForPlaneCompanion);
-		
 
 		return euclidianViewForPlaneCompanion;
 	}
-	
-	
 
 	@Override
 	public void resetFonts() {
-		
+
 		super.resetFonts();
-		
-		if(app.getGuiManager() != null && app.showView(App.VIEW_EUCLIDIAN3D)){
+
+		if (app.getGuiManager() != null && app.showView(App.VIEW_EUCLIDIAN3D)) {
 			((EuclidianView) app.getEuclidianView3D()).updateFonts();
 		}
 
@@ -128,36 +137,39 @@ public abstract class App3DCompanion extends AppCompanion {
 			euclidianViewForPlaneCompanion.getView().updateFonts();
 		}
 	}
-	
+
 	/**
 	 * remove the view from the list
-	 * @param vfpc view for plane companion
+	 * 
+	 * @param vfpc
+	 *            view for plane companion
 	 */
-	public void removeEuclidianViewForPlaneFromList(EuclidianViewForPlaneCompanion vfpc){
+	public void removeEuclidianViewForPlaneFromList(
+			EuclidianViewForPlaneCompanion vfpc) {
 		euclidianViewForPlaneCompanionList.remove(vfpc);
-		app.getSettings().removeEuclidianSettingsForPlane(((GeoElement) vfpc.getPlane()).getLabelSimple());
+		app.getSettings().removeEuclidianSettingsForPlane(
+				((GeoElement) vfpc.getPlane()).getLabelSimple());
 	}
-	
-	
+
 	/**
 	 * remove all euclidian views for plane
 	 */
-	public void removeAllEuclidianViewForPlane(){
-		
+	public void removeAllEuclidianViewForPlane() {
+
 		if (euclidianViewForPlaneCompanionList == null)
 			return;
-		
+
 		for (EuclidianViewForPlaneCompanion vfpc : euclidianViewForPlaneCompanionList)
 			vfpc.removeFromGuiAndKernel();
-		
+
 		euclidianViewForPlaneCompanionList.clear();
 		app.getSettings().clearEuclidianSettingsForPlane();
-		
+
 	}
-	
-	
+
 	@Override
-	public geogebra.common.gui.layout.DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
+	public geogebra.common.gui.layout.DockPanel createEuclidianDockPanelForPlane(
+			int id, String plane) {
 
 		GeoElement geo = app.getKernel().lookupLabel(plane);
 		if (geo == null)
@@ -169,19 +181,16 @@ public abstract class App3DCompanion extends AppCompanion {
 		vc.setEuclidianViewForPlane(createEuclidianViewForPlane(vc, false));
 		return getPanelForPlane();
 	}
-	
-	
+
 	/**
 	 * 
 	 * @return current dockpanel for plane
 	 */
 	abstract public geogebra.common.gui.layout.DockPanel getPanelForPlane();
 
-
-
 	@Override
 	public Settings newSettings() {
 		return new Settings(3);
 	}
-	
+
 }

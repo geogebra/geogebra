@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -27,34 +27,30 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 
 	private AlgoCircle3DThreePoints algo;
 
-    public AlgoConicPartCircumcircle3D(Construction cons, String label,
-    		GeoPointND A, GeoPointND B, GeoPointND C,
-    		int type) 
-    {
-    	super(cons, label, A, B, C, type);
-    	 
-    }
-    
-    @Override
-	protected AlgoCircleThreePoints getAlgo(){
-    	algo = new AlgoCircle3DThreePoints(cons, A, B, C);
-    	return algo;
-    }
-    
-    @Override
-	protected GeoConicPart3D createConicPart(Construction cons, int type){
-    	return new GeoConicPart3D(cons, type);
-    }
+	public AlgoConicPartCircumcircle3D(Construction cons, String label,
+			GeoPointND A, GeoPointND B, GeoPointND C, int type) {
+		super(cons, label, A, B, C, type);
 
-    @Override
-	protected void computeSinglePoint(){
-    	GeoConic3D.setSinglePoint((GeoConic3D) conicPart, A.getInhomCoordsInD(3));
-    	super.computeSinglePoint();
 	}
-	
 
+	@Override
+	protected AlgoCircleThreePoints getAlgo() {
+		algo = new AlgoCircle3DThreePoints(cons, A, B, C);
+		return algo;
+	}
 
-	
+	@Override
+	protected GeoConicPart3D createConicPart(Construction cons, int type) {
+		return new GeoConicPart3D(cons, type);
+	}
+
+	@Override
+	protected void computeSinglePoint() {
+		GeoConic3D.setSinglePoint((GeoConic3D) conicPart,
+				A.getInhomCoordsInD(3));
+		super.computeSinglePoint();
+	}
+
 	@Override
 	final public GeoPoint getA() {
 		return algo.getPoint2D(0);
@@ -62,6 +58,7 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 
 	/**
 	 * Method for LocusEqu.
+	 * 
 	 * @return second point.
 	 */
 	@Override
@@ -71,6 +68,7 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 
 	/**
 	 * Method for LocusEqu.
+	 * 
 	 * @return third point.
 	 */
 	@Override
@@ -80,8 +78,7 @@ public class AlgoConicPartCircumcircle3D extends AlgoConicPartCircumcircleND {
 
 	@Override
 	public GeoConicPart3D getConicPart() {
-        return (GeoConicPart3D) super.getConicPart();
-    }
+		return (GeoConicPart3D) super.getConicPart();
+	}
 
-	
 }

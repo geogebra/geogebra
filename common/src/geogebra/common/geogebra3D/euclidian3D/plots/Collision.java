@@ -225,9 +225,10 @@ public class Collision {
 	static private float[] mult(float[] v, float factor) {
 		return new float[] { v[0] * factor, v[1] * factor, v[2] * factor };
 	}
-	
+
 	/**
 	 * Sorts two floats (first becomes smallest)
+	 * 
 	 * @param a
 	 * @param b
 	 * @return true if the floats were rearranged, otherwise false

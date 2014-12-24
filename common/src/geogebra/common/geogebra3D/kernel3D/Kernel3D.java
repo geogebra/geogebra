@@ -132,10 +132,10 @@ public class Kernel3D extends Kernel {
 	}
 
 	@Override
-	public GeoClippingCube3D getClippingCube(){
+	public GeoClippingCube3D getClippingCube() {
 		return ((Construction3D) cons).getClippingCube();
 	}
-	
+
 	@Override
 	public GeoSpace getSpace() {
 		return ((Construction3D) cons).getSpace();
@@ -169,22 +169,22 @@ public class Kernel3D extends Kernel {
 
 		case EuclidianConstants.MODE_TETRAHEDRON:
 			return "Tetrahedron";
-			
+
 		case EuclidianConstants.MODE_PRISM:
 			return "Prism";
 
 		case EuclidianConstants.MODE_EXTRUSION:
 			return "Extrusion";
-			
+
 		case EuclidianConstants.MODE_CONIFY:
 			return "Conify";
-			
+
 		case EuclidianConstants.MODE_PYRAMID:
 			return "Pyramid";
-			
+
 		case EuclidianConstants.MODE_NET:
 			return "Net";
-			
+
 		case EuclidianConstants.MODE_SPHERE_POINT_RADIUS:
 			return "SpherePointRadius";
 
@@ -205,7 +205,7 @@ public class Kernel3D extends Kernel {
 
 		case EuclidianConstants.MODE_CIRCLE_AXIS_POINT:
 			return "CircleAxisPoint";
-			
+
 		case EuclidianConstants.MODE_VOLUME:
 			return "Volume";
 
@@ -214,7 +214,7 @@ public class Kernel3D extends Kernel {
 
 		case EuclidianConstants.MODE_ROTATE_AROUND_LINE:
 			return "RotateAroundLine";
-					
+
 		case EuclidianConstants.MODE_ORTHOGONAL_THREE_D:
 			return "OrthogonalThreeD";
 
@@ -266,21 +266,22 @@ public class Kernel3D extends Kernel {
 		return new ExpressionNodeEvaluator3D(app.getLocalization(), kernel);
 	}
 
-
 	/**
-	 * @param kernel kernel
+	 * @param kernel
+	 *            kernel
 	 * @return a new algebra processor (used for 3D)
 	 */
 	@Override
-	public AlgebraProcessor newAlgebraProcessor(Kernel kernel){
+	public AlgebraProcessor newAlgebraProcessor(Kernel kernel) {
 		CommandDispatcher cd = new CommandDispatcher3D(kernel);
-		return new AlgebraProcessor3D(kernel,cd);
+		return new AlgebraProcessor3D(kernel, cd);
 	}
 
 	/** return all points of the current construction */
 	@Override
 	public TreeSet<GeoElement> getPointSet() {
-		TreeSet<GeoElement> t3d = getConstruction().getGeoSetLabelOrder(GeoClass.POINT3D);
+		TreeSet<GeoElement> t3d = getConstruction().getGeoSetLabelOrder(
+				GeoClass.POINT3D);
 		TreeSet<GeoElement> t = super.getPointSet();
 
 		t.addAll(t3d);
@@ -299,53 +300,53 @@ public class Kernel3D extends Kernel {
 			throws MyError {
 
 		switch (type.charAt(0)) {
-		case 'a': 
+		case 'a':
 			if (type.equals("axis3d"))
 				return new GeoAxis3D(cons1);
-			else if (type.equals("angle3d")) 
+			else if (type.equals("angle3d"))
 				return new GeoAngle3D(cons1);
-			
-		case 'c': 
+
+		case 'c':
 			if (type.equals("conic3d"))
 				return new GeoConic3D(cons1);
-			else if (type.equals("curvecartesian3d")) 
+			else if (type.equals("curvecartesian3d"))
 				return new GeoCurveCartesian3D(cons1);
-			
-		case 'l': 
+
+		case 'l':
 			if (type.equals("line3d"))
 				return new GeoLine3D(cons1);
 
-		case 'p': 
+		case 'p':
 			if (type.equals("point3d")) {
 				return new GeoPoint3D(cons1);
 			} else if (type.equals("polygon3d"))
 				return new GeoPolygon3D(cons1, null);
-			else if (type.equals("plane3d")) 
+			else if (type.equals("plane3d"))
 				return new GeoPlane3D(cons1);
-			else if (type.equals("polyline3d")) 
+			else if (type.equals("polyline3d"))
 				return new GeoPolyLine3D(cons1, null);
-			else if (type.equals("polyhedron")) 
+			else if (type.equals("polyhedron"))
 				return new GeoPolyhedron(cons1);
 
-		case 'q': 
+		case 'q':
 			if (type.equals("quadric3d") || type.equals("quadric")) {
 				return new GeoQuadric3D(cons1);
 			} else if (type.equals("quadric3dpart"))
 				return new GeoQuadric3DPart(cons1);
-			else if (type.equals("quadric3dlimited")) 
+			else if (type.equals("quadric3dlimited"))
 				return new GeoQuadric3DLimited(cons1);
 
-		case 'r': 
+		case 'r':
 			if (type.equals("ray3d"))
 				return new GeoRay3D(cons1);
-			
-		case 's': 
+
+		case 's':
 			if (type.equals("segment3d"))
 				return new GeoSegment3D(cons1);
 			if (type.equals("surfacecartesian3d"))
 				return new GeoSurfaceCartesian3D(cons1);
-			
-		case 'v': 
+
+		case 'v':
 			if (type.equals("vector3d"))
 				return new GeoVector3D(cons1);
 
@@ -362,28 +363,27 @@ public class Kernel3D extends Kernel {
 	public boolean handleCoords(GeoElement geo,
 			LinkedHashMap<String, String> attrs) {
 
-
-		if (geo instanceof GeoLine3D){
+		if (geo instanceof GeoLine3D) {
 			try {
-				//origin
+				// origin
 				double ox = Double.parseDouble(attrs.get("ox"));
 				double oy = Double.parseDouble(attrs.get("oy"));
 				double oz = Double.parseDouble(attrs.get("oz"));
 				double ow = Double.parseDouble(attrs.get("ow"));
-				
-				//direction
+
+				// direction
 				double vx = Double.parseDouble(attrs.get("vx"));
 				double vy = Double.parseDouble(attrs.get("vy"));
 				double vz = Double.parseDouble(attrs.get("vz"));
 				double vw = Double.parseDouble(attrs.get("vw"));
-				
-				((GeoLine3D) geo).setCoord(new Coords(ox,oy,oz,ow), new Coords(vx,vy,vz,vw));
+
+				((GeoLine3D) geo).setCoord(new Coords(ox, oy, oz, ow),
+						new Coords(vx, vy, vz, vw));
 				return true;
 			} catch (Exception e) {
 				return false;
 			}
 		}
-
 
 		if (!(geo instanceof GeoCoords4D)) {
 			return super.handleCoords(geo, attrs);
@@ -412,7 +412,6 @@ public class Kernel3D extends Kernel {
 	// OVERRIDES KERNEL
 	// ///////////////////////////////
 
-
 	@Override
 	public GeoLineND OrthogonalLine(String label, GeoPointND P, GeoLineND l,
 			GeoDirectionND direction) {
@@ -423,11 +422,7 @@ public class Kernel3D extends Kernel {
 	public String getXMLFileFormat() {
 		return GeoGebraConstants.XML_FILE_FORMAT;
 	}
-	
 
-
-	
-	
 	@Override
 	public GeoElement copy3D(GeoElement geo) {
 
@@ -435,12 +430,12 @@ public class Kernel3D extends Kernel {
 
 		case POINT:
 			return new GeoPoint3D((GeoPointND) geo);
-			
+
 		case VECTOR:
 			GeoVector3D v = new GeoVector3D(geo.getConstruction());
 			v.set(geo);
 			return v;
-			
+
 		case LINE:
 			GeoElement ret = new GeoLine3D(geo.getConstruction());
 			ret.set(geo);
@@ -453,9 +448,9 @@ public class Kernel3D extends Kernel {
 			ret = new GeoRay3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
-			
+
 		case POLYGON:
-			ret =  new GeoPolygon3D(geo.getConstruction());
+			ret = new GeoPolygon3D(geo.getConstruction());
 			ret.set(geo);
 			return ret;
 
@@ -466,8 +461,7 @@ public class Kernel3D extends Kernel {
 			return super.copy3D(geo);
 		}
 	}
-	
-	
+
 	@Override
 	public GeoElement copyInternal3D(Construction cons, GeoElement geo) {
 
@@ -529,29 +523,23 @@ public class Kernel3D extends Kernel {
 		return super.PolyLine(labels, P, false);
 
 	}
-	
-	
+
 	@Override
-	protected AlgoDispatcher newAlgoDispatcher(Construction cons1){
+	protected AlgoDispatcher newAlgoDispatcher(Construction cons1) {
 		return new AlgoDispatcher3D(cons1);
 	}
-	
-	
-	
 
-	
-	
 	@Override
 	public double getZmax(int i) {
-		if (i==2){
+		if (i == 2) {
 			return zmax3;
 		}
 		return super.getZmax(i);
 	}
-	
+
 	@Override
 	public double getZmin(int i) {
-		if (i==2){
+		if (i == 2) {
 			return zmin3;
 		}
 		return super.getZmin(i);
@@ -559,45 +547,56 @@ public class Kernel3D extends Kernel {
 
 	@Override
 	public double getZscale(int i) {
-		if (i==2){
+		if (i == 2) {
 			return zscale3;
 		}
 		return super.getZscale(i);
 	}
-	
+
 	private double zmin3, zmax3, zscale3;
-	
-	
+
 	/**
 	 * Tells this kernel about the bounds and the scales for x-Axis and y-Axis
 	 * used in EudlidianView. The scale is the number of pixels per unit.
 	 * (useful for some algorithms like findminimum). All
-	 * @param view view
-	 * @param xmin left x-coord
-	 * @param xmax right x-coord
-	 * @param ymin bottom y-coord
-	 * @param ymax top y-coord
-	 * @param zmin min z
-	 * @param zmax max z
-	 * @param xscale x scale (pixels per unit)
-	 * @param yscale y scale (pixels per unit)
-	 * @param zscale z scale
+	 * 
+	 * @param view
+	 *            view
+	 * @param xmin
+	 *            left x-coord
+	 * @param xmax
+	 *            right x-coord
+	 * @param ymin
+	 *            bottom y-coord
+	 * @param ymax
+	 *            top y-coord
+	 * @param zmin
+	 *            min z
+	 * @param zmax
+	 *            max z
+	 * @param xscale
+	 *            x scale (pixels per unit)
+	 * @param yscale
+	 *            y scale (pixels per unit)
+	 * @param zscale
+	 *            z scale
 	 */
 	final public void setEuclidianView3DBounds(int view, double xmin,
-			double xmax, double ymin, double ymax, double zmin, double zmax, double xscale, double yscale, double zscale) {
+			double xmax, double ymin, double ymax, double zmin, double zmax,
+			double xscale, double yscale, double zscale) {
 
-		if(3 > this.xmin.length){
-			
-			this.xmin = prolong(this.xmin,3);
-			this.xmax = prolong(this.xmin,3);
-			
-			this.ymin = prolong(this.ymin,3);
-			this.ymax = prolong(this.ymax,3);
-			
-			this.xscale = prolong(this.xscale,3);
-			this.yscale = prolong(this.yscale,3);
+		if (3 > this.xmin.length) {
+
+			this.xmin = prolong(this.xmin, 3);
+			this.xmax = prolong(this.xmin, 3);
+
+			this.ymin = prolong(this.ymin, 3);
+			this.ymax = prolong(this.ymax, 3);
+
+			this.xscale = prolong(this.xscale, 3);
+			this.yscale = prolong(this.yscale, 3);
 		}
-		
+
 		this.xmin[2] = xmin;
 		this.xmax[2] = xmax;
 		this.ymin[2] = ymin;
@@ -607,30 +606,30 @@ public class Kernel3D extends Kernel {
 		this.xscale[2] = xscale;
 		this.yscale[2] = yscale;
 		this.zscale3 = zscale;
-		
+
 		notifyEuclidianViewCE();
 	}
 
-
 	@Override
-	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle, GeoPointND point1){
-		if (circle.isGeoElement3D()){
-			return getManager3D().Point3D(null, circle, point1.getInhomX(), point1.getInhomY(), point1.getInhomZ(), false, true);
+	protected GeoPointND RigidPolygonPointOnCircle(GeoConicND circle,
+			GeoPointND point1) {
+		if (circle.isGeoElement3D()) {
+			return getManager3D().Point3D(null, circle, point1.getInhomX(),
+					point1.getInhomY(), point1.getInhomZ(), false, true);
 		}
 		return super.RigidPolygonPointOnCircle(circle, point1);
 	}
 
 	@Override
-	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D){
-		if (is3D){
+	protected void RigidPolygonAddEndOfCommand(StringBuilder sb, boolean is3D) {
+		if (is3D) {
 			sb.append("],xOyPlane]");
-		}else{
+		} else {
 			super.RigidPolygonAddEndOfCommand(sb, is3D);
 		}
-		
-		
+
 	}
-	
+
 	@Override
 	public GeoElement wrapInVector(GeoPointND pt) {
 		if (pt instanceof GeoPoint3D) {
@@ -642,6 +641,5 @@ public class Kernel3D extends Kernel {
 		cons.removeFromConstructionList(algo);
 		return (GeoElement) algo.getVector();
 	}
-
 
 }

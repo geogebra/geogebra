@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -20,9 +20,6 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
-
-
 public class AlgoDistancePointPlane3D extends AlgoElement3D {
 
 	private GeoPointND point;
@@ -30,66 +27,56 @@ public class AlgoDistancePointPlane3D extends AlgoElement3D {
 
 	private GeoNumeric dist;
 
-    public AlgoDistancePointPlane3D(Construction c,
-    		String label, GeoPointND point, GeoPlaneND plane) {
-        this(c, point, plane);
-        dist.setLabel(label);
-    }
-    
-    public AlgoDistancePointPlane3D(Construction c, GeoPointND point, GeoPlaneND plane) {
-        super(c);
-        this.point = point;
-        this.plane = (GeoPlane3D) plane;
-        dist = new GeoNumeric(cons);
-        
-        setInputOutput(); // for AlgoElement
+	public AlgoDistancePointPlane3D(Construction c, String label,
+			GeoPointND point, GeoPlaneND plane) {
+		this(c, point, plane);
+		dist.setLabel(label);
+	}
 
-        // compute length
-        compute();
-    }
-    
+	public AlgoDistancePointPlane3D(Construction c, GeoPointND point,
+			GeoPlaneND plane) {
+		super(c);
+		this.point = point;
+		this.plane = (GeoPlane3D) plane;
+		dist = new GeoNumeric(cons);
 
-    @Override
+		setInputOutput(); // for AlgoElement
+
+		// compute length
+		compute();
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.Distance;
-    }
-    
-    // for AlgoElement
-    @Override
+		return Commands.Distance;
+	}
+
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-        input = new GeoElement[2];
-        input[0] = (GeoElement) point;
-        input[1] = plane;
+		input = new GeoElement[2];
+		input[0] = (GeoElement) point;
+		input[1] = plane;
 
-        super.setOutputLength(1);
-        super.setOutput(0, dist);
-        setDependencies(); // done by AlgoElement
-    }
- 
-    
-    public GeoNumeric getDistance() {
-    	return dist;
-    }
-    
-    // calc length of vector v   
-    @Override
+		super.setOutputLength(1);
+		super.setOutput(0, dist);
+		setDependencies(); // done by AlgoElement
+	}
+
+	public GeoNumeric getDistance() {
+		return dist;
+	}
+
+	// calc length of vector v
+	@Override
 	public void compute() {
-    	if (!point.isDefined() || !plane.isDefined()) {
-    		dist.setUndefined();
-    		return;
-    	}
-    		
-    	
-        dist.setValue(plane.distance(point));
-        
-        
-        
-    }
+		if (!point.isDefined() || !plane.isDefined()) {
+			dist.setUndefined();
+			return;
+		}
 
-	
+		dist.setValue(plane.distance(point));
 
+	}
 
-	
-
-    
 }

@@ -16,45 +16,41 @@ public class AlgoUnitVector3D extends AlgoUnitVector {
 	public AlgoUnitVector3D(Construction cons, String label, GeoDirectionND line) {
 		super(cons, label, (GeoElement) line);
 	}
-	
+
 	public AlgoUnitVector3D(Construction cons, GeoDirectionND line) {
 		super(cons, (GeoElement) line);
 	}
-	
-	
-	
-	@Override
-	protected GeoVectorND createVector(Construction cons){
-    	GeoVector3D ret = new GeoVector3D(cons); 
-    	return ret;
-    }
-	
-    @Override
-	public final void compute() { 
 
-    	Coords coords = ((GeoDirectionND) inputGeo).getDirectionInD3();
-        length = coords.norm();
-        if (Kernel.isZero(length)){
-        	u.setUndefined();
-        }else{
-        	((GeoVector3D) u).setCoords(coords.mul(1/length));  
-        }
-    } 
-    
+	@Override
+	protected GeoVectorND createVector(Construction cons) {
+		GeoVector3D ret = new GeoVector3D(cons);
+		return ret;
+	}
+
+	@Override
+	public final void compute() {
+
+		Coords coords = ((GeoDirectionND) inputGeo).getDirectionInD3();
+		length = coords.norm();
+		if (Kernel.isZero(length)) {
+			u.setUndefined();
+		} else {
+			((GeoVector3D) u).setCoords(coords.mul(1 / length));
+		}
+	}
+
 	@Override
 	protected GeoPointND getInputStartPoint() {
-		
-		if (inputGeo.isGeoLine()){
+
+		if (inputGeo.isGeoLine()) {
 			return ((GeoLineND) inputGeo).getStartPoint();
 		}
-		
-		if (inputGeo.isGeoVector()){
+
+		if (inputGeo.isGeoVector()) {
 			return ((GeoVectorND) inputGeo).getStartPoint();
 		}
-		
-		return null; //TODO start point for GeoDirectionND
+
+		return null; // TODO start point for GeoDirectionND
 	}
-	
-	
 
 }

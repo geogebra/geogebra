@@ -3,7 +3,8 @@ package geogebra.common.geogebra3D.euclidian3D.plots;
 import java.util.LinkedList;
 
 /**
- * A 3D octree for collision, picking etc. 
+ * A 3D octree for collision, picking etc.
+ * 
  * @author André Eriksson
  */
 public abstract class Octree {
@@ -90,7 +91,8 @@ public abstract class Octree {
 }
 
 /**
- * A class representing 
+ * A class representing
+ * 
  * @author andre
  *
  */

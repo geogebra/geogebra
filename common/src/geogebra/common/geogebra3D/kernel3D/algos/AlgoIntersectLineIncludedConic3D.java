@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoTangentLine.java
@@ -25,53 +25,43 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.kernelND.GeoConicND;
 
-
-
-
 /**
  * Helper algo to compute intersect points of a line in the conic coord sys
- * @author  mathieu
+ * 
+ * @author mathieu
  */
 public class AlgoIntersectLineIncludedConic3D extends AlgoIntersectConic3D {
 
-    
-    @Override
+	@Override
 	public Commands getClassName() {
-        return Commands.Intersect;
-    }
+		return Commands.Intersect;
+	}
 
+	/**
+	 * 
+	 * @param cons
+	 * @param g
+	 * @param c
+	 */
+	AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g, GeoConicND c) {
+		super(cons, g, c);
 
-    
-    /**
-     * 
-     * @param cons
-     * @param g
-     * @param c
-     */
-    AlgoIntersectLineIncludedConic3D(Construction cons, GeoLine g, GeoConicND c) {
-        super(cons,g,c);              
-                      
-    }   
-    
+	}
+
 	@Override
 	public void compute() {
-		
+
 		intersectLineIncluded(c, P, c.getCoordSys(), getLine());
-		
+
 	}
-    
-    
 
-    
-    
-    /**
-     * 
-     * @return line input
-     */
-    GeoLine getLine() { return (GeoLine) getFirtGeo(); }
-    
-    
-
+	/**
+	 * 
+	 * @return line input
+	 */
+	GeoLine getLine() {
+		return (GeoLine) getFirtGeo();
+	}
 
 	@Override
 	protected Coords getFirstGeoStartInhomCoords() {

@@ -34,21 +34,23 @@ import geogebra.common.kernel.kernelND.GeoSegmentND;
  * 
  * @author matthieu
  */
-public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon {
-
+public class AlgoIntersectPathLinePolygon3D extends
+		AlgoIntersectPathLinePolygon {
 
 	/**
 	 * common constructor
 	 * 
 	 * @param c
 	 * @param labels
-	 * @param geo line
-	 * @param p polygon
+	 * @param geo
+	 *            line
+	 * @param p
+	 *            polygon
 	 */
 	public AlgoIntersectPathLinePolygon3D(Construction c, String[] labels,
 			GeoElement geo, GeoElement p) {
 
-		super(c,labels,geo,p);
+		super(c, labels, geo, p);
 
 	}
 
@@ -56,23 +58,21 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 	 * common constructor
 	 * 
 	 * @param c
-	 * @param geo line
-	 * @param p polygon
+	 * @param geo
+	 *            line
+	 * @param p
+	 *            polygon
 	 */
-	public AlgoIntersectPathLinePolygon3D(Construction c, 
-			GeoElement geo, GeoElement p) {
+	public AlgoIntersectPathLinePolygon3D(Construction c, GeoElement geo,
+			GeoElement p) {
 
-		super(c,geo,p);
+		super(c, geo, p);
 
 	}
-
-
 
 	public AlgoIntersectPathLinePolygon3D(Construction c) {
 		super(c);
 	}
-
-
 
 	@Override
 	protected OutputHandler<GeoElement> createOutputSegments() {
@@ -92,27 +92,27 @@ public class AlgoIntersectPathLinePolygon3D extends AlgoIntersectPathLinePolygon
 	}
 
 	@Override
-	protected void addCoords(double parameter, Coords coords, GeoElementND geo){
+	protected void addCoords(double parameter, Coords coords, GeoElementND geo) {
 		newCoords.put(parameter, coords.copyVector());
-	}
-	
-	@Override
-	protected void addStartEndPoints(){
-		if (g instanceof GeoSegmentND){
-			newCoords.put(0.0,g.getStartInhomCoords());
-			newCoords.put(1.0,g.getEndInhomCoords());
-		}else if (g instanceof GeoRayND)
-			newCoords.put(0d,g.getStartInhomCoords());
-	}
-	
-	@Override
-	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b){
-		Coords midpoint = p.getNormalProjection(a.add(b).mul(0.5))[1];
-		return  p.isInRegion(midpoint.getX(), midpoint.getY());
 	}
 
 	@Override
-	protected void setSegment(GeoSegmentND seg, Coords start, Coords end){
+	protected void addStartEndPoints() {
+		if (g instanceof GeoSegmentND) {
+			newCoords.put(0.0, g.getStartInhomCoords());
+			newCoords.put(1.0, g.getEndInhomCoords());
+		} else if (g instanceof GeoRayND)
+			newCoords.put(0d, g.getStartInhomCoords());
+	}
+
+	@Override
+	protected boolean checkMidpoint(GeoPolygon p, Coords a, Coords b) {
+		Coords midpoint = p.getNormalProjection(a.add(b).mul(0.5))[1];
+		return p.isInRegion(midpoint.getX(), midpoint.getY());
+	}
+
+	@Override
+	protected void setSegment(GeoSegmentND seg, Coords start, Coords end) {
 		seg.setTwoPointsCoords(start, end);
 	}
 

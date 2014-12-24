@@ -9,22 +9,28 @@ import geogebra.common.kernel.geos.GeoFunction;
 
 /**
  * Class for static methods used for 3D transformations
+ * 
  * @author mathieu
  *
  */
 public class AlgoTransformation3D {
-	
+
 	/**
 	 * set GeoFunction to GeoCurveCartesian3D
-	 * @param kernel kernel
-	 * @param geoFun x->f(x) function
-	 * @param curve t->(x,y,z) curve
+	 * 
+	 * @param kernel
+	 *            kernel
+	 * @param geoFun
+	 *            x->f(x) function
+	 * @param curve
+	 *            t->(x,y,z) curve
 	 */
-	static final public void toGeoCurveCartesian(Kernel kernel, GeoFunction geoFun, GeoCurveCartesian3D curve){
-    	FunctionVariable t = new FunctionVariable(kernel, "t");
+	static final public void toGeoCurveCartesian(Kernel kernel,
+			GeoFunction geoFun, GeoCurveCartesian3D curve) {
+		FunctionVariable t = new FunctionVariable(kernel, "t");
 		FunctionVariable x = geoFun.getFunction().getFunctionVariable();
-		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) geoFun.getFunction()
-				.getExpression().deepCopy(kernel)).replace(x, t);
+		ExpressionNode yExp = (ExpressionNode) ((ExpressionNode) geoFun
+				.getFunction().getExpression().deepCopy(kernel)).replace(x, t);
 		Function[] fun = new Function[3];
 		fun[0] = new Function(new ExpressionNode(kernel, t), t);
 		fun[1] = new Function(yExp, t);
@@ -36,8 +42,8 @@ public class AlgoTransformation3D {
 			double min = kernel.getXminForFunctions();
 			double max = kernel.getXmaxForFunctions();
 			curve.setInterval(min, max);
-			//curve.setHideRangeInFormula(true);
+			// curve.setHideRangeInFormula(true);
 		}
-    }
+	}
 
 }

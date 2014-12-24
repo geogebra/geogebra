@@ -71,9 +71,8 @@ import java.util.TreeSet;
  * @author Markus + ggb3D
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
-Vector3DValue, MatrixTransformable, CoordStyle,
-RotateableND, Transformable,
-Traceable, MirrorableAtPlane, Dilateable{
+		Vector3DValue, MatrixTransformable, CoordStyle, RotateableND,
+		Transformable, Traceable, MirrorableAtPlane, Dilateable {
 
 	private boolean isInfinite, isDefined;
 	private int pointSize;
@@ -175,8 +174,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return getInhomCoordsInD3().distance(P.getInhomCoordsInD3());
 	}
 
-
-
 	// /////////////////////////////////////////////////////////
 	// COORDINATES
 
@@ -231,14 +228,12 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	}
 
-
 	@Override
 	final public void setCoords(Coords v) {
 		setCoords(v, true);
 	}
 
-
-	public void setCoordsFromPoint(GeoPointND point){
+	public void setCoordsFromPoint(GeoPointND point) {
 		setCoords(point.getInhomCoordsInD3());
 	}
 
@@ -271,7 +266,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 		else {
 			isInfinite = false;
 			isDefined = v.isDefined();
-
 
 			if (isDefined) {
 				// make sure the z coordinate is always positive
@@ -327,24 +321,24 @@ Traceable, MirrorableAtPlane, Dilateable{
 			return null;
 		}
 	}
-	
+
 	private Coords inhom2D;
-	
-	public Coords getInhomCoordsInD2(){
-		
-		if (inhom2D == null){
+
+	public Coords getInhomCoordsInD2() {
+
+		if (inhom2D == null) {
 			inhom2D = new Coords(2);
 		}
 		inhom2D.setX(inhom.getX());
 		inhom2D.setY(inhom.getY());
-		
+
 		return inhom2D;
 	}
-	
-	public Coords getInhomCoordsInD3(){
+
+	public Coords getInhomCoordsInD3() {
 		return inhom;
 	}
-	
+
 	final public double getInhomX() {
 		return inhom.getX();
 	}
@@ -359,11 +353,11 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 	private CoordMatrix4x4 tmpMatrix4x4;
 	private Coords tmpCoordsLength3;
-	
+
 	public Coords getCoordsInD2(CoordSys coordSys) {
 
 		Coords coords;
-		if (tmpCoords1 == null){
+		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
 
@@ -374,7 +368,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 			coords = getCoords();
 
 		// matrix for projection
-		if (tmpMatrix4x4 == null){
+		if (tmpMatrix4x4 == null) {
 			tmpMatrix4x4 = new CoordMatrix4x4();
 		}
 
@@ -392,15 +386,14 @@ Traceable, MirrorableAtPlane, Dilateable{
 			coords.projectPlaneThruVIfPossibleInPlaneCoords(tmpMatrix4x4,
 					getWillingDirection(), tmpCoords1);
 
-		
-		if (tmpCoordsLength3 == null){
+		if (tmpCoordsLength3 == null) {
 			tmpCoordsLength3 = new Coords(3);
 		}
-		
+
 		tmpCoordsLength3.setX(tmpCoords1.getX());
 		tmpCoordsLength3.setY(tmpCoords1.getY());
 		tmpCoordsLength3.setZ(tmpCoords1.getW());
-		
+
 		return tmpCoordsLength3;
 
 	}
@@ -428,12 +421,12 @@ Traceable, MirrorableAtPlane, Dilateable{
 			return null;
 		}
 	}
-	
-	public Coords getCoordsInD2(){
+
+	public Coords getCoordsInD2() {
 		return getCoordsInD2(CoordSys.Identity3D);
 	}
-	
-	public Coords getCoordsInD3(){
+
+	public Coords getCoordsInD3() {
 		return getCoords();
 	}
 
@@ -464,22 +457,20 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		// translate point
 		else {
-			
+
 			Coords coords;
 			Coords current = getInhomCoords();
-			
-			if (current.getLength() < rwTransVec.getLength()){
+
+			if (current.getLength() < rwTransVec.getLength()) {
 				coords = current.add(rwTransVec);
-			}else{
+			} else {
 				coords = current.addSmaller(rwTransVec);
 			}
 			setCoords(coords);
 
 			movedGeo = true;
 		}
-		
-		
-		
+
 		return movedGeo;
 
 	}
@@ -510,7 +501,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 		path.pointChanged(this);
 		// check if the path is a 2D path : in this case, 2D coords have been
 		// modified
-		if (!(path.toGeoElement().isGeoElement3D() || path.toGeoElement().isGeoList()))
+		if (!(path.toGeoElement().isGeoElement3D() || path.toGeoElement()
+				.isGeoList()))
 			updateCoordsFrom2D(false, null);
 		updateCoords();
 
@@ -646,7 +638,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return z2D;
 	}
 
-
 	/**
 	 * update 3D coords regarding 2D coords (if coordsys!=null, use it; else if
 	 * region!=null, use its coord sys; else project on xOy plane)
@@ -668,7 +659,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		} else
 			setCoords(new Coords(getX2D(), getY2D(), 0, 1), doPathOrRegion);
 	}
-	
+
 	public void updateCoordsFrom2D(boolean doPathOrRegion) {
 		updateCoordsFrom2D(doPathOrRegion, CoordSys.Identity3D);
 	}
@@ -677,34 +668,33 @@ Traceable, MirrorableAtPlane, Dilateable{
 	// WILLING COORDS
 
 	public void setWillingCoords(Coords willingCoords) {
-		
-		if (this.willingCoords == null){
+
+		if (this.willingCoords == null) {
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
-		
-		if (willingCoords == null){
+
+		if (willingCoords == null) {
 			this.willingCoords.setUndefined();
-		}else{
+		} else {
 			this.willingCoords.set(willingCoords);
 		}
 	}
-	
+
 	public void setWillingCoordsUndefined() {
-		
-		if (this.willingCoords == null){
+
+		if (this.willingCoords == null) {
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
-		
-		
+
 		this.willingCoords.setUndefined();
 	}
 
 	public void setWillingCoords(double x, double y, double z, double w) {
-		
-		if (this.willingCoords == null){
+
+		if (this.willingCoords == null) {
 			this.willingCoords = Coords.createInhomCoorsInD3();
 		}
-		
+
 		willingCoords.setX(x);
 		willingCoords.setY(y);
 		willingCoords.setZ(z);
@@ -712,33 +702,33 @@ Traceable, MirrorableAtPlane, Dilateable{
 	}
 
 	public void setWillingDirection(Coords willingDirection) {
-		
-		if (this.willingDirection == null){
+
+		if (this.willingDirection == null) {
 			this.willingDirection = new Coords(4);
 		}
-		
-		if (willingDirection == null){
+
+		if (willingDirection == null) {
 			this.willingDirection.setUndefined();
-		}else{
+		} else {
 			this.willingDirection.set(willingDirection);
 		}
 	}
 
 	public void setWillingDirectionUndefined() {
 
-		if (this.willingDirection == null){
+		if (this.willingDirection == null) {
 			this.willingDirection = new Coords(4);
 		}
 
 		this.willingDirection.setUndefined();
-		
+
 	}
 
 	public Coords getWillingCoords() {
 		return willingCoords;
 	}
-	
-	public boolean hasWillingCoords(){
+
+	public boolean hasWillingCoords() {
 		return willingCoords != null && willingCoords.isDefined();
 	}
 
@@ -746,7 +736,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return willingDirection;
 	}
 
-	public boolean hasWillingDirection(){
+	public boolean hasWillingDirection() {
 		return willingDirection != null && willingDirection.isDefined();
 	}
 
@@ -824,8 +814,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 		StringBuilder sbToString = getSbToString();
 		sbToString.setLength(0);
 		sbToString.append(label);
-		
-		GeoPoint.addEqualSignToString(sbToString, toStringMode, tpl.getCoordStyle(kernel.getCoordStyle()));
+
+		GeoPoint.addEqualSignToString(sbToString, toStringMode,
+				tpl.getCoordStyle(kernel.getCoordStyle()));
 
 		sbToString.append(toValueString(tpl));
 
@@ -844,38 +835,43 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		StringBuilder sbToString = getSbBuildValueString();
 
-		//boolean isVisibleInView2D = false;
+		// boolean isVisibleInView2D = false;
 		Coords p = getInhomCoordsInD3();
 
 		sbToString.setLength(0);
 
-		if (getMode()==Kernel.COORD_CARTESIAN_3D){
-			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
-		}else if (getMode()==Kernel.COORD_SPHERICAL){
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
-		}else if (!Kernel.isZero(p.getZ())){
-			if (getMode()==Kernel.COORD_POLAR){
-				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);				
-			}else{
-				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(), p.getY(), p.getZ(), sbToString);
+		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
+			GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl, p.getX(),
+					p.getY(), p.getZ(), sbToString);
+		} else if (getMode() == Kernel.COORD_SPHERICAL) {
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
+					p.getY(), p.getZ(), sbToString);
+		} else if (!Kernel.isZero(p.getZ())) {
+			if (getMode() == Kernel.COORD_POLAR) {
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, p.getX(),
+						p.getY(), p.getZ(), sbToString);
+			} else {
+				GeoPoint.buildValueStringCoordCartesian3D(kernel, tpl,
+						p.getX(), p.getY(), p.getZ(), sbToString);
 			}
-		}else{
-			GeoPoint.buildValueString(kernel, tpl, getMode(),  p.getX(), p.getY(), sbToString);
+		} else {
+			GeoPoint.buildValueString(kernel, tpl, getMode(), p.getX(),
+					p.getY(), sbToString);
 		}
-
 
 		return sbToString.toString();
 	}
+
 	@Override
 	public boolean isEqual(GeoElement geo) {
 		if (!geo.isGeoPoint())
 			return false;
 
-		return  isEqualPointND((GeoPointND) geo);
-		
+		return isEqualPointND((GeoPointND) geo);
+
 	}
-	
-	public boolean isEqualPointND(GeoPointND P){
+
+	public boolean isEqualPointND(GeoPointND P) {
 
 		if (!(isDefined() && P.isDefined()))
 			return false;
@@ -917,7 +913,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 		// TODO
 		return 0;
 	}
-
 
 	public void setPointSize(int size) {
 		pointSize = size;
@@ -965,8 +960,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 		sb.append(pointSize);
 		sb.append("\"/>\n");
 
-
-
 	}
 
 	public String getStartPointXML() {
@@ -1000,13 +993,12 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return locateableList;
 	}
 
-
 	public boolean hasLocateableList() {
 		return locateableList != null;
 	}
 
 	public void setLocateableList(LocateableList locateableList) {
-		this.locateableList = locateableList;	
+		this.locateableList = locateableList;
 	}
 
 	/**
@@ -1034,7 +1026,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		// update all registered locatables (they have this point as start
 		// point)
 		if (locateableList != null) {
-			GeoElement.updateCascadeLocation(locateableList,cons);
+			GeoElement.updateCascadeLocation(locateableList, cons);
 		}
 	}
 
@@ -1107,9 +1099,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 			moveMode = MOVE_MODE_XY;
 			break;
 		case MOVE_MODE_TOOL_DEFAULT:
-			if (mode == EuclidianConstants.MODE_MOVE){
+			if (mode == EuclidianConstants.MODE_MOVE) {
 				moveMode = MOVE_MODE_Z;
-			}else{
+			} else {
 				moveMode = MOVE_MODE_XY;
 			}
 			break;
@@ -1124,7 +1116,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 		if (!isIndependent() || isFixed())
 			return MOVE_MODE_NONE;
 		else if (hasPath())
-			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when not lines
+			return MOVE_MODE_NONE; // too complicated to use MOVE_MODE_Z when
+									// not lines
 		else if (hasRegion())
 			return MOVE_MODE_XY;
 		else
@@ -1135,7 +1128,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 	 * 
 	 * @return value of moveMode
 	 */
-	public int getRealMoveMode(){
+	public int getRealMoveMode() {
 		return moveMode;
 	}
 
@@ -1178,64 +1171,50 @@ Traceable, MirrorableAtPlane, Dilateable{
 	public void setParentAlgorithm(AlgoElement algorithm) {
 		super.setParentAlgorithm(algorithm);
 		if (algorithm != null)
-			setConstructionDefaults(setEuclidianVisibleBySetParentAlgorithm); // set colors to dependent colors
+			setConstructionDefaults(setEuclidianVisibleBySetParentAlgorithm); // set
+																				// colors
+																				// to
+																				// dependent
+																				// colors
 	}
-	
-	
+
 	private boolean setEuclidianVisibleBySetParentAlgorithm = true;
-	
+
 	/**
-	 * if the point has a parent algorithm, we may don't want its visibility to be changed
+	 * if the point has a parent algorithm, we may don't want its visibility to
+	 * be changed
 	 */
-	public void dontSetEuclidianVisibleBySetParentAlgorithm(){
+	public void dontSetEuclidianVisibleBySetParentAlgorithm() {
 		setEuclidianVisibleBySetParentAlgorithm = false;
 	}
 
 	@Override
-	public void updateColumnHeadingsForTraceValues(){
+	public void updateColumnHeadingsForTraceValues() {
 
-		resetSpreadsheetColumnHeadings();		
+		resetSpreadsheetColumnHeadings();
 
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
-								getXBracket(), // "x("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
-										getCloseBracket())))); // ")"
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
-								getYBracket(), // "y("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
-										getCloseBracket())))); // ")"
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
-								getZBracket(), // "z("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
-										getCloseBracket())))); // ")"
-
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, getXBracket(), // "x("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, getYBracket(), // "y("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, getZBracket(), // "z("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, getCloseBracket())))); // ")"
 
 	}
 
-
 	@Override
-	public TraceModesEnum getTraceModes(){
+	public TraceModesEnum getTraceModes() {
 		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
 
-
 	@Override
-	public String getTraceDialogAsValues(){
+	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
 
 		StringBuilder sb1 = new StringBuilder();
@@ -1250,9 +1229,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return sb1.toString();
 	}
 
-
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, inhom.getX());
 		spreadsheetTraceList.add(xx);
 		GeoNumeric yy = new GeoNumeric(cons, inhom.getY());
@@ -1271,7 +1250,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		setCoords(x1, y1, getZ(), getW());
 	}
-
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
@@ -1302,18 +1280,25 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return true;
 	}
 
-	public void setCartesian() { setMode(Kernel.COORD_CARTESIAN); }
-	public void setCartesian3D() { setMode(Kernel.COORD_CARTESIAN_3D); }
-	public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
+	public void setCartesian() {
+		setMode(Kernel.COORD_CARTESIAN);
+	}
 
+	public void setCartesian3D() {
+		setMode(Kernel.COORD_CARTESIAN_3D);
+	}
 
+	public void setSpherical() {
+		setMode(Kernel.COORD_SPHERICAL);
+	}
 
-	public void setPolar() { setMode(Kernel.COORD_POLAR); }
+	public void setPolar() {
+		setMode(Kernel.COORD_POLAR);
+	}
 
-	public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
-
-
-
+	public void setComplex() {
+		setMode(Kernel.COORD_COMPLEX);
+	}
 
 	final public void rotate(NumberValue phiValue) {
 
@@ -1332,7 +1317,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		rotate(phiValue, point.getInhomCoords());
 	}
-	
+
 	final public void rotate(NumberValue phiValue, Coords point) {
 
 		double phi = phiValue.getDouble();
@@ -1352,100 +1337,106 @@ Traceable, MirrorableAtPlane, Dilateable{
 				+ (y - qy) * cos + qy, z, w);
 	}
 
-	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
+	public void rotate(NumberValue phiValue, GeoPointND S,
+			GeoDirectionND orientation) {
 
 		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
-		
 
 		rotate(phiValue, o1, vn);
 
 	}
 
-	private void rotate(NumberValue phiValue, Coords o1, Coords vn){
+	private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
 
 		rotate(phiValue.getDouble(), o1, vn);
 	}
 
 	private Coords tmpCoords1, tmpCoords2, tmpCoords3;
-	
+
 	/**
 	 * rotate around line (point + vector) with angle phi
-	 * @param phi angle
-	 * @param o1 point
-	 * @param vn vector
+	 * 
+	 * @param phi
+	 *            angle
+	 * @param o1
+	 *            point
+	 * @param vn
+	 *            vector
 	 */
-	public void rotate(double phi, Coords o1, Coords vn){
-		
-		if (vn.isZero() || Double.isNaN(phi)){
+	public void rotate(double phi, Coords o1, Coords vn) {
+
+		if (vn.isZero() || Double.isNaN(phi)) {
 			setUndefined();
 			return;
 		}
 
 		Coords point = getInhomCoordsInD3();
-		if (tmpCoords1 == null){
+		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the line
-		
-		
+		point.projectLine(o1, vn, tmpCoords1, null); // point projected on the
+														// line
 
-		if (tmpCoords2 == null){
+		if (tmpCoords2 == null) {
 			tmpCoords2 = new Coords(4);
 		}
 		tmpCoords2.setSub(point, tmpCoords1);
 
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		
+
 		double l = vn.calcNorm();
-		if (tmpCoords3 == null){
+		if (tmpCoords3 == null) {
 			tmpCoords3 = new Coords(4);
 		}
 		tmpCoords3.setCrossProduct(vn, tmpCoords2);
 		tmpCoords3.setW(0);
-		
-		setCoords(tmpCoords1.setAdd(tmpCoords1, tmpCoords2.setAdd(tmpCoords2.mulInside(cos), tmpCoords3.mulInside(sin/l))));
+
+		setCoords(tmpCoords1.setAdd(
+				tmpCoords1,
+				tmpCoords2.setAdd(tmpCoords2.mulInside(cos),
+						tmpCoords3.mulInside(sin / l))));
 	}
 
-	public void rotate(NumberValue phiValue, GeoLineND line){
+	public void rotate(NumberValue phiValue, GeoLineND line) {
 
 		rotate(phiValue.getDouble(), line);
-
 
 	}
 
 	/**
 	 * rotate around line with angle phi
-	 * @param phi angle
-	 * @param line line
+	 * 
+	 * @param phi
+	 *            angle
+	 * @param line
+	 *            line
 	 */
-	public void rotate(double phi, GeoLineND line){
+	public void rotate(double phi, GeoLineND line) {
 
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
 
 		rotate(phi, o1, vn);
 
-
 	}
 
-
-
-	/////////////////////////////
+	// ///////////////////////////
 	// PATH OR POINT INTERFACE
-	/////////////////////////////
+	// ///////////////////////////
 
 	public void pointChanged(GeoPointND p) {
 
-		if (p.isGeoElement3D()){		
-			((GeoPoint3D) p).setCoords(this.getCoords(),false);
-		}else{
+		if (p.isGeoElement3D()) {
+			((GeoPoint3D) p).setCoords(this.getCoords(), false);
+		} else {
 			Coords coords = this.getCoords();
-			if (!Kernel.isZero(coords.getZ())){
+			if (!Kernel.isZero(coords.getZ())) {
 				p.setUndefined();
-			}else{
-				GeoPoint.pointChanged(p, coords.getX(), coords.getY(), coords.getW());
+			} else {
+				GeoPoint.pointChanged(p, coords.getX(), coords.getY(),
+						coords.getW());
 			}
 		}
 		p.getPathParameter().setT(0);
@@ -1475,71 +1466,71 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return null;
 	}
 
-	
 	private Coords tmpWillingCoords, tmpWillingDirection;
 
-	public double distanceToPath(PathOrPoint path){
+	public double distanceToPath(PathOrPoint path) {
 
 		Coords coordsOld = getInhomCoords().copyVector();
-				
-		if (tmpWillingCoords == null){
+
+		if (tmpWillingCoords == null) {
 			tmpWillingCoords = Coords.createInhomCoorsInD3();
 		}
-		if (tmpWillingDirection == null){
+		if (tmpWillingDirection == null) {
 			tmpWillingDirection = new Coords(4);
 		}
-		if (hasWillingCoords()){
+		if (hasWillingCoords()) {
 			tmpWillingCoords.set(getWillingCoords());
-		}else{
+		} else {
 			tmpWillingCoords.set(coordsOld);
 		}
-		if (hasWillingDirection()){
+		if (hasWillingDirection()) {
 			tmpWillingDirection.set(getWillingDirection());
-		}else{
+		} else {
 			tmpWillingDirection.setUndefined();
 		}
-		
+
 		path.pointChanged(this);
-		
+
 		double d;
-		if(!tmpWillingDirection.isDefined()) {
+		if (!tmpWillingDirection.isDefined()) {
 			d = getInhomCoords().distance(tmpWillingCoords);
-		}else{
-			d = getInhomCoords().distLine(tmpWillingCoords,tmpWillingDirection);
+		} else {
+			d = getInhomCoords()
+					.distLine(tmpWillingCoords, tmpWillingDirection);
 			setWillingDirection(tmpWillingDirection);
 		}
-		
 
 		setWillingCoords(tmpWillingCoords);
 
 		setCoords(coordsOld, false);
-		
+
 		return d;
 
-
-
 	}
-
 
 	/** matrix used as orientation by the {@link Drawable3D} */
 	private CoordMatrix4x4 m_drawingMatrix = null;
 
-	/** returns a 4x4 matrix for drawing the {@link Drawable3D} 
-	 * @return the drawing matrix*/
-	public CoordMatrix4x4 getDrawingMatrix(){
+	/**
+	 * returns a 4x4 matrix for drawing the {@link Drawable3D}
+	 * 
+	 * @return the drawing matrix
+	 */
+	public CoordMatrix4x4 getDrawingMatrix() {
 		return m_drawingMatrix;
 	}
 
-	/** sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
-	 * @param a_drawingMatrix the drawing matrix*/
-	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix){
+	/**
+	 * sets the 4x4 matrix for drawing the {@link Drawable3D} and the label
+	 * 
+	 * @param a_drawingMatrix
+	 *            the drawing matrix
+	 */
+	public void setDrawingMatrix(CoordMatrix4x4 a_drawingMatrix) {
 		this.m_drawingMatrix = a_drawingMatrix;
-	}	
+	}
 
-
-
-
-	private boolean trace;	
+	private boolean trace;
 
 	@Override
 	public boolean isTraceable() {
@@ -1554,11 +1545,9 @@ Traceable, MirrorableAtPlane, Dilateable{
 		return trace;
 	}
 
-
-
-	////////////////////////
+	// //////////////////////
 	// MIRROR
-	////////////////////////
+	// //////////////////////
 
 	public void mirror(Coords Q) {
 		double w = getW();
@@ -1576,32 +1565,32 @@ Traceable, MirrorableAtPlane, Dilateable{
 		Coords vn = line.getDirectionInD3();
 
 		Coords point = getInhomCoordsInD3();
-		if (tmpCoords1 == null){
+		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		point.projectLine(o1, vn, tmpCoords1, null); //point projected on the line
+		point.projectLine(o1, vn, tmpCoords1, null); // point projected on the
+														// line
 
-		//mirror at projected point
+		// mirror at projected point
 		mirror(tmpCoords1);
 
 	}
-
 
 	public void mirror(GeoCoordSys2D plane) {
 
-		if (tmpCoords1 == null){
+		if (tmpCoords1 == null) {
 			tmpCoords1 = Coords.createInhomCoorsInD3();
 		}
-		
-		getInhomCoordsInD3().projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords1);
+
+		getInhomCoordsInD3().projectPlane(
+				plane.getCoordSys().getMatrixOrthonormal(), tmpCoords1);
 		mirror(tmpCoords1);
 
 	}
 
-	////////////////////////
+	// //////////////////////
 	// DILATE
-	////////////////////////
-
+	// //////////////////////
 
 	public void dilate(NumberValue rval, Coords S) {
 
@@ -1611,19 +1600,10 @@ Traceable, MirrorableAtPlane, Dilateable{
 		double w = getW();
 
 		setCoords(r * getX() + temp * S.getX() * w,
-				r * getY() + temp * S.getY() * w, 
-				r * getZ() + temp * S.getZ() * w, 				
-				w);
-
+				r * getY() + temp * S.getY() * w, r * getZ() + temp * S.getZ()
+						* w, w);
 
 	}
-
-
-
-
-
-
-
 
 	// for identifying incidence by construction
 	// case by case.
@@ -1648,10 +1628,11 @@ Traceable, MirrorableAtPlane, Dilateable{
 	}
 
 	/**
-	 * @param list list of objects incident by construction
+	 * @param list
+	 *            list of objects incident by construction
 	 */
 	public void setIncidenceList(ArrayList<GeoElement> list) {
-		if (list==null)
+		if (list == null)
 			incidenceList = new ArrayList<GeoElement>();
 		else
 			incidenceList = new ArrayList<GeoElement>(list);
@@ -1665,6 +1646,7 @@ Traceable, MirrorableAtPlane, Dilateable{
 		incidenceList = new ArrayList<GeoElement>();
 		incidenceList.add(this);
 	}
+
 	/**
 	 * Resets the list of object that are not incident by construction
 	 */
@@ -1676,7 +1658,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 	 * add geo to incidenceList of this, and also add this to pointsOnConic
 	 * (when geo is a conic) or to pointsOnLine (when geo is a line)
 	 * 
-	 * @param geo incident object
+	 * @param geo
+	 *            incident object
 	 */
 	public void addIncidence(GeoElement geo, boolean isStartPoint) {
 		if (incidenceList == null)
@@ -1688,14 +1671,16 @@ Traceable, MirrorableAtPlane, Dilateable{
 		// incidence list
 		if (geo.isGeoConic())
 			((GeoConicND) geo).addPointOnConic(this);// GeoConicND
-		else if (geo.isGeoLine()  && !isStartPoint)
+		else if (geo.isGeoLine() && !isStartPoint)
 			((GeoLineND) geo).addPointOnLine(this);
 		// TODO: if geo instanceof GeoPoint...
 	}
 
 	/**
 	 * Add non-incident object
-	 * @param geo object thatisnot incident by construction
+	 * 
+	 * @param geo
+	 *            object thatisnot incident by construction
 	 */
 	public void addNonIncidence(GeoElement geo) {
 		if (nonIncidenceList == null)
@@ -1705,7 +1690,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 	}
 
 	/**
-	 * @param geo incident geo tobe removed
+	 * @param geo
+	 *            incident geo tobe removed
 	 */
 	public final void removeIncidence(GeoElement geo) {
 		if (incidenceList != null)
@@ -1719,7 +1705,8 @@ Traceable, MirrorableAtPlane, Dilateable{
 	}
 
 	/**
-	 * @param geo possibly incident geo
+	 * @param geo
+	 *            possibly incident geo
 	 * @return true iff incident
 	 */
 	public boolean addIncidenceWithProbabilisticChecking(GeoElement geo) {
@@ -1790,7 +1777,6 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 			GeoElement.updateCascade(predList, tmpSet, false);
 
-
 			// if all of the cases are good, add incidence
 			if (incident)
 				addIncidence(geo, false);
@@ -1800,26 +1786,24 @@ Traceable, MirrorableAtPlane, Dilateable{
 
 		return incident;
 	}
-	
-	public boolean evaluatesTo3DVector(){
+
+	public boolean evaluatesTo3DVector() {
 		return true;
 	}
 
-	public void set(double param1, double param2, MyPoint leftPoint, MyPoint rightPoint){
+	public void set(double param1, double param2, MyPoint leftPoint,
+			MyPoint rightPoint) {
 
-		setCoords(new Coords(
-				param2 * leftPoint.x + param1 * rightPoint.x,
-				param2 * leftPoint.y + param1 * rightPoint.y,
-				param2 * leftPoint.getZ() + param1 * rightPoint.getZ(),
-				1.0), 
+		setCoords(new Coords(param2 * leftPoint.x + param1 * rightPoint.x,
+				param2 * leftPoint.y + param1 * rightPoint.y, param2
+						* leftPoint.getZ() + param1 * rightPoint.getZ(), 1.0),
 				false);
 
 		updateCoords();
 	}
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 }

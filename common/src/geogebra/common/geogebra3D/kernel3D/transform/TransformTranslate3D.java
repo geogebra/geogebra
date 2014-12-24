@@ -17,10 +17,10 @@ public class TransformTranslate3D extends Transform3D {
 	private GeoElement transVec;
 
 	/**
-	 * @param cons 
+	 * @param cons
 	 * @param transVec
 	 */
-	public TransformTranslate3D(Construction cons,GeoVectorND transVec) {
+	public TransformTranslate3D(Construction cons, GeoVectorND transVec) {
 		this.transVec = (GeoElement) transVec;
 		this.cons = cons;
 	}

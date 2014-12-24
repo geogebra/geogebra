@@ -20,9 +20,13 @@ public class DrawConify3D extends DrawExtrusionOrConify3D {
 
 	/**
 	 * constructor
-	 * @param a_view3D view
-	 * @param selectedPolygons polygons
-	 * @param selectedConics conics
+	 * 
+	 * @param a_view3D
+	 *            view
+	 * @param selectedPolygons
+	 *            polygons
+	 * @param selectedConics
+	 *            conics
 	 */
 	public DrawConify3D(EuclidianView3D a_view3D,
 			ArrayList<GeoPolygon> selectedPolygons,
@@ -32,21 +36,14 @@ public class DrawConify3D extends DrawExtrusionOrConify3D {
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoPolygon basis, GeoNumeric height) {
-		return new AlgoPolyhedronPointsPyramidForExtrusion(
-				getView3D().getKernel().getConstruction(),
-				null, 
-				basis, 
-				height);
+		return new AlgoPolyhedronPointsPyramidForExtrusion(getView3D()
+				.getKernel().getConstruction(), null, basis, height);
 	}
 
 	@Override
 	protected AlgoForExtrusion getAlgo(GeoConicND basis, GeoNumeric height) {
-		return new AlgoQuadricLimitedConicHeightConeForExtrusion(
-				getView3D().getKernel().getConstruction(),
-				null, 
-				basis, 
-				height);
+		return new AlgoQuadricLimitedConicHeightConeForExtrusion(getView3D()
+				.getKernel().getConstruction(), null, basis, height);
 	}
-	
 
 }

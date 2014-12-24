@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -21,78 +21,72 @@ import geogebra.common.kernel.algos.AlgoConicPartConicPointsND;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
-
 /**
  * Arc or sector defined by a conic, start- and end-point.
  */
 public class AlgoConicPartConicPoints3D extends AlgoConicPartConicPointsND {
-	
-	
+
 	// temp parameters
 	private PathParameter paramP, paramQ;
 
-    /**
-     * Creates a new arc or sector algorithm.
-     * The type is either GeoConicPart.CONIC_PART_ARC or 
-     * GeoConicPart.CONIC_PART_ARC       
-     */
-    public AlgoConicPartConicPoints3D(Construction cons, String label,
-    		GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
-    		int type) {
-        super(cons, label, circle, startPoint, endPoint, type);
+	/**
+	 * Creates a new arc or sector algorithm. The type is either
+	 * GeoConicPart.CONIC_PART_ARC or GeoConicPart.CONIC_PART_ARC
+	 */
+	public AlgoConicPartConicPoints3D(Construction cons, String label,
+			GeoConicND circle, GeoPointND startPoint, GeoPointND endPoint,
+			int type) {
+		super(cons, label, circle, startPoint, endPoint, type);
 
-    }    	
-    
-    @Override
-	protected void setTempValues(){
+	}
+
+	@Override
+	protected void setTempValues() {
 		paramP = new PathParameter();
 		paramQ = new PathParameter();
-    }
-    
+	}
 
-    @Override
-	protected GeoConicND newGeoConicPart(Construction cons, int type){
-    	if (conic.isGeoElement3D()){
-    		return new GeoConicPart3D(cons, type);
-    	}
-    	
-    	return super.newGeoConicPart(cons, type);
-    }
-    
+	@Override
+	protected GeoConicND newGeoConicPart(Construction cons, int type) {
+		if (conic.isGeoElement3D()) {
+			return new GeoConicPart3D(cons, type);
+		}
 
-    @Override
-	protected void computeParemeters(){
+		return super.newGeoConicPart(cons, type);
+	}
 
-    	CoordSys cs = conic.getCoordSys();
-		
-		startPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
+	@Override
+	protected void computeParemeters() {
+
+		CoordSys cs = conic.getCoordSys();
+
+		startPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(
+				cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramP);
 
-		endPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(cs.getMatrixOrthonormal(), p2d);
+		endPoint.getInhomCoordsInD3().projectPlaneInPlaneCoords(
+				cs.getMatrixOrthonormal(), p2d);
 		p2d.setZ(1);
 		conic.pointChanged(p2d, paramQ);
 
-    }
-    
-    @Override
-	protected void initCoords(){
-    	p2d = new Coords(4);
 	}
-    
-    private Coords p2d;
-    
-    @Override
-	protected double getStartParameter(){
-    	return paramP.t;
-    }
-    
-    @Override
-	protected double getEndParameter(){
-    	return paramQ.t;
-    }
-    
 
-    
+	@Override
+	protected void initCoords() {
+		p2d = new Coords(4);
+	}
+
+	private Coords p2d;
+
+	@Override
+	protected double getStartParameter() {
+		return paramP.t;
+	}
+
+	@Override
+	protected double getEndParameter() {
+		return paramQ.t;
+	}
+
 }

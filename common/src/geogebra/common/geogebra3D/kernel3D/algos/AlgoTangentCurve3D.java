@@ -28,10 +28,11 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.plugin.Operation;
 
 /**
- * @author Victor Franco Espino 
+ * @author Victor Franco Espino
  * @version 11-02-2007
  * 
- *         tangent to Curve f in point P: (b'(t), -a'(t), a'(t)*b(t)-a(t)*b'(t))
+ *          tangent to Curve f in point P: (b'(t), -a'(t),
+ *          a'(t)*b(t)-a(t)*b'(t))
  */
 
 public class AlgoTangentCurve3D extends AlgoLinePoint {
@@ -46,10 +47,14 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 	private AlgoDerivative algo;
 
 	/**
-	 * @param cons construction
-	 * @param label label for output
-	 * @param P point on function
-	 * @param f curve
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label for output
+	 * @param P
+	 *            point on function
+	 * @param f
+	 *            curve
 	 */
 	public AlgoTangentCurve3D(Construction cons, String label, GeoPointND P,
 			GeoCurveCartesian3D f) {
@@ -59,18 +64,19 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 		initialize(f);
 		setInputOutput(); // for AlgoElement
 		compute();
-		tangent.setLabel(label);	
-		
+		tangent.setLabel(label);
+
 		update();
 	}
 
 	/**
-	 * @param f1 cartesian curve (input)
+	 * @param f1
+	 *            cartesian curve (input)
 	 */
 	public void initialize(GeoCurveCartesian3D f1) {
-		
+
 		this.f = f1;
-		
+
 		// check if P is defined as a point of the curve's graph
 		pointOnCurve = false;
 		if (P.getParentAlgorithm() instanceof AlgoPointOnPath) {
@@ -78,16 +84,18 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 			pointOnCurve = algoPOP.getPath() == f;
 		} else if (P.getParentAlgorithm() instanceof AlgoDependentPoint3D) {
 			// special code for curve(t)
-			
-			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P.getParentAlgorithm();
-			
+
+			AlgoDependentPoint3D algoDP = (AlgoDependentPoint3D) P
+					.getParentAlgorithm();
+
 			ExpressionNode en = algoDP.getExpressionNode();
-			
-			if (en.getOperation() == Operation.VEC_FUNCTION && en.getLeft().unwrap() == f) {
+
+			if (en.getOperation() == Operation.VEC_FUNCTION
+					&& en.getLeft().unwrap() == f) {
 				pointOnCurveSpecial = true;
 				pointOnCurveSpecialParam = en.getRight().unwrap();
 			}
-			
+
 		}
 
 		if (pointOnCurve || pointOnCurveSpecial) {
@@ -138,19 +146,18 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 	GeoCurveCartesian3D getCurve() {
 		return f;
 	}
-	
-    @Override
-    public GeoLine3D getLine() {
-        return tangent;
-    }
-	
-	private Coords direction = new Coords(0,0,0,1);
 
-	
-    @Override
-	protected GeoPointND getPoint(){
-    	return T;
-    }
+	@Override
+	public GeoLine3D getLine() {
+		return tangent;
+	}
+
+	private Coords direction = new Coords(0, 0, 0, 1);
+
+	@Override
+	protected GeoPointND getPoint() {
+		return T;
+	}
 
 	private double feval[] = new double[3];
 	private double dfeval[] = new double[3];
@@ -175,7 +182,7 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 		// calc the tangent;
 
 		double tvalue;
-		
+
 		if (pointOnCurve) {
 			tvalue = P.getPathParameter().t;
 		} else if (pointOnCurveSpecialParam != null) {
@@ -183,9 +190,9 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 		} else {
 			tvalue = f.getClosestParameter(P, f.getMinParameter());
 		}
-		
+
 		df.evaluateCurve(tvalue, dfeval);
-		
+
 		direction.setX(dfeval[0]);
 		direction.setY(dfeval[1]);
 		direction.setZ(dfeval[2]);
@@ -194,15 +201,15 @@ public class AlgoTangentCurve3D extends AlgoLinePoint {
 			f.evaluateCurve(tvalue, feval);
 			T.setCoords(feval[0], feval[1], feval[2], 1.0);
 		}
-		
+
 		return direction;
 	}
-	
-    @Override
-	public String toString(StringTemplate tpl) {
-    	return getLoc().getPlain("TangentToAatB", f.getLabel(tpl), P.getLabel(tpl));
-    }
 
+	@Override
+	public String toString(StringTemplate tpl) {
+		return getLoc().getPlain("TangentToAatB", f.getLabel(tpl),
+				P.getLabel(tpl));
+	}
 
 	// TODO Consider locusequability
 }

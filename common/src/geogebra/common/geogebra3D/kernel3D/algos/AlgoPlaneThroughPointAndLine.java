@@ -8,8 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
-
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -21,74 +20,65 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
- * Compute a plane through a point and a line (or segment, ...) 
+ * Compute a plane through a point and a line (or segment, ...)
  *
- * @author  matthieu
- * @version 
+ * @author matthieu
+ * @version
  */
 public class AlgoPlaneThroughPointAndLine extends AlgoPlaneThroughPoint {
 
- 
-    private GeoLineND line; // input
- 
+	private GeoLineND line; // input
 
-    public AlgoPlaneThroughPointAndLine(Construction cons, String label, GeoPointND point, GeoLineND line) {
-        super(cons,point);
-        
-        this.line=line;
-        
-        setInputOutput(new GeoElement[] {(GeoElement) point, (GeoElement) line}, new GeoElement[] {getPlane()});
+	public AlgoPlaneThroughPointAndLine(Construction cons, String label,
+			GeoPointND point, GeoLineND line) {
+		super(cons, point);
 
-        // compute plane 
-        compute();
-        getPlane().setLabel(label);
+		this.line = line;
 
-    }
+		setInputOutput(
+				new GeoElement[] { (GeoElement) point, (GeoElement) line },
+				new GeoElement[] { getPlane() });
 
- 
+		// compute plane
+		compute();
+		getPlane().setLabel(label);
 
+	}
 
-
-  
-    @Override
+	@Override
 	public final void compute() {
-    	
-    	CoordSys coordsys = getPlane().getCoordSys();
-    	
-		//recompute the coord sys
-    	coordsys.resetCoordSys();
-	
+
+		CoordSys coordsys = getPlane().getCoordSys();
+
+		// recompute the coord sys
+		coordsys.resetCoordSys();
+
 		Coords cA = getPoint().getInhomCoordsInD3();
 		Coords cB = line.getPointInD(3, 0).getInhomCoordsInSameDimension();
 		Coords cC = line.getPointInD(3, 1).getInhomCoordsInSameDimension();
 
-    	coordsys.addPoint(cA);
+		coordsys.addPoint(cA);
 		coordsys.addPoint(cB);
 		coordsys.addPoint(cC);
 
-
-		
-		if(coordsys.makeOrthoMatrix(true,false)){
-			coordsys.setEquationVector(cA,cB,cC);
+		if (coordsys.makeOrthoMatrix(true, false)) {
+			coordsys.setEquationVector(cA, cB, cC);
 		}
-		
 
-        
-    }
+	}
 
-    @Override
-	protected GeoElement getSecondInput(){
-    	return (GeoElement) line;
-    }
-    
-    
-    @Override
+	@Override
+	protected GeoElement getSecondInput() {
+		return (GeoElement) line;
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-    	return getLoc().getPlain("PlaneThroughAB",getPoint().getLabel(tpl),getSecondInput().getLabel(tpl));
+		return getLoc().getPlain("PlaneThroughAB", getPoint().getLabel(tpl),
+				getSecondInput().getLabel(tpl));
 
-    }
+	}
 
 	// TODO Consider locusequability
 

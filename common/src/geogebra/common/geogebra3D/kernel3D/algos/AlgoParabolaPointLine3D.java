@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoParabolaPointLine.java
@@ -31,63 +31,61 @@ import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  *
- * @author  Markus
- * @version 
+ * @author Markus
+ * @version
  */
 public class AlgoParabolaPointLine3D extends AlgoParabolaPointLineND {
-           
-            
-    public AlgoParabolaPointLine3D(Construction cons, String label, GeoPointND F, GeoLineND l) {
-        super(cons, label, F, l);   
-    }   
-    
-    public AlgoParabolaPointLine3D(Construction cons, GeoPointND F, GeoLineND l) {
-        super(cons, F, l);
-    }   
-    
-    @Override
-	protected GeoConicND newGeoConic(Construction cons){
-    	GeoConic3D ret = new GeoConic3D(cons);
-    	ret.setCoordSys(new CoordSys(2));
-    	return ret;
-    }
-    
-    
-    // compute parabola with focus F and line l
-    @Override
-	public final void compute() {  
-    	
-    	Coords Fc = F.getInhomCoordsInD3();
-    	Coords lo = l.getStartInhomCoords().getInhomCoordsInSameDimension();
-    	Coords ld = l.getDirectionInD3();
-    	
-    	CoordSys cs = parabola.getCoordSys();
-    	cs.resetCoordSys();
-    	
-    	cs.addPoint(Fc);
-    	cs.addVector(ld);
-    	cs.addPoint(lo);
-    	
-    	if (!cs.makeOrthoMatrix(false, false)){
-    		parabola.setUndefined();
-    		return;
-    	}
-    	
-    	double y0 = cs.getNormalProjection(lo)[1].getY();
-        parabola.setParabola(y0);
-    }   
-    
+
+	public AlgoParabolaPointLine3D(Construction cons, String label,
+			GeoPointND F, GeoLineND l) {
+		super(cons, label, F, l);
+	}
+
+	public AlgoParabolaPointLine3D(Construction cons, GeoPointND F, GeoLineND l) {
+		super(cons, F, l);
+	}
+
+	@Override
+	protected GeoConicND newGeoConic(Construction cons) {
+		GeoConic3D ret = new GeoConic3D(cons);
+		ret.setCoordSys(new CoordSys(2));
+		return ret;
+	}
+
+	// compute parabola with focus F and line l
+	@Override
+	public final void compute() {
+
+		Coords Fc = F.getInhomCoordsInD3();
+		Coords lo = l.getStartInhomCoords().getInhomCoordsInSameDimension();
+		Coords ld = l.getDirectionInD3();
+
+		CoordSys cs = parabola.getCoordSys();
+		cs.resetCoordSys();
+
+		cs.addPoint(Fc);
+		cs.addVector(ld);
+		cs.addPoint(lo);
+
+		if (!cs.makeOrthoMatrix(false, false)) {
+			parabola.setUndefined();
+			return;
+		}
+
+		double y0 = cs.getNormalProjection(lo)[1].getY();
+		parabola.setParabola(y0);
+	}
 
 	@Override
 	public boolean isLocusEquable() {
 		return true;
 	}
-	
+
 	@Override
-	public EquationElementInterface buildEquationElementForGeo(GeoElement geo, EquationScopeInterface scope) {
+	public EquationElementInterface buildEquationElementForGeo(GeoElement geo,
+			EquationScopeInterface scope) {
 		return LocusEquation.eqnParabolaPointLine(geo, this, scope);
 	}
 }

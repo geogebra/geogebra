@@ -10,40 +10,37 @@ import geogebra.common.main.MyError;
 
 /**
  * Command to compute ends of a limited quadric (cone, cylinder, ...)
+ * 
  * @author mathieu
  *
  */
 public class CmdEnds extends CommandProcessor {
-		
+
 	public CmdEnds(Kernel kernel) {
 		super(kernel);
 	}
 
-	
-	
-
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
-	    int n = c.getArgumentNumber();
-	    GeoElement[] arg;
+		int n = c.getArgumentNumber();
+		GeoElement[] arg;
 
-	    switch (n) {
-	    case 1 :
-	    	arg = resArgs(c);
-	    	if (arg[0] instanceof GeoQuadric3DLimited) {
-	    		
-	    		AlgoQuadricEnds algo = new AlgoQuadricEnds(cons, c.getLabels(),
-	    				(GeoQuadric3DLimited) arg[0]);
-	    		return algo.getSections();
-	    	}
-	    	
-			throw argErr(app, c.getName(), arg[0]);    	
+		switch (n) {
+		case 1:
+			arg = resArgs(c);
+			if (arg[0] instanceof GeoQuadric3DLimited) {
 
-	    default :
-	    	throw argNumErr(app, c.getName(), n);
-	    }
-	    
+				AlgoQuadricEnds algo = new AlgoQuadricEnds(cons, c.getLabels(),
+						(GeoQuadric3DLimited) arg[0]);
+				return algo.getSections();
+			}
+
+			throw argErr(app, c.getName(), arg[0]);
+
+		default:
+			throw argNumErr(app, c.getName(), n);
+		}
 
 	}
-	
+
 }

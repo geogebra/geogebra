@@ -14,31 +14,26 @@ import geogebra.common.main.MyError;
  *
  */
 public class CmdCorner3D extends CmdVertex3D {
-	
-	
-	
-	
+
 	public CmdCorner3D(Kernel kernel) {
 		super(kernel);
 	}
 
-	
-	
-
 	@Override
 	public GeoElement[] process(Command c) throws MyError {
-	    int n = c.getArgumentNumber();
-	    GeoElement[] arg;
-	    
-	    if (n==1){
-	    	arg = resArgs(c);
-			if (arg[0] instanceof GeoConicSection) {
-				
-				return kernelA.getManager3D().Corner(c.getLabels(), (GeoConicSection) arg[0]);
-			}
-	    }
+		int n = c.getArgumentNumber();
+		GeoElement[] arg;
 
-	    return super.process(c);
+		if (n == 1) {
+			arg = resArgs(c);
+			if (arg[0] instanceof GeoConicSection) {
+
+				return kernelA.getManager3D().Corner(c.getLabels(),
+						(GeoConicSection) arg[0]);
+			}
+		}
+
+		return super.process(c);
 	}
-	
+
 }

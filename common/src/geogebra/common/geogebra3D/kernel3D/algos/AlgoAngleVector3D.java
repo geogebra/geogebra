@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAnglePoints.java
@@ -23,37 +23,34 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
-
 /**
  *
- * @author  mathieu
- * @version 
+ * @author mathieu
+ * @version
  */
-public class AlgoAngleVector3D extends AlgoAngleElement3D{
+public class AlgoAngleVector3D extends AlgoAngleElement3D {
 
-	
 	private Coords o;
 
 	public AlgoAngleVector3D(Construction cons, String label, GeoVector3D vec) {
 		super(cons, label, vec);
 	}
-	
-	protected final Coords getVectorCoords(){
+
+	protected final Coords getVectorCoords() {
 		return ((GeoVector3D) vec).getCoordsInD3().copyVector();
 	}
-	
-	protected final Coords getOrigin(){
+
+	protected final Coords getOrigin() {
 		return o;
 	}
-	
-	protected final void setOrigin(){
+
+	protected final void setOrigin() {
 		GeoPointND start = ((GeoVector3D) vec).getStartPoint();
-		if (centerIsNotDrawable(start)){ 
-    		o = Coords.UNDEFINED; 
-    	}else{
-    		o = start.getInhomCoordsInD3();
-    	}
+		if (centerIsNotDrawable(start)) {
+			o = Coords.UNDEFINED;
+		} else {
+			o = start.getInhomCoordsInD3();
+		}
 	}
-	
 
 }

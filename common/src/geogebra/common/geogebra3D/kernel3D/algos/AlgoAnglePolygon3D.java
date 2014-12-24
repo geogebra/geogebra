@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoAnglePoints.java
@@ -26,44 +26,48 @@ import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 
-
 /**
  *
- * @author  mathieu
+ * @author mathieu
  */
-public class AlgoAnglePolygon3D extends AlgoAnglePolygonND{
-
+public class AlgoAnglePolygon3D extends AlgoAnglePolygonND {
 
 	/**
-	 * @param cons construction
-	 * @param labels labels
-	 * @param poly polygon
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param poly
+	 *            polygon
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly) {
+	public AlgoAnglePolygon3D(Construction cons, String[] labels,
+			GeoPolygon poly) {
 		this(cons, labels, poly, null);
 	}
-	
+
 	/**
-	 * @param cons construction
-	 * @param labels labels
-	 * @param poly polygon
-	 * @param orientation orientation
+	 * @param cons
+	 *            construction
+	 * @param labels
+	 *            labels
+	 * @param poly
+	 *            polygon
+	 * @param orientation
+	 *            orientation
 	 */
-	public AlgoAnglePolygon3D(Construction cons, String[] labels, GeoPolygon poly, GeoDirectionND orientation) {
+	public AlgoAnglePolygon3D(Construction cons, String[] labels,
+			GeoPolygon poly, GeoDirectionND orientation) {
 		super(cons, labels, poly, orientation);
 	}
-	
-    @Override
-	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1){
-    	return new AlgoAnglePoints3DOrientation(cons1, getPolygon());
-    }
-	
-	
-    @Override
-	final protected GeoAngle newGeoAngle(Construction cons1){
-    	return GeoAngle3D.newAngle3DWithDefaultInterval(cons1);
-    }
 
-	
+	@Override
+	protected AlgoAnglePointsND newAlgoAnglePoints(Construction cons1) {
+		return new AlgoAnglePoints3DOrientation(cons1, getPolygon());
+	}
+
+	@Override
+	final protected GeoAngle newGeoAngle(Construction cons1) {
+		return GeoAngle3D.newAngle3DWithDefaultInterval(cons1);
+	}
 
 }

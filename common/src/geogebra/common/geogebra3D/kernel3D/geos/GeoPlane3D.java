@@ -29,8 +29,8 @@ import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.plugin.GeoClass;
 
 public class GeoPlane3D extends GeoElement3D implements Functional2Var,
-		ViewCreator, GeoCoords4D, GeoPlaneND, 
-		Translateable, Traceable, RotateableND, MirrorableAtPlane, Transformable, Dilateable {
+		ViewCreator, GeoCoords4D, GeoPlaneND, Translateable, Traceable,
+		RotateableND, MirrorableAtPlane, Transformable, Dilateable {
 
 	/** default labels */
 	private static final char[] Labels = { 'p', 'q', 'r' };
@@ -38,13 +38,14 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private static boolean KEEP_LEADING_SIGN = true;
 
 	double xmin, xmax, ymin, ymax; // values for grid and interactions
-	double xPlateMin, xPlateMax, yPlateMin, yPlateMax; //values for plate
+	double xPlateMin, xPlateMax, yPlateMin, yPlateMax; // values for plate
 
 	// grid and plate
 	boolean gridVisible = false;
 	boolean plateVisible = true;
-	double dx = Double.NaN; // distance between two marks on the grid //TODO use object
-						// properties
+	double dx = Double.NaN; // distance between two marks on the grid //TODO use
+							// object
+	// properties
 	double dy = Double.NaN;
 
 	/** coord sys */
@@ -126,10 +127,11 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	public Coords[] getProjection(Coords oldCoords, Coords willingCoords,
 			Coords willingDirection) {
-		Coords[] result = new Coords[] { new Coords(4), new Coords(4)};
+		Coords[] result = new Coords[] { new Coords(4), new Coords(4) };
 		willingCoords.projectPlaneThruVIfPossible(getCoordSys()
-				.getMatrixOrthonormal(), oldCoords, willingDirection, result[0], result[1]);
-		
+				.getMatrixOrthonormal(), oldCoords, willingDirection,
+				result[0], result[1]);
+
 		return result;
 	}
 
@@ -151,14 +153,14 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	public void regionChanged(GeoPointND P) {
-		
 
-		//if kernel doesn't use path/region parameters, do as if point changed its coords
-		if(!getKernel().usePathAndRegionParameters(P)){
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(P)) {
 			pointChangedForRegion(P);
 			return;
 		}
-		
+
 		// pointChangedForRegion(P);
 		RegionParameters rp = P.getRegionParameters();
 		P.setCoords(getPoint(rp.getT1(), rp.getT2()), false);
@@ -171,7 +173,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	// /////////////////////////////////
 	// GRID AND PLATE
-	
+
 	/** sets corners of the plate */
 	public void setPlateCorners(double x1, double y1, double x2, double y2) {
 		if (x1 < x2) {
@@ -219,26 +221,45 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		this.dy = dy;
 	}
 
-	/** @return x min  */
-	public double getXmin() { return xmin; }
-	/** @return y min  */
-	public double getYmin() { return ymin; }
-	/** @return x max  */
-	public double getXmax() { return xmax; }
-	/** @return y max  */
-	public double getYmax() { return ymax; }
-	
-	
-	/** @return plate x min  */
-	public double getXPlateMin() { return xPlateMin; }
-	/** @return plate y min  */
-	public double getYPlateMin() { return yPlateMin; }
-	/** @return plate x max  */
-	public double getXPlateMax() { return xPlateMax; }
-	/** @return plate y max  */
-	public double getYPlateMax() { return yPlateMax; }
-	
-	
+	/** @return x min */
+	public double getXmin() {
+		return xmin;
+	}
+
+	/** @return y min */
+	public double getYmin() {
+		return ymin;
+	}
+
+	/** @return x max */
+	public double getXmax() {
+		return xmax;
+	}
+
+	/** @return y max */
+	public double getYmax() {
+		return ymax;
+	}
+
+	/** @return plate x min */
+	public double getXPlateMin() {
+		return xPlateMin;
+	}
+
+	/** @return plate y min */
+	public double getYPlateMin() {
+		return yPlateMin;
+	}
+
+	/** @return plate x max */
+	public double getXPlateMax() {
+		return xPlateMax;
+	}
+
+	/** @return plate y max */
+	public double getYPlateMax() {
+		return yPlateMax;
+	}
 
 	/** returns if there is a grid to plot or not */
 	public boolean isGridVisible() {
@@ -246,7 +267,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	public boolean setGridVisible(boolean grid) {
-		if(gridVisible == grid){
+		if (gridVisible == grid) {
 			return false;
 		}
 		gridVisible = grid;
@@ -274,7 +295,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 
 	// /////////////////////////////////
 	// GEOELEMENT3D
-	
+
 	private CoordMatrix parametricMatrix;
 
 	/**
@@ -285,7 +306,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	 */
 	public CoordMatrix getParametricMatrix() {
 		CoordMatrix4x4 m4 = getCoordSys().getMatrixOrthonormal();
-		if (parametricMatrix == null){
+		if (parametricMatrix == null) {
 			parametricMatrix = new CoordMatrix(4, 3);
 		}
 		parametricMatrix.setVx(m4.getVx());
@@ -317,7 +338,7 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		// TODO move this elsewhere
 		CoordSys cs = p.getCoordSys();
 		cs.set(this.getCoordSys());
-		
+
 		return p;
 	}
 
@@ -332,18 +353,18 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	 * instead of x+y+0z=1
 	 */
 	@Override
-	public void set(GeoElement geo) {		
+	public void set(GeoElement geo) {
 		if (geo instanceof GeoPlane3D) {
 			GeoPlane3D plane = (GeoPlane3D) geo;
 			getCoordSys().set(plane.getCoordSys());
 		}
 		if (geo instanceof GeoLine) {
 			GeoLine line = (GeoLine) geo;
-			setEquation(line.getX(),line.getY(),0,line.getZ());
+			setEquation(line.getX(), line.getY(), 0, line.getZ());
 		}
 	}
-	
-	public void setCoordSys(CoordSys cs){
+
+	public void setCoordSys(CoordSys cs) {
 		getCoordSys().set(cs);
 	}
 
@@ -388,10 +409,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	}
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
-		
-		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded as a plane
-		StringBuilder ret = kernel.buildImplicitEquation(getCoordSys().getEquationVector()
-				.get(), VAR_STRING, KEEP_LEADING_SIGN, true, !isLabelSet(), '=', tpl);
+
+		// we need to keep 0z in equation to be sure that y+0z=1 will be loaded
+		// as a plane
+		StringBuilder ret = kernel.buildImplicitEquation(getCoordSys()
+				.getEquationVector().get(), VAR_STRING, KEEP_LEADING_SIGN,
+				true, !isLabelSet(), '=', tpl);
 
 		if (tpl.hasCASType()) {
 			StringBuilder sbTemp = new StringBuilder();
@@ -399,12 +422,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 			sbTemp.append("plane(");
 			sbTemp.append(ret);
 			sbTemp.append(")");
-			
+
 			return sbTemp;
 		}
-	
+
 		return ret;
-		
+
 	}
 
 	/** to be able to fill it with an alpha value */
@@ -486,7 +509,6 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		sb.append("\t<fading val=\"");
 		sb.append(getFading());
 		sb.append("\"/>\n");
-		
 
 	}
 
@@ -514,39 +536,41 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	private EuclidianViewForPlaneCompanion euclidianViewForPlane;
 
 	public void createView2D() {
-		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel.getApplication().getCompanion().createEuclidianViewForPlane(this,true);
+		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) kernel
+				.getApplication().getCompanion()
+				.createEuclidianViewForPlane(this, true);
 		euclidianViewForPlane.setTransformRegardingView();
 	}
-	
 
-	public void removeView2D(){
+	public void removeView2D() {
 		euclidianViewForPlane.doRemove();
 	}
-	
 
 	@Override
 	public void doRemove() {
-		if (euclidianViewForPlane != null){
+		if (euclidianViewForPlane != null) {
 			removeView2D();
 		}
 		super.doRemove();
 	}
-	
-	public boolean hasView2DVisible(){
-		return euclidianViewForPlane!=null && kernel.getApplication().getGuiManager().showView(euclidianViewForPlane.getId());
-	}
-	
 
-	public void setView2DVisible(boolean flag){
-		
-		if (euclidianViewForPlane==null){
+	public boolean hasView2DVisible() {
+		return euclidianViewForPlane != null
+				&& kernel.getApplication().getGuiManager()
+						.showView(euclidianViewForPlane.getId());
+	}
+
+	public void setView2DVisible(boolean flag) {
+
+		if (euclidianViewForPlane == null) {
 			if (flag)
 				createView2D();
 			return;
 		}
-		
-		kernel.getApplication().getGuiManager().setShowView(flag, euclidianViewForPlane.getId());
-		
+
+		kernel.getApplication().getGuiManager()
+				.setShowView(flag, euclidianViewForPlane.getId());
+
 	}
 
 	@Override
@@ -557,12 +581,10 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		}
 	}
 
-
-
-	public void setEuclidianViewForPlane(EuclidianViewCompanion view){
+	public void setEuclidianViewForPlane(EuclidianViewCompanion view) {
 		euclidianViewForPlane = (EuclidianViewForPlaneCompanion) view;
 	}
-	
+
 	public Coords getDirectionInD3() {
 		return getCoordSys().getNormal();
 	}
@@ -571,41 +593,42 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public double getMeasure() {
 		return Double.POSITIVE_INFINITY;
 	}
-	
+
 	private Coords tmpCoords1, tmpCoords2;
-	
+
 	@Override
 	public double distance(GeoPointND P) {
-		
+
 		return Math.abs(distanceWithSign(P));
-		
+
 	}
-	
+
 	/**
 	 * 
-	 * @param P point
+	 * @param P
+	 *            point
 	 * @return distance from point P to this plane, with sign
 	 */
 	public double distanceWithSign(GeoPointND P) {
-		
-		if (tmpCoords1 == null){
+
+		if (tmpCoords1 == null) {
 			tmpCoords1 = new Coords(3);
 		}
-		if (tmpCoords2 == null){
+		if (tmpCoords2 == null) {
 			tmpCoords2 = new Coords(3);
 		}
-		
+
 		tmpCoords1.setSub(P.getInhomCoordsInD3(), getCoordSys().getOrigin());
 		tmpCoords2.setValues(getDirectionInD3(), 3);
 		tmpCoords2.normalize();
-		
+
 		return tmpCoords1.dotproduct(tmpCoords2);
-		
+
 	}
-	
-	/////////////////////////////////////
+
+	// ///////////////////////////////////
 	// TRANSLATE
-	/////////////////////////////////////
+	// ///////////////////////////////////
 
 	public void translate(Coords v) {
 		getCoordSys().translate(v);
@@ -617,14 +640,12 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		return true;
 	}
 
-
-
-	//////////////////
+	// ////////////////
 	// TRACE
-	//////////////////
+	// ////////////////
 
-	private boolean trace;	
-	
+	private boolean trace;
+
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -637,23 +658,24 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 	public boolean getTrace() {
 		return trace;
 	}
-	
-	
-	////////////////////////
+
+	// //////////////////////
 	// ROTATIONS
-	////////////////////////
-	
+	// //////////////////////
+
 	/**
 	 * rotate the plane
-	 * @param rot rotation matrix
-	 * @param center rotation center
+	 * 
+	 * @param rot
+	 *            rotation matrix
+	 * @param center
+	 *            rotation center
 	 */
-	final public void rotate(CoordMatrix rot, Coords center){
+	final public void rotate(CoordMatrix rot, Coords center) {
 		coordsys.rotate(rot, center);
 		coordsys.makeEquationVector();
 	}
 
-	
 	final public void rotate(NumberValue phiVal) {
 		coordsys.rotate(phiVal.getDouble(), Coords.O);
 		coordsys.makeEquationVector();
@@ -663,67 +685,65 @@ public class GeoPlane3D extends GeoElement3D implements Functional2Var,
 		coordsys.rotate(phiVal.getDouble(), Q.getInhomCoordsInD3());
 		coordsys.makeEquationVector();
 	}
-	
-	final private void rotate(NumberValue phiVal, Coords center, Coords direction) {
+
+	final private void rotate(NumberValue phiVal, Coords center,
+			Coords direction) {
 		coordsys.rotate(phiVal.getDouble(), center, direction.normalized());
 		coordsys.makeEquationVector();
 	}
 
-	public void rotate(NumberValue phiVal, GeoPointND Q, GeoDirectionND orientation) {
-		
+	public void rotate(NumberValue phiVal, GeoPointND Q,
+			GeoDirectionND orientation) {
+
 		rotate(phiVal, Q.getInhomCoordsInD3(), orientation.getDirectionInD3());
-		
+
 	}
 
 	public void rotate(NumberValue phiVal, GeoLineND line) {
-		
+
 		rotate(phiVal, line.getStartInhomCoords(), line.getDirectionInD3());
-		
+
 	}
 
 	public void mirror(Coords Q) {
 		coordsys.mirror(Q);
 		coordsys.mirrorEquationVector(Q);
-		
+
 	}
 
 	public void mirror(GeoLineND line) {
-		
+
 		Coords point = line.getStartInhomCoords();
 		Coords direction = line.getDirectionInD3().normalized();
 
 		coordsys.mirror(point, direction);
 		coordsys.makeEquationVector();
-		
+
 	}
-	
-	
+
 	public void mirror(GeoCoordSys2D plane) {
 
 		coordsys.mirror(plane.getCoordSys());
 		coordsys.makeEquationVector();
 
 	}
-	
-	////////////////////////
-	// DILATE
-	////////////////////////
 
+	// //////////////////////
+	// DILATE
+	// //////////////////////
 
 	public void dilate(NumberValue rval, Coords S) {
-		
+
 		double r = rval.getDouble();
-		
-		coordsys.dilate(r,S);	
-		coordsys.dilateEquationVector(r,S);
-		
+
+		coordsys.dilate(r, S);
+		coordsys.dilateEquationVector(r, S);
+
 	}
-	
-	
+
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
-	
 
 }

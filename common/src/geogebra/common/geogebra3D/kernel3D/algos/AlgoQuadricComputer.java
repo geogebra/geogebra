@@ -11,31 +11,30 @@ import geogebra.common.kernel.Matrix.Coords;
  *
  */
 public abstract class AlgoQuadricComputer {
-	
+
 	/**
 	 * 
 	 * @param c
 	 * @return a new quadric
 	 */
-	public GeoQuadric3D newQuadric(Construction c){
+	public GeoQuadric3D newQuadric(Construction c) {
 		return new GeoQuadric3D(c);
 	}
-	
-
-	
 
 	/**
 	 * sets the quadric
+	 * 
 	 * @param quadric
 	 * @param origin
 	 * @param direction
 	 * @param number
 	 */
-	abstract public void setQuadric(GeoQuadric3D quadric, Coords origin, Coords direction, double number);
-
+	abstract public void setQuadric(GeoQuadric3D quadric, Coords origin,
+			Coords direction, double number);
 
 	/**
 	 * return Double.NaN if no usable number
+	 * 
 	 * @param v
 	 * @return usable number for the quadric
 	 */

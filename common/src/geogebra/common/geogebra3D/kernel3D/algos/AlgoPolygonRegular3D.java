@@ -19,12 +19,13 @@ import geogebra.common.kernel.kernelND.GeoPointND;
  * @author mathieu
  *
  */
-public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
-	
+public class AlgoPolygonRegular3D extends AlgoPolygonRegularND {
+
 	private GeoDirectionND direction;
 
 	/**
 	 * constructor
+	 * 
 	 * @param c
 	 * @param labels
 	 * @param A1
@@ -36,20 +37,18 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 			GeoPointND B1, NumberValue num, GeoDirectionND direction) {
 		super(c, labels, A1, B1, num, direction);
 	}
-	
+
 	@Override
-	protected GeoPolygon newGeoPolygon(Construction cons){
+	protected GeoPolygon newGeoPolygon(Construction cons) {
 		return new GeoPolygon3D(cons);
 	}
-	
+
 	@Override
-	protected GeoElement newGeoPoint(Construction cons){
+	protected GeoElement newGeoPoint(Construction cons) {
 		GeoPoint3D newPoint = new GeoPoint3D(cons);
 		newPoint.setCoords(0, 0, 0, 1);
 		return newPoint;
 	}
-
-	
 
 	// for AlgoElement
 	@Override
@@ -71,22 +70,20 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 		getPoly().setParentAlgorithm(this);
 
 	}
-	
-	
+
 	@Override
-	protected void setDirection(GeoDirectionND direction){
+	protected void setDirection(GeoDirectionND direction) {
 		this.direction = direction;
 	}
-	
-	
+
 	private Coords coordsA, coordsB, vAB, vDirection;
-	
+
 	@Override
-	protected void setCenterPoint(int n, double beta){
+	protected void setCenterPoint(int n, double beta) {
 
 		// some temp values
 		Coords m = coordsA.add(coordsB).mul(0.5);
-		
+
 		// normal vector of AB and direction
 		Coords vn = vDirection.crossProduct4(vAB);
 
@@ -95,40 +92,40 @@ public class AlgoPolygonRegular3D extends AlgoPolygonRegularND{
 		((GeoPoint3D) centerPoint).setCoords(m.add(vn.mul(tanBetaHalf)));
 
 	}
-	
+
 	@Override
-	protected void rotate(GeoPointND point){
+	protected void rotate(GeoPointND point) {
 		((GeoPoint3D) point).rotate(rotAngle, centerPoint, direction);
 	}
-	
+
 	@Override
-	protected boolean checkUnDefined(int n){
-		
+	protected boolean checkUnDefined(int n) {
+
 		boolean ret = super.checkUnDefined(n);
 
 		coordsA = A.getInhomCoordsInD3();
 		coordsB = B.getInhomCoordsInD3();
 		vAB = coordsB.sub(coordsA);
 		vDirection = direction.getDirectionInD3();
-		
-		if(!Kernel.isZero(vAB.dotproduct(vDirection))){
+
+		if (!Kernel.isZero(vAB.dotproduct(vDirection))) {
 			getPoly().setUndefined();
-			
-			//set also points (and thus segments) undefined
-			for(int i=0 ; i < outputPoints.size() ; i++){
+
+			// set also points (and thus segments) undefined
+			for (int i = 0; i < outputPoints.size(); i++) {
 				outputPoints.getElement(i).setUndefined();
 			}
 
 			numOld = 2;
 			return true;
 		}
-		
+
 		return ret;
 	}
 
 	public void calcCentroid(GeoPoint p) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

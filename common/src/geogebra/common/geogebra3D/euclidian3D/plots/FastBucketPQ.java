@@ -205,7 +205,9 @@ public class FastBucketPQ {
 
 	/**
 	 * Retrieves and removes the first element in the queue.
-	 * @return top element in first bucket, or null if all buckets appear to be empty
+	 * 
+	 * @return top element in first bucket, or null if all buckets appear to be
+	 *         empty
 	 */
 	public DynamicMeshElement2 poll() {
 		if (maxBucket == 0)
@@ -216,7 +218,9 @@ public class FastBucketPQ {
 	}
 
 	/**
-	 * Retrieves and removes the first element in the queue. Not stable if queue is empty.
+	 * Retrieves and removes the first element in the queue. Not stable if queue
+	 * is empty.
+	 * 
 	 * @return top element in first bucket
 	 */
 	public DynamicMeshElement2 forcePoll() {
@@ -225,10 +229,14 @@ public class FastBucketPQ {
 		return elem;
 	}
 
-	/** 
+	/**
 	 * Forces all elements in queue to recalculate vertices, error, etc.
-	 * @param currentVersion Current version of the mesh - increments when the function is changed
-	 * @param triList Triangle list used.
+	 * 
+	 * @param currentVersion
+	 *            Current version of the mesh - increments when the function is
+	 *            changed
+	 * @param triList
+	 *            Triangle list used.
 	 */
 	public void recalculate(int currentVersion, DynamicMeshTriList2 triList) {
 		LinkedList<DynamicMeshElement2> list = new LinkedList<DynamicMeshElement2>();

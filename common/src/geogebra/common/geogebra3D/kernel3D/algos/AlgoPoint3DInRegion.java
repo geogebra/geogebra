@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 package geogebra.common.geogebra3D.kernel3D.algos;
 
@@ -20,93 +20,84 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 
-
 public class AlgoPoint3DInRegion extends AlgoElement3D {
 
-	
 	private Region region; // input
-    private GeoPoint3D P; // output       
+	private GeoPoint3D P; // output
 
-    public AlgoPoint3DInRegion(
-        Construction cons,
-        Region region,
-        Coords coords) {
-        super(cons);
-        this.region = region;
-        P = new GeoPoint3D(cons, region);
-        
-        setInputOutput(); // for AlgoElement
-        
-        //App.printStacktrace(""+coords);
+	public AlgoPoint3DInRegion(Construction cons, Region region, Coords coords) {
+		super(cons);
+		this.region = region;
+		P = new GeoPoint3D(cons, region);
 
-        if (coords!=null){
-        	P.setCoords(coords); 
-        }
+		setInputOutput(); // for AlgoElement
 
-        // compute 
-        compute();
+		// App.printStacktrace(""+coords);
 
-        
-    }
-    
-    public AlgoPoint3DInRegion(
-            Construction cons,
-            String label,
-            Region region,
-            Coords coords) {
-    	
-    	this(cons, region, coords);
-        P.setLabel(label);
-    }
+		if (coords != null) {
+			P.setCoords(coords);
+		}
 
-    @Override
+		// compute
+		compute();
+
+	}
+
+	public AlgoPoint3DInRegion(Construction cons, String label, Region region,
+			Coords coords) {
+
+		this(cons, region, coords);
+		P.setLabel(label);
+	}
+
+	@Override
 	public Commands getClassName() {
-        return Commands.PointIn;
-    }
+		return Commands.PointIn;
+	}
 
-    // for AlgoElement
-    @Override
+	// for AlgoElement
+	@Override
 	protected void setInputOutput() {
-    	
-    	input = new GeoElement[1];  	
-        input[0] = region.toGeoElement();
 
-        setOnlyOutput(P);
-        setDependencies(); // done by AlgoElement
-        
-     }
+		input = new GeoElement[1];
+		input[0] = region.toGeoElement();
 
-    public GeoPoint3D getP() {
-        return P;
-    }
-    
-    Region getRegion() {
-        return region;
-    }
+		setOnlyOutput(P);
+		setDependencies(); // done by AlgoElement
 
-    @Override
+	}
+
+	public GeoPoint3D getP() {
+		return P;
+	}
+
+	Region getRegion() {
+		return region;
+	}
+
+	@Override
 	public final void compute() {
-    	
-    	if (input[0].isDefined()) {	 
-	        //Application.debug("coords=\n"+P.getCoordsInD3());
-	        region.regionChanged(P);
-	        //Application.debug("coords=\n"+P.getCoordsInD3()+"\nrp=\n"+P.getRegionParameters().getT1()+"\n"+P.getRegionParameters().getT2());
-	        //P.updateCoords();
-    	} else {
-    		P.setUndefined();
-    	}
-    	
-    }
 
-    @Override
+		if (input[0].isDefined()) {
+			// Application.debug("coords=\n"+P.getCoordsInD3());
+			region.regionChanged(P);
+			// Application.debug("coords=\n"+P.getCoordsInD3()+"\nrp=\n"+P.getRegionParameters().getT1()+"\n"+P.getRegionParameters().getT2());
+			// P.updateCoords();
+		} else {
+			P.setUndefined();
+		}
+
+	}
+
+	@Override
 	final public String toString(StringTemplate tpl) {
-        StringBuilder sb = new StringBuilder();
-        // Michael Borcherds 2008-03-30
-        // simplified to allow better Chinese translation
-        sb.append(getLoc().getPlain("PointInA",input[0].getLabel(tpl)));
-        
-        return sb.toString();
-    }
+		StringBuilder sb = new StringBuilder();
+		// Michael Borcherds 2008-03-30
+		// simplified to allow better Chinese translation
+		sb.append(getLoc().getPlain("PointInA", input[0].getLabel(tpl)));
+
+		return sb.toString();
+	}
 
 	// TODO Consider locusequability
 }

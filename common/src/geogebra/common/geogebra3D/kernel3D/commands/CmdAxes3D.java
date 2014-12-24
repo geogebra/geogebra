@@ -22,15 +22,15 @@ public class CmdAxes3D extends CmdAxes {
 		super(kernel);
 	}
 
-
 	@Override
-	protected AlgoAxesQuadricND axesConic(Construction cons1, String[] labels, GeoQuadricND c){
-		
-		if (c.isGeoElement3D()){
+	protected AlgoAxesQuadricND axesConic(Construction cons1, String[] labels,
+			GeoQuadricND c) {
+
+		if (c.isGeoElement3D()) {
 			return new AlgoAxes3D(cons1, labels, c);
 		}
-		
+
 		return super.axesConic(cons1, labels, c);
-		
+
 	}
 }

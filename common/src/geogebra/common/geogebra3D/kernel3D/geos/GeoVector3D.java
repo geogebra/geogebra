@@ -32,7 +32,6 @@ import geogebra.common.plugin.Operation;
 
 import java.util.ArrayList;
 
-
 /**
  * 3D vector class
  * 
@@ -40,8 +39,8 @@ import java.util.ArrayList;
  * 
  */
 public class GeoVector3D extends GeoVec4D implements GeoVectorND,
-		Vector3DValue, SpreadsheetTraceable, 
-		RotateableND, Traceable, MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable,
+		Vector3DValue, SpreadsheetTraceable, RotateableND, Traceable,
+		MirrorableAtPlane, Transformable, Dilateable, MatrixTransformable,
 		CoordStyle {
 
 	private GeoPointND startPoint;
@@ -85,7 +84,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		// sets the drawing matrix
 		matrix.set(getCoords(), 1);
 
-
 	}
 
 	/**
@@ -120,7 +118,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public GeoClass getGeoClassType() {
 		return GeoClass.VECTOR3D;
 	}
-
 
 	@Override
 	public boolean isDefined() {
@@ -164,7 +161,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		if (geo.isGeoVector()) {
 			GeoVectorND vec = (GeoVectorND) geo;
 			setCoords(vec.getCoordsInD3().get());
-			
 
 			// don't set start point for macro output
 			// see AlgoMacro.initRay()
@@ -175,17 +171,16 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 				GeoPointND sp = vec.getStartPoint();
 				if (sp != null) {
 					if (vec.hasAbsoluteLocation()) {
-						//	create new location point	
+						// create new location point
 						setStartPoint(sp.copy());
 					} else {
-						//	take existing location point	
+						// take existing location point
 						setStartPoint(sp);
 					}
 				}
-			}
-			catch (CircularDefinitionException e) {
+			} catch (CircularDefinitionException e) {
 				App.debug("set GeoVector3D: CircularDefinitionException");
-			}		
+			}
 		}
 	}
 
@@ -252,12 +247,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	final public String toValueString(StringTemplate tpl) {
 		return buildValueString(tpl).toString();
 	}
-	
+
 	@Override
 	public boolean evaluatesToVectorNotPoint() {
 		return true;
 	}
-
 
 	private StringBuilder buildValueString(StringTemplate tpl) {
 		sbBuildValueString.setLength(0);
@@ -265,18 +259,17 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		switch (tpl.getStringType()) {
 		case GIAC:
 			sbBuildValueString.append("ggbvect[");
-			sbBuildValueString.append(kernel.format(getX(),tpl));
+			sbBuildValueString.append(kernel.format(getX(), tpl));
 			sbBuildValueString.append(',');
-			sbBuildValueString.append(kernel.format(getY(),tpl));
+			sbBuildValueString.append(kernel.format(getY(), tpl));
 			sbBuildValueString.append(',');
-			sbBuildValueString.append(kernel.format(getZ(),tpl));
+			sbBuildValueString.append(kernel.format(getZ(), tpl));
 			sbBuildValueString.append("]");
 			return sbBuildValueString;
 
 		default: // continue below
 		}
 
-		
 		/*
 		 * switch (toStringMode) {
 		 * 
@@ -304,11 +297,11 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		 */
 
 		sbBuildValueString.append("(");
-		sbBuildValueString.append(kernel.format(getX(),tpl));
+		sbBuildValueString.append(kernel.format(getX(), tpl));
 		setCoordSep(tpl);
-		sbBuildValueString.append(kernel.format(getY(),tpl));
+		sbBuildValueString.append(kernel.format(getY(), tpl));
 		setCoordSep(tpl);
-		sbBuildValueString.append(kernel.format(getZ(),tpl));
+		sbBuildValueString.append(kernel.format(getZ(), tpl));
 		sbBuildValueString.append(")");
 
 		return sbBuildValueString;
@@ -330,36 +323,40 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	private StringBuilder sb;
 
 	@Override
-	public String toLaTeXString(boolean symbolic,StringTemplate tpl) {
+	public String toLaTeXString(boolean symbolic, StringTemplate tpl) {
 		if (sb == null)
 			sb = new StringBuilder();
 		else
 			sb.setLength(0);
-		
-		if (getMode()==Kernel.COORD_CARTESIAN_3D){
-			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);			
-			return sb.toString();		
+
+		if (getMode() == Kernel.COORD_CARTESIAN_3D) {
+			GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl,
+					getX(), getY(), getZ(), sb, this, symbolic);
+			return sb.toString();
 		}
 
-		if (getMode()==Kernel.COORD_SPHERICAL){
-			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sb);
+		if (getMode() == Kernel.COORD_SPHERICAL) {
+			GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(),
+					getY(), getZ(), sb);
 			return sb.toString();
 		}
 
 		// cartesian 2D / polar / complex not possible
-		if (!Kernel.isZero(getZ())){
-			if (getMode()==Kernel.COORD_POLAR){
-				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(), getY(), getZ(), sb);				
-			}else{
-				GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl, getX(), getY(), getZ(), sb, this, symbolic);			
+		if (!Kernel.isZero(getZ())) {
+			if (getMode() == Kernel.COORD_POLAR) {
+				GeoPoint.buildValueStringCoordSpherical(kernel, tpl, getX(),
+						getY(), getZ(), sb);
+			} else {
+				GeoVector.buildLatexValueStringCoordCartesian3D(kernel, tpl,
+						getX(), getY(), getZ(), sb, this, symbolic);
 			}
 			return sb.toString();
 		}
 
 		// cartesian 2D / polar / complex are possible
-		return GeoVector.buildLatexString(kernel, sb, symbolic, tpl, toStringMode, getX(), getY(), this);
+		return GeoVector.buildLatexString(kernel, sb, symbolic, tpl,
+				toStringMode, getX(), getY(), this);
 
-		
 	}
 
 	/**
@@ -368,7 +365,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	@Override
 	protected void getXMLtags(StringBuilder sb) {
 		super.getXMLtags(sb);
-		
 
 		// polar or cartesian coords
 		switch (toStringMode) {
@@ -392,7 +388,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			// don't save default (Kernel.COORD_CARTESIAN_3D)
 		}
 
-		
 		// line thickness and type
 		getLineStyleXML(sb);
 
@@ -421,7 +416,8 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			return;
 
 		// macro output uses initStartPoint() only
-		if (isAlgoMacroOutput()) return;
+		if (isAlgoMacroOutput())
+			return;
 
 		// check for circular definition
 		if (isParentOf(p))
@@ -470,7 +466,7 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 			try {
 				setStartPoint(null);
 			} catch (Exception e) {
-				//ignore circular definition here
+				// ignore circular definition here
 			}
 		}
 
@@ -495,22 +491,22 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		double[] ret = { v.getX(), v.getY(), v.getZ() };
 		return ret;
 	}
-	
-	public Coords getCoordsInD2(){
+
+	public Coords getCoordsInD2() {
 		Coords ret = new Coords(3);
 		ret.setValues(v, 3);
 		return ret;
 	}
-	public Coords getCoordsInD3(){
+
+	public Coords getCoordsInD3() {
 		Coords ret = new Coords(4);
 		ret.setValues(v, 4);
 		return ret;
-		
+
 	}
 
+	private boolean trace;
 
-	private boolean trace;	
-	
 	@Override
 	public boolean isTraceable() {
 		return true;
@@ -536,60 +532,43 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	public void getInhomCoords(double[] coords) {
 		coords[0] = v.getX();
 		coords[1] = v.getY();
-		coords[2] = v.getZ();		
+		coords[2] = v.getZ();
 	}
-	
+
 	public double[] getInhomCoords() {
 		double[] coords = new double[3];
 		getInhomCoords(coords);
 		return coords;
 	}
-	
+
 	@Override
-	public void updateColumnHeadingsForTraceValues(){
+	public void updateColumnHeadingsForTraceValues() {
 		resetSpreadsheetColumnHeadings();
 
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
-								getXBracket(), // "x("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
-										getCloseBracket())))); // ")"
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
-								getYBracket(), // "y("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
-										getCloseBracket())))); // ")"
-		spreadsheetColumnHeadings.add(
-				getColumnHeadingText(
-						new ExpressionNode(kernel,
-								getZBracket(), // "z("
-								Operation.PLUS, 
-								new ExpressionNode(kernel,
-										getNameGeo(), // Name[this]
-										Operation.PLUS, 
-										getCloseBracket())))); // ")"
-		
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, getXBracket(), // "x("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, getYBracket(), // "y("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, getCloseBracket())))); // ")"
+		spreadsheetColumnHeadings.add(getColumnHeadingText(new ExpressionNode(
+				kernel, getZBracket(), // "z("
+				Operation.PLUS, new ExpressionNode(kernel, getNameGeo(), // Name[this]
+						Operation.PLUS, getCloseBracket())))); // ")"
 
 	}
-	
 
 	@Override
-	public TraceModesEnum getTraceModes(){
+	public TraceModesEnum getTraceModes() {
 		return TraceModesEnum.SEVERAL_VALUES_OR_COPY;
 	}
-	
+
 	@Override
-	public String getTraceDialogAsValues(){
+	public String getTraceDialogAsValues() {
 		String name = getLabelTextOrHTML(false);
-	
+
 		StringBuilder sb1 = new StringBuilder();
 		sb1.append("x(");
 		sb1.append(name);
@@ -598,13 +577,13 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		sb1.append("), z(");
 		sb1.append(name);
 		sb1.append(")");
-				
+
 		return sb1.toString();
 	}
 
-	
 	@Override
-	public void addToSpreadsheetTraceList(ArrayList<GeoNumeric> spreadsheetTraceList) {
+	public void addToSpreadsheetTraceList(
+			ArrayList<GeoNumeric> spreadsheetTraceList) {
 		GeoNumeric xx = new GeoNumeric(cons, v.getX());
 		spreadsheetTraceList.add(xx);
 		GeoNumeric yy = new GeoNumeric(cons, v.getY());
@@ -612,25 +591,19 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		GeoNumeric zz = new GeoNumeric(cons, v.getZ());
 		spreadsheetTraceList.add(zz);
 	}
-	
+
 	@Override
 	final public boolean isCasEvaluableObject() {
 		return true;
 	}
-	
+
 	public void updateLocation() {
 		updateGeo();
-		kernel.notifyUpdateLocation(this);	
+		kernel.notifyUpdateLocation(this);
 	}
-	
-	
-	
-	
-	
 
-    
 	final public void rotate(NumberValue phiValue) {
-		
+
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
@@ -638,94 +611,89 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		double x = getX();
 		double y = getY();
 		double z = getZ();
-	
+
 		setCoords(x * cos - y * sin, x * sin + y * cos, z, getW());
 	}
 
 	final public void rotate(NumberValue phiValue, GeoPointND Q) {
 
 		rotate(phiValue);
-		
+
 	}
 
-	public void rotate(NumberValue phiValue, GeoPointND S, GeoDirectionND orientation){
-		
+	public void rotate(NumberValue phiValue, GeoPointND S,
+			GeoDirectionND orientation) {
+
 		Coords o1 = S.getInhomCoordsInD3();
 		Coords vn = orientation.getDirectionInD3();
-		
-		
+
 		rotate(phiValue, o1, vn);
-		
+
 	}
-	
-	private void rotate(NumberValue phiValue, Coords o1, Coords vn){
-		
-		if (vn.isZero()){
+
+	private void rotate(NumberValue phiValue, Coords o1, Coords vn) {
+
+		if (vn.isZero()) {
 			setUndefined();
 			return;
 		}
-		
-		//Coords v = getCoordsInD3();		
-		
+
+		// Coords v = getCoordsInD3();
+
 		double phi = phiValue.getDouble();
 		double cos = Math.cos(phi);
 		double sin = Math.sin(phi);
-		
+
 		Coords vn2 = vn.normalized();
 		Coords v2 = vn2.crossProduct4(v);
 		Coords v1 = v2.crossProduct4(vn2);
 		setCoords(v1.mul(cos).add(v2.mul(sin)).add(vn2.mul(v.dotproduct(vn2))));
-		
+
 	}
-	
-	public void rotate(NumberValue phiValue, GeoLineND line){
-		
+
+	public void rotate(NumberValue phiValue, GeoLineND line) {
+
 		Coords o1 = line.getStartInhomCoords();
 		Coords vn = line.getDirectionInD3();
-		
-		
+
 		rotate(phiValue, o1, vn);
-		
 
 	}
 
 	public void mirror(Coords Q) {
-		
+
 		setCoords(v.mul(-1));
-		
+
 	}
 
 	public void mirror(GeoLineND line) {
 
 		Coords vn = line.getDirectionInD3().normalized();
-		setCoords(vn.mul(2*v.dotproduct(vn)).add(v.mul(-1)));
-		
+		setCoords(vn.mul(2 * v.dotproduct(vn)).add(v.mul(-1)));
+
 	}
-	
+
 	public void mirror(GeoCoordSys2D plane) {
 
 		Coords vn = plane.getDirectionInD3().normalized();
-		setCoords(v.add(vn.mul(-2*v.dotproduct(vn))));
-		
-	}
-	
-	////////////////////////
-	// DILATE
-	////////////////////////
+		setCoords(v.add(vn.mul(-2 * v.dotproduct(vn))));
 
+	}
+
+	// //////////////////////
+	// DILATE
+	// //////////////////////
 
 	public void dilate(NumberValue rval, Coords S) {
-		
+
 		setCoords(v.mul(rval.getDouble()));
 	}
-	
-	
-	
+
 	@Override
 	public boolean isMatrixTransformable() {
 		return true;
 	}
-	
+
 	public void matrixTransform(double a, double b, double c, double d) {
 
 		double x = getX();
@@ -736,7 +704,6 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 
 		setCoords(x1, y1, getZ(), getW());
 	}
-
 
 	public void matrixTransform(double a00, double a01, double a02, double a10,
 			double a11, double a12, double a20, double a21, double a22) {
@@ -752,34 +719,29 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 		setCoords(x1, y1, z1, getW());
 
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	public void setCartesian() { setMode(Kernel.COORD_CARTESIAN); }
-	public void setCartesian3D() { setMode(Kernel.COORD_CARTESIAN_3D); }
-	public void setSpherical() { setMode(Kernel.COORD_SPHERICAL); }
+	public void setCartesian() {
+		setMode(Kernel.COORD_CARTESIAN);
+	}
 
+	public void setCartesian3D() {
+		setMode(Kernel.COORD_CARTESIAN_3D);
+	}
 
+	public void setSpherical() {
+		setMode(Kernel.COORD_SPHERICAL);
+	}
 
-	public void setPolar() { setMode(Kernel.COORD_POLAR); }
+	public void setPolar() {
+		setMode(Kernel.COORD_POLAR);
+	}
 
-	public void setComplex() { setMode(Kernel.COORD_COMPLEX); }
-	
-	
+	public void setComplex() {
+		setMode(Kernel.COORD_COMPLEX);
+	}
 
-	
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
 }

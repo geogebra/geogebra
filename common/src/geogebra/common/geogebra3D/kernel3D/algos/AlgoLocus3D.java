@@ -29,19 +29,21 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 
 	double[] maxZdist, farZmin, farZmax;
-	
+
 	private static int MAX_Z_PIXEL_DIST = MAX_X_PIXEL_DIST;
-	
-	public AlgoLocus3D(Construction cons, GeoPointND Q, GeoPointND P, int min_steps, boolean registerCE) {
+
+	public AlgoLocus3D(Construction cons, GeoPointND Q, GeoPointND P,
+			int min_steps, boolean registerCE) {
 		super(cons, Q, P, min_steps, registerCE);
 	}
-	
-	public AlgoLocus3D(Construction cons, String label, GeoPointND Q, GeoPointND P) {
+
+	public AlgoLocus3D(Construction cons, String label, GeoPointND Q,
+			GeoPointND P) {
 		super(cons, label, Q, P);
 	}
-	
+
 	@Override
-	protected void createMaxDistances(){
+	protected void createMaxDistances() {
 		super.createMaxDistances();
 		maxZdist = new double[3];
 		farZmin = new double[3];
@@ -49,70 +51,60 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 	}
 
 	@Override
-	protected void setMaxDistances(int i){
+	protected void setMaxDistances(int i) {
 		super.setMaxDistances(i);
-		if (i == 2){ // 3D view
+		if (i == 2) { // 3D view
 			maxZdist[i] = MAX_Z_PIXEL_DIST / kernel.getZscale(i);
-			
-			double zmin = kernel.getZmin(i); 
+
+			double zmin = kernel.getZmin(i);
 			double zmax = kernel.getZmax(i);
 
-			double widthRW =  zmax - zmin; 
+			double widthRW = zmax - zmin;
 
-			farZmin[i] = zmin - widthRW / 2; 
-			farZmax[i] = zmax + widthRW / 2; 
-			
-		}else{
-			maxZdist[i] = Double.POSITIVE_INFINITY; // we don't check z for 2D views
+			farZmin[i] = zmin - widthRW / 2;
+			farZmax[i] = zmax + widthRW / 2;
 
-			farZmin[i] = Double.NEGATIVE_INFINITY; 
-			farZmax[i] = Double.POSITIVE_INFINITY; 
+		} else {
+			maxZdist[i] = Double.POSITIVE_INFINITY; // we don't check z for 2D
+													// views
+
+			farZmin[i] = Double.NEGATIVE_INFINITY;
+			farZmax[i] = Double.POSITIVE_INFINITY;
 		}
-		
 
 	}
-	
+
 	@Override
-	protected void createStartPos(Construction cons){
+	protected void createStartPos(Construction cons) {
 		QstartPos = new GeoPoint3D(cons);
-		
-		if (movingPoint.isGeoElement3D()){
+
+		if (movingPoint.isGeoElement3D()) {
 			PstartPos = new GeoPoint3D(cons);
-		}else{
+		} else {
 			PstartPos = new GeoPoint(cons);
 		}
 	}
-	
+
 	@Override
-	protected GeoLocus3D newGeoLocus(Construction cons){
+	protected GeoLocus3D newGeoLocus(Construction cons) {
 		return new GeoLocus3D(cons);
 	}
-	
-	
 
 	public AlgoLocus3D(Construction cons, String label, GeoPoint Q, GeoPoint P) {
 		super(cons, label, Q, P);
 	}
 
-	
-
-
-
-
-
-	
-	
 	@Override
-	protected boolean isFarAway(GeoPointND point, int i){
+	protected boolean isFarAway(GeoPointND point, int i) {
 		Coords coords = point.getInhomCoordsInD3();
 		return isFarAway(coords.getX(), coords.getY(), coords.getZ(), i);
 	}
 
 	@Override
-	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle){
-		
+	protected boolean distanceOK(GeoPointND point, GRectangle2D rectangle) {
+
 		Coords coords = point.getInhomCoordsInD3();
-		
+
 		// if last point Q' was far away and Q is far away
 		// then the distance is probably OK (return true),
 		// so we probably don't need smaller step,
@@ -137,47 +129,45 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 			lengthY = -lengthY;
 		if (lengthZ < 0)
 			lengthZ = -lengthZ;
-		return !rectangle.intersects(minX, minY, lengthX,
-				lengthY);
-// TODO
+		return !rectangle.intersects(minX, minY, lengthX, lengthY);
+		// TODO
 	}
-	
+
 	@Override
 	protected boolean distanceSmall(GeoPointND point, boolean orInsteadOfAnd) {
-		
+
 		Coords coords = point.getInhomCoordsInD3();
 
 		boolean[] distSmall = new boolean[3];
-		for (int i = 0 ; i < distSmall.length ; i++){
+		for (int i = 0; i < distSmall.length; i++) {
 			distSmall[i] = Math.abs(coords.getX() - lastX) < maxXdist[i]
 					&& Math.abs(coords.getY() - lastY) < maxYdist[i]
-							&& Math.abs(coords.getZ() - lastZ) < maxZdist[i];
+					&& Math.abs(coords.getZ() - lastZ) < maxZdist[i];
 		}
-		
-		if (orInsteadOfAnd) { 
-			for (int i = 0 ; i < distSmall.length ; i++){
-				if (distSmall[i] && visibleEV[i]){
+
+		if (orInsteadOfAnd) {
+			for (int i = 0; i < distSmall.length; i++) {
+				if (distSmall[i] && visibleEV[i]) {
 					return true;
 				}
 			}
 			return false;
-		} 
+		}
 
-		for (int i = 0 ; i < distSmall.length ; i++){
-			if (!distSmall[i] && visibleEV[i]){
+		for (int i = 0; i < distSmall.length; i++) {
+			if (!distSmall[i] && visibleEV[i]) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
 
 	@Override
-	protected void insertPoint(GeoPointND point, boolean lineTo){
+	protected void insertPoint(GeoPointND point, boolean lineTo) {
 		Coords coords = point.getInhomCoordsInD3();
 		insertPoint(coords.getX(), coords.getY(), coords.getZ(), lineTo);
 	}
-	
+
 	private void insertPoint(double x, double y, double z, boolean lineTo) {
 		pointCount++;
 
@@ -187,56 +177,48 @@ public class AlgoLocus3D extends AlgoLocusND<MyPoint3D> {
 		lastX = x;
 		lastY = y;
 		lastZ = z;
-		for (int i = 0 ; i < lastFarAway.length ; i++){
+		for (int i = 0; i < lastFarAway.length; i++) {
 			lastFarAway[i] = isFarAway(lastX, lastY, lastZ, i);
 		}
 	}
-	
+
 	private double lastZ;
 
 	private boolean isFarAway(double x, double y, double z, int i) {
-		boolean farAway = (
-				x > farXmax[i] || x < farXmin[i] || 
-				y > farYmax[i] || y < farYmin[i] || 
-				z > farZmax[i] || z < farZmin[i]								
-				);
+		boolean farAway = (x > farXmax[i] || x < farXmin[i] || y > farYmax[i]
+				|| y < farYmin[i] || z > farZmax[i] || z < farZmin[i]);
 		return farAway;
 	}
 
-	
-	
 	@Override
-	protected boolean differentFromLast(GeoPointND point){
+	protected boolean differentFromLast(GeoPointND point) {
 		Coords coords = point.getInhomCoordsInD3();
-		return coords.getX() != lastX
-				|| coords.getY() != lastY
+		return coords.getX() != lastX || coords.getY() != lastY
 				|| coords.getZ() != lastZ;
 	}
-	
+
 	@Override
-	protected boolean areEqual(GeoPointND p1, GeoPointND p2){
+	protected boolean areEqual(GeoPointND p1, GeoPointND p2) {
 		return ((GeoElement) p1).isEqual(((GeoElement) p2));
 	}
-	
+
 	@Override
-	protected MyPoint3D[] createQCopyCache(){
+	protected MyPoint3D[] createQCopyCache() {
 		return new MyPoint3D[paramCache.length];
 	}
 
 	@Override
-	protected void setQCopyCache(MyPoint3D copy, GeoPointND point){
+	protected void setQCopyCache(MyPoint3D copy, GeoPointND point) {
 		Coords coords = point.getInhomCoordsInD3();
 		copy.setX(coords.getX());
 		copy.setY(coords.getY());
 		copy.setZ(coords.getZ());
 	}
-	
+
 	@Override
-	protected MyPoint3D newCache(){
+	protected MyPoint3D newCache() {
 		return new MyPoint3D();
 	}
-	
-
 
 	// TODO Consider locusequability
 

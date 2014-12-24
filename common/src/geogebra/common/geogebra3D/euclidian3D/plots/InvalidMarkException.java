@@ -16,18 +16,22 @@ package geogebra.common.geogebra3D.euclidian3D.plots;
  * limitations under the License.
  */
 
-
-/** An {@code InvalidMarkException} is thrown when {@code reset()} is called on a buffer, but no mark has been set previously.
+/**
+ * An {@code InvalidMarkException} is thrown when {@code reset()} is called on a
+ * buffer, but no mark has been set previously.
  * 
- * @since Android 1.0 */
+ * @since Android 1.0
+ */
 public class InvalidMarkException extends IllegalStateException {
 
 	private static final long serialVersionUID = 1698329710438510774L;
 
-	/** Constructs an {@code InvalidMarkException}.
+	/**
+	 * Constructs an {@code InvalidMarkException}.
 	 * 
-	 * @since Android 1.0 */
-	public InvalidMarkException () {
+	 * @since Android 1.0
+	 */
+	public InvalidMarkException() {
 		super();
 	}
 }

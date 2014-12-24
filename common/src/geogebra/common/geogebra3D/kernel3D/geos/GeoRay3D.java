@@ -14,7 +14,6 @@ import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoRayND;
 import geogebra.common.plugin.GeoClass;
 
-
 public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 
 	public GeoRay3D(Construction c, GeoPointND O, GeoPointND Q) {
@@ -229,34 +228,34 @@ public class GeoRay3D extends GeoLine3D implements GeoRayND, LimitedPath {
 		sb.append("\"/>\n");
 
 	}
-	
+
 	@Override
 	public boolean isGeoRay() {
 		return true;
 	}
-	
+
 	@Override
-	public boolean respectLimitedPath(double parameter){
+	public boolean respectLimitedPath(double parameter) {
 		return Kernel.isGreaterEqual(parameter, 0);
 	}
 
-	
-
 	@Override
 	final protected void getCoordsXML(StringBuilder sb) {
-		//not needed here
+		// not needed here
 	}
-	
+
 	public GeoElement copyFreeRay() {
-		GeoPointND startPoint1 = (GeoPointND) getStartPoint().copyInternal(cons);
-		
+		GeoPointND startPoint1 = (GeoPointND) getStartPoint()
+				.copyInternal(cons);
+
 		Coords direction = getDirectionInD3();
-		
+
 		GeoVector3D directionVec = new GeoVector3D(cons);
 		directionVec.setCoords(direction);
-		
-		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons, null, startPoint1, directionVec);
-		
+
+		AlgoRayPointVector3D algo = new AlgoRayPointVector3D(cons, null,
+				startPoint1, directionVec);
+
 		return algo.getOutput(0);
 	}
 }

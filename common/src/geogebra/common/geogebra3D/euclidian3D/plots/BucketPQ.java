@@ -215,7 +215,7 @@ public class BucketPQ<E> extends AbstractQueue<E> {
 		remove(elem);
 		return elem.data;
 	}
-	
+
 	public E forcePoll() {
 		Link<E> elem = buckets[maxBucket];
 		remove(elem);
@@ -223,37 +223,37 @@ public class BucketPQ<E> extends AbstractQueue<E> {
 	}
 
 	public Iterator<E> iterator() {
-		
+
 		return new Iterator<E>() {
 			private Link<E> el = buckets[0];
 			private int bucket;
-			
+
 			public boolean hasNext() {
-				Link<E> a = el==null?null:el.next;
+				Link<E> a = el == null ? null : el.next;
 				int b2 = bucket;
-				while (a==null){
+				while (a == null) {
 					b2++;
-					if(b2>BucketPQ.this.maxBucket)
+					if (b2 > BucketPQ.this.maxBucket)
 						return false;
-					a=buckets[b2];
+					a = buckets[b2];
 				}
 				return true;
 			}
 
 			public E next() {
-				el = el==null?null:el.next;
-				while (el==null){
+				el = el == null ? null : el.next;
+				while (el == null) {
 					bucket++;
-					if(bucket>BucketPQ.this.maxBucket)
+					if (bucket > BucketPQ.this.maxBucket)
 						throw new NoSuchElementException();
-					el=buckets[bucket];
+					el = buckets[bucket];
 				}
 				return el.data;
 			}
 
 			public void remove() {
 				BucketPQ.this.remove(el);
-				el=el.next;
+				el = el.next;
 			}
 		};
 	}

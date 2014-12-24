@@ -21,7 +21,6 @@ public class GeoClippingCube3D extends GeoElement3D {
 		super(c);
 	}
 
-
 	@Override
 	public Coords getLabelPosition() {
 		return null;
@@ -50,7 +49,8 @@ public class GeoClippingCube3D extends GeoElement3D {
 	}
 
 	@Override
-	public void setUndefined() { }
+	public void setUndefined() {
+	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
@@ -73,38 +73,36 @@ public class GeoClippingCube3D extends GeoElement3D {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	
 
-	//cube reduction
+	// cube reduction
 	final static public int REDUCTION_SMALL = 0;
 	final static public int REDUCTION_MEDIUM = 1;
 	final static public int REDUCTION_LARGE = 2;
 	final static public int REDUCTION_MIN = 0;
 	final static public int REDUCTION_MAX = 2;
-	
-	
+
 	private int reduction = REDUCTION_MEDIUM;
 
 	/**
 	 * sets the reduction of the cube
-	 * @param value reduction
+	 * 
+	 * @param value
+	 *            reduction
 	 */
-	public void setReduction(int value){
+	public void setReduction(int value) {
 		reduction = value;
 	}
-	
+
 	/**
 	 * 
 	 * @return the reduction of the cube
 	 */
-	public int getReduction(){
+	public int getReduction() {
 		return reduction;
 	}
-	
 
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.NONE;
 	}
 }

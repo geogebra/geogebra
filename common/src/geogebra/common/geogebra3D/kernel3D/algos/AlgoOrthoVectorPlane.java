@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 
 /*
  * AlgoJoinPointsSegment
@@ -27,126 +27,109 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
 
-
-
-
 /**
  *
- * @author  ggb3D
- * @version 
+ * @author ggb3D
+ * @version
  * 
- * Calculate the ortho vector of a plane (or polygon, ...)
+ *          Calculate the ortho vector of a plane (or polygon, ...)
  * 
  */
 public class AlgoOrthoVectorPlane extends AlgoElement3D {
 
-	
-	//input
+	// input
 	/** plane */
 	protected GeoCoordSys2D plane;
-	
-	//output
+
+	// output
 	/** ortho vector */
 	private GeoVector3D vector;
 
+	/**
+	 * Creates new AlgoIntersectLinePlane
+	 * 
+	 * @param cons
+	 *            the construction
+	 * @param label
+	 *            name of point
+	 */
+	AlgoOrthoVectorPlane(Construction cons, String label, GeoCoordSys2D plane) {
 
-    /** Creates new AlgoIntersectLinePlane 
-     * @param cons the construction
-     * @param label name of point
-     */    
-    AlgoOrthoVectorPlane(Construction cons, String label, GeoCoordSys2D plane) {
+		super(cons);
 
-    	super(cons);
+		vCoords = new Coords(4);
 
-    	vCoords = new Coords(4);
-    	
-    	this.plane = plane;
-    	
-    	vector = new GeoVector3D(cons);
-  
-    	setInputOutput(new GeoElement[] {(GeoElement) plane}, new GeoElement[] {vector});
+		this.plane = plane;
 
-    	vector.setLabel(label);
-    	
-    	compute();
- 
-    }
-    
- 
+		vector = new GeoVector3D(cons);
 
+		setInputOutput(new GeoElement[] { (GeoElement) plane },
+				new GeoElement[] { vector });
 
+		vector.setLabel(label);
 
-    
-    
-    
-    
-    /**
-     * return the ortho vector
-     * @return the ortho vector
-     */   
-    public GeoVector3D getVector() {
-        return vector;
-    }
-   
-    
-    
-    
+		compute();
 
-    ///////////////////////////////////////////////
-    // COMPUTE
-    
-    
-    
-    
-    @Override
-	public void compute(){
-    	
-    	if (!((GeoElement) plane).isDefined()){
-    		vector.setUndefined();
-    		return;
-    	}
-    	
-    	updateCoords();
-    	
-    	vector.setCoords(vCoords);
-    	
-    }
-    
-    protected Coords vCoords;
-    
-    /**
-     * 
-     * @return coords of the vector
-     */
-    protected void updateCoords(){
-    	if (plane instanceof GeoPlane3D){
-    		vCoords.setValues(plane.getCoordSys().getEquationVector(), 3); // get (a, b, c) from ax+by+cz+d=0
-    	}else{
-    		vCoords = plane.getCoordSys().getVz();
-    	}
-    }
-    
-    
-    
-    
+	}
+
+	/**
+	 * return the ortho vector
+	 * 
+	 * @return the ortho vector
+	 */
+	public GeoVector3D getVector() {
+		return vector;
+	}
+
+	// /////////////////////////////////////////////
+	// COMPUTE
+
+	@Override
+	public void compute() {
+
+		if (!((GeoElement) plane).isDefined()) {
+			vector.setUndefined();
+			return;
+		}
+
+		updateCoords();
+
+		vector.setCoords(vCoords);
+
+	}
+
+	protected Coords vCoords;
+
+	/**
+	 * 
+	 * @return coords of the vector
+	 */
+	protected void updateCoords() {
+		if (plane instanceof GeoPlane3D) {
+			vCoords.setValues(plane.getCoordSys().getEquationVector(), 3); // get
+																			// (a,
+																			// b,
+																			// c)
+																			// from
+																			// ax+by+cz+d=0
+		} else {
+			vCoords = plane.getCoordSys().getVz();
+		}
+	}
 
 	@Override
 	public Commands getClassName() {
-    	
-    	return Commands.OrthogonalVector;
+
+		return Commands.OrthogonalVector;
 	}
 
-	
-	
-	
-    @Override
+	@Override
 	final public String toString(StringTemplate tpl) {
-        return getLoc().getPlain("VectorPerpendicularToA", ((GeoElement) plane).getLabel(tpl));
+		return getLoc().getPlain("VectorPerpendicularToA",
+				((GeoElement) plane).getLabel(tpl));
 
-    }  
+	}
 
 	// TODO Consider locusequability
-  
- 
 
 }
