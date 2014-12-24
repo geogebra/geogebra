@@ -7,75 +7,95 @@ import geogebra.common.kernel.Matrix.Coords;
  * 
  * @author mathieu
  *
- * Interface for 3D view
+ *         Interface for 3D view
  */
-public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
+public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon {
 
 	/**
 	 * start a rotation animation to be in the vector direction, shortest way
-	 * @param v vector direction
-	 */	
+	 * 
+	 * @param v
+	 *            vector direction
+	 */
 	public void setClosestRotAnimation(Coords v);
-	
+
 	/**
 	 * @return Returns the zmin.
 	 */
 	public double getZmin();
-	
+
 	/**
 	 * @return Returns the zmax.
 	 */
 	public double getZmax();
-	
 
 	/**
 	 * sets the use of the clipping cube
-	 * @param flag flag
+	 * 
+	 * @param flag
+	 *            flag
 	 */
 	public void setUseClippingCube(boolean flag);
 
 	/**
 	 * sets if the clipping cube is shown
-	 * @param flag flag
+	 * 
+	 * @param flag
+	 *            flag
 	 */
 	public void setShowClippingCube(boolean flag);
 
 	/**
 	 * sets the reduction of the clipping box
-	 * @param value reduction
+	 * 
+	 * @param value
+	 *            reduction
 	 */
 	public void setClippingReduction(int value);
 
 	/**
 	 * 
-	 * @param projection projection type
+	 * @param projection
+	 *            projection type
 	 */
 	public void setProjection(int projection);
 
-	/** sets the visibility of xOy plane grid
-	 * @param flag flag
-	 * @return 
+	/**
+	 * sets the visibility of xOy plane grid
+	 * 
+	 * @param flag
+	 *            flag
+	 * @return
 	 */
 	public boolean setShowGrid(boolean flag);
 
-	/** sets the visibility of xOy plane
-	 * @param flag flag
+	/**
+	 * sets the visibility of xOy plane
+	 * 
+	 * @param flag
+	 *            flag
 	 */
 	public void setShowPlane(boolean flag);
-		
-	/** sets the visibility of xOy plane plate
-	 * @param flag flag
+
+	/**
+	 * sets the visibility of xOy plane plate
+	 * 
+	 * @param flag
+	 *            flag
 	 */
 	public void setShowPlate(boolean flag);
 
 	/**
 	 * set the all-axis scale
-	 * @param val scale value
+	 * 
+	 * @param val
+	 *            scale value
 	 */
 	public void setScale(double val);
 
 	/**
 	 * sets the rotation matrix
+	 * 
 	 * @param a
 	 * @param b
 	 */
@@ -83,16 +103,19 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 
 	/**
 	 * sets the origin
-	 * @param x x coord
-	 * @param y y coord
-	 * @param z z coord
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord
 	 */
 	public void setZeroFromXML(double x, double y, double z);
 
-	
 	/**
 	 * set Matrix for view3D
-	 */	
+	 */
 	public void updateMatrix();
 
 	/**
@@ -100,7 +123,7 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 	 */
 	public void setViewChanged();
 
-	/** 
+	/**
 	 * tell the view that it has to be updated
 	 * 
 	 */
@@ -108,26 +131,20 @@ public interface EuclidianView3DInterface extends EuclidianViewInterfaceCommon{
 
 	/**
 	 * set if y axis is up (and not z axis)
-	 * @param flag flag
+	 * 
+	 * @param flag
+	 *            flag
 	 */
 	public void setYAxisVertical(boolean flag);
 
-	
 	/**
-	 * @return screen z-coord of origin 
+	 * @return screen z-coord of origin
 	 */
-	public double getZZero();	
-	
-	
-	
+	public double getZZero();
+
 	/**
 	 * update all drawables
 	 */
 	public void updateAllDrawables();
-	
-	
-	
-	
-	
-	
+
 }

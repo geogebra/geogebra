@@ -38,15 +38,20 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Handle Fx keys for input bar when geo is selected
-	 * @param i x when Fx is pressed
-	 * @param geo selected geo
+	 * 
+	 * @param i
+	 *            x when Fx is pressed
+	 * @param geo
+	 *            selected geo
 	 */
 	public abstract void handleFunctionKeyForAlgebraInput(int i, GeoElement geo);
+
 	/** application */
 	protected final App app;
 	protected final SelectionManager selection;
 
 	private TreeSet<AlgoElement> tempSet;
+
 	/**
 	 * @return temporary set of algos
 	 */
@@ -58,6 +63,7 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	private Coords tempVec;
+
 	protected boolean renameStarted(char ch) {
 		GeoElement geo;
 		if (selection.selectedGeosSize() == 1) {
@@ -90,13 +96,19 @@ public abstract class GlobalKeyDispatcher {
 
 		return false;
 	}
+
 	/**
 	 * Tries to move the given objects after pressing an arrow key on the
 	 * keyboard.
-	 * @param geos moved geos
-	 * @param xdiff translation in x direction
-	 * @param ydiff translation in y direction
-	 * @param zdiff translation in z direction
+	 * 
+	 * @param geos
+	 *            moved geos
+	 * @param xdiff
+	 *            translation in x direction
+	 * @param ydiff
+	 *            translation in y direction
+	 * @param zdiff
+	 *            translation in z direction
 	 * 
 	 * @return whether any object was moved
 	 */
@@ -154,20 +166,29 @@ public abstract class GlobalKeyDispatcher {
 	/**
 	 * Handles general keys like ESC and function keys that don't involved
 	 * selected GeoElements.
-	 * @param key key code 
-	 * @param isShiftDown  whether shift is down
-	 * @param isControlDown whether control is down
-	 * @param isAltDown whether alt is down
-	 * @param fromSpreadsheet whether this event comes from spreadsheet
-	 * @param fromEuclidianView whether this event comes from EV
+	 * 
+	 * @param key
+	 *            key code
+	 * @param isShiftDown
+	 *            whether shift is down
+	 * @param isControlDown
+	 *            whether control is down
+	 * @param isAltDown
+	 *            whether alt is down
+	 * @param fromSpreadsheet
+	 *            whether this event comes from spreadsheet
+	 * @param fromEuclidianView
+	 *            whether this event comes from EV
 	 * 
 	 * @return if key was consumed
 	 */
-	protected boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet, boolean fromEuclidianView) {
-		
+	protected boolean handleGeneralKeys(KeyCodes key, boolean isShiftDown,
+			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet,
+			boolean fromEuclidianView) {
+
 		// eventually make an undo point (e.g. after zooming)
 		app.storeUndoInfoIfSetCoordSystemOccured();
-		
+
 		boolean consumed = false;
 
 		// ESC and function keys
@@ -179,7 +200,7 @@ public abstract class GlobalKeyDispatcher {
 			} else {
 				app.setMoveMode();
 				app.getActiveEuclidianView().getEuclidianController()
-				.deletePastePreviewSelected();
+						.deletePastePreviewSelected();
 			}
 			consumed = true;
 			break;
@@ -194,7 +215,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 
-			// toggle boolean or run script when Spacebar pressed
+		// toggle boolean or run script when Spacebar pressed
 		case SPACE:
 			// check not spreadsheet
 			if (!fromSpreadsheet) {
@@ -218,12 +239,11 @@ public abstract class GlobalKeyDispatcher {
 
 		case TAB:
 
-
 			consumed = handleTab(isControlDown, isShiftDown);
 
 			break;
 
-			// open Tool Help
+		// open Tool Help
 		case F1:
 			app.getDialogManager().openToolHelp();
 			return true;
@@ -239,23 +259,17 @@ public abstract class GlobalKeyDispatcher {
 			break;
 		}
 
-
 		/*
-		// make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
-		// off
-		// **** NB if NumLock on, event.isShiftDown() always returns false with
-		// Numlock on!!! (Win 7)
-		if (event.getKeyLocation() == KeyEvent.KEY_LOCATION_NUMPAD) {
-			String keyText = KeyEvent.getKeyText(keyCode);
-			if (keyText.equals("End")) {
-				keyCode = KeyEvent.VK_1;
-			} else if (keyText.equals("Down")) {
-				keyCode = KeyEvent.VK_2;
-			} else if (keyText.equals("Page Down")) {
-				keyCode = KeyEvent.VK_3;
-			}
-
-		}
+		 * // make sure Ctrl-1/2/3 works on the Numeric Keypad even with Numlock
+		 * // off // **** NB if NumLock on, event.isShiftDown() always returns
+		 * false with // Numlock on!!! (Win 7) if (event.getKeyLocation() ==
+		 * KeyEvent.KEY_LOCATION_NUMPAD) { String keyText =
+		 * KeyEvent.getKeyText(keyCode); if (keyText.equals("End")) { keyCode =
+		 * KeyEvent.VK_1; } else if (keyText.equals("Down")) { keyCode =
+		 * KeyEvent.VK_2; } else if (keyText.equals("Page Down")) { keyCode =
+		 * KeyEvent.VK_3; }
+		 * 
+		 * }
 		 */
 
 		// Ctrl key down (and not Alt, so that AltGr works for special
@@ -268,11 +282,12 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-1 from working (| on some
 				// keyboards)
-				if (isShiftDown && app.getGuiManager() != null) {// || event.isAltDown()) {
+				if (isShiftDown && app.getGuiManager() != null) {// ||
+																	// event.isAltDown())
+																	// {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_EUCLIDIAN),
-									App.VIEW_EUCLIDIAN);
+							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN),
+							App.VIEW_EUCLIDIAN);
 					consumed = true;
 
 				} else if (!isAltDown) { // make sure not triggered on
@@ -289,11 +304,12 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-2 from working (superscript
 				// 2 on some keyboards)
-				if (isShiftDown && app.getGuiManager() != null) {// || event.isAltDown()) {
+				if (isShiftDown && app.getGuiManager() != null) {// ||
+																	// event.isAltDown())
+																	// {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_EUCLIDIAN2),
-									App.VIEW_EUCLIDIAN2);
+							!app.getGuiManager().showView(App.VIEW_EUCLIDIAN2),
+							App.VIEW_EUCLIDIAN2);
 					consumed = true;
 
 				} else if (!isAltDown) { // make sure not triggered on
@@ -311,10 +327,13 @@ public abstract class GlobalKeyDispatcher {
 				// event.isShiftDown() doesn't work if NumLock on
 				// however .isAltDown() stops AltGr-3 from working (^ on
 				// Croatian keyboard)
-				if (isShiftDown && app.getGuiManager() != null) { // || event.isAltDown()) {
-					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(
-									App.VIEW_EUCLIDIAN3D),
+				if (isShiftDown && app.getGuiManager() != null) { // ||
+																	// event.isAltDown())
+																	// {
+					app.getGuiManager()
+							.setShowView(
+									!app.getGuiManager().showView(
+											App.VIEW_EUCLIDIAN3D),
 									App.VIEW_EUCLIDIAN3D);
 					consumed = true;
 
@@ -322,7 +341,8 @@ public abstract class GlobalKeyDispatcher {
 					// AltGr
 					// Ctrl-3: set black/white mode printing and visually
 					// impaired users
-					changeFontsAndGeoElements(app, app.getFontSize(), true, true);
+					changeFontsAndGeoElements(app, app.getFontSize(), true,
+							true);
 					consumed = true;
 				}
 				break;
@@ -330,9 +350,10 @@ public abstract class GlobalKeyDispatcher {
 			case A:
 				if (isShiftDown) {
 					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(
-										App.VIEW_ALGEBRA),
+						app.getGuiManager()
+								.setShowView(
+										!app.getGuiManager().showView(
+												App.VIEW_ALGEBRA),
 										App.VIEW_ALGEBRA);
 						consumed = true;
 					}
@@ -346,12 +367,11 @@ public abstract class GlobalKeyDispatcher {
 				if (isShiftDown) {
 					if (app.isUsingFullGui() && app.getGuiManager() != null) {
 						app.getGuiManager().setShowView(
-								!app.getGuiManager().showView(
-										App.VIEW_CAS),
-										App.VIEW_CAS);
+								!app.getGuiManager().showView(App.VIEW_CAS),
+								App.VIEW_CAS);
 						consumed = true;
 					}
-				} 
+				}
 				break;
 
 			case L:
@@ -360,13 +380,12 @@ public abstract class GlobalKeyDispatcher {
 						app.getGuiManager().setShowView(
 								!app.getGuiManager().showView(
 										App.VIEW_CONSTRUCTION_PROTOCOL),
-										App.VIEW_CONSTRUCTION_PROTOCOL);
+								App.VIEW_CONSTRUCTION_PROTOCOL);
 						consumed = true;
 					}
-				}  else 
-					{
-						selection.selectAll(selection.getSelectedLayer());
-						consumed = true;					
+				} else {
+					selection.selectAll(selection.getSelectedLayer());
+					consumed = true;
 				}
 				break;
 
@@ -376,7 +395,7 @@ public abstract class GlobalKeyDispatcher {
 					consumed = true;
 				}
 				break;
-			case P: 
+			case P:
 
 				if (isShiftDown) {
 					// toggle Probability View
@@ -384,7 +403,7 @@ public abstract class GlobalKeyDispatcher {
 						app.getGuiManager().setShowView(
 								!app.getGuiManager().showView(
 										App.VIEW_PROBABILITY_CALCULATOR),
-										App.VIEW_PROBABILITY_CALCULATOR);
+								App.VIEW_PROBABILITY_CALCULATOR);
 					}
 				} else {
 					showPrintPreview(app);
@@ -453,7 +472,7 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-				// Ctrl + H / G: Show Hide objects (labels)
+			// Ctrl + H / G: Show Hide objects (labels)
 			case G:
 			case H:
 				if (isShiftDown)
@@ -463,24 +482,25 @@ public abstract class GlobalKeyDispatcher {
 				consumed = true;
 				break;
 
-				// Ctrl + E: open object properties (needed here for spreadsheet)
+			// Ctrl + E: open object properties (needed here for spreadsheet)
 			case E:
 				if (app.isUsingFullGui() && app.getGuiManager() != null) {
 					app.getGuiManager().setShowView(
-							!app.getGuiManager().showView(App.VIEW_PROPERTIES), App.VIEW_PROPERTIES, false);
+							!app.getGuiManager().showView(App.VIEW_PROPERTIES),
+							App.VIEW_PROPERTIES, false);
 				}
 				consumed = true;
 				break;
 
-				// Ctrl + F: refresh views
+			// Ctrl + F: refresh views
 			case F:
 				app.refreshViews();
 				consumed = true;
 				break;
 
-				/*
-				 * send next instance to front (alt - last)
-				 */
+			/*
+			 * send next instance to front (alt - last)
+			 */
 			case N:
 				if (isShiftDown) {
 					handleCtrlShiftN(isAltDown);
@@ -491,9 +511,8 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-
-				// needed for detached views and MacOS
-				// Ctrl + Z: Undo
+			// needed for detached views and MacOS
+			// Ctrl + Z: Undo
 			case Z:
 				if (app.getGuiManager() != null) {
 					if (isShiftDown)
@@ -511,8 +530,8 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-				// ctrl-R updates construction
-				// make sure it works in applets without a menubar
+			// ctrl-R updates construction
+			// make sure it works in applets without a menubar
 			case R:
 				if (!app.isApplet() || app.isRightClickEnabled()) {
 					app.getKernel().updateConstruction();
@@ -521,14 +540,14 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-				// ctrl-shift-s (toggle spreadsheet)
+			// ctrl-shift-s (toggle spreadsheet)
 			case S:
 				if (isShiftDown) {
 					if (app.isUsingFullGui() && app.getGuiManager() != null) {
 						app.getGuiManager().setShowView(
 								!app.getGuiManager().showView(
 										App.VIEW_SPREADSHEET),
-										App.VIEW_SPREADSHEET);
+								App.VIEW_SPREADSHEET);
 						consumed = true;
 					}
 				} else if (app.getGuiManager() != null) {
@@ -539,13 +558,14 @@ public abstract class GlobalKeyDispatcher {
 
 			case Y:
 				if (isShiftDown) {
-					//if (app.isUsingFullGui() && app.getGuiManager() != null) {
-					//	app.getGuiManager().setShowView(
-					//			!app.getGuiManager().showView(
-					//					App.VIEW_PYTHON),
-					//					App.VIEW_PYTHON);
-					//	consumed = true;
-					//}
+					// if (app.isUsingFullGui() && app.getGuiManager() != null)
+					// {
+					// app.getGuiManager().setShowView(
+					// !app.getGuiManager().showView(
+					// App.VIEW_PYTHON),
+					// App.VIEW_PYTHON);
+					// consumed = true;
+					// }
 				} else if (app.getGuiManager() != null) {
 					// needed for detached views and MacOS
 					// Cmd + Y: Redo
@@ -555,8 +575,8 @@ public abstract class GlobalKeyDispatcher {
 				}
 				break;
 
-				// Ctrl-(shift)-Q (deprecated - doesn't work on MacOS)
-				// Ctrl-(shift)-J
+			// Ctrl-(shift)-Q (deprecated - doesn't work on MacOS)
+			// Ctrl-(shift)-J
 			case J:
 			case Q:
 				if (isShiftDown)
@@ -566,7 +586,7 @@ public abstract class GlobalKeyDispatcher {
 				consumed = true;
 				break;
 
-				// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
+			// Ctrl + "+", Ctrl + "-" zooms in or out in graphics view
 			case PLUS:
 			case ADD:
 			case SUBTRACT:
@@ -574,24 +594,29 @@ public abstract class GlobalKeyDispatcher {
 			case EQUALS:
 
 				// disable zooming in PEN mode
-				if (!EuclidianView.isPenMode(app.getActiveEuclidianView().getMode())) {
+				if (!EuclidianView.isPenMode(app.getActiveEuclidianView()
+						.getMode())) {
 
-					boolean spanish = app.getLocalization().getLanguage().startsWith("es");
+					boolean spanish = app.getLocalization().getLanguage()
+							.startsWith("es");
 
 					// AltGr+ on Spanish keyboard is ] so
 					// allow <Ctrl>+ (zoom) but not <Ctrl><Alt>+ (fast zoom)
 					// from eg Input Bar
-					if (!spanish || !isAltDown
-							|| (fromEuclidianView)) {
-						( app.getActiveEuclidianView())
-						.getEuclidianController().zoomInOut(isAltDown, key.equals(KeyCodes.MINUS) || key.equals(KeyCodes.SUBTRACT));
+					if (!spanish || !isAltDown || (fromEuclidianView)) {
+						(app.getActiveEuclidianView())
+								.getEuclidianController()
+								.zoomInOut(
+										isAltDown,
+										key.equals(KeyCodes.MINUS)
+												|| key.equals(KeyCodes.SUBTRACT));
 						app.setUnsaved();
 						consumed = true;
 					}
 				}
 				break;
 
-				// Ctrl + D: toggles algebra style: value, definition, command
+			// Ctrl + D: toggles algebra style: value, definition, command
 			case D:
 			case BACK_QUOTE:
 				if (!isShiftDown) {
@@ -604,17 +629,19 @@ public abstract class GlobalKeyDispatcher {
 					app.setUnsaved();
 					consumed = true;
 				} else {
-					
+
 					// Ctrl-Shift-D
 					// toggle "selection allowed" for all objects
-					// except visible sliders, unfixed points, buttons, checkboxes, InputBoxes, drop-down lists 
-					
+					// except visible sliders, unfixed points, buttons,
+					// checkboxes, InputBoxes, drop-down lists
+
 					// what to set all objects to
 					boolean selectionAllowed = false;
-					
+
 					// check if any geos already have selectionAllowed = false
 					// if so then we will set all to be true
-					TreeSet<GeoElement> objects = app.getKernel().getConstruction().getGeoSetConstructionOrder();
+					TreeSet<GeoElement> objects = app.getKernel()
+							.getConstruction().getGeoSetConstructionOrder();
 					Iterator<GeoElement> it = objects.iterator();
 					while (it.hasNext()) {
 						GeoElement geo = it.next();
@@ -623,23 +650,25 @@ public abstract class GlobalKeyDispatcher {
 							break;
 						}
 					}
-					
+
 					it = objects.iterator();
 					while (it.hasNext()) {
 						GeoElement geo = it.next();
-						
-						if (geo instanceof Furniture || 
-								(geo.isGeoNumeric() && ((GeoNumeric) geo).isSlider()) ||
-								(geo.isGeoList() && ((GeoList) geo).drawAsComboBox()) ||
-								geo.isGeoBoolean() ||
-								(geo.isGeoPoint() && !geo.isFixed()) ) {
-							
+
+						if (geo instanceof Furniture
+								|| (geo.isGeoNumeric() && ((GeoNumeric) geo)
+										.isSlider())
+								|| (geo.isGeoList() && ((GeoList) geo)
+										.drawAsComboBox())
+								|| geo.isGeoBoolean()
+								|| (geo.isGeoPoint() && !geo.isFixed())) {
+
 							geo.setSelectionAllowed(true);
 						} else {
 							geo.setSelectionAllowed(selectionAllowed);
 						}
 					}
-					
+
 				}
 				break;
 			}
@@ -655,13 +684,15 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Opens print preview dialog
-	 * @param app2 application
+	 * 
+	 * @param app2
+	 *            application
 	 */
 	protected abstract void showPrintPreview(App app2);
 
 	/**
-	 * Handles Ctrl+V; overridden in desktop
-	 * Default implementation pastes from XML and returns true
+	 * Handles Ctrl+V; overridden in desktop Default implementation pastes from
+	 * XML and returns true
 	 */
 	protected void handleCtrlV() {
 		app.setWaitCursor();
@@ -670,26 +701,29 @@ public abstract class GlobalKeyDispatcher {
 	}
 
 	/**
-	 * @param isAltDown whether alt is down
+	 * @param isAltDown
+	 *            whether alt is down
 	 * @return whether keys were consumed
 	 */
 	protected abstract boolean handleCtrlShiftN(boolean isAltDown);
 
 	/**
-	 * overridden in desktop
-	 * Default implementation pastes from XML and returns true
+	 * overridden in desktop Default implementation pastes from XML and returns
+	 * true
 	 */
 	protected void handleCtrlC() {
 		// Copy selected geos
 		app.setWaitCursor();
 		CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(), false);
 		app.updateMenubar();
-		app.setDefaultCursor();	
+		app.setDefaultCursor();
 	}
 
 	/**
-	 * @param isControlDown whether control is down
-	 * @param isShiftDown whether shift is down
+	 * @param isControlDown
+	 *            whether control is down
+	 * @param isShiftDown
+	 *            whether shift is down
 	 * @return whether key was consumed
 	 */
 	protected boolean handleTab(boolean isControlDown, boolean isShiftDown) {
@@ -698,7 +732,7 @@ public abstract class GlobalKeyDispatcher {
 		} else {
 			selection.selectNextGeo(app.getActiveEuclidianView());
 		}
-		
+
 		return true;
 	}
 
@@ -711,36 +745,38 @@ public abstract class GlobalKeyDispatcher {
 	 * Changes the font size of the user interface and construction element
 	 * styles (thickness, size) for a given fontSize.
 	 * 
-	 * @param app application
+	 * @param app
+	 *            application
 	 * @param fontSize
 	 *            12-32pt
 	 * @param blackWhiteMode
 	 *            whether only black should be used as a color
-	 * @param makeAxesBold force bold / not bold 
+	 * @param makeAxesBold
+	 *            force bold / not bold
 	 * @return whether change was performed
 	 */
-	public static boolean changeFontsAndGeoElements(App app,
-			int fontSize, boolean blackWhiteMode, boolean makeAxesBold) {
+	public static boolean changeFontsAndGeoElements(App app, int fontSize,
+			boolean blackWhiteMode, boolean makeAxesBold) {
 		if (app.isApplet())
 			return false;
 
 		app.setWaitCursor();
-		
-		// axes bold / not bold 
-		for (int ev = 1 ; ev <= 2 ; ev++) { 
-			EuclidianSettings settings = app.getSettings().getEuclidian(ev); 
-			int style = settings.getAxesLineStyle(); 
 
-			// set bold 
-			style = style | EuclidianStyleConstants.AXES_BOLD; 
+		// axes bold / not bold
+		for (int ev = 1; ev <= 2; ev++) {
+			EuclidianSettings settings = app.getSettings().getEuclidian(ev);
+			int style = settings.getAxesLineStyle();
 
-			if (!makeAxesBold) { 
-				// turn bold off again 
-				style = style ^ EuclidianStyleConstants.AXES_BOLD;                       
-			} 
+			// set bold
+			style = style | EuclidianStyleConstants.AXES_BOLD;
 
-			settings.setAxesLineStyle(style); 
-		} 
+			if (!makeAxesBold) {
+				// turn bold off again
+				style = style ^ EuclidianStyleConstants.AXES_BOLD;
+			}
+
+			settings.setAxesLineStyle(style);
+		}
 
 		// determine styles
 		// set new default line thickness
@@ -751,12 +787,9 @@ public abstract class GlobalKeyDispatcher {
 		// construction defaults
 		ConstructionDefaults cd = app.getKernel().getConstruction()
 				.getConstructionDefaults();
-		cd.setDefaultLineThickness(cd.getDefaultLineThickness()
-				+ incr);
-		cd.setDefaultPointSize(cd.getDefaultPointSize()
-				+ incr);
-		cd.setDefaultAngleSize(cd.getDefaultAngleSize()
-				+ angleSizeIncr);
+		cd.setDefaultLineThickness(cd.getDefaultLineThickness() + incr);
+		cd.setDefaultPointSize(cd.getDefaultPointSize() + incr);
+		cd.setDefaultAngleSize(cd.getDefaultAngleSize() + angleSizeIncr);
 		// blackWhiteMode: set defaults for new GeoElements
 		cd.setBlackWhiteMode(blackWhiteMode);
 
@@ -833,20 +866,28 @@ public abstract class GlobalKeyDispatcher {
 			geo.setObjColor(GColor.black);
 		}
 	}
-	
+
 	/**
 	 * Handle pressed key for selected GeoElements
-	 * @param key key code 
-	 * @param geos selected geos
-	 * @param isShiftDown  whether shift is down
-	 * @param isControlDown whether control is down
-	 * @param isAltDown whether alt is down
-	 * @param fromSpreadsheet whether this event comes from spreadsheet
+	 * 
+	 * @param key
+	 *            key code
+	 * @param geos
+	 *            selected geos
+	 * @param isShiftDown
+	 *            whether shift is down
+	 * @param isControlDown
+	 *            whether control is down
+	 * @param isAltDown
+	 *            whether alt is down
+	 * @param fromSpreadsheet
+	 *            whether this event comes from spreadsheet
 	 * 
 	 * @return if key was consumed
 	 */
 	protected boolean handleSelectedGeosKeys(KeyCodes key,
-			ArrayList<GeoElement> geos, boolean isShiftDown, boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
+			ArrayList<GeoElement> geos, boolean isShiftDown,
+			boolean isControlDown, boolean isAltDown, boolean fromSpreadsheet) {
 
 		// SPECIAL KEYS
 		double changeValX = 0; // later: changeVal = base or -base
@@ -863,7 +904,7 @@ public abstract class GlobalKeyDispatcher {
 			base = 10;
 		if (isAltDown)
 			base = 100;
-		//App.debug("key pressed");
+		// App.debug("key pressed");
 		if (geos == null || geos.size() == 0) {
 
 			// Get the EuclidianView which has the focus
@@ -883,23 +924,25 @@ public abstract class GlobalKeyDispatcher {
 					return true;
 				case INSERT:
 					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels((int) (height * base), 0, 0,
-							EuclidianController.MOVE_VIEW);
+					ev.translateCoordSystemInPixels((int) (height * base), 0,
+							0, EuclidianController.MOVE_VIEW);
 					return true;
 				case HOME:
 					ev.rememberOrigins();
-					ev.translateCoordSystemInPixels(-(int) (height * base), 0, 0,
-							EuclidianController.MOVE_VIEW);
+					ev.translateCoordSystemInPixels(-(int) (height * base), 0,
+							0, EuclidianController.MOVE_VIEW);
 					return true;
 				case DOWN:
 
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							EuclidianViewInterfaceCommon view = app
+									.getActiveEuclidianView();
 							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(), view.getYZero(),
-										view.getXscale(), view.getYscale() * 0.9);
+								view.setCoordSystem(view.getXZero(),
+										view.getYZero(), view.getXscale(),
+										view.getYscale() * 0.9);
 							}
 
 						} else {
@@ -918,10 +961,12 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							EuclidianViewInterfaceCommon view = app
+									.getActiveEuclidianView();
 							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(), view.getYZero(),
-										view.getXscale(), view.getYscale() / 0.9);
+								view.setCoordSystem(view.getXZero(),
+										view.getYZero(), view.getXscale(),
+										view.getYscale() / 0.9);
 							}
 
 						} else {
@@ -939,9 +984,12 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							EuclidianViewInterfaceCommon view = app
+									.getActiveEuclidianView();
 							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() * 0.9,
+								view.setCoordSystem(view.getXZero(),
+										view.getYZero(),
+										view.getXscale() * 0.9,
 										view.getYscale());
 							}
 						} else {
@@ -960,9 +1008,12 @@ public abstract class GlobalKeyDispatcher {
 					if (app.isUsingFullGui() && app.getGuiManager() != null
 							&& app.getGuiManager().noMenusOpen()) {
 						if (isShiftDown) {
-							EuclidianViewInterfaceCommon view = app.getActiveEuclidianView();
+							EuclidianViewInterfaceCommon view = app
+									.getActiveEuclidianView();
 							if (!view.isLockedAxesRatio()) {
-								view.setCoordSystem(view.getXZero(), view.getYZero(), view.getXscale() / 0.9,
+								view.setCoordSystem(view.getXZero(),
+										view.getYZero(),
+										view.getXscale() / 0.9,
 										view.getYscale());
 							}
 						} else {
@@ -974,12 +1025,12 @@ public abstract class GlobalKeyDispatcher {
 					}
 					return true;
 				}
-			
+
 			return false;
 		}
 
 		Iterator<GeoElement> it;
-		
+
 		// FUNCTION and DELETE keys
 		switch (key) {
 
@@ -1033,7 +1084,9 @@ public abstract class GlobalKeyDispatcher {
 
 		case DELETE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
-			if (app.getGuiManager() != null && app.getGuiManager().hasSpreadsheetView() && app.getGuiManager().getSpreadsheetView().hasFocus())
+			if (app.getGuiManager() != null
+					&& app.getGuiManager().hasSpreadsheetView()
+					&& app.getGuiManager().getSpreadsheetView().hasFocus())
 				return false;
 			// DELETE selected objects
 			if (!app.isApplet() || app.isRightClickEnabled()) {
@@ -1043,7 +1096,8 @@ public abstract class GlobalKeyDispatcher {
 
 		case BACKSPACE:
 			// G.Sturr 2010-5-2: let the spreadsheet handle delete
-			if (app.getGuiManager() != null && app.getGuiManager().getSpreadsheetView().hasFocus())
+			if (app.getGuiManager() != null
+					&& app.getGuiManager().getSpreadsheetView().hasFocus())
 				return false;
 			// DELETE selected objects
 			// Note: ctrl-h generates a KeyEvent.VK_BACK_SPACE event, so check
@@ -1055,7 +1109,7 @@ public abstract class GlobalKeyDispatcher {
 			}
 			break;
 		}
-		
+
 		// ignore key events coming from tables like the spreadsheet to
 		// allow start editing, moving etc
 		if (fromSpreadsheet
@@ -1070,7 +1124,8 @@ public abstract class GlobalKeyDispatcher {
 		switch (key) {
 		case UP:
 			// make sure arrow keys work in menus
-			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui()
+					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 			changeValY = base;
@@ -1079,7 +1134,8 @@ public abstract class GlobalKeyDispatcher {
 		case DOWN:
 
 			// make sure arrow keys work in menus
-			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui()
+					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 
@@ -1089,7 +1145,8 @@ public abstract class GlobalKeyDispatcher {
 		case RIGHT:
 
 			// make sure arrow keys work in menus
-			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui()
+					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
 
@@ -1099,10 +1156,11 @@ public abstract class GlobalKeyDispatcher {
 		case LEFT:
 
 			// make sure arrow keys work in menus
-			if (app.getGuiManager() != null && app.isUsingFullGui() && !app.getGuiManager().noMenusOpen()) {
+			if (app.getGuiManager() != null && app.isUsingFullGui()
+					&& !app.getGuiManager().noMenusOpen()) {
 				return false;
 			}
-			
+
 			changeValX = -base;
 			break;
 
@@ -1112,13 +1170,14 @@ public abstract class GlobalKeyDispatcher {
 
 		case PAGEDOWN:
 			changeValZ = -base;
-			
+
 			break;
 
 		}
-		
+
 		if (changeValX != 0 || changeValY != 0 || changeValZ != 0) {
-			moved = handleArrowKeyMovement(geos, changeValX, changeValY, changeValZ);
+			moved = handleArrowKeyMovement(geos, changeValX, changeValY,
+					changeValZ);
 		}
 
 		if (moved) {
@@ -1142,7 +1201,7 @@ public abstract class GlobalKeyDispatcher {
 		case ADD: // can be own key on some keyboard
 		case EQUALS: // same key as plus (on most keyboards)
 		case UP:
-			changeVal  = base;
+			changeVal = base;
 			vertical = true;
 			break;
 		case RIGHT:
@@ -1163,14 +1222,10 @@ public abstract class GlobalKeyDispatcher {
 		}
 
 		/*
-		if (changeVal == 0) {
-			char keyChar = event.getKeyChar();
-			if (keyChar == '+')
-				changeVal = base;
-			else if (keyChar == '-')
-				changeVal = -base;
-		}
-		*/
+		 * if (changeVal == 0) { char keyChar = event.getKeyChar(); if (keyChar
+		 * == '+') changeVal = base; else if (keyChar == '-') changeVal = -base;
+		 * }
+		 */
 		App.debug("not yet consumed");
 		// change all geoelements
 		if (changeVal != 0) {
@@ -1197,9 +1252,7 @@ public abstract class GlobalKeyDispatcher {
 								app.getKernel();
 								app.getKernel();
 								newValue = Kernel.PI_180
-										* Kernel
-										.checkDecimalFraction(
-												newValue
+										* Kernel.checkDecimalFraction(newValue
 												* Kernel.CONST_180_PI,
 												1 / num.getAnimationStep());
 							} else
@@ -1247,9 +1300,11 @@ public abstract class GlobalKeyDispatcher {
 
 	/**
 	 * Copies definitions of geos to input bar and wraps them in a list
-	 * @param geos list of geos
+	 * 
+	 * @param geos
+	 *            list of geos
 	 */
-	protected abstract void copyDefinitionsToInputBarAsList(ArrayList<GeoElement> geos);
-
+	protected abstract void copyDefinitionsToInputBarAsList(
+			ArrayList<GeoElement> geos);
 
 }

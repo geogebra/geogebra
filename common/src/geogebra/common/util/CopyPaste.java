@@ -67,7 +67,8 @@ public class CopyPaste {
 	public static final String labelPrefix = "CLIPBOARDmagicSTRING";
 
 	// this CopyPaste.INSTANCE shall either be CopyPaste or CopyPaste3D
-	// determined by App.initFactories, AppD, App3D, AppW, AppWapplet3D, AppWapplication3D
+	// determined by App.initFactories, AppD, App3D, AppW, AppWapplet3D,
+	// AppWapplication3D
 	public static CopyPaste INSTANCE = null;
 
 	public CopyPaste() {
@@ -120,8 +121,8 @@ public class CopyPaste {
 	 * may be repositioned)
 	 * 
 	 */
-	protected void removeDependentFromAxes(
-			ArrayList<ConstructionElement> geos, App app) {
+	protected void removeDependentFromAxes(ArrayList<ConstructionElement> geos,
+			App app) {
 
 		ConstructionElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
@@ -171,7 +172,8 @@ public class CopyPaste {
 							.equals(Algos.AlgoMacro)) {
 						found = true;
 						if (copymacro) {
-							copiedMacros.add(((AlgoMacro)geo.getParentAlgorithm()).getMacro());
+							copiedMacros.add(((AlgoMacro) geo
+									.getParentAlgorithm()).getMacro());
 						}
 					}
 				}
@@ -184,7 +186,8 @@ public class CopyPaste {
 									.equals(Algos.AlgoMacro)) {
 								found = true;
 								if (copymacro) {
-									copiedMacros.add(((AlgoMacro)geo2.getParentAlgorithm()).getMacro());
+									copiedMacros.add(((AlgoMacro) geo2
+											.getParentAlgorithm()).getMacro());
 								}
 								break;
 							}
@@ -209,7 +212,7 @@ public class CopyPaste {
 		GeoElement geo;
 		for (int i = geos.size() - 1; i >= 0; i--) {
 			geo = (GeoElement) geos.get(i);
-			if(geo.getParentAlgorithm()==null)
+			if (geo.getParentAlgorithm() == null)
 				continue;
 
 			if (!geo.isGeoElement3D()) {
@@ -236,20 +239,22 @@ public class CopyPaste {
 						GeoElement[] ogeos = ((AlgoPolygon) (geo
 								.getParentAlgorithm())).getOutput();
 						for (int j = 0; j < ogeos.length; j++) {
-							if (!geos.contains(ogeos[j]) && ogeos[j].isGeoSegment()) {
+							if (!geos.contains(ogeos[j])
+									&& ogeos[j].isGeoSegment()) {
 								geos.add(ogeos[j]);
 							}
 						}
 					} else if (geo.getParentAlgorithm() instanceof AlgoPolygonRegularND) {
-						GeoElement[] pgeos = ((geo
-								.getParentAlgorithm())).getInput();
+						GeoElement[] pgeos = ((geo.getParentAlgorithm()))
+								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
-							if (!geos.contains(pgeos[j]) && pgeos[j].isGeoPoint()) {
+							if (!geos.contains(pgeos[j])
+									&& pgeos[j].isGeoPoint()) {
 								geos.add(pgeos[j]);
 							}
 						}
-						GeoElement[] ogeos = ((geo
-								.getParentAlgorithm())).getOutput();
+						GeoElement[] ogeos = ((geo.getParentAlgorithm()))
+								.getOutput();
 						for (int j = 0; j < ogeos.length; j++) {
 							if (!geos.contains(ogeos[j])
 									&& (ogeos[j].isGeoSegment() || ogeos[j]
@@ -270,14 +275,16 @@ public class CopyPaste {
 					}
 				} else if (geo.isGeoConic()) {
 					if (geo.getParentAlgorithm() instanceof AlgoCircleTwoPoints) {
-						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						GeoElement[] pgeos = geo.getParentAlgorithm()
+								.getInput();
 						if (!geos.contains(pgeos[0]))
 							geos.add(pgeos[0]);
 						if (!geos.contains(pgeos[1]))
 							geos.add(pgeos[1]);
 					} else if (geo.getParentAlgorithm() instanceof AlgoCircleThreePoints
-							|| geo.getParentAlgorithm()instanceof AlgoEllipseHyperbolaFociPoint) {
-						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+							|| geo.getParentAlgorithm() instanceof AlgoEllipseHyperbolaFociPoint) {
+						GeoElement[] pgeos = geo.getParentAlgorithm()
+								.getInput();
 						if (!geos.contains(pgeos[0]))
 							geos.add(pgeos[0]);
 						if (!geos.contains(pgeos[1]))
@@ -285,31 +292,38 @@ public class CopyPaste {
 						if (!geos.contains(pgeos[2]))
 							geos.add(pgeos[2]);
 					} else if (geo.getParentAlgorithm() instanceof AlgoConicFivePoints) {
-						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						GeoElement[] pgeos = geo.getParentAlgorithm()
+								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j]))
 								geos.add(pgeos[j]);
 						}
 					} else if (geo.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
-						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						GeoElement[] pgeos = geo.getParentAlgorithm()
+								.getInput();
 						if (!geos.contains(pgeos[0]))
 							geos.add(pgeos[0]);
 					}
 				} else if (geo.isGeoList()) {
 					// TODO: note that there are a whole lot of other list algos
 					// that might need to be supported! 3D cases come here too,
-					// because GeoList is 2D object! Or we should make a separate
-					// method just for GeoList! It would also be good, for nested
-					// lists in lists and GeoElements with subGeos in lists! (new ticket)
+					// because GeoList is 2D object! Or we should make a
+					// separate
+					// method just for GeoList! It would also be good, for
+					// nested
+					// lists in lists and GeoElements with subGeos in lists!
+					// (new ticket)
 					if (geo.getParentAlgorithm().getClassName()
 							.equals(Commands.Sequence)) {
-						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						GeoElement[] pgeos = geo.getParentAlgorithm()
+								.getInput();
 						if (pgeos.length > 1) {
 							if (!geos.contains(pgeos[0]))
 								geos.add(pgeos[0]);
 						}
 					} else if (geo.getParentAlgorithm() instanceof AlgoDependentList) {
-						GeoElement[] pgeos = geo.getParentAlgorithm().getInput();
+						GeoElement[] pgeos = geo.getParentAlgorithm()
+								.getInput();
 						for (int j = 0; j < pgeos.length; j++) {
 							if (!geos.contains(pgeos[j]))
 								geos.add(pgeos[j]);
@@ -367,7 +381,8 @@ public class CopyPaste {
 	 * @return the possible side-effect geos
 	 */
 	protected ArrayList<ConstructionElement> addAlgosDependentFromInside(
-			ArrayList<ConstructionElement> conels, boolean putdown, boolean copymacro) {
+			ArrayList<ConstructionElement> conels, boolean putdown,
+			boolean copymacro) {
 
 		ArrayList<ConstructionElement> ret = new ArrayList<ConstructionElement>();
 
@@ -381,22 +396,22 @@ public class CopyPaste {
 
 			// also doing this here, which is not about the name of the method,
 			// but making sure textfields (which require algos) are shown
-			if ((geo.getParentAlgorithm() instanceof AlgoTextfield) &&
-				(!ret.contains(geo.getParentAlgorithm())) &&
-				(!conels.contains(geo.getParentAlgorithm()))) {
+			if ((geo.getParentAlgorithm() instanceof AlgoTextfield)
+					&& (!ret.contains(geo.getParentAlgorithm()))
+					&& (!conels.contains(geo.getParentAlgorithm()))) {
 				// other algos will be added to this anyway,
 				// so we can handle this issue in this method
 				ret.add(geo.getParentAlgorithm());
 			}
 			// probably not needed? although corner number is NumberValue,
 			// it is converted to a GeoElement, so this might be Okay
-			/*if ((geo.getParentAlgorithm() instanceof AlgoDrawingPadCorner) &&
-				(!ret.contains(geo.getParentAlgorithm())) &&
-				(!geos.contains(geo.getParentAlgorithm()))) {
-				// other algos will be added to this anyway,
-				// so we can handle this issue in this method
-				ret.add(geo.getParentAlgorithm());
-			}*/
+			/*
+			 * if ((geo.getParentAlgorithm() instanceof AlgoDrawingPadCorner) &&
+			 * (!ret.contains(geo.getParentAlgorithm())) &&
+			 * (!geos.contains(geo.getParentAlgorithm()))) { // other algos will
+			 * be added to this anyway, // so we can handle this issue in this
+			 * method ret.add(geo.getParentAlgorithm()); }
+			 */
 
 			geoal = geo.getAlgorithmList();
 
@@ -407,11 +422,10 @@ public class CopyPaste {
 
 					ac = new ArrayList<ConstructionElement>();
 					ac.addAll(Arrays.asList(ale.getInput()));
-					if (conels.containsAll(ac)
-							&& !conels.contains(ale)) {
+					if (conels.containsAll(ac) && !conels.contains(ale)) {
 
 						if ((ale instanceof AlgoMacro) && copymacro) {
-							copiedMacros.add(((AlgoMacro)ale).getMacro());
+							copiedMacros.add(((AlgoMacro) ale).getMacro());
 						}
 
 						conels.add(ale);
@@ -468,9 +482,9 @@ public class CopyPaste {
 	 * @param conels
 	 * @param geostohide
 	 */
-	protected void beforeSavingToXML(
-			ArrayList<ConstructionElement> conels,
-			ArrayList<ConstructionElement> geostohide, boolean samewindow, boolean putdown) {
+	protected void beforeSavingToXML(ArrayList<ConstructionElement> conels,
+			ArrayList<ConstructionElement> geostohide, boolean samewindow,
+			boolean putdown) {
 
 		if (samewindow)
 			copiedXMLlabelsforSameWindow = new ArrayList<String>();
@@ -494,7 +508,8 @@ public class CopyPaste {
 								.add(((GeoElement) geo).getLabelSimple());
 
 					if (putdown) {
-						geo.getKernel().renameLabelInScripts(label, labelPrefix + label);
+						geo.getKernel().renameLabelInScripts(label,
+								labelPrefix + label);
 					}
 
 					// TODO: check possible realLabel issues
@@ -524,8 +539,7 @@ public class CopyPaste {
 	 * @param conels
 	 * @param geostoshow
 	 */
-	protected void afterSavingToXML(
-			ArrayList<ConstructionElement> conels,
+	protected void afterSavingToXML(ArrayList<ConstructionElement> conels,
 			ArrayList<ConstructionElement> geostoshow, boolean putdown) {
 
 		ConstructionElement geo;
@@ -542,8 +556,8 @@ public class CopyPaste {
 									.substring(labelPrefix.length()));
 
 							if (putdown) {
-								geo.getKernel().renameLabelInScripts(label, label
-										.substring(labelPrefix.length()));
+								geo.getKernel().renameLabelInScripts(label,
+										label.substring(labelPrefix.length()));
 							}
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -564,12 +578,14 @@ public class CopyPaste {
 	/**
 	 * This method saves geos and all predecessors of them in XML
 	 * 
-	 * @param app the App object (the main application instance)
-	 * @param geos the set of GeoElement's that should be copied
-	 * @param putdown boolean which means the InsertFile case
+	 * @param app
+	 *            the App object (the main application instance)
+	 * @param geos
+	 *            the set of GeoElement's that should be copied
+	 * @param putdown
+	 *            boolean which means the InsertFile case
 	 */
-	public void copyToXML(App app,
-			ArrayList<GeoElement> geos, boolean putdown) {
+	public void copyToXML(App app, ArrayList<GeoElement> geos, boolean putdown) {
 
 		boolean copyMacrosPresume = true;
 
@@ -628,11 +644,14 @@ public class CopyPaste {
 
 		// what about a GeoElement which is the result of an algo with no input?
 		// this is especially important if the GeoElement cannot be shown,
-		// e.g. in case the GeoElement is a textfield. In other cases, the bug is
-		// not visible, but it would still be nice to include the parent algo too.
+		// e.g. in case the GeoElement is a textfield. In other cases, the bug
+		// is
+		// not visible, but it would still be nice to include the parent algo
+		// too.
 		// it is okay to handle it after this, as algos are resistant to hiding
 
-		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown, copyMacrosPresume));
+		geostohide.addAll(addAlgosDependentFromInside(geoslocal, putdown,
+				copyMacrosPresume));
 
 		ArrayList<ConstructionElement> geoslocalsw = removeFreeNonselectedGeoNumerics(
 				geoslocal, geos);
@@ -644,7 +663,7 @@ public class CopyPaste {
 		// // FIRST XML SAVE
 		beforeSavingToXML(geoslocal, geostohide, false, putdown);
 		// change kernel settings temporarily
-		//StringType oldPrintForm = kernel.getStringTemplate().getStringType();
+		// StringType oldPrintForm = kernel.getStringTemplate().getStringType();
 		boolean saveScriptsToXML = kernel.getSaveScriptsToXML();
 		if (!putdown) {
 			kernel.setSaveScriptsToXML(false);
@@ -667,7 +686,7 @@ public class CopyPaste {
 			copiedXML = new StringBuilder();
 		}
 		// restore kernel settings
-		//kernel.setCASPrintForm(oldPrintForm);
+		// kernel.setCASPrintForm(oldPrintForm);
 		if (!putdown) {
 			kernel.setSaveScriptsToXML(saveScriptsToXML);
 		}
@@ -696,7 +715,7 @@ public class CopyPaste {
 				copiedXMLforSameWindow = new StringBuilder();
 			}
 			// restore kernel settings
-			//kernel.setCASPrintForm(oldPrintForm);
+			// kernel.setCASPrintForm(oldPrintForm);
 			kernel.setSaveScriptsToXML(saveScriptsToXML);
 			afterSavingToXML(geoslocalsw, geostohidesw, putdown);
 		}
@@ -728,8 +747,8 @@ public class CopyPaste {
 	 * @param app
 	 * @param labels
 	 */
-	protected void handleLabels(App app,
-			ArrayList<String> labels, boolean putdown) {
+	protected void handleLabels(App app, ArrayList<String> labels,
+			boolean putdown) {
 
 		Kernel kernel = app.getKernel();
 		GeoElement geo;
@@ -748,7 +767,8 @@ public class CopyPaste {
 						geo.removeView(App.VIEW_EUCLIDIAN3D);
 						app.getEuclidianView3D().remove(geo);
 					}
-				} else if (app.getActiveEuclidianView() == app.getEuclidianView3D()) {
+				} else if (app.getActiveEuclidianView() == app
+						.getEuclidianView3D()) {
 					app.removeFromEuclidianView(geo);
 					if (app.getEuclidianView3D() != null) {
 						geo.addView(App.VIEW_EUCLIDIAN3D);
@@ -773,7 +793,8 @@ public class CopyPaste {
 						labelPrefix.length())));
 				// geo.getLabelSimple() is now not the oldLabel, ideally
 				if (putdown) {
-					geo.getKernel().renameLabelInScripts(oldLabel, geo.getLabelSimple());
+					geo.getKernel().renameLabelInScripts(oldLabel,
+							geo.getLabelSimple());
 				}
 
 				// geo.setLabel(geo.getDefaultLabel(false));
@@ -835,7 +856,7 @@ public class CopyPaste {
 			return;
 
 		app.getKernel().notifyPaste();
-		
+
 		copyObject2 = app.getKernel().getConstruction().getUndoManager()
 				.getCurrentUndoInfo();
 
@@ -851,16 +872,16 @@ public class CopyPaste {
 		boolean scriptsBlocked = app.isBlockUpdateScripts();
 		app.setBlockUpdateScripts(true);
 
-		//don't update selection
-		app.getActiveEuclidianView().getEuclidianController().clearSelections(true,false);
-		//don't update properties view
+		// don't update selection
+		app.getActiveEuclidianView().getEuclidianController()
+				.clearSelections(true, false);
+		// don't update properties view
 		app.updateSelection(false);
 		app.getActiveEuclidianView().getEuclidianController()
 				.setPastePreviewSelected();
 
 		if (pasteFast(app) && !putdown) {
-			EuclidianViewInterfaceCommon ev = app
-					.getActiveEuclidianView();
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			if (ev == app.getEuclidianView1()) {
 				app.getGgbApi().evalXML(copiedXMLforSameWindow.toString());
 				app.getKernel().getConstruction().updateConstruction();
@@ -884,18 +905,21 @@ public class CopyPaste {
 				// as it was hard to copy macro classes, let's use
 				// strings, but how to load them into the application?
 				try {
-					//app.getXMLio().processXMLString(copySource.getApplication().getMacroXML(), false, true);
+					// app.getXMLio().processXMLString(copySource.getApplication().getMacroXML(),
+					// false, true);
 
 					// alternative solution
-					app.addMacroXML(copySource.getApplication().getXMLio().getFullMacroXML(new ArrayList<Macro>(copiedMacros)));
+					app.addMacroXML(copySource
+							.getApplication()
+							.getXMLio()
+							.getFullMacroXML(new ArrayList<Macro>(copiedMacros)));
 				} catch (Exception ex) {
 					App.debug("Could not load any macros at \"Paste from XML\"");
 					ex.printStackTrace();
 				}
 			}
 
-			EuclidianViewInterfaceCommon ev = app
-					.getActiveEuclidianView();
+			EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 			if (ev == app.getEuclidianView1()) {
 				app.getGgbApi().evalXML(copiedXML.toString());
 				app.getKernel().getConstruction().updateConstruction();
@@ -916,7 +940,7 @@ public class CopyPaste {
 
 		if (!putdown) {
 			app.getActiveEuclidianView().getEuclidianController()
-				.setPastePreviewSelected();
+					.setPastePreviewSelected();
 		}
 
 		app.setMode(EuclidianConstants.MODE_MOVE);

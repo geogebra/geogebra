@@ -15,14 +15,14 @@ import geogebra.common.kernel.geos.TextProperties;
 /**
  * Replaces Swing button in DrawButton
  */
-public class MyButton implements Observer{
+public class MyButton implements Observer {
 
 	private GeoButton geoButton;
 	private EuclidianView view;
 	private int x, y;
 	private boolean selected;
 	private String text;
-	
+
 	private final static int margin = 10;
 	private final static int minSize = 24;
 	private final static int arcSize = 10;
@@ -30,12 +30,11 @@ public class MyButton implements Observer{
 	private boolean pressed, draggedOrContext;
 	private float textHeight;
 	private float textWidth;
-	
+
 	private static float marginTopMultiplier = 0.6f;
 	private static float marginBottomMultiplier = 0.5f;
 	private static float marginLeftMultiplier = 1f;
 	private static float marginRightMultiplier = 1f;
-	
 
 	/**
 	 * @param button
@@ -66,11 +65,12 @@ public class MyButton implements Observer{
 	 */
 	public void paintComponent(geogebra.common.awt.GGraphics2D g) {
 
-		view.setAntialiasing(g);		
-		
-		font = font.deriveFont(geoButton.getFontStyle(), (int)(geoButton.getFontSizeMultiplier() * 12));
+		view.setAntialiasing(g);
+
+		font = font.deriveFont(geoButton.getFontStyle(),
+				(int) (geoButton.getFontSizeMultiplier() * 12));
 		g.setFont(font);
-		
+
 		boolean hasText = getCaption().length() > 0;
 
 		int imgHeight = 0;
@@ -78,77 +78,95 @@ public class MyButton implements Observer{
 		int imgGap = 0;
 		textHeight = 0;
 		textWidth = 0;
-		
+
 		if (geoButton.getFillImage() != null) {
 			imgHeight = geoButton.getFillImage().getHeight();
 			imgWidth = geoButton.getFillImage().getWidth();
 			if (hasText)
 				imgGap = 4;
-		}	
+		}
 		GTextLayout t = null;
 		// get dimensions
 		if (hasText) {
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
 					getCaption(), font, g.getFontRenderContext());
 			textHeight = t.getAscent() + t.getDescent();
-			textWidth = t.getAdvance();		
-		} 
+			textWidth = t.getAdvance();
+		}
 		// With fixed size the font are resized if is too big
-		if (geoButton.isFixedSize() && 
-				((int)textHeight + imgGap + (marginTopMultiplier + marginBottomMultiplier) * margin > geoButton.getHeight() ||
-						(int)textWidth + (marginLeftMultiplier + marginRightMultiplier) * margin > geoButton.getWidth())){
-			resize(g,imgGap);
+		if (geoButton.isFixedSize()
+				&& ((int) textHeight + imgGap
+						+ (marginTopMultiplier + marginBottomMultiplier)
+						* margin > geoButton.getHeight() || (int) textWidth
+						+ (marginLeftMultiplier + marginRightMultiplier)
+						* margin > geoButton.getWidth())) {
+			resize(g, imgGap);
 			return;
 		}
-		
-		int currentWidth = Math.max((int) (textWidth + (marginLeftMultiplier + marginRightMultiplier) * margin), minSize);
-		currentWidth = Math.max(currentWidth, (int) (imgWidth + (marginLeftMultiplier + marginRightMultiplier) * margin));
-		
-		int currentHeight = Math.max((int) (textHeight + imgHeight + imgGap + (marginTopMultiplier + marginBottomMultiplier) * margin),
-				minSize);
 
-		//Additional offset for image if button has fixed size		
-		int imgStart=0;
-		
-		//Initial offset for subimage if button has fixed size
-		int startX=0;
-		int startY=0;
+		int currentWidth = Math
+				.max((int) (textWidth + (marginLeftMultiplier + marginRightMultiplier)
+						* margin), minSize);
+		currentWidth = Math
+				.max(currentWidth,
+						(int) (imgWidth + (marginLeftMultiplier + marginRightMultiplier)
+								* margin));
+
+		int currentHeight = Math
+				.max((int) (textHeight + imgHeight + imgGap + (marginTopMultiplier + marginBottomMultiplier)
+						* margin), minSize);
+
+		// Additional offset for image if button has fixed size
+		int imgStart = 0;
+
+		// Initial offset for subimage if button has fixed size
+		int startX = 0;
+		int startY = 0;
 		double add = 0;
 		if (!geoButton.isFixedSize()) {
-			//Some combinations of style, serif / sans and letters
-			//overflow from the drawing if the text is extra large
-			if(geoButton.getFontStyle() >= 2 ){
-				add=Math.sin(0.50) * t.getDescent();
-				currentWidth+=(int)add;
-			} 
-			if(geoButton.isSerifFont()){
-				currentWidth+=currentWidth/10;
-			}		
-			if(geoButton.isSerifFont() && geoButton.getFontStyle() >= 2){
-				add=-add;
-				currentWidth+=currentWidth/4;
+			// Some combinations of style, serif / sans and letters
+			// overflow from the drawing if the text is extra large
+			if (geoButton.getFontStyle() >= 2) {
+				add = Math.sin(0.50) * t.getDescent();
+				currentWidth += (int) add;
+			}
+			if (geoButton.isSerifFont()) {
+				currentWidth += currentWidth / 10;
+			}
+			if (geoButton.isSerifFont() && geoButton.getFontStyle() >= 2) {
+				add = -add;
+				currentWidth += currentWidth / 4;
 			}
 			geoButton.setWidth(currentWidth);
 			geoButton.setHeight(currentHeight);
 		} else {
-			//With fixed size the image is cut if is too big
-			if (imgHeight > geoButton.getHeight() - textHeight - imgGap - (marginTopMultiplier + marginBottomMultiplier) * margin) {
-				startY=imgHeight - (int) (geoButton.getHeight() - textHeight - imgGap - (marginTopMultiplier + marginBottomMultiplier) * margin);
-				imgHeight = (int) (geoButton.getHeight() - textHeight - imgGap - (marginTopMultiplier + marginBottomMultiplier) * margin);
-				if( imgHeight <= 0 ){
+			// With fixed size the image is cut if is too big
+			if (imgHeight > geoButton.getHeight() - textHeight - imgGap
+					- (marginTopMultiplier + marginBottomMultiplier) * margin) {
+				startY = imgHeight
+						- (int) (geoButton.getHeight() - textHeight - imgGap - (marginTopMultiplier + marginBottomMultiplier)
+								* margin);
+				imgHeight = (int) (geoButton.getHeight() - textHeight - imgGap - (marginTopMultiplier + marginBottomMultiplier)
+						* margin);
+				if (imgHeight <= 0) {
 					geoButton.setFillImage("");
-				} else {					
+				} else {
 					startY /= 2;
 				}
 			}
-			if (imgWidth > geoButton.getWidth() - (marginLeftMultiplier + marginRightMultiplier) * margin) {
-				startX= (int) (imgWidth -(geoButton.getWidth() - (marginLeftMultiplier + marginRightMultiplier) * margin));
-				imgWidth = (int) (geoButton.getWidth() - (marginLeftMultiplier + marginRightMultiplier) * margin);
-				startX/=2;
+			if (imgWidth > geoButton.getWidth()
+					- (marginLeftMultiplier + marginRightMultiplier) * margin) {
+				startX = (int) (imgWidth - (geoButton.getWidth() - (marginLeftMultiplier + marginRightMultiplier)
+						* margin));
+				imgWidth = (int) (geoButton.getWidth() - (marginLeftMultiplier + marginRightMultiplier)
+						* margin);
+				startX /= 2;
 			}
-			imgStart=(int)(geoButton.getHeight() - imgHeight - (marginTopMultiplier + marginBottomMultiplier) * margin - textHeight - imgGap) / 2;
+			imgStart = (int) (geoButton.getHeight() - imgHeight
+					- (marginTopMultiplier + marginBottomMultiplier) * margin
+					- textHeight - imgGap) / 2;
 		}
-		
+
 		// prepare colors and paint
 		g.setColor(view.getBackgroundCommon());
 		geogebra.common.awt.GPaint p;
@@ -156,15 +174,16 @@ public class MyButton implements Observer{
 		if (bg == null)
 			bg = geogebra.common.awt.GColor.lightGray;
 		if (isSelected()) {
-			/*bg2 = bg;
-			bg = bg.darker();*/
+			/*
+			 * bg2 = bg; bg = bg.darker();
+			 */
 			bg2 = bg;
 		} else {
 			bg2 = bg.brighter();
 		}
 		if (!pressed) {
 			p = geogebra.common.factories.AwtFactory.prototype
-					.newGradientPaint(x, y, bg2, x, y + (getHeight()/2), bg);
+					.newGradientPaint(x, y, bg2, x, y + (getHeight() / 2), bg);
 		} else {
 			p = geogebra.common.factories.AwtFactory.prototype
 					.newGradientPaint(x, y, bg.darker(), x, y + getHeight(), bg);
@@ -177,64 +196,83 @@ public class MyButton implements Observer{
 		// background color
 
 		g.setPaint(p);
-		g.fillRoundRect(x, y, geoButton.getWidth()+(int)add, geoButton.getHeight(), arcSize, arcSize);
+		g.fillRoundRect(x, y, geoButton.getWidth() + (int) add,
+				geoButton.getHeight(), arcSize, arcSize);
 
 		// draw border
 		g.setColor(geogebra.common.awt.GColor.DARK_GRAY);
 		g.setStroke(EuclidianStatic.getDefaultStroke());
-		g.drawRoundRect(x, y, getWidth()+(int)add - 1, getHeight() - 1, arcSize, arcSize);
+		g.drawRoundRect(x, y, getWidth() + (int) add - 1, getHeight() - 1,
+				arcSize, arcSize);
 
 		// prepare to draw text
 		g.setColor(geoButton.getObjectColor());
 		this.setForeground(geogebra.common.awt.GColor.white);
 
-		// draw image		
+		// draw image
 		if (geoButton.getFillImage() != null) {
-			g.drawImage(geoButton.getFillImage().getSubimage(startX,startY ,imgWidth,imgHeight), null, x + (geoButton.getWidth() - imgWidth) / 2,
-					(int) (y + marginTopMultiplier * margin + imgStart));
+			g.drawImage(
+					geoButton.getFillImage().getSubimage(startX, startY,
+							imgWidth, imgHeight), null,
+					x + (geoButton.getWidth() - imgWidth) / 2, (int) (y
+							+ marginTopMultiplier * margin + imgStart));
 		}
 
 		// draw the text center-aligned to the button
 		if (hasText) {
-			int xPos = (int) (x + (geoButton.getWidth() - t.getAdvance()+add) / 2);
-			//int yPos = (int) (y + marginTopMultiplier * margin + imgHeight + imgGap + t.getAscent() + imgStart);
-			
-			if(geoButton.getFillImage() == null) {
-				imgStart = (int)(geoButton.getHeight() - (marginTopMultiplier + marginBottomMultiplier) * margin - textHeight) / 2;
+			int xPos = (int) (x + (geoButton.getWidth() - t.getAdvance() + add) / 2);
+			// int yPos = (int) (y + marginTopMultiplier * margin + imgHeight +
+			// imgGap + t.getAscent() + imgStart);
+
+			if (geoButton.getFillImage() == null) {
+				imgStart = (int) (geoButton.getHeight()
+						- (marginTopMultiplier + marginBottomMultiplier)
+						* margin - textHeight) / 2;
 			}
-			
-			int yPos = (int) (y + marginTopMultiplier * margin + imgHeight + imgGap + t.getAscent() + imgStart);
-			
+
+			int yPos = (int) (y + marginTopMultiplier * margin + imgHeight
+					+ imgGap + t.getAscent() + imgStart);
+
 			if (geoButton.getFillImage() != null) {
-				yPos = (int) (y + marginTopMultiplier * margin + imgHeight + imgGap + t.getAscent() + imgStart);
+				yPos = (int) (y + marginTopMultiplier * margin + imgHeight
+						+ imgGap + t.getAscent() + imgStart);
 			}
-			
+
 			g.drawString(geoButton.getCaption(StringTemplate.defaultTemplate),
 					xPos, yPos);
 		}
 	}
 
 	private void resize(geogebra.common.awt.GGraphics2D g, int imgGap) {
-		//Reduces the font for attempts
+		// Reduces the font for attempts
 		GTextLayout t = null;
-		int i=GeoText.getFontSizeIndex(((TextProperties)geoButton).getFontSizeMultiplier());
-		while (i > 0 && (int)textHeight + imgGap + (marginTopMultiplier + marginBottomMultiplier) * margin > geoButton.getHeight()){
+		int i = GeoText.getFontSizeIndex(((TextProperties) geoButton)
+				.getFontSizeMultiplier());
+		while (i > 0
+				&& (int) textHeight + imgGap
+						+ (marginTopMultiplier + marginBottomMultiplier)
+						* margin > geoButton.getHeight()) {
 			i--;
-			font=font.deriveFont(font.getStyle(),(int)(GeoText.getRelativeFontSize(i)*12));			
+			font = font.deriveFont(font.getStyle(),
+					(int) (GeoText.getRelativeFontSize(i) * 12));
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
 					getCaption(), font, g.getFontRenderContext());
 			textHeight = t.getAscent() + t.getDescent();
 			textWidth = t.getAdvance();
-		} 
-		
-		while (i > 0 && (int) textWidth + (marginLeftMultiplier + marginRightMultiplier) * margin > geoButton.getWidth()){
+		}
+
+		while (i > 0
+				&& (int) textWidth
+						+ (marginLeftMultiplier + marginRightMultiplier)
+						* margin > geoButton.getWidth()) {
 			i--;
-			font = font.deriveFont(font.getStyle(), (int)(GeoText.getRelativeFontSize(i) * 12));
+			font = font.deriveFont(font.getStyle(),
+					(int) (GeoText.getRelativeFontSize(i) * 12));
 			t = geogebra.common.factories.AwtFactory.prototype.newTextLayout(
 					getCaption(), font, g.getFontRenderContext());
 			textHeight = t.getAscent() + t.getDescent();
 			textWidth = t.getAdvance();
-		}	
+		}
 		geoButton.setFontSizeMultiplier(GeoText.getRelativeFontSize(i));
 		setFont(font);
 	}
@@ -265,7 +303,7 @@ public class MyButton implements Observer{
 	public int getHeight() {
 		return geoButton.getHeight();
 	}
-	
+
 	/**
 	 * Resizes and moves the button
 	 * 
@@ -330,7 +368,7 @@ public class MyButton implements Observer{
 	 * @param font
 	 *            new font
 	 */
-	public void setFont(GFont font) {	
+	public void setFont(GFont font) {
 		this.font = font;
 		geoButton.getKernel().notifyRepaint();
 	}
@@ -345,12 +383,14 @@ public class MyButton implements Observer{
 		}
 		// releasing
 		else if (!draggedOrContext) {
-			
-			// make sure that Input Boxes lose focus (and so update) before running scripts
-			//geoButton.getKernel().getApplication().getActiveEuclidianView().requestFocusInWindow();
+
+			// make sure that Input Boxes lose focus (and so update) before
+			// running scripts
+			// geoButton.getKernel().getApplication().getActiveEuclidianView().requestFocusInWindow();
 
 			// now called from EuclidianController
-			//geoButton.getKernel().getApplication().runScripts(geoButton, null);
+			// geoButton.getKernel().getApplication().runScripts(geoButton,
+			// null);
 		}
 
 		pressed = b;
@@ -379,7 +419,8 @@ public class MyButton implements Observer{
 	}
 
 	/**
-	 * @param fixedSize change the button to have fixed size
+	 * @param fixedSize
+	 *            change the button to have fixed size
 	 */
 	public void setFixedSize(boolean fixedSize) {
 		geoButton.setFixedSize(fixedSize);
@@ -395,5 +436,5 @@ public class MyButton implements Observer{
 	public GeoElement getButton() {
 		return geoButton;
 	}
-	
+
 }

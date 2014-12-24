@@ -1,13 +1,13 @@
 package geogebra.common.util;
 
-
 public class Unicode {
 
 	// used by Giac for polar separator instead of ;
 	// eg (2;3)
-	// space needed to avoid encoding problem (probably with $wnd.Module.cwrap, see CASGiacW)
+	// space needed to avoid encoding problem (probably with $wnd.Module.cwrap,
+	// see CASGiacW)
 	final public static char angle = '\u2221';
-	final public static String angleSpace = angle+" ";
+	final public static String angleSpace = angle + " ";
 	final public static char minus = '\u2212';
 	final public static char LESS_EQUAL = '\u2264';
 	final public static char GREATER_EQUAL = '\u2265';
@@ -66,11 +66,11 @@ public class Unicode {
 	public static final char tau = '\u03C4';
 	public static final char upsilon = '\u03C5';
 	public static final char phi = '\u03C6';
-	public static final char phi_symbol = '\u03D5'; // "straight" phi	
+	public static final char phi_symbol = '\u03D5'; // "straight" phi
 	public static final char chi = '\u03C7';
 	public static final char psi = '\u03C8';
 	public static final char omega = '\u03C9';
-	
+
 	// UPPER CASE Greek
 	public static final char Alpha = '\u0391';
 	public static final char Beta = '\u0392';
@@ -97,14 +97,13 @@ public class Unicode {
 	public static final char Chi = '\u03A7';
 	public static final char Psi = '\u03A8';
 	public static final char Omega = '\u03A9';
-	
+
 	public static final String SQUARE_ROOT = "\u221a";
 	public static final String PLUSMINUS = "\u00b1";
 	public static final String NOTEQUAL = "\u2260";
 
 	public static final String QUESTEQ = "\u225f";
 
-	
 	final public static char FEMININE_ORDINAL_INDICATOR = '\u00aa';
 
 	final public static String IMAGINARY = "\u03af"; // GREEK SMALL LETTER IOTA
@@ -132,8 +131,8 @@ public class Unicode {
 	final public static String fraction3_4 = "\u00be";
 	final public static String fraction7_8 = "\u215e";
 	public static final char multiply = '\u00d7'; // multiply cross
-	public static final String divide = "\u00f7"; 
-	
+	public static final String divide = "\u00f7";
+
 	// various characters which hang down below the line
 	// gjy with/without accents
 	// characters with cedillas
@@ -145,7 +144,7 @@ public class Unicode {
 	public static final char VECTOR_PRODUCT = '\u2297';
 	public static final char OPEN_DOUBLE_QUOTE = '\u201C';
 	public static final char CLOSE_DOUBLE_QUOTE = '\u201D';
-	
+
 	public static String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static String CAS_OUTPUT_PREFIX = "\u2192";
 	public static String CAS_OUTPUT_KEEPINPUT = "\u2713";
@@ -214,13 +213,14 @@ public class Unicode {
 				|| (c == Superscript_1) || (c == Superscript_2)
 				|| (c == Superscript_3);
 	}
-	
-	public static String [] getSetOfSymbols(int symbolsStartValue,int symbolsNumber){
-		String []symbols=new String[symbolsNumber];
-		for(int i=0;i<symbolsNumber;i++){
-			symbols[i]=""+(char)(symbolsStartValue+i);
+
+	public static String[] getSetOfSymbols(int symbolsStartValue,
+			int symbolsNumber) {
+		String[] symbols = new String[symbolsNumber];
+		for (int i = 0; i < symbolsNumber; i++) {
+			symbols[i] = "" + (char) (symbolsStartValue + i);
 		}
 		return symbols;
 	}
-	
+
 }

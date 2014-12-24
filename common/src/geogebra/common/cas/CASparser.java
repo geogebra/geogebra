@@ -46,89 +46,97 @@ import java.util.TreeSet;
  * 
  * @author Markus Hohenwarter
  */
-public class CASparser implements CASParserInterface{
+public class CASparser implements CASParserInterface {
 	private Parser parser;
 	private ParserFunctions parserFunctions;
-	
+
 	/**
 	 * Creates new CAS parser
-	 * @param parser parser
-	 * @param pf parser functions
+	 * 
+	 * @param parser
+	 *            parser
+	 * @param pf
+	 *            parser functions
 	 */
-	public CASparser(Parser parser, ParserFunctions pf) {	
+	public CASparser(Parser parser, ParserFunctions pf) {
 		this.parser = parser;
 		this.parserFunctions = pf;
 	}
-	
-	
-	public ValidExpression parseGeoGebraCASInput(final String exp) throws CASException {
+
+	public ValidExpression parseGeoGebraCASInput(final String exp)
+			throws CASException {
 		CASException c;
 		try {
 			return parser.parseGeoGebraCAS(exp);
 		} catch (ParseException e) {
-			c =  new CASException(e);
+			c = new CASException(e);
 			c.setKey("InvalidInput");
 			throw c;
 		} catch (BracketsError e) {
-			c =  new CASException(e);
+			c = new CASException(e);
 			c.setKey("UnbalancedBrackets");
 			throw c;
 		}
 	}
-	
-	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(final String inValue, Kernel kernel) throws CASException {
+
+	public ValidExpression parseGeoGebraCASInputAndResolveDummyVars(
+			final String inValue, Kernel kernel) throws CASException {
 		if (inValue == null || inValue.length() == 0)
 			return null;
-		
+
 		try {
 			// parse input into valid expression
 			ValidExpression ve = parseGeoGebraCASInput(inValue);
-			
+
 			// resolve Variable objects in ValidExpression as GeoDummy objects
 			resolveVariablesForCAS(ve, kernel);
-			
+
 			// resolve Equations as Functions if lhs is y
 			if (ve instanceof Function) {
 				ve.traverse(Traversing.FunctionCreator.getCreator());
 			}
-			
+
 			return ve;
-		//}catch (MaximaVersionUnsupportedExecption e) {
-		//	throw e; // propagate exception
-		}catch (Throwable e) {
-			if(e instanceof CASException)
-				throw (CASException)e;
+			// }catch (MaximaVersionUnsupportedExecption e) {
+			// throw e; // propagate exception
+		} catch (Throwable e) {
+			if (e instanceof CASException)
+				throw (CASException) e;
 			throw new CASException(e);
 		}
-		
+
 	}
-	
+
 	/**
-	 * Resolves all variables in ValidExpression. Unknown variables are
-	 * kept as symbolic variables.
-	 * TODO check that we need default template here
+	 * Resolves all variables in ValidExpression. Unknown variables are kept as
+	 * symbolic variables. TODO check that we need default template here
 	 */
-	public synchronized void resolveVariablesForCAS(ExpressionValue ev, Kernel kernel) {
-		
-		// add local variables to kernel, 
+	public synchronized void resolveVariablesForCAS(ExpressionValue ev,
+			Kernel kernel) {
+
+		// add local variables to kernel,
 		// e.g. f(a,b) := 3*a+c*b has local variables a, b
 		boolean isFunction = ev instanceof Function;
-		FunctionVariable [] funVars = null;
+		FunctionVariable[] funVars = null;
 		if (isFunction) {
-			Construction cmdCons = kernel.getConstruction();  
+			Construction cmdCons = kernel.getConstruction();
 			funVars = ((Function) ev).getFunctionVariables();
 			for (FunctionVariable funVar : funVars) {
-				GeoElement localVarGeo = new GeoDummyVariable(cmdCons, funVar.toString(StringTemplate.defaultTemplate));
-				cmdCons.addLocalVariable(funVar.toString(StringTemplate.defaultTemplate), localVarGeo);
+				GeoElement localVarGeo = new GeoDummyVariable(cmdCons,
+						funVar.toString(StringTemplate.defaultTemplate));
+				cmdCons.addLocalVariable(
+						funVar.toString(StringTemplate.defaultTemplate),
+						localVarGeo);
 			}
 		}
 		// resolve variables of valid expression
 		kernel.setResolveUnkownVarsAsDummyGeos(true);
 		ev.resolveVariables();
 		kernel.setResolveUnkownVarsAsDummyGeos(false);
-		
-		Set<String> nonFunctions = new TreeSet<String>(); 
-		NonFunctionCollector c = NonFunctionCollector.getCollector(nonFunctions);
+
+		Set<String> nonFunctions = new TreeSet<String>();
+		NonFunctionCollector c = NonFunctionCollector
+				.getCollector(nonFunctions);
 		NonFunctionReplacer r = NonFunctionReplacer.getCollector(nonFunctions);
 		ev.traverse(c);
 		ev.traverse(r);
@@ -136,21 +144,25 @@ public class CASparser implements CASParserInterface{
 		if (isFunction) {
 			Construction cmdCons = kernel.getConstruction();
 			for (FunctionVariable funVar : funVars) {
-				cmdCons.removeLocalVariable(funVar.toString(StringTemplate.defaultTemplate));
+				cmdCons.removeLocalVariable(funVar
+						.toString(StringTemplate.defaultTemplate));
 			}
 		}
 	}
-	
-	
-	
+
 	/**
 	 * Tries to convert parsed CAS output to GeoGebra syntax.
-	 * @param ev parsed CAS output
-	 * @param tpl string template
-	 * @return GeoGebra string representation of 
-	 * @throws CASException in case the conversion failed
+	 * 
+	 * @param ev
+	 *            parsed CAS output
+	 * @param tpl
+	 *            string template
+	 * @return GeoGebra string representation of
+	 * @throws CASException
+	 *             in case the conversion failed
 	 */
-	public String toGeoGebraString(ExpressionValue ev,StringTemplate tpl) throws CASException {
+	public String toGeoGebraString(ExpressionValue ev, StringTemplate tpl)
+			throws CASException {
 		try {
 			return toString(ev, tpl);
 		} catch (Throwable e) {
@@ -158,107 +170,118 @@ public class CASparser implements CASParserInterface{
 			throw new CASException(e);
 		}
 	}
-	
+
 	/**
 	 * Tries to convert the given CAS string to the given syntax.
-	 * @param ev parsed CAS output
-	 * @param tpl template to be used
+	 * 
+	 * @param ev
+	 *            parsed CAS output
+	 * @param tpl
+	 *            template to be used
 	 * @return string representation of ev in given syntax
 	 */
 	public String toString(ExpressionValue ev, StringTemplate tpl) {
 		String GeoGebraString;
 		ExpressionNode expr;
 		if (!ev.isExpressionNode()) {
-			expr = ev.wrap();			
-		}
-		else
+			expr = ev.wrap();
+		} else
 			expr = (ExpressionNode) ev;
-		GeoGebraString = expr.getCASstring(tpl, true);		
+		GeoGebraString = expr.getCASstring(tpl, true);
 		return GeoGebraString;
 	}
-	
+
 	/**
 	 * Tries to convert the given Giac string to GeoGebra syntax.
-	 * @param exp MPReduce output
+	 * 
+	 * @param exp
+	 *            MPReduce output
 	 * @return parsed expression
-	 * @throws CASException if parsing goes wrong
+	 * @throws CASException
+	 *             if parsing goes wrong
 	 */
 	public ValidExpression parseGiac(String exp) throws CASException {
 		try {
 			return parser.parseGiac(exp);
 		} catch (Throwable t) {
 			throw new CASException(t);
-		}		
+		}
 	}
-	
+
 	/**
-	 * Final automata can be in three states
-	 * * NORMAL -- no index being read
-	 * * UNDERSCORE -- last character was _
-	 * * LONG_INDEX -- it found _{, but not yet }
+	 * Final automata can be in three states * NORMAL -- no index being read *
+	 * UNDERSCORE -- last character was _ * LONG_INDEX -- it found _{, but not
+	 * yet }
 	 *
 	 */
-	private enum FA {NORMAL,UNDERSCORE,LONG_INDEX}
+	private enum FA {
+		NORMAL, UNDERSCORE, LONG_INDEX
+	}
+
 	/**
-	 * Converts all index characters ('_', '{', '}') in the given String
-	 * to "unicode" + charactercode + DELIMITER Strings. This is needed because
+	 * Converts all index characters ('_', '{', '}') in the given String to
+	 * "unicode" + charactercode + DELIMITER Strings. This is needed because
 	 * MathPiper does not handle indices correctly.
-	 * @param str input string with _,{,}
-	 * @param replaceUnicode whether unicode characters need to be encoded
+	 * 
+	 * @param str
+	 *            input string with _,{,}
+	 * @param replaceUnicode
+	 *            whether unicode characters need to be encoded
 	 * @return string where _,{,} are replaced
 	 */
 	public synchronized String replaceIndices(String str, boolean replaceUnicode) {
 		int len = str.length();
 		StringBuilder replaceIndices = new StringBuilder();
-		
-		FA state = FA.NORMAL;  
+
+		FA state = FA.NORMAL;
 		// convert every single character and append it to sb
 		for (int i = 0; i < len; i++) {
 			char c = str.charAt(i);
-						
+
 			switch (state) {
-				case NORMAL: // start index
-					if(c=='_'){
-						if (i > 0 && str.charAt(i-1) == '\\'){
-							// \\_ is translated to _
-							replaceIndices.deleteCharAt(replaceIndices.length()-1);
-							replaceIndices.append('_');
-						}else{
-							state = FA.UNDERSCORE;
-							appendcode(replaceIndices,'_');
-						}
-					}
-					else if (replaceUnicode && c > 127 && c != Unicode.angle) {
-						appendcode(replaceIndices, c);
-					
-					// ' replaced in StringTemplate.addTempVariablePrefix() so that x', y' work	#3607
-					//} else if (c == '\'') {
-					//	appendcode(replaceIndices, c);
+			case NORMAL: // start index
+				if (c == '_') {
+					if (i > 0 && str.charAt(i - 1) == '\\') {
+						// \\_ is translated to _
+						replaceIndices
+								.deleteCharAt(replaceIndices.length() - 1);
+						replaceIndices.append('_');
 					} else {
-						replaceIndices.append(c);
+						state = FA.UNDERSCORE;
+						appendcode(replaceIndices, '_');
 					}
-					break;
-										
-				case UNDERSCORE: 	
-					if (c=='{') {						
-						state = FA.LONG_INDEX;						
-					}else{
-						state = FA.NORMAL;
-					}
-					appendcode(replaceIndices,c);
-					break;					
-					
-				case LONG_INDEX:
-					if (c=='}') {						
-						state = FA.NORMAL;						
-					}
-					appendcode(replaceIndices,c);					
-					break;
-			}			
+				} else if (replaceUnicode && c > 127 && c != Unicode.angle) {
+					appendcode(replaceIndices, c);
+
+					// ' replaced in StringTemplate.addTempVariablePrefix() so
+					// that x', y' work #3607
+					// } else if (c == '\'') {
+					// appendcode(replaceIndices, c);
+				} else {
+					replaceIndices.append(c);
+				}
+				break;
+
+			case UNDERSCORE:
+				if (c == '{') {
+					state = FA.LONG_INDEX;
+				} else {
+					state = FA.NORMAL;
+				}
+				appendcode(replaceIndices, c);
+				break;
+
+			case LONG_INDEX:
+				if (c == '}') {
+					state = FA.NORMAL;
+				}
+				appendcode(replaceIndices, c);
+				break;
+			}
 		}
-		
-		//App.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
-					
+
+		// App.debug(insertSpecialChars(replaceIndices.toString())+" "+replaceIndices.toString());
+
 		return replaceIndices.toString();
 	}
 
@@ -266,21 +289,23 @@ public class CASparser implements CASParserInterface{
 		replaceIndices.append(ExpressionNodeConstants.UNICODE_PREFIX);
 		replaceIndices.append(code);
 		replaceIndices.append(ExpressionNodeConstants.UNICODE_DELIMITER);
-		
-	}
 
+	}
 
 	/**
 	 * Reverse operation of removeSpecialChars().
-	 * @param str input string
+	 * 
+	 * @param str
+	 *            input string
 	 * @return input string with 'replaced by !' etc.
 	 */
 	// see ExpressionNode#operationToString() for XCOORD, YCOORD
 	public String insertSpecialChars(String str) {
 		int prefixLen = ExpressionNodeConstants.UNICODE_PREFIX.length();
-		
-		if (str.length() < prefixLen) return str;
-		
+
+		if (str.length() < prefixLen)
+			return str;
+
 		int len = str.length();
 		StringBuilder insertSpecial = new StringBuilder();
 
@@ -317,7 +342,8 @@ public class CASparser implements CASParserInterface{
 						insertSpecial.append((char) code);
 						i = j;
 					} else { // invalid
-						insertSpecial.append(ExpressionNodeConstants.UNICODE_PREFIX);
+						insertSpecial
+								.append(ExpressionNodeConstants.UNICODE_PREFIX);
 						i += prefixLen;
 					}
 				} else {
@@ -329,7 +355,6 @@ public class CASparser implements CASParserInterface{
 		}
 		return insertSpecial.toString();
 	}
-
 
 	/**
 	 * @return parser functions
@@ -345,25 +370,25 @@ public class CASparser implements CASParserInterface{
 	 *            the Expression to be translated
 	 * @param casStringType
 	 *            one of StringType.{MAXIMA, MPREDUCE, MATH_PIPER}
-	 * @param cas CAS interface
+	 * @param cas
+	 *            CAS interface
 	 * @return the translated String.
 	 */
-	public String translateToCAS(ValidExpression ve, StringTemplate casStringType,CASGenericInterface cas) {
-	
+	public String translateToCAS(ValidExpression ve,
+			StringTemplate casStringType, CASGenericInterface cas) {
 
 		try {
-			String body = ve.wrap().getCASstring(casStringType,
-					false);
-			
-			
-			
+			String body = ve.wrap().getCASstring(casStringType, false);
 
 			return body;
 		} finally {
-			//do nothing
+			// do nothing
 		}
 	}
-	private Map<String,String> rbCasTranslations; // translates from GeogebraCAS
+
+	private Map<String, String> rbCasTranslations; // translates from
+													// GeogebraCAS
+
 	// syntax to the internal CAS
 	// syntax.
 
@@ -384,7 +409,10 @@ public class CASparser implements CASParserInterface{
 
 	/**
 	 * Returns whether the CAS command key is available, e.g. "Expand.1"
-	 * @param commandKey command name suffixed by . and number of arguments, e.g. Derivative.2, Sum.N
+	 * 
+	 * @param commandKey
+	 *            command name suffixed by . and number of arguments, e.g.
+	 *            Derivative.2, Sum.N
 	 * @return true if available
 	 */
 	final public boolean isCommandAvailable(String commandKey) {
@@ -399,13 +427,12 @@ public class CASparser implements CASParserInterface{
 	 * @return The current ResourceBundle used for translations.
 	 * 
 	 */
-	synchronized Map<String,String> getTranslationRessourceBundle() {
+	synchronized Map<String, String> getTranslationRessourceBundle() {
 		if (rbCasTranslations == null) {
 
 			rbCasTranslations = Ggb2giac.getMap();
 		}
 		return rbCasTranslations;
 	}
-
 
 }

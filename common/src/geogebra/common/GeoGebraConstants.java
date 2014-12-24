@@ -1,6 +1,5 @@
 package geogebra.common;
 
-
 /**
  * Application-wide constants (version strings, URLs)
  */
@@ -13,19 +12,22 @@ public interface GeoGebraConstants {
 	/** last build date */
 	public static final String BUILD_DATE = "22 December 2014";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.53.0"; 
-	
-	/** true for beta versions/release candidates*/
-	public static final boolean IS_PRE_RELEASE = false;//VERSION_STRING.startsWith(XML_FILE_FORMAT);
+	public static final String VERSION_STRING = "5.0.53.0";
+
+	/** true for beta versions/release candidates */
+	public static final boolean IS_PRE_RELEASE = false;// VERSION_STRING.startsWith(XML_FILE_FORMAT);
 
 	// proper noun, should NOT be translated / transliterated
-	public static final String APPLICATION_NAME = "GeoGebra"; 
-	
-	/** used by version checker, so that sys admins can disable version checking for *all* ggb versions with
-	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow = false
+	public static final String APPLICATION_NAME = "GeoGebra";
+
+	/**
+	 * used by version checker, so that sys admins can disable version checking
+	 * for *all* ggb versions with
+	 * HKEY_LOCAL_MACHINE/Software/JavaSoft/Prefs/geogebra/version_check_allow =
+	 * false
 	 * */
 	public static final String PREFERENCES_ROOT_GLOBAL = "/geogebra";
-	
+
 	/** eg HKEY_CURRENT_USER/Software/JavaSoft/Prefs/geogebra42/ */
 	/** root preferences node */
 	public static final String PREFERENCES_ROOT = "/geogebra50";
@@ -38,49 +40,58 @@ public interface GeoGebraConstants {
 	public static final String VERSION_URL = "http://www.geogebra.org/download/version.txt";
 
 	public static final String INSTALLERS_URL = "http://www.geogebra.org/installers";
-	//public static final String INSTALLERS_URL = IS_PRE_RELEASE ? "http://download.geogebra.org/installers/5.0"
-	//		: "http://www.geogebra.org/installers";
+	// public static final String INSTALLERS_URL = IS_PRE_RELEASE ?
+	// "http://download.geogebra.org/installers/5.0"
+	// : "http://www.geogebra.org/installers";
 
 	/** Splash filename -- used for online */
 	public static final String SPLASH_STRING = "splash.png";
 	// archive
 	/** short version, for online archive */
 	public static final String SHORT_VERSION_STRING = "5.0";
-	/** true if CAS is enabled*/
+	/** true if CAS is enabled */
 	public static final boolean CAS_VIEW_ENABLED = true;
 	// File format versions
-	/** XSD for ggb files*/
-	public static final String GGB_XSD_FILENAME = "ggb.xsd"; 
+	/** XSD for ggb files */
+	public static final String GGB_XSD_FILENAME = "ggb.xsd";
 	/** XSD for ggt (macro) files */
 	public static final String GGT_XSD_FILENAME = "ggt.xsd";
 	// URLs
 	/** URL of GeoGebraWeb main js file */
-	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/" + SHORT_VERSION_STRING +
-			"/web/web.nocache.js";
+	public static final String GEOGEBRA_HTML5_BASE = "http://www.geogebra.org/web/"
+			+ SHORT_VERSION_STRING + "/web/web.nocache.js";
 	/** URL of GeoGebraWeb zip file */
-	//public static final String GEOGEBRAWEB_ZIP_URL = "http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip";
+	// public static final String GEOGEBRAWEB_ZIP_URL =
+	// "http://dev.geogebra.org/download/web/GeoGebraWeb-latest.zip";
 	/** Destination filename for GeoGebraWeb zip file */
 	public static final String GEOGEBRAWEB_ZIP_LOCAL = "GeoGebraWeb-latest.zip";
 	/** URL of GeoGebraWeb main js file (offline version) */
-	//public static final String GEOGEBRA_HTML5_BASE_OFFLINE = "web/web.nocache.js"; 
+	// public static final String GEOGEBRA_HTML5_BASE_OFFLINE =
+	// "web/web.nocache.js";
 	/** URL of GeoGebra jars */
 	public final static String GEOGEBRA_ONLINE_ARCHIVE_BASE = "http://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
 	/** URL of GeoGebra jars, zipped */
-	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE + "geogebra-jars.zip";
+	public static final String GEOGEBRA_ONLINE_JARS_ZIP = GEOGEBRA_ONLINE_ARCHIVE_BASE
+			+ "geogebra-jars.zip";
 	/** update directory, typically on Windows */
-	public static final String GEOGEBRA_JARS_UPDATE_DIR ="\\GeoGebra 5.0\\jars\\update";
-	/** online license file, generated from trunk --- FIXME: create a per version file */
+	public static final String GEOGEBRA_JARS_UPDATE_DIR = "\\GeoGebra 5.0\\jars\\update";
+	/**
+	 * online license file, generated from trunk --- FIXME: create a per version
+	 * file
+	 */
 	public final static String GEOGEBRA_ONLINE_LICENSE = "http://www.geogebra.org/info/gui-_license.txt";
-	/** URL of GeoGebra Webstart (to check whether we are running webstart)*/
+	/** URL of GeoGebra Webstart (to check whether we are running webstart) */
 	public final static String GEOGEBRA_ONLINE_WEBSTART_BASE = "http://www.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
-	/** URL of GeoGebra Webstart (to check whether we are running debug webstart)*/
+	/**
+	 * URL of GeoGebra Webstart (to check whether we are running debug webstart)
+	 */
 	public final static String GEOGEBRA_ONLINE_WEBSTART_BASE_ALTERNATIVE = "http://jars.geogebra.org/webstart/"
 			+ SHORT_VERSION_STRING + "/";
-	/** URL of loading gif*/
+	/** URL of loading gif */
 	public static final String LOADING_GIF = "http://www.geogebra.org/webstart/loading.gif";
-	/** GeoGebra URL*/
+	/** GeoGebra URL */
 	public final static String GEOGEBRA_WEBSITE = "http://www.geogebra.org/";
 	/** 4.2 desktop bug reports */
 	public final static String GEOGEBRA_REPORT_BUG_DESKTOP = "http://www.geogebra.org/bugs/?v=5.0";
@@ -90,38 +101,43 @@ public interface GeoGebraConstants {
 	public final static String GEOGEBRATUBE_WEBSITE = "http://tube.geogebra.org/";
 	/** max possible heap space for applets in MB */
 	public final static int MAX_HEAP_SPACE = 1024;
-	
+
 	public static final String URL_PARAM_GGB_FILE = "ggb-file";
 	public static final String URL_PARAM_PROXY = "url";
 	public static final String PROXY_SERVING_LOCATION = "proxy";
-	/** CSS class name for GeoGebraWeb &article> tag*/
+	/** CSS class name for GeoGebraWeb &article> tag */
 	public static final String GGM_CLASS_NAME = "geogebraweb";
 	/** mimetype of GGB files */
 	public static final String GGW_MIME_TYPE = "application/vnd.geogebra.file";
 
 	/** Splash timeout in miliseconds */
 	public static final int SPLASH_DIALOG_DELAY = 1000;
-	/** team page URL*/
-	public static final String GGW_ABOUT_TEAM_URL="http://www.geogebra.org/team";
-	//public static final String GGW_ABOUT_LICENSE_URL="http://dev.geogebra.org/trac/browser/trunk/geogebra/desktop/geogebra/gui/_license.txt";
-	//public static final String GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/download/license.txt";
+	/** team page URL */
+	public static final String GGW_ABOUT_TEAM_URL = "http://www.geogebra.org/team";
+	// public static final String
+	// GGW_ABOUT_LICENSE_URL="http://dev.geogebra.org/trac/browser/trunk/geogebra/desktop/geogebra/gui/_license.txt";
+	// public static final String
+	// GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/download/license.txt";
 	/** license URL */
-	public static final String GGW_ABOUT_LICENSE_URL="http://www.geogebra.org/info/?action=AboutLicense";
-	
-	 // //////////////////////////////////////////////////////////////////////////
-	 // AUTHENTICATING WITH GOOGLE ///////////////////////////////////////////////
-	 // //////////////////////////////////////////////////////////////////////////
-	
+	public static final String GGW_ABOUT_LICENSE_URL = "http://www.geogebra.org/info/?action=AboutLicense";
+
+	// //////////////////////////////////////////////////////////////////////////
+	// AUTHENTICATING WITH GOOGLE
+	// ///////////////////////////////////////////////
+	// //////////////////////////////////////////////////////////////////////////
+
 	/** google auth url */
 	public static final String GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/auth";
-	
-	/** This app's personal client ID assigned by the Google APIs Console
-	 (http://code.google.com/apis/console). */
+
+	/**
+	 * This app's personal client ID assigned by the Google APIs Console
+	 * (http://code.google.com/apis/console).
+	 */
 	public static final String GOOGLE_CLIENT_ID = "656990710877.apps.googleusercontent.com";
 	public static final String GOOGLE_TEST_CLIENT_ID = "300173001758.apps.googleusercontent.com";
 	public static final String SKYDRIVE_CLIENT_ID = "00000000440E9093";
 	public static final String SKYDRIVE_REDIRECT_URI = "http://www.geogebra.org/web/test50/web/html/windowslive.html";
-	public static final String SKYDRIVE_PROXY_URL =	"html/skydriveproxy.php";
+	public static final String SKYDRIVE_PROXY_URL = "html/skydriveproxy.php";
 	public static final String SKYDRIVE_API_URL = "https://js.live.net/v5.0/en/wl.js";
 
 	// The auth scope being requested. This scope will allow the application to

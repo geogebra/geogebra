@@ -2,10 +2,11 @@ package geogebra.common.euclidian;
 
 public abstract class EnvironmentStyle {
 
-	public float getScaleX(){
+	public float getScaleX() {
 		return 1;
 	}
-	public float getScaleY(){
+
+	public float getScaleY() {
 		return 1;
 	}
 

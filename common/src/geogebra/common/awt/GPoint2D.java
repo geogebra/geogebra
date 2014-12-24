@@ -1,8 +1,8 @@
 package geogebra.common.awt;
 
 public abstract class GPoint2D {
-	public static class Double extends GPoint2D{
-		
+	public static class Double extends GPoint2D {
+
 		public double x;
 		public double y;
 
@@ -15,8 +15,8 @@ public abstract class GPoint2D {
 		}
 
 		public void setLocation(double x, double y) {
-			 this.x = x;
-			 this.y = y;
+			this.x = x;
+			this.y = y;
 		}
 
 		@Override
@@ -41,30 +41,38 @@ public abstract class GPoint2D {
 
 		@Override
 		public double distance(GPoint2D q) {
-			return Math.sqrt(GPoint2D.distanceSq(getX(), getY(), q.getX(), q.getY()));
+			return Math.sqrt(GPoint2D.distanceSq(getX(), getY(), q.getX(),
+					q.getY()));
 		}
 
 		@Override
 		public double distance(double x1, double y1) {
 			return Math.sqrt(GPoint2D.distanceSq(getX(), getY(), x1, y1));
 		}
-		
+
 	}
-	
+
 	public abstract double getX();
+
 	public abstract double distance(double x, double y);
+
 	public abstract double getY();
+
 	public abstract void setX(double x);
+
 	public abstract void setY(double y);
+
 	public abstract double distance(GPoint2D q);
+
 	public static double distanceSq(double x1, double y1, double x2, double y2) {
-        double d_x = x2 - x1;
-        double d_y = y2 - y1;
-        return d_x * d_x + d_y * d_y;
-    }
+		double d_x = x2 - x1;
+		double d_y = y2 - y1;
+		return d_x * d_x + d_y * d_y;
+	}
+
 	public void setLocation(double x, double y) {
 		setX(x);
 		setY(y);
-		
+
 	}
 }

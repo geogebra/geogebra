@@ -116,7 +116,7 @@ public class MyXMLHandler implements DocHandler {
 	private static final int MODE_CAS_CELL_PAIR = 162;
 	private static final int MODE_CAS_INPUT_CELL = 163;
 	private static final int MODE_CAS_OUTPUT_CELL = 164;
-	private static final int MODE_CAS_TEXT_CELL = 165; 
+	private static final int MODE_CAS_TEXT_CELL = 165;
 	private static final int MODE_PROBABILITY_CALCULATOR = 170;
 	private static final int MODE_KERNEL = 200;
 	private static final int MODE_CONSTRUCTION = 300;
@@ -133,12 +133,12 @@ public class MyXMLHandler implements DocHandler {
 																// <views />
 																// </perspective>
 
-	/** available font sizes (will be reused in OptionsAdvanced)*/
+	/** available font sizes (will be reused in OptionsAdvanced) */
 	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32 };
-	/** available tooltip timeouts (will be reused in OptionsAdvanced)*/
+	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
 	final public static String[] tooltipTimeouts = new String[] { "1", "3",
 			"5", "10", "20", "30", "60", "0" };
-	/** available CAS timeout options (will be reused in OptionsCAS)*/
+	/** available CAS timeout options (will be reused in OptionsCAS) */
 	final public static Integer[] cbTimeoutOptions = { 5, 10, 20, 30, 60 };
 
 	/** See JSplitPane.HORIZONTAL_SPLIT */
@@ -146,9 +146,10 @@ public class MyXMLHandler implements DocHandler {
 	/** See JSplitPane.VERTICAL_SPLIT */
 	private static final int JSplitPane_VERTICAL_SPLIT = 0;
 
-	/** we used minimal text size of 4px until 4.0 for texts,
-	 * because the font size setting was additive. Not needed
-	 * with current multiplicative approach, just for opening old files.
+	/**
+	 * we used minimal text size of 4px until 4.0 for texts, because the font
+	 * size setting was additive. Not needed with current multiplicative
+	 * approach, just for opening old files.
 	 */
 	private static final double MIN_TEXT_SIZE = 4;
 
@@ -219,13 +220,13 @@ public class MyXMLHandler implements DocHandler {
 			this.geoElement = geo;
 		}
 	}
-	
+
 	private class GeoNumericMinMax {
 		private GeoElement geoElement;
 		String min;
 		String max;
 
-		GeoNumericMinMax(GeoElement g, String min,String max) {
+		GeoNumericMinMax(GeoElement g, String min, String max) {
 			setGeo(g);
 			this.min = min;
 			this.max = max;
@@ -300,7 +301,6 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private boolean tmp_showAlgebra, tmp_showSpreadsheet;
 
-
 	// flag so that we can reset EVSettings the first time we get them (for EV1
 	// and EV2)
 	protected boolean resetEVsettingsNeeded = false;
@@ -308,8 +308,10 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Creates a new instance of MyXMLHandler
 	 * 
-	 * @param kernel kernel
-	 * @param cons construction
+	 * @param kernel
+	 *            kernel
+	 * @param cons
+	 *            construction
 	 */
 	public MyXMLHandler(Kernel kernel, Construction cons) {
 		origKernel = kernel;
@@ -327,13 +329,13 @@ public class MyXMLHandler implements DocHandler {
 		startPointList.clear();
 		showObjectConditionList.clear();
 		dynamicColorList.clear();
-		
+
 		linkedGeoList.clear();
 		animatingList.clear();
 		minMaxList.clear();
 		animationStepList.clear();
 		animationSpeedList.clear();
-		
+
 		if (start)
 			consStep = -2;
 
@@ -360,7 +362,8 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * @param integer option index
+	 * @param integer
+	 *            option index
 	 * @return timeout in seconds
 	 */
 	public static Integer getTimeoutOption(long integer) {
@@ -375,7 +378,7 @@ public class MyXMLHandler implements DocHandler {
 	// ===============================================
 
 	final public void text(String str) throws SAXException {
-		//do nothing
+		// do nothing
 	}
 
 	final public void startDocument() throws SAXException {
@@ -469,11 +472,11 @@ public class MyXMLHandler implements DocHandler {
 
 					ggbFileFormat = Kernel.checkDecimalFraction(ggbFileFormat);
 
-					//Allow unbounded angles when loading new files, 
-					//not saved automatically eg. for slider min #4108
+					// Allow unbounded angles when loading new files,
+					// not saved automatically eg. for slider min #4108
 					if (ggbFileFormat > FORMAT) {
-						App.debug(loc.getError("FileFormatNewer")
-								+ ": " + ggbFileFormat); // Michael
+						App.debug(loc.getError("FileFormatNewer") + ": "
+								+ ggbFileFormat); // Michael
 						// Borcherds
 					}
 
@@ -542,7 +545,8 @@ public class MyXMLHandler implements DocHandler {
 						width = app.getAppletWidth() - 2; // 2: border
 						height = app.getAppletHeight() - 2; // 2: border
 						if (width == 0 || height == 0) {
-							// setting a standard size, like in compabilityLayout
+							// setting a standard size, like in
+							// compabilityLayout
 							// fixing a real bug of height 0
 							width = 598; // 2: border
 							height = 438; // 2: border
@@ -562,7 +566,7 @@ public class MyXMLHandler implements DocHandler {
 			}
 			break;
 		case MODE_EUCLIDIAN_VIEW3D:
-			if ("euclidianView3D".equals(eName)){
+			if ("euclidianView3D".equals(eName)) {
 				evSet = null;
 				mode = MODE_GEOGEBRA;
 			}
@@ -641,10 +645,9 @@ public class MyXMLHandler implements DocHandler {
 					else
 						kernel.getAnimatonManager().startAnimation();
 				}
-				
 
 				// perform tasks to maintain backward compability
-				if (hasGuiElement){
+				if (hasGuiElement) {
 					if (ggbFileFormat < 3.3) {
 						createCompabilityLayout();
 					} else if (!isPreferencesXML && tmp_perspectives.isEmpty()) {
@@ -687,15 +690,15 @@ public class MyXMLHandler implements DocHandler {
 			hasGuiElement = true;
 			isPreferencesXML = false;
 
-			//if (ggbFileFormat < 3.3) // safe to reset every time
-				tmp_perspective = new Perspective("tmp");
+			// if (ggbFileFormat < 3.3) // safe to reset every time
+			tmp_perspective = new Perspective("tmp");
 			tmp_perspectives.clear();
 
 		} else if ("macro".equals(eName)) {
 			mode = MODE_MACRO;
 			initMacro(attrs);
 		} else if ("construction".equals(eName)) {
-			App.debug("parsing start"+System.currentTimeMillis());
+			App.debug("parsing start" + System.currentTimeMillis());
 			mode = MODE_CONSTRUCTION;
 			handleConstruction(attrs);
 		} else if ("casSession".equals(eName)) {
@@ -750,8 +753,10 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * only used in MyXMLHandler3D
 	 * 
-	 * @param eName element name
-	 * @param attrs attributes
+	 * @param eName
+	 *            element name
+	 * @param attrs
+	 *            attributes
 	 */
 	protected void startEuclidianView3DElement(String eName,
 			LinkedHashMap<String, String> attrs) {
@@ -763,30 +768,37 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	/** Euclidian settings */
 	protected EuclidianSettings evSet = null;
-	
+
 	/**
 	 * check if eName equals "viewId" and set evSet to the correct settings
 	 * (only used for 3D)
-	 * @param eName element name
-	 * @param attrs attributes
+	 * 
+	 * @param eName
+	 *            element name
+	 * @param attrs
+	 *            attributes
 	 */
 	protected void startEuclidianViewElementCheckViewId(String eName,
-			LinkedHashMap<String, String> attrs){
-		//only used in 3D
+			LinkedHashMap<String, String> attrs) {
+		// only used in 3D
 	}
-	
+
 	/**
 	 * switch name for euclidian view element
-	 * @param eName element name
-	 * @param attrs attributes
-	 * @param firstChar first character of element name
+	 * 
+	 * @param eName
+	 *            element name
+	 * @param attrs
+	 *            attributes
+	 * @param firstChar
+	 *            first character of element name
 	 * @return true if ok
 	 */
 	protected boolean startEuclidianViewElementSwitch(String eName,
-			LinkedHashMap<String, String> attrs, char firstChar){
-		
+			LinkedHashMap<String, String> attrs, char firstChar) {
+
 		boolean ok = true;
-		
+
 		switch (firstChar) {
 		case 'a':
 			if ("axesColor".equals(eName)) {
@@ -844,7 +856,7 @@ public class MyXMLHandler implements DocHandler {
 				 */
 				ok = true;
 				break;
-			}else if ("viewId".equals(eName)) {
+			} else if ("viewId".equals(eName)) {
 				/*
 				 * moved earlier, must check first if for EuclidianViewForPlane
 				 */
@@ -852,47 +864,48 @@ public class MyXMLHandler implements DocHandler {
 				break;
 			}
 
-
 		default:
 			System.err.println("unknown tag in <euclidianView>: " + eName);
 		}
-		
+
 		return ok;
 	}
 
-	
 	private boolean handleExtraTag(LinkedHashMap<String, String> attrs) {
-		AlgoBarChart algo=(AlgoBarChart)geo.getParentAlgorithm();
-		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value")) && !"".equals(attrs.get("barNumber"))){
-			if (attrs.get("key").equals("barAlpha")){
-				algo.setBarAlpha(Float.parseFloat(attrs.get("value")), 
-						Integer.parseInt(attrs.get("barNumber")));	
-				return true;
-			} else if (attrs.get("key").equals("barHatchDistance")){
-				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")), 
-						Integer.parseInt(attrs.get("barNumber")));	
-				return true;
-			} else if (attrs.get("key").equals("barFillType")){
-				algo.setBarFillType(FillType.values()[Integer.parseInt(attrs.get("value"))], 
-						Integer.parseInt(attrs.get("barNumber")));	
-				return true;
-			} else if (attrs.get("key").equals("barHatchAngle")){
-				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")), 
-						Integer.parseInt(attrs.get("barNumber")));	
-				return true;
-			} else if (attrs.get("key").equals("barImage")){
-				algo.setBarImage(attrs.get("value"), 
+		AlgoBarChart algo = (AlgoBarChart) geo.getParentAlgorithm();
+		if (!"".equals(attrs.get("key")) && !"".equals(attrs.get("value"))
+				&& !"".equals(attrs.get("barNumber"))) {
+			if (attrs.get("key").equals("barAlpha")) {
+				algo.setBarAlpha(Float.parseFloat(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barSymbol")){
-				algo.setBarSymbol(attrs.get("value"), 
+			} else if (attrs.get("key").equals("barHatchDistance")) {
+				algo.setBarHatchDistance(Integer.parseInt(attrs.get("value")),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
-			} else if (attrs.get("key").equals("barColor")){
-				String []c=attrs.get("value").split(",");				
-				algo.setBarColor(AwtFactory.prototype.newColor(Integer.parseInt(c[0].substring(5)),
-						Integer.parseInt(c[1]), 
-						Integer.parseInt(c[2])),  
+			} else if (attrs.get("key").equals("barFillType")) {
+				algo.setBarFillType(
+						FillType.values()[Integer.parseInt(attrs.get("value"))],
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			} else if (attrs.get("key").equals("barHatchAngle")) {
+				algo.setBarHatchAngle(Integer.parseInt(attrs.get("value")),
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			} else if (attrs.get("key").equals("barImage")) {
+				algo.setBarImage(attrs.get("value"),
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			} else if (attrs.get("key").equals("barSymbol")) {
+				algo.setBarSymbol(attrs.get("value"),
+						Integer.parseInt(attrs.get("barNumber")));
+				return true;
+			} else if (attrs.get("key").equals("barColor")) {
+				String[] c = attrs.get("value").split(",");
+				algo.setBarColor(
+						AwtFactory.prototype.newColor(
+								Integer.parseInt(c[0].substring(5)),
+								Integer.parseInt(c[1]), Integer.parseInt(c[2])),
 						Integer.parseInt(attrs.get("barNumber")));
 				return true;
 			}
@@ -902,15 +915,15 @@ public class MyXMLHandler implements DocHandler {
 
 	private void startEuclidianViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
-		
+
 		// must do this first
 		if ("viewNumber".equals(eName)) {
 			int number = Integer.parseInt(attrs.get("viewNo"));
-			if (number == 2) 
+			if (number == 2)
 				evSet = app.getSettings().getEuclidian(2);
 			else
 				evSet = app.getSettings().getEuclidian(1);
-		}else{ 
+		} else {
 			startEuclidianViewElementCheckViewId(eName, attrs);
 		}
 
@@ -1036,17 +1049,18 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
+
 	private boolean handleProbabilityInterval(
 			LinkedHashMap<String, String> attrs) {
 
 		try {
 			int probMode = Integer.parseInt(attrs.get("mode"));
-			app.getSettings().getProbCalcSettings()
-					.setProbMode(probMode);
+			app.getSettings().getProbCalcSettings().setProbMode(probMode);
 
-			app.getSettings().getProbCalcSettings().setLow(StringUtil.parseDouble(attrs.get("low")));
-			app.getSettings().getProbCalcSettings().setHigh(StringUtil.parseDouble(attrs.get("high")));
+			app.getSettings().getProbCalcSettings()
+					.setLow(StringUtil.parseDouble(attrs.get("low")));
+			app.getSettings().getProbCalcSettings()
+					.setHigh(StringUtil.parseDouble(attrs.get("high")));
 
 			return true;
 		} catch (Exception e) {
@@ -1058,12 +1072,13 @@ public class MyXMLHandler implements DocHandler {
 	// <AlgebraView>
 	// ====================================
 	/**
-	 * @param attrs  attributes TODO create some actual attributes
+	 * @param attrs
+	 *            attributes TODO create some actual attributes
 	 */
 	private void startAlgebraViewElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		boolean ok = true;
-		
+
 		switch (firstChar(eName)) {
 		case 'a':
 			if ("auxiliary".equals(eName)) {
@@ -1178,24 +1193,24 @@ public class MyXMLHandler implements DocHandler {
 																			// Borcherds
 				// 2008-04-11
 			} catch (Exception e) {
-				//not a number: ignore
-			}
-			
-			try {
-				if(attrs.get("lockedAxesRatio")!=null){
-					ev.setLockedAxesRatio(StringUtil.parseDouble(attrs.get("lockedAxesRatio"))); 
-				}
-			} catch (Exception e) {
-				//not a number: ignore
+				// not a number: ignore
 			}
 
+			try {
+				if (attrs.get("lockedAxesRatio") != null) {
+					ev.setLockedAxesRatio(StringUtil.parseDouble(attrs
+							.get("lockedAxesRatio")));
+				}
+			} catch (Exception e) {
+				// not a number: ignore
+			}
 
 			try {
 				ev.setGridType(Integer.parseInt(attrs.get("gridType"))); // Michael
 																			// Borcherds
 				// 2008-04-30
 			} catch (Exception e) {
-				//not a number: ignore
+				// not a number: ignore
 			}
 
 			String str = attrs.get("pointCapturing");
@@ -1211,10 +1226,11 @@ public class MyXMLHandler implements DocHandler {
 				} else {
 					// int value
 					pointCapturingMode = Integer.parseInt(str);
-					
-					// bug: POINT_CAPTURING_STICKY_POINTS written to XML sometimes 
-					if (pointCapturingMode > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX) { 
-						pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_DEFAULT; 
+
+					// bug: POINT_CAPTURING_STICKY_POINTS written to XML
+					// sometimes
+					if (pointCapturingMode > EuclidianStyleConstants.POINT_CAPTURING_XML_MAX) {
+						pointCapturingMode = EuclidianStyleConstants.POINT_CAPTURING_DEFAULT;
 					}
 				}
 				ev.setPointCapturing(pointCapturingMode);
@@ -1250,23 +1266,23 @@ public class MyXMLHandler implements DocHandler {
 				ev.setAllowToolTips(Integer.parseInt(att));
 			else
 				ev.setAllowToolTips(EuclidianStyleConstants.TOOLTIPS_AUTOMATIC);
-			
+
 			String del = attrs.get("deleteToolSize");
 			if (del != null)
 				ev.setDeleteToolSize(Integer.parseInt(del));
 
 			// v3.0: appearance of right angle
 			String strRightAngleStyle = attrs.get("rightAngleStyle");
-			if (strRightAngleStyle == null){
+			if (strRightAngleStyle == null) {
 				// before v3.0 the default was a dot to show a right angle
 				// ev.setRightAngleStyle(EuclidianView.RIGHT_ANGLE_STYLE_DOT);
-				if (!ev.is3D()){
+				if (!ev.is3D()) {
 					app.rightAngleStyle = EuclidianStyleConstants.RIGHT_ANGLE_STYLE_DOT;
-				}else{
+				} else {
 					app.setRightAngleStyleLocalDefault();
 				}
-			}else{
-				if (!ev.isViewForPlane()){
+			} else {
+				if (!ev.isViewForPlane()) {
 					// ev.setRightAngleStyle(Integer.parseInt(strRightAngleStyle));
 					app.rightAngleStyle = Integer.parseInt(strRightAngleStyle);
 				}
@@ -1278,7 +1294,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	//is there a reason why it was static?
+	// is there a reason why it was static?
 	private boolean handleEvSize(EuclidianSettings ev,
 			LinkedHashMap<String, String> attrs) {
 		// removed, needed to resize applet correctly
@@ -1290,8 +1306,12 @@ public class MyXMLHandler implements DocHandler {
 			int height;
 			if (!App.isFullAppGui()) {// TODO: EV2 in Web!
 				// 2: border
-				width = (app.getAppletWidth() > 2 && !app.getUseFullGui()) ? app.getAppletWidth() - 2 :  Integer.parseInt(attrs.get("width"));
-				height = (app.getAppletHeight() > 2 && !app.getUseFullGui()) ? app.getAppletHeight() - 2 : Integer.parseInt(attrs.get("height"));
+				width = (app.getAppletWidth() > 2 && !app.getUseFullGui()) ? app
+						.getAppletWidth() - 2 : Integer.parseInt(attrs
+						.get("width"));
+				height = (app.getAppletHeight() > 2 && !app.getUseFullGui()) ? app
+						.getAppletHeight() - 2 : Integer.parseInt(attrs
+						.get("height"));
 			} else {
 				width = app.getAppCanvasWidth();
 				height = app.getAppCanvasHeight();
@@ -1389,7 +1409,8 @@ public class MyXMLHandler implements DocHandler {
 					.get("allowSpecialEditor")));
 			settings.setAllowToolTips(parseBoolean(attrs.get("allowToolTips")));
 			settings.setEqualsRequired(parseBoolean(attrs.get("equalsRequired")));
-			settings.setEnableAutoComplete(parseBoolean(attrs.get("autoComplete")));
+			settings.setEnableAutoComplete(parseBoolean(attrs
+					.get("autoComplete")));
 			return true;
 
 		} catch (Exception e) {
@@ -1507,8 +1528,10 @@ public class MyXMLHandler implements DocHandler {
 	 * <axis id="0" label="x" unitLabel="x" showNumbers="true"
 	 * tickDistance="2"/>
 	 * 
-	 * @param ev settings
-	 * @param attrs attributes of &lt;axis> tag
+	 * @param ev
+	 *            settings
+	 * @param attrs
+	 *            attributes of &lt;axis> tag
 	 * @return true iff succesful
 	 */
 	protected boolean handleAxis(EuclidianSettings ev,
@@ -1699,7 +1722,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleKernelLocalization(LinkedHashMap<String, String> attrs) {
 		try {
 			boolean digits = parseBoolean(attrs.get("digits"));
-			loc.setUseLocalizedDigits(digits,app);
+			loc.setUseLocalizedDigits(digits, app);
 			boolean labels = parseBoolean(attrs.get("labels"));
 			loc.setUseLocalizedLabels(labels);
 			return true;
@@ -1709,8 +1732,11 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	/**
-	 * Handle the casSettings XML element which is responsible for setting the Options CAS dialog
-	 * @param attrs - mapping of attributes names and values 
+	 * Handle the casSettings XML element which is responsible for setting the
+	 * Options CAS dialog
+	 * 
+	 * @param attrs
+	 *            - mapping of attributes names and values
 	 * @return whether the operation was successful
 	 */
 	private boolean handleCasSettings(LinkedHashMap<String, String> attrs) {
@@ -1719,8 +1745,10 @@ public class MyXMLHandler implements DocHandler {
 			app.getSettings().getCasSettings().setShowExpAsRoots(expRoots);
 			int timeout = Integer.parseInt(attrs.get("timeout"));
 			if (timeout > 0)
-				app.getSettings().getCasSettings().setTimeoutMilliseconds(
-					getTimeoutOption(timeout) * 1000);
+				app.getSettings()
+						.getCasSettings()
+						.setTimeoutMilliseconds(
+								getTimeoutOption(timeout) * 1000);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1748,7 +1776,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleKernelUsePathAndRegionParameters(
 			LinkedHashMap<String, String> attrs) {
 		try {
-			kernel.setUsePathAndRegionParameters(PathRegionHandling.parse(attrs.get("val")));
+			kernel.setUsePathAndRegionParameters(PathRegionHandling.parse(attrs
+					.get("val")));
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -1890,9 +1919,11 @@ public class MyXMLHandler implements DocHandler {
 		int ssize = 200;
 		if (tmp_showSpreadsheet) {
 			if (splitOrientation == JSplitPane_HORIZONTAL_SPLIT) {
-				ssize = app.getSettings().getSpreadsheet().preferredSize().getWidth();
+				ssize = app.getSettings().getSpreadsheet().preferredSize()
+						.getWidth();
 			} else {
-				ssize = app.getSettings().getSpreadsheet().preferredSize().getHeight();
+				ssize = app.getSettings().getSpreadsheet().preferredSize()
+						.getHeight();
 			}
 		}
 
@@ -1900,14 +1931,14 @@ public class MyXMLHandler implements DocHandler {
 		// didn't
 		// store the layout xml.
 		DockPanelData[] dpXml = new DockPanelData[] {
-				new DockPanelData(App.VIEW_EUCLIDIAN, null,
-						true, false, false,
+				new DockPanelData(App.VIEW_EUCLIDIAN, null, true, false, false,
 						geogebra.common.factories.AwtFactory.prototype
 								.newRectangle(400, 400), defEV, width),
-				new DockPanelData(App.VIEW_ALGEBRA, null,
-						tmp_showAlgebra, false, false,
+				new DockPanelData(App.VIEW_ALGEBRA, null, tmp_showAlgebra,
+						false, false,
 						geogebra.common.factories.AwtFactory.prototype
-								.newRectangle(200, 400), defAV, (tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2 : 200),
+								.newRectangle(200, 400), defAV,
+						(tmp_showAlgebra && tmp_sp2 > 0) ? tmp_sp2 : 200),
 				new DockPanelData(App.VIEW_SPREADSHEET, null,
 						tmp_showSpreadsheet, false, false,
 						geogebra.common.factories.AwtFactory.prototype
@@ -2021,7 +2052,8 @@ public class MyXMLHandler implements DocHandler {
 
 			boolean showOnlyBreakpoints = parseBoolean(attrs
 					.get("showOnlyBreakpoints"));
-			kernel.getConstruction().setShowOnlyBreakpoints(showOnlyBreakpoints);
+			kernel.getConstruction()
+					.setShowOnlyBreakpoints(showOnlyBreakpoints);
 
 			return true;
 		} catch (Exception e) {
@@ -2061,16 +2093,16 @@ public class MyXMLHandler implements DocHandler {
 	 * @param attrs
 	 * @return
 	 */
-	private boolean handleGuiShow(App app1,
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleGuiShow(App app1, LinkedHashMap<String, String> attrs) {
 		try {
 			// backward compatibility to versions without the layout component
-			//if (ggbFileFormat < 3.3) {// also used in some special, newer files
-				tmp_showAlgebra = parseBoolean(attrs.get("algebraView"));
+			// if (ggbFileFormat < 3.3) {// also used in some special, newer
+			// files
+			tmp_showAlgebra = parseBoolean(attrs.get("algebraView"));
 
-				// Michael Borcherds 2008-04-25
-				tmp_showSpreadsheet = parseBoolean(attrs.get("spreadsheetView"));
-			//}
+			// Michael Borcherds 2008-04-25
+			tmp_showSpreadsheet = parseBoolean(attrs.get("spreadsheetView"));
+			// }
 
 			String str = attrs.get("auxiliaryObjects");
 			boolean auxiliaryObjects = (str != null && str.equals("true"));
@@ -2091,7 +2123,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
+
 	private static boolean isPreferencesXML = false;
 
 	/**
@@ -2105,10 +2137,10 @@ public class MyXMLHandler implements DocHandler {
 	 */
 	private static boolean handleGuiSettings(App app,
 			LinkedHashMap<String, String> attrs) {
-		
+
 		// set that XML load is a preferences settings
 		isPreferencesXML = true;
-		
+
 		try {
 			boolean ignoreDocument = !attrs.get("ignoreDocument").equals(
 					"false");
@@ -2198,44 +2230,48 @@ public class MyXMLHandler implements DocHandler {
 			String toolbarStr = attrs.get("str");
 			if (toolbarStr != null) {
 				// GeoGebra 3.2 or older
-				
-				// eg 0 39 59 || 1001 5 19 | 2 15 45 18 , 7 37 | 4 3 8 9 , 13 44 , 58 , 47 || 16 51 | 10 34 53 11 , 24 20 22 , 21 23 | 55 56 57 , 12 || 36 46 , 38 49 50 | 30 29 54 32 31 33 | 25 52 , 17 26 , 14 || 40 41 42 , 27 28 35 , 6
+
+				// eg 0 39 59 || 1001 5 19 | 2 15 45 18 , 7 37 | 4 3 8 9 , 13 44
+				// , 58 , 47 || 16 51 | 10 34 53 11 , 24 20 22 , 21 23 | 55 56
+				// 57 , 12 || 36 46 , 38 49 50 | 30 29 54 32 31 33 | 25 52 , 17
+				// 26 , 14 || 40 41 42 , 27 28 35 , 6
 
 				// substitute 1000+x to 100000+x (macro numbers)
 				StringBuilder converted = new StringBuilder();
 				for (int lv = 0; lv < toolbarStr.length(); lv++) {
-					
+
 					char c = toolbarStr.charAt(lv);
 					if (Character.isDigit(c)) {
-						
+
 						StringBuilder numStr = new StringBuilder();
 						char cc;
-						while (lv < toolbarStr.length() && Character.isDigit(cc = toolbarStr.charAt(lv))) {
+						while (lv < toolbarStr.length()
+								&& Character
+										.isDigit(cc = toolbarStr.charAt(lv))) {
 							numStr.append(cc);
 							lv++;
 						}
-						
+
 						int num = Integer.parseInt(numStr.toString());
-						
+
 						if (num > 999) {
 							num = num + 100000 - 1000;
 						}
-						
+
 						converted.append(num);
 						converted.append(" ");
-						
-						
+
 					} else {
 						// space or comma or |
 						converted.append(c);
 					}
 				}
 				toolbarStr = converted.toString();
-				
+
 				tmp_perspective.setShowToolBar(true);
 				tmp_perspective.setToolbarDefinition(toolbarStr);
-		
-			} else { 
+
+			} else {
 				// GeoGebra 4.0
 				String showToolBar = attrs.get("show");
 				if (showToolBar == null) {
@@ -2244,14 +2280,15 @@ public class MyXMLHandler implements DocHandler {
 					tmp_perspective.setShowToolBar(showToolBar.equals("true"));
 				}
 				tmp_perspective.setToolbarDefinition(attrs.get("items"));
-				
+
 				// GeoGebra 4.2 (supports toolbar position and toggling help)
-				if(attrs.get("position") != null){			
-					Integer toolBarPosition = Integer.parseInt(attrs.get("position"));
+				if (attrs.get("position") != null) {
+					Integer toolBarPosition = Integer.parseInt(attrs
+							.get("position"));
 					tmp_perspective.setToolBarPosition(toolBarPosition);
 					tmp_perspective.setShowToolBarHelp(!attrs.get("help")
 							.equals("false"));
-				}else{
+				} else {
 					tmp_perspective.setToolBarPosition(SwingConstants.NORTH);
 					tmp_perspective.setShowToolBarHelp(true);
 				}
@@ -2349,7 +2386,7 @@ public class MyXMLHandler implements DocHandler {
 			try { // "off" will be -1
 				ttt = Integer.parseInt(attrs.get("timeout"));
 			} catch (NumberFormatException e) {
-				//not a number, do nothing (use -1)
+				// not a number, do nothing (use -1)
 			}
 			app.setTooltipTimeout(ttt);
 			return true;
@@ -2360,9 +2397,9 @@ public class MyXMLHandler implements DocHandler {
 
 	private static boolean handleMouse(App app,
 			LinkedHashMap<String, String> attrs) {
-			app.reverseMouseWheel("true".equals(attrs.get("reverseWheel")));
-			
-			return true;
+		app.reverseMouseWheel("true".equals(attrs.get("reverseWheel")));
+
+		return true;
 
 	}
 
@@ -2387,8 +2424,7 @@ public class MyXMLHandler implements DocHandler {
 		if ("perspective".equals(eName))
 			ok = handlePerspective(attrs);
 		else
-			App
-					.debug("unknown tag in <perspectives>: " + eName);
+			App.debug("unknown tag in <perspectives>: " + eName);
 
 		if (!ok)
 			App.debug("error in <perspectives>: " + eName);
@@ -2445,7 +2481,7 @@ public class MyXMLHandler implements DocHandler {
 				ok = handleDockBar(attrs);
 				break;
 			}
-			
+
 		case 'i':
 			if ("input".equals(eName)) {
 				ok = handleAlgebraInput(attrs);
@@ -2490,9 +2526,9 @@ public class MyXMLHandler implements DocHandler {
 					.equals("false"));
 			tmp_perspective.setShowInputPanelCommands(!attrs.get("cmd").equals(
 					"false"));
-			InputPositon ip = attrs.get("top").equals(
-					"true") ? InputPositon.top : ("false".equals(attrs.get("top")) ? InputPositon.bottom :
-						InputPositon.algebraView);
+			InputPositon ip = attrs.get("top").equals("true") ? InputPositon.top
+					: ("false".equals(attrs.get("top")) ? InputPositon.bottom
+							: InputPositon.algebraView);
 			tmp_perspective.setInputPosition(ip);
 
 			return true;
@@ -2504,10 +2540,8 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleDockBar(LinkedHashMap<String, String> attrs) {
 		try {
-			tmp_perspective.setShowDockBar(!attrs.get("show")
-					.equals("false"));
-			tmp_perspective.setDockBarEast(!attrs.get("east").equals(
-					"false"));
+			tmp_perspective.setShowDockBar(!attrs.get("show").equals("false"));
+			tmp_perspective.setDockBarEast(!attrs.get("east").equals("false"));
 
 			return true;
 		} catch (Exception e) {
@@ -2515,7 +2549,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
+
 	private void endGuiPerspectiveElement() {
 		DockPanelData[] dpInfo = new DockPanelData[tmp_views.size()];
 		DockSplitPaneData[] spInfo = new DockSplitPaneData[tmp_panes.size()];
@@ -2567,7 +2601,7 @@ public class MyXMLHandler implements DocHandler {
 
 			String embeddedDef = attrs.get("location");
 			int embeddedSize = Integer.parseInt(attrs.get("size"));
-			
+
 			String plane = attrs.get("plane");
 
 			tmp_views.add(new DockPanelData(viewId, toolbar, isVisible,
@@ -2606,7 +2640,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handlePane(LinkedHashMap<String, String> attrs) {
 		try {
 			String location = attrs.get("location");
-			double dividerLocation = StringUtil.parseDouble(attrs.get("divider"));
+			double dividerLocation = StringUtil.parseDouble(attrs
+					.get("divider"));
 			int orientation = Integer.parseInt(attrs.get("orientation"));
 
 			tmp_panes.add(new DockSplitPaneData(location, dividerLocation,
@@ -2624,7 +2659,8 @@ public class MyXMLHandler implements DocHandler {
 	// ====================================
 	private void handleConstruction(LinkedHashMap<String, String> attrs) {
 		try {
-			cons.setAllowUnboundedAngles(Kernel.isGreaterEqual(ggbFileFormat,4.4));
+			cons.setAllowUnboundedAngles(Kernel.isGreaterEqual(ggbFileFormat,
+					4.4));
 			String title = attrs.get("title");
 			String author = attrs.get("author");
 			String date = attrs.get("date");
@@ -2733,7 +2769,7 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CAS_TEXT_CELL:
 			startCellTextElement(eName, attrs);
 			break;
-			
+
 		case MODE_CAS_INPUT_CELL:
 			startCellInputElement(eName, attrs);
 			break;
@@ -2769,7 +2805,7 @@ public class MyXMLHandler implements DocHandler {
 			if ("useAsText".equals(eName))
 				casMode = MODE_CAS_CELL_PAIR;
 			break;
-			
+
 		case MODE_CAS_INPUT_CELL:
 			if ("inputCell".equals(eName))
 				casMode = MODE_CAS_CELL_PAIR;
@@ -2802,18 +2838,22 @@ public class MyXMLHandler implements DocHandler {
 			boolean independentCell = !geoCasCell.hasVariablesOrCommands();
 			if (independentCell) {
 				// free cell, e.g. m := 7 creates twinGeo m = 7
-				
+
 				// if this is the first cell, and there is no input, we return
-				// sometimes saved files contain one empty cell pair, see #2469 attachment
-				if (cons.getCasCell(0) == null && geoCasCell.getInput(StringTemplate.defaultTemplate).equals("")) {
+				// sometimes saved files contain one empty cell pair, see #2469
+				// attachment
+				if (cons.getCasCell(0) == null
+						&& geoCasCell.getInput(StringTemplate.defaultTemplate)
+								.equals("")) {
 					return;
 				}
 				cons.addToConstructionList(geoCasCell, true);
 				cons.addToGeoSetWithCasCells(geoCasCell);
 				if (geoCasCell.isAssignmentVariableDefined()) {
-					// a non-native cell may have dependent twin geo even if inputs are constants
+					// a non-native cell may have dependent twin geo even if
+					// inputs are constants
 					// update twin GeoElement
-					
+
 					// cas is loaded
 					// we need to recalculate the output
 					if (kernel.getConstruction().isUpdateConstructionRunning()) {
@@ -2822,14 +2862,22 @@ public class MyXMLHandler implements DocHandler {
 						geoCasCell.updateTwinGeo(false);
 					}
 					geoCasCell.setLabelOfTwinGeo();
-					if(geoCasCell.hasTwinGeo() && !geoCasCell.getTwinGeo().isInConstructionList()){
-						if(!geoCasCell.getTwinGeo().getParentAlgorithm().isInConstructionList())
-							geoCasCell.getTwinGeo().getParentAlgorithm().addToConstructionList();
+					if (geoCasCell.hasTwinGeo()
+							&& !geoCasCell.getTwinGeo().isInConstructionList()) {
+						if (!geoCasCell.getTwinGeo().getParentAlgorithm()
+								.isInConstructionList())
+							geoCasCell.getTwinGeo().getParentAlgorithm()
+									.addToConstructionList();
 					}
-				} else if (geoCasCell.isOutputEmpty() && kernel.isGeoGebraCASready()) { // output is computed if it is empty (redefinitions only)
+				} else if (geoCasCell.isOutputEmpty()
+						&& kernel.isGeoGebraCASready()) { // output is computed
+															// if it is empty
+															// (redefinitions
+															// only)
 					geoCasCell.computeOutput();
 				}
-				// otherwise keep loaded output and avoid unnecessary computation
+				// otherwise keep loaded output and avoid unnecessary
+				// computation
 			} else {
 				// create algorithm for dependent cell
 				// this also creates twinGeo if necessary
@@ -2896,7 +2944,7 @@ public class MyXMLHandler implements DocHandler {
 		if (!ok)
 			System.err.println("error in <inputCell>: " + eName);
 	}
-	
+
 	private void startCellTextElement(String eName,
 			LinkedHashMap<String, String> attrs) {
 		if (geoCasCell == null) {
@@ -2905,27 +2953,30 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		geoCasCell.setUseAsText(true);
-		
+
 		boolean ok = true;
 
 		if ("FontStyle".equals(eName)) {
-				String style = attrs.get("value");
-				geoCasCell.setFontStyle(Integer.parseInt(style));	
+			String style = attrs.get("value");
+			geoCasCell.setFontStyle(Integer.parseInt(style));
 		} else if ("FontSizeM".equals(eName)) {
-				String size = attrs.get("value");
-				if(StringUtil.parseDouble(size)>0)
-					geoCasCell.setFontSizeMultiplier(StringUtil.parseDouble(size));			
+			String size = attrs.get("value");
+			if (StringUtil.parseDouble(size) > 0)
+				geoCasCell.setFontSizeMultiplier(StringUtil.parseDouble(size));
 		} else if ("FontColor".equals(eName)) {
 			String r = attrs.get("r");
 			String b = attrs.get("b");
 			String g = attrs.get("g");
-			geoCasCell.setFontColor(geogebra.common.factories.AwtFactory.prototype.newColor(Integer.parseInt(r),Integer.parseInt(g),Integer.parseInt(b)));			
+			geoCasCell
+					.setFontColor(geogebra.common.factories.AwtFactory.prototype
+							.newColor(Integer.parseInt(r), Integer.parseInt(g),
+									Integer.parseInt(b)));
 		} else
 			System.err.println("unknown tag in <useAsText>: " + eName);
 
 		if (!ok)
 			System.err.println("error in <useAsText>: " + eName);
-		
+
 	}
 
 	private void startConstructionElement(String eName,
@@ -2978,7 +3029,7 @@ public class MyXMLHandler implements DocHandler {
 		case MODE_CONSTRUCTION:
 			if ("construction".equals(eName)) {
 				// process start points at end of construction
-				App.debug("cons tag end"+System.currentTimeMillis());
+				App.debug("cons tag end" + System.currentTimeMillis());
 				processStartPointList();
 				processLinkedGeoList();
 				processShowObjectConditionList();
@@ -2989,12 +3040,12 @@ public class MyXMLHandler implements DocHandler {
 				processEvSizes();
 				processAnimatingList(); // must be after min/maxList otherwise
 										// GeoElement.setAnimating doesn't work
-				
+
 				// now called from MyXMLio.doParseXML()
-				//if (spreadsheetTraceNeeded) {
-				//	// don't want to initialize trace manager unless necessary
-				//	app.getTraceManager().loadTraceGeoCollection();
-				//}
+				// if (spreadsheetTraceNeeded) {
+				// // don't want to initialize trace manager unless necessary
+				// app.getTraceManager().loadTraceGeoCollection();
+				// }
 
 				if (kernel == origKernel) {
 					mode = MODE_GEOGEBRA;
@@ -3123,7 +3174,8 @@ public class MyXMLHandler implements DocHandler {
 		}
 
 		// use default point style on points
-		if (geo1.getGeoClassType().equals(GeoClass.POINT) && ggbFileFormat < 3.3) {
+		if (geo1.getGeoClassType().equals(GeoClass.POINT)
+				&& ggbFileFormat < 3.3) {
 			((PointProperties) geo1).setPointStyle(docPointStyle);
 		}
 
@@ -3144,8 +3196,11 @@ public class MyXMLHandler implements DocHandler {
 
 	/**
 	 * Handle start tag inside &lt;element>
-	 * @param eName element name
-	 * @param attrs attributes
+	 * 
+	 * @param eName
+	 *            element name
+	 * @param attrs
+	 *            attributes
 	 */
 	protected void startGeoElement(String eName,
 			LinkedHashMap<String, String> attrs) {
@@ -3158,247 +3213,247 @@ public class MyXMLHandler implements DocHandler {
 		ScriptType scriptType = ScriptType.getTypeWithXMLName(eName);
 		if (scriptType != null) {
 			ok = handleScript(attrs, scriptType);
-		}
-		else switch (firstChar(eName)) {
-		case 'a':
-			if ("auxiliary".equals(eName)) {
-				ok = handleAuxiliary(attrs);
-				break;
-			} else if ("animation".equals(eName)) {
-				ok = handleAnimation(attrs);
-				break;
-			} else if ("arcSize".equals(eName)) {
-				ok = handleArcSize(attrs);
-				break;
-			} else if ("allowReflexAngle".equals(eName)) {
-				ok = handleAllowReflexAngle(attrs);
-				break;
-			} else if ("absoluteScreenLocation".equals(eName)) {
-				ok = handleAbsoluteScreenLocation(attrs);
-				break;
-			} else if ("angleStyle".equals(eName)) {
-				ok = handleAngleStyle(attrs);
-				break;
-			}
+		} else
+			switch (firstChar(eName)) {
+			case 'a':
+				if ("auxiliary".equals(eName)) {
+					ok = handleAuxiliary(attrs);
+					break;
+				} else if ("animation".equals(eName)) {
+					ok = handleAnimation(attrs);
+					break;
+				} else if ("arcSize".equals(eName)) {
+					ok = handleArcSize(attrs);
+					break;
+				} else if ("allowReflexAngle".equals(eName)) {
+					ok = handleAllowReflexAngle(attrs);
+					break;
+				} else if ("absoluteScreenLocation".equals(eName)) {
+					ok = handleAbsoluteScreenLocation(attrs);
+					break;
+				} else if ("angleStyle".equals(eName)) {
+					ok = handleAngleStyle(attrs);
+					break;
+				}
 
-		case 'b':
-			if ("breakpoint".equals(eName)) {
-				ok = handleBreakpoint(attrs);
-				break;
-			} else if ("bgColor".equals(eName)) {
-				ok = handleBgColor(attrs);
-				break;
-			}
+			case 'b':
+				if ("breakpoint".equals(eName)) {
+					ok = handleBreakpoint(attrs);
+					break;
+				} else if ("bgColor".equals(eName)) {
+					ok = handleBgColor(attrs);
+					break;
+				}
 
-		case 'c':
-			if ("coords".equals(eName)) {
-				ok = handleCoords(attrs);
-				break;
-			} else if ("coordStyle".equals(eName)) {
-				ok = handleCoordStyle(attrs);
-				break;
-			} else if ("caption".equals(eName)) {
-				ok = handleCaption(attrs);
-				break;
-			} else if ("condition".equals(eName)) {
-				ok = handleCondition(attrs);
-				break;
-			} else if ("checkbox".equals(eName)) {
-				ok = handleCheckbox(attrs);
-				break;
-			} else if ("coefficients".equals(eName)) {
-				ok = handleCoefficients(attrs);
-				break;
-			} else if ("comboBox".equals(eName)) {
-				ok = handleComboBox(attrs);
-				break;
-			} else if ("curveParam".equals(eName)) {
-				ok = handleCurveParam(attrs);
-				break;
-			}
+			case 'c':
+				if ("coords".equals(eName)) {
+					ok = handleCoords(attrs);
+					break;
+				} else if ("coordStyle".equals(eName)) {
+					ok = handleCoordStyle(attrs);
+					break;
+				} else if ("caption".equals(eName)) {
+					ok = handleCaption(attrs);
+					break;
+				} else if ("condition".equals(eName)) {
+					ok = handleCondition(attrs);
+					break;
+				} else if ("checkbox".equals(eName)) {
+					ok = handleCheckbox(attrs);
+					break;
+				} else if ("coefficients".equals(eName)) {
+					ok = handleCoefficients(attrs);
+					break;
+				} else if ("comboBox".equals(eName)) {
+					ok = handleComboBox(attrs);
+					break;
+				} else if ("curveParam".equals(eName)) {
+					ok = handleCurveParam(attrs);
+					break;
+				}
 
-		case 'd':
-			if ("decoration".equals(eName)) {
-				ok = handleDecoration(attrs);
-				break;
-			} else if ("decimals".equals(eName)) {
-				ok = handleTextDecimals(attrs);
-				break;
-			} else if ("dimensions".equals(eName)){
-				ok = handleDimensions(attrs);
-				break;
-			}
+			case 'd':
+				if ("decoration".equals(eName)) {
+					ok = handleDecoration(attrs);
+					break;
+				} else if ("decimals".equals(eName)) {
+					ok = handleTextDecimals(attrs);
+					break;
+				} else if ("dimensions".equals(eName)) {
+					ok = handleDimensions(attrs);
+					break;
+				}
 
-		case 'e':
-			if ("eqnStyle".equals(eName)) {
-				ok = handleEqnStyle(attrs);
-				break;
-			} else if ("eigenvectors".equals(eName)) {
-				ok = handleEigenvectors(attrs);
-				break;
-			} else if ("emphasizeRightAngle".equals(eName)) {
-				ok = handleEmphasizeRightAngle(attrs);
-				break;
-			}
+			case 'e':
+				if ("eqnStyle".equals(eName)) {
+					ok = handleEqnStyle(attrs);
+					break;
+				} else if ("eigenvectors".equals(eName)) {
+					ok = handleEigenvectors(attrs);
+					break;
+				} else if ("emphasizeRightAngle".equals(eName)) {
+					ok = handleEmphasizeRightAngle(attrs);
+					break;
+				}
 
-		case 'f':
-			if ("fixed".equals(eName)) {
-				ok = handleFixed(attrs);
-				break;
-			} else if ("file".equals(eName)) {
-				ok = handleFile(attrs);
-				break;
-			} else if ("font".equals(eName)) {
-				ok = handleTextFont(attrs);
-				break;
-			}
-			// Michael Borcherds 2007-11-19
-			else if ("forceReflexAngle".equals(eName)) {
-				ok = handleForceReflexAngle(attrs);
-				break;
-			}
-		case 'i':
-			if ("isLaTeX".equals(eName)) {
-				ok = handleIsLaTeX(attrs);
-				break;
-			} else if ("inBackground".equals(eName)) {
-				ok = handleInBackground(attrs);
-				break;
-			} else if ("interpolate".equals(eName)) {
-				ok = handleInterpolate(attrs);
-				break;
-			}
+			case 'f':
+				if ("fixed".equals(eName)) {
+					ok = handleFixed(attrs);
+					break;
+				} else if ("file".equals(eName)) {
+					ok = handleFile(attrs);
+					break;
+				} else if ("font".equals(eName)) {
+					ok = handleTextFont(attrs);
+					break;
+				}
+				// Michael Borcherds 2007-11-19
+				else if ("forceReflexAngle".equals(eName)) {
+					ok = handleForceReflexAngle(attrs);
+					break;
+				}
+			case 'i':
+				if ("isLaTeX".equals(eName)) {
+					ok = handleIsLaTeX(attrs);
+					break;
+				} else if ("inBackground".equals(eName)) {
+					ok = handleInBackground(attrs);
+					break;
+				} else if ("interpolate".equals(eName)) {
+					ok = handleInterpolate(attrs);
+					break;
+				}
 
-		case 'k':
-			if ("keepTypeOnTransform".equals(eName)) {
-				ok = handleKeepTypeOnTransform(attrs);
-				break;
+			case 'k':
+				if ("keepTypeOnTransform".equals(eName)) {
+					ok = handleKeepTypeOnTransform(attrs);
+					break;
+				}
+
+			case 'l':
+				if ("lineStyle".equals(eName)) {
+					ok = handleLineStyle(attrs);
+					break;
+				} else if ("labelOffset".equals(eName)) {
+					ok = handleLabelOffset(attrs);
+					break;
+				} else if ("labelMode".equals(eName)) {
+					ok = handleLabelMode(attrs);
+					break;
+				} else if ("layer".equals(eName)) {
+					ok = handleLayer(attrs);
+					break;
+				} else if ("linkedGeo".equals(eName)) {
+					ok = handleLinkedGeo(attrs);
+					break;
+				} else if ("length".equals(eName)) {
+					ok = handleLength(attrs);
+					break;
+				} else if ("listType".equals(eName)) {
+					ok = handleListType(attrs);
+					break;
+				} else if ("listener".equals(eName)) {
+					ok = handleListeners(attrs);
+					break;
+				}
+
+			case 'm':
+				if ("matrix".equals(eName)) {
+					ok = handleMatrix(attrs);
+					break;
+				}
+
+			case 'o':
+				if ("objColor".equals(eName)) {
+					ok = handleObjColor(attrs);
+					break;
+				} else if ("outlyingIntersections".equals(eName)) {
+					ok = handleOutlyingIntersections(attrs);
+					break;
+				} /*
+				 * else if ("objCoords".equals(eName)) { ok =
+				 * handleObjCoords(attrs); break; }
+				 */
+
+			case 'p':
+				if ("pointSize".equals(eName)) {
+					ok = handlePointSize(attrs);
+					break;
+				}
+
+				// Florian Sonner 2008-07-17
+				else if ("pointStyle".equals(eName)) {
+					ok = handlePointStyle(attrs);
+					break;
+				}
+				/*
+				 * should not be needed else if ("pathParameter".equals(eName))
+				 * { ok = handlePathParameter(attrs); break; }
+				 */
+
+			case 's':
+				if ("show".equals(eName)) {
+					ok = handleShow(attrs);
+					break;
+				} else if ("showOnAxis".equals(eName)) {
+					ok = handleShowOnAxis(attrs);
+					break;
+				} else if ("startPoint".equals(eName)) {
+					ok = handleStartPoint(attrs);
+					break;
+				} else if ("slider".equals(eName)) {
+					ok = handleSlider(attrs);
+					break;
+				} else if ("slopeTriangleSize".equals(eName)) {
+					ok = handleSlopeTriangleSize(attrs);
+					break;
+				} else if ("significantfigures".equals(eName)) {
+					ok = handleTextFigures(attrs);
+					break;
+				} else if ("spreadsheetTrace".equals(eName)) {
+					ok = handleSpreadsheetTrace(attrs);
+					break;
+				} else if ("showTrimmed".equals(eName)) {
+					ok = handleShowTrimmed(attrs);
+					break;
+				} else if ("selectionAllowed".equals(eName)) {
+					ok = handleSelectionAllowed(attrs);
+					break;
+				} else if ("selectedIndex".equals(eName)) {
+					ok = handleSelectedIndex(attrs);
+					break;
+				}
+
+			case 't':
+				if ("trace".equals(eName)) {
+					ok = handleTrace(attrs);
+					break;
+				} else if ("tooltipMode".equals(eName)) {
+					ok = handleTooltipMode(attrs);
+					break;
+				} else if ("tag".equals(eName)) {
+					ok = handleExtraTag(attrs);
+					break;
+				} else if ("tags".equals(eName)) {
+					ok = true;
+					break;
+				}
+
+			case 'u':
+				if ("userinput".equals(eName)) {
+					ok = handleUserInput(attrs);
+					break;
+				}
+
+			case 'v':
+				if ("value".equals(eName)) {
+					ok = handleValue(attrs);
+					break;
+				}
+
+			default:
+				System.err.println("unknown tag in <element>: " + eName);
 			}
-
-		case 'l':
-			if ("lineStyle".equals(eName)) {
-				ok = handleLineStyle(attrs);
-				break;
-			} else if ("labelOffset".equals(eName)) {
-				ok = handleLabelOffset(attrs);
-				break;
-			} else if ("labelMode".equals(eName)) {
-				ok = handleLabelMode(attrs);
-				break;
-			} else if ("layer".equals(eName)) {
-				ok = handleLayer(attrs);
-				break;
-			} else if ("linkedGeo".equals(eName)) {
-				ok = handleLinkedGeo(attrs);
-				break;
-			} else if ("length".equals(eName)) {
-				ok = handleLength(attrs);
-				break;
-			} else if ("listType".equals(eName)) {
-				ok = handleListType(attrs);
-				break;
-			} else if ("listener".equals(eName)){
-				ok = handleListeners(attrs);
-				break;
-			}
-
-		case 'm':
-			if ("matrix".equals(eName)) {
-				ok = handleMatrix(attrs);
-				break;
-			}
-
-		case 'o':
-			if ("objColor".equals(eName)) {
-				ok = handleObjColor(attrs);
-				break;
-			} else if ("outlyingIntersections".equals(eName)) {
-				ok = handleOutlyingIntersections(attrs);
-				break;
-			} /*
-			 * else if ("objCoords".equals(eName)) { ok =
-			 * handleObjCoords(attrs); break; }
-			 */
-
-		case 'p':
-			if ("pointSize".equals(eName)) {
-				ok = handlePointSize(attrs);
-				break;
-			}
-
-			// Florian Sonner 2008-07-17
-			else if ("pointStyle".equals(eName)) {
-				ok = handlePointStyle(attrs);
-				break;
-			} 
-			/*
-			 * should not be needed else if ("pathParameter".equals(eName)) { ok
-			 * = handlePathParameter(attrs); break; }
-			 */
-
-		case 's':
-			if ("show".equals(eName)) {
-				ok = handleShow(attrs);
-				break;
-			} else if ("showOnAxis".equals(eName)) {
-				ok = handleShowOnAxis(attrs);
-				break;
-			} else if ("startPoint".equals(eName)) {
-				ok = handleStartPoint(attrs);
-				break;
-			} else if ("slider".equals(eName)) {
-				ok = handleSlider(attrs);
-				break;
-			} else if ("slopeTriangleSize".equals(eName)) {
-				ok = handleSlopeTriangleSize(attrs);
-				break;
-			} else if ("significantfigures".equals(eName)) {
-				ok = handleTextFigures(attrs);
-				break;
-			} else if ("spreadsheetTrace".equals(eName)) {
-				ok = handleSpreadsheetTrace(attrs);
-				break;
-			} else if ("showTrimmed".equals(eName)) {
-				ok = handleShowTrimmed(attrs);
-				break;
-			} else if ("selectionAllowed".equals(eName)) {
-				ok = handleSelectionAllowed(attrs);
-				break;
-			} else if ("selectedIndex".equals(eName)) {
-				ok = handleSelectedIndex(attrs);
-				break;
-			}
-
-		case 't':
-			if ("trace".equals(eName)) {
-				ok = handleTrace(attrs);
-				break;
-			} else if ("tooltipMode".equals(eName)) {
-				ok = handleTooltipMode(attrs);
-				break;
-			} else if("tag".equals(eName)){
-				ok = handleExtraTag(attrs);
-				break;
-			} else if ("tags".equals(eName)){
-				ok=true;
-				break;
-			}
-
-		case 'u':
-			if ("userinput".equals(eName)) {
-				ok = handleUserInput(attrs);
-				break;
-			}
-
-		case 'v':
-			if ("value".equals(eName)) {
-				ok = handleValue(attrs);
-				break;
-			}
-
-		default:
-			System.err.println("unknown tag in <element>: " + eName);
-		}
 
 		if (!ok) {
 			System.err.println("error in <element>: " + eName);
@@ -3406,12 +3461,12 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleDimensions(LinkedHashMap<String, String> attrs) {
-		String width=attrs.get("width");
-		String height=attrs.get("height");
-		if (width != null && height != null){
-			if (width.matches("\\d{2,3}") && height.matches("\\d{2,3}")){
-				if (geo.isGeoButton()){
-					GeoButton button=(GeoButton)geo;
+		String width = attrs.get("width");
+		String height = attrs.get("height");
+		if (width != null && height != null) {
+			if (width.matches("\\d{2,3}") && height.matches("\\d{2,3}")) {
+				if (geo.isGeoButton()) {
+					GeoButton button = (GeoButton) geo;
 					button.setWidth(Integer.parseInt(width));
 					button.setHeight(Integer.parseInt(height));
 					button.setFixedSize(true);
@@ -3425,7 +3480,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private static char firstChar(String eName) {
-		if(eName==null || eName.length()==0)
+		if (eName == null || eName.length() == 0)
 			return '?';
 		return eName.charAt(0);
 	}
@@ -3533,16 +3588,18 @@ public class MyXMLHandler implements DocHandler {
 		String distance = attrs.get("hatchDistance");
 		if (angle != null) {
 			geo.setHatchingDistance(Integer.parseInt(distance));
-			//Old files don't store fillType, just fillDistance. New files override this below.
+			// Old files don't store fillType, just fillDistance. New files
+			// override this below.
 			geo.setFillType(FillType.HATCH);
 		}
-		
+
 		String fillType = attrs.get("fillType");
 		if (fillType != null) {
-			geo.setFillType(GeoElement.FillType.values()[Integer.parseInt(fillType)]);
+			geo.setFillType(GeoElement.FillType.values()[Integer
+					.parseInt(fillType)]);
 		}
-		String fillSymbol= attrs.get("fillSymbol");
-		if (fillSymbol != null){
+		String fillSymbol = attrs.get("fillSymbol");
+		if (fillSymbol != null) {
 			geo.setFillSymbol(fillSymbol);
 		}
 		String filename = attrs.get("image");
@@ -3550,7 +3607,7 @@ public class MyXMLHandler implements DocHandler {
 			geo.setFillImage(filename);
 			geo.setFillType(GeoElement.FillType.IMAGE);
 		}
-		
+
 		alpha = attrs.get("alpha");
 		if (alpha != null && (!geo.isGeoList() || ggbFileFormat > 3.19)) // ignore
 																			// alpha
@@ -3678,33 +3735,31 @@ public class MyXMLHandler implements DocHandler {
 		}
 		return true;
 	}
-	
+
 	private boolean handleCurveParam(LinkedHashMap<String, String> attrs) {
 
 		if (!(geo instanceof GeoVec3D)) {
-			App.debug("wrong element type for <curveParam>: "
-					+ geo.getClass());
+			App.debug("wrong element type for <curveParam>: " + geo.getClass());
 			return false;
 		}
 		GeoVec3D v = (GeoVec3D) geo;
 
 		try {
 			String tAttr = attrs.get("t");
-			
+
 			if (tAttr != null) {
 				// AlgoPointOnPath
 				double t = StringUtil.parseDouble(tAttr);
-				((GeoPoint)v).getPathParameter().setT(t);
+				((GeoPoint) v).getPathParameter().setT(t);
 			}
 
 			return true;
-			
+
 		} catch (Exception e) {
-			App.error("problem in <curveParam>: "+e.getMessage());
+			App.error("problem in <curveParam>: " + e.getMessage());
 			return false;
 		}
 	}
-
 
 	private boolean handleCoords(LinkedHashMap<String, String> attrs) {
 
@@ -3738,13 +3793,15 @@ public class MyXMLHandler implements DocHandler {
 		return true;
 	}
 
-	private boolean handleListeners(LinkedHashMap<String, String> attrs){
+	private boolean handleListeners(LinkedHashMap<String, String> attrs) {
 		try {
 			if (attrs.get("type") == "objectUpdate") {
-				app.getScriptManager().getUpdateListenerMap().put(geo, attrs.get("val"));	
+				app.getScriptManager().getUpdateListenerMap()
+						.put(geo, attrs.get("val"));
 			}
 			if (attrs.get("type") == "objectClick") {
-				app.getScriptManager().getClickListenerMap().put(geo, attrs.get("val"));	
+				app.getScriptManager().getClickListenerMap()
+						.put(geo, attrs.get("val"));
 			}
 			return true;
 		} catch (Exception e) {
@@ -3752,7 +3809,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
+
 	private boolean handleCaption(LinkedHashMap<String, String> attrs) {
 		try {
 			geo.setCaption(attrs.get("val"));
@@ -3821,8 +3878,7 @@ public class MyXMLHandler implements DocHandler {
 		boolean isButton = geo.isGeoButton();
 
 		if (!(isNumber || isBoolean || isButton)) {
-			App.debug("wrong element type for <value>: "
-					+ geo.getClass());
+			App.debug("wrong element type for <value>: " + geo.getClass());
 			return false;
 		}
 
@@ -3841,7 +3897,8 @@ public class MyXMLHandler implements DocHandler {
 			} else if (isButton) {
 				// XXX What's this javascript doing here? (Arnaud)
 				GeoButton button = (GeoButton) geo;
-				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal, false);
+				Script script = app.createScript(ScriptType.JAVASCRIPT, strVal,
+						false);
 				button.setClickScript(script);
 			}
 			return true;
@@ -3853,8 +3910,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handlePointSize(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof PointProperties)) {
-			App.debug("wrong element type for <pointSize>: "
-					+ geo.getClass());
+			App.debug("wrong element type for <pointSize>: " + geo.getClass());
 			return false;
 		}
 
@@ -3870,8 +3926,7 @@ public class MyXMLHandler implements DocHandler {
 	// Florian Sonner 2008-07-17
 	private boolean handlePointStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof PointProperties)) {
-			App.debug("wrong element type for <pointStyle>: "
-					+ geo.getClass());
+			App.debug("wrong element type for <pointStyle>: " + geo.getClass());
 			return false;
 		}
 
@@ -3900,9 +3955,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
 
-		
 	private boolean handleCasCellInput(LinkedHashMap<String, String> attrs) {
 		try {
 			String input = attrs.get("value");
@@ -3926,7 +3979,7 @@ public class MyXMLHandler implements DocHandler {
 	}
 
 	private boolean handleCasCellOutput(LinkedHashMap<String, String> attrs) {
-		if(geoCasCell.isUseAsText())
+		if (geoCasCell.isUseAsText())
 			return true;
 		try {
 			String output = attrs.get("value");
@@ -3937,13 +3990,12 @@ public class MyXMLHandler implements DocHandler {
 			if (error) {
 				geoCasCell.setError(output);
 			} else {
-				if(!nativeOutput){
+				if (!nativeOutput) {
 					geoCasCell.computeOutput();
-				}else {
-					geoCasCell.setOutput(output,false);
+				} else {
+					geoCasCell.setOutput(output, false);
 				}
 			}
-			
 
 			String evalCommandComment = attrs.get("evalCommand");
 			if (evalCommandComment != null) {
@@ -4007,11 +4059,11 @@ public class MyXMLHandler implements DocHandler {
 
 			GeoNumeric num = (GeoNumeric) geo;
 
-			//make sure 
+			// make sure
 			String strMin = attrs.get("min");
 			String strMax = attrs.get("max");
-			if (strMin != null || strMax !=null) {
-				minMaxList.add(new GeoNumericMinMax(geo, strMin,strMax));
+			if (strMin != null || strMax != null) {
+				minMaxList.add(new GeoNumericMinMax(geo, strMin, strMax));
 			}
 
 			String str = attrs.get("absoluteScreenLocation");
@@ -4079,17 +4131,18 @@ public class MyXMLHandler implements DocHandler {
 			t.showLabel = (parseBoolean(attrs.get("showLabel")));
 			t.showTraceList = (parseBoolean(attrs.get("showTraceList")));
 			t.doTraceGeoCopy = (parseBoolean(attrs.get("doTraceGeoCopy")));
-			
+
 			String stringPause = attrs.get("pause");
-			if (stringPause == null){
+			if (stringPause == null) {
 				t.pause = false;
-			}else{
+			} else {
 				t.pause = parseBoolean(stringPause);
 			}
-			
+
 			app.setNeedsSpreadsheetTableModel();
-			
-			// app.getTraceManager().loadTraceGeoCollection(); is called when construction loaded to add geo to trace list
+
+			// app.getTraceManager().loadTraceGeoCollection(); is called when
+			// construction loaded to add geo to trace list
 
 			return true;
 
@@ -4134,8 +4187,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleSelectedIndex(LinkedHashMap<String, String> attrs) {
 		try {
 			if (geo.isGeoList())
-				((GeoList) geo).setSelectedIndex(Integer.parseInt(attrs
-						.get("val")), false);
+				((GeoList) geo).setSelectedIndex(
+						Integer.parseInt(attrs.get("val")), false);
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -4220,15 +4273,16 @@ public class MyXMLHandler implements DocHandler {
 
 		try {
 			TextProperties text = (TextProperties) geo;
-			
+
 			String oldSize = attrs.get("size");
 			// multiplier, new from ggb42
-			String size = attrs.get("sizeM"); 
-			
+			String size = attrs.get("sizeM");
+
 			if (size == null) {
-				double appSize =app.getFontSize();
+				double appSize = app.getFontSize();
 				double oldSizeInt = Integer.parseInt(oldSize);
-				text.setFontSizeMultiplier(Math.max(appSize+oldSizeInt, MIN_TEXT_SIZE) / appSize); 
+				text.setFontSizeMultiplier(Math.max(appSize + oldSizeInt,
+						MIN_TEXT_SIZE) / appSize);
 			} else {
 				text.setFontSizeMultiplier(StringUtil.parseDouble(size));
 			}
@@ -4325,8 +4379,7 @@ public class MyXMLHandler implements DocHandler {
 
 	private boolean handleArcSize(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
-			App.error("wrong element type for <arcSize>: "
-					+ geo.getClass());
+			App.error("wrong element type for <arcSize>: " + geo.getClass());
 			return false;
 		}
 
@@ -4342,9 +4395,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleAbsoluteScreenLocation(
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AbsoluteScreenLocateable)) {
-			App
-					.error("wrong element type for <absoluteScreenLocation>: "
-							+ geo.getClass());
+			App.error("wrong element type for <absoluteScreenLocation>: "
+					+ geo.getClass());
 			return false;
 		}
 
@@ -4395,8 +4447,7 @@ public class MyXMLHandler implements DocHandler {
 		}
 	}
 
-	private boolean handleComboBox(
-			LinkedHashMap<String, String> attrs) {
+	private boolean handleComboBox(LinkedHashMap<String, String> attrs) {
 		if (!(geo.isGeoList())) {
 			System.err.println("wrong element type for <comboBox>: "
 					+ geo.getClass());
@@ -4412,7 +4463,7 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
+
 	private boolean handleAngleStyle(LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof AngleProperties)) {
 			System.err.println("wrong element type for <angleStyle>: "
@@ -4455,9 +4506,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleOutlyingIntersections(
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof LimitedPath)) {
-			App
-					.debug("wrong element type for <outlyingIntersections>: "
-							+ geo.getClass());
+			App.debug("wrong element type for <outlyingIntersections>: "
+					+ geo.getClass());
 			return false;
 		}
 
@@ -4473,9 +4523,8 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleKeepTypeOnTransform(
 			LinkedHashMap<String, String> attrs) {
 		if (!(geo instanceof LimitedPath)) {
-			App
-					.debug("wrong element type for <outlyingIntersections>: "
-							+ geo.getGeoClassType());
+			App.debug("wrong element type for <outlyingIntersections>: "
+					+ geo.getGeoClassType());
 			return false;
 		}
 
@@ -4531,7 +4580,7 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			number = Integer.parseInt(attrs.get("number"));
 		} catch (Exception e) {
-			//do nothing
+			// do nothing
 		}
 
 		if (exp != null) {
@@ -4558,7 +4607,8 @@ public class MyXMLHandler implements DocHandler {
 					// set other start points later
 					// store (geo, point, number) values
 					// they will be processed in processStartPoints() later
-					startPointList.add(new LocateableExpPair(locGeo, p, number));
+					startPointList
+							.add(new LocateableExpPair(locGeo, p, number));
 					locGeo.setWaitForStartPoint();
 				}
 			} catch (Exception e) {
@@ -4572,7 +4622,8 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * create absolute start point (coords expected)
 	 * 
-	 * @param attrs tag atributes
+	 * @param attrs
+	 *            tag atributes
 	 * @return start point
 	 */
 	protected GeoPointND handleAbsoluteStartPoint(
@@ -4761,16 +4812,18 @@ public class MyXMLHandler implements DocHandler {
 				// this is intentional, but when loading a file we must override
 				// it for 3.2 compatibility
 				boolean wasDefined = pair.getGeo().isDefined();
-				if(pair.min!=null){
-					NumberValue num = algProc.evaluateToNumeric(pair.min, false);
+				if (pair.min != null) {
+					NumberValue num = algProc
+							.evaluateToNumeric(pair.min, false);
 					((GeoNumeric) pair.getGeo()).setIntervalMin(num);
 				}
-				
-				if(pair.max!=null){
-					NumberValue num2 = algProc.evaluateToNumeric(pair.max, false);
+
+				if (pair.max != null) {
+					NumberValue num2 = algProc.evaluateToNumeric(pair.max,
+							false);
 					((GeoNumeric) pair.getGeo()).setIntervalMax(num2);
 				}
-				
+
 				if (!wasDefined)
 					pair.getGeo().setUndefined();
 			}
@@ -4790,7 +4843,8 @@ public class MyXMLHandler implements DocHandler {
 
 			while (it.hasNext()) {
 				GeoExpPair pair = it.next();
-				pair.getGeo().setColorFunction(algProc.evaluateToList(pair.exp));
+				pair.getGeo()
+						.setColorFunction(algProc.evaluateToList(pair.exp));
 			}
 		} catch (Exception e) {
 			dynamicColorList.clear();
@@ -4850,13 +4904,17 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
+
 	/**
 	 * handler matrix for a conic or a quadric
-	 * @param attrs attributes
-	 * @throws Exception exception
+	 * 
+	 * @param attrs
+	 *            attributes
+	 * @throws Exception
+	 *             exception
 	 */
-	protected void handleMatrixConicOrQuadric(LinkedHashMap<String, String> attrs) throws Exception{
+	protected void handleMatrixConicOrQuadric(
+			LinkedHashMap<String, String> attrs) throws Exception {
 		if (geo.isGeoConic()) {
 			GeoConic conic = (GeoConic) geo;
 			// set matrix and classify conic now
@@ -4903,8 +4961,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleCoefficients(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
 		if (!(geo.isGeoImplicitPoly())) {
-			Log.warn("wrong element type for <coefficients>: "
-					+ geo.getClass());
+			Log.warn("wrong element type for <coefficients>: " + geo.getClass());
 			return false;
 		}
 		try {
@@ -4926,14 +4983,16 @@ public class MyXMLHandler implements DocHandler {
 						start = c + 1;
 						break;
 					case ']':
-						newRow.add(StringUtil.parseDouble(data.substring(start, c)));
+						newRow.add(StringUtil.parseDouble(data.substring(start,
+								c)));
 						start = c + 1;
 						collect.add(newRow);
 						newRow = new ArrayList<Double>();
 						c++; // jump over ','
 						break;
 					case ',':
-						newRow.add(StringUtil.parseDouble(data.substring(start, c)));
+						newRow.add(StringUtil.parseDouble(data.substring(start,
+								c)));
 						start = c + 1;
 					}
 				}
@@ -4957,8 +5016,7 @@ public class MyXMLHandler implements DocHandler {
 	private boolean handleUserInput(LinkedHashMap<String, String> attrs) {
 		// Application.debug(attrs.toString());
 		if (!(geo instanceof GeoUserInputElement)) {
-			Log.warn("wrong element type for <userinput>: "
-					+ geo.getClass());
+			Log.warn("wrong element type for <userinput>: " + geo.getClass());
 			return false;
 		}
 		try {
@@ -4998,7 +5056,7 @@ public class MyXMLHandler implements DocHandler {
 		if (type != null) {
 			cons.setOutputGeo(type);
 		}
-		
+
 		String var = attrs.get("var");
 		if (var != null) {
 			App.debug("reading var");
@@ -5037,7 +5095,7 @@ public class MyXMLHandler implements DocHandler {
 		ExpressionNode en;
 		String arg = null;
 
-		//Collection<String> values = attrs.values();
+		// Collection<String> values = attrs.values();
 
 		// TODO: it doesn't work with GWT. why?
 		// Iterator<String> it = values.iterator();
@@ -5059,8 +5117,7 @@ public class MyXMLHandler implements DocHandler {
 				// make exception for Sequence and CurveCartesian
 				if (cmd.getName().equals("Sequence")
 						|| cmd.getName().equals("CurveCartesian")
-						|| cmd.getName().equals("Surface")
-						)
+						|| cmd.getName().equals("Surface"))
 					geo1 = null;
 				else
 					geo1 = kernel.lookupLabel(arg);
@@ -5132,9 +5189,8 @@ public class MyXMLHandler implements DocHandler {
 
 			// ensure that labels are set for invisible objects too
 			if (attrs.size() != cmdOutput.length) {
-				App
-						.debug("error in <output>: wrong number of labels for command "
-								+ cmdName);
+				App.debug("error in <output>: wrong number of labels for command "
+						+ cmdName);
 				System.err.println("   cmdOutput.length = " + cmdOutput.length
 						+ ", labels = " + attrs.size());
 				return false;
@@ -5165,10 +5221,11 @@ public class MyXMLHandler implements DocHandler {
 			throw new MyError(loc, "processing of command: " + cmd);
 		}
 	}
-	
-	
+
 	/**
-	 * handle command output sizes (used only for some algos that have multiple types for output
+	 * handle command output sizes (used only for some algos that have multiple
+	 * types for output
+	 * 
 	 * @param attrs
 	 * @return true if proceeded
 	 */
@@ -5176,12 +5233,12 @@ public class MyXMLHandler implements DocHandler {
 		try {
 			String[] vals = attrs.get("val").split(",");
 			int[] sizes = new int[vals.length];
-			for (int i = 0 ; i < vals.length ; i++){
+			for (int i = 0; i < vals.length; i++) {
 				sizes[i] = Integer.parseInt(vals[i]);
 			}
-			
+
 			cmd.setOutputSizes(sizes);
-			
+
 			return true;
 		} catch (MyError e) {
 			throw e;
@@ -5244,12 +5301,13 @@ public class MyXMLHandler implements DocHandler {
 			if (type != null) {
 				if (type.equals("point") && ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForcePoint();
-				} else if (type.equals("vector") && ve instanceof ExpressionNode) {
+				} else if (type.equals("vector")
+						&& ve instanceof ExpressionNode) {
 					((ExpressionNode) ve).setForceVector();
-				//we must check that we have Equation here as xAxis 
-				//has also type "line" but is parsed as ExpressionNode
-				} else if (ve instanceof Equation){
-					if(type.equals("line") ) {
+					// we must check that we have Equation here as xAxis
+					// has also type "line" but is parsed as ExpressionNode
+				} else if (ve instanceof Equation) {
+					if (type.equals("line")) {
 						((Equation) ve).setForceLine();
 					} else if (type.equals("plane")) {
 						((Equation) ve).setForcePlane();
@@ -5290,9 +5348,7 @@ public class MyXMLHandler implements DocHandler {
 			throw new MyError(loc, msg);
 		}
 	}
-	
-	
-	
+
 	private boolean handleAlgebraViewMode(LinkedHashMap<String, String> attrs) {
 
 		try {
@@ -5303,8 +5359,9 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
-	private boolean handleAlgebraViewShowAuxiliaryObjects(LinkedHashMap<String, String> attrs) {
+
+	private boolean handleAlgebraViewShowAuxiliaryObjects(
+			LinkedHashMap<String, String> attrs) {
 
 		try {
 			boolean b = parseBoolean(attrs.get("show"));
@@ -5314,21 +5371,21 @@ public class MyXMLHandler implements DocHandler {
 			return false;
 		}
 	}
-	
-	private boolean handleAlgebraViewCollapsedNodes(LinkedHashMap<String, String> attrs) {
+
+	private boolean handleAlgebraViewCollapsedNodes(
+			LinkedHashMap<String, String> attrs) {
 
 		try {
 			String[] strings = attrs.get("val").split(",");
 			int[] vals = new int[strings.length];
-			for (int i=0; i<strings.length; i++)
-				vals[i]=Integer.parseInt(strings[i]);
+			for (int i = 0; i < strings.length; i++)
+				vals[i] = Integer.parseInt(strings[i]);
 			app.getSettings().getAlgebra().setCollapsedNodes(vals);
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
-
 
 	// ====================================
 	// UTILS
@@ -5337,7 +5394,8 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Parse string to boolean
 	 * 
-	 * @param str input string
+	 * @param str
+	 *            input string
 	 * @return true for "true", false otherwise
 	 */
 	protected boolean parseBoolean(String str) {
@@ -5347,7 +5405,8 @@ public class MyXMLHandler implements DocHandler {
 	/**
 	 * Parse string to boolean
 	 * 
-	 * @param str input string
+	 * @param str
+	 *            input string
 	 * @return false for "fale", true otherwise
 	 */
 	protected boolean parseBooleanRev(String str) {

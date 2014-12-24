@@ -7,6 +7,7 @@ public class AlgoKimberlingWeightsParams {
 		this.b = pb;
 		this.c = pc;
 	}
+
 	public int k;
 	public double a;
 	public double b;

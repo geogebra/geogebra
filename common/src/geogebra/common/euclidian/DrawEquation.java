@@ -10,7 +10,8 @@ public abstract class DrawEquation {
 
 	/*
 	 * make sure we always return LATEX (or MATHML, not currently used) so that
-	 * eg FractionText will work when part of another text and not return eg (1)/(3)
+	 * eg FractionText will work when part of another text and not return eg
+	 * (1)/(3)
 	 */
 	private static StringType checkStringType(StringTemplate tpl) {
 		switch (tpl.getStringType()) {
@@ -19,16 +20,16 @@ public abstract class DrawEquation {
 
 		case MATHML:
 			return StringType.MATHML;
-			
-			default:
-				// should really be app.getPreferredFormulaRenderingType()
-				return StringType.LATEX;
+
+		default:
+			// should really be app.getPreferredFormulaRenderingType()
+			return StringType.LATEX;
 		}
 	}
 
 	public static void appendFormulaStart(StringBuilder sb, StringTemplate tpl) {
 		final StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case MATHML:
 			sb.append("<apply>");
@@ -37,9 +38,9 @@ public abstract class DrawEquation {
 	}
 
 	public static void appendFractionStart(StringBuilder sb, StringTemplate tpl) {
-		
+
 		StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case LATEX:
 			sb.append(" \\frac{ ");
@@ -55,10 +56,9 @@ public abstract class DrawEquation {
 
 	}
 
-
 	public static void appendFractionMiddle(StringBuilder sb, StringTemplate tpl) {
 		StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case LATEX:
 			sb.append(" }{ ");
@@ -71,12 +71,12 @@ public abstract class DrawEquation {
 
 		default:
 			sb.append(")/(");
-		}	
+		}
 	}
 
 	public static void appendFractionEnd(StringBuilder sb, StringTemplate tpl) {
 		StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case LATEX:
 			sb.append(" } ");
@@ -93,7 +93,7 @@ public abstract class DrawEquation {
 
 	public static void appendInfinity(StringBuilder sb, StringTemplate tpl) {
 		StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case LATEX:
 			sb.append(" \\infty ");
@@ -110,14 +110,14 @@ public abstract class DrawEquation {
 
 	public static void appendMinusInfinity(StringBuilder sb, StringTemplate tpl) {
 		StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case LATEX:
 			sb.append(" - \\infty ");
 			break;
 
 		case MATHML:
-			sb.append("<apply><minus/><infinity/></apply>");		
+			sb.append("<apply><minus/><infinity/></apply>");
 			break;
 
 		default:
@@ -128,7 +128,7 @@ public abstract class DrawEquation {
 
 	public static void appendNegation(StringBuilder sb, StringTemplate tpl) {
 		final StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case MATHML:
 			sb.append("<minus/>");
@@ -142,11 +142,11 @@ public abstract class DrawEquation {
 	public static void appendNumber(StringBuilder sb, StringTemplate tpl,
 			String num) {
 		StringType stringType = checkStringType(tpl);
-		
+
 		switch (stringType) {
 		case MATHML:
 			sb.append("<cn>");
-			sb.append(num);				
+			sb.append(num);
 			sb.append("</cn>");
 			break;
 
@@ -155,32 +155,44 @@ public abstract class DrawEquation {
 		}
 	}
 
-
 	/**
-	 * @param app application
-	 * @param b true to use Java fonts
+	 * @param app
+	 *            application
+	 * @param b
+	 *            true to use Java fonts
 	 */
 	public abstract void setUseJavaFontsForLaTeX(App app, boolean b);
 
 	/**
-	 * @param app application
-	 * @param geo geo
-	 * @param g2 graphics
-	 * @param x x coordinate
-	 * @param y y coordinate
-	 * @param text text
-	 * @param font font
-	 * @param serif true for serif
-	 * @param fgColor foreground color
-	 * @param bgColor background color
-	 * @param useCache true to cache
+	 * @param app
+	 *            application
+	 * @param geo
+	 *            geo
+	 * @param g2
+	 *            graphics
+	 * @param x
+	 *            x coordinate
+	 * @param y
+	 *            y coordinate
+	 * @param text
+	 *            text
+	 * @param font
+	 *            font
+	 * @param serif
+	 *            true for serif
+	 * @param fgColor
+	 *            foreground color
+	 * @param bgColor
+	 *            background color
+	 * @param useCache
+	 *            true to cache
 	 * @return dimensions of result
 	 */
 	public abstract geogebra.common.awt.GDimension drawEquation(App app,
-			GeoElement geo, geogebra.common.awt.GGraphics2D g2, int x, int y, String text,
-			geogebra.common.awt.GFont font, boolean serif, geogebra.common.awt.GColor fgColor, geogebra.common.awt.GColor bgColor,
-			boolean useCache, boolean updateAgain); 
-
-
+			GeoElement geo, geogebra.common.awt.GGraphics2D g2, int x, int y,
+			String text, geogebra.common.awt.GFont font, boolean serif,
+			geogebra.common.awt.GColor fgColor,
+			geogebra.common.awt.GColor bgColor, boolean useCache,
+			boolean updateAgain);
 
 }

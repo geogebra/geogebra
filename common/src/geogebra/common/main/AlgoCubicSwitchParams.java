@@ -7,6 +7,7 @@ public class AlgoCubicSwitchParams {
 		this.b = pb;
 		this.c = pc;
 	}
+
 	public double n;
 	public double a;
 	public double b;

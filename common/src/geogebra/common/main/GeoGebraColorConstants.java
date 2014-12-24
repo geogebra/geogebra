@@ -6,8 +6,9 @@ import geogebra.common.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map.Entry;
+
 /**
- * Color constants for swatches, spreadsheet etc. 
+ * Color constants for swatches, spreadsheet etc.
  */
 public class GeoGebraColorConstants {
 
@@ -35,7 +36,8 @@ public class GeoGebraColorConstants {
 	/** green */
 	public static final GColor GREEN = AwtFactory.prototype.newColor(0, 255, 0);
 	/** cyan */
-	public static final GColor CYAN = AwtFactory.prototype.newColor(0, 255, 255);
+	public static final GColor CYAN = AwtFactory.prototype
+			.newColor(0, 255, 255);
 	/** blue */
 	public static final GColor BLUE = AwtFactory.prototype.newColor(0, 0, 255);
 	/** violet */
@@ -45,56 +47,60 @@ public class GeoGebraColorConstants {
 	public static final GColor MAGENTA = AwtFactory.prototype.newColor(255, 0,
 			255);
 	/** lime */
-	public static final GColor LIME = AwtFactory.prototype.newColor(191, 255, 0);
+	public static final GColor LIME = AwtFactory.prototype
+			.newColor(191, 255, 0);
 	/** pink */
 	public static final GColor PINK = AwtFactory.prototype.newColor(255, 192,
 			203);
-	/** light orange (wikipedia papaya whip)*/
+	/** light orange (wikipedia papaya whip) */
 	public static final GColor LIGHTORANGE = AwtFactory.prototype.newColor(255,
-			239, 213); 
-	/** light yellow (wikipedia lemon chiffon)*/
+			239, 213);
+	/** light yellow (wikipedia lemon chiffon) */
 	public static final GColor LIGHTYELLOW = AwtFactory.prototype.newColor(255,
 			250, 205);
-	/** aqua (wikipedia pale aqua)*/
+	/** aqua (wikipedia pale aqua) */
 	public static final GColor AQUA = AwtFactory.prototype.newColor(188, 212,
-			230); 
-	/** light purple (wikipedia periwinkle)*/
+			230);
+	/** light purple (wikipedia periwinkle) */
 	public static final GColor LIGHTPURPLE = AwtFactory.prototype.newColor(204,
-			204, 255); 
-	/** light violet (wikipedia mauve)*/
+			204, 255);
+	/** light violet (wikipedia mauve) */
 	public static final GColor LIGHTVIOLET = AwtFactory.prototype.newColor(224,
-			176, 255); 
-	/** turqoise (wikipedia pale turquoise)*/
+			176, 255);
+	/** turqoise (wikipedia pale turquoise) */
 	public static final GColor TURQUOISE = AwtFactory.prototype.newColor(175,
-			238, 238); 
+			238, 238);
 	/** light green (wikipedia tea green) */
 	public static final GColor LIGHTGREEN = AwtFactory.prototype.newColor(208,
 			240, 192);
 	/** maroon */
-	public static final GColor MAROON = AwtFactory.prototype.newColor(128, 0, 0);
+	public static final GColor MAROON = AwtFactory.prototype
+			.newColor(128, 0, 0);
 
 	/**
 	 * Brown: don't change: default Polygon color
 	 */
-	public static final GColor BROWN = AwtFactory.prototype.newColor(153, 51, 0);
+	public static final GColor BROWN = AwtFactory.prototype
+			.newColor(153, 51, 0);
 	/**
 	 * Dark green: don't change: default Angle color
 	 */
-	public static final GColor DARKGREEN = AwtFactory.prototype.newColor(0, 100,
-			0);
+	public static final GColor DARKGREEN = AwtFactory.prototype.newColor(0,
+			100, 0);
 	/**
 	 * Light blue: don't change: default Point on path color
 	 */
 	public static final GColor LIGHTBLUE = AwtFactory.prototype.newColor(125,
 			125, 255);
 	/** gold */
-	public static final GColor GOLD = AwtFactory.prototype.newColor(255, 215, 0);
-	/** dark blue (wikipedia persian blue)*/
+	public static final GColor GOLD = AwtFactory.prototype
+			.newColor(255, 215, 0);
+	/** dark blue (wikipedia persian blue) */
 	public static final GColor DARKBLUE = AwtFactory.prototype.newColor(28, 57,
-			187); 
+			187);
 	/** indigo */
-	public static final GColor INDIGO = AwtFactory.prototype
-			.newColor(75, 0, 130);
+	public static final GColor INDIGO = AwtFactory.prototype.newColor(75, 0,
+			130);
 	/** purple */
 	public static final GColor PURPLE = AwtFactory.prototype.newColor(128, 0,
 			128);
@@ -108,8 +114,8 @@ public class GeoGebraColorConstants {
 	public static final GColor BLACK = AwtFactory.prototype.newColor(0, 0, 0);
 	/** 87.5% gray */
 	public static final GColor GRAY7 = grayN(7);
-	/** 75% gray (silver)*/
-	public static final GColor GRAY6 = grayN(6); 
+	/** 75% gray (silver) */
+	public static final GColor GRAY6 = grayN(6);
 	/** 62.5% gray */
 	public static final GColor GRAY5 = grayN(5);
 	/** 50% gray */
@@ -129,23 +135,22 @@ public class GeoGebraColorConstants {
 
 	// input coloring
 	/** defined objects (violet) */
-	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype.newColor(102, 102, 255);
+	public static final GColor DEFINED_OBJECT_COLOR = AwtFactory.prototype
+			.newColor(102, 102, 255);
 	/** undefined objects */
 	public static final GColor UNDEFINED_OBJECT_COLOR = GRAY3;
 	/** local objects (local variables, blue) */
-	public static final GColor LOCAL_OBJECT_COLOR = AwtFactory.prototype.newColor(0, 102, 255);
+	public static final GColor LOCAL_OBJECT_COLOR = AwtFactory.prototype
+			.newColor(0, 102, 255);
 	/** unbalanced brackets */
 	public static final GColor UNBALANCED_BRACKET_COLOR = RED;
 	/** balanced bracket (green) */
-	public static final GColor BALANCED_BRACKET_COLOR = AwtFactory.prototype.newColor(0, 127, 0);
-    /** text mode */
+	public static final GColor BALANCED_BRACKET_COLOR = AwtFactory.prototype
+			.newColor(0, 127, 0);
+	/** text mode */
 	public static final GColor INPUT_TEXT_COLOR = GRAY4;
 	/** default color */
 	public static final GColor INPUT_DEFAULT_COLOR = BLACK;
-
-
-	
-
 
 	/**
 	 * HashMap recording RGB color values with named colors key = color name
@@ -249,15 +254,15 @@ public class GeoGebraColorConstants {
 	 *            localized color name
 	 * @return Color object corresponding with given GeoGebra color name string
 	 */
-	public static GColor getGeogebraColor(App app,
-			String colorName) {
+	public static GColor getGeogebraColor(App app, String colorName) {
 
 		getGeoGebraColors();
 
 		GColor ret = geogebraColor.get(StringUtil.toLowerCase(colorName));
 
 		if (ret == null) {
-			ret = geogebraColor.get(app.getLocalization().reverseGetColor(colorName));
+			ret = geogebraColor.get(app.getLocalization().reverseGetColor(
+					colorName));
 		}
 		if (ret == null)
 			// will need only English characters
@@ -274,9 +279,9 @@ public class GeoGebraColorConstants {
 	 *            color
 	 * @return GeoGebra color name string corresponding with given Color object
 	 */
-	public static String getGeogebraColorName(App app,
-			GColor color) {
-		return app.getLocalization().getColor(getGeoGebraColorReverse().get(color));
+	public static String getGeogebraColorName(App app, GColor color) {
+		return app.getLocalization().getColor(
+				getGeoGebraColorReverse().get(color));
 	}
 
 	/**

@@ -102,8 +102,6 @@ public final class MyMath {
 		return 1 / sin;
 	}
 
-	
-
 	final public static double sec(double a) {
 
 		// problem with eg sec(270deg)
@@ -149,15 +147,25 @@ public final class MyMath {
 
 	/**
 	 * Computes adjoint matrix to {{a00,a01,a02},{a10,a11,a12},{a20,a21,a22}}
-	 * @param a00 matrix entry
-	 * @param a01 matrix entry
-	 * @param a02 matrix entry
-	 * @param a10 matrix entry
-	 * @param a11 matrix entry
-	 * @param a12 matrix entry
-	 * @param a20 matrix entry
-	 * @param a21 matrix entry
-	 * @param a22 matrix entry
+	 * 
+	 * @param a00
+	 *            matrix entry
+	 * @param a01
+	 *            matrix entry
+	 * @param a02
+	 *            matrix entry
+	 * @param a10
+	 *            matrix entry
+	 * @param a11
+	 *            matrix entry
+	 * @param a12
+	 *            matrix entry
+	 * @param a20
+	 *            matrix entry
+	 * @param a21
+	 *            matrix entry
+	 * @param a22
+	 *            matrix entry
 	 * @return adjoint matrix
 	 */
 	public static double[][] adjoint(double a00, double a01, double a02,
@@ -174,8 +182,10 @@ public final class MyMath {
 	}
 
 	/**
-	 * @param t parameter
-	 * @param mod modulus
+	 * @param t
+	 *            parameter
+	 * @param mod
+	 *            modulus
 	 * @return smallest multiple of modulus greater or equal t
 	 */
 	public static double nextMultiple(double t, double mod) {
@@ -185,7 +195,9 @@ public final class MyMath {
 
 	/**
 	 * "pretty" numbers are 1,2,5,10,20,50,...
-	 * @param t input number
+	 * 
+	 * @param t
+	 *            input number
 	 * @return closest bigger pretty integer
 	 */
 	public static double nextPrettyNumber(double t) {
@@ -202,16 +214,20 @@ public final class MyMath {
 			return 2 * pot;
 		}
 	}
-	
-	public static double distancePointFunctionAt(final RealRootFunction fun, final double px, final double py, double x) { 
-		// D(x) = sqrt((x - a)^2+(f(x) - b)^2) 
-		return MyMath.length(x - px, fun.evaluate(x) - py); 
-	} 
+
+	public static double distancePointFunctionAt(final RealRootFunction fun,
+			final double px, final double py, double x) {
+		// D(x) = sqrt((x - a)^2+(f(x) - b)^2)
+		return MyMath.length(x - px, fun.evaluate(x) - py);
+	}
 
 	/**
 	 * Computes length of a vector
-	 * @param x x-coordinate
-	 * @param y y-coordinate
+	 * 
+	 * @param x
+	 *            x-coordinate
+	 * @param y
+	 *            y-coordinate
 	 * @return length of vector (x,y)
 	 */
 	public static double length(double x, double y) {
@@ -229,7 +245,7 @@ public final class MyMath {
 		return res;
 
 	}
-	
+
 	private static double lengthAbsNoZero(double absx, double absy) {
 		double res;
 		if (absx > absy) {
@@ -241,12 +257,16 @@ public final class MyMath {
 		}
 		return res;
 	}
-	
+
 	/**
 	 * Computes length of a vector
-	 * @param x x-coordinate
-	 * @param y y-coordinate
-	 * @param z z-coordinate
+	 * 
+	 * @param x
+	 *            x-coordinate
+	 * @param y
+	 *            y-coordinate
+	 * @param z
+	 *            z-coordinate
 	 * @return length of vector (x,y,z)
 	 */
 	public static double length(double x, double y, double z) {
@@ -255,62 +275,61 @@ public final class MyMath {
 		double absy = Math.abs(y);
 		double absz = Math.abs(z);
 
-		if (absx == 0){
-			if (absy == 0){
+		if (absx == 0) {
+			if (absy == 0) {
 				return absz;
 			}
-			if (absz == 0){
+			if (absz == 0) {
 				return absy;
 			}
 			return lengthAbsNoZero(absy, absz);
 		}
-		
-		if (absy == 0){
-			if (absz == 0){
+
+		if (absy == 0) {
+			if (absz == 0) {
 				return absx;
 			}
 			return lengthAbsNoZero(absx, absz);
 		}
-		
-		if (absz == 0){
+
+		if (absz == 0) {
 			return lengthAbsNoZero(absx, absy);
 		}
-		
+
 		// no zero value
-		
-		if (absx > absy){
-			if (absx > absz){ // absx is the highest
+
+		if (absx > absy) {
+			if (absx > absz) { // absx is the highest
 				double tempy = absy / absx;
 				double tempz = absz / absx;
 				return absx * Math.sqrt(1.0 + tempy * tempy + tempz * tempz);
 			}
-			
+
 			// absz is the highest
 			double tempy = absy / absz;
 			double tempx = absx / absz;
 			return absz * Math.sqrt(1.0 + tempy * tempy + tempx * tempx);
 
 		}
-		
-		if (absy > absz){  // absy is the highest
+
+		if (absy > absz) { // absy is the highest
 			double tempx = absx / absy;
 			double tempz = absz / absy;
 			return absx * Math.sqrt(1.0 + tempx * tempx + tempz * tempz);
 		}
-		
+
 		// absz is the highest
 		double tempy = absy / absz;
 		double tempx = absx / absz;
 		return absz * Math.sqrt(1.0 + tempy * tempy + tempx * tempx);
 
-
 	}
-	
-
 
 	/**
-	 * @param m1 first matrix
-	 * @param m2 second matrix
+	 * @param m1
+	 *            first matrix
+	 * @param m2
+	 *            second matrix
 	 * @return product of matrices
 	 */
 	public static double[][] multiply(double[][] m1, double[][] m2) {
@@ -318,92 +337,101 @@ public final class MyMath {
 		int l2 = m2[0].length;
 		int l3 = m1[0].length;
 		double[][] result = new double[l1][l2];
-		for(int i=0;i<l1;i++)
-			for(int j=0;j<l2;j++){
+		for (int i = 0; i < l1; i++)
+			for (int j = 0; j < l2; j++) {
 				result[i][j] = 0;
-				for(int k =0;k < l3;k++)
-					result[i][j] += m1[i][k]*m2[k][j];
+				for (int k = 0; k < l3; k++)
+					result[i][j] += m1[i][k] * m2[k][j];
 			}
 		return result;
 	}
-	
-    /**
-     * @param n n
-     * @param k k
-     * @return (n choose k)
-     */
-    public static double binomial(double n, double k) {
-		double INFINITY=Double.POSITIVE_INFINITY;
-    	try {
-    		if (n==0d && k==0d) return 1d;
-    		double r = k > n/2 ?  n - k : k;
-    		if (n<1d || r<0d || n<r) return 0d;
-    		if (Math.floor(n)!=n || Math.floor(r)!=r) return 0d;
-	    
-    		double ncr=binomLog(n,r);
-    		if (ncr==INFINITY) return INFINITY; // check to stop needless slow calculations
 
-    		// BinomLog is not exact for some values
-    		// (determined by trial and error)
-    		if (n<=37) return ncr;
-    		//if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
-	    
-    		// BinomBig is more accurate but slower
-    		// (but cannot be exact if the answer has more than about 16 significant digits)
-    		return binomBig(n,r);
-    	}
-    	catch (Exception e) {
-    		return INFINITY;
-    	}    
-    }
-    
-    /**
-     * Assumes that r < n-r
-     */      
-    private static double binomBig(double n, double r) {
+	/**
+	 * @param n
+	 *            n
+	 * @param k
+	 *            k
+	 * @return (n choose k)
+	 */
+	public static double binomial(double n, double k) {
+		double INFINITY = Double.POSITIVE_INFINITY;
+		try {
+			if (n == 0d && k == 0d)
+				return 1d;
+			double r = k > n / 2 ? n - k : k;
+			if (n < 1d || r < 0d || n < r)
+				return 0d;
+			if (Math.floor(n) != n || Math.floor(r) != r)
+				return 0d;
 
-	    BigInteger ncr=BigInteger.ONE,dd=BigInteger.ONE,nn,rr;
-//	    nn=BigInteger.valueOf((long)n);
-//	    rr=BigInteger.valueOf((long)r);
-	    
-	    // need a long-winded conversion in case n>10^18
-	    Double nnn=new Double(n);
-	    Double rrr=new Double(r);
-	    nn=(new BigDecimal(nnn.toString())).toBigInteger();
-	    rr=(new BigDecimal(rrr.toString())).toBigInteger();
-	    
-	    while (dd.compareTo(rr)<=0) {
-	    	ncr=ncr.multiply(nn);
-	    	ncr=ncr.divide(dd); // dd is guaranteed to divide exactly into ncr here
-	    	nn=nn.subtract(BigInteger.ONE);
-	    	dd=dd.add(BigInteger.ONE);
-	    }
-	    return ncr.doubleValue();
-	  }
-	
+			double ncr = binomLog(n, r);
+			if (ncr == INFINITY)
+				return INFINITY; // check to stop needless slow calculations
+
+			// BinomLog is not exact for some values
+			// (determined by trial and error)
+			if (n <= 37)
+				return ncr;
+			// if (r<2.8+Math.exp((250-n)/100) && n<59000) return ncr;
+
+			// BinomBig is more accurate but slower
+			// (but cannot be exact if the answer has more than about 16
+			// significant digits)
+			return binomBig(n, r);
+		} catch (Exception e) {
+			return INFINITY;
+		}
+	}
+
+	/**
+	 * Assumes that r < n-r
+	 */
+	private static double binomBig(double n, double r) {
+
+		BigInteger ncr = BigInteger.ONE, dd = BigInteger.ONE, nn, rr;
+		// nn=BigInteger.valueOf((long)n);
+		// rr=BigInteger.valueOf((long)r);
+
+		// need a long-winded conversion in case n>10^18
+		Double nnn = new Double(n);
+		Double rrr = new Double(r);
+		nn = (new BigDecimal(nnn.toString())).toBigInteger();
+		rr = (new BigDecimal(rrr.toString())).toBigInteger();
+
+		while (dd.compareTo(rr) <= 0) {
+			ncr = ncr.multiply(nn);
+			ncr = ncr.divide(dd); // dd is guaranteed to divide exactly into ncr
+									// here
+			nn = nn.subtract(BigInteger.ONE);
+			dd = dd.add(BigInteger.ONE);
+		}
+		return ncr.doubleValue();
+	}
+
 	private static double binomLog(double n, double r) {
 		// exact for n<=37
-		// also  if r<2.8+Math.exp((250-n)/100) && n<59000
+		// also if r<2.8+Math.exp((250-n)/100) && n<59000
 		// eg Binom2(38,19) is wrong
-		
-		return Math.floor(0.5+Math.exp(MyMath2.logGamma(n+1d)-MyMath2.logGamma(r+1)-MyMath2.logGamma((n-r)+1)));
-		
+
+		return Math.floor(0.5 + Math.exp(MyMath2.logGamma(n + 1d)
+				- MyMath2.logGamma(r + 1) - MyMath2.logGamma((n - r) + 1)));
+
 	}
 
 	public static double max(double[] data) {
 		double max = data[0];
-		for(int i = 0; i < data.length; i++){
-			if(data[i] > max){
+		for (int i = 0; i < data.length; i++) {
+			if (data[i] > max) {
 				max = data[i];
 			}
 		}
 		return max;
 	}
-	
+
 	public static double min(double[] data) {
 		double max = data[0];
-		for(int i = 0; i < data.length; i++){
-			if(data[i] < max){
+		for (int i = 0; i < data.length; i++) {
+			if (data[i] < max) {
 				max = data[i];
 			}
 		}

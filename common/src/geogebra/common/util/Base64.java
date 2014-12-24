@@ -83,7 +83,6 @@ ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE, EVEN IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH
 DAMAGES.  */
 
-
 package geogebra.common.util;
 
 import java.io.IOException;
@@ -92,226 +91,199 @@ import java.io.IOException;
  * Encodes / decodes binary file (as array of bytes) to / from Base64 string
  *
  */
-public final class Base64
-{	
+public final class Base64 {
 
-  // No constructor.
-  private Base64() { }
+	// No constructor.
+	private Base64() {
+	}
 
-  // Class methods.
-  // -------------------------------------------------------------------------
+	// Class methods.
+	// -------------------------------------------------------------------------
 
-  /** Base-64 characters. */
-  private static final String BASE_64 =
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	/** Base-64 characters. */
+	private static final String BASE_64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
-  /** Base-64 padding character. */
-  private static final char BASE_64_PAD = '=';
+	/** Base-64 padding character. */
+	private static final char BASE_64_PAD = '=';
 
-  /**
-   * Base64 encode a byte array, returning the returning string.
-   *
-   * @param buf The byte array to encode.
-   * @param tw  The total length of any line, 0 for unlimited.
-   * @return <tt>buf</tt> encoded in Base64.
-   */
-  public static String encode(byte[] buf, int tw)
-  {
-    int srcLength = buf.length;
-    byte[] input = new byte[3];
-    int[] output = new int[4];
-    StringBuilder out = new StringBuilder();
-    int i = 0;
-    int chars = 0;
+	/**
+	 * Base64 encode a byte array, returning the returning string.
+	 *
+	 * @param buf
+	 *            The byte array to encode.
+	 * @param tw
+	 *            The total length of any line, 0 for unlimited.
+	 * @return <tt>buf</tt> encoded in Base64.
+	 */
+	public static String encode(byte[] buf, int tw) {
+		int srcLength = buf.length;
+		byte[] input = new byte[3];
+		int[] output = new int[4];
+		StringBuilder out = new StringBuilder();
+		int i = 0;
+		int chars = 0;
 
-    while (srcLength > 2)
-      {
-        input[0] = buf[i++];
-        input[1] = buf[i++];
-        input[2] = buf[i++];
-        srcLength -= 3;
+		while (srcLength > 2) {
+			input[0] = buf[i++];
+			input[1] = buf[i++];
+			input[2] = buf[i++];
+			srcLength -= 3;
 
-        output[0] = (input[0] & 0xff) >>> 2;
-        output[1] = ((input[0] & 0x03) << 4) + ((input[1] & 0xff) >>> 4);
-        output[2] = ((input[1] & 0x0f) << 2) + ((input[2] & 0xff) >>> 6);
-        output[3] = input[2] & 0x3f;
+			output[0] = (input[0] & 0xff) >>> 2;
+			output[1] = ((input[0] & 0x03) << 4) + ((input[1] & 0xff) >>> 4);
+			output[2] = ((input[1] & 0x0f) << 2) + ((input[2] & 0xff) >>> 6);
+			output[3] = input[2] & 0x3f;
 
-        out.append(BASE_64.charAt(output[0]));
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-        out.append(BASE_64.charAt(output[1]));
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-        out.append(BASE_64.charAt(output[2]));
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-        out.append(BASE_64.charAt(output[3]));
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-      }
+			out.append(BASE_64.charAt(output[0]));
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+			out.append(BASE_64.charAt(output[1]));
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+			out.append(BASE_64.charAt(output[2]));
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+			out.append(BASE_64.charAt(output[3]));
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+		}
 
-    if (srcLength != 0)
-      {
-        input[0] = input[1] = input[2] = 0;
-        for (int j = 0; j < srcLength; j++)
-          {
-            input[j] = buf[i+j];
-          }
-        output[0] = (input[0] & 0xff) >>> 2;
-        output[1] = ((input[0] & 0x03) << 4) + ((input[1] & 0xff) >>> 4);
-        output[2] = ((input[1] & 0x0f) << 2) + ((input[2] & 0xff) >>> 6);
+		if (srcLength != 0) {
+			input[0] = input[1] = input[2] = 0;
+			for (int j = 0; j < srcLength; j++) {
+				input[j] = buf[i + j];
+			}
+			output[0] = (input[0] & 0xff) >>> 2;
+			output[1] = ((input[0] & 0x03) << 4) + ((input[1] & 0xff) >>> 4);
+			output[2] = ((input[1] & 0x0f) << 2) + ((input[2] & 0xff) >>> 6);
 
-        out.append(BASE_64.charAt(output[0]));
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-        out.append(BASE_64.charAt(output[1]));
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-        if (srcLength == 1)
-          {
-            out.append(BASE_64_PAD);
-          }
-        else
-          {
-            out.append(BASE_64.charAt(output[2]));
-          }
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-        out.append(BASE_64_PAD);
-        if (tw > 0 && ++chars % tw == 0)
-          {
-            out.append("\n");
-          }
-      }
-    if (tw > 0)
-      {
-        out.append("\n");
-      }
+			out.append(BASE_64.charAt(output[0]));
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+			out.append(BASE_64.charAt(output[1]));
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+			if (srcLength == 1) {
+				out.append(BASE_64_PAD);
+			} else {
+				out.append(BASE_64.charAt(output[2]));
+			}
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+			out.append(BASE_64_PAD);
+			if (tw > 0 && ++chars % tw == 0) {
+				out.append("\n");
+			}
+		}
+		if (tw > 0) {
+			out.append("\n");
+		}
 
-    return out.toString();
-  }
+		return out.toString();
+	}
 
-  /**
-   * Decode a Base-64 string into a byte array.
-   *
-   * @param b64 The Base-64 encoded string.
-   * @return The decoded bytes.
-   * @throws java.io.IOException If the argument is not a valid Base-64
-   *    encoding.
-   */
-  public static byte[] decode(String b64) throws IOException
-  {
-    int state = 0, i,j=0;
-    byte temp = 0;
-    //TODO b64.length()*3/4 should be sufficient
-    byte[] result = new byte[b64.length()];
-    for (i = 0; i < b64.length(); i++)
-      {
-        if (StringUtil.isWhitespace(b64.charAt(i)))
-          {
-            continue;
-          }
-        if (b64.charAt(i) == BASE_64_PAD)
-          {
-            break;
-          }
+	/**
+	 * Decode a Base-64 string into a byte array.
+	 *
+	 * @param b64
+	 *            The Base-64 encoded string.
+	 * @return The decoded bytes.
+	 * @throws java.io.IOException
+	 *             If the argument is not a valid Base-64 encoding.
+	 */
+	public static byte[] decode(String b64) throws IOException {
+		int state = 0, i, j = 0;
+		byte temp = 0;
+		// TODO b64.length()*3/4 should be sufficient
+		byte[] result = new byte[b64.length()];
+		for (i = 0; i < b64.length(); i++) {
+			if (StringUtil.isWhitespace(b64.charAt(i))) {
+				continue;
+			}
+			if (b64.charAt(i) == BASE_64_PAD) {
+				break;
+			}
 
-        int pos = BASE_64.indexOf(b64.charAt(i));
-        if (pos < 0)
-          {
-            throw new IOException("non-Base64 character " + b64.charAt(i));
-          }
-        switch (state)
-          {
-          case 0:
-            temp = (byte) (pos - BASE_64.indexOf('A') << 2);
-            state = 1;
-            break;
+			int pos = BASE_64.indexOf(b64.charAt(i));
+			if (pos < 0) {
+				throw new IOException("non-Base64 character " + b64.charAt(i));
+			}
+			switch (state) {
+			case 0:
+				temp = (byte) (pos - BASE_64.indexOf('A') << 2);
+				state = 1;
+				break;
 
-          case 1:
-            temp |= (byte) (pos - BASE_64.indexOf('A') >>> 4);
-            result[j]=temp;j++;
-            temp = (byte) ((pos - BASE_64.indexOf('A') & 0x0f) << 4);
-            state = 2;
-            break;
+			case 1:
+				temp |= (byte) (pos - BASE_64.indexOf('A') >>> 4);
+				result[j] = temp;
+				j++;
+				temp = (byte) ((pos - BASE_64.indexOf('A') & 0x0f) << 4);
+				state = 2;
+				break;
 
-          case 2:
-            temp |= (byte) ((pos - BASE_64.indexOf('A') & 0x7f) >>> 2);
-            result[j]=temp;j++;
-            temp = (byte) ((pos - BASE_64.indexOf('A') & 0x03) << 6);
-            state = 3;
-            break;
+			case 2:
+				temp |= (byte) ((pos - BASE_64.indexOf('A') & 0x7f) >>> 2);
+				result[j] = temp;
+				j++;
+				temp = (byte) ((pos - BASE_64.indexOf('A') & 0x03) << 6);
+				state = 3;
+				break;
 
-          case 3:
-            temp |= (byte) (pos - BASE_64.indexOf('A') & 0xff);
-            result[j]=temp;j++;
-            state = 0;
-            break;
+			case 3:
+				temp |= (byte) (pos - BASE_64.indexOf('A') & 0xff);
+				result[j] = temp;
+				j++;
+				state = 0;
+				break;
 
-          default:
-            throw new Error("this statement should be unreachable");
-          }
-      }
+			default:
+				throw new Error("this statement should be unreachable");
+			}
+		}
 
-    if (i < b64.length() && b64.charAt(i) == BASE_64_PAD)
-      {
-        switch (state)
-          {
-          case 0:
-          case 1:
-            throw new IOException("malformed Base64 sequence");
+		if (i < b64.length() && b64.charAt(i) == BASE_64_PAD) {
+			switch (state) {
+			case 0:
+			case 1:
+				throw new IOException("malformed Base64 sequence");
 
-          case 2:
-            for ( ; i < b64.length(); i++)
-              {
-                if (!StringUtil.isWhitespace(b64.charAt(i)))
-                  {
-                    break;
-                  }
-              }
-            // We must see a second pad character here.
-            if (b64.charAt(i) != BASE_64_PAD)
-              {
-                throw new IOException("malformed Base64 sequence");
-              }
-            i++;
-            // Fall-through.
+			case 2:
+				for (; i < b64.length(); i++) {
+					if (!StringUtil.isWhitespace(b64.charAt(i))) {
+						break;
+					}
+				}
+				// We must see a second pad character here.
+				if (b64.charAt(i) != BASE_64_PAD) {
+					throw new IOException("malformed Base64 sequence");
+				}
+				i++;
+				// Fall-through.
 
-          case 3:
-            i++;
-            for ( ; i < b64.length(); i++)
-              {
-                // We should only see whitespace after this.
-                if (!StringUtil.isWhitespace(b64.charAt(i)))
-                  {
-                    System.err.println(b64.charAt(i));
-                    throw new IOException("malformed Base64 sequence");
-                  }
-              }
-          }
-      }
-    else
-      {
-        if (state != 0)
-          {
-            throw new IOException("malformed Base64 sequence");
-          }
-      }
+			case 3:
+				i++;
+				for (; i < b64.length(); i++) {
+					// We should only see whitespace after this.
+					if (!StringUtil.isWhitespace(b64.charAt(i))) {
+						System.err.println(b64.charAt(i));
+						throw new IOException("malformed Base64 sequence");
+					}
+				}
+			}
+		} else {
+			if (state != 0) {
+				throw new IOException("malformed Base64 sequence");
+			}
+		}
 
-    return result;
-  }
+		return result;
+	}
 }

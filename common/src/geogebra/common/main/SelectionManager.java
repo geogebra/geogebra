@@ -13,20 +13,20 @@ import java.util.TreeSet;
 public class SelectionManager {
 	/** list of selected geos */
 	protected final ArrayList<GeoElement> selectedGeos = new ArrayList<GeoElement>();
-	
+
 	private final Kernel kernel;
-	
+
 	private final UpdateSelection listener;
-	
+
 	private ArrayList<GeoElementSelectionListener> selectionListeners;
-	
-	public SelectionManager(Kernel kernel,UpdateSelection app){
+
+	public SelectionManager(Kernel kernel, UpdateSelection app) {
 		this.kernel = kernel;
 		this.listener = app;
-		
+
 		selectionListeners = new ArrayList<GeoElementSelectionListener>();
 	}
-	
+
 	/**
 	 * Clears selection and selects given geos.
 	 * 
@@ -58,7 +58,7 @@ public class SelectionManager {
 		if (updateSelection)
 			updateSelection();
 	}
-	
+
 	/**
 	 * Clears selection and repaints all views
 	 */
@@ -102,7 +102,7 @@ public class SelectionManager {
 		}
 
 	}
-	
+
 	/**
 	 * Removes geo from selection
 	 * 
@@ -130,14 +130,14 @@ public class SelectionManager {
 
 		}
 	}
-	
+
 	/**
 	 * @return list of selected geos
 	 */
 	public final ArrayList<GeoElement> getSelectedGeos() {
 		return selectedGeos;
 	}
-	
+
 	/**
 	 * Adds geo to selection
 	 * 
@@ -150,7 +150,7 @@ public class SelectionManager {
 	 */
 	public final void addSelectedGeo(GeoElement geo, boolean repaint,
 			boolean updateSelection) {
-		
+
 		if ((geo == null) || selectedGeos.contains(geo)) {
 			return;
 		}
@@ -163,14 +163,14 @@ public class SelectionManager {
 
 		if (updateSelection)
 			updateSelection();
-		
+
 		// notify all registered selection listeners
 		for (GeoElementSelectionListener sl : getSelectionListeners()) {
 			sl.geoElementSelected(geo, true);
 		}
 
 	}
-	
+
 	/**
 	 * Michael Borcherds 2008-03-03
 	 * 
@@ -253,7 +253,7 @@ public class SelectionManager {
 		kernel.notifyRepaint();
 		updateSelection();
 	}
-	
+
 	final public boolean hasPredecessors() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -269,7 +269,7 @@ public class SelectionManager {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Selects descendants of all visible objects
 	 */
@@ -289,7 +289,7 @@ public class SelectionManager {
 		kernel.notifyRepaint();
 		updateSelection();
 	}
-	
+
 	final public boolean hasDescendants() {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
@@ -318,9 +318,10 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron() && !geo.isGeoPolyLine() &&
-					geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED &&
-					geo.getGeoClassType() != GeoClass.NET) {
+			if (!geo.isGeoPolygon() && !geo.isGeoPolyhedron()
+					&& !geo.isGeoPolyLine()
+					&& geo.getGeoClassType() != GeoClass.QUADRIC_LIMITED
+					&& geo.getGeoClassType() != GeoClass.NET) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle();
 			}
@@ -328,7 +329,8 @@ public class SelectionManager {
 
 		for (int i = 0; i < selectedGeos.size(); i++) {
 			GeoElement geo = selectedGeos.get(i);
-			if (geo.isGeoPolygon() || geo.isGeoPolyLine() || geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
+			if (geo.isGeoPolygon() || geo.isGeoPolyLine()
+					|| geo.getGeoClassType() == GeoClass.QUADRIC_LIMITED) {
 				geo.setEuclidianVisible(!geo.isEuclidianVisible());
 				geo.updateVisualStyle();
 			}
@@ -359,7 +361,7 @@ public class SelectionManager {
 		kernel.notifyRepaint();
 		updateSelection();
 	}
-	
+
 	/**
 	 * @param geo
 	 *            geo
@@ -387,14 +389,14 @@ public class SelectionManager {
 	final public void removeSelectedGeo(GeoElement geo) {
 		removeSelectedGeo(geo, true, true);
 	}
-	
+
 	/**
 	 * @return number of selected geos
 	 */
 	public final int selectedGeosSize() {
 		return selectedGeos.size();
 	}
-	
+
 	/**
 	 * Selects the first geo in the construction. Previous selected geos are
 	 * unselected (used e.g. for xAxis).
@@ -416,7 +418,7 @@ public class SelectionManager {
 		return geo;
 
 	}
-	
+
 	/**
 	 * Adds given geo to selection
 	 * 
@@ -426,8 +428,6 @@ public class SelectionManager {
 	public final void addSelectedGeo(GeoElement geo) {
 		addSelectedGeo(geo, true, true);
 	}
-
-	
 
 	/**
 	 * Adds geos to selection
@@ -449,7 +449,7 @@ public class SelectionManager {
 		}
 		updateSelection();
 	}
-	
+
 	/**
 	 * Removes or adds given geo to selection
 	 * 
@@ -477,7 +477,7 @@ public class SelectionManager {
 		}
 		updateSelection();
 	}
-	
+
 	/**
 	 * Removes or adds given geo to selection and repaints views
 	 * 
@@ -487,17 +487,20 @@ public class SelectionManager {
 	final public void toggleSelectedGeo(GeoElement geo) {
 		toggleSelectedGeo(geo, true);
 	}
-	
+
 	/**
 	 * Select geo next to the selected one in construction order. If none is
 	 * selected before, first geo is selected.
-	 * @param ev view that should get focus after (if we did not selct textfield)
+	 * 
+	 * @param ev
+	 *            view that should get focus after (if we did not selct
+	 *            textfield)
 	 */
 	final public void selectNextGeo(EuclidianViewInterfaceCommon ev) {
 
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
-		
+
 		tree = new TreeSet<GeoElement>(tree);
 
 		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
@@ -508,7 +511,8 @@ public class SelectionManager {
 		// or are not visible in the view
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible() || !geo.isVisibleInView(ev.getViewID())) {
+			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible()
+					|| !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
 			}
 		}
@@ -526,7 +530,7 @@ public class SelectionManager {
 		if (selectedGeos.size() != 1) {
 			return;
 		}
-		
+
 		// one selected, select next one
 		GeoElement selGeo = selectedGeos.get(0);
 		while (it.hasNext()) {
@@ -550,7 +554,10 @@ public class SelectionManager {
 
 	/**
 	 * Select last created geo
-	 * @param ev view that should get focus after (if we did not selct textfield)
+	 * 
+	 * @param ev
+	 *            view that should get focus after (if we did not selct
+	 *            textfield)
 	 */
 	final public void selectLastGeo(EuclidianViewInterfaceCommon ev) {
 		if (selectedGeos.size() != 1) {
@@ -560,7 +567,7 @@ public class SelectionManager {
 		GeoElement lastGeo = null;
 		TreeSet<GeoElement> tree = kernel.getConstruction()
 				.getGeoSetLabelOrder();
-		
+
 		tree = new TreeSet<GeoElement>(tree);
 
 		TreeSet<GeoElement> copy = new TreeSet<GeoElement>(tree);
@@ -569,7 +576,8 @@ public class SelectionManager {
 		// remove geos that don't have isSelectionAllowed()==true
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible() || !geo.isVisibleInView(ev.getViewID())) {
+			if (!geo.isSelectionAllowed() || !geo.isEuclidianVisible()
+					|| !geo.isVisibleInView(ev.getViewID())) {
 				tree.remove(geo);
 			}
 		}
@@ -604,7 +612,7 @@ public class SelectionManager {
 
 		updateSelection(true);
 	}
-	
+
 	/**
 	 * Update stylebars, menubar and properties view to match selection
 	 * 
@@ -615,26 +623,30 @@ public class SelectionManager {
 		listener.updateSelection(updatePropertiesView);
 	}
 
-	
 	/**
 	 * Add a selection listener
-	 * @param sl GeoElementSelectionListener to be added
+	 * 
+	 * @param sl
+	 *            GeoElementSelectionListener to be added
 	 */
-	public void addSelectionListener(GeoElementSelectionListener sl){
+	public void addSelectionListener(GeoElementSelectionListener sl) {
 		selectionListeners.add(sl);
 	}
+
 	/**
 	 * Remove a selection listener
-	 * @param sl GeoElementSelectionListener to be removed
+	 * 
+	 * @param sl
+	 *            GeoElementSelectionListener to be removed
 	 */
-	public void removeSelectionListener(GeoElementSelectionListener sl){
+	public void removeSelectionListener(GeoElementSelectionListener sl) {
 		selectionListeners.remove(sl);
 	}
-	
+
 	/**
-	 * @return Set of all registered SelectionListeners 
+	 * @return Set of all registered SelectionListeners
 	 */
-	public ArrayList<GeoElementSelectionListener> getSelectionListeners(){
+	public ArrayList<GeoElementSelectionListener> getSelectionListeners() {
 		return selectionListeners;
 	}
 }

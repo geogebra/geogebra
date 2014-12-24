@@ -7,16 +7,18 @@ import geogebra.common.kernel.Kernel;
 
 public abstract class CASFactory {
 	private static CASFactory prototype;
+
 	/**
 	 * @return might return null. Use App.getCASFactory()
 	 */
 	public static CASFactory getPrototype() {
 		return prototype;
 	}
-	
+
 	public static void setPrototype(CASFactory factory) {
 		prototype = factory;
 	}
 
-	public abstract CASGenericInterface newGiac(CASparser p, CasParserTools t, Kernel k);
+	public abstract CASGenericInterface newGiac(CASparser p, CasParserTools t,
+			Kernel k);
 }

@@ -73,20 +73,22 @@ import geogebra.common.kernel.kernelND.GeoVectorND;
 import geogebra.common.kernel.statistics.AlgoDotPlot;
 
 /**
- *	Factory class for drawables
+ * Factory class for drawables
  *
  */
 public class EuclidianDraw {
 	/**
 	 * adds a GeoElement to ev view
-	 * @param ev euclidian view
+	 * 
+	 * @param ev
+	 *            euclidian view
 	 * 
 	 * @param geo
 	 *            GeoElement to be added
 	 * @return drawable for given GeoElement
 	 */
 	public static DrawableND newDrawable(EuclidianView ev, GeoElement geo) {
-		
+
 		Drawable d = null;
 		switch (geo.getGeoClassType()) {
 		case BOOLEAN:
@@ -164,7 +166,7 @@ public class EuclidianDraw {
 								.getConstructionDefaults()
 								.getDefaultGeo(
 										ConstructionDefaults.DEFAULT_ANGLE)
-										.getObjectColor();
+								.getObjectColor();
 						geo.setObjColor(col);
 					}
 				}
@@ -196,13 +198,17 @@ public class EuclidianDraw {
 			} else if (algo instanceof AlgoBarChart) {
 				d = new DrawBarGraph(ev, (GeoNumeric) geo);
 			} else if (algo instanceof AlgoCasCellInterface) {
-				ValidExpression ve = ((AlgoCasCellInterface) algo).getCasCell().getInputVE();
+				ValidExpression ve = ((AlgoCasCellInterface) algo).getCasCell()
+						.getInputVE();
 				if (ve.isTopLevelCommand()) {
 					Command cmd = ve.getTopLevelCommand();
 					String name = cmd.getName();
-					if ("IntegralBetween".equals(name) && cmd.getArgumentNumber() == 4) {
-						d = new DrawIntegralFunctions(ev, (GeoNumeric) geo, true);
-					} else if ("Integral".equals(name) && cmd.getArgumentNumber() == 3) {
+					if ("IntegralBetween".equals(name)
+							&& cmd.getArgumentNumber() == 4) {
+						d = new DrawIntegralFunctions(ev, (GeoNumeric) geo,
+								true);
+					} else if ("Integral".equals(name)
+							&& cmd.getArgumentNumber() == 3) {
 						d = new DrawIntegral(ev, (GeoNumeric) geo, true);
 					}
 				}
@@ -240,7 +246,7 @@ public class EuclidianDraw {
 		case CONIC3D:
 			d = new DrawConic(ev, (GeoConicND) geo, false);
 			break;
-			
+
 		case CONICSECTION:
 			d = new DrawConicSection(ev, (GeoConicND) geo);
 			break;
@@ -277,14 +283,15 @@ public class EuclidianDraw {
 			d = new DrawParametricCurve(ev, (GeoCurveCartesian) geo);
 			break;
 		case CURVE_POLAR:
-			if (geo.getParentAlgorithm() instanceof AlgoTransferFunction){
+			if (geo.getParentAlgorithm() instanceof AlgoTransferFunction) {
 				d = new DrawNyquist(ev, (GeoTransferFunction) geo);
 			}
 			break;
 		case LIST:
 			algo = geo.getParentAlgorithm();
 			if (algo instanceof AlgoDotPlot) {
-				d = new DrawPointPlot(ev, (GeoList) geo, DrawPointPlot.DrawType.DOT_PLOT);
+				d = new DrawPointPlot(ev, (GeoList) geo,
+						DrawPointPlot.DrawType.DOT_PLOT);
 			} else {
 				d = new DrawList(ev, (GeoList) geo);
 			}
@@ -296,6 +303,6 @@ public class EuclidianDraw {
 		}
 
 		return d;
-	}	
+	}
 
 }

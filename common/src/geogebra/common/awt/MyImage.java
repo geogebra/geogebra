@@ -1,6 +1,5 @@
 package geogebra.common.awt;
 
-
 /**
  * Wrapper for images that can be either bitmap or SVG
  * 
@@ -17,9 +16,8 @@ public interface MyImage {
 
 	boolean isSVG();
 
-	GBufferedImage getSubimage(int x, int y, int width,	int height);
+	GBufferedImage getSubimage(int x, int y, int width, int height);
 
 	GGraphics2D createGraphics();
-
 
 }

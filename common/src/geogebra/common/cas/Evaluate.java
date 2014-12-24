@@ -5,25 +5,33 @@ package geogebra.common.cas;
  *
  */
 public interface Evaluate {
-	
+
 	/**
-	 * @param exp MPReduce input 
+	 * @param exp
+	 *            MPReduce input
 	 * @return CAS output
-	 * @throws Throwable if computation fails
+	 * @throws Throwable
+	 *             if computation fails
 	 */
 	public String evaluate(String exp) throws Throwable;
 
 	/**
-	 * @param exp MPReduce input 
-	 * @param timeoutMilliseconds maximal time for computation in ms
+	 * @param exp
+	 *            MPReduce input
+	 * @param timeoutMilliseconds
+	 *            maximal time for computation in ms
 	 * @return CAS output
-	 * @throws Throwable if computation fails or takes too long
+	 * @throws Throwable
+	 *             if computation fails or takes too long
 	 */
-	public String evaluate(String exp, long timeoutMilliseconds) throws Throwable;
+	public String evaluate(String exp, long timeoutMilliseconds)
+			throws Throwable;
 
 	/**
 	 * Initializes the interpreter
-	 * @throws Throwable if initialization fails
+	 * 
+	 * @throws Throwable
+	 *             if initialization fails
 	 */
 	public void initialize() throws Throwable;
 

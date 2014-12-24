@@ -6,8 +6,8 @@ import geogebra.common.util.URLEncoder;
 import geogebra.common.util.debug.Log;
 
 /**
- * @author Zoltan Kovacs <zoltan@geogebra.org>
- * Various util-like factories for common usage
+ * @author Zoltan Kovacs <zoltan@geogebra.org> Various util-like factories for
+ *         common usage
  */
 public abstract class UtilFactory {
 	/**
@@ -16,23 +16,22 @@ public abstract class UtilFactory {
 	public static UtilFactory prototype;
 
 	/**
-	 * @return HttpRequest object
-	 * Creates a HttpRequest object
+	 * @return HttpRequest object Creates a HttpRequest object
 	 */
 	public abstract HttpRequest newHttpRequest();
+
 	/**
-	 * @return URLEncoder object
-	 * Creates a URLEncoder object
+	 * @return URLEncoder object Creates a URLEncoder object
 	 */
 	public abstract URLEncoder newURLEncoder();
+
 	/**
-	 * @return GeoGebraLogger
-	 * Creates a GeoGebraLogger object
+	 * @return GeoGebraLogger Creates a GeoGebraLogger object
 	 */
 	public abstract Log newGeoGebraLogger();
+
 	/**
-	 * @return Prover
-	 * Creates a Prover object
+	 * @return Prover Creates a Prover object
 	 */
 	public abstract Prover newProver();
 }

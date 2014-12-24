@@ -12,7 +12,6 @@ the Free Software Foundation.
 
 package geogebra.common.euclidian;
 
-
 //import java.awt.Graphics2D;
 import geogebra.common.kernel.geos.GeoElement;
 
@@ -22,7 +21,7 @@ import java.util.Iterator;
  * List to store Drawable objects for fast drawing.
  */
 public class DrawableList {
-	/** first drawable in the list*/
+	/** first drawable in the list */
 	Link head;
 	private Link tail;
 	private int size = 0;
@@ -71,10 +70,10 @@ public class DrawableList {
 
 			if (cur.equals(head)) {
 				if (cur.d.getGeoElement().drawBefore(priority, false)) {// add
-																			// at
-																			// end
-																			// (list
-																			// size=1)
+																		// at
+																		// end
+																		// (list
+																		// size=1)
 					Link temp = new Link(d, null);
 					tail.next = temp;
 					tail = temp;
@@ -115,7 +114,8 @@ public class DrawableList {
 	 * Inserts d at the end of the list only if the list doesn't already contain
 	 * d.
 	 * 
-	 * @param d drawable to be added
+	 * @param d
+	 *            drawable to be added
 	 */
 	public final void addUnique(Drawable d) {
 		if (!contains(d))
@@ -179,8 +179,8 @@ public class DrawableList {
 		Link cur = head;
 		while (cur != null) {
 			// defined check needed in case the GeoList changed its size
-			if (cur.d.getGeoElement().isDefined()){
-				if(cur.d.needsUpdate()){
+			if (cur.d.getGeoElement().isDefined()) {
+				if (cur.d.needsUpdate()) {
 					cur.d.setNeedsUpdate(false);
 					cur.d.update();
 				}
@@ -273,7 +273,7 @@ public class DrawableList {
 		}
 
 		final public void remove() {
-			//do nothing
+			// do nothing
 		}
 
 	}

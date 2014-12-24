@@ -14,39 +14,35 @@ package geogebra.common.util;
 
 public class Util extends Object {
 
-    /**
-     * Removes < > " * / ? | \ and replaces them with underscore (_)
-	 * Michael Borcherds 2007-11-23
-     */
-    public static String processFilename(String name) {
+	/**
+	 * Removes < > " * / ? | \ and replaces them with underscore (_) Michael
+	 * Borcherds 2007-11-23
+	 */
+	public static String processFilename(String name) {
 		int length = name != null ? name.length() : 0;
-    	
-    	StringBuilder sb = new StringBuilder();
-		for (int i=0; i < length ; i++) {
+
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < length; i++) {
 			char c = name.charAt(i);
-			if     (c == '<' ||
-					c == '>' ||
-					c == '"' ||
-					c == ':' ||
-					c == '*' ||
-					c == '/' ||
-					c == '\\' ||
-					c == '?' ||
-					c == '\u00a3' || // seems to turn into '�' inside zips
-					c == '|' )
-			{
+			if (c == '<' || c == '>' || c == '"' || c == ':' || c == '*'
+					|| c == '/' || c == '\\' || c == '?' || c == '\u00a3' || // seems
+																				// to
+																				// turn
+																				// into
+																				// '�'
+																				// inside
+																				// zips
+					c == '|') {
 				sb.append("_");
-			}
-			else
-			{
+			} else {
 				sb.append(c);
 			}
 		}
-		
+
 		if (sb.length() == 0) {
 			sb.append("geogebra");
 		}
-		
+
 		return sb.toString();
 	}
 }

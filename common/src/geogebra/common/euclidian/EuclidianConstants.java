@@ -185,8 +185,8 @@ public final class EuclidianConstants {
 	/** Best Fit Line */
 	public static final int MODE_FITLINE = 58;
 
-	/** Record to Spreadsheet removed from GeoGebra 5*/
-	//public static final int MODE_RECORD_TO_SPREADSHEET = 59;
+	/** Record to Spreadsheet removed from GeoGebra 5 */
+	// public static final int MODE_RECORD_TO_SPREADSHEET = 59;
 	// GeoGebra 4.0 start
 	/** Insert Button */
 	public static final int MODE_BUTTON_ACTION = 60;
@@ -198,7 +198,7 @@ public final class EuclidianConstants {
 	public static final int MODE_PEN = 62;
 
 	/** Visual Style, removed */
-	//public static final int MODE_VISUAL_STYLE = 63;
+	// public static final int MODE_VISUAL_STYLE = 63;
 
 	/** Rigid Polygon */
 	public static final int MODE_RIGID_POLYGON = 64;
@@ -229,7 +229,7 @@ public final class EuclidianConstants {
 
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
-	
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 
@@ -249,7 +249,7 @@ public final class EuclidianConstants {
 
 	/** creates a plane parallel to another */
 	public static final int MODE_PARALLEL_PLANE = 513;
-	
+
 	/** Perpendicular Line (for 3D view) */
 	public static final int MODE_ORTHOGONAL_THREE_D = 514;
 
@@ -262,7 +262,10 @@ public final class EuclidianConstants {
 	/** creates a cone with center of basis, apex point and radius of the basis */
 	public static final int MODE_CONE_TWO_POINTS_RADIUS = 522;
 
-	/** creates a cylinder with center of basis, apex point and radius of the basis */
+	/**
+	 * creates a cylinder with center of basis, apex point and radius of the
+	 * basis
+	 */
 	public static final int MODE_CYLINDER_TWO_POINTS_RADIUS = 523;
 
 	/** creates a prism with basis and first vertex of the second parallel face */
@@ -273,21 +276,18 @@ public final class EuclidianConstants {
 
 	/** creates a prism with basis and top vertex */
 	public static final int MODE_PYRAMID = 533;
-	
+
 	/** creates a pyramid/cone with basis and height */
 	public static final int MODE_CONIFY = 534;
-	
+
 	/** polyhedronNet */
 	public static final int MODE_NET = 535;
-	
+
 	/** creates a cube */
 	public static final int MODE_CUBE = 536;
 
 	/** creates a tetrahedron */
 	public static final int MODE_TETRAHEDRON = 537;
-
-
-	
 
 	/** rotate the view */
 	public static final int MODE_ROTATEVIEW = 540;
@@ -297,17 +297,15 @@ public final class EuclidianConstants {
 
 	/** circle with center, radius, direction */
 	public static final int MODE_CIRCLE_AXIS_POINT = 551;
-	
+
 	/** volume */
 	public static final int MODE_VOLUME = 560;
-	
+
 	/** Rotate Object around Axis by Angle */
 	public static final int MODE_ROTATE_AROUND_LINE = 570;
-	
+
 	/** Reflect Object about Plane */
 	public static final int MODE_MIRROR_AT_PLANE = 571;
-
-
 
 	// CAS view modes
 	/** Evaluate */
@@ -374,7 +372,7 @@ public final class EuclidianConstants {
 	public static final long DRAGGING_DELAY = 100;
 
 	public static final int DEFAULT_ERASER_SIZE = 20;
-	
-	public static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8; 
+
+	public static final int SHOW_SYMBOLBUTTON_MINLENGTH = 8;
 
 }

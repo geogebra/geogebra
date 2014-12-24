@@ -25,51 +25,55 @@ import java.util.HashMap;
 
 public class EuclidianStyleBarStatic {
 
-	
-	public  final static String[] bracketArray = { "\u00D8", "{ }", "( )", "[ ]", "| |",
-	"|| ||" };
-	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )", "[ ]",
-	"||", "||||" };
+	public final static String[] bracketArray = { "\u00D8", "{ }", "( )",
+			"[ ]", "| |", "|| ||" };
+	public final static String[] bracketArray2 = { "\u00D8", "{ }", "( )",
+			"[ ]", "||", "||||" };
 	public static Integer[] lineStyleArray;
 	public static Integer[] pointStyleArray;
 
-	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos, boolean flag, EuclidianViewInterfaceCommon ev) {
+	public static GeoElement applyFixPosition(ArrayList<GeoElement> geos,
+			boolean flag, EuclidianViewInterfaceCommon ev) {
 		GeoElement ret = geos.get(0);
-		
+
 		AbsoluteScreenLocateable geoASL;
-		
+
 		App app = geos.get(0).getKernel().getApplication();
-		
+
 		// workaround to make sure pin icon disappears
 		// see applyFixPosition() called with a geo with label not set below
 		app.getSelectionManager().clearSelectedGeos(false);
 
-		for (int i = 0; i < geos.size() ; i++) {
+		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 
 			// problem with ghost geos
 			if (!geo.isLabelSet()) {
-				Log.warn("applyFixPosition() called with a geo with label not set: "+geo.getLabelSimple());
+				Log.warn("applyFixPosition() called with a geo with label not set: "
+						+ geo.getLabelSimple());
 				continue;
-				
+
 			}
-			
+
 			if (geo.isGeoSegment()) {
-				if (geo.getParentAlgorithm() != null && geo.getParentAlgorithm().getInput().length == 3) {
+				if (geo.getParentAlgorithm() != null
+						&& geo.getParentAlgorithm().getInput().length == 3) {
 					// segment is output from a Polygon
-					//AbstractApplication.warn("segment from poly");
+					// AbstractApplication.warn("segment from poly");
 					continue;
 				}
 			}
-			
+
 			if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
-				
-				AlgoAttachCopyToView algo = (AlgoAttachCopyToView)geo.getParentAlgorithm();
-				
+
+				AlgoAttachCopyToView algo = (AlgoAttachCopyToView) geo
+						.getParentAlgorithm();
+
 				if (!flag) {
-					
-					GeoElement geo0 = redefineGeo(geo, getDefinitonString(algo.getInput()[0]));
-					
+
+					GeoElement geo0 = redefineGeo(geo,
+							getDefinitonString(algo.getInput()[0]));
+
 					if (i == 0) {
 						ret = geo0;
 					}
@@ -77,11 +81,12 @@ public class EuclidianStyleBarStatic {
 				} else {
 					algo.setEV(ev.getEuclidianViewNo()); // 1 or 2
 				}
-				
+
 				geo.setEuclidianVisible(true);
 				geo.updateRepaint();
-				
-			} else if (geo instanceof AbsoluteScreenLocateable && !geo.isGeoList()) {
+
+			} else if (geo instanceof AbsoluteScreenLocateable
+					&& !geo.isGeoList()) {
 				geoASL = (AbsoluteScreenLocateable) geo;
 				if (flag) {
 					// convert real world to screen coords
@@ -91,75 +96,80 @@ public class EuclidianStyleBarStatic {
 						geoASL.setAbsoluteScreenLoc(x, y);
 				} else {
 					// convert screen coords to real world
-					double x = ev.toRealWorldCoordX(geoASL.getAbsoluteScreenLocX());
-					double y = ev.toRealWorldCoordY(geoASL.getAbsoluteScreenLocY());
+					double x = ev.toRealWorldCoordX(geoASL
+							.getAbsoluteScreenLocX());
+					double y = ev.toRealWorldCoordY(geoASL
+							.getAbsoluteScreenLocY());
 					if (geoASL.isAbsoluteScreenLocActive())
 						geoASL.setRealWorldLoc(x, y);
 				}
 				geoASL.setAbsoluteScreenLocActive(flag);
 				geo.updateRepaint();
-				
+
 			} else if (geo.isPinnable()) {
 				Kernel kernelA = app.getKernel();
-				
+
 				GeoPoint corner1 = new GeoPoint(kernelA.getConstruction());
 				GeoPoint corner3 = new GeoPoint(kernelA.getConstruction());
 				GeoPoint screenCorner1 = new GeoPoint(kernelA.getConstruction());
 				GeoPoint screenCorner3 = new GeoPoint(kernelA.getConstruction());
-				if(ev!=null){
+				if (ev != null) {
 					corner1.setCoords(ev.getXmin(), ev.getYmin(), 1);
 					corner3.setCoords(ev.getXmax(), ev.getYmax(), 1);
 					screenCorner1.setCoords(0, ev.getHeight(), 1);
 					screenCorner3.setCoords(ev.getWidth(), 0, 1);
 				}
-				
-						
+
 				// "false" here so that pinning works for eg polygons
-				GeoElement geo0 = redefineGeo(geo, "AttachCopyToView["+ getDefinitonString(geo) +"," + ev.getEuclidianViewNo() + "]");
-				
+				GeoElement geo0 = redefineGeo(geo,
+						"AttachCopyToView[" + getDefinitonString(geo) + ","
+								+ ev.getEuclidianViewNo() + "]");
+
 				if (i == 0) {
 					ret = geo0;
 				}
-				
+
 				geo.setEuclidianVisible(true);
 				geo.updateRepaint();
-				
+
 			} else {
 				// can't pin
 				App.debug("not pinnable");
 				return null;
 			}
-			
-			//app.addSelectedGeo(geo);
-			
+
+			// app.addSelectedGeo(geo);
+
 		}
-		
+
 		return ret;
 	}
-	
+
 	private static String getDefinitonString(GeoElement geo) {
 		// needed for eg freehand functions
-		String definitonStr = geo.getCommandDescription(StringTemplate.maxPrecision);
-		
+		String definitonStr = geo
+				.getCommandDescription(StringTemplate.maxPrecision);
+
 		// everything else
 		if (definitonStr.equals("")) {
 			// "false" here so that pinning works for eg polygons
-			definitonStr = geo.getFormulaString(StringTemplate.maxPrecision, false);
+			definitonStr = geo.getFormulaString(StringTemplate.maxPrecision,
+					false);
 		}
-		
+
 		return definitonStr;
 
 	}
 
 	public static GeoElement redefineGeo(GeoElement geo, String cmdtext) {
 		GeoElement newGeo = null;
-		
+
 		App app = geo.getKernel().getApplication();
 
 		if (cmdtext == null)
 			return newGeo;
-		
-		App.debug("redefining "+geo+" as "+cmdtext);
+
+		App.debug("redefining " + geo + " as " + cmdtext);
 
 		try {
 			newGeo = app.getKernel().getAlgebraProcessor()
@@ -175,8 +185,10 @@ public class EuclidianStyleBarStatic {
 		}
 		return newGeo;
 	}
-	
-	public static void applyTableTextFormat(ArrayList<GeoElement> geos, int justifyIndex, boolean HisSelected, boolean VisSelected, int index, App app) {
+
+	public static void applyTableTextFormat(ArrayList<GeoElement> geos,
+			int justifyIndex, boolean HisSelected, boolean VisSelected,
+			int index, App app) {
 
 		AlgoElement algo = null;
 		GeoElement[] input;
@@ -184,12 +196,12 @@ public class EuclidianStyleBarStatic {
 		String arg = null;
 
 		String[] justifyArray = { "l", "c", "r" };
-		//arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
+		// arg = justifyArray[btnTableTextJustify.getSelectedIndex()];
 		arg = justifyArray[justifyIndex];
-		//if (this.btnTableTextLinesH.isSelected())
+		// if (this.btnTableTextLinesH.isSelected())
 		if (HisSelected)
 			arg += "_";
-		//if (this.btnTableTextLinesV.isSelected())
+		// if (this.btnTableTextLinesV.isSelected())
 		if (VisSelected)
 			arg += "|";
 		if (index > 0)
@@ -222,13 +234,14 @@ public class EuclidianStyleBarStatic {
 		// reset the selection
 		app.getSelectionManager().setSelectedGeos(newGeos);
 	}
-	
-	public static boolean applyCaptionStyle(ArrayList<GeoElement> geos, int mode, int index) {
-		
+
+	public static boolean applyCaptionStyle(ArrayList<GeoElement> geos,
+			int mode, int index) {
+
 		boolean needUndo = false;
-		
+
 		App app = geos.get(0).getKernel().getApplication();
-		
+
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if ((mode == EuclidianConstants.MODE_MOVE && (geo.isLabelShowable()
@@ -257,15 +270,16 @@ public class EuclidianStyleBarStatic {
 			geo.updateVisualStyle();
 			needUndo = true;
 		}
-		
+
 		app.getKernel().notifyRepaint();
 		return needUndo;
 	}
 
-	public static boolean applyLineStyle(ArrayList<GeoElement> geos, int lineStyleIndex, int lineSize) {
+	public static boolean applyLineStyle(ArrayList<GeoElement> geos,
+			int lineStyleIndex, int lineSize) {
 		int lineStyle = lineStyleArray[lineStyleIndex];
 		boolean needUndo = false;
-		
+
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			if (geo.getLineType() != lineStyle
@@ -276,11 +290,12 @@ public class EuclidianStyleBarStatic {
 				needUndo = true;
 			}
 		}
-		
+
 		return needUndo;
 	}
-	
-	public static boolean applyPointStyle(ArrayList<GeoElement> geos, int pointStyleSelIndex, int pointSize) {
+
+	public static boolean applyPointStyle(ArrayList<GeoElement> geos,
+			int pointStyleSelIndex, int pointSize) {
 		int pointStyle = pointStyleArray[pointStyleSelIndex];
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
@@ -295,19 +310,19 @@ public class EuclidianStyleBarStatic {
 				}
 			}
 		}
-		
+
 		return needUndo;
 	}
-	
-	public static boolean applyColor(ArrayList<GeoElement> geos, GColor color, float alpha, App app) {
+
+	public static boolean applyColor(ArrayList<GeoElement> geos, GColor color,
+			float alpha, App app) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 			// apply object color to all other geos except images or text
 			if (!(geo.getGeoElementForPropertiesDialog() instanceof GeoImage || geo
 					.getGeoElementForPropertiesDialog() instanceof GeoText))
-				if ((geo.getObjectColor() != color || geo
-						.getAlphaValue() != alpha)) {
+				if ((geo.getObjectColor() != color || geo.getAlphaValue() != alpha)) {
 					geo.setObjColor(color);
 					// if we change alpha for functions, hit won't work properly
 					if (geo.isFillable())
@@ -321,9 +336,10 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
-	public static boolean applyBgColor(ArrayList<GeoElement> geos, GColor color, float alpha) {
+	public static boolean applyBgColor(ArrayList<GeoElement> geos,
+			GColor color, float alpha) {
 		boolean needUndo = false;
-		
+
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
 
@@ -341,7 +357,8 @@ public class EuclidianStyleBarStatic {
 		return needUndo;
 	}
 
-	public static boolean applyTextColor(ArrayList<GeoElement> geos, GColor color) {
+	public static boolean applyTextColor(ArrayList<GeoElement> geos,
+			GColor color) {
 		boolean needUndo = false;
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -357,31 +374,42 @@ public class EuclidianStyleBarStatic {
 
 	/**
 	 * @param geos
-	 * @param fontStyle Value of fontStyle is 1 if btnBold pressed, 2 if btnItalic pressed, 0 otherwise
+	 * @param fontStyle
+	 *            Value of fontStyle is 1 if btnBold pressed, 2 if btnItalic
+	 *            pressed, 0 otherwise
 	 * @return
 	 */
-	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask, int add) {
+	public static boolean applyFontStyle(ArrayList<GeoElement> geos, int mask,
+			int add) {
 		boolean needUndo = false;
-		
+
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
-			if (geo instanceof TextProperties){
-				int newStyle = (((TextProperties) geo).getFontStyle() & mask) | add;
-					if (((TextProperties) geo).getFontStyle() != newStyle) {
-				((TextProperties) geo).setFontStyle(newStyle);
-				geo.updateVisualStyleRepaint();
-				needUndo = true;
-			}
+			if (geo instanceof TextProperties) {
+				int newStyle = (((TextProperties) geo).getFontStyle() & mask)
+						| add;
+				if (((TextProperties) geo).getFontStyle() != newStyle) {
+					((TextProperties) geo).setFontStyle(newStyle);
+					geo.updateVisualStyleRepaint();
+					needUndo = true;
+				}
 			}
 		}
 		return needUndo;
 	}
 
-	public static boolean applyTextSize(ArrayList<GeoElement> geos, int textSizeIndex) {
+	public static boolean applyTextSize(ArrayList<GeoElement> geos,
+			int textSizeIndex) {
 		boolean needUndo = false;
-		
-		double fontSize = GeoText.getRelativeFontSize(textSizeIndex); // transform indices to the range -4, .. ,
-										// 4
+
+		double fontSize = GeoText.getRelativeFontSize(textSizeIndex); // transform
+																		// indices
+																		// to
+																		// the
+																		// range
+																		// -4,
+																		// .. ,
+		// 4
 
 		for (int i = 0; i < geos.size(); i++) {
 			GeoElement geo = geos.get(i);
@@ -392,31 +420,35 @@ public class EuclidianStyleBarStatic {
 				needUndo = true;
 			}
 		}
-		
+
 		return needUndo;
 	}
-	
+
 	/**
 	 * process the action performed
+	 * 
 	 * @param actionCommand
 	 * @param targetGeos
-	 * @param ev 
-	 * @return 
+	 * @param ev
+	 * @return
 	 */
 	// if all cases will be processed here, instead of
 	// EuclidianStyleBar.processSource, the return value will be unnecessary
-	public static boolean processSourceCommon(String actionCommand, ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
+	public static boolean processSourceCommon(String actionCommand,
+			ArrayList<GeoElement> targetGeos, EuclidianViewInterfaceCommon ev) {
 		App app = ev.getApplication();
-		//cons = app.getKernel().getConstruction();
+		// cons = app.getKernel().getConstruction();
 		boolean changed = false;
 		if (actionCommand.equals("showAxes")) {
 			if (app.getEuclidianView1() == ev) {
 				changed = app.getSettings().getEuclidian(1)
 						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == ev) {
+			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+					&& app.getEuclidianView2(1) == ev) {
 				changed = app.getSettings().getEuclidian(2)
 						.setShowAxes(!ev.getShowXaxis(), !ev.getShowXaxis());
-			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+			} else if (app.hasEuclidianView3D()
+					&& app.getEuclidianView3D() == ev) {
 				changed = app.getSettings().getEuclidian(3)
 						.setShowAxes(!ev.getShowXaxis());
 			} else {
@@ -427,10 +459,14 @@ public class EuclidianStyleBarStatic {
 
 		else if (actionCommand.equals("showGrid")) {
 			if (app.getEuclidianView1() == ev) {
-				changed = app.getSettings().getEuclidian(1).showGrid(!ev.getShowGrid());
-			} else if (app.hasEuclidianView2EitherShowingOrNot(1) && app.getEuclidianView2(1) == ev) {
-				changed = app.getSettings().getEuclidian(2).showGrid(!ev.getShowGrid());
-			} else if (app.hasEuclidianView3D() && app.getEuclidianView3D() == ev) {
+				changed = app.getSettings().getEuclidian(1)
+						.showGrid(!ev.getShowGrid());
+			} else if (app.hasEuclidianView2EitherShowingOrNot(1)
+					&& app.getEuclidianView2(1) == ev) {
+				changed = app.getSettings().getEuclidian(2)
+						.showGrid(!ev.getShowGrid());
+			} else if (app.hasEuclidianView3D()
+					&& app.getEuclidianView3D() == ev) {
 				changed = app.getSettings().getEuclidian(3)
 						.showGrid(!ev.getShowGrid());
 			} else {
@@ -442,7 +478,7 @@ public class EuclidianStyleBarStatic {
 		else if (actionCommand.equals("standardView")) {
 
 			// no parameters, always do this
-			//app.setStandardView();
+			// app.setStandardView();
 			ev.setStandardView(true);
 		}
 
@@ -456,10 +492,9 @@ public class EuclidianStyleBarStatic {
 			// update other EV stylebars since this is a global property
 			app.updateStyleBars();
 		}
-		if(changed){
+		if (changed) {
 			app.storeUndoInfo();
-		}
-		else {
+		} else {
 			return false;
 		}
 
@@ -469,8 +504,7 @@ public class EuclidianStyleBarStatic {
 	public static AlgoTableText updateTableText(Object[] geos, int mode) {
 
 		AlgoTableText tableText = null;
-		if (geos == null || geos.length == 0
-				|| EuclidianView.isPenMode(mode))
+		if (geos == null || geos.length == 0 || EuclidianView.isPenMode(mode))
 			return tableText;
 
 		boolean geosOK = true;
@@ -487,10 +521,9 @@ public class EuclidianStyleBarStatic {
 			algo = ((GeoElement) geos[0]).getParentAlgorithm();
 			tableText = (AlgoTableText) algo;
 		}
-		
+
 		return tableText;
 	}
-	
 
 	public static HashMap<Integer, Integer> createDefaultMap() {
 		HashMap<Integer, Integer> defaultGeoMap = new HashMap<Integer, Integer>();
@@ -616,7 +649,7 @@ public class EuclidianStyleBarStatic {
 				ConstructionDefaults.DEFAULT_NONE);
 		defaultGeoMap.put(EuclidianConstants.MODE_TEXTFIELD_ACTION,
 				ConstructionDefaults.DEFAULT_NONE);
-		
+
 		return defaultGeoMap;
 	}
 

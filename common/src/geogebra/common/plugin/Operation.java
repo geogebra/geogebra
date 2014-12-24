@@ -291,7 +291,7 @@ public enum Operation {
 			return ev.handlePlus(lt, rt, tpl, holdsLaTeX);
 
 		}
-		
+
 	},
 	MINUS {
 		@Override
@@ -307,7 +307,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			
+
 			return ev.handleVectorProduct(lt, rt, tpl, holdsLaTeX);
 		}
 	},
@@ -433,7 +433,7 @@ public enum Operation {
 				GeoVec2D.complexSin(vec, vec);
 				return vec;
 
-			} 
+			}
 			return ev.polynomialOrDie(lt, this, "sin(");
 
 		}
@@ -563,7 +563,7 @@ public enum Operation {
 						MyDouble.pow(root, exp, root);
 					}
 					return root;
-				}  else if (lt instanceof VectorValue) {
+				} else if (lt instanceof VectorValue) {
 					GeoVec2D vec = ((VectorValue) lt).getVector();
 
 					// complex sqrt
@@ -646,7 +646,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleXcoord(lt,this);
+			return ev.handleXcoord(lt, this);
 
 		}
 	},
@@ -655,7 +655,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleYcoord(lt,this);
+			return ev.handleYcoord(lt, this);
 
 		}
 	},
@@ -683,7 +683,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleYcoord(lt,this);
+			return ev.handleYcoord(lt, this);
 
 		}
 	},
@@ -692,7 +692,7 @@ public enum Operation {
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return ev.handleXcoord(lt,this);
+			return ev.handleXcoord(lt, this);
 
 		}
 	},
@@ -923,13 +923,13 @@ public enum Operation {
 				return ((NumberValue) lt).getNumber().floor();
 			}
 			if (lt instanceof VectorValue) {
-				GeoVec2D ret = ((VectorValue) lt).getVector().floor();	
+				GeoVec2D ret = ((VectorValue) lt).getVector().floor();
 				// eg complex
 				ret.setMode(((VectorValue) lt).getMode());
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().floor();	
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().floor();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "floor(");
@@ -945,13 +945,13 @@ public enum Operation {
 				return ((NumberValue) lt).getNumber().ceil();
 			}
 			if (lt instanceof VectorValue) {
-				GeoVec2D ret = ((VectorValue) lt).getVector().ceil();	
+				GeoVec2D ret = ((VectorValue) lt).getVector().ceil();
 				// eg complex
 				ret.setMode(((VectorValue) lt).getMode());
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().ceil();	
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().ceil();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "ceil(");
@@ -976,19 +976,22 @@ public enum Operation {
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof NumberValue) {
-				if(rt instanceof NumberValue && (!Double.isNaN(((NumberValue)rt).getDouble()) || rt.isGeoElement()) ){
-					return ((NumberValue) lt).getNumber().round(((NumberValue)rt).getDouble());
+				if (rt instanceof NumberValue
+						&& (!Double.isNaN(((NumberValue) rt).getDouble()) || rt
+								.isGeoElement())) {
+					return ((NumberValue) lt).getNumber().round(
+							((NumberValue) rt).getDouble());
 				}
 				return ((NumberValue) lt).getNumber().round();
 			}
 			if (lt instanceof VectorValue) {
-				GeoVec2D ret = ((VectorValue) lt).getVector().round();	
+				GeoVec2D ret = ((VectorValue) lt).getVector().round();
 				// eg complex
 				ret.setMode(((VectorValue) lt).getMode());
 				return ret;
 			}
 			if (lt instanceof Vector3DValue) {
-				Geo3DVec ret = ((Vector3DValue) lt).getVector().round();	
+				Geo3DVec ret = ((Vector3DValue) lt).getVector().round();
 				return ret;
 			}
 			return ev.polynomialOrDie(lt, this, "round(");
@@ -1255,13 +1258,14 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (rt instanceof NumberValue) {
 				NumberValue arg = (NumberValue) rt;
-				
+
 				if (lt instanceof GeoCurveCartesianND) {
-					return ((GeoCurveCartesianND) lt).evaluateCurve(arg.getDouble());
+					return ((GeoCurveCartesianND) lt).evaluateCurve(arg
+							.getDouble());
 				}
-				
+
 				return ((ParametricCurve) lt).evaluateCurve(arg.getDouble());
-			} 
+			}
 			return ev.illegalArgument(rt);
 		}
 	},
@@ -1276,10 +1280,11 @@ public enum Operation {
 							.round(((NumberValue) rt).getDouble()));
 				} else if (lt instanceof GeoCurveCartesianND) { // derivative of
 																// GeoCurveCartesian
-					return ((GeoCurveCartesianND) lt).getGeoDerivative((int) Math
-							.round(((NumberValue) rt).getDouble()));
+					return ((GeoCurveCartesianND) lt)
+							.getGeoDerivative((int) Math
+									.round(((NumberValue) rt).getDouble()));
 				}
-			} 
+			}
 			return ev.illegalArgument(rt);
 		}
 	},
@@ -1346,21 +1351,23 @@ public enum Operation {
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
 			if (lt instanceof MyList && rt instanceof MyList) {
 				MyList cond = (MyList) lt;
-				for(int i = 0; i < cond.size(); i++){
+				for (int i = 0; i < cond.size(); i++) {
 					ExpressionValue curr = cond.getListElement(i).evaluate(tpl);
-					//Log.debug(curr);
+					// Log.debug(curr);
 					if (curr instanceof BooleanValue) {
 						if (((BooleanValue) curr).getBoolean()) {
-							return ((MyList) rt).getListElement(i).evaluate(tpl);
+							return ((MyList) rt).getListElement(i)
+									.evaluate(tpl);
 						}
-						
+
 					}
 				}
-				return cond.size() == ((MyList) rt).size() ? new MyDouble(ev.getKernel(), Double.NaN) :
-					((MyList) rt).getListElement(cond.size()).evaluate(tpl);
-				
+				return cond.size() == ((MyList) rt).size() ? new MyDouble(
+						ev.getKernel(), Double.NaN) : ((MyList) rt)
+						.getListElement(cond.size()).evaluate(tpl);
+
 			}
-			
+
 			return ev.illegalArgument(lt, rt, "if(");
 		}
 	},
@@ -1440,12 +1447,13 @@ public enum Operation {
 			} else
 				return ev.polynomialOrDie(lt, this, "zeta(");
 		}
-	}, DIFF {
+	},
+	DIFF {
 		@Override
 		public ExpressionValue handle(ExpressionNodeEvaluator ev,
 				ExpressionValue lt, ExpressionValue rt, ExpressionValue left,
 				ExpressionValue right, StringTemplate tpl, boolean holdsLaTeX) {
-			return new MyDouble(ev.getKernel(),Double.NaN);
+			return new MyDouble(ev.getKernel(), Double.NaN);
 		}
 	};
 
@@ -1499,7 +1507,7 @@ public enum Operation {
 	}
 
 	public boolean isInequality() {
-		return this.equals(GREATER_EQUAL) || this.equals(GREATER) 
+		return this.equals(GREATER_EQUAL) || this.equals(GREATER)
 				|| this.equals(LESS) || this.equals(LESS_EQUAL);
 	}
 
@@ -1524,7 +1532,7 @@ public enum Operation {
 			return Operation.NOT;
 		}
 	}
-	
+
 	/**
 	 * @return operation swapped left to right
 	 */
@@ -1543,42 +1551,38 @@ public enum Operation {
 		case NOT_EQUAL:
 			return Operation.NOT_EQUAL;
 		}
-		
+
 		return Operation.NO_OPERATION;
 	}
-	
-	public static boolean integralIsNonContinuous(Operation op) { 
 
-		switch (op) { 
-		case ABS: 
-		case SGN: 
-		case FLOOR: 
-		case CEIL: 
-		case ROUND: 
-		case TAN: 
-		case COT: 
-		case SEC: 
-		case CSC: 
-		case FRACTIONAL_PART: 
-		case ZETA: 
-		case GAMMA: 
-		case GAMMA_INCOMPLETE: 
-		case GAMMA_INCOMPLETE_REGULARIZED: 
-		case BETA: 
-		case BETA_INCOMPLETE: 
-		case BETA_INCOMPLETE_REGULARIZED: 
-		case POLYGAMMA: 
-		case PSI: 
+	public static boolean integralIsNonContinuous(Operation op) {
+
+		switch (op) {
+		case ABS:
+		case SGN:
+		case FLOOR:
+		case CEIL:
+		case ROUND:
+		case TAN:
+		case COT:
+		case SEC:
+		case CSC:
+		case FRACTIONAL_PART:
+		case ZETA:
+		case GAMMA:
+		case GAMMA_INCOMPLETE:
+		case GAMMA_INCOMPLETE_REGULARIZED:
+		case BETA:
+		case BETA_INCOMPLETE:
+		case BETA_INCOMPLETE_REGULARIZED:
+		case POLYGAMMA:
+		case PSI:
 		case IF:
 		case IF_ELSE:
 
-			return true; 
-		} 
+			return true;
+		}
 
-
-		return false; 
-	} 
+		return false;
+	}
 }
-
-
-

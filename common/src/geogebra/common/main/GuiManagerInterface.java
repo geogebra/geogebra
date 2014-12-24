@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 package geogebra.common.main;
 
 import geogebra.common.awt.GPoint;
@@ -28,10 +28,9 @@ import geogebra.common.util.AsyncOperation;
 import java.util.ArrayList;
 
 /**
- * This interface is almost the same as GuiManager,
- * just it is an interface and doesn't implement anything,
- * and contains only public methods.
- * (So things from GuiManager were moved to here.)
+ * This interface is almost the same as GuiManager, just it is an interface and
+ * doesn't implement anything, and contains only public methods. (So things from
+ * GuiManager were moved to here.)
  * 
  * @author arpad
  *
@@ -48,24 +47,26 @@ public interface GuiManagerInterface {
 	public void showPopupMenu(ArrayList<GeoElement> selectedGeos,
 			EuclidianViewInterfaceCommon euclidianViewInterfaceCommon,
 			GPoint mouseLoc);
-	
+
 	public void showPopupChooseGeo(ArrayList<GeoElement> selectedGeos,
 			ArrayList<GeoElement> geos, EuclidianViewInterfaceCommon view,
 			GPoint p);
 
-	public void setMode(int mode,ModeSetter m);
+	public void setMode(int mode, ModeSetter m);
 
 	public void redo();
+
 	public void undo();
 
-	public void setFocusedPanel(AbstractEvent event, boolean updatePropertiesView);
+	public void setFocusedPanel(AbstractEvent event,
+			boolean updatePropertiesView);
 
 	public void loadImage(GeoPoint loc, Object object, boolean altDown);
 
 	public boolean hasAlgebraViewShowing();
 
 	public boolean hasAlgebraView();
-	
+
 	public void updateFonts();
 
 	public boolean isUsingConstructionProtocol();
@@ -78,34 +79,32 @@ public interface GuiManagerInterface {
 
 	public void showDrawingPadPopup(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc);
-	
+
 	public void showDrawingPadPopup3D(EuclidianViewInterfaceCommon view,
 			GPoint mouseLoc);
-	
-	
 
 	public boolean hasSpreadsheetView();
 
 	public void attachSpreadsheetView();
 
 	public void setShowView(boolean b, int viewID);
-	
+
 	public void setShowView(boolean b, int viewID, boolean isPermanent);
 
 	public boolean showView(int viewID);
 
 	public View getConstructionProtocolData();
-	
+
 	public View getCasView();
-	
+
 	public View getSpreadsheetView();
-	
+
 	public View getProbabilityCalculator();
-	
+
 	public View getDataAnalysisView();
-	
+
 	public View getPlotPanelView(int id);
-	
+
 	public View getPropertiesView();
 
 	public boolean hasProbabilityCalculator();
@@ -127,25 +126,27 @@ public interface GuiManagerInterface {
 	public void setShowAuxiliaryObjects(boolean flag);
 
 	public void updatePropertiesView();
-	
+
 	/**
 	 * tells the properties view that mouse has been pressed
 	 */
-	public void mousePressedForPropertiesView();	
-	
+	public void mousePressedForPropertiesView();
+
 	/**
 	 * tells the properties view that mouse has been released
-	 * @param creatorMode tells if ev is in creator mode (ie not move mode)
+	 * 
+	 * @param creatorMode
+	 *            tells if ev is in creator mode (ie not move mode)
 	 */
 	public void mouseReleasedForPropertiesView(boolean creatorMode);
-	
+
 	public boolean save();
 
 	/**
 	 * tells the properties view to show slider tab
 	 */
 	public void showPropertiesViewSliderTab();
-	
+
 	public void openURL();
 
 	public boolean loadURL(String urlString);
@@ -164,11 +165,10 @@ public interface GuiManagerInterface {
 	 * http://ggbtu.be/cXX/m111/options http://www.ggbtu.be/m111
 	 * http://www.ggbtu.be/cXX/options
 	 * 
-	 * in an iframe, src=
-	 * http://www.geogebratube.org/material/iframe/id/111
-	 * http://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2/...
-	 * http://ggbtu.be/e111
-	 * http://ggbtu.be/e111?param1=&param2=..
+	 * in an iframe, src= http://www.geogebratube.org/material/iframe/id/111
+	 * http
+	 * ://www.geogebratube.org/material/iframe/id/111/param1/val1/param2/val2
+	 * /... http://ggbtu.be/e111 http://ggbtu.be/e111?param1=&param2=..
 	 * 
 	 * 
 	 * also can have ?mobile=true ?mobile=false on end
@@ -204,15 +204,14 @@ public interface GuiManagerInterface {
 	public void attachConstructionProtocolView();
 
 	public void attachProbabilityCalculatorView();
-	
+
 	public void attachAssignmentView();
-	
+
 	public void attachDataAnalysisView();
 
 	public void detachDataAnalysisView();
-	
+
 	public boolean hasDataAnalysisView();
-	
 
 	/**
 	 * Attach a view which by using the view ID.
@@ -223,13 +222,13 @@ public interface GuiManagerInterface {
 	 * @param viewId
 	 */
 	public void attachView(int viewId);
-	
+
 	public EuclidianView getActiveEuclidianView();
 
 	public void showAxesCmd();
 
 	public void showGridCmd();
-	
+
 	public void doAfterRedefine(GeoElement geo);
 
 	/**
@@ -293,7 +292,7 @@ public interface GuiManagerInterface {
 	public boolean hasEuclidianView2EitherShowingOrNot(int idx);
 
 	public View getAlgebraView();
-	
+
 	public void applyAlgebraViewSettings();
 
 	public void updateFrameSize();
@@ -303,6 +302,7 @@ public interface GuiManagerInterface {
 	public Object createFrame();
 
 	public int getInputHelpPanelMinimumWidth();
+
 	/**
 	 * 
 	 * @return id of view which is setting the active toolbar
@@ -317,19 +317,22 @@ public interface GuiManagerInterface {
 			boolean playButton, double playDelay, boolean showProtButton);
 
 	public void updateCheckBoxesForShowConstructinProtocolNavigation();
-	
+
 	/*
-	 * In web there are some drawable which not drawn on the canvas of euclidian view, but added for an AbsolutePanel which hides the canvas.
-	 * (e.g. inputbox)
-	 * When we remove all drawable, we must to clear this AbsolutePanel too.
+	 * In web there are some drawable which not drawn on the canvas of euclidian
+	 * view, but added for an AbsolutePanel which hides the canvas. (e.g.
+	 * inputbox) When we remove all drawable, we must to clear this
+	 * AbsolutePanel too.
 	 */
 	public void clearAbsolutePanels();
 
 	/**
-	 * #3490  "Create sliders for a, b?" Create Sliders / Cancel
- 	 * Yes: create sliders and draw line
- 	 * No: go back into input bar and allow user to change input
-	 * @param string eg "a, b"
+	 * #3490 "Create sliders for a, b?" Create Sliders / Cancel Yes: create
+	 * sliders and draw line No: go back into input bar and allow user to change
+	 * input
+	 * 
+	 * @param string
+	 *            eg "a, b"
 	 * @return true/false
 	 */
 	public boolean checkAutoCreateSliders(String string, AsyncOperation callback);
@@ -337,13 +340,13 @@ public interface GuiManagerInterface {
 	public void applyCPsettings(ConstructionProtocolSettings cpSettings);
 
 	public ConstructionProtocolNavigation getConstructionProtocolNavigationIfExists();
-	
+
 	ConstructionProtocolNavigation getConstructionProtocolNavigation();
-	
+
 	public void logout();
 
 	public void invokeLater(Runnable runnable);
-	
+
 	int getEuclidianViewCount();
 
 	public void addToToolbarDefinition(int mode);

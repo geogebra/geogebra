@@ -17,9 +17,6 @@ import java.util.HashMap;
  */
 public class AlgoCellRangeManager {
 
-
-
-
 	/**
 	 * Removes an AlgoCellRange algorithm from the internal algorithm list.
 	 * 
@@ -28,10 +25,9 @@ public class AlgoCellRangeManager {
 	 */
 	public void unregisterCellRangeListenerAlgo(AlgoCellRange algo) {
 		if (algos != null) {
-			algos.remove(getKey(algo.getStart(),algo.getEnd()));
+			algos.remove(getKey(algo.getStart(), algo.getEnd()));
 		}
-		
-		
+
 	}
 
 	/**
@@ -63,12 +59,14 @@ public class AlgoCellRangeManager {
 		}
 
 	}
-	
-	
+
 	/**
 	 * add the geo at specified location to cell range algos
-	 * @param geo geo
-	 * @param location location on spreadsheet
+	 * 
+	 * @param geo
+	 *            geo
+	 * @param location
+	 *            location on spreadsheet
 	 */
 	public void addToCellRangeAlgos(GeoElement geo, GPoint location) {
 
@@ -90,41 +88,45 @@ public class AlgoCellRangeManager {
 			algos.clear();
 		}
 	}
-	
+
 	private HashMap<String, AlgoCellRange> algos;
-	
+
 	/**
 	 * 
-	 * @param cons construction
-	 * @param label label
-	 * @param start start cell
-	 * @param end end cell
+	 * @param cons
+	 *            construction
+	 * @param label
+	 *            label
+	 * @param start
+	 *            start cell
+	 * @param end
+	 *            end cell
 	 * @return algo corresponding to string start:end
 	 */
-	public AlgoCellRange getAlgoCellRange(Construction cons, String label, String start, String end){
-		
-		if (algos == null){
+	public AlgoCellRange getAlgoCellRange(Construction cons, String label,
+			String start, String end) {
+
+		if (algos == null) {
 			algos = new HashMap<String, AlgoCellRange>();
 		}
-		
+
 		String key = getKey(start, end);
 		AlgoCellRange algo = algos.get(key);
-		if (algo == null){
+		if (algo == null) {
 			algo = new AlgoCellRange(cons, label, start, end);
 			algos.put(key, algo);
-		}else{
-			if (label != null && label.length() > 0){
+		} else {
+			if (label != null && label.length() > 0) {
 				algo.getList().setLabel(label);
 			}
 		}
-		
+
 		return algo;
-		
+
 	}
-	
-	
-	private static String getKey(String start, String end){
-		return start+":"+end;
+
+	private static String getKey(String start, String end) {
+		return start + ":" + end;
 	}
 
 }

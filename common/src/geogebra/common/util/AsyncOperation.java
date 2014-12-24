@@ -4,26 +4,26 @@ import java.util.HashMap;
 
 public abstract class AsyncOperation {
 	protected HashMap<String, Object> properties = new HashMap<String, Object>();
-	public AsyncOperation(){
-		
+
+	public AsyncOperation() {
+
 	}
-	
+
 	public abstract void callback(Object obj);
-	
-	public Object getData(){
+
+	public Object getData() {
 		return this.properties.get("data");
 	}
-	
-	public void setData(Object d){
+
+	public void setData(Object d) {
 		this.properties.put("data", d);
 	}
-	
-	
-	public void setProperty(String propertyName, Object prop){
+
+	public void setProperty(String propertyName, Object prop) {
 		this.properties.put(propertyName, prop);
 	}
-	
-	public Object getProperty(String propertyName){
+
+	public Object getProperty(String propertyName) {
 		return this.properties.get(propertyName);
 	}
 

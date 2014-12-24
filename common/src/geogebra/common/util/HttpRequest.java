@@ -5,7 +5,8 @@ import geogebra.common.move.ggtapi.models.AjaxCallback;
 /**
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  * 
- * Common abstract class for HttpRequest, implemented by different ways in desktop and web
+ *         Common abstract class for HttpRequest, implemented by different ways
+ *         in desktop and web
  */
 public abstract class HttpRequest {
 	/**
@@ -16,7 +17,7 @@ public abstract class HttpRequest {
 	 * current timeout for HTTP requests
 	 */
 	protected int timeout = DEFAULT_TIMEOUT;
-	
+
 	/**
 	 * stores if the HTTP request is already processed
 	 */
@@ -31,7 +32,8 @@ public abstract class HttpRequest {
 	protected String responseText;
 
 	/**
-	 * Gets a response from a remote HTTP server         
+	 * Gets a response from a remote HTTP server
+	 * 
 	 * @return the full textual content of the result after the request
 	 *         processed (the output page itself)
 	 */
@@ -41,6 +43,7 @@ public abstract class HttpRequest {
 
 	/**
 	 * Opens an URL
+	 * 
 	 * @param url
 	 *            full URL to be opened
 	 */
@@ -48,20 +51,25 @@ public abstract class HttpRequest {
 
 	/**
 	 * Opens and URL and sends some POST parameters
-	 * @param url full URL to be opened
-	 * @param post POST parameters (already encoded)
+	 * 
+	 * @param url
+	 *            full URL to be opened
+	 * @param post
+	 *            POST parameters (already encoded)
 	 */
-	public abstract void sendRequestPost(String url, String post, AjaxCallback callback);
-	
+	public abstract void sendRequestPost(String url, String post,
+			AjaxCallback callback);
+
 	/**
-	 * @param timeout_secs HTTP request timeout in seconds
-	 * Modify the default timeout for HTTP requests
-	 * Warning: the desktop version currently ignores this setting
+	 * @param timeout_secs
+	 *            HTTP request timeout in seconds Modify the default timeout for
+	 *            HTTP requests Warning: the desktop version currently ignores
+	 *            this setting
 	 */
 	public void setTimeout(Integer timeout_secs) {
 		timeout = timeout_secs;
 	}
-	
+
 	/**
 	 * @return if the HTTP request has been processed by the remote server
 	 */
@@ -77,9 +85,10 @@ public abstract class HttpRequest {
 	}
 
 	/**
-	 * @param url HTTP request URL
-	 * @return response
-	 * This method only works in desktop, since this is synchronous.
+	 * @param url
+	 *            HTTP request URL
+	 * @return response This method only works in desktop, since this is
+	 *         synchronous.
 	 */
 	public abstract String sendRequestGetResponseSync(String url);
 }

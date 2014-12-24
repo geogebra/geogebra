@@ -10,8 +10,8 @@ import geogebra.common.kernel.geos.GeoElement;
  * Abstract class for managing spreadsheet GeoElement cells in a table model
  * that supports the spreadsheet.
  * 
- * The View interface is implemented so that the model can adapt when GeoElements
- * with spreadsheet labels (e.g. A1) are changed.
+ * The View interface is implemented so that the model can adapt when
+ * GeoElements with spreadsheet labels (e.g. A1) are changed.
  * 
  * @author G. Sturr
  * 
@@ -21,7 +21,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	protected App app;
 	private int highestUsedColumn = -1;
 	private int highestUsedRow = -1;
-	
+
 	/** tells that it's initing */
 	protected boolean isIniting = true;
 
@@ -41,9 +41,8 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	 * @param columns
 	 *            initial number of columns
 	 */
-	public SpreadsheetTableModel(App app, int rows,
-			int columns) {
-		isIniting=true;
+	public SpreadsheetTableModel(App app, int rows, int columns) {
+		isIniting = true;
 		this.app = app;
 
 		cellRangeManager = new AlgoCellRangeManager();
@@ -56,7 +55,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public abstract int getRowCount();
 
 	public abstract int getColumnCount();
-	
+
 	public abstract void setRowCount(int rowCount);
 
 	public abstract void setColumnCount(int columnCount);
@@ -66,7 +65,8 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 	public abstract void setValueAt(Object value, int row, int column);
 
 	/*
-	 **************************************************/
+	 * ************************************************
+	 */
 
 	/**
 	 * Attach to the kernel
@@ -161,7 +161,7 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		update(geo);
 		addToCellRangeAlgos(geo);
 	}
-	
+
 	private void addWithoutTrace(GeoElement geo) {
 		updateWithoutTrace(geo);
 		addToCellRangeAlgos(geo);
@@ -183,14 +183,13 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		}
 		addWithoutTrace(geo);
 	}
-	
 
 	private void doRemove(GeoElement geo, int row, int col) {
 		setValueAt(null, row, col);
 		updateHighestUsedColAndRow(col, row);
 	}
 
-	public void update(GeoElement geo){
+	public void update(GeoElement geo) {
 		updateWithoutTrace(geo);
 
 		// trace value
@@ -202,22 +201,21 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			geo.setEmptySpreadsheetCell(false);
 		}
 
-		
 	}
-	
-	private void addToCellRangeAlgos(GeoElement geo){
+
+	private void addToCellRangeAlgos(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 		if (location != null) {
 			cellRangeManager.addToCellRangeAlgos(geo, location);
 		}
 
 	}
-	
+
 	private void updateWithoutTrace(GeoElement geo) {
 		GPoint location = geo.getSpreadsheetCoords();
 
-		
-		if (location != null && location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
+		if (location != null
+				&& location.x < Kernel.MAX_SPREADSHEET_COLUMNS_VISIBLE
 				&& location.y < Kernel.MAX_SPREADSHEET_ROWS_VISIBLE) {
 
 			highestUsedColumn = Math.max(highestUsedColumn, location.x);
@@ -236,23 +234,19 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 			}
 			setValueAt(geo, location.y, location.x);
 
-			
 			/*
-			 DONE ELSEWHERE
-			// add tracing geos to the trace collection
-			if (!isIniting && geo.getSpreadsheetTrace()) {
-				app.getTraceManager().addSpreadsheetTraceGeo(geo);
-			}
-			*/
+			 * DONE ELSEWHERE // add tracing geos to the trace collection if
+			 * (!isIniting && geo.getSpreadsheetTrace()) {
+			 * app.getTraceManager().addSpreadsheetTraceGeo(geo); }
+			 */
 		}
 
-		
 	}
 
 	public void updateLocation(GeoElement geo) {
-		updateWithoutTrace(geo);		
+		updateWithoutTrace(geo);
 	}
-	
+
 	public void clearView() {
 
 		for (int c = 0; c < getColumnCount(); ++c) {
@@ -281,22 +275,23 @@ public abstract class SpreadsheetTableModel implements UpdateLocationView {
 		// ignore
 	}
 
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 		// ignore
 	}
 
 	public int getViewID() {
 		return App.VIEW_TABLE_MODEL;
 	}
+
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }

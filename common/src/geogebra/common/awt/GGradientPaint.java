@@ -1,5 +1,5 @@
 package geogebra.common.awt;
 
-public interface GGradientPaint extends GPaint{
+public interface GGradientPaint extends GPaint {
 
 }

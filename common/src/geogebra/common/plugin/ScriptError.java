@@ -7,9 +7,10 @@ package geogebra.common.plugin;
 @SuppressWarnings("serial")
 public class ScriptError extends Exception {
 	private String message;
-	
+
 	/**
-	 * @param message message
+	 * @param message
+	 *            message
 	 */
 	public ScriptError(String message) {
 		super();
@@ -22,6 +23,5 @@ public class ScriptError extends Exception {
 	public String getScriptError() {
 		return message;
 	}
-	
-	
+
 }

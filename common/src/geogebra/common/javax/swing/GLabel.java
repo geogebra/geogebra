@@ -17,5 +17,4 @@ public abstract class GLabel {
 
 	public abstract void setBackground(GColor lightGray);
 
-
 }

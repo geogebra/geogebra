@@ -17,11 +17,11 @@ public abstract class SwingFactory {
 			App application, Drawable drawTextField);
 
 	public abstract GLabel newJLabel(String string, boolean bool);
-	
+
 	public abstract AbstractJComboBox newJComboBox(App app, int ev);
 
 	public abstract GBox createHorizontalBox(EuclidianController style);
-	
+
 	public abstract GPanel newGPanel();
 
 	/**
@@ -33,7 +33,7 @@ public abstract class SwingFactory {
 
 	public static void setPrototype(SwingFactory ret) {
 		prototype = ret;
-		
+
 	}
 
 }

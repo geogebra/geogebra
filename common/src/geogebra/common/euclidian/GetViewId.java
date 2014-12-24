@@ -10,6 +10,7 @@
 
  */
 package geogebra.common.euclidian;
+
 /**
  * Interface for view containers (DockPanels) implementing getViewId method
  */

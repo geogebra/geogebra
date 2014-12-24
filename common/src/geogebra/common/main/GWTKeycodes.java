@@ -6,21 +6,23 @@ public interface GWTKeycodes {
 	/**
 	 * Contains the native key codes previously defined in
 	 * {@link com.google.gwt.user.client.ui.KeyboardListener}. When converting
-	 * keyboard listener instances, developers can use the following static import
-	 * to access these constants:
+	 * keyboard listener instances, developers can use the following static
+	 * import to access these constants:
 	 * 
-	 * <pre> import static com.google.gwt.event.dom.client.KeyCodes.*; </pre>
+	 * <pre>
+	 * import static com.google.gwt.event.dom.client.KeyCodes.*;
+	 * </pre>
 	 * 
-	 * These constants are defined with an int data type in order to be compatible
-	 * with the constants defined in
+	 * These constants are defined with an int data type in order to be
+	 * compatible with the constants defined in
 	 * {@link com.google.gwt.user.client.ui.KeyboardListener}.
 	 * 
-	 * @author gabor
-	 * Because the original KeyCodes class has a private constructor, can't be extended,
-	 * so I must create an own one.
+	 * @author gabor Because the original KeyCodes class has a private
+	 *         constructor, can't be extended, so I must create an own one.
 	 * 
-	 * Useful reference:
-	 * http://www.cambiaresearch.com/articles/15/javascript-char-codes-key-codes
+	 *         Useful reference:
+	 *         http://www.cambiaresearch.com/articles/15/javascript
+	 *         -char-codes-key-codes
 	 */
 
 	/**
@@ -96,7 +98,7 @@ public interface GWTKeycodes {
 	/**
 	 * Up Arrow key code.
 	 */
-	public static final int KEY_UP = 38;	  
+	public static final int KEY_UP = 38;
 	/**
 	 * Space key
 	 */
@@ -219,14 +221,8 @@ public interface GWTKeycodes {
 
 	// on numeric keypad
 	public static final int KEY_DECIMAL_POINT = 110;
-	
+
 	// on numeric keypad in eg Germany
 	public static final int KEY_DECIMAL_COMMA = 108;
-
-
-
-
-
-
 
 }

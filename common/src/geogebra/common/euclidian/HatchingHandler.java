@@ -17,7 +17,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.main.App;
 
-
 /**
  * Handles hatching of fillable geos
  */
@@ -29,32 +28,40 @@ public class HatchingHandler {
 	/**
 	 * Prototype decides what implementation will be used for static methods
 	 */
-	
 
 	/**
-	 * @param g3 graphics
-	 * @param objStroke hatching stroke
-	 * @param color stroke color
-	 * @param bgColor background color
-	 * @param backgroundTransparency alpha value of background
-	 * @param hatchDist distance between hatches
-	 * @param angleDegrees hatching angle in degrees
-	 * @param fillType type of pattern
-	 * @param symbol for symbol filling
-	 * @param app needed to determine right font 
+	 * @param g3
+	 *            graphics
+	 * @param objStroke
+	 *            hatching stroke
+	 * @param color
+	 *            stroke color
+	 * @param bgColor
+	 *            background color
+	 * @param backgroundTransparency
+	 *            alpha value of background
+	 * @param hatchDist
+	 *            distance between hatches
+	 * @param angleDegrees
+	 *            hatching angle in degrees
+	 * @param fillType
+	 *            type of pattern
+	 * @param symbol
+	 *            for symbol filling
+	 * @param app
+	 *            needed to determine right font
 	 */
 	final protected GPaint setHatching(geogebra.common.awt.GGraphics2D g3,
-			GBasicStroke objStroke,
-			GColor color,
-			GColor bgColor, float backgroundTransparency,
-			double hatchDist, double angleDegrees, FillType fillType, String symbol, App app) {
+			GBasicStroke objStroke, GColor color, GColor bgColor,
+			float backgroundTransparency, double hatchDist,
+			double angleDegrees, FillType fillType, String symbol, App app) {
 		// round to nearest 5 degrees
 		double angle = Math.round(angleDegrees / 5) * Math.PI / 36;
 
 		// constrain angle between 0 and 175 degrees
 		if (angle < 0 || angle >= Math.PI)
 			angle = 0;
-		
+
 		// constrain distance between 5 and 50 pixels
 		double dist = hatchDist;
 		if (dist < 5) {
@@ -75,7 +82,7 @@ public class HatchingHandler {
 			yInt = xInt;
 
 		}
-		
+
 		GGraphics2D g2d = createImage(objStroke, color, bgColor,
 				backgroundTransparency, xInt, yInt);
 
@@ -83,10 +90,9 @@ public class HatchingHandler {
 		int startY = yInt;
 		int height = yInt;
 		int width = xInt;
-				
-		
+
 		switch (fillType) {
-		
+
 		case HATCH:
 			drawHatching(angle, y, xInt, yInt, g2d);
 			break;
@@ -106,7 +112,7 @@ public class HatchingHandler {
 			startX = startY = (int) (dist / 2);
 			break;
 		case HONEYCOMB:
-			drawHoneycomb( (float) dist, g2d);
+			drawHoneycomb((float) dist, g2d);
 			double side = dist * Math.sqrt(3) / 2;
 			startY = 0;
 			startX = 0;
@@ -115,47 +121,52 @@ public class HatchingHandler {
 			break;
 		case BRICK:
 			if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)
-				||	Kernel.isEqual(Math.PI/2 , angle, 10E-8)) {
-				startY = startX =xInt / 2;
-				height = width*=2;
+					|| Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
+				startY = startX = xInt / 2;
+				height = width *= 2;
 			}
 			drawBricks(angle, xInt, yInt, g2d);
 			break;
 		case DOTTED:
 			drawDotted(dist, g2d);
 			break;
-		case SYMBOLS:		
-			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, (int) (dist * 2.5)));
+		case SYMBOLS:
+			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
+					(int) (dist * 2.5)));
 			GTextLayout t = geogebra.common.factories.AwtFactory.prototype
 					.newTextLayout(symbol, g2d.getFont(),
 							g2d.getFontRenderContext());
 			g2d = createImage(objStroke, color, bgColor,
-					backgroundTransparency, (Math.round(t.getAscent() + t.getDescent())/3), (Math.round(t.getAscent() + t.getDescent()) / 3));
-			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN, 24));			
-			g2d.drawString(symbol, 0 ,Math.round(t.getAscent()));
-			startY =0;
-			startX =0;
-			width = (int)t.getAscent() + (int)t.getDescent() - 1;
-			height =(int)t.getAscent() + (int)t.getDescent() - 1;		
+					backgroundTransparency,
+					(Math.round(t.getAscent() + t.getDescent()) / 3),
+					(Math.round(t.getAscent() + t.getDescent()) / 3));
+			g2d.setFont(app.getFontCanDisplay(symbol).deriveFont(GFont.PLAIN,
+					24));
+			g2d.drawString(symbol, 0, Math.round(t.getAscent()));
+			startY = 0;
+			startX = 0;
+			width = (int) t.getAscent() + (int) t.getDescent() - 1;
+			height = (int) t.getAscent() + (int) t.getDescent() - 1;
 			break;
 		}
 
 		// paint with the texturing brush
-		GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, width, height);
+		GRectangle rect = AwtFactory.prototype
+				.newRectangle(0, 0, width, height);
 
 		// use the middle square of our 3 x 3 grid to fill with
-		GPaint ret = AwtFactory.prototype.newTexturePaint(subImage = bufferedImage.getSubimage(startX,
-				startY, width, height), rect);
+		GPaint ret = AwtFactory.prototype.newTexturePaint(
+				subImage = bufferedImage.getSubimage(startX, startY, width,
+						height), rect);
 		g3.setPaint(ret);
 		return ret;
 	}
 
 	private GGraphics2D createImage(GBasicStroke objStroke, GColor color,
 			GColor bgColor, float backgroundTransparency, int xInt, int yInt) {
-		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt * 3, yInt * 3,
-				GBufferedImage.TYPE_INT_ARGB);
-		
-		
+		bufferedImage = AwtFactory.prototype.newBufferedImage(xInt * 3,
+				yInt * 3, GBufferedImage.TYPE_INT_ARGB);
+
 		GGraphics2D g2d = bufferedImage.createGraphics();
 
 		// enable anti-aliasing
@@ -180,27 +191,31 @@ public class HatchingHandler {
 	}
 
 	/**
-	 * @param g3 graphics
-	 * @param geo geo
-	 * @param alpha alpha value
+	 * @param g3
+	 *            graphics
+	 * @param geo
+	 *            geo
+	 * @param alpha
+	 *            alpha value
 	 */
 	protected void setTexture(geogebra.common.awt.GGraphics2D g3,
 			GeoElement geo, float alpha) {
-		//Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
+		// Graphics2D g2 = geogebra.awt.GGraphics2DD.getAwtGraphics(g3);
 		if (geo.getFillImage() == null || geo.getFillImage().isSVG()) {
 			g3.setPaint(geo.getFillColor());
 			return;
 		}
 
 		MyImage image = geo.getFillImage();
-		GRectangle tr = AwtFactory.prototype.newRectangle(0, 0, image.getWidth(),
-				image.getHeight());
+		GRectangle tr = AwtFactory.prototype.newRectangle(0, 0,
+				image.getWidth(), image.getHeight());
 
 		GPaint tp;
 
 		if (alpha < 1.0f) {
-			GBufferedImage copy = AwtFactory.prototype.newBufferedImage(image.getWidth(),
-					image.getHeight(), GBufferedImage.TYPE_INT_ARGB);
+			GBufferedImage copy = AwtFactory.prototype.newBufferedImage(
+					image.getWidth(), image.getHeight(),
+					GBufferedImage.TYPE_INT_ARGB);
 
 			GGraphics2D g2d = copy.createGraphics();
 
@@ -210,8 +225,7 @@ public class HatchingHandler {
 			// set total transparency
 			g2d.setTransparent();
 
-			GColor bgColor = geo
-					.getBackgroundColor();
+			GColor bgColor = geo.getBackgroundColor();
 
 			// paint background transparent
 			if (bgColor == null)
@@ -222,9 +236,10 @@ public class HatchingHandler {
 
 			if (alpha > 0.0f) {
 				// set partial transparency
-				//AlphaComposite alphaComp = AlphaComposite.getInstance(
-				//		AlphaComposite.SRC_OVER, alpha);
-				GAlphaComposite ac = AwtFactory.prototype.newAlphaComposite(GAlphaComposite.SRC_OVER, alpha);
+				// AlphaComposite alphaComp = AlphaComposite.getInstance(
+				// AlphaComposite.SRC_OVER, alpha);
+				GAlphaComposite ac = AwtFactory.prototype.newAlphaComposite(
+						GAlphaComposite.SRC_OVER, alpha);
 				g2d.setComposite(ac);
 
 				// paint image with specified transparency
@@ -241,41 +256,51 @@ public class HatchingHandler {
 
 		g3.setPaint(tp);
 	}
-	
-	private static void drawBricks(double angle, int xInt, int yInt, GGraphics2D g2d) {
-		if (angle == 0 || Kernel.isEqual(Math.PI , angle, 10E-8)){
-			GRectangle rect = AwtFactory.prototype.newRectangle(xInt / 2, yInt, 2 * xInt, yInt);
+
+	private static void drawBricks(double angle, int xInt, int yInt,
+			GGraphics2D g2d) {
+		if (angle == 0 || Kernel.isEqual(Math.PI, angle, 10E-8)) {
+			GRectangle rect = AwtFactory.prototype.newRectangle(xInt / 2, yInt,
+					2 * xInt, yInt);
 			g2d.draw(rect);
-			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2 , yInt );
-			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2 , yInt * 2 + yInt / 2);
-		} else if (Kernel.isEqual(Math.PI/2 , angle, 10E-8)){
-			GRectangle rect = AwtFactory.prototype.newRectangle(xInt, yInt / 2, xInt , 2 * yInt);
+			g2d.drawLine(xInt + xInt / 2, yInt / 2, xInt + xInt / 2, yInt);
+			g2d.drawLine(xInt + xInt / 2, yInt * 2, xInt + xInt / 2, yInt * 2
+					+ yInt / 2);
+		} else if (Kernel.isEqual(Math.PI / 2, angle, 10E-8)) {
+			GRectangle rect = AwtFactory.prototype.newRectangle(xInt, yInt / 2,
+					xInt, 2 * yInt);
 			g2d.draw(rect);
-			g2d.drawLine(xInt / 2, yInt+ yInt / 2, xInt, yInt + yInt / 2);
-			g2d.drawLine(xInt * 2, yInt+ yInt / 2, 2 * xInt + xInt / 2, yInt + yInt / 2);
-		} else if (Kernel.isEqual(Math.PI/4 , angle, 10E-8)){
+			g2d.drawLine(xInt / 2, yInt + yInt / 2, xInt, yInt + yInt / 2);
+			g2d.drawLine(xInt * 2, yInt + yInt / 2, 2 * xInt + xInt / 2, yInt
+					+ yInt / 2);
+		} else if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) {
 			g2d.drawLine(xInt * 3, 0, 0, yInt * 3);
 			g2d.drawLine(xInt * 3, yInt, xInt, yInt * 3);
-			g2d.drawLine(xInt * 2, 0, 0, yInt * 2);				
-			g2d.drawLine(xInt +xInt/2, yInt+yInt/2, 2*xInt, yInt * 2);			
+			g2d.drawLine(xInt * 2, 0, 0, yInt * 2);
+			g2d.drawLine(xInt + xInt / 2, yInt + yInt / 2, 2 * xInt, yInt * 2);
 		} else {
 			g2d.drawLine(0, 0, xInt * 3, yInt * 3);
 			g2d.drawLine(0, yInt, xInt * 2, yInt * 3);
 			g2d.drawLine(xInt, 0, xInt * 3, yInt * 2);
-			g2d.drawLine(xInt +xInt/2, yInt+yInt/2, xInt, yInt * 2);
+			g2d.drawLine(xInt + xInt / 2, yInt + yInt / 2, xInt, yInt * 2);
 		}
 	}
 
 	private static void drawDotted(double dist, GGraphics2D g2d) {
 		int distInt = (int) dist;
 		int size = 2;
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, distInt, size, size));
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt, distInt, size, size));
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, 2 * distInt, size, size));
-		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt, 2 * distInt, size, size));
+		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, distInt, size,
+				size));
+		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt, distInt,
+				size, size));
+		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(distInt, 2 * distInt,
+				size, size));
+		g2d.fill(AwtFactory.prototype.newEllipse2DFloat(2 * distInt,
+				2 * distInt, size, size));
 	}
 
-	private static boolean drawChessboard(double angle, float hatchDist, GGraphics2D g2d) {		
+	private static boolean drawChessboard(double angle, float hatchDist,
+			GGraphics2D g2d) {
 		if (Kernel.isEqual(Math.PI / 4, angle, 10E-8)) { // 45 degrees
 			GGeneralPath path = AwtFactory.prototype.newGeneralPath();
 			float dist = (float) (hatchDist * Math.sin(angle));
@@ -297,34 +322,34 @@ public class HatchingHandler {
 		return true;
 	}
 
-	private static void drawHoneycomb(float dist, GGraphics2D g2d) {		
-		
+	private static void drawHoneycomb(float dist, GGraphics2D g2d) {
+
 		GGeneralPath path = AwtFactory.prototype.newGeneralPath();
-		float centerX = (float)(dist*Math.sqrt(3)/2);
+		float centerX = (float) (dist * Math.sqrt(3) / 2);
 		float width = centerX + centerX;
-		path.moveTo( centerX, dist);
-		path.lineTo( centerX, 2*dist );
-		path.lineTo( 0, 2*dist+dist/2 );
-		path.lineTo( 0, 3*dist);
+		path.moveTo(centerX, dist);
+		path.lineTo(centerX, 2 * dist);
+		path.lineTo(0, 2 * dist + dist / 2);
+		path.lineTo(0, 3 * dist);
 		g2d.draw(path);
-		
+
 		path.reset();
-		path.moveTo( centerX, 2*dist);
-		path.lineTo( width, 2*dist+dist/2);
-		path.lineTo( width, 3*dist);
+		path.moveTo(centerX, 2 * dist);
+		path.lineTo(width, 2 * dist + dist / 2);
+		path.lineTo(width, 3 * dist);
 		g2d.draw(path);
-		
+
 		path.reset();
-		path.moveTo( 0, 0 );
-		path.lineTo( 0, dist/2);
-		path.lineTo( centerX, dist);
-		path.lineTo( width, dist/2);
-		path.lineTo( width, 0);
-		g2d.draw(path);		
+		path.moveTo(0, 0);
+		path.lineTo(0, dist / 2);
+		path.lineTo(centerX, dist);
+		path.lineTo(width, dist / 2);
+		path.lineTo(width, 0);
+		g2d.draw(path);
 	}
 
-	private static void drawHatching(double angle, double y, int xInt, int yInt,
-			GGraphics2D g2d) {
+	private static void drawHatching(double angle, double y, int xInt,
+			int yInt, GGraphics2D g2d) {
 		if (angle == 0) { // horizontal
 
 			g2d.drawLine(0, yInt, xInt * 3, yInt);
@@ -347,6 +372,7 @@ public class HatchingHandler {
 
 	/**
 	 * Used to check whether the hatching image is already loaded
+	 * 
 	 * @return GBufferedImage subImage
 	 */
 	public GBufferedImage getSubImage() {

@@ -51,7 +51,7 @@ public class EventDispatcher implements ClientView {
 	 * @param evt
 	 *            the event to be dispatched
 	 */
-	public void dispatchEvent(Event evt) {		
+	public void dispatchEvent(Event evt) {
 		for (EventListener listener : listeners) {
 			listener.sendEvent(evt);
 		}
@@ -83,13 +83,13 @@ public class EventDispatcher implements ClientView {
 	 *            the target of the event
 	 */
 	public void dispatchEvent(EventType evtType, GeoElement geo) {
-		if ( (null != geo) && (!geo.isLabelSet()) ) {
+		if ((null != geo) && (!geo.isLabelSet())) {
 			return;
 		}
 		dispatchEvent(new Event(evtType, geo));
 	}
-	
-	public void dispatchBulkEvent( EventType evtType, ArrayList<GeoElement> geos){
+
+	public void dispatchBulkEvent(EventType evtType, ArrayList<GeoElement> geos) {
 		dispatchEvent(new Event(evtType, null, null, geos));
 	}
 
@@ -142,7 +142,7 @@ public class EventDispatcher implements ClientView {
 		}
 	}
 
-	public void setMode(int mode,ModeSetter m) {
+	public void setMode(int mode, ModeSetter m) {
 		// TODO Could be useful?
 
 	}
@@ -167,13 +167,13 @@ public class EventDispatcher implements ClientView {
 	@Override
 	public void startBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void endBatchUpdate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	public void renameUpdatesComplete() {
@@ -205,10 +205,10 @@ public class EventDispatcher implements ClientView {
 	}
 
 	public void pasteElmsComplete(ArrayList<GeoElement> pastedElms) {
-		dispatchEvent(EventType.PASTE_ELMS_COMPLETE, null);		
+		dispatchEvent(EventType.PASTE_ELMS_COMPLETE, null);
 	}
-	
-	public boolean suggestRepaint(){
+
+	public boolean suggestRepaint() {
 		return false;
 		// not used for this view
 	}

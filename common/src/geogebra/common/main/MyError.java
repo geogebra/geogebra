@@ -30,9 +30,13 @@ public class MyError extends java.lang.Error {
 	private String[] strs;
 	private String commandName = null;
 
-	/** Creates new MyError 
-	 * @param app application
-	 * @param errorName error name (should be a key in error.properties)
+	/**
+	 * Creates new MyError
+	 * 
+	 * @param app
+	 *            application
+	 * @param errorName
+	 *            error name (should be a key in error.properties)
 	 */
 	public MyError(Localization app, String errorName) {
 		// set localized message
@@ -41,9 +45,12 @@ public class MyError extends java.lang.Error {
 	}
 
 	/**
-	 * @param app application
-	 * @param errorName error name (should be a key in error.properties)
-	 * @param commandName associated command name
+	 * @param app
+	 *            application
+	 * @param errorName
+	 *            error name (should be a key in error.properties)
+	 * @param commandName
+	 *            associated command name
 	 */
 	public MyError(Localization app, String errorName, String commandName) {
 		// set localized message
@@ -53,8 +60,10 @@ public class MyError extends java.lang.Error {
 	}
 
 	/**
-	 * @param app application
-	 * @param strs lines of the error
+	 * @param app
+	 *            application
+	 * @param strs
+	 *            lines of the error
 	 */
 	public MyError(Localization app, String[] strs) {
 		this.l10n = app;

@@ -225,7 +225,7 @@ class PermutationOfGeOElementsUtil {
 	 */
 	public PermutationOfGeOElementsUtil(GeoElement[] arr, int permSize) {
 
-//		this.arr = arr.clone();
+		// this.arr = arr.clone();
 		this.arr = new GeoElement[arr.length];
 		System.arraycopy(arr, 0, this.arr, 0, arr.length);
 		this.permSwappings = new int[permSize];

@@ -16,12 +16,12 @@ import java.util.ArrayList;
  */
 public abstract class GeoGebraTubeExport {
 	/**
-	 * URL of the webpage to call if a file should be uploaded.
-	 * If you want to test GeoGebraTube uploads on a test server,
-	 * use a test IP URL instead, e.g.: "http://140.78.116.131:8082/upload"
+	 * URL of the webpage to call if a file should be uploaded. If you want to
+	 * test GeoGebraTube uploads on a test server, use a test IP URL instead,
+	 * e.g.: "http://140.78.116.131:8082/upload"
 	 */
 	protected static final String uploadURL = "http://tube.geogebra.org/upload";
-	
+
 	/**
 	 * Application instance.
 	 */
@@ -29,7 +29,7 @@ public abstract class GeoGebraTubeExport {
 	public Localization loc;
 
 	protected ArrayList<Macro> macros;
-	
+
 	/**
 	 * Constructs a new instance of the GeoGebraTube exporter.
 	 * 
@@ -39,14 +39,11 @@ public abstract class GeoGebraTubeExport {
 		this.app = app;
 		this.loc = app.getLocalization();
 	}
-	
+
 	/**
 	 * Upload the current worksheet to GeoGebraTube.
 	 */
 	public abstract void uploadWorksheet(ArrayList<Macro> macros);
-	
-
-	
 
 	protected abstract void statusLabelSetText(String plain);
 
@@ -56,30 +53,29 @@ public abstract class GeoGebraTubeExport {
 	 * Hides progress dialog.
 	 */
 	public abstract void hideDialog();
-	
-
 
 	/**
-	 * returns a base64 encoded .ggb file 
+	 * returns a base64 encoded .ggb file
 	 * 
 	 * @throws IOException
 	 */
 	protected String getBase64String() throws IOException {
 		return app.getGgbApi().getBase64(true);
 	}
-	
+
 	/**
-	 * returns a base64 encoded .ggt file 
+	 * returns a base64 encoded .ggt file
 	 * 
 	 * @throws IOException
 	 */
-	protected abstract String getBase64Tools(ArrayList<Macro> macros) throws IOException;
-	
+	protected abstract String getBase64Tools(ArrayList<Macro> macros)
+			throws IOException;
+
 	/**
-	 * Shows a small dialog with a progress bar. 
+	 * Shows a small dialog with a progress bar.
 	 */
 	protected abstract void showDialog();
-	
+
 	/**
 	 * Storage container for uploading results.
 	 * 
@@ -89,66 +85,75 @@ public abstract class GeoGebraTubeExport {
 		private String status;
 		private String uid;
 		private String errorMessage;
-		
+
 		/**
 		 * Parse upload result string.
-		 *  
+		 * 
 		 * @param string
-		 */		
+		 */
 		public UploadResults(String string) {
 			status = uid = errorMessage = "";
-			
-			for(String line : string.split(",")) {
+
+			for (String line : string.split(",")) {
 				int delimiterPos = line.indexOf(':');
 				String key = line.substring(0, delimiterPos).toLowerCase();
-				String value = line.substring(delimiterPos+1).toLowerCase();
-				
-				if(key.equals("status")) {
+				String value = line.substring(delimiterPos + 1).toLowerCase();
+
+				if (key.equals("status")) {
 					status = value;
-				} else if(key.equals("uid")) {
+				} else if (key.equals("uid")) {
 					uid = value;
-				} else if(key.equals("error")) {
+				} else if (key.equals("error")) {
 					errorMessage = value;
 				}
 			}
 		}
-		
+
 		public boolean HasError() {
 			return !status.equals("ok");
 		}
-		
-		public String getStatus() { return status; }
-		public String getUID() { return uid; }
-		public String getErrorMessage() { return errorMessage; }
+
+		public String getStatus() {
+			return status;
+		}
+
+		public String getUID() {
+			return uid;
+		}
+
+		public String getErrorMessage() {
+			return errorMessage;
+		}
 	}
-	
+
 	protected StringBuffer getPostData() throws IOException {
 		Construction cons = app.getKernel().getConstruction();
-		
+
 		boolean isConstruction = (macros == null);
-		
+
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("data=");
-		stringBuffer.append(encode(isConstruction ? getBase64String() : getBase64Tools(macros)));
+		stringBuffer.append(encode(isConstruction ? getBase64String()
+				: getBase64Tools(macros)));
 
 		stringBuffer.append("&type=");
 		stringBuffer.append(isConstruction ? "ggb" : "ggt");
-		
-		if(isConstruction) {
+
+		if (isConstruction) {
 			stringBuffer.append("&title=");
 			stringBuffer.append(encode(cons.getTitle()));
-			
+
 			stringBuffer.append("&pretext=");
 			stringBuffer.append(encode(cons.getWorksheetText(0)));
-			
+
 			stringBuffer.append("&posttext=");
 			stringBuffer.append(encode(cons.getWorksheetText(1)));
 		}
-		
+
 		stringBuffer.append("&version=");
 		stringBuffer.append(encode(GeoGebraConstants.VERSION_STRING));
-		
+
 		return stringBuffer;
 	}
 

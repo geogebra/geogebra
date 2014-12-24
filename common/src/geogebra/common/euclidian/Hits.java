@@ -8,7 +8,7 @@ This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by 
 the Free Software Foundation.
 
-*/
+ */
 package geogebra.common.euclidian;
 
 import geogebra.common.euclidian.event.AbstractEvent;
@@ -41,21 +41,21 @@ import java.util.Iterator;
  * @author Markus Hohenwarter
  */
 
-//TODO change ArrayList to TreeSet 
+// TODO change ArrayList to TreeSet
 public class Hits extends ArrayList<GeoElement> {
-	
+
 	private static final long serialVersionUID = 1L;
-	
+
 	private int listCount;
 	private int polyCount;
 	private int imageCount;
 	/** number of coord sys 2D */
 	private int cs2DCount;
-	
+
 	private boolean hasXAxis, hasYAxis;
 
 	/** init the hits */
-	public void init(){
+	public void init() {
 		clear();
 		listCount = 0;
 		polyCount = 0;
@@ -64,7 +64,8 @@ public class Hits extends ArrayList<GeoElement> {
 		hasXAxis = false;
 		hasYAxis = false;
 	}
-	//Can't override and GWT don't support CLONE anyway.
+
+	// Can't override and GWT don't support CLONE anyway.
 	@SuppressWarnings("all")
 	public Hits clone() {
 		Hits ret = newHits();
@@ -78,38 +79,37 @@ public class Hits extends ArrayList<GeoElement> {
 		ret.imageCount = this.imageCount;
 		ret.hasXAxis = this.hasXAxis;
 		ret.hasYAxis = this.hasYAxis;
-		
+
 		ret.cs2DCount = cs2DCount;
-		
+
 		return ret;
-	} 
-	
+	}
+
 	/**
 	 * 
 	 * @return new instance of the same class
 	 */
-	protected Hits newHits(){
+	protected Hits newHits() {
 		return new Hits();
 	}
-	
+
 	/** adding specifics GeoElements */
 	@Override
 	public boolean add(GeoElement geo) {
 
-		if (!geo.isSelectionAllowed()){
+		if (!geo.isSelectionAllowed()) {
 
-			// #3771  
-			if (!(geo instanceof GeoList && ((GeoList)geo).drawAsComboBox())) { 
-				return false;                            
-			} 
+			// #3771
+			if (!(geo instanceof GeoList && ((GeoList) geo).drawAsComboBox())) {
+				return false;
+			}
 
 		}
-		
+
 		if (geo instanceof GeoCoordSys2D) {
 			cs2DCount++;
 		}
 
-		
 		if (geo.isGeoList()) {
 			listCount++;
 		} else if (geo.isGeoImage()) {
@@ -126,62 +126,57 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 		return super.add(geo);
 	}
-	
 
 	/**
 	 * @return count of hit images
 	 */
-	public int getImageCount(){
+	public int getImageCount() {
 		return imageCount;
 	}
-	
+
 	/**
 	 * @return count of hit lists
 	 */
-	public int getListCount(){
+	public int getListCount() {
 		return listCount;
-	}	
-	
+	}
+
 	/**
 	 * @return true if x axis is hit
 	 */
-	public boolean hasXAxis(){
+	public boolean hasXAxis() {
 		return hasXAxis;
 	}
+
 	/**
 	 * @return true if y axis is hit
 	 */
-	public boolean hasYAxis(){
+	public boolean hasYAxis() {
 		return hasYAxis;
 	}
-	
+
 	/**
 	 * returns GeoElement whose label is at screen coords (x,y).
 	 */
 	/*
-	final public GeoElement getLabelHit(Point p) {
-		if (!app.isLabelDragsEnabled()) return null;
-		DrawableIterator it = allDrawableList.getIterator();
-		while (it.hasNext()) {
-			Drawable d = it.next();
-			if (d.hitLabel(p.x, p.y)) {
-				GeoElement geo = d.getGeoElement();
-				if (geo.isEuclidianVisible())
-					return geo;
-			}
-		}
-		return null;
-	}
-	*/
-	
-	/** absorbs new elements in hits2
-	 * Tam: 2011/5/21
-	 * @param hits2 hits to be absorbed
+	 * final public GeoElement getLabelHit(Point p) { if
+	 * (!app.isLabelDragsEnabled()) return null; DrawableIterator it =
+	 * allDrawableList.getIterator(); while (it.hasNext()) { Drawable d =
+	 * it.next(); if (d.hitLabel(p.x, p.y)) { GeoElement geo =
+	 * d.getGeoElement(); if (geo.isEuclidianVisible()) return geo; } } return
+	 * null; }
+	 */
+
+	/**
+	 * absorbs new elements in hits2 Tam: 2011/5/21
+	 * 
+	 * @param hits2
+	 *            hits to be absorbed
 	 * @return the repeated elements in hits2
 	 */
-	public Hits absorb(ArrayList<GeoElement> hits2){
+	public Hits absorb(ArrayList<GeoElement> hits2) {
 		Hits ret = new Hits();
-		for(int i=0; i<hits2.size(); i++){
+		for (int i = 0; i < hits2.size(); i++) {
 			if (!contains(hits2.get(i)))
 				add(hits2.get(i));
 			else
@@ -190,82 +185,80 @@ public class Hits extends ArrayList<GeoElement> {
 		return ret;
 	}
 
-	/** remove all the points
-	 * Tam, 5/22/2011
+	/**
+	 * remove all the points Tam, 5/22/2011
 	 */
-	final public void removeAllPoints(){
-		for (int i = size() - 1 ; i >= 0 ; i-- ) {
+	final public void removeAllPoints() {
+		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo==null || geo.isGeoPoint())
+			if (geo == null || geo.isGeoPoint())
 				remove(i);
 		}
 	}
-	
-	
+
 	/**
-	 * Removes all transparent geos.
-	 * Transparency criteria same as in EuclidianController3D::decideHideIntersection
+	 * Removes all transparent geos. Transparency criteria same as in
+	 * EuclidianController3D::decideHideIntersection
 	 */
-	final public void removeAllDimElements(){
-		for (int i = size() - 1 ; i >= 0 ; i-- ) {
+	final public void removeAllDimElements() {
+		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
-			if (geo==null || 
-					geo.isRegion() && (geo.getAlphaValue() < 0.1f || geo.getLineThickness() <0.5f) ||
-					geo.isPath() && geo.getLineThickness() < 0.5f)
+			if (geo == null
+					|| geo.isRegion()
+					&& (geo.getAlphaValue() < 0.1f || geo.getLineThickness() < 0.5f)
+					|| geo.isPath() && geo.getLineThickness() < 0.5f)
 				remove(i);
 		}
 	}
-	
+
 	/**
-	 * A polygon is only kept if none of its sides is also in
-	 * hits.
+	 * A polygon is only kept if none of its sides is also in hits.
 	 */
-	final public void removePolygonsIfSidePresent(){
+	final public void removePolygonsIfSidePresent() {
 		removePolygonsDependingSidePresent(false);
 	}
-	
+
 	/**
-	 * Removes polygons that are in hits but none of their
-	 *  sides is hit
+	 * Removes polygons that are in hits but none of their sides is hit
 	 */
-	final public void removePolygonsIfSideNotPresent(){
+	final public void removePolygonsIfSideNotPresent() {
 		removePolygonsDependingSidePresent(true);
 	}
-	
+
 	/**
-	 * Returns hits that are suitable for new point mode.
-	 * A polygon is only kept if one of its sides is also in
-	 * hits.
+	 * Returns hits that are suitable for new point mode. A polygon is only kept
+	 * if one of its sides is also in hits.
 	 */
-	final public void keepOnlyHitsForNewPointMode() {	
+	final public void keepOnlyHitsForNewPointMode() {
 		removePolygonsDependingSidePresent(true);
 	}
 
 	/**
 	 * remove all conics hitted on the filling, not on the boundary
 	 */
-	final public void removeConicsHittedOnFilling(){
+	final public void removeConicsHittedOnFilling() {
 		Iterator<GeoElement> it = this.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isGeoConic()){
-				if (((GeoConicND) geo).getLastHitType()==HitType.ON_FILLING){
+			if (geo.isGeoConic()) {
+				if (((GeoConicND) geo).getLastHitType() == HitType.ON_FILLING) {
 					it.remove();
 				}
 			}
 		}
 	}
-	
-	final private void removePolygonsDependingSidePresent(boolean sidePresentWanted){
-	
+
+	final private void removePolygonsDependingSidePresent(
+			boolean sidePresentWanted) {
+
 		Iterator<GeoElement> it = this.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoPolygon()) {
 				boolean sidePresent = false;
-				GeoSegmentND [] sides = ((GeoPolygon) geo).getSegments();
-				if (sides !=null){
-					for (int k=0; k < sides.length; k++) {
+				GeoSegmentND[] sides = ((GeoPolygon) geo).getSegments();
+				if (sides != null) {
+					for (int k = 0; k < sides.length; k++) {
 						if (this.contains(sides[k])) {
 							sidePresent = true;
 							break;
@@ -273,77 +266,77 @@ public class Hits extends ArrayList<GeoElement> {
 					}
 				}
 
-				if (sidePresent!=sidePresentWanted){
-					it.remove();					
+				if (sidePresent != sidePresentWanted) {
+					it.remove();
 				}
-			}				
-		}						
+			}
+		}
 	}
-	
-	
+
 	/**
 	 * remove all hits after geo
-	 * @param geo last geo
+	 * 
+	 * @param geo
+	 *            last geo
 	 */
-	final public void removeGeosAfter(GeoElement geo){
-		for (int i = size() - 1 ; i >= 0 && get(i)!=geo ; i--){
+	final public void removeGeosAfter(GeoElement geo) {
+		for (int i = size() - 1; i >= 0 && get(i) != geo; i--) {
 			remove(i);
 		}
 	}
-	
+
 	/**
 	 * remove segments from all present polygons
 	 */
-	final public void removeSegmentsFromPolygons(){
-		
+	final public void removeSegmentsFromPolygons() {
+
 		ArrayList<GeoSegmentND> toRemove = new ArrayList<GeoSegmentND>();
-		
+
 		Iterator<GeoElement> it = this.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
 			if (geo.isGeoPolygon()) {
-				GeoSegmentND [] sides = ((GeoPolygon) geo).getSegments();
-				for (int k=0; k < sides.length; k++) {
+				GeoSegmentND[] sides = ((GeoPolygon) geo).getSegments();
+				for (int k = 0; k < sides.length; k++) {
 					toRemove.add(sides[k]);
 				}
-				
-			}				
+
+			}
 		}
-		
+
 		for (GeoSegmentND d : toRemove) {
 			this.remove(d);
 		}
-				
+
 	}
-	
+
 	/**
 	 * @return vectors and points in this hits; NOT numerics
 	 */
-	final public Hits getPointVectorNumericHits(){
+	final public Hits getPointVectorNumericHits() {
 
 		Hits ret = new Hits();
 		for (int i = 0; i < size(); ++i) {
 			GeoElement geo = get(i);
 			if (
-					//geo.isGeoNumeric() ||
-					 geo.isGeoVector()
-					|| geo.isGeoPoint())
+			// geo.isGeoNumeric() ||
+			geo.isGeoVector() || geo.isGeoPoint())
 				ret.add(geo);
 		}
-		
+
 		return ret;
 	}
-	
-	//replaces EuclidianView . final public ArrayList getHits(Point p, boolean includePolygons) {
+
+	// replaces EuclidianView . final public ArrayList getHits(Point p, boolean
+	// includePolygons) {
 	/**
 	 * removes all polygons
 	 */
-	final public void removePolygons(){
-		
-		
+	final public void removePolygons() {
+
 		if (size() - polyCount > 0) {
-			
-			for (int i = size() - 1 ; i >= 0 ; i-- ) {
+
+			for (int i = size() - 1; i >= 0; i--) {
 				GeoElement geo = get(i);
 				if (geo.isGeoPolygon())
 					remove(i);
@@ -354,100 +347,101 @@ public class Hits extends ArrayList<GeoElement> {
 	/**
 	 * Removes all polygons
 	 */
-	final public void removeAllPolygons(){
-		for (int i = size() - 1 ; i >= 0 ; i-- ) {
+	final public void removeAllPolygons() {
+		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
 			if (geo.isGeoPolygon())
 				remove(i);
 		}
-	}	
-	
+	}
+
 	/**
 	 * Removes all planes
 	 */
-	final public void removeAllPlanes(){
-		for (int i = size() - 1 ; i >= 0 ; i-- ) {
+	final public void removeAllPlanes() {
+		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
 			if (geo.isGeoPlane())
 				remove(i);
 		}
-	}	
-	
+	}
+
 	/**
 	 * remove all polygons but one
 	 */
-	public void removeAllPolygonsButOne(){
-		int toRemove = polyCount-1;
-		for (int i = size() - 1 ; i >= 0 && toRemove>0; i-- ) {
+	public void removeAllPolygonsButOne() {
+		int toRemove = polyCount - 1;
+		for (int i = size() - 1; i >= 0 && toRemove > 0; i--) {
 			GeoElement geo = get(i);
-			if (geo.isGeoPolygon()){
+			if (geo.isGeoPolygon()) {
 				remove(i);
 				toRemove--;
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @return poly count in this
 	 */
-	public int getPolyCount(){
+	public int getPolyCount() {
 		return polyCount;
 	}
-	
-	
+
 	/**
-	 * Find the first set of geo corresponding to one of the tests. Found geos are supposed to be in the same intervall.
-	 * @param tests class tests
+	 * Find the first set of geo corresponding to one of the tests. Found geos
+	 * are supposed to be in the same intervall.
+	 * 
+	 * @param tests
+	 *            class tests
 	 * @return correct hits (if exist)
 	 */
-	final public Hits keepFirsts(Test ... tests ){
-		
+	final public Hits keepFirsts(Test... tests) {
+
 		Hits ret = new Hits();
 		Test testFound = null;
 		boolean goFurther = true;
-		
-		for (int i = 0; i < size() && goFurther ; i++){
+
+		for (int i = 0; i < size() && goFurther; i++) {
 			GeoElement geo = get(i);
-			if (testFound == null){
-				for (int j = 0 ; j < tests.length && testFound == null; j++){
-					if (tests[j].check(geo)){
+			if (testFound == null) {
+				for (int j = 0; j < tests.length && testFound == null; j++) {
+					if (tests[j].check(geo)) {
 						testFound = tests[j];
 						ret.add(geo);
 					}
 				}
-			}else{
-				if (testFound.check(geo)){
+			} else {
+				if (testFound.check(geo)) {
 					ret.add(geo);
-				}else{
+				} else {
 					goFurther = false;
 				}
 			}
 		}
-		
+
 		return ret;
 	}
-	
 
 	/**
-	 * Removes all polygonsand quadrics but one; for 3D 
+	 * Removes all polygonsand quadrics but one; for 3D
 	 */
-	public void removeAllPolygonsAndQuadricsButOne(){
-		//for 3D
+	public void removeAllPolygonsAndQuadricsButOne() {
+		// for 3D
 	}
-	
+
 	/**
 	 * Keeps only images; for 3D
 	 */
-	final public void removeAllButImages(){
-		//for 3D
+	final public void removeAllButImages() {
+		// for 3D
 	}
-	
+
 	/**
 	 * Removes images
 	 */
 	public void removeImages() {
-		for (int i = size() - 1 ; i >= 0 ; i-- ) {
+		for (int i = size() - 1; i >= 0; i--) {
 			GeoElement geo = get(i);
 			if (geo.isGeoImage())
 				remove(i);
@@ -459,13 +453,13 @@ public class Hits extends ArrayList<GeoElement> {
 	 * at streen coords (x,y). order: points, vectors, lines, conics
 	 */
 	/*
-	final public ArrayList getMoveableHits(Point p) {
-		return getMoveableHits(getHits(p));
-	}
-	*/
+	 * final public ArrayList getMoveableHits(Point p) { return
+	 * getMoveableHits(getHits(p)); }
+	 */
 
 	/**
-	 * @param view view
+	 * @param view
+	 *            view
 	 * @return array of changeable GeoElements out of hits
 	 */
 	final public Hits getMoveableHits(EuclidianViewInterfaceSlim view) {
@@ -474,18 +468,22 @@ public class Hits extends ArrayList<GeoElement> {
 
 	/**
 	 * PointRotateable
-	 * @param view view
-	 * @param rotCenter rotation center 
-	 * @return array of changeable GeoElements out of hits that implement 
+	 * 
+	 * @param view
+	 *            view
+	 * @param rotCenter
+	 *            rotation center
+	 * @return array of changeable GeoElements out of hits that implement
 	 */
-	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view, GeoPointND rotCenter) {
+	final public Hits getPointRotateableHits(EuclidianViewInterfaceSlim view,
+			GeoPointND rotCenter) {
 		return getMoveables(view, Test.ROTATEMOVEABLE, rotCenter);
 	}
-	
+
 	/**
 	 * @return hits that have selection allowed
 	 */
-	final public Hits getSelectableHits(){
+	final public Hits getSelectableHits() {
 		GeoElement geo;
 		Hits selectableList = new Hits();
 		for (int i = 0; i < size(); ++i) {
@@ -493,17 +491,21 @@ public class Hits extends ArrayList<GeoElement> {
 			if (geo.isSelectionAllowed())
 				selectableList.add(geo);
 		}
-		
+
 		return selectableList;
 	}
 
 	/**
-	 * @param view view
-	 * @param test either ROTATEMOVEABLE or MOVEABLE
-	 * @param rotCenter rotation center
-	 * @return (rotate)moveable geos 
+	 * @param view
+	 *            view
+	 * @param test
+	 *            either ROTATEMOVEABLE or MOVEABLE
+	 * @param rotCenter
+	 *            rotation center
+	 * @return (rotate)moveable geos
 	 */
-	protected Hits getMoveables(EuclidianViewInterfaceSlim view, Test test, GeoPointND rotCenter) {
+	protected Hits getMoveables(EuclidianViewInterfaceSlim view, Test test,
+			GeoPointND rotCenter) {
 
 		GeoElement geo;
 		Hits moveableList = new Hits();
@@ -514,13 +516,13 @@ public class Hits extends ArrayList<GeoElement> {
 				// moveable object
 				if (geo.isMoveable(view)) {
 					moveableList.add(geo);
-					//Application.debug("moveable GeoElement = "+geo);
+					// Application.debug("moveable GeoElement = "+geo);
 				}
 				// point with changeable parent coords
 				else if (geo.isGeoPoint()) {
 					GeoPointND point = (GeoPointND) geo;
 					if (point.hasChangeableCoordParentNumbers())
-						moveableList.add((GeoElement)point);
+						moveableList.add((GeoElement) point);
 				}
 				// not a point, but has moveable input points
 				else if (geo.hasMoveableInputPoints(view)) {
@@ -533,52 +535,49 @@ public class Hits extends ArrayList<GeoElement> {
 				if (geo.isRotateMoveable()) {
 					if (rotCenter == null || !geo.isParentOf(rotCenter))
 						moveableList.add(geo);
-					
-				}else if (geo.hasMoveableInputPoints(view)) {
+
+				} else if (geo.hasMoveableInputPoints(view)) {
 					moveableList.add(geo);
 				}
 
 				break;
 			}
 		}
-		
+
 		/*
-		if (moveableList.size() == 0)
-			return null;
-		else
-			return moveableList;
-			*/
+		 * if (moveableList.size() == 0) return null; else return moveableList;
+		 */
 		return moveableList;
 	}
-	
-	
+
 	/**
 	 * returns array of GeoElements of type geoclass whose visual representation
 	 * is at streen coords (x,y). order: points, vectors, lines, conics
 	 */
 	/*
-	final public ArrayList getHits(Point p, Class geoclass, ArrayList result) {
-		return getHits(getHits(p), geoclass, false, result);
-	}
-	*/
+	 * final public ArrayList getHits(Point p, Class geoclass, ArrayList result)
+	 * { return getHits(getHits(p), geoclass, false, result); }
+	 */
 
 	/**
-	 * @param geoclass test for type that
-	 * @param result hits object for result
-	 * @return array of GeoElements NOT passing test out of hits 
+	 * @param geoclass
+	 *            test for type that
+	 * @param result
+	 *            hits object for result
+	 * @return array of GeoElements NOT passing test out of hits
 	 */
-	final public Hits getOtherHits(Test geoclass,
-			Hits result) {
+	final public Hits getOtherHits(Test geoclass, Hits result) {
 		return getHits(geoclass, true, result);
 	}
 
 	/**
-	 * @param geoclass test for type
-	 * @param result hits object for result
-	 * @return array of GeoElements passing test out of hits 
+	 * @param geoclass
+	 *            test for type
+	 * @param result
+	 *            hits object for result
+	 * @return array of GeoElements passing test out of hits
 	 */
-	final public Hits getHits(Test geoclass,
-			Hits result) {
+	final public Hits getHits(Test geoclass, Hits result) {
 		return getHits(geoclass, false, result);
 	}
 
@@ -587,34 +586,31 @@ public class Hits extends ArrayList<GeoElement> {
 	 * 
 	 * @return
 	 *
-	final public ArrayList getPolygons(ArrayList hits, int n, ArrayList polygons) {
-		// search for polygons in hits that exactly have the needed number of
-		// points
-		polygons.clear();
-		getHits(hits, GeoPolygon.class, polygons);
-		for (int k = polygons.size() - 1; k > 0; k--) {
-			GeoPolygon poly = (GeoPolygon) polygons.get(k);
-			// remove poly with wrong number of points
-			if (n != poly.getPoints().length)
-				polygons.remove(k);
-		}
-		return polygons;
-	}*/
+	 *         final public ArrayList getPolygons(ArrayList hits, int n,
+	 *         ArrayList polygons) { // search for polygons in hits that exactly
+	 *         have the needed number of // points polygons.clear();
+	 *         getHits(hits, GeoPolygon.class, polygons); for (int k =
+	 *         polygons.size() - 1; k > 0; k--) { GeoPolygon poly = (GeoPolygon)
+	 *         polygons.get(k); // remove poly with wrong number of points if (n
+	 *         != poly.getPoints().length) polygons.remove(k); } return
+	 *         polygons; }
+	 */
 
 	/**
 	 * Stores all GeoElements of type geoclass to result list.
-	 * @param geoclass test
 	 * 
-	 * @param other ==
-	 *            true: returns array of GeoElements NOT passing test out of
+	 * @param geoclass
+	 *            test
+	 * 
+	 * @param other
+	 *            == true: returns array of GeoElements NOT passing test out of
 	 *            hits.
-	 * @param result Hits in which the result should be stored
+	 * @param result
+	 *            Hits in which the result should be stored
 	 * @return result
 	 */
-	
-	final protected Hits getHits(Test geoclass,
-			boolean other, Hits result) {
 
+	final protected Hits getHits(Test geoclass, boolean other, Hits result) {
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
@@ -624,46 +620,45 @@ public class Hits extends ArrayList<GeoElement> {
 			if (success)
 				result.add(get(i));
 		}
-		//return result.size() == 0 ? null : result;
-		
+		// return result.size() == 0 ? null : result;
+
 		return result;
 	}
-	
-	
-	
-	
+
 	/**
-	 * @param result hits to store result
+	 * @param result
+	 *            hits to store result
 	 * @return result
 	 */
-	public final Hits getRegionHits(
-			Hits result) {
+	public final Hits getRegionHits(Hits result) {
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
 			if (get(i).isRegion())
 				result.add(get(i));
 		}
-		//return result.size() == 0 ? null : result;
-		
+		// return result.size() == 0 ? null : result;
+
 		return result;
 	}
 
 	/**
 	 * Stores all GeoElements of any of type geoclasses to result list.
-	 * @param geoclasses test
 	 * 
-	 * @param other ==
-	 *            true: returns array of GeoElements NOT passing any test out of
-	 *            hits.
-	 * @param result Hits in which the result should be stored
+	 * @param geoclasses
+	 *            test
+	 * 
+	 * @param other
+	 *            == true: returns array of GeoElements NOT passing any test out
+	 *            of hits.
+	 * @param result
+	 *            Hits in which the result should be stored
 	 * @return result
 	 */
-	final public Hits getHits(Test[] geoclasses,
-			boolean other, Hits result) {
+	final public Hits getHits(Test[] geoclasses, boolean other, Hits result) {
 
 		result.clear();
 		for (int i = 0; i < size(); ++i) {
-			for (int j = 0; j<geoclasses.length; ++j) {
+			for (int j = 0; j < geoclasses.length; ++j) {
 				boolean success = geoclasses[j].check(get(i));
 				if (other)
 					success = !success;
@@ -671,44 +666,41 @@ public class Hits extends ArrayList<GeoElement> {
 					result.add(get(i));
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	/**
 	 * return first hit of given class
-	 * @param geoclass test
+	 * 
+	 * @param geoclass
+	 *            test
 	 * @return first hit of given class
 	 */
 	final public GeoElement getFirstHit(Test geoclass) {
 
 		for (int i = 0; i < size(); ++i) {
-			if(geoclass.check(get(i)))
+			if (geoclass.check(get(i)))
 				return get(i);
 		}
 
 		return null;
 	}
-	
+
 	/**
-	 * Stores all GeoElements of type GeoPoint, GeoVector, GeoNumeric to result list.
+	 * Stores all GeoElements of type GeoPoint, GeoVector, GeoNumeric to result
+	 * list.
 	 * 
 	 */
 	/*
-	final protected ArrayList getRecordableHits(ArrayList hits, ArrayList result) {
-		if (hits == null)
-			return null;
-
-		result.clear();
-		for (int i = 0; i < hits.size(); ++i) {
-			GeoElement hit = (GeoElement)hits.get(i);
-			boolean success = (hit.isGeoPoint() || hit.isGeoVector() || hit.isGeoNumeric());
-			if (success)
-				result.add(hits.get(i));
-		}
-		return result.size() == 0 ? null : result;
-	}
-	*/
+	 * final protected ArrayList getRecordableHits(ArrayList hits, ArrayList
+	 * result) { if (hits == null) return null;
+	 * 
+	 * result.clear(); for (int i = 0; i < hits.size(); ++i) { GeoElement hit =
+	 * (GeoElement)hits.get(i); boolean success = (hit.isGeoPoint() ||
+	 * hit.isGeoVector() || hit.isGeoNumeric()); if (success)
+	 * result.add(hits.get(i)); } return result.size() == 0 ? null : result; }
+	 */
 
 	/**
 	 * returns array of GeoElements whose visual representation is on top of
@@ -718,89 +710,94 @@ public class Hits extends ArrayList<GeoElement> {
 	 * @see EuclidianController: mousePressed(), mouseMoved()
 	 */
 	/*
-	final public ArrayList getTopHits(Point p) {
-		return getTopHits(getHits(p));
-	}
-	*/
+	 * final public ArrayList getTopHits(Point p) { return
+	 * getTopHits(getHits(p)); }
+	 */
 
 	/**
 	 * if there are GeoPoints in hits, all these points are returned. Otherwise
 	 * hits is returned.
+	 * 
 	 * @return list of hit points
 	 * 
 	 * @see EuclidianController#wrapMousePressed(AbstractEvent)
 	 * @see EuclidianController#wrapMouseMoved(AbstractEvent)
 	 */
 	public Hits getTopHits() {
-		
+
 		if (isEmpty())
 			return clone();
-		
+
 		// point in there?
 		Hits topHitsList = new Hits();
 		if (containsGeoPoint(topHitsList)) {
-			//Hits topHitsList = new Hits();
+			// Hits topHitsList = new Hits();
 			getHits(Test.GEOPOINTND, false, topHitsList);
 			return topHitsList;
-		} 
+		}
 
 		// text in there?
 		if (containsGeoText(topHitsList)) {
 			getHits(Test.GEOTEXT, false, topHitsList);
 			return topHitsList;
-		} 
-				
-		
+		}
+
 		return clone();
 	}
-	
-	/** return hits at the top, limited to a number of nb
-	 * @param nb number of top hits to return
+
+	/**
+	 * return hits at the top, limited to a number of nb
+	 * 
+	 * @param nb
+	 *            number of top hits to return
 	 * @return hits at the top, limited to a number of nb
 	 */
-	public Hits getTopHits(int nb){
+	public Hits getTopHits(int nb) {
 		Hits topHits = getTopHits();
-		
+
 		/*
-		//remove all last elements, since topHits.size()<=nb
-		for(;topHits.size()>nb;)
-			topHits.remove(topHits.size()-1);
-			*/
-		
+		 * //remove all last elements, since topHits.size()<=nb
+		 * for(;topHits.size()>nb;) topHits.remove(topHits.size()-1);
+		 */
+
 		Hits ret = new Hits();
-		for(int i=0;i<nb && i<topHits.size(); i++)
+		for (int i = 0; i < nb && i < topHits.size(); i++)
 			ret.add(topHits.get(i));
-		
+
 		return ret;
 	}
 
 	/**
-	 * @param nb maximal number of hits
+	 * @param nb
+	 *            maximal number of hits
 	 * @return first at most nb hits
 	 */
-	public Hits getHits(int nb){
+	public Hits getHits(int nb) {
 		Hits ret = createNewHits();
-		for(int i=0;i<nb && i<size(); i++)
+		for (int i = 0; i < nb && i < size(); i++)
 			ret.add(get(i));
-		
+
 		return ret;
 	}
-	
+
 	/**
-	 * @return creates new instance of this class 
+	 * @return creates new instance of this class
 	 */
 	protected Hits createNewHits() {
 		return new Hits();
 	}
 
 	/**
-	 * @param depth for 3D 
-	 * @param geoN maximal number of returned geos
+	 * @param depth
+	 *            for 3D
+	 * @param geoN
+	 *            maximal number of returned geos
 	 * @return top hits
 	 */
 	public Hits getTopHits(int depth, int geoN) {
 		return getTopHits(geoN);
 	}
+
 	/**
 	 * @return true if contains GeoPointND
 	 */
@@ -812,8 +809,10 @@ public class Hits extends ArrayList<GeoElement> {
 		}
 		return false;
 	}
+
 	/**
-	 * @param ret if the point is found, it is added into ret
+	 * @param ret
+	 *            if the point is found, it is added into ret
 	 * @return true if contains GeoPointND
 	 */
 	final public boolean containsGeoPoint(Hits ret) {
@@ -821,17 +820,17 @@ public class Hits extends ArrayList<GeoElement> {
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
-			if (geo.isGeoPoint()){
+			if (geo.isGeoPoint()) {
 				ret.add(geo);
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	
+
 	/**
-	 * @param ret if the point is found, it is added into ret
+	 * @param ret
+	 *            if the point is found, it is added into ret
 	 * @return true if contains GeoPointND
 	 */
 	final public boolean containsGeoText(Hits ret) {
@@ -839,111 +838,121 @@ public class Hits extends ArrayList<GeoElement> {
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
-			if (geo.isGeoText()){
+			if (geo.isGeoText()) {
 				ret.add(geo);
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	@Override
-	public String toString(){
-		String s = "hits: "+size();
+	public String toString() {
+		String s = "hits: " + size();
 		GeoElement geo;
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
-			s+="\n hits("+i+") = "+geo.getLabel(StringTemplate.defaultTemplate);
+			s += "\n hits(" + i + ") = "
+					+ geo.getLabel(StringTemplate.defaultTemplate);
 		}
 		return s;
 	}
-	
-	
+
 	/**
 	 * 
-	 * @param list geo list
+	 * @param list
+	 *            geo list
 	 * @return true if contains at least one of the elements of the list
 	 */
-	public boolean intersect(ArrayList<GeoElement> list){
+	public boolean intersect(ArrayList<GeoElement> list) {
 		for (GeoElement geo : list)
 			if (contains(geo))
 				return true;
 		return false;
 	}
 
-	
-	
 	/**
 	 * 
 	 * @return hits that has finite volume
 	 */
-	public Hits getFiniteVolumeIncludingMetaHits(){
+	public Hits getFiniteVolumeIncludingMetaHits() {
 		Hits result = new Hits();
-		
-		for (GeoElement geo : this){
-			//first check if is segment/polygon/quadric side from a geo that has finite volume
-			if (geo.getMetasLength() > 0){
+
+		for (GeoElement geo : this) {
+			// first check if is segment/polygon/quadric side from a geo that
+			// has finite volume
+			if (geo.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo).getMetas())
 					addFiniteVolume(result, meta);
-			//check if the geo has finite volume
-			}else{
+				// check if the geo has finite volume
+			} else {
 				addFiniteVolume(result, geo);
 			}
 		}
-		
-		
+
 		return result;
 	}
-	
-	private static void addFiniteVolume(Hits result, GeoElement geo){
-		if (geo instanceof HasVolume){
-			if (((HasVolume) geo).hasFiniteVolume()){
+
+	private static void addFiniteVolume(Hits result, GeoElement geo) {
+		if (geo instanceof HasVolume) {
+			if (((HasVolume) geo).hasFiniteVolume()) {
 				result.add(geo);
 			}
 		}
 	}
+
 	/**
 	 * 
 	 * @return hits that has finite volume
 	 */
-	public Hits getPolyhedronsIncludingMetaHits(){
+	public Hits getPolyhedronsIncludingMetaHits() {
 		Hits result = new Hits();
-		
-		for (GeoElement geo : this){
-			//first check if is segment/polygon/quadric side from a geo that has finite volume
-			if (geo.getMetasLength() > 0){
+
+		for (GeoElement geo : this) {
+			// first check if is segment/polygon/quadric side from a geo that
+			// has finite volume
+			if (geo.getMetasLength() > 0) {
 				for (GeoElement meta : ((FromMeta) geo).getMetas()) {
-					if (meta.isGeoPolyhedron()){
+					if (meta.isGeoPolyhedron()) {
 						result.add(meta);
 					}
 				}
-			//check if the geo has finite volume
-			}else{
-				if (geo.isGeoPolyhedron()){
+				// check if the geo has finite volume
+			} else {
+				if (geo.isGeoPolyhedron()) {
 					result.add(geo);
 				}
 			}
 		}
-		
-		
+
 		return result;
 	}
-	
-	
+
 	/**
-	 * WARNING : only GeoCoordSys2D, GeoQuadric3DInterface and GeoPolyhedronInterface implemented yet
-	 * @param ignoredGeos geos that are ignored
+	 * WARNING : only GeoCoordSys2D, GeoQuadric3DInterface and
+	 * GeoPolyhedronInterface implemented yet
+	 * 
+	 * @param ignoredGeos
+	 *            geos that are ignored
 	 * @return hits containing first surface (not included in ignoredGeos)
 	 */
-	final public Hits getFirstSurfaceBefore(ArrayList<GeoElement> ignoredGeos){
+	final public Hits getFirstSurfaceBefore(ArrayList<GeoElement> ignoredGeos) {
 		Hits ret = new Hits();
-		for (int i = 0; i < size(); i++){
+		for (int i = 0; i < size(); i++) {
 			GeoElement geo = get(i);
-			if (geo instanceof GeoCoordSys2D || geo instanceof GeoQuadric3DInterface || geo instanceof GeoQuadric3DLimitedInterface || geo instanceof GeoPolyhedronInterface){
-				if (!ignoredGeos.contains(geo)){
-					if (geo instanceof GeoQuadric3DPartInterface){ // temporary fix (TODO implement intersection GeoQuadric3DPart / plane)
+			if (geo instanceof GeoCoordSys2D
+					|| geo instanceof GeoQuadric3DInterface
+					|| geo instanceof GeoQuadric3DLimitedInterface
+					|| geo instanceof GeoPolyhedronInterface) {
+				if (!ignoredGeos.contains(geo)) {
+					if (geo instanceof GeoQuadric3DPartInterface) { // temporary
+																	// fix (TODO
+																	// implement
+																	// intersection
+																	// GeoQuadric3DPart
+																	// / plane)
 						GeoElement meta = ((FromMeta) geo).getMetas()[0];
-						if (!ignoredGeos.contains(meta)){
+						if (!ignoredGeos.contains(meta)) {
 							ret.add(meta);
 							return ret;
 						}
@@ -953,35 +962,28 @@ public class Hits extends ArrayList<GeoElement> {
 				}
 			}
 		}
-		
-		
+
 		return ret;
 	}
 
-	
-	
 	/**
 	 * remove all polygons, if hits are not all instance of GeoCoordSys2D
 	 */
-	public void removePolygonsIfNotOnlyCS2D(){
-		
-		//String s = "cs2DCount="+cs2DCount+"/"+(size());
-		
+	public void removePolygonsIfNotOnlyCS2D() {
+
+		// String s = "cs2DCount="+cs2DCount+"/"+(size());
+
 		if (size() - cs2DCount > 0) {
 			removePolygons();
-			//s+="\n"+toString();
+			// s+="\n"+toString();
 			/*
-			for (int i = 0; i < size(); ) {
-				GeoElement geo = (GeoElement) get(i);
-				
-				if (geo instanceof GeoCoordSys2D)
-					remove(i);
-				else
-					i++;
-			}
-			*/
-			//Application.debug(s+"\n"+toString());
+			 * for (int i = 0; i < size(); ) { GeoElement geo = (GeoElement)
+			 * get(i);
+			 * 
+			 * if (geo instanceof GeoCoordSys2D) remove(i); else i++; }
+			 */
+			// Application.debug(s+"\n"+toString());
 		}
 	}
-	
+
 }

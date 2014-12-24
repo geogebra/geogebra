@@ -38,7 +38,6 @@ import geogebra.common.util.StringUtil;
 
 import java.util.ArrayList;
 
-
 /**
  * 
  * @author Markus
@@ -54,7 +53,8 @@ public abstract class Drawable extends DrawableND {
 	/**
 	 * Stroke for this drawable in case referenced geo is selected
 	 */
-	protected GBasicStroke selStroke = EuclidianStatic.getDefaultSelectionStroke();
+	protected GBasicStroke selStroke = EuclidianStatic
+			.getDefaultSelectionStroke();
 	/**
 	 * Stroke for decorations; always full
 	 */
@@ -67,7 +67,7 @@ public abstract class Drawable extends DrawableND {
 	 * View in which this is drawn
 	 */
 	protected EuclidianView view;
-	
+
 	/**
 	 * Referenced GeoElement
 	 */
@@ -85,7 +85,8 @@ public abstract class Drawable extends DrawableND {
 	private String oldLabelDesc;
 	private boolean labelHasIndex = false;
 	/** for label hit testing */
-	protected GRectangle labelRectangle = AwtFactory.prototype.newRectangle(0, 0);
+	protected GRectangle labelRectangle = AwtFactory.prototype.newRectangle(0,
+			0);
 	/**
 	 * Stroked shape for hits testing of conics, loci ... with alpha = 0
 	 */
@@ -101,8 +102,8 @@ public abstract class Drawable extends DrawableND {
 
 	/** tracing */
 	protected boolean isTracing = false;
-	
-	private ArrayList <GPaint>  hatchPaint = null;
+
+	private ArrayList<GPaint> hatchPaint = null;
 
 	// boolean createdByDrawList = false;
 
@@ -111,43 +112,50 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Draws this drawable to given graphics
-	 * @param g2 graphics
+	 * 
+	 * @param g2
+	 *            graphics
 	 */
 	public abstract void draw(GGraphics2D g2);
 
 	/**
-	 * @param x mouse x-coord
-	 * @param y mouse y-coord
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
 	 * @return true if hit
 	 */
 	public abstract boolean hit(int x, int y, int hitThreshold);
 
 	/**
-	 * @param rect rectangle
+	 * @param rect
+	 *            rectangle
 	 * @return true if the whole drawable is inside
 	 */
 	public abstract boolean isInside(GRectangle rect);
-	
+
 	/**
-	 * @param rect rectangle
+	 * @param rect
+	 *            rectangle
 	 * @return true if a part of this Drawable is within the rectangle
 	 */
-	public boolean intersectsRectangle(GRectangle rect){
-		GArea s=getShape();
-		if (s==null){
+	public boolean intersectsRectangle(GRectangle rect) {
+		GArea s = getShape();
+		if (s == null) {
 			return false;
 		}
-		if (isFilled()){
+		if (isFilled()) {
 			return s.intersects(rect);
 		}
-		return s.intersects(rect)&&!s.contains(rect);
+		return s.intersects(rect) && !s.contains(rect);
 	}
 
 	@Override
 	public abstract GeoElement getGeoElement();
 
 	/**
-	 * @param geo referenced geo
+	 * @param geo
+	 *            referenced geo
 	 */
 	public abstract void setGeoElement(GeoElement geo);
 
@@ -165,7 +173,7 @@ public abstract class Drawable extends DrawableND {
 	 * Updates font size
 	 */
 	public void updateFontSize() {
-		//do nothing, overriden in drawables
+		// do nothing, overriden in drawables
 	}
 
 	/**
@@ -179,7 +187,9 @@ public abstract class Drawable extends DrawableND {
 
 	/**
 	 * Draws label of referenced geo
-	 * @param g2 graphics
+	 * 
+	 * @param g2
+	 *            graphics
 	 */
 	public final void drawLabel(GGraphics2D g2) {
 		if (labelDesc == null)
@@ -197,25 +207,27 @@ public abstract class Drawable extends DrawableND {
 		GFont oldFont = null;
 
 		// allow LaTeX caption surrounded by $ $
-		if ((label.charAt(0)=='$') && label.endsWith("$") && label.length() > 1) {
+		if ((label.charAt(0) == '$') && label.endsWith("$")
+				&& label.length() > 1) {
 			boolean serif = true; // nice "x"s
 			if (geo.isGeoText())
 				serif = ((GeoText) geo).isSerifFont();
-			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels don't go
-												// off bottom of screen
+			int offsetY = 10 + view.getFontSize(); // make sure LaTeX labels
+													// don't go
+													// off bottom of screen
 			App app = view.getApplication();
-			GDimension dim = app.getDrawEquation().
-					drawEquation(geo.getKernel()
-					.getApplication(), geo, g2, xLabel, yLabel - offsetY, label
-					.substring(1, label.length() - 1), g2.getFont(), serif, g2
-					.getColor(), g2.getBackground(), true, false);
+			GDimension dim = app.getDrawEquation().drawEquation(
+					geo.getKernel().getApplication(), geo, g2, xLabel,
+					yLabel - offsetY, label.substring(1, label.length() - 1),
+					g2.getFont(), serif, g2.getColor(), g2.getBackground(),
+					true, false);
 			labelRectangle.setBounds(xLabel, yLabel - offsetY, dim.getWidth(),
 					dim.getHeight());
 			return;
 		}
 
 		// label changed: check for bold or italic tags in caption
-		if (oldLabelDesc != labelDesc || (labelDesc.charAt(0)=='<')) {
+		if (oldLabelDesc != labelDesc || (labelDesc.charAt(0) == '<')) {
 			boolean italic = false;
 
 			// support for bold and italic tags in captions
@@ -260,30 +272,37 @@ public abstract class Drawable extends DrawableND {
 		if (oldFont != null)
 			g2.setFont(oldFont);
 	}
+
 	/**
 	 * Adapts xLabel and yLabel to make sure that the label rectangle fits fully
 	 * on screen.
-	 * @param Xmultiplier multiply the x size by it to ensure fitting (default: 1.0)
-	 * @param Ymultiplier multiply the y size by it to ensure fitting (default: 1.0)
+	 * 
+	 * @param Xmultiplier
+	 *            multiply the x size by it to ensure fitting (default: 1.0)
+	 * @param Ymultiplier
+	 *            multiply the y size by it to ensure fitting (default: 1.0)
 	 */
 	private void ensureLabelDrawsOnScreen(double Xmultiplier, double Ymultiplier) {
 		// draw label and
-		int widthEstimate = (int)labelRectangle.getWidth();
-		int heightEstimate = (int)labelRectangle.getHeight();
-		
+		int widthEstimate = (int) labelRectangle.getWidth();
+		int heightEstimate = (int) labelRectangle.getHeight();
+
 		GFont font = view.getApplication().getPlainFontCommon();
-		
-		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()){		
-			if(labelDesc.startsWith("$")){
-				//for LaTeX we need proper repaint
+
+		if (oldLabelDesc != labelDesc || lastFontSize != font.getSize()) {
+			if (labelDesc.startsWith("$")) {
+				// for LaTeX we need proper repaint
 				drawLabel(view.getTempGraphics2D(font));
-				widthEstimate = (int)labelRectangle.getWidth();
-				heightEstimate = (int)labelRectangle.getHeight();
-			}else{
-				//if we use name = value, this may still be called pretty often.
+				widthEstimate = (int) labelRectangle.getWidth();
+				heightEstimate = (int) labelRectangle.getHeight();
+			} else {
+				// if we use name = value, this may still be called pretty
+				// often.
 				// Hence use heuristic here instead of measurement
-				heightEstimate = (int)(StringUtil.estimateHeight(labelDesc, font) * Ymultiplier);
-				widthEstimate = (int)(StringUtil.estimateLengthHTML(labelDesc, font) * Xmultiplier);
+				heightEstimate = (int) (StringUtil.estimateHeight(labelDesc,
+						font) * Ymultiplier);
+				widthEstimate = (int) (StringUtil.estimateLengthHTML(labelDesc,
+						font) * Xmultiplier);
 			}
 		}
 		// make sure labelRectangle fits on screen horizontally
@@ -300,12 +319,15 @@ public abstract class Drawable extends DrawableND {
 		labelRectangle.setLocation(xLabel, yLabel - view.getFontSize());
 	}
 
-	
 	/**
-	 * @param g2 graphics
-	 * @param font font
-	 * @param fgColor text color
-	 * @param bgColor background color
+	 * @param g2
+	 *            graphics
+	 * @param font
+	 *            font
+	 * @param fgColor
+	 *            text color
+	 * @param bgColor
+	 *            background color
 	 */
 	public final void drawMultilineLaTeX(GGraphics2D g2, GFont font,
 			GColor fgColor, GColor bgColor) {
@@ -314,7 +336,6 @@ public abstract class Drawable extends DrawableND {
 				font, fgColor, bgColor, labelDesc, xLabel, yLabel, isSerif()));
 	}
 
-	
 	/**
 	 * @return true if serif font is used for GeoText
 	 */
@@ -323,8 +344,9 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * @param g2 graphics
-	 * @param textFont 
+	 * @param g2
+	 *            graphics
+	 * @param textFont
 	 */
 	protected final void drawMultilineText(GGraphics2D g2, GFont textFont) {
 
@@ -355,13 +377,13 @@ public abstract class Drawable extends DrawableND {
 			for (int i = 0; i < length - 1; i++) {
 				if (labelDesc.charAt(i) == '\n') {
 					// end of line reached: draw this line
-					
+
 					// iOS (bug?) - bold text needs font setting for each line
-					g2.setFont(textFont);					
+					g2.setFont(textFont);
 					GPoint p = EuclidianStatic.drawIndexedString(
 							view.getApplication(), g2,
 							labelDesc.substring(lineBegin, i), xLabel, yLabel
-									+ lines * lineSpread, isSerif(),true);
+									+ lines * lineSpread, isSerif(), true);
 					if (p.x > xoffset)
 						xoffset = p.x;
 					if (p.y > yoffset)
@@ -372,13 +394,12 @@ public abstract class Drawable extends DrawableND {
 			}
 
 			float ypos = yLabel + lines * lineSpread;
-			
+
 			// iOS (bug?) - bold text needs font setting for each line
 			g2.setFont(textFont);
-			GPoint p = EuclidianStatic
-					.drawIndexedString(view.getApplication(), g2,
-							labelDesc.substring(lineBegin), xLabel, ypos,
-							isSerif(),true);
+			GPoint p = EuclidianStatic.drawIndexedString(view.getApplication(),
+					g2, labelDesc.substring(lineBegin), xLabel, ypos,
+					isSerif(), true);
 			if (p.x > xoffset)
 				xoffset = p.x;
 			if (p.y > yoffset)
@@ -416,32 +437,39 @@ public abstract class Drawable extends DrawableND {
 	}
 
 	/**
-	 * Adds geo's label offset to xLabel and yLabel. 
+	 * Adds geo's label offset to xLabel and yLabel.
 	 * 
 	 */
 	public final void addLabelOffsetEnsureOnScreen() {
 		addLabelOffsetEnsureOnScreen(1.0, 1.0);
 	}
-	
+
 	/**
-	 * Adds geo's label offset to xLabel and yLabel. 
-	 * @param Xmultiplier multiply the x size by it to ensure fitting
-	 * @param Ymultiplier multiply the y size by it to ensure fitting
+	 * Adds geo's label offset to xLabel and yLabel.
+	 * 
+	 * @param Xmultiplier
+	 *            multiply the x size by it to ensure fitting
+	 * @param Ymultiplier
+	 *            multiply the y size by it to ensure fitting
 	 * 
 	 */
-	public final void addLabelOffsetEnsureOnScreen(double Xmultiplier, double Ymultiplier) {		
+	public final void addLabelOffsetEnsureOnScreen(double Xmultiplier,
+			double Ymultiplier) {
 		// MAKE SURE LABEL STAYS ON SCREEN
 		xLabel += geo.labelOffsetX;
 		yLabel += geo.labelOffsetY;
 
 		// change xLabel and yLabel so that label stays on screen
-		ensureLabelDrawsOnScreen(Xmultiplier, Ymultiplier);				
+		ensureLabelDrawsOnScreen(Xmultiplier, Ymultiplier);
 	}
 
 	/**
 	 * Was the label clicked at? (mouse pointer location (x,y) in screen coords)
-	 * @param x mouse x-coord
-	 * @param y mouse y-coord
+	 * 
+	 * @param x
+	 *            mouse x-coord
+	 * @param y
+	 *            mouse y-coord
 	 * @return true if hit
 	 */
 	public boolean hitLabel(int x, int y) {
@@ -456,7 +484,8 @@ public abstract class Drawable extends DrawableND {
 	 * Set fixed line type and ignore line type of the geo. Needed for
 	 * inequalities.
 	 * 
-	 * @param type line type
+	 * @param type
+	 *            line type
 	 */
 	public final void forceLineType(int type) {
 		forcedLineType = true;
@@ -466,10 +495,12 @@ public abstract class Drawable extends DrawableND {
 	final public void updateStrokes(GeoElementND fromGeo) {
 		updateStrokes(fromGeo, 0);
 	}
+
 	/**
 	 * Update strokes (default,selection,deco) accordingly to geo
 	 * 
-	 * @param fromGeo geo whose style should be used for the update
+	 * @param fromGeo
+	 *            geo whose style should be used for the update
 	 */
 	final public void updateStrokes(GeoElementND fromGeo, int minThickness) {
 		strokedShape = null;
@@ -495,11 +526,13 @@ public abstract class Drawable extends DrawableND {
 			objStroke = EuclidianStatic.getStroke(width, lineType);
 		}
 	}
+
 	/**
-	 * Update strokes (default,selection,deco) accordingly to geo;
-	 * ignores line style
+	 * Update strokes (default,selection,deco) accordingly to geo; ignores line
+	 * style
 	 * 
-	 * @param fromGeo geo whose style should be used for the update
+	 * @param fromGeo
+	 *            geo whose style should be used for the update
 	 */
 	public final void updateStrokesJustLineThickness(GeoElement fromGeo) {
 		strokedShape = null;
@@ -509,21 +542,33 @@ public abstract class Drawable extends DrawableND {
 			lineThickness = fromGeo.lineThickness;
 
 			float width = lineThickness / 2.0f;
-			objStroke = geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width, objStroke.getEndCap(), objStroke.getLineJoin(), objStroke.getMiterLimit(),
-					objStroke.getDashArray(), 0.0f);
-			decoStroke = geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width, objStroke.getEndCap(), objStroke.getLineJoin(), objStroke.getMiterLimit(),
-					decoStroke.getDashArray(), 0.0f);
-			selStroke = geogebra.common.factories.AwtFactory.prototype.newBasicStroke(width + EuclidianStyleConstants.SELECTION_ADD, objStroke.getEndCap(), objStroke.getLineJoin(), objStroke.getMiterLimit(),
-					selStroke.getDashArray(), 0.0f);
+			objStroke = geogebra.common.factories.AwtFactory.prototype
+					.newBasicStroke(width, objStroke.getEndCap(),
+							objStroke.getLineJoin(), objStroke.getMiterLimit(),
+							objStroke.getDashArray(), 0.0f);
+			decoStroke = geogebra.common.factories.AwtFactory.prototype
+					.newBasicStroke(width, objStroke.getEndCap(),
+							objStroke.getLineJoin(), objStroke.getMiterLimit(),
+							decoStroke.getDashArray(), 0.0f);
+			selStroke = geogebra.common.factories.AwtFactory.prototype
+					.newBasicStroke(width
+							+ EuclidianStyleConstants.SELECTION_ADD,
+							objStroke.getEndCap(), objStroke.getLineJoin(),
+							objStroke.getMiterLimit(),
+							selStroke.getDashArray(), 0.0f);
 
-		} 
+		}
 	}
 
 	/**
 	 * Fills given shape
-	 * @param g2 graphics
-	 * @param fillShape shape to be filled
-	 * @param usePureStroke true to use pure stroke
+	 * 
+	 * @param g2
+	 *            graphics
+	 * @param fillShape
+	 *            shape to be filled
+	 * @param usePureStroke
+	 *            true to use pure stroke
 	 */
 	protected void fill(GGraphics2D g2, GShape fillShape, boolean usePureStroke) {
 		if (isForceNoFill())
@@ -552,8 +597,8 @@ public abstract class Drawable extends DrawableND {
 			} else {
 				// take care of filling after the image is loaded
 				EuclidianStatic.fillAfterImageLoaded(fillShape, g2,
-						getHatchingHandler().getSubImage(),
-						geo.getKernel().getApplication());
+						getHatchingHandler().getSubImage(), geo.getKernel()
+								.getApplication());
 			}
 
 		} else if (geo.getFillType() == GeoElement.FillType.IMAGE) {
@@ -561,17 +606,17 @@ public abstract class Drawable extends DrawableND {
 			g2.fill(fillShape);
 		} else if (geo.getAlphaValue() > 0.0f) {
 			g2.setPaint(geo.getFillColor());
-			//magic for switching off dash emulation moved to GGraphics2DW
+			// magic for switching off dash emulation moved to GGraphics2DW
 			g2.fill(fillShape);
 		}
 
 	}
-	
+
 	private HatchingHandler getHatchingHandler() {
 		if (hatchingHandler == null) {
 			hatchingHandler = new HatchingHandler();
 		}
-		
+
 		return hatchingHandler;
 	}
 
@@ -611,46 +656,50 @@ public abstract class Drawable extends DrawableND {
 	public boolean isTracing() {
 		return isTracing;
 	}
-	/** draw trace of this geo into given Graphics2D 
-	 * @param g2 graphics*/
+
+	/**
+	 * draw trace of this geo into given Graphics2D
+	 * 
+	 * @param g2
+	 *            graphics
+	 */
 	protected void drawTrace(GGraphics2D g2) {
 		// do nothing, overridden where needed
 	}
-	
+
 	/**
 	 * @return whether the to-be-drawn geoElement is filled, meaning the
 	 *         alpha-value is greater zero, or hatching is enabled.
 	 */
-	public boolean isFilled(){
+	public boolean isFilled() {
 		return (geo.getAlphaValue() > 0.0f || geo.isHatchingEnabled());
 	}
-	
+
 	/**
 	 * @return view in which this is drawn
 	 */
-	public EuclidianView getView(){
+	public EuclidianView getView() {
 		return view;
 	}
 
 	public void resetHatch() {
 		this.hatchPaint = null;
 	}
-	
-	public boolean isEuclidianVisible(){
+
+	public boolean isEuclidianVisible() {
 		return geo.isEuclidianVisible();
 	}
-	
+
 	/**
 	 * @return If the {@code GeoElement} has line opacity then a {@code GColor}
-	 * object with the alpha value set, else the original {@code GColor}.
+	 *         object with the alpha value set, else the original {@code GColor}
+	 *         .
 	 */
 	protected GColor getObjectColor() {
 		GColor color = geo.getObjectColor();
 		if (geo.hasLineOpacity()) {
-	        color = AwtFactory.prototype.newColor(color.getRed(), 
-	        		color.getGreen(), 
-	        		color.getBlue(), 
-	        		geo.getLineOpacity());
+			color = AwtFactory.prototype.newColor(color.getRed(),
+					color.getGreen(), color.getBlue(), geo.getLineOpacity());
 		}
 		return color;
 	}

@@ -6,7 +6,7 @@ import geogebra.common.util.Unicode;
 import geogebra.common.util.debug.Log;
 
 public abstract class Localization {
-	
+
 	/** CAS syntax suffix for keys in command bundle */
 	public final static String syntaxCAS = ".SyntaxCAS";
 	/** 3D syntax suffix for keys in command bundle */
@@ -16,13 +16,13 @@ public abstract class Localization {
 	/** used when a secondary language is being used for tooltips. */
 	protected boolean tooltipFlag = false;
 	private String[] fontSizeStrings = null;
-	
+
 	// Giac works to 13 sig digits (for "double" calculations)
 	private int maxFigures = 15;
 	private int dimension = 2;
 
 	public Localization(int dimension, int maxFigures) {
-		this.dimension  = dimension;
+		this.dimension = dimension;
 		this.maxFigures = maxFigures;
 	}
 
@@ -39,7 +39,9 @@ public abstract class Localization {
 
 		return fontSizeStrings;
 	}
+
 	private boolean reverseNameDescription = false;
+
 	/**
 	 * For Basque and Hungarian you have to say "A point" instead of "point A"
 	 * 
@@ -49,25 +51,24 @@ public abstract class Localization {
 		// for Basque and Hungarian
 		return reverseNameDescription;
 	}
-	
-	// For Hebrew and Arabic. Guy Hed, 25.8.2008
-		public boolean rightToLeftReadingOrder = false;
 
-		/**
-		 * @return whether current language uses RTL orientation
-		 */
-		final public boolean isRightToLeftReadingOrder() {
-			return rightToLeftReadingOrder;
-		}
-		
-		/** decimal point (different in eg Arabic) */
-		public char unicodeDecimalPoint = '.';
-		/** comma (different in Arabic) */
-		public char unicodeComma = ','; // \u060c for Arabic comma
-		/** zero (different in eg Arabic) */
-		public char unicodeZero = '0';
-		
-	
+	// For Hebrew and Arabic. Guy Hed, 25.8.2008
+	public boolean rightToLeftReadingOrder = false;
+
+	/**
+	 * @return whether current language uses RTL orientation
+	 */
+	final public boolean isRightToLeftReadingOrder() {
+		return rightToLeftReadingOrder;
+	}
+
+	/** decimal point (different in eg Arabic) */
+	public char unicodeDecimalPoint = '.';
+	/** comma (different in Arabic) */
+	public char unicodeComma = ','; // \u060c for Arabic comma
+	/** zero (different in eg Arabic) */
+	public char unicodeZero = '0';
+
 	/**
 	 * Text fixer for the Hungarian language
 	 * 
@@ -161,7 +162,7 @@ public abstract class Localization {
 
 		return text;
 	}
-	
+
 	/**
 	 * Gets the previous "pronounced" characters from text before the match
 	 * position for the given length. The returned text will be lowercased.
@@ -195,7 +196,6 @@ public abstract class Localization {
 		return rettext;
 	}
 
-	
 	/**
 	 * Changes a set of possible affixes to the right one
 	 * 
@@ -306,8 +306,6 @@ public abstract class Localization {
 		return text;
 	}
 
-	
-	
 	/**
 	 * Gets translation from "command" bundle
 	 * 
@@ -315,7 +313,7 @@ public abstract class Localization {
 	 *            key
 	 * @return translation of given key
 	 */
-	
+
 	public abstract String getCommand(String key);
 
 	/**
@@ -325,10 +323,8 @@ public abstract class Localization {
 	 *            key
 	 * @return translation of given key
 	 */
-	
-	public abstract String getPlain(String key);
 
-	
+	public abstract String getPlain(String key);
 
 	/**
 	 * Returns translation of given key from the "menu" bundle
@@ -337,7 +333,7 @@ public abstract class Localization {
 	 *            key
 	 * @return translation for key
 	 */
-	
+
 	public abstract String getMenu(String key);
 
 	/**
@@ -347,7 +343,7 @@ public abstract class Localization {
 	 *            key
 	 * @return translation for key
 	 */
-	
+
 	public abstract String getError(String key);
 
 	/**
@@ -375,8 +371,9 @@ public abstract class Localization {
 	 * @return localized color name
 	 */
 	public abstract String getColor(String key);
-	
+
 	StringBuilder sbPlain = new StringBuilder();
+
 	/**
 	 * Translates the key and replaces "%0" by args[0], "%1" by args[1], etc
 	 * 
@@ -413,19 +410,21 @@ public abstract class Localization {
 		}
 
 		if (!found) {
-			/* If no parameters were found in key, this key is missing for
-			 * some reason (maybe it is not added to the ggbtrans database yet).
-			 * In this case all parameters are appended to the displayed string
-			 * to help the developers.  
+			/*
+			 * If no parameters were found in key, this key is missing for some
+			 * reason (maybe it is not added to the ggbtrans database yet). In
+			 * this case all parameters are appended to the displayed string to
+			 * help the developers.
 			 */
 			for (String arg : args) {
 				sbPlain.append(" ");
 				sbPlain.append(arg);
 			}
 		}
-		
+
 		return sbPlain.toString();
 	}
+
 	/**
 	 * 
 	 * 
@@ -454,580 +453,581 @@ public abstract class Localization {
 		return ret;
 
 	}
-	
+
 	// Michael Borcherds 2008-03-25
-		// replace "%0" by arg0
-		final public String getPlain(String key, String arg0) {
-			String[] ss = { arg0 };
-			return getPlain(key, ss);
+	// replace "%0" by arg0
+	final public String getPlain(String key, String arg0) {
+		String[] ss = { arg0 };
+		return getPlain(key, ss);
+	}
+
+	// Michael Borcherds 2008-03-25
+	// replace "%0" by arg0, "%1" by arg1
+	final public String getPlain(String key, String arg0, String arg1) {
+		String[] ss = { arg0, arg1 };
+		return getPlain(key, ss);
+	}
+
+	// Michael Borcherds 2008-03-30
+	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2
+	final public String getPlain(String key, String arg0, String arg1,
+			String arg2) {
+		String[] ss = { arg0, arg1, arg2 };
+		return getPlain(key, ss);
+	}
+
+	// Michael Borcherds 2008-03-30
+	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3
+	final public String getPlain(String key, String arg0, String arg1,
+			String arg2, String arg3) {
+		String[] ss = { arg0, arg1, arg2, arg3 };
+		return getPlain(key, ss);
+	}
+
+	// Michael Borcherds 2008-03-30
+	// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3, "%4" by
+	// arg4
+	final public String getPlain(String key, String arg0, String arg1,
+			String arg2, String arg3, String arg4) {
+		String[] ss = { arg0, arg1, arg2, arg3, arg4 };
+		return getPlain(key, ss);
+	}
+
+	/**
+	 * 
+	 * @return 2 letter language name, eg "en"
+	 */
+	public abstract String getLanguage();
+
+	/**
+	 * @param lang
+	 *            two letter language name
+	 * @return whether we are currently using given language
+	 */
+	public boolean languageIs(String lang) {
+		return getLanguage().equals(lang);
+	}
+
+	/**
+	 * In some languages, a properties file cannot completely describe
+	 * translations. This method tries to rewrite a text to the correct form.
+	 * 
+	 * @param text
+	 *            the translation text to fix
+	 * @return text the fixed text
+	 * @author Zoltan Kovacs <zoltan@geogebra.org>
+	 */
+	public String translationFix(String text) {
+		// Currently no other language is supported than Hungarian.
+		String lang = getLanguage();
+		if (!("hu".equals(lang))) {
+			return text;
+		}
+		return translationFixHu(text);
+	}
+
+	private StringBuilder sbOrdinal = new StringBuilder();
+
+	/**
+	 * given 1, return eg 1st, 1e, 1:e according to the language
+	 * 
+	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 * 
+	 * @param n
+	 *            number
+	 * @return corresponding ordinal number
+	 */
+	public String getOrdinalNumber(int n) {
+		String lang = getLanguage();
+
+		if ("en".equals(lang))
+			return getOrdinalNumberEn(n);
+
+		// check here for languages where 1st = 1
+		if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
+				|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
+				|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
+				|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
+				|| "vi".equals(lang) || "zh".equals(lang)) {
+			return n + "";
 		}
 
-		// Michael Borcherds 2008-03-25
-		// replace "%0" by arg0, "%1" by arg1
-		final public String getPlain(String key, String arg0, String arg1) {
-			String[] ss = { arg0, arg1 };
-			return getPlain(key, ss);
+		if (sbOrdinal == null) {
+			sbOrdinal = new StringBuilder();
+		} else {
+			sbOrdinal.setLength(0);
 		}
 
-		// Michael Borcherds 2008-03-30
-		// replace "%0" by arg0, "%1" by arg1, "%2" by arg2
-		final public String getPlain(String key, String arg0, String arg1,
-				String arg2) {
-			String[] ss = { arg0, arg1, arg2 };
-			return getPlain(key, ss);
+		// prefixes
+		if ("in".equals(lang)) {
+			sbOrdinal.append("ke-");
+		} else if ("iw".equals(lang)) {
+			// prefix and postfix for Hebrew
+			sbOrdinal.append("\u200f\u200e");
 		}
 
-		// Michael Borcherds 2008-03-30
-		// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3
-		final public String getPlain(String key, String arg0, String arg1,
-				String arg2, String arg3) {
-			String[] ss = { arg0, arg1, arg2, arg3 };
-			return getPlain(key, ss);
-		}
+		sbOrdinal.append(n);
 
-		// Michael Borcherds 2008-03-30
-		// replace "%0" by arg0, "%1" by arg1, "%2" by arg2, "%3" by arg3, "%4" by
-		// arg4
-		final public String getPlain(String key, String arg0, String arg1,
-				String arg2, String arg3, String arg4) {
-			String[] ss = { arg0, arg1, arg2, arg3, arg4 };
-			return getPlain(key, ss);
-		}
-		
-		/**
-		 * 
-		 * @return 2 letter language name, eg "en"
-		 */
-		public abstract String getLanguage();
+		if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang)
+				|| "eu".equals(lang) || "hr".equals(lang) || "hu".equals(lang)
+				|| "is".equals(lang) || "no".equals(lang) || "sk".equals(lang)
+				|| "sr".equals(lang) || "tr".equals(lang)) {
+			sbOrdinal.append('.');
+		} else if ("de".equals(lang)) {
+			sbOrdinal.append("th");
+		} else if ("fi".equals(lang)) {
+			sbOrdinal.append(":s");
+		} else if ("el".equals(lang)) {
+			sbOrdinal.append('\u03b7');
+		} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang)
+				|| "pt".equals(lang)) {
+			sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
+		} else if ("bs".equals(lang) || "sl".equals(lang)) {
+			sbOrdinal.append("-ti");
+		} else if ("ca".equals(lang)) {
 
-		/**
-		 * @param lang
-		 *            two letter language name
-		 * @return whether we are currently using given language
-		 */
-		public boolean languageIs(String lang) {
-			return getLanguage().equals(lang);
-		}
-		
-		/**
-		 * In some languages, a properties file cannot completely describe
-		 * translations. This method tries to rewrite a text to the correct form.
-		 * 
-		 * @param text
-		 *            the translation text to fix
-		 * @return text the fixed text
-		 * @author Zoltan Kovacs <zoltan@geogebra.org>
-		 */
-		public String translationFix(String text) {
-			// Currently no other language is supported than Hungarian.
-			String lang = getLanguage();
-			if (!("hu".equals(lang))) {
-				return text;
-			}
-			return translationFixHu(text);
-		}
-		private StringBuilder sbOrdinal = new StringBuilder();
-		/**
-		 * given 1, return eg 1st, 1e, 1:e according to the language
-		 * 
-		 * http://en.wikipedia.org/wiki/Ordinal_indicator
-		 * 
-		 * @param n
-		 *            number
-		 * @return corresponding ordinal number
-		 */
-		public String getOrdinalNumber(int n) {
-			String lang = getLanguage();
-
-			if ("en".equals(lang))
-				return getOrdinalNumberEn(n);
-
-			// check here for languages where 1st = 1
-			if ("pt".equals(lang) || "ar".equals(lang) || "cy".equals(lang)
-					|| "fa".equals(lang) || "ja".equals(lang) || "ko".equals(lang)
-					|| "lt".equals(lang) || "mr".equals(lang) || "ms".equals(lang)
-					|| "nl".equals(lang) || "si".equals(lang) || "th".equals(lang)
-					|| "vi".equals(lang) || "zh".equals(lang)) {
-				return n + "";
-			}
-
-			if (sbOrdinal == null) {
-				sbOrdinal = new StringBuilder();
-			} else {
-				sbOrdinal.setLength(0);
-			}
-
-			// prefixes
-			if ("in".equals(lang)) {
-				sbOrdinal.append("ke-");
-			} else if ("iw".equals(lang)) {
-				// prefix and postfix for Hebrew
-				sbOrdinal.append("\u200f\u200e");
-			}
-
-			sbOrdinal.append(n);
-
-			if ("cs".equals(lang) || "da".equals(lang) || "et".equals(lang)
-					|| "eu".equals(lang) || "hr".equals(lang) || "hu".equals(lang)
-					|| "is".equals(lang) || "no".equals(lang) || "sk".equals(lang)
-					|| "sr".equals(lang) || "tr".equals(lang)) {
-				sbOrdinal.append('.');
-			} else if ("de".equals(lang)) {
-				sbOrdinal.append("th");
-			} else if ("fi".equals(lang)) {
-				sbOrdinal.append(":s");
-			} else if ("el".equals(lang)) {
-				sbOrdinal.append('\u03b7');
-			} else if ("ro".equals(lang) || "es".equals(lang) || "it".equals(lang)
-					|| "pt".equals(lang)) {
-				sbOrdinal.append(Unicode.FEMININE_ORDINAL_INDICATOR);
-			} else if ("bs".equals(lang) || "sl".equals(lang)) {
-				sbOrdinal.append("-ti");
-			} else if ("ca".equals(lang)) {
-
-				switch (n) {
-				// Catalan (masculine)
-				case 0:
-					break; // just "0", not "0e" etc
-				case 1:
-					sbOrdinal.append("r");
-					break;
-				case 2:
-					sbOrdinal.append("n");
-					break;
-				case 3:
-					sbOrdinal.append("r");
-					break;
-				case 4:
-					sbOrdinal.append("t");
-					break;
-				default:
-					sbOrdinal.append("e");
-					break;
-				}
-
-			} else if ("sq".equals(lang)) {
-				sbOrdinal.append("-te");
-			} else if ("gl".equals(lang)) {
-				sbOrdinal.append("ava");
-			} else if ("mk".equals(lang)) {
-				sbOrdinal.append("-\u0442\u0438");
-			} else if ("ka".equals(lang)) {
-				sbOrdinal.append("-\u10d4");
-			} else if ("iw".equals(lang)) {
-				sbOrdinal.append("\u200e\u200f");
-			} else if ("ru".equals(lang) || "uk".equals(lang)) {
-				sbOrdinal.append("-\u0433\u043e");
-			} else if ("fr".equals(lang)) {
-				if (n == 1) {
-					sbOrdinal.append("er"); // could also be "re" for feminine...
-				} else {
-					sbOrdinal.append("e"); // could also be "es" for plural...
-				}
-			} else if ("sv".equals(lang)) {
-				int unitsDigit = n % 10;
-				if ((unitsDigit == 1) || (unitsDigit == 2)) {
-					sbOrdinal.append(":a");
-				} else {
-					sbOrdinal.append(":e");
-				}
-			}
-
-			return sbOrdinal.toString();
-
-		}
-		/**
-		 * given 1, return eg 1st (English only)
-		 * 
-		 * http://en.wikipedia.org/wiki/Ordinal_indicator
-		 * 
-		 * @param n
-		 *            number
-		 * @return english ordinal number
-		 */
-		public String getOrdinalNumberEn(int n) {
-			/*
-			 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens
-			 * digit of a number is 1, then write "th" after the number. For
-			 * example: 13th, 19th, 112th, 9,311th. If the tens digit is not equal
-			 * to 1, then use the following table: If the units digit is: 0 1 2 3 4
-			 * 5 6 7 8 9 write this after the number th st nd rd th th th th th th
-			 */
-
-			int tensDigit = (n / 10) % 10;
-
-			if (tensDigit == 1) {
-				return n + "th";
-			}
-
-			int unitsDigit = n % 10;
-
-			switch (unitsDigit) {
+			switch (n) {
+			// Catalan (masculine)
+			case 0:
+				break; // just "0", not "0e" etc
 			case 1:
-				return n + "st";
+				sbOrdinal.append("r");
+				break;
 			case 2:
-				return n + "nd";
+				sbOrdinal.append("n");
+				break;
 			case 3:
-				return n + "rd";
+				sbOrdinal.append("r");
+				break;
+			case 4:
+				sbOrdinal.append("t");
+				break;
 			default:
-				return n + "th";
+				sbOrdinal.append("e");
+				break;
 			}
 
-		}
-		
-		public String[] getRoundingMenu() {
-			String[] strDecimalSpaces = {
-					getPlain("ADecimalPlaces", "0"),
-					getPlain("ADecimalPlace", "1"),
-					getPlain("ADecimalPlaces", "2"),
-					getPlain("ADecimalPlaces", "3"),
-					getPlain("ADecimalPlaces", "4"),
-					getPlain("ADecimalPlaces", "5"),
-					getPlain("ADecimalPlaces", "10"),
-					getPlain("ADecimalPlaces", "15"),
-					"---", // separator
-					getPlain("ASignificantFigures", "3"),
-					getPlain("ASignificantFigures", "5"),
-					getPlain("ASignificantFigures", "10"),
-					getPlain("ASignificantFigures", maxFigures+"") };
-
-			// zero is singular in eg French
-			if (!isZeroPlural(getLanguage())) {
-				strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
+		} else if ("sq".equals(lang)) {
+			sbOrdinal.append("-te");
+		} else if ("gl".equals(lang)) {
+			sbOrdinal.append("ava");
+		} else if ("mk".equals(lang)) {
+			sbOrdinal.append("-\u0442\u0438");
+		} else if ("ka".equals(lang)) {
+			sbOrdinal.append("-\u10d4");
+		} else if ("iw".equals(lang)) {
+			sbOrdinal.append("\u200e\u200f");
+		} else if ("ru".equals(lang) || "uk".equals(lang)) {
+			sbOrdinal.append("-\u0433\u043e");
+		} else if ("fr".equals(lang)) {
+			if (n == 1) {
+				sbOrdinal.append("er"); // could also be "re" for feminine...
+			} else {
+				sbOrdinal.append("e"); // could also be "es" for plural...
 			}
-
-			return strDecimalSpaces;
-		}
-		
-		/**
-		 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
-		 * 
-		 * @param lang
-		 *            language code
-		 * @return whether 0 is plural
-		 */
-		public boolean isZeroPlural(String lang) {
-			if (lang.startsWith("fr")) {
-				return false;
+		} else if ("sv".equals(lang)) {
+			int unitsDigit = n % 10;
+			if ((unitsDigit == 1) || (unitsDigit == 2)) {
+				sbOrdinal.append(":a");
+			} else {
+				sbOrdinal.append(":e");
 			}
-			return true;
-		}
-		
-		private boolean isAutoCompletePossible = true;
-
-		
-
-		/**
-		 * Returns whether autocomplete should be used at all. Certain languages
-		 * make problems with auto complete turned on (e.g. Korean).
-		 * 
-		 * @return whether autocomplete should be used at all, depending on language
-		 */
-		final public boolean isAutoCompletePossible() {
-			return isAutoCompletePossible;
 		}
 
-		
+		return sbOrdinal.toString();
 
-		// For Persian and Arabic.
-		private boolean rightToLeftDigits = false;
+	}
 
-		/**
-		 * Returns whether current language uses RTL orientation for numbers for
-		 * given template. We don't want RTL digits in XML
-		 * 
-		 * @param tpl
-		 *            string templates
-		 * @return whether current language uses RTL orientation for numbers for
-		 *         given template
+	/**
+	 * given 1, return eg 1st (English only)
+	 * 
+	 * http://en.wikipedia.org/wiki/Ordinal_indicator
+	 * 
+	 * @param n
+	 *            number
+	 * @return english ordinal number
+	 */
+	public String getOrdinalNumberEn(int n) {
+		/*
+		 * http://en.wikipedia.org/wiki/Names_of_numbers_in_English If the tens
+		 * digit of a number is 1, then write "th" after the number. For
+		 * example: 13th, 19th, 112th, 9,311th. If the tens digit is not equal
+		 * to 1, then use the following table: If the units digit is: 0 1 2 3 4
+		 * 5 6 7 8 9 write this after the number th st nd rd th th th th th th
 		 */
-		final public boolean isRightToLeftDigits(StringTemplate tpl) {
-			if (!tpl.internationalizeDigits()) {
-				return false;
-			}
-			return rightToLeftDigits;
+
+		int tensDigit = (n / 10) % 10;
+
+		if (tensDigit == 1) {
+			return n + "th";
 		}
-		
-		/**
-		 * Use localized digits.
-		 */
-		private boolean useLocalizedDigits = false;
 
-		/**
-		 * @return If localized digits are used for certain languages (Arabic,
-		 *         Hebrew, etc).
-		 */
-		public boolean isUsingLocalizedDigits() {
-			return useLocalizedDigits;
+		int unitsDigit = n % 10;
+
+		switch (unitsDigit) {
+		case 1:
+			return n + "st";
+		case 2:
+			return n + "nd";
+		case 3:
+			return n + "rd";
+		default:
+			return n + "th";
 		}
-		
-		/**
-		 * Updates language flags (RTL, RTL for numbers, reverse word order,
-		 * autocomplete possible)
-		 * 
-		 * @param lang
-		 *            language
-		 */
-		public void updateLanguageFlags(String lang) {
 
-			rightToLeftReadingOrder = rightToLeftReadingOrder(lang);	
-				
-			// force update
-			fontSizeStrings = null;
+	}
 
-			// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
-			// 2008-03-31
-			reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
+	public String[] getRoundingMenu() {
+		String[] strDecimalSpaces = {
+				getPlain("ADecimalPlaces", "0"),
+				getPlain("ADecimalPlace", "1"),
+				getPlain("ADecimalPlaces", "2"),
+				getPlain("ADecimalPlaces", "3"),
+				getPlain("ADecimalPlaces", "4"),
+				getPlain("ADecimalPlaces", "5"),
+				getPlain("ADecimalPlaces", "10"),
+				getPlain("ADecimalPlaces", "15"),
+				"---", // separator
+				getPlain("ASignificantFigures", "3"),
+				getPlain("ASignificantFigures", "5"),
+				getPlain("ASignificantFigures", "10"),
+				getPlain("ASignificantFigures", maxFigures + "") };
 
-			// used for eg axes labels
-			// Arabic digits are RTL 
-		 	// Persian aren't http://persian.nmelrc.org/persianword/format.htm 
-		 	rightToLeftDigits = "ar".equals(lang);
-		 	
+		// zero is singular in eg French
+		if (!isZeroPlural(getLanguage())) {
+			strDecimalSpaces[0] = getPlain("ADecimalPlace", "0");
+		}
 
+		return strDecimalSpaces;
+	}
 
-			
-			// Another option:
-			// rightToLeftReadingOrder =
-			// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
-			// Character.DIRECTIONALITY_RIGHT_TO_LEFT);
+	/**
+	 * in French, zero is singular, eg 0 dcimale rather than 0 decimal places
+	 * 
+	 * @param lang
+	 *            language code
+	 * @return whether 0 is plural
+	 */
+	public boolean isZeroPlural(String lang) {
+		if (lang.startsWith("fr")) {
+			return false;
+		}
+		return true;
+	}
 
-			// turn off auto-complete for Korean
-			isAutoCompletePossible = true;// !"ko".equals(lang);
+	private boolean isAutoCompletePossible = true;
 
-			// defaults
-			unicodeDecimalPoint = '.';
-			unicodeComma = ',';
-			// unicodeThousandsSeparator=',';
+	/**
+	 * Returns whether autocomplete should be used at all. Certain languages
+	 * make problems with auto complete turned on (e.g. Korean).
+	 * 
+	 * @return whether autocomplete should be used at all, depending on language
+	 */
+	final public boolean isAutoCompletePossible() {
+		return isAutoCompletePossible;
+	}
 
-			if (isUsingLocalizedDigits()) {
-				if (lang.startsWith("ar")) { // Arabic
-					unicodeZero = '\u0660'; // Arabic-Indic digit 0
-					unicodeDecimalPoint = Unicode.ArabicComma; // Arabic-Indic decimal point
-					unicodeComma = '\u060c'; // Arabic comma
-					// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
-					// separator
-				} else if (lang.startsWith("fa")) { // Persian
-					unicodeZero = '\u06f0'; // Persian digit 0 (Extended
-					// Arabic-Indic)
-					unicodeDecimalPoint = Unicode.ArabicComma; // Arabic comma
-					unicodeComma = '\u060c'; // Arabic-Indic decimal point
-					// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
-					// separators
-				} else if (lang.startsWith("ml")) {
-					unicodeZero = '\u0d66'; // Malayalam digit 0
-				} else if (lang.startsWith("th")) {
-					unicodeZero = '\u0e50'; // Thai digit 0
-				} else if (lang.startsWith("ta")) {
-					unicodeZero = '\u0be6'; // Tamil digit 0
-				} else if (lang.startsWith("sd")) {
-					unicodeZero = '\u1bb0'; // Sudanese digit 0
-				} else if (lang.startsWith("kh")) {
-					unicodeZero = '\u17e0'; // Khmer digit 0
-				} else if (lang.startsWith("mn")) {
-					unicodeZero = '\u1810'; // Mongolian digit 0
-				} else if (lang.startsWith("mm")) {
-					unicodeZero = '\u1040'; // Mayanmar digit 0
-				} else {
-					unicodeZero = '0';
-				}
+	// For Persian and Arabic.
+	private boolean rightToLeftDigits = false;
+
+	/**
+	 * Returns whether current language uses RTL orientation for numbers for
+	 * given template. We don't want RTL digits in XML
+	 * 
+	 * @param tpl
+	 *            string templates
+	 * @return whether current language uses RTL orientation for numbers for
+	 *         given template
+	 */
+	final public boolean isRightToLeftDigits(StringTemplate tpl) {
+		if (!tpl.internationalizeDigits()) {
+			return false;
+		}
+		return rightToLeftDigits;
+	}
+
+	/**
+	 * Use localized digits.
+	 */
+	private boolean useLocalizedDigits = false;
+
+	/**
+	 * @return If localized digits are used for certain languages (Arabic,
+	 *         Hebrew, etc).
+	 */
+	public boolean isUsingLocalizedDigits() {
+		return useLocalizedDigits;
+	}
+
+	/**
+	 * Updates language flags (RTL, RTL for numbers, reverse word order,
+	 * autocomplete possible)
+	 * 
+	 * @param lang
+	 *            language
+	 */
+	public void updateLanguageFlags(String lang) {
+
+		rightToLeftReadingOrder = rightToLeftReadingOrder(lang);
+
+		// force update
+		fontSizeStrings = null;
+
+		// reverseLanguage = "zh".equals(lang); removed Michael Borcherds
+		// 2008-03-31
+		reverseNameDescription = "eu".equals(lang) || "hu".equals(lang);
+
+		// used for eg axes labels
+		// Arabic digits are RTL
+		// Persian aren't http://persian.nmelrc.org/persianword/format.htm
+		rightToLeftDigits = "ar".equals(lang);
+
+		// Another option:
+		// rightToLeftReadingOrder =
+		// (Character.getDirectionality(getPlain("Algebra").charAt(1)) ==
+		// Character.DIRECTIONALITY_RIGHT_TO_LEFT);
+
+		// turn off auto-complete for Korean
+		isAutoCompletePossible = true;// !"ko".equals(lang);
+
+		// defaults
+		unicodeDecimalPoint = '.';
+		unicodeComma = ',';
+		// unicodeThousandsSeparator=',';
+
+		if (isUsingLocalizedDigits()) {
+			if (lang.startsWith("ar")) { // Arabic
+				unicodeZero = '\u0660'; // Arabic-Indic digit 0
+				unicodeDecimalPoint = Unicode.ArabicComma; // Arabic-Indic
+															// decimal point
+				unicodeComma = '\u060c'; // Arabic comma
+				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
+				// separator
+			} else if (lang.startsWith("fa")) { // Persian
+				unicodeZero = '\u06f0'; // Persian digit 0 (Extended
+				// Arabic-Indic)
+				unicodeDecimalPoint = Unicode.ArabicComma; // Arabic comma
+				unicodeComma = '\u060c'; // Arabic-Indic decimal point
+				// unicodeThousandsSeparator = '\u066c'; // Arabic Thousands
+				// separators
+			} else if (lang.startsWith("ml")) {
+				unicodeZero = '\u0d66'; // Malayalam digit 0
+			} else if (lang.startsWith("th")) {
+				unicodeZero = '\u0e50'; // Thai digit 0
+			} else if (lang.startsWith("ta")) {
+				unicodeZero = '\u0be6'; // Tamil digit 0
+			} else if (lang.startsWith("sd")) {
+				unicodeZero = '\u1bb0'; // Sudanese digit 0
+			} else if (lang.startsWith("kh")) {
+				unicodeZero = '\u17e0'; // Khmer digit 0
+			} else if (lang.startsWith("mn")) {
+				unicodeZero = '\u1810'; // Mongolian digit 0
+			} else if (lang.startsWith("mm")) {
+				unicodeZero = '\u1040'; // Mayanmar digit 0
 			} else {
 				unicodeZero = '0';
 			}
+		} else {
+			unicodeZero = '0';
 		}
-		public static boolean rightToLeftReadingOrder(String language){
-			
-			String lang = language.substring(0,2);
+	}
+
+	public static boolean rightToLeftReadingOrder(String language) {
+
+		String lang = language.substring(0, 2);
 		// Guy Hed, 25.8.2008
 		// Guy Hed, 26.4.2009 - added Yiddish and Persian as RTL languages
-			return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang) || "ji"
-					.equals(lang) || "he".equals(lang) || "ug".equals(lang));
-		}
+		return ("iw".equals(lang) || "ar".equals(lang) || "fa".equals(lang)
+				|| "ji".equals(lang) || "he".equals(lang) || "ug".equals(lang));
+	}
 
-		/**
-		 * @param key
-		 *            command name
-		 * @return command syntax TODO check whether getSyntaxString works here
-		 */
-		public String getCommandSyntax(String key) {
-			String command = getCommand(key);
-			if(dimension == 3){
-					String key3D = key + Localization.syntax3D;
-					String cmdSyntax3D = getCommand(key3D);
-					if (!cmdSyntax3D.equals(key3D)) {
-						cmdSyntax3D = cmdSyntax3D.replace("[", command + '[');
-						return cmdSyntax3D;
-					}
-			}
-
-			String syntaxString = Localization.syntaxStr;
-
-			String syntax = null;
-
-			if (syntaxString != null) {
-
-				syntax = getCommand(key + syntaxString);
-
-				syntax = syntax.replace("[", command + '[');
-			}
-
-			return syntax;
-		}
-		/**
-		 * Use localized labels.
-		 */
-		private boolean useLocalizedLabels = true;
-
-		
-		/**
-		 * @return If localized labels are used for certain languages.
-		 */
-		public boolean isUsingLocalizedLabels() {
-			return useLocalizedLabels;
-		}
-
-		/**
-		 * Use localized labels for certain languages.
-		 * 
-		 * @param useLocalizedLabels
-		 *            true to make labels of new geos localized
-		 */
-		public void setUseLocalizedLabels(boolean useLocalizedLabels) {
-			this.useLocalizedLabels = useLocalizedLabels;
-		}
-		
-		/**
-		 * Use localized digits for certain languages (Arabic, Hebrew, etc).
-		 * 
-		 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
-		 * if the new flag differs from the current.
-		 * 
-		 * @param useLocalizedDigits
-		 *            whether localized digits should be used
-		 */
-		public void setUseLocalizedDigits(boolean useLocalizedDigits,App app) {
-			if (this.useLocalizedDigits == useLocalizedDigits) {
-				return;
-			}
-
-			this.useLocalizedDigits = useLocalizedDigits;
-			updateLanguageFlags(getLanguage());
-			app.getKernel().updateConstruction();
-			app.setUnsaved();
-
-			if (app.getEuclidianView1() != null) {
-				app.getEuclidianView1().updateBackground();
+	/**
+	 * @param key
+	 *            command name
+	 * @return command syntax TODO check whether getSyntaxString works here
+	 */
+	public String getCommandSyntax(String key) {
+		String command = getCommand(key);
+		if (dimension == 3) {
+			String key3D = key + Localization.syntax3D;
+			String cmdSyntax3D = getCommand(key3D);
+			if (!cmdSyntax3D.equals(key3D)) {
+				cmdSyntax3D = cmdSyntax3D.replace("[", command + '[');
+				return cmdSyntax3D;
 			}
 		}
 
-		/**
-		 * Returns translation of given key from the "symbol" bundle in tooltip
-		 * language
-		 * 
-		 * @param key
-		 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
-		 *            for tooltips)
-		 * @return translation for key in tooltip language
-		 */
-		public abstract String getSymbolTooltip(int key);
-		
-		/**
-		 * @param key
-		 *            command name
-		 * @return CAS syntax
-		 */
-		public String getCommandSyntaxCAS(String key) {
-			
-			String keyCAS = key + syntaxCAS;
+		String syntaxString = Localization.syntaxStr;
 
-			String command = getCommand(key);
-			String syntax = getCommand(keyCAS);
-			
-			// make sure "PointList.SyntaxCAS" not displayed in dialog
-			if (syntax.equals(keyCAS)) {
-				syntax = getCommand(key + syntaxStr);
-			}
+		String syntax = null;
+
+		if (syntaxString != null) {
+
+			syntax = getCommand(key + syntaxString);
 
 			syntax = syntax.replace("[", command + '[');
-
-			return syntax;
-		}
-		/**
-		 * 
-		 * @param key (internal) command name to check
-		 * @return true if this command has a CAS-specific syntax
-		 */
-		public boolean isCASCommand(String key) {
-			
-			String keyCAS = key + syntaxCAS;
-
-			String syntax = getCommand(keyCAS);
-			
-			if (syntax.equals(keyCAS)) {
-				return false;
-			}
-			
-			return true;
-		}
-		/**
-		 * @param string
-		 *            key
-		 * @return translation of key from menu bundle in tooltip language
-		 */
-		public abstract String getMenuTooltip(String string);
-		/**
-		 * @param string
-		 *            key
-		 * @return translation of key from plain bundle in tooltip language
-		 */
-		public abstract String getPlainTooltip(String string);
-		
-		/**
-		 * Initialize the command bundle (not needed in Web)
-		 */
-		public abstract void initCommand();
-		
-		/**
-		 * used to force properties to be read from secondary (tooltip) language if
-		 * one has been selected
-		 */
-		public abstract void setTooltipFlag();
-		
-		/**
-		 * Stop forcing usage of tooltip locale for translations
-		 */
-		public void clearTooltipFlag() {
-			tooltipFlag = false;
-		}
-		
-		/**
-		 * @return tooltip language
-		 */
-		public abstract String getTooltipLanguageString();
-		
-		/**
-		 * @return whether language of command bundle changed since we last updated
-		 *         translation table and directories
-		 */
-		protected abstract boolean isCommandChanged();
-
-		/**
-		 * @param b
-		 *            whether language of command bundle changed since we last
-		 *            updated translation table and directories
-		 */
-		protected abstract void setCommandChanged(boolean b);
-
-		/**
-		 * @return whether command translation bundle is null
-		 */
-		protected abstract boolean isCommandNull();
-
-		public String getFunction(String key) {
-			return getPlain("Function." + key);
 		}
 
-		public abstract String getLocaleStr();
+		return syntax;
+	}
 
-	
+	/**
+	 * Use localized labels.
+	 */
+	private boolean useLocalizedLabels = true;
+
+	/**
+	 * @return If localized labels are used for certain languages.
+	 */
+	public boolean isUsingLocalizedLabels() {
+		return useLocalizedLabels;
+	}
+
+	/**
+	 * Use localized labels for certain languages.
+	 * 
+	 * @param useLocalizedLabels
+	 *            true to make labels of new geos localized
+	 */
+	public void setUseLocalizedLabels(boolean useLocalizedLabels) {
+		this.useLocalizedLabels = useLocalizedLabels;
+	}
+
+	/**
+	 * Use localized digits for certain languages (Arabic, Hebrew, etc).
+	 * 
+	 * Calls {@link #updateLanguageFlags(String)} to apply the change, but just
+	 * if the new flag differs from the current.
+	 * 
+	 * @param useLocalizedDigits
+	 *            whether localized digits should be used
+	 */
+	public void setUseLocalizedDigits(boolean useLocalizedDigits, App app) {
+		if (this.useLocalizedDigits == useLocalizedDigits) {
+			return;
+		}
+
+		this.useLocalizedDigits = useLocalizedDigits;
+		updateLanguageFlags(getLanguage());
+		app.getKernel().updateConstruction();
+		app.setUnsaved();
+
+		if (app.getEuclidianView1() != null) {
+			app.getEuclidianView1().updateBackground();
+		}
+	}
+
+	/**
+	 * Returns translation of given key from the "symbol" bundle in tooltip
+	 * language
+	 * 
+	 * @param key
+	 *            key (either "S.1", "S.2", ... for symbols or "T.1", "T.2" ...
+	 *            for tooltips)
+	 * @return translation for key in tooltip language
+	 */
+	public abstract String getSymbolTooltip(int key);
+
+	/**
+	 * @param key
+	 *            command name
+	 * @return CAS syntax
+	 */
+	public String getCommandSyntaxCAS(String key) {
+
+		String keyCAS = key + syntaxCAS;
+
+		String command = getCommand(key);
+		String syntax = getCommand(keyCAS);
+
+		// make sure "PointList.SyntaxCAS" not displayed in dialog
+		if (syntax.equals(keyCAS)) {
+			syntax = getCommand(key + syntaxStr);
+		}
+
+		syntax = syntax.replace("[", command + '[');
+
+		return syntax;
+	}
+
+	/**
+	 * 
+	 * @param key
+	 *            (internal) command name to check
+	 * @return true if this command has a CAS-specific syntax
+	 */
+	public boolean isCASCommand(String key) {
+
+		String keyCAS = key + syntaxCAS;
+
+		String syntax = getCommand(keyCAS);
+
+		if (syntax.equals(keyCAS)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * @param string
+	 *            key
+	 * @return translation of key from menu bundle in tooltip language
+	 */
+	public abstract String getMenuTooltip(String string);
+
+	/**
+	 * @param string
+	 *            key
+	 * @return translation of key from plain bundle in tooltip language
+	 */
+	public abstract String getPlainTooltip(String string);
+
+	/**
+	 * Initialize the command bundle (not needed in Web)
+	 */
+	public abstract void initCommand();
+
+	/**
+	 * used to force properties to be read from secondary (tooltip) language if
+	 * one has been selected
+	 */
+	public abstract void setTooltipFlag();
+
+	/**
+	 * Stop forcing usage of tooltip locale for translations
+	 */
+	public void clearTooltipFlag() {
+		tooltipFlag = false;
+	}
+
+	/**
+	 * @return tooltip language
+	 */
+	public abstract String getTooltipLanguageString();
+
+	/**
+	 * @return whether language of command bundle changed since we last updated
+	 *         translation table and directories
+	 */
+	protected abstract boolean isCommandChanged();
+
+	/**
+	 * @param b
+	 *            whether language of command bundle changed since we last
+	 *            updated translation table and directories
+	 */
+	protected abstract void setCommandChanged(boolean b);
+
+	/**
+	 * @return whether command translation bundle is null
+	 */
+	protected abstract boolean isCommandNull();
+
+	public String getFunction(String key) {
+		return getPlain("Function." + key);
+	}
+
+	public abstract String getLocaleStr();
+
 }

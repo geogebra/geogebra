@@ -15,21 +15,23 @@ import org.apache.commons.math.linear.LUDecompositionImpl;
 import org.apache.commons.math.linear.RealMatrix;
 
 /**
- * Matrix format allowing conversion from/to MyList and GeoList,
- * supporting matrix operations (inverse, determinant etc.)
+ * Matrix format allowing conversion from/to MyList and GeoList, supporting
+ * matrix operations (inverse, determinant etc.)
  * 
  * @author Michael Borcherds
  *
  */
-public class GgbMat extends Array2DRowRealMatrix{
+public class GgbMat extends Array2DRowRealMatrix {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private boolean isUndefined = false;
 
 	/**
 	 * Creates matrix from GeoList
-	 * @param inputList list
+	 * 
+	 * @param inputList
+	 *            list
 	 */
 	public GgbMat(GeoList inputList) {
 		int rows = inputList.size();
@@ -83,7 +85,9 @@ public class GgbMat extends Array2DRowRealMatrix{
 
 	/**
 	 * Creates matrix from MyList
-	 * @param inputList list
+	 * 
+	 * @param inputList
+	 *            list
 	 */
 	public GgbMat(MyList inputList) {
 
@@ -103,7 +107,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 		for (int r = 0; r < rows; r++) {
 			for (int c = 0; c < cols; c++) {
 				ExpressionValue geo = MyList.getCell(inputList, c, r);
-				if (!(geo  instanceof NumberValue)) {
+				if (!(geo instanceof NumberValue)) {
 					setIsUndefined(true);
 					return;
 				}
@@ -123,7 +127,8 @@ public class GgbMat extends Array2DRowRealMatrix{
 	public void inverseImmediate() {
 
 		try {
-			DecompositionSolver d = new LUDecompositionImpl(this,Kernel.STANDARD_PRECISION).getSolver();
+			DecompositionSolver d = new LUDecompositionImpl(this,
+					Kernel.STANDARD_PRECISION).getSolver();
 			RealMatrix ret = d.getInverse();
 			data = ret.getData();
 			// m = ret.m;
@@ -132,13 +137,15 @@ public class GgbMat extends Array2DRowRealMatrix{
 			setIsUndefined(true);
 		}
 	}
-	
+
 	/**
 	 * Returns determinant of this matrix
+	 * 
 	 * @return determinat
 	 */
-	public double determinant(){
-		return new LUDecompositionImpl(this, Kernel.STANDARD_PRECISION).getDeterminant();
+	public double determinant() {
+		return new LUDecompositionImpl(this, Kernel.STANDARD_PRECISION)
+				.getDeterminant();
 	}
 
 	/**
@@ -159,7 +166,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 				break;
 			{
 				int i = r;
-				//make sure we don't use a leader which is almost zero
+				// make sure we don't use a leader which is almost zero
 				// http://www.geogebra.org/forum/viewtopic.php?f=1&t=25684
 				while (Kernel.isZero(data[i][lead])) {
 					data[i][lead] = 0;
@@ -192,7 +199,7 @@ public class GgbMat extends Array2DRowRealMatrix{
 			lead++;
 		}
 	}
-	
+
 	/**
 	 * Transposes this matrix
 	 */
@@ -212,13 +219,16 @@ public class GgbMat extends Array2DRowRealMatrix{
 
 	/**
 	 * returns GgbMatrix as a GeoList eg { {1,2}, {3,4} }
-	 * @param outputList list for the copy
-	 * @param cons construction
+	 * 
+	 * @param outputList
+	 *            list for the copy
+	 * @param cons
+	 *            construction
 	 */
 	public void getGeoList(GeoList outputList, Construction cons) {
 
 		if (isUndefined) {
-			outputList.setDefined(false);	
+			outputList.setDefined(false);
 			return;
 		}
 
@@ -234,15 +244,18 @@ public class GgbMat extends Array2DRowRealMatrix{
 			outputList.add(columnList);
 		}
 	}
-	
+
 	/**
 	 * returns GgbMatrix as a MyList eg { {1,2}, {3,4} }
-	 * @param outputList list for the copy
-	 * @param kernel kernel
+	 * 
+	 * @param outputList
+	 *            list for the copy
+	 * @param kernel
+	 *            kernel
 	 */
-	public void getMyList(MyList outputList,Kernel kernel) {
+	public void getMyList(MyList outputList, Kernel kernel) {
 		if (isUndefined) {
-			return;			
+			return;
 		}
 
 		outputList.clear();
@@ -251,12 +264,12 @@ public class GgbMat extends Array2DRowRealMatrix{
 			MyList columnList = new MyList(kernel);
 			for (int c = 0; c < getColumnDimension(); c++) {
 				// Application.debug(get(r, c)+"");
-				columnList.addListElement(new GeoNumeric(kernel.getConstruction(), getEntry(r, c)));
+				columnList.addListElement(new GeoNumeric(kernel
+						.getConstruction(), getEntry(r, c)));
 			}
 			outputList.addListElement(columnList);
 		}
 	}
-
 
 	/**
 	 * @return true if the matrix is undefined eg after being inverted
@@ -267,7 +280,9 @@ public class GgbMat extends Array2DRowRealMatrix{
 
 	/**
 	 * Sets the undefined flag to false (e.g. when inverting singular matrix)
-	 * @param undefined new undefined flag
+	 * 
+	 * @param undefined
+	 *            new undefined flag
 	 */
 	public void setIsUndefined(boolean undefined) {
 		isUndefined = undefined;
@@ -275,12 +290,13 @@ public class GgbMat extends Array2DRowRealMatrix{
 
 	/**
 	 * True for matrix formed by integers
+	 * 
 	 * @return true if all entries are integers
 	 */
 	public boolean hasOnlyIntegers() {
-		for(int i=0;i<data.length;i++)
-			for(int j=0;j<data[i].length;j++)
-				if(!Kernel.isInteger(data[i][j]))
+		for (int i = 0; i < data.length; i++)
+			for (int j = 0; j < data[i].length; j++)
+				if (!Kernel.isInteger(data[i][j]))
 					return false;
 		return true;
 	}
@@ -300,10 +316,10 @@ public class GgbMat extends Array2DRowRealMatrix{
 		setEntry(2, 1, matrix[5]);
 		setEntry(1, 2, matrix[5]);
 		// C
-		setEntry(2, 2, matrix[2]);		
-		
+		setEntry(2, 2, matrix[2]);
+
 		setIsUndefined(false);
-		
+
 	}
 
 }

@@ -61,7 +61,7 @@ public class SpreadsheetTraceSettings {
 
 	/** Flag to trace with geo copies rather than numeric values */
 	public boolean doTraceGeoCopy = false;
-	
+
 	/** Flag to pause the trace */
 	public boolean pause = false;
 

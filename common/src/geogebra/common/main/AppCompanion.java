@@ -11,29 +11,30 @@ import geogebra.common.main.settings.Settings;
  * 
  * @author mathieu
  *
- * Companion for application
+ *         Companion for application
  */
 public class AppCompanion {
-	
+
 	protected App app;
-	
+
 	/**
 	 * Constructor
-	 * @param app application
+	 * 
+	 * @param app
+	 *            application
 	 */
-	public AppCompanion(App app){
+	public AppCompanion(App app) {
 		this.app = app;
 	}
-	
+
 	/**
 	 * 
 	 * @return new kernel
 	 */
-	public Kernel newKernel(){
+	public Kernel newKernel() {
 		return new Kernel(app);
 	}
-	
-	
+
 	/**
 	 * return true if commands of this table should be visible in input bar help
 	 * and autocomplete
@@ -43,11 +44,10 @@ public class AppCompanion {
 	 * @return true for visible tables
 	 */
 	protected boolean tableVisible(int table) {
-		return !(table == CommandsConstants.TABLE_CAS ||
-				table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_ENGLISH);
+		return !(table == CommandsConstants.TABLE_CAS
+				|| table == CommandsConstants.TABLE_3D || table == CommandsConstants.TABLE_ENGLISH);
 	}
-	
-	
+
 	/**
 	 * XML settings for both EVs
 	 * 
@@ -62,39 +62,39 @@ public class AppCompanion {
 			app.getEuclidianView2(1).getXML(sb, asPreference);
 		}
 	}
-	
-	
+
 	/**
-	 * @param plane plane creator
-	 * @param panelSettings panel settings
+	 * @param plane
+	 *            plane creator
+	 * @param panelSettings
+	 *            panel settings
 	 * @return create a new euclidian view for the plane
 	 */
-	public EuclidianViewCompanion createEuclidianViewForPlane(ViewCreator plane, boolean panelSettings){
+	public EuclidianViewCompanion createEuclidianViewForPlane(
+			ViewCreator plane, boolean panelSettings) {
 		return null;
 	}
 
-	
 	/**
 	 * store view creators (for undo)
 	 */
-	public void storeViewCreators(){
+	public void storeViewCreators() {
 		// used in 3D
 	}
-	
+
 	/**
 	 * recall view creators (for undo)
 	 */
-	public void recallViewCreators(){
+	public void recallViewCreators() {
 		// used in 3D
 	}
-	
-	
+
 	/**
 	 * reset ids for 2D view created by planes, etc. Used in 3D.
 	 */
 	public void resetEuclidianViewForPlaneIds() {
 		// used in 3D
-		
+
 	}
 
 	/**
@@ -103,7 +103,6 @@ public class AppCompanion {
 	public DockPanel createEuclidianDockPanelForPlane(int id, String plane) {
 		return null;
 	}
-	
 
 	/**
 	 * 
@@ -112,7 +111,7 @@ public class AppCompanion {
 	public Settings newSettings() {
 		return new Settings(2);
 	}
-	
+
 	/**
 	 * Update font sizes of all components to match current GUI font size
 	 */
@@ -129,6 +128,5 @@ public class AppCompanion {
 			}
 		}
 	}
-
 
 }

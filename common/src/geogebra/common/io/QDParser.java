@@ -34,7 +34,7 @@ public class QDParser {
 	private LinkedHashMap<String, String> attrs;
 	private Stack<Integer> stack;
 	private StringBuilder sb, etag;
-	
+
 	/**
 	 * Creates new parser
 	 */
@@ -68,9 +68,12 @@ public class QDParser {
 			COMMENT = 13, DONE = 11, DOCTYPE = 14, PRE = 15, CDATA = 16;
 
 	/**
-	 * @param doc handler that receives document events
-	 * @param r source of XML data
-	 * @throws Exception if XML is not valid
+	 * @param doc
+	 *            handler that receives document events
+	 * @param r
+	 *            source of XML data
+	 * @throws Exception
+	 *             if XML is not valid
 	 */
 	final public void parse(DocHandler doc, Reader r) throws Exception {
 		// Stack stack = new Stack();
@@ -240,7 +243,7 @@ public class QDParser {
 					// Could parse hex entities if we wanted to
 					else if (cent.startsWith("#x"))
 						sb.append((char) Integer.parseInt(cent.substring(2), 16));
-					else if (cent.charAt(0)=='#')
+					else if (cent.charAt(0) == '#')
 						sb.append((char) Integer.parseInt(cent.substring(1)));
 					// Insert custom entity definitions here
 					else
