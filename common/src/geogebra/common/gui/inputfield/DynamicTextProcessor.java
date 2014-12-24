@@ -233,7 +233,7 @@ public class DynamicTextProcessor {
 				for (int k = 0; k < text.length(); k++) {
 					processQuotes(sb, text.substring(k, k + 1));
 				}
-				
+
 			} else {
 				if (mode == DynamicTextType.DEFINITION) {
 					sb.append("\"+");

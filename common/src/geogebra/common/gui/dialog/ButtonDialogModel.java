@@ -39,10 +39,11 @@ public class ButtonDialogModel {
 
 	public ButtonDialogModel(App app, int x, int y, boolean textField) {
 		this.app = app;
-		this.textField = textField;;
+		this.textField = textField;
+		;
 		this.x = x;
 		this.y = y;
-	
+
 	}
 
 	public GeoElement getResult(String labelText) {
@@ -70,8 +71,8 @@ public class ButtonDialogModel {
 
 		button.setLabel(null);
 		// XXX See Remark 1 above
-		Script script = app.createScript(ScriptType.GGBSCRIPT,
-				scriptText, true);
+		Script script = app
+				.createScript(ScriptType.GGBSCRIPT, scriptText, true);
 		button.setClickScript(script);
 
 		// set caption text
@@ -89,7 +90,7 @@ public class ButtonDialogModel {
 		app.storeUndoInfo();
 
 	}
-	
+
 	public void cancel() {
 		geoResult = null;
 	}
@@ -99,7 +100,7 @@ public class ButtonDialogModel {
 	}
 
 	public String getInitString() {
-		return  button == null ? "" : button
+		return button == null ? "" : button
 				.getCaption(StringTemplate.defaultTemplate);
 	}
 
@@ -120,6 +121,6 @@ public class ButtonDialogModel {
 
 	public void setLinkedGeo(GeoElement geo) {
 		linkedGeo = geo;
-		
+
 	}
 }

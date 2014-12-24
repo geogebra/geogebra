@@ -3,11 +3,10 @@ package geogebra.common.gui.layout;
 import geogebra.common.awt.Component;
 
 /**
- * @author judit
- * interface for geogebra.gui.layout.DockPanel
+ * @author judit interface for geogebra.gui.layout.DockPanel
  * 
  */
-public interface DockPanel extends Component{
+public interface DockPanel extends Component {
 
 	String getToolbarString();
 
@@ -16,7 +15,7 @@ public interface DockPanel extends Component{
 	String getDefaultToolbarString();
 
 	int getViewId();
-	
+
 	/**
 	 * Close this panel permanently.
 	 */
@@ -25,7 +24,8 @@ public interface DockPanel extends Component{
 	/**
 	 * change the visibility of the DockPanel
 	 * 
-	 * @param visible visibility
+	 * @param visible
+	 *            visibility
 	 */
 	public void setVisible(boolean visible);
 

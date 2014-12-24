@@ -8,13 +8,13 @@ import java.util.ArrayList;
 /**
  * Abstract class for input dialogs
  */
- public abstract class InputDialog {
- 
+public abstract class InputDialog {
 
 	protected String initString;
 	protected InputHandler inputHandler;
 	protected String inputText = null;
 	protected ArrayList<GeoElement> tempArrayList = new ArrayList<GeoElement>();
+
 	protected boolean processInputHandler() {
 		return inputHandler.processInput(inputText);
 	}

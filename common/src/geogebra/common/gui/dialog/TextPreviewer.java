@@ -112,7 +112,7 @@ public abstract class TextPreviewer {
 	 */
 	public void updatePreviewText(GeoText targetGeo, String inputValue,
 			boolean isLaTeX) {
-		
+
 		// Application.printStacktrace("inputValue: " + inputValue);
 		// initialize variables
 		ValidExpression exp = null;
@@ -149,7 +149,7 @@ public abstract class TextPreviewer {
 			isIndependent = true;
 			hasParseError = true; // odd numbers of quotes give parse errors
 			showErrorMessage = true;
-			
+
 		} catch (TokenMgrError e) {
 			isIndependent = true;
 			hasParseError = true; // odd numbers of quotes give parse errors
@@ -167,11 +167,11 @@ public abstract class TextPreviewer {
 			catch (Error e) {
 				isIndependent = true;
 				showErrorMessage = true;
-				//App.debug("resolve error:" + e.getCause());
+				// App.debug("resolve error:" + e.getCause());
 			} catch (Exception e) {
 				showErrorMessage = true;
 				isIndependent = true;
-				//App.debug("resolve exception");
+				// App.debug("resolve exception");
 			}
 		}
 
@@ -214,14 +214,15 @@ public abstract class TextPreviewer {
 					&& ((GeoText) (exp.evaluate(tpl))).isLaTeXTextCommand()) {
 				isLaTeX = true;
 			}
-			
+
 			// eg just an x in the "empty box"
-			// (otherwise leads to NPE so cons.removeFromConstructionList(textAlgo); doesn't get called
+			// (otherwise leads to NPE so
+			// cons.removeFromConstructionList(textAlgo); doesn't get called
 			if (((ExpressionNode) exp).getGeoElementVariables() == null) {
 				// can't make an AlgoDependentText
 				return;
 			}
-			
+
 			// create new previewGeoDependent
 			textAlgo = new AlgoDependentText(cons, (ExpressionNode) exp);
 			cons.removeFromConstructionList(textAlgo);
@@ -293,10 +294,11 @@ public abstract class TextPreviewer {
 		// set geo position in upper left corner (it might need changing after
 		// isLaTeX change)
 		locateTextGeo(geo);
-		
-		//App.debug("preview text geo loc:" + geo.getAbsoluteScreenLocX() + " , "
-		//		+ geo.getAbsoluteScreenLocY());
-		
+
+		// App.debug("preview text geo loc:" + geo.getAbsoluteScreenLocX() +
+		// " , "
+		// + geo.getAbsoluteScreenLocY());
+
 	}
 
 	/**

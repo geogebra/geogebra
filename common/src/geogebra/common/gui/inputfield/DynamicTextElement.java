@@ -6,19 +6,21 @@ package geogebra.common.gui.inputfield;
  * the labels of other GeoElements.
  * 
  * GeoText strings use quotes to separate static from dynamic substrings. These
- * are difficult for users to manage, so GeoGebra text editors simplify user editing by 
- * inserting dynamic strings into special gui containers (e.g. an embedded text field).
+ * are difficult for users to manage, so GeoGebra text editors simplify user
+ * editing by inserting dynamic strings into special gui containers (e.g. an
+ * embedded text field).
  * 
  * @author G. Sturr
  * 
  */
 public class DynamicTextElement {
 
-	public enum DynamicTextType {VALUE, DEFINITION, FORMULA_TEXT, STATIC};
-	
+	public enum DynamicTextType {
+		VALUE, DEFINITION, FORMULA_TEXT, STATIC
+	};
+
 	public DynamicTextType type = DynamicTextType.STATIC;
 	public String text = "";
-
 
 	/**
 	 * @param text

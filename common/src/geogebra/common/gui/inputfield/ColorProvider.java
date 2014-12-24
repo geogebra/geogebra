@@ -34,7 +34,7 @@ public class ColorProvider {
 	private static final GColor COLOR_UNDEFINED = GeoGebraColorConstants.UNDEFINED_OBJECT_COLOR;
 	private static final GColor COLOR_LOCAL = GeoGebraColorConstants.LOCAL_OBJECT_COLOR;
 	private static final GColor COLOR_DEFAULT = GeoGebraColorConstants.BLACK;
-	
+
 	private Kernel kernel;
 	private Set<String> labels;
 	private Set<String> locals;
@@ -47,9 +47,11 @@ public class ColorProvider {
 	private boolean isCasInput;
 
 	/** Regular expression objects */
-	private RegExp commandReg = RegExp.compile(LABEL_REGEX_STRING + "\\[(" + STRING + "|,)\\]", "g");
-	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>", "g");
-	private RegExp splitter = RegExp.compile(","); 
+	private RegExp commandReg = RegExp.compile(LABEL_REGEX_STRING + "\\[("
+			+ STRING + "|,)\\]", "g");
+	private RegExp commandParamReg = RegExp.compile("<(\\p{L}\\p{M}*| |\\-)*>",
+			"g");
+	private RegExp splitter = RegExp.compile(",");
 	private RegExp assignmentReg = createAssignmentRegExp(isCasInput);
 
 	/**
@@ -113,7 +115,7 @@ public class ColorProvider {
 		}
 		return COLOR_DEFAULT;
 	}
-	
+
 	/**
 	 * Sets the flags for algebra or CAS input
 	 * 
@@ -126,12 +128,18 @@ public class ColorProvider {
 			assignmentReg = createAssignmentRegExp(isCasInput);
 		}
 	}
-	
+
 	private static RegExp createAssignmentRegExp(boolean isCasInput) {
-		return RegExp.compile("^" + WHITESPACE + LABEL_REGEX_STRING + // f - function label
-				"(\\(" + WHITESPACE + "((" + LABEL_REGEX_STRING + WHITESPACE + "," + WHITESPACE +")*)" + 
-				LABEL_REGEX_STRING + WHITESPACE + "\\))" + // ( x1 , x2 , x3 , ... ) - function parameters
-				WHITESPACE + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)")); // :=/= - assignment operator
+		return RegExp.compile("^" + WHITESPACE
+				+ LABEL_REGEX_STRING
+				+ // f - function label
+				"(\\(" + WHITESPACE + "((" + LABEL_REGEX_STRING + WHITESPACE
+				+ "," + WHITESPACE + ")*)" + LABEL_REGEX_STRING + WHITESPACE
+				+ "\\))" + // ( x1 , x2 , x3 , ... ) - function parameters
+				WHITESPACE + (!isCasInput ? "(\\:\\=|\\=)" : "(\\:\\=)")); // :=/=
+																			// -
+																			// assignment
+																			// operator
 	}
 
 	private void getIntervals() {
@@ -145,7 +153,7 @@ public class ColorProvider {
 		undefinedObjectsIntervals.clear();
 		ignoreIntervals.clear();
 		localVariableIntervals.clear();
-		
+
 		MatchResult res;
 		// Only for algebra input
 		if (!isCasInput) {
@@ -160,7 +168,7 @@ public class ColorProvider {
 						i + res.getGroup(0).length() });
 			}
 		}
-		
+
 		res = assignmentReg.exec(text);
 		if (res != null) {
 			// It is a function assignment
@@ -171,27 +179,28 @@ public class ColorProvider {
 				addTo(definedObjectsIntervals, 0, label.length());
 			}
 			SplitResult split = getVariables(res.getGroup(8));
-			for(int i = 0; i < split.length(); i++) {
+			for (int i = 0; i < split.length(); i++) {
 				String var = split.get(i);
 				String trimmedVar = trimVar(var);
 				locals.add(trimmedVar);
 			}
 		}
 		getIntervalsRecursively(text, 0);
-		
+
 	}
-	
+
 	private void getIntervalsRecursively(String text1, int startIndex) {
 		MyLabelParamRegExp labelParam = new MyLabelParamRegExp(text1);
 		MyMatchResult res = null;
 		// While we get matches against text
-		while((res = labelParam.exec()) != null) {
+		while ((res = labelParam.exec()) != null) {
 			String label = res.getGroup(0);
 			// Params is null if we got a label
 			String params = res.getGroup(1);
 			// We don't color commands
 			if (!res.isCommand()) {
-				addToInterval(label, startIndex + res.getIndex(), label.length());
+				addToInterval(label, startIndex + res.getIndex(),
+						label.length());
 			}
 			SplitResult split = getVariables(params);
 			int j = startIndex + res.getIndex() + label.length();
@@ -207,34 +216,34 @@ public class ColorProvider {
 			}
 		}
 	}
-	
+
 	private SplitResult getVariables(String vars) {
 		return vars == null ? null : splitter.split(vars);
 	}
-	
+
 	private static String trimVar(String var) {
 		String ret = var;
-		if (ret.charAt(0) == '(') 
+		if (ret.charAt(0) == '(')
 			ret = ret.substring(1);
-		if (ret.charAt(ret.length() - 1) == ')') 
+		if (ret.charAt(ret.length() - 1) == ')')
 			ret = ret.substring(0, ret.length() - 1);
 		return ret.trim();
 	}
-	
+
 	private static void addTo(List list, int s, int e) {
-		list.add(new Integer[] { s , e });
+		list.add(new Integer[] { s, e });
 	}
-	
+
 	private void addToInterval(String label, int s, int len) {
 		if (locals.contains(label)) {
 			addTo(localVariableIntervals, s, s + len);
 		} else if (labels.contains(label)) {
 			addTo(definedObjectsIntervals, s, s + len);
-		} else if (!isCasInput && !pf.isReserved(label)){
+		} else if (!isCasInput && !pf.isReserved(label)) {
 			addTo(undefinedObjectsIntervals, s, s + len);
 		}
 	}
-	
+
 	// MyMatchResult and MyLabelParamRegExp are
 	// inner classes used for matching labels/functions/commands
 	private class MyMatchResult {
@@ -243,8 +252,9 @@ public class ColorProvider {
 		String input;
 		List<String> groups;
 		private boolean isCommand;
-		
-		public MyMatchResult(int index, String input, List<String> groups, boolean isCommand) {
+
+		public MyMatchResult(int index, String input, List<String> groups,
+				boolean isCommand) {
 			this.index = index;
 			this.input = input;
 			this.groups = groups;
@@ -258,29 +268,29 @@ public class ColorProvider {
 		public void setCommand(boolean isCommand) {
 			this.isCommand = isCommand;
 		}
-		
+
 		public int getIndex() {
 			return index;
 		}
-		
+
 		public String getGroup(int i) {
 			return groups.get(i);
 		}
-		
+
 		public String getInput() {
 			return input;
 		}
-		
+
 	}
-	
+
 	private class MyLabelParamRegExp {
-		
+
 		RegExp regExp = RegExp.compile(LABEL_PARAM);
 		String input;
 		@SuppressWarnings("hiding")
 		String text;
 		int index;
-		
+
 		public MyLabelParamRegExp(String text) {
 			setText(text);
 		}
@@ -290,7 +300,7 @@ public class ColorProvider {
 			if (res == null) {
 				return null;
 			}
-			
+
 			String label = res.getGroup(1);
 			String openingBracket = res.getGroup(8);
 			List groups = new ArrayList(2);
@@ -298,7 +308,7 @@ public class ColorProvider {
 			MyMatchResult ret;
 			int step = 0;
 			String params = null;
-			
+
 			if (openingBracket == null) {
 				// this is a label without parameters
 				step = res.getIndex() + label.length();
@@ -310,9 +320,9 @@ public class ColorProvider {
 				int nrOfBrackets = 1;
 				char closingBracket = getClosingBracket(openingBracket);
 				for (; i < text.length() && nrOfBrackets != 0; i++) {
-					if (text.charAt(i) == openingBracket.charAt(0)) 
+					if (text.charAt(i) == openingBracket.charAt(0))
 						nrOfBrackets++;
-					else if (text.charAt(i) == closingBracket) 
+					else if (text.charAt(i) == closingBracket)
 						nrOfBrackets--;
 				}
 				params = text.substring(paramsStart, i);
@@ -320,13 +330,14 @@ public class ColorProvider {
 			}
 			// Set the second parameter and create return value
 			groups.add(params);
-			ret = new MyMatchResult(index + res.getIndex(), input, groups, "[".equals(openingBracket));
+			ret = new MyMatchResult(index + res.getIndex(), input, groups,
+					"[".equals(openingBracket));
 
 			index += step;
 			text = text.substring(step);
 			return ret;
 		}
-		
+
 		public void setText(String text) {
 			this.text = text;
 			input = text;
@@ -340,6 +351,6 @@ public class ColorProvider {
 			// default
 			return ')';
 		}
-		
+
 	}
 }

@@ -24,7 +24,6 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-
 public class ToolManagerDialogModel {
 	public interface ToolManagerDialogListener {
 
@@ -33,13 +32,14 @@ public class ToolManagerDialogModel {
 		void refreshCustomToolsInToolBar();
 
 		void uploadWorksheet(ArrayList<Macro> macros);
-		
+
 	}
-	
+
 	private App app;
 	final Localization loc;
 	private List<Macro> deletedMacros;
 	private ToolManagerDialogListener listener;
+
 	public ToolManagerDialogModel(App app, ToolManagerDialogListener listener) {
 		this.app = app;
 		this.loc = app.getLocalization();
@@ -52,7 +52,7 @@ public class ToolManagerDialogModel {
 		// remove all macros from kernel and add them again in new order
 		Kernel kernel = app.getKernel();
 		kernel.removeAllMacros();
-		for (Object obj: macros) {
+		for (Object obj : macros) {
 			kernel.addMacro((Macro) obj);
 		}
 
@@ -78,8 +78,8 @@ public class ToolManagerDialogModel {
 				// delete macro
 				changeToolBar = changeToolBar || macro.isShowInToolBar();
 				listener.removeMacroFromToolbar(kernel.getMacroID(macro)
-						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);				
-			
+						+ EuclidianConstants.MACRO_MODE_ID_OFFSET);
+
 				kernel.removeMacro(macro);
 				listener.refreshCustomToolsInToolBar();
 				deletedMacros.add(macro);
@@ -105,7 +105,7 @@ public class ToolManagerDialogModel {
 		if (foundUsedMacro)
 			app.showError(app.getLocalization().getError("Tool.DeleteUsed")
 					+ " " + macroNames);
-		
+
 		return changeToolBar;
 	}
 
@@ -140,7 +140,7 @@ public class ToolManagerDialogModel {
 			while (it.hasNext()) {
 				macros.add(it.next());
 			}
-	
+
 			listener.uploadWorksheet(macros);
 
 		} catch (Exception e) {

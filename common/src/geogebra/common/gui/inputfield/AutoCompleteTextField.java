@@ -11,35 +11,36 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.CommandInputField;
 import geogebra.common.util.TextObject;
 
-public interface AutoCompleteTextField extends GeoElementSelectionListener, TextObject, CommandInputField{
+public interface AutoCompleteTextField extends GeoElementSelectionListener,
+		TextObject, CommandInputField {
 
 	void showPopupSymbolButton(boolean b);
 
 	void setAutoComplete(boolean b);
 
-    // inputfield.MyTextfield
+	// inputfield.MyTextfield
 	void enableColoring(boolean b);
 
 	void setFocus(boolean b);
 
 	void setOpaque(boolean b);
 
-    //javax.swing.JTextField
+	// javax.swing.JTextField
 	void setFont(GFont font);
 
-    //javax.swing.JComponent
+	// javax.swing.JComponent
 	void setForeground(GColor color);
-    
-	//javax.swing.JComponent
+
+	// javax.swing.JComponent
 	void setBackground(GColor color);
 
-	//java.awt.Component
+	// java.awt.Component
 	void setFocusable(boolean b);
 
-	//javax.swing.text.JTextComponent
+	// javax.swing.text.JTextComponent
 	void setEditable(boolean b);
 
-	//javax.swing.JComponent
+	// javax.swing.JComponent
 	void requestFocus();
 
 	void setLabel(GLabel label);
@@ -55,9 +56,9 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	int getCaretPosition();
 
 	void setCaretPosition(int caretPos);
-	
+
 	void setDictionary(boolean forCAS);
-	
+
 	AutoCompleteDictionary getDictionary();
 
 	void setFocusTraversalKeysEnabled(boolean b);
@@ -67,6 +68,7 @@ public interface AutoCompleteTextField extends GeoElementSelectionListener, Text
 	boolean hasFocus();
 
 	boolean usedForInputBox();
+
 	/**
 	 * Removes the "alpha" button forever
 	 */

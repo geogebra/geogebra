@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 public class ToolInputOutputList extends ArrayList<GeoElement> {
 
-
 	public ToolInputOutputList() {
 		super();
 	}
@@ -15,6 +14,5 @@ public class ToolInputOutputList extends ArrayList<GeoElement> {
 		GeoElement[] geos = new GeoElement[size()];
 		return toArray(geos);
 	}
-
 
 }
