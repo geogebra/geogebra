@@ -19,11 +19,11 @@ public class CustomEvent {
 	 * @return new CustomEvent(string);
 	 */
 	public static native NativeEvent getNativeEvent(String name) /*-{
-	                                                             if ('CustomEvent' in $wnd) {
-	                                                             return new $wnd.CustomEvent(name);
-	                                                             }
-	                                                             return null;
-	                                                             }-*/;
+		if ('CustomEvent' in $wnd) {
+			return new $wnd.CustomEvent(name);
+		}
+		return null;
+	}-*/;
 
 	/**
 	 * @param type
@@ -37,9 +37,12 @@ public class CustomEvent {
 	 */
 	public static native void addEventListener(String type, Element el,
 	        JavaScriptEventHandler funct, boolean bubble) /*-{
-	                                                      el.addEventListener(type, function(e) {
-	                                                      funct.@geogebra.html5.util.JavaScriptEventHandler::execute(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
-	                                                      }, bubble); 
-	                                                      }-*/;
+		el
+				.addEventListener(
+						type,
+						function(e) {
+							funct.@geogebra.html5.util.JavaScriptEventHandler::execute(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+						}, bubble);
+	}-*/;
 
 }
