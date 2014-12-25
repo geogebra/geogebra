@@ -1634,26 +1634,26 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	private native JavaScriptObject getDownloadCallback(String title) /*-{
-	                                                                  var _this = this;
-	                                                                  return function(ggbZip) {
-	                                                                  var URL = $wnd.URL || $wnd.webkitURL;
-	                                                                  var ggburl = URL.createObjectURL(ggbZip);
+		var _this = this;
+		return function(ggbZip) {
+			var URL = $wnd.URL || $wnd.webkitURL;
+			var ggburl = URL.createObjectURL(ggbZip);
 
-	                                                                  if ($wnd.navigator.msSaveBlob) {
-	                                                                  //works for chrome and internet explorer
-	                                                                  $wnd.navigator.msSaveBlob(ggbZip, title);
-	                                                                  } else {
-	                                                                  //works for firefox
-	                                                                  var a = document.createElement("a");
-	                                                                  document.body.appendChild(a);
-	                                                                  a.style = "display: none";
-	                                                                  a.href = ggburl;
-	                                                                  a.download = title;
-	                                                                  a.click();
-	                                                                  //		        window.URL.revokeObjectURL(url);
-	                                                                  }
-	                                                                  }
-	                                                                  }-*/;
+			if ($wnd.navigator.msSaveBlob) {
+				//works for chrome and internet explorer
+				$wnd.navigator.msSaveBlob(ggbZip, title);
+			} else {
+				//works for firefox
+				var a = document.createElement("a");
+				document.body.appendChild(a);
+				a.style = "display: none";
+				a.href = ggburl;
+				a.download = title;
+				a.click();
+				//		        window.URL.revokeObjectURL(url);
+			}
+		}
+	}-*/;
 
 	@Override
 	public final void renderEvent(final BaseEvent event) {
