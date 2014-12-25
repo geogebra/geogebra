@@ -13,8 +13,8 @@ public class JsFile extends JsBlob {
 	 * @return name of the file
 	 */
 	public final native String getName() /*-{
-	                                     return this.name;
-	                                     }-*/;
+		return this.name;
+	}-*/;
 
 	/**
 	 * The last modified date of the file as valid HTML5 date string or the
@@ -23,7 +23,7 @@ public class JsFile extends JsBlob {
 	 * @return last modified date or the empty string
 	 */
 	public final native String getLastModifiedDate() /*-{
-	                                                 return this.lastModifiedDate;
-	                                                 }-*/;
+		return this.lastModifiedDate;
+	}-*/;
 
 }

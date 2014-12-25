@@ -15,18 +15,18 @@ public class JsFileList extends JavaScriptObject {
 	}
 
 	private static native JsFileList nativeFrom(JavaScriptObject jso) /*-{
-	                                                                  return jso.files;
-	                                                                  }-*/;
+		return jso.files;
+	}-*/;
 
 	protected JsFileList() {
 	}
 
 	public final native int getLength() /*-{
-	                                    return this.length;
-	                                    }-*/;
+		return this.length;
+	}-*/;
 
 	public final native JsFile get(int index) /*-{
-	                                          return this[index];
-	                                          }-*/;
+		return this[index];
+	}-*/;
 
 }
