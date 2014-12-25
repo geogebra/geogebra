@@ -18,14 +18,14 @@ public class DomHelperImpl implements DomHelper {
 
 	private native void nativeSetProperty(JavaScriptObject target, String name,
 	        String value) /*-{
-	                      target[name] = value;
-	                      }-*/;
+		target[name] = value;
+	}-*/;
 
 	public native void nativeSetNativeEventHandler(Element element,
 	        String eventName, Handler handler) /*-{
-	                                           element[eventName] = function (evt) {
-	                                           handler.@geogebra.web.helper.DomHelper.Handler::handleEvent(Lcom/google/gwt/user/client/Event;)(evt);			
-	                                           };
-	                                           }-*/;
+		element[eventName] = function(evt) {
+			handler.@geogebra.web.helper.DomHelper.Handler::handleEvent(Lcom/google/gwt/user/client/Event;)(evt);
+		};
+	}-*/;
 
 }
