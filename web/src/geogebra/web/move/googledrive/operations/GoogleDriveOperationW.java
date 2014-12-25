@@ -98,28 +98,41 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	private native void createGoogleApiCallbackFunction() /*-{
-	                                                      var _this = this;
-	                                                      $wnd.GGW_loadGoogleDrive = function() {
-	                                                      _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::loadGoogleDrive()();
-	                                                      
-	                                                      }
-	                                                      }-*/;
+		var _this = this;
+		$wnd.GGW_loadGoogleDrive = function() {
+			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::loadGoogleDrive()();
+
+		}
+	}-*/;
 
 	private native void loadGoogleDrive() /*-{
-	                                      var _this = this;
-	                                      if($wnd.gapi){
-	                                      $wnd.gapi.load('auth', {'callback': function() {
-	                                      
-	                                      }});
-	                                      $wnd.gapi.load('picker', {'callback': function(){@geogebra.common.main.App::debug(Ljava/lang/String;)("picker loaded");}});
-	                                      
-	                                      if($wnd.gapi.client){
-	                                      $wnd.gapi.client.load('drive', 'v2', function() {
-	                                      _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
-	                                      });
-	                                      }
-	                                      }
-	                                      }-*/;
+		var _this = this;
+		if ($wnd.gapi) {
+			$wnd.gapi.load('auth', {
+				'callback' : function() {
+
+				}
+			});
+			$wnd.gapi
+					.load(
+							'picker',
+							{
+								'callback' : function() {
+									@geogebra.common.main.App::debug(Ljava/lang/String;)("picker loaded");
+								}
+							});
+
+			if ($wnd.gapi.client) {
+				$wnd.gapi.client
+						.load(
+								'drive',
+								'v2',
+								function() {
+									_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::googleDriveLoaded()();
+								});
+			}
+		}
+	}-*/;
 
 	private void googleDriveLoaded() {
 		this.isDriveLoaded = true;
@@ -140,23 +153,28 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 *            wheter to force login popup open
 	 */
 	public native void login(boolean immediate) /*-{
-	                                            var _this = this,
-	                                            config = {'client_id': 	@geogebra.common.GeoGebraConstants::GOOGLE_CLIENT_ID,
-	                                            'scope': 	@geogebra.common.GeoGebraConstants::DRIVE_SCOPE + " " +
-	                                            @geogebra.common.GeoGebraConstants::USERINFO_EMAIL_SCOPE + " " +
-	                                            @geogebra.common.GeoGebraConstants::USERINFO_PROFILE_SCOPE + " " +
-	                                            @geogebra.common.GeoGebraConstants::PLUS_ME_SCOPE,
-	                                            'immediate': immediate};
-	                                            //config.max_auth_age = 0;
-	                                            $wnd.gapi.auth.authorize(config,
-	                                            function (resp) {
-	                                            var token = resp ? resp.access_token:{};
-	                                            var error = resp ? resp.error : "";
-	                                            _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Ljava/lang/String;Ljava/lang/String;)(token,error);
-	                                            }
-	                                            
-	                                            );
-	                                            }-*/;
+		var _this = this, config = {
+			'client_id' : @geogebra.common.GeoGebraConstants::GOOGLE_CLIENT_ID,
+			'scope' : @geogebra.common.GeoGebraConstants::DRIVE_SCOPE
+					+ " "
+					+ @geogebra.common.GeoGebraConstants::USERINFO_EMAIL_SCOPE
+					+ " "
+					+ @geogebra.common.GeoGebraConstants::USERINFO_PROFILE_SCOPE
+					+ " " + @geogebra.common.GeoGebraConstants::PLUS_ME_SCOPE,
+			'immediate' : immediate
+		};
+		//config.max_auth_age = 0;
+		$wnd.gapi.auth
+				.authorize(
+						config,
+						function(resp) {
+							var token = resp ? resp.access_token : {};
+							var error = resp ? resp.error : "";
+							_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::authorizeCallback(Ljava/lang/String;Ljava/lang/String;)(token,error);
+						}
+
+				);
+	}-*/;
 
 	private void authorizeCallback(String token, String error) {
 		if (error != null && error.length() > 0) {
@@ -299,18 +317,18 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	private native void openFileFromGoogleDrive(JavaScriptObject descriptors) /*-{
-	                                                                          var id = descriptors["ids"] ? descriptors["ids"][0] : undefined,
-	                                                                          _this = this;
-	                                                                          request;
-	                                                                          if ( id !== undefined) {
-	                                                                          request = $wnd.gapi.client.drive.files.get({
-	                                                                          fileId : id
-	                                                                          });
-	                                                                          request.execute(function(resp) {
-	                                                                          _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
-	                                                                          });
-	                                                                          }
-	                                                                          }-*/;
+		var id = descriptors["ids"] ? descriptors["ids"][0] : undefined, _this = this;
+		request;
+		if (id !== undefined) {
+			request = $wnd.gapi.client.drive.files.get({
+				fileId : id
+			});
+			request
+					.execute(function(resp) {
+						_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::loadFromGoogleFile(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.downloadUrl, resp.description, resp.title, resp.id);
+					});
+		}
+	}-*/;
 
 	/**
 	 * @return if the user is logged into google
@@ -331,39 +349,44 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 */
 	public native void loadFromGoogleFile(String currentFileName,
 	        String description, String title, String id) /*-{
-	                                                     var _this = this;
-	                                                     
-	                                                     function downloadFile(downloadUrl, callback) {
-	                                                     if (downloadUrl) {
-	                                                     var accessToken = $wnd.gapi.auth.getToken().access_token;
-	                                                     var xhr = new $wnd.XMLHttpRequest();
-	                                                     xhr.open('GET', downloadUrl);
-	                                                     xhr.responseType = "blob";
-	                                                     xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
-	                                                     xhr.onload = function() {
-	                                                     callback(xhr.response);
-	                                                     };
-	                                                     xhr.onerror = function() {
-	                                                     callback(null);
-	                                                     };
-	                                                     xhr.send();
-	                                                     } else {
-	                                                     callback(null);
-	                                                     }
-	                                                     }
-	                                                     
-	                                                     downloadFile(currentFileName,function (content) {
-	                                                     var reader = new FileReader();
-	                                                     reader.addEventListener("loadend", function(e) {
-	                                                     if (e.target.result.indexOf("UEsDBBQ") === 0) {
-	                                                     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBase64(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(e.target.result, description, title, id);
-	                                                     } else {
-	                                                     _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBinary(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
-	                                                     }
-	                                                     });
-	                                                     reader.readAsText(content);
-	                                                     });
-	                                                     }-*/;
+		var _this = this;
+
+		function downloadFile(downloadUrl, callback) {
+			if (downloadUrl) {
+				var accessToken = $wnd.gapi.auth.getToken().access_token;
+				var xhr = new $wnd.XMLHttpRequest();
+				xhr.open('GET', downloadUrl);
+				xhr.responseType = "blob";
+				xhr.setRequestHeader('Authorization', 'Bearer ' + accessToken);
+				xhr.onload = function() {
+					callback(xhr.response);
+				};
+				xhr.onerror = function() {
+					callback(null);
+				};
+				xhr.send();
+			} else {
+				callback(null);
+			}
+		}
+
+		downloadFile(
+				currentFileName,
+				function(content) {
+					var reader = new FileReader();
+					reader
+							.addEventListener(
+									"loadend",
+									function(e) {
+										if (e.target.result.indexOf("UEsDBBQ") === 0) {
+											_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBase64(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(e.target.result, description, title, id);
+										} else {
+											_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::processGoogleDriveFileContentAsBinary(Lcom/google/gwt/core/client/JavaScriptObject;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(content, description, title, id);
+										}
+									});
+					reader.readAsText(content);
+				});
+	}-*/;
 
 	private void processGoogleDriveFileContentAsBase64(String base64,
 	        String description, String title, String id) {
@@ -415,13 +438,12 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	 */
 	public native JavaScriptObject getPutFileCallback(String fileName,
 	        String description) /*-{
-	                            var _this = this;
-	                            return function(base64) {
-	                            var fName = fileName,
-	                            ds = description;
-	                            _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fName,ds,base64);
-	                            };
-	                            }-*/;
+		var _this = this;
+		return function(base64) {
+			var fName = fileName, ds = description;
+			_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::saveFileToGoogleDrive(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(fName,ds,base64);
+		};
+	}-*/;
 
 	private void saveFileToGoogleDrive(final String fileName,
 	        final String description, final String fileContent) {
@@ -454,45 +476,46 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 
 	private native void handleFileUploadToGoogleDrive(String id,
 	        JavaScriptObject metaData, String base64) /*-{
-	                                                  var _this = this,
-	                                                  fId = id ? id : "";
-	                                                  function updateFile(fileId, fileMetadata, fileData) {
-	                                                  var boundary = '-------314159265358979323846';
-	                                                  var delimiter = "\r\n--" + boundary + "\r\n";
-	                                                  var close_delim = "\r\n--" + boundary + "--";
-	                                                  var contentType = @geogebra.common.GeoGebraConstants::GGW_MIME_TYPE;
-	                                                  var base64Data = fileData;
-	                                                  var multipartRequestBody =
-	                                                  delimiter +
-	                                                  'Content-Type: application/json\r\n\r\n' +
-	                                                  JSON.stringify(fileMetadata) +
-	                                                  delimiter +
-	                                                  'Content-Type: ' + contentType + '\r\n' +
-	                                                  'Content-Transfer-Encoding: base64\r\n' +
-	                                                  '\r\n' +
-	                                                  base64Data +
-	                                                  close_delim;
-	                                                  var method = (fileId ? 'PUT' : 'POST');
-	                                                  var request = $wnd.gapi.client.request({
-	                                                  'path': '/upload/drive/v2/files/' + fileId,
-	                                                  'method': method,
-	                                                  'params': {'uploadType': 'multipart', 'alt': 'json'},
-	                                                  'headers': {
-	                                                  'Content-Type': 'multipart/mixed; boundary="' + boundary + '"'
-	                                                  },
-	                                                  'body': multipartRequestBody});
-	                                                  
-	                                                  request.execute(function(resp) {
-	                                                  if (!resp.error) {
-	                                                  _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
-	                                                  } else {
-	                                                  @geogebra.html5.main.AppW::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
-	                                                  _this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
-	                                                  }
-	                                                  });
-	                                                  }
-	                                                  updateFile(fId, metaData, base64);
-	                                                  }-*/;
+		var _this = this, fId = id ? id : "";
+		function updateFile(fileId, fileMetadata, fileData) {
+			var boundary = '-------314159265358979323846';
+			var delimiter = "\r\n--" + boundary + "\r\n";
+			var close_delim = "\r\n--" + boundary + "--";
+			var contentType = @geogebra.common.GeoGebraConstants::GGW_MIME_TYPE;
+			var base64Data = fileData;
+			var multipartRequestBody = delimiter
+					+ 'Content-Type: application/json\r\n\r\n'
+					+ JSON.stringify(fileMetadata) + delimiter
+					+ 'Content-Type: ' + contentType + '\r\n'
+					+ 'Content-Transfer-Encoding: base64\r\n' + '\r\n'
+					+ base64Data + close_delim;
+			var method = (fileId ? 'PUT' : 'POST');
+			var request = $wnd.gapi.client.request({
+				'path' : '/upload/drive/v2/files/' + fileId,
+				'method' : method,
+				'params' : {
+					'uploadType' : 'multipart',
+					'alt' : 'json'
+				},
+				'headers' : {
+					'Content-Type' : 'multipart/mixed; boundary="' + boundary
+							+ '"'
+				},
+				'body' : multipartRequestBody
+			});
+
+			request
+					.execute(function(resp) {
+						if (!resp.error) {
+							_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::updateAfterGoogleDriveSave(Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)(resp.id, resp.title, resp.description)
+						} else {
+							@geogebra.html5.main.AppW::debug(Ljava/lang/String;)("Error saving to Google Drive: " + resp.error);
+							_this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::showUploadError()();
+						}
+					});
+		}
+		updateFile(fId, metaData, base64);
+	}-*/;
 
 	private void showUploadError() {
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
@@ -569,10 +592,10 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 	}
 
 	protected native void setCurrentFileId() /*-{
-	                                         if ($wnd.GGW_appengine) {
-	                                         this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
-	                                         }
-	                                         }-*/;
+		if ($wnd.GGW_appengine) {
+			this.@geogebra.web.move.googledrive.operations.GoogleDriveOperationW::currentFileId = $wnd.GGW_appengine.FILE_IDS[0];
+		}
+	}-*/;
 
 	@Override
 	public void afterLogin(Runnable todo) {
