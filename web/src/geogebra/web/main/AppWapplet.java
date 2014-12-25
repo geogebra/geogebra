@@ -205,7 +205,7 @@ public class AppWapplet extends AppW {
 	}
 
 	private Widget oldSplitLayoutPanel = null; // just a technical helper
-											   // variable
+	                                           // variable
 	private HorizontalPanel splitPanelWrapper = null;
 
 	private CustomizeToolbarGUI ct;
@@ -344,9 +344,9 @@ public class AppWapplet extends AppW {
 		}
 
 		getScriptManager().ggbOnInit(); // put this here from Application
-										// constructor because we have to delay
-										// scripts until the EuclidianView is
-										// shown
+		                                // constructor because we have to delay
+		                                // scripts until the EuclidianView is
+		                                // shown
 
 		initUndoInfoSilent();
 
@@ -647,13 +647,13 @@ public class AppWapplet extends AppW {
 
 	@Override
 	public native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
-	                                                                     // solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
-	                                                                     // although it's strange that .contentEditable is not set to true
-	                                                                     var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-	                                                                     copyFrom.value = str;
-	                                                                     copyFrom.select();
-	                                                                     $doc.execCommand('copy');
-	                                                                     }-*/;
+		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
+		// although it's strange that .contentEditable is not set to true
+		var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+		copyFrom.value = str;
+		copyFrom.select();
+		$doc.execCommand('copy');
+	}-*/;
 
 	@Override
 	public void showConfirmDialog(String title, String mess) {

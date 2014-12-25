@@ -153,10 +153,10 @@ public class AppWapplication extends AppW {
 	}
 
 	private native void nativeLoggedIn() /*-{
-	                                     if(typeof ggbOnLoggedIn == "function"){
-	                                     ggbOnLoggedIn();
-	                                     }
-	                                     }-*/;
+		if (typeof ggbOnLoggedIn == "function") {
+			ggbOnLoggedIn();
+		}
+	}-*/;
 
 	/*************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb with undo enabled
@@ -277,9 +277,9 @@ public class AppWapplication extends AppW {
 		                .getParser(), ToolBar.getAllToolsNoMacros(true)));
 
 		getScriptManager().ggbOnInit(); // put this here from Application
-										// constructor because we have to delay
-										// scripts until the EuclidianView is
-										// shown
+		                                // constructor because we have to delay
+		                                // scripts until the EuclidianView is
+		                                // shown
 
 		if (first) {
 			initUndoInfoSilent();
@@ -555,13 +555,13 @@ public class AppWapplication extends AppW {
 
 	@Override
 	public native void copyBase64ToClipboardChromeWebAppCase(String str) /*-{
-	                                                                     // solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
-	                                                                     // although it's strange that .contentEditable is not set to true
-	                                                                     var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
-	                                                                     copyFrom.value = str;
-	                                                                     copyFrom.select();
-	                                                                     $doc.execCommand('copy');
-	                                                                     }-*/;
+		// solution copied from geogebra.web.gui.view.spreadsheet.CopyPasteCutW.copyToSystemClipboardChromeWebapp
+		// although it's strange that .contentEditable is not set to true
+		var copyFrom = @geogebra.web.gui.view.spreadsheet.CopyPasteCutW::getHiddenTextArea()();
+		copyFrom.value = str;
+		copyFrom.select();
+		$doc.execCommand('copy');
+	}-*/;
 
 	@Override
 	public void showConfirmDialog(String title, String mess) {
