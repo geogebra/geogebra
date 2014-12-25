@@ -575,10 +575,10 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 * callback when renderGGBElement is ready
 	 */
 	public static native void renderGGBElementReady() /*-{
-	                                                  if (typeof $wnd.renderGGBElementReady === "function") {
-	                                                  $wnd.renderGGBElementReady();
-	                                                  }			
-	                                                  }-*/;
+		if (typeof $wnd.renderGGBElementReady === "function") {
+			$wnd.renderGGBElementReady();
+		}
+	}-*/;
 
 	public Object getGlassPane() {
 		return null;
