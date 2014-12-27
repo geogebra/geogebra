@@ -290,7 +290,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	<xs:element name="spreadsheetView">
 		<xs:complexType>
 			<xs:sequence>
-				<xs:element ref="size"/>
+				<xs:element ref="size" minOccurs="0"/>
 				<xs:element name="prefCellSize" minOccurs="0">
 					<xs:complexType>
 						<xs:attribute name="width" type="xs:int"/>
