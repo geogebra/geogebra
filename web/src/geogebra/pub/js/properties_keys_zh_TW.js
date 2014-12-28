@@ -2069,7 +2069,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Windows": "\u8996\u7a97",
     "WithOpacityPen": "\u4f7f\u7528\u4e0d\u900f\u660e\u7684\u756b\u7b46",
     "WithinGroups": "Within Groups",
-    "Worksheets": "Worksheets",
+    "Worksheets": "\u5716\u6a94",
     "X->Y": "X \u2192 Y",
     "XBetween": "\u2264 X \u2264",
     "XLessThanOrEqual": "X \u2264",
