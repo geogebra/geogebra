@@ -144,7 +144,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				
 				<xs:element name="lineStyle" minOccurs="0">
 					<xs:complexType>
-						<xs:attribute name="thickness" type="lineThickness"/>
+						<xs:attribute name="thickness" type="positiveInt"/>
 						<xs:attribute name="type" type="lineTypes"/>
 						<xs:attribute name="typeHidden" type="xs:integer"/>
 					</xs:complexType>
@@ -528,18 +528,6 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 		</xs:restriction>
 	</xs:simpleType>
 	
-	<xs:simpleType name="lineThickness">
-	<xs:annotation>
-			<xs:documentation>
-	Maximum value doable by GUI is 13. SetLineThickness command allows unlimited thickness.
-	</xs:documentation>
-		</xs:annotation>
-		<xs:restriction base="xs:int">
-			<xs:minInclusive value="0"/>
-		</xs:restriction>
-	
-	</xs:simpleType>
-	
 	<xs:simpleType name="lineTypes">
 		<xs:annotation>
 			<xs:documentation>
@@ -677,3 +665,4 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 						<xs:attribute name="style" type="nonNegInt"/>
 	</xs:complexType>
 </xs:schema>
+
