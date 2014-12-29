@@ -857,7 +857,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			return;
 		try {
 			String inputText = source.getText().trim();
-			if (!inputText.equals("") && !(inputText.charAt(inputText.length() -1) == '.') && !inputText.equals("-")) {
+
+			if (!inputText.equals("")
+			        && !(inputText.charAt(inputText.length() - 1) == '.')
+			        && !(inputText.charAt(inputText.length() - 1) == '0')
+			        && !inputText.equals("-")) {
 			// Double value = Double.parseDouble(source.getText());
 
 				// allow input such as sqrt(2)
