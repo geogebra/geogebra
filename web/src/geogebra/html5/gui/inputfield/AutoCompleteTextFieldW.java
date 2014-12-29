@@ -29,6 +29,7 @@ import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
+import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -141,6 +142,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 * system keyboard is shown on tablets)
 	 */
 	public static boolean showOnScreenKeyBoard = false;
+
 	private int actualFontSize = 14;
 
 	/**
@@ -185,8 +187,13 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				if (showOnScreenKeyBoard && DOM.eventGetType(event) == FOCUS) {
+				if (showOnScreenKeyBoard
+				        && DOM.eventGetType(event) == FOCUS) {
 					requestFocus();
+				} else if (showOnScreenKeyBoard
+				        && OnScreenKeyBoard.isInstanceVisible()) {
+					super.onBrowserEvent(event);
+					setFocus(false);
 				} else {
 					super.onBrowserEvent(event);
 				}
@@ -196,6 +203,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				if (DOM.eventGetType(event) == KEY_UP
 				        && event.getKeyCode() == ENTER) {
 					app.hideKeyboard();
+					// prevent handling in AutoCompleteTextField
+					event.stopPropagation();
 				}
 			}
 		};
@@ -355,19 +364,19 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	private void setBorderButtonVisible(int i, boolean b) {
 		App.debug("setBorderVisible() implementation needed"); // TODO
-															   // Auto-generated
+		                                                       // Auto-generated
 	}
 
 	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
 	        ClickHandler al) {
 		App.debug("setBorderButton() implementation needed"); // TODO
-															  // Auto-generated
+		                                                      // Auto-generated
 	}
 
 	@Override
 	public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 		App.debug("geoElementSelected() implementation needed"); // TODO
-																 // Auto-generated
+		                                                         // Auto-generated
 	}
 
 	@Override
@@ -500,7 +509,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void enableColoring(boolean b) {
 		App.debug("enableColoring() implementation needed"); // TODO
-															 // Auto-generated
+		                                                     // Auto-generated
 
 	}
 
@@ -543,7 +552,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	@Override
 	public void setFocusable(boolean b) {
 		App.debug("setFocusable() implementation needed"); // TODO
-														   // Auto-generated
+		                                                   // Auto-generated
 
 	}
 
@@ -1081,7 +1090,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				}
 			}
 			e.stopPropagation(); // prevent GlobalKeyDispatcherW to move the
-								 // euclidian view
+			                     // euclidian view
 			break;
 
 		case GWTKeycodes.KEY_F9:

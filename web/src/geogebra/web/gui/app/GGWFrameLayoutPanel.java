@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
@@ -118,9 +119,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel {
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
 		if(show && textField != null){
 			keyBoard.show();
-			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight()); 
+			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
+			OnScreenKeyBoard.setUsed(true);
 		} else {
 			keyBoard.resetKeyboardState();
+			OnScreenKeyBoard.setUsed(false);
 		}
 		this.mainPanel.add(this.dockPanel);
 
