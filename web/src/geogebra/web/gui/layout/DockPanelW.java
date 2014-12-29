@@ -1352,4 +1352,10 @@ public abstract class DockPanelW extends ResizeComposite implements
 	    
     }
 
+	public void setCloseButtonVisible(boolean isVisible) {
+		if (closeButtonPanel == null) {
+			return;
+		}
+		closeButtonPanel.setVisible(isVisible);
+	}
 }

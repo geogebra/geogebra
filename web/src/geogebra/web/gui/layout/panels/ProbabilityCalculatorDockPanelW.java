@@ -56,6 +56,12 @@ public class ProbabilityCalculatorDockPanelW extends DockPanelW {
 	}
 	
 	@Override
+	public void setAlone(boolean isAlone) {
+		setCloseButtonVisible(!isAlone);
+		super.setAlone(isAlone);
+	}
+
+	@Override
 	protected Widget loadStyleBar() {
 		return ((ProbabilityCalculatorViewW) app.getGuiManager().getProbabilityCalculator()).getStyleBar().getWrappedToolBar();
 	}
