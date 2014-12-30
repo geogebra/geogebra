@@ -1,21 +1,19 @@
 package geogebra.html5.gui.tooltip;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
-import com.google.gwt.event.dom.client.TouchStartEvent;
-import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
@@ -120,7 +118,7 @@ public class ToolTipManagerW {
 	/**
 	 * Flag to enable/disable a delay time before showing a toolTip.
 	 * */
-	private boolean enableDelay = true;
+	boolean enableDelay = true;
 
 	/**
 	 * Flag to prevent a toolTip delay, even if an initial delay has been
@@ -245,18 +243,14 @@ public class ToolTipManagerW {
 			 * an external page in exam mode. TODO: the best would be not show
 			 * the question mark at all.
 			 */
-			final boolean exam = ((AppW) app).getLAF().isExam();
+			final boolean exam = app.getLAF().isExam();
 			if (!exam) {
-				helpLabel.addDomHandler(new MouseDownHandler() {
-					public void onMouseDown(MouseDownEvent event) {
+				ClickStartHandler.init(helpLabel, new ClickStartHandler() {
+					@Override
+					public void onClickStart(int x, int y, PointerEventType type) {
 						openWindow(helpURL);
 					}
-				}, MouseDownEvent.getType());
-				helpLabel.addDomHandler(new TouchStartHandler() {
-					public void onTouchStart(TouchStartEvent event) {
-						openWindow(helpURL);
-					}
-				}, TouchStartEvent.getType());
+				});
 			}
 			helpLabel.addStyleName("manualLink");
 			bottomInfoTipPanel.add(helpLabel);
@@ -305,8 +299,8 @@ public class ToolTipManagerW {
 	 *            that should be opened
 	 */
 	native void openWindow(String url)/*-{
-	                                  $wnd.open(url);
-	                                  }-*/;
+		$wnd.open(url);
+	}-*/;
 
 	public void hideBottomInfoToolTip() {
 		cancelTimer();
@@ -619,13 +613,13 @@ public class ToolTipManagerW {
 
 	public void registerWidget(final Widget widget,
 	        final AsyncOperation toolTipHandler, final boolean alignToElement,
-	        final boolean showImmediately) {
+	        final boolean showImmediately1) {
 
 		MouseOverHandler mouseOverHandler = new MouseOverHandler() {
 			@Override
 			public void onMouseOver(MouseOverEvent event) {
 				boolean oldDelay = false;
-				if (showImmediately) {
+				if (showImmediately1) {
 					oldDelay = sharedInstance().enableDelay;
 					sharedInstance().setEnableDelay(false);
 				}
@@ -638,7 +632,7 @@ public class ToolTipManagerW {
 					        (String) toolTipHandler.getData());
 				}
 
-				if (showImmediately) {
+				if (showImmediately1) {
 					sharedInstance().setEnableDelay(oldDelay);
 				}
 
