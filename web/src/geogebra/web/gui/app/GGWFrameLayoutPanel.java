@@ -14,6 +14,7 @@ import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
+import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -22,7 +23,8 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 
-public class GGWFrameLayoutPanel extends LayoutPanel {
+public class GGWFrameLayoutPanel extends LayoutPanel implements
+        UpdateKeyBoardListener {
 
 	private boolean menuClosed = true;
 
@@ -141,7 +143,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel {
 		this.mainPanel.clear();
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
 		keyBoard.show();
-			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight()); 
+		this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		this.mainPanel.add(this.dockPanel);
 
 		Timer timer = new Timer() {

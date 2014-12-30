@@ -1,7 +1,6 @@
 package geogebra.web.util.keyboard;
 
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.web.gui.app.GGWFrameLayoutPanel;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -23,11 +22,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String PI = "\u03C0";
 	private static final String SQUARE_ROOT = "\u221A";
 	// private static final String CUBIC_ROOT = "\u221B"; // TODO use (no valid
-	                                                   // input)
+	// input)
 	private static final String BACKSPACE = "\u21A4";
 	private static final String ENTER = "\u21B2";
 	// private static final String E = "\u212F"; // TODO use (not displayed
-	                                          // correctly)
+	// correctly)
 	private static final String I = "\u03AF";
 
 	private KeyboardMode mode = KeyboardMode.NUMBER;
@@ -37,7 +36,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * prevent automatic positioning in the constructor
 	 */
 	public boolean enablePositioning = false;
-	private GGWFrameLayoutPanel frameLayoutPanel;
+
+	/**
+	 * listener for updates of the keyboard structure
+	 */
+	private UpdateKeyBoardListener updateKeyBoardListener;
 
 	/**
 	 * creates a keyboard instance
@@ -48,13 +51,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @return instance of onScreenKeyBoard
 	 */
 	public static OnScreenKeyBoard getInstance(
-	        AutoCompleteTextFieldW textField,
-	        GGWFrameLayoutPanel frameLayoutPanel) {
+	        AutoCompleteTextFieldW textField, UpdateKeyBoardListener listener) {
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
 		}
 		instance.setTextField(textField);
-		instance.setFrameLayoutPanel(frameLayoutPanel);
+		instance.setListener(listener);
 		return instance;
 	}
 
@@ -159,8 +161,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		this.textField = textField;
 	}
 
-	private void setFrameLayoutPanel(GGWFrameLayoutPanel frameLayoutPanel) {
-		this.frameLayoutPanel = frameLayoutPanel;
+	private void setListener(UpdateKeyBoardListener listener) {
+		this.updateKeyBoardListener = listener;
 	}
 
 	/**
@@ -172,10 +174,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		if (mode == KeyboardMode.NUMBER) {
 			textField.setFocus(false);
 			content.setVisible(true);
-			frameLayoutPanel.updateKeyBoard(textField);
+			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			content.setVisible(false);
-			frameLayoutPanel.updateKeyBoard(textField);
+			updateKeyBoardListener.updateKeyBoard(textField);
 			textField.setFocus(true);
 		}
 		setUsed(true);
@@ -202,7 +204,5 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		mode = KeyboardMode.NUMBER;
 		content.setVisible(true);
 	}
-
-
 
 }
