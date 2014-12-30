@@ -12,6 +12,7 @@ import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
 
 import com.google.gwt.core.client.Callback;
+import com.google.gwt.storage.client.Storage;
 import com.googlecode.gwtphonegap.client.PhoneGap;
 import com.googlecode.gwtphonegap.client.file.DirectoryEntry;
 import com.googlecode.gwtphonegap.client.file.DirectoryReader;
@@ -34,7 +35,14 @@ public class FileManagerT extends FileManager {
 	private static final String GGB_DIR = "GeoGebra";
 	private static final String META_DIR = "meta";
 	private static final String FILE_EXT = ".ggb";
-
+	
+	// to convert files from older ggbVersions
+	private static final String OLD_FILE_PREFIX = "file#";
+	private static final String OLD_THUMB_PREFIX = "img#";
+	private static final String OLD_META_PREFIX = "meta#";
+	Storage stockStore = Storage.getLocalStorageIfSupported();
+	//
+	
 	PhoneGap phonegap;
 	Flags createIfNotExist = new Flags(true, false);
 	Flags dontCreateIfNotExist = new Flags(false, false);
@@ -42,6 +50,7 @@ public class FileManagerT extends FileManager {
 	public FileManagerT(final AppW app) {
 		super(app);
 		this.phonegap = PhoneGapManager.getPhoneGap();
+		convertToNewFileFormat();
 	}
 
 	void getGgbDir(final Callback<DirectoryEntry, FileError> callback) {
@@ -498,7 +507,7 @@ public class FileManagerT extends FileManager {
 								        cb.onFailure(result.getError());
 							        }
 						        });
-						        // reader.readAsText(entry);
+						         reader.readAsText(entry);
 					        }
 
 					        public void onFailure(FileError error) {
@@ -516,6 +525,7 @@ public class FileManagerT extends FileManager {
 	 * 
 	 * @param cb
 	 *            {@link SaveCallback}
+	 * @param base64 String
 	 */
 	@Override
 	public void saveFile(final String base64, final SaveCallback cb) {
@@ -638,8 +648,6 @@ public class FileManagerT extends FileManager {
 	 *            String
 	 * @param cb
 	 *            {@link SaveCallback}
-	 * @param base64
-	 *            String
 	 */
 	void createMetaData(final String key, final int tubeID,
 	        final SaveCallback cb) {
@@ -787,7 +795,8 @@ public class FileManagerT extends FileManager {
 
 	}
 
-	public void openMaterial(final Material material) {
+	@Override
+    public void openMaterial(final Material material) {
 		this.getBase64(material.getTitle(), new Callback<String, FileError>() {
 
 			@Override
@@ -805,8 +814,7 @@ public class FileManagerT extends FileManager {
 		});
 	}
 
-	private void getBase64(final String title,
-	        final Callback<String, FileError> cb) {
+	private void getBase64(final String title, final Callback<String, FileError> cb) {
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
@@ -839,11 +847,14 @@ public class FileManagerT extends FileManager {
 
 	}
 
-	protected void readFile(FileEntry entry,
-	        final Callback<String, FileError> cb) {
+	/**
+	 * @param entry {@link FileEntry}
+	 * @param cb {@link Callback} to get content of file as String
+	 */
+	protected void readFile(FileEntry entry, final Callback<String, FileError> cb) {
 		entry.getFile(new FileCallback<FileObject, FileError>() {
 
-			public void onSuccess(FileObject entry) {
+			public void onSuccess(FileObject fileObject) {
 				final FileReader reader = PhoneGapManager.getPhoneGap()
 				        .getFile().createReader();
 
@@ -858,7 +869,7 @@ public class FileManagerT extends FileManager {
 						cb.onFailure(result.getError());
 					}
 				});
-				// reader.readAsText(entry);
+				 reader.readAsText(fileObject);
 			}
 
 			@Override
@@ -870,10 +881,16 @@ public class FileManagerT extends FileManager {
 
 	}
 
+	/**
+	 * @param m {@link Material}
+	 */
 	protected void doOpenMaterial(Material m) {
 		super.openMaterial(m);
 	}
-
+	
+	/**
+	 * @param m {@link Material}
+	 */
 	protected void doUpload(Material m) {
 		super.upload(m);
 	}
@@ -904,4 +921,63 @@ public class FileManagerT extends FileManager {
 
 	}
 
+	/**
+	 * convert old files (saved to localStorage) to a locale file of
+	 * the device and delete them from localStorage.
+	 */
+	private void convertToNewFileFormat() {
+		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
+			return;
+		}
+
+		for (int i = 0; i < this.stockStore.getLength(); i++) {
+			final String key = this.stockStore.key(i);
+			if (!key.startsWith(OLD_FILE_PREFIX)) {
+				break;
+			}
+			final String keyStem = key.substring(OLD_FILE_PREFIX.length());
+			final String base64 = this.stockStore.getItem(key);
+			createID(new Callback<Integer, String>() {
+
+				@Override
+				public void onSuccess(Integer id) {
+					final String keyString = createKeyString(id, keyStem);
+					getGgbFile(keyString + FILE_EXT, createIfNotExist,
+							new Callback<FileEntry, FileError>() {
+
+						@Override
+						public void onSuccess(final FileEntry ggbFile) {
+							ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
+
+								@Override
+								public void onSuccess(final FileWriter writer) {
+									writer.write(base64);
+									createMetaData(keyString, 0, null);
+									stockStore.removeItem(OLD_FILE_PREFIX + keyStem);
+									stockStore.removeItem(OLD_META_PREFIX + keyStem);
+									stockStore.removeItem(OLD_THUMB_PREFIX + keyStem);
+								}
+
+								@Override
+								public void onFailure(final FileError error) {
+									//
+								}
+							});
+						}
+
+						@Override
+						public void onFailure(final FileError error) {
+							//
+						}
+
+					});
+				}
+
+				@Override
+				public void onFailure(String reason) {
+					// TODO Auto-generated method stub
+				}
+			});
+		}
+	}
 }

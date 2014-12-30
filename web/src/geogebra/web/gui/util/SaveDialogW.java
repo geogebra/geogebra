@@ -280,11 +280,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		listBox.setItemSelected(Visibility.Private.getIndex(), true);
 		if(app.getLAF().externalDriveSupported()){
 			providerPopup.addPopupHandler(this);
-			providerPopup.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
-			providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
 			providerPopup.setSelectedIndex(app.getFileManager().getFileProvider() == Provider.GOOGLE ? 1 : 0);
-			buttonPanel.add(providerPopup);
 		}
+		providerPopup.getElement().getStyle().setPosition(com.google.gwt.dom.client.Style.Position.ABSOLUTE);
+		providerPopup.getElement().getStyle().setLeft(10, Unit.PX);
+		buttonPanel.add(providerPopup);
 		buttonPanel.add(listBox);
 	}
 	

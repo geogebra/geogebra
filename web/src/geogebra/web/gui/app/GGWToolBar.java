@@ -102,7 +102,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 		toolBarPanel.addStyleName("toolbarPanel");
-		final boolean exam = ((AppW)app).getLAF().isExam();
+		final boolean exam = app.getLAF().isExam();
 		if (exam) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
@@ -194,7 +194,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
             }
 		}, KeyUpEvent.getType());
 		
-		final boolean exam = ((AppW)app).getLAF().isExam();
+		final boolean exam = app.getLAF().isExam();
 		if (!exam) {
 			openSearchButton = new StandardButton(pr.button_open_search(),null,32);
 			openSearchButton.addFastClickHandler(new FastClickHandler() {
