@@ -246,7 +246,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		// cbShowAxis.setSelected(axis == 0 ? view.getShowXaxis() :
 		// view.getShowYaxis());
-		cbShowAxis.setValue(view.getShowAxis(axis));
+		setShowAxis(view.getShowAxis(axis));
 
 		if (view.getDrawBorderAxes()[axis])
 			tfCross.setText("");
@@ -258,6 +258,10 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
 		cbDrawAtBorder.setValue(view.getDrawBorderAxes()[axis]);
 
+	}
+
+	public void setShowAxis(boolean value) {
+		cbShowAxis.setValue(value);
 	}
 
 	public void setLabels() {

@@ -35,6 +35,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.SelectionEvent;
+import com.google.gwt.event.logical.shared.SelectionHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -344,7 +346,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			cbShowAxes.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-					model.showAxes(cbShowAxes.getValue());
+					setShowAxes(cbShowAxes.getValue());
 					updateView();
                 }});
 			
@@ -359,6 +361,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			indent(axesOptionsPanel);
 		}
 		
+		protected void setShowAxes(Boolean value) {
+			model.showAxes(value);
+			xAxisTab.setShowAxis(value);
+			yAxisTab.setShowAxis(value);
+
+		}
+
 		protected void fillAxesOptionsPanel(){
 			axesOptionsPanel.add(LayoutUtil.panelRow(cbShowAxes,
 					 cbBoldAxes));
@@ -660,6 +669,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			add(axisPanel);
 		}
 		
+		public void setShowAxis(boolean value) {
+			axisPanel.setShowAxis(value);
+		}
+
 		public void setLabels() {
 	        axisPanel.setLabels();
         }
@@ -978,6 +991,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		updateGUI();
 	    tabPanel.selectTab(0);
 		app.setDefaultCursor();
+		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() {
+
+			public void onSelection(SelectionEvent<Integer> event) {
+				updateGUI();
+			}
+		});
     }
 	
 	/**
