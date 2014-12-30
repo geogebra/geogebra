@@ -40,7 +40,18 @@ public class Coords {
 	/** vz 3D vector, down orientation */
 	public static final Coords VZm = new Coords(0,0,-1,0);
 	/** undefined vector */
-	public static final Coords UNDEFINED = new Coords(Double.NaN, Double.NaN, Double.NaN, Double.NaN);
+	public static final Coords UNDEFINED = new Coords(Double.NaN, Double.NaN,
+			Double.NaN, Double.NaN) {
+		@Override
+		public boolean isNotFinalUndefined() {
+			return false;
+		}
+
+		@Override
+		public boolean isFinalUndefined() {
+			return true;
+		}
+	};
 	
 	public double[] val;
 	
@@ -1750,8 +1761,17 @@ public class Coords {
 
 
 
+	/**
+	 * @return true if not a final (constant) undefined Coords
+	 */
 	public boolean isNotFinalUndefined() {
-		// TODO Auto-generated method stub
+		return true;
+	}
+
+	/**
+	 * @return true if a final (constant) undefined Coords
+	 */
+	public boolean isFinalUndefined() {
 		return false;
 	}
 
