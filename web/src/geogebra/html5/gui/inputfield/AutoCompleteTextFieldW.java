@@ -102,7 +102,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	private String cmdPrefix;
 	private static CompletionsPopup completionsPopup;
 
-	private HistoryPopupW historyPopup;
+	HistoryPopupW historyPopup;
 	protected ScrollableSuggestBox textField = null;
 
 	private DrawTextField drawTextField = null;
@@ -843,8 +843,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			++historyIndex;
 		if (historyIndex == history.size())
 			return null;
-		else
-			return history.get(historyIndex);
+
+		return history.get(historyIndex);
 	}
 
 	public void mergeKoreanDoubles() {

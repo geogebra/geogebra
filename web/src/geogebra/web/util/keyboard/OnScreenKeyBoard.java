@@ -23,11 +23,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private static final String PI = "\u03C0";
 	private static final String SQUARE_ROOT = "\u221A";
-	private static final String CUBIC_ROOT = "\u221B"; // TODO use (no valid
+	// private static final String CUBIC_ROOT = "\u221B"; // TODO use (no valid
 	                                                   // input)
 	private static final String BACKSPACE = "\u21A4";
 	private static final String ENTER = "\u21B2";
-	private static final String E = "\u212F"; // TODO use (not displayed
+	// private static final String E = "\u212F"; // TODO use (not displayed
 	                                          // correctly)
 	private static final String I = "\u03AF";
 

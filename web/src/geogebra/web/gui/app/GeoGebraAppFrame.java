@@ -248,10 +248,11 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
 		return ch;
 	}
 
-	public void finishAsyncLoading(final ArticleElement articleElement, final AppW app) {
-	    handleLoadFile(articleElement,app);	    
+	public void finishAsyncLoading(final ArticleElement articleElement,
+	        final AppW appw) {
+		handleLoadFile(articleElement, appw);
     }
-	
+
 	private static void handleLoadFile(final ArticleElement articleElement,
 			final AppW app) {
 		final View view = new View(articleElement, app);

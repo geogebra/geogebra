@@ -1,7 +1,6 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;

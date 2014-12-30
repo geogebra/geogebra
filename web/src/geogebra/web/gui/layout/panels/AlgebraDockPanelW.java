@@ -29,6 +29,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		setViewImage(getResources().styleBar_algebraView());
 	}
 
+	@Override
 	protected Widget loadComponent() {
 		if (algebrap == null) {
 			algebrap = new ScrollPanel();//temporarily
@@ -45,6 +46,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 		return algebrap;
 	}
 
+	@Override
 	protected Widget loadStyleBar() {
 		return new AlgebraStyleBarW(app);
 	}
@@ -67,6 +69,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 	    return algebrap;
     }
 
+	@Override
 	public void onResize() {
 		// noting to do here
     }
