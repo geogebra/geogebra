@@ -100,8 +100,16 @@ public class ConstructionProtocolNavigationW extends ConstructionProtocolNavigat
 			btOpenWindow.addClickHandler(new ClickHandler(){
 	
 				public void onClick(ClickEvent event) {
-					if(!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL))
-						app.getGuiManager().setShowView(true, App.VIEW_CONSTRUCTION_PROTOCOL);
+					if (!app.getGuiManager().showView(App.VIEW_CONSTRUCTION_PROTOCOL)) {
+						app.getGuiManager().setShowView(true,
+						        App.VIEW_CONSTRUCTION_PROTOCOL);
+						btOpenWindow.addStyleName("consProtIsOpen");
+					} else {
+						app.getGuiManager().setShowView(false,
+						        App.VIEW_CONSTRUCTION_PROTOCOL);
+						btOpenWindow.removeStyleName("consProtIsOpen");
+					}
+					
 	            }
 			});
 			btOpenWindow.setVisible(showConsProtButton);

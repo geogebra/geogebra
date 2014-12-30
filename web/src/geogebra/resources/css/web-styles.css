@@ -1631,7 +1631,7 @@ body[dir=rtl] .signIn {
 Paddings for menuitems.
 */
 .gwt-MenuBar-vertical .mi_no_image {
-	padding-left: 41px;
+	padding-left: 45px;
 }
 
 .gwt-MenuBar-vertical .mi_with_image {
@@ -1646,7 +1646,7 @@ Paddings for menuitems.
 	margin-top: 2px;
 }
 
-.gPopupMenu_item img,.gwt-MenuItem img {
+.gPopupMenu_item img, .gwt-MenuItem img {
 	vertical-align: top;
 	width: 20px !important;
 	height: 20px !important;
@@ -3095,6 +3095,9 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	position: absolute;
 	right: 0px;
 	top: 0px;
+}
+.consProtNav .navbar_btOpenWindow.consProtIsOpen {
+	border-color: #6666FF;
 }
 
 .ggbSpinner{
