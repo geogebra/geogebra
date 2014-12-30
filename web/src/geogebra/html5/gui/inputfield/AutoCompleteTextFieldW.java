@@ -29,7 +29,6 @@ import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
-import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -190,8 +189,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				if (showOnScreenKeyBoard
 				        && DOM.eventGetType(event) == FOCUS) {
 					requestFocus();
-				} else if (showOnScreenKeyBoard
-				        && OnScreenKeyBoard.isInstanceVisible()) {
+				} else if (showOnScreenKeyBoard) {
 					super.onBrowserEvent(event);
 					setFocus(false);
 				} else {
