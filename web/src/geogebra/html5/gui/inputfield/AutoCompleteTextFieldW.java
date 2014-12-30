@@ -142,6 +142,11 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 */
 	public static boolean showOnScreenKeyBoard = false;
 
+	/**
+	 * whether or not the OnScreenKeyBoard is visible at the moment
+	 */
+	boolean keyboardUsed = false;
+
 	private int actualFontSize = 14;
 
 	/**
@@ -189,7 +194,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				if (showOnScreenKeyBoard
 				        && DOM.eventGetType(event) == FOCUS) {
 					requestFocus();
-				} else if (showOnScreenKeyBoard) {
+				} else if (showOnScreenKeyBoard && keyboardUsed) {
 					super.onBrowserEvent(event);
 					setFocus(false);
 				} else {
@@ -1607,5 +1612,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void setFocus(boolean b) {
 		textField.setFocus(b);
+	}
+
+	public void setKeyBoardUsed(boolean used) {
+		this.keyboardUsed = used;
 	}
 }

@@ -17,7 +17,6 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private static OnScreenKeyBoard instance;
-	private static boolean inUse;
 	private FlowPanel content = new FlowPanel();
 	private AutoCompleteTextFieldW textField;
 
@@ -60,21 +59,16 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	/**
-	 * @return false if no instance was created or the instance is not used or
-	 *         the special buttons are not visible; true otherwise
-	 */
-	public static boolean isInstanceVisible() {
-		return inUse && instance != null && instance.content.isVisible();
-	}
-
-	/**
 	 * set whether the keyboard is used at the moment or not
 	 * 
 	 * @param used
 	 *            whether the keyboard is used or not
 	 */
 	public static void setUsed(boolean used) {
-		inUse = used;
+		if (instance != null && instance.textField != null) {
+			instance.textField.setKeyBoardUsed(used
+			        && instance.content.isVisible());
+		}
 	}
 
 	/**
@@ -184,6 +178,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			frameLayoutPanel.updateKeyBoard(textField);
 			textField.setFocus(true);
 		}
+		setUsed(true);
 	}
 
 	/**
