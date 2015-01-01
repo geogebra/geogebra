@@ -470,6 +470,17 @@ public class AppD extends App implements KeyEventDispatcher {
 			App.debug("Not setting up logging via LogManager");
 		}
 
+		// needed for JavaScript getCommandName(), getValueString() to work
+		// (security problem running non-locally)
+		if (isApplet) {
+			preferredSize = appletImpl.getJApplet().getSize();
+			// needs command.properties in main.jar
+			// causes problems when not in English
+			// initCommandBundle();
+		} else {
+			preferredSize = new Dimension(800, 600);
+		}
+
 		fontManager = new FontManagerD();
 		initImageManager(mainComp);
 
@@ -552,73 +563,6 @@ public class AppD extends App implements KeyEventDispatcher {
 					currentImagePath = new File(path);
 				}
 			}
-		}
-
-		// Fonts must be changed here since default preferences will set font
-		// size to 12. TODO: Determine font size here for all OS's.
-		int fontSize = 12; // This will be overridden by
-							// geogebra.common.main.xml.default-preferences.xml
-		if (LINUX && !isApplet && isPrerelease()) {
-			Runtime r = Runtime.getRuntime();
-			Process p;
-			try {
-				p = r.exec(new String[] { "bash", "-c",
-						"xdpyinfo | grep dots | awk '{print $2}' | cut -f1 -dx" });
-				p.waitFor();
-				BufferedReader b = new BufferedReader(new InputStreamReader(
-						p.getInputStream()));
-				String result = b.readLine();
-				b.close();
-				int dpi = Integer.parseInt(result);
-				debug("Detected DPI is " + dpi);
-				if (dpi >= 80) {
-					fontSize = dpi / 8;
-				}
-			} catch (Exception e) {
-				// Something went wrong:
-				error("DPI detection failure");
-				e.printStackTrace();
-			}
-		}
-		if (WINDOWS && !isApplet && isPrerelease()) {
-			Integer dpi;
-			try {
-				// There can be quite many similar entries. The order of these
-				// keys
-				// is just an ad-hoc way of detection. TODO: Find a better way.
-				dpi = readRegistryDWord("HKCU\\Control Panel\\Desktop",
-						"LogPixels");
-				if (dpi == null) {
-					dpi = readRegistryDWord(
-							"HKLM\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\FontDPI",
-							"LogPixels");
-				}
-				if (dpi == null) {
-					dpi = readRegistryDWord("HKCC\\Software\\Fonts",
-							"LogPixels");
-				}
-				debug("Detected DPI is " + dpi);
-				if (dpi >= 80) {
-					fontSize = dpi / 8;
-				}
-			} catch (Exception e) {
-				error("DPI detection failure");
-				e.printStackTrace();
-			}
-		}
-		// fontSize = 2 * (fontSize / 2); // ensuring odd number
-		// setFontSize(fontSize);
-
-		// needed for JavaScript getCommandName(), getValueString() to work
-		// (security problem running non-locally)
-		if (isApplet) {
-			preferredSize = appletImpl.getJApplet().getSize();
-			// needs command.properties in main.jar
-			// causes problems when not in English
-			// initCommandBundle();
-		} else {
-			preferredSize = new Dimension(800 * fontSize / 12,
-					600 * fontSize / 12);
 		}
 
 		if (isUsingFullGui() && (tmpPerspectives != null)) {
@@ -5267,69 +5211,4 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean isSelectionRectangleAllowed() {
 		return true;
 	}
-
-	// Quick and dirty solution for reading a DWORD Windows registry value.
-	// "Inspired" by http://stackoverflow.com/a/5902131
-	public static final Integer readRegistryDWord(String location, String key) {
-		try {
-			// Run reg query, then read output with StreamReader (internal
-			// class)
-			Process process = Runtime.getRuntime().exec(
-					"reg query " + '"' + location + "\" /v \"" + key + "\"");
-
-			InputStream is = process.getInputStream();
-			StringBuilder sw = new StringBuilder();
-
-			try {
-				int c;
-				while ((c = is.read()) != -1)
-					sw.append((char) c);
-			} catch (IOException ex) {
-				//
-			}
-
-			String output = sw.toString();
-
-			// Output has the following format:
-			// \n<Version information>\n\n<key> <registry type> <value>\r\n\r\n
-			int i = output.indexOf("REG_DWORD");
-			if (i == -1) {
-				return null;
-			}
-
-			sw = new StringBuilder();
-			i += 9; // skip REG_DWORD
-
-			// skip spaces or tabs
-			for (;;) {
-				if (i > output.length()) {
-					break;
-				}
-				char c = output.charAt(i);
-				if (c != ' ' && c != '\t') {
-					break;
-				}
-				++i;
-			}
-
-			// take everything until end of line
-			for (;;) {
-				if (i > output.length()) {
-					break;
-				}
-				char c = output.charAt(i);
-				if (c == '\r' || c == '\n') {
-					break;
-				}
-				sw.append(c);
-				++i;
-			}
-
-			return Integer.decode(sw.toString());
-		} catch (Exception e) {
-			return null;
-		}
-
-	}
-
 }
