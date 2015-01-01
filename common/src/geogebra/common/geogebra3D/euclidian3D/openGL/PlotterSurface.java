@@ -271,6 +271,16 @@ public class PlotterSurface {
 		manager.color(1f, 0f, 0f, 0.25f);
 	}
 
+
+	public void startTrianglesWireFrameSurfaceBoundary() {
+		// lines
+		manager.startGeometry(Manager.Type.TRIANGLES);
+
+		manager.setDummyTexture();
+
+		manager.color(0f, 0f, 1f, 0.25f);
+	}
+
 	public void vertex(Coords p) {
 		manager.vertex(p);
 	}
