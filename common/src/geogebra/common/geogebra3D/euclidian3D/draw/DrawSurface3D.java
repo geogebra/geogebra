@@ -281,6 +281,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return Coords.UNDEFINED;
 	}
 
+	protected boolean evaluatePoint(double u, double v, Coords result) {
+		surfaceGeo.evaluatePoint(u, v, result);
+
+		if (!result.isDefined()) {
+			return false;
+		}
+
+		if (inCullingBox(result)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	private class Corner {
 		Coords p;
 		double u, v;
@@ -475,71 +489,157 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return false;
 		}
 
+		// private Corner getLeftCheckSplitted() {
+		// if (l.a == null) {
+		// return l.l;
+		// }
+		// return l;
+		// }
+		//
+		// private Corner getAboveCheckSplitted() {
+		// if (a.l == null) {
+		// return a.a;
+		// }
+		// return a;
+		// }
+
+		private Corner findU(Coords lastDefined, double uLastDef, double uDef,
+				double uUndef, double vRow, int depth) {
+
+			double uNew = (uDef + uUndef) / 2;
+			Coords coords = evaluatePoint(uNew, vRow);
+
+			if (depth == 0) { // no more split
+				if (coords.isFinalUndefined()) {
+					// return last defined point
+					return new Corner(uLastDef, vRow, lastDefined);
+				}
+				return new Corner(uNew, vRow, coords);
+			}
+
+			if (coords.isFinalUndefined()) {
+				return findU(lastDefined, uLastDef, uDef, uNew, vRow, depth - 1);
+			}
+			return findU(coords, uNew, uNew, uUndef, vRow, depth - 1);
+
+
+		}
+
+		private Corner findV(Coords lastDefined, double vLastDef, double vDef,
+				double vUndef, double uRow, int depth) {
+
+			double vNew = (vDef + vUndef) / 2;
+			Coords coords = evaluatePoint(uRow, vNew);
+
+			if (depth == 0) { // no more split
+				if (coords.isFinalUndefined()) {
+					// return last defined point
+					return new Corner(uRow, vLastDef, lastDefined);
+				}
+				return new Corner(uRow, vNew, coords);
+			}
+
+			if (coords.isFinalUndefined()) {
+				return findV(lastDefined, vLastDef, vDef, vNew, uRow, depth - 1);
+			}
+			return findV(coords, vNew, vNew, vUndef, uRow, depth - 1);
+
+		}
+
 		public void draw(PlotterSurface surface) {
 
+			Corner left, above, subLeft, subAbove;
+
+			if (l.a == null) {
+				left = l.l;
+				subLeft = l;
+			} else {
+				left = l;
+				subLeft = null;
+			}
+
+			if (a.l == null) {
+				above = a.a;
+				subAbove = a;
+			} else {
+				above = a;
+				subAbove = null;
+			}
+
 			if (p.isFinalUndefined()) {
-				if (l.p.isFinalUndefined()) {
-					if (a.p.isFinalUndefined()) {
-						if (l.a.p.isFinalUndefined()) {
+				if (left.p.isFinalUndefined()) {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// all undefined: nothing to draw
 						} else {
-							// 3 points undefined: nothing to draw
+							// l.a is defined
+							// find defined between a and l.a
+							Corner n = findU(left.a.p, left.a.u, left.a.u,
+									above.u,
+									above.v, 5);
+							Corner e = findV(left.a.p, left.a.v, left.a.v,
+									left.v,
+									left.u, 5);
+							App.debug("\nl.a is defined:\nu: " + above.u
+									+ " > " + n.u + " > " + l.a.u + "\nv: "
+									+ left.v + " > " + e.v + " > " + l.a.v);
+							drawTriangles(surface, n.p, e.p, left.a.p);
 						}
 					} else {
-						if (l.a.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// 3 points undefined: nothing to draw
 						} else {
 							// a and l.a not undefined
 						}
 					}
 				} else {
-					if (a.p.isFinalUndefined()) {
-						if (l.a.p.isFinalUndefined()) {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// 3 points undefined: nothing to draw
 						} else {
 							// l and l.a not undefined
 						}
 					} else {
-						if (l.a.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// l and a not undefined
 						} else {
 							// l, a and l.a not undefined
-							drawTriangles(surface, l.p, a.p, l.a.p);
+							drawTriangles(surface, left.p, above.p, left.a.p);
 						}
 					}
 				}
 			} else {
-				if (l.p.isFinalUndefined()) {
-					if (a.p.isFinalUndefined()) {
-						if (l.a.p.isFinalUndefined()) {
+				if (left.p.isFinalUndefined()) {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// 3 undefined points: nothing to draw
 						} else {
 							// this and l.a not undefined
 						}
 					} else {
-						if (l.a.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// this and a not undefined
 						} else {
 							// this, a and l.a not undefined
-							drawTriangles(surface, this.p, a.p, l.a.p);
+							drawTriangles(surface, this.p, above.p, left.a.p);
 						}
 					}
 				} else {
-					if (a.p.isFinalUndefined()) {
-						if (l.a.p.isFinalUndefined()) {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// this and l not undefined
 						} else {
 							// this, l and l.a not undefined
-							drawTriangles(surface, this.p, l.p, l.a.p);
+							drawTriangles(surface, this.p, left.p, left.a.p);
 						}
 					} else {
-						if (l.a.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
 							// this, l and a not undefined
-							drawTriangles(surface, this.p, l.p, a.p);
+							drawTriangles(surface, this.p, left.p, above.p);
 						} else {
 							// this, l, a and l.a not undefined
-							drawTriangles(surface, this.p, l.p, l.a.p);
-							drawTriangles(surface, this.p, a.p, l.a.p);
+							drawTriangles(surface, this.p, left.p, left.a.p);
+							drawTriangles(surface, this.p, above.p, left.a.p);
 						}
 					}
 				}

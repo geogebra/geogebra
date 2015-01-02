@@ -263,7 +263,7 @@ public class PlotterSurface {
 	}
 
 	public void startTrianglesWireFrameSurface() {
-		// lines
+
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
 		manager.setDummyTexture();
@@ -273,7 +273,7 @@ public class PlotterSurface {
 
 
 	public void startTrianglesWireFrameSurfaceBoundary() {
-		// lines
+
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
 		manager.setDummyTexture();
