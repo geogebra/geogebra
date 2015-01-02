@@ -8,6 +8,7 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.LongTouchManager;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
@@ -311,7 +312,8 @@ public class CASTableControllerW extends CASTableCellController implements
 
 	public void onBlur(BlurEvent event) {
 		CASTableCellEditorW editor = view.getConsoleTable().getEditor();
-		if (!editor.getWidget().isSuggesting()) {
+		if (!editor.getWidget().isSuggesting()
+		        && !AutoCompleteTextFieldW.showSymbolButtonFocused) {
 			view.getConsoleTable().stopEditing();
 			view.getConsoleTable().setFirstRowFront(false);
 		}
