@@ -943,7 +943,7 @@ __GGB__keysVar.zh_CN.command = {
     "TextToUnicode.Syntax": "[ \"<\u6587\u672c>\" ]",
     "Textfield": "\u8f93\u5165\u6846",
     "Textfield.Syntax": "[ ]\n[ <\u94fe\u63a5\u5bf9\u8c61> ]",
-    "TiedRank": "\u5e8f\u53f7\u6392\u540d",
+    "TiedRank": "\u5e8f\u53f7\u5217\u8868",
     "TiedRank.Syntax": "[ <\u5217\u8868> ]",
     "ToBase": "\u8f6c\u6362\u4e3a\u6307\u5b9a\u8fdb\u5236",
     "ToBase.Syntax": "[ <\u5341\u8fdb\u5236\u6570>, <\u76ee\u6807\u8fdb\u5236_2-36> ]",
