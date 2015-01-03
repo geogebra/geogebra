@@ -141,4 +141,9 @@ public class GeoPolyhedronNet extends GeoPolyhedron {
 		}
 	}
 
+
+	@Override
+	public double getDouble() {
+		return getArea();
+	}
 }

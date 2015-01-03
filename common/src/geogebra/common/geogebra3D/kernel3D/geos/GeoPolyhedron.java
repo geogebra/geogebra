@@ -17,11 +17,13 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.ConstructionElement;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumberValue;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.geos.Traceable;
@@ -53,7 +55,8 @@ import java.util.TreeMap;
  */
 public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 		HasVolume, Traceable, RotateableND, Translateable, MirrorableAtPlane,
-		Transformable, Dilateable, HasHeight, Path, GeoPolyhedronInterface {
+		Transformable, Dilateable, HasHeight, Path, GeoPolyhedronInterface,
+		GeoNumberValue {
 
 	public static final int TYPE_PYRAMID = 1;
 	public static final int TYPE_PRISM = 3;
@@ -1957,6 +1960,14 @@ public class GeoPolyhedron extends GeoElement3D implements HasSegments,
 	@Override
 	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
+	}
+
+	public MyDouble getNumber() {
+		return new MyDouble(kernel, getDouble());
+	}
+
+	public double getDouble() {
+		return getVolume();
 	}
 
 }
