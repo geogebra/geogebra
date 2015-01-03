@@ -523,6 +523,13 @@ public abstract class GlobalKeyDispatcher {
 				consumed = true;
 				break;
 
+			case U:
+				if (isShiftDown && app.getGuiManager() != null) {
+					app.getGuiManager().showGraphicExport();
+					consumed = true;
+				}
+				break;
+
 			case V:
 				// check not spreadsheet, not inputbar
 				if (!(fromSpreadsheet)) {

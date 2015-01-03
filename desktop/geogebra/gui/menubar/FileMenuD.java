@@ -133,7 +133,7 @@ class FileMenuD extends BaseMenu implements EventRenderable {
 			setMenuShortCutShiftAccelerator(mi, 'W');
 
 			mi = submenu.add(exportGraphicAction);
-			setMenuShortCutShiftAccelerator(mi, 'P');
+			setMenuShortCutShiftAccelerator(mi, 'U');
 
 			mi = submenu.add(exportAnimationAction);
 
