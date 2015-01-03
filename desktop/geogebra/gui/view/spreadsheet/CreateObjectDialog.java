@@ -206,9 +206,9 @@ public class CreateObjectDialog extends InputDialogD implements
 		// TODO: this is not a good way to manage visibility of option panels
 		// ..fix it if we need more options in the future
 		cards = new JPanel(new CardLayout());
-		cards.add("c0", orderPanel);
-		cards.add("c1", xySwitchPanel);
-		cards.add("c2", transposePanel);
+		cards.add("c" + CreateObjectModel.OPTION_ORDER, orderPanel);
+		cards.add("c" + CreateObjectModel.OPTION_XY, xySwitchPanel);
+		cards.add("c" + CreateObjectModel.OPTION_TRANSPOSE, transposePanel);
 
 		optionsPanel = new JPanel(new BorderLayout());
 		optionsPanel.add(northPanel, BorderLayout.NORTH);
@@ -285,19 +285,12 @@ public class CreateObjectDialog extends InputDialogD implements
 
 	private void updateGUI() {
 		coModel.update();
+
+		int idx = coModel.getOptionType();
+
 		CardLayout cl = (CardLayout) (cards.getLayout());
-		switch (typeList.getSelectedIndex()) {
-		case 0:
-			// row or column order
-			cl.show(cards, "c0");
-		case 1:
-			// XY order
-			cl.show(cards, "c1");
-		case 2:
-		case 3:
-			// transpose
-			cl.show(cards, "c2");
-		}
+		cl.show(cards, "c" + idx);
+
 
 	}
 

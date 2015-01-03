@@ -162,6 +162,7 @@ public class CreateObjectModel {
 			for (int i = 0; i < pts.length; i++) {
 				pts[i].setEuclidianVisible(true);
 				pts[i].setAuxiliaryObject(false);
+				pts[i].updateRepaint();
 			}
 		}
 
@@ -229,6 +230,8 @@ public class CreateObjectModel {
 			case TYPE_TABLETEXT:
 				newGeo = cp.createTableText(column1, column2, row1, row2,
 						copyByValue, transpose);
+				newGeo.setEuclidianVisible(false);
+				newGeo.updateRepaint();
 				break;
 
 			case TYPE_POLYLINE:
@@ -240,6 +243,7 @@ public class CreateObjectModel {
 				for (int i = 0; i < pts.length; i++) {
 					pts[i].setAuxiliaryObject(true);
 					pts[i].setEuclidianVisible(false);
+					pts[i].updateRepaint();
 				}
 				newGeo.updateRepaint();
 				break;
@@ -323,6 +327,33 @@ public class CreateObjectModel {
 
 	public void setListType() {
 		objectType = TYPE_LIST;
+	}
+
+	public static final int OPTION_ORDER = 0;
+	public static final int OPTION_XY = 1;
+	public static final int OPTION_TRANSPOSE = 2;
+
+	public int getOptionType() {
+		int idx = 0;
+
+		switch (getObjectType()) {
+		case CreateObjectModel.TYPE_LIST:
+			idx = OPTION_ORDER;
+			break;
+		case CreateObjectModel.TYPE_LISTOFPOINTS:
+			idx = OPTION_XY;
+			break;
+		case CreateObjectModel.TYPE_MATRIX:
+			idx = OPTION_TRANSPOSE;
+			break;
+		case CreateObjectModel.TYPE_TABLETEXT:
+			idx = OPTION_TRANSPOSE;
+			break;
+		case CreateObjectModel.TYPE_POLYLINE:
+			idx = OPTION_XY;
+		}
+
+		return idx;
 	}
 
 

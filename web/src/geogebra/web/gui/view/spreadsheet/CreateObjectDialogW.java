@@ -67,9 +67,6 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private Label lblPreviewHeader;
 	private Label lblOptions;
 	private FlowPanel centerPanel;
-	private static final int OPTION_ORDER = 0;
-	private static final int OPTION_XY = 1;
-	private static final int OPTION_TRANSPOSE = 2;
 	
 	public CreateObjectDialogW(AppW app, SpreadsheetViewW view, int objectType) {
 
@@ -314,25 +311,9 @@ public class CreateObjectDialogW extends InputDialogW implements
 
 	private void updateGUI() {
 		coModel.update();
-		int idx = 0;
 		
-		switch (coModel.getObjectType()) {
-		case CreateObjectModel.TYPE_LIST:
-			idx = OPTION_ORDER;
-			break;
-		case CreateObjectModel.TYPE_LISTOFPOINTS:
-			idx = OPTION_XY;
-			break;
-		case CreateObjectModel.TYPE_MATRIX:
-			idx = OPTION_ORDER;
-			break;
-		case CreateObjectModel.TYPE_TABLETEXT:
-			idx = OPTION_TRANSPOSE;
-			
-			break;
-		case CreateObjectModel.TYPE_POLYLINE:
-			idx = OPTION_ORDER;
-		}
+		int idx = coModel.getOptionType();
+
 		App.debug("[CO] object type: " + idx);
 		cards.setSelectedIndex(idx);
 		/*
