@@ -124,7 +124,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		for (Corner c : nextSplit) {
-			c.draw(surface);
+			c.drawUndefined(surface);
 		}
 
 		setSurfaceIndex(surface.end());
@@ -388,7 +388,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				break;
 
 			default: // we are on boundary: split
-				split(um, vm, pm);
+				nextSplit.add(this);
+				// split(um, vm, pm);
 				break;
 
 			}
@@ -559,7 +560,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		}
 
-		public void draw(PlotterSurface surface) {
+		public void drawUndefined(PlotterSurface surface) {
 
 			Corner left, above, subLeft, subAbove;
 
@@ -590,7 +591,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
 							// find defined between l.a and l
 							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-							drawTriangles(surface, n.p, w.p, left.a.p);
+							drawTrianglesUndefined(surface, n.p, w.p, left.a.p);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
 						}
 					} else {
 						if (left.a.p.isFinalUndefined()) {
@@ -598,16 +605,39 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// find defined between a and l.a
 							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
 							// find defined between a and this
-							Corner e = findV(above, this, BOUNDARY_SPLIT);
-							drawTriangles(surface, n.p, e.p, above.p);
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(above, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							drawTrianglesUndefined(surface, n.p, e.p, above.p);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
 						} else {
 							// a and l.a not undefined
 							// find defined between a and this
-							Corner e = findV(above, this, BOUNDARY_SPLIT);
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(above, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
 							// find defined between l.a and left
 							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-							drawTriangles(surface, e.p, above.p, left.a.p);
-							drawTriangles(surface, e.p, left.a.p, w.p);
+							drawTrianglesUndefined(surface, e.p, above.p,
+									left.a.p);
+							drawTrianglesUndefined(surface, e.p, left.a.p, w.p);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
 						}
 					}
 				} else {
@@ -615,18 +645,41 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (left.a.p.isFinalUndefined()) {
 							// l defined
 							// find defined between l and this
-							Corner s = findU(left, this, BOUNDARY_SPLIT);
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(left, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
 							// find defined between l and l.a
 							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-							drawTriangles(surface, s.p, w.p, left.p);
+							drawTrianglesUndefined(surface, s.p, w.p, left.p);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
 						} else {
 							// l and l.a not undefined
 							// find defined between l and this
-							Corner s = findU(left, this, BOUNDARY_SPLIT);
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(left, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
 							// find defined between l.a and a
 							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
-							drawTriangles(surface, s.p, n.p, left.a.p);
-							drawTriangles(surface, s.p, left.a.p, left.p);
+							drawTrianglesUndefined(surface, s.p, n.p, left.a.p);
+							drawTrianglesUndefined(surface, s.p, left.a.p,
+									left.p);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
 						}
 					} else {
 						if (left.a.p.isFinalUndefined()) {
@@ -634,12 +687,30 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						} else {
 							// l, a and l.a not undefined
 							// find defined between l and this
-							Corner s = findU(left, this, BOUNDARY_SPLIT);
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(left, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
 							// find defined between a and this
-							Corner e = findV(above, this, BOUNDARY_SPLIT);
-							drawTriangles(surface, left.a.p, left.p, s.p);
-							drawTriangles(surface, left.a.p, s.p, e.p);
-							drawTriangles(surface, left.a.p, e.p, above.p);
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(above, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							drawTrianglesUndefined(surface, left.a.p, left.p,
+									s.p);
+							drawTrianglesUndefined(surface, left.a.p, s.p, e.p);
+							drawTrianglesUndefined(surface, left.a.p, e.p,
+									above.p);
 						}
 					}
 				}
@@ -649,10 +720,26 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (left.a.p.isFinalUndefined()) {
 							// this defined
 							// find defined between this and l
-							Corner s = findU(this, left, BOUNDARY_SPLIT);
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(this, left, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
 							// find defined between this and a
-							Corner e = findV(this, above, BOUNDARY_SPLIT);
-							drawTriangles(surface, s.p, e.p, p);
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(this, above, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							drawTrianglesUndefined(surface, s.p, e.p, p);
 						} else {
 							// this and l.a not undefined
 						}
@@ -660,20 +747,44 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (left.a.p.isFinalUndefined()) {
 							// this and a not undefined
 							// find defined between this and l
-							Corner s = findU(this, left, BOUNDARY_SPLIT);
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(this, left, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
 							// find defined between a and l.a
 							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
-							drawTriangles(surface, p, above.p, n.p);
-							drawTriangles(surface, p, n.p, s.p);
+							drawTrianglesUndefined(surface, p, above.p, n.p);
+							drawTrianglesUndefined(surface, p, n.p, s.p);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
 						} else {
 							// this, a and l.a not undefined
 							// find defined between this and l
-							Corner s = findU(this, left, BOUNDARY_SPLIT);
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(this, left, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
 							// find defined between l.a and l
 							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-							drawTriangles(surface, above.p, left.a.p, w.p);
-							drawTriangles(surface, above.p, w.p, s.p);
-							drawTriangles(surface, above.p, s.p, this.p);
+							drawTrianglesUndefined(surface, above.p, left.a.p,
+									w.p);
+							drawTrianglesUndefined(surface, above.p, w.p, s.p);
+							drawTrianglesUndefined(surface, above.p, s.p,
+									this.p);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
 						}
 					}
 				} else {
@@ -681,20 +792,43 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (left.a.p.isFinalUndefined()) {
 							// this and l not undefined
 							// find defined between this and a
-							Corner e = findV(this, above, BOUNDARY_SPLIT);
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(this, above, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
 							// find defined between l and l.a
 							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-							drawTriangles(surface, p, e.p, w.p);
-							drawTriangles(surface, p, w.p, left.p);
+							drawTrianglesUndefined(surface, p, e.p, w.p);
+							drawTrianglesUndefined(surface, p, w.p, left.p);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
 						} else {
 							// this, l and l.a not undefined
 							// find defined between l.a and a
 							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
 							// find defined between this and a
-							Corner e = findV(this, above, BOUNDARY_SPLIT);
-							drawTriangles(surface, left.p, p, e.p);
-							drawTriangles(surface, left.p, e.p, n.p);
-							drawTriangles(surface, left.p, n.p, left.a.p);
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(this, above, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							drawTrianglesUndefined(surface, left.p, p, e.p);
+							drawTrianglesUndefined(surface, left.p, e.p, n.p);
+							drawTrianglesUndefined(surface, left.p, n.p,
+									left.a.p);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
 						}
 					} else {
 						if (left.a.p.isFinalUndefined()) {
@@ -703,13 +837,22 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
 							// find defined between l and l.a
 							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-							drawTriangles(surface, this.p, above.p, n.p);
-							drawTriangles(surface, this.p, n.p, w.p);
-							drawTriangles(surface, this.p, w.p, left.p);
+							drawTrianglesUndefined(surface, this.p, above.p,
+									n.p);
+							drawTrianglesUndefined(surface, this.p, n.p, w.p);
+							drawTrianglesUndefined(surface, this.p, w.p, left.p);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
 						} else {
 							// this, l, a and l.a not undefined
-							drawTriangles(surface, this.p, left.p, left.a.p);
-							drawTriangles(surface, this.p, above.p, left.a.p);
+							drawTrianglesUndefined(surface, this.p, left.p,
+									left.a.p);
+							drawTrianglesUndefined(surface, this.p, above.p,
+									left.a.p);
 						}
 					}
 				}
@@ -717,7 +860,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		}
 
-		private void drawTriangles(PlotterSurface surface, Coords p0,
+		private void drawTrianglesUndefined(PlotterSurface surface, Coords p0,
 				Coords p1, Coords p2) {
 
 			surface.startTrianglesWireFrame();
@@ -734,6 +877,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			surface.endGeometry();
 		}
+
 
 	}
 
