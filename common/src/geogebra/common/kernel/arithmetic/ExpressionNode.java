@@ -2464,9 +2464,9 @@ public class ExpressionNode extends ValidExpression implements
 				break;
 			case GIAC:
 				if (leftStr.equals(Unicode.EULER_STRING)) {
-					sb.append("exp(");
+					sb.append("exp(1/(");
 					sb.append(rightStr);
-					sb.append(')');
+					sb.append("))");
 				} else {
 					// was simplify(surd(, causes problems with output from
 					// cubic formula, eg x^3 - 6x^2 - 7x + 9
