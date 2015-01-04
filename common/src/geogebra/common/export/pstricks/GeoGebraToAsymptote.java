@@ -957,7 +957,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			st = StringUtil.toLaTeXString(st, true);
 		// try to replace euro symbol
 		if (st.indexOf("\u20ac") != -1) {
-			st = st.replaceAll("\\u20ac", "\\\\euro{}");
+			st = st.replace("\\u20ac", "\\\\euro{}");
 			if (!eurosym)
 				codePreamble.append("usepackage(\"eurosym\"); ");
 		}
@@ -1251,7 +1251,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			return;
 		String value = f.toValueString(getStringTemplate());
 		value = parseFunction(value);// killSpace(StringUtil.toLaTeXString(value,true));
-		value = value.replaceAll("\\\\pi", "pi");
+		value = value.replace("\\\\pi", "pi");
 		double a = xmin;
 		double b = xmax;
 		if (geo.hasInterval()) {
@@ -2009,7 +2009,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		importpackage.add("contour"); // importContour = true; flag for preamble
 										// to import contour package
 		// two-variable implicit function expression
-		String polynomial = parseFunction(getImplicitExpr(geo)).replaceAll(
+		String polynomial = parseFunction(getImplicitExpr(geo)).replace(
 				"\\\\pi", "pi");
 		implicitFuncCount++;
 		int implicitFuncName = implicitFuncCount;
@@ -2077,7 +2077,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		else
 			sa.append("draw(");
 
-		s = s.replaceAll("--\\(\\?,\\?\\)--", sb.toString() + sa.toString());
+		s = s.replace("--\\(\\?,\\?\\)--", sb.toString() + sa.toString());
 		code.append(s);
 	}
 
@@ -2201,7 +2201,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				String name;
 				if (geo.getLabelMode() == GeoElement.LABEL_CAPTION) {
 					name = convertUnicodeToText(geo.getLabelDescription())
-							.replaceAll("\\$", "dollar");
+							.replace("\\$", "dollar");
 					if (name.contains("_")) {
 						name = "$" + name + "$";
 					}
@@ -2216,7 +2216,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					name = convertUnicodeToLatex(name);
 				}
 				if (name.indexOf("\u00b0") != -1) {
-					name = name.replaceAll("\u00b0", "^\\\\circ");
+					name = name.replace("\u00b0", "^\\\\circ");
 				}
 
 				if (drawGeo == null)
@@ -3169,10 +3169,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		else {
 			st = convertUnicodeToText(st);
 			// Strip dollar signs. Questionable! TODO
-			st = st.replaceAll("\\$", "dollar ");
+			st = st.replace("\\$", "dollar ");
 			// Replace all backslash symbol with \textbackslash, except for
 			// newlines
-			st = st.replaceAll("\\\\", "\\\\textbackslash ").replaceAll(
+			st = st.replace("\\\\", "\\\\textbackslash ").replace(
 					"\\\\textbackslash \\\\textbackslash ", "\\\\\\\\ ");
 		}
 		switch (style) {
@@ -3504,12 +3504,12 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		Iterator<String> it = UnicodeTeX.getMap().keySet().iterator();
 		while (it.hasNext()) {
 			String skey = it.next();
-			s1 = s1.replaceAll(skey, UnicodeTeX.getMap().get(skey) + " ");
+			s1 = s1.replace(skey, UnicodeTeX.getMap().get(skey) + " ");
 		}
-		return s1.replaceAll("\u00b0", "o ")
+		return s1.replace("\u00b0", "o ")
 				// degree symbol
-				.replaceAll("\u212f", "e ").replaceAll("\u00b2", "2 ")
-				.replaceAll("\u00b3", "3 ").replaceAll("pi \\)", "pi\\)"); // eliminate
+				.replace("\u212f", "e ").replace("\u00b2", "2 ")
+				.replace("\u00b3", "3 ").replace("pi \\)", "pi\\)"); // eliminate
 																			// unsightly
 																			// spaces
 	}
@@ -3528,7 +3528,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// look up unicodeTable conversions and replace with LaTeX commands
 		while (it.hasNext()) {
 			String skey = it.next();
-			s1 = s1.replaceAll(skey, "\\\\" + UnicodeTeX.getMap().get(skey)
+			s1 = s1.replace(skey, "\\\\" + UnicodeTeX.getMap().get(skey)
 					+ " ");
 		}
 
@@ -3558,9 +3558,9 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			sb.append(s1.charAt(s1.length() - 1));
 		s1 = sb.toString();
 
-		return s1.replaceAll("\u00b0", "^\\\\circ").replaceAll("\u212f", " e")
-				.replaceAll("\u00b2", "^2").replaceAll("\u00b3", "^3")
-				.replaceAll("\\\\questeq", "\\\\stackrel{?}{=}");
+		return s1.replace("\u00b0", "^\\\\circ").replace("\u212f", " e")
+				.replace("\u00b2", "^2").replace("\u00b3", "^3")
+				.replace("\\\\questeq", "\\\\stackrel{?}{=}");
 	}
 
 	/**
