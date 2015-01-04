@@ -1408,8 +1408,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		}
 		double[] coord = new double[3];
 		geo.getCoords(coord);
-		String x2 = format(coord[0] + Double.parseDouble(x1));
-		String y2 = format(coord[1] + Double.parseDouble(y1));
+		String x2 = format(coord[0]
+				+ kernel.getAlgebraProcessor().evaluateToDouble(x1));
+		String y2 = format(coord[1]
+				+ kernel.getAlgebraProcessor().evaluateToDouble(y1));
 
 		if (!compact)
 			code.append("\n");
@@ -1456,7 +1458,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			}
 			addPoint(format(x), format(y), tempsb);
 			packSpaceAfter(tempsb, ",");
-			if (Double.parseDouble(tmpr) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpr) != 0)
 				tempsb.append(tmpr);
 			else
 				tempsb.append(r);
