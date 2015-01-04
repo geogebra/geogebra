@@ -1695,7 +1695,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			writePoint(x, y, build);
 			build.append(" circle (");
 			String tmpr = format(r * xunit);
-			if (Double.parseDouble(tmpr) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpr) != 0)
 				build.append(tmpr);
 			else
 				build.append(r);
@@ -2253,7 +2253,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append(format(a));
 			code.append("*\\x)/");
 			String tmpy = format(b);
-			if (Double.parseDouble(tmpy) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpy) != 0)
 				code.append(tmpy);
 			else
 				code.append(b);
@@ -2355,7 +2355,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			code.append(format(a));
 			code.append("*\\x)/");
 			String tmpy = format(b);
-			if (Double.parseDouble(tmpy) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpy) != 0)
 				code.append(tmpy);
 			else
 				code.append(b);

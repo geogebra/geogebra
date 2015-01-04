@@ -400,7 +400,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				af = f.getIntervalMin();
 				bf = f.getIntervalMax();
 			}
-			f.setInterval(Double.parseDouble(a), Double.parseDouble(b));
+			f.setInterval(kernel.getAlgebraProcessor().evaluateToDouble(a),
+					kernel.getAlgebraProcessor().evaluateToDouble(b));
 			code.append("\\pscustom");
 			f.setInterval(algo.getA().getDouble(), algo.getB().getDouble());
 			drawFunction(f, true, geo);
@@ -1246,8 +1247,10 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 		double[] coord = new double[3];
 		geo.getCoords(coord);
-		String x2 = format(coord[0] + Double.parseDouble(x1));
-		String y2 = format(coord[1] + Double.parseDouble(y1));
+		String x2 = format(coord[0]
+				+ kernel.getAlgebraProcessor().evaluateToDouble(x1));
+		String y2 = format(coord[1]
+				+ kernel.getAlgebraProcessor().evaluateToDouble(y1));
 		startBeamer(code);
 		code.append("\\psline");
 		code.append(LineOptionCode(geo, true));
@@ -1280,7 +1283,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			s.append(format(y));
 			s.append("){");
 			String tmpr = format(r * xunit);
-			if (Double.parseDouble(tmpr) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpr) != 0)
 				s.append(tmpr);
 			else
 				s.append(r);
@@ -1576,7 +1579,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(format(x));
 			code.append("*x)/");
 			String tmpy = format(y);
-			if (Double.parseDouble(tmpy) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpy) != 0)
 				code.append(tmpy);
 			else
 				code.append(y);
@@ -1682,7 +1685,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 			code.append(format(x));
 			code.append("*x)/");
 			String tmpy = format(y);
-			if (Double.parseDouble(tmpy) != 0)
+			if (kernel.getAlgebraProcessor().evaluateToDouble(tmpy) != 0)
 				code.append(tmpy);
 			else
 				code.append(y);
