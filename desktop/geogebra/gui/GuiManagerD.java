@@ -2479,9 +2479,10 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 
 	public void addToToolbarDefinition(int mode) {
 		if (this.getActiveEuclidianView().getDimension() > 2) {
-			this.getLayout().getDockManager()
-					.getPanel(this.getActiveEuclidianView().getViewID())
-					.addToToolbar(mode);
+			DockPanel panel = this.getLayout().getDockManager()
+					.getPanel(this.getActiveEuclidianView().getViewID());
+			panel.addToToolbar(mode);
+			panel.updateToolbar();
 			return;
 		}
 		if (strCustomToolbarDefinition != null) {
