@@ -1,6 +1,5 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
@@ -104,8 +103,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// Corner l = new Corner(uMin, vMax);
 		// Corner corner = new Corner(uMax, vMax, a, l, al);
 
-		double uDelta = (uMax - uMin) / 10;
-		double vDelta = (vMax - vMin) / 10;
+		maxRWDistance = 5 * getView3D().getMaxPixelDistance() / getView3D().getScale();
+		maxBend = getView3D().getMaxBend();
+
+		App.debug("\nmaxRWDistance = " + maxRWDistance);
+
+		int n = 4;
+		double uDelta = (uMax - uMin) / n;
+		double vDelta = (vMax - vMin) / n;
 		Corner corner = createRootMesh(uMin, uMax, uDelta, vMin, vMax, vDelta);
 
 		currentSplit = new ArrayList<DrawSurface3D.Corner>();
@@ -115,7 +120,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// currentSplit.add(corner);
 		notDrawn = 0;
 		splitRootMesh(corner);
-		split(1);
+		split(5);
 
 		App.debug("\ndraw size : " + drawList.size() + "\nnot drawn : "
 				+ notDrawn + "\nstill to split : " + nextSplit.size());
@@ -322,67 +327,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		public void split() {
-
-			// // middle parameters
-			// double um, vm;
-			// if (l.a == null) { // already splitted on left
-			// um = l.u;
-			// } else { // split on left
-			// um = (u + l.u) / 2;
-			// }
-			// if (a.l == null) { // already splitted on above
-			// vm = a.v;
-			// } else { // split on above
-			// vm = (v + a.v) / 2;
-			// }
-			//
-			// // middle point
-			// Coords pm = evaluatePoint(um, vm);
-			//
-			//
-			// // how many undefined corners?
-			// int undefinedCorners = 0;
-			// if (p.isFinalUndefined()) {
-			// undefinedCorners++;
-			// }
-			// Corner left = l;
-			// if (left.a == null) { // already splitted on left
-			// left = left.l;
-			// }
-			// if (left.p.isFinalUndefined()) {
-			// undefinedCorners++;
-			// }
-			// Corner above = a;
-			// if (above.l == null) { // already splitted on above
-			// above = above.a;
-			// }
-			// if (above.p.isFinalUndefined()) {
-			// undefinedCorners++;
-			// }
-			// Corner aboveLeft = above.l;
-			// if (aboveLeft.p.isFinalUndefined()) {
-			// undefinedCorners++;
-			// }
-			//
-			// switch (undefinedCorners) {
-			// case 0: // all corners are defined
-			// if (pm.isNotFinalUndefined()) {
-			// drawList.add(new CornerAndCenter(this, pm));
-			// } else {
-			// notDrawn++;
-			// }
-			// break;
-			//
-			// case 4: // all corners are undefined
-			// notDrawn++;
-			// break;
-			//
-			// default: // we are on boundary: split
-			// nextSplit.add(this);
-			// // split(um, vm, pm);
-			// break;
-			//
-			// }
 
 
 			Corner left, above, subLeft, subAbove;
@@ -701,11 +645,52 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// this, l, a and l.a not undefined
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(p, left.p, above.p, left.a.p);
-							left.a.isNotEnd = false;
-							drawList.add(new CornerAndCenter(this, center));
+							// check distances
+							if (isDistanceOK(p, left.p, above.p, left.a.p) && isAngleOK(p, left.p, above.p, left.a.p, maxBend)) {
+								// for drawing
+								Coords center = new Coords(3);
+								center.setBarycenter(p, left.p, above.p, left.a.p);
+								left.a.isNotEnd = false;
+								drawList.add(new CornerAndCenter(this, center));
+							} else {
+								// new corners
+								double um = (u + left.u) / 2;
+								double vm = (v + above.v) / 2;
+								Corner e;
+								if (subAbove != null) {
+									e = subAbove;
+								} else {
+									e = new Corner(u, vm);
+									// new neighbors
+									this.a = e;
+									e.a = above;
+								}
+								Corner s;
+								if (subLeft != null) {
+									s = subLeft;
+								} else {
+									s = new Corner(um, v);
+									// new neighbors
+									this.l = s;
+									s.l = left;
+								}
+								Corner m = new Corner(um, vm);
+								s.a = m;
+								e.l = m;
+								Corner n = new Corner(um, above.v);
+								n.l = above.l;
+								above.l = n;
+								m.a = n;
+								Corner w = new Corner(left.u, vm);
+								w.a = left.a;
+								left.a = w;
+								m.l = w;
+								// next split
+								nextSplit.add(this);
+								nextSplit.add(s);
+								nextSplit.add(e);
+								nextSplit.add(m);
+							}
 						}
 					}
 				}
@@ -797,19 +782,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return false;
 		}
 
-		// private Corner getLeftCheckSplitted() {
-		// if (l.a == null) {
-		// return l.l;
-		// }
-		// return l;
-		// }
-		//
-		// private Corner getAboveCheckSplitted() {
-		// if (a.l == null) {
-		// return a.a;
-		// }
-		// return a;
-		// }
 
 		private Corner findU(Corner defined, Corner undefined, int depth) {
 			return findU(defined.p, defined.u, defined.u, undefined.u,
@@ -869,15 +841,94 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	protected static boolean isDistanceOK(double[] diff, EuclidianView view) {
-		for (double d : diff) {
-			if (Math.abs(d) > view.getMaxPixelDistance()) {
-				return false;
+	private double maxRWDistance;
+	protected double maxBend;
+
+	/**
+	 * 
+	 * @param p
+	 *            points
+	 * @return true if distance are small enough between points
+	 */
+	protected boolean isDistanceOK(Coords... p) {
+
+		Coords p0 = p[0];
+		for (int i = 1; i < p.length; i++) {
+			for (int j = 0; j < 3; j++) {
+				if (Math.abs(p[i].val[j] - p0.val[j]) > maxRWDistance) {
+					return false;
+				}
 			}
 		}
 		return true;
 	}
 
+	/**
+	 * Returns whether the angle between the vectors (vx, vy) and (wx, wy) is
+	 * smaller than MAX_BEND, where MAX_BEND = tan(MAX_ANGLE).
+	 */
+	private static boolean isAngleOK(double[] v, double[] w, double bend) {
+		// |v| * |w| * sin(alpha) = |det(v, w)|
+		// cos(alpha) = v . w / (|v| * |w|)
+		// tan(alpha) = sin(alpha) / cos(alpha)
+		// tan(alpha) = |det(v, w)| / v . w
+
+		// small angle: tan(alpha) < MAX_BEND
+		// |det(v, w)| / v . w < MAX_BEND
+		// |det(v, w)| < MAX_BEND * (v . w)
+
+		double innerProduct = 0;
+		for (int i = 0; i < v.length; i++) {
+			innerProduct += v[i] * w[i];
+		}
+
+		if (innerProduct <= 0) {
+			// angle >= 90 degrees
+			return false;
+		}
+
+		// angle < 90 degrees
+		// small angle: |det(v, w)| < MAX_BEND * (v . w)
+		double d1 = v[0] * w[1] - v[1] * w[0];
+		double d2 = v[1] * w[2] - v[2] * w[1];
+		double d3 = v[2] * w[0] - v[0] * w[2];
+		double det = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
+		return det < bend * innerProduct;
+	}
+
+	private static boolean isAngleOKVectors(Coords u1, Coords u2, Coords v1, Coords v2, double bend) {
+		Coords n1 = new Coords(3);
+		n1.setCrossProduct(u1, u2);
+		Coords n2 = new Coords(3);
+		n2.setCrossProduct(v1, v2);
+		return isAngleOK(n1.val, n2.val, bend);
+	}
+
+	/**
+	 * 
+	 * @param p1
+	 *            first point
+	 * @param p2
+	 *            second point
+	 * @param p3
+	 *            third point
+	 * @param p4
+	 *            fourth point
+	 * @param bend
+	 *            max bend value
+	 * @return true if the two dihedral angles are ok
+	 */
+	protected static boolean isAngleOK(Coords p1, Coords p2, Coords p3, Coords p4, double bend) {
+		Coords u1 = new Coords(3);
+		Coords u2 = new Coords(3);
+		Coords v1 = new Coords(3);
+		Coords v2 = new Coords(3);
+		u1.setSub(p2, p1);
+		u2.setSub(p3, p1);
+		v1.setSub(p3, p4);
+		v2.setSub(p2, p4);
+		return isAngleOKVectors(u1, u2, v1, v2, bend) && isAngleOKVectors(v1, u2, u1, v2, bend);
+	}
 
 	private class CornerAndCenter {
 		private Corner corner;
