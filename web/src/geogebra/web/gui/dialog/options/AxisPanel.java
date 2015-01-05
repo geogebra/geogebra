@@ -138,7 +138,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		distancePanel.add(ncbTickDist);
 
 		// axis and unit label
-		comboAxisLabel = new ComboBoxW(){
+		comboAxisLabel = new ComboBoxW(app) {
 
 			@Override
             protected void onValueChange(String value) {
@@ -151,7 +151,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 		
         axisLabel = new Label(app.getPlain("AxisLabel") + ":");
 		axisUnitLabel = new Label(app.getPlain("AxisUnitLabel") + ":");
-		comboUnitLabel = new ComboBoxW(){
+		comboUnitLabel = new ComboBoxW(app) {
 
 			@Override
             protected void onValueChange(String value) {

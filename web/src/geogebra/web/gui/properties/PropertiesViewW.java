@@ -113,7 +113,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize, Se
 	 * @return
 	 */
 	public OptionPanelW getOptionPanel(OptionType type, int subType) {
-
+		App.debug("[OptionPanelW] getOptionPanel");
 		//AbstractApplication.printStacktrace("type :"+type);
 		if (styleBar != null) {
 			styleBar.updateGUI();

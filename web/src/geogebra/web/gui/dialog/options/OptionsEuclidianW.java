@@ -696,26 +696,34 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label lblColor;
 		private CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
-		
+		private FlowPanel mainPanel;
 		public GridTab() {
 			super();
 			cbShowGrid = new CheckBox();
 			cbShowGrid.addClickHandler(new ClickHandler(){
 
 				public void onClick(ClickEvent event) {
-	                model.showGrid(cbShowGrid.getValue());
-                }});
+					enableGrid(cbShowGrid.getValue());
+				}
+			});
+			mainPanel = new FlowPanel();
+
 			add(cbShowGrid);
+			add(mainPanel);
 			initGridTypePanel();
 			initGridStylePanel();
 		}
 		
+		private void enableGrid(boolean value) {
+			model.showGrid(value);
+
+		}
 		private void initGridTypePanel() {
 
 			// grid type combo box
 			lblGridType = new Label();
 			lbGridType = new ListBox();
-			add(lblGridType);
+			mainPanel.add(lblGridType);
 			lblGridType.setStyleName("panelTitle");
 			
 			lbGridType.addChangeHandler(new ChangeHandler(){
@@ -780,7 +788,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 			FlowPanel tickPanel = LayoutUtil.panelRow(cbGridManualTick, ncbGridTickXPanel, 
 					ncbGridTickYPanel, ncbGridTickAnglePanel);
-			add(tickPanel);
+			mainPanel.add(tickPanel);
 			
 			FlowPanel typePanel = new FlowPanel();
 			typePanel.add(gridTickAnglePanel);
@@ -802,7 +810,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				}
 			});
 			typePanel.setStyleName("panelIndent");
-			add(typePanel);
+			mainPanel.add(typePanel);
 		}
 		
 		protected void addGridType(FlowPanel gridTickAnglePanel){
@@ -885,7 +893,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		
 		protected void addOnlyFor2D(Widget w){
-			add(w);
+			mainPanel.add(w);
 		}
 
 

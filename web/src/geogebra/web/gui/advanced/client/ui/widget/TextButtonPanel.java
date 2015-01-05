@@ -16,15 +16,16 @@
 
 package geogebra.web.gui.advanced.client.ui.widget;
 
-import geogebra.html5.gui.textbox.GTextBox;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.advanced.client.ui.AdvancedWidget;
+import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 
 /**
@@ -41,7 +42,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
     /** widget layout */
     private FlexTable layout;
     /** a selected value box */
-    private TextBox selectedValue;
+	private AutoCompleteTextFieldW selectedValue;
     /** a choice button */
     private ToggleButton choiceButton;
     /** a choice button image */
@@ -62,12 +63,14 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
     private boolean enabled;
     /** action to be performed on Enter key press in the text field */
     private EnterAction enterAction = EnterAction.OPEN_DROP_DOWN;
+	private AppW app;
 
     public enum EnterAction {
         OPEN_DROP_DOWN, DO_NOTHING;
     }
 
-    protected TextButtonPanel() {
+	protected TextButtonPanel(AppW app) {
+		this.app = app;
         getLayout().setWidget(0, 0, getSelectedValue());
         setChoiceButtonVisible(true);
         setCustomTextAllowed(false);
@@ -159,7 +162,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * @return a maximum length of the text box.
      */
     public int getMaxLength() {
-        return getSelectedValue().getMaxLength();
+		return 100;// getSelectedValue().getMaxLength();
     }
 
     /**
@@ -170,7 +173,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * @param length is a maximum length of the text box.
      */
     public void setMaxLength(int length) {
-        getSelectedValue().setMaxLength(length);
+		// getSelectedValue().setMaxLength(length);
     }
 
     /**
@@ -179,7 +182,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * @param index is a tab order number.
      */
     public void setTabIndex(int index) {
-        getSelectedValue().setTabIndex(index);
+		// getSelectedValue().setTabIndex(index);
     }
 
     /**
@@ -198,7 +201,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      */
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        getSelectedValue().setEnabled(enabled);
+		getSelectedValue().setEditable(enabled);
         getChoiceButton().setEnabled(enabled);
     }
 
@@ -220,8 +223,8 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      * Prepares the selected value box for displaying.
      */
     protected void prepareSelectedValue() {
-        TextBox selectedValue = getSelectedValue();
-        selectedValue.setReadOnly(!isCustomTextAllowed());
+		AutoCompleteTextFieldW selectedValue = getSelectedValue();
+		selectedValue.setEditable(!isCustomTextAllowed());
         selectedValue.setStyleName("selected-value");
 
         if(getHeight() != null) {
@@ -267,13 +270,14 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      *
      * @return Value for property 'selectedValue'.
      */
-    protected TextBox getSelectedValue() {
+	protected AutoCompleteTextFieldW getSelectedValue() {
         if (selectedValue == null) {
-            selectedValue = new GTextBox();
-            selectedValue.getElement().setAttribute("autocomplete", "off");
-            selectedValue.getElement().setAttribute("autocapitalize", "off");
-        }
-        return selectedValue;
+			InputPanelW input = new InputPanelW(null, app, 0, 0, true);
+			selectedValue = input.getTextComponent();
+			selectedValue.requestToShowSymbolButton();
+			// selectedValue.showPopupSymbolButton(true);
+		}
+		return selectedValue;
     }
 
     /**

@@ -1,11 +1,18 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.main.App;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.advanced.client.datamodel.ListDataModel;
 import geogebra.web.gui.advanced.client.datamodel.ListModelEvent;
 import geogebra.web.gui.advanced.client.ui.widget.ComboBox;
 import geogebra.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -20,8 +27,12 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final String DEFAULT_WIDTH = "70px";
 	private static final Image choiceImage = new Image(GuiResources.INSTANCE.toolbar_further_tools());
 	private static final Image choiceImageActive = new Image(GuiResources.INSTANCE.toolbar_further_tools());
-
 	public ComboBoxW() {
+		this(null);
+	}
+
+	public ComboBoxW(AppW app) {
+		super(app);
 		setCustomTextAllowed(true);
 		setDropDownPosition(DropDownPosition.UNDER);
 		setEnterAction(EnterAction.DO_NOTHING);
@@ -46,6 +57,26 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 					onValueChange(getValue());
 				}
 	        }});
+
+		addBlurHandler(new BlurHandler() {
+
+			public void onBlur(BlurEvent event) {
+				AutoCompleteTextFieldW.showSymbolButtonIfExists(
+				        event.getSource(), false);
+
+			}
+		});
+		
+		addFocusHandler(new FocusHandler() {
+			
+			public void onFocus(FocusEvent event) {
+				App.debug("focus");
+				getSelectedValue().showPopupSymbolButton(true);
+				// AutoCompleteTextFieldW.showSymbolButtonIfExists(
+				// event.getSource(), true);
+
+			}
+		});
 
 	}
 

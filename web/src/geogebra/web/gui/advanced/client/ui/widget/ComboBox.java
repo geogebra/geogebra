@@ -16,6 +16,8 @@
 
 package geogebra.web.gui.advanced.client.ui.widget;
 
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.advanced.client.datamodel.ComboBoxDataModel;
 import geogebra.web.gui.advanced.client.datamodel.ListDataModel;
 import geogebra.web.gui.advanced.client.datamodel.ListModelEvent;
@@ -60,7 +62,6 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -73,7 +74,12 @@ import com.google.gwt.user.client.ui.Widget;
 public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
         implements HasAllFocusHandlers, HasAllKeyHandlers, HasClickHandlers,
         ListModelListener, HasChangeHandlers, HasCloseHandlers<PopupPanel> {
-    /** a combo box data model */
+	protected ComboBox(AppW app) {
+		super(app);
+		// TODO Auto-generated constructor stub
+	}
+
+	/** a combo box data model */
     private ListDataModel model;
     /** a list item factory */
     private ListItemFactory listItemFactory;
@@ -187,10 +193,12 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
      * @param focus is a flag of focus.
      */
     public void setFocus(boolean focus) {
-        if (isCustomTextAllowed())
-            getSelectedValue().setFocus(focus);
-        else
-            getChoiceButton().setFocus(focus);
+		AutoCompleteTextFieldW tfValue = getSelectedValue();
+		if (isCustomTextAllowed()) {
+			tfValue.setFocus(focus);
+		} else {
+			getChoiceButton().setFocus(focus);
+		}
     }
 
     /**
@@ -642,20 +650,20 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
 
     /** {@inheritDoc} */
     protected void addComponentListeners() {
-        TextBox value = getSelectedValue();
+		AutoCompleteTextFieldW value = getSelectedValue();
         ToggleButton button = getChoiceButton();
 
         getListPanel().addChangeHandler(getDelegateHandler());
 
-        value.addChangeHandler(getDelegateHandler());
+		// value.addChangeHandler(getDelegateHandler());
         button.addFocusHandler(getDelegateHandler());
         value.addFocusHandler(getDelegateHandler());
         button.addBlurHandler(getDelegateHandler());
         value.addBlurHandler(getDelegateHandler());
-        value.addClickHandler(getDelegateHandler());
+		// value.addClickHandler(getDelegateHandler());
         button.addClickHandler(getDelegateHandler());
         value.addKeyUpHandler(getDelegateHandler());
-        value.addKeyDownHandler(getDelegateHandler());
+		// value.addKeyDownHandler(getDelegateHandler());
         value.addKeyPressHandler(getDelegateHandler());
     }
 
@@ -714,7 +722,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             Object sender = event.getSource();
             getFocuses().remove(sender);
 
-            TextBox value = getSelectedValue();
+			AutoCompleteTextFieldW value = getSelectedValue();
             if (sender == value && !isCustomTextAllowed())
                 value.removeStyleName("selected-row");
 
@@ -730,20 +738,21 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             if (keyboardManagerRegistration == null)
                 keyboardManagerRegistration = Event.addNativePreviewHandler(getKeyboardManager());
 
-            TextBox value = getSelectedValue();
+			AutoCompleteTextFieldW value = getSelectedValue();
             if (sender == value) {
                 if (!isCustomTextAllowed()) {
                     value.addStyleName("selected-row");
                     if (isChoiceButtonVisible())
                         getChoiceButton().setFocus(true);
                 }
+
             } else if (sender == null || sender == getListPanel()) { //on drop down list show
                 Widget widget = getSelectedWidget();
                 if (widget != null)
                     getListPanel().ensureVisible(widget);
             }
 
-            if (focuses.size() == 1)
+			if (focuses.size() == 1)
                 fireEvent(event);
         }
 

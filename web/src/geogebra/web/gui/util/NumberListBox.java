@@ -1,13 +1,16 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.advanced.client.datamodel.ListDataModel;
 
 public abstract class NumberListBox extends ComboBoxW {
 	private static final String PI_STRING = "\u03c0";
 	private App app;
 	private ListDataModel model;
-	public NumberListBox(App app) {		
+
+	public NumberListBox(App app) {
+		super((AppW) app);
 		this.app = app;
 		model = getModel();
 		model.add("1", "1"); //pi
