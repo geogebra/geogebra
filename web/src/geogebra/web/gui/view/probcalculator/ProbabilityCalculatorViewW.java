@@ -861,19 +861,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			String inputText = source.getText().trim();
 
 			if (!inputText.equals("")) {
-				boolean hasDot = inputText.contains(".");
+				int dotIndex = inputText.indexOf('.');
 					
-				if (inputText.charAt(inputText.length() - 1) == '.') {
+				if (dotIndex == inputText.length() - 1) {
 						int d = getPrintDecimals() < 4 ? 4 : getPrintDecimals();
 						setTextBoxMaxLength(source, inputText.length() + d);
-				} else if (!hasDot) {
-						setTextBoxMaxLength(source, 1000);
+				} else if (dotIndex == -1 || dotIndex >= source.getCursorPos()) {
+					// "unlimit" it
+					setTextBoxMaxLength(source, Integer.MAX_VALUE);
 					}
 
-			}
 
-			if (!inputText.equals("")
-			        && !(inputText.charAt(inputText.length() - 1) == '.')
+				if (!(inputText.charAt(inputText.length() - 1) == '.')
 			        && !(inputText.charAt(inputText.length() - 1) == '0')
 			        && !inputText.equals("-")) {
 			// Double value = Double.parseDouble(source.getText());
@@ -935,6 +934,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				updateGUI();
 			}
 
+			}
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
