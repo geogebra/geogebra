@@ -124,9 +124,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			cc.draw(surface);
 		}
 
-		for (Corner c : nextSplit) {
-			c.drawUndefined(surface);
-		}
 
 		for (CornerAndCenter cc : drawListBoundary) {
 			cc.draw(surface);
@@ -338,79 +335,380 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		public void split() {
 
-			// middle parameters
-			double um, vm;
-			if (l.a == null) { // already splitted on left
-				um = l.u;
-			} else { // split on left
-				um = (u + l.u) / 2;
-			}
-			if (a.l == null) { // already splitted on above
-				vm = a.v;
-			} else { // split on above
-				vm = (v + a.v) / 2;
-			}
-
-			// middle point
-			Coords pm = evaluatePoint(um, vm);
-
-
-			// how many undefined corners?
-			int undefinedCorners = 0;
-			if (p.isFinalUndefined()) {
-				undefinedCorners++;
-			}
-			Corner left = l;
-			if (left.a == null) { // already splitted on left
-				left = left.l;
-			}
-			if (left.p.isFinalUndefined()) {
-				undefinedCorners++;
-			}
-			Corner above = a;
-			if (above.l == null) { // already splitted on above
-				above = above.a;
-			}
-			if (above.p.isFinalUndefined()) {
-				undefinedCorners++;
-			}
-			Corner aboveLeft = above.l;
-			if (aboveLeft.p.isFinalUndefined()) {
-				undefinedCorners++;
-			}
-
-			switch (undefinedCorners) {
-			case 0: // all corners are defined
-				if (pm.isNotFinalUndefined()) {
-					drawList.add(new CornerAndCenter(this, pm));
-				} else {
-					notDrawn++;
-				}
-				break;
-
-			case 4: // all corners are undefined
-				notDrawn++;
-				break;
-
-			default: // we are on boundary: split
-				nextSplit.add(this);
-				// split(um, vm, pm);
-				break;
-
-			}
-
-			// if (splitNext &&
-			// // middle-point or corner undefined
-			// (pm.isFinalUndefined() || hasUndefinedCorner())
-			// ) {
-			// split(um, vm, pm);
-			// } else {
+			// // middle parameters
+			// double um, vm;
+			// if (l.a == null) { // already splitted on left
+			// um = l.u;
+			// } else { // split on left
+			// um = (u + l.u) / 2;
+			// }
+			// if (a.l == null) { // already splitted on above
+			// vm = a.v;
+			// } else { // split on above
+			// vm = (v + a.v) / 2;
+			// }
+			//
+			// // middle point
+			// Coords pm = evaluatePoint(um, vm);
+			//
+			//
+			// // how many undefined corners?
+			// int undefinedCorners = 0;
+			// if (p.isFinalUndefined()) {
+			// undefinedCorners++;
+			// }
+			// Corner left = l;
+			// if (left.a == null) { // already splitted on left
+			// left = left.l;
+			// }
+			// if (left.p.isFinalUndefined()) {
+			// undefinedCorners++;
+			// }
+			// Corner above = a;
+			// if (above.l == null) { // already splitted on above
+			// above = above.a;
+			// }
+			// if (above.p.isFinalUndefined()) {
+			// undefinedCorners++;
+			// }
+			// Corner aboveLeft = above.l;
+			// if (aboveLeft.p.isFinalUndefined()) {
+			// undefinedCorners++;
+			// }
+			//
+			// switch (undefinedCorners) {
+			// case 0: // all corners are defined
 			// if (pm.isNotFinalUndefined()) {
 			// drawList.add(new CornerAndCenter(this, pm));
 			// } else {
 			// notDrawn++;
 			// }
+			// break;
+			//
+			// case 4: // all corners are undefined
+			// notDrawn++;
+			// break;
+			//
+			// default: // we are on boundary: split
+			// nextSplit.add(this);
+			// // split(um, vm, pm);
+			// break;
+			//
 			// }
+
+
+			Corner left, above, subLeft, subAbove;
+
+			if (l.a == null) {
+				left = l.l;
+				subLeft = l;
+			} else {
+				left = l;
+				subLeft = null;
+			}
+
+			if (a.l == null) {
+				above = a.a;
+				subAbove = a;
+			} else {
+				above = a;
+				subAbove = null;
+			}
+
+			if (p.isFinalUndefined()) {
+				if (left.p.isFinalUndefined()) {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
+							// all undefined: nothing to draw
+							notDrawn++;
+						} else {
+							// l.a is defined
+							// find defined between l.a and a
+							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
+							// find defined between l.a and l
+							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(n.p, w.p, w.a.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						}
+					} else {
+						if (left.a.p.isFinalUndefined()) {
+							// a defined
+							// find defined between a and l.a
+							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
+							// find defined between a and this
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(above, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(n.p, e.p, above.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						} else {
+							// a and l.a not undefined
+							// find defined between a and this
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(above, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							// find defined between l.a and left
+							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(e.p, above.p, left.a.p, w.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						}
+					}
+				} else {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
+							// l defined
+							// find defined between l and this
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(left, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
+							// find defined between l and l.a
+							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(s.p, w.p, left.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						} else {
+							// l and l.a not undefined
+							// find defined between l and this
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(left, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
+							// find defined between l.a and a
+							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(s.p, n.p, left.a.p, left.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						}
+					} else {
+						if (left.a.p.isFinalUndefined()) {
+							// l and a not undefined
+						} else {
+							// l, a and l.a not undefined
+							// find defined between l and this
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(left, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
+							// find defined between a and this
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(above, this, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(s.p, e.p, left.a.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						}
+					}
+				}
+			} else {
+				if (left.p.isFinalUndefined()) {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
+							// this defined
+							// find defined between this and l
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(this, left, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
+							// find defined between this and a
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(this, above, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(s.p, e.p, p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						} else {
+							// this and l.a not undefined
+						}
+					} else {
+						if (left.a.p.isFinalUndefined()) {
+							// this and a not undefined
+							// find defined between this and l
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(this, left, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
+							// find defined between a and l.a
+							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(p, above.p, n.p, s.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						} else {
+							// this, a and l.a not undefined
+							// find defined between this and l
+							Corner s;
+							if (subLeft != null) {
+								s = subLeft;
+							} else {
+								s = findU(this, left, BOUNDARY_SPLIT);
+								// new neighbors
+								this.l = s;
+								s.l = left;
+							}
+							// find defined between l.a and l
+							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(p, above.p, w.p, s.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						}
+					}
+				} else {
+					if (above.p.isFinalUndefined()) {
+						if (left.a.p.isFinalUndefined()) {
+							// this and l not undefined
+							// find defined between this and a
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(this, above, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							// find defined between l and l.a
+							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(p, e.p, w.p, left.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						} else {
+							// this, l and l.a not undefined
+							// find defined between l.a and a
+							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
+							// find defined between this and a
+							Corner e;
+							if (subAbove != null) {
+								e = subAbove;
+							} else {
+								e = findV(this, above, BOUNDARY_SPLIT);
+								// new neighbors
+								this.a = e;
+								e.a = above;
+							}
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(left.p, e.p, n.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						}
+					} else {
+						if (left.a.p.isFinalUndefined()) {
+							// this, l and a not undefined
+							// find defined between a and l.a
+							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
+							// find defined between l and l.a
+							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
+							// new neighbors
+							n.l = left.a;
+							above.l = n;
+							// new neighbors
+							w.a = left.a;
+							left.a = w;
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(p, w.p, n.p);
+							drawListBoundary.add(new CornerAndCenter(this, center));
+						} else {
+							// this, l, a and l.a not undefined
+							// for drawing
+							Coords center = new Coords(3);
+							center.setBarycenter(p, left.p, above.p, left.a.p);
+							drawList.add(new CornerAndCenter(this, center));
+						}
+					}
+				}
+			}
 
 		}
 
@@ -565,372 +863,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		}
 
-		public void drawUndefined(PlotterSurface surface) {
 
-			Corner left, above, subLeft, subAbove;
-
-			if (l.a == null) {
-				left = l.l;
-				subLeft = l;
-			} else {
-				left = l;
-				subLeft = null;
-			}
-
-			if (a.l == null) {
-				above = a.a;
-				subAbove = a;
-			} else {
-				above = a;
-				subAbove = null;
-			}
-
-			if (p.isFinalUndefined()) {
-				if (left.p.isFinalUndefined()) {
-					if (above.p.isFinalUndefined()) {
-						if (left.a.p.isFinalUndefined()) {
-							// all undefined: nothing to draw
-						} else {
-							// l.a is defined
-							// find defined between l.a and a
-							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
-							// find defined between l.a and l
-							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, n.p, w.p, left.a.p);
-							// new neighbors
-							n.l = left.a;
-							above.l = n;
-							// new neighbors
-							w.a = left.a;
-							left.a = w;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(n.p, w.p, w.a.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						}
-					} else {
-						if (left.a.p.isFinalUndefined()) {
-							// a defined
-							// find defined between a and l.a
-							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
-							// find defined between a and this
-							Corner e;
-							if (subAbove != null) {
-								e = subAbove;
-							} else {
-								e = findV(above, this, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
-							}
-							drawTrianglesUndefined(surface, n.p, e.p, above.p);
-							// new neighbors
-							n.l = left.a;
-							above.l = n;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(n.p, e.p, above.p);
-							drawListBoundary.add(new CornerAndCenter(this,
-									center));
-						} else {
-							// a and l.a not undefined
-							// find defined between a and this
-							Corner e;
-							if (subAbove != null) {
-								e = subAbove;
-							} else {
-								e = findV(above, this, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
-							}
-							// find defined between l.a and left
-							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, e.p, above.p,
-									left.a.p);
-							drawTrianglesUndefined(surface, e.p, left.a.p, w.p);
-							// new neighbors
-							w.a = left.a;
-							left.a = w;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(e.p, above.p, left.a.p, w.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						}
-					}
-				} else {
-					if (above.p.isFinalUndefined()) {
-						if (left.a.p.isFinalUndefined()) {
-							// l defined
-							// find defined between l and this
-							Corner s;
-							if (subLeft != null) {
-								s = subLeft;
-							} else {
-								s = findU(left, this, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
-							}
-							// find defined between l and l.a
-							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, s.p, w.p, left.p);
-							// new neighbors
-							w.a = left.a;
-							left.a = w;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(s.p, w.p, left.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						} else {
-							// l and l.a not undefined
-							// find defined between l and this
-							Corner s;
-							if (subLeft != null) {
-								s = subLeft;
-							} else {
-								s = findU(left, this, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
-							}
-							// find defined between l.a and a
-							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, s.p, n.p, left.a.p);
-							drawTrianglesUndefined(surface, s.p, left.a.p,
-									left.p);
-							// new neighbors
-							n.l = left.a;
-							above.l = n;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(s.p, n.p, left.a.p, left.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						}
-					} else {
-						if (left.a.p.isFinalUndefined()) {
-							// l and a not undefined
-						} else {
-							// l, a and l.a not undefined
-							// find defined between l and this
-							Corner s;
-							if (subLeft != null) {
-								s = subLeft;
-							} else {
-								s = findU(left, this, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
-							}
-							// find defined between a and this
-							Corner e;
-							if (subAbove != null) {
-								e = subAbove;
-							} else {
-								e = findV(above, this, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
-							}
-							drawTrianglesUndefined(surface, left.a.p, left.p,
-									s.p);
-							drawTrianglesUndefined(surface, left.a.p, s.p, e.p);
-							drawTrianglesUndefined(surface, left.a.p, e.p,
-									above.p);
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(s.p, e.p, left.a.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						}
-					}
-				}
-			} else {
-				if (left.p.isFinalUndefined()) {
-					if (above.p.isFinalUndefined()) {
-						if (left.a.p.isFinalUndefined()) {
-							// this defined
-							// find defined between this and l
-							Corner s;
-							if (subLeft != null) {
-								s = subLeft;
-							} else {
-								s = findU(this, left, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
-							}
-							// find defined between this and a
-							Corner e;
-							if (subAbove != null) {
-								e = subAbove;
-							} else {
-								e = findV(this, above, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
-							}
-							drawTrianglesUndefined(surface, s.p, e.p, p);
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(s.p, e.p, p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						} else {
-							// this and l.a not undefined
-						}
-					} else {
-						if (left.a.p.isFinalUndefined()) {
-							// this and a not undefined
-							// find defined between this and l
-							Corner s;
-							if (subLeft != null) {
-								s = subLeft;
-							} else {
-								s = findU(this, left, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
-							}
-							// find defined between a and l.a
-							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, p, above.p, n.p);
-							drawTrianglesUndefined(surface, p, n.p, s.p);
-							// new neighbors
-							n.l = left.a;
-							above.l = n;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(p, above.p, n.p, s.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						} else {
-							// this, a and l.a not undefined
-							// find defined between this and l
-							Corner s;
-							if (subLeft != null) {
-								s = subLeft;
-							} else {
-								s = findU(this, left, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
-							}
-							// find defined between l.a and l
-							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, above.p, left.a.p,
-									w.p);
-							drawTrianglesUndefined(surface, above.p, w.p, s.p);
-							drawTrianglesUndefined(surface, above.p, s.p,
-									this.p);
-							// new neighbors
-							w.a = left.a;
-							left.a = w;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(p, above.p, w.p, s.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						}
-					}
-				} else {
-					if (above.p.isFinalUndefined()) {
-						if (left.a.p.isFinalUndefined()) {
-							// this and l not undefined
-							// find defined between this and a
-							Corner e;
-							if (subAbove != null) {
-								e = subAbove;
-							} else {
-								e = findV(this, above, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
-							}
-							// find defined between l and l.a
-							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, p, e.p, w.p);
-							drawTrianglesUndefined(surface, p, w.p, left.p);
-							// new neighbors
-							w.a = left.a;
-							left.a = w;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(p, e.p, w.p, left.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						} else {
-							// this, l and l.a not undefined
-							// find defined between l.a and a
-							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
-							// find defined between this and a
-							Corner e;
-							if (subAbove != null) {
-								e = subAbove;
-							} else {
-								e = findV(this, above, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
-							}
-							drawTrianglesUndefined(surface, left.p, p, e.p);
-							drawTrianglesUndefined(surface, left.p, e.p, n.p);
-							drawTrianglesUndefined(surface, left.p, n.p,
-									left.a.p);
-							// new neighbors
-							n.l = left.a;
-							above.l = n;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(left.p, e.p, n.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						}
-					} else {
-						if (left.a.p.isFinalUndefined()) {
-							// this, l and a not undefined
-							// find defined between a and l.a
-							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
-							// find defined between l and l.a
-							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-							drawTrianglesUndefined(surface, this.p, above.p,
-									n.p);
-							drawTrianglesUndefined(surface, this.p, n.p, w.p);
-							drawTrianglesUndefined(surface, this.p, w.p, left.p);
-							// new neighbors
-							n.l = left.a;
-							above.l = n;
-							// new neighbors
-							w.a = left.a;
-							left.a = w;
-							// for drawing
-							Coords center = new Coords(3);
-							center.setBarycenter(p, w.p, n.p);
-							drawListBoundary.add(new CornerAndCenter(this, center));
-						} else {
-							// this, l, a and l.a not undefined
-							drawTrianglesUndefined(surface, this.p, left.p,
-									left.a.p);
-							drawTrianglesUndefined(surface, this.p, above.p,
-									left.a.p);
-						}
-					}
-				}
-			}
-
-		}
-
-		private void drawTrianglesUndefined(PlotterSurface surface, Coords p0,
-				Coords p1, Coords p2) {
-
-			// surface.startTrianglesWireFrame();
-			// surface.vertex(p0);
-			// surface.vertex(p1);
-			// surface.vertex(p2);
-			//
-			// surface.endGeometry();
-			//
-			// surface.startTrianglesWireFrameSurfaceBoundary();
-			// surface.vertex(p0);
-			// surface.vertex(p1);
-			// surface.vertex(p2);
-			//
-			// surface.endGeometry();
-		}
 
 
 	}
