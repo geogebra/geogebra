@@ -1510,6 +1510,26 @@ public class Coords {
 		return this;
 	}
 	
+	/**
+	 * set this as barycenter for vectors in v
+	 * 
+	 * @param v
+	 *            vectors
+	 * @return this
+	 */
+	public Coords setBarycenter(Coords... v) {
+		double f = 1.0 / v.length;
+		for (int i = 0; i < rows; i++) {
+			val[i] = 0;
+			for (int j = 0; j < v.length; j++) {
+				val[i] += v[j].val[i];
+			}
+			val[i] *= f;
+		}
+
+		return this;
+	}
+
 	// /////////////////////////////////////////////////:
 	/** for testing the package */
 	public static synchronized void main(String[] args) {
