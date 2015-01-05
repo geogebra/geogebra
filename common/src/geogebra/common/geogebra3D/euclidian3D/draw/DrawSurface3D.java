@@ -303,6 +303,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private class Corner {
 		Coords p;
 		double u, v;
+		boolean isNotEnd;
 
 		Corner a, l; // above, left
 
@@ -310,28 +311,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.u = u;
 			this.v = v;
 			p = evaluatePoint(u, v);
+			isNotEnd = true;
 		}
 
 		public Corner(double u, double v, Coords p) {
 			this.u = u;
 			this.v = v;
 			this.p = p;
+			isNotEnd = true;
 		}
-
-		public Corner(double u, double v, Corner a, Corner l, Corner al) {
-			this(u, v);
-
-			// neighbors
-			this.a = a;
-			this.l = l;
-
-			// neighbors of neighbors
-			l.a = al;
-			a.l = al;
-
-		}
-
-
 
 		public void split() {
 
@@ -436,6 +424,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(n.p, w.p, w.a.p);
+							w.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						}
 					} else {
@@ -459,6 +448,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(n.p, e.p, above.p);
+							left.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// a and l.a not undefined
@@ -480,6 +470,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(e.p, above.p, left.a.p, w.p);
+							w.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						}
 					}
@@ -505,6 +496,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(s.p, w.p, left.p);
+							w.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// l and l.a not undefined
@@ -526,6 +518,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(s.p, n.p, left.a.p, left.p);
+							left.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						}
 					} else {
@@ -556,6 +549,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(s.p, e.p, left.a.p);
+							left.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						}
 					}
@@ -588,6 +582,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(s.p, e.p, p);
+							left.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// this and l.a not undefined
@@ -613,6 +608,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(p, above.p, n.p, s.p);
+							left.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// this, a and l.a not undefined
@@ -634,6 +630,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(p, above.p, w.p, s.p);
+							w.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						}
 					}
@@ -659,6 +656,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(p, e.p, w.p, left.p);
+							w.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// this, l and l.a not undefined
@@ -680,6 +678,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(left.p, e.p, n.p);
+							left.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						}
 					} else {
@@ -698,12 +697,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(p, w.p, n.p);
+							w.a.isNotEnd = false;
 							drawListBoundary.add(new CornerAndCenter(this, center));
 						} else {
 							// this, l, a and l.a not undefined
 							// for drawing
 							Coords center = new Coords(3);
 							center.setBarycenter(p, left.p, above.p, left.a.p);
+							left.a.isNotEnd = false;
 							drawList.add(new CornerAndCenter(this, center));
 						}
 					}
@@ -978,7 +979,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					sw2 = p2;
 				}
 				current = current.a;
-			} while (current.v > v);
+			} while (current.isNotEnd);
 
 			// north side
 			current = ne;
@@ -999,7 +1000,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					ne2 = p2;
 				}
 				current = current.l;
-			} while (current.u > u);
+			} while (current.isNotEnd);
 
 			// closure triangles if needed
 			if (sw1 != ne1) {
