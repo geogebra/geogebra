@@ -457,6 +457,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 			} else if (btnIntervalRight.getValue()) {
 				probMode = ProbabilityCalculatorView.PROB_RIGHT;
 			}
+
 		}
 		this.getPlotDimensions();
 
@@ -639,6 +640,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				//fldHigh.setCaretPosition(0);
 				fldResult.setText("" + format(probability));
 				//fldResult.setCaretPosition(0);
+		fldResult
+		        .setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
 
 				// set distribution combo box
 				//comboDistribution.removeActionListener(this);
