@@ -376,21 +376,22 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    fldLow.addFocusHandler(this);
 	    fldLow.addBlurHandler(this);
 	    fldLow.getTextBox().setTabIndex(maxParameterCount);
-	    
+
+
 	    fldHigh = new AutoCompleteTextFieldW(app);
 	    fldHigh.setColumns(4);
 	    fldHigh.addKeyUpHandler(this);
 	    fldHigh.addFocusHandler(this);
 	    fldHigh.addBlurHandler(this);
 	    fldHigh.getTextBox().setTabIndex(maxParameterCount + 1);
-	    
+
 	    fldResult = new AutoCompleteTextFieldW(app);
 	    fldResult.setColumns(6);
 	    fldResult.addKeyUpHandler(this);
 	    fldResult.addFocusHandler(this);
 	    fldResult.addBlurHandler(this);
 	    fldResult.getTextBox().setTabIndex(maxParameterCount + 2);
-	    
+
 	    lblMeanSigma = new Label();
 	    lblMeanSigma.addStyleName("lblMeanSigma");
 	    
@@ -856,7 +857,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 		if (isIniting)
 			return;
 		try {
+
 			String inputText = source.getText().trim();
+
+			if (!inputText.equals("")) {
+				boolean hasDot = inputText.contains(".");
+					
+				if (inputText.charAt(inputText.length() - 1) == '.') {
+						int d = getPrintDecimals() < 4 ? 4 : getPrintDecimals();
+						setTextBoxMaxLength(source, inputText.length() + d);
+				} else if (!hasDot) {
+						setTextBoxMaxLength(source, 1000);
+					}
+
+			}
 
 			if (!inputText.equals("")
 			        && !(inputText.charAt(inputText.length() - 1) == '.')
@@ -959,4 +973,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	public void onResize() {
 				updatePlotSettings();
     }
+
+	private void setTextBoxMaxLength(TextBox textBox, int maxLength) {
+
+		App.debug("[LIMIT] tf " + maxLength);
+		textBox.setMaxLength(maxLength);
+	}
 }
