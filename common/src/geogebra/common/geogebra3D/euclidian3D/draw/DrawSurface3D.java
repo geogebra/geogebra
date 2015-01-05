@@ -933,7 +933,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				current = current.l;
 			} while (current.a == null);
 
-			double u = current.u;
 			sw = current;
 
 			// go above
@@ -957,7 +956,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				}
 				current = current.a;
 			} while (current.l == null);
-			double v = current.v;
 			ne = current;
 
 			// west side
