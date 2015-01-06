@@ -1011,4 +1011,15 @@ public class FunctionNVar extends ValidExpression implements FunctionalNVar,
 	public ExpressionNode wrap() {
 		return new ExpressionNode(kernel, this);
 	}
+
+	@Override
+	public ExpressionValue derivative(FunctionVariable fv) {
+		return expression.derivative(fv);
+	}
+
+	@Override
+	public ExpressionValue integral(FunctionVariable fv) {
+		return expression.integral(fv);
+	}
+
 }

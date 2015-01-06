@@ -73,10 +73,17 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 		for (int i = 0; i < coords.length; i++) {
 			exp[i] = kernel.convertNumberValueToExpressionNode(coords[i]
 					.toGeoElement());
-			for (int j = 0; j < localVar.length; j++)
+			for (int j = 0; j < localVar.length; j++) {
 				exp[i] = exp[i].replace(localVar[j], funVar[j]).wrap();
+			}
 			fun[i] = new FunctionNVar(exp[i], funVar);
 		}
+
+		// for (int i = 0; i < coords.length; i++) {
+		// for (int j = 0; j < localVar.length; j++) {
+		// Log.debug(fun[i].derivative(funVar[j]));
+		// }
+		// }
 
 		// create the curve
 		surface = createCurve(cons, fun);
