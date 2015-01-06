@@ -915,4 +915,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return HitType.ON_FILLING;
 		}
 
+	public void evaluateNormal(double u, double v, Coords normal) {
+		// TODO
+	}
+
 }

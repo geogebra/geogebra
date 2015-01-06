@@ -23,6 +23,17 @@ public interface SurfaceEvaluable {
 	public void evaluatePoint(double u, double v, Coords point);
 	
 	/**
+	 * 
+	 * @param u
+	 *            first parameter
+	 * @param v
+	 *            second parameter
+	 * @param normal
+	 *            normal. WARNING: the normal may not have norm=1
+	 */
+	public void evaluateNormal(double u, double v, Coords normal);
+
+	/**
 	 * @param i index of parameter
 	 * @return minimal value for i-th parameter
 	 */

@@ -13,8 +13,10 @@ import geogebra.common.kernel.geos.GeoElement;
  */
 public abstract class GeoSurfaceCartesianND extends GeoElement{
 	
-	/** coordinates and derivative functions */
+	/** coordinates functions */
 	protected FunctionNVar[] fun;
+	/** derivative functions */
+	protected FunctionNVar[][] fun1;
 	/** start parameters */
 	protected double[] startParam;
 	/** end parameters */
@@ -37,13 +39,20 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 
 	}
 	
-	/** constructor with functions
-	 * @param c construction
-	 * @param fun functions
+	/**
+	 * constructor with functions
+	 * 
+	 * @param c
+	 *            construction
+	 * @param fun
+	 *            functions
+	 * @param fun1
+	 *            derivate functions
 	 */
-	public GeoSurfaceCartesianND(Construction c, FunctionNVar[] fun) {
+	public GeoSurfaceCartesianND(Construction c, FunctionNVar[] fun, FunctionNVar[][] fun1) {
 		this(c);
 		this.fun = fun;
+		this.fun1 = fun1;
 	}	
 	
 

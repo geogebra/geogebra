@@ -41,9 +41,10 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * 
 	 * @param c
 	 * @param fun
+	 * @param fun1
 	 */
-	public GeoSurfaceCartesian3D(Construction c, FunctionNVar fun[]) {
-		super(c, fun);
+	public GeoSurfaceCartesian3D(Construction c, FunctionNVar fun[], FunctionNVar[][] fun1) {
+		super(c, fun, fun1);
 	}
 
 	/**
@@ -65,6 +66,21 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	public void evaluatePoint(double u, double v, Coords p) {
 		evaluateSurface(u, v, p);
+	}
+
+	private Coords der1 = new Coords(3), der2 = new Coords(3);
+
+	public void evaluateNormal(double u, double v, Coords normal) {
+		tmp[0] = u;
+		tmp[1] = v;
+
+		for (int i = 0; i < 3; i++) {
+			der1.set(i + 1, fun1[0][i].evaluate(tmp));
+			der2.set(i + 1, fun1[1][i].evaluate(tmp));
+		}
+
+		normal.setCrossProduct(der1, der2);
+
 	}
 
 	private void evaluateSurface(double[] uv, Coords p) {
