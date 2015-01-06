@@ -876,7 +876,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 
 				if (!(inputText.charAt(inputText.length() - 1) == '.')
-			        && !(inputText.charAt(inputText.length() - 1) == '0')
+				        && (dotIndex == -1 || !(inputText.charAt(inputText
+				                .length() - 1) == '0'))
 			        && !inputText.equals("-")) {
 			// Double value = Double.parseDouble(source.getText());
 
@@ -935,7 +936,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	
 				updateIntervalProbability();
 				updateGUI();
-			}
+				}
 
 			}
 		} catch (NumberFormatException e) {
