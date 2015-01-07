@@ -172,14 +172,19 @@ public class GeoPolyLine3D extends GeoPolyLine {
 		// if the projection is out of the segment, look at the next (or the
 		// previous) segment
 		index = (int) Math.floor(t);
-
+		//direction indicates in which way we are stepping to prevent infinite loop
+		int direction = 0;
 		while (index >= 0 && index < getNumPoints() - 1) {
 			setSegmentPoints(points[index], points[index + 1]);
 			localT = seg.getParamOnLine(P);
-			if (localT < 0)
+			if (localT < 0 && direction <= 0){
+				direction = -1;
 				index--;
-			else if (localT > 1)
+			}
+			else if (localT > 1 && direction >= 0){
+				direction = 1;
 				index++;
+			}
 			else
 				break;
 		}
