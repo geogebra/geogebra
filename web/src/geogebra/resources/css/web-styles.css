@@ -3063,13 +3063,20 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	height: 25px;
 }
 
-.consProtNav button.gwt-Button:hover {
+.consProtNav button:hover {
 	border-color: #9999FF;
 }
 
-.consProtNav button.gwt-Button:avtive {
-	border: 1px solid #6666FF;
+.consProtNav button.gwt-Button:active, 
+.Tablet .consProtNav button.gwt-Button:active {
+	border: 1px solid #6666FF !important;
 }
+
+/* no border-color for touch */
+.Tablet .consProtNav button.gwt-Button:hover {
+	border: 1px solid #CDCDCD;
+}
+
 
 .navbar_leftPanel {
 	text-align: center;
@@ -3096,7 +3103,8 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	right: 0px;
 	top: 0px;
 }
-.consProtNav .navbar_btOpenWindow.consProtIsOpen {
+.consProtNav .navbar_btOpenWindow.consProtIsOpen, 
+.Tablet .consProtNav button.navbar_btOpenWindow.consProtIsOpen {
 	border-color: #6666FF;
 }
 
