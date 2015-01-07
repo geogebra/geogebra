@@ -27,8 +27,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final long MIN_SPLIT = 512;
 	private static final double MAX_CENTER_QUAD_DISTANCE = 1.e-3;
 	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-3;
-	private double uDelta;
-	private double vDelta;
 	private double limit1;
 	private double limit2;
 	private double uMin;
@@ -90,8 +88,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		double uMax = surfaceGeo.getMaxParameter(0);
 		vMin = surfaceGeo.getMinParameter(1);
 		double vMax = surfaceGeo.getMaxParameter(1);
-		uDelta = (uMax - uMin) / MAX_SPLIT;
-		vDelta = (vMax - vMin) / MAX_SPLIT;
 
 		updateCullingBox();
 		cullingBoxDelta = (cullingBox[5] - cullingBox[4]);
@@ -111,9 +107,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		App.debug("\nmaxRWDistance = " + maxRWDistance);
 
 		int n = 10;
-		double uDelta = (uMax - uMin) / n;
-		double vDelta = (vMax - vMin) / n;
-		Corner corner = createRootMesh(uMin, uMax, uDelta, vMin, vMax, vDelta);
+		// double uDelta = (uMax - uMin) / n;
+		// double vDelta = (vMax - vMin) / n;
+		Corner corner = createRootMesh(uMin, uMax, n, vMin, vMax, n);
 
 		currentSplit = new ArrayList<DrawSurface3D.Corner>();
 		nextSplit = new ArrayList<DrawSurface3D.Corner>();
@@ -191,34 +187,34 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private ArrayList<Corner> currentSplit;
 
-	private Corner createRootMesh(double uMin, double uMax, double uDelta,
-			double vMin, double vMax, double vDelta) {
+	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
+
+		double uDelta = uMin - uMax;
+		double vDelta = vMin - vMax;
 
 		Corner bottomRight = new Corner(uMax, vMax);
 		Corner first = bottomRight;
 
-
 		// first row
 		Corner right = bottomRight;
-		for (double u = uMax - uDelta; u >= uMin; u = u - uDelta) {
-			Corner left = new Corner(u, vMax);
+		for (int i = 1; i <= uN; i++) {
+			Corner left = new Corner(uMax + (uDelta * i) / uN, vMax);
 			right.l = left;
 			right = left;
-			// App.debug("" + u);
 		}
 
 		// all rows
-		for (double v = vMax - vDelta; v >= vMin; v = v - vDelta) {
+		for (int j = 1; j <= vN; j++) {
+			double v = vMax + (vDelta * j) / vN;
 			Corner below = bottomRight;
 			right = new Corner(uMax, v);
 			below.a = right;
-			for (double u = uMax - uDelta; u >= uMin; u = u - uDelta) {
-				Corner left = new Corner(u, v);
+			for (int i = 1; i <= uN; i++) {
+				Corner left = new Corner(uMax + (uDelta * i) / uN, v);
 				right.l = left;
 				right = left;
 				below = below.l;
 				below.a = right;
-				// App.debug("" + u + "," + v);
 			}
 			bottomRight = bottomRight.a;
 		}
