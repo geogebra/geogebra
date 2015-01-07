@@ -19,7 +19,7 @@ __GGB__keysVar.ja.colors = {
     "aqua": "\u6c34\u8272",
     "black": "\u9ed2",
     "blue": "\u9752",
-    "brown": "\u30d6\u30e9\u30a6\u30f3",
+    "brown": "\u8336\u8272",
     "crimson": "\u6df1\u7d05\u8272",
     "cyan": "\u30b7\u30a2\u30f3",
     "darkblue": "\u6697\u3044\u9752",

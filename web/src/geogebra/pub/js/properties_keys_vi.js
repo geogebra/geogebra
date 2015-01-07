@@ -1210,7 +1210,7 @@ __GGB__keysVar.vi.menu = {
     "ChooseFromFile": "Ch\u1ecdn t\u1eeb t\u1eadp tin",
     "Circle2": "\u0110\u01b0\u1eddng tr\xf2n khi bi\u1ebft t\xe2m v\xe0 1 \u0111i\u1ec3m tr\xean \u0111\u01b0\u1eddng tr\xf2n",
     "Circle2.Help": "X\xe1c \u0111\u1ecbnh t\xe2m v\xe0 1 \u0111i\u1ec3m thu\u1ed9c \u0111\u01b0\u1eddng tr\xf2n",
-    "Circle3": "\u0110\u01b0\u1eddng tr\xf2n khi bi\u1ebft 3 \u0111i\u1ec3m thu\u1ed9c \u0111\u01b0\u1eddng tr\xf2n",
+    "Circle3": "V\u1ebd \u0111\u01b0\u1eddng tr\xf2n qua 3 \u0111i\u1ec3m c\xf3 s\u1eb5n",
     "Circle3.Help": "X\xe1c \u0111\u1ecbnh 3 \u0111i\u1ec3m thu\u1ed9c \u0111\u01b0\u1eddng tr\xf2n",
     "CircleArc3": "Cung tr\xf2n khi bi\u1ebft t\xe2m v\xe0 2 \u0111i\u1ec3m tr\xean cung tr\xf2n",
     "CircleArc3.Help": "X\xe1c \u0111\u1ecbnh t\xe2m v\xe0 2 \u0111i\u1ec3m thu\u1ed9c cung tr\xf2n",
