@@ -21,6 +21,7 @@ import geogebra.web.gui.view.data.PlotPanelEuclidianViewW;
 
 import java.util.HashMap;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -633,6 +634,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 					}
 				}
 
+		tabbedPane.deferredOnResize();
 				// set low/high interval field values
 				fldLow.setText("" + format(getLow()));
 				//fldLow.setCaretPosition(0);
@@ -785,6 +787,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
     }
 	
 	private class MyTabLayoutPanel extends TabLayoutPanel implements ClickHandler {
+		Scheduler.ScheduledCommand deferredOnRes = new Scheduler.ScheduledCommand() {
+			public void execute() {
+				onResize();
+			}
+		};
 
 		public MyTabLayoutPanel(int splitterSize, Unit px) {
 	        super(splitterSize, px);
@@ -809,6 +816,11 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 						((ProbabilityTableW) table).getStatTable().getTable().getOffsetWidth() + 25, height);
 				//((ProbabilityTableW) table).getWrappedPanel().setHeight(height + "px");
 			}
+
+		}
+
+		public void deferredOnResize() {
+			Scheduler.get().scheduleDeferred(deferredOnRes);
 		}
 
 		@Override
@@ -922,7 +934,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 					}
 				}
 	
-				else
+					else
 					// handle parameter entry
 					for (int i = 0; i < parameters.length; ++i)
 						if (source == fldParameterArray[i].getTextBox()) {
