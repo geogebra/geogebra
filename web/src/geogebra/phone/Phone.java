@@ -44,12 +44,12 @@ public class Phone implements EntryPoint {
 	}
 
 	private static void addViews() {
-		AlgebraView view = new AlgebraView(appFrame.app);
-		phoneGui.addView(view);
+		phoneGui.addView(new AlgebraView(appFrame.app));
 		phoneGui.addView(new EuclidianView(appFrame.app));
-		phoneGui.addView(new MaterialView(appFrame.app));
+		MaterialView matView = new MaterialView(appFrame.app);
+		phoneGui.addView(matView);
 		phoneGui.addView(new MenuView(appFrame.app));
-		phoneGui.showView(view);
+		phoneGui.showView(matView);
 	}
 
 	public static PhoneUI getGUI() {

@@ -7,6 +7,7 @@ import geogebra.phone.gui.view.HeaderPanel;
 import geogebra.phone.gui.view.StyleBar;
 import geogebra.phone.gui.view.ViewPanel;
 import geogebra.web.css.GuiResources;
+import geogebra.web.euclidian.EuclidianStyleBarW;
 
 import com.google.gwt.resources.client.ImageResource;
 
@@ -36,6 +37,7 @@ public class EuclidianView extends AbstractView {
 
 	@Override
 	public StyleBar createStyleBar() {
-		return new EuclidianStyleBar(euclidianView.getStyleBar());
+		return new EuclidianStyleBar(
+		        (EuclidianStyleBarW) euclidianView.getStyleBar());
 	}
 }

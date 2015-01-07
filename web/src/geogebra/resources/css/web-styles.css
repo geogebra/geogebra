@@ -4742,6 +4742,14 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	width: 85px;
 }
 
+.PhoneGUI .StyleBar_ {
+	float: left;
+}
+
+.PhoneGUI .StyleBar_ .toggleStyleBar {
+	float: right;
+}
+
 /* ########################################
    ###           BROWSE VIEW            ###
    ######################################## */
@@ -4780,6 +4788,17 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	padding-right:35px;
 	width:200px;
 }
+/* ##########################################
+   ##########################################
+   #### 								 ####
+   ####        END  PHONE                ####
+   #### 								 ####
+   ##########################################
+   ########################################## */
+
+
+
+
 
 /* ########################################
    ###        DATA ANALYSIS VIEW        ###

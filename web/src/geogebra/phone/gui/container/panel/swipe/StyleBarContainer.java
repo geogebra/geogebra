@@ -36,7 +36,12 @@ public class StyleBarContainer extends FlowPanel implements FastClickHandler {
 		
 		StandardButton toggleStyleBarButton = createToggleButton();
 		titleBarPanelContent.add(toggleStyleBarButton);
-		
+
+		// close stylebar
+		showStyleBar = false;
+		styleBar.setOpen(showStyleBar);
+		styleBarPanel.setVisible(showStyleBar);
+		styleBar.getStyleBar().asWidget().setVisible(showStyleBar);
 	}
 	
 	private StandardButton createToggleButton() {
@@ -53,6 +58,7 @@ public class StyleBarContainer extends FlowPanel implements FastClickHandler {
 			return;
 		}
 		showStyleBar = value;
+		styleBar.setOpen(showStyleBar);
 		styleBarPanel.setVisible(showStyleBar);
 		styleBar.getStyleBar().asWidget().setVisible(showStyleBar);
 	}

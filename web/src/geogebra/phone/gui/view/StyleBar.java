@@ -21,4 +21,11 @@ public interface StyleBar {
 	 * @return the widget containing the style bar.
 	 */
 	IsWidget getStyleBar();
+
+	/**
+	 * @param showStyleBar
+	 *            boolean
+	 * 
+	 */
+	void setOpen(boolean showStyleBar);
 }
