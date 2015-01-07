@@ -1118,6 +1118,7 @@ public class Kernel {
 		switch (casPrintForm) {
 
 		// to avoid 1/3 = 0
+		case PSTRICKS:
 		case PGF:
 			return Double.toString(x);
 
