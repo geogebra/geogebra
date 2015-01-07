@@ -6,4 +6,6 @@ public interface UpdateKeyBoardListener {
 
 	public abstract void updateKeyBoard(AutoCompleteTextFieldW textField);
 
+	public abstract void showInputField();
+
 }

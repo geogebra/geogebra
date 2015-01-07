@@ -179,6 +179,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			content.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 			textField.setFocus(true);
+			updateKeyBoardListener.showInputField();
 		}
 		setUsed(true);
 	}

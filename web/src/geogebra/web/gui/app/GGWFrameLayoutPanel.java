@@ -139,6 +139,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		timer.schedule(0);
 	}
 
+	@Override
+	public void showInputField() {
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				scrollToInputField();
+			}
+		};
+		timer.schedule(0);
+	}
+
 	public void updateKeyBoard(AutoCompleteTextFieldW textField){
 		this.mainPanel.clear();
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
