@@ -7,7 +7,6 @@ import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
-import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -22,8 +21,13 @@ import java.util.HashMap;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.Touch;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
+import com.google.gwt.event.dom.client.TouchStartEvent;
+import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.user.client.ui.AbsolutePanel;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.RequiresResize;
@@ -46,7 +50,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface, /*
 	private Kernel kernel;
 
 	// spreadsheet table and row header
-	private MyTableW table;
+	MyTableW table;
 	protected SpreadsheetTableModelW tableModel;
 	//private JTableHeader tableHeader;
 	public Canvas bluedot;
@@ -100,6 +104,7 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface, /*
 	// panel that contains the spreadsheet table and headers
 	private AbsolutePanel spreadsheet;
 	
+	GPoint scrollPos = new GPoint();
 
 	/******************************************************
 	 * Construct spreadsheet view as a split panel. Left panel holds file tree
@@ -126,6 +131,36 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface, /*
 
 		settingsChanged(settings());
 
+		this.spreadsheet.addDomHandler(new TouchStartHandler() {
+			public void onTouchStart(TouchStartEvent event) {
+				if (event.getTouches().length() > 1) {
+					Touch t0 = event.getTouches().get(0);
+					Touch t1 = event.getTouches().get(1);
+					scrollPos.setLocation(
+					        getHorizontalScrollPosition()
+					                + (t0.getScreenX() + t1
+					                .getScreenX()) / 2,
+					        getVerticalScrollPosition()
+					                + (t0
+					                .getScreenY() + t1.getScreenY()) / 2);
+				}
+			}
+		}, TouchStartEvent.getType());
+
+		this.spreadsheet.addDomHandler(new TouchMoveHandler() {
+			public void onTouchMove(TouchMoveEvent event) {
+				if (event.getTouches().length() > 1) {
+					Touch t0 = event.getTouches().get(0);
+					Touch t1 = event.getTouches().get(1);
+
+					int x = (t0.getScreenX() + t1.getScreenX()) / 2;
+					int y = (t0.getScreenY() + t1.getScreenY()) / 2;
+
+					table.setHorizontalScrollPosition(scrollPos.x - x);
+					table.setVerticalScrollPosition(scrollPos.y - y);
+				}
+			}
+		}, TouchMoveEvent.getType());
 	}
 
 	
