@@ -2,7 +2,9 @@ package geogebra.web.gui.properties;
 
 import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.ComboBoxW;
 
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -15,11 +17,11 @@ public class ComboBoxPanel extends OptionPanel implements IComboListener {
 	private String title;
 	private Localization loc;
 	
-	public ComboBoxPanel(Localization loc, final String title) {
-		this.loc = loc;
+	public ComboBoxPanel(App app, final String title) {
+		this.loc = app.getLocalization();
 		this.title = title;
 		label = new Label();
-		comboBox = new ComboBoxW(){
+		comboBox = new ComboBoxW((AppW) app) {
 
 			@Override
             protected void onValueChange(String value) {

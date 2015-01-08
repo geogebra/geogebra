@@ -25,9 +25,6 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final String DEFAULT_WIDTH = "70px";
 	private static final Image choiceImage = new Image(GuiResources.INSTANCE.toolbar_further_tools());
 	private static final Image choiceImageActive = new Image(GuiResources.INSTANCE.toolbar_further_tools());
-	public ComboBoxW() {
-		this(null);
-	}
 
 	public ComboBoxW(AppW app) {
 		super(app);

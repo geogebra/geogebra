@@ -1885,7 +1885,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private static final long serialVersionUID = 1L;
 
 		public StartPointPanel() {
-			super(loc, "StartingPoint");
+			super(app, "StartingPoint");
 			setModel(new StartPointModel(app, this));
 		}
 
@@ -1958,7 +1958,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private static final long serialVersionUID = 1L;
 		private ImageCornerModel model;
 		public ImageCornerPanel(int cornerIdx) {
-			super(loc, "CornerModel");
+			super(app, "CornerModel");
 			model = new ImageCornerModel(app, this);
 			model.setCornerIdx(cornerIdx);
 			setModel(model);
