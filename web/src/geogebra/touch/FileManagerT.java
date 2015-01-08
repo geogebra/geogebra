@@ -198,7 +198,7 @@ public class FileManagerT extends FileManager {
 	 */
 	@Override
 	public void delete(final Material mat) {
-		final String key = mat.getTitle();
+		final String key = getFileKey(mat);
 
 		getGgbFile(key + FILE_EXT, dontCreateIfNotExist,
 		        new Callback<FileEntry, FileError>() {
@@ -376,8 +376,9 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onSuccess(Integer newID) {
-				final String newKey = createKeyString(newID, newTitle);
-				final String oldKey = mat.getTitle();
+				final String newKey = FileManager.createKeyString(newID,
+				        newTitle);
+				final String oldKey = getFileKey(mat);
 
 				getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
@@ -547,7 +548,8 @@ public class FileManagerT extends FileManager {
 				} else {
 					newID = getApp().getLocalID();
 				}
-				final String key = createKeyString(newID, getApp().getKernel()
+				final String key = FileManager.createKeyString(newID, getApp()
+				        .getKernel()
 				        .getConstruction().getTitle());
 
 				getGgbFile(key + FILE_EXT, createIfNotExist,
@@ -615,10 +617,12 @@ public class FileManagerT extends FileManager {
 								                        0,
 								                        fileEntry.getName()
 								                                .indexOf("."));
-								        if (key.startsWith(FILE_PREFIX)) {
-									        int fileID = getIDFromKey(key);
+								        if (key.startsWith(FileManager.FILE_PREFIX)) {
+									        int fileID = FileManager
+									                .getIDFromKey(key);
 									        if (fileID >= nextFreeID) {
-										        nextFreeID = getIDFromKey(key) + 1;
+										        nextFreeID = FileManager
+										                .getIDFromKey(key) + 1;
 									        }
 								        }
 							        }
@@ -797,7 +801,8 @@ public class FileManagerT extends FileManager {
 
 	@Override
     public void openMaterial(final Material material) {
-		this.getBase64(material.getTitle(), new Callback<String, FileError>() {
+		this.getBase64(getFileKey(material),
+		        new Callback<String, FileError>() {
 
 			@Override
 			public void onFailure(FileError reason) {
@@ -814,7 +819,8 @@ public class FileManagerT extends FileManager {
 		});
 	}
 
-	private void getBase64(final String title, final Callback<String, FileError> cb) {
+	private void getBase64(final String fileKey,
+	        final Callback<String, FileError> cb) {
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
@@ -825,7 +831,7 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onSuccess(DirectoryEntry result) {
-				result.getFile(title + FileManagerT.FILE_EXT,
+				result.getFile(fileKey + FileManagerT.FILE_EXT,
 				        dontCreateIfNotExist,
 				        new FileCallback<FileEntry, FileError>() {
 
@@ -904,7 +910,7 @@ public class FileManagerT extends FileManager {
 	@Override
 	public void upload(final Material mat) {
 
-		getBase64(mat.getTitle(), new Callback<String, FileError>() {
+		getBase64(getFileKey(mat), new Callback<String, FileError>() {
 
 			@Override
 			public void onSuccess(String fileID) {
@@ -941,7 +947,8 @@ public class FileManagerT extends FileManager {
 
 				@Override
 				public void onSuccess(Integer id) {
-					final String keyString = createKeyString(id, keyStem);
+					final String keyString = FileManager.createKeyString(id,
+					        keyStem);
 					getGgbFile(keyString + FILE_EXT, createIfNotExist,
 							new Callback<FileEntry, FileError>() {
 

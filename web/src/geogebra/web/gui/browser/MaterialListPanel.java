@@ -5,6 +5,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
+import geogebra.web.main.FileManager;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 
@@ -330,7 +331,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 	private MaterialListElement getMaterialListElement(final Material material) {
 		for(final MaterialListElement matElem : this.materials) {
 			if (!matElem.isLocal && matElem.getMaterial().getId() == material.getId() ||
-					matElem.isLocal && matElem.getMaterial().getTitle().equals(material.getTitle())) {
+ matElem.isLocal
+			        && FileManager.getFileKey(matElem.getMaterial()).equals(
+			                FileManager.getFileKey(material))) {
 				return matElem;
 			}
 		}

@@ -155,7 +155,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					handleMaterialCallback(parseResponse.get(0));
 					runAfterSaveCallback();
 					FileManager fm = ((FileManager)app.getFileManager());
-					fm.setTubeID(fm.createKeyString(app.getLocalID(),app.getKernel().getConstruction().getTitle()),
+					fm.setTubeID(
+					        FileManager.createKeyString(app.getLocalID(), app
+					                .getKernel().getConstruction().getTitle()),
 							parseResponse.get(0).getId());
 				}
 				else {

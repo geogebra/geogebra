@@ -1,6 +1,5 @@
 package geogebra.web.main;
 
-import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -36,9 +35,8 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void delete(final Material mat) {
-		App.debug("DELETING" + mat.getTitle());
 		if (this.stockStore != null) {
-			this.stockStore.removeItem(mat.getTitle());
+			this.stockStore.removeItem(getFileKey(mat));
 			removeFile(mat);
 		}
 		((BrowseGUI) getApp().getGuiManager().getBrowseGUI())
@@ -62,7 +60,8 @@ public class FileManagerW extends FileManager {
 		}
 		String key = createKeyString(id, getApp().getKernel().getConstruction()
 		        .getTitle());
-		mat.setTitle(key);
+		mat.setLocalID(id);
+		mat.setTitle(getApp().getKernel().getConstruction().getTitle());
 		stockStore.setItem(key, mat.toJson().toString());
 		cb.onSaved(mat, true);
 
@@ -77,10 +76,10 @@ public class FileManagerW extends FileManager {
 		int nextFreeID = 1;
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
-			if (key.startsWith(FILE_PREFIX)) {
-				int fileID = getIDFromKey(key);
+			if (key.startsWith(FileManager.FILE_PREFIX)) {
+				int fileID = FileManager.getIDFromKey(key);
 				if (fileID >= nextFreeID) {
-					nextFreeID = getIDFromKey(key) + 1;
+					nextFreeID = FileManager.getIDFromKey(key) + 1;
 				}
 			}
 		}
@@ -95,7 +94,7 @@ public class FileManagerW extends FileManager {
 
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
-			if (key.startsWith(FILE_PREFIX)) {
+			if (key.startsWith(FileManager.FILE_PREFIX)) {
 				Material mat = JSONparserGGT.parseMaterial(this.stockStore
 				        .getItem(key));
 				if (mat == null) {
@@ -144,9 +143,11 @@ public class FileManagerW extends FileManager {
 			return;
 		}
 		this.stockStore.removeItem(mat.getTitle());
-		String newKey = createKeyString(createID(), newTitle);
-		mat.setTitle(newKey);
-		this.stockStore.setItem(newKey, mat.toJson().toString());
+		int newID = createID();
+		mat.setLocalID(createID());
+		mat.setTitle(newTitle);
+		this.stockStore.setItem(FileManager.createKeyString(newID, newTitle),
+		        mat.toJson().toString());
 	}
 
 	@Override

@@ -21,9 +21,36 @@ import java.util.List;
 public abstract class FileManager implements FileManagerI {
 	private AppW app;
 	private Provider provider;
-	public static final String FILE_PREFIX = "file_";
-	public static final String AUTO_SAVE_KEY = "autosave";
 
+	public static final String AUTO_SAVE_KEY = "autosave";
+	public static final String FILE_PREFIX = "file_";
+
+	/**
+	 * @param matID
+	 *            local ID of material
+	 * @param title
+	 *            of material
+	 * @return creates a key (String) for the stockStore
+	 */
+	public static String createKeyString(int matID, String title) {
+		return FILE_PREFIX + matID + "_" + title;
+	}
+
+	public static String getFileKey(Material mat) {
+		return createKeyString(mat.getLocalID(), mat.getTitle());
+	}
+
+	/**
+	 * returns the ID from the given key. (key is of form "file_ID_fileName")
+	 * 
+	 * @param key
+	 *            String
+	 * @return int ID
+	 */
+	public static int getIDFromKey(String key) {
+		return Integer.parseInt(key.substring(FILE_PREFIX.length(),
+		        key.indexOf("_", FILE_PREFIX.length())));
+	}
 	public FileManager(final AppW app) {
 		this.app = app;
 	}
@@ -147,7 +174,7 @@ public abstract class FileManager implements FileManagerI {
 	 *            {@link Material}
 	 */
 	public void upload(final Material mat) {
-		final String localKey = mat.getTitle();
+		final String localKey = getFileKey(mat);
 		mat.setTitle(getTitleFromKey(mat.getTitle()));
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .uploadLocalMaterial(app, mat, new MaterialCallback() {
@@ -155,7 +182,8 @@ public abstract class FileManager implements FileManagerI {
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {
 				        if (parseResponse.size() == 1) {
-					        mat.setTitle(localKey);
+					        mat.setTitle(getTitleFromKey(mat.getTitle()));
+					        mat.setLocalID(FileManager.getIDFromKey(localKey));
 					        App.debug("GGG uploading" + localKey);
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
 						        delete(mat);
@@ -202,28 +230,9 @@ public abstract class FileManager implements FileManagerI {
 		return this.provider;
 	}
 
-	/**
-	 * returns the ID from the given key. (key is of form "file_ID_fileName")
-	 * 
-	 * @param key
-	 *            String
-	 * @return int ID
-	 */
-	public int getIDFromKey(String key) {
-		return Integer.parseInt(key.substring(FILE_PREFIX.length(),
-		        key.indexOf("_", FILE_PREFIX.length())));
-	}
 
-	/**
-	 * @param matID
-	 *            local ID of material
-	 * @param title
-	 *            of material
-	 * @return creates a key (String) for the stockStore
-	 */
-	public String createKeyString(int matID, String title) {
-		return FILE_PREFIX + matID + "_" + title;
-	}
+
+
 
 	@Override
 	public void openMaterial(final Material material) {

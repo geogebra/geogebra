@@ -1194,7 +1194,7 @@ public class CoordMatrix {
 	 *
 	 */
 	static final private void pivot(double[][] matrix, PivotInterface psr, 
-			int step, ArrayList<Integer> stack){
+			final int step, ArrayList<Integer> stack){
 		
 		// last step
 		if (step == 0){

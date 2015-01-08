@@ -14,6 +14,7 @@ import java.util.Date;
 public class Material implements Comparable<Material>
 {
 	
+
 	public enum Provider {TUBE, GOOGLE, ONE};
 	public enum MaterialType
 	{
@@ -80,6 +81,7 @@ public class Material implements Comparable<Material>
 	private long syncStamp;
 	private long modified;
 	private String visibility;
+	private int localID;
 	
 	public Material(int id, MaterialType type)
 	{
@@ -433,5 +435,16 @@ public class Material implements Comparable<Material>
 	
 	public long getModified() {
 		return this.modified;
+	}
+
+
+
+	public void setLocalID(int localID) {
+		this.localID = localID;
+
+	}
+
+	public int getLocalID() {
+		return localID;
 	}
 }

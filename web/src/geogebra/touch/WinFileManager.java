@@ -82,7 +82,7 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void delete(Material mat) {
-		deleteNative(mat.getTitle());
+		deleteNative(getFileKey(mat));
 		removeFile(mat);
 		((BrowseGUI) getApp().getGuiManager().getBrowseGUI())
 		        .setMaterialsDefaultStyle();
@@ -98,11 +98,11 @@ public class WinFileManager extends FileManager {
 	@Override
 	public void upload(final Material mat) {
 
-		getBase64(mat.getTitle(), new NativeSaveCallback() {
+		getBase64(getFileKey(mat), new NativeSaveCallback() {
 
 			@Override
-			public void onSuccess(String fileID) {
-				mat.setBase64(fileID);
+			public void onSuccess(String base64) {
+				mat.setBase64(base64);
 				doUpload(mat);
 			}
 
@@ -123,7 +123,7 @@ public class WinFileManager extends FileManager {
 		super.upload(mat);
 	}
 
-	private native void getBase64(String title, NativeSaveCallback nsc)/*-{
+	private native void getBase64(String fileKey, NativeSaveCallback nsc)/*-{
 		if ($wnd.android && $wnd.android.getBase64) {
 			$wnd.android
 					.getBase64(
