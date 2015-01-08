@@ -21,23 +21,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	/** The function being rendered */
 	SurfaceEvaluable surfaceGeo;
-	SurfaceEvaluable dfxu;
 
-	private static final long MAX_SPLIT = 32768;
-	private static final long MIN_SPLIT = 512;
-	private static final double MAX_CENTER_QUAD_DISTANCE = 1.e-3;
-	private static final double MAX_DIAGONAL_QUAD_LENGTH = 1.e-3;
-	private double limit1;
-	private double limit2;
-	private double uMin;
-	private double vMin;
+	private double uDelta, vDelta;
+
+	// number of intervals in root mesh (for each parameters, if parameters
+	// delta are equals)
+	private static final short ROOT_MESH_INTERVALS = 10;
+
 
 	// number of split for boundary
 	private static final short BOUNDARY_SPLIT = 5;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
-	private double cullingBoxDelta;
 
 	/**
 	 * common constructor
@@ -84,32 +80,36 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
-		uMin = surfaceGeo.getMinParameter(0);
+		double uMin = surfaceGeo.getMinParameter(0);
 		double uMax = surfaceGeo.getMaxParameter(0);
-		vMin = surfaceGeo.getMinParameter(1);
+		double vMin = surfaceGeo.getMinParameter(1);
 		double vMax = surfaceGeo.getMaxParameter(1);
 
+		uDelta = uMax - uMin;
+		if (Kernel.isZero(uDelta)) {
+			setSurfaceIndex(-1);
+			return true;
+		}
+		vDelta = vMax - vMin;
+		if (Kernel.isZero(vDelta)) {
+			setSurfaceIndex(-1);
+			return true;
+		}
+
 		updateCullingBox();
-		cullingBoxDelta = (cullingBox[5] - cullingBox[4]);
-		limit1 = cullingBoxDelta * MAX_DIAGONAL_QUAD_LENGTH;
-		limit2 = cullingBoxDelta * MAX_CENTER_QUAD_DISTANCE;
 
 		surface.start(getReusableSurfaceIndex());
 
-		// Corner al = new Corner(uMin, vMin);
-		// Corner a = new Corner(uMax, vMin);
-		// Corner l = new Corner(uMin, vMax);
-		// Corner corner = new Corner(uMax, vMax, a, l, al);
 
 		maxRWDistance = 5 * getView3D().getMaxPixelDistance() / getView3D().getScale();
 		maxBend = Math.tan(20 * Kernel.PI_180);// getView3D().getMaxBend();
 
 		App.debug("\nmaxRWDistance = " + maxRWDistance);
 
-		int n = 10;
-		// double uDelta = (uMax - uMin) / n;
-		// double vDelta = (vMax - vMin) / n;
-		Corner corner = createRootMesh(uMin, uMax, n, vMin, vMax, n);
+		int uN = 1 + (int) (ROOT_MESH_INTERVALS * Math.sqrt(uDelta / vDelta));
+		int vN = 1 + ROOT_MESH_INTERVALS * ROOT_MESH_INTERVALS / uN;
+		App.debug("grids: " + uN + ", " + vN);
+		Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
 
 		currentSplit = new ArrayList<DrawSurface3D.Corner>();
 		nextSplit = new ArrayList<DrawSurface3D.Corner>();
@@ -189,8 +189,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
 
-		double uDelta = uMin - uMax;
-		double vDelta = vMin - vMax;
 
 		Corner bottomRight = new Corner(uMax, vMax);
 		Corner first = bottomRight;
@@ -198,19 +196,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// first row
 		Corner right = bottomRight;
 		for (int i = 1; i <= uN; i++) {
-			Corner left = new Corner(uMax + (uDelta * i) / uN, vMax);
+			Corner left = new Corner(uMax - (uDelta * i) / uN, vMax);
 			right.l = left;
 			right = left;
 		}
 
 		// all rows
 		for (int j = 1; j <= vN; j++) {
-			double v = vMax + (vDelta * j) / vN;
+			double v = vMax - (vDelta * j) / vN;
 			Corner below = bottomRight;
 			right = new Corner(uMax, v);
 			below.a = right;
 			for (int i = 1; i <= uN; i++) {
-				Corner left = new Corner(uMax + (uDelta * i) / uN, v);
+				Corner left = new Corner(uMax - (uDelta * i) / uN, v);
 				right.l = left;
 				right = left;
 				below = below.l;
