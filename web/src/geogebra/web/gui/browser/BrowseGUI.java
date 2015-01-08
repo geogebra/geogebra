@@ -26,6 +26,8 @@ import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.DOM;
@@ -123,6 +125,17 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		});
 
 		app.registerOpenFileListener(this);
+
+		this.addDomHandler(new TouchMoveHandler() {
+			@Override
+			public void onTouchMove(TouchMoveEvent event) {
+				// prevent zooming
+				if (event.getTouches().length() > 1) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}, TouchMoveEvent.getType());
 	}
 
 	protected void initMaterialListPanel() {
