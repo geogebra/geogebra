@@ -1,11 +1,12 @@
 package geogebra.html5.gui.view.autocompletion;
 
+import geogebra.html5.gui.inputfield.HasSymbolPopup;
 import geogebra.html5.gui.textbox.GTextBox;
 
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -24,13 +25,13 @@ public class ScrollableSuggestBox extends SuggestBox {
 		}
 	}
 
-	private static TextBox tb;
+	private static GTextBox tb;
 
 	/**
 	 * Constructor for ScrollableSuggestBox
 	 * @param oracle supplies suggestions based upon the current contents of the text widget
 	 */
-	public ScrollableSuggestBox(SuggestOracle oracle) {
+	public ScrollableSuggestBox(SuggestOracle oracle, HasSymbolPopup hsp) {
 		super(oracle, tb = new GTextBox(), new CustomSuggestionDisplay());
 		
 		 // suggestion from here to disable autocomplete
@@ -39,6 +40,7 @@ public class ScrollableSuggestBox extends SuggestBox {
 		 // #3878
 		tb.getElement().setAttribute("autocomplete", "off");
 		tb.getElement().setAttribute("autocapitalize", "off");
+		tb.setPopupCallback(hsp);
 	}
 
 	/**
@@ -54,5 +56,10 @@ public class ScrollableSuggestBox extends SuggestBox {
 	
 	private DefaultSuggestionDisplay getDefaultSuggestionDisplay() {
 		return (DefaultSuggestionDisplay) getSuggestionDisplay();
+	}
+
+	public void setShowSymbolElement(Element element) {
+		// TODO Auto-generated method stub
+
 	}
 }

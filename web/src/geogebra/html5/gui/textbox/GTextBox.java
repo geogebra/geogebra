@@ -1,5 +1,8 @@
 package geogebra.html5.gui.textbox;
 
+import geogebra.common.main.App;
+import geogebra.html5.gui.inputfield.HasSymbolPopup;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -15,7 +18,8 @@ import com.google.gwt.user.client.ui.TextBox;
  * 
  * @author Balazs
  */
-public class GTextBox extends TextBox implements NativePreviewHandler {
+public class GTextBox extends TextBox implements NativePreviewHandler,
+        HasSymbolPopup {
 	// On iOS when using a bluetooth keyboard, the onkeyup event reports
 	// the charcode to be 0. To solve this, we save the character code
 	// in the onkeydown event, and we use that for the onkeyup
@@ -56,6 +60,20 @@ public class GTextBox extends TextBox implements NativePreviewHandler {
 			isShiftKeyDown = nativeEvent.getShiftKey();
 			isControlKeyDown = nativeEvent.getCtrlKey();
 			isMetaKeyDown = nativeEvent.getMetaKey();
+		}
+	}
+
+	private HasSymbolPopup showSymbolElement;
+
+	public void setPopupCallback(HasSymbolPopup element) {
+		this.showSymbolElement = element;
+	}
+	@Override
+	public void showPopup(boolean show) {
+		App.debug("TF focused" + show);
+		if (showSymbolElement != null) {
+			App.debug("TF focused2" + show);
+			showSymbolElement.showPopup(show);
 		}
 	}
 }

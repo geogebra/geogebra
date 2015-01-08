@@ -54,7 +54,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	        }});
 		//
 		final AutoCompleteTextFieldW tf = getSelectedValue();
-
+		tf.addStyleName("AutoCompleteTextFieldW");
 		tf.addFocusListener(new FocusListenerW(this) {
 			@Override
 			public void onFocus(FocusEvent event) {

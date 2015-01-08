@@ -34,7 +34,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -68,7 +67,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
         geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
         KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>,
-        SelectionHandler<Suggestion>, VirtualKeyboardListener {
+        SelectionHandler<Suggestion>, VirtualKeyboardListener, HasSymbolPopup {
 
 	/**
 	 * code for KeyUpEvent
@@ -171,7 +170,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		// AG not MathTextField and Mytextfield exists yet super(app);
 		// allow dynamic width with columns = -1
 		textField = new ScrollableSuggestBox(
-		        completionsPopup = new CompletionsPopup()) {
+		        completionsPopup = new CompletionsPopup(), this) {
 			@Override
 			public void setText(String s) {
 				String oldText = getText();
@@ -240,6 +239,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				AutoCompleteTextFieldW.this.setFocus(true);
 			}
 		};
+		textField.setShowSymbolElement(this.showSymbolButton.getElement());
 		showSymbolButton.getElement().setId(id + "_SymbolButton");
 		showSymbolButton.getElement().setAttribute("data-visible", "false");
 		// showSymbolButton.getElement().setAttribute("style", "display: none");
@@ -1444,23 +1444,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 *            otherwise.
 	 */
 	public static void showSymbolButtonIfExists(Object source, boolean show) {
-		if (source instanceof Widget) {
-			String id = ((Widget) source).getElement().getId();
-			if (id != null) {
-				Element element = Document.get().getElementById(
-				        id + "_SymbolButton");
-				if (element != null
-				        && "true".equals(element.getAttribute("data-visible"))) {
-					if (show) {
-						element.addClassName("shown");
-					} else {
-						if (!"true"
-						        .equals(element.getAttribute("data-persist"))) {
-							element.removeClassName("shown");
-						}
-					}
-				}
-			}
+		App.debug(source.getClass().getName() + "," + show);
+		if (source instanceof HasSymbolPopup) {
+			((HasSymbolPopup) source).showPopup(show);
 		}
 	}
 
@@ -1617,4 +1603,29 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public void setKeyBoardUsed(boolean used) {
 		this.keyboardUsed = used;
 	}
+
+	@Override
+	public void showPopup(boolean show) {
+		if (this.showSymbolButton == null) {
+			return;
+		}
+		Element showSymbolElement = this.showSymbolButton.getElement();
+		App.debug("AF focused" + show);
+		if (showSymbolElement != null
+		        && "true"
+		                .equals(showSymbolElement.getAttribute("data-visible"))) {
+			if (show) {
+				App.debug("AF focused2" + show);
+				showSymbolElement.addClassName("shown");
+			} else {
+				App.debug("AF focused2" + show);
+				if (!"true".equals(showSymbolElement
+				        .getAttribute("data-persist"))) {
+					showSymbolElement.removeClassName("shown");
+				}
+			}
+		}
+
+	}
+
 }
