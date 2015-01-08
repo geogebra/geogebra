@@ -2353,7 +2353,7 @@ __GGB__keysVar.zh_TW.plain = {
     "EyeDistance": "\u8207\u87a2\u5e55\u7684\u8ddd\u96e2",
     "EyeSeparation": "\u773c\u8ddd",
     "EyesSeparation": "\u773c\u8ddd",
-    "Fading": "Fading",
+    "Fading": "\u6de1\u51fa",
     "File.HTML": "\u6a94\u6848\uff1aHTML",
     "File.SCORM": "\u6a94\u6848\uff1aSCORM",
     "File.epub": "epub \u6a94",

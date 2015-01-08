@@ -181,7 +181,7 @@ __GGB__keysVar.vi.command = {
     "ComplexRoot": "NghiemPhuc",
     "ComplexRoot.Syntax": "[ <\u0110a th\u1ee9c> ]",
     "Cone": "HinhNon",
-    "Cone.Syntax": "[ <\u0110\u01b0\u1eddng tr\xf2n>, <Chi\u1ec1u cao> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <B\xe1n k\xednh> ]",
+    "Cone.Syntax": "[ <\u0110\u01b0\u1eddng tr\xf2n>, <Chi\u1ec1u cao> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <B\xe1n k\xednh> ]\n[ <\u0110i\u1ec3m>, <V\xe9c t\u01a1>, <G\xf3c> ]",
     "Conic": "Conic",
     "Conic.Syntax": "[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]\n[ <S\u1ed1>, <S\u1ed1>, <S\u1ed1>, <S\u1ed1>, <S\u1ed1>, <S\u1ed1> ]",
     "ConstructionStep": "BuocDung",
