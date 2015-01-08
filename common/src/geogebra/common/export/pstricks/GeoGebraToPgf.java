@@ -3215,6 +3215,50 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 	
 	protected boolean fillSpline (GeoCurveCartesian [] curves){
-		return false;
+		String liopco = LineOptionCode(curves[0], true);
+		if (!liopco.contains("fill")) {
+			return false;
+		}
+		StringBuilder fill=new StringBuilder();
+		
+		liopco = "[" + liopco + "]";
+		String template = "\\pgflineto{\\pgfxy(%0,%1)}\n";
+		double p = curves[0].getMinParameter();
+		double y = curves[0].getFunY()
+				.evaluate(curves[0].getMinParameter());
+		double yprec = y;
+		if (Math.abs(y) < 0.001)
+			y = yprec = 0;
+		double xprec = curves[0].getFunX().evaluate(
+				curves[0].getMinParameter());
+		double x = xprec;
+		fill.append("\\pgfmoveto{\\pgfxy("+x+","+y+")}");
+		for (int i = 0; i < curves.length; i++) {
+			p = curves[i].getMinParameter();
+			y = curves[i].getFunY()
+					.evaluate(curves[i].getMinParameter());
+			yprec = y;
+			if (Math.abs(y) < 0.001)
+				y = yprec = 0;
+			double step = (curves[i].getMaxParameter() - curves[i]
+					.getMinParameter()) / 200;
+			xprec = curves[i].getFunX().evaluate(
+					curves[i].getMinParameter());
+			x = xprec;
+			for (; p <= curves[i].getMaxParameter(); p += step) {
+				y = curves[i].getFunY().evaluate(p);
+				x = curves[i].getFunX().evaluate(p);
+				if (Math.abs(y) < 0.001)
+					y = 0;
+				if (Math.abs(x) < 0.001)
+					x = 0;
+				fill.append(StringUtil.format(template, xprec, yprec, x, y));
+				yprec = y;
+				xprec = x;
+			}
+		}
+		fill.append("\\draw"+liopco+"("+x+","+y+") circle(0pt);\n");
+		code.append(fill);
+		return true;
 	}
 }
