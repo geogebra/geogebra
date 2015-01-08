@@ -4,6 +4,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.KeyCodes;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 
 import java.util.ArrayList;
 
@@ -63,7 +64,11 @@ public class GlobalKeyDispatcherW extends
 		setDownKeys(event);
 		event.stopPropagation();
 		if (InFocus) {
-			event.preventDefault();
+			if (!AlgebraViewWeb.isTestingReally) {
+				event.preventDefault();
+			} else {
+				App.debug("this kills matquill, Debug for Arpad");
+			}
 		}
 
 		// this needs to be done in onKeyPress -- keyUp is not case sensitive

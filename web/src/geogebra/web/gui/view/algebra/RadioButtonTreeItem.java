@@ -22,6 +22,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.util.IndexHTMLBuilder;
 import geogebra.html5.event.PointerEvent;
@@ -805,7 +806,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 
 		app.getActiveEuclidianView().mouseMovedOver(null);
-		av.setFocus(true);
+		if (!AlgebraViewWeb.isTestingReally) {
+			App.debug("this kills matquill, debug for Arpad");
+			av.setFocus(true);
+		}
 	}
 	
 	private void onPointerMove(AbstractEvent event) {

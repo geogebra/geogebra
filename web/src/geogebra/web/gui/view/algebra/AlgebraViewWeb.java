@@ -1027,7 +1027,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				@Override
                 public void onMouseDown(MouseDownEvent event) {
 	               //event.stopPropagation();
-	                
                 }}, MouseDownEvent.getType());
 		}
 		showAlgebraInput();
@@ -1049,7 +1048,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		inputPanelTreeItem = null;
 	}
 
-	private boolean isTestingReally = false;
+	// only for debug
+	public static boolean isTestingReally = false;
 	
 	private void showAlgebraInput() {
 		if (inputPanel == null || !app.showAlgebraInput()) {
