@@ -80,7 +80,7 @@ public class UDPLoggerD implements UDPLogger {
 	@Override
 	public void stopLogging() {
 
-		kernel.setUndoActive(true);
+		kernel.setUndoActive(oldUndoActive);
 		kernel.storeUndoInfo();
 
 		if (dsocket != null) {
@@ -360,11 +360,15 @@ public class UDPLoggerD implements UDPLogger {
 		}
 	}
 
+	private boolean oldUndoActive = false;
+
 	@Override
 	public boolean startLogging() {
 
 		App.debug("startLogging called, undoActive is: "
 				+ kernel.isUndoActive());
+		// make sure that running StartLogging twice does not switch undo off
+		oldUndoActive = oldUndoActive || kernel.isUndoActive();
 
 		kernel.setUndoActive(false);
 
