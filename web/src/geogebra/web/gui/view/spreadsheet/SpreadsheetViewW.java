@@ -30,8 +30,14 @@ import com.google.gwt.user.client.ui.RequiresResize;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
-public class SpreadsheetViewW  implements View, SpreadsheetViewInterface, /*ComponentListener,
-		FocusListener, Gridable,*/ SettingListener, RequiresResize {
+public class SpreadsheetViewW implements SpreadsheetViewInterface, /*
+																		 * ComponentListener
+																		 * ,
+																		 * FocusListener
+																		 * ,
+																		 * Gridable
+																		 * ,
+																		 */ SettingListener, RequiresResize {
 
 	private static final long serialVersionUID = 1L;
 

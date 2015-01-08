@@ -18,6 +18,8 @@ import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.TouchMoveEvent;
+import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -68,6 +70,17 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				}
 			}
 		});
+
+		dockPanel.addDomHandler(new TouchMoveHandler() {
+			@Override
+			public void onTouchMove(TouchMoveEvent event) {
+				// prevent zooming
+				if (event.getTouches().length() > 1) {
+					event.preventDefault();
+					event.stopPropagation();
+				}
+			}
+		}, TouchMoveEvent.getType());
 
 		add(glassPane);
 		add(mainPanel);
