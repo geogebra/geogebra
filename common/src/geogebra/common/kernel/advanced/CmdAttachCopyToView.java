@@ -82,6 +82,7 @@ public class CmdAttachCopyToView extends CommandProcessor {
 						|| arg[0].isGeoList()) {
 
 					AlgoAttachCopyToView algo = new AlgoAttachCopyToView(cons,
+							c.getLabel(),
 							arg[0], (NumberValue) arg[1], corner1, corner3,
 							screenCorner1, screenCorner3);
 
