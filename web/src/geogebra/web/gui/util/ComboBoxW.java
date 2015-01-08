@@ -1,6 +1,7 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
+import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -10,9 +11,7 @@ import geogebra.web.gui.advanced.client.ui.widget.ComboBox;
 import geogebra.web.gui.advanced.client.ui.widget.combo.DropDownPosition;
 
 import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
@@ -20,7 +19,6 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
-
 
 public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final int DEFAULT_VISIBLE_ROWS = 10;
@@ -57,27 +55,26 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 					onValueChange(getValue());
 				}
 	        }});
+		//
+		final AutoCompleteTextFieldW tf = getSelectedValue();
 
-		addBlurHandler(new BlurHandler() {
-
-			public void onBlur(BlurEvent event) {
-				AutoCompleteTextFieldW.showSymbolButtonIfExists(
-				        event.getSource(), false);
-
+		tf.addFocusListener(new FocusListenerW(this) {
+			@Override
+			public void onFocus(FocusEvent event) {
+				App.debug("onFoooooooocus");
+				// AutoCompleteTextFieldW.showSymbolButtonIfExists(tf, true);
+				super.onFocus(event);
 			}
+
+			@Override
+			public void onBlur(BlurEvent event) {
+				App.debug("onBluuuuuuuuur");
+				// AutoCompleteTextFieldW.showSymbolButtonIfExists(tf, true);
+				super.onBlur(event);
+			}
+
 		});
 		
-		addFocusHandler(new FocusHandler() {
-			
-			public void onFocus(FocusEvent event) {
-				App.debug("focus");
-				getSelectedValue().showPopupSymbolButton(true);
-				// AutoCompleteTextFieldW.showSymbolButtonIfExists(
-				// event.getSource(), true);
-
-			}
-		});
-
 	}
 
 	@Override 

@@ -20,7 +20,6 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.advanced.client.ui.AdvancedWidget;
-import geogebra.web.gui.view.algebra.InputPanelW;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HasValue;
@@ -272,10 +271,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      */
 	protected AutoCompleteTextFieldW getSelectedValue() {
         if (selectedValue == null) {
-			InputPanelW input = new InputPanelW(null, app, 0, 0, true);
-			selectedValue = input.getTextComponent();
+			selectedValue = new AutoCompleteTextFieldW(15, app);
+			selectedValue.setEditable(true);
 			selectedValue.requestToShowSymbolButton();
-			// selectedValue.showPopupSymbolButton(true);
 		}
 		return selectedValue;
     }

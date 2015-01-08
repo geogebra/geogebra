@@ -726,7 +726,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             if (sender == value && !isCustomTextAllowed())
                 value.removeStyleName("selected-row");
 
-            if (!isFocus())
+			if (!isFocus())
                 fireEvent(event);
         }
 
@@ -744,6 +744,7 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
                     value.addStyleName("selected-row");
                     if (isChoiceButtonVisible())
                         getChoiceButton().setFocus(true);
+					;
                 }
 
             } else if (sender == null || sender == getListPanel()) { //on drop down list show
