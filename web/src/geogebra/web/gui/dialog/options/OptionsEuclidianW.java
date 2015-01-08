@@ -607,9 +607,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			// cons protocol panel
 			cbShowNavbar.setValue(isVisible);
 			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
-					.getGuiManager().getConstructionProtocolNavigation();
-			cbNavPlay.setValue(cpn.isPlayButtonVisible());
-			cbOpenConsProtocol.setValue(cpn.isConsProtButtonVisible());
+			        .getGuiManager()
+			        .getConstructionProtocolNavigationIfExists();
+			cbNavPlay.setValue(cpn == null || cpn.isPlayButtonVisible());
+			cbOpenConsProtocol.setValue(cpn == null
+			        || cpn.isConsProtButtonVisible());
 
 			cbNavPlay.setEnabled(isVisible);
 			cbOpenConsProtocol.setEnabled(isVisible);
