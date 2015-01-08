@@ -4478,6 +4478,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	@Override
 	public void resetUniqueId() {
 		uniqueId = "" + UUID.randomUUID();
+		setTubeId(0);
 	}
 
 	// //////////////////////////////////

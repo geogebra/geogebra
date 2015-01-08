@@ -35,7 +35,7 @@ public class UploadRequest implements Request {
 	UploadRequest(AppW app, String consTitle, String base64) {
 		this.app = app;
 		this.consTitle = consTitle;
-		this.uniqueID = this.app.getUniqueId();
+		this.uniqueID = this.app.getTubeId() + "";
 		this.base64 = base64;
 		this.visibility = this.app.getActiveMaterial().getVisibility();
 	}

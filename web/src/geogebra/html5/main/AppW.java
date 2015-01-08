@@ -192,6 +192,7 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public final void resetUniqueId() {
 		uniqueId = null;// FIXME: generate new UUID: + UUID.randomUUID();
+		setTubeId(0);
 	}
 
 	/**

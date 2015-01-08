@@ -565,10 +565,8 @@ public class FileManagerT extends FileManager {
 								        writer.write(base64);
 								        createMetaData(
 								                key,
-								                getApp().getUniqueId() == null ? 0
-								                        : Integer
-								                                .parseInt(getApp()
-								                                        .getUniqueId()),
+ getApp()
+								                .getTubeId(),
 								                cb);
 							        }
 

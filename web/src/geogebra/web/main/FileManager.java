@@ -96,8 +96,8 @@ public abstract class FileManager implements FileManagerI {
 		// TODO check if we need to set timestamp / modified
 		mat.setModified(System.currentTimeMillis() / 1000);
 
-		if (app.getUniqueId() != null) {
-			mat.setId(Integer.parseInt(app.getUniqueId()));
+		if (app.getTubeId() != 0) {
+			mat.setId(app.getTubeId());
 			mat.setSyncStamp(app.getSyncStamp());
 		}
 
@@ -152,7 +152,7 @@ public abstract class FileManager implements FileManagerI {
 				        } else if (parseResponse.size() == 0) {
 					        mat.setId(0);
 				        } else {
-					        FileManager.this.updateFile(mat.getTitle(),
+					        FileManager.this.updateFile(getFileKey(mat),
 					                parseResponse.get(0));
 				        }
 				        upload(mat);

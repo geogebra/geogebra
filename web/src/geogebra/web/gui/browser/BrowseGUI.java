@@ -307,11 +307,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			} else if (!getLastSelected().isLocal
 			        && getLastSelected().isOwnMaterial) {
 				app.getKernel().getConstruction().setTitle(material.getTitle());
-				app.setUniqueId(material.getId() + "");
+				app.setTubeId(material.getId());
 			} else {
 				app.resetUniqueId();
+				app.setTubeId(0);
 			}
 		} else {
+			app.setTubeId(0);
 			app.resetUniqueId(); // TODO
 		}
 		setMaterialsDefaultStyle();

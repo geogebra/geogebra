@@ -3524,4 +3524,14 @@ public abstract class App implements UpdateSelection {
 	public boolean isPrerelease() {
 		return false;
 	}
+
+	private int tubeID = 0;
+
+	public final int getTubeId() {
+		return tubeID;
+	}
+
+	public final void setTubeId(int uniqueId) {
+		this.tubeID = uniqueId;
+	}
 }

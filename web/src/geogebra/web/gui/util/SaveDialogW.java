@@ -182,7 +182,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 */
     void handleMaterialCallback(Material newMat) {
         app.getKernel().getConstruction().setTitle(title.getText());
-        app.setUniqueId(Integer.toString(newMat.getId()));
+		app.setTubeId(newMat.getId());
         //last synchronization is equal to last modified 
         app.setSyncStamp(newMat.getModified());
         newMat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
@@ -401,7 +401,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				public void onLoaded(List<Material> parseResponse) {
 					if (parseResponse.size() == 1) {
 						handleMaterialCallback(parseResponse.get(0));
-						Window.open(GGT_EDIT_URL + app.getUniqueId() + "&visibility=" + visibility, "_blank","");
+					Window.open(GGT_EDIT_URL + app.getTubeId() + "&visibility="
+					        + visibility, "_blank", "");
 						runAfterSaveCallback();
 					}
 					else {
@@ -442,9 +443,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			@Override
             public void handle(String base64) {
 				if (!SaveDialogW.this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-					app.resetUniqueId();
+					app.setTubeId(0);
 					doUploadToGgt(base64,materialCallback);
-				} else if (app.getUniqueId() == null) {
+				} else if (app.getTubeId() == 0) {
 					doUploadToGgt(base64,materialCallback);
 				}
 				else {
@@ -495,13 +496,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
     }
 
 	void handleSync(final String base64, final MaterialCallback materialCallback) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(app.getUniqueId(), new MaterialCallback(){
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		        .getItem(app.getTubeId() + "", new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
 					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {
-						app.resetUniqueId();
+						        app.setTubeId(0);
 						ToolTipManagerW.sharedInstance().showBottomMessage(((LocalizationW) app.getLocalization()).getMenu("SeveralVersionsOfA", parseResponse.get(0).getTitle()), false);
 					}
 					doUploadToGgt(base64, materialCallback);
