@@ -621,7 +621,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 			DockPanelW panel = this.getLayout().getDockManager()
 			        .getPanel(this.getActiveEuclidianView().getViewID());
 			panel.addToToolbar(mode);
-			panel.buildToolbarGui();
+			panel.updateToolbar();
 
 			return;
 		}
