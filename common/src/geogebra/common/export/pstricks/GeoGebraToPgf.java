@@ -1428,7 +1428,7 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,boolean trasparency) {
 		// \parametricplot[algebraic=true,linecolor=red]
 		// {-3.14}{3.14}{cos(3*t)|sin(2*t)}
 		// Only done using gnuplot
@@ -3212,5 +3212,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 		StringBuilder lineBuilder = drawNyquistDiagram(g, template, "§arrows§",
 				la, ra);
 		code.append(lineBuilder.toString() + ";\n");
+	}
+	
+	protected boolean fillSpline (GeoCurveCartesian [] curves){
+		return false;
 	}
 }

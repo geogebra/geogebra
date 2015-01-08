@@ -1183,7 +1183,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(tempsb);
 	}
 
-	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo, boolean trasparency) {
 		importpackage.add("graph");
 		double start = geo.getMinParameter(), end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();
@@ -3740,4 +3740,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		return super.format(d).replace("E", "e");
 	}
 
+	protected boolean fillSpline(GeoCurveCartesian [] curves){
+		return false;
+	}
 }

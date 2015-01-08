@@ -20,7 +20,6 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionAreaSums;
 import geogebra.common.kernel.algos.AlgoIntegralFunctions;
 import geogebra.common.kernel.algos.AlgoSlope;
-import geogebra.common.kernel.algos.AlgoSpline;
 import geogebra.common.kernel.algos.AlgoSumLeft;
 import geogebra.common.kernel.algos.AlgoSumLower;
 import geogebra.common.kernel.algos.AlgoSumRectangle;
@@ -646,7 +645,7 @@ public abstract class GeoGebraExport {
 	 * @param geo
 	 *            The function to export
 	 */
-	abstract protected void drawSingleCurveCartesian(GeoCurveCartesian geo);
+	abstract protected void drawSingleCurveCartesian(GeoCurveCartesian geo,boolean trasparency);
 
 	/**
 	 * Export as PSTricks or PGF/TikZ Text on euclidian view
@@ -819,6 +818,8 @@ public abstract class GeoGebraExport {
 	// (pstricks,pgf,asymptote)
 	abstract protected GGraphics2D createGraphics(FunctionalNVar ef,
 			Inequality inequality, EuclidianView euclidianView2);
+	
+	abstract protected boolean fillSpline(GeoCurveCartesian [] curves);
 
 	/**
 	 * @return the xmin
@@ -1521,7 +1522,6 @@ public abstract class GeoGebraExport {
 
 	private void drawCurveCartesian(GeoElement geo) {
 		if (!isLatexFunction(geo.toValueString(StringTemplate.noLocalDefault))) {
-			AlgoSpline algo = (AlgoSpline) geo.getDrawAlgorithm();
 			GeoCurveCartesian curve = (GeoCurveCartesian) geo;
 			Function f = curve.getFunX();
 			ExpressionNode exl = f.getFunctionExpression().getLeftTree();
@@ -1541,7 +1541,6 @@ public abstract class GeoGebraExport {
 			}
 			GeoCurveCartesian[] curves = new GeoCurveCartesian[exlsv.length];
 			AlgebraProcessor ap = kernel.getAlgebraProcessor();
-
 			for (int i = 0; i < exlsv.length; i++) {
 				GeoFunction fxx = ap.evaluateToFunction("xspline(t)="
 						+ exrsv[i], true);
@@ -1570,11 +1569,14 @@ public abstract class GeoGebraExport {
 				curves[i].setInterval(Double.parseDouble(paramValues[i]),
 						Double.parseDouble(paramValues[i + 1]));
 			}
-			for (int i = 0; i < curves.length; i++) {
-				drawSingleCurveCartesian(curves[i]);
+			boolean fill=fillSpline(curves);
+			if (!fill){
+				for (int i=0;i<curves.length;i++){
+					drawSingleCurveCartesian((GeoCurveCartesian) curves[i],true);
+				}
 			}
 		} else {
-			drawSingleCurveCartesian((GeoCurveCartesian) geo);
+			drawSingleCurveCartesian((GeoCurveCartesian) geo, true);
 		}
 	}
 }

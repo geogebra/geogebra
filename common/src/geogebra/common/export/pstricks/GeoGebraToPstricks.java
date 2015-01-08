@@ -1040,7 +1040,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawSingleCurveCartesian(GeoCurveCartesian geo) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo, boolean trasparency) {
 		double start = geo.getMinParameter();
 		double end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();
@@ -1054,7 +1054,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (warning)
 			code.append("% WARNING: You have to use the special variable t in parametric plot");
 		code.append("\\parametricplot");
-		code.append(LineOptionCode(geo, true));
+		code.append(LineOptionCode(geo, trasparency));
 		int index = code.lastIndexOf("]");
 		if (index == code.length() - 1) {
 			code.deleteCharAt(index);
@@ -2451,5 +2451,24 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 				"{<-}", "{->}");
 		code.append(lineBuilder.toString());
 		endBeamer(code);
+	}
+
+	/**
+	 * @param curves
+	 */
+	@Override
+	protected boolean fillSpline(GeoCurveCartesian[] curves) {
+		String liopco = LineOptionCode(curves[0], true);
+		if (!liopco.contains("fill")) {
+			return false;
+		}
+		StringBuilder fill = new StringBuilder("\\pscustom");		
+		fill.append(liopco);		
+		fill.append("\n{\n");
+		code.append(fill);
+		for (int i=0;i<curves.length;i++)
+			drawSingleCurveCartesian(curves[i],false);
+		code.append("}\n");
+		return true;
 	}
 }
