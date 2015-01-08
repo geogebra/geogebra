@@ -508,7 +508,7 @@ public class FileManagerT extends FileManager {
 								        cb.onFailure(result.getError());
 							        }
 						        });
-						        // reader.readAsText(entry);
+						        reader.readAsText(entry);
 					        }
 
 					        public void onFailure(FileError error) {
@@ -873,7 +873,7 @@ public class FileManagerT extends FileManager {
 						cb.onFailure(result.getError());
 					}
 				});
-				// reader.readAsText(fileObject);
+				reader.readAsText(fileObject);
 			}
 
 			@Override
@@ -900,8 +900,33 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	protected void updateFile(String title, Material material) {
-		// TODO Auto-generated method stub
+	protected void updateFile(final String key, final Material material) {
+		getGgbFile(key + FILE_EXT, createIfNotExist,
+		        new Callback<FileEntry, FileError>() {
+
+			        @Override
+			        public void onSuccess(final FileEntry ggbFile) {
+				        ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
+
+					        @Override
+					        public void onSuccess(final FileWriter writer) {
+						        writer.write(material.getBase64());
+						        createMetaData(key, getApp().getTubeId(), null);
+					        }
+
+					        @Override
+					        public void onFailure(final FileError error) {
+						        // cb.onError();
+					        }
+				        });
+			        }
+
+			        @Override
+			        public void onFailure(final FileError error) {
+				        // cb.onError();
+			        }
+
+		        });
 
 	}
 
