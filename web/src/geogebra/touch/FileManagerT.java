@@ -664,7 +664,7 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
 						        final Material mat = createMaterial("");
-						        mat.setTitle(key);
+						        mat.setTitle(FileManager.getTitleFromKey(key));
 						        writer.write(mat.toJson().toString());
 						        if (cb != null) {
 							        cb.onSaved(mat, true);

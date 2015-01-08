@@ -216,9 +216,10 @@ public abstract class FileManager implements FileManagerI {
 	 * key is of form "file_ID_title"
 	 * 
 	 * @param key
+	 *            file key
 	 * @return the title
 	 */
-	public String getTitleFromKey(String key) {
+	public static String getTitleFromKey(String key) {
 		return key.substring(key.indexOf("_", key.indexOf("_") + 1) + 1);
 	}
 
