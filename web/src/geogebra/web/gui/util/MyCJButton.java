@@ -8,6 +8,7 @@ import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
@@ -131,10 +132,17 @@ public class MyCJButton extends Composite implements MouseDownHandler,
     }
 
 	public void onMouseUp(MouseUpEvent event) {
+		if (!isEnabled) {
+			return;
+		}
+
 		setDownState(false);
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
+		if (!isEnabled) {
+			return;
+		}
 		setDownState(true);
 	}
 	
@@ -209,6 +217,15 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		isEnabled = enabled;
 	}
 
+	public void setEnabled(boolean enabled) {
+		isEnabled = enabled;
+		if (enabled) {
+			removeStyleName("disabled");
+		} else {
+			addStyleName("disabled");
+
+		}
+	}
 //	public void addClickHandler(ClickHandler handler) {
 //		button.addClickHandler(handler);
 //	}
@@ -229,8 +246,16 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		return button.getOffsetHeight();
 	}
 	
-	public void addActionListener(ClickHandler handler) {
-		button.addClickHandler(handler);
+	public void addActionListener(final ClickHandler handler) {
+		button.addClickHandler(new ClickHandler() {
+
+			public void onClick(ClickEvent event) {
+				if (!isEnabled) {
+					return;
+				}
+				handler.onClick(event);
+			}
+		});
 	}
 	
 	
@@ -245,11 +270,19 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	}
 
 	public void onMouseOver(MouseOverEvent event) {
+		if (!isEnabled) {
+			return;
+		}
+
 		App.debug("on mouseover --- MyCJButton" );
 		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
 	}
 
 	public void onMouseOut(MouseOutEvent event) {
+		if (!isEnabled) {
+			return;
+		}
+
 		App.debug("on mouseOUT --- MyCJButton" );
 		ToolTipManagerW.sharedInstance().showToolTip(null);
 	}

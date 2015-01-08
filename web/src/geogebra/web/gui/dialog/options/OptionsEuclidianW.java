@@ -716,6 +716,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		private void enableGrid(boolean value) {
 			model.showGrid(value);
+			mainPanel.setStyleName("disabled");
+			lbGridType.setEnabled(value);
+			cbGridManualTick.setEnabled(value);
+			btnGridStyle.setEnabled(value);
+			cbBoldGrid.setEnabled(value);
+			btGridColor.setEnabled(value);
 
 		}
 		private void initGridTypePanel() {
@@ -840,6 +846,9 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			btGridColor.addClickHandler(new ClickHandler() {
 				
 				public void onClick(ClickEvent event) {
+					if (cbShowGrid.getValue() == false) {
+						return;
+					}
 	              app.getDialogManager().showColorChooserDialog(model.getGridColor(),
 	            		new ColorChangeHandler() {
 						
@@ -931,6 +940,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void update(GColor color, boolean isShown, boolean isBold,
 				int gridType) {
 
+			enableGrid(isShown);
 			cbShowGrid.setValue(isShown);
 			cbBoldGrid.setValue(isBold);
 			lbGridType.setSelectedIndex(gridType);
