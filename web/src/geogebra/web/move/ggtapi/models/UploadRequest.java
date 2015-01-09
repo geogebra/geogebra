@@ -18,7 +18,7 @@ public class UploadRequest implements Request {
 	private final String TYPE = "applet";
 	private AppW app;
 	private String consTitle = "GeoGebra";
-	private String uniqueID;
+	private int uniqueID;
 	private String base64;
 	private String visibility;
 
@@ -35,7 +35,7 @@ public class UploadRequest implements Request {
 	UploadRequest(AppW app, String consTitle, String base64) {
 		this.app = app;
 		this.consTitle = consTitle;
-		this.uniqueID = this.app.getTubeId() + "";
+		this.uniqueID = this.app.getTubeId();
 		this.base64 = base64;
 		this.visibility = this.app.getActiveMaterial().getVisibility();
 	}
@@ -52,7 +52,7 @@ public class UploadRequest implements Request {
 		this.app = app;
 		this.consTitle = mat.getTitle();
 		if (mat.getId() != 0) {
-			this.uniqueID = Integer.toString(mat.getId());
+			this.uniqueID = mat.getId();
 		}
 		this.base64 = mat.getBase64();
 		this.visibility = "P";
@@ -71,7 +71,7 @@ public class UploadRequest implements Request {
 	UploadRequest(AppW app, String newTitle, int id) {
 		this.consTitle = newTitle;
 		this.app = app;
-		this.uniqueID = Integer.toString(id);
+		this.uniqueID = id;
 	}
 
 	@Override
@@ -94,9 +94,9 @@ public class UploadRequest implements Request {
 		JSONObject task = new JSONObject();
 		task.put("-type", new JSONString(this.TASK));
 
-		if (this.uniqueID != null) {
+		if (this.uniqueID != 0) {
 			// ID
-			task.put("id", new JSONString(this.uniqueID));
+			task.put("id", new JSONString(this.uniqueID + ""));
 		}
 
 		// type
