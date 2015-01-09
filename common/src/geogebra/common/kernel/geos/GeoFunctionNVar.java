@@ -530,13 +530,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		 }
 	 
 
-		 /**
-		  * 
-		  * @return number of vars
-		  */
-		 public int getVarNumber(){
-			 return fun.getVarNumber();
-		 }
+	/**
+	 * 
+	 * @return number of vars
+	 */
+	public int getVarNumber() {
+		return fun == null ? 0 : fun.getVarNumber();
+	}
 
 		 //will be drawn as a surface if can be interpreted as (x,y)->z function
 		 //or implicit f(x,y,z)=0 function
