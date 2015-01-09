@@ -30,7 +30,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 
 	// number of split for boundary
-	private static final short BOUNDARY_SPLIT = 5;
+	private static final short BOUNDARY_SPLIT = 10;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
@@ -121,7 +121,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// currentSplit.add(corner);
 		notDrawn = 0;
 		splitRootMesh(corner);
-		split(3);
+		split(5);
 
 		App.debug("\ndraw size : " + drawList.size() + "\nnot drawn : "
 				+ notDrawn + "\nstill to split : " + nextSplit.size());
@@ -892,6 +892,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// new corners
 			double um = (u + left.u) / 2;
 			double vm = (v + above.v) / 2;
+			if (subLeft != null) {
+				um = subLeft.u;
+			}
+			if (subAbove != null) {
+				vm = subAbove.v;
+			}
 			Corner e;
 			if (subAbove != null) {
 				e = subAbove;
