@@ -121,19 +121,26 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// currentSplit.add(corner);
 		notDrawn = 0;
 		splitRootMesh(corner);
-		split(5);
+		split(3);
 
 		App.debug("\ndraw size : " + drawList.size() + "\nnot drawn : "
 				+ notDrawn + "\nstill to split : " + nextSplit.size());
 
 		for (CornerAndCenter cc : drawList) {
-			cc.draw(surface);
+			cc.drawDebug(surface);
 		}
-
-
 		for (CornerAndCenter cc : drawListBoundary) {
-			cc.draw(surface);
+			cc.drawDebug(surface);
 		}
+
+		// surface.startTriangles();
+		// for (CornerAndCenter cc : drawList) {
+		// cc.draw(surface);
+		// }
+		// for (CornerAndCenter cc : drawListBoundary) {
+		// cc.draw(surface);
+		// }
+		// surface.endGeometry();
 
 		setSurfaceIndex(surface.end());
 
@@ -862,15 +869,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								drawListBoundary.add(new CornerAndCenter(this, center));
 							}
 						} else {
-							// this, l, a and l.a defined /3/
+							// this, l, a and l.a defined /4/
 							// check distances
 							double d = getDistance(this, left, above, left.a);
 							if (Double.isInfinite(d) || (d > maxRWDistanceNoAngleCheck && !isAngleOK(maxBend, this, left, above, left.a))) {
 								split(subLeft, left, subAbove, above);
 							} else {
-								// if (!Double.isInfinite(d) &&
-								// isAngleOK(maxBend, this, left, above,
-								// left.a)) {
 								// drawing
 								Coords center = new Coords(3);
 								setBarycenter(center, this, left, above, left.a);
@@ -1240,37 +1244,36 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.center = center;
 		}
 
-		public void draw(PlotterSurface surface) {
+		public void drawDebug(PlotterSurface surface) {
 
 			surface.startTrianglesWireFrame();
-			drawVertices(surface);
+			draw(surface);
 			surface.endGeometry();
 
 			surface.startTrianglesWireFrameSurface();
-			drawVertices(surface);
+			draw(surface);
 			surface.endGeometry();
 
 		}
 
-
-		private void drawVertices(PlotterSurface surface) {
+		public void draw(PlotterSurface surface) {
 
 			Corner current, sw, ne;
 
-			Coords p1, p2;
+			Corner p1, p2;
 
 			// go left
 			current = corner;
 			// get first defined point on south (if exists)
-			Coords sw1 = current.p;
-			Coords sw2 = sw1;
+			Corner sw1 = current;
+			Corner sw2 = sw1;
 			// draw south
 			p1 = sw1;
 			do {
-				p2 = current.l.p;
-				if (p2.isNotFinalUndefined()) {
-					if (p1.isNotFinalUndefined()) {
-						if (sw1.isFinalUndefined()) {
+				p2 = current.l;
+				if (p2.p.isNotFinalUndefined()) {
+					if (p1.p.isNotFinalUndefined()) {
+						if (sw1.p.isFinalUndefined()) {
 							sw1 = p1;
 						}
 						drawTriangle(surface, center, p2, p1);
@@ -1286,16 +1289,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// go above
 			current = corner;
 			// get first defined point on east (if exists)
-			Coords ne1 = current.p;
-			Coords ne2 = ne1;
+			Corner ne1 = current;
+			Corner ne2 = ne1;
 			// draw east
 			p1 = ne1;
 			do {
-				p2 = current.a.p;
-				if (p2.isNotFinalUndefined()) {
-					if (p1.isNotFinalUndefined()) {
+				p2 = current.a;
+				if (p2.p.isNotFinalUndefined()) {
+					if (p1.p.isNotFinalUndefined()) {
 						drawTriangle(surface, center, p1, p2);
-						if (ne1.isFinalUndefined()) {
+						if (ne1.p.isFinalUndefined()) {
 							ne1 = p1;
 						}
 					}
@@ -1309,15 +1312,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// west side
 			current = sw;
 			p1 = sw2;
-			if (sw1.isFinalUndefined()) {
+			if (sw1.p.isFinalUndefined()) {
 				sw1 = p1;
 			}
 			do {
-				p2 = current.a.p;
-				if (p2.isNotFinalUndefined()) {
-					if (p1.isNotFinalUndefined()) {
+				p2 = current.a;
+				if (p2.p.isNotFinalUndefined()) {
+					if (p1.p.isNotFinalUndefined()) {
 						drawTriangle(surface, center, p2, p1);
-						if (sw1.isFinalUndefined()) {
+						if (sw1.p.isFinalUndefined()) {
 							sw1 = p1;
 						}
 					}
@@ -1330,15 +1333,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			// north side
 			current = ne;
 			p1 = ne2;
-			if (ne1.isFinalUndefined()) {
+			if (ne1.p.isFinalUndefined()) {
 				ne1 = p1;
 			}
 			do {
-				p2 = current.l.p;
-				if (p2.isNotFinalUndefined()) {
-					if (p1.isNotFinalUndefined()) {
+				p2 = current.l;
+				if (p2.p.isNotFinalUndefined()) {
+					if (p1.p.isNotFinalUndefined()) {
 						drawTriangle(surface, center, p1, p2);
-						if (ne1.isFinalUndefined()) {
+						if (ne1.p.isFinalUndefined()) {
 							ne1 = p1;
 						}
 					}
@@ -1355,10 +1358,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (sw2 != ne2) {
 				drawTriangle(surface, center, ne2, sw2);
 			}
-			if (ne1.isFinalUndefined() && ne2.isFinalUndefined()) {
+			if (ne1.p.isFinalUndefined() && ne2.p.isFinalUndefined()) {
 				drawTriangle(surface, center, sw2, sw1);
 			}
-			if (sw1.isFinalUndefined() && sw2.isFinalUndefined()) {
+			if (sw1.p.isFinalUndefined() && sw2.p.isFinalUndefined()) {
 				drawTriangle(surface, center, ne1, ne2);
 			}
 		}
@@ -1378,10 +1381,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * @param p2
 	 *            third point
 	 */
-	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords p1, Coords p2) {
+	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Corner c1, Corner c2) {
 		surface.vertex(p0);
-		surface.vertex(p1);
-		surface.vertex(p2);
+		surface.vertex(c1.p);
+		surface.vertex(c2.p);
 	}
 
 
