@@ -121,6 +121,17 @@ public class DrawList3D extends Drawable3D {
 	}
 
 	@Override
+	protected void clearTraceForViewChanged() {
+		int size = drawables.size();
+		for (int i = 0; i < size; i++) {
+			Drawable3D d = (Drawable3D) drawables.get(i);
+			if (createdByDrawList() || !d.getGeoElement().isLabelSet()) {
+				d.clearTraceForViewChanged();
+			}
+		}
+	}
+
+	@Override
 	public void addToDrawable3DLists(Drawable3DLists lists) {
 		addToDrawable3DLists(lists, DRAW_TYPE_LISTS);
 	}

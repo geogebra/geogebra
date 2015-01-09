@@ -1379,7 +1379,10 @@ public abstract class Drawable3D extends DrawableND {
 
 	}
 
-	final private void clearTraceForViewChanged() {
+	/**
+	 * clear trace for view changed
+	 */
+	protected void clearTraceForViewChanged() {
 		if (getView3D().viewChangedByZoom()
 				|| getView3D().viewChangedByTranslate()) {
 			if (trace != null) {
