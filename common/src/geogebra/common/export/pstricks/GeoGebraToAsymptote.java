@@ -36,6 +36,7 @@ import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoConicPart;
 import geogebra.common.kernel.geos.GeoCurveCartesian;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoLocus;
@@ -3740,7 +3741,47 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		return super.format(d).replace("E", "e");
 	}
 
+	@Override
 	protected boolean fillSpline(GeoCurveCartesian [] curves){
-		return false;
+		if (curves[0].getAlphaValue()==0 && FillType.STANDARD==curves[0].getFillType()){
+			return false;
+		}
+		String liopco = LineOptionCode(curves[0], true);
+		if (liopco==null){
+			liopco="";
+		} else {
+			liopco=","+liopco;
+		}
+		for (int i=0;i<curves.length;i++){
+			drawSingleCurveCartesian(curves[i],false);			
+		}
+		StringBuilder fill = new StringBuilder();
+		fill.append("\nfill(");	
+		
+		double p; 
+		double y; 
+		double x;
+		
+		for (int i = 0; i < curves.length; i++) {
+			p = curves[i].getMinParameter();
+			y = curves[i].getFunY()
+					.evaluate(curves[i].getMinParameter());
+			if (Math.abs(y) < 0.001)
+				y = 0;
+			double step = (curves[i].getMaxParameter() - curves[i]
+					.getMinParameter()) / 200;
+			for (; p <= curves[i].getMaxParameter(); p += step) {
+				y = curves[i].getFunY().evaluate(p);
+				x = curves[i].getFunX().evaluate(p);
+				if (Math.abs(y) < 0.001)
+					y = 0;
+				if (Math.abs(x) < 0.001)
+					x = 0;
+				fill.append("("+x+","+y+") -- ");
+			}
+		}
+		fill.append("cycle"+liopco+");");
+		code.append(fill);
+		return true;
 	}
 }
