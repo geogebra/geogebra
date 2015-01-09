@@ -82,7 +82,16 @@ public class Material implements Comparable<Material>
 	private long modified;
 	private String visibility;
 	private int localID;
+	private boolean deleted;
 	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
+	}
+
 	public Material(int id, MaterialType type)
 	{
 		this.id = id;
@@ -329,6 +338,7 @@ public class Material implements Comparable<Material>
 		putString(ret,"id", id+"");
 		putString(ret,"likes", likes+"");
 		putString(ret,"ggbBase64", base64);
+		putString(ret, "deleted", deleted + "");
 		putString(ret,"height", height+"");
 		putString(ret,"width", width+"");
 		putString(ret,"instructions_pre", this.instructionsPre);

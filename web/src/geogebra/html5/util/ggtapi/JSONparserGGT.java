@@ -117,6 +117,7 @@ public class JSONparserGGT {
 		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
 		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
 		material.setBase64(getString(obj, "ggbBase64"));
+		material.setDeleted(getBoolean(obj, "deleted", false));
 		return material;
 	}
 
