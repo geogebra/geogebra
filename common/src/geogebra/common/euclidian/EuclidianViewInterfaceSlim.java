@@ -193,6 +193,14 @@ public interface EuclidianViewInterfaceSlim extends LayerView {
 			double ymax);
 
 	/**
+	 * center the view on point
+	 * 
+	 * @param point
+	 *            point
+	 */
+	public void centerView(GeoPointND point);
+
+	/**
 	 * @return y-offset of topmost slider in pixels
 	 */
 	public int getSliderOffsetY();

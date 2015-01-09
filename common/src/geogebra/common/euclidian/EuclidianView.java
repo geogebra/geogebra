@@ -5340,4 +5340,14 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	public void exportPaintPre(geogebra.common.awt.GGraphics2D g2d, double scale) {
 		exportPaintPre(g2d, scale, false);
 	}
+
+	public void centerView(GeoPointND point) {
+
+		Coords p = getCoordsForView(point.getInhomCoordsInD3());
+
+		double px = (toRealWorldCoordX(getWidth()) - toRealWorldCoordX(0)) / 2;
+		double py = (-toRealWorldCoordY(getHeight()) + toRealWorldCoordY(0)) / 2;
+
+		setRealWorldCoordSystem(p.getX() - px, p.getX() + px, p.getY() - py, p.getY() + py);
+	}
 }

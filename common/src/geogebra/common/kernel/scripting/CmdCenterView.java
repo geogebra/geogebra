@@ -4,7 +4,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.commands.CmdScripting;
-import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.MyError;
 
 /**
@@ -29,17 +29,10 @@ public class CmdCenterView extends CmdScripting {
 		case 1:
 			arg = resArgs(c);
 			if (arg[0].isGeoPoint()) {
-				GeoPoint p = (GeoPoint) arg[0];
+				GeoPointND p = (GeoPointND) arg[0];
 
 				EuclidianViewInterfaceSlim ev = app.getActiveEuclidianView();
-				double px = (ev.toRealWorldCoordX(ev.getWidth()) - ev
-						.toRealWorldCoordX(0)) / 2;
-				double py = (-ev.toRealWorldCoordY(ev.getHeight()) + ev
-						.toRealWorldCoordY(0)) / 2;
-
-				ev.setRealWorldCoordSystem(p.inhomX - px, p.inhomX + px,
-						p.inhomY - py, p.inhomY + py);
-
+				ev.centerView(p);
 				return;
 
 			}

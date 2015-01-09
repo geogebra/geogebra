@@ -3976,4 +3976,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		repaintView();
 	}
 
+	@Override
+	public void centerView(GeoPointND point) {
+		App.debug("todo");
+	}
 }
