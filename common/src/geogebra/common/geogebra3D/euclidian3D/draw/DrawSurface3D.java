@@ -96,14 +96,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return true;
 		}
 
-		updateCullingBox();
+
 
 		surface.start(getReusableSurfaceIndex());
 
-		double maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
+		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
 		maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
 		maxRWDistance = 5 * maxRWPixelDistance;
 		maxBend = Math.tan(20 * Kernel.PI_180);// getView3D().getMaxBend();
+
+		updateCullingBox();
 
 		App.debug("\nmax distances = " + maxRWDistance + ", " + maxRWDistanceNoAngleCheck);
 
@@ -163,21 +165,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private boolean updateCullingBox() {
 		EuclidianView3D view = getView3D();
-		cullingBox[0] = view.getXmin();
-		cullingBox[1] = view.getXmax();
-		cullingBox[2] = view.getYmin();
-		cullingBox[3] = view.getYmax();
-		cullingBox[4] = view.getZmin();
-		cullingBox[5] = view.getZmax();
+		double off = maxRWPixelDistance * 2;
+		cullingBox[0] = view.getXmin() - off;
+		cullingBox[1] = view.getXmax() + off;
+		cullingBox[2] = view.getYmin() - off;
+		cullingBox[3] = view.getYmax() + off;
+		cullingBox[4] = view.getZmin() - off;
+		cullingBox[5] = view.getZmax() + off;
 		return true;
 	}
 
 	private boolean inCullingBox(Coords p) {
 
-		if ( // (p.isDefined())
-				// && (p.isFinite())
-				// &&
-		(p.getX() > cullingBox[0]) && (p.getX() < cullingBox[1])
+		if ((p.getX() > cullingBox[0]) && (p.getX() < cullingBox[1])
 				&& (p.getY() > cullingBox[2]) && (p.getY() < cullingBox[3])
 				&& (p.getZ() > cullingBox[4]) && (p.getZ() < cullingBox[5])) {
 			return true;
@@ -1047,6 +1047,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
+	/**
+	 * max distance in real world from view
+	 */
+	private double maxRWPixelDistance;
 	/**
 	 * max distance in real world for splitting
 	 */
