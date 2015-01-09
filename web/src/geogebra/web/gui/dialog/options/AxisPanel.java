@@ -146,7 +146,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 				model.applyAxisLabel(text);
             
             }};
-            
+		comboAxisLabel.setEnabled(true);
         model.fillAxisCombo();
 		
         axisLabel = new Label(app.getPlain("AxisLabel") + ":");
@@ -162,6 +162,7 @@ public class AxisPanel extends FlowPanel implements SetLabels, IAxisModelListene
 
             model.fillUnitLabel();
 
+		comboUnitLabel.setEnabled(true);
 		FlowPanel labelPanel = new FlowPanel();
 		labelPanel.add(axisLabel);
 		labelPanel.add(comboAxisLabel);

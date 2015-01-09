@@ -234,7 +234,7 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
 
         if (getWidth() != null) {
             getLayout().setWidth("100%");
-            getLayout().getCellFormatter().setWidth(0, 0, "100%");
+			getLayout().getCellFormatter().setWidth(0, 0, "100%");
             getSelectedValue().setWidth("100%");
         }
     }
@@ -271,9 +271,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
      */
 	protected AutoCompleteTextFieldW getSelectedValue() {
         if (selectedValue == null) {
-			selectedValue = new AutoCompleteTextFieldW(15, app);
-			selectedValue.setEditable(true);
+			selectedValue = new AutoCompleteTextFieldW(6, app);
 			selectedValue.requestToShowSymbolButton();
+			selectedValue.setAutoComplete(false);
 		}
 		return selectedValue;
     }

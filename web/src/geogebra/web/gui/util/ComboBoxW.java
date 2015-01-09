@@ -1,6 +1,7 @@
 package geogebra.web.gui.util;
 
-import geogebra.common.main.App;
+import geogebra.common.euclidian.event.KeyEvent;
+import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
@@ -22,7 +23,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 	private static final int DEFAULT_VISIBLE_ROWS = 10;
-	private static final String DEFAULT_WIDTH = "70px";
+	private static final String DEFAULT_WIDTH = "90px";
 	private static final Image choiceImage = new Image(GuiResources.INSTANCE.toolbar_further_tools());
 	private static final Image choiceImageActive = new Image(GuiResources.INSTANCE.toolbar_further_tools());
 
@@ -58,18 +59,24 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 		tf.addFocusListener(new FocusListenerW(this) {
 			@Override
 			public void onFocus(FocusEvent event) {
-				App.debug("onFoooooooocus");
-				// AutoCompleteTextFieldW.showSymbolButtonIfExists(tf, true);
 				super.onFocus(event);
 			}
 
 			@Override
 			public void onBlur(BlurEvent event) {
-				App.debug("onBluuuuuuuuur");
-				// AutoCompleteTextFieldW.showSymbolButtonIfExists(tf, true);
+				onValueChange(tf.getText());
 				super.onBlur(event);
 			}
 
+		});
+
+		tf.addKeyHandler(new KeyHandler() {
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					onValueChange(getValue());
+				}
+			}
 		});
 		
 	}

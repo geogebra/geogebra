@@ -3447,6 +3447,11 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	top: 50%;
 	margin-top: -0.66em;
 }
+
+.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
+	right: 1.6em;
+}
+
 body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	right: auto;
 	left: 0.6em;
