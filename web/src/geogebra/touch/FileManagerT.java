@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
@@ -312,6 +313,8 @@ public class FileManagerT extends FileManager {
 											                mat.setTitle(getTitleFromKey(key));
 										                }
 										                final Material mat1 = mat;
+										                mat1.setLocalID(FileManager
+										                        .getIDFromKey(key));
 										                fileEntry
 										                        .getMetadata(new FileCallback<Metadata, FileError>() {
 
@@ -327,8 +330,8 @@ public class FileManagerT extends FileManager {
 
 											                        @Override
 											                        public void onSuccess(
-											                                Metadata result) {
-												                        mat1.setModified(result
+											                                Metadata meta) {
+												                        mat1.setModified(meta
 												                                .getModificationTime()
 												                                .getTime() / 1000);
 
@@ -535,7 +538,7 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onFailure(String reason) {
-				// TODO Auto-generated method stub
+				App.error("SAVE FAILED " + reason);
 
 			}
 
@@ -551,7 +554,6 @@ public class FileManagerT extends FileManager {
 				final String key = FileManager.createKeyString(newID, getApp()
 				        .getKernel()
 				        .getConstruction().getTitle());
-
 				getGgbFile(key + FILE_EXT, createIfNotExist,
 				        new Callback<FileEntry, FileError>() {
 
@@ -823,7 +825,7 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onFailure(FileError reason) {
-				// TODO Auto-generated method stub
+				Log.error(fileKey + " not found");
 
 			}
 
@@ -841,7 +843,7 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onFailure(FileError error) {
-						        // TODO Auto-generated method stub
+						        Log.error(fileKey + " not readable");
 
 					        }
 				        });
