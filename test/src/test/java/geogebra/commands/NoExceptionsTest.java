@@ -6,6 +6,7 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.main.App;
 import geogebra.io.XmlTest;
 import geogebra.main.AppD;
+import geogebra3D.App3D;
 
 import java.lang.reflect.Method;
 import java.util.Locale;
@@ -28,10 +29,9 @@ public class NoExceptionsTest {
 
 	@BeforeClass
 	public static void setupApp() {
-		app = new AppD(new CommandLineArguments(
+		app = new App3D(new CommandLineArguments(
 				new String[]{"--silent"}), new JFrame(), false);
 		app.setLanguage(Locale.US);
-		// app.getKernel()
 		ap = app.getKernel().getAlgebraProcessor();
 		//try this before an object named i is created
 		t("1+i");
@@ -155,7 +155,8 @@ public class NoExceptionsTest {
 		for (Commands a : Commands.values()) {
 			if (!methodNames.contains("cmd" + Commands.englishToInternal(a).name()) 
 					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_ENGLISH
-					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_CAS) {
+					&& Commands.englishToInternal(a).getTable() != Commands.TABLE_CAS
+					&& !betaCommand(a)) {
 				missing.append(a.getCommand());
 				missing.append("\n");
 			}
@@ -163,6 +164,11 @@ public class NoExceptionsTest {
 		Assert.assertEquals("", missing.toString());
 	}
 
+	private boolean betaCommand(Commands a) {
+		return a == Commands.MatrixPlot ||
+				a== Commands.DensityPlot || a==Commands.ContourPlot
+				|| a==Commands.Nyquist || a==Commands.Polyhedron;
+	}
 	@Test
 	public void cmdAreCollinear() {
 		t("AreCollinear[ Pt1,Pt2,Pt3 ]");
@@ -1466,6 +1472,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdPolar() {
 		t("Polar[ Pt1, c1 ]");
+		t("Polar[ l1, c1 ]");
 	}
 
 	@Test
@@ -2582,7 +2589,7 @@ public class NoExceptionsTest {
 	
 	@AfterClass
 	public static void testSaving(){
-		System.out.println(app.getXML());
+		//System.out.println(app.getXML());
 		XmlTest.testCurrentXML(app);
 		
 		app.getKernel().getConstruction().initUndoInfo();
@@ -2668,7 +2675,67 @@ public class NoExceptionsTest {
 	public void cmdFitImplicit(){
 		t("FitImplicit[{Pt1,Pt2,Pt3},2]");
 	}
-
-
 	
+	@Test
+	public void cmdClosestPointRegion(){
+		t("ClosestPointRegion[c1,Pt1]");
+	}
+	
+	@Test
+	public void cmdRate(){
+		t("Rate[ n1, n2, n3]");
+		t("Rate[ n1, n2, n3,1]");
+		t("Rate[ n1, n2, n3,0,1]");
+		t("Rate[ n1, n2, n3,0,1,42]");
+	}
+	
+	@Test
+	public void cmdPeriods(){
+		t("Periods[ n1, n2, n3]");
+		t("Periods[ n1, n2, n3,1]");
+		t("Periods[ n1, n2, n3,0,1]");
+	}
+	
+	@Test
+	public void cmdPayment(){
+		t("Payment[ n1, n2, n3]");
+		t("Payment[ n1, n2, n3,1]");
+		t("Payment[ n1, n2, n3,0,1]");
+	}
+	
+	@Test
+	public void cmdFutureValue(){
+		t("FutureValue[ n1, n2, n3]");
+		t("FutureValue[ n1, n2, n3,1]");
+		t("FutureValue[ n1, n2, n3,0,1]");
+	}
+	
+	@Test
+	public void cmdPresentValue(){
+		t("PresentValue[ n1, n2, n3]");
+		t("PresentValue[ n1, n2, n3,1]");
+		t("PresentValue[ n1, n2, n3,0,1]");
+	}
+	
+	
+	@Test
+	public void cmdIntersectConic(){
+		t("IntersectConic[x+z=0,x^2+y^2+z^2=1]");
+		t("IntersectConic[x^2+y^2+(z-1)^2=0,x^2+y^2+z^2=0]");
+	}
+	
+	@Test
+	public void cmdSetSpinSpeed(){
+		t("SetSpinSpeed[n1]");
+	}
+	
+	@Test
+	public void cmdTurtleUp(){
+		t("TurtleUp[turtle1]");		
+	}
+	
+	@Test
+	public void cmdTurtleDown(){
+		t("TurtleDown[turtle1]");
+	}	
 }
