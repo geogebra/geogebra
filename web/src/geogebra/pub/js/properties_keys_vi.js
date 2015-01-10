@@ -1261,7 +1261,7 @@ __GGB__keysVar.vi.menu = {
     "Condition.ShowObject": "\u0110i\u1ec1u k\u1ec7n c\u1ea7n c\xf3 \u0111\u1ec3 \u0111\u1ed1i t\u01b0\u1ee3ng \u0111\u01b0\u1ee3c hi\u1ec3n th\u1ecb",
     "Conditions": "C\xe1c \u0111i\u1ec1u ki\u1ec7n",
     "Cone": "H\xecnh n\xf3n",
-    "Cone.Help": "Ch\u1ecdn hai  \u0111i\u1ec3m  (\u0111i\u1ec3m cao h\u01a1n ch\u1ecdn sau ), sau \u0111\xf3  \u0111\xe1nh v\xe0o gi\xe1 tr\u1ecb c\u1ee7a b\xe1n k\xednh.",
+    "Cone.Help": "Ch\u1ecdn \u0111i\u1ec3m tr\xean h\xecnh n\xf3n v\xe0 \u0111\u1ec9nh  (\u0111\u1ec9nh ch\u1ecdn sau ), sau \u0111\xf3  \u0111\xe1nh v\xe0o gi\xe1 tr\u1ecb c\u1ee7a b\xe1n k\xednh.",
     "ConfidenceInterval": "Kho\u1ea3ng tin c\u1eady",
     "ConfidenceLevel": "M\u1ee9c \xfd ngh\u0129a",
     "Conic": "\u0110\u01b0\u1eddng c\xf4n\xedc",
