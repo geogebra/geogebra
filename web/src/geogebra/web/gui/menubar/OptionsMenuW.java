@@ -12,10 +12,7 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.main.GeoGebraPreferencesW;
 
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * The "Options" menu.
@@ -86,35 +83,9 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		// .menu_icon_options_font_size().getSafeUri().asString(),
 		// app.getMenu("FontSize"), true), true, (MenuBar) submenu);
 
-		addItemGGBWay(this, MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		AppW.addItemGGBWay(this, MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 		        .menu_icon_options_font_size().getSafeUri().asString(),
 		        app.getMenu("FontSize"), true), (MenuBar) submenu);
-	}
-
-	public static void addItemGGBWay(final MenuBar menuclass, String text, final MenuBar submenu) {
-		// addItemGGBWay works, but it is still different from addItem in
-		// not following mouse movement, only following mouse clicks
-		final MenuItem[] addedItemContainer = new MenuItem[1];
-		addedItemContainer[0] = menuclass.addItem(text, true,
-		        new ScheduledCommand() {
-			public void execute() {
-				        addItemGGBWayHelper(submenu, addedItemContainer);
-			}
-		});
-	}
-
-	public static void addItemGGBWayHelper(final MenuBar submenu,
-	        final MenuItem ait[]) {
-		if (ait[0] != null) {
-			PopupPanel pp = new PopupPanel(true, false);
-			submenu.addStyleName("subMenuLeftSide2");
-			pp.addStyleName("subMenuLeftSidePopup");
-			pp.add(submenu);
-			int left = ait[0].getElement().getAbsoluteLeft();
-			int top = ait[0].getElement().getAbsoluteTop();
-			pp.setPopupPosition(left, top);
-			pp.show();
-		}
 	}
 
 	private void addLanguageMenu() {
@@ -130,7 +101,6 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 			}
 		});
 		return;
-
 	}
 	
 	private void addRestoreDefaultSettingsMenu(){
