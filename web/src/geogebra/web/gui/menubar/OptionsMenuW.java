@@ -15,6 +15,7 @@ import geogebra.web.main.GeoGebraPreferencesW;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
+import com.google.gwt.user.client.ui.PopupPanel;
 
 /**
  * The "Options" menu.
@@ -80,13 +81,19 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		submenu.addRadioButtonMenuItems(this, fsfi, fontActionCommands, pos, false);
 
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), true, (MenuBar) submenu);
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_options_font_size().getSafeUri().asString(),
+		        app.getMenu("FontSize"), true), true, (MenuBar) submenu);
 
-		//addItemGGBWay(this, MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(), app.getMenu("FontSize"), true), (MenuBar)submenu);
+		// addItemGGBWay(this,
+		// MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(),
+		// app.getMenu("FontSize"), true), (MenuBar)submenu);
 	}
 
 	private static MenuItem addedItem = null;
 	public static void addItemGGBWay(final MenuBar menuclass, String text, final MenuBar submenu) {
+		// addItemGGBWay works, but it is still different from addItem in
+		// not following mouse movement, only following mouse clicks
 		addedItem = menuclass.addItem(text, true, new ScheduledCommand() {
 			public void execute() {
 				addItemGGBWayHelper(submenu);
@@ -94,14 +101,16 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 		});
 	}
 	public static void addItemGGBWayHelper(final MenuBar submenu) {
-		if (addedItem != null)
-			// this is not working
-			// addedItem.getElement() is a HTML TD (table cell element)
-			// inserting a DIV beside it does not work (works wrongly)
-			// getParentElement() should not be used, but the content put inside
-
-			// this does not work either, wrong CSS?:
-			addedItem.getElement().appendChild(submenu.getElement());
+		if (addedItem != null) {
+			PopupPanel pp = new PopupPanel(true, false);
+			submenu.addStyleName("subMenuLeftSide2");
+			pp.addStyleName("subMenuLeftSidePopup");
+			pp.add(submenu);
+			int left = addedItem.getElement().getAbsoluteLeft();
+			int top = addedItem.getElement().getAbsoluteTop();
+			pp.setPopupPosition(left, top);
+			pp.show();
+		}
 	}
 
 	private void addLanguageMenu() {

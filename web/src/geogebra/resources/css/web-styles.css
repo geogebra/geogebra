@@ -1583,6 +1583,17 @@ body[dir=rtl] .signIn {
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 }
 
+/* Workaround due to GWT's bug, see ticket #4819 */
+.GeoGebraMenuBar.subMenuLeftSide.subMenuLeftSide2 {
+	right: 10px;
+}
+
+.gwt-PopupPanel.subMenuLeftSidePopup {
+	box-shadow: none;
+	padding: 0px;
+	border-radius: 0px;
+}
+
 .GeoGebraMenuBar.subMenuLeftSide .gwt-MenuItem {
 	padding: 3px 10px;
 }
