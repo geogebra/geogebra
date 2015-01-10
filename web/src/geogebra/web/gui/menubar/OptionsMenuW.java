@@ -81,33 +81,37 @@ public class OptionsMenuW extends GMenuBar implements MenuInterface, MyActionLis
 
 		submenu.addRadioButtonMenuItems(this, fsfi, fontActionCommands, pos, false);
 
-		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-		        .menu_icon_options_font_size().getSafeUri().asString(),
-		        app.getMenu("FontSize"), true), true, (MenuBar) submenu);
+		// instead of:
+		// addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		// .menu_icon_options_font_size().getSafeUri().asString(),
+		// app.getMenu("FontSize"), true), true, (MenuBar) submenu);
 
-		// addItemGGBWay(this,
-		// MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_options_font_size().getSafeUri().asString(),
-		// app.getMenu("FontSize"), true), (MenuBar)submenu);
+		addItemGGBWay(this, MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_options_font_size().getSafeUri().asString(),
+		        app.getMenu("FontSize"), true), (MenuBar) submenu);
 	}
 
-	private static MenuItem addedItem = null;
 	public static void addItemGGBWay(final MenuBar menuclass, String text, final MenuBar submenu) {
 		// addItemGGBWay works, but it is still different from addItem in
 		// not following mouse movement, only following mouse clicks
-		addedItem = menuclass.addItem(text, true, new ScheduledCommand() {
+		final MenuItem[] addedItemContainer = new MenuItem[1];
+		addedItemContainer[0] = menuclass.addItem(text, true,
+		        new ScheduledCommand() {
 			public void execute() {
-				addItemGGBWayHelper(submenu);
+				        addItemGGBWayHelper(submenu, addedItemContainer);
 			}
 		});
 	}
-	public static void addItemGGBWayHelper(final MenuBar submenu) {
-		if (addedItem != null) {
+
+	public static void addItemGGBWayHelper(final MenuBar submenu,
+	        final MenuItem ait[]) {
+		if (ait[0] != null) {
 			PopupPanel pp = new PopupPanel(true, false);
 			submenu.addStyleName("subMenuLeftSide2");
 			pp.addStyleName("subMenuLeftSidePopup");
 			pp.add(submenu);
-			int left = addedItem.getElement().getAbsoluteLeft();
-			int top = addedItem.getElement().getAbsoluteTop();
+			int left = ait[0].getElement().getAbsoluteLeft();
+			int top = ait[0].getElement().getAbsoluteTop();
 			pp.setPopupPosition(left, top);
 			pp.show();
 		}
