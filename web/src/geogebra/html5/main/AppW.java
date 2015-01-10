@@ -2155,8 +2155,13 @@ public abstract class AppW extends App implements SetLabels {
 		if (subMenu instanceof MenuBar)
 			((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
 
-		parentMenu.addItem(
-		        getGuiManager().getMenuBarHtml(filename, name, true), true,
+		// instead of:
+		// parentMenu.addItem(
+		// getGuiManager().getMenuBarHtml(filename, name, true), true,
+		// (MenuBar) subMenu);
+
+		addItemGGBWay(parentMenu,
+		        getGuiManager().getMenuBarHtml(filename, name, true),
 		        (MenuBar) subMenu);
 	}
 
