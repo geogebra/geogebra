@@ -3978,6 +3978,20 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	@Override
 	public void centerView(GeoPointND point) {
-		App.debug("todo");
+
+		Coords p = getCoordsForView(point.getInhomCoordsInD3());
+
+		setXZero(p.getX());
+		setYZero(p.getY());
+		setZZero(p.getZ());
+		getSettings().updateOriginFromView(getXZero(), getYZero(), getZZero());
+
+		// update the view
+		updateTranslationMatrix();
+		updateUndoTranslationMatrix();
+		setGlobalMatrices();
+
+		setViewChangedByTranslate();
+		setWaitForUpdate();
 	}
 }
