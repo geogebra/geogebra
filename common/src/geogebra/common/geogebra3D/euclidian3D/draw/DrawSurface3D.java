@@ -103,6 +103,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
 		maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
 		maxRWDistance = 5 * maxRWPixelDistance;
+		// maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+		// maxRWDistance = 2 * maxRWPixelDistance;
 		maxBend = Math.tan(20 * Kernel.PI_180);// getView3D().getMaxBend();
 
 		updateCullingBox();
@@ -121,26 +123,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// currentSplit.add(corner);
 		notDrawn = 0;
 		splitRootMesh(corner);
+		App.debug("\nnot drawn after split root mesh: " + notDrawn);
 		split(5);
 
 		App.debug("\ndraw size : " + (drawList.size() + drawListBoundary.size()) + "\nnot drawn : "
 				+ notDrawn + "\nstill to split : " + nextSplit.size());
 
-		// for (CornerAndCenter cc : drawList) {
-		// cc.drawDebug(surface);
-		// }
-		// for (CornerAndCenter cc : drawListBoundary) {
-		// cc.drawDebug(surface);
-		// }
-
-		surface.startTriangles();
 		for (CornerAndCenter cc : drawList) {
-			cc.draw(surface);
+			cc.drawDebug(surface);
 		}
 		for (CornerAndCenter cc : drawListBoundary) {
-			cc.draw(surface);
+			cc.drawDebug(surface);
 		}
-		surface.endGeometry();
+
+		// surface.startTriangles();
+		// surface.normal(Coords.VZ);
+		// for (CornerAndCenter cc : drawList) {
+		// cc.draw(surface);
+		// }
+		// for (CornerAndCenter cc : drawListBoundary) {
+		// cc.draw(surface);
+		// }
+		// surface.endGeometry();
 
 		setSurfaceIndex(surface.end());
 
@@ -287,21 +291,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
 		if (!evaluatedPoint.isDefined()) {
-			return Coords.UNDEFINED;
+			return Coords.UNDEFINED3;
 		}
 
 		if (inCullingBox(evaluatedPoint)) {
 			return evaluatedPoint.copyVector();
 		}
 
-		return Coords.UNDEFINED;
+		return Coords.UNDEFINED3;
 	}
 
 	protected Coords evaluateNormal(double u, double v) {
 		surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
 
 		if (!evaluatedNormal.isDefined()) {
-			return Coords.UNDEFINED;
+			return Coords.UNDEFINED3;
 		}
 
 		return evaluatedNormal.copyVector();
@@ -494,20 +498,42 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									e = subAbove;
 								} else {
 									e = findV(above, this, BOUNDARY_SPLIT);
-									// new neighbors
-									this.a = e;
-									e.a = above;
 								}
 								// find defined between l.a and left
 								Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-								// new neighbors
-								w.a = left.a;
-								left.a = w;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, e, above, left.a, w);
-								w.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+								
+								//check distances
+								double d = getDistanceNoLoop(above, e, w, left.a);
+								if (Double.isInfinite(d)) { // d > maxRWDistance
+									split = true;
+								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+									if (isAngleOKNoLoop(maxBend, above, e, w, left.a)) { // angle ok
+										split = false;
+									} else { // angle not ok
+										split = true;
+									}
+								} else { // no need to check angle
+									split = false;
+								}
+
+								if (split) {
+									split(subLeft, left, subAbove, above);
+								} else {
+									if (subAbove == null) {
+										// new neighbors
+										this.a = e;
+										e.a = above;
+									}
+									// new neighbors
+									w.a = left.a;
+									left.a = w;
+
+									// for drawing
+									Coords center = new Coords(3);
+									setBarycenter(center, e, above, left.a, w);
+									w.a.isNotEnd = false;
+									drawListBoundary.add(new CornerAndCenter(this, center));
+								}
 							}
 						}
 					}
@@ -589,25 +615,47 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									s = subLeft;
 								} else {
 									s = findU(left, this, BOUNDARY_SPLIT);
-									// new neighbors
-									this.l = s;
-									s.l = left;
 								}
 								// find defined between l.a and a
 								Corner n = findU(left.a, above, BOUNDARY_SPLIT);
-								// new neighbors
-								n.l = left.a;
-								above.l = n;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, s, n, left.a, left);
-								left.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// check distances
+								double d = getDistanceNoLoop(left.a, n, s, left);
+								if (Double.isInfinite(d)) { // d > maxRWDistance
+									split = true;
+								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+									if (isAngleOKNoLoop(maxBend, left.a, n, s, left)) { // angle ok
+										split = false;
+									} else { // angle not ok
+										split = true;
+									}
+								} else { // no need to check angle
+									split = false;
+								}
+
+								if (split) {
+									split(subLeft, left, subAbove, above);
+								} else {
+									if (subLeft == null) {
+										// new neighbors
+										this.l = s;
+										s.l = left;
+									}
+									// new neighbors
+									n.l = left.a;
+									above.l = n;
+									// for drawing
+									Coords center = new Coords(3);
+									setBarycenter(center, s, n, left.a, left);
+									left.a.isNotEnd = false;
+									drawListBoundary.add(new CornerAndCenter(this, center));
+								}
 							}
 						}
 					} else {
 						if (left.a.p.isFinalUndefined()) {
 							// l and a not undefined /2/diag/
+							App.debug("==== 2/diag/");
 						} else {
 							// l, a and l.a not undefined /3/
 							boolean split;
@@ -728,6 +776,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							}
 						} else {
 							// this and l.a not undefined /2/diag/
+							App.debug("==== 2/diag/");
 						}
 					} else {
 						if (left.a.p.isFinalUndefined()) {
@@ -760,20 +809,41 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									s = subLeft;
 								} else {
 									s = findU(this, left, BOUNDARY_SPLIT);
-									// new neighbors
-									this.l = s;
-									s.l = left;
 								}
 								// find defined between a and l.a
 								Corner n = findU(above, left.a, BOUNDARY_SPLIT);
-								// new neighbors
-								n.l = left.a;
-								above.l = n;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, this, above, n, s);
-								left.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+								
+								// check distances
+								double d = getDistanceNoLoop(this, s, n, above);
+								if (Double.isInfinite(d)) { // d > maxRWDistance
+									split = true;
+								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+									if (isAngleOKNoLoop(maxBend, this, s, n, above)) { // angle ok
+										split = false;
+									} else { // angle not ok
+										split = true;
+									}
+								} else { // no need to check angle
+									split = false;
+								}
+
+								if (split) {
+									split(subLeft, left, subAbove, above);
+								} else {
+									if (subLeft == null) {
+										// new neighbors
+										this.l = s;
+										s.l = left;
+									}
+									// new neighbors
+									n.l = left.a;
+									above.l = n;
+									// for drawing
+									Coords center = new Coords(3);
+									setBarycenter(center, this, above, n, s);
+									left.a.isNotEnd = false;
+									drawListBoundary.add(new CornerAndCenter(this, center));
+								}
 							}
 						} else {
 							// this, a and l.a defined /3/
@@ -854,20 +924,40 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									e = subAbove;
 								} else {
 									e = findV(this, above, BOUNDARY_SPLIT);
-									// new neighbors
-									this.a = e;
-									e.a = above;
 								}
 								// find defined between l and l.a
 								Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-								// new neighbors
-								w.a = left.a;
-								left.a = w;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, this, e, w, left);
-								w.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+								//check distances
+								double d = getDistanceNoLoop(this, e, w, left);
+								if (Double.isInfinite(d)) { // d > maxRWDistance
+									split = true;
+								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+									if (isAngleOKNoLoop(maxBend, this, e, w, left)) { // angle ok
+										split = false;
+									} else { // angle not ok
+										split = true;
+									}
+								} else { // no need to check angle
+									split = false;
+								}
+
+								if (split) {
+									split(subLeft, left, subAbove, above);
+								} else {
+									if (subAbove == null) {
+										// new neighbors
+										this.a = e;
+										e.a = above;
+									}
+									// new neighbors
+									w.a = left.a;
+									left.a = w;
+									// for drawing
+									Coords center = new Coords(3);
+									setBarycenter(center, this, e, w, left);
+									w.a.isNotEnd = false;
+									drawListBoundary.add(new CornerAndCenter(this, center));
+								}
 							}
 						} else {
 							// this, l and l.a not undefined /3/
@@ -1240,6 +1330,48 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            second corner
 	 * @param c3
 	 *            third corner
+	 * @param c4
+	 *            fourth corner
+	 * @return max distance between c1-c2 / c2-c3 / c3-c4, or POSITIVE_INFINITY
+	 *         if distance is more than maxRWDistance
+	 */
+	protected double getDistanceNoLoop(Corner c1, Corner c2, Corner c3, Corner c4) {
+		double ret = 0;
+		double d;
+
+		d = getDistance(c1, c2);
+		if (Double.isInfinite(d)) {
+			return d;
+		}
+		ret = d;
+
+		d = getDistance(c2, c3);
+		if (Double.isInfinite(d)) {
+			return d;
+		}
+		if (d > ret) {
+			ret = d;
+		}
+
+		d = getDistance(c3, c4);
+		if (Double.isInfinite(d)) {
+			return d;
+		}
+		if (d > ret) {
+			ret = d;
+		}
+
+		return ret;
+	}
+
+	/**
+	 * 
+	 * @param c1
+	 *            first corner
+	 * @param c2
+	 *            second corner
+	 * @param c3
+	 *            third corner
 	 * @return max distance between c1-c2 / c2-c3 / c3-c1, or POSITIVE_INFINITY
 	 *         if distance is more than maxRWDistance
 	 */
@@ -1305,21 +1437,104 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return det < bend * innerProduct;
 	}
 
-	protected static boolean isAngleOK(double bend, Corner... corners) {
+	/**
+	 * 
+	 * @param bend
+	 * @param c1
+	 * @param c2
+	 * @param c3
+	 * @param c4
+	 * @return true if angle is ok between c1-c2
+	 */
+	protected static boolean isAngleOK(double bend, Corner c1, Corner c2) {
 
-		Corner corner0 = corners[0];
-		if (corner0.normal.isFinalUndefined()) {
+		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
 			return false;
 		}
 
-		for (int i = 1; i < corners.length; i++) {
-			if (corners[i].normal.isFinalUndefined()) {
-				return false;
-			}
-			if (!isAngleOK(corner0.normal.val, corners[i].normal.val, bend)) {
-				return false;
-			}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param bend
+	 * @param c1
+	 * @param c2
+	 * @param c3
+	 * @param c4
+	 * @return true if angle is ok between c1-c2 and c2-c3 and c3-c1
+	 */
+	protected static boolean isAngleOK(double bend, Corner c1, Corner c2, Corner c3) {
+
+		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+			return false;
 		}
+
+		if (!isAngleOK(c2.normal.val, c3.normal.val, bend)) {
+			return false;
+		}
+
+		if (!isAngleOK(c3.normal.val, c1.normal.val, bend)) {
+			return false;
+		}
+
+		return true;
+	}
+
+
+	/**
+	 * 
+	 * @param bend
+	 * @param c1
+	 * @param c2
+	 * @param c3
+	 * @param c4
+	 * @return true if angle is ok between c1-c2 and c2-c3 and c3-c4 and c4-c1
+	 */
+	protected static boolean isAngleOK(double bend, Corner c1, Corner c2, Corner c3, Corner c4) {
+
+		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+			return false;
+		}
+
+		if (!isAngleOK(c2.normal.val, c3.normal.val, bend)) {
+			return false;
+		}
+
+		if (!isAngleOK(c3.normal.val, c4.normal.val, bend)) {
+			return false;
+		}
+
+		if (!isAngleOK(c4.normal.val, c1.normal.val, bend)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param bend
+	 * @param c1
+	 * @param c2
+	 * @param c3
+	 * @param c4
+	 * @return true if angle is ok between c1-c2 and c2-c3 and c3-c4
+	 */
+	protected static boolean isAngleOKNoLoop(double bend, Corner c1, Corner c2, Corner c3, Corner c4) {
+
+		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+			return false;
+		}
+
+		if (!isAngleOK(c2.normal.val, c3.normal.val, bend)) {
+			return false;
+		}
+
+		if (!isAngleOK(c3.normal.val, c4.normal.val, bend)) {
+			return false;
+		}
+
 		return true;
 	}
 
