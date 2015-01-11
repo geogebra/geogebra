@@ -1075,7 +1075,7 @@ __GGB__keysVar.es_UY.error = {
     "AssignmentDependentToFree": "Un objeto libre no puede ser reescrito por uno dependiente",
     "AssignmentToDependent": "Un objeto dependiente no puede ser reescrito.",
     "AssignmentToFixed": "Los objetos fijos no pueden modificarse",
-    "CAS.GeneralErrorMessage": "Siendo err\xf3nea, debe replantearse la entrada",
+    "CAS.GeneralErrorMessage": "Algo est\xe1 fallando.  Se sugiere revisar la entrada.",
     "CAS.InvalidReferenceError": "No son v\xe1lidas una o m\xe1s referencias",
     "CAS.SelectionStructureError": "Debe revisarse la estructura de lo seleccionado",
     "CAS.TimeoutError": "Se ha cancelado el c\xe1lculo por requerir demasiado tiempo.",
