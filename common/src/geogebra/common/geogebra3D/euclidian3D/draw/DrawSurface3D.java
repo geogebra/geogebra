@@ -668,7 +668,26 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					} else {
 						if (left.a.p.isFinalUndefined()) {
 							// l and a not undefined /2/diag/
-							App.debug("==== 2/diag/");
+							boolean split;
+							if (draw) { // time to draw
+								split = false;
+							}else{ // check distance
+								double d = getDistance(left, above);
+								if (Double.isInfinite(d)) { // d > maxRWDistance
+									split = true;
+								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+									if (isAngleOK(maxBend, left, above)) { // angle ok
+										split = false;
+									} else { // angle not ok
+										split = true;
+									}
+								} else { // no need to check angle
+									split = false;
+								}
+							}
+							if (split){
+								split(subLeft, left, subAbove, above);
+							}
 						} else {
 							// l, a and l.a not undefined /3/
 							boolean split;
@@ -784,7 +803,26 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							}
 						} else {
 							// this and l.a not undefined /2/diag/
-							App.debug("==== 2/diag/");
+							boolean split;
+							if (draw) { // time to draw
+								split = false;
+							}else{ // check distance
+								double d = getDistance(left.a, this);
+								if (Double.isInfinite(d)) { // d > maxRWDistance
+									split = true;
+								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+									if (isAngleOK(maxBend, left.a, this)) { // angle ok
+										split = false;
+									} else { // angle not ok
+										split = true;
+									}
+								} else { // no need to check angle
+									split = false;
+								}
+							}
+							if (split){
+								split(subLeft, left, subAbove, above);
+							}
 						}
 					} else {
 						if (left.a.p.isFinalUndefined()) {
