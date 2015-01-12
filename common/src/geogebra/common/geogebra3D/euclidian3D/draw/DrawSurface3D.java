@@ -85,6 +85,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		double vMin = surfaceGeo.getMinParameter(1);
 		double vMax = surfaceGeo.getMaxParameter(1);
 
+		if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+			if (Double.isNaN(uMin)) {
+				uMin = getView3D().getXmin();
+			}
+			if (Double.isNaN(uMax)) {
+				uMax = getView3D().getXmax();
+			}
+			if (Double.isNaN(vMin)) {
+				vMin = getView3D().getYmin();
+			}
+			if (Double.isNaN(vMax)) {
+				vMax = getView3D().getYmax();
+			}
+		}
+
 		uDelta = uMax - uMin;
 		if (Kernel.isZero(uDelta)) {
 			setSurfaceIndex(-1);
@@ -101,11 +116,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surface.start(getReusableSurfaceIndex());
 
 		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
-		maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
-		maxRWDistance = 5 * maxRWPixelDistance;
-		// maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
-		// maxRWDistance = 2 * maxRWPixelDistance;
-		maxBend = Math.tan(20 * Kernel.PI_180);// getView3D().getMaxBend();
+
+		// maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
+		// maxRWDistance = 5 * maxRWPixelDistance;
+		// maxBend = Math.tan(20 * Kernel.PI_180);
+
+		maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+		maxRWDistance = 2 * maxRWPixelDistance;
+		maxBend = getView3D().getMaxBend();
 
 		updateCullingBox();
 
