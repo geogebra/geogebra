@@ -156,11 +156,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					handleMaterialCallback(parseResponse.get(0));
 					runAfterSaveCallback();
 					FileManager fm = ((FileManager)app.getFileManager());
+					Material newMat = parseResponse.get(0);
+					newMat.setSyncStamp(newMat.getModified());
 					fm.setTubeID(
 					        FileManager.createKeyString(app.getLocalID(), app
 					                .getKernel().getConstruction().getTitle()),
-					        parseResponse.get(0).getId(), parseResponse.get(0)
-					                .getModified());
+					        newMat);
 					if (url != null) {
 						Window.open(url, "_blank", "");
 					}
@@ -448,9 +449,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			@Override
             public void handle(String base64) {
 				if (!SaveDialogW.this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
+					App.debug("SAVE filename changed");
 					app.setTubeId(0);
 					doUploadToGgt(base64, initMaterialCB(base64, url));
 				} else if (app.getTubeId() == 0) {
+					App.debug("SAVE had no Tube ID");
 					doUploadToGgt(base64, initMaterialCB(base64, url));
 				}
 				else {
@@ -499,8 +502,21 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			public void onLoaded(final List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
 					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {
+						        App.debug("SAVE MULTIPLE"
+						                + parseResponse.get(0).getModified()
+						                + ":" + app.getSyncStamp());
 						        app.setTubeId(0);
-						ToolTipManagerW.sharedInstance().showBottomMessage(((LocalizationW) app.getLocalization()).getMenu("SeveralVersionsOfA", parseResponse.get(0).getTitle()), false);
+						        ToolTipManagerW
+						                .sharedInstance()
+						                .showBottomMessage(
+						                        ((LocalizationW) app
+						                                .getLocalization())
+						                                .getPlain(
+						                                        "SeveralVersionsOfA",
+						                                        parseResponse
+						                                                .get(0)
+						                                                .getTitle()),
+						                        false);
 					}
 					doUploadToGgt(base64, materialCallback);
 				} else {

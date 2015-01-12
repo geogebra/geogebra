@@ -135,27 +135,40 @@ public abstract class FileManager implements FileManagerI {
 				        if (parseResponse.size() == 1
 				                && parseResponse.get(0).getModified() > mat
 				                        .getSyncStamp()) {
-					        if (FileManager.this.shouldKeep(mat.getId())
-					                && mat.getModified() < mat.getSyncStamp()) {
-						        App.debug("Local copy of " + mat.getId()
-						                + " is up to date.");
-						        return;
+					        // edited on Tube, not edited locally
+					        if (mat.getModified() <= mat.getSyncStamp()) {
+						        App.debug("SYNC incomming changes:"
+						                + mat.getId());
+						        FileManager.this.updateFile(getFileKey(mat),
+						                parseResponse.get(0).getModified(),
+						                parseResponse.get(0));
+
+					        } else {
+						        ToolTipManagerW.sharedInstance()
+						                .showBottomMessage(
+						                        app.getLocalization().getPlain(
+						                                "SeveralVersionsOfA",
+						                                parseResponse.get(0)
+						                                        .getTitle()),
+						                        true);
+						        App.debug("SYNC fork " + mat.getId());
+						        upload(mat);
+
 					        }
 
-					        ToolTipManagerW.sharedInstance().showBottomMessage(
-					                app.getLocalization().getPlain(
-					                        "SeveralVersionsOfA",
-					                        parseResponse.get(0).getTitle()),
-					                true);
-					        mat.setId(0);
-				        } else if (parseResponse.size() == 0) {
-					        mat.setId(0);
+
+				        } else if (parseResponse.size() != 0) {
+					        App.debug("UPLOAD deletetd");
+
 				        } else {
-					        FileManager.this.updateFile(getFileKey(mat),
-					                parseResponse.get(0).getModified(),
-					                parseResponse.get(0));
+					        if (mat.getModified() <= mat.getSyncStamp()) {
+						        App.debug("SYNC material up to date"
+						                + mat.getId());
+					        } else {
+						        upload(mat);
+					        }
 				        }
-				        upload(mat);
+
 			        }
 
 			        @Override
@@ -190,8 +203,9 @@ public abstract class FileManager implements FileManagerI {
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
 						        delete(mat);
 					        } else {
+						        newMat.setSyncStamp(newMat.getModified());
 						        FileManager.this.setTubeID(localKey,
-						                newMat.getId(), newMat.getModified());
+ newMat);
 					        }
 					        App.debug("GGG parse" + localKey);
 
@@ -207,7 +221,7 @@ public abstract class FileManager implements FileManagerI {
 		        });
 	}
 
-	public abstract void setTubeID(String localKey, int id, long modified);
+	public abstract void setTubeID(String localKey, Material mat);
 
 	public boolean shouldKeep(int id) {
 		return true;

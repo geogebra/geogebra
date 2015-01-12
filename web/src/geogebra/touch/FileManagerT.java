@@ -543,8 +543,9 @@ public class FileManagerT extends FileManager {
 							        public void onSuccess(
 							                final FileWriter writer) {
 								        writer.write(base64);
-								        createMetaData(key, modified, getApp()
-								                .getTubeId(), cb);
+								        createMetaData(key, createMaterial("",
+ modified)
+, cb);
 							        }
 
 							        @Override
@@ -628,8 +629,7 @@ public class FileManagerT extends FileManager {
 	 * @param cb
 	 *            {@link SaveCallback}
 	 */
-	void createMetaData(final String key, final long modified,
-	        final int tubeID,
+	void createMetaData(final String key, final Material mat,
 	        final SaveCallback cb) {
 
 		getMetaFile(META_PREFIX + key, createIfNotExist,
@@ -641,8 +641,7 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
-						        final Material mat = createMaterial("",
-						                modified);
+
 						        mat.setTitle(FileManager.getTitleFromKey(key));
 						        writer.write(mat.toJson().toString());
 						        if (cb != null) {
@@ -709,8 +708,10 @@ public class FileManagerT extends FileManager {
 										                                        .getLoginOperation()
 										                                        .getUserName())) {
 											                if (mat.getId() == 0) {
+												                App.debug("UPLOAD no tube ID");
 												                upload(mat);
 											                } else {
+												                App.debug("UPLOAD SYNC");
 												                sync(mat);
 											                }
 										                }
@@ -771,8 +772,8 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public void setTubeID(String localID, int tubeID, long modified) {
-		this.createMetaData(localID, modified, tubeID, null);
+	public void setTubeID(String localID, Material mat) {
+		this.createMetaData(localID, mat, null);
 
 	}
 
@@ -891,8 +892,8 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
 						        writer.write(material.getBase64());
-						        createMetaData(key, modified, getApp()
-						                .getTubeId(), null);
+						        createMetaData(key,
+						                createMaterial("", modified), null);
 					        }
 
 					        @Override
@@ -965,8 +966,9 @@ public class FileManagerT extends FileManager {
 									writer.write(base64);
 									        createMetaData(
 									                keyString,
-									                System.currentTimeMillis() / 1000,
-									                0, null);
+									                createMaterial("",
+											                System.currentTimeMillis() / 1000),
+									                null);
 									stockStore.removeItem(OLD_FILE_PREFIX + keyStem);
 									stockStore.removeItem(OLD_META_PREFIX + keyStem);
 									stockStore.removeItem(OLD_THUMB_PREFIX + keyStem);

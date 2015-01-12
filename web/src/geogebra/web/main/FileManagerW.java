@@ -202,7 +202,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void setTubeID(String localID, int id, long modified) {
+	public void setTubeID(String localID, Material mat) {
 		// implement this if we need offline cache in Chromeapp
 
 	}

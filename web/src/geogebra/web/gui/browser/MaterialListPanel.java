@@ -201,6 +201,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			int oldLocalID = matElem.getMaterial().getLocalID();
 			if (mat.getLocalID() == -1) {
 				mat.setLocalID(oldLocalID);
+				mat.setSyncStamp(matElem.getMaterial().getSyncStamp());
 			}
 			matElem.setMaterial(mat);
 		} else {
