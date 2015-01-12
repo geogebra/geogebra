@@ -401,7 +401,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				public void onLoaded(List<Material> parseResponse) {
 					if (parseResponse.size() == 1) {
 						handleMaterialCallback(parseResponse.get(0));
-					Window.open(GGT_EDIT_URL + app.getTubeId() + "&visibility?"
+					Window.open(GGT_EDIT_URL + app.getTubeId() + "?visibility="
 					        + visibility, "_blank", "");
 						runAfterSaveCallback();
 					}
