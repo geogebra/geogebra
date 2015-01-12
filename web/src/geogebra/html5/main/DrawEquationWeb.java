@@ -716,6 +716,9 @@ public class DrawEquationWeb extends DrawEquation {
 					// is to prevent calling preventDefault later
 					// code style is not by me, but automatic formatting
 					event.stopPropagation();
+				}).keydown(function(event) {
+					// to prevent focus moving away
+					event.stopPropagation();
 				});
 
 		// hacking to deselect the editing when the user does something else like in Desktop
@@ -739,6 +742,14 @@ public class DrawEquationWeb extends DrawEquation {
 						$wnd.mousein.mout = true;
 						$wnd.$ggbQuery(this).focus();
 					});
+		} else {
+			$wnd.$ggbQuery(elsecondInside).focusout(function(event) {
+				event.stopPropagation();
+				event.preventDefault();
+				return false;
+			}).mouseleave(function(event3) {
+				$wnd.$ggbQuery(this).focus();
+			});
 		}
 	}-*/;
 
