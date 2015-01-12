@@ -668,9 +668,11 @@ public class MaterialListElement extends FlowPanel implements
 		this.material = mat;
 		if (isLocal) {
 			String key = mat.getTitle();
-			this.title.setText(extractTitle(key));
+			this.title.setText(extractTitle(key) + "#" + mat.getLocalID() + "/"
+			        + mat.getId());
 		} else {
-			this.title.setText(this.material.getTitle());
+			this.title.setText(this.material.getTitle() + "#"
+			        + mat.getLocalID() + "/" + mat.getId());
 		}
 		if (!isLocal) {
 			this.sharedBy.setText(this.material.getAuthor());

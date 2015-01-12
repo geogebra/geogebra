@@ -8,7 +8,6 @@ import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
-import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.browser.SignInButton;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -63,7 +62,8 @@ public abstract class FileManager implements FileManagerI {
 	 *            only a hint, we can send null and it will be resolved
 	 * @param cb
 	 */
-	public abstract void saveFile(String base64, final SaveCallback cb);
+	public abstract void saveFile(String base64, long modified,
+	        final SaveCallback cb);
 
 	public abstract void uploadUsersMaterials();
 
@@ -89,11 +89,11 @@ public abstract class FileManager implements FileManagerI {
 		app.getGuiManager().getBrowseView().addMaterial(material);
 	}
 
-	public Material createMaterial(final String base64) {
+	public Material createMaterial(final String base64, long modified) {
 		final Material mat = new Material(0, MaterialType.ggb);
 
 		// TODO check if we need to set timestamp / modified
-		mat.setModified(System.currentTimeMillis() / 1000);
+		mat.setModified(modified);
 
 		if (app.getTubeId() != 0) {
 			mat.setId(app.getTubeId());
@@ -152,6 +152,7 @@ public abstract class FileManager implements FileManagerI {
 					        mat.setId(0);
 				        } else {
 					        FileManager.this.updateFile(getFileKey(mat),
+					                parseResponse.get(0).getModified(),
 					                parseResponse.get(0));
 				        }
 				        upload(mat);
@@ -164,7 +165,8 @@ public abstract class FileManager implements FileManagerI {
 		        });
 	}
 
-	protected abstract void updateFile(String title, Material material);
+	protected abstract void updateFile(String title, long modified,
+	        Material material);
 
 	/**
 	 * uploads the material and removes it from localStorage
@@ -184,14 +186,15 @@ public abstract class FileManager implements FileManagerI {
 					        mat.setTitle(getTitleFromKey(mat.getTitle()));
 					        mat.setLocalID(FileManager.getIDFromKey(localKey));
 					        App.debug("GGG uploading" + localKey);
+					        final Material newMat = parseResponse.get(0);
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
 						        delete(mat);
 					        } else {
 						        FileManager.this.setTubeID(localKey,
-						                mat.getId());
+						                newMat.getId(), newMat.getModified());
 					        }
 					        App.debug("GGG parse" + localKey);
-					        final Material newMat = parseResponse.get(0);
+
 					        newMat.setThumbnail(mat.getThumbnail());
 					        app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
 				        }
@@ -204,7 +207,7 @@ public abstract class FileManager implements FileManagerI {
 		        });
 	}
 
-	public abstract void setTubeID(String localKey, int id);
+	public abstract void setTubeID(String localKey, int id, long modified);
 
 	public boolean shouldKeep(int id) {
 		return true;

@@ -135,9 +135,9 @@ public class WinFileManager extends FileManager {
 	}-*/;
 
 	@Override
-	public void saveFile(String base64, final SaveCallback cb) {
+	public void saveFile(String base64, long modified, final SaveCallback cb) {
 
-		final Material mat = WinFileManager.this.createMaterial("");
+		final Material mat = WinFileManager.this.createMaterial("", modified);
 		String meta = mat.toJson().toString();
 		WinFileManager.this.doSave(base64, getApp().getLocalID(), getApp()
 		        .getKernel().getConstruction().getTitle(), meta,
@@ -230,13 +230,13 @@ public class WinFileManager extends FileManager {
 	}-*/;
 
 	@Override
-	public void setTubeID(String localID, int id) {
+	public void setTubeID(String localID, int id, long modified) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	protected void updateFile(String title, Material material) {
+	protected void updateFile(String title, long modified, Material material) {
 		// TODO Auto-generated method stub
 
 	}

@@ -159,17 +159,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					fm.setTubeID(
 					        FileManager.createKeyString(app.getLocalID(), app
 					                .getKernel().getConstruction().getTitle()),
-							parseResponse.get(0).getId());
+					        parseResponse.get(0).getId(), parseResponse.get(0)
+					                .getModified());
 					if (url != null) {
 						Window.open(url, "_blank", "");
 					}
 					app.setSyncStamp(parseResponse.get(0).getModified());
+					saveLocalIfNeeded(parseResponse.get(0).getModified());
 				}
 				else {
 					saveCallback.onError();
 					resetCallback();
+					saveLocalIfNeeded(System.currentTimeMillis() / 1000);
 				}
-				saveLocalIfNeeded();
+
 				hide();
 			}
 
@@ -179,14 +182,15 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				saveCallback.onError();
 				resetCallback();
 				((GuiManagerW) app.getGuiManager()).openFilePicker();
-				saveLocalIfNeeded();
+				saveLocalIfNeeded(System.currentTimeMillis() / 1000);
 				hide();
 			}
 
-			private void saveLocalIfNeeded() {
+			private void saveLocalIfNeeded(long modified) {
 				if (app.getFileManager().shouldKeep(0)) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
+					        modified,
 					        new SaveCallback(app) {
 						        @Override
 						        public void onSaved(final Material mat,
@@ -395,7 +399,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 
 			@Override
             public void handle(String s) {
-				((FileManager)app.getFileManager()).saveFile(s, new SaveCallback(app) {
+				((FileManager) app.getFileManager()).saveFile(s,
+				        System.currentTimeMillis() / 1000,
+				        new SaveCallback(app) {
 			    	@Override
 			    	public void onSaved(final Material mat, final boolean isLocal) {
 			    		super.onSaved(mat, isLocal);

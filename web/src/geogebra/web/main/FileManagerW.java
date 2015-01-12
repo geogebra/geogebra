@@ -6,7 +6,6 @@ import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
-import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.util.SaveCallback;
 
 import com.google.gwt.storage.client.Storage;
@@ -43,12 +42,12 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void saveFile(String base64, final SaveCallback cb) {
+	public void saveFile(String base64, long modified, final SaveCallback cb) {
 		if (this.stockStore == null) {
 			return;
 		}
 
-		final Material mat = createMaterial(base64);
+		final Material mat = createMaterial(base64, modified);
 		int id;
 
 		if (getApp().getLocalID() == -1) {
@@ -157,7 +156,8 @@ public class FileManagerW extends FileManager {
 		final StringHandler base64saver = new StringHandler() {
 			@Override
 			public void handle(final String s) {
-				final Material mat = createMaterial(s);
+				final Material mat = createMaterial(s,
+				        System.currentTimeMillis() / 1000);
 				stockStore.setItem(AUTO_SAVE_KEY, mat.toJson().toString());
 			}
 		};
@@ -202,13 +202,13 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void setTubeID(String localID, int id) {
+	public void setTubeID(String localID, int id, long modified) {
 		// implement this if we need offline cache in Chromeapp
 
 	}
 
 	@Override
-	protected void updateFile(String title, Material material) {
+	protected void updateFile(String title, long modified, Material material) {
 		// TODO Auto-generated method stub
 
 	}

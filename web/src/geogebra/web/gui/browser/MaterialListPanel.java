@@ -198,6 +198,10 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	public void addMaterial(final Material mat, final boolean insertAtEnd, final boolean isLocal) {
 		final MaterialListElement matElem = getMaterialListElement(mat);
 		if (matElem != null) {
+			int oldLocalID = matElem.getMaterial().getLocalID();
+			if (mat.getLocalID() == -1) {
+				mat.setLocalID(oldLocalID);
+			}
 			matElem.setMaterial(mat);
 		} else {
 			addNewMaterial(mat, insertAtEnd, isLocal);
@@ -329,7 +333,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	
 	private MaterialListElement getMaterialListElement(final Material material) {
 		for(final MaterialListElement matElem : this.materials) {
-			if (!matElem.isLocal && matElem.getMaterial().getId() == material.getId() ||
+			if (matElem.getMaterial().getId() > 0
+			        && matElem.getMaterial().getId() == material.getId()
+			        ||
  matElem.isLocal
 			        && FileManager.getFileKey(matElem.getMaterial()).equals(
 			                FileManager.getFileKey(material))) {
