@@ -89,5 +89,13 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 	    	}
 	    }
     }
-	
+
+	/**
+	 * Wondering why they make protected methods if we can get them this way
+	 * 
+	 * @return MenuItem the selected item
+	 */
+	public MenuItem getSelectedItemPublic() {
+		return getSelectedItem();
+	}
 }

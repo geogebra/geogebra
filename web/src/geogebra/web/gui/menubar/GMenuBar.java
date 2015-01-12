@@ -43,7 +43,6 @@ public class GMenuBar extends MenuBar{
 	        final MenuBar submenupopup) {
 		// this works, but it is still different from addItem in
 		// not following mouse movement, only following mouse clicks, etc
-		final MenuBar parentMenu = this;
 		final Object[] ait = new Object[2];
 		ait[1] = null;
 		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
@@ -62,6 +61,7 @@ public class GMenuBar extends MenuBar{
 						pp.setPopupPosition(left, top);
 
 						// TODO: maybe this solution is imperfect?
+						// for cases other than RadioButtonMenuBarW submenus
 						// but somehow the popup shall be hidden if
 						// clicked on it, or on its triggering element
 						pp.addDomHandler(new ClickHandler() {
@@ -69,8 +69,11 @@ public class GMenuBar extends MenuBar{
 								// on presuming that clicks will always trigger
 								// something
 
-								// TODO: if condition (later)
-								// if (submenupopup.getSelectedItem() != null) {
+								// TODO: better if
+								// if ((submenupopup instanceof
+								// RadioButtonMenuBarW)
+								// && ((RadioButtonMenuBarW) submenupopup)
+								// .getSelectedItemPublic() != null) {
 									ait[1] = null;
 									pp.hide();
 								// }
