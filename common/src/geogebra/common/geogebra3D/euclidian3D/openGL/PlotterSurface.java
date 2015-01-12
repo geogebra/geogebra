@@ -287,11 +287,15 @@ public class PlotterSurface {
 
 		manager.setDummyTexture();
 
-		manager.color(1f, 0f, 0f, 0.25f);
+		// manager.color(1f, 0f, 0f, 0.25f);
 	}
 
 	public void vertex(Coords p) {
 		manager.vertex(p);
+	}
+
+	public void normal(Coords n) {
+		manager.normal(n);
 	}
 
 	public void endGeometry() {
