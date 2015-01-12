@@ -114,11 +114,12 @@ public class Material implements Comparable<Material>
 		this.height = 600;
 		this.thumbnail = "";
 		this.syncStamp = -1;
-		showMenu = false;
-		showToolbar= false;
-		showInputbar= false;
-		showResetIcon = false; 
-		shiftDragZoom = true;
+		this.localID = -1;
+		this.showMenu = false;
+		this.showToolbar = false;
+		this.showInputbar = false;
+		this.showResetIcon = false;
+		this.shiftDragZoom = true;
 	}
 
 	public void setShowMenu(boolean showMenu) {
