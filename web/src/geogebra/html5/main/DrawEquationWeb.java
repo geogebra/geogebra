@@ -711,7 +711,12 @@ public class DrawEquationWeb extends DrawEquation {
 							event.stopPropagation();
 							event.preventDefault();
 							return false;
-						});
+						}).keypress(function(event) {
+					// the main reason of calling stopPropagation here
+					// is to prevent calling preventDefault later
+					// code style is not by me, but automatic formatting
+					event.stopPropagation();
+				});
 
 		// hacking to deselect the editing when the user does something else like in Desktop
 		if (deselect) {
