@@ -1672,7 +1672,8 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				boolean isSubstitute = (cmd == null) ? false : "Substitute".equals(cmd.getName());
 				// wrap in Evaluate if it's an expression rather than a command
 				// needed for Giac (for simplifying x+x to 2x)
-				evalVE = wrapEvaluate(evalVE, isSubstitute  && inputVE.isKeepInputUsed());
+				evalVE = wrapEvaluate(evalVE,
+						isSubstitute && !inputVE.isKeepInputUsed());
 				
 				// wrap in PointList if the top level command is Solutions
 				// and the assignment variable is defined
