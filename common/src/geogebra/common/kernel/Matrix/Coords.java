@@ -52,6 +52,7 @@ public class Coords {
 			return true;
 		}
 	};
+	public static final Coords UNDEFINED3 = new Coords(3);
 	
 	public double[] val;
 	
