@@ -711,15 +711,21 @@ public class DrawEquationWeb extends DrawEquation {
 							event.stopPropagation();
 							event.preventDefault();
 							return false;
-						}).keypress(function(event) {
+						}).keypress(function(event2) {
 					// the main reason of calling stopPropagation here
 					// is to prevent calling preventDefault later
 					// code style is not by me, but automatic formatting
-					event.stopPropagation();
-				}).keydown(function(event) {
+					event2.stopPropagation();
+				}).keydown(function(event3) {
 					// to prevent focus moving away
-					event.stopPropagation();
+					event3.stopPropagation();
+				}).mousedown(function(event4) {
+					// otherwise RadioButtonTreeItem would call preventDefault
+					event4.stopPropagation();
+				}).click(function(event6) {
+					event6.stopPropagation();
 				});
+		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
 		// hacking to deselect the editing when the user does something else like in Desktop
 		if (deselect) {
@@ -742,14 +748,6 @@ public class DrawEquationWeb extends DrawEquation {
 						$wnd.mousein.mout = true;
 						$wnd.$ggbQuery(this).focus();
 					});
-		} else {
-			$wnd.$ggbQuery(elsecondInside).focusout(function(event) {
-				event.stopPropagation();
-				event.preventDefault();
-				return false;
-			}).mouseleave(function(event3) {
-				$wnd.$ggbQuery(this).focus();
-			});
 		}
 	}-*/;
 
