@@ -132,11 +132,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// cc.drawDebug(surface);
 		// }
 
-		surface.startTriangles();
-		for (CornerAndCenter cc : drawList) {
-			cc.draw(surface);
+		if (!drawList.isEmpty()) {
+			surface.startTriangles();
+			for (CornerAndCenter cc : drawList) {
+				cc.draw(surface);
+			}
+			surface.endGeometry();
 		}
-		surface.endGeometry();
 
 		setSurfaceIndex(surface.end());
 
