@@ -441,7 +441,6 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
     }
 	
 	private void updateProbabilityType() {
-
 		if (isIniting)
 			return;
 
@@ -640,7 +639,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				//fldLow.setCaretPosition(0);
 				fldHigh.setText("" + format(getHigh()));
 				//fldHigh.setCaretPosition(0);
-				fldResult.setText("" + format(probability));
+		fldResult.setText(probability >= 0 ? "" + format(probability) : "?");
 				//fldResult.setCaretPosition(0);
 		fldResult
 		        .setEditable(probMode != ProbabilityCalculatorView.PROB_INTERVAL);
@@ -868,13 +867,14 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	   
     }
 	
-	private void doTextFieldActionPerformed(TextBox source) {
+	private void doTextFieldActionPerformed(TextBox source,
+	        boolean intervalCheck) {
 		if (isIniting)
 			return;
 		try {
 
 			String inputText = source.getText().trim();
-
+			boolean update = true;
 			if (!inputText.equals("")) {
 				int dotIndex = inputText.indexOf('.');
 					
@@ -897,30 +897,42 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				NumberValue nv;
 				nv = kernel.getAlgebraProcessor().evaluateToNumeric(inputText,
 						false);
-				double value = nv.getDouble();
-				App.debug(value + "");
+					double value = nv.getDouble();
 	
 				if (source == fldLow.getTextBox()) {
-					if (isValidInterval(probMode, value, getHigh())) {
-						setLow(value);
-						setXAxisPoints();
-					} else {
-						updateGUI();
-					}
-	
+
+						checkBounds(value, intervalCheck, false);
 				}
-	
+					// if (intervalCheck) {
+					// if (isValidInterval(probMode, getHigh(), value)) {
+					// setLow(value);
+					// setXAxisPoints();
+					// } else {
+					// updateGUI();
+					// }
+					// } else {
+					// // setLow(value);
+					//
+					// }
+					// }
 				else if (source == fldHigh.getTextBox()) {
-					if (isValidInterval(probMode, getLow(), value)) {
-						setHigh(value);
-						setXAxisPoints();
-					} else {
-						updateGUI();
-					}
+						checkBounds(value, intervalCheck, true);
 				}
+					// if (isValidInterval(probMode, getLow(), value)) {
+					// setHigh(value);
+					// setXAxisPoints();
+					// } else {
+					// if (intervalCheck) {
+					// updateGUI();
+					// } else {
+					// fldResult.setText("?");
+					// }
+					// }
+					// }
 	
 				// handle inverse probability
 				else if (source == fldResult.getTextBox()) {
+						update = false;
 					if (value < 0 || value > 1) {
 						updateGUI();
 					} else {
@@ -945,9 +957,15 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 							}
 	
 						}
-	
-				updateIntervalProbability();
-				updateGUI();
+					if (intervalCheck) {
+						updateIntervalProbability();
+						if (update) {
+							updateGUI();
+						}
+					} else {
+					}
+
+
 				}
 
 			}
@@ -957,18 +975,20 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 	}
 
+
 	@Override
     public void onBlur(BlurEvent event) {
 		TextBox source = (TextBox) event.getSource();
-	    doTextFieldActionPerformed(source);
+		doTextFieldActionPerformed(source, true);
 	    updateGUI();
     }
 
 	@Override
     public void onKeyUp(KeyUpEvent event) {
 	    TextBox source = (TextBox) event.getSource();
-	    if (event.getNativeKeyCode() != KeyCodes.KEY_LEFT && event.getNativeKeyCode() != KeyCodes.KEY_RIGHT) {
-	    	doTextFieldActionPerformed(source);
+		int key = event.getNativeKeyCode();
+		if (key != KeyCodes.KEY_LEFT && key != KeyCodes.KEY_RIGHT) {
+			doTextFieldActionPerformed(source, key == KeyCodes.KEY_ENTER);
 	    }
     }
 
@@ -994,5 +1014,25 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 
 		App.debug("[LIMIT] tf " + maxLength);
 		textBox.setMaxLength(maxLength);
+	}
+
+	private void checkBounds(double value, boolean intervalCheck, boolean high) {
+		boolean valid = high ? isValidInterval(probMode, getLow(), value)
+		        : isValidInterval(probMode, value, getHigh());
+		if (valid) {
+			if (high) {
+				setHigh(value);
+			} else {
+				setLow(value);
+			}
+			setXAxisPoints();
+			updateGUI();
+		} else {
+			if (intervalCheck) {
+				updateGUI();
+			} else {
+				fldResult.setText("?");
+			}
+		}
 	}
 }
