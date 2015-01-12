@@ -1,7 +1,7 @@
 package geogebra.phone.gui.container.panel.swipe;
 
+import geogebra.phone.PhoneLookAndFeel;
 import geogebra.phone.gui.view.View;
-import geogebra.web.gui.laf.GLookAndFeel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  * A panel showing one view at a time, with animated view changing.
  */
 public class ViewPanelContainer extends SimplePanel implements
-		geogebra.phone.gui.container.panel.Panel {
+        geogebra.phone.gui.container.panel.Panel {
 
 	private SwipePanel content;
 
@@ -98,6 +98,15 @@ public class ViewPanelContainer extends SimplePanel implements
 		updateSize();
 	}
 
+	/**
+	 * after a resize, the scroll-position of the {@link SwipePanel} has to be
+	 * updated. the active view "scrolls" to the right position.
+	 * 
+	 */
+	public void updateAfterResize() {
+		content.swipeTo(getViewIndex(activeView));
+	}
+
 	private int getViewIndex(View view) {
 		return viewOrder.indexOf(view);
 	}
@@ -111,7 +120,7 @@ public class ViewPanelContainer extends SimplePanel implements
 
 	private void updateSize() {
 		int height = Window.getClientHeight()
-				- GLookAndFeel.PHONE_HEADER_HEIGHT;
+		        - PhoneLookAndFeel.PHONE_HEADER_HEIGHT;
 		int width = Window.getClientWidth();
 		Style style = getElement().getStyle();
 		style.setPosition(Position.RELATIVE);

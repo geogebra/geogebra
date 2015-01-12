@@ -48,7 +48,7 @@ public class AlgebraDockPanelW extends DockPanelW {
 
 	@Override
 	protected Widget loadStyleBar() {
-		return new AlgebraStyleBarW(app);
+		return aview.getStyleBar();
 	}
 
 	public void setAlgebraView(AlgebraViewW av) {

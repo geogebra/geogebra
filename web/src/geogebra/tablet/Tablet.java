@@ -16,6 +16,7 @@ import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
+import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.main.GDevice;
 
 import java.util.ArrayList;
@@ -124,8 +125,9 @@ public class Tablet implements EntryPoint {
 	public static void goBack() {
 		if (appFrame != null && appFrame.app != null) {
 			if (appFrame.isBrowserShowing()) {
-				appFrame.hideBrowser(((GuiManagerW) appFrame.app
-				        .getGuiManager()).getBrowseGUI());
+				GuiManagerW guiManager = (GuiManagerW) appFrame.app
+				        .getGuiManager();
+				appFrame.hideBrowser((BrowseGUI) guiManager.getBrowseView());
 			}
 		}
 	}

@@ -6,11 +6,11 @@ import geogebra.web.gui.browser.SearchPanel;
 
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class MaterialHeaderPanel extends SimplePanel implements HeaderPanel {
+public class BrowseHeaderPanel extends SimplePanel implements HeaderPanel {
 	
 	private SearchPanel searchPanel;
 	
-	public MaterialHeaderPanel(AppW app) {
+	public BrowseHeaderPanel(AppW app) {
 		searchPanel = new SearchPanel(app);
 		add(searchPanel);
 		/*this.searchPanel.addSearchListener(new SearchListener() {

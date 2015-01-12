@@ -575,7 +575,7 @@ public class AppWapplet extends AppW {
 
 	@Override
 	public void openSearch(String query) {
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI(query));
+		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 	}
 
 	@Override

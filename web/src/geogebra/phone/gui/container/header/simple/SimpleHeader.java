@@ -1,6 +1,7 @@
 package geogebra.phone.gui.container.header.simple;
 
 import geogebra.html5.main.AppW;
+import geogebra.phone.PhoneLookAndFeel;
 import geogebra.phone.gui.container.header.Header;
 import geogebra.phone.gui.view.HeaderPanel;
 import geogebra.phone.gui.view.View;
@@ -36,7 +37,8 @@ public class SimpleHeader extends FlowPanel implements Header {
 	}
 
 	public void onResize() {
-		setPixelSize(Window.getClientWidth(), 43);
+		setPixelSize(Window.getClientWidth(),
+		        PhoneLookAndFeel.PHONE_HEADER_HEIGHT);
 	}
 
 	private void createLeftFloatPanel() {

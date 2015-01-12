@@ -39,8 +39,7 @@ public class FileManagerW extends FileManager {
 			this.stockStore.removeItem(getFileKey(mat));
 			removeFile(mat);
 		}
-		((BrowseGUI) getApp().getGuiManager().getBrowseGUI())
-		        .setMaterialsDefaultStyle();
+		getApp().getGuiManager().getBrowseView().setMaterialsDefaultStyle();
 	}
 
 	@Override

@@ -8,6 +8,9 @@ import geogebra.web.gui.laf.GLookAndFeel;
 
 public class PhoneLookAndFeel extends GLookAndFeel {
 
+	/** Height of the header */
+	public static final int PHONE_HEADER_HEIGHT = 43;
+
 	@Override
 	public MaterialListElement getMaterialElement(Material mat, AppW app,
 	        boolean isLocal) {

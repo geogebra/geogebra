@@ -212,7 +212,7 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(final Boolean entryDeleted) {
 						        removeFile(mat);
 						        ((BrowseGUI) getApp().getGuiManager()
-						                .getBrowseGUI())
+						                .getBrowseView())
 						                .setMaterialsDefaultStyle();
 						        deleteMetaData(key);
 					        }

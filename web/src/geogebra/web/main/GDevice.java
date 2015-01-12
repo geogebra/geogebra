@@ -2,13 +2,14 @@ package geogebra.web.main;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
 import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.gui.view.browser.BrowseViewI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
-import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 
 public interface GDevice {
-	public FileManager getFileManager(AppW app);
+
+	public FileManager createFileManager(AppW app);
 
 	void copyEVtoClipboard(EuclidianViewW euclidianView1);
 
@@ -18,7 +19,7 @@ public interface GDevice {
 
 	public UploadImageDialog getImageInputDialog(AppW app);
 
-	public BrowseGUI getBrowseGUI(AppW app);
+	public BrowseViewI createBrowseView(AppW app);
 
 	public ConstructionProtocolView getConstructionProtocolView(AppW app);
 }

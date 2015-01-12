@@ -1,24 +1,28 @@
 package geogebra.phone.gui.view.material.browser;
 
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.browser.MaterialListElement;
+import geogebra.phone.PhoneLookAndFeel;
 import geogebra.web.gui.browser.MaterialListPanel;
-import geogebra.web.gui.laf.GLookAndFeel;
 
 import com.google.gwt.user.client.Window;
 
+/**
+ * @see MaterialListPanel
+ */
 public class MaterialListPanelP extends MaterialListPanel {
 	
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 */
 	public MaterialListPanelP(final AppW app) {
 	    super(app);
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.PHONE_HEADER_HEIGHT);
+		onResize();
     }
 
 	@Override
 	public void onResize() {
-		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight() - GLookAndFeel.PHONE_HEADER_HEIGHT);
-		for (final MaterialListElement elem : this.materials) {
-			elem.onResize();
-		}
+		this.setPixelSize(Window.getClientWidth(), Window.getClientHeight()
+		        - PhoneLookAndFeel.PHONE_HEADER_HEIGHT);
 	}
 }

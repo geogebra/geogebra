@@ -12,7 +12,7 @@ import com.google.gwt.resources.client.ImageResource;
 public class MenuView extends AbstractView {
 
 	public MenuView(AppW app) {
-		super(app);
+		super(app);// , PhoneView.Menu);
 	}
 
 	@Override

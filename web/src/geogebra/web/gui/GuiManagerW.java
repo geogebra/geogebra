@@ -35,6 +35,7 @@ import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.view.browser.BrowseViewI;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.Dom;
@@ -111,7 +112,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	private AlgebraViewW algebraView;
 	private SpreadsheetViewW spreadsheetView;
 	private final ArrayList<EuclidianViewW> euclidianView2 = new ArrayList<EuclidianViewW>();
-	protected BrowseGUI browseGUI;
+	protected BrowseViewI browseGUI;
 	protected LayoutW layout;
 	protected boolean uploadWaiting;
 	private CASViewW casView;
@@ -1170,7 +1171,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 		((DialogManagerW) app.getDialogManager()).setLabels();
 		if (browseGUIwasLoaded()) {
-			getBrowseGUI().setLabels();
+			getBrowseView().setLabels();
 		}
 	}
 
@@ -1515,9 +1516,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	/**
 	 * @return {@link BrowseGUI}
 	 */
-	public BrowseGUI getBrowseGUI(String query) {
+	public BrowseViewI getBrowseView(String query) {
 		if (!browseGUIwasLoaded()) {
-			this.browseGUI = this.device.getBrowseGUI((AppW) this.app);
+			this.browseGUI = this.device.createBrowseView((AppW) this.app);
 			if (query != null && query.trim().length() > 0) {
 				this.browseGUI.displaySearchResults(query);
 			} else {
@@ -1670,8 +1671,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public BrowseGUI getBrowseGUI() {
-		return getBrowseGUI(null);
+	public BrowseViewI getBrowseView() {
+		return getBrowseView(null);
 	}
 
 	public String getDefaultToolbarString() {

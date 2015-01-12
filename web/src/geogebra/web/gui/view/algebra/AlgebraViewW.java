@@ -20,6 +20,7 @@ import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -73,7 +74,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 
 
 	
-
+	private AlgebraStyleBarW styleBar;
 	private GeoElement selectedGeoElement;
 	private TreeItem selectedNode;
 
@@ -149,7 +150,15 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		settingsChanged(app.getSettings().getAlgebra());
 	}
 
-	
+	/**
+	 * @return {@link AlgebraStyleBarW}
+	 */
+	public AlgebraStyleBarW getStyleBar() {
+		if (this.styleBar == null) {
+			this.styleBar = new AlgebraStyleBarW(app);
+		}
+		return this.styleBar;
+	}
 
 	public void updateFonts() {
 		GFont font = app.getPlainFontCommon();

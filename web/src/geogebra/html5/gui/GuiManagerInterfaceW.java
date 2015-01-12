@@ -11,6 +11,7 @@ import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.GuiManagerInterface;
+import geogebra.html5.gui.view.browser.BrowseViewI;
 
 import java.util.ArrayList;
 
@@ -74,9 +75,9 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void setGeneralToolBarDefinition(String toolbarDefinition);
 
-	public BrowseGuiI getBrowseGUI(String query);
+	public BrowseViewI getBrowseView(String query);
 
-	public BrowseGuiI getBrowseGUI();
+	public BrowseViewI getBrowseView();
 
 	public Widget getRootComponent();
 

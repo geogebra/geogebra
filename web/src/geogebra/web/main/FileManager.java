@@ -76,8 +76,7 @@ public abstract class FileManager implements FileManagerI {
 	 *            {@link Material}
 	 */
 	public void removeFile(final Material material) {
-		((BrowseGUI) app.getGuiManager().getBrowseGUI())
-		        .removeMaterial(material);
+		app.getGuiManager().getBrowseView().removeMaterial(material);
 	}
 
 	/**
@@ -87,7 +86,7 @@ public abstract class FileManager implements FileManagerI {
 	 *            {@link Material}
 	 */
 	public void addMaterial(final Material material) {
-		((BrowseGUI) app.getGuiManager().getBrowseGUI()).addMaterial(material);
+		app.getGuiManager().getBrowseView().addMaterial(material);
 	}
 
 	public Material createMaterial(final String base64) {
@@ -194,8 +193,7 @@ public abstract class FileManager implements FileManagerI {
 					        App.debug("GGG parse" + localKey);
 					        final Material newMat = parseResponse.get(0);
 					        newMat.setThumbnail(mat.getThumbnail());
-					        ((GuiManagerW) app.getGuiManager()).getBrowseGUI()
-					                .refreshMaterial(newMat, false);
+					        app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
 				        }
 			        }
 

@@ -30,8 +30,10 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 
 	private List<ResizeListener> resizeListeners;
 
-	private View activeView;
-
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 */
 	public PhoneUI(AppW app) {
 		this.app = app;
 
@@ -73,7 +75,6 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 	public void showView(View view) {
 		header.showView(view);
 		panel.showView(view);
-		activeView = view;
 	}
 
 	public void onViewChange(ViewChangeEvent event) {
@@ -89,7 +90,7 @@ public class PhoneUI extends VerticalPanel implements ViewContainer,
 		for (final ResizeListener res : resizeListeners) {
 			res.onResize();
 		}
-		showView(activeView);
+		panel.updateAfterResize();
 	}
 
 }

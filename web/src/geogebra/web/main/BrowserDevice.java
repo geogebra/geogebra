@@ -18,7 +18,7 @@ public class BrowserDevice implements GDevice {
 	}
 
 	@Override
-	public FileManager getFileManager(AppW app) {
+	public FileManager createFileManager(AppW app) {
 		return new FileManagerW(app);
 	}
 
@@ -49,7 +49,7 @@ public class BrowserDevice implements GDevice {
 	}
 
 	@Override
-	public BrowseGUI getBrowseGUI(AppW app) {
+	public BrowseGUI createBrowseView(AppW app) {
 		return new BrowseGUI(app);
 	}
 

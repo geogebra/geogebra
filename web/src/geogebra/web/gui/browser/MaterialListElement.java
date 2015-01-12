@@ -4,9 +4,9 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.Browser;
 import geogebra.html5.gui.FastClickHandler;
-import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.view.browser.MaterialListElementI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
@@ -36,7 +36,8 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Matthias Meisinger
  * 
  */
-public class MaterialListElement extends FlowPanel implements ResizeListener {
+public class MaterialListElement extends FlowPanel implements
+        MaterialListElementI {
 	
 	public enum State {
 		Default, Selected, Disabled;
@@ -415,11 +416,12 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void remove() {
-        ((BrowseGUI) app.getGuiManager().getBrowseGUI()).removeMaterial(MaterialListElement.this.material);
+		app.getGuiManager().getBrowseView()
+		        .removeMaterial(MaterialListElement.this.material);
     }
 	
 	protected void setAllMaterialsDefault() {
-		((BrowseGUI) app.getGuiManager().getBrowseGUI()).setMaterialsDefaultStyle();
+		app.getGuiManager().getBrowseView().setMaterialsDefaultStyle();
 	}
 	
 	void onCancel() {
@@ -460,8 +462,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 
 					@Override
 					public void onLoaded(final List<Material> response) {
-						guiManager.getBrowseGUI().clearMaterials();
-						guiManager.getBrowseGUI().onSearchResults(response);
+						guiManager.getBrowseView().clearMaterials();
+						guiManager.getBrowseView().onSearchResults(response);
 					}
 				});
 				return;
@@ -493,7 +495,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	}
 
 	protected void closeBrowseView() {
-		this.guiManager.getBrowseGUI().close();
+		this.guiManager.getBrowseView().close();
 	}
 
 	protected void addViewButton() {
@@ -513,8 +515,8 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * marks the material as selected and disables the other materials
 	 */
 	protected void markSelected() {
-		this.guiManager.getBrowseGUI().disableMaterials();
-		this.guiManager.getBrowseGUI().rememberSelected(this);
+		this.guiManager.getBrowseView().disableMaterials();
+		this.guiManager.getBrowseView().rememberSelected(this);
 		this.state = State.Selected;
 		this.removeStyleName("unselected");
 		this.removeStyleName("default");
@@ -650,7 +652,7 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	 * Opens GeoGebraTube material in a new window (overwritten for tablet app, smart widget)
 	 */
 	protected void onView() {
-		this.guiManager.getBrowseGUI().setMaterialsDefaultStyle();
+		this.guiManager.getBrowseView().setMaterialsDefaultStyle();
 		openTubeWindow(material.getURL());
 	}
 
@@ -661,12 +663,6 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private native void openTubeWindow(String url)/*-{
 		$wnd.open(url);
 	}-*/;
-
-	@Override
-	public void onResize() {
-		// TODO Auto-generated method stub
-
-	}
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
@@ -690,4 +686,18 @@ public class MaterialListElement extends FlowPanel implements ResizeListener {
 	private String extractTitle(String key) {
 	    return key.substring(key.indexOf("_", key.indexOf("_")+1)+1);
     }
+
+	/**
+	 * @return true if this material is saved local
+	 */
+	public boolean isLocal() {
+		return this.isLocal;
+	}
+
+	/**
+	 * @return true if this material belongs to the signed in user
+	 */
+	public boolean isOwn() {
+		return this.isOwnMaterial;
+	}
 }

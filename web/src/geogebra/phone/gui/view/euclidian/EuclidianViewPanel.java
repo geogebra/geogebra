@@ -3,6 +3,7 @@ package geogebra.phone.gui.view.euclidian;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
+import geogebra.phone.PhoneLookAndFeel;
 import geogebra.phone.gui.view.AbstractViewPanel;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -22,6 +23,12 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 
 	private EuclidianViewW euclidianView;
 
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 * @param euclidianView
+	 *            {@link EuclidianViewW}
+	 */
 	public EuclidianViewPanel(AppW app, EuclidianViewW euclidianView) {
 		super(app);
 		this.euclidianView = euclidianView;
@@ -31,7 +38,8 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 
 		// TODO replace with actual height (of the headerpanel)
 		euclidianView.setCoordinateSpaceSize(Window.getClientWidth(),
-				Window.getClientHeight() - 43);
+		                Window.getClientHeight()
+		                        - PhoneLookAndFeel.PHONE_HEADER_HEIGHT);
 
 		euclidianView.updateFonts();
 		euclidianView.attachView();
@@ -66,5 +74,16 @@ public class EuclidianViewPanel extends AbstractViewPanel {
 	@Override
 	public void onResize() {
 		super.onResize();
+		// TODO replace with actual height (of the headerpanel)
+		if (this.euclidianView != null) {
+			euclidianView.setCoordinateSpaceSize(Window.getClientWidth(),
+			        Window.getClientHeight()
+			                - PhoneLookAndFeel.PHONE_HEADER_HEIGHT);
+
+			euclidianView.updateFonts();
+			euclidianView.attachView();
+			euclidianView.doRepaint();
+		}
+
 	}
 }

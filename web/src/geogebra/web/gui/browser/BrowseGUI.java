@@ -10,13 +10,13 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
-import geogebra.html5.gui.BrowseGuiI;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.view.browser.BrowseViewI;
+import geogebra.html5.gui.view.browser.MaterialListElementI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
-import geogebra.web.gui.app.GeoGebraAppFrame;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.util.StandardButton;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  */
 public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
-        EventRenderable, OpenFileListener, BrowseGuiI {
+        EventRenderable, OpenFileListener, BrowseViewI {
 
 	protected final List<ResizeListener> resizeListeners = new ArrayList<ResizeListener>();
 	private BrowseHeaderPanel header;
@@ -226,11 +226,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		this.setContentWidget(this.container);
 	}
 
+	@Override
 	public void loadAllMaterials() {
 		this.header.clearSearchPanel();
 		this.materialListPanel.loadAllMaterials();
 	}
 
+	@Override
 	public void onSearchResults(final List<Material> response) {
 		this.materialListPanel.addGGTMaterials(response);
 	}
@@ -241,42 +243,44 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	 * @param mat
 	 *            {@link Material}
 	 */
+	@Override
 	public void addMaterial(final Material mat) {
 		this.materialListPanel.addMaterial(mat, false, true);
 	}
 
+	@Override
 	public void removeMaterial(final Material mat) {
 		this.materialListPanel.removeMaterial(mat);
 	}
 
-	public void addResizeListener(final ResizeListener rl) {
+	protected void addResizeListener(final ResizeListener rl) {
 		this.resizeListeners.add(rl);
 	}
 
+	@Override
 	public void setLabels() {
 		this.header.setLabels();
 		this.materialListPanel.setLabels();
 	}
 
-	public MaterialListElement getChosenMaterial() {
-		return this.materialListPanel.getChosenMaterial();
-	}
-
+	@Override
 	public void disableMaterials() {
 		this.materialListPanel.disableMaterials();
 	}
 
+	@Override
 	public void setMaterialsDefaultStyle() {
 		this.materialListPanel.setDefaultStyle(true);
 	}
 
-	public void rememberSelected(final MaterialListElement materialElement) {
+	@Override
+	public void rememberSelected(final MaterialListElementI materialElement) {
 		this.materialListPanel.rememberSelected(materialElement);
 	}
 
-	public void setFrame(final GeoGebraAppFrame frame) {
-		super.setFrame(frame);
-	}
+	// public void setFrame(final GeoGebraAppFrame frame) {
+	// super.setFrame(frame);
+	// }
 
 	public void openFileAsGgb(final JavaScriptObject fileToHandle,
 	        final JavaScriptObject callback) {
@@ -286,6 +290,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	/**
 	 * deletes all files from the {@link MaterialListPanel}
 	 */
+	@Override
 	public void clearMaterials() {
 		this.materialListPanel.clearMaterials();
 	}
@@ -317,7 +322,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			app.resetUniqueId(); // TODO
 		}
 		setMaterialsDefaultStyle();
-		this.close();
+		close();
 		ToolTipManagerW.sharedInstance().hideBottomInfoToolTip();
 	}
 
@@ -325,6 +330,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		return this.materialListPanel.lastSelected;
 	}
 
+	@Override
 	public void displaySearchResults(final String query) {
 		this.materialListPanel.displaySearchResults(query);
 	}
@@ -337,6 +343,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		}
 	}
 
+	@Override
 	public void refreshMaterial(final Material material, final boolean isLocal) {
 		this.materialListPanel.refreshMaterial(material, isLocal);
 	}

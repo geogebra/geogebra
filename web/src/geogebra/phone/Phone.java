@@ -3,9 +3,9 @@ package geogebra.phone;
 import geogebra.html5.js.ResourcesInjector;
 import geogebra.phone.gui.GeoGebraAppFrameP;
 import geogebra.phone.gui.PhoneUI;
+import geogebra.phone.gui.view.View;
 import geogebra.phone.gui.view.algebra.AlgebraView;
 import geogebra.phone.gui.view.euclidian.EuclidianView;
-import geogebra.phone.gui.view.material.MaterialView;
 import geogebra.phone.gui.view.menu.MenuView;
 import geogebra.touch.PhoneGapManager;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -24,6 +24,7 @@ import com.googlecode.gwtphonegap.client.event.BackButtonPressedHandler;
 public class Phone implements EntryPoint {
 
 	private static PhoneUI phoneGui;
+	private static View euclidianView;
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
@@ -44,12 +45,16 @@ public class Phone implements EntryPoint {
 	}
 
 	private static void addViews() {
+		View browseView = (View) appFrame.app.getGuiManager().getBrowseView();
 		phoneGui.addView(new AlgebraView(appFrame.app));
-		phoneGui.addView(new EuclidianView(appFrame.app));
-		MaterialView matView = new MaterialView(appFrame.app);
-		phoneGui.addView(matView);
+		phoneGui.addView(euclidianView = new EuclidianView(appFrame.app));
+		phoneGui.addView(browseView);
 		phoneGui.addView(new MenuView(appFrame.app));
-		phoneGui.showView(matView);
+		phoneGui.showView(browseView);
+	}
+
+	public static void showEuclidianView() {
+		phoneGui.showView(euclidianView);
 	}
 
 	public static PhoneUI getGUI() {

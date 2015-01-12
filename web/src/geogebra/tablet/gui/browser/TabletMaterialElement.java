@@ -14,7 +14,7 @@ public class TabletMaterialElement extends MaterialListElement {
 
 	@Override
 	public void onView() {
-		((GuiManagerW) app.getGuiManager()).getBrowseGUI()
+		((GuiManagerW) app.getGuiManager()).getBrowseView()
 		        .setMaterialsDefaultStyle();
 		if (!isLocal) {
 			loadNative(getMaterial().getId(), getMaterial().getTitle(), app

@@ -12,12 +12,12 @@ import geogebra.web.main.FileManager;
 public class TabletDeviceWin extends TouchDevice {
 
 	@Override
-	public FileManager getFileManager(AppW app) {
+	public FileManager createFileManager(AppW app) {
 		return new WinFileManager(app);
 	}
 
 	@Override
-	public BrowseGUI getBrowseGUI(AppW app) {
+	public BrowseGUI createBrowseView(AppW app) {
 		return new TabletBrowseGUI(app);
 	}
 

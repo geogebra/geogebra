@@ -3,6 +3,7 @@ package geogebra.web.gui.browser;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
+import geogebra.html5.gui.view.browser.MaterialListElementI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.main.FileManager;
@@ -23,7 +24,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
 /**
  * contains all available materials
  */
-public class MaterialListPanel extends FlowPanel implements ResizeListener, ShowDetailsListener {
+public class MaterialListPanel extends FlowPanel implements ResizeListener,
+        ShowDetailsListener {
 	
 	private final long MIN_DIFFERNCE_TO_SCROLL = 1000;
 	protected AppW app;
@@ -146,8 +148,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 	 * loads featured materials and (if user is logged in) users materials
 	 */
     public void loadAllMaterials() {
-    	clearMaterials();
-    	loadLocal();
+		clearMaterials();
+		loadLocal();
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getFeaturedMaterials(this.allMaterialsCB);
 	}
     
@@ -246,8 +248,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 	/**
 	 * @param materialElement {@link MaterialListElement}
 	 */
-	public void rememberSelected(final MaterialListElement materialElement) {
-		this.lastSelected = materialElement;
+	public void rememberSelected(final MaterialListElementI materialElement) {
+		this.lastSelected = (MaterialListElement) materialElement;
 	}
 	
 	/**
@@ -311,9 +313,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 	public void onResize() {
 		this.setPixelSize((int)app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, 
 				(int)app.getHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
-		for (final MaterialListElement elem : this.materials) {
-			elem.onResize();
-		}
 	}
 
 	/**
@@ -368,4 +367,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener, Show
 			this.getElement().setScrollTop(this.getElement().getScrollTop() + content.getAbsoluteTop() - this.getAbsoluteTop());
 		}
     }
+
+	/**
+	 * @return last selected {@link MaterialListElement material}
+	 */
+	public MaterialListElement getLastSelected() {
+		return this.lastSelected;
+	}
 }

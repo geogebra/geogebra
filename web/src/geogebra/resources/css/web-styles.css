@@ -4661,6 +4661,7 @@ body.zoomedBody .geogebraweb-table-spreadsheet td {
 }
 .PhoneGUI .PhoneHeader {
 	background-color: #F8F8F8;
+	border-bottom: 1px solid #DCDCDC;
 }
 
 body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tbody>tr:nth-child
@@ -4680,7 +4681,14 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
 .PhoneGUI .tabLeft {
 	float: left;
-	/* 	TODO padding */
+	height: 43px;
+	width: 43px;
+}
+
+.PhoneGUI .tabLeft .toolbar_button {
+	width: 30px;
+	height: 30px;
+	margin: 2px 0px 0px 2px;
 }
 
 .PhoneGUI .activeTab {
@@ -4731,6 +4739,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 /* ########################################
    ###          ALGEBRA VIEW            ###
    ######################################## */
+   
 .PhoneGUI .algebraViewPanel {
 	background-color: #FFFFFF;
 	font-size: 16px;
@@ -4746,7 +4755,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 }
 
 /* ########################################
-   ###         GRAPHICS VIEW            ###
+   ###        EUCLIDIAN VIEW            ###
    ######################################## */
    
 .GGWToolbar .phonetoolbar_mainItem {
@@ -4770,27 +4779,16 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    ###           BROWSE VIEW            ###
    ######################################## */
 .PhoneGUI .searchDiv {
-	margin-left: 5px;
-	margin-top: 5px;
+	margin: 5px 0px 0px 5px;
 }
 
-.PhoneGUI .materialListElement .fileLinks {
-	box-shadow: none;
-	background-color: transparent;
-	top: 0px;
+.PhoneGUI .materialListElement {
+	padding-right: 10px;
+	padding-bottom: 10px;
 }
 
-.PhoneGUI .centeredContent {
-	padding-right: 50px;
-}
-
-.PhoneGUI .materialListPanel {
-	padding-left: 15px;
-	overflow:auto;
-}
-
-.PhoneHeader .searchDiv {
-	
+.PhoneGUI .materialListElement.selected .materialElementContent {
+	padding: 15px;
 }
 
 .PhoneHeader .searchDiv input.gwt-TextBox {

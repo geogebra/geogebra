@@ -7,5 +7,7 @@ import geogebra.phone.gui.container.ViewContainer;
  * view, table for the CAS view etc.)
  */
 public interface Panel extends ViewContainer {
+
+	void updateAfterResize();
 	// Add methods if needed
 }

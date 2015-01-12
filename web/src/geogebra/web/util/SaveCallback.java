@@ -54,8 +54,7 @@ public class SaveCallback {
 		app.setActiveMaterial(mat);
 		onSaved(app);
 		if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
-			((GuiManagerW) app.getGuiManager()).getBrowseGUI().refreshMaterial(
-			        mat, isLocal);
+			app.getGuiManager().getBrowseView().refreshMaterial(mat, isLocal);
 		}
 	}
 

@@ -124,8 +124,8 @@ public class AppWapplication extends AppW {
 		if (token != null && !"".equals(token)) {
 			App.debug("LTOKEN set via URL");
 			this.getLoginOperation().performTokenLogin(token, false);
-			this.showBrowser(((GuiManagerW) this.getGuiManager())
-			        .getBrowseGUI());
+			this.showBrowser((HeaderPanel) ((GuiManagerW) this.getGuiManager())
+			        .getBrowseView());
 			nativeLoggedIn();
 		} else {
 			if (Cookies.getCookie("SSID") != null) {
@@ -424,7 +424,7 @@ public class AppWapplication extends AppW {
 
 	@Override
 	public void openSearch(String query) {
-		showBrowser((MyHeaderPanel) getGuiManager().getBrowseGUI(query));
+		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));
 	}
 
 	@Override
@@ -476,7 +476,7 @@ public class AppWapplication extends AppW {
 	@Override
 	public final FileManagerI getFileManager() {
 		if (this.fm == null) {
-			this.fm = this.device.getFileManager(this);
+			this.fm = this.device.createFileManager(this);
 		}
 		return this.fm;
 	}

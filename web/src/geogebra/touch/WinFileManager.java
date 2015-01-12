@@ -84,7 +84,7 @@ public class WinFileManager extends FileManager {
 	public void delete(Material mat) {
 		deleteNative(getFileKey(mat));
 		removeFile(mat);
-		((BrowseGUI) getApp().getGuiManager().getBrowseGUI())
+		((BrowseGUI) getApp().getGuiManager().getBrowseView())
 		        .setMaterialsDefaultStyle();
 
 	}

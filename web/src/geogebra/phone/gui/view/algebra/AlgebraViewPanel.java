@@ -11,21 +11,22 @@ public class AlgebraViewPanel extends AbstractViewPanel {
 	private AlgebraViewW algebraView;
 	private ScrollPanel content;
 
-	public AlgebraViewPanel(AppW app) {
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 * @param algebraView
+	 *            {@link AlgebraViewW}
+	 */
+	public AlgebraViewPanel(AppW app, AlgebraViewW algebraView) {
 		super(app);
-		algebraView = (AlgebraViewW) app.getGuiManager().getAlgebraView();
-		content = new ScrollPanel(algebraView);
-		content.setStyleName("algebraView");
-		add(content);
+		this.algebraView = algebraView;
+		this.content = new ScrollPanel(this.algebraView);
+		this.content.setStyleName("algebraView");
+		add(this.content);
 	}
 
 	@Override
 	protected String getViewPanelStyleName() {
 		return "algebraViewPanel";
-	}
-
-	@Override
-	public void onResize() {
-		super.onResize();
 	}
 }
