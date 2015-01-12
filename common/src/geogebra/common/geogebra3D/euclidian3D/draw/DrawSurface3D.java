@@ -9,8 +9,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.main.App;
 
-import java.util.ArrayList;
-
 /**
  * Class for drawing a 2-var function
  * 
@@ -32,6 +30,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// number of split for boundary
 	private static final short BOUNDARY_SPLIT = 10;
 
+	private static final int SPLIT_SIZE = 5000;
+
+	private static final int DRAW_SIZE = 5000;
+
+	private DrawSurface3D.Corner[] currentSplit, nextSplit;
+
+	/**
+	 * list of things to draw
+	 */
+	protected CornerAndCenter[] drawList;
+
+	protected int currentSplitIndex, nextSplitIndex, drawListIndex;
+
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
 
@@ -45,9 +56,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		super(a_view3d, (GeoElement) surface);
 		this.surfaceGeo = surface;
 
-		currentSplit = new ArrayList<DrawSurface3D.Corner>();
-		nextSplit = new ArrayList<DrawSurface3D.Corner>();
-		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
+		currentSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
+		nextSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
+		drawList = new CornerAndCenter[DRAW_SIZE];
 
 	}
 
@@ -138,26 +149,25 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		App.debug("grids: " + uN + ", " + vN);
 		Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
 
-		currentSplit.clear();
-		nextSplit.clear();
-		drawList.clear();
+		currentSplitIndex = 0;
+		nextSplitIndex = 0;
+		drawListIndex = 0;
 
 		notDrawn = 0;
 		splitRootMesh(corner);
 		App.debug("\nnot drawn after split root mesh: " + notDrawn);
-		split(5);
+		split(false);
 
-		App.debug("\ndraw size : " + drawList.size() + "\nnot drawn : "
-				+ notDrawn + "\nstill to split : " + nextSplit.size());
+		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + "\nstill to split : " + nextSplitIndex);
 
 		// for (CornerAndCenter cc : drawList) {
 		// cc.drawDebug(surface);
 		// }
 
-		if (!drawList.isEmpty()) {
+		if (drawListIndex > 0) {
 			surface.startTriangles();
-			for (CornerAndCenter cc : drawList) {
-				cc.draw(surface);
+			for (int i = 0; i < drawListIndex; i++) {
+				drawList[i].draw(surface);
 			}
 			surface.endGeometry();
 		}
@@ -213,7 +223,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return false;
 	}
 
-	private ArrayList<Corner> currentSplit;
 
 	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
 
@@ -249,10 +258,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	/**
-	 * list of next corners to split
-	 */
-	ArrayList<Corner> nextSplit;
 
 	protected int notDrawn;
 
@@ -277,25 +282,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private void split(int depth) {
+	private void split(boolean draw) {
 
 		// swap stacks
-		ArrayList<Corner> tmp = currentSplit;
+		Corner[] tmp = currentSplit;
 		currentSplit = nextSplit;
 		nextSplit = tmp;
-		nextSplit.clear();
+		currentSplitIndex = nextSplitIndex;
+		nextSplitIndex = 0;
 
-		boolean recordNext = depth > 1;
-		// int test = 1;
-		for (Corner corner : currentSplit) {
-			corner.split(!recordNext);
-			// corner.split(recordNext && (test % 3 != 0));
-			// test++;
+		for (int i = 0; i < currentSplitIndex; i++) {
+			currentSplit[i].split(draw);
 		}
 
-		if (recordNext) {
-			// split again
-			split(depth - 1);
+		App.debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
+
+		if (!draw && nextSplitIndex > 0) {
+			if (nextSplitIndex * 4 < SPLIT_SIZE && drawListIndex + nextSplitIndex * 4 < DRAW_SIZE) {
+				// split again
+				split(false);
+			} else {
+				split(true);
+			}
 		}
 
 	}
@@ -1093,10 +1101,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			left.a = w;
 			m.l = w;
 			// next split
-			nextSplit.add(this);
-			nextSplit.add(s);
-			nextSplit.add(e);
-			nextSplit.add(m);
+			addToNextSplit(this);
+			addToNextSplit(s);
+			addToNextSplit(e);
+			addToNextSplit(m);
 		}
 
 		private void addToDrawList(Corner end, Corner... corners) {
@@ -1104,7 +1112,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			Coords centerNormal = new Coords(3);
 			setBarycenter(center, centerNormal, corners);
 			end.isNotEnd = false;
-			drawList.add(new CornerAndCenter(this, center, centerNormal));
+			if (drawList[drawListIndex] == null) {
+				drawList[drawListIndex] = new CornerAndCenter(this, center, centerNormal);
+			} else {
+				drawList[drawListIndex].set(this, center, centerNormal);
+			}
+			drawListIndex++;
 		}
 
 		private Corner findU(Corner defined, Corner undefined, int depth) {
@@ -1698,8 +1711,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 
 	/**
-	 * list of things to draw
+	 * add the corner to next split array
+	 * 
+	 * @param corner
+	 *            corner
 	 */
-	ArrayList<CornerAndCenter> drawList;
-
+	protected void addToNextSplit(Corner corner) {
+		nextSplit[nextSplitIndex] = corner;
+		nextSplitIndex++;
+	}
 }
