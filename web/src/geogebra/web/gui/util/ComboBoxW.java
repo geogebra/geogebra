@@ -4,6 +4,7 @@ import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.html5.event.FocusListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW.InsertHandler;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.advanced.client.datamodel.ListDataModel;
@@ -29,6 +30,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 	public ComboBoxW(AppW app) {
 		super(app);
+
 		setCustomTextAllowed(true);
 		setDropDownPosition(DropDownPosition.UNDER);
 		setEnterAction(EnterAction.DO_NOTHING);
@@ -54,6 +56,7 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 				}
 	        }});
 		//
+
 		final AutoCompleteTextFieldW tf = getSelectedValue();
 		tf.addStyleName("AutoCompleteTextFieldW");
 		tf.addFocusListener(new FocusListenerW(this) {
@@ -74,11 +77,18 @@ public abstract class ComboBoxW extends ComboBox<ListDataModel> {
 
 			public void keyReleased(KeyEvent e) {
 				if (e.isEnterKey()) {
-					onValueChange(getValue());
+					onValueChange(tf.getText());
 				}
 			}
 		});
-		
+
+
+		tf.addInsertHandler(new InsertHandler() {
+
+			public void onInsert(String text) {
+				ComboBoxW.this.onValueChange(text);
+			}
+		});
 	}
 
 	@Override 

@@ -69,6 +69,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
         KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>,
         SelectionHandler<Suggestion>, VirtualKeyboardListener, HasSymbolPopup {
 
+	public interface InsertHandler {
+		void onInsert(String text);
+	}
 	/**
 	 * code for KeyUpEvent
 	 */
@@ -123,7 +126,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	private boolean tabEnabled = true;
 	private int columns = 0;
 	private boolean forCAS;
-
+	private InsertHandler insertHandler = null;
 	/**
 	 * Pattern to find an argument description as found in the syntax
 	 * information of a command.
@@ -1287,6 +1290,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		int end = getSelectionEnd();
 
 		setText(start, end, text);
+		if (insertHandler != null) {
+			insertHandler.onInsert(text);
+		}
 	}
 
 	public void onBackSpace() {
@@ -1626,6 +1632,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			}
 		}
 
+	}
+
+	public void addInsertHandler(InsertHandler insertHandler) {
+		this.insertHandler = insertHandler;
 	}
 
 }

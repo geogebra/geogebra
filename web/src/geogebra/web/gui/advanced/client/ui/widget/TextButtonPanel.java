@@ -264,6 +264,9 @@ public abstract class TextButtonPanel<TypeOfSelectedValue> extends SimplePanel
         return layout;
     }
 
+	public void setTextField(AutoCompleteTextFieldW tf) {
+		selectedValue = tf;
+	}
     /**
      * Getter for property 'selectedValue'.
      *
