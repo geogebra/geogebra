@@ -53,7 +53,7 @@ public class Coords {
 		}
 	};
 	/** undefined vector */
-	public static final Coords UNDEFINED3 = new Coords(Double.NaN, Double.NaN, Double.NaN) {
+	public static final Coords UNDEFINED3VALUE0 = new Coords(0, 0, 0) {
 		@Override
 		public boolean isNotFinalUndefined() {
 			return false;

@@ -45,6 +45,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		super(a_view3d, (GeoElement) surface);
 		this.surfaceGeo = surface;
 
+		currentSplit = new ArrayList<DrawSurface3D.Corner>();
+		nextSplit = new ArrayList<DrawSurface3D.Corner>();
+		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
+
 	}
 
 	@Override
@@ -117,13 +121,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
 
-		// maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
-		// maxRWDistance = 5 * maxRWPixelDistance;
-		// maxBend = Math.tan(20 * Kernel.PI_180);
+		maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
+		maxRWDistance = 5 * maxRWPixelDistance;
+		maxBend = Math.tan(20 * Kernel.PI_180);
 
-		maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
-		maxRWDistance = 2 * maxRWPixelDistance;
-		maxBend = getView3D().getMaxBend();
+		// maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+		// maxRWDistance = 2 * maxRWPixelDistance;
+		// maxBend = getView3D().getMaxBend();
 
 		updateCullingBox();
 
@@ -134,10 +138,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		App.debug("grids: " + uN + ", " + vN);
 		Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
 
-		currentSplit = new ArrayList<DrawSurface3D.Corner>();
-		nextSplit = new ArrayList<DrawSurface3D.Corner>();
-		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
-		// currentSplit.add(corner);
+		currentSplit.clear();
+		nextSplit.clear();
+		drawList.clear();
+
 		notDrawn = 0;
 		splitRootMesh(corner);
 		App.debug("\nnot drawn after split root mesh: " + notDrawn);
@@ -303,21 +307,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
 		if (!evaluatedPoint.isDefined()) {
-			return Coords.UNDEFINED3;
+			return Coords.UNDEFINED3VALUE0;
 		}
 
 		if (inCullingBox(evaluatedPoint)) {
 			return evaluatedPoint.copyVector();
 		}
 
-		return Coords.UNDEFINED3;
+		return Coords.UNDEFINED3VALUE0;
 	}
 
 	protected Coords evaluateNormal(double u, double v) {
 		surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
 
 		if (!evaluatedNormal.isDefined()) {
-			return Coords.UNDEFINED3;
+			return Coords.UNDEFINED3VALUE0;
 		}
 
 		return evaluatedNormal.normalized();
@@ -1186,7 +1190,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		// if (!center.isDefined()) {
-		// App.printStacktrace("");
+		// App.printStacktrace("!center.isDefined()");
+		// }
+		// if (!normal.isDefined()) {
+		// App.printStacktrace("!normal.isDefined()");
 		// }
 
 	}
@@ -1620,16 +1627,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			// closure triangles if needed
 			if (sw1 != ne1) {
-				drawTriangle(surface, center, centerNormal, sw1, ne1);
+				drawTriangleCheckCorners(surface, center, centerNormal, sw1, ne1);
 			}
 			if (sw2 != ne2) {
-				drawTriangle(surface, center, centerNormal, ne2, sw2);
+				drawTriangleCheckCorners(surface, center, centerNormal, ne2, sw2);
 			}
 			if (ne1.p.isFinalUndefined() && ne2.p.isFinalUndefined()) {
-				drawTriangle(surface, center, centerNormal, sw2, sw1);
+				drawTriangleCheckCorners(surface, center, centerNormal, sw2, sw1);
 			}
 			if (sw1.p.isFinalUndefined() && sw2.p.isFinalUndefined()) {
-				drawTriangle(surface, center, centerNormal, ne1, ne2);
+				drawTriangleCheckCorners(surface, center, centerNormal, ne1, ne2);
 			}
 		}
 
@@ -1652,6 +1659,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            third point
 	 */
 	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords n0, Corner c1, Corner c2) {
+
 		surface.normal(n0);
 		surface.vertex(p0);
 		surface.normal(c2.normal);
@@ -1659,6 +1667,33 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surface.normal(c1.normal);
 		surface.vertex(c1.p);
 
+	}
+
+	/**
+	 * draw triangle with surface plotter, check if second and third points are
+	 * defined
+	 * 
+	 * @param surface
+	 *            surface plotter
+	 * @param p0
+	 *            first point
+	 * @param n0
+	 *            first point normal
+	 * 
+	 * @param c1
+	 *            second point
+	 * @param c2
+	 *            third point
+	 */
+	static final protected void drawTriangleCheckCorners(PlotterSurface surface, Coords p0, Coords n0, Corner c1, Corner c2) {
+		if (c1.p.isFinalUndefined()) {
+			return;
+		}
+		if (c2.p.isFinalUndefined()) {
+			return;
+		}
+
+		drawTriangle(surface, p0, n0, c1, c2);
 	}
 
 
