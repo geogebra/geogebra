@@ -119,32 +119,24 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		currentSplit = new ArrayList<DrawSurface3D.Corner>();
 		nextSplit = new ArrayList<DrawSurface3D.Corner>();
 		drawList = new ArrayList<DrawSurface3D.CornerAndCenter>();
-		drawListBoundary = new ArrayList<DrawSurface3D.CornerAndCenter>();
 		// currentSplit.add(corner);
 		notDrawn = 0;
 		splitRootMesh(corner);
 		App.debug("\nnot drawn after split root mesh: " + notDrawn);
 		split(5);
 
-		App.debug("\ndraw size : " + (drawList.size() + drawListBoundary.size()) + "\nnot drawn : "
+		App.debug("\ndraw size : " + drawList.size() + "\nnot drawn : "
 				+ notDrawn + "\nstill to split : " + nextSplit.size());
 
-		for (CornerAndCenter cc : drawList) {
-			cc.drawDebug(surface);
-		}
-		for (CornerAndCenter cc : drawListBoundary) {
-			cc.drawDebug(surface);
-		}
-
-		// surface.startTriangles();
-		// surface.normal(Coords.VZ);
 		// for (CornerAndCenter cc : drawList) {
-		// cc.draw(surface);
+		// cc.drawDebug(surface);
 		// }
-		// for (CornerAndCenter cc : drawListBoundary) {
-		// cc.draw(surface);
-		// }
-		// surface.endGeometry();
+
+		surface.startTriangles();
+		for (CornerAndCenter cc : drawList) {
+			cc.draw(surface);
+		}
+		surface.endGeometry();
 
 		setSurfaceIndex(surface.end());
 
@@ -308,7 +300,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			return Coords.UNDEFINED3;
 		}
 
-		return evaluatedNormal.copyVector();
+		return evaluatedNormal.normalized();
 	}
 
 	protected boolean evaluatePoint(double u, double v, Coords result) {
@@ -415,10 +407,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// draw
-								Coords center = new Coords(3);
-								setBarycenter(center, n, w, w.a);
-								w.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+								addToDrawList(w.a, n, w, w.a);
 							}
 						}
 					} else {
@@ -462,11 +451,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 								n.l = left.a;
 								above.l = n;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, n, e, above);
-								left.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// drawing
+								addToDrawList(left.a, n, e, above);
 							}
 						} else {
 							// a and l.a defined /2/
@@ -528,11 +515,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									w.a = left.a;
 									left.a = w;
 
-									// for drawing
-									Coords center = new Coords(3);
-									setBarycenter(center, e, above, left.a, w);
-									w.a.isNotEnd = false;
-									drawListBoundary.add(new CornerAndCenter(this, center));
+									// drawing
+									addToDrawList(w.a, e, above, left.a, w);
 								}
 							}
 						}
@@ -579,11 +563,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 								w.a = left.a;
 								left.a = w;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, s, w, left);
-								w.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// drawing
+								addToDrawList(w.a, s, w, left);
+
 							}
 						} else {
 							// l and l.a defined /2/
@@ -644,11 +627,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									// new neighbors
 									n.l = left.a;
 									above.l = n;
-									// for drawing
-									Coords center = new Coords(3);
-									setBarycenter(center, s, n, left.a, left);
-									left.a.isNotEnd = false;
-									drawListBoundary.add(new CornerAndCenter(this, center));
+
+									// drawing
+									addToDrawList(left.a, s, n, left.a, left);
 								}
 							}
 						}
@@ -702,12 +683,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									this.a = e;
 									e.a = above;
 								}
-								// draw
-								Coords center = new Coords(3);
-								setBarycenter(center, left, above, left.a);
 
-								left.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+								// drawing
+								addToDrawList(left.a, left, above, left.a);
 							}
 						}
 					}
@@ -768,11 +746,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									this.a = e;
 									e.a = above;
 								}
-								// draw
-								Coords center = new Coords(3);
-								setBarycenter(center, s, e, this);
-								left.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// drawing
+								addToDrawList(left.a, s, e, this);
 							}
 						} else {
 							// this and l.a not undefined /2/diag/
@@ -838,11 +814,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									// new neighbors
 									n.l = left.a;
 									above.l = n;
-									// for drawing
-									Coords center = new Coords(3);
-									setBarycenter(center, this, above, n, s);
-									left.a.isNotEnd = false;
-									drawListBoundary.add(new CornerAndCenter(this, center));
+
+									// drawing
+									addToDrawList(left.a, this, above, n, s);
+
 								}
 							}
 						} else {
@@ -884,11 +859,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								// new neighbors
 								w.a = left.a;
 								left.a = w;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, above, left.a, this);
-								w.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// drawing
+								addToDrawList(w.a, above, left.a, this);
 							}
 						}
 					}
@@ -952,11 +925,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									// new neighbors
 									w.a = left.a;
 									left.a = w;
-									// for drawing
-									Coords center = new Coords(3);
-									setBarycenter(center, this, e, w, left);
-									w.a.isNotEnd = false;
-									drawListBoundary.add(new CornerAndCenter(this, center));
+
+									// drawing
+									addToDrawList(w.a, this, e, w, left);
 								}
 							}
 						} else {
@@ -998,11 +969,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								// new neighbors
 								n.l = left.a;
 								above.l = n;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, left, left.a, this);
-								left.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// drawing
+								addToDrawList(left.a, left, left.a, this);
 							}
 						}
 					} else {
@@ -1038,11 +1007,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								// new neighbors
 								w.a = left.a;
 								left.a = w;
-								// for drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, this, left, above);
-								w.a.isNotEnd = false;
-								drawListBoundary.add(new CornerAndCenter(this, center));
+
+								// drawing
+								addToDrawList(w.a, this, left, above);
+
 							}
 						} else {
 							// this, l, a and l.a defined /4/
@@ -1052,10 +1020,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								split(subLeft, left, subAbove, above);
 							} else {
 								// drawing
-								Coords center = new Coords(3);
-								setBarycenter(center, this, left, above, left.a);
-								left.a.isNotEnd = false;
-								drawList.add(new CornerAndCenter(this, center));
+								addToDrawList(left.a, this, left, above, left.a);
 							}
 						}
 					}
@@ -1110,45 +1075,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			nextSplit.add(m);
 		}
 
-		private boolean hasUndefinedCorner() {
-
-			// check first corner
-			if (p.isFinalUndefined()) {
-				return true;
-			}
-
-			Corner left;
-
-			// check left
-			if (l.a == null) { // already splitted on left
-				left = l.l;
-			} else {
-				left = l;
-			}
-
-			if (left.p.isFinalUndefined()) {
-				return true;
-			}
-
-			// check left - above
-			if (left.a.p.isFinalUndefined()) {
-				return true;
-			}
-
-			// check above
-			if (a.l == null) { // already splitted on above
-				if (a.a.p.isFinalUndefined()) {
-					return true;
-				}
-			} else {
-				if (a.p.isFinalUndefined()) {
-					return true;
-				}
-			}
-
-			return false;
+		private void addToDrawList(Corner end, Corner... corners) {
+			Coords center = new Coords(3);
+			Coords centerNormal = new Coords(3);
+			setBarycenter(center, centerNormal, corners);
+			end.isNotEnd = false;
+			drawList.add(new CornerAndCenter(this, center, centerNormal));
 		}
-
 
 		private Corner findU(Corner defined, Corner undefined, int depth) {
 			return findU(defined.p, defined.u, defined.u, undefined.u,
@@ -1213,18 +1146,23 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * 
 	 * @param center
 	 *            center
+	 * @param normal
+	 *            normal for center point
 	 * @param c
 	 *            corners
 	 * 
 	 */
-	static protected void setBarycenter(Coords center, Corner... c) {
+	static protected void setBarycenter(Coords center, Coords normal, Corner... c) {
 		double f = 1.0 / c.length;
 		for (int i = 0; i < center.getLength(); i++) {
 			center.val[i] = 0;
+			normal.val[i] = 0;
 			for (int j = 0; j < c.length; j++) {
 				center.val[i] += c[j].p.val[i];
+				normal.val[i] += c[j].normal.val[i];
 			}
 			center.val[i] *= f;
+			normal.val[i] *= f;
 		}
 
 		// if (!center.isDefined()) {
@@ -1541,14 +1479,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private class CornerAndCenter {
 		private Corner corner;
 		private Coords center;
+		private Coords centerNormal;
 
-		public CornerAndCenter(Corner corner, Coords center) {
-			set(corner, center);
+		public CornerAndCenter(Corner corner, Coords center, Coords centerNormal) {
+			set(corner, center, centerNormal);
 		}
 
-		public void set(Corner corner, Coords center) {
+		public void set(Corner corner, Coords center, Coords centerNormal) {
 			this.corner = corner;
 			this.center = center;
+			this.centerNormal = centerNormal;
 		}
 
 		public void drawDebug(PlotterSurface surface) {
@@ -1583,7 +1523,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (sw1.p.isFinalUndefined()) {
 							sw1 = p1;
 						}
-						drawTriangle(surface, center, p2, p1);
+						drawTriangle(surface, center, centerNormal, p2, p1);
 					}
 					p1 = p2;
 					sw2 = p2;
@@ -1604,7 +1544,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				p2 = current.a;
 				if (p2.p.isNotFinalUndefined()) {
 					if (p1.p.isNotFinalUndefined()) {
-						drawTriangle(surface, center, p1, p2);
+						drawTriangle(surface, center, centerNormal, p1, p2);
 						if (ne1.p.isFinalUndefined()) {
 							ne1 = p1;
 						}
@@ -1626,7 +1566,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				p2 = current.a;
 				if (p2.p.isNotFinalUndefined()) {
 					if (p1.p.isNotFinalUndefined()) {
-						drawTriangle(surface, center, p2, p1);
+						drawTriangle(surface, center, centerNormal, p2, p1);
 						if (sw1.p.isFinalUndefined()) {
 							sw1 = p1;
 						}
@@ -1647,7 +1587,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				p2 = current.l;
 				if (p2.p.isNotFinalUndefined()) {
 					if (p1.p.isNotFinalUndefined()) {
-						drawTriangle(surface, center, p1, p2);
+						drawTriangle(surface, center, centerNormal, p1, p2);
 						if (ne1.p.isFinalUndefined()) {
 							ne1 = p1;
 						}
@@ -1660,16 +1600,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			// closure triangles if needed
 			if (sw1 != ne1) {
-				drawTriangle(surface, center, sw1, ne1);
+				drawTriangle(surface, center, centerNormal, sw1, ne1);
 			}
 			if (sw2 != ne2) {
-				drawTriangle(surface, center, ne2, sw2);
+				drawTriangle(surface, center, centerNormal, ne2, sw2);
 			}
 			if (ne1.p.isFinalUndefined() && ne2.p.isFinalUndefined()) {
-				drawTriangle(surface, center, sw2, sw1);
+				drawTriangle(surface, center, centerNormal, sw2, sw1);
 			}
 			if (sw1.p.isFinalUndefined() && sw2.p.isFinalUndefined()) {
-				drawTriangle(surface, center, ne1, ne2);
+				drawTriangle(surface, center, centerNormal, ne1, ne2);
 			}
 		}
 
@@ -1683,21 +1623,28 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            surface plotter
 	 * @param p0
 	 *            first point
-	 * @param p1
+	 * @param n0
+	 *            first point normal
+	 * 
+	 * @param c1
 	 *            second point
-	 * @param p2
+	 * @param c2
 	 *            third point
 	 */
-	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Corner c1, Corner c2) {
+	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords n0, Corner c1, Corner c2) {
+		surface.normal(n0);
 		surface.vertex(p0);
-		surface.vertex(c1.p);
+		surface.normal(c2.normal);
 		surface.vertex(c2.p);
+		surface.normal(c1.normal);
+		surface.vertex(c1.p);
+
 	}
 
 
 	/**
 	 * list of things to draw
 	 */
-	ArrayList<CornerAndCenter> drawList, drawListBoundary;
+	ArrayList<CornerAndCenter> drawList;
 
 }
