@@ -52,8 +52,19 @@ public class Coords {
 			return true;
 		}
 	};
-	public static final Coords UNDEFINED3 = new Coords(3);
-	
+	/** undefined vector */
+	public static final Coords UNDEFINED3 = new Coords(Double.NaN, Double.NaN, Double.NaN) {
+		@Override
+		public boolean isNotFinalUndefined() {
+			return false;
+		}
+
+		@Override
+		public boolean isFinalUndefined() {
+			return true;
+		}
+	};
+
 	public double[] val;
 	
 	private int rows;
