@@ -105,7 +105,6 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
-import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -115,8 +114,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -2155,35 +2152,11 @@ public abstract class AppW extends App implements SetLabels {
 		if (subMenu instanceof MenuBar)
 			((MenuBar) subMenu).addStyleName("GeoGebraMenuBar");
 
-		// instead of:
-		// parentMenu.addItem(
-		// getGuiManager().getMenuBarHtml(filename, name, true), true,
-		// (MenuBar) subMenu);
-
-		addItemGGBWay(parentMenu,
-		        getGuiManager().getMenuBarHtml(filename, name, true),
+		// ideally, GMenuBar's addItem will execute,
+		// as this method is called from nowhere else
+		parentMenu.addItem(
+		        getGuiManager().getMenuBarHtml(filename, name, true), true,
 		        (MenuBar) subMenu);
-	}
-
-	public static void addItemGGBWay(final MenuBar menuclass, String text,
-	        final MenuBar submenu) {
-		// addItemGGBWay works, but it is still different from addItem in
-		// not following mouse movement, only following mouse clicks
-		final MenuItem[] ait = new MenuItem[1];
-		ait[0] = menuclass.addItem(text, true, new ScheduledCommand() {
-			public void execute() {
-				if (ait[0] != null) {
-					PopupPanel pp = new PopupPanel(true, false);
-					submenu.addStyleName("subMenuLeftSide2");
-					pp.addStyleName("subMenuLeftSidePopup");
-					pp.add(submenu);
-					int left = ait[0].getElement().getAbsoluteLeft();
-					int top = ait[0].getElement().getAbsoluteTop();
-					pp.setPopupPosition(left, top);
-					pp.show();
-				}
-			}
-		});
 	}
 
 	/**
