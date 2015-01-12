@@ -308,7 +308,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				        .setTitle(
 				                key.substring(key.indexOf("#",
 				                        key.indexOf("#") + 1) + 1));
-				app.resetUniqueId();
+				app.setTubeId(material.getId());
+				app.setLocalID(material.getLocalID());
 			} else if (!getLastSelected().isLocal
 			        && getLastSelected().isOwnMaterial) {
 				app.getKernel().getConstruction().setTitle(material.getTitle());

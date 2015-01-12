@@ -10,6 +10,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
@@ -101,7 +102,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	private PopupMenuButton providerPopup;
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
-	private MaterialCallback materialCB;
+
+	// private MaterialCallback materialCB;
 	
 
 	/**
@@ -126,7 +128,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		
 		addCancelButton();
 		
-		initMaterialCB();
 		this.addCloseHandler(new CloseHandler<PopupPanel>() {
 
 			public void onClose(final CloseEvent<PopupPanel> event) {
@@ -146,8 +147,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		app.getLoginOperation().getView().add(this);
 	}
 	
-	private void initMaterialCB() {
-		this.materialCB = new MaterialCallback() {
+	MaterialCallback initMaterialCB(final String base64, final String url) {
+		return new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {
@@ -159,20 +160,41 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					        FileManager.createKeyString(app.getLocalID(), app
 					                .getKernel().getConstruction().getTitle()),
 							parseResponse.get(0).getId());
+					if (url != null) {
+						Window.open(url, "_blank", "");
+					}
+					app.setSyncStamp(parseResponse.get(0).getModified());
 				}
 				else {
 					saveCallback.onError();
 					resetCallback();
 				}
+				saveLocalIfNeeded();
 				hide();
 			}
-			
+
 			@Override
 			public void onError(final Throwable exception) {
+				Log.error("SAVE Error" + exception.getMessage());
 				saveCallback.onError();
 				resetCallback();
 				((GuiManagerW) app.getGuiManager()).openFilePicker();
+				saveLocalIfNeeded();
 				hide();
+			}
+
+			private void saveLocalIfNeeded() {
+				if (app.getFileManager().shouldKeep(0)) {
+					app.getKernel().getConstruction().setTitle(title.getText());
+					((FileManager) app.getFileManager()).saveFile(base64,
+					        new SaveCallback(app) {
+						        @Override
+						        public void onSaved(final Material mat,
+						                final boolean isLocal) {
+							        super.onSaved(mat, isLocal);
+						        }
+					        });
+				}
 			}
 		};
     }
@@ -342,7 +364,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	private void savePublic() {
 		if (isAlreadyPublicOrShared()) {
 			app.getActiveMaterial().setVisibility(Visibility.Public.getToken());
-			uploadToGgt(this.materialCB);
+			uploadToGgt(null);
 		} else {
 			savePrivateFirst(Visibility.Public.getToken());
 		}
@@ -351,7 +373,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
     private void saveShared() {
 	    if (isAlreadyPublicOrShared()) {
 	    	app.getActiveMaterial().setVisibility(Visibility.Shared.getToken());
-	    	uploadToGgt(this.materialCB);
+			uploadToGgt(null);
 	    } else {
 	    	savePrivateFirst(Visibility.Shared.getToken());
 	    }
@@ -359,7 +381,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 
     private void savePrivate() {
 	    app.getActiveMaterial().setVisibility(Visibility.Private.getToken());
-	    uploadToGgt(this.materialCB);
+		uploadToGgt(null);
     }
 
 	private void saveLocal() {
@@ -394,32 +416,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * @param visibility
 	 */
 	private void savePrivateFirst(final String visibility) {
-		app.getActiveMaterial().setVisibility(Visibility.Private.getToken());
-		uploadToGgt( new MaterialCallback() {
-				
-				@Override
-				public void onLoaded(List<Material> parseResponse) {
-					if (parseResponse.size() == 1) {
-						handleMaterialCallback(parseResponse.get(0));
-					Window.open(GGT_EDIT_URL + app.getTubeId() + "?visibility="
-					        + visibility, "_blank", "");
-						runAfterSaveCallback();
-					}
-					else {
-						saveCallback.onError();
-						resetCallback();
-					}
-					hide();
-				}
 
-				@Override
-				public void onError(final Throwable exception) {
-					saveCallback.onError();
-					resetCallback();
-					((GuiManagerW) app.getGuiManager()).openFilePicker();
-					hide();
-				}
-			});
+		uploadToGgt(GGT_EDIT_URL + app.getTubeId() + "?visibility="
+		        + visibility);
 
 	}
 	
@@ -436,7 +435,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * Handles the upload of the file and closes the dialog.
 	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
-	private void uploadToGgt(final MaterialCallback materialCallback) {
+	private void uploadToGgt(final String url) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
 		app.getGgbApi().getBase64(true, new StringHandler(){
 
@@ -444,23 +443,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
             public void handle(String base64) {
 				if (!SaveDialogW.this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
 					app.setTubeId(0);
-					doUploadToGgt(base64,materialCallback);
+					doUploadToGgt(base64, initMaterialCB(base64, url));
 				} else if (app.getTubeId() == 0) {
-					doUploadToGgt(base64,materialCallback);
+					doUploadToGgt(base64, initMaterialCB(base64, url));
 				}
 				else {
-					handleSync(base64,materialCallback);
+					handleSync(base64, initMaterialCB(base64, url));
 				}
-				if(app.getFileManager().shouldKeep(0)){
-					app.getKernel().getConstruction().setTitle(title.getText());
-					((FileManager)app.getFileManager()).saveFile(base64, new SaveCallback(app) {
-				    	@Override
-				    	public void onSaved(final Material mat, final boolean isLocal) {
-				    		super.onSaved(mat, isLocal);
-				    		runAfterSaveCallback();
-				    	}
-				    });
-				}
+
 	            
             }
 			
