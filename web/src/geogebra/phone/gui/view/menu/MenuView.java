@@ -11,8 +11,11 @@ import com.google.gwt.resources.client.ImageResource;
 
 public class MenuView extends AbstractView {
 
+	private MenuViewPanel menuViewPanel;
+
 	public MenuView(AppW app) {
-		super(app);// , PhoneView.Menu);
+		super(app);
+		this.menuViewPanel = (MenuViewPanel) createViewPanel();
 	}
 
 	@Override

@@ -52,26 +52,26 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
     }
 	
 	native void nativeShare(String base64, String title)/*-{
-		if($wnd.android){
-			$wnd.android.share(base64,title,'ggb');
+		if ($wnd.android) {
+			$wnd.android.share(base64, title, 'ggb');
 
 		}
 	}-*/;
 	
 	native boolean nativeShareSupported()/*-{
-		if($wnd.android && $wnd.android.share){
+		if ($wnd.android && $wnd.android.share) {
 			return true;
 		}
 		return false;
 	}-*/;
 
 	native void exitExam() /*-{
-	  $wnd.close();
+		$wnd.close();
 	}-*/;
 	
 	private void initActions() {
 
-		final boolean exam = ((AppW)app).getLAF().isExam();
+		final boolean exam = app.getLAF().isExam();
 		if (exam) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("Close"), true),true,new MenuCommand(app) {
 

@@ -37,9 +37,7 @@ public class EditMenuW extends GMenuBar {
 
 		String noIcon = AppResources.INSTANCE.empty().getSafeUri().asString();
 		/*
-		 * layer values: 
-		 * -1 means nothing selected 
-		 * -2 means different layers
+		 * layer values: -1 means nothing selected -2 means different layers
 		 * selected
 		 */
 		int layer = selection.getSelectedLayer();
@@ -56,55 +54,40 @@ public class EditMenuW extends GMenuBar {
 		}
 
 		// copy menu
-		if (!selection.getSelectedGeos().isEmpty())
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_copy().getSafeUri().asString(),
-			        app.getMenu("Copy"), true), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_edit_copy().getSafeUri().asString(),
+		        app.getMenu("Copy"), true), true, new MenuCommand(app) {
 
-				@Override
-                public void doExecute() {
+			@Override
+			public void doExecute() {
+				if (!selection.getSelectedGeos().isEmpty()) {
 					app.setWaitCursor();
-					CopyPaste.INSTANCE.copyToXML(app, selection.getSelectedGeos(), false);
+					CopyPaste.INSTANCE.copyToXML(app,
+					        selection.getSelectedGeos(), false);
 					initActions(); // app.updateMenubar(); - it's needn't to
-								   // update the all menubar here
+					               // update the all menubar here
 					app.setDefaultCursor();
 				}
-			});
-		else
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_copy().getSafeUri().asString(),
-			        app.getMenu("Copy"), false), true, new MenuCommand(app) {
-
-				@Override
-				public void execute() {
-					// do nothing
-				}
-			});
+			}
+		});
 
 		// paste menu
-		if (!CopyPaste.INSTANCE.isEmpty())
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_paste().getSafeUri().asString(),
-			        app.getMenu("Paste"), true), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_edit_paste().getSafeUri().asString(),
+		        app.getMenu("Paste"), true), true, new MenuCommand(app) {
 
-				@Override
-				public void doExecute() {
+			@Override
+			public void doExecute() {
+				if (!CopyPaste.INSTANCE.isEmpty()) {
 					app.setWaitCursor();
 					CopyPaste.INSTANCE.pasteFromXML(app, false);
 					app.setDefaultCursor();
 				}
-			});
-		else
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_paste().getSafeUri().asString(),
-			        app.getMenu("Paste"), false), true, new MenuCommand(app) {
 
-				@Override
-				public void execute() {
-					// do nothing
-				}
-			});
-		final boolean exam = ((AppW)app).getLAF().isExam();
+			}
+		});
+
+		final boolean exam = app.getLAF().isExam();
 		if (!exam && app.getLAF().copyToClipboardSupported()) {
 			// copy graphics view menu
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
@@ -142,24 +125,16 @@ public class EditMenuW extends GMenuBar {
 		}
 
 		// select all menu
-		if (!app.getKernel().isEmpty())
-			addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("SelectAll"),
-			        true), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("SelectAll"), true),
+		        true, new MenuCommand(app) {
 
-				@Override
-				public void doExecute() {
-					selection.selectAll(-1);
-				}
-			});
-		else
-			addItem(MainMenu.getMenuBarHtml(noIcon, app.getMenu("SelectAll"),
-			        false), true, new MenuCommand(app) {
-
-				@Override
-				public void execute() {
-					// do nothing
-				}
-			});
+			        @Override
+			        public void doExecute() {
+				        if (!app.getKernel().isEmpty()) {
+					        selection.selectAll(-1);
+				        }
+			        }
+		        });
 
 		// select current layer menu
 		if (selection.getSelectedLayer() >= 0 && app.getMaxLayerUsed() > 0) {
@@ -172,7 +147,7 @@ public class EditMenuW extends GMenuBar {
 					        int layer1 = selection.getSelectedLayer();
 					        if (layer1 != -1)
 						        selection.selectAll(layer1); // select all
-															 // objects in layer
+						                                     // objects in layer
 				        }
 			        });
 		}
@@ -258,48 +233,30 @@ public class EditMenuW extends GMenuBar {
 
 	private void addUndoRedo() {
 		// undo menu
-		if (app.getKernel().undoPossible())
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_undo().getSafeUri().asString(),
-			        app.getMenu("Undo"), true), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_edit_undo().getSafeUri().asString(),
+		        app.getMenu("Undo"), true), true, new MenuCommand(app) {
 
-				@Override
-				public void execute() {
+			@Override
+			public void execute() {
+				if (app.getKernel().undoPossible()) {
 					app.getGuiManager().undo();
 				}
-			});
-		else
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_undo().getSafeUri().asString(),
-			        app.getMenu("Undo"), false), true, new MenuCommand(app) {
-
-				@Override
-				public void execute() {
-					// do nothing
-				}
-			});
+			}
+		});
 
 		// redo menu
-		if (app.getKernel().redoPossible())
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_redo().getSafeUri().asString(),
-			        app.getMenu("Redo"), true), true, new MenuCommand(app) {
+		addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+		        .menu_icon_edit_redo().getSafeUri().asString(),
+		        app.getMenu("Redo"), true), true, new MenuCommand(app) {
 
-				@Override
-				public void execute() {
+			@Override
+			public void execute() {
+				if (app.getKernel().redoPossible()) {
 					app.getGuiManager().redo();
 				}
-			});
-		else
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
-			        .menu_icon_edit_redo().getSafeUri().asString(),
-			        app.getMenu("Redo"), false), true, new MenuCommand(app) {
-
-				@Override
-                public void execute() {
-					// do nothing
-				}
-			});
+			}
+		});
 	}
 
 }

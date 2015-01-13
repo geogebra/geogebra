@@ -4769,6 +4769,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
 .PhoneGUI .StyleBar_ {
 	float: left;
+	padding-right: 5px;
 }
 
 .PhoneGUI .StyleBar_ .toggleStyleBar {
@@ -4802,6 +4803,19 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	padding-right:35px;
 	width:200px;
 }
+
+
+/* ########################################
+   ###           MENU VIEW              ###
+   ######################################## */
+
+.phoneMenu {
+	margin-left: 0px;
+	border-left: none;
+	box-shadow: none;
+}
+
+
 /* ##########################################
    ##########################################
    #### 								 ####

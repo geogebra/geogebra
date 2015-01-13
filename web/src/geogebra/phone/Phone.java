@@ -25,6 +25,7 @@ public class Phone implements EntryPoint {
 
 	private static PhoneUI phoneGui;
 	private static View euclidianView;
+	private static View browseView;
 	static GeoGebraAppFrame appFrame;
 
 	public void onModuleLoad() {
@@ -45,7 +46,7 @@ public class Phone implements EntryPoint {
 	}
 
 	private static void addViews() {
-		View browseView = (View) appFrame.app.getGuiManager().getBrowseView();
+		browseView = (View) appFrame.app.getGuiManager().getBrowseView();
 		phoneGui.addView(new AlgebraView(appFrame.app));
 		phoneGui.addView(euclidianView = new EuclidianView(appFrame.app));
 		phoneGui.addView(browseView);
@@ -55,6 +56,10 @@ public class Phone implements EntryPoint {
 
 	public static void showEuclidianView() {
 		phoneGui.showView(euclidianView);
+	}
+
+	public static void showBrowseView() {
+		phoneGui.showView(browseView);
 	}
 
 	public static PhoneUI getGUI() {
