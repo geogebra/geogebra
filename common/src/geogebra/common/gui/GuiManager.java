@@ -616,4 +616,20 @@ public abstract class GuiManager implements GuiManagerInterface {
 
 		return urlSB.toString();
 	}
+
+	public void redo() {
+		app.setWaitCursor();
+		kernel.redo();
+		updateActions();
+		(app).resetPen();
+		app.setDefaultCursor();
+	}
+
+	public void undo() {
+		app.setWaitCursor();
+		kernel.undo();
+		updateActions();
+		(app).resetPen();
+		app.setDefaultCursor();
+	}
 }

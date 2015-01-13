@@ -141,22 +141,6 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		// AGdialogManagerFactory = new DialogManager.Factory();
 	}
 
-	public void redo() {
-		app.setWaitCursor();
-		kernel.redo();
-		updateActions();
-		app.resetPen();
-		app.setDefaultCursor();
-	}
-
-	public void undo() {
-		app.setWaitCursor();
-		kernel.undo();
-		updateActions();
-		app.resetPen();
-		app.setDefaultCursor();
-	}
-
 	public void updateMenubarSelection() {
 		final GGWMenuBar mb = getObjectPool().getGgwMenubar();
 		if (mb != null && mb.getMenubar() != null) {
