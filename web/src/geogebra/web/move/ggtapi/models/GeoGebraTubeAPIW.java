@@ -8,6 +8,9 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
+import java.util.List;
+import java.util.TreeMap;
+
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
 import com.google.gwt.http.client.RequestCallback;
@@ -320,5 +323,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	public void getBookItems(int id, MaterialCallback cb) {
 		performRequest(MaterialRequest.forBook(id, client).toJSONString(), cb);
+	}
+
+	public static TreeMap<Integer, Long> toTimestamps(
+	        List<Material> parseResponse) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

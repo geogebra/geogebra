@@ -108,7 +108,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			public void onLoaded(final List<Material> parseResponse) {
 				addUsersMaterials(parseResponse);
 				if (app.getLoginOperation().isLoggedIn()) {
-					app.getFileManager().uploadUsersMaterials();
+					app.getFileManager().uploadUsersMaterials(0,
+					        GeoGebraTubeAPIW.toTimestamps(parseResponse));
 				}
 			}
 		};

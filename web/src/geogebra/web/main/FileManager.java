@@ -65,7 +65,6 @@ public abstract class FileManager implements FileManagerI {
 	public abstract void saveFile(String base64, long modified,
 	        final SaveCallback cb);
 
-	public abstract void uploadUsersMaterials();
 
 	protected abstract void getFiles(MaterialFilter materialFilter);
 
@@ -131,15 +130,19 @@ public abstract class FileManager implements FileManagerI {
 	public void setNotSyncedFileCount(int count) {
 		this.notSyncedFileCount = count;
 	}
-	public void sync(final Material mat) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-		        .getItem(mat.getId() + "", new MaterialCallback() {
 
-			        @Override
-			        public void onLoaded(final List<Material> parseResponse) {
-				        if (parseResponse.size() == 1
-				                && parseResponse.get(0).getModified() > mat
-				                        .getSyncStamp()) {
+	public void sync(final Material mat, final long tubeTimestamp) {
+		if (tubeTimestamp <= 0) {
+			upload(mat);
+		}
+
+		if (tubeTimestamp > mat.getSyncStamp()) {
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			        .getItem(mat.getId() + "", new MaterialCallback() {
+
+				        @Override
+				        public void onLoaded(final List<Material> parseResponse) {
+
 					        // edited on Tube, not edited locally
 					        if (mat.getModified() <= mat.getSyncStamp()) {
 						        App.debug("SYNC incomming changes:"
@@ -162,27 +165,25 @@ public abstract class FileManager implements FileManagerI {
 					        }
 
 
-				        } else if (parseResponse.size() != 0) {
 
-					        if (mat.getModified() <= mat.getSyncStamp()) {
-						        App.debug("SYNC material up to date"
-						                + mat.getId());
-					        } else {
-						        App.debug("SYNC outgoing changes:"
-						                + mat.getId());
-						        upload(mat);
-					        }
-				        } else {
-					        App.debug("SYNC deletetd");
+
+		        }
+
+				        @Override
+				        public void onError(final Throwable exception) {
+					        // TODO
 				        }
+			        });
 
-			        }
+		} else {
+			if (mat.getModified() <= mat.getSyncStamp()) {
+				App.debug("SYNC material up to date" + mat.getId());
+			} else {
+				App.debug("SYNC outgoing changes:" + mat.getId());
+				upload(mat);
+			}
+		}
 
-			        @Override
-			        public void onError(final Throwable exception) {
-				        // TODO
-			        }
-		        });
 	}
 
 	protected abstract void updateFile(String title, long modified,

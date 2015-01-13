@@ -12,6 +12,8 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
 
+import java.util.TreeMap;
+
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.storage.client.Storage;
 import com.googlecode.gwtphonegap.client.PhoneGap;
@@ -670,7 +672,8 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public void uploadUsersMaterials() {
+	public void uploadUsersMaterials(int offset,
+	        final TreeMap<Integer, Long> timestamps) {
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
@@ -715,7 +718,9 @@ public class FileManagerT extends FileManager {
 											                if (mat.getId() == 0) {
 												                upload(mat);
 											                } else {
-												                sync(mat);
+												                sync(mat,
+												                        timestamps
+												                                .get(mat.getId()));
 											                }
 										                }
 									                }

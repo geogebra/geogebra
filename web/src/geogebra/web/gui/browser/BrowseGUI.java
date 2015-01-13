@@ -377,7 +377,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			setAvailableProviders();
 			if (event instanceof LoginEvent
 			        && ((LoginEvent) event).isSuccessful()) {
-				this.app.getFileManager().uploadUsersMaterials();
+
 				this.materialListPanel.loadUsersMaterials();
 			} else if (event instanceof LogOutEvent) {
 				this.materialListPanel.removeUsersMaterials();

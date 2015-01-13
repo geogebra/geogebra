@@ -3,11 +3,14 @@ package geogebra.touch;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
+
+import java.util.TreeMap;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
@@ -180,7 +183,34 @@ public class WinFileManager extends FileManager {
 	}-*/;
 
 	@Override
-	public native void uploadUsersMaterials() /*-{
+	public void uploadUsersMaterials(int offset,
+	        final TreeMap<Integer, Long> timestamps) {
+		nativeUploadUsersMaterials(new StringHandler() {
+
+			@Override
+			public void handle(String jsString) {
+				JSONArray jv = JSONParser.parseLenient(jsString).isArray();
+				setNotSyncedFileCount(jv.size());
+				for (int i = 0; i < jv.size(); i++) {
+					final Material mat = JSONparserGGT.toMaterial(jv.get(i)
+					        .isObject());
+					if ("".equals(mat.getAuthor())
+					        || mat.getAuthor().equals(
+					                getApp().getLoginOperation().getUserName())) {
+						if (mat.getId() == 0) {
+							upload(mat);
+						} else {
+							sync(mat, timestamps.get(mat.getId()));
+						}
+					}
+
+				}
+			}
+		});
+
+	};
+
+	public native void nativeUploadUsersMaterials(StringHandler sh) /*-{
 		var that = this;
 		if ($wnd.android && $wnd.android.getFiles) {
 			$wnd.android
@@ -188,25 +218,9 @@ public class WinFileManager extends FileManager {
 						that.@geogebra.touch.WinFileManager::uploadMaterials(Ljava/lang/String;)(jsString);
 					});
 		}
-
 	}-*/;
-
 	private void uploadMaterials(String jsString) {
-		JSONArray jv = JSONParser.parseLenient(jsString).isArray();
-		setNotSyncedFileCount(jv.size());
-		for (int i = 0; i < jv.size(); i++) {
-			final Material mat = JSONparserGGT.toMaterial(jv.get(i).isObject());
-			if ("".equals(mat.getAuthor())
-			        || mat.getAuthor().equals(
-			                getApp().getLoginOperation().getUserName())) {
-				if (mat.getId() == 0) {
-					upload(mat);
-				} else {
-					sync(mat);
-				}
-			}
 
-		}
 
 	}
 
