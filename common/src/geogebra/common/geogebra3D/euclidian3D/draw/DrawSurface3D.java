@@ -30,9 +30,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// number of split for boundary
 	private static final short BOUNDARY_SPLIT = 10;
 
-	private static final int SPLIT_SIZE = 5000;
+	// split array size (at least 3 times split for regular surfaces)
+	private static final int SPLIT_SIZE = (ROOT_MESH_INTERVALS + 1) * (ROOT_MESH_INTERVALS + 1) * 64;
 
-	private static final int DRAW_SIZE = 5000;
+	// draw array size
+	private static final int DRAW_SIZE = SPLIT_SIZE;
 
 	private DrawSurface3D.Corner[] currentSplit, nextSplit;
 
@@ -132,7 +134,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
 
-		maxRWDistanceNoAngleCheck = 3 * maxRWPixelDistance;
+		maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
 		maxRWDistance = 5 * maxRWPixelDistance;
 		maxBend = Math.tan(20 * Kernel.PI_180);
 
@@ -1084,13 +1086,18 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							}
 						} else {
 							// this, l, a and l.a defined /4/
-							// check distances
-							double d = getDistance(this, left, above, left.a);
-							if (Double.isInfinite(d) || (d > maxRWDistanceNoAngleCheck && !isAngleOK(maxBend, this, left, above, left.a))) {
-								split(subLeft, left, subAbove, above);
-							} else {
+							if (draw) {
 								// drawing
 								addToDrawList(left.a, this, left, above, left.a);
+							} else {
+								// check distances
+								double d = getDistance(this, left, above, left.a);
+								if (Double.isInfinite(d) || (d > maxRWDistanceNoAngleCheck && !isAngleOK(maxBend, this, left, above, left.a))) {
+									split(subLeft, left, subAbove, above);
+								} else {
+									// drawing
+									addToDrawList(left.a, this, left, above, left.a);
+								}
 							}
 						}
 					}

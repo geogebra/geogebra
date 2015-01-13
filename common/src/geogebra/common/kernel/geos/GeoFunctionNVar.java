@@ -54,6 +54,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
 	private static final int SEARCH_SAMPLES = 70;
 	private FunctionNVar fun;
+	/** derivative functions */
+	private FunctionNVar[] fun1;
 	//private List<Inequality> ineqs;	
 	private Boolean isInequality;
 	private boolean isDefined = true;
@@ -72,6 +74,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		// must be called from the subclass, see
 		//http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
+
 	}
 	
 	/**
@@ -91,7 +94,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 */
 	public GeoFunctionNVar(Construction c, FunctionNVar f) {
 		this(c,false);		
-		fun = f;
+		setFunction(f);
 		if(fun != null)
 			isInequality = fun.initIneqs(this.getFunctionExpression(),this);
 
@@ -169,6 +172,14 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 */
 	public void setFunction(FunctionNVar f) {
 		fun = f;
+
+		// set derivatives
+		FunctionVariable[] vars = fun.getFunctionVariables();
+		fun1 = new FunctionNVar[vars.length];
+
+		for (int i = 0; i < vars.length; i++) {
+			fun1[i] = new FunctionNVar(fun.derivative(vars[i]).wrap(), vars);
+		}
 	}
 			
 	final public FunctionNVar getFunction() {
@@ -915,8 +926,17 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return HitType.ON_FILLING;
 		}
 
+	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0);
+
 	public void evaluateNormal(double u, double v, Coords normal) {
-		// TODO
+		tmp[0] = u;
+		tmp[1] = v;
+
+		der1.setZ(fun1[0].evaluate(tmp));
+		der2.setZ(fun1[1].evaluate(tmp));
+
+		normal.setCrossProduct(der1, der2);
+
 	}
 
 }
