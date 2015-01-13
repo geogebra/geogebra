@@ -40,7 +40,7 @@ public class AlgoTurningPointPolynomial extends AlgoRootsPolynomial {
 	}
 
 	@Override
-	public final void compute() {
+	public void compute() {
 		if (!f.isPolynomialFunction(true)) {
 			initRootPoints(1);
 			getOutput(0).setUndefined();
