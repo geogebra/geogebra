@@ -701,6 +701,8 @@ public class FileManagerT extends FileManager {
 									                        String result) {
 										                final Material mat = JSONparserGGT
 										                        .parseMaterial(result);
+										                mat.setLocalID(FileManager
+										                        .getIDFromKey(key));
 										                if ("".equals(mat
 										                        .getAuthor())
 										                        || mat.getAuthor()
