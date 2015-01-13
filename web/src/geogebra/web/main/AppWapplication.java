@@ -517,7 +517,8 @@ public class AppWapplication extends AppW {
 			        public void onLoaded(final List<Material> parseResponse) {
 				        if (parseResponse.size() == 1) {
 					        Material material = parseResponse.get(0);
-					        material.setSyncStamp(System.currentTimeMillis() / 1000);
+					        material.setSyncStamp(parseResponse.get(0)
+					                .getModified());
 					        getGgbApi().setBase64(material.getBase64());
 					        setActiveMaterial(material);
 				        } else {
