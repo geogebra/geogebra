@@ -23,6 +23,8 @@ import com.google.gwt.regexp.shared.SplitResult;
 @SuppressWarnings({ "unchecked", "rawtypes" })
 public class ColorProvider {
 
+	private static final int TEXT_LENGHT_LIMIT = 1000;
+
 	/** Regular expression strings */
 	private static final String LABEL_REGEX_STRING = "((\\p{L}\\p{M}*)(\\p{L}\\p{M}*|\\p{Nd})*(\\_\\{+(\\P{M}\\p{M}*)+\\}|\\_(\\P{M}\\p{M})?)?(\\p{L}\\p{M}|\\p{Nd})*)";
 	private static final String LABEL_PARAM = LABEL_REGEX_STRING + "(\\(|\\[)?";
@@ -79,6 +81,9 @@ public class ColorProvider {
 	 */
 	public void setText(String text1) {
 		text = text1;
+		if (text1.length() > TEXT_LENGHT_LIMIT) {
+			return;
+		}
 		getIntervals();
 	}
 
