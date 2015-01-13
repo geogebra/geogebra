@@ -111,7 +111,7 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
-
+		setNotSyncedFileCount(this.stockStore.getLength());
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {

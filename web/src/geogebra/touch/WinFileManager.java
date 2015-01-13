@@ -193,6 +193,7 @@ public class WinFileManager extends FileManager {
 
 	private void uploadMaterials(String jsString) {
 		JSONArray jv = JSONParser.parseLenient(jsString).isArray();
+		setNotSyncedFileCount(jv.size());
 		for (int i = 0; i < jv.size(); i++) {
 			final Material mat = JSONparserGGT.toMaterial(jv.get(i).isObject());
 			if ("".equals(mat.getAuthor())

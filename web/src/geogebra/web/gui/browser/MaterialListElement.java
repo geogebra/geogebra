@@ -469,13 +469,14 @@ public class MaterialListElement extends FlowPanel implements
 				return;
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
+			final long synced = material.getSyncStamp();
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId()+"", new MaterialCallback(){
 
 				@Override
 				public void onLoaded(final List<Material> parseResponse) {
 					if (parseResponse.size() == 1) {
 						material = parseResponse.get(0);
-						material.setSyncStamp(System.currentTimeMillis() / 1000);
+						        material.setSyncStamp(synced);
 						app.getGgbApi().setBase64(material.getBase64());
 						app.setActiveMaterial(material);
 					} else {

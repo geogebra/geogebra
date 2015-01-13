@@ -626,6 +626,8 @@ public class FileManagerT extends FileManager {
 	 * 
 	 * @param key
 	 *            String
+	 * @param mat
+	 *            metadata
 	 * @param cb
 	 *            {@link SaveCallback}
 	 */
@@ -680,6 +682,7 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(
 					                final LightArray<EntryBase> entries) {
+						        setNotSyncedFileCount(entries.length());
 						        for (int i = 0; i < entries.length(); i++) {
 							        final EntryBase entryBase = entries.get(i);
 							        if (entryBase.isFile()) {
@@ -710,10 +713,8 @@ public class FileManagerT extends FileManager {
 										                                        .getLoginOperation()
 										                                        .getUserName())) {
 											                if (mat.getId() == 0) {
-												                App.debug("UPLOAD no tube ID");
 												                upload(mat);
 											                } else {
-												                App.debug("UPLOAD SYNC");
 												                sync(mat);
 											                }
 										                }

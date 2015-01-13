@@ -126,6 +126,11 @@ public abstract class FileManager implements FileManagerI {
 		// getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
 	}
 
+	private int notSyncedFileCount;
+
+	public void setNotSyncedFileCount(int count) {
+		this.notSyncedFileCount = count;
+	}
 	public void sync(final Material mat) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(mat.getId() + "", new MaterialCallback() {
@@ -142,7 +147,6 @@ public abstract class FileManager implements FileManagerI {
 						        FileManager.this.updateFile(getFileKey(mat),
 						                parseResponse.get(0).getModified(),
 						                parseResponse.get(0));
-
 					        } else {
 						        ToolTipManagerW.sharedInstance()
 						                .showBottomMessage(
@@ -151,22 +155,25 @@ public abstract class FileManager implements FileManagerI {
 						                                parseResponse.get(0)
 						                                        .getTitle()),
 						                        true);
-						        App.debug("SYNC fork " + mat.getId());
+						        App.debug("SYNC fork: " + mat.getId());
+						        mat.setId(0);
 						        upload(mat);
 
 					        }
 
 
 				        } else if (parseResponse.size() != 0) {
-					        App.debug("UPLOAD deletetd");
 
-				        } else {
 					        if (mat.getModified() <= mat.getSyncStamp()) {
 						        App.debug("SYNC material up to date"
 						                + mat.getId());
 					        } else {
+						        App.debug("SYNC outgoing changes:"
+						                + mat.getId());
 						        upload(mat);
 					        }
+				        } else {
+					        App.debug("SYNC deletetd");
 				        }
 
 			        }
@@ -189,6 +196,7 @@ public abstract class FileManager implements FileManagerI {
 	 */
 	public void upload(final Material mat) {
 		final String localKey = getFileKey(mat);
+		final int oldTubeID = mat.getId();
 		mat.setTitle(getTitleFromKey(mat.getTitle()));
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .uploadLocalMaterial(app, mat, new MaterialCallback() {
@@ -200,16 +208,19 @@ public abstract class FileManager implements FileManagerI {
 					        mat.setLocalID(FileManager.getIDFromKey(localKey));
 					        App.debug("GGG uploading" + localKey);
 					        final Material newMat = parseResponse.get(0);
+					        newMat.setThumbnail(mat.getThumbnail());
+					        newMat.setSyncStamp(newMat.getModified());
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
 						        delete(mat);
 					        } else {
-						        newMat.setSyncStamp(newMat.getModified());
-						        FileManager.this.setTubeID(localKey,
- newMat);
+						        if (oldTubeID != newMat.getId()) {
+							        FileManager.this
+							                .setTubeID(localKey, newMat);
+						        }
 					        }
 					        App.debug("GGG parse" + localKey);
 
-					        newMat.setThumbnail(mat.getThumbnail());
+
 					        app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
 				        }
 			        }
