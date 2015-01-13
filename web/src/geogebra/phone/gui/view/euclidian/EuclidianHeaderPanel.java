@@ -2,6 +2,7 @@ package geogebra.phone.gui.view.euclidian;
 
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.main.AppW;
+import geogebra.phone.PhoneLookAndFeel;
 import geogebra.phone.gui.view.HeaderPanel;
 import geogebra.phone.gui.view.euclidian.toolbar.ToolBarP;
 import geogebra.web.gui.GuiManagerW;
@@ -44,8 +45,10 @@ public class EuclidianHeaderPanel extends SimplePanel implements HeaderPanel, Fa
 		panel.show();
 
 		// FIXME replace with dynamic value
-		if(panel.getOffsetHeight() > Window.getClientHeight() - 43){
-			panel.setHeight((Window.getClientHeight() - 43)+"px");
+		if (panel.getOffsetHeight() > Window.getClientHeight()
+		        - PhoneLookAndFeel.PHONE_HEADER_HEIGHT) {
+			panel.setHeight((Window.getClientHeight() - PhoneLookAndFeel.PHONE_HEADER_HEIGHT)
+			        + "px");
 		}
 	}
 
