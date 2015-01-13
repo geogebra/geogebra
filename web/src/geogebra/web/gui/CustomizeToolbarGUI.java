@@ -18,6 +18,8 @@ import java.util.Vector;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DragEnterEvent;
+import com.google.gwt.event.dom.client.DragEnterHandler;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.event.dom.client.DragOverEvent;
@@ -226,18 +228,17 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		}
 
 		native void toolbarChanged(String toolbarString) /*-{
-		                                                 if($wnd.onGgbToolbarChanged){
-		                                                 $wnd.onGgbToolbarChanged(toolbarString);
-		                                                 }
-		                                                 
-		                                                 }-*/;
+			if ($wnd.onGgbToolbarChanged) {
+				$wnd.onGgbToolbarChanged(toolbarString);
+			}
+
+		}-*/;
 
 		public TreeItem setupItem(final TreeItem item, final DraggableTool tool) {
 			item.setUserObject(tool);
 			tool.treeItem = item;
-
-			tool.addStyleName("insertBeforeBorder");
-			tool.addStyleName("insertAfterBorder");
+			// tool.addStyleName("insertBeforeBorder");
+			// tool.addStyleName("insertAfterBorder");
 
 			tool.addDropHandler(new DropHandler() {
 				@Override
@@ -251,15 +252,18 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 					int idx = indexOf(item);
 					App.debug(PREFIX + "drop on item " + idx);
 					insertTool(idx, draggingTool);
+					tool.removeStyleName("insertAfterBranch");
+					tool.removeStyleName("insertBeforeBranch");
 				}
 
 			});
 
-			tool.addDragOverHandler(new DragOverHandler() {
+			tool.addDragEnterHandler(new DragEnterHandler() {
 				@Override
-				public void onDragOver(DragOverEvent event) {
+				public void onDragEnter(DragEnterEvent event) {
 					event.preventDefault();
 					event.stopPropagation();
+					App.debug("dragEnter");
 					tool.addStyleName("insertBeforeBranch");
 				}
 			});
@@ -269,6 +273,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 				public void onDragLeave(DragLeaveEvent event) {
 					event.preventDefault();
 					event.stopPropagation();
+					App.debug("dragLeave");
 					tool.removeStyleName("insertAfterBranch");
 					tool.removeStyleName("insertBeforeBranch");
 				}
@@ -286,6 +291,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 		private Image toolbarImg;
 		private FlowPanel btn;
 		private HandlerRegistration hrDrop;
+		private HandlerRegistration hrDragEnter;
 		private HandlerRegistration hrDragOver;
 		private HandlerRegistration hrDragLeave;
 
@@ -308,6 +314,13 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			addStyleName("insertBeforeBorder");
 			addStyleName("insertAfterBorder");
+		}
+
+		public boolean isHit(int x, int y) {
+			int left = getAbsoluteLeft();
+			int top = getAbsoluteTop();
+			return (x >= left && x <= left + getOffsetWidth() && y >= top && y <= top
+			        + getOffsetHeight());
 		}
 
 		public boolean isInTree() {
@@ -547,6 +560,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 			hrDragLeave = addDomHandler(handler, DragLeaveEvent.getType());
 		}
 
+		public void addDragEnterHandler(DragEnterHandler handler) {
+			hrDragEnter = addDomHandler(handler, DragEnterEvent.getType());
+		}
+
 		public void removeDragNDrop() {
 			if (hrDrop != null) {
 				hrDrop.removeHandler();
@@ -558,6 +575,10 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 			if (hrDragLeave != null) {
 				hrDragLeave.removeHandler();
+			}
+
+			if (hrDragEnter != null) {
+				hrDragEnter.removeHandler();
 			}
 		}
 
