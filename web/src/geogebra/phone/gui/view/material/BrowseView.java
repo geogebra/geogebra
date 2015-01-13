@@ -38,7 +38,7 @@ public class BrowseView extends AbstractView implements BrowseViewI,
 	 *            {@link AppW}
 	 */
 	public BrowseView(AppW app) {
-		super(app);// , PhoneView.Material);
+		super(app);
 		this.browseViewPanel = new BrowseViewPanel(app);
 		this.browseViewPanel.getMaterialPanel().loadAllMaterials();
 		app.registerOpenFileListener(this);
