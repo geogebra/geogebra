@@ -43,7 +43,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected CornerAndCenter[] drawList;
 
-	protected int currentSplitIndex, nextSplitIndex, drawListIndex;
+	private int currentSplitIndex, nextSplitIndex;
+	protected int drawListIndex;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
@@ -1153,16 +1154,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		private void addToDrawList(Corner end, Corner... corners) {
-			Coords center = new Coords(3);
-			Coords centerNormal = new Coords(3);
-			setBarycenter(center, centerNormal, corners);
-			end.isNotEnd = false;
-			if (drawList[drawListIndex] == null) {
-				drawList[drawListIndex] = new CornerAndCenter(this, center, centerNormal);
+
+			CornerAndCenter cc = drawList[drawListIndex];
+			if (cc == null) {
+				cc = new CornerAndCenter(this);
+				drawList[drawListIndex] = cc;
 			} else {
-				drawList[drawListIndex].set(this, center, centerNormal);
+				cc.setCorner(this);
 			}
 			drawListIndex++;
+
+			setBarycenter(cc.getCenter(), cc.getCenterNormal(), corners);
+
+			end.isNotEnd = false;
 		}
 
 		private Corner findU(Corner defined, Corner undefined, int depth) {
@@ -1566,14 +1570,36 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		private Coords center;
 		private Coords centerNormal;
 
-		public CornerAndCenter(Corner corner, Coords center, Coords centerNormal) {
-			set(corner, center, centerNormal);
+		public CornerAndCenter(Corner corner) {
+			this.corner = corner;
+			center = new Coords(3);
+			centerNormal = new Coords(3);
 		}
 
-		public void set(Corner corner, Coords center, Coords centerNormal) {
+		/**
+		 * set the corner
+		 * 
+		 * @param corner
+		 *            corner
+		 */
+		public void setCorner(Corner corner) {
 			this.corner = corner;
-			this.center = center;
-			this.centerNormal = centerNormal;
+		}
+
+		/**
+		 * 
+		 * @return center
+		 */
+		public Coords getCenter() {
+			return center;
+		}
+
+		/**
+		 * 
+		 * @return center normal
+		 */
+		public Coords getCenterNormal() {
+			return centerNormal;
 		}
 
 		public void drawDebug(PlotterSurface surface) {
