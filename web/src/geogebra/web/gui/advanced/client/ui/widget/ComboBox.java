@@ -774,8 +774,8 @@ public class ComboBox<T extends ListDataModel> extends TextButtonPanel<String>
             Object sender = event.getSource();
             if (sender instanceof ToggleButton || !isCustomTextAllowed()) {
                 if (count > 0 && !getListPanel().isShowing()) {
+					getListPanel().prepareList();
                     getListPanel().show();
-                    getListPanel().prepareList();
                     if (getItemCount() <= 0)
                         getListPanel().hide();
                     getChoiceButton().setDown(true);
