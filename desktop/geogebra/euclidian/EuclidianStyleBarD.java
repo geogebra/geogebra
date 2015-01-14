@@ -1199,7 +1199,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos);
+				boolean geosOK = checkGeoText(geos)
+						&& !((GeoElement) geos[0]).isGeoTextField();
 				setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
@@ -1229,7 +1230,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			@Override
 			public void update(Object[] geos) {
 
-				boolean geosOK = checkGeoText(geos);
+				boolean geosOK = checkGeoText(geos)
+						&& !((GeoElement) geos[0]).isGeoTextField();
 				setVisible(geosOK);
 				this.setVisible(geosOK);
 				if (geosOK) {
