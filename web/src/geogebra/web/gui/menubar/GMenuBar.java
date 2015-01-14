@@ -1,9 +1,13 @@
 package geogebra.web.gui.menubar;
 
-import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
+import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style.VerticalAlign;
+import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.MenuItemSeparator;
@@ -11,6 +15,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 
 public class GMenuBar extends MenuBar{
 	private int separators = 0;
+	private AbstractImagePrototype iconSubMenu;
 
 	public GMenuBar(boolean vertical) {
 	    super(vertical);
@@ -18,6 +23,7 @@ public class GMenuBar extends MenuBar{
 
 	public GMenuBar(boolean vertical, MenuResources menuResources) {
 	    super(vertical, menuResources);
+		iconSubMenu = AbstractImagePrototype.create(menuResources.menuBarSubMenuIcon());
     }
 
 	public boolean isFirstItemSelected(){
@@ -130,6 +136,21 @@ public class GMenuBar extends MenuBar{
 				}
 			}
 		});
+
+		if (true)
+			return (MenuItem) ait[0];
+
+		// adding the submenu icon
+		Element menuitem = ((MenuItem)ait[0]).getElement();
+		if (menuitem.hasParentElement()
+		        && (menuitem instanceof TableCellElement)) {
+			Element menuparent = menuitem.getParentElement();// tr
+			Element rb = DOM.createTD();
+			rb.setInnerHTML(iconSubMenu.getSafeHtml().asString());
+			rb.setClassName("subMenuIcon");
+			rb.getStyle().setVerticalAlign(VerticalAlign.MIDDLE);
+			menuparent.appendChild(rb);
+		}
 		return (MenuItem) ait[0];
 	}
 }
