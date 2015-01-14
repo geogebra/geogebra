@@ -327,7 +327,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 	public static TreeMap<Integer, Long> toTimestamps(
 	        List<Material> parseResponse) {
-		// TODO Auto-generated method stub
-		return null;
+		TreeMap<Integer, Long> ret = new TreeMap<Integer, Long>();
+		for (Material mat : parseResponse) {
+			ret.put(mat.getId(), mat.getTimestamp());
+		}
+		return ret;
 	}
 }
