@@ -6,6 +6,7 @@ import geogebra.html5.main.AppW;
 
 import java.util.ArrayList;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -72,11 +73,19 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 					public void execute() {
 						setSelected(j);
 						listener.actionPerformed(commands[j]);
+						if (itemSideEffect != null) {
+							itemSideEffect.execute();
+						}
 					}
 				}, i == selectedPos);			
 			}
 		}	    
     }
+
+	Scheduler.ScheduledCommand itemSideEffect = null;
+	public void registerItemSideEffect(Scheduler.ScheduledCommand sc) {
+		itemSideEffect = sc;
+	}
 
 	public int getItemCount() {
 		return getItems().size();

@@ -1,12 +1,12 @@
 package geogebra.web.gui.menubar;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.dom.client.TableCellElement;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -72,7 +72,13 @@ public class GMenuBar extends MenuBar{
 
 					if (ait[1] == null) {
 						// popuppanel still not present
-						final PopupPanel pp = new PopupPanel(true, false);
+						final PopupPanel pp = new PopupPanel(true, false) {
+							@Override
+							protected void onPreviewNativeEvent(
+							        Event.NativePreviewEvent event) {
+
+							}
+						};
 						pp.addAutoHidePartner(((MenuItem)ait[0]).getElement());
 						submenupopup.addStyleName("subMenuLeftSide2");
 						submenupopup.selectItem(null);
@@ -84,51 +90,18 @@ public class GMenuBar extends MenuBar{
 						        .getAbsoluteTop();
 						pp.setPopupPosition(left, top);
 
-						// TODO: maybe this solution is imperfect?
-						// for cases other than RadioButtonMenuBarW submenus
-						// but somehow the popup shall be hidden if
-						// clicked on it, or on its triggering element
-						pp.addDomHandler(new ClickHandler() {
-							public void onClick(ClickEvent ce) {
-								// on presuming that clicks will always trigger
-								// something
-
-								// this works, but the problem is that it
-								// also disappears
-								// when nothing is selected (on no real
-								// action)
-								ait[1] = null;
-								pp.hide();
-
-								/*
-								if (submenupopup instanceof RadioButtonMenuBarW) {
-									// menu item still not selected, but it will
-									// be
-									// selected after scheduleDeferred, after
-									// menu action
-									// and the submenu popup will not be hidden
-									Scheduler.get().scheduleDeferred(
-									        new Scheduler.ScheduledCommand() {
-										        public void execute() {
-											        if (((RadioButtonMenuBarW) submenupopup)
-											                .getSelectedItemPublic() != null) {
-												        // in theory, the user
-												        // successfully clicked
-												        // on it,
-												        // or maybe not?
-												        ait[1] = null;
-												        submenupopup
-												                .selectItem(null);
-												        pp.hide();
-											        }
-										        }
-									        });
-								}
-								*/
-								// after this, the menu action runs that maybe
-								// selects an item, and runs its menu action
-							}
-						}, ClickEvent.getType());
+						if (submenupopup instanceof RadioButtonMenuBarW) {
+							((RadioButtonMenuBarW) submenupopup)
+							        .registerItemSideEffect(new Scheduler.ScheduledCommand() {
+								        public void execute() {
+									        // this should only run if some item
+									        // is selected and clicked
+									        ait[1] = null;
+									        submenupopup.selectItem(null);
+									        pp.hide();
+								        }
+							        });
+						}
 
 						// TODO: more difficult to solve autoOpen
 						// sadly, the following thing can only work together
