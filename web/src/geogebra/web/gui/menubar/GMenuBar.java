@@ -51,14 +51,29 @@ public class GMenuBar extends MenuBar{
 		// this works, but it is still different from addItem in
 		// not following mouse movement, only following mouse clicks, etc
 		final Object[] ait = new Object[2];
-		ait[1] = null;
+		ait[1] = null;// means the popup assigned to this MenuItem
 		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
 			public void execute() {
+
 				if (ait[0] != null) {
 					selectItem((MenuItem) ait[0]);
+					// Note that another menu item might have an open popup
+					// here, with a different submenupopup, and that disappears
+					// because its popuppanel is modal, but its ait[1]
+					// variable still remains filled, so it is necessary to
+					// check it here, and make it null if necessary
+					if ((ait[1] != null) && (ait[1] instanceof PopupPanel)
+					        && !((PopupPanel) ait[1]).isShowing()
+					        && !((PopupPanel) ait[1]).isAttached()) {
+						// but here we should exclude the case where the same
+						// menuitem is clicked as the present one!!
+						ait[1] = null;
+					}
+
 					if (ait[1] == null) {
 						// popuppanel still not present
 						final PopupPanel pp = new PopupPanel(true, false);
+						pp.addAutoHidePartner(((MenuItem)ait[0]).getElement());
 						submenupopup.addStyleName("subMenuLeftSide2");
 						submenupopup.selectItem(null);
 						pp.addStyleName("subMenuLeftSidePopup");
@@ -125,7 +140,6 @@ public class GMenuBar extends MenuBar{
 					} else {
 						submenupopup.selectItem(null);
 
-						// What if?
 						if (ait[1] instanceof PopupPanel)
 							((PopupPanel) ait[1]).hide();
 
