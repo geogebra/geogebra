@@ -46,10 +46,12 @@
 .mathquillggb-embedded-latex .mathquillggb-editable {
   margin: 1px;
 }
-.hasCursorPermanent.mathquillggb-rendered-math.mathquillggb-editable,
-.hasCursorPermanent .mathquillggb-rendered-math.mathquillggb-editable,
-.mathquillggb-editable.hasCursor,
-.mathquillggb-editable .hasCursor {
+.hasCursorPermanent {
+	width: 100%;
+	display: block;
+	min-height: 50px;
+	vertical-align: middle;
+	text-align: left;
   	border: #6161FF solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
@@ -62,13 +64,14 @@
 	-moz-box-sizing: border-box;
 	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
-.hasCursorPermanent.mathquillggb-rendered-math.mathquillggb-editable .font.hasCursor,
-.hasCursorPermanent .mathquillggb-rendered-math.mathquillggb-editable .font.hasCursor {
-	border: none;
-	padding: 2px;
-	box-sizing: content-box;
-	-moz-box-sizing: content-box;
-	box-shadow: none;
+.mathquillggb-editable.hasCursor,
+.mathquillggb-editable .hasCursor {
+  	/*border: #6161FF solid 1px;*/
+  	border: 0px;
+	background: #FFFFFF;
+	padding: 4px 5px;
+	margin: 2px 2px;
+	color: #666666;
 }
 .mathquillggb-editable .latex-command-input {
   color: inherit;

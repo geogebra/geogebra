@@ -73,6 +73,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.InlineHTML;
@@ -312,10 +313,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.addTouchEndHandler(this);
 		add(ihtml);
 		ihtml.getElement().appendChild(se);
+		ihtml.getElement().addClassName("hasCursorPermanent");
 
-		SpanElement se2 = DOM.createSpan().cast();
-		se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
-		ihtml.getElement().appendChild(se2);
+		setCellVerticalAlignment(ihtml, HasVerticalAlignment.ALIGN_MIDDLE);
+		setCellHorizontalAlignment(ihtml, HasHorizontalAlignment.ALIGN_LEFT);
+		setCellWidth(ihtml, "100%");
+		getElement().getStyle().setWidth(100, Style.Unit.PCT);
+
+		// SpanElement se2 = DOM.createSpan().cast();
+		// se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
+		// ihtml.getElement().appendChild(se2);
+
 		//String text = "";
 		/*if (geo.isIndependent()) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
@@ -449,13 +457,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 		se.setDir("ltr");
-		if (newCreationMode) {
-			// I will let others style this more professionally
-			// se.getStyle().setProperty("border", "black solid 1px");
-
-			// this should be used in combination with the root block!
-			se.addClassName("hasCursorPermanent");
-		}
 	}
 
 	private void updateColor(SpanElement se){
