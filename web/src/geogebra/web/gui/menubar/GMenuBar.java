@@ -69,14 +69,37 @@ public class GMenuBar extends MenuBar{
 								// on presuming that clicks will always trigger
 								// something
 
-								// TODO: better if
-								// if ((submenupopup instanceof
-								// RadioButtonMenuBarW)
-								// && ((RadioButtonMenuBarW) submenupopup)
-								// .getSelectedItemPublic() != null) {
+								ait[1] = null;
+								pp.hide();
+
+								/*if ((submenupopup instanceof RadioButtonMenuBarW)
+								        && (((RadioButtonMenuBarW) submenupopup)
+								                .getSelectedItemPublic() != null)) {
+									((RadioButtonMenuBarW) submenupopup)
+									        .getSelectedItemPublic()
+									        .getScheduledCommand().execute();
 									ait[1] = null;
 									pp.hide();
-								// }
+									ce.stopPropagation();
+									ce.preventDefault();
+								}*/
+
+								// Other alternative, did not work well
+								/*
+								 * if (submenupopup instanceof
+								 * RadioButtonMenuBarW) { // as this onClick
+								 * will (probably) run before // the event //
+								 * handler code of MenuBar, it is necessary to
+								 * // put the // corresponding code into a
+								 * scheduleDeferred
+								 * Scheduler.get().scheduleDeferred( new
+								 * Scheduler.ScheduledCommand() { public void
+								 * execute() { if (((RadioButtonMenuBarW)
+								 * submenupopup) .getSelectedItemPublic() !=
+								 * null) { // in theory, the user //
+								 * successfully clicked // on it, // or maybe
+								 * not? ait[1] = null; pp.hide(); } } }); }
+								 */
 							}
 						}, ClickEvent.getType());
 
