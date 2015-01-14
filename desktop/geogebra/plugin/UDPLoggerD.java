@@ -319,36 +319,50 @@ public class UDPLoggerD implements UDPLogger {
 
 			String msg = new String(buffer, 0, length);
 
-			String[] split = msg.split(",");
+			App.debug(msg);
+
+			String[] split = msg.split(", ");
 
 			switch (buffer[0]) {
 			case 'A':
 
-				App.debug("received" + msg);
+				// App.debug("received" + msg);
 
-				log(Types.ACCELEROMETER_X, Double.parseDouble(split[3]));
-				log(Types.ACCELEROMETER_Y, Double.parseDouble(split[4]));
-				log(Types.ACCELEROMETER_Z, Double.parseDouble(split[5]));
+				log(Types.ACCELEROMETER_X,
+						Double.parseDouble(split[3].replace(",", ".")));
+				log(Types.ACCELEROMETER_Y,
+						Double.parseDouble(split[4].replace(",", ".")));
+				log(Types.ACCELEROMETER_Z,
+						Double.parseDouble(split[5].replace(",", ".")));
 
 				break;
 			case 'M':
 
-				log(Types.MAGNETIC_FIELD_X, Double.parseDouble(split[3]));
-				log(Types.MAGNETIC_FIELD_Y, Double.parseDouble(split[4]));
-				log(Types.MAGNETIC_FIELD_Z, Double.parseDouble(split[5]));
+				log(Types.MAGNETIC_FIELD_X,
+						Double.parseDouble(split[3].replace(",", ".")));
+				log(Types.MAGNETIC_FIELD_Y,
+						Double.parseDouble(split[4].replace(",", ".")));
+				log(Types.MAGNETIC_FIELD_Z,
+						Double.parseDouble(split[5].replace(",", ".")));
 
 				break;
 			case 'O':
-				log(Types.ORIENTATION_X, Double.parseDouble(split[3]));
-				log(Types.ORIENTATION_Y, Double.parseDouble(split[4]));
-				log(Types.ORIENTATION_Z, Double.parseDouble(split[5]));
+				log(Types.ORIENTATION_X,
+						Double.parseDouble(split[3].replace(",", ".")));
+				log(Types.ORIENTATION_Y,
+						Double.parseDouble(split[4].replace(",", ".")));
+				log(Types.ORIENTATION_Z,
+						Double.parseDouble(split[5].replace(",", ".")));
 
 				break;
 
 			default:
-				App.debug("unknown data type: " + buffer[0]);
+				// App.debug("unknown data type: " + buffer[0]);
+				// App.debug(msg);
 				break;
 			}
+			// timestamp is logged always?
+			log(Types.TIMESTAMP, Double.parseDouble(split[2]));
 
 			// for (int i = 1; i < split.length; i++) {
 			// App.debug(split[i]);
