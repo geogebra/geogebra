@@ -364,7 +364,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.v = v;
 			p = evaluatePoint(u, v);
 			if (p.isFinalUndefined()) {
-				normal = Coords.UNDEFINED;
+				normal = Coords.UNDEFINED3VALUE0;
 			} else {
 				normal = evaluateNormal(u, v);
 			}
