@@ -36,14 +36,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// draw array size
 	private static final int DRAW_SIZE = SPLIT_SIZE;
 
-	private DrawSurface3D.Corner[] currentSplit, nextSplit;
+	private static final int CORNER_LIST_SIZE = DRAW_SIZE * 3;
+
+	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
 
 	/**
 	 * list of things to draw
 	 */
 	protected CornerAndCenter[] drawList;
 
-	private int currentSplitIndex, nextSplitIndex;
+	private int currentSplitIndex, nextSplitIndex, cornerListIndex;
 	protected int drawListIndex;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
@@ -62,6 +64,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		currentSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
 		nextSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
 		drawList = new CornerAndCenter[DRAW_SIZE];
+		cornerList = new DrawSurface3D.Corner[CORNER_LIST_SIZE];
 
 	}
 
@@ -150,18 +153,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		int uN = 1 + (int) (ROOT_MESH_INTERVALS * Math.sqrt(uDelta / vDelta));
 		int vN = 1 + ROOT_MESH_INTERVALS * ROOT_MESH_INTERVALS / uN;
 		App.debug("grids: " + uN + ", " + vN);
+
+		cornerListIndex = 0;
+
 		Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
 
 		currentSplitIndex = 0;
 		nextSplitIndex = 0;
 		drawListIndex = 0;
-
 		notDrawn = 0;
 		splitRootMesh(corner);
 		App.debug("\nnot drawn after split root mesh: " + notDrawn);
 		split(false);
 
-		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + "\nstill to split : " + nextSplitIndex);
+		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + "\nstill to split : " + nextSplitIndex + "\ncorner list size : " + cornerListIndex);
 
 		// for (CornerAndCenter cc : drawList) {
 		// cc.drawDebug(surface);
@@ -230,13 +235,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
 
 
-		Corner bottomRight = new Corner(uMax, vMax);
+		Corner bottomRight = newCorner(uMax, vMax);
 		Corner first = bottomRight;
 
 		// first row
 		Corner right = bottomRight;
 		for (int i = 1; i <= uN; i++) {
-			Corner left = new Corner(uMax - (uDelta * i) / uN, vMax);
+			Corner left = newCorner(uMax - (uDelta * i) / uN, vMax);
 			right.l = left;
 			right = left;
 		}
@@ -245,10 +250,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		for (int j = 1; j <= vN; j++) {
 			double v = vMax - (vDelta * j) / vN;
 			Corner below = bottomRight;
-			right = new Corner(uMax, v);
+			right = newCorner(uMax, v);
 			below.a = right;
 			for (int i = 1; i <= uN; i++) {
-				Corner left = new Corner(uMax - (uDelta * i) / uN, v);
+				Corner left = newCorner(uMax - (uDelta * i) / uN, v);
 				right.l = left;
 				right = left;
 				below = below.l;
@@ -328,6 +333,38 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return Coords.UNDEFINED3VALUE0;
 	}
 
+
+	protected Coords evaluatePoint(double u, double v, Coords p) {
+
+		// p is final value: use evaluatedPoint to compute
+		if (p == null || p.isFinalUndefined()) {
+			surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
+
+			if (!evaluatedPoint.isDefined()) {
+				return Coords.UNDEFINED3VALUE0;
+			}
+
+			if (inCullingBox(evaluatedPoint)) {
+				return evaluatedPoint.copyVector();
+			}
+
+			return Coords.UNDEFINED3VALUE0;
+		}
+
+		// p is not final value
+		surfaceGeo.evaluatePoint(u, v, p);
+
+		if (!p.isDefined()) {
+			return Coords.UNDEFINED3VALUE0;
+		}
+
+		if (inCullingBox(p)) {
+			return p;
+		}
+
+		return Coords.UNDEFINED3VALUE0;
+	}
+
 	protected Coords evaluateNormal(double u, double v) {
 		surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
 
@@ -338,18 +375,29 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return evaluatedNormal.normalized();
 	}
 
-	protected boolean evaluatePoint(double u, double v, Coords result) {
-		surfaceGeo.evaluatePoint(u, v, result);
+	protected Coords evaluateNormal(double u, double v, Coords normal) {
 
-		if (!result.isDefined()) {
-			return false;
+		// normal is final value: use evaluatedNormal to compute
+		if (normal == null || normal.isFinalUndefined()) {
+			surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
+
+			if (!evaluatedNormal.isDefined()) {
+				return Coords.UNDEFINED3VALUE0;
+			}
+
+			return evaluatedNormal.normalized();
 		}
 
-		if (inCullingBox(result)) {
-			return true;
+		// normal is not final value
+		surfaceGeo.evaluateNormal(u, v, normal);
+
+		if (!normal.isDefined()) {
+			return Coords.UNDEFINED3VALUE0;
 		}
 
-		return false;
+		normal.normalized(normal);
+		return normal;
+
 	}
 
 	private class Corner {
@@ -360,15 +408,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Corner a, l; // above, left
 
 		public Corner(double u, double v) {
+			set(u, v);
+		}
+
+		public void set(double u, double v) {
 			this.u = u;
 			this.v = v;
-			p = evaluatePoint(u, v);
+			p = evaluatePoint(u, v, p);
 			if (p.isFinalUndefined()) {
 				normal = Coords.UNDEFINED3VALUE0;
 			} else {
-				normal = evaluateNormal(u, v);
+				normal = evaluateNormal(u, v, normal);
 			}
 			isNotEnd = true;
+			a = null;
+			l = null;
 		}
 
 		public Corner(double u, double v, Coords p) {
@@ -377,6 +431,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.p = p;
 			normal = evaluateNormal(u, v);
 			isNotEnd = true;
+			a = null;
+			l = null;
 		}
 
 		public void split(boolean draw) {
@@ -1121,7 +1177,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (subAbove != null) {
 				e = subAbove;
 			} else {
-				e = new Corner(u, vm);
+				e = newCorner(u, vm);
 				// new neighbors
 				this.a = e;
 				e.a = above;
@@ -1130,19 +1186,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (subLeft != null) {
 				s = subLeft;
 			} else {
-				s = new Corner(um, v);
+				s = newCorner(um, v);
 				// new neighbors
 				this.l = s;
 				s.l = left;
 			}
-			Corner m = new Corner(um, vm);
+			Corner m = newCorner(um, vm);
 			s.a = m;
 			e.l = m;
-			Corner n = new Corner(um, above.v);
+			Corner n = newCorner(um, above.v);
 			n.l = above.l;
 			above.l = n;
 			m.a = n;
-			Corner w = new Corner(left.u, vm);
+			Corner w = newCorner(left.u, vm);
 			w.a = left.a;
 			left.a = w;
 			m.l = w;
@@ -1790,5 +1846,25 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected void addToNextSplit(Corner corner) {
 		nextSplit[nextSplitIndex] = corner;
 		nextSplitIndex++;
+	}
+
+	/**
+	 * 
+	 * @param u
+	 *            first parameter
+	 * @param v
+	 *            second parameter
+	 * @return new corner calculated for parameters u, v
+	 */
+	protected Corner newCorner(double u, double v) {
+		Corner c = cornerList[cornerListIndex];
+		if (c == null) {
+			c = new Corner(u, v);
+			cornerList[cornerListIndex] = c;
+		} else {
+			c.set(u, v);
+		}
+		cornerListIndex++;
+		return c;
 	}
 }
