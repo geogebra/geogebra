@@ -27,7 +27,9 @@ public abstract class GeoGebraTubeAPI {
 	 * DO NOT CHANGE!
 	 */
 	public static String url = "https://tube.geogebra.org/api/json.php";
+	public static String urlBeta = "https://tube-beta.geogebra.org/api/json.php";
 	public static String login_url = "https://accounts.geogebra.org/api/index.php";
+	public static String login_urlBeta = "https://login-beta.geogebra.org/api/index.php";
 	/**
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */
@@ -50,9 +52,15 @@ public abstract class GeoGebraTubeAPI {
 	protected final void performRequest(String requestString, boolean login, AjaxCallback callback)
 	{
 		HttpRequest request = createHttpRequest();
-		request.sendRequestPost(login ? login_url : url, requestString, callback);
+		request.sendRequestPost(login ? getLoginUrl() : getUrl(),
+				requestString,
+				callback);
 	}
 	
+	protected abstract String getLoginUrl();
+
+	protected abstract String getUrl();
+
 	/**
 	 * Creates a new Http request
 	 * 

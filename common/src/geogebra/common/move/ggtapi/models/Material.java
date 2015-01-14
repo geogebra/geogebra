@@ -114,6 +114,7 @@ public class Material implements Comparable<Material>
 		this.height = 600;
 		this.thumbnail = "";
 		this.syncStamp = -1;
+		this.modified = -1;
 		this.localID = -1;
 		this.showMenu = false;
 		this.showToolbar = false;
@@ -345,6 +346,7 @@ public class Material implements Comparable<Material>
 		putString(ret,"instructions_pre", this.instructionsPre);
 		putString(ret,"instructions_post", this.instructionsPost);
 		putString(ret,"syncstamp", syncStamp+"");
+		putString(ret, "modified", this.modified + "");
 		putBoolean(ret,"toolbar", this.showToolbar);
 		putBoolean(ret,"menubar", this.showMenu);
 		putBoolean(ret,"inputbar", this.showInputbar);

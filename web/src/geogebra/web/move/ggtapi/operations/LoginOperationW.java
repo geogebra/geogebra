@@ -55,7 +55,7 @@ public class LoginOperationW extends LogInOperation {
 
 	@Override
 	public GeoGebraTubeAPI getGeoGebraTubeAPI() {
-		return new GeoGebraTubeAPIW(GeoGebraTubeAPI.url, app.getClientInfo());
+		return new GeoGebraTubeAPIW(app.getClientInfo(), app.isPrerelease());
 
 	}
 

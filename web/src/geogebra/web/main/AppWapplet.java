@@ -115,7 +115,7 @@ public class AppWapplet extends AppW {
 			this.initSignInEventFlow(new LoginOperationW(this));
 		} else {
 			if (Browser.runningLocal()) {
-				new GeoGebraTubeAPIWSimple().checkAvailable(null);
+				new GeoGebraTubeAPIWSimple(isPrerelease()).checkAvailable(null);
 			}
 		}
 	}

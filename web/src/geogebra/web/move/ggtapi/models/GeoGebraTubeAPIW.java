@@ -40,8 +40,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param client
 	 *            {@link ClientInfo}
 	 */
-	public GeoGebraTubeAPIW(String url, ClientInfo client) {
-		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, url);
+	public GeoGebraTubeAPIW(ClientInfo client, boolean beta) {
+		super(beta);
+		this.requestBuilder = new RequestBuilder(RequestBuilder.POST, getUrl());
 		this.client = client;
 	}
 

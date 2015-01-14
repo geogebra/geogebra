@@ -58,7 +58,8 @@ public class AppWsimple extends AppW {
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
 		if (Browser.runningLocal()) {
-			new GeoGebraTubeAPIWSimple().checkAvailable(null);
+			new GeoGebraTubeAPIWSimple(isPrerelease())
+			        .checkAvailable(null);
 		}
 	}
 

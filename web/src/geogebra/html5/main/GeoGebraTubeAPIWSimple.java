@@ -12,6 +12,11 @@ import com.google.gwt.user.client.Window.Location;
 
 public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 
+	private boolean beta;
+
+	public GeoGebraTubeAPIWSimple(boolean beta) {
+		this.beta = beta;
+	}
 	@Override
 	protected HttpRequest createHttpRequest() {
 		return new geogebra.html5.util.HttpRequestW();
@@ -41,6 +46,16 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		                        : ":pack")).toString()
 		        + ", \"-type\":\"web\", \"-language\":"
 		        + new JSONString(Browser.navigatorLanguage()).toString() + "},";
+	}
+
+	@Override
+	protected String getLoginUrl() {
+		return beta ? login_urlBeta : login_url;
+	}
+
+	@Override
+	protected String getUrl() {
+		return beta ? urlBeta : url;
 	}
 
 }

@@ -114,4 +114,14 @@ public class GeoGebraTubeAPID extends
 	public boolean isCheckDone() {
 		return availabilityCheckDone;
 	}
+
+	@Override
+	protected String getLoginUrl() {
+		return login_url;
+	}
+
+	@Override
+	protected String getUrl() {
+		return url;
+	}
 }
