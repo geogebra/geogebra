@@ -55,6 +55,7 @@ public class GMenuBar extends MenuBar{
 		ait[0] = addItem(itemtext, textishtml, new ScheduledCommand() {
 			public void execute() {
 				if (ait[0] != null) {
+					selectItem((MenuItem) ait[0]);
 					if (ait[1] == null) {
 						// popuppanel still not present
 						final PopupPanel pp = new PopupPanel(true, false);
@@ -136,9 +137,6 @@ public class GMenuBar extends MenuBar{
 				}
 			}
 		});
-
-		if (true)
-			return (MenuItem) ait[0];
 
 		// adding the submenu icon
 		Element menuitem = ((MenuItem)ait[0]).getElement();
