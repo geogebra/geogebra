@@ -6,7 +6,6 @@ import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.dom.client.TableCellElement;
 import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.AbstractImagePrototype;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
@@ -72,13 +71,7 @@ public class GMenuBar extends MenuBar{
 
 					if (ait[1] == null) {
 						// popuppanel still not present
-						final PopupPanel pp = new PopupPanel(true, false) {
-							@Override
-							protected void onPreviewNativeEvent(
-							        Event.NativePreviewEvent event) {
-
-							}
-						};
+						final PopupPanel pp = new PopupPanel(true, false);
 						pp.addAutoHidePartner(((MenuItem)ait[0]).getElement());
 						submenupopup.addStyleName("subMenuLeftSide2");
 						submenupopup.selectItem(null);
