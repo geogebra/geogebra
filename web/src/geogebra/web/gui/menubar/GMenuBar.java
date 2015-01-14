@@ -1,5 +1,6 @@
 package geogebra.web.gui.menubar;
 
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -52,6 +53,7 @@ public class GMenuBar extends MenuBar{
 						// popuppanel still not present
 						final PopupPanel pp = new PopupPanel(true, false);
 						submenupopup.addStyleName("subMenuLeftSide2");
+						submenupopup.selectItem(null);
 						pp.addStyleName("subMenuLeftSidePopup");
 						pp.add(submenupopup);
 						int left = ((MenuItem) ait[0]).getElement()
@@ -69,37 +71,40 @@ public class GMenuBar extends MenuBar{
 								// on presuming that clicks will always trigger
 								// something
 
+								// this works, but the problem is that it
+								// also disappears
+								// when nothing is selected (on no real
+								// action)
 								ait[1] = null;
 								pp.hide();
 
-								/*if ((submenupopup instanceof RadioButtonMenuBarW)
-								        && (((RadioButtonMenuBarW) submenupopup)
-								                .getSelectedItemPublic() != null)) {
-									((RadioButtonMenuBarW) submenupopup)
-									        .getSelectedItemPublic()
-									        .getScheduledCommand().execute();
-									ait[1] = null;
-									pp.hide();
-									ce.stopPropagation();
-									ce.preventDefault();
-								}*/
-
-								// Other alternative, did not work well
 								/*
-								 * if (submenupopup instanceof
-								 * RadioButtonMenuBarW) { // as this onClick
-								 * will (probably) run before // the event //
-								 * handler code of MenuBar, it is necessary to
-								 * // put the // corresponding code into a
-								 * scheduleDeferred
-								 * Scheduler.get().scheduleDeferred( new
-								 * Scheduler.ScheduledCommand() { public void
-								 * execute() { if (((RadioButtonMenuBarW)
-								 * submenupopup) .getSelectedItemPublic() !=
-								 * null) { // in theory, the user //
-								 * successfully clicked // on it, // or maybe
-								 * not? ait[1] = null; pp.hide(); } } }); }
-								 */
+								if (submenupopup instanceof RadioButtonMenuBarW) {
+									// menu item still not selected, but it will
+									// be
+									// selected after scheduleDeferred, after
+									// menu action
+									// and the submenu popup will not be hidden
+									Scheduler.get().scheduleDeferred(
+									        new Scheduler.ScheduledCommand() {
+										        public void execute() {
+											        if (((RadioButtonMenuBarW) submenupopup)
+											                .getSelectedItemPublic() != null) {
+												        // in theory, the user
+												        // successfully clicked
+												        // on it,
+												        // or maybe not?
+												        ait[1] = null;
+												        submenupopup
+												                .selectItem(null);
+												        pp.hide();
+											        }
+										        }
+									        });
+								}
+								*/
+								// after this, the menu action runs that maybe
+								// selects an item, and runs its menu action
 							}
 						}, ClickEvent.getType());
 
@@ -111,6 +116,12 @@ public class GMenuBar extends MenuBar{
 						ait[1] = pp;
 						pp.show();
 					} else {
+						submenupopup.selectItem(null);
+
+						// What if?
+						if (ait[1] instanceof PopupPanel)
+							((PopupPanel) ait[1]).hide();
+
 						// if popuppanel is present, it will be hidden
 						// due to autoHide, and no new one is created instead
 						// let's forget about it
