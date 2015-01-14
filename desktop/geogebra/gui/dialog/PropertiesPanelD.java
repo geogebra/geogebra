@@ -2914,6 +2914,14 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			decimalLabel.setText(app.getMenu("Rounding") + ":");
 		}
 
+		public void setFontSizeVisibleOnly() {
+			cbSize.setVisible(true);
+			cbFont.setVisible(false);
+			btBold.setVisible(false);
+			btItalic.setVisible(false);
+			secondLine.setVisible(false);
+		}
+
 		class ComboBoxRenderer extends JLabel implements ListCellRenderer {
 			JSeparator separator;
 

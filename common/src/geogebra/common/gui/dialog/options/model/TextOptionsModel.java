@@ -18,6 +18,8 @@ public class TextOptionsModel extends OptionsModel {
 
 		void setWidgetsVisible(boolean showFontDetails, boolean isButton);
 
+		void setFontSizeVisibleOnly();
+
 		void selectSize(int index);
 
 		void selectFont(int index);
@@ -96,7 +98,12 @@ public class TextOptionsModel extends OptionsModel {
 	@Override
 	public void updateProperties() {
 
-		listener.setWidgetsVisible(!justDisplayFontSize, getGeoAt(0).isGeoButton());
+		GeoElement geo = getGeoAt(0);
+		if (geo.isGeoTextField()) {
+			listener.setFontSizeVisibleOnly();
+		} else {
+			listener.setWidgetsVisible(!justDisplayFontSize, geo.isGeoButton());
+		}
 
 		TextProperties geo0 = getTextPropertiesAt(0);	
 
@@ -128,8 +135,12 @@ public class TextOptionsModel extends OptionsModel {
 			selItem = App.figuresLookup[figures];
 
 		listener.selectDecimalPlaces(selItem);
-		listener.setSecondLineVisible(getGeoAt(0).isIndependent()
-				|| (geo0 instanceof GeoList));
+		listener.setSecondLineVisible((getGeoAt(0).isIndependent() || (geo0 instanceof GeoList))
+);
+
+		if (geo.isGeoTextField()) {
+			listener.setFontSizeVisibleOnly();
+		}
 
 		GeoText text0 = getGeoTextAt(0);
 		if (text0 != null) {

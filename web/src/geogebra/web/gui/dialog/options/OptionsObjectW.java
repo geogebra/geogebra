@@ -2044,6 +2044,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	
 	private class TextOptionsPanel extends OptionPanel implements ITextOptionsListener,
 	ITextEditPanel, GeoElementSelectionListener {
+		private static final boolean NO_DECIMALS = true;
+
 		private static final int FontBOLD = 1;
 
 		private static final int FontITALIC = 2;
@@ -2264,7 +2266,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				updatePreview();
 				editor.updateFonts();
 			}
-			
 
 			return true;
 
@@ -2315,6 +2316,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				secondLine.setVisible(!showFontDetails);
 				secondLineVisible = !showFontDetails;
 			}        
+		}
+
+		public void setFontSizeVisibleOnly() {
+			lbSize.setVisible(true);
+			lbFont.setVisible(false);
+			btnBold.setVisible(false);
+			btnItalic.setVisible(false);
+			secondLine.setVisible(false);
 		}
 
 		public void selectSize(int index) {
@@ -2508,7 +2517,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 						var fileData = reader.result;
 						var fileName = fileToHandle.name;
 						appl.@geogebra.web.gui.dialog.options.OptionsObjectW.FillingPanel.MyImageFileInputDialog::applyImage(Ljava/lang/String;Ljava/lang/String;)(fileName, fileData);
-						if (callback != null){
+						if (callback != null) {
 							callback();
 						}
 					}
