@@ -2040,8 +2040,11 @@ public class AppD extends App implements KeyEventDispatcher {
 					icon = getToolBarImage("mode_tool.png", border);
 				} else {
 					// use image as icon
+					int size = getMaxIconSize();
 					icon = new ImageIcon(ImageManagerD.addBorder(
-							img.getImage(), border));
+img.getImage()
+							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
+							border));
 				}
 			} catch (Exception e) {
 				App.debug("macro does not exist: ID = " + macroID);
