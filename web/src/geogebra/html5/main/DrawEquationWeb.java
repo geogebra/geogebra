@@ -678,7 +678,8 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the same element as in drawEquationMathQuillGGB
 	 */
 	public static native void editEquationMathQuillGGB(
-	        RadioButtonTreeItem rbti, Element parentElement, boolean deselect) /*-{
+	        RadioButtonTreeItem rbti, Element parentElement,
+	        boolean newCreationMode) /*-{
 
 		var elfirst = parentElement.firstChild.firstChild;
 
@@ -702,9 +703,13 @@ public class DrawEquationWeb extends DrawEquation {
 								code = event.which;
 							}
 							if (code == 13) {
-								@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								if (newCreationMode) {
+									// do something like AlgebraInputW.onKeyUp
+								} else {
+									@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								}
 							} else if (code == 27) {
-								if (deselect) {
+								if (!newCreationMode) {
 									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							}
@@ -728,7 +733,7 @@ public class DrawEquationWeb extends DrawEquation {
 		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
 		// hacking to deselect the editing when the user does something else like in Desktop
-		if (deselect) {
+		if (!newCreationMode) {
 			var mousein = {};
 			mousein.mout = false;
 			$wnd.mousein = mousein;

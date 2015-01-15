@@ -487,7 +487,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void startEditing() {
 		thisIsEdited = true;
 		if (newCreationMode) {
-			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex, false);
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
+			        seMayLatex, true);
 			ihtml.addClickHandler(new ClickHandler() {
 				public void onClick(ClickEvent ce) {
 					// focus MathQuill, howto?
@@ -496,7 +497,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			});
 		} else if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
-			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex, true);
+			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
+			        seMayLatex, false);
 		} else {
 			remove(ihtml);
 			tb = new GTextBox();
