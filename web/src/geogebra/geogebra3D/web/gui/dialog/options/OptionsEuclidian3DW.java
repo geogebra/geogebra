@@ -87,7 +87,6 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		protected void addAxesOptionsPanel() {
 
 			cbYAxisVertical = new CheckBox();
-			cbYAxisVertical.setStyleName("YAxisVertical");
 
 			cbYAxisVertical.addClickHandler(new ClickHandler() {
 
