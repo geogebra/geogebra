@@ -769,15 +769,16 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquillggb('text');
-		elsecond.previousSibling.style.display = "block";
+
+		//elsecond.previousSibling.style.display = "block"; // this does not apply here!!
 
 		var success = @geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
 
 		// now it's time to make the formula blank!
 		// but only if the previous method was successful...
 		if (success) {
-			thisjq.mathquillggb('revert').mathquillggb('latex', '');
-			// $ggbQuery - mathquillggb ??
+			thisjq.mathquillggb('revert').html('').mathquillggb().mathquillggb(
+					'latex', '').mathquillggb('editable').focus();
 		}
 	}-*/;
 

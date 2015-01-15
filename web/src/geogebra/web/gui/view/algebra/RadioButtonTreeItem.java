@@ -412,7 +412,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				ihtml.getElement().replaceChild(se, seNoLatex);
 				text = DrawEquationWeb.inputLatexCosmetics(text);
 				seMayLatex = se;
-				DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "\\mathrm {"+text+"}");
+				if (newCreationMode) {
+					// in editing mode, we shall avoid letting an invisible, but
+					// harmful element!
+					DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "");
+				} else {
+					DrawEquationWeb.drawEquationAlgebraView(seMayLatex,
+					        "\\mathrm {" + text + "}");
+				}
 				LaTeX = true;
 			}
 		} else if (geo == null) {
