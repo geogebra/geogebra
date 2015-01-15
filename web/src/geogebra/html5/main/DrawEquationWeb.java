@@ -751,6 +751,12 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 	}-*/;
 
+	public static native void focusEquationMathQuillGGB(Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+		$wnd.$ggbQuery(elsecondInside).focus();
+	}-*/;
+
 	public static native void escEditingEquationMathQuillGGB(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;

@@ -488,6 +488,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		thisIsEdited = true;
 		if (newCreationMode) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex, false);
+			ihtml.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent ce) {
+					// focus MathQuill, howto?
+					geogebra.html5.main.DrawEquationWeb
+					        .focusEquationMathQuillGGB(seMayLatex);
+				}
+			});
 		} else if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,seMayLatex, true);
 		} else {
