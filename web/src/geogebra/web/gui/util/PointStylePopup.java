@@ -19,7 +19,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	private static HashMap<Integer, Integer> pointStyleMap;
 	private static int mode;
 	private PointStyleModel model;
-	
+	private boolean euclidian3D;
 	public static PointStylePopup create(AppW app, int iconHeight, int mode, boolean hasSlider, PointStyleModel model) {
 		EuclidianStyleBarStatic.pointStyleArray = EuclidianView.getPointStyles();
 		
@@ -38,7 +38,15 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
 		return new PointStylePopup((AppW) app, pointStyleIcons, 2, -1,
 				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON,
-				true, hasSlider, model);
+ true,
+		        hasSlider, model);
+	}
+
+	public static PointStylePopup create(AppW app, int mode,
+	        PointStyleModel model) {
+		return new PointStylePopup((AppW) app, null, 1, -1, null,
+		        geogebra.common.gui.util.SelectionTable.MODE_ICON, false, true,
+		        model);
 	}
 
 	private GDimensionW iconSize;
@@ -49,7 +57,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	    super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
 	    this.iconSize = iconSize;
 	    this.model = model;
-		
+		euclidian3D = false;
     }
 
 	public void setModel(PointStyleModel model) {
@@ -71,14 +79,19 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 
 		if (geosOK) {
 			setFgColor((GColorW) geogebra.common.awt.GColor.black);
+			getMyTable().setVisible(!euclidian3D);
+
 			model.updateProperties();
+
 			PointProperties geo0 = (PointProperties) model.getGeoAt(0);
 			if (hasSlider()) {
 				setSliderValue(geo0.getPointSize());
 			}
 			
-			setSelectedIndex(pointStyleMap.get(geo0.getPointStyle()));
 			
+			setSelectedIndex(pointStyleMap.get(euclidian3D ? 0 : geo0
+			        .getPointStyle()));
+
 			this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 		}
 	}
@@ -124,5 +137,13 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	    // TODO Auto-generated method stub
 	    
     }
+
+	public boolean isEuclidian3D() {
+		return euclidian3D;
+	}
+
+	public void setEuclidian3D(boolean euclidian3d) {
+		euclidian3D = euclidian3d;
+	}
 
 }

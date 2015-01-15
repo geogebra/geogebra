@@ -74,6 +74,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		super.createButtons();
 
+		getBtnPointStyle().setEuclidian3D(true);
+
 		// ========================================
 		// rotate view button
 		btnRotateView = new RotateViewPopup(

@@ -166,7 +166,8 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	// buttons and lists of buttons
 	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
 
-	private PopupMenuButton btnPointStyle, btnTextSize, btnMode, btnShowGrid;
+	private PointStylePopup btnPointStyle;
+	private PopupMenuButton btnTextSize, btnMode, btnShowGrid;
 	private EuclidianLineStylePopup btnLineStyle;
 	PopupMenuButton btnTableTextJustify;
 
@@ -777,7 +778,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// create button
 		btnPointStyle = PointStylePopup.create(app, iconHeight, mode, true,
 		        new PointStyleModel(null));
-
+		btnPointStyle.setEuclidian3D(false);
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
@@ -1594,5 +1595,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		super.onAttach();
 	}
+
+	public PointStylePopup getBtnPointStyle() {
+	    return btnPointStyle;
+    }
+
 
 }
