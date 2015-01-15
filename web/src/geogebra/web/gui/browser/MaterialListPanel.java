@@ -326,7 +326,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 */
 	public void refreshMaterial(final Material material, final boolean isLocal) {
 		if (!isLocal) {
-			App.debug("GGG refresh" + material.getModified());
 			material.setSyncStamp(material.getModified());
 		}
 		addMaterial(material, false, isLocal);

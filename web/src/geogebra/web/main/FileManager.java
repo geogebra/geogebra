@@ -218,7 +218,6 @@ public abstract class FileManager implements FileManagerI {
 	 */
 	public void upload(final Material mat) {
 		final String localKey = getFileKey(mat);
-		final int oldTubeID = mat.getId();
 		mat.setTitle(getTitleFromKey(mat.getTitle()));
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .uploadLocalMaterial(app, mat, new MaterialCallback() {
@@ -240,8 +239,6 @@ public abstract class FileManager implements FileManagerI {
 							                .setTubeID(localKey, newMat);
 
 					        }
-					        App.debug("GGG parseTube" + newMat.getSyncStamp());
-
 
 					        app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);
 				        }

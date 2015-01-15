@@ -636,7 +636,6 @@ public class FileManagerT extends FileManager {
 	 */
 	void createMetaData(final String key, final Material mat,
 	        final SaveCallback cb) {
-		App.debug("GGG " + META_PREFIX + key);
 		getMetaFile(META_PREFIX + key, createIfNotExist,
 		        new Callback<FileEntry, FileError>() {
 
@@ -648,8 +647,6 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(final FileWriter writer) {
 
 						        mat.setTitle(FileManager.getTitleFromKey(key));
-						        App.debug("GGG write "
- + mat.getSyncStamp());
 						        writer.write(mat.toJson().toString());
 						        if (cb != null) {
 							        cb.onSaved(mat, true);
