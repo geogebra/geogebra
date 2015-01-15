@@ -173,7 +173,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 				.setSelected(probCalc.getGraphType() == ProbabilityCalculatorViewD.GRAPH_BAR);
 
 		btnNormalOverlay.setSelected(probCalc.isShowNormalOverlay());
-
+		btnNormalOverlay.setVisible(probCalc.isOverlayDefined());
 		btnLineGraph.addActionListener(this);
 		btnStepGraph.addActionListener(this);
 		btnBarGraph.addActionListener(this);

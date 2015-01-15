@@ -573,8 +573,10 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 				integral.update();
 		}
 
+		btnNormalOverlay.setVisible(isOverlayDefined());
 		lblMeanSigma.setText(getMeanSigma());
 		plotPanel.repaintView();
+
 		//wrapperPanel.repaint();
 
 	}

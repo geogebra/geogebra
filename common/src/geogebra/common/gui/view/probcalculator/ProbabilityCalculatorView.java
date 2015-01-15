@@ -1800,4 +1800,8 @@ public abstract class ProbabilityCalculatorView implements View, SettingListener
 	protected void setLow(double low) {
 		this.low = low;
 	}
+
+	public boolean isOverlayDefined() {
+		return !((selectedDist == DIST.CAUCHY) || (selectedDist == DIST.F && parameters[1] < 4));
+	}
 }
