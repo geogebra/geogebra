@@ -17,7 +17,7 @@ public class UploadRequest implements Request {
 	private final String TASK = "upload";
 	private final String TYPE = "applet";
 	private AppW app;
-	private String consTitle = "GeoGebra";
+	private final String consTitle;
 	private int uniqueID;
 	private String base64;
 	private String visibility;

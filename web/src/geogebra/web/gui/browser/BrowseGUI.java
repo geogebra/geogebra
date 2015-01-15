@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
@@ -19,6 +20,8 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.util.StandardButton;
+import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
+import geogebra.web.move.ggtapi.models.SyncCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 
 import java.util.ArrayList;
@@ -99,14 +102,22 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	 */
 	public BrowseGUI(final AppW app) {
 		this.setStyleName("browsegui");
-
+		
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
 		if (this.app.getLoginOperation() == null) {
 			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).sync(
+		        app, 0, new SyncCallback() {
 
+			        @Override
+			        public void onSync(ArrayList<SyncEvent> events) {
+				        app.getFileManager().uploadUsersMaterials(events);
+
+			        }
+		        });
 		this.container = new HorizontalPanel();
 		this.container.setPixelSize(Window.getClientWidth(),
 		        Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);

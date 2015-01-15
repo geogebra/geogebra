@@ -5,6 +5,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
@@ -15,6 +16,7 @@ import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.util.SaveCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class FileManager implements FileManagerI {
@@ -131,9 +133,22 @@ public abstract class FileManager implements FileManagerI {
 		this.notSyncedFileCount = count;
 	}
 
-	public void sync(final Material mat, final long tubeTimestamp) {
+	public void sync(final Material mat, ArrayList<SyncEvent> events) {
+		for (SyncEvent event : events) {
+			if (event.getID() == mat.getId()) {
+				sync(mat, event.getTimestamp());
+				return;
+			}
+		}
+		sync(mat, 0);
+	}
+
+	private void sync(final Material mat, final long tubeTimestamp) {
 		if (tubeTimestamp <= 0) {
-			upload(mat);
+			if (mat.getId() > 0) {
+				upload(mat);
+			}
+			return;
 		}
 
 		if (tubeTimestamp > mat.getSyncStamp()) {

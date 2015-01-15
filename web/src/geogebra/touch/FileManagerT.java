@@ -4,6 +4,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -12,7 +13,7 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
 
-import java.util.TreeMap;
+import java.util.ArrayList;
 
 import com.google.gwt.core.client.Callback;
 import com.google.gwt.storage.client.Storage;
@@ -672,8 +673,7 @@ public class FileManagerT extends FileManager {
 	}
 
 	@Override
-	public void uploadUsersMaterials(int offset,
-	        final TreeMap<Integer, Long> timestamps) {
+	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
@@ -719,8 +719,7 @@ public class FileManagerT extends FileManager {
 												                upload(mat);
 											                } else {
 												                sync(mat,
-												                        timestamps
-												                                .get(mat.getId()));
+												                        events);
 											                }
 										                }
 									                }

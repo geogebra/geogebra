@@ -2,6 +2,7 @@ package geogebra.touch;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -10,7 +11,7 @@ import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
 
-import java.util.TreeMap;
+import java.util.ArrayList;
 
 import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONParser;
@@ -183,8 +184,7 @@ public class WinFileManager extends FileManager {
 	}-*/;
 
 	@Override
-	public void uploadUsersMaterials(int offset,
-	        final TreeMap<Integer, Long> timestamps) {
+	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		nativeUploadUsersMaterials(new StringHandler() {
 
 			@Override
@@ -200,7 +200,7 @@ public class WinFileManager extends FileManager {
 						if (mat.getId() == 0) {
 							upload(mat);
 						} else {
-							sync(mat, timestamps.get(mat.getId()));
+							sync(mat, events);
 						}
 					}
 

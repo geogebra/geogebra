@@ -1,9 +1,10 @@
 package geogebra.html5.main;
 
 import geogebra.common.move.ggtapi.models.Material;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 
-import java.util.TreeMap;
+import java.util.ArrayList;
 
 public interface FileManagerI {
 
@@ -11,7 +12,7 @@ public interface FileManagerI {
 
 	void delete(Material material);
 
-	void uploadUsersMaterials(int offset, TreeMap<Integer, Long> timestamps);
+	void uploadUsersMaterials(ArrayList<SyncEvent> events);
 
 	void getUsersMaterials();
 

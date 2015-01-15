@@ -1,13 +1,17 @@
 package geogebra.web.move.ggtapi.models;
 
+import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.AjaxCallback;
 import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -333,5 +337,53 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			ret.put(mat.getId(), mat.getTimestamp());
 		}
 		return ret;
+	}
+
+	public void sync(AppW app, long timestamp, final SyncCallback cb) {
+		this.performRequest(new SyncRequest(app, timestamp).toJSONString(),
+		        false, new AjaxCallback() {
+
+			        @Override
+			        public void onSuccess(String response) {
+				        ArrayList<SyncEvent> events = new ArrayList<SyncEvent>();
+				        try {
+					        JSONValue jv = JSONParser.parseStrict(response);
+					        JSONValue items = jv.isObject().get("responses")
+					                .isObject()
+.get("response").isObject()
+					                .get("item");
+					        JSONArray array = items.isArray();
+
+					        if (array != null) {
+						        for (int i = 0; i < array.size(); i++) {
+							        addEvent(array.get(i).isObject(), events);
+						        }
+					        }
+ else if (items.isObject() != null) {
+						        addEvent(items.isObject(), events);
+					        }
+					        cb.onSync(events);
+				        } catch (Exception e) {
+					        App.error(e.getMessage());
+				        }
+
+			        }
+
+			        private void addEvent(JSONObject object,
+			                ArrayList<SyncEvent> events) {
+				        SyncEvent se = new SyncEvent(Integer.parseInt(object
+				                .get("id").isString().stringValue()), Long
+				                .parseLong(object.get("id").isString()
+				                        .stringValue()));
+				        events.add(se);
+
+			        }
+
+					@Override
+			        public void onError(String error) {
+				        // TODO Auto-generated method stub
+
+			        }
+		        });
 	}
 }

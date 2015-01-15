@@ -3,12 +3,13 @@ package geogebra.web.main;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.util.SaveCallback;
 
-import java.util.TreeMap;
+import java.util.ArrayList;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -109,8 +110,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void uploadUsersMaterials(int offset,
-	        TreeMap<Integer, Long> timestamps) {
+	public void uploadUsersMaterials(final ArrayList<SyncEvent> events) {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
@@ -126,7 +126,7 @@ public class FileManagerW extends FileManager {
 					if (mat.getId() == 0) {
 						upload(mat);
 					} else {
-						sync(mat, timestamps.get(mat.getId()));
+						sync(mat, events);
 					}
 				}
 			}
