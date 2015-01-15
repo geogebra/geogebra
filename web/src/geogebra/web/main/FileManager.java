@@ -98,6 +98,7 @@ public abstract class FileManager implements FileManagerI {
 
 		if (app.getTubeId() != 0) {
 			mat.setId(app.getTubeId());
+			App.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}
 
@@ -136,68 +137,73 @@ public abstract class FileManager implements FileManagerI {
 	public void sync(final Material mat, ArrayList<SyncEvent> events) {
 		for (SyncEvent event : events) {
 			if (event.getID() == mat.getId()) {
-				sync(mat, event.getTimestamp());
+				sync(mat, event);
 				return;
 			}
 		}
-		sync(mat, 0);
+		sync(mat, new SyncEvent(0, 0));
 	}
 
-	private void sync(final Material mat, final long tubeTimestamp) {
-		if (tubeTimestamp <= 0) {
-			if (mat.getId() > 0) {
-				upload(mat);
-			}
-			return;
+	private void sync(final Material mat, SyncEvent event) {
+		long tubeTimestamp = event.getTimestamp();
+
+		if (event.isDelete()) {
+			//ask user to delete
 		}
+ else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
+			// remove from local device
+		}
+ else if (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp()) {
 
-		if (tubeTimestamp > mat.getSyncStamp()) {
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
-			        .getItem(mat.getId() + "", new MaterialCallback() {
+				
+			
+				getFromTube(mat);
 
-				        @Override
-				        public void onLoaded(final List<Material> parseResponse) {
-
-					        // edited on Tube, not edited locally
-					        if (mat.getModified() <= mat.getSyncStamp()) {
-						        App.debug("SYNC incomming changes:"
-						                + mat.getId());
-						        FileManager.this.updateFile(getFileKey(mat),
-						                parseResponse.get(0).getModified(),
-						                parseResponse.get(0));
-					        } else {
-						        ToolTipManagerW.sharedInstance()
-						                .showBottomMessage(
-						                        app.getLocalization().getPlain(
-						                                "SeveralVersionsOfA",
-						                                parseResponse.get(0)
-						                                        .getTitle()),
-						                        true);
-						        App.debug("SYNC fork: " + mat.getId());
-						        mat.setId(0);
-						        upload(mat);
-
-					        }
-
-
-
-
-		        }
-
-				        @Override
-				        public void onError(final Throwable exception) {
-					        // TODO
-				        }
-			        });
 
 		} else {
-			if (mat.getModified() <= mat.getSyncStamp()) {
+			// no changes in Tube
+			if (mat.getId() > 0 && mat.getModified() <= mat.getSyncStamp()) {
 				App.debug("SYNC material up to date" + mat.getId());
 			} else {
 				App.debug("SYNC outgoing changes:" + mat.getId());
 				upload(mat);
 			}
 		}
+
+	}
+
+	private void getFromTube(final Material mat) {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		        .getItem(mat.getId() + "", new MaterialCallback() {
+
+			        @Override
+			        public void onLoaded(final List<Material> parseResponse) {
+
+				        // edited on Tube, not edited locally
+				        if (mat.getModified() <= mat.getSyncStamp()) {
+					        App.debug("SYNC incomming changes:" + mat.getId());
+					        FileManager.this.updateFile(getFileKey(mat),
+					                parseResponse.get(0).getModified(),
+					                parseResponse.get(0));
+				        } else {
+					        ToolTipManagerW.sharedInstance().showBottomMessage(
+					                app.getLocalization().getPlain(
+					                        "SeveralVersionsOfA",
+					                        parseResponse.get(0).getTitle()),
+					                true);
+					        App.debug("SYNC fork: " + mat.getId());
+					        mat.setId(0);
+					        upload(mat);
+
+				        }
+
+			        }
+
+			        @Override
+			        public void onError(final Throwable exception) {
+				        App.debug("SYNC error loading from tube" + mat.getId());
+			        }
+		        });
 
 	}
 
@@ -222,19 +228,19 @@ public abstract class FileManager implements FileManagerI {
 				        if (parseResponse.size() == 1) {
 					        mat.setTitle(getTitleFromKey(mat.getTitle()));
 					        mat.setLocalID(FileManager.getIDFromKey(localKey));
-					        App.debug("GGG uploading" + localKey);
 					        final Material newMat = parseResponse.get(0);
 					        newMat.setThumbnail(mat.getThumbnail());
 					        newMat.setSyncStamp(newMat.getModified());
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
 						        delete(mat);
 					        } else {
-						        if (oldTubeID != newMat.getId()) {
+						        // Meta may have changed (tube ID), sync
+								// timestamp needs changing always
 							        FileManager.this
 							                .setTubeID(localKey, newMat);
-						        }
+
 					        }
-					        App.debug("GGG parse" + localKey);
+					        App.debug("GGG parseTube" + newMat.getSyncStamp());
 
 
 					        app.getGuiManager().getBrowseView().refreshMaterial(newMat, false);

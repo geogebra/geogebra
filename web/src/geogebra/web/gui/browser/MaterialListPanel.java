@@ -199,7 +199,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			int oldLocalID = matElem.getMaterial().getLocalID();
 			if (mat.getLocalID() == -1) {
 				mat.setLocalID(oldLocalID);
-				mat.setSyncStamp(matElem.getMaterial().getSyncStamp());
+				mat.setSyncStamp(Math.max(matElem.getMaterial().getSyncStamp(),
+				        mat.getSyncStamp()));
 			}
 			matElem.setMaterial(mat);
 		} else {
@@ -325,6 +326,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 */
 	public void refreshMaterial(final Material material, final boolean isLocal) {
 		if (!isLocal) {
+			App.debug("GGG refresh" + material.getModified());
 			material.setSyncStamp(material.getModified());
 		}
 		addMaterial(material, false, isLocal);

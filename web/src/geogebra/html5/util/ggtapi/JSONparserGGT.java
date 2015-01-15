@@ -118,6 +118,8 @@ public class JSONparserGGT {
 		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
 		material.setBase64(getString(obj, "ggbBase64"));
 		material.setDeleted(getBoolean(obj, "deleted", false));
+		material.setFromAnotherDevice(getBoolean(obj, "from_another_device",
+		        false));
 		return material;
 	}
 

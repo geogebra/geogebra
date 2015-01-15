@@ -85,6 +85,7 @@ public class MaterialListElement extends FlowPanel implements
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {
+			// TODO probably should be 0 as in "never synchronized"
 			this.material.setSyncStamp(System.currentTimeMillis() / 1000);
 		}
 		this.editMaterial = new Runnable() {

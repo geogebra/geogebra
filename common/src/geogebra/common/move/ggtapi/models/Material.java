@@ -83,6 +83,7 @@ public class Material implements Comparable<Material>
 	private String visibility;
 	private int localID;
 	private boolean deleted;
+	private boolean fromAnotherDevice;
 	
 	public boolean isDeleted() {
 		return deleted;
@@ -350,6 +351,7 @@ public class Material implements Comparable<Material>
 		putBoolean(ret,"toolbar", this.showToolbar);
 		putBoolean(ret,"menubar", this.showMenu);
 		putBoolean(ret,"inputbar", this.showInputbar);
+		putBoolean(ret, "from_another_device", this.fromAnotherDevice);
 		return ret;
 	}
 
@@ -459,5 +461,13 @@ public class Material implements Comparable<Material>
 
 	public int getLocalID() {
 		return localID;
+	}
+
+	public boolean isFromAnotherDevice() {
+		return fromAnotherDevice;
+	}
+
+	public void setFromAnotherDevice(boolean fromAnotherDevice) {
+		this.fromAnotherDevice = fromAnotherDevice;
 	}
 }

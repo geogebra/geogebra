@@ -7,6 +7,7 @@ import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.MaterialRequest;
 import geogebra.common.move.ggtapi.models.SyncEvent;
+import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
@@ -364,7 +365,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 					        }
 					        cb.onSync(events);
 				        } catch (Exception e) {
-					        App.error(e.getMessage());
+					        Log.error("SYNC parse error" + e.getMessage());
 				        }
 
 			        }
@@ -375,13 +376,21 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				                .get("id").isString().stringValue()), Long
 				                .parseLong(object.get("id").isString()
 				                        .stringValue()));
+				        if (object.get("deleted") != null
+				                && object.get("deleted").isString() != null) {
+					        se.setDelete(true);
+				        }
+				        if (object.get("unfavorited") != null
+				                && object.get("unfavorited").isString() != null) {
+					        se.setUnfavorite(true);
+				        }
 				        events.add(se);
 
 			        }
 
 					@Override
 			        public void onError(String error) {
-				        // TODO Auto-generated method stub
+				        App.error("SYNCE error" + error);
 
 			        }
 		        });
