@@ -1704,7 +1704,7 @@ Paddings for menuitems.
 	border: 1px solid black;
 }*/
 .TitleBarPanel {
-	z-index: 1;
+	z-index: 4;
 	left: auto !important;
 	bottom: auto !important;
 }

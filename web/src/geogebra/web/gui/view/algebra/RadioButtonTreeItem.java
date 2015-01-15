@@ -326,9 +326,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		setCellWidth(ihtml, "100%");
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 
-		// SpanElement se2 = DOM.createSpan().cast();
-		// se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
-		// ihtml.getElement().appendChild(se2);
+		// making room for the TitleBarPanel (top right of the AV)
+		SpanElement se2 = DOM.createSpan().cast();
+		se2.appendChild(Document.get().createTextNode(
+		        "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"));
+		ihtml.getElement().appendChild(se2);
 
 		//String text = "";
 		/*if (geo.isIndependent()) {
