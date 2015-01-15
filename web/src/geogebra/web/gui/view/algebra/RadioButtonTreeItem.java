@@ -18,11 +18,17 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.kernel.CircularDefinitionException;
+import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.main.MyError;
 import geogebra.common.main.SelectionManager;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.IndexHTMLBuilder;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.event.ZeroOffset;
@@ -630,6 +636,152 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		// maybe it's possible to enter something which is non-LaTeX
 		doUpdate();
+	}
+
+	/**
+	 * Stop new formula creation Much of this code is copied from
+	 * AlgebraInputW.onKeyUp
+	 * 
+	 * @param newValue0
+	 * @return boolean whether it was successful
+	 */
+	public boolean stopNewFormulaCreation(String newValue0) {
+
+		String newValue = newValue0;
+
+		if (newValue0 != null) {
+
+			newValue = newValue0.replace("space *", " ");
+			newValue = newValue.replace("* space", " ");
+
+			newValue = newValue.replace("space*", " ");
+			newValue = newValue.replace("*space", " ");
+
+			newValue = newValue.replace("space ", " ");
+			newValue = newValue.replace(" space", " ");
+			newValue = newValue.replace("space", " ");
+
+			// Formula Hacks ... Currently only functions are considered
+			StringBuilder sb = new StringBuilder();
+			boolean switchw = false;
+			// ignore first and last bracket, they come from mathrm
+			int skip = newValue.startsWith("(") ? 1 : 0;
+			boolean inLHS = true;
+			for (int i = skip; i < newValue.length() - skip; i++) {
+				// on lhs a*b(x) actually means ab(x)
+				if (inLHS && (newValue.charAt(i) == '*')) {
+					continue;
+				}
+				if (newValue.charAt(i) != ' ') {
+					if (newValue.charAt(i) != '|')
+						sb.append(newValue.charAt(i));
+					else {
+						switchw = !switchw;
+						sb.append(switchw ? "abs(" : ")");
+					}
+				}
+				if (newValue.charAt(i) == ':' || newValue.charAt(i) == '=') {
+					inLHS = false;
+				}
+			}
+			// Formula Hacks ended.
+		}
+
+		app.getKernel().clearJustCreatedGeosInViews();
+		final String input = newValue;
+		if (input == null || input.length() == 0) {
+			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
+			                                                     // Borcherds
+			                                                     // 2008-05-12
+			return false;
+		}
+
+		app.setScrollToShow(true);
+
+		try {
+			AsyncOperation callback = new AsyncOperation() {
+
+				@Override
+				public void callback(Object obj) {
+
+					if (!(obj instanceof GeoElement[])) {
+						// inputField.getTextBox().setFocus(true);
+						geogebra.html5.main.DrawEquationWeb
+						        .focusEquationMathQuillGGB(seMayLatex);
+						return;
+					}
+					GeoElement[] geos = (GeoElement[]) obj;
+
+					// need label if we type just eg
+					// lnx
+					if (geos.length == 1 && !geos[0].labelSet) {
+						geos[0].setLabel(geos[0].getDefaultLabel());
+					}
+
+					// create texts in the middle of the visible view
+					// we must check that size of geos is not 0 (ZoomIn,
+					// ZoomOut, ...)
+					if (geos.length > 0 && geos[0] != null
+					        && geos[0].isGeoText()) {
+						GeoText text = (GeoText) geos[0];
+						if (!text.isTextCommand()
+						        && text.getStartPoint() == null) {
+
+							Construction cons = text.getConstruction();
+							EuclidianViewInterfaceCommon ev = app
+							        .getActiveEuclidianView();
+
+							boolean oldSuppressLabelsStatus = cons
+							        .isSuppressLabelsActive();
+							cons.setSuppressLabelCreation(true);
+							GeoPoint p = new GeoPoint(text.getConstruction(),
+							        null, (ev.getXmin() + ev.getXmax()) / 2,
+							        (ev.getYmin() + ev.getYmax()) / 2, 1.0);
+							cons.setSuppressLabelCreation(oldSuppressLabelsStatus);
+
+							try {
+								text.setStartPoint(p);
+								text.update();
+							} catch (CircularDefinitionException e1) {
+								e1.printStackTrace();
+							}
+						}
+					}
+
+					app.setScrollToShow(false);
+
+					// inputField.addToHistory(input); // that is not relevant
+					// here
+					// inputField.setText(null); // that comes after boolean
+					// return true
+
+					// inputField.setIsSuggestionJustHappened(false); // that is
+					// not relevant here
+				}
+
+			};
+
+			app.getKernel()
+			        .getAlgebraProcessor()
+			        .processAlgebraCommandNoExceptionHandling(input, true,
+			                false, true, true, callback);
+
+		} catch (Exception ee) {
+			// TODO: better exception handling
+			// GOptionPaneW.setCaller(inputField.getTextBox());// we have no
+			// good FocusWidget
+			// app.showError(ee, inputField);
+			app.showError(ee.getMessage());// we use what we have
+			return false;
+		} catch (MyError ee) {
+			// TODO: better error handling
+			// GOptionPaneW.setCaller(inputField.getTextBox());// we have no
+			// good FocusWidget
+			// inputField.showError(ee);
+			app.showError(ee);// we use what we have
+			return false;
+		}
+		return true;
 	}
 
 	@Override

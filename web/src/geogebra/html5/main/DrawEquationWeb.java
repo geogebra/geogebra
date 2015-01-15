@@ -704,7 +704,7 @@ public class DrawEquationWeb extends DrawEquation {
 							}
 							if (code == 13) {
 								if (newCreationMode) {
-									// do something like AlgebraInputW.onKeyUp
+									@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
 									@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
@@ -761,6 +761,30 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecondInside = elsecond.lastChild;
 		$wnd.$ggbQuery(elsecondInside).focus();
 	}-*/;
+
+	public static native void newFormulaCreatedMathQuillGGB(
+	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var latexq = thisjq.mathquillggb('text');
+		elsecond.previousSibling.style.display = "block";
+
+		var success = @geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+
+		// now it's time to make the formula blank!
+		// but only if the previous method was successful...
+		if (success) {
+			thisjq.mathquillggb('revert').mathquillggb('latex', '');
+			// $ggbQuery - mathquillggb ??
+		}
+	}-*/;
+
+	public static boolean newFormulaCreatedMathQuillGGB(
+	        RadioButtonTreeItem rbti, final String input) {
+		return rbti.stopNewFormulaCreation(input);
+	}
 
 	public static native void escEditingEquationMathQuillGGB(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{

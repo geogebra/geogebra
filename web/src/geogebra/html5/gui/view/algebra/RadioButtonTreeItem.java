@@ -4,4 +4,5 @@ public interface RadioButtonTreeItem {
 
 	public void stopEditing(String latex);
 
+	public boolean stopNewFormulaCreation(String latex);
 }
