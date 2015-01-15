@@ -715,6 +715,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			public void update(Object[] geos) {
 				GeoElement geo;
 				boolean geosOK = (geos.length > 0);
+				// btnPointStyle.getMyTable().setVisible(true);
 				for (int i = 0; i < geos.length; i++) {
 					geo = (GeoElement) geos[i];
 					if (!(geo.getGeoElementForPropertiesDialog().isGeoPoint())
@@ -741,7 +742,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 								.getPointStyle();
 						if (pointStyle == -1) // global default point style
 							pointStyle = EuclidianStyleConstants.POINT_STYLE_DOT;
-						setSelectedIndex(pointStyleMap.get(pointStyle));
+						selectPointStyle(pointStyleMap.get(pointStyle));
 						this.setKeepVisible(mode == EuclidianConstants.MODE_MOVE);
 					}
 				}
@@ -1670,4 +1671,14 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 	public void hidePopups() {
 		// not needed in Desktop
 	}
+
+	protected PopupMenuButton getBtnPointStyle() {
+		return btnPointStyle;
+	}
+
+	protected void selectPointStyle(int idx) {
+		btnPointStyle.setSelectedIndex(idx);
+	}
+
+
 }

@@ -147,6 +147,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 			super(app, null, -1, -1, new Dimension(18, 18),
 					geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
 					true);
+
 		}
 
 		@Override
@@ -166,7 +167,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	protected void createButtons() {
 
 		super.createButtons();
-
+		getBtnPointStyle().getMyTable().setVisible(false);
 		// ========================================
 		// show grid button
 		btnShowPlane = new MyToggleButtonVisibleIfNoGeo(
@@ -353,4 +354,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		return (EuclidianView3D) ev;
 	}
 
+	protected void selectPointStyle(int idx) {
+
+	}
 }
