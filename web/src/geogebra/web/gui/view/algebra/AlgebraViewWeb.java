@@ -644,7 +644,11 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 				for (int i = 0; i < pos; i++) {
 					TreeItem child = getItem(i);
 					if (transTypeString.compareTo(child.toString()) < 0 || 
-							(child.getWidget() != null && this.inputPanel != null &&  child.getWidget().equals(this.inputPanel.getTextField()))){
+									(child.getWidget() != null
+					                && this.inputPanel != null
+					                && this.inputPanelTreeItem != null
+					                && this.inputPanelTreeItem.getWidget() != null
+					                && child.getWidget().equals(this.inputPanelTreeItem.getWidget()))) {
 						pos = i;
 						break;
 					}
