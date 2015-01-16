@@ -167,9 +167,11 @@ public class DrawIntegralFunctions extends Drawable {
 			fill(g2, gp, true); // fill using default/hatching/image as
 								// appropriate
 
-			g2.setPaint(n.getObjectColor());
-			g2.setStroke(objStroke);
-			g2.drawWithValueStrokePure(gp);
+			if (objStroke.getLineWidth() > 0) {
+				g2.setPaint(n.getObjectColor());
+				g2.setStroke(objStroke);
+				g2.drawWithValueStrokePure(gp);
+			}
 
 			if (labelVisible) {
 				g2.setFont(view.getFontConic());
