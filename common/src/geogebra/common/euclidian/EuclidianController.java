@@ -7851,7 +7851,15 @@ public abstract class EuclidianController {
 					|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
 					|| (mode == EuclidianConstants.MODE_TEXT)) {
 				setViewHits(event.getType());
-
+				GeoElement geo0 = view.getHits().get(0);
+				if (!app.showToolBar()
+						&& geo0 != null
+						&& (geo0.isGeoTextField() || geo0.isGeoBoolean()
+								|| geo0.isGeoButton() || (geo0.isGeoNumeric() && ((GeoNumeric) geo0)
+								.isSlider()))) {
+					draggingOccured = false;
+					return;
+				}
 				// make sure slider tool drags only sliders, not other object
 				// types
 				if (mode == EuclidianConstants.MODE_SLIDER) {
