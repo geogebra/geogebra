@@ -34,6 +34,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		createGUI(title, "", false, cols, rows, /*false*/ true, false, false, false,
 				DialogType.DynamicText);
 		editor = inputPanel.getTextAreaComponent();
+		editor.setText(editGeo);
 		
 		wrappedPopup.addStyleName("TextInputDialog");
 		wrappedPopup.center();
