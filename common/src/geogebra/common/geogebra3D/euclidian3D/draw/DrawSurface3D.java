@@ -37,6 +37,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final int DRAW_SIZE = SPLIT_SIZE;
 
 	private static final int CORNER_LIST_SIZE = DRAW_SIZE * 3;
+	
+	/**
+	 * max corners length in one update loop
+	 */
+	private static final int MAX_CORNERS_IN_ONE_UPDATE = (ROOT_MESH_INTERVALS + 1) * (ROOT_MESH_INTERVALS + 1) * (4+2);
 
 	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
 
@@ -46,7 +51,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected CornerAndCenter[] drawList;
 
 	private int currentSplitIndex, nextSplitIndex, cornerListIndex;
-	protected int drawListIndex;
+	protected int drawListIndex, drawListForced;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
@@ -161,16 +166,41 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		currentSplitIndex = 0;
 		nextSplitIndex = 0;
 		drawListIndex = 0;
+		drawListForced = 0;
 		notDrawn = 0;
 		splitRootMesh(corner);
 		App.debug("\nnot drawn after split root mesh: " + notDrawn);
 		split(false);
 
-		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + "\nstill to split : " + nextSplitIndex + "\ncorner list size : " + cornerListIndex);
+		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + "\nstill to split : " 
+				+ nextSplitIndex + "\ncorner list size : " + cornerListIndex);
 
-		// for (CornerAndCenter cc : drawList) {
-		// cc.drawDebug(surface);
-		// }
+//		if (drawListForced != 0) {
+//			for (int i = drawListForced; i < drawListIndex; i++) {
+//				// remove forced draws
+//				Corner c = drawList[i].getCorner();
+//				if (c.l.isDrawForced) {
+//					c.l = c.l.l;
+//				}
+//				if (c.l.a.isDrawForced) {
+//					c.l.a = c.l.a.a;
+//				}
+//				if (c.a.isDrawForced) {
+//					c.a = c.a.a;
+//				}
+//				if (c.a.l.isDrawForced) {
+//					c.a.l = c.a.l.l;
+//				}
+//				// put it again in split list
+//				addToNextSplit(c);
+//			}
+//			// continue again draw list
+//			drawListIndex = drawListForced;
+//			// split again
+//			split(false);
+//		}
+
+
 
 		if (drawListIndex > 0) {
 			surface.startTriangles();
@@ -298,14 +328,23 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		nextSplit = tmp;
 		currentSplitIndex = nextSplitIndex;
 		nextSplitIndex = 0;
+		
+		App.debug("currentSplitIndex = " + currentSplitIndex + ", drawListIndex = "+ drawListIndex);
+
+		boolean forceDraw = draw || (4 * currentSplitIndex + drawListIndex - drawListForced > MAX_CORNERS_IN_ONE_UPDATE);
+		
+		if (forceDraw) {
+			drawListForced = drawListIndex;
+			App.debug(" ==== force draw: " + drawListForced);
+		}
 
 		for (int i = 0; i < currentSplitIndex; i++) {
-			currentSplit[i].split(draw);
+			currentSplit[i].split(forceDraw);
 		}
 
 		App.debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
 
-		if (!draw && nextSplitIndex > 0) {
+		if (!forceDraw && nextSplitIndex > 0) {
 			if (nextSplitIndex * 4 < SPLIT_SIZE && drawListIndex + nextSplitIndex * 4 < DRAW_SIZE) {
 				// split again
 				split(false);
@@ -405,6 +444,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Coords normal;
 		double u, v;
 		boolean isNotEnd;
+		boolean isDrawForced;
 		Corner a, l; // above, left
 
 		public Corner(double u, double v) {
@@ -421,6 +461,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				normal = evaluateNormal(u, v, normal);
 			}
 			isNotEnd = true;
+			isDrawForced = false;
 			a = null;
 			l = null;
 		}
@@ -431,6 +472,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.p = p;
 			normal = evaluateNormal(u, v);
 			isNotEnd = true;
+			isDrawForced = false;
 			a = null;
 			l = null;
 		}
@@ -498,6 +540,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// draw
+								n.isDrawForced = draw;
+								w.isDrawForced = draw;
 								addToDrawList(w.a, n, w, w.a);
 							}
 						}
@@ -544,6 +588,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 
 								// drawing
+								n.isDrawForced = draw;
+								e.isDrawForced = draw;
 								addToDrawList(left.a, n, e, above);
 							}
 						} else {
@@ -579,19 +625,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 								// find defined between l.a and left
 								Corner w = findV(left.a, left, BOUNDARY_SPLIT);
-								
-								//check distances
-								double d = getDistanceNoLoop(above, e, w, left.a);
-								if (Double.isInfinite(d)) { // d > maxRWDistance
-									split = true;
-								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
-									if (isAngleOKNoLoop(maxBend, above, e, w, left.a)) { // angle ok
-										split = false;
-									} else { // angle not ok
+
+								if (!draw){
+									//check distances
+									double d = getDistanceNoLoop(above, e, w, left.a);
+									if (Double.isInfinite(d)) { // d > maxRWDistance
 										split = true;
+									} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+										if (isAngleOKNoLoop(maxBend, above, e, w, left.a)) { // angle ok
+											split = false;
+										} else { // angle not ok
+											split = true;
+										}
+									} else { // no need to check angle
+										split = false;
 									}
-								} else { // no need to check angle
-									split = false;
 								}
 
 								if (split) {
@@ -607,6 +655,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									left.a = w;
 
 									// drawing
+									e.isDrawForced = draw;
+									w.isDrawForced = draw;
 									addToDrawList(w.a, e, above, left.a, w);
 								}
 							}
@@ -656,6 +706,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
+								s.isDrawForced = draw;
+								w.isDrawForced = draw;
 								addToDrawList(w.a, s, w, left);
 
 							}
@@ -693,18 +745,20 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								// find defined between l.a and a
 								Corner n = findU(left.a, above, BOUNDARY_SPLIT);
 
-								// check distances
-								double d = getDistanceNoLoop(left.a, n, s, left);
-								if (Double.isInfinite(d)) { // d > maxRWDistance
-									split = true;
-								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
-									if (isAngleOKNoLoop(maxBend, left.a, n, s, left)) { // angle ok
-										split = false;
-									} else { // angle not ok
+								if (!draw){
+									// check distances
+									double d = getDistanceNoLoop(left.a, n, s, left);
+									if (Double.isInfinite(d)) { // d > maxRWDistance
 										split = true;
+									} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+										if (isAngleOKNoLoop(maxBend, left.a, n, s, left)) { // angle ok
+											split = false;
+										} else { // angle not ok
+											split = true;
+										}
+									} else { // no need to check angle
+										split = false;
 									}
-								} else { // no need to check angle
-									split = false;
 								}
 
 								if (split) {
@@ -720,6 +774,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									above.l = n;
 
 									// drawing
+									n.isDrawForced = draw;
+									s.isDrawForced = draw;
 									addToDrawList(left.a, s, n, left.a, left);
 								}
 							}
@@ -795,6 +851,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 
 								// drawing
+								s.isDrawForced = draw;
+								e.isDrawForced = draw;
 								addToDrawList(left.a, left, above, left.a);
 							}
 						}
@@ -858,6 +916,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 
 								// drawing
+								s.isDrawForced = draw;
+								e.isDrawForced = draw;
 								addToDrawList(left.a, s, e, this);
 							}
 						} else {
@@ -917,19 +977,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 								// find defined between a and l.a
 								Corner n = findU(above, left.a, BOUNDARY_SPLIT);
-								
-								// check distances
-								double d = getDistanceNoLoop(this, s, n, above);
-								if (Double.isInfinite(d)) { // d > maxRWDistance
-									split = true;
-								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
-									if (isAngleOKNoLoop(maxBend, this, s, n, above)) { // angle ok
-										split = false;
-									} else { // angle not ok
+
+								if (!draw){
+									// check distances
+									double d = getDistanceNoLoop(this, s, n, above);
+									if (Double.isInfinite(d)) { // d > maxRWDistance
 										split = true;
+									} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+										if (isAngleOKNoLoop(maxBend, this, s, n, above)) { // angle ok
+											split = false;
+										} else { // angle not ok
+											split = true;
+										}
+									} else { // no need to check angle
+										split = false;
 									}
-								} else { // no need to check angle
-									split = false;
 								}
 
 								if (split) {
@@ -945,6 +1007,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									above.l = n;
 
 									// drawing
+									n.isDrawForced = draw;
+									s.isDrawForced = draw;
 									addToDrawList(left.a, this, above, n, s);
 
 								}
@@ -990,6 +1054,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
+								s.isDrawForced = draw;
+								w.isDrawForced = draw;
 								addToDrawList(w.a, above, left.a, this);
 							}
 						}
@@ -1029,18 +1095,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 								// find defined between l and l.a
 								Corner w = findV(left, left.a, BOUNDARY_SPLIT);
-								//check distances
-								double d = getDistanceNoLoop(this, e, w, left);
-								if (Double.isInfinite(d)) { // d > maxRWDistance
-									split = true;
-								} else if (d > maxRWDistanceNoAngleCheck) { // check angle
-									if (isAngleOKNoLoop(maxBend, this, e, w, left)) { // angle ok
-										split = false;
-									} else { // angle not ok
+								
+								if (!draw){
+									//check distances
+									double d = getDistanceNoLoop(this, e, w, left);
+									if (Double.isInfinite(d)) { // d > maxRWDistance
 										split = true;
+									} else if (d > maxRWDistanceNoAngleCheck) { // check angle
+										if (isAngleOKNoLoop(maxBend, this, e, w, left)) { // angle ok
+											split = false;
+										} else { // angle not ok
+											split = true;
+										}
+									} else { // no need to check angle
+										split = false;
 									}
-								} else { // no need to check angle
-									split = false;
 								}
 
 								if (split) {
@@ -1056,6 +1125,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									left.a = w;
 
 									// drawing
+									e.isDrawForced = draw;
+									w.isDrawForced = draw;
 									addToDrawList(w.a, this, e, w, left);
 								}
 							}
@@ -1100,6 +1171,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 
 								// drawing
+								n.isDrawForced = draw;
+								e.isDrawForced = draw;
 								addToDrawList(left.a, left, left.a, this);
 							}
 						}
@@ -1138,6 +1211,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
+								n.isDrawForced = draw;
+								w.isDrawForced = draw;
 								addToDrawList(w.a, this, left, above);
 
 							}
@@ -1640,6 +1715,14 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		 */
 		public void setCorner(Corner corner) {
 			this.corner = corner;
+		}
+
+		/**
+		 * 
+		 * @return corner
+		 */
+		public Corner getCorner() {
+			return corner;
 		}
 
 		/**
