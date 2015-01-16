@@ -540,8 +540,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// draw
-								n.isDrawForced = draw;
-								w.isDrawForced = draw;
+								if (draw){
+									n.isDrawForced = true;
+									w.isDrawForced = true;
+								}
 								addToDrawList(w.a, n, w, w.a);
 							}
 						}
@@ -588,8 +590,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 
 								// drawing
-								n.isDrawForced = draw;
-								e.isDrawForced = draw;
+								if (draw){
+									n.isDrawForced = true;
+									e.isDrawForced = true;
+								}
 								addToDrawList(left.a, n, e, above);
 							}
 						} else {
@@ -655,8 +659,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									left.a = w;
 
 									// drawing
-									e.isDrawForced = draw;
-									w.isDrawForced = draw;
+									if (draw){
+										e.isDrawForced = true;
+										w.isDrawForced = true;
+									}
 									addToDrawList(w.a, e, above, left.a, w);
 								}
 							}
@@ -706,8 +712,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
-								s.isDrawForced = draw;
-								w.isDrawForced = draw;
+								if (draw){
+									s.isDrawForced = true;
+									w.isDrawForced = true;
+								}
 								addToDrawList(w.a, s, w, left);
 
 							}
@@ -774,8 +782,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									above.l = n;
 
 									// drawing
-									n.isDrawForced = draw;
-									s.isDrawForced = draw;
+									if (draw){
+										n.isDrawForced = true;
+										s.isDrawForced = true;
+									}
 									addToDrawList(left.a, s, n, left.a, left);
 								}
 							}
@@ -851,8 +861,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 
 								// drawing
-								s.isDrawForced = draw;
-								e.isDrawForced = draw;
+								if (draw){
+									s.isDrawForced = true;
+									e.isDrawForced = true;
+								}
 								addToDrawList(left.a, left, above, left.a);
 							}
 						}
@@ -916,8 +928,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 
 								// drawing
-								s.isDrawForced = draw;
-								e.isDrawForced = draw;
+								if (draw){
+									s.isDrawForced = true;
+									e.isDrawForced = true;
+								}
 								addToDrawList(left.a, s, e, this);
 							}
 						} else {
@@ -1007,8 +1021,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									above.l = n;
 
 									// drawing
-									n.isDrawForced = draw;
-									s.isDrawForced = draw;
+									if (draw){
+										n.isDrawForced = true;
+										s.isDrawForced = true;
+									}
 									addToDrawList(left.a, this, above, n, s);
 
 								}
@@ -1054,8 +1070,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
-								s.isDrawForced = draw;
-								w.isDrawForced = draw;
+								if (draw){
+									s.isDrawForced = true;
+									w.isDrawForced = true;
+								}
 								addToDrawList(w.a, above, left.a, this);
 							}
 						}
@@ -1125,8 +1143,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									left.a = w;
 
 									// drawing
-									e.isDrawForced = draw;
-									w.isDrawForced = draw;
+									if (draw){
+										e.isDrawForced = true;
+										w.isDrawForced = true;
+									}
 									addToDrawList(w.a, this, e, w, left);
 								}
 							}
@@ -1171,8 +1191,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 
 								// drawing
-								n.isDrawForced = draw;
-								e.isDrawForced = draw;
+								if (draw){
+									n.isDrawForced = true;
+									e.isDrawForced = true;
+								}
 								addToDrawList(left.a, left, left.a, this);
 							}
 						}
@@ -1211,8 +1233,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
-								n.isDrawForced = draw;
-								w.isDrawForced = draw;
+								if (draw){
+									n.isDrawForced = true;
+									w.isDrawForced = true;
+								}
 								addToDrawList(w.a, this, left, above);
 
 							}
