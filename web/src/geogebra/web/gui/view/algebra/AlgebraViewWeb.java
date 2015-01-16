@@ -1055,7 +1055,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 
 	// only for debug
-	public static boolean isTestingReally = true;
+	public static boolean isTestingReally = false;
 	
 	private void showAlgebraInput() {
 		if (inputPanel == null || !app.showAlgebraInput()) {
