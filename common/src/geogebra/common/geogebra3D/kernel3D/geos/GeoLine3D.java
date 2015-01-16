@@ -16,7 +16,6 @@ import geogebra.common.util.Unicode;
 
 public class GeoLine3D extends GeoCoordSys1D {
 
-	GeoPointND startPoint;
 	private String parameter = Unicode.lambda + "";
 
 	/** creates a line joining O and I */
