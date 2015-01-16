@@ -50,6 +50,10 @@ public class CmdSetVisibleInView extends CmdScripting {
 					if (!app.hasEuclidianView2(1))
 						break;
 					ev = app.getEuclidianView2(1);
+				case -1:
+					if (!app.hasEuclidianView3D())
+						break;
+					ev = app.getEuclidianView3D();
 					break;
 				default:
 					// do nothing
