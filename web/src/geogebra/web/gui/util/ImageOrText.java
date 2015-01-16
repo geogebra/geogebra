@@ -6,17 +6,22 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Label;
 
 public class ImageOrText {
-	public String url = null;
-	public String text = null;
-	public GColor bgColor = null, fgColor = null;
+	private String url = null;
+	private String text = null;
+	private GColor bgColor = null, fgColor = null;
 	private int bgSize;
-	public ImageOrText(String string) {
-	    this.text = string;
-    }
 
 	public ImageOrText() {
 	    // TODO Auto-generated constructor stub
     }
+
+	/**
+	 * @param string
+	 *            text
+	 */
+	public ImageOrText(String string) {
+		this.setText(string);
+	}
 
 	public static ImageOrText[] convert(ImageResource[] res, int size) {
 	    ImageOrText[] arr = new ImageOrText[res.length];
@@ -25,7 +30,7 @@ public class ImageOrText {
 	    		return arr;
 	    	}
 	    	arr[i] = new ImageOrText();
-	    	arr[i].url = res[i].getSafeUri().asString();
+	    	arr[i].setUrl(res[i].getSafeUri().asString());
 	    	arr[i].bgSize = size;
 	    }
 	    return arr;
@@ -35,41 +40,94 @@ public class ImageOrText {
 	    ImageOrText[] arr = new ImageOrText[res.length];
 	    for(int i=0; i< arr.length; i++){
 	    	arr[i] = new ImageOrText();
-	    	arr[i].text = res[i];
+	    	arr[i].setText(res[i]);
 	    }
 	    return arr;
     }
 
+	/**
+	 * @param button
+	 *            {@link Label}
+	 */
 	public void applyToLabel(Label button) {
-		//button.setPixelSize(32,32);
-		if(this.url != null){
-			button.getElement().getStyle().setBackgroundImage("url("+this.url+")");
-			if(this.bgSize > 0){
-				button.getElement().getStyle().setProperty("backgroundSize", this.bgSize+ "px");
+		if (url != null) {
+			button.getElement().getStyle()
+			        .setBackgroundImage("url(" + url + ")");
+			if (bgSize > 0) {
+				button.getElement().getStyle()
+				        .setProperty("backgroundSize", bgSize + "px");
 			}
-			if(this.text != null){
+			if (text != null) {
 				button.addStyleName("textIconButton");
 			} else {
 				button.addStyleName("stylebarButton");
 			}
 		}
-		if(this.text != null){
-			button.setText(this.text);
-			if(this.fgColor != null){
-				button.getElement().getStyle().setColor(GColor.getColorString(this.fgColor));
+		if (text != null) {
+			button.setText(text);
+			if (fgColor != null) {
+				button.getElement().getStyle()
+				        .setColor(GColor.getColorString(fgColor));
 			}
 			button.setWidth("auto");
 			return;
 		}
-		if(this.fgColor != null){
-			button.getElement().getStyle().setBorderColor("rgba("+this.fgColor.getRed() +
-					", "+this.fgColor.getGreen()+", "+this.fgColor.getBlue()+", 1)");
+		if (fgColor != null) {
+			button.getElement()
+			        .getStyle()
+			        .setBorderColor(
+			                "rgba(" + fgColor.getRed() + ", "
+			                        + fgColor.getGreen() + ", "
+			                        + fgColor.getBlue() + ", 1)");
 			button.getElement().addClassName("borderButton");
-			button.getElement().getStyle().setBackgroundColor(GColor.getColorString(this.fgColor));
+			button.getElement().getStyle().setBackgroundColor(GColor.getColorString(fgColor));
 		}
-		if(this.bgColor != null){
-			button.getElement().getStyle().setBackgroundColor(GColor.getColorString(this.bgColor));
+		if (bgColor != null) {
+			button.getElement().getStyle()
+			        .setBackgroundColor(GColor.getColorString(bgColor));
 		}
 	    
     }
+
+	/**
+	 * @return the url
+	 */
+    public String getUrl() {
+	    return url;
+    }
+
+	/**
+	 * @param url the url to set
+	 */
+    public void setUrl(String url) {
+	    this.url = url;
+    }
+
+	/**
+	 * @param bgColor the bgColor to set
+	 */
+    public void setBgColor(GColor bgColor) {
+	    this.bgColor = bgColor;
+    }
+
+	/**
+	 * @param fgColor the fgColor to set
+	 */
+    public void setFgColor(GColor fgColor) {
+	    this.fgColor = fgColor;
+    }
+
+	/**
+	 * @param text the text to set
+	 */
+    public void setText(String text) {
+	    this.text = text;
+    }
+
+	/**
+	 * @return text
+	 */
+	public String getText() {
+		return this.text;
+	}
 }

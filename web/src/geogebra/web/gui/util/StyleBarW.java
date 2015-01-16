@@ -1,5 +1,6 @@
 package geogebra.web.gui.util;
 
+import geogebra.common.gui.SetLabels;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.html5.awt.GDimensionW;
@@ -12,8 +13,6 @@ import geogebra.web.gui.view.Views;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.MouseMoveEvent;
-import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -24,45 +23,44 @@ import com.google.gwt.user.client.ui.PopupPanel;
  * @author G. Sturr
  * 
  */
-public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedListener {
+public abstract class StyleBarW extends HorizontalPanel implements
+        ViewsChangedListener, SetLabels {
 
-	protected PopupMenuButton viewButton;
+	PopupMenuButton viewButton;
 	protected AppW app;
-	protected int viewID;
-
+	int viewID;
 	protected OptionType optionType;
 
 	/**
-	 * Constructor
+	 * @param app
+	 *            {@link AppW}
+	 * @param viewID
+	 *            {@code int}
 	 */
-	public StyleBarW() {
-		setStyleName("StyleBar");
-		this.addDomHandler(new MouseMoveHandler(){
-			@Override
-            public void onMouseMove(MouseMoveEvent event) {
-	            event.stopPropagation();
-            }
-		}, MouseMoveEvent.getType());
-	}
-
 	public StyleBarW(AppW app, int viewID) {
 	    this.app = app;
 	    this.viewID = viewID;
 	    this.app.addViewsChangedListener(this);
     }
 
+	public abstract void setOpen(boolean showStyleBar);
+
+	/**
+	 * adds a {@link VerticalSeparator}
+	 */
 	protected void addSeparator(){
 		VerticalSeparator s = new VerticalSeparator(32);
 		add(s);
 	}
 
-	public abstract void setOpen(boolean showStyleBar);
-
+	/**
+	 * adds a {@link MyCJButton button} to show properties dialog
+	 */
 	protected void addMenuButton(){
 		MyCJButton menuButton = new MyCJButton();
 
 		ImageOrText icon = new ImageOrText();
-		icon.url = GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString();
+		icon.setUrl(GuiResources.INSTANCE.menu_icon_options().getSafeUri().asString());
 		menuButton.setIcon(icon);
 
 		menuButton.addClickHandler(new ClickHandler() {
@@ -79,9 +77,13 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		add(menuButton);
 	}
 
+	/**
+	 * adds a {@link PopupMenuButton button} to show a popup, where the user can
+	 * either close this view or open another one.
+	 */
 	protected void addViewButton(){
 		ImageOrText[] data = new ImageOrText[Views.ids.length + 1];
-		final int[] viewIDs = new int[Views.ids.length+1];
+		final int[] viewIDs = new int[Views.ids.length + 1];
 
 		int k = 0;
 		FlowPanel separator = null;
@@ -89,30 +91,31 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		if (numberOfOpenViews > 1) {
 			// show close button if there are more than 1 views open
 			data[0] = new ImageOrText(app.getMenu("Close"));
-			data[0].url = GuiResources.INSTANCE.dockbar_close().getSafeUri().asString();
+			data[0].setUrl(GuiResources.INSTANCE.dockbar_close().getSafeUri()
+			        .asString());
 
 			// placeholder for the separator (needs to be != null)
 			data[1] = new ImageOrText("");
 			k = 2;
 			separator = new FlowPanel();
-		    separator.addStyleName("Separator");
+			separator.addStyleName("Separator");
 		}
 
-		for(int i = 0; i < Views.ids.length; i++){
-			if(app.supportsView(Views.ids[i]) && !app.getGuiManager().showView(Views.ids[i])){
+		for (int i = 0; i < Views.ids.length; i++) {
+			if (app.supportsView(Views.ids[i])
+			        && !app.getGuiManager().showView(Views.ids[i])) {
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
-				//data[k].url = GuiResources.INSTANCE.dockbar_open().getSafeUri().asString();
-				data[k].url = GGWToolBar.safeURI(Views.menuIcons[i]);
-				viewIDs[k] = Views.ids[i];				
+				data[k].setUrl(GGWToolBar.safeURI(Views.menuIcons[i]));
+				viewIDs[k] = Views.ids[i];
 				k++;
 			}
 		}
 
-		if(k != data.length){
+		if (k != data.length) {
 			// make sure that data contains no entries that are null
 			ImageOrText[] temp = data;
 			data = new ImageOrText[k];
-			for(int i = 0; i < k; i++){
+			for (int i = 0; i < k; i++) {
 				data[i] = temp[i];
 			}
 		}
@@ -121,7 +124,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 		viewButton.addStyleDependentName("borderless");
 		viewButton.addStyleDependentName("rightaligned");
 		ImageOrText views = new ImageOrText();
-		views.url = AppResources.INSTANCE.dots().getSafeUri().asString();
+		views.setUrl(AppResources.INSTANCE.dots().getSafeUri().asString());
 		viewButton.setFixedIcon(views);
 	
 		if (separator != null) {
@@ -132,7 +135,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	    	@Override
 			public void onClick(ClickEvent event) {
 				ImageOrText icon = new ImageOrText();
-				icon.url = AppResources.INSTANCE.dots_active().getSafeUri().asString();
+				icon.setUrl(AppResources.INSTANCE.dots_active().getSafeUri().asString());
 				viewButton.setFixedIcon(icon);
 			}
 		});
@@ -140,7 +143,7 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	    viewButton.getMyPopup().addCloseHandler(new CloseHandler<PopupPanel>() {
 			public void onClose(CloseEvent<PopupPanel> event) {
 				ImageOrText icon = new ImageOrText();
-				icon.url = AppResources.INSTANCE.dots().getSafeUri().asString();
+				icon.setUrl(AppResources.INSTANCE.dots().getSafeUri().asString());
 				viewButton.setFixedIcon(icon);
 			}
 		});
@@ -186,5 +189,11 @@ public abstract class StyleBarW extends HorizontalPanel implements ViewsChangedL
 	    	remove(viewButton);
 	    	addViewButton();
 	    }
+	}
+
+	public void setLabels() {
+		remove(viewButton);
+		// FIXME ONLY UPDATE TEXT
+		addViewButton();
 	}
 }

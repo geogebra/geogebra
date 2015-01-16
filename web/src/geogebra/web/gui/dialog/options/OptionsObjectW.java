@@ -2802,7 +2802,6 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			};
 			btnImage.setSelectedIndex(-1);
-			btnImage.setStandardButton(true);
 			btnImage.setKeepVisible(false);
 			btnClearImage = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
 			btnClearImage.addClickHandler(new ClickHandler(){

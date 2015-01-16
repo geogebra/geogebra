@@ -25,7 +25,6 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.main.settings.EuclidianSettings;
-import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.main.AppW;
@@ -53,40 +52,18 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * StyleBar for euclidianView
+ */
 public class EuclidianStyleBarW extends StyleBarW implements
         geogebra.common.euclidian.EuclidianStyleBar,
         ValueChangeHandler<Boolean>, // ClickHandler,
         PopupMenuHandler {
 
-	public static ButtonPopupMenu CURRENT_POP_UP = null;
-	EuclidianController ec;
-	protected EuclidianView ev;
-	private Construction cons;
-
-	protected HashMap<Integer, Integer> defaultGeoMap;
-	private ArrayList<GeoElement> defaultGeos;
-	private GeoElement oldDefaultGeo;
-
-	// flags and constants
-	protected int iconHeight = 24;
-	// private Dimension iconDimension = new Dimension(16, iconHeight);
-	public int mode = -1;
-	private boolean isIniting;
-	private boolean needUndo = false;
-	private Integer oldDefaultMode;
-	private boolean modeChanged = true;
-
-	// button-specific fields
-	// TODO: create button classes so these become internal
-	AlgoTableText tableText;
-
-	HashMap<Integer, Integer> lineStyleMap;
-
-	HashMap<Integer, Integer> pointStyleMap;
 
 	private class EuclidianLineStylePopup extends LineStylePopup implements
 	        ILineStyleListener {
-		private LineStyleModel model;
+		LineStyleModel model;
 
 		public EuclidianLineStylePopup(AppW app, ImageOrText[] data,
 		        Integer rows, Integer columns, SelectionTable mode,
@@ -115,7 +92,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			this.setVisible(geosOK);
 
 			if (geosOK) {
-				setFgColor((GColorW) geogebra.common.awt.GColor.black);
 				model.updateProperties();
 				GeoElement geo0 = model.getGeoAt(0);
 				if (hasSlider()) {
@@ -163,53 +139,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 	}
 
-	// buttons and lists of buttons
-	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
-
-	private PointStylePopup btnPointStyle;
-	private PopupMenuButton btnTextSize, btnMode, btnShowGrid;
-	private EuclidianLineStylePopup btnLineStyle;
-	PopupMenuButton btnTableTextJustify;
-
-	PopupMenuButton btnTableTextBracket;
-
-	private PopupMenuButton btnLabelStyle;
-
-	protected PopupMenuButton btnPointCapture;
-
-	private MyToggleButton2[] btnDeleteSizes = new MyToggleButton2[3];
-
-	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowAxes;
-	protected MyToggleButton2 btnStandardView;
-
-	MyToggleButton2 btnBold;
-
-	MyToggleButton2 btnItalic;
-
-	private MyToggleButton2 btnDelete;
-
-	private MyToggleButton2 btnLabel;
-
-	private MyToggleButton2 btnPenEraser;
-
-	MyToggleButton2 btnHideShowLabel;
-
-	private MyToggleButton2 btnTableTextLinesV;
-
-	private MyToggleButton2 btnTableTextLinesH;
-
-	private MyToggleButton2[] toggleBtnList;
-	private PopupMenuButton[] popupBtnList;
-
-	// private MyCJButton btnDeleteGeo;
-
-	private enum StyleBarMethod {
-		NONE, UPDATE, UPDATE_STYLE
-	};
-
-	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
-	private Localization loc;
-
 	/**
 	 * Toggle button that should be visible if no geos are selected or to be
 	 * created and no special icons appear in stylebar (eg. delete mode)
@@ -232,6 +161,72 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		}
 	}
 
+	private enum StyleBarMethod {
+		NONE, UPDATE, UPDATE_STYLE
+	}
+
+	protected final int ICON_HEIGHT = 24;
+
+	public static ButtonPopupMenu CURRENT_POP_UP = null;
+	EuclidianController ec;
+	protected EuclidianView ev;
+	private Construction cons;
+
+	protected HashMap<Integer, Integer> defaultGeoMap;
+	private ArrayList<GeoElement> defaultGeos;
+	private GeoElement oldDefaultGeo;
+
+	// flags and constants
+	public int mode = -1;
+	private boolean isIniting;
+	private boolean needUndo = false;
+	private Integer oldDefaultMode;
+	private boolean modeChanged = true;
+
+	// button-specific fields
+	// TODO: create button classes so these become internal
+	AlgoTableText tableText;
+
+	HashMap<Integer, Integer> lineStyleMap;
+
+	HashMap<Integer, Integer> pointStyleMap;
+
+	private ArrayList<GeoElement> activeGeoList;
+	private boolean visible;
+
+	// buttons and lists of buttons
+	private PointStylePopup btnPointStyle;
+	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
+	private EuclidianLineStylePopup btnLineStyle;
+	private PopupMenuButton btnTextSize, btnMode, btnShowGrid;
+	private PopupMenuButton btnLabelStyle;
+	PopupMenuButton btnTableTextJustify;
+	PopupMenuButton btnTableTextBracket;
+	protected PopupMenuButton btnPointCapture;
+
+
+	private MyToggleButton2 btnCopyVisualStyle, btnPen, btnShowAxes;
+	private MyToggleButton2 btnDelete;
+	private MyToggleButton2 btnLabel;
+	private MyToggleButton2 btnPenEraser;
+	private MyToggleButton2 btnTableTextLinesV;
+	private MyToggleButton2 btnTableTextLinesH;
+	MyToggleButton2 btnHideShowLabel;
+	MyToggleButton2 btnBold;
+	MyToggleButton2 btnItalic;
+	protected MyToggleButton2 btnStandardView;
+
+	private MyToggleButton2[] toggleBtnList;
+	private MyToggleButton2[] btnDeleteSizes = new MyToggleButton2[3];
+	private PopupMenuButton[] popupBtnList;
+	private PopupMenuButton[] popupBtnSetLabelNeeded;
+
+	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
+
+	/**
+	 * @param ev
+	 *            {@link EuclidianView}
+	 */
 	public EuclidianStyleBarW(EuclidianView ev) {
 		super((AppW) ev.getApplication(), ev.getViewID());
 
@@ -239,16 +234,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		this.ev = ev;
 		ec = ev.getEuclidianController();
 		cons = app.getKernel().getConstruction();
-		loc = app.getLocalization();
 		// init handling of default geos
 		createDefaultMap();
 		defaultGeos = new ArrayList<GeoElement>();
-
-		// toolbar display settings
-		// setFloatable(false);
-		// Dimension d = getPreferredSize();
-		// d.height = iconHeight + 8;
-		// setPreferredSize(d);
 
 		// init button-specific fields
 		// TODO: put these in button classes
@@ -288,10 +276,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	 */
 	public EuclidianView getView() {
 		return ev;
-	}
-
-	public int getMode() {
-		return mode;
 	}
 
 	public void updateButtonPointCapture(int mode) {
@@ -334,12 +318,36 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			        oldDefaultMode);
 	}
 
+	@Override
 	public void setLabels() {
+		super.setLabels();
+		// set labels for popups
+		this.btnPointCapture.getMyTable().updateText(
+		        ImageOrText.convert(new String[] {
+		                app.getMenu("Labeling.automatic"),
+		                app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
+		                app.getMenu("off") }));
+		this.btnLabelStyle.getMyTable().updateText(
+		        ImageOrText.convert(new String[] {
+		                app.getPlain("stylebar.Hidden"), // index 4
+		                app.getPlain("Name"), // index 0
+		                app.getPlain("NameAndValue"), // index 1
+		                app.getPlain("Value"), // index 2
+		                app.getPlain("Caption") // index 3
+		                }));
+		this.btnTextSize.getMyTable()
+		        .updateText(
+		                ImageOrText.convert(app.getLocalization()
+		                        .getFontSizeStrings()));
 
-		initGUI();
-		updateStyleBar();
+		// set labels for buttons with text e.g. button "bold" or "italic"
+		this.btnBold.setText(app.getMenu("Bold.Short"));
+		this.btnItalic.setText(app.getMenu("Italic.Short"));
+
+		// set labels for ToolTips
 		setToolTips();
 	}
+
 
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
@@ -366,28 +374,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnTextSize.setToolTipText(loc.getPlainTooltip("stylebar.TextSize"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-
-		/*
-		 * btnTableTextJustify.setToolTipText(loc
-		 * .getPlainTooltip("stylebar.Align"));
-		 * btnTableTextBracket.setToolTipText(loc
-		 * .getPlainTooltip("stylebar.Bracket"));
-		 * btnTableTextLinesV.setToolTipText(loc
-		 * .getPlainTooltip("stylebar.VerticalLine"));
-		 * btnTableTextLinesH.setToolTipText(loc
-		 * .getPlainTooltip("stylebar.HorizontalLine"));
-		 * 
-		 * btnPen.setToolTipText(loc.getPlainTooltip("stylebar.Pen"));
-		 * btnFixPosition.setToolTipText(loc
-		 * .getPlainTooltip("AbsoluteScreenLocation"));
-		 * 
-		 * btnDeleteSize.setToolTipText(loc.getPlainTooltip("Size"));
-		 */
-
 	}
-
-	private ArrayList<GeoElement> activeGeoList;
-	private boolean visible;
 
 	@Override
 	public void setOpen(boolean visible) {
@@ -577,10 +564,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		// add graphics decoration buttons
 		addGraphicsDecorationsButtons();
-		addBtnPointCapture();
+		add(btnPointCapture);
 
 		// add color and style buttons
-
 		add(btnColor);
 		add(btnBgColor);
 		add(btnTextColor);
@@ -635,10 +621,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		add(btnShowGrid);
 	}
 
-	protected void addBtnPointCapture() {
-		add(btnPointCapture);
-	}
-
 	protected MyToggleButton2 getAxesOrGridToggleButton() {
 		return btnShowAxes;
 	}
@@ -670,7 +652,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// ========================================
 		// show axes button
 		btnShowAxes = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.axes(), iconHeight);
+		        StyleBarResources.INSTANCE.axes(), ICON_HEIGHT);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
@@ -702,7 +684,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		                AppResources.INSTANCE.mode_copyvisualstyle_16() }, 0);
 
 		btnMode = new PopupMenuButton((AppW) ev.getApplication(), modeArray,
-		        -1, 1, new GDimensionW(20, iconHeight),
+		        -1, 1, new GDimensionW(20, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		// btnMode.addActionListener(this);
 		btnMode.setKeepVisible(false);
@@ -711,7 +693,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// ========================================
 		// delete button
 		btnDelete = new MyToggleButton2(AppResources.INSTANCE.delete_small(),
-		        iconHeight) {
+		        ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -724,7 +706,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// ========================================
 		// hide/show labels button
 		btnLabel = new MyToggleButton2(
-		        AppResources.INSTANCE.mode_copyvisualstyle_16(), iconHeight) {
+		        AppResources.INSTANCE.mode_copyvisualstyle_16(), ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -739,7 +721,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// visual style button
 
 		btnCopyVisualStyle = new MyToggleButton2(
-		        AppResources.INSTANCE.mode_copyvisualstyle_16(), iconHeight) {
+		        AppResources.INSTANCE.mode_copyvisualstyle_16(), ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -752,7 +734,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		createAxesAndGridButtons();
 
 		btnStandardView = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.standard_view(), iconHeight);
+		        StyleBarResources.INSTANCE.standard_view(), ICON_HEIGHT);
 		btnStandardView.addValueChangeHandler(this);
 
 		// ========================================
@@ -762,7 +744,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// create button
 
 		LineStylePopup.setMode(mode);
-		EuclidianLineStylePopup.fillData(iconHeight);
+		LineStylePopup.fillData(ICON_HEIGHT);
 		btnLineStyle = new EuclidianLineStylePopup(app,
 		        LineStylePopup.getLineStyleIcons(), -1, 5,
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON, true, true);
@@ -776,9 +758,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnLineStyle.addPopupHandler(this);
 
 		// create button
-		btnPointStyle = PointStylePopup.create(app, iconHeight, mode, true,
+		btnPointStyle = PointStylePopup.create(app, ICON_HEIGHT, mode, true,
 		        new PointStyleModel(null));
-		btnPointStyle.setEuclidian3D(false);
+
 		btnPointStyle.getMySlider().setMinimum(1);
 		btnPointStyle.getMySlider().setMaximum(9);
 		btnPointStyle.getMySlider().setMajorTickSpacing(2);
@@ -790,7 +772,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// ========================================
 		// eraser button
 		btnPenEraser = new MyToggleButton2(
-		        AppResources.INSTANCE.delete_small(), iconHeight) {
+		        AppResources.INSTANCE.delete_small(), ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -809,7 +791,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// ========================================
 		// hide/show label button
 		btnHideShowLabel = new MyToggleButton2(
-		        AppResources.INSTANCE.mode_showhidelabel_16(), iconHeight) {
+		        AppResources.INSTANCE.mode_showhidelabel_16(), ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -851,7 +833,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		        });
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
-		        new GDimensionW(0, iconHeight),
+		        new GDimensionW(0, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -924,7 +906,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		        app.getMenu("FixedToGrid"), app.getMenu("off") });
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
-		        new GDimensionW(0, iconHeight),
+		        new GDimensionW(0, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -975,7 +957,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 	private void createColorButton() {
 
-		final GDimensionW colorIconSize = new GDimensionW(20, iconHeight);
+		final GDimensionW colorIconSize = new GDimensionW(20, ICON_HEIGHT);
 		btnColor = new ColorPopupMenuButton(app, colorIconSize,
 		        ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
@@ -1055,7 +1037,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 	private void createBgColorButton() {
 
-		final GDimensionW bgColorIconSize = new GDimensionW(20, iconHeight);
+		final GDimensionW bgColorIconSize = new GDimensionW(20, ICON_HEIGHT);
 
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 		        ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
@@ -1116,7 +1098,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	private void createTextButtons() {
 		// ========================
 		// text color button
-		final GDimensionW textColorIconSize = new GDimensionW(24, iconHeight);
+		final GDimensionW textColorIconSize = new GDimensionW(24, ICON_HEIGHT);
 
 		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
 		        ColorPopupMenuButton.COLORSET_DEFAULT, false) {
@@ -1144,9 +1126,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 					if (index == -1) {
 						this.setIcon(getButtonIcon());
 					}
-
-					setFgColor((GColorW) geoColor);
-					setFontStyle(((TextProperties) geo).getFontStyle());
 				}
 			}
 
@@ -1168,8 +1147,8 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// GeoGebraIcon.createStringIcon(app.getPlain("Bold")
 		// .substring(0, 1), app.getPlainFont(), true, false, true,
 		// iconDimension, Color.black, null);
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"), iconHeight) {
-			// AppResources.INSTANCE.format_text_bold(), iconHeight) {
+		btnBold = new MyToggleButton2(app.getMenu("Bold.Short"), ICON_HEIGHT) {
+			// AppResources.INSTANCE.format_text_bold(), ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1193,8 +1172,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
 		// app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
 		// false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"), iconHeight) {
-			// AppResources.INSTANCE.format_text_italic(), iconHeight) {
+		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"),
+		        ICON_HEIGHT) {
+			// AppResources.INSTANCE.format_text_italic(), ICON_HEIGHT) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1223,7 +1203,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		        .getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-		        new GDimensionW(-1, iconHeight),
+		        new GDimensionW(-1, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override

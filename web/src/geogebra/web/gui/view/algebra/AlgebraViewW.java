@@ -418,7 +418,13 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		return isVisible() && isAttached();
     }
 
-
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (this.styleBar != null) {
+			this.styleBar.setLabels();
+		}
+	}
 
 	
 } // AlgebraView

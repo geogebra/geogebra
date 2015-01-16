@@ -7,7 +7,6 @@ import geogebra.common.gui.dialog.options.model.IComboListener;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.kernel.geos.PointProperties;
-import geogebra.html5.awt.GColorW;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
 
@@ -78,7 +77,6 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		this.setVisible(geosOK);
 
 		if (geosOK) {
-			setFgColor((GColorW) geogebra.common.awt.GColor.black);
 			getMyTable().setVisible(!euclidian3D);
 
 			model.updateProperties();

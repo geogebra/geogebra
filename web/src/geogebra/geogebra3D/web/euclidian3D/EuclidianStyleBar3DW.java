@@ -90,14 +90,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		for (int i = 0; i < 4; i++) {
 			clippingIcons[i] = new ImageOrText();
 		}
-		clippingIcons[0].url = StyleBarResources.INSTANCE.stylingbar_empty()
-		        .getSafeUri().asString();
-		clippingIcons[1].url = StyleBar3DResources.INSTANCE.clippingSmall()
-		        .getSafeUri().asString();
-		clippingIcons[2].url = StyleBar3DResources.INSTANCE.clippingMedium()
-		        .getSafeUri().asString();
-		clippingIcons[3].url = StyleBar3DResources.INSTANCE.clippingBig()
-		        .getSafeUri().asString();
+		clippingIcons[0].setUrl(StyleBarResources.INSTANCE.stylingbar_empty()
+		        .getSafeUri().asString());
+		clippingIcons[1].setUrl(StyleBar3DResources.INSTANCE.clippingSmall()
+		        .getSafeUri().asString());
+		clippingIcons[2].setUrl(StyleBar3DResources.INSTANCE.clippingMedium()
+		        .getSafeUri().asString());
+		clippingIcons[3].setUrl(StyleBar3DResources.INSTANCE.clippingBig()
+		        .getSafeUri().asString());
 		btnClipping = new ClippingPopup(app, clippingIcons, 1, 4,
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
 		// btnClipping = new PopupMenuButtonForView3D(){
@@ -135,14 +135,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		for (int i = 0; i < 4; i++) {
 			directionIcons[i] = new ImageOrText();
 		}
-		directionIcons[0].url = StyleBar3DResources.INSTANCE.viewXY()
-		        .getSafeUri().asString();
-		directionIcons[1].url = StyleBar3DResources.INSTANCE.viewXZ()
-		        .getSafeUri().asString();
-		directionIcons[2].url = StyleBar3DResources.INSTANCE.viewYZ()
-		        .getSafeUri().asString();
-		directionIcons[3].url = StyleBar3DResources.INSTANCE
-		        .standardViewRotate().getSafeUri().asString();
+		directionIcons[0].setUrl(StyleBar3DResources.INSTANCE.viewXY()
+		        .getSafeUri().asString());
+		directionIcons[1].setUrl(StyleBar3DResources.INSTANCE.viewXZ()
+		        .getSafeUri().asString());
+		directionIcons[2].setUrl(StyleBar3DResources.INSTANCE.viewYZ()
+		        .getSafeUri().asString());
+		directionIcons[3].setUrl(StyleBar3DResources.INSTANCE
+		        .standardViewRotate().getSafeUri().asString());
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addPopupHandler(this);
 		// btnViewDefault = new
@@ -182,14 +182,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		for (int i = 0; i < 4; i++) {
 			projectionIcons[i] = new ImageOrText();
 		}
-		projectionIcons[0].url = StyleBar3DResources.INSTANCE
-		        .viewOrthographic().getSafeUri().asString();
-		projectionIcons[1].url = StyleBar3DResources.INSTANCE.viewPerspective()
-		        .getSafeUri().asString();
-		projectionIcons[2].url = StyleBar3DResources.INSTANCE.viewGlasses()
-		        .getSafeUri().asString();
-		projectionIcons[3].url = StyleBar3DResources.INSTANCE.viewOblique()
-		        .getSafeUri().asString();
+		projectionIcons[0].setUrl(StyleBar3DResources.INSTANCE
+		        .viewOrthographic().getSafeUri().asString());
+		projectionIcons[1].setUrl(StyleBar3DResources.INSTANCE.viewPerspective()
+		        .getSafeUri().asString());
+		projectionIcons[2].setUrl(StyleBar3DResources.INSTANCE.viewGlasses()
+		        .getSafeUri().asString());
+		projectionIcons[3].setUrl(StyleBar3DResources.INSTANCE.viewOblique()
+		        .getSafeUri().asString());
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addPopupHandler(this);
 
@@ -200,7 +200,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-			        new GDimensionW(20, iconHeight),
+			        new GDimensionW(20, ICON_HEIGHT),
 			        geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
 			        false);
 			setIcon(projectionIcons[getView().getProjection()]);
@@ -225,9 +225,9 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			super();
 
 			this.playIcon = new ImageOrText();
-			this.playIcon.url = playIcon.getSafeUri().asString();
+			this.playIcon.setUrl(playIcon.getSafeUri().asString());
 			this.pauseIcon = new ImageOrText();
-			this.pauseIcon.url = pauseIcon.getSafeUri().asString();
+			this.pauseIcon.setUrl(pauseIcon.getSafeUri().asString());
 
 			setIcon(this.playIcon);
 
@@ -273,7 +273,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		public PopupMenuButtonForView3D() {
 			super(EuclidianStyleBar3DW.this.app, null, -1, -1, new GDimensionW(
-			        20, iconHeight),
+			        20, ICON_HEIGHT),
 			        geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
 			        true);
 		}
@@ -378,14 +378,14 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		for (int i = 0; i < 4; i++) {
 			axesAndPlaneIcons[i] = new ImageOrText();
 		}
-		axesAndPlaneIcons[0].url = StyleBarResources.INSTANCE
-		        .stylingbar_empty().getSafeUri().asString();
-		axesAndPlaneIcons[1].url = StyleBarResources.INSTANCE.axes()
-		        .getSafeUri().asString();
-		axesAndPlaneIcons[2].url = StyleBar3DResources.INSTANCE.plane()
-		        .getSafeUri().asString();
-		axesAndPlaneIcons[3].url = StyleBar3DResources.INSTANCE.axes_plane()
-		        .getSafeUri().asString();
+		axesAndPlaneIcons[0].setUrl(StyleBarResources.INSTANCE
+		        .stylingbar_empty().getSafeUri().asString());
+		axesAndPlaneIcons[1].setUrl(StyleBarResources.INSTANCE.axes()
+		        .getSafeUri().asString());
+		axesAndPlaneIcons[2].setUrl(StyleBar3DResources.INSTANCE.plane()
+		        .getSafeUri().asString());
+		axesAndPlaneIcons[3].setUrl(StyleBar3DResources.INSTANCE.axes_plane()
+		        .getSafeUri().asString());
 
 		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1,
 		        4, geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
@@ -395,7 +395,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		// ========================================
 		// show grid button
 		btnShowGrid3D = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.grid(), iconHeight);
+		        StyleBarResources.INSTANCE.grid(), ICON_HEIGHT);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
@@ -440,21 +440,9 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		Localization loc = app.getLocalization();
 		btnRotateView
 		        .setToolTipText(loc.getPlainTooltip("stylebar.RotateView"));
-		btnViewDirection.setToolTipArray(new String[] {
-		        loc.getPlainTooltip("stylebar.ViewXY"),
-		        loc.getPlainTooltip("stylebar.ViewXZ"),
-		        loc.getPlainTooltip("stylebar.ViewYZ"),
-		        loc.getPlainTooltip("stylebar.ViewDefaultRotate") });
-
 		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
 		btnViewProjection.setToolTipText(loc
 		        .getPlainTooltip("stylebar.ViewProjection"));
-		btnViewProjection.setToolTipArray(new String[] {
-		        loc.getPlainTooltip("stylebar.ParallelProjection"),
-		        loc.getPlainTooltip("stylebar.PerspectiveProjection"),
-		        loc.getPlainTooltip("stylebar.GlassesProjection"),
-		        loc.getPlainTooltip("stylebar.ObliqueProjection") });
-
 	}
 
 	@Override
@@ -503,7 +491,5 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		btnShowAxesAndPlane.removeActionListener(this);
 		btnShowAxesAndPlane.setIndexFromEV();
-
 	}
-
 }

@@ -231,6 +231,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/**
 	 * @return The display mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
+	@Override
 	public SortMode getTreeMode() {
 		return treeMode;
 	}
@@ -239,6 +240,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 * @param value
 	 *            Either AlgebraView.MODE_DEPDENCY or AlgebraView.MODE_TYPE
 	 */
+	@Override
 	public void setTreeMode(SortMode value) {
 		if (getTreeMode().equals(value)) {
 			return;

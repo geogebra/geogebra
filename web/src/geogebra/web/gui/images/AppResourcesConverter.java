@@ -77,7 +77,7 @@ public class AppResourcesConverter {
  
 	public static void setIcon(final ResourcePrototype ir, final HasSetIcon button) {
 	    ImageOrText img = new ImageOrText();
-	    img.url = GGWToolBar.safeURI(ir);
+	    img.setUrl(GGWToolBar.safeURI(ir));
 	    button.setIcon(img);
 	   
     }

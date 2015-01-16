@@ -33,7 +33,7 @@ public class GeoGebraIcon extends BasicIcons{
 		if(dashStyle >= lineStyleIcons.length){
 			return new ImageOrText();
 		}
-		ret.url = lineStyleIcons[dashStyle].getSafeUri().asString();
+		ret.setUrl(lineStyleIcons[dashStyle].getSafeUri().asString());
 		return ret;
     }
 	
@@ -74,14 +74,14 @@ public class GeoGebraIcon extends BasicIcons{
 	 */
 	public static ImageOrText createPointStyleIcon(int pointStyle, int pointSize, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
-		ret.url = pointStyleIcons[pointStyle].getSafeUri().asString();
+		ret.setUrl(pointStyleIcons[pointStyle].getSafeUri().asString());
 		return ret;
     
     }
 	
 	public static ImageOrText createGridStyleIcon(int pointStyle) {
 		ImageOrText ret = new ImageOrText();
-		ret.url = gridStyleIcons[pointStyle].getSafeUri().asString();
+		ret.setUrl(gridStyleIcons[pointStyle].getSafeUri().asString());
 		return ret;
     
     }
@@ -91,20 +91,20 @@ public class GeoGebraIcon extends BasicIcons{
 		float[] rgb = new float[3];
 		if(fgColor!=null){
 			fgColor.getRGBColorComponents(rgb);
-			ret.fgColor = geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha);
+			ret.setFgColor(geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
 		}
 		if(bgColor!=null){
 			bgColor.getRGBColorComponents(rgb);
-			ret.bgColor = geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha);
+			ret.setBgColor(geogebra.common.factories.AwtFactory.prototype.newColor( rgb[0], rgb[1], rgb[2], alpha));
 		}
 		return ret;
 	}
 
 	public static ImageOrText createTextSymbolIcon(String symbol,GFontW font, GDimensionW iconSize, GColor fgColor, GColor bgColor){
 		ImageOrText ret = new ImageOrText();
-		ret.text = symbol;
-		ret.fgColor = fgColor;
-		ret.bgColor = bgColor;
+		ret.setText(symbol);
+		ret.setFgColor(fgColor);
+		ret.setBgColor(bgColor);
 		return ret;
 	}
 	
@@ -127,14 +127,14 @@ public class GeoGebraIcon extends BasicIcons{
 	public static ImageOrText createFileImageIcon(App app, String url, float alpha, GDimensionW iconSize){
 
 		ImageOrText ret = new ImageOrText();
-		ret.url = url;
+		ret.setUrl(url);
 		return ret;
 	}
 
 	public static ImageOrText createResourceImageIcon(App app,
             ImageResource res, float alpha, GDimensionW dim) {
 		ImageOrText ret = new ImageOrText();
-		ret.url = res.getSafeUri().asString();
+		ret.setUrl(res.getSafeUri().asString());
 	    return ret;
     }
 
@@ -168,7 +168,7 @@ public class GeoGebraIcon extends BasicIcons{
 				url =  GuiResources.INSTANCE.deco_angle_1line();
 //			 Michael Borcherds 2007-11-19 END
 		}
-		ret.url = url.getSafeUri().asString();
+		ret.setUrl(url.getSafeUri().asString());
 		return ret;
 
 	}
@@ -203,7 +203,7 @@ public class GeoGebraIcon extends BasicIcons{
 		// Michael Borcherds 20071006 end
 		}
 
-		ret.url = url.getSafeUri().asString();
+		ret.setUrl(url.getSafeUri().asString());
 		return ret;
 
     }
@@ -227,7 +227,7 @@ public class GeoGebraIcon extends BasicIcons{
 			default:
 				url =  GuiResources.INSTANCE.deco_axes_none();
 		}
-		ret.url = url.getSafeUri().asString();
+		ret.setUrl(url.getSafeUri().asString());
 		return ret;
 	}
 }

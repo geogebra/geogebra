@@ -97,9 +97,6 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					if (index == -1) {
 						this.setIcon(getButtonIcon());
 					}
-
-					// setFgColor(geoColor);
-					setFontStyle(((TextProperties) geo).getFontStyle());
 				}
 			}
 

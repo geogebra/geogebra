@@ -174,10 +174,10 @@ public class MyCJButton extends Composite implements MouseDownHandler,
     }
 
 	public void setIcon(ImageOrText icon) {
-		if(this.imageMode && icon.url == null){
+		if(this.imageMode && icon.getUrl() == null){
 			return;
 		}
-		if(icon.url != null){
+		if(icon.getUrl() != null){
 			this.imageMode = true;
 		}		
 		this.icon = icon;

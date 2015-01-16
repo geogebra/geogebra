@@ -593,13 +593,13 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		public void updateAxesColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
-			content.bgColor = color;
+			content.setBgColor(color);
 			btAxesColor.setIcon(content);
 		}
 
 		public void updateBackgroundColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
-			content.bgColor = color;
+			content.setBgColor(color);
 			btBackgroundColor.setIcon(content);
 		}
 		
@@ -989,7 +989,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		public void updateGridColorButton(GColor color) {
 			ImageOrText content = new ImageOrText();
-			content.bgColor = color;
+			content.setBgColor(color);
 			btGridColor.setIcon(content);
 		}
 	

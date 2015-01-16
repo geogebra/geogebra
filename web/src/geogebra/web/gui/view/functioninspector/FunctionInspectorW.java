@@ -477,7 +477,6 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 		};
 		btnAddColumn.setKeepVisible(false);
-		btnAddColumn.setStandardButton(true);
 		btnAddColumn.setText("\u271A");
 		ImageResource[] res = { AppResources.INSTANCE.empty() };
 	}

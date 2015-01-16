@@ -42,9 +42,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			}
 		}
 
-		setToolTipArray(getToolTipArray());
 
-		getMyTable().setUseColorSwatchBorder(true);
 		getMySlider().setMinimum(0);
 		getMySlider().setMaximum(100);
 		getMySlider().setMajorTickSpacing(25);
