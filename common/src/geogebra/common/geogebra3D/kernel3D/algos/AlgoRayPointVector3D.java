@@ -19,7 +19,6 @@ import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoVectorND;
-import geogebra.common.main.App;
 
 /**
  * Compute a line through a point and parallel to a vector
@@ -41,7 +40,6 @@ public class AlgoRayPointVector3D extends AlgoLinePointVector3D {
 
 	@Override
 	protected GeoLine3D createLine(Construction cons) {
-		App.error("ici : " + getPoint());
 		return new GeoRay3D(cons, getPoint());
 	}
 
