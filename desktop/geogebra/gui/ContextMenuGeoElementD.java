@@ -15,6 +15,7 @@ package geogebra.gui;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.Animatable;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.TraceModesEnum;
@@ -560,7 +561,10 @@ public class ContextMenuGeoElementD extends
 			}
 
 			// fix object
-			if (geo.isFixable() && (geo.isGeoText() || geo.isGeoImage())) {
+			if (geo.isFixable()
+					&& (geo.isGeoText() || geo.isGeoImage()
+ || geo
+							.isGeoButton())) {
 
 				cbItem = new JCheckBoxMenuItem(app.getPlain("FixObject"));
 				((AppD) app).setEmptyIcon(cbItem);
@@ -587,6 +591,17 @@ public class ContextMenuGeoElementD extends
 					});
 					addItem(cbItem);
 				}
+			} else if (geo.isGeoBoolean()) {
+
+				cbItem = new JCheckBoxMenuItem(app.getPlain("FixCheckbox"));
+				((AppD) app).setEmptyIcon(cbItem);
+				cbItem.setSelected(((GeoBoolean) geo).isCheckboxFixed());
+				cbItem.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						fixCheckboxCmd();
+					}
+				});
+				addItem(cbItem);
 			}
 
 			// Pinnable

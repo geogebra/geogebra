@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLine;
@@ -269,6 +270,17 @@ public abstract class ContextMenuGeoElement {
 		app.storeUndoInfo();
 	}
 
+	public void fixCheckboxCmd() {
+		ArrayList<GeoElement> geos2 = checkOneGeo();
+
+		for (int i = geos2.size() - 1; i >= 0; i--) {
+			GeoBoolean geo1 = (GeoBoolean) geos2.get(i);
+			geo1.setCheckboxFixed(!geo1.isCheckboxFixed());
+
+		}
+		app.storeUndoInfo();
+	}
+
 	public void showLabelCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();
 
@@ -332,6 +344,7 @@ public abstract class ContextMenuGeoElement {
 		}
 		app.storeUndoInfo();
 	}
+
 
 	public void animationCmd() {
 		ArrayList<GeoElement> geos2 = checkOneGeo();

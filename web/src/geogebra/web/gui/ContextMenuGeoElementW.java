@@ -218,7 +218,9 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 			}
 
 			// fix object
-			if (geo.isFixable() && (geo.isGeoText() || geo.isGeoImage())) {
+			if (geo.isFixable()
+			        && (geo.isGeoText() || geo.isGeoImage() || geo
+			                .isGeoButton())) {
 				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
 				        AppResources.INSTANCE.empty().getSafeUri().asString(),
 				        app.getPlain("FixObject")), new Command() {
@@ -244,6 +246,17 @@ public class ContextMenuGeoElementW extends ContextMenuGeoElement implements
 					cbItem.setSelected(num.isSlider());
 					wrappedPopup.addItem(cbItem);
 				}
+			} else if (geo.isGeoBoolean()) {
+				cbItem = new GCheckBoxMenuItem(MainMenu.getMenuBarHtml(
+				        AppResources.INSTANCE.empty().getSafeUri().asString(),
+				        app.getPlain("FixCheckbox")), new Command() {
+
+					public void execute() {
+						fixCheckboxCmd();
+					}
+				});
+				cbItem.setSelected(geo.isFixed());
+				wrappedPopup.addItem(cbItem);
 			}
 
 			// Pinnable
