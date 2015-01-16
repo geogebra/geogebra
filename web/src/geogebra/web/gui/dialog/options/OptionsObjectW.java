@@ -2133,16 +2133,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// font size
 			// TODO require font phrases F.S.
 			// toggle buttons for bold and italic
-			btnBold = new MyToggleButton2(app.getMenu("Bold.Short"), iconHeight);
+			btnBold = new MyToggleButton2(app.getMenu("Bold.Short"));
 			btnBold.addStyleName("btnBold");
 			
-			btnItalic = new MyToggleButton2(app.getPlain("Italic.Short"), iconHeight);
+			btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"));
 			btnItalic.addStyleName("btnItalic");
 			
 			btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 			btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 
-			btnLatex = new MyToggleButton2("LaTeX", iconHeight);
+			btnLatex = new MyToggleButton2("LaTeX");
 	
 			// hack
 //			btnLatex.getElement().getStyle().setWidth(100, Unit.PX);

@@ -68,7 +68,6 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private static final int PLOTPANEL_MIN_WIDTH = 400;
 	private static final int PLOTPANEL_MIN_HEIGHT = 150;
 	private static final int OPTIONSPANEL_WIDTH = 200;
-	private static final int STEM_BUTTONS_HEIGHT = 18;
 
 	// ggb fields
 	private AppW app;
@@ -382,9 +381,9 @@ public class DataDisplayPanelW extends FlowPanel implements
 	private void createStemPlotAdjustmentPanel() {
 
 		lblAdjust = new Label();
-		minus = new MyToggleButton2("-1", STEM_BUTTONS_HEIGHT);
-		none = new MyToggleButton2("0", STEM_BUTTONS_HEIGHT);
-		plus = new MyToggleButton2("+1", STEM_BUTTONS_HEIGHT);
+		minus = new MyToggleButton2("-1");
+		none = new MyToggleButton2("0");
+		plus = new MyToggleButton2("+1");
 
 		minus.addClickHandler(new ClickHandler() {
 

@@ -147,11 +147,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		/**
 		 * @param img
 		 *            image
-		 * @param iconHeight
-		 *            height in pixels
 		 */
-		public MyToggleButtonForEV(ImageResource img, int iconHeight) {
-			super(img, iconHeight);
+		public MyToggleButtonForEV(ImageResource img) {
+			super(img);
 		}
 
 		@Override
@@ -164,8 +162,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	private enum StyleBarMethod {
 		NONE, UPDATE, UPDATE_STYLE
 	}
-
-	protected final int ICON_HEIGHT = 24;
 
 	public static ButtonPopupMenu CURRENT_POP_UP = null;
 	EuclidianController ec;
@@ -182,15 +178,14 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	private boolean needUndo = false;
 	private Integer oldDefaultMode;
 	private boolean modeChanged = true;
+	private boolean firstPaint = true;
 
 	// button-specific fields
 	// TODO: create button classes so these become internal
 	AlgoTableText tableText;
 
 	HashMap<Integer, Integer> lineStyleMap;
-
 	HashMap<Integer, Integer> pointStyleMap;
-
 	private ArrayList<GeoElement> activeGeoList;
 	private boolean visible;
 
@@ -219,7 +214,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	private MyToggleButton2[] toggleBtnList;
 	private MyToggleButton2[] btnDeleteSizes = new MyToggleButton2[3];
 	private PopupMenuButton[] popupBtnList;
-	private PopupMenuButton[] popupBtnSetLabelNeeded;
 
 	private StyleBarMethod waitingOperation = StyleBarMethod.NONE;
 
@@ -341,13 +335,13 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		                        .getFontSizeStrings()));
 
 		// set labels for buttons with text e.g. button "bold" or "italic"
-		this.btnBold.setText(app.getMenu("Bold.Short"));
-		this.btnItalic.setText(app.getMenu("Italic.Short"));
-
+		this.btnBold.getDownFace().setText(app.getMenu("Bold.Short"));
+		this.btnItalic.getDownFace().setText(app.getMenu("Italic.Short"));
+		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
+		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
 		// set labels for ToolTips
 		setToolTips();
 	}
-
 
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
@@ -651,9 +645,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	protected void createAxesAndGridButtons() {
 		// ========================================
 		// show axes button
-		btnShowAxes = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.axes(), ICON_HEIGHT);
-		// btnShowAxes.setPreferredSize(new Dimension(16,16));
+		btnShowAxes = new MyToggleButtonForEV(StyleBarResources.INSTANCE.axes());
 		btnShowAxes.setSelected(ev.getShowXaxis());
 		btnShowAxes.addValueChangeHandler(this);
 
@@ -665,9 +657,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			        .createGridStyleIcon(EuclidianStyleBarStatic.pointStyleArray[i]);
 		btnShowGrid = new GridPopup(app, grids, -1, 4,
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON, ev);
-		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addPopupHandler(this);
-
 	}
 
 	protected void createButtons() {
@@ -686,14 +676,12 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnMode = new PopupMenuButton((AppW) ev.getApplication(), modeArray,
 		        -1, 1, new GDimensionW(20, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON);
-		// btnMode.addActionListener(this);
 		btnMode.setKeepVisible(false);
-		// add(btnMode);
+
 
 		// ========================================
 		// delete button
-		btnDelete = new MyToggleButton2(AppResources.INSTANCE.delete_small(),
-		        ICON_HEIGHT) {
+		btnDelete = new MyToggleButton2(AppResources.INSTANCE.delete_small()) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -702,11 +690,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			}
 		};
 		btnDelete.addValueChangeHandler(this);
-		// add(btnDelete);
+
 		// ========================================
 		// hide/show labels button
 		btnLabel = new MyToggleButton2(
-		        AppResources.INSTANCE.mode_copyvisualstyle_16(), ICON_HEIGHT) {
+		        AppResources.INSTANCE.mode_copyvisualstyle_16()) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -715,13 +703,12 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			}
 		};
 		btnLabel.addValueChangeHandler(this);
-		// add(btnLabel);
 
 		// ========================================
 		// visual style button
 
 		btnCopyVisualStyle = new MyToggleButton2(
-		        AppResources.INSTANCE.mode_copyvisualstyle_16(), ICON_HEIGHT) {
+		        AppResources.INSTANCE.mode_copyvisualstyle_16()) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -729,12 +716,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			}
 		};
 		btnCopyVisualStyle.addValueChangeHandler(this);
-		// add(this.btnCopyVisualStyle);
 
 		createAxesAndGridButtons();
 
 		btnStandardView = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.standard_view(), ICON_HEIGHT);
+		        StyleBarResources.INSTANCE.standard_view());
 		btnStandardView.addValueChangeHandler(this);
 
 		// ========================================
@@ -754,7 +740,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnLineStyle.getMySlider().setMajorTickSpacing(2);
 		btnLineStyle.getMySlider().setMinorTickSpacing(1);
 		btnLineStyle.getMySlider().setPaintTicks(true);
-		// btnLineStyle.addActionListener(this);
 		btnLineStyle.addPopupHandler(this);
 
 		// create button
@@ -771,8 +756,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		// ========================================
 		// eraser button
-		btnPenEraser = new MyToggleButton2(
-		        AppResources.INSTANCE.delete_small(), ICON_HEIGHT) {
+		btnPenEraser = new MyToggleButton2(AppResources.INSTANCE.delete_small()) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -783,15 +767,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnPenEraser.addValueChangeHandler(this);
 
 		// ========================================
-		// delete geo button
-		// btnDeleteGeo = new MyCJButton(AppResources.INSTANCE.delete_small());
-		// btnDeleteGeo.addClickHandler(this);
-		// add(btnDeleteGeo);
-
-		// ========================================
 		// hide/show label button
 		btnHideShowLabel = new MyToggleButton2(
-		        AppResources.INSTANCE.mode_showhidelabel_16(), ICON_HEIGHT) {
+		        AppResources.INSTANCE.mode_showhidelabel_16()) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -882,7 +860,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 						setSelectedIndex(0);
 					else
 						setSelectedIndex(geo.getLabelMode() + 1);
-
 				}
 			}
 
@@ -1028,10 +1005,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 					}
 				}
 			}
-
 		};
-
-		// btnColor.addActionListener(this);
 		btnColor.addPopupHandler(this);
 	}
 
@@ -1091,7 +1065,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			}
 		};
 		btnBgColor.setKeepVisible(true);
-		// btnBgColor.addActionListener(this);
 		btnBgColor.addPopupHandler(this);
 	}
 
@@ -1138,17 +1111,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		};
 		btnTextColor.addStyleName("btnTextColor");
-		// btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
 		// ========================================
 		// bold text button
-		// ImageIcon boldIcon =
-		// GeoGebraIcon.createStringIcon(app.getPlain("Bold")
-		// .substring(0, 1), app.getPlainFont(), true, false, true,
-		// iconDimension, Color.black, null);
-		btnBold = new MyToggleButton2(app.getMenu("Bold.Short"), ICON_HEIGHT) {
-			// AppResources.INSTANCE.format_text_bold(), ICON_HEIGHT) {
+		btnBold = new MyToggleButton2(app.getMenu("Bold.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1169,12 +1136,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		// ========================================
 		// italic text button
-		// ImageIcon italicIcon = GeoGebraIcon.createStringIcon(
-		// app.getPlain("Italic").substring(0, 1), app.getPlainFont(),
-		// false, true, true, iconDimension, Color.black, null);
-		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"),
-		        ICON_HEIGHT) {
-			// AppResources.INSTANCE.format_text_italic(), ICON_HEIGHT) {
+		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
@@ -1224,7 +1186,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 				}
 			}
 		};
-		// btnTextSize.addActionListener(this);
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
 		btnTextSize.setIcon(GeoGebraIcon.createResourceImageIcon(app,
@@ -1243,7 +1204,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		btnPointCapture.removeActionListener(this);
 		updateButtonPointCapture(ev.getPointCapturingMode());
-		// btnPointCapture.addActionListener(this);
 
 		btnMode.removeActionListener(this);
 		switch (mode) {
@@ -1261,11 +1221,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			btnMode.setSelectedIndex(3);
 			break;
 		}
-		// btnMode.addActionListener(this);
-
-		// btnPen.removeActionListener(this);
-		// btnPen.setSelected(mode == EuclidianConstants.MODE_PEN);
-		// btnPen.addActionListener(this);
 
 		btnDelete.removeValueChangeHandler();
 		btnDelete.setSelected(mode == EuclidianConstants.MODE_DELETE);
@@ -1289,8 +1244,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		btnShowGrid.removeActionListener(this);
 		btnShowGrid.setSelectedIndex(gridIndex(ev));
-		// btnShowGrid.addActionListener(this);
-
 	}
 
 	public void onValueChange(ValueChangeEvent event) {
@@ -1340,13 +1293,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		if (source == btnShowGrid) {
 			if (btnShowGrid.getSelectedValue() != null) {
 				setGridType(ev, btnShowGrid.getSelectedIndex());
-
 			}
 			return true;
 		}
-
 		return false;
-
 	}
 
 	/**
@@ -1363,25 +1313,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			return;
 
 		if (source == btnColor) {
-			// if (mode == EuclidianConstants.MODE_PEN) {
-			// ec.getPen().setPenColor((btnColor.getSelectedColor()));
-			// btnColor.setDefaultColor(1, btnColor.getSelectedColor());
-			// btnColor.updateColorTable();
-
-			// App.debug("Not MODE_PEN in EuclidianStyleBar yet");
-			/*
-			 * ec.getPen().setPenColor( geogebra.awt.Color.getAwtColor(btnColor
-			 * .getSelectedColor())); //
-			 * btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
-			 */
-			// } else {
 			GColor color = btnColor.getSelectedColor();
 			float alpha = btnColor.getSliderValue() / 100.0f;
 			needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
 			        alpha, app);
-			// btnLineStyle.setFgColor((Color)btnColor.getSelectedValue());
-			// btnPointStyle.setFgColor((Color)btnColor.getSelectedValue());
-			// }
 		} else if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
@@ -1389,16 +1324,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 				needUndo = EuclidianStyleBarStatic.applyBgColor(targetGeos,
 				        color, alpha);
 			}
-		}
-
-		else if (source == btnTextColor) {
+		} else if (source == btnTextColor) {
 			if (btnTextColor.getSelectedIndex() >= 0) {
 				GColor color = btnTextColor.getSelectedColor();
 				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
 				        color);
-				// btnTextColor.setFgColor((Color)btnTextColor.getSelectedValue());
-				// btnItalic.setForeground((Color)btnTextColor.getSelectedValue());
-				// btnBold.setForeground((Color)btnTextColor.getSelectedValue());
 			}
 		} else if (source == btnLineStyle) {
 			if (btnLineStyle.getSelectedValue() != null) {
@@ -1444,7 +1374,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			needUndo = EuclidianStyleBarStatic.applyCaptionStyle(targetGeos,
 			        mode, btnLabelStyle.getSelectedIndex());
 		}
-
 		else if (source == btnTableTextJustify || source == btnTableTextLinesH
 		        || source == btnTableTextLinesV
 		        || source == btnTableTextBracket) {
@@ -1453,9 +1382,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			        btnTableTextLinesH.isSelected(),
 			        btnTableTextLinesV.isSelected(),
 			        btnTableTextBracket.getSelectedIndex(), app);
-		}
-
-		else {
+		} else {
 			for (int i = 0; i < 3; i++) {
 				if (source == btnDeleteSizes[i]) {
 					setDelSize(i);
@@ -1476,7 +1403,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			case 2:
 				evs.setGridType(EuclidianView.GRID_POLAR);
 				break;
-
 			case 3:
 				evs.setGridType(EuclidianView.GRID_ISOMETRIC);
 				break;
@@ -1513,11 +1439,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			}
 		}
 	}
-
-	// public void onClick(ClickEvent event) {
-	// Object source = event.getSource();
-	// handleEventHandlers(source);
-	// }
 
 	/**
 	 * @param actionButton
@@ -1559,8 +1480,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		}
 	}
 
-	private boolean firstPaint = true;
-
 	public void resetFirstPaint() {
 		firstPaint = true;
 	}
@@ -1579,6 +1498,4 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	public PointStylePopup getBtnPointStyle() {
 	    return btnPointStyle;
     }
-
-
 }

@@ -22,10 +22,8 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	private AppW app;
 	private DataAnalysisViewW daView;
-	protected int iconHeight = 18;
 	private Button btnRounding, btnPrint;
 	private MyToggleButton2 btnShowStatistics, btnShowPlot2, btnShowData;
-//	private PopupMenu roundingPopup;
 	private AutoCompleteTextFieldW fldSource;
 	private MyToggleButton2 btnDataSource;
 	private AutoCompleteTextFieldW fldDataSource;
@@ -67,7 +65,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 		btnExport = new MyToggleButton2(AppResources.INSTANCE.export());
 		btnExport.addClickHandler(this);
 
-		btnSwapXY = new MyToggleButton2(getSwapXYString(), iconHeight);
+		btnSwapXY = new MyToggleButton2(getSwapXYString());
 		btnSwapXY.setSelected(!daView.getController().isLeftToRight());
 		btnSwapXY.addClickHandler(this);
 		btnSwapXY.getElement().setId("daSwapXYButton");

@@ -389,17 +389,13 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		btnShowAxesAndPlane = new AxesAndPlanePopup(app, axesAndPlaneIcons, -1,
 		        4, geogebra.common.gui.util.SelectionTable.MODE_ICON, getView());
-		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowAxesAndPlane.addPopupHandler(this);
 
 		// ========================================
 		// show grid button
-		btnShowGrid3D = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.grid(), ICON_HEIGHT);
-		// btnShowAxes.setPreferredSize(new Dimension(16,16));
+		btnShowGrid3D = new MyToggleButtonForEV(StyleBarResources.INSTANCE.grid());
 		btnShowGrid3D.setSelected(ev.getShowGrid());
 		btnShowGrid3D.addValueChangeHandler(this);
-
 	}
 
 	protected MyToggleButton2 getAxesOrGridToggleButton() {

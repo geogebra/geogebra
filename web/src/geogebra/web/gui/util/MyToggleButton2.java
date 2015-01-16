@@ -23,70 +23,79 @@ import com.google.gwt.user.client.ui.ToggleButton;
 public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
         MouseOverHandler, MouseOutHandler, HasSetIcon {
 
-	private static final long serialVersionUID = 1L;
 	private HandlerRegistration actionListener;
 	private String toolTipText;
-	private int buttonHeight;
-
-	public MyToggleButton2(ImageResource upIcon, int iconHeight) {
-		super(new Image(upIcon.getSafeUri()));
-		initButton(iconHeight);
-	}
-
-	public MyToggleButton2(ImageResource upIcon, ImageResource downIcon,
-	        ClickHandler handler, int iconHeight) {
-		super(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
-		        handler);
-		initButton(iconHeight);
-	}
-
-	public MyToggleButton2(ImageResource upIcon, ClickHandler handler,
-	        int iconHeight) {
-		super(new Image(upIcon.getSafeUri()), handler);
-		initButton(iconHeight);
-	}
-
-	public MyToggleButton2(final Image image, int iconHeight) {
-		super(image);
-		initButton(iconHeight);
-	}
-
-	public MyToggleButton2(Image upImage, Image downImage,
-	        ClickHandler handler, int iconHeight) {
-		super(upImage, downImage, handler);
-		initButton(iconHeight);
-	}
-
-	public MyToggleButton2(String string, int iconHeight) {
-	    super(string);
-	    initButton(iconHeight);
-    }
 
 	/**
-	 * @param upIcon the icon to show as upImage
+	 * @param upText
+	 *            String
+	 */
+	public MyToggleButton2(String upText) {
+		super(upText);
+		initButton();
+	}
+
+	/**
+	 * @param image
+	 *            an {@link Image} to use as an up Image
+	 */
+	public MyToggleButton2(Image image) {
+		super(image);
+		initButton();
+	}
+
+	/**
+	 * @param upIcon
+	 *            the icon to show as up Image
 	 */
 	public MyToggleButton2(ImageResource upIcon) {
 		this(new Image(upIcon.getSafeUri()));
-    }
+	}
 
 	/**
-	 * @param image an Image to use as an up Image
+	 * @param upIcon
+	 *            an {@link ImageResource} to use as an up Image
+	 * @param handler
+	 *            @
 	 */
-	public MyToggleButton2(Image image) {
-	    super(image);
-	    initButton(image.getHeight());
-    }
+	public MyToggleButton2(ImageResource upIcon, ClickHandler handler) {
+		super(new Image(upIcon.getSafeUri()), handler);
+		initButton();
+	}
 
-	private void initButton(int height) {
-		this.buttonHeight = height;
+	/**
+	 * @param upImage
+	 *            an {@link Image} to use as an up Image
+	 * @param downImage
+	 *            an {@link Image} to use as an down Image
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public MyToggleButton2(Image upImage, Image downImage, ClickHandler handler) {
+		super(upImage, downImage, handler);
+		initButton();
+	}
+
+	/**
+	 * @param upIcon
+	 *            an {@link ImageResource} to use as an up Image
+	 * @param downIcon
+	 *            an {@link ImageResource} to use an down Image
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public MyToggleButton2(ImageResource upIcon, ImageResource downIcon,
+	        ClickHandler handler) {
+		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
+		        handler);
+	}
+
+	private void initButton() {
 		setDown(false);
-		//setHeight(buttonHeight + "px");
-		//setWidth(buttonHeight + "px");
 		addStyleName("MyToggleButton");
 		addMouseOutHandler(this);
 		addMouseOverHandler(this);
 		addMouseDownHandler(this);
-
 	}
 
 	/**
@@ -123,6 +132,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	public boolean isSelected() {
 		return isDown();
 	}
+
 
 	public void removeValueChangeHandler() {
 		if (actionListener != null) {
@@ -163,5 +173,4 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	    // TODO Auto-generated method stub
 	    
     }
-
 }

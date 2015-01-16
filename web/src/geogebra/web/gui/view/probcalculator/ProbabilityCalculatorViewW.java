@@ -59,11 +59,7 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	 * separator for list boxes
 	 */
 	public static final String SEPARATOR = "--------------------";
-	/**
-	 * @param app App
-	 * creates new probabilitycalculatorView
-	 */
-	
+
 	private Label lblDist;
 	private MyToggleButton2 btnCumulative;
 	private MyToggleButton2 btnIntervalLeft;
@@ -406,7 +402,8 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
             }  	
 	    });
 	    
-	    btnNormalOverlay = new MyToggleButton2(GuiResources.INSTANCE.normal_overlay(), 24);
+		btnNormalOverlay = new MyToggleButton2(
+		        GuiResources.INSTANCE.normal_overlay());
 	    btnNormalOverlay.addStyleName("btnNormalOverlay");
 	    btnNormalOverlay.addClickHandler(new ClickHandler() {
 			@Override

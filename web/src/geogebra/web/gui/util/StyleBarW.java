@@ -26,6 +26,8 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public abstract class StyleBarW extends HorizontalPanel implements
         ViewsChangedListener, SetLabels {
 
+	protected final int ICON_HEIGHT = 24;
+
 	PopupMenuButton viewButton;
 	protected AppW app;
 	int viewID;
@@ -192,6 +194,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	}
 
 	public void setLabels() {
+		if (this.viewButton == null)
+			return;
 		remove(viewButton);
 		// FIXME ONLY UPDATE TEXT
 		addViewButton();

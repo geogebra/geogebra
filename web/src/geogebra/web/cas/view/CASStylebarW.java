@@ -19,25 +19,38 @@ import java.util.ArrayList;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
+/**
+ * StyleBar for CASview
+ */
 public class CASStylebarW extends StyleBarW implements ClickHandler,
         PopupMenuHandler {
 
-	private MyToggleButton2 btnUseAsText;
-	private int iconHeight = 18;
-	private GDimensionW iconDimension = new GDimensionW(16, iconHeight);
+
+	/** button to set input as text */
+	MyToggleButton2 btnUseAsText;
+	/** button to set text to bold */
+	MyToggleButton2 btnBold;
+	/** button to set text to italic */
+	MyToggleButton2 btnItalic;
+	/** button to set the text color */
 	private ColorPopupMenuButton btnTextColor;
-	private MyToggleButton2 btnBold;
-	private MyToggleButton2 btnItalic;
+
 	private boolean needUndo = false;
 	private ArrayList<GeoElement> selectedRows;
 	private CASViewW casView;
 	private PopupMenuButton[] popupBtnList;
 	private MyToggleButton2[] toggleBtnList;
 
+	/**
+	 * @param view
+	 *            {@link CASViewW}
+	 * @param app
+	 *            {@link AppW}
+	 */
 	public CASStylebarW(CASViewW view, AppW app) {
 		super(app, App.VIEW_CAS);
-		casView = view;
-		selectedRows = new ArrayList<GeoElement>();
+		this.casView = view;
+		this.selectedRows = new ArrayList<GeoElement>();
 		initGUI();
 		addStyleName("CASStyleBar");
 	}
@@ -56,26 +69,20 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 
 	private void createTextButtons() {
 
-		btnUseAsText = new MyToggleButton2(
-		        app.getPlain("Text").substring(0, 1), iconHeight) {
-
-			private static final long serialVersionUID = 1L;
+		btnUseAsText = new MyToggleButton2(app.getPlain("Text").substring(0, 1)) {
 
 			@Override
 			public void update(Object[] geos) {
-
 				setVisible(true);
 				btnUseAsText.setSelected(checkGeoText(geos));
-
 			}
 		};
 		btnUseAsText.addClickHandler(this);
+		btnUseAsText.addStyleName("btnUseAsText");
 
-		final GDimensionW textColorIconSize = new GDimensionW(20, iconHeight);
+		final GDimensionW textColorIconSize = new GDimensionW(20, ICON_HEIGHT);
 		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
 		        ColorPopupMenuButton.COLORSET_DEFAULT, false) {
-
-			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void update(Object[] geos) {
@@ -99,27 +106,14 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 					}
 				}
 			}
-
-			// @Override
-			// public ImageIcon getButtonIcon() {
-			// return GeoGebraIcon.createTextSymbolIcon("A",
-			// app.getPlainFont(), textColorIconSize,
-			// geogebra.awt.GColorD.getAwtColor(getSelectedColor()),
-			// null);
-			// }
-
 		};
-
 		btnTextColor.addActionListener(this);
 		btnTextColor.addPopupHandler(this);
 
-		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1),
-		        iconHeight) {
-			private static final long serialVersionUID = 1L;
+		btnBold = new MyToggleButton2(app.getMenu("Bold.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
-
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
 				if (geosOK) {
@@ -132,17 +126,14 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 			}
 		};
 		btnBold.addClickHandler(this);
-		btnBold.addStyleName("CAS_boldbutton");
+		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1),
-		        iconHeight) {
-			private static final long serialVersionUID = 1L;
+		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short")) {
 
 			@Override
 			public void update(Object[] geos) {
 				boolean geosOK = checkGeoText(geos);
 				setVisible(geosOK);
-				this.setVisible(geosOK);
 				if (geosOK) {
 					GeoElement geo = ((GeoElement) geos[0])
 					        .getGeoElementForPropertiesDialog();
@@ -153,7 +144,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 			}
 		};
 		btnItalic.addClickHandler(this);
-		btnItalic.addStyleName("CAS_italicbutton");
+		btnItalic.addStyleName("btnItalic");
 	}
 
 	/**
@@ -205,17 +196,12 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		} else if (source == btnItalic) {
 			applyFontStyle(targetGeos);
 		} else if (source == btnUseAsText) {
-			// btnUseAsText.onClick(null);
 			int i = casView.getConsoleTable().getEditingRow();
-			// int pos =
-			// (casView.getConsoleTable().getEditor().getCaretPosition();
 			applyUseAsText(targetGeos);
 			if (i > 0)
 				casView.getConsoleTable().startEditingRow(i);
 		}
-
 		updateStyleBar();
-
 	}
 
 	private void applyFontStyle(ArrayList<GeoElement> geos) {
@@ -246,7 +232,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		updateStyleBar();
 	}
 
-	public void updateStyleBar() {
+	private void updateStyleBar() {
 		for (int i = 0; i < popupBtnList.length; i++) {
 			try {
 				popupBtnList[i].update(selectedRows.toArray());
@@ -262,21 +248,20 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 				// TODO: find problem
 			}
 		}
-
 	}
 
 	/**
 	 * @return array of toggle buttons
 	 */
-	protected MyToggleButton2[] newToggleBtnList() {
+	private MyToggleButton2[] newToggleBtnList() {
 		return new MyToggleButton2[] { btnBold, btnItalic, btnUseAsText };
 	}
 
 	/**
 	 * @return array of popup buttons
 	 */
-	protected PopupMenuButton[] newPopupBtnList() {
-		return new PopupMenuButton[] { btnTextColor /* , btnTextSize */};
+	private PopupMenuButton[] newPopupBtnList() {
+		return new PopupMenuButton[] { btnTextColor };
 	}
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
@@ -312,7 +297,19 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 				applyTextColor(selectedRows);
 			}
 		}
-
 	}
 
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		// with button.setText("...")the text is only set for the current face
+		this.btnUseAsText.getDownFace().setText(
+		        app.getPlain("Text").substring(0, 1));
+		this.btnBold.getDownFace().setText(app.getMenu("Bold.Short"));
+		this.btnItalic.getDownFace().setText(app.getMenu("Italic.Short"));
+		this.btnUseAsText.getUpFace().setText(
+		        app.getPlain("Text").substring(0, 1));
+		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
+		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
+	}
 }

@@ -70,13 +70,11 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		add(btnRightAlign);
 
 		addSeparator();
-
 		add(btnBgColor);
 
 		// addSeparator();
 		// add(btnBorderStyle);
 
-		setLabels();
 		addMenuButton();
 		addViewButton();
 		updateStyleBar();
@@ -86,22 +84,26 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	}
 
 	private void createButtons() {
-		btnBold = new MyToggleButton2(app.getPlain("Bold").substring(0, 1), iconHeight);
+		btnBold = new MyToggleButton2(app.getMenu("Bold.Short"));
 		btnBold.addClickHandler(this);
 		btnBold.addStyleName("btnBold");
 		
-		btnItalic = new MyToggleButton2(app.getPlain("Italic").substring(0, 1), iconHeight);
+		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short"));
 		btnItalic.addClickHandler(this);
 		btnItalic.addStyleName("btnItalic");
 
 		btnLeftAlign = new MyToggleButton2(
-				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_left(), this, iconHeight);
+		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_left(),
+		        this);
 
 		btnCenterAlign = new MyToggleButton2(
-				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_center(), this, iconHeight);
+		        StyleBarResources.INSTANCE
+		                .stylingbar_spreadsheet_align_center(),
+		        this);
 
 		btnRightAlign = new MyToggleButton2(
-				StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(), this, iconHeight);
+		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(),
+		        this);
 
 		final GDimensionW bgColorIconSize = new GDimensionW(iconWidth, iconHeight);
 
@@ -152,8 +154,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		 */
 	}
 
+	@Override
 	public void setLabels() {
-		
+
 		Localization loc = app.getLocalization();
 
 		// btnFormulaBar.setToolTipText(loc.getMenu("ShowInputField"));

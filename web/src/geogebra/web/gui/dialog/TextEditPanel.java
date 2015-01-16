@@ -245,20 +245,20 @@ public class TextEditPanel extends VerticalPanel implements ClickHandler,
 		
 		
 
-		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"), ICON_HEIGHT);
+		btnBold = new MyToggleButton2(loc.getMenu("Bold.Short"));
 		btnBold.addClickHandler(this);
 
 		btnBold.addStyleName("btnBold");
 
-		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"), ICON_HEIGHT);
+		btnItalic = new MyToggleButton2(loc.getMenu("Italic.Short"));
 		btnItalic.addClickHandler(this);
 
 		btnItalic.addStyleName("btnItalic");
-		btnSerif = new MyToggleButton2(loc.getMenu("Serif"), ICON_HEIGHT);
+		btnSerif = new MyToggleButton2(loc.getMenu("Serif"));
 		btnSerif.addClickHandler(this);
 		
 		String latexTr = loc.getPlain("LaTeXFormula");
-		btnLatex = new MyToggleButton2(latexTr, ICON_HEIGHT);
+		btnLatex = new MyToggleButton2(latexTr);
 		btnLatex.addClickHandler(this);
 		btnLatex.addStyleName("btnLatex");
 		

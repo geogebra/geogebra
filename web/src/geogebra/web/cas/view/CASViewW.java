@@ -112,4 +112,11 @@ public class CASViewW extends CASView {
 		return false;
 	}
 
+	@Override
+	public void setLabels() {
+		super.setLabels();
+		if (this.styleBar != null) {
+			this.styleBar.setLabels();
+		}
+	}
 }
