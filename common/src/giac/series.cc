@@ -1974,14 +1974,26 @@ namespace giac {
   }
   */
 
-  static bool check_bounded(const gen & g){
+  static int check_bounded(const gen & g,GIAC_CONTEXT){
     vecteur v=loptab(g,sincostan_tab);
     int vs=v.size();
+    vecteur w;
     for (int i=0;i<vs;++i){
       if (v[i].type==_SYMB && v[i]._SYMBptr->feuille.type==_SPOL1)
-	return true;
+	w.push_back(v[i]);
     }
-    return false;
+    if (w.empty())
+      return 0;
+    for (unsigned i=0;i<w.size();++i){
+      vecteur lv=lvarxwithinv(g,w[i],contextptr);
+      if (lv.empty())
+	continue;
+      if (lv.size()>=2 || lv[0]!=w[i]){
+	gensizeerr("Unable to handle "+g.print(contextptr));
+	return -1;
+      }
+    }
+    return 1;
   }
 
   // specialization 
@@ -2151,10 +2163,18 @@ namespace giac {
     sparse_poly1 p;
     if (!mrv_lead_term(e_copy,x,coeff,mrv_var,exponent,p,mrv_begin_order,contextptr,false) || is_undef(coeff))
       return gensizeerr("Limit: Max order reached or unable to make series expansion");
+    for (unsigned i=0;i<p.size();++i){
+      if (check_bounded(p[i].coeff,contextptr)==-1)
+	return gensizeerr("Unable to handle "+p[i].coeff.print(contextptr));
+    }
     if (ck_is_strictly_positive(exponent,contextptr))
       return 0;
-    if (is_zero(exponent))
-      return check_bounded(coeff)?bounded_function(contextptr):coeff;
+    if (is_zero(exponent)){
+      int l=check_bounded(coeff,contextptr);
+      if (l==-1)
+	return gensizeerr("Unable to handle "+coeff.print(contextptr));
+      return l==1?bounded_function(contextptr):coeff;
+    }
     // check sign of coeff, if coeff depends on x first find equivalent
     gen essai=subst(coeff,x,plus_inf,false,contextptr);
     if (is_undef(essai) || is_zero(essai) || (essai==unsigned_inf)){
@@ -2174,7 +2194,10 @@ namespace giac {
       return minus_inf;
     // ? FIXME: if essai=cos(<pi,-1>)+i*sin(<pi,-1>) unsigned_inf better
     // limit((-2)^n,n,inf)
-    return check_bounded(essai)?undef:unsigned_inf;
+    int l=check_bounded(essai,contextptr);
+    if (l==-1)
+      return gensizeerr("Unable to handle "+essai.print(contextptr));
+    return l==1?undef:unsigned_inf;
     /* 
     essai=eval(subst(essai,sincosinf,vecteur(sincosinf.size(),undef)));
     if (is_undef(essai))
@@ -2342,7 +2365,10 @@ namespace giac {
 	if (contains(p.front().coeff,x)){
 	  return gensizeerr(gettext("Try unidirectional series"));
 	}
-	return check_bounded(p.front().coeff)?bounded_function(contextptr):p.front().coeff;
+	int l=check_bounded(p.front().coeff,contextptr);
+	if (l==-1)
+	  return gensizeerr("Unable to handle "+p.front().coeff.print(contextptr));
+	return l==1?bounded_function(contextptr):p.front().coeff;
       }
       return gensizeerr(gettext("Series internal bug"));
     }
