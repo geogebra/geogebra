@@ -1245,7 +1245,7 @@ var MathCommand = P(MathElement, function(_, _super) {
       i += 1;
       var child_text = child.text();
       if (text && child_text[0] === '(' && child_text.slice(-1) === ')' &&
-   		  (thisMathCommand.textTemplate[i] === '(' || // leaving this here, but maybe this can be removed
+   		  (thisMathCommand.textTemplate[i] === '(' ||
    		   thisMathCommand.textTemplate[i] === ']' || // this is the essence, no () inside square brackets
    		   thisMathCommand.textTemplate[i] === '}')) // probably the same is Okay for curly braces
         return text + child_text.slice(1, -1) + thisMathCommand.textTemplate[i];
