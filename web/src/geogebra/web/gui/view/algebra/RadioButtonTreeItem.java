@@ -263,7 +263,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
-					StringTemplate.latexTemplate);
+			        StringTemplate.latexTemplateMQ);
 			seNoLatex = se;
 			if ((latexStr != null) &&
 				geo.isLaTeXDrawableGeo() &&
@@ -390,7 +390,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			String text = "";
 			if (geo != null) {
 				text = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplate);
+				        StringTemplate.latexTemplateMQ);
 				if ((text != null) && geo.isLaTeXDrawableGeo()
 						&& (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
 					newLaTeX = true;
@@ -597,13 +597,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		
 		if (newValue0 != null) {
 
-			String newValue = newValue0.replace("space *", " ");
-			newValue = newValue.replace("* space", " ");
+			// String newValue = newValue0.replace("space *", " ");
+			// newValue = newValue.replace("* space", " ");
 
-			newValue = newValue.replace("space*", " ");
-			newValue = newValue.replace("*space", " ");
+			// newValue = newValue.replace("space*", " ");
+			// newValue = newValue.replace("*space", " ");
 
-			newValue = newValue.replace("space ", " ");
+			String newValue = newValue0.replace("space ", " ");
 			newValue = newValue.replace(" space", " ");
 			newValue = newValue.replace("space", " ");
 
@@ -615,9 +615,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			boolean inLHS = true;
 			for (int i = skip; i < newValue.length() - skip; i++){
 				//on lhs a*b(x) actually means ab(x)
-				if(inLHS && (newValue.charAt(i)=='*')){
-					continue;
-				}
+				// fixed in a different way, and considered harmful now!
+				// if(inLHS && (newValue.charAt(i)=='*')){
+				// continue;
+				// }
 				if (newValue.charAt(i) != ' ') {
 					if (newValue.charAt(i) != '|')
 						sb.append(newValue.charAt(i));
@@ -660,11 +661,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (newValue0 != null) {
 
-			newValue = newValue0.replace("space *", " ");
-			newValue = newValue.replace("* space", " ");
+			// newValue = newValue0.replace("space *", " ");
+			// newValue = newValue.replace("* space", " ");
 
-			newValue = newValue.replace("space*", " ");
-			newValue = newValue.replace("*space", " ");
+			// newValue = newValue.replace("space*", " ");
+			// newValue = newValue.replace("*space", " ");
 
 			newValue = newValue.replace("space ", " ");
 			newValue = newValue.replace(" space", " ");
@@ -678,9 +679,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			boolean inLHS = true;
 			for (int i = skip; i < newValue.length() - skip; i++) {
 				// on lhs a*b(x) actually means ab(x)
-				if (inLHS && (newValue.charAt(i) == '*')) {
-					continue;
-				}
+				// fixed in a different way, and considered harmful now!
+				// if (inLHS && (newValue.charAt(i) == '*')) {
+				// continue;
+				// }
 				if (newValue.charAt(i) != ' ') {
 					if (newValue.charAt(i) != '|')
 						sb.append(newValue.charAt(i));

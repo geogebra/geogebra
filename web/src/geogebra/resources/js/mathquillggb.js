@@ -2906,12 +2906,46 @@ var Variable = P(Symbol, function(_, _super) {
   };
   _.text = function() {
     var text = this.ctrlSeq;
+
+    /*
+    // Old code was not right for e.g. Line[A,B]
+    // To be consistent with GeoGebra AlgebraInputW syntax,
+    // we should insert * nowhere except cases like
+    // 3a, where a variable follows a number,
+    // so no extra * to insert after variables at all!
 	if (this[L] && !(this[L] instanceof Variable)
 		&& !(this[L].ctrlSeq === ' ')
 		&& !(this[L].ctrlSeq === '(')
 		&& !(this[L].ctrlSeq === '\\left(')
         && !(this[L] instanceof BinaryOperator))
       text = '*' + text;
+	*/
+
+    // Some people may think this is not necessary either,
+    // since GeoGebra can reckognize no * sign when used
+    // in the right manner! But the problem is that
+    // MathQuill also deleted real * signs beforehand,
+    // and these real * signs should be added again...
+	//if (this[L] && (this[L] instanceof VanillaSymbol)
+	//	&& !(this[L].ctrlSeq === ' ')) {
+		// variable after number case is Okay,
+		// but what about cases like x*2 ?
+		// how to distinguish x*2 and x2 ?
+		// there should be a BinarySymbol between: *
+		// and this should have the '*' output to text!
+	//	text = '*' + text;
+	//}
+    // so the problem turns out to be 'input latex'-type
+    // problem that should be handled in DrawEquationWeb
+    // or something like that... No, it is an 'output latex'-type
+    // problem that is in RadioButtonTreeItem! but fixed.
+
+    /*
+    // Old code was not right for e.g. Line[A,B]
+    // To be consistent with GeoGebra AlgebraInputW syntax,
+    // we should insert * nowhere except cases like
+    // 3a, where a variable follows a number,
+    // so no extra * to insert after variables at all!
 
     // skip spaces
     var nex = this;
@@ -2924,8 +2958,21 @@ var Variable = P(Symbol, function(_, _super) {
         && !(nex[R].ctrlSeq === '\\left(')
         && !(nex[R].ctrlSeq === ')')
         && !(nex[R].ctrlSeq === '\\right)')
-        && !(nex[R].ctrlSeq === '^'))
+        && !(nex[R].ctrlSeq === '^')
+
+        // although these are interpreted as Variable's in MathQuillGGB,
+        // they can be interpreted as entirely different things in GeoGebra
+        // so there should be no multiplication sign between Variable's
+        && !(nex[R] instanceof Variable)
+
+        // also, there should be no multiplication before command names,
+        // this is a quick workaround, but in the long term, we may
+        // want to make this multiplication sign disappear altogether
+        && !(nex[R].ctrlSeq === '[')
+        && !(nex[R].ctrlSeq === '\\left['))
 	  text += '*';
+    */
+
 	return text;
   };
 });
