@@ -189,7 +189,7 @@ public abstract class App implements UpdateSelection {
 	/**
 	 * where to show the inputBar (respective inputBox)
 	 */
-	protected InputPositon showInputTop = InputPositon.top;
+	protected InputPositon showInputTop = InputPositon.algebraView;
 
 	/**
 	 * Whether input bar should be visible
