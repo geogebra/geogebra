@@ -2761,7 +2761,7 @@ __GGB__keysVar.fr.plain = {
     "TotalPercent": "Total %",
     "TraceMode": "Trace :",
     "TraceOff": "Trace d\xe9sactiv\xe9e",
-    "TraceOn": "Activer Trace",
+    "TraceOn": "Afficher la trace",
     "TraceToSpreadsheet": "Enregistrer dans Tableur",
     "TranslationOfAbyB": "Image de %0 dans la translation de vecteur %1",
     "TranslationOfAtoB": "Translat\xe9 de %0 \xe0 %1",
