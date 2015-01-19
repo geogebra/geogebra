@@ -146,14 +146,11 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		setDownState(true);
 	}
 	
-	protected void setDownState(boolean downState) {
+	private void setDownState(boolean downState) {
 	   //TODO less visible
 	   if(downState){
-		   //button.getElement().getStyle().setBorderWidth(2, Unit.PX);
-		   //button.getElement().getStyle().setBorderColor("red");
 		   this.addStyleName("selected");
 	   }else{
-		   //button.getElement().getStyle().setBorderWidth(0, Unit.PX);
 		   this.removeStyleName("selected");
 	   }
     }

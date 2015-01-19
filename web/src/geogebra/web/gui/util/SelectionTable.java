@@ -58,8 +58,22 @@ public class SelectionTable extends Grid implements ClickHandler {
 		populateModel(data);
 		addClickHandler(this);
 		addStyleName("SelectionTable");
+
+		if (this.mode.equals(geogebra.common.gui.util.SelectionTable.MODE_ICON)
+		        || this.mode
+		                .equals(geogebra.common.gui.util.SelectionTable.MODE_IMAGE)) {
+			setBorderStyleForCells();
+		}
     }
 	
+	private void setBorderStyleForCells() {
+		for (int i = 0; i < this.getRowCount(); i++) {
+			for (int j = 0; j < this.getColumnCount(); j++) {
+				this.getWidget(i, j).addStyleName("border");
+			}
+		}
+	}
+
 	private void changeSelection(int row, int column) {
 		selectedRow = row;
 		selectedColumn = column;

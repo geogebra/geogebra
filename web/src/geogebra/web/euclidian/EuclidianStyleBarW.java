@@ -36,6 +36,7 @@ import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.LineStylePopup;
+import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PointStylePopup;
 import geogebra.web.gui.util.PopupMenuButton;
@@ -47,6 +48,8 @@ import java.util.HashMap;
 
 import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.resources.client.ImageResource;
@@ -209,7 +212,8 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	MyToggleButton2 btnHideShowLabel;
 	MyToggleButton2 btnBold;
 	MyToggleButton2 btnItalic;
-	protected MyToggleButton2 btnStandardView;
+
+	protected MyCJButton btnStandardView;
 
 	private MyToggleButton2[] toggleBtnList;
 	private MyToggleButton2[] btnDeleteSizes = new MyToggleButton2[3];
@@ -542,7 +546,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 	protected void setActionCommands() {
 		setActionCommand(btnShowAxes, "showAxes");
-		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
@@ -625,10 +628,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 	protected MyToggleButton2[] newToggleBtnList() {
 		return new MyToggleButton2[] { btnCopyVisualStyle, btnPen,
-		        getAxesOrGridToggleButton(), btnStandardView, btnBold,
-		        btnItalic, btnDelete, btnLabel, btnPenEraser, btnHideShowLabel,
-		        btnTableTextLinesV, btnTableTextLinesH, btnDeleteSizes[0],
-		        btnDeleteSizes[1], btnDeleteSizes[2] };
+		        getAxesOrGridToggleButton(), btnBold, btnItalic, btnDelete,
+		        btnLabel, btnPenEraser, btnHideShowLabel, btnTableTextLinesV,
+		        btnTableTextLinesH, btnDeleteSizes[0], btnDeleteSizes[1],
+		        btnDeleteSizes[2] };
 	}
 
 	protected PopupMenuButton[] newPopupBtnList() {
@@ -719,9 +722,17 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 		createAxesAndGridButtons();
 
-		btnStandardView = new MyToggleButtonForEV(
-		        StyleBarResources.INSTANCE.standard_view());
-		btnStandardView.addValueChangeHandler(this);
+
+		btnStandardView = new MyCJButton();
+		ImageOrText icon = new ImageOrText();
+		icon.setUrl(StyleBarResources.INSTANCE.standard_view().getSafeUri()
+		        .asString());
+		btnStandardView.setIcon(icon);
+		btnStandardView.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				ev.setStandardView(true);
+			}
+		});
 
 		// ========================================
 		// line style button
@@ -1231,10 +1242,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnLabel.addValueChangeHandler(this);
 
 		updateAxesAndGridGUI();
-
-		btnStandardView.removeValueChangeHandler();
-		btnStandardView.setSelected(false);
-		btnStandardView.addValueChangeHandler(this);
 	}
 
 	protected void updateAxesAndGridGUI() {

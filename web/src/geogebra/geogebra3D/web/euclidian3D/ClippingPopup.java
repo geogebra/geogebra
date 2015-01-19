@@ -23,13 +23,6 @@ public class ClippingPopup extends PopupMenuButton {
 		defaultIcon = data.length > 2 ? data[2] : null;
 
 		updateGUI();
-
-		geogebra.web.gui.util.SelectionTable table = getMyTable();
-		for (int i = 0; i < table.getRowCount(); i++) {
-			for (int j = 0; j < table.getColumnCount(); j++) {
-				table.getWidget(i, j).addStyleName("border");
-			}
-		}
 	}
 
 	/**
@@ -62,10 +55,5 @@ public class ClippingPopup extends PopupMenuButton {
 			this.addStyleName("selected");
 		}
 
-	}
-
-	@Override
-	protected void setDownState(boolean downState) {
-		// ignore
 	}
 }
