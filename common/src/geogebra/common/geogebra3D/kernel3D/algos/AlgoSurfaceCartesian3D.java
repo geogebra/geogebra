@@ -79,17 +79,9 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 			fun[i] = new FunctionNVar(exp[i], funVar);
 		}
 
-		FunctionNVar[][] fun1 = new FunctionNVar[localVar.length][];
-		for (int j = 0; j < localVar.length; j++) {
-			fun1[j] = new FunctionNVar[coords.length];
-			for (int i = 0; i < coords.length; i++) {
-				fun1[j][i] = new FunctionNVar(fun[i].derivative(funVar[j]).wrap(), funVar);
-				// Log.debug(fun1[j][i]);
-			}
-		}
 
 		// create the curve
-		surface = createCurve(cons, fun, fun1);
+		surface = createCurve(cons, fun);
 
 		setInputOutput(); // for AlgoElement
 
@@ -103,11 +95,10 @@ public class AlgoSurfaceCartesian3D extends AlgoElement {
 	 * 
 	 * @param cons
 	 * @param fun
-	 * @param fun1
 	 * @return a curve
 	 */
-	protected GeoSurfaceCartesianND createCurve(Construction cons, FunctionNVar[] fun, FunctionNVar[][] fun1) {
-		return new GeoSurfaceCartesian3D(cons, fun, fun1);
+	protected GeoSurfaceCartesianND createCurve(Construction cons, FunctionNVar[] fun) {
+		return new GeoSurfaceCartesian3D(cons, fun);
 	}
 
 	@Override

@@ -3,7 +3,9 @@ package geogebra.common.kernel.kernelND;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.util.debug.Log;
 
 
 /**
@@ -46,14 +48,33 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 	 *            construction
 	 * @param fun
 	 *            functions
-	 * @param fun1
-	 *            derivate functions
 	 */
-	public GeoSurfaceCartesianND(Construction c, FunctionNVar[] fun, FunctionNVar[][] fun1) {
+	public GeoSurfaceCartesianND(Construction c, FunctionNVar[] fun) {
 		this(c);
 		this.fun = fun;
-		this.fun1 = fun1;
 	}	
+	
+	/**
+	 * set derivatives (if not already done)
+	 */
+	public void setDerivatives(){
+		
+		if (fun1 != null){
+			return;
+		}
+		
+		// set derivatives
+		FunctionVariable[] vars = fun[0].getFunctionVariables();
+		fun1 = new FunctionNVar[vars.length][];
+		for (int j = 0; j < vars.length; j++) {
+			fun1[j] = new FunctionNVar[fun.length];
+			for (int i = 0; i < fun.length; i++) {
+				fun1[j][i] = new FunctionNVar(fun[i].derivative(vars[j]).wrap(), vars);
+			}
+		}
+		
+	}
+	
 	
 
 	

@@ -41,10 +41,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	 * 
 	 * @param c
 	 * @param fun
-	 * @param fun1
 	 */
-	public GeoSurfaceCartesian3D(Construction c, FunctionNVar fun[], FunctionNVar[][] fun1) {
-		super(c, fun, fun1);
+	public GeoSurfaceCartesian3D(Construction c, FunctionNVar fun[]) {
+		super(c, fun);
 	}
 
 	/**
@@ -121,6 +120,9 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 			fun[i] = new FunctionNVar(geoSurface.fun[i], kernel);
 			// Application.debug(fun[i].toString());
 		}
+		
+		fun1 = null;
+
 
 		startParam = geoSurface.startParam;
 		endParam = geoSurface.endParam;
@@ -274,9 +276,6 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return HitType.ON_FILLING;
 	}
 	
-	public void setDerivatives(){
-		//TODO
-	}
-	
+
 
 }
