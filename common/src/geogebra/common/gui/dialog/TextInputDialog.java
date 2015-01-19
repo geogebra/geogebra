@@ -9,4 +9,5 @@ public interface TextInputDialog {
 
 	void setVisible(boolean b);
 
+	void focus();
 }

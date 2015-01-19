@@ -28,21 +28,26 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		this.editGeo = editGeo;
 //		textInputDialog = this;
 		inputHandler = new TextInputHandler();
-		
+
 //		isIniting = true;		
-		
+
 		createGUI(title, "", false, cols, rows, /*false*/ true, false, false, false,
 				DialogType.DynamicText);
 		editor = inputPanel.getTextAreaComponent();
-		editor.setText(editGeo);
-		
+		if (editor != null) {
+			editor.setText(editGeo);
+		} else if (inputPanel.getTextComponent() != null) {
+			// this branch probably does not run (rows > 1), educated guess
+			inputPanel.getTextComponent().setText(editGeo.getTextString());
+		}
+
 		wrappedPopup.addStyleName("TextInputDialog");
 		wrappedPopup.center();
 		wrappedPopup.show();
-		
-		
-    }
-	
+
+		focus();
+	}
+
 	private int getFontStyle(){
 		if(editor == null){
 			App.debug("null editor");
@@ -184,12 +189,25 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		}
 	}
 
+	public void focus() {
+		if (inputPanel.getTextAreaComponent() != null) {
+			// probably this branch will run (rows > 1)
+			inputPanel.getTextAreaComponent().getTextArea().getElement().blur();
+			inputPanel.getTextAreaComponent().getTextArea().getElement()
+			        .focus();
+		} else if (inputPanel.getTextComponent() != null) {
+			// what if? educated guess
+			inputPanel.getTextComponent().setFocus(false);
+			inputPanel.getTextComponent().setFocus(true);
+		}
+	}
+
 	public void reInitEditor(GeoText text, GeoPointND startPoint2) {
 		this.startPoint = startPoint2;
 		setGeoText(text);
-		inputPanel.getTextAreaComponent().getTextArea().setFocus(true); //editor.requestFocus();
+		focus();
     }
-	
+
 	public void setGeoText(GeoText geo) {
 
 //		handlingDocumentEventOff = true;

@@ -450,7 +450,7 @@ public abstract class DialogManager {
 
 		textInputDialog.setVisible(true);
 		app.setDefaultCursor();
-
+		textInputDialog.focus();
 	}
 
 	public abstract TextInputDialog createTextDialog(GeoText text,
