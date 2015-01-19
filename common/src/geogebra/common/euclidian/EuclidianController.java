@@ -7851,7 +7851,11 @@ public abstract class EuclidianController {
 					|| (mode == EuclidianConstants.MODE_SHOW_HIDE_CHECKBOX)
 					|| (mode == EuclidianConstants.MODE_TEXT)) {
 				setViewHits(event.getType());
-				GeoElement geo0 = view.getHits().get(0);
+				GeoElement geo0 = null;
+				Hits hits0 = view.getHits();
+				if (!hits0.isEmpty()){
+					geo0 = hits0.get(0);
+				}
 				if (!app.showToolBar()
 						&& geo0 != null
 						&& (geo0.isGeoTextField() || geo0.isGeoBoolean()
