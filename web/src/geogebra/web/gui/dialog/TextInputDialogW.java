@@ -10,6 +10,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.MyError;
+import geogebra.html5.Browser;
 import geogebra.html5.main.AppW;
 
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{
@@ -192,12 +193,19 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	public void focus() {
 		if (inputPanel.getTextAreaComponent() != null) {
 			// probably this branch will run (rows > 1)
-			inputPanel.getTextAreaComponent().getTextArea().getElement().blur();
-			inputPanel.getTextAreaComponent().getTextArea().getElement()
-			        .focus();
+			if (Browser.isFirefox()) {
+				inputPanel.getTextAreaComponent().getTextArea().getElement()
+				        .blur();
+				inputPanel.getTextAreaComponent().getTextArea().getElement()
+				        .focus();
+			} else {
+				inputPanel.getTextAreaComponent().getTextArea().setFocus(true);
+			}
 		} else if (inputPanel.getTextComponent() != null) {
 			// what if? educated guess
-			inputPanel.getTextComponent().setFocus(false);
+			if (Browser.isFirefox()) {
+				inputPanel.getTextComponent().setFocus(false);
+			}
 			inputPanel.getTextComponent().setFocus(true);
 		}
 	}
