@@ -55,6 +55,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			return macro.getToolName() + ": " + macro.getNeededTypesString();
 		}
 		
+		public List<Macro> getMacros() {
+			return macros;
+		}
+
 		public Macro getMacro(int index) {
 			return macros.get(index);
 		}
@@ -142,7 +146,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			app.setMoveMode();
 		} else {
 			// recreate tool bar of application window
-			updateToolBar();
+			// updateToolBar();
 		}
 
 		super.setVisible(flag);
@@ -152,7 +156,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 * Updates the order of macros using the listModel.
 	 */
 	private void updateToolBar() {
-		//model.addMacros(listModel.toArray());
+		model.addMacros(toolList.getMacros().toArray());
 		app.updateToolBar();
 	}
 
@@ -413,7 +417,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public void refreshCustomToolsInToolBar() {
 		app.getGuiManager().refreshCustomToolsInToolBar();
-
+		app.getGuiManager().updateToolbar();
 	}
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
@@ -453,7 +457,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 			// make sure new macro command gets into dictionary
 			app.updateCommandDictionary();
-
+			model.addMacros(toolList.getMacros().toArray());
+			refreshCustomToolsInToolBar();
 			// destroy dialog
 			hide();
 
