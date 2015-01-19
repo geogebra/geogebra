@@ -35,7 +35,8 @@ public class UDPLoggerD implements UDPLogger {
 				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
 				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
 				"Mz"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2("EDAQ2");
-
+		// TODO: SENT_DATA_NUMBER (Adatszám)
+		// TODO: IDŐ 0-tól induljon
 		private String string;
 
 		Types(String s) {
@@ -362,7 +363,7 @@ public class UDPLoggerD implements UDPLogger {
 				break;
 			}
 			// timestamp is logged always?
-			log(Types.TIMESTAMP, Double.parseDouble(split[2]));
+			log(Types.TIMESTAMP, Math.abs(now - Double.parseDouble(split[2])));
 
 			// for (int i = 1; i < split.length; i++) {
 			// App.debug(split[i]);
@@ -375,9 +376,12 @@ public class UDPLoggerD implements UDPLogger {
 	}
 
 	private boolean oldUndoActive = false;
+	private long now;
 
 	@Override
 	public boolean startLogging() {
+
+		now = System.currentTimeMillis();
 
 		App.debug("startLogging called, undoActive is: "
 				+ kernel.isUndoActive());
@@ -473,7 +477,9 @@ public class UDPLoggerD implements UDPLogger {
 		 * false; }
 		 */
 
+
 		thread = new Thread() {
+
 
 			@Override
 			public void run() {
