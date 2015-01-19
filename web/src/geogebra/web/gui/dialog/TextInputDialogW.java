@@ -194,18 +194,19 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		if (inputPanel.getTextAreaComponent() != null) {
 			// probably this branch will run (rows > 1)
 			if (Browser.isFirefox()) {
+				// Code that works in Firefox but not in IE and Chrome
 				inputPanel.getTextAreaComponent().getTextArea().getElement()
 				        .blur();
 				inputPanel.getTextAreaComponent().getTextArea().getElement()
 				        .focus();
 			} else {
+				// Code that works in Chrome but not in Firefox and IE
+				inputPanel.getTextAreaComponent().getTextArea().setFocus(false);
 				inputPanel.getTextAreaComponent().getTextArea().setFocus(true);
 			}
 		} else if (inputPanel.getTextComponent() != null) {
 			// what if? educated guess
-			if (Browser.isFirefox()) {
-				inputPanel.getTextComponent().setFocus(false);
-			}
+			inputPanel.getTextComponent().setFocus(false);
 			inputPanel.getTextComponent().setFocus(true);
 		}
 	}
