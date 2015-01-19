@@ -5002,6 +5002,12 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
    padding-left: 2em;
    text-indent: -1em;
  }
+.timer {
+	font-size: 170%;
+	float: left;
+	font: "Helvetica";
+	padding: 5px 5px 7px;
+}
 
 /* ########################################
    ###       CUSTOMIZE TOOLBAR GUI      ###

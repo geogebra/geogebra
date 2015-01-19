@@ -20,10 +20,8 @@ import java.util.Date;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
-import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
-import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -172,16 +170,11 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		final Label timer = new Label();
 		Date date = new Date();
 		final long start = date.getTime();
-		timer.getElement().getStyle().setOverflow(Overflow.HIDDEN);
-		timer.getElement().getStyle().setFloat(Style.Float.LEFT);
-		timer.getElement().getStyle()
-		        .setVerticalAlign(Style.VerticalAlign.MIDDLE); // does not work,
-		// instead: 200% font size would be a solution (by using an own class
-		// here)
+		timer.getElement().setClassName("timer");
 		timer.getElement().setId("timer");
 
 		// https://groups.google.com/forum/#!msg/google-web-toolkit/VrF3KD1iLh4/-y4hkIDt5BUJ
-		AnimationHandle animation = AnimationScheduler.get()
+		AnimationScheduler.get()
 		        .requestAnimationFrame(new AnimationCallback() {
 			        @Override
 			        public void execute(double timestamp) {
@@ -201,7 +194,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		visibilityEventMain();
 	}
 
-	public static native void visibilityEventMain() /*-{
+	private static native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
 		$wnd.visibilityEventMain();
 	}-*/;
