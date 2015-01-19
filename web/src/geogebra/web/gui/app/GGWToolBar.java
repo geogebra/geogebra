@@ -16,9 +16,14 @@ import geogebra.web.gui.util.StandardButton;
 import geogebra.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
+import com.google.gwt.animation.client.AnimationScheduler.AnimationHandle;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Overflow;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
@@ -28,6 +33,7 @@ import com.google.gwt.resources.client.ResourcePrototype;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -160,12 +166,85 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		rightButtonPanel.add(redoButton);
 			
 	}
+
+	// timer for GeoGebraExam
+	private void addTimer() {
+		final Label timer = new Label("0:00");
+		Date date = new Date();
+		final long start = date.getTime();
+		timer.getElement().getStyle().setOverflow(Overflow.HIDDEN);
+		timer.getElement().getStyle().setFloat(Style.Float.LEFT);
+		timer.getElement().getStyle()
+		        .setVerticalAlign(Style.VerticalAlign.MIDDLE); // does not work
+
+		AnimationHandle animation = AnimationScheduler.get()
+		        .requestAnimationFrame(new AnimationCallback() {
+			        @Override
+			        public void execute(double timestamp) {
+				        // Do some stuff here
+				        int secs = (int) ((timestamp - start) / 1000);
+				        int mins = secs / 60;
+				        secs -= mins * 60;
+				        String secsS = secs + "";
+				        if (secs < 10) {
+					        secsS = "0" + secsS;
+				        }
+				        timer.setText(mins + ":" + secsS);
+				        // Call it again.
+
+				        AnimationScheduler.get().requestAnimationFrame(this);
+			        }
+		        });
+
+		rightButtonPanel.add(timer);
+
+		/*
+		 * Event.setEventListener(timer, new EventListener() { String visProp =
+		 * getHiddenProp(); if (visProp != "") { String evtname =
+		 * visProp.replaceAll("(?i)hidden","") + "visibilitychange"; });
+		 */
+	}
+
+	// Taken from http://www.html5rocks.com/en/tutorials/pagevisibility/intro/
+	public static native String getHiddenProp() /*-{
+		var prefixes = [ 'webkit', 'moz', 'ms', 'o' ];
+
+		// if 'hidden' is natively supported just return it
+		if ('hidden' in document)
+			return 'hidden';
+
+		// otherwise loop over all the known prefixes until we find one
+		for ( var i = 0; i < prefixes.length; i++) {
+			if ((prefixes[i] + 'Hidden') in document)
+				return prefixes[i] + 'Hidden';
+		}
+
+		// otherwise it's not supported
+		return null;
+	}-*/;
+
+	public static native void isHidden() /*-{
+		var prop = getHiddenProp();
+		if (!prop)
+			return false;
+
+		return document[prop];
+	}-*/;
 	
+
 	//Undo, redo, open, menu
 	private void addRightButtonPanel(){
+
+		final boolean exam = app.getLAF().isExam();
+
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();
 		this.rightButtonPanel.setStyleName("smartButtonPanel");
+
+		if (exam) {
+			addTimer();
+		}
+
 		if(app.getLAF().undoRedoSupported()){
 			addUndoPanel();
 		}
@@ -193,8 +272,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	            }
             }
 		}, KeyUpEvent.getType());
-		
-		final boolean exam = app.getLAF().isExam();
+
 		if (!exam) {
 			openSearchButton = new StandardButton(pr.button_open_search(),null,32);
 			openSearchButton.addFastClickHandler(new FastClickHandler() {
