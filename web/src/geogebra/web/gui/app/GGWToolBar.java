@@ -169,19 +169,22 @@ public class GGWToolBar extends Composite implements RequiresResize{
 
 	// timer for GeoGebraExam
 	private void addTimer() {
-		final Label timer = new Label("0:00");
+		final Label timer = new Label();
 		Date date = new Date();
 		final long start = date.getTime();
 		timer.getElement().getStyle().setOverflow(Overflow.HIDDEN);
 		timer.getElement().getStyle().setFloat(Style.Float.LEFT);
 		timer.getElement().getStyle()
-		        .setVerticalAlign(Style.VerticalAlign.MIDDLE); // does not work
+		        .setVerticalAlign(Style.VerticalAlign.MIDDLE); // does not work,
+		// instead: 200% font size would be a solution (by using an own class
+		// here)
+		timer.getElement().setId("timer");
 
+		// https://groups.google.com/forum/#!msg/google-web-toolkit/VrF3KD1iLh4/-y4hkIDt5BUJ
 		AnimationHandle animation = AnimationScheduler.get()
 		        .requestAnimationFrame(new AnimationCallback() {
 			        @Override
 			        public void execute(double timestamp) {
-				        // Do some stuff here
 				        int secs = (int) ((timestamp - start) / 1000);
 				        int mins = secs / 60;
 				        secs -= mins * 60;
@@ -190,45 +193,17 @@ public class GGWToolBar extends Composite implements RequiresResize{
 					        secsS = "0" + secsS;
 				        }
 				        timer.setText(mins + ":" + secsS);
-				        // Call it again.
-
 				        AnimationScheduler.get().requestAnimationFrame(this);
 			        }
 		        });
 
 		rightButtonPanel.add(timer);
-
-		/*
-		 * Event.setEventListener(timer, new EventListener() { String visProp =
-		 * getHiddenProp(); if (visProp != "") { String evtname =
-		 * visProp.replaceAll("(?i)hidden","") + "visibilitychange"; });
-		 */
+		visibilityEventMain();
 	}
 
-	// Taken from http://www.html5rocks.com/en/tutorials/pagevisibility/intro/
-	public static native String getHiddenProp() /*-{
-		var prefixes = [ 'webkit', 'moz', 'ms', 'o' ];
-
-		// if 'hidden' is natively supported just return it
-		if ('hidden' in document)
-			return 'hidden';
-
-		// otherwise loop over all the known prefixes until we find one
-		for ( var i = 0; i < prefixes.length; i++) {
-			if ((prefixes[i] + 'Hidden') in document)
-				return prefixes[i] + 'Hidden';
-		}
-
-		// otherwise it's not supported
-		return null;
-	}-*/;
-
-	public static native void isHidden() /*-{
-		var prop = getHiddenProp();
-		if (!prop)
-			return false;
-
-		return document[prop];
+	public static native void visibilityEventMain() /*-{
+		// wrapper to call the appropriate function from visibility.js
+		$wnd.visibilityEventMain();
 	}-*/;
 	
 

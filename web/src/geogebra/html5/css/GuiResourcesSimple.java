@@ -45,6 +45,9 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("geogebra/resources/js/zipjs/zip-3.js")
 	TextResource zipJs();
 
+	@Source("geogebra/resources/js/visibility.js")
+	TextResource visibilityJs();
+
 	@Source("geogebra/resources/css/mathquillggb.css")
 	TextResource mathquillggbCss();
 

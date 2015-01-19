@@ -43,6 +43,7 @@ public class ResourcesInjector {
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.zipJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.jQueryJs());
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.mathquillggbJs());
+		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.visibilityJs());
 		StyleInjector.inject(GuiResourcesSimple.INSTANCE.modernStyle()
 		        .getText());
 
