@@ -591,8 +591,11 @@ public abstract class AppW extends App implements SetLabels {
 		if (construction == null) {
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
+			getGuiManager().refreshCustomToolsInToolBar();
+			getGuiManager().updateToolbar();
 			return;
 		}
+
 		if (!getImageManager().hasImages()) {
 			// Process Construction
 			// construction =
@@ -618,6 +621,7 @@ public abstract class AppW extends App implements SetLabels {
 			setCurrentFile(archiveContent);
 
 		}
+
 	}
 
 	public void beforeLoadFile() {

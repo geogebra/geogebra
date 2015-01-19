@@ -25,6 +25,7 @@ import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.ToolNameIconPanel;
+import geogebra.web.gui.util.SaveDialogW;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,6 +114,16 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private Button btDown;
 
 	private MacroListBox toolList;
+
+	private Button btDelete;
+
+	private Button btOpen;
+
+	private Button btSave;
+
+	private Button btShare;
+
+	private Button btClose;
 
 	public ToolManagerDialogW(AppW app) {
 		setModal(true);
@@ -233,19 +244,19 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		FlowPanel toolButtonPanel = new FlowPanel();
 		toolListPanel.add(toolButtonPanel);
 
-		final Button btDelete = new Button();
+		btDelete = new Button();
 		toolButtonPanel.add(btDelete);
 		btDelete.setText(loc.getPlain("Delete"));
 
-		final Button btOpen = new Button();
+		btOpen = new Button();
 		toolButtonPanel.add(btOpen);
 		btOpen.setText(loc.getPlain("Open"));
 
-		final Button btSave = new Button();
+		btSave = new Button();
 		toolButtonPanel.add(btSave);
 		btSave.setText(loc.getMenu("SaveAs") + " ...");
 
-		final Button btShare = new Button();
+		btShare = new Button();
 		toolButtonPanel.add(btShare);
 		btShare.setText(loc.getMenu("Share") + " ...");
 
@@ -255,43 +266,14 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		panel.add(namePanel);
 
 		FlowPanel closePanel = new FlowPanel();
-		final Button btClose = new Button(loc.getMenu("Close"));
+		btClose = new Button(loc.getMenu("Close"));
 		closePanel.add(btClose);
 		panel.add(closePanel);
-
-		ClickHandler btnClickHandler = new ClickHandler() {
-			public void actionPerformed(Object src) {
-				if (src == btClose) {
-					// ensure to set macro properties from namePanel
-				//	namePanel.init(null, null);
-
-					// make sure new macro command gets into dictionary
-					app.updateCommandDictionary();
-
-					// destroy dialog
-					hide();
-					
-				} else if (src == btDelete) {
-					deleteTools();
-				} else if (src == btOpen) {
-					openTools();
-				} else if (src == btSave) {
-					saveTools();
-				} else if (src == btShare) {
-					uploadToGeoGebraTube();
-				}
-			}
-			
-			public void onClick(ClickEvent event) {
-				actionPerformed(event.getSource());
-	}
-		};
-
-		btShare.addClickHandler(btnClickHandler);
-		btSave.addClickHandler(btnClickHandler);
-		btDelete.addClickHandler(btnClickHandler);
-		btOpen.addClickHandler(btnClickHandler);
-		btClose.addClickHandler(btnClickHandler);
+		btShare.addClickHandler(this);
+		btSave.addClickHandler(this);
+		btDelete.addClickHandler(this);
+		btOpen.addClickHandler(this);
+		btClose.addClickHandler(this);
 
 		toolList.addChangeHandler(new ChangeHandler() {
 			
@@ -401,6 +383,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 * Saves all selected tools in a new file.
 	 */
 	private void saveTools() {
+		SaveDialogW dlg = new SaveDialogW(app) {
+			protected void onSave() {
+				App.debug("[ToolManager] onSave()");
+			}
+	
+		};
+		dlg.show();
 //		Object[] sel = toolList.getSelectedValues();
 //		if (sel == null || sel.length == 0)
 //			return;
@@ -423,7 +412,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	public void refreshCustomToolsInToolBar() {
-		//app.getGuiManager().refreshCustomToolsInToolBar();
+		app.getGuiManager().refreshCustomToolsInToolBar();
 
 	}
 
@@ -457,7 +446,26 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	    		toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
 	    		toolList.removeItem(idx + selSize + 1);
 	    	}
-	    }
+		}
+		if (src == btClose) {
+			// ensure to set macro properties from namePanel
+			// namePanel.init(null, null);
+
+			// make sure new macro command gets into dictionary
+			app.updateCommandDictionary();
+
+			// destroy dialog
+			hide();
+
+		} else if (src == btDelete) {
+			deleteTools();
+		} else if (src == btOpen) {
+			openTools();
+		} else if (src == btSave) {
+			saveTools();
+		} else if (src == btShare) {
+			uploadToGeoGebraTube();
+		}
 	 }
 
 }

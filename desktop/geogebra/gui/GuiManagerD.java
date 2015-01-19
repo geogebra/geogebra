@@ -2297,47 +2297,6 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			app.getScriptManager().ggbOnInit();
 	}
 
-	public void refreshCustomToolsInToolBar() {
-		int macroCount = kernel.getMacroNumber();
-
-		// add the ones that have (showInToolbar == true) into the toolbar if
-		// they are not already there.
-		StringBuilder customToolBar = new StringBuilder("");
-		for (int i = 0; i < macroCount; i++) {
-			Macro macro = kernel.getMacro(i);
-			int macroMode = EuclidianConstants.MACRO_MODE_ID_OFFSET + i;
-			if (macro.isShowInToolBar()
-					&& !(getToolbarDefinition().contains(String
-							.valueOf(macroMode)))) {
-				customToolBar.append(" " + macroMode);
-			}
-		}
-
-		String toolbarDef = getToolbarDefinition().trim();
-		String last = "";
-		try {
-			// get the last tool mode number in the toolbar def string
-			String[] tools = toolbarDef.split(" ");
-			last = tools[tools.length - 1];
-			int lastToolId = Integer.parseInt(last);
-
-			if (lastToolId >= EuclidianConstants.MACRO_MODE_ID_OFFSET) {
-				setToolBarDefinition(toolbarDef + customToolBar.toString());
-			} else {
-				setToolBarDefinition(toolbarDef + " ||"
-						+ customToolBar.toString());
-			}
-		} catch (NumberFormatException e) {
-			// could not identify the last tool so just add the custom tools
-			// onto the end
-			if (last.contains("|")) {
-				setToolBarDefinition(toolbarDef + customToolBar.toString());
-			} else {
-				setToolBarDefinition(toolbarDef + " ||"
-						+ customToolBar.toString());
-			}
-		}
-	}
 
 	protected boolean initActions() {
 		if (showAxesAction != null)
