@@ -65,6 +65,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public DrawSurface3D(EuclidianView3D a_view3d, SurfaceEvaluable surface) {
 		super(a_view3d, (GeoElement) surface);
 		this.surfaceGeo = surface;
+		this.surfaceGeo.setDerivatives();
 
 		currentSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
 		nextSplit = new DrawSurface3D.Corner[SPLIT_SIZE];

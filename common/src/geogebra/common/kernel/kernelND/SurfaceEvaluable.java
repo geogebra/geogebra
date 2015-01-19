@@ -43,4 +43,9 @@ public interface SurfaceEvaluable {
 	 * @return maximal value for i-th parameter
 	 */
 	public double getMaxParameter(int i);
+	
+	/**
+	 * set derivatives (if not already done)
+	 */
+	public void setDerivatives();
 }

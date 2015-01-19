@@ -139,6 +139,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 	@Override
 	public void set(GeoElement geo) {
+		
+		// reset derivatives
+		fun1 = null;
+
+		
 		if(geo instanceof GeoNumeric){
 			fun.setExpression(geo.wrap());
 			return;
@@ -173,6 +178,18 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	public void setFunction(FunctionNVar f) {
 		fun = f;
 
+		// reset derivatives
+		fun1 = null;
+	}
+
+
+	public void setDerivatives(){
+		
+		// check if derivatives already exist
+		if (fun1 != null){
+			return;
+		}
+		
 		// set derivatives
 		FunctionVariable[] vars = fun.getFunctionVariables();
 		fun1 = new FunctionNVar[vars.length];
@@ -264,6 +281,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	 */
 	public void setUsingCasCommand(String ggbCasCmd, CasEvaluableFunction f, boolean symbolic,
 			MyArbitraryConstant arbconst){
+		
+		// reset derivatives
+		fun1 = null;
+		
 		GeoFunctionNVar ff = (GeoFunctionNVar) f;
 		
 		if (ff.isDefined()) {
@@ -929,6 +950,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0);
 
 	public void evaluateNormal(double u, double v, Coords normal) {
+		
 		tmp[0] = u;
 		tmp[1] = v;
 
