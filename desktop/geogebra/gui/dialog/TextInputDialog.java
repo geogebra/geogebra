@@ -214,15 +214,6 @@ public class TextInputDialog extends InputDialogD implements DocumentListener,
 		wrappedDialog.pack();
 	}
 
-	public void focus() {
-		// maybe not needed?
-		// if (inputPanel != null) {
-		// inputPanel.getTextComponent().requestFocusInWindow();
-
-		// inputPanel.requestFocusInWindow();
-		// }
-	}
-
 	/*
 	 * // override because we don't want to set mode to another mode public void
 	 * windowGainedFocus(WindowEvent arg0) { if (!isModal()) {

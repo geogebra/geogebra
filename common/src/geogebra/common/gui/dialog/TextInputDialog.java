@@ -8,6 +8,4 @@ public interface TextInputDialog {
 	void reInitEditor(GeoText text, GeoPointND startPoint);
 
 	void setVisible(boolean b);
-
-	void focus();
 }
