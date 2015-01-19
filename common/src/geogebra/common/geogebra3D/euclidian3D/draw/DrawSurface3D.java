@@ -39,9 +39,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final int CORNER_LIST_SIZE = DRAW_SIZE * 3;
 	
 	/**
-	 * max corners length in one update loop
+	 * max splits in one update loop
 	 */
-	private static final int MAX_CORNERS_IN_ONE_UPDATE = (ROOT_MESH_INTERVALS + 1) * (ROOT_MESH_INTERVALS + 1) * (4+2);
+	private static final int MAX_SPLITS_IN_ONE_UPDATE = 500;
 
 	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
 
@@ -51,7 +51,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected CornerAndCenter[] drawList;
 
 	private int currentSplitIndex, nextSplitIndex, cornerListIndex;
-	protected int drawListIndex, drawListForced;
+	private int currentSplitStoppedIndex, loopSplitIndex;
+	protected int drawListIndex;
 
 	/** Current culling box - set to view3d.(x|y|z)(max|min) */
 	private double[] cullingBox = new double[6];
@@ -165,41 +166,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
 
 		currentSplitIndex = 0;
+		loopSplitIndex = 0;
 		nextSplitIndex = 0;
 		drawListIndex = 0;
-		drawListForced = 0;
 		notDrawn = 0;
 		splitRootMesh(corner);
 		App.debug("\nnot drawn after split root mesh: " + notDrawn);
 		split(false);
 
-		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + "\nstill to split : " 
-				+ nextSplitIndex + "\ncorner list size : " + cornerListIndex);
+		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
+				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
+				"\nnext to split : "  + nextSplitIndex + 
+				"\ncorner list size : " + cornerListIndex);
 
-//		if (drawListForced != 0) {
-//			for (int i = drawListForced; i < drawListIndex; i++) {
-//				// remove forced draws
-//				Corner c = drawList[i].getCorner();
-//				if (c.l.isDrawForced) {
-//					c.l = c.l.l;
-//				}
-//				if (c.l.a.isDrawForced) {
-//					c.l.a = c.l.a.a;
-//				}
-//				if (c.a.isDrawForced) {
-//					c.a = c.a.a;
-//				}
-//				if (c.a.l.isDrawForced) {
-//					c.a.l = c.a.l.l;
-//				}
-//				// put it again in split list
-//				addToNextSplit(c);
-//			}
-//			// continue again draw list
-//			drawListIndex = drawListForced;
-//			// split again
-//			split(false);
-//		}
 
 
 
@@ -330,28 +309,31 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		currentSplitIndex = nextSplitIndex;
 		nextSplitIndex = 0;
 		
-		App.debug("currentSplitIndex = " + currentSplitIndex + ", drawListIndex = "+ drawListIndex);
 
-		boolean forceDraw = draw || (4 * currentSplitIndex + drawListIndex - drawListForced > MAX_CORNERS_IN_ONE_UPDATE);
+		currentSplitStoppedIndex = MAX_SPLITS_IN_ONE_UPDATE - loopSplitIndex;
+		if (currentSplitStoppedIndex > currentSplitIndex){
+			currentSplitStoppedIndex = currentSplitIndex;
+		}
+
+		for (int i = 0; i < currentSplitStoppedIndex; i++) {
+			currentSplit[i].split(false);
+		}
 		
-		if (forceDraw) {
-			drawListForced = drawListIndex;
-			App.debug(" ==== force draw: " + drawListForced);
-		}
-
-		for (int i = 0; i < currentSplitIndex; i++) {
-			currentSplit[i].split(forceDraw);
-		}
+		loopSplitIndex += currentSplitStoppedIndex;
 
 		App.debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
 
-		if (!forceDraw && nextSplitIndex > 0) {
-			if (nextSplitIndex * 4 < SPLIT_SIZE && drawListIndex + nextSplitIndex * 4 < DRAW_SIZE) {
-				// split again
-				split(false);
-			} else {
-				split(true);
-			}
+//		if (!draw && nextSplitIndex > 0) {
+//			if (nextSplitIndex * 4 < SPLIT_SIZE && drawListIndex + nextSplitIndex * 4 < DRAW_SIZE) {
+//				// split again
+//				split(false);
+//			} else {
+//				split(true);
+//			}
+//		}
+		
+		if (loopSplitIndex < MAX_SPLITS_IN_ONE_UPDATE && nextSplitIndex > 0){
+			split(false);
 		}
 
 	}
