@@ -38,7 +38,7 @@ public class Material implements Comparable<Material>
 	/**
 	 * URL to the author's profile in GeoGebraTube.
 	 */
-	private String author_url;
+	private int author_id;
 
 	/**
 	 * URL to the overview page of the material.
@@ -101,7 +101,7 @@ public class Material implements Comparable<Material>
 		this.title = "";
 		this.timestamp = -1;
 		this.author = "";
-		this.author_url = "";
+		this.author_id = -1;
 		this.url = "";
 		this.url_direct = "";
 		this.language = "";
@@ -171,7 +171,7 @@ public class Material implements Comparable<Material>
 
 	public String getAuthorURL()
 	{
-		return this.author_url;
+		return "//tube.geogebra.org/user/profile/id/" + this.author_id;
 	}
 
 	/**
@@ -247,9 +247,9 @@ public class Material implements Comparable<Material>
 		this.author = author;
 	}
 
-	public void setAuthorURL(String author_url)
+	public void setAuthorId(int author_id)
 	{
-		this.author_url = author_url;
+		this.author_id = author_id;
 	}
 
 	public void setURL(String url)
@@ -311,7 +311,7 @@ public class Material implements Comparable<Material>
 		StringBuffer sb = new StringBuffer();
 		sb.append("ID: " + this.id + ": (" + this.type + ") ");
 		sb.append("Title: " + this.title + " ");
-		sb.append("by " + this.author + " (" + this.author_url + "), ");
+		sb.append("by " + this.author + " (" + this.getAuthorURL() + "), ");
 		sb.append("Date: " + this.getDate() + "\n");
 		sb.append("Description: " + this.description + "\n");
 		sb.append("Language: " + this.language + "\n");
@@ -327,7 +327,7 @@ public class Material implements Comparable<Material>
 		JSONObject ret = new JSONObject();
 		putString(ret,"thumbnail", thumbnail);
 	//	putString(ret,"-type", TODO);
-		putString(ret,"author_url", author_url);
+		putString(ret, "author_id", author_id + "");
 		putString(ret,"language", language);
 		putString(ret,"author", author);
 		putString(ret,"description", description);
@@ -469,5 +469,9 @@ public class Material implements Comparable<Material>
 
 	public void setFromAnotherDevice(boolean fromAnotherDevice) {
 		this.fromAnotherDevice = fromAnotherDevice;
+	}
+
+	public int getAuthorID() {
+		return this.author_id;
 	}
 }

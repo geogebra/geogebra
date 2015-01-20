@@ -100,7 +100,7 @@ public class JSONparserGGT {
 		}
 		material.setVisibility(getString(obj, "visibility"));
 		material.setAuthor(getString(obj, "author"));
-		material.setAuthorURL(getString(obj, "author_url"));
+		material.setAuthorId(getInt(obj, "author_id", -1));
 		material.setURL(getString(obj, "url"));
 		material.setURLdirect(getString(obj, "url_direct"));
 		material.setThumbnail(getString(obj, "thumbnail"));

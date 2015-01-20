@@ -8,6 +8,7 @@ import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.AuthenticationModel;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeAPI;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
+import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.views.EventRenderable;
 
@@ -152,5 +153,10 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 
 	public boolean mayLogIn() {
 		return getModel().mayLogIn();
+	}
+
+	public boolean owns(Material mat) {
+		return mat.getAuthorID() <= 0
+				|| mat.getAuthorID() == getModel().getUserId();
 	}
 }

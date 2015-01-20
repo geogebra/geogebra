@@ -200,7 +200,13 @@ public class FileManagerT extends FileManager {
 	 *            {@link Material}
 	 */
 	@Override
-	public void delete(final Material mat) {
+	public void delete(final Material mat, boolean permanent) {
+		if (!permanent) {
+			mat.setDeleted(true);
+			this.createMetaData(getFileKey(mat), mat, null);
+			return;
+		}
+
 		final String key = getFileKey(mat);
 
 		getGgbFile(key + FILE_EXT, dontCreateIfNotExist,
@@ -646,7 +652,7 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
 
-						        mat.setTitle(FileManager.getTitleFromKey(key));
+						        // mat.setTitle(FileManager.getTitleFromKey(key));
 						        mat.setBase64("");
 						        writer.write(mat.toJson().toString());
 						        if (cb != null) {
@@ -709,18 +715,8 @@ public class FileManagerT extends FileManager {
 										                        .parseMaterial(result);
 										                mat.setLocalID(FileManager
 										                        .getIDFromKey(key));
-										                if ("".equals(mat
-										                        .getAuthor())
-										                        || mat.getAuthor()
-										                                .equals(getApp()
-										                                        .getLoginOperation()
-										                                        .getUserName())) {
-											                sync(mat,
-												                        events);
 
-										                } else {
-											                ignoreNotSyncedFile(events);
-										                }
+										                sync(mat, events);
 									                }
 
 									                @Override

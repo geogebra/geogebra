@@ -69,7 +69,7 @@ public abstract class FileManager implements FileManagerI {
 		this.app = app;
 	}
 
-	public abstract void delete(final Material mat);
+	public abstract void delete(final Material mat, boolean permanent);
 
 	/**
 	 * 
@@ -114,7 +114,7 @@ public abstract class FileManager implements FileManagerI {
 			App.debug("create material" + app.getSyncStamp());
 			mat.setSyncStamp(app.getSyncStamp());
 		}
-
+		mat.setAuthorId(app.getLoginOperation().getModel().getUserId());
 		mat.setBase64(base64);
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
@@ -186,23 +186,33 @@ public abstract class FileManager implements FileManagerI {
 
 	private void sync(final Material mat, SyncEvent event) {
 		long tubeTimestamp = event.getTimestamp();
+		// First check for conflict
+		if (mat.getSyncStamp() < mat.getModified()
+		        && (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp())) {
+			fork(mat);
+			return;
+		}
 
 		if (event.isDelete()) {
-			delete(mat);
+			delete(mat, true);
 		}
  else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
 			// remove from local device
+			delete(mat, true);
+
 		}
  else if (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp()) {
 
 				
-			
-				getFromTube(mat);
-
+			getFromTube(mat);
 
 		} else {
 			// no changes in Tube
-			if (mat.getId() > 0 && mat.getModified() <= mat.getSyncStamp()) {
+			if (mat.isDeleted()) {
+				App.debug("SYNC outgoing delete:" + mat.getId());
+				deleteFromTube(mat);
+			} else if (mat.getId() > 0
+			        && mat.getModified() <= mat.getSyncStamp()) {
 				App.debug("SYNC material up to date" + mat.getId());
 			} else {
 				App.debug("SYNC outgoing changes:" + mat.getId());
@@ -210,6 +220,25 @@ public abstract class FileManager implements FileManagerI {
 			}
 		}
 
+	}
+
+	private void fork(Material mat) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+		        app.getLocalization().getPlain("SeveralVersionsOfA",
+		                mat.getTitle()), true);
+		App.debug("SYNC fork: " + mat.getId());
+		final String format = app.getLocalization().isRightToLeftReadingOrder() ? "\\Y "
+		        + Unicode.LeftToRightMark
+		        + "\\F"
+		        + Unicode.LeftToRightMark
+		        + " \\j"
+		        : "\\j \\F \\Y";
+		mat.setTitle(mat.getTitle()
+		        + " ("
+		        + CmdGetTime.buildLocalizedDate(format, new Date(),
+		                app.getLocalization()) + ")");
+		mat.setId(0);
+		upload(mat);
 	}
 
 	private void getFromTube(final int id) {
@@ -222,6 +251,8 @@ public abstract class FileManager implements FileManagerI {
 				        // edited on Tube, not edited locally
 				        if (parseResponse.size() == 1) {
 					        App.debug("SYNC downloading file:" + id);
+					        Material tubeMat = parseResponse.get(0);
+					        tubeMat.setSyncStamp(tubeMat.getModified());
 					        FileManager.this.updateFile(
 null,
 				                parseResponse.get(0).getModified(),
@@ -250,26 +281,6 @@ null,
 					        FileManager.this.updateFile(getFileKey(mat),
 					                parseResponse.get(0).getModified(),
 					                parseResponse.get(0));
-				        } else {
-					        ToolTipManagerW.sharedInstance().showBottomMessage(
-					                app.getLocalization().getPlain(
-					                        "SeveralVersionsOfA",
-					                        parseResponse.get(0).getTitle()),
-					                true);
-					        App.debug("SYNC fork: " + mat.getId());
-					        final String format = app.getLocalization()
-					                .isRightToLeftReadingOrder() ? "\\Y "
-					                + Unicode.LeftToRightMark + "\\F"
-					                + Unicode.LeftToRightMark + " \\j"
-					                : "\\j \\F \\Y";
-					        mat.setTitle(mat.getTitle()
-					                + " ("
-					                + CmdGetTime.buildLocalizedDate(format,
-					                        new Date(), app.getLocalization())
-					                + ")");
-					        mat.setId(0);
-					        upload(mat);
-
 				        }
 
 			        }
@@ -277,6 +288,30 @@ null,
 			        @Override
 			        public void onError(final Throwable exception) {
 				        App.debug("SYNC error loading from tube" + mat.getId());
+			        }
+		        });
+
+	}
+
+	private void deleteFromTube(final Material mat) {
+		if (!app.getLoginOperation().owns(mat)) {
+			delete(mat, true);
+			return;
+		}
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		        .deleteMaterial(app, mat, new MaterialCallback() {
+
+			        @Override
+			        public void onLoaded(final List<Material> parseResponse) {
+
+				        // edited on Tube, not edited locally
+				        delete(mat, true);
+
+			        }
+
+			        @Override
+			        public void onError(final Throwable exception) {
+				        App.debug("SYNC error deleting from tube" + mat.getId());
 			        }
 		        });
 
@@ -306,7 +341,7 @@ null,
 					        newMat.setThumbnail(mat.getThumbnail());
 					        newMat.setSyncStamp(newMat.getModified());
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
-						        delete(mat);
+						        delete(mat, true);
 					        } else {
 						        // Meta may have changed (tube ID), sync
 								// timestamp needs changing always

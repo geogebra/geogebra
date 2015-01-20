@@ -1,8 +1,8 @@
 package geogebra.html5.main;
 
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.move.ggtapi.models.Material.Provider;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ public interface FileManagerI {
 
 	void openMaterial(Material material);
 
-	void delete(Material material);
+	void delete(Material material, boolean permanent);
 
 	void uploadUsersMaterials(ArrayList<SyncEvent> events);
 

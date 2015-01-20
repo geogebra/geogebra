@@ -81,7 +81,7 @@ public class MaterialListElement extends FlowPanel implements
 		this.guiManager = (GuiManagerW) app.getGuiManager();
 		this.material = m;
 		this.isLocal = isLocal;
-		this.isOwnMaterial = (isLocal && "".equals(m.getAuthor())) || m.getAuthor().equals(app.getLoginOperation().getUserName());
+		this.isOwnMaterial = app.getLoginOperation().owns(m);
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {
@@ -395,16 +395,20 @@ public class MaterialListElement extends FlowPanel implements
 	void onConfirmDelete() {
 		this.setVisible(false);
 		setAllMaterialsDefault();
-		this.app.getFileManager().delete(this.material);
+		final Material toDelete = this.material;
+		this.app.getFileManager().delete(toDelete, false);
+
 		if (!this.isLocal) {
-			
-			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).deleteMaterial(this.app, this.material, new MaterialCallback() {
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			        .deleteMaterial(this.app, toDelete, new MaterialCallback() {
 
 				@Override
 				public void onLoaded(List<Material> parseResponse) {
 					remove();
+					        MaterialListElement.this.app.getFileManager()
+					                .delete(toDelete, false);
 				}
-				
+
 				@Override
 				public void onError(Throwable exception) {
 					setVisible(true);
@@ -677,7 +681,7 @@ public class MaterialListElement extends FlowPanel implements
 		} else {
 			this.title.setText(check + this.material.getTitle());
 		}
-		if (!isLocal) {
+		if (!app.getLoginOperation().owns(mat)) {
 			this.sharedBy.setText(this.material.getAuthor());
 		}
 		this.background.clear();

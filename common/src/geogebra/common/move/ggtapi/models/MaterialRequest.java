@@ -23,7 +23,7 @@ public class MaterialRequest implements Request
 
 	public enum Fields
 	{
-		id, title, type, description, timestamp, author, author_url, url, url_direct, language, thumbnail, featured, likes,
+		id, title, type, description, timestamp, author, author_id, url, url_direct, language, thumbnail, featured, likes,
 		width, height, instructions_pre, instructions_post, ggbBase64, toolbar, menubar, inputbar, modified, visibility;
 	}
 
@@ -46,7 +46,8 @@ public class MaterialRequest implements Request
 	private Task task = Task.fetch;
 
 	private Fields[] fields = new Fields[]{Fields.id, Fields.title, Fields.type, Fields.timestamp, 
-			Fields.author, Fields.author_url, Fields.url, Fields.url_direct, 
+ Fields.author, Fields.author_id,
+			Fields.url, Fields.url_direct,
 			Fields.thumbnail, Fields.featured, Fields.likes, Fields.modified, Fields.visibility
 			};
 	private Filters[] filters = { Filters.search };

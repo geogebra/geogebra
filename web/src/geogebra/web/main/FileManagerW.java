@@ -36,7 +36,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void delete(final Material mat) {
+	public void delete(final Material mat, boolean permanent) {
 		if (this.stockStore != null) {
 			this.stockStore.removeItem(getFileKey(mat));
 			removeFile(mat);
@@ -120,9 +120,7 @@ public class FileManagerW extends FileManager {
 			if (key.startsWith(FILE_PREFIX)) {
 				final Material mat = JSONparserGGT
 				        .parseMaterial(this.stockStore.getItem(key));
-				if ("".equals(mat.getAuthor())
-				        || mat.getAuthor().equals(
-				                getApp().getLoginOperation().getUserName())) {
+				if (getApp().getLoginOperation().owns(mat)) {
 						sync(mat, events);
 
 				} else {
@@ -187,7 +185,7 @@ public class FileManagerW extends FileManager {
 		// maybe another user restores the file, so reset
 		// sensitive data
 		autoSaved.setAuthor("");
-		autoSaved.setAuthorURL("");
+		autoSaved.setAuthorId(0);
 		autoSaved.setId(0);
 		autoSaved.setGoogleID("");
 		openMaterial(autoSaved);

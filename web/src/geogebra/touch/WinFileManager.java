@@ -85,7 +85,7 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void delete(Material mat) {
+	public void delete(Material mat, boolean permanent) {
 		deleteNative(getFileKey(mat));
 		removeFile(mat);
 		((BrowseGUI) getApp().getGuiManager().getBrowseView())
@@ -194,14 +194,10 @@ public class WinFileManager extends FileManager {
 				for (int i = 0; i < jv.size(); i++) {
 					final Material mat = JSONparserGGT.toMaterial(jv.get(i)
 					        .isObject());
-					if ("".equals(mat.getAuthor())
-					        || mat.getAuthor().equals(
-					                getApp().getLoginOperation().getUserName())) {
-						if (mat.getId() == 0) {
-							upload(mat);
-						} else {
+					if (getApp().getLoginOperation().owns(mat)) {
+
 							sync(mat, events);
-						}
+
 					}
 
 				}

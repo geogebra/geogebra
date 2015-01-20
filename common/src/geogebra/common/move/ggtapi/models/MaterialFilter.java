@@ -40,12 +40,11 @@ public abstract class MaterialFilter {
 	 * @param author String
 	 * @return {@link MaterialFilter}
 	 */
-	public static MaterialFilter getAuthorFilter(final String author) {
-		return new MaterialFilter() {
-			@Override
-			public boolean check(Material m) {
-				return m.getAuthor().equals(author);
-			}
-		};
-	}
+	/*
+	 * public static MaterialFilter getAuthorFilter(final String author) {
+	 * return new MaterialFilter() {
+	 * 
+	 * @Override public boolean check(Material m) { return
+	 * m.getAuthor().equals(author); } }; }
+	 */
 }
