@@ -793,7 +793,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		if (av.isEditing())
+		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
 
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
@@ -977,13 +977,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		app.getActiveEuclidianView().mouseMovedOver(null);
 
 		// this should not give the focus to AV instead of the current formula!
-		// except if we are in editing mode! That's why better condition was
+		// except if we are not in editing mode! That's why better condition was
 		// needed at the beginning of this method!
 		av.setFocus(true);
 	}
 	
 	private void onPointerMove(AbstractEvent event) {
-		if (av.isEditing())
+		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
 
 		// tell EuclidianView to handle mouse over
@@ -1007,7 +1007,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 	
 	private void onRightClick(int x, int y) {
-		if (av.isEditing())
+		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
 
 		SelectionManager selection = app.getSelectionManager();
