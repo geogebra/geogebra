@@ -7,12 +7,12 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.common.main.App;
+import geogebra.common.util.debug.Log;
 
 /**
  * Class for drawing a 2-var function
  * 
- * @author matthieu
+ * @author mathieu
  * 
  */
 public class DrawSurface3D extends Drawable3DSurfaces {
@@ -78,6 +78,18 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		definedCornersForStillToSplit = new Corner[6];
 
 	}
+	
+	final static private boolean DEBUG = false;
+	
+	/**
+	 * console debug
+	 * @param s message
+	 */
+	final static protected void debug(String s){
+		if (DEBUG){
+			Log.debug(s);
+		}
+	}
 
 	@Override
 	public void drawGeometry(Renderer renderer) {
@@ -104,6 +116,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	public void drawOutline(Renderer renderer) {
 		// no outline
 	}
+	
+	private boolean drawFromScratch = true;
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -112,81 +126,93 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
-		double uMin = surfaceGeo.getMinParameter(0);
-		double uMax = surfaceGeo.getMaxParameter(0);
-		double vMin = surfaceGeo.getMinParameter(1);
-		double vMax = surfaceGeo.getMaxParameter(1);
+		if (drawFromScratch){
 
-		if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
-			if (Double.isNaN(uMin)) {
-				uMin = getView3D().getXmin();
+			// calc min/max values
+			double uMin = surfaceGeo.getMinParameter(0);
+			double uMax = surfaceGeo.getMaxParameter(0);
+			double vMin = surfaceGeo.getMinParameter(1);
+			double vMax = surfaceGeo.getMaxParameter(1);
+
+			if (((GeoElement) surfaceGeo).isGeoFunctionNVar()) {
+				if (Double.isNaN(uMin)) {
+					uMin = getView3D().getXmin();
+				}
+				if (Double.isNaN(uMax)) {
+					uMax = getView3D().getXmax();
+				}
+				if (Double.isNaN(vMin)) {
+					vMin = getView3D().getYmin();
+				}
+				if (Double.isNaN(vMax)) {
+					vMax = getView3D().getYmax();
+				}
 			}
-			if (Double.isNaN(uMax)) {
-				uMax = getView3D().getXmax();
+
+			uDelta = uMax - uMin;
+			if (Kernel.isZero(uDelta)) {
+				setSurfaceIndex(-1);
+				return true;
 			}
-			if (Double.isNaN(vMin)) {
-				vMin = getView3D().getYmin();
+			vDelta = vMax - vMin;
+			if (Kernel.isZero(vDelta)) {
+				setSurfaceIndex(-1);
+				return true;
 			}
-			if (Double.isNaN(vMax)) {
-				vMax = getView3D().getYmax();
-			}
+
+
+			// max values
+			maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
+
+			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+			maxRWDistance = 5 * maxRWPixelDistance;
+			maxBend = Math.tan(20 * Kernel.PI_180);
+
+			// maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+			// maxRWDistance = 2 * maxRWPixelDistance;
+			// maxBend = getView3D().getMaxBend();
+
+			updateCullingBox();
+
+			debug("\nmax distances = " + maxRWDistance + ", " + maxRWDistanceNoAngleCheck);
+
+			// create root mesh
+			int uN = 1 + (int) (ROOT_MESH_INTERVALS * Math.sqrt(uDelta / vDelta));
+			int vN = 1 + ROOT_MESH_INTERVALS * ROOT_MESH_INTERVALS / uN;
+			debug("grids: " + uN + ", " + vN);
+			cornerListIndex = 0;
+			Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
+
+			// split root mesh as start
+			currentSplitIndex = 0;
+			currentSplitStoppedIndex = 0;
+			nextSplitIndex = 0;
+			drawListIndex = 0;
+			notDrawn = 0;
+			splitRootMesh(corner);
+			debug("\nnot drawn after split root mesh: " + notDrawn);
+				
+			// now splitted root mesh is ready
+			drawFromScratch = false;
 		}
-
-		uDelta = uMax - uMin;
-		if (Kernel.isZero(uDelta)) {
-			setSurfaceIndex(-1);
-			return true;
-		}
-		vDelta = vMax - vMin;
-		if (Kernel.isZero(vDelta)) {
-			setSurfaceIndex(-1);
-			return true;
-		}
-
-
-
-		surface.start(getReusableSurfaceIndex());
-
-		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
-
-		maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
-		maxRWDistance = 5 * maxRWPixelDistance;
-		maxBend = Math.tan(20 * Kernel.PI_180);
-
-		// maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
-		// maxRWDistance = 2 * maxRWPixelDistance;
-		// maxBend = getView3D().getMaxBend();
-
-		updateCullingBox();
-
-		App.debug("\nmax distances = " + maxRWDistance + ", " + maxRWDistanceNoAngleCheck);
-
-		int uN = 1 + (int) (ROOT_MESH_INTERVALS * Math.sqrt(uDelta / vDelta));
-		int vN = 1 + ROOT_MESH_INTERVALS * ROOT_MESH_INTERVALS / uN;
-		App.debug("grids: " + uN + ", " + vN);
-
-		cornerListIndex = 0;
-
-		Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
-
-		currentSplitIndex = 0;
+		
+		
+		// start recursive split
 		loopSplitIndex = 0;
-		nextSplitIndex = 0;
-		drawListIndex = 0;
-		notDrawn = 0;
-		splitRootMesh(corner);
-		App.debug("\nnot drawn after split root mesh: " + notDrawn);
 		split(false);
 
-		App.debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
+		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
 				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
 				"\nnext to split : "  + nextSplitIndex + 
 				"\ncorner list size : " + cornerListIndex);
 
+		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
 
+		// draw splitted, still to split, and next to split
+		surface.start(getReusableSurfaceIndex());
 
-		if (drawListIndex + (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0) {
+		if (drawListIndex > 0 || waitingSplits) {
 			surface.startTriangles();
 			for (int i = 0; i < drawListIndex; i++) {
 				drawList[i].draw(surface);
@@ -202,16 +228,23 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setSurfaceIndex(surface.end());
-
-		return true;
+		
+		// update is finished if no waiting splits
+		return !waitingSplits;
 	}
 
 	@Override
 	protected void updateForView() {
 		if (getView3D().viewChangedByZoom()
 				|| getView3D().viewChangedByTranslate()) {
-			updateForItSelf();
+			setWaitForUpdate();
 		}
+	}
+	
+	@Override
+	public void setWaitForUpdate() {
+		drawFromScratch = true;
+		super.setWaitForUpdate();
 	}
 
 	@Override
@@ -313,22 +346,24 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private void split(boolean draw) {
 
-		// swap stacks
-		Corner[] tmp = currentSplit;
-		currentSplit = nextSplit;
-		nextSplit = tmp;
-		currentSplitIndex = nextSplitIndex;
-		nextSplitIndex = 0;
+		if (currentSplitStoppedIndex == currentSplitIndex){
+			// swap stacks
+			Corner[] tmp = currentSplit;
+			currentSplit = nextSplit;
+			nextSplit = tmp;
+			currentSplitIndex = nextSplitIndex;
+			nextSplitIndex = 0;
+			currentSplitStoppedIndex = 0;
+		}
 		
-
-		currentSplitStoppedIndex = 0;
+		
 		while (currentSplitStoppedIndex < currentSplitIndex && loopSplitIndex < MAX_SPLITS_IN_ONE_UPDATE) {
 			currentSplit[currentSplitStoppedIndex].split(false);
 			currentSplitStoppedIndex++;
 		}
 		
 
-		App.debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
+		debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
 
 //		if (!draw && nextSplitIndex > 0) {
 //			if (nextSplitIndex * 4 < SPLIT_SIZE && drawListIndex + nextSplitIndex * 4 < DRAW_SIZE) {
@@ -2045,19 +2080,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            third point
 	 */
 	static final protected void drawTriangle(PlotterSurface surface, Corner c0, Corner c1, Corner c2) {
-
-		if (c0.p.isFinalUndefined()){
-			App.printStacktrace("c0");
-			return;
-		}
-		if (c1.p.isFinalUndefined()){
-			App.printStacktrace("c1");
-			return;
-		}
-		if (c2.p.isFinalUndefined()){
-			App.printStacktrace("c2");
-			return;
-		}
 		
 		drawTriangle(surface, c0.p, c0.normal, c1, c2);
 
