@@ -2666,7 +2666,7 @@ __GGB__keysVar.km.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "Semicircle",
     "SemicircleThroughAandB": "Semicircle through %0 and %1",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Show",
     "ShowAas2DView": "Create 2D view from %0",

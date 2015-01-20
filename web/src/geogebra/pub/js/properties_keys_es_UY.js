@@ -2666,7 +2666,7 @@ __GGB__keysVar.es_UY.plain = {
     "SelectionAllowed": "Selecci\xf3n habilitada",
     "Semicircle": "Semicircunferencia",
     "SemicircleThroughAandB": "Semicircunferencia por %0 y %1",
-    "SeveralVersionsOfA": "Hay que tener en cuenta que son varias las versiones de: %1",
+    "SeveralVersionsOfA": "Hay que tener en cuenta que son varias las versiones de: %0",
     "SharedByA": "Compartido por: %0",
     "Show": "Muestra",
     "ShowAas2DView": "Muestra %0 en vista 2D",

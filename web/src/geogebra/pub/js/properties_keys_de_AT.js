@@ -2666,7 +2666,7 @@ __GGB__keysVar.de_AT.plain = {
     "SelectionAllowed": "Auswahl erlaubt",
     "Semicircle": "Halbkreis",
     "SemicircleThroughAandB": "Halbkreis durch %0 und %1",
-    "SeveralVersionsOfA": "Beachten Sie, dass es mehrere Versionen von %1 gibt",
+    "SeveralVersionsOfA": "Beachten Sie, dass es mehrere Versionen von %0 gibt",
     "SharedByA": "Erstellt von: %0",
     "Show": "Anzeigen",
     "ShowAas2DView": "Erstelle 2D Ansicht von %0",

@@ -2666,7 +2666,7 @@ __GGB__keysVar.lt.plain = {
     "SelectionAllowed": "Pasirinkimas leistinas",
     "Semicircle": "Pusapskritimis",
     "SemicircleThroughAandB": "Pusapskritimis per %0 ir %1",
-    "SeveralVersionsOfA": "Atkreipkite d\u0117mes\u012f \u012f tai, kad yra kelios %1 versijos",
+    "SeveralVersionsOfA": "Atkreipkite d\u0117mes\u012f \u012f tai, kad yra kelios %0 versijos",
     "SharedByA": "Bendrina: %0",
     "Show": "Rodyti",
     "ShowAas2DView": "Rodyti %0 kaip 2D vaizd\u0105",

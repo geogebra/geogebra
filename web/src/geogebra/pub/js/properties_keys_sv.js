@@ -2666,7 +2666,7 @@ __GGB__keysVar.sv.plain = {
     "SelectionAllowed": "Urval m\xf6jligt",
     "Semicircle": "Halvcirkel",
     "SemicircleThroughAandB": "Halvcirkel genom %0 och %1",
-    "SeveralVersionsOfA": "Notera att det finns flera versioner av: %1",
+    "SeveralVersionsOfA": "Notera att det finns flera versioner av: %0",
     "SharedByA": "Delad av: %0",
     "Show": "Visa",
     "ShowAas2DView": "Visa %0 som 2D-f\xf6nster",

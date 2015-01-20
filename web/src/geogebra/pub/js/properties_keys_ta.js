@@ -2666,7 +2666,7 @@ __GGB__keysVar.ta.plain = {
     "SelectionAllowed": "Selection Allowed",
     "Semicircle": "\u0b85\u0bb0\u0bc8\u0bb5\u0b9f\u0bcd\u0b9f\u0bae\u0bcd",
     "SemicircleThroughAandB": "%0 \u0bae\u0bb1\u0bcd\u0bb1\u0bc1\u0bae\u0bcd %1\u0b87\u0bb1\u0bcd\u0b95\u0bc2\u0b9f\u0bbe\u0ba9 \u0b85\u0bb0\u0bc8\u0bb5\u0b9f\u0bcd\u0b9f\u0bae\u0bcd",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "\u0b95\u0bbe\u0b9f\u0bcd\u0b9f\u0bc1\u0b95",
     "ShowAas2DView": "Create 2D view from %0",

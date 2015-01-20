@@ -2666,7 +2666,7 @@ __GGB__keysVar.tl.plain = {
     "SelectionAllowed": "Pinapayagan ang Pamimili",
     "Semicircle": "Bahaging-bilog",
     "SemicircleThroughAandB": "Bahaging-bilog sa %0 at %1",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Ipakita",
     "ShowAas2DView": "Ipakita %0 na 2D View",

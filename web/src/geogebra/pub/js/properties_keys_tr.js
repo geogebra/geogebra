@@ -2666,7 +2666,7 @@ __GGB__keysVar.tr.plain = {
     "SelectionAllowed": "Se\xe7im M\xfcmk\xfcn",
     "Semicircle": "Yar\u0131m \xe7ember",
     "SemicircleThroughAandB": "%0 ve %1 den ge\xe7en yar\u0131m \xe7ember",
-    "SeveralVersionsOfA": "Bir\xe7ok s\xfcr\xfcm\xfc oldu\u011funa dikkat ediniz:%1",
+    "SeveralVersionsOfA": "Bir\xe7ok s\xfcr\xfcm\xfc oldu\u011funa dikkat ediniz:%0",
     "SharedByA": "Payla\u015fan: %0",
     "Show": "G\xf6ster",
     "ShowAas2DView": "%0 dan 2D G\xf6r\xfcn\xfcm\xfc olu\u015ftur",

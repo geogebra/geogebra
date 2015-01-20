@@ -2666,7 +2666,7 @@ __GGB__keysVar.gl.plain = {
     "SelectionAllowed": "Selecci\xf3n habilitada",
     "Semicircle": "Semicircunferencia",
     "SemicircleThroughAandB": "Semicircunferencia pasando por %0 e %1",
-    "SeveralVersionsOfA": "Ten en conta que hai varias versi\xf3ns de: %1",
+    "SeveralVersionsOfA": "Ten en conta que hai varias versi\xf3ns de: %0",
     "SharedByA": "Compartido por: %0",
     "Show": "Amosar",
     "ShowAas2DView": "Mostrar o %0 como Vista 2D",

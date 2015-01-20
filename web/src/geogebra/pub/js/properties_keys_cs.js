@@ -2666,7 +2666,7 @@ __GGB__keysVar.cs.plain = {
     "SelectionAllowed": "V\xfdb\u011br povolen",
     "Semicircle": "Polokru\u017enice",
     "SemicircleThroughAandB": "Polokru\u017enice nad %0 a %1",
-    "SeveralVersionsOfA": "Nalezeno v\xedce verz\xed konstrukce %1",
+    "SeveralVersionsOfA": "Nalezeno v\xedce verz\xed konstrukce %0",
     "SharedByA": "Sd\xedleno u\u017eivatelem: %0",
     "Show": "Zobrazit",
     "ShowAas2DView": "Vytvo\u0159it 2D n\xe1hled z %0",

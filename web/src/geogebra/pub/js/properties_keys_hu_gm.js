@@ -2666,7 +2666,7 @@ __GGB__keysVar.hu_gm.plain = {
     "SelectionAllowed": "Kijel\xf6l\xe9s enged\xe9lyezett",
     "Semicircle": "F\xe9lk\xf6r",
     "SemicircleThroughAandB": "%0 \xe9s %1 \xe1ltal meghat\xe1rozott f\xe9lk\xf6r",
-    "SeveralVersionsOfA": "T\xf6bb verzi\xf3 is l\xe9tezik %1-b\xf3l",
+    "SeveralVersionsOfA": "T\xf6bb verzi\xf3 is l\xe9tezik %0-b\xf3l",
     "SharedByA": "Megosztotta: %0",
     "Show": "Mutat",
     "ShowAas2DView": "%0 mutat\xe1sa 2D-s n\xe9zetben",

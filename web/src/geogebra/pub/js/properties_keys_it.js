@@ -2666,7 +2666,7 @@ __GGB__keysVar.it.plain = {
     "SelectionAllowed": "Consenti selezione",
     "Semicircle": "Semicirconferenza",
     "SemicircleThroughAandB": "Semicirconferenza per %0 e %1",
-    "SeveralVersionsOfA": "Sono gi\xe0 disponibili varie versioni di: %1",
+    "SeveralVersionsOfA": "Sono gi\xe0 disponibili varie versioni di: %0",
     "SharedByA": "Condiviso da: %0",
     "Show": "Mostra",
     "ShowAas2DView": "Crea una vista 2D da %0",

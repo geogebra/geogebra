@@ -2666,7 +2666,7 @@ __GGB__keysVar.xh.plain = {
     "SelectionAllowed": "Okukhethiweyo okuvumelekileyo",
     "Semicircle": "uSiqingathaSangqa",
     "SemicircleThroughAandB": "Semicircle through %0 and %1",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Kwabelwana ngayo ngu: %0",
     "Show": "Bonisa",
     "ShowAas2DView": "Yenza umbono we 2D ukusuka ku%0",

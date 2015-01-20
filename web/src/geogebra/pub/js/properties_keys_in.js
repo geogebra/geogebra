@@ -2666,7 +2666,7 @@ __GGB__keysVar.in.plain = {
     "SelectionAllowed": "Diperbolehkan Pemilihan",
     "Semicircle": "Setengah lingkaran",
     "SemicircleThroughAandB": "Setengah lingkaran melalui %0 dan %1",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Shared by: %0",
     "Show": "Tampilkan",
     "ShowAas2DView": "Tampilkan %0 sebagai tampilan 2D",

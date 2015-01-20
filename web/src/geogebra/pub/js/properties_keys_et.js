@@ -2666,7 +2666,7 @@ __GGB__keysVar.et.plain = {
     "SelectionAllowed": "Valimine lubatud",
     "Semicircle": "Poolringjoon",
     "SemicircleThroughAandB": "Poolringjoon punktidega %0 ja %1",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "Jagas: %0",
     "Show": "N\xe4ita",
     "ShowAas2DView": "Create 2D view from %0",

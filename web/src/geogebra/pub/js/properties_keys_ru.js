@@ -2666,7 +2666,7 @@ __GGB__keysVar.ru.plain = {
     "SelectionAllowed": "\u0420\u0430\u0437\u0440\u0435\u0448\u0438\u0442\u044c \u0432\u044b\u0434\u0435\u043b\u0435\u043d\u0438\u0435",
     "Semicircle": "\u041f\u043e\u043b\u0443\u043e\u043a\u0440\u0443\u0436\u043d\u043e\u0441\u0442\u044c",
     "SemicircleThroughAandB": "\u041f\u043e\u043b\u0443\u043e\u043a\u0440\u0443\u0436\u043d\u043e\u0441\u0442\u044c \u043f\u043e %0 \u0438 %1",
-    "SeveralVersionsOfA": "Note that there are several versions of: %1",
+    "SeveralVersionsOfA": "Note that there are several versions of: %0",
     "SharedByA": "\u041f\u043e\u0434\u0435\u043b\u0438\u043b\u0441\u044f: %0",
     "Show": "\u041f\u043e\u043a\u0430\u0437\u0430\u0442\u044c",
     "ShowAas2DView": "\u0421\u043e\u0437\u0434\u0430\u0442\u044c 2D \u0432\u0438\u0434 \u043d\u0430 %0",

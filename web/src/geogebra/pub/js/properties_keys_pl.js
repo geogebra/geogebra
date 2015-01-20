@@ -2666,7 +2666,7 @@ __GGB__keysVar.pl.plain = {
     "SelectionAllowed": "Wyb\xf3r dozwolony",
     "Semicircle": "P\xf3\u0142okr\u0105g",
     "SemicircleThroughAandB": "P\xf3\u0142okr\u0105g przez %0 i %1",
-    "SeveralVersionsOfA": "Nale\u017cy pami\u0119ta\u0107, \u017ce istnieje kilka wersji: %1",
+    "SeveralVersionsOfA": "Nale\u017cy pami\u0119ta\u0107, \u017ce istnieje kilka wersji: %0",
     "SharedByA": "Udost\u0119pnione przez: %0",
     "Show": "Poka\u017c",
     "ShowAas2DView": "Utw\xf3rz Widok 2D z %0",
