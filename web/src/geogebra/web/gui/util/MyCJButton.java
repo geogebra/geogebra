@@ -1,25 +1,13 @@
 package geogebra.web.gui.util;
 
-import geogebra.common.main.App;
-import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.canvas.client.Canvas;
-import com.google.gwt.canvas.dom.client.Context2d;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.FocusEvent;
-import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.dom.client.MouseUpEvent;
 import com.google.gwt.event.dom.client.MouseUpHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -35,38 +23,10 @@ import com.google.gwt.user.client.ui.RootPanel;
  *
  */
 public class MyCJButton extends Composite implements MouseDownHandler,
-        MouseUpHandler, MouseOutHandler, MouseOverHandler, HasSetIcon {	
+        MouseUpHandler, HasSetIcon {
 	
-	//public static final String DEFAULT_BACKGROUND_STYLE = "white";
-	//private static final String DEFAULT_BORDER_STYLE = "gray";
-	
-	/**
-	 *  Default button width for CanvasButtons
-	 */
-	//public static int DEFAULT_BUTTON_WIDTH = 20;
-	/**
-	 * Default button height for CanvasButtons
-	 */
-	//public static int DEFAULT_BUTTON_HEIGHT = 20;
-	
-	protected static int TEXT_OFFSET = 3;
-	
-	protected Label button;
-	private Canvas tempCanvas = null;
-	private Context2d tempContext = null;
-	/**
-	 * button width
-	 */
-	//protected int buttonWidth = DEFAULT_BUTTON_WIDTH;
-	/**
-	 * button height
-	 */
-	//protected int buttonHeight = DEFAULT_BUTTON_HEIGHT;
-	
-	//protected String backgroundStyle = DEFAULT_BACKGROUND_STYLE;
-	//protected String borderStyle = DEFAULT_BORDER_STYLE;
+	private Label button;
 	private boolean isEnabled;
-	private String toolTipText;
 	private boolean loadHandlerAllowed = false;
 	private ImageOrText icon;
 	private Label buttonContent;
@@ -76,7 +36,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 * 
 	 * Creates a new button
 	 * 
-	 * @param icon as imageResource
+	 * @param image
 	 */
 	
 	public MyCJButton(final Image image) {
@@ -84,23 +44,17 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		buttonContent = new Label("");
 		buttonContent.setStyleName("buttonContent");
 		button.getElement().appendChild(buttonContent.getElement());
-		
-		//button.setWidth(buttonWidth+"px");
-		//button.setHeight(buttonHeight+"px");
 		button.addMouseDownHandler(this);
 		button.addMouseUpHandler(this);
-		button.addMouseOverHandler(this);
-		button.addMouseOutHandler(this);
 		
 		loadHandlerAllowed = true;
 		image.addLoadHandler(new LoadHandler() {
 			
 			public void onLoad(LoadEvent event) {
 
-				if (!loadHandlerAllowed)
+				if (!loadHandlerAllowed) {
 					return;
-
-				//button.getElement().getStyle().setBackgroundImage(image.getUrl());
+				}
 				buttonContent.getElement().getStyle().setBackgroundImage(image.getUrl());
 			}
 		});
@@ -110,14 +64,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		isEnabled = true;
     }
 	
-	public Label getButtonContent() {
-		return buttonContent;
-	}
-	
-	public void setText(String text){
-		button.setText("BT"+text);
-	}
-
 	/**
 	 *  Creates a CanvasButton with empty image
 	 */
@@ -131,6 +77,24 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		});
     }
 
+	/**
+	 * @return {@link Label}
+	 */
+	public Label getButtonContent() {
+		return buttonContent;
+	}
+
+	/**
+	 * sets the text of the button
+	 * 
+	 * @param text
+	 *            String
+	 */
+	public void setText(String text) {
+		button.setText("BT" + text);
+	}
+
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 		if (!isEnabled) {
 			return;
@@ -139,6 +103,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		setDownState(false);
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		if (!isEnabled) {
 			return;
@@ -154,22 +119,8 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		   this.removeStyleName("selected");
 	   }
     }
-
 	
-
-	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		return button.addClickHandler(handler);
-    }
-	
-	
-	private Context2d getTempContext2D() {
-	    if (tempContext == null) {
-	    	tempCanvas = Canvas.createIfSupported();
-	    	tempContext = tempCanvas.getContext2d();
-	    }
-	    return tempContext;
-    }
-
+	@Override
 	public void setIcon(ImageOrText icon) {
 		if(this.imageMode && icon.getUrl() == null){
 			return;
@@ -183,37 +134,24 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		setDownState(false);
 	}
 	
+	/**
+	 * @return {@link ImageOrText}
+	 */
 	public ImageOrText getIcon(){
 		return this.icon;
 	}
 
-	/*AG tmppublic void setIcon(CanvasElement ce) {
-		int cwidth = ce.getWidth();
-		int cheight = ce.getHeight();
-	    if (cwidth > 0 && cheight > 0) {
-	    	Context2d ctx = getTempContext2D();
-	    	tempCanvas.setWidth(cwidth+"px");
-	    	tempCanvas.setHeight(cheight+"px");
-	    	tempCanvas.setCoordinateSpaceWidth(cwidth);
-	    	tempCanvas.setCoordinateSpaceHeight(cheight);
-	    	ctx.drawImage(ce, 0, 0, cwidth, cheight);
-	    	icon = ctx.getImageData(0, 0, cwidth, cheight);
-	    	setDownState(false);
-	    }
-    }*/
-
-	public Object getButton() {
-	    return button;
-    }
-
+	/**
+	 * @return {@code true} if button is enabled
+	 */
 	protected boolean isEnabled() {
 		return isEnabled ;
 	}
 	
-	protected void setIsEnabled(boolean enabled) {
-		isEnabled = enabled;
-	}
-
+	/**
+	 * @param enabled
+	 *            boolean
+	 */
 	public void setEnabled(boolean enabled) {
 		isEnabled = enabled;
 		if (enabled) {
@@ -223,26 +161,14 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 
 		}
 	}
-//	public void addClickHandler(ClickHandler handler) {
-//		button.addClickHandler(handler);
-//	}
 
-	protected void addBlurHandler(BlurHandler handler) {
-		button.addDomHandler(handler,BlurEvent.getType());
-	}
-	
-	protected void addFocusHandler(FocusHandler handler) {
-		button.addDomHandler(handler,FocusEvent.getType());
-	}
-	
-	protected int getWidth() {
-		return button.getOffsetWidth();
-	}
-	
-	protected int getHeight() {
-		return button.getOffsetHeight();
-	}
-	
+	/**
+	 * adds a clickHandler to the button and calls the given clickhandler only
+	 * if the button is enabled
+	 * 
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
 	public void addActionListener(final ClickHandler handler) {
 		button.addClickHandler(new ClickHandler() {
 
@@ -255,7 +181,17 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 		});
 	}
 	
-	
+	/**
+	 * adds the given clickhandler to the button
+	 * 
+	 * @param handler
+	 *            {@link ClickHandler}
+	 * @return {@link HandlerRegistration}
+	 */
+	public HandlerRegistration addClickHandler(ClickHandler handler) {
+		return button.addClickHandler(handler);
+	}
+
 	/**
 	 * Sets the toolTip text
 	 * 
@@ -263,25 +199,6 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 *            toolTip string
 	 */
 	public void setToolTipText(String toolTipText) {
-		this.toolTipText = toolTipText;
+		setTitle(toolTipText);
 	}
-
-	public void onMouseOver(MouseOverEvent event) {
-		if (!isEnabled) {
-			return;
-		}
-
-		App.debug("on mouseover --- MyCJButton" );
-		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
-	}
-
-	public void onMouseOut(MouseOutEvent event) {
-		if (!isEnabled) {
-			return;
-		}
-
-		App.debug("on mouseOUT --- MyCJButton" );
-		ToolTipManagerW.sharedInstance().showToolTip(null);
-	}
-
 }

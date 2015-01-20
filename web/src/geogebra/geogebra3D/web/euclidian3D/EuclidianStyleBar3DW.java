@@ -296,6 +296,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 	}
 
+	@Override
 	protected boolean processSourceForAxesAndGrid(Object source) {
 		if (source.equals(btnShowAxesAndPlane)) {
 			btnShowAxesAndPlane.setEVFromIndex();
@@ -370,6 +371,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 			super.processSource(source, targetGeos);
 	}
 
+	@Override
 	protected void createAxesAndGridButtons() {
 
 		// ========================================
@@ -398,10 +400,12 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnShowGrid3D.addValueChangeHandler(this);
 	}
 
+	@Override
 	protected MyToggleButton2 getAxesOrGridToggleButton() {
 		return btnShowGrid3D;
 	}
 
+	@Override
 	protected PopupMenuButton getAxesOrGridPopupMenuButton() {
 		return btnShowAxesAndPlane;
 	}
@@ -439,6 +443,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		btnClipping.setToolTipText(loc.getPlainTooltip("stylebar.Clipping"));
 		btnViewProjection.setToolTipText(loc
 		        .getPlainTooltip("stylebar.ViewProjection"));
+		btnViewDirection.setToolTipText(loc
+		        .getPlainTooltip("stylebar.ViewDirection"));
 	}
 
 	@Override
@@ -468,18 +474,21 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 		return ret;
 	}
 
+	@Override
 	protected void setActionCommands() {
 		setActionCommand(btnShowGrid3D, "showGrid");
 		setActionCommand(btnStandardView, "standardView");
 		setActionCommand(btnPointCapture, "pointCapture");
 	}
 
+	@Override
 	protected void setAxesAndGridToolTips(Localization loc) {
 		btnShowGrid3D.setToolTipText(loc.getPlainTooltip("stylebar.Grid"));
 		btnShowAxesAndPlane
 		        .setToolTipText(loc.getPlainTooltip("stylebar.Axes"));
 	}
 
+	@Override
 	protected void updateAxesAndGridGUI() {
 		btnShowGrid3D.removeValueChangeHandler();
 		btnShowGrid3D.setSelected(ev.getShowGrid());

@@ -1,14 +1,8 @@
 package geogebra.web.gui.util;
 
-import geogebra.html5.gui.tooltip.ToolTipManagerW;
-
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
-import com.google.gwt.event.dom.client.MouseOutEvent;
-import com.google.gwt.event.dom.client.MouseOutHandler;
-import com.google.gwt.event.dom.client.MouseOverEvent;
-import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -21,10 +15,9 @@ import com.google.gwt.user.client.ui.ToggleButton;
  * 
  */
 public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
-        MouseOverHandler, MouseOutHandler, HasSetIcon {
+        HasSetIcon {
 
 	private HandlerRegistration actionListener;
-	private String toolTipText;
 
 	/**
 	 * @param upText
@@ -56,7 +49,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	 * @param upIcon
 	 *            an {@link ImageResource} to use as an up Image
 	 * @param handler
-	 *            @
+	 *            {@link ClickHandler}
 	 */
 	public MyToggleButton2(ImageResource upIcon, ClickHandler handler) {
 		super(new Image(upIcon.getSafeUri()), handler);
@@ -93,8 +86,6 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	private void initButton() {
 		setDown(false);
 		addStyleName("MyToggleButton");
-		addMouseOutHandler(this);
-		addMouseOverHandler(this);
 		addMouseDownHandler(this);
 	}
 
@@ -134,6 +125,9 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	}
 
 
+	/**
+	 * 
+	 */
 	public void removeValueChangeHandler() {
 		if (actionListener != null) {
 			actionListener.removeHandler();
@@ -154,15 +148,7 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	 *            toolTip string
 	 */
 	public void setToolTipText(String toolTipText) {
-		this.toolTipText = toolTipText;
-	}
-
-	public void onMouseOver(MouseOverEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(toolTipText);
-	}
-
-	public void onMouseOut(MouseOutEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(null);
+		setTitle(toolTipText);
 	}
 
 	public void onMouseDown(MouseDownEvent event) {

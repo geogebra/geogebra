@@ -481,7 +481,8 @@ public abstract class DockPanelW extends ResizeComposite implements
 	}
 
 	public final void setLabels() {
-		if (titleBarLabel != null) {
+		if (toggleStyleBarButton != null) {
+			toggleStyleBarButton.setTitle(app.getPlain("ToggleStyleBar"));
 		}
 	}
 

@@ -107,7 +107,10 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
     }
 
 	private void setToolTips() {
-		auxiliary.setToolTipText(app.getLocalization().getMenu("auxiliary"));
+		auxiliary.setToolTipText(app.getLocalization().getPlain(
+		        "AuxiliaryObjects"));
+		treeModeButton.setToolTipText(app.getLocalization().getPlainTooltip(
+		        "SortBy"));
 	}
 
 	@Override
