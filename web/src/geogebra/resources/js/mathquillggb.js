@@ -2892,7 +2892,9 @@ var Variable = P(Symbol, function(_, _super) {
 		ctrlSeq = prev.ctrlSeq + ctrlSeq;
 	//then test if there's an autocommand here, starting with the longest possible and slicing
 	while (ctrlSeq.length) {
-		if (AutoCmds.hasOwnProperty(ctrlSeq) || UnItalicizedCmds.hasOwnProperty(ctrlSeq)) {
+		// UnItalicizedCmds not used, because e.g. Circle[A,B] GeoGebra command -- \Ci rcle
+		//if (AutoCmds.hasOwnProperty(ctrlSeq) || UnItalicizedCmds.hasOwnProperty(ctrlSeq)) {
+		if (AutoCmds.hasOwnProperty(ctrlSeq)) {
 			for (var i = 1; i < ctrlSeq.length; i += 1) cursor.backspace();
 			var command = LatexCmds[ctrlSeq](ctrlSeq);
 			command.createBefore(cursor);
