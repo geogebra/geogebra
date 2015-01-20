@@ -28,6 +28,7 @@ public abstract class FileManager implements FileManagerI {
 
 	public static final String AUTO_SAVE_KEY = "autosave";
 	public static final String FILE_PREFIX = "file_";
+	public static final String reservedCharacters = "*/:<>?\\|+,.;=[]";
 
 	/**
 	 * @param matID
@@ -37,7 +38,16 @@ public abstract class FileManager implements FileManagerI {
 	 * @return creates a key (String) for the stockStore
 	 */
 	public static String createKeyString(int matID, String title) {
-		return FILE_PREFIX + matID + "_" + title;
+		StringBuilder sb = new StringBuilder(title.length()+12);
+		sb.append(FILE_PREFIX);
+		sb.append(matID);
+		sb.append('_');
+		for(int i = 0; i < title.length(); i++){
+			if (reservedCharacters.indexOf(title.charAt(i)) == -1) {
+				sb.append(title.charAt(i));
+			}
+		}
+		return sb.toString();
 	}
 
 	public static String getFileKey(Material mat) {
@@ -157,6 +167,7 @@ public abstract class FileManager implements FileManagerI {
 		}
 
 		this.notSyncedFileCount--;
+		App.debug("SYNC remains " + this.notSyncedFileCount);
 		checkMaterialsToDownload(events);
 		sync(mat, new SyncEvent(0, 0));
 	}

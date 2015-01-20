@@ -718,12 +718,15 @@ public class FileManagerT extends FileManager {
 											                sync(mat,
 												                        events);
 
+										                } else {
+											                ignoreNotSyncedFile(events);
 										                }
 									                }
 
 									                @Override
 									                public void onFailure(
 									                        FileError reason) {
+										                ignoreNotSyncedFile(events);
 										                App.debug("Could not read meta data");
 									                }
 
@@ -923,14 +926,16 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onFailure(final FileError error) {
-						        // cb.onError();
+						        Log.error("Cannot write to file" + key
+						                + ", error " + error.getErrorCode());
 					        }
 				        });
 			        }
 
 			        @Override
 			        public void onFailure(final FileError error) {
-				        // cb.onError();
+				        Log.error("Cannot create file" + key + ", error "
+				                + error.getErrorCode());
 			        }
 
 		        });
