@@ -817,6 +817,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	@Override
     public void onClick(ClickEvent evt) {
+		if (newCreationMode) {
+			geogebra.html5.main.DrawEquationWeb
+			        .focusEquationMathQuillGGB(seMayLatex);
+		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -853,6 +857,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
+		if (newCreationMode) {
+			geogebra.html5.main.DrawEquationWeb
+			        .focusEquationMathQuillGGB(seMayLatex);
+		}
 	    longTouchManager.cancelTimer();
 	    JsArray<Touch> changed = event.getChangedTouches();
 	    AbstractEvent wrappedEvent = PointerEvent.wrapEvent(changed.get(0), ZeroOffset.instance);
@@ -890,10 +898,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	
 	private void onPointerUp(AbstractEvent event) {
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
-			if (newCreationMode) {
-				geogebra.html5.main.DrawEquationWeb
-				        .focusEquationMathQuillGGB(seMayLatex);
-			}
 			return;
 		}
 		int mode = app.getActiveEuclidianView().getMode();
