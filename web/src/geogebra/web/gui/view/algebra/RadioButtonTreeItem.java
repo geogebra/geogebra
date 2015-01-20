@@ -504,13 +504,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (newCreationMode) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, true);
-			ihtml.addClickHandler(new ClickHandler() {
-				public void onClick(ClickEvent ce) {
-					// focus MathQuill, howto?
-					geogebra.html5.main.DrawEquationWeb
-					        .focusEquationMathQuillGGB(seMayLatex);
-				}
-			});
 		} else if (LaTeX && !(geo.isGeoVector() && geo.isIndependent())) {
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);
@@ -896,7 +889,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 	
 	private void onPointerUp(AbstractEvent event) {
-		if (av.isEditing()) {
+		if (av.isEditing() || isThisEdited() || newCreationMode) {
+			if (newCreationMode) {
+				geogebra.html5.main.DrawEquationWeb
+				        .focusEquationMathQuillGGB(seMayLatex);
+			}
 			return;
 		}
 		int mode = app.getActiveEuclidianView().getMode();
@@ -978,6 +975,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 
 		app.getActiveEuclidianView().mouseMovedOver(null);
+
+		// this should not give the focus to AV instead of the current formula!
+		// except if we are in editing mode! That's why better condition was
+		// needed at the beginning of this method!
 		av.setFocus(true);
 	}
 	
