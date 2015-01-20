@@ -3703,6 +3703,11 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	border: 1px solid #DCDCDC;
 }
 
+.propertiesTab .colorChooserPreview canvas {
+	cursor: pointer;
+	cursor: hand;
+}
+
 .gwt-PopupPanel .panelTitle {
 	padding: 5px 10px 10px 10px;
 }

@@ -66,6 +66,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private BackgroundColorPanel backgroundColorPanel;
 	private Button addCustomColor;
 	private App app;
+
 	private class ColorTable {
 		private int left;
 		private int top;
@@ -342,7 +343,6 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 		public void setCapacity(int capacity) {
 	        this.capacity = capacity;
         }
-
 	}
 
 	private class RecentTable extends ColorTable {
@@ -759,4 +759,18 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	    otherTable.select(0, 0);
 	    colorChanged(otherTable, color);
     }
+
+	/**
+	 * adds a clickhandler to the color-preview, to open the
+	 * {@link CustomColorDialog}
+	 */
+	public void setColorPreviewClickable() {
+		this.previewPanel.canvas.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				showCustomColorDialog();
+			}
+		});
+	}
 }

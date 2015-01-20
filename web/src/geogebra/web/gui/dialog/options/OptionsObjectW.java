@@ -559,6 +559,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 					updatePreview(color, alpha);
 				}});
+			colorChooserW.setColorPreviewClickable();
 
 			mainPanel = new FlowPanel();
 			mainPanel.add(colorChooserW);
