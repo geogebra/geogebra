@@ -190,7 +190,7 @@ public class WinFileManager extends FileManager {
 			@Override
 			public void handle(String jsString) {
 				JSONArray jv = JSONParser.parseLenient(jsString).isArray();
-				setNotSyncedFileCount(jv.size());
+				setNotSyncedFileCount(jv.size(), events);
 				for (int i = 0; i < jv.size(); i++) {
 					final Material mat = JSONparserGGT.toMaterial(jv.get(i)
 					        .isObject());

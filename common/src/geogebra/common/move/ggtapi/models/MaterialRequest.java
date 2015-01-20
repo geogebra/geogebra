@@ -183,6 +183,16 @@ public class MaterialRequest implements Request
 		return req;
 	}
 
+	public static MaterialRequest forCurrentUser(ClientInfo client) {
+		MaterialRequest req = new MaterialRequest(client);
+		req.filters = new Filters[] { Filters.type };
+		req.filterMap.put(Filters.type, "link");
+		req.negFilters.add(Filters.type);
+
+		req.by = Order.timestamp;
+		return req;
+	}
+
 	public static MaterialRequest forFeatured(ClientInfo client) {
 		MaterialRequest req = new MaterialRequest(client);
 		req.filters = new Filters[] { Filters.featured, Filters.type };

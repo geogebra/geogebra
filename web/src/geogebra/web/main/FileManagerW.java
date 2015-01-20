@@ -114,7 +114,7 @@ public class FileManagerW extends FileManager {
 		if (this.stockStore == null || this.stockStore.getLength() <= 0) {
 			return;
 		}
-		setNotSyncedFileCount(this.stockStore.getLength());
+		setNotSyncedFileCount(this.stockStore.getLength(), events);
 		for (int i = 0; i < this.stockStore.getLength(); i++) {
 			final String key = this.stockStore.key(i);
 			if (key.startsWith(FILE_PREFIX)) {
@@ -123,12 +123,13 @@ public class FileManagerW extends FileManager {
 				if ("".equals(mat.getAuthor())
 				        || mat.getAuthor().equals(
 				                getApp().getLoginOperation().getUserName())) {
-					if (mat.getId() == 0) {
-						upload(mat);
-					} else {
 						sync(mat, events);
-					}
+
+				} else {
+					ignoreNotSyncedFile(events);
 				}
+			} else {
+				ignoreNotSyncedFile(events);
 			}
 		}
 	}

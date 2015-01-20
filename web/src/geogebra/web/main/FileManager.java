@@ -1,11 +1,13 @@
 package geogebra.web.main;
 
+import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.common.move.ggtapi.models.SyncEvent;
+import geogebra.common.util.Unicode;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
@@ -17,6 +19,7 @@ import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.util.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public abstract class FileManager implements FileManagerI {
@@ -130,25 +133,51 @@ public abstract class FileManager implements FileManagerI {
 
 	private int notSyncedFileCount;
 
-	public void setNotSyncedFileCount(int count) {
+	public void setNotSyncedFileCount(int count, ArrayList<SyncEvent> events) {
 		this.notSyncedFileCount = count;
+		checkMaterialsToDownload(events);
+	}
+
+	public void ignoreNotSyncedFile(ArrayList<SyncEvent> events) {
+		this.notSyncedFileCount--;
+		checkMaterialsToDownload(events);
 	}
 
 	public void sync(final Material mat, ArrayList<SyncEvent> events) {
-		for (SyncEvent event : events) {
-			if (event.getID() == mat.getId()) {
-				sync(mat, event);
-				return;
+		if (mat.getId() == 0) {
+			upload(mat);
+		} else {
+			for (SyncEvent event : events) {
+				if (event.getID() == mat.getId()) {
+					sync(mat, event);
+					event.setZapped(true);
+					break;
+				}
 			}
 		}
+
+		this.notSyncedFileCount--;
+		checkMaterialsToDownload(events);
 		sync(mat, new SyncEvent(0, 0));
+	}
+
+	private void checkMaterialsToDownload(ArrayList<SyncEvent> events) {
+		if (notSyncedFileCount == 0) {
+			for (SyncEvent event : events) {
+				App.debug("SYNCDNLD" + event.isFavorite() + ","
+				        + event.isZapped() + "," + event.getID());
+				if (event.isFavorite() && !event.isZapped()) {
+					getFromTube(event.getID());
+				}
+			}
+		}
 	}
 
 	private void sync(final Material mat, SyncEvent event) {
 		long tubeTimestamp = event.getTimestamp();
 
 		if (event.isDelete()) {
-			//ask user to delete
+			delete(mat);
 		}
  else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
 			// remove from local device
@@ -172,6 +201,31 @@ public abstract class FileManager implements FileManagerI {
 
 	}
 
+	private void getFromTube(final int id) {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		        .getItem(id + "", new MaterialCallback() {
+
+			        @Override
+			        public void onLoaded(final List<Material> parseResponse) {
+
+				        // edited on Tube, not edited locally
+				        if (parseResponse.size() == 1) {
+					        App.debug("SYNC downloading file:" + id);
+					        FileManager.this.updateFile(
+null,
+				                parseResponse.get(0).getModified(),
+				                parseResponse.get(0));
+				        }
+			        }
+
+			        @Override
+			        public void onError(final Throwable exception) {
+				        App.debug("SYNC error loading from tube" + id);
+			        }
+		        });
+
+	}
+
 	private void getFromTube(final Material mat) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(mat.getId() + "", new MaterialCallback() {
@@ -192,6 +246,16 @@ public abstract class FileManager implements FileManagerI {
 					                        parseResponse.get(0).getTitle()),
 					                true);
 					        App.debug("SYNC fork: " + mat.getId());
+					        final String format = app.getLocalization()
+					                .isRightToLeftReadingOrder() ? "\\Y "
+					                + Unicode.LeftToRightMark + "\\F"
+					                + Unicode.LeftToRightMark + " \\j"
+					                : "\\j \\F \\Y";
+					        mat.setTitle(mat.getTitle()
+					                + " ("
+					                + CmdGetTime.buildLocalizedDate(format,
+					                        new Date(), app.getLocalization())
+					                + ")");
 					        mat.setId(0);
 					        upload(mat);
 

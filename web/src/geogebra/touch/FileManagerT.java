@@ -647,6 +647,7 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(final FileWriter writer) {
 
 						        mat.setTitle(FileManager.getTitleFromKey(key));
+						        mat.setBase64("");
 						        writer.write(mat.toJson().toString());
 						        if (cb != null) {
 							        cb.onSaved(mat, true);
@@ -684,7 +685,7 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(
 					                final LightArray<EntryBase> entries) {
-						        setNotSyncedFileCount(entries.length());
+						        setNotSyncedFileCount(entries.length(), events);
 						        for (int i = 0; i < entries.length(); i++) {
 							        final EntryBase entryBase = entries.get(i);
 							        if (entryBase.isFile()) {
@@ -714,12 +715,9 @@ public class FileManagerT extends FileManager {
 										                                .equals(getApp()
 										                                        .getLoginOperation()
 										                                        .getUserName())) {
-											                if (mat.getId() == 0) {
-												                upload(mat);
-											                } else {
-												                sync(mat,
+											                sync(mat,
 												                        events);
-											                }
+
 										                }
 									                }
 
@@ -730,6 +728,8 @@ public class FileManagerT extends FileManager {
 									                }
 
 								                });
+							        } else {
+								        ignoreNotSyncedFile(events);
 							        }
 						        }
 					        }
@@ -888,6 +888,24 @@ public class FileManagerT extends FileManager {
 	@Override
 	protected void updateFile(final String key, final long modified,
 	        final Material material) {
+		if (key == null) {
+			this.createID(new Callback<Integer, String>() {
+
+				@Override
+				public void onFailure(String reason) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void onSuccess(Integer id) {
+					String key2 = FileManager.createKeyString(id,
+					        material.getTitle());
+					updateFile(key2, modified, material);
+				}
+			});
+			return;
+		}
 		getGgbFile(key + FILE_EXT, createIfNotExist,
 		        new Callback<FileEntry, FileError>() {
 
@@ -898,8 +916,9 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
 						        writer.write(material.getBase64());
+						        material.setModified(modified);
 						        createMetaData(key,
-						                createMaterial("", modified), null);
+ material, null);
 					        }
 
 					        @Override

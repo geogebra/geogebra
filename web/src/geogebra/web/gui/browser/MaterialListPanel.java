@@ -37,7 +37,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 * list of all shown {@link MaterialListElement materials}
 	 */
 	protected List<MaterialListElement> materials = new ArrayList<MaterialListElement>();
-	private MaterialCallback allMaterialsCB;
 	private MaterialCallback userMaterialsCB;
 	private MaterialCallback ggtMaterialsCB;
 	long lastScroll = 0;
@@ -48,7 +47,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 */
 	public MaterialListPanel(final AppW app) {
 		this.app = app;
-		this.allMaterialsCB = getAllMaterialsCB();
 		this.userMaterialsCB = getUserMaterialsCB();
 		this.ggtMaterialsCB = getGgtMaterialsCB();
 		this.setPixelSize((int)app.getWidth() - GLookAndFeel.PROVIDER_PANEL_WIDTH, 
@@ -148,14 +146,21 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
     public void loadAllMaterials() {
 		clearMaterials();
 		loadLocal();
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getFeaturedMaterials(this.allMaterialsCB);
+		if (this.app.getLoginOperation().isLoggedIn()) {
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			        .getUsersMaterials(this.userMaterialsCB);
+		} else {
+			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+			        .getFeaturedMaterials(this.ggtMaterialsCB);
+		}
 	}
     
 	/**
 	 * loads users materials from ggt
 	 */
 	public void loadUsersMaterials() {
-		((GeoGebraTubeAPIW)app.getLoginOperation().getGeoGebraTubeAPI()).getUsersMaterials(app.getLoginOperation().getModel().getUserId(), this.userMaterialsCB);
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		        .getUsersMaterials(this.userMaterialsCB);
 	}
 
 	/**
@@ -197,13 +202,20 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		final MaterialListElement matElem = getMaterialListElement(mat);
 		if (matElem != null) {
 			int oldLocalID = matElem.getMaterial().getLocalID();
+			String oldThumbnail = matElem.getMaterial().getThumbnail();
 			if (mat.getLocalID() == -1) {
 				mat.setLocalID(oldLocalID);
 				mat.setSyncStamp(Math.max(matElem.getMaterial().getSyncStamp(),
 				        mat.getSyncStamp()));
 			}
+			if (mat.getThumbnail() == null || mat.getThumbnail().length() == 0) {
+				mat.setThumbnail(oldThumbnail);
+			}
+
 			matElem.setMaterial(mat);
+			this.insert(matElem, 0);
 		} else {
+
 			addNewMaterial(mat, insertAtEnd, isLocal);
 		}
 	}

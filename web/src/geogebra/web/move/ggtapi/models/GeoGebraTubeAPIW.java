@@ -13,8 +13,6 @@ import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
 
 import com.google.gwt.http.client.Request;
 import com.google.gwt.http.client.RequestBuilder;
@@ -316,8 +314,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param cb
 	 *            {@link MaterialCallback}
 	 */
-	public void getUsersMaterials(int userId, MaterialCallback cb) {
-		performRequest(MaterialRequest.forUser(userId, client).toJSONString(),
+	public void getUsersMaterials(MaterialCallback cb) {
+		performRequest(MaterialRequest.forCurrentUser(client).toJSONString(),
 		        cb);
 	}
 
@@ -329,15 +327,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 */
 	public void getBookItems(int id, MaterialCallback cb) {
 		performRequest(MaterialRequest.forBook(id, client).toJSONString(), cb);
-	}
-
-	public static TreeMap<Integer, Long> toTimestamps(
-	        List<Material> parseResponse) {
-		TreeMap<Integer, Long> ret = new TreeMap<Integer, Long>();
-		for (Material mat : parseResponse) {
-			ret.put(mat.getId(), mat.getTimestamp());
-		}
-		return ret;
 	}
 
 	public void sync(AppW app, long timestamp, final SyncCallback cb) {
@@ -374,11 +363,19 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			                ArrayList<SyncEvent> events) {
 				        SyncEvent se = new SyncEvent(Integer.parseInt(object
 				                .get("id").isString().stringValue()), Long
-				                .parseLong(object.get("id").isString()
+				                .parseLong(object.get("ts").isString()
 				                        .stringValue()));
 				        if (object.get("deleted") != null
 				                && object.get("deleted").isString() != null) {
 					        se.setDelete(true);
+				        }
+				        if (object.get("favorite") != null
+				                && object.get("favorite").isString()
+				                        .stringValue()
+				                        .equals("true")) {
+				        	App.debug("SYNC FAVORITE "+object
+.get("id").isString().stringValue());
+					        se.setFavorite(true);
 				        }
 				        if (object.get("unfavorited") != null
 				                && object.get("unfavorited").isString() != null) {

@@ -85,8 +85,7 @@ public class MaterialListElement extends FlowPanel implements
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {
-			// TODO probably should be 0 as in "never synchronized"
-			this.material.setSyncStamp(System.currentTimeMillis() / 1000);
+			this.material.setSyncStamp(-1);
 		}
 		this.editMaterial = new Runnable() {
 			
@@ -668,13 +667,15 @@ public class MaterialListElement extends FlowPanel implements
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
+		String check = "";
+		if (mat.getSyncStamp() > 0 && mat.getSyncStamp() >= mat.getModified()) {
+			check = "\u2713 ";
+		}
 		if (isLocal) {
 			String key = mat.getTitle();
-			this.title.setText(extractTitle(key) + "#" + mat.getLocalID() + "/"
-			        + mat.getId());
+			this.title.setText(check + extractTitle(key));
 		} else {
-			this.title.setText(this.material.getTitle() + "#"
-			        + mat.getLocalID() + "/" + mat.getId());
+			this.title.setText(check + this.material.getTitle());
 		}
 		if (!isLocal) {
 			this.sharedBy.setText(this.material.getAuthor());

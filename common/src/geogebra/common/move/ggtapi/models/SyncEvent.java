@@ -6,6 +6,8 @@ public class SyncEvent {
 	private long timestamp;
 	private boolean delete;
 	private boolean unfavorite;
+	private boolean favorite;
+	private boolean zapped;
 
 	public SyncEvent(int id, long timestamp) {
 		this.id = id;
@@ -34,6 +36,22 @@ public class SyncEvent {
 
 	public void setUnfavorite(boolean unfavorite) {
 		this.unfavorite = unfavorite;
+	}
+
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
+	}
+
+	public boolean isFavorite() {
+		return this.favorite;
+	}
+
+	public boolean isZapped() {
+		return zapped;
+	}
+
+	public void setZapped(boolean zapped) {
+		this.zapped = zapped;
 	}
 
 }
