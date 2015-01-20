@@ -3762,11 +3762,6 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	height: 14px;
 }
 
-.DialogBox button.CustomColorButton {
-	left: -174px;
-	top: 13px;
-}
-
 .GeoGebraFrame button.CustomColorButton:hover {
 	background-color: rgb(204, 204, 255) !important;
 }
