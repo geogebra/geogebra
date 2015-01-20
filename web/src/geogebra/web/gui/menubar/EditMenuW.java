@@ -220,7 +220,7 @@ public class EditMenuW extends GMenuBar {
 			addSeparator();
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icon_edit_delete().getSafeUri().asString(),
-			        app.getMenu("Delete"), true), true, new MenuCommand(app) {
+			        app.getPlain("Delete"), true), true, new MenuCommand(app) {
 
 				@Override
 				public void doExecute() {
