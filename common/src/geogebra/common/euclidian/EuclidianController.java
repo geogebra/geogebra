@@ -7794,7 +7794,7 @@ public abstract class EuclidianController {
 	}
 
 	protected void wrapMouseDragged(AbstractEvent event) {
-
+		
 		if (shouldCancelDrag()) {
 			return;
 		}
@@ -8846,7 +8846,7 @@ public abstract class EuclidianController {
 	}
 
 	public void wrapMouseReleased(final AbstractEvent event) {
-
+		
 		int x = event.getX();
 		int y = event.getY();
 		boolean right = app.isRightClick(event);
@@ -8900,7 +8900,7 @@ public abstract class EuclidianController {
 
 		boolean changedKernel0 = false;
 		if (pastePreviewSelected != null) {
-
+			
 			mergeStickyPointsAfterPaste();
 
 			// add moved points to sticky points again
@@ -8925,7 +8925,7 @@ public abstract class EuclidianController {
 		// if (mode != EuclidianConstants.MODE_RECORD_TO_SPREADSHEET)
 		// view.resetTraceRow(); // for trace/spreadsheet
 		if (getMovedGeoPoint() != null) {
-
+			
 			processReleaseForMovedGeoPoint(right);
 			/*
 			 * // deselect point after drag, but not on click if
@@ -8936,7 +8936,7 @@ public abstract class EuclidianController {
 			 */
 		}
 		if (movedGeoNumeric != null) {
-
+			
 			// deselect slider after drag, but not on click
 			// if (movedGeoNumericDragged) movedGeoNumeric.setSelected(false);
 
@@ -8991,7 +8991,7 @@ public abstract class EuclidianController {
 		// handle moving
 		boolean changedKernel = false;
 		if (draggingOccured) {
-
+			
 			draggingOccuredBeforeRelease = true;
 			draggingOccured = false;
 			// // copy value into input bar
@@ -9058,7 +9058,7 @@ public abstract class EuclidianController {
 		// Michael Borcherds 2007-12-08 END
 
 		if (temporaryMode) {
-
+			
 			// Michael Borcherds 2007-10-13 BEGIN
 			view.setMode(oldMode);
 			temporaryMode = false;
@@ -9133,7 +9133,7 @@ public abstract class EuclidianController {
 
 	public void endOfWrapMouseReleased(Hits hits, boolean control, boolean alt,
 			PointerEventType type) {
-
+		
 		if (!hits.isEmpty()) {
 			view.setDefaultCursor();
 		} else {
@@ -9194,7 +9194,7 @@ public abstract class EuclidianController {
 
 	private void processRightReleased(boolean right, boolean control,
 			PointerEventType type) {
-
+		
 		if (!app.isRightClickEnabled()) {
 			return;
 		}
@@ -9211,6 +9211,7 @@ public abstract class EuclidianController {
 		if (draggingOccured && app.isPrerelease())
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(false, control);
+				return;
 			}
 		// get selected GeoElements
 		// show popup menu after right click
@@ -9230,10 +9231,10 @@ public abstract class EuclidianController {
 		} else {
 			// there are hits
 			if (selection.selectedGeosSize() > 0) {
-
+				
 				if (mode == EuclidianConstants.MODE_MOVE) { // only for move
 															// mode
-
+					
 					// right click on already selected geos -> show menu for
 					// them
 					// right click on object(s) not selected -> clear
@@ -9255,7 +9256,7 @@ public abstract class EuclidianController {
 				} else { // other modes : want to apply tool of one of the hits
 							// (choose geo and show popup menu)
 					if (app.isUsingFullGui() && app.getGuiManager() != null) {
-
+						
 						GeoElement geo = chooseGeo(hits, true, false);
 
 						if (geo == null)// when axis is clicked
@@ -9271,7 +9272,7 @@ public abstract class EuclidianController {
 			} else {
 				// no selected geos: choose geo and show popup menu
 				if (app.isUsingFullGui() && app.getGuiManager() != null) {
-
+					
 					GeoElement geo = chooseGeo(hits, true, false);
 
 					if (geo == null)// when axis is clicked
@@ -9282,10 +9283,8 @@ public abstract class EuclidianController {
 						showPopupMenuChooseGeo(geos, hits);
 					}
 				}
-
 			}
 		}
-
 	}
 
 	/**
