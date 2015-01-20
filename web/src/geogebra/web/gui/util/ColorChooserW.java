@@ -66,6 +66,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	private BackgroundColorPanel backgroundColorPanel;
 	private Button addCustomColor;
 	private App app;
+	private CustomColorDialog dialog;
 
 	private class ColorTable {
 		private int left;
@@ -747,9 +748,10 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	
 	private void showCustomColorDialog() {
 		app.setWaitCursor();
-
-		CustomColorDialog dialog = new CustomColorDialog(app, this);
-		dialog.center();
+		if (dialog == null) {
+			dialog = new CustomColorDialog(app, this);
+		}
+		dialog.show(this.selectedColor);
 
 		app.setDefaultCursor();
     }

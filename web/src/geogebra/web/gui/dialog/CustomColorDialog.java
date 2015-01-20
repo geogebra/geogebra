@@ -117,6 +117,11 @@ public class CustomColorDialog extends DialogBoxW {
 			drawRect(PREVIEW_WIDTH, origColor);
 		}
 
+		public void reset() {
+			drawRect(0, origColor);
+			drawRect(PREVIEW_WIDTH, origColor);
+		}
+
 		public void update(){
 			drawRect(PREVIEW_WIDTH, getColor());
 		}
@@ -146,7 +151,6 @@ public class CustomColorDialog extends DialogBoxW {
 		addStyleName("GeoGebraPopup");
 		this.origColor = listener.getSelectedColor();
 		createGUI();
-
 	}
 	
 	public GColor getColor() {
@@ -201,7 +205,7 @@ public class CustomColorDialog extends DialogBoxW {
 				reset();
             }});
 		setLabels();
-		
+
 	}
 	
 	protected void reset() {
@@ -226,5 +230,13 @@ public class CustomColorDialog extends DialogBoxW {
 		green.setValue(origColor.getGreen());
 		blue.setValue(origColor.getBlue());
 		color = new GColorW(origColor.getRed(), origColor.getGreen(), origColor.getBlue());
+	}
+
+	public void show(GColor color) {
+		this.origColor = color;
+		setOriginalValues();
+		preview.reset();
+		setLabels();
+		super.center();
 	}
 }

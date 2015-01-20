@@ -27,7 +27,8 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 
 	public ColorPopupMenuButton(AppW app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(iconSize), -1, 9, iconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON);
+		super(app, createDummyIcons(iconSize), -1, 9, iconSize,
+		        geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;
 		this.colorSetType = colorSetType;
@@ -52,13 +53,15 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		updateColorTable();	
 		//addActionListener(this);
 		setKeepVisible(false);
-		
+		getMyTable().removeDefaultStyle();
 	}
+
 	public void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		getMySlider().setVisible(hasSlider);
 
 	}
+
 	public void updateColorTable(){
 		getMyTable().populateModel(getColorSwatchIcons(colorSet, getSliderValue()/100f, iconSize, colorSetType));
 	}

@@ -352,7 +352,9 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 			final int left = lg.getElement().getOffsetLeft();
 			googleFileDescriptors.setPopupPositionAndShow(new PositionCallback() {
 
-				public void setPosition(int offsetWidth, int offsetHeight) {
+				        @Override
+				        public void setPosition(int offsetWidth,
+				                int offsetHeight) {
 					googleFileDescriptors.setPopupPosition(left - offsetWidth, top);
 					googleFileDescriptors.show();
 
@@ -442,6 +444,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	    
     }
 
+	@Override
     public void renderEvent(BaseEvent event) {
 	    if (event instanceof GoogleLoginEvent) {
 	    	if (!((GoogleLoginEvent) event).isSuccessFull()) {
@@ -456,6 +459,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	/**
 	 * Shows a loading animation
 	 */
+	@Override
 	public void showLoadingAnimation() {
 	    if (loadingAnimation == null) {
 	    	loadingAnimation = createLoadingAnimation();
@@ -474,6 +478,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	/**
 	 * Hides a loading animation
 	 */
+	@Override
 	public void hideLoadingAnimation() {
 		 if (loadingAnimation != null) {
 		    	loadingAnimation.hide();
@@ -511,23 +516,29 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 		
 	}
 	
-	public void showColorChooserDialog(GColor originalColor, ColorChangeHandler handler) {
+	/**
+	 * Creates a new {@link ColorChooserDialog}.
+	 * 
+	 * @param {@link GColor originalColor}.
+	 * @param {@link ColorChangeHandler handler}
+	 */
+	@Override
+	public void showColorChooserDialog(GColor originalColor,
+	        ColorChangeHandler handler) {
 		ColorChooserDialog dialog = new ColorChooserDialog((AppW)app,
 				originalColor, handler);
 		dialog.center();
 	}
-	
+
 	/**
-	 * Creates a new, custom color .
-	 * @param origColor The original color for initial purposes and preview.
-	 * @return whether a color was given or not
+	 * @return {@link FunktionInspectorW}
 	 */
-
-
 	public FunctionInspectorW getFunctionInspector() {
 		return functionInspector;
 	}
-	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint){
+
+	@Override
+	public TextInputDialog createTextDialog(GeoText text, GeoPointND startPoint) {
 		return new TextInputDialogW(app, app.getPlain("Text"), text, startPoint, 30,
 	        6, app.getMode() == EuclidianConstants.MODE_TEXT);
 	}
