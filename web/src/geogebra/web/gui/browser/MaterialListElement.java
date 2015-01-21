@@ -1,5 +1,6 @@
 package geogebra.web.gui.browser;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.Browser;
@@ -219,6 +220,7 @@ public class MaterialListElement extends FlowPanel implements
 		
 
 		if (app.getNetworkOperation().isOnline()) {
+
 			this.material.setTitle(this.title.getText());
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
 				
@@ -228,11 +230,13 @@ public class MaterialListElement extends FlowPanel implements
 						app.showError(app.getLocalization().getError("RenameFailed"));
 						title.setText(oldTitle);
 					                } else {
+						                App.debug("RENAME local");
 						                material.setModified(parseResponse.get(
 						                        0).getModified());
 						                material.setSyncStamp(parseResponse
 						                        .get(0)
 						                        .getModified());
+						                material.setTitle(oldTitle);
 						                app.getFileManager().rename(
 						                        title.getText(),
 						                                material, null);
@@ -305,6 +309,17 @@ public class MaterialListElement extends FlowPanel implements
 		if(this.material.getType() == Material.MaterialType.book){
 			final Label deco = new Label();
 			deco.setStyleName("bookDecoration");
+			background.add(deco);
+		}
+
+		addSyncDecoration();
+	}
+
+	private void addSyncDecoration() {
+		if (this.material.getSyncStamp() > 0
+		        && this.material.getModified() <= this.material.getSyncStamp()) {
+			final Label deco = new Label();
+			deco.setStyleName("syncDecoration");
 			background.add(deco);
 		}
 	}
@@ -685,9 +700,7 @@ public class MaterialListElement extends FlowPanel implements
 	public void setMaterial(Material mat) {
 		this.material = mat;
 		String check = "";
-		if (mat.getSyncStamp() > 0 && mat.getSyncStamp() >= mat.getModified()) {
-			check = "\u2713 ";
-		}
+
 		if (isLocal) {
 			String key = mat.getTitle();
 			this.title.setText(check + extractTitle(key));
@@ -699,6 +712,7 @@ public class MaterialListElement extends FlowPanel implements
 		}
 		this.background.clear();
 		setPictureAsBackground();
+		addSyncDecoration();
     }
 
 	public void setShowDetailsListener(ShowDetailsListener listener){

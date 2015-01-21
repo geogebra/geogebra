@@ -369,7 +369,7 @@ public class FileManagerT extends FileManager {
 				final String newKey = FileManager.createKeyString(newID,
 				        newTitle);
 				final String oldKey = getFileKey(mat);
-
+				App.debug("RENAME local fn" + oldKey);
 				getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 					@Override
@@ -379,7 +379,7 @@ public class FileManagerT extends FileManager {
 
 							        @Override
 							        public void onSuccess(FileEntry ggbFile) {
-
+								        App.debug("RENAME accessed fn" + oldKey);
 								        ggbFile.moveTo(
 								                ggbDir,
 								                newKey + FILE_EXT,
@@ -397,15 +397,18 @@ public class FileManagerT extends FileManager {
 									                @Override
 									                public void onFailure(
 									                        FileError error) {
-										                // TODO Auto-generated
-														// method stub
+										                App.debug("RENAME cannotMove fn"
+										                        + oldKey
+										                        + "/"
+										                        + newKey);
 									                }
 								                });
 							        }
 
 							        @Override
 							        public void onFailure(FileError error) {
-								        // TODO Auto-generated method stub
+								        App.debug("RENAME not found fn"
+								                + oldKey);
 							        }
 						        });
 					}
