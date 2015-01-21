@@ -1601,7 +1601,7 @@ __GGB__keysVar.es_ES.menu = {
     "MirrorAtLine.Help": "Elige el objeto a reflejar; luego, eje de simetr\xeda",
     "MirrorAtPlane": "Simetr\xeda Especular",
     "MirrorAtPlane.Help": "Elige el objeto a reflejar; luego, plano de reflexi\xf3n",
-    "MirrorAtPoint": "Simetr\xeca Central",
+    "MirrorAtPoint": "Simetr\xeda Central",
     "MirrorAtPoint.Help": "Elige el objeto a reflejar; luego, el centro de simetr\xeda",
     "Mode": "Modo",
     "Motif": "Motivo",
