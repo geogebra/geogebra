@@ -8499,7 +8499,9 @@ public abstract class EuclidianController {
 			// }
 			app.getGuiManager().setFocusedPanel(event, false);
 			app.getGuiManager().mousePressedForPropertiesView();
-			if (getViewID() == EuclidianView.EVNO_GENERAL) {
+
+			App.debug("view.getViewID() = " + view.getViewID());
+			if (view.getViewID() == App.VIEW_PROBABILITY_CALCULATOR) {
 				setMode(EuclidianConstants.MODE_MOVE);
 			}
 		}
@@ -9840,7 +9842,13 @@ public abstract class EuclidianController {
 		return externalHandling;
 	}
 
-	public int getViewID() {
+	/**
+	 * in future 3 will be supported for 3rd 2D View
+	 * 
+	 * @return 1 (EV1) , 2 (EV2), -1 (3D) or EVNO_GENERAL = 1001
+	 * 
+	 */
+	public int getEvNo() {
 		return this.view.evNo;
 	}
 

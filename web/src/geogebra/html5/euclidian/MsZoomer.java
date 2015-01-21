@@ -45,7 +45,7 @@ public class MsZoomer {
 
 		@Override
 		public int getEvID() {
-			return ec.getViewID();
+			return ec.getEvNo();
 		}
 
 	}

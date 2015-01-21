@@ -440,7 +440,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void onTouchStart(TouchStartEvent event) {
 		if ((app.getGuiManager() != null)
-		        && (this.getViewID() != EuclidianView.EVNO_GENERAL)) {
+		        && (this.getEvNo() != EuclidianView.EVNO_GENERAL)) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
@@ -651,7 +651,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void onPointerEventStart(AbstractEvent event) {
 		if ((app.getGuiManager() != null)
-		        && (this.getViewID() != EuclidianView.EVNO_GENERAL)) {
+		        && (this.getEvNo() != EuclidianView.EVNO_GENERAL)) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
