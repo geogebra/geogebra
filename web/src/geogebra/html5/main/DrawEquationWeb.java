@@ -696,6 +696,9 @@ public class DrawEquationWeb extends DrawEquation {
 				.$ggbQuery(elsecondInside)
 				.keyup(
 						function(event) {
+							// in theory, the textarea inside elsecondInside will be
+							// selected, and it will capture other key events before
+							// these execute
 							var code = 13;
 							if (event.keyCode) {
 								code = event.keyCode;
@@ -734,25 +737,40 @@ public class DrawEquationWeb extends DrawEquation {
 
 		// hacking to deselect the editing when the user does something else like in Desktop
 		if (!newCreationMode) {
-			var mousein = {};
-			mousein.mout = false;
-			$wnd.mousein = mousein;
+			var mqggbmousein = {};
+			mqggbmousein.mout = false;
+			$wnd.mqggbmousein = mqggbmousein;
+			$wnd.$ggbQuery(elsecondInside).mouseenter(function(event2) {
+				$wnd.mqggbmousein.mout = false;
+			}).mouseleave(function(event3) {
+				$wnd.mqggbmousein.mout = true;
+
+				// focus and blur propagate the event
+				// to its textarea, so "focusin" is also called
+				// on calling .focus(), which makes the following
+				// part of code harmful: 
+				//$wnd.$ggbQuery(this).focus();
+
+				// but still, we can make use of the following:
+				$wnd.$ggbQuery(this).find('textarea').focus();
+				// which is the simplest workaround of the appearing
+				// bug, as it makes it almost equivalent to the previous
+				// state, together with the following:
+			});
 			$wnd
 					.$ggbQuery(elsecondInside)
+					.find('textarea')
 					.focusout(
 							function(event) {
-								if ($wnd.mousein.mout) {
+								// note that this will be called every time
+								// focus is called as well
+								if ($wnd.mqggbmousein.mout) {
 									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 								event.stopPropagation();
 								event.preventDefault();
 								return false;
-							}).mouseenter(function(event2) {
-						$wnd.mousein.mout = false;
-					}).mouseleave(function(event3) {
-						$wnd.mousein.mout = true;
-						$wnd.$ggbQuery(this).focus();
-					});
+							});
 		}
 	}-*/;
 
