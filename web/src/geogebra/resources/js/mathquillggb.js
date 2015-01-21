@@ -1552,6 +1552,7 @@ function createRoot(jQ, root, textbox, editable) {
 
   //focus and blur handling
   textarea.focus(function(e) {
+	delete textarea.MathQuillGGBFocusing;
     if (!cursor.parent)
       cursor.appendTo(root);
     cursor.parent.jQ.addClass('hasCursor');
@@ -1569,8 +1570,35 @@ function createRoot(jQ, root, textbox, editable) {
     e.stopPropagation();
   });
 
-  jQ.bind('focus.mathquillggb blur.mathquillggb', function(e) {
+  // to make things clear:
+  // - jQ will have tabindex=0, event orders:
+  // A. in case none has focus:
+  // jQ.focus, textarea.focusin, jQ.blur, textarea.focus
+  // more exactly:
+  // jQ.focus, jQ.focusOut, textarea.focusin, jQ.blur, textarea.blur triggered,
+  // now which comes first? textarea.focus or textarea.focusout & textarea.blur?
+  /*jQ.attr('tabindex', 0).bind('focus.mathquillggb', function(e) {
+    //$(this).blur();
     textarea.trigger(e);
+  }).bind('blur.mathquillggb', function(e) {
+	//$(this).blur();
+	textarea.trigger(e);
+  }).blur();*/
+
+  // That's why a better solution is needed here:
+  jQ.attr('tabindex', 0).bind('focus.mathquillggb', function(e1) {
+	textarea.MathQuillGGBFocusing = true;
+	jQ.blur();// hopefully this will make things clear
+	setTimeout(function() { textarea.focus(); });
+    e1.stopPropagation(); // it will be called in textarea?
+  }).bind('focusin.mathquillggb', function(e2) {
+	textarea.MathQuillGGBFocusing = true;
+	e2.stopPropagation();
+  }).bind('blur.mathquillggb', function(e3) {
+    if (textarea.MathQuillGGBFocusing === undefined) {
+      textarea.blur();
+	}
+    e3.stopPropagation(); // it will be called in textarea?
   }).blur();
 }
 
