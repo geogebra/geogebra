@@ -11,6 +11,7 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.gui.util.StandardButton;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
@@ -226,21 +227,22 @@ public class MaterialListElement extends FlowPanel implements
 					if (parseResponse.size() != 1) {
 						app.showError(app.getLocalization().getError("RenameFailed"));
 						title.setText(oldTitle);
-						material.setTitle(oldTitle);
-						                app.getFileManager().rename(
-						                        title.getText(), material, 0);
 					                } else {
+						                material.setModified(parseResponse.get(
+						                        0).getModified());
+						                material.setSyncStamp(parseResponse
+						                        .get(0)
+						                        .getModified());
 						                app.getFileManager().rename(
 						                        title.getText(),
-						                        material,
-						                        parseResponse.get(0)
-						                                .getModified());
+						                                material, null);
 					}
 				}
 			});
 		} else {
+			this.material.setModified(SaveDialogW.getCurrentTimestamp(app));
 			this.app.getFileManager().rename(this.title.getText(),
-			        this.material, 0);
+			        this.material, null);
 		}
 	}
 	

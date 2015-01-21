@@ -175,8 +175,6 @@ public abstract class FileManager implements FileManagerI {
 	private void checkMaterialsToDownload(ArrayList<SyncEvent> events) {
 		if (notSyncedFileCount == 0) {
 			for (SyncEvent event : events) {
-				App.debug("SYNCDNLD" + event.isFavorite() + ","
-				        + event.isZapped() + "," + event.getID());
 				if (event.isFavorite() && !event.isZapped()) {
 					getFromTube(event.getID());
 				}
@@ -222,7 +220,7 @@ public abstract class FileManager implements FileManagerI {
 
 	}
 
-	private void fork(Material mat) {
+	private void fork(final Material mat) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(
 		        app.getLocalization().getPlain("SeveralVersionsOfA",
 		                mat.getTitle()), true);
@@ -233,12 +231,20 @@ public abstract class FileManager implements FileManagerI {
 		        + Unicode.LeftToRightMark
 		        + " \\j"
 		        : "\\j \\F \\Y";
-		mat.setTitle(mat.getTitle()
+		final String newTitle = mat.getTitle()
 		        + " ("
 		        + CmdGetTime.buildLocalizedDate(format, new Date(),
-		                app.getLocalization()) + ")");
-		mat.setId(0);
-		upload(mat);
+		                app.getLocalization()) + ")";
+		this.rename(newTitle, mat, new Runnable() {
+
+			@Override
+			public void run() {
+				mat.setTitle(newTitle);
+				mat.setId(0);
+				upload(mat);
+			}
+		});
+
 	}
 
 	private void getFromTube(final int id) {
@@ -255,8 +261,7 @@ public abstract class FileManager implements FileManagerI {
 					        tubeMat.setSyncStamp(tubeMat.getModified());
 					        FileManager.this.updateFile(
 null,
-				                parseResponse.get(0).getModified(),
-				                parseResponse.get(0));
+					                tubeMat.getModified(), tubeMat);
 				        }
 			        }
 

@@ -10,7 +10,6 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
-import geogebra.web.gui.util.SaveDialogW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
 
@@ -356,7 +355,7 @@ public class FileManagerT extends FileManager {
 
 	@Override
 	public void rename(final String newTitle, final Material mat,
-	        final long timestamp) {
+	        final Runnable callback) {
 		createID(new Callback<Integer, String>() {
 
 			@Override
@@ -389,9 +388,10 @@ public class FileManagerT extends FileManager {
 									                @Override
 									                public void onSuccess(
 									                        FileEntry entry) {
+										                mat.setTitle(newTitle);
 										                renameMetaData(oldKey,
 										                        newKey, mat,
-										                        timestamp);
+										                        callback);
 									                }
 
 									                @Override
@@ -435,7 +435,7 @@ public class FileManagerT extends FileManager {
 	 *            tube timestamp of the change
 	 */
 	void renameMetaData(final String oldKey, final String newKey,
-	        final Material mat, final long timestamp) {
+	        final Material mat, final Runnable callback) {
 
 		getMetaFile(META_PREFIX + newKey, createIfNotExist,
 		        new Callback<FileEntry, FileError>() {
@@ -447,11 +447,10 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
 						        deleteMetaData(oldKey);
-						        mat.setTitle(newKey);
-						        mat.setModified(timestamp <= 0 ? SaveDialogW
-						                .getCurrentTimestamp(getApp())
-						                : timestamp);
 						        writer.write(mat.toJson().toString());
+						        if (callback != null) {
+							        callback.run();
+						        }
 					        }
 
 					        @Override
