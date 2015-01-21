@@ -55,14 +55,15 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void rename(String newTitle, Material mat) {
-		renameNative(mat.getTitle(), newTitle);
+	public void rename(String newTitle, Material mat, long timestamp) {
+		renameNative(mat.getTitle(), newTitle, timestamp + "");
 
 	}
 
-	private native void renameNative(String oldTitle, String newTitle) /*-{
+	private native void renameNative(String oldTitle, String newTitle,
+	        String timestamp) /*-{
 		if ($wnd.android && $wnd.android.renameFile) {
-			$wnd.android.renameFile(oldTitle, newTitle);
+			$wnd.android.renameFile(oldTitle, newTitle, timestamp);
 		}
 	}-*/;
 

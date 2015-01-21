@@ -168,7 +168,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				else {
 					saveCallback.onError();
 					resetCallback();
-					saveLocalIfNeeded(getCurrentTimestamp());
+					saveLocalIfNeeded(getCurrentTimestamp(app));
 				}
 
 				hide();
@@ -182,7 +182,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				saveCallback.onError();
 				resetCallback();
 				((GuiManagerW) app.getGuiManager()).openFilePicker();
-				saveLocalIfNeeded(getCurrentTimestamp());
+				saveLocalIfNeeded(getCurrentTimestamp(app));
 				hide();
 			}
 
@@ -203,7 +203,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		};
     }
 	
-	long getCurrentTimestamp() {
+	public static long getCurrentTimestamp(AppW app) {
 		return Math.max(System.currentTimeMillis() / 1000,
 		        app.getSyncStamp() + 1);
 	}
@@ -405,7 +405,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			@Override
             public void handle(String s) {
 				((FileManager) app.getFileManager()).saveFile(s,
-				        getCurrentTimestamp(),
+				        getCurrentTimestamp(app),
 				        new SaveCallback(app) {
 			    	@Override
 			    	public void onSaved(final Material mat, final boolean isLocal) {

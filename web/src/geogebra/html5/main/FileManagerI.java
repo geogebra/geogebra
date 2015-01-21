@@ -18,7 +18,7 @@ public interface FileManagerI {
 
 	void search(String query);
 
-	void rename(String newTitle, Material mat);
+	void rename(String newTitle, Material mat, long timestamp);
 
 	void setFileProvider(Provider google);
 

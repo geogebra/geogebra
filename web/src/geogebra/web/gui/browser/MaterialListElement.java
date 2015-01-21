@@ -204,7 +204,8 @@ public class MaterialListElement extends FlowPanel implements
 	}
 	
 	void doRename() {
-		if (this.renameTitleBox.getText().length() < 4 ||
+		if (this.renameTitleBox.getText().length() < 1
+		        ||
 				this.renameTitleBox.getText().equals(this.title.getText())) { //no changes
 			this.title.setVisible(true);
 			this.renameTitleBox.setVisible(false);
@@ -215,9 +216,8 @@ public class MaterialListElement extends FlowPanel implements
 		this.renameTitleBox.setVisible(false);
 		this.title.setVisible(true);
 		
-		if (isLocal) {
-			this.app.getFileManager().rename(this.title.getText(), this.material);
-		} else {
+
+		if (app.getNetworkOperation().isOnline()) {
 			this.material.setTitle(this.title.getText());
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
 				
@@ -227,9 +227,20 @@ public class MaterialListElement extends FlowPanel implements
 						app.showError(app.getLocalization().getError("RenameFailed"));
 						title.setText(oldTitle);
 						material.setTitle(oldTitle);
+						                app.getFileManager().rename(
+						                        title.getText(), material, 0);
+					                } else {
+						                app.getFileManager().rename(
+						                        title.getText(),
+						                        material,
+						                        parseResponse.get(0)
+						                                .getModified());
 					}
 				}
 			});
+		} else {
+			this.app.getFileManager().rename(this.title.getText(),
+			        this.material, 0);
 		}
 	}
 	

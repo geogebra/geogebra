@@ -138,7 +138,7 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void rename(String newTitle, Material mat) {
+	public void rename(String newTitle, Material mat, long timestamp) {
 		if (this.stockStore == null) {
 			return;
 		}
@@ -146,6 +146,7 @@ public class FileManagerW extends FileManager {
 		int newID = createID();
 		mat.setLocalID(createID());
 		mat.setTitle(newTitle);
+		mat.setModified(timestamp);
 		this.stockStore.setItem(FileManager.createKeyString(newID, newTitle),
 		        mat.toJson().toString());
 	}
