@@ -303,6 +303,7 @@ public class AlgoDispatcher {
 	final public GeoNumeric Slope(String label, GeoLine g) {
 		AlgoSlope algo = new AlgoSlope(cons, label, g);
 		GeoNumeric slope = algo.getSlope();
+		slope.update();
 		return slope;
 	}
 
