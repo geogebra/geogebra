@@ -161,7 +161,6 @@ public class GeoGebraCasIntegrationTest {
       if (tkiontki) {
         f.setEvalCommand("KeepInput");
       }
-
       f.computeOutput();
 
       boolean includesNumericCommand = false;
@@ -755,14 +754,14 @@ public class GeoGebraCasIntegrationTest {
   @Test
   public void Parametric_EquationLM_2 () {
     t("f: (x, y) = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", "(x, y) = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))",
-    		"(x, y) = (-s + t * sqrt(5) + 3, sqrt(7) * s + t + sqrt(2))");
+    		"(x, y) = (-s + t * sqrt(5) + 3, s * sqrt(7) + t + sqrt(2))");
   }
 
   @Test
   public void Parametric_EquationLM_3 () {
     t("f: X = (3, sqrt(2)) + t * (sqrt(5), 1) + s * (-1, sqrt(7))", 
     		"X = (-s + sqrt(5) * t + 3, sqrt(7) * s + t + sqrt(2))",
-    		"X = (-s + t * sqrt(5) + 3, sqrt(7) * s + t + sqrt(2))");
+    		"X = (-s + t * sqrt(5) + 3, s * sqrt(7) + t + sqrt(2))");
   }
 
   @Test
@@ -3586,7 +3585,7 @@ public class GeoGebraCasIntegrationTest {
 
   @Test
   public void Substitute_2 () {
-    t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]", "a^(2) - (n + 3)^(2)");
+    t("Substitute[(3 m - 3)^2 - (n + 3)^2, 3 m - 3, a]", "a^(2) - (n + 3)^(2)", "a^(2) - n^(2) - 6 * n - 9");
   }
 
   @Test
@@ -3606,7 +3605,7 @@ public class GeoGebraCasIntegrationTest {
     } catch (Throwable t) {
       Throwables.propagate(t);
     }
-    t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a + 6 - b");
+    t("Substitute[2x + 3y - z, {x=a, y=2, z=b}]", "2 * a - b + 6","2 * a + 6 - b");
   }
   
   @Test
