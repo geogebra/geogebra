@@ -87,13 +87,16 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements HeaderPanelDeck{
 		this.isBrowserShowing = true;
 		GeoGebraFrame frameLayout = this;
 	    final int count = frameLayout.getWidgetCount();
+		final int oldHeight = this.getOffsetHeight();
+		final int oldWidth = this.getOffsetWidth();
 	    childVisible = new boolean[count];
 	    for(int i = 0; i<count;i++){
 	    	childVisible[i] = frameLayout.getWidget(i).isVisible(); 
 	    	frameLayout.getWidget(i).setVisible(false);
 	    }
 	    frameLayout.add(bg);
-	    bg.setHeight(this.getOffsetHeight()+"px");
+		bg.setHeight(oldHeight + "px");
+		bg.setWidth(oldWidth + "px");
 	    bg.setVisible(true);
 
 	    ((MyHeaderPanel)bg).setFrame(this);
