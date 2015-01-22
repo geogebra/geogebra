@@ -7,6 +7,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 
 /**
@@ -31,7 +32,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final short BOUNDARY_SPLIT = 10;
 
 	// max split array size ( size +=4 for one last split)
-	private static final int MAX_SPLIT = 10000;
+	private static final int MAX_SPLIT = (int) Math.pow(2, 16);
 
 	// draw array size ( size +=1 for one last draw)
 	private static final int MAX_DRAW = MAX_SPLIT;
@@ -202,17 +203,24 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		// start recursive split
 		loopSplitIndex = 0;
+		long time = System.currentTimeMillis();
 		boolean stillRoomLeft = split(false);
+		
+		time = System.currentTimeMillis() - time;
+		if (time > 0){
+			App.debug("split : "+time);
+		}
 
-		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
-				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
-				"\nnext to split : "  + nextSplitIndex + 
-				"\ncorner list size : " + cornerListIndex +
-				"\nstill room left : "+stillRoomLeft);
+//		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
+//				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
+//				"\nnext to split : "  + nextSplitIndex + 
+//				"\ncorner list size : " + cornerListIndex +
+//				"\nstill room left : "+stillRoomLeft);
 
 		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
-
+		time = System.currentTimeMillis();
+		
 		// draw splitted, still to split, and next to split
 		surface.start(getReusableSurfaceIndex());
 
@@ -232,6 +240,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setSurfaceIndex(surface.end());
+		
+		time = System.currentTimeMillis() - time;
+		if (time > 0){
+			App.debug("draw : "+time);
+		}
 		
 		// update is finished if no waiting splits, or if no room left for draw or split
 		return !waitingSplits || !stillRoomLeft;
