@@ -188,4 +188,9 @@ public class AppWapplication3D extends AppWapplication {
 		return dialogManager;
 	}
 
+	@Override
+	public boolean is3D() {
+		return true;
+	}
+
 }

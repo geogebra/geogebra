@@ -169,4 +169,9 @@ public class AppWapplet3D extends AppWapplet {
 			super.syncAppletPanelSize(widthDiff, heightDiff, evno);
 		}
 	}
+
+	@Override
+	public boolean is3D() {
+		return true;
+	}
 }
