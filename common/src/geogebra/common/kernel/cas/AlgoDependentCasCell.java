@@ -40,7 +40,11 @@ public class AlgoDependentCasCell extends AlgoElement implements
 		// We need to compute the output so that the
 		// arbitrary constants are created before the
 		// definition in the saved file
-		compute();
+		if (casCell.isOutputEmpty()) {
+			compute();
+		} else {
+			casCell.updateTwinGeo(false);
+		}
 
 		// initialize algorithm dependencies
 		setInputOutput();
