@@ -3,7 +3,6 @@ package geogebra.web.euclidian;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.util.SelectionTable;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
@@ -15,8 +14,7 @@ public class GridPopup extends PopupMenuButton {
 
 	public GridPopup(AppW app, ImageOrText[] data, int rows, int columns,
 	        SelectionTable mode, EuclidianView ev) {
-		super(app, data, rows, columns, new GDimensionW(32, 32), mode, true,
-		        false);
+		super(app, data, rows, columns, mode, true, false);
 		this.ev = ev;
 		defaultIcon = data.length > 1 ? data[1] : null;
 		this.setIcon(data[EuclidianStyleBarW.gridIndex(ev)]);

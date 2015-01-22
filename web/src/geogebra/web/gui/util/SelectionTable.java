@@ -1,7 +1,6 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
-import geogebra.html5.awt.GDimensionW;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -23,11 +22,10 @@ public class SelectionTable extends Grid implements ClickHandler {
 	 * @param data
 	 * @param rows
 	 * @param columns
-	 * @param iconSize
 	 * @param mode
 	 */
-	public SelectionTable(ImageOrText[] data, Integer rows,
-            Integer columns, GDimensionW iconSize, geogebra.common.gui.util.SelectionTable mode) {
+	public SelectionTable(ImageOrText[] data, Integer rows, Integer columns,
+	        geogebra.common.gui.util.SelectionTable mode) {
 		super();
 		this.mode = mode;
 

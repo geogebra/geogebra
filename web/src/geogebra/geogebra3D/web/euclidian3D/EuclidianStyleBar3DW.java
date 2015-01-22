@@ -7,7 +7,6 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.Localization;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
 import geogebra.web.euclidian.EuclidianStyleBarW;
 import geogebra.web.gui.images.AppResourcesConverter;
@@ -200,7 +199,6 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 
 		public ProjectionPopup(AppW app, ImageOrText[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-			        new GDimensionW(20, ICON_HEIGHT),
 			        geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
 			        false);
 			setIcon(projectionIcons[getView().getProjection()]);
@@ -272,8 +270,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 																	 */{
 
 		public PopupMenuButtonForView3D() {
-			super(EuclidianStyleBar3DW.this.app, null, -1, -1, new GDimensionW(
-			        20, ICON_HEIGHT),
+			super(EuclidianStyleBar3DW.this.app, null, -1, -1,
 			        geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
 			        true);
 		}

@@ -3,7 +3,6 @@ package geogebra.web.gui.util;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -122,7 +121,8 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			}
 		}
 
-		viewButton = new PopupMenuButton(app, data, k, 1, new GDimensionW(-1,-1), geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+		viewButton = new PopupMenuButton(app, data, k, 1,
+		        geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 		viewButton.addStyleDependentName("borderless");
 		viewButton.addStyleDependentName("rightaligned");
 		ImageOrText views = new ImageOrText();

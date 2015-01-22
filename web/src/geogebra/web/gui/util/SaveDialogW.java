@@ -11,7 +11,6 @@ import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.textbox.GTextBox;
@@ -303,7 +302,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		if(providerPopup != null){
 			buttonPanel.remove(providerPopup);
 		}
-		providerPopup = new PopupMenuButton(app, ImageOrText.convert(providerImages, 24),1,providerCount,new GDimensionW(32,32),SelectionTable.MODE_IMAGE);
+		providerPopup = new PopupMenuButton(app, ImageOrText.convert(
+		        providerImages, 24), 1, providerCount,
+		        SelectionTable.MODE_IMAGE);
 		
 		listBox = new ListBox();
 		listBox.addStyleName("visibility");

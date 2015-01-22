@@ -2,7 +2,6 @@ package geogebra.web.gui.util;
 
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.util.SelectionTable;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
 
 import java.util.HashMap;
@@ -43,7 +42,7 @@ public class LineStylePopup extends PopupMenuButton  {
 	public LineStylePopup(AppW app, ImageOrText[] data, Integer rows,
 			Integer columns, SelectionTable mode,
 			boolean hasTable, boolean hasSlider) {
-		super(app, data, rows, columns, new GDimensionW(32,32), mode, hasTable, hasSlider);
+		super(app, data, rows, columns, mode, hasTable, hasSlider);
 
 	}
 

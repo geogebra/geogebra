@@ -11,7 +11,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.GuiManagerW;
@@ -468,7 +467,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 		btnAddColumn = new PopupMenuButton(getAppW(),
 		        ImageOrText.convert(getModel().getColumnNames()), -1, 1,
-		        new GDimensionW(0, 18),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 			@Override
 			public void handlePopupActionEvent() {

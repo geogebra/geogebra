@@ -5,7 +5,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.util.ImageOrText;
@@ -65,7 +64,7 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 
 		ImageOrText[] strTreeMode = getTreeModeStr();
 		treeModeButton = new PopupMenuButton(app, strTreeMode,
-		        strTreeMode.length, 1, new GDimensionW(-1, -1),
+		        strTreeMode.length, 1,
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
 		ImageOrText icon = new ImageOrText();

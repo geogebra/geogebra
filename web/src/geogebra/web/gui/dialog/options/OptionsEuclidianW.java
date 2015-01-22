@@ -323,8 +323,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 				        .createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i]);
 			}
 			
-			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1, iconSize,
-					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1,
+			        geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent(){
 					int idx = getSelectedIndex();

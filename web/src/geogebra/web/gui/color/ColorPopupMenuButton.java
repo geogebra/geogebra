@@ -38,7 +38,7 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	 */
 	public ColorPopupMenuButton(AppW app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
 
-		super(app, createDummyIcons(), -1, 9, iconSize,
+		super(app, createDummyIcons(), -1, 9,
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON);
 		this.app = app;
 		this.iconSize = iconSize;

@@ -2784,8 +2784,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//			// panel for button to open external file
 			//
 			btnImage = new PopupMenuButton(getAppW(), iconArray, -1, 4,
-					new GDimensionW(32, 32),
-					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+			        geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();
@@ -3093,8 +3092,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i);
 			}
-			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1, iconSize,
-					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1,
+			        geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();
@@ -3148,8 +3147,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			for (int i = 0; i < iconArray.length; i++) {
 				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i);
 			}
-			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1, iconSize,
-					geogebra.common.gui.util.SelectionTable.MODE_ICON){
+			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1,
+			        geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 				@Override
 				public void handlePopupActionEvent(){
 					super.handlePopupActionEvent();

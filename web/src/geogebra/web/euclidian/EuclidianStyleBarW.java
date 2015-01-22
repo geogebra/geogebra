@@ -622,7 +622,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		        app.getMenu("FixedToGrid"), app.getMenu("off") });
 
 		btnPointCapture = new PopupMenuButton(app, strPointCapturing, -1, 1,
-		        new GDimensionW(0, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -659,7 +658,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		        });
 
 		btnLabelStyle = new PopupMenuButton(app, captionArray, -1, 1,
-		        new GDimensionW(0, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override
@@ -987,7 +985,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		        .getFontSizeStrings());
 
 		btnTextSize = new PopupMenuButton(app, textSizeArray, -1, 1,
-		        new GDimensionW(-1, ICON_HEIGHT),
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
 
 			@Override

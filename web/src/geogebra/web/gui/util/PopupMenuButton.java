@@ -1,7 +1,6 @@
 package geogebra.web.gui.util;
 
 import geogebra.common.main.App;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.util.Slider;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
@@ -42,15 +41,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            {@code Integer}
 	 * @param columns
 	 *            {@code Integer}
-	 * @param iconSize
-	 *            {@link GDimensionW}
 	 * @param mode
 	 *            {@link SelectionTable}
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
-	        Integer columns, GDimensionW iconSize,
-	        geogebra.common.gui.util.SelectionTable mode) {
-		this(app, data, rows, columns, iconSize, mode, true, false);
+	        Integer columns, geogebra.common.gui.util.SelectionTable mode) {
+		this(app, data, rows, columns, mode, true, false);
 	}
 	
 	/**
@@ -62,8 +58,6 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            {@code Integer}
 	 * @param columns
 	 *            {@code Integer}
-	 * @param iconSize
-	 *            {@link GDimensionW}
 	 * @param mode
 	 *            {@link SelectionTable}
 	 * @param hasTable
@@ -72,8 +66,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 *            {@code boolean}
 	 */
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
-	        Integer columns, GDimensionW iconSize,
-	        geogebra.common.gui.util.SelectionTable mode,
+	        Integer columns, geogebra.common.gui.util.SelectionTable mode,
 	        final boolean hasTable, boolean hasSlider) {
 		super();
 		this.app = app;
@@ -94,7 +87,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		});
 
 		if (hasTable) {
-			createSelectionTable(data, rows, columns, iconSize, mode);
+			createSelectionTable(data, rows, columns, mode);
 		}
 
 		// create slider
@@ -155,15 +148,14 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 * @param data
 	 * @param rows
 	 * @param columns
-	 * @param iconSize
 	 * @param mode
 	 */
 	private void createSelectionTable(ImageOrText[] data,
-	        Integer rows, Integer columns, GDimensionW iconSize,
-	        geogebra.common.gui.util.SelectionTable mode) {
+ Integer rows,
+	        Integer columns, geogebra.common.gui.util.SelectionTable mode) {
 		this.data = data;
 
-		myTable = new SelectionTable(data, rows, columns, iconSize, mode);
+		myTable = new SelectionTable(data, rows, columns, mode);
 		setSelectedIndex(0);
 
 		myTable.addClickHandler(new ClickHandler() {

@@ -4,7 +4,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.gui.util.SelectionTable;
-import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.PopupMenuButton;
@@ -16,7 +15,7 @@ public class ClippingPopup extends PopupMenuButton {
 
 	public ClippingPopup(AppW app, ImageOrText[] data, int rows, int columns,
 	        SelectionTable mode, EuclidianView3D ev) {
-		super(app, data, rows, columns, new GDimensionW(32, 32), mode, true,
+		super(app, data, rows, columns, mode, true,
 		        false);
 		this.ev = ev;
 

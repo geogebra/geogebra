@@ -53,7 +53,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	public PointStylePopup(AppW app, ImageOrText[] data, Integer rows,
             Integer columns, GDimensionW iconSize, SelectionTable mode,
             boolean hasTable, boolean hasSlider, PointStyleModel model) {
-	    super(app, data, rows, columns, iconSize, mode, hasTable, hasSlider);
+		super(app, data, rows, columns, mode, hasTable, hasSlider);
 	    this.iconSize = iconSize;
 	    this.model = model;
 		euclidian3D = false;
