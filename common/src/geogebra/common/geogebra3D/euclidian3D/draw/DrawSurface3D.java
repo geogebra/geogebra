@@ -127,6 +127,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		PlotterSurface surface = renderer.getGeometryManager().getSurface();
 
 		if (drawFromScratch){
+			
+			// maybe set to null after redefine
+			surfaceGeo.setDerivatives();
 
 			// calc min/max values
 			double uMin = surfaceGeo.getMinParameter(0);
