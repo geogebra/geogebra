@@ -1446,6 +1446,25 @@ public abstract class App implements UpdateSelection {
 		setXML(newXml, true);
 	}
 
+	public void openMacro(String macroXml) {
+		// for (int i = 0; i < editMacro.getKernel().getMacroNumber(); i++) {
+		// if (editMacro.getKernel().getMacro(i) == editMacro) {
+		// break;
+		// }
+		// kernel.addMacro(editMacro.getKernel().getMacro(i));
+		// }
+		String allXml = getXML();
+		String header = allXml.substring(0, allXml.indexOf("<construction"));
+		String footer = allXml.substring(allXml.indexOf("</construction>"),
+				allXml.length());
+
+		String newXml = header
+				+ macroXml.substring(macroXml.indexOf("<construction"),
+						macroXml.indexOf("</construction>")) + footer;
+		// this.macro = editMacro;
+		setXML(newXml, true);
+	}
+
 	private Macro macro;
 
 	/**
@@ -3534,4 +3553,5 @@ public abstract class App implements UpdateSelection {
 	public final void setTubeId(int uniqueId) {
 		this.tubeID = uniqueId;
 	}
+
 }

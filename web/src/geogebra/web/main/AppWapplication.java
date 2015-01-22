@@ -133,6 +133,8 @@ public class AppWapplication extends AppW {
 				        Cookies.getCookie("SSID"));
 			}
 		}
+
+		loadFromSessionStorage();
 	}
 
 	private void maybeStartAutosave() {

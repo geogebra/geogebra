@@ -19,6 +19,8 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
+import geogebra.html5.gui.GeoGebraFrame;
+import geogebra.html5.gui.GeoGebraFrameSimple;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.javax.swing.GOptionPaneW;
@@ -36,6 +38,8 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.storage.client.Storage;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
@@ -43,18 +47,19 @@ import com.google.gwt.user.client.ui.ListBox;
 
 
 public class ToolManagerDialogW extends DialogBoxW implements
-		ClickHandler, ToolManagerDialogListener {
+ ClickHandler,
+        ToolManagerDialogListener {
 
 	private class MacroListBox extends ListBox {
 		List<Macro> macros;
 		public MacroListBox() {
 			macros = new ArrayList<Macro>();
 		}
-	
+
 		private String getMacroText(Macro macro) {
 			return macro.getToolName() + ": " + macro.getNeededTypesString();
 		}
-		
+
 		public List<Macro> getMacros() {
 			return macros;
 		}
@@ -62,7 +67,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		public Macro getMacro(int index) {
 			return macros.get(index);
 		}
-		
+
 		public Macro getSelectedMacro() {
 			int idx = getSelectedIndex();
 			if (idx == -1) {
@@ -70,42 +75,54 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			}
 			return getMacro(idx);
 		}
-		
+
+		public void setSelectedMacro(Macro macro) {
+			int idx = getSelectedIndex();
+			if (idx == -1) {
+				return;
+			}
+			macros.set(idx, macro);
+		}
 		public String getMacroText(int index) {
 			return getMacroText(getMacro(index));
 		}
-		
-        public void addMacro(Macro macro) {
-        	macros.add(macro);
+
+		public void addMacro(Macro macro) {
+			macros.add(macro);
 			addItem(getMacroText(macro));
-        }
-        
-        public void insertMacro(Macro macro, int index) {
-        	macros.add(index, macro);
-        	insertItem(getMacroText(macro), index);
-        }
-        
-        @Override
-        public void removeItem(int index) {
-        	macros.remove(index);
-        	super.removeItem(index);
-        	
-        }
-        
-        public List<Macro> getSelectedMacros() {
-        	List<Macro> sel = null;
-        	for (int i=0;i < getItemCount(); i++) {
-        		if (isItemSelected(i)) {
-        			if (sel == null)  {
-        				sel = new ArrayList<Macro>();
-        			}
-        			sel.add(getMacro(i));
-        		}
-        		
-        	}
-        	
-        	return sel;
-        }
+		}
+
+		public void insertMacro(Macro macro, int index) {
+			macros.add(index, macro);
+			insertItem(getMacroText(macro), index);
+		}
+
+		public void setMacro(Macro macro, int index) {
+			macros.set(index, macro);
+			setItemText(index, getMacroText(macro));
+		}
+
+		@Override
+		public void removeItem(int index) {
+			macros.remove(index);
+			super.removeItem(index);
+
+		}
+
+		public List<Macro> getSelectedMacros() {
+			List<Macro> sel = null;
+			for (int i = 0; i < getItemCount(); i++) {
+				if (isItemSelected(i)) {
+					if (sel == null) {
+						sel = new ArrayList<Macro>();
+					}
+					sel.add(getMacro(i));
+				}
+
+			}
+
+			return sel;
+		}
 	}
 	private static final long serialVersionUID = 1L;
 
@@ -128,6 +145,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private Button btShare;
 
 	private Button btClose;
+
+	private ToolNameIconPanel macroPanel;
+	private int lastMacroIdx;
 
 	public ToolManagerDialogW(AppW app) {
 		setModal(true);
@@ -166,7 +186,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private void deleteTools() {
 		final List<String> sel = ListBoxApi.getSelection(toolList);
 		final List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
-		
+
 		if (sel.isEmpty()) {
 			return;
 		}
@@ -176,30 +196,31 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		GOptionPaneW.INSTANCE.showOptionDialog(app, loc.getMenu("Tool.DeleteQuestion"),
 				loc.getPlain("Question"), GOptionPane.CANCEL_OPTION,
-		        GOptionPane.QUESTION_MESSAGE, null, options, new AsyncOperation() {
-					
-					@Override
-					public void callback(Object obj) {
-		
-						String[] dialogResult = (String[])obj;
-				        if ("0".equals(dialogResult[0])) {
-				        	
-				        	List<Macro> macros = toolList.getSelectedMacros();
-				        	// need this because of removing 
-				    	    
-				        	Collections.reverse(selIndexes);
-				
-				    	    for (Integer idx : selIndexes) {
-				    			toolList.removeItem(idx);
-				    		}
+ GOptionPane.QUESTION_MESSAGE, null,
+		        options, new AsyncOperation() {
 
-				    		if (model.deleteTools(macros.toArray())) {
-				    			updateToolBar();
-				    		}
-				        }
-				       
+			        @Override
+			        public void callback(Object obj) {
+
+				        String[] dialogResult = (String[]) obj;
+				        if ("0".equals(dialogResult[0])) {
+
+					        List<Macro> macros = toolList.getSelectedMacros();
+					        // need this because of removing
+
+					        Collections.reverse(selIndexes);
+
+					        for (Integer idx : selIndexes) {
+						        toolList.removeItem(idx);
+					        }
+
+					        if (model.deleteTools(macros.toArray())) {
+						        updateToolBar();
 					}
-					
+				        }
+
+			        }
+
 		});
 	}
 
@@ -235,7 +256,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		panel.add(lblTitle);
 		panel.add(toolListPanel);
 		setWidget(panel);
-		
+
 		toolList = new MacroListBox();
 		toolList.setMultipleSelect(true);
 		insertTools();
@@ -265,9 +286,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btShare.setText(loc.getMenu("Share") + " ...");
 
 		// name & icon
-		final ToolNameIconPanel namePanel = new ToolNameIconPanel(app);
-		namePanel.setTitle(app.getMenu("NameIcon"));
-		panel.add(namePanel);
+		macroPanel = new ToolNameIconPanel(app);
+		macroPanel.setTitle(app.getMenu("NameIcon"));
+		panel.add(macroPanel);
 
 		FlowPanel closePanel = new FlowPanel();
 		btClose = new Button(loc.getMenu("Close"));
@@ -280,47 +301,24 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btClose.addClickHandler(this);
 
 		toolList.addChangeHandler(new ChangeHandler() {
-			
-			public void onChange(ChangeEvent event) {
-				Macro macro = toolList.getSelectedMacro();
-				namePanel.setMacro(macro);
-			}
-			
-		});
-		// add selection listener for list
-//		final ListSelectionModel selModel = toolList.getSelectionModel();
-//		ListSelectionListener selListener = new ListSelectionListener() {
-//			public void valueChanged(ListSelectionEvent e) {
-//				if (selModel.getValueIsAdjusting())
-//					return;
-//
-//				int[] selIndices = toolList.getSelectedIndices();
-//				if (selIndices == null || selIndices.length != 1) {
-//					// no or several tools selected
-//					namePanel.init(null, null);
-//				} else {
-//					Macro macro = (Macro) toolsModel
-//							.getElementAt(selIndices[0]);
-//					namePanel.init(ToolManagerDialogW.this, macro);
-//				}
-//			}
-//		};
-//		selModel.addListSelectionListener(selListener);
 
-//		// select first tool in list
-//		if (toolsModel.size() > 0)
-//			toolList.setSelectedIndex(0);
-//		else
-//			namePanel.init(null, null);
-//
-//		setResizable(true);
-//		namePanel.setPreferredSize(new Dimension(400, 200));
-//
-//		app.setComponentOrientation(this);
-//
-//		pack();
-//		setLocationRelativeTo(app.getFrame()); // center
-}
+
+			public void onChange(ChangeEvent event) {
+				// toolList.setMacro(macroPanel.getMacro(), lastMacroIdx);
+				Macro macro = toolList.getSelectedMacro();
+				lastMacroIdx = toolList.getSelectedIndex();
+				macroPanel.setMacro(macro);
+			}
+
+		});
+
+		// select first tool in list
+		if (toolList.getItemCount() > 0) {
+			toolList.setSelectedIndex(0);
+			lastMacroIdx = 0;
+		}
+
+	}
 
 	/**
 	 * Opens tools in different windows
@@ -330,32 +328,29 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 *            Tools to be opened
 	 */
 	private void openTools() {
-//		Object[] sel = toolList.getSelectedValues();
-//		if (sel == null || sel.length == 0)
-//			return;
+		App.debug("before" + app.hashCode());
+		app.setWaitCursor();
+
+		for (Macro macro : toolList.getMacros()) {
+
+			GeoGebraFrame newframe = new GeoGebraFrameSimple();
+			newframe.setApplication(app);
+			newframe.setTitle(macro.getCommandName());
+			String xml = app.getMacroXML();
+			Storage storage = Storage.getSessionStorageIfSupported();
+			storage.setItem(AppW.TOOL_STORAGE_KEY, xml);
+
+			com.google.gwt.user.client.Window.open(Window.Location.getHref(),
+			        "_blank", "");
+
+			// newframe.getApplication().openMacro(macro);
+
+			//
 //
-//		for (int i = 0; i < sel.length; i++) {
-//			final Macro macro = (Macro) sel[i];
-//			Thread runner = new Thread() {
-//				@Override
-//				public void run() {
-//					App.debug("before" + app.hashCode());
-//					app.setWaitCursor();
-//					GeoGebraFrame newframe = GeoGebraFrame.createNewWindow(
-//							null, macro);
-//					newframe.setTitle(macro.getCommandName());
-//					byte[] byteArray = app.getMacroFileAsByteArray();
-//					newframe.getApplication().loadMacroFileFromByteArray(
-//							byteArray, false);
-//					newframe.getApplication().openMacro(macro);
-//					app.setDefaultCursor();
-//
-//				}
-//			};
-//			runner.start();
 //
 //			this.setVisible(false);
-//		}
+		}
+		app.setDefaultCursor();
 	}
 
 	private void insertTools() {
@@ -375,40 +370,21 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private void uploadToGeoGebraTube() {
 
 		List<Macro> macros = new ArrayList<Macro>();
-       	List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
+		List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
 		for (Integer i: selIndexes) {
 			macros.add(app.getKernel().getMacro(i));
 		}
-				
-       	model.uploadToGeoGebraTube(macros.toArray());
+
+		model.uploadToGeoGebraTube(macros.toArray());
 	}
 
 	/**
 	 * Saves all selected tools in a new file.
 	 */
 	private void saveTools() {
-		SaveDialogW dlg = new SaveDialogW(app) {
-			protected void onSave() {
-				App.debug("[ToolManager] onSave()");
-			}
-	
-		};
+		SaveDialogW dlg = new SaveDialogW(app);
 		dlg.show();
-//		Object[] sel = toolList.getSelectedValues();
-//		if (sel == null || sel.length == 0)
-//			return;
-//
-//		File file = app.getGuiManager()
-//				.showSaveDialog(
-//						AppD.FILE_EXT_GEOGEBRA_TOOL,
-//						null,
-//						GeoGebraConstants.APPLICATION_NAME + " "
-//								+ loc.getMenu("Tools"), true, false);
-//		if (file == null)
-//			return;
-//
-//		// save selected macros
-//		app.saveMacroFile(file, model.getAllTools(sel));
+
 	}
 
 	public void removeMacroFromToolbar(int i) {
@@ -422,38 +398,38 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
 		// create new exporter
-//		geogebra.export.GeoGebraTubeExportDesktop exporter = new geogebra.export.GeoGebraTubeExportDesktop(
-//				app);
-//
-//		exporter.uploadWorksheet(macros);
+		// geogebra.export.GeoGebraTubeExportDesktop exporter = new
+		// geogebra.export.GeoGebraTubeExportDesktop(
+		// app);
+		//
+		// exporter.uploadWorksheet(macros);
 
 	}
 
 	public void onClick(ClickEvent event) {
-	    Object src = event.getSource();
-	    int idx = toolList.getSelectedIndex();
+		Object src = event.getSource();
+		int idx = toolList.getSelectedIndex();
 		if (idx == -1) {
-	    	return;
-	    }
-	 	List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
+			return;
+		}
+		List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
 		int selSize = sel.size(); 
-	 	
-	 	if (src == btUp) {
-	    	App.debug("Up");
-	    	if (idx > 0) {
-	    		toolList.insertMacro(toolList.getMacro(idx - 1), idx + selSize);
-	    		toolList.removeItem(idx - 1); 
-	    	}
-	    } else  if (src == btDown) {
-	    	App.debug("Dowm");
-	    	if (idx + selSize < toolList.getItemCount()) {
-	    		toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
-	    		toolList.removeItem(idx + selSize + 1);
-	    	}
+
+		if (src == btUp) {
+			App.debug("Up");
+			if (idx > 0) {
+				toolList.insertMacro(toolList.getMacro(idx - 1), idx + selSize);
+				toolList.removeItem(idx - 1);
+			}
+		} else if (src == btDown) {
+			App.debug("Dowm");
+			if (idx + selSize < toolList.getItemCount()) {
+				toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
+				toolList.removeItem(idx + selSize + 1);
+			}
 		}
 		if (src == btClose) {
-			// ensure to set macro properties from namePanel
-			// namePanel.init(null, null);
+			toolList.setSelectedMacro(macroPanel.getMacro());
 
 			// make sure new macro command gets into dictionary
 			app.updateCommandDictionary();
@@ -471,6 +447,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		} else if (src == btShare) {
 			uploadToGeoGebraTube();
 		}
-	 }
+	}
 
 }

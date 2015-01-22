@@ -109,6 +109,8 @@ import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style.Visibility;
+import com.google.gwt.storage.client.Storage;
+import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
@@ -118,6 +120,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends App implements SetLabels {
+	public static final String TOOL_STORAGE_KEY = "toolXML";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	private DrawEquationWeb drawEquation;
 
@@ -866,6 +869,24 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	protected void loadFromSessionStorage() {
+		Storage storage = Storage.getSessionStorageIfSupported();
+		if (storage != null) {
+			StorageMap map = new StorageMap(storage);
+			if (map.containsKey(TOOL_STORAGE_KEY)) {
+				String xml = storage.getItem(TOOL_STORAGE_KEY);
+				storage.removeItem(TOOL_STORAGE_KEY);
+				try {
+					App.debug("[TOOOLS] loading xml " + xml);
+					openMacro(xml);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+	}
 	/**
 	 * sets the timestamp of last synchronization with ggbTube
 	 * 
@@ -2894,4 +2915,6 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean isOffline() {
 		return !getNetworkOperation().isOnline();
 	}
+
+
 }

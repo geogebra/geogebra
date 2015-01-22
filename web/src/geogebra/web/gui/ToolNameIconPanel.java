@@ -222,6 +222,15 @@ public class ToolNameIconPanel extends VerticalPanel {
 		tfToolHelp.setText(m == null ? "" : m.getToolHelp());
 		showTool.setValue(m == null ? false : m.isShowInToolBar());
 		setIconFileName(m == null ? "" : m.getIconFileName());
+
 	}
 
+	public Macro getMacro() {
+		Macro m = new Macro(app.getKernel(), tfCmdName.getText());
+		m.setToolName(getToolName());
+		m.setToolHelp(getToolHelp());
+		m.setShowInToolBar(getShowTool());
+		m.setIconFileName(getIconFileName());
+		return m;
+	}
 }
