@@ -2684,6 +2684,10 @@ body.application[dir=rtl] .DialogButtonPanel button {
 	float: right;
 }
 
+.RecoverAutoSavedDialog {
+	max-width: 500px;
+}
+
 /*-------- SLIDER DIALOG ------------------------*/
 .dialogContent .sliderIntervalPanel div,
 .dialogContent .sliderWidthPanel div {
