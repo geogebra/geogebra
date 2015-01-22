@@ -741,10 +741,15 @@ SymbolicParametersBotanaAlgo {
 		updateCoords();
 
 		// undefined and on path: remember old path parameter
-		if (!isDefined && path != null) {
-			PathParameter parameter = getPathParameter();
-			PathParameter tempParameter = getTempPathparameter();
-			parameter.set(tempParameter);
+		if (path != null) {
+			if (!isDefined) {
+				PathParameter parameter = getPathParameter();
+				PathParameter tempParameter = getTempPathparameter();
+				parameter.set(tempParameter);
+			}else{ // store current path parameter (needed e.g. on file loading)
+				PathParameter tempParameter = getTempPathparameter();
+				tempParameter.set(getPathParameter());
+			}
 		}
 
 	}
