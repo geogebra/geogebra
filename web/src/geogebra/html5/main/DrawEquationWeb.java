@@ -699,7 +699,16 @@ public class DrawEquationWeb extends DrawEquation {
 							// in theory, the textarea inside elsecondInside will be
 							// selected, and it will capture other key events before
 							// these execute
-							var code = 13;
+
+							// Note that for keys like Hungarian U+00F3 or &oacute;
+							// both event.keyCode and event.which, as well as event.charCode
+							// will be zero, that's why we should not leave the default
+							// value of "var code" at 13, but it should be 0 instead
+							// never mind, as this method only does something for 13 and 27
+							var code = 0;
+							// otherwise, MathQuill still listens to keypress which will
+							// capture the &oacute;
+
 							if (event.keyCode) {
 								code = event.keyCode;
 							} else if (event.which) {
