@@ -328,6 +328,9 @@ var manageTextarea = (function() {
       checkTextarea = checker;
       setTimeout(checker);
     }
+
+    // TODO: Wondering why there is a target.bind both here and at the end...
+    // It would be good to revise hard-to-understand MathQuillGGB code! 
     target.bind('keydown keypress input keyup focusout paste', function() { checkTextarea(); });
 
 
@@ -349,6 +352,12 @@ var manageTextarea = (function() {
 
       if (!('selectionStart' in dom)) return false;
       return dom.selectionStart !== dom.selectionEnd;
+    }
+
+    function popTextForPaste(callback) {
+      var text = textarea.val();
+      textarea.val('');
+      if (text) callback(text);
     }
 
     function popText(callback) {
@@ -448,7 +457,7 @@ var manageTextarea = (function() {
       checkTextareaFor(pastedText);
     }
     function pastedText() {
-      popText(pasteCallback);
+      popTextForPaste(pasteCallback);
     }
 
     // -*- attach event handlers -*- //
