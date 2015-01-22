@@ -817,7 +817,7 @@ __GGB__keysVar.ko.command = {
     "SetLayer.Syntax": "[ <\ub300\uc0c1>, <\ub808\uc774\uc5b4> ]",
     "SetLineStyle": "\uc120\uc2a4\ud0c0\uc77c\uc124\uc815",
     "SetLineStyle.Syntax": "[ <\uc9c1\uc120>, <\uc218> ]",
-    "SetLineThickness": "\uad75\uae30\uc124\uc815",
+    "SetLineThickness": "\uc120\uad75\uae30\uc124\uc815",
     "SetLineThickness.Syntax": "[ <\uc9c1\uc120>, <\uc218> ]",
     "SetPerspective": "\uc2dc\uc810\uc124\uc815",
     "SetPerspective.Syntax": "[ <\ud14d\uc2a4\ud2b8> ]",
