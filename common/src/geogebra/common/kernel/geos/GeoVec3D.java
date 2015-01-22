@@ -68,9 +68,16 @@ implements Traceable, CoordStyle {
     
     @Override
 	public void setUndefined() {     
-    	setCoords(Double.NaN, Double.NaN, Double.NaN);   
+    	setUndefinedCoords();
     	update(); //TODO hide undefined elements in algebraView
-    }       
+    }
+    
+    /**
+     * set undefined coords
+     */
+    protected void setUndefinedCoords(){
+    	setCoords(Double.NaN, Double.NaN, Double.NaN);       	
+    }
     
     @Override
 	protected boolean showInEuclidianView() {     

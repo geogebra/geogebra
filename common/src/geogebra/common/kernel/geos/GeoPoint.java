@@ -748,6 +748,25 @@ SymbolicParametersBotanaAlgo {
 		}
 
 	}
+	
+    @Override
+	protected void setUndefinedCoords(){
+    	
+    	// set coordinates
+    	this.x = Double.NaN;
+    	this.y = Double.NaN;
+    	this.z = Double.NaN;
+    	
+    	inhomX = Double.NaN;
+		inhomY = Double.NaN;
+
+    	// undefined and on path: remember old path parameter
+    	if (path != null) {
+    		PathParameter parameter = getPathParameter();
+    		PathParameter tempParameter = getTempPathparameter();
+    		parameter.set(tempParameter);
+    	}
+    }
 
 	public void setCoords(Coords v, boolean doPathOrRegion) {
 
