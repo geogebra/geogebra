@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -440,7 +441,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void onTouchStart(TouchStartEvent event) {
 		if ((app.getGuiManager() != null)
-		        && (this.getEvNo() != EuclidianView.EVNO_GENERAL)) {
+		        && !(this.view instanceof PlotPanelEuclidianViewInterface)) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
@@ -651,7 +652,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void onPointerEventStart(AbstractEvent event) {
 		if ((app.getGuiManager() != null)
-		        && (this.getEvNo() != EuclidianView.EVNO_GENERAL)) {
+		        && !(this.view instanceof PlotPanelEuclidianViewInterface)) {
 			// Probability calculator plot panel view should not set active
 			// toolbar ID
 			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
