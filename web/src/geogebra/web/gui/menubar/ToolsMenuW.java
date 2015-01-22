@@ -39,7 +39,10 @@ public class ToolsMenuW extends GMenuBar {
 		});
 
 		if(app.isPrerelease()){	
-			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools_new().getSafeUri().asString(), app.getMenu("Tool.CreateNew"),
+			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
+			        .menu_icon_tools_new().getSafeUri().asString(), app
+			        .getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
+			                : "Tool.CreateNew"),
 					true), true, new MenuCommand(app) {
 	
 				@Override

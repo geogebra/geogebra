@@ -81,7 +81,14 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			if (idx == -1) {
 				return;
 			}
-			macros.set(idx, macro);
+			Macro orig = getSelectedMacro();
+			orig.setCommandName(macro.getCommandName());
+			orig.setShowInToolBar(macro.isShowInToolBar());
+			orig.setToolName(macro.getToolName());
+			orig.setToolHelp(macro.getToolHelp());
+			orig.setIconFileName(macro.getIconFileName());
+
+			macros.set(idx, orig);
 		}
 		public String getMacroText(int index) {
 			return getMacroText(getMacro(index));
@@ -432,10 +439,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			toolList.setSelectedMacro(macroPanel.getMacro());
 
 			// make sure new macro command gets into dictionary
-			app.updateCommandDictionary();
 			model.addMacros(toolList.getMacros().toArray());
+			app.updateCommandDictionary();
 			refreshCustomToolsInToolBar();
-			// destroy dialog
+			// // destroy dialog
 			hide();
 
 		} else if (src == btDelete) {

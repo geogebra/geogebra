@@ -375,6 +375,7 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	private MyXMLioW xmlio;
+	private boolean toolLoadedFromStorage;
 
 	@Override
 	public boolean loadXML(String xml) throws Exception {
@@ -869,7 +870,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
-	protected void loadFromSessionStorage() {
+
+	protected void getToolFromStorage() {
 		Storage storage = Storage.getSessionStorageIfSupported();
 		if (storage != null) {
 			StorageMap map = new StorageMap(storage);
@@ -879,6 +881,7 @@ public abstract class AppW extends App implements SetLabels {
 				try {
 					App.debug("[TOOOLS] loading xml " + xml);
 					openMacro(xml);
+					setToolLoadedFromStorage(true);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -2916,5 +2919,12 @@ public abstract class AppW extends App implements SetLabels {
 		return !getNetworkOperation().isOnline();
 	}
 
+	public boolean isToolLoadedFromStorage() {
+		return toolLoadedFromStorage;
+	}
+
+	public void setToolLoadedFromStorage(boolean toolLoadedFromStorage) {
+		this.toolLoadedFromStorage = toolLoadedFromStorage;
+	}
 
 }

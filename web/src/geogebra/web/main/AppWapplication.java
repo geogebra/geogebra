@@ -134,11 +134,11 @@ public class AppWapplication extends AppW {
 			}
 		}
 
-		loadFromSessionStorage();
+		getToolFromStorage();
 	}
 
 	private void maybeStartAutosave() {
-		if (!this.getLAF().autosaveSupported()) {
+		if (!this.getLAF().autosaveSupported() || isToolLoadedFromStorage()) {
 			return;
 		}
 
