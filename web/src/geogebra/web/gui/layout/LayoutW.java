@@ -9,6 +9,7 @@ import geogebra.common.main.App.InputPositon;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.SettingListener;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.GuiManagerW;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -265,7 +266,8 @@ public class LayoutW extends Layout implements SettingListener {
 		
 		perspective.setDockPanelData(dockPanelInfo);
 
-		perspective.setToolbarDefinition(app.getGuiManager().getToolbarDefinition());
+		perspective.setToolbarDefinition(((GuiManagerW) app.getGuiManager())
+		        .getGeneralToolbarDefinition());
 		perspective.setShowToolBar(app.showToolBar());
 		perspective.setShowAxes(ev.getShowXaxis() && ev.getShowYaxis());
 		perspective.setShowGrid(ev.getShowGrid());
