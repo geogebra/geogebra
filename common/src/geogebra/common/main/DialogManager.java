@@ -404,15 +404,9 @@ public abstract class DialogManager {
 	public static void doSegmentFixed(Kernel kernel, GeoPointND geoPoint1,
 			NumberValue num) {
 
-		// apply abs() to number so that entering -3 doesn't give an undefined
-		// point
-		ExpressionNode en = new ExpressionNode(kernel, num, Operation.ABS, null);
-		AlgoDependentNumber algo = new AlgoDependentNumber(
-				kernel.getConstruction(), en, false);
-		kernel.getConstruction().removeFromConstructionList(algo);
 
 		GeoElement[] segment = kernel.getAlgoDispatcher().Segment(null,
-				geoPoint1, algo.getNumber());
+				geoPoint1, num);
 		GeoElement[] onlysegment = { null };
 		if (segment != null) {
 			onlysegment[0] = segment[0];
