@@ -197,6 +197,10 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	private static native void visibilityEventMain() /*-{
 		// wrapper to call the appropriate function from visibility.js
 		$wnd.visibilityEventMain();
+		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
+		$wnd.onblur = function() {
+			$wnd.visChange();
+		};
 	}-*/;
 	
 
