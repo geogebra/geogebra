@@ -30,13 +30,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// number of split for boundary
 	private static final short BOUNDARY_SPLIT = 10;
 
-	// split array size (at least 3 times split for regular surfaces)
-	private static final int SPLIT_SIZE = (ROOT_MESH_INTERVALS + 1) * (ROOT_MESH_INTERVALS + 1) * 64;
+	// max split array size ( size +=4 for one last split)
+	private static final int MAX_SPLIT = 10000;
 
-	// draw array size
-	private static final int DRAW_SIZE = SPLIT_SIZE;
+	// draw array size ( size +=1 for one last draw)
+	private static final int MAX_DRAW = MAX_SPLIT;
 
-	private static final int CORNER_LIST_SIZE = DRAW_SIZE * 3;
+	private static final int CORNER_LIST_SIZE = MAX_DRAW * 3;
 	
 	/**
 	 * max splits in one update loop
@@ -69,9 +69,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		this.surfaceGeo = surface;
 		this.surfaceGeo.setDerivatives();
 
-		currentSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
-		nextSplit = new DrawSurface3D.Corner[SPLIT_SIZE];
-		drawList = new CornerAndCenter[DRAW_SIZE];
+		currentSplit = new DrawSurface3D.Corner[MAX_SPLIT + 4];
+		nextSplit = new DrawSurface3D.Corner[MAX_SPLIT + 4];
+		drawList = new CornerAndCenter[MAX_DRAW + 1];
 		cornerList = new DrawSurface3D.Corner[CORNER_LIST_SIZE];
 		
 		ccForStillToSplit = new CornerAndCenter();
@@ -79,7 +79,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 	
-	final static private boolean DEBUG = false;
+	final static private boolean DEBUG = true;
 	
 	/**
 	 * console debug
@@ -199,12 +199,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		// start recursive split
 		loopSplitIndex = 0;
-		split(false);
+		boolean stillRoomLeft = split(false);
 
 		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
 				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
 				"\nnext to split : "  + nextSplitIndex + 
-				"\ncorner list size : " + cornerListIndex);
+				"\ncorner list size : " + cornerListIndex +
+				"\nstill room left : "+stillRoomLeft);
 
 		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
@@ -229,8 +230,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		setSurfaceIndex(surface.end());
 		
-		// update is finished if no waiting splits
-		return !waitingSplits;
+		// update is finished if no waiting splits, or if no room left for draw or split
+		return !waitingSplits || !stillRoomLeft;
 	}
 
 	@Override
@@ -344,7 +345,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private void split(boolean draw) {
+	private boolean split(boolean draw) {
 
 		if (currentSplitStoppedIndex == currentSplitIndex){
 			// swap stacks
@@ -360,23 +361,25 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		while (currentSplitStoppedIndex < currentSplitIndex && loopSplitIndex < MAX_SPLITS_IN_ONE_UPDATE) {
 			currentSplit[currentSplitStoppedIndex].split(false);
 			currentSplitStoppedIndex++;
+			
+			if (drawListIndex == MAX_DRAW){ // no room left for new draw
+				return false;
+			}
+			
+			if (nextSplitIndex >= MAX_SPLIT){ // no room left for new split
+				return false;
+			} 
 		}
 		
 
-		debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
+		//debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
 
-//		if (!draw && nextSplitIndex > 0) {
-//			if (nextSplitIndex * 4 < SPLIT_SIZE && drawListIndex + nextSplitIndex * 4 < DRAW_SIZE) {
-//				// split again
-//				split(false);
-//			} else {
-//				split(true);
-//			}
-//		}
 		
 		if (loopSplitIndex < MAX_SPLITS_IN_ONE_UPDATE && nextSplitIndex > 0){
-			split(false);
+			return split(false);
 		}
+		
+		return true; // went to end of loop
 
 	}
 
