@@ -82,12 +82,16 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		return getModel().getUserName();
 	}
 
+	private boolean inited = false;
 	/**
 	 * Go for the google drive url, and fetch the script
 	 */
 	public void initGoogleDriveApi() {
-		createGoogleApiCallbackFunction();
-		fetchScript();
+		if (!inited) {
+			createGoogleApiCallbackFunction();
+			fetchScript();
+			inited = true;
+		}
 	}
 
 	private static void fetchScript() {

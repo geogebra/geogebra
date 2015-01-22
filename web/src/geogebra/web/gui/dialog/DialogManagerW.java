@@ -319,7 +319,7 @@ public class DialogManagerW extends DialogManager implements EventRenderable, Lo
 	 */
 	public SaveDialogW getSaveDialog() {
 		if (saveDialog == null) {
-			saveDialog = new SaveDialogW(app);
+			saveDialog = new SaveDialogW((AppW) app);
 		}
 		return saveDialog;
 	}

@@ -7,8 +7,8 @@ import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.move.ggtapi.models.Material.Provider;
+import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.html5.gui.FastClickHandler;
@@ -109,15 +109,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			this.app.initSignInEventFlow(new LoginOperationW(app));
 		}
 		this.app.getLoginOperation().getView().add(this);
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).sync(
-		        app, 0, new SyncCallback() {
-
-			        @Override
-			        public void onSync(ArrayList<SyncEvent> events) {
-				        app.getFileManager().uploadUsersMaterials(events);
-
-			        }
-		        });
 		this.container = new HorizontalPanel();
 		this.container.setPixelSize(Window.getClientWidth(),
 		        Window.getClientHeight() - GLookAndFeel.BROWSE_HEADER_HEIGHT);
@@ -147,6 +138,26 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				}
 			}
 		}, TouchMoveEvent.getType());
+		if (app.getGoogleDriveOperation() != null) {
+			app.getGoogleDriveOperation().initGoogleDriveApi();
+		}
+		if (app.getLoginOperation().isLoggedIn()) {
+			sync();
+		}
+	}
+
+	private void sync() {
+
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).sync(
+		        app, 0, new SyncCallback() {
+
+			        @Override
+			        public void onSync(ArrayList<SyncEvent> events) {
+				        app.getFileManager().uploadUsersMaterials(events);
+
+			        }
+		        });
+
 	}
 
 	protected void initMaterialListPanel() {
@@ -388,7 +399,7 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 			setAvailableProviders();
 			if (event instanceof LoginEvent
 			        && ((LoginEvent) event).isSuccessful()) {
-
+				sync();
 				this.materialListPanel.loadUsersMaterials();
 			} else if (event instanceof LogOutEvent) {
 				this.materialListPanel.removeUsersMaterials();

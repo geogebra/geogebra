@@ -21,6 +21,7 @@ import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.URL;
 import geogebra.web.gui.CustomizeToolbarGUI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.LanguageGUI;
@@ -609,8 +610,9 @@ public class AppWapplet extends AppW {
 	protected void initGoogleDriveEventFlow() {
 
 		googleDriveOperation = new GoogleDriveOperationW(this);
-
-		if (getNetworkOperation().isOnline()) {
+		String state = URL.getQueryParameterAsString("state");
+		if (getNetworkOperation().isOnline() && state != null
+		        && !"".equals(state)) {
 			googleDriveOperation.initGoogleDriveApi();
 		}
 

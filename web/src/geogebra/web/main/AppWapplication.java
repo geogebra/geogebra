@@ -17,6 +17,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
+import geogebra.html5.util.URL;
 import geogebra.web.gui.CustomizeToolbarGUI;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.LanguageGUI;
@@ -468,8 +469,9 @@ public class AppWapplication extends AppW {
 	protected void initGoogleDriveEventFlow() {
 
 		googleDriveOperation = new GoogleDriveOperationW(this);
-
-		if (getNetworkOperation().isOnline()) {
+		String state = URL.getQueryParameterAsString("state");
+		if (getNetworkOperation().isOnline() && state != null
+		        && !"".equals(state)) {
 			googleDriveOperation.initGoogleDriveApi();
 		}
 

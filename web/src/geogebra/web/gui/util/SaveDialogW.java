@@ -110,9 +110,9 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * 
 	 * Creates a new GeoGebraFileChooser Window
 	 */
-	public SaveDialogW(final App app) {
+	public SaveDialogW(final AppW app) {
 		super();
-		this.app = (AppW) app;
+		this.app = app;
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);
 		this.saveCallback = new SaveCallback(this.app);
@@ -133,17 +133,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				app.setDefaultCursor();
 				dontSaveButton.setEnabled(true);
 				title.setEnabled(true);
-				((AppW) app).closePopups();
+				app.closePopups();
 			}
 		});
 		this.addDomHandler(new ClickHandler(){
 
 			@Override
             public void onClick(ClickEvent event) {
-				((AppW) app).closePopups();
+				app.closePopups();
 	            
             }}, ClickEvent.getType());
 		app.getLoginOperation().getView().add(this);
+		if (app.getGoogleDriveOperation() != null) {
+			app.getGoogleDriveOperation().initGoogleDriveApi();
+		}
 	}
 	
 	MaterialCallback initMaterialCB(final String base64, final String url) {
