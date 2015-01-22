@@ -74,7 +74,7 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 		// add(btnRounding);
 //		add(btnDataSource);
-		addSeparator();
+		// addSeparator();
 		add(btnShowStatistics);
 		add(btnShowData);
 		add(btnShowPlot2);
@@ -155,18 +155,20 @@ public class DataAnalysisStyleBarW extends StyleBarW implements ClickHandler {
 
 	}
 
+	@Override
 	public void setLabels() {
+		super.setLabels();
 		btnShowStatistics.setToolTipText(app.getMenu("ShowStatistics"));
 		btnShowData.setToolTipText(app.getMenu("ShowData"));
 		btnShowPlot2.setToolTipText(app.getMenu("ShowPlot2"));
 		btnSwapXY.setText(getSwapXYString());
-
 	}
 
 	private String getSwapXYString() {
 		return app.getMenu("Column.X") + " \u21C6 "
 				+ app.getMenu("Column.Y");
 	}
+
 	public void actionPerformed(Object source) {
 		DataAnalysisModel model = daView.getModel();
 	

@@ -357,7 +357,7 @@ public abstract class DockPanelW extends ResizeComposite implements
 
 	private VerticalPanel componentPanel;
 
-	StandardButton toggleStyleBarButton;
+	protected StandardButton toggleStyleBarButton;
 
 	private ResourcePrototype viewImage;
 

@@ -570,13 +570,13 @@ public interface AppResources extends ClientBundleWithLookup {
 	ImageResource normal_overlay();*/
 	
 
-	@Source("geogebra/web/gui/images/dataview-showstatistics.png")
+	@Source("icons/png/web/stylingbar/stylingbar_data_analysis_show_statistics.png")
 	ImageResource dataview_showstatistics();
 
-	@Source("geogebra/web/gui/images/dataview-showdata.png")
+	@Source("icons/png/web/stylingbar/stylingbar_data_analysis_show_data.png")
 	ImageResource dataview_showdata();
 
-	@Source("geogebra/web/gui/images/dataview-showplot2.png")
+	@Source("icons/png/web/stylingbar/stylingbar_data_analysis_show_2nd_plot.png")
 	ImageResource dataview_showplot2();
 
 	/*
