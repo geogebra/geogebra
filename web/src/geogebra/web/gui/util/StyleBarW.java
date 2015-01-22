@@ -133,12 +133,20 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			viewButton.getMyTable().setWidget(1, 0, separator);
 		}
 			
-	    viewButton.addClickHandler(new ClickHandler() {
-	    	@Override
+		viewButton.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
-				ImageOrText icon = new ImageOrText();
-				icon.setUrl(AppResources.INSTANCE.dots_active().getSafeUri().asString());
-				viewButton.setFixedIcon(icon);
+				if (!viewButton.getMyPopup().isVisible()) {
+					ImageOrText icon = new ImageOrText();
+					icon.setUrl(AppResources.INSTANCE.dots().getSafeUri()
+					        .asString());
+					viewButton.setFixedIcon(icon);
+				} else {
+					ImageOrText icon = new ImageOrText();
+					icon.setUrl(AppResources.INSTANCE.dots_active()
+					        .getSafeUri().asString());
+					viewButton.setFixedIcon(icon);
+				}
 			}
 		});
 
