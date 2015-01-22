@@ -19,6 +19,7 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	private static int mode;
 	private PointStyleModel model;
 	private boolean euclidian3D;
+
 	public static PointStylePopup create(AppW app, int iconHeight, int mode, boolean hasSlider, PointStyleModel model) {
 		EuclidianStyleBarStatic.pointStyleArray = EuclidianView.getPointStyles();
 		
@@ -31,19 +32,18 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 		final GDimensionW pointStyleIconSize = new GDimensionW(20, iconHeight);
 		ImageOrText[] pointStyleIcons = new ImageOrText[EuclidianStyleBarStatic.pointStyleArray.length];
 		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
-			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
-					EuclidianStyleBarStatic.pointStyleArray[i], 4, pointStyleIconSize, geogebra.common.awt.GColor.BLACK,
-					null);
+			pointStyleIcons[i] = GeoGebraIcon
+			        .createPointStyleIcon(EuclidianStyleBarStatic.pointStyleArray[i]);
 
-		return new PointStylePopup((AppW) app, pointStyleIcons, 2, -1,
-				pointStyleIconSize, geogebra.common.gui.util.SelectionTable.MODE_ICON,
- true,
+		return new PointStylePopup(app, pointStyleIcons, 2, -1,
+		        pointStyleIconSize,
+		        geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
 		        hasSlider, model);
 	}
 
 	public static PointStylePopup create(AppW app, int mode,
 	        PointStyleModel model) {
-		return new PointStylePopup((AppW) app, null, 1, -1, null,
+		return new PointStylePopup(app, null, 1, -1, null,
 		        geogebra.common.gui.util.SelectionTable.MODE_ICON, false, true,
 		        model);
 	}
@@ -105,13 +105,11 @@ public class PointStylePopup extends PopupMenuButton implements IComboListener {
 	@Override
 	public ImageOrText getButtonIcon() {
 		if (getSelectedIndex() > -1) {
-			return GeoGebraIcon.createPointStyleIcon(
-					EuclidianStyleBarStatic.pointStyleArray[this.getSelectedIndex()],
-					this.getSliderValue(), iconSize,
-					geogebra.common.awt.GColor.BLACK, null);
+			return GeoGebraIcon
+			        .createPointStyleIcon(EuclidianStyleBarStatic.pointStyleArray[this
+			                .getSelectedIndex()]);
 		}
-		return GeoGebraIcon.createEmptyIcon(iconSize.getWidth(),
-				iconSize.getHeight());
+		return new ImageOrText();
 	}
 	
 	@Override 

@@ -25,7 +25,6 @@ import geogebra.common.main.OptionType;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.awt.GFontW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.AppResources;
@@ -925,7 +924,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			@Override
 			public ImageOrText getButtonIcon() {
 				return GeoGebraIcon.createTextSymbolIcon("A",
-				        (GFontW) app.getPlainFontCommon(), textColorIconSize,
 				        getSelectedColor(), null);
 			}
 
@@ -1012,8 +1010,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		};
 		btnTextSize.addPopupHandler(this);
 		btnTextSize.setKeepVisible(false);
-		btnTextSize.setIcon(GeoGebraIcon.createResourceImageIcon(app,
-		        StyleBarResources.INSTANCE.font_size(), 1, null));
+		btnTextSize
+		        .setIcon(GeoGebraIcon
+		                .createResourceImageIcon(StyleBarResources.INSTANCE
+		                        .font_size()));
 
 	}
 

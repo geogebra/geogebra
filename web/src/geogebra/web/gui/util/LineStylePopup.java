@@ -63,7 +63,7 @@ public class LineStylePopup extends PopupMenuButton  {
 
 		}
 
-		return GeoGebraIcon.createEmptyIcon(32,32);
+		return new ImageOrText();
 	}
 
 	@Override 

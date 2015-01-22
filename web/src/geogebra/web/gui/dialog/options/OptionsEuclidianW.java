@@ -319,7 +319,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			final ImageOrText[] iconArray = new ImageOrText[EuclidianOptionsModel.getAxesStyleLength()];
 			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i], iconSize);
+				iconArray[i] = GeoGebraIcon
+				        .createAxesStyleIcon(EuclidianStyleConstants.lineStyleOptions[i]);
 			}
 			
 			axesStylePopup = new PopupMenuButton(app, iconArray, -1, 1, iconSize,

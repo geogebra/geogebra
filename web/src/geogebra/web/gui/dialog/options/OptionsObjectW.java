@@ -2776,8 +2776,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			final ImageOrText[] iconArray = new ImageOrText[iconList.size()];
 			iconArray[0] = GeoGebraIcon.createNullSymbolIcon(24, 24);
 			for (int i = 1; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createResourceImageIcon(app,
-						iconList.get(i), 1.0f, new GDimensionW(32, 32));
+				iconArray[i] = GeoGebraIcon.createResourceImageIcon(iconList
+				        .get(i));
 			}
 			//			// ============================================
 			//
@@ -3091,7 +3091,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			final ImageOrText[] iconArray = new ImageOrText[DecoAngleModel.getDecoTypeLength()];
 			GDimensionW iconSize = new GDimensionW(80, 30);
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i, iconSize);
+				iconArray[i] = GeoGebraIcon.createDecorAngleIcon(i);
 			}
 			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1, iconSize,
 					geogebra.common.gui.util.SelectionTable.MODE_ICON){
@@ -3146,7 +3146,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			final ImageOrText[] iconArray = new ImageOrText[DecoSegmentModel.getDecoTypeLength()];
 			GDimensionW iconSize = new GDimensionW(130,	app.getGUIFontSize() + 6);
 			for (int i = 0; i < iconArray.length; i++) {
-				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i, iconSize);
+				iconArray[i] = GeoGebraIcon.createDecorSegmentIcon(i);
 			}
 			decoPopup = new PopupMenuButton(getAppW(), iconArray, -1, 1, iconSize,
 					geogebra.common.gui.util.SelectionTable.MODE_ICON){

@@ -4,10 +4,7 @@ package geogebra.web.gui.util;
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GRenderingHints;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
-import geogebra.html5.awt.GDimensionW;
-import geogebra.html5.awt.GFontW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.web.css.GuiResources;
@@ -31,16 +28,12 @@ public class GeoGebraIcon extends BasicIcons{
 	public static ImageOrText createLineStyleIcon(int dashStyle, int thickness, GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		if(dashStyle >= lineStyleIcons.length){
-			return new ImageOrText();
+			return ret;
 		}
 		ret.setUrl(lineStyleIcons[dashStyle].getSafeUri().asString());
 		return ret;
     }
-	
-	public static ImageOrText createEmptyIcon(int width, int height){
 
-		return new ImageOrText();//TODO
-	}
 	private static StyleBarResources LafIcons = StyleBarResources.INSTANCE;
 	private static ImageResource[] pointStyleIcons =  {
 		(LafIcons.point_full()),
@@ -64,26 +57,27 @@ public class GeoGebraIcon extends BasicIcons{
 		(LafIcons.line_dashed_short()),
 		(LafIcons.line_dotted()),
 		(LafIcons.line_dash_dot()) };
+	
 	/**
 	 * @param pointStyle
-	 * @param pointSize
-	 * @param iconSize
-	 * @param fgColor
-	 * @param bgColor
-	 * @return
+	 *            int
+	 * @return {@link ImageOrText}
 	 */
-	public static ImageOrText createPointStyleIcon(int pointStyle, int pointSize, GDimensionW iconSize, GColor fgColor, GColor bgColor) {
+	public static ImageOrText createPointStyleIcon(int pointStyle) {
 		ImageOrText ret = new ImageOrText();
 		ret.setUrl(pointStyleIcons[pointStyle].getSafeUri().asString());
 		return ret;
-    
     }
 	
+	/**
+	 * @param pointStyle
+	 *            int
+	 * @return {@link ImageOrText}
+	 */
 	public static ImageOrText createGridStyleIcon(int pointStyle) {
 		ImageOrText ret = new ImageOrText();
 		ret.setUrl(gridStyleIcons[pointStyle].getSafeUri().asString());
 		return ret;
-    
     }
 	
 	/**
@@ -110,7 +104,18 @@ public class GeoGebraIcon extends BasicIcons{
 		return ret;
 	}
 
-	public static ImageOrText createTextSymbolIcon(String symbol,GFontW font, GDimensionW iconSize, GColor fgColor, GColor bgColor){
+	/**
+	 * 
+	 * @param symbol
+	 *            {@code String}
+	 * @param fgColor
+	 *            {@link GColor}
+	 * @param bgColor
+	 *            {@link GColor}
+	 * @return {@link ImageOrText}
+	 */
+	public static ImageOrText createTextSymbolIcon(String symbol,
+	        GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		ret.setText(symbol);
 		ret.setFgColor(fgColor);
@@ -118,6 +123,13 @@ public class GeoGebraIcon extends BasicIcons{
 		return ret;
 	}
 	
+	/**
+	 * @param width
+	 *            {@code int}
+	 * @param height
+	 *            {@code int}
+	 * @return {@link ImageOrText}
+	 */
 	public static ImageOrText createNullSymbolIcon(int width, int height){
 
 		Canvas c = getTmpCanvas(width, height);
@@ -134,21 +146,23 @@ public class GeoGebraIcon extends BasicIcons{
 		return new ImageOrText();
 	}
 
-	public static ImageOrText createFileImageIcon(App app, String url, float alpha, GDimensionW iconSize){
-
-		ImageOrText ret = new ImageOrText();
-		ret.setUrl(url);
-		return ret;
-	}
-
-	public static ImageOrText createResourceImageIcon(App app,
-            ImageResource res, float alpha, GDimensionW dim) {
+	/**
+	 * @param res
+	 *            {@link ImageResource}
+	 * @return {@link ImageOrText}
+	 */
+	public static ImageOrText createResourceImageIcon(ImageResource res) {
 		ImageOrText ret = new ImageOrText();
 		ret.setUrl(res.getSafeUri().asString());
 	    return ret;
     }
 
-	public static ImageOrText createDecorAngleIcon(int id, GDimensionW iconSize){
+	/**
+	 * @param id
+	 *            {@code int}
+	 * @return {@link ImageOrText}
+	 */
+	public static ImageOrText createDecorAngleIcon(int id) {
 		ImageOrText ret = new ImageOrText();
 		ImageResource url = null;
 		switch(id){
@@ -183,7 +197,12 @@ public class GeoGebraIcon extends BasicIcons{
 
 	}
 
-	public static ImageOrText createDecorSegmentIcon(int id, GDimensionW iconSize) {
+	/**
+	 * @param id
+	 *            {@code int}
+	 * @return {@link ImageOrText}
+	 */
+	public static ImageOrText createDecorSegmentIcon(int id) {
 		ImageOrText ret = new ImageOrText();
 		ImageResource url = null;
 
@@ -218,7 +237,12 @@ public class GeoGebraIcon extends BasicIcons{
 
     }
 
-	public static ImageOrText createAxesStyleIcon(int id, GDimensionW iconSize) {
+	/**
+	 * @param id
+	 *            {@code int}
+	 * @return {@link ImageOrText}
+	 */
+	public static ImageOrText createAxesStyleIcon(int id) {
 		ImageOrText ret = new ImageOrText();
 		ImageResource url = null;
 		switch(id){
