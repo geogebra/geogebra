@@ -46,8 +46,6 @@ public class CmdElement extends CommandProcessor {
 				GeoElement[] ret = { algo.getElement() };
 				return ret;
 			}
-			App.printStacktrace(arg[0]);
-			App.printStacktrace(arg[1]);
 			throw argErr(app, c.getName(), getBadArg(ok, arg));
 
 		default:
@@ -55,7 +53,6 @@ public class CmdElement extends CommandProcessor {
 			// list
 			GeoNumberValue[] nvs = new GeoNumberValue[n - 1];
 			if (!arg[0].isGeoList()) {
-				App.printStacktrace(arg[0]);
 				throw argErr(app, c.getName(), arg[0]);
 			}
 			for (int i = 1; i < n; i++) {
