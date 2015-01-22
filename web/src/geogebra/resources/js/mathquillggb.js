@@ -353,8 +353,33 @@ var manageTextarea = (function() {
 
     function popText(callback) {
       var text = textarea.val();
-      textarea.val('');
-      if (text) callback(text);
+      if ((text !== undefined) && (text !== '')) {
+    	// something really entered
+    	if (text === '^') {
+    	  // in IE the two hats come separately
+    	  // in Firefox keypress will contain hat-prefix
+    	  // even if textarea.val('') was called,
+    	  // so in Firefox, onehat is undefined
+    	  if (textarea.onehat !== undefined) {
+    		delete textarea.onehat;
+            textarea.val('');
+    	  } else {
+    	    textarea.onehat = true;
+            textarea.val('');
+            callback('^');
+    	  }
+    	} else {
+          if (textarea.onehat !== undefined) {
+        	delete textarea.onehat;
+          }
+          // no ^ hat character, do the general case
+    	  // or even in case of ^2 this is the way to go
+    	  // to be cross-browser...
+          textarea.val('');
+          callback(text);
+    	}
+      }
+      // else textarea.val(''); do not do it to avoid deleting one hat
     }
 
     function handleKey() {
