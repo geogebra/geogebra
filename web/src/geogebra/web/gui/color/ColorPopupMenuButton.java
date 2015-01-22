@@ -15,6 +15,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 
 public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandler {
 
+	private static final int NUM_OF_BUTTONS = 27;
 	public static final int COLORSET_DEFAULT = 0;
 	public static final int COLORSET_BGCOLOR = 1;
 	private int colorSetType;
@@ -25,6 +26,16 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	private boolean hasSlider;
 	private GDimensionW iconSize;
 
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 * @param iconSize
+	 *            {@link GDimensionW}
+	 * @param colorSetType
+	 *            {@code int}
+	 * @param hasSlider
+	 *            {@code boolean}
+	 */
 	public ColorPopupMenuButton(AppW app, GDimensionW iconSize, int colorSetType, boolean hasSlider) {
 
 		super(app, createDummyIcons(iconSize), -1, 9, iconSize,
@@ -43,7 +54,6 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			}
 		}
 
-
 		getMySlider().setMinimum(0);
 		getMySlider().setMaximum(100);
 		getMySlider().setMajorTickSpacing(25);
@@ -51,31 +61,42 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		setSliderValue(100);
 		setSliderVisible(hasSlider);
 		updateColorTable();	
-		//addActionListener(this);
 		setKeepVisible(false);
 		getMyTable().removeDefaultStyle();
 	}
 
-	public void setSliderVisible(boolean visible) {
+	/**
+	 * @param visible
+	 *            {@code boolean}
+	 */
+	protected void setSliderVisible(boolean visible) {
 		hasSlider = visible;
 		getMySlider().setVisible(hasSlider);
-
 	}
 
-	public void updateColorTable(){
-		getMyTable().populateModel(getColorSwatchIcons(colorSet, getSliderValue()/100f, iconSize, colorSetType));
+	protected void updateColorTable() {
+		getMyTable()
+		        .populateModel(
+		                getColorSwatchIcons(colorSet, getSliderValue() / 100f,
+		                        iconSize));
 	}
 
 	@Override
 	public ImageOrText getButtonIcon() {
 		ImageOrText icon = super.getButtonIcon();
 		if (icon == null) {
-			icon = GeoGebraIcon.createColorSwatchIcon( getSliderValue()/100f, iconSize, defaultColor, null);
+			icon = GeoGebraIcon.createColorSwatchIcon(getSliderValue() / 100f,
+			        defaultColor, null);
 		}
 		return icon;
 	}
 
-	public int getColorIndex(GColor color){
+	/**
+	 * @param color
+	 *            {@link GColor}
+	 * @return {@code int} the index of the given color
+	 */
+	protected int getColorIndex(GColor color) {
 		int index = -1;
 
 		if(color == null && colorSetType == COLORSET_BGCOLOR){
@@ -91,6 +112,9 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 	}
 
 
+	/**
+	 * @return the selected {@link GColor color}
+	 */
 	public geogebra.common.awt.GColor getSelectedColor(){
 		int index = getSelectedIndex();
 		if(index <= -1) {
@@ -106,10 +130,10 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return GeoGebraColorConstants.getPopupArray(colorSetType);
 	}
 
-	public void setDefaultColor(float alpha, geogebra.common.awt.GColor gc) {
+	protected void setDefaultColor(float alpha, geogebra.common.awt.GColor gc) {
 		defaultColor = gc;
 		if(gc!=null){
-			this.setIcon(GeoGebraIcon.createColorSwatchIcon( alpha, iconSize,gc, null));
+			this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha, gc, null));
 			this.getElement().getStyle().setBorderColor(gc.toString());
 		}
 		else {
@@ -117,10 +141,6 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			this.getElement().getStyle().setBorderColor(GColor.black.toString());
 		}
 	}
-
-	/*public void setIcon(CanvasElement ic) {
-	    super.setIcon(ic);
-    }*/
 
 	private String[] getToolTipArray(){
 		String[] toolTipArray = new String[colorSet.length];
@@ -134,21 +154,24 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 		return toolTipArray;
 	}
 
-	private static ImageOrText[] getColorSwatchIcons(geogebra.common.awt.GColor[] colorArray, float alpha, GDimensionW iconSize, int colorSetType){
+	private static ImageOrText[] getColorSwatchIcons(
+	        geogebra.common.awt.GColor[] colorArray, float alpha,
+	        GDimensionW iconSize) {
 		ImageOrText[] a = new ImageOrText[colorArray.length];
 		for(int i = 0; i < colorArray.length; i++)
 			if(colorArray[i] != null) {
-				a[i] = GeoGebraIcon.createColorSwatchIcon( alpha,  iconSize, colorArray[i] , null);
+				a[i] = GeoGebraIcon.createColorSwatchIcon(alpha, colorArray[i],
+				        null);
 			} else {
 				a[i] = GeoGebraIcon.createNullSymbolIcon(iconSize.getWidth(), iconSize.getHeight());
 			}
 		return a;
 	}
 
-	private static  ImageOrText[] createDummyIcons( GDimensionW iconSize){
+	private static ImageOrText[] createDummyIcons(GDimensionW iconSize) {
 
-		ImageOrText[] a = new ImageOrText[27];
-		for(int i = 0; i < 27; i++) {
+		ImageOrText[] a = new ImageOrText[NUM_OF_BUTTONS];
+		for (int i = 0; i < NUM_OF_BUTTONS; i++) {
 			a[i] = GeoGebraIcon.createEmptyIcon(iconSize.getWidth(), iconSize.getHeight());
 		}
 		return a;
@@ -172,7 +195,4 @@ public class ColorPopupMenuButton extends PopupMenuButton implements ClickHandle
 			setSelectedIndex(si);
 		}
     }
-
-	
-
 }

@@ -86,7 +86,17 @@ public class GeoGebraIcon extends BasicIcons{
     
     }
 	
-	public static ImageOrText createColorSwatchIcon(float alpha, GDimensionW iconSize, GColor fgColor, GColor bgColor){
+	/**
+	 * @param alpha
+	 *            {@code float}
+	 * @param fgColor
+	 *            {@link GColor}
+	 * @param bgColor
+	 *            {@link GColor}
+	 * @return {@link ImageOrText}
+	 */
+	public static ImageOrText createColorSwatchIcon(float alpha,
+	        GColor fgColor, GColor bgColor) {
 		ImageOrText ret = new ImageOrText();
 		float[] rgb = new float[3];
 		if(fgColor!=null){

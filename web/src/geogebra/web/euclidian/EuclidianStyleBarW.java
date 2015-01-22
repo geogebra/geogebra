@@ -881,7 +881,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 					// non-standard color
 					if (index == -1) {
 						this.setIcon(GeoGebraIcon.createColorSwatchIcon(alpha,
-						        bgColorIconSize, geoColor, null));
+						        geoColor, null));
 					}
 				}
 			}

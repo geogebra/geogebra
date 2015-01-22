@@ -2,6 +2,7 @@ package geogebra.web.gui.view.spreadsheet;
 
 import geogebra.common.awt.GColor;
 import geogebra.common.awt.GPoint;
+import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.spreadsheet.CellRange;
 import geogebra.common.gui.view.spreadsheet.MyTableInterface;
 import geogebra.common.gui.view.spreadsheet.SpreadsheetViewInterface;
@@ -34,14 +35,8 @@ import com.google.gwt.user.client.ui.RequiresResize;
 //import geogebra.web.gui.inputfield.MyTextField;
 //import geogebra.web.gui.view.Gridable;
 
-public class SpreadsheetViewW implements SpreadsheetViewInterface, /*
-																		 * ComponentListener
-																		 * ,
-																		 * FocusListener
-																		 * ,
-																		 * Gridable
-																		 * ,
-																		 */ SettingListener, RequiresResize {
+public class SpreadsheetViewW implements SpreadsheetViewInterface,
+        SettingListener, RequiresResize, SetLabels {
 
 	private static final long serialVersionUID = 1L;
 
@@ -1583,4 +1578,10 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface, /*
     }
 
 
+	@Override
+	public final void setLabels() {
+		if (this.styleBar != null) {
+			styleBar.setLabels();
+		}
+	}
 }

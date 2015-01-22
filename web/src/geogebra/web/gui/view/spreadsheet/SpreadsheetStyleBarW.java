@@ -24,63 +24,44 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 
+/**
+ * Stylebar for SpreadsheetView
+ * 
+ */
 public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
         ValueChangeHandler<Boolean>, PopupMenuHandler {
-	private static final long serialVersionUID = 1L;
-	private SpreadsheetViewW view;
+
+	private final int ICON_SIZE = 18;
+
 	private MyTableW table;
 	private CellFormat formatHandler;
-//	private ArrayList<CellRange> selectedCells;
 
-	private MyToggleButton2 btnFormulaBar;
 	private MyToggleButton2 btnLeftAlign, btnCenterAlign, btnRightAlign;
-	private ColorPopupMenuButton btnBgColor;
 	private MyToggleButton2 btnBold;
 	private MyToggleButton2 btnItalic;
+	private ColorPopupMenuButton btnBgColor;
+
 	private boolean allowActionPerformed = true;
-	private PopupMenuButton btnBorderStyle;
 
-	protected int iconHeight = 18;
-	protected int iconWidth = 18;
-
-	private GDimensionW iconSize = new GDimensionW(iconWidth, iconHeight);
-	
-	// ?//private Dimension iconDimension = new Dimension(16, iconHeight);
-
+	/**
+	 * @param view
+	 *            {@link SpreadsheetViewW}
+	 */
 	public SpreadsheetStyleBarW(SpreadsheetViewW view) {
 		super(view.getApplication(), App.VIEW_SPREADSHEET);
 
-		this.view = view;
 		this.table = (MyTableW) view.getSpreadsheetTable();
 		this.formatHandler = (CellFormat) table.getCellFormatHandler();
-	//	this.selectedCells = table.selectedCellRanges;
 
 		// create and add the buttons
 		createButtons();
+		addButtons();
 
-		// add(btnFormulaBar);
-		// addSeparator();
-
-		add(btnBold);
-		add(btnItalic);
-
-		addSeparator();
-		add(btnLeftAlign);
-		add(btnCenterAlign);
-		add(btnRightAlign);
-
-		addSeparator();
-		add(btnBgColor);
-
-		// addSeparator();
-		// add(btnBorderStyle);
-
-		addMenuButton();
-		addViewButton();
 		updateStyleBar();
-		addStyleName("SpreadsheetStyleBar");
 
+		addStyleName("SpreadsheetStyleBar");
 		optionType = OptionType.SPREADSHEET;
+		setToolTips();
 	}
 
 	private void createButtons() {
@@ -105,67 +86,54 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		        StyleBarResources.INSTANCE.stylingbar_spreadsheet_align_right(),
 		        this);
 
-		final GDimensionW bgColorIconSize = new GDimensionW(iconWidth, iconHeight);
+		final GDimensionW bgColorIconSize = new GDimensionW(ICON_SIZE,
+		        ICON_SIZE);
 
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 		        ColorPopupMenuButton.COLORSET_BGCOLOR, false);
-		
 		btnBgColor.setKeepVisible(false);
 		btnBgColor.setSelectedIndex(7);
 		btnBgColor.addActionListener(this);	
 		btnBgColor.addPopupHandler(this);
-		
-		/*
-		 * ? btnFormulaBar = new
-		 * MyToggleButton(app.getImageIcon("formula_bar.png"), iconHeight); //
-		 * btnFormulaBar
-		 * .setSelectedIcon(app.getImageIcon("formula_bar_hide.png"));
-		 * btnFormulaBar.addActionListener(this);
-		 * 
-		 * 
-		 * final Dimension bgColorIconSize = new Dimension(18, iconHeight);
-		 * btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
-		 * ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
-		 * 
-		 * private static final long serialVersionUID = 1L;
-		 * 
-		 * @Override public ImageIcon getButtonIcon() { Color c =
-		 * geogebra.awt.GColorD.getAwtColor(getSelectedColor()); if (c == null)
-		 * { return GeoGebraIcon.createNullSymbolIcon( bgColorIconSize.width,
-		 * bgColorIconSize.height); } return
-		 * GeoGebraIcon.createCellGridIcon(Color.DARK_GRAY, c); } };
-		 * btnBgColor.setKeepVisible(false); btnBgColor.setSelectedIndex(7); //
-		 * Light Purple btnBgColor.addActionListener(this);
-		 * 
-		 * ImageIcon[] borderStyleIcon = { app.getImageIcon("border_none.png"),
-		 * app.getImageIcon("border_frame.png"),
-		 * app.getImageIcon("border_inside.png"),
-		 * app.getImageIcon("border_all.png"),
-		 * app.getImageIcon("border_top.png"),
-		 * app.getImageIcon("border_bottom.png"),
-		 * app.getImageIcon("border_left.png"),
-		 * app.getImageIcon("border_right.png") };
-		 * 
-		 * btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2, -1,
-		 * iconDimension, geogebra.common.gui.util.SelectionTable.MODE_ICON);
-		 * btnBorderStyle.setKeepVisible(false);
-		 * btnBorderStyle.setSelectedIndex(1);
-		 * btnBorderStyle.addActionListener(this);
-		 */
+	}
+
+	private void addButtons() {
+		add(btnBold);
+		add(btnItalic);
+
+		addSeparator();
+
+		add(btnLeftAlign);
+		add(btnCenterAlign);
+		add(btnRightAlign);
+
+		addSeparator();
+
+		add(btnBgColor);
+
+		addMenuButton();
+		addViewButton();
 	}
 
 	@Override
 	public void setLabels() {
+		super.setLabels();
+		// set labels for buttons with text e.g. button "bold" or "italic"
+		this.btnBold.getDownFace().setText(app.getMenu("Bold.Short"));
+		this.btnItalic.getDownFace().setText(app.getMenu("Italic.Short"));
+		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
+		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
+		// set labels for ToolTips
+		setToolTips();
+	}
 
+	private void setToolTips() {
 		Localization loc = app.getLocalization();
-
-		// btnFormulaBar.setToolTipText(loc.getMenu("ShowInputField"));
 
 		btnBold.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.Italic"));
-		// btnBorderStyle.setToolTipText(loc.getPlainTooltip("stylebar.Border"));
 		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
 		btnLeftAlign.setToolTipText(loc.getPlainTooltip(
 		        "stylebar.AlignLeft"));
@@ -184,14 +152,12 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 		handleEventHandlers(event.getSource());
 	}
 
-	public void handleEventHandlers(Object source) {
+	private void handleEventHandlers(Object source) {
 
 		if (!allowActionPerformed)
 			return;
 		
 		ArrayList<CellRange> selectedCells = table.getSelectedCellRanges();
-
-		// Object source = e.getSource();
 
 		if (source == btnLeftAlign || source == btnCenterAlign
 		        || source == btnRightAlign) {
@@ -236,7 +202,8 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			formatHandler.setFormat(selectedCells, CellFormat.FORMAT_BGCOLOR, bgCol);
 			
 			// set the color
-			ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, iconSize, null, bgCol);
+			ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, null,
+			        bgCol);
 			data.applyToLabel(btnBgColor.getButtonContent());
 			
 			// set color for the actual geos
@@ -249,34 +216,9 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 					geo.updateRepaint();
 				}
 			}		  
-
 		}
-
-		else if (source == btnBorderStyle) {
-			formatHandler.setBorderStyle(selectedCells,
-			        btnBorderStyle.getSelectedIndex());
-		}
-
-		else if (source == btnBorderStyle) {
-			formatHandler.setBorderStyle(selectedCells.get(0),
-			        btnBorderStyle.getSelectedIndex());
-		}
-
-		/**
-		 * else if (source == btnFormulaBar) {
-		 * app.getSettings().getSpreadsheet()
-		 * .setShowFormulaBar(btnFormulaBar.isSelected()); if
-		 * (view.getSpreadsheetTable().isSelectNone())
-		 * view.getSpreadsheetTable().setSelection(0, 0);
-		 * view.updateFormulaBar(); }
-		 */
-
-		// this.requestFocus();
 		app.storeUndoInfo();
-
 		table.updateCellFormat(selectedCells);
-
-		//table.repaint();
 	}
 
 	public void updateStyleBar() {
@@ -310,19 +252,17 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 			btnRightAlign.setSelected(align == CellFormat.ALIGN_RIGHT);
 			btnCenterAlign.setSelected(align == CellFormat.ALIGN_CENTER);
 		}
-
-		// btnFormulaBar.setSelected(view.getShowFormulaBar());
 		
 		// update the color
 		GColor color = (GColor) formatHandler.getCellFormat(range, CellFormat.FORMAT_BGCOLOR);
 		if (color == null) {
 			color = GColor.WHITE;
 		}
-		ImageOrText data = GeoGebraIcon.createColorSwatchIcon(1.0f, iconSize, null, color);
+		ImageOrText data = GeoGebraIcon
+		        .createColorSwatchIcon(1.0f, null, color);
 		data.applyToLabel(btnBgColor.getButtonContent());
 
 		allowActionPerformed = true;
-
 	}
 
 	@Override
@@ -334,37 +274,4 @@ public class SpreadsheetStyleBarW extends StyleBarW implements ClickHandler,
 	public void fireActionPerformed(PopupMenuButton actionButton) {
 		handleEventHandlers(actionButton);
     }
-
-
-	/*
-	 * 
-	 * private void setTraceBorder(){
-	 * 
-	 * CellRange cr = new CellRange(table);
-	 * 
-	 * 
-	 * cr.setCellRange(t.traceColumn1, t.traceRow1, t.traceColumn2,
-	 * t.traceRow2); table.getCellFormatHandler().setFormat(cr,
-	 * CellFormat.FORMAT_TRACING, CellFormat.BORDER_TOP);
-	 * 
-	 * if(t.doRowLimit){ cr.setCellRange(t.traceColumn1, t.traceRow2,
-	 * t.traceColumn2, t.traceRow2); table.getCellFormatHandler().setFormat(cr,
-	 * CellFormat.FORMAT_TRACING, CellFormat.BORDER_BOTTOM); }
-	 * 
-	 * if(t.doRowLimit){ cr.setCellRange(t.traceColumn1, t.traceRow1,
-	 * t.traceColumn1, t.traceRow2); }else{ cr.setCellRange(t.traceColumn1,
-	 * t.traceRow1, t.traceColumn1, view.MAX_ROWS); }
-	 * 
-	 * table.getCellFormatHandler().setFormat(cr, CellFormat.FORMAT_TRACING,
-	 * CellFormat.BORDER_LEFT);
-	 * 
-	 * if(t.doRowLimit){ cr.setCellRange(t.traceColumn2, t.traceRow1,
-	 * t.traceColumn2, t.traceRow2); }else{ cr.setCellRange(t.traceColumn2,
-	 * t.traceRow1, t.traceColumn2, view.MAX_ROWS); }
-	 * table.getCellFormatHandler().setFormat(cr, CellFormat.FORMAT_TRACING,
-	 * CellFormat.BORDER_RIGHT);
-	 * 
-	 * }
-	 */
-
 }
