@@ -20,6 +20,7 @@ import geogebra.common.euclidian.draw.DrawSlider;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidian.modes.ModeDelete;
+import geogebra.common.gui.view.data.PlotPanelEuclidianViewInterface;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -8500,8 +8501,7 @@ public abstract class EuclidianController {
 			app.getGuiManager().setFocusedPanel(event, false);
 			app.getGuiManager().mousePressedForPropertiesView();
 
-			App.debug("view.getViewID() = " + view.getViewID());
-			if (view.getViewID() == App.VIEW_PROBABILITY_CALCULATOR) {
+			if (view instanceof PlotPanelEuclidianViewInterface) {
 				setMode(EuclidianConstants.MODE_MOVE);
 			}
 		}
