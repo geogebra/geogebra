@@ -1263,6 +1263,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		        && this.generalToolbarDefinition != null) {
 			def = this.generalToolbarDefinition;
 		}
+		App.debug(toolbarID + ":" + def);
 		setToolBarDefinition(def);
 
 		if (this.toolbarID != toolbarID && toolbarPanel != null) {
@@ -1293,6 +1294,14 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 		}
 		generalToolbarDefinition = toolBarDefinition;
 		strCustomToolbarDefinition = toolBarDefinition;
+	}
+
+	public String getGeneralToolbarDefinition() {
+		// General definition is set to not null by applyPerspective, but anyway
+		if (this.generalToolbarDefinition == null) {
+			return this.getToolbarDefinition();
+		}
+		return this.generalToolbarDefinition;
 	}
 
 	@Override
