@@ -5,6 +5,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.main.Localization;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GFontW;
 import geogebra.html5.main.AppW;
@@ -52,6 +53,7 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		this.casView = view;
 		this.selectedRows = new ArrayList<GeoElement>();
 		initGUI();
+		setTooltips();
 		addStyleName("CASStyleBar");
 	}
 
@@ -311,5 +313,14 @@ public class CASStylebarW extends StyleBarW implements ClickHandler,
 		        app.getPlain("Text").substring(0, 1));
 		this.btnBold.getUpFace().setText(app.getMenu("Bold.Short"));
 		this.btnItalic.getUpFace().setText(app.getMenu("Italic.Short"));
+		setTooltips();
+	}
+
+	private void setTooltips() {
+		Localization loc = app.getLocalization();
+		btnUseAsText.setToolTipText(app.getMenu("CasCellUseAsText"));
+		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
+		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
+		btnTextColor.setToolTipText(loc.getPlainTooltip("stylebar.TextColor"));
 	}
 }
