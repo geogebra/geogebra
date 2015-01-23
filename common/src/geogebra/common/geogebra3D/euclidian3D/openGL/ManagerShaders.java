@@ -1,7 +1,9 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -109,6 +111,50 @@ public class ManagerShaders extends Manager {
 			this.n.setEmpty();
 			this.t.setEmpty();
 			this.c.setEmpty();
+		}
+		
+		/**
+		 * allocate memory for buffers (for direct write)
+		 * @param size vertices size
+		 */
+		public void allocateBuffers(int size){
+			App.debug("allocateBuffers: "+size);
+			v.allocate(size * 3);
+			n.allocate(size * 3);
+			length = 0;
+		}
+		
+		/**
+		 * put vertex values into buffer
+		 * @param x
+		 * @param y
+		 * @param z
+		 */
+		public void vertexDirect(float x, float y, float z){
+			v.put(x);
+			v.put(y);
+			v.put(z);
+			length++;
+		}
+		
+		/**
+		 * put normal values into buffer
+		 * @param x
+		 * @param y
+		 * @param z
+		 */
+		public void normalDirect(float x, float y, float z){
+			n.put(x);
+			n.put(y);
+			n.put(z);
+		}
+		
+		/**
+		 * ends geometry
+		 */
+		public void end(){
+			v.setLimit(length * 3);
+			n.setLimit(length * 3);
 		}
 
 		/**
@@ -270,6 +316,41 @@ public class ManagerShaders extends Manager {
 
 			currentGeometryIndex++;
 			geometriesLength++;
+		}
+		
+		/**
+		 * allocate buffers of current geometry
+		 * @param size memory size
+		 */
+		public void allocate(int size){
+			currentGeometry.allocateBuffers(size);
+		}
+		
+		/**
+		 * put vertex values into buffer
+		 * @param x
+		 * @param y
+		 * @param z
+		 */
+		public void vertexDirect(float x, float y, float z){
+			currentGeometry.vertexDirect(x, y, z);
+		}
+
+		/**
+		 * put normal values into buffer
+		 * @param x
+		 * @param y
+		 * @param z
+		 */
+		public void normalDirect(float x, float y, float z){
+			currentGeometry.normalDirect(x, y, z);
+		}
+		
+		/**
+		 * ends current geometry
+		 */
+		public void endGeometry(){
+			currentGeometry.end();
 		}
 
 		/**
@@ -582,5 +663,30 @@ public class ManagerShaders extends Manager {
 	 * @Override public void rectangleBounds(int x, int y, int z, int width, int
 	 * height){ getText().rectangleBounds(x, y, z, width, height); }
 	 */
+	
+	@Override
+	public void startGeometryDirect(Type type, int size){
+		App.debug("startGeometryDirect");
+		startGeometry(type);
+		currentGeometriesSet.allocate(size);
+	}
+	
+	@Override
+	protected void vertexDirect(float x, float y, float z){
+		//App.debug("vertexDirect");
+		currentGeometriesSet.vertexDirect(x, y, z);
+	}
+	
+	@Override
+	protected void normalDirect(float x, float y, float z){
+		//App.debug("normalDirect");
+		currentGeometriesSet.normalDirect(x, y, z);
+	}
+	
+	@Override
+	public void endGeometryDirect(){
+		App.debug("endGeometryDirect");
+		currentGeometriesSet.endGeometry();
+	}
 
 }

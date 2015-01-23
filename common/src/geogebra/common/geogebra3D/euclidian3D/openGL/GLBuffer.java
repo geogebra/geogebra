@@ -28,10 +28,6 @@ public interface GLBuffer {
 	 */
 	public void put(float value);
 	
-	/**
-	 * end of put values
-	 */
-	public void endOfPut();
 
 	/**
 	 * set this buffer with first values of array

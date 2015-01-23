@@ -148,8 +148,24 @@ abstract public class Manager {
 	abstract public void endList();
 
 	abstract public void startGeometry(Type type);
+	
+	/**
+	 * direct write in buffer mode
+	 * @param type geometry type
+	 * @param size number of vertices
+	 */
+	public void startGeometryDirect(Type type, int size){
+		startGeometry(type);
+	}
 
 	abstract public void endGeometry();
+	
+	/**
+	 * end current geometry (direct buffer mode)
+	 */
+	public void endGeometryDirect(){
+		endGeometry();
+	}
 
 	/**
 	 * start drawing polygons
@@ -281,6 +297,20 @@ abstract public class Manager {
 	abstract protected void vertex(float x, float y, float z);
 
 	/**
+	 * creates a vertex at coordinates (x,y,z) (direct buffer mode)
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord
+	 */
+	protected void vertexDirect(float x, float y, float z){
+		vertex(x, y, z);
+	}
+
+	/**
 	 * creates a vertex at coordinates (x,y,z)
 	 * 
 	 * @param x
@@ -299,6 +329,15 @@ abstract public class Manager {
 	 */
 	protected void vertex(Coords v) {
 		vertex((float) v.getX(), (float) v.getY(), (float) v.getZ());
+	}
+	
+	/**
+	 * creates a vertex at coordinates v (direct buffer mode)
+	 * 
+	 * @param v
+	 */
+	protected void vertexDirect(Coords v) {
+		vertexDirect((float) v.getX(), (float) v.getY(), (float) v.getZ());
 	}
 
 	/**
@@ -342,12 +381,35 @@ abstract public class Manager {
 	abstract protected void normal(float x, float y, float z);
 
 	/**
+	 * creates a normal at coordinates (x,y,z) (direct buffer mode)
+	 * 
+	 * @param x
+	 *            x coord
+	 * @param y
+	 *            y coord
+	 * @param z
+	 *            z coord
+	 */
+	protected void normalDirect(float x, float y, float z){
+		normal(x, y, z);
+	}
+
+	/**
 	 * creates a normal at coordinates n
 	 * 
 	 * @param n
 	 */
 	protected void normal(Coords n) {
 		normal((float) n.getX(), (float) n.getY(), (float) n.getZ());
+	}
+
+	/**
+	 * creates a normal at coordinates n (direct buffer mode)
+	 * 
+	 * @param n
+	 */
+	protected void normalDirect(Coords n) {
+		normalDirect((float) n.getX(), (float) n.getY(), (float) n.getZ());
 	}
 
 	/**

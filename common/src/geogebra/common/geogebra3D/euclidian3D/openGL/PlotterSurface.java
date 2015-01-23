@@ -287,19 +287,34 @@ public class PlotterSurface {
 
 		manager.setDummyTexture();
 
-		// manager.color(1f, 0f, 0f, 0.25f);
+	}
+	
+	/**
+	 * start triangles
+	 * @param size vertices size
+	 */
+	public void startTriangles(int size) {
+
+//		manager.startGeometry(Manager.Type.TRIANGLES);		
+		manager.startGeometryDirect(Manager.Type.TRIANGLES, size);
+
+		manager.setDummyTexture();
+
 	}
 
-	public void vertex(Coords p) {
-		manager.vertex(p);
+	public void vertexDirect(Coords p) {
+//		manager.vertex(p);
+		manager.vertexDirect(p);
 	}
 
-	public void normal(Coords n) {
-		manager.normal(n);
+	public void normalDirect(Coords n) {
+//		manager.normal(n);
+		manager.normalDirect(n);
 	}
 
-	public void endGeometry() {
-		manager.endGeometry();
+	public void endGeometryDirect() {
+//		manager.endGeometry();
+		manager.endGeometryDirect();
 	}
 
 	/**

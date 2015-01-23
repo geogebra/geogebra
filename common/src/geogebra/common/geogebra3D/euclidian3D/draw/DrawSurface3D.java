@@ -32,7 +32,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final short BOUNDARY_SPLIT = 10;
 
 	// max split array size ( size +=4 for one last split)
-	private static final int MAX_SPLIT = (int) Math.pow(2, 16);
+	private static final int MAX_SPLIT = (int) Math.pow(2, 11);
 
 	// draw array size ( size +=1 for one last draw)
 	private static final int MAX_DRAW = MAX_SPLIT;
@@ -211,11 +211,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			App.debug("split : "+time);
 		}
 
-//		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
-//				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
-//				"\nnext to split : "  + nextSplitIndex + 
-//				"\ncorner list size : " + cornerListIndex +
-//				"\nstill room left : "+stillRoomLeft);
+		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
+				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
+				"\nnext to split : "  + nextSplitIndex + 
+				"\ncorner list size : " + cornerListIndex +
+				"\nstill room left : "+stillRoomLeft);
 
 		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
@@ -225,7 +225,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surface.start(getReusableSurfaceIndex());
 
 		if (drawListIndex > 0 || waitingSplits) {
-			surface.startTriangles();
+			surface.startTriangles(CORNER_LIST_SIZE * 10);
 			for (int i = 0; i < drawListIndex; i++) {
 				drawList[i].draw(surface);
 			}
@@ -236,7 +236,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				nextSplit[i].drawAsNextToSplit(surface);
 			}
 
-			surface.endGeometry();
+			surface.endGeometryDirect();
 		}
 
 		setSurfaceIndex(surface.end());
@@ -1942,11 +1942,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			surface.startTrianglesWireFrame();
 			draw(surface);
-			surface.endGeometry();
+			surface.endGeometryDirect();
 
 			surface.startTrianglesWireFrameSurface();
 			draw(surface);
-			surface.endGeometry();
+			surface.endGeometryDirect();
 
 		}
 
@@ -2080,12 +2080,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords n0, Corner c1, Corner c2) {
 
-		surface.normal(n0);
-		surface.vertex(p0);
-		surface.normal(c2.normal);
-		surface.vertex(c2.p);
-		surface.normal(c1.normal);
-		surface.vertex(c1.p);
+		surface.normalDirect(n0);
+		surface.vertexDirect(p0);
+		surface.normalDirect(c2.normal);
+		surface.vertexDirect(c2.p);
+		surface.normalDirect(c1.normal);
+		surface.vertexDirect(c1.p);
 
 	}
 	
