@@ -143,6 +143,20 @@ public class DrawEquationWeb extends DrawEquation {
 			eqstring = "\\text{}";
 		}
 
+		// and now, only for presentational purposes (blue highlighting)
+		// we can make every ( to \left( and every ) to \right), etc.
+		// eqstring = eqstring.replace("(", "\\left(");
+		// eqstring = eqstring.replace("\\left\\left(", "\\left(");
+		// in case of typo
+		// eqstring = eqstring.replace("\\right\\left(", "\\right(");
+		// eqstring = eqstring.replace(")", "\\right)");
+		// eqstring = eqstring.replace("\\right\\right)", "\\right)");
+		// in case of typo
+		// eqstring = eqstring.replace("\\left\\right)", "\\left)");
+		// but we do not do it as editing x in f(x)=x+1 gives error anyway
+		// so not having \\left there seems to be a feature, not a bug
+		// otherwise, Line[A,B] and {1,2,3,4} are working, so probably Okay
+
 		return eqstring;
 	}
 
