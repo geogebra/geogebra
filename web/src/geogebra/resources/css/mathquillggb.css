@@ -356,11 +356,14 @@
 }
 .mathquillggb-rendered-math .sqrt-parent,
 .mathquillggb-rendered-math .paren-parent {
-	margin-top: 1px;
-	padding: 0px;
-	margin-bottom:0px;
-	margin-left:0px;
-	margin-right:0px;
+  margin-top: 1px;
+  padding: 0px;
+  margin-bottom:0px;
+  margin-left:0px;
+  margin-right:0px;
+}
+.paren-parent-colored .paren {
+  color: blue;
 }
 .mathquillggb-rendered-math .sqrt-prefix {
   padding-top: 0px;

@@ -2502,6 +2502,25 @@ var Bracket = P(MathCommand, function(_, _super) {
       [open, close]);
     this.end = '\\right'+end;
   };
+  _.setColoring = function(boo) {
+	var open = this.textTemplate[0];
+    var close = this.textTemplate[1];
+	if (boo === true) {
+      this.htmlTemplate = '<span class="non-leaf paren-parent paren-parent-colored">'
+          +   '<span class="scaled paren">'+open+'</span>'
+          +   '<span class="non-leaf">&0</span>'
+          +   '<span class="scaled paren">'+close+'</span>'
+          + '</span>';
+      this.jQ.addClass('paren-parent-colored');
+	} else if (boo === false) {
+	  this.htmlTemplate = '<span class="non-leaf paren-parent">'
+	      +   '<span class="scaled paren">'+open+'</span>'
+	      +   '<span class="non-leaf">&0</span>'
+	      +   '<span class="scaled paren">'+close+'</span>'
+	      + '</span>';
+	  this.jQ.removeClass('paren-parent-colored');
+	}
+  };
   _.jQadd = function() {
     _super.jQadd.apply(this, arguments);
     var jQ = this.jQ;
@@ -4236,8 +4255,36 @@ var Cursor = P(Point, function(_) {
   };
 
   _.moveDirWithin = function(dir, block) {
+    // before moving: remove highlighting from old element
+	if (dir === L) {
+	  // old element: R, it might lose highlighting
+      if (this[R]) {
+        if ((this[R] instanceof Bracket) || (this[R] instanceof CloseBracket)) {
+          // |( remove highlight style from this[R], because it will be left now
+          this[R].setColoring(false);
+        }
+      }
+      // new element will be tackled after the operation
+	} else if (dir === R) {
+	  // old element: L, it might lose highlighting
+      if (this[L]) {
+        if ((this[L] instanceof Bracket) || (this[L] instanceof CloseBracket)) {
+          // (| remove highlight style from this[L], because it will be left now
+          this[L].setColoring(false);
+        }
+      }
+      // new element will be tackled after the operation
+	}
     if (this[dir]) this[dir].moveTowards(dir, this);
     else if (this.parent !== block) this.parent.moveOutOf(dir, this);
+
+    // after moving: add highlighting to new element, which is this[dir]
+    if (this[dir]) {
+      if ((this[dir] instanceof Bracket) || (this[dir] instanceof CloseBracket)) {
+        // (| add highlight style to this[dir]
+        this[dir].setColoring(true);
+      }
+    }
   };
   _.moveLeftWithin = function(block) {
     return this.moveDirWithin(L, block);
