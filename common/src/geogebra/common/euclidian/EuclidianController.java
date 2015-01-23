@@ -9210,11 +9210,12 @@ public abstract class EuclidianController {
 		if ((app.isMacOS() && control) || !right) {
 			return;
 		}
-		if (draggingOccured && app.isPrerelease())
+		if (draggingOccured && app.isPrerelease()) {
 			if (allowSelectionRectangle()) {
 				processSelectionRectangle(false, control);
 				return;
 			}
+		}
 		// get selected GeoElements
 		// show popup menu after right click
 		setViewHits(type);
@@ -9222,7 +9223,13 @@ public abstract class EuclidianController {
 		if (hits.isEmpty()) {
 			// no hits
 			if (app.isUsingFullGui() && app.getGuiManager() != null) {
-				if (selection.selectedGeosSize() > 0) {
+
+				if (view.getSelectionRectangle() != null) {
+					// don't show a contextMenu if there's a
+					// selectionRectangle
+					processSelectionRectangle(false, control);
+					return;
+				} else if (selection.selectedGeosSize() > 0) {
 					// GeoElement selGeo = (GeoElement)
 					// getAppSelectedGeos().get(0);
 					showPopupMenuChooseGeo(getAppSelectedGeos(), hits);
