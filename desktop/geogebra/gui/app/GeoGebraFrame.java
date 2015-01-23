@@ -438,7 +438,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 		checkCommandLineExport(app);
 
 		// open the sign-in and/or sidebar popup once the GUI has initialized
-		if (args != null && args.getNoOfFiles() == 0) {
+		if (args != null && args.getNoOfFiles() == args.getNoOfTools()) {
 			app.setAllowPopups(true);
 			app.showPopUps();
 		}

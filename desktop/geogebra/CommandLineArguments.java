@@ -27,6 +27,7 @@ public class CommandLineArguments {
 	 */
 	private HashMap<String, String> args;
 	private int noOfFiles = 0;
+	private int noOfTools;
 
 	/**
 	 * Parse the argument array created by Java.
@@ -76,13 +77,13 @@ public class CommandLineArguments {
 								args.put(files[j], "");
 							}
 						} else {
-							files[j] = files[j].replaceAll("%20", " ");
-							args.put("file" + (noOfFiles++), files[j]);
+							addFile(files[j]);
+
 						}
 					}
 				} else {
 					cmdArgs[i] = cmdArgs[i].replaceAll("%20", " ");
-					args.put("file" + (noOfFiles++), cmdArgs[i]);
+					addFile(cmdArgs[i]);
 				}
 			} else {
 				App.debug("unknown argument " + cmdArgs[i]);
@@ -96,6 +97,14 @@ public class CommandLineArguments {
 	 * args.put(key, value); return args; }
 	 */
 
+	private void addFile(String string) {
+		String filename = string.replaceAll("%20", " ");
+		args.put("file" + (noOfFiles++), filename);
+		if (filename.endsWith(".ggt")) {
+			noOfTools++;
+		}
+	}
+
 	/**
 	 * returns number of files, eg geogebra.jar file1.ggb file2.ggb will return
 	 * 2
@@ -104,6 +113,10 @@ public class CommandLineArguments {
 	 */
 	public int getNoOfFiles() {
 		return noOfFiles;
+	}
+
+	public int getNoOfTools() {
+		return noOfTools;
 	}
 
 	/**
@@ -186,6 +199,9 @@ public class CommandLineArguments {
 		ret.args.put(newKey, newValue);
 		if (newKey.startsWith("file")) {
 			++(ret.noOfFiles);
+		}
+		if (newValue.endsWith(".ggt")) {
+			++(ret.noOfTools);
 		}
 
 		return ret;
