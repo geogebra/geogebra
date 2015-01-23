@@ -185,9 +185,11 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	 * @param matList List<Material>
 	 */
 	public void addUsersMaterials(final List<Material> matList) {
-		for (int i = matList.size()-1;i>=0;i--) {
+
+		for (int i = matList.size() - 1; i >= 0; i--) {
 			addMaterial(matList.get(i), false, false);
 		}
+
 	}
 	
 	
@@ -213,7 +215,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			}
 
 			matElem.setMaterial(mat);
-			// this.insert(matElem, 0);
+			this.remove(matElem);
+			this.insert(matElem, 0);
 		} else {
 
 			addNewMaterial(mat, insertAtEnd, isLocal);

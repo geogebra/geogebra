@@ -357,69 +357,53 @@ public class FileManagerT extends FileManager {
 	public void rename(final String newTitle, final Material mat,
 	        final Runnable callback) {
 		App.debug("RENAME" + mat.getTitle() + "->" + newTitle);
-		createID(new Callback<Integer, String>() {
+
+		final String newKey = FileManager.createKeyString(mat.getLocalID(),
+		        newTitle);
+		final String oldKey = getFileKey(mat);
+		App.debug("RENAME local fn" + oldKey);
+		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
-			public void onFailure(String reason) {
-				// TODO Auto-generated method stub
+			public void onSuccess(final DirectoryEntry ggbDir) {
+				ggbDir.getFile(oldKey + FILE_EXT, dontCreateIfNotExist,
+				        new FileCallback<FileEntry, FileError>() {
 
+					        @Override
+					        public void onSuccess(FileEntry ggbFile) {
+						        App.debug("RENAME accessed fn" + oldKey);
+						        ggbFile.moveTo(
+						                ggbDir,
+						                newKey + FILE_EXT,
+						                new FileCallback<FileEntry, FileError>() {
+
+							                @Override
+							                public void onSuccess(
+							                        FileEntry entry) {
+								                mat.setTitle(newTitle);
+								                renameMetaData(oldKey, newKey,
+								                        mat, callback);
+							                }
+
+							                @Override
+							                public void onFailure(
+							                        FileError error) {
+								                App.debug("RENAME cannotMove fn"
+								                        + oldKey + "/" + newKey);
+							                }
+						                });
+					        }
+
+					        @Override
+					        public void onFailure(FileError error) {
+						        App.debug("RENAME not found fn" + oldKey);
+					        }
+				        });
 			}
 
 			@Override
-			public void onSuccess(Integer newID) {
-				final String newKey = FileManager.createKeyString(newID,
-				        newTitle);
-				final String oldKey = getFileKey(mat);
-				App.debug("RENAME local fn" + oldKey);
-				getGgbDir(new Callback<DirectoryEntry, FileError>() {
-
-					@Override
-					public void onSuccess(final DirectoryEntry ggbDir) {
-						ggbDir.getFile(oldKey + FILE_EXT, dontCreateIfNotExist,
-						        new FileCallback<FileEntry, FileError>() {
-
-							        @Override
-							        public void onSuccess(FileEntry ggbFile) {
-								        App.debug("RENAME accessed fn" + oldKey);
-								        ggbFile.moveTo(
-								                ggbDir,
-								                newKey + FILE_EXT,
-								                new FileCallback<FileEntry, FileError>() {
-
-									                @Override
-									                public void onSuccess(
-									                        FileEntry entry) {
-										                mat.setTitle(newTitle);
-										                renameMetaData(oldKey,
-										                        newKey, mat,
-										                        callback);
-									                }
-
-									                @Override
-									                public void onFailure(
-									                        FileError error) {
-										                App.debug("RENAME cannotMove fn"
-										                        + oldKey
-										                        + "/"
-										                        + newKey);
-									                }
-								                });
-							        }
-
-							        @Override
-							        public void onFailure(FileError error) {
-								        App.debug("RENAME not found fn"
-								                + oldKey);
-							        }
-						        });
-					}
-
-					@Override
-					public void onFailure(FileError reason) {
-						// TODO Auto-generated method stub
-
-					}
-				});
+			public void onFailure(FileError reason) {
+				// TODO Auto-generated method stub
 
 			}
 		});
@@ -450,6 +434,7 @@ public class FileManagerT extends FileManager {
 
 					        @Override
 					        public void onSuccess(final FileWriter writer) {
+						        mat.setBase64("");
 						        deleteMetaData(oldKey);
 						        writer.write(mat.toJson().toString());
 						        if (callback != null) {
