@@ -4350,37 +4350,40 @@ var Cursor = P(Point, function(_) {
   _.checkColorCursor = function(addColor) {
     // before moving: remove highlighting from old element (addColor === false)
 	// after moving: add highlighting to new element (addColor === true)
+	// note: when (addColor === true), stop after one coloring!
+	// and: the priority of the colorings: this[R], this[L], this.parent.parent
+	// so we also need a variable...
+	var onTheEdgeNeedsParent = false;
     if (this[R]) {
       if ((this[R] instanceof Bracket) || (this[R] instanceof CloseBracket)) {
         // |( remove highlight style from this[R]
         this[R].setColoring(addColor === true);
-      }
-    } else if (this.parent) {
-      // else branch to prevent two pairs of highlighting!
-      // this.parent is a MathBlock, like (MathBlock), so it has a parent:
-      if (this.parent.parent) {
-        if ((this.parent.parent instanceof Bracket) || (this.parent.parent instanceof CloseBracket)) {
-          // |( remove highlight style from this.parent[R]
-          this.parent.parent.setColoring(addColor === true);
+        if (addColor) {
+          return;
         }
       }
+    } else {
+      onTheEdgeNeedsParent = true;
     }
     if (this[L]) {
       if ((this[L] instanceof Bracket) || (this[L] instanceof CloseBracket)) {
         // (| remove highlight style from this[L]
         this[L].setColoring(addColor === true);
+        if (addColor) {
+          return;
+        }
       }
-    } else if (this.parent) {
-      // if the same thing has run in another else branch
-      if (!this[R])
-    	return;
-      // else branch to prevent two pairs of highlighting!
+    } else {
+      onTheEdgeNeedsParent = true;
+    }
 
-      // this.parent is a MathBlock, like (MathBlock), so it has:
-      if (this.parent.parent) {
-        if ((this.parent.parent instanceof Bracket) || (this.parent.parent instanceof CloseBracket)) {
-          // |( remove highlight style from this.parent[R]
-          this.parent.parent.setColoring(addColor === true);
+    if (onTheEdgeNeedsParent === true) {
+      if (this.parent) {
+        if (this.parent.parent) {
+          if ((this.parent.parent instanceof Bracket) || (this.parent.parent instanceof CloseBracket)) {
+            // |( remove highlight style from this.parent.parent
+            this.parent.parent.setColoring(addColor === true);
+          }
         }
       }
     }
