@@ -2501,23 +2501,23 @@ var Bracket = P(MathCommand, function(_, _super) {
       + '</span>',
       [open, close]);
     this.end = '\\right'+end;
-  };
-  _.setColoring = function(boo) {
-	var open = this.textTemplate[0];
-    var close = this.textTemplate[1];
-	if (boo === true) {
-      this.htmlTemplate = '<span class="non-leaf paren-parent paren-parent-colored">'
-          +   '<span class="scaled paren">'+open+'</span>'
-          +   '<span class="non-leaf">&0</span>'
-          +   '<span class="scaled paren">'+close+'</span>'
-          + '</span>';
-      this.jQ.addClass('paren-parent-colored');
-	} else if (boo === false) {
-	  this.htmlTemplate = '<span class="non-leaf paren-parent">'
+    this.htmlTemplate1 = '<span class="non-leaf paren-parent paren-parent-colored">'
+        +   '<span class="scaled paren">'+open+'</span>'
+        +   '<span class="non-leaf">&0</span>'
+        +   '<span class="scaled paren">'+close+'</span>'
+        + '</span>';
+    this.htmlTemplate2 = '<span class="non-leaf paren-parent">'
 	      +   '<span class="scaled paren">'+open+'</span>'
 	      +   '<span class="non-leaf">&0</span>'
 	      +   '<span class="scaled paren">'+close+'</span>'
 	      + '</span>';
+  };
+  _.setColoring = function(boo) {
+	if (boo === true) {
+      this.htmlTemplate = this.htmlTemplate1;
+      this.jQ.addClass('paren-parent-colored');
+	} else if (boo === false) {
+	  this.htmlTemplate = this.htmlTemplate2;
 	  this.jQ.removeClass('paren-parent-colored');
 	}
   };
@@ -4205,11 +4205,13 @@ var Cursor = P(Point, function(_) {
   };
 
   _.withDirInsertAt = function(dir, parent, withDir, oppDir) {
+	this.checkColorCursor(false);
     var oldParent = this.parent;
     this.parent = parent;
     this[dir] = withDir;
     this[-dir] = oppDir;
     oldParent.blur();
+    this.checkColorCursor(true);
   };
   _.insertAdjacent = function(dir, el) {
     this.withDirInsertAt(dir, el.parent, el[dir], el);
@@ -4249,42 +4251,18 @@ var Cursor = P(Point, function(_) {
     // default browser action if so)
     if (this.parent === this.root) return;
 
+    this.checkColorCursor(false);
     clearUpDownCache(this);
     this.show().clearSelection();
     this.parent.moveOutOf(dir, this);
+    this.checkColorCursor(true);
   };
 
   _.moveDirWithin = function(dir, block) {
-    // before moving: remove highlighting from old element
-	if (dir === L) {
-	  // old element: R, it might lose highlighting
-      if (this[R]) {
-        if ((this[R] instanceof Bracket) || (this[R] instanceof CloseBracket)) {
-          // |( remove highlight style from this[R], because it will be left now
-          this[R].setColoring(false);
-        }
-      }
-      // new element will be tackled after the operation
-	} else if (dir === R) {
-	  // old element: L, it might lose highlighting
-      if (this[L]) {
-        if ((this[L] instanceof Bracket) || (this[L] instanceof CloseBracket)) {
-          // (| remove highlight style from this[L], because it will be left now
-          this[L].setColoring(false);
-        }
-      }
-      // new element will be tackled after the operation
-	}
+    this.checkColorCursor(false);
     if (this[dir]) this[dir].moveTowards(dir, this);
     else if (this.parent !== block) this.parent.moveOutOf(dir, this);
-
-    // after moving: add highlighting to new element, which is this[dir]
-    if (this[dir]) {
-      if ((this[dir] instanceof Bracket) || (this[dir] instanceof CloseBracket)) {
-        // (| add highlight style to this[dir]
-        this[dir].setColoring(true);
-      }
-    }
+    this.checkColorCursor(true);
   };
   _.moveLeftWithin = function(block) {
     return this.moveDirWithin(L, block);
@@ -4320,6 +4298,7 @@ var Cursor = P(Point, function(_) {
   _.moveUp = function() { return moveUpDown(this, 'up'); };
   _.moveDown = function() { return moveUpDown(this, 'down'); };
   function moveUpDown(self, dir) {
+    this.checkColorCursor(false);
     var dirInto = dir+'Into', dirOutOf = dir+'OutOf';
     if (self[R][dirInto]) self.prependTo(self[R][dirInto]);
     else if (self[L][dirInto]) self.appendTo(self[L][dirInto]);
@@ -4338,8 +4317,9 @@ var Cursor = P(Point, function(_) {
         ancestor = ancestor.parent;
       } while (ancestor !== self.root);
     }
-
-    return self.clearSelection().show();
+    var ret = self.clearSelection().show();
+    this.checkColorCursor(true);
+    return ret;
   }
   /**
    * jump up or down from one block Node to another:
@@ -4350,6 +4330,7 @@ var Cursor = P(Point, function(_) {
    *     the cursor's current position
    */
   _.jumpUpDown = function(from, to) {
+    this.checkColorCursor(false);
     var self = this;
     self.upDownCache[from.id] = Point(self.parent, self[L], self[R]);
     var cached = self.upDownCache[to.id];
@@ -4360,9 +4341,26 @@ var Cursor = P(Point, function(_) {
       var pageX = offset(self).left;
       self.appendTo(to).seekHoriz(pageX, to);
     }
+    this.checkColorCursor(true);
   };
-
+  _.checkColorCursor = function(addColor) {
+    // before moving: remove highlighting from old element (addColor === false)
+	// after moving: add highlighting to new element (addColor === true)
+    if (this[R]) {
+      if ((this[R] instanceof Bracket) || (this[R] instanceof CloseBracket)) {
+        // |( remove highlight style from this[R]
+        this[R].setColoring(addColor === true);
+      }
+    }
+    if (this[L]) {
+      if ((this[L] instanceof Bracket) || (this[L] instanceof CloseBracket)) {
+        // (| remove highlight style from this[L]
+        this[L].setColoring(addColor === true);
+      }
+    }
+  };
   _.seek = function(target, pageX, pageY) {
+    this.checkColorCursor(false);
     var cursor = this;
     clearUpDownCache(cursor);
 
@@ -4378,10 +4376,11 @@ var Cursor = P(Point, function(_) {
     cursor.clearSelection().show();
 
     node.seek(pageX, cursor);
-
+    this.checkColorCursor(true);
     return cursor;
   };
   _.seekHoriz = function(pageX, block) {
+    this.checkColorCursor(false);
     //move cursor to position closest to click
     var cursor = this;
     var dist = offset(cursor).left - pageX;
@@ -4395,7 +4394,7 @@ var Cursor = P(Point, function(_) {
     while (dist > 0 && (cursor[L] || cursor.parent !== block));
 
     if (-dist > prevDist) cursor.moveRightWithin(block);
-
+    this.checkColorCursor(true);
     return cursor;
   };
   function offset(self) {
@@ -4411,6 +4410,7 @@ var Cursor = P(Point, function(_) {
     return offset;
   }
   _.writeLatex = function(latex) {
+    this.checkColorCursor(false);
     var self = this;
     clearUpDownCache(self);
     self.show().deleteSelection();
@@ -4427,18 +4427,22 @@ var Cursor = P(Point, function(_) {
       block.finalizeInsert();
       self.parent.bubble('redraw');
     }
-
+    this.checkColorCursor(true);
     return this.hide();
   };
   _.write = function(ch) {
+    this.checkColorCursor(false);
     var seln = this.prepareWrite();
-    return this.insertCh(ch, seln);
+    var ret = this.insertCh(ch, seln);
+    this.checkColorCursor(true);
+    return ret;
   };
   _.insertCh = function(ch, replacedFragment) {
     this.parent.write(this, ch, replacedFragment);
     return this;
   };
   _.insertCmd = function(latexCmd, replacedFragment) {
+    this.checkColorCursor(false);
     var cmd = LatexCmds[latexCmd];
     if (cmd) {
       cmd = cmd(latexCmd);
@@ -4454,6 +4458,7 @@ var Cursor = P(Point, function(_) {
       if (replacedFragment)
         replacedFragment.remove();
     }
+    this.checkColorCursor(true);
     return this;
   };
   _.unwrapGramp = function() {
@@ -4505,6 +4510,7 @@ var Cursor = P(Point, function(_) {
       gramp[R].respace();
   };
   _.deleteDir = function(dir) {
+    this.checkColorCursor(false);
     clearUpDownCache(this);
     this.show();
 
@@ -4517,7 +4523,7 @@ var Cursor = P(Point, function(_) {
     if (this[R])
       this[R].respace();
     this.parent.bubble('redraw');
-
+    this.checkColorCursor(true);
     return this;
   };
   _.backspace = function() { return this.deleteDir(L); };
