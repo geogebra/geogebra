@@ -36,19 +36,36 @@ public class GLBufferW implements GLBuffer {
 		isEmpty = true;
 	}
 
-	public void set(ArrayList<Float> array, int length) {
-
+	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
 			impl = Float32Array.create(length);
 		}
 
+	}
+
+	public void setLimit(int length) {
+		currentLength = length;
+	}
+
+	public void put(float value) {
+		// TODO
+	}
+
+	public void endOfPut() {
+		isEmpty = false;
+	}
+
+	public void set(ArrayList<Float> array, int length) {
+
+		allocate(length);
+		setLimit(length);
+
 		for (int i = 0; i < length; i++) {
 			impl.set(i, array.get(i));
 		}
 
-		currentLength = length;
-		isEmpty = false;
+		endOfPut();
 	}
 
 	public int capacity() {
