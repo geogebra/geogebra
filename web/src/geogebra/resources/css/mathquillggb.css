@@ -362,7 +362,7 @@
   margin-left:0px;
   margin-right:0px;
 }
-.paren-parent-colored .paren {
+.paren-parent.paren-parent-colored > .paren {
   color: blue;
 }
 .mathquillggb-rendered-math .sqrt-prefix {

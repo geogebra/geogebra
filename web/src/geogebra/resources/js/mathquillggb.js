@@ -2515,9 +2515,13 @@ var Bracket = P(MathCommand, function(_, _super) {
   _.setColoring = function(boo) {
 	if (boo === true) {
       this.htmlTemplate = this.htmlTemplate1;
+      // in theory, this.jQ is of style "paren-parent",
+      // so this should work OK with mathquillggb.css
       this.jQ.addClass('paren-parent-colored');
 	} else if (boo === false) {
 	  this.htmlTemplate = this.htmlTemplate2;
+      // in theory, this.jQ is of style "paren-parent",
+      // so this should work OK with mathquillggb.css
 	  this.jQ.removeClass('paren-parent-colored');
 	}
   };
