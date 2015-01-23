@@ -4355,11 +4355,33 @@ var Cursor = P(Point, function(_) {
         // |( remove highlight style from this[R]
         this[R].setColoring(addColor === true);
       }
+    } else if (this.parent) {
+      // else branch to prevent two pairs of highlighting!
+      // this.parent is a MathBlock, like (MathBlock), so it has a parent:
+      if (this.parent.parent) {
+        if ((this.parent.parent instanceof Bracket) || (this.parent.parent instanceof CloseBracket)) {
+          // |( remove highlight style from this.parent[R]
+          this.parent.parent.setColoring(addColor === true);
+        }
+      }
     }
     if (this[L]) {
       if ((this[L] instanceof Bracket) || (this[L] instanceof CloseBracket)) {
         // (| remove highlight style from this[L]
         this[L].setColoring(addColor === true);
+      }
+    } else if (this.parent) {
+      // if the same thing has run in another else branch
+      if (!this[R])
+    	return;
+      // else branch to prevent two pairs of highlighting!
+
+      // this.parent is a MathBlock, like (MathBlock), so it has:
+      if (this.parent.parent) {
+        if ((this.parent.parent instanceof Bracket) || (this.parent.parent instanceof CloseBracket)) {
+          // |( remove highlight style from this.parent[R]
+          this.parent.parent.setColoring(addColor === true);
+        }
       }
     }
   };
