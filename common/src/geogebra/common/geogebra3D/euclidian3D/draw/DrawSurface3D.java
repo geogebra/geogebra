@@ -32,7 +32,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final short BOUNDARY_SPLIT = 10;
 
 	// max split array size ( size +=4 for one last split)
-	private static final int MAX_SPLIT = (int) Math.pow(2, 11);
+	private static final int MAX_SPLIT = (int) Math.pow(2, 12);
 
 	// draw array size ( size +=1 for one last draw)
 	private static final int MAX_DRAW = MAX_SPLIT;
@@ -72,7 +72,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		currentSplit = new DrawSurface3D.Corner[MAX_SPLIT + 4];
 		nextSplit = new DrawSurface3D.Corner[MAX_SPLIT + 4];
-		drawList = new CornerAndCenter[MAX_DRAW + 1];
+		drawList = new CornerAndCenter[MAX_DRAW + 100];
 		cornerList = new DrawSurface3D.Corner[CORNER_LIST_SIZE];
 		
 		ccForStillToSplit = new CornerAndCenter();
@@ -219,24 +219,44 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
+		
+		
+		
 		time = System.currentTimeMillis();
 		
 		// draw splitted, still to split, and next to split
 		surface.start(getReusableSurfaceIndex());
 
-		if (drawListIndex > 0 || waitingSplits) {
-			surface.startTriangles(CORNER_LIST_SIZE * 10);
-			for (int i = 0; i < drawListIndex; i++) {
-				drawList[i].draw(surface);
-			}
+		if (!stillRoomLeft){
 			for (int i = currentSplitStoppedIndex; i < currentSplitIndex; i++) {
-				currentSplit[i].drawAsStillToSplit(surface);
+				currentSplit[i].split(true);
 			}
 			for (int i = 0; i < nextSplitIndex; i++) {
-				nextSplit[i].drawAsNextToSplit(surface);
+				nextSplit[i].split(true);
 			}
+			debug("\n--- draw size : " + drawListIndex);
+			if (drawListIndex > 0) {
+				surface.startTriangles(CORNER_LIST_SIZE * 10);
+				for (int i = 0; i < drawListIndex; i++) {
+					drawList[i].draw(surface);
+				}
+				surface.endGeometryDirect();
+			}
+		}else{
+			if (drawListIndex > 0 || waitingSplits) {
+				surface.startTriangles(CORNER_LIST_SIZE * 10);
+				for (int i = 0; i < drawListIndex; i++) {
+					drawList[i].draw(surface);
+				}
+				for (int i = currentSplitStoppedIndex; i < currentSplitIndex; i++) {
+					currentSplit[i].drawAsStillToSplit(surface);
+				}
+				for (int i = 0; i < nextSplitIndex; i++) {
+					nextSplit[i].drawAsNextToSplit(surface);
+				}
 
-			surface.endGeometryDirect();
+				surface.endGeometryDirect();
+			}
 		}
 
 		setSurfaceIndex(surface.end());
@@ -378,7 +398,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			currentSplit[currentSplitStoppedIndex].split(false);
 			currentSplitStoppedIndex++;
 			
-			if (drawListIndex == MAX_DRAW){ // no room left for new draw
+			if (drawListIndex + (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex >= MAX_DRAW){ // no room left for new draw
 				return false;
 			}
 			
