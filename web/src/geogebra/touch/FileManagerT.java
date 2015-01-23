@@ -356,6 +356,7 @@ public class FileManagerT extends FileManager {
 	@Override
 	public void rename(final String newTitle, final Material mat,
 	        final Runnable callback) {
+		App.debug("RENAME" + mat.getTitle() + "->" + newTitle);
 		createID(new Callback<Integer, String>() {
 
 			@Override
@@ -926,8 +927,25 @@ public class FileManagerT extends FileManager {
 					        public void onSuccess(final FileWriter writer) {
 						        writer.write(material.getBase64());
 						        material.setModified(modified);
+						        material.setLocalID(FileManager
+						                .getIDFromKey(key));
+						        String newKey = FileManager.createKeyString(
+						                material.getLocalID(),
+						                material.getTitle());
+						        if (key.equals(newKey)) {
 						        createMetaData(key,
  material, null);
+						        }else{
+
+							        String newTitle = material.getTitle();
+							        App.debug("incoming rename " + newTitle);
+							        material.setTitle(FileManager
+							                .getTitleFromKey(key));
+							        material.setSyncStamp(material
+							                .getModified());
+							        FileManagerT.this.rename(newTitle,
+							                material, null);
+						        }
 					        }
 
 					        @Override

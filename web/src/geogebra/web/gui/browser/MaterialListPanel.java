@@ -213,7 +213,7 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			}
 
 			matElem.setMaterial(mat);
-			this.insert(matElem, 0);
+			// this.insert(matElem, 0);
 		} else {
 
 			addNewMaterial(mat, insertAtEnd, isLocal);

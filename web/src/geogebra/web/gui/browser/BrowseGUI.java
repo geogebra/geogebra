@@ -147,12 +147,13 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	private void sync() {
-
+		App.debug("Start sync");
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).sync(
 		        app, 0, new SyncCallback() {
 
 			        @Override
 			        public void onSync(ArrayList<SyncEvent> events) {
+				        App.debug("Start sync upload");
 				        app.getFileManager().uploadUsersMaterials(events);
 
 			        }
