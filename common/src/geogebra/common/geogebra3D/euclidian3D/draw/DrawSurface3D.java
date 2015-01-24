@@ -512,6 +512,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		double u, v;
 		boolean isNotEnd;
 		Corner a, l; // above, left
+		
+		public Corner(){
+			
+		}
 
 		public Corner(double u, double v) {
 			set(u, v);
@@ -532,10 +536,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		public Corner(double u, double v, Coords p) {
+			set(u, v, p);
+		}
+		
+		public void set(double u, double v, Coords p) {
 			this.u = u;
 			this.v = v;
 			this.p = p;
-			normal = evaluateNormal(u, v);
+			normal = evaluateNormal(u, v, normal);
+			
 			isNotEnd = true;
 			a = null;
 			l = null;
@@ -613,11 +622,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				if (current.p.isNotFinalUndefined()){
 					if (previous.p.isFinalUndefined()){
 						// previous undefined -- current defined : create intermediate
-						Corner c;
+						Corner c = new Corner();
 						if (Kernel.isEqual(previous.u, current.u)){
-							c = findV(current, previous, BOUNDARY_SPLIT);
+							findV(current, previous, BOUNDARY_SPLIT, c);
 						}else{
-							c = findU(current, previous, BOUNDARY_SPLIT);
+							findU(current, previous, BOUNDARY_SPLIT, c);
 						}
 						vertexForStillToSplit[index] = c.p;
 						normalForStillToSplit[index] = c.normal;
@@ -630,11 +639,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				}else{
 					if (previous.p.isNotFinalUndefined()){ 
 						// previous defined -- current undefined : create intermediate
-						Corner c;
+						Corner c = new Corner();
 						if (Kernel.isEqual(previous.u, current.u)){
-							c = findV(previous, current, BOUNDARY_SPLIT);
+							findV(previous, current, BOUNDARY_SPLIT, c);
 						}else{
-							c = findU(previous, current, BOUNDARY_SPLIT);
+							findU(previous, current, BOUNDARY_SPLIT, c);
 						}
 						vertexForStillToSplit[index] = c.p;
 						normalForStillToSplit[index] = c.normal;
@@ -693,9 +702,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						} else {
 							// l.a is defined /1/
 							// find defined between l.a and a
-							Corner n = findU(left.a, above, BOUNDARY_SPLIT);
+							Corner n = newCorner(); 
+							findU(left.a, above, BOUNDARY_SPLIT, n);
 							// find defined between l.a and l
-							Corner w = findV(left.a, left, BOUNDARY_SPLIT);
+							Corner w = newCorner();  
+							findV(left.a, left, BOUNDARY_SPLIT, w);
 							boolean split;
 							if (draw) { // time to draw
 								split = false;
@@ -733,13 +744,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 						if (left.a.p.isFinalUndefined()) {
 							// a defined /1/
 							// find defined between a and l.a
-							Corner n = findU(above, left.a, BOUNDARY_SPLIT);
+							Corner n = newCorner(); 
+							findU(above, left.a, BOUNDARY_SPLIT, n);
 							// find defined between a and this
 							Corner e;
 							if (subAbove != null) {
 								e = subAbove;
 							} else {
-								e = findV(above, this, BOUNDARY_SPLIT);
+								e = newCorner();
+								findV(above, this, BOUNDARY_SPLIT, e);
 							}
 							boolean split;
 							if (draw) { // time to draw
@@ -803,10 +816,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subAbove != null) {
 									e = subAbove;
 								} else {
-									e = findV(above, this, BOUNDARY_SPLIT);
+									e = newCorner(); 
+									findV(above, this, BOUNDARY_SPLIT, e);
 								}
 								// find defined between l.a and left
-								Corner w = findV(left.a, left, BOUNDARY_SPLIT);
+								Corner w = newCorner(); 
+								findV(left.a, left, BOUNDARY_SPLIT, w);
 
 								if (!draw){
 									//check distances
@@ -851,10 +866,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							if (subLeft != null) {
 								s = subLeft;
 							} else {
-								s = findU(left, this, BOUNDARY_SPLIT);
+								s = newCorner();
+								findU(left, this, BOUNDARY_SPLIT, s);
 							}
 							// find defined between l and l.a
-							Corner w = findV(left, left.a, BOUNDARY_SPLIT);
+							Corner w = newCorner();
+							findV(left, left.a, BOUNDARY_SPLIT, w);
 							boolean split;
 							if (draw) { // time to draw
 								split = false;
@@ -918,10 +935,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subLeft != null) {
 									s = subLeft;
 								} else {
-									s = findU(left, this, BOUNDARY_SPLIT);
+									s = newCorner();
+									findU(left, this, BOUNDARY_SPLIT, s);
 								}
 								// find defined between l.a and a
-								Corner n = findU(left.a, above, BOUNDARY_SPLIT);
+								Corner n = newCorner();
+								findU(left.a, above, BOUNDARY_SPLIT, n);
 
 								if (!draw){
 									// check distances
@@ -1010,7 +1029,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subLeft != null) {
 									s = subLeft;
 								} else {
-									s = findU(left, this, BOUNDARY_SPLIT);
+									s = newCorner();
+									findU(left, this, BOUNDARY_SPLIT, s);
 									// new neighbors
 									this.l = s;
 									s.l = left;
@@ -1020,7 +1040,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subAbove != null) {
 									e = subAbove;
 								} else {
-									e = findV(above, this, BOUNDARY_SPLIT);
+									e = newCorner();
+									findV(above, this, BOUNDARY_SPLIT, e);
 									// new neighbors
 									this.a = e;
 									e.a = above;
@@ -1042,14 +1063,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 							if (subLeft != null) {
 								s = subLeft;
 							} else {
-								s = findU(this, left, BOUNDARY_SPLIT);
+								s = newCorner();
+								findU(this, left, BOUNDARY_SPLIT, s);
 							}
 							// find defined between this and a
 							Corner e;
 							if (subAbove != null) {
 								e = subAbove;
 							} else {
-								e = findV(this, above, BOUNDARY_SPLIT);
+								e = newCorner();
+								findV(this, above, BOUNDARY_SPLIT, e);
 							}
 							boolean split;
 							if (draw) { // time to draw
@@ -1139,10 +1162,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subLeft != null) {
 									s = subLeft;
 								} else {
-									s = findU(this, left, BOUNDARY_SPLIT);
+									s = newCorner();
+									findU(this, left, BOUNDARY_SPLIT, s);
 								}
 								// find defined between a and l.a
-								Corner n = findU(above, left.a, BOUNDARY_SPLIT);
+								Corner n = newCorner();
+								findU(above, left.a, BOUNDARY_SPLIT, n);
 
 								if (!draw){
 									// check distances
@@ -1206,13 +1231,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subLeft != null) {
 									s = subLeft;
 								} else {
-									s = findU(this, left, BOUNDARY_SPLIT);
+									s = newCorner();
+									findU(this, left, BOUNDARY_SPLIT, s);
 									// new neighbors
 									this.l = s;
 									s.l = left;
 								}
 								// find defined between l.a and l
-								Corner w = findV(left.a, left, BOUNDARY_SPLIT);
+								Corner w = newCorner();
+								findV(left.a, left, BOUNDARY_SPLIT, w);
 								// new neighbors
 								w.a = left.a;
 								left.a = w;
@@ -1253,10 +1280,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								if (subAbove != null) {
 									e = subAbove;
 								} else {
-									e = findV(this, above, BOUNDARY_SPLIT);
+									e = newCorner();
+									findV(this, above, BOUNDARY_SPLIT, e);
 								}
 								// find defined between l and l.a
-								Corner w = findV(left, left.a, BOUNDARY_SPLIT);
+								Corner w = newCorner();
+								findV(left, left.a, BOUNDARY_SPLIT, w);
 								
 								if (!draw){
 									//check distances
@@ -1315,13 +1344,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								split(subLeft, left, subAbove, above);
 							} else {
 								// find defined between l.a and a
-								Corner n = findU(left.a, above, BOUNDARY_SPLIT);
+								Corner n = newCorner();
+								findU(left.a, above, BOUNDARY_SPLIT, n);
 								// find defined between this and a
 								Corner e;
 								if (subAbove != null) {
 									e = subAbove;
 								} else {
-									e = findV(this, above, BOUNDARY_SPLIT);
+									e = newCorner();
+									findV(this, above, BOUNDARY_SPLIT, e);
 									// new neighbors
 									this.a = e;
 									e.a = above;
@@ -1358,9 +1389,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								split(subLeft, left, subAbove, above);
 							} else {
 								// find defined between a and l.a
-								Corner n = findU(above, left.a, BOUNDARY_SPLIT);
+								Corner n = newCorner();
+								findU(above, left.a, BOUNDARY_SPLIT, n);
 								// find defined between l and l.a
-								Corner w = findV(left, left.a, BOUNDARY_SPLIT);
+								Corner w = newCorner();
+								findV(left, left.a, BOUNDARY_SPLIT, w);
 								// new neighbors
 								n.l = left.a;
 								above.l = n;
@@ -1459,13 +1492,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			end.isNotEnd = false;
 		}
 
-		private Corner findU(Corner defined, Corner undefined, int depth) {
-			return findU(defined.p, defined.u, defined.u, undefined.u,
-					defined.v, depth);
+		private void findU(Corner defined, Corner undefined, int depth, Corner corner) {
+			findU(defined.p, defined.u, defined.u, undefined.u,
+					defined.v, depth, corner, true);
 		}
 
-		private Corner findU(Coords lastDefined, double uLastDef, double uDef,
-				double uUndef, double vRow, int depth) {
+		private void findU(Coords lastDefined, double uLastDef, double uDef,
+				double uUndef, double vRow, int depth, Corner corner, boolean lastDefinedIsFirst) {
 
 			double uNew = (uDef + uUndef) / 2;
 			Coords coords = evaluatePoint(uNew, vRow);
@@ -1473,26 +1506,31 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (depth == 0) { // no more split
 				if (coords.isFinalUndefined()) {
 					// return last defined point
-					return new Corner(uLastDef, vRow, lastDefined);
+					if (lastDefinedIsFirst){
+						corner.set(uLastDef, vRow, lastDefined.copyVector());
+					}else{
+						corner.set(uLastDef, vRow, lastDefined);
+					}
+				}else{
+					corner.set(uNew, vRow, coords);
 				}
-				return new Corner(uNew, vRow, coords);
+			}else{
+				if (coords.isFinalUndefined()) {
+					findU(lastDefined, uLastDef, uDef, uNew, vRow, depth - 1, corner, lastDefinedIsFirst);
+				}else{
+					findU(coords, uNew, uNew, uUndef, vRow, depth - 1, corner, false);
+				}
 			}
-
-			if (coords.isFinalUndefined()) {
-				return findU(lastDefined, uLastDef, uDef, uNew, vRow, depth - 1);
-			}
-			return findU(coords, uNew, uNew, uUndef, vRow, depth - 1);
-
 
 		}
 
-		private Corner findV(Corner defined, Corner undefined, int depth) {
-			return findV(defined.p, defined.v, defined.v, undefined.v,
-					defined.u, depth);
+		private void findV(Corner defined, Corner undefined, int depth, Corner corner) {
+			findV(defined.p, defined.v, defined.v, undefined.v,
+					defined.u, depth, corner, true);
 		}
 
-		private Corner findV(Coords lastDefined, double vLastDef, double vDef,
-				double vUndef, double uRow, int depth) {
+		private void findV(Coords lastDefined, double vLastDef, double vDef,
+				double vUndef, double uRow, int depth, Corner corner, boolean lastDefinedIsFirst) {
 
 			double vNew = (vDef + vUndef) / 2;
 			Coords coords = evaluatePoint(uRow, vNew);
@@ -1500,15 +1538,21 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (depth == 0) { // no more split
 				if (coords.isFinalUndefined()) {
 					// return last defined point
-					return new Corner(uRow, vLastDef, lastDefined);
+					if (lastDefinedIsFirst){
+						corner.set(uRow, vLastDef, lastDefined.copyVector());
+					}else{
+						corner.set(uRow, vLastDef, lastDefined);
+					}
+				}else{
+					corner.set(uRow, vNew, coords);
 				}
-				return new Corner(uRow, vNew, coords);
+			}else{
+				if (coords.isFinalUndefined()) {
+					findV(lastDefined, vLastDef, vDef, vNew, uRow, depth - 1, corner, lastDefinedIsFirst);
+				}else{
+					findV(coords, vNew, vNew, vUndef, uRow, depth - 1, corner, false);
+				}
 			}
-
-			if (coords.isFinalUndefined()) {
-				return findV(lastDefined, vLastDef, vDef, vNew, uRow, depth - 1);
-			}
-			return findV(coords, vNew, vNew, vUndef, uRow, depth - 1);
 
 		}
 
@@ -2175,6 +2219,22 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 		cornerListIndex++;
 		return c;
+	}
+	
+	
+	/**
+	 * @return new corner
+	 */
+	protected Corner newCorner() {
+		Corner c = cornerList[cornerListIndex];
+		if (c == null) {
+			c = new Corner();
+			cornerList[cornerListIndex] = c;
+		} 
+		cornerListIndex++;
+		return c;
+		
+//		return new Corner();
 	}
 
 	
