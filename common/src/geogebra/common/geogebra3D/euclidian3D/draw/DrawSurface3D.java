@@ -32,7 +32,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	private static final short BOUNDARY_SPLIT = 10;
 
 	// max split array size ( size +=4 for one last split)
-	private static final int MAX_SPLIT = (int) Math.pow(2, 12);
+	private static final int MAX_SPLIT = 4096;
 
 	// draw array size ( size +=1 for one last draw)
 	private static final int MAX_DRAW = MAX_SPLIT;
@@ -42,7 +42,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	/**
 	 * max splits in one update loop
 	 */
-	private static final int MAX_SPLITS_IN_ONE_UPDATE = 500;
+	private static final int MAX_SPLITS_IN_ONE_UPDATE = 512;
 
 	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
 
@@ -1044,9 +1044,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								s = subLeft;
 							} else {
 								s = findU(this, left, BOUNDARY_SPLIT);
-								// new neighbors
-								this.l = s;
-								s.l = left;
 							}
 							// find defined between this and a
 							Corner e;
@@ -1054,9 +1051,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								e = subAbove;
 							} else {
 								e = findV(this, above, BOUNDARY_SPLIT);
-								// new neighbors
-								this.a = e;
-								e.a = above;
 							}
 							boolean split;
 							if (draw) { // time to draw
@@ -2182,4 +2176,76 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		cornerListIndex++;
 		return c;
 	}
+
+	
+	
+//	private static abstract class PlotterOrCounter{
+//		
+//		
+//		/**
+//		 * draw triangle with surface plotter
+//		 * 
+//		 * @param p0
+//		 *            first point
+//		 * @param n0
+//		 *            first point normal
+//		 * 
+//		 * @param c1
+//		 *            second point
+//		 * @param c2
+//		 *            third point
+//		 */
+//		abstract public void drawTriangle(Coords p0, Coords n0, Corner c1, Corner c2);
+//		
+//		/**
+//		 * 
+//		 * @param c0 first point
+//		 * @param c1
+//		 *            second point
+//		 * @param c2
+//		 *            third point
+//		 */
+//		final public void drawTriangle(Corner c0, Corner c1, Corner c2) {
+//			
+//			drawTriangle(c0.p, c0.normal, c1, c2);
+//
+//		}
+//	}
+//	
+//	private static abstract class Plotter extends PlotterOrCounter{
+//		
+//		
+//		private PlotterSurface surface;
+//		
+//		final public void setSurface(PlotterSurface surface){
+//			this.surface = surface;
+//		}
+//
+//		@Override
+//		final public void drawTriangle(Coords p0, Coords n0, Corner c1, Corner c2) {
+//
+//			surface.normalDirect(n0);
+//			surface.vertexDirect(p0);
+//			surface.normalDirect(c2.normal);
+//			surface.vertexDirect(c2.p);
+//			surface.normalDirect(c1.normal);
+//			surface.vertexDirect(c1.p);
+//
+//		}
+//	}
+//	
+//	private static abstract class Counter extends PlotterOrCounter{
+//		
+//		
+//
+//		@Override
+//		final public void drawTriangle(Coords p0, Coords n0, Corner c1, Corner c2) {
+//
+//
+//
+//		}
+//		
+//	
+//	}
+	
 }
