@@ -508,7 +508,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		Coords normal;
 		double u, v;
 		boolean isNotEnd;
-		boolean isDrawForced;
 		Corner a, l; // above, left
 
 		public Corner(double u, double v) {
@@ -525,7 +524,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				normal = evaluateNormal(u, v, normal);
 			}
 			isNotEnd = true;
-			isDrawForced = false;
 			a = null;
 			l = null;
 		}
@@ -536,7 +534,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.p = p;
 			normal = evaluateNormal(u, v);
 			isNotEnd = true;
-			isDrawForced = false;
 			a = null;
 			l = null;
 		}
@@ -703,10 +700,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// draw
-								if (draw){
-									n.isDrawForced = true;
-									w.isDrawForced = true;
-								}
 								addToDrawList(w.a, n, w, w.a);
 							}
 						}
@@ -753,10 +746,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 
 								// drawing
-								if (draw){
-									n.isDrawForced = true;
-									e.isDrawForced = true;
-								}
 								addToDrawList(left.a, n, e, above);
 							}
 						} else {
@@ -822,10 +811,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									left.a = w;
 
 									// drawing
-									if (draw){
-										e.isDrawForced = true;
-										w.isDrawForced = true;
-									}
 									addToDrawList(w.a, e, above, left.a, w);
 								}
 							}
@@ -875,10 +860,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
-								if (draw){
-									s.isDrawForced = true;
-									w.isDrawForced = true;
-								}
 								addToDrawList(w.a, s, w, left);
 
 							}
@@ -945,10 +926,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									above.l = n;
 
 									// drawing
-									if (draw){
-										n.isDrawForced = true;
-										s.isDrawForced = true;
-									}
 									addToDrawList(left.a, s, n, left.a, left);
 								}
 							}
@@ -1024,10 +1001,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 
 								// drawing
-								if (draw){
-									s.isDrawForced = true;
-									e.isDrawForced = true;
-								}
 								addToDrawList(left.a, left, above, left.a);
 							}
 						}
@@ -1085,10 +1058,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								}
 
 								// drawing
-								if (draw){
-									s.isDrawForced = true;
-									e.isDrawForced = true;
-								}
 								addToDrawList(left.a, s, e, this);
 							}
 						} else {
@@ -1178,10 +1147,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									above.l = n;
 
 									// drawing
-									if (draw){
-										n.isDrawForced = true;
-										s.isDrawForced = true;
-									}
 									addToDrawList(left.a, this, above, n, s);
 
 								}
@@ -1227,10 +1192,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
-								if (draw){
-									s.isDrawForced = true;
-									w.isDrawForced = true;
-								}
 								addToDrawList(w.a, above, left.a, this);
 							}
 						}
@@ -1300,10 +1261,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 									left.a = w;
 
 									// drawing
-									if (draw){
-										e.isDrawForced = true;
-										w.isDrawForced = true;
-									}
 									addToDrawList(w.a, this, e, w, left);
 								}
 							}
@@ -1348,10 +1305,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 
 								// drawing
-								if (draw){
-									n.isDrawForced = true;
-									e.isDrawForced = true;
-								}
 								addToDrawList(left.a, left, left.a, this);
 							}
 						}
@@ -1390,10 +1343,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								left.a = w;
 
 								// drawing
-								if (draw){
-									n.isDrawForced = true;
-									w.isDrawForced = true;
-								}
 								addToDrawList(w.a, this, left, above);
 
 							}
