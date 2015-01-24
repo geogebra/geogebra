@@ -76,7 +76,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		cornerList = new DrawSurface3D.Corner[CORNER_LIST_SIZE];
 		
 		ccForStillToSplit = new CornerAndCenter();
-		definedCornersForStillToSplit = new Corner[6];
+		cornerForStillToSplit = new Corner[6];
+		vertexForStillToSplit = new Coords[12];
+		normalForStillToSplit = new Coords[12];
 
 	}
 	
@@ -252,7 +254,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					currentSplit[i].drawAsStillToSplit(surface);
 				}
 				for (int i = 0; i < nextSplitIndex; i++) {
-					nextSplit[i].drawAsNextToSplit(surface);
+					nextSplit[i].drawAsStillToSplit(surface);
+					//nextSplit[i].drawAsNextToSplit(surface);
 				}
 
 				surface.endGeometryDirect();
@@ -575,65 +578,88 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		 */
 		public void drawAsStillToSplit(PlotterSurface surface){
 			
-			int defined = 0;
-			Corner end = null;
+			// create ring about corners
+			int length;
 			
-			if (this.p.isNotFinalUndefined()){
-				definedCornersForStillToSplit[defined] = this;
-				defined++;
-			}
+			cornerForStillToSplit[0] = this;			
+			cornerForStillToSplit[1] = this.l;
+
 			
-			if (this.l.a == null){ // a split occured
-				if (this.l.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.l;
-					defined++;
-				}
-				if (this.l.l.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.l.l;
-					defined++;
-				}
-				if (this.l.l.a.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.l.l.a;
-					defined++;
-				}
-				end = this.l.l.a;
+			if (this.l.a == null){ // a split occurred
+				cornerForStillToSplit[2] = this.l.l;
+				cornerForStillToSplit[3] = this.l.l.a;
+				length = 4;
 			}else{
-				if (this.l.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.l;
-					defined++;
-				}
-				if (this.l.a.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.l.a;
-					defined++;
-				}
-				end = this.l.a;
+				cornerForStillToSplit[2] = this.l.a;
+				length = 3;
 			}
-			
-			if (this.a.l == null){ // a split occured
-				if (this.a.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.a;
-					defined++;
-				}
-				if (this.a.a.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.a.a;
-					defined++;
-				}
+
+			if (this.a.l == null){ // a split occurred
+				cornerForStillToSplit[length] = this.a.a;
+				length++;
+				cornerForStillToSplit[length] = this.a;
+				length++;				
 			}else{
-				if (this.a.p.isNotFinalUndefined()){
-					definedCornersForStillToSplit[defined] = this.a;
-					defined++;
-				}
+				cornerForStillToSplit[length] = this.a;
+				length++;	
 			}
 			
-			if (defined < 3){
+			// check defined and create intermediate corners if needed
+			Corner previous = cornerForStillToSplit[length - 1];
+			int index = 0;
+			for (int i = 0; i < length; i++){
+				Corner current = cornerForStillToSplit[i];
+				
+				if (current.p.isNotFinalUndefined()){
+					if (previous.p.isFinalUndefined()){
+						// previous undefined -- current defined : create intermediate
+						Corner c;
+						if (Kernel.isEqual(previous.u, current.u)){
+							c = findV(current, previous, BOUNDARY_SPLIT);
+						}else{
+							c = findU(current, previous, BOUNDARY_SPLIT);
+						}
+						vertexForStillToSplit[index] = c.p;
+						normalForStillToSplit[index] = c.normal;
+						index++;
+					}
+					// add current for drawing
+					vertexForStillToSplit[index] = current.p;
+					normalForStillToSplit[index] = current.normal;
+					index++;
+				}else{
+					if (previous.p.isNotFinalUndefined()){ 
+						// previous defined -- current undefined : create intermediate
+						Corner c;
+						if (Kernel.isEqual(previous.u, current.u)){
+							c = findV(previous, current, BOUNDARY_SPLIT);
+						}else{
+							c = findU(previous, current, BOUNDARY_SPLIT);
+						}
+						vertexForStillToSplit[index] = c.p;
+						normalForStillToSplit[index] = c.normal;
+						index++;
+					}
+				}
+				
+				previous = current;
+			}
+			
+			if (index < 3){
 				return;
 			}
 			
-			ccForStillToSplit.setCorner(this);
-			setBarycenter(ccForStillToSplit.getCenter(), ccForStillToSplit.getCenterNormal(), defined, definedCornersForStillToSplit);
-			end.isNotEnd = false;
-			ccForStillToSplit.draw(surface);
-			end.isNotEnd = true;
+			
+			Coords v0 = vertexForStillToSplit[0];
+			Coords n0 = normalForStillToSplit[0];
+			for (int i = 1; i < index - 1; i++){
+				drawTriangle(surface, 
+						v0, n0, 
+						vertexForStillToSplit[i+1], normalForStillToSplit[i+1],
+						vertexForStillToSplit[i], normalForStillToSplit[i]);
+			}
+
+			
 			
 		}
 
@@ -1545,7 +1571,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected CornerAndCenter ccForStillToSplit;
 	
-	protected Corner[] definedCornersForStillToSplit;
+	protected Corner[] cornerForStillToSplit;
+	
+	protected Coords[] vertexForStillToSplit, normalForStillToSplit;
 
 	/**
 	 * max distance in real world from view
@@ -2051,6 +2079,29 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		surface.vertexDirect(c1.p);
 
 	}
+	
+	/**
+	 * draw triangle with surface plotter
+	 * 
+	 * @param surface
+	 * @param p0
+	 * @param n0
+	 * @param p1
+	 * @param n1
+	 * @param p2
+	 * @param n2
+	 */
+	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords n0, Coords p1, Coords n1, Coords p2, Coords n2) {
+
+		surface.normalDirect(n0);
+		surface.vertexDirect(p0);
+		surface.normalDirect(n2);
+		surface.vertexDirect(p2);
+		surface.normalDirect(n1);
+		surface.vertexDirect(p1);
+
+	}
+
 	
 	/**
 	 * 
