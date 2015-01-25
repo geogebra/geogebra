@@ -221,4 +221,27 @@ public abstract class GeoGebraTubeAPI {
 					}
 				});
 	}
+
+	protected abstract String getToken();
+	public void favorite(int id, boolean favorite) {
+		performRequest("{\"request\": {" + "\"-api\":\"1.0.0\","
+				+ "\"login\": {\"-token\":\"" + getToken()
+ + "\"},"
+				+ "\"task\": {\"-type\":\"favorite\", \"id\":\"" + id
+				+ "\",\"favorite\":\"" + favorite + "\"}}}", false,
+				new AjaxCallback() {
+
+					@Override
+					public void onSuccess(String response) {
+						// Log.debug(response);
+					}
+
+					@Override
+					public void onError(String error) {
+						Log.error(error);
+
+					}
+				});
+
+	}
 }

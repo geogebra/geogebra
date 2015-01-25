@@ -2,6 +2,8 @@ package geogebra.move.ggtapi.models;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.move.events.BaseEvent;
+import geogebra.common.move.ggtapi.models.AuthenticationModel;
+import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.move.ggtapi.views.BaseSwingEventView;
@@ -55,9 +57,19 @@ public class LoginOperationD extends LogInOperation {
 		}
 	}
 
+	private GeoGebraTubeAPID api;
+
 	@Override
 	public GeoGebraTubeAPID getGeoGebraTubeAPI() {
-		return GeoGebraTubeAPID.getInstance();
+		if (api == null) {
+			ClientInfo client = new ClientInfo();
+			client.setModel((AuthenticationModel) this.model);
+			client.setType("desktop");
+			client.setWidth(1024);
+			client.setWidth(768);
+			api = new GeoGebraTubeAPID(client);
+		}
+		return api;
 	}
 
 	@Override

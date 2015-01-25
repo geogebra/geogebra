@@ -1,5 +1,6 @@
 package geogebra.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 
 import org.json.JSONArray;
@@ -16,6 +17,8 @@ import org.json.JSONTokener;
 public class GeoGebraTubeAPID extends
 		geogebra.common.move.ggtapi.models.GeoGebraTubeAPI {
 
+	private ClientInfo client;
+
 	@Override
 	protected geogebra.common.util.HttpRequest createHttpRequest() {
 		return new geogebra.util.HttpRequestD();
@@ -26,11 +29,8 @@ public class GeoGebraTubeAPID extends
 	 * 
 	 * @return GeogebraTubeAPI singleton
 	 */
-	public static GeoGebraTubeAPID getInstance() {
-		if (instance == null) {
-			instance = new GeoGebraTubeAPID();
-		}
-		return (GeoGebraTubeAPID) instance;
+	public GeoGebraTubeAPID(ClientInfo client) {
+		this.client = client;
 	}
 
 	@Override
@@ -123,5 +123,10 @@ public class GeoGebraTubeAPID extends
 	@Override
 	protected String getUrl() {
 		return url;
+	}
+
+	@Override
+	protected String getToken() {
+		return client.getModel().getLoginToken();
 	}
 }

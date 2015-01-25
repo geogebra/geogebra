@@ -58,4 +58,9 @@ public class GeoGebraTubeAPIWSimple extends GeoGebraTubeAPI {
 		return beta ? urlBeta : url;
 	}
 
+	@Override
+	protected String getToken() {
+		return "";
+	}
+
 }

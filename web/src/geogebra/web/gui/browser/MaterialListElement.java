@@ -69,6 +69,7 @@ public class MaterialListElement extends FlowPanel implements
 	private StandardButton confirm;
 	private StandardButton cancel;
 	private StandardButton deleteButton;
+	private StandardButton favoriteButton;
 
 	private ShowDetailsListener showListener;
 
@@ -170,11 +171,12 @@ public class MaterialListElement extends FlowPanel implements
 			if (isOwnMaterial) {
 				addDeleteButton();
 			}
-		} else if (isOwnMaterial && !isLocal) {
+		} else if (isOwnMaterial && this.material.getId() > 0) {
 			addEditButton();
 			addViewButton();
 			addRenameButton();
 			addDeleteButton();
+			addFavoriteButton();
 		} else if (isLocal) {
 			addEditButton();
 			addRenameButton();
@@ -182,6 +184,7 @@ public class MaterialListElement extends FlowPanel implements
 		} else {
 			addEditButton();
 			addViewButton();
+			addFavoriteButton();
 		}
 	}
 	
@@ -358,7 +361,25 @@ public class MaterialListElement extends FlowPanel implements
 		initConfirmDeletePanel();
 	}
 	
-	
+	private void addFavoriteButton() {
+		this.favoriteButton = new StandardButton(
+AppResources.INSTANCE.empty());
+		this.infoPanel.add(this.favoriteButton);
+		this.favoriteButton.addFastClickHandler(new FastClickHandler() {
+
+			@Override
+			public void onClick(Widget source) {
+				onFavorite();
+			}
+		});
+	}
+
+	void onFavorite(){
+		app.getLoginOperation().getGeoGebraTubeAPI()
+		        .favorite(this.material.getId(), !this.material.isFavorite());
+		this.material.setFavorite(!this.material.isFavorite());
+		updateFavoriteText();
+	}
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
 		if (this.material.getType() == MaterialType.ws) {
@@ -584,38 +605,33 @@ public class MaterialListElement extends FlowPanel implements
 	 * 
 	 */
 	public void setLabels() {
-		if (this.material.getType() == MaterialType.ws) {
-			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
-			if (isOwnMaterial) {
+		if(this.deleteButton != null){
 				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
+		}
+		if(this.cancel != null){
 				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
+		}
+		if(this.confirm != null){
 				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
-			}
-		} else if (this.material.getType() == MaterialType.book) {
-			this.editButton.setText(app.getLocalization().getMenu("Edit"));
-			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
-			if (isOwnMaterial) {
-				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
-				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
-				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
-			}
-		} else if (isOwnMaterial && !isLocal) {
-			this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
-			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
-			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
-			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
-			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
-			this.editButton.setText(app.getLocalization().getMenu("Edit"));
-		} else if (isLocal) {
-			this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
-			this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
-			this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
-			this.renameButton.setText(app.getLocalization().getCommand("Rename"));
-			this.editButton.setText(app.getLocalization().getMenu("Edit"));
-		} else {
-			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+		}
+		if(this.editButton != null){
 			this.editButton.setText(app.getLocalization().getMenu("Edit"));
 		}
+		if(this.viewButton != null){
+			this.viewButton.setText(app.getMenu(getInsertWorksheetTitle(material)));
+		}
+		if (this.renameButton != null) {
+			this.renameButton.setText(app.getMenu("Rename"));
+		}
+		if (this.favoriteButton != null) {
+			updateFavoriteText();
+		}
+	}
+
+	private void updateFavoriteText() {
+		this.favoriteButton
+		        .setText(app.getMenu(material.isFavorite() ? "Unfavorite"
+		                : "Favorite"));
 	}
 
 	/**
@@ -627,6 +643,9 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	protected void showDetails(final boolean show) {
+		if (this.favoriteButton != null) {
+			this.favoriteButton.setVisible(show);
+		}
 		if (this.material.getType() == MaterialType.ws) {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);

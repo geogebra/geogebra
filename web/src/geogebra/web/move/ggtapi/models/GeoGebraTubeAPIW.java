@@ -392,4 +392,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			        }
 		        });
 	}
+
+	@Override
+	protected String getToken() {
+		return client.getModel().getLoginToken();
+	}
 }

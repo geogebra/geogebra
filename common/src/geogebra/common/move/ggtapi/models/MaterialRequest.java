@@ -24,7 +24,7 @@ public class MaterialRequest implements Request
 	public enum Fields
 	{
 		id, title, type, description, timestamp, author, author_id, url, url_direct, language, thumbnail, featured, likes,
-		width, height, instructions_pre, instructions_post, ggbBase64, toolbar, menubar, inputbar, modified, visibility;
+ width, height, instructions_pre, instructions_post, ggbBase64, toolbar, menubar, inputbar, modified, visibility, favorite;
 	}
 
 	public enum Filters
@@ -48,7 +48,8 @@ public class MaterialRequest implements Request
 	private Fields[] fields = new Fields[]{Fields.id, Fields.title, Fields.type, Fields.timestamp, 
  Fields.author, Fields.author_id,
 			Fields.url, Fields.url_direct,
-			Fields.thumbnail, Fields.featured, Fields.likes, Fields.modified, Fields.visibility
+ Fields.thumbnail, Fields.featured,
+			Fields.likes, Fields.modified, Fields.visibility, Fields.favorite
 			};
 	private Filters[] filters = { Filters.search };
 	private Map<Filters,String> filterMap = new HashMap<Filters,String>();

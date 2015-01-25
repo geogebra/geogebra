@@ -84,6 +84,7 @@ public class Material implements Comparable<Material>
 	private int localID;
 	private boolean deleted;
 	private boolean fromAnotherDevice;
+	private boolean favorite;
 	
 	public boolean isDeleted() {
 		return deleted;
@@ -342,6 +343,7 @@ public class Material implements Comparable<Material>
 		putString(ret,"likes", likes+"");
 		putString(ret,"ggbBase64", base64);
 		putString(ret, "deleted", deleted + "");
+		putString(ret, "favorite", favorite + "");
 		putString(ret,"height", height+"");
 		putString(ret,"width", width+"");
 		putString(ret,"instructions_pre", this.instructionsPre);
@@ -473,5 +475,13 @@ public class Material implements Comparable<Material>
 
 	public int getAuthorID() {
 		return this.author_id;
+	}
+
+	public boolean isFavorite() {
+		return this.favorite;
+	}
+
+	public void setFavorite(boolean favorite) {
+		this.favorite = favorite;
 	}
 }

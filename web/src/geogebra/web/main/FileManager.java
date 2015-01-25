@@ -175,7 +175,8 @@ public abstract class FileManager implements FileManagerI {
 	private void checkMaterialsToDownload(ArrayList<SyncEvent> events) {
 		if (notSyncedFileCount == 0) {
 			for (SyncEvent event : events) {
-				if (event.isFavorite() && !event.isZapped()) {
+				if (event.isFavorite() && !event.isZapped()
+				        && this.shouldKeep(event.getID())) {
 					getFromTube(event.getID());
 				}
 			}
