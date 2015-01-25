@@ -633,7 +633,7 @@ __GGB__keysVar.zh_CN.command = {
     "PerpendicularPlane.Syntax": "[ <\u70b9>, <\u76f4\u7ebf> ]\n[ <\u70b9>, <\u5411\u91cf> ]",
     "Plane": "\u5e73\u9762",
     "Plane.Syntax": "[ <\u591a\u8fb9\u5f62> ]\n[ <\u5706\u9525\u66f2\u7ebf> ]\n[ <\u70b9>, <\u5e73\u884c\u7684\u5e73\u9762> ]\n[ <\u70b9>, <\u7ecf\u8fc7\u7684\u76f4\u7ebf> ]\n[ <\u76f4\u7ebf1>, <\u76f4\u7ebf2> ]\n[ <\u70b91>, <\u70b92>, <\u70b93> ]",
-    "PlaneBisector": "\u5e73\u5206\u9762",
+    "PlaneBisector": "\u5782\u76f4\u5e73\u5206\u9762",
     "PlaneBisector.Syntax": "[ <\u7ebf\u6bb5> ]\n[ <\u70b91>, <\u70b92> ]",
     "PlaySound": "\u64ad\u653e\u58f0\u97f3",
     "PlaySound.Syntax": "[ <\u6587\u4ef6> ]\n[ <\u662f\u5426\u64ad\u653e? true|false> ]\n[ <\u97f3\u7b26\u987a\u5e8f>, <\u4e50\u5668> ]\n[ <\u97f3\u7b26>, <\u6301\u7eed\u65f6\u95f4>, <\u4e50\u5668> ]\n[ <\u51fd\u6570>, <\u6700\u5c0f\u503c>, <\u6700\u5927\u503c> ]\n[ <\u51fd\u6570>, <\u6700\u5c0f\u503c>, <\u6700\u5927\u503c>, <\u91c7\u6837\u7387>, <\u6837\u672c\u6df1\u5ea6> ]",
