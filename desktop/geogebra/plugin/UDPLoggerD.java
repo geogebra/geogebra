@@ -34,9 +34,8 @@ public class UDPLoggerD implements UDPLogger {
 		TIMESTAMP("time"), ACCELEROMETER_X("Ax"), ACCELEROMETER_Y("Ay"), ACCELEROMETER_Z(
 				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
 				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
-				"Mz"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2("EDAQ2");
-		// TODO: SENT_DATA_NUMBER (Adatszám)
-		// TODO: IDŐ 0-tól induljon
+				"Mz"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2(
+				"EDAQ2");
 		private String string;
 
 		Types(String s) {
@@ -362,8 +361,9 @@ public class UDPLoggerD implements UDPLogger {
 				// App.debug(msg);
 				break;
 			}
-			// timestamp is logged always?
+			// timestamp and data-count logged always
 			log(Types.TIMESTAMP, Math.abs(now - Double.parseDouble(split[2])));
+			log(Types.DATA_COUNT, Double.parseDouble(split[1]));
 
 			// for (int i = 1; i < split.length; i++) {
 			// App.debug(split[i]);
