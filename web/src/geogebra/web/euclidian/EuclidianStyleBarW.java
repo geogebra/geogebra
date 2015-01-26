@@ -702,10 +702,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 				this.setVisible(geosOK);
 
 				if (geosOK) {
-					if (!geo.isLabelVisible())
+					if (!geo.getLabelVisible()) {
 						setSelectedIndex(0);
-					else
+					} else {
 						setSelectedIndex(geo.getLabelMode() + 1);
+					}
 				}
 			}
 
