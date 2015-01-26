@@ -329,6 +329,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		performRequest(MaterialRequest.forBook(id, client).toJSONString(), cb);
 	}
 
+	public void getWorksheetItems(int id, MaterialCallback cb) {
+		performRequest(MaterialRequest.forWorksheet(id, client).toJSONString(),
+		        cb);
+	}
+
 	public void sync(AppW app, long timestamp, final SyncCallback cb) {
 		this.performRequest(new SyncRequest(app, timestamp).toJSONString(),
 		        false, new AjaxCallback() {

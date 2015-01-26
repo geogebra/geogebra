@@ -126,7 +126,7 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	protected void initMaterialInfos() {
-		if (!isLocal) {
+		if (!isLocal()) {
 			this.title = new Label(this.material.getTitle());
 			this.sharedBy = new Label(this.material.getAuthor());
 			this.sharedBy.setStyleName("sharedPanel");
@@ -228,6 +228,10 @@ public class MaterialListElement extends FlowPanel implements
 						                material.setSyncStamp(parseResponse
 						                        .get(0)
 						                        .getModified());
+						                if (!app.getFileManager().shouldKeep(
+						                        material.getId())) {
+							                return;
+						                }
 						                App.debug("RENAME CALLBACK" + oldTitle
 						                        + "->" + title.getText());
 						                material.setTitle(oldTitle);
@@ -310,7 +314,9 @@ public class MaterialListElement extends FlowPanel implements
 	}
 
 	private void addSyncDecoration() {
-		if (this.material.getSyncStamp() > 0
+		if (this.app.getFileManager().shouldKeep(this.material.getId())
+		        && this.material.getType() != MaterialType.book
+		        && this.material.getSyncStamp() > 0
 		        && this.material.getModified() <= this.material.getSyncStamp()) {
 			final Label deco = new Label();
 			deco.setStyleName("syncDecoration");
@@ -488,18 +494,45 @@ AppResources.INSTANCE.empty());
 	protected void onEdit() {
 		if (!isLocal) {
 			if(material.getType() == MaterialType.book){
-				((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getBookItems(material.getId(), new MaterialCallback(){
+				((GeoGebraTubeAPIW) app.getLoginOperation()
+				        .getGeoGebraTubeAPI()).getBookItems(material.getId(),
+				        new MaterialCallback() {
 
-					@Override
-					public void onLoaded(final List<Material> response) {
-						guiManager.getBrowseView().clearMaterials();
-						guiManager.getBrowseView().onSearchResults(response);
-					}
-				});
+					        @Override
+					        public void onLoaded(final List<Material> response) {
+						        guiManager.getBrowseView().clearMaterials();
+						        guiManager.getBrowseView().onSearchResults(
+						                response);
+					        }
+				        });
+				return;
+			}
+			final long synced = material.getSyncStamp();
+			if (material.getType() == MaterialType.ws) {
+				((GeoGebraTubeAPIW) app.getLoginOperation()
+				        .getGeoGebraTubeAPI()).getWorksheetItems(
+				        material.getId(),
+				        new MaterialCallback() {
+
+					        @Override
+					        public void onLoaded(final List<Material> response) {
+						        if (response.size() != 1) {
+						        guiManager.getBrowseView().clearMaterials();
+						        guiManager.getBrowseView().onSearchResults(
+						                response);
+						        } else {
+							        material = response.get(0);
+							        material.setSyncStamp(synced);
+							        app.getGgbApi().setBase64(
+							                material.getBase64());
+							        app.setActiveMaterial(material);
+						        }
+					        }
+				        });
 				return;
 			}
 			ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Loading"), false);
-			final long synced = material.getSyncStamp();
+
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId()+"", new MaterialCallback(){
 
 				@Override
