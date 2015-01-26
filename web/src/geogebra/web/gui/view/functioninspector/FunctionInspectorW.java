@@ -51,6 +51,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class FunctionInspectorW extends FunctionInspector {
 
+	private static final int PADDING_RIGHT = 45;
 	// color constants
 	private static final GColor DISPLAY_GEO_COLOR = GColorW.RED;
 	private static final GColor DISPLAY_GEO2_COLOR = GColorW.RED;
@@ -708,8 +709,12 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	void onResize() {
 		if (this.mainPanel.getOffsetHeight() != 0) {
-			this.tabPanel.setSize("100%", this.mainPanel.getOffsetHeight()
+			this.tabPanel.setHeight(this.mainPanel.getOffsetHeight()
 			        - HEADER_PADDING + "px");
+			this.intervalTab.setWidth(this.mainPanel.getOffsetWidth() - PADDING_RIGHT
+			        + "px");
+			this.pointsTab.setWidth(this.mainPanel.getOffsetWidth()
+			        - PADDING_RIGHT + "px");
 		}
 
 	}
