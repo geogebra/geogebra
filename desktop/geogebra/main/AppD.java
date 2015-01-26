@@ -4499,6 +4499,9 @@ img.getImage()
 
 	@Override
 	public boolean showView(int view) {
+		if (getGuiManager() == null) {
+			return view == App.VIEW_EUCLIDIAN;
+		}
 		return getGuiManager().showView(view);
 	}
 
