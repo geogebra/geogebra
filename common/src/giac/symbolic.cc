@@ -296,7 +296,7 @@ namespace giac {
 	  if (i){
 	    if ( (f.type==_CPLX) || (f.type==_MOD) ||
 		 ((f.type==_SYMB) && 
-		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv ))
+		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv || (f._SYMBptr->sommet==at_pow && f._SYMBptr->feuille[0].is_symb_of_sommet(at_inv)) ))
 		 ){
 	      s += "/(";
 	      add_print(s,f,contextptr);
