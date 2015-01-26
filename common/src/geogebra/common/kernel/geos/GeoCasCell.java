@@ -1534,10 +1534,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 				e.printStackTrace();
 			}
 		} else {
-			// if the evaluation of outputVE returns null we have no twin geo
-			// we remove the old one and return
-			twinGeo.doRemove();
-			twinGeo = null;
+			// r2835: if the evaluation of outputVE returns null we have no twin
+			// geo, we remove the old one and return
+			// We only hide the geo from XML to avoid parsing eg 0=0 on next
+			// file load
+			twinGeo.setUndefined();
+			twinGeo.setAlgebraVisible(false);
+			cons.removeFromConstructionList(twinGeo);
 			return;
 		}
 		twinGeo.update();
