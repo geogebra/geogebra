@@ -11,13 +11,18 @@ import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.Localization;
 import geogebra.html5.awt.GColorW;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.ImageOrText;
+import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
+import geogebra.web.gui.util.PopupMenuHandler;
+import geogebra.web.gui.util.StandardButton;
 import geogebra.web.gui.view.algebra.InputPanelW;
 import geogebra.web.gui.view.functioninspector.GridModel.DataCell;
 import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
@@ -25,19 +30,21 @@ import geogebra.web.gui.view.spreadsheet.SpreadsheetViewW;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.core.client.Scheduler.ScheduledCommand;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Command;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.MenuBar;
-import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.TabBar;
 import com.google.gwt.user.client.ui.TabPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -52,6 +59,7 @@ public class FunctionInspectorW extends FunctionInspector {
 	private static final int TAB_INTERVAL_IDX = 0;
 	private static final String[] DEFAULT_XY_HEADERS = { "x", "y(x)" };
 	private static final String PREFIX = "[FUNC_ISPECTOR]";
+	private static final int HEADER_PADDING = 44;
 
 	private FlowPanel mainPanel;
 	private TabPanel tabPanel;
@@ -62,9 +70,9 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyToggleButton2 btnTangent;
 	private MyToggleButton2 btnOscCircle;
 
-	private MyToggleButton2 btnHelp;
-	// private PopupMenuButton btnOptions;
-	private MenuBar btnOptions;
+	private StandardButton btnHelp;
+	private PopupMenuButton btnOptions;
+	// private MenuBar btnOptions;
 
 	private Label lblGeoName, lblStep, lblInterval;
 	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
@@ -72,11 +80,10 @@ public class FunctionInspectorW extends FunctionInspector {
 	private GridModel modelXY, modelInterval;
 
 	private PopupMenuButton btnAddColumn;
-	private MyToggleButton2 btnRemoveColumn;
+	private MyCJButton btnRemoveColumn;
 
-	private boolean isChangingValue;
 	private int pointCount = 9;
-
+	private boolean isChangingValue;
 	private GeoElementSelectionListener sl;
 
 	private class RoundingCommand implements Command {
@@ -99,6 +106,20 @@ public class FunctionInspectorW extends FunctionInspector {
 	public FunctionInspectorW(AppW app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
 		App.debug("[!!!] constructor");
+		Window.addResizeHandler(new ResizeHandler() {
+			@Override
+			public void onResize(final ResizeEvent event) {
+				FunctionInspectorW.this.onResize();
+			}
+		});
+		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
+
+			@Override
+			public void execute() {
+				onResize();
+			}
+		});
+
 	}
 
 	@Override
@@ -124,54 +145,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private void debug(String msg) {
 		App.debug(PREFIX + " " + msg);
-
-	}
-
-	public void setLabels() {
-		debug("setLabels");
-		Localization loc = getAppW().getLocalization();
-		// wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
-		lblStep.setText(loc.getMenu("Step") + ":");
-		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
-		//
-		// // header text
-		//
-		TabBar tabBar = tabPanel.getTabBar();
-		tabBar.setTabText(0, loc.getPlain("fncInspector.Interval"));
-		tabBar.setTabText(1, loc.getPlain("fncInspector.Points"));
-
-		lblGeoName.setText(getModel().getTitleString());
-		//
-		// // tool tips
-		btnHelp.setToolTipText(loc.getPlain("ShowOnlineHelp"));
-		btnOscCircle.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.showOscCircle"));
-		btnXYSegments.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.showXYLines"));
-		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
-		btnTangent.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.showTangent"));
-		btnAddColumn.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.addColumn"));
-		btnRemoveColumn.setToolTipText(loc
-		        .getPlainTooltip("fncInspector.removeColumn"));
-		// fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
-		// lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
-		//
-		// // add/remove extra column buttons
-		btnRemoveColumn.setText("\u2718");
-		btnAddColumn.setText("\u271A");
-
-		FlowPanel p = (FlowPanel) btnAddColumn.getParent();
-		p.clear();
-		p.add(lblStep);
-		p.add(fldStep);
-		createBtnAddColumn();
-		p.add(btnAddColumn);
-		p.add(btnRemoveColumn);
-
-		modelInterval.setHeaders(getModel().getIntervalColumnNames());
-		debug("setLabels ended");
 
 	}
 
@@ -209,7 +182,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		for (int i = 0; i < property.size(); i++) {
 			modelInterval
 			        .addAsRow(Arrays.asList(property.get(i), value.get(i)));
-
 		}
 		debug("updateInterval ended");
 	}
@@ -248,7 +220,6 @@ public class FunctionInspectorW extends FunctionInspector {
 			} else {
 				doTextFieldActionPerformed(fldHigh);
 			}
-
 		}
 
 		updateIntervalFields();
@@ -261,7 +232,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	public void setStepVisible(boolean isVisible) {
 		lblStep.setVisible(isVisible);
 		fldStep.setVisible(isVisible);
-
 	}
 
 	public GColor getColor(Colors id) {
@@ -282,7 +252,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		default:
 			color = GColorW.black;
 			break;
-
 		}
 		return color;
 	}
@@ -305,15 +274,16 @@ public class FunctionInspectorW extends FunctionInspector {
 			}
 		});
 		mainPanel.add(tabPanel);
-		setLabels();
 	}
 
 	@Override
 	protected void buildHelpPanel() {
-		btnHelp = new MyToggleButton2(AppResources.INSTANCE.help());
-		btnHelp.addClickHandler(new ClickHandler() {
+		btnHelp = new StandardButton(GuiResources.INSTANCE.menu_icon_help());
+		btnHelp.addStyleName("MyCanvasButton");
+		btnHelp.addFastClickHandler(new FastClickHandler() {
 
-			public void onClick(ClickEvent event) {
+			@Override
+			public void onClick(Widget source) {
 				getAppW().getGuiManager().openHelp("Function_Inspector_Tool");
 			}
 		});
@@ -327,19 +297,15 @@ public class FunctionInspectorW extends FunctionInspector {
 		buttons.add(btnHelp);
 		buttons.add(btnOptions);
 		header.add(buttons);
-		// buttons.setStyleName("functionInspectorToolButtons");
 		buttons.setStyleName("panelRow");
 		header.setStyleName("panelRow");
 		buildHelpPanel();
-		createOptionsButton();
 		mainPanel.add(header);
-
 	}
 
 	@Override
 	protected void createTabIntervalPanel() {
 		intervalTab = new FlowPanel();
-
 		tableInterval = new InspectorTableW(getAppW(), 2);
 		modelInterval = tableInterval.getModel();
 		intervalTab.add(tableInterval);
@@ -350,7 +316,6 @@ public class FunctionInspectorW extends FunctionInspector {
 		toolBar.add(fldHigh);
 		intervalTab.add(toolBar);
 		intervalTab.setStyleName("propertiesTab");
-
 	}
 
 	@Override
@@ -358,63 +323,34 @@ public class FunctionInspectorW extends FunctionInspector {
 		debug("createTabPointPanel()");
 		pointsTab = new FlowPanel();
 		pointsTab.setStyleName("propertiesTab");
+
 		FlowPanel header = new FlowPanel();
+		header.setStyleName("panelRow");
 
-		lblStep = new Label();
-		InputPanelW stepPanel = new InputPanelW(null, getAppW(), -1, false);
-		fldStep = stepPanel.getTextComponent();
-
-		fldStep.addKeyHandler(new KeyHandler() {
-
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					doTextFieldActionPerformed(fldStep);
-				}
-			}
-
-		});
-
-		fldStep.addBlurHandler(new BlurHandler() {
-
-			public void onBlur(BlurEvent event) {
-				doTextFieldActionPerformed(fldStep);
-			}
-		});
-
-		fldStep.setColumns(6);
+		createStep();
+		createBtnAddColumn();
+		createBtnRemoveColumn();
 
 		header.add(lblStep);
 		header.add(fldStep);
-		createBtnAddColumn();
 		header.add(btnAddColumn);
-		btnRemoveColumn = new MyToggleButton2(AppResources.INSTANCE.empty());
-		header.setStyleName("panelRow");
 		header.add(btnRemoveColumn);
 
 		pointsTab.add(header);
 
-		tableXY = new InspectorTableW(getAppW(), 2);
-		modelXY = tableXY.getModel();
-		modelXY.setHeaders(DEFAULT_XY_HEADERS);
-		// modelXY.setRowCount(pointCount);
+		createXYtable();
 		pointsTab.add(tableXY);
 
-		tableXY.addKeyHandler(new KeyHandler() {
+		FlowPanel btnPanel = createBtnPanel();
+		pointsTab.add(btnPanel);
 
-			public void keyReleased(KeyEvent e) {
-				if (e.isEnterKey()) {
-					changeXYStart();
-				}
+		debug("createTabPointPanel() ENDED");
+	}
 
-			}
-		});
-
-		tableXY.addBlurHandler(new BlurHandler() {
-
-			public void onBlur(BlurEvent event) {
-				changeXYStart();
-			}
-		});
+	/**
+	 * @return
+	 */
+	private FlowPanel createBtnPanel() {
 		FlowPanel btnPanel = new FlowPanel();
 		btnPanel.setStyleName("panelRowIndent");
 		btnTable = new MyToggleButton2(new Image(AppResources.INSTANCE.table()
@@ -442,18 +378,67 @@ public class FunctionInspectorW extends FunctionInspector {
 		btnXYSegments.addClickHandler(btnClick);
 		btnTangent.addClickHandler(btnClick);
 		btnOscCircle.addClickHandler(btnClick);
-		btnXYSegments.setSelected(true);
+		btnXYSegments.setDown(true);
+		return btnPanel;
+	}
 
+	private void createBtnRemoveColumn() {
+		btnRemoveColumn = new MyCJButton();
 		btnRemoveColumn.addClickHandler(new ClickHandler() {
 
+			@Override
 			public void onClick(ClickEvent event) {
 				removeColumn();
 			}
 		});
-
-		pointsTab.add(btnPanel);
-		debug("createTabPointPanel() ENDED");
 	}
+
+	private void createXYtable() {
+		tableXY = new InspectorTableW(getAppW(), 2);
+		modelXY = tableXY.getModel();
+		modelXY.setHeaders(DEFAULT_XY_HEADERS);
+		// modelXY.setRowCount(pointCount);
+
+		tableXY.addKeyHandler(new KeyHandler() {
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					changeXYStart();
+				}
+			}
+		});
+
+		tableXY.addBlurHandler(new BlurHandler() {
+
+			public void onBlur(BlurEvent event) {
+				changeXYStart();
+			}
+		});
+	}
+
+    private void createStep() {
+	    lblStep = new Label();
+		InputPanelW stepPanel = new InputPanelW(null, getAppW(), -1, false);
+		fldStep = stepPanel.getTextComponent();
+
+		fldStep.addKeyHandler(new KeyHandler() {
+
+			public void keyReleased(KeyEvent e) {
+				if (e.isEnterKey()) {
+					doTextFieldActionPerformed(fldStep);
+				}
+			}
+		});
+
+		fldStep.addBlurHandler(new BlurHandler() {
+
+			public void onBlur(BlurEvent event) {
+				doTextFieldActionPerformed(fldStep);
+			}
+		});
+
+		fldStep.setColumns(6);
+    }
 
 	private void changeXYStart() {
 		Double value = tableXY.getDoubleEdited();
@@ -464,7 +449,6 @@ public class FunctionInspectorW extends FunctionInspector {
 	}
 
 	private void createBtnAddColumn() {
-
 		btnAddColumn = new PopupMenuButton(getAppW(),
 		        ImageOrText.convert(getModel().getColumnNames()), -1, 1,
 		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
@@ -472,18 +456,19 @@ public class FunctionInspectorW extends FunctionInspector {
 			public void handlePopupActionEvent() {
 				super.handlePopupActionEvent();
 				getModel().addColumn(getSelectedIndex());
+				btnAddColumn.setSelectedIndex(-1);
 			}
 		};
 		btnAddColumn.setKeepVisible(false);
 		btnAddColumn.setText("\u271A");
-		ImageResource[] res = { AppResources.INSTANCE.empty() };
+		btnAddColumn.setSelectedIndex(-1);
 	}
 
 	@Override
 	protected void createGUIElements() {
 
 		mainPanel = new FlowPanel();
-
+		mainPanel.addStyleName("functionInspectorMainPanel");
 		lblGeoName = new Label(getModel().getTitleString());
 
 		lblInterval = new Label();
@@ -623,7 +608,6 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	@Override
 	protected void changeStart(double x) {
-
 		setStart(x);
 	}
 
@@ -631,33 +615,24 @@ public class FunctionInspectorW extends FunctionInspector {
 	protected void createOptionsButton() {
 		AppW appW = getAppW();
 
-		Localization loc = appW.getLocalization();
-		btnOptions = new MenuBar();
-		MenuBar options = new MenuBar(true);
-		// MenuBar rounding = new RoundingMenu(appW, new IRoundingMenuListener()
-		// {
-		//
-		// public void onChange(int index) {
-		// getModel().applyDecimalPlaces(index);
-		// }
-		// });
-		//
-		// options.addItem("Roundings", rounding);
-		// // copy to spreadsheet
-		MenuItem mi = new MenuItem(loc.getMenu("CopyToSpreadsheet"),
-		        new Command() {
+		ImageOrText[] strOptions = new ImageOrText[] { new ImageOrText(
+		        appW.getMenu("CopyToSpreadsheet")) };
+		btnOptions = new PopupMenuButton(appW, strOptions,
+		        strOptions.length, 1,
+		        geogebra.common.gui.util.SelectionTable.MODE_TEXT);
 
-			        public void execute() {
-				        doCopyToSpreadsheet();
-			        }
-		        });
-
-		options.addItem(mi);
-
-		String image = "<img src=\""
-		        + AppResources.INSTANCE.tool().getSafeUri().asString() + "\" >";
-		btnOptions.addItem(image, true, options);
-
+		ImageOrText icon = new ImageOrText();
+		icon.setUrl(GuiResources.INSTANCE.menu_icon_tools().getSafeUri()
+                .asString());
+		btnOptions.setFixedIcon(icon);
+		btnOptions.setSelectedIndex(-1);
+		btnOptions.addPopupHandler(new PopupMenuHandler() {
+			@Override
+			public void fireActionPerformed(PopupMenuButton actionButton) {
+				doCopyToSpreadsheet();
+				btnOptions.setSelectedIndex(-1);
+			}
+		});
 	}
 
 	@Override
@@ -686,4 +661,56 @@ public class FunctionInspectorW extends FunctionInspector {
 		return false;
 	}
 
+	public void setLabels() {
+		debug("setLabels");
+		Localization loc = getAppW().getLocalization();
+		// wrappedDialog.setTitle(loc.getMenu("FunctionInspector"));
+		lblStep.setText(loc.getMenu("Step") + ":");
+		lblInterval.setText(" \u2264 x \u2264 "); // <= x <=
+		//
+		// // header text
+		//
+		TabBar tabBar = tabPanel.getTabBar();
+		tabBar.setTabText(0, loc.getPlain("fncInspector.Interval"));
+		tabBar.setTabText(1, loc.getPlain("fncInspector.Points"));
+
+		lblGeoName.setText(getModel().getTitleString());
+		//
+		// // tool tips
+		btnHelp.setTitle(loc.getPlain("ShowOnlineHelp"));
+		btnOscCircle.setToolTipText(loc
+		        .getPlainTooltip("fncInspector.showOscCircle"));
+		btnXYSegments.setToolTipText(loc
+		        .getPlainTooltip("fncInspector.showXYLines"));
+		btnTable.setToolTipText(loc.getPlainTooltip("fncInspector.showTable"));
+		btnTangent.setToolTipText(loc
+		        .getPlainTooltip("fncInspector.showTangent"));
+		btnAddColumn.setToolTipText(loc
+		        .getPlainTooltip("fncInspector.addColumn"));
+		btnRemoveColumn.setTitle(loc
+		        .getPlainTooltip("fncInspector.removeColumn"));
+		// fldStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
+		// lblStep.setToolTipText(loc.getPlainTooltip("fncInspector.step"));
+		//
+		// // add/remove extra column buttons
+		btnRemoveColumn.setText("\u2718");
+		btnAddColumn.setText("\u271A");
+
+		btnOptions.getMyTable().updateText(
+		        new ImageOrText[] { new ImageOrText(getAppW()
+		                .getMenu("CopyToSpreadsheet")) });
+		btnAddColumn.getMyTable().updateText(
+		        ImageOrText.convert(getModel().getColumnNames()));
+
+		modelInterval.setHeaders(getModel().getIntervalColumnNames());
+		debug("setLabels ended");
+	}
+
+	void onResize() {
+		if (this.mainPanel.getOffsetHeight() != 0) {
+			this.tabPanel.setSize("100%", this.mainPanel.getOffsetHeight()
+			        - HEADER_PADDING + "px");
+		}
+
+	}
 }

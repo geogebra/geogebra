@@ -1098,6 +1098,7 @@ public class FunctionInspectorModel {
 	}
 
 	public String[] getColumnNames() {
+		setColumnNames();
 		return columnNames;
 	}
 

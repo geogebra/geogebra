@@ -91,7 +91,7 @@ public class MyCJButton extends Composite implements MouseDownHandler,
 	 *            String
 	 */
 	public void setText(String text) {
-		button.setText("BT" + text);
+		button.setText(text);
 	}
 
 	@Override

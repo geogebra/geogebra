@@ -4596,41 +4596,72 @@ body.zoomedBody .geogebraweb-table-spreadsheet td {
 /*#####################################################################################
 ###       FUNCTION INSPECTOR
 #####################################################################################*/
+
+.functionInspectorMainPanel {
+	background-color: #f8f8f8;
+}
+
+.functionInspectorMainPanel table.gwt-TabPanel {
+	width: 100%;
+	/*height: 90%;*/
+	padding-right: 35px;
+}
+
+.functionInspectorMainPanel .gwt-TabPanelBottom {
+	height: 100%;
+	padding-right: 0px;
+}
+
+.functionInspectorMainPanel .propertiesTab {
+	padding-right: 0px;
+}
+
+.functionInspectorMainPanel .panelRow>.panelRow {
+	float: right;
+	top: 32px;
+	right: 15px;
+	position: relative;
+}
+
+.functionInspectorMainPanel img.gwt-Image {
+	vertical-align: middle;
+}
+
+.functionInspectorMainPanel>.panelRow .gwt-Label {
+	padding: 10px;
+	font-size: 115%;
+}
+
+.functionInspectorMainPanel .panelRowIndent .MyToggleButton {
+	/* bigger buttons needed, because of wrong size of images */
+	width: 30px;
+	height: 30px;	
+}
+
 .inspectorTable {
-	width: 200px;
 	border-collapse: collapse;
+	min-width: 200px;
 }
 
 .inspectorTable tr {
 	background-color: white;
-	color: black;
 }
 
-.inspectorTable tr.selected {
-	background-color: maroon;
-	color: yellow;
-}
-
-.inspectorTable tr.selected:hover {
-	background-color: blue;
-	color: yellow;
-}
-
+.inspectorTable tr.selected, 
 .inspectorTable tr:hover {
-	background-color: gray;
-	color: yellow;
+	background-color: #CCCCFF;
 }
 
 .inspectorTable td {
 	border: 1px solid;
 	padding: 5px;
-	min-width: 50px;
+	min-width: 105px;
 	height: 18px;
 }
 
 .inspectorTableHeader,.inspectorTableHeader:hover {
-	background-color: #cecece;
-	color: gray;
+	background-color: #CCCCCC;
+	color: #666666;
 	font-weight: bold;
 }
 
