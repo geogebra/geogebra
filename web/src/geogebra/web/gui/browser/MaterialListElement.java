@@ -154,30 +154,19 @@ public class MaterialListElement extends FlowPanel implements
 		if (isOwnMaterial) {
 			initRenameTextBox();
 		}
-		if(!isLocal) {
+		if (!isLocal()) {
 			this.infoPanel.add(this.sharedBy);
 		}
 	}
 	
 	protected void addOptions() {
-		if (this.material.getType() == MaterialType.ws) {
-			addViewButton();
-			if (isOwnMaterial) {
-				addDeleteButton();
-			}
-		} else if (this.material.getType() == MaterialType.book) {
-			addEditButton();
-			addViewButton();
-			if (isOwnMaterial) {
-				addDeleteButton();
-			}
-		} else if (isOwnMaterial && this.material.getId() > 0) {
+		if (isOwnMaterial && !isLocal()) {
 			addEditButton();
 			addViewButton();
 			addRenameButton();
 			addDeleteButton();
 			addFavoriteButton();
-		} else if (isLocal) {
+		} else if (isLocal()) {
 			addEditButton();
 			addRenameButton();
 			addDeleteButton();
@@ -382,31 +371,17 @@ AppResources.INSTANCE.empty());
 	}
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
-		if (this.material.getType() == MaterialType.ws) {
-			this.viewButton.setVisible(false);
-			if (isOwnMaterial) {
-				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
-				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
-				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
-			}
-		} else if (this.material.getType() == MaterialType.book) {
+		if (this.favoriteButton != null) {
+			this.favoriteButton.setVisible(false);
+		}
+		if (this.editButton != null) {
 			this.editButton.setVisible(false);
+		}
+		if (this.viewButton != null) {
 			this.viewButton.setVisible(false);
-			if (isOwnMaterial) {
-				this.deleteButton.setText(app.getLocalization().getPlain("Delete"));
-				this.cancel.setText(this.app.getLocalization().getPlain("Cancel"));
-				this.confirm.setText(this.app.getLocalization().getPlain("Delete"));
-			}
-		} else if (isOwnMaterial && !isLocal) {
-			this.editButton.setVisible(false);
-			this.viewButton.setVisible(false);
+		}
+		if (this.renameButton != null) {
 			this.renameButton.setVisible(false);
-		} else if (isLocal) {
-			this.renameButton.setVisible(false);
-			this.editButton.setVisible(false);
-		} else {
-			this.editButton.setVisible(false);
-			this.viewButton.setVisible(false);
 		}
 		this.confirmDeletePanel.setVisible(true);
 		this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete_active());
@@ -449,7 +424,7 @@ AppResources.INSTANCE.empty());
 		final Material toDelete = this.material;
 		this.app.getFileManager().delete(toDelete, false);
 
-		if (!this.isLocal) {
+		if (app.getNetworkOperation().isOnline() && toDelete.getId() > 0) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 			        .deleteMaterial(this.app, toDelete, new MaterialCallback() {
 
@@ -646,26 +621,7 @@ AppResources.INSTANCE.empty());
 		if (this.favoriteButton != null) {
 			this.favoriteButton.setVisible(show);
 		}
-		if (this.material.getType() == MaterialType.ws) {
-			this.sharedBy.setVisible(true);
-			this.viewButton.setVisible(show);
-			if (isOwnMaterial) {
-				this.deleteButton.setVisible(show);
-				this.deleteButton.removeStyleName("deleteActive");
-				this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
-				this.confirmDeletePanel.setVisible(false);
-			}
-		} else if (this.material.getType() == MaterialType.book) {
-			this.editButton.setVisible(show);
-			this.sharedBy.setVisible(true);
-			this.viewButton.setVisible(show);
-			if (isOwnMaterial) {
-				this.deleteButton.setVisible(show);
-				this.deleteButton.removeStyleName("deleteActive");
-				this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
-				this.confirmDeletePanel.setVisible(false);
-			}
-		} else if (isOwnMaterial && !isLocal) {
+		if (isOwnMaterial && !isLocal()) {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
 			this.deleteButton.setVisible(show);
@@ -674,7 +630,7 @@ AppResources.INSTANCE.empty());
 			this.confirmDeletePanel.setVisible(false);
 			this.renameButton.setVisible(show);
 			this.editButton.setVisible(show);
-		} else if (isLocal) {
+		} else if (isLocal()) {
 			this.deleteButton.setVisible(show);
 			this.deleteButton.removeStyleName("deleteActive");
 			this.deleteButton.setIcon(BrowseResources.INSTANCE.document_delete());
@@ -720,13 +676,12 @@ AppResources.INSTANCE.empty());
 
 	public void setMaterial(Material mat) {
 		this.material = mat;
-		String check = "";
 
-		if (isLocal) {
+		if (isLocal()) {
 			String key = mat.getTitle();
-			this.title.setText(check + extractTitle(key));
+			this.title.setText(extractTitle(key));
 		} else {
-			this.title.setText(check + this.material.getTitle());
+			this.title.setText(this.material.getTitle());
 		}
 		if (!app.getLoginOperation().owns(mat)) {
 			this.sharedBy.setText(this.material.getAuthor());
@@ -748,7 +703,7 @@ AppResources.INSTANCE.empty());
 	 * @return true if this material is saved local
 	 */
 	public boolean isLocal() {
-		return this.isLocal;
+		return this.material.getId() <= 0;
 	}
 
 	/**
