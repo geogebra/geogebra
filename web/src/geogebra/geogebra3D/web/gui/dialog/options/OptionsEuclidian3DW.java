@@ -13,6 +13,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.options.OptionsEuclidianW;
+import geogebra.web.gui.util.MyToggleButton2;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -274,69 +275,58 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		        tfObliqueFactorLabel;
 		private CheckBox cbGlassesGray, cbGlassesShutDownGreen;
 
-		private class ProjectionButtons {
+		private class ProjectionButtons implements ClickHandler {
 
-			private ToggleButton[] buttons;
-
+			private MyToggleButton2[] buttons;
 			private int buttonSelected;
-
-			private class ClickHandleProjectionButton implements ClickHandler {
-
-				private int index;
-
-				/**
-				 * constructor
-				 * 
-				 * @param index
-				 *            button index
-				 */
-				public ClickHandleProjectionButton(int index) {
-					this.index = index;
-				}
-
-				@Override
-				public void onClick(ClickEvent event) {
-					((EuclidianView3D) view).getSettings().setProjection(index);
-					view.repaintView();
-				}
-
-			}
 
 			private ProjectionButtons() {
 
-				buttons = new ToggleButton[4];
+				buttons = new MyToggleButton2[4];
 
-				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new ToggleButton(
+				buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new MyToggleButton2(
 				        new Image(StyleBar3DResources.INSTANCE
 				                .viewOrthographic()));
-				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new ToggleButton(
+				buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new MyToggleButton2(
 				        new Image(
 				                StyleBar3DResources.INSTANCE.viewPerspective()));
-				buttons[EuclidianView3D.PROJECTION_GLASSES] = new ToggleButton(
+				buttons[EuclidianView3D.PROJECTION_GLASSES] = new MyToggleButton2(
 				        new Image(StyleBar3DResources.INSTANCE.viewGlasses()));
-				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new ToggleButton(
+				buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new MyToggleButton2(
 				        new Image(StyleBar3DResources.INSTANCE.viewOblique()));
 
+
 				for (int i = 0; i < 4; i++) {
-					buttons[i].addClickHandler(new ClickHandleProjectionButton(
-					        i));
+					buttons[i].addClickHandler(this);
 				}
 
 				buttonSelected = ((EuclidianView3D) view).getProjection();
-				buttons[buttonSelected].setValue(true);
+				buttons[buttonSelected].setDown(true);
 			}
 
 			public ToggleButton getButton(int i) {
 				return buttons[i];
 			}
 
-			public void setSelected(int i) {
-				buttons[buttonSelected].setValue(false);
-				buttonSelected = i;
-				buttons[buttonSelected].setValue(true);
+			@Override
+			public void onClick(ClickEvent event) {
+				MyToggleButton2 source = (MyToggleButton2) event.getSource();
 
+				if (source == buttons[((EuclidianView3D) view).getProjection()]) {
+					source.setDown(true);
+					return;
+				}
+
+				for (int i = 0; i < buttons.length; i++) {
+					if (buttons[i].equals(source)) {
+						((EuclidianView3D) view).getSettings().setProjection(i);
+						view.repaintView();
+						buttons[i].setDown(true);
+					} else {
+						buttons[i].setDown(false);
+					}
+				}
 			}
-
 		}
 
 		public ProjectionTab() {
