@@ -972,7 +972,8 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 }
 
 .TextToggleButton.gwt-ToggleButton-up-disabled,.TextToggleButton.gwt-ToggleButton-down-disabled,
-.button-up-disabled,.MyToggleButton.gwt-ToggleButton-up-disabled,.MyToggleButton.gwt-ToggleButton-down-disabled
+.button-up-disabled,.MyToggleButton.gwt-ToggleButton-up-disabled,.MyToggleButton.gwt-ToggleButton-down-disabled,
+.MyCanvasButton.disabled
 	{
 	cursor: default !important;
 	opacity: .5;
@@ -980,6 +981,11 @@ body[dir=rtl] .gwt-MenuBar-vertical .subMenuIcon {
 	filter: alpha(opacity =       50);
 	background: none !important;
 }
+
+.MyCanvasButton.disabled:hover {
+	border: #DCDCDC solid 1px;
+}
+
 
 .TextToggleButton.gwt-ToggleButton-up-disabled:focus, .TextToggleButton.gwt-ToggleButton-down-disabled:focus,
 .button-up-disabled:focus ,.MyToggleButton.gwt-ToggleButton-up-disabled:focus, .MyToggleButton.gwt-ToggleButton-down-disabled:focus
@@ -3798,6 +3804,16 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 
 .scriptTabPanel {
 	width: 100%;
+}
+
+/* disabled styles */
+.disabled>.panelIndent, .disabled>div>.panelRowIndent {
+	color: #CCCCCC;
+}
+
+.disabled .gwt-ListBox {
+	opacity: 0.4;
+	cursor: default;
 }
 
 /*++++++++++++++++ ADVANCED LIST ++++++++++++++++++++++++++++++++++++++++++++++++++++++*/

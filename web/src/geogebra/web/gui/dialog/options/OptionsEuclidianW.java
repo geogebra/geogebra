@@ -719,7 +719,11 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 		private void enableGrid(boolean value) {
 			model.showGrid(value);
-			mainPanel.setStyleName("disabled");
+			if (value) {
+				mainPanel.removeStyleName("disabled");
+			} else {
+				mainPanel.setStyleName("disabled");
+			}
 			lbGridType.setEnabled(value);
 			cbGridManualTick.setEnabled(value);
 			btnGridStyle.setEnabled(value);
