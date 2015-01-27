@@ -443,10 +443,12 @@ public class InputBarHelpPanelW extends VerticalPanel implements SetLabels, Bool
     }
 
 	void insertText(String s){
-		this.inputField.getTextField().setText(s);
-		ArrayList<String> arr = new ArrayList<String>();
-		arr.add(s);
-		this.inputField.validateAutoCompletion(0, arr);
+		if (this.inputField != null) {
+			this.inputField.getTextField().setText(s);
+			ArrayList<String> arr = new ArrayList<String>();
+			arr.add(s);
+			this.inputField.validateAutoCompletion(0, arr);
+		}
 	}
 
 	private ArrayList<Widget> functionTableHTML() {
