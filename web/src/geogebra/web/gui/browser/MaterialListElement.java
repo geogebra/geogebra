@@ -374,6 +374,13 @@ AppResources.INSTANCE.empty());
 		        .favorite(this.material.getId(), !this.material.isFavorite());
 		this.material.setFavorite(!this.material.isFavorite());
 		updateFavoriteText();
+		if (this.material.isFavorite()) {
+			if (app.getFileManager().shouldKeep(this.material.getId())) {
+				this.app.getFileManager().getFromTube(this.material.getId());
+			}
+		} else if (this.material.isFromAnotherDevice()) {
+			this.app.getFileManager().delete(this.material, true);
+		}
 	}
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
@@ -638,8 +645,8 @@ AppResources.INSTANCE.empty());
 
 	private void updateFavoriteText() {
 		this.favoriteButton
-		        .setText(app.getMenu(material.isFavorite() ? "Unfavorite"
-		                : "Favorite"));
+		        .setText(app.getMenu(material.isFavorite() ? "RemoveFavorite"
+		                : "AddFavorite"));
 	}
 
 	/**
