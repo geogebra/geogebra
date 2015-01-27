@@ -516,7 +516,10 @@ public class FileManagerT extends FileManager {
 	@Override
 	public void saveFile(final String base64, final long modified,
 	        final SaveCallback cb) {
-
+		if (getApp().getLocalID() >= 0) {
+			doSaveFile(getApp().getLocalID(), base64, modified, cb);
+			return;
+		}
 		createID(new Callback<Integer, String>() {
 
 			@Override
@@ -527,51 +530,53 @@ public class FileManagerT extends FileManager {
 
 			@Override
 			public void onSuccess(Integer id) {
-				int newID;
-				if (getApp().getLocalID() == -1) {
-					newID = id;
-					getApp().setLocalID(newID);
-				} else {
-					newID = getApp().getLocalID();
-				}
-				final String key = FileManager.createKeyString(newID, getApp()
-				        .getKernel()
-				        .getConstruction().getTitle());
-				getGgbFile(key + FILE_EXT, createIfNotExist,
-				        new Callback<FileEntry, FileError>() {
-
-					        @Override
-					        public void onSuccess(final FileEntry ggbFile) {
-						        ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
-
-							        @Override
-							        public void onSuccess(
-							                final FileWriter writer) {
-								        writer.write(base64);
-								        createMetaData(key, createMaterial("",
- modified)
-, cb);
-							        }
-
-							        @Override
-							        public void onFailure(final FileError error) {
-								        cb.onError();
-							        }
-						        });
-					        }
-
-					        @Override
-					        public void onFailure(final FileError error) {
-						        cb.onError();
-					        }
-
-				        });
+				doSaveFile(id, base64, modified, cb);
 			}
 
 		});
 
 	}
 
+	void doSaveFile(final int localID, final String base64,
+	        final long modified,
+	        final SaveCallback cb) {
+
+		if (getApp().getLocalID() == -1) {
+			getApp().setLocalID(localID);
+		}
+		final String key = FileManager.createKeyString(localID, getApp()
+		        .getKernel().getConstruction().getTitle());
+		getGgbFile(key + FILE_EXT, createIfNotExist,
+		        new Callback<FileEntry, FileError>() {
+
+			        @Override
+			        public void onSuccess(final FileEntry ggbFile) {
+				        ggbFile.createWriter(new FileCallback<FileWriter, FileError>() {
+
+					        @Override
+					        public void onSuccess(final FileWriter writer) {
+						        writer.write(base64);
+						        createMetaData(key,
+						                createMaterial("", modified)
+, cb);
+					        }
+
+					        @Override
+					        public void onFailure(final FileError error) {
+						        cb.onError();
+					        }
+				        });
+			        }
+
+			        @Override
+			        public void onFailure(final FileError error) {
+				        cb.onError();
+			        }
+
+		        });
+
+	}
+	int nextFreeID = 1;
 	/**
 	 * @param cb
 	 *            Callback
@@ -588,7 +593,7 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(
 					                final LightArray<EntryBase> entries) {
-						        int nextFreeID = 1;
+
 						        for (int i = 0; i < entries.length(); i++) {
 							        if (entries.get(i).isFile()) {
 								        final FileEntry fileEntry = entries
@@ -602,13 +607,13 @@ public class FileManagerT extends FileManager {
 									        int fileID = FileManager
 									                .getIDFromKey(key);
 									        if (fileID >= nextFreeID) {
-										        nextFreeID = FileManager
-										                .getIDFromKey(key) + 1;
+										        nextFreeID = fileID + 1;
 									        }
 								        }
 							        }
 						        }
 						        cb.onSuccess(nextFreeID);
+						        nextFreeID++;
 					        }
 
 					        @Override

@@ -327,11 +327,11 @@ public class MaterialListElement extends FlowPanel implements
 	private void setPictureAsBackground() {
 	    final String thumb = this.material.getThumbnail();
 		if (thumb != null && thumb.length() > 0) {
-			if (!isLocal) {
-				background.getElement().getStyle().setBackgroundImage("url(" + Browser.normalizeURL(thumb) + ")");
-			} else {
-				background.getElement().getStyle().setBackgroundImage("url(" + thumb + ")");
-			}
+			background
+			        .getElement()
+			        .getStyle()
+			        .setBackgroundImage(
+			                "url(" + Browser.normalizeURL(thumb) + ")");
 		} else {
 			background
 			.getElement()
