@@ -114,6 +114,7 @@ public class JSONparserGGT {
 		material.setShowToolbar(getBoolean(obj, "toolbar", false));
 		material.setShowMenu(getBoolean(obj, "menubar", false));
 		material.setShowInputbar(getBoolean(obj, "inputbar", false));
+		material.setFavorite(getBoolean(obj, "favorite", false));
 		material.setShiftDragZoom(getBoolean(obj, "shiftdragzoom", false));
 		material.setShowResetIcon(getBoolean(obj, "reseticon", false));
 		material.setBase64(getString(obj, "ggbBase64"));
