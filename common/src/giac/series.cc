@@ -2778,7 +2778,7 @@ namespace giac {
       return quotedlimit(G,*vx_var._IDNTptr,0,0,contextptr);
     gen e=v[1];
     if (s==2){
-      if (calc_mode(contextptr)==1)
+      if (calc_mode(contextptr)==1 && !v[1].is_symb_of_sommet(at_equal))
 	return _limit(makesequence(G,ggb_var(G),e),contextptr);
       if (e.type==_IDNT)
 	return quotedlimit(G,*e._IDNTptr,0,0,contextptr);
