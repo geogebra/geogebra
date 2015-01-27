@@ -276,6 +276,10 @@ public class AppWapplication extends AppW {
 
 	@Override
 	public void afterLoadFileAppOrNot() {
+		if (openMacroFromStorage()) {
+			return;
+		}
+
 		String perspective = getArticleElement().getDataParamPerspective();
 		getGuiManager().getLayout().setPerspectives(
 		        getTmpPerspectives(),
@@ -301,6 +305,7 @@ public class AppWapplication extends AppW {
 		// this is needed otherwise the coordinate system of EV would not be OK
 		// put in a deferred call because of drag & dropping files
 		updateViewSizes();
+
 
 		this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();

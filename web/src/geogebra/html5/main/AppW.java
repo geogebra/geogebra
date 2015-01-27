@@ -114,6 +114,7 @@ import com.google.gwt.storage.client.Storage;
 import com.google.gwt.storage.client.StorageMap;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -880,8 +881,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param writeBack
 	 *            Is it a new one or a modification.
 	 */
-	public void storeMacro(Macro macro,
- boolean writeBack) {
+	public void storeMacro(Macro macro, boolean writeBack) {
 		createStorage();
 		if (storage == null) {
 			return;
@@ -932,30 +932,40 @@ public abstract class AppW extends App implements SetLabels {
 	protected void restoreMacro() {
 
 		createStorage();
-
 		if (storage != null) {
 			StorageMap map = new StorageMap(storage);
 			if (map.containsKey(STORAGE_MACRO_ARCHIVE)) {
+				getKernel().removeAllMacros();
 				String b64 = storage.getItem(STORAGE_MACRO_ARCHIVE);
-				App.debug("[RESTORE] " + b64);
 				getGgbApi().setBase64(b64);
-
-				if (map.containsKey(STORAGE_MACRO_KEY)) {
-					String macroName = storage.getItem(STORAGE_MACRO_KEY);
-					storage.removeItem(STORAGE_MACRO_KEY);
-					try {
-						App.debug("[STORAGE] restoring macro ");
-						openMacro(macroName);
-						setToolLoadedFromStorage(true);
-					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
 			}
 		}
 
 	}
+
+	protected boolean openMacroFromStorage() {
+		createStorage();
+
+		if (storage != null) {
+			StorageMap map = new StorageMap(storage);
+			if (map.containsKey(STORAGE_MACRO_KEY)) {
+				String macroName = storage.getItem(STORAGE_MACRO_KEY);
+				try {
+					App.debug("[STORAGE] restoring macro " + macroName);
+					openMacro(macroName);
+					Window.setTitle(macroName);
+					setToolLoadedFromStorage(true);
+					return true;
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * sets the timestamp of last synchronization with ggbTube
 	 * 
