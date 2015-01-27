@@ -6,6 +6,7 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoElementSelectionListener;
+import geogebra.html5.main.AppW;
 import geogebra.web.gui.ToolNameIconPanel;
 
 import java.util.ArrayList;
@@ -313,7 +314,11 @@ public class ToolCreationDialog extends DialogBoxW implements
 
 		toolModel.finish(appToSave, commandName, toolName, toolHelp,
 		        showInToolBar, iconFileName);
-
+		AppW w = (AppW) app;
+		// if (w.isToolLoadedFromStorage()) {
+		// w.storeMacro(app.getMacro(), true);
+		//
+		// }
 		// Not working:
 		// app.showMessage(app.getMenu("Tool.CreationSuccess"));
 		setVisible(false);

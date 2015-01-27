@@ -172,6 +172,18 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 
 	}
 
+	public String getMacrosBase64() {
+		StoreString storeString = new StoreString();
+		Map<String, String> archiveContent = createMacrosArchive();
+		JavaScriptObject jso = prepareToEntrySet(archiveContent);
+		if (Browser.webWorkerSupported) {
+			JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE.deflateJs());
+		}
+		getNativeBase64ZipJs(jso, nativeCallback(storeString), "false", true);
+		return storeString.getResult();
+
+	}
+
 	public void getBase64(boolean includeThumbnail, StringHandler callback) {
 		getBase64(includeThumbnail, nativeCallback(callback));
 	}
@@ -208,6 +220,17 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 
 		archiveContent.put(MyXMLio.XML_FILE, constructionXml);
 		getKernel().setSaving(isSaving);
+		return archiveContent;
+	}
+
+	public HashMap<String, String> createMacrosArchive() {
+		HashMap<String, String> archiveContent = new HashMap<String, String>();
+		writeMacroImages(archiveContent);
+		String macroXml = getApplication().getMacroXMLorEmpty();
+		if (!macroXml.equals("")) {
+			writeMacroImages(archiveContent);
+			archiveContent.put(MyXMLio.XML_FILE_MACRO, macroXml);
+		}
 		return archiveContent;
 	}
 

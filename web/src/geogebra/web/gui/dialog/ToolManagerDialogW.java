@@ -19,8 +19,6 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
-import geogebra.html5.gui.GeoGebraFrame;
-import geogebra.html5.gui.GeoGebraFrameSimple;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.ListBoxApi;
 import geogebra.html5.javax.swing.GOptionPaneW;
@@ -38,7 +36,6 @@ import com.google.gwt.event.dom.client.ChangeEvent;
 import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.storage.client.Storage;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -337,27 +334,12 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	private void openTools() {
 		App.debug("before" + app.hashCode());
 		app.setWaitCursor();
+		// for (Macro macro : toolList.getSelectedMacros()) {
+		app.storeMacro(toolList.getSelectedMacro(), false);
+		Window.open(Window.Location.getHref(), "", "");
 
-		for (Macro macro : toolList.getMacros()) {
-
-			GeoGebraFrame newframe = new GeoGebraFrameSimple();
-			newframe.setApplication(app);
-			newframe.setTitle(macro.getCommandName());
-			String xml = app.getMacroXML();
-			Storage storage = Storage.getSessionStorageIfSupported();
-			storage.setItem(AppW.TOOL_STORAGE_KEY, xml);
-
-			com.google.gwt.user.client.Window.open(Window.Location.getHref(),
-			        "_blank", "");
-
-			// newframe.getApplication().openMacro(macro);
-
-			//
-//
-//
-//			this.setVisible(false);
-		}
 		app.setDefaultCursor();
+		hide();
 	}
 
 	private void insertTools() {

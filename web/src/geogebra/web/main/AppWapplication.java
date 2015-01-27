@@ -56,6 +56,7 @@ public class AppWapplication extends AppW {
 	private boolean menuInited = false;
 	private CustomizeToolbarGUI ct;
 	protected final GDevice device;
+	private boolean macroRestored;
 
 	/********************************************************
 	 * Constructs AppW for full GUI based GeoGebraWeb
@@ -76,6 +77,7 @@ public class AppWapplication extends AppW {
 	        int dimension, GLookAndFeel laf, GDevice device) {
 		super(article, dimension, laf);
 		this.device = device;
+
 		maybeStartAutosave();
 
 		this.appFrame = geoGebraAppFrame;
@@ -135,11 +137,12 @@ public class AppWapplication extends AppW {
 			}
 		}
 
-		getToolFromStorage();
+		restoreMacro();
+
 	}
 
 	private void maybeStartAutosave() {
-		if (!this.getLAF().autosaveSupported() || isToolLoadedFromStorage()) {
+		if (hasMacroToRestore() || !this.getLAF().autosaveSupported()) {
 			return;
 		}
 

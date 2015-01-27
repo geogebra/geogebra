@@ -19,6 +19,7 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.UndoManager;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
@@ -120,7 +121,8 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public abstract class AppW extends App implements SetLabels {
-	public static final String TOOL_STORAGE_KEY = "toolXML";
+	public static final String STORAGE_MACRO_KEY = "storedMacro";
+	public static final String STORAGE_MACRO_ARCHIVE = "macroArchive";
 	public static final String DEFAULT_APPLET_ID = "ggbApplet";
 	private DrawEquationWeb drawEquation;
 
@@ -133,7 +135,7 @@ public abstract class AppW extends App implements SetLabels {
 	// random id to identify ggb files
 	// eg so that GeoGebraTube can notice it's a version of the same file
 	private String uniqueId = null;// FIXME: generate new UUID: +
-	                               // UUID.randomUUID();
+	// UUID.randomUUID();
 	private int localID = -1;
 	private long syncStamp;
 	protected GoogleDriveOperation googleDriveOperation;
@@ -376,6 +378,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	private MyXMLioW xmlio;
 	private boolean toolLoadedFromStorage;
+	private Storage storage;
 
 	@Override
 	public boolean loadXML(String xml) throws Exception {
@@ -870,21 +873,84 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	/**
+	 * @param allMacroXML
+	 * @param macro
+	 *            Macro need to be stored.
+	 * @param writeBack
+	 *            Is it a new one or a modification.
+	 */
+	public void storeMacro(Macro macro,
+ boolean writeBack) {
+		createStorage();
+		if (storage == null) {
+			return;
+		}
 
-	protected void getToolFromStorage() {
-		Storage storage = Storage.getSessionStorageIfSupported();
+		String b64 = getGgbApi().getMacrosBase64();
+
+		storage.setItem(STORAGE_MACRO_ARCHIVE, b64);
+
+		storage.setItem(STORAGE_MACRO_KEY, macro.getToolName());
+
+		if (writeBack) {
+			return;
+		}
+
+		// Storage.addStorageEventHandler(new StorageEvent.Handler() {
+		//
+		// public void onStorageChange(StorageEvent event) {
+		// if (STORAGE_MACRO_KEY.equals(event.getKey())) {
+		// App.debug("[STORAGE] '" + STORAGE_MACRO_KEY
+		// + "' has changed.");
+		// }
+		// }
+		// });
+
+	}
+
+	protected void createStorage() {
+		if (storage == null) {
+			storage = Storage.getSessionStorageIfSupported();
+		}
+
+	}
+
+	protected boolean hasMacroToRestore() {
+		createStorage();
 		if (storage != null) {
 			StorageMap map = new StorageMap(storage);
-			if (map.containsKey(TOOL_STORAGE_KEY)) {
-				String xml = storage.getItem(TOOL_STORAGE_KEY);
-				storage.removeItem(TOOL_STORAGE_KEY);
-				try {
-					App.debug("[TOOOLS] loading xml " + xml);
-					openMacro(xml);
-					setToolLoadedFromStorage(true);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			if (map.containsKey(STORAGE_MACRO_ARCHIVE)) {
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	protected void restoreMacro() {
+
+		createStorage();
+
+		if (storage != null) {
+			StorageMap map = new StorageMap(storage);
+			if (map.containsKey(STORAGE_MACRO_ARCHIVE)) {
+				String b64 = storage.getItem(STORAGE_MACRO_ARCHIVE);
+				App.debug("[RESTORE] " + b64);
+				getGgbApi().setBase64(b64);
+
+				if (map.containsKey(STORAGE_MACRO_KEY)) {
+					String macroName = storage.getItem(STORAGE_MACRO_KEY);
+					storage.removeItem(STORAGE_MACRO_KEY);
+					try {
+						App.debug("[STORAGE] restoring macro ");
+						openMacro(macroName);
+						setToolLoadedFromStorage(true);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
@@ -1496,8 +1562,8 @@ public abstract class AppW extends App implements SetLabels {
 		hasFullPermissions = true;
 
 		getScriptManager();// .ggbOnInit();//this is not called here because we
-		                   // have to delay it
-		                   // until the canvas is first drawn
+		// have to delay it
+		// until the canvas is first drawn
 
 		setUndoActive(undoActive);
 		registerFileDropHandlers(getFrameElement());
@@ -2078,7 +2144,7 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public void updateUI() {
 		App.debug("updateUI: implementation needed for GUI"); // TODO
-		                                                      // Auto-generated
+		// Auto-generated
 
 	}
 
@@ -2753,7 +2819,7 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public boolean showAlgebraInput() {
 		App.debug("showAlgebraInput: implementation needed"); // TODO
-		                                                      // Auto-generated
+		// Auto-generated
 		return showAlgebraInput;
 	}
 
