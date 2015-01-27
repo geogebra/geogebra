@@ -37,4 +37,6 @@ public interface FileManagerI {
 	void saveLoggedOut(AppW app);
 
 	boolean shouldKeep(int i);
+
+	void getFromTube(int id);
 }

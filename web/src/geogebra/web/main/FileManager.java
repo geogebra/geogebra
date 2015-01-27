@@ -248,7 +248,7 @@ public abstract class FileManager implements FileManagerI {
 
 	}
 
-	private void getFromTube(final int id) {
+	public void getFromTube(final int id) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(id + "", new MaterialCallback() {
 
