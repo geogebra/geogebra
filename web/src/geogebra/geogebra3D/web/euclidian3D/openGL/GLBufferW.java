@@ -14,7 +14,7 @@ import com.googlecode.gwtgl.array.Float32Array;
  */
 public class GLBufferW implements GLBuffer {
 
-	private Float32Array impl;
+	private MyFloat32Array impl;
 
 	/**
 	 * constructor from float array
@@ -39,7 +39,7 @@ public class GLBufferW implements GLBuffer {
 	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
-			impl = Float32Array.create(length);
+			impl = (MyFloat32Array) Float32Array.create(length);
 		}
 
 		index = 0;
