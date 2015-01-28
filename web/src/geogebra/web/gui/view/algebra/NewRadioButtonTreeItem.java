@@ -25,7 +25,10 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
         AutoCompleteW {
 
-	public static int querylimit = 8;
+	// How large this number should be (e.g. place on the screen, or
+	// scrollable?)
+	public static int querylimit = 10;
+
 	private List<String> completions;
 	private StringBuilder curWord;
 	private int curWordStart;
@@ -56,9 +59,19 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	/**
 	 * This is the interface of bringing up a popup of suggestions, from a query
-	 * string "sub"
+	 * string "sub"... in AutoCompleteTextFieldW, this is supposed to be
+	 * triggered automatically by SuggestBox, but in NewRadioButtonTreeItem we
+	 * have to call this every time for the actual word in the formula (i.e.
+	 * updateCurrentWord(true)), when the formula is refreshed a bit! e.g.
+	 * DrawEquationWeb.editEquationMathQuillGGB.onKeyUp or something, so this
+	 * will be a method to override!
 	 */
-	public boolean popupSuggestions(String sub) {
+	public boolean popupSuggestions() {
+		// sub, or query is the same as the current word,
+		// so moved from method parameter to automatism
+		// updateCurrentWord(true);// although true would be nicer here
+		updateCurrentWord(false);// compatibility should be preserved
+		String sub = this.curWord.toString();
 		if (sub != null && !"".equals(sub))
 			popup.requestSuggestions(
 			        new SuggestOracle.Request(sub, querylimit), popupCallback);

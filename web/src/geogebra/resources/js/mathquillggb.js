@@ -4720,7 +4720,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 	var cursor = block && block.cursor;
 	var ret = block && block.text();
 	if (cursor) {
-	  cursor.write('|');
+	  cursor.write('x');
 	  ret = block && block.text();
 	  cursor.backspace();
 	}

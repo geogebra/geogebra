@@ -741,6 +741,9 @@ public class DrawEquationWeb extends DrawEquation {
 							}
 							event.stopPropagation();
 							event.preventDefault();
+
+							@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+
 							return false;
 						}).keypress(function(event2) {
 					// the main reason of calling stopPropagation here
@@ -796,6 +799,11 @@ public class DrawEquationWeb extends DrawEquation {
 							});
 		}
 	}-*/;
+
+	public static void popupSuggestions(RadioButtonTreeItem rbti) {
+		// App.debug("Why does the following method not work?");
+		// rbti.popupSuggestions();
+	}
 
 	public static native void focusEquationMathQuillGGB(Element parentElement) /*-{
 		//var elsecond = parentElement.firstChild.firstChild.nextSibling;

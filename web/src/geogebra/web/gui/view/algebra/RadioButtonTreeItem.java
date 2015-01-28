@@ -372,6 +372,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
+	/**
+	 * Method to be overridden in NewRadioButtonTreeItem
+	 */
+	public boolean popupSuggestions() {
+		return false;
+	}
+
 	@Override
     public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);
