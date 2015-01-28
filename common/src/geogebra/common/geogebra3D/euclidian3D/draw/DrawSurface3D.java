@@ -425,8 +425,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private Coords3 evaluatedPoint = new CoordsDouble3();
-	private Coords3 evaluatedNormal = new CoordsDouble3();
+	private Coords3 evaluatedPoint = newCoords3();
+	private Coords3 evaluatedNormal = newCoords3();
+	
+	/**
+	 * 
+	 * @return new coords 3
+	 */
+	final static protected Coords3 newCoords3(){
+		return new CoordsDouble3();
+	}
 
 	protected Coords3 evaluatePoint(double u, double v) {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
@@ -1935,8 +1943,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		private Coords3 centerNormal;
 
 		public CornerAndCenter() {
-			center = new CoordsDouble3();
-			centerNormal = new CoordsDouble3();
+			center = newCoords3();
+			centerNormal = newCoords3();
 		}
 		
 		public CornerAndCenter(Corner corner) {
