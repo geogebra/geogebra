@@ -3158,6 +3158,7 @@ body.application[dir=rtl] .signInDialog .headerPanel .gwt-Button {
 	width: 100%;
 	height: 100%;
 	cursor: default;
+	background-color: #FFFFFF;
 }
 
 .cpScrollPanel thead th {
