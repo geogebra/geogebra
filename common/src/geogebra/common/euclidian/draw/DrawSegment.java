@@ -430,7 +430,6 @@ public class DrawSegment extends Drawable implements Previewable {
 
 			if (line == null)
 				line = AwtFactory.prototype.newLine2D();
-			line.setLine(coordsA[0], coordsA[1], coordsA[0], coordsA[1]);
 		}
 	}
 
