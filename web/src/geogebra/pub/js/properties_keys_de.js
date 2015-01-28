@@ -1390,7 +1390,7 @@ __GGB__keysVar.de.menu = {
     "Evaluate": "Berechne",
     "Evaluate.Help": "Berechnet die aktuelle Zeile (Eingabe)",
     "Exit": "Beenden",
-    "ExitExamConfirm": "Wollen Sie GeoGebraExam verlassen und Ihren Computer herunterfahren?",
+    "ExitExamConfirm": "Wollen Sie GeoGebraExam verlassen?",
     "ExitExamConfirmTitle": "GeoGebraExam beenden?",
     "ExitExamShutDown": "Herunterfahren",
     "Expand": "Multipliziere",

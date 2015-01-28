@@ -1390,7 +1390,7 @@ __GGB__keysVar.in.menu = {
     "Evaluate": "Evaluasi",
     "Evaluate.Help": "Evaluasi Tepat",
     "Exit": "Keluar",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Perluas",

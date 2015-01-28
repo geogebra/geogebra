@@ -1390,7 +1390,7 @@ __GGB__keysVar.cy.menu = {
     "Evaluate": "Cyfrifo",
     "Evaluate.Help": "Cyfrifiad Union",
     "Exit": "Allan",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Ehangu",

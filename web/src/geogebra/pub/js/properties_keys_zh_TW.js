@@ -1390,7 +1390,7 @@ __GGB__keysVar.zh_TW.menu = {
     "Evaluate": "\u4ee3\u6578\u904b\u7b97",
     "Evaluate.Help": "\u6c42\u7cbe\u78ba\u503c",
     "Exit": "\u96e2\u958b",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "\u5c55\u958b",

@@ -1390,7 +1390,7 @@ __GGB__keysVar.pl.menu = {
     "Evaluate": "Przelicz wyra\u017cenie",
     "Evaluate.Help": "Wynik dok\u0142adny",
     "Exit": "Wyj\u015bcie",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Rozwi\u0144",

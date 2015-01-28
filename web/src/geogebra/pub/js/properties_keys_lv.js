@@ -1390,7 +1390,7 @@ __GGB__keysVar.lv.menu = {
     "Evaluate": "Nov\u0113rt\u0113",
     "Evaluate.Help": "Prec\u012bzs Nov\u0113rt\u0113jums",
     "Exit": "Iziet",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Papla\u0161in\u0101t",

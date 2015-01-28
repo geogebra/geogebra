@@ -1390,7 +1390,7 @@ __GGB__keysVar.es.menu = {
     "Evaluate": "Eval\xfaa",
     "Evaluate.Help": "Evaluaci\xf3n exacta",
     "Exit": "Salir",
-    "ExitExamConfirm": "\xbfEfectivamente se abandona GeoGebraExam dando cierre a  la conexi\xf3n?",
+    "ExitExamConfirm": "\xbfEfectivamente se abandona GeoGebraExam?",
     "ExitExamConfirmTitle": "\xbfSalir de GeoGebraExam?",
     "ExitExamShutDown": "Desconectar",
     "Expand": "Desarrolla",

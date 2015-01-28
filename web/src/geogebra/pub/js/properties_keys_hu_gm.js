@@ -1390,7 +1390,7 @@ __GGB__keysVar.hu_gm.menu = {
     "Evaluate": "Ki\xe9rt\xe9kel",
     "Evaluate.Help": "Pontos ki\xe9rt\xe9kel\xe9s",
     "Exit": "Kil\xe9p\xe9s",
-    "ExitExamConfirm": "Val\xf3ban el k\xedv\xe1nja hagyni a GeoGebraExam fel\xfclet\xe9t \xe9s le\xe1ll\xedtja a sz\xe1m\xedt\xf3g\xe9pet?",
+    "ExitExamConfirm": "Val\xf3ban el k\xedv\xe1nja hagyni a GeoGebraExam fel\xfclet\xe9t?",
     "ExitExamConfirmTitle": "Kil\xe9p a GeoGebraExam-b\xf3l?",
     "ExitExamShutDown": "Le\xe1ll\xedt\xe1s",
     "Expand": "Kifejt",

@@ -1390,7 +1390,7 @@ __GGB__keysVar.da.menu = {
     "Evaluate": "Computer algebra",
     "Evaluate.Help": "Eksakt beregning",
     "Exit": "Slut",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Led",

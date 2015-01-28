@@ -1390,7 +1390,7 @@ __GGB__keysVar.pt.menu = {
     "Evaluate": "Avaliar",
     "Evaluate.Help": "Avalia\xe7\xe3o exata",
     "Exit": "Sair",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Expandir",

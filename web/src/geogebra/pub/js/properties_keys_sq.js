@@ -1390,7 +1390,7 @@ __GGB__keysVar.sq.menu = {
     "Evaluate": "Zhvillo",
     "Evaluate.Help": "Vleresim i sakte",
     "Exit": "Dalje",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Zberthe",

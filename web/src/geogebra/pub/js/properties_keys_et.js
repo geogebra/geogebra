@@ -1390,7 +1390,7 @@ __GGB__keysVar.et.menu = {
     "Evaluate": "Arvuta",
     "Evaluate.Help": "T\xe4pne arvutus",
     "Exit": "V\xe4lju",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Avalda",

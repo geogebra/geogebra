@@ -1390,7 +1390,7 @@ __GGB__keysVar.nl.menu = {
     "Evaluate": "Bereken exact",
     "Evaluate.Help": "Exacte berekening",
     "Exit": "Afsluiten",
-    "ExitExamConfirm": "Do you really want to leave GeoGebraExam and shut down your computer?",
+    "ExitExamConfirm": "Do you really want to leave GeoGebraExam?",
     "ExitExamConfirmTitle": "Quit GeoGebraExam?",
     "ExitExamShutDown": "Shut down",
     "Expand": "Uitwerken",
