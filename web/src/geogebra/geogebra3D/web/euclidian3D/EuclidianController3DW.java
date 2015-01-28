@@ -674,28 +674,52 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	public void twoTouchMove(double x1d, double y1d, double x2d, double y2d) {
-		int x1 = (int) x1d;
-		int x2 = (int) x2d;
-		int y1 = (int) y1d;
-		int y2 = (int) y2d;
+	public void twoTouchMove(double x1, double y1, double x2, double y2) {
 
-		// pinch
-		super.twoTouchMove(x1, y1, x2, y2);
+		int centerX = (int) ((x1 + x2) / 2);
+		int centerY = (int) ((y1 + y2) / 2);
 
-		int centerX = (x1 + x2) / 2;
-		int centerY = (y1 + y2) / 2;
+		// check zoom difference
+		double newZoomDistance = 0;
+		double zoomDiff = 0;
+		if (this.oldDistance > 0) {
+			newZoomDistance = MyMath.length(x1 - x2, y1 - y2);
 
-		if (MyMath.length(oldCenterX - centerX, oldCenterY - centerY) > EuclidianControllerW.MIN_MOVE) {
+			zoomDiff = Math.abs(newZoomDistance - this.oldDistance);
+			if (zoomDiff < MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM) {
+				zoomDiff = 0;
+			}
+		}
+
+		// check center difference
+		double centerDiff = MyMath.length(oldCenterX - centerX, oldCenterY
+		        - centerY);
+		if (centerDiff <= EuclidianControllerW.MIN_MOVE) {
+			centerDiff = 0;
+		}
+
+		// process highest difference
+		if (2 * centerDiff > zoomDiff) {
 			view.rememberOrigins();
 			view.setCoordSystemFromMouseMove(centerX - oldCenterX, centerY
 			        - oldCenterY, EuclidianController.MOVE_ROTATE_VIEW);
 			viewRotationOccured = true;
 			view.repaintView();
 
+			// update values
 			oldCenterX = centerX;
 			oldCenterY = centerY;
+			this.oldDistance = newZoomDistance;
+		} else if (zoomDiff > 0) {
+			onPinch(centerX, centerY, newZoomDistance / this.oldDistance);
+
+			// update values
+			oldCenterX = centerX;
+			oldCenterY = centerY;
+			this.oldDistance = newZoomDistance;
 		}
+
+
 	}
 
 	/**

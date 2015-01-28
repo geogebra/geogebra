@@ -9821,7 +9821,7 @@ public abstract class EuclidianController {
 	protected double oldDistance;
 
 	private PointerEventType defaultEventType = PointerEventType.MOUSE;
-	private static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
+	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
 		this.oldDistance = MyMath.length(x1 - x2, y1 - y2);
