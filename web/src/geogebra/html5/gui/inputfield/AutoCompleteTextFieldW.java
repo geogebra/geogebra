@@ -65,6 +65,7 @@ import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
+        AutoCompleteW,
         geogebra.common.gui.inputfield.AutoCompleteTextField, KeyDownHandler,
         KeyUpHandler, KeyPressHandler, ValueChangeHandler<String>,
         SelectionHandler<Suggestion>, VirtualKeyboardListener, HasSymbolPopup {

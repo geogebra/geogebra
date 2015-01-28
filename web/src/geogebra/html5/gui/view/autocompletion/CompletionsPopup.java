@@ -1,7 +1,6 @@
 package geogebra.html5.gui.view.autocompletion;
 
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.html5.gui.inputfield.AutoCompleteW;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +12,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class CompletionsPopup extends MultiWordSuggestOracle {
 
-	private AutoCompleteTextFieldW textField;
-	private RadioButtonTreeItem rbtInterface;
+	private AutoCompleteW textField;
 	private VerticalPanel list;
 
 	public CompletionsPopup() {
@@ -27,17 +25,9 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 	    
     }
 
-	public void addTextField(AutoCompleteTextFieldW autoCompleteTextField) {
+	public void addTextField(AutoCompleteW autoCompleteTextField) {
 		this.textField = autoCompleteTextField;
-		if (autoCompleteTextField != null)
-			this.rbtInterface = null;
     }
-
-	public void addMathQuillGGBField(RadioButtonTreeItem mqggb) {
-		this.rbtInterface = mqggb;
-		if (mqggb != null)
-			this.textField = null;
-	}
 
 	public void showHistoryCompletions(ArrayList<String> history) {
 		if (history != null) {
@@ -45,32 +35,20 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 			addAll(history);
 		}
     }
-	
+
 	@Override
 	public void requestSuggestions(Request request, Callback callback) {
 
-		if (textField == null && rbtInterface == null)
+		if (textField == null)
 			return;
 
-		if (textField != null && !textField.getAutoComplete()) {
+		if (!textField.getAutoComplete()) {
 			callback.onSuggestionsReady(request, new Response(Collections.EMPTY_LIST));
 			return;
-		} else if (rbtInterface != null && !rbtInterface.getAutoComplete()) {
-			callback.onSuggestionsReady(request, new Response(
-			        Collections.EMPTY_LIST));
-			return;
 		}
-		String query;
-		List<String> completions;
-		if (textField != null) {
-			textField.resetCompletions();
-			query = request.getQuery();
-			completions = textField.getCompletions();
-		} else {
-			rbtInterface.resetCompletions();
-			query = request.getQuery();
-			completions = rbtInterface.getCompletions();
-		}
+		textField.resetCompletions();
+		String query = request.getQuery();
+		List<String> completions = textField.getCompletions();
 
 		if (completions == null || completions.size() == 0) {
 			callback.onSuggestionsReady(request, new Response(Collections.EMPTY_LIST));

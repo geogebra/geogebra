@@ -45,7 +45,6 @@ import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -95,7 +94,8 @@ import com.google.gwt.user.client.ui.TextBox;
 
 public class RadioButtonTreeItem extends HorizontalPanel
 	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, 
-	MouseOverHandler, MouseOutHandler, GeoContainer, geogebra.html5.gui.view.algebra.RadioButtonTreeItem ,
+        MouseOverHandler, MouseOutHandler, GeoContainer,
+        geogebra.html5.gui.view.algebra.RadioButtonTreeItem,
 	TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler {
 
 	private GeoElement geo;
@@ -283,9 +283,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	/**
-	 * Creates a new RadioButtonTreeItem for creating a brand new GeoElement
-	 * or executing a new command which might not result in any GeoElement(s)
-	 * ... no marble, no input GeoElement here.
+	 * Creates a new RadioButtonTreeItem for creating a brand new GeoElement or
+	 * executing a new command which might not result in any GeoElement(s) ...
+	 * no marble, no input GeoElement here. But this will be called from
+	 * NewRadioButtonTreeItem(kernel), for there are many extras
 	 */
 	public RadioButtonTreeItem(Kernel kern) {
 		super();
@@ -650,6 +651,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 * @return boolean whether it was successful
 	 */
 	public boolean stopNewFormulaCreation(String newValue0) {
+
+		// TODO: move to NewRadioButtonTreeItem? Wouldn't help much...
 
 		String newValue = newValue0;
 
@@ -1037,18 +1040,5 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
 			}
 		}
-	}
-
-	public boolean getAutoComplete() {
-		return newCreationMode;
-	}
-
-	public void resetCompletions() {
-		// TODO!
-	}
-
-	public List<String> getCompletions() {
-		// TODO!
-		return null;
 	}
 }

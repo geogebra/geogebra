@@ -1017,7 +1017,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	public void setInputPanel(final AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
 		if (app.isPrerelease() && isTestingReally) {
-			this.inputPanelTreeItem = new TreeItem(new RadioButtonTreeItem(kernel));
+			this.inputPanelTreeItem = new TreeItem(new NewRadioButtonTreeItem(
+			        kernel));
 		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
@@ -1067,7 +1068,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 		if(this.app.getInputPosition() == InputPositon.algebraView){
 			if (app.isPrerelease() && isTestingReally) {
-				inputPanelTreeItem = super.addItem(inputPanelLatex = new RadioButtonTreeItem(kernel));
+				inputPanelTreeItem = super
+				        .addItem(inputPanelLatex = new NewRadioButtonTreeItem(
+				                kernel));
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}
