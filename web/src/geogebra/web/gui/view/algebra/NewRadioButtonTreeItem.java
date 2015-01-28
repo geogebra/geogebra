@@ -50,11 +50,25 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			int pos = getCaretPosition();
 			StringBuilder sb = new StringBuilder();
 			int wp = updateCurrentWord(false, new StringBuilder(), oldText, pos);
-			sb.append(oldText.substring(0, wp));
-			sb.append(s);
-			sb.append(oldText.substring(pos));
 
-			// super.setText(sb.toString());//TODO!
+			// Problem: we have sugg, wp, and pos as inputs
+			// output should be the MathQuillGGB formula with
+			// its part between wp and pos (in text format)
+			// replaced to sugg
+
+			// sb.append(oldText.substring(0, wp));
+			// sb.append(sugg);
+			// sb.append(oldText.substring(pos));
+
+			// we cannot do anything with sb.toString(),
+			// because MathQuillGGB only knows LaTeX as input format!
+			// super.setText(sb.toString());
+
+			// so we shall convert sugg to LaTeX first,
+			// and write a method that estimates the place
+			// in LaTeX format that is between wp and pos
+			// in text format... or maybe revise the
+			// updateCurrentWord method as well!
 		}
 	};
 
