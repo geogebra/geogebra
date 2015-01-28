@@ -44,10 +44,17 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	};
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
 		public void onSuggestionSelected(Suggestion s) {
-			// TODO: this will happen when popupSuggestions is called
-			// and the user interacts with the GUI, in theory
-			App.debug("suggestionCallback called!");
 			String sugg = s.getReplacementString();
+
+			String oldText = getText();
+			int pos = getCaretPosition();
+			StringBuilder sb = new StringBuilder();
+			int wp = updateCurrentWord(false, new StringBuilder(), oldText, pos);
+			sb.append(oldText.substring(0, wp));
+			sb.append(s);
+			sb.append(oldText.substring(pos));
+
+			// super.setText(sb.toString());//TODO!
 		}
 	};
 
