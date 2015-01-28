@@ -1,28 +1,15 @@
 package geogebra.common.kernel.Matrix;
 
 import geogebra.common.kernel.Kernel;
-import geogebra.common.main.App;
-import geogebra.common.util.MyMath;
 
 /**
  * class for 3 floats (x, y, z)
  * @author mathieu
  *
  */
-public class CoordsFloat3 {
+public class CoordsFloat3 extends Coords3{
 	
-	/** undefined vector */
-	public static final CoordsFloat3 UNDEFINED = new CoordsFloat3(0f, 0f, 0f) {
-		@Override
-		public boolean isNotFinalUndefined() {
-			return false;
-		}
-
-		@Override
-		public boolean isFinalUndefined() {
-			return true;
-		}
-	};
+	
 	
 	public float x, y, z;
 	
@@ -44,47 +31,18 @@ public class CoordsFloat3 {
 		this.z = z;
 	}
 
-	/**
-	 * set values
-	 * @param x x coord
-	 * @param y y coord
-	 * @param z z coord
-	 */
-	public void set(float x, float y, float z){
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
+	
 
-	/**
-	 * returns false if one value equals NaN
-	 * 
-	 * @return false if one value equals NaN
-	 */
+	
+	@Override
 	public boolean isDefined() {
 		return !Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(z) ;
 	}
 	
 
-	/**
-	 * @return true if not a final (constant) undefined
-	 */
-	public boolean isNotFinalUndefined() {
-		return true;
-	}
-
-	/**
-	 * @return true if a final (constant) undefined
-	 */
-	public boolean isFinalUndefined() {
-		return false;
-	}
 	
-	/**
-	 * returns a copy of the vector
-	 * 
-	 * @return a copy of the vector
-	 */
+	
+	@Override
 	public CoordsFloat3 copyVector() {
 
 		return new CoordsFloat3(x, y, z);
@@ -92,58 +50,69 @@ public class CoordsFloat3 {
 	}
 	
 	
-	/**
-	 * add values of v inside this
-	 * @param v vector
-	 */
-	public void addInside(CoordsFloat3 v){
-		x += v.x;
-		y += v.y;
-		z += v.z;
+	
+	@Override
+	public void addInsideFloat(Coords3 v){
+		x += v.getXf();
+		y += v.getYf();
+		z += v.getZf();
 	}
 	
-	/**
-	 * multiply all values by v
-	 * @param v factor
-	 */
+	
+	@Override
 	public void mulInside(float v){
 		x *= v;
 		y *= v;
 		z *= v;
 	}
+	
 
-	/**
-	 * set this to v normalized
-	 * @param v vector
-	 */
-	public void setNormalized(Coords v) {
-		double l = v.calcNorm();
-		x = (float) (v.getX()/l);
-		y = (float) (v.getY()/l);		
-		z = (float) (v.getZ()/l);
+	@Override
+	public void set(float x, float y, float z){
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
+
+	@Override
+	public void set(double x, double y, double z) {
+		set((float) x, (float) y, (float) z);
 		
 	}
+
+	@Override
+	public double getXd() {
+		return x;
+	}
+
+	@Override
+	public double getYd() {
+		return y;
+	}
+
+	@Override
+	public double getZd() {
+		return z;
+	}
+
+
+	@Override
+	public float getXf() {
+		return x;
+	}
+
+	@Override
+	public float getYf() {
+		return y;
+	}
+
+	@Override
+	public float getZf() {
+		return z;
+	}
+
+
 
 	
-	/**
-	 * set this to v normalized or (0, 0, 0) if v=0 
-	 * @param v vector
-	 */
-	public void setNormalizedIfPossible(Coords v) {
-		double vx = v.getX();
-		double vy = v.getY();
-		double vz = v.getZ();
-		
-		double l = vx * vx + vy * vy + vz * vz;
-		
-		if (Kernel.isZero(l)){
-			set(0, 0, 0);
-		}else{	
-			l = Math.sqrt(l);
-			x = (float) (vx/l);
-			y = (float) (vy/l);		
-			z = (float) (vz/l);
-		}
-		
-	}
+	
 }

@@ -19,6 +19,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
@@ -557,13 +558,11 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 		 }
 
-		 public void evaluatePoint(double u, double v, CoordsFloat3 p){
+		 public void evaluatePoint(double u, double v, Coords3 p){
 			 tmp[0] = u;
 			 tmp[1] = v;
 			 double val = fun.evaluate(tmp);
-			 p.x = (float) u;
-			 p.y = (float) v;
-			 p.z = (float) val;
+			 p.set(u, v, val);
 
 		 }
 	 
@@ -955,7 +954,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 
 	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0), normal = new Coords(3);
 
-	public boolean evaluateNormal(double u, double v, CoordsFloat3 n) {
+	public boolean evaluateNormal(double u, double v, Coords3 n) {
 		
 		tmp[0] = u;
 		tmp[1] = v;

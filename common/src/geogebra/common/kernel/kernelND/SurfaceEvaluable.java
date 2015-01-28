@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsFloat3;
 
 /**
@@ -21,7 +22,7 @@ public interface SurfaceEvaluable {
 	 * @param v second parameter
 	 * @param point point set for parameters u, v
 	 */
-	public void evaluatePoint(double u, double v, CoordsFloat3 point);
+	public void evaluatePoint(double u, double v, Coords3 point);
 	
 	/**
 	 * 
@@ -33,7 +34,7 @@ public interface SurfaceEvaluable {
 	 *            normal. WARNING: the normal may not have norm=1
 	 * @return true if the normal is defined
 	 */
-	public boolean evaluateNormal(double u, double v, CoordsFloat3 normal);
+	public boolean evaluateNormal(double u, double v, Coords3 normal);
 
 	/**
 	 * @param i index of parameter

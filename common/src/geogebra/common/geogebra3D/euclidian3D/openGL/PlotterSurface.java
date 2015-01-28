@@ -4,6 +4,7 @@ import geogebra.common.geogebra3D.euclidian3D.plots.SurfaceMesh2;
 import geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoFunctionNVar;
@@ -303,18 +304,15 @@ public class PlotterSurface {
 
 	}
 
-	public void vertexDirect(CoordsFloat3 p) {
-//		manager.vertex(p);
+	public void vertexDirect(Coords3 p) {
 		manager.vertexDirect(p);
 	}
 
-	public void normalDirect(CoordsFloat3 n) {
-//		manager.normal(n);
+	public void normalDirect(Coords3 n) {
 		manager.normalDirect(n);
 	}
 
 	public void endGeometryDirect() {
-//		manager.endGeometry();
 		manager.endGeometryDirect();
 	}
 

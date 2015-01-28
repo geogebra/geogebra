@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -58,17 +59,15 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	private double[] tmp = new double[2];
 
-	public void evaluatePoint(double u, double v, CoordsFloat3 p) {
+	public void evaluatePoint(double u, double v, Coords3 p) {
 		tmp[0] = u;
 		tmp[1] = v;
-		p.x = (float) fun[0].evaluate(tmp);
-		p.y = (float) fun[1].evaluate(tmp);
-		p.z = (float) fun[2].evaluate(tmp);
+		p.set(fun[0].evaluate(tmp), fun[1].evaluate(tmp), fun[2].evaluate(tmp));
 	}
 
 	private Coords der1 = new Coords(3), der2 = new Coords(3), normal = new Coords(3);
 
-	public boolean evaluateNormal(double u, double v, CoordsFloat3 n) {
+	public boolean evaluateNormal(double u, double v, Coords3 n) {
 		tmp[0] = u;
 		tmp[1] = v;
 

@@ -4,6 +4,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
@@ -337,8 +338,8 @@ abstract public class Manager {
 	 * 
 	 * @param v
 	 */
-	protected void vertexDirect(CoordsFloat3 v) {
-		vertexDirect(v.x, v.y, v.z);
+	protected void vertexDirect(Coords3 v) {
+		vertexDirect(v.getXf(), v.getYf(), v.getZf());
 	}
 
 	/**
@@ -409,8 +410,8 @@ abstract public class Manager {
 	 * 
 	 * @param n
 	 */
-	protected void normalDirect(CoordsFloat3 n) {
-		normalDirect(n.x, n.y, n.z);
+	protected void normalDirect(Coords3 n) {
+		normalDirect(n.getXf(), n.getYf(), n.getZf());
 	}
 
 	/**
