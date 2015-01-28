@@ -1584,12 +1584,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * 
 	 */
 	static protected void setBarycenter(Coords3 center, Coords3 normal, int length, Corner... c) {
-		double f = 1f / length;
+		double f = 1.0 / length;
 		center.set(0, 0, 0);
 		normal.set(0, 0, 0);
 		for (int j = 0; j < length; j++) {
-			center.addInsideFloat(c[j].p);
-			normal.addInsideFloat(c[j].normal);
+			center.addInside(c[j].p);
+			normal.addInside(c[j].normal);
 		}
 		center.mulInside(f);
 		normal.mulInside(f);

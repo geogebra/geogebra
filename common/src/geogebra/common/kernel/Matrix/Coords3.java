@@ -76,7 +76,7 @@ public abstract class Coords3 {
 	 * add values of v inside this
 	 * @param v vector
 	 */
-	abstract public void addInsideFloat(Coords3 v);
+	abstract public void addInside(Coords3 v);
 	
 	/**
 	 * multiply all values by v
@@ -85,11 +85,6 @@ public abstract class Coords3 {
 	abstract public void mulInside(float v);
 
 	
-	/**
-	 * add values of v inside this
-	 * @param v vector
-	 */
-	abstract public void addInsideDouble(Coords3 v);
 	
 	/**
 	 * multiply all values by v

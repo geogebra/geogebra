@@ -52,19 +52,13 @@ public class CoordsFloat3 extends Coords3{
 	
 	
 	@Override
-	public void addInsideFloat(Coords3 v){
+	public void addInside(Coords3 v){
 		x += v.getXf();
 		y += v.getYf();
 		z += v.getZf();
 	}
 	
 	
-	@Override
-	public void addInsideDouble(Coords3 v){
-		x += v.getXf();
-		y += v.getYf();
-		z += v.getZf();
-	}
 	
 	
 	
