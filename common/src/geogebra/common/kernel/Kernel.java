@@ -3664,7 +3664,7 @@ public class Kernel {
 		}
 
 		if (getUpdateAgain()) {
-			setUpdateAgain(false);
+			setUpdateAgain(false, null);
 			app.scheduleUpdateConstruction();
 		}
 	}
@@ -3874,7 +3874,7 @@ public class Kernel {
 
 		// latexes in GeoGebraWeb are rendered afterwards and set updateEVAgain
 		if (getUpdateAgain()) {
-			setUpdateAgain(false);
+			setUpdateAgain(false, null);
 			app.scheduleUpdateConstruction();
 		} else {
 			notifyRepaint();
@@ -3887,7 +3887,7 @@ public class Kernel {
 		cons.updateConstructionLanguage();
 
 		if (getUpdateAgain()) {
-			setUpdateAgain(false);
+			setUpdateAgain(false, null);
 			app.scheduleUpdateConstruction();
 		} else {
 			notifyRepaint();
@@ -3908,7 +3908,7 @@ public class Kernel {
 
 		// latexes in GeoGebraWeb are rendered afterwards and set updateEVAgain
 		if (getUpdateAgain()) {
-			setUpdateAgain(false);
+			setUpdateAgain(false, null);
 			app.scheduleUpdateConstruction();
 		} else {
 			notifyRepaint();
@@ -5081,8 +5081,11 @@ public class Kernel {
 	/**
 	 * used for DrawEquationWeb and DrawText in GeoGebraWeb
 	 */
-	public void setUpdateAgain(boolean value) {
+	public void setUpdateAgain(boolean value, GeoElement geo) {
 		updateEVAgain = value;
+		if (value) {
+			this.cons.addLaTeXGeo(geo);
+		}
 	}
 
 	/**

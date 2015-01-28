@@ -189,7 +189,7 @@ public class Construction {
 	private boolean collectRedefineCalls = false;
 	private HashMap<GeoElement, GeoElement> redefineMap;
 	private GeoElement keepGeo;
-
+	private ArrayList<GeoElement> latexGeos;
 	/**
 	 * @return geo temporarily kept inside this construction
 	 */
@@ -3020,7 +3020,11 @@ public class Construction {
 		boolean oldFlag = this.kernel.getApplication().isBlockUpdateScripts();
 		this.kernel.getApplication().setBlockUpdateScripts(true);
 		// TODO we do not need the whole construction update here
-		this.updateConstruction();
+		if (latexGeos != null) {
+			GeoElement.updateCascade(latexGeos, new TreeSet<AlgoElement>(),
+					true);
+		}
+		this.latexGeos = null;
 		this.kernel.getApplication().setBlockUpdateScripts(oldFlag);
 
 	}
@@ -3044,6 +3048,14 @@ public class Construction {
 			varNames[i++] = it.next();
 		}
 		return varNames;
+	}
+
+	public void addLaTeXGeo(GeoElement geo) {
+		if (latexGeos == null) {
+			latexGeos = new ArrayList<GeoElement>();
+		}
+		this.latexGeos.add(geo);
+
 	}
 
 }

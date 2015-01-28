@@ -72,6 +72,16 @@ public class MaterialListElement extends FlowPanel implements
 	private StandardButton favoriteButton;
 
 	private ShowDetailsListener showListener;
+	private Runnable deleteCallback = new Runnable() {
+
+		@Override
+		public void run() {
+			App.debug("DELETE finished");
+			MaterialListElement.this.app.getGuiManager().getBrowseView()
+			        .setMaterialsDefaultStyle();
+		}
+
+	};
 
 	/**
 	 * 
@@ -304,16 +314,15 @@ public class MaterialListElement extends FlowPanel implements
 		this.previewPicturePanel.add(background);
 		this.materialElementContent.add(this.previewPicturePanel);
 
+		addSyncDecoration();
+	}
+
+	private void addSyncDecoration() {
 		if(this.material.getType() == Material.MaterialType.book){
 			final Label deco = new Label();
 			deco.setStyleName("bookDecoration");
 			background.add(deco);
 		}
-
-		addSyncDecoration();
-	}
-
-	private void addSyncDecoration() {
 		if (this.app.getFileManager().shouldKeep(this.material.getId())
 		        && this.material.getType() != MaterialType.book
 		        && this.material.getSyncStamp() > 0
@@ -376,10 +385,12 @@ AppResources.INSTANCE.empty());
 		updateFavoriteText();
 		if (this.material.isFavorite()) {
 			if (app.getFileManager().shouldKeep(this.material.getId())) {
-				this.app.getFileManager().getFromTube(this.material.getId());
+				this.app.getFileManager().getFromTube(this.material.getId(),
+				        this.material.isFromAnotherDevice());
 			}
 		} else if (this.material.isFromAnotherDevice()) {
-			this.app.getFileManager().delete(this.material, true);
+			this.app.getFileManager().delete(this.material, true,
+			        this.deleteCallback);
 		}
 	}
 	void onDelete() {
@@ -435,7 +446,7 @@ AppResources.INSTANCE.empty());
 		this.setVisible(false);
 		setAllMaterialsDefault();
 		final Material toDelete = this.material;
-		this.app.getFileManager().delete(toDelete, false);
+
 
 		if (app.getNetworkOperation().isOnline() && toDelete.getId() > 0) {
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
@@ -443,17 +454,29 @@ AppResources.INSTANCE.empty());
 
 				@Override
 				public void onLoaded(List<Material> parseResponse) {
+					        App.debug("DELETE local");
 					remove();
 					        MaterialListElement.this.app.getFileManager()
-					                .delete(toDelete, false);
+					                .delete(toDelete,
+					                        true,
+					                        MaterialListElement.this.deleteCallback);
 				}
 
 				@Override
 				public void onError(Throwable exception) {
+					        App.debug("DELETE backup");
+					        MaterialListElement.this.app.getFileManager()
+					                .delete(toDelete,
+					                        false,
+					                        MaterialListElement.this.deleteCallback);
 					setVisible(true);
 					app.showError(app.getMenu("DeleteFailed"));
 				}
 			});
+		} else {
+			App.debug("DELETE permanent");
+			this.app.getFileManager().delete(toDelete, toDelete.getId() <= 0,
+			        this.deleteCallback);
 		}
 		
 	}

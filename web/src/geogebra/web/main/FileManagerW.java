@@ -36,12 +36,13 @@ public class FileManagerW extends FileManager {
 	}
 
 	@Override
-	public void delete(final Material mat, boolean permanent) {
+	public void delete(final Material mat, boolean permanent, Runnable onSuccess) {
 		if (this.stockStore != null) {
 			this.stockStore.removeItem(getFileKey(mat));
 			removeFile(mat);
+			onSuccess.run();
 		}
-		getApp().getGuiManager().getBrowseView().setMaterialsDefaultStyle();
+
 	}
 
 	@Override

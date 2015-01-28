@@ -429,7 +429,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 			if (updateAgain)
 				// set a flag that the kernel needs a new update
-				app1.getKernel().setUpdateAgain(true);
+				app1.getKernel().setUpdateAgain(true, geo);
 
 		} else {
 
