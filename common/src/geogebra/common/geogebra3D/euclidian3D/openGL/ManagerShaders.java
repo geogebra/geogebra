@@ -1,9 +1,7 @@
 package geogebra.common.geogebra3D.euclidian3D.openGL;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
-import geogebra.common.geogebra3D.euclidian3D.openGL.Manager.Type;
 import geogebra.common.kernel.Matrix.Coords;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
 import java.util.Stack;
@@ -118,7 +116,7 @@ public class ManagerShaders extends Manager {
 		 * @param size vertices size
 		 */
 		public void allocateBuffers(int size){
-			App.debug("allocateBuffers: "+size);
+			// App.debug("allocateBuffers: "+size);
 			v.allocate(size * 3);
 			n.allocate(size * 3);
 			length = 0;
@@ -666,26 +664,22 @@ public class ManagerShaders extends Manager {
 	
 	@Override
 	public void startGeometryDirect(Type type, int size){
-		App.debug("startGeometryDirect");
 		startGeometry(type);
 		currentGeometriesSet.allocate(size);
 	}
 	
 	@Override
 	protected void vertexDirect(float x, float y, float z){
-		//App.debug("vertexDirect");
 		currentGeometriesSet.vertexDirect(x, y, z);
 	}
 	
 	@Override
 	protected void normalDirect(float x, float y, float z){
-		//App.debug("normalDirect");
 		currentGeometriesSet.normalDirect(x, y, z);
 	}
 	
 	@Override
 	public void endGeometryDirect(){
-		App.debug("endGeometryDirect");
 		currentGeometriesSet.endGeometry();
 	}
 
