@@ -82,7 +82,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 	
-	final static private boolean DEBUG = true;
+	final static private boolean DEBUG = false;
 	
 	/**
 	 * console debug
@@ -180,7 +180,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 			updateCullingBox();
 
-			debug("\nmax distances = " + maxRWDistance + ", " + maxRWDistanceNoAngleCheck);
+			debug("\nmax distances = " + maxRWDistance + ", "
+					+ maxRWDistanceNoAngleCheck);
 
 			// create root mesh
 			int uN = 1 + (int) (ROOT_MESH_INTERVALS * Math.sqrt(uDelta / vDelta));
@@ -213,11 +214,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			App.debug("split : "+time);
 		}
 
-		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn + 
-				"\nstill to split : "  + (currentSplitIndex - currentSplitStoppedIndex) + 
-				"\nnext to split : "  + nextSplitIndex + 
-				"\ncorner list size : " + cornerListIndex +
-				"\nstill room left : "+stillRoomLeft);
+		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn
+				+ "\nstill to split : "
+				+ (currentSplitIndex - currentSplitStoppedIndex)
+				+ "\nnext to split : " + nextSplitIndex
+				+ "\ncorner list size : " + cornerListIndex
+				+ "\nstill room left : " + stillRoomLeft);
 
 		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
@@ -238,7 +240,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 			debug("\n--- draw size : " + drawListIndex);
 			if (drawListIndex > 0) {
-				surface.startTriangles(CORNER_LIST_SIZE * 10);
+				surface.startTriangles(cornerListIndex * 12);
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
 				}
@@ -246,7 +248,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 		}else{
 			if (drawListIndex > 0 || waitingSplits) {
-				surface.startTriangles(CORNER_LIST_SIZE * 10);
+				surface.startTriangles(cornerListIndex * 12);
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
 				}
@@ -646,7 +648,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 			
 			if (index < 3){
-				App.debug("index = "+index);
+				// App.debug("index = "+index);
 				return;
 			}
 			
