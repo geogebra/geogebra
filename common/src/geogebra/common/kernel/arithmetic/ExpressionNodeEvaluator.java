@@ -851,50 +851,8 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 			// right side is a fraction a/b with a and b integers
 			// x^(a/b) := (x^a)^(1/b)
 			if ((base < 0) && right.isExpressionNode()) {
-				ExpressionNode node = (ExpressionNode) right;
-				if (node.getOperation().equals(Operation.DIVIDE)) {
-					// check if we have a/b with a and b integers
-					double a = node.getLeft().evaluateDouble();
-					long al = Math.round(a);
-					if (Kernel.isEqual(a, al)) { // a is integer
-						double b = node.getRight().evaluateDouble();
-						long bl = Math.round(b);
-						if (b == 0) {
-							// (x^a)^(1/0)
-							num.set(Double.NaN);
-						} else if (Kernel.isEqual(b, bl)) { // b is
-															// integer
-							// divide through greatest common divisor of a
-							// and b
-							long gcd = Kernel.gcd(al, bl);
-							al = al / gcd;
-							bl = bl / gcd;
-
-							// we will now evaluate (x^a)^(1/b) instead of
-							// x^(a/b)
-							// set base = x^a
-							if (al != 1) {
-								base = Math.pow(base, al);
-							}
-							if (base > 0) {
-								// base > 0 => base^(1/b) is no problem
-								num.set(Math.pow(base, 1d / bl));
-							} else { // base < 0
-								boolean oddB = (Math.abs(bl) % 2) == 1;
-								if (oddB) {
-									// base < 0 and b odd: (base)^(1/b) =
-									// -(-base^(1/b))
-									num.set(-Math.pow(-base, 1d / bl));
-								} else {
-									// base < 0 and a & b even: (base)^(1/b)
-									// = undefined
-									num.set(Double.NaN);
-								}
-							}
-							return num;
-						}
-					}
-				}
+				num.set(ExpressionNodeEvaluator.negPower(base, right));
+				return num;
 			}
 
 			// standard case
@@ -977,6 +935,52 @@ public class ExpressionNodeEvaluator implements ExpressionNodeConstants {
 					"^", rt.toString(errorTemplate) };
 			throw new MyError(l10n, str);
 		}
+	}
+
+	static double negPower(double base, ExpressionValue right) {
+		ExpressionNode node = (ExpressionNode) right;
+		if (node.getOperation().equals(Operation.DIVIDE)) {
+			// check if we have a/b with a and b integers
+			double a = node.getLeft().evaluateDouble();
+			long al = Math.round(a);
+			if (Kernel.isEqual(a, al)) { // a is integer
+				double b = node.getRight().evaluateDouble();
+				long bl = Math.round(b);
+				if (b == 0) {
+					// (x^a)^(1/0)
+					return (Double.NaN);
+				} else if (Kernel.isEqual(b, bl)) { // b is
+													// integer
+					// divide through greatest common divisor of a
+					// and b
+					long gcd = Kernel.gcd(al, bl);
+					al = al / gcd;
+					bl = bl / gcd;
+
+					// we will now evaluate (x^a)^(1/b) instead of
+					// x^(a/b)
+					// set base = x^a
+					if (al != 1) {
+						base = Math.pow(base, al);
+					}
+					if (base > 0) {
+						// base > 0 => base^(1/b) is no problem
+						return Math.pow(base, 1d / bl);
+					}
+					boolean oddB = (Math.abs(bl) % 2) == 1;
+					if (oddB) {
+						// base < 0 and b odd: (base)^(1/b) =
+						// -(-base^(1/b))
+						return (-Math.pow(-base, 1d / bl));
+					}
+					// base < 0 and a & b even: (base)^(1/b)
+					// = undefined
+					return (Double.NaN);
+				}
+			}
+		}
+		return Double.NaN;
+
 	}
 
 	/**

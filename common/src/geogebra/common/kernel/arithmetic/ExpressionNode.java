@@ -5279,8 +5279,14 @@ public class ExpressionNode extends ValidExpression implements
 		case DIVIDE:
 			return left.evaluateDouble() / right.evaluateDouble();
 		case POWER:
-			return left.isNumberValue() ? Math.pow(left.evaluateDouble(),
-					right.evaluateDouble()) : super.evaluateDouble();
+			if (!left.isNumberValue()) {
+				return super.evaluateDouble();
+			}
+			double lt = left.evaluateDouble();
+			if (lt < 0) {
+				return ExpressionNodeEvaluator.negPower(lt, right);
+			}
+			return Math.pow(left.evaluateDouble(), right.evaluateDouble());
 		case SIN:
 			return Math.sin(left.evaluateDouble());
 		case COS:
