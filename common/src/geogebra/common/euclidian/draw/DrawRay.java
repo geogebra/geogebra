@@ -277,7 +277,6 @@ public class DrawRay extends Drawable implements Previewable {
 					.getInhomCoordsInD3());
 			a = coords.get();
 			view.toScreenCoords(a);
-			line.setLine(a[0], a[1], a[0], a[1]);
 		}
 	}
 
