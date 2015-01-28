@@ -962,6 +962,7 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 	private void setGeneralToolbar(String toolbarString) {
 		GuiManagerW gm = ((GuiManagerW) app.getGuiManager());
 		gm.setToolBarDefinition(toolbarString);
+		gm.setGeneralToolBarDefinition(toolbarString);
 		gm.updateToolbar();
 	}
 
