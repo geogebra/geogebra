@@ -4714,6 +4714,17 @@ $.fn.mathquillggb = function(cmd, latex) {
     var blockId = $(this).attr(mqBlockId),
       block = blockId && Node.byId[blockId];
     return block && block.text();
+  case 'textpluscursor':
+	var blockId = $(this).attr(mqBlockId),
+	  block = blockId && Node.byId[blockId];
+	var cursor = block && block.cursor;
+	var ret = block && block.text();
+	if (cursor) {
+	  cursor.write('|');
+	  ret = block && block.text();
+	  cursor.backspace();
+	}
+	return ret;
   case 'html':
     return this.html().replace(/ ?hasCursor|hasCursor /, '')
       .replace(/ class=(""|(?= |>))/g, '')

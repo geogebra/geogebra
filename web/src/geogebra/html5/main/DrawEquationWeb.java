@@ -838,8 +838,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var str1 = thisjq.mathquillggb('text');
-		var str2 = thisjq.mathquillggb('write', '\\CURSOR')
-				.mathquillggb('text');
+		var str2 = thisjq.mathquillggb('textpluscursor');
 		var inx = 0;
 		while (inx < str1.length && inx < str2.length
 				&& str1.charAt(inx) === str2.charAt(inx)) {
