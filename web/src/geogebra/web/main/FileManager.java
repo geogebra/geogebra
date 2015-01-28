@@ -69,7 +69,8 @@ public abstract class FileManager implements FileManagerI {
 		this.app = app;
 	}
 
-	public abstract void delete(final Material mat, boolean permanent);
+	public abstract void delete(final Material mat, boolean permanent,
+	        Runnable onSuccess);
 
 	/**
 	 * 
@@ -177,7 +178,7 @@ public abstract class FileManager implements FileManagerI {
 			for (SyncEvent event : events) {
 				if (event.isFavorite() && !event.isZapped()
 				        && this.shouldKeep(event.getID())) {
-					getFromTube(event.getID());
+					getFromTube(event.getID(), true);
 				}
 			}
 		}
@@ -185,6 +186,14 @@ public abstract class FileManager implements FileManagerI {
 
 	private void sync(final Material mat, SyncEvent event) {
 		long tubeTimestamp = event.getTimestamp();
+		Runnable dummyCallback = new Runnable() {
+
+			@Override
+			public void run() {
+				// TODO Auto-generated method stub
+
+			}
+		};
 		// First check for conflict
 		if (mat.getSyncStamp() < mat.getModified()
 		        && (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp())) {
@@ -193,11 +202,11 @@ public abstract class FileManager implements FileManagerI {
 		}
 
 		if (event.isDelete()) {
-			delete(mat, true);
+			delete(mat, true, dummyCallback);
 		}
  else if (event.isUnfavorite() && mat.isFromAnotherDevice()) {
 			// remove from local device
-			delete(mat, true);
+			delete(mat, true, dummyCallback);
 
 		}
  else if (tubeTimestamp != 0 && tubeTimestamp > mat.getSyncStamp()) {
@@ -209,7 +218,7 @@ public abstract class FileManager implements FileManagerI {
 			// no changes in Tube
 			if (mat.isDeleted()) {
 				App.debug("SYNC outgoing delete:" + mat.getId());
-				deleteFromTube(mat);
+				deleteFromTube(mat, dummyCallback);
 			} else if (mat.getId() > 0
 			        && mat.getModified() <= mat.getSyncStamp()) {
 				App.debug("SYNC material up to date" + mat.getId());
@@ -248,7 +257,7 @@ public abstract class FileManager implements FileManagerI {
 
 	}
 
-	public void getFromTube(final int id) {
+	public void getFromTube(final int id, final boolean fromAnotherDevice) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(id + "", new MaterialCallback() {
 
@@ -260,6 +269,7 @@ public abstract class FileManager implements FileManagerI {
 					        App.debug("SYNC downloading file:" + id);
 					        Material tubeMat = parseResponse.get(0);
 					        tubeMat.setSyncStamp(tubeMat.getModified());
+					        tubeMat.setFromAnotherDevice(fromAnotherDevice);
 					        FileManager.this.updateFile(
 null,
 					                tubeMat.getModified(), tubeMat);
@@ -299,9 +309,9 @@ null,
 
 	}
 
-	private void deleteFromTube(final Material mat) {
+	private void deleteFromTube(final Material mat, final Runnable onDelete) {
 		if (!app.getLoginOperation().owns(mat)) {
-			delete(mat, true);
+			delete(mat, true, onDelete);
 			return;
 		}
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
@@ -311,7 +321,7 @@ null,
 			        public void onLoaded(final List<Material> parseResponse) {
 
 				        // edited on Tube, not edited locally
-				        delete(mat, true);
+				        delete(mat, true, onDelete);
 
 			        }
 
@@ -347,7 +357,14 @@ null,
 					        newMat.setThumbnail(mat.getThumbnail());
 					        newMat.setSyncStamp(newMat.getModified());
 					        if (!FileManager.this.shouldKeep(mat.getId())) {
-						        delete(mat, true);
+						        delete(mat, true, new Runnable() {
+
+							        @Override
+							        public void run() {
+								        // TODO Auto-generated method stub
+
+							        }
+						        });
 					        } else {
 						        // Meta may have changed (tube ID), sync
 								// timestamp needs changing always

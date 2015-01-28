@@ -87,7 +87,7 @@ public class WinFileManager extends FileManager {
 	}
 
 	@Override
-	public void delete(Material mat, boolean permanent) {
+	public void delete(Material mat, boolean permanent, Runnable onSuccess) {
 		deleteNative(getFileKey(mat));
 		removeFile(mat);
 		((BrowseGUI) getApp().getGuiManager().getBrowseView())

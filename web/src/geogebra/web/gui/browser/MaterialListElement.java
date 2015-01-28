@@ -221,7 +221,7 @@ public class MaterialListElement extends FlowPanel implements
 		this.title.setVisible(true);
 		
 
-		if (app.getNetworkOperation().isOnline()) {
+		if (app.getNetworkOperation().isOnline() && this.material.getId() > 0) {
 
 			this.material.setTitle(this.title.getText());
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
@@ -252,7 +252,9 @@ public class MaterialListElement extends FlowPanel implements
 				}
 			});
 		} else {
-			this.material.setModified(SaveDialogW.getCurrentTimestamp(app));
+			this.material.setModified(Math.max(
+			        SaveDialogW.getCurrentTimestamp(app),
+			        material.getSyncStamp() + 1));
 			this.app.getFileManager().rename(this.title.getText(),
 			        this.material, null);
 		}

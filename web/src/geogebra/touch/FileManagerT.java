@@ -8,7 +8,6 @@ import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
-import geogebra.web.gui.browser.BrowseGUI;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.main.FileManager;
 import geogebra.web.util.SaveCallback;
@@ -32,6 +31,7 @@ import com.googlecode.gwtphonegap.client.file.FileWriter;
 import com.googlecode.gwtphonegap.client.file.Flags;
 import com.googlecode.gwtphonegap.client.file.ReaderCallback;
 import com.googlecode.gwtphonegap.collection.shared.LightArray;
+//import geogebra.web.gui.dialog.DialogManagerW;
 
 public class FileManagerT extends FileManager {
 	private static final String META_PREFIX = "meta_";
@@ -200,7 +200,8 @@ public class FileManagerT extends FileManager {
 	 *            {@link Material}
 	 */
 	@Override
-	public void delete(final Material mat, boolean permanent) {
+	public void delete(final Material mat, boolean permanent,
+	        final Runnable onSuccess) {
 		if (!permanent) {
 			mat.setDeleted(true);
 			this.createMetaData(getFileKey(mat), mat, null);
@@ -219,22 +220,23 @@ public class FileManagerT extends FileManager {
 					        @Override
 					        public void onSuccess(final Boolean entryDeleted) {
 						        removeFile(mat);
-						        ((BrowseGUI) getApp().getGuiManager()
-						                .getBrowseView())
-						                .setMaterialsDefaultStyle();
+						        onSuccess.run();
 						        deleteMetaData(key);
+						        App.debug("DELETE success: " + key + FILE_EXT);
 					        }
 
 					        @Override
 					        public void onFailure(final FileError error) {
-						        App.debug("Could not remove file");
+						        App.debug("DELETE Could not remove file: "
+						                + key + FILE_EXT);
 					        }
 				        });
 			        }
 
 			        @Override
 			        public void onFailure(final FileError reason) {
-				        App.debug("Could not get file");
+				        App.debug("DELETE Could not get file: " + key
+				                + FILE_EXT);
 			        }
 
 		        });
@@ -361,7 +363,7 @@ public class FileManagerT extends FileManager {
 		final String newKey = FileManager.createKeyString(mat.getLocalID(),
 		        newTitle);
 		final String oldKey = getFileKey(mat);
-		App.debug("RENAME local fn" + oldKey);
+		App.debug("RENAME local fn" + oldKey + "," + mat.getModified());
 		getGgbDir(new Callback<DirectoryEntry, FileError>() {
 
 			@Override
@@ -643,6 +645,9 @@ public class FileManagerT extends FileManager {
 	 */
 	void createMetaData(final String key, final Material mat,
 	        final SaveCallback cb) {
+		if (mat.isDeleted()) {
+			App.debug("DELETE flag" + mat.getId());
+		}
 		getMetaFile(META_PREFIX + key, createIfNotExist,
 		        new Callback<FileEntry, FileError>() {
 

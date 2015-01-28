@@ -10,7 +10,7 @@ public interface FileManagerI {
 
 	void openMaterial(Material material);
 
-	void delete(Material material, boolean permanent);
+	void delete(Material material, boolean permanent, Runnable onSuccess);
 
 	void uploadUsersMaterials(ArrayList<SyncEvent> events);
 
@@ -38,5 +38,5 @@ public interface FileManagerI {
 
 	boolean shouldKeep(int i);
 
-	void getFromTube(int id);
+	void getFromTube(int id, boolean fromAnotherDevice);
 }
