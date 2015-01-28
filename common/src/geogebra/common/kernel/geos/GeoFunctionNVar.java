@@ -19,6 +19,7 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -546,18 +547,23 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		 public Coords evaluatePoint(double u, double v){
 
 			 Coords p = new Coords(3);
-			 evaluatePoint(u, v, p);
-			 return p;
-
-		 }
-
-		 public void evaluatePoint(double u, double v, Coords p){
 			 tmp[0] = u;
 			 tmp[1] = v;
 			 double val = fun.evaluate(tmp);
 			 p.set(1, u);
 			 p.set(2, v);
 			 p.set(3, val);
+			 return p;
+
+		 }
+
+		 public void evaluatePoint(double u, double v, CoordsFloat3 p){
+			 tmp[0] = u;
+			 tmp[1] = v;
+			 double val = fun.evaluate(tmp);
+			 p.x = (float) u;
+			 p.y = (float) v;
+			 p.z = (float) val;
 
 		 }
 	 
@@ -947,17 +953,29 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			return HitType.ON_FILLING;
 		}
 
-	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0);
+	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0), normal = new Coords(3);
 
-	public void evaluateNormal(double u, double v, Coords normal) {
+	public boolean evaluateNormal(double u, double v, CoordsFloat3 n) {
 		
 		tmp[0] = u;
 		tmp[1] = v;
 
-		der1.setZ(fun1[0].evaluate(tmp));
-		der2.setZ(fun1[1].evaluate(tmp));
+		double val = fun1[0].evaluate(tmp);
+		if (Double.isNaN(val)){
+			return false;
+		}
+		der1.setZ(val);
+		
+		val = fun1[1].evaluate(tmp);
+		if (Double.isNaN(val)){
+			return false;
+		}
+		der2.setZ(val);
 
 		normal.setCrossProduct(der1, der2);
+		n.setNormalizedIfPossible(normal);
+		
+		return true;
 
 	}
 

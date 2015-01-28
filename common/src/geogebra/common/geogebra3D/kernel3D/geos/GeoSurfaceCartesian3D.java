@@ -3,6 +3,7 @@ package geogebra.common.geogebra3D.kernel3D.geos;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -57,48 +58,43 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	private double[] tmp = new double[2];
 
-	private void evaluateSurface(double u, double v, Coords p) {
+	public void evaluatePoint(double u, double v, CoordsFloat3 p) {
 		tmp[0] = u;
 		tmp[1] = v;
-		evaluateSurface(tmp, p);
+		p.x = (float) fun[0].evaluate(tmp);
+		p.y = (float) fun[1].evaluate(tmp);
+		p.z = (float) fun[2].evaluate(tmp);
 	}
 
-	public void evaluatePoint(double u, double v, Coords p) {
-		evaluateSurface(u, v, p);
-	}
+	private Coords der1 = new Coords(3), der2 = new Coords(3), normal = new Coords(3);
 
-	private Coords der1 = new Coords(3), der2 = new Coords(3);
-
-	public void evaluateNormal(double u, double v, Coords normal) {
+	public boolean evaluateNormal(double u, double v, CoordsFloat3 n) {
 		tmp[0] = u;
 		tmp[1] = v;
 
+		double val;
 		for (int i = 0; i < 3; i++) {
-			der1.set(i + 1, fun1[0][i].evaluate(tmp));
-			der2.set(i + 1, fun1[1][i].evaluate(tmp));
+			val = fun1[0][i].evaluate(tmp);
+			if (Double.isNaN(val)){
+				return false;
+			}
+			der1.set(i + 1, val);
+			
+			val = fun1[1][i].evaluate(tmp);
+			if (Double.isNaN(val)){
+				return false;
+			}
+			der2.set(i + 1, val);
 		}
 
 		normal.setCrossProduct(der1, der2);
+		n.setNormalizedIfPossible(normal);
+		
+		return true;
 
 	}
 
-	private void evaluateSurface(double[] uv, Coords p) {
-		for (int i = 0; i < 3; i++) {
-			p.set(i + 1, fun[i].evaluate(uv));
-		}
-
-	}
-
-	/*
-	 * public Coords3D evaluateCurve3D(double t){ return new
-	 * Coords3D(fun[0].evaluate(t),fun[1].evaluate(t),fun[2].evaluate(t),1); }
-	 * 
-	 * public Coords3D evaluateTangent3D(double t){ return new Coords3D(
-	 * funD1[0].evaluate(t),funD1[1].evaluate(t),
-	 * funD1[2].evaluate(t),1).normalize();
-	 * 
-	 * }
-	 */
+	
 
 	@Override
 	public GeoElement copy() {
@@ -187,7 +183,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 
 	public Coords evaluatePoint(double u, double v) {
 		Coords p = new Coords(3);
-		evaluateSurface(u, v, p);
+		tmp[0] = u;
+		tmp[1] = v;
+		for (int i = 0; i < 3; i++) {
+			p.set(i + 1, fun[i].evaluate(tmp));
+		}
 		return p;
 	}
 

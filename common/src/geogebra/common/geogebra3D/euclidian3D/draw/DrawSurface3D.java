@@ -4,7 +4,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.main.App;
@@ -77,8 +77,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		ccForStillToSplit = new CornerAndCenter();
 		cornerForStillToSplit = new Corner[6];
-		vertexForStillToSplit = new Coords[12];
-		normalForStillToSplit = new Coords[12];
+		vertexForStillToSplit = new CoordsFloat3[12];
+		normalForStillToSplit = new CoordsFloat3[12];
 
 	}
 	
@@ -314,11 +314,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return true;
 	}
 
-	private boolean inCullingBox(Coords p) {
+	private boolean inCullingBox(CoordsFloat3 p) {
 
-		if ((p.getX() > cullingBox[0]) && (p.getX() < cullingBox[1])
-				&& (p.getY() > cullingBox[2]) && (p.getY() < cullingBox[3])
-				&& (p.getZ() > cullingBox[4]) && (p.getZ() < cullingBox[5])) {
+		if ((p.x > cullingBox[0]) && (p.x < cullingBox[1])
+				&& (p.y > cullingBox[2]) && (p.y < cullingBox[3])
+				&& (p.z > cullingBox[4]) && (p.z < cullingBox[5])) {
 			return true;
 		}
 
@@ -422,93 +422,84 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private Coords evaluatedPoint = new Coords(3);
-	private Coords evaluatedNormal = new Coords(3);
+	private CoordsFloat3 evaluatedPoint = new CoordsFloat3();
+	private CoordsFloat3 evaluatedNormal = new CoordsFloat3();
 
-	protected Coords evaluatePoint(double u, double v) {
+	protected CoordsFloat3 evaluatePoint(double u, double v) {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
 		if (!evaluatedPoint.isDefined()) {
-			return Coords.UNDEFINED3VALUE0;
+			return CoordsFloat3.UNDEFINED;
 		}
 
 		if (inCullingBox(evaluatedPoint)) {
 			return evaluatedPoint.copyVector();
 		}
 
-		return Coords.UNDEFINED3VALUE0;
+		return CoordsFloat3.UNDEFINED;
 	}
 
 
-	protected Coords evaluatePoint(double u, double v, Coords p) {
+	protected CoordsFloat3 evaluatePoint(double u, double v, CoordsFloat3 p) {
 
 		// p is final value: use evaluatedPoint to compute
 		if (p == null || p.isFinalUndefined()) {
 			surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
 
 			if (!evaluatedPoint.isDefined()) {
-				return Coords.UNDEFINED3VALUE0;
+				return CoordsFloat3.UNDEFINED;
 			}
 
 			if (inCullingBox(evaluatedPoint)) {
 				return evaluatedPoint.copyVector();
 			}
 
-			return Coords.UNDEFINED3VALUE0;
+			return CoordsFloat3.UNDEFINED;
 		}
 
 		// p is not final value
 		surfaceGeo.evaluatePoint(u, v, p);
 
 		if (!p.isDefined()) {
-			return Coords.UNDEFINED3VALUE0;
+			return CoordsFloat3.UNDEFINED;
 		}
 
 		if (inCullingBox(p)) {
 			return p;
 		}
 
-		return Coords.UNDEFINED3VALUE0;
+		return CoordsFloat3.UNDEFINED;
 	}
 
-	protected Coords evaluateNormal(double u, double v) {
-		surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
 
-		if (!evaluatedNormal.isDefined()) {
-			return Coords.UNDEFINED3VALUE0;
-		}
+	protected CoordsFloat3 evaluateNormal(double u, double v, CoordsFloat3 normal) {
 
-		return evaluatedNormal.normalized();
-	}
-
-	protected Coords evaluateNormal(double u, double v, Coords normal) {
-
+		boolean defined;
 		// normal is final value: use evaluatedNormal to compute
 		if (normal == null || normal.isFinalUndefined()) {
-			surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
+			defined = surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
 
-			if (!evaluatedNormal.isDefined()) {
-				return Coords.UNDEFINED3VALUE0;
+			if (!defined) {
+				return CoordsFloat3.UNDEFINED;
 			}
 
-			return evaluatedNormal.normalized();
+			return evaluatedNormal.copyVector();
 		}
 
 		// normal is not final value
-		surfaceGeo.evaluateNormal(u, v, normal);
+		defined = surfaceGeo.evaluateNormal(u, v, normal);
 
-		if (!normal.isDefined()) {
-			return Coords.UNDEFINED3VALUE0;
+		if (!defined) {
+			return CoordsFloat3.UNDEFINED;
 		}
 
-		normal.normalized(normal);
 		return normal;
 
 	}
 
 	private class Corner {
-		Coords p;
-		Coords normal;
+		CoordsFloat3 p;
+		CoordsFloat3 normal;
 		double u, v;
 		boolean isNotEnd;
 		Corner a, l; // above, left
@@ -526,7 +517,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.v = v;
 			p = evaluatePoint(u, v, p);
 			if (p.isFinalUndefined()) {
-				normal = Coords.UNDEFINED3VALUE0;
+				normal = CoordsFloat3.UNDEFINED;
 			} else {
 				normal = evaluateNormal(u, v, normal);
 			}
@@ -535,11 +526,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			l = null;
 		}
 
-		public Corner(double u, double v, Coords p) {
+		public Corner(double u, double v, CoordsFloat3 p) {
 			set(u, v, p);
 		}
 		
-		public void set(double u, double v, Coords p) {
+		public void set(double u, double v, CoordsFloat3 p) {
 			this.u = u;
 			this.v = v;
 			this.p = p;
@@ -655,12 +646,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			}
 			
 			if (index < 3){
+				App.debug("index = "+index);
 				return;
 			}
 			
 			
-			Coords v0 = vertexForStillToSplit[0];
-			Coords n0 = normalForStillToSplit[0];
+			CoordsFloat3 v0 = vertexForStillToSplit[0];
+			CoordsFloat3 n0 = normalForStillToSplit[0];
 			for (int i = 1; i < index - 1; i++){
 				drawTriangle(surface, 
 						v0, n0, 
@@ -1497,11 +1489,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					defined.v, depth, corner, true);
 		}
 
-		private void findU(Coords lastDefined, double uLastDef, double uDef,
+		private void findU(CoordsFloat3 lastDefined, double uLastDef, double uDef,
 				double uUndef, double vRow, int depth, Corner corner, boolean lastDefinedIsFirst) {
 
 			double uNew = (uDef + uUndef) / 2;
-			Coords coords = evaluatePoint(uNew, vRow);
+			CoordsFloat3 coords = evaluatePoint(uNew, vRow);
 
 			if (depth == 0) { // no more split
 				if (coords.isFinalUndefined()) {
@@ -1529,11 +1521,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					defined.u, depth, corner, true);
 		}
 
-		private void findV(Coords lastDefined, double vLastDef, double vDef,
+		private void findV(CoordsFloat3 lastDefined, double vLastDef, double vDef,
 				double vUndef, double uRow, int depth, Corner corner, boolean lastDefinedIsFirst) {
 
 			double vNew = (vDef + vUndef) / 2;
-			Coords coords = evaluatePoint(uRow, vNew);
+			CoordsFloat3 coords = evaluatePoint(uRow, vNew);
 
 			if (depth == 0) { // no more split
 				if (coords.isFinalUndefined()) {
@@ -1572,7 +1564,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            corners
 	 * 
 	 */
-	static protected void setBarycenter(Coords center, Coords normal, Corner... c) {
+	static protected void setBarycenter(CoordsFloat3 center, CoordsFloat3 normal, Corner... c) {
 		setBarycenter(center, normal, c.length, c);
 	}
 	
@@ -1588,18 +1580,16 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 *            corners
 	 * 
 	 */
-	static protected void setBarycenter(Coords center, Coords normal, int length, Corner... c) {
-		double f = 1.0 / length;
-		for (int i = 0; i < center.getLength(); i++) {
-			center.val[i] = 0;
-			normal.val[i] = 0;
-			for (int j = 0; j < length; j++) {
-				center.val[i] += c[j].p.val[i];
-				normal.val[i] += c[j].normal.val[i];
-			}
-			center.val[i] *= f;
-			normal.val[i] *= f;
+	static protected void setBarycenter(CoordsFloat3 center, CoordsFloat3 normal, int length, Corner... c) {
+		float f = 1f / length;
+		center.set(0f, 0f, 0f);
+		normal.set(0f, 0f, 0f);
+		for (int j = 0; j < length; j++) {
+			center.addInside(c[j].p);
+			normal.addInside(c[j].normal);
 		}
+		center.mulInside(f);
+		normal.mulInside(f);
 
 		// if (!center.isDefined()) {
 		// App.printStacktrace("!center.isDefined()");
@@ -1617,7 +1607,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	
 	protected Corner[] cornerForStillToSplit;
 	
-	protected Coords[] vertexForStillToSplit, normalForStillToSplit;
+	protected CoordsFloat3[] vertexForStillToSplit, normalForStillToSplit;
 
 	/**
 	 * max distance in real world from view
@@ -1645,14 +1635,29 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	protected double getDistance(Corner c1, Corner c2) {
 
 		double ret = 0;
-		for (int j = 0; j < 3; j++) {
-			double d = Math.abs(c1.p.val[j] - c2.p.val[j]);
-			if (d > maxRWDistance) {
-				return Double.POSITIVE_INFINITY;
-			}
-			if (d > ret) {
-				ret = d;
-			}
+		
+		double d = Math.abs(c1.p.x - c2.p.x);
+		if (d > maxRWDistance) {
+			return Double.POSITIVE_INFINITY;
+		}
+		if (d > ret) {
+			ret = d;
+		}
+
+		d = Math.abs(c1.p.y - c2.p.y);
+		if (d > maxRWDistance) {
+			return Double.POSITIVE_INFINITY;
+		}
+		if (d > ret) {
+			ret = d;
+		}
+
+		d = Math.abs(c1.p.z - c2.p.z);
+		if (d > maxRWDistance) {
+			return Double.POSITIVE_INFINITY;
+		}
+		if (d > ret) {
+			ret = d;
 		}
 
 		return ret;
@@ -1794,7 +1799,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * Returns whether the angle between the vectors (vx, vy) and (wx, wy) is
 	 * smaller than MAX_BEND, where MAX_BEND = tan(MAX_ANGLE).
 	 */
-	private static boolean isAngleOK(double[] v, double[] w, double bend) {
+	private static boolean isAngleOK(CoordsFloat3 v, CoordsFloat3 w, double bend) {
 		// |v| * |w| * sin(alpha) = |det(v, w)|
 		// cos(alpha) = v . w / (|v| * |w|)
 		// tan(alpha) = sin(alpha) / cos(alpha)
@@ -1804,10 +1809,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// |det(v, w)| / v . w < MAX_BEND
 		// |det(v, w)| < MAX_BEND * (v . w)
 
-		double innerProduct = 0;
-		for (int i = 0; i < v.length; i++) {
-			innerProduct += v[i] * w[i];
-		}
+		double innerProduct = v.x * w.x + v.y * w.y + v.z * w.z;
 
 		if (innerProduct <= 0) {
 			// angle >= 90 degrees
@@ -1816,9 +1818,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		// angle < 90 degrees
 		// small angle: |det(v, w)| < MAX_BEND * (v . w)
-		double d1 = v[0] * w[1] - v[1] * w[0];
-		double d2 = v[1] * w[2] - v[2] * w[1];
-		double d3 = v[2] * w[0] - v[0] * w[2];
+		double d1 = v.x * w.y - v.y * w.x;
+		double d2 = v.y * w.z - v.z * w.y;
+		double d3 = v.z * w.x - v.x * w.z;
 		double det = Math.sqrt(d1 * d1 + d2 * d2 + d3 * d3);
 		return det < bend * innerProduct;
 	}
@@ -1834,7 +1836,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2) {
 
-		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+		if (!isAngleOK(c1.normal, c2.normal, bend)) {
 			return false;
 		}
 
@@ -1852,15 +1854,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2, Corner c3) {
 
-		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+		if (!isAngleOK(c1.normal, c2.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c2.normal.val, c3.normal.val, bend)) {
+		if (!isAngleOK(c2.normal, c3.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c3.normal.val, c1.normal.val, bend)) {
+		if (!isAngleOK(c3.normal, c1.normal, bend)) {
 			return false;
 		}
 
@@ -1879,19 +1881,19 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected static boolean isAngleOK(double bend, Corner c1, Corner c2, Corner c3, Corner c4) {
 
-		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+		if (!isAngleOK(c1.normal, c2.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c2.normal.val, c3.normal.val, bend)) {
+		if (!isAngleOK(c2.normal, c3.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c3.normal.val, c4.normal.val, bend)) {
+		if (!isAngleOK(c3.normal, c4.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c4.normal.val, c1.normal.val, bend)) {
+		if (!isAngleOK(c4.normal, c1.normal, bend)) {
 			return false;
 		}
 
@@ -1909,15 +1911,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 */
 	protected static boolean isAngleOKNoLoop(double bend, Corner c1, Corner c2, Corner c3, Corner c4) {
 
-		if (!isAngleOK(c1.normal.val, c2.normal.val, bend)) {
+		if (!isAngleOK(c1.normal, c2.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c2.normal.val, c3.normal.val, bend)) {
+		if (!isAngleOK(c2.normal, c3.normal, bend)) {
 			return false;
 		}
 
-		if (!isAngleOK(c3.normal.val, c4.normal.val, bend)) {
+		if (!isAngleOK(c3.normal, c4.normal, bend)) {
 			return false;
 		}
 
@@ -1926,12 +1928,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	private class CornerAndCenter {
 		private Corner corner;
-		private Coords center;
-		private Coords centerNormal;
+		private CoordsFloat3 center;
+		private CoordsFloat3 centerNormal;
 
 		public CornerAndCenter() {
-			center = new Coords(3);
-			centerNormal = new Coords(3);
+			center = new CoordsFloat3();
+			centerNormal = new CoordsFloat3();
 		}
 		
 		public CornerAndCenter(Corner corner) {
@@ -1961,7 +1963,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		 * 
 		 * @return center
 		 */
-		public Coords getCenter() {
+		public CoordsFloat3 getCenter() {
 			return center;
 		}
 
@@ -1969,7 +1971,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		 * 
 		 * @return center normal
 		 */
-		public Coords getCenterNormal() {
+		public CoordsFloat3 getCenterNormal() {
 			return centerNormal;
 		}
 
@@ -2113,7 +2115,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * @param c2
 	 *            third point
 	 */
-	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords n0, Corner c1, Corner c2) {
+	static final protected void drawTriangle(PlotterSurface surface, CoordsFloat3 p0, CoordsFloat3 n0, Corner c1, Corner c2) {
 
 		surface.normalDirect(n0);
 		surface.vertexDirect(p0);
@@ -2135,7 +2137,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * @param p2
 	 * @param n2
 	 */
-	static final protected void drawTriangle(PlotterSurface surface, Coords p0, Coords n0, Coords p1, Coords n1, Coords p2, Coords n2) {
+	static final protected void drawTriangle(PlotterSurface surface, CoordsFloat3 p0, CoordsFloat3 n0, CoordsFloat3 p1, CoordsFloat3 n1, CoordsFloat3 p2, CoordsFloat3 n2) {
 
 		surface.normalDirect(n0);
 		surface.vertexDirect(p0);
@@ -2178,7 +2180,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * @param c2
 	 *            third point
 	 */
-	static final protected void drawTriangleCheckCorners(PlotterSurface surface, Coords p0, Coords n0, Corner c1, Corner c2) {
+	static final protected void drawTriangleCheckCorners(PlotterSurface surface, CoordsFloat3 p0, CoordsFloat3 n0, Corner c1, Corner c2) {
 		if (c1.p.isFinalUndefined()) {
 			return;
 		}

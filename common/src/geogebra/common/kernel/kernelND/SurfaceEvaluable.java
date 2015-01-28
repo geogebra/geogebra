@@ -1,6 +1,7 @@
 package geogebra.common.kernel.kernelND;
 
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.Matrix.CoordsFloat3;
 
 /**
  * Surface with parametric equation z=f(x1,x2,...,xn)
@@ -20,7 +21,7 @@ public interface SurfaceEvaluable {
 	 * @param v second parameter
 	 * @param point point set for parameters u, v
 	 */
-	public void evaluatePoint(double u, double v, Coords point);
+	public void evaluatePoint(double u, double v, CoordsFloat3 point);
 	
 	/**
 	 * 
@@ -30,8 +31,9 @@ public interface SurfaceEvaluable {
 	 *            second parameter
 	 * @param normal
 	 *            normal. WARNING: the normal may not have norm=1
+	 * @return true if the normal is defined
 	 */
-	public void evaluateNormal(double u, double v, Coords normal);
+	public boolean evaluateNormal(double u, double v, CoordsFloat3 normal);
 
 	/**
 	 * @param i index of parameter
