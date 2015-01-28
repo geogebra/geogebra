@@ -824,6 +824,30 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 	}-*/;
 
+	public static native String getActualEditedValue(Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		return thisjq.mathquillggb('text');
+	}-*/;
+
+	public static native int getCaretPosInEditedValue(Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var str1 = thisjq.mathquillggb('text');
+		var str2 = thisjq.mathquillggb('write', '\\CURSOR')
+				.mathquillggb('text');
+		var inx = 0;
+		while (inx < str1.length && inx < str2.length
+				&& str1.charAt(inx) === str2.charAt(inx)) {
+			inx++;
+		}
+		return inx - 1;
+	}-*/;
+
 	public static boolean newFormulaCreatedMathQuillGGB(
 	        RadioButtonTreeItem rbti, final String input) {
 		return rbti.stopNewFormulaCreation(input);

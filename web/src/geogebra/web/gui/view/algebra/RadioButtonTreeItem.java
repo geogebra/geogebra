@@ -100,7 +100,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	private GeoElement geo;
 	private Kernel kernel;
-	private AppW app;
+	protected AppW app;
 	private SelectionManager selection; 
 	private AlgebraView av;
 	private boolean LaTeX = false;
@@ -108,7 +108,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private boolean newCreationMode = false;
 	private boolean mout = false;
 
-	private SpanElement seMayLatex;
+	protected SpanElement seMayLatex;
 	private SpanElement seNoLatex;
 
 	private Marble radio;
