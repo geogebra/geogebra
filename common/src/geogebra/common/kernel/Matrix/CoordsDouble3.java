@@ -1,22 +1,20 @@
 package geogebra.common.kernel.Matrix;
 
-import geogebra.common.kernel.Kernel;
-
 /**
- * class for 3 floats (x, y, z)
+ * class for 3 double (x, y, z)
  * @author mathieu
  *
  */
-public class CoordsFloat3 extends Coords3{
+public class CoordsDouble3 extends Coords3{
 	
 	
 	
-	public float x, y, z;
+	public double x, y, z;
 	
 	/**
 	 * constructor
 	 */
-	public CoordsFloat3(){
+	public CoordsDouble3(){
 	}
 	
 	/**
@@ -25,7 +23,7 @@ public class CoordsFloat3 extends Coords3{
 	 * @param y y coord
 	 * @param z z coord
 	 */
-	public CoordsFloat3(float x, float y, float z){
+	public CoordsDouble3(double x, double y, double z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
@@ -36,16 +34,16 @@ public class CoordsFloat3 extends Coords3{
 	
 	@Override
 	public boolean isDefined() {
-		return !Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(z) ;
+		return !Double.isNaN(x) && !Double.isNaN(y) && !Double.isNaN(z) ;
 	}
 	
 
 	
 	
 	@Override
-	public CoordsFloat3 copyVector() {
+	public CoordsDouble3 copyVector() {
 
-		return new CoordsFloat3(x, y, z);
+		return new CoordsDouble3(x, y, z);
 
 	}
 	
@@ -58,12 +56,11 @@ public class CoordsFloat3 extends Coords3{
 		z += v.getZf();
 	}
 	
-	
 	@Override
 	public void addInsideDouble(Coords3 v){
-		x += v.getXf();
-		y += v.getYf();
-		z += v.getZf();
+		x += v.getXd();
+		y += v.getYd();
+		z += v.getZd();
 	}
 	
 	
@@ -77,8 +74,11 @@ public class CoordsFloat3 extends Coords3{
 	
 	@Override
 	public void mulInside(double v){
-		mulInside((float) v);
-	}	
+		x *= v;
+		y *= v;
+		z *= v;
+	}
+	
 
 	@Override
 	public void set(float x, float y, float z){
@@ -89,7 +89,9 @@ public class CoordsFloat3 extends Coords3{
 
 	@Override
 	public void set(double x, double y, double z) {
-		set((float) x, (float) y, (float) z);
+		this.x = x;
+		this.y = y;
+		this.z = z;
 		
 	}
 
@@ -111,17 +113,17 @@ public class CoordsFloat3 extends Coords3{
 
 	@Override
 	public float getXf() {
-		return x;
+		return (float) x;
 	}
 
 	@Override
 	public float getYf() {
-		return y;
+		return (float) y;
 	}
 
 	@Override
 	public float getZf() {
-		return z;
+		return (float) z;
 	}
 
 

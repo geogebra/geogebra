@@ -5,7 +5,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords3;
-import geogebra.common.kernel.Matrix.CoordsFloat3;
+import geogebra.common.kernel.Matrix.CoordsDouble3;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.main.App;
@@ -425,8 +425,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	}
 
-	private Coords3 evaluatedPoint = new CoordsFloat3();
-	private Coords3 evaluatedNormal = new CoordsFloat3();
+	private Coords3 evaluatedPoint = new CoordsDouble3();
+	private Coords3 evaluatedNormal = new CoordsDouble3();
 
 	protected Coords3 evaluatePoint(double u, double v) {
 		surfaceGeo.evaluatePoint(u, v, evaluatedPoint);
@@ -1584,7 +1584,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	 * 
 	 */
 	static protected void setBarycenter(Coords3 center, Coords3 normal, int length, Corner... c) {
-		float f = 1f / length;
+		double f = 1f / length;
 		center.set(0, 0, 0);
 		normal.set(0, 0, 0);
 		for (int j = 0; j < length; j++) {
@@ -1935,8 +1935,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		private Coords3 centerNormal;
 
 		public CornerAndCenter() {
-			center = new CoordsFloat3();
-			centerNormal = new CoordsFloat3();
+			center = new CoordsDouble3();
+			centerNormal = new CoordsDouble3();
 		}
 		
 		public CornerAndCenter(Corner corner) {
