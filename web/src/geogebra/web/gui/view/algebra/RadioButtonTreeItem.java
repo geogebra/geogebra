@@ -45,6 +45,7 @@ import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
@@ -1036,5 +1037,18 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
 			}
 		}
+	}
+
+	public boolean getAutoComplete() {
+		return newCreationMode;
+	}
+
+	public void resetCompletions() {
+		// TODO!
+	}
+
+	public List<String> getCompletions() {
+		// TODO!
+		return null;
 	}
 }

@@ -1,6 +1,7 @@
 package geogebra.html5.gui.view.autocompletion;
 
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,38 +14,64 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class CompletionsPopup extends MultiWordSuggestOracle {
 
 	private AutoCompleteTextFieldW textField;
+	private RadioButtonTreeItem rbtInterface;
 	private VerticalPanel list;
 
 	public CompletionsPopup() {
-	   super();
-	   clear();
+		super();
+		clear();
     }
 
 	private void registerListeners() {
-	    // TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 	    
     }
 
 	public void addTextField(AutoCompleteTextFieldW autoCompleteTextField) {
-	  this.textField = autoCompleteTextField;
+		this.textField = autoCompleteTextField;
+		if (autoCompleteTextField != null)
+			this.rbtInterface = null;
     }
 
+	public void addMathQuillGGBField(RadioButtonTreeItem mqggb) {
+		this.rbtInterface = mqggb;
+		if (mqggb != null)
+			this.textField = null;
+	}
+
 	public void showHistoryCompletions(ArrayList<String> history) {
-	   if (history != null) {
-		   clear();
-		   addAll(history);
-	   }
+		if (history != null) {
+			clear();
+			addAll(history);
+		}
     }
 	
 	@Override
 	public void requestSuggestions(Request request, Callback callback) {
-		if (!textField.getAutoComplete()) {
+
+		if (textField == null && rbtInterface == null)
+			return;
+
+		if (textField != null && !textField.getAutoComplete()) {
 			callback.onSuggestionsReady(request, new Response(Collections.EMPTY_LIST));
 			return;
+		} else if (rbtInterface != null && !rbtInterface.getAutoComplete()) {
+			callback.onSuggestionsReady(request, new Response(
+			        Collections.EMPTY_LIST));
+			return;
 		}
-		textField.resetCompletions();
-		String query = request.getQuery();
-		List<String> completions = textField.getCompletions();
+		String query;
+		List<String> completions;
+		if (textField != null) {
+			textField.resetCompletions();
+			query = request.getQuery();
+			completions = textField.getCompletions();
+		} else {
+			rbtInterface.resetCompletions();
+			query = request.getQuery();
+			completions = rbtInterface.getCompletions();
+		}
+
 		if (completions == null || completions.size() == 0) {
 			callback.onSuggestionsReady(request, new Response(Collections.EMPTY_LIST));
 			return;
@@ -72,19 +99,19 @@ public class CompletionsPopup extends MultiWordSuggestOracle {
 			String candidate = candidates.get(i);
 			
 			SafeHtmlBuilder accum = new SafeHtmlBuilder();
-			if(query.length() < candidate.length() ){
-			String part1 = candidate.substring(0, query.length());
-			String part2 = candidate.substring(query.length(), candidate.length());
-			accum.appendHtmlConstant("<strong>");
-			accum.appendEscaped(part1);
-			accum.appendHtmlConstant("</strong>");
-			accum.appendEscaped(part2);
-			}else{
+			if (query.length() < candidate.length()) {
+				String part1 = candidate.substring(0, query.length());
+				String part2 = candidate.substring(query.length(),
+				        candidate.length());
+				accum.appendHtmlConstant("<strong>");
+				accum.appendEscaped(part1);
+				accum.appendHtmlConstant("</strong>");
+				accum.appendEscaped(part2);
+			} else {
 				accum.appendEscaped(candidate);
 			}
 			suggestions.add(new MultiWordSuggestion(candidate, accum.toSafeHtml().asString()));
 		}
 		return suggestions;
 	}
-
 }
