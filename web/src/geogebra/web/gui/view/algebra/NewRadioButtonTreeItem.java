@@ -7,9 +7,15 @@ import geogebra.common.main.Localization;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
+import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
+import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestOracle;
+import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -19,14 +25,44 @@ import java.util.List;
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
         AutoCompleteW {
 
+	public static int querylimit = 8;
 	private List<String> completions;
 	private StringBuilder curWord;
 	private int curWordStart;
 	protected AutoCompleteDictionary dict;
+	protected ScrollableSuggestBox.CustomSuggestionDisplay sug;
+	protected CompletionsPopup popup;
+	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
+		public void onSuggestionsReady(SuggestOracle.Request req,
+		        SuggestOracle.Response res) {
+			sug.accessShowSuggestions(res, popup, sugCallback);
+		}
+	};
+	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
+		public void onSuggestionSelected(Suggestion s) {
+			// TODO: this will happen when popupSuggestions is called
+			// and the user interacts with the GUI, in theory
+			String sugg = s.getReplacementString();
+		}
+	};
 
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
 		curWord = new StringBuilder();
+		sug = new ScrollableSuggestBox.CustomSuggestionDisplay();
+		popup = new CompletionsPopup();
+		popup.addTextField(this);
+	}
+
+	/**
+	 * This is the interface of bringing up a popup of suggestions, from a query
+	 * string "sub"
+	 */
+	public boolean popupSuggestions(String sub) {
+		if (sub != null && !"".equals(sub))
+			popup.requestSuggestions(
+			        new SuggestOracle.Request(sub, querylimit), popupCallback);
+		return true;
 	}
 
 	public boolean getAutoComplete() {

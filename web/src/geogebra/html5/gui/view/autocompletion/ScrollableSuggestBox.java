@@ -23,6 +23,12 @@ public class ScrollableSuggestBox extends SuggestBox {
 			ScrollPanel panel = new ScrollPanel(suggestionList);
 			return panel;
 		}
+
+		public void accessShowSuggestions(SuggestOracle.Response res,
+		        CompletionsPopup pop, SuggestBox.SuggestionCallback xcb) {
+			showSuggestions(null, res.getSuggestions(),
+			        pop.isDisplayStringHTML(), true, xcb);
+		}
 	}
 
 	private static GTextBox tb;
