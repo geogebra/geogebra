@@ -801,8 +801,7 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static void popupSuggestions(RadioButtonTreeItem rbti) {
-		// App.debug("Why does the following method not work?");
-		// rbti.popupSuggestions();
+		rbti.popupSuggestions();
 	}
 
 	public static native void focusEquationMathQuillGGB(Element parentElement) /*-{

@@ -112,7 +112,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private SpanElement seNoLatex;
 
 	private Marble radio;
-	private InlineHTML ihtml;
+	InlineHTML ihtml;
 	private TextBox tb;
 	private boolean needsUpdate;
 	

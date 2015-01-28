@@ -38,6 +38,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
 		public void onSuggestionsReady(SuggestOracle.Request req,
 		        SuggestOracle.Response res) {
+			sug.setPositionRelativeTo(ihtml);
 			sug.accessShowSuggestions(res, popup, sugCallback);
 		}
 	};
@@ -45,6 +46,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		public void onSuggestionSelected(Suggestion s) {
 			// TODO: this will happen when popupSuggestions is called
 			// and the user interacts with the GUI, in theory
+			App.debug("suggestionCallback called!");
 			String sugg = s.getReplacementString();
 		}
 	};
