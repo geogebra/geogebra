@@ -98,7 +98,7 @@ public abstract class Coords3 {
 	 * set this to v normalized or (0, 0, 0) if v=0 
 	 * @param v vector
 	 */
-	public void setNormalizedIfPossible(Coords v) {
+	final public void setNormalizedIfPossible(Coords v) {
 		double vx = v.getX();
 		double vy = v.getY();
 		double vz = v.getZ();

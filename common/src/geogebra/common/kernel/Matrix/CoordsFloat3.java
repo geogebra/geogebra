@@ -35,7 +35,7 @@ public class CoordsFloat3 extends Coords3{
 
 	
 	@Override
-	public boolean isDefined() {
+	final public boolean isDefined() {
 		return !Float.isNaN(x) && !Float.isNaN(y) && !Float.isNaN(z) ;
 	}
 	
@@ -43,7 +43,7 @@ public class CoordsFloat3 extends Coords3{
 	
 	
 	@Override
-	public CoordsFloat3 copyVector() {
+	final public CoordsFloat3 copyVector() {
 
 		return new CoordsFloat3(x, y, z);
 
@@ -52,7 +52,7 @@ public class CoordsFloat3 extends Coords3{
 	
 	
 	@Override
-	public void addInside(Coords3 v){
+	final public void addInside(Coords3 v){
 		x += v.getXf();
 		y += v.getYf();
 		z += v.getZf();
@@ -63,58 +63,58 @@ public class CoordsFloat3 extends Coords3{
 	
 	
 	@Override
-	public void mulInside(float v){
+	final public void mulInside(float v){
 		x *= v;
 		y *= v;
 		z *= v;
 	}
 	
 	@Override
-	public void mulInside(double v){
+	final public void mulInside(double v){
 		mulInside((float) v);
 	}	
 
 	@Override
-	public void set(float x, float y, float z){
+	final public void set(float x, float y, float z){
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
 
 	@Override
-	public void set(double x, double y, double z) {
+	final public void set(double x, double y, double z) {
 		set((float) x, (float) y, (float) z);
 		
 	}
 
 	@Override
-	public double getXd() {
+	final public double getXd() {
 		return x;
 	}
 
 	@Override
-	public double getYd() {
+	final public double getYd() {
 		return y;
 	}
 
 	@Override
-	public double getZd() {
+	final public double getZd() {
 		return z;
 	}
 
 
 	@Override
-	public float getXf() {
+	final public float getXf() {
 		return x;
 	}
 
 	@Override
-	public float getYf() {
+	final public float getYf() {
 		return y;
 	}
 
 	@Override
-	public float getZf() {
+	final public float getZf() {
 		return z;
 	}
 
