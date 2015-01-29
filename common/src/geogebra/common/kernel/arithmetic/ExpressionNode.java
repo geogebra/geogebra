@@ -5283,7 +5283,9 @@ public class ExpressionNode extends ValidExpression implements
 				return super.evaluateDouble();
 			}
 			double lt = left.evaluateDouble();
-			if (lt < 0 && right.isExpressionNode()) {
+			if (lt < 0
+					&& right.isExpressionNode()
+					&& ((ExpressionNode) right).getOperation() == Operation.DIVIDE) {
 				return ExpressionNodeEvaluator.negPower(lt, right);
 			}
 			return Math.pow(left.evaluateDouble(), right.evaluateDouble());

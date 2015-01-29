@@ -367,6 +367,19 @@ public class MyDouble extends ValidExpression implements NumberValue,
 		c.set(Math.pow(a.val, b.val));
 	}
 
+	final public static double pow(double a, double b) {
+		
+
+		// Infinity ^ 0 -> NaN
+		// http://functions.wolfram.com/Constants/ComplexInfinity/introductions/Symbols/ShowAll.html
+		if (Kernel.isZero(b)
+				&& (Double.isInfinite(a) || Double.isNaN(a))) {			
+			return Double.NaN;
+		}
+
+		return Math.pow(a, b);
+	}
+
 	/**
 	 * c = -pow(-a,b)
 	 * 
