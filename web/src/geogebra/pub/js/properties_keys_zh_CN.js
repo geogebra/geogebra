@@ -1390,7 +1390,7 @@ __GGB__keysVar.zh_CN.menu = {
     "Evaluate": "\u8ba1\u7b97",
     "Evaluate.Help": "\u7cbe\u786e\u8ba1\u7b97",
     "Exit": "\u9000\u51fa",
-    "ExitExamConfirm": "\u60a8\u786e\u5b9a\u8981\u9000\u51fa GeoGebra \u68c0\u6d4b\u5e76\u5173\u95ed\u8ba1\u7b97\u673a\u5417?",
+    "ExitExamConfirm": "\u60a8\u786e\u5b9a\u8981\u9000\u51fa GeoGebra \u68c0\u6d4b\u5417?",
     "ExitExamConfirmTitle": "\u9000\u51fa GeoGebra \u68c0\u6d4b\u5417?",
     "ExitExamShutDown": "\u5173\u95ed",
     "Expand": "\u5c55\u5f00",

@@ -1653,7 +1653,7 @@ __GGB__keysVar.es_ES.menu = {
     "Options": "Opciones",
     "Orthogonal": "Recta perpendicular",
     "Orthogonal.Help": "Punto y recta perpendicular",
-    "OrthogonalPlane": "Plano normal",
+    "OrthogonalPlane": "Plano perpendicular",
     "OrthogonalPlane.Help": "Punto y recta perpendicular al plano",
     "OrthogonalThreeD": "Perpendicular",
     "OrthogonalThreeD.Help": "Elige punto y una recta perpendicular o un plano",
