@@ -293,7 +293,7 @@ public class AlgebraProcessor {
 		}
 	}
 
-	private ValidExpression checkParametricEquation(ValidExpression ve,
+	private ValidExpression checkParametricEquationF(ValidExpression ve,
 			ValidExpression fallback) {
 		CollectUndefinedVariables collecter = new Traversing.CollectUndefinedVariables();
 		ve.traverse(collecter);
@@ -353,7 +353,7 @@ public class AlgebraProcessor {
 					&& "X".equals(((Equation) ve).getLHS().unwrap()
 							.toString(StringTemplate.defaultTemplate))
 					&& kernel.lookupLabel("X") == null) {
-				ValidExpression ve2 = checkParametricEquation(
+				ValidExpression ve2 = checkParametricEquationF(
 						((Equation) ve).getRHS(), null);
 				if (ve2 != null) {
 					ve2.setLabel(ve.getLabel());
@@ -361,7 +361,7 @@ public class AlgebraProcessor {
 				}
 
 			} else if ("X".equals(ve.getLabel())) {
-				ve = checkParametricEquation(ve, ve);
+				ve = checkParametricEquationF(ve, ve);
 			}
 			return changeGeoElementNoExceptionHandling(geo, ve,
 					redefineIndependent, storeUndoInfo);
@@ -598,26 +598,9 @@ public class AlgebraProcessor {
 			if (fvX == null) {
 				fvX = new FunctionVariable(kernel, "x");
 			}
-			if (undefinedVariables.size() == 1 && "X".equals(ve.getLabel())) {
-				try {
-					String varName = undefinedVariables.first();
-					FunctionVariable fv = new FunctionVariable(kernel, varName);
-					ExpressionNode exp = ve
-							.deepCopy(kernel)
-							.traverse(
-									VariableReplacer.getReplacer(varName, fv,
-											kernel)).wrap();
-					exp.resolveVariables();
-					GeoElement[] ret = processParametricFunction(exp,
-							exp.evaluate(StringTemplate.defaultTemplate), fv,
-							null);
-					if (ret != null) {
-						return ret;
-					}
-				} catch (Throwable t) {
-					t.printStackTrace();
-					Log.debug("X is not parametric");
-				}
+			GeoElement[] ret = checkParametricEquation(ve, undefinedVariables);
+			if (ret != null) {
+				return ret;
 			}
 			if (undefinedVariables.size() > 0) {
 
@@ -774,6 +757,60 @@ public class AlgebraProcessor {
 		if (callback0 != null)
 			callback0.callback(geos);
 		return geos;
+	}
+
+	private GeoElement[] checkParametricEquation(ValidExpression ve,
+			TreeSet<String> undefinedVariables) {
+		if (undefinedVariables.size() == 1 && "X".equals(ve.getLabel())) {
+			try {
+				String varName = undefinedVariables.first();
+				FunctionVariable fv = new FunctionVariable(kernel, varName);
+				ExpressionNode exp = ve
+						.deepCopy(kernel)
+						.traverse(
+								VariableReplacer.getReplacer(varName, fv,
+										kernel)).wrap();
+				exp.resolveVariables();
+				GeoElement[] ret = processParametricFunction(exp,
+						exp.evaluate(StringTemplate.defaultTemplate), fv, null);
+				if (ret != null) {
+					return ret;
+				}
+			} catch (Throwable t) {
+				t.printStackTrace();
+				Log.debug("X is not parametric");
+			}
+		} else if (undefinedVariables.size() == 2
+				&& ve.unwrap() instanceof Equation
+				&& "X".equals(((Equation) ve.unwrap()).getLHS().toString(
+						StringTemplate.defaultTemplate))) {
+			try {
+				Iterator<String> t = undefinedVariables.iterator();
+
+				String varName = t.next();
+				if ("X".equals(varName)) {
+					varName = t.next();
+				}
+				FunctionVariable fv = new FunctionVariable(kernel, varName);
+				ExpressionNode exp = ((Equation) ve.unwrap())
+						.getRHS()
+						.deepCopy(kernel)
+						.traverse(
+								VariableReplacer.getReplacer(varName, fv,
+										kernel)).wrap();
+				exp.resolveVariables();
+				GeoElement[] ret = processParametricFunction(exp,
+						exp.evaluate(StringTemplate.defaultTemplate), fv,
+						ve.getLabel());
+				if (ret != null) {
+					return ret;
+				}
+			} catch (Throwable t) {
+				t.printStackTrace();
+				Log.debug("X is not parametric");
+			}
+		}
+		return null;
 	}
 
 	private GeoElement[] tryReplacingProducts(ValidExpression ve) {
