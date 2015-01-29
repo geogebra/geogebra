@@ -4768,8 +4768,24 @@ $.fn.mathquillggb = function(cmd, latex) {
 
           // then writing the latex...
           // this seems to write GeoGebra command syntax help
-          // as nicely as latex, so no problem here
+          // as nicely as latex, so no problem here, but...
           cursor.writeLatex(latex).parent.blur();
+
+          // we should select the first part of latex which is between < and >
+          var ilt = latex.indexOf('<');
+          if (ilt >= 0) {
+            var igt = latex.indexOf('>', ilt);
+            if (igt >= 0) {
+              // do something only in this case
+              // cursor is currently on the right-hand-side of 'latex'
+              for (var iii = latex.length - 2; iii > igt + 1; iii--) {
+                cursor.moveLeft();
+              }
+              for (var iii = igt + 1; iii > ilt; iii--) {
+            	cursor.selectLeft();
+              }
+            }
+          }
         }
       });
   case 'cmd':
