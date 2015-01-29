@@ -4753,11 +4753,23 @@ $.fn.mathquillggb = function(cmd, latex) {
 	        cursor = block && block.cursor;
 
         if (cursor) {
-          // TODO: implementation!
           // first deleting the current word
+          for (var iii = 0; iii < cw.length; iii++) {
+            // if the user typed anything since the suggestions
+        	// in NewRadioButtonTreeItem, then they were
+        	// refreshed in theory, so the cursor is in the
+        	// right place, and we can also assume that the
+        	// current 'word' is only of standalone characters,
+        	// not multi-letter MathQuillGGB commands.
+        	// if that is the case, we should only issue as many
+        	// backspace()s as the number of characters in cw
+            cursor.backspace();
+          }
 
-          // then writing the latex
-          //cursor.writeLatex(latex).parent.blur();
+          // then writing the latex...
+          // this seems to write GeoGebra command syntax help
+          // as nicely as latex, so no problem here
+          cursor.writeLatex(latex).parent.blur();
         }
       });
   case 'cmd':
