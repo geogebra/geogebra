@@ -55,7 +55,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		}
 
 		private String getMacroText(Macro macro) {
-			return macro.getToolName();// + ": " + macro.getNeededTypesString();
+			return macro.getToolName() + ": " + macro.getNeededTypesString();
 		}
 
 		public List<Macro> getMacros() {
@@ -443,7 +443,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public void onMacroChange(Macro macro) {
 		App.debug("[MACROLIST] onMacroChange " + macro.getCommandName());
-		toolList.setSelectedMacro(macro);
+		Macro m = toolList.getSelectedMacro();
+		m.setCommandName(macro.getCommandName());
+		m.setToolName(macro.getToolName());
+		m.setToolHelp(macro.getToolHelp());
+		m.setIconFileName(macro.getIconFileName());
+		m.setShowInToolBar(macro.isShowInToolBar());
+		toolList.setSelectedMacro(m);
 	}
 
 }
