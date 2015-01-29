@@ -63,6 +63,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// So we also provide currentWord as a heuristic or helper:
 			geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 			        seMayLatex, sugg, currentWord);
+
+			// not to forget making the popup disappear after success!
+			sug.hideSuggestions();
 		}
 	};
 
