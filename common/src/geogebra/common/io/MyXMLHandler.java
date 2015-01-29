@@ -3983,7 +3983,6 @@ public class MyXMLHandler implements DocHandler {
 			return true;
 		try {
 			String output = attrs.get("value");
-			App.debug("PARSED: " + output);
 			boolean error = parseBoolean(attrs.get("error"));
 			boolean nativeOutput = parseBoolean(attrs.get("native"));
 			geoCasCell.setNative(nativeOutput);
