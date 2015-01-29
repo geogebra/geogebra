@@ -12,9 +12,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.KeyCodes;
-import com.google.gwt.event.dom.client.KeyDownEvent;
-import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -31,7 +30,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * icon for the tool. It also allows user to add/remove the tool from toolbar.
  */
 public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
-        KeyDownHandler {
+        KeyUpHandler {
 	public interface MacroChangeListener {
 		void onMacroChange(Macro macro);
 	}
@@ -83,13 +82,13 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		pToolName.add(tfToolName);
 
 		tfCmdName.addBlurHandler(this);
-		tfCmdName.addKeyDownHandler(this);
+		tfCmdName.addKeyUpHandler(this);
 
 		tfToolName.addBlurHandler(this);
-		tfToolName.addKeyDownHandler(this);
+		tfToolName.addKeyUpHandler(this);
 
 		tfToolHelp.addBlurHandler(this);
-		tfToolHelp.addKeyDownHandler(this);
+		tfToolHelp.addKeyUpHandler(this);
 
 		mainWidget.add(pToolName);
 		mainWidget.add(pCmdName);
@@ -156,7 +155,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		fn = geogebra.common.util.Util.processFilename(fn);
 
 		// filename will be of form
-		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
+		// "a04c62e6a065b47476607ac815d022cc\liar.gif"Mobi
 		iconFileName = zip_directory + '/' + fn;
 
 		app.getImageManager().addExternalImage(iconFileName, data);
@@ -273,11 +272,9 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 
 	}
 
-	public void onKeyDown(KeyDownEvent event) {
-		if (event.getNativeKeyCode() != KeyCodes.KEY_ENTER) {
-			return;
-		}
+	public void onKeyUp(KeyUpEvent event) {
 		macroChanged();
+
 	}
 
 	private void macroChanged() {

@@ -137,6 +137,14 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 		        zipJSworkerURL(), false);
 	}
 
+	public void getMacrosBase64(boolean includeThumbnail,
+	        JavaScriptObject callback) {
+		Map<String, String> archiveContent = createMacrosArchive();
+
+		getNativeBase64ZipJs(prepareToEntrySet(archiveContent), callback,
+		        zipJSworkerURL(), false);
+	}
+
 	public JavaScriptObject getFileJSON(boolean includeThumbnail) {
 		Map<String, String> archiveContent = createArchiveContent(includeThumbnail);
 
@@ -186,6 +194,10 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 
 	public void getBase64(boolean includeThumbnail, StringHandler callback) {
 		getBase64(includeThumbnail, nativeCallback(callback));
+	}
+
+	public void getMacrosBase64(boolean includeThumbnail, StringHandler callback) {
+		getMacrosBase64(includeThumbnail, nativeCallback(callback));
 	}
 
 	private native JavaScriptObject nativeCallback(StringHandler callback) /*-{

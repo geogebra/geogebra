@@ -599,7 +599,9 @@ public abstract class AppW extends App implements SetLabels {
 		if (construction == null) {
 			setCurrentFile(archiveContent);
 			afterLoadFileAppOrNot();
-			getGuiManager().refreshCustomToolsInToolBar();
+			if (!hasMacroToRestore()) {
+				getGuiManager().refreshCustomToolsInToolBar();
+			}
 			getGuiManager().updateToolbar();
 			return;
 		}

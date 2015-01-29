@@ -101,6 +101,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	private PopupMenuButton providerPopup;
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
+	private MaterialType saveType;
 
 	// private MaterialCallback materialCB;
 	
@@ -124,6 +125,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		this.p.add(getTitelPanel());
 		this.p.add(getButtonPanel());
 		this.contentPanel.add(p);
+		this.saveType = MaterialType.ggb;
 		
 		addCancelButton();
 		
@@ -451,6 +453,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
 	private void uploadToGgt(final String url) {
+		if (saveType == MaterialType.ggt) {
+			uploadToolsToGgt(url);
+		} else {
+			uploadGGBToGgt(url);
+		}
+	}			
+	
+	private void uploadGGBToGgt(final String url) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
 		app.getGgbApi().getBase64(true, new StringHandler(){
 
@@ -473,6 +483,32 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			
 		});
 		
+		hide();
+	}
+
+	private void uploadToolsToGgt(final String url) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+		        app.getMenu("Saving"), false);
+		app.getGgbApi().getMacrosBase64(true, new StringHandler() {
+
+			@Override
+			public void handle(String base64) {
+				if (!SaveDialogW.this.title.getText().equals(
+				        app.getKernel().getConstruction().getTitle())) {
+					App.debug("SAVE filename changed");
+					app.setTubeId(0);
+					doUploadToGgt(base64, initMaterialCB(base64, url));
+				} else if (app.getTubeId() == 0) {
+					App.debug("SAVE had no Tube ID");
+					doUploadToGgt(base64, initMaterialCB(base64, url));
+				} else {
+					handleSync(base64, initMaterialCB(base64, url));
+				}
+
+			}
+
+		});
+
 		hide();
 	}
 
@@ -666,4 +702,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	    	this.setAvailableProviders();
 	    }
     }
+
+	public MaterialType getSaveType() {
+		return saveType;
+	}
+
+	public void setSaveType(MaterialType saveType) {
+		this.saveType = saveType;
+	}
 }

@@ -18,6 +18,7 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.util.AsyncOperation;
 import geogebra.html5.gui.util.LayoutUtil;
 import geogebra.html5.gui.util.ListBoxApi;
@@ -148,7 +149,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private Button btSave;
 
-	private Button btShare;
+	// private Button btShare;
 
 	private Button btClose;
 
@@ -288,9 +289,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolButtonPanel.add(btSave);
 		btSave.setText(loc.getMenu("SaveAs") + " ...");
 
-		btShare = new Button();
-		toolButtonPanel.add(btShare);
-		btShare.setText(loc.getMenu("Share") + " ...");
+		// btShare = new Button();
+		// toolButtonPanel.add(btShare);
+		// btShare.setText(loc.getMenu("Share") + " ...");
 
 		// name & icon
 		macroPanel = new ToolNameIconPanel(app);
@@ -303,7 +304,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btClose = new Button(loc.getMenu("Close"));
 		closePanel.add(btClose);
 		panel.add(closePanel);
-		btShare.addClickHandler(this);
+		// btShare.addClickHandler(this);
 		btSave.addClickHandler(this);
 		btDelete.addClickHandler(this);
 		btOpen.addClickHandler(this);
@@ -356,25 +357,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		lastMacroIdx = -1;
 	}
 
-	/*
-	 * upload selected Tools to GeoGebraTube
-	 */
-	private void uploadToGeoGebraTube() {
-
-		List<Macro> macros = new ArrayList<Macro>();
-		List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
-		for (Integer i: selIndexes) {
-			macros.add(app.getKernel().getMacro(i));
-		}
-
-		model.uploadToGeoGebraTube(macros.toArray());
-	}
 
 	/**
 	 * Saves all selected tools in a new file.
 	 */
 	private void saveTools() {
 		SaveDialogW dlg = new SaveDialogW(app);
+		dlg.setSaveType(MaterialType.ggt);
 		dlg.show();
 
 	}
@@ -436,8 +425,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			openTools();
 		} else if (src == btSave) {
 			saveTools();
-		} else if (src == btShare) {
-			uploadToGeoGebraTube();
 		}
 	}
 
