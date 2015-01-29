@@ -743,7 +743,7 @@ public class DrawEquationWeb extends DrawEquation {
 							event.preventDefault();
 
 							if (newCreationMode) {
-								var querr = $wnd.$ggbQuery;
+								var querr = elsecondInside;
 								if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
 									if (querr.GeoGebraSuggestionPopupCanShow === true) {
 										@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);

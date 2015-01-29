@@ -1424,6 +1424,8 @@ function createRoot(jQ, root, textbox, editable) {
     jQ.addClass('mathquillggb-rendered-math');
   }
 
+  root.common = jQ[0];
+
   root.jQ = jQ.attr(mqBlockId, root.id);
   root.revert = function() {
     jQ.empty().unbind('.mathquillggb')
@@ -1770,13 +1772,22 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       break;
 
     default:
+      if (this.common !== undefined) {
+    	this.common.GeoGebraSuggestionPopupCanShow = true;
+      }
+      //else {
       // temporarily $, until we find a better object
-      $.GeoGebraSuggestionPopupCanShow = true;
+      //$.GeoGebraSuggestionPopupCanShow = true;
+      //}
       return false;
     }
-
+    if (this.common !== undefined) {
+      this.common.GeoGebraSuggestionPopupCanShow = false;
+    }
+    // else {
     // temporarily $, until we find a better object
-    $.GeoGebraSuggestionPopupCanShow = false;
+    //$.GeoGebraSuggestionPopupCanShow = false;
+    //}
     e.preventDefault();
     return false;
   };
