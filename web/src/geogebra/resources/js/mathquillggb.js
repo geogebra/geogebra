@@ -1770,19 +1770,13 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       break;
 
     default:
-      if (RootMathBlock.onKeyFunctionMQGGB !== undefined) {
-    	setTimeout(function() {
-    		RootMathBlock.onKeyFunctionMQGGB(true);
-    	});
-      }
+      // temporarily $, until we find a better object
+      $.popupCanShow = true;
       return false;
     }
 
-    if (RootMathBlock.onKeyFunctionMQGGB !== undefined) {
-  	  setTimeout(function() {
-        RootMathBlock.onKeyFunctionMQGGB(false);
-	  });
-    }
+    // temporarily $, until we find a better object
+    $.popupCanShow = false;
     e.preventDefault();
     return false;
   };
@@ -4690,13 +4684,6 @@ var Selection = P(Fragment, function(_, _super) {
 //called) on jQuery-wrapped HTML DOM elements.
 $.fn.mathquillggb = function(cmd, latex) {
   switch (cmd) {
-  case 'register':
-	// in this case, the second parameter is not latex,
-	// but a JavaScript function to register listening to
-	// RootMathBlock.onKey, with a boolean parameter depending
-	// on its result... true means: suggestion popup may appear
-	RootMathBlock.onKeyFunctionMQGGB = arguments[1];
-	return this;
   case 'redraw':
     return this.each(function() {
       var blockId = $(this).attr(mqBlockId),

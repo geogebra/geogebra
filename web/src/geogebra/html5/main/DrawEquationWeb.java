@@ -706,21 +706,6 @@ public class DrawEquationWeb extends DrawEquation {
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert').mathquillggb(
 				'editable').focus();
 
-		if (newCreationMode) {
-			var suggestionPopupCallbackFun = function(bool) {
-				// if only the cursor has moved, it's better to hide the suggestions!
-				// we should do the same when changing the cursor position by mouse!
-				// something like Cursor.onKey (onkeydown) default branch should execute this:
-				if (bool) {
-					@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-				} else {
-					@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-				}
-			}
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('register',
-					suggestionPopupCallbackFun).focus();
-		}
-
 		$wnd
 				.$ggbQuery(elsecondInside)
 				.keyup(
@@ -756,6 +741,17 @@ public class DrawEquationWeb extends DrawEquation {
 							}
 							event.stopPropagation();
 							event.preventDefault();
+
+							if (newCreationMode) {
+								var querr = $wnd.$ggbQuery;
+								if (querr.popupCanShow !== undefined) {
+									if (querr.popupCanShow === true) {
+										@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+									} else {
+										@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+									}
+								}
+							}
 							return false;
 						}).keypress(function(event2) {
 					// the main reason of calling stopPropagation here
