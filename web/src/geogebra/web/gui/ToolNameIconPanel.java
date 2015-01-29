@@ -8,8 +8,15 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -23,8 +30,11 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * Panel of Tool Creation Dialog. Contains tool name, command name, help and
  * icon for the tool. It also allows user to add/remove the tool from toolbar.
  */
-public class ToolNameIconPanel extends VerticalPanel {
-
+public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
+        KeyDownHandler {
+	public interface MacroChangeListener {
+		void onMacroChange(Macro macro);
+	}
 	/** With of tool icon in pixels **/
 	public static final int ICON_WIDTH = 32;
 	/** Height of tool icon in pixels **/
@@ -40,7 +50,7 @@ public class ToolNameIconPanel extends VerticalPanel {
 
 	private AppW app;
 	private Macro macro;
-
+	private MacroChangeListener listener;
 	/**
 	 * 
 	 * @param app
@@ -49,6 +59,8 @@ public class ToolNameIconPanel extends VerticalPanel {
 		super();
 
 		this.app = (AppW) app;
+
+		listener = null;
 
 		mainWidget = new VerticalPanel();
 
@@ -69,6 +81,15 @@ public class ToolNameIconPanel extends VerticalPanel {
 		FlowPanel pToolName = new FlowPanel();
 		pToolName.add(labelToolName);
 		pToolName.add(tfToolName);
+
+		tfCmdName.addBlurHandler(this);
+		tfCmdName.addKeyDownHandler(this);
+
+		tfToolName.addBlurHandler(this);
+		tfToolName.addKeyDownHandler(this);
+
+		tfToolHelp.addBlurHandler(this);
+		tfToolHelp.addKeyDownHandler(this);
 
 		mainWidget.add(pToolName);
 		mainWidget.add(pCmdName);
@@ -103,6 +124,12 @@ public class ToolNameIconPanel extends VerticalPanel {
 
 		showTool = new CheckBox(app.getMenu("ShowInToolBar"));
 		showTool.setValue(true);
+		showTool.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+
+			public void onValueChange(ValueChangeEvent<Boolean> event) {
+				macroChanged();
+			}
+		});
 
 		HorizontalPanel iconSelectShowPanel = new HorizontalPanel();
 		iconSelectShowPanel.add(iconPanel);
@@ -134,8 +161,8 @@ public class ToolNameIconPanel extends VerticalPanel {
 
 		app.getImageManager().addExternalImage(iconFileName, data);
 		icon.setUrl(app.getImageManager().getExternalImageSrc(iconFileName));
-
 		updateMacro();
+		macroChanged();
 	}
 
 	/**
@@ -161,6 +188,7 @@ public class ToolNameIconPanel extends VerticalPanel {
 		}
 
 		updateMacro();
+		macroChanged();
 	}
 
 	/**
@@ -190,9 +218,11 @@ public class ToolNameIconPanel extends VerticalPanel {
 				tfCmdName.setText(macro.getCommandName());
 			}
 		}
+
 		// TODO
 		// if (managerDialog != null)
 		// managerDialog.repaint();
+
 	}
 
 	public String getCommandName() {
@@ -232,5 +262,28 @@ public class ToolNameIconPanel extends VerticalPanel {
 		m.setShowInToolBar(getShowTool());
 		m.setIconFileName(getIconFileName());
 		return m;
+	}
+
+	public void setMacroChangeListener(MacroChangeListener listener) {
+		this.listener = listener;
+	}
+
+	public void onBlur(BlurEvent event) {
+		macroChanged();
+
+	}
+
+	public void onKeyDown(KeyDownEvent event) {
+		if (event.getNativeKeyCode() != KeyCodes.KEY_ENTER) {
+			return;
+		}
+		macroChanged();
+	}
+
+	private void macroChanged() {
+		Macro m = getMacro();
+		if (listener != null) {
+			listener.onMacroChange(m);
+		}
 	}
 }

@@ -25,6 +25,7 @@ import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.ToolNameIconPanel;
+import geogebra.web.gui.ToolNameIconPanel.MacroChangeListener;
 import geogebra.web.gui.util.SaveDialogW;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ import com.google.gwt.user.client.ui.ListBox;
 
 public class ToolManagerDialogW extends DialogBoxW implements
  ClickHandler,
-        ToolManagerDialogListener {
+        ToolManagerDialogListener, MacroChangeListener {
 
 	private class MacroListBox extends ListBox {
 		List<Macro> macros;
@@ -54,7 +55,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		}
 
 		private String getMacroText(Macro macro) {
-			return macro.getToolName() + ": " + macro.getNeededTypesString();
+			return macro.getToolName();// + ": " + macro.getNeededTypesString();
 		}
 
 		public List<Macro> getMacros() {
@@ -84,6 +85,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			orig.setToolName(macro.getToolName());
 			orig.setToolHelp(macro.getToolHelp());
 			orig.setIconFileName(macro.getIconFileName());
+			setItemText(idx, getMacroText(macro));
 
 			macros.set(idx, orig);
 		}
@@ -138,7 +140,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private Button btDown;
 
-	private MacroListBox toolList;
+	MacroListBox toolList;
 
 	private Button btDelete;
 
@@ -152,6 +154,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private ToolNameIconPanel macroPanel;
 	private int lastMacroIdx;
+
 
 	public ToolManagerDialogW(AppW app) {
 		setModal(true);
@@ -177,7 +180,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	/**
-	 * Updates the order of macros using the listModel.
+	 * Updates the order of macros.
 	 */
 	private void updateToolBar() {
 		model.addMacros(toolList.getMacros().toArray());
@@ -263,7 +266,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 		toolList = new MacroListBox();
 		toolList.setMultipleSelect(true);
-		insertTools();
+
 		toolList.setVisibleItemCount(6);
 
 		FlowPanel centerPanel = LayoutUtil.panelRow(toolList, createListUpDownRemovePanel());
@@ -292,7 +295,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		// name & icon
 		macroPanel = new ToolNameIconPanel(app);
 		macroPanel.setTitle(app.getMenu("NameIcon"));
+		macroPanel.setMacroChangeListener(this);
 		panel.add(macroPanel);
+
 
 		FlowPanel closePanel = new FlowPanel();
 		btClose = new Button(loc.getMenu("Close"));
@@ -304,23 +309,17 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btOpen.addClickHandler(this);
 		btClose.addClickHandler(this);
 
+		insertTools();
+
 		toolList.addChangeHandler(new ChangeHandler() {
 
-
 			public void onChange(ChangeEvent event) {
-				// toolList.setMacro(macroPanel.getMacro(), lastMacroIdx);
 				Macro macro = toolList.getSelectedMacro();
-				lastMacroIdx = toolList.getSelectedIndex();
 				macroPanel.setMacro(macro);
 			}
 
 		});
 
-		// select first tool in list
-		if (toolList.getItemCount() > 0) {
-			toolList.setSelectedIndex(0);
-			lastMacroIdx = 0;
-		}
 
 	}
 
@@ -351,6 +350,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			Macro macro = kernel.getMacro(i);
 			toolList.addMacro(macro);
 		}
+		toolList.setSelectedIndex(0);
+		macroPanel.setMacro(toolList.getSelectedMacro());
+
+		lastMacroIdx = -1;
 	}
 
 	/*
@@ -436,6 +439,11 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		} else if (src == btShare) {
 			uploadToGeoGebraTube();
 		}
+	}
+
+	public void onMacroChange(Macro macro) {
+		App.debug("[MACROLIST] onMacroChange " + macro.getCommandName());
+		toolList.setSelectedMacro(macro);
 	}
 
 }
