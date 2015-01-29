@@ -30,7 +30,7 @@ public class ManagerShaders extends Manager {
 
 	}
 
-	private ArrayList<Float> vertices, normals, textures, colors;
+	private ArrayList<Double> vertices, normals, textures, colors;
 
 	private int verticesLength, verticesSize, normalsLength, normalsSize,
 			texturesLength, texturesSize, colorsLength, colorsSize;
@@ -41,13 +41,13 @@ public class ManagerShaders extends Manager {
 		geometriesSetMaxIndex = -1;
 		indicesRemoved = new Stack<Integer>();
 
-		vertices = new ArrayList<Float>();
+		vertices = new ArrayList<Double>();
 		verticesSize = 0;
-		normals = new ArrayList<Float>();
+		normals = new ArrayList<Double>();
 		normalsSize = 0;
-		textures = new ArrayList<Float>();
+		textures = new ArrayList<Double>();
 		texturesSize = 0;
-		colors = new ArrayList<Float>();
+		colors = new ArrayList<Double>();
 		colorsSize = 0;
 
 	}
@@ -128,7 +128,7 @@ public class ManagerShaders extends Manager {
 		 * @param y
 		 * @param z
 		 */
-		public void vertexDirect(float x, float y, float z){
+		public void vertexDirect(double x, double y, double z){
 			v.put(x);
 			v.put(y);
 			v.put(z);
@@ -141,7 +141,7 @@ public class ManagerShaders extends Manager {
 		 * @param y
 		 * @param z
 		 */
-		public void normalDirect(float x, float y, float z){
+		public void normalDirect(double x, double y, double z){
 			n.put(x);
 			n.put(y);
 			n.put(z);
@@ -164,14 +164,14 @@ public class ManagerShaders extends Manager {
 		}
 
 		/**
-		 * set float buffer for vertices
+		 * set double buffer for vertices
 		 * 
 		 * @param array
-		 *            float array
+		 *            double array
 		 * @param length
 		 *            length to copy
 		 */
-		public void setVertices(ArrayList<Float> array, int length) {
+		public void setVertices(ArrayList<Double> array, int length) {
 			// this.v = GLFactory.prototype.newBuffer();
 			this.v.set(array, length);
 		}
@@ -185,14 +185,14 @@ public class ManagerShaders extends Manager {
 		}
 
 		/**
-		 * set float buffer for normals
+		 * set double buffer for normals
 		 * 
 		 * @param array
-		 *            float array
+		 *            double array
 		 * @param length
 		 *            length to copy
 		 */
-		public void setNormals(ArrayList<Float> array, int length) {
+		public void setNormals(ArrayList<Double> array, int length) {
 			this.n.set(array, length);
 		}
 
@@ -205,14 +205,14 @@ public class ManagerShaders extends Manager {
 		}
 
 		/**
-		 * set float buffer for texture
+		 * set double buffer for texture
 		 * 
 		 * @param array
-		 *            float array
+		 *            double array
 		 * @param length
 		 *            length to copy
 		 */
-		public void setTextures(ArrayList<Float> array, int length) {
+		public void setTextures(ArrayList<Double> array, int length) {
 			this.t.set(array, length);
 		}
 
@@ -225,14 +225,14 @@ public class ManagerShaders extends Manager {
 		}
 
 		/**
-		 * set float buffer for colors
+		 * set double buffer for colors
 		 * 
 		 * @param array
-		 *            float array
+		 *            double array
 		 * @param length
 		 *            length to copy
 		 */
-		public void setColors(ArrayList<Float> array, int length) {
+		public void setColors(ArrayList<Double> array, int length) {
 			this.c.set(array, length);
 		}
 
@@ -330,7 +330,7 @@ public class ManagerShaders extends Manager {
 		 * @param y
 		 * @param z
 		 */
-		public void vertexDirect(float x, float y, float z){
+		public void vertexDirect(double x, double y, double z){
 			currentGeometry.vertexDirect(x, y, z);
 		}
 
@@ -340,7 +340,7 @@ public class ManagerShaders extends Manager {
 		 * @param y
 		 * @param z
 		 */
-		public void normalDirect(float x, float y, float z){
+		public void normalDirect(double x, double y, double z){
 			currentGeometry.normalDirect(x, y, z);
 		}
 		
@@ -359,28 +359,26 @@ public class ManagerShaders extends Manager {
 		 * @param length
 		 *            vertices length
 		 */
-		public void setVertices(ArrayList<Float> vertices, int length) {
+		public void setVertices(ArrayList<Double> vertices, int length) {
 			currentGeometry.setVertices(vertices, length);
 			currentGeometry.setLength(length / 3);
 		}
 
-		public void setNormals(ArrayList<Float> normals, int length) {
+		public void setNormals(ArrayList<Double> normals, int length) {
 			if (length == 3) { // only one normal for all vertices
-				// currentGeometry.setNormals(ManagerShaders.floatBuffer(normals,
-				// currentGeometry.getLength()));
 				currentGeometry.setNormals(normals, length);
 			} else if (length == 3 * currentGeometry.getLength()) {
 				currentGeometry.setNormals(normals, length);
 			}
 		}
 
-		public void setTextures(ArrayList<Float> textures, int length) {
+		public void setTextures(ArrayList<Double> textures, int length) {
 			if (length == 2 * currentGeometry.getLength()) {
 				currentGeometry.setTextures(textures, length);
 			}
 		}
 
-		public void setColors(ArrayList<Float> colors, int length) {
+		public void setColors(ArrayList<Double> colors, int length) {
 			if (length == 4 * currentGeometry.getLength()) {
 				currentGeometry.setColors(colors, length);
 			}
@@ -548,7 +546,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void texture(float x, float y) {
+	protected void texture(double x, double y) {
 
 		if (texturesLength == texturesSize) {
 			textures.add(x);
@@ -568,7 +566,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void normal(float x, float y, float z) {
+	protected void normal(double x, double y, double z) {
 
 		if (normalsLength == normalsSize) {
 			normals.add(x);
@@ -586,7 +584,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void vertex(float x, float y, float z) {
+	protected void vertex(double x, double y, double z) {
 
 		if (verticesLength == verticesSize) {
 			vertices.add(x);
@@ -608,12 +606,12 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void color(float r, float g, float b) {
+	protected void color(double r, double g, double b) {
 		color(r, g, b, 1f);
 	}
 
 	@Override
-	protected void color(float r, float g, float b, float a) {
+	protected void color(double r, double g, double b, double a) {
 
 		if (colorsLength == colorsSize) {
 			colors.add(r);
@@ -632,7 +630,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void pointSize(float size) {
+	protected void pointSize(double size) {
 		// renderer.getGL2().glPointSize(size);
 	}
 
@@ -669,12 +667,12 @@ public class ManagerShaders extends Manager {
 	}
 	
 	@Override
-	protected void vertexDirect(float x, float y, float z){
+	protected void vertexDirect(double x, double y, double z){
 		currentGeometriesSet.vertexDirect(x, y, z);
 	}
 	
 	@Override
-	protected void normalDirect(float x, float y, float z){
+	protected void normalDirect(double x, double y, double z){
 		currentGeometriesSet.normalDirect(x, y, z);
 	}
 	

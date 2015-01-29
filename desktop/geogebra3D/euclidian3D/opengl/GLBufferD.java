@@ -54,12 +54,12 @@ public class GLBufferD implements GLBuffer {
 		isEmpty = false;
 	}
 	
-	public void put(float value){
-		impl.put(value);
+	public void put(double value){
+		impl.put((float) value);
 	}
 
 
-	public void set(ArrayList<Float> array, int length) {
+	public void set(ArrayList<Double> array, int length) {
 
 		allocate(length);
 		

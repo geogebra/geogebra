@@ -26,7 +26,7 @@ public interface GLBuffer {
 	 * put value at current buffer position
 	 * @param value value
 	 */
-	public void put(float value);
+	public void put(double value);
 	
 
 	/**
@@ -37,7 +37,7 @@ public interface GLBuffer {
 	 * @param length
 	 *            length to copy
 	 */
-	public void set(ArrayList<Float> array, int length);
+	public void set(ArrayList<Double> array, int length);
 
 	/**
 	 * 

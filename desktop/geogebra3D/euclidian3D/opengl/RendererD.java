@@ -533,9 +533,9 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	}
 
 	@Override
-	public void setLineWidth(float width) {
+	public void setLineWidth(double width) {
 
-		getGL().glLineWidth(width);
+		getGL().glLineWidth((float) width);
 
 	}
 

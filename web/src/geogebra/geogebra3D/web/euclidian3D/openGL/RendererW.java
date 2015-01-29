@@ -590,7 +590,7 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	}
 
 	@Override
-	public void setLineWidth(float width) {
+	public void setLineWidth(double width) {
 		// TODO Auto-generated method stub
 
 	}

@@ -183,8 +183,8 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	protected void texture(float x, float y) {
-		renderer.jogl.getGL2().glTexCoord2f(x, y);
+	protected void texture(double x, double y) {
+		renderer.jogl.getGL2().glTexCoord2d(x, y);
 	}
 
 	@Override
@@ -193,15 +193,15 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	protected void normal(float x, float y, float z) {
+	protected void normal(double x, double y, double z) {
 
-		renderer.jogl.getGL2().glNormal3f(x, y, z);
+		renderer.jogl.getGL2().glNormal3d(x, y, z);
 	}
 
 	@Override
-	protected void vertex(float x, float y, float z) {
+	protected void vertex(double x, double y, double z) {
 
-		renderer.jogl.getGL2().glVertex3f(x, y, z);
+		renderer.jogl.getGL2().glVertex3d(x, y, z);
 	}
 
 	@Override
@@ -216,18 +216,18 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	protected void color(float r, float g, float b) {
-		renderer.jogl.getGL2().glColor3f(r, g, b);
+	protected void color(double r, double g, double b) {
+		renderer.jogl.getGL2().glColor3d(r, g, b);
 	}
 
 	@Override
-	protected void color(float r, float g, float b, float a) {
-		renderer.jogl.getGL2().glColor4f(r, g, b, a);
+	protected void color(double r, double g, double b, double a) {
+		renderer.jogl.getGL2().glColor4d(r, g, b, a);
 	}
 
 	@Override
-	protected void pointSize(float size) {
-		renderer.jogl.getGL2().glPointSize(size);
+	protected void pointSize(double size) {
+		renderer.jogl.getGL2().glPointSize((float) size);
 	}
 
 	@Override

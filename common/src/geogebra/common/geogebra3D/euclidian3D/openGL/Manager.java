@@ -5,7 +5,6 @@ import geogebra.common.geogebra3D.euclidian3D.PolygonTriangulation.TriangleFan;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawPoint3D;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3;
-import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 
@@ -48,7 +47,7 @@ abstract public class Manager {
 	private Coords cylinderStart = null;
 	private Coords cylinderEnd = null;
 	private double cylinderThickness;
-	private float textureStart, textureEnd;
+	private double textureStart, textureEnd;
 
 	/**
 	 * create a manager for geometries
@@ -296,7 +295,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	abstract protected void vertex(float x, float y, float z);
+	abstract protected void vertex(double x, double y, double z);
 
 	/**
 	 * creates a vertex at coordinates (x,y,z) (direct buffer mode)
@@ -308,7 +307,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	protected void vertexDirect(float x, float y, float z){
+	protected void vertexDirect(double x, double y, double z){
 		vertex(x, y, z);
 	}
 
@@ -330,7 +329,7 @@ abstract public class Manager {
 	 * @param v
 	 */
 	protected void vertex(Coords v) {
-		vertex((float) v.getX(), (float) v.getY(), (float) v.getZ());
+		vertex(v.getX(), v.getY(), v.getZ());
 	}
 	
 	/**
@@ -380,7 +379,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	abstract protected void normal(float x, float y, float z);
+	abstract protected void normal(double x, double y, double z);
 
 	/**
 	 * creates a normal at coordinates (x,y,z) (direct buffer mode)
@@ -392,7 +391,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	protected void normalDirect(float x, float y, float z){
+	protected void normalDirect(double x, double y, double z){
 		normal(x, y, z);
 	}
 
@@ -402,7 +401,7 @@ abstract public class Manager {
 	 * @param n
 	 */
 	protected void normal(Coords n) {
-		normal((float) n.getX(), (float) n.getY(), (float) n.getZ());
+		normal(n.getX(), n.getY(), n.getZ());
 	}
 
 	/**
@@ -422,7 +421,7 @@ abstract public class Manager {
 	 * @param y
 	 *            y coord
 	 */
-	abstract protected void texture(float x, float y);
+	abstract protected void texture(double x, double y);
 
 	/**
 	 * creates a color (r,g,b)
@@ -435,7 +434,7 @@ abstract public class Manager {
 	 *            blue
 	 * 
 	 */
-	abstract protected void color(float r, float g, float b);
+	abstract protected void color(double r, double g, double b);
 
 	/**
 	 * creates a color (r,g,b,a)
@@ -450,7 +449,7 @@ abstract public class Manager {
 	 *            blue alpha
 	 * 
 	 */
-	abstract protected void color(float r, float g, float b, float a);
+	abstract protected void color(double r, double g, double b, double a);
 
 	/**
 	 * set the line width (for GL_LINE rendering)
@@ -458,7 +457,7 @@ abstract public class Manager {
 	 * @param width
 	 *            width
 	 */
-	final protected void lineWidth(float width) {
+	final protected void lineWidth(double width) {
 		getRenderer().setLineWidth(width);
 	}
 
@@ -468,7 +467,7 @@ abstract public class Manager {
 	 * @param size
 	 *            size
 	 */
-	abstract protected void pointSize(float size);
+	abstract protected void pointSize(double size);
 
 	// ///////////////////////////////////////////
 	// COORDS METHODS
@@ -484,7 +483,7 @@ abstract public class Manager {
 	 * @param textureEnd
 	 */
 	public void setCylinder(Coords p1, Coords p2, double thickness,
-			float textureStart, float textureEnd) {
+			double textureStart, double textureEnd) {
 		cylinderStart = p1;
 		cylinderEnd = p2;
 		cylinderThickness = thickness;
@@ -501,8 +500,8 @@ abstract public class Manager {
 	 * @param v
 	 */
 	public void translateCylinder(Coords v) {
-		cylinderStart = (Coords) cylinderStart.add(v);
-		cylinderEnd = (Coords) cylinderEnd.add(v);
+		cylinderStart = cylinderStart.add(v);
+		cylinderEnd = cylinderEnd.add(v);
 	}
 
 	/**
@@ -515,19 +514,19 @@ abstract public class Manager {
 	public void cylinderRule(double u, double v, double texturePos) {
 
 		// normal vector
-		Coords vn = (Coords) clockV.mul(v).add(clockU.mul(u));
-		normal((float) vn.getX(), (float) vn.getY(), (float) vn.getZ());
+		Coords vn = clockV.mul(v).add(clockU.mul(u));
+		normal(vn.getX(), vn.getY(), vn.getZ());
 
 		// bottom vertex
-		texture(textureStart, (float) texturePos);
-		vertex((float) (cylinderStart.getX() + cylinderThickness * vn.getX()),
-				(float) (cylinderStart.getY() + cylinderThickness * vn.getY()),
-				(float) (cylinderStart.getZ() + cylinderThickness * vn.getZ()));
+		texture(textureStart, texturePos);
+		vertex((cylinderStart.getX() + cylinderThickness * vn.getX()),
+				(cylinderStart.getY() + cylinderThickness * vn.getY()),
+				(cylinderStart.getZ() + cylinderThickness * vn.getZ()));
 		// top vertex
-		texture(textureEnd, (float) texturePos);
-		vertex((float) (cylinderEnd.getX() + cylinderThickness * vn.getX()),
-				(float) (cylinderEnd.getY() + cylinderThickness * vn.getY()),
-				(float) (cylinderEnd.getZ() + cylinderThickness * vn.getZ()));
+		texture(textureEnd, texturePos);
+		vertex((cylinderEnd.getX() + cylinderThickness * vn.getX()),
+				(cylinderEnd.getY() + cylinderThickness * vn.getY()),
+				(cylinderEnd.getZ() + cylinderThickness * vn.getZ()));
 	}
 
 	// ///////////////////////////////////////////

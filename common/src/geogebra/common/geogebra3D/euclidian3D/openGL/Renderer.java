@@ -699,7 +699,7 @@ public abstract class Renderer {
 	 * @param width
 	 *            line width
 	 */
-	abstract public void setLineWidth(float width);
+	abstract public void setLineWidth(double width);
 
 	// /////////////////////////////////////////////////
 	//

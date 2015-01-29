@@ -53,13 +53,13 @@ public class GLBufferW implements GLBuffer {
 		isEmpty = false;
 	}
 
-	public void put(float value) {
+	public void put(double value) {
 		impl.set(index, value);
 		index++;
 	}
 
 
-	public void set(ArrayList<Float> array, int length) {
+	public void set(ArrayList<Double> array, int length) {
 
 		allocate(length);
 
