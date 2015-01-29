@@ -4740,6 +4740,26 @@ $.fn.mathquillggb = function(cmd, latex) {
         if (cursor)
           cursor.writeLatex(latex).parent.blur();
       });
+  case 'replace':
+    // this function should replace the current 'word',
+    // or the sequence of elements like in arguments[2]
+	// to a latex string given in arguments[1]
+	//var lx = arguments[1];// it is also called "latex"
+	var cw = arguments[2];
+    if (arguments.length > 1)
+	  return this.each(function() {
+	    var blockId = $(this).attr(mqBlockId),
+	        block = blockId && Node.byId[blockId],
+	        cursor = block && block.cursor;
+
+        if (cursor) {
+          // TODO: implementation!
+          // first deleting the current word
+
+          // then writing the latex
+          //cursor.writeLatex(latex).parent.blur();
+        }
+      });
   case 'cmd':
     if (arguments.length > 1)
       return this.each(function() {

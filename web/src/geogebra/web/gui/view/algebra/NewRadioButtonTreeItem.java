@@ -44,31 +44,25 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	};
 	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
 		public void onSuggestionSelected(Suggestion s) {
+
 			String sugg = s.getReplacementString();
+			// For now, we can assume that sugg is in LaTeX format,
+			// and if it will be wrong, we can revise it later
+			// at the moment we shall focus on replacing the current
+			// word in MathQuillGGB with it...
 
-			String oldText = getText();
-			int pos = getCaretPosition();
-			StringBuilder sb = new StringBuilder();
-			int wp = updateCurrentWord(false, new StringBuilder(), oldText, pos);
+			// Although MathQuillGGB could compute the current word,
+			// it might not be the same as the following, as
+			// maybe it can be done easily for English characters
+			// but current word shall be internationalized to e.g.
+			// Hungarian, or even Arabic, Korean, etc. which are
+			// known by GeoGebra but unknown by MathQuillGGB...
+			updateCurrentWord(false);
+			String currentWord = curWord.toString();
 
-			// Problem: we have sugg, wp, and pos as inputs
-			// output should be the MathQuillGGB formula with
-			// its part between wp and pos (in text format)
-			// replaced to sugg
-
-			// sb.append(oldText.substring(0, wp));
-			// sb.append(sugg);
-			// sb.append(oldText.substring(pos));
-
-			// we cannot do anything with sb.toString(),
-			// because MathQuillGGB only knows LaTeX as input format!
-			// super.setText(sb.toString());
-
-			// so we shall convert sugg to LaTeX first,
-			// and write a method that estimates the place
-			// in LaTeX format that is between wp and pos
-			// in text format... or maybe revise the
-			// updateCurrentWord method as well!
+			// So we also provide currentWord as a heuristic or helper:
+			geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+			        seMayLatex, sugg, currentWord);
 		}
 	};
 

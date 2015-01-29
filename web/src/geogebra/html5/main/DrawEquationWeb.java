@@ -854,6 +854,19 @@ public class DrawEquationWeb extends DrawEquation {
 		return inx - 1;
 	}-*/;
 
+	public static native void writeLatexInPlaceOfCurrentWord(
+	        Element parentElement, String latex, String currentWord) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var thisjq = $wnd.$ggbQuery(elsecondInside);
+
+		// IMPORTANT! although the following method is called with
+		// 1+2 parameters, it is assumed that there is a third kind
+		// of input added, which is the place of the Cursor
+		thisjq.mathquillggb('replace', latex, currentWord);
+	}-*/;
+
 	public static boolean newFormulaCreatedMathQuillGGB(
 	        RadioButtonTreeItem rbti, final String input) {
 		return rbti.stopNewFormulaCreation(input);
