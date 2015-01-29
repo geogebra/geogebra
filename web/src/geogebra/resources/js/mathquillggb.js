@@ -4775,14 +4775,34 @@ $.fn.mathquillggb = function(cmd, latex) {
           var ilt = latex.indexOf('<');
           if (ilt >= 0) {
             var igt = latex.indexOf('>', ilt);
+            var sublatex = latex.substring(ilt);
             if (igt >= 0) {
-              // do something only in this case
+              // do something only in this case ... but note that
+              // latex.length may be a wrong data to base our code upon...
+              // so we shall count the number of < and > in the formula
+              var ngt = sublatex.split('>').length - 1;
               // cursor is currently on the right-hand-side of 'latex'
-              for (var iii = latex.length - 2; iii > igt + 1; iii--) {
+              while (cursor[L]) {
+                if ((cursor[L] instanceof BinaryOperator) &&
+                    (cursor[L].ctrlSeq === '>')) {
+                  if (ngt > 1) {
+                    ngt--;
+                  } else {
+                    break;
+                  }
+                }
                 cursor.moveLeft();
               }
-              for (var iii = igt + 1; iii > ilt; iii--) {
-            	cursor.selectLeft();
+              // now the cursor should be on the right-hand-side
+              // of the first '>' after the first '<'
+              while (cursor[L]) {
+                if ((cursor[L] instanceof BinaryOperator) &&
+                    (cursor[L].ctrlSeq === '<')) {
+                  cursor.selectLeft();
+                  break;
+                } else {
+                  cursor.selectLeft();
+                }
               }
             }
           }
