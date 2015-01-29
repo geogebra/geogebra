@@ -86,6 +86,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 * DrawEquationWeb.editEquationMathQuillGGB.onKeyUp or something, so this
 	 * will be a method to override!
 	 */
+	@Override
 	public boolean popupSuggestions() {
 		// sub, or query is the same as the current word,
 		// so moved from method parameter to automatism
@@ -95,6 +96,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		if (sub != null && !"".equals(sub))
 			popup.requestSuggestions(
 			        new SuggestOracle.Request(sub, querylimit), popupCallback);
+		return true;
+	}
+
+	@Override
+	public boolean hideSuggestions() {
+		if (sug.isSuggestionListShowing()) {
+			sug.hideSuggestions();
+		}
 		return true;
 	}
 

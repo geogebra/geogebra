@@ -379,6 +379,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		return false;
 	}
 
+	/**
+	 * Method to be overridden in NewRadioButtonTreeItem
+	 */
+	public boolean hideSuggestions() {
+		return false;
+	}
+
 	@Override
     public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);

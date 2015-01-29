@@ -9,4 +9,5 @@ public interface RadioButtonTreeItem {
 
 	// in case of NewRadioButtonTreeItem (new formula creation)
 	public boolean popupSuggestions();
+	public boolean hideSuggestions();
 }
