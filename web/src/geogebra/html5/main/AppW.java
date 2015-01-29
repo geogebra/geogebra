@@ -3003,4 +3003,8 @@ public abstract class AppW extends App implements SetLabels {
 		this.toolLoadedFromStorage = toolLoadedFromStorage;
 	}
 
+	public boolean isExam() {
+		return getLAF().isExam();
+	}
+
 }

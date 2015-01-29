@@ -281,10 +281,12 @@ public class AppWapplication extends AppW {
 		}
 
 		String perspective = getArticleElement().getDataParamPerspective();
+
 		getGuiManager().getLayout().setPerspectives(
 		        getTmpPerspectives(),
 		        PerspectiveDecoder.decode(perspective, this.getKernel()
-		                .getParser(), ToolBar.getAllToolsNoMacros(true)));
+		                        .getParser(), ToolBar.getAllToolsNoMacros(true,
+		                        false)));
 
 		getScriptManager().ggbOnInit(); // put this here from Application
 		                                // constructor because we have to delay

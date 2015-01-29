@@ -2557,6 +2557,10 @@ public abstract class App implements UpdateSelection {
 	 */
 	public abstract boolean isHTML5Applet();
 
+	public boolean isExam() {
+		return false;
+	}
+
 	/**
 	 * @param isOnTheFlyPointCreationActive
 	 *            Whether points can be created on the fly

@@ -65,7 +65,8 @@ public abstract class Layout {
 		spData[0] = new DockSplitPaneData("", AVpercent,
 				GSplitPane.HORIZONTAL_SPLIT);
 
-		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet());
+		defToolbar = ToolBar.getAllToolsNoMacros(app.isHTML5Applet(),
+				app.isExam());
 
 		int i = 0; // current perspective
 

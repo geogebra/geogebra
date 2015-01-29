@@ -142,8 +142,9 @@ public class LoadFilePresenter {
 				        .setPerspectives(
 				                app.getTmpPerspectives(),
 				                PerspectiveDecoder.decode(perspective, app
-				                        .getKernel().getParser(), ToolBar
-				                        .getAllToolsNoMacros(true)));
+				                        .getKernel().getParser(),
+				                        ToolBar.getAllToolsNoMacros(true,
+				                                app.isExam())));
 			}
 		}
 		if (app instanceof AppW) {

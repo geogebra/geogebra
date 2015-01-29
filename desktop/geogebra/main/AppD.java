@@ -570,7 +570,7 @@ public class AppD extends App implements KeyEventDispatcher {
 					tmpPerspectives,
 					PerspectiveDecoder.decode(this.perspectiveParam,
 							getKernel().getParser(),
-							ToolBar.getAllToolsNoMacros(false)));
+							ToolBar.getAllToolsNoMacros(false, false)));
 		}
 
 		if (needsSpreadsheetTableModel) {

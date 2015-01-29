@@ -1274,8 +1274,9 @@ public abstract class GgbAPI implements JavaScriptAPI {
 			app.showCustomizeToolbarGUI();
 			return;
 		}
+		// the exam setting is certainly false
 		Perspective ps = PerspectiveDecoder.decode(code, kernel.getParser(),
-				ToolBar.getAllToolsNoMacros(app.isHTML5Applet()));
+				ToolBar.getAllToolsNoMacros(app.isHTML5Applet(), app.isExam()));
 		try {
 			app.persistWidthAndHeight();
 			app.getGuiManager().getLayout().applyPerspective(ps);

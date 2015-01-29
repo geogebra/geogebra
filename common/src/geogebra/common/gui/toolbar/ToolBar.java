@@ -20,12 +20,15 @@ public class ToolBar {
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
 	 * 
-	 * @param showAllMenu
+	 * @param html5
 	 *            true, if all menus must appear. (On the web there are some
 	 *            tools, which don't appear.)
+	 * @param exam
+	 *            true, if exam mode is set.
 	 * @return The default definition of the general tool bar without macros.
 	 */
-	public static String getAllToolsNoMacros(boolean html5) {
+	public static String getAllToolsNoMacros(boolean html5, boolean exam) {
+
 		StringBuilder sb = new StringBuilder();
 
 		// move
@@ -155,12 +158,16 @@ public class ToolBar {
 		// dialogs
 		sb.append(" | ");
 
-		sb.append(EuclidianConstants.MODE_TEXT);
-		sb.append(" ");
+		// in exam mode text and image cannot be inserted
+		if (!exam) {
+			sb.append(EuclidianConstants.MODE_TEXT);
+			sb.append(" ");
 
-		// if(showAllMenu){
-		sb.append(EuclidianConstants.MODE_IMAGE);
-		sb.append(" ");
+			// if(showAllMenu){
+			sb.append(EuclidianConstants.MODE_IMAGE);
+			sb.append(" ");
+		}
+
 		// if(showAllMenu){
 		sb.append(EuclidianConstants.MODE_PEN);
 		sb.append(" ");
