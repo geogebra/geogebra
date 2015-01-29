@@ -3321,8 +3321,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		createBasicTab();
 
-		boolean exam = ((AppW)app).getLAF().isExam();
-		if (!exam) {
+		if (!(app.isExam())) {
 			tabs = Arrays.asList(
 				basicTab,
 				addTextTab(),

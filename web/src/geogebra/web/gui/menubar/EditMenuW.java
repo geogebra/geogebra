@@ -87,8 +87,7 @@ public class EditMenuW extends GMenuBar {
 			}
 		});
 
-		final boolean exam = app.getLAF().isExam();
-		if (!exam && app.getLAF().copyToClipboardSupported()) {
+		if (!(app.isExam()) && app.getLAF().copyToClipboardSupported()) {
 			// copy graphics view menu
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icon_edit_copy().getSafeUri().asString(),

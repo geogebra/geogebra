@@ -106,8 +106,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		toolBarPanel.add(toolBar);
 		toolBarPanel.add(toolBPanel);
 		toolBarPanel.addStyleName("toolbarPanel");
-		final boolean exam = app.getLAF().isExam();
-		if (exam) {
+		if (app.isExam()) {
 			toolBarPanel.addStyleName("toolbarPanelExam");
 		}
 		toolBPanel.setStyleName("toolBPanel");
@@ -199,7 +198,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 		$wnd.visibilityEventMain();
 		// Suggested by Zbynek (Hero of the Day, 2015-01-22)
 		$wnd.onblur = function() {
-			$wnd.visChange();
+			$wnd.visChange(event);
 		};
 	}-*/;
 	
@@ -207,7 +206,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	//Undo, redo, open, menu
 	private void addRightButtonPanel(){
 
-		final boolean exam = app.getLAF().isExam();
+		boolean exam = app.isExam();
 
 		PerspectiveResources pr = ((ImageFactory)GWT.create(ImageFactory.class)).getPerspectiveResources();
 		this.rightButtonPanel = new FlowPanel();

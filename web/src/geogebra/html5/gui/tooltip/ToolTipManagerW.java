@@ -243,8 +243,7 @@ public class ToolTipManagerW {
 			 * an external page in exam mode. TODO: the best would be not show
 			 * the question mark at all.
 			 */
-			final boolean exam = app.getLAF().isExam();
-			if (!exam) {
+			if (!(app.isExam())) {
 				ClickStartHandler.init(helpLabel, new ClickStartHandler() {
 					@Override
 					public void onClickStart(int x, int y, PointerEventType type) {

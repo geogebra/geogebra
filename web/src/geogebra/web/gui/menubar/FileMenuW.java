@@ -71,8 +71,7 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 	
 	private void initActions() {
 
-		final boolean exam = app.getLAF().isExam();
-		if (exam) {
+		if (app.isExam()) {
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_sign_out().getSafeUri().asString(),app.getMenu("Close"), true),true,new MenuCommand(app) {
 
 				@Override

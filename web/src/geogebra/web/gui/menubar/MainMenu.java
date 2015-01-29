@@ -67,7 +67,7 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 
 	private void init() {
 		this.app.getLoginOperation().getView().add(this);
-		final boolean exam = ((AppW)app).getLAF().isExam();
+		final boolean exam = app.isExam();
 		this.createFileMenu();
 		this.createPerspectivesMenu();
 		this.createEditMenu();
