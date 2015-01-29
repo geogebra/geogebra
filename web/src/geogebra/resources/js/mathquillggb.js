@@ -1771,12 +1771,12 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     default:
       // temporarily $, until we find a better object
-      $.popupCanShow = true;
+      $.GeoGebraSuggestionPopupCanShow = true;
       return false;
     }
 
     // temporarily $, until we find a better object
-    $.popupCanShow = false;
+    $.GeoGebraSuggestionPopupCanShow = false;
     e.preventDefault();
     return false;
   };
