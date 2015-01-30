@@ -410,13 +410,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			}
 		}
 		if (src == btClose) {
-			toolList.setSelectedMacro(macroPanel.getMacro());
-
-			// make sure new macro command gets into dictionary
-			model.addMacros(toolList.getMacros().toArray());
-			app.updateCommandDictionary();
-			refreshCustomToolsInToolBar();
-			// // destroy dialog
+			applyChanges();
 			hide();
 
 		} else if (src == btDelete) {
@@ -424,10 +418,17 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		} else if (src == btOpen) {
 			openTools();
 		} else if (src == btSave) {
+			applyChanges();
 			saveTools();
 		}
 	}
 
+	private void applyChanges() {
+		model.addMacros(toolList.getMacros().toArray());
+		app.updateCommandDictionary();
+		refreshCustomToolsInToolBar();
+
+	}
 	public void onMacroChange(Macro macro) {
 		App.debug("[MACROLIST] onMacroChange " + macro.getCommandName());
 		Macro m = toolList.getSelectedMacro();

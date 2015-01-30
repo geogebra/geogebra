@@ -448,49 +448,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				app.getActiveMaterial().getVisibility().equals(Visibility.Shared.getToken());
     }
 
+
 	/**
 	 * Handles the upload of the file and closes the dialog.
 	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
 	private void uploadToGgt(final String url) {
-		if (saveType == MaterialType.ggt) {
-			uploadToolsToGgt(url);
-		} else {
-			uploadGGBToGgt(url);
-		}
-	}			
-	
-	private void uploadGGBToGgt(final String url) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
-		app.getGgbApi().getBase64(true, new StringHandler(){
 
-			@Override
-            public void handle(String base64) {
-				if (!SaveDialogW.this.title.getText().equals(app.getKernel().getConstruction().getTitle())) {
-					App.debug("SAVE filename changed");
-					app.setTubeId(0);
-					doUploadToGgt(base64, initMaterialCB(base64, url));
-				} else if (app.getTubeId() == 0) {
-					App.debug("SAVE had no Tube ID");
-					doUploadToGgt(base64, initMaterialCB(base64, url));
-				}
-				else {
-					handleSync(base64, initMaterialCB(base64, url));
-				}
-
-	            
-            }
-			
-		});
-		
-		hide();
-	}
-
-	private void uploadToolsToGgt(final String url) {
-		ToolTipManagerW.sharedInstance().showBottomMessage(
-		        app.getMenu("Saving"), false);
-		app.getGgbApi().getMacrosBase64(true, new StringHandler() {
-
+		final StringHandler handler = new StringHandler() {
 			@Override
 			public void handle(String base64) {
 				if (!SaveDialogW.this.title.getText().equals(
@@ -507,10 +472,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 
 			}
 
-		});
+		};
+
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+		        app.getMenu("Saving"), false);
+
+		if (saveType == MaterialType.ggt) {
+			app.getGgbApi().getMacrosBase64(true, handler);
+		} else {
+			app.getGgbApi().getBase64(true, handler);
+		}
 
 		hide();
-	}
+	}			
 
 	private void uploadToDrive() {
 		ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
