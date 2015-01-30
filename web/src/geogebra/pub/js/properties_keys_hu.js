@@ -2632,6 +2632,7 @@ __GGB__keysVar.hu.plain = {
     "Quadrangle": "N\xe9gysz\xf6g",
     "Quadric": "Kvadrik",
     "Quadrilateral": "N\xe9gysz\xf6g",
+    "Quality": "Quality",
     "Question": "K\xe9rd\xe9s",
     "Radius": "Sug\xe1r",
     "RadiusOfA": "%0 sugara",

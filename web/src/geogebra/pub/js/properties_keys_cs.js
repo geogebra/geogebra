@@ -2632,6 +2632,7 @@ __GGB__keysVar.cs.plain = {
     "Quadrangle": "\u010cty\u0159\xfaheln\xedk",
     "Quadric": "Kvadrika",
     "Quadrilateral": "\u010dty\u0159strann\xfd",
+    "Quality": "Quality",
     "Question": "Dotaz",
     "Radius": "Polom\u011br",
     "RadiusOfA": "Polom\u011br %0",

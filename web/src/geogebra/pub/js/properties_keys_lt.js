@@ -2632,6 +2632,7 @@ __GGB__keysVar.lt.plain = {
     "Quadrangle": "Ketursienis",
     "Quadric": "Kvadratin\u0117 lygtis",
     "Quadrilateral": "Ketursienis",
+    "Quality": "Quality",
     "Question": "Klausimas",
     "Radius": "Spindulys",
     "RadiusOfA": "%0 spindulys",

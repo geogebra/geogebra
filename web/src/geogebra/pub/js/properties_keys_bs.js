@@ -2632,6 +2632,7 @@ __GGB__keysVar.bs.plain = {
     "Quadrangle": "\u010cetverougao",
     "Quadric": "Kvadrika",
     "Quadrilateral": "\u010cetverougao",
+    "Quality": "Quality",
     "Question": "Pitanje",
     "Radius": "Polupre\u010dnik",
     "RadiusOfA": "Polupre\u010dnik od %0",

@@ -2632,6 +2632,7 @@ __GGB__keysVar.sq.plain = {
     "Quadrangle": "Katerkendesh",
     "Quadric": "Quadric",
     "Quadrilateral": "Katerbrinjesh",
+    "Quality": "Quality",
     "Question": "Pyetje",
     "Radius": "Rreze",
     "RadiusOfA": "Rreze e %0",

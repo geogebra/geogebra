@@ -2632,6 +2632,7 @@ __GGB__keysVar.ca_XV.plain = {
     "Quadrangle": "Quadril\xe0ter",
     "Quadric": "Qu\xe0drica",
     "Quadrilateral": "Quadril\xe0ter",
+    "Quality": "Quality",
     "Question": "Pregunta",
     "Radius": "Radi",
     "RadiusOfA": "Radi de %0",

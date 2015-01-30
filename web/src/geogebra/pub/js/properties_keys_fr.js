@@ -2632,6 +2632,7 @@ __GGB__keysVar.fr.plain = {
     "Quadrangle": "Quadrilat\xe8re",
     "Quadric": "Quadrique",
     "Quadrilateral": "Quadrilat\xe8re",
+    "Quality": "Quality",
     "Question": "Question",
     "Radius": "Rayon",
     "RadiusOfA": "Rayon de %0",

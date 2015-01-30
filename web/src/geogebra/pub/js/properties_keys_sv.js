@@ -2632,6 +2632,7 @@ __GGB__keysVar.sv.plain = {
     "Quadrangle": "Kvadrat eller rektangel",
     "Quadric": "Andragradsyta",
     "Quadrilateral": "Fyrh\xf6rning",
+    "Quality": "Quality",
     "Question": "Fr\xe5ga",
     "Radius": "Radie",
     "RadiusOfA": "Radie f\xf6r %0",

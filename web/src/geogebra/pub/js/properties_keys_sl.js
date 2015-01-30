@@ -2632,6 +2632,7 @@ __GGB__keysVar.sl.plain = {
     "Quadrangle": "\u0160tirikotnik",
     "Quadric": "Kvadrik",
     "Quadrilateral": "\u0160tirikotnik",
+    "Quality": "Quality",
     "Question": "Vpra\u0161anje",
     "Radius": "Polmer",
     "RadiusOfA": "Polmer %0",

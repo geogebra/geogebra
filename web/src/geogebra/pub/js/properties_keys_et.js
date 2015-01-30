@@ -2632,6 +2632,7 @@ __GGB__keysVar.et.plain = {
     "Quadrangle": "Nelinurk",
     "Quadric": "Quadric",
     "Quadrilateral": "Nelik\xfclik",
+    "Quality": "Quality",
     "Question": "K\xfcsimus",
     "Radius": "Raadius",
     "RadiusOfA": "%0 raadius",

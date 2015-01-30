@@ -2632,6 +2632,7 @@ __GGB__keysVar.is.plain = {
     "Quadrangle": "Ferhyrningur",
     "Quadric": "Quadric",
     "Quadrilateral": "Ferhli\xf0ungur",
+    "Quality": "Quality",
     "Question": "Spurning",
     "Radius": "Geisli",
     "RadiusOfA": "Geisli %0",

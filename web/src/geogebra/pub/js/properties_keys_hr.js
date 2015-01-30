@@ -2632,6 +2632,7 @@ __GGB__keysVar.hr.plain = {
     "Quadrangle": "\u010cetverokut",
     "Quadric": "Ploha drugog reda",
     "Quadrilateral": "\u010cetverokut",
+    "Quality": "Quality",
     "Question": "Pitanje",
     "Radius": "Polumjer",
     "RadiusOfA": "Polumjer od %0",

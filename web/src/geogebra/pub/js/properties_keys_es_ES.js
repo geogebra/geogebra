@@ -2632,6 +2632,7 @@ __GGB__keysVar.es_ES.plain = {
     "Quadrangle": "Cuadril\xe1tero",
     "Quadric": "Cu\xe1drica",
     "Quadrilateral": "Cuadril\xe1tero",
+    "Quality": "Calidad",
     "Question": "Pregunta",
     "Radius": "Radio",
     "RadiusOfA": "Radio de %0",

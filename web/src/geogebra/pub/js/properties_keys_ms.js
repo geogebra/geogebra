@@ -2632,6 +2632,7 @@ __GGB__keysVar.ms.plain = {
     "Quadrangle": "Sisi empat",
     "Quadric": "Kuadrik",
     "Quadrilateral": "Sisi empat",
+    "Quality": "Quality",
     "Question": "Soalan",
     "Radius": "Jejari",
     "RadiusOfA": "Jejari %0",

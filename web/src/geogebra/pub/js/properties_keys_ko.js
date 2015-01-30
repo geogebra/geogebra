@@ -2632,6 +2632,7 @@ __GGB__keysVar.ko.plain = {
     "Quadrangle": "\uc0ac\uac01\ud615",
     "Quadric": "\uc774\ucc28\uc2dd",
     "Quadrilateral": "\uc0ac\uac01\ud615",
+    "Quality": "Quality",
     "Question": "\uc9c8\ubb38",
     "Radius": "\ubc18\uc9c0\ub984",
     "RadiusOfA": "%0 \uc758 \ubc18\uc9c0\ub984",

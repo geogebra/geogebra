@@ -2632,6 +2632,7 @@ __GGB__keysVar.fi.plain = {
     "Quadrangle": "Nelikulmio",
     "Quadric": "ToisenAsteenPinta",
     "Quadrilateral": "Nelikulmio",
+    "Quality": "Quality",
     "Question": "Kysymys",
     "Radius": "S\xe4de",
     "RadiusOfA": "%0:n s\xe4de",

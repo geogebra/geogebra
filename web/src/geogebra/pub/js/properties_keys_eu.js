@@ -2632,6 +2632,7 @@ __GGB__keysVar.eu.plain = {
     "Quadrangle": "Laukia",
     "Quadric": "Koadrika",
     "Quadrilateral": "Laukia",
+    "Quality": "Quality",
     "Question": "Galdera",
     "Radius": "Erradioa",
     "RadiusOfA": "%0-(r)en erradioa",

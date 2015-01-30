@@ -2632,6 +2632,7 @@ __GGB__keysVar.cy.plain = {
     "Quadrangle": "Pedrochr",
     "Quadric": "Quadric",
     "Quadrilateral": "Pedrochr",
+    "Quality": "Quality",
     "Question": "Cwestiwn",
     "Radius": "Radiws",
     "RadiusOfA": "Radiws o %0",

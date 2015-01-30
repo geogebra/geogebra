@@ -2632,6 +2632,7 @@ __GGB__keysVar.no_NN.plain = {
     "Quadrangle": "Firkant",
     "Quadric": "Andregradsflate",
     "Quadrilateral": "Firkant",
+    "Quality": "Quality",
     "Question": "Sp\xf8rsm\xe5l",
     "Radius": "Radius",
     "RadiusOfA": "Radius til %0",

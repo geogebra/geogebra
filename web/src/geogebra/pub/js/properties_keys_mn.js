@@ -2632,6 +2632,7 @@ __GGB__keysVar.mn.plain = {
     "Quadrangle": "\u0414\u04e9\u0440\u0432\u04e9\u043d \u04e9\u043d\u0446\u04e9\u0433\u0442",
     "Quadric": "Quadric",
     "Quadrilateral": "\u0414\u04e9\u0440\u0432\u04e9\u043d \u04e9\u043d\u0446\u04e9\u0433\u0442",
+    "Quality": "Quality",
     "Question": "\u0410\u0441\u0443\u0443\u043b\u0442",
     "Radius": "\u0420\u0430\u0434\u0438\u0443\u0441",
     "RadiusOfA": "%0 -\u0438\u0439\u043d \u0440\u0430\u0434\u0438\u0443\u0441",

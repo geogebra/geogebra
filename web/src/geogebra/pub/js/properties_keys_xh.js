@@ -2632,6 +2632,7 @@ __GGB__keysVar.xh.plain = {
     "Quadrangle": "uMacalaMane",
     "Quadric": "iKhwadratiki",
     "Quadrilateral": "uMacalaMane",
+    "Quality": "Quality",
     "Question": "Umbuzo",
     "Radius": "iRadius",
     "RadiusOfA": "iRadius ka %0",

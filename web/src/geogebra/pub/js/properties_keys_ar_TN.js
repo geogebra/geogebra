@@ -2632,6 +2632,7 @@ __GGB__keysVar.ar_TN.plain = {
     "Quadrangle": "\u0631\u0628\u0627\u0639\u064a \u0627\u0644\u0623\u0636\u0644\u0627\u0639",
     "Quadric": "Quadric",
     "Quadrilateral": "\u0631\u0628\u0627\u0639\u064a \u0627\u0644\u0623\u0636\u0644\u0627\u0639",
+    "Quality": "Quality",
     "Question": "\u0633\u0624\u0627\u0644",
     "Radius": "\u0634\u0639\u0627\u0639",
     "RadiusOfA": "\u0634\u0639\u0627\u0639 %0",

@@ -2632,6 +2632,7 @@ __GGB__keysVar.da.plain = {
     "Quadrangle": "Firkant",
     "Quadric": "Quadric",
     "Quadrilateral": "Firkant",
+    "Quality": "Quality",
     "Question": "Sp\xf8rgsm\xe5l",
     "Radius": "Radius",
     "RadiusOfA": "Radius af %0",

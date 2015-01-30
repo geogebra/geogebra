@@ -2632,6 +2632,7 @@ __GGB__keysVar.in.plain = {
     "Quadrangle": "Segi empat",
     "Quadric": "Quadric",
     "Quadrilateral": "Segi empat",
+    "Quality": "Quality",
     "Question": "Pertanyaan",
     "Radius": "Jari-jari",
     "RadiusOfA": "Jari-jari dari %0",

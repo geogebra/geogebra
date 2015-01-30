@@ -2632,6 +2632,7 @@ __GGB__keysVar.zh_TW.plain = {
     "Quadrangle": "\u56db\u908a\u5f62",
     "Quadric": "\u4e8c\u6b21\u66f2\u7dda",
     "Quadrilateral": "\u56db\u908a\u5f62",
+    "Quality": "Quality",
     "Question": "\u554f\u984c",
     "Radius": "\u534a\u5f91",
     "RadiusOfA": "%0 \u7684\u534a\u5f91",

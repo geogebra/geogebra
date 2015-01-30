@@ -2632,6 +2632,7 @@ __GGB__keysVar.eo.plain = {
     "Quadrangle": "Kvarangulo",
     "Quadric": "Quadric",
     "Quadrilateral": "Kvarlatero",
+    "Quality": "Quality",
     "Question": "Demando",
     "Radius": "Radiuso",
     "RadiusOfA": "Radiuso de %0",

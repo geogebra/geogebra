@@ -2632,6 +2632,7 @@ __GGB__keysVar.tr.plain = {
     "Quadrangle": "D\xf6rtgen a\xe7\u0131",
     "Quadric": "D\xf6rd\xfcnc\xfc Dereceden",
     "Quadrilateral": "D\xf6rtgen",
+    "Quality": "Quality",
     "Question": "Soru",
     "Radius": "Yar\u0131\xe7ap",
     "RadiusOfA": "%0 yar\u0131\xe7ap\u0131",

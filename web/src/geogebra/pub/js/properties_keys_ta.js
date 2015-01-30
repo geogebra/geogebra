@@ -2632,6 +2632,7 @@ __GGB__keysVar.ta.plain = {
     "Quadrangle": "\u0ba8\u0bbe\u0bb1\u0bcd\u0baa\u0b95\u0bcd\u0b95\u0bb2\u0bcd",
     "Quadric": "Quadric",
     "Quadrilateral": "\u0ba8\u0bbe\u0bb1\u0bcd\u0baa\u0b95\u0bcd\u0b95\u0bb2\u0bcd",
+    "Quality": "Quality",
     "Question": "\u0b95\u0bc7\u0bb3\u0bcd\u0bb5\u0bbf",
     "Radius": "\u0b86\u0bb0\u0bc8",
     "RadiusOfA": "%0 \u0b87\u0ba9\u0bc1\u0b9f\u0bc8\u0baf \u0b86\u0bb0\u0bc8",

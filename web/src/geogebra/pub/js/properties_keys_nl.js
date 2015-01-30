@@ -2632,6 +2632,7 @@ __GGB__keysVar.nl.plain = {
     "Quadrangle": "Vierhoek",
     "Quadric": "Quadric",
     "Quadrilateral": "Vierhoek",
+    "Quality": "Quality",
     "Question": "Vraag",
     "Radius": "Straal",
     "RadiusOfA": "Straal van %0",

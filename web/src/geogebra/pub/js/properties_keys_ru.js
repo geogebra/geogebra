@@ -2632,6 +2632,7 @@ __GGB__keysVar.ru.plain = {
     "Quadrangle": "\u0427\u0435\u0442\u044b\u0440\u0451\u0445\u0443\u0433\u043e\u043b\u044c\u043d\u0438\u043a",
     "Quadric": "Quadric",
     "Quadrilateral": "\u0427\u0435\u0442\u044b\u0440\u0451\u0445\u0443\u0433\u043e\u043b\u044c\u043d\u0438\u043a",
+    "Quality": "Quality",
     "Question": "\u0412\u043e\u043f\u0440\u043e\u0441",
     "Radius": "\u0420\u0430\u0434\u0438\u0443\u0441",
     "RadiusOfA": "\u0420\u0430\u0434\u0438\u0443\u0441 %0",

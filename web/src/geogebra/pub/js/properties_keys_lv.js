@@ -2632,6 +2632,7 @@ __GGB__keysVar.lv.plain = {
     "Quadrangle": "\u010cetrst\u016bris",
     "Quadric": "Quadric",
     "Quadrilateral": "\u010cetrst\u016bris",
+    "Quality": "Quality",
     "Question": "Jaut\u0101jums",
     "Radius": "R\u0101diuss",
     "RadiusOfA": "R\u0101diuss %0",

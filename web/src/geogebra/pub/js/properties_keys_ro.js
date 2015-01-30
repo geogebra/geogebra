@@ -2632,6 +2632,7 @@ __GGB__keysVar.ro.plain = {
     "Quadrangle": "Patrulater",
     "Quadric": "Quadric",
     "Quadrilateral": "Patrulater",
+    "Quality": "Quality",
     "Question": "\xcentrebare",
     "Radius": "Raz\u0103",
     "RadiusOfA": "Raz\u0103 lui %0",

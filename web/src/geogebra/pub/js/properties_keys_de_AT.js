@@ -2632,6 +2632,7 @@ __GGB__keysVar.de_AT.plain = {
     "Quadrangle": "Viereck",
     "Quadric": "Quadrik",
     "Quadrilateral": "Viereck",
+    "Quality": "Quality",
     "Question": "Frage",
     "Radius": "Radius",
     "RadiusOfA": "Radius von %0",
