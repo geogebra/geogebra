@@ -98,7 +98,7 @@ public class MaterialListElement extends FlowPanel implements
 		this.setStyleName("materialListElement");
 		this.addStyleName("default");
 		if (!isLocal) {
-			this.material.setSyncStamp(-1);
+			// this.material.setSyncStamp(-1);
 		}
 		this.editMaterial = new Runnable() {
 			
