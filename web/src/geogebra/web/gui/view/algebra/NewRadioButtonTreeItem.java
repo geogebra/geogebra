@@ -64,8 +64,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	// How large this number should be (e.g. place on the screen, or
-	// scrollable?)
-	public static int querylimit = 50;
+	// scrollable?) Let's allow practically everything
+	public static int querylimit = 1000;
 
 	private List<String> completions;
 	private StringBuilder curWord;
