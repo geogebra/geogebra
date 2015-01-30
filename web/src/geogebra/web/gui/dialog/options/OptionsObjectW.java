@@ -42,6 +42,7 @@ import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
+import geogebra.common.gui.dialog.options.model.LodModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
 import geogebra.common.gui.dialog.options.model.OutlyingIntersectionsModel;
@@ -154,6 +155,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	//Basic
 	private NamePanel namePanel;
 	private ShowObjectPanel showObjectPanel;
+	private LodPanel lodPanel;
 	private TracePanel tracePanel;
 	private LabelPanel labelPanel;
 	private FixPanel fixPanel;
@@ -282,6 +284,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			this.titleId = title;
 
 			getCheckbox().addClickHandler(new ClickHandler(){
+				@Override
 				public void onClick(ClickEvent event) {
 					((BooleanOptionModel)getModel()).applyChanges(getCheckbox().getValue());
 				}
@@ -289,6 +292,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void updateCheckbox(boolean value) {
 			getCheckbox().setValue(value);
 		}
@@ -310,6 +314,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(new ShowObjectModel(this));
 		}
 
+		@Override
 		public void updateCheckbox(boolean value, boolean isEnabled) {
 			getCheckbox().setValue(value);
 			getCheckbox().setEnabled(isEnabled);
@@ -347,6 +352,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			labelMode.setEnabled(showLabelCB.getValue());
 
 			showLabelCB.addClickHandler(new ClickHandler(){
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyShowChanges(showLabelCB.getValue());
 				}
@@ -354,6 +360,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			labelMode.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyModeChanges(labelMode.getSelectedIndex());
 				}
@@ -373,6 +380,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+		@Override
 		public void update(boolean isEqualVal, boolean isEqualMode) {
 			// change "Show Label:" to "Show Label" if there's no menu
 			// Michael Borcherds 2008-02-18
@@ -462,6 +470,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			tfCondition.addKeyHandler(new KeyHandler(){
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						doActionPerformed();	    
@@ -495,6 +504,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			model.applyChanges(tfCondition.getText());
 		}
 
+		@Override
 		public void setText(String text) {
 			tfCondition.setText(text);	
 		}
@@ -507,6 +517,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void updateSelection(Object[] geos) {
 			// TODO Auto-generated method stub
 
@@ -529,23 +540,28 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			colorChooserW = new ColorChooserW(app, 350, 210, colorIconSizeW, 4);
 			colorChooserW.addChangeHandler(new ColorChangeHandler(){
 
+				@Override
 				public void onColorChange(GColor color) {
 					applyChanges(false);
 				}
 
+				@Override
 				public void onAlphaChange() {
 					applyChanges(true);
 
 				}
 
+				@Override
 				public void onClearBackground() {
 					model.clearBackgroundColor();
 				}
 
+				@Override
 				public void onBackgroundSelected() {
 					updatePreview(model.getGeoAt(0).getBackgroundColor(), 1.0f);
 				}
 
+				@Override
 				public void onForegroundSelected() {
 					GeoElement geo0 = model.getGeoAt(0);
 					float alpha = 1.0f;
@@ -574,6 +590,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			model.applyChanges(color, alpha, alphaOnly);
 		}
 
+		@Override
 		public void updateChooser(boolean equalObjColor,
 				boolean equalObjColorBackground, boolean allFillable,
 				boolean hasBackground, boolean hasOpacity) {
@@ -620,17 +637,20 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+		@Override
 		public void updatePreview(GColor color, float alpha) {
 			colorChooserW.setSelectedColor(color);
 			colorChooserW.setAlphaValue(alpha);
 			colorChooserW.update();
 		}
 
+		@Override
 		public boolean isBackgroundColorSelected() {
 			return colorChooserW.isBackgroundColorSelected();
 		}
 
 
+		@Override
 		public void updateNoBackground(GeoElement geo, GColor col, float alpha,
 				boolean updateAlphaOnly, boolean allFillable) {
 			if (!updateAlphaOnly){
@@ -686,6 +706,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			});
 			tfName.addKeyHandler(new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.applyNameChange(tfName.getText());
@@ -713,6 +734,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			tfDefinition.addKeyHandler(new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.applyDefinitionChange(tfDefinition.getText());
@@ -733,6 +755,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			});
 			tfCaption.addKeyHandler(new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.applyCaptionChange(tfCaption.getText());
@@ -771,12 +794,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			updateGUI(true, true);
 		}
 
+		@Override
 		public void setLabels() {
 			nameLabel.setText(loc.getPlain("Name") + ":");
 			defLabel.setText(loc.getPlain("Definition") + ":");
 			captionLabel.setText(loc.getMenu("Button.Caption") + ":");
 		}
 
+		@Override
 		public void updateGUI(boolean showDefinition, boolean showCaption) {
 			int rows = 1;
 			mainWidget.clear();
@@ -854,24 +879,30 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// App.printStacktrace(""+geo);
 		}
 
+		@Override
 		public void setNameText(final String text) {
 			tfName.setText(text);
 			tfName.requestFocus();
 		}
 
+		@Override
 		public void setDefinitionText(final String text) {
 			tfDefinition.setText(text);
 		}
 
+		@Override
 		public void setCaptionText(final String text) {
 			tfCaption.setText(text);
 			tfCaption.requestFocus();
 		}
+
+		@Override
 		public void updateCaption() {
 			tfCaption.setText(model.getCurrentGeo().getRawCaption());
 
 		}
 
+		@Override
 		public void updateDefLabel() {
 			updateDef(model.getCurrentGeo());
 
@@ -882,6 +913,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 		}
 
+		@Override
 		public void updateName(String text) {
 			tfName.setText(text);
 
@@ -907,6 +939,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(new ListAsComboModel(app, this));
 		}
 
+		@Override
 		public void drawListAsComboBox(GeoList geo, boolean value) {
 			if (geo.getViewSet() == null) {
 				app.getEuclidianView1().drawListAsComboBox(geo, value);
@@ -948,6 +981,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			intervalLB.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyChanges(getIndex());
 				}   
@@ -958,11 +992,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainWidget);
 		}
 
+		@Override
 		public void setLabels() {
 			intervalLabel.setText(localize("AngleBetween"));
 
 			setComboLabels();
 		}
+
+		@Override
 		public void setComboLabels() {
 			int idx = intervalLB.getSelectedIndex();
 			intervalLB.clear();
@@ -979,10 +1016,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			// first interval disabled
 			return intervalLB.getSelectedIndex() + 1;
 		}
+
+		@Override
 		public void addItem(String item) {
 			intervalLB.addItem(item);
 		}
 
+		@Override
 		public void setSelectedIndex(int index) {
 			if (model.hasOrientation()) {
 
@@ -997,11 +1037,71 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}	        
 		}
 
+		@Override
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
 
 		}
 
+
+	}
+
+	class LodPanel extends OptionPanel implements IComboListener {
+		private LodModel model;
+		private FlowPanel mainWidget;
+		private Label label;
+		private ListBox combo;
+
+		public LodPanel() {
+			model = new LodModel(this, app, isDefaults);
+			setModel(model);
+
+			mainWidget = new FlowPanel();
+
+			label = new Label();
+			mainWidget.add(label);
+
+			combo = new ListBox();
+
+			combo.addChangeHandler(new ChangeHandler() {
+
+				@Override
+				public void onChange(ChangeEvent event) {
+					model.applyChanges(combo.getSelectedIndex());
+				}
+			});
+
+			mainWidget.add(combo);
+
+			setWidget(mainWidget);
+		}
+
+		@Override
+		public void setLabels() {
+			label.setText(app.getPlain("LevelOfDetail"));
+
+			int idx = combo.getSelectedIndex();
+			combo.clear();
+			model.fillModes(loc);
+			combo.setSelectedIndex(idx);
+		}
+
+
+		@Override
+		public void addItem(String item) {
+			combo.addItem(item);
+		}
+
+		@Override
+		public void setSelectedIndex(int index) {
+			combo.setSelectedIndex(index);
+		}
+
+		@Override
+		public void setSelectedItem(String item) {
+			// nothing to do here
+
+		}
 
 	}
 
@@ -1074,6 +1174,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					if (true){//!slider.getValueIsAdjusting()) {
 						model.applyChanges(slider.getValue());
@@ -1086,6 +1187,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
 
@@ -1120,14 +1222,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setSelectedIndex(int index) {
 			if (btnPointStyle != null)
 				btnPointStyle.setSelectedIndex(index);
 		}
+
+		@Override
 		public void addItem(String item) {
 			// TODO Auto-generated method stub
 
 		}
+
+		@Override
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
 
@@ -1170,6 +1277,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			thicknessSlider.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					if (true){//!slider.getValueIsAdjusting()) {
 						model.applyThickness(thicknessSlider.getValue());
@@ -1192,6 +1300,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			opacitySlider.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					if (true){//!slider.getValueIsAdjusting()) {
 						int value = (int) ((opacitySlider.getValue() / 100.0f) * 255);
@@ -1209,6 +1318,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//			slider.setSnapToTicks(true);
 			btnLineStyle.addPopupHandler(new PopupMenuHandler() {
 
+				@Override
 				public void fireActionPerformed(PopupMenuButton actionButton) {
 					model.applyLineTypeFromIndex(btnLineStyle.getSelectedIndex());
 
@@ -1229,14 +1339,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setThicknessSliderValue(int value) {
 			thicknessSlider.setValue(value);
 
 		}
+
+		@Override
 		public void setThicknessSliderMinimum(int minimum) {
 			thicknessSlider.setMinimum(minimum);
 
 		}
+
+		@Override
 		public void selectCommonLineStyle(boolean equalStyle, int type) {
 			if (true) {
 				btnLineStyle.selectLineType(type);
@@ -1246,12 +1361,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//				btnLineStyle.setSelectedIndex(-1);
 			//			}
 		}
+
+		@Override
 		public void setLineTypeVisible(boolean value) {
 	        stylePanel.setVisible(value);
         }
+
+		@Override
 		public void setOpacitySliderValue(int value) {
 	        opacitySlider.setValue(value);
         }
+
+		@Override
 		public void setLineOpacityVisible(boolean value) {
 	        opacitySlider.setVisible(value);
         }
@@ -1282,6 +1403,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyChanges(slider.getValue());
 				}});
@@ -1296,6 +1418,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			slider.setValue(AngleArcSizeModel.MIN_VALUE);
 		}
 
+		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
 
@@ -1326,6 +1449,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainPanel);
 			slider.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyChanges(slider.getValue());
 				}});
@@ -1336,6 +1460,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setValue(int value) {
 			slider.setValue(value);
 
@@ -1353,6 +1478,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setModel(new IneqStyleModel(this));
 		}
 
+		@Override
 		public void enableFilling(boolean value) {
 			//	fillingPanel.setAllEnabled(value);
 		}
@@ -1387,6 +1513,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			});
 			tfSize.addKeyHandler(new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.applyChanges(tfSize.getText());
@@ -1397,6 +1524,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainPanel);
 
 		}
+
+		@Override
 		public void setText(String text) {
 			tfSize.setText(text);
 		}
@@ -1456,6 +1585,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			KeyHandler keyHandler = new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						model.setSizesFromString(tfButtonWidth.getText(),
@@ -1470,6 +1600,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			cbUseFixedSize.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyChanges(cbUseFixedSize.getValue());
 
@@ -1499,6 +1630,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			mainPanel.add(heightPanel);
 			setWidget(mainPanel);
 		}
+
+		@Override
 		public void updateSizes(int width, int height, boolean isFixed) {
 			cbUseFixedSize.setValue(isFixed);
 			tfButtonHeight.setText("" + height);
@@ -1579,6 +1712,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			KeyHandler keyHandler = new KeyHandler() {
 
+				@Override
 				public void keyReleased(KeyEvent e) {
 					if (e.isEnterKey()) {
 						if (!processed)
@@ -1597,6 +1731,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			btRemove.addStyleName("textButton");
 			btRemove.addClickHandler(new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.removeAll();
 				}});
@@ -1604,6 +1739,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			cbColorSpace = new ListBox();
 			cbColorSpace.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					colorSpace = cbColorSpace.getSelectedIndex();
 					allowSetComboBoxLabels = false;
@@ -1661,6 +1797,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setLabels() {
 			title.setText(loc.getMenu("DynamicColors"));
 			//tfRed.setVisible(false);
@@ -1707,27 +1844,32 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 					defaultR, defaultG, defaultB, defaultA);
 		}
 
+		@Override
 		public void setRedText(final String text) {
 			tfRed.setText(text);
 
 		}
 
+		@Override
 		public void setGreenText(final String text) {
 			tfGreen.setText(text);
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setBlueText(final String text) {
 			tfBlue.setText(text);
 
 		}
 
+		@Override
 		public void setAlphaText(final String text) {
 			tfAlpha.setText(text);
 
 		}
 
+		@Override
 		public void setDefaultValues(GeoElement geo) {
 			GColor col = geo.getObjectColor();
 			defaultR = "" + col.getRed() / 255.0;
@@ -1745,11 +1887,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void showAlpha(boolean value) {
 			inputPanelA.setVisible(value);
 			nameLabelA.setVisible(value);
 		}
 
+		@Override
 		public void updateSelection(Object[] geos) {
 			//updateSelection(geos);
 
@@ -1801,6 +1945,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			cbGraphicsView.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView1(cbGraphicsView.getValue());
 
@@ -1808,6 +1953,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			cbGraphicsView2.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyToEuclidianView2(cbGraphicsView2.getValue());
 
@@ -1825,6 +1971,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainPanel);
 		}
 
+		@Override
 		public void selectView(int index, boolean isSelected) {
 			if (index == 0) {
 				cbGraphicsView.setValue(isSelected);
@@ -2016,12 +2163,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			corner4.setIcon(AppResources.INSTANCE.corner4());
 		}
 
+		@Override
 		public void setLabels() {
 			corner1.setLabels();
 			corner2.setLabels();
 			corner4.setLabels();
 		}
 
+		@Override
 		public boolean update(Object[] geos) {
 			if (geos == null) {
 				return false;
@@ -2094,6 +2243,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			lbFont.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.setEditGeoText(editor.getText());
 					model.applyFont(lbFont.getSelectedIndex() == 1);
@@ -2104,6 +2254,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 			lbSize.addChangeHandler(new ChangeHandler() {
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.setEditGeoText(editor.getText());
 					boolean isCustom = (lbSize.getSelectedIndex() == 7);
@@ -2150,6 +2301,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			
 			ClickHandler styleClick = new ClickHandler() {
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.setEditGeoText(editor.getText());
 					model.applyFontStyle(btnBold.getValue(), btnItalic.getValue());
@@ -2161,7 +2313,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				btnLatex.addClickHandler(new ClickHandler(){
 
-					public void onClick(ClickEvent event) {
+				@Override
+				public void onClick(ClickEvent event) {
 						model.setLaTeX(isLatex(), true);
 						updatePreview();
 					}});
@@ -2175,7 +2328,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				lbDecimalPlaces.addChangeHandler(new ChangeHandler(){
 
-					public void onChange(ChangeEvent event) {
+				@Override
+				public void onChange(ChangeEvent event) {
 						model.setEditGeoText(editor.getText());
 						model.applyDecimalPlaces(lbDecimalPlaces.getSelectedIndex());
 						updatePreview();
@@ -2220,7 +2374,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				btnPanel.add(btnOk);
 				btnOk.addClickHandler(new ClickHandler(){
 
-					public void onClick(ClickEvent event) {
+				@Override
+				public void onClick(ClickEvent event) {
 						model.applyEditedGeo(editor.getText(), isLatex());
 					}}); 
 
@@ -2228,7 +2383,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				btnPanel.add(btnCancel);
 				btnCancel.addClickHandler(new ClickHandler(){
 
-					public void onClick(ClickEvent event) {
+				@Override
+				public void onClick(ClickEvent event) {
 						model.cancelEditGeo();
 					}}); 
 
@@ -2305,6 +2461,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			btnCancel.setText(localize("Cancel"));
 		}
 
+		@Override
 		public void setWidgetsVisible(boolean showFontDetails, boolean isButton) {
 			// hide most options for Textfields
 			lbFont.setVisible(showFontDetails);
@@ -2319,6 +2476,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}        
 		}
 
+		@Override
 		public void setFontSizeVisibleOnly() {
 			lbSize.setVisible(true);
 			lbFont.setVisible(false);
@@ -2327,20 +2485,24 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			secondLine.setVisible(false);
 		}
 
+		@Override
 		public void selectSize(int index) {
 			lbSize.setSelectedIndex(index);
 
 		}
 
+		@Override
 		public void selectFont(int index) {
 			lbFont.setSelectedIndex(index);
 
 		}
 
+		@Override
 		public void selectDecimalPlaces(int index) {
 			lbDecimalPlaces.setSelectedIndex(index);
 		}
 
+		@Override
 		public void setSecondLineVisible(boolean noDecimals) {
 			if (noDecimals) {
 
@@ -2362,6 +2524,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void updatePreview() {
 			updatePreviewPanel();
 		}
@@ -2371,6 +2534,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+		@Override
 		public void selectFontStyle(int style) {
 
 			btnBold.setValue(style == GFont.BOLD
@@ -2382,6 +2546,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+		@Override
 		public void updatePreviewPanel() {
 			if (previewer == null) {
 				return;
@@ -2393,12 +2558,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 
+		@Override
 		public void setEditorText(ArrayList<DynamicTextElement> list) {
 
 			editor.setText(list);
 
 		}
 
+		@Override
 		public void setEditorText(String text) {
 
 			editor.setText(text);
@@ -2406,22 +2573,26 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+		@Override
 		public void insertGeoElement(GeoElement geo) {
 			editor.insertGeoElement(geo);
 		}
 
 
+		@Override
 		public void insertTextString(String text, boolean isLatex) {
 			editor.insertTextString(text, isLatex);
 
 		}
 
 
+		@Override
 		public GeoText getEditGeo() {
 			return model.getEditGeo();
 		}
 
 
+		@Override
 		public void geoElementSelected(GeoElement geo, boolean addToSelection) {
 			model.cancelEditGeo();
 
@@ -2473,6 +2644,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				createGUI();
 			}
 
+			@Override
 			protected void createGUI() {
 				super.createGUI();
 				addGgbChangeHandler(getInputWidget().getElement(), getAppW());
@@ -2499,6 +2671,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				};
 			}-*/;
 
+			@Override
 			public void onClick(ClickEvent event) {
 				if (event.getSource() == btCancel) {
 					hideAndFocus();
@@ -2572,6 +2745,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			fillTypePanel.add(cbFillInverse);
 			lbFillType.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyFillType(lbFillType.getSelectedIndex());
 				}});
@@ -2579,6 +2753,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			cbFillInverse.addClickHandler(new ClickHandler(){
 				private DecoAnglePanel decoAnglePanel;
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyFillingInverse(cbFillInverse.getValue());
 				}});
@@ -2675,12 +2850,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			opacitySlider.addChangeHandler(new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyOpacity(opacitySlider.getValue());
 				}});
 
 			ChangeHandler angleAndDistanceHandler = new ChangeHandler(){
 
+				@Override
 				public void onChange(ChangeEvent event) {
 					model.applyAngleAndDistance(angleSlider.getValue(),
 							distanceSlider.getValue());
@@ -2704,7 +2881,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				tfInsertUnicode.addKeyHandler(new KeyHandler() {
 
-					public void keyReleased(KeyEvent e) {
+				@Override
+				public void keyReleased(KeyEvent e) {
 						if (e.isEnterKey()) {
 							String symbolText = tfInsertUnicode.getText();
 							model.applyUnicode(symbolText);
@@ -2806,6 +2984,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			btnClearImage = new PushButton(new Image(AppResources.INSTANCE.delete_small()));
 			btnClearImage.addClickHandler(new ClickHandler(){
 
+				@Override
 				public void onClick(ClickEvent event) {
 					model.applyImage("");
                 }
@@ -2833,6 +3012,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 
+		@Override
 		public void setStandardFillType() {
 			fillTypePanel.setVisible(true);
 			opacityPanel.setVisible(false);
@@ -2843,6 +3023,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			unicodePanel.setVisible(false);
 		}
 
+		@Override
 		public void setHatchFillType() {
 			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(5);
@@ -2857,6 +3038,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			unicodePanel.setVisible(false);
 		}
 
+		@Override
 		public void setCrossHatchedFillType() {
 			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(5);
@@ -2873,6 +3055,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setBrickFillType() {
 			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(5);
@@ -2887,6 +3070,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			unicodePanel.setVisible(false);
 		}
 
+		@Override
 		public void setSymbolFillType() {
 			fillTypePanel.setVisible(true);
 			distanceSlider.setMinimum(10);
@@ -2901,6 +3085,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			tfInsertUnicode.showPopupSymbolButton(true);
 		}
 
+		@Override
 		public void setDottedFillType() {
 			distanceSlider.setMinimum(5);
 			opacityPanel.setVisible(false);
@@ -2913,6 +3098,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			unicodePanel.setVisible(false);
 		}
 
+		@Override
 		public void setImageFillType() {
 			fillTypePanel.setVisible(true);
 			opacityPanel.setVisible(true);
@@ -2959,10 +3145,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 //			return true;
 //		}
 
+		@Override
 		public void setSelectedIndex(int index) {
 			lbFillType.setSelectedIndex(index);
 		}
 
+		@Override
 		public void addItem(String item) {
 			lbFillType.addItem(item);
 		}
@@ -2972,10 +3160,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setFillInverseVisible(boolean isVisible) {
 			cbFillInverse.setVisible(isVisible);
 		}
 
+		@Override
 		public void setFillTypeVisible(boolean isVisible) {
 			lbFillType.setVisible(isVisible);  
 		}
@@ -2996,11 +3186,13 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 
 
+		@Override
 		public void setSelectedItem(String item) {
 			int idx = 0;
 			lbFillType.setSelectedIndex(idx);
 		}
 
+		@Override
 		public void setSymbolsVisible(boolean isVisible) {
 
 			if (isVisible) {
@@ -3017,6 +3209,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			}
 		}
 
+		@Override
 		public void setFillingImage(String imageFileName) {
 
 			int itemIndex = -1;
@@ -3032,46 +3225,57 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		@Override
 		public void setFillValue(int value) {
 			opacitySlider.setValue(value);
 		}
 
+		@Override
 		public void setAngleValue(int value) {
 			angleSlider.setValue(value);
 		}
 
+		@Override
 		public void setDistanceValue(int value) {
 			distanceSlider.setValue(value);
 		}
 
+		@Override
 		public int getSelectedBarIndex() {
 			return 0;
 		}
 
+		@Override
 		public void selectSymbol(String symbol) {
 			lblSelectedSymbol.setText(symbol);
 		}
 
+		@Override
 		public String getSelectedSymbolText() {
 			return lblSelectedSymbol.getText();
 		}
 
+		@Override
 		public float getFillingValue() {
 			return opacitySlider.getValue();
 		}
 
+		@Override
 		public FillType getSelectedFillType() {
 			return model.getFillTypeAt(lbFillType.getSelectedIndex());
 		}
 
+		@Override
 		public int getDistanceValue() {
 			return distanceSlider.getValue();
 		}
 
+		@Override
 		public int getAngleValue() {
 			return angleSlider.getValue();
 		}
 
+		@Override
 		public void setFillInverseSelected(boolean value) {
 			cbFillInverse.setValue(value);
 		}
@@ -3107,15 +3311,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainWidget);
 
 		}
+
+		@Override
 		public void setSelectedIndex(int index) {
 			decoPopup.setSelectedIndex(index);
 		}
 
+		@Override
 		public void addItem(String item) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
 
@@ -3126,6 +3334,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			decoLabel.setText(app.getPlain("Decoration") + ":");
 
 		}
+
+		@Override
 		public void setArcSizeMinValue() {
 			angleArcSizePanel.setMinValue();
 		}
@@ -3162,15 +3372,19 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			setWidget(mainWidget);
 
 		}
+
+		@Override
 		public void setSelectedIndex(int index) {
 			decoPopup.setSelectedIndex(index);
 		}
 
+		@Override
 		public void addItem(String item) {
 			// TODO Auto-generated method stub
 
 		}
 
+		@Override
 		public void setSelectedItem(String item) {
 			// TODO Auto-generated method stub
 
@@ -3224,6 +3438,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
 					{			
+				@Override
 				public void onSelection(SelectionEvent<Integer> event) {
 					applyModifications();
 
@@ -3242,6 +3457,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			globalDialog.applyModifications();
 		}
 
+		@Override
 		public void setLabels() {
 			// setBorder(BorderFactory.createTitledBorder(app.getPlain("JavaScript")));
 			String ok = localize("OK");
@@ -3252,6 +3468,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			globalDialog.setLabels(ok, cancel);
 		}
 
+		@Override
 		public boolean update(Object[] geos) {
 			if (geos.length != 1){
 				return false;
@@ -3312,6 +3529,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		tabPanel.addSelectionHandler(new SelectionHandler<Integer>() 
 				{			
+			@Override
 			public void onSelection(SelectionEvent<Integer> event) {
 				updateGUI();
 
@@ -3351,6 +3569,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		wrappedPanel.add(tabPanel);
 		wrappedPanel.addAttachHandler(new AttachEvent.Handler() {
 
+			@Override
 			public void onAttachOrDetach(AttachEvent event) {
 				app.setDefaultCursor();
 				reinit(); // re-attach the text editor
@@ -3471,6 +3690,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		textFieldSizePanel = new TextFieldSizePanel();
 		buttonSizePanel = new ButtonSizePanel();
 		fillingPanel = new FillingPanel();
+		lodPanel = new LodPanel();
 		interpolateImagePanel = new InterpolateImagePanel();
 		decoAnglePanel = new DecoAnglePanel();
 		decoAnglePanel.getWidget().setStyleName("optionsPanel");
@@ -3485,7 +3705,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 				ineqStylePanel,
 				buttonSizePanel,
 				textFieldSizePanel,
-				fillingPanel,
+		        fillingPanel, lodPanel,
 				interpolateImagePanel,
 				decoAnglePanel,
 				decoSegmentPanel
@@ -3566,6 +3786,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		textOptionsPanel.reinitEditor();
 		updateGUI();
 	}
+
+	@Override
 	public void updateGUI() {
 		App.debug("OPTION OBJECTS UPDATE_GUI");
 		loc = app.getLocalization();
@@ -3585,6 +3807,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	}
 
+	@Override
 	public Widget getWrappedPanel() {
 		return wrappedPanel;
 	}
