@@ -292,6 +292,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			btOpen = new Button();
 			toolButtonPanel.add(btOpen);
 			btOpen.setText(loc.getPlain("Open"));
+			btOpen.addClickHandler(this);
 		}
 
 		btSave = new Button();
@@ -316,7 +317,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		// btShare.addClickHandler(this);
 		btSave.addClickHandler(this);
 		btDelete.addClickHandler(this);
-		btOpen.addClickHandler(this);
 		btClose.addClickHandler(this);
 
 		insertTools();
