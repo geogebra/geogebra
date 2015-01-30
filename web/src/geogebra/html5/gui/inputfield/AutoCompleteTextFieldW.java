@@ -197,6 +197,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				if (showOnScreenKeyBoard
 				        && DOM.eventGetType(event) == FOCUS) {
 					requestFocus();
+					setFocus(false);
 				} else if (showOnScreenKeyBoard && keyboardUsed) {
 					super.onBrowserEvent(event);
 					setFocus(false);
