@@ -171,6 +171,10 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 	 *            Path to new icon file.
 	 */
 	public void setIconFileName(String fileName) {
+		if (fileName == null) {
+			return;
+		}
+
 		String imageURL = app.getImageManager().getExternalImageSrc(fileName);
 		if (imageURL != null) {
 			String dImageURL = ImageResizer.resizeImage(imageURL, ICON_WIDTH,
@@ -250,7 +254,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		tfToolName.setText(m == null ? "" : m.getToolName());
 		tfToolHelp.setText(m == null ? "" : m.getToolHelp());
 		showTool.setValue(m == null ? false : m.isShowInToolBar());
-		setIconFileName(m == null ? "" : m.getIconFileName());
+		setIconFileName(m == null ? null : m.getIconFileName());
 
 	}
 
@@ -283,4 +287,5 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 			listener.onMacroChange(m);
 		}
 	}
+
 }

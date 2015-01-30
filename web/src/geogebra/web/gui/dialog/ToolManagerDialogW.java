@@ -130,6 +130,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 			return sel;
 		}
+
+		public boolean isEmpty() {
+			return macros.isEmpty();
+		}
 	}
 	private static final long serialVersionUID = 1L;
 
@@ -149,8 +153,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private Button btSave;
 
-	// private Button btShare;
-
 	private Button btClose;
 
 	private ToolNameIconPanel macroPanel;
@@ -159,7 +161,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	public ToolManagerDialogW(AppW app) {
 		setModal(true);
-
 		model = new ToolManagerDialogModel(app, this);
 
 		this.app = app;
@@ -188,9 +189,6 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		app.updateToolBar();
 	}
 
-	/**
-	 * Deletes all selected tools that are not used in the construction.
-	 */
 	private void deleteTools() {
 		final List<String> sel = ListBoxApi.getSelection(toolList);
 		final List<Integer> selIndexes = ListBoxApi.getSelectionIndexes(toolList);
@@ -222,7 +220,16 @@ public class ToolManagerDialogW extends DialogBoxW implements
 						        toolList.removeItem(idx);
 					        }
 
+					        if (!toolList.isEmpty()) {
+						        toolList.setSelectedIndex(0);
+					        } else {
+						        macroPanel.setMacro(null);
+					        }
+
+					        updateMacroPanel();
+
 					        if (model.deleteTools(macros.toArray())) {
+						        applyChanges();
 						        updateToolBar();
 					}
 				        }
@@ -281,9 +288,11 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolButtonPanel.add(btDelete);
 		btDelete.setText(loc.getPlain("Delete"));
 
-		btOpen = new Button();
-		toolButtonPanel.add(btOpen);
-		btOpen.setText(loc.getPlain("Open"));
+		if (app.isPrerelease()) {
+			btOpen = new Button();
+			toolButtonPanel.add(btOpen);
+			btOpen.setText(loc.getPlain("Open"));
+		}
 
 		btSave = new Button();
 		toolButtonPanel.add(btSave);
@@ -315,8 +324,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolList.addChangeHandler(new ChangeHandler() {
 
 			public void onChange(ChangeEvent event) {
-				Macro macro = toolList.getSelectedMacro();
-				macroPanel.setMacro(macro);
+				updateMacroPanel();
 			}
 
 		});
@@ -324,13 +332,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	}
 
-	/**
-	 * Opens tools in different windows
-	 * 
-	 * @author Zbynek Konecny
-	 * @param toolList
-	 *            Tools to be opened
-	 */
+	private void updateMacroPanel() {
+		macroPanel.setMacro(toolList.getSelectedMacro());
+	}
+
 	private void openTools() {
 		App.debug("before" + app.hashCode());
 		app.setWaitCursor();
@@ -352,8 +357,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			toolList.addMacro(macro);
 		}
 		toolList.setSelectedIndex(0);
-		macroPanel.setMacro(toolList.getSelectedMacro());
-
+		updateMacroPanel();
 		lastMacroIdx = -1;
 	}
 
@@ -362,13 +366,14 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	 * Saves all selected tools in a new file.
 	 */
 	private void saveTools() {
+		applyChanges();
 		SaveDialogW dlg = new SaveDialogW(app);
 		dlg.setSaveType(MaterialType.ggt);
 		dlg.show();
 
 	}
-
 	public void removeMacroFromToolbar(int i) {
+
 		app.getGuiManager().removeFromToolbarDefinition(i);
 	}
 
@@ -378,21 +383,23 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
-		// create new exporter
-		// geogebra.export.GeoGebraTubeExportDesktop exporter = new
-		// geogebra.export.GeoGebraTubeExportDesktop(
-		// app);
-		//
-		// exporter.uploadWorksheet(macros);
-
+		// listener method. no use in web.
 	}
 
 	public void onClick(ClickEvent event) {
 		Object src = event.getSource();
+
+		if (src == btClose) {
+			applyChanges();
+			hide();
+
+		}
+
 		int idx = toolList.getSelectedIndex();
 		if (idx == -1) {
 			return;
 		}
+
 		List<Integer> sel = ListBoxApi.getSelectionIndexes(toolList);
 		int selSize = sel.size(); 
 
@@ -408,22 +415,20 @@ public class ToolManagerDialogW extends DialogBoxW implements
 				toolList.insertMacro(toolList.getMacro(idx + selSize), idx);
 				toolList.removeItem(idx + selSize + 1);
 			}
-		}
-		if (src == btClose) {
-			applyChanges();
-			hide();
-
 		} else if (src == btDelete) {
 			deleteTools();
 		} else if (src == btOpen) {
 			openTools();
 		} else if (src == btSave) {
-			applyChanges();
 			saveTools();
 		}
 	}
 
 	private void applyChanges() {
+		if (toolList.isEmpty()) {
+			return;
+		}
+
 		model.addMacros(toolList.getMacros().toArray());
 		app.updateCommandDictionary();
 		refreshCustomToolsInToolBar();

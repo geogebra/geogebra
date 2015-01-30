@@ -38,7 +38,6 @@ public class ToolsMenuW extends GMenuBar {
 			}
 		});
 
-		if(app.isPrerelease()){	
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE
 			        .menu_icon_tools_new().getSafeUri().asString(), app
 			        .getMenu(app.isToolLoadedFromStorage() ? "Tool.SaveAs"
@@ -51,9 +50,7 @@ public class ToolsMenuW extends GMenuBar {
 					toolCreationDialog.center();
 				}
 			});
-		}
 
-		if(app.isPrerelease()){	
 			addItem(MainMenu.getMenuBarHtml(GuiResources.INSTANCE.menu_icon_tools().getSafeUri().asString(), app.getMenu("Tool.Manage"),
 					true), true, new MenuCommand(app) {
 
@@ -63,7 +60,6 @@ public class ToolsMenuW extends GMenuBar {
 					toolManageDialog.center();
 				}
 			});
-		}
 	}
 	
 				 
