@@ -328,7 +328,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 		// For GoogleDrive files getLastSelected may be null
 		if (getLastSelected() != null) {
 			final Material material = getLastSelected().getMaterial();
-			app.setSyncStamp(material.getSyncStamp());
+			app.setSyncStamp(Math.max(material.getModified(),
+			        material.getSyncStamp()));
 			if (getLastSelected().isLocal) {
 				String key = material.getTitle();
 				app.getKernel()
