@@ -2659,14 +2659,14 @@ public abstract class EuclidianController {
 			checkZooming();
 
 			ret[0] = companion.circleArcSector(points[0], points[1], points[2],
-					GeoConicND.CONIC_PART_ARC);
+					GeoConicNDConstants.CONIC_PART_ARC);
 			break;
 
 		case EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS:
 			checkZooming();
 
 			ret[0] = companion.circleArcSector(points[0], points[1], points[2],
-					GeoConicND.CONIC_PART_SECTOR);
+					GeoConicNDConstants.CONIC_PART_SECTOR);
 			break;
 
 		default:
@@ -5517,10 +5517,23 @@ public abstract class EuclidianController {
 
 		changedKernel = switchModeForProcessMode(hits, isControlDown, callback2);
 
+		if(changedKernel){
+			toolCompleted();
+		}
+
 		if (callback == null)
 			updatePreview();
 
 		return changedKernel;
+	}
+
+	/**
+	 * This method is called, if the construction of the selected tool is
+	 * finished. E.g. after a new segment was created, if the segment tool is
+	 * selected.
+	 */
+	public void toolCompleted() {
+		// not used in common, overwritten for other projects
 	}
 
 	public void updatePreview() {
@@ -7405,8 +7418,9 @@ public abstract class EuclidianController {
 	}
 
 	protected boolean isDraggingBeyondThreshold() {
-		return Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD
-				|| Math.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD;
+		return mouseLoc != null
+				&& (Math.abs(mouseLoc.x - selectionStartPoint.x) > DRAG_THRESHOLD || Math
+						.abs(mouseLoc.y - selectionStartPoint.y) > DRAG_THRESHOLD);
 	}
 
 	/**

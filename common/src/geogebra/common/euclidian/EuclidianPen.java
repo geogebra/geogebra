@@ -2185,4 +2185,15 @@ public class EuclidianPen {
 		double syy = 0;
 	}
 
+	/**
+	 * used for subclasses to return the last shape that was created
+	 * 
+	 * NOT USED IN THIS CLASS
+	 * 
+	 * @return null
+	 */
+	public GeoElement getCreatedShape() {
+		return null;
+	}
+
 }

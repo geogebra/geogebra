@@ -9,6 +9,7 @@ import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.MyDouble;
@@ -176,6 +177,16 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private LongTouchManager longTouchManager;
 
+	/**
+	 * whether to keep the actual tool after successfully constructing an
+	 * element (if set to true) or to change back to the move tool (if set to
+	 * false)
+	 */
+	public boolean USE_STICKY_TOOLS = true;
+
+	private boolean actualSticky = false;
+
+	@Override
 	public EnvironmentStyleW getEnvironmentStyle() {
 		return style;
 	}
@@ -247,6 +258,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	// private boolean ignoreNextMouseEvent;
 
+	@Override
 	public void moveIfWaiting() {
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
@@ -267,6 +279,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		Window.addResizeHandler(new ResizeHandler() {
 
+			@Override
 			public void onResize(ResizeEvent event) {
 				calculateEnvironment();
 			}
@@ -274,6 +287,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		Window.addWindowScrollHandler(new Window.ScrollHandler() {
 
+			@Override
 			public void onWindowScroll(Window.ScrollEvent event) {
 				calculateEnvironment();
 			}
@@ -283,6 +297,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		longTouchManager = LongTouchManager.getInstance();
 	}
 
+	@Override
 	public void handleLongTouch(int x, int y) {
 		PointerEvent event = new PointerEvent(x, y, PointerEventType.TOUCH,
 		        ZeroOffset.instance);
@@ -290,10 +305,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		wrapMouseReleased(event);
 	}
 
+	@Override
 	public void setView(EuclidianView view) {
 		this.view = view;
 	}
 
+	@Override
 	public void onGestureChange(GestureChangeEvent event) {
 		// AbstractEvent e =
 		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
@@ -303,6 +320,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		// event.stopPropagation();
 	}
 
+	@Override
 	public void onGestureEnd(GestureEndEvent event) {
 		// AbstractEvent e =
 		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
@@ -312,6 +330,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		// event.stopPropagation();
 	}
 
+	@Override
 	public void onGestureStart(GestureStartEvent event) {
 		// AbstractEvent e =
 		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
@@ -321,12 +340,14 @@ public class EuclidianControllerW extends EuclidianController implements
 		// event.stopPropagation();
 	}
 
+	@Override
 	public void onTouchCancel(TouchCancelEvent event) {
 		// AbstractEvent e =
 		// geogebra.web.euclidian.event.TouchEvent.wrapEvent(event.getNativeEvent());
 		Log.debug(event.getAssociatedType().getName());
 	}
 
+	@Override
 	public void onTouchMove(TouchMoveEvent event) {
 		GeoGebraProfiler.drags++;
 		long time = System.currentTimeMillis();
@@ -410,6 +431,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	 */
 	private boolean ignoreEvent = false;
 
+	@Override
 	public void onTouchEnd(TouchEndEvent event) {
 		Event.releaseCapture(event.getRelativeElement());
 		DRAGMODE_MUST_BE_SELECTED = false;
@@ -439,6 +461,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		resetModeAfterFreehand();
 	}
 
+	@Override
 	public void onTouchStart(TouchStartEvent event) {
 		if ((app.getGuiManager() != null)
 		        && (this.getEvNo() != EuclidianView.EVNO_GENERAL || (this.view instanceof EuclidianViewForPlaneInterface))) {
@@ -497,6 +520,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	private int deltaSum = 0;
 	private int moveCounter = 0;
 
+	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
 		// don't want to roll the scrollbar
 		double delta = event.getDeltaY();
@@ -526,10 +550,12 @@ public class EuclidianControllerW extends EuclidianController implements
 		return -evt.wheelDelta;
 	}-*/;
 
+	@Override
 	public void onMouseOver(MouseOverEvent event) {
 		wrapMouseEntered();
 	}
 
+	@Override
 	public void onMouseOut(MouseOutEvent event) {
 		// cancel repaint to avoid closing newly opened tooltips
 		repaintTimer.cancel();
@@ -552,6 +578,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		e.release();
 	}
 
+	@Override
 	public void onMouseMove(MouseMoveEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -602,6 +629,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		moveCounter++;
 	}
 
+	@Override
 	public void onMouseUp(MouseUpEvent event) {
 
 		if (CancelEventTimer.cancelMouseEvent()) {
@@ -628,9 +656,16 @@ public class EuclidianControllerW extends EuclidianController implements
 		wrapMouseReleased(e);
 		e.release();
 
+		boolean elementCreated = pen != null && pen.getCreatedShape() != null;
+
 		resetModeAfterFreehand();
+
+		if (elementCreated) {
+			toolCompleted();
+		}
 	}
 
+	@Override
 	public void onMouseDown(MouseDownEvent event) {
 		deltaSum = 0;
 
@@ -716,6 +751,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	private LinkedList<PointerEvent> mousePool = new LinkedList<PointerEvent>();
 
+	@Override
 	public LinkedList<PointerEvent> getMouseEventPool() {
 		return mousePool;
 	}
@@ -723,6 +759,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
 	private boolean comboboxFocused;
 
+	@Override
 	public LinkedList<PointerEvent> getTouchEventPool() {
 		return touchPool;
 	}
@@ -740,6 +777,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		this.comboboxFocused = flag;
 	}
 
+	@Override
 	public int touchEventX(int clientX) {
 		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
 			return mouseEventX(clientX - style.getxOffset());
@@ -749,6 +787,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		        : mouseEventX(clientX - style.getxOffset());
 	}
 
+	@Override
 	public int touchEventY(int clientY) {
 		if (((AppW) app).getLAF() != null && ((AppW) app).getLAF().isSmart()) {
 			return mouseEventY(clientY - style.getyOffset());
@@ -774,16 +813,19 @@ public class EuclidianControllerW extends EuclidianController implements
 		return style.getScaleYMultiplier();
 	}
 
+	@Override
 	public int mouseEventX(int clientX) {
 		return Math.round((clientX) * (1 / style.getScaleX())
 		        * (1 / style.getHeightScale()));
 	}
 
+	@Override
 	public int mouseEventY(int clientY) {
 		return Math.round((clientY) * (1 / style.getScaleY())
 		        * (1 / style.getHeightScale()));
 	}
 
+	@Override
 	public int getEvID() {
 		return view.getViewID();
 	}
@@ -1235,6 +1277,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		return (isDraggingBeyondThreshold() && pen != null && !penMode(mode) && freehandModePrepared);
 	}
 
+	@Override
 	protected void showPopupMenuChooseGeo(ArrayList<GeoElement> selectedGeos1,
 	        Hits hits) {
 		ArrayList<GeoElement> geos = selectedGeos1 != null
@@ -1246,5 +1289,27 @@ public class EuclidianControllerW extends EuclidianController implements
 	@Override
 	protected boolean freehandModePrepared() {
 		return freehandModePrepared;
+	}
+
+	@Override
+	public void toolCompleted() {
+		if (!USE_STICKY_TOOLS && !actualSticky) {
+			// changes the selected button in the toolbar
+			((AppW) app).getToolbar().setMode(0);
+
+			// change mode of the EV
+			app.getActiveEuclidianView().setMode(0, ModeSetter.TOOLBAR);
+		}
+	}
+
+	/**
+	 * set whether the actual tool should be kept after the element was
+	 * constructed or not
+	 * 
+	 * @param sticky
+	 *            keep the tool iff true
+	 */
+	public void setActualSticky(boolean sticky) {
+		this.actualSticky = sticky;
 	}
 }

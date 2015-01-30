@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
+import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.ImageFactory;
 import geogebra.web.gui.NoDragImage;
@@ -35,7 +36,8 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.Widget;
 
-public class GGWToolBar extends Composite implements RequiresResize{
+public class GGWToolBar extends Composite implements RequiresResize,
+        ToolBarInterface {
 
 	private static final int MENU_ICONS_WIDTH = 200;
 	private static final int UNDO_ICONS_WIDTH = 90;
@@ -758,6 +760,7 @@ public class GGWToolBar extends Composite implements RequiresResize{
 	 *            new mode
 	 * @return -1 //mode that was actually selected
 	 */
+	@Override
 	public int setMode(int mode) {
 		return toolbars.get(0).setMode(mode);
     }

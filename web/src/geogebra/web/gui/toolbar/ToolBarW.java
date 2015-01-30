@@ -7,6 +7,7 @@ import geogebra.common.gui.toolbar.ToolbarItem;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
+import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.gui.util.UnorderedList;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GGWToolBar;
@@ -25,7 +26,8 @@ import com.google.gwt.user.client.ui.FlowPanel;
  *         Toolbar for GeoGebraWeb
  * 
  */
-public class ToolBarW extends FlowPanel implements ClickHandler {
+public class ToolBarW extends FlowPanel implements ClickHandler,
+        ToolBarInterface {
 
 	private AppW app;
 	private int mode;
@@ -131,6 +133,7 @@ public class ToolBarW extends FlowPanel implements ClickHandler {
 	 * @return actual mode number selected (might be different if it's not
 	 *         available)
 	 */
+	@Override
 	public int setMode(int newMode) {
 		boolean success = false;
 		int tmpMode = newMode;

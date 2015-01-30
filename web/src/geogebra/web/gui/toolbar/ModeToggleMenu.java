@@ -4,6 +4,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.gui.GuiManager.Help;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import geogebra.html5.gui.util.CancelEventTimer;
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.DomEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -329,11 +331,18 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 			return;
 		}
 		onEnd(event);
-    }
+		if (event.getSource() == tbutton) {
+			((EuclidianViewW) this.app.getActiveEuclidianView())
+			        .getEuclidianController()
+			        .setActualSticky(
+			                event.getNativeButton() == NativeEvent.BUTTON_RIGHT);
+		}
+	}
 
 	@Override
     public void onMouseDown(MouseDownEvent event) {
-	    if (event.getSource() == tbutton && !CancelEventTimer.cancelMouseEvent()){
+		if (event.getSource() == tbutton
+		        && !CancelEventTimer.cancelMouseEvent()) {
 	    	onStart(event);
 	    } else { // clicked on a submenu list item
 	    	event.stopPropagation(); // the submenu doesn't close as a popup, see GeoGebraAppFrame init()

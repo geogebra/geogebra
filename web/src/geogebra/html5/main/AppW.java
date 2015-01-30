@@ -69,6 +69,7 @@ import geogebra.html5.gui.AlgebraInput;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
+import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.ViewsChangedListener;
@@ -1762,7 +1763,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * 
 	 * @return toolbar object
 	 */
-	public Object getToolbar() {
+	public ToolBarInterface getToolbar() {
 		return null;
 	}
 

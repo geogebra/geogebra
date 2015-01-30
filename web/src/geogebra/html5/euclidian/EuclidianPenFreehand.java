@@ -66,6 +66,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * @return the GeoElement that was created the last time, null in case
 	 *         creating failed
 	 */
+	@Override
 	public GeoElement getCreatedShape() {
 		return lastCreated;
 	}
@@ -87,7 +88,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 			}
 
 			if (list.size() >= 3) {
-				this.app.getKernel().getAlgoDispatcher()
+				lastCreated = this.app.getKernel().getAlgoDispatcher()
 				        .Circle(null, list.get(0), list.get(1), list.get(2));
 				return;
 			}
@@ -127,6 +128,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					        list.get(1), list.get(2));
 					GeoConic circle = (GeoConic) algo.getCircle();
 					circle.updateRepaint();
+					lastCreated = circle;
 				}
 
 				return;
@@ -149,8 +151,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					// true if all the points are GeoPoints, otherwise the
 					// original Polygon will not be deleted
 					lastCreated.remove();
-					this.app.getKernel().RigidPolygon(null,
-					        list.toArray(new GeoPoint[0]));
+					lastCreated = this.app.getKernel().RigidPolygon(null,
+					        list.toArray(new GeoPoint[0]))[0];
 				}
 				return;
 			}
@@ -167,8 +169,8 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					// true if all the points are GeoPoints, otherwise the
 					// original Polygon will not be deleted
 					lastCreated.remove();
-					this.app.getKernel().VectorPolygon(null,
-					        list.toArray(new GeoPoint[0]));
+					lastCreated = this.app.getKernel().VectorPolygon(null,
+					        list.toArray(new GeoPoint[0]))[0];
 				}
 				return;
 			}

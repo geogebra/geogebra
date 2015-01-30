@@ -10,6 +10,7 @@ import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
+import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.javax.swing.GOptionPaneW;
@@ -383,7 +384,7 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-	public Object getToolbar() {
+	public ToolBarInterface getToolbar() {
 		return getAppFrame().getGGWToolbar();
 	}
 
