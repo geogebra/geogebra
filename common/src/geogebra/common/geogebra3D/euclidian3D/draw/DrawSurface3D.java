@@ -27,7 +27,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	// number of intervals in root mesh (for each parameters, if parameters
 	// delta are equals)
 	private static final short ROOT_MESH_INTERVALS_SPEED = 10;
-	private static final short ROOT_MESH_INTERVALS_QUALITY = ROOT_MESH_INTERVALS_SPEED * 4;
+	private static final short ROOT_MESH_INTERVALS_QUALITY = ROOT_MESH_INTERVALS_SPEED * 2;
 	private short rootMeshIntervals;
 
 
@@ -37,23 +37,27 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	// max split array size ( size +=4 for one last split)
 	private static final int MAX_SPLIT_SPEED = 4096;
-	private static final int MAX_SPLIT_QUALITY = MAX_SPLIT_SPEED * 32;
+	private static final int MAX_SPLIT_QUALITY = MAX_SPLIT_SPEED * 8;
+	
+	
+	private static final int MAX_SPLIT_IN_ONE_UPDATE_SPEED = 512;
+	private static final int MAX_SPLIT_IN_ONE_UPDATE_QUALITY = MAX_SPLIT_IN_ONE_UPDATE_SPEED * 2;
 	
 	
 	private SurfaceEvaluable.LevelOfDetail levelOfDetail = SurfaceEvaluable.LevelOfDetail.QUALITY;
 	
-	private int maxSplit = MAX_SPLIT_SPEED;
+	private int maxSplit;
 
 
 	// draw array size ( size +=1 for one last draw)
-	private int maxDraw = maxSplit;
+	private int maxDraw;
 
-	private int cornerListSize = maxDraw * 3;
+	private int cornerListSize;
 	
 	/**
 	 * max splits in one update loop
 	 */
-	private int maxSplitsInOneUpdate = maxSplit / 8;
+	private int maxSplitsInOneUpdate;
 
 	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
 
@@ -92,7 +96,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 	
 	
-	private void setSplitStrategy(){
+	private void setLevelOfDetail(){
 		
 		SurfaceEvaluable.LevelOfDetail lod = surfaceGeo.getLevelOfDetail();
 		
@@ -106,15 +110,17 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		switch (levelOfDetail){
 		case SPEED:
 			maxSplit = MAX_SPLIT_SPEED;
+			maxSplitsInOneUpdate = MAX_SPLIT_IN_ONE_UPDATE_SPEED;
 			break;
 		case QUALITY:
 			maxSplit = MAX_SPLIT_QUALITY;
+			maxSplitsInOneUpdate = MAX_SPLIT_IN_ONE_UPDATE_QUALITY;
 			break;
 		}
 		
 		maxDraw = maxSplit;
 		cornerListSize = maxDraw * 3;		
-		maxSplitsInOneUpdate = maxSplit / 8;
+		
 		
 		// create arrays
 		currentSplit = new DrawSurface3D.Corner[maxSplit + 4];
@@ -234,7 +240,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 
 			// max values
-			setSplitStrategy();
+			setLevelOfDetail();
 			setTolerances();
 			
 
