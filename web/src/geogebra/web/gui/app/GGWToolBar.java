@@ -228,8 +228,9 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		openMenuButton.addFastClickHandler(new FastClickHandler() {
 			@Override
             public void onClick(Widget source) {
-				app.closePopups();
-	            GGWToolBar.this.app.toggleMenu();
+					app.hideKeyboard();
+					app.closePopups();
+					GGWToolBar.this.app.toggleMenu();
             }	
 		});
 		openMenuButton.addDomHandler(new KeyUpHandler(){

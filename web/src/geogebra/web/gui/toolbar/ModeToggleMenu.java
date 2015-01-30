@@ -283,6 +283,7 @@ TouchStartHandler, TouchEndHandler, MouseOutHandler, MouseOverHandler, KeyUpHand
 	}
 
 	public void onEnd(DomEvent<?> event) {
+		app.hideKeyboard();
 		tbutton.getElement().focus();
 		event.stopPropagation();
 		if (event.getSource() == tbutton) { // if click ended on the button
