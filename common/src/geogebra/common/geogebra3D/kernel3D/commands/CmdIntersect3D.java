@@ -150,8 +150,8 @@ public class CmdIntersect3D extends CmdIntersect {
 						&& (arg[1] instanceof GeoPlaneND)) {
 					GeoElement[] ret = { kernelA.getManager3D()
 							.IntersectPlanes(c.getLabel(),
-									(GeoCoordSys2D) arg[0],
-									(GeoCoordSys2D) arg[1]) };
+									(GeoPlaneND) arg[0],
+									(GeoPlaneND) arg[1]) };
 					return ret;
 				}
 

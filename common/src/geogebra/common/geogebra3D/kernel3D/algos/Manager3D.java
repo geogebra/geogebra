@@ -1348,17 +1348,17 @@ public class Manager3D implements Manager3DInterface {
 		return points;
 	}
 
-	final public GeoElement IntersectPlanes(String label, GeoCoordSys2D cs1,
-			GeoCoordSys2D cs2) {
+	final public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,
+			GeoPlaneND cs2) {
 
-		AlgoIntersectCS2D2D algo = new AlgoIntersectCS2D2D(cons, label, cs1,
+		AlgoIntersectPlanes algo = new AlgoIntersectPlanes(cons, label, cs1,
 				cs2);
 		return algo.getIntersection();
 	}
 
-	final public GeoElement IntersectPlanes(GeoCoordSys2D cs1, GeoCoordSys2D cs2) {
+	final public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2) {
 
-		AlgoIntersectCS2D2D algo = new AlgoIntersectCS2D2D(cons, cs1, cs2);
+		AlgoIntersectPlanes algo = new AlgoIntersectPlanes(cons, cs1, cs2);
 		return algo.getIntersection();
 	}
 

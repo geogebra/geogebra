@@ -20,6 +20,7 @@ package geogebra.common.geogebra3D.kernel3D.algos;
 
 import geogebra.common.geogebra3D.kernel3D.geos.GeoElement3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoLine3D;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.CoordMatrixUtil;
@@ -29,6 +30,8 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoCoordSys;
 import geogebra.common.kernel.kernelND.GeoCoordSys2D;
+import geogebra.common.kernel.kernelND.GeoPlaneND;
+import geogebra.common.main.App;
 
 /**
  *
@@ -39,7 +42,7 @@ import geogebra.common.kernel.kernelND.GeoCoordSys2D;
  *          plane).
  * 
  */
-public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
+public class AlgoIntersectPlanes extends AlgoIntersectCoordSys {
 
 	/**
 	 * Creates new AlgoIntersectLinePlane
@@ -53,24 +56,31 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
 	 * @param cs2
 	 *            second coord sys
 	 */
-	public AlgoIntersectCS2D2D(Construction cons, String label,
-			GeoCoordSys cs1, GeoCoordSys cs2) {
+	public AlgoIntersectPlanes(Construction cons, String label,
+			GeoPlaneND cs1, GeoPlaneND cs2) {
 
 		super(cons, label, (GeoElement) cs1, (GeoElement) cs2);
 
 	}
 
-	public AlgoIntersectCS2D2D(Construction cons, GeoCoordSys cs1,
-			GeoCoordSys cs2) {
+	public AlgoIntersectPlanes(Construction cons, GeoPlaneND cs1,
+			GeoPlaneND cs2) {
 
 		super(cons, (GeoElement) cs1, (GeoElement) cs2);
 
 	}
+	
+	private Coords o, vn, vn1, vn2;
 
 	@Override
 	protected GeoElement3D createIntersection(Construction cons) {
 
 		GeoLine3D ret = new GeoLine3D(cons, true);
+		o = new Coords(0, 0, 0, 1);
+		vn = new Coords(0, 0, 0, 0);
+		
+		vn1 = new Coords(0, 0, 0, 0);
+		vn2 = new Coords(0, 0, 0, 0);
 
 		return ret;
 
@@ -82,17 +92,33 @@ public class AlgoIntersectCS2D2D extends AlgoIntersectCoordSys {
 	@Override
 	public void compute() {
 
-		GeoCoordSys2D cs1 = (GeoCoordSys2D) getCS1();
-		GeoCoordSys2D cs2 = (GeoCoordSys2D) getCS2();
+		GeoPlane3D p1 = (GeoPlane3D) getCS1();
+		GeoPlane3D p2 = (GeoPlane3D) getCS2();
+		
+		Coords v1 = ((GeoPlane3D) getCS1()).getCoordSys().getEquationVector();
+		Coords v2 = ((GeoPlane3D) getCS2()).getCoordSys().getEquationVector();
+				
+		vn.setCrossProduct(v1, v2);
+		
+		if (vn.isZero()){
+			getIntersection().setUndefined();
+			return;
+		}
+		
+		
+		Coords o1 = ((GeoPlane3D) getCS1()).getCoordSys().getOrigin();
+		Coords o2 = ((GeoPlane3D) getCS2()).getCoordSys().getOrigin();
+		vn1.setCrossProduct(v1, vn);
+		vn2.setCrossProduct(v2, vn);
+		o2.projectPlane(vn, vn1, vn2, o1, o);
+		
 
-		Coords[] intersection = CoordMatrixUtil.intersectPlanes(cs1
-				.getCoordSys().getMatrixOrthonormal(), cs2.getCoordSys()
-				.getMatrixOrthonormal());
+		
 
 		// update line
 		GeoLine3D l = (GeoLine3D) getIntersection();
-
-		l.setCoord(intersection[0], intersection[1]);
+		
+		l.setCoord(o, vn);
 
 	}
 

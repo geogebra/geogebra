@@ -24,7 +24,7 @@ import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
-import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS2D2D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectPlanes;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoUnitVector3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConic3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoConicSection;
@@ -642,9 +642,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		} else if (a.isGeoConic()) { // remove planes containing conic a
 			while (hits.size() >= 2) {
 				if (hits.get(1).isGeoPlane()
-						&& AlgoIntersectCS2D2D.getConfigPlanePlane(
+						&& AlgoIntersectPlanes.getConfigPlanePlane(
 								(((GeoConicND) a).getCoordSys()),
-								(((GeoCoordSys2D) hits.get(1)).getCoordSys())) == AlgoIntersectCS2D2D.RESULTCATEGORY_CONTAINED)
+								(((GeoCoordSys2D) hits.get(1)).getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
 					hits.remove(1);
 				else
 					break;
@@ -652,9 +652,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		} else if (a.isGeoPolygon()) { // remove planes containing polygon a
 			while (hits.size() >= 2) {
 				if (hits.get(1) instanceof GeoCoordSys2D
-						&& AlgoIntersectCS2D2D.getConfigPlanePlane(
+						&& AlgoIntersectPlanes.getConfigPlanePlane(
 								(((GeoPolygon) a).getCoordSys()),
-								(((GeoCoordSys2D) hits.get(1)).getCoordSys())) == AlgoIntersectCS2D2D.RESULTCATEGORY_CONTAINED)
+								(((GeoCoordSys2D) hits.get(1)).getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
 					hits.remove(1);
 				else
 					break;
@@ -2204,10 +2204,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			} else if (selected.isGeoConic()) {
 				while (goodHits.size() >= 1) {
 					if (goodHits.get(0).isGeoPlane()
-							&& AlgoIntersectCS2D2D.getConfigPlanePlane(
+							&& AlgoIntersectPlanes.getConfigPlanePlane(
 									(((GeoConicND) selected).getCoordSys()),
 									(((GeoCoordSys2D) goodHits.get(0))
-											.getCoordSys())) == AlgoIntersectCS2D2D.RESULTCATEGORY_CONTAINED)
+											.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
 						goodHits.remove(0);
 					else
 						break;
@@ -2215,10 +2215,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 			} else if (selected.isGeoPolygon()) {
 				while (goodHits.size() >= 1) {
 					if (goodHits.get(0) instanceof GeoCoordSys2D
-							&& AlgoIntersectCS2D2D.getConfigPlanePlane(
+							&& AlgoIntersectPlanes.getConfigPlanePlane(
 									(((GeoPolygon) selected).getCoordSys()),
 									(((GeoCoordSys2D) goodHits.get(0))
-											.getCoordSys())) == AlgoIntersectCS2D2D.RESULTCATEGORY_CONTAINED)
+											.getCoordSys())) == AlgoIntersectPlanes.RESULTCATEGORY_CONTAINED)
 						goodHits.remove(0);
 					else
 						break;
@@ -2502,7 +2502,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			boolean oldSilentMode = getKernel().isSilentMode();
 			getKernel().setSilentMode(true);
 			ret[0] = getKernel().getManager3D().IntersectPlanes(
-					(GeoCoordSys2D) A, (GeoCoordSys2D) B);
+					(GeoPlaneND) A, (GeoPlaneND) B);
 			getKernel().setSilentMode(oldSilentMode);
 
 			Drawable3D d = new DrawLine3D(view3D, (GeoLineND) ret[0]);

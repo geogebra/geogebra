@@ -1523,6 +1523,20 @@ public class Coords {
 	}
 	
 	/**
+	 * set this to v1 + v2 (for 3 first coords)
+	 * @param v1 vector
+	 * @param v2 vector
+	 * @return this
+	 */
+	public Coords setAdd3(Coords v1, Coords v2){
+		for (int i = 0 ; i < 3 ; i++){
+			val[i] = v1.val[i] + v2.val[i];
+		}
+		
+		return this;
+	}
+	
+	/**
 	 * set this as barycenter for vectors in v
 	 * 
 	 * @param v

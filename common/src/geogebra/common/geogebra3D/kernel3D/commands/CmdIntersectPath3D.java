@@ -72,8 +72,8 @@ public class CmdIntersectPath3D extends CmdIntersectPath {
 					&& (ok[0] = (arg[1].isGeoPlane()))) {
 
 				GeoElement[] ret = { kernelA.getManager3D().IntersectPlanes(
-						c.getLabel(), (GeoCoordSys2D) arg[0],
-						(GeoCoordSys2D) arg[1]) };
+						c.getLabel(), (GeoPlaneND) arg[0],
+						(GeoPlaneND) arg[1]) };
 				return ret;
 
 			}

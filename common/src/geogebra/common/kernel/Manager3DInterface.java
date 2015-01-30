@@ -622,10 +622,10 @@ public interface Manager3DInterface {
 	public GeoPointND[] IntersectPlaneConic(String[] labels, GeoCoordSys2D A,
 			GeoConicND B);
 
-	public GeoElement IntersectPlanes(String label, GeoCoordSys2D cs1,
-			GeoCoordSys2D cs2);
+	public GeoElement IntersectPlanes(String label, GeoPlaneND cs1,
+			GeoPlaneND cs2);
 
-	public GeoElement IntersectPlanes(GeoCoordSys2D cs1, GeoCoordSys2D cs2);
+	public GeoElement IntersectPlanes(GeoPlaneND cs1, GeoPlaneND cs2);
 
 	public GeoElement ClosestPoint(String label, GeoLineND g, GeoLineND h);
 
