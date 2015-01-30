@@ -8,14 +8,17 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
-import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
+import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -25,15 +28,50 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
         AutoCompleteW {
 
+	public static final class ScrollableSuggestionDisplay extends
+	        DefaultSuggestionDisplay {
+
+		@Override
+		protected Widget decorateSuggestionList(Widget suggestionList) {
+			ScrollPanel panel = new ScrollPanel(suggestionList);
+			// heuristic
+			panel.setHeight((Window.getClientHeight() / 2) + "px");
+			// sadly, this makes a horizontal scrollbar that should be changed!
+			panel.setWidth("100%");
+
+			// not nice
+			// panel.setWidth("110%");
+
+			// TODO: better solution!
+
+			// not working
+			// panel.setPixelSize(panel.getOffsetWidth() + 20,
+			// Window.getClientHeight() / 2);
+
+			// other heuristic not working!
+			// getPopupPanel().setHeight("50%");
+			return panel;
+		}
+
+		public void accessShowSuggestions(SuggestOracle.Response res,
+		        CompletionsPopup pop, SuggestBox.SuggestionCallback xcb) {
+			showSuggestions(null, res.getSuggestions(),
+			        pop.isDisplayStringHTML(), true, xcb);
+
+			// not working!
+			// getPopupPanel().setHeight("50%");
+		}
+	}
+
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?)
-	public static int querylimit = 10;
+	public static int querylimit = 50;
 
 	private List<String> completions;
 	private StringBuilder curWord;
 	private int curWordStart;
 	protected AutoCompleteDictionary dict;
-	protected ScrollableSuggestBox.CustomSuggestionDisplay sug;
+	protected ScrollableSuggestionDisplay sug;
 	protected CompletionsPopup popup;
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
 		public void onSuggestionsReady(SuggestOracle.Request req,
@@ -72,7 +110,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
 		curWord = new StringBuilder();
-		sug = new ScrollableSuggestBox.CustomSuggestionDisplay();
+		sug = new ScrollableSuggestionDisplay();
 		popup = new CompletionsPopup();
 		popup.addTextField(this);
 	}
