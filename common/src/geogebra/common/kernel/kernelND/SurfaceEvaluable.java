@@ -9,6 +9,16 @@ import geogebra.common.kernel.Matrix.CoordsFloat3;
  * @author Mathieu
  */
 public interface SurfaceEvaluable {
+	
+	/**
+	 * level of detail (speed/quality)
+	 */
+	public enum LevelOfDetail {
+		/** level of detail : speed */
+		SPEED, 
+		/** level of detail : quality */
+		QUALITY
+	}
 
 	/**
 	 * @param u first parameter
@@ -51,4 +61,15 @@ public interface SurfaceEvaluable {
 	 * set derivatives (if not already done)
 	 */
 	public void setDerivatives();
+	
+	/**
+	 * @return the level of detail (for drawing)
+	 */
+	public LevelOfDetail getLevelOfDetail();
+	
+	/**
+	 * set the level of detail (for drawing)
+	 * @param lod level of detail
+	 */
+	public void setLevelOfDetail(LevelOfDetail lod);
 }

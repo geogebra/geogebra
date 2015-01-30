@@ -3,8 +3,8 @@ package geogebra.common.geogebra3D.euclidian3D.plots;
 import geogebra.common.geogebra3D.euclidian3D.plots.java.nio.FloatBuffer;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -802,8 +802,7 @@ public class SurfaceMesh2 extends DynamicMesh2 implements OctreeCollection {
 		maxWidth = wx > wy ? (wx > wz ? wx : wz) : (wy > wz ? wy : wz);
 		// update maxErrorCoeff
 		if (((GeoElement) function).hasLevelOfDetail())
-			setLevelOfDetail(((GeoLevelOfDetail) function).getLevelOfDetail()
-					.getValue());
+			setLevelOfDetail(function.getLevelOfDetail() == LevelOfDetail.SPEED ? 5 : 8);
 		desiredMaxError = maxErrorCoeff * maxWidth;
 		noUpdate = false;
 	}

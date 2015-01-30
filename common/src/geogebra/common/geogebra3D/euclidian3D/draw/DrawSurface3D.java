@@ -26,24 +26,34 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	// number of intervals in root mesh (for each parameters, if parameters
 	// delta are equals)
-	private static final short ROOT_MESH_INTERVALS = 10;
+	private static final short ROOT_MESH_INTERVALS_SPEED = 10;
+	private static final short ROOT_MESH_INTERVALS_QUALITY = ROOT_MESH_INTERVALS_SPEED * 4;
+	private short rootMeshIntervals;
+
 
 
 	// number of split for boundary
 	private static final short BOUNDARY_SPLIT = 10;
 
 	// max split array size ( size +=4 for one last split)
-	private static final int MAX_SPLIT = 4096;
+	private static final int MAX_SPLIT_SPEED = 4096;
+	private static final int MAX_SPLIT_QUALITY = MAX_SPLIT_SPEED * 32;
+	
+	
+	private SurfaceEvaluable.LevelOfDetail levelOfDetail = SurfaceEvaluable.LevelOfDetail.QUALITY;
+	
+	private int maxSplit = MAX_SPLIT_SPEED;
+
 
 	// draw array size ( size +=1 for one last draw)
-	private static final int MAX_DRAW = MAX_SPLIT;
+	private int maxDraw = maxSplit;
 
-	private static final int CORNER_LIST_SIZE = MAX_DRAW * 3;
+	private int cornerListSize = maxDraw * 3;
 	
 	/**
 	 * max splits in one update loop
 	 */
-	private static final int MAX_SPLITS_IN_ONE_UPDATE = 512;
+	private int maxSplitsInOneUpdate = maxSplit / 8;
 
 	private DrawSurface3D.Corner[] currentSplit, nextSplit, cornerList;
 
@@ -70,17 +80,72 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		super(a_view3d, (GeoElement) surface);
 		this.surfaceGeo = surface;
 		this.surfaceGeo.setDerivatives();
+		
+		levelOfDetail = null;
 
-		currentSplit = new DrawSurface3D.Corner[MAX_SPLIT + 4];
-		nextSplit = new DrawSurface3D.Corner[MAX_SPLIT + 4];
-		drawList = new CornerAndCenter[MAX_DRAW + 100];
-		cornerList = new DrawSurface3D.Corner[CORNER_LIST_SIZE];
 		
 		ccForStillToSplit = new CornerAndCenter();
 		cornerForStillToSplit = new Corner[6];
 		vertexForStillToSplit = new Coords3[12];
 		normalForStillToSplit = new Coords3[12];
 
+	}
+	
+	
+	private void setSplitStrategy(){
+		
+		SurfaceEvaluable.LevelOfDetail lod = surfaceGeo.getLevelOfDetail();
+		
+		if (levelOfDetail == lod){
+			return;
+		}
+						
+		levelOfDetail = lod;
+		
+		// set sizes
+		switch (levelOfDetail){
+		case SPEED:
+			maxSplit = MAX_SPLIT_SPEED;
+			break;
+		case QUALITY:
+			maxSplit = MAX_SPLIT_QUALITY;
+			break;
+		}
+		
+		maxDraw = maxSplit;
+		cornerListSize = maxDraw * 3;		
+		maxSplitsInOneUpdate = maxSplit / 8;
+		
+		// create arrays
+		currentSplit = new DrawSurface3D.Corner[maxSplit + 4];
+		nextSplit = new DrawSurface3D.Corner[maxSplit + 4];
+		drawList = new CornerAndCenter[maxDraw + 100];
+		cornerList = new DrawSurface3D.Corner[cornerListSize];		
+		
+	}
+	
+	
+	private void setTolerances(){
+		
+		maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
+		
+		// set sizes
+		switch (levelOfDetail){
+		case SPEED:
+			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+			maxRWDistance = 5 * maxRWPixelDistance;
+			maxBend = getView3D().getMaxBendSpeedSurface();
+			rootMeshIntervals = ROOT_MESH_INTERVALS_SPEED;
+			break;
+		case QUALITY:
+			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
+			maxRWDistance = 2 * maxRWPixelDistance;
+			maxBend = getView3D().getMaxBend();
+			rootMeshIntervals = ROOT_MESH_INTERVALS_QUALITY;
+			break;
+		}
+		
+		
 	}
 	
 	final static private boolean DEBUG = false;
@@ -169,15 +234,9 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 
 			// max values
-			maxRWPixelDistance = getView3D().getMaxPixelDistance() / getView3D().getScale();
-
-			maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
-			maxRWDistance = 5 * maxRWPixelDistance;
-			maxBend = Math.tan(20 * Kernel.PI_180);
-
-			// maxRWDistanceNoAngleCheck = 1 * maxRWPixelDistance;
-			// maxRWDistance = 2 * maxRWPixelDistance;
-			// maxBend = getView3D().getMaxBend();
+			setSplitStrategy();
+			setTolerances();
+			
 
 			updateCullingBox();
 
@@ -185,8 +244,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 					+ maxRWDistanceNoAngleCheck);
 
 			// create root mesh
-			int uN = 1 + (int) (ROOT_MESH_INTERVALS * Math.sqrt(uDelta / vDelta));
-			int vN = 1 + ROOT_MESH_INTERVALS * ROOT_MESH_INTERVALS / uN;
+			int uN = 1 + (int) (rootMeshIntervals * Math.sqrt(uDelta / vDelta));
+			int vN = 1 + rootMeshIntervals * rootMeshIntervals / uN;
 			debug("grids: " + uN + ", " + vN);
 			cornerListIndex = 0;
 			Corner corner = createRootMesh(uMin, uMax, uN, vMin, vMax, vN);
@@ -212,7 +271,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		time = System.currentTimeMillis() - time;
 		if (time > 0){
-			App.debug("split : "+time);
+			debug("split : "+time);
 		}
 
 		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn
@@ -269,7 +328,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		time = System.currentTimeMillis() - time;
 		if (time > 0){
-			App.debug("draw : "+time);
+			debug("draw : "+time);
 		}
 		
 		// update is finished if no waiting splits, or if no room left for draw or split
@@ -400,15 +459,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 		
 		
-		while (currentSplitStoppedIndex < currentSplitIndex && loopSplitIndex < MAX_SPLITS_IN_ONE_UPDATE) {
+		while (currentSplitStoppedIndex < currentSplitIndex && loopSplitIndex < maxSplitsInOneUpdate) {
 			currentSplit[currentSplitStoppedIndex].split(false);
 			currentSplitStoppedIndex++;
 			
-			if (drawListIndex + (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex >= MAX_DRAW){ // no room left for new draw
+			if (drawListIndex + (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex >= maxDraw){ // no room left for new draw
 				return false;
 			}
 			
-			if (nextSplitIndex >= MAX_SPLIT){ // no room left for new split
+			if (nextSplitIndex >= maxSplit){ // no room left for new split
 				return false;
 			} 
 		}
@@ -417,7 +476,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		//debug("nextSplitIndex = " + nextSplitIndex + " , drawListIndex = " + drawListIndex);
 
 		
-		if (loopSplitIndex < MAX_SPLITS_IN_ONE_UPDATE && nextSplitIndex > 0){
+		if (loopSplitIndex < maxSplitsInOneUpdate && nextSplitIndex > 0){
 			return split(false);
 		}
 		

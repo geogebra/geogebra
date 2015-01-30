@@ -8,9 +8,10 @@ import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoPoint;
-import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.main.settings.EuclidianSettings3D;
@@ -159,6 +160,9 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (eName.equals("levelOfDetail")) {
 				ok = handleLevelOfDetail(attrs);
 				break;
+			}else if (eName.equals("levelOfDetailQuality")) {
+				ok = handleLevelOfDetailQuality(attrs);
+				break;
 			}
 
 		default:
@@ -208,12 +212,27 @@ public class MyXMLHandler3D extends MyXMLHandler {
 	private boolean handleLevelOfDetail(LinkedHashMap<String, String> attrs) {
 		try {
 			int lod = Integer.parseInt(attrs.get("val"));
-			((GeoLevelOfDetail) geo).getLevelOfDetail().setValue(lod);
+			if (lod > 6){
+				((SurfaceEvaluable) geo).setLevelOfDetail(LevelOfDetail.QUALITY);
+			}
 			return true;
 		} catch (Exception e) {
 			return false;
 		}
 	}
+	
+	private boolean handleLevelOfDetailQuality(LinkedHashMap<String, String> attrs) {
+		try {
+			boolean lod = Boolean.parseBoolean(attrs.get("val"));
+			if (lod){
+				((SurfaceEvaluable) geo).setLevelOfDetail(LevelOfDetail.QUALITY);
+			}
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
+	}
+
 
 	/**
 	 * handles plane attributes for EuclidianView3D

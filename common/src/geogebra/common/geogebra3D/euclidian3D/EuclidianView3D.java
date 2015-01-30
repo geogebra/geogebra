@@ -38,7 +38,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DLimited;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawQuadric3DPart;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawRay3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawSegment3D;
-import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3DOld;
+import geogebra.common.geogebra3D.euclidian3D.draw.DrawSurface3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawText3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawVector3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
@@ -573,7 +573,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				GeoFunctionNVar geoFun = (GeoFunctionNVar) geo;
 				switch (geoFun.getVarNumber()) {
 				case 2:
-					d = new DrawSurface3DOld(this, geoFun);
+					d = new DrawSurface3D(this, geoFun);
 					break;
 				/*
 				 * case 3: d = new DrawImplicitFunction3Var(this, geoFun);
@@ -583,8 +583,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				break;
 
 			case SURFACECARTESIAN3D:
-				d = new DrawSurface3DOld(this, (GeoSurfaceCartesian3D) geo);
-				// d = new DrawSurface3D(this, (GeoSurfaceCartesian3D) geo);
+				// d = new DrawSurface3DOld(this, (GeoSurfaceCartesian3D) geo);
+				d = new DrawSurface3D(this, (GeoSurfaceCartesian3D) geo);
 				break;
 
 			case TEXT:
@@ -3993,5 +3993,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		setViewChangedByTranslate();
 		setWaitForUpdate();
+	}
+	
+	// maximum angle between two line segments
+	private static final double MAX_ANGLE_SPEED_SURFACE = 20; // degrees
+	private static final double MAX_BEND_SPEED_SURFACE = Math.tan(MAX_ANGLE_SPEED_SURFACE * Kernel.PI_180);
+	
+
+	public double getMaxBendSpeedSurface() {
+		return MAX_BEND_SPEED_SURFACE;
 	}
 }

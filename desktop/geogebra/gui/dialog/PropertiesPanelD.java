@@ -55,6 +55,7 @@ import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel;
 import geogebra.common.gui.dialog.options.model.ListAsComboModel.IListAsComboListener;
+import geogebra.common.gui.dialog.options.model.LodModel;
 import geogebra.common.gui.dialog.options.model.MultipleOptionsModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel;
 import geogebra.common.gui.dialog.options.model.ObjectNameModel.IObjectNameListener;
@@ -92,7 +93,6 @@ import geogebra.common.kernel.geos.GeoElement.FillType;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoSegment;
 import geogebra.common.kernel.geos.GeoText;
-import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoPlaneND;
 import geogebra.common.kernel.kernelND.ViewCreator;
 import geogebra.common.main.App;
@@ -4539,8 +4539,9 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 	 * 
 	 * @author mathieu
 	 */
-	private class LodPanel extends JPanel implements ChangeListener, SetLabels,
-			UpdateFonts, UpdateablePropertiesPanel {
+	private class LodPanel extends JPanel 
+	implements ActionListener, SetLabels, UpdateFonts, UpdateablePropertiesPanel,
+	IComboListener {
 
 		/**
 		 * 
@@ -4548,96 +4549,83 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		private static final long serialVersionUID = 1L;
 		private Object[] geos;
 		private JSlider slider;
+		
+		private JLabel label;
+		private LodModel model;
+		private JComboBox combo;
 
 		public LodPanel() {
-			super(new FlowLayout(FlowLayout.LEFT));
+			super(new FlowLayout(FlowLayout.LEFT));			
+			
+			model = new LodModel(this, app, isDefaults);
 
-			slider = new JSlider(0, 10);
-			slider.setMajorTickSpacing(1);
-			slider.setMinorTickSpacing(1);
-			slider.setPaintTicks(true);
-			slider.setPaintLabels(true);
-			slider.setSnapToTicks(true);
+			label = new JLabel();
+			combo = new JComboBox();
 
-			updateSliderFonts();
-
-			slider.addChangeListener(this);
-
-			add(slider);
+			add(label);
+			add(combo);
 		}
 
 		public void setLabels() {
-			setBorder(BorderFactory.createTitledBorder(app
-					.getPlain("LevelOfDetail")));
+			
+			label.setText(app.getPlain("LevelOfDetail"));
+
+			combo.removeActionListener(this);
+			int idx = combo.getSelectedIndex();
+			combo.removeAllItems();
+			model.fillModes(loc);
+			combo.setSelectedIndex(idx);
+			combo.addActionListener(this);
 		}
 
+		
+		
 		public JPanel update(Object[] geos) {
-			// check geos
-			if (!checkGeos(geos))
+			model.setGeos(geos);
+			if (!model.checkGeos()) {
 				return null;
+			}
 
-			this.geos = geos;
-			slider.removeChangeListener(this);
-
-			// set value to first point's size
-			GeoLevelOfDetail geo0 = (GeoLevelOfDetail) geos[0];
-			slider.setValue(geo0.getLevelOfDetail().getValue());
-
-			slider.addChangeListener(this);
+			combo.removeActionListener(this);
+			model.updateProperties();
+			combo.addActionListener(this);
 			return this;
-		}
-
-		private boolean checkGeos(Object[] geos) {
-			boolean geosOK = true;
-			for (int i = 0; i < geos.length; i++) {
-				if (!((GeoElement) geos[i]).hasLevelOfDetail()) {
-					geosOK = false;
-					break;
-				}
-			}
-			return geosOK;
-		}
-
-		/**
-		 * change listener implementation for slider
-		 */
-		public void stateChanged(ChangeEvent e) {
-			if (!slider.getValueIsAdjusting()) {
-				int lod = slider.getValue();
-				GeoLevelOfDetail geo;
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoLevelOfDetail) geos[i];
-					geo.getLevelOfDetail().setValue(lod);
-					((GeoElement) geo).updateRepaint();
-				}
-			}
 		}
 
 		public void updateFonts() {
 			Font font = app.getPlainFont();
 
-			setFont(font);
+			label.setFont(font);
+			combo.setFont(font);
 
-			updateSliderFonts();
 		}
 
-		public void updateSliderFonts() {
-
-			// set label font
-			Dictionary<?, ?> labelTable = slider.getLabelTable();
-			Enumeration<?> en = labelTable.elements();
-			JLabel label;
-			while (en.hasMoreElements()) {
-				label = (JLabel) en.nextElement();
-				label.setFont(app.getSmallFont());
-			}
-
-			slider.setFont(app.getSmallFont());
-		}
 
 		public void updateVisualStyle(GeoElement geo) {
-			// TODO Auto-generated method stub
+			// nothing to do here
 
+		}
+
+		public void setSelectedIndex(int index) {
+			combo.setSelectedIndex(index);
+		}
+
+		public void addItem(String item) {
+			combo.addItem(item);
+			
+		}
+
+		public void setSelectedItem(String item) {
+			// nothing to do here
+			
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			Object source = e.getSource();
+			if (source == combo) {
+				model.applyChanges(combo.getSelectedIndex());
+			}
+			
 		}
 	}
 

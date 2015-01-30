@@ -33,11 +33,10 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
 import geogebra.common.kernel.arithmetic.NumberValue;
-import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -51,7 +50,7 @@ import geogebra.common.util.StringUtil;
  */
 public class GeoFunctionNVar extends GeoElement
 implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translateable, MatrixTransformable,
- Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable, GeoLevelOfDetail {
+ Dilateable, PointRotateable, Mirrorable, SurfaceEvaluable {
 
 	private static final double STRICT_INEQ_OFFSET = 4*Kernel.MIN_PRECISION;
 	private static final int SEARCH_SAMPLES = 70;
@@ -101,8 +100,6 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			isInequality = fun.initIneqs(this.getFunctionExpression(),this);
 
 		
-		if (needsLevelOfDetail())
-			levelOfDetail = new LevelOfDetail();
 		setConstructionDefaults();
 	}
 
@@ -865,10 +862,8 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			}
 			
 			// level of detail
-			if (hasLevelOfDetail()){
-				sb.append("\t<levelOfDetail val=\"");
-				sb.append(getLevelOfDetail().getValue());
-				sb.append("\"/>\n");
+			if (hasLevelOfDetail() && (getLevelOfDetail() == LevelOfDetail.QUALITY)){
+				sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
 			}
 			
 		}
@@ -878,26 +873,26 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		// /////////////////////////
 		// LEVEL OF DETAIL
 		
-		private LevelOfDetail levelOfDetail;
+		private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 
 		public LevelOfDetail getLevelOfDetail() {
 			return levelOfDetail;
 		}
 		
 
+
+		public void setLevelOfDetail(LevelOfDetail lod) {
+			levelOfDetail = lod;			
+		}
+
+		
+
 		@Override
 		public boolean hasLevelOfDetail() {
-			return levelOfDetail!=null;
-		}
-		
-		/**
-		 * Returns whether this function can be drawn in 3D and 
-		 * hence needs level of detail.
-		 * @return true if this is valid function RxR->R
-		 */
-		public boolean needsLevelOfDetail() {
 			return (fun!=null) && (fun.getVarNumber()==2) && !isInequality();
 		}
+		
+		
 		
 		@Override
 		public int getMinimumLineThickness() {
@@ -977,5 +972,4 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return true;
 
 	}
-
 }

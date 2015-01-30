@@ -13,10 +13,9 @@ import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.geos.CasEvaluableFunction;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
-import geogebra.common.kernel.kernelND.GeoLevelOfDetail;
 import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
-import geogebra.common.kernel.kernelND.LevelOfDetail;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -26,7 +25,7 @@ import geogebra.common.plugin.GeoClass;
  * 
  */
 public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
-		Functional2Var, SurfaceEvaluable, GeoLevelOfDetail, Traceable,
+		Functional2Var, SurfaceEvaluable, Traceable,
 		CasEvaluableFunction {
 
 	/**
@@ -202,21 +201,25 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		super.getXMLtags(sb);
 
 		// level of detail
-		sb.append("\t<levelOfDetail val=\"");
-		sb.append(getLevelOfDetail().getValue());
-		sb.append("\"/>\n");
+		if (getLevelOfDetail() == LevelOfDetail.QUALITY){
+			sb.append("\t<levelOfDetailQuality val=\"true\"/>\n");
+		}
 
 	}
 
 	// /////////////////////////
 	// LEVEL OF DETAIL
 
-	private LevelOfDetail levelOfDetail = new LevelOfDetail();
+	private LevelOfDetail levelOfDetail = LevelOfDetail.SPEED;
 
 	public LevelOfDetail getLevelOfDetail() {
 		return levelOfDetail;
 	}
 
+	public void setLevelOfDetail(LevelOfDetail lod) {
+		levelOfDetail = lod;			
+	}
+	
 	@Override
 	public boolean hasLevelOfDetail() {
 		return true;
