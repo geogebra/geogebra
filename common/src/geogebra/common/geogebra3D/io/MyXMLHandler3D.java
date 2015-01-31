@@ -157,10 +157,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				break;
 			}
 		case 'l':
-			if (eName.equals("levelOfDetail")) {
-				ok = handleLevelOfDetail(attrs);
-				break;
-			}else if (eName.equals("levelOfDetailQuality")) {
+			if (eName.equals("levelOfDetailQuality")) {
 				ok = handleLevelOfDetailQuality(attrs);
 				break;
 			}
@@ -209,17 +206,7 @@ public class MyXMLHandler3D extends MyXMLHandler {
 		}
 	}
 
-	private boolean handleLevelOfDetail(LinkedHashMap<String, String> attrs) {
-		try {
-			int lod = Integer.parseInt(attrs.get("val"));
-			if (lod > 6){
-				((SurfaceEvaluable) geo).setLevelOfDetail(LevelOfDetail.QUALITY);
-			}
-			return true;
-		} catch (Exception e) {
-			return false;
-		}
-	}
+	
 	
 	private boolean handleLevelOfDetailQuality(LinkedHashMap<String, String> attrs) {
 		try {
