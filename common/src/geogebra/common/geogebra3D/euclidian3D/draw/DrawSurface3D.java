@@ -8,7 +8,7 @@ import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsDouble3;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.common.main.App;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import geogebra.common.util.debug.Log;
 
 /**
@@ -93,6 +93,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		vertexForStillToSplit = new Coords3[12];
 		normalForStillToSplit = new Coords3[12];
 
+		splitsStartedNotFinished = false;
+		
 	}
 	
 	
@@ -196,12 +198,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 	@Override
 	protected boolean updateForItSelf() {
-
-		Renderer renderer = getView3D().getRenderer();
-
-		PlotterSurface surface = renderer.getGeometryManager().getSurface();
+		
+		boolean drawOccured = false;
 
 		if (drawFromScratch){
+			
+			if (levelOfDetail == LevelOfDetail.QUALITY && splitsStartedNotFinished){
+				draw();
+				drawOccured = true;
+			}
 			
 			// maybe set to null after redefine
 			surfaceGeo.setDerivatives();
@@ -272,13 +277,13 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		
 		// start recursive split
 		loopSplitIndex = 0;
-		long time = System.currentTimeMillis();
-		boolean stillRoomLeft = split(false);
+//		long time = System.currentTimeMillis();
+		stillRoomLeft = split(false);
 		
-		time = System.currentTimeMillis() - time;
-		if (time > 0){
-			debug("split : "+time);
-		}
+//		time = System.currentTimeMillis() - time;
+//		if (time > 0){
+//			debug("split : "+time);
+//		}
 
 		debug("\ndraw size : " + drawListIndex + "\nnot drawn : " + notDrawn
 				+ "\nstill to split : "
@@ -287,14 +292,43 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				+ "\ncorner list size : " + cornerListIndex
 				+ "\nstill room left : " + stillRoomLeft);
 
-		boolean waitingSplits = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
+		splitsStartedNotFinished = (currentSplitIndex - currentSplitStoppedIndex) + nextSplitIndex > 0;
 
 		
 		
 		
-		time = System.currentTimeMillis();
+//		time = System.currentTimeMillis();
 		
+		switch (levelOfDetail){
+		case SPEED:
+		default:
+			draw();
+			// still room left and still split to do: still to update
+			return !splitsStartedNotFinished || !stillRoomLeft;
+		case QUALITY:
+			splitsStartedNotFinished = splitsStartedNotFinished && stillRoomLeft;
+			if (!splitsStartedNotFinished){
+				if (!drawOccured){
+					// no draw at start: can do the draw now
+					draw();
+				}
+				// no room left or no split too do: update is finished
+				return true; 
+			}
+			// still room left and still split to do: still to update
+			return false;
+		}
+		
+//		time = System.currentTimeMillis() - time;
+//		if (time > 0){
+//			debug("draw : "+time);
+//		}
+		
+	}
+	
+	private void draw(){
 		// draw splitted, still to split, and next to split
+		PlotterSurface surface = getView3D().getRenderer().getGeometryManager().getSurface();
 		surface.start(getReusableSurfaceIndex());
 
 		if (!stillRoomLeft){
@@ -313,7 +347,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				surface.endGeometryDirect();
 			}
 		}else{
-			if (drawListIndex > 0 || waitingSplits) {
+			if (drawListIndex > 0 || splitsStartedNotFinished) {
 				surface.startTriangles(cornerListIndex * 12);
 				for (int i = 0; i < drawListIndex; i++) {
 					drawList[i].draw(surface);
@@ -331,15 +365,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		setSurfaceIndex(surface.end());
-		
-		time = System.currentTimeMillis() - time;
-		if (time > 0){
-			debug("draw : "+time);
-		}
-		
-		// update is finished if no waiting splits, or if no room left for draw or split
-		return !waitingSplits || !stillRoomLeft;
 	}
+	
+	
+	private boolean splitsStartedNotFinished, stillRoomLeft;
 
 	@Override
 	protected void updateForView() {
