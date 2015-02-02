@@ -821,7 +821,12 @@ public class DrawEquationWeb extends DrawEquation {
 		//var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		//var elsecondInside = elsecond.lastChild;
 		//$wnd.$ggbQuery(elsecondInside).focus();
-		$wnd.$ggbQuery(parentElement).find(".mathquillggb-editable").focus();
+		if (focus) {
+			$wnd.$ggbQuery(parentElement).find(".mathquillggb-editable")
+					.focus();
+		} else {
+			$wnd.$ggbQuery(parentElement).find(".mathquillggb-editable").blur();
+		}
 	}-*/;
 
 	public static native void newFormulaCreatedMathQuillGGB(
