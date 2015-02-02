@@ -2,6 +2,7 @@ package geogebra.common.geogebra3D.kernel3D.commands;
 
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Path;
+import geogebra.common.kernel.Region;
 import geogebra.common.kernel.advanced.CmdClosestPoint;
 import geogebra.common.kernel.arithmetic.Command;
 import geogebra.common.kernel.geos.GeoElement;
@@ -52,7 +53,16 @@ public class CmdClosestPoint3D extends CmdClosestPoint {
 						c.getLabel(), (GeoLineND) arg[0], (GeoLineND) arg[1]) };
 			}
 
-			return super.process(c);
+			if ((ok[0] = arg[0].isRegion()) && (ok[1] = arg[1].isGeoPoint())) {
+				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
+						.ClosestPoint(c.getLabel(), (Region) arg[0],
+								(GeoPointND) arg[1]) };
+			}
+			
+			if (!ok[0]){
+				throw argErr(app, c.getName(), arg[0]);
+			}
+			throw argErr(app, c.getName(), arg[1]);
 
 		default:
 			// return super.process(c);
