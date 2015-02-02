@@ -4764,6 +4764,7 @@ $.fn.mathquillggb = function(cmd, latex) {
 	// to a latex string given in arguments[1]
 	//var lx = arguments[1];// it is also called "latex"
 	var cw = arguments[2];
+	var original_arguments = arguments;
     if (arguments.length > 1)
 	  return this.each(function() {
 	    var blockId = $(this).attr(mqBlockId),
@@ -4789,7 +4790,7 @@ $.fn.mathquillggb = function(cmd, latex) {
           // as nicely as latex, so no problem here, but...
           cursor.writeLatex(latex).parent.blur();
 
-          if (arguments[3]) {// if this is a GeoGebra command suggestion
+          if (original_arguments[3]) {// if this is a GeoGebra command suggestion
 
             // we should select the first part of latex which is between < and >
             var ilt = latex.indexOf('<');
