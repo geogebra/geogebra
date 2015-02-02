@@ -13,7 +13,7 @@ import geogebra.web.util.SaveCallback;
 
 import java.util.ArrayList;
 
-import com.google.gwt.json.client.JSONArray;
+import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 
 public class WinFileManager extends FileManager {
@@ -56,21 +56,22 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void rename(String newTitle, Material mat, Runnable callback) {
-		renameNative(mat.getTitle(), newTitle, mat.getModified() + "");
-		// TODO run callback
+		renameNative(mat.getTitle(), newTitle, mat.getModified() + "", callback);
 
 	}
 
 	private native void renameNative(String oldTitle, String newTitle,
-	        String timestamp) /*-{
+	        String timestamp, Runnable callback) /*-{
 		if ($wnd.android && $wnd.android.renameFile) {
-			$wnd.android.renameFile(oldTitle, newTitle, timestamp);
+			$wnd.android.renameFile(oldTitle, newTitle, timestamp, function() {
+				callback.@java.lang.Runnable::run()();
+			});
 		}
 	}-*/;
 
 	@Override
 	public void openMaterial(final Material mat) {
-		getBase64(mat.getTitle(), new NativeSaveCallback() {
+		getBase64(getFileKey(mat), new NativeSaveCallback() {
 
 			@Override
 			public void onSuccess(String fileID) {
@@ -133,7 +134,7 @@ public class WinFileManager extends FileManager {
 		if ($wnd.android && $wnd.android.getBase64) {
 			$wnd.android
 					.getBase64(
-							title,
+							fileKey,
 							function(jsString) {
 								nsc.@geogebra.touch.NativeSaveCallback::onSuccess(Ljava/lang/String;)(jsString);
 							});
@@ -191,14 +192,14 @@ public class WinFileManager extends FileManager {
 
 			@Override
 			public void handle(String jsString) {
-				JSONArray jv = JSONParser.parseLenient(jsString).isArray();
-				setNotSyncedFileCount(jv.size(), events);
-				for (int i = 0; i < jv.size(); i++) {
-					final Material mat = JSONparserGGT.toMaterial(jv.get(i)
+				JSONObject jv = JSONParser.parseLenient(jsString).isObject();
+				for (String key : jv.keySet()) {
+					Material mat = JSONparserGGT.toMaterial(jv.get(key)
 					        .isObject());
+					mat.setLocalID(FileManager.getIDFromKey(key));
 					if (getApp().getLoginOperation().owns(mat)) {
 
-							sync(mat, events);
+						sync(mat, events);
 
 					}
 
@@ -208,24 +209,26 @@ public class WinFileManager extends FileManager {
 
 	};
 
+	/**
+	 * @param sh
+	 */
 	public native void nativeUploadUsersMaterials(StringHandler sh) /*-{
 		var that = this;
 		if ($wnd.android && $wnd.android.getFiles) {
 			$wnd.android
 					.getFiles(function(jsString) {
-						that.@geogebra.touch.WinFileManager::uploadMaterials(Ljava/lang/String;)(jsString);
+						sh.@geogebra.html5.main.StringHandler::handle(Ljava/lang/String;)(jsString);
 					});
 		}
 	}-*/;
-	private void uploadMaterials(String jsString) {
 
-
-	}
 
 	private void addMaterials(String jsString) {
-		JSONArray jv = JSONParser.parseLenient(jsString).isArray();
-		for (int i = 0; i < jv.size(); i++) {
-			this.addMaterial(JSONparserGGT.toMaterial(jv.get(i).isObject()));
+		JSONObject jv = JSONParser.parseLenient(jsString).isObject();
+		for (String key : jv.keySet()) {
+			Material mat = JSONparserGGT.toMaterial(jv.get(key).isObject());
+			mat.setLocalID(FileManager.getIDFromKey(key));
+			this.addMaterial(mat);
 		}
 
 	}
@@ -244,14 +247,29 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void setTubeID(String localID, Material mat) {
-		// TODO Auto-generated method stub
-
+		nativeUpdateMeta(localID, mat.toJson().toString());
 	}
+
+	private native void nativeUpdateMeta(String localID, String string) /*-{
+		if ($wnd.android && $wnd.android.updateMeta) {
+			$wnd.android.updateMeta(key, json);
+		}
+	}-*/;
 
 	@Override
-	protected void updateFile(String title, long modified, Material material) {
-		// TODO Auto-generated method stub
-
+	protected void updateFile(String key, long modified, Material material) {
+		material.setModified(modified);
+		String base64 = material.getBase64();
+		material.setBase64("");
+		nativeUpdateFile(material.getLocalID(), material.getTitle(), base64,
+		        material.toJson().toString());
 	}
+
+	private native void nativeUpdateFile(int id, String title, String json,
+	        String base64) /*-{
+		if ($wnd.android && $wnd.android.updateFile) {
+			$wnd.android.updateFile(id, title, json, base64);
+		}
+	}-*/;
 
 }
