@@ -73,6 +73,14 @@ public class CoordsFloat3 extends Coords3{
 	final public void mulInside(double v){
 		mulInside((float) v);
 	}	
+	
+	@Override
+	public void normalizeIfPossible(){
+		double l = Math.sqrt(x*x + y*y + z*z);
+		if (!Kernel.isZero(l)){
+			mulInside(1/l);
+		}
+	}
 
 	@Override
 	final public void set(float x, float y, float z){

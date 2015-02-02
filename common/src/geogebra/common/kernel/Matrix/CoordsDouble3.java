@@ -1,5 +1,7 @@
 package geogebra.common.kernel.Matrix;
 
+import geogebra.common.kernel.Kernel;
+
 /**
  * class for 3 double (x, y, z)
  * @author mathieu
@@ -73,6 +75,14 @@ public class CoordsDouble3 extends Coords3{
 		z *= v;
 	}
 	
+	
+	@Override
+	public void normalizeIfPossible(){
+		double l = Math.sqrt(x*x + y*y + z*z);
+		if (!Kernel.isZero(l)){
+			mulInside(1/l);
+		}
+	}
 
 	@Override
 	final public void set(float x, float y, float z){

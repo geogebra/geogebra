@@ -92,6 +92,10 @@ public abstract class Coords3 {
 	 */
 	abstract public void mulInside(double v);
 
+	/**
+	 * normalize this (if norm != 0)
+	 */
+	abstract public void normalizeIfPossible();
 	
 	
 	/**

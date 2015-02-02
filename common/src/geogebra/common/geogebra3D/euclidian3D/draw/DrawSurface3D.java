@@ -1694,7 +1694,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			normal.addInside(c[j].normal);
 		}
 		center.mulInside(f);
-		normal.mulInside(f);
+		normal.normalizeIfPossible();
 
 		// if (!center.isDefined()) {
 		// App.printStacktrace("!center.isDefined()");
