@@ -4789,37 +4789,40 @@ $.fn.mathquillggb = function(cmd, latex) {
           // as nicely as latex, so no problem here, but...
           cursor.writeLatex(latex).parent.blur();
 
-          // we should select the first part of latex which is between < and >
-          var ilt = latex.indexOf('<');
-          if (ilt >= 0) {
-            var igt = latex.indexOf('>', ilt);
-            var sublatex = latex.substring(ilt);
-            if (igt >= 0) {
-              // do something only in this case ... but note that
-              // latex.length may be a wrong data to base our code upon...
-              // so we shall count the number of < and > in the formula
-              var ngt = sublatex.split('>').length - 1;
-              // cursor is currently on the right-hand-side of 'latex'
-              while (cursor[L]) {
-                if ((cursor[L] instanceof BinaryOperator) &&
-                    (cursor[L].ctrlSeq === '>')) {
-                  if (ngt > 1) {
-                    ngt--;
-                  } else {
-                    break;
+          if (arguments[3]) {// if this is a GeoGebra command suggestion
+
+            // we should select the first part of latex which is between < and >
+            var ilt = latex.indexOf('<');
+            if (ilt >= 0) {
+              var igt = latex.indexOf('>', ilt);
+              var sublatex = latex.substring(ilt);
+              if (igt >= 0) {
+                // do something only in this case ... but note that
+                // latex.length may be a wrong data to base our code upon...
+                // so we shall count the number of < and > in the formula
+                var ngt = sublatex.split('>').length - 1;
+                // cursor is currently on the right-hand-side of 'latex'
+                while (cursor[L]) {
+                  if ((cursor[L] instanceof BinaryOperator) &&
+                      (cursor[L].ctrlSeq === '>')) {
+                    if (ngt > 1) {
+                      ngt--;
+                    } else {
+                      break;
+                    }
                   }
+                  cursor.moveLeft();
                 }
-                cursor.moveLeft();
-              }
-              // now the cursor should be on the right-hand-side
-              // of the first '>' after the first '<'
-              while (cursor[L]) {
-                if ((cursor[L] instanceof BinaryOperator) &&
-                    (cursor[L].ctrlSeq === '<')) {
-                  cursor.selectLeft();
-                  break;
-                } else {
-                  cursor.selectLeft();
+                // now the cursor should be on the right-hand-side
+                // of the first '>' after the first '<'
+                while (cursor[L]) {
+                  if ((cursor[L] instanceof BinaryOperator) &&
+                      (cursor[L].ctrlSeq === '<')) {
+                    cursor.selectLeft();
+                    break;
+                  } else {
+                    cursor.selectLeft();
+                  }
                 }
               }
             }

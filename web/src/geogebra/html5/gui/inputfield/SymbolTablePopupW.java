@@ -16,10 +16,10 @@ public class SymbolTablePopupW extends PopupPanel implements ClickHandler {
 
 	SymbolTableW symbolTable = null;
 	private AppW app;
-	private AutoCompleteTextFieldW textField;
+	private AutoCompleteW textField;
 
-	public SymbolTablePopupW(AppW app,
-	        AutoCompleteTextFieldW autoCompleteTextField, Widget invoker) {
+	public SymbolTablePopupW(AppW app, AutoCompleteW autoCompleteTextField,
+	        Widget invoker) {
 		super(true);
 		this.app = app;
 		this.textField = autoCompleteTextField;

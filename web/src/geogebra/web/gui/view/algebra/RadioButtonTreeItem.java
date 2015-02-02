@@ -729,7 +729,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					if (!(obj instanceof GeoElement[])) {
 						// inputField.getTextBox().setFocus(true);
 						geogebra.html5.main.DrawEquationWeb
-						        .focusEquationMathQuillGGB(seMayLatex);
+						        .focusEquationMathQuillGGB(seMayLatex, true);
 						return;
 					}
 					GeoElement[] geos = (GeoElement[]) obj;
@@ -836,8 +836,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	@Override
     public void onClick(ClickEvent evt) {
 		if (newCreationMode) {
-			geogebra.html5.main.DrawEquationWeb
-			        .focusEquationMathQuillGGB(seMayLatex);
+			geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
+			        seMayLatex, true);
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -877,7 +877,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
     public void onTouchEnd(TouchEndEvent event) {
 		if (newCreationMode) {
 			geogebra.html5.main.DrawEquationWeb
-			        .focusEquationMathQuillGGB(seMayLatex);
+			        .focusEquationMathQuillGGB(seMayLatex, true);
 		}
 	    longTouchManager.cancelTimer();
 	    JsArray<Touch> changed = event.getChangedTouches();

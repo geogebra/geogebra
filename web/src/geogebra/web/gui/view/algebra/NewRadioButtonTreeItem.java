@@ -6,18 +6,27 @@ import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
+import geogebra.html5.gui.inputfield.SymbolTablePopupW;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
+import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -66,6 +75,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
 	public static int querylimit = 1000;
+	public static boolean showSymbolButtonFocused = false;
 
 	private List<String> completions;
 	private StringBuilder curWord;
@@ -73,6 +83,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	protected AutoCompleteDictionary dict;
 	protected ScrollableSuggestionDisplay sug;
 	protected CompletionsPopup popup;
+	protected ToggleButton showSymbolButton = null;
+	private SymbolTablePopupW tablePopup;
+
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
 		public void onSuggestionsReady(SuggestOracle.Request req,
 		        SuggestOracle.Response res) {
@@ -100,7 +113,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			// So we also provide currentWord as a heuristic or helper:
 			geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-			        seMayLatex, sugg, currentWord);
+			        seMayLatex, sugg, currentWord, true);
 
 			// not to forget making the popup disappear after success!
 			sug.hideSuggestions();
@@ -109,10 +122,80 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
+		this.addStyleName("NewRadioButtonTreeItem");
 		curWord = new StringBuilder();
 		sug = new ScrollableSuggestionDisplay();
 		popup = new CompletionsPopup();
 		popup.addTextField(this);
+
+		// code copied from AutoCompleteTextFieldW,
+		// with some modifications!
+		showSymbolButton = new ToggleButton() {
+			@Override
+			public void onBrowserEvent(Event event) {
+				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
+
+					// set it as focused anyway, because it is needed
+					// before the real focus and blur events take place
+					showSymbolButton.addStyleName("ShowSymbolButtonFocused");
+					showSymbolButtonFocused = true;
+				}
+				super.onBrowserEvent(event);
+				// autoCompleteTextField should not loose focus
+				NewRadioButtonTreeItem.this.setFocus(true);
+			}
+		};
+		String id = DOM.createUniqueId();
+		// textField.setShowSymbolElement(this.showSymbolButton.getElement());
+		showSymbolButton.getElement().setId(id + "_SymbolButton");
+		showSymbolButton.getElement().setAttribute("data-visible", "false");
+		// showSymbolButton.getElement().setAttribute("style", "display: none");
+		showSymbolButton.setText(Unicode.alpha + "");
+		showSymbolButton.addStyleName("SymbolToggleButton");
+		showSymbolButton.addBlurHandler(new BlurHandler() {
+			@Override
+			public void onBlur(BlurEvent event) {
+				showSymbolButton.removeStyleName("ShowSymbolButtonFocused");
+				showSymbolButtonFocused = false;
+				// TODO: make it disappear when blurred
+				// to a place else than the textfield?
+			}
+		});
+		showSymbolButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if (showSymbolButton.isDown()) {
+					// when it is still down, it will be changed to up
+					// when it is still up, it will be changed to down
+
+					// showTablePopupRelativeTo(showSymbolButton);
+					if (tablePopup == null
+					        && NewRadioButtonTreeItem.this.showSymbolButton != null)
+						tablePopup = new SymbolTablePopupW(app,
+						        NewRadioButtonTreeItem.this,
+						        showSymbolButton);
+					if (NewRadioButtonTreeItem.this.tablePopup != null) {
+						tablePopup.showRelativeTo(showSymbolButton);
+					}
+
+				} else {
+					// hideTablePopup();
+					if (NewRadioButtonTreeItem.this.tablePopup != null) {
+						NewRadioButtonTreeItem.this.tablePopup.hide();
+					}
+				}
+				// autoCompleteTextField should not loose focus
+				NewRadioButtonTreeItem.this.setFocus(true);
+			}
+		});
+
+		showSymbolButton.setFocus(false);
+		// add(textField);// done in super()
+		add(showSymbolButton);
+
+		showSymbolButton.getElement().setAttribute("data-visible", "true");
+		addStyleName("SymbolCanBeShown");
 	}
 
 	/**
@@ -308,5 +391,22 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	public List<String> getCompletions() {
 		return completions;
+	}
+
+	public void setFocus(boolean b) {
+		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
+		        seMayLatex, b);
+	}
+
+	public void insertString(String text) {
+		geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+		        seMayLatex, text, "", false);
+	}
+
+	public void toggleSymbolButton(boolean toggled) {
+		if (showSymbolButton == null) {
+			return;
+		}
+		showSymbolButton.setDown(toggled);
 	}
 }

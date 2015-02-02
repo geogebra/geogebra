@@ -816,7 +816,8 @@ public class DrawEquationWeb extends DrawEquation {
 		rbti.hideSuggestions();
 	}
 
-	public static native void focusEquationMathQuillGGB(Element parentElement) /*-{
+	public static native void focusEquationMathQuillGGB(Element parentElement,
+	        boolean focus) /*-{
 		//var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		//var elsecondInside = elsecond.lastChild;
 		//$wnd.$ggbQuery(elsecondInside).focus();
@@ -867,16 +868,17 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static native void writeLatexInPlaceOfCurrentWord(
-	        Element parentElement, String latex, String currentWord) /*-{
+	        Element parentElement, String latex, String currentWord,
+	        boolean command) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 
 		// IMPORTANT! although the following method is called with
-		// 1+2 parameters, it is assumed that there is a third kind
+		// 1+3 parameters, it is assumed that there is a fourth kind
 		// of input added, which is the place of the Cursor
-		thisjq.mathquillggb('replace', latex, currentWord);
+		thisjq.mathquillggb('replace', latex, currentWord, command);
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(
