@@ -256,6 +256,9 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	
 	@Override
 	public void scrollToConstructionStep() {
+		if(kernel.isViewReiniting()){
+			return;
+		}
 		if (table != null) {
 			int rowCount = table.getRowCount();
 			if (rowCount == 0)
@@ -263,7 +266,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 			int step = kernel.getConstructionStep();
 			int row = -1; //it's possible that ConsStep == 0, so we need index -1 to deselect all rows
-			for (int i = Math.max(step, 0); i < rowCount; i++) {
+			for (int i = 0; i < rowCount; i++) {
 				if (data.getConstructionIndex(i) <= step)
 					row = i;
 				else
