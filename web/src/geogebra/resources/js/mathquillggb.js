@@ -1345,10 +1345,12 @@ var MathBlock = P(MathElement, function(_) {
   _.html = function() { return this.join('html'); };
   _.latex = function() { return this.join('latex'); };
   _.text = function() {
+    if (this.isEmpty()) {
+      return ' ';
+    }
     return this.ch[L] === this.ch[R] ?
       this.ch[L].text() :
-      '(' + this.join('text') + ')'
-    ;
+      '(' + this.join('text') + ')';
   };
   _.isEmpty = function() {
     return this.ch[L] === 0 && this.ch[R] === 0;
