@@ -808,7 +808,6 @@ public class DrawEquationWeb extends DrawEquation {
 							});
 		} else {
 			// if newCreationMode is active, we should catch some Alt-key events!
-
 			var keydownfun = function(event) {
 				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(event.keyCode, event.altKey, event.shiftKey, parentElement);
 				if (captureSuccess) {
@@ -835,6 +834,17 @@ public class DrawEquationWeb extends DrawEquation {
 			char c = (char) keyCode;
 
 			String s;
+
+			if (c >= '0' && c <= '9') {
+				// in this case, do not look up AltKeys,
+				// because it may prevent the user entering
+				// x^2, for example! and in Hungarian keyboard,
+				// ^ is Alt-3, but in other keyboards, it may
+				// be somewhere else! By the way, the same
+				// consideration should be taken when doing
+				// the other substitutions as well... are they all right?
+				return false;
+			}
 
 			if (shiftDown) {
 				s = AltKeys.LookupUpper.get(c);
