@@ -726,6 +726,55 @@ namespace giac {
       v.pop_back();
       if (derive(v,x,contextptr)==vecteur(n+1,zero)){
 	// Yes!
+	// simpler general solution for small order generic lin diffeq with cst coeff/squarefree case
+	if (n<=3){
+	  vecteur rac=solve(horner(v,x,contextptr),x,1,contextptr);
+	  if (n==2 && rac.size()==1){
+	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	    gen sol = exp(rac.front()*x,contextptr)*(parameters[parameters.size()-2]*x+parameters.back());
+	    gen part=_integrate(makesequence(-cst/v.front()*exp(-rac.front()*x,contextptr),x),contextptr)*x+_integrate(makesequence(cst/v.front()*x*exp(-rac.front()*x,contextptr),x),contextptr);
+	    part=simplify(part*exp(rac.front()*x,contextptr),contextptr);
+	    return sol+part;
+	  }
+	  if (int(rac.size())==n){
+	    gen sol; bool reel=true;
+	    for (int j=0;j<n;){
+	      if (j<n-1 && is_zero(ratnormal(rac[j]-conj(rac[j+1],contextptr)),contextptr)){
+		gen racr,raci;
+		reim(rac[j],racr,raci,contextptr);
+		if (is_strictly_positive(-raci,contextptr))
+		  raci=-raci;
+		parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+		parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+		sol += exp(racr*x,contextptr)*(parameters[parameters.size()-2]*cos(raci*x,contextptr)+parameters[parameters.size()-1]*sin(raci*x,contextptr));
+		j+=2;
+		continue;
+	      }
+	      if (reel && !is_zero(im(rac[j],contextptr)))
+		reel=false;
+	      parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
+	      sol += parameters.back()*exp(rac[j]*x,contextptr);
+	      j++;
+	    }
+	    if (derive(cst,x,contextptr)==0 && !is_zero(v.back())) return sol-cst/v.back();
+	    // variation des constantes
+	    gen M_=_vandermonde(rac,contextptr),part=0;
+	    if (ckmatrix(M_)){
+	      matrice M=*M_._VECTptr;
+	      vecteur c(n);
+	      c[n-1]=-_trig2exp(cst,contextptr)/v.front();
+	      c=linsolve(mtran(M),c,contextptr);
+	      for (unsigned i=0;i<c.size();++i){
+		part += _integrate(makesequence(_lin(c[i]*exp(-rac[i]*x,contextptr),contextptr),x),contextptr)*exp(rac[i]*x,contextptr);
+	      }
+	      if (reel && is_zero(im(cst,contextptr)))
+		part=re(part,contextptr);
+	      part=simplify(part,contextptr);
+	    }
+	    return sol+part;
+	  }
+	} // end n<=3
 	gen laplace_cst=_laplace(makesequence(-cst,x,t),contextptr);
 	if (!is_undef(laplace_cst)){
 	  vecteur lopei=mergevecteur(lop(laplace_cst,at_Ei),lop(laplace_cst,at_integrate));
