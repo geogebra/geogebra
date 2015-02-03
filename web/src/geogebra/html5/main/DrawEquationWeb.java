@@ -807,6 +807,7 @@ public class DrawEquationWeb extends DrawEquation {
 								return false;
 							});
 		} else {
+			return;
 			// if newCreationMode is active, we should catch some Alt-key events!
 			var keydownfun = function(event) {
 				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(event.keyCode, event.altKey, event.shiftKey, parentElement);
