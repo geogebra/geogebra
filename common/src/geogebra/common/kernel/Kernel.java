@@ -3226,6 +3226,9 @@ public class Kernel {
 			// case EuclidianConstants.MODE_VISUAL_STYLE:
 			// return "VisualStyle";
 
+		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
+			return "FreehandCircle";
+
 		case EuclidianConstants.MODE_FITLINE:
 			return "FitLine";
 

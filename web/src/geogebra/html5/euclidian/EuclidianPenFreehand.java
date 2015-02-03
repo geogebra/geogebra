@@ -3,6 +3,7 @@ package geogebra.html5.euclidian;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianPen;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoCircleThreePoints;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
@@ -20,7 +21,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 	 * type that is expected to be created
 	 */
 	public enum ShapeType {
-		circle, polygon, rigidPolygon, vectorPolygon;
+		circleThreePoints, circle, polygon, rigidPolygon, vectorPolygon;
 	}
 
 	private ShapeType expected = null;
@@ -48,6 +49,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 		resetParameters();
 		switch (expected) {
+		case circleThreePoints:
 		case circle:
 			CIRCLE_MAX_SCORE = 0.15;
 			CIRCLE_MIN_DET = 0.9;
@@ -73,7 +75,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 
 	@Override
 	public void handleMouseReleasedForPenMode(boolean right, int x, int y) {
-		if (this.expected == ShapeType.circle) {
+		if (this.expected == ShapeType.circleThreePoints) {
 			ArrayList<GeoPoint> list = new ArrayList<GeoPoint>();
 			for (GPoint p : this.penPoints) {
 				this.view.setHits(p, this.view.getEuclidianController()
@@ -101,6 +103,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 		}
 
 		switch (this.expected) {
+		case circleThreePoints:
 		case circle:
 			if (lastCreated instanceof GeoConic
 			        && ((GeoConic) lastCreated).isCircle()) {
@@ -121,7 +124,7 @@ public class EuclidianPenFreehand extends EuclidianPen {
 				}
 
 				// the circle needs to be recreated to prevent errors in the XML
-				if (recreate) {
+				if (recreate && this.expected == ShapeType.circleThreePoints) {
 					lastCreated.remove();
 					AlgoCircleThreePoints algo = new AlgoCircleThreePoints(app
 					        .getKernel().getConstruction(), null, list.get(0),
@@ -129,6 +132,30 @@ public class EuclidianPenFreehand extends EuclidianPen {
 					GeoConic circle = (GeoConic) algo.getCircle();
 					circle.updateRepaint();
 					lastCreated = circle;
+				}
+				if (this.expected == ShapeType.circle) {
+					// use the equation of the generated circle and process it
+					// as command. required to ensure that the circle is based
+					// on the equation and not on the points
+					String equation = lastCreated
+					        .getAlgebraDescription(StringTemplate.defaultTemplate);
+					try {
+						app.getKernel()
+						        .getAlgebraProcessor()
+						        .processAlgebraCommandNoExceptionHandling(
+						                equation, true, false, true, true);
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+
+					for (GeoPointND p : list) {
+						// the circle is made of three points that have to be
+						// deleted (as a consequence the original circle is also
+						// deleted)
+						if (p instanceof GeoElement) {
+							((GeoElement) p).remove();
+						}
+					}
 				}
 
 				return;

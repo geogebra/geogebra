@@ -230,6 +230,9 @@ public final class EuclidianConstants {
 	/** Freehand */
 	public static final int MODE_FREEHAND_SHAPE = 73;
 
+	/** Freehand circle */
+	public static final int MODE_FREEHAND_CIRCLE = 74;
+
 	/** Point on Object */
 	public static final int MODE_POINT_ON_OBJECT = 501;
 

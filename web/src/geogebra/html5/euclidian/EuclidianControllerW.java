@@ -1215,25 +1215,35 @@ public class EuclidianControllerW extends EuclidianController implements
 			point = (GeoPoint) this.movedGeoPoint;
 		}
 
-		if (this.mode == EuclidianConstants.MODE_CIRCLE_THREE_POINTS) {
+		switch (this.mode) {
+		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
 			this.pen = new EuclidianPenFreehand(app, view);
-			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.circleThreePoints);
 
 			// the point will be deleted if no circle can be built, therefore
 			// make sure that only a newly created point is set
 			point = (this.pointCreated != null)
 			        && movedGeoPoint instanceof GeoPoint ? (GeoPoint) movedGeoPoint
 			        : null;
-		} else if (this.mode == EuclidianConstants.MODE_POLYGON) {
+			break;
+		case EuclidianConstants.MODE_POLYGON:
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.polygon);
-		} else if (this.mode == EuclidianConstants.MODE_RIGID_POLYGON) {
+			break;
+		case EuclidianConstants.MODE_RIGID_POLYGON:
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.rigidPolygon);
-		} else if (this.mode == EuclidianConstants.MODE_VECTOR_POLYGON) {
+			break;
+		case EuclidianConstants.MODE_VECTOR_POLYGON:
 			this.pen = new EuclidianPenFreehand(app, view);
 			((EuclidianPenFreehand) pen).setExpected(ShapeType.vectorPolygon);
-		} else {
+			break;
+		case EuclidianConstants.MODE_FREEHAND_CIRCLE:
+			this.pen = new EuclidianPenFreehand(app, view);
+			((EuclidianPenFreehand) pen).setExpected(ShapeType.circle);
+			point = null;
+			break;
+		default:
 			return;
 		}
 		freehandModePrepared = true;

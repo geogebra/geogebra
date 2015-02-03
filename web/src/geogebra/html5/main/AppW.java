@@ -420,6 +420,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		ScriptLoadCallback callback = new ScriptLoadCallback() {
 
+			@Override
 			public void onLoad() {
 				// force reload
 				resetCommandDictionary();
@@ -1137,6 +1138,7 @@ public abstract class AppW extends App implements SetLabels {
 		return $wnd.navigator.onLine;
 	}-*/;
 
+			@Override
 			public boolean onLine() {
 				return checkOnlineState();
 			}
@@ -1153,6 +1155,7 @@ public abstract class AppW extends App implements SetLabels {
 		});
 	}-*/;
 
+			@Override
 			public void attach(String type, BaseEventPool eventPool) {
 				nativeAttach(type, eventPool);
 			}
@@ -1197,12 +1200,14 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		GWT.runAsync(new RunAsyncCallback() {
+			@Override
 			public void onSuccess() {
 				kimberlingw = new AlgoKimberlingWeights();
 				setKimberlingWeightFunction(kimberlingw);
 				kernel.updateConstruction();
 			}
 
+			@Override
 			public void onFailure(Throwable reason) {
 				App.debug("AlgoKimberlingWeights loading failure");
 			}
@@ -1236,12 +1241,14 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 		GWT.runAsync(new RunAsyncCallback() {
+			@Override
 			public void onSuccess() {
 				cubicw = new AlgoCubicSwitch();
 				setCubicSwitchFunction(cubicw);
 				kernel.updateConstruction();
 			}
 
+			@Override
 			public void onFailure(Throwable reason) {
 				App.debug("AlgoKimberlingWeights loading failure");
 			}
@@ -2033,6 +2040,7 @@ public abstract class AppW extends App implements SetLabels {
 		return lCookieValue;
 	}
 
+	@Override
 	public void setLabels() {
 		if (initing) {
 			return;
@@ -2076,6 +2084,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	@Override
 	public String getCountryFromGeoIP() {
 		// currently only needed in Desktop
 		return null;
@@ -2291,6 +2300,7 @@ public abstract class AppW extends App implements SetLabels {
 	};
 
 	Scheduler.ScheduledCommand sucCallback = new Scheduler.ScheduledCommand() {
+		@Override
 		public void execute() {
 			// 0.5 seconds is good for the user and maybe for the computer
 			// too
@@ -2359,6 +2369,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	}
 
+	@Override
 	public void updateViewSizes() {
 		// TODO Auto-generated method stub
 	}
@@ -2439,6 +2450,7 @@ public abstract class AppW extends App implements SetLabels {
 		getScriptManager().enableListeners();
 	}
 
+	@Override
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_CAS && !getLAF().isSmart()) {
 			if (!Browser.isFloat64supported()
@@ -2449,6 +2461,7 @@ public abstract class AppW extends App implements SetLabels {
 		return viewID != App.VIEW_EUCLIDIAN3D;
 	}
 
+	@Override
 	public abstract void set1rstMode();
 
 	@Override
@@ -2938,6 +2951,7 @@ public abstract class AppW extends App implements SetLabels {
 		stopCollectingRepaints();
 	}
 
+	@Override
 	public void ensureTimerRunning() {
 		this.getTimerSystem().ensureRunning();
 
@@ -2951,6 +2965,7 @@ public abstract class AppW extends App implements SetLabels {
 		showBrowser(getLanguageGUI());
 	}
 
+	@Override
 	public void showCustomizeToolbarGUI() {
 		showBrowser(getCustomizeToolbarGUI());
 	}
@@ -2977,6 +2992,7 @@ public abstract class AppW extends App implements SetLabels {
 		return null;
 	}
 
+	@Override
 	public boolean isPrerelease() {
 		return getArticleElement() != null
 		        && getArticleElement().getDataParamPrerelease();
@@ -3008,6 +3024,7 @@ public abstract class AppW extends App implements SetLabels {
 		this.toolLoadedFromStorage = toolLoadedFromStorage;
 	}
 
+	@Override
 	public boolean isExam() {
 		return getLAF().isExam();
 	}

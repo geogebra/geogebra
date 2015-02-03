@@ -17,6 +17,11 @@ public class ToolBar {
 	public static final Integer SEPARATOR = new Integer(-1);
 
 	/**
+	 * add new tools
+	 */
+	public static boolean prerelease = false;
+
+	/**
 	 * Returns with the default definition of the general tool bar without
 	 * macros.
 	 * 
@@ -116,6 +121,11 @@ public class ToolBar {
 		sb.append(EuclidianConstants.MODE_CIRCLE_SECTOR_THREE_POINTS);
 		sb.append(" ");
 		sb.append(EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS);
+
+		if (prerelease) {
+			sb.append(" ");
+			sb.append(EuclidianConstants.MODE_FREEHAND_CIRCLE);
+		}
 
 		// conics
 		sb.append(" | ");
