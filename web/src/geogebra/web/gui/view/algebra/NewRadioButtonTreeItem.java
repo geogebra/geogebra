@@ -147,7 +147,20 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 					showSymbolButtonFocused = true;
 				}
 				super.onBrowserEvent(event);
-				// autoCompleteTextField should not loose focus
+
+				// NewRadioButtonTreeItem/MQ should not loose focus
+
+				// but this will make the formula flicker, as there
+				// may be too much execution! so only do it when
+				// showSymbolButton would really get the focus,
+				// i.e. do not do it for some event types, e.g.
+				// at least in the following three cases:
+				if (event.getTypeInt() == Event.ONMOUSEMOVE
+				        || event.getTypeInt() == Event.ONMOUSEOVER
+				        || event.getTypeInt() == Event.ONMOUSEOUT)
+					return;
+
+				// now we can do it
 				NewRadioButtonTreeItem.this.setFocus(true);
 			}
 		};
@@ -198,6 +211,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		showSymbolButton.setFocus(false);
 		// add(textField);// done in super()
+
+		// it seems this would be part of the Tree, not of TreeItem...
+		// why? web programming knowledge helps: we should add position:
+		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
 		add(showSymbolButton);
 
 		showSymbolButton.getElement().setAttribute("data-visible", "true");
@@ -459,8 +476,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		Object source = this;
 		if (event != null)
 			source = event.getSource();
-		else
-			return;// TODO: remove this if styling is Okay
 
 		// this is a static method, and the same which is needed here too,
 		// so why duplicate the same thing in another copy?
@@ -479,8 +494,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		Object source = this;
 		if (event != null)
 			source = event.getSource();
-		else
-			return;// TODO: remove this if styling is Okay
 
 		// this is a static method, and the same which is needed here too,
 		// so why duplicate the same thing in another copy?

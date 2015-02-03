@@ -33,6 +33,11 @@
 	margin: 0px;
 }
 
+.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
+    position: relative;
+}
+
+
 /*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
 .ggbdockpanelhack>div {
@@ -3446,14 +3451,12 @@ body.application[dir=rtl] .imageCorner {
 
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
 .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField,
-.NewRadioButtonTreeItem.SymbolCanBeShown .TextField,
-.GeoGebraFrame .NewRadioButtonTreeItem.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
+.NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 	padding-right: 40px;
 }
 body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
 body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField,
-body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField,
-body.application[dir=rtl] .GeoGebraFrame .NewRadioButtonTreeItem.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
+body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 	padding-right: 0px;
 	padding-left: 40px;
 }

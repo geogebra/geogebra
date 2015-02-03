@@ -244,6 +244,15 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 					showSymbolButtonFocused = true;
 				}
 				super.onBrowserEvent(event);
+
+				// this insight has been learnt in NewRadioButtonTreeItem
+				// i.e. do not do it for some event types, e.g.
+				// at least in the following three cases:
+				if (event.getTypeInt() == Event.ONMOUSEMOVE
+				        || event.getTypeInt() == Event.ONMOUSEOVER
+				        || event.getTypeInt() == Event.ONMOUSEOUT)
+					return;
+
 				// autoCompleteTextField should not loose focus
 				AutoCompleteTextFieldW.this.setFocus(true);
 			}
