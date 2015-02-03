@@ -150,6 +150,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	 */
 	boolean keyboardUsed = false;
 
+	boolean keyBoardModeText = false;
+
 	private int actualFontSize = 14;
 
 	/**
@@ -197,7 +199,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				if (showOnScreenKeyBoard
 				        && DOM.eventGetType(event) == FOCUS) {
 					requestFocus();
-					setFocus(false);
+					if (keyboardUsed && !keyBoardModeText) {
+						setFocus(false);
+					}
 				} else if (showOnScreenKeyBoard && keyboardUsed) {
 					super.onBrowserEvent(event);
 					setFocus(false);
@@ -1638,6 +1642,10 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	public void addInsertHandler(InsertHandler insertHandler) {
 		this.insertHandler = insertHandler;
+	}
+
+	public void setKeyBoardModeText(boolean keyBoardModeText) {
+		this.keyBoardModeText = keyBoardModeText;
 	}
 
 }

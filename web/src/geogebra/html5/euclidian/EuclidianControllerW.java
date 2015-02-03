@@ -1039,9 +1039,10 @@ public class EuclidianControllerW extends EuclidianController implements
 				this.view.setPreview(view.createPreviewConic(this.mode,
 					        list));
 			}
+
+			this.updatePreview();
+			this.view.updatePreviewableForProcessMode();
 		}
-		this.updatePreview();
-		this.view.updatePreviewableForProcessMode();
 	}
 
 	@Override

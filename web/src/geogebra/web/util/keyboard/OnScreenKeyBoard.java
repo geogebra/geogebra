@@ -172,12 +172,14 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public void setKeyboardMode(final KeyboardMode mode) {
 		this.mode = mode;
 		if (mode == KeyboardMode.NUMBER) {
+			textField.setKeyBoardModeText(false);
 			textField.setFocus(false);
 			content.setVisible(true);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			content.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
+			textField.setKeyBoardModeText(true);
 			textField.setFocus(true);
 			updateKeyBoardListener.showInputField();
 		}
