@@ -113,7 +113,7 @@ public class AppWapplet extends AppW {
 		resetFonts();
 		removeDefaultContextMenu(this.getArticleElement());
 		if (this.showMenuBar()) {
-			this.initSignInEventFlow(new LoginOperationW(this));
+			this.initSignInEventFlow(new LoginOperationW(this), true);
 		} else {
 			if (Browser.runningLocal()) {
 				new GeoGebraTubeAPIWSimple(isPrerelease()).checkAvailable(null);

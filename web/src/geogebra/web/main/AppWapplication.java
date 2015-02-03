@@ -115,7 +115,10 @@ public class AppWapplication extends AppW {
 
 		initCoreObjects(undoActive, this);
 		// user authentication handling
-		initSignInEventFlow(new LoginOperationW(this));
+		String token = Location.getParameter("token");
+		initSignInEventFlow(new LoginOperationW(this),
+		        (token == null || "".equals(token))
+		                && Cookies.getCookie("SSID") == null);
 
 		afterCoreObjectsInited();
 		App.debug("after core");
@@ -123,7 +126,6 @@ public class AppWapplication extends AppW {
 		// initing = true;
 		removeDefaultContextMenu();
 
-		String token = Location.getParameter("token");
 		App.debug("checked token");
 		if (token != null && !"".equals(token)) {
 			App.debug("LTOKEN set via URL");

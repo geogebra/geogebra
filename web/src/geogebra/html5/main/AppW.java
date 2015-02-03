@@ -1482,7 +1482,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Initializes the user authentication
 	 */
-	public void initSignInEventFlow(LogInOperation op) {
+	public void initSignInEventFlow(LogInOperation op, boolean mayLogIn) {
 
 		// Initialize the signIn operation
 		loginOperation = op;
@@ -1490,7 +1490,9 @@ public abstract class AppW extends App implements SetLabels {
 			if (this.getLAF() != null && this.getLAF().externalDriveSupported()) {
 				initGoogleDriveEventFlow();
 			}
+			if (mayLogIn) {
 			loginOperation.performTokenLogin();
+			}
 		} else {
 			loginOperation.startOffline();
 		}
