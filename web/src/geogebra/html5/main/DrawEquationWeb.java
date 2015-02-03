@@ -6,13 +6,13 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianView;
-import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
 import geogebra.html5.euclidian.EuclidianViewW;
@@ -807,7 +807,6 @@ public class DrawEquationWeb extends DrawEquation {
 								return false;
 							});
 		} else {
-			return;
 			// if newCreationMode is active, we should catch some Alt-key events!
 			var keydownfun = function(event) {
 				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(event.keyCode, event.altKey, event.shiftKey, parentElement);
@@ -834,26 +833,23 @@ public class DrawEquationWeb extends DrawEquation {
 
 			char c = (char) keyCode;
 
-			String s;
+			String s = "";
 
-			if (c >= '0' && c <= '9') {
-				// in this case, do not look up AltKeys,
-				// because it may prevent the user entering
-				// x^2, for example! and in Hungarian keyboard,
-				// ^ is Alt-3, but in other keyboards, it may
-				// be somewhere else! By the way, the same
-				// consideration should be taken when doing
-				// the other substitutions as well... are they all right?
+			if (c == 'o' || c == 'O') {
+				s += Unicode.degree;
+			} else if (c == 'p' || c == 'P') {
+				if (shiftDown) {
+					s += Unicode.Pi;
+				} else {
+					s += Unicode.pi;
+				}
+			} else if (c == 'i' || c == 'I') {
+				s += Unicode.IMAGINARY;
+			} else {
 				return false;
 			}
 
-			if (shiftDown) {
-				s = AltKeys.LookupUpper.get(c);
-			} else {
-				s = AltKeys.LookupLower.get(c);
-			}
-
-			if (s != null) {
+			if (s != null && !"".equals(s)) {
 				writeLatexInPlaceOfCurrentWord(parentElement, s, "", false);
 				return true;
 			}
