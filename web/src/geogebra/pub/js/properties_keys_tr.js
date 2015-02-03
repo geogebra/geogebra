@@ -1390,7 +1390,7 @@ __GGB__keysVar.tr.menu = {
     "Evaluate": "De\u011ferini bul",
     "Evaluate.Help": "Kesin de\u011ferini bulma",
     "Exit": "\xc7\u0131k\u0131\u015f",
-    "ExitExamConfirm": "GeoGebraS\u0131nav'dan \xe7\u0131kmay\u0131 ve bilgisayar\u0131n\u0131z\u0131 kapatmay\u0131 ger\xe7ekten istiyor musunuz?",
+    "ExitExamConfirm": "GeoGebraS\u0131nav'dan \xe7\u0131kmay\u0131 ger\xe7ekten istiyor musunuz?",
     "ExitExamConfirmTitle": "GeoGebraS\u0131nav'dan \xc7\u0131k?",
     "ExitExamShutDown": "Kapat",
     "Expand": "Geni\u015flet",
