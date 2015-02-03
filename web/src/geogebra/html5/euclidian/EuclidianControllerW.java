@@ -1030,18 +1030,18 @@ public class EuclidianControllerW extends EuclidianController implements
 			}
 
 			if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS
-			        && this.view.getPreviewDrawable() == null && view.getHits().containsGeoPoint()) {
-					firstSelectedPoint = (GeoPointND) view.getHits()
+			        && this.view.getPreviewDrawable() == null
+			        && view.getHits().containsGeoPoint()) {
+				firstSelectedPoint = (GeoPointND) view.getHits()
 					        .getFirstHit(Test.GEOPOINTND);
-					ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
-					list.add(firstSelectedPoint);
-					this.view.setPreview(view.createPreviewConic(this.mode,
+				ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
+				list.add(firstSelectedPoint);
+				this.view.setPreview(view.createPreviewConic(this.mode,
 					        list));
-				}
 			}
-			this.updatePreview();
-			this.view.updatePreviewableForProcessMode();
 		}
+		this.updatePreview();
+		this.view.updatePreviewableForProcessMode();
 	}
 
 	@Override
