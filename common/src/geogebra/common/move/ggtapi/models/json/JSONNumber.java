@@ -73,4 +73,8 @@ public class JSONNumber extends JSONValue {
   public String toString() {
     return String.valueOf(value);
   };
+
+	public void appendTo(StringBuffer b) {
+		b.append(String.valueOf(value));
+	}
 }

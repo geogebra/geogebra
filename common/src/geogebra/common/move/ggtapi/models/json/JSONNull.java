@@ -53,4 +53,8 @@ public class JSONNull extends JSONValue {
     return "null";
   }
 
+	public void appendTo(StringBuffer b) {
+		b.append("null");
+	}
+
 }

@@ -99,4 +99,6 @@ public abstract class JSONValue {
   @Override
   public abstract String toString();
 
+	public abstract void appendTo(StringBuffer sb);
+
 }

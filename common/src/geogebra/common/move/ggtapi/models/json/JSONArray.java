@@ -15,6 +15,8 @@
  */
 package geogebra.common.move.ggtapi.models.json;
 
+import java.util.ArrayList;
+
 /**
  * Represents an array of {@link com.google.gwt.json.client.JSONValue} objects.
  */
@@ -23,11 +25,12 @@ public class JSONArray extends JSONValue {
   /**
    * Called from {@link #getUnwrapper()}. 
    */
-  private static JavaScriptObjectBase unwrap(JSONArray value) {
-    return value.jsArray;
-  }
+	/*
+	 * private static JavaScriptObjectBase unwrap(JSONArray value) { return
+	 * value.jsArray; }
+	 */
 
-  private final JavaScriptArray jsArray;
+	private final ArrayList<JSONValue> jsArray;
 
   /**
    * Creates an empty JSONArray.
@@ -42,9 +45,9 @@ public class JSONArray extends JSONValue {
    * 
    * @param arr a JavaScript array
    */
-  public JSONArray(JavaScriptArray arr) {
-    jsArray = arr;
-  }
+	/*
+	 * public JSONArray(JavaScriptArray arr) { jsArray = arr; }
+	 */
 
   /**
    * Returns <code>true</code> if <code>other</code> is a {@link JSONArray}
@@ -75,9 +78,9 @@ public class JSONArray extends JSONValue {
   /**
    * Returns the underlying JavaScript array that this object wraps.
    */
-  public JavaScriptObjectBase getJavaScriptObject() {
-    return jsArray;
-  }
+	/*
+	 * public JavaScriptObjectBase getJavaScriptObject() { return jsArray; }
+	 */
 
   @Override
   public int hashCode() {
@@ -97,13 +100,9 @@ public class JSONArray extends JSONValue {
    * 
    * @param index the index to set
    * @param value the value to set
-   * @return the previous value at this index, or <code>null</code> if this
-   *         index was empty
    */
-  public JSONValue set(int index, JSONValue value) {
-    JSONValue previous = get(index);
+	public void set(int index, JSONValue value) {
     jsArray.add(value);
-    return previous;
   }
 
   /**
@@ -121,8 +120,8 @@ public class JSONArray extends JSONValue {
    * large.
    */
   @Override
-  public String toString() {
-    StringBuffer sb = new StringBuffer();
+	public void appendTo(StringBuffer sb) {
+
     sb.append("[");
     for (int i = 0, c = size(); i < c; i++) {
       if (i > 0) {
@@ -131,7 +130,15 @@ public class JSONArray extends JSONValue {
       sb.append(get(i));
     }
     sb.append("]");
-    return sb.toString();
-  }
+
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		appendTo(sb);
+		return sb.toString();
+	}
+
 
 }

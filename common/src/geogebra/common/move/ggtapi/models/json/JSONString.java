@@ -73,4 +73,8 @@ public class JSONString extends JSONValue {
   public String toString() {
     return JsonUtils.escapeValue(value);
   }
+
+	public void appendTo(StringBuffer b) {
+		b.append(JsonUtils.escapeValue(value));
+	}
 }

@@ -72,4 +72,8 @@ public class JSONBoolean extends JSONValue {
   public String toString() {
     return Boolean.toString(value);
   }
+
+	public void appendTo(StringBuffer b) {
+		b.append(Boolean.toString(value));
+	}
 }

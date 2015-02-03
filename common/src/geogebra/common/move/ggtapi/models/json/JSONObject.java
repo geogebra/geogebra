@@ -15,6 +15,7 @@
  */
 package geogebra.common.move.ggtapi.models.json;
 
+import java.util.HashMap;
 import java.util.Set;
 
 /**
@@ -22,25 +23,21 @@ import java.util.Set;
  */
 public class JSONObject extends JSONValue {
 
-	/**
-	 * Called from {@link #getUnwrapper()}.
-	 */
-	private static JavaScriptObject unwrap(JSONObject value) {
-		return value.jsObject;
-	}
 
-	private final JavaScriptObject jsObject;
+
+	private final HashMap<String, JSONValue> jsObject;
 
 	public JSONObject() {
-		this(JavaScriptObject.createObject());
+		jsObject = new HashMap<String, JSONValue>();
 	}
 
 	/**
 	 * Creates a new JSONObject from the supplied JavaScript value.
 	 */
-	public JSONObject(JavaScriptObject jsValue) {
-		jsObject = jsValue;
-	}
+	/*
+	 * public JSONObject(HashMap<String, Object> jsValue) { jsObject = jsValue;
+	 * }
+	 */
 
 	/**
 	 * Tests whether or not this JSONObject contains the specified property.
@@ -86,9 +83,9 @@ public class JSONObject extends JSONValue {
 	/**
 	 * Returns the underlying JavaScript object that this object wraps.
 	 */
-	public JavaScriptObject getJavaScriptObject() {
-		return jsObject;
-	}
+	/*
+	 * public JavaScriptObject getJavaScriptObject() { return jsObject; }
+	 */
 
 	@Override
 	public int hashCode() {
@@ -147,12 +144,12 @@ public class JSONObject extends JSONValue {
 	 * @return a JSON string representation of this JSONObject instance
 	 */
 	@Override
-	public String toString() {
-		StringBuffer sb = new StringBuffer();
+	public void appendTo(StringBuffer sb) {
+
 		sb.append("{");
 		boolean first = true;
-		String[] keys = computeKeys();
-		for (String key : keys) {
+		// String[] keys = computeKeys();
+		for (String key : jsObject.keySet()) {
 			if (first) {
 				first = false;
 			} else {
@@ -160,9 +157,15 @@ public class JSONObject extends JSONValue {
 			}
 			sb.append(JsonUtils.escapeValue(key));
 			sb.append(":");
-			sb.append(get(key));
+			get(key).appendTo(sb);
 		}
 		sb.append("}");
+	}
+
+	@Override
+	public String toString() {
+		StringBuffer sb = new StringBuffer();
+		appendTo(sb);
 		return sb.toString();
 	}
 

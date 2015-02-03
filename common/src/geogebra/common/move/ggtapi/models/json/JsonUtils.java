@@ -12,7 +12,8 @@ public class JsonUtils {
 	 * @param value to escape
 	 * @return escaped value
 	 */
-	public static String escapeValue(String value) {		
+	public static String escapeValue(String value) {
+
 		return "\"" + value.replace("\\", "\\\\").replace("\"", "\\\"") + "\"";
 	}
 

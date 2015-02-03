@@ -1,5 +1,6 @@
 package geogebra.common.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.json.JSONBoolean;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
 
@@ -342,8 +343,8 @@ public class Material implements Comparable<Material>
 		putString(ret,"id", id+"");
 		putString(ret,"likes", likes+"");
 		putString(ret,"ggbBase64", base64);
-		putString(ret, "deleted", deleted + "");
-		putString(ret, "favorite", favorite + "");
+		putBoolean(ret, "deleted", deleted);
+		putBoolean(ret, "favorite", favorite);
 		putString(ret,"height", height+"");
 		putString(ret,"width", width+"");
 		putString(ret,"instructions_pre", this.instructionsPre);
@@ -359,7 +360,7 @@ public class Material implements Comparable<Material>
 
 	private void putBoolean(JSONObject ret, String key, boolean val) {
 		if(val){
-			ret.put(key, new JSONString("true"));
+			ret.put(key, JSONBoolean.getInstance(val));
 		}
 		
 	}

@@ -2,6 +2,8 @@ package geogebra.web.move.ggtapi.models;
 
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Request;
+import geogebra.common.move.ggtapi.models.json.JSONBoolean;
+import geogebra.common.move.ggtapi.models.json.JSONNumber;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.html5.main.AppW;
@@ -96,7 +98,7 @@ public class UploadRequest implements Request {
 
 		if (this.uniqueID != 0) {
 			// ID
-			task.put("id", new JSONString(this.uniqueID + ""));
+			task.put("id", new JSONNumber(this.uniqueID));
 		}
 
 		// type
@@ -116,9 +118,9 @@ public class UploadRequest implements Request {
 
 		// settings
 		JSONObject settings = new JSONObject();
-		settings.put("-toolbar", new JSONString("false"));
-		settings.put("-menubar", new JSONString("false"));
-		settings.put("-inputbar", new JSONString("false"));
+		settings.put("-toolbar", JSONBoolean.getInstance(false));
+		settings.put("-menubar", JSONBoolean.getInstance(false));
+		settings.put("-inputbar", JSONBoolean.getInstance(false));
 		task.put("settings", settings);
 
 		// file
