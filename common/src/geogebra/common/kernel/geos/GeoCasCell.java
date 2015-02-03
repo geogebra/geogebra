@@ -1350,7 +1350,9 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 			}
 			
 			// parse output into valid expression
-			outputVE = (ValidExpression) parseGeoGebraCASInputAndResolveDummyVars(res).traverse(Traversing.GgbVectRemover.getInstance());
+			ValidExpression parsed = parseGeoGebraCASInputAndResolveDummyVars(res);
+			outputVE = parsed == null ? null : (ValidExpression) parsed
+					.traverse(Traversing.GgbVectRemover.getInstance());
 			
 			if(outputVE!=null){
 				CommandReplacer cr = CommandReplacer.getReplacer(kernel.getApplication());
