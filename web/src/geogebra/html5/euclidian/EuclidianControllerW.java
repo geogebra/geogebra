@@ -999,6 +999,8 @@ public class EuclidianControllerW extends EuclidianController implements
 	 */
 	protected GPoint startPosition;
 
+	protected GeoPointND firstSelectedPoint;
+
 	@Override
 	protected void switchModeForMousePressed(AbstractEvent e) {
 		startPosition = new GPoint(e.getX(), e.getY());
@@ -1011,19 +1013,32 @@ public class EuclidianControllerW extends EuclidianController implements
 		                || this.mode == EuclidianConstants.MODE_RAY
 		                || this.mode == EuclidianConstants.MODE_VECTOR
 		                || this.mode == EuclidianConstants.MODE_CIRCLE_TWO_POINTS
-		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON)) {
+		                || this.mode == EuclidianConstants.MODE_SEMICIRCLE
+		                || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON || this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS)) {
 
 			this.mouseLoc = new GPoint(e.getX(), e.getY());
 			this.view.setHits(this.mouseLoc, e.getType());
 
-			super.wrapMouseReleased(e);
-			e.release();
+			if (mode != EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
+				super.wrapMouseReleased(e);
+				e.release();
+			}
 
 			if (this.mode == EuclidianConstants.MODE_REGULAR_POLYGON
 			        && this.view.getPreviewDrawable() == null) {
 				this.view.setPreview(view.createPreviewSegment(selectedPoints));
 			}
 
+			if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS
+			        && this.view.getPreviewDrawable() == null && view.getHits().containsGeoPoint()) {
+					firstSelectedPoint = (GeoPointND) view.getHits()
+					        .getFirstHit(Test.GEOPOINTND);
+					ArrayList<GeoPointND> list = new ArrayList<GeoPointND>();
+					list.add(firstSelectedPoint);
+					this.view.setPreview(view.createPreviewConic(this.mode,
+					        list));
+				}
+			}
 			this.updatePreview();
 			this.view.updatePreviewableForProcessMode();
 		}
@@ -1057,6 +1072,19 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (pen != null && !penDragged && freehandModePrepared) {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
+
+		if (firstSelectedPoint != null
+		        && this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
+			// prevent further processing
+			if (getDistance(startPosition,
+			        new GPoint(event.getX(), event.getY())) > this.app
+			        .getCapturingThreshold(event.getType())) {
+				// update the preview circle
+				super.wrapMouseMoved(event);
+			}
+			return;
+		}
+
 		if (!shouldCancelDrag()) {
 			if (shouldSetToFreehandMode()) {
 				setModeToFreehand();
@@ -1103,6 +1131,24 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void wrapMouseReleased(AbstractEvent event) {
 		// will be reset in wrapMouseReleased
 		GeoPointND p = this.selPoints() == 1 ? selectedPoints.get(0) : null;
+
+		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
+			view.setPreview(null);
+			if (firstSelectedPoint != null
+		        && getDistance(startPosition,
+		                new GPoint(event.getX(), event.getY())) > this.app
+		                .getCapturingThreshold(event.getType())) {
+				double x = view.toRealWorldCoordX(event.getX());
+				double y = view.toRealWorldCoordY(event.getY());
+				double distance = Math.sqrt(Math.pow(
+				        (firstSelectedPoint.getInhomX() - x), 2)
+				        + Math.pow((firstSelectedPoint.getInhomY() - y), 2));
+				kernel.getAlgoDispatcher().Circle(null, firstSelectedPoint,
+				        new MyDouble(kernel, distance));
+				firstSelectedPoint = null;
+				return;
+			}
+		}
 
 		if (this.mode == EuclidianConstants.MODE_JOIN
 		        || this.mode == EuclidianConstants.MODE_SEGMENT

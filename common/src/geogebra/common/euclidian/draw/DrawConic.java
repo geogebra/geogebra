@@ -44,6 +44,7 @@ import geogebra.common.kernel.algos.AlgoCircleTwoPoints;
 import geogebra.common.kernel.algos.AlgoConicFivePoints;
 import geogebra.common.kernel.algos.AlgoEllipseHyperbolaFociPoint;
 import geogebra.common.kernel.algos.AlgoParabolaPointLine;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElement.HitType;
 import geogebra.common.kernel.geos.GeoLine;
@@ -225,6 +226,7 @@ public class DrawConic extends Drawable implements Previewable {
 
 		switch (mode) {
 		case EuclidianConstants.MODE_CIRCLE_TWO_POINTS:
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
 			neededPrevPoints = 1;
 			break;
 		case EuclidianConstants.MODE_CIRCLE_THREE_POINTS:
@@ -1615,6 +1617,20 @@ public class DrawConic extends Drawable implements Previewable {
 			initConic(algo.getCircle());
 			break;
 
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+			Coords p = view.getCoordsForView(prevPoints.get(0)
+					.getInhomCoordsInD3());
+			previewTempPoints[0].setCoords(p.projectInfDim(), false);
+
+			MyDouble distance = new MyDouble(cons.getKernel(),
+					previewTempPoints[1].distance(previewTempPoints[0]));
+			AlgoCirclePointRadius algoCircleRadius = new AlgoCirclePointRadius(
+					cons,
+					previewTempPoints[0], distance);
+			cons.removeFromConstructionList(algoCircleRadius);
+			initConic(algoCircleRadius.getCircle());
+			break;
+
 		case EuclidianConstants.MODE_CONIC_FIVE_POINTS:
 			GeoPoint[] pts = { previewTempPoints[0], previewTempPoints[1],
 					previewTempPoints[2], previewTempPoints[3],
@@ -1717,6 +1733,24 @@ public class DrawConic extends Drawable implements Previewable {
 				previewTempPoints[0].updateCascade();
 			}
 
+			break;
+
+		case EuclidianConstants.MODE_CIRCLE_POINT_RADIUS:
+			isVisible = conic != null && prevPoints.size() == neededPrevPoints;
+			if (isVisible) {
+				Coords p = view.getCoordsForView(prevPoints.get(0)
+						.getInhomCoordsInD3());
+				previewTempPoints[0].setCoords(p.projectInfDim(), false);
+
+				Construction cons = previewTempPoints[0].getConstruction();
+				MyDouble distance = new MyDouble(cons.getKernel(),
+						previewTempPoints[1].distance(previewTempPoints[0]));
+				AlgoCirclePointRadius algoCircleRadius = new AlgoCirclePointRadius(
+						cons, previewTempPoints[0], distance);
+				cons.removeFromConstructionList(algoCircleRadius);
+				initConic(algoCircleRadius.getCircle());
+				this.conic.updateCascade();
+			}
 			break;
 
 		default:
