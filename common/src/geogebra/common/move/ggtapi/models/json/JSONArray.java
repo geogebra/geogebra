@@ -122,14 +122,14 @@ public class JSONArray extends JSONValue {
   @Override
 	public void appendTo(StringBuffer sb) {
 
-    sb.append("[");
-    for (int i = 0, c = size(); i < c; i++) {
-      if (i > 0) {
-        sb.append(",");
-      }
-      sb.append(get(i));
-    }
-    sb.append("]");
+		sb.append('[');
+		for (int i = 0, c = size(); i < c; i++) {
+			if (i > 0) {
+				sb.append(',');
+			}
+			get(i).appendTo(sb);
+		}
+		sb.append(']');
 
 	}
 
