@@ -1,6 +1,5 @@
 package geogebra.common.move.ggtapi.models;
 
-import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.json.JSONArray;
 import geogebra.common.move.ggtapi.models.json.JSONObject;
 import geogebra.common.move.ggtapi.models.json.JSONString;
@@ -171,7 +170,6 @@ public class MaterialRequest implements Request
 		}
 		this.apiJSON.put("task", this.taskJSON);
 		this.requestJSON.put("request", this.apiJSON);
-		App.debug(this.requestJSON.toString());
 		return this.requestJSON.toString();
 	}
 

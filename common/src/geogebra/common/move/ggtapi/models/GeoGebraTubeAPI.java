@@ -1,5 +1,6 @@
 package geogebra.common.move.ggtapi.models;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.TubeAvailabilityCheckEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
@@ -80,6 +81,7 @@ public abstract class GeoGebraTubeAPI {
 	 */
 	public final void authorizeUser(final GeoGebraTubeUser user,
 			final LogInOperation op, final boolean automatic) {
+		App.printStacktrace("");
 		performRequest(buildTokenLoginRequest(user.getLoginToken(), user.getCookie()),
 				true, new AjaxCallback() {
 					@Override
@@ -191,7 +193,6 @@ public abstract class GeoGebraTubeAPI {
 
 					@Override
 					public void onSuccess(String response) {
-						Log.debug(response);
 					}
 
 					@Override
@@ -211,7 +212,6 @@ public abstract class GeoGebraTubeAPI {
 
 					@Override
 					public void onSuccess(String response) {
-						Log.debug(response);
 					}
 
 					@Override
@@ -233,7 +233,6 @@ public abstract class GeoGebraTubeAPI {
 
 					@Override
 					public void onSuccess(String response) {
-						// Log.debug(response);
 					}
 
 					@Override

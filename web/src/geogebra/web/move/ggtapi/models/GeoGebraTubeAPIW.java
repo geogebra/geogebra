@@ -378,8 +378,6 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				                && object.get("favorite").isString()
 				                        .stringValue()
 				                        .equals("true")) {
-				        	App.debug("SYNC FAVORITE "+object
-.get("id").isString().stringValue());
 					        se.setFavorite(true);
 				        }
 				        if (object.get("unfavorited") != null
