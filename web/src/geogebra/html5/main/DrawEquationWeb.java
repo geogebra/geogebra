@@ -6,6 +6,7 @@ import geogebra.common.awt.GFont;
 import geogebra.common.awt.GGraphics2D;
 import geogebra.common.euclidian.DrawEquation;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.View;
 import geogebra.common.kernel.geos.GeoElement;
@@ -805,8 +806,49 @@ public class DrawEquationWeb extends DrawEquation {
 								event.preventDefault();
 								return false;
 							});
+		} else {
+			// if newCreationMode is active, we should catch some Alt-key events!
+
+			var keydownfun = function(event) {
+				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(event.keyCode, event.altKey, event.shiftKey, parentElement);
+				if (captureSuccess) {
+					// to prevent MathQuillGGB adding other kind of Alt-shortcuts,
+					// e.g. unlaut a besides our alpha, or more accurately,
+					// call preventDefault because it is a default action here
+					event.stopPropagation();
+					event.preventDefault();
+					return false;
+				}
+			}
+			if (elsecondInside.addEventListener) {//IE9 OK
+				// event capturing before the event handlers of MathQuillGGB
+				elsecondInside.addEventListener("keydown", keydownfun, true);
+			}
 		}
 	}-*/;
+
+	public static boolean specKeyDown(int keyCode, boolean altDown,
+	        boolean shiftDown, Element parentElement) {
+
+		if (altDown) {
+
+			char c = (char) keyCode;
+
+			String s;
+
+			if (shiftDown) {
+				s = AltKeys.LookupUpper.get(c);
+			} else {
+				s = AltKeys.LookupLower.get(c);
+			}
+
+			if (s != null) {
+				writeLatexInPlaceOfCurrentWord(parentElement, s, "", false);
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public static void popupSuggestions(RadioButtonTreeItem rbti) {
 		rbti.popupSuggestions();
