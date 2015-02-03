@@ -1519,7 +1519,7 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				this.browseGUI.loadAllMaterials();
 			}
 		}
-		if (query != null) {
+ else if (query != null && query.trim().length() > 0) {
 			this.browseGUI.displaySearchResults(query);
 		}
 		return this.browseGUI;
