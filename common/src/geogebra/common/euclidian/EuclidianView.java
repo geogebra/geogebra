@@ -2629,7 +2629,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 	}
 
 	public void updatePreviewableForProcessMode() {
-		getPreviewDrawable().updatePreview();
+		if (getPreviewDrawable() != null) {
+			getPreviewDrawable().updatePreview();
+		}
 	}
 
 	public final void mouseEntered() {

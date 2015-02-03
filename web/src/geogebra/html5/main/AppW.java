@@ -2307,6 +2307,7 @@ public abstract class AppW extends App implements SetLabels {
 			timeruc.schedule(500);
 		}
 	};
+	private Runnable closeBroserCallback;
 
 	@Override
 	public void createNewWindow() {
@@ -3027,6 +3028,19 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public boolean isExam() {
 		return getLAF().isExam();
+	}
+
+	public void setCloseBrowserCallback(Runnable runnable) {
+		this.closeBroserCallback = runnable;
+
+	}
+
+	public void onBrowserClose() {
+		if (this.closeBroserCallback != null) {
+			this.closeBroserCallback.run();
+			this.closeBroserCallback = null;
+		}
+
 	}
 
 }

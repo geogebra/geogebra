@@ -1,5 +1,7 @@
 package geogebra.web.gui;
 
+import geogebra.html5.main.AppW;
+
 import com.google.gwt.user.client.ui.HeaderPanel;
 
 public abstract class MyHeaderPanel extends HeaderPanel {
@@ -12,9 +14,12 @@ public abstract class MyHeaderPanel extends HeaderPanel {
 
 	public void close() {
 		if (frame != null) {
+			this.getApp().onBrowserClose();
 			frame.hideBrowser(this);
 		}
 
 	}
+
+	public abstract AppW getApp();
 
 }

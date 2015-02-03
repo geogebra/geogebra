@@ -1,6 +1,7 @@
 package geogebra.html5.util;
 
 import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraPreferences;
@@ -39,6 +40,7 @@ public class LoadFilePresenter {
 		view.adjustScale();
 		final AppW app = view.getApplication();
 		boolean fileOpened = true;
+		boolean specialPerspective = false;
 		if (WebStatic.urlToOpen != null) {
 			getView().showLoadAnimation();
 			getView().processFileName(WebStatic.urlToOpen);
@@ -63,7 +65,7 @@ public class LoadFilePresenter {
 			});
 		} else {
 			fileOpened = false;
-			openEmptyApp(app);
+			specialPerspective = openEmptyApp(app);
 		}
 
 		// app.setUseBrowserForJavaScript(useBrowserForJavaScript);
@@ -114,14 +116,16 @@ public class LoadFilePresenter {
 		app.setShowResetIcon(view.getDataParamShowResetIcon());
 		app.setAllowSymbolTables(view.getDataParamAllowSymbolTable());
 		app.setAllowStyleBar(view.getDataParamAllowStyleBar());
-		((AppW) app).updateToolBar();
+		if (!specialPerspective) {
+			app.updateToolBar();
+		}
 		if (!fileOpened) {
 			GeoGebraProfiler.getInstance().profileEnd();
 			app.getScriptManager().ggbOnInit();
 		}
 	}
 
-	private void openEmptyApp(AppW app) {
+	private boolean openEmptyApp(final AppW app) {
 		// we dont have content, it is an app
 		Log.debug("no base64content, possibly App loaded?");
 
@@ -129,28 +133,49 @@ public class LoadFilePresenter {
 		String perspective = view.getDataParamPerspective();
 		if (app.getGuiManager() != null) {
 			if (perspective.startsWith("search:")) {
+				app.setCloseBrowserCallback(new Runnable() {
+
+					@Override
+					public void run() {
+						finishEmptyLoading(app, null);
+
+					}
+				});
 				app.openSearch(perspective.substring("search:".length()));
-				app.getGuiManager().getLayout()
-				        .setPerspectives(app.getTmpPerspectives(), null);
+				return true;
+
 			} else if (perspective.startsWith("customize:")) {
+				app.setCloseBrowserCallback(new Runnable() {
+
+					@Override
+					public void run() {
+						finishEmptyLoading(app, null);
+
+					}
+				});
 				app.showCustomizeToolbarGUI();
-				app.getGuiManager().getLayout()
-				        .setPerspectives(app.getTmpPerspectives(), null);
+				return true;
 			} else {
-				app.getGuiManager()
-				        .getLayout()
-				        .setPerspectives(
-				                app.getTmpPerspectives(),
-				                PerspectiveDecoder.decode(perspective, app
-				                        .getKernel().getParser(),
-				                        ToolBar.getAllToolsNoMacros(true,
-				                                app.isExam())));
+				finishEmptyLoading(app, PerspectiveDecoder.decode(perspective,
+				        app.getKernel().getParser(),
+				        ToolBar.getAllToolsNoMacros(true, app.isExam())));
+				return false;
+
 			}
 		}
-		if (app instanceof AppW) {
-			// default layout doesn't have a Graphics View 2
-			((AppW) app).getEuclidianViewpanel().deferredOnResize();
+
+		finishEmptyLoading(app, null);
+		return false;
+
+	}
+
+	private void finishEmptyLoading(AppW app, Perspective p) {
+		if (app.getGuiManager() != null) {
+			app.getGuiManager().getLayout()
+		        .setPerspectives(app.getTmpPerspectives(), p);
 		}
+		// default layout doesn't have a Graphics View 2
+		app.getEuclidianViewpanel().deferredOnResize();
 
 		// code moved here from AppWapplication.afterCoreObjectsInited - end
 
@@ -176,7 +201,7 @@ public class LoadFilePresenter {
 			app.getKernel().setElementDefaultAllowed(eda);
 			// }
 		}
-
+		app.updateToolBar();
 	}
 
 	private boolean isReloadDataInStorage() {

@@ -4,7 +4,6 @@ package geogebra.geogebra3D.web;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.util.debug.GeoGebraProfiler;
-import geogebra.common.util.debug.SilentProfiler;
 import geogebra.html5.Browser;
 import geogebra.html5.cas.giac.PNaCl;
 import geogebra.html5.js.ResourcesInjector;
@@ -17,6 +16,7 @@ import geogebra.web.gui.applet.AppletFactory;
 import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.main.BrowserDevice;
 import geogebra.web.main.GDevice;
+import geogebra.web.util.debug.GeoGebraProfilerW;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -76,7 +76,7 @@ public class Web3D extends Web {
 		Browser.checkFloat64();
 		//use GeoGebraProfilerW if you want to profile, SilentProfiler  for production
 		//GeoGebraProfiler.init(new GeoGebraProfilerW());
-		GeoGebraProfiler.init(new SilentProfiler());
+		GeoGebraProfiler.init(new GeoGebraProfilerW());
 		
 		GeoGebraProfiler.getInstance().profile();
 
@@ -172,8 +172,8 @@ public class Web3D extends Web {
 	}-*/;
     
 	private native boolean calledFromExtension() /*-{
-	    return (typeof $wnd.GGW_ext !== "undefined");
-    }-*/;
+		return (typeof $wnd.GGW_ext !== "undefined");
+	}-*/;
 	
 	public static void renderArticleElement(Element el, JavaScriptObject clb){
 		GeoGebraFrameBoth.renderArticleElement(el, (AppletFactory) GWT.create(AppletFactory.class) 
@@ -189,7 +189,7 @@ public class Web3D extends Web {
 		window.GGW_ext = {
 			startupFunctions : []
 		};
-		
+
 		//register methods that will be called if web is loaded,
 		//or if it is loaded, will be called immediately
 		//GGW_ext.webReady("render",articleelement);
@@ -198,23 +198,23 @@ public class Web3D extends Web {
 				//web loaded
 				this[functionName].apply(args);
 			} else {
-				this.startupFunctions.push([functionName,args]);
-			}	
+				this.startupFunctions.push([ functionName, args ]);
+			}
 		}
 	}-*/;
 	
 	private native void GGW_ext_webReady() /*-{
-		var functions = null,
-			i,l;
+		var functions = null, i, l;
 		if (typeof $wnd.GGW_ext === "object") {
-			if ($wnd.GGW_ext.startupFunctions && $wnd.GGW_ext.startupFunctions.length) {
+			if ($wnd.GGW_ext.startupFunctions
+					&& $wnd.GGW_ext.startupFunctions.length) {
 				functions = $wnd.GGW_ext.startupFunctions;
 				for (i = 0, l = functions.length; i < l; i++) {
 					if (typeof $wnd.GGW_ext[functions[i][0]] === "function") {
 						$wnd.GGW_ext[functions[i][0]](functions[i][1]);
 					}
 				}
-			} 
+			}
 		}
 	}-*/;
 	

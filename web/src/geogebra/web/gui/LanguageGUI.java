@@ -157,17 +157,17 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 	}
 
 	native static JavaScriptObject saveBase64ToLocalStorage() /*-{
-	                                                          return function(base64) {
-	                                                          try {
-	                                                          localStorage.setItem("reloadBase64String", base64);
-	                                                          @geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
-	                                                          } catch (e) {
-	                                                          @geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
-	                                                          } finally {
-	                                                          $wnd.location.reload();
-	                                                          }
-	                                                          }
-	                                                          }-*/;
+		return function(base64) {
+			try {
+				localStorage.setItem("reloadBase64String", base64);
+				@geogebra.web.gui.app.GeoGebraAppFrame::removeCloseMessage()();
+			} catch (e) {
+				@geogebra.common.main.App::debug(Ljava/lang/String;)("Base64 sting not saved in local storage");
+			} finally {
+				$wnd.location.reload();
+			}
+		}
+	}-*/;
 
 	private void addHeader() {
 		this.header = new LanguageHeaderPanel(app.getLocalization(), this);
@@ -182,5 +182,10 @@ public class LanguageGUI extends MyHeaderPanel implements SetLabels {
 		if (this.header != null) {
 			this.header.setLabels();
 		}
+	}
+
+	@Override
+	public AppW getApp() {
+		return app;
 	}
 }

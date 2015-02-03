@@ -1002,4 +1002,9 @@ public class CustomizeToolbarGUI extends MyHeaderPanel implements
 
 		App.debug("[CUSTOMIZE] onResize");
 	}
+
+	@Override
+	public AppW getApp() {
+		return app;
+	}
 }
