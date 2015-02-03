@@ -66,7 +66,17 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		mainWidget = new VerticalPanel();
 
 		Label labelCmdName = new Label(app.getMenu("CommandName"));
+		int n = app.getKernel().getMacroNumber() + 1;
+
+		Label labelToolName = new Label(app.getMenu("ToolName"));
+		tfToolName = new GTextBox();
+		tfToolName.setText(app.getMenu("Tool") + n);
+		FlowPanel pToolName = new FlowPanel();
+		pToolName.add(labelToolName);
+		pToolName.add(tfToolName);
+
 		tfCmdName = new GTextBox();
+		tfCmdName.setText(tfToolName.getText());
 		FlowPanel pCmdName = new FlowPanel();
 		pCmdName.add(labelCmdName);
 		pCmdName.add(tfCmdName);
@@ -77,11 +87,6 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		pToolHelp.add(labelToolHelp);
 		pToolHelp.add(tfToolHelp);
 
-		Label labelToolName = new Label(app.getMenu("ToolName"));
-		tfToolName = new GTextBox();
-		FlowPanel pToolName = new FlowPanel();
-		pToolName.add(labelToolName);
-		pToolName.add(tfToolName);
 
 		tfCmdName.addBlurHandler(this);
 		tfCmdName.addKeyUpHandler(this);
