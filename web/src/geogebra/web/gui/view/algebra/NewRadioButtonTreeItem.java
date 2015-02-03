@@ -8,12 +8,14 @@ import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
+import geogebra.html5.gui.inputfield.HasSymbolPopup;
 import geogebra.html5.gui.inputfield.SymbolTablePopupW;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
  * File created by Arpad Fekete
  */
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
-        AutoCompleteW {
+        AutoCompleteW, HasSymbolPopup {
 
 	public static final class ScrollableSuggestionDisplay extends
 	        DefaultSuggestionDisplay {
@@ -408,5 +410,27 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			return;
 		}
 		showSymbolButton.setDown(toggled);
+	}
+
+	public void showPopup(boolean show) {
+		if (this.showSymbolButton == null) {
+			return;
+		}
+		Element showSymbolElement = this.showSymbolButton.getElement();
+		// App.debug("AF focused" + show);
+		if (showSymbolElement != null
+		        && "true"
+		                .equals(showSymbolElement.getAttribute("data-visible"))) {
+			if (show) {
+				// App.debug("AF focused2" + show);
+				showSymbolElement.addClassName("shown");
+			} else {
+				// App.debug("AF focused2" + show);
+				if (!"true".equals(showSymbolElement
+				        .getAttribute("data-persist"))) {
+					showSymbolElement.removeClassName("shown");
+				}
+			}
+		}
 	}
 }

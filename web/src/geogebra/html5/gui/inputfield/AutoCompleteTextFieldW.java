@@ -1622,22 +1622,21 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			return;
 		}
 		Element showSymbolElement = this.showSymbolButton.getElement();
-		App.debug("AF focused" + show);
+		// App.debug("AF focused" + show);
 		if (showSymbolElement != null
 		        && "true"
 		                .equals(showSymbolElement.getAttribute("data-visible"))) {
 			if (show) {
-				App.debug("AF focused2" + show);
+				// App.debug("AF focused2" + show);
 				showSymbolElement.addClassName("shown");
 			} else {
-				App.debug("AF focused2" + show);
+				// App.debug("AF focused2" + show);
 				if (!"true".equals(showSymbolElement
 				        .getAttribute("data-persist"))) {
 					showSymbolElement.removeClassName("shown");
 				}
 			}
 		}
-
 	}
 
 	public void addInsertHandler(InsertHandler insertHandler) {
