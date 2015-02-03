@@ -7,10 +7,12 @@ import geogebra.common.main.Localization;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
+import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.gui.inputfield.HasSymbolPopup;
 import geogebra.html5.gui.inputfield.SymbolTablePopupW;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
+import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
@@ -37,7 +41,7 @@ import com.google.gwt.user.client.ui.Widget;
  * File created by Arpad Fekete
  */
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
-        AutoCompleteW, HasSymbolPopup {
+        AutoCompleteW, HasSymbolPopup, FocusHandler, BlurHandler {
 
 	public static final class ScrollableSuggestionDisplay extends
 	        DefaultSuggestionDisplay {
@@ -395,9 +399,19 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		return completions;
 	}
 
+	@Override
 	public void setFocus(boolean b) {
 		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
+
+		// just allow onFocus/onBlur handlers for new formula creation mode now,
+		// a.k.a. this class, but later we may want to add this feature to
+		// RadioButtonTreeItem, or editing mode (for existing formulas)
+		if (b) {
+			onFocus(null);
+		} else {
+			onBlur(null);
+		}
 	}
 
 	public void insertString(String text) {
@@ -432,5 +446,47 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				}
 			}
 		}
+	}
+
+	public void onFocus(FocusEvent event) {
+		if (((AlgebraViewWeb) app.getGuiManager().getAlgebraView())
+		        .isNodeTableEmpty()) {
+			((AlgebraDockPanelW) app.getGuiManager().getLayout()
+			        .getDockManager().getPanel(App.VIEW_ALGEBRA))
+			        .showStyleBarPanel(false);
+		}
+
+		Object source = this;
+		if (event != null)
+			source = event.getSource();
+		else
+			return;// TODO: remove this if styling is Okay
+
+		// this is a static method, and the same which is needed here too,
+		// so why duplicate the same thing in another copy?
+		// this will call the showPopup method, by the way
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, true);
+
+		app.getSelectionManager().clearSelectedGeos();
+
+		// this.focused = true; // hasFocus is not needed, AFAIK
+	}
+
+	public void onBlur(BlurEvent event) {
+		((AlgebraDockPanelW) app.getGuiManager().getLayout().getDockManager()
+		        .getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(true);
+
+		Object source = this;
+		if (event != null)
+			source = event.getSource();
+		else
+			return;// TODO: remove this if styling is Okay
+
+		// this is a static method, and the same which is needed here too,
+		// so why duplicate the same thing in another copy?
+		// this will call the showPopup method, by the way
+		AutoCompleteTextFieldW.showSymbolButtonIfExists(source, false);
+
+		// this.focused = false; // hasFocus is not needed, AFAIK
 	}
 }

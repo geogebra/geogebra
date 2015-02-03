@@ -728,8 +728,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 					if (!(obj instanceof GeoElement[])) {
 						// inputField.getTextBox().setFocus(true);
-						geogebra.html5.main.DrawEquationWeb
-						        .focusEquationMathQuillGGB(seMayLatex, true);
+						setFocus(true);
 						return;
 					}
 					GeoElement[] geos = (GeoElement[]) obj;
@@ -836,8 +835,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	@Override
     public void onClick(ClickEvent evt) {
 		if (newCreationMode) {
-			geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
-			        seMayLatex, true);
+			setFocus(true);
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -876,8 +874,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
 		if (newCreationMode) {
-			geogebra.html5.main.DrawEquationWeb
-			        .focusEquationMathQuillGGB(seMayLatex, true);
+			setFocus(true);
 		}
 	    longTouchManager.cancelTimer();
 	    JsArray<Touch> changed = event.getChangedTouches();
@@ -1054,5 +1051,18 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
 			}
 		}
+	}
+
+	/**
+	 * As adding focus handlers to JavaScript code would be too complex, let's
+	 * do it even before they actually get focus, i.e. make a method that
+	 * triggers focus, and then override it if necessary
+	 * 
+	 * @param b
+	 *            focus (false: blur)
+	 */
+	public void setFocus(boolean b) {
+		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
+		        seMayLatex, b);
 	}
 }
