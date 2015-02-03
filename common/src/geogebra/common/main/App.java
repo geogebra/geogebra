@@ -1446,23 +1446,35 @@ public abstract class App implements UpdateSelection {
 		setXML(newXml, true);
 	}
 
-	public void openMacro(String macroXml) {
-		// for (int i = 0; i < editMacro.getKernel().getMacroNumber(); i++) {
-		// if (editMacro.getKernel().getMacro(i) == editMacro) {
-		// break;
-		// }
-		// kernel.addMacro(editMacro.getKernel().getMacro(i));
-		// }
-		String allXml = getXML();
-		String header = allXml.substring(0, allXml.indexOf("<construction"));
-		String footer = allXml.substring(allXml.indexOf("</construction>"),
-				allXml.length());
+	public void openMacro(String macroName) {
+		Macro editMacro = getKernel().getMacro(macroName);
+		App.debug("[STORAGE] nr: " + getKernel().getMacroNumber()
+				+ " macro for open is " + editMacro.getToolName());
+		openMacro(editMacro);
 
-		String newXml = header
-				+ macroXml.substring(macroXml.indexOf("<construction"),
-						macroXml.indexOf("</construction>")) + footer;
-		// this.macro = editMacro;
-		setXML(newXml, true);
+		// // for (int i = 0; i < editMacro.getKernel().getMacroNumber(); i++) {
+		// // if (editMacro.getKernel().getMacro(i) == editMacro) {
+		// // break;
+		// // }
+		// // kernel.addMacro(editMacro.getKernel().getMacro(i));
+		// // }
+		// try {
+		// getXMLio().processXMLString(macroXml, true, false, false);
+		// } catch (Exception e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// this.macro = getKernel().getMacro(0);
+		//
+		// }
+		// String allXml = getXML();
+		// String header = allXml.substring(0, allXml.indexOf("<construction"));
+		// String footer = allXml.substring(allXml.indexOf("</construction>"),
+		// allXml.length());
+		//
+		// String newXml = header
+		// + macroXml.substring(macroXml.indexOf("<construction"),
+		// macroXml.indexOf("</construction>")) + footer;
+		// setXML(newXml, true);
 	}
 
 	private Macro macro;

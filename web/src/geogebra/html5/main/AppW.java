@@ -2208,7 +2208,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void showURLinBrowser(final String pageUrl) {
-		// Window.open(pageUrl, "_blank", "");
+		Window.open(pageUrl, "_blank", "");
 		debug("opening: " + pageUrl);
 
 		// assume showURLinBrowserWaiterFixedDelay is called before

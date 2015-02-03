@@ -28,6 +28,7 @@ import geogebra.html5.main.LocalizationW;
 import geogebra.web.gui.ToolNameIconPanel;
 import geogebra.web.gui.ToolNameIconPanel.MacroChangeListener;
 import geogebra.web.gui.util.SaveDialogW;
+import geogebra.web.main.GeoGebraTubeExportWeb;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,15 +81,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			if (idx == -1) {
 				return;
 			}
-			Macro orig = getSelectedMacro();
-			orig.setCommandName(macro.getCommandName());
-			orig.setShowInToolBar(macro.isShowInToolBar());
-			orig.setToolName(macro.getToolName());
-			orig.setToolHelp(macro.getToolHelp());
-			orig.setIconFileName(macro.getIconFileName());
+			macros.set(idx, macro);
 			setItemText(idx, getMacroText(macro));
 
-			macros.set(idx, orig);
 		}
 		public String getMacroText(int index) {
 			return getMacroText(getMacro(index));
@@ -157,6 +152,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 
 	private ToolNameIconPanel macroPanel;
 	private int lastMacroIdx;
+
+	private Button btShare;
 
 
 	public ToolManagerDialogW(AppW app) {
@@ -299,9 +296,9 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		toolButtonPanel.add(btSave);
 		btSave.setText(loc.getMenu("SaveAs") + " ...");
 
-		// btShare = new Button();
-		// toolButtonPanel.add(btShare);
-		// btShare.setText(loc.getMenu("Share") + " ...");
+		btShare = new Button();
+		toolButtonPanel.add(btShare);
+		btShare.setText(loc.getMenu("Share") + " ...");
 
 		// name & icon
 		macroPanel = new ToolNameIconPanel(app);
@@ -314,7 +311,7 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		btClose = new Button(loc.getMenu("Close"));
 		closePanel.add(btClose);
 		panel.add(closePanel);
-		// btShare.addClickHandler(this);
+		btShare.addClickHandler(this);
 		btSave.addClickHandler(this);
 		btDelete.addClickHandler(this);
 		btClose.addClickHandler(this);
@@ -383,7 +380,10 @@ public class ToolManagerDialogW extends DialogBoxW implements
 	}
 
 	public void uploadWorksheet(ArrayList<Macro> macros) {
-		// listener method. no use in web.
+		GeoGebraTubeExportWeb exporter = new GeoGebraTubeExportWeb(app);
+
+		exporter.uploadWorksheet(macros);
+
 	}
 
 	public void onClick(ClickEvent event) {
@@ -421,6 +421,8 @@ public class ToolManagerDialogW extends DialogBoxW implements
 			openTools();
 		} else if (src == btSave) {
 			saveTools();
+		} else if (src == btShare) {
+			model.uploadToGeoGebraTube(toolList.getSelectedMacros().toArray());
 		}
 	}
 
@@ -443,6 +445,13 @@ public class ToolManagerDialogW extends DialogBoxW implements
 		m.setIconFileName(macro.getIconFileName());
 		m.setShowInToolBar(macro.isShowInToolBar());
 		toolList.setSelectedMacro(m);
+
+	}
+	
+	@Override
+	public void onShowToolChange(Macro macro) {
+		onMacroChange(macro);
+		applyChanges();
 	}
 
 }

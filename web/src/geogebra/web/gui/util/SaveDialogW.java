@@ -502,11 +502,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 */
 	void doUploadToDrive() {
 		String saveName = this.title.getText();
-		if(!saveName.endsWith(".ggb")){
+		String prefix = saveType == MaterialType.ggb ? ".ggb" : ".ggt";
+		if (!saveName.endsWith(prefix)) {
 			app.getKernel().getConstruction().setTitle(saveName);
-			saveName += ".ggb";
+			saveName += prefix;
 		} else {
-			app.getKernel().getConstruction().setTitle(saveName.substring(0,saveName.length()-4));
+			app.getKernel()
+			        .getConstruction()
+			        .setTitle(
+			                saveName.substring(0,
+			                        saveName.length() - prefix.length()));
 		}
 		JavaScriptObject callback = ((GoogleDriveOperationW) app.getGoogleDriveOperation()).getPutFileCallback(saveName, "GeoGebra");
 		app.getGgbApi().getBase64(true, callback);

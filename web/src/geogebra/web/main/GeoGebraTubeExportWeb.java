@@ -5,6 +5,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.main.GgbAPIW;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,11 +37,16 @@ public class GeoGebraTubeExportWeb extends
 	protected StringBuffer getPostData(String base64) throws IOException {
 		Construction cons = app.getKernel().getConstruction();
 
+		boolean isConstruction = (macros == null);
+
 		// build post query
 		StringBuffer stringBuffer = new StringBuffer();
 		stringBuffer.append("data=");
 		stringBuffer.append(encode(macros == null ? base64
 		        : getBase64Tools(macros)));
+
+		stringBuffer.append("&type=");
+		stringBuffer.append(isConstruction ? "ggb" : "ggt");
 
 		stringBuffer.append("&title=");
 		stringBuffer.append(encode(cons.getTitle()));
@@ -245,8 +251,7 @@ public class GeoGebraTubeExportWeb extends
 
 	@Override
 	protected String getBase64Tools(ArrayList<Macro> macros) throws IOException {
-		App.debug("Unimplemented");
-		return null;
+		return ((GgbAPIW) app.getGgbApi()).getMacrosBase64();
 	}
 
 }

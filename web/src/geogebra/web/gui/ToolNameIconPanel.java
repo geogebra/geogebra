@@ -33,6 +33,8 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
         KeyUpHandler {
 	public interface MacroChangeListener {
 		void onMacroChange(Macro macro);
+
+		void onShowToolChange(Macro macro);
 	}
 	/** With of tool icon in pixels **/
 	public static final int ICON_WIDTH = 32;
@@ -126,7 +128,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		showTool.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
 
 			public void onValueChange(ValueChangeEvent<Boolean> event) {
-				macroChanged();
+				showToolChanged();
 			}
 		});
 
@@ -285,6 +287,13 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		Macro m = getMacro();
 		if (listener != null) {
 			listener.onMacroChange(m);
+		}
+	}
+
+	private void showToolChanged() {
+		Macro m = getMacro();
+		if (listener != null) {
+			listener.onShowToolChange(m);
 		}
 	}
 
