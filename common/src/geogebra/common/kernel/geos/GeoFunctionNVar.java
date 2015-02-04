@@ -28,7 +28,9 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.FunctionalNVar;
 import geogebra.common.kernel.arithmetic.IneqTree;
 import geogebra.common.kernel.arithmetic.Inequality;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.arithmetic.Inequality.IneqType;
+import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
 import geogebra.common.kernel.arithmetic.MyArbitraryConstant;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.MyList;
@@ -36,7 +38,6 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -181,6 +182,7 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		fun1 = null;
 	}
 
+	private static FunctionExpander functionExpander;
 
 	public void setDerivatives(){
 		
@@ -193,8 +195,12 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		FunctionVariable[] vars = fun.getFunctionVariables();
 		fun1 = new FunctionNVar[vars.length];
 
+		if (functionExpander == null){
+			functionExpander = new FunctionExpander();
+		}
+		ValidExpression ve = (ValidExpression) fun.traverse(functionExpander);
 		for (int i = 0; i < vars.length; i++) {
-			fun1[i] = new FunctionNVar(fun.derivative(vars[i]).wrap(), vars);
+			fun1[i] = new FunctionNVar(ve.derivative(vars[i]).wrap(), vars);
 		}
 	}
 			

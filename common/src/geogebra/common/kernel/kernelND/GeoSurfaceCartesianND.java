@@ -4,8 +4,9 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.Traversing.FunctionExpander;
+import geogebra.common.kernel.arithmetic.ValidExpression;
 import geogebra.common.kernel.geos.GeoElement;
-import geogebra.common.util.debug.Log;
 
 
 /**
@@ -65,17 +66,25 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		
 		// set derivatives
 		FunctionVariable[] vars = fun[0].getFunctionVariables();
+		
 		fun1 = new FunctionNVar[vars.length][];
 		for (int j = 0; j < vars.length; j++) {
 			fun1[j] = new FunctionNVar[fun.length];
-			for (int i = 0; i < fun.length; i++) {
-				fun1[j][i] = new FunctionNVar(fun[i].derivative(vars[j]).wrap(), vars);
+		}
+		
+		if (functionExpander == null){
+			functionExpander = new FunctionExpander();
+		}
+		for (int i = 0; i < fun.length; i++) {
+			ValidExpression ve = (ValidExpression) fun[i].traverse(functionExpander);
+			for (int j = 0; j < vars.length; j++) {				
+				fun1[j][i] = new FunctionNVar(ve.derivative(vars[j]).wrap(), vars);
 			}
 		}
 		
 	}
 	
-	
+	private static FunctionExpander functionExpander;
 
 	
 	/**
