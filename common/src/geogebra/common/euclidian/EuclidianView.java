@@ -5352,4 +5352,32 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 
 		setRealWorldCoordSystem(p.getX() - px, p.getX() + px, p.getY() - py, p.getY() + py);
 	}
+
+	public static String getDraggedLabels(ArrayList<String> list) {
+		if (list.size() == 0) {
+			return null;
+		}
+
+		String text = null;
+
+		// single geo
+		if (list.size() == 1) {
+			text = "FormulaText[" + list.get(0) + ", true, true]";
+		}
+
+		// multiple geos, wrap in TableText
+		else {
+			text = "TableText[";
+			for (int i = 0; i < list.size(); i++) {
+
+				text += "{FormulaText[" + list.get(i) + ", true, true]}";
+				if (i < list.size() - 1) {
+					text += ",";
+				}
+			}
+			text += "]";
+		}
+
+		return text;
+	}
 }

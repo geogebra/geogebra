@@ -13,9 +13,12 @@ the Free Software Foundation.
 package geogebra.common.gui.view.algebra;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.SelectionManager;
+
+import java.util.ArrayList;
 
 public class AlgebraController {
 
@@ -48,4 +51,58 @@ public class AlgebraController {
 
 	protected GeoElement lastSelectedGeo = null;
 	protected boolean skipSelection;
+
+	protected String getDragText(ArrayList<String> geoLabelList) {
+
+		String latex = null;
+
+		for (GeoElement geo : selection.getSelectedGeos()) {
+			geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
+		}
+
+		// if we have something ... do the drag!
+		if (geoLabelList.size() > 0) {
+
+
+			boolean showJustFirstGeoInDrag = false;
+
+			if (selection.getSelectedGeos().size() == 1) {
+				showJustFirstGeoInDrag = true;
+			} else {
+
+				// workaround for
+				// http://forge.scilab.org/index.php/p/jlatexmath/issues/749/#preview
+				for (GeoElement geo : selection.getSelectedGeos()) {
+					if (geo.isGeoCurveCartesian()) {
+						showJustFirstGeoInDrag = true;
+						break;
+					}
+				}
+			}
+
+			if (showJustFirstGeoInDrag) {
+				latex = selection
+						.getSelectedGeos()
+						.get(0)
+						.getLaTeXAlgebraDescription(true,
+								StringTemplate.latexTemplate);
+			} else {
+
+				// create drag image
+				StringBuilder sb = new StringBuilder();
+				sb.append("\\fbox{\\begin{array}{l}");
+				for (GeoElement geo : selection.getSelectedGeos()) {
+					sb.append(geo.getLaTeXAlgebraDescription(true,
+							StringTemplate.latexTemplate));
+					sb.append("\\\\");
+				}
+				sb.append("\\end{array}}");
+				latex = sb.toString();
+			}
+
+
+		}
+		return latex;
+	}
+
 }

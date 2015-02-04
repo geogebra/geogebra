@@ -22,7 +22,6 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.main.AppD;
@@ -128,64 +127,25 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 
 	public void dragGestureRecognized(DragGestureEvent dge) {
 
-		if (geoLabelList == null)
+		if (geoLabelList == null) {
 			geoLabelList = new ArrayList<String>();
-		else
+		} else {
 			geoLabelList.clear();
-
-		for (GeoElement geo : selection.getSelectedGeos()) {
-			geoLabelList.add(geo.getLabel(StringTemplate.defaultTemplate));
 		}
 
-		// if we have something ... do the drag!
-		if (geoLabelList.size() > 0) {
+		String latex = getDragText(geoLabelList);
 
-			String latex;
+		if (latex == null) {
+			return;
+		}
 
-			boolean showJustFirstGeoInDrag = false;
-
-			if (selection.getSelectedGeos().size() == 1) {
-				showJustFirstGeoInDrag = true;
-			} else {
-
-				// workaround for
-				// http://forge.scilab.org/index.php/p/jlatexmath/issues/749/#preview
-				for (GeoElement geo : selection.getSelectedGeos()) {
-					if (geo.isGeoCurveCartesian()) {
-						showJustFirstGeoInDrag = true;
-						break;
-					}
-				}
-			}
-
-			if (showJustFirstGeoInDrag) {
-				latex = selection
-						.getSelectedGeos()
-						.get(0)
-						.getLaTeXAlgebraDescription(true,
-								StringTemplate.latexTemplate);
-			} else {
-
-				// create drag image
-				StringBuilder sb = new StringBuilder();
-				sb.append("\\fbox{\\begin{array}{l}");
-				for (GeoElement geo : selection.getSelectedGeos()) {
-					sb.append(geo.getLaTeXAlgebraDescription(true,
-							StringTemplate.latexTemplate));
-					sb.append("\\\\");
-				}
-				sb.append("\\end{array}}");
-				latex = sb.toString();
-			}
-			ImageIcon ic = GeoGebraIcon.createLatexIcon((AppD) app, latex,
+		ImageIcon ic = GeoGebraIcon.createLatexIcon((AppD) app, latex,
 					((AppD) app).getPlainFont(), false, Color.DARK_GRAY, null);
 
-			// start drag
-			ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),
+		// start drag
+		ds.startDrag(dge, DragSource.DefaultCopyDrop, ic.getImage(),
 					new Point(-5, -30), new TransferableAlgebraView(
 							geoLabelList), this);
-		}
-
 	}
 
 	/**

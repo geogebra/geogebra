@@ -236,27 +236,10 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 					ArrayList<String> list = (ArrayList<String>) t
 							.getTransferData(AlgebraViewTransferHandler.algebraViewFlavor);
 
-					// exit if empty list
-					if (list.size() == 0)
+					text = EuclidianView.getDraggedLabels(list);
+
+					if (text == null) {
 						return false;
-
-					// single geo
-					if (list.size() == 1) {
-						text = "FormulaText[" + list.get(0) + ", true, true]";
-					}
-
-					// multiple geos, wrap in TableText
-					else {
-						text = "TableText[";
-						for (int i = 0; i < list.size(); i++) {
-
-							text += "{FormulaText[" + list.get(i)
-									+ ", true, true]}";
-							if (i < list.size() - 1) {
-								text += ",";
-							}
-						}
-						text += "]";
 					}
 				}
 
