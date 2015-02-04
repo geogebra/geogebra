@@ -196,15 +196,19 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 		};    
 	    table.addColumn(nameColumn, app.getPlain("Name"));
+	
 	    
-//	    // Add a text column to show the definition.
-//	    TextColumn<RowData> defColumn = new TextColumn<RowData>() {
-//	      @Override
-//	      public String getValue(RowData object) {
-//	        return object.getDefinition();
-//	      }
-//	    };
-//	    table.addColumn(defColumn, app.getPlain("Definition"));
+	 // Add a text column to show the definition.
+		Column<RowData, SafeHtml> defColumn = new Column<RowData, SafeHtml>(
+		        new SafeHtmlCell()) {
+			
+			@Override
+			public SafeHtml getValue(RowData object) {
+				return SafeHtmlUtils.fromTrustedString(object.getDefinition());
+			}
+
+		};
+		table.addColumn(defColumn, app.getPlain("Definition"));
 
 
 	    // Add a text column to show the value.
