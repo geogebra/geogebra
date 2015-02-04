@@ -23,7 +23,7 @@
   display: -moz-inline-box;
   display: inline-block;
   /*padding-top: .075em;? for GeoGebra */
-  /*we should use the same padding/margin as the cursor did)*/
+  /*we should use the same padding/margin as the cursor did*/
   padding: 4px 5px;
   margin: 2px 2px;
   position: relative;
@@ -79,7 +79,7 @@
 	/*padding: 4px 5px;*/
 	padding: 0px;
 	/*margin: 2px 2px;*/
-	margin: 0px 2px;
+	margin: 0px;
 	color: #666666;
 }
 .mathquillggb-editable .latex-command-input {
@@ -332,7 +332,8 @@
 .mathquillggb-rendered-math .denominator {
   display: block;
 }
-.mathquillggb-rendered-math .numerator {
+.mathquillggb-rendered-math .numerator,
+.mathquillggb-editable .hasCursor.numerator {
   width: 100%;
   border-bottom: 1px solid;
   padding: 0 0.1em;
@@ -340,12 +341,14 @@
   margin-left: -0.1em;
   margin-bottom: -0.115em;
 }
-.mathquillggb-rendered-math .denominator {
+.mathquillggb-rendered-math .denominator,
+.mathquillggb-editable .hasCursor.denominator {
   float: right;
   width: 100%;
   padding: 0 0.1em;
   margin-right: -0.1em;
   margin-left: -0.1em;
+  margin-top: 0.2em;
 }
 .mathquillggb-rendered-math .limittop {
   width: 100%;
@@ -385,7 +388,8 @@
   -o-transform-origin: right top;
   transform-origin: right top;
 }
-.mathquillggb-rendered-math .sqrt-stem {
+.mathquillggb-rendered-math .sqrt-stem,
+.mathquillggb-editable .hasCursor.sqrt-stem {
   border-top: 1px solid;
   margin-top: 0px;
   padding-left: .15em;
