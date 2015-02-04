@@ -159,4 +159,19 @@ public abstract class AlgoSphereNDPointRadius extends AlgoElement {
 	protected int getType() {
 		return this.type;
 	}
+
+	/**
+	 * resets the radius value for type TYPE_RADIUS
+	 * 
+	 * @param newRadius
+	 *            the new radius
+	 */
+	public void setRadius(NumberValue newRadius) {
+		if (type == TYPE_RADIUS) {
+			this.r = newRadius;
+			this.rgeo = newRadius.toGeoElement();
+			this.input[1] = rgeo;
+			update();
+		}
+	}
 }

@@ -12,6 +12,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoSphereNDPointRadius;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
@@ -114,6 +115,10 @@ public class EuclidianControllerW extends EuclidianController implements
 		 * scale a circle given with midpoint and a number-input as radius
 		 */
 		circleRadius,
+		/**
+		 * scale a circle given as input formula
+		 */
+		circleFormula,
 		/**
 		 * zooming
 		 */
@@ -891,15 +896,22 @@ public class EuclidianControllerW extends EuclidianController implements
 		case circleRadius:
 			double distR = MyMath.length(x1 - x2, y1 - y2);
 			this.scale = distR / this.oldDistance;
-
-			GeoPoint center = (GeoPoint) this.scaleConic.getParentAlgorithm().input[0];
 			GeoNumeric newRadius = new GeoNumeric(
 			        this.kernel.getConstruction(), this.scale
 			                * this.originalRadius);
 
-			scaleConic.setParentAlgorithm(new AlgoCirclePointRadius(this.kernel
-			        .getConstruction(), center, newRadius));
-			scaleConic.setCircle(center, newRadius.getDouble());
+			((AlgoSphereNDPointRadius) scaleConic.getParentAlgorithm())
+			        .setRadius(newRadius);
+			scaleConic.updateCascade();
+			kernel.notifyUpdate(scaleConic);
+			this.kernel.notifyRepaint();
+			break;
+		case circleFormula:
+			double distF = MyMath.length(x1 - x2, y1 - y2);
+			this.scale = distF / this.oldDistance;
+
+			scaleConic.halfAxes[0] = this.scale * this.originalRadius;
+			scaleConic.halfAxes[1] = this.scale * this.originalRadius;
 			scaleConic.updateCascade();
 			kernel.notifyUpdate(scaleConic);
 			this.kernel.notifyRepaint();
@@ -952,27 +964,32 @@ public class EuclidianControllerW extends EuclidianController implements
 		        && hits1.get(0) == hits2.get(0)
 		        && hits1.get(0) instanceof GeoConic
 		        // isClosedPath: true for circle and ellipse
-		        && ((GeoConic) hits1.get(0)).isClosedPath()
-		        && ((((GeoConic) hits1.get(0)).getFreeInputPoints(this.view) != null && ((GeoConic) hits1
-		                .get(0)).getFreeInputPoints(this.view).size() >= 2)
-		                || (hits1.get(0).getParentAlgorithm() != null && hits1
-		                        .get(0).getParentAlgorithm().input[1]
-		                        .isIndependent()) || (hits1.get(0)
-		                .getParentAlgorithm() != null && !hits1.get(0)
-		                .getParentAlgorithm().input[1].labelSet))) {
+		        && ((GeoConic) hits1.get(0)).isClosedPath()) {
 			this.scaleConic = (GeoConic) hits1.get(0);
 			// TODO: select scaleConic
 
-			if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view).size() >= 3) {
+			if (scaleConic.getFreeInputPoints(this.view) == null
+			        && scaleConic.isCircle()) {
+				this.multitouchMode = scaleMode.circleFormula;
+				this.originalRadius = scaleConic.getHalfAxis(0);
+			} else if (scaleConic.getFreeInputPoints(this.view).size() >= 3) {
 				this.multitouchMode = scaleMode.circle3Points;
-			} else if (((GeoConic) hits1.get(0)).getFreeInputPoints(this.view)
+			} else if (scaleConic.getFreeInputPoints(this.view)
 			        .size() == 2) {
 				this.multitouchMode = scaleMode.circle2Points;
-			} else {
+			} else if (app.isPrerelease()
+			        && scaleConic.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
 				this.multitouchMode = scaleMode.circleRadius;
 				AlgoElement algo = scaleConic.getParentAlgorithm();
 				NumberValue radius = (NumberValue) algo.input[1];
 				this.originalRadius = radius.getDouble();
+			} else {
+				// TODO scale other conic-types (e.g. ellipses with formula)
+				scaleConic = null;
+				this.clearSelections();
+				this.multitouchMode = scaleMode.view;
+				super.twoTouchStart(x1, y1, x2, y2);
+				return;
 			}
 			super.twoTouchStart(x1, y1, x2, y2);
 
