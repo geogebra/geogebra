@@ -978,4 +978,13 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		return true;
 
 	}
+	
+	@Override
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+
+		if (hasLevelOfDetail() && geo.hasLevelOfDetail()) {
+			levelOfDetail = ((SurfaceEvaluable) geo).getLevelOfDetail();
+		}
+	}
 }

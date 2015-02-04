@@ -4,7 +4,6 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3;
-import geogebra.common.kernel.Matrix.CoordsFloat3;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -15,7 +14,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.kernel.kernelND.GeoSurfaceCartesianND;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
-import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -278,6 +276,15 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		return HitType.ON_FILLING;
 	}
 	
+	
+	@Override
+	public void setAllVisualPropertiesExceptEuclidianVisible(GeoElement geo, boolean keepAdvanced) {
+		super.setAllVisualPropertiesExceptEuclidianVisible(geo, keepAdvanced);
+
+		if (geo.hasLevelOfDetail()) {
+			levelOfDetail = ((SurfaceEvaluable) geo).getLevelOfDetail();
+		}
+	}
 
 
 }
