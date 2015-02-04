@@ -84,7 +84,7 @@ public class RendererJogl {
 	}
 
 
-	final static public void initCaps(){
+	final static public void initCaps(boolean stereo){
 		
 		if (caps != null){
 			return;
@@ -105,6 +105,11 @@ public class RendererJogl {
 		//avoid flickering
 		caps.setDoubleBuffered(true);
 		//caps.setDoubleBuffered(false);
+		
+		if (stereo){
+			//add stereo
+			caps.setStereo(true);
+		}
 		
 		//stencil buffer is needed for hacked passive 3D
 		caps.setStencilBits(1);
