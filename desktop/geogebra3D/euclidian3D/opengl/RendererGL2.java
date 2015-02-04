@@ -510,4 +510,35 @@ public abstract class RendererGL2 extends RendererD {
 		getGL().glDisable(GLlocal.GL_LIGHTING);
 	}
 
+
+	
+//	@Override
+//	protected void setDrawLeft(){
+//		
+//		setBufferLeft();
+//		if (view3D.isPolarized()) {
+//			// draw where stencil's value is 0
+//			setStencilFunc(0);
+//		}
+//
+//		eye = EYE_LEFT;
+//		setColorMask();
+//		clearDepthBuffer(); 
+//		clearColorBuffer();
+//	}
+//
+//	@Override
+//	protected void setDrawRight(){
+//		
+//		setBufferRight();
+//		if (view3D.isPolarized()) {
+//			// draw where stencil's value is 1
+//			setStencilFunc(1);
+//		}
+//
+//		eye = EYE_RIGHT;
+//		setColorMask();
+//		clearDepthBuffer(); 
+//		clearColorBuffer();
+//	}
 }

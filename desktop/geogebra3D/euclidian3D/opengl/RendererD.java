@@ -96,6 +96,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	 * hidden parts (dash-less segments, lines, ...)</li>
 	 * </ul>
 	 */
+	@Override
 	public void display(GLAutoDrawable gLDrawable) {
 
 		// App.debug(gLDrawable+"");
@@ -196,6 +197,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 	}
 
+	@Override
 	public void dispose(GLAutoDrawable arg0) {
 		// NOTHING TO DO HERE -- NEEDED TO AVOID ERRORS IN INSTALLED/PORTABLE
 		// VERSIONS
@@ -209,6 +211,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	 * @param drawable
 	 *            The GLAutoDrawable object.
 	 */
+	@Override
 	public void init(GLAutoDrawable drawable) {
 
 		// reset picking
@@ -260,6 +263,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	/**
 	 * openGL method called when the canvas is reshaped.
 	 */
+	@Override
 	public void reshape(GLAutoDrawable drawable, int x, int y, int w, int h) {
 
 		setGL(drawable);
@@ -643,6 +647,22 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	 */
 	public void setLineWidth(int width) {
 		getGL().glLineWidth(width);
+	}
+	
+
+	@Override
+	protected void setBufferLeft(){
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT); 
+		//zspace seems to be swapped
+		//jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT); 
+	}
+	
+
+	@Override
+	protected void setBufferRight(){
+		jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_RIGHT); 
+		//zspace seems to be swapped
+		//jogl.getGL2().glDrawBuffer(GLlocal.GL_BACK_LEFT); 
 	}
 
 }

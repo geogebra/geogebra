@@ -1518,4 +1518,14 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 		drawable3DLists.drawTranspClosedNotCurved(this);
 
 	}
+
+	@Override
+	protected void setBufferLeft() {
+		// TODO
+	}
+
+	@Override
+	protected void setBufferRight() {
+		// TODO
+	}
 }

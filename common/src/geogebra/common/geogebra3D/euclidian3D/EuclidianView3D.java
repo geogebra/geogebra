@@ -3521,13 +3521,18 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	public boolean isPolarized() {
 		return false;
 	}
+	
+	public boolean isStereoBuffered() {
+		return false;
+	}
+
 
 	public double getScreenZOffset() {
 		return 0;
 	}
 
 	public boolean isGrayScaled() {
-		return projection == PROJECTION_GLASSES && !isPolarized()
+		return projection == PROJECTION_GLASSES && !isPolarized() && !isStereoBuffered()
 				&& isGlassesGrayScaled();
 	}
 
