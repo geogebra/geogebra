@@ -25,6 +25,7 @@ import geogebra.common.kernel.arithmetic.ExpressionNodeConstants.StringType;
 import geogebra.common.kernel.barycentric.AlgoCubicSwitch;
 import geogebra.common.kernel.barycentric.AlgoKimberlingWeights;
 import geogebra.common.kernel.commands.CommandDispatcher;
+import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoElementGraphicsAdapter;
 import geogebra.common.kernel.geos.GeoImage;
@@ -501,6 +502,45 @@ public abstract class AppW extends App implements SetLabels {
 	@Override
 	public Localization getLocalization() {
 		return loc;
+	}
+
+	/**
+	 * Translates localized command name into internal TODO check whether this
+	 * differs from translateCommand somehow and either document it or remove
+	 * this method
+	 * 
+	 * @param cmd
+	 *            localized command name
+	 * @return internal command name
+	 */
+	@Override
+	final public String getInternalCommand(String cmd) {
+		initTranslatedCommands();
+		String s;
+		String cmdLower = StringUtil.toLowerCase(cmd);
+		Commands[] values = Commands.values();
+		if (revTranslateCommandTable.isEmpty()) {// we should clear this cache
+												 // on language change!
+			for (Commands c : values) {// and fill it now if needed
+				s = Commands.englishToInternal(c).name();
+
+				// make sure that when si[] is typed in script, it's changed to
+				// Si[] etc
+				String lowerCaseCmd = StringUtil.toLowerCase(getLocalization()
+				        .getCommand(s));
+				revTranslateCommandTable.put(lowerCaseCmd, s);
+			}
+		}
+		return revTranslateCommandTable.get(cmdLower);
+		// return null;
+	}
+
+	HashMap<String, String> revTranslateCommandTable = new HashMap<String, String>();
+
+	@Override
+	protected void fillCommandDict() {
+		super.fillCommandDict();
+		revTranslateCommandTable.clear();
 	}
 
 	/**

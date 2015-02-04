@@ -768,7 +768,7 @@ public abstract class App implements UpdateSelection {
 	 *            localized command name
 	 * @return internal command name
 	 */
-	final public String getInternalCommand(String cmd) {
+	public String getInternalCommand(String cmd) {
 		initTranslatedCommands();
 		String s;
 		String cmdLower = StringUtil.toLowerCase(cmd);
