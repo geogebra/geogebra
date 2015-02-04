@@ -167,7 +167,9 @@
 .mathquillggb-rendered-math b.font {
   font-weight: bolder;
 }
-.mathquillggb-rendered-math var,
+.mathquillggb-rendered-math var {
+  font-style: normal;
+}
 .mathquillggb-rendered-math i,
 .mathquillggb-rendered-math i.font {
   font-style: italic;
