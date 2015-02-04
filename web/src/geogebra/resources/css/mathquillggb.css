@@ -22,7 +22,10 @@
 .mathquillggb-editable {
   display: -moz-inline-box;
   display: inline-block;
-  padding-top: .075em;/* for GeoGebra */
+  /*padding-top: .075em;? for GeoGebra */
+  /*we should use the same padding/margin as the cursor did)*/
+  padding: 4px 5px;
+  margin: 2px 2px;
   position: relative;
   z-index: 3;
 }
@@ -38,7 +41,6 @@
 .mathquillggb-editable .cursor.blink {
   visibility: hidden;
 }
-.mathquillggb-editable,
 .mathquillggb-embedded-latex .mathquillggb-editable {
   /*border: 1px solid gray;*/
   padding: 2px;
@@ -64,13 +66,20 @@
 	-moz-box-sizing: border-box;
 	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
-.mathquillggb-editable.hasCursor,
+.mathquillggb-editable.hasCursor {
+  	/*border: #6161FF solid 1px;*/
+  	border: 0px;
+	background: #FFFFFF;
+	color: #666666;
+}
 .mathquillggb-editable .hasCursor {
   	/*border: #6161FF solid 1px;*/
   	border: 0px;
 	background: #FFFFFF;
-	padding: 4px 5px;
-	margin: 2px 2px;
+	/*padding: 4px 5px;*/
+	padding: 0px;
+	/*margin: 2px 2px;*/
+	margin: 0px 2px;
 	color: #666666;
 }
 .mathquillggb-editable .latex-command-input {
