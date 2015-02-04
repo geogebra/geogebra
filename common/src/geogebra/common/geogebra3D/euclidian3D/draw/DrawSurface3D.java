@@ -577,12 +577,12 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	}
 
 
-	protected Coords3 evaluateNormal(double u, double v, Coords3 normal) {
+	protected Coords3 evaluateNormal(Coords3 p, double u, double v, Coords3 normal) {
 
 		boolean defined;
 		// normal is final value: use evaluatedNormal to compute
 		if (normal == null || normal.isFinalUndefined()) {
-			defined = surfaceGeo.evaluateNormal(u, v, evaluatedNormal);
+			defined = surfaceGeo.evaluateNormal(p, u, v, evaluatedNormal);
 
 			if (!defined) {
 				return Coords3.UNDEFINED;
@@ -592,7 +592,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		}
 
 		// normal is not final value
-		defined = surfaceGeo.evaluateNormal(u, v, normal);
+		defined = surfaceGeo.evaluateNormal(p, u, v, normal);
 
 		if (!defined) {
 			return Coords3.UNDEFINED;
@@ -624,7 +624,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (p.isFinalUndefined()) {
 				normal = Coords3.UNDEFINED;
 			} else {
-				normal = evaluateNormal(u, v, normal);
+				normal = evaluateNormal(p, u, v, normal);
 			}
 			isNotEnd = true;
 			a = null;
@@ -639,7 +639,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			this.u = u;
 			this.v = v;
 			this.p = p;
-			normal = evaluateNormal(u, v, normal);
+			normal = evaluateNormal(p, u, v, normal);
 			
 			isNotEnd = true;
 			a = null;

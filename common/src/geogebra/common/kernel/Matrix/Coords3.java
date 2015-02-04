@@ -107,13 +107,12 @@ public abstract class Coords3 {
 		double vy = v.getY();
 		double vz = v.getZ();
 		
-		double l = vx * vx + vy * vy + vz * vz;
+		double f = 1/Math.sqrt(vx * vx + vy * vy + vz * vz);
 		
-		if (Kernel.isZero(l)){
+		if (Double.isNaN(f)){
 			set(0, 0, 0);
 		}else{	
-			l = Math.sqrt(l);
-			set(vx/l, vy/l, vz/l);
+			set(vx * f, vy * f, vz * f);
 		}
 		
 	}

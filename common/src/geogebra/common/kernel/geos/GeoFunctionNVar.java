@@ -20,7 +20,7 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3;
-import geogebra.common.kernel.Matrix.CoordsFloat3;
+import geogebra.common.kernel.Matrix.CoordsDouble3;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -954,21 +954,43 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 		}
 
 	private Coords der1 = new Coords(1, 0, 0), der2 = new Coords(0, 1, 0), normal = new Coords(3);
+	
+	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+	
+	private boolean setNormalFromNeighbours(Coords3 p, double u, double v, Coords3 n){
+		
+		evaluatePoint(u + Kernel.STANDARD_PRECISION, v, p1);
+		if (!p1.isDefined()){
+			return false;
+		}
+		evaluatePoint(u, v + Kernel.STANDARD_PRECISION, p2);
+		if (!p2.isDefined()){
+			return false;
+		}
+		
+		der1.setZ(p1.z - p.getZd());
+		der2.setZ(p2.z - p.getZd());
+		
+		normal.setCrossProduct(der1, der2);
+		n.setNormalizedIfPossible(normal);
+	
+		return true;
+	}
 
-	public boolean evaluateNormal(double u, double v, Coords3 n) {
+	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 n) {
 		
 		tmp[0] = u;
 		tmp[1] = v;
 
 		double val = fun1[0].evaluate(tmp);
 		if (Double.isNaN(val)){
-			return false;
+			return setNormalFromNeighbours(p, u, v, n);
 		}
 		der1.setZ(val);
 		
 		val = fun1[1].evaluate(tmp);
 		if (Double.isNaN(val)){
-			return false;
+			return setNormalFromNeighbours(p, u, v, n);
 		}
 		der2.setZ(val);
 

@@ -36,6 +36,7 @@ public interface SurfaceEvaluable {
 	
 	/**
 	 * 
+	 * @param p point where the normal is computed
 	 * @param u
 	 *            first parameter
 	 * @param v
@@ -44,7 +45,7 @@ public interface SurfaceEvaluable {
 	 *            normal. WARNING: the normal may not have norm=1
 	 * @return true if the normal is defined
 	 */
-	public boolean evaluateNormal(double u, double v, Coords3 normal);
+	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 normal);
 
 	/**
 	 * @param i index of parameter

@@ -1,9 +1,11 @@
 package geogebra.common.geogebra3D.kernel3D.geos;
 
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3;
+import geogebra.common.kernel.Matrix.CoordsDouble3;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
 import geogebra.common.kernel.arithmetic.FunctionVariable;
@@ -63,8 +65,33 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	}
 
 	private Coords der1 = new Coords(3), der2 = new Coords(3), normal = new Coords(3);
+	private CoordsDouble3 p1 = new CoordsDouble3(), p2 = new CoordsDouble3();
+	
+	private boolean setNormalFromNeighbours(Coords3 p, double u, double v, Coords3 n){
+		
+		evaluatePoint(u + Kernel.STANDARD_PRECISION, v, p1);
+		if (!p1.isDefined()){
+			return false;
+		}
+		evaluatePoint(u, v + Kernel.STANDARD_PRECISION, p2);
+		if (!p2.isDefined()){
+			return false;
+		}
+		
+		der1.setX(p1.x - p.getXd());
+		der1.setY(p1.y - p.getYd());
+		der1.setZ(p1.z - p.getZd());
+		der2.setX(p2.x - p.getXd());
+		der2.setY(p2.y - p.getYd());
+		der2.setZ(p2.z - p.getZd());
+		
+		normal.setCrossProduct(der1, der2);
+		n.setNormalizedIfPossible(normal);
+	
+		return true;
+	}
 
-	public boolean evaluateNormal(double u, double v, Coords3 n) {
+	public boolean evaluateNormal(Coords3 p, double u, double v, Coords3 n) {
 		tmp[0] = u;
 		tmp[1] = v;
 
@@ -72,13 +99,13 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 		for (int i = 0; i < 3; i++) {
 			val = fun1[0][i].evaluate(tmp);
 			if (Double.isNaN(val)){
-				return false;
+				return setNormalFromNeighbours(p, u, v, n);
 			}
 			der1.set(i + 1, val);
 			
 			val = fun1[1][i].evaluate(tmp);
 			if (Double.isNaN(val)){
-				return false;
+				return setNormalFromNeighbours(p, u, v, n);
 			}
 			der2.set(i + 1, val);
 		}
