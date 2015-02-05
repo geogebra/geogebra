@@ -24,6 +24,7 @@ import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Style.Overflow;
+import com.google.gwt.dom.client.Style.TextDecoration;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
@@ -215,6 +216,20 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		this.rightButtonPanel.setStyleName("smartButtonPanel");
 
 		if (exam) {
+			if (!app.supportsView(App.VIEW_CAS)) {
+				Label nocas = new Label("CAS");
+				nocas.getElement().getStyle()
+				        .setTextDecoration(TextDecoration.LINE_THROUGH);
+				nocas.getElement().setClassName("timer");
+				rightButtonPanel.add(nocas);
+			}
+			if (!app.supportsView(App.VIEW_CAS)) {
+				Label no3d = new Label("3D");
+				no3d.getElement().getStyle()
+				        .setTextDecoration(TextDecoration.LINE_THROUGH);
+				no3d.getElement().setClassName("timer");
+				rightButtonPanel.add(no3d);
+			}
 			addTimer();
 		}
 
