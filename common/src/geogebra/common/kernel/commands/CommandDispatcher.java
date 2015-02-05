@@ -331,6 +331,7 @@ public abstract class CommandDispatcher {
 			case StartAnimation:
 			case StartLogging:
 			case StopLogging:
+			case StartRecord:
 			case SetPerspective:
 			case Delete:
 			case Slider:

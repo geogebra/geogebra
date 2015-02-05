@@ -311,6 +311,24 @@ public class SpreadsheetTraceManager {
 	}
 
 	/**
+	 * set all record to spreadsheet pause/run
+	 * 
+	 * @param pause
+	 *            true to pause, false to run
+	 */
+	public void pauseAllTraces(boolean pause) {
+		SpreadsheetTraceSettings t;
+		for (GeoElement geo : traceGeoCollection.keySet()) {
+			t = traceGeoCollection.get(geo);
+			t.pause = pause;
+			if (!t.pause) {
+				traceToSpreadsheet(geo, t);
+			}
+		}
+
+	}
+
+	/**
 	 * 
 	 * @return first trace geo
 	 */

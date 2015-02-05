@@ -46,6 +46,7 @@ import geogebra.common.kernel.scripting.CmdSlider;
 import geogebra.common.kernel.scripting.CmdSlowPlot;
 import geogebra.common.kernel.scripting.CmdStartAnimation;
 import geogebra.common.kernel.scripting.CmdStartLogging;
+import geogebra.common.kernel.scripting.CmdStartRecord;
 import geogebra.common.kernel.scripting.CmdStopLogging;
 import geogebra.common.kernel.scripting.CmdTextfield;
 import geogebra.common.kernel.scripting.CmdToolImage;
@@ -145,6 +146,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdStartLogging(kernel);
 		case StopLogging:
 			return new CmdStopLogging(kernel);
+		case StartRecord:
+			return new CmdStartRecord(kernel);
 		case Delete:
 			return new CmdDelete(kernel);
 		case Slider:
