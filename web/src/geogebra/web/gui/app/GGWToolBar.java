@@ -223,7 +223,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				nocas.getElement().setClassName("timer");
 				rightButtonPanel.add(nocas);
 			}
-			if (!app.supportsView(App.VIEW_CAS)) {
+			if (!app.supportsView(App.VIEW_EUCLIDIAN3D)) {
 				Label no3d = new Label("3D");
 				no3d.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
