@@ -196,18 +196,21 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 			@Override
 			public void onBrowserEvent(Event event) {
-				if (showOnScreenKeyBoard
-				        && DOM.eventGetType(event) == FOCUS) {
-					requestFocus();
-					if (keyboardUsed && !keyBoardModeText) {
-						setFocus(false);
-					}
-				} else if (showOnScreenKeyBoard && keyboardUsed) {
+
+				// TODO required for mobile devices
+				// if (showOnScreenKeyBoard
+				// && DOM.eventGetType(event) == FOCUS) {
+				// requestFocus();
+				//
+				// if (keyboardUsed && !keyBoardModeText) {
+				// setFocus(false);
+				// }
+				// } else if (showOnScreenKeyBoard && keyboardUsed) {
+				// super.onBrowserEvent(event);
+				// super.setFocus(false);
+				// } else {
 					super.onBrowserEvent(event);
-					setFocus(false);
-				} else {
-					super.onBrowserEvent(event);
-				}
+				// }
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
@@ -1485,6 +1488,9 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public void requestFocus() {
 		if (showOnScreenKeyBoard) {
 			app.showKeyboard(this);
+
+			// TODO needs to be removed for mobile devices
+			textField.setFocus(true);
 		} else {
 			textField.setFocus(true);
 		}

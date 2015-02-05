@@ -55,7 +55,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
 		}
+
+		// set keyboard used to false for the old text field
+		setUsed(false);
 		instance.setTextField(textField);
+		// set keyboard used to true for the new text field
+		setUsed(true);
+
 		instance.setListener(listener);
 		return instance;
 	}
@@ -121,9 +127,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		numbers.setSpecialButton(ENTER, true, 9, this);
 		content.add(numbers);
 
-		KeyBoardMenu menu = new KeyBoardMenu(this);
+		// TODO needs to be added for mobile devices
+		// KeyBoardMenu menu = new KeyBoardMenu(this);
 		FlowPanel p = new FlowPanel();
-		p.add(menu);
+		// p.add(menu);
 		content.addStyleName("KeyBoardContent");
 		p.add(content);
 		add(p);
@@ -144,7 +151,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			}
 			if (textField != null) {
 				// textField could be null after onEnter()
-				textField.setFocus(false);
+
+				// TODO set to false for mobile devices
+				textField.setFocus(true);
 			}
 		}
 

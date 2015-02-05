@@ -130,14 +130,13 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 		this.keyboardShowing = show;
 		this.mainPanel.clear();
-		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
-		if(show && textField != null){
+		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
+		        this);
+		if (show && textField != null) {
 			keyBoard.show();
 			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
-			OnScreenKeyBoard.setUsed(true);
 		} else {
 			keyBoard.resetKeyboardState();
-			OnScreenKeyBoard.setUsed(false);
 		}
 		this.mainPanel.add(this.dockPanel);
 
