@@ -69,11 +69,11 @@ public class GeoSurfaceCartesian3D extends GeoSurfaceCartesianND implements
 	
 	private boolean setNormalFromNeighbours(Coords3 p, double u, double v, Coords3 n){
 		
-		evaluatePoint(u + Kernel.STANDARD_PRECISION, v, p1);
+		evaluatePoint(u + SurfaceEvaluable.NUMERICAL_DELTA, v, p1);
 		if (!p1.isDefined()){
 			return false;
 		}
-		evaluatePoint(u, v + Kernel.STANDARD_PRECISION, p2);
+		evaluatePoint(u, v + SurfaceEvaluable.NUMERICAL_DELTA, p2);
 		if (!p2.isDefined()){
 			return false;
 		}

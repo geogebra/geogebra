@@ -1,14 +1,19 @@
 package geogebra.common.kernel.kernelND;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3;
-import geogebra.common.kernel.Matrix.CoordsFloat3;
 
 /**
  * Surface with parametric equation z=f(x1,x2,...,xn)
  * @author Mathieu
  */
 public interface SurfaceEvaluable {
+	
+	/**
+	 * numerical value for dx, dy, etc. when computing numerical derivative vector
+	 */
+	static final public double NUMERICAL_DELTA = Kernel.STANDARD_PRECISION;
 	
 	/**
 	 * level of detail (speed/quality)

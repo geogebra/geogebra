@@ -959,17 +959,17 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 	
 	private boolean setNormalFromNeighbours(Coords3 p, double u, double v, Coords3 n){
 		
-		evaluatePoint(u + Kernel.STANDARD_PRECISION, v, p1);
+		evaluatePoint(u + SurfaceEvaluable.NUMERICAL_DELTA, v, p1);
 		if (!p1.isDefined()){
 			return false;
 		}
-		evaluatePoint(u, v + Kernel.STANDARD_PRECISION, p2);
+		evaluatePoint(u, v + SurfaceEvaluable.NUMERICAL_DELTA, p2);
 		if (!p2.isDefined()){
 			return false;
 		}
 		
-		der1.setZ(p1.z - p.getZd());
-		der2.setZ(p2.z - p.getZd());
+		der1.setZ((p1.z - p.getZd())/SurfaceEvaluable.NUMERICAL_DELTA);
+		der2.setZ((p2.z - p.getZd())/SurfaceEvaluable.NUMERICAL_DELTA);
 		
 		normal.setCrossProduct(der1, der2);
 		n.setNormalizedIfPossible(normal);
