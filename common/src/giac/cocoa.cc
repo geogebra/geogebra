@@ -10024,7 +10024,7 @@ namespace giac {
 	      CERR << clock() << " reconstruction failure at position " << jpos << endl;
 	      break;
 	    }
-	    if (rur && !chk_equal_mod(poly8tmp.coord.front().g,gbmod[jpos].coord.front().g,p.val))
+	    if (rur && !poly8tmp.coord.empty() && !chk_equal_mod(poly8tmp.coord.front().g,gbmod[jpos].coord.front().g,p.val))
 	      break;
 	    if (!chk_equal_mod(poly8tmp,gbmod[jpos],p.val))
 	      break;
