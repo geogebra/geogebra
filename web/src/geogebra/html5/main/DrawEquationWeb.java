@@ -928,11 +928,25 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecondInside = elsecond.lastChild;
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
+		var eqstring = latex;
+
+		if (command) {
+			// we should write \\left[ instead of [
+			// and \\right] instead of ]
+			eqstring = eqstring.replace("[", "\\left[");
+			eqstring = eqstring.replace("\\left\\left[", "\\left[");
+			// in case of typo
+			eqstring = eqstring.replace("\\right\\left[", "\\right[");
+			eqstring = eqstring.replace("]", "\\right]");
+			eqstring = eqstring.replace("\\right\\right]", "\\right]");
+			// in case of typo
+			eqstring = eqstring.replace("\\left\\right]", "\\left]");
+		}
 
 		// IMPORTANT! although the following method is called with
 		// 1+3 parameters, it is assumed that there is a fourth kind
 		// of input added, which is the place of the Cursor
-		thisjq.mathquillggb('replace', latex, currentWord, command);
+		thisjq.mathquillggb('replace', eqstring, currentWord, command);
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(
