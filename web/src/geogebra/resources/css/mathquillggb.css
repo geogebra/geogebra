@@ -157,7 +157,8 @@
   font-size: 87%;
 */
 }
-.mathquillggb-rendered-math .font {
+.mathquillggb-rendered-math .font,
+.mathquillggb-editable {
   /*font: 1em geogebra-serif, "Times New Roman", serif;*/
   font-size: 1em;
   font-style: normal;
@@ -165,7 +166,8 @@
   font-weight: normal;
   line-height: normal;
 }
-.mathquillggb-rendered-math .font * {
+.mathquillggb-rendered-math .font *,
+.mathquillggb-editable * {
   font-family: inherit;
   font-style: inherit;
 }
@@ -199,7 +201,8 @@
   font-family: monospace, serif;
 }
 .mathquillggb-rendered-math .text.sans-serif,
-.mathquillggb-rendered-math .font .text.sans-serif {
+.mathquillggb-rendered-math .font .text.sans-serif,
+.mathquillggb-editable .text.sans-serif {
   font-family: geogebra-sans-serif, sans-serif, serif;
 }
 .mathquillggb-rendered-math .overline {
