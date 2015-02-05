@@ -1731,6 +1731,8 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     case 'Shift-Right': this.cursor.selectRight(); break;
     case 'Ctrl-Right': break;
 
+    // Up and Down will not run in newCreationMode as they are
+    // handled in GeoGebraWeb in the event capturing phase
     case 'Up': this.cursor.moveUp(); break;
     case 'Down': this.cursor.moveDown(); break;
 
@@ -1777,19 +1779,14 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       if (this.common !== undefined) {
     	this.common.GeoGebraSuggestionPopupCanShow = true;
       }
-      //else {
-      // temporarily $, until we find a better object
-      //$.GeoGebraSuggestionPopupCanShow = true;
-      //}
       return false;
     }
+
     if (this.common !== undefined) {
-      this.common.GeoGebraSuggestionPopupCanShow = false;
-    }
-    // else {
-    // temporarily $, until we find a better object
-    //$.GeoGebraSuggestionPopupCanShow = false;
-    //}
+      // but note that in case of Up and Down, we should not hide them!
+  	  this.common.GeoGebraSuggestionPopupCanShow = false;
+  	}
+
     e.preventDefault();
     return false;
   };

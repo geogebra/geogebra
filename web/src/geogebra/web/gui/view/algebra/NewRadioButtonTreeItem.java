@@ -80,6 +80,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		public Suggestion accessCurrentSelection() {
 			return getCurrentSelection();
 		}
+
+		public void accessMoveSelectionDown() {
+			this.moveSelectionDown();
+		}
+
+		public void accessMoveSelectionUp() {
+			this.moveSelectionUp();
+		}
 	}
 
 	// How large this number should be (e.g. place on the screen, or
@@ -259,6 +267,18 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public boolean hideSuggestions() {
 		if (sug.isSuggestionListShowing()) {
 			sug.hideSuggestions();
+		}
+		return true;
+	}
+
+	public boolean shuffleSuggestions(boolean down) {
+		if (sug.isSuggestionListShowing()) {
+			if (down) {
+				sug.accessMoveSelectionDown();
+			} else {
+				sug.accessMoveSelectionUp();
+			}
+			return false;
 		}
 		return true;
 	}

@@ -729,23 +729,28 @@ public class DrawEquationWeb extends DrawEquation {
 							} else if (event.which) {
 								code = event.which;
 							}
-							if (code == 13) {
+							if (code == 13) {//enter
 								if (newCreationMode) {
 									@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								} else {
 									@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
-							} else if (code == 27) {
+							} else if (code == 27) {//esc
 								if (!newCreationMode) {
 									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							}
+
 							event.stopPropagation();
 							event.preventDefault();
 
 							if (newCreationMode) {
 								var querr = elsecondInside;
 								if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
+									// when the suggestions should pop up, we make them pop up,
+									// when not, there may be two possibilities: we should hide the old,
+									// or we should not hide the old... e.g. up/down arrows should not hide...
+									// is there any other case? (up/down will unset later here)
 									if (querr.GeoGebraSuggestionPopupCanShow === true) {
 										@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
 									} else {
@@ -809,8 +814,37 @@ public class DrawEquationWeb extends DrawEquation {
 		} else {
 			// if newCreationMode is active, we should catch some Alt-key events!
 			var keydownfun = function(event) {
-				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(event.keyCode, event.altKey, event.shiftKey, parentElement);
+				var code = 0;
+				if (event.keyCode) {
+					code = event.keyCode;
+				} else if (event.which) {// not sure this would be right here
+					code = event.which;
+				}
+				if (code == 38) {//up-arrow
+					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
+					// so let's change it:
+					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+
+					@geogebra.html5.main.DrawEquationWeb::shuffleSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Z)(rbti, false);
+					event.stopPropagation();
+					event.preventDefault();
+					return false;
+				} else if (code == 40) {//down-arrow
+					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
+					// so let's change it:
+					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+
+					@geogebra.html5.main.DrawEquationWeb::shuffleSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Z)(rbti, true);
+					event.stopPropagation();
+					event.preventDefault();
+					return false;
+				}
+				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.shiftKey, parentElement);
 				if (captureSuccess) {
+					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
+					// so let's change it:
+					elsecondInside.GeoGebraSuggestionPopupCanShow = true;
+
 					// to prevent MathQuillGGB adding other kind of Alt-shortcuts,
 					// e.g. unlaut a besides our alpha, or more accurately,
 					// call preventDefault because it is a default action here
@@ -863,6 +897,10 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static void hideSuggestions(RadioButtonTreeItem rbti) {
 		rbti.hideSuggestions();
+	}
+
+	public static void shuffleSuggestions(RadioButtonTreeItem rbti, boolean down) {
+		rbti.shuffleSuggestions(down);
 	}
 
 	public static native void focusEquationMathQuillGGB(Element parentElement,
