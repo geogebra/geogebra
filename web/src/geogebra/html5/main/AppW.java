@@ -14,6 +14,7 @@ import geogebra.common.factories.SwingFactory;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.menubar.MenuInterface;
 import geogebra.common.gui.view.algebra.AlgebraView;
+import geogebra.common.gui.view.probcalculator.ProbabilityCalculatorView;
 import geogebra.common.io.MyXMLio;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.kernel.AnimationManager;
@@ -906,6 +907,12 @@ public abstract class AppW extends App implements SetLabels {
 		getEuclidianView1().resetXYMinMaxObjects();
 		if (hasEuclidianView2EitherShowingOrNot(1)) {
 			getEuclidianView2(1).resetXYMinMaxObjects();
+		}
+		// make sure file->new->probability does not clear the prob. calc
+		if (this.getGuiManager() != null
+		        && this.getGuiManager().hasProbabilityCalculator()) {
+			((ProbabilityCalculatorView) this.getGuiManager()
+			        .getProbabilityCalculator()).updateAll();
 		}
 
 		resetUniqueId();
