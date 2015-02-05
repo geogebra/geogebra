@@ -20,6 +20,7 @@
  */
 
 .mathquillggb-editable {
+  color: black;
   display: -moz-inline-box;
   display: inline-block;
   /*padding-top: .075em;? for GeoGebra */
@@ -57,7 +58,6 @@
   	border: #6161FF solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
-	color: #666666;
 	-webkit-border-radius: 5px;
 	-khtml-border-radius: 5px;
 	-moz-border-radius: 5px;
@@ -115,6 +115,7 @@
   overflow-y: hidden;
 }
 .mathquillggb-rendered-math {
+  color: black;
   font-variant: normal;
   font-weight: normal;
   font-style: normal;
