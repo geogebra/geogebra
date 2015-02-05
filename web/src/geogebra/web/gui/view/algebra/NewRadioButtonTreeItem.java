@@ -237,9 +237,17 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// updateCurrentWord(true);// although true would be nicer here
 		updateCurrentWord(false);// compatibility should be preserved
 		String sub = this.curWord.toString();
-		if (sub != null && !"".equals(sub))
-			popup.requestSuggestions(
-			        new SuggestOracle.Request(sub, querylimit), popupCallback);
+		if (sub != null && !"".equals(sub)) {
+			if (sub.length() < 2) {
+				// if there is only one letter typed,
+				// for any reason, this method should
+				// hide the suggestions instead!
+				hideSuggestions();
+			} else {
+				popup.requestSuggestions(new SuggestOracle.Request(sub,
+				        querylimit), popupCallback);
+			}
+		}
 		return true;
 	}
 
