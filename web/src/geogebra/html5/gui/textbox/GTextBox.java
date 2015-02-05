@@ -1,6 +1,5 @@
 package geogebra.html5.gui.textbox;
 
-import geogebra.common.main.App;
 import geogebra.html5.gui.inputfield.HasSymbolPopup;
 
 import com.google.gwt.dom.client.Document;
@@ -70,9 +69,7 @@ public class GTextBox extends TextBox implements NativePreviewHandler,
 	}
 	@Override
 	public void showPopup(boolean show) {
-		App.debug("TF focused" + show);
 		if (showSymbolElement != null) {
-			App.debug("TF focused2" + show);
 			showSymbolElement.showPopup(show);
 		}
 	}
