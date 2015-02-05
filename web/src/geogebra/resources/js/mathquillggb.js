@@ -1791,8 +1791,93 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     return false;
   };
   _.onText = function(ch) {
+	if (ch === ',') {
+      if (this.cursor[R]) {
+        if ((this.cursor[R] instanceof VanillaSymbol) && (this.cursor[R].ctrlSeq === ',')) {
+          // TODO: it would be good to make a heuristic whether
+          // this.selectNextSyntaxHelp will work or not, e.g. by searching
+          // in this.text()... however, in the GeoGebraWeb command case it further slows it down
+          var successful = this.selectNextSyntaxHelp();
+          if (successful) {
+            return false;
+          }
+          // if not successful we should just continue with the default case
+          // for the same reason, this.selectNextSyntaxHelp() should not have
+          // any ill effect on the formula in case it is unsuccessful!
+        }
+      }
+	}
     this.cursor.write(ch);
     return false;
+  };
+  _.selectNextSyntaxHelp = function() {
+    var numberOfMoveRights = 0;// at the end, the cursor should move left this many times
+	var numberOfSelectRights = 0;
+	var cursor = this.cursor;
+	var checkpoint1 = false;
+	var undoEverything = false;
+	while(cursor[R]) {
+	  // the ] sign in the end is actually a pair of another,
+	  // and these make the parent of the parent (this.cursor.parent.parent)
+	  // so we only need to check for (cursor[R])
+	  if ((cursor[R] instanceof BinaryOperator) &&
+	      (cursor[R].ctrlSeq === '<')) {
+	   	if (checkpoint1) {
+	   	  // wrong syntax, let's undo everything!
+	      undoEverything = true;
+	      break;
+	  	} else {
+	   	  // in theory, selectRight will also move the cursor
+	   	  // to the right... but it should not go out of the
+	      // block because we check (cursor[R]) in this loop
+	      cursor.selectRight();
+	      numberOfSelectRights++;
+	 	  checkpoint1 = true;
+	    }
+	  } else if ((cursor[R] instanceof BinaryOperator) &&
+	             (cursor[R].ctrlSeq === '>')) {
+	  	if (checkpoint1) {
+	   	  // the only way to finish this without undo!
+	      cursor.selectRight();
+	      numberOfSelectRights++;
+	      if (cursor[R]) {
+	       	break;
+	      } else {
+	       	// if (cursor[R]) is false in the end,
+	       	// then undoEverything should mean its opposite
+	       	undoEverything = true;
+	       	//break;// although it can be omitted
+	      }
+	  	} else {
+	   	  // wrong syntax, let's undo everything!
+	   	  undoEverything = true;
+	  	  break;
+	   	}
+	  } else {
+	  	if (checkpoint1) {
+	   	  cursor.selectRight();
+	   	  numberOfSelectRights++;
+	  	} else {
+	      cursor.moveRight();
+	      numberOfMoveRights++;
+	 	}
+	  }
+	}
+	if (cursor[R]) {
+	  // as undefined or null would give run-time-error
+      // on (!cursor[R]) in theory, let's put code in else branch
+	} else {
+	  undoEverything = !undoEverything;
+	}
+	if (undoEverything) {
+      cursor.clearSelection();
+      while(numberOfMoveRights) {
+    	cursor.moveLeft();
+    	numberOfMoveRights--;
+      }
+      return false;
+	}
+	return true;
   };
 });
 
