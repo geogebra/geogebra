@@ -363,6 +363,8 @@ public class NoExceptionsTest {
 
 		t("CircularSector[ Pt5, Pt1,Pt2 ]");
 	}
+	
+
 
 	@Test
 	public void cmdCircumcircleArc() {
@@ -2737,5 +2739,11 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdTurtleDown(){
 		t("TurtleDown[turtle1]");
-	}	
+	}
+	
+	public void cmdStartRecord(){
+		t("StartRecord[]");
+		t("StartRecord[false]");
+		t("StartRecord[true]");
+	}
 }
