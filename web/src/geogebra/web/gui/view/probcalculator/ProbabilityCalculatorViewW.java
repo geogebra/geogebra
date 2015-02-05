@@ -1006,7 +1006,18 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	}
 
 	public void onResize() {
+		// in most cases it is enough to updatePlotSettings, but when
+		// setPersective is called early
+		// during Win8 app initialization, we also need to update the tabbed
+		// pane and make the whole process deferred
+		app.getGuiManager().invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				tabbedPane.onResize();
 				updatePlotSettings();
+			}
+		});
     }
 
 	private void setTextBoxMaxLength(TextBox textBox, int maxLength) {
