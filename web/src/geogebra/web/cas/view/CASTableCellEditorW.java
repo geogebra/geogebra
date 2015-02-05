@@ -1,8 +1,14 @@
 package geogebra.web.cas.view;
 
 import geogebra.common.cas.view.CASTableCellEditor;
+import geogebra.html5.event.KeyListenerW;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.main.AppW;
+
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.dom.client.KeyPressEvent;
+import com.google.gwt.event.dom.client.KeyPressHandler;
 
 public class CASTableCellEditorW implements CASTableCellEditor {
 
@@ -10,7 +16,8 @@ public class CASTableCellEditorW implements CASTableCellEditor {
 	private CASTableW table;
 	private AppW app;
 
-	public CASTableCellEditorW(CASTableW table, AppW app, CASTableControllerW ml) {
+	public CASTableCellEditorW(CASTableW table, AppW app,
+	        final CASTableControllerW ml) {
 		this.app = app;
 		this.table = table;
 		textField = new AutoCompleteTextFieldW(0, app, true, null, true);
@@ -18,7 +25,29 @@ public class CASTableCellEditorW implements CASTableCellEditor {
 		textField.setAutoComplete(true);
 		textField.requestToShowSymbolButton();
 		textField.showPopupSymbolButton(true);
-		textField.addKeyHandler(ml);
+		textField.addKeyPressHandler(new KeyPressHandler() {
+
+			@Override
+			public void onKeyPress(KeyPressEvent event) {
+				if (!textField.isSuggestionJustHappened()) {
+					new KeyListenerW(ml).onKeyPress(event);
+				}
+				if (event.getCharCode() == 10 || event.getCharCode() == 13) {
+					event.preventDefault();
+				}
+				textField.setIsSuggestionJustHappened(false);
+			}
+		});
+		textField.getTextField().addKeyDownHandler(new KeyDownHandler() {
+
+			@Override
+			public void onKeyDown(KeyDownEvent event) {
+				/*
+				 * if (event.getCharCode() == 10 || event.getCharCode() == 13) {
+				 * event.preventDefault(); }
+				 */
+			}
+		});// .addKeyHandler(ml);
 		textField.addBlurHandler(ml);
 		// FIXME experimental fix for CAS in other languages, broken in r27612
 		// This will update the CAS commands also
