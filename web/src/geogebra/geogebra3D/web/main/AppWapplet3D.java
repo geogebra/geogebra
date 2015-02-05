@@ -73,7 +73,7 @@ public class AppWapplet3D extends AppWapplet {
 	@Override
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
-			return true;
+			return !getArticleElement().getDataParamNo3D();
 		}
 		return super.supportsView(viewID);
 	}

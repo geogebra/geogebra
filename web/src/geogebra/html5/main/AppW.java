@@ -2499,6 +2499,11 @@ public abstract class AppW extends App implements SetLabels {
 				return false;
 			}
 		}
+
+		if (viewID == App.VIEW_CAS) {
+			return !getArticleElement().getDataParamNoCAS();
+		}
+
 		return viewID != App.VIEW_EUCLIDIAN3D;
 	}
 

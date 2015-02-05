@@ -108,7 +108,7 @@ public class AppWapplication3D extends AppWapplication {
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_EUCLIDIAN3D) {
 			if (Browser.supportsWebGL()) {
-				return true;
+				return !getArticleElement().getDataParamNo3D();
 			}
 		}
 		return super.supportsView(viewID);

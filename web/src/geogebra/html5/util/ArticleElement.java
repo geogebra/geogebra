@@ -495,4 +495,12 @@ public final class ArticleElement extends Element {
 		return getAttribute("data-param-tubeid");
 	}
 
+	public boolean getDataParamNo3D() {
+		return "true".equals(getAttribute("data-param-no3d"));
+	}
+
+	public boolean getDataParamNoCAS() {
+		return "true".equals(getAttribute("data-param-nocas"));
+	}
+
 }
