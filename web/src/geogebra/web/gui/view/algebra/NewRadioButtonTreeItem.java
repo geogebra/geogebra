@@ -76,6 +76,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// not working!
 			// getPopupPanel().setHeight("50%");
 		}
+
+		public Suggestion accessCurrentSelection() {
+			return getCurrentSelection();
+		}
 	}
 
 	// How large this number should be (e.g. place on the screen, or
@@ -257,6 +261,15 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			sug.hideSuggestions();
 		}
 		return true;
+	}
+
+	@Override
+	public boolean stopNewFormulaCreation(String newValue0) {
+		if (sug.isSuggestionListShowing()) {
+			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
+			return false;
+		}
+		return super.stopNewFormulaCreation(newValue0);
 	}
 
 	public boolean getAutoComplete() {
