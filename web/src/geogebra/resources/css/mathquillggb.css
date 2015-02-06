@@ -70,7 +70,6 @@
   	/*border: #6161FF solid 1px;*/
   	border: 0px;
 	background: #FFFFFF;
-	color: #666666;
 }
 .mathquillggb-editable .hasCursor {
   	/*border: #6161FF solid 1px;*/
@@ -80,7 +79,6 @@
 	padding: 0px;
 	/*margin: 2px 2px;*/
 	margin: 0px;
-	color: #666666;
 }
 .mathquillggb-editable .latex-command-input {
   color: inherit;
