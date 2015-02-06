@@ -329,6 +329,12 @@ var manageTextarea = (function() {
       setTimeout(checker);
     }
 
+    var checkTextarea2 = noop;
+    function checkTextareaFor2(checker) {
+      checkTextarea2 = checker;
+      setTimeout(checker);
+    }
+
     // TODO: Wondering why there is a target.bind both here and at the end...
     // It would be good to revise hard-to-understand MathQuillGGB code! 
     target.bind('keydown keypress input keyup focusout paste', function() { checkTextarea(); });
@@ -454,7 +460,10 @@ var manageTextarea = (function() {
       // And by nifty, we mean dumb (but useful sometimes).
       textarea.focus();
 
-      checkTextareaFor(pastedText);
+      // checkTextareaFor2 because it might clash with
+      // the onText event or something like that otherwise
+      checkTextareaFor2(pastedText);
+      //checkTextareaFor(pastedText);
     }
     function pastedText() {
       popTextForPaste(pasteCallback);
@@ -1783,9 +1792,9 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       // the selection will not be deleted ideally
       break;
 
-    case 'Ctrl-V':
+    //case 'Ctrl-V':// let's try really pasting this!
       // TODO: implementation
-      break;
+      //break;
 
     default:
       if (this.common !== undefined) {
