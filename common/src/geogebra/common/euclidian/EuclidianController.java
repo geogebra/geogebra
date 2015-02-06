@@ -3603,7 +3603,8 @@ public abstract class EuclidianController {
 							.getAlgoDispatcher()
 							.detach(movedGeoPoint,
 									view.toRealWorldCoordX(mouseLoc.x),
-									view.toRealWorldCoordY(mouseLoc.y));
+									view.toRealWorldCoordY(mouseLoc.y),
+									detachFromPath, detachFromRegion);
 					movedGeoPoint = (GeoPointND) this.kernel.getConstruction()
 							.geoTableVarLookup(name);
 				}
@@ -9887,6 +9888,7 @@ public abstract class EuclidianController {
 	 */
 	private static final int INCREASED_THRESHOLD_FACTOR = 2;
 	protected Object detachFrom;
+	private boolean detachFromPath, detachFromRegion;
 	private boolean needsAttach = false;
 
 	private void moveAttachDetach(boolean repaint, AbstractEvent event) {
@@ -9908,6 +9910,8 @@ public abstract class EuclidianController {
 		if (movedGeoPoint.isPointOnPath()
 				&& !hits.contains(movedGeoPoint.getPath())) {
 			needsAttach = false;
+			detachFromPath = true;
+			detachFromRegion = false;
 			if (detachFrom == null) {
 				detachFrom = movedGeoPoint.getPath();
 			}
@@ -9920,6 +9924,8 @@ public abstract class EuclidianController {
 			// moved away from the Path/Region the point is attached to ->
 			// detach
 			needsAttach = false;
+			detachFromPath = false;
+			detachFromRegion = true;
 			if (detachFrom == null) {
 				detachFrom = movedGeoPoint.getRegion();
 			}

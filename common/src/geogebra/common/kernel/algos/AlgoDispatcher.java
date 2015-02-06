@@ -1589,14 +1589,42 @@ public class AlgoDispatcher {
 	 *            new real world y-coordinate
 	 * @return success
 	 */
-	public boolean detach(GeoPointND point, double d, double e) {
+	public boolean detach(GeoPointND point, double d, double e, boolean wasOnPath, boolean wasOnRegion) {
 		try {
 			boolean oldLabelCreationFlag = cons.isSuppressLabelsActive();
 			cons.setSuppressLabelCreation(true);
+			
+			boolean setDefaultColor = false;
+			if (((GeoElement) point).getColorFunction() == null) {
+				if (wasOnPath) {
+					setDefaultColor = ((GeoElement) point)
+							.getObjectColor()
+							.equals(cons
+									.getConstructionDefaults()
+									.getDefaultGeo(
+											ConstructionDefaults.DEFAULT_POINT_ON_PATH)
+									.getObjectColor());
+				} else if (wasOnRegion) {
+					setDefaultColor = ((GeoElement) point)
+							.getObjectColor()
+							.equals(cons
+									.getConstructionDefaults()
+									.getDefaultGeo(
+											ConstructionDefaults.DEFAULT_POINT_IN_REGION)
+									.getObjectColor());
+
+				}
+			}
 
 			GeoPoint newPoint = new GeoPoint(cons, null, d, e, 1.0);
 			cons.setSuppressLabelCreation(oldLabelCreationFlag);
 			cons.replace((GeoElement) point, newPoint);
+			
+			if (setDefaultColor) {
+				newPoint.setObjColor(cons.getConstructionDefaults()
+						.getDefaultGeo(ConstructionDefaults.DEFAULT_POINT_FREE)
+						.getObjectColor());
+			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 			return false;
