@@ -76,7 +76,8 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 			functionExpander = new FunctionExpander();
 		}
 		for (int i = 0; i < fun.length; i++) {
-			ValidExpression ve = (ValidExpression) fun[i].traverse(functionExpander);
+			ValidExpression ve = (ValidExpression) fun[i].deepCopy(getKernel());
+			ve = (ValidExpression) ve.traverse(functionExpander);
 			for (int j = 0; j < vars.length; j++) {				
 				fun1[j][i] = new FunctionNVar(ve.derivative(vars[j]).wrap(), vars);
 			}
