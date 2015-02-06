@@ -22,11 +22,15 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 	
 	protected void initGUI() {
 		super.initGUI();
-		if(Browser.supportsWebcam()){
+		if (webcamSupported()) {
 			listPanel.add(webcam = new Label(""));
 		}
 	}
 	
+	protected boolean webcamSupported() {
+		return Browser.supportsWebcam();
+	}
+
 	protected void initActions() {
 		super.initActions();
 		if(webcam != null){
@@ -55,7 +59,7 @@ public class ImageInputDialog extends UploadImageDialog implements ClickHandler 
 		imageUnavailable();
 	}
 	
-	private void webcamClicked() {
+	protected void webcamClicked() {
 		
 		webcam.addStyleDependentName("highlighted");
 		upload.removeStyleDependentName("highlighted");

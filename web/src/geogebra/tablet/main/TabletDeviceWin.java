@@ -5,7 +5,7 @@ import geogebra.tablet.gui.browser.TabletBrowseGUI;
 import geogebra.touch.WinFileManager;
 import geogebra.touch.main.TouchDevice;
 import geogebra.web.gui.browser.BrowseGUI;
-import geogebra.web.gui.dialog.image.ImageInputDialog;
+import geogebra.web.gui.dialog.image.ImageInputDialogWin;
 import geogebra.web.gui.dialog.image.UploadImageDialog;
 import geogebra.web.main.FileManager;
 
@@ -28,6 +28,6 @@ public class TabletDeviceWin extends TouchDevice {
 
 	@Override
 	public UploadImageDialog getImageInputDialog(AppW app) {
-		return new ImageInputDialog(app);
+		return new ImageInputDialogWin(app);
 	}
 }
