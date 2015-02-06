@@ -729,6 +729,7 @@ namespace giac {
 	// simpler general solution for small order generic lin diffeq with cst coeff/squarefree case
 	if (n<=3){
 	  vecteur rac=solve(horner(v,x,contextptr),x,1,contextptr);
+	  comprim(rac);
 	  if (n==2 && rac.size()==1){
 	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
