@@ -206,7 +206,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	}-*/;
 	
 
-	//Undo, redo, open, menu
+	// Undo, redo, open, menu (and exam mode)
 	private void addRightButtonPanel(){
 
 		boolean exam = app.isExam();
@@ -216,14 +216,18 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		this.rightButtonPanel.setStyleName("smartButtonPanel");
 
 		if (exam) {
-			if (!app.supportsView(App.VIEW_CAS)) {
+			// We directly read the parameters to show the intention.
+			// It may be possible that 3D is not supported from technical
+			// reasons (e.g. the graphics card is problematic), but in such
+			// cases we don't want to show that here.
+			if (app.getArticleElement().getDataParamNoCAS()) {
 				Label nocas = new Label("CAS");
 				nocas.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
 				nocas.getElement().setClassName("timer");
 				rightButtonPanel.add(nocas);
 			}
-			if (!app.supportsView(App.VIEW_EUCLIDIAN3D)) {
+			if (app.getArticleElement().getDataParamNoCAS()) {
 				Label no3d = new Label("3D");
 				no3d.getElement().getStyle()
 				        .setTextDecoration(TextDecoration.LINE_THROUGH);
