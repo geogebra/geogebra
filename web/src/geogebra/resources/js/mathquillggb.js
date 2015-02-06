@@ -337,12 +337,13 @@ var manageTextarea = (function() {
 
     // TODO: Wondering why there is a target.bind both here and at the end...
     // It would be good to revise hard-to-understand MathQuillGGB code! 
-    target.bind('keydown keypress input keyup focusout paste', function() { checkTextarea(); });
+    target.bind('keydown keypress input keyup focusout', function() { checkTextarea(); });
+    target.bind('paste', function() { checkTextarea2(); });
 
 
     // -*- public methods -*- //
     function select(text) {
-      checkTextarea();
+      checkTextarea2();
 
       textarea.val(text);
       if (text) textarea[0].select();
