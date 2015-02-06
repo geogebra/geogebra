@@ -931,8 +931,12 @@ public class DrawEquationWeb extends DrawEquation {
 		// now it's time to make the formula blank!
 		// but only if the previous method was successful...
 		if (success) {
-			thisjq.mathquillggb('revert').html('').mathquillggb().mathquillggb(
-					'latex', '').mathquillggb('editable').focus();
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
+			elsecondInside.innerHTML = '';
+			//$wnd.$ggbQuery(elsecondInside).html('');
+			//$wnd.$ggbQuery(elsecondInside).mathquillggb();
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
+			$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
 		}
 	}-*/;
 
