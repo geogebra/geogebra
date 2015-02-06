@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.CmdScripting;
 import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 
 /**
@@ -50,6 +51,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 					if (!app.hasEuclidianView2(1))
 						break;
 					ev = app.getEuclidianView2(1);
+					break;
 				case -1:
 					if (!app.hasEuclidianView3D())
 						break;
@@ -58,6 +60,7 @@ public class CmdSetVisibleInView extends CmdScripting {
 				default:
 					// do nothing
 				}
+				
 
 				if (ev != null) {
 					boolean show = ((GeoBoolean) arg[2]).getBoolean();
