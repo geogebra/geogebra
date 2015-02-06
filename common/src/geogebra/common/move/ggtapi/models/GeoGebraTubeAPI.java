@@ -30,7 +30,7 @@ public abstract class GeoGebraTubeAPI {
 	public static String url = "https://tube.geogebra.org/api/json.php";
 	public static String urlBeta = "http://tube-beta.geogebra.org/api/json.php";
 	public static String login_url = "https://accounts.geogebra.org/api/index.php";
-	public static String login_urlBeta = "http://login-beta.geogebra.org/api/index.php";
+	public static String login_urlBeta = "https://login-beta.geogebra.org/api/index.php";
 	/**
 	 * Instance of the new GeoGebraTube API D/W/T
 	 */
