@@ -22,6 +22,7 @@ import geogebra.common.kernel.RegionParameters;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.VarString;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.arithmetic.BooleanValue;
@@ -42,6 +43,7 @@ import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic.PolyFunction;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.kernel.roots.RealRootUtil;
 import geogebra.common.main.App;
@@ -104,6 +106,8 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 		// must be called from the subclass, see
 		// http://benpryor.com/blog/2008/01/02/dont-call-subclass-methods-from-a-superclass-constructor/
 		setConstructionDefaults(); // init visual settings
+		
+		surfaceEvaluables = new TreeSet<SurfaceEvaluable>();
 
 	}
 
@@ -288,7 +292,7 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 			return;
 		}
 		isDefined = geo.isDefined();
-		fun = new Function(geoFun, kernel);
+		setFunction(new Function(geoFun, kernel));
 
 		// macro OUTPUT
 		if (geo.cons != cons && isAlgoMacroOutput()) {
@@ -311,6 +315,48 @@ RealRootFunction, Dilateable, Transformable, InequalityProperties {
 	 */
 	public void setFunction(Function f) {
 		fun = f;
+		
+		for (SurfaceEvaluable geo : surfaceEvaluables){
+			geo.resetDerivatives();
+		}
+	}
+	
+	private TreeSet<SurfaceEvaluable> surfaceEvaluables;
+
+	@Override
+	public boolean addToUpdateSets(final AlgoElement algorithm) {
+		
+		final boolean added = super.addToUpdateSets(algorithm);
+
+		if (added){
+			// store surfaces to reset derivatives if needed
+			for (int i = 0; i < algorithm.getOutputLength(); i++) {
+				GeoElement geo = algorithm.getOutput(i);
+				if (geo instanceof SurfaceEvaluable){
+					surfaceEvaluables.add((SurfaceEvaluable) geo);
+				}
+			}
+		}
+
+		return added;
+	}
+	
+	
+	@Override
+	public boolean removeFromUpdateSets(final AlgoElement algorithm) {
+		final boolean removed = super.removeFromUpdateSets(algorithm);
+		
+		if (removed){
+			// store surfaces to reset derivatives if needed
+			for (int i = 0; i < algorithm.getOutputLength(); i++) {
+				GeoElement geo = algorithm.getOutput(i);
+				if (geo instanceof SurfaceEvaluable){
+					surfaceEvaluables.remove(geo);
+				}
+			}
+		}
+		
+		return removed;
 	}
 	/**
 	 * initializes function type; if boolean, uses default styl for inequalities

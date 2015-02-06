@@ -24,11 +24,14 @@ public class GeoListForCellRange extends GeoList {
 	}
 	
 	@Override
-	public void addToUpdateSets(final AlgoElement algorithm) {
+	public boolean addToUpdateSets(final AlgoElement algorithm) {
 		
-		super.addToUpdateSets(algorithm);
+		final boolean added = super.addToUpdateSets(algorithm);
+		
 		// propagate to algo parent input items
 		algo.addToItemsAlgoUpdateSets(algorithm);
+		
+		return added;
 	}
 	
 

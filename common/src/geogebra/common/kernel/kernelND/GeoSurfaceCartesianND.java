@@ -85,6 +85,13 @@ public abstract class GeoSurfaceCartesianND extends GeoElement{
 		
 	}
 	
+	/**
+	 * reset derivatives
+	 */
+	public void resetDerivatives(){
+		fun1 = null;
+	}
+	
 	private static FunctionExpander functionExpander;
 
 	

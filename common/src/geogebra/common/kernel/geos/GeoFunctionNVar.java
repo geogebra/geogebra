@@ -204,6 +204,10 @@ implements FunctionalNVar, CasEvaluableFunction, Region, Transformable, Translat
 			fun1[i] = new FunctionNVar(ve.derivative(vars[i]).wrap(), vars);
 		}
 	}
+	
+	public void resetDerivatives(){
+		fun1 = null;
+	}
 			
 	final public FunctionNVar getFunction() {
 		return fun;

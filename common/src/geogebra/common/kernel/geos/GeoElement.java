@@ -3485,8 +3485,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * add algorithm to update sets up the construction graph
 	 * @param algorithm algo to be added
+	 * @return true if added
 	 */
-	public void addToUpdateSets(final AlgoElement algorithm) {
+	public boolean addToUpdateSets(final AlgoElement algorithm) {
 		final boolean added = getAlgoUpdateSet().add(algorithm);
 
 		if (added) {
@@ -3499,14 +3500,17 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 			}
 		}
+		
+		return added;
 	}
 
 	/**
 	 * remove algorithm from update sets up the construction graph
 	 * 
 	 * @param algorithm algo to be removed
+	 * @return true if removed
 	 */
-	public void removeFromUpdateSets(final AlgoElement algorithm) {
+	public boolean removeFromUpdateSets(final AlgoElement algorithm) {
 		final boolean removed = (algoUpdateSet != null)
 				&& algoUpdateSet.remove(algorithm);
 
@@ -3520,6 +3524,8 @@ public abstract class GeoElement extends ConstructionElement implements
 				}
 			}
 		}
+		
+		return removed;
 	}
 
 	/**

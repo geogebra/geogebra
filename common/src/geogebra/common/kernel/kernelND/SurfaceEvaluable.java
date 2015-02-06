@@ -69,6 +69,11 @@ public interface SurfaceEvaluable {
 	public void setDerivatives();
 	
 	/**
+	 * reset derivatives
+	 */
+	public void resetDerivatives();
+	
+	/**
 	 * @return the level of detail (for drawing)
 	 */
 	public LevelOfDetail getLevelOfDetail();

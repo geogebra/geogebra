@@ -2317,11 +2317,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * set of an independent twinGeo.
 	 */
 	@Override
-	public void addToUpdateSets(final AlgoElement algorithm) {
-		super.addToUpdateSets(algorithm);
+	public boolean addToUpdateSets(final AlgoElement algorithm) {
+		final boolean added = super.addToUpdateSets(algorithm);
 		if (twinGeo != null && twinGeo.isIndependent()) {
 			twinGeo.addToUpdateSets(algorithm);
 		}
+		
+		return added;
 	}
 
 	/**
@@ -2329,11 +2331,13 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	 * set of an independent twinGeo.
 	 */
 	@Override
-	public void removeFromUpdateSets(final AlgoElement algorithm) {
-		super.removeFromUpdateSets(algorithm);
+	public boolean removeFromUpdateSets(final AlgoElement algorithm) {
+		final boolean removed = super.removeFromUpdateSets(algorithm);
 		if (twinGeo != null && twinGeo.isIndependent()) {
 			twinGeo.removeFromUpdateSets(algorithm);
 		}
+		
+		return removed;
 	}
 
 	/**
