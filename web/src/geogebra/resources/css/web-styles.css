@@ -3468,23 +3468,32 @@ body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 	text-align: center;
 }
 
-.AutoCompleteTextFieldW .SymbolToggleButton,
-.NewRadioButtonTreeItem .SymbolToggleButton {
+.AutoCompleteTextFieldW .SymbolToggleButton {
 	position: absolute;
 	right: 0.6em;
 	top: 50%;
 	margin-top: -0.66em;
 }
 
-.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton,
-.advanced-TextButtonPanel .NewRadioButtonTreeItem .SymbolToggleButton {
+.NewRadioButtonTreeItem .SymbolToggleButton {
+	position: absolute;
+	right: 1px;
+	top: 50%;
+	margin-top: -0.66em;
+}
+
+.advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
 	right: 1.6em;
 }
 
-body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton,
-body.application[dir=rtl] .NewRadioButtonTreeItem .SymbolToggleButton {
+body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	right: auto;
 	left: 0.6em;
+}
+
+body.application[dir=rtl] .NewRadioButtonTreeItem .SymbolToggleButton {
+	right: auto;
+	left: 1px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,
