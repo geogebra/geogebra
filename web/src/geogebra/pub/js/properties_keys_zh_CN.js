@@ -1771,7 +1771,7 @@ __GGB__keysVar.zh_CN.menu = {
     "RemoveTrace": "\u4ece\u8ddf\u8e2a\u6e05\u5355\u4e2d\u79fb\u9664",
     "Rename": "\u91cd\u547d\u540d",
     "ReplaceAll": "\u66ff\u6362\u6240\u6709\u5355\u5143\u683c",
-    "ReportBug": "\u9519\u8bef\u62a5\u544a",
+    "ReportBug": "\u62a5\u544a\u9519\u8bef",
     "RequireEquals": "\u6307\u4ee4\u524d\u52a0 \"=\" \u53f7",
     "Reset": "\u91cd\u7f6e",
     "ResidualPlot": "\u6b8b\u5dee\u56fe",
