@@ -112,7 +112,7 @@ public class Material implements Comparable<Material>
 		this.description = "";
 		this.instructionsPre = "";
 		this.instructionsPost = "";
-		this.visibility = "";
+		this.visibility = "P";
 		this.width = 800;
 		this.height = 600;
 		this.thumbnail = "";

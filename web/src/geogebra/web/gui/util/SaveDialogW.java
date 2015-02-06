@@ -85,7 +85,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		}
 	}
 
-	private final String GGT_EDIT_URL = "http://tube.geogebra.org/material/edit/id/";
+	private final static String GGT_EDIT_URL = "http://tube.geogebra.org/material/edit/id/";
 	protected AppW app;
 	FlowPanel contentPanel;
 	VerticalPanel p;
@@ -151,7 +151,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		}
 	}
 	
-	MaterialCallback initMaterialCB(final String base64, final String url) {
+	MaterialCallback initMaterialCB(final String base64, final String visibility) {
 		return new MaterialCallback() {
 
 			@Override
@@ -163,8 +163,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					Material newMat = parseResponse.get(0);
 					newMat.setSyncStamp(newMat.getModified());
 					app.setTubeId(newMat.getId());
-					if (url != null) {
-						Window.open(url, "_blank", "");
+					if (visibility != null && !"".equals(visibility)
+					        && !"P".equals(visibility)) {
+						Window.open(SaveDialogW.GGT_EDIT_URL + newMat.getId()
+						        + "?visibility="
+						        + visibility, "_blank", "");
 					}
 					app.setSyncStamp(parseResponse.get(0).getModified());
 					saveLocalIfNeeded(parseResponse.get(0).getModified());
@@ -434,8 +437,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 */
 	private void savePrivateFirst(final String visibility) {
 
-		uploadToGgt(GGT_EDIT_URL + app.getTubeId() + "?visibility="
-		        + visibility);
+		uploadToGgt(visibility);
 
 	}
 	
@@ -453,7 +455,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * Handles the upload of the file and closes the dialog.
 	 * If there are sync-problems with a file, a new one is generated on ggt.
 	 */
-	private void uploadToGgt(final String url) {
+	private void uploadToGgt(final String visibility) {
 
 		final StringHandler handler = new StringHandler() {
 			@Override
@@ -462,12 +464,12 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				        app.getKernel().getConstruction().getTitle())) {
 					App.debug("SAVE filename changed");
 					app.setTubeId(0);
-					doUploadToGgt(base64, initMaterialCB(base64, url));
+					doUploadToGgt(base64, initMaterialCB(base64, visibility));
 				} else if (app.getTubeId() == 0) {
 					App.debug("SAVE had no Tube ID");
-					doUploadToGgt(base64, initMaterialCB(base64, url));
+					doUploadToGgt(base64, initMaterialCB(base64, visibility));
 				} else {
-					handleSync(base64, initMaterialCB(base64, url));
+					handleSync(base64, initMaterialCB(base64, visibility));
 				}
 
 			}
