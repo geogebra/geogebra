@@ -190,7 +190,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 						.getKernel()
 						.getAlgebraProcessor()
 						.processAlgebraCommandNoExceptionHandling(
-								sb.toString(), true, false, false, false);
+								sb.toString(), false, false, false, false);
 
 				if (ret != null && ret[0] instanceof TextValue) {
 					GeoText geo = (GeoText) ret[0];
@@ -203,7 +203,7 @@ public class EuclidianViewTransferHandler extends TransferHandler implements
 					geo.setRealWorldLoc(ev.toRealWorldCoordX(mousePos.x),
 							ev.toRealWorldCoordY(mousePos.y - h));
 					geo.updateRepaint();
-
+					app.storeUndoInfo();
 				}
 
 				return true;
