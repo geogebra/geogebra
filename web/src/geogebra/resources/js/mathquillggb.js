@@ -1800,7 +1800,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
           var successful = this.selectNextSyntaxHelp();
           if (successful) {
             if (this.common !== undefined) {
-              // but note that in case of Up and Down, we should not hide them!
               this.common.GeoGebraSuggestionPopupCanShow = false; // or undefined;
             }
             return false;
