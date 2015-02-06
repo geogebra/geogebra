@@ -981,22 +981,22 @@ public class ExpressionNode extends ValidExpression implements
 			if (left instanceof GeoFunction) {
 				Function func = ((Functional) left).getFunction();
 
-				if (right instanceof ExpressionNode) {
-					if (!equ.isFunctionDependent()) {
-						equ.setFunctionDependent(((ExpressionNode) right)
-								.containsFunctionVariable());
-					}
-					// we may only make polynomial trees after replacement
-					// ((ExpressionNode) right).makePolynomialTree(equ);
-				} else if (right instanceof FunctionVariable) {
-					equ.setFunctionDependent(true);
+				return makePolyTreeFromFunction(func, equ);
+			} else if (left instanceof ExpressionNode
+					&& ((ExpressionNode) left).getOperation() == Operation.DERIVATIVE) {
+				Function base = ((Functional) ((ExpressionNode) left).getLeft())
+						.getFunction();
+				int deg = (int) Math.ceil(((ExpressionNode) left).getRight()
+						.evaluateDouble());
+				for (int i = 0; i < deg; i++) {
+					base = new Function(
+							((Functional) ((ExpressionNode) left).getLeft())
+							.getFunction().derivative(
+base.getFunctionVariable())
+									.wrap(), base.getFunctionVariable());
 				}
-				if (equ.isFunctionDependent()) {
-					ExpressionNode expr = func.getExpression().getCopy(kernel);
-					expr = expr.replace(func.getFunctionVariable(), right)
-							.wrap();
-					return expr.makePolynomialTree(equ);
-				}
+
+				return makePolyTreeFromFunction(base, equ);
 			}
 		}
 		if (!polynomialOperation(operation)) {
@@ -1045,6 +1045,28 @@ public class ExpressionNode extends ValidExpression implements
 			}
 		}
 		return lt.apply(operation, rt, equ);
+	}
+
+	private Polynomial makePolyTreeFromFunction(Function func, Equation equ) {
+		if (right instanceof ExpressionNode) {
+			if (!equ.isFunctionDependent()) {
+				equ.setFunctionDependent(((ExpressionNode) right)
+						.containsFunctionVariable());
+			}
+			// we may only make polynomial trees after replacement
+			// ((ExpressionNode) right).makePolynomialTree(equ);
+		} else if (right instanceof FunctionVariable) {
+			equ.setFunctionDependent(true);
+		}
+		if (equ.isFunctionDependent()) {
+			ExpressionNode expr = func.getExpression().getCopy(kernel);
+			expr = expr.replace(func.getFunctionVariable(), right)
+					.wrap();
+			return expr.makePolynomialTree(equ);
+		}
+		return new Polynomial(kernel, new Term(new ExpressionNode(
+kernel, left,
+				operation, right), ""));
 	}
 
 	private static boolean polynomialOperation(Operation operation2) {
