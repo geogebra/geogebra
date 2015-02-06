@@ -22,20 +22,24 @@ public class ExamLookAndFeel extends GLookAndFeel{
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
 	
+	@Override
 	public MainMenu getMenuBar(AppW app) {
 		return new MainMenu(app);
 	    
     }
 
+	@Override
 	public boolean undoRedoSupported() {
 	    return true;
     }
 	
 	
+	@Override
 	public boolean isSmart() {
 		return false;
 	}
 	
+	@Override
 	public boolean isExam() {
 		return true;
 	}
@@ -44,26 +48,31 @@ public class ExamLookAndFeel extends GLookAndFeel{
 	 * Sets message to be shown when user wants to close the window
 	 * (makes no sense for SMART widget)
 	 */
+	@Override
 	public void addWindowClosingHandler(final AppW app) {
 	}
 
 	/**
 	 * removes the {@link com.google.gwt.user.client.Window.ClosingHandler}
 	 */
+	@Override
 	public void removeWindowClosingHandler() {
 	}
 	
 	/**
 	 * @return app type for API calls
 	 */
+	@Override
 	public String getType() {
 	    return "web";
     }
 
+	@Override
 	public boolean copyToClipboardSupported() {
 	    return true;
     }
 
+	@Override
 	public boolean isEmbedded() {
 	    return false;
     }
@@ -73,5 +82,9 @@ public class ExamLookAndFeel extends GLookAndFeel{
 	    return false;
     }
 
+	@Override
+	public boolean autosaveSupported() {
+		return false;
+	}
 
 }
