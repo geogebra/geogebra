@@ -9998,4 +9998,13 @@ public abstract class EuclidianController {
 		return temporaryMode;
 	}
 
+	
+	public void resetModeAfterFreehand() {
+		// not used in common, overwritten for other projects
+	}
+
+	public void prepareModeForFreehand() {
+		// not used in common, overwritten for other projects
+	}
+
 }

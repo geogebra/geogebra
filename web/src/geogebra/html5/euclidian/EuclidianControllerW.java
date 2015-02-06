@@ -1219,7 +1219,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	private boolean freehandModePrepared = false;
 	private boolean freehandModeSet = false;
 
-	protected void prepareModeForFreehand() {
+	public void prepareModeForFreehand() {
 		if (selectedPoints.size() != 0) {
 			// make sure to switch only for the first point
 			return;
@@ -1293,7 +1293,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	 * no effect if setModeToFreehand() has not been called or had no effect
 	 * (e.g. because the selected tool is not supported)
 	 */
-	protected void resetModeAfterFreehand() {
+	public void resetModeAfterFreehand() {
 		if (freehandModePrepared) {
 			freehandModePrepared = false;
 			pen = null;
