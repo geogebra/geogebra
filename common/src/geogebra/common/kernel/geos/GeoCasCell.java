@@ -2198,8 +2198,7 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 	@Override
 	public String getLabel(StringTemplate tpl) {
 		// standard case: assignment
-		if (assignmentVar != null && twinGeo != null
-				&& twinGeo.isAlgebraVisible()) {
+		if (assignmentVar != null) {
 			return tpl.printVariableName(assignmentVar);
 		}
 
