@@ -3303,7 +3303,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event) {
 
 		if (handledGeo != null) {
 			setMouseLocation(event);

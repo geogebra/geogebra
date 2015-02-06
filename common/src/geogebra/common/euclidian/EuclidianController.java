@@ -265,7 +265,7 @@ public abstract class EuclidianController {
 
 	protected boolean draggingOccuredBeforeRelease = false;
 
-	protected boolean draggingBeyondThreshold = false;
+	public boolean draggingBeyondThreshold = false;
 
 	protected GeoPointND pointCreated = null;
 
@@ -1570,7 +1570,7 @@ public abstract class EuclidianController {
 		return selectedGeos.size();
 	}
 
-	protected final int selPoints() {
+	public final int selPoints() {
 		return selectedPoints.size();
 	}
 
@@ -3029,7 +3029,7 @@ public abstract class EuclidianController {
 				|| (mode == EuclidianConstants.MODE_MOVE));
 	}
 
-	protected final void wrapMouseEntered() {
+	public final void wrapMouseEntered() {
 		if (isTextfieldHasFocus()) {
 			return;
 		}
@@ -6553,7 +6553,7 @@ public abstract class EuclidianController {
 
 	protected abstract void resetToolTipManager();
 
-	protected void wrapMouseExited(AbstractEvent event) {
+	public void wrapMouseExited(AbstractEvent event) {
 		if (isTextfieldHasFocus()) {
 			return;
 		}
@@ -7809,7 +7809,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	protected void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event) {
 		
 		if (shouldCancelDrag()) {
 			return;
@@ -9324,7 +9324,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	protected void wrapMouseWheelMoved(int x, int y, double delta,
+	public void wrapMouseWheelMoved(int x, int y, double delta,
 			boolean shiftOrMeta, boolean alt) {
 
 		if (isTextfieldHasFocus()) {
@@ -9833,16 +9833,24 @@ public abstract class EuclidianController {
 				scaleFactor < EuclidianView.MOUSE_WHEEL_ZOOM_FACTOR ? 1 : 2);
 	}
 
-	protected double oldDistance;
+	public double oldDistance;
 
 	private PointerEventType defaultEventType = PointerEventType.MOUSE;
 	protected static final double MINIMAL_PIXEL_DIFFERENCE_FOR_ZOOM = 10;
 
 	public void twoTouchStart(double x1, double y1, double x2, double y2) {
+		twoTouchStartCommon(x1, y1, x2, y2);
+	}
+
+	final public void twoTouchStartCommon(double x1, double y1, double x2, double y2) {
 		this.oldDistance = MyMath.length(x1 - x2, y1 - y2);
 	}
 
 	public void twoTouchMove(double x1, double y1, double x2, double y2) {
+		twoTouchMoveCommon(x1, y1, x2, y2);
+	}
+	
+	final public void twoTouchMoveCommon(double x1, double y1, double x2, double y2) {
 		int centerX, centerY;
 		double newDistance;
 
@@ -9857,7 +9865,6 @@ public abstract class EuclidianController {
 				this.oldDistance = newDistance;
 			}
 		}
-
 	}
 
 	public boolean isExternalHandling() {

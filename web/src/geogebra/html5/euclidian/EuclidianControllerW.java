@@ -1086,7 +1086,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event) {
 		if (pen != null && !penDragged && freehandModePrepared) {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
