@@ -1775,6 +1775,18 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       while (this.cursor[L]) this.cursor.selectLeft();
       break;
 
+    case 'Ctrl-C':
+      // TODO: implementation
+
+      // as this is NOT the default branch,
+      // preventDefault will be called, which means
+      // the selection will not be deleted ideally
+      break;
+
+    case 'Ctrl-V':
+      // TODO: implementation
+      break;
+
     default:
       if (this.common !== undefined) {
     	this.common.GeoGebraSuggestionPopupCanShow = true;
