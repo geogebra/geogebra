@@ -502,7 +502,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		// set flag to avoid multiple calls of setLabels() and
 		// updateContentPane()
 		initing = true;
-		setFontSize(12);
+		// setFontSize(12);
 
 		// This is needed because otherwise Exception might come and
 		// GeoGebra may exit. (dockPanel not entirely defined)
@@ -552,6 +552,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 			if (!fileLoaded && !ggtloading) {
 				GeoGebraPreferencesD.getPref().loadXMLPreferences(this);
+				setMaxIconSizeAsPt(getFontSize());
 			}
 
 			if (MAC_OS) {
@@ -617,7 +618,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 		// GiacD giac = new GiacD();
 		// App.debug(giac.evalCAS("factor(x^4-1)"));
-
 	}
 
 	// **************************************************************************
@@ -1870,12 +1870,15 @@ public class AppD extends App implements KeyEventDispatcher {
 
 		if (guiFontSize == -1) {
 			// set tool icon size between 32 and 64
-			setMaxIconSize(Math.max(32, points * 2));
+			setMaxIconSizeAsPt(points);
 		}
 
 		super.setFontSize(points, true);
 	}
 
+	public void setMaxIconSizeAsPt(int points) {
+		setMaxIconSize(Math.max(32, points * 2));
+	}
 	/**
 	 * Sets the maximum pixel size (width and height) of all icons in the user
 	 * interface. Larger icons are scaled down.
