@@ -20,6 +20,8 @@ import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewWInterface;
+import geogebra.html5.euclidian.IsEuclidianController;
+import geogebra.html5.euclidian.MsZoomer;
 import geogebra.html5.euclidian.MyEuclidianViewPanel;
 import geogebra.html5.javax.swing.GBoxW;
 import geogebra.html5.main.AppW;
@@ -83,6 +85,8 @@ public class EuclidianView3DW extends EuclidianView3D implements
 	}
 
 	public geogebra.html5.awt.GGraphics2DW g2p = null;
+
+	private MsZoomer msZoomer;
 
 	private void initBaseComponents(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController euclidiancontroller) {
@@ -158,11 +162,11 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		evPanel.addDomHandler(euclidiancontroller, MouseDownEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, MouseUpEvent.getType());
 
-		/*
-		 * if(Browser.supportsPointerEvents()){ msZoomer = new
-		 * MsZoomer((IsEuclidianController) euclidianController);
-		 * MsZoomer.attachTo(evPanel.getElement(),msZoomer); return; }
-		 */
+		if (Browser.supportsPointerEvents()) {
+			msZoomer = new MsZoomer((IsEuclidianController) euclidianController);
+			MsZoomer.attachTo(evPanel.getElement(), msZoomer);
+			return;
+		}
 
 		evPanel.addDomHandler(euclidiancontroller, TouchStartEvent.getType());
 		evPanel.addDomHandler(euclidiancontroller, TouchEndEvent.getType());

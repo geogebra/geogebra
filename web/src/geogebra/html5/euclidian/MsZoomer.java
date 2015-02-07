@@ -13,9 +13,9 @@ public class MsZoomer {
 
 	private class MsOffset extends ZeroOffset {
 
-		private EuclidianControllerW ec;
+		private IsEuclidianController ec;
 
-		public MsOffset(EuclidianControllerW ec) {
+		public MsOffset(IsEuclidianController ec) {
 			this.ec = ec;
 		}
 
@@ -53,7 +53,7 @@ public class MsZoomer {
 	public MsZoomer(IsEuclidianController tc) {
 		this.tc = tc;
 		// this.off = (HasOffsets)this.tc;
-		this.off = new MsOffset((EuclidianControllerW) tc);
+		this.off = new MsOffset(tc);
 	}
 
 	private void pointersUp() {
