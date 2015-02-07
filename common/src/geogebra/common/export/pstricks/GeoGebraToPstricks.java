@@ -118,22 +118,20 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (format == GeoGebraToPstricks.FORMAT_BEAMER) {
 			codeBeginDoc.append("\\begin{frame}\n");
 		}
-		// Draw Grid
+
+		initUnitAndVariable();
+		// Environment pspicture		
+		codeBeginPic.append("\\begin{pspicture*}(");
+		codeBeginPic.append(format(xmin));
+		codeBeginPic.append(",");
+		codeBeginPic.append(format(ymin));
+		codeBeginPic.append(")(");
+		codeBeginPic.append(format(xmax));
+		codeBeginPic.append(",");
+		codeBeginPic.append(format(ymax));
+		codeBeginPic.append(")\n");
 		if (euclidianView.getShowGrid()) {
 			drawGrid();
-		} else {
-			initUnitAndVariable();
-			// Environment pspicture
-
-			codeBeginPic.append("\\begin{pspicture*}(");
-			codeBeginPic.append(format(xmin));
-			codeBeginPic.append(",");
-			codeBeginPic.append(format(ymin));
-			codeBeginPic.append(")(");
-			codeBeginPic.append(format(xmax));
-			codeBeginPic.append(",");
-			codeBeginPic.append(format(ymax));
-			codeBeginPic.append(")\n");
 		}
 
 		// Draw axis
@@ -1040,7 +1038,8 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	}
 
 	@Override
-	protected void drawSingleCurveCartesian(GeoCurveCartesian geo, boolean trasparency) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
+			boolean trasparency) {
 		double start = geo.getMinParameter();
 		double end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();
@@ -1805,25 +1804,12 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		double RY = Math.abs(ymax - ymin) / GridDist[1] + 1;
 		long repy = (long) RY;
 
-		// environment pspicture
-
-		codeBeginPic.append("\\begin{pspicture*}(");
-		codeBeginPic.append(format(xmin));
-		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymin));
-		codeBeginPic.append(")(");
-		codeBeginPic.append(format(xmax));
-		codeBeginPic.append(",");
-		codeBeginPic.append(format(ymax));
-		codeBeginPic.append(")\n");
-		initUnitAndVariable();
-
 		// My Grid eje y\multips(0,ymin)(0,griddisy){numero de
 		// repeticiones}{\psline(xmin,0)(xmax,0)}
 		codeBeginPic.append("\\multips(0,");
 		codeBeginPic.append(truncy);
 		codeBeginPic.append(")(0,");
-		codeBeginPic.append(sci2dec(GridDist[1] * yunit));
+		codeBeginPic.append(sci2dec(GridDist[1]));
 		codeBeginPic.append("){");
 		codeBeginPic.append(repy);
 		codeBeginPic
@@ -1839,7 +1825,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		codeBeginPic.append("\\multips(");
 		codeBeginPic.append(truncx);
 		codeBeginPic.append(",0)(");
-		codeBeginPic.append(sci2dec(GridDist[0] * xunit));
+		codeBeginPic.append(sci2dec(GridDist[0]));
 		codeBeginPic.append(",0){");
 		codeBeginPic.append(repx);
 		codeBeginPic
@@ -1918,6 +1904,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		else if (!bx && by)
 			codeBeginPic.append("labels=y,");
 		codeBeginPic.append("Dx=");
+
 		codeBeginPic.append(format(Dx));
 		codeBeginPic.append(",Dy=");
 		codeBeginPic.append(format(Dy));
@@ -2462,12 +2449,12 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		if (!liopco.contains("fill")) {
 			return false;
 		}
-		StringBuilder fill = new StringBuilder("\\pscustom");		
-		fill.append(liopco);		
+		StringBuilder fill = new StringBuilder("\\pscustom");
+		fill.append(liopco);
 		fill.append("\n{\n");
 		code.append(fill);
-		for (int i=0;i<curves.length;i++)
-			drawSingleCurveCartesian(curves[i],false);
+		for (int i = 0; i < curves.length; i++)
+			drawSingleCurveCartesian(curves[i], false);
 		code.append("}\n");
 		return true;
 	}
