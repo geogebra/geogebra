@@ -812,7 +812,18 @@ namespace giac {
       tmp=subst(tmp,l,lp,false,contextptr);
     }
     tmp=recursive_normal(tmp,contextptr);
-    gen r=re(tmp,contextptr),i=im(tmp,contextptr);
+    vecteur vtmp(lvar(tmp));
+    if (vtmp.size()==1 && vtmp[0].is_symb_of_sommet(at_exp)){
+      tmp=ratnormal(_halftan(_exp2trig(tmp,contextptr),contextptr));
+    }
+    gen r,i;
+    reim(tmp,r,i,contextptr);
+    gen tmp2=_lin(inv(tmp,contextptr),contextptr);
+    gen re2,im2;
+    reim(tmp2,re2,im2,contextptr);
+    if (lvar(makevecteur(re2,im2)).size()<lvar(makevecteur(r,i)).size())
+      reim(inv(ratnormal(re2)+cst_i*ratnormal(im2),contextptr),r,i,contextptr);
+    // tmp=simplify(i,contextptr);
     if (is_zero(i))
       return r;
     if (is_zero(r))
