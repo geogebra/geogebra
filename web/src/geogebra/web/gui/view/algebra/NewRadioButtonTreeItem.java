@@ -234,25 +234,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	/**
-	 * This method can be used to invoke a keydown event on MathQuillGGB, e.g.
-	 * key=8,alt=false,ctrl=false,shift=false will trigger a Backspace event
-	 * 
-	 * @param key
-	 *            keyCode of the event, which is the same as "event.which", used
-	 *            at keydown
-	 * @param alt
-	 *            boolean
-	 * @param ctrl
-	 *            boolean
-	 * @param shift
-	 *            boolean
-	 */
-	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		geogebra.html5.main.DrawEquationWeb.triggerKeydown(seMayLatex, key,
-		        alt, ctrl, shift);
-	}
-
-	/**
 	 * This is the interface of bringing up a popup of suggestions, from a query
 	 * string "sub"... in AutoCompleteTextFieldW, this is supposed to be
 	 * triggered automatically by SuggestBox, but in NewRadioButtonTreeItem we

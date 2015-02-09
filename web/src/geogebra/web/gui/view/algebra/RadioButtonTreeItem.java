@@ -394,6 +394,27 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		return false;
 	}
 
+	/**
+	 * This method can be used to invoke a keydown event on MathQuillGGB, e.g.
+	 * key=8,alt=false,ctrl=false,shift=false will trigger a Backspace event
+	 * 
+	 * @param key
+	 *            keyCode of the event, which is the same as "event.which", used
+	 *            at keydown
+	 * @param alt
+	 *            boolean
+	 * @param ctrl
+	 *            boolean
+	 * @param shift
+	 *            boolean
+	 */
+	public void keydown(int key, boolean alt, boolean ctrl, boolean shift) {
+		if (av.isEditing() || isThisEdited() || newCreationMode) {
+			geogebra.html5.main.DrawEquationWeb.triggerKeydown(seMayLatex, key,
+			        alt, ctrl, shift);
+		}
+	}
+
 	@Override
     public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);

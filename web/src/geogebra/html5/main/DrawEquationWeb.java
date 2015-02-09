@@ -898,15 +898,16 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecondInside = elsecond.lastChild;
 
 		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
-		var evt = $wnd.$ggbQuery.Event("keydown", {
-			keyCode : keycode,
-			which : keycode,
-			altKey : altk,
-			ctrlKey : ctrlk,
-			shiftKey : shiftk
-		});
-
-		textarea.trigger(evt);
+		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
+			var evt = $wnd.$ggbQuery.Event("keydown", {
+				keyCode : keycode,
+				which : keycode,
+				altKey : altk,
+				ctrlKey : ctrlk,
+				shiftKey : shiftk
+			});
+			textarea.trigger(evt);
+		}
 	}-*/;
 
 	public static void popupSuggestions(RadioButtonTreeItem rbti) {
