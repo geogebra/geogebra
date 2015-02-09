@@ -589,4 +589,12 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	}
 
+	public geogebra.html5.awt.GGraphics2DW getG2P() {
+		return g2p;
+	}
+
+	public void resetMsZoomer() {
+		// TODO Auto-generated method stub
+	}
+
 }

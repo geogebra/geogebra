@@ -996,4 +996,8 @@ public class EuclidianViewW extends EuclidianView implements
 		return g2p.getCanvas();
 	}
 
+	public geogebra.html5.awt.GGraphics2DW getG2P() {
+		return g2p;
+	}
+
 }

@@ -363,6 +363,10 @@ public abstract class EuclidianController {
 		this.app = app;
 		this.selection = app.getSelectionManager();
 		this.l10n = app.getLocalization();
+		createCompanions();
+	}
+	
+	protected void createCompanions(){
 		this.companion = newCompanion();
 	}
 
@@ -10005,6 +10009,11 @@ public abstract class EuclidianController {
 
 	public void prepareModeForFreehand() {
 		// not used in common, overwritten for other projects
+	}
+
+	public void onPointerEventStart(AbstractEvent e) {
+		// not used in common, overwritten for other projects
+		
 	}
 
 }

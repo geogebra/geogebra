@@ -1570,12 +1570,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 		view3D.setHits3D(mouseLoc);
 
 		// for next mouse move process
-		mouseEvent = e;
+		setMouseMovedEvent(e);
 		mouseMoved = true;
 
 		// needed for non-animated renderers
 		view3D.repaintView();
 
+	}
+
+	/**
+	 * store the mouse move event
+	 * 
+	 * @param e
+	 *            event
+	 */
+	protected void setMouseMovedEvent(AbstractEvent e) {
+		mouseEvent = e;
 	}
 
 	/**
@@ -3317,6 +3327,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 			kernel.notifyRepaint();
 			return;
 		}
+
+		setMouseMovedEvent(event);
 
 		super.wrapMouseDragged(event);
 	}

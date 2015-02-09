@@ -61,4 +61,12 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 
 	public void updatePreviewableForProcessMode();
 
+	public int getAbsoluteLeft();
+
+	public int getAbsoluteTop();
+
+	public geogebra.html5.awt.GGraphics2DW getG2P();
+
+	public void resetMsZoomer();
+
 }
