@@ -47,7 +47,7 @@ public class TextFieldProcessing {
 			((AutoCompleteTextFieldW) field).setFocus(focus);
 			break;
 		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).setFocus(focus);
+			((NewRadioButtonTreeItem) field).setFocus(true);
 			break;
 		}
 	}
