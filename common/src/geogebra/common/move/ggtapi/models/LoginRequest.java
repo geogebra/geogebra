@@ -30,7 +30,7 @@ public class LoginRequest implements Request {
 		this.password = password;   
 	}
 
-	public String toJSONString() {
+	public String toJSONString(ClientInfo app) {
 		
 		
 		this.loginJSON.put("-type", new JSONString(loginType));

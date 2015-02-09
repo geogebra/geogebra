@@ -1,5 +1,6 @@
 package geogebra.web.move.ggtapi.models;
 
+import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Request;
 import geogebra.common.move.ggtapi.models.json.JSONBoolean;
@@ -18,7 +19,6 @@ public class UploadRequest implements Request {
 	private final String GGB = "geogebra";
 	private final String TASK = "upload";
 	private final String TYPE = "applet";
-	private AppW app;
 	private final String consTitle;
 	private int uniqueID;
 	private String base64;
@@ -34,12 +34,14 @@ public class UploadRequest implements Request {
 	 * @param base64
 	 *            String
 	 */
-	UploadRequest(AppW app, String consTitle, String base64) {
-		this.app = app;
+	UploadRequest(int tubeID, String visibility, String consTitle, String base64) {
 		this.consTitle = consTitle;
-		this.uniqueID = this.app.getTubeId();
+		this.uniqueID = tubeID;
 		this.base64 = base64;
-		this.visibility = this.app.getActiveMaterial().getVisibility();
+		this.visibility = visibility;
+		if (visibility == null || "".equals(visibility)) {
+			this.visibility = "P";
+		}
 	}
 
 	/**
@@ -51,7 +53,6 @@ public class UploadRequest implements Request {
 	 *            Material
 	 */
 	UploadRequest(AppW app, Material mat) {
-		this.app = app;
 		this.consTitle = mat.getTitle();
 		if (mat.getId() != 0) {
 			this.uniqueID = mat.getId();
@@ -72,12 +73,11 @@ public class UploadRequest implements Request {
 	 */
 	UploadRequest(AppW app, String newTitle, int id) {
 		this.consTitle = newTitle;
-		this.app = app;
 		this.uniqueID = id;
 	}
 
 	@Override
-	public String toJSONString() {
+	public String toJSONString(ClientInfo client) {
 		// TODO for save we only need title
 		// request
 		JSONObject request = new JSONObject();
@@ -88,7 +88,7 @@ public class UploadRequest implements Request {
 		// login
 		JSONObject login = new JSONObject();
 		login.put("-type", new JSONString(this.GGB));
-		login.put("-token", new JSONString(app.getLoginOperation().getModel()
+		login.put("-token", new JSONString(client.getModel()
 		        .getLoggedInUser().getLoginToken()));
 		api.put("login", login);
 
@@ -108,8 +108,7 @@ public class UploadRequest implements Request {
 		task.put("title", new JSONString(this.consTitle));
 
 		// language
-		task.put("language",
-		        new JSONString(app.getLocalization().getLanguage()));
+		task.put("language", new JSONString(client.getLanguage()));
 
 		// visibility
 		if (this.visibility != null) {
@@ -147,9 +146,10 @@ public class UploadRequest implements Request {
 	 *            String
 	 * @return the upload XML as JSON String
 	 */
-	public static UploadRequest getRequestElement(AppW app, String filename,
+	public static UploadRequest getRequestElement(int tubeID,
+	        String visibility, String filename,
 	        String base64) {
-		return new UploadRequest(app, filename, base64);
+		return new UploadRequest(tubeID, visibility, filename, base64);
 	}
 
 	/**

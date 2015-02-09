@@ -116,7 +116,7 @@ public class MaterialRequest implements Request
 		return mr;
 	}
 
-	public String toJSONString()
+	public String toJSONString(ClientInfo client)
 	{
 		this.apiJSON.put("-api", new JSONString(MaterialRequest.api));
 		this.taskJSON.put("-type", new JSONString(this.task.toString()));

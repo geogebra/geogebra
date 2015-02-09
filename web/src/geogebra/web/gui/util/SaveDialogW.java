@@ -464,11 +464,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				        app.getKernel().getConstruction().getTitle())) {
 					App.debug("SAVE filename changed");
 					app.setTubeId(0);
-					doUploadToGgt(base64,
+					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, visibility, false));
 				} else if (app.getTubeId() == 0) {
 					App.debug("SAVE had no Tube ID");
-					doUploadToGgt(base64,
+					doUploadToGgt(app.getTubeId(), visibility, base64,
 					        initMaterialCB(base64, visibility, false));
 				} else {
 					handleSync(base64, visibility);
@@ -540,13 +540,15 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 						        materialCallback = initMaterialCB(base64,
 						                visibility, false);
 					}
-					doUploadToGgt(base64, materialCallback);
+					        doUploadToGgt(app.getTubeId(), visibility, base64,
+					                materialCallback);
 				} else {
 					// if the file was deleted meanwhile (parseResponse.size() == 0)
 					app.resetUniqueId();
 					        materialCallback = initMaterialCB(base64,
 					                visibility, false);
-					doUploadToGgt(base64, materialCallback);
+					        doUploadToGgt(app.getTubeId(), visibility, base64,
+					                materialCallback);
 				}
 			}
 			
@@ -562,8 +564,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	 * does the upload of the actual opened file to GeoGebraTube
 	 * @param materialCallback {@link MaterialCallback}
 	 */
-	void doUploadToGgt(String base64, MaterialCallback materialCallback) {
-		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadMaterial(app, this.title.getText(),base64, materialCallback);
+	void doUploadToGgt(int tubeID, String visibility, String base64,
+	        MaterialCallback materialCallback) {
+		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
+		        .uploadMaterial(app, tubeID, visibility, this.title.getText(),
+		                base64, materialCallback);
 	}
 	
 	@Override

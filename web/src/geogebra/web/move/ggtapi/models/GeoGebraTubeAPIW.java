@@ -58,7 +58,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            {@link MaterialCallback}
 	 */
 	public void search(String query, MaterialCallback callback) {
-		performRequest(new MaterialRequest(query, client).toJSONString(),
+		performRequest(new MaterialRequest(query, client).toJSONString(client),
 		        callback);
 	}
 
@@ -69,7 +69,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            {@link MaterialCallback}
 	 */
 	public void getFeaturedMaterials(MaterialCallback callback) {
-		performRequest(MaterialRequest.forFeatured(client).toJSONString(),
+		performRequest(
+		        MaterialRequest.forFeatured(client).toJSONString(client),
 		        callback);
 	}
 
@@ -93,7 +94,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            {@link MaterialCallback}
 	 */
 	public void getItem(String id, MaterialCallback callback) {
-		performRequest(MaterialRequest.forId(id, client).toJSONString(),
+		performRequest(MaterialRequest.forId(id, client).toJSONString(client),
 		        callback);
 	}
 
@@ -253,11 +254,14 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 * @param cb
 	 *            MaterialCallback
 	 */
-	public void uploadMaterial(final AppW app, final String filename,
+	public void uploadMaterial(App app, int tubeID, String visibility,
+	        final String filename,
 	        String base64, final MaterialCallback cb) {
 
-		performRequest(UploadRequest.getRequestElement(app, filename, base64)
-		        .toJSONString(), cb);
+		performRequest(
+		        UploadRequest.getRequestElement(tubeID, visibility, filename,
+		                base64)
+.toJSONString(client), cb);
 
 	}
 
@@ -275,7 +279,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	        final MaterialCallback cb) {
 		performRequest(
 		        UploadRequest.getRequestElement(app, mat.getTitle(),
-		                mat.getId()).toJSONString(), cb);
+		                mat.getId()).toJSONString(client), cb);
 	}
 
 	/**
@@ -291,7 +295,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	public void uploadLocalMaterial(final AppW app, final Material mat,
 	        final MaterialCallback cb) {
 		performRequest(
-		        UploadRequest.getRequestElement(app, mat).toJSONString(), cb);
+		        UploadRequest.getRequestElement(app, mat).toJSONString(client),
+		        cb);
 	}
 
 	/**
@@ -305,7 +310,7 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	public void deleteMaterial(AppW app, Material material,
 	        final MaterialCallback cb) {
 		performRequest(DeleteRequest.getRequestElement(app, material)
-		        .toJSONString(), cb);
+		        .toJSONString(client), cb);
 	}
 
 	/**
@@ -315,7 +320,8 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            {@link MaterialCallback}
 	 */
 	public void getUsersMaterials(MaterialCallback cb) {
-		performRequest(MaterialRequest.forCurrentUser(client).toJSONString(),
+		performRequest(
+		        MaterialRequest.forCurrentUser(client).toJSONString(client),
 		        cb);
 	}
 
@@ -326,16 +332,19 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 	 *            {@link MaterialCallback}
 	 */
 	public void getBookItems(int id, MaterialCallback cb) {
-		performRequest(MaterialRequest.forBook(id, client).toJSONString(), cb);
+		performRequest(
+		        MaterialRequest.forBook(id, client).toJSONString(client), cb);
 	}
 
 	public void getWorksheetItems(int id, MaterialCallback cb) {
-		performRequest(MaterialRequest.forWorksheet(id, client).toJSONString(),
+		performRequest(
+		        MaterialRequest.forWorksheet(id, client).toJSONString(client),
 		        cb);
 	}
 
 	public void sync(AppW app, long timestamp, final SyncCallback cb) {
-		this.performRequest(new SyncRequest(app, timestamp).toJSONString(),
+		this.performRequest(
+		        new SyncRequest(app, timestamp).toJSONString(client),
 		        false, new AjaxCallback() {
 
 			        @Override
