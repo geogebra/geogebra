@@ -891,6 +891,24 @@ public class DrawEquationWeb extends DrawEquation {
 		return false;
 	}
 
+	public static native void triggerKeydown(Element parentElement,
+	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
+		var elfirst = parentElement.firstChild.firstChild;
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		var evt = $wnd.$ggbQuery.Event("keydown", {
+			keyCode : keycode,
+			which : keycode,
+			altKey : altk,
+			ctrlKey : ctrlk,
+			shiftKey : shiftk
+		});
+
+		textarea.trigger(evt);
+	}-*/;
+
 	public static void popupSuggestions(RadioButtonTreeItem rbti) {
 		rbti.popupSuggestions();
 	}
