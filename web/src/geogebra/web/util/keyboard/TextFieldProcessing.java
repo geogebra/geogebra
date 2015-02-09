@@ -1,5 +1,6 @@
 package geogebra.web.util.keyboard;
 
+import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
 
@@ -106,9 +107,18 @@ public class TextFieldProcessing {
 			((AutoCompleteTextFieldW) field).insertString(text);
 			break;
 		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).setFocus(true);
 			if (text.equals("^")) {
 				((NewRadioButtonTreeItem) field).insertString("^{}");
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				        false);
+			} else if (text.startsWith(Unicode.EULER_STRING)) {
+				((NewRadioButtonTreeItem) field)
+				        .insertString(Unicode.EULER_STRING + "^{}");
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				        false);
+			} else if (text.equals("sin") || text.equals("cos")
+			        || text.equals("tan")) {
+				((NewRadioButtonTreeItem) field).insertString(text + "()");
 				((NewRadioButtonTreeItem) field).keydown(37, false, false,
 				        false);
 			} else {

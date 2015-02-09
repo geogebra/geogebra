@@ -103,13 +103,15 @@ Widget textField,
 		String[] icons = new String[] { "x²", "x³", "x^y", "x", "y", "z", // first
 		        // line
 		        "(", ")", "[", "]", "<", ">", // second line
-		        "sin", "cos", "tan", PI, Unicode.EULER_STRING, I, // third line
+		        "sin", "cos", "tan", PI, Unicode.EULER_STRING + "^x", I, // third
+																		 // line
 		        "ln", SQUARE_ROOT, ",", ":=" // last line
 		};
 		KeyPanel functions = new KeyPanel(icons, 6, this);
 		functions.setSpecialButton("²", false, 0, this);
 		functions.setSpecialButton("³", false, 1, this);
 		functions.setSpecialButton("^", false, 2, this);
+		functions.setSpecialButton(Unicode.EULER_STRING+"^", false, 16, this);
 		content.add(functions);
 
 		icons = new String[] { "7", "8", "9", Unicode.divide + "", BACKSPACE, // first
