@@ -19,9 +19,9 @@ import geogebra.common.main.App;
 import geogebra.html5.euclidian.EuclidianPenFreehand.ShapeType;
 import geogebra.html5.event.HasOffsets;
 import geogebra.html5.event.PointerEvent;
+import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.GuiManagerW;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -196,7 +196,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			// #plotpanelevno
 			// probably both are Okay not changing the toolbar to full Graphics
 			// view toolbar
-			((GuiManagerW) app.getGuiManager())
+			((GuiManagerInterfaceW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE);
@@ -258,7 +258,7 @@ public class EuclidianControllerW extends EuclidianController implements
 			// #plotpanelevno
 			// probably both are Okay not changing the toolbar to full Graphics
 			// view toolbar
-			((GuiManagerW) app.getGuiManager())
+			((GuiManagerInterfaceW) app.getGuiManager())
 			        .setActiveToolbarId(App.VIEW_EUCLIDIAN);
 		} else {
 			setMode(EuclidianConstants.MODE_MOVE);

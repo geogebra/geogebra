@@ -2312,6 +2312,19 @@ var SupSub = P(MathCommand, function(_, _super) {
     else
       return this.ctrlSeq + '{' + (latex || ' ') + '}';
   };
+  _.text = function() {
+	var ctr = '';
+	if (this.textTemplate[0]) {
+	  ctr = this.textTemplate[0];
+	}
+	var tex = this.ch[L].text();
+    if (tex.length === 1)
+      return ctr + tex;
+    else if (tex[0] === '(' && tex.slice(-1) === ')')
+      return ctr + '{' + (tex.slice(1,-1) || ' ') + '}';
+    else
+      return ctr + '{' + (tex || ' ') + '}';
+  };
   _.redraw = function() {
     if (this[L])
       this[L].respace();
