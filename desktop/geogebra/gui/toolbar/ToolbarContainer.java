@@ -6,7 +6,6 @@ import geogebra.common.main.App;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.StringUtil;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.MySmallJButton;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.util.GeoGebraIcon;
 import geogebra.gui.view.properties.PropertiesViewD;
@@ -33,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
@@ -224,6 +224,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 	JLabel lblTest = new JLabel();
 
+	private JPanel gridButtonPanel;
+
 	private void toggleHelpBar() {
 		MyDockPanel dp = new MyDockPanel();
 		ToolbarD myToolbar = new ToolbarD(app, dp);
@@ -295,19 +297,29 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		return toolbarHelpPanel;
 	}
 
+	public void updateGridButtonPanel() {
+		if (gridButtonPanel == null) {
+			return;
+		}
+
+		gridButtonPanel.removeAll();
+		// build it actually
+		getGridButtonPanel();
+	}
+
 	private JPanel getGridButtonPanel() {
 
 		// undo button
-		MySmallJButton btnUndo = new MySmallJButton(
-				((GuiManagerD) app.getGuiManager()).getUndoAction(), 7);
+		JButton btnUndo = new JButton(
+				((GuiManagerD) app.getGuiManager()).getUndoAction());
 		String text = loc.getMenuTooltip("Undo");
 		btnUndo.setText(null);
 		btnUndo.setToolTipText(text);
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// redo button
-		MySmallJButton btnRedo = new MySmallJButton(
-				((GuiManagerD) app.getGuiManager()).getRedoAction(), 7);
+		JButton btnRedo = new JButton(
+				((GuiManagerD) app.getGuiManager()).getRedoAction());
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
 		btnRedo.setToolTipText(text);
@@ -315,10 +327,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// properties button
 		ImageIcon ic = GeoGebraIcon.joinIcons(
-				app.getImageIcon("view-properties16.png"),
+				app.getMenuIcon("menu-options.png"),
 				app.getImageIcon("triangle-down.png"));
-		final MySmallJButton btnProperties = new MySmallJButton(
-				app.getImageIcon("view-properties16.png"), 7);
+		final JButton btnProperties = new JButton(
+				app.getMenuIcon("menu-options.png"));
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -343,8 +355,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		});
 
 		// help button
-		MySmallJButton btnHelp = new MySmallJButton(
-				app.getImageIcon("help.png"), 7);
+		JButton btnHelp = new JButton(app.getMenuIcon("menu-help.png"));
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
@@ -390,16 +401,16 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			gridPanel.add(btnProperties, c);
 		}
 
-		JPanel p = new JPanel(new BorderLayout());
-		p.add(gridPanel, BorderLayout.NORTH);
+		gridButtonPanel = new JPanel(new BorderLayout());
+		gridButtonPanel.add(gridPanel, BorderLayout.NORTH);
 
 		// add small bottom margin when toolbar is vertical
 		if (orientation == SwingConstants.EAST
 				|| orientation == SwingConstants.WEST) {
-			p.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+			gridButtonPanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
 		}
 
-		return p;
+		return gridButtonPanel;
 	}
 
 	/**
@@ -496,7 +507,9 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			toolbarPanel.add(toolbar, Integer.toString(getViewId(toolbar)));
 		}
 
+
 		toolbarPanel.show(Integer.toString(activeToolbar));
+		updateGridButtonPanel();
 	}
 
 	/**

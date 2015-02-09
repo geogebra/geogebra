@@ -2324,7 +2324,7 @@ public abstract class App implements UpdateSelection {
 
 		resetFonts();
 
-		// updateUI();
+		updateUI();
 	}
 
 	/**

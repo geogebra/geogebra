@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="512px"
+	 height="512px" viewBox="0 0 512 512" style="enable-background:new 0 0 512 512;" xml:space="preserve">
+<g id="menu-pin">
+	<polygon style="fill:#999999;" points="243.455,256.567 84.567,436.823 264.735,277.995 	"/>
+	
+		<ellipse transform="matrix(0.7071 0.7071 -0.7071 0.7071 254.6584 -122.5582)" style="fill:#999999;" cx="275.27" cy="246.12" rx="127.218" ry="63.609"/>
+	<path style="fill:#999999;" d="M466.181,175.151L346.238,55.208L226.296,175.151l0.008,0.008c-0.11,0.106-0.224,0.208-0.332,0.317
+		c-16.561,16.56-3.136,56.835,29.985,89.958c33.121,33.12,73.396,46.545,89.957,29.984c0.108-0.108,0.21-0.222,0.316-0.333
+		l0.008,0.009L466.181,175.151z"/>
+	
+		<ellipse transform="matrix(0.7071 0.7071 -0.7071 0.7071 200.286 -253.8223)" style="fill:#999999;" cx="406.534" cy="114.855" rx="84.812" ry="42.406"/>
+	<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="84.5674" y1="434.1768" x2="487.9395" y2="434.1768">
+		<stop  offset="0" style="stop-color:#C6C7C8"/>
+		<stop  offset="1" style="stop-color:#C6C7C8;stop-opacity:0"/>
+	</linearGradient>
+	<polygon style="fill:url(#SVGID_1_);" points="84.567,436.823 487.939,384.51 357.884,483.844 	"/>
+</g>
+<g id="Ebene_1">
+</g>
+</svg>

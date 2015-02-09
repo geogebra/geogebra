@@ -537,7 +537,6 @@ public class AppD extends App implements KeyEventDispatcher {
 		// initialize GUI
 		if (isUsingFullGui()) {
 			initGuiManager();
-
 			// set frame
 			if (!isApplet && (frame != null)) {
 				setFrame(frame);
@@ -1899,6 +1898,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		return getImageIcon(filename, null);
 	}
 
+	public ImageIcon getMenuIcon(String filename) {
+		return getMenuIcon(filename, null);
+	}
+
 	/*
 	 * needed for padding in Windows XP or earlier without check, checkbox isn't
 	 * shown in Vista, Win 7
@@ -1909,9 +1912,28 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
+	private String getMenuIconPath() {
+		int fontSize = getGUIFontSize();
+		String path = fontSize < 14 ? "/gui/images/"
+				: "/gui/images/menu-icons/";
+		if (fontSize >= 15 && fontSize < 30) {
+			path += "20px/";
+		} else if (fontSize >= 30 && fontSize < 79.5) {
+			path += "40px/";
+		} else if (fontSize >= 79.5) {
+			path += "106px/";
+		}
+
+		return path;
+	}
 	public ImageIcon getImageIcon(String filename, Color borderColor) {
 		return imageManager
 				.getImageIcon("/gui/images/" + filename, borderColor);
+	}
+
+	public ImageIcon getMenuIcon(String filename, Color borderColor) {
+		return imageManager.getImageIcon(getMenuIconPath() + filename,
+				borderColor);
 	}
 
 	/**
@@ -2044,8 +2066,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				} else {
 					// use image as icon
 					int size = getMaxIconSize();
-					icon = new ImageIcon(ImageManagerD.addBorder(
-img.getImage()
+					icon = new ImageIcon(ImageManagerD.addBorder(img.getImage()
 							.getScaledInstance(size, -1, Image.SCALE_SMOOTH),
 							border));
 				}
@@ -2703,6 +2724,7 @@ img.getImage()
 				return AppD2.getMenuBarPanel(this, applicationPanel);
 			}
 
+			resetFonts();
 			// Standard case: return application panel
 			return applicationPanel;
 		}

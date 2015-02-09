@@ -506,6 +506,7 @@ public class GeoGebraPreferencesD extends GeoGebraPreferences {
 			// app.setUndoActive(app.isUndoActive());
 
 			// eg. 3D macros may cause MyError
+			app.updateToolBar();
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
