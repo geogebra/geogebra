@@ -2736,6 +2736,26 @@ LatexCmds.right = P(MathCommand, function(_) {
   };
 });
 
+var Quotation = P(Bracket, function(_, _super) {
+  _.init = function(open, close, ctrlSeq, endSeq) {
+    _super.init.call(this, open, close, ctrlSeq, endSeq);
+  };
+  _.createBlocks = function() {
+    var cmd = this,
+	numBlocks = cmd.numBlocks(),
+	blocks = cmd.blocks = Array(numBlocks);
+
+    for (var i = 0; i < numBlocks; i += 1) {
+      //var newBlock = blocks[i] = TextBlock();
+      var newBlock = blocks[i] = makeTextBlock('', '', '')();
+	  newBlock.adopt(cmd, cmd.ch[R], 0);
+	}
+  };
+});
+
+// this works, but may go wrong afterwards navigating the cursor!
+//CharCmds['"'] = bind(Quotation, '"', '"', '"', '"');
+
 LatexCmds.lbrace =
 CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');
 LatexCmds.langle =
@@ -3906,7 +3926,12 @@ pi: 1
  */
 var TextBlock = P(Node, function(_, _super) {
   _.ctrlSeq = '\\text';
-
+  _.join = function(methodName) {
+	// for compatibility with MathBlock
+    return this.foldChildren('', function(fold, child) {
+	  return fold + child[methodName]();
+	});
+  };
   _.replaces = function(replacedText) {
     if (replacedText instanceof Fragment)
       this.replacedText = replacedText.remove().jQ.text();
@@ -3960,11 +3985,18 @@ var TextBlock = P(Node, function(_, _super) {
       return text + child.text2;
     });
   };
-  _.text = function() { return '"' + this.textContents() + '"'; };
+  _.text = function() {
+	  if (this.ctrlSeq == '') {
+		  return this.textContents();
+	  }
+	  return '"' + this.textContents() + '"';
+  };
   _.latex = function() {
 	  if (this.ctrlSeq == '\\textsf') {
 		  // not clear what other things should be allowed here
 		  return this.ctrlSeq + '{' + this.textContents() + '}';
+	  } else if (this.ctrlSeq == '') {
+		  return this.textContents();
 	  }
 	  return '\\text{' + this.textContents() + '}';
   };
@@ -3978,6 +4010,8 @@ var TextBlock = P(Node, function(_, _super) {
 				+   this.textContents()
 				+ '</span>'
 		);
+	} else if (this.ctrlSeq == '') {
+		return this.textContents();
 	}
     return (
         '<span class="text" mathquillggb-command-id='+this.id+'>'
@@ -4106,6 +4140,8 @@ var TextPiece = P(Node, function(_, _super) {
   };
 
   _.latex = function() { return this.text2; };
+  _.text = function() { return this.text2; };
+  _.html = function() { return this.text2; };
 
   _.deleteTowards = function(dir, cursor) {
     if (this.text2.length > 1) {
