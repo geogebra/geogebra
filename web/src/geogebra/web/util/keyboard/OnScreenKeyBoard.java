@@ -1,5 +1,7 @@
 package geogebra.web.util.keyboard;
 
+import geogebra.common.util.Unicode;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -101,7 +103,7 @@ Widget textField,
 		String[] icons = new String[] { "a²", "a³", "a^b", "x", "y", "z", // first
 		        // line
 		        "(", ")", "[", "]", "<", ">", // second line
-		        "sin", "cos", "tan", PI, "e", I, // third line
+		        "sin", "cos", "tan", PI, Unicode.EULER_STRING, I, // third line
 		        "ln", SQUARE_ROOT, ",", ":=" // last line
 		};
 		KeyPanel functions = new KeyPanel(icons, 6, this);
@@ -112,7 +114,7 @@ Widget textField,
 
 		icons = new String[] { "7", "8", "9", "/", BACKSPACE, // first line
 		        "4", "5", "6", "*", ENTER,// second line
-		        "1", "2", "3", "-", null, // third line
+		        "1", "2", "3", Unicode.minus + "", null, // third line
 		        "0", ".", "=", "+" // last line
 		};
 		KeyPanel numbers = new KeyPanel(icons, 5, this);
