@@ -1,6 +1,5 @@
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;

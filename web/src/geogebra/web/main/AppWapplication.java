@@ -11,7 +11,6 @@ import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.ToolBarInterface;
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.AppW;
@@ -44,6 +43,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class AppWapplication extends AppW {
 
@@ -513,9 +513,9 @@ public class AppWapplication extends AppW {
 	}
 
 	@Override
-	public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
-		getAppFrame().showKeyBoard(true, autoCompleteTextFieldW);
-		if (autoCompleteTextFieldW != null) {
+	public void showKeyboard(Widget textField) {
+		getAppFrame().showKeyBoard(true, textField);
+		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
 		}
 	}

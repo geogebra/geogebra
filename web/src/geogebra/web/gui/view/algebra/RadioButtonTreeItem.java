@@ -106,14 +106,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
 	private boolean newCreationMode = false;
-	private boolean mout = false;
+	boolean mout = false;
 
 	protected SpanElement seMayLatex;
 	private SpanElement seNoLatex;
 
 	private Marble radio;
 	InlineHTML ihtml;
-	private TextBox tb;
+	TextBox tb;
 	private boolean needsUpdate;
 	
 	private LongTouchManager longTouchManager;
@@ -190,6 +190,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				return false;
 			}
 			
+			@Override
 			public void appendHTML(String str) {
 				append(str);
 			}
@@ -841,6 +842,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	@Override
     public void onClick(ClickEvent evt) {
+		if (app.isPrerelease()) {
+			app.showKeyboard(this);
+		}
+
 		if (newCreationMode) {
 			setFocus(true);
 		}

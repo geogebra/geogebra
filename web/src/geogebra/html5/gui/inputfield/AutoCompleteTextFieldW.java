@@ -140,12 +140,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	        .compile("[,\\[\\(] *(<.*?>|\"<.*?>\"|\\.\\.\\.) *(?=[,\\]\\)])");
 
 	/**
-	 * whether to show an instance of OnScreenKeyBoard or not (in this case the
-	 * system keyboard is shown on tablets)
-	 */
-	public static boolean showOnScreenKeyBoard = false;
-
-	/**
 	 * whether or not the OnScreenKeyBoard is visible at the moment
 	 */
 	boolean keyboardUsed = false;
@@ -1486,7 +1480,7 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void requestFocus() {
-		if (showOnScreenKeyBoard) {
+		if (app.isPrerelease()) {
 			app.showKeyboard(this);
 
 			// TODO needs to be removed for mobile devices

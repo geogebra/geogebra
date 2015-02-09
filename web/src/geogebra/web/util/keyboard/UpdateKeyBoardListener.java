@@ -1,10 +1,10 @@
 package geogebra.web.util.keyboard;
 
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import com.google.gwt.user.client.ui.Widget;
 
 public interface UpdateKeyBoardListener {
 
-	public abstract void updateKeyBoard(AutoCompleteTextFieldW textField);
+	public abstract void updateKeyBoard(Widget textField);
 
 	public abstract void showInputField();
 

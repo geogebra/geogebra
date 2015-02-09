@@ -72,7 +72,6 @@ import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.ToolBarInterface;
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.io.ConstructionException;
@@ -3054,7 +3053,7 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Overwritten in subclass
 	 */
-	public void showKeyboard(AutoCompleteTextFieldW autoCompleteTextFieldW) {
+	public void showKeyboard(Widget textField) {
 		// nothing to do here
 	}
 

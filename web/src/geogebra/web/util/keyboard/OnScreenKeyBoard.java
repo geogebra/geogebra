@@ -1,14 +1,10 @@
 package geogebra.web.util.keyboard;
 
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-
-import com.google.gwt.dom.client.Document;
-import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * on screen keyboard containing mathematical symbols and formulas
@@ -17,7 +13,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private static OnScreenKeyBoard instance;
 	private FlowPanel content = new FlowPanel();
-	private AutoCompleteTextFieldW textField;
+	// TODO remove for mobile devices
+	private FlowPanel contentLetters = new FlowPanel();
+	private Widget textField;
+	private TextFieldProcessing processing = new TextFieldProcessing();
 
 	private static final String PI = "\u03C0";
 	private static final String SQUARE_ROOT = "\u221A";
@@ -25,6 +24,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	// input)
 	private static final String BACKSPACE = "\u21A4";
 	private static final String ENTER = "\u21B2";
+	private static final String SHIFT = "\u21E7";
 	// private static final String E = "\u212F"; // TODO use (not displayed
 	// correctly)
 	private static final String I = "\u03AF";
@@ -41,6 +41,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * listener for updates of the keyboard structure
 	 */
 	private UpdateKeyBoardListener updateKeyBoardListener;
+	private KeyPanel letters;
 
 	/**
 	 * creates a keyboard instance
@@ -51,7 +52,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @return instance of onScreenKeyBoard
 	 */
 	public static OnScreenKeyBoard getInstance(
-	        AutoCompleteTextFieldW textField, UpdateKeyBoardListener listener) {
+Widget textField,
+	        UpdateKeyBoardListener listener) {
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
 		}
@@ -74,7 +76,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 */
 	public static void setUsed(boolean used) {
 		if (instance != null && instance.textField != null) {
-			instance.textField.setKeyBoardUsed(used
+			instance.processing.setKeyBoardUsed(used
 			        && instance.content.isVisible());
 		}
 	}
@@ -93,16 +95,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		if (enablePositioning) {
 			super.setPopupPosition(left, top);
 		}
-	}
-
-	/**
-	 * Enter-key was pressed
-	 */
-	public void onEnter() {
-		NativeEvent event = Document.get().createKeyUpEvent(false, false,
-		        false, false, 13);
-		textField.getTextField().onBrowserEvent(Event.as(event));
-		this.hide();
 	}
 
 	private void createKeyBoard() {
@@ -127,38 +119,88 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		numbers.setSpecialButton(ENTER, true, 9, this);
 		content.add(numbers);
 
+		icons = new String[] { "q", "w", "e", "r", "t", "y", "u", "i", "o",
+		        "p", // first line
+		        "a", "s", "d", "f", "g", "h", "j", "k", "l", null, // second
+																   // line
+		        SHIFT, "z", "x", "c", "v", "b", "n", "m", ENTER // last line
+		};
+		letters = new KeyPanel(icons, 10, this);
+		contentLetters.add(letters);
+
 		// TODO needs to be added for mobile devices
-		// KeyBoardMenu menu = new KeyBoardMenu(this);
+		KeyBoardMenu menu = new KeyBoardMenu(this);
 		FlowPanel p = new FlowPanel();
-		// p.add(menu);
+		p.add(menu);
 		content.addStyleName("KeyBoardContent");
 		p.add(content);
+		p.add(contentLetters);
+		contentLetters.setVisible(false);
 		add(p);
 	}
 
 	@Override
 	public void onClick(ClickEvent event) {
+		event.stopPropagation();
 		Object source = event.getSource();
 		if (source != null && source instanceof KeyBoardButton) {
 			String text = ((KeyBoardButton) source).getText();
 
 			if (text.equals(BACKSPACE)) {
-				textField.onBackSpace();
+				processing.onBackSpace();
 			} else if (text.equals(ENTER)) {
-				onEnter();
+				processing.onEnter();
+				this.hide();
+			} else if (text.equals(SHIFT)) {
+				for (FlowPanel col : letters.colum) {
+					for (int i = 0; i < col.getWidgetCount(); i++) {
+						if (col.getWidget(i) instanceof KeyBoardButton) {
+							KeyBoardButton b = (KeyBoardButton) col
+							        .getWidget(i);
+							if (Character.isLetter(b.getCaption().charAt(0))) {
+								if (Character.isLowerCase(b.getCaption()
+								        .charAt(0))) {
+									b.setCaption(b.getCaption().toUpperCase(),
+									        true);
+								} else {
+									b.setCaption(b.getCaption().toLowerCase(),
+									        true);
+								}
+							}
+						}
+					}
+				}
 			} else {
-				textField.insertString(text);
+				processing.insertString(text);
 			}
+
+			if (!text.equals(SHIFT)) {
+				resetButtons();
+			}
+
 			if (textField != null) {
 				// textField could be null after onEnter()
 
 				// TODO set to false for mobile devices
-				textField.setFocus(true);
+				processing.setFocus(true);
 			}
 		}
 
-		event.stopPropagation();
+
 	}
+
+	private void resetButtons() {
+	    for(FlowPanel col : letters.colum){
+	    	for(int i = 0; i < col.getWidgetCount(); i++){
+	    		if (col.getWidget(i) instanceof KeyBoardButton){
+	    			KeyBoardButton b = (KeyBoardButton) col.getWidget(i);
+					if (Character.isLetter(b.getCaption().charAt(0))) {
+						b.setCaption(b.getCaption().toLowerCase(), true);
+					}
+	    		}
+	    	}
+	    }
+    }
 
 	/**
 	 * The text field to be used
@@ -166,8 +208,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @param textField
 	 *            the text field connected to the keyboard
 	 */
-	public void setTextField(AutoCompleteTextFieldW textField) {
+	public void setTextField(Widget textField) {
 		this.textField = textField;
+		this.processing.setField(textField);
 	}
 
 	private void setListener(UpdateKeyBoardListener listener) {
@@ -181,15 +224,17 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public void setKeyboardMode(final KeyboardMode mode) {
 		this.mode = mode;
 		if (mode == KeyboardMode.NUMBER) {
-			textField.setKeyBoardModeText(false);
-			textField.setFocus(false);
+			processing.setKeyBoardModeText(false);
+			processing.setFocus(false);
 			content.setVisible(true);
+			contentLetters.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			content.setVisible(false);
+			contentLetters.setVisible(true);
 			updateKeyBoardListener.updateKeyBoard(textField);
-			textField.setKeyBoardModeText(true);
-			textField.setFocus(true);
+			processing.setKeyBoardModeText(true);
+			processing.setFocus(true);
 			updateKeyBoardListener.showInputField();
 		}
 		setUsed(true);
@@ -215,6 +260,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public void resetKeyboardState() {
 		mode = KeyboardMode.NUMBER;
 		content.setVisible(true);
+		resetButtons();
+		contentLetters.setVisible(false);
 	}
 
 }

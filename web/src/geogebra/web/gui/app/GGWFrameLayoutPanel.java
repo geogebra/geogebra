@@ -3,7 +3,6 @@ package geogebra.web.gui.app;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ClickStartHandler;
@@ -24,6 +23,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements
         UpdateKeyBoardListener {
@@ -123,7 +123,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * @param show whether to show keyboard
 	 * @param textField textfield receiving the text from keyboard
 	 */
-	public void showKeyBoard(boolean show, AutoCompleteTextFieldW textField){
+	public void showKeyBoard(boolean show, Widget textField) {
 		//make sure the main part of this method is called ONLY WHEN NECESSARY
 		if(this.keyboardShowing == show){
 			return;
@@ -162,7 +162,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		timer.schedule(0);
 	}
 
-	public void updateKeyBoard(AutoCompleteTextFieldW textField){
+	public void updateKeyBoard(Widget textField) {
 		this.mainPanel.clear();
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
 		keyBoard.show();

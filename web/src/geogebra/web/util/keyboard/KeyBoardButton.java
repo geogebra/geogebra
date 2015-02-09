@@ -12,14 +12,16 @@ public class KeyBoardButton extends SimplePanel {
 
 	private String feedBack;
 
+	private Label label;
+
 	public KeyBoardButton(String caption) {
 		this(caption, caption, false);
 	}
 
 	public KeyBoardButton(String caption, String feedBack, boolean largeButton) {
-		Label l = new Label(caption);
+		label = new Label(caption);
 		if (largeButton) {
-			content = l;
+			content = label;
 			content.addStyleName("KeyBoardButton_label");
 			this.addStyleName("KeyBoardButton_simple");
 		} else {
@@ -29,12 +31,23 @@ public class KeyBoardButton extends SimplePanel {
 				addStyleName("KeyBoardButton");
 			}
 		}
-		this.add(l);
+		this.add(label);
 
 		this.feedBack = feedBack == null ? caption : feedBack;
 	}
 
 	public String getText() {
 		return feedBack;
+	}
+
+	public String getCaption() {
+		return label.getText();
+	}
+
+	public void setCaption(String caption, boolean resetFeedBack) {
+		label.setText(caption);
+		if (resetFeedBack) {
+			feedBack = caption;
+		}
 	}
 }
