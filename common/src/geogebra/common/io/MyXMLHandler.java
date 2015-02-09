@@ -134,7 +134,8 @@ public class MyXMLHandler implements DocHandler {
 																// </perspective>
 
 	/** available font sizes (will be reused in OptionsAdvanced) */
-	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32 };
+	final public static int[] menuFontSizes = { 12, 14, 16, 18, 20, 24, 28, 32,
+			48 };
 	/** available tooltip timeouts (will be reused in OptionsAdvanced) */
 	final public static String[] tooltipTimeouts = new String[] { "1", "3",
 			"5", "10", "20", "30", "60", "0" };
