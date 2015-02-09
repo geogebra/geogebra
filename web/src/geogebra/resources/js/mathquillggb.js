@@ -417,6 +417,9 @@ var manageTextarea = (function() {
       keypress = null;
 
       handleKey();
+
+      //e.stopPropagation();
+      //return true;
     }
 
     function onKeypress(e) {
@@ -429,6 +432,9 @@ var manageTextarea = (function() {
       keypress = e;
 
       checkTextareaFor(typedText);
+
+      //e.stopPropagation();
+      //return true;
     }
     function typedText() {
       if (checkTextarea2 !== noop) return;
@@ -1804,8 +1810,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       break;
 
     case 'Ctrl-V':
-      // It seems otherwise "return false" would prevent
-      // the default action of this event, i.e. paste
       //console.log('Ctrl-V catched!');
       //e.stopPropagation();
       //return true;
