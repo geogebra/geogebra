@@ -16,7 +16,6 @@ import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.LocalizationW;
 import geogebra.html5.main.StringHandler;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.browser.BrowseResources;
@@ -26,6 +25,7 @@ import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 import geogebra.web.util.SaveCallback;
+import geogebra.web.util.SaveCallback.SaveState;
 
 import java.util.List;
 
@@ -97,7 +97,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	private Label titleLabel;
 	private final int MIN_TITLE_LENGTH = 1;
 	Runnable runAfterSave;
-	SaveCallback saveCallback;
+	// SaveCallback saveCallback;
 	private PopupMenuButton providerPopup;
 	private FlowPanel buttonPanel;
 	private ListBox listBox;
@@ -116,7 +116,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		this.app = app;
 		this.addStyleName("GeoGebraFileChooser");
 		this.setGlassEnabled(true);
-		this.saveCallback = new SaveCallback(this.app);
+		// this.saveCallback = new SaveCallback(this.app);
 		this.contentPanel = new FlowPanel();
 		this.add(this.contentPanel);
 		
@@ -151,16 +151,24 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		}
 	}
 	
-	MaterialCallback initMaterialCB(final String base64, final String visibility) {
+	MaterialCallback initMaterialCB(final String base64,
+	        final String visibility, final boolean forked) {
 		return new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
-					handleMaterialCallback(parseResponse.get(0));
-					runAfterSaveCallback();
-
 					Material newMat = parseResponse.get(0);
+					newMat.setThumbnail(
+					        app.getEuclidianView1()
+					                .getCanvasBase64WithTypeString());
+					app.getKernel().getConstruction().setTitle(title.getText());
+					app.setTubeId(newMat.getId());
+					// last synchronization is equal to last modified
+					app.setSyncStamp(newMat.getModified());
+
+
+
 					newMat.setSyncStamp(newMat.getModified());
 					app.setTubeId(newMat.getId());
 					if (visibility != null && !"".equals(visibility)
@@ -170,12 +178,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 						        + visibility, "_blank", "");
 					}
 					app.setSyncStamp(parseResponse.get(0).getModified());
-					saveLocalIfNeeded(parseResponse.get(0).getModified());
+					saveLocalIfNeeded(parseResponse.get(0).getModified(),
+					        forked ? SaveState.FORKED : SaveState.OK);
+					// if we got there via file => new, do the file =>new now
+					runAfterSaveCallback();
 				}
 				else {
-					saveCallback.onError();
 					resetCallback();
-					saveLocalIfNeeded(getCurrentTimestamp(app));
+					saveLocalIfNeeded(getCurrentTimestamp(app), SaveState.ERROR);
 				}
 
 				hide();
@@ -186,19 +196,19 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			@Override
 			public void onError(final Throwable exception) {
 				Log.error("SAVE Error" + exception.getMessage());
-				saveCallback.onError();
+
 				resetCallback();
 				((GuiManagerW) app.getGuiManager()).openFilePicker();
-				saveLocalIfNeeded(getCurrentTimestamp(app));
+				saveLocalIfNeeded(getCurrentTimestamp(app), SaveState.ERROR);
 				hide();
 			}
 
-			private void saveLocalIfNeeded(long modified) {
+			private void saveLocalIfNeeded(long modified, SaveState forked) {
 				if (app.getFileManager().shouldKeep(0)) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
 					        modified,
-					        new SaveCallback(app) {
+ new SaveCallback(app, forked) {
 						        @Override
 						        public void onSaved(final Material mat,
 						                final boolean isLocal) {
@@ -215,17 +225,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		        app.getSyncStamp() + 1);
 	}
 
-	/**
-	 * @param newMat 
-	 */
-    void handleMaterialCallback(Material newMat) {
-        app.getKernel().getConstruction().setTitle(title.getText());
-		app.setTubeId(newMat.getId());
-        //last synchronization is equal to last modified 
-        app.setSyncStamp(newMat.getModified());
-        newMat.setThumbnail(app.getEuclidianView1().getCanvasBase64WithTypeString());
-        saveCallback.onSaved(newMat, false);
-    }
 	
 	
 	private HorizontalPanel getTitelPanel() {
@@ -415,7 +414,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
             public void handle(String s) {
 				((FileManager) app.getFileManager()).saveFile(s,
 				        getCurrentTimestamp(app),
-				        new SaveCallback(app) {
+ new SaveCallback(app,
+				                SaveState.OK) {
 			    	@Override
 			    	public void onSaved(final Material mat, final boolean isLocal) {
 			    		super.onSaved(mat, isLocal);
@@ -464,12 +464,14 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				        app.getKernel().getConstruction().getTitle())) {
 					App.debug("SAVE filename changed");
 					app.setTubeId(0);
-					doUploadToGgt(base64, initMaterialCB(base64, visibility));
+					doUploadToGgt(base64,
+					        initMaterialCB(base64, visibility, false));
 				} else if (app.getTubeId() == 0) {
 					App.debug("SAVE had no Tube ID");
-					doUploadToGgt(base64, initMaterialCB(base64, visibility));
+					doUploadToGgt(base64,
+					        initMaterialCB(base64, visibility, false));
 				} else {
-					handleSync(base64, initMaterialCB(base64, visibility));
+					handleSync(base64, visibility);
 				}
 
 			}
@@ -519,34 +521,31 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		app.getGgbApi().getBase64(true, callback);
     }
 
-	void handleSync(final String base64, final MaterialCallback materialCallback) {
+	void handleSync(final String base64, final String visibility) {
 		((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI())
 		        .getItem(app.getTubeId() + "", new MaterialCallback() {
 
 			@Override
 			public void onLoaded(final List<Material> parseResponse) {
+				        MaterialCallback materialCallback;
 				if (parseResponse.size() == 1) {
 					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {
 						        App.debug("SAVE MULTIPLE"
 						                + parseResponse.get(0).getModified()
 						                + ":" + app.getSyncStamp());
 						        app.setTubeId(0);
-						        ToolTipManagerW
-						                .sharedInstance()
-						                .showBottomMessage(
-						                        ((LocalizationW) app
-						                                .getLocalization())
-						                                .getPlain(
-						                                        "SeveralVersionsOfA",
-						                                        parseResponse
-						                                                .get(0)
-						                                                .getTitle()),
-						                        false);
+						        materialCallback = initMaterialCB(base64,
+						                visibility, true);
+					        } else {
+						        materialCallback = initMaterialCB(base64,
+						                visibility, false);
 					}
 					doUploadToGgt(base64, materialCallback);
 				} else {
 					// if the file was deleted meanwhile (parseResponse.size() == 0)
 					app.resetUniqueId();
+					        materialCallback = initMaterialCB(base64,
+					                visibility, false);
 					doUploadToGgt(base64, materialCallback);
 				}
 			}

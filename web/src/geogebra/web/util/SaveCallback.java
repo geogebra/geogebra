@@ -14,11 +14,15 @@ public class SaveCallback {
 
 	private final AppW app;
 
+	public enum SaveState {
+		OK, FORKED, ERROR
+	};
+
 	/**
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public SaveCallback(final AppW app) {
+	public SaveCallback(final AppW app, SaveState forked) {
 		this.app = app;
 	}
 
