@@ -28,6 +28,8 @@ import java.awt.event.MouseEvent;
 import java.text.BreakIterator;
 import java.util.ArrayList;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -310,16 +312,22 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private JPanel getGridButtonPanel() {
 
 		// undo button
-		JButton btnUndo = new JButton(
-				((GuiManagerD) app.getGuiManager()).getUndoAction());
+		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
+				.getUndoAction();
+		undoAction.putValue(Action.SMALL_ICON,
+				app.getMenuIcon("menu-edit-undo.png"));
+		JButton btnUndo = new JButton(undoAction);
 		String text = loc.getMenuTooltip("Undo");
 		btnUndo.setText(null);
 		btnUndo.setToolTipText(text);
 		btnUndo.setAlignmentX(RIGHT_ALIGNMENT);
 
 		// redo button
-		JButton btnRedo = new JButton(
-				((GuiManagerD) app.getGuiManager()).getRedoAction());
+		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
+				.getRedoAction();
+		redoAction.putValue(Action.SMALL_ICON,
+				app.getMenuIcon("menu-edit-redo.png"));
+		JButton btnRedo = new JButton(redoAction);
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
 		btnRedo.setToolTipText(text);
