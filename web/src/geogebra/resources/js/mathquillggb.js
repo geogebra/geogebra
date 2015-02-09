@@ -2617,23 +2617,26 @@ LatexCmds.closedoubleonly = bind(HalfBracket, '', '||', '\\closedoubleonly');
 
 // Round/Square/Curly/Angle Brackets (aka Parens/Brackets/Braces)
 var Bracket = P(MathCommand, function(_, _super) {
-  _.init = function(open, close, ctrlSeq, end) {
+  _.init = function(open, close, ctrlSeq, end, blockClass) {
+	if ((blockClass === undefined) || (blockClass !== 'non-leaf text')) {
+	  blockClass = 'non-leaf';
+	}
     _super.init.call(this, '\\left'+ctrlSeq,
         '<span class="non-leaf paren-parent">'
       +   '<span class="scaled paren">'+open+'</span>'
-      +   '<span class="non-leaf">&0</span>'
+      +   '<span class="'+blockClass+'">&0</span>'
       +   '<span class="scaled paren">'+close+'</span>'
       + '</span>',
       [open, close]);
     this.end = '\\right'+end;
     this.htmlTemplate1 = '<span class="non-leaf paren-parent paren-parent-colored">'
         +   '<span class="scaled paren">'+open+'</span>'
-        +   '<span class="non-leaf">&0</span>'
+        +   '<span class="'+blockClass+'">&0</span>'
         +   '<span class="scaled paren">'+close+'</span>'
         + '</span>';
     this.htmlTemplate2 = '<span class="non-leaf paren-parent">'
 	      +   '<span class="scaled paren">'+open+'</span>'
-	      +   '<span class="non-leaf">&0</span>'
+	      +   '<span class="'+blockClass+'">&0</span>'
 	      +   '<span class="scaled paren">'+close+'</span>'
 	      + '</span>';
   };
@@ -2738,7 +2741,7 @@ LatexCmds.right = P(MathCommand, function(_) {
 
 var Quotation = P(Bracket, function(_, _super) {
   _.init = function(open, close, ctrlSeq, endSeq) {
-    _super.init.call(this, open, close, ctrlSeq, endSeq);
+    _super.init.call(this, open, close, ctrlSeq, endSeq, 'non-leaf text');
   };
   _.createBlocks = function() {
     var cmd = this,
