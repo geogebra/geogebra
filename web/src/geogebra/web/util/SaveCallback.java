@@ -13,6 +13,7 @@ import geogebra.web.gui.GuiManagerW;
 public class SaveCallback {
 
 	private final AppW app;
+	private SaveState state;
 
 	public enum SaveState {
 		OK, FORKED, ERROR
@@ -22,22 +23,31 @@ public class SaveCallback {
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public SaveCallback(final AppW app, SaveState forked) {
+	public SaveCallback(final AppW app, SaveState state) {
 		this.app = app;
+		this.state = state;
 	}
 
 	/**
 	 * @param app
 	 *            {@link AppW}
 	 */
-	public static void onSaved(AppW app) {
+	public static void onSaved(AppW app, SaveState state) {
 		app.setSaved();
 		if (app.getActiveMaterial() != null
 		        && !app.getActiveMaterial().getVisibility().equals("P")) {
+			String msg = app.getMenu("SavedSuccessfully");
+			if (state == state.FORKED) {
+				msg += "<br/>";
+				msg += app.getLocalization().getPlain("SeveralVersionsOf",
+				        app.getKernel()
+				        .getConstruction().getTitle());
+			}
 			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
 			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
 			        "<p style='margin-top: 13px; margin-bottom: 0px'>"
-			                + app.getMenu("SavedSuccessfully") + "</p>",
+ + msg
+			                + "</p>",
 			        app.getActiveMaterial().getURL(),
 			        ToolTipLinkType.ViewSavedFile, app);
 		} else {
@@ -56,7 +66,7 @@ public class SaveCallback {
 	 */
 	public void onSaved(final Material mat, final boolean isLocal) {
 		app.setActiveMaterial(mat);
-		onSaved(app);
+		onSaved(app, state);
 		if (((GuiManagerW) app.getGuiManager()).browseGUIwasLoaded()) {
 			app.getGuiManager().getBrowseView().refreshMaterial(mat, isLocal);
 		}

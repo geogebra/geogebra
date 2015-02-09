@@ -19,6 +19,7 @@ import geogebra.web.move.googledrive.events.GoogleLogOutEvent;
 import geogebra.web.move.googledrive.events.GoogleLoginEvent;
 import geogebra.web.move.googledrive.models.GoogleDriveModelW;
 import geogebra.web.util.SaveCallback;
+import geogebra.web.util.SaveCallback.SaveState;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArray;
@@ -532,7 +533,7 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		((DialogManagerW) app.getDialogManager()).getSaveDialog()
 		        .runAfterSaveCallback();
 		((DialogManagerW) app.getDialogManager()).getSaveDialog().hide();
-		SaveCallback.onSaved(app);
+		SaveCallback.onSaved(app, SaveState.OK);
 		refreshCurrentFileDescriptors(fileName, description);
 		setCurrentFileId(id);
 	}
