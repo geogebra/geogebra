@@ -621,7 +621,8 @@ public class MyList extends ValidExpression implements ListValue,
 			} else {
 				toLaTeXString.append("\\left(\\begin{array}{");
 				for (int i = 0; i < matrixCols; i++) {
-					toLaTeXString.append("l");
+					// nice alignment for eg {{-1,1},{1,-1}} in CAS
+					toLaTeXString.append("r");
 				}
 				toLaTeXString.append("}");
 
