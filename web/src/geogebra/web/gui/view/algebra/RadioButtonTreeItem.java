@@ -415,6 +415,27 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}
 
+	/**
+	 * This method can be used to invoke a keyup event on MathQuillGGB, e.g.
+	 * key=13,alt=false,ctrl=false,shift=false will trigger a Enter event
+	 * 
+	 * @param key
+	 *            keyCode of the event, which is the same as "event.which", used
+	 *            at keyup
+	 * @param alt
+	 *            boolean
+	 * @param ctrl
+	 *            boolean
+	 * @param shift
+	 *            boolean
+	 */
+	public void keyup(int key, boolean alt, boolean ctrl, boolean shift) {
+		if (av.isEditing() || isThisEdited() || newCreationMode) {
+			geogebra.html5.main.DrawEquationWeb.triggerKeyUp(seMayLatex, key,
+			        alt, ctrl, shift);
+		}
+	}
+
 	@Override
     public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);

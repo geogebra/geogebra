@@ -1,7 +1,6 @@
 package geogebra.web.util.keyboard;
 
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
 
 import com.google.gwt.dom.client.Document;
@@ -35,6 +34,12 @@ public class TextFieldProcessing {
 		}
 	}
 
+	/**
+	 * Focus/Blur the text field
+	 * 
+	 * @param focus
+	 *            true: focus; false: blur
+	 */
 	public void setFocus(boolean focus) {
 		switch (state) {
 		case autoCompleteTextField:
@@ -70,11 +75,7 @@ public class TextFieldProcessing {
 			        Event.as(event));
 			break;
 		case radioButtonTreeItem:
-			// TODO workaround; will be removed
-			DrawEquationWeb.newFormulaCreatedMathQuillGGB(
-			        (NewRadioButtonTreeItem) field,
-			        ((NewRadioButtonTreeItem) field).getText());
-			((NewRadioButtonTreeItem) field).startEditing();
+			((NewRadioButtonTreeItem) field).keyup(13, false, false, false);
 			break;
 		}
 	}
@@ -93,6 +94,12 @@ public class TextFieldProcessing {
 		}
 	}
 
+	/**
+	 * Inserts the given text at the caret position
+	 * 
+	 * @param text
+	 *            text to be inserted
+	 */
 	public void insertString(String text) {
 		switch (state) {
 		case autoCompleteTextField:
@@ -100,7 +107,13 @@ public class TextFieldProcessing {
 			break;
 		case radioButtonTreeItem:
 			((NewRadioButtonTreeItem) field).setFocus(true);
-			((NewRadioButtonTreeItem) field).insertString(text);
+			if (text.equals("^")) {
+				((NewRadioButtonTreeItem) field).insertString("^{}");
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				        false);
+			} else {
+				((NewRadioButtonTreeItem) field).insertString(text);
+			}
 			break;
 		}
 	}

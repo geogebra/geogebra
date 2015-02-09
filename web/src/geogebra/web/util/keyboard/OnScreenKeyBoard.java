@@ -100,7 +100,7 @@ Widget textField,
 	}
 
 	private void createKeyBoard() {
-		String[] icons = new String[] { "a²", "a³", "a^b", "x", "y", "z", // first
+		String[] icons = new String[] { "x²", "x³", "x^y", "x", "y", "z", // first
 		        // line
 		        "(", ")", "[", "]", "<", ">", // second line
 		        "sin", "cos", "tan", PI, Unicode.EULER_STRING, I, // third line
@@ -112,12 +112,15 @@ Widget textField,
 		functions.setSpecialButton("^", false, 2, this);
 		content.add(functions);
 
-		icons = new String[] { "7", "8", "9", "/", BACKSPACE, // first line
-		        "4", "5", "6", "*", ENTER,// second line
+		icons = new String[] { "7", "8", "9", Unicode.divide + "", BACKSPACE, // first
+																			  // line
+		        "4", "5", "6", Unicode.multiply + "", ENTER,// second line
 		        "1", "2", "3", Unicode.minus + "", null, // third line
 		        "0", ".", "=", "+" // last line
 		};
 		KeyPanel numbers = new KeyPanel(icons, 5, this);
+		numbers.setSpecialButton("/", false, 3, this);
+		numbers.setSpecialButton("*", false, 8, this);
 		numbers.setSpecialButton(ENTER, true, 9, this);
 		content.add(numbers);
 
