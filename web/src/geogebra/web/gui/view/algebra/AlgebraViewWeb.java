@@ -13,6 +13,7 @@ import geogebra.common.main.Localization;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.util.debug.GeoGebraProfiler;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
@@ -28,6 +29,7 @@ import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.OpenEvent;
 import com.google.gwt.event.logical.shared.OpenHandler;
 import com.google.gwt.safehtml.shared.SafeHtmlUtils;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -91,6 +93,17 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		this.loc = app.getLocalization();
 		this.kernel = app.getKernel();
 		this.addOpenHandler(this);
+	}
+
+	@Override
+	public void onBrowserEvent(Event event) {
+		if (event.getTypeInt() == Event.ONCLICK) {
+			// background click
+			if (!CancelEventTimer.cancelKeyboardHide()) {
+				app.hideKeyboard();
+			}
+		}
+		super.onBrowserEvent(event);
 	}
 
     /**
@@ -1032,8 +1045,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 				@Override
                 public void onMouseDown(MouseDownEvent event) {
-	               //event.stopPropagation();
-                }}, MouseDownEvent.getType());
+					// event.stopPropagation();
+				}
+			}, MouseDownEvent.getType());
 		}
 		showAlgebraInput();
 	}
