@@ -276,6 +276,8 @@ var manageTextarea = (function() {
 
     46: 'Del',
 
+    86: 'V',
+
     144: 'NumLock'
   };
 
@@ -1801,9 +1803,12 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       // the selection will not be deleted ideally
       break;
 
-    //case 'Ctrl-V':// let's try really pasting this!
-      // TODO: implementation
-      //break;
+    case 'Ctrl-V':
+      // It seems otherwise "return false" would prevent
+      // the default action of this event, i.e. paste
+      //console.log('Ctrl-V catched!');
+      //e.stopPropagation();
+      //return true;
 
     default:
       if (this.common !== undefined) {
