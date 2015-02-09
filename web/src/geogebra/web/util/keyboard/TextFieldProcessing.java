@@ -88,7 +88,7 @@ public class TextFieldProcessing {
 			((AutoCompleteTextFieldW) field).onBackSpace();
 			break;
 		case radioButtonTreeItem:
-			// TODO
+			((NewRadioButtonTreeItem) field).keydown(8, false, false, false);
 			break;
 		}
 	}
