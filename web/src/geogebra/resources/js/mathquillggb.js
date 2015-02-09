@@ -324,12 +324,17 @@ var manageTextarea = (function() {
     // incorrectly reported as selected during the input event (but not
     // subsequently).
     var checkTextarea = noop;
+    var checkTextarea2 = noop;
+
     function checkTextareaFor(checker) {
-      checkTextarea = checker;
-      setTimeout(checker);
+      if (checkTextarea2 === noop) {
+        checkTextarea = checker;
+        setTimeout(checker);
+      } else {
+    	checkTextarea = noop;
+      }
     }
 
-    var checkTextarea2 = noop;
     function checkTextareaFor2(checker) {
       checkTextarea2 = checker;
       setTimeout(checker);
@@ -337,8 +342,9 @@ var manageTextarea = (function() {
 
     // TODO: Wondering why there is a target.bind both here and at the end...
     // It would be good to revise hard-to-understand MathQuillGGB code! 
-    target.bind('keydown keypress input keyup focusout', function() { checkTextarea(); });
+    target.bind('keydown keypress keyup', function() { checkTextarea(); });
     target.bind('paste', function() { checkTextarea2(); });
+    target.bind('input focusout', function() { checkTextarea2(); checkTextarea(); });
 
 
     // -*- public methods -*- //
@@ -365,6 +371,7 @@ var manageTextarea = (function() {
       var text = textarea.val();
       textarea.val('');
       if (text) callback(text);
+      checkTextarea2 = noop;
     }
 
     function popText(callback) {
@@ -422,6 +429,7 @@ var manageTextarea = (function() {
       checkTextareaFor(typedText);
     }
     function typedText() {
+      if (checkTextarea2 !== noop) return;
       // If there is a selection, the contents of the textarea couldn't
       // possibly have just been typed in.
       // This happens in browsers like Firefox and Opera that fire
