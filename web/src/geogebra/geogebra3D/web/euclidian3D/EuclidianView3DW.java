@@ -252,22 +252,29 @@ public class EuclidianView3DW extends EuclidianView3D implements
 		public void onResize() {
 			super.onResize();
 			if (dockPanel != null) {
-				int w = dockPanel.getComponentInteriorWidth();
-				int h = dockPanel.getComponentInteriorHeight();
+				// making this deferred helps the Win8 app
+				app.getGuiManager().invokeLater(new Runnable() {
 
-				// if non positive values, use frame bounds (e.g. when set
-				// perspective)
-				if (w <= 0 || h <= 0) {
-					// GRectangle r = dockPanel.getFrameBounds();
-					w = dockPanel.getEmbeddedDimWidth();
-					h = dockPanel.getEmbeddedDimHeight();
-				}
+					@Override
+					public void run() {
+						int w = dockPanel.getComponentInteriorWidth();
+						int h = dockPanel.getComponentInteriorHeight();
 
-				// App.debug("------------------ resize -----------------------");
-				// App.debug("w = "+w+" , h = "+h);
-				renderer.setView(0, 0, w, h);
-				getEuclidianController().calculateEnvironment();
+						// if non positive values, use frame bounds (e.g. when
+						// set
+						// perspective)
+						if (w <= 0 || h <= 0) {
+							// GRectangle r = dockPanel.getFrameBounds();
+							w = dockPanel.getEmbeddedDimWidth();
+							h = dockPanel.getEmbeddedDimHeight();
+						}
 
+						// App.debug("------------------ resize -----------------------");
+						// App.debug("w = "+w+" , h = "+h);
+						renderer.setView(0, 0, w, h);
+						getEuclidianController().calculateEnvironment();
+					}
+				});
 			}
 		}
 
