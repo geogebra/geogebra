@@ -109,12 +109,15 @@ public class TextFieldProcessing {
 		case radioButtonTreeItem:
 			boolean stepBack = true;
 			if (text.equals("^")) {
+				if (((NewRadioButtonTreeItem) field).getText().length() == 0) {
+					return;
+				}
 				((NewRadioButtonTreeItem) field).insertString("^{}");
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((NewRadioButtonTreeItem) field)
 				        .insertString(Unicode.EULER_STRING + "^{}");
 			} else if (text.equals("sin") || text.equals("cos")
-			        || text.equals("tan")) {
+					|| text.equals("tan") || text.equals("ln")) {
 				((NewRadioButtonTreeItem) field).insertString(text + "()");
 			} else if (text.equals(Unicode.SQUARE_ROOT)) {
 				((NewRadioButtonTreeItem) field).insertString("\\sqrt{}");
