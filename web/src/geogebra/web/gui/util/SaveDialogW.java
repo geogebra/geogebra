@@ -41,7 +41,6 @@ import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.resources.client.ImageResource;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -152,7 +151,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 	}
 	
 	MaterialCallback initMaterialCB(final String base64,
-	        final String visibility, final boolean forked) {
+ final boolean forked) {
 		return new MaterialCallback() {
 
 			@Override
@@ -171,12 +170,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 
 					newMat.setSyncStamp(newMat.getModified());
 					app.setTubeId(newMat.getId());
-					if (visibility != null && !"".equals(visibility)
-					        && !"P".equals(visibility)) {
-						Window.open(SaveDialogW.GGT_EDIT_URL + newMat.getId()
-						        + "?visibility="
-						        + visibility, "_blank", "");
-					}
+
 					app.setSyncStamp(parseResponse.get(0).getModified());
 					saveLocalIfNeeded(parseResponse.get(0).getModified(),
 					        forked ? SaveState.FORKED : SaveState.OK);
@@ -347,18 +341,24 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			}
 			switch (listBox.getSelectedIndex()) {
 			case 0:
-				savePrivate();
+				app.getActiveMaterial().setVisibility(
+				        Visibility.Private.getToken());
 				break;
 			case 1:
-				saveShared();
+				app.getActiveMaterial().setVisibility(
+				        Visibility.Shared.getToken());
 				break;
 			case 2:
-				savePublic();
+				app.getActiveMaterial().setVisibility(
+				        Visibility.Public.getToken());
 				break;
 			default: 
-				savePrivate();
+				app.getActiveMaterial().setVisibility(
+				        Visibility.Private.getToken());
 				break;
 			}
+
+			uploadToGgt(null);
 		}
 	}
 	
@@ -378,28 +378,6 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		hide();
 	}
 
-	private void savePublic() {
-		if (isAlreadyPublicOrShared()) {
-			app.getActiveMaterial().setVisibility(Visibility.Public.getToken());
-			uploadToGgt(null);
-		} else {
-			savePrivateFirst(Visibility.Public.getToken());
-		}
-	}
-
-    private void saveShared() {
-	    if (isAlreadyPublicOrShared()) {
-	    	app.getActiveMaterial().setVisibility(Visibility.Shared.getToken());
-			uploadToGgt(null);
-	    } else {
-	    	savePrivateFirst(Visibility.Shared.getToken());
-	    }
-    }
-
-    private void savePrivate() {
-	    app.getActiveMaterial().setVisibility(Visibility.Private.getToken());
-		uploadToGgt(null);
-    }
 
 	private void saveLocal() {
 	    ToolTipManagerW.sharedInstance().showBottomMessage(app.getMenu("Saving"), false);
@@ -430,16 +408,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		
     }
 
-	/**
-	 * saves the file to ggt as "private", than opens the "Edit" page from ggt in a new window
-	 * 
-	 * @param visibility
-	 */
-	private void savePrivateFirst(final String visibility) {
 
-		uploadToGgt(visibility);
-
-	}
 	
 	
 	/**
@@ -465,11 +434,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 					App.debug("SAVE filename changed");
 					app.setTubeId(0);
 					doUploadToGgt(app.getTubeId(), visibility, base64,
-					        initMaterialCB(base64, visibility, false));
+					        initMaterialCB(base64, false));
 				} else if (app.getTubeId() == 0) {
 					App.debug("SAVE had no Tube ID");
 					doUploadToGgt(app.getTubeId(), visibility, base64,
-					        initMaterialCB(base64, visibility, false));
+					        initMaterialCB(base64, false));
 				} else {
 					handleSync(base64, visibility);
 				}
@@ -534,19 +503,16 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 						                + parseResponse.get(0).getModified()
 						                + ":" + app.getSyncStamp());
 						        app.setTubeId(0);
-						        materialCallback = initMaterialCB(base64,
-						                visibility, true);
+						        materialCallback = initMaterialCB(base64, true);
 					        } else {
-						        materialCallback = initMaterialCB(base64,
-						                visibility, false);
+						        materialCallback = initMaterialCB(base64, false);
 					}
 					        doUploadToGgt(app.getTubeId(), visibility, base64,
 					                materialCallback);
 				} else {
 					// if the file was deleted meanwhile (parseResponse.size() == 0)
 					app.resetUniqueId();
-					        materialCallback = initMaterialCB(base64,
-					                visibility, false);
+					        materialCallback = initMaterialCB(base64, false);
 					        doUploadToGgt(app.getTubeId(), visibility, base64,
 					                materialCallback);
 				}
