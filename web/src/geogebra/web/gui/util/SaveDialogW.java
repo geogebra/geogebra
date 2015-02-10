@@ -198,17 +198,11 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			}
 
 			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (app.getFileManager().shouldKeep(0)) {
+				if (app.getFileManager().shouldKeep(0)
+				        || state == SaveState.ERROR) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
-					        modified,
- new SaveCallback(app, state) {
-						        @Override
-						        public void onSaved(final Material mat,
-						                final boolean isLocal) {
-							        super.onSaved(mat, isLocal);
-						        }
-					        });
+					        modified, new SaveCallback(app, state));
 				} else {
 					SaveCallback.onSaved(app, state);
 				}
