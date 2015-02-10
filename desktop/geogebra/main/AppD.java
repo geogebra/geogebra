@@ -1916,7 +1916,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		int fontSize = getGUIFontSize();
 		String path = fontSize < 14 ? "/gui/images/"
 				: "/gui/images/menu-icons/";
-		if (fontSize >= 15 && fontSize < 30) {
+		if (fontSize >= 14 && fontSize < 30) {
 			path += "20px/";
 		} else if (fontSize >= 30 && fontSize < 79.5) {
 			path += "40px/";
