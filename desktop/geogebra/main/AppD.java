@@ -1951,10 +1951,10 @@ public class AppD extends App implements KeyEventDispatcher {
 			px = 36;
 			break;
 		case 32:
-			px = 42;
+			px = 48;
 			break;
 		case 48:
-			px = 64;
+			px = 56;
 			break;
 
 		}
