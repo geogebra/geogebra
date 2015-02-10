@@ -64,13 +64,13 @@ public class SoundManagerW implements SoundManager {
 	 *            http://www.geogebra.org/static/spelling/spanish/00/00002.mp3
 	 */
 	native void playMP3(String url) /*-{
-	                                var audioElement = document.createElement('audio');
-	                                audioElement.setAttribute('src', url);
-	                                audioElement.load();
-	                                audioElement.addEventListener("canplay", function() {
-	                                audioElement.play();
-	                                });
+		var audioElement = $doc.createElement('audio');
+		audioElement.setAttribute('src', url);
+		audioElement.load();
+		audioElement.addEventListener("canplay", function() {
+			audioElement.play();
+		});
 
-	                                }-*/;
+	}-*/;
 
 }

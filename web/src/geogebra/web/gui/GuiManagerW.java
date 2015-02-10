@@ -1641,8 +1641,8 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 				$wnd.navigator.msSaveBlob(ggbZip, title);
 			} else {
 				//works for firefox
-				var a = document.createElement("a");
-				document.body.appendChild(a);
+				var a = $doc.createElement("a");
+				$doc.body.appendChild(a);
 				a.style = "display: none";
 				a.href = ggburl;
 				a.download = title;
