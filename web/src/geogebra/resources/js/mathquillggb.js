@@ -338,8 +338,10 @@ var manageTextarea = (function() {
     }
 
     function checkTextareaFor2(checker) {
-      checkTextarea2 = checker;
-      setTimeout(checker);
+      checkTextarea2 = function() {
+    	  setTimeout(checker, 200);
+      }
+      checkTextarea2();
     }
 
     // TODO: Wondering why there is a target.bind both here and at the end...
