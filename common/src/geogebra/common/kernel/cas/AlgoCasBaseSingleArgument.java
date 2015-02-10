@@ -44,8 +44,12 @@ public class AlgoCasBaseSingleArgument extends AlgoCasBase {
 	@Override
 	protected void applyCasCommand(StringTemplate tpl) {
 		// factor value form of f
-		g.setUsingCasCommand(this.getClassName().name() + "[%]", f, false,
+		Commands cmd = this.getClassName();
+		g.setUsingCasCommand(cmd.name() + "[%]", f, false,
 				arbconst);
+		if (f.isDefined() && !g.isDefined()) {
+			g.toGeoElement().set(f.toGeoElement());
+		}
 	}
 
 	// TODO Consider locusequability
