@@ -25,7 +25,7 @@ public class KeyBoardButton extends SimplePanel {
 			content.addStyleName("KeyBoardButton_label");
 			this.addStyleName("KeyBoardButton_simple");
 		} else {
-			if (Character.isDigit(caption.charAt(0))) {
+			if (caption.length() > 0 && Character.isDigit(caption.charAt(0))) {
 				addStyleName("KeyBoardButton_Number");
 			} else {
 				addStyleName("KeyBoardButton");

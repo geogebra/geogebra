@@ -1,6 +1,7 @@
 package geogebra.web.util.keyboard;
 
 import geogebra.common.util.Unicode;
+import geogebra.html5.main.DrawEquationWeb;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -100,21 +101,27 @@ Widget textField,
 	}
 
 	private void createKeyBoard() {
-		String[] icons = new String[] { "x²", "x³", "x^y", "x", "y",
+		String[] icons = new String[] { "x²", "x³", "", "x", "y",
 		        "z", // first
 		        // line
 		        "( )", "[ ]", "<", ">", Unicode.LESS_EQUAL + "",
 		        Unicode.GREATER_EQUAL + "", // second line
-		        "sin", "cos", "tan", PI, Unicode.EULER_STRING + "^x", I, // third
-																		 // line
+				"sin", "cos", "tan", PI, "", I, // third line
 		        "ln", Unicode.SQUARE_ROOT, ",", ":=", ARROW_LEFT, ARROW_RIGHT // last
 																	  // line
 		};
 		KeyPanel functions = new KeyPanel(icons, 6, this);
 		functions.setSpecialButton("²", false, 0, this);
 		functions.setSpecialButton("³", false, 1, this);
+
 		functions.setSpecialButton("^", false, 2, this);
-		functions.setSpecialButton(Unicode.EULER_STRING+"^", false, 16, this);
+		DrawEquationWeb.drawEquationAlgebraView(functions.colum[2].getWidget(0)
+				.getElement(), "x^{y}");
+
+		functions.setSpecialButton(Unicode.EULER_STRING + "^", false, 16, this);
+		DrawEquationWeb.drawEquationAlgebraView(functions.colum[4].getWidget(2)
+				.getElement(), Unicode.EULER_STRING + "^{x}");
+
 		content.add(functions);
 
 		icons = new String[] { "7", "8", "9", Unicode.divide + "", BACKSPACE, // first
