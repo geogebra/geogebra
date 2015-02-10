@@ -1913,27 +1913,66 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	private String getMenuIconPath() {
-		int fontSize = getGUIFontSize();
-		String path = fontSize < 14 ? "/gui/images/"
-				: "/gui/images/menu-icons/";
-		if (fontSize >= 14 && fontSize < 30) {
-			path += "20px/";
-		} else if (fontSize >= 30 && fontSize < 79.5) {
-			path += "40px/";
-		} else if (fontSize >= 79.5) {
-			path += "106px/";
-		}
-
+		// int fontSize = getGUIFontSize();
+		String path = "/gui/images/menu-icons/40px/";
+		// if (fontSize < 30) {
+		// path += "20px/";
+		// } else if (fontSize >= 30 && fontSize < 79.5) {
+		// path += "40px/";
+		// } else if (fontSize >= 79.5) {
+		// path += "106px/";
+		// }
+		//
 		return path;
 	}
+
+	public static int ptToPx(int points) {
+		int px = 0;
+		switch (points) {
+		case 12:
+			px = 16;
+			break;
+		case 14:
+			px = 18;
+			break;
+		case 16:
+			px = 21;
+			break;
+		case 18:
+			px = 24;
+			break;
+		case 20:
+			px = 26;
+			break;
+		case 24:
+			px = 32;
+			break;
+		case 28:
+			px = 36;
+			break;
+		case 32:
+			px = 42;
+			break;
+		case 48:
+			px = 64;
+			break;
+
+		}
+		return px;
+	}
+
 	public ImageIcon getImageIcon(String filename, Color borderColor) {
 		return imageManager
 				.getImageIcon("/gui/images/" + filename, borderColor);
 	}
 
 	public ImageIcon getMenuIcon(String filename, Color borderColor) {
-		return imageManager.getImageIcon(getMenuIconPath() + filename,
+		ImageIcon icon = imageManager.getImageIcon(
+				getMenuIconPath() + filename,
 				borderColor);
+		int iconSize = ptToPx(getFontSize());
+		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);
+		return new ImageIcon(img);
 	}
 
 	/**
