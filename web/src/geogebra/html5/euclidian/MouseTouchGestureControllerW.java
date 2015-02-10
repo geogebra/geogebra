@@ -8,14 +8,17 @@ import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoSphereNDPointRadius;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoConic;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
@@ -72,7 +75,7 @@ public class MouseTouchGestureControllerW implements
 	/**
 	 * different modes of a multitouch-event
 	 */
-	protected enum scaleMode {
+	protected enum MultitouchMode {
 		/**
 		 * scale x-axis (two TouchStartEvents on the x-axis)
 		 */
@@ -101,7 +104,11 @@ public class MouseTouchGestureControllerW implements
 		/**
 		 * zooming
 		 */
-		view;
+		view,
+		/**
+		 * move a line with two fingers
+		 */
+		moveLine;
 	}
 
 	/**
@@ -118,7 +125,7 @@ public class MouseTouchGestureControllerW implements
 	/**
 	 * the mode of the actual multitouch-event
 	 */
-	protected scaleMode multitouchMode;
+	protected MultitouchMode multitouchMode;
 
 	/**
 	 * actual scale of the axes (has to be saved during multitouch)
@@ -149,6 +156,14 @@ public class MouseTouchGestureControllerW implements
 	 * coordinates of the center of the multitouch-event
 	 */
 	protected int oldCenterX, oldCenterY;
+
+	/**
+	 * the line to move with two fingers
+	 */
+	private GeoLine lineToMove;
+	private boolean firstTouchIsAttachedToStartPoint;
+	private GeoPoint firstFingerTouch;
+	private GeoPoint secondFingerTouch;
 
 	/**
 	 * flag for blocking the scaling of the axes
@@ -633,7 +648,6 @@ public class MouseTouchGestureControllerW implements
 		}
 	}
 
-
 	public void onMouseDown(MouseDownEvent event) {
 		deltaSum = 0;
 
@@ -723,6 +737,7 @@ public class MouseTouchGestureControllerW implements
 
 	private LinkedList<PointerEvent> touchPool = new LinkedList<PointerEvent>();
 	private boolean comboboxFocused;
+
 
 	@Override
 	public LinkedList<PointerEvent> getTouchEventPool() {
@@ -873,6 +888,64 @@ public class MouseTouchGestureControllerW implements
 			ec.kernel.notifyUpdate(scaleConic);
 			ec.kernel.notifyRepaint();
 			break;
+		case moveLine:
+			// ignore minimal changes of finger-movement
+			if (onlyJitter(firstFingerTouch.getX(), firstFingerTouch.getY(),
+			        secondFingerTouch.getX(), secondFingerTouch.getY(), x1d,
+			        y1d, x2d, y2d)) {
+				return;
+			}
+
+			Coords oldStart = firstFingerTouch.getCoords();
+			Coords oldEnd = secondFingerTouch.getCoords();
+			if (firstTouchIsAttachedToStartPoint) {
+				firstFingerTouch.setCoords(ec.view.toRealWorldCoordX(x1d),
+				        ec.view.toRealWorldCoordY(y1d), 1);
+				secondFingerTouch.setCoords(ec.view.toRealWorldCoordX(x2d),
+				        ec.view.toRealWorldCoordY(y2d), 1);
+			} else {
+				secondFingerTouch.setCoords(ec.view.toRealWorldCoordX(x1d),
+				        ec.view.toRealWorldCoordY(y1d), 1);
+				firstFingerTouch.setCoords(ec.view.toRealWorldCoordX(x2d),
+				        ec.view.toRealWorldCoordY(y2d), 1);
+			}
+
+			// set line through the two finger touches
+			Coords crossP = firstFingerTouch.getCoords().crossProduct(
+			        secondFingerTouch.getCoords());
+			lineToMove.setCoords(crossP.getX(), crossP.getY(), crossP.getZ());
+			lineToMove.updateCascade();
+
+			// update coords of startPoint
+			lineToMove.pointChanged(lineToMove.getStartPoint());
+			lineToMove.getStartPoint().updateCoords();
+
+			// update coords of endPoint
+			lineToMove.pointChanged(lineToMove.getEndPoint());
+			lineToMove.getEndPoint().updateCoords();
+
+			// also move points along the line
+			double newStartX = lineToMove.getStartPoint().getX()
+			        - (oldStart.getX() - firstFingerTouch.getX());
+			double newStartY = lineToMove.getStartPoint().getY()
+			        - (oldStart.getY() - firstFingerTouch.getY());
+			double newEndX = lineToMove.getEndPoint().getX()
+			        - (oldEnd.getX() - secondFingerTouch.getX());
+			double newEndY = lineToMove.getEndPoint().getY()
+			        - (oldEnd.getY() - secondFingerTouch.getY());
+
+			lineToMove.getStartPoint().setCoords(newStartX, newStartY, 1);
+			lineToMove.getEndPoint().setCoords(newEndX, newEndY, 1);
+
+			lineToMove.getStartPoint().updateCascade();
+			lineToMove.getEndPoint().updateCascade();
+
+			ec.kernel.notifyUpdate(lineToMove.getStartPoint());
+			ec.kernel.notifyUpdate(lineToMove.getEndPoint());
+
+			ec.kernel.notifyRepaint();
+
+			break;
 		default:
 			// pinch
 			ec.twoTouchMoveCommon(x1, y1, x2, y2);
@@ -909,11 +982,11 @@ public class MouseTouchGestureControllerW implements
 		oldCenterY = (int) (y1 + y2) / 2;
 
 		if (hits1.hasYAxis() && hits2.hasYAxis()) {
-			this.multitouchMode = scaleMode.zoomY;
+			this.multitouchMode = MultitouchMode.zoomY;
 			ec.oldDistance = y1 - y2;
 			this.scale = ec.view.getYscale();
 		} else if (hits1.hasXAxis() && hits2.hasXAxis()) {
-			this.multitouchMode = scaleMode.zoomX;
+			this.multitouchMode = MultitouchMode.zoomX;
 			ec.oldDistance = x1 - x2;
 			this.scale = ec.view.getXscale();
 		} else if (hits1.size() > 0
@@ -927,16 +1000,16 @@ public class MouseTouchGestureControllerW implements
 
 			if (scaleConic.getFreeInputPoints(ec.view) == null
 			        && scaleConic.isCircle()) {
-				this.multitouchMode = scaleMode.circleFormula;
+				this.multitouchMode = MultitouchMode.circleFormula;
 				this.originalRadius = scaleConic.getHalfAxis(0);
 			} else if (scaleConic.getFreeInputPoints(ec.view).size() >= 3) {
-				this.multitouchMode = scaleMode.circle3Points;
+				this.multitouchMode = MultitouchMode.circle3Points;
 			} else if (scaleConic.getFreeInputPoints(ec.view)
 			        .size() == 2) {
-				this.multitouchMode = scaleMode.circle2Points;
+				this.multitouchMode = MultitouchMode.circle2Points;
 			} else if (app.isPrerelease()
 			        && scaleConic.getParentAlgorithm() instanceof AlgoCirclePointRadius) {
-				this.multitouchMode = scaleMode.circleRadius;
+				this.multitouchMode = MultitouchMode.circleRadius;
 				AlgoElement algo = scaleConic.getParentAlgorithm();
 				NumberValue radius = (NumberValue) algo.input[1];
 				this.originalRadius = radius.getDouble();
@@ -944,7 +1017,7 @@ public class MouseTouchGestureControllerW implements
 				// TODO scale other conic-types (e.g. ellipses with formula)
 				scaleConic = null;
 				ec.clearSelections();
-				this.multitouchMode = scaleMode.view;
+				this.multitouchMode = MultitouchMode.view;
 				ec.twoTouchStartCommon(x1, y1, x2, y2);
 				return;
 			}
@@ -961,24 +1034,88 @@ public class MouseTouchGestureControllerW implements
 				this.originalPointX[i] = points.get(i).getCoords().getX();
 				this.originalPointY[i] = points.get(i).getCoords().getY();
 			}
+		} else if (hits1.size() > 0 && hits2.size() > 0
+		        && hits1.get(0) == hits2.get(0)
+		        && hits1.get(0) instanceof GeoLine
+		        && isMovableWithTwoFingers(hits1.get(0))) {
+			this.multitouchMode = MultitouchMode.moveLine;
+			lineToMove = (GeoLine) hits1.get(0);
+
+			GeoPoint touch1 = new GeoPoint(ec.kernel.getConstruction(),
+			        ec.view.toRealWorldCoordX(x1),
+			        ec.view.toRealWorldCoordY(y1), 1);
+			GeoPoint touch2 = new GeoPoint(ec.kernel.getConstruction(),
+			        ec.view.toRealWorldCoordX(x2),
+			        ec.view.toRealWorldCoordY(y2), 1);
+
+			firstTouchIsAttachedToStartPoint = setFirstTouchToStartPoint(
+			        touch1,
+			        touch2);
+
+			if (firstTouchIsAttachedToStartPoint) {
+				firstFingerTouch = touch1;
+				secondFingerTouch = touch2;
+			} else {
+				firstFingerTouch = touch2;
+				secondFingerTouch = touch1;
+			}
+			ec.twoTouchStartCommon(x1, y1, x2, y2);
 		} else {
 			ec.clearSelections();
-			this.multitouchMode = scaleMode.view;
+			this.multitouchMode = MultitouchMode.view;
 			ec.twoTouchStartCommon(x1, y1, x2, y2);
 		}
 	}
 
+	/**
+	 * @param geoElement
+	 *            {@link GeoElement}
+	 * @return true if GeoElement should be movable with two fingers
+	 */
+	private boolean isMovableWithTwoFingers(GeoElement geoElement) {
+		return geoElement.getParentAlgorithm().getRelatedModeID() == EuclidianConstants.MODE_JOIN
+		        || geoElement.getParentAlgorithm().getRelatedModeID() == EuclidianConstants.MODE_SEGMENT
+		        || geoElement.getParentAlgorithm().getRelatedModeID() == EuclidianConstants.MODE_RAY;
+	}
 
+	/**
+	 * @param touch1
+	 *            {@link GeoPoint}
+	 * @param touch2
+	 *            {@link GeoPoint}
+	 * @return true if the first touch should be attached to the startPoint
+	 */
+	private boolean setFirstTouchToStartPoint(GeoPoint touch1, GeoPoint touch2) {
+		if (lineToMove.getStartPoint().getX() < lineToMove.getEndPoint().getX()) {
+			return touch1.getX() < touch2.getX();
+		}
+		return touch2.getX() < touch1.getX();
+	}
 
-
-
-
-
-
-
+	/**
+	 * screen coordinates
+	 * 
+	 * @param oldStartX
+	 * @param oldStartY
+	 * @param oldEndX
+	 * @param oldEndY
+	 * @param newStartX
+	 * @param newStartY
+	 * @param newEndX
+	 * @param newEndY
+	 * @return true if there are only minimal changes of the two finger-touches
+	 */
+	private boolean onlyJitter(double oldStartX, double oldStartY,
+	        double oldEndX, double oldEndY, double newStartX, double newStartY,
+	        double newEndX, double newEndY) {
+		double capThreshold = app.getCapturingThreshold(PointerEventType.TOUCH);
+		return Math.abs(oldStartX - newStartX) < capThreshold
+		        && Math.abs(oldStartY - newStartY) < capThreshold
+		        && Math.abs(oldEndX - newEndX) < capThreshold
+		        && Math.abs(oldEndY - newEndY) < capThreshold;
+	}
 
 	public PointerEventType getDefaultEventType() {
 		return ec.getDefaultEventType();
 	}
-
 }

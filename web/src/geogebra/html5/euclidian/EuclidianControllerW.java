@@ -72,12 +72,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public final static double SELECTION_RECT_THRESHOLD_SQR = 200.0;
 	public final static double FREEHAND_MODE_THRESHOLD_SQR = 200.0;
 
-
-
-
-
-
-
 	/**
 	 * flag for blocking the scaling of the axes
 	 */
@@ -108,14 +102,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.calculateEnvironment();
 	}
 
-
-
-
-
 	@Override
 	public void moveIfWaiting() {
 		mtg.moveIfWaiting();
-
 	}
 
 	public boolean isOffsetsUpToDate() {
@@ -174,7 +163,6 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void twoTouchMove(Touch touch, Touch touch2) {
 		mtg.twoTouchMove(touch, touch2);
-
 	}
 
 	private void onTouchMoveNow(PointerEvent event, long time) {
@@ -213,7 +201,6 @@ public class EuclidianControllerW extends EuclidianController implements
 	public void twoTouchStart(Touch touch, Touch touch2) {
 		mtg.twoTouchStart(touch, touch2);
 	}
-
 
 	@Override
 	public void onMouseWheel(MouseWheelEvent event) {
@@ -268,17 +255,14 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.onPointerEventStart(event);
 	}
 
-
 	@Override
 	protected void initToolTipManager() {
 		mtg.initToolTipManager();
-
 	}
 
 	@Override
 	protected void resetToolTipManager() {
 		mtg.resetToolTipManager();
-
 	}
 
 	@Override
@@ -286,12 +270,10 @@ public class EuclidianControllerW extends EuclidianController implements
 		return mtg.hitResetIcon();
 	}
 
-
 	@Override
 	public LinkedList<PointerEvent> getMouseEventPool() {
 		return mtg.getMouseEventPool();
 	}
-
 
 	@Override
 	public LinkedList<PointerEvent> getTouchEventPool() {
