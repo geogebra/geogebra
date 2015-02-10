@@ -2330,17 +2330,22 @@ var SupSub = P(MathCommand, function(_, _super) {
       return this.ctrlSeq + '{' + (latex || ' ') + '}';
   };
   _.text = function() {
-	var ctr = '';
-	if (this.textTemplate[0]) {
-	  ctr = this.textTemplate[0];
-	}
-	var tex = this.ch[L].text();
-    if (tex.length === 1)
-      return ctr + tex;
-    else if (tex[0] === '(' && tex.slice(-1) === ')')
-      return ctr + '{' + (tex.slice(1,-1) || ' ') + '}';
-    else
+    if (this.ctrlSeq === '_') {
+      // only do this for subscripts
+      var ctr = '';
+      if (this.textTemplate[0]) {
+        ctr = this.textTemplate[0];
+      }
+      var tex = this.ch[L].text();
+
+      if (tex.length === 1) {
+        return ctr + tex;
+      } else if (tex[0] === '(' && tex.slice(-1) === ')') {
+        return ctr + '{' + (tex.slice(1,-1) || ' ') + '}';
+      }
       return ctr + '{' + (tex || ' ') + '}';
+	}
+    return _super.text.call(this);
   };
   _.redraw = function() {
     if (this[L])
