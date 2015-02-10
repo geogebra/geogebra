@@ -2845,7 +2845,7 @@ public abstract class AppW extends App implements SetLabels {
 		} else {
 			$doc.attachEvent('oncontextmenu', function() {
 				if (eventOnElement(e))
-					window.event.returnValue = false;
+					$wnd.event.returnValue = false;
 			});
 		}
 	}-*/;
@@ -2862,7 +2862,7 @@ public abstract class AppW extends App implements SetLabels {
 
 		} else {
 			$doc.attachEvent('oncontextmenu', function() {
-				window.event.returnValue = false;
+				$wnd.event.returnValue = false;
 			});
 		}
 	}-*/;

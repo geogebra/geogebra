@@ -216,7 +216,7 @@ public class Tablet implements EntryPoint {
 	 */
 	private native void copyThisJsIfYouLikeToUseGeoGebraWebAsExtension() /*-{
 		//GGW_ext namespace must be a property of the global scope
-		window.GGW_ext = {
+		$wnd.GGW_ext = {
 			startupFunctions : []
 		};
 

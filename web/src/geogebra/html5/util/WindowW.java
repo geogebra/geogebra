@@ -21,7 +21,7 @@ public class WindowW {
 	 */
 	public native static JavaScriptObject open(String url, String name,
 	        String features) /*-{
-		return window.open(url, name, features);
+		return $wnd.open(url, name, features);
 	}-*/;
 
 }

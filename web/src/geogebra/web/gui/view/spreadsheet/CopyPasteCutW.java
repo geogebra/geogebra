@@ -184,8 +184,9 @@ public class CopyPasteCutW extends CopyPasteCut {
 	private static native boolean isInternetExplorer() /*-{
 		// check if app is running in IE5 or greater
 		// clipboardData object is available from IE5 and onwards
-		var userAgent = window.navigator.userAgent;
-		if ((userAgent.indexOf('MSIE ') > -1) || (userAgent.indexOf('Trident/') > -1)) {
+		var userAgent = $wnd.navigator.userAgent;
+		if ((userAgent.indexOf('MSIE ') > -1)
+				|| (userAgent.indexOf('Trident/') > -1)) {
 			return true;
 		}
 		return false;

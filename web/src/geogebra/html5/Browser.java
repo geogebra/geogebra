@@ -95,7 +95,7 @@ public class Browser {
 	}-*/;
 
 	public static native boolean supportsPointerEvents()/*-{
-		return window.navigator.msPointerEnabled ? true : false;
+		return $wnd.navigator.msPointerEnabled ? true : false;
 	}-*/;
 
 	private static native boolean isHTTP() /*-{

@@ -94,7 +94,7 @@ public class GGraphics2DW implements geogebra.common.awt.GGraphics2D {
 	}
 
 	private native int checkPixelRatio(Element canvas) /*-{
-		var devicePixelRatio = window.devicePixelRatio || 1, context = canvas
+		var devicePixelRatio = $wnd.devicePixelRatio || 1, context = canvas
 				.getContext("2d"), backingStorePixelRatio = context.webkitBackingStorePixelRatio
 				|| context.mozBackingStorePixelRatio
 				|| context.msBackingStorePixelRatio
