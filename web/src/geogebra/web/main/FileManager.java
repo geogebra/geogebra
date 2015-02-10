@@ -142,7 +142,7 @@ public abstract class FileManager implements FileManagerI {
 		// getFiles(MaterialFilter.getAuthorFilter(app.getLoginOperation().getUserName()));
 	}
 
-	private int notSyncedFileCount;
+	private int notSyncedFileCount, notDownloadedFileCount;
 
 	public void setNotSyncedFileCount(int count, ArrayList<SyncEvent> events) {
 		this.notSyncedFileCount = count;
@@ -178,6 +178,7 @@ public abstract class FileManager implements FileManagerI {
 			for (SyncEvent event : events) {
 				if (event.isFavorite() && !event.isZapped()
 				        && this.shouldKeep(event.getID())) {
+					this.notDownloadedFileCount++;
 					getFromTube(event.getID(), true);
 				}
 			}
@@ -263,7 +264,8 @@ public abstract class FileManager implements FileManagerI {
 
 			        @Override
 			        public void onLoaded(final List<Material> parseResponse) {
-
+				        FileManager.this.notDownloadedFileCount--;
+				        checkSyncFinished();
 				        // edited on Tube, not edited locally
 				        if (parseResponse.size() == 1) {
 					        App.debug("SYNC downloading file:" + id);
@@ -278,9 +280,16 @@ null,
 
 			        @Override
 			        public void onError(final Throwable exception) {
+				        FileManager.this.notDownloadedFileCount--;
+				        checkSyncFinished();
 				        App.debug("SYNC error loading from tube" + id);
 			        }
 		        });
+
+	}
+
+	protected void checkSyncFinished() {
+		// TODO Auto-generated method stub
 
 	}
 
@@ -451,6 +460,10 @@ null,
 			((DialogManagerW) app.getDialogManager()).showSaveDialog();
 		}
 		return true;
+	}
+
+	public boolean isSyncing() {
+		return this.notDownloadedFileCount > 0 || this.notSyncedFileCount > 0;
 	}
 
 }

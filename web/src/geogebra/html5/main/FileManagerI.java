@@ -39,4 +39,6 @@ public interface FileManagerI {
 	boolean shouldKeep(int i);
 
 	void getFromTube(int id, boolean fromAnotherDevice);
+
+	boolean isSyncing();
 }
