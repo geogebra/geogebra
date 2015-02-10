@@ -100,9 +100,11 @@ Widget textField,
 	}
 
 	private void createKeyBoard() {
-		String[] icons = new String[] { "x²", "x³", "x^y", "x", "y", "z", // first
+		String[] icons = new String[] { "x²", "x³", "x^y", "x", "y",
+		        "z", // first
 		        // line
-		        "(", ")", "[", "]", "<", ">", // second line
+		        "( )", "[ ]", "<", ">", Unicode.LESS_EQUAL + "",
+		        Unicode.GREATER_EQUAL + "", // second line
 		        "sin", "cos", "tan", PI, Unicode.EULER_STRING + "^x", I, // third
 																		 // line
 		        "ln", Unicode.SQUARE_ROOT, ",", ":=", ARROW_LEFT, ARROW_RIGHT // last

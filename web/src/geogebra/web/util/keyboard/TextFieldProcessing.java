@@ -107,27 +107,32 @@ public class TextFieldProcessing {
 			((AutoCompleteTextFieldW) field).insertString(text);
 			break;
 		case radioButtonTreeItem:
+			boolean stepBack = true;
 			if (text.equals("^")) {
 				((NewRadioButtonTreeItem) field).insertString("^{}");
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
-				        false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((NewRadioButtonTreeItem) field)
 				        .insertString(Unicode.EULER_STRING + "^{}");
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
-				        false);
 			} else if (text.equals("sin") || text.equals("cos")
 			        || text.equals("tan")) {
 				((NewRadioButtonTreeItem) field).insertString(text + "()");
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
-				        false);
 			} else if (text.equals(Unicode.SQUARE_ROOT)) {
 				((NewRadioButtonTreeItem) field).insertString("\\sqrt{}");
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
-				        false);
+			} else if (text.startsWith("(")) {
+				((NewRadioButtonTreeItem) field)
+						.insertString("\\left({}\\right)");
+			} else if (text.startsWith("[")) {
+				((NewRadioButtonTreeItem) field)
+						.insertString("\\left[{}\\right]");
 			} else {
 				((NewRadioButtonTreeItem) field).insertString(text);
+				stepBack = false;
 			}
+			if (stepBack) {
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				        false);
+			}
+			((NewRadioButtonTreeItem) field).popupSuggestions();
 			break;
 		}
 	}
