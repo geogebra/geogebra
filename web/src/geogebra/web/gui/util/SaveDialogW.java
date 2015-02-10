@@ -197,18 +197,20 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				hide();
 			}
 
-			private void saveLocalIfNeeded(long modified, SaveState forked) {
+			private void saveLocalIfNeeded(long modified, SaveState state) {
 				if (app.getFileManager().shouldKeep(0)) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,
 					        modified,
- new SaveCallback(app, forked) {
+ new SaveCallback(app, state) {
 						        @Override
 						        public void onSaved(final Material mat,
 						                final boolean isLocal) {
 							        super.onSaved(mat, isLocal);
 						        }
 					        });
+				} else {
+					SaveCallback.onSaved(app, state);
 				}
 			}
 		};
@@ -358,7 +360,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 				break;
 			}
 
-			uploadToGgt(null);
+			uploadToGgt(app.getActiveMaterial().getVisibility());
 		}
 	}
 	
