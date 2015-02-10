@@ -121,9 +121,39 @@ public class TextFieldProcessing {
 				((NewRadioButtonTreeItem) field).insertString(text + "()");
 				((NewRadioButtonTreeItem) field).keydown(37, false, false,
 				        false);
+			} else if (text.equals(Unicode.SQUARE_ROOT)) {
+				((NewRadioButtonTreeItem) field).insertString("\\sqrt{}");
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				        false);
 			} else {
 				((NewRadioButtonTreeItem) field).insertString(text);
 			}
+			break;
+		}
+	}
+
+	/**
+	 * simulates an enter key event
+	 * 
+	 * @param key
+	 *            key code
+	 * @param alt
+	 *            pressed or not
+	 * @param ctrl
+	 *            pressed or not
+	 * @param shift
+	 *            pressed or not
+	 */
+	public void onKeydown(int key, boolean alt, boolean ctrl, boolean shift) {
+		switch (state) {
+		case autoCompleteTextField:
+			NativeEvent event = Document.get().createKeyDownEvent(ctrl, alt,
+			        shift, false, key);
+			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
+			        Event.as(event));
+			break;
+		case radioButtonTreeItem:
+			((NewRadioButtonTreeItem) field).keydown(key, alt, ctrl, shift);
 			break;
 		}
 	}

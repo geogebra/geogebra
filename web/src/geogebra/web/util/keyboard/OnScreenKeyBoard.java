@@ -21,15 +21,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private TextFieldProcessing processing = new TextFieldProcessing();
 
 	private static final String PI = "\u03C0";
-	private static final String SQUARE_ROOT = "\u221A";
-	// private static final String CUBIC_ROOT = "\u221B"; // TODO use (no valid
-	// input)
 	private static final String BACKSPACE = "\u21A4";
 	private static final String ENTER = "\u21B2";
 	private static final String SHIFT = "\u21E7";
-	// private static final String E = "\u212F"; // TODO use (not displayed
-	// correctly)
 	private static final String I = "\u03AF";
+
+	private static final String ARROW_LEFT = "\u2190";
+	private static final String ARROW_RIGHT = "\u2192";
+	// private static final String ARROW_UP = "\u2191";
+	// private static final String ARROW_DOWN = "\u2193";
 
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 
@@ -105,7 +105,8 @@ Widget textField,
 		        "(", ")", "[", "]", "<", ">", // second line
 		        "sin", "cos", "tan", PI, Unicode.EULER_STRING + "^x", I, // third
 																		 // line
-		        "ln", SQUARE_ROOT, ",", ":=" // last line
+		        "ln", Unicode.SQUARE_ROOT, ",", ":=", ARROW_LEFT, ARROW_RIGHT // last
+																	  // line
 		};
 		KeyPanel functions = new KeyPanel(icons, 6, this);
 		functions.setSpecialButton("²", false, 0, this);
@@ -158,6 +159,10 @@ Widget textField,
 			} else if (text.equals(ENTER)) {
 				processing.onEnter();
 				this.hide();
+			} else if (text.equals(ARROW_LEFT)) {
+				processing.onKeydown(37, false, false, false);
+			} else if (text.equals(ARROW_RIGHT)) {
+				processing.onKeydown(39, false, false, false);
 			} else if (text.equals(SHIFT)) {
 				for (FlowPanel col : letters.colum) {
 					for (int i = 0; i < col.getWidgetCount(); i++) {
@@ -192,8 +197,6 @@ Widget textField,
 				processing.setFocus(true);
 			}
 		}
-
-
 	}
 
 	private void resetButtons() {
