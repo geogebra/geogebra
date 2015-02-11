@@ -15,6 +15,10 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class TextFieldProcessing {
 
+	public enum ArrowType {
+		left, right, up, down
+	}
+
 	private Widget field;
 	private State state = State.empty;
 
@@ -96,6 +100,43 @@ public class TextFieldProcessing {
 	}
 
 	/**
+	 * simulates arrow events
+	 */
+	public void onArrow(ArrowType type) {
+		switch (state) {
+		case autoCompleteTextField:
+			int caretPos = ((AutoCompleteTextFieldW) field).getCaretPosition();
+			switch (type) {
+			case left:
+				if (caretPos > 0)
+					((AutoCompleteTextFieldW) field)
+							.setCaretPosition(caretPos - 1);
+				break;
+			case right:
+				if (caretPos < ((AutoCompleteTextFieldW) field).getText()
+						.length()) {
+					((AutoCompleteTextFieldW) field)
+							.setCaretPosition(caretPos + 1);
+				}
+				break;
+			}
+			break;
+		case radioButtonTreeItem:
+			switch (type) {
+			case left:
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+						false);
+				break;
+			case right:
+				((NewRadioButtonTreeItem) field).keydown(39, false, false,
+						false);
+				break;
+			}
+			break;
+		}
+	}
+
+	/**
 	 * Inserts the given text at the caret position
 	 * 
 	 * @param text
@@ -105,6 +146,9 @@ public class TextFieldProcessing {
 		switch (state) {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).insertString(text);
+			if (text.startsWith("(") || text.startsWith("[")) {
+				onArrow(ArrowType.left);
+			}
 			break;
 		case radioButtonTreeItem:
 			boolean stepBack = true;

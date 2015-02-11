@@ -240,6 +240,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	public GGWCommandLine getCommandLine() {
 		if (ggwCommandLine == null) {
 			ggwCommandLine = new GGWCommandLine();
+			ClickStartHandler.init(ggwCommandLine, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y, final PointerEventType type) {
+					CancelEventTimer.keyboardSetVisible();
+				}
+			});
 		}
 		return ggwCommandLine;
 	}

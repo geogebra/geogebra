@@ -2,6 +2,7 @@ package geogebra.web.util.keyboard;
 
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -169,9 +170,9 @@ Widget textField,
 				processing.onEnter();
 				this.hide();
 			} else if (text.equals(ARROW_LEFT)) {
-				processing.onKeydown(37, false, false, false);
+				processing.onArrow(ArrowType.left);
 			} else if (text.equals(ARROW_RIGHT)) {
-				processing.onKeydown(39, false, false, false);
+				processing.onArrow(ArrowType.right);
 			} else if (text.equals(SHIFT)) {
 				for (FlowPanel col : letters.colum) {
 					for (int i = 0; i < col.getWidgetCount(); i++) {
