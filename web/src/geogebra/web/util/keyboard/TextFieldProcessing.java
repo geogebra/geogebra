@@ -127,6 +127,10 @@ public class TextFieldProcessing {
 			} else if (text.startsWith("[")) {
 				((NewRadioButtonTreeItem) field)
 						.insertString("\\left[{}\\right]");
+			} else if (text.equals("/")) {
+				((NewRadioButtonTreeItem) field).keypress(47, false, false,
+						false);
+				stepBack = false;
 			} else {
 				((NewRadioButtonTreeItem) field).insertString(text);
 				stepBack = false;
@@ -159,6 +163,16 @@ public class TextFieldProcessing {
 			        shift, false, key);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 			        Event.as(event));
+
+			NativeEvent event2 = Document.get().createKeyPressEvent(ctrl, alt,
+					shift, false, key);
+			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
+					Event.as(event2));
+
+			NativeEvent event3 = Document.get().createKeyUpEvent(ctrl, alt,
+					shift, false, key);
+			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
+					Event.as(event3));
 			break;
 		case radioButtonTreeItem:
 			((NewRadioButtonTreeItem) field).keydown(key, alt, ctrl, shift);
