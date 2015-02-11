@@ -6638,7 +6638,8 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if visible in 3D view
 	 */
 	public boolean isVisibleInView3D() {
-		return hasDrawable3D() && isVisibleInView(App.VIEW_EUCLIDIAN); 
+		return hasDrawable3D()
+				&& (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN));
 	}
 
 	/**
