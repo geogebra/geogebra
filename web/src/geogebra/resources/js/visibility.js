@@ -26,8 +26,11 @@ function visibilityEventMain() {
 	}
 }
 
-// Style when the student put GeoGebraExam into offline mode
+// Style when the student puts GeoGebraExam into offline mode ("cheating")
 function visChange() {
-	document.getElementById("timer").style.backgroundColor = "red";
-	document.getElementById("timer").style.color = "white";
+	var timer = document.getElementById("timer"); 
+	if (timer.started) {
+		timer.style.backgroundColor = "red";
+		timer.style.color = "white";
+	}
 }
