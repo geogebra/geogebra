@@ -891,6 +891,7 @@ public class DrawEquationWeb extends DrawEquation {
 		return false;
 	}
 
+	// documentation in RadioButtonTreeItem.keydown
 	public static native void triggerKeydown(Element parentElement,
 	        int keycode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
 		var elfirst = parentElement.firstChild.firstChild;
@@ -902,6 +903,28 @@ public class DrawEquationWeb extends DrawEquation {
 			var evt = $wnd.$ggbQuery.Event("keydown", {
 				keyCode : keycode,
 				which : keycode,
+				altKey : altk,
+				ctrlKey : ctrlk,
+				shiftKey : shiftk
+			});
+			textarea.trigger(evt);
+		}
+	}-*/;
+
+	// documentation in RadioButtonTreeItem.keypress
+	public static native void triggerKeypress(Element parentElement,
+	        int charcode, boolean altk, boolean ctrlk, boolean shiftk) /*-{
+		var elfirst = parentElement.firstChild.firstChild;
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
+		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
+			textarea.val(String.fromCharCode(charcode));
+			var evt = $wnd.$ggbQuery.Event("keypress", {
+				charCode : charcode,
+				which : charcode,
+				// maybe the following things are not necessary
 				altKey : altk,
 				ctrlKey : ctrlk,
 				shiftKey : shiftk

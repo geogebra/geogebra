@@ -416,6 +416,30 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	/**
+	 * This method should be used to invoke a keypress on MathQuillGGB, e.g.
+	 * keypress(47, false, false, false); will trigger a '/' press event... This
+	 * method should be used instead of "keydown" in case we are interested in
+	 * the Character meaning of the key (to be entered in a textarea) instead of
+	 * the Controller meaning of the key.
+	 * 
+	 * @param character
+	 *            charCode of the event, which is the same as "event.which",
+	 *            used at keypress
+	 * @param alt
+	 *            boolean maybe not useful
+	 * @param ctrl
+	 *            boolean maybe not useful
+	 * @param shift
+	 *            boolean maybe not useful
+	 */
+	public void keypress(int character, boolean alt, boolean ctrl, boolean shift) {
+		if (av.isEditing() || isThisEdited() || newCreationMode) {
+			geogebra.html5.main.DrawEquationWeb.triggerKeypress(seMayLatex,
+			        character, alt, ctrl, shift);
+		}
+	}
+
+	/**
 	 * This method can be used to invoke a keyup event on MathQuillGGB, e.g.
 	 * key=13,alt=false,ctrl=false,shift=false will trigger a Enter event
 	 * 
