@@ -93,6 +93,7 @@ import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -108,6 +109,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.core.client.Scheduler;
+import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
@@ -416,7 +418,7 @@ public abstract class AppW extends App implements SetLabels {
 		}
 		final String lang = Language
 		        .getClosestGWTSupportedLanguage(browserLang);
-		App.debug("setting language to:" + lang + ", browser lang"
+		App.debug("setting language to:" + lang + ", browser lang:"
 		        + browserLang);
 
 		ScriptLoadCallback callback = new ScriptLoadCallback() {
@@ -436,6 +438,7 @@ public abstract class AppW extends App implements SetLabels {
 
 				// inputField.setDictionary(getCommandDictionary());
 
+				examWelcome();
 			}
 
 		};
@@ -1513,6 +1516,32 @@ public abstract class AppW extends App implements SetLabels {
 			$wnd.ggbAppletOnLoad(articleid);
 		}
 	}-*/;
+
+	/**
+	 * Pops up a welcome message for the exam mode.
+	 */
+	public void examWelcome() {
+
+		if (isExam()) {
+			String[] optionNames = { getMenu("StartExam") };
+			GOptionPaneW.INSTANCE.showOptionDialog(this,
+			        getMenu("WelcomeExam"), getMenu("GeoGebraExam"),
+			        GOptionPane.CUSTOM_OPTION, GOptionPane.INFORMATION_MESSAGE,
+			        null, optionNames, new AsyncOperation() {
+				        @Override
+				        public void callback(Object obj) {
+					        DivElement divID = (DivElement) Document.get()
+					                .getElementById("timer");
+					        divID.setPropertyBoolean("started", true);
+					        Date date = new Date();
+					        final long start = date.getTime();
+					        // We need to set seconds, otherwise it does not fit
+					        // into int.
+					        divID.setPropertyInt("start", (int) (start / 1000));
+				        }
+			        });
+		}
+	}
 
 	@Override
 	public void setActiveView(int evID) {

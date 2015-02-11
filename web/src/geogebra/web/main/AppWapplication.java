@@ -7,7 +7,6 @@ import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.models.Material;
-import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
@@ -35,11 +34,8 @@ import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 
-import java.util.Date;
 import java.util.List;
 
-import com.google.gwt.dom.client.DivElement;
-import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
@@ -126,6 +122,7 @@ public class AppWapplication extends AppW {
 
 		afterCoreObjectsInited();
 		App.debug("after core");
+
 		resetFonts();
 		// initing = true;
 		removeDefaultContextMenu();
@@ -145,7 +142,7 @@ public class AppWapplication extends AppW {
 		}
 
 		restoreMacro();
-
+		
 	}
 
 	private void maybeStartAutosave() {
@@ -187,28 +184,6 @@ public class AppWapplication extends AppW {
 	        GeoGebraAppFrame geoGebraAppFrame, int dimension, GLookAndFeel laf,
 	        GDevice device) {
 		this(article, geoGebraAppFrame, true, dimension, laf, device);
-		// Please wait until your teacher asks you to start the exam.
-		// Start the exam
-		if (isExam()) {
-			String[] optionNames = { this.getMenu("StartExam") };
-			GOptionPaneW.INSTANCE.showOptionDialog(this,
-			        this.getMenu("WelcomeExam"), this.getMenu("GeoGebraExam"),
-			        GOptionPane.CUSTOM_OPTION, GOptionPane.INFORMATION_MESSAGE,
-			        null, optionNames, new AsyncOperation() {
-			        @Override
-			        public void callback(Object obj) {
-					        DivElement divID = (DivElement) Document.get()
-					                .getElementById("timer");
-					        divID.setPropertyBoolean("started", true);
-					        Date date = new Date();
-					        final long start = date.getTime();
-					        // We need to set seconds, otherwise it does not fit
-							// into int.
-					        divID.setPropertyInt("start", (int) (start / 1000));
-			        }
-		        });
-		}
-		
 		App.debug("Application created");
 	}
 
