@@ -47,4 +47,10 @@ public interface BrowseResources extends ClientBundle {
 
 	@Source("icons/png/web/profile-options-arrow.png")
 	ImageResource arrow_options();
+
+	@Source("icons/png/web/document_favourite_selected.png")
+	ImageResource favorite();
+
+	@Source("icons/png/web/document_favourite.png")
+	ImageResource not_favorite();
 }

@@ -48,7 +48,7 @@ public class MaterialListElement extends FlowPanel implements
 	private final int MAX_TITLE_HEIGHT = 40;
 	private FlowPanel materialElementContent;
 	private SimplePanel previewPicturePanel;
-	private SimplePanel background;
+	private FlowPanel background;
 	protected FlowPanel infoPanel;
 	protected boolean isLocal;
 	protected boolean isOwnMaterial;
@@ -175,7 +175,6 @@ public class MaterialListElement extends FlowPanel implements
 			addViewButton();
 			addRenameButton();
 			addDeleteButton();
-			addFavoriteButton();
 		} else if (isLocal()) {
 			addEditButton();
 			addRenameButton();
@@ -183,7 +182,6 @@ public class MaterialListElement extends FlowPanel implements
 		} else {
 			addEditButton();
 			addViewButton();
-			addFavoriteButton();
 		}
 	}
 	
@@ -308,7 +306,7 @@ public class MaterialListElement extends FlowPanel implements
 			}
 		}, ClickEvent.getType());
 
-		background = new SimplePanel();
+		background = new FlowPanel();
 		background.setStyleName("background");
 		
 		setPictureAsBackground();
@@ -333,6 +331,7 @@ public class MaterialListElement extends FlowPanel implements
 			deco.setStyleName("syncDecoration");
 			background.add(deco);
 		}
+		addFavoriteButton();
 	}
 
 	private void setPictureAsBackground() {
@@ -369,8 +368,8 @@ public class MaterialListElement extends FlowPanel implements
 	
 	private void addFavoriteButton() {
 		this.favoriteButton = new StandardButton(
-AppResources.INSTANCE.empty());
-		this.infoPanel.add(this.favoriteButton);
+		        BrowseResources.INSTANCE.not_favorite());
+		this.background.add(this.favoriteButton);
 		this.favoriteButton.addFastClickHandler(new FastClickHandler() {
 
 			@Override
@@ -397,9 +396,6 @@ AppResources.INSTANCE.empty());
 	}
 	void onDelete() {
 		this.deleteButton.addStyleName("deleteActive");
-		if (this.favoriteButton != null) {
-			this.favoriteButton.setVisible(false);
-		}
 		if (this.editButton != null) {
 			this.editButton.setVisible(false);
 		}
@@ -663,15 +659,13 @@ AppResources.INSTANCE.empty());
 		if (this.renameButton != null) {
 			this.renameButton.setText(app.getMenu("Rename"));
 		}
-		if (this.favoriteButton != null) {
-			updateFavoriteText();
-		}
+
 	}
 
 	private void updateFavoriteText() {
 		this.favoriteButton
-		        .setText(app.getMenu(material.isFavorite() ? "RemoveFavorite"
-		                : "AddFavorite"));
+		        .setIcon(material.isFavorite() ? BrowseResources.INSTANCE
+		                .favorite() : BrowseResources.INSTANCE.not_favorite());
 	}
 
 	/**
@@ -683,9 +677,10 @@ AppResources.INSTANCE.empty());
 	}
 
 	protected void showDetails(final boolean show) {
-		if (this.favoriteButton != null) {
-			this.favoriteButton.setVisible(show);
-		}
+		/*
+		 * if (this.favoriteButton != null) {
+		 * this.favoriteButton.setVisible(show); }
+		 */
 		if (isOwnMaterial && !isLocal()) {
 			this.sharedBy.setVisible(true);
 			this.viewButton.setVisible(show);
