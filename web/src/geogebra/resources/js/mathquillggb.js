@@ -358,7 +358,7 @@ var manageTextarea = (function() {
     // as the textarea should keep its focus, as far as I know,
     // and if not, then "focusout" should not be called before "paste" anyway
     //target.bind('input focusout', function() { checkTextarea2(); checkTextarea(); });
-    target.bind('input', function() { //checkTextarea2();
+    target.bind('input', function() { //checkTextarea2();//2
     checkTextarea(); });
 
 
@@ -383,7 +383,9 @@ var manageTextarea = (function() {
     }
 
     function popTextForPaste(callback) {
+      //console.log('popTextForPaste');
       var text = textarea.val();
+      //console.log(text);
       textarea.val('');
       if (text) callback(text);
       checkTextarea2 = noop;
@@ -494,7 +496,13 @@ var manageTextarea = (function() {
       // the onText event or something like that otherwise
       checkTextareaFor2(pastedText);
       //checkTextareaFor(pastedText);
+
+      // target is textarea itself, innermost element!
+      e.stopPropagation();
+      // so that preventDefault should not be called later!
+      return true;
     }
+
     function pastedText() {
       popTextForPaste(pasteCallback);
     }
@@ -1588,7 +1596,8 @@ function createRoot(jQ, root, textbox, editable) {
   }
 
   var textareaManager = manageTextarea(textarea, {
-    container: jQ,
+    //container: jQ,
+    container: textarea,
     key: function(key, evt) {
       cursor.parent.bubble('onKey', key, evt);
     },
