@@ -496,8 +496,7 @@ public class Ggb2giac {
 				+ "else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
 		p("Polynomial.N",
 				"[[[ggbpolans:=0/0], [ggbvar:=x], [ggbinput:=%], "
-						// + "when(size(ggbinput)>2,"
-						// + "when(false,"
+						// DOM_IDENT: something like x or y
 						+ "when(type(ggbinput)==DOM_LIST && type(ggbinput[1]) != DOM_IDENT,"
 						// eg Polynomial[{(1, 1), (2, 3)}]
 						// eg Polynomial[(1, 1), (2, 3)]
