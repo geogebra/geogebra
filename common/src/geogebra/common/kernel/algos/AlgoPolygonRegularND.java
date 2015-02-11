@@ -129,6 +129,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 						segment.setEuclidianVisible(segmentsVisible);
 						segment.setLabelVisible(showNewSegmentsLabels);
 						segment.setViewFlags(((GeoElement) A).getViewSet());
+						segment.setVisibleInView3D((GeoElement) A);
 						return segment;
 					}
 				});
@@ -148,6 +149,7 @@ public abstract class AlgoPolygonRegularND extends AlgoElement implements
 						newPoint.setAuxiliaryObject(true);
 						newPoint.setLabelVisible(showNewPointsLabels);
 						newPoint.setViewFlags(((GeoElement) A).getViewSet());
+						newPoint.setVisibleInView3D((GeoElement) A);
 						GeoBoolean conditionToShow = ((GeoElement) A)
 								.getShowObjectCondition();
 						if (conditionToShow == null)

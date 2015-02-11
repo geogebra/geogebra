@@ -302,19 +302,7 @@ public class App3D extends AppD {
 	 * if there's a Command.Syntax3D key. If not, return Command.Syntax key
 	 */
 
-	@Override
-	public void addToEuclidianView(GeoElement geo) {
-		super.addToEuclidianView(geo);
-		geo.addView(App.VIEW_EUCLIDIAN3D);
-		getEuclidianView3D().add(geo);
-	}
 
-	@Override
-	public void removeFromEuclidianView(GeoElement geo) {
-		super.removeFromEuclidianView(geo);
-		geo.removeView(App.VIEW_EUCLIDIAN3D);
-		getEuclidianView3D().remove(geo);
-	}
 
 	@Override
 	public void updateStyleBars() {

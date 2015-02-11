@@ -609,6 +609,7 @@ AngleProperties {
 		applyVisualStyle(geo);
 		if (!geo.isLabelSet()) {
 			geo.setViewFlags(getViewSet());
+			geo.setVisibleInView3D(this);
 		}		
 		rebuildComboBoxes();
 

@@ -3508,6 +3508,15 @@ public class MyXMLHandler implements DocHandler {
 			} else {
 				geo.removeView(App.VIEW_EUCLIDIAN2);
 			}
+
+			if ((EVs & 4) == 4) { // bit 2
+				geo.addView(App.VIEW_EUCLIDIAN3D);
+			}
+
+			if ((EVs & 8) == 8) { // bit 3
+				geo.removeView(App.VIEW_EUCLIDIAN3D);
+			}
+
 			return true;
 
 		} catch (Exception e) {

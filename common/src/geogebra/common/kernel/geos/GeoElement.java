@@ -5081,6 +5081,17 @@ public abstract class GeoElement extends ConstructionElement implements
 				EVs += 2; // bit 1
 			}
 
+			if (hasDrawable3D()) {
+				switch (visibleInView3D) {
+				case TRUE:
+					EVs += 4;
+					break;
+				case FALSE:
+					EVs += 8; // we have to store it to distinguish from not set
+					break;
+				}
+			}
+
 			if (EVs != 0) {
 				sb.append(" ev=\"");
 				sb.append(EVs);
@@ -6588,9 +6599,12 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @param viewId view id
 	 */
-	public void addView(final int viewId) {
-		setVisibility(viewId, true);
-		// viewSet.add(view);
+	final public void addView(final int viewId) {
+		if (viewId == App.VIEW_EUCLIDIAN3D) {
+			visibleInView3D = VisibleInView3D.TRUE;
+		} else {
+			setVisibility(viewId, true);
+		}
 	}
 
 	/**
@@ -6598,8 +6612,11 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param viewId view id
 	 */
 	public void removeView(final int viewId) {
-		setVisibility(viewId, false);
-		// viewSet.remove(view);
+		if (viewId == App.VIEW_EUCLIDIAN3D) {
+			visibleInView3D = VisibleInView3D.FALSE;
+		} else {
+			setVisibility(viewId, false);
+		}
 	}
 	
 	/**
@@ -6638,8 +6655,58 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if visible in 3D view
 	 */
 	public boolean isVisibleInView3D() {
-		return hasDrawable3D()
-				&& (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN));
+
+		switch (visibleInView3D) {
+		case NOT_SET:
+		default:
+			if (hasDrawable3D()) {
+				if (isGeoElement3D() || isVisibleInView(App.VIEW_EUCLIDIAN)) {
+					// visible: we set it
+					visibleInView3D = VisibleInView3D.TRUE;
+					return true;
+				}
+
+				// not visible: we set it
+				visibleInView3D = VisibleInView3D.FALSE;
+				return false;
+			}
+
+		case TRUE:
+			return hasDrawable3D();
+		case FALSE:
+			return false;
+		}
+
+	}
+
+	private enum VisibleInView3D {
+		NOT_SET, TRUE, FALSE
+	}
+
+	private VisibleInView3D visibleInView3D = VisibleInView3D.NOT_SET;
+
+	/**
+	 * set if this is visible in 3D view or not
+	 * 
+	 * @param flag
+	 *            flag
+	 */
+	public void setVisibleInView3D(boolean flag) {
+		if (flag) {
+			visibleInView3D = VisibleInView3D.TRUE;
+		} else {
+			visibleInView3D = VisibleInView3D.FALSE;
+		}
+	}
+
+	/**
+	 * set visibility in 3D view equal to geo
+	 * 
+	 * @param geo
+	 *            geo
+	 */
+	public void setVisibleInView3D(GeoElement geo) {
+		visibleInView3D = geo.visibleInView3D;
 	}
 
 	/**

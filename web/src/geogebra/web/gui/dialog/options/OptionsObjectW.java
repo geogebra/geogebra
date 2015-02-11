@@ -1934,6 +1934,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Label title;
 		private CheckBox cbGraphicsView;
 		private CheckBox cbGraphicsView2;
+		private CheckBox cbGraphicsView3D;
 
 		public GraphicsViewLocationPanel() {
 			model = new GraphicsViewLocationModel(app, this);
@@ -1942,6 +1943,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			title = new Label();
 			cbGraphicsView = new CheckBox();
 			cbGraphicsView2 = new CheckBox();
+			cbGraphicsView3D = new CheckBox();
 
 			cbGraphicsView.addClickHandler(new ClickHandler(){
 
@@ -1959,11 +1961,21 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 				}});
 
+			cbGraphicsView3D.addClickHandler(new ClickHandler() {
+
+				@Override
+				public void onClick(ClickEvent event) {
+					model.applyToEuclidianView3D(cbGraphicsView3D.getValue());
+
+				}
+			});
+
 			FlowPanel mainPanel = new FlowPanel();
 			FlowPanel checkBoxPanel = new FlowPanel();
 			checkBoxPanel.setStyleName("optionsPanelIndent");
 			checkBoxPanel.add(cbGraphicsView);
 			checkBoxPanel.add(cbGraphicsView2);
+			checkBoxPanel.add(cbGraphicsView3D);
 			
 			mainPanel.add(title);
 			title.setStyleName("panelTitle");
@@ -1973,11 +1985,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		@Override
 		public void selectView(int index, boolean isSelected) {
-			if (index == 0) {
+			switch (index) {
+			case 0:
 				cbGraphicsView.setValue(isSelected);
-			} else {
+				break;
+			case 1:
 				cbGraphicsView2.setValue(isSelected);
-			}    
+				break;
+			case 2:
+				cbGraphicsView3D.setValue(isSelected);
+				break;
+
+			}
 		}
 
 		@Override
@@ -1985,6 +2004,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			title.setText(app.getMenu("Location"));
 			cbGraphicsView.setText(localize("DrawingPad"));
 			cbGraphicsView2.setText(localize("DrawingPad2"));
+			cbGraphicsView3D.setText(localize("GraphicsView3D"));
 
 		}
 

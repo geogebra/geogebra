@@ -5417,7 +5417,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 	private GraphicsViewLocationModel model;
 
-	private JCheckBox cbGraphicsView, cbGraphicsView2;
+	private JCheckBox cbGraphicsView, cbGraphicsView2, cbGraphicsView3D;
 
 	private Kernel kernel;
 	private AppD app;
@@ -5433,10 +5433,15 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		cbGraphicsView2 = new JCheckBox();
 		cbGraphicsView.addActionListener(this);
 		cbGraphicsView2.addActionListener(this);
+		
+		cbGraphicsView3D = new JCheckBox();
+		cbGraphicsView3D.addActionListener(this);
+
 
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 		add(cbGraphicsView);
 		add(cbGraphicsView2);
+		add(cbGraphicsView3D);
 
 		setLabels();
 	}
@@ -5446,6 +5451,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 				.getMenu("Location")));
 		cbGraphicsView.setText(app.getPlain("DrawingPad"));
 		cbGraphicsView2.setText(app.getPlain("DrawingPad2"));
+		cbGraphicsView3D.setText(app.getPlain("GraphicsView3D"));
 
 	}
 
@@ -5457,11 +5463,13 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 		cbGraphicsView.removeActionListener(this);
 		cbGraphicsView2.removeActionListener(this);
+		cbGraphicsView3D.removeActionListener(this);
 
 		model.updateProperties();
 
 		cbGraphicsView.addActionListener(this);
 		cbGraphicsView2.addActionListener(this);
+		cbGraphicsView3D.addActionListener(this);
 
 		return this;
 	}
@@ -5470,10 +5478,10 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 
 		if (e.getSource() == cbGraphicsView) {
 			model.applyToEuclidianView1(cbGraphicsView.isSelected());
-		}
-
-		if (e.getSource() == cbGraphicsView2) {
+		}else if (e.getSource() == cbGraphicsView2) {
 			model.applyToEuclidianView2(cbGraphicsView2.isSelected());
+		}else if (e.getSource() == cbGraphicsView3D) {
+			model.applyToEuclidianView3D(cbGraphicsView3D.isSelected());
 
 		}
 
@@ -5485,6 +5493,7 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		setFont(font);
 		cbGraphicsView.setFont(font);
 		cbGraphicsView2.setFont(font);
+		cbGraphicsView3D.setFont(font);
 	}
 
 	public void updateVisualStyle(GeoElement geo) {
@@ -5493,10 +5502,17 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 	}
 
 	public void selectView(int index, boolean isSelected) {
-		if (index == 0) {
+		switch(index){
+		case 0:
 			cbGraphicsView.setSelected(isSelected);
-		} else {
+			break;
+		case 1:
 			cbGraphicsView2.setSelected(isSelected);
+			break;
+		case 2:
+			cbGraphicsView3D.setSelected(isSelected);
+			break;
+			
 		}
 	}
 
