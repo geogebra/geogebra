@@ -2323,7 +2323,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		};
 
 		undoAction = new AbstractAction(app.getMenu("Undo"),
-				((AppD) app).getMenuIcon("menu-edit-undo.png")) {
+				((AppD) app).getScaledIcon("menu-edit-undo.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -2333,7 +2333,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		};
 
 		redoAction = new AbstractAction(app.getMenu("Redo"),
-				((AppD) app).getMenuIcon("menu-edit-redo.png")) {
+				((AppD) app).getScaledIcon("menu-edit-redo.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

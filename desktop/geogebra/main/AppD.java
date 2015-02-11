@@ -1898,8 +1898,8 @@ public class AppD extends App implements KeyEventDispatcher {
 		return getImageIcon(filename, null);
 	}
 
-	public ImageIcon getMenuIcon(String filename) {
-		return getMenuIcon(filename, null);
+	public ImageIcon getScaledIcon(String filename) {
+		return getScaledIcon(filename, null);
 	}
 
 	/*
@@ -1964,11 +1964,16 @@ public class AppD extends App implements KeyEventDispatcher {
 				.getImageIcon("/gui/images/" + filename, borderColor);
 	}
 
-	public ImageIcon getMenuIcon(String filename, Color borderColor) {
+	public int getScaledIconSize() {
+		return ptToPx(getFontSize());
+	}
+	public ImageIcon getScaledIcon(String filename, Color borderColor) {
 		ImageIcon icon = imageManager.getImageIcon(
 				getMenuIconPath() + filename,
 				borderColor);
-		int iconSize = ptToPx(getFontSize());
+
+		int iconSize = getScaledIconSize();
+
 		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);
 		return new ImageIcon(img);
 	}
