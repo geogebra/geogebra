@@ -402,11 +402,11 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	public void appendListStart(StringBuilder sbCASCommand) {
-		sbCASCommand.append("list(");
+		sbCASCommand.append("[");
 	}
 
 	public void appendListEnd(StringBuilder sbCASCommand) {
-		sbCASCommand.append(")");
+		sbCASCommand.append("]");
 	}
 
 	public String createLocusEquationScript(String constructRestrictions,

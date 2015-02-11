@@ -500,6 +500,11 @@ public class Ggb2giac {
 		p("Polynomial.2",
 				"[[[ggbpolans:=0/0], [ggbinput:=%0], [ggbvar:=%1], [ggbinput:=coeffs(ggbinput,ggbvar)], "
 						+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbpolans][1]");
+
+		// eg Polynomial[(1, 1), (2, 3), (3, 6)]
+		p("Polynomial.N",
+				"[[[ggblagrange:=%], [xvals := [seq(xcoord(ggblagrange[j]),j=0..size(ggblagrange)-1)]], [yvals := [seq(ycoord(ggblagrange[j]),j=0..size(ggblagrange)-1)]]], normal(lagrange(xvals,yvals,x))][1]");
+
 		p("PreviousPrime.1",
 				"[[ggbpparg0:=%0],if (ggbpparg0 > 2) then prevprime(ggbpparg0) else 0/0 fi][1]");
 		p("PrimeFactors.1", "ifactors(%0)");
