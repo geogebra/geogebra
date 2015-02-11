@@ -9615,7 +9615,9 @@ public abstract class EuclidianController {
 	protected void initNewMode(int newMode) {
 
 		// this should not happen in theory
-		if (app.getGuiManager() == null)
+		if (app.getGuiManager() == null
+				&& newMode != EuclidianConstants.MODE_TRANSLATEVIEW
+				&& newMode != EuclidianConstants.MODE_MOVE)
 			return;
 
 		this.mode = newMode;
