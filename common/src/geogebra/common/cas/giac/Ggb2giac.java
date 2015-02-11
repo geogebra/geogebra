@@ -494,16 +494,22 @@ public class Ggb2giac {
 		p("Poisson.3", "if %2=true then "
 				+ "exp(-(%0))*sum ((%0)^k/k!,k,0,floor(%1)) "
 				+ "else normal((%0)^(%1)/factorial(floor(%1))*exp(-%0)) fi");
-		p("Polynomial.1",
-				"[[[ggbpolans:=0/0], [ggbinput:=%0], [ggbinput:=coeffs(ggbinput,x)], "
-						+ "[ggbpolans:=add(seq(ggbinput[j]*x^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbpolans][1]");
-		p("Polynomial.2",
-				"[[[ggbpolans:=0/0], [ggbinput:=%0], [ggbvar:=%1], [ggbinput:=coeffs(ggbinput,ggbvar)], "
-						+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]],ggbpolans][1]");
-
-		// eg Polynomial[(1, 1), (2, 3), (3, 6)]
 		p("Polynomial.N",
-				"[[[ggblagrange:=%], [xvals := [seq(xcoord(ggblagrange[j]),j=0..size(ggblagrange)-1)]], [yvals := [seq(ycoord(ggblagrange[j]),j=0..size(ggblagrange)-1)]]], normal(lagrange(xvals,yvals,x))][1]");
+				"[[[ggbpolans:=0/0], [ggbvar:=x], [ggbinput:=%], "
+						// + "when(size(ggbinput)>2,"
+						// + "when(false,"
+						+ "when(type(ggbinput)==DOM_LIST && type(ggbinput[1]) != DOM_IDENT,"
+						// eg Polynomial[{(1, 1), (2, 3)}]
+						// eg Polynomial[(1, 1), (2, 3)]
+						// eg Polynomial[{(1, 1), (2, 3), (3, 6)}]
+						// eg Polynomial[(1, 1), (2, 3), (3, 6)]
+						+ "[[xvals := [seq(xcoord(ggbinput[j]),j=0..size(ggbinput)-1)]], [yvals := [seq(ycoord(ggbinput[j]),j=0..size(ggbinput)-1)]], [ggbpolans := normal(lagrange(xvals,yvals,x))]]"
+						+ ","
+						// eg Polynomial[x^2+a x + b x +c]
+						// eg Polynomial[y^2+a y + b y +c,y]
+						+ "[[ggbinput:=when(type(ggbinput)==DOM_LIST,[[ggbvar:=ggbinput[1]],coeffs(ggbinput[0],ggbinput[1])][1],coeffs(ggbinput,x))], "
+						+ "[ggbpolans:=add(seq(ggbinput[j]*ggbvar^(size(ggbinput)-1-j),j=0..size(ggbinput)-1))]]"
+						+ ")],ggbpolans][1]");
 
 		p("PreviousPrime.1",
 				"[[ggbpparg0:=%0],if (ggbpparg0 > 2) then prevprime(ggbpparg0) else 0/0 fi][1]");
