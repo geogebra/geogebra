@@ -17,7 +17,6 @@ import geogebra.web.gui.util.StandardButton;
 import geogebra.web.gui.vectomatic.dom.svg.ui.SVGResource;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.google.gwt.animation.client.AnimationScheduler;
 import com.google.gwt.animation.client.AnimationScheduler.AnimationCallback;
@@ -170,27 +169,31 @@ public class GGWToolBar extends Composite implements RequiresResize,
 	// timer for GeoGebraExam
 	private void addTimer() {
 		final Label timer = new Label();
-		Date date = new Date();
-		final long start = date.getTime();
 		timer.getElement().setClassName("timer");
 		timer.getElement().setId("timer");
+		timer.getElement().setPropertyBoolean("started", false);
 
 		// https://groups.google.com/forum/#!msg/google-web-toolkit/VrF3KD1iLh4/-y4hkIDt5BUJ
-		AnimationScheduler.get()
-		        .requestAnimationFrame(new AnimationCallback() {
-			        @Override
-			        public void execute(double timestamp) {
-				        int secs = (int) ((timestamp - start) / 1000);
-				        int mins = secs / 60;
-				        secs -= mins * 60;
-				        String secsS = secs + "";
-				        if (secs < 10) {
-					        secsS = "0" + secsS;
-				        }
-				        timer.setText(mins + ":" + secsS);
-				        AnimationScheduler.get().requestAnimationFrame(this);
-			        }
-		        });
+		AnimationScheduler.get().requestAnimationFrame(new AnimationCallback() {
+			@Override
+			public void execute(double timestamp) {
+				if (!timer.getElement().getPropertyBoolean("started")) {
+					timer.setText("0:00");
+				} else {
+					long start = ((long) timer.getElement().getPropertyInt(
+					        "start")) * 1000;
+					int secs = (int) ((timestamp - start) / 1000);
+					int mins = secs / 60;
+					secs -= mins * 60;
+					String secsS = secs + "";
+					if (secs < 10) {
+						secsS = "0" + secsS;
+					}
+					timer.setText(mins + ":" + secsS);
+				}
+				AnimationScheduler.get().requestAnimationFrame(this);
+			}
+		});
 
 		rightButtonPanel.add(timer);
 		visibilityEventMain();
