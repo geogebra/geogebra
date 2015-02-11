@@ -147,43 +147,47 @@ public class TextFieldProcessing {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).insertString(text);
 			if (text.startsWith("(") || text.startsWith("[")) {
+				// moves inside the brackets
 				onArrow(ArrowType.left);
 			}
 			break;
 		case radioButtonTreeItem:
-			boolean stepBack = true;
 			if (text.equals("^")) {
 				if (((NewRadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
-				((NewRadioButtonTreeItem) field).insertString("^{}");
+				((NewRadioButtonTreeItem) field).keypress(94, false, false,
+						false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((NewRadioButtonTreeItem) field)
-				        .insertString(Unicode.EULER_STRING + "^{}");
+						.insertString(Unicode.EULER_STRING);
+				// inserts: ^{}
+				((NewRadioButtonTreeItem) field).keypress(94, false, false,
+						false);
 			} else if (text.equals("sin") || text.equals("cos")
 					|| text.equals("tan") || text.equals("ln")) {
-				((NewRadioButtonTreeItem) field).insertString(text + "()");
+				((NewRadioButtonTreeItem) field).insertString(text);
+				// inserts: ()
+				((NewRadioButtonTreeItem) field).keypress(40, false, false,
+						false);
 			} else if (text.equals(Unicode.SQUARE_ROOT)) {
 				((NewRadioButtonTreeItem) field).insertString("\\sqrt{}");
+				// move one position back (inside the brackets)
+				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+						false);
 			} else if (text.startsWith("(")) {
-				((NewRadioButtonTreeItem) field)
-						.insertString("\\left({}\\right)");
+				((NewRadioButtonTreeItem) field).keypress(40, false, false,
+						false);
 			} else if (text.startsWith("[")) {
-				((NewRadioButtonTreeItem) field)
-						.insertString("\\left[{}\\right]");
+				((NewRadioButtonTreeItem) field).keypress(91, false, false,
+						false);
 			} else if (text.equals("/")) {
 				((NewRadioButtonTreeItem) field).keypress(47, false, false,
 						false);
-				stepBack = false;
 			} else {
 				((NewRadioButtonTreeItem) field).insertString(text);
-				stepBack = false;
+				((NewRadioButtonTreeItem) field).popupSuggestions();
 			}
-			if (stepBack) {
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
-				        false);
-			}
-			((NewRadioButtonTreeItem) field).popupSuggestions();
 			break;
 		}
 	}
