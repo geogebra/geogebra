@@ -178,10 +178,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// toolbar display settings
 		setFloatable(false);
-		Dimension d = getPreferredSize();
-		d.height = iconHeight + 8;
-		setPreferredSize(d);
-
+		updatePreferredSize();
 		// init button-specific fields
 		// TODO: put these in button classes
 		EuclidianStyleBarStatic.pointStyleArray = EuclidianView
@@ -200,6 +197,15 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		isIniting = false;
 
 		setMode(ev.getMode()); // this will also update the stylebar
+
+	}
+
+	private void updatePreferredSize() {
+		iconHeight = app.getScaledIconSize();
+
+		Dimension d = getPreferredSize();
+		d.height = iconHeight + 8;
+		setPreferredSize(d);
 
 	}
 
@@ -363,9 +369,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 			activeGeoList.addAll(ec.getJustCreatedGeos());
 		}
 
+		updatePreferredSize();
 		updateButtons();
 
 		addButtons();
+
 
 	}
 
@@ -519,6 +527,9 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	protected void createButtons() {
 
+		ImageIcon axesIcon = app.getScaledIcon("axes.gif");
+		iconHeight = axesIcon.getIconHeight();
+		updatePreferredSize();
 		// ========================================
 		// mode button
 
@@ -588,21 +599,21 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// show axes button
 		btnShowAxes = new MyToggleButtonVisibleIfNoGeo(
-				app.getImageIcon("axes.gif"), iconHeight);
+axesIcon, iconHeight);
 		// btnShowAxes.setPreferredSize(new Dimension(16,16));
 		btnShowAxes.addActionListener(this);
 
 		// ========================================
 		// show grid button
 		btnShowGrid = new MyToggleButtonVisibleIfNoGeo(
-				app.getImageIcon("grid.gif"), iconHeight);
+				app.getScaledIcon("grid.gif"), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addActionListener(this);
 
 		// ========================================
 		// standard view button
 		btnStandardView = new MyToggleButtonVisibleIfNoGeo(
-				app.getImageIcon("standard_view.gif"), iconHeight);
+				app.getScaledIcon("standard_view.gif"), iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnStandardView.setFocusPainted(false);
 		btnStandardView.setBorderPainted(false);
@@ -613,7 +624,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// line style button
 
 		// create line style icon array
-		final Dimension lineStyleIconSize = new Dimension(80, iconHeight);
+		final Dimension lineStyleIconSize = new Dimension(Math.max(80,
+				iconHeight * 4), iconHeight);
 		ImageIcon[] lineStyleIcons = new ImageIcon[EuclidianStyleBarStatic.lineStyleArray.length];
 		for (int i = 0; i < EuclidianStyleBarStatic.lineStyleArray.length; i++)
 			lineStyleIcons[i] = GeoGebraIcon.createLineStyleIcon(
@@ -960,7 +972,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	protected void createColorButton() {
 
-		final Dimension colorIconSize = new Dimension(20, iconHeight);
+		final Dimension colorIconSize = new Dimension(Math.max(20, iconHeight),
+				iconHeight);
 		btnColor = new ColorPopupMenuButton(app, colorIconSize,
 				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
 
@@ -1045,7 +1058,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	protected void createBgColorButton() {
 
-		final Dimension bgColorIconSize = new Dimension(20, iconHeight);
+		final Dimension bgColorIconSize = new Dimension(
+				Math.max(20, iconHeight), iconHeight);
 
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 				ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
@@ -1133,7 +1147,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 		// ========================
 		// text color button
-		final Dimension textColorIconSize = new Dimension(20, iconHeight);
+		final Dimension textColorIconSize = new Dimension(getIconWidth(),
+				iconHeight);
 
 		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
@@ -1291,6 +1306,10 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnTextSize.setKeepVisible(false);
 	}
 
+	private int getIconWidth() {
+		return Math.max(20, iconHeight);
+	}
+
 	// ================================================
 	// Create TableText buttons
 	// ================================================
@@ -1437,8 +1456,11 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	public void updateGUI() {
 
-		if (isIniting)
+		if (isIniting) {
 			return;
+		}
+
+		updatePreferredSize();
 
 		btnPointCapture.removeActionListener(this);
 		updateButtonPointCapture(ev.getPointCapturingMode());
@@ -1680,5 +1702,16 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		btnPointStyle.setSelectedIndex(idx);
 	}
 
+	public void reinit() {
+		createButtons();
+		createColorButton();
+		createBgColorButton();
+		createTextButtons();
+		createTableTextButtons();
+		setActionCommands();
+
+		addButtons();
+		setLabels();
+	}
 
 }
