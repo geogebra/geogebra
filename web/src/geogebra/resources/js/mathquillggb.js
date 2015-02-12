@@ -1634,7 +1634,9 @@ function createRoot(jQ, root, textbox, editable) {
         text = text.slice(1, -1);
       }
       else {
-        text = '\\text{' + text + '}';
+        // We almost never want to paste TextBlock into MathQuillGGB,
+    	// but when we do, it will look the same way without \\text too!
+        //text = '\\text{' + text + '}';
       }
 
       cursor.writeLatex(text).show();
