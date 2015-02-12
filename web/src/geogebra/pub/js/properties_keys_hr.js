@@ -2530,7 +2530,7 @@ __GGB__keysVar.hr.plain = {
     "Name.penStroke": "potez",
     "Name.picture": "slika",
     "Name.polygon": "mnogokut",
-    "Name.slopefield": "slopefield",
+    "Name.slopefield": "poljesmjerova",
     "Name.text": "tekst",
     "Name.textfield": "txtPolje",
     "Name.turtle": "kornja\u010da",
