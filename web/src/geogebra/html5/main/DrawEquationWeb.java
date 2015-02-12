@@ -984,10 +984,11 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquillggb('text');
+		var latexx = thisjq.mathquillggb('latex');
 
 		//elsecond.previousSibling.style.display = "block"; // this does not apply here!!
 
-		var success = @geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		var success = @geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;Ljava/lang/String;)(rbti,latexq,latexx);
 
 		// now it's time to make the formula blank!
 		// but only if the previous method was successful...
@@ -1010,6 +1011,8 @@ public class DrawEquationWeb extends DrawEquation {
 
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
 		elsecondInside.innerHTML = newFormula;
+
+		//console.log(newFormula);
 
 		// note: we use this from historyPopup, so it should not ask focus!
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable');
@@ -1067,8 +1070,8 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(
-	        RadioButtonTreeItem rbti, final String input) {
-		return rbti.stopNewFormulaCreation(input);
+	        RadioButtonTreeItem rbti, final String input, final String latex) {
+		return rbti.stopNewFormulaCreation(input, latex);
 	}
 
 	public static native void escEditingEquationMathQuillGGB(

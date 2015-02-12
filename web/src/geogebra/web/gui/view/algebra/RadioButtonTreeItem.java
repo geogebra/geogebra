@@ -397,7 +397,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	/**
 	 * Method to be overridden in NewRadioButtonTreeItem
 	 */
-	public void addToHistory(String str) {
+	public void addToHistory(String str, String latexx) {
 	}
 
 	/**
@@ -744,7 +744,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 * @param newValue0
 	 * @return boolean whether it was successful
 	 */
-	public boolean stopNewFormulaCreation(String newValue0) {
+	public boolean stopNewFormulaCreation(String newValue0, final String latexx) {
 
 		// TODO: move to NewRadioButtonTreeItem? Wouldn't help much...
 
@@ -851,7 +851,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 					app.setScrollToShow(false);
 
-					addToHistory(input);
+					addToHistory(input, latexx);
 
 					// inputField.setText(null); // that comes after boolean
 					// return true

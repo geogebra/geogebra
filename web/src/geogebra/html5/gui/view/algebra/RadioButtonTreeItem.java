@@ -5,7 +5,7 @@ public interface RadioButtonTreeItem {
 
 	// methods to stop editing (from DrawEquationWeb)
 	public void stopEditing(String latex);
-	public boolean stopNewFormulaCreation(String latex);
+	public boolean stopNewFormulaCreation(String a, String b);
 
 	// in case of NewRadioButtonTreeItem (new formula creation)
 	public boolean popupSuggestions();

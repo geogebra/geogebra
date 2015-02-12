@@ -17,6 +17,7 @@ import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
@@ -108,6 +109,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	private SymbolTablePopupW tablePopup;
 	private int historyIndex;
 	private ArrayList<String> history;
+	private HashMap<String, String> historyMap;
 	HistoryPopupW historyPopup;
 
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
@@ -153,6 +155,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		popup.addTextField(this);
 		historyIndex = 0;
 		history = new ArrayList<String>(50);
+		historyMap = new HashMap<String, String>();
 		addHistoryPopup(app.showInputTop());
 
 		// code copied from AutoCompleteTextFieldW,
@@ -317,12 +320,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	@Override
-	public boolean stopNewFormulaCreation(String newValue0) {
+	public boolean stopNewFormulaCreation(String newValue0, String latex) {
 		if (sug.isSuggestionListShowing()) {
 			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
 			return false;
 		}
-		return super.stopNewFormulaCreation(newValue0);
+		return super.stopNewFormulaCreation(newValue0, latex);
 	}
 
 	public boolean getAutoComplete() {
@@ -334,9 +337,20 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		        .getActualEditedValue(seMayLatex);
 	}
 
+	/**
+	 * Note that this method should set the text of the MathQuillGGB-editing box
+	 * in MathQuillGGB text() format, not latex()... that's why we should have a
+	 * mapping from text() format formulas to latex() format formulas, and keep
+	 * it in the historyMap class, which should be filled the same time when
+	 * addToHistory is filled!
+	 */
 	public void setText(String s) {
+		String slatex = historyMap.get(s);
+		if (slatex == null) {
+			slatex = s;
+		}
 		geogebra.html5.main.DrawEquationWeb.updateEditingMathQuillGGB(
-		        seMayLatex, s);
+		        seMayLatex, slatex);
 	}
 
 	public List<String> resetCompletions() {
@@ -648,13 +662,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	@Override
-	public void addToHistory(String str) {
+	public void addToHistory(String str, String latex) {
 		// exit if the new string is the same as the last entered string
 		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
 			return;
 
 		history.add(str);
 		historyIndex = history.size();
+		historyMap.put(str, latex);
 	}
 
 }
