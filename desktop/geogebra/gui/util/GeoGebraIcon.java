@@ -38,6 +38,9 @@ import org.scilab.forge.jlatexmath.TeXFormula;
  */
 public class GeoGebraIcon {
 
+	private static final int HGRID_MARGIN = 4;
+	private static final int VGRID_MARGIN = 4;
+
 	public GeoGebraIcon() {
 		super();
 	}
@@ -98,9 +101,14 @@ public class GeoGebraIcon {
 
 		// draw 3 horizontal lines
 		g2.setPaint(Color.GRAY);
+		int gap = h / 4;
+		int margin = (h - 2 * gap) / 2;
 
-		for (int i = 1; i <= 3; i++)
-			g2.drawLine(4, 4 * i, 12, 4 * i);
+		for (int i = 0; i < 3; i++) {
+			int y = margin + i * gap;
+
+			g2.drawLine(HGRID_MARGIN, y, h - HGRID_MARGIN, y);
+		}
 
 		ImageIcon ic = new ImageIcon(image);
 		// ensureIconSize(ic, iconSize);
@@ -121,9 +129,13 @@ public class GeoGebraIcon {
 
 		// draw 3 horizontal lines
 		g2.setPaint(Color.GRAY);
+		int gap = w / 4;
+		int margin = (w - 2 * gap) / 2;
+		for (int i = 0; i < 3; i++) {
 
-		for (int i = 1; i <= 3; i++)
-			g2.drawLine(4 * i, 4, 4 * i, 12);
+			int x = margin + i * gap;
+			g2.drawLine(x, VGRID_MARGIN, x, h - VGRID_MARGIN);
+		}
 
 		ImageIcon ic = new ImageIcon(image);
 		// ensureIconSize(ic, iconSize);

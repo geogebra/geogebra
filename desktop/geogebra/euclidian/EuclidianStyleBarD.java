@@ -204,6 +204,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		iconHeight = app.getScaledIconSize();
 		iconDimension = new Dimension(Math.max(16, iconHeight), iconHeight);
 		Dimension d = getPreferredSize();
+		d.width = getIconWidth() + 8;
 		d.height = iconHeight + 8;
 		setPreferredSize(d);
 
@@ -709,7 +710,8 @@ axesIcon, iconHeight);
 		// point style button
 
 		// create line style icon array
-		final Dimension pointStyleIconSize = new Dimension(20, iconHeight);
+		final Dimension pointStyleIconSize = new Dimension(getIconWidth(),
+				iconHeight);
 		ImageIcon[] pointStyleIcons = new ImageIcon[EuclidianStyleBarStatic.pointStyleArray.length];
 		for (int i = 0; i < EuclidianStyleBarStatic.pointStyleArray.length; i++)
 			pointStyleIcons[i] = GeoGebraIcon.createPointStyleIcon(
@@ -863,7 +865,7 @@ axesIcon, iconHeight);
 			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
 			 */
 		};
-		ImageIcon ic = app.getImageIcon("mode_showhidelabel_16.gif");
+		ImageIcon ic = app.getScaledIcon("mode_showhidelabel_16.gif");
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.setStandardButton(true);
@@ -897,7 +899,7 @@ axesIcon, iconHeight);
 		};
 
 		ImageIcon ptCaptureIcon = app
-				.getImageIcon("stylingbar_graphicsview_point_capturing.gif");
+				.getScaledIcon("stylingbar_graphicsview_point_capturing.gif");
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
@@ -907,7 +909,7 @@ axesIcon, iconHeight);
 
 		// ========================================
 		// fixed position button
-		btnFixPosition = new MyToggleButton(app.getImageIcon("pin.png"),
+		btnFixPosition = new MyToggleButton(app.getScaledIcon("pin.png"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -1306,6 +1308,10 @@ axesIcon, iconHeight);
 		btnTextSize.setKeepVisible(false);
 	}
 
+	private int getIconWidth(int base) {
+		return Math.max(base, iconHeight);
+	}
+
 	private int getIconWidth() {
 		return Math.max(20, iconHeight);
 	}
@@ -1319,11 +1325,11 @@ axesIcon, iconHeight);
 		// ==============================
 		// justification popup
 		ImageIcon[] justifyIcons = new ImageIcon[] {
-				app.getImageIcon("format-justify-left.png"),
-				app.getImageIcon("format-justify-center.png"),
-				app.getImageIcon("format-justify-right.png") };
+				app.getScaledIcon("format-justify-left.png"),
+				app.getScaledIcon("format-justify-center.png"),
+				app.getScaledIcon("format-justify-right.png") };
 		btnTableTextJustify = new PopupMenuButton((AppD) ev.getApplication(),
-				justifyIcons, 1, -1, new Dimension(20, iconHeight),
+				justifyIcons, 1, -1, new Dimension(getIconWidth(), iconHeight),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -1361,12 +1367,16 @@ axesIcon, iconHeight);
 		for (int i = 0; i < bracketIcons.length; i++) {
 			bracketIcons[i] = GeoGebraIcon.createStringIcon(
 					EuclidianStyleBarStatic.bracketArray[i],
-					app.getPlainFont(), true, false, true, new Dimension(30,
-							iconHeight), Color.BLACK, null);
+							app.getPlainFont(), true, false, true,
+ new Dimension(
+							getIconWidth(30) + 4, iconHeight + 4), Color.BLACK,
+					null);
 		}
 
 		btnTableTextBracket = new PopupMenuButton((AppD) ev.getApplication(),
-				bracketIcons, 2, -1, new Dimension(30, iconHeight),
+				bracketIcons, 2, -1,
+ new Dimension(getIconWidth(30) + 4,
+						iconHeight + 4),
 				geogebra.common.gui.util.SelectionTable.MODE_ICON) {
 
 			private static final long serialVersionUID = 1L;
@@ -1703,6 +1713,7 @@ axesIcon, iconHeight);
 	}
 
 	public void reinit() {
+		updatePreferredSize();
 		createButtons();
 		createColorButton();
 		createBgColorButton();
