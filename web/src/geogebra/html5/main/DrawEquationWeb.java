@@ -1001,6 +1001,19 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 	}-*/;
 
+	public static native void updateEditingMathQuillGGB(Element parentElement,
+	        String newFormula) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
+		elsecondInside.innerHTML = newFormula;
+		//$wnd.$ggbQuery(elsecondInside).html('');
+		//$wnd.$ggbQuery(elsecondInside).mathquillggb();
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', newFormula);
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
+	}-*/;
+
 	public static native String getActualEditedValue(Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;

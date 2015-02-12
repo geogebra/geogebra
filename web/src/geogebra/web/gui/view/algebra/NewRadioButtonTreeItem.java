@@ -310,9 +310,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void setText(String s) {
-		// TODO: implementation!
-		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-		// seMayLatex, sugg, currentWord, true);
+		geogebra.html5.main.DrawEquationWeb.updateEditingMathQuillGGB(
+		        seMayLatex, s);
 	}
 
 	public List<String> resetCompletions() {
