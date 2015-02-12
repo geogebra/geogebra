@@ -414,6 +414,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	@Override
 	public void render(final boolean online) {
 		if (online) {
+			if (app.getLoginOperation().isLoggedIn()) {
+				sync();
+			}
 			this.materialListPanel.loadAllMaterials();
 		} else {
 			this.clearMaterials();
