@@ -202,7 +202,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	private void updatePreferredSize() {
 		iconHeight = app.getScaledIconSize();
-
+		iconDimension = new Dimension(Math.max(16, iconHeight), iconHeight);
 		Dimension d = getPreferredSize();
 		d.height = iconHeight + 8;
 		setPreferredSize(d);
