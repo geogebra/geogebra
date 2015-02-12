@@ -313,6 +313,7 @@ var manageTextarea = (function() {
     var keyCallback = opts.key || noop;
     var pasteCallback = opts.paste || noop;
     var onCut = opts.cut || noop;
+    var onCopy = opts.copy || noop;
 
     var textarea = $(el);
     var target = $(opts.container || textarea);
@@ -513,6 +514,7 @@ var manageTextarea = (function() {
       keypress: onKeypress,
       focusout: onBlur,
       cut: onCut,
+      copy: onCopy,
       paste: onPaste
     });
 
@@ -1614,6 +1616,16 @@ function createRoot(jQ, root, textbox, editable) {
 
       e.stopPropagation();
     },
+    copy: function(e) {
+      if (cursor.selection) {
+        setTimeout(function() {
+          cursor.prepareMove();
+          cursor.parent.bubble('redraw');
+        });
+      }
+
+      e.stopPropagation();
+    },
     paste: function(text) {
       // FIXME HACK the parser in RootTextBlock needs to be moved to
       // Cursor::writeLatex or something so this'll work with
@@ -1822,19 +1834,6 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       this.cursor.prepareMove().appendTo(this);
       while (this.cursor[L]) this.cursor.selectLeft();
       break;
-
-    case 'Ctrl-C':
-      // TODO: implementation
-
-      // as this is NOT the default branch,
-      // preventDefault will be called, which means
-      // the selection will not be deleted ideally
-      break;
-
-    case 'Ctrl-V':
-      //console.log('Ctrl-V catched!');
-      //e.stopPropagation();
-      //return true;
 
     default:
       if (this.common !== undefined) {
