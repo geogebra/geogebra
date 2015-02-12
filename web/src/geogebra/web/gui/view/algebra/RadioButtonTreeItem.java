@@ -395,6 +395,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	/**
+	 * Method to be overridden in NewRadioButtonTreeItem
+	 */
+	public void addToHistory(String str) {
+	}
+
+	/**
 	 * This method can be used to invoke a keydown event on MathQuillGGB, e.g.
 	 * key=8,alt=false,ctrl=false,shift=false will trigger a Backspace event
 	 * 
@@ -845,11 +851,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 					app.setScrollToShow(false);
 
-					// inputField.addToHistory(input); // that is not relevant
-					// here
+					addToHistory(input);
+
 					// inputField.setText(null); // that comes after boolean
 					// return true
-
 					// inputField.setIsSuggestionJustHappened(false); // that is
 					// not relevant here
 				}

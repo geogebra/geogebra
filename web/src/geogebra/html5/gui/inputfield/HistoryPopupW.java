@@ -59,6 +59,11 @@ public class HistoryPopupW extends PopupPanel implements ClickHandler,
 		        textField.getAbsoluteTop() - getOffsetHeight());
 
 		historyList.setSelectedIndex(list.size() - 1);
+
+		// focus one extra time in case the setText method would freeze
+		// e.g. due to bad formula string
+		historyList.setFocus(true);
+
 		textField.setText(historyList.getItemText(historyList
 		        .getSelectedIndex()));
 

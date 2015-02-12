@@ -153,6 +153,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		popup.addTextField(this);
 		historyIndex = 0;
 		history = new ArrayList<String>(50);
+		addHistoryPopup(app.showInputTop());
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
@@ -279,6 +280,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		return true;
 	}
 
+	/**
+	 * In case the suggestion list is showing, shuffle its selected element
+	 * up/down, otherwise consider up/down event for the history popup!
+	 */
 	public boolean shuffleSuggestions(boolean down) {
 		if (sug.isSuggestionListShowing()) {
 			if (down) {
@@ -287,6 +292,26 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				sug.accessMoveSelectionUp();
 			}
 			return false;
+		} else if (down) {
+			if (historyPopup != null && historyPopup.isDownPopup()) {
+				// this would give the focus to the historyPopup,
+				// which should catch the key events itself, but maybe it's
+				// not everything all right here!
+				historyPopup.showPopup();
+			} else {
+				String text = getNextInput();
+				if (text != null) {
+					setText(text);
+				}
+			}
+		} else {
+			if (historyPopup != null && !historyPopup.isDownPopup()) {
+				historyPopup.showPopup();
+			} else {
+				String text = getPreviousInput();
+				if (text != null)
+					setText(text);
+			}
 		}
 		return true;
 	}
@@ -622,6 +647,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		return history.get(historyIndex);
 	}
 
+	@Override
 	public void addToHistory(String str) {
 		// exit if the new string is the same as the last entered string
 		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))

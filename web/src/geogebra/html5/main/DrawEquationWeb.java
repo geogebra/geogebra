@@ -1003,15 +1003,16 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native void updateEditingMathQuillGGB(Element parentElement,
 	        String newFormula) /*-{
+		// this method must not freeze, otherwise the historyPopup would not
+		// get focus! It is necessary, however, to get focus
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
 		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
 		elsecondInside.innerHTML = newFormula;
-		//$wnd.$ggbQuery(elsecondInside).html('');
-		//$wnd.$ggbQuery(elsecondInside).mathquillggb();
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', newFormula);
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
+
+		// note: we use this from historyPopup, so it should not ask focus!
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable');
 	}-*/;
 
 	public static native String getActualEditedValue(Element parentElement) /*-{
