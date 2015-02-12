@@ -1325,4 +1325,9 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
 
 	}
+
+	public void reinit() {
+		// TODO Auto-generated method stub
+
+	}
 }

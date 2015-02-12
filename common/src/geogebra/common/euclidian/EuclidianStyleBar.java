@@ -62,4 +62,6 @@ public interface EuclidianStyleBar {
 	 * reset "first paint", so that on first paint the GUI will be updated
 	 */
 	public void resetFirstPaint();
+
+	void reinit();
 }
