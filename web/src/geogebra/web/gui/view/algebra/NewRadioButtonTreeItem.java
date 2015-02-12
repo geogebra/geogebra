@@ -54,21 +54,24 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		protected Widget decorateSuggestionList(Widget suggestionList) {
 			ScrollPanel panel = new ScrollPanel(suggestionList);
 			// heuristic
-			panel.setHeight((Window.getClientHeight() / 2) + "px");
-			// sadly, this makes a horizontal scrollbar that should be changed!
-			panel.setWidth("100%");
+			panel.getElement()
+			        .getStyle()
+			        .setProperty("max-height",
+			                (Window.getClientHeight() / 2) + "px");
+			// it's a good question what this number might be, but on
+			// big screen (Window.getClientHeight() / 2) is not a problem
+			// and on small screens it may also be necessary
 
-			// not nice
-			// panel.setWidth("110%");
+			// we do not set max-width but allow it to display and set
+			// overflow-x hidden,
+			// because overflow-x auto does not work well...
+			// TODO: however, in the future we might want to add max-width and
+			// set
+			// both overflow-x and overflow-y to auto (i.e. remove them)!
+			panel.getElement().getStyle().setProperty("overflow-x", "hidden");
+			panel.getElement().getStyle().setProperty("overflow-y", "auto");
 
-			// TODO: better solution!
-
-			// not working
-			// panel.setPixelSize(panel.getOffsetWidth() + 20,
-			// Window.getClientHeight() / 2);
-
-			// other heuristic not working!
-			// getPopupPanel().setHeight("50%");
+			// TODO: scroll on mouse movements!
 			return panel;
 		}
 
