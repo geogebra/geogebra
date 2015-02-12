@@ -10,13 +10,16 @@ import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.gui.inputfield.HasSymbolPopup;
+import geogebra.html5.gui.inputfield.HistoryPopupW;
 import geogebra.html5.gui.inputfield.SymbolTablePopupW;
+import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -103,6 +106,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	protected CompletionsPopup popup;
 	protected ToggleButton showSymbolButton = null;
 	private SymbolTablePopupW tablePopup;
+	private int historyIndex;
+	private ArrayList<String> history;
+	HistoryPopupW historyPopup;
 
 	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
 		public void onSuggestionsReady(SuggestOracle.Request req,
@@ -145,6 +151,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		sug = new ScrollableSuggestionDisplay();
 		popup = new CompletionsPopup();
 		popup.addTextField(this);
+		historyIndex = 0;
+		history = new ArrayList<String>(50);
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
@@ -299,6 +307,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public String getText() {
 		return geogebra.html5.main.DrawEquationWeb
 		        .getActualEditedValue(seMayLatex);
+	}
+
+	public void setText(String s) {
+		// TODO: implementation!
+		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+		// seMayLatex, sugg, currentWord, true);
 	}
 
 	public List<String> resetCompletions() {
@@ -543,4 +557,79 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		// this.focused = false; // hasFocus is not needed, AFAIK
 	}
+
+	public ArrayList<String> getHistory() {
+		return history;
+	}
+
+	/**
+	 * Add a history popup list and an embedded popup button. See
+	 * AlgebraInputBar
+	 */
+	public void addHistoryPopup(boolean isDownPopup) {
+
+		if (historyPopup == null)
+			historyPopup = new HistoryPopupW(this);
+
+		historyPopup.setDownPopup(isDownPopup);
+
+		ClickHandler al = new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				// AGString cmd = event.;
+				// AGif (cmd.equals(1 + BorderButton.cmdSuffix)) {
+				// TODO: should up/down orientation be tied to InputBar?
+				// show popup
+				historyPopup.showPopup();
+
+			}
+		};
+		setBorderButton(1, BasicIcons.createUpDownTriangleIcon(false, true), al);
+		this.setBorderButtonVisible(1, false);
+	}
+
+	private void setBorderButtonVisible(int i, boolean b) {
+		App.debug("setBorderVisible() implementation needed"); // TODO
+		                                                       // Auto-generated
+	}
+
+	private void setBorderButton(int i, ImageData createUpDownTriangleIcon,
+	        ClickHandler al) {
+		App.debug("setBorderButton() implementation needed"); // TODO
+		                                                      // Auto-generated
+	}
+
+	/**
+	 * @return previous input from input textfield's history
+	 */
+	private String getPreviousInput() {
+		if (history.size() == 0)
+			return null;
+		if (historyIndex > 0)
+			--historyIndex;
+		return history.get(historyIndex);
+	}
+
+	/**
+	 * @return next input from input textfield's history
+	 */
+	private String getNextInput() {
+		if (historyIndex < history.size())
+			++historyIndex;
+		if (historyIndex == history.size())
+			return null;
+
+		return history.get(historyIndex);
+	}
+
+	public void addToHistory(String str) {
+		// exit if the new string is the same as the last entered string
+		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
+			return;
+
+		history.add(str);
+		historyIndex = history.size();
+	}
+
 }

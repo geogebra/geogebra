@@ -16,12 +16,12 @@ import com.google.gwt.user.client.ui.PopupPanel;
 public class HistoryPopupW extends PopupPanel implements ClickHandler,
         KeyUpHandler, ChangeHandler {
 
-	private AutoCompleteTextFieldW textField;
+	private AutoCompleteW textField;
 	private boolean isDownPopup;
 	private ListBox historyList;
 	private String originalTextEditorContent;
 
-	public HistoryPopupW(AutoCompleteTextFieldW autoCompleteTextField) {
+	public HistoryPopupW(AutoCompleteW autoCompleteTextField) {
 
 		this.textField = autoCompleteTextField;
 

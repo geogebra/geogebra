@@ -1,5 +1,6 @@
 package geogebra.html5.gui.inputfield;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface AutoCompleteW {
@@ -14,4 +15,14 @@ public interface AutoCompleteW {
 	public void insertString(String text);
 
 	public void toggleSymbolButton(boolean toggled);
+
+	public ArrayList<String> getHistory();
+
+	public String getText();
+
+	public void setText(String s);
+
+	public int getAbsoluteLeft();
+
+	public int getAbsoluteTop();
 }
