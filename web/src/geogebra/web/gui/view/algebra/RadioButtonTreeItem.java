@@ -892,11 +892,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
 
+		onDoubleClickAction(evt.isControlKeyDown(), evt.isShiftKeyDown());
+	}
+
+	private void onDoubleClickAction(boolean ctrl, boolean shif) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		selection.clearSelectedGeos();
 		ev.resetMode();
-		if (geo != null && !evt.isControlKeyDown()) {
-			av.startEditing(geo, evt.isShiftKeyDown());
+		if (geo != null && !ctrl) {
+			av.startEditing(geo, shif);
 		}
 	}
 
@@ -954,10 +958,23 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	    return geo;
     }
 
+	public long latestTouchEndTime = 0;
+
 	@Override
     public void onTouchEnd(TouchEndEvent event) {
 		if (newCreationMode) {
 			setFocus(true);
+		} else {
+			long time = System.currentTimeMillis();
+			if (time - latestTouchEndTime < 500) {
+				// ctrl key, shift key for TouchEndEvent? interesting...
+				latestTouchEndTime = time;
+				onDoubleClickAction(false, // event.isControlKeyDown(),
+				        false // event.isShiftKeyDown()
+				);
+			} else {
+				latestTouchEndTime = time;
+			}
 		}
 	    longTouchManager.cancelTimer();
 	    JsArray<Touch> changed = event.getChangedTouches();
