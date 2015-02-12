@@ -5220,6 +5220,10 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 	display: block;
 }
 
+.ggbFavorite{
+	float:right;
+}
+
 /*
    ########################################
    ###    END OF MANAGE TOOLS DIALOG    ###

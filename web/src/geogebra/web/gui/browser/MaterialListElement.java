@@ -331,7 +331,10 @@ public class MaterialListElement extends FlowPanel implements
 			deco.setStyleName("syncDecoration");
 			background.add(deco);
 		}
-		addFavoriteButton();
+		if (this.app.getLoginOperation().isLoggedIn()) {
+			addFavoriteButton();
+		}
+
 	}
 
 	private void setPictureAsBackground() {
@@ -369,6 +372,7 @@ public class MaterialListElement extends FlowPanel implements
 	private void addFavoriteButton() {
 		this.favoriteButton = new StandardButton(
 		        BrowseResources.INSTANCE.not_favorite());
+		this.favoriteButton.addStyleName("ggbFavorite");
 		this.background.add(this.favoriteButton);
 		this.favoriteButton.addFastClickHandler(new FastClickHandler() {
 

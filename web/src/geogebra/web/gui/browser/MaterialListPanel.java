@@ -110,19 +110,6 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 		};
     }
 
-	private MaterialCallback getAllMaterialsCB() {
-	    return new MaterialCallback() {
-			
-			@Override
-			public void onLoaded(final List<Material> response) {
-				addGGTMaterials(response);
-				if(app.getLoginOperation().isLoggedIn()){
-					loadUsersMaterials();
-				}
-			}
-		};
-    }
-
 	/**
 	 * sets all {@link MaterialListElement materials} to the
 	 * default style (not selected, not disabled)
