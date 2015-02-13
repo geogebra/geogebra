@@ -2778,6 +2778,15 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			sb.append("\" separation=\"");
 			sb.append(sep);
 		}
+		if (projectionObliqueAngle != EuclidianSettings3D.PROJECTION_OBLIQUE_ANGLE_DEFAULT){
+			sb.append("\" obliqueAngle=\"");
+			sb.append(projectionObliqueAngle);
+		}
+		if (projectionObliqueFactor != EuclidianSettings3D.PROJECTION_OBLIQUE_FACTOR_DEFAULT){
+			sb.append("\" obliqueFactor=\"");
+			sb.append(projectionObliqueFactor);
+		}
+
 		sb.append("\"/>\n");
 		
 		
@@ -3902,6 +3911,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		setProjectionPerspectiveEyeDistance(evs.getProjectionPerspectiveEyeDistance());
 		eyeSep = evs.getEyeSep();
+		projectionObliqueAngle = evs.getProjectionObliqueAngle();
+		projectionObliqueFactor = evs.getProjectionObliqueFactor();
 
 		setProjection(evs.getProjection());
 		

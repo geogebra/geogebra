@@ -363,6 +363,16 @@ public class MyXMLHandler3D extends MyXMLHandler {
 				int sep = Integer.parseInt(strSep);
 				evs.setEyeSep(sep);
 			}
+			String strAngle = attrs.get("obliqueAngle");
+			if (strAngle != null) {
+				double angle = Double.parseDouble(strAngle);
+				evs.setProjectionObliqueAngle(angle);
+			}
+			String strFactor = attrs.get("obliqueFactor");
+			if (strFactor != null) {
+				double factor = Double.parseDouble(strFactor);
+				evs.setProjectionObliqueFactor(factor);
+			}
 			return true;
 		} catch (Exception e) {
 			e.printStackTrace();

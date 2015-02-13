@@ -521,7 +521,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				double val = Double.parseDouble(tfObliqueAngle.getText());
 				if (!Double.isNaN(val)) {
 
-					((EuclidianView3D) view).setProjectionObliqueAngle(val);
+					((EuclidianView3D) view).getSettings()
+					        .setProjectionObliqueAngle(val);
 					view.repaintView();
 				}
 			} catch (NumberFormatException e) {

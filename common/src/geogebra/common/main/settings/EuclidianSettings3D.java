@@ -224,6 +224,37 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 	
 	
+	public static final double PROJECTION_OBLIQUE_ANGLE_DEFAULT = 30;
+	public static final double PROJECTION_OBLIQUE_FACTOR_DEFAULT = 0.5;
+
+	
+	
+	private double projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
+	private double projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
+	
+	public void setProjectionObliqueAngle(double value){
+		if (projectionObliqueAngle != value){
+			projectionObliqueAngle = value;
+			settingChanged();
+		}
+	}
+	
+	public double getProjectionObliqueAngle() {
+		return projectionObliqueAngle;
+	}
+
+	public void setProjectionObliqueFactor(double value){
+		if (projectionObliqueFactor != value){
+			projectionObliqueFactor = value;
+			settingChanged();
+		}
+	}
+	
+	public double getProjectionObliqueFactor() {
+		return projectionObliqueFactor;
+	}
+
+	
 	
 
 	private boolean yAxisVertical = false;

@@ -628,6 +628,9 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				<xs:complexType>
 						<xs:attribute name="type" type="nonNegInt"/>
 						<xs:attribute name="distance" type="nonNegInt"/>
+						<xs:attribute name="separation" type="nonNegInt"/>
+						<xs:attribute name="obliqueAngle" type="xs:double"/>
+						<xs:attribute name="obliqueFactor" type="xs:double"/>
 				</xs:complexType>
 				</xs:element>
 			</xs:sequence>
