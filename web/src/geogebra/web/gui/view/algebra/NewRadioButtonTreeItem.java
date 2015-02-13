@@ -14,7 +14,6 @@ import geogebra.html5.gui.inputfield.HistoryPopupW;
 import geogebra.html5.gui.inputfield.SymbolTablePopupW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
-import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
@@ -287,11 +286,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		return true;
 	}
 
-	public void popupSuggestionsConditional() {
-		// newCreationMode is on, we are in NewRadioButtonTreeItem
-		DrawEquationWeb.popupSuggestionsConditional(this, seMayLatex);
-	}
-
 	/**
 	 * In case the suggestion list is showing, shuffle its selected element
 	 * up/down, otherwise consider up/down event for the history popup!
@@ -473,16 +467,18 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			while (curWordStart < text.length()) {
 				char c = text.charAt(curWordStart);
-				if (c == '[')
+				if (c == '[' || c == '(' || c == '{')
 					break;
-				if (c == ']')
+				if (c == ']' || c == ')' || c == '}')
 					insideBrackets = true;
 				curWordStart++;
 			}
 
 			// found [, so go back until we get a ]
 			if (insideBrackets) {
-				while (caretPos > 0 && text.charAt(caretPos) != '[')
+				while (caretPos > 0 && text.charAt(caretPos) != '['
+				        && text.charAt(caretPos) != '('
+				        && text.charAt(caretPos) != '{')
 					caretPos--;
 			}
 		}
@@ -508,7 +504,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		curWord.append(text.substring(curWordStart, curWordEnd));
 
 		// remove '[' at end
-		if (curWord.toString().endsWith("[")) {
+		if (curWord.toString().endsWith("[")
+		        || curWord.toString().endsWith("(")
+		        || curWord.toString().endsWith("{")) {
 			curWord.setLength(curWord.length() - 1);
 		}
 		return curWordStart;

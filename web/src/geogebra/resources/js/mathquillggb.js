@@ -1838,6 +1838,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
       while (this.cursor[L]) this.cursor.selectLeft();
       break;
 
+    case 'F1':
     default:
       if (this.common !== undefined) {
     	this.common.GeoGebraSuggestionPopupCanShow = true;

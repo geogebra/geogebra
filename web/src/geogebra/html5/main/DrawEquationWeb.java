@@ -964,25 +964,6 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 	}-*/;
 
-	public static native void popupSuggestionsConditional(
-	        RadioButtonTreeItem rbti, Element parentElement) /*-{
-		var elfirst = parentElement.firstChild.firstChild;
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var querr = elsecond.lastChild;
-
-		if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
-			// when the suggestions should pop up, we make them pop up,
-			// when not, there may be two possibilities: we should hide the old,
-			// or we should not hide the old... e.g. up/down arrows should not hide...
-			// is there any other case? (up/down will unset later here)
-			if (querr.GeoGebraSuggestionPopupCanShow === true) {
-				@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-			} else {
-				@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-			}
-		}
-	}-*/;
-
 	public static void popupSuggestions(RadioButtonTreeItem rbti) {
 		rbti.popupSuggestions();
 	}

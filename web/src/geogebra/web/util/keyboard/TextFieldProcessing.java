@@ -186,12 +186,7 @@ public class TextFieldProcessing {
 						false);
 			} else {
 				((NewRadioButtonTreeItem) field).insertString(text);
-
-				// in order to refresh popupSuggestions to its real value,
-				// we should trigger a dummy keydown event! E.g. F1
-				((NewRadioButtonTreeItem) field).keydown(112, false, false,
-				        false);
-				((NewRadioButtonTreeItem) field).popupSuggestionsConditional();
+				((NewRadioButtonTreeItem) field).popupSuggestions();
 			}
 			break;
 		}
