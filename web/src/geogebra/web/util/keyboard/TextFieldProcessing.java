@@ -186,7 +186,16 @@ public class TextFieldProcessing {
 						false);
 			} else {
 				((NewRadioButtonTreeItem) field).insertString(text);
-				((NewRadioButtonTreeItem) field).popupSuggestions();
+
+				// For some commands, like "sqrt" or "7", this is harmful,
+				// anyway, insertString should not bring up popupSuggestions
+				// because it is called from the onScreen keyboard, which
+				// contains full commands, not ones that need suggestions...
+				// but if you need popupSuggestions, then there is some code
+				// checking it in DrawEquationWeb.editEquationMathQuillGGB
+				// at the end of the keyup handler, that could be put in a
+				// separate JSNI method, if necessary...
+				// ((NewRadioButtonTreeItem) field).popupSuggestions();
 			}
 			break;
 		}

@@ -898,6 +898,10 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
+		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		}
+
 		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
 			var evt = $wnd.$ggbQuery.Event("keydown", {
@@ -917,6 +921,10 @@ public class DrawEquationWeb extends DrawEquation {
 		var elfirst = parentElement.firstChild.firstChild;
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
+
+		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		}
 
 		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
@@ -938,6 +946,10 @@ public class DrawEquationWeb extends DrawEquation {
 		var elfirst = parentElement.firstChild.firstChild;
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
+
+		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		}
 
 		var textarea = $wnd.$ggbQuery(elsecondInside).find('textarea');
 		if ((textarea !== undefined) && (textarea[0] !== undefined)) {
