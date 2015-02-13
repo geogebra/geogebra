@@ -59,6 +59,6 @@ public class CasDockPanel extends DockPanel {
 	
 	@Override
 	public ImageIcon getIcon() { 
-			return app.getImageIcon("menu_view_cas.png");
+		return app.getMenuIcon("menu_view_cas.png");
 	}
 }

@@ -93,7 +93,7 @@ public class SpreadsheetDockPanel extends DockPanel {
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getImageIcon("menu_view_spreadsheet.png");
+		return app.getMenuIcon("menu_view_spreadsheet.png");
 	}
 
 	@Override

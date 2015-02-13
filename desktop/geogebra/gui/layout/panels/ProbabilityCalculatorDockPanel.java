@@ -47,7 +47,7 @@ public class ProbabilityCalculatorDockPanel extends DockPanel {
 
 	@Override
 	public ImageIcon getIcon() {
-		return app.getImageIcon("menu_view_probability.png");
+		return app.getMenuIcon("menu_view_probability.png");
 	}
 
 }

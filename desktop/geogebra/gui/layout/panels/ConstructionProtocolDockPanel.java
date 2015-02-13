@@ -41,6 +41,6 @@ public class ConstructionProtocolDockPanel extends DockPanel {
 	
 	@Override
 	public ImageIcon getIcon() { 
-			return app.getImageIcon("menu_view_construction_protocol.png");
+		return app.getMenuIcon("menu_view_construction_protocol.png");
 	}
 }

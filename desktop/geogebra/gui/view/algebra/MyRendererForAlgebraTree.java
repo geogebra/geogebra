@@ -42,17 +42,21 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		setOpaque(true);
 		this.app = app;
 		this.kernel = app.getKernel();
-
-		iconShown = app.getImageIcon("shown.gif");
-		iconHidden = app.getImageIcon("hidden.gif");
-
-		setOpenIcon(app.getImageIcon("tree-close.png"));
-		setClosedIcon(app.getImageIcon("tree-open.png"));
-
-		latexIcon = new ImageIcon();
+		update();
 		this.view = view;
 
 		this.setIconTextGap(8);
+	}
+
+	public void update() {
+		iconShown = app.getScaledIcon("shown.gif");
+		iconHidden = app.getScaledIcon("hidden.gif");
+
+		setOpenIcon(app.getScaledIcon("tree-close.png"));
+		setClosedIcon(app.getScaledIcon("tree-open.png"));
+
+		latexIcon = new ImageIcon();
+
 	}
 
 	/**

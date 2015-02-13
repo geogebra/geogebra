@@ -246,6 +246,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		if (helperBar != null) {
 			helperBar.updateLabels();
 		}
+		renderer.update();
 	}
 
 	@Override

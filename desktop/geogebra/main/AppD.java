@@ -5285,4 +5285,13 @@ public class AppD extends App implements KeyEventDispatcher {
 	public boolean isSelectionRectangleAllowed() {
 		return true;
 	}
+
+	public ImageIcon getMenuIcon(String name) {
+		if (isMacOS()) {
+			// no scaling for mac menu
+			return getImageIcon(name);
+		}
+
+		return getScaledIcon(name);
+	}
 }

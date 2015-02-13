@@ -363,6 +363,7 @@ public class AlgebraTree extends JTree {
 		}
 	}
 
+
 	public void updateVisualStyle(GeoElement geo) {
 		update(geo);
 	}
