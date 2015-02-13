@@ -4980,6 +4980,8 @@ $.fn.mathquillggb = function(cmd, latex) {
         if (cursor) {
           // first deleting the current word
           for (var iii = 0; iii < cw.length; iii++) {
+        	// THIS IS ONLY TRUE FOR GEOGEBRA COMMANDS, NOT FOR
+        	// SIN, SQRT, ETC!
             // if the user typed anything since the suggestions
         	// in NewRadioButtonTreeItem, then they were
         	// refreshed in theory, so the cursor is in the

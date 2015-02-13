@@ -532,6 +532,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void insertString(String text) {
+		// even worse
+		// for (int i = 0; i < text.length(); i++)
+		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+		// seMayLatex, "" + text.charAt(i), "", false);
+
 		geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
 		        seMayLatex, text, "", false);
 	}
