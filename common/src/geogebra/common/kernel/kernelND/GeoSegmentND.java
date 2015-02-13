@@ -18,11 +18,11 @@ public interface GeoSegmentND extends GeoLineND, LimitedPath, GeoNumberValue, Fr
 
 
 	/**
-	 * Sets start point and end point
+	 * Sets start point and end point with inhom coords
 	 * @param start start point
 	 * @param end end point
 	 */
-	void setTwoPointsCoords(Coords start, Coords end);
+	public void setTwoPointsInhomCoords(Coords start, Coords end);
 
 
 	/** @return length of the segment */

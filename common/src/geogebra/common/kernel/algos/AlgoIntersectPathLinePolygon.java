@@ -427,8 +427,8 @@ public class AlgoIntersectPathLinePolygon extends AlgoElement {
 	 * @param end
 	 *            point
 	 */
-	protected void setSegment(GeoSegmentND seg, Coords start, Coords end) {
-		((GeoSegment) seg).setTwoPointsInhomCoords(start, end);
+	final protected static void setSegment(GeoSegmentND seg, Coords start, Coords end) {
+		seg.setTwoPointsInhomCoords(start, end);
 	}
 
 	@Override

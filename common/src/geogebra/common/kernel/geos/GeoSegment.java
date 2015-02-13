@@ -118,19 +118,8 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 		setEndPoint(B);
 	}
 
-	public void setTwoPointsCoords(Coords start, Coords end) {
-		this.startPoint.setCoords(start.get(1),start.get(2),start.get(3));
-		this.endPoint.setCoords(end.get(1),end.get(2),end.get(3));
-		setPoints(this.startPoint, this.endPoint);
-		calcLength();
-	}
 
 
-	/**
-	 * Sets start point and end point with inhom coords
-	 * @param start start point
-	 * @param end end point
-	 */
 	public void setTwoPointsInhomCoords(Coords start, Coords end) {
 		this.startPoint.setCoords(start.get(1),start.get(2),1);
 		this.endPoint.setCoords(end.get(1),end.get(2),1);

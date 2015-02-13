@@ -111,9 +111,6 @@ public class AlgoIntersectPathLinePolygon3D extends
 		return p.isInRegion(midpoint.getX(), midpoint.getY());
 	}
 
-	@Override
-	protected void setSegment(GeoSegmentND seg, Coords start, Coords end) {
-		seg.setTwoPointsCoords(start, end);
-	}
+	
 
 }

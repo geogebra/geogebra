@@ -196,7 +196,7 @@ public class GeoSegment3D extends GeoCoordSys1D implements GeoSegmentND {
 		return true;
 	}
 
-	public void setTwoPointsCoords(Coords start, Coords end) {
+	public void setTwoPointsInhomCoords(Coords start, Coords end) {
 		this.setCoord(start, end.sub(start));
 	}
 
