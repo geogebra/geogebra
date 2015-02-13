@@ -134,6 +134,10 @@ final public class GeoSegment extends GeoLine implements GeoSegmentND {
 	public void setTwoPointsInhomCoords(Coords start, Coords end) {
 		this.startPoint.setCoords(start.get(1),start.get(2),1);
 		this.endPoint.setCoords(end.get(1),end.get(2),1);
+		// set x, y, z coords for equation
+		setCoords(start.getY() - end.getY(), 
+				end.getX() - start.getX(),
+				start.getX() * end.getY() - start.getY() * end.getX());
 		setPoints(this.startPoint, this.endPoint);
 		calcLength();
 	}
