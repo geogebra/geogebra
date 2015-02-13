@@ -2773,6 +2773,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 			sb.append("\" distance=\"");
 			sb.append(eyeDistance);
 		}
+		int sep = (int) eyeSep;
+		if (sep != EuclidianSettings3D.EYE_SEP_DEFAULT){
+			sb.append("\" separation=\"");
+			sb.append(sep);
+		}
 		sb.append("\"/>\n");
 		
 		
@@ -3895,10 +3900,12 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 		setShowPlate(evs.getShowPlate());
 
+		setProjectionPerspectiveEyeDistance(evs.getProjectionPerspectiveEyeDistance());
+		eyeSep = evs.getEyeSep();
+
 		setProjection(evs.getProjection());
 		
-		setProjectionPerspectiveEyeDistance(evs.getProjectionPerspectiveEyeDistance());
-
+		
 		updateMatrix();
 		setViewChanged();
 		setWaitForUpdate();

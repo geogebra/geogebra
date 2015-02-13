@@ -357,7 +357,11 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (strDistance != null) {
 				int distance = Integer.parseInt(strDistance);
 				evs.setProjectionPerspectiveEyeDistance(distance);
-				App.error("ICI");
+			}
+			String strSep = attrs.get("separation");
+			if (strSep != null) {
+				int sep = Integer.parseInt(strSep);
+				evs.setEyeSep(sep);
 			}
 			return true;
 		} catch (Exception e) {

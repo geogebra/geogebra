@@ -486,17 +486,14 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		protected void processPerspText() {
 			try {
 				int val = Integer.parseInt(tfPersp.getText());
-				if (!Double.isNaN(val)) {
-					int min = 1;
-					if (val < min) {
-						val = min;
-						tfPersp.setText("" + val);
-					}
-
-					((EuclidianView3D) view).getSettings()
-					        .setProjectionPerspectiveEyeDistance(val);
-					view.repaintView();
+				int min = 1;
+				if (val < min) {
+					val = min;
+					tfPersp.setText("" + val);
 				}
+				((EuclidianView3D) view).getSettings()
+				        .setProjectionPerspectiveEyeDistance(val);
+				view.repaintView();
 			} catch (NumberFormatException e) {
 				tfPersp.setText(""
 				        + ((EuclidianView3D) view)
@@ -506,16 +503,13 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		protected void processGlassesEyeSepText() {
 			try {
-				double val = Double.parseDouble(tfGlassesEyeSep.getText());
-				if (!Double.isNaN(val)) {
-					if (val < 0) {
-						val = 0;
-						tfGlassesEyeSep.setText("" + val);
-					}
-
-					((EuclidianView3D) view).setEyes(val, 0, 0);
-					view.repaintView();
+				int val = Integer.parseInt(tfGlassesEyeSep.getText());
+				if (val < 0) {
+					val = 0;
+					tfGlassesEyeSep.setText("" + val);
 				}
+				((EuclidianView3D) view).getSettings().setEyeSep(val);
+				view.repaintView();
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""
 				        + ((EuclidianView3D) view).getEyeSep());

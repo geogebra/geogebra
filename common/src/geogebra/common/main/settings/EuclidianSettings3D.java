@@ -1,6 +1,7 @@
 package geogebra.common.main.settings;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.main.App;
 
 /**
  * Settings for 3D view
@@ -189,6 +190,7 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	}
 	
 	
+	
 	/**
 	 * set the near distance regarding eye distance to the screen for
 	 * perspective (in pixels)
@@ -201,6 +203,26 @@ public class EuclidianSettings3D extends EuclidianSettings {
 			settingChanged();
 		}
 	}
+	
+	
+	
+	
+
+	public static final int EYE_SEP_DEFAULT = 200;
+	
+	private int eyeSep = EYE_SEP_DEFAULT;
+	
+	public void setEyeSep(int value){
+		if (eyeSep != value){
+			eyeSep = value;
+			settingChanged();
+		}
+	}
+	
+	public int getEyeSep() {
+		return eyeSep;
+	}
+	
 	
 	
 
