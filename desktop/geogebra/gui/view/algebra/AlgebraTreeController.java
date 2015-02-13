@@ -97,8 +97,12 @@ implements MouseListener, MouseMotionListener{
 
 		// check if we clicked on the 16x16 show/hide icon
 		if (geo != null) {
+			int h = tree.getIconShownHeight();
 			Rectangle rect = tree.getPathBounds(tp);		
-			boolean iconClicked = rect != null && e.getX() - rect.x < 16; // distance from left border				
+			boolean iconClicked = rect != null && e.getX() - rect.x < h; // distance
+																			// from
+																			// left
+																			// border
 			if (iconClicked) {
 				// icon clicked: toggle show/hide
 				geo.setEuclidianVisible(!geo.isSetEuclidianVisible());

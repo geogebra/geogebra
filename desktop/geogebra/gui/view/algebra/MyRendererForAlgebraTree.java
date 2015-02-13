@@ -49,8 +49,8 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 	}
 
 	public void update() {
-		iconShown = app.getScaledIcon("shown.gif");
-		iconHidden = app.getScaledIcon("hidden.gif");
+		setIconShown(app.getScaledIcon("shown.gif"));
+		setIconHidden(app.getScaledIcon("hidden.gif"));
 
 		setOpenIcon(app.getScaledIcon("tree-close.png"));
 		setClosedIcon(app.getScaledIcon("tree-open.png"));
@@ -97,9 +97,9 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 
 			// ICONS
 			if (geo.isEuclidianVisible()) {
-				setIcon(iconShown);
+				setIcon(getIconShown());
 			} else {
-				setIcon(iconHidden);
+				setIcon(getIconHidden());
 			}
 
 			// if enabled, render with LaTeX
@@ -210,5 +210,21 @@ public class MyRendererForAlgebraTree extends DefaultTreeCellRenderer {
 		super.setFont(font);
 		// latexFont = font;
 		// use a slightly smaller font for LaTeX
+	}
+
+	public ImageIcon getIconShown() {
+		return iconShown;
+	}
+
+	public void setIconShown(ImageIcon iconShown) {
+		this.iconShown = iconShown;
+	}
+
+	public ImageIcon getIconHidden() {
+		return iconHidden;
+	}
+
+	public void setIconHidden(ImageIcon iconHidden) {
+		this.iconHidden = iconHidden;
 	}
 } // MyRenderer
