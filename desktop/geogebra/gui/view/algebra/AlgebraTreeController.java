@@ -322,7 +322,8 @@ implements MouseListener, MouseMotionListener{
 		
 		Rectangle rect = tree.getPathBounds(tp);		
 		if (rect!=null){ //group action
-			if (e.getX()-rect.x<16){ // collapse/expand icon
+			if (e.getX() - rect.x < tree.getOpenIconHeight()) { // collapse/expand
+																// icon
 				if (mousePressed){
 					if (tree.isCollapsed(tp))
 						tree.expandPath(tp);

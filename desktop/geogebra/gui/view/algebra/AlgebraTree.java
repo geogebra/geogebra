@@ -629,6 +629,10 @@ public class AlgebraTree extends JTree {
 		return renderer.getIconShown().getIconHeight();
 	}
 
+	public int getOpenIconHeight() {
+		return renderer.getOpenIcon().getIconHeight();
+	}
+
 	public void updateFonts() {
 		Font font = app.getPlainFont();
 		setFont(font);
