@@ -745,6 +745,7 @@ public class DrawEquationWeb extends DrawEquation {
 							event.preventDefault();
 
 							if (newCreationMode) {
+								var querr = elsecondInside;
 								if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
 									// when the suggestions should pop up, we make them pop up,
 									// when not, there may be two possibilities: we should hide the old,
