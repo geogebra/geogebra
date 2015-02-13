@@ -14,6 +14,7 @@ import geogebra.html5.gui.inputfield.HistoryPopupW;
 import geogebra.html5.gui.inputfield.SymbolTablePopupW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
@@ -284,6 +285,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			sug.hideSuggestions();
 		}
 		return true;
+	}
+
+	public void popupSuggestionsConditional() {
+		// newCreationMode is on, we are in NewRadioButtonTreeItem
+		DrawEquationWeb.popupSuggestionsConditional(this, seMayLatex);
 	}
 
 	/**

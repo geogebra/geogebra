@@ -278,6 +278,7 @@ var manageTextarea = (function() {
 
     86: 'V',
 
+    112: 'F1',
     144: 'NumLock'
   };
 
