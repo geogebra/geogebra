@@ -821,7 +821,7 @@ public class MouseTouchGestureControllerW implements
 
 		switch (this.multitouchMode) {
 		case zoomY:
-			if (this.scale == 0) {
+			if (this.scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
 			double newRatioY = this.scale * (y1 - y2) / ec.oldDistance;
@@ -829,7 +829,7 @@ public class MouseTouchGestureControllerW implements
 			        ec.view.getXscale(), newRatioY);
 			break;
 		case zoomX:
-			if (this.scale == 0) {
+			if (this.scale == 0 || !app.isShiftDragZoomEnabled()) {
 				return;
 			}
 			double newRatioX = this.scale * (x1 - x2) / ec.oldDistance;
@@ -947,6 +947,9 @@ public class MouseTouchGestureControllerW implements
 
 			break;
 		default:
+			if (!app.isShiftDragZoomEnabled()) {
+				return;
+			}
 			// pinch
 			ec.twoTouchMoveCommon(x1, y1, x2, y2);
 
