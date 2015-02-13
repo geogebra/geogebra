@@ -496,7 +496,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				view.repaintView();
 			} catch (NumberFormatException e) {
 				tfPersp.setText(""
-				        + ((EuclidianView3D) view)
+				        + (int) ((EuclidianView3D) view)
 				                .getProjectionPerspectiveEyeDistance());
 			}
 		}
@@ -512,7 +512,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 				view.repaintView();
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""
-				        + ((EuclidianView3D) view).getEyeSep());
+				        + (int) ((EuclidianView3D) view).getEyeSep());
 			}
 		}
 
@@ -581,9 +581,10 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		 */
 		public void updateGUI() {
 			tfPersp.setText(""
-			        + ((EuclidianView3D) view)
+			        + (int) ((EuclidianView3D) view)
 			                .getProjectionPerspectiveEyeDistance());
-			tfGlassesEyeSep.setText("" + ((EuclidianView3D) view).getEyeSep());
+			tfGlassesEyeSep.setText(""
+			        + (int) ((EuclidianView3D) view).getEyeSep());
 			cbGlassesGray.setValue(((EuclidianView3D) view)
 			        .isGlassesGrayScaled());
 			cbGlassesShutDownGreen.setValue(((EuclidianView3D) view)

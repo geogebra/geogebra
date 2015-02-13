@@ -221,7 +221,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 						.getProjectionPerspectiveEyeDistance());
 		// tfPersp.addActionListener(this);
 
-		tfGlassesEyeSep.setText("" + ((EuclidianView3D) view).getEyeSep());
+		tfGlassesEyeSep.setText("" + (int) ((EuclidianView3D) view).getEyeSep());
 		cbGlassesGray.setSelected(((EuclidianView3D) view)
 				.isGlassesGrayScaled());
 		cbGlassesShutDownGreen.setSelected(((EuclidianView3D) view)
@@ -479,7 +479,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 				((EuclidianView3D) view).getSettings().setProjectionPerspectiveEyeDistance(val);
 			} catch (NumberFormatException e) {
 				tfPersp.setText(""
-						+ ((EuclidianView3D) view)
+						+ (int) ((EuclidianView3D) view)
 								.getProjectionPerspectiveEyeDistance());
 			}
 		} else if (source == tfGlassesEyeSep) {
@@ -492,7 +492,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 				((EuclidianView3D) view).getSettings().setEyeSep(val);
 			} catch (NumberFormatException e) {
 				tfGlassesEyeSep.setText(""
-						+ ((EuclidianView3D) view).getEyeSep());
+						+ (int) ((EuclidianView3D) view).getEyeSep());
 			}
 		} else if (source == tfObliqueAngle) {
 			try {
