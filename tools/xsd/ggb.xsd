@@ -627,7 +627,8 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				<xs:element name="projection">
 				<xs:complexType>
 						<xs:attribute name="type" type="nonNegInt"/>
-						</xs:complexType>
+						<xs:attribute name="distance" type="nonNegInt"/>
+				</xs:complexType>
 				</xs:element>
 			</xs:sequence>
 
