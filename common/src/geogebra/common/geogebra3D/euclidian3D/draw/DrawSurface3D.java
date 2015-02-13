@@ -1305,7 +1305,7 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 								above.l = n;
 								
 								// drawing
-								//addToDrawList(w.a, this, left.a);
+								addToDrawList(w.a, this, left.a);
 							}
 						}
 					} else {
@@ -1787,10 +1787,15 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		// center is undefined : barycenter about coords
 		center.set(0, 0, 0);
 		normal.set(0, 0, 0);
+//		int lengthDefined = 0;
 		for (int j = 0; j < length; j++) {
-			center.addInside(c[j].p);
-			normal.addInside(c[j].normal);
+//			if (!center.isFinalUndefined()){
+				center.addInside(c[j].p);
+				normal.addInside(c[j].normal);
+//				lengthDefined ++;
+//			}
 		}
+//		f = 1.0 / lengthDefined;
 		center.mulInside(f);
 		normal.normalizeIfPossible();
 
