@@ -78,6 +78,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -205,6 +206,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 */
 	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
+		// touch events did not work because these events were still not sunk
+		sinkEvents(Event.ONTOUCHSTART | Event.ONTOUCHMOVE | Event.ONTOUCHEND);
 		geo = ge;
 		kernel = geo.getKernel();
 		app = (AppW)kernel.getApplication();
