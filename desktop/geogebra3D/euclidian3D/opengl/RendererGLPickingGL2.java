@@ -66,7 +66,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 		storePickingInfos(null, 0, 0); // 0, 0 will be ignored since hits are
 		// passed as null
 
-		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
+		enableLighting();
 	}
 
 	private IntBuffer createSelectBufferForPicking(int bufSize) {
@@ -138,7 +138,7 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 
 		waitForPick = false;
 
-		jogl.getGL2().glEnable(GLlocal.GL_LIGHTING);
+		enableLighting();
 	}
 
 	private void storePickingInfos(Hits3D hits3D, int pointAndCurvesLoop,

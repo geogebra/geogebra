@@ -78,7 +78,7 @@ public class EuclidianSettings extends AbstractSettings {
 		settingChanged();
 	}
 
-	private void resetNoFire() {
+	protected void resetNoFire() {
 		gridDistances = null;
 		axisNumberingDistances = new double[] { Double.NaN, Double.NaN,
 				Double.NaN };
@@ -301,9 +301,9 @@ public class EuclidianSettings extends AbstractSettings {
 
 	protected double yZero;
 
-	private double xscale = EuclidianView.SCALE_STANDARD;
+	protected double xscale = EuclidianView.SCALE_STANDARD;
 
-	private double yscale = EuclidianView.SCALE_STANDARD;
+	protected double yscale = EuclidianView.SCALE_STANDARD;
 
 	private GDimension preferredSize;
 

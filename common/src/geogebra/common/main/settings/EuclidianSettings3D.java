@@ -1,5 +1,6 @@
 package geogebra.common.main.settings;
 
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.main.App;
 
@@ -275,10 +276,60 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		}
 
 	}
+	
+	
+	private boolean useLight = true;
+	
+	public void setUseLight(boolean flag){
+		if (useLight != flag) {
+			useLight = flag;
+			settingChanged();
+		}
+	}
+	
+	public boolean getUseLight(){
+		return useLight;
+	}
 
 	@Override
 	public boolean is3D() {
 		return true;
+	}
+	
+	
+	@Override
+	protected void resetNoFire() {
+		
+		super.resetNoFire();
+		
+		xZero = EuclidianView3D.XZERO_SCENE_STANDARD;
+		yZero = EuclidianView3D.XZERO_SCENE_STANDARD;
+		zZero = EuclidianView3D.ZZERO_SCENE_STANDARD;
+		
+		a = EuclidianView3D.ANGLE_ROT_OZ;
+		b = EuclidianView3D.ANGLE_ROT_XOY;
+		
+		xscale = EuclidianView.SCALE_STANDARD;
+		yscale = EuclidianView.SCALE_STANDARD;
+		zscale = EuclidianView.SCALE_STANDARD;
+		
+		yAxisVertical = false;
+		useLight = true;	
+		
+		clippingReduction = 1;
+		useClippingCube = true;
+		showClippingCube = true;
+		
+		projection = 0;
+		
+		eyeSep = EYE_SEP_DEFAULT;
+		projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
+		
+		projectionObliqueAngle = PROJECTION_OBLIQUE_ANGLE_DEFAULT;
+		projectionObliqueFactor = PROJECTION_OBLIQUE_FACTOR_DEFAULT;
+		
+		
+		
 	}
 
 }

@@ -142,6 +142,9 @@ public abstract class Renderer {
 		if (!view3D.isStereoBuffered()){
 			clearColorBuffer();
 		}
+		
+		// init lighting
+		initLighting();
 	}
 
 	/**
@@ -439,6 +442,11 @@ public abstract class Renderer {
 	 * enable lighting
 	 */
 	abstract public void enableLighting();
+	
+	/**
+	 * init lighting
+	 */
+	abstract public void initLighting();
 
 	/**
 	 * set real-world origin for label

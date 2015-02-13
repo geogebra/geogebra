@@ -45,6 +45,8 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			radioClippingLarge;
 
 	private JPanel clippingOptionsPanel, boxSizePanel;
+	
+	private JCheckBox cbUseLight;
 
 	/**
 	 * constructor
@@ -139,6 +141,16 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 	protected void fillMiscPanel() {
 		// TODO remove this override
 		miscPanel.add(LayoutUtil.flowPanel(backgroundColor, btBackgroundColor));
+		miscPanel.add(LayoutUtil.flowPanel(cbUseLight));
+	}
+	
+	protected void initMiscPanel() {
+		
+		// use light
+		cbUseLight = new JCheckBox();
+		cbUseLight.addActionListener(this);
+				
+		super.initMiscPanel();
 	}
 
 	private void enableStuff(boolean flag) {
@@ -183,6 +195,12 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cbYAxisVertical
 				.setSelected(((EuclidianView3D) view).getYAxisVertical());
 		cbYAxisVertical.addActionListener(this);
+		
+		// misc
+		cbUseLight.removeActionListener(this);
+		cbUseLight
+				.setSelected(((EuclidianView3D) view).getUseLight());
+		cbUseLight.addActionListener(this);
 
 		// clipping panel
 		cbUseClipping.removeActionListener(this);
@@ -417,6 +435,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		// y axis is vertical
 		cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
+		
+		// misc
+		cbUseLight.setText(app.getPlain("UseLight"));
 
 		// clipping tab
 		clippingOptionsPanel.setBorder(LayoutUtil.titleBorder(app
@@ -452,6 +473,9 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		if (source == cbYAxisVertical) {
 			((EuclidianView3D) view).setYAxisVertical(cbYAxisVertical
+					.isSelected());
+		} else if (source == cbUseLight) {
+			((EuclidianView3D) view).getSettings().setUseLight(cbUseLight
 					.isSelected());
 		} else if (source == cbUseClipping) {
 			((EuclidianView3D) view).setUseClippingCube(cbUseClipping

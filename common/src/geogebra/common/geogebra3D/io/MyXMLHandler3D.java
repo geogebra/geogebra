@@ -107,6 +107,14 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			 * else if (eName.equals("gridColor")) { ok = handleGridColor(ev,
 			 * attrs); break; }
 			 */
+			
+
+		case 'l':
+			if (eName.equals("light")) {
+				ok = handleLight((EuclidianSettings3D) evSet, attrs);
+				break;
+			}
+
 
 		case 'p':
 			if (eName.equals("plate")) {
@@ -275,6 +283,31 @@ public class MyXMLHandler3D extends MyXMLHandler {
 			if (strYAxisVertical != null) {
 				boolean yAxisVertical = parseBoolean(strYAxisVertical);
 				evs.setYAxisVertical(yAxisVertical);
+			}
+			return true;
+		} catch (Exception e) {
+			// e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
+	/**
+	 * handles light attributes for EuclidianView3D
+	 * 
+	 * @param ev
+	 * @param attrs
+	 * @return true if all is done ok
+	 */
+	protected boolean handleLight(EuclidianSettings3D evs,
+			LinkedHashMap<String, String> attrs) {
+		try {
+			String strLight = attrs.get("val");
+
+			// show the plane
+			if (strLight != null) {
+				boolean light = parseBoolean(strLight);
+				evs.setUseLight(light);
 			}
 			return true;
 		} catch (Exception e) {

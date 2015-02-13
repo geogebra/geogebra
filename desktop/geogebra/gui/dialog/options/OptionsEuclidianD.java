@@ -347,7 +347,7 @@ public class OptionsEuclidianD extends
 				Box.createHorizontalStrut(20), lineStyle, cbAxesStyle));
 	}
 
-	private void initMiscPanel() {
+	protected void initMiscPanel() {
 
 		// background color panel
 		backgroundColor = new JLabel(app.getPlain("BackgroundColor") + ":");

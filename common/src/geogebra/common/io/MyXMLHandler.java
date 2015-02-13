@@ -671,6 +671,7 @@ public class MyXMLHandler implements DocHandler {
 			resetEVsettingsNeeded = true;
 		} else if ("euclidianView3D".equals(eName)) {
 			mode = MODE_EUCLIDIAN_VIEW3D;
+			resetEVsettingsNeeded = true;
 		} else if ("algebraView".equals(eName)) {
 			mode = MODE_ALGEBRA_VIEW;
 		} else if ("kernel".equals(eName)) {

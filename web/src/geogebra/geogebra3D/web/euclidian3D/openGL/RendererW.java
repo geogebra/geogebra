@@ -1406,12 +1406,25 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	@Override
 	public void enableLighting() {
-		glContext.uniform1i(enableLightLocation, 1);
+		if (view3D.getUseLight()) {
+			glContext.uniform1i(enableLightLocation, 1);
+		}
+	}
+
+	@Override
+	public void initLighting() {
+		if (view3D.getUseLight()) {
+			glContext.uniform1i(enableLightLocation, 1);
+		} else {
+			glContext.uniform1i(enableLightLocation, 0);
+		}
 	}
 
 	@Override
 	public void disableLighting() {
-		glContext.uniform1i(enableLightLocation, 0);
+		if (view3D.getUseLight()) {
+			glContext.uniform1i(enableLightLocation, 0);
+		}
 	}
 
 	@Override

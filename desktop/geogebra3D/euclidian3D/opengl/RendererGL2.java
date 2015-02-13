@@ -167,7 +167,7 @@ public abstract class RendererGL2 extends RendererD {
 
 		jogl.getGL2().glDisable(GLlocal.GL_ALPHA_TEST);
 		jogl.getGL2().glDisable(GLlocal.GL_BLEND);
-		jogl.getGL2().glDisable(GLlocal.GL_LIGHTING);
+		disableLighting();
 		disableTextures();
 
 		// picking
@@ -502,15 +502,27 @@ public abstract class RendererGL2 extends RendererD {
 
 	@Override
 	public void enableLighting() {
-		getGL().glEnable(GLlocal.GL_LIGHTING);
+		if (view3D.getUseLight()){
+			getGL().glEnable(GLlocal.GL_LIGHTING);
+		}
 	}
 
 	@Override
 	public void disableLighting() {
-		getGL().glDisable(GLlocal.GL_LIGHTING);
+		if (view3D.getUseLight()){
+			getGL().glDisable(GLlocal.GL_LIGHTING);
+		}
 	}
 
 
+	@Override
+	public void initLighting() {
+		if (view3D.getUseLight()) {
+			getGL().glEnable(GLlocal.GL_LIGHTING);
+		} else {
+			getGL().glDisable(GLlocal.GL_LIGHTING);
+		}
+	}
 	
 //	@Override
 //	protected void setDrawLeft(){

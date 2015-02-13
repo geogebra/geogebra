@@ -1195,12 +1195,25 @@ public class RendererShaders extends RendererD implements
 
 	@Override
 	public void enableLighting() {
-		jogl.getGL2ES2().glUniform1i(enableLightLocation, 1);
+		if (view3D.getUseLight()){
+			jogl.getGL2ES2().glUniform1i(enableLightLocation, 1);
+		}
+	}
+	
+	@Override
+	public void initLighting() {
+		if (view3D.getUseLight()) {
+			jogl.getGL2ES2().glUniform1i(enableLightLocation, 1);
+		} else {
+			jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
+		}
 	}
 
 	@Override
 	public void disableLighting() {
-		jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
+		if (view3D.getUseLight()){
+			jogl.getGL2ES2().glUniform1i(enableLightLocation, 0);
+		}
 	}
 
 	@Override

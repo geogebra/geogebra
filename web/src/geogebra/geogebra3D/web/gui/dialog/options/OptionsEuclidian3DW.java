@@ -52,6 +52,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		private Label clippingOptionsTitle, boxSizeTitle;
 		private RadioButton radioClippingSmall, radioClippingMedium,
 		        radioClippingLarge;
+		private CheckBox cbUseLight;
 
 		/**
 		 * constructor
@@ -77,6 +78,28 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 		protected void fillMiscPanel() {
 			miscPanel.add(LayoutUtil.panelRow(backgroundColorLabel,
 			        btBackgroundColor));
+			miscPanel.add(LayoutUtil.panelRow(cbUseLight));
+		}
+		
+		
+		@Override
+        protected void addMiscPanel() {
+
+			cbUseLight = new CheckBox();
+
+			super.addMiscPanel();
+
+
+
+			cbUseLight.addClickHandler(new ClickHandler() {
+
+				public void onClick(ClickEvent event) {
+					((EuclidianView3D) view).getSettings().setUseLight(
+					        cbUseLight.getValue());
+					view.repaintView();
+				}
+			});
+
 		}
 
 		@Override
@@ -203,6 +226,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			cbYAxisVertical.setValue(((EuclidianView3D) view)
 			        .getYAxisVertical());
 
+			cbUseLight.setValue(((EuclidianView3D) view).getUseLight());
+
 			cbUseClipping.setValue(((EuclidianView3D) view).useClippingCube());
 			cbShowClipping
 			        .setValue(((EuclidianView3D) view).showClippingCube());
@@ -222,6 +247,8 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			super.setLabels();
 
 			cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
+
+			cbUseLight.setText(app.getMenu("UseLight"));
 
 			clippingOptionsTitle.setText(app.getPlain("Clipping"));
 			cbUseClipping.setText(app.getPlain("UseClipping"));

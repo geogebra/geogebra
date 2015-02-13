@@ -684,6 +684,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	}
 
+	
+	public boolean getUseLight(){
+		return getSettings().getUseLight();
+	}
+	
 	private void updateRotationMatrix() {
 
 		CoordMatrix m1, m2;
@@ -2754,6 +2759,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// y axis is up
 		if (getYAxisVertical()) {
 			sb.append("\t<yAxisVertical val=\"true\"/>\n");
+		}
+
+		// use light
+		if (!getUseLight()) {
+			sb.append("\t<light val=\"false\"/>\n");
 		}
 
 		// clipping cube

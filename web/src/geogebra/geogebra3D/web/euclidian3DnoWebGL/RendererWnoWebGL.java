@@ -251,6 +251,11 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
+	public void initLighting() {
+		// no webGL context here...
+	}
+
+	@Override
 	public void disableLighting() {
 		// no webGL context here...
 	}

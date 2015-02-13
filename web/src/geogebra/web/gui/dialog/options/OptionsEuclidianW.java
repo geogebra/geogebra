@@ -101,7 +101,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		protected MyCJButton btBackgroundColor;
 		private CheckBox cbShowMouseCoords;
 		private Label tooltips;
-		private Label miscTitle;
+		protected Label miscTitle;
 		private Label consProtocolTitle;
 		private FlowPanel consProtocolPanel;
 		private CheckBox cbShowNavbar;
@@ -457,7 +457,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			model.applyBackgroundColor(viewIdx, color);
 		}
 
-		private void addMiscPanel() {
+
+		protected void addMiscPanel() {
 			miscTitle = new Label();
 			miscTitle.setStyleName("panelTitle");
 			// background color panel
