@@ -485,15 +485,15 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 		protected void processPerspText() {
 			try {
-				double val = Double.parseDouble(tfPersp.getText());
+				int val = Integer.parseInt(tfPersp.getText());
 				if (!Double.isNaN(val)) {
-					double min = 1;
+					int min = 1;
 					if (val < min) {
 						val = min;
 						tfPersp.setText("" + val);
 					}
 
-					((EuclidianView3D) view)
+					((EuclidianView3D) view).getSettings()
 					        .setProjectionPerspectiveEyeDistance(val);
 					view.repaintView();
 				}

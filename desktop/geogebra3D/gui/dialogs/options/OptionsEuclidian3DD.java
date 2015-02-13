@@ -217,7 +217,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		// projection
 		// tfPersp.removeActionListener(this);
 		tfPersp.setText(""
-				+ ((EuclidianView3D) view)
+				+ (int) ((EuclidianView3D) view)
 						.getProjectionPerspectiveEyeDistance());
 		// tfPersp.addActionListener(this);
 
@@ -470,15 +470,15 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 					.setClippingReduction(GeoClippingCube3D.REDUCTION_LARGE);
 		} else if (source == tfPersp) {
 			try {
-				double val = Double.parseDouble(tfPersp.getText());
+				int val = Integer.parseInt(tfPersp.getText());
 				if (!Double.isNaN(val)) {
-					double min = 1;
+					int min = 1;
 					if (val < min) {
 						val = min;
 						tfPersp.setText("" + val);
 					}
 
-					((EuclidianView3D) view)
+					((EuclidianView3D) view).getSettings()
 							.setProjectionPerspectiveEyeDistance(val);
 				}
 			} catch (NumberFormatException e) {

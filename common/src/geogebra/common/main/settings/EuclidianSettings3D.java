@@ -171,6 +171,38 @@ public class EuclidianSettings3D extends EuclidianSettings {
 	public int getProjection() {
 		return projection;
 	}
+	
+	
+	private int projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
+	
+	/**
+	 * default value for eye distance to the screen for perspective
+	 */
+	public static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
+	
+	/**
+	 * 
+	 * @return eye distance to the screen for perspective
+	 */
+	public int getProjectionPerspectiveEyeDistance() {
+		return projectionPerspectiveEyeDistance;
+	}
+	
+	
+	/**
+	 * set the near distance regarding eye distance to the screen for
+	 * perspective (in pixels)
+	 * 
+	 * @param distance
+	 */
+	public void setProjectionPerspectiveEyeDistance(int distance) {
+		if (projectionPerspectiveEyeDistance != distance){
+			projectionPerspectiveEyeDistance = distance;
+			settingChanged();
+		}
+	}
+	
+	
 
 	private boolean yAxisVertical = false;
 

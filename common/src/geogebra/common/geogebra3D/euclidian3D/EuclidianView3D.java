@@ -2768,7 +2768,14 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		// projection
 		sb.append("\t<projection type=\"");
 		sb.append(getProjection());
+		int eyeDistance = (int) projectionPerspectiveEyeDistance;
+		if (eyeDistance != EuclidianSettings3D.PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT){
+			sb.append("\" distance=\"");
+			sb.append(eyeDistance);
+		}
 		sb.append("\"/>\n");
+		
+		
 
 		// end
 		sb.append("</euclidianView3D>\n");
@@ -3451,7 +3458,11 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		setDefault2DCursor();
 	}
 
-	private double projectionPerspectiveEyeDistance = 2500;
+	private double projectionPerspectiveEyeDistance = PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT;
+	
+	private static final int PROJECTION_PERSPECTIVE_EYE_DISTANCE_DEFAULT = 2500;
+	
+	
 
 	public void setProjectionPerspective() {
 		renderer.setWaitForDisableStencilLines();
@@ -3885,6 +3896,8 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		setShowPlate(evs.getShowPlate());
 
 		setProjection(evs.getProjection());
+		
+		setProjectionPerspectiveEyeDistance(evs.getProjectionPerspectiveEyeDistance());
 
 		updateMatrix();
 		setViewChanged();
