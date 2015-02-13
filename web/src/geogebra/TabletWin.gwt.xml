@@ -16,7 +16,8 @@
  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
  <!-- For using locales (e.g. for setting the rtl/ltr direction ) -->
 
-  
+  <!-- This was added to remove a compile error in a general case -->
+  <define-property name="gwt.logging.popupHandler" values="DISABLED"/>
 
   <inherits name='com.googlecode.gwtphonegap.PhoneGap' />
   <inherits name='com.googlecode.gwtgl.binding'/>
