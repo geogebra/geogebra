@@ -307,12 +307,12 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 								&& !panel.isInFrame()) {
 							setFocusedPanel(panel);
 							// don't like algebra view as focused view
-							if (panel.getViewId() != App.VIEW_ALGEBRA) {
+							if (panel.getViewId() != App.VIEW_ALGEBRA && panel.getViewId() != App.VIEW_PROPERTIES) {
 								focusDone = true;
 							}
 						}
 					}
-				}
+				}			
 			}
 		}
 
