@@ -16,14 +16,20 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoFunctionFreehand;
 import geogebra.common.kernel.algos.AlgoPointOnPath;
 import geogebra.common.kernel.algos.TangentAlgo;
+import geogebra.common.kernel.arithmetic.ExpressionValue;
+import geogebra.common.kernel.arithmetic.FunctionVariable;
+import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
+import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.kernel.statistics.AlgoFitPoly;
 
 /**
  * Algorithm for tangent of function
@@ -38,6 +44,12 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 	private boolean pointOnFunction;
 	private GeoFunction deriv;
 	private AlgoDerivative algo;
+	private boolean freehand;
+	private AlgoFunctionFreehand freehandAlgo;
+	private GeoList freehandList;
+	private AlgoFitPoly algoFitPoly;
+	private GeoPoint[] points;
+	private GeoList geoList;
 
 	/**
 	 * @param cons
@@ -84,11 +96,34 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 			T = new GeoPoint(cons);
 		tangent.setStartPoint(T);
 
-		// derivative of f
-		// use fast non-CAS derivative
-		algo = new AlgoDerivative(cons, f, true);
-		deriv = (GeoFunction) algo.getResult();
-		cons.removeFromConstructionList(algo);
+		if (f.getParentAlgorithm() instanceof AlgoFunctionFreehand) {
+			// APPROXIMATE tangent for Freehand Functions
+			freehand = true;
+
+			freehandAlgo = (AlgoFunctionFreehand) f
+					.getParentAlgorithm();
+
+			freehandList = freehandAlgo.getList();
+
+			geoList = new GeoList(cons);
+
+			// # of points to sample (must be even)
+			int steps = 10;
+			points = new GeoPoint[steps];
+
+			// order 5, 10 steps, 100 slices seems to work nicely
+			// mockup http://tube.geogebra.org/student/m683647
+			algoFitPoly = new AlgoFitPoly(cons, geoList, new MyDouble(
+					cons.getKernel(), 5));
+			cons.removeFromConstructionList(algoFitPoly);
+
+		} else {
+			// derivative of f
+			// use fast non-CAS derivative
+			algo = new AlgoDerivative(cons, f, true);
+			deriv = (GeoFunction) algo.getResult();
+			cons.removeFromConstructionList(algo);
+		}
 
 		setInputOutput(); // for AlgoElement
 		compute();
@@ -156,19 +191,64 @@ public class AlgoTangentFunctionPoint extends AlgoElement implements
 	// calc tangent at x=a
 	@Override
 	public final void compute() {
-		if (!(f.isDefined() && P.isDefined() && deriv.isDefined())) {
+		if (!(f.isDefined() && P.isDefined() && (freehand || deriv.isDefined()))) {
 			tangent.setUndefined();
 			return;
 		}
 
-		// calc the tangent;
+		double slope;
 		double a = P.getInhomX();
 		double fa = f.evaluate(a);
-		double slope = deriv.evaluate(a);
+
+		if (freehand) {
+
+			int steps = points.length;
+
+			double min = freehandList.get(0).evaluateDouble();
+			double max = freehandList.get(1).evaluateDouble();
+
+			double step = (max - min) / 100;
+
+			double offset = 0;
+
+			// adjust if the sample goes outside the domain of the function
+			if (a + step * (0 - steps / 2) < min) {
+				offset = min - (a + step * (0 - steps / 2));
+			} else if (a + step * (points.length - 1 - steps / 2) > max) {
+				offset = max - (a + step * (points.length - 1 - steps / 2));
+			}
+
+			geoList.clear();
+			for (int i = 0; i < points.length; i++) {
+				points[i] = newPoint(a + step * (i - steps / 2) + offset);
+				geoList.add(points[i]);
+			}
+
+			algoFitPoly.compute();
+
+			GeoFunction fun = (GeoFunction) algoFitPoly.getOutput(0);
+			FunctionVariable fv = fun.getFunction().getFunctionVariable();
+			ExpressionValue derivFit = fun.getFunction().derivative(fv);
+
+			fv.set(a);
+
+			slope = derivFit.evaluateDouble();
+
+		} else {
+			// calc the tangent;
+			slope = deriv.evaluate(a);
+
+		}
+
 		tangent.setCoords(-slope, 1.0, a * slope - fa);
 
-		if (!pointOnFunction)
+		if (!pointOnFunction) {
 			T.setCoords(a, fa, 1.0);
+		}
+	}
+
+	private GeoPoint newPoint(double a) {
+		return new GeoPoint(cons, a, f.evaluate(a), 1);
 	}
 
 	@Override
