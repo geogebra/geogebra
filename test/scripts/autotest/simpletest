@@ -18,7 +18,7 @@ test -r geogebra.jar || exit 2 # Non-existing JAR
 
 # Testing no-3D version:
 xvfb-run --auto-servernum timeout -k $SIMPLETESTTIMEOUT $SIMPLETESTTIMEOUT \
- $JAVA_HOME/bin/java -cp geogebra.jar geogebra.GeoGebra \
+ $JAVA_HOME/bin/java -cp geogebra.jar geogebra.GeoGebra3D \
   --regressionFile=simpletest.out --logFile=simpletest.log $MYDIR/simpletest.ggb \
   >simpletest.stdout 2>simpletest.stderr
 

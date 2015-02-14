@@ -48,7 +48,14 @@ NAMESPACE="-N x=http://maven.apache.org/POM/4.0.0"
 # for adding many <dependency> elements see
 # http://stackoverflow.com/questions/5954168/how-to-insert-a-new-element-under-another-with-xmlstarlet
 cp pom.xml mypom.xml
+
+# Giac when compiled with -DTIMEOUT is extremely unreliable for JUnit testing.
+# So we overwrite it by using an own version (without -DTIMEOUT).
+# This is hardcoded here. FIXME: Recompile Giac automatically and use that version here instead.
+cp ~/fix/javagiac-linux64.jar ~/svn/geogebra/desktop/build/
+
 for i in $GGB_JARS/*.jar; do
+ echo $i | grep --silent signed && continue # Don't use signed jars
  BASENAME=`basename $i`
  PACKAGE=`basename $BASENAME .jar`
  mvn install:install-file -Dfile=$i -Dpackaging=jar -DgroupId=geogebra -DartifactId=$PACKAGE -Dversion=current
