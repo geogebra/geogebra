@@ -415,7 +415,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog
 				inputText = inputPanel.getText();
 				processInputHandler();
 			} else if (source == btCancel) {
-				setVisible(false);
+				cancel();
 			} else if (source == btProperties && geo != null) {
 				setVisible(false);
 				tempArrayList.clear();
@@ -431,6 +431,9 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog
 		// setVisible(!finished);
 	}
 
+	protected void cancel() {
+		setVisible(false);
+	}
 	// ===================================================
 	// Visibility Handlers
 	// ===================================================

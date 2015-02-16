@@ -300,14 +300,20 @@ public class DialogManagerD extends geogebra.common.main.DialogManager {
 	public void showNumberInputDialog(String title, String message,
 			String initText, AsyncOperation callback) {
 		// avoid labeling of num
-		Construction cons = app.getKernel().getConstruction();
+		final Construction cons = app.getKernel().getConstruction();
 		oldVal = cons.isSuppressLabelsActive();
 		cons.setSuppressLabelCreation(true);
 
 		NumberInputHandler handler = new NumberInputHandler(app.getKernel()
 				.getAlgebraProcessor(), callback, app, oldVal);
 		InputDialogD id = new InputDialogD(((AppD) app), message, title,
-				initText, false, handler, true, false, null);
+				initText, false, handler, true, false, null) {
+			@Override
+			protected void cancel() {
+				cons.setSuppressLabelCreation(false);
+				super.cancel();
+			}
+		};
 		id.setVisible(true);
 	}
 
