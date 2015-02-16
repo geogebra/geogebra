@@ -437,7 +437,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
 		
 		// misc
-		cbUseLight.setText(app.getPlain("UseLight"));
+		cbUseLight.setText(app.getPlain("UseLighting"));
 
 		// clipping tab
 		clippingOptionsPanel.setBorder(LayoutUtil.titleBorder(app

@@ -248,7 +248,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 
 			cbYAxisVertical.setText(app.getPlain("YAxisVertical"));
 
-			cbUseLight.setText(app.getMenu("UseLight"));
+			cbUseLight.setText(app.getMenu("UseLighting"));
 
 			clippingOptionsTitle.setText(app.getPlain("Clipping"));
 			cbUseClipping.setText(app.getPlain("UseClipping"));
