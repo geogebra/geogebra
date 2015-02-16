@@ -53,23 +53,26 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		// as I could not find a better way to know scroll position change,
 		// I checked this from web-styles.css (5px padding plus 16px font size)
-		// TODO: improve it, if we can...
-		public static int lineWidth = 26;
+		// maybe em-size is 19px, 120% of 16px font size... but smaller is OK
+		// TODO: improve it, if we can... this still seems smaller (but OK)
+		public static int lineWidth = 29;
 
 		protected ScrollPanel scrollable;
 
 		@Override
 		protected void moveSelectionDown() {
 			super.moveSelectionDown();
-			scrollable.setVerticalScrollPosition(scrollable
-			        .getVerticalScrollPosition() + lineWidth);
+			if (scrollable != null)
+				scrollable.setVerticalScrollPosition(scrollable
+				        .getVerticalScrollPosition() + lineWidth);
 		}
 
 		@Override
 		protected void moveSelectionUp() {
 			super.moveSelectionUp();
-			scrollable.setVerticalScrollPosition(scrollable
-			        .getVerticalScrollPosition() - lineWidth);
+			if (scrollable != null)
+				scrollable.setVerticalScrollPosition(scrollable
+				        .getVerticalScrollPosition() - lineWidth);
 		}
 
 		@Override
