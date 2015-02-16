@@ -33,13 +33,16 @@ test -r $GGB_JARS/geogebra_main.jar || {
  exit 13
  }
 
-# Disabling --- now there should be support for this.
-# Temporary download and .jar package for JNI giac
-# MYDIR=`pwd`
-# cd $GGB_JARS
-# wget -N http://dev.geogebra.org/download/lib/giac/latest/libjavagiac64.so
-# zip libjavagiac64.jar libjavagiac64.so
-# cd $MYDIR
+# Giac when compiled with -DTIMEOUT is extremely unreliable for JUnit testing.
+# So we overwrite it by using an own version (without -DTIMEOUT).
+# This used to be hardcoded in this way:
+# cp ~/fix/javagiac-linux64.jar ~/svn/geogebra/desktop/build/
+MYDIR=`pwd`
+cd $GGB_JARS
+cp libjavagiac64-nt.so libjavagiac64.so
+rm libjavagiac64.jar
+zip libjavagiac64.jar libjavagiac64.so
+cd $MYDIR
 
 # 2. Installing JAR files into the Maven repository (usually ~/.m2/repository/geogebra/*/current/*-current.jar)
 NAMESPACE="-N x=http://maven.apache.org/POM/4.0.0"
@@ -48,11 +51,6 @@ NAMESPACE="-N x=http://maven.apache.org/POM/4.0.0"
 # for adding many <dependency> elements see
 # http://stackoverflow.com/questions/5954168/how-to-insert-a-new-element-under-another-with-xmlstarlet
 cp pom.xml mypom.xml
-
-# Giac when compiled with -DTIMEOUT is extremely unreliable for JUnit testing.
-# So we overwrite it by using an own version (without -DTIMEOUT).
-# This is hardcoded here. FIXME: Recompile Giac automatically and use that version here instead.
-cp ~/fix/javagiac-linux64.jar ~/svn/geogebra/desktop/build/
 
 for i in $GGB_JARS/*.jar; do
  echo $i | grep --silent signed && continue # Don't use signed jars
