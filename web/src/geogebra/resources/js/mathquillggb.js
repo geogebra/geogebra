@@ -1330,6 +1330,7 @@ var MathCommand = P(MathElement, function(_, _super) {
       var child_text = child.text();
       if (text && child_text[0] === '(' && child_text.slice(-1) === ')' &&
    		  (thisMathCommand.textTemplate[i] === '(' || // no () inside parentheses (orientation?)
+           thisMathCommand.textTemplate[i] === ')' || // sin((?)), sqrt((7x)), etc.
    		   thisMathCommand.textTemplate[i] === ']' || // no () inside square brackets
    		   thisMathCommand.textTemplate[i] === '}')) // no () inside curly braces
     	// maybe we should have used (i-1) and left parentheses/brackets/braces
