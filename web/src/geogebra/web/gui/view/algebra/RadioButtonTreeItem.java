@@ -17,6 +17,7 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.event.AbstractEvent;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
@@ -35,6 +36,7 @@ import geogebra.html5.event.ZeroOffset;
 import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.gui.util.LongTouchManager;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
@@ -42,6 +44,7 @@ import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.EventUtil;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
+import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -50,6 +53,7 @@ import com.google.gwt.core.client.JsArray;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
@@ -118,7 +122,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	private boolean needsUpdate;
 	
 	private LongTouchManager longTouchManager;
-		
+
+	/**
+	 * prevents that a blur event stops the editing process
+	 */
+	boolean blockBlur = false;
+
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
 	}
@@ -626,17 +635,19 @@ public class RadioButtonTreeItem extends HorizontalPanel
 						remove(tb);
 						add(ihtml);
 						stopEditingSimple(tb.getText());
+						app.hideKeyboard();
 					} else if (kevent.getNativeKeyCode() == 27) {
 						remove(tb);
 						add(ihtml);
 						stopEditingSimple(null);
+						app.hideKeyboard();
 					}
 				}
 			});
 			tb.addBlurHandler(new BlurHandler() {
 				@Override
                 public void onBlur(BlurEvent bevent) {
-					if (mout) {
+					if (mout && !blockBlur) {
 						remove(tb);
 						add(ihtml);
 						stopEditingSimple(null);
@@ -654,6 +665,16 @@ public class RadioButtonTreeItem extends HorizontalPanel
                 public void onMouseOut(MouseOutEvent moevent) {
 					mout = true;
 					tb.setFocus(true);
+				}
+			});
+
+			ClickStartHandler.init(tb, new ClickStartHandler() {
+				@Override
+				public void onClickStart(int x, int y,
+						final PointerEventType type) {
+					// prevent that keyboard is closed on clicks (changing
+					// cursor position)
+					CancelEventTimer.keyboardSetVisible();
 				}
 			});
 		}
@@ -904,6 +925,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			av.startEditing(geo, shif);
+			if (app.isPrerelease() && tb != null) {
+				app.showKeyboard(tb);
+				// update the keyboard, if it is already visible
+				OnScreenKeyBoard.setInstanceTextField(tb);
+				blockBlur = true;
+				OnScreenKeyBoard.setResetComponent(this);
+			}
 		}
 	}
 
@@ -920,7 +948,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	@Override
     public void onClick(ClickEvent evt) {
-		if (app.isPrerelease()) {
+		if (app.isPrerelease()
+				&& (av.isEditing() || isThisEdited() || newCreationMode)) {
 			app.showKeyboard(this);
 		}
 
@@ -1167,5 +1196,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void setFocus(boolean b) {
 		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
+	}
+
+	public void resetBlockBlur() {
+		this.blockBlur = false;
+		NativeEvent event = Document.get().createBlurEvent();
+		tb.onBrowserEvent(Event.as(event));
 	}
 }

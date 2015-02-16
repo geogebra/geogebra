@@ -3,6 +3,7 @@ package geogebra.web.util.keyboard;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -54,6 +55,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 */
 	private UpdateKeyBoardListener updateKeyBoardListener;
 
+	private RadioButtonTreeItem resetComponent;
+
 	/**
 	 * creates a keyboard instance
 	 * 
@@ -77,6 +80,19 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		instance.setListener(listener);
 		return instance;
+	}
+
+	/**
+	 * updates the textField of the current instance, if the instance is not
+	 * null
+	 * 
+	 * @param textField
+	 *            the new textField
+	 */
+	public static void setInstanceTextField(Widget textField) {
+		if (instance != null) {
+			instance.setTextField(textField);
+		}
 	}
 
 	/**
@@ -659,5 +675,16 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		setLettersToLowerCase(greekLetters);
 		contentLetters.setVisible(false);
 		contentGreek.setVisible(false);
+
+		if (resetComponent != null) {
+			resetComponent.resetBlockBlur();
+			resetComponent = null;
+		}
+	}
+
+	public static void setResetComponent(RadioButtonTreeItem rbti) {
+		if (instance != null) {
+			instance.resetComponent = rbti;
+		}
 	}
 }

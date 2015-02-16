@@ -2,6 +2,7 @@ package geogebra.web.util.keyboard;
 
 import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
 
 import com.google.gwt.dom.client.Document;
@@ -23,7 +24,7 @@ public class TextFieldProcessing {
 	private State state = State.empty;
 
 	private enum State {
-		empty, autoCompleteTextField, radioButtonTreeItem, other;
+		empty, autoCompleteTextField, gTextBox, radioButtonTreeItem, other;
 	}
 
 	public void setField(Widget field) {
@@ -32,6 +33,8 @@ public class TextFieldProcessing {
 			state = State.empty;
 		} else if (field instanceof AutoCompleteTextFieldW) {
 			state = State.autoCompleteTextField;
+		} else if (field instanceof GTextBox) {
+			state = State.gTextBox;
 		} else if (field instanceof NewRadioButtonTreeItem) {
 			state = State.radioButtonTreeItem;
 		} else {
@@ -49,6 +52,9 @@ public class TextFieldProcessing {
 		switch (state) {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).setFocus(focus);
+			break;
+		case gTextBox:
+			((GTextBox) field).setFocus(focus);
 			break;
 		case radioButtonTreeItem:
 			((NewRadioButtonTreeItem) field).setFocus(true);
@@ -79,6 +85,11 @@ public class TextFieldProcessing {
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 			        Event.as(event));
 			break;
+		case gTextBox:
+			NativeEvent event2 = Document.get().createKeyDownEvent(false,
+					false, false, false, 13);
+			((GTextBox) field).onBrowserEvent(Event.as(event2));
+			break;
 		case radioButtonTreeItem:
 			((NewRadioButtonTreeItem) field).keyup(13, false, false, false);
 			break;
@@ -93,6 +104,25 @@ public class TextFieldProcessing {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).onBackSpace();
 			break;
+		case gTextBox:
+			int start = ((GTextBox) field).getCursorPos();
+			int end = start + ((GTextBox) field).getSelectionLength();
+
+			if (((GTextBox) field).getSelectionLength() < 1) {
+				// nothing selected -> delete character before cursor
+				end = start;
+				start--;
+			}
+
+			if (start > 0) {
+				// cursor not at the beginning of text -> delete something
+				String oldText = ((GTextBox) field).getText();
+				String newText = oldText.substring(0, start)
+						+ oldText.substring(end);
+				((GTextBox) field).setText(newText);
+				((GTextBox) field).setCursorPos(start);
+			}
+			break;
 		case radioButtonTreeItem:
 			((NewRadioButtonTreeItem) field).keydown(8, false, false, false);
 			break;
@@ -106,6 +136,9 @@ public class TextFieldProcessing {
 		switch (state) {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).insertString(" ");
+			break;
+		case gTextBox:
+			insertString(" ");
 			break;
 		case radioButtonTreeItem:
 			((NewRadioButtonTreeItem) field).keypress(32, false, false, false);
@@ -131,6 +164,20 @@ public class TextFieldProcessing {
 						.length()) {
 					((AutoCompleteTextFieldW) field)
 							.setCaretPosition(caretPos + 1);
+				}
+				break;
+			}
+			break;
+		case gTextBox:
+			int cursorPos = ((GTextBox) field).getCursorPos();
+			switch (type) {
+			case left:
+				if (cursorPos > 0)
+					((GTextBox) field).setCursorPos(cursorPos - 1);
+				break;
+			case right:
+				if (cursorPos < ((GTextBox) field).getText().length()) {
+					((GTextBox) field).setCursorPos(cursorPos + 1);
 				}
 				break;
 			}
@@ -164,6 +211,15 @@ public class TextFieldProcessing {
 				// moves inside the brackets
 				onArrow(ArrowType.left);
 			}
+			break;
+		case gTextBox:
+			String oldText = ((GTextBox) field).getText();
+			int caretPos = ((GTextBox) field).getCursorPos();
+
+			String newText = oldText.substring(0, caretPos) + text
+					+ oldText.substring(caretPos);
+			((GTextBox) field).setText(newText);
+			((GTextBox) field).setCursorPos(caretPos + text.length());
 			break;
 		case radioButtonTreeItem:
 			if (text.equals("^")) {
@@ -202,42 +258,6 @@ public class TextFieldProcessing {
 				((NewRadioButtonTreeItem) field).insertString(text);
 				((NewRadioButtonTreeItem) field).popupSuggestions();
 			}
-			break;
-		}
-	}
-
-	/**
-	 * simulates an enter key event
-	 * 
-	 * @param key
-	 *            key code
-	 * @param alt
-	 *            pressed or not
-	 * @param ctrl
-	 *            pressed or not
-	 * @param shift
-	 *            pressed or not
-	 */
-	public void onKeydown(int key, boolean alt, boolean ctrl, boolean shift) {
-		switch (state) {
-		case autoCompleteTextField:
-			NativeEvent event = Document.get().createKeyDownEvent(ctrl, alt,
-			        shift, false, key);
-			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
-			        Event.as(event));
-
-			NativeEvent event2 = Document.get().createKeyPressEvent(ctrl, alt,
-					shift, false, key);
-			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
-					Event.as(event2));
-
-			NativeEvent event3 = Document.get().createKeyUpEvent(ctrl, alt,
-					shift, false, key);
-			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
-					Event.as(event3));
-			break;
-		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).keydown(key, alt, ctrl, shift);
 			break;
 		}
 	}
