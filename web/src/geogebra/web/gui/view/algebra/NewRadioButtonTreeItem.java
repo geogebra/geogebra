@@ -56,7 +56,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// heuristic
 			panel.getElement()
 			        .getStyle()
-			        .setProperty("max-height",
+			        .setProperty("maxHeight",
 			                (Window.getClientHeight() / 2) + "px");
 			// it's a good question what this number might be, but on
 			// big screen (Window.getClientHeight() / 2) is not a problem
@@ -68,10 +68,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// TODO: however, in the future we might want to add max-width and
 			// set
 			// both overflow-x and overflow-y to auto (i.e. remove them)!
-			panel.getElement().getStyle().setProperty("overflow-x", "hidden");
-			panel.getElement().getStyle().setProperty("overflow-y", "auto");
+			panel.getElement().getStyle().setProperty("overflowX", "hidden");
+			panel.getElement().getStyle().setProperty("overflowY", "auto");
 
-			// TODO: scroll on mouse movements!
+			// TODO: scroll on up/down keys! (it already scrolls on mouse wheel)
 			return panel;
 		}
 
