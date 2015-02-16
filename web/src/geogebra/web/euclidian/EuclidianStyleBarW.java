@@ -9,20 +9,16 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.gui.dialog.options.model.LineStyleModel;
 import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
-import geogebra.common.gui.dialog.options.model.OptionsModel;
 import geogebra.common.gui.dialog.options.model.PointStyleModel;
 import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
-import geogebra.common.kernel.geos.AngleProperties;
-import geogebra.common.kernel.geos.GeoAngle;
 import geogebra.common.kernel.geos.GeoButton;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
-import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.common.main.OptionType;
@@ -199,12 +195,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	private EuclidianLineStylePopup btnLineStyle;
 	private PopupMenuButton btnTextSize;
 	private PopupMenuButton btnLabelStyle;
-	private PopupMenuButton btnAngleInterval;
 	private PopupMenuButton btnShowGrid;
 	protected PopupMenuButton btnPointCapture;
 
 	private MyToggleButton2 btnShowAxes;
-	private MyToggleButton2 btnBold, btnFixPosition;
+	private MyToggleButton2 btnBold;
 	private MyToggleButton2 btnItalic;
 	
 	protected MyCJButton btnStandardView;
@@ -395,36 +390,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			}
 
 			// get the current default geo
-			ArrayList<GeoElement> justCreatedGeos = ec.getJustCreatedGeos();
-			Integer type = defaultGeoMap.get(mode);
-			GeoElement geo;
-			if (mode == EuclidianConstants.MODE_PEN) {
-				geo = ec.getPen().DEFAULT_PEN_LINE;
-			} else {
-				if (type != null
-				        && !type.equals(ConstructionDefaults.DEFAULT_POINT_COMPLEX)
-				        && justCreatedGeos.size() == 1) {
-					GeoElement justCreated = justCreatedGeos.get(0);
-					if (justCreated.isGeoPoint()) {
-						// get default type regarding what type of point has
-						// been created
-						if (((GeoPointND) justCreated).hasPath()) {
-							type = ConstructionDefaults.DEFAULT_POINT_ON_PATH;
-						} else if (((GeoPointND) justCreated).hasRegion()) {
-							type = ConstructionDefaults.DEFAULT_POINT_IN_REGION;
-						} else if (!((GeoPointND) justCreated).isIndependent()) {
-							type = ConstructionDefaults.DEFAULT_POINT_DEPENDENT;
-						}
-						// type was DEFAULT_POINT_FREE at start
-					}
-				}
-
-				geo = cons.getConstructionDefaults().getDefaultGeo(type);
-			}
-
-			if (geo != null) {
+			GeoElement geo = mode == EuclidianConstants.MODE_PEN ? ec.getPen().DEFAULT_PEN_LINE
+			        : cons.getConstructionDefaults().getDefaultGeo(
+			                defaultGeoMap.get(mode));
+			if (geo != null)
 				activeGeoList.add(geo);
-			}
 
 			// update the defaultGeos field (needed elsewhere for adjusting
 			// default geo state)
@@ -437,7 +407,7 @@ public class EuclidianStyleBarW extends StyleBarW implements
 					oldDefaultMode = -1;
 				} else {
 					oldDefaultGeo = defaultGeos.get(0);
-					oldDefaultMode = type;
+					oldDefaultMode = defaultGeoMap.get(mode);
 				}
 			}
 
@@ -535,16 +505,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		add(btnItalic);
 		add(btnTextSize);
 
-		add(btnAngleInterval);
-
 
 		add(btnLabelStyle);
 
 		addBtnRotateView();
-
-		if (btnFixPosition.isVisible())
-			addSeparator();
-		add(btnFixPosition);
 
 		for (int i = 0; i < 3; i++) {
 			add(btnDeleteSizes[i]);
@@ -584,16 +548,14 @@ public class EuclidianStyleBarW extends StyleBarW implements
 
 	private MyToggleButton2[] newToggleBtnList() {
 		return new MyToggleButton2[] { getAxesOrGridToggleButton(), btnBold,
-		        btnItalic, btnFixPosition, btnDeleteSizes[0],
-		        btnDeleteSizes[1],
+		        btnItalic, btnDeleteSizes[0], btnDeleteSizes[1],
 		        btnDeleteSizes[2] };
 	}
 
 	protected PopupMenuButton[] newPopupBtnList() {
 		return new PopupMenuButton[] { getAxesOrGridPopupMenuButton(),
 		        btnColor, btnBgColor, btnTextColor, btnLineStyle,
-		        btnPointStyle, btnTextSize, btnAngleInterval, btnLabelStyle,
-		        btnPointCapture };
+		        btnPointStyle, btnTextSize, btnLabelStyle, btnPointCapture };
 	}
 
 	// =====================================================
@@ -607,7 +569,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		createLineStyleBtn();
 		createPointStyleBtn();
 		createLabelStyleBtn();
-		createAngleIntervalBtn();
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
 		createColorBtn();
@@ -615,7 +576,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		createTextColorBtn();
 		createTextBoldBtn();
 		createTextItalicBtn();
-		createFixPositionBtn();
 		createTextSizeBtn();
 	}
 
@@ -716,25 +676,12 @@ public class EuclidianStyleBarW extends StyleBarW implements
 						}
 					}
 				} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF) {
-					for (int i = 0; i < geos.length; i++) {
-						if (((GeoElement) geos[i]).isGeoAngle()) { // angle is
-																   // always
-																   // specific
-																   // case
-							geo = (GeoElement) geos[i];
-							geosOK = true;
-							break;
-						}
-					}
+					this.setVisible(false);
+					return;
 				} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY) {
 					for (int i = 0; i < geos.length; i++) {
-						if ((((GeoElement) geos[i]).isLabelShowable() && ((GeoElement) geos[i])
-						        .isGeoPoint())
-						        || ((GeoElement) geos[i]).isGeoAngle()) { // angle
-																		  // is
-																		  // always
-																		  // specific
-																		  // case)
+						if (((GeoElement) geos[i]).isLabelShowable()
+						        && ((GeoElement) geos[i]).isGeoPoint()) {
 							geo = (GeoElement) geos[i];
 							geosOK = true;
 							break;
@@ -774,56 +721,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
     }
-
-	private void createAngleIntervalBtn() {
-
-		String[] angleIntervalString = new String[GeoAngle.INTERVAL_MIN.length];
-		for (int i = 0; i < GeoAngle.INTERVAL_MIN.length; i++) {
-			angleIntervalString[i] = app.getLocalization().getPlain(
-			        "anglebetweenAandB", GeoAngle.INTERVAL_MIN[i],
-			        GeoAngle.INTERVAL_MAX[i]);
-		}
-
-		ImageOrText[] angleIntervalArray = ImageOrText
-		        .convert(angleIntervalString);
-
-		btnAngleInterval = new PopupMenuButton(app, angleIntervalArray, -1, 1,
-		        geogebra.common.gui.util.SelectionTable.MODE_TEXT) {
-
-			@Override
-			public void update(Object[] geos) {
-				boolean geosOK = false;
-				GeoElement geo = null;
-				for (int i = 0; i < geos.length; i++) {
-					geo = (GeoElement) geos[i];
-					if (!geo.isIndependent()
-					        && (geo instanceof AngleProperties)
-					        && !geo.isGeoList()
-					        || OptionsModel.isAngleList(geo)) {
-
-						geosOK = true;
-						break;
-					}
-				}
-				this.setVisible(geosOK);
-
-				if (geosOK) {
-					setSelectedIndex(((AngleProperties) geo).getAngleStyle()
-					        .getXmlVal());
-				}
-			}
-
-			@Override
-			public ImageOrText getButtonIcon() {
-				return this.getIcon();
-			}
-		};
-		ImageResource ic = AppResources.INSTANCE.stylingbar_angle_interval();
-		// must be done with callback btnLabelStyle.setIcon(ic);
-		AppResourcesConverter.setIcon(ic, btnAngleInterval);
-		btnAngleInterval.addPopupHandler(this);
-		btnAngleInterval.setKeepVisible(false);
-	}
 
     private void createPointStyleBtn() {
 		btnPointStyle = PointStylePopup.create(app, ICON_HEIGHT, mode, true,
@@ -1056,26 +953,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnBold.addValueChangeHandler(this);
 	}
 
-	private void createFixPositionBtn() {
-		btnFixPosition = new MyToggleButton2(
-		        StyleBarResources.INSTANCE.fixPosition()) {
-
-			@Override
-			public void update(Object[] geos) {
-
-				boolean geosOK = EuclidianStyleBarStatic
-				        .checkGeosForFixPosition(geos);
-				setVisible(geosOK);
-				if (geosOK) {
-					btnFixPosition.setValue(EuclidianStyleBarStatic
-					        .checkSelectedFixPosition((GeoElement) geos[0]));
-				}
-			}
-		};
-		// btnFixPosition.addStyleName("btnFixPosition");
-		btnFixPosition.addValueChangeHandler(this);
-	}
-
 	private void createTextItalicBtn() {
 		btnItalic = new MyToggleButton2(app.getMenu("Italic.Short")) {
 
@@ -1283,18 +1160,10 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		} else if (source == btnTextSize) {
 			needUndo = EuclidianStyleBarStatic.applyTextSize(targetGeos,
 			        btnTextSize.getSelectedIndex());
-		} else if (source == btnAngleInterval) {
-			needUndo = EuclidianStyleBarStatic.applyAngleInterval(targetGeos,
-			        btnAngleInterval.getSelectedIndex());
 		} else if (source == btnLabelStyle) {
 			needUndo = EuclidianStyleBarStatic.applyCaptionStyle(targetGeos,
 			        mode, btnLabelStyle.getSelectedIndex());
-		} else if (source == btnFixPosition) {
-			needUndo = EuclidianStyleBarStatic.applyFixPosition(targetGeos,
-			        btnFixPosition.isSelected(), ev) != null;
-		}
-
-		else {
+		} else {
 			for (int i = 0; i < 3; i++) {
 				if (source == btnDeleteSizes[i]) {
 					setDelSize(i);
@@ -1404,7 +1273,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		                app.getMenu("Labeling.automatic"),
 		                app.getMenu("SnapToGrid"), app.getMenu("FixedToGrid"),
 		                app.getMenu("off") }));
-
 		this.btnLabelStyle.getMyTable().updateText(
 		        ImageOrText.convert(new String[] {
 		                app.getPlain("stylebar.Hidden"), // index 4
@@ -1413,17 +1281,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		                app.getPlain("Value"), // index 2
 		                app.getPlain("Caption") // index 3
 		                }));
-
-		String[] angleIntervalArray = new String[GeoAngle.INTERVAL_MIN.length];
-		for (int i = 0; i < GeoAngle.INTERVAL_MIN.length; i++) {
-			angleIntervalArray[i] = app.getLocalization().getPlain(
-			        "anglebetweenAandB", GeoAngle.INTERVAL_MIN[i],
-			        GeoAngle.INTERVAL_MAX[i]);
-		}
-
-		this.btnAngleInterval.getMyTable().updateText(
-		        ImageOrText.convert(angleIntervalArray));
-
 		this.btnTextSize.getMyTable()
 		        .updateText(
 		                ImageOrText.convert(app.getLocalization()
@@ -1454,7 +1311,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnStandardView.setToolTipText(loc
 		        .getPlainTooltip("stylebar.ViewDefault"));
 		btnLabelStyle.setToolTipText(loc.getPlainTooltip("stylebar.Label"));
-		btnAngleInterval.setToolTipText(loc.getPlainTooltip("AngleBetween"));
 		btnColor.setToolTipText(loc.getPlainTooltip("stylebar.Color"));
 		btnBgColor.setToolTipText(loc.getPlainTooltip("stylebar.BgColor"));
 		btnLineStyle.setToolTipText(loc.getPlainTooltip("stylebar.LineStyle"));
@@ -1467,9 +1323,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		btnPointCapture.setToolTipText(loc.getPlainTooltip("stylebar.Capture"));
 		btnBold.setToolTipText(loc.getPlainTooltip("stylebar.Bold"));
 		btnItalic.setToolTipText(loc.getPlainTooltip("stylebar.Italic"));
-
-		btnFixPosition.setToolTipText(loc
-		        .getPlainTooltip("AbsoluteScreenLocation"));
 
 	}
 
