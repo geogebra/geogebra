@@ -38,10 +38,11 @@ test -r $GGB_JARS/geogebra_main.jar || {
 # This used to be hardcoded in this way:
 # cp ~/fix/javagiac-linux64.jar ~/svn/geogebra/desktop/build/
 MYDIR=`pwd`
-cd $GGB_JARS
+cd $GGB_JARS/../lib
 cp libjavagiac64-nt.so libjavagiac64.so
-rm libjavagiac64.jar
-zip libjavagiac64.jar libjavagiac64.so
+rm -f javagiac-linux64.jar
+zip javagiac-linux64.jar libjavagiac64.so
+cp javagiac-linux64.jar ../build/
 cd $MYDIR
 
 # 2. Installing JAR files into the Maven repository (usually ~/.m2/repository/geogebra/*/current/*-current.jar)
