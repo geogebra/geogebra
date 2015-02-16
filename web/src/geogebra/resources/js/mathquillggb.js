@@ -4984,24 +4984,35 @@ $.fn.mathquillggb = function(cmd, latex) {
 
         if (cursor) {
           // first deleting the current word
-          for (var iii = 0; iii < cw.length; iii++) {
-        	// THIS IS ONLY TRUE FOR GEOGEBRA COMMANDS, NOT FOR
-        	// SIN, SQRT, ETC!
-            // if the user typed anything since the suggestions
-        	// in NewRadioButtonTreeItem, then they were
-        	// refreshed in theory, so the cursor is in the
-        	// right place, and we can also assume that the
-        	// current 'word' is only of standalone characters,
-        	// not multi-letter MathQuillGGB commands.
-        	// if that is the case, we should only issue as many
-        	// backspace()s as the number of characters in cw
-            cursor.backspace();
+          var ilen = cw.length;
+          while (ilen > 0) {
+        	  if ((cursor[L] instanceof Variable) ||
+        	      (cursor[L] instanceof VanillaSymbol)) {
+        		  cursor.backspace();
+            	  ilen--;
+        	  } else
+        	  //if (cursor[L] instanceof MathCommand)
+        	  {
+        		  var cname = cursor[L].text().replace(/\W/g, '');
+        		  cursor.backspace();
+        		  if (cname && cname.length) {
+        			  ilen -= cname.length;
+        		  } else {
+        			  // beware of infinite loop, but Okay to decrement
+        			  // as there was a cursor.backspace() anyway
+        			  // maybe console.log & break would be better here
+        			  ilen--;
+        		  }
+        	  }
           }
 
           // then writing the latex...
           // this seems to write GeoGebra command syntax help
           // as nicely as latex, so no problem here, but...
           cursor.writeLatex(latex).parent.blur();
+
+          // alternative may be better?
+          //cursor.writeLatex(latex);
 
           if (original_arguments[3]) {// if this is a GeoGebra command suggestion
 
