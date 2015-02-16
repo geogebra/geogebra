@@ -3,11 +3,9 @@ package geogebra.html5.euclidian;
 import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoCirclePointRadius;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -20,7 +18,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
@@ -668,20 +665,6 @@ public class MouseTouchGestureControllerW implements
 	}
 
 	public void onPointerEventStart(AbstractEvent event) {
-		if ((app.getGuiManager() != null)
-		        && (ec.getEvNo() != EuclidianView.EVNO_GENERAL || (ec.view instanceof EuclidianViewForPlaneInterface))) {
-			// Probability calculator plot panel view should not set active
-			// toolbar ID
-			// this is used by DataDisplayPanelW and PlotPanelEuclidianViewW,
-			// #plotpanelevno
-			// probably both are Okay not changing the toolbar to full Graphics
-			// view toolbar
-			app.getGuiManager().setActiveToolbarId(App.VIEW_EUCLIDIAN);
-		} else {
-			ec.setMode(EuclidianConstants.MODE_MOVE);
-			// app.setMode(EuclidianConstants.MODE_MOVE);
-			// app.getGuiManager().updateToolbar();
-		}
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)
 		        && (!ec.isTextfieldHasFocus())) {
 			DRAGMODE_MUST_BE_SELECTED = true;
