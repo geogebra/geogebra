@@ -3564,6 +3564,11 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	float: left;
 }
 
+.ggb-AlgebraViewSuggestionPopup {
+	/* overcoming the z-index of the onScreen keyboard PopupPanel */
+	z-index: 600;
+}
+
 /*#################################################################
 	PROPERTIES
 ###################################################################*/

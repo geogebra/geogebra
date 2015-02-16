@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
@@ -51,6 +52,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	        DefaultSuggestionDisplay {
 
 		@Override
+		protected PopupPanel createPopup() {
+			PopupPanel su = super.createPopup();
+			su.addStyleName("ggb-AlgebraViewSuggestionPopup");
+			return su;
+		}
+
+		@Override
 		protected Widget decorateSuggestionList(Widget suggestionList) {
 			ScrollPanel panel = new ScrollPanel(suggestionList);
 			// heuristic
@@ -63,13 +71,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// and on small screens it may also be necessary
 
 			// we do not set max-width but allow it to display and set
-			// overflow-x hidden,
-			// because overflow-x auto does not work well...
-			// TODO: however, in the future we might want to add max-width and
-			// set
+			// overflow-x hidden, because overflow-x auto does not work well
+
+			// TODO: in the future we might want to add max-width and set
 			// both overflow-x and overflow-y to auto (i.e. remove them)!
 			panel.getElement().getStyle().setProperty("overflowX", "hidden");
 			panel.getElement().getStyle().setProperty("overflowY", "auto");
+			// moving these to web-styles.css is not easy as GWT uses
+			// element.style, which overrides the CSS unless we set it as here
 
 			// TODO: scroll on up/down keys! (it already scrolls on mouse wheel)
 			return panel;
