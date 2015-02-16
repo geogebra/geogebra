@@ -1450,6 +1450,16 @@ public class Coords {
 			val[i] += v.val[i];
 		}
 	}
+	
+	/**
+	 * add v inside this
+	 * @param v value
+	 */
+	public void addInside(double v){
+		for (int i = 0 ; i < rows ; i++){
+			val[i] += v;
+		}
+	}
 
 	public Coords mul(double val0) {
 
