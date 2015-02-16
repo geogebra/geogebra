@@ -51,6 +51,27 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public static final class ScrollableSuggestionDisplay extends
 	        DefaultSuggestionDisplay {
 
+		// as I could not find a better way to know scroll position change,
+		// I checked this from web-styles.css (5px padding plus 16px font size)
+		// TODO: improve it, if we can...
+		public static int lineWidth = 26;
+
+		protected ScrollPanel scrollable;
+
+		@Override
+		protected void moveSelectionDown() {
+			super.moveSelectionDown();
+			scrollable.setVerticalScrollPosition(scrollable
+			        .getVerticalScrollPosition() + lineWidth);
+		}
+
+		@Override
+		protected void moveSelectionUp() {
+			super.moveSelectionUp();
+			scrollable.setVerticalScrollPosition(scrollable
+			        .getVerticalScrollPosition() - lineWidth);
+		}
+
 		@Override
 		protected PopupPanel createPopup() {
 			PopupPanel su = super.createPopup();
@@ -60,9 +81,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		@Override
 		protected Widget decorateSuggestionList(Widget suggestionList) {
-			ScrollPanel panel = new ScrollPanel(suggestionList);
+			scrollable = new ScrollPanel(suggestionList);
 			// heuristic
-			panel.getElement()
+			scrollable
+			        .getElement()
 			        .getStyle()
 			        .setProperty("maxHeight",
 			                (Window.getClientHeight() / 2) + "px");
@@ -75,13 +97,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 			// TODO: in the future we might want to add max-width and set
 			// both overflow-x and overflow-y to auto (i.e. remove them)!
-			panel.getElement().getStyle().setProperty("overflowX", "hidden");
-			panel.getElement().getStyle().setProperty("overflowY", "auto");
+			scrollable.getElement().getStyle()
+			        .setProperty("overflowX", "hidden");
+			scrollable.getElement().getStyle().setProperty("overflowY", "auto");
 			// moving these to web-styles.css is not easy as GWT uses
 			// element.style, which overrides the CSS unless we set it as here
 
-			// TODO: scroll on up/down keys! (it already scrolls on mouse wheel)
-			return panel;
+			return scrollable;
 		}
 
 		public void accessShowSuggestions(SuggestOracle.Response res,
