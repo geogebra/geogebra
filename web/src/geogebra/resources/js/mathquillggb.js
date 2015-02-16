@@ -3184,6 +3184,10 @@ var Variable = P(Symbol, function(_, _super) {
 				var command2 = LatexCmds["lparen"]();
 				command2.createBefore(cursor);
 			}
+			var root = cursor.root;
+		    if ((root !== undefined) && (root.common !== undefined)) {
+                root.common.GeoGebraSuggestionPopupCanShow = false;
+            }
 			return;
 		}
 		ctrlSeq = ctrlSeq.slice(1);
