@@ -100,6 +100,20 @@ public class TextFieldProcessing {
 	}
 
 	/**
+	 * simulates a space key event
+	 */
+	public void onSpace() {
+		switch (state) {
+		case autoCompleteTextField:
+			((AutoCompleteTextFieldW) field).insertString(" ");
+			break;
+		case radioButtonTreeItem:
+			((NewRadioButtonTreeItem) field).keypress(32, false, false, false);
+			break;
+		}
+	}
+
+	/**
 	 * simulates arrow events
 	 */
 	public void onArrow(ArrowType type) {

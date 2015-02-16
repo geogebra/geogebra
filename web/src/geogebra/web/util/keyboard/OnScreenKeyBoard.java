@@ -517,6 +517,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			} else if (text.equals(ENTER)) {
 				processing.onEnter();
 				this.hide();
+			} else if (text.equals(SPACE)) {
+				processing.onSpace();
 			} else if (text.equals(ARROW_LEFT)) {
 				processing.onArrow(ArrowType.left);
 			} else if (text.equals(ARROW_RIGHT)) {
