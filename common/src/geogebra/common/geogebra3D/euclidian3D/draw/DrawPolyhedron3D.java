@@ -197,6 +197,8 @@ public class DrawPolyhedron3D extends Drawable3DSurfaces implements Previewable 
 		setGeometryIndex(brush.end());
 
 	}
+	
+	
 
 	private static void drawSegment(PlotterBrush brush, GeoSegmentND seg) {
 

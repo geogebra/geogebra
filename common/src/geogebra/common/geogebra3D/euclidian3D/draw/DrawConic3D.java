@@ -8,6 +8,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
+import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Matrix.Coords;
@@ -16,6 +17,7 @@ import geogebra.common.kernel.geos.FromMeta;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoConicND;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
 
 /**
  * @author ggb3D
@@ -118,7 +120,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 		Renderer renderer = getView3D().getRenderer();
 
 		// check is visible (and update values)
-		checkVisible();
+		checkVisibleAndSetBoundingBox();
 		if (visible == Visible.TOTALLY_OUTSIDE) {
 			setGeometryIndex(-1);
 			setSurfaceIndex(-1);
@@ -700,14 +702,47 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 
 		return Visible.CENTER_INSIDE; // do as if center inside
 	}
+	
+	
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		switch (conic.getType()) {
+		case GeoConicNDConstants.CONIC_SINGLE_POINT:
+		case GeoConicNDConstants.CONIC_CIRCLE:
+		case GeoConicNDConstants.CONIC_ELLIPSE:
+			enlargeBounds(min, max, boundsMin, boundsMax);
+			break;
+		}
+	}
+
+	
+	final private void setBoundsEllipse(){
+		boundsMin.set(Double.POSITIVE_INFINITY);
+		boundsMax.set(Double.NEGATIVE_INFINITY);
+		enlargeBoundsToDiagonal(boundsMin, boundsMax, m, ev1, ev2, e1, e2);
+		double radius = conic.getLineThickness() * PlotterBrush.LINE3D_THICKNESS
+				/ getView3D().getScale();
+		boundsMin.addInside(-radius);
+		boundsMax.addInside(radius);
+	}
 
 	/**
 	 * check if conic is visible. Note that midpoint, etc. are updated here
 	 */
-	protected void checkVisible() {
+	protected void checkVisibleAndSetBoundingBox() {
 		switch (conic.getType()) {
 		case GeoConicNDConstants.CONIC_SINGLE_POINT:
 			m = conic.getMidpoint3D();
+			
+			boundsMin.setValues(m, 3);
+			boundsMax.setValues(m, 3);
+			double radius = conic.getLineThickness() / getView3D().getScale()
+					* DrawPoint3D.DRAW_POINT_FACTOR;
+			boundsMin.addInside(-radius);
+			boundsMax.addInside(radius);
+			
 			double frustumRadius = getView3D().getFrustumRadius();
 			Coords origin = getView3D().getCenter();
 			Coords v = origin.sub(m);
@@ -725,6 +760,9 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 			ev2 = conic.getEigenvec3D(1);
 			e1 = conic.getHalfAxis(0);
 			e2 = e1;
+			
+			setBoundsEllipse();			
+			
 			checkEllipseVisible(m, e1, e2);
 			break;
 		case GeoConicNDConstants.CONIC_ELLIPSE:
@@ -733,6 +771,7 @@ public class DrawConic3D extends Drawable3DCurves implements Functional2Var,
 			ev2 = conic.getEigenvec3D(1);
 			e1 = conic.getHalfAxis(0);
 			e2 = conic.getHalfAxis(1);
+			setBoundsEllipse();		
 			double eMin,
 			eMax;
 			if (e1 > e2) {

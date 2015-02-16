@@ -66,7 +66,8 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 	public void drawGeometry(Renderer renderer) {
 		renderer.getGeometryManager().draw(getGeometryIndex());
 	}
-
+	
+	
 	protected boolean updateForItSelf() {
 
 		// updateColors();
@@ -95,13 +96,29 @@ public class DrawPolyLine3D extends Drawable3DCurves implements Previewable {
 		brush.setAffineTexture(
 				(float) ((0.5 - minmax[0]) / (minmax[1] - minmax[0])), 0.25f);
 
-		for (int i = 0; i < p.getNumPoints() - 1; i++)
-			brush.segment(p.getPointND(i).getInhomCoordsInD3(),
-					p.getPointND(i + 1).getInhomCoordsInD3());
+		if (num > 0){
+			Coords previous = p.getPointND(0).getInhomCoordsInD3();
+			boundsMin.setValues(previous, 3);
+			boundsMax.setValues(previous, 3);
+			for (int i = 1; i < num; i++){
+				Coords current = p.getPointND(i).getInhomCoordsInD3();
+				brush.segment(previous, current);
+				previous = current;
+				enlargeBounds(boundsMin, boundsMax, current);
+			}
+		}
 
 		setGeometryIndex(brush.end());
 
 		return true;
+	}
+	
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		enlargeBounds(min, max, boundsMin, boundsMax);
 	}
 
 	/**

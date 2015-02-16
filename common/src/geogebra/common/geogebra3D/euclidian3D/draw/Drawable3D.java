@@ -1589,9 +1589,9 @@ public abstract class Drawable3D extends DrawableND {
 	 * enlarge min and max to boundsMin and boundsMax
 	 * 
 	 * @param min
-	 *            (x,y,z) view min
+	 *            (x,y,z) min
 	 * @param max
-	 *            (x,y,z) view max
+	 *            (x,y,z) max
 	 * @param boundsMin
 	 *            (x,y,z) object bounds min
 	 * @param boundsMax
@@ -1608,6 +1608,61 @@ public abstract class Drawable3D extends DrawableND {
 			}
 		}
 	}
+	
+	/**
+	 * enlarge min and max to boundsMin and boundsMax
+	 * 
+	 * @param min
+	 *            (x,y,z) min
+	 * @param max
+	 *            (x,y,z) max
+	 * @param coords
+	 *            (x,y,z) object coords
+	 */
+	static protected void enlargeBounds(Coords min, Coords max,
+			Coords coords) {
+		for (int i = 0; i < 3; i++) {
+			if (min.val[i] > coords.val[i]) {
+				min.val[i] = coords.val[i];
+			}
+			if (max.val[i] < coords.val[i]) {
+				max.val[i] = coords.val[i];
+			}
+		}
+	}
+	
+	/**
+	 * add and sub v1+v2 or v1-v2 max values to bounds
+	 * @param min
+	 *            (x,y,z) min
+	 * @param max
+	 *            (x,y,z) max
+	 * @param center center coords
+	 * @param v1 first direction vector
+	 * @param v2 second direction vector
+	 * @param r1 first direction radius
+	 * @param r2 second direction radius
+	 * 
+	 */
+	static protected void enlargeBoundsToDiagonal(Coords min, Coords max, Coords center,
+			Coords v1, Coords v2, double r1, double r2) {
+		for (int i = 0; i < 3; i++) {
+			double add = Math.abs(v1.val[i] * r1 + v2.val[i] * r2);
+			double sub = Math.abs(v1.val[i] * r1 - v2.val[i] * r2);
+			double v = Math.max(add,  sub);
+			double cMin = center.val[i] - v;
+			double cMax = center.val[i] + v;
+			if (min.val[i] > cMin) {
+				min.val[i] = cMin;
+			}
+			if (max.val[i] < cMax) {
+				max.val[i] = cMax;
+			}
+		}
+	}
+	
+	
+	
 
 	public boolean isTracing() {
 		return false;

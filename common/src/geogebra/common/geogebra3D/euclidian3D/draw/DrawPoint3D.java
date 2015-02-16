@@ -9,6 +9,7 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Functional2Var;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 
 //TODO does not extend Drawable3DCurves
 

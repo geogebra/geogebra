@@ -34,7 +34,7 @@ public class ContextMenuGraphicsWindow3DD extends ContextMenuGraphicsWindowD {
 
 		getWrappedPopup().addSeparator();
 
-		// addShowAllObjectsView(app);
+		addShowAllObjectsView(app);
 
 		addStandardViewItem();
 

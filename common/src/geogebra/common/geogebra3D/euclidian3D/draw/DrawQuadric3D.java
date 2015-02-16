@@ -4,13 +4,16 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.Hitting;
+import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterBrush;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer.PickingType;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoQuadric3DPart;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoQuadricNDConstants;
+import geogebra.common.main.App;
 
 import java.util.ArrayList;
 
@@ -144,6 +147,27 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			surface.drawSphere(center, radius, longitude);
 		}
 	}
+	
+
+	
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		switch (((GeoQuadric3D) getGeoElement()).getType()) {
+		case GeoQuadricNDConstants.QUADRIC_SPHERE:
+		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
+			enlargeBounds(min, max, boundsMin, boundsMax);
+			break;
+		case GeoQuadricNDConstants.QUADRIC_CONE:
+		case GeoQuadricNDConstants.QUADRIC_CYLINDER:
+			if (getGeoElement() instanceof GeoQuadric3DPart) {
+				enlargeBounds(min, max, boundsMin, boundsMax);
+			}
+			break;
+		}
+	}
 
 	@Override
 	protected boolean updateForItSelf() {
@@ -156,6 +180,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			Coords center = quadric.getMidpoint3D();
 			double radius = quadric.getHalfAxis(0);
+			boundsMin.setValues(center, 3);
+			boundsMax.setValues(center, 3);
+			boundsMin.addInside(-radius);
+			boundsMax.addInside(radius);
 			checkSphereVisible(center, radius);
 			if (visible != Visible.TOTALLY_OUTSIDE) {
 				surface = renderer.getGeometryManager().getSurface();
@@ -176,9 +204,18 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				double height = ((GeoQuadric3DPart) quadric)
 						.getBottomParameter()
 						- ((GeoQuadric3DPart) quadric).getTopParameter();
-				surface.cone(quadric.getMidpoint3D(), quadric.getEigenvec3D(0),
-						quadric.getEigenvec3D(1), quadric.getEigenvec3D(2),
-						quadric.getHalfAxis(0), 0, 2 * Math.PI, height, 1f);
+				Coords top = quadric.getMidpoint3D();
+				Coords ev1 = quadric.getEigenvec3D(0);
+				Coords ev2 = quadric.getEigenvec3D(1);
+				radius = quadric.getHalfAxis(0);
+				Coords bottomCenter = surface.cone(top, ev1, ev2, quadric.getEigenvec3D(2),
+						radius, 0, 2 * Math.PI, height, 1f);
+				
+				boundsMin.setValues(top, 3);
+				boundsMax.setValues(top, 3);
+				radius *= height;
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1, ev2, radius, radius);
+				
 			} else { // infinite cone
 				double[] minmax = getMinMax();
 				double min = minmax[0];
@@ -237,9 +274,15 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			surface.start(getReusableSurfaceIndex());
 
 			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
-				surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2 * Math.PI,
+				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
 						false, false);
+				
+				boundsMin.set(Double.POSITIVE_INFINITY);
+				boundsMax.set(Double.NEGATIVE_INFINITY);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, center, ev1, ev2, radius, radius);
+				enlargeBoundsToDiagonal(boundsMin, boundsMax, bottomCenter, ev1, ev2, radius, radius);
+				
 			} else {
 				double[] minmax = getMinMax();
 				double min = minmax[0];
@@ -266,11 +309,18 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		case GeoQuadricNDConstants.QUADRIC_SINGLE_POINT:
 			surface = renderer.getGeometryManager().getSurface();
 			surface.start(getReusableSurfaceIndex());
+			Coords m = quadric.getMidpoint3D();
+			double thickness = quadric.getLineThickness()
+					/ getView3D().getScale()
+					* DrawPoint3D.DRAW_POINT_FACTOR;
 			surface.drawSphere(quadric.getLineThickness(),
-					quadric.getMidpoint3D(), quadric.getLineThickness()
-							/ getView3D().getScale()
-							* DrawPoint3D.DRAW_POINT_FACTOR);
+					m, thickness);
 			setSurfaceIndex(surface.end());
+			
+			boundsMin.setValues(m, 3);
+			boundsMax.setValues(m, 3);
+			boundsMin.addInside(-thickness);
+			boundsMax.addInside(thickness);
 			break;
 
 		default:
@@ -396,7 +446,20 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	public int getPickOrder() {
+		if (getPickingType() == PickingType.POINT_OR_CURVE) {
+			return DRAW_PICK_ORDER_POINT;
+		}
+
 		return DRAW_PICK_ORDER_SURFACE;
+	}
+	
+	@Override
+	public boolean isTransparent() {
+		if (getPickingType() == PickingType.SURFACE) {
+			return getAlpha() <= EuclidianController.MAX_TRANSPARENT_ALPHA_VALUE;
+		}
+
+		return false;
 	}
 
 	@Override
@@ -449,7 +512,9 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		q.setIsPickable(false);
 		q.setType(type);
 		// setGeoElement(q);
-
+		
+		setPickingType(PickingType.SURFACE);
+		
 		this.selectedPoints = selectedPoints;
 
 		updatePreview();
@@ -482,6 +547,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		}
 
 	}
+	
 
 	@Override
 	public boolean hit(Hitting hitting) {
@@ -489,16 +555,25 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (waitForReset) { // prevent NPE
 			return false;
 		}
+		
+		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		
+		if (quadric.getType() == GeoQuadricNDConstants.QUADRIC_SINGLE_POINT) {
+			if (DrawPoint3D.hit(hitting, quadric.getMidpoint3D(), this, quadric.getLineThickness(), project,
+					parameters, false)){
+				setPickingType(PickingType.POINT_OR_CURVE);
+				return true;
+			}
+		}	
+		
 
 		if (getGeoElement().getAlphaValue() < EuclidianController.MIN_VISIBLE_ALPHA_VALUE) {
 			return false;
 		}
-
-		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
+		
 
 		// TODO remove this
 		if (quadric.getType() != GeoQuadricNDConstants.QUADRIC_SPHERE
-				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_SINGLE_POINT
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CYLINDER
 				&& quadric.getType() != GeoQuadricNDConstants.QUADRIC_CONE) {
 			return false;
@@ -521,6 +596,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		if (d * getView3D().getScale() <= hitting.getThreshold()) {
 			double z = -parameters[0];
 			setZPick(z, z);
+			setPickingType(PickingType.SURFACE);
 			return true;
 		}
 

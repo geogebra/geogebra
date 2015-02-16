@@ -164,8 +164,25 @@ public class DrawPolygon3D extends Drawable3DSurfaces implements Previewable {
 		for (int i = 0; i < pointLength; i++) {
 			vertices[i].setValues(polygon.getPoint3D(i), 3);
 		}
+		
+		if (pointLength > 0){
+			boundsMin.setValues(vertices[0], 3);
+			boundsMax.setValues(vertices[0], 3);
+			for (int i = 1; i < pointLength; i++) {
+				enlargeBounds(boundsMin, boundsMax, vertices[i]);
+			}
+		}
 
 	}
+	
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		enlargeBounds(min, max, boundsMin, boundsMax);
+	}
+
 
 	@Override
 	protected boolean updateForItSelf() {
