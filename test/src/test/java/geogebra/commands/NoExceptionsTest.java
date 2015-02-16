@@ -246,8 +246,7 @@ public class NoExceptionsTest {
 	@Test
 	public void cmdAsymptote() {
 		t("Asymptote[ c1 ]");
-		
-		//t("Asymptote[ f1 ]");
+		t("Asymptote[ f1 ]");
 		t("Asymptote[ impl1 ]");
 
 	}
