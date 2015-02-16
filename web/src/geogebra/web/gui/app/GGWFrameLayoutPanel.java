@@ -123,6 +123,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * @param show whether to show keyboard
 	 * @param textField textfield receiving the text from keyboard
 	 */
+	@Override
 	public void showKeyBoard(boolean show, Widget textField) {
 		//make sure the main part of this method is called ONLY WHEN NECESSARY
 		if(this.keyboardShowing == show){

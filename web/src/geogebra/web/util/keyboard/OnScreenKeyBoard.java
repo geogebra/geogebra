@@ -2,12 +2,16 @@ package geogebra.web.util.keyboard;
 
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.web.css.GuiResources;
 import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -16,7 +20,9 @@ import com.google.gwt.user.client.ui.Widget;
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private static OnScreenKeyBoard instance;
-	private FlowPanel content = new FlowPanel();
+
+	private HorizontalPanel contentNumber = new HorizontalPanel();
+	private FlowPanel contentGreek = new FlowPanel();
 	// TODO remove for mobile devices
 	private FlowPanel contentLetters = new FlowPanel();
 	private Widget textField;
@@ -26,15 +32,17 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String BACKSPACE = "\u21A4";
 	private static final String ENTER = "\u21B2";
 	private static final String SHIFT = "\u21E7";
-	private static final String I = "\u03AF";
-
 	private static final String ARROW_LEFT = "\u2190";
 	private static final String ARROW_RIGHT = "\u2192";
-	// private static final String ARROW_UP = "\u2191";
-	// private static final String ARROW_DOWN = "\u2193";
+	private static final String COLON_EQUALS = "\u2254";
+	private static final String SHOW_NUMBERS = "123";
+	private static final String SHOW_TEXT = "ABC";
+	private static final String SHOW_GREEK = Unicode.alphaBetaGamma;
+	private static final String SPACE = "\u0020";
 
 	private KeyboardMode mode = KeyboardMode.NUMBER;
-
+	private KeyPanel letters;
+	private KeyPanel greekLetters;
 	/**
 	 * positioning (via setPopupPosition) needs to be enabled in order to
 	 * prevent automatic positioning in the constructor
@@ -45,18 +53,17 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * listener for updates of the keyboard structure
 	 */
 	private UpdateKeyBoardListener updateKeyBoardListener;
-	private KeyPanel letters;
 
 	/**
 	 * creates a keyboard instance
 	 * 
 	 * @param textField
 	 *            the textField to receive the key-events
-	 * @param frameLayoutPanel
+	 * @param listener
+	 *            {@link UpdateKeyBoardListener}
 	 * @return instance of onScreenKeyBoard
 	 */
-	public static OnScreenKeyBoard getInstance(
-Widget textField,
+	public static OnScreenKeyBoard getInstance(Widget textField,
 	        UpdateKeyBoardListener listener) {
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
@@ -81,7 +88,7 @@ Widget textField,
 	public static void setUsed(boolean used) {
 		if (instance != null && instance.textField != null) {
 			instance.processing.setKeyBoardUsed(used
-			        && instance.content.isVisible());
+			        && instance.contentNumber.isVisible());
 		}
 	}
 
@@ -102,59 +109,400 @@ Widget textField,
 	}
 
 	private void createKeyBoard() {
-		String[] icons = new String[] { "x²", "x³", "", "x", "y",
-		        "z", // first
-		        // line
-		        "( )", "[ ]", "<", ">", Unicode.LESS_EQUAL + "",
-		        Unicode.GREATER_EQUAL + "", // second line
-				"sin", "cos", "tan", PI, "", I, // third line
-		        "ln", Unicode.SQUARE_ROOT, ",", ":=", ARROW_LEFT, ARROW_RIGHT // last
-																	  // line
-		};
-		KeyPanel functions = new KeyPanel(icons, 6, this);
-		functions.setSpecialButton("²", false, 0, this);
-		functions.setSpecialButton("³", false, 1, this);
+		// number - keyboard
+		createFunctionsKeyPanel();
+		createNumbersKeyPanel();
+		createControlKeyPanel();
 
-		functions.setSpecialButton("^", false, 2, this);
-		DrawEquationWeb.drawEquationAlgebraView(functions.colum[2].getWidget(0)
-				.getElement(), "x^{y}");
+		// letter - keyboard
+		createLettersKeyPanel();
 
-		functions.setSpecialButton(Unicode.EULER_STRING + "^", false, 16, this);
-		DrawEquationWeb.drawEquationAlgebraView(functions.colum[4].getWidget(2)
-				.getElement(), Unicode.EULER_STRING + "^{x}");
+		// greek - keyboard
+		createGreekLettersKeyPanel();
 
-		content.add(functions);
-
-		icons = new String[] { "7", "8", "9", Unicode.divide + "", BACKSPACE, // first
-																			  // line
-		        "4", "5", "6", Unicode.multiply + "", ENTER,// second line
-		        "1", "2", "3", Unicode.minus + "", null, // third line
-		        "0", ".", "=", "+" // last line
-		};
-		KeyPanel numbers = new KeyPanel(icons, 5, this);
-		numbers.setSpecialButton("/", false, 3, this);
-		numbers.setSpecialButton("*", false, 8, this);
-		numbers.setSpecialButton(ENTER, true, 9, this);
-		content.add(numbers);
-
-		icons = new String[] { "q", "w", "e", "r", "t", "y", "u", "i", "o",
-		        "p", // first line
-		        "a", "s", "d", "f", "g", "h", "j", "k", "l", null, // second
-																   // line
-		        SHIFT, "z", "x", "c", "v", "b", "n", "m", ENTER // last line
-		};
-		letters = new KeyPanel(icons, 10, this);
-		contentLetters.add(letters);
-
-		// TODO needs to be added for mobile devices
-		KeyBoardMenu menu = new KeyBoardMenu(this);
+		// // TODO needs to be added for mobile devices
+		// KeyBoardMenu menu = new KeyBoardMenu(this);
 		FlowPanel p = new FlowPanel();
-		p.add(menu);
-		content.addStyleName("KeyBoardContent");
-		p.add(content);
+		// p.add(menu);
+		contentNumber.addStyleName("KeyBoardContentNumbers");
+		p.add(contentNumber);
 		p.add(contentLetters);
+		p.add(contentGreek);
+		contentNumber.setVisible(true);
 		contentLetters.setVisible(false);
+		contentGreek.setVisible(false);
+
+		// closeButton
+		p.add(getCloseButton());
+
 		add(p);
+	}
+
+	private SimplePanel getCloseButton() {
+		Image icon = new Image(GuiResources.INSTANCE.keyboard_close());
+		icon.addStyleName("closeIcon");
+		icon.getElement().setAttribute("draggable", "false");
+		SimplePanel closePanel = new SimplePanel(icon);
+		closePanel.addStyleName("keyBoardClosePanel");
+		closePanel.addDomHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				updateKeyBoardListener.showKeyBoard(false, null);
+			}
+		}, ClickEvent.getType());
+		return closePanel;
+	}
+
+	private void createFunctionsKeyPanel() {
+		KeyPanel functions = new KeyPanel();
+		functions.addStyleName("KeyPanelFunction");
+
+		// fill first row
+		int index = 0;
+		KeyBoardButton newButton = new KeyBoardButton("x", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("y", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("x²", "²", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.SQUARE_ROOT, this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("", "^", this);
+		DrawEquationWeb
+		        .drawEquationAlgebraView(newButton.getElement(), "x^{y}");
+		functions.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("( )", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("[ ]", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("<", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(">", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(COLON_EQUALS, ":=", this);
+		functions.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("sin", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("cos", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("tan", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("exp", Unicode.EULER_STRING + "^", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("ln", this);
+		functions.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(SHOW_TEXT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("long");
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(SHOW_GREEK, this);
+		newButton.addStyleName("colored");
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(PI, this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(",", this);
+		functions.addToRow(index, newButton);
+
+		contentNumber.add(functions);
+	}
+
+	private void createNumbersKeyPanel() {
+		KeyPanel numbers = new KeyPanel();
+		numbers.addStyleName("KeyPanelNum");
+
+		// fill first row
+		int index = 0;
+		KeyBoardButton newButton = new KeyBoardButton("7", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("8", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("9", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.divide + "", "/", this);
+		numbers.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("4", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("5", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("6", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.multiply + "", "*", this);
+		numbers.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("1", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("2", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("3", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.minus + "", this);
+		numbers.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("0", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton(".", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("=", this);
+		numbers.addToRow(index, newButton);
+		newButton = new KeyBoardButton("+", this);
+		numbers.addToRow(index, newButton);
+
+		contentNumber.add(numbers);
+	}
+
+	private void createControlKeyPanel() {
+		KeyPanel control = new KeyPanel();
+
+		int index = 0;
+		KeyBoardButton newButton = new KeyBoardButton(BACKSPACE, this);
+		newButton.addStyleName("backspace");
+		newButton.addStyleName("colored");
+		control.addToRow(index, newButton);
+
+		index++;
+		newButton = new KeyBoardButton(ENTER, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("enter");
+		control.addToRow(index, newButton);
+
+		index++;
+		newButton = new KeyBoardButton(ARROW_LEFT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("arrow");
+		control.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ARROW_RIGHT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("arrow");
+		control.addToRow(index, newButton);
+
+		contentNumber.add(control);
+	}
+
+	private void createLettersKeyPanel() {
+		letters = new KeyPanel();
+		letters.addStyleName("KeyPanelLetters");
+
+		// fill first line
+		int index = 0;
+		KeyBoardButton newButton = new KeyBoardButton("q", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("w", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("e", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("r", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("t", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("y", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("u", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("i", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("o", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("p", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(BACKSPACE, this);
+		newButton.addStyleName("colored");
+		letters.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("a", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("s", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("d", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("f", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("g", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("h", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("j", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("k", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("l", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ENTER, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("long");
+		letters.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(SHIFT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("shift");
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("z", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("x", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("c", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("v", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("b", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("n", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("m", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(",", this);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(SHIFT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("shift");
+		letters.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(SHOW_NUMBERS, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("long");
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(SHOW_GREEK, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("functionButtonGreek");
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(SPACE, this);
+		newButton.addStyleName("space");
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ARROW_LEFT, this);
+		newButton.addStyleName("colored");
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ARROW_RIGHT, this);
+		newButton.addStyleName("colored");
+		letters.addToRow(index, newButton);
+
+		contentLetters.add(letters);
+	}
+
+	private void createGreekLettersKeyPanel() {
+		greekLetters = new KeyPanel();
+		greekLetters.addStyleName("KeyPanelLetters");
+
+		// fill first line
+		int index = 0;
+		KeyBoardButton newButton = new KeyBoardButton(Unicode.alpha + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.beta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.gamma + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.delta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.epsilon + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.zeta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.eta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.theta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.kappa + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.lambda + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(BACKSPACE, this);
+		newButton.addStyleName("colored");
+		greekLetters.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(Unicode.mu + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.xi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.rho + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.sigma + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.tau + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.phi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.phi_symbol + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.chi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.psi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ENTER, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("long");
+		greekLetters.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(SHIFT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("shift");
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.omega + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Gamma + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Delta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Theta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Pi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Sigma + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Phi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Omega + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(SHIFT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("shift");
+		greekLetters.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(SHOW_NUMBERS, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("functionButtonSwitch");
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(SHOW_TEXT, this);
+		newButton.addStyleName("colored");
+		newButton.addStyleName("functionButtonSwitch");
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton("", this);
+		newButton.addStyleName("space");
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ARROW_LEFT, this);
+		newButton.addStyleName("colored");
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ARROW_RIGHT, this);
+		newButton.addStyleName("colored");
+		greekLetters.addToRow(index, newButton);
+
+		contentGreek.add(greekLetters);
 	}
 
 	@Override
@@ -174,30 +522,27 @@ Widget textField,
 			} else if (text.equals(ARROW_RIGHT)) {
 				processing.onArrow(ArrowType.right);
 			} else if (text.equals(SHIFT)) {
-				for (FlowPanel col : letters.colum) {
-					for (int i = 0; i < col.getWidgetCount(); i++) {
-						if (col.getWidget(i) instanceof KeyBoardButton) {
-							KeyBoardButton b = (KeyBoardButton) col
-							        .getWidget(i);
-							if (Character.isLetter(b.getCaption().charAt(0))) {
-								if (Character.isLowerCase(b.getCaption()
-								        .charAt(0))) {
-									b.setCaption(b.getCaption().toUpperCase(),
-									        true);
-								} else {
-									b.setCaption(b.getCaption().toLowerCase(),
-									        true);
-								}
-							}
-						}
-					}
+				if (mode == KeyboardMode.GREEK) {
+					toggleLettersUpperLowerCase(greekLetters);
+				} else {
+					toggleLettersUpperLowerCase(letters);
 				}
+			} else if (text.equals(SHOW_NUMBERS)) {
+				setKeyboardMode(KeyboardMode.NUMBER);
+			} else if (text.equals(SHOW_TEXT)) {
+				setKeyboardMode(KeyboardMode.TEXT);
+			} else if (text.equals(SHOW_GREEK)) {
+				setKeyboardMode(KeyboardMode.GREEK);
 			} else {
 				processing.insertString(text);
 			}
 
 			if (!text.equals(SHIFT)) {
-				resetButtons();
+				if (mode == KeyboardMode.GREEK) {
+					setLettersToLowerCase(greekLetters);
+				} else {
+					setLettersToLowerCase(letters);
+				}
 			}
 
 			if (textField != null) {
@@ -209,18 +554,37 @@ Widget textField,
 		}
 	}
 
-	private void resetButtons() {
-	    for(FlowPanel col : letters.colum){
-	    	for(int i = 0; i < col.getWidgetCount(); i++){
-	    		if (col.getWidget(i) instanceof KeyBoardButton){
-	    			KeyBoardButton b = (KeyBoardButton) col.getWidget(i);
-					if (Character.isLetter(b.getCaption().charAt(0))) {
+	private void setLettersToLowerCase(KeyPanel keyPanel) {
+		for (HorizontalPanel row : keyPanel.getRows()) {
+			for (int i = 0; i < row.getWidgetCount(); i++) {
+				if (row.getWidget(i) instanceof KeyBoardButton) {
+					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
+					if (b.getCaption().length() == 1
+					        && Character.isLetter(b.getCaption().charAt(0))) {
 						b.setCaption(b.getCaption().toLowerCase(), true);
 					}
-	    		}
-	    	}
-	    }
-    }
+				}
+			}
+		}
+	}
+
+	private void toggleLettersUpperLowerCase(KeyPanel keyPanel) {
+		for (HorizontalPanel row : keyPanel.getRows()) {
+			for (int i = 0; i < row.getWidgetCount(); i++) {
+				if (row.getWidget(i) instanceof KeyBoardButton) {
+					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
+					if (b.getCaption().length() == 1
+					        && Character.isLetter(b.getCaption().charAt(0))) {
+						if (Character.isLowerCase(b.getCaption().charAt(0))) {
+							b.setCaption(b.getCaption().toUpperCase(), true);
+						} else {
+							b.setCaption(b.getCaption().toLowerCase(), true);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	/**
 	 * The text field to be used
@@ -246,16 +610,25 @@ Widget textField,
 		if (mode == KeyboardMode.NUMBER) {
 			processing.setKeyBoardModeText(false);
 			processing.setFocus(false);
-			content.setVisible(true);
+			contentNumber.setVisible(true);
 			contentLetters.setVisible(false);
+			contentGreek.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
-			content.setVisible(false);
+			contentNumber.setVisible(false);
+			contentGreek.setVisible(false);
 			contentLetters.setVisible(true);
 			updateKeyBoardListener.updateKeyBoard(textField);
 			processing.setKeyBoardModeText(true);
 			processing.setFocus(true);
 			updateKeyBoardListener.showInputField();
+		} else if (mode == KeyboardMode.GREEK) {
+			processing.setKeyBoardModeText(false);
+			processing.setFocus(false);
+			contentNumber.setVisible(false);
+			contentLetters.setVisible(false);
+			contentGreek.setVisible(true);
+			updateKeyBoardListener.updateKeyBoard(textField);
 		}
 		setUsed(true);
 	}
@@ -279,9 +652,10 @@ Widget textField,
 	 */
 	public void resetKeyboardState() {
 		mode = KeyboardMode.NUMBER;
-		content.setVisible(true);
-		resetButtons();
+		contentNumber.setVisible(true);
+		setLettersToLowerCase(letters);
+		setLettersToLowerCase(greekLetters);
 		contentLetters.setVisible(false);
+		contentGreek.setVisible(false);
 	}
-
 }

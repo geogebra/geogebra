@@ -1,54 +1,45 @@
 package geogebra.web.util.keyboard;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.FlowPanel;
+import java.util.ArrayList;
 
-public class KeyPanel extends FlowPanel {
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
-	FlowPanel[] colum;
-	private String[] symbolString;
+/**
+ *
+ */
+public class KeyPanel extends VerticalPanel {
 
-	public KeyPanel(String[] symbolStrings, int rowLength, ClickHandler handler) {
+	private ArrayList<HorizontalPanel> rows;
 
-		colum = new FlowPanel[rowLength];
-		for (int i = 0; i < rowLength; i++) {
-			colum[i] = new FlowPanel();
-			colum[i].addStyleName("KeyPanelColum");
-			add(colum[i]);
-		}
-
-		this.symbolString = symbolStrings;
-		buildSymbolTable(handler);
-
-		this.addStyleName("KeyPanel");
-		this.getElement().getStyle().setProperty("flex", rowLength + "");
+	/**
+	 */
+	public KeyPanel() {
+		rows = new ArrayList<HorizontalPanel>();
 	}
 
-	public void setSpecialButton(String feedBack, boolean largeButton,
-	        int position, ClickHandler handler) {
-		int col = position % colum.length;
-		int row = position / colum.length;
-		KeyBoardButton b = new KeyBoardButton(symbolString[position], feedBack,
-		        largeButton);
-		if (handler != null) {
-			b.addDomHandler(handler, ClickEvent.getType());
+	/**
+	 * adds the given button to the row with given index.
+	 * 
+	 * @param index
+	 *            int
+	 * @param button
+	 *            {@link KeyBoardButton}
+	 */
+	public void addToRow(int index, KeyBoardButton button) {
+		if (rows.size() <= index) {
+			HorizontalPanel newRow = new HorizontalPanel();
+			newRow.addStyleName("KeyPanelRow");
+			rows.add(newRow);
+			this.add(newRow);
 		}
-		colum[col].remove(row);
-		colum[col].insert(b, row);
+		rows.get(index).add(button);
 	}
 
-	private void buildSymbolTable(ClickHandler handler) {
-		for (int i = 0; i < symbolString.length; i++) {
-			if (symbolString[i] != null) {
-				int col = (int) Math.floor(i % colum.length);
-				KeyBoardButton b = new KeyBoardButton(symbolString[i]);
-				if (handler != null) {
-					b.addDomHandler(handler, ClickEvent.getType());
-				}
-				colum[col].add(b);
-			}
-		}
+	/**
+	 * @return a list of all rows
+	 */
+	public ArrayList<HorizontalPanel> getRows() {
+		return this.rows;
 	}
-
 }

@@ -1,52 +1,68 @@
 package geogebra.web.util.keyboard;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+/**
+ * A button of the {@link OnScreenKeyBoard}
+ */
 public class KeyBoardButton extends SimplePanel {
 
-	/**
-	 * only use if the ClickEvents have to be redirected from the label
-	 */
-	private Label content;
-
 	private String feedBack;
-
 	private Label label;
 
-	public KeyBoardButton(String caption) {
-		this(caption, caption, false);
+	/**
+	 * @param caption
+	 *            text of the button
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public KeyBoardButton(String caption, ClickHandler handler) {
+		this(caption, caption, handler);
 	}
 
-	public KeyBoardButton(String caption, String feedBack, boolean largeButton) {
-		label = new Label(caption);
-		if (largeButton) {
-			content = label;
-			content.addStyleName("KeyBoardButton_label");
-			this.addStyleName("KeyBoardButton_simple");
-		} else {
-			if (caption.length() > 0 && Character.isDigit(caption.charAt(0))) {
-				addStyleName("KeyBoardButton_Number");
-			} else {
-				addStyleName("KeyBoardButton");
-			}
-		}
+	/**
+	 * @param caption
+	 *            text of the button
+	 * @param feedBack
+	 *            String to send if click occurs
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	public KeyBoardButton(String caption, String feedBack, ClickHandler handler) {
+		this.label = new Label(caption);
+		this.feedBack = feedBack;
+		addDomHandler(handler, ClickEvent.getType());
+		addStyleName("KeyBoardButton");
 		this.add(label);
-
-		this.feedBack = feedBack == null ? caption : feedBack;
 	}
 
+	/**
+	 * @return the String to be sent if a click occurs
+	 */
 	public String getText() {
 		return feedBack;
 	}
 
+	/**
+	 * @return text of the button
+	 */
 	public String getCaption() {
 		return label.getText();
 	}
 
-	public void setCaption(String caption, boolean resetFeedBack) {
+	/**
+	 * @param caption
+	 *            text of the button
+	 * @param setAsFeedback
+	 *            if {@code true} the text of the {@link #feedBack} is set to
+	 *            the given caption
+	 */
+	public void setCaption(String caption, boolean setAsFeedback) {
 		label.setText(caption);
-		if (resetFeedBack) {
+		if (setAsFeedback) {
 			feedBack = caption;
 		}
 	}

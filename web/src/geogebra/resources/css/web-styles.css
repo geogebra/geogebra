@@ -2184,84 +2184,116 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	color: #6666FF;
 }
 
-.KeyBoardButton {
-	padding: 10px;
-	height: 32px;
-	border: 1px solid black;
+/* ### onScreenKeyboard ### */
+
+.keyBoardClosePanel {
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	cursor: hand;
 	text-align: center;
-	vertical-align: middle;
-	color: rgb(0, 0, 0);
-	margin: 5px;
 }
 
-.KeyBoardButton_Number {
-	padding: 10px;
-	height: 32px;
-	border: 1px solid black;
-	text-align: center;
-	vertical-align: middle;
-	background: black;
-	color: rgb(255, 255, 255);
-	margin: 5px;
-}
-
-.KeyBoardButton_label {
-	padding: 10px;
-	height: 150px;
-	border: 1px solid black;
-	text-align: center;
-	color: rgb(0, 0, 0);
-	margin: 5px;
-}
-
-.KeyBoardButton_simple {
-	height: 44px;
-}
-
-.KeyPanel {
-	box-flex: 1;
-	-webkit-box-flex: 1;
-	-moz-box-flex: 1;
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	flex: 1;
-	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-	display: -moz-box; /* OLD - Firefox 19- */
-	display: -ms-flexbox; /* TWEENER - IE 10 */
-	display: -webkit-flex; /* NEW - Chrome */
-	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
-	box-orient: horizontal;
-	box-orient: horizontal;
-	flex-direction: row;
-}
-
-.KeyPanelColum {
-	box-flex: 1;
-	-webkit-box-flex: 1;
-	-moz-box-flex: 1;
-	-webkit-flex: 1;
-	-moz-flex: 1;
-	-ms-flex: 1;
-	flex: 1;
-}
-
-.KeyBoardContent {
-	width: 100%;
-	display: -webkit-box; /* OLD - iOS 6-, Safari 3.1-6 */
-	display: -moz-box; /* OLD - Firefox 19- */
-	display: -ms-flexbox; /* TWEENER - IE 10 */
-	display: -webkit-flex; /* NEW - Chrome */
-	display: flex; /* NEW, Spec - Opera 12.1, Firefox 20+ */
-	box-orient: horizontal;
-	box-orient: horizontal;
-	flex-direction: row;
+.keyBoardClosePanel .closeIcon {
+	padding-top: 8px;
 }
 
 .KeyBoard {
-	bottom: 0px;
-	width: 100%;
+	border-radius: 0px;
+	-webkit-border-radius: 0px;
+	background-color: #666666;
+	color: #000;
+	box-shadow: none;
+	overflow: hidden !important;
 }
+
+.KeyBoard .SymbolTable {
+	display: none;
+}
+
+.KeyBoardContentNumbers {
+	margin: 0 auto;
+}
+
+.KeyPanelLetters {
+	margin: 0 auto;
+}
+
+.KeyPanelFunction {
+	padding-right: 20px;
+}
+
+.KeyPanelNum {
+	padding-right: 20px;
+}
+
+.KeyPanelRow {
+	float: right;
+}
+
+.KeyBoardButton {
+	padding: 10px;
+	height: 20px;
+	text-align: center;
+	margin: 2px;
+	font-size: 120%;
+	cursor: pointer;
+	border-radius: 5px;
+	width: 50px;
+	background-color: #F8F8F8;
+}
+
+.KeyBoardButton:active {
+	box-shadow: inset 0px 0px 0px 1px #7C7C7C;
+}
+
+.KeyBoardButton.colored {
+	background-color: #AFAFAF;
+}
+
+.KeyBoardButton.functionButtonSwitch {
+	width: 79px;
+}
+
+.KeyBoardButton.shift {
+	width: 88px;
+}
+
+.KeyBoardButton.space {
+	width: 438px;
+}
+
+.KeyBoardButton.long {
+	width: 108px;
+}
+
+/* numbers */
+.KeyBoardContentNumbers .KeyBoardButton.long {
+	width: 124px;
+}
+
+.KeyBoardButton.backspace {
+	width: 64px;
+}
+
+.KeyBoardButton.arrow {
+	width: 20px;
+}
+
+.KeyBoardButton.enter {
+	height: 64px;
+	width: 64px;
+}
+
+.KeyBoardButton.enter .gwt-Label {
+	padding-top: 23px;	
+}
+/* end numbers */
+
+/* ### End onScreenKeyboard ### */
 
 /*.InputPanel input.TextField {
     display:block;

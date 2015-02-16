@@ -303,4 +303,8 @@ public interface GuiResources extends ClientBundle {
 
 	@Source("icons/png/web/decoration_icons/decoration_axes_arrows_filled.png")
 	ImageResource deco_axes_arrows_filled();
+
+	// ONSCREENKEYBOARD
+	@Source("geogebra/web/gui/images/view_close.png")
+	ImageResource keyboard_close();
 }
