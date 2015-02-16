@@ -138,7 +138,7 @@ public class ContextMenuGraphicsWindowW extends ContextMenuGeoElementW
 		app.setStandardView();
 	}
 
-	protected void setViewShowAllObject() {
+	public void setViewShowAllObject() {
 		app.setViewShowAllObjects();
 	}
 

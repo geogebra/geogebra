@@ -51,6 +51,17 @@ public class ContextMenuGraphicsWindow3DW extends ContextMenuGraphicsWindowW {
 		miStandardView.addStyleName("mi_no_image");
 		wrappedPopup.addItem(miStandardView);
 
+		MenuItem miShowAllObjectsView = new MenuItem(
+		        app.getPlain("ShowAllObjects"), new Command() {
+
+			        public void execute() {
+				        setViewShowAllObject();
+			        }
+
+		        });
+		miShowAllObjectsView.addStyleName("mi_no_image");
+		wrappedPopup.addItem(miShowAllObjectsView);
+
 		addMiProperties("GraphicsView3D");
 	}
 
