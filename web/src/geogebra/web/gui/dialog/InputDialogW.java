@@ -211,10 +211,13 @@ public class InputDialogW extends InputDialog implements ClickHandler,
 			app.getDialogManager().showPropertiesDialog(OptionType.OBJECTS,
 			        tempArrayList);
 		} else if (source == btCancel) {
-			setVisible(false);
+			cancel();
 		}
 	}
 
+	protected void cancel() {
+		setVisible(false);
+	}
 	public void setVisible(boolean visible) {
 		
 		inputPanel.setVisible(visible);		
