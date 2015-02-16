@@ -70,7 +70,7 @@ class HelpMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		if (helpAction == null) {
-			helpAction = new HelpAction(app, app.getImageIcon("help.png"),
+			helpAction = new HelpAction(app, app.getMenuIcon("help.png"),
 					app.getMenu("Manual"), App.WIKI_MANUAL);
 
 			tutorialAction = new HelpAction(app, null,
@@ -88,7 +88,7 @@ class HelpMenuD extends BaseMenu {
 			};
 
 			forumAction = new AbstractAction(app.getMenu("GeoGebraForum"),
-					app.getImageIcon("forum.gif")) {
+					app.getMenuIcon("forum.gif")) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {
@@ -98,7 +98,7 @@ class HelpMenuD extends BaseMenu {
 			};
 
 			infoAction = new AbstractAction(app.getMenu("AboutLicense"),
-					app.getImageIcon("info.gif")) {
+					app.getMenuIcon("info.gif")) {
 				private static final long serialVersionUID = 1L;
 
 				public void actionPerformed(ActionEvent e) {

@@ -1971,13 +1971,23 @@ public class AppD extends App implements KeyEventDispatcher {
 		ImageIcon icon = imageManager.getImageIcon(
 				getMenuIconPath() + filename,
 				borderColor);
-
-		int iconSize = getScaledIconSize();
-
-		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);
-		return new ImageIcon(img);
+		return scaleIcon(icon);
 	}
 
+	private ImageIcon scaleIcon(ImageIcon icon) {
+		if (icon == null) {
+			return null;
+		}
+		int iconSize = getScaledIconSize();
+		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);
+		return new ImageIcon(img);
+
+	}
+	public Image getScaledInternalImage(String fileName) {
+		MyImageD img = imageManager.getInternalImage(fileName);
+		int iconSize = getScaledIconSize();
+		return img.getImage().getScaledInstance(iconSize, iconSize, 0);
+	}
 	/**
 	 * Attempt to return a flag to represent the current language
 	 * 
@@ -2009,6 +2019,13 @@ public class AppD extends App implements KeyEventDispatcher {
 				null);
 	}
 
+	public ImageIcon getScaledFlagIcon(String filename) {
+		ImageIcon icon = getFlagIcon(filename);
+		if (isMacOS()) {
+			return icon;
+		}
+		return scaleIcon(icon);
+	}
 	public ImageIcon getToolBarImage(String filename, Color borderColor) {
 		String path = getToolbarIconPath() + filename;
 		ImageIcon icon = imageManager.getImageIcon(path, borderColor);
@@ -2048,8 +2065,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	public Image getRefreshViewImage() {
 		// don't need to load gui jar as reset image is in main jar
-		return imageManager.getInternalImage("/main/view-refresh.png")
-				.getImage();
+		return getMenuInternalImage("/gui/images/menu-icons/40px/view-refresh.png");
 	}
 
 	public Image getPlayImage() {
@@ -5293,5 +5309,14 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		return getScaledIcon(name);
+	}
+
+	public Image getMenuInternalImage(String name) {
+		if (isMacOS()) {
+			// no scaling for mac menu
+			return getInternalImage(name);
+		}
+
+		return getScaledInternalImage(name);
 	}
 }

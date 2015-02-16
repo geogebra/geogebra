@@ -90,7 +90,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 				flagIcon = flag;
 			} else {
 				App.debug("using flag: " + flagName);
-				flagIcon = app.getFlagIcon(flagName);
+				flagIcon = app.getScaledFlagIcon(flagName);
 
 			}
 
@@ -257,7 +257,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 		// display the options dialog
 		showOptionsAction = new AbstractAction(
 				app.getMenu("Advanced") + " ...",
-				app.getImageIcon("view-properties16.png")) {
+				app.getMenuIcon("view-properties16.png")) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
@@ -270,7 +270,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 		if (!app.isApplet()) {
 			// save settings
 			saveSettings = new AbstractAction(app.getMenu("Settings.Save"),
-					app.getImageIcon("document-save.png")) {
+					app.getMenuIcon("document-save.png")) {
 				@SuppressWarnings("hiding")
 				public static final long serialVersionUID = 1L;
 

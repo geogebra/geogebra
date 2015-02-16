@@ -67,7 +67,7 @@ class ToolsMenuD extends BaseMenu {
 
 		showCreateToolsAction = new AbstractAction(
 				app.getMenu("Tool.CreateNew") + " ...",
-				app.getImageIcon("tool.png")) {
+				app.getMenuIcon("tool.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -77,7 +77,7 @@ class ToolsMenuD extends BaseMenu {
 		};
 
 		showManageToolsAction = new AbstractAction(app.getMenu("Tool.Manage")
-				+ " ...", app.getImageIcon("document-properties.png")) {
+				+ " ...", app.getMenuIcon("document-properties.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

@@ -127,6 +127,12 @@ public class ImageManagerD extends ImageManager {
 		return img;
 	}
 
+	public MyImageD getScaledInternalImage(String fileName) {
+		MyImageD img = getInternalImage(fileName);
+		
+		return img;
+	}
+
 	public void addExternalImage(String fileName, MyImageD img) {
 		if (fileName != null && img != null) {
 			App.debug("storing " + fileName + " " + img.isSVG());
