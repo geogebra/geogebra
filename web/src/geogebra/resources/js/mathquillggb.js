@@ -1440,12 +1440,30 @@ var MathBlock = P(MathElement, function(_) {
   _.write = function(cursor, ch, replacedFragment) {
     var cmd;
     //if (ch.match(/^[a-eg-zA-Z]$/)) //exclude f because want florin
-    if (ch.match(/^[a-zA-Z]$/)) //GeoGebra probably doesn't want florin
+    if (ch.match(/^[a-zA-Z]$/)) {//GeoGebra probably doesn't want florin
       cmd = Variable(ch);
-    else if (cmd = CharCmds[ch] || LatexCmds[ch])
+    } else if (cmd = CharCmds[ch] || LatexCmds[ch]) {
+      // Now there may be some exceptions like subscript
+      // entered after a subscript, etc. SupSub
+      if (cursor.parent) {
+        if (cursor.parent.parent) {
+          if (cursor.parent.parent instanceof SupSub) {
+            if (ch === '_' || ch === '^') {
+              // in this case, do not write anything but return
+              return;
+            } else {
+              // if cmd is BinaryOperator, then move out of SupSub
+              // TODO
+            }
+          }
+        }
+      }
+
+      // old code
       cmd = cmd(ch);
-    else
+    } else {
       cmd = VanillaSymbol(ch);
+    }
 
     if (replacedFragment) cmd.replaces(replacedFragment);
 
