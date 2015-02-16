@@ -917,8 +917,9 @@ public class PlotterSurface {
 	 * @param extent
 	 * @param height
 	 * @param fading
+	 * @return center of the bottom
 	 */
-	public void cone(Coords center, Coords vx, Coords vy, Coords vz,
+	public Coords cone(Coords center, Coords vx, Coords vy, Coords vz,
 			double radius, double start, double extent, double height,
 			float fading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
@@ -966,6 +967,8 @@ public class PlotterSurface {
 		}
 
 		manager.endGeometry();
+		
+		return center2;
 
 	}
 
@@ -1039,7 +1042,7 @@ public class PlotterSurface {
 
 	}
 
-	public void cylinder(Coords center, Coords vx, Coords vy, Coords vz,
+	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
 			double radius, double start, double extent, double min, double max,
 			boolean minFading, boolean maxFading) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
@@ -1091,6 +1094,8 @@ public class PlotterSurface {
 		}
 
 		manager.endGeometry();
+		
+		return center2;
 
 	}
 
