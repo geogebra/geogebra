@@ -189,7 +189,6 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 				// TODO: find problem
 			}
 		}
-
 	}
 
 	private void applyTextColor(ArrayList<GeoElement> geos) {
@@ -270,9 +269,19 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		return new MyToggleButton[] { btnBold, btnItalic, btnUseAsText };
 	}
 
+	public void reinit() {
+		initGUI();
+	}
 	private void initGUI() {
 
 		removeAll();
+
+		ImageIcon kbdIcon = app.getScaledIcon("cas-keyboard.png");
+
+		iconHeight = kbdIcon.getIconHeight();
+		iconDimension = new Dimension(iconHeight, iconHeight);
+		btnShowKeyboard = new MyToggleButton(
+kbdIcon, iconHeight);
 
 		createTextButtons();
 
@@ -281,8 +290,6 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 		add(btnBold);
 		add(btnItalic);
 
-		btnShowKeyboard = new MyToggleButton(
-				app.getImageIcon("cas-keyboard.png"), iconHeight);
 		btnShowKeyboard.addActionListener(this);
 		add(btnShowKeyboard);
 		// add(btnTextSize); //TODO: Fix text size
@@ -320,9 +327,10 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 
 		// ========================
 		// text color button
-		final Dimension textColorIconSize = new Dimension(20, iconHeight);
+		final Dimension textColoriconHeight = new Dimension(iconHeight,
+				iconHeight);
 
-		btnTextColor = new ColorPopupMenuButton(app, textColorIconSize,
+		btnTextColor = new ColorPopupMenuButton(app, textColoriconHeight,
 				ColorPopupMenuButton.COLORSET_DEFAULT, false) {
 
 			private static final long serialVersionUID = 1L;
@@ -360,7 +368,7 @@ public class CASStyleBar extends JToolBar implements ActionListener {
 			@Override
 			public ImageIcon getButtonIcon() {
 				return GeoGebraIcon.createTextSymbolIcon("A",
-						app.getPlainFont(), textColorIconSize,
+						app.getPlainFont(), textColoriconHeight,
 						geogebra.awt.GColorD.getAwtColor(getSelectedColor()),
 						null);
 			}
