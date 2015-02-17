@@ -2790,6 +2790,7 @@ __GGB__keysVar.hu.plain = {
     "UploadPrepare": "Felt\xf6lt\xe9s el\u0151k\xe9sz\xedt\xe9se",
     "UseClipping": "V\xe1g\xe1s haszn\xe1lata",
     "UseJavaFontsForLaTeX": "Java fontok haszn\xe1lata Latex sz\xf6vegben",
+    "UseLighting": "Use Lighting",
     "Value": "\xc9rt\xe9k",
     "ValueOfA": "%0 \xe9rt\xe9ke",
     "ValuesOfA": "%0 \xe9rt\xe9kei",

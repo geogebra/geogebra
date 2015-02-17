@@ -2790,6 +2790,7 @@ __GGB__keysVar.sk.plain = {
     "UploadPrepare": "Pr\xedprava odosielania",
     "UseClipping": "Pou\u017ei\u0165 box",
     "UseJavaFontsForLaTeX": "Pou\u017ei\u0165 Java fonty pre LaTeX texty",
+    "UseLighting": "Use Lighting",
     "Value": "Hodnota",
     "ValueOfA": "Hodnota %0",
     "ValuesOfA": "Hodnoty %0",

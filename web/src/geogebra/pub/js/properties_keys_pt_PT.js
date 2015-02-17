@@ -2790,6 +2790,7 @@ __GGB__keysVar.pt_PT.plain = {
     "UploadPrepare": "A preparar o Upload",
     "UseClipping": "Utilizar Recorte",
     "UseJavaFontsForLaTeX": "Utilizar as fontes Java para texto LaTexX",
+    "UseLighting": "Use Lighting",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",
     "ValuesOfA": "Valores de %0",

@@ -2790,6 +2790,7 @@ __GGB__keysVar.pl.plain = {
     "UploadPrepare": "Przygotowanie do przesy\u0142ania",
     "UseClipping": "U\u017cyj wycinka",
     "UseJavaFontsForLaTeX": "U\u017cyj font\xf3w Java do tekst\xf3w LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Warto\u015b\u0107",
     "ValueOfA": "Warto\u015b\u0107 %0",
     "ValuesOfA": "Warto\u015bci %0",

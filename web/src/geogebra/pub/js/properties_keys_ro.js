@@ -2790,6 +2790,7 @@ __GGB__keysVar.ro.plain = {
     "UploadPrepare": "Preg\u0103tire \xeenc\u0103rcare",
     "UseClipping": "Folosi\u0163i clipping",
     "UseJavaFontsForLaTeX": "Utilizare fonturi Java pentru texte LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Valoare",
     "ValueOfA": "Valoare lui %0",
     "ValuesOfA": "Valorile lui %0",

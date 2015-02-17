@@ -2790,6 +2790,7 @@ __GGB__keysVar.ja.plain = {
     "UploadPrepare": "\u30a2\u30c3\u30d7\u30ed\u30fc\u30c9\u306e\u6e96\u5099",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "LaTeX\u30c6\u30ad\u30b9\u30c8\u306bJava\u30d5\u30a9\u30f3\u30c8\u3092\u4f7f\u7528",
+    "UseLighting": "Use Lighting",
     "Value": "\u5024",
     "ValueOfA": "%0 \u306e\u5024",
     "ValuesOfA": "%0\u306e\u5024",

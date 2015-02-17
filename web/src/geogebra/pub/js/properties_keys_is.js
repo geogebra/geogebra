@@ -2790,6 +2790,7 @@ __GGB__keysVar.is.plain = {
     "UploadPrepare": "Undirb\xfaa upphal",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Nota Java fonta fyrir Latex texta",
+    "UseLighting": "Use Lighting",
     "Value": "Gildi",
     "ValueOfA": "Gildi %0",
     "ValuesOfA": "Gildi %0",

@@ -2790,6 +2790,7 @@ __GGB__keysVar.ta.plain = {
     "UploadPrepare": "Preparing Upload",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Use Java fonts for LaTeX texts",
+    "UseLighting": "Use Lighting",
     "Value": "\u0baa\u0bc6\u0bb1\u0bc1\u0bae\u0ba4\u0bbf",
     "ValueOfA": "Value of %0",
     "ValuesOfA": "Values of %0",

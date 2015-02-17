@@ -2790,6 +2790,7 @@ __GGB__keysVar.sq.plain = {
     "UploadPrepare": "Pergatitje per Ngarkim",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Perdor Java lloj-shkrimi per tekste LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Vlere",
     "ValueOfA": "Vlera e %0",
     "ValuesOfA": "Vlera e %0",

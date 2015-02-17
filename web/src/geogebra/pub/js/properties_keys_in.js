@@ -2790,6 +2790,7 @@ __GGB__keysVar.in.plain = {
     "UploadPrepare": "Persiapan Unggah",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Gunakan font Java untuk teks LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Nilai",
     "ValueOfA": "Nilai dari %0",
     "ValuesOfA": "Nilai dari %0",

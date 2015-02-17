@@ -2790,6 +2790,7 @@ __GGB__keysVar.eu.plain = {
     "UploadPrepare": "Transferentzia Prestatzen",
     "UseClipping": "Erabili laburdura",
     "UseJavaFontsForLaTeX": "Erabili Java letra-tipoa LaTeX testuetarako",
+    "UseLighting": "Use Lighting",
     "Value": "Balioa",
     "ValueOfA": "%0-ren balioa",
     "ValuesOfA": "%0-ren balioak",

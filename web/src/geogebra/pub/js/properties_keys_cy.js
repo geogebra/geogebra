@@ -2790,6 +2790,7 @@ __GGB__keysVar.cy.plain = {
     "UploadPrepare": "Paratoi Llwytho",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Defnyddio arddull Java ar gyfer testynnau LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Gwerth",
     "ValueOfA": "Value of %0",
     "ValuesOfA": "Values of %0",

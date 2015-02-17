@@ -2790,6 +2790,7 @@ __GGB__keysVar.lv.plain = {
     "UploadPrepare": "Sagatavo aug\u0161upiel\u0101d\u0113t",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Lieot Java fontus LaTeX tekstam",
+    "UseLighting": "Use Lighting",
     "Value": "V\u0113rt\u012bba",
     "ValueOfA": "V\u0113rt\u012bba %0",
     "ValuesOfA": "V\u0113rt\u012bbas %0",

@@ -2790,6 +2790,7 @@ __GGB__keysVar.et.plain = {
     "UploadPrepare": "Valmistumine \xfcles laadimiseks",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Kasuta LaTeXi tekstides Java kirjastiile",
+    "UseLighting": "Use Lighting",
     "Value": "V\xe4\xe4rtus",
     "ValueOfA": "%0 v\xe4\xe4rtus",
     "ValuesOfA": "%0 v\xe4\xe4rtused",

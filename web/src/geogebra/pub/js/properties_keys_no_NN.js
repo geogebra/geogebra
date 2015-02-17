@@ -2790,6 +2790,7 @@ __GGB__keysVar.no_NN.plain = {
     "UploadPrepare": "Gjer klart til opplasting",
     "UseClipping": "Bruk klipping",
     "UseJavaFontsForLaTeX": "Bruk Java-fontar for LaTeX-tekstar",
+    "UseLighting": "Use Lighting",
     "Value": "Verdi",
     "ValueOfA": "Verdi av %0",
     "ValuesOfA": "Verdiar av %0",

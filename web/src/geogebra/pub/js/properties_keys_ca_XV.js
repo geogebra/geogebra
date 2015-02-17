@@ -2790,6 +2790,7 @@ __GGB__keysVar.ca_XV.plain = {
     "UploadPrepare": "S'est\xe0 preparant la transfer\xe8ncia",
     "UseClipping": "Restringida a una caixa",
     "UseJavaFontsForLaTeX": "Fes servir les fonts de Java per als textos de LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",
     "ValuesOfA": "Valors de %0",

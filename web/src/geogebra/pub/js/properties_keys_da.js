@@ -2790,6 +2790,7 @@ __GGB__keysVar.da.plain = {
     "UploadPrepare": "Forbered upload",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Brug Java font i LaTex",
+    "UseLighting": "Use Lighting",
     "Value": "V\xe6rdi",
     "ValueOfA": "V\xe6rdi af %0",
     "ValuesOfA": "V\xe6rdier af %0",

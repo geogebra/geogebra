@@ -2790,6 +2790,7 @@ __GGB__keysVar.cs.plain = {
     "UploadPrepare": "P\u0159ipravit nahr\xe1v\xe1n\xed",
     "UseClipping": "Pou\u017e\xedt o\u0159ez pohledu",
     "UseJavaFontsForLaTeX": "Pou\u017e\xedt p\xedsma Javy v LaTeXov\xfdch textech",
+    "UseLighting": "Use Lighting",
     "Value": "Hodnota",
     "ValueOfA": "Hodnota %0",
     "ValuesOfA": "Hodnoty %0",

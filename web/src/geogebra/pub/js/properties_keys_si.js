@@ -2790,6 +2790,7 @@ __GGB__keysVar.si.plain = {
     "UploadPrepare": "Preparing Upload",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Use Java fonts for LaTeX texts",
+    "UseLighting": "Use Lighting",
     "Value": "\u0d85\u0d9c\u0dba",
     "ValueOfA": "Value of %0",
     "ValuesOfA": "Values of %0",

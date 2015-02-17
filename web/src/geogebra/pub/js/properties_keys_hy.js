@@ -2790,6 +2790,7 @@ __GGB__keysVar.hy.plain = {
     "UploadPrepare": "\u0546\u0561\u056d\u0561\u057a\u0561\u057f\u0580\u0561\u057d\u057f\u0565\u0574 \u057e\u0565\u0580\u0562\u0565\u057c\u0576\u0574\u0561\u0576",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "LaTeX \u057f\u0565\u0584\u057d\u057f\u0565\u0580\u0578\u0582\u0574 \u0585\u0563\u057f\u0561\u0563\u0578\u0580\u056e\u0565\u0574 Java \u0586\u0578\u0576\u0564\u0565\u0580",
+    "UseLighting": "Use Lighting",
     "Value": "\u0531\u0580\u056a\u0565\u0584",
     "ValueOfA": "Value of %0",
     "ValuesOfA": "Values of %0",

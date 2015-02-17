@@ -2790,6 +2790,7 @@ __GGB__keysVar.sv.plain = {
     "UploadPrepare": "F\xf6rbereder uppladdning",
     "UseClipping": "Anv\xe4nd begr\xe4nsning",
     "UseJavaFontsForLaTeX": "Anv\xe4nd java-typsnitt f\xf6r texter i LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "V\xe4rde",
     "ValueOfA": "V\xe4rdet av %0",
     "ValuesOfA": "V\xe4rdena av %0",

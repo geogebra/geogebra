@@ -2790,6 +2790,7 @@ __GGB__keysVar.lt.plain = {
     "UploadPrepare": "Ruo\u0161iamas siuntimas",
     "UseClipping": "Naudoti i\u0161karpin\u0119",
     "UseJavaFontsForLaTeX": "Naudoti Java \u0161riftus LaTeX tekstams",
+    "UseLighting": "Use Lighting",
     "Value": "Vert\u0117",
     "ValueOfA": "%0 vert\u0117",
     "ValuesOfA": "%0 vert\u0117s",

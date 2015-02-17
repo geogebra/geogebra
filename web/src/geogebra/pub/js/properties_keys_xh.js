@@ -2790,6 +2790,7 @@ __GGB__keysVar.xh.plain = {
     "UploadPrepare": "Lungisa ukuAplowda",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Use Java fonts for LaTeX texts",
+    "UseLighting": "Use Lighting",
     "Value": "Ixabiso",
     "ValueOfA": "Ixabiso lika %0",
     "ValuesOfA": "Ixabiso lika %0",

@@ -2790,6 +2790,7 @@ __GGB__keysVar.tr.plain = {
     "UploadPrepare": "Y\xfcklemeye haz\u0131rlan\u0131yor",
     "UseClipping": "K\u0131rpmay\u0131 kullan",
     "UseJavaFontsForLaTeX": "LaTeX metinleri i\xe7in Java fontlar\u0131n\u0131 kullan",
+    "UseLighting": "Use Lighting",
     "Value": "De\u011fer",
     "ValueOfA": "%0 De\u011feri",
     "ValuesOfA": "%0 De\u011ferleri",

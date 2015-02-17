@@ -2790,6 +2790,7 @@ __GGB__keysVar.nl_BE.plain = {
     "UploadPrepare": "Upload voorbereiden",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Gebruik Java fonts voor LaTeX teksten",
+    "UseLighting": "Use Lighting",
     "Value": "Waarde",
     "ValueOfA": "Waarde van %0",
     "ValuesOfA": "Waarden van %0",

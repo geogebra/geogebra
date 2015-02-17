@@ -2790,6 +2790,7 @@ __GGB__keysVar.bs.plain = {
     "UploadPrepare": "Priprema u\u010ditavanja",
     "UseClipping": "Koristi isje\u010dke",
     "UseJavaFontsForLaTeX": "Koristite Java font za Latex tekst",
+    "UseLighting": "Use Lighting",
     "Value": "Vrijednost",
     "ValueOfA": "Vrijednost od %0",
     "ValuesOfA": "Vrijednost od %0",

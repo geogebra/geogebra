@@ -2790,6 +2790,7 @@ __GGB__keysVar.fi.plain = {
     "UploadPrepare": "Valmistelee latausta palvelimeen",
     "UseClipping": "K\xe4yt\xe4 rajausta",
     "UseJavaFontsForLaTeX": "K\xe4yt\xe4 Javan fontteja LaTeX-teksteihin",
+    "UseLighting": "Use Lighting",
     "Value": "Arvo",
     "ValueOfA": "Objektin %0 arvo",
     "ValuesOfA": "Objektien %0 arvot",

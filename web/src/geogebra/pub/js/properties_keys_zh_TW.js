@@ -2790,6 +2790,7 @@ __GGB__keysVar.zh_TW.plain = {
     "UploadPrepare": "\u6e96\u5099\u4e0a\u50b3",
     "UseClipping": "\u4f7f\u7528\u88c1\u5207\u529f\u80fd",
     "UseJavaFontsForLaTeX": "LaTeX \u4f7f\u7528 Java \u5b57\u578b",
+    "UseLighting": "Use Lighting",
     "Value": "\u6578\u503c",
     "ValueOfA": "\u6578\u503c %0",
     "ValuesOfA": "%0 \u503c",

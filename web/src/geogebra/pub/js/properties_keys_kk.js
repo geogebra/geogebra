@@ -2790,6 +2790,7 @@ __GGB__keysVar.kk.plain = {
     "UploadPrepare": "\u0416\u04af\u043a\u0442\u0435\u0443\u0434\u0456 \u0434\u0430\u0439\u044b\u043d\u0434\u0430\u0443",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "LaTeX \u043c\u04d9\u0442\u0456\u043d\u0434\u0435\u0440\u0456 \u04af\u0448\u0456\u043d Java \u0444\u043e\u043d\u0442\u0442\u0430\u0440\u044b\u043d \u049b\u043e\u043b\u0434\u0430\u043d\u044b\u04a3\u044b\u0437",
+    "UseLighting": "Use Lighting",
     "Value": "\u0428\u0430\u043c\u0430",
     "ValueOfA": "%0 \u043c\u04d9\u043d\u0456",
     "ValuesOfA": "%0 \u043c\u04d9\u043d\u0434\u0435\u0440\u0456",

@@ -2790,6 +2790,7 @@ __GGB__keysVar.ko.plain = {
     "UploadPrepare": "\uc5c5\ub85c\ub4dc \uc900\ube44",
     "UseClipping": "\ud074\ub9ac\ud551 \uc0ac\uc6a9",
     "UseJavaFontsForLaTeX": "LaTeX \ud14d\uc2a4\ud2b8\uc5d0 \ub300\ud558\uc5ec \uc790\ubc14 \uae00\uaf34\uc744 \uc0ac\uc6a9\ud568",
+    "UseLighting": "Use Lighting",
     "Value": "\uac12",
     "ValueOfA": "%0 \uc758 \uac12",
     "ValuesOfA": "%0 \uc758 \uac12",

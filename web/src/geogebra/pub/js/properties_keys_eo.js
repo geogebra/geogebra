@@ -2790,6 +2790,7 @@ __GGB__keysVar.eo.plain = {
     "UploadPrepare": "Preparing Upload",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "Use Java fonts for LaTeX texts",
+    "UseLighting": "Use Lighting",
     "Value": "Valoro",
     "ValueOfA": "Valoro de %0",
     "ValuesOfA": "Valoroj de %0",

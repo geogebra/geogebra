@@ -2790,6 +2790,7 @@ __GGB__keysVar.ne.plain = {
     "UploadPrepare": "\u0905\u092a\u0932\u094b\u0921\u0915\u094b \u0924\u092f\u093e\u0930\u093f",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "\u0932\u0947\u091f\u0947\u0915\u094d\u0938\u091f \u0905\u0915\u094d\u0937\u0930\u0939\u0930\u0941\u0915\u094b \u0928\u093f\u092e\u094d\u0924\u093f \u091c\u093e\u092d\u093e\u0915\u094b \u092a\u094d\u0930\u092f\u094b\u0917",
+    "UseLighting": "Use Lighting",
     "Value": "\u092e\u093e\u0928",
     "ValueOfA": "Value of %0",
     "ValuesOfA": "Values of %0",

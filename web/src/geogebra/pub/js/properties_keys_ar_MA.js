@@ -2790,6 +2790,7 @@ __GGB__keysVar.ar_MA.plain = {
     "UploadPrepare": "\u0627\u0639\u062f\u0627\u062f \u0627\u0644\u062a\u062d\u0648\u064a\u0644",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "\u0644aTeX\u0641\u064a \u0627\u0644\u0646\u0635 Java\u0627\u0633\u062a\u062e\u062f\u0645 \u062d\u0631\u0648\u0641",
+    "UseLighting": "Use Lighting",
     "Value": "\u0627\u0644\u0642\u064a\u0645\u0629",
     "ValueOfA": "%0 \u0642\u064a\u0645\u0629",
     "ValuesOfA": "%0 \u0642\u064a\u0651\u064b\u0645",

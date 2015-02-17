@@ -2790,6 +2790,7 @@ __GGB__keysVar.es_UY.plain = {
     "UploadPrepare": "Preparaci\xf3n de transferencia",
     "UseClipping": "Uso del recorte",
     "UseJavaFontsForLaTeX": "Usar tipograf\xeda Java para textos LaTeX",
+    "UseLighting": "Fuente de Iluminaci\xf3n",
     "Value": "Valor",
     "ValueOfA": "Valor de %0",
     "ValuesOfA": "Valores de %0",

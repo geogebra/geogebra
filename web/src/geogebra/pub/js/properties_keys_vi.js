@@ -2790,6 +2790,7 @@ __GGB__keysVar.vi.plain = {
     "UploadPrepare": "Chu\u1ea9n b\u1ecb t\u1ea3i l\xean",
     "UseClipping": "Use clipping",
     "UseJavaFontsForLaTeX": "S\u1eed d\u1ee5ng ph\xf4ng ch\u1eef Java cho v\u0103n b\u1ea3n LaTeX",
+    "UseLighting": "Use Lighting",
     "Value": "Gi\xe1 tr\u1ecb",
     "ValueOfA": "Gi\xe1 tr\u1ecb c\u1ee7a %0",
     "ValuesOfA": "Gi\xe1 tr\u1ecb c\u1ee7a %0",

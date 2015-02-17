@@ -2790,6 +2790,7 @@ __GGB__keysVar.hr.plain = {
     "UploadPrepare": "Pripremanje prijenosa",
     "UseClipping": "Koristi kutiju",
     "UseJavaFontsForLaTeX": "Koristi Java fontove za LaTeX tekstove",
+    "UseLighting": "Use Lighting",
     "Value": "Vrijednost",
     "ValueOfA": "Vrijednost od %0",
     "ValuesOfA": "Vrijednosti od %0",
