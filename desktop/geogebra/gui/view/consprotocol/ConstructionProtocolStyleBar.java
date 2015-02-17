@@ -101,7 +101,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		};
 		btnColumns.setKeepVisible(true);
 		btnColumns.setStandardButton(true);  // mouse clicks over total button region
-		btnColumns.setIcon(app.getImageIcon("header_column.png"));
+		btnColumns.setIcon(app.getScaledIcon("header_column.png"));
 		
 		add(btnColumns);
 		
@@ -124,7 +124,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		};
 		btnOptions.setKeepVisible(true);
 		btnOptions.setStandardButton(true);  // mouse clicks over total button region
-		btnOptions.setIcon(app.getImageIcon("document-properties.png"));
+		btnOptions.setIcon(app.getScaledIcon("document-properties.png"));
 		
 		miShowOnlyBreakpoints = new JCheckBoxMenuItem(loc.getPlain("ShowOnlyBreakpoints"));
 		miShowOnlyBreakpoints.setSelected(app.getKernel().getConstruction().showOnlyBreakpoints());
@@ -151,7 +151,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		
 		//export button
 		
-		btnExport = new JButton(app.getImageIcon("text-html.png"));
+		btnExport = new JButton(app.getScaledIcon("text-html.png"));
 		btnExport.setToolTipText(loc.getPlainTooltip("ExportAsWebpage"));
 		btnExport.addActionListener(this);
 		add(btnExport);
@@ -159,7 +159,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		addSeparator();
 
 		//print button
-		btnPrint = new JButton(app.getImageIcon("document-print-preview.png"));
+		btnPrint = new JButton(app.getScaledIcon("document-print-preview.png"));
 		btnPrint.setToolTipText(loc.getPlainTooltip("Print"));
 		btnPrint.addActionListener(this);
 		add(btnPrint);
@@ -167,7 +167,7 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		addSeparator();
 		
 		//Help button
-		btnHelp = new JButton(app.getImageIcon("help.png"));
+		btnHelp = new JButton(app.getScaledIcon("help.png"));
 		//btnHelp.setToolTipText(loc.getPlainTooltip("FastHelp"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -199,6 +199,10 @@ public class ConstructionProtocolStyleBar extends JToolBar implements ActionList
 		miColorfulConstructionProtocol.setText(loc.getPlain("ColorfulConstructionProtocol"));
 	}
 
+	public void reinit() {
+		removeAll();
+		addButtons();
+	}
 	/**
 	 * React to button presses.
 	 */
