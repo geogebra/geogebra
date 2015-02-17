@@ -57,7 +57,7 @@ public class EuclidianControllerInput3DCompanion extends
 	}
 
 	@Override
-	protected void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(boolean repaint, AbstractEvent event) {
 
 		if (((EuclidianControllerInput3D) ec).input3D.currentlyUseMouse2D()) {
 			super.movePoint(repaint, event);
@@ -73,7 +73,8 @@ public class EuclidianControllerInput3DCompanion extends
 			ec.movedGeoPoint.setCoords(coords, true);
 			ec.movedGeoPoint.updateCascade();
 
-			if (ec.movedGeoPoint.isGeoElement3D()
+			if (ec.getMoveMode() == EuclidianController.MOVE_POINT
+					&& ec.movedGeoPoint.isGeoElement3D()
 					&& !ec.movedGeoPoint.hasPath()
 					&& !ec.movedGeoPoint.hasRegion()) {
 				// update point decorations

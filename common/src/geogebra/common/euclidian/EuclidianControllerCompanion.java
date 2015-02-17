@@ -343,7 +343,7 @@ public class EuclidianControllerCompanion {
 				(GeoPoint) p2, (GeoPoint) p3);
 	}
 
-	protected void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(boolean repaint, AbstractEvent event) {
 		ec.movedGeoPoint.setCoords(Kernel.checkDecimalFraction(ec.xRW),
 				Kernel.checkDecimalFraction(ec.yRW), 1.0);
 

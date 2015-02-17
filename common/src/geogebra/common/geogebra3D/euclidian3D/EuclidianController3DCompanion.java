@@ -36,7 +36,7 @@ public class EuclidianController3DCompanion extends
 	private Coords tmpCoords1 = new Coords(4), tmpCoords2 = new Coords(4);
 
 	@Override
-	protected void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(boolean repaint, AbstractEvent event) {
 
 		// Application.debug("movePointMode="+movePointMode);
 
@@ -100,6 +100,7 @@ public class EuclidianController3DCompanion extends
 					Coords o = ((EuclidianController3D) ec).view3D
 							.getPickPoint(ec.mouseLoc);
 					((EuclidianController3D) ec).view3D.toSceneCoords3D(o);
+					((EuclidianController3D) ec).addOffsetForTranslation(o);
 					// GgbVector o =
 					// view3D.getPickFromScenePoint(positionOld,mouseLoc.x-mouseLocOld.x,mouseLoc.y-mouseLocOld.y);
 					// view3D.toSceneCoords3D(o);
@@ -108,15 +109,20 @@ public class EuclidianController3DCompanion extends
 					movedGeoPoint3D.getCoords().projectNearLine(
 							o,
 							((EuclidianController3D) ec).view3D
-									.getViewDirection(), Coords.VZ, tmpCoords1);
+									.getViewDirection(), 
+							((EuclidianController3D) ec)
+									.getNormalTranslateDirection(),
+									tmpCoords1);
 
-					// max z value
-					if (tmpCoords1.getZ() > ((EuclidianController3D) ec).zMinMax[1])
-						tmpCoords1
-								.setZ(((EuclidianController3D) ec).zMinMax[1]);
-					else if (tmpCoords1.getZ() < ((EuclidianController3D) ec).zMinMax[0])
-						tmpCoords1
-								.setZ(((EuclidianController3D) ec).zMinMax[0]);
+					if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+						// max z value
+						if (tmpCoords1.getZ() > ((EuclidianController3D) ec).zMinMax[1])
+							tmpCoords1
+									.setZ(((EuclidianController3D) ec).zMinMax[1]);
+						else if (tmpCoords1.getZ() < ((EuclidianController3D) ec).zMinMax[0])
+							tmpCoords1
+									.setZ(((EuclidianController3D) ec).zMinMax[0]);
+					}
 
 					// capturing points
 					switch (ec.view.getPointCapturingMode()) {
@@ -153,8 +159,10 @@ public class EuclidianController3DCompanion extends
 				}
 
 				// update point decorations
-				((EuclidianController3D) ec).view3D
-						.updatePointDecorations(movedGeoPoint3D);
+				if (ec.getMoveMode() == EuclidianController.MOVE_POINT) {
+					((EuclidianController3D) ec).view3D
+							.updatePointDecorations(movedGeoPoint3D);
+				}
 
 			}
 

@@ -56,7 +56,7 @@ public class EuclidianControllerForPlaneCompanion extends
 	}
 
 	@Override
-	protected void movePoint(boolean repaint, AbstractEvent event) {
+	public void movePoint(boolean repaint, AbstractEvent event) {
 
 		Coords coords = getCoordsFromView(ec.xRW, ec.yRW);
 

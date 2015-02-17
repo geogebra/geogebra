@@ -270,13 +270,11 @@ public class AlgoDispatcher3D extends AlgoDispatcher {
 		return super.copyFreePoint(point, view);
 	}
 
-	@Override
-	public GeoVectorND Vector(String label) {
+	public GeoVectorND Vector3D(String label) {
 		return (GeoVectorND) getManager3D().Vector3D(label, 0, 0, 0);
 	}
 
-	@Override
-	public GeoVectorND Vector() {
+	public GeoVectorND Vector3D() {
 		GeoVector3D v = new GeoVector3D(cons);
 		v.setCoords(0, 0, 0, 0);
 		v.setMode(Kernel.COORD_CARTESIAN_3D);

@@ -22,6 +22,7 @@ import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidianFor3D.EuclidianControllerFor3DCompanion;
 import geogebra.common.geogebra3D.kernel3D.ConstructionDefaults3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoDependentVector3D;
+import geogebra.common.geogebra3D.kernel3D.algos.AlgoDispatcher3D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectCS1D2D.ConfigLinePlane;
 import geogebra.common.geogebra3D.kernel3D.algos.AlgoIntersectPlanes;
@@ -43,6 +44,9 @@ import geogebra.common.kernel.Path;
 import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoElement;
+import geogebra.common.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -319,6 +323,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 		} else
 			o = view3D.getPickPoint(mouseLoc);
 		view3D.toSceneCoords3D(o);
+		addOffsetForTranslation(o);
 
 		// getting new position of the point
 		o.projectPlaneThruVIfPossible(getCurrentPlane(),
@@ -338,6 +343,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 	private Coords tmpCoords = new Coords(4);
 
 	protected boolean checkXYMinMax(Coords v) {
+		
+		if (getMoveMode() != EuclidianController.MOVE_POINT) {
+			return false;
+		}
 
 		boolean changed = false;
 
@@ -379,9 +388,22 @@ public abstract class EuclidianController3D extends EuclidianController {
 		Coords o = view3D.getPickPoint(mouseLoc);
 		view3D.toSceneCoords3D(o);
 
+		addOffsetForTranslation(o);
 		point.setWillingCoords(o);
 
 		point.setWillingDirection(view3D.getViewDirection());
+	}
+
+	/**
+	 * add offset when needed
+	 * 
+	 * @param o
+	 *            coords
+	 */
+	public void addOffsetForTranslation(Coords o) {
+		if (moveMode == MOVE_POINT_WITH_OFFSET) {
+			o.setAdd(o, translationVec3D);
+		}
 	}
 
 	@Override
@@ -3400,15 +3422,46 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	protected void setTranslateStart(GeoElement geo) {
-		super.setTranslateStart(geo);
+	protected void setTranslateStart(GeoElement geo, GeoVectorND vec) {
+		super.setTranslateStart(geo, vec);
 		startPoint3D.set(view3D.getCursor3D().getInhomCoordsInD3());
+		translationVec3D.set(vec.getCoordsInD3());
 		if (geo.isGeoPlane()) {
 			translateDirection = geo.getMainDirection();
 		} else {
 			translateDirection = null;
 		}
 
+	}
+
+	private void setTranslateFromPointStart(GeoElement geo, GeoPointND point) {
+		startPoint3D.set(view3D.getCursor3D().getInhomCoordsInD3());
+		translationVec3D.setSub(point.getInhomCoordsInD3(), startPoint3D);
+		if (geo.isGeoPlane()) {
+			translateDirection = geo.getMainDirection();
+			if (point.isGeoElement3D()) {
+				((GeoPoint3D) point).setMoveMode(GeoPointND.MOVE_MODE_Z);
+			}
+		} else {
+			translateDirection = null;
+			if (point.isGeoElement3D()) {
+				((GeoPoint3D) point)
+						.setMoveMode(GeoPointND.MOVE_MODE_TOOL_DEFAULT);
+			}
+		}
+
+	}
+
+	/**
+	 * 
+	 * @return current normal translation direction
+	 */
+	public Coords getNormalTranslateDirection() {
+		if (translateDirection == null) {
+			return Coords.VZ;
+		}
+
+		return translateDirection;
 	}
 
 	@Override
@@ -3430,6 +3483,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 		} else {
 			tmpCoords.setSub(tmpCoords, P.getInhomCoordsInD3());
 		}
+
+		tmpCoords.setAdd(tmpCoords, translationVec3D);
 
 		if (movedGeoVector.isGeoElement3D()) {
 			((GeoVector3D) movedGeoVector).setCoords(tmpCoords);
@@ -3478,6 +3533,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	final protected void handleMovedElementFree(PointerEventType type) {
 		if (handleMovedElementFreePoint()) {
+			translateDirection = null;
 			return;
 		}
 
@@ -3499,10 +3555,38 @@ public abstract class EuclidianController3D extends EuclidianController {
 	@Override
 	final protected void handleMovedElementDependent() {
 
-		translateableGeos = null;
-		handleMovedElementDependentWithChangeableCoordParentNumbers();
-		handleMovedElementDependentInitMode();
+		if (movedGeoElement.isTranslateable()) {
+			AlgoElement algo = movedGeoElement.getParentAlgorithm();
+			if (algo instanceof AlgoTranslate) {
+				GeoElement[] input = algo.getInput();
+				GeoElement in = input[1];
+				if (in instanceof GeoVectorND) {
+					if (in.isIndependent()) {
+						movedGeoVector = (GeoVectorND) input[1];
+						moveMode = MOVE_VECTOR_NO_GRID;
+						setTranslateStart(movedGeoElement, movedGeoVector);
+					} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint) {
+						AlgoVectorPoint algoVector = (AlgoVectorPoint) in
+								.getParentAlgorithm();
+						moveMode = MOVE_POINT_WITH_OFFSET;
+						setMovedGeoPoint((GeoElement) algoVector.getP());
+						setTranslateFromPointStart(movedGeoElement,
+								movedGeoPoint);
+					}
+				}
 
+			}
+		} else {
+			translateableGeos = null;
+			handleMovedElementDependentWithChangeableCoordParentNumbers();
+			handleMovedElementDependentInitMode();
+		}
+
+	}
+
+	@Override
+	protected void movePointWithOffset(boolean repaint) {
+		companion.movePoint(repaint, null);
 	}
 
 	final protected int addSelectedPolygon3D(Hits hits, int max,
@@ -3879,6 +3963,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		return super.polygon();
 
+	}
+
+	@Override
+	protected GeoVectorND createVectorForTranslation() {
+		return ((AlgoDispatcher3D) getAlgoDispatcher()).Vector3D();
+	}
+
+	@Override
+	protected GeoVectorND createVectorForTranslation(String label) {
+		return ((AlgoDispatcher3D) getAlgoDispatcher()).Vector3D(label);
 	}
 
 }

@@ -426,7 +426,7 @@ public abstract class EuclidianController {
 	private MyButton pressedButton;
 
 	public static final int MOVE_NONE = 101;
-	protected static final int MOVE_POINT = 102;
+	public static final int MOVE_POINT = 102;
 	protected static final int MOVE_LINE = 103;
 	protected static final int MOVE_CONIC = 104;
 	protected static final int MOVE_VECTOR = 105;
@@ -6799,7 +6799,8 @@ public abstract class EuclidianController {
 			AlgoElement algo = movedGeoElement.getParentAlgorithm();
 			if (algo instanceof AlgoTranslate) {
 				GeoElement[] input = algo.getInput();
-				if (input[1].isIndependent() && input[1] instanceof GeoVector) {
+				if ((input[1].isIndependent() || input[1].getParentAlgorithm() instanceof AlgoVectorPoint)
+						&& input[1] instanceof GeoVectorND) {
 					vec = (GeoVector) input[1];
 				}
 			}
@@ -8090,7 +8091,7 @@ public abstract class EuclidianController {
 				AlgoVector newVecAlgo = new AlgoVector(
 						kernel.getConstruction(), null, (GeoPointND) pp[0],
 						(GeoPointND) qq[0]);
-				setTranslateStart(topHit);
+				setTranslateStart(topHit, vec);
 
 				// make sure vector looks the same when translated
 				pp[0].setEuclidianVisible(p.isEuclidianVisible());
@@ -8130,14 +8131,14 @@ public abstract class EuclidianController {
 			if (topHit instanceof GeoPoly) {
 				// for polygons, we need a labelled vector so that all
 				// the vertices move together
-				vec = getAlgoDispatcher().Vector(null);
+				vec = createVectorForTranslation(null);
 				vec.setEuclidianVisible(false);
 				((GeoElement) vec).setAuxiliaryObject(true);
 			} else {
-				vec = getAlgoDispatcher().Vector();
+				vec = createVectorForTranslation();
 			}
 			getAlgoDispatcher().TranslateND(null, topHit, vec);
-			setTranslateStart(topHit);
+			setTranslateStart(topHit, vec);
 
 			app.setMode(EuclidianConstants.MODE_MOVE, ModeSetter.TOOLBAR);
 			movedGeoVector = vec;
@@ -8146,10 +8147,18 @@ public abstract class EuclidianController {
 		}
 	}
 
+	protected GeoVectorND createVectorForTranslation() {
+		return getAlgoDispatcher().Vector();
+	}
+
+	protected GeoVectorND createVectorForTranslation(String label) {
+		return getAlgoDispatcher().Vector(label);
+	}
+
 	/**
 	 * set translate start infos
 	 */
-	protected void setTranslateStart(GeoElement geo) {
+	protected void setTranslateStart(GeoElement geo, GeoVectorND vec) {
 		transformCoordsOffset[0] = xRW;
 		transformCoordsOffset[1] = yRW;
 	}
