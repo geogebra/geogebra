@@ -111,7 +111,16 @@ class HelpMenuD extends BaseMenu {
 
 	@Override
 	public void update() {
-		//
+		if (helpAction == null) {
+			return;
+		}
+		helpAction.putValue(AbstractAction.SMALL_ICON,
+				app.getMenuIcon("help.png"));
+		forumAction.putValue(AbstractAction.SMALL_ICON,
+				app.getMenuIcon("forum.png"));
+		infoAction.putValue(AbstractAction.SMALL_ICON,
+				app.getMenuIcon("info.gif"));
+
 	}
 
 }
