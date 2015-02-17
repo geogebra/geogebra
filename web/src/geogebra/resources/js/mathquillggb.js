@@ -2862,6 +2862,8 @@ LatexCmds.right = P(MathCommand, function(_) {
 var Quotation = P(Bracket, function(_, _super) {
   _.init = function(open, close, ctrlSeq, endSeq) {
     _super.init.call(this, open, close, ctrlSeq, endSeq, 'non-leaf text');
+    this.ctrlSeq = ctrlSeq;
+    this.end = endSeq;
   };
   _.createBlocks = function() {
     var cmd = this,

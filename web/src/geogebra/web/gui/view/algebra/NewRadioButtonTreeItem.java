@@ -376,6 +376,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 */
 	public void setText(String s) {
 		String slatex = historyMap.get(s);
+		App.debug(slatex);
 		if (slatex == null) {
 			slatex = s;
 		}
