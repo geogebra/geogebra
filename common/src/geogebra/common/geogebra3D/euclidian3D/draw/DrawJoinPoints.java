@@ -120,18 +120,19 @@ public abstract class DrawJoinPoints extends Drawable3DCurves implements
 
 		double[] minmax = getDrawMinMax();
 
-		if (Math.abs(minmax[0]) > 1E10)
-			return;
-
-		if (Math.abs(minmax[1]) > 1E10)
-			return;
-
-		if (minmax[0] > minmax[1])
-			return;
-
 		Renderer renderer = getView3D().getRenderer();
-
 		PlotterBrush brush = renderer.getGeometryManager().getBrush();
+
+		if (Math.abs(minmax[0]) > 1E10 || Math.abs(minmax[1]) > 1E10
+				|| minmax[0] > minmax[1]) {
+			// empty geometry
+			brush.start(getReusableGeometryIndex());
+			setGeometryIndex(brush.end());
+			return;
+		}
+
+
+
 		setArrowTypeBefore(brush);
 		brush.start(getReusableGeometryIndex());
 		brush.setThickness(getLineThickness(), (float) getView3D().getScale());
