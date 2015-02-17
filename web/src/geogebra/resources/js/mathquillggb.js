@@ -1440,6 +1440,21 @@ var MathBlock = P(MathElement, function(_) {
   };
   _.write = function(cursor, ch, replacedFragment) {
     var cmd;
+
+    // first of all, if the cursor is after a Style,
+    // and its parent is the root block, move into it,
+    // because the style is that of the root!
+    if (cursor[L]) {
+      if (cursor[L] instanceof Style) {
+        if (cursor.parent === cursor.root) {
+          //var cl = cursor[L];// does not work
+          //cursor.prepareMove().appendTo(cl);
+
+          cursor.moveLeft(); // invisible!
+        }
+      }
+    }
+
     //if (ch.match(/^[a-eg-zA-Z]$/)) //exclude f because want florin
     if (ch.match(/^[a-zA-Z]$/)) {//GeoGebra probably doesn't want florin
       cmd = Variable(ch);
