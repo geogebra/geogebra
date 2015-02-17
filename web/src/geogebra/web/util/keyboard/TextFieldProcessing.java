@@ -84,10 +84,15 @@ public class TextFieldProcessing {
 	public void onEnter() {
 		switch (state) {
 		case autoCompleteTextField:
-			NativeEvent event = Document.get().createKeyUpEvent(false, false,
-			        false, false, 13);
+			NativeEvent event1 = Document.get().createKeyPressEvent(false,
+					false, false, false, 13);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
-			        Event.as(event));
+					Event.as(event1));
+
+			NativeEvent event = Document.get().createKeyUpEvent(false, false,
+					false, false, 13);
+			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
+					Event.as(event));
 			break;
 		case gTextBox:
 			NativeEvent event2 = Document.get().createKeyDownEvent(false,
@@ -239,8 +244,7 @@ public class TextFieldProcessing {
 				if (((RadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
-				((RadioButtonTreeItem) field).keypress(94, false, false,
-						false);
+				((RadioButtonTreeItem) field).keypress(94, false, false, false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((RadioButtonTreeItem) field)
 						.insertString(Unicode.EULER_STRING);

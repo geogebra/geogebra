@@ -32,7 +32,9 @@ public class KeyEvent extends geogebra.common.euclidian.event.KeyEvent {
 	@Override
 	public boolean isEnterKey() {
 		return event.getNativeEvent().getKeyCode() == 13
-		        || event.getNativeEvent().getKeyCode() == 10;
+				|| event.getNativeEvent().getKeyCode() == 10
+				|| (event.getNativeEvent().getKeyCode() == 0 && event
+						.getNativeEvent().getCharCode() == 13);
 	}
 
 	@Override
