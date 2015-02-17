@@ -4767,6 +4767,7 @@ body.zoomedBody .geogebraweb-table-spreadsheet td {
 	opacity: 0.8;
 	left: 115px;
 	top: 85px;
+	float:left;
 }
 
 .syncDecoration {
