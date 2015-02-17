@@ -1971,8 +1971,7 @@ public class MyTableD extends JTable implements FocusListener, MyTable {
 	}
 
 	public boolean allowSpecialEditor() {
-		// TODO Auto-generated method stub
-		return false;
+		return view.allowSpecialEditor();
 	}
 
 	@Override
