@@ -31,13 +31,14 @@ public abstract class Transform {
 		if (geo.isGeoFunction()) {
 			if (geo.isLabelSet() && !geo.hasIndexLabel())
 				return geo.getFreeLabel(geo
-						.getLabel(StringTemplate.defaultTemplate));
+						.getLabel(StringTemplate.defaultTemplateLocal));
 			return null;
 		}
 
 		if (geo.isLabelSet() && !geo.hasIndexLabel()
 				&& !geo.getLabelSimple().endsWith("'''")) {
-			return geo.getFreeLabel(geo.getLabelSimple() + "'");
+			return geo.getFreeLabel(geo
+					.getLabel(StringTemplate.defaultTemplateLocal) + "'");
 		}
 		return null;
 	}

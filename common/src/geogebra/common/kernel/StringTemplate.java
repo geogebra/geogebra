@@ -77,6 +77,16 @@ public class StringTemplate implements ExpressionNodeConstants {
 			"defaultTemplate");
 
 	/**
+	 * GeoGebra string type, use local
+	 */
+	public static final StringTemplate defaultTemplateLocal = new StringTemplate(
+			"defaultTemplateLocal");
+
+	static {
+		defaultTemplateLocal.localizeCmds = true;
+	}
+
+	/**
 	 * Template which prints original construction's labels
 	 */
 	public static final StringTemplate realTemplate = new StringTemplate(
