@@ -607,6 +607,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 	}
 
+	public boolean blockBlurSensible() {
+		return !newCreationMode
+		        && (!LaTeX || (geo.isGeoVector() && geo.isIndependent()));
+	}
+
 	public void startEditing() {
 		thisIsEdited = true;
 		if (newCreationMode) {
@@ -705,7 +710,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	@Override
     public void stopEditing(String newValue0) {
 
-		if (blockBlur) {
+		if (blockBlur && blockBlurSensible()) {
 			return;
 		}
 
