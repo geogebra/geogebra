@@ -80,7 +80,7 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 */
 	protected void addButtons() {
 
-		toggleAuxiliary = new JButton(app.getImageIcon("auxiliary.png"));
+		toggleAuxiliary = new JButton(app.getScaledIcon("auxiliary.png"));
 		toggleAuxiliary.setFocusPainted(false);
 		toggleAuxiliary.addActionListener(this);
 		add(toggleAuxiliary);
@@ -93,16 +93,22 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode.setKeepVisible(true);
 		toggleTypeTreeMode.setStandardButton(true); // mouse clicks over total
 													// button region
-		toggleTypeTreeMode.setIcon(app.getImageIcon("tree.png"));
+		toggleTypeTreeMode.setIcon(app.getScaledIcon("tree.png"));
 
 		add(toggleTypeTreeMode);
 
 	}
 
-	/**
-	 * Update the states of the tool bar buttons.
-	 */
+	public void update() {
+		// toggleAuxiliary.setIcon(app.getScaledIcon("auxiliary.png"));
+		// toggleTypeTreeMode.setIcon(app.getScaledIcon("tree.png"));
+		removeAll();
+		addButtons();
+		updateLabels();
+	}
+
 	public void updateStates() {
+
 		toggleAuxiliary.setSelected(app.showAuxiliaryObjects());
 		//toggleTypeTreeMode.setSelected(algebraView.getTreeMode().equals(SortMode.TYPE));
 		// toggleLaTeX.setSelected(!algebraView.isRenderLaTeX());

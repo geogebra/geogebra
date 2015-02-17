@@ -244,7 +244,7 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		editor.setFont(font);
 		editTF.setFont(font);
 		if (helperBar != null) {
-			helperBar.updateLabels();
+			helperBar.update();
 		}
 		renderer.update();
 	}
