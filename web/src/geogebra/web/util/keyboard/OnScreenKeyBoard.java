@@ -449,25 +449,23 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first line
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton(Unicode.alpha + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.beta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.gamma + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.delta + "", this);
+		KeyBoardButton newButton = new KeyBoardButton(Unicode.sigmaf + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.epsilon + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.zeta + "", this);
+		newButton = new KeyBoardButton(Unicode.rho + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.eta + "", this);
+		newButton = new KeyBoardButton(Unicode.tau + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.upsilon + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.theta + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.kappa + "", this);
+		newButton = new KeyBoardButton(Unicode.iota + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.lambda + "", this);
+		newButton = new KeyBoardButton(Unicode.omicron + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.pi + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(BACKSPACE, this);
 		newButton.addStyleName("colored");
@@ -475,23 +473,23 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton(Unicode.mu + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.xi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.rho + "", this);
+		newButton = new KeyBoardButton(Unicode.alpha + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.sigma + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.tau + "", this);
+		newButton = new KeyBoardButton(Unicode.delta + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.phi + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.phi_symbol + "", this);
+		newButton = new KeyBoardButton(Unicode.gamma + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.chi + "", this);
+		newButton = new KeyBoardButton(Unicode.eta + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.psi + "", this);
+		newButton = new KeyBoardButton(Unicode.xi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.kappa + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.lambda + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ENTER, this);
 		newButton.addStyleName("colored");
@@ -504,21 +502,19 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		newButton.addStyleName("colored");
 		newButton.addStyleName("shift");
 		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.zeta + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.chi + "", this);
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.psi + "", this);
+		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.omega + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Gamma + "", this);
+		newButton = new KeyBoardButton(Unicode.beta + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Delta + "", this);
+		newButton = new KeyBoardButton(Unicode.nu + "", this);
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Theta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Pi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Sigma + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Phi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Omega + "", this);
+		newButton = new KeyBoardButton(Unicode.mu + "", this);
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(SHIFT, this);
 		newButton.addStyleName("colored");
@@ -604,7 +600,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			for (int i = 0; i < row.getWidgetCount(); i++) {
 				if (row.getWidget(i) instanceof KeyBoardButton) {
 					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
-					if (b.getCaption().length() == 1
+					if (b.getCaption().charAt(0) == Unicode.sigmaf) {
+						b.setVisible(true);
+					} else if (b.getCaption().length() == 1
 					        && Character.isLetter(b.getCaption().charAt(0))) {
 						b.setCaption(b.getCaption().toLowerCase(), true);
 					}
@@ -620,7 +618,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
 					if (b.getCaption().length() == 1
 					        && Character.isLetter(b.getCaption().charAt(0))) {
-						if (Character.isLowerCase(b.getCaption().charAt(0))) {
+						if (b.getCaption().charAt(0) == Unicode.sigmaf) {
+							b.setVisible(!b.isVisible());
+						} else if (Character.isLowerCase(b.getCaption().charAt(
+						        0))) {
 							b.setCaption(b.getCaption().toUpperCase(), true);
 						} else {
 							b.setCaption(b.getCaption().toLowerCase(), true);
