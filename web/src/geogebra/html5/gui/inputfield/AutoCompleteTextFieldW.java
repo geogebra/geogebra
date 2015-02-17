@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyPressEvent;
@@ -73,19 +74,6 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 	public interface InsertHandler {
 		void onInsert(String text);
 	}
-	/**
-	 * code for KeyUpEvent
-	 */
-	private static final int KEY_UP = 0x00200;
-	/**
-	 * code for Enter key
-	 */
-	private static final int ENTER = 13;
-
-	/**
-	 * code for FocusEvent
-	 */
-	private static final int FOCUS = 0x00800;
 
 	private AppW app;
 	private Localization loc;
@@ -208,8 +196,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
-				if (DOM.eventGetType(event) == KEY_UP
-				        && event.getKeyCode() == ENTER) {
+				if ((event.getTypeInt() == Event.ONKEYUP || event.getTypeInt() == Event.ONKEYPRESS)
+						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
 					app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
