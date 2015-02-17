@@ -1444,6 +1444,9 @@ var MathBlock = P(MathElement, function(_) {
     if (ch.match(/^[a-zA-Z]$/)) {//GeoGebra probably doesn't want florin
       cmd = Variable(ch);
     } else if (cmd = CharCmds[ch] || LatexCmds[ch]) {
+      // old code
+      cmd = cmd(ch);
+
       // Now there may be some exceptions like subscript
       // entered after a subscript, etc. SupSub
       if (cursor.parent) {
@@ -1452,16 +1455,24 @@ var MathBlock = P(MathElement, function(_) {
             if (ch === '_' || ch === '^') {
               // in this case, do not write anything but return
               return;
-            } else {
-              // if cmd is BinaryOperator, then move out of SupSub
-              // TODO
+            } else if (cursor.parent.parent.ctrlSeq === '_') {
+              if (cmd instanceof BinaryOperator || ch === '/') {
+            	// this shall move out of this SupSub,
+            	// ignoring replacedFragment...
+                cursor.moveRight();
+                cmd.createBefore(cursor);
+                return;
+              }
+            } else if (ch === '=') {
+              // at least the equal operation should not be
+              // there in powers (exponentiation) either
+              cursor.moveRight();
+              cmd.createBefore(cursor);
+              return;
             }
           }
         }
       }
-
-      // old code
-      cmd = cmd(ch);
     } else {
       cmd = VanillaSymbol(ch);
     }
