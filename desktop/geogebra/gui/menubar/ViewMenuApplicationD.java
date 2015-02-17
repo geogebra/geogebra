@@ -56,7 +56,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 		// show/hide keyboard
 		if (!app.isApplet()) {
 			cbShowKeyboard = new JCheckBoxMenuItem(showKeyboardAction);
-			cbShowKeyboard.setIcon(app.getImageIcon("keyboard.png"));
+			cbShowKeyboard.setIcon(app.getMenuIcon("keyboard.png"));
 			KeyboardSettings kbs = app.getSettings().getKeyboard();
 			if (kbs.isShowKeyboardOnStart()) {
 				cbShowKeyboard.setSelected(true);
@@ -90,7 +90,7 @@ public class ViewMenuApplicationD extends ViewMenuD {
 
 		// display the layout options dialog
 		showLayoutOptionsAction = new AbstractAction(app.getMenu("Layout")
-				+ " ...", app.getImageIcon("view-properties16.png")) {
+				+ " ...", app.getMenuIcon("view-properties16.png")) {
 			@SuppressWarnings("hiding")
 			public static final long serialVersionUID = 1L;
 
