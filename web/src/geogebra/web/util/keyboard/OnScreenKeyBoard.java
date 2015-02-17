@@ -600,7 +600,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			for (int i = 0; i < row.getWidgetCount(); i++) {
 				if (row.getWidget(i) instanceof KeyBoardButton) {
 					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
-					if (b.getCaption().charAt(0) == Unicode.sigmaf) {
+					if (b.getCaption().length() == 1
+					        && b.getCaption().charAt(0) == Unicode.sigmaf) {
 						b.setVisible(true);
 					} else if (b.getCaption().length() == 1
 					        && Character.isLetter(b.getCaption().charAt(0))) {
