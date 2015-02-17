@@ -96,7 +96,7 @@ class WindowMenuD extends BaseMenu {
 	@Override
 	protected void initActions() {
 		newWindowAction = new AbstractAction(app.getMenu("NewWindow"),
-				app.getImageIcon("document-new.png")) {
+				app.getMenuIcon("document-new.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -117,6 +117,9 @@ class WindowMenuD extends BaseMenu {
 	public void update() {
 		UIManager.put("MenuItem.acceleratorFont", app.getPlainFont());
 		initItems();
+		if (newWindowAction != null) {
+			app.getMenuIcon("document-new.png");
+		}
 		GeoGebraMenuBar.setMenuFontRecursive(this, app.getPlainFont());
 	}
 
