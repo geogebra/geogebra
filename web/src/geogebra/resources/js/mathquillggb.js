@@ -1522,6 +1522,12 @@ function createRoot(jQ, root, textbox, editable) {
     jQ.addClass('mathquillggb-rendered-math');
   }
 
+  // Node is accessible from almost everywhere inside
+  // MathQuillGGB, as it is defined first, we could use it
+  // but it's not Okay, since there may be more formulas
+  // on the page with different root blocks!
+  //Node.root = root;
+
   root.common = jQ[0];
 
   root.jQ = jQ.attr(mqBlockId, root.id);
@@ -1648,7 +1654,7 @@ function createRoot(jQ, root, textbox, editable) {
     //container: jQ,
     container: textarea,
     key: function(key, evt) {
-      cursor.parent.bubble('onKey', key, evt);
+      cursor.parent.bubble('onKey', cursor, key, evt);
     },
     text: function(text) {
       cursor.parent.bubble('onText', text);
@@ -1752,7 +1758,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
 
     this.cursor.appendTo(this).writeLatex(latex);
   };
-  _.onKey = function(key, e) {
+  _.onKey = function(curs, key, e) {
     switch (key) {
     case 'Ctrl-Shift-Backspace':
     case 'Ctrl-Backspace':
@@ -1887,14 +1893,22 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     case 'F1':
     default:
       if (this.common !== undefined) {
-    	this.common.GeoGebraSuggestionPopupCanShow = true;
+    	if (this.common.forceGeoGebraSuggestionPopupCanShow === true) {
+    	  delete this.common.forceGeoGebraSuggestionPopupCanShow;
+    	} else {
+    	  this.common.GeoGebraSuggestionPopupCanShow = true;
+    	}
       }
       return false;
     }
 
     if (this.common !== undefined) {
       // but note that in case of Up and Down, we should not hide them!
-  	  this.common.GeoGebraSuggestionPopupCanShow = false;
+      if (this.common.forceGeoGebraSuggestionPopupCanShow === true) {
+        delete this.common.forceGeoGebraSuggestionPopupCanShow;
+      } else {
+        this.common.GeoGebraSuggestionPopupCanShow = false;
+      }
   	}
 
     e.preventDefault();
@@ -2104,7 +2118,7 @@ var RootTextBlock = P(MathBlock, function(_) {
       self.finalizeInsert();
     }
   };
-  _.onKey = function(key) {
+  _.onKey = function(curs, key) {
     if (key === 'Spacebar' || key === 'Shift-Spacebar') return;
     RootMathBlock.prototype.onKey.apply(this, arguments);
   };
@@ -2862,8 +2876,7 @@ var Quotation = P(Bracket, function(_, _super) {
   };
 });
 
-// this works, but may go wrong afterwards navigating the cursor!
-//CharCmds['"'] = bind(Quotation, '"', '"', '"', '"');
+CharCmds['"'] = bind(Quotation, '"', '"', '"', '"');
 
 LatexCmds.lbrace =
 CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');
@@ -2981,7 +2994,7 @@ CharCmds['\\'] = P(MathCommand, function(_, _super) {
   _.latex = function() {
     return '\\' + this.ch[L].latex() + ' ';
   };
-  _.onKey = function(key, e) {
+  _.onKey = function(curs, key, e) {
     if (key === 'Tab' || key === 'Enter' || key === 'Spacebar') {
       this.renderCommand();
       e.preventDefault();
@@ -3079,7 +3092,7 @@ LatexCmds.vector = P(MathCommand, function(_, _super) {
   _.createBefore = function(cursor) {
     _super.createBefore.call(this, this.cursor = cursor);
   };
-  _.onKey = function(key, e) {
+  _.onKey = function(curs, key, e) {
     var currentBlock = this.cursor.parent;
 
     if (currentBlock.parent === this) {
@@ -4133,7 +4146,16 @@ var TextBlock = P(Node, function(_, _super) {
     );
   };
 
-  _.onKey = function(key, e) {
+  _.onKey = function(curs, key, e) {
+	// added a "curs" parameter to the onKey method just to get
+	// the root block in this TextBlock (other ways did not succeed)
+	var root = curs.root;
+	if ((root !== undefined) && (root.common !== undefined)) {
+	  // this does not work in itself, probably due to overriding!
+      root.common.GeoGebraSuggestionPopupCanShow = false;
+      // so let's also set an internal "force" property!
+      root.common.forceGeoGebraSuggestionPopupCanShow = true;
+	}
     if (key === 'Spacebar' || key === 'Shift-Spacebar') return false;
   };
   _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this); };
@@ -4200,6 +4222,8 @@ var TextBlock = P(Node, function(_, _super) {
 
   _.focus = MathBlock.prototype.focus;
   _.isEmpty = MathBlock.prototype.isEmpty;
+  _.blur = MathBlock.prototype.blur;
+  _.moveOutOf = MathBlock.prototype.moveOutOf;
 });
 
 /**
