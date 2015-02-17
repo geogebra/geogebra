@@ -4839,7 +4839,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	public void addMenuItem(MenuInterface parentMenu, String filename,
 			String name, boolean asHtml, MenuInterface subMenu) {
 
-		((JMenuItem) subMenu).setIcon(getImageIcon(filename));
+		((JMenuItem) subMenu).setIcon(getMenuIcon(filename));
 		((JMenuItem) subMenu).setText(name);
 		((JMenu) parentMenu).add((JMenuItem) subMenu);
 
