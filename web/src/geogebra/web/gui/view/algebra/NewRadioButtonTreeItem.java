@@ -85,6 +85,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		@Override
 		protected Widget decorateSuggestionList(Widget suggestionList) {
 			scrollable = new ScrollPanel(suggestionList);
+
 			// heuristic
 			scrollable
 			        .getElement()
@@ -95,16 +96,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			// big screen (Window.getClientHeight() / 2) is not a problem
 			// and on small screens it may also be necessary
 
-			// we do not set max-width but allow it to display and set
-			// overflow-x hidden, because overflow-x auto does not work well
-
-			// TODO: in the future we might want to add max-width and set
-			// both overflow-x and overflow-y to auto (i.e. remove them)!
-			scrollable.getElement().getStyle()
-			        .setProperty("overflowX", "hidden");
-			scrollable.getElement().getStyle().setProperty("overflowY", "auto");
-			// moving these to web-styles.css is not easy as GWT uses
-			// element.style, which overrides the CSS unless we set it as here
+			// in the future we might want to add max-width and remove
+			// both overflow-x and overflow-y from
+			// ggb-AlgebraViewSuggestionList,
+			// at the same time as implementing this behaviour in a different
+			// way, but only if there will be a bug report about a too long
+			// GeoGebra command syntax help suggestion string
+			scrollable.addStyleName("ggb-AlgebraViewSuggestionList");
 
 			return scrollable;
 		}

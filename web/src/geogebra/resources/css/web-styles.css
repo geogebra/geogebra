@@ -3679,6 +3679,11 @@ body.application[dir=rtl] .GChecBoxMenuItem .gwt-HTML {
 	z-index: 600;
 }
 
+.ggb-AlgebraViewSuggestionList {
+	overflow-x: hidden !important;
+	overflow-y: auto !important;
+}
+
 /*#################################################################
 	PROPERTIES
 ###################################################################*/
