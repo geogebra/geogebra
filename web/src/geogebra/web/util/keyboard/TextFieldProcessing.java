@@ -4,6 +4,7 @@ import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
+import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -24,7 +25,7 @@ public class TextFieldProcessing {
 	private State state = State.empty;
 
 	private enum State {
-		empty, autoCompleteTextField, gTextBox, radioButtonTreeItem, other;
+		empty, autoCompleteTextField, gTextBox, radioButtonTreeItem, newRadioButtonTreeItem, other;
 	}
 
 	public void setField(Widget field) {
@@ -36,6 +37,8 @@ public class TextFieldProcessing {
 		} else if (field instanceof GTextBox) {
 			state = State.gTextBox;
 		} else if (field instanceof NewRadioButtonTreeItem) {
+			state = State.newRadioButtonTreeItem;
+		} else if (field instanceof RadioButtonTreeItem) {
 			state = State.radioButtonTreeItem;
 		} else {
 			state = State.other;
@@ -57,7 +60,8 @@ public class TextFieldProcessing {
 			((GTextBox) field).setFocus(focus);
 			break;
 		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).setFocus(true);
+		case newRadioButtonTreeItem:
+			((RadioButtonTreeItem) field).setFocus(true);
 			break;
 		}
 	}
@@ -91,9 +95,14 @@ public class TextFieldProcessing {
 			((GTextBox) field).onBrowserEvent(Event.as(event2));
 			break;
 		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).keyup(13, false, false, false);
+		case newRadioButtonTreeItem:
+			((RadioButtonTreeItem) field).keyup(13, false, false, false);
 			break;
 		}
+	}
+
+	public boolean resetAfterEnter() {
+		return state == State.radioButtonTreeItem;
 	}
 
 	/**
@@ -124,7 +133,8 @@ public class TextFieldProcessing {
 			}
 			break;
 		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).keydown(8, false, false, false);
+		case newRadioButtonTreeItem:
+			((RadioButtonTreeItem) field).keydown(8, false, false, false);
 			break;
 		}
 	}
@@ -141,7 +151,8 @@ public class TextFieldProcessing {
 			insertString(" ");
 			break;
 		case radioButtonTreeItem:
-			((NewRadioButtonTreeItem) field).keypress(32, false, false, false);
+		case newRadioButtonTreeItem:
+			((RadioButtonTreeItem) field).keypress(32, false, false, false);
 			break;
 		}
 	}
@@ -183,13 +194,14 @@ public class TextFieldProcessing {
 			}
 			break;
 		case radioButtonTreeItem:
+		case newRadioButtonTreeItem:
 			switch (type) {
 			case left:
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				((RadioButtonTreeItem) field).keydown(37, false, false,
 						false);
 				break;
 			case right:
-				((NewRadioButtonTreeItem) field).keydown(39, false, false,
+				((RadioButtonTreeItem) field).keydown(39, false, false,
 						false);
 				break;
 			}
@@ -222,41 +234,42 @@ public class TextFieldProcessing {
 			((GTextBox) field).setCursorPos(caretPos + text.length());
 			break;
 		case radioButtonTreeItem:
+		case newRadioButtonTreeItem:
 			if (text.equals("^")) {
-				if (((NewRadioButtonTreeItem) field).getText().length() == 0) {
+				if (((RadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
-				((NewRadioButtonTreeItem) field).keypress(94, false, false,
+				((RadioButtonTreeItem) field).keypress(94, false, false,
 						false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
-				((NewRadioButtonTreeItem) field)
+				((RadioButtonTreeItem) field)
 						.insertString(Unicode.EULER_STRING);
 				// inserts: ^{}
-				((NewRadioButtonTreeItem) field).keypress(94, false, false,
+				((RadioButtonTreeItem) field).keypress(94, false, false,
 						false);
 			} else if (text.equals("sin") || text.equals("cos")
 					|| text.equals("tan") || text.equals("ln")) {
-				((NewRadioButtonTreeItem) field).insertString(text);
+				((RadioButtonTreeItem) field).insertString(text);
 				// inserts: ()
-				((NewRadioButtonTreeItem) field).keypress(40, false, false,
+				((RadioButtonTreeItem) field).keypress(40, false, false,
 						false);
 			} else if (text.equals(Unicode.SQUARE_ROOT)) {
-				((NewRadioButtonTreeItem) field).insertString("\\sqrt{}");
+				((RadioButtonTreeItem) field).insertString("\\sqrt{}");
 				// move one position back (inside the brackets)
-				((NewRadioButtonTreeItem) field).keydown(37, false, false,
+				((RadioButtonTreeItem) field).keydown(37, false, false,
 						false);
 			} else if (text.startsWith("(")) {
-				((NewRadioButtonTreeItem) field).keypress(40, false, false,
+				((RadioButtonTreeItem) field).keypress(40, false, false,
 						false);
 			} else if (text.startsWith("[")) {
-				((NewRadioButtonTreeItem) field).keypress(91, false, false,
+				((RadioButtonTreeItem) field).keypress(91, false, false,
 						false);
 			} else if (text.equals("/")) {
-				((NewRadioButtonTreeItem) field).keypress(47, false, false,
+				((RadioButtonTreeItem) field).keypress(47, false, false,
 						false);
 			} else {
-				((NewRadioButtonTreeItem) field).insertString(text);
-				((NewRadioButtonTreeItem) field).popupSuggestions();
+				((RadioButtonTreeItem) field).insertString(text);
+				((RadioButtonTreeItem) field).popupSuggestions();
 			}
 			break;
 		}

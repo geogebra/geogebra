@@ -135,13 +135,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	public static boolean showSymbolButtonFocused = false;
 
 	private List<String> completions;
-	private StringBuilder curWord;
+	StringBuilder curWord;
 	private int curWordStart;
 	protected AutoCompleteDictionary dict;
 	protected ScrollableSuggestionDisplay sug;
 	protected CompletionsPopup popup;
 	protected ToggleButton showSymbolButton = null;
-	private SymbolTablePopupW tablePopup;
+	SymbolTablePopupW tablePopup;
 	private int historyIndex;
 	private ArrayList<String> history;
 	private HashMap<String, String> historyMap;
@@ -367,11 +367,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		return true;
 	}
 
-	public String getText() {
-		return geogebra.html5.main.DrawEquationWeb
-		        .getActualEditedValue(seMayLatex);
-	}
-
 	/**
 	 * Note that this method should set the text of the MathQuillGGB-editing box
 	 * in MathQuillGGB text() format, not latex()... that's why we should have a
@@ -561,16 +556,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		} else {
 			onBlur(null);
 		}
-	}
-
-	public void insertString(String text) {
-		// even worse
-		// for (int i = 0; i < text.length(); i++)
-		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-		// seMayLatex, "" + text.charAt(i), "", false);
-
-		geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-		        seMayLatex, text, "", false);
 	}
 
 	public void toggleSymbolButton(boolean toggled) {

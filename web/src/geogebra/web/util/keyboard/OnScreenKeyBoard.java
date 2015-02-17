@@ -57,7 +57,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	/**
 	 * listener for updates of the keyboard structure
 	 */
-	private UpdateKeyBoardListener updateKeyBoardListener;
+	UpdateKeyBoardListener updateKeyBoardListener;
 
 	private RadioButtonTreeItem resetComponent;
 
@@ -554,8 +554,16 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			if (text.equals(BACKSPACE)) {
 				processing.onBackSpace();
 			} else if (text.equals(ENTER)) {
+				// make sure enter is processed correctly
+				if (resetComponent != null) {
+					resetComponent.resetBlockBlur();
+					resetComponent = null;
+				}
+
 				processing.onEnter();
-				this.hide();
+				if (processing.resetAfterEnter()) {
+					updateKeyBoardListener.showKeyBoard(false, null);
+				}
 			} else if (text.equals(SPACE)) {
 				processing.onSpace();
 			} else if (text.equals(ARROW_LEFT)) {

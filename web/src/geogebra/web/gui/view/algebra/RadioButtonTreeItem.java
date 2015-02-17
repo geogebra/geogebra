@@ -705,6 +705,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	@Override
     public void stopEditing(String newValue0) {
 
+		if (blockBlur) {
+			return;
+		}
+
 		thisIsEdited = false;
 		av.cancelEditing();
 		
@@ -929,6 +933,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				app.showKeyboard(tb);
 				// update the keyboard, if it is already visible
 				OnScreenKeyBoard.setInstanceTextField(tb);
+				blockBlur = true;
+				OnScreenKeyBoard.setResetComponent(this);
+			} else if (app.isPrerelease()) {
+				app.showKeyboard(this);
+				// update the keyboard, if it is already visible
+				OnScreenKeyBoard.setInstanceTextField(this);
 				blockBlur = true;
 				OnScreenKeyBoard.setResetComponent(this);
 			}
@@ -1200,7 +1210,25 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void resetBlockBlur() {
 		this.blockBlur = false;
-		NativeEvent event = Document.get().createBlurEvent();
-		tb.onBrowserEvent(Event.as(event));
+		if (tb != null) {
+			NativeEvent event = Document.get().createBlurEvent();
+			tb.onBrowserEvent(Event.as(event));
+		}
 	}
+
+	public void insertString(String text) {
+		// even worse
+		// for (int i = 0; i < text.length(); i++)
+		// geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+		// seMayLatex, "" + text.charAt(i), "", false);
+
+		geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
+		        seMayLatex, text, "", false);
+	}
+
+	public String getText() {
+		return geogebra.html5.main.DrawEquationWeb
+				.getActualEditedValue(seMayLatex);
+	}
+
 }
