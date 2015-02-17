@@ -2188,8 +2188,8 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 
 .keyBoardClosePanel {
 	position: absolute;
-	top: 10px;
-	right: 10px;
+	top: 0px;
+	right: 0px;
 	width: 30px;
 	height: 30px;
 	cursor: pointer;
@@ -2222,11 +2222,9 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	margin: 0 auto;
 }
 
-.KeyPanelFunction {
-	padding-right: 20px;
-}
-
-.KeyPanelNum {
+.KeyPanelFunction,
+.KeyPanelNum,
+.KeyPanelControl {
 	padding-right: 20px;
 }
 
@@ -2242,8 +2240,11 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	font-size: 120%;
 	cursor: pointer;
 	border-radius: 5px;
-	width: 50px;
 	background-color: #F8F8F8;
+}
+
+.normal .KeyBoardButton {
+	width: 50px;
 }
 
 .KeyBoardButton:active {
@@ -2254,37 +2255,40 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-color: #AFAFAF;
 }
 
-.KeyBoardButton.functionButtonSwitch {
+.normal .KeyBoardButton.functionButtonSwitch {
 	width: 79px;
 }
 
-.KeyBoardButton.shift {
+.normal .KeyBoardButton.shift {
 	width: 88px;
 }
 
-.KeyBoardButton.space {
+.normal .KeyBoardButton.space {
 	width: 438px;
 }
 
-.KeyBoardButton.long {
+.normal .KeyBoardButton.long {
 	width: 108px;
 }
 
 /* numbers */
-.KeyBoardContentNumbers .KeyBoardButton.long {
+.normal .KeyBoardContentNumbers .KeyBoardButton.long {
 	width: 124px;
 }
 
-.KeyBoardButton.backspace {
+.normal .KeyBoardButton.backspace {
 	width: 64px;
 }
 
-.KeyBoardButton.arrow {
+.normal .KeyBoardButton.arrow {
 	width: 20px;
 }
 
 .KeyBoardButton.enter {
 	height: 64px;
+}
+
+.normal .KeyBoardButton.enter {
 	width: 64px;
 }
 
@@ -2292,6 +2296,112 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	padding-top: 23px;	
 }
 /* end numbers */
+
+
+/* scale */
+
+.scale .KeyPanelRow, 
+.scale .KeyBoardContentNumbers, 
+.scale .KeyPanelControl,
+.scale .KeyPanelLetters,
+.scale .KeyPanelFunction,
+.scale .KeyPanelNum {
+	width: 100%;
+}
+
+.scale .KeyPanelFunction .KeyPanelRow td {
+	width: 20%;
+}
+
+.scale .KeyPanelNum .KeyPanelRow td {
+	width: 25%;
+}
+
+/* enter */
+.scale .KeyPanelLetters tr:nth-child(2) > td td:nth-child(10) {
+	width: 14%;
+}
+
+/* left right arrow */
+.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(4),
+.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(5) {
+	width: 6%;
+}
+
+/* space */
+.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(3) {
+	width: 38%;
+}
+
+/* shift */
+.scale .KeyPanelLetters tr:nth-child(3) > td td:nth-child(1),
+.scale .KeyPanelLetters tr:nth-child(3) > td td:nth-child(10) {
+	width: 11%;
+}
+
+/* 123 */
+.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(1) {
+	width: 11%;
+}
+
+/* greek */
+.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(2) {
+	width: 6%;
+}
+
+/* indent left */
+.scale .KeyPanelLetters tr:nth-child(2) > td > table {
+	padding-left: 2%;
+}
+
+.scale .KeyPanelFunction, .scale .KeyPanelNum {
+	padding-right: 2%;
+}
+
+.scale .KeyPanelControl {
+	padding-right: 0px;
+}
+
+.scale .KeyPanelRow td {
+	width: 8%;
+}
+
+.scale .KeyBoardButton {
+	font-size: 100%;
+	padding-left: 0%;
+	padding-right: 0%;
+}
+
+.scale .KeyBoardContentNumbers>tbody>tr>td {
+ 	width: 50%;
+}
+
+.scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(2) {
+	width: 40%;
+}
+
+.scale .KeyBoardContentNumbers>tbody>tr>td:nth-child(3) {
+	width: 8%;
+}
+
+.scale .keyBoardClosePanel {
+	top: -5px;
+	right: 0px;
+	width: 21px;
+	height: 25px;
+	background-color: #666666;
+	border-bottom-left-radius: 5px;
+	border-bottom-color: #dcdcdc;
+	border-bottom-style: solid;
+	border-bottom-width: 1px;
+	border-left-color: #dcdcdc;
+	border-left-style: solid;
+	border-left-width: 1px;	
+}
+
+.scale .KeyPanelFunction>tbody>tr:nth-child(4) .KeyPanelRow>tbody>tr>td:nth-child(1) {
+	width: 40%;
+}
 
 /* ### End onScreenKeyboard ### */
 

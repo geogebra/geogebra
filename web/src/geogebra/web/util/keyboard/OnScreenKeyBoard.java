@@ -8,6 +8,9 @@ import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -21,6 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private static OnScreenKeyBoard instance;
+	private final int MIN_WIDTH_WITHOUT_SCALING = 823;
 
 	private HorizontalPanel contentNumber = new HorizontalPanel();
 	private FlowPanel contentGreek = new FlowPanel();
@@ -115,6 +119,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		super(true);
 		addStyleName("KeyBoard");
 		createKeyBoard();
+		setStyleName();
 	}
 
 	@Override
@@ -152,6 +157,27 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		p.add(getCloseButton());
 
 		add(p);
+		Window.addResizeHandler(new ResizeHandler() {
+			
+			@Override
+			public void onResize(ResizeEvent event) {
+				setStyleName();
+			}
+		});
+	}
+
+	/**
+	 * adds a specific styleName to the keyboard (if keyboard has to be scaled
+	 * or not)
+	 */
+	void setStyleName() {
+		if (Window.getClientWidth() < MIN_WIDTH_WITHOUT_SCALING) {
+			addStyleName("scale");
+			removeStyleName("normal");
+		} else {
+			addStyleName("normal");
+			removeStyleName("scale");
+		}
 	}
 
 	private SimplePanel getCloseButton() {
@@ -285,6 +311,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private void createControlKeyPanel() {
 		KeyPanel control = new KeyPanel();
+		control.addStyleName("KeyPanelControl");
 
 		int index = 0;
 		KeyBoardButton newButton = new KeyBoardButton(BACKSPACE, this);
