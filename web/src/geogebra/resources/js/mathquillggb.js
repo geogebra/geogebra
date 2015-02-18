@@ -1661,7 +1661,7 @@ function createRoot(jQ, root, textbox, editable) {
       cursor.parent.bubble('onKey', cursor, key, evt);
     },
     text: function(text) {
-      cursor.parent.bubble('onText', text);
+      cursor.parent.bubble('onText', cursor, text);
     },
     cut: function(e) {
       if (cursor.selection) {
@@ -1918,7 +1918,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     e.preventDefault();
     return false;
   };
-  _.onText = function(ch) {
+  _.onText = function(curs, ch) {
 	if (ch === ',') {
       if (this.cursor[R]) {
         if ((this.cursor[R] instanceof VanillaSymbol) && (this.cursor[R].ctrlSeq === ',')) {
@@ -4165,6 +4165,10 @@ var TextBlock = P(Node, function(_, _super) {
       root.common.forceGeoGebraSuggestionPopupCanShow = true;
 	}
     if (key === 'Spacebar' || key === 'Shift-Spacebar') return false;
+  };
+  _.onText = function(curs, ch) {
+    curs.write(ch);
+    return false;
   };
   _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this); };
   _.moveOutOf = function(dir, cursor) { cursor.insertAdjacent(dir, this); };
