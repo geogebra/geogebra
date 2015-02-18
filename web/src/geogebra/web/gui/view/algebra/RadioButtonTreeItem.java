@@ -722,7 +722,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		newValue = newValue.replace(" space", " ");
 		newValue = newValue.replace("space", " ");
 
-		// "" is the " Quotation delimiter returned by MathQuillGGB
+		// \" is the " Quotation delimiter returned by MathQuillGGB
 		// now it's handy that "space" is not in newValue
 		newValue = newValue.replace("\\\"", "space");
 
@@ -820,7 +820,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				// continue;
 				// }
 
-				// let's allow space as well!
+				// let's allow space as well! arguments for space:
+				// pro: this was here, maybe for a reason?
+
+				// contra: in "" mode, it may make things wrong!
+				// in editing mode, there is no "" mode in theory?
+				// but here we must not delete spaces...
+
 				// if (newValue.charAt(i) != ' ') {
 					if (newValue.charAt(i) != '|')
 						sb.append(newValue.charAt(i));

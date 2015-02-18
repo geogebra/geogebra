@@ -4115,12 +4115,9 @@ var TextBlock = P(Node, function(_, _super) {
     });
   };
   _.text = function() {
-	  var escapeTC = this.textContents().replace('"', '\"');
 	  if (this.ctrlSeq == '') {
-		  // Quotation command case, let's use what we need
-		  return escapeTC;
+		  return this.textContents();
 	  }
-	  // TODO: Unknown case, should we use escapeTC here too?
 	  return '"' + this.textContents() + '"';
   };
   _.latex = function() {
