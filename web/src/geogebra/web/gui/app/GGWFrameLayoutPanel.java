@@ -255,8 +255,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	public EuclidianDockPanelW getGGWGraphicsView() {
 		return ggwGraphicView;
 	}
-	
-	
+
 	public DockGlassPaneW getGlassPane() {
 		return glassPane;
 	}

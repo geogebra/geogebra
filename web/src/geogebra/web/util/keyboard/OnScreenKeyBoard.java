@@ -603,7 +603,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 	}
 
-	private void setLettersToLowerCase(KeyPanel keyPanel) {
+	private static void setLettersToLowerCase(KeyPanel keyPanel) {
 		for (HorizontalPanel row : keyPanel.getRows()) {
 			for (int i = 0; i < row.getWidgetCount(); i++) {
 				if (row.getWidget(i) instanceof KeyBoardButton) {
@@ -620,7 +620,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 	}
 
-	private void toggleLettersUpperLowerCase(KeyPanel keyPanel) {
+	private static void toggleLettersUpperLowerCase(KeyPanel keyPanel) {
 		for (HorizontalPanel row : keyPanel.getRows()) {
 			for (int i = 0; i < row.getWidgetCount(); i++) {
 				if (row.getWidget(i) instanceof KeyBoardButton) {

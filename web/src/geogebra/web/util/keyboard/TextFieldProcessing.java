@@ -84,12 +84,17 @@ public class TextFieldProcessing {
 	public void onEnter() {
 		switch (state) {
 		case autoCompleteTextField:
-			NativeEvent event1 = Document.get().createKeyPressEvent(false,
+			NativeEvent event = Document.get().createKeyDownEvent(false, false,
+					false, false, 13);
+			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
+					Event.as(event));
+
+			event = Document.get().createKeyPressEvent(false,
 					false, false, false, 13);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
-					Event.as(event1));
+					Event.as(event));
 
-			NativeEvent event = Document.get().createKeyUpEvent(false, false,
+			event = Document.get().createKeyUpEvent(false, false,
 					false, false, 13);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
