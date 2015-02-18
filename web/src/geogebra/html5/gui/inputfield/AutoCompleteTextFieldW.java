@@ -7,6 +7,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.draw.DrawTextField;
 import geogebra.common.euclidian.event.FocusListener;
 import geogebra.common.euclidian.event.KeyHandler;
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.gui.VirtualKeyboardListener;
 import geogebra.common.gui.inputfield.AltKeys;
 import geogebra.common.gui.inputfield.AutoComplete;
@@ -26,9 +27,12 @@ import geogebra.common.util.Unicode;
 import geogebra.html5.event.KeyEventsHandler;
 import geogebra.html5.event.KeyListenerW;
 import geogebra.html5.gui.util.BasicIcons;
+import geogebra.html5.gui.util.CancelEventTimer;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
+import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -308,6 +312,17 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 		}
 		textField.addValueChangeHandler(this);
 		textField.addSelectionHandler(this);
+
+		ClickStartHandler.init(textField, new ClickStartHandler() {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// set this text field to be edited by the keyboard
+				OnScreenKeyBoard
+						.setInstanceTextField(AutoCompleteTextFieldW.this);
+				// make sure the keyboard is not closed
+				CancelEventTimer.keyboardSetVisible();
+			}
+		});
 
 		init();
 	}
