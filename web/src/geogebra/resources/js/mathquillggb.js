@@ -2859,11 +2859,11 @@ LatexCmds.right = P(MathCommand, function(_) {
   };
 });
 
-var Quotation = CharCmds['"'] = P(Bracket, function(_, _super) {
+var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _super) {
   _.init = function() {
     _super.init.call(this, '"', '"', '"', '"', 'non-leaf text');
-    this.ctrlSeq = '"';
-    this.end = '"';
+    this.ctrlSeq = '\\quotation{';
+    this.end = '}';
     // in GeoGebraWeb, this needs some changes anyway...
     // it will be easier to change " signs inside the text block,
     // and that's why the textTemplate should be distinguished
@@ -2876,8 +2876,7 @@ var Quotation = CharCmds['"'] = P(Bracket, function(_, _super) {
 	blocks = cmd.blocks = Array(numBlocks);
 
     for (var i = 0; i < numBlocks; i += 1) {
-      //var newBlock = blocks[i] = TextBlock();
-      var newBlock = blocks[i] = makeTextBlock('', '', '')();
+      var newBlock = blocks[i] = makeQuotationText()();
 	  newBlock.adopt(cmd, cmd.ch[R], 0);
 	}
   };
@@ -4115,13 +4114,15 @@ var TextBlock = P(Node, function(_, _super) {
     });
   };
   _.text = function() {
-	  if (this.ctrlSeq == '') {
+	  if (this.ctrlSeq == '' || this.ctrlSeq == '\\quotationtext') {
+		  // for quotationtext, text and html mode is this,
+		  // but behold the latex mode...
 		  return this.textContents();
 	  }
 	  return '"' + this.textContents() + '"';
   };
   _.latex = function() {
-	  if (this.ctrlSeq == '\\textsf') {
+	  if (this.ctrlSeq == '\\textsf' || this.ctrlSeq == '\\quotationtext') {
 		  // not clear what other things should be allowed here
 		  return this.ctrlSeq + '{' + this.textContents() + '}';
 	  } else if (this.ctrlSeq == '') {
@@ -4139,7 +4140,7 @@ var TextBlock = P(Node, function(_, _super) {
 				+   this.textContents()
 				+ '</span>'
 		);
-	} else if (this.ctrlSeq == '') {
+	} else if (this.ctrlSeq == '' || this.ctrlSeq == '\\quotationtext') {
 		return this.textContents();
 	}
     return (
@@ -4374,7 +4375,17 @@ function makeTextBlock(latex, tagName, attrs) {
   });
 }
 
+function makeQuotationText() {
+  return P(TextBlock, {
+	ctrlSeq: '',
+	htmlTemplate: ''
+    //ctrlSeq: '\\quotationtext',
+    //htmlTemplate: '&0'
+  });
+}
 
+// hack to make CharCmds['"'] work in GeoGebraWeb history
+//LatexCmds.quotationtext = makeQuotationText();
 
 LatexCmds.sf = LatexCmds.textsf =
   makeTextBlock('\\textsf', 'span', 'class="sans-serif text"');
