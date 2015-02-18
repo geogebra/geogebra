@@ -17,7 +17,7 @@ public class ObjectNameModel extends OptionsModel {
 		void updateDefLabel();
 		void updateCaption();
 		void updateName(final String text);
-	};
+	}
 	
 	private IObjectNameListener listener;
 	private App app;

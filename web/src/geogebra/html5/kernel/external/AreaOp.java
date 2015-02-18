@@ -156,14 +156,14 @@ public abstract class AreaOp {
 		addEdges(edges, left, AreaOp.CTAG_LEFT);
 		addEdges(edges, right, AreaOp.CTAG_RIGHT);
 		edges = pruneEdges(edges);
-		if (false) {
-			System.out.println("result: ");
-			int numcurves = edges.size();
-			Curve[] curvelist = (Curve[]) edges.toArray(new Curve[numcurves]);
-			for (int i = 0; i < numcurves; i++) {
-				System.out.println("curvelist[" + i + "] = " + curvelist[i]);
-			}
-		}
+		// if (false) {
+		// System.out.println("result: ");
+		// int numcurves = edges.size();
+		// Curve[] curvelist = (Curve[]) edges.toArray(new Curve[numcurves]);
+		// for (int i = 0; i < numcurves; i++) {
+		// System.out.println("curvelist[" + i + "] = " + curvelist[i]);
+		// }
+		// }
 		return edges;
 	}
 
@@ -201,12 +201,12 @@ public abstract class AreaOp {
 		}
 		Edge[] edgelist = (Edge[]) edges.toArray(new Edge[numedges]);
 		Arrays.sort(edgelist, YXTopComparator);
-		if (false) {
-			System.out.println("pruning: ");
-			for (int i = 0; i < numedges; i++) {
-				System.out.println("edgelist[" + i + "] = " + edgelist[i]);
-			}
-		}
+		// if (false) {
+		// System.out.println("pruning: ");
+		// for (int i = 0; i < numedges; i++) {
+		// System.out.println("edgelist[" + i + "] = " + edgelist[i]);
+		// }
+		// }
 		Edge e;
 		int left = 0;
 		int right = 0;
@@ -259,13 +259,14 @@ public abstract class AreaOp {
 					yrange[1] = y;
 				}
 			}
-			if (false) {
-				System.out.println("current line: y = [" + yrange[0] + ", "
-				        + yrange[1] + "]");
-				for (cur = left; cur < right; cur++) {
-					System.out.println("  " + edgelist[cur]);
-				}
-			}
+			// if (false) {
+			// System.out.println("current line: y = [" + yrange[0] + ", "
+			// + yrange[1] + "]");
+			// for (cur = left; cur < right; cur++) {
+			// System.out.println("  " + edgelist[cur]);
+			// }
+			// }
+
 			// Note: We could start at left+1, but we need to make
 			// sure that edgelist[left] has its equivalence set to 0.
 			int nexteq = 1;
@@ -298,13 +299,14 @@ public abstract class AreaOp {
 				}
 				edgelist[next] = e;
 			}
-			if (false) {
-				System.out.println("current sorted line: y = [" + yrange[0]
-				        + ", " + yrange[1] + "]");
-				for (cur = left; cur < right; cur++) {
-					System.out.println("  " + edgelist[cur]);
-				}
-			}
+			// if (false) {
+			// System.out.println("current sorted line: y = [" + yrange[0]
+			// + ", " + yrange[1] + "]");
+			// for (cur = left; cur < right; cur++) {
+			// System.out.println("  " + edgelist[cur]);
+			// }
+			// }
+
 			// Now prune the active edge list.
 			// For each edge in the list, determine its classification
 			// (entering shape, exiting shape, ignore - no change) and
@@ -378,13 +380,13 @@ public abstract class AreaOp {
 					}
 				}
 			}
-			if (false) {
-				System.out.println("new links:");
-				for (int i = 0; i < links.size(); i++) {
-					CurveLink link = (CurveLink) links.elementAt(i);
-					System.out.println("  " + link.getSubCurve());
-				}
-			}
+			// if (false) {
+			// System.out.println("new links:");
+			// for (int i = 0; i < links.size(); i++) {
+			// CurveLink link = (CurveLink) links.elementAt(i);
+			// System.out.println("  " + link.getSubCurve());
+			// }
+			// }
 			resolveLinks(subcurves, chains, links);
 			links.clear();
 			// Finally capture the bottom of the valid Y range as the top

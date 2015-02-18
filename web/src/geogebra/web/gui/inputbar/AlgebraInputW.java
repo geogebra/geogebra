@@ -68,12 +68,12 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 	 * 
 	 * Attaches Application and creates the GUI of AlgebraInput
 	 */
-	public void init(AppW app) {
-		this.app = app;
+	public void init(AppW app1) {
+		this.app = app1;
 		//AG I dont think we need this app.removeTraversableKeys(this);
 		addStyleName("AlgebraInput");
 		initGUI();
-		app.getGuiManager().addAlgebraInput(this);
+		app1.getGuiManager().addAlgebraInput(this);
 	}
 
 	private void initGUI() {

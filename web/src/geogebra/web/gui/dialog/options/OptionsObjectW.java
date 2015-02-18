@@ -145,7 +145,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class OptionsObjectW extends
 geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 {
-	private Localization loc;
+	Localization loc;
 
 	TabPanel tabPanel;
 
@@ -175,16 +175,16 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private PointSizePanel pointSizePanel;
 	private PointStylePanel pointStylePanel;
 	private LineStylePanel lineStylePanel;
-	private AngleArcSizePanel angleArcSizePanel;
+	AngleArcSizePanel angleArcSizePanel;
 	private SlopeTriangleSizePanel slopeTriangleSizePanel;
 	private IneqPanel ineqStylePanel;
 	private TextFieldSizePanel textFieldSizePanel;
-	private FillingPanel fillingPanel;
+	FillingPanel fillingPanel;
 	private InterpolateImagePanel interpolateImagePanel; 
 
 	//Advanced
 	private ShowConditionPanel showConditionPanel;
-	private boolean isDefaults;
+	boolean isDefaults;
 	private ButtonSizePanel buttonSizePanel;
 	private ColorFunctionPanel colorFunctionPanel;
 	private LayerPanel layerPanel;
@@ -330,10 +330,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private class LabelPanel extends OptionPanel implements IShowLabelListener {
-		private final CheckBox showLabelCB;
+		final CheckBox showLabelCB;
 		private final FlowPanel mainWidget;
-		private final ListBox labelMode;
-		private ShowLabelModel model;
+		final ListBox labelMode;
+		ShowLabelModel model;
 		public LabelPanel() {
 			mainWidget = new FlowPanel();
 			showLabelCB = new CheckBox(localize("ShowLabel") + ":"); 
@@ -449,7 +449,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private AutoCompleteTextFieldW tfCondition;
 
 		private Kernel kernel;
-		private boolean processed;
+		boolean processed;
 
 		public ShowConditionPanel() {
 			kernel = app.getKernel();
@@ -499,7 +499,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 
-		private void doActionPerformed() {
+		void doActionPerformed() {
 			processed = true;
 			model.applyChanges(tfCondition.getText());
 		}
@@ -526,7 +526,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private class ColorPanel extends OptionPanel implements IColorObjectListener {
-		private ColorObjectModel model;
+		ColorObjectModel model;
 		private FlowPanel mainPanel;
 		private ColorChooserW colorChooserW; 
 		private GColor selectedColor;
@@ -678,8 +678,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		private static final long serialVersionUID = 1L;
 
-		private ObjectNameModel model;
-		private AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
+		ObjectNameModel model;
+		AutoCompleteTextFieldW tfName, tfDefinition, tfCaption;
 
 		private Label nameLabel, defLabel, captionLabel;
 		private InputPanelW inputPanelName, inputPanelDef, inputPanelCap;
@@ -696,7 +696,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			// non auto complete input panel
 			inputPanelName = new InputPanelW(null, (AppW) app, 1, -1, true);
-			tfName = (AutoCompleteTextFieldW) inputPanelName.getTextComponent();
+			tfName = inputPanelName.getTextComponent();
 			tfName.setAutoComplete(false);
 			tfName.addFocusListener(new FocusListenerW(this){
 				@Override
@@ -715,7 +715,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			// definition field: non auto complete input panel
 			inputPanelDef = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfDefinition = (AutoCompleteTextFieldW) inputPanelDef
+			tfDefinition = inputPanelDef
 					.getTextComponent();
 			tfDefinition.setAutoComplete(false);
 			tfDefinition.addFocusListener(new FocusListenerW(this){
@@ -744,7 +744,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 			// caption field: non auto complete input panel
 			inputPanelCap = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfCaption = (AutoCompleteTextFieldW) inputPanelCap.getTextComponent();
+			tfCaption = inputPanelCap.getTextComponent();
 			tfCaption.setAutoComplete(false);
 
 			tfCaption.addFocusListener(new FocusListenerW(this){
@@ -851,9 +851,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		 * current geo on which focus lost shouls apply
 		 * (may be different to current geo, due to threads)
 		 */
-		private GeoElement currentGeoForFocusLost = null;
+		GeoElement currentGeoForFocusLost = null;
 
-		private String redefinitionForFocusLost = "";
+		String redefinitionForFocusLost = "";
 
 		public void updateDef(GeoElement geo) {
 
@@ -963,7 +963,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	class ReflexAnglePanel extends OptionPanel implements IReflexAngleListener {
-		private ReflexAngleModel model;
+		ReflexAngleModel model;
 		private FlowPanel mainWidget;
 		private Label intervalLabel;
 		private ListBox intervalLB;
@@ -1008,7 +1008,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
-		private int getIndex() {
+		int getIndex() {
 			if (model.hasOrientation()) {
 				return intervalLB.getSelectedIndex();
 			}
@@ -1047,10 +1047,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	class LodPanel extends OptionPanel implements IComboListener {
-		private LodModel model;
+		LodModel model;
 		private FlowPanel mainWidget;
 		private Label label;
-		private ListBox combo;
+		ListBox combo;
 
 		public LodPanel() {
 			model = new LodModel(this, app, isDefaults);
@@ -1151,8 +1151,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private class PointSizePanel extends OptionPanel implements ISliderListener {
-		private PointSizeModel model;
-		private SliderPanel slider;
+		PointSizeModel model;
+		SliderPanel slider;
 		private Label titleLabel;
 		public PointSizePanel() {
 			model = new PointSizeModel(this);
@@ -1247,9 +1247,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		
 		LineStyleModel model;
 		private Label thicknessSliderLabel;
-		private SliderPanel thicknessSlider;
+		SliderPanel thicknessSlider;
 		private Label opacitySliderLabel;
-		private SliderPanel opacitySlider;
+		SliderPanel opacitySlider;
 		private Label popupLabel;
 		LineStylePopup btnLineStyle;
 		private int iconHeight = 24;
@@ -1381,8 +1381,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 
 	private class AngleArcSizePanel extends OptionPanel implements ISliderListener {
-		private AngleArcSizeModel model;
-		private SliderPanel slider;
+		AngleArcSizeModel model;
+		SliderPanel slider;
 		private Label titleLabel;
 		public AngleArcSizePanel() {
 			model = new AngleArcSizeModel(this);
@@ -1427,8 +1427,8 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private class SlopeTriangleSizePanel extends OptionPanel implements ISliderListener {
-		private SlopeTriangleSizeModel model;
-		private SliderPanel slider;
+		SlopeTriangleSizeModel model;
+		SliderPanel slider;
 		private Label titleLabel;
 		public SlopeTriangleSizePanel() {
 			model = new SlopeTriangleSizeModel(this);
@@ -1493,9 +1493,9 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 	private class TextFieldSizePanel extends OptionPanel implements ITextFieldListener {
 
-		private TextFieldSizeModel model;
+		TextFieldSizeModel model;
 		private InputPanelW inputPanel;
-		private AutoCompleteTextFieldW tfSize;
+		AutoCompleteTextFieldW tfSize;
 		public TextFieldSizePanel() {
 			model = new TextFieldSizeModel(getAppW(), this);
 			setModel(model);
@@ -1503,7 +1503,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			FlowPanel mainPanel = new FlowPanel();
 
 			inputPanel = new InputPanelW(null, getAppW(), 1, -1, false);
-			tfSize = (AutoCompleteTextFieldW) inputPanel.getTextComponent();
+			tfSize = inputPanel.getTextComponent();
 			tfSize.setAutoComplete(false);
 			tfSize.addFocusListener(new FocusListenerW(this){
 				@Override
@@ -1541,15 +1541,15 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	public class ButtonSizePanel extends OptionPanel implements IButtonSizeListener {
 		private InputPanelW ipButtonWidth;
 		private InputPanelW ipButtonHeight;
-		private AutoCompleteTextFieldW tfButtonWidth;
-		private AutoCompleteTextFieldW tfButtonHeight;
-		private CheckBox cbUseFixedSize;
+		AutoCompleteTextFieldW tfButtonWidth;
+		AutoCompleteTextFieldW tfButtonHeight;
+		CheckBox cbUseFixedSize;
 
 		private Label labelWidth;
 		private Label labelHeight;
 		private Label labelPixelW;
 		private Label labelPixelH;
-		private ButtonSizeModel model;
+		ButtonSizeModel model;
 
 
 		public ButtonSizePanel() {
@@ -1565,10 +1565,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			ipButtonWidth = new InputPanelW(null, getAppW(), 1, -1, false);
 			ipButtonHeight = new InputPanelW(null, getAppW(), 1, -1, false);
 
-			tfButtonWidth = (AutoCompleteTextFieldW) ipButtonWidth.getTextComponent();
+			tfButtonWidth = ipButtonWidth.getTextComponent();
 			tfButtonWidth.setAutoComplete(false);
 
-			tfButtonHeight = (AutoCompleteTextFieldW) ipButtonHeight.getTextComponent();
+			tfButtonHeight = ipButtonHeight.getTextComponent();
 			tfButtonHeight.setAutoComplete(false);
 
 			FocusListenerW focusListener = new FocusListenerW(this){
@@ -1653,22 +1653,22 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private class ColorFunctionPanel extends OptionPanel implements IColorFunctionListener {
-		private ColorFunctionModel model;
+		ColorFunctionModel model;
 		private InputPanelW inputPanelA;
 		private AutoCompleteTextFieldW tfRed, tfGreen, tfBlue, tfAlpha;
 		private Label btRemove;
 		private Label title;
 		private Label nameLabelR, nameLabelG, nameLabelB, nameLabelA;
 
-		private ListBox cbColorSpace;
-		private int colorSpace = GeoElement.COLORSPACE_RGB;
-		private boolean allowSetComboBoxLabels = true;
+		ListBox cbColorSpace;
+		int colorSpace = GeoElement.COLORSPACE_RGB;
+		boolean allowSetComboBoxLabels = true;
 
 		private String defaultR = "0", defaultG = "0", defaultB = "0",
 				defaultA = "1";
 
 		private Kernel kernel;
-		private boolean processed = false;
+		boolean processed = false;
 		public ColorFunctionPanel() {
 			kernel = app.getKernel();
 			model = new ColorFunctionModel(app, this);
@@ -1678,10 +1678,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			InputPanelW inputPanelG = new InputPanelW(null, getAppW(), 1, -1, true);
 			InputPanelW inputPanelB = new InputPanelW(null, getAppW(), 1, -1, true);
 			inputPanelA = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfRed = (AutoCompleteTextFieldW) inputPanelR.getTextComponent();
-			tfGreen = (AutoCompleteTextFieldW) inputPanelG.getTextComponent();
-			tfBlue = (AutoCompleteTextFieldW) inputPanelB.getTextComponent();
-			tfAlpha = (AutoCompleteTextFieldW) inputPanelA.getTextComponent();
+			tfRed = inputPanelR.getTextComponent();
+			tfGreen = inputPanelG.getTextComponent();
+			tfBlue = inputPanelB.getTextComponent();
+			tfAlpha = inputPanelA.getTextComponent();
 
 			
 
@@ -1832,7 +1832,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			//btRemove.setToolTipText(loc.getPlainTooltip("Remove"));
 		}
 
-		private void doActionPerformed() {
+		void doActionPerformed() {
 			processed = true;
 
 			String strRed = tfRed.getText();
@@ -1929,12 +1929,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	private class GraphicsViewLocationPanel extends OptionPanel implements IGraphicsViewLocationListener {
-		private GraphicsViewLocationModel model;
+		GraphicsViewLocationModel model;
 
 		private Label title;
-		private CheckBox cbGraphicsView;
-		private CheckBox cbGraphicsView2;
-		private CheckBox cbGraphicsView3D;
+		CheckBox cbGraphicsView;
+		CheckBox cbGraphicsView2;
+		CheckBox cbGraphicsView3D;
 
 		public GraphicsViewLocationPanel() {
 			model = new GraphicsViewLocationModel(app, this);
@@ -2220,14 +2220,14 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		private static final int FontITALIC = 2;
 
-		private TextOptionsModel model;
+		TextOptionsModel model;
 
 		private Label decimalLabel;
-		private ListBox lbFont;
-		private ListBox lbSize; 
-		private ListBox lbDecimalPlaces;
-		private MyToggleButton2 btnBold;
-		private MyToggleButton2  btnItalic;
+		ListBox lbFont;
+		ListBox lbSize;
+		ListBox lbDecimalPlaces;
+		MyToggleButton2 btnBold;
+		MyToggleButton2 btnItalic;
 		private ToggleButton  btnLatex;
 
 		private FlowPanel secondLine;
@@ -2238,7 +2238,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private Button btnCancel;
 
 		private boolean secondLineVisible = false;
-		private GeoTextEditor editor;
+		GeoTextEditor editor;
 		private TextEditAdvancedPanel advancedPanel;
 		private GeoText orig;
 
@@ -2549,7 +2549,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			updatePreviewPanel();
 		}
 
-		private boolean isLatex() {
+		boolean isLatex() {
 			return btnLatex.getValue();
 		}
 
@@ -2622,10 +2622,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	}
 
 	class FillingPanel extends OptionPanel implements IFillingListener {
-		private FillingModel model;
-		private SliderPanel opacitySlider;
-		private SliderPanel angleSlider;
-		private SliderPanel distanceSlider;
+		FillingModel model;
+		SliderPanel opacitySlider;
+		SliderPanel angleSlider;
+		SliderPanel distanceSlider;
 		private Label fillingSliderTitle;
 		private Label angleSliderTitle;
 		private Label distanceSliderTitle;
@@ -2642,18 +2642,18 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		private PushButton btnClearImage;
 		private Label lblFillInverse;
 		private Label lblSymbols;
-		private ArrayList<ImageResource> iconList;
+		ArrayList<ImageResource> iconList;
 		private ArrayList<String> iconNameList;
 		//	private PopupMenuButton btInsertUnicode;
 
-		private ListBox lbFillType;
-		private CheckBox cbFillInverse;
+		ListBox lbFillType;
+		CheckBox cbFillInverse;
 		private FlowPanel mainWidget;
 		private FlowPanel fillTypePanel;
 		private Label fillTypeTitle;
 		private Label fillingMin;
 		private FlowPanel btnPanel;
-		private AutoCompleteTextFieldW tfInsertUnicode;
+		AutoCompleteTextFieldW tfInsertUnicode;
 		private InputPanelW unicodePanel;
 
 		private class MyImageFileInputDialog extends FileInputDialog{
@@ -2782,7 +2782,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 			panel.add(fillTypePanel);
 
 			unicodePanel = new InputPanelW(null, getAppW(), 1, -1, true);
-			tfInsertUnicode = (AutoCompleteTextFieldW) unicodePanel.getTextComponent();
+			tfInsertUnicode = unicodePanel.getTextComponent();
 			//buildInsertUnicodeButton();
 			unicodePanel.setVisible(false);
 			tfInsertUnicode.setStyleName("fillSymbol");
@@ -3304,7 +3304,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private class DecoAnglePanel extends OptionPanel implements IDecoAngleListener {
 		private Label decoLabel;
 		private PopupMenuButton decoPopup;
-		private DecoAngleModel model;
+		DecoAngleModel model;
 		public DecoAnglePanel() {
 			model = new DecoAngleModel(this);
 			setModel(model);
@@ -3365,7 +3365,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private class DecoSegmentPanel extends OptionPanel implements IComboListener {
 		private Label decoLabel;
 		private PopupMenuButton decoPopup;
-		private DecoSegmentModel model;
+		DecoSegmentModel model;
 		public DecoSegmentPanel() {
 			model = new DecoSegmentModel(this);
 			setModel(model);
@@ -3538,7 +3538,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		initGUI();
 	}
 
-	private AppW getAppW() {
+	AppW getAppW() {
 		return (AppW) app;
 	}
 
@@ -3770,7 +3770,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		tab = new OptionsTab("Properties.Algebra");
 		tab.addPanelList(
-				Arrays.asList((OptionPanel)coordsPanel,
+Arrays.asList(coordsPanel,
 						lineEqnPanel,
 						conicEqnPanel,
 						new AnimationStepPanelW(getAppW()),
