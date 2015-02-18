@@ -690,7 +690,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		chars.addToRow(index, newButton);
 		newButton = new KeyBoardButton(";", this);
 		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton("?", this);
+		newButton = new KeyBoardButton("_", this);
 		chars.addToRow(index, newButton);
 		newButton = new KeyBoardButton("!", this);
 		chars.addToRow(index, newButton);
