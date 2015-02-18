@@ -44,7 +44,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String ARROW_RIGHT = "\u2192";
 	private static final String COLON_EQUALS = "\u2254";
 	private static final String SPACE = "\u0020";
-	private static final String IMPLICATION = "\u21d2";
 	private static final String ANGLE = "\u2220";
 	private static final String MEASURED_ANGLE = "\u2221";
 
@@ -352,10 +351,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		index++;
 		newButton = new KeyBoardButton(ARROW_LEFT, this);
+		newButton.setNavigationButton(true);
 		newButton.addStyleName("colored");
 		newButton.addStyleName("arrow");
 		control.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ARROW_RIGHT, this);
+		newButton.setNavigationButton(true);
 		newButton.addStyleName("colored");
 		newButton.addStyleName("arrow");
 		control.addToRow(index, newButton);
@@ -463,9 +464,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		newButton.addStyleName("space");
 		letters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ARROW_LEFT, this);
+		newButton.setNavigationButton(true);
 		newButton.addStyleName("colored");
 		letters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ARROW_RIGHT, this);
+		newButton.setNavigationButton(true);
 		newButton.addStyleName("colored");
 		letters.addToRow(index, newButton);
 
@@ -569,9 +572,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		newButton.addStyleName("space");
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ARROW_LEFT, this);
+		newButton.setNavigationButton(true);
 		newButton.addStyleName("colored");
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ARROW_RIGHT, this);
+		newButton.setNavigationButton(true);
 		newButton.addStyleName("colored");
 		greekLetters.addToRow(index, newButton);
 
@@ -668,7 +673,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton(IMPLICATION, this);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strIMPLIES, this);
 		chars.addToRow(index, newButton);
 		newButton = new KeyBoardButton(
 		        ExpressionNodeConstants.strIS_ELEMENT_OF, this);
@@ -726,9 +731,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				}
 			} else if (text.equals(SPACE)) {
 				processing.onSpace();
-			} else if (text.equals(ARROW_LEFT)) {
+			} else if (((KeyBoardButton) source).isNavigationButton()
+					&& text.equals(ARROW_LEFT)) {
 				processing.onArrow(ArrowType.left);
-			} else if (text.equals(ARROW_RIGHT)) {
+			} else if (((KeyBoardButton) source).isNavigationButton()
+					&& text.equals(ARROW_RIGHT)) {
+				// the same arrow is also used for implication
 				processing.onArrow(ArrowType.right);
 			} else if (text.equals(SHIFT)) {
 				if (mode == KeyboardMode.GREEK) {

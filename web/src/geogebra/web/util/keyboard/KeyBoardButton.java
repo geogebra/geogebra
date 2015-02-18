@@ -15,6 +15,7 @@ public class KeyBoardButton extends SimplePanel {
 
 	private String feedBack;
 	private Label label;
+	private boolean isNavigationButton = false;
 
 	/**
 	 * @param caption
@@ -77,4 +78,21 @@ public class KeyBoardButton extends SimplePanel {
 			feedBack = caption;
 		}
 	}
+
+	/**
+	 * @return true if the button is only used for navigation; false otherwise
+	 */
+	public boolean isNavigationButton() {
+		return isNavigationButton;
+	}
+
+	/**
+	 * @param isNavigationButton
+	 *            sets whether the button is only used for navigation (true) or
+	 *            not (false)
+	 */
+	public void setNavigationButton(boolean isNavigationButton) {
+		this.isNavigationButton = isNavigationButton;
+	}
+
 }

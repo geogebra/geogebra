@@ -295,8 +295,7 @@ public class TextFieldProcessing {
 						.insertString(Unicode.EULER_STRING);
 				// inserts: ^{}
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
-				        false,
-						false);
+						false, false);
 			} else if (needsLbrace.contains(text)) {
 				((RadioButtonTreeItem) field).insertString(text);
 				// inserts: ()
