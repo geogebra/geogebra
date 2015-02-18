@@ -4,11 +4,13 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.euclidian3D.openGL.PlotterSurface;
 import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.Matrix.Coords3;
 import geogebra.common.kernel.Matrix.CoordsDouble3;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable;
 import geogebra.common.kernel.kernelND.SurfaceEvaluable.LevelOfDetail;
+import geogebra.common.main.App;
 import geogebra.common.util.debug.Log;
 
 /**
@@ -252,6 +254,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			
 
 			updateCullingBox();
+			
+			initBounds();
 
 			debug("\nmax distances = " + maxRWDistance + ", "
 					+ maxRWDistanceNoAngleCheck);
@@ -412,8 +416,11 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		return true;
 	}
 
+
+
 	private boolean inCullingBox(Coords3 p) {
 
+		// check point is in culling box
 		if ((p.getXd() > cullingBox[0]) && (p.getXd() < cullingBox[1])
 				&& (p.getYd() > cullingBox[2]) && (p.getYd() < cullingBox[3])
 				&& (p.getZd() > cullingBox[4]) && (p.getZd() < cullingBox[5])) {
@@ -422,6 +429,46 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 
 		return false;
 	}
+	
+	private Coords boundsMin = new Coords(3), boundsMax = new Coords(3);
+	
+	private void initBounds(){
+		boundsMin.set(Double.POSITIVE_INFINITY);
+		boundsMax.set(Double.NEGATIVE_INFINITY);
+	}
+	
+	private void updateBounds(Coords3 p){
+
+		// update bounds
+		if (p.getXd() < boundsMin.getX()){
+			boundsMin.setX(p.getXd());
+		}
+		if (p.getYd() < boundsMin.getY()){
+			boundsMin.setY(p.getYd());
+		}
+		if (p.getZd() < boundsMin.getZ()){
+			boundsMin.setZ(p.getZd());
+		}
+		if (p.getXd() > boundsMax.getX()){
+			boundsMax.setX(p.getXd());
+		}
+		if (p.getYd() > boundsMax.getY()){
+			boundsMax.setY(p.getYd());
+		}
+		if (p.getZd() > boundsMax.getZ()){
+			boundsMax.setZ(p.getZd());
+		}
+		
+	}
+	
+	@Override
+	public void enlargeBounds(Coords min, Coords max) {
+		if (!Double.isNaN(boundsMin.getX())){
+			enlargeBounds(min, max, boundsMin, boundsMax);
+		}
+	}
+	
+
 
 
 	private Corner createRootMesh(double uMin, double uMax, int uN, double vMin, double vMax, int vN) {
@@ -537,6 +584,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 		if (!evaluatedPoint.isDefined()) {
 			return Coords3.UNDEFINED;
 		}
+		
+		updateBounds(evaluatedPoint);
 
 		if (inCullingBox(evaluatedPoint)) {
 			return evaluatedPoint.copyVector();
@@ -555,6 +604,8 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 			if (!evaluatedPoint.isDefined()) {
 				return Coords3.UNDEFINED;
 			}
+			
+			updateBounds(evaluatedPoint);
 
 			if (inCullingBox(evaluatedPoint)) {
 				return evaluatedPoint.copyVector();
