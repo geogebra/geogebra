@@ -34,6 +34,13 @@ public abstract class UploadImageDialog extends DialogBoxW implements ClickHandl
 		this.app = app;
 		this.previewWidth = previewWidth;
 		this.previewHeight = previewHeight;
+		app.addInsertImageCallback(new Runnable() {
+
+			@Override
+			public void run() {
+				UploadImageDialog.this.hide();
+			}
+		});
 		initGUI();
 		initActions();
 	}

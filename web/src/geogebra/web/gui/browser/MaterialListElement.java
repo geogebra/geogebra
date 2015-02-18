@@ -371,7 +371,9 @@ public class MaterialListElement extends FlowPanel implements
 	
 	private void addFavoriteButton() {
 		this.favoriteButton = new StandardButton(
-		        BrowseResources.INSTANCE.not_favorite());
+		        this.material.isFavorite() ? BrowseResources.INSTANCE
+		                .favorite() : BrowseResources.INSTANCE
+		                .not_favorite());
 		this.favoriteButton.addStyleName("ggbFavorite");
 		this.background.add(this.favoriteButton);
 		this.favoriteButton.addFastClickHandler(new FastClickHandler() {

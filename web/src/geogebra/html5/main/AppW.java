@@ -1388,6 +1388,7 @@ public abstract class AppW extends App implements SetLabels {
 		imgFileName = zip_directory + '/' + fn;
 
 		doDropHappened(imgFileName, url, null, 0, 0);
+		this.insertImageCallback.run();
 	}
 
 	/**
@@ -2383,6 +2384,7 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	};
 	private Runnable closeBroserCallback;
+	private Runnable insertImageCallback;
 
 	@Override
 	public void createNewWindow() {
@@ -3128,6 +3130,10 @@ public abstract class AppW extends App implements SetLabels {
 			this.closeBroserCallback = null;
 		}
 
+	}
+
+	public void addInsertImageCallback(Runnable runnable) {
+		this.insertImageCallback = runnable;
 	}
 
 }
