@@ -464,7 +464,6 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 	@Override
 	public void enlargeBounds(Coords min, Coords max) {
 		if (!Double.isInfinite(boundsMin.getX())){
-			App.debug("\nmin=\n"+boundsMin+"\nmax=\n"+boundsMax);
 			enlargeBounds(min, max, boundsMin, boundsMax);
 		}
 	}
