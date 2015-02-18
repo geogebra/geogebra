@@ -2,13 +2,16 @@ package geogebra.geogebra3D.web.gui.layout.panels;
 
 import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.geogebra3D.io.layout.DockPanelDataForPlane;
 import geogebra.common.gui.toolbar.ToolBar;
+import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidianForPlane.EuclidianViewForPlaneW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.main.AppW;
+import geogebra.html5.openjdk.awt.geom.Rectangle;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelWAbstract;
 
 import com.google.gwt.canvas.client.Canvas;
@@ -178,8 +181,17 @@ public class EuclidianDockPanelForPlaneW extends EuclidianDockPanelWAbstract
 		return euclidianpanel;
 	}
 
+	@Override
 	public EuclidianView getEuclidianView() {
 		return view;
+	}
+
+	@Override
+	public DockPanelData createInfo() {
+		return new DockPanelDataForPlane(id, getToolbarString(), visible,
+		        openInFrame,
+		        showStyleBar, new Rectangle(frameBounds), embeddedDef,
+ embeddedSize, view.getFromPlaneString());
 	}
 
 }
