@@ -45,6 +45,8 @@ import geogebra.common.kernel.algos.AlgoIntegralODE;
 import geogebra.common.kernel.algos.AlgoJoinPointsSegment;
 import geogebra.common.kernel.algos.AlgoMacroInterface;
 import geogebra.common.kernel.algos.AlgoName;
+import geogebra.common.kernel.algos.AlgoTranslate;
+import geogebra.common.kernel.algos.AlgoVectorPoint;
 import geogebra.common.kernel.algos.AlgorithmSet;
 import geogebra.common.kernel.algos.ConstructionElement;
 import geogebra.common.kernel.algos.DrawInformationAlgo;
@@ -6162,6 +6164,32 @@ public abstract class GeoElement extends ConstructionElement implements
 		}
 
 		// non-moveable geo
+		
+		else if (isTranslateable()){
+			
+			AlgoElement algo = getParentAlgorithm();
+			if (algo instanceof AlgoTranslate) {
+				GeoElement[] input = algo.getInput();
+				GeoElement in = input[1];
+				if (in.isGeoVector()) {
+					if (in.isIndependent()) {
+						in.moveVector(rwTransVec, endPosition);
+						addParentToUpdateList(in, updateGeos,
+								tempMoveObjectList);
+					} else if (in.getParentAlgorithm() instanceof AlgoVectorPoint) {
+						AlgoVectorPoint algoVector = (AlgoVectorPoint) in
+								.getParentAlgorithm();
+						GeoElement p = (GeoElement) algoVector.getP();
+						if (p.isIndependent()){
+							p.movePoint(rwTransVec, endPosition);
+							addParentToUpdateList(p, updateGeos,
+									tempMoveObjectList);
+						}
+					}
+				}
+			}			
+		}
+		
 		else {
 			movedGeo = moveFromChangeableCoordParentNumbers(rwTransVec,
 					endPosition, viewDirection, updateGeos, tempMoveObjectList, view);
@@ -6212,9 +6240,16 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param updateGeos set of geos
 	 * @param tempMoveObjectList1 temporary list
 	 */
-	protected void addChangeableCoordParentNumberToUpdateList(
+	static final protected void addChangeableCoordParentNumberToUpdateList(
 			final GeoElement number, final ArrayList<GeoElement> updateGeos,
 			ArrayList<GeoElement> tempMoveObjectList1) {
+		
+		addParentToUpdateList(number, updateGeos, tempMoveObjectList1);
+	}
+		
+	static final private void addParentToUpdateList(
+				final GeoElement number, final ArrayList<GeoElement> updateGeos,
+				ArrayList<GeoElement> tempMoveObjectList1) {
 		if (updateGeos != null) {
 			// add number to update list
 			updateGeos.add(number);
