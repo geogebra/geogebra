@@ -1323,6 +1323,11 @@ public class StringUtil {
 				} else {
 					currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
 				}
+			} else {
+				// RadioButtonTreeItem uses strings with more than one
+				// character for the first time, so this part of code
+				// only applies to it (yet)
+				sb.append(c);
 			}
 		}
 		return currentQuote;

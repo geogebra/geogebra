@@ -31,6 +31,8 @@ import geogebra.common.main.MyError;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.IndexHTMLBuilder;
+import geogebra.common.util.StringUtil;
+import geogebra.common.util.Unicode;
 import geogebra.html5.event.PointerEvent;
 import geogebra.html5.event.ZeroOffset;
 import geogebra.html5.gui.textbox.GTextBox;
@@ -708,6 +710,31 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		doUpdate();
 	}
 
+	private String stopCommon(String newValue0) {
+		String newValue = newValue0;
+		// newValue = newValue0.replace("space *", " ");
+		// newValue = newValue.replace("* space", " ");
+
+		// newValue = newValue.replace("space*", " ");
+		// newValue = newValue.replace("*space", " ");
+
+		newValue = newValue.replace("space ", " ");
+		newValue = newValue.replace(" space", " ");
+		newValue = newValue.replace("space", " ");
+
+		// "" is the " Quotation delimiter returned by MathQuillGGB
+		// now it's handy that "space" is not in newValue
+		newValue = newValue.replace("\\\"", "space");
+
+		// change \" to corresponding unicode characters
+		StringBuilder sb = new StringBuilder();
+		StringUtil.processQuotes(sb, newValue, Unicode.OPEN_DOUBLE_QUOTE);
+		newValue = sb.toString();
+
+		newValue = newValue.replace("space", "\"");
+		return newValue;
+	}
+
 	@Override
     public void stopEditing(String newValue0) {
 
@@ -720,15 +747,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		
 		if (newValue0 != null) {
 
-			// String newValue = newValue0.replace("space *", " ");
-			// newValue = newValue.replace("* space", " ");
-
-			// newValue = newValue.replace("space*", " ");
-			// newValue = newValue.replace("*space", " ");
-
-			String newValue = newValue0.replace("space ", " ");
-			newValue = newValue.replace(" space", " ");
-			newValue = newValue.replace("space", " ");
+			String newValue = stopCommon(newValue0);
 
 			// Formula Hacks ... Currently only functions are considered
 			StringBuilder sb = new StringBuilder();
@@ -786,15 +805,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (newValue0 != null) {
 
-			// newValue = newValue0.replace("space *", " ");
-			// newValue = newValue.replace("* space", " ");
-
-			// newValue = newValue.replace("space*", " ");
-			// newValue = newValue.replace("*space", " ");
-
-			newValue = newValue.replace("space ", " ");
-			newValue = newValue.replace(" space", " ");
-			newValue = newValue.replace("space", " ");
+			newValue = stopCommon(newValue);
 
 			// Formula Hacks ... Currently only functions are considered
 			StringBuilder sb = new StringBuilder();
@@ -808,18 +819,21 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				// if (inLHS && (newValue.charAt(i) == '*')) {
 				// continue;
 				// }
-				if (newValue.charAt(i) != ' ') {
+
+				// let's allow space as well!
+				// if (newValue.charAt(i) != ' ') {
 					if (newValue.charAt(i) != '|')
 						sb.append(newValue.charAt(i));
 					else {
 						switchw = !switchw;
 						sb.append(switchw ? "abs(" : ")");
 					}
-				}
+				// }
 				if (newValue.charAt(i) == ':' || newValue.charAt(i) == '=') {
 					inLHS = false;
 				}
 			}
+			newValue = sb.toString();
 			// Formula Hacks ended.
 		}
 

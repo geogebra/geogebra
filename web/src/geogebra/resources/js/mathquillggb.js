@@ -2859,11 +2859,16 @@ LatexCmds.right = P(MathCommand, function(_) {
   };
 });
 
-var Quotation = P(Bracket, function(_, _super) {
-  _.init = function(open, close, ctrlSeq, endSeq) {
-    _super.init.call(this, open, close, ctrlSeq, endSeq, 'non-leaf text');
-    this.ctrlSeq = ctrlSeq;
-    this.end = endSeq;
+var Quotation = CharCmds['"'] = P(Bracket, function(_, _super) {
+  _.init = function() {
+    _super.init.call(this, '"', '"', '"', '"', 'non-leaf text');
+    this.ctrlSeq = '"';
+    this.end = '"';
+    // in GeoGebraWeb, this needs some changes anyway...
+    // it will be easier to change " signs inside the text block,
+    // and that's why the textTemplate should be distinguished
+    // that can be replaced later! let it be e.g. double ""
+    this.textTemplate = ['\\\"', '\\\"'];
   };
   _.createBlocks = function() {
     var cmd = this,
@@ -2877,8 +2882,6 @@ var Quotation = P(Bracket, function(_, _super) {
 	}
   };
 });
-
-CharCmds['"'] = bind(Quotation, '"', '"', '"', '"');
 
 LatexCmds.lbrace =
 CharCmds['{'] = bind(Bracket, '{', '}', '\\{', '\\}');
@@ -4104,19 +4107,20 @@ var TextBlock = P(Node, function(_, _super) {
         // disown the parent node instead?
         TextPiece(text).adopt(textBlock, 0, 0);
         return textBlock;
-      })
-    ;
+      });
   };
-
   _.textContents = function() {
     return this.foldChildren('', function(text, child) {
       return text + child.text2;
     });
   };
   _.text = function() {
+	  var escapeTC = this.textContents().replace('"', '\"');
 	  if (this.ctrlSeq == '') {
-		  return this.textContents();
+		  // Quotation command case, let's use what we need
+		  return escapeTC;
 	  }
+	  // TODO: Unknown case, should we use escapeTC here too?
 	  return '"' + this.textContents() + '"';
   };
   _.latex = function() {
