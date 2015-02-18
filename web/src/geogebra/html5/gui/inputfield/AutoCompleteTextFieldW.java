@@ -32,7 +32,6 @@ import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.gui.view.autocompletion.ScrollableSuggestBox;
 import geogebra.html5.main.AppW;
-import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -317,8 +316,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// set this text field to be edited by the keyboard
-				OnScreenKeyBoard
-						.setInstanceTextField(AutoCompleteTextFieldW.this);
+				// OnScreenKeyBoard
+				// .setInstanceTextField(AutoCompleteTextFieldW.this);
 				// make sure the keyboard is not closed
 				CancelEventTimer.keyboardSetVisible();
 			}
