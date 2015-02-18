@@ -1971,14 +1971,19 @@ public class AppD extends App implements KeyEventDispatcher {
 		ImageIcon icon = imageManager.getImageIcon(
 				getMenuIconPath() + filename,
 				borderColor);
-		return scaleIcon(icon);
+		return scaleIcon(icon, getScaledIconSize());
 	}
 
-	private ImageIcon scaleIcon(ImageIcon icon) {
+	public ImageIcon getScaledIcon(String filename, int iconSize) {
+		ImageIcon icon = imageManager.getImageIcon(
+				getMenuIconPath() + filename, null);
+		return scaleIcon(icon, iconSize);
+	}
+
+	private ImageIcon scaleIcon(ImageIcon icon, int iconSize) {
 		if (icon == null) {
 			return null;
 		}
-		int iconSize = getScaledIconSize();
 		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);
 		return new ImageIcon(img);
 
@@ -2024,7 +2029,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (isMacOS()) {
 			return icon;
 		}
-		return scaleIcon(icon);
+		return scaleIcon(icon, getScaledIconSize());
 	}
 	public ImageIcon getToolBarImage(String filename, Color borderColor) {
 		String path = getToolbarIconPath() + filename;

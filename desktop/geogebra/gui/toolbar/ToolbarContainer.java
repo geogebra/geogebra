@@ -312,10 +312,11 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	private JPanel getGridButtonPanel() {
 
 		// undo button
+		int halfSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 		AbstractAction undoAction = ((GuiManagerD) app.getGuiManager())
 				.getUndoAction();
 		undoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon("menu-edit-undo.png"));
+				app.getScaledIcon("menu-edit-undo.png", halfSize));
 		undoAction.putValue("enabled", false);
 
 		JButton btnUndo = new JButton(undoAction);
@@ -328,7 +329,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		AbstractAction redoAction = ((GuiManagerD) app.getGuiManager())
 				.getRedoAction();
 		redoAction.putValue(Action.SMALL_ICON,
-				app.getScaledIcon("menu-edit-redo.png"));
+				app.getScaledIcon("menu-edit-redo.png", halfSize));
 		JButton btnRedo = new JButton(redoAction);
 		text = loc.getMenuTooltip("Redo");
 		btnRedo.setText(null);
@@ -337,10 +338,10 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 		// properties button
 		ImageIcon ic = GeoGebraIcon.joinIcons(
-				app.getScaledIcon("menu-options.png"),
-				app.getImageIcon("triangle-down.png"));
+				app.getScaledIcon("menu-options.png", halfSize),
+				app.getScaledIcon("triangle-down.png", halfSize));
 		final JButton btnProperties = new JButton(
-				app.getScaledIcon("menu-options.png"));
+				app.getScaledIcon("menu-options.png", halfSize));
 		btnProperties.setFocusPainted(false);
 		btnProperties.setBorderPainted(false);
 		btnProperties.setContentAreaFilled(false);
@@ -365,7 +366,8 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		});
 
 		// help button
-		JButton btnHelp = new JButton(app.getScaledIcon("menu-help.png"));
+		JButton btnHelp = new JButton(app.getScaledIcon("menu-help.png",
+				halfSize));
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
