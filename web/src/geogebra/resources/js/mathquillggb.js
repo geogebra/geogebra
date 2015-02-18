@@ -2882,7 +2882,11 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
     for (var i = 0; i < numBlocks; i += 1) {
       var newBlock = blocks[i] = makeQuotationText()();
 	  newBlock.adopt(cmd, cmd.ch[R], 0);
+	  this.lasttextblock = newBlock;
 	}
+  };
+  _.seek = function(pageX, cursor) {
+    this.lasttextblock.seek(pageX, cursor);
   };
 });
 
