@@ -3485,6 +3485,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 		}
 
 		tmpCoords.setAdd(tmpCoords, translationVec3D);
+		
+		// snap to grid
+		((EuclidianController3DCompanion) companion).checkPointCapturingXYThenZ(tmpCoords);
 
 		if (movedGeoVector.isGeoElement3D()) {
 			((GeoVector3D) movedGeoVector).setCoords(tmpCoords);
