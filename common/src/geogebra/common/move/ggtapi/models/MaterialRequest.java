@@ -199,7 +199,6 @@ public class MaterialRequest implements Request
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
 		req.filterMap.put(Filters.featured, "true");
-		req.by = Order.timestamp;
 		req.type = Type.desc;
 		return req;
 	}

@@ -35,7 +35,7 @@ public abstract class LogInOperation extends BaseOperation<EventRenderable> {
 	/**
 	 * @return boolean indicating that the user is already logged in.
 	 */
-	public boolean isLoggedIn() {
+	public final boolean isLoggedIn() {
 		return getModel().isLoggedIn();
 	}
 	
