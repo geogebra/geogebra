@@ -118,10 +118,13 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	}
 
 	/**
-	 * Shows or hides keyboard. In case keyboard state changed, it  rebuilds the DOM
-	 * in the process so it may steal focus from currently selected element. 
-	 * @param show whether to show keyboard
-	 * @param textField textfield receiving the text from keyboard
+	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
+	 * DOM in the process so it may steal focus from currently selected element.
+	 * 
+	 * @param show
+	 *            whether to show keyboard
+	 * @param textField
+	 *            text field receiving the text from keyboard
 	 */
 	@Override
 	public void showKeyBoard(boolean show, Widget textField) {

@@ -33,6 +33,7 @@ import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
+import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.List;
 
@@ -519,6 +520,11 @@ public class AppWapplication extends AppW {
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
 		}
+	}
+
+	@Override
+	public void updateKeyBoardField(Widget field) {
+		OnScreenKeyBoard.setInstanceTextField(field);
 	}
 
 	@Override

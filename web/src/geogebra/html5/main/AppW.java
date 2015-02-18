@@ -3082,7 +3082,14 @@ public abstract class AppW extends App implements SetLabels {
 	/**
 	 * Overwritten in subclass
 	 */
-	public void showKeyboard(Widget textField) {
+	public void showKeyboard(@SuppressWarnings("unused") Widget textField) {
+		// nothing to do here
+	}
+
+	/**
+	 * Overwritten in subclass
+	 */
+	public void updateKeyBoardField(@SuppressWarnings("unused") Widget field) {
 		// nothing to do here
 	}
 

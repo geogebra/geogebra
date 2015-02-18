@@ -316,8 +316,8 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 			@Override
 			public void onClickStart(int x, int y, PointerEventType type) {
 				// set this text field to be edited by the keyboard
-				// OnScreenKeyBoard
-				// .setInstanceTextField(AutoCompleteTextFieldW.this);
+				app.updateKeyBoardField(AutoCompleteTextFieldW.this);
+
 				// make sure the keyboard is not closed
 				CancelEventTimer.keyboardSetVisible();
 			}
