@@ -244,6 +244,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			ClickStartHandler.init(ggwCommandLine, new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y, final PointerEventType type) {
+					OnScreenKeyBoard
+							.setInstanceTextField(ggwCommandLine.algebraInput
+									.getTextField());
 					CancelEventTimer.keyboardSetVisible();
 				}
 			});

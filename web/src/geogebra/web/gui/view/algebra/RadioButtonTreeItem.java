@@ -677,6 +677,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				@Override
 				public void onClickStart(int x, int y,
 						final PointerEventType type) {
+					OnScreenKeyBoard.setInstanceTextField(tb);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();
