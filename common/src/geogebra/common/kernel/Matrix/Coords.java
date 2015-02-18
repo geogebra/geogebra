@@ -1745,6 +1745,16 @@ public class Coords {
 		return val;
 	}
 	
+	/**
+	 * get values and set it in ret
+	 * @param ret ret
+	 */
+	public void get(double[] ret){
+		for (int i = 0 ; i < ret.length ; i++){
+			ret[i] = val[i];
+		}
+	}
+	
 	
 	/** @return false if at least one value is infinite */
 	public boolean isFinite() {
