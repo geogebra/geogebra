@@ -354,6 +354,14 @@ public abstract class GeoElement extends ConstructionElement implements
 	public int getDefaultGeoType() {
 		return defaultGeoType;
 	}
+	
+	/**
+	 * 
+	 * @return true if a default geo
+	 */
+	public boolean isDefaultGeo(){
+		return defaultGeoType != -1;
+	}
 
 	/**
 	 * @param defaultGT index for ConstructionDefaults
@@ -1392,6 +1400,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		algebraVisible = geo.algebraVisible;
 		labelOffsetX = geo.labelOffsetX;
 		labelOffsetY = geo.labelOffsetY;
+//		labelMode = geo.labelMode;
 		caption = geo.caption;
 		inverseFill = geo.inverseFill;
 		if (isTraceable() && geo.isTraceable()) {
@@ -6029,6 +6038,45 @@ public abstract class GeoElement extends ConstructionElement implements
 		return movedGeo;
 
 	}
+	
+	
+	/**
+	 * @param rwTransVec translation vector
+	 * @param endPosition end position
+	 * @return true if successful
+	 */
+	protected boolean moveVector(final Coords rwTransVec,
+			final Coords endPosition) {
+
+		boolean movedGeo = false;
+
+		final GeoVector vector = (GeoVector) this;
+		if (endPosition != null) {
+			vector.setCoords(endPosition.getX(), endPosition.getY(), 0);
+			movedGeo = true;
+		}
+
+		// translate point
+		else {
+			double x = vector.getX() + rwTransVec.getX();
+			double y = vector.getY() + rwTransVec.getY();
+
+			// round to decimal fraction, e.g. 2.800000000001 to 2.8
+			if (Math.abs(rwTransVec.getX()) > Kernel.MIN_PRECISION) {
+				x = Kernel.checkDecimalFraction(x);
+			}
+			if (Math.abs(rwTransVec.getY()) > Kernel.MIN_PRECISION) {
+				y = Kernel.checkDecimalFraction(y);
+			}
+
+			// set translated point coords
+			vector.setCoords(x, y, 0);
+			movedGeo = true;
+		}
+
+		return movedGeo;
+
+	}
 
 	/**
 	 * Moves geo by a vector in real world coordinates.
@@ -6053,6 +6101,11 @@ public abstract class GeoElement extends ConstructionElement implements
 				} else {
 					movedGeo = movePoint(rwTransVec, endPosition);
 				}
+			}
+			
+			// vector
+			else if (isGeoVector()) {
+				movedGeo = moveVector(rwTransVec, endPosition);				
 			}
 
 			// translateable

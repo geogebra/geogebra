@@ -744,4 +744,35 @@ public class GeoVector3D extends GeoVec4D implements GeoVectorND,
 	final public HitType getLastHitType() {
 		return HitType.ON_BOUNDARY;
 	}
+	
+	
+	@Override
+	protected boolean moveVector(Coords rwTransVec, Coords endPosition) {
+
+		boolean movedGeo = false;
+
+		if (endPosition != null) {
+			// setCoords(endPosition.x, endPosition.y, 1);
+			// movedGeo = true;
+		}
+
+		// translate point
+		else {
+
+			Coords coords;
+			Coords current = getCoords();
+
+			if (current.getLength() < rwTransVec.getLength()) {
+				coords = current.add(rwTransVec);
+			} else {
+				coords = current.addSmaller(rwTransVec);
+			}
+			setCoords(coords);
+
+			movedGeo = true;
+		}
+
+		return movedGeo;
+
+	}
 }
