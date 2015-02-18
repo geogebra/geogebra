@@ -1469,7 +1469,11 @@ var MathBlock = P(MathElement, function(_) {
           if (cursor.parent.parent instanceof SupSub) {
             if (ch === '_' || ch === '^') {
               // in this case, do not write anything but return
-              return;
+              if (cursor[L]) {
+            	// I did not meant to return when cursor[L] exists
+              } else {
+                return;
+              }
             } else if (cursor.parent.parent.ctrlSeq === '_') {
               if (cmd instanceof BinaryOperator || ch === '/') {
             	// this shall move out of this SupSub,
