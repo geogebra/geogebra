@@ -1,5 +1,6 @@
 package geogebra.web.util.keyboard;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.util.Unicode;
 
 /**
@@ -19,7 +20,12 @@ public enum KeyboardMode {
 	/**
 	 * greek letters.
 	 */
-	GREEK(Unicode.alpha + "");
+	GREEK(Unicode.alphaBetaGamma),
+	/**
+	 * special characters.
+	 */
+	SPECIAL_CHARS(ExpressionNodeConstants.strPERPENDICULAR
+	        + ExpressionNodeConstants.strAND + "%");
 
 	private String internalName;
 

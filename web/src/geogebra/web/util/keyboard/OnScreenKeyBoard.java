@@ -1,5 +1,6 @@
 package geogebra.web.util.keyboard;
 
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.css.GuiResources;
@@ -24,9 +25,11 @@ import com.google.gwt.user.client.ui.Widget;
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private static OnScreenKeyBoard instance;
-	private final int MIN_WIDTH_WITHOUT_SCALING = 823;
+	private static final int MIN_WIDTH_WITHOUT_SCALING = 823;
+	private static final int MIN_WIDTH_FONT = 485;
 
 	private HorizontalPanel contentNumber = new HorizontalPanel();
+	private HorizontalPanel contentSpecialChars = new HorizontalPanel();
 	private FlowPanel contentGreek = new FlowPanel();
 	// TODO remove for mobile devices
 	private FlowPanel contentLetters = new FlowPanel();
@@ -40,10 +43,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String ARROW_LEFT = "\u2190";
 	private static final String ARROW_RIGHT = "\u2192";
 	private static final String COLON_EQUALS = "\u2254";
-	private static final String SHOW_NUMBERS = "123";
-	private static final String SHOW_TEXT = "ABC";
-	private static final String SHOW_GREEK = Unicode.alphaBetaGamma;
 	private static final String SPACE = "\u0020";
+	private static final String IMPLICATION = "\u21d2";
+	private static final String ANGLE = "\u2220";
+	private static final String MEASURED_ANGLE = "\u2221";
 
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
@@ -141,6 +144,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// greek - keyboard
 		createGreekLettersKeyPanel();
 
+		// special characters - keyboard
+		createSpecialCharKeyPanel();
+
 		// // TODO needs to be added for mobile devices
 		// KeyBoardMenu menu = new KeyBoardMenu(this);
 		FlowPanel p = new FlowPanel();
@@ -149,14 +155,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		p.add(contentNumber);
 		p.add(contentLetters);
 		p.add(contentGreek);
-		contentNumber.setVisible(true);
-		contentLetters.setVisible(false);
-		contentGreek.setVisible(false);
-
-		// closeButton
+		p.add(contentSpecialChars);
 		p.add(getCloseButton());
 
 		add(p);
+
+		resetKeyboardState();
+
 		Window.addResizeHandler(new ResizeHandler() {
 			
 			@Override
@@ -174,9 +179,14 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		if (Window.getClientWidth() < MIN_WIDTH_WITHOUT_SCALING) {
 			addStyleName("scale");
 			removeStyleName("normal");
+			removeStyleName("smallerFont");
+			if (Window.getClientWidth() < MIN_WIDTH_FONT) {
+				addStyleName("smallerFont");
+			}
 		} else {
 			addStyleName("normal");
 			removeStyleName("scale");
+			removeStyleName("smallerFont");
 		}
 	}
 
@@ -219,7 +229,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		index++;
 		newButton = new KeyBoardButton("( )", this);
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("[ ]", this);
+		newButton = new KeyBoardButton(Unicode.degree + "", this);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("<", this);
 		functions.addToRow(index, newButton);
@@ -236,18 +246,26 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("tan", this);
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("exp", Unicode.EULER_STRING + "^", this);
+		newButton = new KeyBoardButton("", Unicode.EULER_STRING + "^", this);
+		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
+		        Unicode.EULER_STRING + "^{x}");
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("ln", this);
 		functions.addToRow(index, newButton);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton(SHOW_TEXT, this);
+		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
+		        this);
 		newButton.addStyleName("colored");
-		newButton.addStyleName("long");
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(SHOW_GREEK, this);
+		newButton = new KeyBoardButton(
+		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this);
+		newButton.addStyleName("switchToSpecialChar");
+		newButton.addStyleName("colored");
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(KeyboardMode.GREEK.getInternalName(),
+		        this);
 		newButton.addStyleName("colored");
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton(PI, this);
@@ -310,7 +328,14 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	private void createControlKeyPanel() {
-		KeyPanel control = new KeyPanel();
+		contentNumber.add(getControlKeyPanel());
+	}
+
+	/**
+	 * @return
+	 */
+    private KeyPanel getControlKeyPanel() {
+	    KeyPanel control = new KeyPanel();
 		control.addStyleName("KeyPanelControl");
 
 		int index = 0;
@@ -334,9 +359,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		newButton.addStyleName("colored");
 		newButton.addStyleName("arrow");
 		control.addToRow(index, newButton);
-
-		contentNumber.add(control);
-	}
+	    return control;
+    }
 
 	private void createLettersKeyPanel() {
 		letters = new KeyPanel();
@@ -390,7 +414,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		letters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ENTER, this);
 		newButton.addStyleName("colored");
-		newButton.addStyleName("long");
+		newButton.addStyleName("longEnter");
 		letters.addToRow(index, newButton);
 
 		// fill next row
@@ -422,13 +446,18 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton(SHOW_NUMBERS, this);
+		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
+		        this);
 		newButton.addStyleName("colored");
-		newButton.addStyleName("long");
 		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(SHOW_GREEK, this);
+		newButton = new KeyBoardButton(
+		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this);
+		newButton.addStyleName("switchToSpecialChar");
 		newButton.addStyleName("colored");
-		newButton.addStyleName("functionButtonGreek");
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(KeyboardMode.GREEK.getInternalName(),
+		        this);
+		newButton.addStyleName("colored");
 		letters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(SPACE, this);
 		newButton.addStyleName("space");
@@ -493,7 +522,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(ENTER, this);
 		newButton.addStyleName("colored");
-		newButton.addStyleName("long");
+		newButton.addStyleName("longEnter");
 		greekLetters.addToRow(index, newButton);
 
 		// fill next row
@@ -523,13 +552,18 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton(SHOW_NUMBERS, this);
+		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
+		        this);
 		newButton.addStyleName("colored");
-		newButton.addStyleName("functionButtonSwitch");
 		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(SHOW_TEXT, this);
+		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
+		        this);
 		newButton.addStyleName("colored");
-		newButton.addStyleName("functionButtonSwitch");
+		greekLetters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this);
+		newButton.addStyleName("switchToSpecialChar");
+		newButton.addStyleName("colored");
 		greekLetters.addToRow(index, newButton);
 		newButton = new KeyBoardButton("", this);
 		newButton.addStyleName("space");
@@ -542,6 +576,132 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		greekLetters.addToRow(index, newButton);
 
 		contentGreek.add(greekLetters);
+	}
+
+	private void createSpecialCharKeyPanel() {
+		contentSpecialChars.addStyleName("KeyBoardContentSpecialChars");
+		KeyPanel functions = new KeyPanel();
+		functions.addStyleName("KeyPanelFunction");
+
+		// fill first row
+		int index = 0;
+		KeyBoardButton newButton = new KeyBoardButton("abs", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("log", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("nroot", "nroo", this);
+		functions.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("sinh", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("cosh", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("tanh", this);
+		functions.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton("arcsin", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("arccos", this);
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton("arctan", this);
+		functions.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
+		        this);
+		newButton.addStyleName("colored");
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
+		        this);
+		newButton.addStyleName("colored");
+		functions.addToRow(index, newButton);
+		newButton = new KeyBoardButton(KeyboardMode.GREEK.getInternalName(),
+		        this);
+		newButton.addStyleName("colored");
+		functions.addToRow(index, newButton);
+
+
+		KeyPanel chars = new KeyPanel();
+		chars.addStyleName("KeyPanelNum");
+
+		// fill first row
+		index = 0;
+		newButton = new KeyBoardButton(Unicode.IMAGINARY, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(Unicode.Infinity + "", this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        ExpressionNodeConstants.strVECTORPRODUCT, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        ExpressionNodeConstants.strEQUAL_BOOLEAN, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strNOT_EQUAL,
+		        this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strNOT, this);
+		chars.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strLESS_EQUAL,
+		        this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        ExpressionNodeConstants.strGREATER_EQUAL, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strAND, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strOR, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strPARALLEL,
+		        this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        ExpressionNodeConstants.strPERPENDICULAR, this);
+		chars.addToRow(index, newButton);
+
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(IMPLICATION, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        ExpressionNodeConstants.strIS_ELEMENT_OF, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ExpressionNodeConstants.strIS_SUBSET_OF,
+		        this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(
+		        ExpressionNodeConstants.strIS_SUBSET_OF_STRICT, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ANGLE, this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(MEASURED_ANGLE, this);
+		chars.addToRow(index, newButton);
+		
+		// fill next row
+		index++;
+		newButton = new KeyBoardButton(":", this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton(";", this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton("?", this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton("!", this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton("%", this);
+		chars.addToRow(index, newButton);
+		newButton = new KeyBoardButton("&", this);
+		chars.addToRow(index, newButton);
+
+		contentSpecialChars.add(functions);
+		contentSpecialChars.add(chars);
+		contentSpecialChars.add(getControlKeyPanel());
 	}
 
 	@Override
@@ -576,12 +736,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				} else {
 					toggleLettersUpperLowerCase(letters);
 				}
-			} else if (text.equals(SHOW_NUMBERS)) {
+			} else if (text.equals(KeyboardMode.NUMBER.getInternalName())) {
 				setKeyboardMode(KeyboardMode.NUMBER);
-			} else if (text.equals(SHOW_TEXT)) {
+			} else if (text.equals(KeyboardMode.TEXT.getInternalName())) {
 				setKeyboardMode(KeyboardMode.TEXT);
-			} else if (text.equals(SHOW_GREEK)) {
+			} else if (text.equals(KeyboardMode.GREEK.getInternalName())) {
 				setKeyboardMode(KeyboardMode.GREEK);
+			} else if (text
+			        .equals(KeyboardMode.SPECIAL_CHARS.getInternalName())) {
+				setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
 			} else {
 				processing.insertString(text);
 			}
@@ -668,11 +831,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			contentNumber.setVisible(true);
 			contentLetters.setVisible(false);
 			contentGreek.setVisible(false);
+			contentSpecialChars.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			contentNumber.setVisible(false);
 			contentGreek.setVisible(false);
 			contentLetters.setVisible(true);
+			contentSpecialChars.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 			processing.setKeyBoardModeText(true);
 			processing.setFocus(true);
@@ -683,6 +848,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);
 			contentGreek.setVisible(true);
+			contentSpecialChars.setVisible(false);
+			updateKeyBoardListener.updateKeyBoard(textField);
+		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
+			processing.setKeyBoardModeText(false);
+			processing.setFocus(false);
+			contentNumber.setVisible(false);
+			contentLetters.setVisible(false);
+			contentGreek.setVisible(false);
+			contentSpecialChars.setVisible(true);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		}
 		setUsed(true);
@@ -712,6 +886,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		setLettersToLowerCase(greekLetters);
 		contentLetters.setVisible(false);
 		contentGreek.setVisible(false);
+		contentSpecialChars.setVisible(false);
 
 		if (resetComponent != null) {
 			resetComponent.resetBlockBlur();

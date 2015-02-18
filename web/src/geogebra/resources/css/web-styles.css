@@ -2214,10 +2214,8 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	display: none;
 }
 
-.KeyBoardContentNumbers {
-	margin: 0 auto;
-}
-
+.KeyBoardContentNumbers,
+.KeyBoardContentSpecialChars,
 .KeyPanelLetters {
 	margin: 0 auto;
 }
@@ -2255,27 +2253,19 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-color: #AFAFAF;
 }
 
-.normal .KeyBoardButton.functionButtonSwitch {
-	width: 79px;
-}
-
 .normal .KeyBoardButton.shift {
 	width: 88px;
 }
 
 .normal .KeyBoardButton.space {
-	width: 438px;
+	width: 422px;
 }
 
-.normal .KeyBoardButton.long {
+.normal .KeyBoardButton.longEnter {
 	width: 108px;
 }
 
 /* numbers */
-.normal .KeyBoardContentNumbers .KeyBoardButton.long {
-	width: 124px;
-}
-
 .normal .KeyBoardButton.backspace {
 	width: 64px;
 }
@@ -2302,6 +2292,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 
 .scale .KeyPanelRow, 
 .scale .KeyBoardContentNumbers, 
+.scale .KeyBoardContentSpecialChars,
 .scale .KeyPanelControl,
 .scale .KeyPanelLetters,
 .scale .KeyPanelFunction,
@@ -2313,7 +2304,11 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	width: 20%;
 }
 
-.scale .KeyPanelNum .KeyPanelRow td {
+.scale .KeyBoardContentSpecialChars .KeyPanelFunction .KeyPanelRow td {
+	width: 30%;
+}
+
+.scale .KeyBoardContentNumbers .KeyPanelNum .KeyPanelRow td {
 	width: 25%;
 }
 
@@ -2322,15 +2317,9 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	width: 14%;
 }
 
-/* left right arrow */
-.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(4),
-.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(5) {
-	width: 6%;
-}
-
 /* space */
-.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(3) {
-	width: 38%;
+.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(4) {
+	width: 50%;
 }
 
 /* shift */
@@ -2339,17 +2328,16 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	width: 11%;
 }
 
-/* 123 */
-.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(1) {
-	width: 11%;
+.scale.smallerFont .KeyPanelControl,
+.scale.smallerFont .KeyPanelLetters,
+.scale.smallerFont .KeyBoardContentNumbers {
+	font-size: 75%;
 }
 
-/* greek */
-.scale .KeyPanelLetters tr:nth-child(4) > td td:nth-child(2) {
-	width: 6%;
+.scale.smallerFont .switchToSpecialChar {
+	white-space: nowrap;
 }
 
-/* indent left */
 .scale .KeyPanelLetters tr:nth-child(2) > td > table {
 	padding-left: 2%;
 }
@@ -2364,6 +2352,10 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 
 .scale .KeyPanelRow td {
 	width: 8%;
+}
+
+.scale .KeyBoardContentSpecialChars .KeyPanelRow td {
+	width: 15%;
 }
 
 .scale .KeyBoardButton {
@@ -2384,6 +2376,22 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	width: 8%;
 }
 
+.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(1) {
+ 	width: 25%;
+}
+
+.scale.smallerFont .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(1) {
+ 	font-size: 70%
+ }
+ 
+.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(2) {
+	width: 50%;
+}
+
+.scale .KeyBoardContentSpecialChars>tbody>tr>td:nth-child(3) {
+	width: 8%;
+}
+
 .scale .keyBoardClosePanel {
 	top: -5px;
 	right: 0px;
@@ -2397,10 +2405,6 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	border-left-color: #dcdcdc;
 	border-left-style: solid;
 	border-left-width: 1px;	
-}
-
-.scale .KeyPanelFunction>tbody>tr:nth-child(4) .KeyPanelRow>tbody>tr>td:nth-child(1) {
-	width: 40%;
 }
 
 /* ### End onScreenKeyboard ### */

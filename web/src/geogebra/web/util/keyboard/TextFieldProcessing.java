@@ -6,6 +6,8 @@ import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 
+import java.util.ArrayList;
+
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.user.client.Event;
@@ -21,11 +23,45 @@ public class TextFieldProcessing {
 		left, right, up, down
 	}
 
-	private Widget field;
-	private State state = State.empty;
-
 	private enum State {
 		empty, autoCompleteTextField, gTextBox, radioButtonTreeItem, newRadioButtonTreeItem, other;
+	}
+
+	/** ASCII */
+	private static final int BACKSPACE = 8;
+	private static final int ENTER = 13;
+	private static final int SPACE = 32;
+	private static final int LBRACE = 40;
+	private static final int SLASH = 47;
+	private static final int LBRACK = 91;
+	private static final int CIRCUMFLEX = 94;
+	private static final int T_LOWER_CASE = 116;
+
+	/** Javascript char codes */
+	private static final int LEFT_ARROW = 37;
+	private static final int RIGHT_ARROW = 39;
+
+	private Widget field;
+	private State state = State.empty;
+	private ArrayList<String> needsLbrace = new ArrayList<String>();
+
+	public TextFieldProcessing() {
+		initNeedsLbrace();
+	}
+
+	private void initNeedsLbrace() {
+		needsLbrace.add("sin");
+		needsLbrace.add("cos");
+		needsLbrace.add("tan");
+		needsLbrace.add("ln");
+		needsLbrace.add("abs");
+		needsLbrace.add("sinh");
+		needsLbrace.add("cosh");
+		needsLbrace.add("tanh");
+		needsLbrace.add("arcsin");
+		needsLbrace.add("arccos");
+		needsLbrace.add("arctan");
+		needsLbrace.add("log");
 	}
 
 	public void setField(Widget field) {
@@ -85,28 +121,28 @@ public class TextFieldProcessing {
 		switch (state) {
 		case autoCompleteTextField:
 			NativeEvent event = Document.get().createKeyDownEvent(false, false,
-					false, false, 13);
+					false, false, ENTER);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
 
 			event = Document.get().createKeyPressEvent(false,
-					false, false, false, 13);
+					false, false, false, ENTER);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
 
 			event = Document.get().createKeyUpEvent(false, false,
-					false, false, 13);
+					false, false, ENTER);
 			((AutoCompleteTextFieldW) field).getTextField().onBrowserEvent(
 					Event.as(event));
 			break;
 		case gTextBox:
 			NativeEvent event2 = Document.get().createKeyDownEvent(false,
-					false, false, false, 13);
+			        false, false, false, ENTER);
 			((GTextBox) field).onBrowserEvent(Event.as(event2));
 			break;
 		case radioButtonTreeItem:
 		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).keyup(13, false, false, false);
+			((RadioButtonTreeItem) field).keyup(ENTER, false, false, false);
 			break;
 		}
 	}
@@ -144,7 +180,8 @@ public class TextFieldProcessing {
 			break;
 		case radioButtonTreeItem:
 		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).keydown(8, false, false, false);
+			((RadioButtonTreeItem) field).keydown(BACKSPACE, false, false,
+			        false);
 			break;
 		}
 	}
@@ -162,7 +199,7 @@ public class TextFieldProcessing {
 			break;
 		case radioButtonTreeItem:
 		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).keypress(32, false, false, false);
+			((RadioButtonTreeItem) field).keypress(SPACE, false, false, false);
 			break;
 		}
 	}
@@ -207,11 +244,12 @@ public class TextFieldProcessing {
 		case newRadioButtonTreeItem:
 			switch (type) {
 			case left:
-				((RadioButtonTreeItem) field).keydown(37, false, false,
+				((RadioButtonTreeItem) field).keydown(LEFT_ARROW, false, false,
 						false);
 				break;
 			case right:
-				((RadioButtonTreeItem) field).keydown(39, false, false,
+				((RadioButtonTreeItem) field).keydown(RIGHT_ARROW, false,
+				        false,
 						false);
 				break;
 			}
@@ -249,32 +287,38 @@ public class TextFieldProcessing {
 				if (((RadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
-				((RadioButtonTreeItem) field).keypress(94, false, false, false);
+				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
+				        false, false);
 			} else if (text.startsWith(Unicode.EULER_STRING)) {
 				((RadioButtonTreeItem) field)
 						.insertString(Unicode.EULER_STRING);
 				// inserts: ^{}
-				((RadioButtonTreeItem) field).keypress(94, false, false,
+				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
+				        false,
 						false);
-			} else if (text.equals("sin") || text.equals("cos")
-					|| text.equals("tan") || text.equals("ln")) {
+			} else if (needsLbrace.contains(text)) {
 				((RadioButtonTreeItem) field).insertString(text);
 				// inserts: ()
-				((RadioButtonTreeItem) field).keypress(40, false, false,
+				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 						false);
-			} else if (text.equals(Unicode.SQUARE_ROOT)) {
+			} else if (text.equals("nroo")) {
+				((RadioButtonTreeItem) field).insertString(text);
+				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
+				        false, true);
+			}
+			else if (text.equals(Unicode.SQUARE_ROOT)) {
 				((RadioButtonTreeItem) field).insertString("\\sqrt{}");
 				// move one position back (inside the brackets)
-				((RadioButtonTreeItem) field).keydown(37, false, false,
+				((RadioButtonTreeItem) field).keydown(LEFT_ARROW, false, false,
 						false);
 			} else if (text.startsWith("(")) {
-				((RadioButtonTreeItem) field).keypress(40, false, false,
+				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 						false);
 			} else if (text.startsWith("[")) {
-				((RadioButtonTreeItem) field).keypress(91, false, false,
+				((RadioButtonTreeItem) field).keypress(LBRACK, false, false,
 						false);
 			} else if (text.equals("/")) {
-				((RadioButtonTreeItem) field).keypress(47, false, false,
+				((RadioButtonTreeItem) field).keypress(SLASH, false, false,
 						false);
 			} else {
 				((RadioButtonTreeItem) field).insertString(text);
@@ -283,5 +327,4 @@ public class TextFieldProcessing {
 			break;
 		}
 	}
-
 }
