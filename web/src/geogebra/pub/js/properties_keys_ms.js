@@ -2790,7 +2790,7 @@ __GGB__keysVar.ms.plain = {
     "UploadPrepare": "Menyediakan Muat Naik",
     "UseClipping": "Guna pengklipan",
     "UseJavaFontsForLaTeX": "Guna fon Java untuk teks LaTeX",
-    "UseLighting": "Use Lighting",
+    "UseLighting": "Gunakan Cahaya",
     "Value": "Nilai",
     "ValueOfA": "Nilai %0",
     "ValuesOfA": "Nilai %0",
