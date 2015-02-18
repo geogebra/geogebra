@@ -591,6 +591,26 @@ abstract public class Manager {
 	public int getLongitudeDefault() {
 		return 64;
 	}
+	
+	/**
+	 * 
+	 * @param radius circle radius
+	 * @param viewScale view scale
+	 * @return correct longitudes size regarding radius * viewScale
+	 */
+	public int getLongitude(double radius, double viewScale){
+		int longitude = 8;
+		double size = radius * viewScale;
+		// App.error(""+size);
+		while (longitude < 2 * size
+				&& longitude < getLongitudeDefault()) {// find the correct
+															// longitude size
+			longitude *= 2;
+		}
+
+		// App.debug("getLongitude="+longitude);
+		return longitude;
+	}
 
 	/**
 	 * draw a point

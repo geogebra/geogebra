@@ -338,6 +338,8 @@ public class PlotterSurface {
 		// App.debug("sphere ==== longitude="+longitude);
 		return longitude;
 	}
+	
+	
 
 	/**
 	 * draw a sphere with center and radius. view scaling is used to know how
@@ -1044,10 +1046,9 @@ public class PlotterSurface {
 
 	public Coords cylinder(Coords center, Coords vx, Coords vy, Coords vz,
 			double radius, double start, double extent, double min, double max,
-			boolean minFading, boolean maxFading) {
+			boolean minFading, boolean maxFading, int longitude) {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
-		int longitude = manager.getLongitudeDefault();
 
 		Coords n;
 		float u, v;

@@ -65,7 +65,7 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 		// no outline
 	}
 
-	private int longitude = 0;
+	protected int longitude = 0;
 
 	private double scale;
 
@@ -171,11 +171,11 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 
 	@Override
 	protected boolean updateForItSelf() {
-
+		
 		Renderer renderer = getView3D().getRenderer();
 		GeoQuadric3D quadric = (GeoQuadric3D) getGeoElement();
 		PlotterSurface surface;
-
+		
 		switch (quadric.getType()) {
 		case GeoQuadricNDConstants.QUADRIC_SPHERE:
 			Coords center = quadric.getMidpoint3D();
@@ -274,9 +274,10 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			surface.start(getReusableSurfaceIndex());
 
 			if (quadric instanceof GeoQuadric3DPart) { // simple cylinder
+				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
 				Coords bottomCenter = surface.cylinder(center, ev1, ev2, ev3, radius, 0, 2 * Math.PI,
 						quadric.getMinParameter(1), quadric.getMaxParameter(1),
-						false, false);
+						false, false, longitude);				
 				
 				boundsMin.set(Double.POSITIVE_INFINITY);
 				boundsMax.set(Double.NEGATIVE_INFINITY);
@@ -287,17 +288,18 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 				double[] minmax = getMinMax();
 				double min = minmax[0];
 				double max = minmax[1];
+				longitude = renderer.getGeometryManager().getLongitude(radius, getView3D().getScale());
 				if (getView3D().useClippingCube()) {
 					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
-							2 * Math.PI, min, max, false, false);
+							2 * Math.PI, min, max, false, false, longitude);
 				} else {
 					double delta = (max - min) / 10;
 					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
-							2 * Math.PI, min + delta, max - delta, false, false);
+							2 * Math.PI, min + delta, max - delta, false, false, longitude);
 					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
-							2 * Math.PI, min, min + delta, true, false);
+							2 * Math.PI, min, min + delta, true, false, longitude);
 					surface.cylinder(center, ev1, ev2, ev3, radius, 0,
-							2 * Math.PI, max - delta, max, false, true);
+							2 * Math.PI, max - delta, max, false, true, longitude);
 				}
 
 			}
