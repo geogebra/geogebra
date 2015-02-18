@@ -37,6 +37,7 @@ public class TextFieldProcessing {
 	private static final int CIRCUMFLEX = 94;
 	private static final int T_LOWER_CASE = 116;
 	private static final int UNDERSCORE = 95;
+	private static final int DOLLAR = 36;
 
 	/** Javascript char codes */
 	private static final int LEFT_ARROW = 37;
@@ -323,6 +324,9 @@ public class TextFieldProcessing {
 			} else if (text.equals("_")) {
 				((RadioButtonTreeItem) field).keypress(UNDERSCORE, false,
 						false, false);
+			} else if (text.equals("$")) {
+				((RadioButtonTreeItem) field).keypress(DOLLAR, false, false,
+						false);
 			} else {
 				((RadioButtonTreeItem) field).insertString(text);
 				((RadioButtonTreeItem) field).popupSuggestions();
