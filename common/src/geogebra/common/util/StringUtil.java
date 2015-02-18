@@ -1294,4 +1294,37 @@ public class StringUtil {
 				|| c == '\u2029' || c == '\u205F' || c == '\u3000';
 	}
 
+	/**
+	 * Used in DynamicTextProcessor and DynamicTextInputPane, and later also to
+	 * support the output of MathQuillGGB
+	 * 
+	 * @param sb
+	 *            output
+	 * @param content
+	 *            input
+	 * @param currentQuote
+	 *            alternate between open and closed
+	 */
+	public static char processQuotes(StringBuilder sb, String content, char ret) {
+		char currentQuote = ret;
+		if (content.indexOf("\"") == -1) {
+			sb.append(content);
+			return currentQuote;
+		}
+
+		for (int i = 0; i < content.length(); i++) {
+			char c = content.charAt(i);
+			if (c == '\"') {
+				sb.append(currentQuote);
+
+				// flip open <-> closed
+				if (currentQuote == Unicode.OPEN_DOUBLE_QUOTE) {
+					currentQuote = Unicode.CLOSE_DOUBLE_QUOTE;
+				} else {
+					currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
+				}
+			}
+		}
+		return currentQuote;
+	}
 }

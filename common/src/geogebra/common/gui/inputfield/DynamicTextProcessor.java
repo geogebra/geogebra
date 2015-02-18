@@ -9,6 +9,7 @@ import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 
 import java.util.ArrayList;
@@ -31,7 +32,6 @@ public class DynamicTextProcessor {
 	private App app;
 
 	private ArrayList<DynamicTextElement> dList;
-	private char currentQuote;
 
 	/**
 	 * Constructor
@@ -220,7 +220,7 @@ public class DynamicTextProcessor {
 			return "";
 		}
 
-		currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
+		char currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
 
 		StringBuilder sb = new StringBuilder();
 		String text;
@@ -231,7 +231,9 @@ public class DynamicTextProcessor {
 
 			if (mode == DynamicTextType.STATIC) {
 				for (int k = 0; k < text.length(); k++) {
-					processQuotes(sb, text.substring(k, k + 1));
+					currentQuote = StringUtil.processQuotes(sb,
+							text.substring(k, k + 1),
+							currentQuote);
 				}
 
 			} else {
@@ -263,26 +265,4 @@ public class DynamicTextProcessor {
 		return sb.toString();
 
 	}
-
-	private void processQuotes(StringBuilder sb, String content) {
-		if (content.indexOf("\"") == -1) {
-			sb.append(content);
-			return;
-		}
-
-		for (int i = 0; i < content.length(); i++) {
-			char c = content.charAt(i);
-			if (c == '\"') {
-				sb.append(currentQuote);
-
-				// flip open <-> closed
-				if (currentQuote == Unicode.OPEN_DOUBLE_QUOTE) {
-					currentQuote = Unicode.CLOSE_DOUBLE_QUOTE;
-				} else {
-					currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
-				}
-			}
-		}
-	}
-
 }

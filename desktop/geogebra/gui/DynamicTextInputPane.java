@@ -7,6 +7,7 @@ import geogebra.common.kernel.arithmetic.ExpressionValue;
 import geogebra.common.kernel.arithmetic.MyStringBuffer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
 import geogebra.gui.dialog.TextInputDialog;
 import geogebra.gui.inputfield.MyTextField;
@@ -181,9 +182,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 		return tf;
 	}
 
-	// alternate between open and closed
-	private char currentQuote;
-
 	/**
 	 * Converts the current editor content into a GeoText string.
 	 * 
@@ -193,7 +191,7 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 	 */
 	public String buildGeoGebraString(boolean latex) {
 
-		currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
+		char currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
 
 		StringBuilder sb = new StringBuilder();
 		Element elem;
@@ -230,7 +228,8 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 				} else if (elem.getName().equals("content")) {
 
 					String content = doc.getText(i, 1);
-					processQuotes(sb, content);
+					currentQuote = StringUtil.processQuotes(sb, content,
+							currentQuote);
 
 				}
 
@@ -245,27 +244,6 @@ public class DynamicTextInputPane extends JTextPane implements FocusListener {
 
 		return sb.toString();
 
-	}
-
-	private void processQuotes(StringBuilder sb, String content) {
-		if (content.indexOf("\"") == -1) {
-			sb.append(content);
-			return;
-		}
-
-		for (int i = 0; i < content.length(); i++) {
-			char c = content.charAt(i);
-			if (c == '\"') {
-				sb.append(currentQuote);
-
-				// flip open <-> closed
-				if (currentQuote == Unicode.OPEN_DOUBLE_QUOTE) {
-					currentQuote = Unicode.CLOSE_DOUBLE_QUOTE;
-				} else {
-					currentQuote = Unicode.OPEN_DOUBLE_QUOTE;
-				}
-			}
-		}
 	}
 
 	/**
