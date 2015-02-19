@@ -7809,7 +7809,7 @@ public abstract class EuclidianController {
 				+ lastMousePressedTime) {
 			// we wait at least DRAGGING_DELAY (100ms) before starting drag
 			// used for interactive boards
-			return true;
+			return !EuclidianView.isPenMode(mode);
 		}
 		return false;
 	}
