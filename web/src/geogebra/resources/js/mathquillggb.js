@@ -4201,7 +4201,14 @@ var TextBlock = P(Node, function(_, _super) {
     return false;
   };
   _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this); };
-  _.moveOutOf = function(dir, cursor) { cursor.insertAdjacent(dir, this); };
+  _.moveOutOf = function(dir, cursor) {
+    if (this.ctrlSeq === '') {
+      // if this is used from Quotation:
+      cursor.insertAdjacent(dir, this.parent);
+    } else {
+      cursor.insertAdjacent(dir, this);
+    }
+  };
 
   // TODO: make these methods part of a shared mixin or something.
   _.createSelection = MathCommand.prototype.createSelection;
@@ -4212,12 +4219,18 @@ var TextBlock = P(Node, function(_, _super) {
   _.selectChildren = MathBlock.prototype.selectChildren;//?
 
   _.selectOutOf = function(dir, cursor) {
-    var cmd = this;
-    cursor.clearSelection().hide().insertAdjacent(dir, cmd)
-    .selection = Selection(cmd);
+    if (this.ctrlSeq === '') {
+      // if this is used from Quotation:
+      MathBlock.prototype.selectOutOf.apply(this, arguments);
+    } else {
+      var cmd = this;
+      cursor.clearSelection().hide().insertAdjacent(dir, cmd)
+      .selection = Selection(cmd);
+    }
   };
   _.deleteTowards = _.createSelection;
   _.deleteOutOf = function(dir, cursor) {
+	//cursor.unwrapGramp();//quot
     // backspace and delete at ends of block don't unwrap
     if (this.isEmpty()) cursor.insertAfter(this);
   };
@@ -4266,8 +4279,6 @@ var TextBlock = P(Node, function(_, _super) {
 
   _.focus = MathBlock.prototype.focus;
   _.isEmpty = MathBlock.prototype.isEmpty;
-  _.blur = MathBlock.prototype.blur;
-  _.moveOutOf = MathBlock.prototype.moveOutOf;
 });
 
 /**
