@@ -34,18 +34,14 @@ import geogebra.common.main.GeoElementSelectionListener;
 public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 		IFunctionInspectorListener {
 
-	private static final long serialVersionUID = 1L;
 	private FunctionInspectorModel model;
 	// ggb fields
 	private Kernel kernel;
-	private static final int minRows = 12;
 
 		private boolean isIniting;
 
 	private boolean isChangingValue;
-	private int pointCount = 9;
 
-	private GeoElementSelectionListener sl;
 	private App app;
 
 	/***************************************************************
@@ -230,12 +226,13 @@ public abstract class FunctionInspector implements View, UpdateFonts, SetLabels,
 	// ====================================================
 
 	private void createGeoElementSlectionListener() {
-		sl = new GeoElementSelectionListener() {
+		GeoElementSelectionListener sl = new GeoElementSelectionListener() {
 			public void geoElementSelected(GeoElement geo,
 					boolean addToSelection) {
 				insertGeoElement(geo);
 			}
 		};
+		app.getSelectionManager().addSelectionListener(sl);
 	}
 
 	/**

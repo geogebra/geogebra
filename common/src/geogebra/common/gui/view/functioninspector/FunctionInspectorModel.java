@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.common.gui.view.functioninspector;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
@@ -48,7 +49,6 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.optimization.ExtremumFinder;
 import geogebra.common.kernel.roots.RealRootFunction;
 import geogebra.common.main.App;
-import geogebra.common.main.GeoElementSelectionListener;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.common.main.Localization;
 import geogebra.common.plugin.EuclidianStyleConstants;
@@ -121,13 +121,9 @@ public class FunctionInspectorModel {
 	private ArrayList<Double[]> xyTableCopyList = new ArrayList<Double[]>();
 
 	private double xMin, xMax, start = -1, step = 0.1;
-	private double initialX;
 
 	//	private boolean isChangingValue;
 	private int pointCount = 9;
-
-	private GeoElementSelectionListener sl;
-
 
 	private ArrayList<String> property = new ArrayList<String>();
 	private ArrayList<String> value = new ArrayList<String>();
@@ -164,7 +160,6 @@ public class FunctionInspectorModel {
 
 
 		activeEV = (EuclidianView) app.getActiveEuclidianView();
-		createGeoElementSlectionListener();
 
 		// load selected function
 		this.selectedGeo = selectedGeo;
@@ -426,7 +421,6 @@ public class FunctionInspectorModel {
 		if (highPrecision == null) {
 			return "";
 		}
-		App.debug("x: " + x + " High Precision: " + highPrecision);
 		String result = app.getKernel().format(x,highPrecision);
 
 		return result;
@@ -438,7 +432,6 @@ public class FunctionInspectorModel {
 	 */
 	public void updateXYTable(int rowCount, boolean isTable) {
 
-		App.debug("[updateXYTable] rowCount: " + rowCount + " table: " + isTable);
 
 		// String lbl = selectedGeo.getLabel();
 		GeoFunction f = selectedGeo;
@@ -657,17 +650,12 @@ public class FunctionInspectorModel {
 	// Geo Selection Listener
 	// ====================================================
 
-	private void createGeoElementSlectionListener() {
-		sl = new GeoElementSelectionListener() {
-			public void geoElementSelected(GeoElement geo,
-					boolean addToSelection) {
-				insertGeoElement(geo);
-			}
-		};
-	}
+
 
 	private double getStartX() {
-		int mouseX = activeEV.getEuclidianController().getMouseLoc().getX();
+		GPoint mouse = activeEV.getEuclidianController().getMouseLoc();
+		int mouseX = mouse == null ? activeEV.getWidth() / 2 : activeEV
+				.getEuclidianController().getMouseLoc().getX();
 		return activeEV.toRealWorldCoordX(mouseX);
 		
 	}
@@ -828,6 +816,7 @@ public class FunctionInspectorModel {
 		pts.setObjColor(GeoGebraColorConstants.DARKGRAY);
 		pts.setPointSize(3);
 		pts.setLayer(f.getLayer() + 1);
+		pts.setSelectionAllowed(false);
 		for (int i = 0; i < pointCount; i++) {
 			pts.add(new GeoPoint(cons));
 		}
@@ -974,8 +963,6 @@ public class FunctionInspectorModel {
 			if (!"".equals(str)) {
 				double x = Double.parseDouble(str);
 				double y = selectedGeo.evaluate(x);
-				App.debug("[TESTPOINT] row: " + row + " str: " + str);
-				App.debug("[TESTPOINT] x: " + x + " y: " + y);
 				testPoint.setCoords(x, y, 1);
 				testPoint.updateRepaint();
 			}
