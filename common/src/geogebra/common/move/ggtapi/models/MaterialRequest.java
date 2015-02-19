@@ -179,7 +179,7 @@ public class MaterialRequest implements Request
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
 		req.filterMap.put(Filters.author_url, userId+"");
-		req.by = Order.timestamp;
+		req.by = Order.relevance;
 		return req;
 	}
 
@@ -189,7 +189,7 @@ public class MaterialRequest implements Request
 		req.filterMap.put(Filters.type, "link");
 		req.negFilters.add(Filters.type);
 
-		req.by = Order.timestamp;
+		req.by = Order.relevance;
 		return req;
 	}
 
