@@ -4209,7 +4209,7 @@ var TextBlock = P(Node, function(_, _super) {
   _.clearSelection = MathCommand.prototype.clearSelection;
   _.retractSelection = MathCommand.prototype.retractSelection;
   _.placeCursor = MathCommand.prototype.placeCursor;//?
-  _.selectChildren = MathCommand.prototype.selectChildren;//?
+  _.selectChildren = MathBlock.prototype.selectChildren;//?
 
   _.selectOutOf = function(dir, cursor) {
     var cmd = this;
