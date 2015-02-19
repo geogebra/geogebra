@@ -2882,9 +2882,35 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
     for (var i = 0; i < numBlocks; i += 1) {
       var newBlock = blocks[i] = makeQuotationText()();
 	  newBlock.adopt(cmd, cmd.ch[R], 0);
+
+	  // this should work as htmlTemplate contains only one &0,
+	  // or in other words, numBlocks is always 1 in theory,
+	  // I not not even understand why there is a loop
 	  this.lasttextblock = newBlock;
 	}
   };
+  //_.placeCursor = function(cursor) {
+  //  this.lasttextblock.placeCursor(cursor);
+  //};
+  //_.moveTowards = function(dir, cursor) {
+  //  this.lasttextblock.moveTowards(dir, cursor);
+  //};
+  //_.createSelection = function(dir, cursor) {
+  //  this.lasttextblock.createSelection(dir, cursor);
+  //};
+  //_.expandSelection = function(dir, cursor) {
+  //  this.lasttextblock.expandSelection(dir, cursor);
+  //};
+  //_.clearSelection = function(dir, cursor) {
+  //  this.lasttextblock.clearSelection(dir, cursor);
+  //};
+  //_.retractSelection = function(dir, cursor) {
+  //  this.lasttextblock.retractSelection(dir, cursor);
+  //};
+  //_.deleteTowards = _.createSelection;
+  //_.selectChildren = function(cursor) {
+  //  this.lasttextblock.selectChildren(cursor);
+  //};
   _.seek = function(pageX, cursor) {
     this.lasttextblock.seek(pageX, cursor);
   };
@@ -4182,6 +4208,8 @@ var TextBlock = P(Node, function(_, _super) {
   _.expandSelection = MathCommand.prototype.expandSelection;
   _.clearSelection = MathCommand.prototype.clearSelection;
   _.retractSelection = MathCommand.prototype.retractSelection;
+  _.placeCursor = MathCommand.prototype.placeCursor;//?
+  _.selectChildren = MathCommand.prototype.selectChildren;//?
 
   _.selectOutOf = function(dir, cursor) {
     var cmd = this;
