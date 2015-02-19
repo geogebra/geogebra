@@ -4230,9 +4230,13 @@ var TextBlock = P(Node, function(_, _super) {
   };
   _.deleteTowards = _.createSelection;
   _.deleteOutOf = function(dir, cursor) {
-	//cursor.unwrapGramp();//quot
-    // backspace and delete at ends of block don't unwrap
-    if (this.isEmpty()) cursor.insertAfter(this);
+    if (this.ctrlSeq === '') {
+      // if this is used from quotation
+      cursor.unwrapGramp();
+    } else {
+      // backspace and delete at ends of block don't unwrap
+      if (this.isEmpty()) cursor.insertAfter(this);
+    }
   };
   _.write = function(cursor, ch, replacedFragment) {
     if (replacedFragment) replacedFragment.remove();
