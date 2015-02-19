@@ -783,7 +783,7 @@ var Point = P(function(_) {
  */
 var Node = P(function(_) {
   _[L] = 0;
-  _[R] = 0
+  _[R] = 0;
   _.parent = 0;
   _.textTemplate = [''];
   //_.text = function() { return ''; };// dummy default (maybe for bugfix)
@@ -4088,7 +4088,14 @@ pi: 1
  * opposed to hierchical, nested, tree-structured math.
  * Wraps a single HTMLSpanElement.
  */
-var TextBlock = P(Node, function(_, _super) {
+var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
+  _.finalizeInsert = function() {// but its only method is overridden anyway
+	if (this.ctrlSeq === '') {
+      MathElement.prototype.finalizeInsert.call(this.parent);
+	} else {
+      MathElement.prototype.finalizeInsert.call(this);
+	}
+  };
   _.ctrlSeq = '\\text';
   _.join = function(methodName) {
 	// for compatibility with MathBlock
