@@ -2595,7 +2595,7 @@ __GGB__keysVar.fr.plain = {
     "PlaneFromA": "Plan contenant %0",
     "PlaneThroughAB": "Plan contenant %0 et %1",
     "PlaneThroughABC": "Plan passant par %0, %1 et %2",
-    "PlaneThroughAParallelToB": "Plane passant par %0 et parall\xe8le \xe0 %1",
+    "PlaneThroughAParallelToB": "Plan passant par %0 et parall\xe8le \xe0 %1",
     "PlaneThroughAPerpendicularToB": "Plan par %0 perpendiculaire \xe0 %1",
     "Play": "Ex\xe9cuter",
     "PlayButton": "\"Ex\xe9cuter\"",
