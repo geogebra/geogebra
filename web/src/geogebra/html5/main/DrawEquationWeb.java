@@ -1079,6 +1079,12 @@ public class DrawEquationWeb extends DrawEquation {
 		// 1+3 parameters, it is assumed that there is a fourth kind
 		// of input added, which is the place of the Cursor
 		thisjq.mathquillggb('replace', eqstring, currentWord, command);
+
+		// this does not work, why?
+		// make sure the length of brackets (e.g. Quotation marks) are Okay
+		//$wnd.setTimeout(function() {
+		//	$wnd.$ggbQuery(elsecondInside).mathquillggb('redraw');
+		//}, 500);
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(

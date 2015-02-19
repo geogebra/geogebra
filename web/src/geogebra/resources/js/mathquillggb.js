@@ -5061,7 +5061,7 @@ $.fn.mathquillggb = function(cmd, latex) {
         (function postOrderRedraw(el) {
           el.eachChild(postOrderRedraw);
           if (el.redraw) el.redraw();
-        }(rootBlock));
+        })(rootBlock);
       }
     });
   case 'revert':
