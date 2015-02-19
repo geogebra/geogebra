@@ -39,6 +39,7 @@ public class GLBufferW implements GLBuffer {
 	public void allocate(int length) {
 		// allocate buffer only at start and when length change
 		if (impl == null || impl.getLength() < length) {
+			// This may be null in IE10
 			impl = (MyFloat32Array) Float32Array.create(length);
 		}
 
@@ -54,6 +55,9 @@ public class GLBufferW implements GLBuffer {
 	}
 
 	public void put(double value) {
+		if (impl == null) {
+			return;
+		}
 		impl.set(index, value);
 		index++;
 	}
@@ -62,7 +66,9 @@ public class GLBufferW implements GLBuffer {
 	public void set(ArrayList<Double> array, int length) {
 
 		allocate(length);
-
+		if (impl == null) {
+			return;
+		}
 		for (int i = 0; i < length; i++) {
 			impl.set(i, array.get(i));
 		}
@@ -75,6 +81,9 @@ public class GLBufferW implements GLBuffer {
 	}
 
 	public void array(float[] ret) {
+		if (impl == null) {
+			return;
+		}
 		for (int i = 0; i < ret.length; i++) {
 			ret[i] = impl.get(i);
 		}
