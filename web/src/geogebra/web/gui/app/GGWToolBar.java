@@ -2,6 +2,7 @@ package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ToolBarInterface;
@@ -875,7 +876,8 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		
 		app.setMode(((GGWToolBar)app.getToolbar()).
 				getToolBar().
-				getFirstMode());
+getFirstMode(),
+		        ModeSetter.DOCK_PANEL);
 	    
     }
 }
