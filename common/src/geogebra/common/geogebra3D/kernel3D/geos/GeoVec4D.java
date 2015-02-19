@@ -106,4 +106,9 @@ public abstract class GeoVec4D extends GeoVec implements GeoCoords4D {
 		return toStringMode;
 	}
 
+	@Override
+	public final boolean hasCoords() {
+		return true;
+	}
+
 }
