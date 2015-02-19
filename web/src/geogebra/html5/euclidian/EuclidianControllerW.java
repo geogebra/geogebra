@@ -282,7 +282,29 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	@Override
 	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
-		return view.textfieldClicked(x, y, type) || isComboboxFocused();
+
+		geogebra.common.util.debug.Log
+		        .info("EuclidianControllerW.textfieldJustFocusedW");
+		if (isComboboxFocused()) {
+			geogebra.common.util.debug.Log.info("isComboboxFocused!");
+			this.draggingOccured = false;
+			view.setHits(mouseLoc, type);
+			Hits hits = view.getHits().getTopHits();
+			if (!hits.isEmpty()) {
+				GeoElement hit = hits.get(0);
+				if (hit != null && !hit.isGeoButton() && !hit.isGeoTextField()
+				        && !hit.isGeoBoolean()) {
+					GeoElement geo = chooseGeo(hits, true);
+					if (geo != null) {
+						runScriptsIfNeeded(geo);
+					}
+				}
+			}
+
+			return true;
+		}
+		// return view.textfieldClicked(x, y, type) || isComboboxFocused();
+		return view.textfieldClicked(x, y, type);
 	}
 
 	public boolean isComboboxFocused() {

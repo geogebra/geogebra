@@ -8625,7 +8625,7 @@ public abstract class EuclidianController {
 		return !doubleClickStarted && mode == EuclidianConstants.MODE_MOVE;
 	}
 
-	private void runScriptsIfNeeded(GeoElement geo1) {
+	protected void runScriptsIfNeeded(GeoElement geo1) {
 		// make sure that Input Boxes lose focus (and so update) before running
 		// scripts
 		if (view.getHits().size() > 0
