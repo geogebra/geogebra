@@ -249,7 +249,9 @@ public class ProbabilityCalculatorViewW extends ProbabilityCalculatorView implem
 	    plotPanelOptions = new FlowPanel();
 	    plotPanelOptions.setStyleName("plotPanelOptions");
 	    plotPanelOptions.add(lblMeanSigma);
-	    plotPanelOptions.add(btnExport);
+		if (!app.isExam()) {
+			plotPanelOptions.add(btnExport);
+		}
 	    plotPanelOptions.add(btnNormalOverlay);
 	    plotPanelOptions.add(new ClearPanel());
 	    
