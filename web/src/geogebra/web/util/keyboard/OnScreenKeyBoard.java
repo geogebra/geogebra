@@ -711,6 +711,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	@Override
 	public void onClick(ClickEvent event) {
+		event.preventDefault();
 		event.stopPropagation();
 		Object source = event.getSource();
 		if (source != null && source instanceof KeyBoardButton) {
@@ -832,10 +833,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 *            the keyboard mode
 	 */
 	public void setKeyboardMode(final KeyboardMode mode) {
+
+		// TODO focus events might be needed for mobile devices
+
 		this.mode = mode;
 		if (mode == KeyboardMode.NUMBER) {
 			processing.setKeyBoardModeText(false);
-			processing.setFocus(false);
+			// processing.setFocus(false);
 			contentNumber.setVisible(true);
 			contentLetters.setVisible(false);
 			contentGreek.setVisible(false);
@@ -848,11 +852,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			contentSpecialChars.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 			processing.setKeyBoardModeText(true);
-			processing.setFocus(true);
+			// processing.setFocus(true);
 			updateKeyBoardListener.showInputField();
 		} else if (mode == KeyboardMode.GREEK) {
 			processing.setKeyBoardModeText(false);
-			processing.setFocus(false);
+			// processing.setFocus(false);
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);
 			contentGreek.setVisible(true);
@@ -860,7 +864,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
 			processing.setKeyBoardModeText(false);
-			processing.setFocus(false);
+			// processing.setFocus(false);
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);
 			contentGreek.setVisible(false);

@@ -194,14 +194,14 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 				// super.onBrowserEvent(event);
 				// super.setFocus(false);
 				// } else {
-					super.onBrowserEvent(event);
+				super.onBrowserEvent(event);
 				// }
 
 				// react on enter from system on screen keyboard or hardware
 				// keyboard
 				if ((event.getTypeInt() == Event.ONKEYUP || event.getTypeInt() == Event.ONKEYPRESS)
 						&& event.getKeyCode() == KeyCodes.KEY_ENTER) {
-					app.hideKeyboard();
+					// app.hideKeyboard();
 					// prevent handling in AutoCompleteTextField
 					event.stopPropagation();
 				}
