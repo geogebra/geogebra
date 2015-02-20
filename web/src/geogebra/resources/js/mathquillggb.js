@@ -1942,6 +1942,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
           // any ill effect on the formula in case it is unsuccessful!
         }
       }
+      this.cursor.write(ch);
 	} else if (ch === ' ') {
       this.cursor.write('*');
 	} else {
