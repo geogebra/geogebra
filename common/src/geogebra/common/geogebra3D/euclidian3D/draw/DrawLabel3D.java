@@ -358,6 +358,12 @@ public class DrawLabel3D {
 	 * @return true if pos hits the label
 	 */
 	public boolean hit(GPoint pos) {
+		if (backgroundColor != null) {
+			return drawX <= pos.x
+					&& drawX + width >= pos.x
+					&& drawY <= pos.y
+					&& drawY + height >= pos.y;
+		}
 
 		return drawX + pickingX <= pos.x
 				&& drawX + pickingX + pickingW >= pos.x
@@ -386,8 +392,11 @@ public class DrawLabel3D {
 		if (forPicking) {
 			// renderer.getGeometryManager().rectangle(drawX + pickingX, drawY +
 			// pickingY, drawZ, pickingW, pickingH);
-			renderer.getGeometryManager().draw(pickingIndex);
-
+			if (backgroundColor != null) {
+				renderer.getGeometryManager().draw(backgroundIndex);
+			}else{
+				renderer.getGeometryManager().draw(pickingIndex);
+			}
 		} else {
 
 			// draw background
