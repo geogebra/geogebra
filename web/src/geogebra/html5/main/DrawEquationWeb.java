@@ -751,30 +751,35 @@ public class DrawEquationWeb extends DrawEquation {
 								if (!newCreationMode) {
 									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
+							} else {
+								// it would be counterproductive to call autoScroll and history popup
+								// after the editing/new formula creation ends! so put their code here
+
+								// first we should do some auto-scroll...
+								// maybe it's only important for new formula creation mode,
+								// but I think it still improves things in the other case too.
+								// This should also be called in newFormulaCreatedMathQuillGGB
+								// and endEditingEquationMathQuillGGB! (i.e. ENTER & ESC keys)
+								@geogebra.html5.main.DrawEquationWeb::autoScroll(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+
+								if (newCreationMode) {
+									var querr = elsecondInside;
+									if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
+										// when the suggestions should pop up, we make them pop up,
+										// when not, there may be two possibilities: we should hide the old,
+										// or we should not hide the old... e.g. up/down arrows should not hide...
+										// is there any other case? (up/down will unset later here)
+										if (querr.GeoGebraSuggestionPopupCanShow === true) {
+											@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+										} else {
+											@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
+										}
+									}
+								}
 							}
 
 							event.stopPropagation();
 							event.preventDefault();
-
-							// first we should do some auto-scroll...
-							// maybe it's only important for new formula creation mode,
-							// but I think it still improves things in the other case too.
-							@geogebra.html5.main.DrawEquationWeb::autoScroll(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-
-							if (newCreationMode) {
-								var querr = elsecondInside;
-								if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
-									// when the suggestions should pop up, we make them pop up,
-									// when not, there may be two possibilities: we should hide the old,
-									// or we should not hide the old... e.g. up/down arrows should not hide...
-									// is there any other case? (up/down will unset later here)
-									if (querr.GeoGebraSuggestionPopupCanShow === true) {
-										@geogebra.html5.main.DrawEquationWeb::popupSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-									} else {
-										@geogebra.html5.main.DrawEquationWeb::hideSuggestions(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-									}
-								}
-							}
 							return false;
 						}).keypress(function(event2) {
 					// the main reason of calling stopPropagation here

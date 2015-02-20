@@ -89,6 +89,7 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
@@ -993,7 +994,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			app.showError(ee);// we use what we have
 			return false;
 		}
-		scrollIntoView();
+        // there is also a timer to make sure it scrolls into view
+        Timer tim = new Timer() {
+			@Override
+        	public void run() {
+        		scrollIntoView();
+        	}
+		};
+        tim.schedule(500);
 		return true;
 	}
 
