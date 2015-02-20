@@ -7,6 +7,7 @@ import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.euclidian3D.EuclidianView3DW;
 import geogebra.html5.gawt.GBufferedImageW;
+import geogebra.html5.main.AppW;
 
 import java.util.HashMap;
 
@@ -35,6 +36,7 @@ public class EuclidianView3DWnoWebGL extends EuclidianView3DW {
 	public EuclidianView3DWnoWebGL(EuclidianController3D ec,
 	        EuclidianSettings settings) {
 		super(ec, settings);
+		setCurrentFile(((AppW) ec.getApplication()).getCurrentFile());
 	}
 
 	@Override
