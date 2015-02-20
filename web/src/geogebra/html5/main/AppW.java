@@ -728,7 +728,7 @@ public abstract class AppW extends App implements SetLabels {
 		return fileList.size();
 	}
 
-	public Map<String, String> getCurrentFile() {
+	public HashMap<String, String> getCurrentFile() {
 		return currentFile;
 	}
 
