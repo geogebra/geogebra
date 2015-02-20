@@ -1389,7 +1389,6 @@ var Symbol = P(MathCommand, function(_, _super) {
  * ancestor operators.
  */
 var MathBlock = P(MathElement, function(_) {
-  _.closed = false;
   _.close = function() {
     this.closed = true;
   };
@@ -1515,12 +1514,8 @@ var MathBlock = P(MathElement, function(_) {
   };
 
   _.focus = function() {
-	if (this.closed) {
-	} else {
-      this.jQ.addClass('hasCursor');
-	}
+    this.jQ.addClass('hasCursor');
     this.jQ.removeClass('empty');
-
     return this;
   };
   _.blur = function() {
