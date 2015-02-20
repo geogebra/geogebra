@@ -307,7 +307,7 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
 				        false, true);
 			}
-			else if (text.equals(Unicode.SQUARE_ROOT)) {
+ else if (text.equals(Unicode.SQUARE_ROOT + "")) {
 				((RadioButtonTreeItem) field).insertString("\\sqrt{}");
 				// move one position back (inside the brackets)
 				((RadioButtonTreeItem) field).keydown(LEFT_ARROW, false, false,
