@@ -684,6 +684,18 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
+	 * This is an autoScroll to the edited formula in theory, so it could be
+	 * just a _scrollToBottom_ in practice, but there is a case when the
+	 * construction is long and a formula on its top is edited...
+	 * 
+	 * It's lucky that GWT's Element.scrollIntoView exists, so we can call that
+	 * method...
+	 */
+	public static void autoScroll(RadioButtonTreeItem rbti) {
+		rbti.scrollIntoView();
+	}
+
+	/**
 	 * Edits a MathQuillGGB equation which was created by
 	 * drawEquationMathQuillGGB
 	 * 
@@ -743,6 +755,11 @@ public class DrawEquationWeb extends DrawEquation {
 
 							event.stopPropagation();
 							event.preventDefault();
+
+							// first we should do some auto-scroll...
+							// maybe it's only important for new formula creation mode,
+							// but I think it still improves things in the other case too.
+							@geogebra.html5.main.DrawEquationWeb::autoScroll(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
 
 							if (newCreationMode) {
 								var querr = elsecondInside;

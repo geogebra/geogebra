@@ -11,4 +11,5 @@ public interface RadioButtonTreeItem {
 	public boolean popupSuggestions();
 	public boolean hideSuggestions();
 	public boolean shuffleSuggestions(boolean down);
+	public void scrollIntoView();
 }

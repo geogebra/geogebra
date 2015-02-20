@@ -686,6 +686,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			});
 		}
+		scrollIntoView();
 	}
 
 	public void stopEditingSimple(String newValue) {
@@ -788,6 +789,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		// maybe it's possible to enter something which is non-LaTeX
 		doUpdate();
+
+		Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
+			public void execute() {
+				scrollIntoView();
+			}
+		});
 	}
 
 	/**
@@ -842,6 +849,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			app.getActiveEuclidianView().requestFocusInWindow(); // Michael
 			                                                     // Borcherds
 			                                                     // 2008-05-12
+			scrollIntoView();
 			return false;
 		}
 
@@ -900,6 +908,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 					addToHistory(input, latexx);
 
+					Scheduler.get().scheduleDeferred(
+					        new Scheduler.ScheduledCommand() {
+						        public void execute() {
+							        scrollIntoView();
+						        }
+					        });
+
 					// inputField.setText(null); // that comes after boolean
 					// return true
 					// inputField.setIsSuggestionJustHappened(false); // that is
@@ -928,6 +943,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			app.showError(ee);// we use what we have
 			return false;
 		}
+		scrollIntoView();
 		return true;
 	}
 
@@ -1250,4 +1266,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				.getActualEditedValue(seMayLatex);
 	}
 
+	public void scrollIntoView() {
+		this.getElement().scrollIntoView();
+	}
 }
