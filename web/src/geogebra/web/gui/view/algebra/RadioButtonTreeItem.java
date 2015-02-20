@@ -25,6 +25,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
@@ -45,6 +46,7 @@ import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.EventUtil;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.util.SliderW;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
@@ -82,6 +84,8 @@ import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -105,8 +109,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
         geogebra.html5.gui.view.algebra.RadioButtonTreeItem,
 	TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler {
 
-	private GeoElement geo;
-	private Kernel kernel;
+	GeoElement geo;
+	Kernel kernel;
 	protected AppW app;
 	private SelectionManager selection; 
 	private AlgebraView av;
@@ -129,6 +133,15 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 * prevents that a blur event stops the editing process
 	 */
 	boolean blockBlur = false;
+
+	private SliderW slider;
+
+	/**
+	 * TODO this will be replaced by a check-box in the settings
+	 * 
+	 * allow sliders in AV as part of the RadioButtonTreeItem
+	 */
+	private static boolean showSliders = false;
 
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
@@ -228,8 +241,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-		
-		
 
 		radio = new Marble(showUrl, hiddenUrl,this);
 		radio.setStyleName("marble");
@@ -257,6 +268,31 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 		//String text = "";
+
+		if (showSliders && app.isPrerelease() && geo instanceof GeoNumeric) {
+			if (!geo.isEuclidianVisible()) {
+				// number inserted via input bar
+				// -> initialize min/max etc.
+				geo.setEuclidianVisible(true);
+				geo.setEuclidianVisible(false);
+			}
+
+			slider = new SliderW(((GeoNumeric) geo).getIntervalMin(),
+					(int) ((GeoNumeric) geo).getIntervalMax());
+			slider.setValue(((GeoNumeric) geo).getValue());
+			slider.setMinorTickSpacing(geo.getAnimationStep());
+
+			slider.addValueChangeHandler(new ValueChangeHandler<Double>() {
+				public void onValueChange(ValueChangeEvent<Double> event) {
+					((GeoNumeric) geo).setValue(event.getValue());
+					geo.updateCascade();
+					kernel.notifyRepaint();
+				}
+			});
+
+			add(slider);
+		}
+
 		if (geo.isIndependent()) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
 		} else {
@@ -576,9 +612,18 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (geo != null && radio != null) {
 			radio.setChecked(geo.isEuclidianVisible());
 		}
+
+		if (geo != null && geo instanceof GeoNumeric && slider != null) {
+			remove(slider);
+			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
+			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
+			slider.setMinorTickSpacing(geo.getAnimationStep());
+			slider.setValue(((GeoNumeric) geo).value);
+			add(slider);
+		}
 	}
 
-	private void updateNewStatic(SpanElement se) {
+	private static void updateNewStatic(SpanElement se) {
 		se.getStyle().setProperty("display", "-moz-inline-box");
 		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
 		se.setDir("ltr");
@@ -685,6 +730,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					CancelEventTimer.keyboardSetVisible();
 				}
 			});
+
+			if (geo != null && geo instanceof GeoNumeric && slider != null) {
+				remove(slider);
+				add(slider);
+			}
 		}
 		scrollIntoView();
 	}
@@ -711,7 +761,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		doUpdate();
 	}
 
-	private String stopCommon(String newValue0) {
+	private static String stopCommon(String newValue0) {
 		String newValue = newValue0;
 		// newValue = newValue0.replace("space *", " ");
 		// newValue = newValue.replace("* space", " ");
