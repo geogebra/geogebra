@@ -1016,7 +1016,7 @@ public class StringUtil {
 				Character ch = ignoredIndices.charAt(i);
 				sb.append(parseString.charAt(i));
 
-				if (Character.isWhitespace(ch) || (comment && !ch.equals('"'))) {
+				if (StringUtil.isWhitespace(ch) || (comment && !ch.equals('"'))) {
 					continue;
 				}
 
