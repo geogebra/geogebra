@@ -43,7 +43,7 @@ public class App3DCompanionW extends App3DCompanion {
 		panel.loadComponent();
 		EuclidianViewForPlaneW view = new EuclidianViewForPlaneW(panel,
 		        new EuclidianControllerForPlaneW(app.getKernel()), plane,
-		        evSettings);
+		        evSettings, panel.getViewId());
 		panel.setView(view);
 
 		((LayoutW) app.getGuiManager().getLayout()).registerPanel(panel);

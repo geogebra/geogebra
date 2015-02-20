@@ -89,7 +89,7 @@ public interface GuiManagerInterfaceW extends GuiManagerInterface {
 
 	public void showAlgebraInput(boolean show);
 
-	public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev);
+	public EuclidianStyleBar newEuclidianStylebar(EuclidianView ev, int viewID);
 
 	public String getMenuBarHtml(String iconString, String name, boolean b);
 

@@ -1,6 +1,7 @@
 package geogebra.geogebra3D.web.euclidianForPlane;
 
 import geogebra.common.euclidian.EuclidianController;
+import geogebra.common.euclidian.EuclidianStyleBar;
 import geogebra.common.euclidian.EuclidianViewCompanion;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.geogebra3D.euclidianForPlane.EuclidianViewForPlaneCompanion;
@@ -9,6 +10,7 @@ import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanelForPlaneW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.web.gui.GuiManagerW;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -20,6 +22,8 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class EuclidianViewForPlaneW extends EuclidianViewW implements
         EuclidianViewForPlaneInterface {
+
+	private int panelID;
 
 	/**
 	 * 
@@ -34,10 +38,10 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 */
 	public EuclidianViewForPlaneW(EuclidianPanelWAbstract euclidianViewPanel,
 	        EuclidianController ec, ViewCreator plane,
-	        EuclidianSettings settings) {
+	        EuclidianSettings settings, int panelID) {
 		super(euclidianViewPanel, ec, new boolean[] { false, false }, false,
 		        EVNO_GENERAL, settings);
-
+		this.panelID = panelID;
 		((EuclidianViewForPlaneCompanion) companion).initView(plane);
 	}
 
@@ -71,6 +75,15 @@ public class EuclidianViewForPlaneW extends EuclidianViewW implements
 	 */
 	public EuclidianDockPanelForPlaneW getDockPanel() {
 		return (EuclidianDockPanelForPlaneW) EVPanel;
+	}
+
+	@Override
+	protected EuclidianStyleBar newEuclidianStyleBar() {
+		if (getApplication().getGuiManager() == null) {
+			return null;
+		}
+		return ((GuiManagerW) getApplication().getGuiManager())
+		        .newEuclidianStylebar(this, panelID);
 	}
 
 }

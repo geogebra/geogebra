@@ -817,7 +817,7 @@ public class EuclidianViewW extends EuclidianView implements
 		if (app.getGuiManager() == null) {
 			return null;
 		}
-		return app.getGuiManager().newEuclidianStylebar(this);
+		return app.getGuiManager().newEuclidianStylebar(this, this.getViewID());
 	}
 
 	@Override

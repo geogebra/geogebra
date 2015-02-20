@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianStyleBarStatic3D;
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.main.App;
 import geogebra.common.main.Localization;
 import geogebra.geogebra3D.web.gui.images.StyleBar3DResources;
 import geogebra.html5.main.AppW;
@@ -46,7 +47,7 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	 *            euclidian view
 	 */
 	public EuclidianStyleBar3DW(EuclidianView ev) {
-		super(ev);
+		super(ev, App.VIEW_EUCLIDIAN3D);
 		optionType = optionType.EUCLIDIAN3D;
 	}
 

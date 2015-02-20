@@ -214,9 +214,11 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	/**
 	 * @param ev
 	 *            {@link EuclidianView}
+	 * @param viewID
+	 *            id of the panel
 	 */
-	public EuclidianStyleBarW(EuclidianView ev) {
-		super((AppW) ev.getApplication(), ev.getViewID());
+	public EuclidianStyleBarW(EuclidianView ev, int viewID) {
+		super((AppW) ev.getApplication(), viewID);
 
 		isIniting = true;
 		this.ev = ev;

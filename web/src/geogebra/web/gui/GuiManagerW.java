@@ -1559,8 +1559,9 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 	}
 
 	@Override
-	public EuclidianStyleBar newEuclidianStylebar(final EuclidianView ev) {
-		return new EuclidianStyleBarW(ev);
+	public EuclidianStyleBar newEuclidianStylebar(final EuclidianView ev,
+	        int viewID) {
+		return new EuclidianStyleBarW(ev, viewID);
 	}
 
 	@Override
