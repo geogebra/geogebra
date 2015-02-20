@@ -227,7 +227,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton("( )", this);
+		newButton = new KeyBoardButton("( )", "()", this);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.degree + "", this);
 		functions.addToRow(index, newButton);

@@ -306,11 +306,8 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).insertString(text);
 				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
 				        false, true);
-			}
- else if (text.equals(Unicode.SQUARE_ROOT + "")) {
-				((RadioButtonTreeItem) field).insertString("\\sqrt{}");
-				// move one position back (inside the brackets)
-				((RadioButtonTreeItem) field).keydown(LEFT_ARROW, false, false,
+			} else if (text.equals(Unicode.SQUARE_ROOT + "")) {
+				((RadioButtonTreeItem) field).keypress('\u221A', false, false,
 						false);
 			} else if (text.startsWith("(")) {
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
