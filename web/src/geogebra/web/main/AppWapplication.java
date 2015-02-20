@@ -440,6 +440,10 @@ public class AppWapplication extends AppW {
 		}
 	}
 
+	public boolean isMenuShowing() {
+		return appFrame.isMenuOpen();
+	}
+
 	@Override
 	public void openSearch(String query) {
 		showBrowser((MyHeaderPanel) getGuiManager().getBrowseView(query));

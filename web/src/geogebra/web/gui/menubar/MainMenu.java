@@ -253,11 +253,14 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		if(viewMenu != null){
 			viewMenu.update();
 		}
+		if (this.getEditMenu() != null) {
+			getEditMenu().update();
+		}
     }
 	
 	public void updateSelection() {
 		if(this.getEditMenu()!=null){
-			getEditMenu().initActions();
+			getEditMenu().invalidate();
 		}
 	}
 

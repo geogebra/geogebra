@@ -17,7 +17,7 @@ public class EditMenuW extends GMenuBar {
 	 */
 	final AppW app;
 	final SelectionManager selection;
-
+	private boolean valid = true;
 	/**
 	 * Constructs the "Edit" menu
 	 * 
@@ -256,6 +256,22 @@ public class EditMenuW extends GMenuBar {
 				}
 			}
 		});
+	}
+
+	public void invalidate(){
+		if (app.isMenuShowing()) {
+			this.valid = true;
+			this.initActions();
+		} else {
+			this.valid = false;
+		}
+	}
+	public void update() {
+		if (!valid) {
+			valid = true;
+			this.initActions();
+		}
+
 	}
 
 }

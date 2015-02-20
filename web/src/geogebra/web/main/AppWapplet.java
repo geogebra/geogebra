@@ -58,7 +58,7 @@ public class AppWapplet extends AppW {
 	private GGWToolBar ggwToolBar = null;
 	private int spWidth;
 	private int spHeight;
-	private boolean menuVisible = false;
+	private boolean menuShowing = false;
 	private boolean menuInited = false;
 	private ObjectPool objectPool;
 	// TODO remove GUI stuff from appW
@@ -529,8 +529,8 @@ public class AppWapplet extends AppW {
 
 	@Override
 	public void toggleMenu() {
-		this.menuVisible = !this.menuVisible;
-		if (this.menuVisible) {
+		this.menuShowing = !this.menuShowing;
+		if (this.menuShowing) {
 			if (!menuInited) {
 				this.getMenuBar().init(this);
 				this.menuInited = true;
@@ -556,12 +556,16 @@ public class AppWapplet extends AppW {
 			}
 		}
 
-		if (!this.menuVisible && this.getGuiManager() != null) {
+		if (!this.menuShowing && this.getGuiManager() != null) {
 			this.getGuiManager().setDraggingViews(false, true);
 		}
-		if (this.menuVisible) {
+		if (this.menuShowing) {
 			this.getGuiManager().refreshDraggingViews();
 		}
+	}
+
+	public boolean isMenuShowing() {
+		return this.menuShowing;
 	}
 
 	@Override

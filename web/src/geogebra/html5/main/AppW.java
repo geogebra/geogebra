@@ -3136,4 +3136,8 @@ public abstract class AppW extends App implements SetLabels {
 		this.insertImageCallback = runnable;
 	}
 
+	public boolean isMenuShowing() {
+		return false;
+	}
+
 }
