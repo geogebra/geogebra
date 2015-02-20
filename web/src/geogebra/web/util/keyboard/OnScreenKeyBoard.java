@@ -590,7 +590,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first row
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton("abs", this);
+		KeyBoardButton newButton = new KeyBoardButton("|x|", "abs", this);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("log", this);
 		functions.addToRow(index, newButton);
