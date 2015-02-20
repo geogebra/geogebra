@@ -1471,6 +1471,11 @@ var MathBlock = P(MathElement, function(_) {
               // in this case, do not write anything but return
               if (cursor[L]) {
             	// I did not meant to return when cursor[L] exists
+            	// unless both SubSub are actually "_"
+            	if (ch === '_' && cursor.parent.parent.ctrlSeq === '_') {
+                  // maybe ch === '_' is not necessary?
+            	  return;
+            	}
               } else {
                 return;
               }
