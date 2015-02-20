@@ -102,7 +102,7 @@ public class Parser implements ParserInterface{
         if(!kernel.getConstruction().isFileLoading() && StringUtil.checkBracketsBackward(StringUtil.ignoreIndices(parseString))>=0){
           throw new BracketsError(loc,parseString);
         }
-      ReInit(new java.io.StringReader(parseString));      
+      ReInit(new java.io.StringReader(StringUtil.fixVerticalBars(parseString)));      
       GeoGebraCASParsing = false;
       ExternalCASParsing = false;
       GiacParsing = false;
@@ -1276,6 +1276,8 @@ ExpressionValue multterm():
             }
         }
      |
+     // We do not want to accept | here because it may lead to confusing opening and closing abs bars
+     LOOKAHEAD( { getToken(1).kind != VERTICAL_BAR} )
      f = powerdivterm()
         {
               String leftImg = "";
@@ -1594,6 +1596,13 @@ ExpressionValue enelement():
           ((ExpressionNode)ev).setBrackets(true);
         }
         return ev; }                    
+| 
+    // absolute value
+    LOOKAHEAD(2147483647)
+    <VERTICAL_BAR> ev = expressionnode() <VERTICAL_BAR> 
+        { 
+			return new ExpressionNode(kernel, ev, Operation.ABS, null);
+		}
 |
     // cartesian vector  (x, y) or (x|y)
     LOOKAHEAD(2147483647)

@@ -5,9 +5,12 @@ import geogebra.common.awt.GFont;
 import geogebra.common.util.debug.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Set;
 import java.util.Stack;
+import java.util.TreeSet;
 
 public class StringUtil {
 
@@ -975,6 +978,72 @@ public class StringUtil {
 			return closingBrackets.pop();
 		}
 		return -1;
+	}
+
+	public static String fixVerticalBars(String parseString) {
+		String ignoredIndices = ignoreIndices(parseString);
+		StringBuilder sb = new StringBuilder();
+
+		// When we have <splitter> || , we know that we should separate
+		// these bars (i. e., we want absolute value, not OR)
+		Set<Character> splitters = new TreeSet<Character>(
+				Arrays.asList(new Character[] { Unicode.SQUARE_ROOT, '+', '-',
+						'*', '/', '^',
+						'=' }));
+
+		// first we iterate from left to right, and then backward
+		for (int dir = 0; dir < 2; dir++) {
+			boolean comment = false;
+			int bars = 0;
+			Character lastNonWhitespace = ' ';
+
+			if (dir == 1) {
+				parseString = sb.reverse().toString();
+				ignoredIndices = ignoreIndices(parseString);
+				sb = new StringBuilder();
+				splitters = new TreeSet<Character>(
+						Arrays.asList(new Character[] { '*', '/', '^', '=',
+								Unicode.Superscript_0, Unicode.Superscript_1,
+								Unicode.Superscript_2, Unicode.Superscript_3,
+								Unicode.Superscript_4, Unicode.Superscript_5,
+								Unicode.Superscript_6, Unicode.Superscript_7,
+								Unicode.Superscript_8, Unicode.Superscript_9,
+								Unicode.Superscript_Minus }));
+			}
+
+			int len = ignoredIndices.length();
+			for (int i = 0; i < len; i++) {
+				Character ch = ignoredIndices.charAt(i);
+				sb.append(parseString.charAt(i));
+
+				if (Character.isWhitespace(ch) || (comment && !ch.equals('"'))) {
+					continue;
+				}
+
+				if (ch.equals('"')) {
+					comment = !comment;
+				}
+
+				if (ch.equals('|')) {
+					// We separate bars if the previous symbol was in splitters
+					// or we have ||| and there were an odd number of bars so far
+					if (i == 0
+							|| (bars % 2 == 1 && i < len - 2
+									&& ignoredIndices.charAt(i + 1) == '|' && ignoredIndices
+									.charAt(i + 2) == '|')
+							|| (i < len - 1
+									&& ignoredIndices.charAt(i + 1) == '|' && splitters
+										.contains(lastNonWhitespace))) {
+						sb.append(' ');
+					}
+					bars++;
+				}
+
+				lastNonWhitespace = ch;
+			}
+		}
+
+		return sb.reverse().toString();
 	}
 
 	/**

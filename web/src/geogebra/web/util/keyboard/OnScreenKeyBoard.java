@@ -215,9 +215,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("y", this);
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("x²", "²", this);
+		newButton = new KeyBoardButton("x" + Unicode.Superscript_2,
+		        Unicode.Superscript_2 + "", this);
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.SQUARE_ROOT, this);
+		newButton = new KeyBoardButton(Unicode.SQUARE_ROOT + "", this);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("", "^", this);
 		DrawEquationWeb
