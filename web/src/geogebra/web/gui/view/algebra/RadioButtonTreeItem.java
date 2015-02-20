@@ -810,16 +810,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			// Formula Hacks ... Currently only functions are considered
 			StringBuilder sb = new StringBuilder();
 			boolean switchw = false;
-			// ignore first and last bracket, they come from mathrm
-			int skip = newValue.startsWith("(") ? 1 : 0;
-			boolean inLHS = true;
-			for (int i = skip; i < newValue.length() - skip; i++) {
-				// on lhs a*b(x) actually means ab(x)
-				// fixed in a different way, and considered harmful now!
-				// if (inLHS && (newValue.charAt(i) == '*')) {
-				// continue;
-				// }
 
+			// we could ignore first and last bracket, they come from mathrm
+			// but inputs like (0,0) or (0,0)+(1,0) fail, so don't:
+			// int skip = newValue.startsWith("(") ? 1 : 0;
+			// for (int i = skip; i < newValue.length() - skip; i++) {
+			for (int i = 0; i < newValue.length(); i++) {
 				// let's allow space as well! arguments for space:
 				// pro: this was here, maybe for a reason?
 
@@ -835,9 +831,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 						sb.append(switchw ? "abs(" : ")");
 					}
 				// }
-				if (newValue.charAt(i) == ':' || newValue.charAt(i) == '=') {
-					inLHS = false;
-				}
 			}
 			newValue = sb.toString();
 			// Formula Hacks ended.
