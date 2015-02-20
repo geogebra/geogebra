@@ -215,6 +215,13 @@ public class ManagerShaders extends Manager {
 		public void setTextures(ArrayList<Double> array, int length) {
 			this.t.set(array, length);
 		}
+		
+		/**
+		 * set textures to empty
+		 */
+		public void setTexturesEmpty() {
+			this.t.setEmpty();
+		}
 
 		/**
 		 * 
@@ -375,6 +382,8 @@ public class ManagerShaders extends Manager {
 		public void setTextures(ArrayList<Double> textures, int length) {
 			if (length == 2 * currentGeometry.getLength()) {
 				currentGeometry.setTextures(textures, length);
+			}else{
+				currentGeometry.setTexturesEmpty();
 			}
 		}
 

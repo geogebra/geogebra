@@ -840,7 +840,7 @@ public class PlotterSurface {
 
 	private Coords m = new Coords(4);
 	private Coords tmpCoords = new Coords(4), tmpCoords2 = new Coords(4),
-			tmpCoords3 = new Coords(4);
+			tmpCoords3 = new Coords(4), center1 = new Coords(4), center2 = new Coords(4), n = new Coords(4);
 
 	/**
 	 * @param center
@@ -928,7 +928,6 @@ public class PlotterSurface {
 
 		int longitude = manager.getLongitudeDefault();
 
-		Coords m, n;
 		float u, v;
 
 		float dt = (float) 1 / longitude;
@@ -941,17 +940,20 @@ public class PlotterSurface {
 			manager.setDummyTexture();
 		}
 
-		Coords center2 = center.add(vz.mul(height));
+		center2.set(vz);
+		center2.mulInside3(height);
+		center2.addInside(center);
 
 		double r = radius * -height;
-		Coords vzR = vz.mul(radius);
+		tmpCoords.setMul(vz, radius);
 
 		for (int i = 0; i <= longitude; i++) {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
 
-			m = vx.mul(u).add(vy.mul(v));
-			n = m.add(vzR).normalize();
+			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v));
+			n.setAdd(m, tmpCoords);
+			n.normalize();
 
 			// center of the triangle fan
 			if (fading < 1) {
@@ -965,7 +967,7 @@ public class PlotterSurface {
 				manager.texture(0, 1);
 			}
 			manager.normal(n);
-			manager.vertex(center2.add(m.mul(r)));
+			manager.vertex(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, r)));
 		}
 
 		manager.endGeometry();
@@ -981,14 +983,18 @@ public class PlotterSurface {
 
 		int longitude = manager.getLongitudeDefault();
 
-		Coords m, n;
 		float u, v;
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
 
-		Coords center1 = center.add(vz.mul(min));
-		Coords center2 = center.add(vz.mul(max));
+		center1.set(vz);
+		center1.mulInside3(min);
+		center1.addInside(center);
+		
+		center2.set(vz);
+		center2.mulInside3(max);
+		center2.addInside(center);
 
 		double r1 = radius * min;
 		double r2 = radius * max;
@@ -1002,7 +1008,7 @@ public class PlotterSurface {
 			r2 *= -1;
 		}
 
-		Coords vzR = vz.mul(radius * sgn);
+		tmpCoords.setMul(vz, radius * sgn);
 
 		boolean fading = minFading || maxFading;
 		if (!fading) {
@@ -1013,8 +1019,9 @@ public class PlotterSurface {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
 
-			m = vx.mul(u).add(vy.mul(v));
-			n = m.add(vzR).normalize();
+			m.setAdd(tmpCoords2.setMul(vx, u), tmpCoords3.setMul(vy, v));
+			n.setAdd(m, tmpCoords);
+			n.normalize();
 
 			// point on top circle
 			if (fading) {
@@ -1025,7 +1032,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(center2.add(m.mul(r2)));
+			manager.vertex(tmpCoords2.setAdd(center2, tmpCoords3.setMul(m, r2)));
 
 			// point on bottom circle
 			if (fading) {
@@ -1036,7 +1043,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(center1.add(m.mul(r1)));
+			manager.vertex(tmpCoords2.setAdd(center1, tmpCoords3.setMul(m, r1)));
 
 		}
 
@@ -1050,14 +1057,18 @@ public class PlotterSurface {
 		manager.startGeometry(Manager.Type.TRIANGLE_STRIP);
 
 
-		Coords n;
 		float u, v;
 
 		float dt = (float) 1 / longitude;
 		float da = (float) (extent * dt);
 
-		Coords center1 = center.add(vz.mul(min));
-		Coords center2 = center.add(vz.mul(max));
+		center1.set(vz);
+		center1.mulInside3(min);
+		center1.addInside(center);
+		
+		center2.set(vz);
+		center2.mulInside3(max);
+		center2.addInside(center);
 
 		boolean fading = minFading || maxFading;
 		if (!fading) {
@@ -1068,7 +1079,7 @@ public class PlotterSurface {
 			u = (float) Math.cos(start + i * da);
 			v = (float) Math.sin(start + i * da);
 
-			n = vx.mul(u).add(vy.mul(v));
+			n.setAdd(tmpCoords.setMul(vx, u), tmpCoords2.setMul(vy, v));
 
 			// point on top circle
 			if (fading) {
@@ -1079,8 +1090,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(center2.add(n.mul(radius)));
-
+			manager.vertex(tmpCoords.setAdd(center2, tmpCoords2.setMul(n, radius)));
 			// point on bottom circle
 			if (fading) {
 				if (minFading) {
@@ -1090,7 +1100,7 @@ public class PlotterSurface {
 				}
 			}
 			manager.normal(n);
-			manager.vertex(center1.add(n.mul(radius)));
+			manager.vertex(tmpCoords.setAdd(center1, tmpCoords2.setMul(n, radius)));
 
 		}
 
