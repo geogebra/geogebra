@@ -1779,7 +1779,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     // Tab or Esc -> go one block right if it exists, else escape right.
     case 'Esc':
     case 'Tab':
-    case 'Spacebar':
+    //case 'Spacebar':
       this.cursor.escapeDir(R, key, e);
       return;
 
@@ -1937,8 +1937,11 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
           // any ill effect on the formula in case it is unsuccessful!
         }
       }
+	} else if (ch === ' ') {
+      this.cursor.write('*');
+	} else {
+      this.cursor.write(ch);
 	}
-    this.cursor.write(ch);
     return false;
   };
   _.selectNextSyntaxHelp = function() {
@@ -2126,7 +2129,10 @@ var RootTextBlock = P(MathBlock, function(_) {
     if (key === 'Spacebar' || key === 'Shift-Spacebar') return;
     RootMathBlock.prototype.onKey.apply(this, arguments);
   };
-  _.onText = RootMathBlock.prototype.onText;
+  _.onText = function(curs, ch) {
+	this.cursor.write(ch);
+    return false;
+  };
   _.write = function(cursor, ch, replacedFragment) {
     if (replacedFragment) replacedFragment.remove();
     if (ch === '$')
@@ -3767,7 +3773,10 @@ LatexCmds.frown = bind(VanillaSymbol, '\\frown ', '&#8994;');
 LatexCmds.vdash = bind(VanillaSymbol, '\\vdash ', '&#8870;');
 LatexCmds.dashv = bind(VanillaSymbol, '\\dashv ', '&#8867;');
 
-//GeogebraWeb or previous MathQuillGGB ?
+//Now this should be the same as multiplication in Math mode!
+//so easiest is to change " " to "*" in RootMathBlock.onText...
+//so MathQuillGGB will not produce space in theory, but
+//space may still come from GeoGebraWeb and go back to there
 LatexCmds.space = bind(VanillaSymbol, '\\space ', '&nbsp;');
 
 //arrows
