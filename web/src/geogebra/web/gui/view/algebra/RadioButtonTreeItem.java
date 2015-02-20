@@ -23,6 +23,7 @@ import geogebra.common.kernel.CircularDefinitionException;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -784,6 +785,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		newValue = sb.toString();
 
 		newValue = newValue.replace("space", "\"");
+
+		// do not substitute for absolute value in these cases
+		newValue = newValue.replace("||", ExpressionNodeConstants.strOR);
+		newValue = newValue.replace("| |", ExpressionNodeConstants.strOR);// can
+																		  // be
+																		  // removed
+																		  // later
 		return newValue;
 	}
 
