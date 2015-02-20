@@ -503,6 +503,7 @@ public class MouseTouchGestureControllerW implements
 	private static boolean DRAGMODE_MUST_BE_SELECTED = false;
 	private int deltaSum = 0;
 	private int moveCounter = 0;
+	private boolean DRAGMODE_IS_RIGHT_CLICK = false;
 
 	public void onMouseWheel(MouseWheelEvent event) {
 		// don't want to roll the scrollbar
@@ -595,6 +596,7 @@ public class MouseTouchGestureControllerW implements
 		if (!DRAGMODE_MUST_BE_SELECTED) {
 			ec.wrapMouseMoved(event);
 		} else {
+			event.setIsRightClick(DRAGMODE_IS_RIGHT_CLICK);
 			ec.wrapMouseDragged(event);
 		}
 		event.release();
@@ -668,6 +670,7 @@ public class MouseTouchGestureControllerW implements
 		if ((!AutoCompleteTextFieldW.showSymbolButtonFocused)
 		        && (!ec.isTextfieldHasFocus())) {
 			DRAGMODE_MUST_BE_SELECTED = true;
+			DRAGMODE_IS_RIGHT_CLICK = event.isRightClick();
 		}
 
 		ec.wrapMousePressed(event);
