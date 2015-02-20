@@ -788,10 +788,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		// do not substitute for absolute value in these cases
 		newValue = newValue.replace("||", ExpressionNodeConstants.strOR);
-		newValue = newValue.replace("| |", ExpressionNodeConstants.strOR);// can
-																		  // be
-																		  // removed
-																		  // later
 		return newValue;
 	}
 

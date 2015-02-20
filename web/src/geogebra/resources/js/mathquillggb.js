@@ -1389,6 +1389,10 @@ var Symbol = P(MathCommand, function(_, _super) {
  * ancestor operators.
  */
 var MathBlock = P(MathElement, function(_) {
+  _.closed = false;
+  _.close = function() {
+    this.closed = true;
+  };
   _.join = function(methodName) {
     return this.foldChildren('', function(fold, child) {
       return fold + child[methodName]();
@@ -1398,7 +1402,11 @@ var MathBlock = P(MathElement, function(_) {
   _.latex = function() { return this.join('latex'); };
   _.text = function() {
     if (this.isEmpty()) {
-      return ' ';
+      // For GeoGebraWeb in case of e.g. || sign, it's better
+      // to return with an empty string! In other cases,
+      // e.g. (), {}, sin(), sqrt(), x^(), etc. this
+      // will be syntactically incorrect in theory, anyway
+      return '';
     }
     return this.ch[L] === this.ch[R] ?
       this.ch[L].text() :
@@ -1507,16 +1515,20 @@ var MathBlock = P(MathElement, function(_) {
   };
 
   _.focus = function() {
-    this.jQ.addClass('hasCursor');
+	if (this.closed) {
+	} else {
+      this.jQ.addClass('hasCursor');
+	}
     this.jQ.removeClass('empty');
 
     return this;
   };
   _.blur = function() {
     this.jQ.removeClass('hasCursor');
-    if (this.isEmpty())
+    if (this.closed) {
+    } else if (this.isEmpty()) {
       this.jQ.addClass('empty');
-
+    }
     return this;
   };
 });
@@ -2985,7 +2997,16 @@ CharCmds['|'] = P(Paren, function(_, _super) {
     _super.init.call(this, '|', '|');
   }
 
-  _.createBefore = CloseBracket.prototype.createBefore;
+  _.createBefore = function(cursor) {
+      if (!cursor[R] && cursor.parent.parent && cursor.parent.parent.end === this.end && !this.replacedFragment) {
+    	if (cursor.parent instanceof MathBlock) {
+    	  cursor.parent.close();
+    	}
+        cursor.insertAfter(cursor.parent.parent);
+      } else {
+	    CloseBracket.prototype.createBefore.call(this, cursor);
+      }
+  }
 });
 
 // input box to type a variety of LaTeX commands beginning with a backslash
