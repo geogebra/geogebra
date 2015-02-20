@@ -1649,7 +1649,7 @@ __GGB__keysVar.zh_TW.menu = {
     "OpenFromWebpage": "\u5f9e\u7db2\u5740\u958b\u555f",
     "OpenWebpage": "\u958b\u555f\u7db2\u9801",
     "Operation": "Operation",
-    "OperationTable": "Operation Table",
+    "OperationTable": "\u904b\u7b97\u8868",
     "Options": "\u9078\u9805",
     "Orthogonal": "\u5782\u76f4\u7dda",
     "Orthogonal.Help": "\u8acb\u9ede\u9078\u300c\u901a\u904e\u7684\u9ede\u300d\u8207\u300c\u8981\u5782\u76f4\u7684\u76f4\u7dda\u300d",

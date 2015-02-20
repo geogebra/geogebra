@@ -760,7 +760,7 @@ __GGB__keysVar.es_UY.command = {
     "SYY.Syntax": "[ <Lista de puntos> ]",
     "Sample": "Muestra",
     "Sample.Syntax": "[ <Lista>, <Tama\xf1o> ]\n[ <Lista>, <Tama\xf1o>, <Reposici\xf3n o no (true/false)> ]",
-    "SampleSD": "DEMuestral",
+    "SampleSD": "DEmuestral",
     "SampleSD.Syntax": "[ <Lista de datos brutos> ]\n[ <Lista de n\xfameros>, <Lista de frecuencias> ]",
     "SampleSD.SyntaxCAS": "[ <Lista de n\xfameros> ]",
     "SampleSDX": "DExMuestral",
