@@ -38,6 +38,7 @@ public class TextFieldProcessing {
 	private static final int T_LOWER_CASE = 116;
 	private static final int UNDERSCORE = 95;
 	private static final int DOLLAR = 36;
+	private static final int PIPE = 124;
 
 	/** Javascript char codes */
 	private static final int LEFT_ARROW = 37;
@@ -56,7 +57,6 @@ public class TextFieldProcessing {
 		needsLbrace.add("cos");
 		needsLbrace.add("tan");
 		needsLbrace.add("ln");
-		needsLbrace.add("abs");
 		needsLbrace.add("sinh");
 		needsLbrace.add("cosh");
 		needsLbrace.add("tanh");
@@ -314,6 +314,9 @@ public class TextFieldProcessing {
 						false);
 			} else if (text.startsWith("(")) {
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
+						false);
+			} else if (text.equals("abs")) {
+				((RadioButtonTreeItem) field).keypress(PIPE, false, false,
 						false);
 			} else if (text.startsWith("[")) {
 				((RadioButtonTreeItem) field).keypress(LBRACK, false, false,
