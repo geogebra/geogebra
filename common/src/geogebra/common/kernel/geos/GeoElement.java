@@ -7505,7 +7505,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @return true if can be removed as input of algo -- only if just one algo left
 	 */
 	public boolean canBeRemovedAsInput(){
-		return canBeRemovedAsInput && (algorithmList.size() == 1);
+		return canBeRemovedAsInput && (algorithmList == null || algorithmList.size() <= 1);
 	}
 
 	@Override
