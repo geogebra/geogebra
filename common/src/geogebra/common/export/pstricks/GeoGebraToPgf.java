@@ -1313,7 +1313,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				}
 			} else {
 				if (!isLatexFunction(f
-						.toValueString(StringTemplate.noLocalDefault))) {
+						.toValueString(StringTemplate.noLocalDefault))
+						|| isTrigInv(f
+								.toValueString(StringTemplate.noLocalDefault))) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin,
 							integral, geo1);
 				} else {
@@ -1324,6 +1326,13 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			xrangemax += PRECISION_XRANGE_FUNCTION;
 			a = xrangemax;
 		}
+	}
+
+	private boolean isTrigInv(String s) {
+		return s.toLowerCase().contains("atan(")
+				|| s.toLowerCase().contains("acos(")
+				|| s.toLowerCase().contains("asin(");
+
 	}
 
 	/**
