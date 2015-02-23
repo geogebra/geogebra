@@ -424,7 +424,9 @@ public class Ggb2giac {
 						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars)],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,when(type(ggbnsans[0])==DOM_LIST,ggbnsans[0],ggbnsans),[ggbnsans])],seq(ggbvars[irem(j,dim(ggbnsans))]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3],"
 						+
 						// eg NSolve[a^4 + 34a^3 = 34]
-						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(ggbnsans,ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"
+						// regroup() added for
+						// NSolve[BC^2=4^2+3^2-2*4*3*cos(50°)]
+						"[[ggbvars:=lname(ggbnsans)],[ggbnsans:=fsolve(regroup(ggbnsans),ggbvars[0])],[ggbnsans:=when(type(ggbnsans)==DOM_LIST,ggbnsans,[ggbnsans])],seq(ggbvars[0]=ggbnsans[j],j,0,dim(ggbnsans)-1)][3])],"
 						+ "ggbnsans][2])");
 
 		p("NSolve.2",
