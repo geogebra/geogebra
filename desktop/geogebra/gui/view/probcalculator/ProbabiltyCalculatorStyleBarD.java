@@ -61,12 +61,32 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 
 	}
 
+	public void updateIcons() {
+		if (btnCumulative == null) {
+			return;
+		}
+		iconHeight = ((AppD) app).getScaledIconSize();
+		btnCumulative.setIcon(((AppD) app)
+				.getScaledIcon("cumulative_distribution.png"));
+		btnLineGraph.setIcon(((AppD) app).getScaledIcon("line_graph.png"));
+		btnStepGraph.setIcon(((AppD) app).getScaledIcon("step_graph.png"));
+		btnBarGraph.setIcon(((AppD) app).getScaledIcon("bar_graph.png"));
+		btnGrid.setIcon(((AppD) app).getScaledIcon("grid.gif"));
+		btnExport.setIcon(((AppD) app).getScaledIcon("export16.png"));
+		btnNormalOverlay.setIcon(((AppD) app)
+				.getScaledIcon("normal-overlay.png"));
+
+	}
+
 	private void createGUI() {
+		iconHeight = ((AppD) app).getScaledIconSize();
+
 		wrappedToolbar.removeAll();
 		buildOptionsButton();
 
 		btnCumulative = new MyToggleButton(
-				((AppD) app).getImageIcon("cumulative_distribution.png"), iconHeight);
+				((AppD) app).getScaledIcon("cumulative_distribution.png"),
+				iconHeight);
 		btnCumulative.setSelected(probCalc.isCumulative());
 		btnCumulative.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -74,15 +94,18 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 			}
 		});
 
-		btnLineGraph = new MyToggleButton(((AppD) app).getImageIcon("line_graph.png"),
+		btnLineGraph = new MyToggleButton(
+				((AppD) app).getScaledIcon("line_graph.png"),
 				iconHeight);
 		btnLineGraph.addActionListener(this);
 
-		btnStepGraph = new MyToggleButton(((AppD) app).getImageIcon("step_graph.png"),
+		btnStepGraph = new MyToggleButton(
+				((AppD) app).getScaledIcon("step_graph.png"),
 				iconHeight);
 		btnStepGraph.addActionListener(this);
 
-		btnBarGraph = new MyToggleButton(((AppD) app).getImageIcon("bar_graph.png"),
+		btnBarGraph = new MyToggleButton(
+				((AppD) app).getScaledIcon("bar_graph.png"),
 				iconHeight);
 		btnBarGraph.addActionListener(this);
 
@@ -91,7 +114,8 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		gp.add(btnLineGraph);
 		gp.add(btnStepGraph);
 
-		btnGrid = new MyToggleButton(((AppD) app).getImageIcon("grid.gif"), iconHeight);
+		btnGrid = new MyToggleButton(((AppD) app).getScaledIcon("grid.gif"),
+				iconHeight);
 		btnGrid.setSelected(probCalc.getPlotSettings().showGrid);
 		btnGrid.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -103,14 +127,15 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 		});
 
 		// create export button
-		btnExport = new MyToggleButton(((AppD) app).getImageIcon("export16.png"),
+		btnExport = new MyToggleButton(
+				((AppD) app).getScaledIcon("export16.png"),
 				iconHeight);
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
 		// create normal overlay button
 		btnNormalOverlay = new MyToggleButton(
-				((AppD) app).getImageIcon("normal-overlay.png"), iconHeight);
+				((AppD) app).getScaledIcon("normal-overlay.png"), iconHeight);
 		btnNormalOverlay.setFocusable(false);
 		btnNormalOverlay.addActionListener(this);
 
@@ -153,6 +178,7 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 	 */
 	public void updateGUI() {
 
+		iconHeight = ((AppD) app).getScaledIconSize();
 		btnLineGraph.setVisible(((ProbabilityCalculatorViewD) probCalc).getProbManager().isDiscrete(
 				probCalc.getSelectedDist()));
 		btnStepGraph.setVisible(((ProbabilityCalculatorViewD) probCalc).getProbManager().isDiscrete(
@@ -201,7 +227,8 @@ public class ProbabiltyCalculatorStyleBarD extends ProbabiltyCalculatorStyleBar 
 	 */
 	private void buildOptionsButton() {
 
-		btnRounding = new JButton(((AppD) app).getImageIcon("triangle-down.png"));
+		btnRounding = new JButton(
+				((AppD) app).getScaledIcon("triangle-down.png"));
 		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
 		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
 		roundingPopup = createRoundingPopup();

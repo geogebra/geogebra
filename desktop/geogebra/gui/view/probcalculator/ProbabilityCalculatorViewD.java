@@ -286,14 +286,14 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		lblDist = new JLabel();
 
 		btnCumulative = new MyToggleButton(
-				((AppD) app).getImageIcon("cumulative_distribution.png"));
+				((AppD) app).getScaledIcon("cumulative_distribution.png"));
 
 		btnIntervalLeft = new MyToggleButton(
-				((AppD) app).getImageIcon("interval-left.png"));
+				((AppD) app).getScaledIcon("interval-left.png"));
 		btnIntervalBetween = new MyToggleButton(
-				((AppD) app).getImageIcon("interval-between.png"));
+				((AppD) app).getScaledIcon("interval-between.png"));
 		btnIntervalRight = new MyToggleButton(
-				((AppD) app).getImageIcon("interval-right.png"));
+				((AppD) app).getScaledIcon("interval-right.png"));
 
 		btnCumulative.addActionListener(this);
 		btnIntervalLeft.addActionListener(this);
@@ -307,7 +307,7 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 
 		// create export button
 		btnExport = new JToggleButton();
-		btnExport.setIcon(((AppD) app).getImageIcon("export16.png"));
+		btnExport.setIcon(((AppD) app).getScaledIcon("export16.png"));
 		btnExport.setFocusable(false);
 		btnExport.addActionListener(this);
 
@@ -405,7 +405,20 @@ public class ProbabilityCalculatorViewD extends ProbabilityCalculatorView
 		plotPanel.updateFonts();
 		((ProbabilityTableD) table).updateFonts(font);
 		((StatisticsCalculatorD) statCalculator).updateFonts(font);
+		btnCumulative.setIcon(((AppD) app)
+				.getScaledIcon("cumulative_distribution.png"));
 
+		btnIntervalLeft
+				.setIcon(((AppD) app).getScaledIcon("interval-left.png"));
+		btnIntervalBetween.setIcon(((AppD) app)
+				.getScaledIcon("interval-between.png"));
+		btnIntervalRight.setIcon(((AppD) app)
+				.getScaledIcon("interval-right.png"));
+
+		btnExport.setIcon(((AppD) app).getScaledIcon("export16.png"));
+		if (styleBar != null) {
+			styleBar.updateIcons();
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
