@@ -83,7 +83,8 @@ public class RendererGLPickingGL2 extends RendererGL2 {
 
 		// App.debug("geoToPickSize = "+geoToPickSize);
 		if (geoToPickSize != oldGeoToPickSize || needsNewPickingBuffer) {
-			int bufSize = geoToPickSize * 2 + 1 + 20; // TODO remove "+20" due
+			int bufSize = geoToPickSize * 3 + 1 + 20;   // geoToPickSize * 3 due to pick as outline + surface + label
+			 											// TODO remove "+20" due
 														// to intersection curve
 			selectBuffer = createSelectBufferForPicking(bufSize);
 			drawHits = createDrawableListForPicking(bufSize);
