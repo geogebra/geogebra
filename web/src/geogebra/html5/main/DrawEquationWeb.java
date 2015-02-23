@@ -864,8 +864,8 @@ public class DrawEquationWeb extends DrawEquation {
 				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.shiftKey, parentElement);
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
-					// so let's change it:
-					elsecondInside.GeoGebraSuggestionPopupCanShow = true;
+					// so let's change it: (it should not be true for pi, o and i!)
+					delete elsecondInside.GeoGebraSuggestionPopupCanShow;
 
 					// to prevent MathQuillGGB adding other kind of Alt-shortcuts,
 					// e.g. unlaut a besides our alpha, or more accurately,
