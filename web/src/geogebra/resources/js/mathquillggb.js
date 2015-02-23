@@ -2885,8 +2885,8 @@ LatexCmds.right = P(MathCommand, function(_) {
 var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _super) {
   _.init = function() {
     _super.init.call(this, '"', '"', '"', '"', 'non-leaf text');
-    this.ctrlSeq = '\\quotation{';
-    this.end = '}';
+    this.ctrlSeq = '\\quotation';
+    this.end = '';
     // in GeoGebraWeb, this needs some changes anyway...
     // it will be easier to change " signs inside the text block,
     // and that's why the textTemplate should be distinguished
@@ -2908,30 +2908,25 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
 	  this.lasttextblock = newBlock;
 	}
   };
-  //_.placeCursor = function(cursor) {
-  //  this.lasttextblock.placeCursor(cursor);
-  //};
-  //_.moveTowards = function(dir, cursor) {
-  //  this.lasttextblock.moveTowards(dir, cursor);
-  //};
-  //_.createSelection = function(dir, cursor) {
-  //  this.lasttextblock.createSelection(dir, cursor);
-  //};
-  //_.expandSelection = function(dir, cursor) {
-  //  this.lasttextblock.expandSelection(dir, cursor);
-  //};
-  //_.clearSelection = function(dir, cursor) {
-  //  this.lasttextblock.clearSelection(dir, cursor);
-  //};
-  //_.retractSelection = function(dir, cursor) {
-  //  this.lasttextblock.retractSelection(dir, cursor);
-  //};
-  //_.deleteTowards = _.createSelection;
-  //_.selectChildren = function(cursor) {
-  //  this.lasttextblock.selectChildren(cursor);
-  //};
   _.seek = function(pageX, cursor) {
     this.lasttextblock.seek(pageX, cursor);
+  };
+  _.parser = function() {
+	// this code is almost the same as MathCommand.parse, except...
+    var block = latexMathParser.block;
+    var self = this;
+
+    return block.times(self.numBlocks()).map(function(blocks) {
+      self.blocks = blocks;
+
+      for (var i = 0; i < blocks.length; i += 1) {
+        blocks[i].adopt(self, self.ch[R], 0);
+        // ... this is the extra things to put here in Quotation
+        self.lasttextblock = blocks[i];
+      }
+
+      return self;
+    });
   };
 });
 
@@ -4121,13 +4116,14 @@ pi: 1
  */
 var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   _.finalizeInsert = function() {// but its only method is overridden anyway
-	if (this.ctrlSeq === '') {
+	if (this.ctrlSeq === '{') {
       MathElement.prototype.finalizeInsert.call(this.parent);
 	} else {
       MathElement.prototype.finalizeInsert.call(this);
 	}
   };
   _.ctrlSeq = '\\text';
+  _.endSeq = '';
   _.join = function(methodName) {
 	// for compatibility with MathBlock
     return this.foldChildren('', function(fold, child) {
@@ -4186,7 +4182,7 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
     });
   };
   _.text = function() {
-	  if (this.ctrlSeq == '' || this.ctrlSeq == '\\quotationtext') {
+	  if (this.ctrlSeq === '{') {
 		  // for quotationtext, text and html mode is this,
 		  // but behold the latex mode...
 		  return this.textContents();
@@ -4194,25 +4190,25 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
 	  return '"' + this.textContents() + '"';
   };
   _.latex = function() {
-	  if (this.ctrlSeq == '\\textsf' || this.ctrlSeq == '\\quotationtext') {
+	  if (this.ctrlSeq == '\\textsf') {
 		  // not clear what other things should be allowed here
 		  return this.ctrlSeq + '{' + this.textContents() + '}';
-	  } else if (this.ctrlSeq == '') {
-		  return this.textContents();
+	  } else if (this.ctrlSeq === '{') {
+		  return this.ctrlSeq + this.textContents() + this.endSeq;
 	  }
 	  return '\\text{' + this.textContents() + '}';
   };
   _.html = function() {
 	// FIXME: it's unclear why htmlTemplate is not used here
 	// from makeTextBlock, so are all makeTextBlock commands void?
-	if (this.ctrlSeq == '\\textsf') {
+	if (this.ctrlSeq === '\\textsf') {
 		// manual hack
 		return (
 				'<span class="sans-serif text" mathquillggb-command-id='+this.id+'>'
 				+   this.textContents()
 				+ '</span>'
 		);
-	} else if (this.ctrlSeq == '' || this.ctrlSeq == '\\quotationtext') {
+	} else if (this.ctrlSeq === '{') {
 		return this.textContents();
 	}
     return (
@@ -4242,7 +4238,7 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   };
   _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this); };
   _.moveOutOf = function(dir, cursor) {
-    if (this.ctrlSeq === '') {
+    if (this.ctrlSeq === '{') {
       // if this is used from Quotation:
       cursor.insertAdjacent(dir, this.parent);
     } else {
@@ -4259,7 +4255,7 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   _.selectChildren = MathBlock.prototype.selectChildren;//?
 
   _.selectOutOf = function(dir, cursor) {
-    if (this.ctrlSeq === '') {
+    if (this.ctrlSeq === '{') {
       // if this is used from Quotation:
       MathBlock.prototype.selectOutOf.apply(this, arguments);
     } else {
@@ -4270,7 +4266,7 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   };
   _.deleteTowards = _.createSelection;
   _.deleteOutOf = function(dir, cursor) {
-    if (this.ctrlSeq === '') {
+    if (this.ctrlSeq === '{') {
       // if this is used from quotation
       cursor.unwrapGramp();
     } else {
@@ -4472,7 +4468,8 @@ function makeTextBlock(latex, tagName, attrs) {
 
 function makeQuotationText() {
   return P(TextBlock, {
-	ctrlSeq: '',
+	ctrlSeq: '{',
+	endSeq: '}',
 	htmlTemplate: ''
     //ctrlSeq: '\\quotationtext',
     //htmlTemplate: '&0'
