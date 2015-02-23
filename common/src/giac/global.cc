@@ -140,10 +140,11 @@ namespace giac {
 #ifdef EMCC
 	if (difftime(caseval_current,caseval_begin)>caseval_maxtime)
 #else
-	if (caseval_current-caseval_begin>caseval_maxtime)
+	if (caseval_current>caseval_maxtime+caseval_begin)
 #endif
 	  { 
 	    CERR << "Timeout" << endl; ctrl_c=true; interrupted=true; 
+	    caseval_begin=caseval_current;
 	  } 
       } 
     }
@@ -4430,7 +4431,7 @@ unsigned int ConvertUTF8toUTF16 (
     powlog2float=3e4;
     MPZ_MAXLOG2=33300;
 #ifdef TIMEOUT
-    // caseval_maxtime=5;
+    //caseval_maxtime=5;
     caseval_n=0;
     caseval_mod=10;
 #endif

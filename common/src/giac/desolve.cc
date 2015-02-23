@@ -194,7 +194,7 @@ namespace giac {
       vecteur varx(lvarx(coeff,x));
       int varxs=varx.size();
       if (!varxs){ // Dirac function
-	res += coeff*exp(expb,contextptr)*symbolic(at_Dirac,x+expa);
+	res += coeff*exp(expb,contextptr)*symbolic(at_Dirac,laplace_var+expa);
 	continue;
       }
       if ( (varxs>1) || (varx.front()!=x) ) {
@@ -734,7 +734,12 @@ namespace giac {
 	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	    parameters.push_back(diffeq_constante(int(parameters.size()),contextptr));
 	    gen sol = exp(rac.front()*x,contextptr)*(parameters[parameters.size()-2]*x+parameters.back());
+	    bool b=calc_mode(contextptr)==1;
+	    if (b)
+	      calc_mode(0,contextptr);
 	    gen part=_integrate(makesequence(-cst/v.front()*exp(-rac.front()*x,contextptr),x),contextptr)*x+_integrate(makesequence(cst/v.front()*x*exp(-rac.front()*x,contextptr),x),contextptr);
+	    if (b)
+	      calc_mode(1,contextptr);
 	    part=simplify(part*exp(rac.front()*x,contextptr),contextptr);
 	    return sol+part;
 	  }
