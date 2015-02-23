@@ -37,13 +37,13 @@ test -r $GGB_JARS/geogebra_main.jar || {
 # So we overwrite it by using an own version (without -DTIMEOUT).
 # This used to be hardcoded in this way:
 # cp ~/fix/javagiac-linux64.jar ~/svn/geogebra/desktop/build/
-MYDIR=`pwd`
-cd $GGB_JARS/../lib
-cp libjavagiac64-nt.so libjavagiac64.so
-rm -f javagiac-linux64.jar
-zip javagiac-linux64.jar libjavagiac64.so
-cp javagiac-linux64.jar ../build/
-cd $MYDIR
+# MYDIR=`pwd`
+# cd $GGB_JARS/../lib
+# cp libjavagiac64-nt.so libjavagiac64.so
+# rm -f javagiac-linux64.jar
+# zip javagiac-linux64.jar libjavagiac64.so
+# cp javagiac-linux64.jar ../build/
+# cd $MYDIR
 
 # 2. Installing JAR files into the Maven repository (usually ~/.m2/repository/geogebra/*/current/*-current.jar)
 NAMESPACE="-N x=http://maven.apache.org/POM/4.0.0"
