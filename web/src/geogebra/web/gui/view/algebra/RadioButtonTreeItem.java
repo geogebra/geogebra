@@ -1055,6 +1055,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	@Override
     public void onClick(ClickEvent evt) {
+//		evt.stopPropagation();
+
 		if (app.isPrerelease()
 				&& (av.isEditing() || isThisEdited() || newCreationMode)) {
 			app.showKeyboard(this);
@@ -1068,6 +1070,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt, ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
+
+		((AlgebraViewWeb) this.av).getStyleBar().update(this.getGeo());
 	}
 
 	@Override

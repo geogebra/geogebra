@@ -1,6 +1,5 @@
 package geogebra.web.gui.view.algebra;
 
-import geogebra.common.gui.SetLabels;
 import geogebra.common.gui.view.algebra.AlgebraView;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.LayerView;
@@ -17,6 +16,7 @@ import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.TimerSystemW;
 import geogebra.web.gui.inputbar.AlgebraInputW;
+import geogebra.web.gui.layout.panels.AlgebraStyleBarW;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ import com.google.gwt.user.client.ui.Tree;
 import com.google.gwt.user.client.ui.TreeItem;
 
 public abstract class AlgebraViewWeb extends Tree implements LayerView,
-        SetLabels, AlgebraView, OpenHandler<TreeItem> {
+		AlgebraView, OpenHandler<TreeItem> {
 
 	protected final AppW app; // parent appame
 	protected final Localization loc;
@@ -1108,5 +1108,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	 */
 	public boolean isNodeTableEmpty() {
 		 return this.nodeTable.isEmpty();
+	}
+
+	public AlgebraStyleBarW getStyleBar() {
+		return null;
 	}
 }

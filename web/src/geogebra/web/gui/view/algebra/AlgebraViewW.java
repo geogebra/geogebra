@@ -160,6 +160,14 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		return this.styleBar;
 	}
 
+	@Override
+	public void updateVisualStyle(GeoElement geo) {
+		super.updateVisualStyle(geo);
+		if (styleBar != null) {
+			styleBar.update(geo);
+		}
+	}
+
 	public void updateFonts() {
 		GFont font = app.getPlainFontCommon();
 		getStyleElement().getStyle().setFontStyle(Style.FontStyle.valueOf(font.isItalic()?"ITALIC":"NORMAL"));

@@ -34,7 +34,7 @@ public class LineStylePopup extends PopupMenuButton  {
 
 		LineStylePopup.setMode(mode);
 		fillData(iconHeight);
-		return new LineStylePopup((AppW) app, getLineStyleIcons(), -1, 5,
+		return new LineStylePopup(app, getLineStyleIcons(), -1, 5,
 				 geogebra.common.gui.util.SelectionTable.MODE_ICON,
 				true, hasSlider);
 	}

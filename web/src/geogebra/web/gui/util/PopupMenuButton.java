@@ -31,6 +31,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private ImageOrText fixedIcon;
 	private boolean isFixedIcon = false;
 	private HandlerRegistration actionListener;
+	private StyleBarW2 changeEventHandler;
 	
 	/**
 	 * @param app
@@ -282,7 +283,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		if(mySlider != null) {
 			   setSliderValue(mySlider.getValue());
 		}
-		((EuclidianStyleBarW)app.getActiveEuclidianView().getStyleBar()).fireActionPerformed(this);
+		if (changeEventHandler != null) {
+			changeEventHandler.fireActionPerformed(this);
+		} else {
+			((EuclidianStyleBarW) app.getActiveEuclidianView().getStyleBar())
+					.fireActionPerformed(this);
+		}
 		fireActionPerformed();
 		updateGUI();
 	}
@@ -372,5 +378,12 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 */
 	protected boolean hasSlider() {
 		return mySlider != null;
+	}
+
+	/**
+	 * explicitly sets who should receive the change events
+	 */
+	public void setChangeEventHandler(StyleBarW2 handler){
+		this.changeEventHandler = handler;
 	}
 }

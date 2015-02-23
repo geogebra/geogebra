@@ -306,7 +306,8 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 	}
 
 	@Override
-	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+	protected boolean processSource(Object source,
+			ArrayList<GeoElement> targetGeos) {
 
 		// App.debug("source = "+source);
 
@@ -365,8 +366,13 @@ public class EuclidianStyleBar3DW extends EuclidianStyleBarW {
 				break;
 			}
 			getView().repaintView();
-		} else
-			super.processSource(source, targetGeos);
+		} else {
+			return super.processSource(source, targetGeos);
+		}
+
+		// the only way to get here is not to enter the else-branch (-> any
+		// button was processed)
+		return true;
 	}
 
 	@Override

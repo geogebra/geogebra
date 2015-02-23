@@ -7,10 +7,6 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianStyleBarStatic;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.Previewable;
-import geogebra.common.gui.dialog.options.model.LineStyleModel;
-import geogebra.common.gui.dialog.options.model.LineStyleModel.ILineStyleListener;
-import geogebra.common.gui.dialog.options.model.PointStyleModel;
-import geogebra.common.gui.util.SelectionTable;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.geos.GeoButton;
@@ -33,19 +29,15 @@ import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.util.ButtonPopupMenu;
 import geogebra.web.gui.util.GeoGebraIcon;
 import geogebra.web.gui.util.ImageOrText;
-import geogebra.web.gui.util.LineStylePopup;
 import geogebra.web.gui.util.MyCJButton;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PointStylePopup;
 import geogebra.web.gui.util.PopupMenuButton;
-import geogebra.web.gui.util.PopupMenuHandler;
-import geogebra.web.gui.util.StyleBarW;
+import geogebra.web.gui.util.StyleBarW2;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.google.gwt.event.dom.client.ChangeEvent;
-import com.google.gwt.event.dom.client.ChangeHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -56,89 +48,9 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * StyleBar for euclidianView
  */
-public class EuclidianStyleBarW extends StyleBarW implements
+public class EuclidianStyleBarW extends StyleBarW2 implements
         geogebra.common.euclidian.EuclidianStyleBar,
-        ValueChangeHandler<Boolean>, // ClickHandler,
-        PopupMenuHandler {
-
-
-	private class EuclidianLineStylePopup extends LineStylePopup implements
-	        ILineStyleListener {
-		LineStyleModel model;
-
-		public EuclidianLineStylePopup(AppW app, ImageOrText[] data,
-		        Integer rows, Integer columns, SelectionTable mode,
-		        boolean hasTable, boolean hasSlider) {
-			super(app, data, rows, columns, mode, hasTable, hasSlider);
-			model = new LineStyleModel(this);
-			this.setKeepVisible(false);
-			getMySlider().addChangeHandler(new ChangeHandler() {
-
-				public void onChange(ChangeEvent event) {
-					model.applyThickness(getSliderValue());
-				}
-			});
-		}
-
-		@Override
-		public void update(Object[] geos) {
-			model.setGeos(geos);
-
-			if (!model.hasGeos()) {
-				this.setVisible(false);
-				return;
-			}
-
-			boolean geosOK = model.checkGeos();
-			this.setVisible(geosOK);
-
-			if (geosOK) {
-				model.updateProperties();
-				GeoElement geo0 = model.getGeoAt(0);
-				if (hasSlider()) {
-					setSliderValue(geo0.getLineThickness());
-				}
-				selectLineType(geo0.getLineType());
-
-			}
-		}
-
-		@Override
-		public void handlePopupActionEvent() {
-			model.applyLineTypeFromIndex(getSelectedIndex());
-			getMyPopup().hide();
-		}
-
-		public void setThicknessSliderValue(int value) {
-			getMySlider().setValue(value);
-
-		}
-
-		public void setThicknessSliderMinimum(int minimum) {
-			getMySlider().setMinimum(minimum);
-
-		}
-
-		public void selectCommonLineStyle(boolean equalStyle, int type) {
-			selectLineType(type);
-		}
-
-		public void setLineTypeVisible(boolean value) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void setOpacitySliderValue(int value) {
-			// TODO Auto-generated method stub
-
-		}
-
-		public void setLineOpacityVisible(boolean value) {
-			// TODO Auto-generated method stub
-
-		}
-
-	}
+		ValueChangeHandler<Boolean> {
 
 	/**
 	 * Toggle button that should be visible if no geos are selected or to be
@@ -176,7 +88,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	// flags and constants
 	public int mode = -1;
 	private boolean isIniting;
-	private boolean needUndo = false;
 	private Integer oldDefaultMode;
 	private boolean modeChanged = true;
 	private boolean firstPaint = true;
@@ -190,17 +101,15 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	private boolean visible;
 
 	// // buttons and lists of buttons
-	private PointStylePopup btnPointStyle;
-	private ColorPopupMenuButton btnColor, btnBgColor, btnTextColor;
-	private EuclidianLineStylePopup btnLineStyle;
+	private ColorPopupMenuButton btnBgColor, btnTextColor;
 	private PopupMenuButton btnTextSize;
 	private PopupMenuButton btnLabelStyle;
 	private PopupMenuButton btnShowGrid;
 	protected PopupMenuButton btnPointCapture;
 
 	private MyToggleButton2 btnShowAxes;
-	private MyToggleButton2 btnBold;
-	private MyToggleButton2 btnItalic;
+	MyToggleButton2 btnBold;
+	MyToggleButton2 btnItalic;
 	
 	protected MyCJButton btnStandardView;
 
@@ -568,8 +477,8 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		// TODO: fill in
 		createAxesAndGridButtons();
 		createStandardViewBtn();
-		createLineStyleBtn();
-		createPointStyleBtn();
+		createLineStyleBtn(mode);
+		createPointStyleBtn(mode);
 		createLabelStyleBtn();
 		createPointCaptureBtn();
 		createDeleteSiztBtn();
@@ -722,33 +631,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		AppResourcesConverter.setIcon(ic, btnLabelStyle);
 		btnLabelStyle.addPopupHandler(this);
 		btnLabelStyle.setKeepVisible(false);
-    }
-
-    private void createPointStyleBtn() {
-		btnPointStyle = PointStylePopup.create(app, ICON_HEIGHT, mode, true,
-		        new PointStyleModel(null));
-
-		btnPointStyle.getMySlider().setMinimum(1);
-		btnPointStyle.getMySlider().setMaximum(9);
-		btnPointStyle.getMySlider().setMajorTickSpacing(2);
-		btnPointStyle.getMySlider().setMinorTickSpacing(1);
-		btnPointStyle.getMySlider().setPaintTicks(true);
-		btnPointStyle.addPopupHandler(this);
-    }
-
-    private void createLineStyleBtn() {
-		LineStylePopup.setMode(mode);
-		LineStylePopup.fillData(ICON_HEIGHT);
-		btnLineStyle = new EuclidianLineStylePopup(app,
-		        LineStylePopup.getLineStyleIcons(), -1, 5,
-		        geogebra.common.gui.util.SelectionTable.MODE_ICON, true, true);
-
-		btnLineStyle.getMySlider().setMinimum(1);
-		btnLineStyle.getMySlider().setMaximum(13);
-		btnLineStyle.getMySlider().setMajorTickSpacing(2);
-		btnLineStyle.getMySlider().setMinorTickSpacing(1);
-		btnLineStyle.getMySlider().setPaintTicks(true);
-		btnLineStyle.addPopupHandler(this);
     }
 
     private void createStandardViewBtn() {
@@ -1047,7 +929,8 @@ public class EuclidianStyleBarW extends StyleBarW implements
 		handleEventHandlers(source);
 	}
 
-	private void handleEventHandlers(Object source) {
+	@Override
+	protected void handleEventHandlers(Object source) {
 		needUndo = false;
 
 		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
@@ -1100,19 +983,21 @@ public class EuclidianStyleBarW extends StyleBarW implements
 	 * @param source
 	 * @param targetGeos
 	 */
-	protected void processSource(Object source, ArrayList<GeoElement> targetGeos) {
+	@Override
+	protected boolean processSource(Object source,
+			ArrayList<GeoElement> targetGeos) {
 
 		if ((source instanceof Widget)
 		        && (EuclidianStyleBarStatic.processSourceCommon(
 		                getActionCommand((Widget) source), targetGeos, ev)))
-			return;
+			return true;
 
-		if (source == btnColor) {
-			GColor color = btnColor.getSelectedColor();
-			float alpha = btnColor.getSliderValue() / 100.0f;
-			needUndo = EuclidianStyleBarStatic.applyColor(targetGeos, color,
-			        alpha, app);
-		} else if (source == btnBgColor) {
+		// processes btnColor, btnLineStyle and btnPointStyle
+		if (super.processSource(source, targetGeos)) {
+			return true;
+		}
+
+		if (source == btnBgColor) {
 			if (btnBgColor.getSelectedIndex() >= 0) {
 				GColor color = btnBgColor.getSelectedColor();
 				float alpha = btnBgColor.getSliderValue() / 100.0f;
@@ -1125,33 +1010,8 @@ public class EuclidianStyleBarW extends StyleBarW implements
 				needUndo = EuclidianStyleBarStatic.applyTextColor(targetGeos,
 				        color);
 			}
-		} else if (source == btnLineStyle) {
-			if (btnLineStyle.getSelectedValue() != null) {
-				if (EuclidianView.isPenMode(mode)) {
-					/*
-					 * ec.getPen().setPenLineStyle(
-					 * lineStyleArray[btnLineStyle.getSelectedIndex()]);
-					 * ec.getPen().setPenSize(btnLineStyle.getSliderValue());
-					 */
-					// App.debug("Not MODE_PEN in EuclidianStyleBar yet");
-				} else {
-					// handled by the popup itself
-					// int lineSize = btnLineStyle.getSliderValue();
-					// needUndo =
-					// EuclidianStyleBarStatic.applyLineStyle(targetGeos,
-					// selectedIndex, lineSize);
-				}
-
-			}
 		} else if (processSourceForAxesAndGrid(source)) {
 			// done in method
-		} else if (source == btnPointStyle) {
-			if (btnPointStyle.getSelectedValue() != null) {
-				int pointStyleSelIndex = btnPointStyle.getSelectedIndex();
-				int pointSize = btnPointStyle.getSliderValue();
-				needUndo = EuclidianStyleBarStatic.applyPointStyle(targetGeos,
-				        pointStyleSelIndex, pointSize);
-			}
 		} else if (source == btnBold) {
 			needUndo = EuclidianStyleBarStatic.applyFontStyle(targetGeos,
 			        GFont.ITALIC, btnBold.isDown() ? GFont.BOLD : GFont.PLAIN);
@@ -1169,9 +1029,13 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			for (int i = 0; i < 3; i++) {
 				if (source == btnDeleteSizes[i]) {
 					setDelSize(i);
+					return true;
 				}
 			}
+			return false;
 		}
+
+		return true;
 	}
 
 	public static void setGridType(EuclidianView ev, int val) {
@@ -1205,14 +1069,6 @@ public class EuclidianStyleBarW extends StyleBarW implements
 			btnDeleteSizes[i].setDown(i == s);
 			btnDeleteSizes[i].setEnabled(i != s);
 		}
-	}
-
-	/**
-	 * @param actionButton
-	 *            runs programatically the action performed event.
-	 */
-	public void fireActionPerformed(PopupMenuButton actionButton) {
-		handleEventHandlers(actionButton);
 	}
 
 	public int getPointCaptureSelectedIndex() {

@@ -1,17 +1,25 @@
 package geogebra.web.gui.layout.panels;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.gui.view.algebra.AlgebraView.SortMode;
+import geogebra.common.kernel.geos.GeoButton;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
 import geogebra.common.main.settings.AlgebraSettings;
 import geogebra.common.main.settings.SettingListener;
+import geogebra.html5.awt.GDimensionW;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.color.ColorPopupMenuButton;
 import geogebra.web.gui.images.StyleBarResources;
 import geogebra.web.gui.util.ImageOrText;
 import geogebra.web.gui.util.MyToggleButton2;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
-import geogebra.web.gui.util.StyleBarW;
+import geogebra.web.gui.util.StyleBarW2;
 
 import java.util.ArrayList;
 
@@ -23,7 +31,8 @@ import com.google.gwt.event.logical.shared.ValueChangeHandler;
 /**
  * StyleBar for AlgebraView
  */
-public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Boolean>, SettingListener {
+public class AlgebraStyleBarW extends StyleBarW2 implements
+		ValueChangeHandler<Boolean>, SettingListener {
 
 	/** button to show hide auxiliary objects */
 	private MyToggleButton2 auxiliary;
@@ -31,6 +40,8 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 	PopupMenuButton treeModeButton;
 	/** list of all supported {@link SortMode modes} */
 	ArrayList<SortMode> supportedModes = new ArrayList<SortMode>();
+
+	private GeoElement selectedEntry;
 
 	/**
 	 * @param app
@@ -40,10 +51,114 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 		super(app, App.VIEW_ALGEBRA);
 		app.getSettings().getAlgebra().addListener(this);
 
-		addAuxiliaryButton();
-		addTreeModeButton();
-		addViewButton();
+		if (app.isPrerelease()) {
+			update(null);
+		} else {
+			addAuxiliaryButton();
+			addTreeModeButton();
+			addViewButton();
+			setLabels();
+		}
 
+		createColorBtn();
+		btnColor.setChangeEventHandler(this);
+		createLineStyleBtn(-1);
+		createPointStyleBtn(-1);
+		btnPointStyle.setChangeEventHandler(this);
+
+		ClickStartHandler.init(this, new ClickStartHandler(false, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// nothing to do here
+			}
+		});
+	}
+
+	private void createColorBtn() {
+
+		final GDimensionW colorIconSize = new GDimensionW(20, ICON_HEIGHT);
+		btnColor = new ColorPopupMenuButton(app, colorIconSize,
+				ColorPopupMenuButton.COLORSET_DEFAULT, true) {
+
+			@Override
+			public void update(Object[] geos) {
+
+				boolean geosOK = geos.length > 0;
+				for (int i = 0; i < geos.length; i++) {
+					GeoElement geo = ((GeoElement) geos[i])
+							.getGeoElementForPropertiesDialog();
+					if (geo instanceof GeoImage || geo instanceof GeoText
+							|| geo instanceof GeoButton) {
+						geosOK = false;
+						break;
+					}
+				}
+
+				setVisible(geosOK);
+
+				if (geosOK) {
+					// get color from first geo
+					geogebra.common.awt.GColor geoColor;
+					geoColor = ((GeoElement) geos[0]).getObjectColor();
+
+					// check if selection contains a fillable geo
+					// if true, then set slider to first fillable's alpha
+					// value
+					float alpha = 1.0f;
+					boolean hasFillable = false;
+					for (int i = 0; i < geos.length; i++) {
+						if (((GeoElement) geos[i]).isFillable()) {
+							hasFillable = true;
+							alpha = ((GeoElement) geos[i]).getAlphaValue();
+							break;
+						}
+					}
+
+					if (hasFillable)
+						setTitle(app.getPlain("stylebar.ColorTransparency"));
+					else
+						setTitle(app.getPlain("stylebar.Color"));
+					setSliderVisible(hasFillable);
+
+					setSliderValue(Math.round(alpha * 100));
+
+					updateColorTable();
+
+					// find the geoColor in the table and select it
+					int index = this.getColorIndex(geoColor);
+					setSelectedIndex(index);
+					setDefaultColor(alpha, geoColor);
+
+					this.setKeepVisible(false);
+				}
+			}
+		};
+		btnColor.addPopupHandler(this);
+	}
+
+	public void update(GeoElement selectedItem) {
+
+		if (!app.isPrerelease()) {
+			return;
+		}
+
+		this.selectedEntry = selectedItem;
+
+		clear();
+
+		if (selectedItem == null) {
+			addAuxiliaryButton();
+			addTreeModeButton();
+		} else {
+			add(btnColor);
+			btnColor.update(new Object[] { selectedItem });
+			add(btnLineStyle);
+			btnLineStyle.update(new Object[] { selectedItem });
+			add(btnPointStyle);
+			btnPointStyle.update(new Object[] { selectedItem });
+		}
+
+		addViewButton();
 		setLabels();
 	}
 
@@ -135,5 +250,24 @@ public class AlgebraStyleBarW extends StyleBarW implements ValueChangeHandler<Bo
 		super.setLabels();
 		this.treeModeButton.getMyTable().updateText(getTreeModeStr());
 		setToolTips();
+	}
+
+
+	@Override
+	protected void handleEventHandlers(Object source) {
+		needUndo = false;
+
+		ArrayList<GeoElement> targetGeos = new ArrayList<GeoElement>();
+
+		if (selectedEntry != null) {
+			targetGeos.add(selectedEntry);
+		}
+
+		processSource(source, targetGeos);
+
+		if (needUndo) {
+			app.storeUndoInfo();
+			needUndo = false;
+		}
 	}
 }

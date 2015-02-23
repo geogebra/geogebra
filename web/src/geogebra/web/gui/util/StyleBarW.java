@@ -28,7 +28,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 	protected final int ICON_HEIGHT = 24;
 
 	PopupMenuButton viewButton;
-	protected AppW app;
+	public AppW app;
 	int viewID;
 	protected OptionType optionType;
 

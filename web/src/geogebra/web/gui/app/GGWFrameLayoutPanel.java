@@ -1,6 +1,7 @@
 package geogebra.web.gui.app;
 
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.laf.GLookAndFeelI;
@@ -10,6 +11,7 @@ import geogebra.html5.main.AppW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
+import geogebra.web.gui.layout.panels.AlgebraStyleBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
@@ -59,6 +61,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		ClickStartHandler.init(dockPanel, new ClickStartHandler() {
 			@Override
 			public void onClickStart(int x, int y, final PointerEventType type) {
+				AlgebraStyleBarW styleBar = ((AlgebraViewWeb) app
+						.getView(App.VIEW_ALGEBRA)).getStyleBar();
+				if (styleBar != null) {
+					styleBar.update(null);
+				}
+
 				if (!CancelEventTimer.cancelKeyboardHide()) {
 					Timer timer = new Timer() {
 						@Override
