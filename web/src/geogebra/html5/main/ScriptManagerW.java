@@ -49,7 +49,13 @@ public class ScriptManagerW extends ScriptManager {
 		try {
 			App.debug("almost there" + app.useBrowserForJavaScript());
 			// assignGgbApplet();
-			if (app.useBrowserForJavaScript()) {
+			boolean standardJS = app.getKernel().getLibraryJavaScript()
+			        .equals(Kernel.defaultLibraryJavaScript);
+			if (!standardJS && !app.useBrowserForJavaScript()) {
+				app.evalJavaScript(app, app.getKernel().getLibraryJavaScript(),
+				        null);
+			}
+			if (!standardJS || app.useBrowserForJavaScript()) {
 
 				String param = ((AppW) app).getDataParamId();
 				if (param == null || "".equals(param)) {
@@ -58,16 +64,7 @@ public class ScriptManagerW extends ScriptManager {
 					ggbOnInit(param, api);
 				}
 
-			} else {
-				// call only if libraryJavaScript is not the default (ie do
-				// nothing)
-				if (!app.getKernel().getLibraryJavaScript()
-				        .equals(Kernel.defaultLibraryJavaScript))
-					app.evalJavaScript(app, "ggbOnInit();"
-					        + app.getKernel().getLibraryJavaScript(), null);
-
 			}
-
 		} catch (Throwable t) {
 			App.debug(t.getMessage());
 		}
