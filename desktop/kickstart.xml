@@ -153,24 +153,24 @@ download libs for other architectures than the current one.
 	<target name="giac-geogebra" depends="giac-windows, giac-mac, giac-linux"/>
 
 	<target name="giac-windows" if="winnt">
-		<get src="http://dev.geogebra.org/download/lib/giac/201502200900/javagiac.dll" dest="lib/javagiac.dll"
+		<get src="http://dev.geogebra.org/download/lib/giac/201502231500/javagiac.dll" dest="lib/javagiac.dll"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/201502200900/javagiac64.dll" dest="lib/javagiac64.dll"
+		<get src="http://dev.geogebra.org/download/lib/giac/201502231500/javagiac64.dll" dest="lib/javagiac64.dll"
 		    usetimestamp="true"/>
 	</target>
 
 	<target name="giac-linux" if="unix">
-		<get src="http://dev.geogebra.org/download/lib/giac/201502200900/libjavagiac.so" dest="lib/libjavagiac.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201502231500/libjavagiac.so" dest="lib/libjavagiac.so"
 		    usetimestamp="true"/>
-		<get src="http://dev.geogebra.org/download/lib/giac/201502200900/libjavagiac64.so" dest="lib/libjavagiac64.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201502231500/libjavagiac64.so" dest="lib/libjavagiac64.so"
 		    usetimestamp="true"/>
 		<!-- no-timeout version for JUnit testing: -->
-		<get src="http://dev.geogebra.org/download/lib/giac/201502200900/libjavagiac64-nt.so" dest="lib/libjavagiac64-nt.so"
+		<get src="http://dev.geogebra.org/download/lib/giac/201502231500/libjavagiac64-nt.so" dest="lib/libjavagiac64-nt.so"
 		    usetimestamp="true"/>
 	</target>
 
 	<target name="giac-mac" if="mac">
-                <get src="http://dev.geogebra.org/download/lib/giac/201502200900/libjavagiac.jnilib" dest="lib/libjavagiac.jnilib"
+                <get src="http://dev.geogebra.org/download/lib/giac/201502231500/libjavagiac.jnilib" dest="lib/libjavagiac.jnilib"
                     usetimestamp="true"/>
 	</target>
 	
