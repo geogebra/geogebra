@@ -182,6 +182,13 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 		gluePanel.add(Box.createVerticalGlue());
 
 		// add glue panel and button panel according to the orientation
+
+		addPanels();
+		revalidate();
+	}
+
+	private void addPanels() {
+		// show help panel
 		if (orientation == SwingConstants.NORTH
 				|| orientation == SwingConstants.SOUTH) {
 			add(gluePanel, loc.borderWest());
@@ -191,14 +198,12 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 			add(getGridButtonPanel(), BorderLayout.SOUTH);
 		}
 
-		// show help panel
 		if (showHelp
 				&& (orientation == SwingConstants.NORTH || orientation == SwingConstants.SOUTH)) {
 			add(getToolbarHelpPanel(), BorderLayout.CENTER);
 			updateHelpText();
 		}
 
-		revalidate();
 	}
 
 	private class MyDockPanel extends DockPanel {
@@ -300,13 +305,15 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 	}
 
 	public void updateGridButtonPanel() {
-		if (gridButtonPanel == null) {
-			return;
-		}
-
-		gridButtonPanel.removeAll();
-		// build it actually
-		getGridButtonPanel();
+		buildGui();
+		// if (gridButtonPanel == null) {
+		// return;
+		// }
+		//
+		// gridButtonPanel.removeAll();
+		// // build it actually
+		// getGridButtonPanel();
+		// addHelpPanel();
 	}
 
 	private JPanel getGridButtonPanel() {
@@ -521,7 +528,7 @@ public class ToolbarContainer extends JPanel implements ComponentListener {
 
 
 		toolbarPanel.show(Integer.toString(activeToolbar));
-		updateGridButtonPanel();
+		// updateGridButtonPanel();
 	}
 
 	/**
