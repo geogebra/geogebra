@@ -56,7 +56,8 @@ public class WinFileManager extends FileManager {
 
 	@Override
 	public void rename(String newTitle, Material mat, Runnable callback) {
-		renameNative(mat.getTitle(), newTitle, mat.getModified() + "", callback);
+		renameNative(FileManager.getFileKey(mat), newTitle, mat.getModified()
+		        + "", callback);
 
 	}
 

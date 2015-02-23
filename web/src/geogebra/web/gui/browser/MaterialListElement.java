@@ -236,8 +236,7 @@ public class MaterialListElement extends FlowPanel implements
 						                material.setSyncStamp(parseResponse
 						                        .get(0)
 						                        .getModified());
-						                if (!app.getFileManager().shouldKeep(
-						                        material.getId())) {
+						                if (material.getLocalID() <= 0) {
 							                return;
 						                }
 						                App.debug("RENAME CALLBACK" + oldTitle
