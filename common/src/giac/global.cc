@@ -4430,7 +4430,7 @@ unsigned int ConvertUTF8toUTF16 (
     powlog2float=3e4;
     MPZ_MAXLOG2=33300;
 #ifdef TIMEOUT
-    caseval_maxtime=5;
+    // caseval_maxtime=5;
     caseval_n=0;
     caseval_mod=10;
 #endif

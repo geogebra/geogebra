@@ -205,6 +205,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 	@Override
 	public String evaluate(String exp, long timeoutMilliseconds)
 			throws Throwable {
+		evalRaw("caseval(\"timeout " + (timeoutMilliseconds / 1000) + "\")");
 		return evaluate(exp);
 	}
 
@@ -217,7 +218,7 @@ public class CASgiacD extends CASgiac implements Evaluate {
 			if (!giacSetToGeoGebraMode) {
 
 				evalRaw(initString);
-				evalRaw("\"timeout " + (timeoutMillis / 1000) + "\"");
+				evalRaw("caseval(\"timeout " + (timeoutMillis / 1000) + "\")");
 
 				giacSetToGeoGebraMode = true;
 			}

@@ -1,6 +1,7 @@
 package geogebra.commands;
 
 import geogebra.CommandLineArguments;
+import geogebra.common.cas.GeoGebraCAS;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.main.App;
@@ -33,6 +34,8 @@ public class NoExceptionsTest {
 				new String[]{"--silent"}), new JFrame(), false);
 		app.setLanguage(Locale.US);
 		ap = app.getKernel().getAlgebraProcessor();
+	    // Setting the general timeout to 11 seconds. Feel free to change this.
+		app.getKernel().getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(11000);
 		//try this before an object named i is created
 		t("1+i");
 		t("Pt1=(1,1)");
@@ -126,6 +129,19 @@ public class NoExceptionsTest {
 				if(syntax.charAt(i)=='[')syntaxes++;
 			System.out.println();
 			System.out.print(cmdName+" ");
+			
+			/*
+			// This code helps to force timeout for each syntax. Not used at the moment.
+			GeoGebraCAS cas = (GeoGebraCAS) app.getKernel()
+					.getGeoGebraCAS();
+			try {
+				cas.getCurrentCAS().evaluateRaw("caseval(\"timeout 8\")");
+			} catch (Throwable e) {
+				App.error("CAS error " + e);
+			} 
+			*/
+			
+			
 		}
 		try {
 			Assert.assertNotNull(ap.processAlgebraCommandNoExceptionHandling(s,

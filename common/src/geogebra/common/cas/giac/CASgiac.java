@@ -332,7 +332,7 @@ public abstract class CASgiac implements CASGenericInterface {
 	}
 
 	/**
-	 * Timeout for CAS in milliseconds.
+	 * Timeout for CAS in milliseconds. This can be changed in the CAS options.
 	 */
 	protected long timeoutMillis = 5000;
 
@@ -346,6 +346,12 @@ public abstract class CASgiac implements CASGenericInterface {
 	public void settingsChanged(AbstractSettings settings) {
 		CASSettings s = (CASSettings) settings;
 		timeoutMillis = s.getTimeoutMilliseconds();
+		try {
+			evaluateRaw("caseval(\"timeout " + (timeoutMillis / 1000) + "\")");
+		} catch (Throwable e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public String translateAssignment(final String label, final String body) {

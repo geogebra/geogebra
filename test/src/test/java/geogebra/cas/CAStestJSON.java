@@ -63,8 +63,8 @@ public class CAStestJSON {
 	    kernel = app.getKernel();
 	    cas = kernel.getGeoGebraCAS();
 	    logger = new CASTestLogger();
-		
-		
+	    // Setting the general timeout to 13 seconds. Feel free to change this.
+	    kernel.getApplication().getSettings().getCasSettings().setTimeoutMilliseconds(13000);
 		
 		try {
 			Log.debug("CAS: loading testcases");
