@@ -472,7 +472,6 @@ public class EuclidianControllerW extends EuclidianController implements
 			// Set capture events only if the mouse is actually down,
 			// because we need to release the capture on mouse up.
 			if (startCapture) {
-				App.debug("set");
 				Event.setCapture(((PointerEvent) event).getRelativeElement());
 			}
 			super.wrapMouseDragged(event, startCapture);

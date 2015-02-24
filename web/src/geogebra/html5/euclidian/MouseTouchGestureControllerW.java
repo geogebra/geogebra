@@ -18,7 +18,6 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
@@ -431,7 +430,6 @@ public class MouseTouchGestureControllerW implements
 	private boolean ignoreEvent = false;
 
 	public void onTouchEnd(TouchEndEvent event) {
-		App.debug("RELEASE touch");
 		Event.releaseCapture(event.getRelativeElement());
 		DRAGMODE_MUST_BE_SELECTED = false;
 		if (moveCounter < 2) {
@@ -616,7 +614,6 @@ public class MouseTouchGestureControllerW implements
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-		App.debug("RELEASE");
 		Event.releaseCapture(event.getRelativeElement());
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
