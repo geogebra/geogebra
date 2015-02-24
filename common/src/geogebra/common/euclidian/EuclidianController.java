@@ -7814,7 +7814,7 @@ public abstract class EuclidianController {
 		return false;
 	}
 
-	public void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		
 		if (shouldCancelDrag()) {
 			return;

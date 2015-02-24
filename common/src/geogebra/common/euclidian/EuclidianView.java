@@ -1652,7 +1652,9 @@ public abstract class EuclidianView implements EuclidianViewInterfaceCommon,
 			hitFilling.clear();
 			hitLabel.clear();
 		}
-
+		if (p == null) {
+			return;
+		}
 		DrawableIterator it = allDrawableList.getIterator();
 		while (it.hasNext()) {
 			Drawable d = it.next();

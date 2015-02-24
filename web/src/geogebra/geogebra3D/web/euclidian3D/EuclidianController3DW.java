@@ -149,8 +149,9 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 
-	private void onTouchMoveNow(PointerEvent event, long time) {
-		mtg.onTouchMoveNow(event, time);
+	private void onTouchMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
+		mtg.onTouchMoveNow(event, time, startCapture);
 	}
 
 	@Override
@@ -215,8 +216,9 @@ public class EuclidianController3DW extends EuclidianController3D implements
 		mtg.onMouseMove(event);
 	}
 
-	public void onMouseMoveNow(PointerEvent event, long time) {
-		mtg.onMouseMoveNow(event, time);
+	public void onMouseMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
+		mtg.onMouseMoveNow(event, time, startCapture);
 	}
 
 	@Override
@@ -419,7 +421,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 	}
 
 	@Override
-	public void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 
 		if (!shouldCancelDrag()) {
 			// Set capture events only if the mouse is actually down,
@@ -427,7 +429,7 @@ public class EuclidianController3DW extends EuclidianController3D implements
 			if (waitingMouseMove == null && waitingTouchMove == null) {
 				Event.setCapture(((PointerEvent) event).getRelativeElement());
 			}
-			super.wrapMouseDragged(event);
+			super.wrapMouseDragged(event, startCapture);
 		}
 
 	}

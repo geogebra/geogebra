@@ -18,6 +18,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoPointND;
+import geogebra.common.main.App;
 import geogebra.common.util.MyMath;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
@@ -267,12 +268,12 @@ public class MouseTouchGestureControllerW implements
 		long time = System.currentTimeMillis();
 		if (this.waitingMouseMove != null) {
 			GeoGebraProfiler.moveEventsIgnored--;
-			this.onMouseMoveNow(waitingMouseMove, time);
+			this.onMouseMoveNow(waitingMouseMove, time, false);
 			return;
 		}
 		if (this.waitingTouchMove != null) {
 			GeoGebraProfiler.moveEventsIgnored--;
-			this.onTouchMoveNow(waitingTouchMove, time);
+			this.onTouchMoveNow(waitingTouchMove, time, false);
 		}
 
 	}
@@ -377,7 +378,7 @@ public class MouseTouchGestureControllerW implements
 			} else {
 				longTouchManager.cancelTimer();
 			}
-			onTouchMoveNow(e, time);
+			onTouchMoveNow(e, time, true);
 		} else if (targets.length() == 2 && app.isShiftDragZoomEnabled()) {
 			longTouchManager.cancelTimer();
 			twoTouchMove(targets.get(0), targets.get(1));
@@ -403,13 +404,14 @@ public class MouseTouchGestureControllerW implements
 		        + Math.pow(t1.getY() - t2.getY(), 2));
 	}
 
-	public void onTouchMoveNow(PointerEvent event, long time) {
+	public void onTouchMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
 		this.lastMoveEvent = time;
 		// in SMART we actually get move events even if mouse button is up ...
 		if (!DRAGMODE_MUST_BE_SELECTED) {
 			ec.wrapMouseMoved(event);
 		} else {
-			ec.wrapMouseDragged(event);
+			ec.wrapMouseDragged(event, startCapture);
 		}
 
 		this.waitingTouchMove = null;
@@ -429,6 +431,7 @@ public class MouseTouchGestureControllerW implements
 	private boolean ignoreEvent = false;
 
 	public void onTouchEnd(TouchEndEvent event) {
+		App.debug("RELEASE touch");
 		Event.releaseCapture(event.getRelativeElement());
 		DRAGMODE_MUST_BE_SELECTED = false;
 		if (moveCounter < 2) {
@@ -588,16 +591,17 @@ public class MouseTouchGestureControllerW implements
 			return;
 		}
 
-		onMouseMoveNow(e, time);
+		onMouseMoveNow(e, time, true);
 	}
 
-	public void onMouseMoveNow(PointerEvent event, long time) {
+	public void onMouseMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
 		this.lastMoveEvent = time;
 		if (!DRAGMODE_MUST_BE_SELECTED) {
 			ec.wrapMouseMoved(event);
 		} else {
 			event.setIsRightClick(DRAGMODE_IS_RIGHT_CLICK);
-			ec.wrapMouseDragged(event);
+			ec.wrapMouseDragged(event, startCapture);
 		}
 		event.release();
 		this.waitingMouseMove = null;
@@ -612,12 +616,13 @@ public class MouseTouchGestureControllerW implements
 	}
 
 	public void onMouseUp(MouseUpEvent event) {
-
+		App.debug("RELEASE");
+		Event.releaseCapture(event.getRelativeElement());
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
 
-		Event.releaseCapture(event.getRelativeElement());
+
 
 		if (moveCounter < 2) {
 			ec.resetModeAfterFreehand();

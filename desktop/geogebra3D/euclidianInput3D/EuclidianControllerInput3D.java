@@ -204,7 +204,8 @@ public class EuclidianControllerInput3D extends EuclidianController3DD {
 							storeOrientation();
 							wrapMousePressed(mouseEvent);
 						} else {
-							wrapMouseDragged(mouseEvent);
+							// no capture in desktop
+							wrapMouseDragged(mouseEvent, false);
 						}
 						wasRightReleased = true;
 						wasLeftReleased = false;

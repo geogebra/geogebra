@@ -80,7 +80,8 @@ public class EuclidianController3DD extends EuclidianController3D implements
 
 	public void mouseDragged(MouseEvent e) {
 		AbstractEvent event = geogebra.euclidian.event.MouseEventD.wrapEvent(e);
-		wrapMouseDragged(event);
+		// no capture in desktop
+		wrapMouseDragged(event, false);
 		event.release();
 	}
 

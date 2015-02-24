@@ -3335,7 +3335,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 	}
 
 	@Override
-	public void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 
 		if (handledGeo != null) {
 			setMouseLocation(event);
@@ -3352,7 +3352,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		setMouseMovedEvent(event);
 
-		super.wrapMouseDragged(event);
+		super.wrapMouseDragged(event, startCapture);
 	}
 
 	// //////////////////////////////////////

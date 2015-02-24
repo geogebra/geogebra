@@ -46,7 +46,8 @@ public class EuclidianController3DWnoWebGL extends EuclidianController3DW {
 	}
 
 	@Override
-	public void onMouseMoveNow(PointerEvent event, long time) {
+	public void onMouseMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
 		// nothing to do here
 	}
 

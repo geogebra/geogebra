@@ -165,8 +165,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.twoTouchMove(touch, touch2);
 	}
 
-	private void onTouchMoveNow(PointerEvent event, long time) {
-		mtg.onTouchMoveNow(event, time);
+	private void onTouchMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
+		mtg.onTouchMoveNow(event, time, startCapture);
 	}
 
 	@Override
@@ -222,8 +223,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		mtg.onMouseMove(event);
 	}
 
-	public void onMouseMoveNow(PointerEvent event, long time) {
-		mtg.onMouseMoveNow(event, time);
+	public void onMouseMoveNow(PointerEvent event, long time,
+	        boolean startCapture) {
+		mtg.onMouseMoveNow(event, time, startCapture);
 	}
 
 	@Override
@@ -446,7 +448,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	public void wrapMouseDragged(AbstractEvent event) {
+	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		if (pen != null && !penDragged && freehandModePrepared) {
 			getPen().handleMouseDraggedForPenMode(event);
 		}
@@ -469,10 +471,11 @@ public class EuclidianControllerW extends EuclidianController implements
 			}
 			// Set capture events only if the mouse is actually down,
 			// because we need to release the capture on mouse up.
-			if (waitingMouseMove == null && waitingTouchMove == null) {
+			if (startCapture) {
+				App.debug("set");
 				Event.setCapture(((PointerEvent) event).getRelativeElement());
 			}
-			super.wrapMouseDragged(event);
+			super.wrapMouseDragged(event, startCapture);
 		}
 		if (movedGeoPoint != null
 		        && (this.mode == EuclidianConstants.MODE_JOIN
