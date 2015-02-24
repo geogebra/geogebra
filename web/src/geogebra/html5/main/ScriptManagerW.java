@@ -184,10 +184,9 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::uploadToGeoGebraTube()();
 		};
 
-		// This is not yet used in GeoGebraWeb
-		//api.setErrorDialogsActive = function(flag) {
-		//	ggbAPI.@geogebra.html5.main.GgbAPIW::setErrorDialogsActive(Z)(flag);
-		//};
+		api.setErrorDialogsActive = function(flag) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::setErrorDialogsActive(Z)(flag);
+		};
 
 		api.reset = function() {//TODO: implement this in Desktop and Web
 			ggbAPI.@geogebra.html5.main.GgbAPIW::reset()();
