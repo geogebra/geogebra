@@ -46,6 +46,7 @@ import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.EventUtil;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.util.SliderW;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
@@ -95,6 +96,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
 
@@ -137,6 +139,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	boolean blockBlur = false;
 
 	private SliderW slider;
+	private Image deleteButton;
 
 	/**
 	 * TODO this will be replaced by a check-box in the settings
@@ -1055,7 +1058,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	@Override
     public void onClick(ClickEvent evt) {
-//		evt.stopPropagation();
+		// evt.stopPropagation();
 
 		if (app.isPrerelease()
 				&& (av.isEditing() || isThisEdited() || newCreationMode)) {
@@ -1068,10 +1071,24 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt, ZeroOffset.instance);
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
+				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
 
 		((AlgebraViewWeb) this.av).getStyleBar().update(this.getGeo());
+
+		if (app.isPrerelease() && geo != null) {
+			if (deleteButton == null) {
+				deleteButton = new Image(GuiResources.INSTANCE.keyboard_close());
+				deleteButton.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						geo.remove();
+					}
+				});
+			}
+			add(deleteButton);
+			((AlgebraViewWeb) this.av).setActiveTreeItem(this);
+		}
 	}
 
 	@Override
@@ -1334,5 +1351,11 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	public void scrollIntoView() {
 		this.getElement().scrollIntoView();
+	}
+
+	public void removeCloseButton() {
+		if(this.deleteButton != null){
+			remove(this.deleteButton);
+		}
 	}
 }

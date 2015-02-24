@@ -363,6 +363,10 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 
 	@Override
 	public void onBrowserEvent(Event event) {
+		if (event.getTypeInt() == Event.ONBLUR) {
+			setActiveTreeItem(null);
+		}
+
 		// as arrow keys are prevented in super.onBrowserEvent,
 		// we need to handle arrow key events before that
 		switch (DOM.eventGetType(event)) {
@@ -434,5 +438,4 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		}
 	}
 
-	
 } // AlgebraView

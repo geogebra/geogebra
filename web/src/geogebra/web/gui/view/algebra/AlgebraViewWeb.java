@@ -86,6 +86,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	private int waitForRepaint = TimerSystemW.SLEEPING_FLAG;
 	private StringBuilder sbXML;
 
+	private RadioButtonTreeItem activeItem;
 	 
 	public AlgebraViewWeb(AppW app) {
 		super(new TreeImages());
@@ -1112,5 +1113,16 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	public AlgebraStyleBarW getStyleBar() {
 		return null;
+	}
+
+	public void setActiveTreeItem(RadioButtonTreeItem radioButtonTreeItem) {
+		if (!app.isPrerelease()) {
+			return;
+		}
+
+		if (this.activeItem != null) {
+			this.activeItem.removeCloseButton();
+		}
+		this.activeItem = radioButtonTreeItem;
 	}
 }
