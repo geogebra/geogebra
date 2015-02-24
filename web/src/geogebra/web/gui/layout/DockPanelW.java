@@ -31,6 +31,8 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.dom.client.Style.VerticalAlign;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DragEvent;
+import com.google.gwt.event.dom.client.DragHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.resources.client.ResourcePrototype;
@@ -412,6 +414,17 @@ public abstract class DockPanelW extends ResizeComposite implements
 		dragPanel.setVisible(false);
 		if(dragIcon == null){
 			dragIcon = new Image(GuiResources.INSTANCE.dockbar_drag());
+			/*
+			 * Prevent default image drag from interfering with view drag --
+			 * needed for IE
+			 */
+			dragIcon.addDragHandler(new DragHandler() {
+
+				@Override
+				public void onDrag(DragEvent event) {
+					event.preventDefault();
+				}
+			});
 		}
 		dragPanel.add(dragIcon);
 		
