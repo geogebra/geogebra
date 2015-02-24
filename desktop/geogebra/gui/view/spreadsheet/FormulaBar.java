@@ -57,13 +57,13 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 		// create GUI objects
 		//btnCancelFormula = new JButton(app.getImageIcon("no.png"));
 
-		btnCancelFormula = new JButton(app.getImageIcon("delete_small.gif"));
+		btnCancelFormula = new JButton(app.getScaledIcon("delete_small.gif"));
 		btnCancelFormula.setFocusable(false);
 		btnCancelFormula.addActionListener(this);
 		btnCancelFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));
 		btnCancelFormula.addMouseListener(new BarButtonListener());
 
-		btnAcceptFormula = new JButton(app.getImageIcon("apply.png"));
+		btnAcceptFormula = new JButton(app.getScaledIcon("apply.png"));
 		btnAcceptFormula.addMouseListener(new BarButtonListener());
 		btnAcceptFormula.setFocusable(false);
 		btnAcceptFormula.setBorder(BorderFactory.createEmptyBorder(0,4,0,4));	
@@ -244,10 +244,15 @@ public class FormulaBar extends JToolBar implements ActionListener, FocusListene
 	public void updateFonts(Font font){
 		fldFormula.setFont(font);
 		fldCellName.setFont(font);
+		updateIcons();
 		repaint();
 
 	}
 
+	public void updateIcons() {
+		btnCancelFormula.setIcon(app.getScaledIcon("delete_small.gif"));
+		btnAcceptFormula.setIcon(app.getScaledIcon("apply.png"));
+	}
 
 	public void setLabels(){
 		btnAcceptFormula.setToolTipText(app.getPlain("Apply"));

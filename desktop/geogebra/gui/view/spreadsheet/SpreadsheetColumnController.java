@@ -443,9 +443,9 @@ public class SpreadsheetColumnController implements KeyListener, MouseListener,
 		private BorderLayout layout;
 
 		private ImageIcon pauseIcon = app
-				.getImageIcon("spreadsheettrace_pause.gif");
+				.getScaledIcon("spreadsheettrace_pause.gif");
 		private ImageIcon recordIcon = app
-				.getImageIcon("spreadsheettrace_record.gif");
+				.getScaledIcon("spreadsheettrace_record.gif");
 
 		public ColumnHeaderRenderer() {
 			super(new BorderLayout());

@@ -55,7 +55,13 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 
 		// toolbar settings
 		setFloatable(false);
+		reinit();
+	}
+
+	public void reinit() {
+		removeAll();
 		Dimension d = getPreferredSize();
+		iconHeight = app.getScaledIconSize();
 		d.height = iconHeight + 8;
 		setPreferredSize(d);
 		setFloatable(false);
@@ -84,10 +90,12 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 	}
 
 	private void createButtons() {
-
-		btnFormulaBar = new MyToggleButton(app.getImageIcon("formula_bar.png"),
+		iconHeight = app.getScaledIconSize();
+		iconDimension = new Dimension(iconHeight, iconHeight);
+		btnFormulaBar = new MyToggleButton(
+				app.getScaledIcon("formula_bar.png"),
 				iconHeight);
-		// btnFormulaBar.setSelectedIcon(app.getImageIcon("formula_bar_hide.png"));
+		// btnFormulaBar.setSelectedIcon(app.getScaledIcon("formula_bar_hide.png"));
 		btnFormulaBar.addActionListener(this);
 
 		ImageIcon boldIcon = GeoGebraIcon.createStringIcon(loc.getPlain("Bold")
@@ -104,18 +112,18 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnItalic.addActionListener(this);
 
 		btnLeftAlign = new MyToggleButton(
-				app.getImageIcon("format-justify-left.png"), iconHeight);
+				app.getScaledIcon("format-justify-left.png"), iconHeight);
 		btnLeftAlign.addActionListener(this);
 
 		btnCenterAlign = new MyToggleButton(
-				app.getImageIcon("format-justify-center.png"), iconHeight);
+				app.getScaledIcon("format-justify-center.png"), iconHeight);
 		btnCenterAlign.addActionListener(this);
 
 		btnRightAlign = new MyToggleButton(
-				app.getImageIcon("format-justify-right.png"), iconHeight);
+				app.getScaledIcon("format-justify-right.png"), iconHeight);
 		btnRightAlign.addActionListener(this);
 
-		final Dimension bgColorIconSize = new Dimension(18, iconHeight);
+		final Dimension bgColorIconSize = new Dimension(iconHeight, iconHeight);
 		btnBgColor = new ColorPopupMenuButton(app, bgColorIconSize,
 				ColorPopupMenuButton.COLORSET_BGCOLOR, false) {
 
@@ -135,14 +143,14 @@ public class SpreadsheetStyleBar extends JToolBar implements ActionListener {
 		btnBgColor.setSelectedIndex(7); // Light Purple
 		btnBgColor.addActionListener(this);
 
-		ImageIcon[] borderStyleIcon = { app.getImageIcon("border_none.png"),
-				app.getImageIcon("border_frame.png"),
-				app.getImageIcon("border_inside.png"),
-				app.getImageIcon("border_all.png"),
-				app.getImageIcon("border_top.png"),
-				app.getImageIcon("border_bottom.png"),
-				app.getImageIcon("border_left.png"),
-				app.getImageIcon("border_right.png") };
+		ImageIcon[] borderStyleIcon = { app.getScaledIcon("border_none.png"),
+				app.getScaledIcon("border_frame.png"),
+				app.getScaledIcon("border_inside.png"),
+				app.getScaledIcon("border_all.png"),
+				app.getScaledIcon("border_top.png"),
+				app.getScaledIcon("border_bottom.png"),
+				app.getScaledIcon("border_left.png"),
+				app.getScaledIcon("border_right.png") };
 
 		btnBorderStyle = new PopupMenuButton(app, borderStyleIcon, 2, -1,
 				iconDimension,

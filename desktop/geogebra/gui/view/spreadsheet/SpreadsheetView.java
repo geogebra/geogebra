@@ -209,7 +209,7 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 		// add trace dialog button
 		btnTraceDialog = new JButton(
-				app.getImageIcon("spreadsheettrace_button.gif")) {
+				app.getScaledIcon("spreadsheettrace_button.gif")) {
 		};
 		btnTraceDialog.setBorderPainted(false);
 		btnTraceDialog.setPreferredSize(new Dimension(18, 18));
@@ -565,6 +565,10 @@ public class SpreadsheetView implements SpreadsheetViewInterface,
 
 		if (formulaBar != null)
 			formulaBar.updateFonts(font);
+
+		if (styleBar != null) {
+			styleBar.reinit();
+		}
 	}
 
 	public void setColumnWidth(int col, int width) {

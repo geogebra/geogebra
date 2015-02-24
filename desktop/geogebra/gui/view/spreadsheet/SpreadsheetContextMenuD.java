@@ -183,13 +183,13 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 
 		switch (MenuCommand.valueOf(cmdString)) {
 		case Copy:
-			iconString = "edit-copy.png";
+			iconString = "menu-edit-copy.png";
 			break;
 		case Cut:
-			iconString = "edit-cut.png";
+			iconString = "menu-edit-cut.png";
 			break;
 		case Paste:
-			iconString = "edit-paste.png";
+			iconString = "menu-edit-paste.png";
 			break;
 		case Delete:
 		case DeleteObjects:
@@ -214,7 +214,7 @@ public class SpreadsheetContextMenuD extends SpreadsheetContextMenu {
 
 		// convert string to icon
 		if (iconString != null) {
-			return ((AppD) app).getImageIcon(iconString);
+			return ((AppD) app).getScaledIcon(iconString);
 		}
 		return ((AppD) app).getEmptyIcon();
 	}
