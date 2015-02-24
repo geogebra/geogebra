@@ -25,6 +25,7 @@ import geogebra.common.kernel.geos.GeoPolygon;
 import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.kernelND.GeoSegmentND;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 
 /**
@@ -380,10 +381,10 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 * @param centroid
 	 *            point to store result
 	 */
-	public static void calcCentroid(GeoPoint centroid, double signedArea,
+	public static void calcCentroid(double[] centroid, double signedArea,
 			GeoPointND[] points2) {
 		if (Double.isNaN(signedArea) || Double.isInfinite(signedArea)) {
-			centroid.setUndefined();
+			centroid[0] = Double.NaN;
 			return;
 		}
 
@@ -398,7 +399,10 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 			ysum += (pointsClosedY(i, points2) + pointsClosedY(i + 1, points2))
 					* factor;
 		}
-		centroid.setCoords(xsum, ysum, 6.0 * signedArea); // getArea
+		centroid[0] = xsum;
+		centroid[1] = ysum;
+		centroid[2] = 6.0 * signedArea;
+		// getArea
 		// includes
 		// the +/-
 		// to
@@ -479,11 +483,21 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 		// compute area
 		poly.setArea(calcAreaWithSign(points2d));
 	}
+	
+	private double[] tmp3;
 
 	public void calcCentroid(GeoPoint p) {
 		GeoPointND[] points2d = poly.getPoints();
 
-		calcCentroid(p, poly.getAreaWithSign(), points2d);
+		if (tmp3 == null){
+			tmp3 = new double[3];
+		}
+		calcCentroid(tmp3, poly.getAreaWithSign(), points2d);
+		if (Double.isNaN(tmp3[0])){
+			p.setUndefined();
+		}else{
+			p.setCoords(tmp3[0], tmp3[1], tmp3[2]);
+		}
 
 	}
 

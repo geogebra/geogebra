@@ -11,6 +11,8 @@ import geogebra.common.kernel.Region;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.CoordSys;
 import geogebra.common.kernel.Matrix.Coords;
+import geogebra.common.kernel.algos.AlgoPolygon;
+import geogebra.common.kernel.algos.PolygonAlgo;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
@@ -1022,5 +1024,31 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 		// face orientation is created by the points
 		return reverseNormal;
 	}
+	
+	private double[] tmp3;
 
+	@Override
+	public void calcCentroid(GeoPointND p) {
+		
+		// just do long method
+		// could improve by transforming original centroid, but not worth doing
+		// test-case Centroid[Dilate[Polygon[(0,0),(1,1),(1,0)],4]]
+		// test-case Centroid[Polygon[(0,0),(1,1),(1,0)]]
+		if (tmp3 == null){
+			tmp3 = new double[3];
+		}
+		AlgoPolygon.calcCentroid(tmp3, area, getPoints());
+		if (Double.isNaN(tmp3[0])){
+			p.setUndefined();
+		}else{
+			Coords c = getCoordSys().getPoint(tmp3[0], tmp3[1], tmp3[2]);
+			p.setCoords(c, false);
+		}
+		
+	}
+
+	@Override
+	public GeoPointND newGeoPoint(Construction cons){
+		return new GeoPoint3D(cons);
+	}
 }

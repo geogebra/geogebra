@@ -2002,10 +2002,13 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		setArea(AlgoPolygon.calcAreaWithSign(getPoints()));
 	}
 
-	public void calcCentroid(GeoPoint p) {
+	
+	private double[] tmp3;
+
+	public void calcCentroid(GeoPointND p) {
 		
 		if (algoParent instanceof PolygonAlgo) {
-			((PolygonAlgo)algoParent).calcCentroid(p);
+			((PolygonAlgo)algoParent).calcCentroid((GeoPoint) p);
 			return;
 		}
 		
@@ -2013,7 +2016,15 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		// could improve by transforming original centroid, but not worth doing
 		// test-case Centroid[Dilate[Polygon[(0,0),(1,1),(1,0)],4]]
 		// test-case Centroid[Polygon[(0,0),(1,1),(1,0)]]
-		AlgoPolygon.calcCentroid(p, area, getPoints());
+		if (tmp3 == null){
+			tmp3 = new double[3];
+		}
+		AlgoPolygon.calcCentroid(tmp3, area, getPoints());
+		if (Double.isNaN(tmp3[0])){
+			p.setUndefined();
+		}else{
+			p.setCoords(tmp3[0], tmp3[1], tmp3[2]);
+		}
 		
 		
 	}
@@ -2184,5 +2195,14 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_FILLING;
+	}
+	
+	/**
+	 * 
+	 * @param cons construction
+	 * @return 2D point if 2D polygon, 3D point if 3D polygon
+	 */
+	public GeoPointND newGeoPoint(Construction cons){
+		return new GeoPoint(cons);
 	}
 }

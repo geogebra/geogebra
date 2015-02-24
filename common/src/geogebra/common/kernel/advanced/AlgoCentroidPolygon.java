@@ -19,16 +19,17 @@ import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoPolygon;
+import geogebra.common.kernel.kernelND.GeoPointND;
 
 public class AlgoCentroidPolygon extends AlgoElement {
 
 	private GeoPolygon p; // input
-	private GeoPoint centroid; // output
+	private GeoPointND centroid; // output
 
 	public AlgoCentroidPolygon(Construction cons, String label, GeoPolygon p) {
 		super(cons);
 		this.p = p;
-		centroid = new GeoPoint(cons);
+		centroid = p.newGeoPoint(cons);
 		setInputOutput(); // for AlgoElement
 
 		compute();
@@ -47,7 +48,7 @@ public class AlgoCentroidPolygon extends AlgoElement {
 		input[0] = p;
 
 		super.setOutputLength(1);
-		super.setOutput(0, centroid);
+		super.setOutput(0, (GeoElement) centroid);
 		setDependencies(); // done by AlgoElement
 	}
 
@@ -55,7 +56,7 @@ public class AlgoCentroidPolygon extends AlgoElement {
 		return p;
 	}
 
-	public GeoPoint getPoint() {
+	public GeoPointND getPoint() {
 		return centroid;
 	}
 

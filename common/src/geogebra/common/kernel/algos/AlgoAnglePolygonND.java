@@ -125,12 +125,6 @@ public abstract class AlgoAnglePolygonND extends AlgoAngle {
 			angle.set(algoAngle.getAngle());
 			if (!angle.isDrawable) {
 				angle.setDrawable(true);
-				if (angle.isLabelVisible())
-					angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-				else {
-					angle.setLabelMode(GeoElement.LABEL_VALUE);
-					angle.setLabelVisible(true);
-				}
 			}
 			angle.setDrawAlgorithm(algoAngle.copy());
 			cons.removeFromConstructionList(algoAngle);
