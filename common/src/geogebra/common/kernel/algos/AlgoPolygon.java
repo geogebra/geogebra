@@ -383,7 +383,7 @@ public class AlgoPolygon extends AlgoElement implements PolygonAlgo {
 	 */
 	public static void calcCentroid(double[] centroid, double signedArea,
 			GeoPointND[] points2) {
-		if (Double.isNaN(signedArea) || Double.isInfinite(signedArea)) {
+		if (Double.isNaN(signedArea) || Double.isInfinite(signedArea) || points2 == null || points2.length == 0) {
 			centroid[0] = Double.NaN;
 			return;
 		}

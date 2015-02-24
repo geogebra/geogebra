@@ -246,13 +246,20 @@ public class GeoPolygon3D extends GeoPolygon implements GeoPolygon3DInterface,
 	private ArrayList<GeoPoint3D> points3DArray;
 
 	@Override
-	public void setCoordSysAndPoints3D(GeoPolygon poly) {
-
+	public void setCoordSys(GeoPolygon poly) {
+		
 		// set coord sys
 		if (coordSys == null) {
 			coordSys = new CoordSys(2);
 		}
 		coordSys.set(poly.getCoordSys());
+	}
+
+	@Override
+	public void setCoordSysAndPoints3D(GeoPolygon poly) {
+
+		// set coord sys
+		setCoordSys(poly);
 
 		// set 3D points
 		setPoints3DLength();

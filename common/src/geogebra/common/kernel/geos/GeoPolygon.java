@@ -158,6 +158,15 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 		//nothing to do here
 	}
 
+	/**
+	 * for 3D stuff (unused here)
+	 * 
+	 * @param p polygon
+	 * 			
+	 */
+	public void setCoordSys(GeoPolygon poly) {
+		//3D only
+	}
 
 	/**
 	 * for 3D stuff (unused here)
@@ -566,6 +575,9 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1], j], i, 0, 300] 
 		if (poly.getPoints() == null) { 
+			setCoordSys(poly);
+			segments = new GeoSegmentND[0];
+			defined = poly.defined;
 			return;
 		}
 
