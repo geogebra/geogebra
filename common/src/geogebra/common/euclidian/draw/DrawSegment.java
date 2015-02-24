@@ -199,7 +199,7 @@ public class DrawSegment extends Drawable implements Previewable {
 			if (decoTicks == null) {
 				// only create these object when they are really needed
 				decoTicks = new GLine2D[6]; // Michael Borcherds 20071006
-											// changed from 3 to 6
+				// changed from 3 to 6
 				for (int i = 0; i < decoTicks.length; i++)
 					decoTicks[i] = AwtFactory.prototype.newLine2D();
 			}
@@ -253,7 +253,7 @@ public class DrawSegment extends Drawable implements Previewable {
 				decoTicks[2].setLine(midX - vx - nx, midY - vy - ny, midX - vx
 						+ nx, midY - vy + ny);
 				break;
-			// Michael Borcherds 20071006 start
+
 			case GeoElement.DECORATION_SEGMENT_ONE_ARROW:
 				// vector (vx, vy) to get 2 points around midpoint
 				factor = tickSpacing / (1.5 * nLength);
@@ -334,8 +334,15 @@ public class DrawSegment extends Drawable implements Previewable {
 						+ arrowlength * (-nx + vx), midY - 3 * arrowlength * vy
 						+ arrowlength * (-ny + vy));
 				break;
-			// Michael Borcherds 20071006 end
 			}
+		} else {
+			// #4907 make sure decorations disappear for length 0 segments
+			if (decoTicks != null) {
+				for (int i = 0; i < decoTicks.length; i++)
+					decoTicks[i].setLine(Double.NaN, Double.NaN, Double.NaN,
+							Double.NaN);
+			}
+
 		}
 	}
 
