@@ -1065,9 +1065,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 	 * @param val
 	 */
 	public void setScale(double val) {
-		getSettings().setXscale(val);
-		getSettings().setYscale(val);
-		getSettings().setZscale(val);
+		getSettings().setScaleNoCallToSettingsChanged(val);
 		setViewChangedByZoom();
 	}
 

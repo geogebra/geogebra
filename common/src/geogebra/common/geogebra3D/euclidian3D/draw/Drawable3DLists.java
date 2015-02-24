@@ -460,9 +460,16 @@ public class Drawable3DLists {
 	 */
 	public void drawLabel(Renderer renderer) {
 
-		for (int i = 0; i < Drawable3D.DRAW_TYPE_MAX; i++)
-			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();)
+		for (int i = 0; i < Drawable3D.DRAW_TYPE_LISTS; i++){
+			for (Iterator<Drawable3D> d = lists[i].iterator(); d.hasNext();){
 				d.next().drawLabel(renderer);
+			}
+		}
+		
+		// lists
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d).getDrawable3DLists().drawTexts(renderer);
+		}
 
 	}
 

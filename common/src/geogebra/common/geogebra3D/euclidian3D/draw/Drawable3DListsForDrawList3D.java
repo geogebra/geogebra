@@ -1,6 +1,7 @@
 package geogebra.common.geogebra3D.euclidian3D.draw;
 
 import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
+import geogebra.common.geogebra3D.euclidian3D.openGL.Renderer;
 
 /**
  * list of drawables stored by lists
@@ -42,4 +43,25 @@ public class Drawable3DListsForDrawList3D extends Drawable3DLists {
 
 	}
 
+	
+	/**
+	 * draw texts
+	 * 
+	 * @param renderer
+	 *            opengl context
+	 */
+	public void drawTexts(Renderer renderer){
+
+		// texts
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_TEXTS]) {
+			d.drawLabel(renderer);
+		}
+
+		// lists
+		for (Drawable3D d : lists[Drawable3D.DRAW_TYPE_LISTS]) {
+			((DrawList3D) d).getDrawable3DLists().drawLabel(renderer);
+		}
+
+				
+	}
 }

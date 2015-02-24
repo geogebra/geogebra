@@ -331,5 +331,15 @@ public class EuclidianSettings3D extends EuclidianSettings {
 		
 		
 	}
+	
+	/**
+	 * set x, y, z scale, don't call settingsChanged()
+	 * @param scale scale value
+	 */
+	public void setScaleNoCallToSettingsChanged(double scale){
+		this.xscale = scale;
+		this.yscale = scale;
+		this.zscale = scale;
+	}
 
 }

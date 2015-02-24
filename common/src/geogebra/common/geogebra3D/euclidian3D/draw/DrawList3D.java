@@ -203,7 +203,7 @@ public class DrawList3D extends Drawable3D {
 
 	@Override
 	public void drawLabel(Renderer renderer) {
-		// TODO ?
+		// no label
 	}
 
 	@Override
@@ -215,15 +215,31 @@ public class DrawList3D extends Drawable3D {
 	public boolean isTransparent() {
 		return false;
 	}
+	
+	
+	
+	@Override
+	protected boolean isLabelVisible() {
+		return isVisible(); // as for texts
+	}
 
 	@Override
 	protected void updateLabel() {
-		// no label for 3D lists
+		for (DrawableND d : drawables) {
+			if (d instanceof DrawList3D || d instanceof DrawText3D){
+				((Drawable3D) d).updateLabel();
+			}			
+		}
 	}
 
 	@Override
 	protected void updateLabelPosition() {
-		// no label for 3D lists
+		for (DrawableND d : drawables) {
+			if (d instanceof DrawList3D || d instanceof DrawText3D){
+				((Drawable3D) d).updateLabelPosition();
+			}			
+		}
+
 	}
 
 	@Override

@@ -147,5 +147,16 @@ public class DrawText3D extends Drawable3DCurves {
 	protected boolean hitLabel(Hitting hitting, Hits3D hits) {
 		return false; // no label
 	}
+	
+	
+	@Override
+	public void addToDrawable3DLists(Drawable3DLists lists) {
+		addToDrawable3DLists(lists, DRAW_TYPE_TEXTS);
+	}
+
+	@Override
+	public void removeFromDrawable3DLists(Drawable3DLists lists) {
+		removeFromDrawable3DLists(lists, DRAW_TYPE_TEXTS);
+	}
 
 }
