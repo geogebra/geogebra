@@ -116,6 +116,9 @@ public class AlgoRotate extends AlgoTransformation {
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else
 			outGeo.set(inGeo);
+		if (!outGeo.isDefined()) {
+			return;
+		}
 		out.rotate(angle);
 		if (inGeo.isLimitedPath())
 			this.transformLimitedPath(inGeo, outGeo);

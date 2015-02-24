@@ -174,6 +174,11 @@ public class AlgoAttachCopyToView extends AlgoTransformation {
 		} else {
 			outGeo.set(inGeo);
 		}
+		
+		if (!outGeo.isDefined()) {
+			return;
+		}
+		
 		if (view == 0)
 			return;
 

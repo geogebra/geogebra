@@ -62,6 +62,10 @@ public class AlgoCentroidPolygon extends AlgoElement {
 
 	@Override
 	public final void compute() {
+		if (!p.isDefined()){
+			centroid.setUndefined();
+			return;
+		}
 		p.calcCentroid(centroid);
 	}
 

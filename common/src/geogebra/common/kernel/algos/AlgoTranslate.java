@@ -128,6 +128,10 @@ public class AlgoTranslate extends AlgoTransformation implements
 		}
 
 		setOutGeo();
+		if (!out.isDefined()) {
+			return;
+		}
+		
 		out.translate(getVectorCoords());
 		if (inGeo.isLimitedPath()) {
 			this.transformLimitedPath(inGeo, outGeo);

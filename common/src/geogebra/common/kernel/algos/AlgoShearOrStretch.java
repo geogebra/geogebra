@@ -129,6 +129,9 @@ public class AlgoShearOrStretch extends AlgoTransformation {
 					.toGeoCurveCartesian((GeoCurveCartesian) outGeo);
 		} else
 			outGeo.set(inGeo);
+		if (!outGeo.isDefined()) {
+			return;
+		}
 
 		// matrix.add
 		Translateable tranOut = (Translateable) out;

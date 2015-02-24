@@ -94,6 +94,9 @@ public class AlgoRotate3DLine extends AlgoRotate3D {
 		} else {
 			outGeo.set(inGeo);
 		}
+		if (!outGeo.isDefined()) {
+			return;
+		}
 		out.rotate(angle, line);
 		/*
 		 * if(inGeo.isLimitedPath()) this.transformLimitedPath(inGeo, outGeo);

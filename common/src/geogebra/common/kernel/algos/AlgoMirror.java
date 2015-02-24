@@ -241,6 +241,9 @@ public class AlgoMirror extends AlgoTransformation implements
 		}
 
 		setOutGeo();
+		if (!outGeo.isDefined()) {
+			return;
+		}
 
 		if (inGeo.isRegion() && mirror == mirrorConic) {
 			GeoVec2D v = mirrorConic.getTranslationVector();

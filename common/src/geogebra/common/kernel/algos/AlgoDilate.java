@@ -136,6 +136,9 @@ public class AlgoDilate extends AlgoTransformation {
 		}
 
 		setOutGeo();
+		if (!out.isDefined()) {
+			return;
+		}
 
 		out.dilate(r, getPointCoords());
 

@@ -99,6 +99,10 @@ public class AlgoRotate3DPointOrientation extends AlgoRotate3D {
 		} else {
 			outGeo.set(inGeo);
 		}
+		
+		if (!outGeo.isDefined()) {
+			return;
+		}
 
 		out.rotate(angle, center, orientation);
 		/*

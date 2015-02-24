@@ -575,9 +575,7 @@ GeoPoly, Transformable, SymbolicParametersBotanaAlgo, HasSegments, FromMeta{
 
 		// fix for Sequence[Polygon[Element[liste1, i], Element[liste1, i + 1], j], i, 0, 300] 
 		if (poly.getPoints() == null) { 
-			setCoordSys(poly);
-			segments = new GeoSegmentND[0];
-			defined = poly.defined;
+			setUndefined();
 			return;
 		}
 

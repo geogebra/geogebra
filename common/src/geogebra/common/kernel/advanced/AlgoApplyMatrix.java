@@ -128,6 +128,11 @@ public class AlgoApplyMatrix extends AlgoTransformation {
 		} else {
 			outGeo.set(inGeo);
 		}
+		
+		if (!outGeo.isDefined()) {
+			return;
+		}
+		
 		MyList list = matrix.getMyList();
 
 		if ((list.getMatrixCols() != list.getMatrixRows())
