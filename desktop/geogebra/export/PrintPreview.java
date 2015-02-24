@@ -155,7 +155,7 @@ public class PrintPreview extends JDialog {
 
 		// print button
 		JButton btnPrint = new JButton(app.getMenu("Print"),
-				app.getImageIcon("document-print.png"));
+				app.getScaledIcon("document-print.png"));
 		lst = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {

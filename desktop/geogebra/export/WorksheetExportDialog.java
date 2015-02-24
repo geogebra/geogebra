@@ -104,7 +104,7 @@ public class WorksheetExportDialog extends JDialog {
 
 		helpButton = new JButton(app.getMenu("Help"));
 		HelpAction helpAction = new HelpAction(app,
-				app.getImageIcon("help.png"), app.getMenu("Help"),
+				app.getScaledIcon("help.png"), app.getMenu("Help"),
 				App.WIKI_EXPORT_WORKSHEET);
 		helpButton.setAction(helpAction);
 
