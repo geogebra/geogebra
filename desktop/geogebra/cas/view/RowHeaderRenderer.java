@@ -46,8 +46,8 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 		super(new GridBagLayout());
 		c = new GridBagConstraints();
 		AppD app = (AppD) casTable.getApplication();
-		iconShown = app.getImageIcon("shown.gif");
-		iconHidden = app.getImageIcon("hidden.gif");
+		iconShown = app.getScaledIcon("shown.gif");
+		iconHidden = app.getScaledIcon("hidden.gif");
 		numLabel = new JLabel("", SwingConstants.CENTER);
 		this.casTable = casTable;
 		// setBorder(BorderFactory.createEmptyBorder(5, 5, 10, 5));

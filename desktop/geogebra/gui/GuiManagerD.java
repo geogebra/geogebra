@@ -2303,7 +2303,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return false;
 
 		showAxesAction = new AbstractAction(app.getMenu("Axes"),
-				((AppD) app).getImageIcon("axes.gif")) {
+				((AppD) app).getScaledIcon("axes.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -2313,7 +2313,7 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		};
 
 		showGridAction = new AbstractAction(app.getMenu("Grid"),
-				((AppD) app).getImageIcon("grid.gif")) {
+				((AppD) app).getScaledIcon("grid.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

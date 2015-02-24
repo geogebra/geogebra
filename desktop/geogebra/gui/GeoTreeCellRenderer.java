@@ -43,8 +43,8 @@ public class GeoTreeCellRenderer extends DefaultTreeCellRenderer {
 		this.app = app;
 		setOpaque(true);
 
-		iconShown = app.getImageIcon("shown.gif");
-		iconHidden = app.getImageIcon("hidden.gif");
+		iconShown = app.getScaledIcon("shown.gif");
+		iconHidden = app.getScaledIcon("hidden.gif");
 	}
 
 	@Override

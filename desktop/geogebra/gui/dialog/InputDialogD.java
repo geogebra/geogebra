@@ -313,7 +313,7 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog
 	public void addHelpButton(String articleName) {
 		btHelp = new JButton();
 		HelpAction helpAction = new HelpAction(app,
-				app.getImageIcon("help.png"), app.getMenu("Help"), articleName);
+				app.getScaledIcon("help.png"), app.getMenu("Help"), articleName);
 		btHelp.setAction(helpAction);
 		btPanel2.add(btHelp);
 	}

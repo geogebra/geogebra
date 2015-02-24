@@ -738,7 +738,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 	/**
 	 * Hide a dock panel permanently.
 	 * 
-	 * @param panel
+	 * @param panela
 	 * @return true if succeeded to hide the panel
 	 */
 	public boolean hide(DockPanel panel) {

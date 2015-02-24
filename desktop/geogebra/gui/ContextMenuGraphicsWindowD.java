@@ -65,7 +65,7 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 	public ContextMenuGraphicsWindowD(AppD app, double px, double py) {
 		this(app);
 
-		iconZoom = app.getImageIcon("zoom16.gif");
+		iconZoom = app.getScaledIcon("zoom16.gif");
 
 		// zoom point
 		this.px = px;
@@ -173,7 +173,8 @@ public class ContextMenuGraphicsWindowD extends ContextMenuGeoElementD
 		JMenuItem miProperties = new JMenuItem(app.getPlain("DrawingPad")
 				+ " ...");
 		miProperties
-				.setIcon(((AppD) app).getImageIcon("view-properties16.png"));
+.setIcon(((AppD) app)
+				.getScaledIcon("view-properties16.png"));
 		miProperties.setActionCommand("properties");
 		miProperties.addActionListener(this);
 		miProperties.setBackground(bgColor);

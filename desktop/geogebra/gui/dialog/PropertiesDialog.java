@@ -143,7 +143,7 @@ public class PropertiesDialog extends JDialog implements WindowListener,
 		listScroller.setBorder(BorderFactory.createEmptyBorder(5, 5, 0, 5));
 
 		// delete button
-		delButton = new JButton(app.getImageIcon("delete_small.gif"));
+		delButton = new JButton(app.getScaledIcon("delete_small.gif"));
 		delButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				deleteSelectedGeos();

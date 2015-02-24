@@ -538,7 +538,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// pen button
 		btnPen = new MyToggleButton(
 				((AppD) ev.getApplication())
-						.getImageIcon("applications-graphics.png"),
+						.getScaledIcon("applications-graphics.png"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -560,7 +560,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// delete button
 		btnDelete = new MyToggleButton(
-				((AppD) ev.getApplication()).getImageIcon("delete_small.gif"),
+				((AppD) ev.getApplication()).getScaledIcon("delete_small.gif"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -586,7 +586,7 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 				"stylingbar_delete_medium.png", "stylingbar_delete_big.png" };
 		for (int i = 0; i < 3; i++) {
 			btnDeleteSize[i] = new MyToggleButton(
-					app.getImageIcon(deleteIcons[i]), iconHeight) {
+					app.getScaledIcon(deleteIcons[i]), iconHeight) {
 
 				private static final long serialVersionUID = 1L;
 

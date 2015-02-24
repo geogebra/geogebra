@@ -198,7 +198,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	private JPanel createButtonPanel() {
 
-		btnRefresh = new JButton(app.getImageIcon("view-refresh.png"));
+		btnRefresh = new JButton(app.getScaledIcon("view-refresh.png"));
 		btnRefresh.setBorderPainted(false);
 		btnRefresh.setFocusable(false);
 		btnRefresh.setEnabled(false);

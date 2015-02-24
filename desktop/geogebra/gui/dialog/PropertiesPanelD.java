@@ -2230,7 +2230,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			setModel(model);
 			comboBox.setEditable(true);
 			getLabel().setIcon(
-					app.getImageIcon("corner" + model.getCornerNumber()
+					app.getScaledIcon("corner" + model.getCornerNumber()
 							+ ".png"));
 		}
 
@@ -3587,7 +3587,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			btnImage.setKeepVisible(false);
 			btnImage.addActionListener(this);
 
-			btnClearImage = new JButton(app.getImageIcon("delete_small.gif"));
+			btnClearImage = new JButton(app.getScaledIcon("delete_small.gif"));
 			btnClearImage.addActionListener(this);
 
 			btnOpenFile = new JButton();
