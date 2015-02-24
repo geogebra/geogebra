@@ -317,9 +317,10 @@ public class DrawSurface3D extends Drawable3DSurfaces {
 				if (!drawOccured){
 					// no draw at start: can do the draw now
 					draw();
+					return true; 
 				}
-				// no room left or no split too do: update is finished
-				return true; 
+				// no room left or no split too do: update is finished, but the object may change
+				return false; 
 			}
 			// still room left and still split to do: still to update
 			return false;
