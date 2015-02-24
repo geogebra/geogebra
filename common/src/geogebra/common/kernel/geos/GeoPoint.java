@@ -1912,6 +1912,86 @@ SymbolicParametersBotanaAlgo {
 	public PathMover createPathMover() {
 		return null;
 	}
+	
+	public double getAnimationValue(){
+		return animationValue;
+	}
+	
+	public void setAnimationValue(double val){
+		animationValue = val;
+	}
+	
+	/**
+	 * @param frameRate
+	 * @param p
+	 * @param path
+	 * @return whether the value of this number was changed
+	 */
+	static public boolean doAnimationStep(double frameRate, GeoPointND p, Path path) {
+		PathParameter pp = p.getPathParameter();
+		GeoElement geo = (GeoElement) p;
+
+		// remember old value of parameter to decide whether update is necessary
+		double oldValue = pp.t;
+
+		// compute animation step based on speed and frame rates
+		double intervalWidth = 1;
+		double step = intervalWidth
+				* geo.getAnimationSpeed()
+				* geo.getAnimationDirection()
+				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
+
+		// update animation value
+		if (Double.isNaN(p.getAnimationValue()))
+			p.setAnimationValue(oldValue);
+		p.setAnimationValue(p.getAnimationValue() + step);
+
+		// make sure we don't get outside our interval
+		switch (geo.getAnimationType()) {
+		case GeoElement.ANIMATION_DECREASING:
+		case GeoElement.ANIMATION_INCREASING:
+			// jump to other end of slider
+			if (p.getAnimationValue() > 1)
+				p.setAnimationValue(p.getAnimationValue() - intervalWidth);
+			else if (p.getAnimationValue() < 0)
+				p.setAnimationValue(p.getAnimationValue() + intervalWidth);
+			break;
+
+		case GeoElement.ANIMATION_INCREASING_ONCE:
+			// stop if outside range
+			if (p.getAnimationValue() > 1) {
+				p.setAnimationValue(1);
+				geo.setAnimating(false);
+			} else if (p.getAnimationValue() < 0) {
+				p.setAnimationValue(0);
+				geo.setAnimating(false);
+			}
+			break;
+
+		case GeoElement.ANIMATION_OSCILLATING:
+		default:
+			if (p.getAnimationValue() >= 1) {
+				p.setAnimationValue(1);
+				geo.changeAnimationDirection();
+			} else if (p.getAnimationValue() <= 0) {
+				p.setAnimationValue(0);
+				geo.changeAnimationDirection();
+			}
+			break;
+		}
+
+		// change slider's value without changing animationValue
+		pp.t = PathNormalizer.toParentPathParameter(p.getAnimationValue(),
+				path.getMinParameter(), path.getMaxParameter());
+
+		// return whether value of slider has changed
+		if (pp.t != oldValue) {
+			path.pathChanged(p);
+			p.updateCoords();
+			return true;
+		}
+		return false;
+	}
 
 	/**
 	 * Performs the next automatic animation step for this numbers. This changes
@@ -1921,68 +2001,7 @@ SymbolicParametersBotanaAlgo {
 	 */
 	public synchronized boolean doAnimationStep(double frameRate) {
 
-		PathParameter pp = getPathParameter();
-
-		// remember old value of parameter to decide whether update is necessary
-		double oldValue = pp.t;
-
-		// compute animation step based on speed and frame rates
-		double intervalWidth = 1;
-		double step = intervalWidth
-				* getAnimationSpeed()
-				* getAnimationDirection()
-				/ (AnimationManager.STANDARD_ANIMATION_TIME * frameRate);
-
-		// update animation value
-		if (Double.isNaN(animationValue))
-			animationValue = oldValue;
-		animationValue = animationValue + step;
-
-		// make sure we don't get outside our interval
-		switch (getAnimationType()) {
-		case GeoElement.ANIMATION_DECREASING:
-		case GeoElement.ANIMATION_INCREASING:
-			// jump to other end of slider
-			if (animationValue > 1)
-				animationValue = animationValue - intervalWidth;
-			else if (animationValue < 0)
-				animationValue = animationValue + intervalWidth;
-			break;
-
-		case GeoElement.ANIMATION_INCREASING_ONCE:
-			// stop if outside range
-			if (animationValue > 1) {
-				animationValue = 1;
-				setAnimating(false);
-			} else if (animationValue < 0) {
-				animationValue = 0;
-				setAnimating(false);
-			}
-			break;
-
-		case GeoElement.ANIMATION_OSCILLATING:
-		default:
-			if (animationValue >= 1) {
-				animationValue = 1;
-				changeAnimationDirection();
-			} else if (animationValue <= 0) {
-				animationValue = 0;
-				changeAnimationDirection();
-			}
-			break;
-		}
-
-		// change slider's value without changing animationValue
-		pp.t = PathNormalizer.toParentPathParameter(animationValue,
-				path.getMinParameter(), path.getMaxParameter());
-
-		// return whether value of slider has changed
-		if (pp.t != oldValue) {
-			path.pathChanged(this);
-			updateCoords();
-			return true;
-		}
-		return false;
+		return doAnimationStep(frameRate, this, path);
 	}
 
 	// ///////////////////////////////////////

@@ -30,6 +30,7 @@ import geogebra.common.kernel.MatrixTransformable;
 import geogebra.common.kernel.MyPoint;
 import geogebra.common.kernel.Path;
 import geogebra.common.kernel.PathMover;
+import geogebra.common.kernel.PathNormalizer;
 import geogebra.common.kernel.PathOrPoint;
 import geogebra.common.kernel.PathParameter;
 import geogebra.common.kernel.Region;
@@ -42,6 +43,7 @@ import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.arithmetic3D.Vector3DValue;
+import geogebra.common.kernel.geos.Animatable;
 import geogebra.common.kernel.geos.Dilateable;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -72,7 +74,7 @@ import java.util.TreeSet;
  */
 public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		Vector3DValue, MatrixTransformable, CoordStyle, RotateableND,
-		Transformable, Traceable, MirrorableAtPlane, Dilateable {
+		Transformable, Traceable, MirrorableAtPlane, Dilateable, Animatable {
 
 	private boolean isInfinite, isDefined;
 	private int pointSize;
@@ -224,6 +226,11 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				// PathParameter tempPathParameter = getTempPathparameter();
 				// tempPathParameter.set(getPathParameter());
 				path.pointChanged(this);
+				
+				// make sure animation starts from the correct place
+				animationValue = PathNormalizer.toNormalizedPathParameter(
+						getPathParameter().t, path.getMinParameter(),
+						path.getMaxParameter());
 
 			}
 			updateCoords();
@@ -813,6 +820,7 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 				PathParameter pathParameter = getPathParameter();
 				pathParameter.set(p.getPathParameter());
 			}
+			animationValue = p.getAnimationValue();
 			setCoords(p);
 			// TODO ? moveMode = p.getMoveMode();
 			updateCoords();
@@ -1898,6 +1906,26 @@ public class GeoPoint3D extends GeoVec4D implements GeoPointND, PathOrPoint,
 		tmpCoords2.setMul(v0, v.getW());
 		v.addInside(tmpCoords2);
 		setCoords(v);
+	}
+
+	public boolean doAnimationStep(double frameRate) {
+		return GeoPoint.doAnimationStep(frameRate, this, path);
+	}
+	
+	
+	@Override
+	public boolean isAnimatable() {
+		return isPointOnPath() && isChangeable();
+	}
+	
+	private double animationValue;
+	
+	public double getAnimationValue(){
+		return animationValue;
+	}
+	
+	public void setAnimationValue(double val){
+		animationValue = val;
 	}
 
 }

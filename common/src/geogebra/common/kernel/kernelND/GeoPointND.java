@@ -340,4 +340,8 @@ public interface GeoPointND extends PointProperties, Translateable, SpreadsheetT
 	public void rotate(NumberValue phi, Coords center);
 
 	public void setRegion(Region r);
+
+	public double getAnimationValue();
+	
+	public void setAnimationValue(double val);
 }
