@@ -3156,6 +3156,10 @@ public abstract class EuclidianView3D extends EuclidianView implements
 				axisDrawable[i].updateDecorations();
 				axisDrawable[i].setLabelWaitForUpdate();
 			}
+			
+			// update e.g. Corner[]
+			kernel.notifyEuclidianViewCE();
+
 		}
 
 	}

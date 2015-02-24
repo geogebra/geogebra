@@ -4,6 +4,7 @@ import geogebra.common.euclidian3D.EuclidianView3DInterface;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPoint3D;
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.algos.AlgoDrawingPadCorner;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.commands.Commands;
@@ -106,10 +107,17 @@ public class AlgoDrawingPadCorner3D extends AlgoDrawingPadCorner {
 				corner.setCoords(app.getWidth(), app.getHeight(), 1.0);
 
 				break;
+				
+			case 11: // return view direction
+				Coords eye = ev.getEyePosition();
+				corner.setCoords(eye.getX(), eye.getY(), eye.getZ(), 1.0);
+				break;
+				
 			default:
 				corner.setUndefined();
 				break;
 			}
+			
 
 		} else { // ev1 or ev2
 			super.compute();
