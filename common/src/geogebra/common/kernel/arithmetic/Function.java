@@ -1022,10 +1022,12 @@ public class Function extends FunctionNVar implements RealRootFunction,
 	 * derivative. This can be used for root finding. Note: changes to the
 	 * function will not affect the returned RealRootDerivFunction.
 	 * 
+	 * Switched to fast derivatives because of #4929
+	 * 
 	 * @return real root function
 	 */
 	final public RealRootDerivFunction getRealRootDerivFunction() {
-		Function deriv = getDerivativeNoFractions(1, false);
+		Function deriv = getDerivativeNoFractions(1, true);
 		if (deriv == null) {
 			return null;
 		}
