@@ -419,6 +419,8 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS:
 		case EuclidianConstants.MODE_CIRCUMCIRCLE_SECTOR_THREE_POINTS:
+
+
 			arcMode = previewMode == EuclidianConstants.MODE_CIRCUMCIRCLE_ARC_THREE_POINTS ? GeoConicNDConstants.CONIC_PART_ARC
 					: GeoConicNDConstants.CONIC_PART_SECTOR;
 			AlgoConicPartCircumcircle algo2 = new AlgoConicPartCircumcircle(
@@ -434,6 +436,7 @@ public class DrawConicPart extends Drawable implements Previewable {
 	}
 
 	final public void updatePreview() {
+
 		// two selected points + mouse position needed for preview
 		isVisible = conicPart != null && prevPoints.size() == neededPrevPoints;
 		if (isVisible) {
@@ -453,6 +456,23 @@ public class DrawConicPart extends Drawable implements Previewable {
 
 	final public void updateMousePos(double xRW, double yRW) {
 		if (isVisible) {
+
+			// avoid random line when mouse is over one of the 2 initial points
+			if (prevPoints.size() == 2) {
+				if (Kernel.isEqual(prevPoints.get(0).getInhomX(), xRW)
+						&& Kernel
+								.isEqual(previewTempPoints[0].getInhomY(), yRW)) {
+					isVisible = false;
+					return;
+				}
+				if (Kernel.isEqual(prevPoints.get(1).getInhomX(), xRW)
+						&& Kernel
+								.isEqual(previewTempPoints[1].getInhomY(), yRW)) {
+					isVisible = false;
+					return;
+				}
+			}
+
 			// double xRW = view.toRealWorldCoordX(x);
 			// double yRW = view.toRealWorldCoordY(y);
 			previewTempPoints[previewTempPoints.length - 1].setCoords(xRW, yRW,
