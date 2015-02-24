@@ -159,16 +159,16 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 
 		lblTitle = new JLabel();
 
-		btnAdd = new MyButton(app.getImageIcon("list-add.png"));
+		btnAdd = new MyButton(app.getScaledIcon("list-add.png"));
 		btnAdd.addActionListener(this);
 
-		btnClear = new MyButton(app.getImageIcon("edit-clear.png"));
+		btnClear = new MyButton(app.getScaledIcon("edit-clear.png"));
 		btnClear.addActionListener(this);
 
-		btnDelete = new MyButton(app.getImageIcon("list-remove.png"));
+		btnDelete = new MyButton(app.getScaledIcon("list-remove.png"));
 		btnDelete.addActionListener(this);
 
-		btnOptions = new MyButton(app.getImageIcon("view-properties16.png"));
+		btnOptions = new MyButton(app.getScaledIcon("view-properties16.png"));
 		btnOptions.addActionListener(this);
 
 		lblStart = new JLabel();
@@ -190,6 +190,14 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 		fldWidth.setText("" + 1.0);
 		fldWidth.addFocusListener(this);
 
+	}
+
+	private void updateIcons() {
+		lblTitle.setIcon(app.getModeIcon(mode));
+		btnAdd.setIcon(app.getScaledIcon("list-add.png"));
+		btnClear.setIcon(app.getScaledIcon("edit-clear.png"));
+		btnDelete.setIcon(app.getScaledIcon("list-remove.png"));
+		btnOptions.setIcon(app.getScaledIcon("view-properties16.png"));
 	}
 
 	private void buildMainPanel() {
@@ -556,8 +564,10 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 	public void updateFonts(Font font) {
 		setFont(font);
 		sourceTable.updateFonts(font);
-
+		updateIcons();
 	}
+
+
 
 	public void applySettings() {
 
@@ -727,9 +737,9 @@ public class DataSourcePanel extends JPanel implements ActionListener,
 			lblDataTitle.setForeground(Color.BLACK);
 			lblDataTitle.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 
-			importIcon = app.getImageIcon("arrow_cursor_grabbing.png");
+			importIcon = app.getScaledIcon("arrow_cursor_grabbing.png");
 			importIconRollover = app
-					.getImageIcon("arrow_cursor_grabbing_rollover.png");
+					.getScaledIcon("arrow_cursor_grabbing_rollover.png");
 
 		}
 

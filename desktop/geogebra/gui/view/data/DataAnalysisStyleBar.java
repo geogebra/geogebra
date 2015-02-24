@@ -54,7 +54,9 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private void createGUI() {
 		this.removeAll();
 
-		btnPrint = new JButton(app.getImageIcon("document-print.png"));
+		btnPrint = new JButton(app.getMenuIcon("document-print.png"));
+		iconHeight = app.getScaledIconSize();
+
 		btnPrint.addActionListener(this);
 		btnPrint.setFocusPainted(false);
 		btnPrint.setBorderPainted(false);
@@ -62,25 +64,25 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		btnPrint.setFocusable(false);
 
 		btnShowStatistics = new MyToggleButton(
-				app.getImageIcon("dataview-showstatistics.png"), iconHeight);
+				app.getScaledIcon("dataview-showstatistics.png"), iconHeight);
 		btnShowStatistics.addActionListener(this);
 		btnShowStatistics.setFocusPainted(false);
 		btnShowStatistics.setFocusable(false);
 
 		btnShowData = new MyToggleButton(
-				app.getImageIcon("dataview-showdata.png"), iconHeight);
+				app.getScaledIcon("dataview-showdata.png"), iconHeight);
 		btnShowData.addActionListener(this);
 		btnShowData.setFocusPainted(false);
 		btnShowData.setFocusable(false);
 
 		btnShowPlot2 = new MyToggleButton(
-				app.getImageIcon("dataview-showplot2.png"), iconHeight);
+				app.getScaledIcon("dataview-showplot2.png"), iconHeight);
 		btnShowPlot2.addActionListener(this);
 		btnShowPlot2.setFocusPainted(false);
 		btnShowPlot2.setFocusable(false);
 
 		// create export button
-		btnExport = new MyToggleButton(app.getImageIcon("export16.png"),
+		btnExport = new MyToggleButton(app.getScaledIcon("export16.png"),
 				iconHeight);
 		btnExport.setFocusPainted(false);
 		btnExport.setFocusable(false);
@@ -103,6 +105,10 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 		add(btnSwapXY);
 		// add(createDataSourcePanel());
 
+	}
+
+	public void reinit() {
+		createGUI();
 	}
 
 	public void updateGUI() {
@@ -148,7 +154,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	private JPanel createDataSourcePanel() {
 
 		btnDataSource = new MyToggleButton(
-				app.getImageIcon("arrow_cursor_grabbing.png"), iconHeight); // app.getImageIcon("go-previous.png"));
+				app.getScaledIcon("arrow_cursor_grabbing.png"), iconHeight); // app.getImageIcon("go-previous.png"));
 
 		btnDataSource.addActionListener(this);
 		fldDataSource = new MyTextField(app);
@@ -167,7 +173,7 @@ public class DataAnalysisStyleBar extends JToolBar implements ActionListener {
 	 */
 	private void buildRoundingButton() {
 
-		btnRounding = new JButton(app.getImageIcon("triangle-down.png"));
+		btnRounding = new JButton(app.getScaledIcon("triangle-down.png"));
 		btnRounding.setHorizontalTextPosition(SwingConstants.LEFT);
 		btnRounding.setHorizontalAlignment(SwingConstants.LEFT);
 

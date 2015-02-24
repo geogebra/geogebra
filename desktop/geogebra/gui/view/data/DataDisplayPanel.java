@@ -152,9 +152,19 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		getModel().updatePlot(true);
 		optionsPanel.setVisible(false);
 		btnOptions.setSelected(false);
+		btnOptions.setSelectedIcon(app
+				.getScaledIcon("inputhelp_right_18x18.png"));
 
 	}
 
+	public void updateIcons() {
+		btnOptions.setIcon(app.getScaledIcon("inputhelp_left_18x18.png"));
+		btnOptions.setSelectedIcon(app
+				.getScaledIcon("inputhelp_right_18x18.png"));
+
+		btnExport.setIcon(app.getScaledIcon("export16.png"));
+
+	}
 	// ==============================================
 	// GUI
 	// ==============================================
@@ -164,9 +174,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		// create options button
 		btnOptions = new JToggleButton();
 		// optionsButton.setIcon(app.getImageIcon("view-properties16.png"));
-		btnOptions.setIcon(app.getImageIcon("inputhelp_left_18x18.png"));
-		btnOptions.setSelectedIcon(app
-				.getImageIcon("inputhelp_right_18x18.png"));
 		btnOptions.setBorderPainted(false);
 		btnOptions.setFocusPainted(false);
 		btnOptions.setContentAreaFilled(false);
@@ -177,7 +184,6 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 		// create export button
 		btnExport = new JToggleButton();
-		btnExport.setIcon(app.getImageIcon("export16.png"));
 		// optionsButton.setSelectedIcon(app.getImageIcon("inputhelp_right_18x18.png"));
 		btnExport.setBorderPainted(false);
 		btnExport.setFocusPainted(false);
@@ -186,7 +192,7 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 		// Dimension(btnExport.getIcon().getIconWidth(),18));
 		btnExport.setMargin(new Insets(0, 0, 0, 0));
 		btnExport.addActionListener(this);
-
+		updateIcons();
 		// create control panel
 		if (hasControlPanel) {
 
@@ -602,6 +608,9 @@ public class DataDisplayPanel extends JPanel implements ActionListener,
 
 	public void updateFonts(Font font) {
 		plotPanel.updateFonts();
+		updateIcons();
+		optionsPanel.updateFonts(font);
+		setLabels();
 	}
 
 	public void updatePanel() {

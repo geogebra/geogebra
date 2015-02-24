@@ -486,7 +486,25 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 		Font font = app.getPlainFont();
 		setFont(font);
 		setFontRecursive(this, font);
+		if (stylebar != null) {
+			stylebar.reinit();
 
+		}
+
+		dataDisplayPanel1.updateFonts(font);
+		dataDisplayPanel2.updateFonts(font);
+		if (dataPanel != null) {
+			dataPanel.updateFonts(font);
+		}
+
+		if (statisticsPanel != null) {
+			statisticsPanel.updateFonts(font);
+		}
+
+		if (regressionPanel != null) {
+			regressionPanel.updateFonts(font);
+		}
+		setLabels();
 	}
 
 	public void setFontRecursive(Container c, Font font) {
@@ -499,6 +517,7 @@ public class DataAnalysisViewD extends JPanel implements View, Printable,
 			if (com instanceof Container)
 				setFontRecursive((Container) com, font);
 		}
+
 	}
 
 	public void setLabels() {

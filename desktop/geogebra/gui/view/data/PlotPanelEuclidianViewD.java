@@ -102,9 +102,9 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 		plotPanelEV = this;
 
 		// create cursors for DnD
-		grabCursor = getCursorForImage(getApplication().getImageIcon(
+		grabCursor = getCursorForImage(getApplication().getScaledIcon(
 				"cursor_grab.gif").getImage());
-		grabbingCursor = getCursorForImage(getApplication().getImageIcon(
+		grabbingCursor = getCursorForImage(getApplication().getScaledIcon(
 				"cursor_grabbing.gif").getImage());
 
 		// enable/disable mouseListeners
@@ -421,7 +421,7 @@ public class PlotPanelEuclidianViewD extends EuclidianViewD implements
 	 */
 	AbstractAction exportGraphicAction = new AbstractAction(getApplication()
 			.getPlain("ExportAsPicture") + "...", getApplication()
-			.getImageIcon("image-x-generic.png")) {
+			.getScaledIcon("image-x-generic.png")) {
 		private static final long serialVersionUID = 1L;
 
 		public void actionPerformed(ActionEvent e) {

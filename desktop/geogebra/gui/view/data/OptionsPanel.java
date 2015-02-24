@@ -765,8 +765,7 @@ public class OptionsPanel extends JPanel implements PropertyChangeListener,
 	}
 
 	public void updateFonts(Font font) {
-		// TODO Auto-generated method stub
-
+		setLabels();
 	}
 
 	public void updatePanel() {
