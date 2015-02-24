@@ -87,6 +87,7 @@ public class Relation {
 				@Override
 				public void action(RelationPane table, int row) {
 					final RelationRow rel = new RelationRow();
+					app.setWaitCursor();
 					Boolean result = checkGenerally(relAlgo, ra, rb);
 					Localization loc = ra.getConstruction().getApplication()
 							.getLocalization();
@@ -96,12 +97,14 @@ public class Relation {
 						// Prove==false
 						rel.info += relInfo + "<br><b>"
 								+ app.getPlain("ButNotGenerallyTrue") + "</b>";
+						app.setDefaultCursor();
 					} else {
 						// We don't show the second information unless
 						// ProveDetails is unsuccessful.
 
 						// Third info start:
 						String[] ndgResult = getNDGConditions(relAlgo, ra, rb);
+						app.setDefaultCursor();
 						// This style is defined in the CSS. It is harmless in
 						// desktop but
 						// helpful to show nice list look in web:
