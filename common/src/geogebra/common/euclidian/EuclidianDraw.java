@@ -136,7 +136,8 @@ public class EuclidianDraw {
 			break;
 
 		case FUNCTION_NVAR:
-			if (((GeoFunctionNVar) geo).isBooleanFunction()) {
+			if (((GeoFunctionNVar) geo).isBooleanFunction()
+					&& ((GeoFunctionNVar) geo).getVarNumber() < 3) {
 				d = new DrawInequality(ev, (GeoFunctionNVar) geo);
 			}
 			break;
