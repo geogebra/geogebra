@@ -590,9 +590,17 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 	@Override
 	public void onResize() {
 
+		// If the split pane gets really narrow and right view is hidden,
+		if (orientation == HORIZONTAL_SPLIT && getOffsetWidth() > 0
+		        && getOffsetWidth() < this.getWidget(0).getOffsetWidth()) {
+			this.setWidgetSize(this.getWidget(0), this.getOffsetWidth());
+		}
+ else if (orientation == VERTICAL_SPLIT && getOffsetHeight() > 0
+		        && getOffsetHeight() < this.getWidget(0).getOffsetHeight()) {
+			this.setWidgetSize(this.getWidget(0), this.getOffsetHeight());
+		}
 		// it's only important to resize components so that
 		// the divider should be inside
-
 		if (getLeftComponent() instanceof RequiresResize) {
 			((RequiresResize)getLeftComponent()).onResize();
 		}
