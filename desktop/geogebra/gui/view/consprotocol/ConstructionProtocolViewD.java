@@ -258,6 +258,7 @@ public class ConstructionProtocolViewD extends ConstructionProtocolView
 		table.setFont(((AppD) app).getPlainFont());
 		((ConstructionTableData) data).updateAll();
 		getStyleBar().reinit();
+		protNavBar.updateIcons();
 	}
 
 	public void setUseColors(boolean flag) {

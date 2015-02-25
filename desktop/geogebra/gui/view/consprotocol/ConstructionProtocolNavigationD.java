@@ -12,6 +12,7 @@ the Free Software Foundation.
 package geogebra.gui.view.consprotocol;
 
 import geogebra.common.gui.SetLabels;
+import geogebra.common.gui.UpdateIcons;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -50,7 +51,9 @@ import javax.swing.event.ChangeListener;
 /**
  * Navigation buttons for the construction protocol
  */
-public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigation implements ActionListener, SettingListener, SetLabels {
+public class ConstructionProtocolNavigationD extends
+		ConstructionProtocolNavigation implements ActionListener,
+		SettingListener, SetLabels, UpdateIcons {
 
 	private JButton btFirst, btPrev, btNext, btLast, btOpenWindow;
 	/** Button for starting/stopping animation*/
@@ -134,16 +137,17 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 			
 		}
 	}	
+
 	/**
 	 * Initializes all components, sets labels
 	 */
 	public void initGUI() {
 		implPanel.removeAll();	
 					
-		btFirst = new JButton(app.getImageIcon("nav_skipback.png"));
-		btLast = new JButton(app.getImageIcon("nav_skipforward.png"));		
-		btPrev = new JButton(app.getImageIcon("nav_rewind.png"));		
-		btNext = new JButton(app.getImageIcon("nav_fastforward.png"));				
+		btFirst = new JButton(app.getScaledIcon("nav_skipback.png"));
+		btLast = new JButton(app.getScaledIcon("nav_skipforward.png"));
+		btPrev = new JButton(app.getScaledIcon("nav_rewind.png"));
+		btNext = new JButton(app.getScaledIcon("nav_fastforward.png"));
 				
 		btFirst.addActionListener(this);
 		btLast.addActionListener(this);		
@@ -180,7 +184,7 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 		
 				
 		btOpenWindow = new JButton();
-		btOpenWindow.setIcon(app.getImageIcon("table.gif"));			
+		btOpenWindow.setIcon(app.getScaledIcon("table.gif"));
 		btOpenWindow.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//app.getGuiManager().showConstructionProtocol();
@@ -208,12 +212,15 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 	
 	@Override
 	public void setLabels() {
-		if (btPlay != null)
+		if (btPlay != null) {
 			btPlay.setText(loc.getPlain("Play"));
-		if (btOpenWindow != null)
+		}
+		if (btOpenWindow != null) {
 			btOpenWindow.setToolTipText(loc.getPlainTooltip("ConstructionProtocol"));
+		}
 	}
 	
+
 	/**
 	 * Updates the texts that show the current construction step and
 	 * the number of construction steps.	
@@ -355,5 +362,19 @@ public class ConstructionProtocolNavigationD extends ConstructionProtocolNavigat
 	public void setVisible(boolean visible) {
 		getImpl().setVisible(visible);
 		
+	}
+
+	public void updateIcons() {
+		if (btFirst == null) {
+			return;
+		}
+		btFirst.setIcon(app.getScaledIcon("nav_skipback.png"));
+		btLast.setIcon(app.getScaledIcon("nav_skipforward.png"));
+		btPrev.setIcon(app.getScaledIcon("nav_rewind.png"));
+		btNext.setIcon(app.getScaledIcon("nav_fastforward.png"));
+		btOpenWindow.setIcon(app.getScaledIcon("table.gif"));
+		lbSteps.setFont(app.getPlainFont());
+		update();
+
 	}	
 }
