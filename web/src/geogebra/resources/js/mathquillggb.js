@@ -5148,6 +5148,17 @@ $.fn.mathquillggb = function(cmd, latex) {
         if (cursor)
           cursor.writeLatex(latex).parent.blur();
       });
+  case 'simpaste':
+    if (arguments.length > 1)
+      return this.each(function() {
+        var blockId = $(this).attr(mqBlockId),
+          block = blockId && Node.byId[blockId],
+          cursor = block && block.cursor;
+
+        if (cursor)
+          // "latex" is actually text
+          cursor.parent.bubble('onText', cursor, latex);
+      });
   case 'replace':
     // this function should replace the current 'word',
     // or the sequence of elements like in arguments[2]

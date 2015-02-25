@@ -906,12 +906,31 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 
 			if (s != null && !"".equals(s)) {
-				writeLatexInPlaceOfCurrentWord(parentElement, s, "", false);
+				triggerPaste(parentElement, s);
+				// writeLatexInPlaceOfCurrentWord(parentElement, s, "", false);
 				return true;
 			}
 		}
 		return false;
 	}
+
+	/**
+	 * Simulates a paste event, or anything that happens on pasting/entering
+	 * text most naturally used with single characters, but string may be okay
+	 * as well, provided that they are interpreted as pasting and not
+	 * necessarily latex
+	 */
+	public static native void triggerPaste(Element parentElement, String str) /*-{
+		var elfirst = parentElement.firstChild.firstChild;
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		if (elsecondInside.GeoGebraSuggestionPopupCanShow) {
+			delete elsecondInside.GeoGebraSuggestionPopupCanShow;
+		}
+
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('simpaste', str);
+	}-*/;
 
 	// documentation in RadioButtonTreeItem.keydown
 	public static native void triggerKeydown(Element parentElement,
