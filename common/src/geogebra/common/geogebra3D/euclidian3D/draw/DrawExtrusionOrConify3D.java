@@ -225,7 +225,7 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 				if (callback == null) {
 					callback = new CreatePolyhedronCallback();
 				}
-				callback.set(basis, getView3D());
+				callback.set(basis, getView3D(), extrusionComputer);
 
 				app.getDialogManager().showNumberInputDialog(
 						// app.getMenu(getView3D().getKernel().getModeText(EuclidianConstants.MODE_RIGHT_PRISM)),
@@ -245,9 +245,11 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 						hits, 1, false);
 			}
 
-			// remove the algo
-			extrusionComputer.getAlgo().remove();
-			extrusionComputer = null;
+			if (extrusionComputer != null){
+				// remove the algo
+				extrusionComputer.getAlgo().remove();
+				extrusionComputer = null;
+			}
 		}
 	}
 
@@ -257,21 +259,29 @@ public abstract class DrawExtrusionOrConify3D extends Drawable3DSurfaces
 
 		private GeoElement basis;
 		private EuclidianView3D view;
+		private ExtrusionComputer extrusionComputer;
 
 		public CreatePolyhedronCallback() {
 			super();
 		}
 
-		public void set(GeoElement basis, EuclidianView3D view) {
+		public void set(GeoElement basis, EuclidianView3D view, ExtrusionComputer extrusionComputer) {
 			this.basis = basis;
 			this.view = view;
+			this.extrusionComputer = extrusionComputer;
 		}
 
 		@Override
 		public void callback(Object obj) {
 			GeoNumberValue num = (GeoNumberValue) obj;
 
-			App.debug(num + "," + basis);
+			// App.debug("callback : "+num + "," + basis + " , "+extrusionComputer);
+			
+			if (extrusionComputer != null){
+				// remove the algo
+				extrusionComputer.getAlgo().remove();
+				extrusionComputer = null;
+			}
 
 			GeoElement ret;
 			if (basis.isGeoPolygon()) {
