@@ -252,23 +252,23 @@ public class PropertiesStyleBarD extends
 	private ImageIcon getTypeIcon(OptionType type) {
 		switch (type) {
 		case DEFAULTS:
-			return app.getImageIcon("properties_defaults_3.png");
+			return app.getScaledIcon("properties_defaults_3.png");
 		case SPREADSHEET:
-			return app.getImageIcon("menu_view_spreadsheet.png");
+			return app.getScaledIcon("menu_view_spreadsheet.png");
 		case EUCLIDIAN:
-			return app.getImageIcon("menu_view_graphics.png");
+			return app.getScaledIcon("menu_view_graphics.png");
 		case EUCLIDIAN2:
-			return app.getImageIcon("menu_view_graphics2.png");
+			return app.getScaledIcon("menu_view_graphics2.png");
 		case EUCLIDIAN3D:
-			return app.getImageIcon("menu_view_graphics3D.png");
+			return app.getScaledIcon("menu_view_graphics3D.png");
 		case CAS:
-			return app.getImageIcon("menu_view_cas.png");
+			return app.getScaledIcon("menu_view_cas.png");
 		case ADVANCED:
-			return app.getImageIcon("options-advanced24.png");
+			return app.getScaledIcon("options-advanced24.png");
 		case OBJECTS:
-			return app.getImageIcon("options-objects24.png");
+			return app.getScaledIcon("options-objects24.png");
 		case LAYOUT:
-			return app.getImageIcon("options-layout24.png");
+			return app.getScaledIcon("options-layout24.png");
 		}
 		return null;
 	}

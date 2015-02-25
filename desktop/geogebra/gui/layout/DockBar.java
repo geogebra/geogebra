@@ -82,7 +82,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 	private void initGUI() {
 
 		JLabel lblArrow = new JLabel(
-				app.getImageIcon("dockbar-triangle-right.png"));
+				app.getScaledIcon("dockbar-triangle-right.png"));
 
 		buildButtonPanel();
 		buildSlimSidebarPanel();
@@ -134,7 +134,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 		// perspectives button
 		btnPerspectives = new DockButton(app,
-				app.getImageIcon("options-layout24.png"));
+				app.getScaledIcon("options-layout24.png"));
 		btnPerspectives.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				popup = newPerspectivePanel();
@@ -145,16 +145,16 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 		// properties button
 		btnProperties = new DockButton(app,
-				app.getImageIcon("view-properties22.png"));
+				app.getScaledIcon("view-properties22.png"));
 		btnProperties.addActionListener(this);
 
 		// keyboard button
-		btnKeyboard = new DockButton(app, app.getImageIcon("keyboard.png"));
+		btnKeyboard = new DockButton(app, app.getScaledIcon("keyboard.png"));
 		btnKeyboard.addActionListener(showKeyboardAction);
 
 		// file open button
 		btnFileOpen = new DockButton(app,
-				app.getImageIcon("document-open22.png"));
+				app.getScaledIcon("document-open22.png"));
 		btnFileOpen.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				app.getGuiManager().openFile();
@@ -163,7 +163,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 		// save button
 		btnFileSave = new DockButton(app,
-				app.getImageIcon("document-save22.png"));
+				app.getScaledIcon("document-save22.png"));
 		btnFileSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				app.getGuiManager().save();
@@ -171,7 +171,8 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		});
 
 		// print button
-		btnPrint = new DockButton(app, app.getImageIcon("document-print22.png"));
+		btnPrint = new DockButton(app,
+				app.getScaledIcon("document-print22.png"));
 		btnPrint.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				GeoGebraMenuBar.showPrintPreview(app);
@@ -179,7 +180,8 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		});
 
 		// help button
-		DockButton btnHelp = new DockButton(app, app.getImageIcon("help22.png"));
+		DockButton btnHelp = new DockButton(app,
+				app.getScaledIcon("help22.png"));
 		btnHelp.setFocusPainted(false);
 		btnHelp.setBorderPainted(false);
 		btnHelp.setContentAreaFilled(false);
@@ -187,7 +189,8 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 
 		// TODO: better help action ?
 		btnHelp.addActionListener(new HelpAction(app, app
-				.getImageIcon("help.png"), app.getMenu("Help"), App.WIKI_MANUAL));
+				.getScaledIcon("help.png"), app.getMenu("Help"),
+				App.WIKI_MANUAL));
 
 		JToolBar extraButtonPanel = new JToolBar();
 		extraButtonPanel.setFloatable(false);
@@ -218,7 +221,7 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 		if (slimSidebarPanel == null) {
 			slimSidebarPanel = new JPanel(new BorderLayout(0, 0));
 
-			lblIcon = new JLabel(app.getImageIcon("dockbar-triangle-left.png"));
+			lblIcon = new JLabel(app.getScaledIcon("dockbar-triangle-left.png"));
 			lblIcon.setPreferredSize(new Dimension(10, 0));
 
 			slimSidebarPanel.add(lblIcon, BorderLayout.CENTER);
@@ -239,9 +242,9 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 	public void setSidebarTriangle(boolean popupIsVisible) {
 
 		if (popupIsVisible ^ !isEastOrientation()) {
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
+			lblIcon.setIcon(app.getScaledIcon("dockbar-triangle-right.png"));
 		} else {
-			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
+			lblIcon.setIcon(app.getScaledIcon("dockbar-triangle-left.png"));
 		}
 
 		slimSidebarPanel.repaint();

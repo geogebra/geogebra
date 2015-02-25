@@ -36,7 +36,9 @@ public class AlgebraContextMenuD extends JPopupMenu {
 	 */
 	private void initItems() {
 		// actions
-		AbstractAction showAuxiliaryAction = new AbstractAction(app.getPlain("AuxiliaryObjects"), app.getImageIcon("auxiliary.png")) {
+		AbstractAction showAuxiliaryAction = new AbstractAction(
+				app.getPlain("AuxiliaryObjects"),
+				app.getScaledIcon("auxiliary.png")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

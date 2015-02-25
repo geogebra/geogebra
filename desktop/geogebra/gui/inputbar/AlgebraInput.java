@@ -115,9 +115,7 @@ public class AlgebraInput extends JPanel implements ActionListener,
 		// btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_16x16.png"));
 		// btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_16x16.png"));
 
-		btnHelpToggle.setIcon(app.getScaledIcon("inputhelp_left_18x18.png"));
-		btnHelpToggle.setSelectedIcon(app
-				.getScaledIcon("inputhelp_right_18x18.png"));
+		updateIcons();
 
 		// btnHelpToggle.setIcon(app.getImageIcon("inputhelp_left_20x20.png"));
 		// btnHelpToggle.setSelectedIcon(app.getImageIcon("inputhelp_right_20x20.png"));
@@ -149,6 +147,17 @@ public class AlgebraInput extends JPanel implements ActionListener,
 		setBorder(BorderFactory.createMatteBorder(1, 0, 0, 0,
 				SystemColor.controlShadow));
 		setLabels();
+	}
+
+	private void updateIcons() {
+		if (btnHelpToggle == null) {
+			return;
+		}
+
+		btnHelpToggle.setIcon(app.getScaledIcon("inputhelp_left_18x18.png"));
+		btnHelpToggle.setSelectedIcon(app
+				.getScaledIcon("inputhelp_right_18x18.png"));
+
 	}
 
 	@Override
@@ -203,6 +212,9 @@ public class AlgebraInput extends JPanel implements ActionListener,
 					.getGuiManager()).getInputHelpPanel();
 			helpPanel.updateFonts();
 		}
+
+		updateIcons();
+
 	}
 
 	// /**

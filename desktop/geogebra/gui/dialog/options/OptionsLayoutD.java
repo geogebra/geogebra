@@ -150,12 +150,12 @@ public class OptionsLayoutD extends
 		inputbarPosGroup = new ButtonGroup();
 
 		rbInputBarNorth = new JToggleButton(
-				app.getImageIcon("layout_north.png"));
+				app.getScaledIcon("layout_north.png"));
 		rbInputBarNorth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarNorth);
 
 		rbInputBarSouth = new JToggleButton(
-				app.getImageIcon("layout_south.png"));
+				app.getScaledIcon("layout_south.png"));
 		rbInputBarSouth.addActionListener(this);
 		inputbarPosGroup.add(rbInputBarSouth);
 
@@ -186,10 +186,10 @@ public class OptionsLayoutD extends
 		int tab = 20;
 
 		ButtonGroup grp = new ButtonGroup();
-		rbSidebarWest = new JToggleButton(app.getImageIcon("layout_west.png"));
+		rbSidebarWest = new JToggleButton(app.getScaledIcon("layout_west.png"));
 		rbSidebarWest.addActionListener(this);
 		grp.add(rbSidebarWest);
-		rbSidebarEast = new JToggleButton(app.getImageIcon("layout_east.png"));
+		rbSidebarEast = new JToggleButton(app.getScaledIcon("layout_east.png"));
 		rbSidebarEast.setSelected(true);
 		rbSidebarEast.addActionListener(this);
 		grp.add(rbSidebarEast);
@@ -247,19 +247,21 @@ public class OptionsLayoutD extends
 
 		toolBarPosGroup = new ButtonGroup();
 
-		rbToolbarNorth = new JToggleButton(app.getImageIcon("layout_north.png"));
+		rbToolbarNorth = new JToggleButton(
+				app.getScaledIcon("layout_north.png"));
 		rbToolbarNorth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarNorth);
 
-		rbToolbarSouth = new JToggleButton(app.getImageIcon("layout_south.png"));
+		rbToolbarSouth = new JToggleButton(
+				app.getScaledIcon("layout_south.png"));
 		rbToolbarSouth.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarSouth);
 
-		rbToolbarEast = new JToggleButton(app.getImageIcon("layout_east.png"));
+		rbToolbarEast = new JToggleButton(app.getScaledIcon("layout_east.png"));
 		rbToolbarEast.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarEast);
 
-		rbToolbarWest = new JToggleButton(app.getImageIcon("layout_west.png"));
+		rbToolbarWest = new JToggleButton(app.getScaledIcon("layout_west.png"));
 		rbToolbarWest.addActionListener(this);
 		toolBarPosGroup.add(rbToolbarWest);
 
@@ -273,6 +275,13 @@ public class OptionsLayoutD extends
 
 	}
 
+	private void updateIcons() {
+		rbToolbarNorth.setIcon(app.getScaledIcon("layout_north.png"));
+		rbToolbarSouth.setIcon(app.getScaledIcon("layout_south.png"));
+		rbToolbarEast.setIcon(app.getScaledIcon("layout_east.png"));
+		rbToolbarWest.setIcon(app.getScaledIcon("layout_west.png"));
+
+	}
 	/**
 	 * Update the user interface, ie change selected values.
 	 * 
@@ -330,7 +339,6 @@ public class OptionsLayoutD extends
 		rbSidebarWest.addActionListener(this);
 		rbButtonSidebar.addActionListener(this);
 		rbPespectiveSidebar.addActionListener(this);
-		
 		revalidate();
 
 	}
@@ -508,6 +516,7 @@ public class OptionsLayoutD extends
 		sideBarPanel.setFont(font);
 		ckShowSideBar.setFont(font);
 
+		updateIcons();
 	}
 
 	public void setSelected(boolean flag) {

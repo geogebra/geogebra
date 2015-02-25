@@ -270,7 +270,7 @@ public class OptionsEuclidianD extends
 		tfAxesRatioY.addFocusListener(this);
 		cbLockRatio = new JToggleButton();
 		cbLockRatio.setSelected(view.isLockedAxesRatio());
-		cbLockRatio.setIcon(app.getImageIcon("lock.png"));
+		cbLockRatio.setIcon(app.getScaledIcon("lock.png"));
 		cbLockRatio.setEnabled(view.isZoomable());
 		cbLockRatio.addActionListener(this);
 		axesRatioLabel = new JLabel("");

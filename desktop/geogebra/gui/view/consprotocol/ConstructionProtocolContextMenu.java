@@ -124,7 +124,7 @@ public class ConstructionProtocolContextMenu extends JPopupMenu {
 		
 		//Help menu
 		JMenuItem mi = new JMenuItem(app.getMenu("FastHelp"),
-				app.getImageIcon("help.png"));
+				app.getScaledIcon("help.png"));
 		ActionListener lstHelp = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				app.showHelp("ConstructionProtocolHelp");
