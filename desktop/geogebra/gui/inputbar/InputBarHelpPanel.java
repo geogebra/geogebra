@@ -99,6 +99,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 	private JButton btnPaste;
 	private JScrollPane scroller;
 	private LocalizationD loc;
+	private MyRenderer renderer;
 
 	/***************************************************
 	 * Constructor
@@ -279,7 +280,8 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		fcnTree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
-		fcnTree.setCellRenderer(new MyRenderer());
+		renderer = new MyRenderer();
+		fcnTree.setCellRenderer(renderer);
 		fcnTree.setRootVisible(false);
 		fcnTree.setShowsRootHandles(false);
 		fcnTree.setToggleClickCount(1);
@@ -344,6 +346,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 	public void updateFonts() {
 
+		if (renderer != null) {
+			renderer.update();
+		}
 		functionTable.updateFonts();
 		helpTextPane.setFont(app.getPlainFont());
 		titleLabel.setFont(app.getPlainFont());
@@ -367,6 +372,9 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		scroller.getVerticalScrollBar().setBlockIncrement(
 				10 * app.getFontSize());
 		scroller.getVerticalScrollBar().setUnitIncrement(3 * app.getFontSize());
+		btnOnlineHelp.setFont(app.getPlainFont());
+		btnPaste.setFont(app.getPlainFont());
+		btnRefresh.setIcon(app.getScaledIcon("view-refresh.png"));
 	}
 
 	private void createCommandTree() {
@@ -547,7 +555,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 				// contextMenu.add(item);
 				contextMenu.addSeparator();
 				JMenuItem item = new JMenuItem(app.getPlain("ShowOnlineHelp"));
-				item.setIcon(app.getImageIcon("help.png"));
+				item.setIcon(app.getScaledIcon("help.png"));
 				item.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						((GuiManagerD) app.getGuiManager())
@@ -723,10 +731,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 		private Color selectionColor, rollOverColor;
 
 		public MyRenderer() {
-			setOpenIcon(app.getImageIcon("tree-close.png"));
-			setClosedIcon(app.getImageIcon("tree-open.png"));
-			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
-
+			update();
 			selectionColor = geogebra.awt.GColorD
 					.getAwtColor(GeoGebraColorConstants.TABLE_SELECTED_BACKGROUND_COLOR);
 			// this.getBackgroundSelectionColor()
@@ -739,6 +744,13 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 		}
 
+		public void update() {
+			setOpenIcon(app.getScaledIcon("tree-close.png"));
+			setClosedIcon(app.getScaledIcon("tree-open.png"));
+			setLeafIcon(GeoGebraIcon.createEmptyIcon(5, 1));
+
+		}
+
 		@Override
 		public Component getTreeCellRendererComponent(JTree tree, Object value,
 				boolean isSelected, boolean expanded, boolean leaf, int row,
@@ -746,7 +758,7 @@ public class InputBarHelpPanel extends JPanel implements TreeSelectionListener,
 
 			super.getTreeCellRendererComponent(tree, value, isSelected,
 					expanded, leaf, row, hasFocus);
-
+			update();
 			if (value == null) {
 				setText("");
 				return this;
