@@ -2913,19 +2913,22 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
   };
   _.parser = function() {
 	// this code is almost the same as MathCommand.parse, except...
-    //var block = latexMathParser.tBlock;
-    var block = latexMathParser.block;
-    var self = this;
+    var self = this,
+    blocks = self.blocks = Array(1);
+    //var block = latexMathParser.block;
 
-    return block.times(self.numBlocks()).map(function(blocks) {
-      self.blocks = blocks;
+    var newBlock = blocks[0] = makeQuotationText()();
+    newBlock.adopt(self, self.ch[R], 0);// or adopt later?
+  	self.lasttextblock = newBlock;
 
-      for (var i = 0; i < blocks.length; i += 1) {
-        blocks[i].adopt(self, self.ch[R], 0);
-        // ... this is the extra things to put here in Quotation
-        self.lasttextblock = blocks[i];
-      }
-
+    // this method is almost the same as createBlocks,
+    // except it also parses the content of TextBlock here,
+    // or more appropriately, it returns a parser which we
+  	// should combine them, here we use the information
+  	// that (numBlocks === 1)! otherwise it would be harder
+    return newBlock.parser().map(function(blockk) {
+      // everything is already done, just the return
+      // value matters, we should return this instead of TextBlock
       return self;
     });
   };
@@ -4506,9 +4509,6 @@ var latexMathParser = (function() {
 
     return firstBlock;
   }
-  function joinQuotation(blocks) {
-    return makeQuotationText()();
-  }
 
   var string = Parser.string;
   var regex = Parser.regex;
@@ -4550,7 +4550,6 @@ var latexMathParser = (function() {
   var mathGroup = string('{').then(function() { return mathSequence; }).skip(string('}'));
   var mathBlock = optWhitespace.then(mathGroup.or(command.map(commandToBlock)));
   var mathSequence = mathBlock.many().map(joinBlocks).skip(optWhitespace);
-  var textBlock = mathBlock.many().map(joinQuotation).skip(optWhitespace);
 
   var optMathBlock =
     string('[').then(
@@ -4564,7 +4563,6 @@ var latexMathParser = (function() {
   var latexMath = mathSequence;
 
   latexMath.block = mathBlock;
-  latexMath.tBlock = textBlock;
   latexMath.optBlock = optMathBlock;
   return latexMath;
 })();
