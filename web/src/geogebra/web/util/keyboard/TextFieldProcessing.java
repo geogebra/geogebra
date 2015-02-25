@@ -272,6 +272,11 @@ public class TextFieldProcessing {
 			if (text.startsWith("(") || text.startsWith("[")) {
 				// moves inside the brackets
 				onArrow(ArrowType.left);
+			} else if (text.equals("x^y")) {
+				((AutoCompleteTextFieldW) field).insertString("^");
+			} else if (text.equals("nroot")) {
+				((AutoCompleteTextFieldW) field).insertString("()");
+				onArrow(ArrowType.left);
 			}
 			break;
 		case gTextBox:
@@ -302,8 +307,8 @@ public class TextFieldProcessing {
 				// inserts: ()
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 						false);
-			} else if (text.equals("nroo")) {
-				((RadioButtonTreeItem) field).insertString(text);
+			} else if (text.equals("nroot")) {
+				((RadioButtonTreeItem) field).insertString("nroo");
 				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
 				        false, true);
 			} else if (text.equals(Unicode.SQUARE_ROOT + "")) {
