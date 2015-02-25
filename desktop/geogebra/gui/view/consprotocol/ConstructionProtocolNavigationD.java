@@ -12,7 +12,6 @@ the Free Software Foundation.
 package geogebra.gui.view.consprotocol;
 
 import geogebra.common.gui.SetLabels;
-import geogebra.common.gui.UpdateIcons;
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolNavigation;
 import geogebra.common.main.App;
 import geogebra.common.main.settings.AbstractSettings;
@@ -53,7 +52,7 @@ import javax.swing.event.ChangeListener;
  */
 public class ConstructionProtocolNavigationD extends
 		ConstructionProtocolNavigation implements ActionListener,
-		SettingListener, SetLabels, UpdateIcons {
+		SettingListener, SetLabels {
 
 	private JButton btFirst, btPrev, btNext, btLast, btOpenWindow;
 	/** Button for starting/stopping animation*/

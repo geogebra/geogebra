@@ -13,7 +13,6 @@ the Free Software Foundation.
 package geogebra.gui.view.functioninspector;
 
 import geogebra.common.awt.GColor;
-import geogebra.common.gui.UpdateIcons;
 import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -75,7 +74,7 @@ import javax.swing.table.DefaultTableModel;
 public class FunctionInspectorD extends FunctionInspector implements
 		MouseListener, ListSelectionListener, KeyListener,
 		SpecialNumberFormatInterface, ActionListener, WindowFocusListener,
-		FocusListener, UpdateIcons {
+		FocusListener {
 
 	// ggb fields
 	private AppD app;
