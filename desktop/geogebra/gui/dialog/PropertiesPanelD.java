@@ -480,7 +480,6 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		styleTabList.add(pointStylePanel);
 		styleTabList.add(lineStylePanel);
 		styleTabList.add(ineqStylePanel);
-		styleTabList.add(lineStylePanelHidden);
 		styleTabList.add(arcSizePanel);
 		styleTabList.add(buttonSizePanel);
 		styleTabList.add(fillingPanel);
@@ -490,6 +489,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		styleTabList.add(textFieldSizePanel);
 		styleTabList.add(decoAnglePanel);
 		styleTabList.add(decoSegmentPanel);
+		styleTabList.add(lineStylePanelHidden);
 		styleTab = new TabPanel(styleTabList);
 		tabPanelList.add(styleTab);
 
@@ -4376,6 +4376,11 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 		}
 
 		public JPanel update() {
+			
+			// check if we use 3D view
+			if (!app.isEuclidianView3Dinited())
+				return null;
+			
 			// check geos
 			if (!checkGeos(geos))
 				return null;
@@ -4393,7 +4398,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 			boolean geosOK = true;
 			for (int i = 0; i < geos.length; i++) {
 				GeoElement geo = (GeoElement) geos[i];
-				if (!(geo.isPath()) || !(geo.isGeoElement3D())) {
+				if (!(geo.isPath())) {
 					geosOK = false;
 					break;
 				}
