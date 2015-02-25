@@ -3116,7 +3116,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public boolean isExam() {
-		return getLAF().isExam();
+		return getLAF() != null && getLAF().isExam();
 	}
 
 	public void setCloseBrowserCallback(Runnable runnable) {
