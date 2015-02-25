@@ -13,6 +13,7 @@ the Free Software Foundation.
 package geogebra.gui.view.functioninspector;
 
 import geogebra.common.awt.GColor;
+import geogebra.common.gui.UpdateIcons;
 import geogebra.common.gui.view.functioninspector.FunctionInspector;
 import geogebra.common.gui.view.functioninspector.FunctionInspectorModel.Colors;
 import geogebra.common.kernel.arithmetic.NumberValue;
@@ -74,10 +75,10 @@ import javax.swing.table.DefaultTableModel;
 public class FunctionInspectorD extends FunctionInspector implements
 		MouseListener, ListSelectionListener, KeyListener,
 		SpecialNumberFormatInterface, ActionListener, WindowFocusListener,
-		FocusListener {
+		FocusListener, UpdateIcons {
 
 	// ggb fields
-	// private AppD app;
+	private AppD app;
 	private JDialog wrappedDialog;
 
 	// color constants
@@ -115,6 +116,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 	 */
 	public FunctionInspectorD(AppD app, GeoFunction selectedGeo) {
 		super(app, selectedGeo);
+		this.app = app;
 	}
 
 	private AppD getAppD() {
@@ -270,10 +272,10 @@ public class FunctionInspectorD extends FunctionInspector implements
 		fldHigh.setColumns(6);
 
 		btnOscCircle = new JToggleButton(
-				app.getImageIcon("osculating_circle.png"));
-		btnTangent = new JToggleButton(app.getImageIcon("tangent_line.png"));
-		btnXYSegments = new JToggleButton(app.getImageIcon("xy_segments.png"));
-		btnTable = new JToggleButton(app.getImageIcon("xy_table.png"));
+				app.getScaledIcon("osculating_circle.png"));
+		btnTangent = new JToggleButton(app.getScaledIcon("tangent_line.png"));
+		btnXYSegments = new JToggleButton(app.getScaledIcon("xy_segments.png"));
+		btnTable = new JToggleButton(app.getScaledIcon("xy_table.png"));
 
 		btnOscCircle.addActionListener(this);
 		btnTangent.addActionListener(this);
@@ -290,7 +292,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 		btnRemoveColumn = new JButton();
 		btnRemoveColumn.addActionListener(this);
 
-		btnHelp = new JButton(app.getImageIcon("help.png"));
+		btnHelp = new JButton(app.getScaledIcon("help.png"));
 		btnHelp.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Thread runner = new Thread() {
@@ -592,6 +594,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 		MyTextField dummyField = new MyTextField(app);
 		tableXY.setRowHeight(dummyField.getPreferredSize().height);
 		tableInterval.setRowHeight(dummyField.getPreferredSize().height);
+		updateIcons();
 
 		GuiManagerD.setFontRecursive(wrappedDialog, app.getPlainFont());
 	}
@@ -620,7 +623,7 @@ public class FunctionInspectorD extends FunctionInspector implements
 			btnOptions = new PopupMenuButton(app);
 			btnOptions.setKeepVisible(true);
 			btnOptions.setStandardButton(true);
-			btnOptions.setFixedIcon(app.getImageIcon("tool.png"));
+			btnOptions.setFixedIcon(app.getScaledIcon("tool.png"));
 			btnOptions.setDownwardPopup(true);
 		}
 
@@ -852,5 +855,18 @@ public class FunctionInspectorD extends FunctionInspector implements
 	public boolean suggestRepaint() {
 		return false;
 		// only for web
+	}
+
+	public void updateIcons() {
+		if (app == null || btnOscCircle == null) {
+			return;
+		}
+		btnOscCircle.setIcon(app.getScaledIcon("osculating_circle.png"));
+		btnTangent.setIcon(app.getScaledIcon("tangent_line.png"));
+		btnXYSegments.setIcon(app.getScaledIcon("xy_segments.png"));
+		btnTable.setIcon(app.getScaledIcon("xy_table.png"));
+		btnHelp.setIcon(app.getScaledIcon("help.png"));
+		btnOptions.setFixedIcon(app.getScaledIcon("tool.png"));
+
 	}
 }
