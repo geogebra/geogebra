@@ -2913,6 +2913,7 @@ var Quotation = CharCmds['"'] = LatexCmds.quotation = P(Bracket, function(_, _su
   };
   _.parser = function() {
 	// this code is almost the same as MathCommand.parse, except...
+    //var block = latexMathParser.tBlock;
     var block = latexMathParser.block;
     var self = this;
 
@@ -4505,6 +4506,9 @@ var latexMathParser = (function() {
 
     return firstBlock;
   }
+  function joinQuotation(blocks) {
+    return makeQuotationText()();
+  }
 
   var string = Parser.string;
   var regex = Parser.regex;
@@ -4546,6 +4550,7 @@ var latexMathParser = (function() {
   var mathGroup = string('{').then(function() { return mathSequence; }).skip(string('}'));
   var mathBlock = optWhitespace.then(mathGroup.or(command.map(commandToBlock)));
   var mathSequence = mathBlock.many().map(joinBlocks).skip(optWhitespace);
+  var textBlock = mathBlock.many().map(joinQuotation).skip(optWhitespace);
 
   var optMathBlock =
     string('[').then(
@@ -4559,6 +4564,7 @@ var latexMathParser = (function() {
   var latexMath = mathSequence;
 
   latexMath.block = mathBlock;
+  latexMath.tBlock = textBlock;
   latexMath.optBlock = optMathBlock;
   return latexMath;
 })();
