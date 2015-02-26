@@ -173,6 +173,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	}
 
 	private void addTreeModeButton() {
+		supportedModes.clear();
 		supportedModes.add(SortMode.DEPENDENCY);
 		supportedModes.add(SortMode.TYPE);
 		supportedModes.add(SortMode.ORDER);
