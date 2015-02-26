@@ -514,7 +514,9 @@ public class ToolTipManagerW {
 		}
 		// locate and show the toolTip
 		setToolTipLocation();
-		tipPanel.getElement().getStyle().setProperty("visibility", "visible");
+		// tipPanel.getElement().getStyle().setProperty("visibility",
+		// "visible");
+		tipPanel.setVisible(true);
 
 		// set to immediate mode so that toolTips for nearby elements will not
 		// be delayed
@@ -534,15 +536,16 @@ public class ToolTipManagerW {
 			return;
 		}
 		// exit if toolTip is already hidden
-		if (!tipPanel.getElement().getPropertyBoolean("visibility")
+		if (!tipPanel.isVisible()
 		        && oldText.equals("")) {
 			return;
 		}
 
 		tipHTML.setHTML("");
 		oldText = "";
-		tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
+		// tipPanel.getElement().getStyle().setProperty("visibility", "hidden");
 
+		tipPanel.setVisible(false);
 		// cancel the timer in case of a delayed call to show()
 		cancelTimer();
 
