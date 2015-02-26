@@ -108,6 +108,7 @@ public class SliderW extends FocusWidget implements HasChangeHandlers,
 
 	public void onMouseUp(MouseUpEvent event) {
 		ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
+		valueOnDragStart = null;
 	}
 
 	public void onMouseDown(MouseDownEvent event) {
@@ -116,7 +117,10 @@ public class SliderW extends FocusWidget implements HasChangeHandlers,
 	}
 
 	public void onMouseMove(MouseMoveEvent event) {
-		ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
+		// the event is only fired when the slider is dragged to a new value
+		if (valueOnDragStart != null) {
+			ValueChangeEvent.fireIfNotEqual(this, valueOnDragStart, getValue());
+		}
 		event.stopPropagation();
 	}
 
