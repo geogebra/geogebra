@@ -33,6 +33,12 @@ public class CmdClosestPointRegion extends CommandProcessor {
 								(GeoPointND) arg[1]) };
 			}
 
+			if ((ok[1] = arg[1].isRegion()) && (ok[0] = arg[0].isGeoPoint())) {
+				return new GeoElement[] { (GeoElement) kernelA.getManager3D()
+						.ClosestPoint(c.getLabel(), (Region) arg[1],
+								(GeoPointND) arg[0]) };
+			}
+
 			if (ok[0] && !ok[1])
 				throw argErr(app, c.getName(), arg[1]);
 			throw argErr(app, c.getName(), arg[0]);
