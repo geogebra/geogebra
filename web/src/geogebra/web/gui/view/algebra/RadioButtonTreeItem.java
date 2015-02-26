@@ -971,6 +971,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					        new Scheduler.ScheduledCommand() {
 						        public void execute() {
 							        scrollIntoView();
+							        if (newCreationMode) {
+								        setFocus(true);
+							        }
 						        }
 					        });
 
@@ -1007,6 +1010,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			@Override
         	public void run() {
         		scrollIntoView();
+				if (newCreationMode) {
+					setFocus(true);
+				}
         	}
 		};
         tim.schedule(500);

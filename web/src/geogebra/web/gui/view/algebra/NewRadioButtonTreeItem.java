@@ -593,6 +593,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
 			        .getDockManager().getPanel(App.VIEW_ALGEBRA))
 			        .showStyleBarPanel(false);
+		} else {
+			// the else branch is important since no onBlur on blur!
+			((AlgebraDockPanelW) app.getGuiManager().getLayout()
+			        .getDockManager().getPanel(App.VIEW_ALGEBRA))
+			        .showStyleBarPanel(true);
 		}
 
 		Object source = this;
