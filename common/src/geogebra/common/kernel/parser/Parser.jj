@@ -240,7 +240,7 @@ SKIP : {
 
 /* OPERATORS */
 TOKEN :  {   
-    < ASSIGNMENT: ( ":=") >
+    < ASSIGNMENT: ( ":=" | "\u2254" ) >
   | < DELAYED_ASSIGNMENT: ( "::=") >
   | < VERTICAL_BAR: "|" >
   | < NOT: ("\u00ac") > 
