@@ -223,7 +223,8 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		};
 		table.addColumn(valColumn, app.getPlain("Value"));
 	    
-	    tableInit();	    
+		tableInit();
+		rowCountChanged();
 	}
 	
 	public void settingsChanged(AbstractSettings settings) {
@@ -333,7 +334,11 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 		table.setRowCount(data.getrowList().size());
 	    table.setRowData(0, data.getrowList());
 	    table.setVisibleRange(0, data.getrowList().size()+1);
-	    app.getGuiManager().invokeLater(new Runnable(){
+
+	}
+
+	private void rowCountChanged() {
+		app.getGuiManager().invokeLater(new Runnable() {
 	    	public void run(){
 	    		makeTableRowsDragable();
 	    	}
@@ -378,6 +383,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			if(table != null){
 				table.setRowCount(0);
 				tableInit();
+				rowCountChanged();
 			}
 		}
 		
@@ -387,6 +393,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 			if(table != null){
 				table.setRowCount(0);
 				tableInit();
+				rowCountChanged();
 			}
 		}
 
