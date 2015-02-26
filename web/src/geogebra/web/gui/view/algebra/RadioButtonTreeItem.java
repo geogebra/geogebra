@@ -99,6 +99,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * RadioButtonTreeItem for the items of the algebra view tree
@@ -139,6 +141,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	boolean blockBlur = false;
 
 	private SliderW slider;
+	private VerticalPanel sliderPanel;
 	private Image deleteButton;
 
 	/**
@@ -253,27 +256,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		radio.setChecked(ge.isEuclidianVisible());
 		add(radio);
 
-		SpanElement se = DOM.createSpan().cast();
-		updateNewStatic(se);
-		updateColor(se);
-		ihtml = new InlineHTML();
-		ihtml.addDoubleClickHandler(this);
-		ihtml.addClickHandler(this);
-		ihtml.addMouseMoveHandler(this);
-		ihtml.addMouseDownHandler(this);
-		ihtml.addMouseOverHandler(this);
-		ihtml.addMouseOutHandler(this);
-		ihtml.addTouchStartHandler(this);
-		ihtml.addTouchMoveHandler(this);
-		ihtml.addTouchEndHandler(this);
-		add(ihtml);
-		ihtml.getElement().appendChild(se);
-
-		SpanElement se2 = DOM.createSpan().cast();
-		se2.appendChild(Document.get().createTextNode("\u00A0\u00A0\u00A0\u00A0"));
-		ihtml.getElement().appendChild(se2);
-		//String text = "";
-
 		if (showSliders && app.isPrerelease() && geo instanceof GeoNumeric) {
 			if (!geo.isEuclidianVisible()) {
 				// number inserted via input bar
@@ -295,8 +277,31 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			});
 
-			add(slider);
+			sliderPanel = new VerticalPanel();
+			add(sliderPanel);
 		}
+
+		SpanElement se = DOM.createSpan().cast();
+		updateNewStatic(se);
+		updateColor(se);
+		ihtml = new InlineHTML();
+		ihtml.addDoubleClickHandler(this);
+		ihtml.addClickHandler(this);
+		ihtml.addMouseMoveHandler(this);
+		ihtml.addMouseDownHandler(this);
+		ihtml.addMouseOverHandler(this);
+		ihtml.addMouseOutHandler(this);
+		ihtml.addTouchStartHandler(this);
+		ihtml.addTouchMoveHandler(this);
+		ihtml.addTouchEndHandler(this);
+		addSpecial(ihtml);
+		ihtml.getElement().appendChild(se);
+
+		SpanElement se2 = DOM.createSpan().cast();
+		se2.appendChild(Document.get().createTextNode(
+				"\u00A0\u00A0\u00A0\u00A0"));
+		ihtml.getElement().appendChild(se2);
+		// String text = "";
 
 		if (geo.isIndependent()) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
@@ -618,13 +623,14 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			radio.setChecked(geo.isEuclidianVisible());
 		}
 
-		if (geo != null && geo instanceof GeoNumeric && slider != null) {
-			remove(slider);
+		if (geo != null && geo instanceof GeoNumeric && slider != null
+				&& sliderPanel != null) {
+			sliderPanel.remove(slider);
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
-			add(slider);
+			sliderPanel.add(slider);
 		}
 	}
 
@@ -652,8 +658,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			if (LaTeX) {
 				DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
 			} else {
-				remove(tb);
-				add(ihtml);
+				removeSpecial(tb);
+				addSpecial(ihtml);
 				stopEditingSimple(tb.getText());
 			}
 		}
@@ -673,10 +679,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			geogebra.html5.main.DrawEquationWeb.editEquationMathQuillGGB(this,
 			        seMayLatex, false);
 		} else {
-			remove(ihtml);
+			removeSpecial(ihtml);
 			tb = new GTextBox();
 			tb.setText( geo.getAlgebraDescriptionDefault() );
-			add(tb);
+			addSpecial(tb);
 			mout = false;
 			tb.setFocus(true);
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
@@ -689,13 +695,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				@Override
                 public void onKeyDown(KeyDownEvent kevent) {
 					if (kevent.getNativeKeyCode() == 13) {
-						remove(tb);
-						add(ihtml);
+						removeSpecial(tb);
+						addSpecial(ihtml);
 						stopEditingSimple(tb.getText());
 						app.hideKeyboard();
 					} else if (kevent.getNativeKeyCode() == 27) {
-						remove(tb);
-						add(ihtml);
+						removeSpecial(tb);
+						addSpecial(ihtml);
 						stopEditingSimple(null);
 						app.hideKeyboard();
 					}
@@ -705,8 +711,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				@Override
                 public void onBlur(BlurEvent bevent) {
 					if (mout && !blockBlur) {
-						remove(tb);
-						add(ihtml);
+						removeSpecial(tb);
+						addSpecial(ihtml);
 						stopEditingSimple(null);
 					}
 				}
@@ -735,11 +741,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 					CancelEventTimer.keyboardSetVisible();
 				}
 			});
-
-			if (geo != null && geo instanceof GeoNumeric && slider != null) {
-				remove(slider);
-				add(slider);
-			}
 		}
 		scrollIntoView();
 	}
@@ -1356,6 +1357,24 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	public void removeCloseButton() {
 		if(this.deleteButton != null){
 			remove(this.deleteButton);
+		}
+	}
+
+	void removeSpecial(Widget w) {
+		remove(w);
+		if (sliderPanel != null) {
+			sliderPanel.remove(w);
+		}
+	}
+
+	void addSpecial(Widget w) {
+		if (geo != null && geo instanceof GeoNumeric && slider != null
+				&& sliderPanel != null) {
+			sliderPanel.remove(slider);
+			sliderPanel.add(w);
+			sliderPanel.add(slider);
+		} else {
+			add(w);
 		}
 	}
 }
