@@ -634,6 +634,8 @@ public abstract class EuclidianController3D extends EuclidianController {
 	 * protected void updateMovedGeoPoint(GeoPointND point){ //movedGeoPoint3D =
 	 * (GeoPoint3D) point; setMovedGeoPoint((GeoPoint3D) point); }
 	 */
+	
+	private GeoPointND singleIntersectionPoint;
 
 	// tries to get a single intersection point for the given hits
 	// i.e. hits has to include two intersectable objects.
@@ -688,8 +690,9 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Application.debug(hits.toString());
 		GeoElement b = hits.get(1);
-		GeoPointND point = null;
-
+		singleIntersectionPoint = null;
+		
+		
 		kernel.setSilentMode(true);
 
 		// check if a and b are two 2D geos
@@ -703,7 +706,7 @@ public abstract class EuclidianController3D extends EuclidianController {
 			yRW = tmpCoords.getY();
 
 			// apply 2D method
-			point = ((EuclidianControllerFor3DCompanion) companion)
+			singleIntersectionPoint = ((EuclidianControllerFor3DCompanion) companion)
 					.getSingleIntersectionPointFrom2D(a, b, false);
 
 			// App.debug("\npoint="+point+"\nmouse=\n"+project);
@@ -713,38 +716,38 @@ public abstract class EuclidianController3D extends EuclidianController {
 		else if ((a.isGeoLine() || a instanceof GeoCoordSys2D)
 				&& (b.isGeoLine())
 				|| (a.isGeoLine() && b instanceof GeoCoordSys2D)) {
-			point = (GeoPoint3D) getKernel().getManager3D().Intersect(null, a,
+			singleIntersectionPoint = (GeoPoint3D) getKernel().getManager3D().Intersect(null, a,
 					b);
 		}
 		// line/conic, line/quadric
 		else if (a.isGeoLine()) {
 			if (b.isGeoConic()) {
 				Coords picked = view3D.getPickPoint(mouseLoc);
-				point = getKernel().getManager3D().IntersectLineConicSingle(
+				singleIntersectionPoint = getKernel().getManager3D().IntersectLineConicSingle(
 						null, (GeoLineND) a, (GeoConicND) b, picked.getX(),
 						picked.getY(), view3D.getToScreenMatrix());
 			} else if (b instanceof GeoQuadric3D) {
 				Coords picked = view3D.getPickPoint(mouseLoc);
-				point = getKernel().getManager3D().IntersectLineQuadricSingle(
+				singleIntersectionPoint = getKernel().getManager3D().IntersectLineQuadricSingle(
 						null, (GeoLineND) a, (GeoQuadric3D) b, picked.getX(),
 						picked.getY(), view3D.getToScreenMatrix());
 			}
 		} else if (b.isGeoLine()) {
 			if (a.isGeoConic()) {
 				Coords picked = view3D.getPickPoint(mouseLoc);
-				point = getKernel().getManager3D().IntersectLineConicSingle(
+				singleIntersectionPoint = getKernel().getManager3D().IntersectLineConicSingle(
 						null, (GeoLineND) b, (GeoConicND) a, picked.getX(),
 						picked.getY(), view3D.getToScreenMatrix());
 			} else if (a instanceof GeoQuadric3D) {
 				Coords picked = view3D.getPickPoint(mouseLoc);
-				point = getKernel().getManager3D().IntersectLineQuadricSingle(
+				singleIntersectionPoint = getKernel().getManager3D().IntersectLineQuadricSingle(
 						null, (GeoLineND) b, (GeoQuadric3D) a, picked.getX(),
 						picked.getY(), view3D.getToScreenMatrix());
 			}
 		} else if (a.isGeoConic() && b.isGeoConic()) {
 
 			Coords picked = view3D.getPickPoint(mouseLoc);
-			point = getKernel().getManager3D().IntersectConicsSingle(null,
+			singleIntersectionPoint = getKernel().getManager3D().IntersectConicsSingle(null,
 					(GeoConicND) a, (GeoConicND) b, picked.getX(),
 					picked.getY(), view3D.getToScreenMatrix());
 
@@ -756,16 +759,16 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		// Application.debug("point is defined : "+point.isDefined());
 
-		if (point == null)
+		if (singleIntersectionPoint == null)
 			return null;
-
-		if (point.isDefined()) {
-			if (((GeoElement) point).isGeoElement3D()) {
+		
+		if (singleIntersectionPoint.isDefined()) {
+			if (((GeoElement) singleIntersectionPoint).isGeoElement3D()) {
 				// if the resulting point is defined, but is not around the
 				// mouse, discard it. (2011/8/8 Tam)
 				Coords picked = view3D.getPickPoint(mouseLoc);
 				Coords toScreenCoords = view3D
-						.projectOnScreen(((GeoPoint3D) point).getCoords()
+						.projectOnScreen(((GeoPoint3D) singleIntersectionPoint).getCoords()
 								.getCoordsLast1());
 
 				// App.debug("\nmouse="+mouseLoc.x+","+mouseLoc.y+"\npicked=\n"+picked+"\ncoords\n"+toScreenCoords);
@@ -783,10 +786,10 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 			// Application.printStacktrace("\npoint="+point);
 
-			point.setCartesian3D();
-			point.update();
+			singleIntersectionPoint.setCartesian3D();
+			singleIntersectionPoint.update();
 
-			return point;
+			return singleIntersectionPoint;
 		}
 
 		return null;
@@ -2174,7 +2177,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 
 		if (selGeos() == 0) { // either single intersection point or single
 								// highlighting
-			singlePoint = getSingleIntersectionPoint(hits);
+			
+			// we may have a dependent point found by 3D cursor
+			if (view3D.getCursor3DType() == EuclidianView3D.PREVIEW_POINT_DEPENDENT){
+				singlePoint = singleIntersectionPoint;
+			}else{
+				singlePoint = getSingleIntersectionPoint(hits);
+			}
 
 			// single intersection succeeds, select one geo from hits
 			if (singlePoint != null) {
