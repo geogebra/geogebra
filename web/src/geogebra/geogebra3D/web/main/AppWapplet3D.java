@@ -3,6 +3,7 @@ package geogebra.geogebra3D.web.main;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.geogebra3D.main.App3DCompanion;
 import geogebra.common.geogebra3D.util.CopyPaste3D;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -173,5 +174,24 @@ public class AppWapplet3D extends AppWapplet {
 	@Override
 	public boolean is3D() {
 		return true;
+	}
+
+	@Override
+	public String getCompleteUserInterfaceXML(boolean asPreference) {
+		StringBuilder sb = new StringBuilder();
+
+		// save super settings
+		sb.append(super.getCompleteUserInterfaceXML(asPreference));
+
+		// save euclidianView3D settings
+		if (isEuclidianView3Dinited()) {
+			euclidianView3D.getXML(sb, asPreference);
+		}
+
+		// save euclidian views for plane settings
+		((App3DCompanion) companion).addCompleteUserInterfaceXMLForPlane(sb,
+		        asPreference);
+
+		return sb.toString();
 	}
 }
