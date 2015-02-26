@@ -6165,10 +6165,9 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// non-moveable geo
 		
-		else if (isTranslateable()){
-			
+		else if (isTranslateable()
+				&& getParentAlgorithm() instanceof AlgoTranslate) {
 			AlgoElement algo = getParentAlgorithm();
-			if (algo instanceof AlgoTranslate) {
 				GeoElement[] input = algo.getInput();
 				GeoElement in = input[1];
 				if (in.isGeoVector()) {
@@ -6187,7 +6186,7 @@ public abstract class GeoElement extends ConstructionElement implements
 						}
 					}
 				}
-			}			
+
 		}
 		
 		else {
