@@ -2299,7 +2299,7 @@ var hatHTML = '<span class="array non-leaf vbottom"><span class="hat">^</span><s
 LatexCmds.hat = bind(SomethingHTML, '\\hat', hatHTML);
 
 // MathQuillGGB hacks by GeoGebra
-var vecHTML = '<table style="display:inline-table;vertical-align:60%;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
+var vecHTML = '<table style="display:inline-table;vertical-align:65%;" cellpadding="0" cellspacing="0"><tr><td class="hackedmq"><span class="down">&rarr;</span></td></tr><tr><td class="hackedmq"><span class="up">&0</span></td></tr></table>';
 LatexCmds.overrightarrow = bind(SomethingHTML, '\\overrightarrow', vecHTML);
 LatexCmds.vec = bind(SomethingHTML, '\\vec', vecHTML);
 LatexCmds.cr = bind(Symbol, '\\cr', '<div style="display:block;height:1px;width:1px;"> </div>');
