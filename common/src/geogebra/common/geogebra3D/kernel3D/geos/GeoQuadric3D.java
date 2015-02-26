@@ -577,31 +577,36 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 	// ///////////////////////////////////////
 
 	public Coords evaluatePoint(double u, double v) {
-
-		Coords eigenRet;
+		Coords ret = Coords.createInhomCoorsInD3();
+		evaluatePoint(u, v, ret);
+		return ret;
+	}
+		
+		
+	public void evaluatePoint(double u, double v, Coords point) {
 
 		switch (type) {
 		case QUADRIC_SPHERE:
-			eigenRet = new Coords(Math.cos(u) * Math.cos(v), Math.sin(u)
-					* Math.cos(v), Math.sin(v), 1);
+			point.setMulPoint(eigenMatrix, Math.cos(u) * Math.cos(v), Math.sin(u)
+					* Math.cos(v), Math.sin(v));
 			break;
 		case QUADRIC_CONE:
 			double v2 = Math.abs(v);
-			eigenRet = new Coords(Math.cos(u) * v2, Math.sin(u) * v2, v, 1);
+			point.setMulPoint(eigenMatrix, Math.cos(u) * v2, Math.sin(u) * v2, v);
 			break;
 		case QUADRIC_CYLINDER:
-			eigenRet = new Coords(Math.cos(u), Math.sin(u), v, 1);
+			point.setMulPoint(eigenMatrix, Math.cos(u), Math.sin(u), v);
 			break;
 		case QUADRIC_SINGLE_POINT:
-			return getMidpoint3D();
+			point.set(getMidpoint3D());
+			break;
 
 		default:
-			eigenRet = null;
 			App.error(this + " has wrong type : " + type);
 			break;
 		}
 
-		return eigenMatrix.mul(eigenRet);
+		
 	}
 
 	public Coords evaluateNormal(double u, double v) {
@@ -716,45 +721,40 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		return true;
 	}
 
-	protected Coords getNormalProjectionParameters(Coords coords) {
+	protected void getNormalProjectionParameters(Coords coords, double[] parameters) {
 
 		Coords eigenCoords = eigenMatrix.solve(coords);
 		double x = eigenCoords.getX();
 		double y = eigenCoords.getY();
 		double z = eigenCoords.getZ();
 
-		double u, v, r;
-		Coords parameters;
-
 		switch (getType()) {
 		case QUADRIC_SPHERE:
-			u = Math.atan2(y, x);
-			r = Math.sqrt(x * x + y * y);
-			v = Math.atan2(z, r);
-
-			parameters = new Coords(u, v);
-			return parameters;
+			parameters[0] = Math.atan2(y, x);
+			double r = Math.sqrt(x * x + y * y);
+			parameters[1] = Math.atan2(z, r);
+			break;
 
 		case QUADRIC_CONE:
 		case QUADRIC_CYLINDER:
-			u = Math.atan2(y, x);
-			parameters = new Coords(u, z);
-			return parameters;
+			parameters[0] = Math.atan2(y, x);
+			parameters[1] = z;
+			break;
 
 		default:
 			App.printStacktrace("TODO -- type: " + getType());
-			return null;
+			break;
 		}
 	}
+	
+	protected double[] tmpDouble2 = new double[2], tmpDouble2bis = new double[2];
 
 	public Coords[] getNormalProjection(Coords coords) {
 
-		Coords parameters = getNormalProjectionParameters(coords);
+		getNormalProjectionParameters(coords, tmpDouble2);
 
-		if (parameters == null)
-			return null;
-		return new Coords[] { getPoint(parameters.getX(), parameters.getY()),
-				parameters };
+		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]),
+				new Coords(tmpDouble2) };
 
 	}
 
@@ -833,6 +833,67 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 				/ a)));
 
 	}
+	
+	
+	public void getProjections(Coords oldCoords, Coords willingCoords,
+			Coords willingDirection, Coords p1, Coords p2) {
+
+		// compute intersection
+		CoordMatrix qm = getSymetricMatrix();
+		// App.debug("qm=\n"+qm);
+		if (tmpMatrix4x2 == null) {
+			tmpMatrix4x2 = new CoordMatrix(4, 2);
+		}
+		tmpMatrix4x2.setVx(willingDirection);
+		tmpMatrix4x2.setOrigin(willingCoords);
+		if (tmpMatrix2x4 == null) {
+			tmpMatrix2x4 = new CoordMatrix(2, 4);
+		}
+		tmpMatrix4x2.transposeCopy(tmpMatrix2x4);
+
+		// sets the solution matrix from line and quadric matrix
+		CoordMatrix sm = tmpMatrix2x4.mul(qm).mul(tmpMatrix4x2);
+
+		// App.debug("sm=\n"+sm);
+		double a = sm.get(1, 1);
+		double b = sm.get(1, 2);
+		double c = sm.get(2, 2);
+		double Delta = b * b - a * c;
+
+		if (Delta >= 0) {
+			double t1 = (-b - Math.sqrt(Delta)) / a;
+			double t2 = (-b + Math.sqrt(Delta)) / a;
+			
+			tmpCoords.setAdd(willingCoords, tmpCoords.setMul(willingDirection, t1));
+			getNormalProjectionParameters(tmpCoords, tmpDouble2);
+			checkParameters(tmpDouble2);
+			evaluatePoint(tmpDouble2[0], tmpDouble2[1], p1);
+			
+			tmpCoords.setAdd(willingCoords, tmpCoords.setMul(willingDirection, t2));
+			getNormalProjectionParameters(tmpCoords, tmpDouble2);
+			checkParameters(tmpDouble2);
+			evaluatePoint(tmpDouble2[0], tmpDouble2[1], p2);
+
+		}else{
+			// get closest point (in some "eigen coord sys")
+			p1.set(getNormalProjection(willingCoords.add(willingDirection.mul(-b / a)))[0]);
+			p2.setUndefined();
+		}
+
+		
+
+	}
+	
+	
+	/**
+	 * check parameters are possible parameters; modify it if not
+	 * @param parameters parameters
+	 * @return true if possible parameters
+	 */
+	protected boolean checkParameters(double[] parameters){
+		return true;
+	}
+
 
 	public boolean isInRegion(GeoPointND P) {
 
@@ -1050,7 +1111,7 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 		setMatrixFromEigen();
 	}
 
-	private Coords tmpCoords;
+	private Coords tmpCoords = new Coords(4);
 
 	public void mirror(GeoLineND line) {
 
@@ -1059,9 +1120,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// midpoint
 		Coords mp = getMidpoint3D();
-		if (tmpCoords == null) {
-			tmpCoords = Coords.createInhomCoorsInD3();
-		}
 		mp.projectLine(point, direction, tmpCoords, null);
 		mp.mulInside(-1);
 		mp.addInside(tmpCoords.mul(2));
@@ -1089,9 +1147,6 @@ public class GeoQuadric3D extends GeoQuadricND implements Functional2Var,
 
 		// midpoint
 		Coords mp = getMidpoint3D();
-		if (tmpCoords == null) {
-			tmpCoords = new Coords(4);
-		}
 		mp.projectPlane(plane.getCoordSys().getMatrixOrthonormal(), tmpCoords);
 		mp.mulInside(-1);
 		mp.addInside(tmpCoords.mul(2));

@@ -1825,6 +1825,23 @@ public class Coords {
 		return this;
 	}
 
+	/**
+	 * set this = m*(x,y,z,1)
+	 * @param m matrix
+	 * @param x point x coord
+	 * @param y point y coord
+	 * @param z point z coord
+	 * @return this
+	 */
+	public Coords setMulPoint(CoordMatrix m, double x, double y, double z) {
+
+		for (int i = 1; i <= getLength(); i++) {
+			set(i, m.get(i, 1) * x + m.get(i, 2) * y + m.get(i, 3) * z + m.get(i, 4));
+		}
+
+		return this;
+	}
+
 
 
 	/**

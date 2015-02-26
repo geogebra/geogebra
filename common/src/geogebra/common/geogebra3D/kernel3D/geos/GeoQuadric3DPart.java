@@ -139,16 +139,16 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	// ////////////////////////
 
 	@Override
-	protected Coords getNormalProjectionParameters(Coords coords) {
+	protected void getNormalProjectionParameters(Coords coords, double[] parameters) {
 
-		Coords parameters = super.getNormalProjectionParameters(coords);
+		super.getNormalProjectionParameters(coords, parameters);
 
-		if (parameters.getY() < getMinParameter(1))
-			parameters.setY(getMinParameter(1));
-		else if (parameters.getY() > getMaxParameter(1))
-			parameters.setY(getMaxParameter(1));
+		if (parameters[1] < getMinParameter(1)){
+			parameters[1] = getMinParameter(1);
+		}else if (parameters[1] > getMaxParameter(1)){
+			parameters[1] = getMaxParameter(1);
+		}
 
-		return parameters;
 
 	}
 
@@ -167,6 +167,20 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		return super.getProjection(willingCoords, willingDirection, t1, t2);
 
 	}
+	
+	@Override
+	protected boolean checkParameters(double[] parameters){
+		if (Kernel.isGreater(getMinParameter(1), parameters[1])) {
+			parameters[1] = getMinParameter(1);
+			return false;
+		} 
+		if (Kernel.isGreater(parameters[1], getMaxParameter(1))) {
+			parameters[1] = getMaxParameter(1);
+			return false;
+		}
+		return super.checkParameters(parameters);
+	}
+	
 
 	/**
 	 * try with t1, then with t2, assuming t1 < t2
@@ -184,44 +198,44 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 	private Coords[] getProjectionSorted(Coords willingCoords,
 			Coords willingDirection, double t1, double t2) {
 
-		Coords p1 = super.getNormalProjectionParameters(willingCoords
-				.add(willingDirection.mul(t1)));
+		super.getNormalProjectionParameters(willingCoords
+				.add(willingDirection.mul(t1)), tmpDouble2);
 
 		// check if first parameters are inside
-		if (Kernel.isGreater(getMinParameter(1), p1.getY())) {
-			p1.setY(getMinParameter(1));
-		} else if (Kernel.isGreater(p1.getY(), getMaxParameter(1))) {
-			p1.setY(getMaxParameter(1));
+		if (Kernel.isGreater(getMinParameter(1), tmpDouble2[1])) {
+			tmpDouble2[1] = getMinParameter(1);
+		} else if (Kernel.isGreater(tmpDouble2[1], getMaxParameter(1))) {
+			tmpDouble2[1] = getMaxParameter(1);
 		} else {
-			return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 }; // first
+			return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]), new Coords(tmpDouble2) }; // first
 																		// parameters
 																		// are
 																		// inside
 		}
 
 		// first parameters are outside, check second parameters
-		Coords p2 = super.getNormalProjectionParameters(willingCoords
-				.add(willingDirection.mul(t2)));
-		if (Kernel.isGreater(getMinParameter(1), p2.getY())) {
-			p2.setY(getMinParameter(1));
-		} else if (Kernel.isGreater(p2.getY(), getMaxParameter(1))) {
-			p2.setY(getMaxParameter(1));
+		super.getNormalProjectionParameters(willingCoords
+				.add(willingDirection.mul(t2)), tmpDouble2bis);
+		if (Kernel.isGreater(getMinParameter(1), tmpDouble2bis[1])) {
+			tmpDouble2bis[1] = getMinParameter(1);
+		} else if (Kernel.isGreater(tmpDouble2bis[1], getMaxParameter(1))) {
+			tmpDouble2bis[1] = getMaxParameter(1);
 		} else {
-			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 }; // second
+			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]), new Coords(tmpDouble2bis) }; // first
 																		// parameters
 																		// are
 																		// inside
 		}
 
 		// first and second parameters are outside: check nearest limit point
-		Coords l1 = getPoint(p1.getX(), p1.getY());
-		Coords l2 = getPoint(p2.getX(), p2.getY());
+		Coords l1 = getPoint(tmpDouble2[0], tmpDouble2[1]);
+		Coords l2 = getPoint(tmpDouble2bis[0], tmpDouble2bis[1]);
 		double d1 = l1.distLine(willingCoords, willingDirection);
 		double d2 = l2.distLine(willingCoords, willingDirection);
 		if (Kernel.isGreater(d1, d2)) {
-			return new Coords[] { getPoint(p2.getX(), p2.getY()), p2 };
+			return new Coords[] { getPoint(tmpDouble2bis[0], tmpDouble2bis[1]), new Coords(tmpDouble2bis) };
 		}
-		return new Coords[] { getPoint(p1.getX(), p1.getY()), p1 };
+		return new Coords[] { getPoint(tmpDouble2[0], tmpDouble2[1]), new Coords(tmpDouble2)  };
 
 	}
 
@@ -234,10 +248,10 @@ public class GeoQuadric3DPart extends GeoQuadric3D implements GeoNumberValue,
 		}
 
 		// check if coords respect limits
-		Coords parameters = super.getNormalProjectionParameters(coords);
-		if (parameters.getY() < getMinParameter(1))
+		super.getNormalProjectionParameters(coords, tmpDouble2);
+		if (tmpDouble2[1] < getMinParameter(1))
 			return false;
-		if (parameters.getY() > getMaxParameter(1))
+		if (tmpDouble2[1] > getMaxParameter(1))
 			return false;
 
 		// all ok

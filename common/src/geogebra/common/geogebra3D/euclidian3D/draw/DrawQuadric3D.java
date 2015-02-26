@@ -581,32 +581,52 @@ public class DrawQuadric3D extends Drawable3DSurfaces implements Previewable {
 			return false;
 		}
 
-		Coords p3d = quadric.getProjection(null, hitting.origin,
-				hitting.direction)[0];
+		quadric.getProjections(null, hitting.origin,
+				hitting.direction, p1, p2);
+		
+		double z1 = Double.NEGATIVE_INFINITY, z2 = Double.NEGATIVE_INFINITY;
 
-		if (!hitting.isInsideClipping(p3d)) {
+		// check first point
+		if (hitting.isInsideClipping(p1)) {
+			// check distance to hitting line
+			p1.projectLine(hitting.origin, hitting.direction, project, parameters); 
+
+			double d = p1.distance(project);
+			if (d * getView3D().getScale() <= hitting.getThreshold()) {
+				z1 = -parameters[0];
+			}
+		}
+		
+		// check second point (if defined)
+		if (p2.isDefined() && hitting.isInsideClipping(p2)) {
+			// check distance to hitting line
+			p2.projectLine(hitting.origin, hitting.direction, project, parameters); 
+
+			double d = p2.distance(project);
+			if (d * getView3D().getScale() <= hitting.getThreshold()) {
+				z2 = -parameters[0];
+			}
+		}
+		
+		// keep highest value (closest to eye)
+		if (z1 < z2){
+			z1 = z2;
+		}
+		
+		// if both negative infinity : not hitted
+		if (Double.isInfinite(z1)){
 			return false;
 		}
+		
+		// hitted
+		setZPick(z1, z1);
+		setPickingType(PickingType.SURFACE);
+		return true;
 
-		p3d.projectLine(hitting.origin, hitting.direction, project, parameters); // check
-																					// distance
-																					// to
-																					// hitting
-																					// line
-
-		double d = p3d.distance(project);
-		if (d * getView3D().getScale() <= hitting.getThreshold()) {
-			double z = -parameters[0];
-			setZPick(z, z);
-			setPickingType(PickingType.SURFACE);
-			return true;
-		}
-
-		return false;
 
 	}
 
-	private Coords project = Coords.createInhomCoorsInD3();
+	private Coords project = Coords.createInhomCoorsInD3(), p1 = Coords.createInhomCoorsInD3(), p2 = Coords.createInhomCoorsInD3();
 
 	private double[] parameters = new double[2];
 
