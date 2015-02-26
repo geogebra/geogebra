@@ -38,6 +38,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 	private MyToggleButton2 auxiliary;
 	/** button to open the popup with the supported tree-modes */
 	PopupMenuButton treeModeButton;
+	PopupMenuButton newObjectButton;
 	/** list of all supported {@link SortMode modes} */
 	ArrayList<SortMode> supportedModes = new ArrayList<SortMode>();
 
@@ -149,6 +150,9 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		if (selectedItem == null) {
 			addAuxiliaryButton();
 			addTreeModeButton();
+
+			// to test ticket #4905, this shall be uncommented
+			// addNewObjectButton();
 		} else {
 			add(btnColor);
 			btnColor.update(new Object[] { selectedItem });
@@ -170,6 +174,37 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 		auxiliary.setDown(app.showAuxiliaryObjects());
 		auxiliary.addValueChangeHandler(this);
 		add(auxiliary);
+	}
+
+	private void addNewObjectButton() {
+
+		String[] modes = new String[3];
+		modes[0] = app.getPlain("Piecewise function");
+		modes[1] = app.getPlain("Matrix");
+		modes[2] = app.getPlain("Parametric curve");
+		ImageOrText[] strNewObjectClickable = ImageOrText.convert(modes);
+
+		newObjectButton = new PopupMenuButton(app, strNewObjectClickable,
+		        strNewObjectClickable.length, 1,
+		        geogebra.common.gui.util.SelectionTable.MODE_TEXT);
+
+		ImageOrText icon = new ImageOrText();
+		icon.setUrl(StyleBarResources.INSTANCE.point_cross().getSafeUri().asString());
+		newObjectButton.setFixedIcon(icon);
+
+		newObjectButton.addPopupHandler(new PopupMenuHandler() {
+			@Override
+			public void fireActionPerformed(PopupMenuButton actionButton) {
+				// called if a object of the popup is clicked
+				App.debug("newObjectButton clicked");
+
+				switch( newObjectButton.getSelectedIndex() ) {
+					// TODO
+					
+				}
+			}
+		});
+		add(newObjectButton);
 	}
 
 	private void addTreeModeButton() {
