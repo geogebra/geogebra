@@ -389,4 +389,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	public AppW getApp() {
 		return app;
 	}
+
+	public void showLoading() {
+		ToolTipManagerW.sharedInstance().showBottomMessage(
+		        app.getMenu("Loading"), false);
+	}
 }

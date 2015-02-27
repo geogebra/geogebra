@@ -628,6 +628,10 @@ public class ScriptManagerW extends ScriptManager {
 			return ggbAPI.@geogebra.html5.main.GgbAPIW::setLanguage(Ljava/lang/String;)(lang);
 		}
 
+		api.showTooltip = function(lang) {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::showTooltip(Ljava/lang/String;)(lang);
+		}
+
 		api.remove = function() {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::removeApplet()();
 			$doc[ggbApplet] = $wnd[ggbApplet] = api = null;

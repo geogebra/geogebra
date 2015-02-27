@@ -10,6 +10,7 @@ import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.GeoGebraFrame;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.util.ImageManagerW;
 import geogebra.html5.util.View;
@@ -838,6 +839,10 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 	 */
 	public void removeApplet() {
 		((GeoGebraFrame) ((AppW) app).getAppletFrame()).remove();
+	}
+
+	public void showTooltip(String tooltip) {
+		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false);
 	}
 
 }
