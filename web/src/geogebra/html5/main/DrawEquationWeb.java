@@ -1050,22 +1050,6 @@ public class DrawEquationWeb extends DrawEquation {
 		// that originally belonged here: newFormulaCreatedMathQuillGGBCallback
 	}-*/;
 
-	public static native void newFormulaCreatedMathQuillGGBCallback(
-	        RadioButtonTreeItem rbti, Element parentElement) /*-{
-		var elsecond = parentElement.firstChild.firstChild.nextSibling;
-		var elsecondInside = elsecond.lastChild;
-
-		// now it's time to make the formula blank!
-		// but only if the previous method was successful...
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
-		elsecondInside.innerHTML = '';
-		//$wnd.$ggbQuery(elsecondInside).html('');
-		//$wnd.$ggbQuery(elsecondInside).mathquillggb();
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
-		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
-	}-*/;
-
-
 	public static native void stornoFormulaMathQuillGGB(
 	        RadioButtonTreeItem rbti, Element parentElement) /*-{
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
@@ -1156,7 +1140,7 @@ public class DrawEquationWeb extends DrawEquation {
 			public void callback(Object o) {
 				// this should only be called when the new formula creation
 				// is really successful! i.e. return true as old behaviour
-				newFormulaCreatedMathQuillGGBCallback(rbti, parentElement);
+				stornoFormulaMathQuillGGB(rbti, parentElement);
 			}
 		};
 		// return value is not reliable, callback is
@@ -1184,10 +1168,11 @@ public class DrawEquationWeb extends DrawEquation {
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquillggb('text');
 		elsecond.previousSibling.style.display = "block";
-		var rett = @geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
-		if (rett) {
-			thisjq.mathquillggb('revert').mathquillggb();
-		}
+		//var rett =
+		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		//if (rett) {
+		thisjq.mathquillggb('revert').mathquillggb();
+		//}
 	}-*/;
 
 	public static boolean endEditingEquationMathQuillGGB(
