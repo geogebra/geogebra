@@ -51,8 +51,9 @@
 }
 .hasCursorPermanent {
 	width: 100%;
-	display: block;
 	min-height: 50px;
+	line-height: 50px;
+	display: block;
   	border: #6161FF solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
@@ -61,8 +62,7 @@
 	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
 .hasCursorPermanent > span {
-	display: inline-block;
-	vertical-align: middle !important;
+	vertical-align: middle;
 	text-align: left;
 }
 .mathquillggb-editable.hasCursor {
