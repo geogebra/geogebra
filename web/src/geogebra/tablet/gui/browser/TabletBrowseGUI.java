@@ -10,7 +10,7 @@ import com.google.gwt.user.client.Window;
 public class TabletBrowseGUI extends BrowseGUI {
 
 	public TabletBrowseGUI(final AppW app) {
-		super(app);
+		super(app, null);
 	}
 
 	@Override

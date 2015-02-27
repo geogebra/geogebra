@@ -28,16 +28,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
-import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -56,53 +53,18 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	private StandardButton locationTube;
 	private StandardButton locationDrive;
 	private StandardButton locationSkyDrive;
-	private MyButton locationLocal;
+	private Widget locationLocal;
 	protected final AppW app;
 
-	public class MyButton extends FlowPanel {
-		public MyButton(final BrowseGUI bg) {
-			super();
-			this.setStyleName("button");
-			final Image icon = new Image(
-			        BrowseResources.INSTANCE.location_local());
-			final Element span = DOM.createElement("span");
-			span.setAttribute(
-			        "style",
-			        "position: absolute; width: 50px; height: 50px; padding: 10px; top: 0px; left: 0px; overflow: hidden;");
-			span.setInnerHTML("<img src=\"" + icon.getUrl() + "\"/>");
-			final Element input = DOM.createElement("input");
-			input.setAttribute("type", "file");
-			input.setAttribute(
-			        "style",
-			        "width: 500px; height: 60px; font-size: 56px;"
-			                + "opacity: 0; position: absolute; right: 0px; top: 0px; cursor: pointer;");
-			span.appendChild(input);
 
-			DOM.insertChild(getElement(), span, 0);
-			addGgbChangeHandler(input, bg);
-		}
-
-		public native void addGgbChangeHandler(Element el, BrowseGUI bg) /*-{
-			var dialog = this;
-			//		el.setAttribute("accept", "application/vnd.geogebra.file, application/vnd.geogebra.tool");
-			el.onchange = function(event) {
-				var files = this.files;
-				if (files.length) {
-					var fileToHandle = files[0];
-					bg.@geogebra.web.gui.browser.BrowseGUI::openFileAsGgb(Lcom/google/gwt/core/client/JavaScriptObject;Lcom/google/gwt/core/client/JavaScriptObject;)(fileToHandle);
-				}
-
-			};
-		}-*/;
-	}
 
 	/**
 	 * 
 	 * @param app
 	 */
-	public BrowseGUI(final AppW app) {
+	public BrowseGUI(final AppW app, Widget fileButton) {
 		this.setStyleName("browsegui");
-		
+		this.locationLocal = fileButton;
 		this.app = app;
 		this.app.getNetworkOperation().getView().add(this);
 		if (this.app.getLoginOperation() == null) {
@@ -190,7 +152,6 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 				loadAllMaterials();
 			}
 		});
-		this.locationLocal = new MyButton(this);// StandardButton(AppResources.INSTANCE.folder());
 		// TODO: Only visible if user is logged in with google Account
 		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
