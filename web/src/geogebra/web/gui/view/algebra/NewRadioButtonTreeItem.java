@@ -14,6 +14,7 @@ import geogebra.html5.gui.inputfield.HistoryPopupW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
@@ -28,8 +29,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
+import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -192,13 +195,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
-		XButton = new PushButton();
-		// String id = DOM.createUniqueId();
+		XButton = new PushButton(new Image(
+		        GuiResources.INSTANCE.keyboard_close()));
+		String id = DOM.createUniqueId();
 		// textField.setShowSymbolElement(this.XButton.getElement());
-		// XButton.getElement().setId(id + "_SymbolButton");
-		// XButton.getElement().setAttribute("data-visible", "false");
+		XButton.getElement().setId(id + "_SymbolButton");
+		XButton.getElement().setAttribute("data-visible", "false");
 		// XButton.getElement().setAttribute("style", "display: none");
-		XButton.setText("X");
+		// XButton.setText("X");
 		XButton.addStyleName("SymbolToggleButton");
 		XButton.addClickHandler(new ClickHandler() {
 
@@ -210,7 +214,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			}
 		});
 
-		//XButton.setFocus(false);
+		XButton.setFocus(false);
 		// add(textField);// done in super()
 
 		// it seems this would be part of the Tree, not of TreeItem...
