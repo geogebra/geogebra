@@ -2369,7 +2369,7 @@ public abstract class AppW extends App implements SetLabels {
 		public void run() {
 			boolean force = kernel.getForceUpdatingBoundingBox();
 			kernel.setForceUpdatingBoundingBox(true);
-			kernel.getConstruction().updateConstruction();
+			kernel.getConstruction().updateConstructionLaTeX();
 			kernel.notifyRepaint();
 			kernel.setForceUpdatingBoundingBox(force);
 		}
