@@ -250,7 +250,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
  "e^{x}");
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("ln", this);
+		newButton = new KeyBoardButton("|x|", "abs", this);
 		functions.addToRow(index, newButton);
 
 		// fill next row
@@ -591,7 +591,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first row
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton("|x|", "abs", this);
+		KeyBoardButton newButton = new KeyBoardButton("ln", this);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton("log", this);
 		functions.addToRow(index, newButton);
