@@ -2064,7 +2064,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	public Image getInternalImage(String filename) {
-		return imageManager.getInternalImage("/gui/images/" + filename)
+		return imageManager.getInternalImage(filename)
 				.getImage();
 	}
 
