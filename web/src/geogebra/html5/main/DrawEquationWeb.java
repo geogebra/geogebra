@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
@@ -748,7 +749,9 @@ public class DrawEquationWeb extends DrawEquation {
 									@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else if (code == 27) {//esc
-								if (!newCreationMode) {
+								if (newCreationMode) {
+									@geogebra.html5.main.DrawEquationWeb::stornoFormulaMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								} else {
 									@geogebra.html5.main.DrawEquationWeb::escEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 								}
 							} else {
@@ -1041,18 +1044,37 @@ public class DrawEquationWeb extends DrawEquation {
 
 		//elsecond.previousSibling.style.display = "block"; // this does not apply here!!
 
-		var success = @geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;Ljava/lang/String;)(rbti,latexq,latexx);
+		@geogebra.html5.main.DrawEquationWeb::newFormulaCreatedMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Ljava/lang/String;Ljava/lang/String;)(rbti,parentElement,latexq,latexx);
+
+		// this method also takes care of calling more JSNI code in a callback,
+		// that originally belonged here: newFormulaCreatedMathQuillGGBCallback
+	}-*/;
+
+	public static native void newFormulaCreatedMathQuillGGBCallback(
+	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
 
 		// now it's time to make the formula blank!
 		// but only if the previous method was successful...
-		if (success) {
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
-			elsecondInside.innerHTML = '';
-			//$wnd.$ggbQuery(elsecondInside).html('');
-			//$wnd.$ggbQuery(elsecondInside).mathquillggb();
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
-			$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
-		}
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
+		elsecondInside.innerHTML = '';
+		//$wnd.$ggbQuery(elsecondInside).html('');
+		//$wnd.$ggbQuery(elsecondInside).mathquillggb();
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
+	}-*/;
+
+
+	public static native void stornoFormulaMathQuillGGB(
+	        RadioButtonTreeItem rbti, Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('revert');
+		elsecondInside.innerHTML = '';
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('latex', '');
+		$wnd.$ggbQuery(elsecondInside).mathquillggb('editable').focus();
 	}-*/;
 
 	public static native void updateEditingMathQuillGGB(Element parentElement,
@@ -1129,8 +1151,16 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static boolean newFormulaCreatedMathQuillGGB(
-	        RadioButtonTreeItem rbti, final String input, final String latex) {
-		return rbti.stopNewFormulaCreation(input, latex);
+	        final RadioButtonTreeItem rbti, final Element parentElement, final String input, final String latex) {
+		AsyncOperation callback = new AsyncOperation() {
+			public void callback(Object o) {
+				// this should only be called when the new formula creation
+				// is really successful! i.e. return true as old behaviour
+				newFormulaCreatedMathQuillGGBCallback(rbti, parentElement);
+			}
+		};
+		// return value is not reliable, callback is
+		return rbti.stopNewFormulaCreation(input, latex, callback);
 	}
 
 	public static native void escEditingEquationMathQuillGGB(
@@ -1154,13 +1184,16 @@ public class DrawEquationWeb extends DrawEquation {
 		var thisjq = $wnd.$ggbQuery(elsecondInside);
 		var latexq = thisjq.mathquillggb('text');
 		elsecond.previousSibling.style.display = "block";
-		@geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
-		thisjq.mathquillggb('revert').mathquillggb();
+		var rett = @geogebra.html5.main.DrawEquationWeb::endEditingEquationMathQuillGGB(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Ljava/lang/String;)(rbti,latexq);
+		if (rett) {
+			thisjq.mathquillggb('revert').mathquillggb();
+		}
 	}-*/;
 
-	public static void endEditingEquationMathQuillGGB(RadioButtonTreeItem rbti,
+	public static boolean endEditingEquationMathQuillGGB(
+	        RadioButtonTreeItem rbti,
 	        String latex) {
-		rbti.stopEditing(latex);
+		return rbti.stopEditing(latex);
 	}
 
 	/**

@@ -4,6 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
 import geogebra.common.main.Localization;
+import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
 import geogebra.common.util.Unicode;
@@ -355,12 +356,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	@Override
-	public boolean stopNewFormulaCreation(String newValue0, String latex) {
+	public boolean stopNewFormulaCreation(String newValue0, String latex,
+	        AsyncOperation callback) {
 		if (sug.isSuggestionListShowing()) {
 			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
 			return false;
 		}
-		return super.stopNewFormulaCreation(newValue0, latex);
+		return super.stopNewFormulaCreation(newValue0, latex, callback);
 	}
 
 	public boolean getAutoComplete() {

@@ -831,10 +831,12 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	@Override
-    public void stopEditing(String newValue0) {
+	public boolean stopEditing(String newValue0) {
+
+		boolean ret = false;
 
 		if (blockBlur && blockBlurSensible()) {
-			return;
+			return false;
 		}
 
 		thisIsEdited = false;
@@ -851,8 +853,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				boolean redefine = !geo.isPointOnPath();
 				GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
 geo, newValue, redefine, true);
-				if (geo2 != null)
+				if (geo2 != null) {
+					ret = true;
 					geo = geo2;
+				}
 			} else {
 				// TODO: create new GeoElement!
 				
@@ -867,6 +871,7 @@ geo, newValue, redefine, true);
 				scrollIntoView();
 			}
 		});
+		return ret;
 	}
 
 	/**
@@ -876,7 +881,8 @@ geo, newValue, redefine, true);
 	 * @param newValue0
 	 * @return boolean whether it was successful
 	 */
-	public boolean stopNewFormulaCreation(String newValue0, final String latexx) {
+	public boolean stopNewFormulaCreation(String newValue0,
+	        final String latexx, final AsyncOperation cb) {
 
 		// TODO: move to NewRadioButtonTreeItem? Wouldn't help much...
 
@@ -960,6 +966,9 @@ geo, newValue, redefine, true);
 							        }
 						        }
 					        });
+
+					// actually this (and only this) means return true!
+					cb.callback(null);
 
 					// inputField.setText(null); // that comes after boolean
 					// return true
