@@ -81,7 +81,7 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 		// CAS input/output cells
 		createCASTable();
 		// row header
-		rowHeader = new RowHeaderD(consoleTable, true, listSelModel);
+		rowHeader = new RowHeaderD(consoleTable, true, listSelModel, app);
 		getConsoleTable().setSelectionModel(listSelModel);
 		// init the scroll panel
 		JScrollPane scrollPane = new JScrollPane(

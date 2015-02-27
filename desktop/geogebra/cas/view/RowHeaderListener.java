@@ -26,6 +26,7 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener,
 	private final JList rowHeader;
 	private int mousePressedRow;
 	private boolean rightClick;
+	private AppD app;
 
 	/**
 	 * @param table
@@ -33,9 +34,10 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener,
 	 * @param rowHeader
 	 *            row headers
 	 */
-	public RowHeaderListener(CASTableD table, JList rowHeader) {
+	public RowHeaderListener(CASTableD table, JList rowHeader, AppD app) {
 		this.table = table;
 		this.rowHeader = rowHeader;
+		this.app = app;
 	}
 
 	@Override
@@ -87,7 +89,8 @@ public class RowHeaderListener extends MouseAdapter implements KeyListener,
 				// see Ticket #3439, comments 8, 12
 				int marbleTop = table.getRowHeight(releasedRow) / 2 + 4;
 				if (e.getY() > marbleTop + totalHeight - 4
-						&& e.getY() < marbleTop + totalHeight + 16) {
+						&& e.getY() < marbleTop + totalHeight
+								+ app.getScaledIconSize()) {
 					GeoCasCell clickedCell = table.getGeoCasCell(table
 							.rowAtPoint(e.getPoint()));
 					if (table.isEditing()) {

@@ -2,6 +2,7 @@ package geogebra.cas.view;
 
 import geogebra.common.cas.view.RowHeader;
 import geogebra.common.main.GeoGebraColorConstants;
+import geogebra.main.AppD;
 
 import javax.swing.BorderFactory;
 import javax.swing.JList;
@@ -30,7 +31,7 @@ public class RowHeaderD extends JList implements RowHeader {
 	 *            selection model
 	 */
 	public RowHeaderD(CASTableD table, boolean multipleIntervalSelection,
-			ListSelectionModel lsModel) {
+			ListSelectionModel lsModel, AppD app) {
 		setModel(new RowHeaderListModel(table));
 		setSelectionModel(lsModel);
 		if (multipleIntervalSelection) {
@@ -48,7 +49,7 @@ public class RowHeaderD extends JList implements RowHeader {
 		setCellRenderer(renderer);
 
 		// listener
-		RowHeaderListener rhl = new RowHeaderListener(table, this);
+		RowHeaderListener rhl = new RowHeaderListener(table, this, app);
 		addMouseListener(rhl);
 		addMouseMotionListener(rhl);
 		addKeyListener(rhl);
