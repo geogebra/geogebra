@@ -7,14 +7,13 @@ import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.AutoCompleteDictionary;
 import geogebra.common.util.StringUtil;
-import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.gui.inputfield.HasSymbolPopup;
 import geogebra.html5.gui.inputfield.HistoryPopupW;
-import geogebra.html5.gui.inputfield.SymbolTablePopupW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
+import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
@@ -29,17 +28,15 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
-import com.google.gwt.user.client.DOM;
-import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
+import com.google.gwt.user.client.ui.PushButton;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestBox.DefaultSuggestionDisplay;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
-import com.google.gwt.user.client.ui.ToggleButton;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -133,17 +130,15 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
-	public static int querylimit = 1000;
-	public static boolean showSymbolButtonFocused = false;
-
+	public static int querylimit = 5000;
 	private List<String> completions;
 	StringBuilder curWord;
 	private int curWordStart;
 	protected AutoCompleteDictionary dict;
 	protected ScrollableSuggestionDisplay sug;
 	protected CompletionsPopup popup;
-	protected ToggleButton showSymbolButton = null;
-	SymbolTablePopupW tablePopup;
+	protected PushButton XButton = null;
+	// SymbolTablePopupW tablePopup;
 	private int historyIndex;
 	private ArrayList<String> history;
 	private HashMap<String, String> historyMap;
@@ -197,88 +192,33 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
-		showSymbolButton = new ToggleButton() {
-			@Override
-			public void onBrowserEvent(Event event) {
-				if (event.getTypeInt() == Event.ONMOUSEDOWN) {
-
-					// set it as focused anyway, because it is needed
-					// before the real focus and blur events take place
-					showSymbolButton.addStyleName("ShowSymbolButtonFocused");
-					showSymbolButtonFocused = true;
-				}
-				super.onBrowserEvent(event);
-
-				// NewRadioButtonTreeItem/MQ should not loose focus
-
-				// but this will make the formula flicker, as there
-				// may be too much execution! so only do it when
-				// showSymbolButton would really get the focus,
-				// i.e. do not do it for some event types, e.g.
-				// at least in the following three cases:
-				if (event.getTypeInt() == Event.ONMOUSEMOVE
-				        || event.getTypeInt() == Event.ONMOUSEOVER
-				        || event.getTypeInt() == Event.ONMOUSEOUT)
-					return;
-
-				// now we can do it
-				NewRadioButtonTreeItem.this.setFocus(true);
-			}
-		};
-		String id = DOM.createUniqueId();
-		// textField.setShowSymbolElement(this.showSymbolButton.getElement());
-		showSymbolButton.getElement().setId(id + "_SymbolButton");
-		showSymbolButton.getElement().setAttribute("data-visible", "false");
-		// showSymbolButton.getElement().setAttribute("style", "display: none");
-		showSymbolButton.setText(Unicode.alpha + "");
-		showSymbolButton.addStyleName("SymbolToggleButton");
-		showSymbolButton.addBlurHandler(new BlurHandler() {
-			@Override
-			public void onBlur(BlurEvent event) {
-				showSymbolButton.removeStyleName("ShowSymbolButtonFocused");
-				showSymbolButtonFocused = false;
-				// TODO: make it disappear when blurred
-				// to a place else than the textfield?
-			}
-		});
-		showSymbolButton.addClickHandler(new ClickHandler() {
+		XButton = new PushButton();
+		// String id = DOM.createUniqueId();
+		// textField.setShowSymbolElement(this.XButton.getElement());
+		// XButton.getElement().setId(id + "_SymbolButton");
+		// XButton.getElement().setAttribute("data-visible", "false");
+		// XButton.getElement().setAttribute("style", "display: none");
+		XButton.setText("X");
+		XButton.addStyleName("SymbolToggleButton");
+		XButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				if (showSymbolButton.isDown()) {
-					// when it is still down, it will be changed to up
-					// when it is still up, it will be changed to down
-
-					// showTablePopupRelativeTo(showSymbolButton);
-					if (tablePopup == null
-					        && NewRadioButtonTreeItem.this.showSymbolButton != null)
-						tablePopup = new SymbolTablePopupW(app,
-						        NewRadioButtonTreeItem.this,
-						        showSymbolButton);
-					if (NewRadioButtonTreeItem.this.tablePopup != null) {
-						tablePopup.showRelativeTo(showSymbolButton);
-					}
-
-				} else {
-					// hideTablePopup();
-					if (NewRadioButtonTreeItem.this.tablePopup != null) {
-						NewRadioButtonTreeItem.this.tablePopup.hide();
-					}
-				}
-				// autoCompleteTextField should not loose focus
+				DrawEquationWeb.stornoFormulaMathQuillGGB(
+				        NewRadioButtonTreeItem.this, seMayLatex);
 				NewRadioButtonTreeItem.this.setFocus(true);
 			}
 		});
 
-		showSymbolButton.setFocus(false);
+		//XButton.setFocus(false);
 		// add(textField);// done in super()
 
 		// it seems this would be part of the Tree, not of TreeItem...
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
-		add(showSymbolButton);
+		add(XButton);
 
-		showSymbolButton.getElement().setAttribute("data-visible", "true");
+		XButton.getElement().setAttribute("data-visible", "true");
 		addStyleName("SymbolCanBeShown");
 
 		// When scheduleDeferred does not work...
@@ -572,26 +512,22 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void toggleSymbolButton(boolean toggled) {
-		if (showSymbolButton == null) {
-			return;
-		}
-		showSymbolButton.setDown(toggled);
+		// just for compatibility with AutoCompleteW
+		return;
 	}
 
 	public void showPopup(boolean show) {
-		if (this.showSymbolButton == null) {
+		if (this.XButton == null) {
 			return;
 		}
-		Element showSymbolElement = this.showSymbolButton.getElement();
+		Element showSymbolElement = this.XButton.getElement();
 		// App.debug("AF focused" + show);
 		if (showSymbolElement != null
 		        && "true"
 		                .equals(showSymbolElement.getAttribute("data-visible"))) {
 			if (show) {
-				// App.debug("AF focused2" + show);
 				showSymbolElement.addClassName("shown");
 			} else {
-				// App.debug("AF focused2" + show);
 				if (!"true".equals(showSymbolElement
 				        .getAttribute("data-persist"))) {
 					showSymbolElement.removeClassName("shown");
@@ -627,7 +563,14 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// this.focused = true; // hasFocus is not needed, AFAIK
 	}
 
+	@SuppressWarnings("unused")
 	public void onBlur(BlurEvent event) {
+		// This method is practically never called, but if it will be,
+		// decision shall be made whether it's Okay to make the XButton
+		// invisible or not (TODO)
+		if (true)
+			return;
+
 		((AlgebraDockPanelW) app.getGuiManager().getLayout().getDockManager()
 		        .getPanel(App.VIEW_ALGEBRA)).showStyleBarPanel(true);
 
