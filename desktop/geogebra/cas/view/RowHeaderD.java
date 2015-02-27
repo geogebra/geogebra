@@ -19,6 +19,8 @@ public class RowHeaderD extends JList implements RowHeader {
 	 */
 	public static final int ROW_HEADER_WIDTH = 30;
 
+	private RowHeaderRenderer renderer;
+
 	/**
 	 * @param table
 	 *            CAS table
@@ -42,7 +44,8 @@ public class RowHeaderD extends JList implements RowHeader {
 				geogebra.awt.GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
 		// renderer
-		setCellRenderer(new RowHeaderRenderer(table));
+		renderer = new RowHeaderRenderer(table);
+		setCellRenderer(renderer);
 
 		// listener
 		RowHeaderListener rhl = new RowHeaderListener(table, this);
@@ -56,4 +59,7 @@ public class RowHeaderD extends JList implements RowHeader {
 		table.setRowSelectionAllowed(true);
 	}
 
+	public void updateIcons() {
+		renderer.updateIcons();
+	}
 }

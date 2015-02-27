@@ -239,6 +239,9 @@ public class CASViewD extends CASView implements Gridable, SetOrientation {
 			return;
 		component.setFont(app.getPlainFont());
 		getConsoleTable().setFont(component.getFont());
+		if (rowHeader != null) {
+			rowHeader.updateIcons();
+		}
 		getCASStyleBar().reinit();
 		// make sure the row header resizes with the table
 		SwingUtilities.updateComponentTreeUI(component);

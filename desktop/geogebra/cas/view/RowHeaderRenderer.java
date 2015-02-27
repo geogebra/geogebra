@@ -35,6 +35,8 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 	private ImageIcon iconShown, iconHidden;
 	/** constraints */
 	protected GridBagConstraints c;
+	private AppD app;
+	private boolean marbleValue;
 
 	/**
 	 * Creates new renderer
@@ -45,7 +47,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 	public RowHeaderRenderer(CASTableD casTable) {
 		super(new GridBagLayout());
 		c = new GridBagConstraints();
-		AppD app = (AppD) casTable.getApplication();
+		app = (AppD) casTable.getApplication();
 		iconShown = app.getScaledIcon("shown.gif");
 		iconHidden = app.getScaledIcon("hidden.gif");
 		numLabel = new JLabel("", SwingConstants.CENTER);
@@ -64,6 +66,12 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 		setBorder(BorderFactory.createMatteBorder(0, 0, 1, 0,
 				geogebra.awt.GColorD
 						.getAwtColor(GeoGebraColorConstants.TABLE_GRID_COLOR)));
+	}
+
+	public void updateIcons() {
+		iconShown = app.getScaledIcon("shown.gif");
+		iconHidden = app.getScaledIcon("hidden.gif");
+		setMarbleValue(marbleValue);
 	}
 
 	public Component getListCellRendererComponent(JList list, Object value,
@@ -100,7 +108,7 @@ public class RowHeaderRenderer extends JPanel implements ListCellRenderer,
 
 	public void setMarbleValue(boolean value) {
 		showHideControl.setIcon(value ? iconShown : iconHidden);
-
+		marbleValue = value;
 	}
 
 	public void setMarbleVisible(boolean visible) {
