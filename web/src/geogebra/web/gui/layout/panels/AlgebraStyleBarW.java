@@ -160,6 +160,7 @@ public class AlgebraStyleBarW extends StyleBarW2 implements
 			btnLineStyle.update(new Object[] { selectedItem });
 			add(btnPointStyle);
 			btnPointStyle.update(new Object[] { selectedItem });
+			addMenuButton();
 		}
 
 		addViewButton();

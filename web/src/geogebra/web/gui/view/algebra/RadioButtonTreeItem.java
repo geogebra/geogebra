@@ -49,6 +49,7 @@ import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.EventUtil;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.util.SliderW;
 import geogebra.web.gui.view.algebra.Marble.GeoContainer;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
@@ -89,6 +90,7 @@ import com.google.gwt.event.dom.client.TouchStartEvent;
 import com.google.gwt.event.dom.client.TouchStartHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -144,6 +146,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	private SliderW slider;
 	private VerticalPanel sliderPanel;
+
+	private VerticalPanel marblePanel;
+	Image playButton;
 
 	private CheckBox checkBox;
 
@@ -264,7 +269,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		radio.setStyleName("marble");
 		radio.setEnabled(ge.isEuclidianShowable());
 		radio.setChecked(ge.isEuclidianVisible());
-		add(radio);
+
+		marblePanel = new VerticalPanel();
+		marblePanel.add(radio);
+		add(marblePanel);
 
 		// Sliders
 		if (showSliderOrTextBox && app.isPrerelease()
@@ -292,6 +300,28 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 			sliderPanel = new VerticalPanel();
 			add(sliderPanel);
+
+			if (geo.isAnimatable()) {
+				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
+						.nav_pause() : AppResources.INSTANCE.nav_play();
+				playButton = new Image(imageresource);
+				playButton.addClickHandler(new ClickHandler() {
+					public void onClick(ClickEvent event) {
+						boolean newValue = !(geo.isAnimating() && app
+								.getKernel().getAnimatonManager().isRunning());
+						geo.setAnimating(newValue);
+						playButton.setResource(newValue ? AppResources.INSTANCE
+								.nav_pause() : AppResources.INSTANCE.nav_play());
+						geo.updateRepaint();
+
+						if (geo.isAnimating()) {
+							geo.getKernel().getAnimatonManager()
+									.startAnimation();
+						}
+					}
+				});
+				marblePanel.add(playButton);
+			}
 		}
 
 		SpanElement se = DOM.createSpan().cast();
