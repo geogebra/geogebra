@@ -275,6 +275,10 @@ public class ToolTipManagerW {
 	 *            dismissDelay milliseconds
 	 */
 	public void showBottomMessage(String text, boolean closeAutomatic) {
+		if (text == null || "".equals(text)) {
+			hideBottomInfoToolTip();
+			return;
+		}
 		blockToolTip = false;
 		showBottomInfoToolTip("<html>" + StringUtil.toHTMLString(text)
 		        + "</html>", "", null, null);
