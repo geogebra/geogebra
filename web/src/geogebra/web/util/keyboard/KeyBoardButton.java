@@ -1,8 +1,5 @@
 package geogebra.web.util.keyboard;
 
-import geogebra.common.euclidian.event.PointerEventType;
-import geogebra.html5.gui.util.ClickStartHandler;
-
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Label;
@@ -41,14 +38,6 @@ public class KeyBoardButton extends SimplePanel {
 		addDomHandler(handler, ClickEvent.getType());
 		addStyleName("KeyBoardButton");
 		this.add(label);
-
-		// preventDefault and stopPropagation
-		ClickStartHandler.init(this, new ClickStartHandler(true, true) {
-			@Override
-			public void onClickStart(int x, int y, PointerEventType type) {
-				// nothing to do here
-			}
-		});
 	}
 
 	/**
