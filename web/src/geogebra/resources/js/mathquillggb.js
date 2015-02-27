@@ -4236,9 +4236,15 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
     if (key === 'Spacebar' || key === 'Shift-Spacebar') return false;
   };
   _.onText = function(curs, ch) {
-    //curs.write(ch);
-    // what would cursor.write do?
-    this.write(curs, ch);
+    if (ch !== '"') {
+      //curs.write(ch);
+      // what would cursor.write do?
+      this.write(curs, ch);
+	} else if (curs[R]) {
+      this.write(curs, ch);
+	} else {
+      curs.moveRight();
+	}
     return false;
   };
   _.moveTowards = function(dir, cursor) { cursor.appendDir(-dir, this); };
