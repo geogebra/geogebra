@@ -5521,6 +5521,10 @@ class GraphicsViewLocationPanel extends JPanel implements ActionListener,
 		}
 	}
 
+	public void setCheckBox3DVisible(boolean flag) {
+		cbGraphicsView3D.setVisible(flag);		
+	}
+
 }
 
 class ButtonSizePanel extends JPanel implements ChangeListener, FocusListener,

@@ -2008,6 +2008,10 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 
 		}
 
+		public void setCheckBox3DVisible(boolean flag) {
+			cbGraphicsView3D.setVisible(flag);
+		}
+
 	}
 
 	private class CoordsPanel extends ListBoxPanel {

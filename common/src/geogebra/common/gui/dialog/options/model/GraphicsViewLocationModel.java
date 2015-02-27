@@ -2,12 +2,16 @@ package geogebra.common.gui.dialog.options.model;
 
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian3D.EuclidianView3DInterface;
+import geogebra.common.kernel.algos.AlgoTransformation;
 import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoImage;
+import geogebra.common.kernel.geos.GeoTextField;
 import geogebra.common.main.App;
 
 public class GraphicsViewLocationModel extends OptionsModel {
 	public interface IGraphicsViewLocationListener {
 		public void selectView(int index, boolean isSelected);
+		public void setCheckBox3DVisible(boolean flag);
 	}
 	
 	private IGraphicsViewLocationListener listener;
@@ -85,6 +89,17 @@ public class GraphicsViewLocationModel extends OptionsModel {
 
 	@Override
 	public boolean checkGeos() {
+		
+		listener.setCheckBox3DVisible(true);
+		
+		boolean go = true;
+		for (int i = 0; go && i < getGeosLength(); i++) {
+			GeoElement geo = getGeoAt(i);
+			if (!geo.hasDrawable3D()) {
+				listener.setCheckBox3DVisible(false);
+				go = false;
+			}
+		}
 		return true;
 	}
 
