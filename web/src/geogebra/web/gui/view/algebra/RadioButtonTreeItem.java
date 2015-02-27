@@ -24,6 +24,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.kernel.geos.GeoBoolean;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -93,6 +94,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -142,14 +144,22 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 	private SliderW slider;
 	private VerticalPanel sliderPanel;
+
+	private CheckBox checkBox;
+
+	/**
+	 * button shown at the right side of the entry, if the entry is selected.
+	 * used to delete the geo.
+	 */
 	private Image deleteButton;
 
 	/**
 	 * TODO this will be replaced by a check-box in the settings
 	 * 
-	 * allow sliders in AV as part of the RadioButtonTreeItem
+	 * allow slider (for a number) or checkBox (for a boolean) in AV as part of
+	 * the RadioButtonTreeItem
 	 */
-	private static boolean showSliders = false;
+	private static boolean showSliderOrTextBox = false;
 
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
@@ -256,7 +266,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		radio.setChecked(ge.isEuclidianVisible());
 		add(radio);
 
-		if (showSliders && app.isPrerelease() && geo instanceof GeoNumeric) {
+		// Sliders
+		if (showSliderOrTextBox && app.isPrerelease()
+				&& geo instanceof GeoNumeric) {
 			if (!geo.isEuclidianVisible()) {
 				// number inserted via input bar
 				// -> initialize min/max etc.
@@ -273,6 +285,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				public void onValueChange(ValueChangeEvent<Double> event) {
 					((GeoNumeric) geo).setValue(event.getValue());
 					geo.updateCascade();
+					// updates other views (e.g. Euclidian)
 					kernel.notifyRepaint();
 				}
 			});
@@ -303,7 +316,24 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
 
-		if (geo.isIndependent()) {
+		if (showSliderOrTextBox && app.isPrerelease()
+				&& geo instanceof GeoBoolean) {
+			// CheckBoxes
+			checkBox = new CheckBox();
+			checkBox.setValue(((GeoBoolean) geo).getBoolean());
+			add(checkBox);
+			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+				public void onValueChange(ValueChangeEvent<Boolean> event) {
+					((GeoBoolean) geo).setValue(event.getValue());
+					geo.updateCascade();
+					// updates other views (e.g. Euclidian)
+					kernel.notifyRepaint();
+				}
+			});
+
+			// use only the name of the GeoBoolean
+			getBuilder(se).append(geo.getLabel(StringTemplate.defaultTemplate));
+		} else if (geo.isIndependent()) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
@@ -541,12 +571,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		needsUpdate = false;
 		boolean newLaTeX = false;
 		
+		if (this.checkBox != null && showSliderOrTextBox) {
+			checkBox.setValue(((GeoBoolean) geo).getBoolean());
+			return;
+		}
+
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String text = "";
 			if (geo != null) {
 				text = geo.getLaTeXAlgebraDescription(true,
-				        StringTemplate.latexTemplateMQ);
+						StringTemplate.latexTemplateMQ);
 				if ((text != null) && geo.isLaTeXDrawableGeo()
 						&& (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
 					newLaTeX = true;
@@ -1086,7 +1121,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (app.isPrerelease() && geo != null) {
 			if (deleteButton == null) {
-				deleteButton = new Image(GuiResources.INSTANCE.keyboard_close());
+				deleteButton = new Image(
+						GuiResources.INSTANCE.algebraViewDeleteEntry());
 				deleteButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						geo.remove();
@@ -1379,6 +1415,10 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			sliderPanel.remove(slider);
 			sliderPanel.add(w);
 			sliderPanel.add(slider);
+		} else if (checkBox != null) {
+			remove(checkBox);
+			add(w);
+			add(checkBox);
 		} else {
 			add(w);
 		}

@@ -307,4 +307,8 @@ public interface GuiResources extends ClientBundle {
 	// ONSCREENKEYBOARD
 	@Source("geogebra/web/gui/images/view_close.png")
 	ImageResource keyboard_close();
+
+	// ALGEBRA VIEW
+	@Source("geogebra/web/gui/images/view-close.png")
+	ImageResource algebraViewDeleteEntry();
 }
