@@ -1059,19 +1059,19 @@ geo, newValue, redefine, true);
 		ev.resetMode();
 		if (geo != null && !ctrl) {
 			av.startEditing(geo, shif);
-			if (app.isPrerelease() && tb != null) {
-				app.showKeyboard(tb);
-				// update the keyboard, if it is already visible
-				OnScreenKeyBoard.setInstanceTextField(tb);
-				blockBlur = true;
-				OnScreenKeyBoard.setResetComponent(this);
-			} else if (app.isPrerelease()) {
-				app.showKeyboard(this);
-				// update the keyboard, if it is already visible
-				OnScreenKeyBoard.setInstanceTextField(this);
-				blockBlur = true;
-				OnScreenKeyBoard.setResetComponent(this);
-			}
+			// if (app.isPrerelease() && tb != null) {
+			// app.showKeyboard(tb);
+			// // update the keyboard, if it is already visible
+			// OnScreenKeyBoard.setInstanceTextField(tb);
+			// blockBlur = true;
+			// OnScreenKeyBoard.setResetComponent(this);
+			// } else if (app.isPrerelease()) {
+			// app.showKeyboard(this);
+			// // update the keyboard, if it is already visible
+			// OnScreenKeyBoard.setInstanceTextField(this);
+			// blockBlur = true;
+			// OnScreenKeyBoard.setResetComponent(this);
+			// }
 		}
 	}
 

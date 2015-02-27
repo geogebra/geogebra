@@ -1482,14 +1482,14 @@ public class AutoCompleteTextFieldW extends FlowPanel implements AutoComplete,
 
 	@Override
 	public void requestFocus() {
-		if (app.isPrerelease()) {
-			app.showKeyboard(this);
-
-			// TODO needs to be removed for mobile devices
-			textField.setFocus(true);
-		} else {
-			textField.setFocus(true);
-		}
+		// if (app.isPrerelease()) {
+		// app.showKeyboard(this);
+		//
+		// // TODO needs to be removed for mobile devices
+		// textField.setFocus(true);
+		// } else {
+		textField.setFocus(true);
+		// }
 
 		if (geoUsedForInputBox != null && !geoUsedForInputBox.isSelected()) {
 			app.getSelectionManager().clearSelectedGeos(false);
