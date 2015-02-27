@@ -31,6 +31,7 @@ import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -279,6 +280,16 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		showSymbolButton.getElement().setAttribute("data-visible", "true");
 		addStyleName("SymbolCanBeShown");
+
+		// When scheduleDeferred does not work...
+		// this code makes the cursor show when the page loads...
+		Timer tim = new Timer() {
+			@Override
+			public void run() {
+				setFocus(true);
+			}
+		};
+		tim.schedule(500);
 	}
 
 	/**
