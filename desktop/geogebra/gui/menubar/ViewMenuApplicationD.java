@@ -249,6 +249,10 @@ public class ViewMenuApplicationD extends ViewMenuD {
 					continue;
 				}
 
+				if (cbViews[i] == null) {
+					return;
+				}
+
 				cbViews[i].setSelected(((GuiManagerD) app.getGuiManager())
 						.showView(panel.getViewId()));
 				++i;
