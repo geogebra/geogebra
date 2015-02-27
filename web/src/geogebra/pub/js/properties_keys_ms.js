@@ -891,7 +891,7 @@ __GGB__keysVar.ms.command = {
     "StartAnimation.Syntax": "[ ]\n[ <Boolean> ]\n[ <Gelongsor atau Titik>, <Gelongsor atau Titik>, ... ]\n[ <Gelongsor atau Titik>, <Gelongsor atau Titik>, ..., <Boolean> ]",
     "StartLogging": "MulaPengelogan",
     "StartLogging.Syntax": "[ \"<Sensor>\", <Pembolehubah>, \"<Sensor>\", <Pembolehubah>, ... ]",
-    "StartRecord": "StartRecord",
+    "StartRecord": "MulaRekod",
     "StartRecord.Syntax": "[ ]\n[ <Boolean> ]",
     "StemPlot": "PlotBatang",
     "StemPlot.Syntax": "[ <Senarai> ]\n[ <Senarai>, <Pelarasan -1|0|1> ]",
