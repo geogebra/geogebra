@@ -841,38 +841,16 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		av.cancelEditing();
 		
 		if (newValue0 != null) {
-
 			String newValue = stopCommon(newValue0);
 
-			// Formula Hacks ... Currently only functions are considered
-			StringBuilder sb = new StringBuilder();
-			boolean switchw = false;
-			//ignore first and last bracket, they come from mathrm
-			int skip = newValue.startsWith("(") ? 1 : 0;
-			boolean inLHS = true;
-			for (int i = skip; i < newValue.length() - skip; i++){
-				//on lhs a*b(x) actually means ab(x)
-				// fixed in a different way, and considered harmful now!
-				// if(inLHS && (newValue.charAt(i)=='*')){
-				// continue;
-				// }
-				if (newValue.charAt(i) != ' ') {
-					if (newValue.charAt(i) != '|')
-						sb.append(newValue.charAt(i));
-					else  {
-						switchw = !switchw;
-						sb.append(switchw ? "abs(" : ")");
-					}
-				}
-				if(newValue.charAt(i) == ':' || newValue.charAt(i) == '='){
-					inLHS = false;
-				}
-			}
+			// not sure why it is needed... TODO: is this needed?
+			newValue.replace(" ", "");
+
 			// Formula Hacks ended.
 			if (geo != null) {
 				boolean redefine = !geo.isPointOnPath();
 				GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-						geo, sb.toString(), redefine, true);
+geo, newValue, redefine, true);
 				if (geo2 != null)
 					geo = geo2;
 			} else {
@@ -905,36 +883,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		String newValue = newValue0;
 
 		if (newValue0 != null) {
-
 			newValue = stopCommon(newValue);
-
-			// Formula Hacks ... Currently only functions are considered
-			StringBuilder sb = new StringBuilder();
-			boolean switchw = false;
-
-			// we could ignore first and last bracket, they come from mathrm
-			// but inputs like (0,0) or (0,0)+(1,0) fail, so don't:
-			// int skip = newValue.startsWith("(") ? 1 : 0;
-			// for (int i = skip; i < newValue.length() - skip; i++) {
-			for (int i = 0; i < newValue.length(); i++) {
-				// let's allow space as well! arguments for space:
-				// pro: this was here, maybe for a reason?
-
-				// contra: in "" mode, it may make things wrong!
-				// in editing mode, there is no "" mode in theory?
-				// but here we must not delete spaces...
-
-				// if (newValue.charAt(i) != ' ') {
-					if (newValue.charAt(i) != '|')
-						sb.append(newValue.charAt(i));
-					else {
-						switchw = !switchw;
-						sb.append(switchw ? "abs(" : ")");
-					}
-				// }
-			}
-			newValue = sb.toString();
-			// Formula Hacks ended.
 		}
 
 		app.getKernel().clearJustCreatedGeosInViews();

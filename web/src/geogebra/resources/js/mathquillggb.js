@@ -2989,6 +2989,7 @@ LatexCmds.rpipe =
 CharCmds['|'] = P(Paren, function(_, _super) {
   _.init = function() {
     _super.init.call(this, '|', '|');
+    this.textTemplate = ['abs(', ')'];
   }
 
   _.createBefore = function(cursor) {
