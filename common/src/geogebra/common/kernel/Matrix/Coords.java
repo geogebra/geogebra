@@ -1179,6 +1179,23 @@ public class Coords {
 
 		return result;
 	}
+	
+	/**
+	 * set values in inhom coords
+	 */
+	public void setInhomCoords(){
+
+		if (Kernel.isEqual(val[rows - 1], 1))
+			return;
+
+		double wdiv = 1 / val[rows - 1];
+		for (int i = 0; i < rows - 1; i++){
+			val[i] *= wdiv;
+		}
+
+		val[rows - 1] = 1;
+
+	}
 
 	/**
 	 * returns n length vector, all coordinates divided by the n-th.

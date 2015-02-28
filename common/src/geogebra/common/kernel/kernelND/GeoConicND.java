@@ -315,14 +315,27 @@ FromMeta
 
 	 }
 
-		/**
-		 * Edited by:  Kai Chung Tam
-		 * Date: 4/6/2011
-		 * Fixed case CONIC_ELLIPSE, CONIC_HYPERBOLA and CONIC_PARABOLA
-		 * @param P a point
-		 * @param pp path parameter of the point
-		 */
-	public void pointChanged(Coords P, PathParameter pp) {
+	 /**
+	  * Edited by:  Kai Chung Tam
+	  * Date: 4/6/2011
+	  * Fixed case CONIC_ELLIPSE, CONIC_HYPERBOLA and CONIC_PARABOLA
+	  * @param P a point
+	  * @param pp path parameter of the point
+	  */
+	 public void pointChanged(Coords P, PathParameter pp) {		 
+		 pointChanged(P, pp, true);
+	 }
+	 
+	 
+	 /**
+	  * Edited by:  Kai Chung Tam
+	  * Date: 4/6/2011
+	  * Fixed case CONIC_ELLIPSE, CONIC_HYPERBOLA and CONIC_PARABOLA
+	  * @param P a point
+	  * @param pp path parameter of the point
+	  * @param checkSection check the section (if exists)
+	  */
+	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
 		
 		double px, py, ha, hb, hc_2;
 		double abspx, abspy; //for parabola and hyperbola
@@ -657,14 +670,78 @@ FromMeta
 			return;
 		}
 		
-		pathChangedWithoutCheck(P, pp);
+		pathChangedWithoutCheck(P, pp, true);
 	}
+	
 	
 	/**
 	 * @param P point
 	 * @param pp path parameter
+	 * @param checkSection check section parts (if exist)
 	 */
-	public void pathChangedWithoutCheck(Coords P, PathParameter pp) {
+	protected void pathChangedWithoutCheckEllipse(Coords P, PathParameter pp, boolean checkSection) {
+		// calc Point on conic using this parameter (in eigenvector space)
+		P.setX( halfAxes[0] * Math.cos(pp.getT()));	
+		P.setY( halfAxes[1] * Math.sin(pp.getT()));												
+		P.setZ( 1.0);		
+		
+		// transform back to real world coord system
+		coordsEVtoRW(P);
+	}
+	
+	
+	/**
+	 * @param P point
+	 * @param pp path parameter
+	 * @param checkSection check section parts (if exist)
+	 */
+	protected void pathChangedWithoutCheckParabola(Coords P, PathParameter pp, boolean checkSection) {
+		P.setY( p * pp.getT());				
+		P.setX( P.getY() * pp.getT()  / 2.0);				
+		P.setZ( 1.0);
+		
+		// transform back to real world coord system
+		coordsEVtoRW(P);
+	}
+	
+	
+	/**
+	 * @param P point
+	 * @param pp path parameter
+	 * @param checkSection check section parts (if exist)
+	 */
+	protected void pathChangedWithoutCheckHyperbola(Coords P, PathParameter pp, boolean checkSection) {
+		/* 
+		 * For hyperbolas, we use the parameter ranges 
+		 *   right branch: t = (-1, 1)
+		 *   left branch: t = (1, 3)
+		 * and convert this to s = (-inf, inf) using		
+		 *   right branch: s = t /(1 - abs(t)) 
+		 *   left branch:  s = (t-2) /(1 - abs(t-2))
+		 * which allows us to use the parameter form
+		 *   (a*cosh(s), b*sinh(s))
+		 * for the right branch of the hyperbola.
+		 */ 
+		boolean leftBranch = pp.getT() > 1;
+		double t = leftBranch ? pp.getT() - 2 : pp.getT();
+		double s = t /(1 - Math.abs(t));
+		
+		P.setX( halfAxes[0] * MyMath.cosh(s));
+		P.setY( halfAxes[1] * MyMath.sinh(s));
+		P.setZ( 1.0);				
+		if (leftBranch) P.setX( -P.getX());
+		
+		// transform back to real world coord system
+		coordsEVtoRW(P);
+	}
+	
+	
+	/**
+	 * @param P point
+	 * @param pp path parameter
+	 * @param checkSection check section parts (if exist)
+	 */
+	public void pathChangedWithoutCheck(Coords P, PathParameter pp, boolean checkSection) {
 	
 		switch (type) {
 			case CONIC_EMPTY:
@@ -712,48 +789,15 @@ FromMeta
 			
 			case CONIC_CIRCLE:
 			case CONIC_ELLIPSE:						
-				// calc Point on conic using this parameter (in eigenvector space)
-				P.setX( halfAxes[0] * Math.cos(pp.getT()));	
-				P.setY( halfAxes[1] * Math.sin(pp.getT()));												
-				P.setZ( 1.0);		
-				
-				// transform back to real world coord system
-				coordsEVtoRW(P);
-				
+				pathChangedWithoutCheckEllipse(P, pp, checkSection);				
 				break;			
 			
 			case CONIC_HYPERBOLA:			
-				/* 
-				 * For hyperbolas, we use the parameter ranges 
-				 *   right branch: t = (-1, 1)
-				 *   left branch: t = (1, 3)
-				 * and convert this to s = (-inf, inf) using		
-				 *   right branch: s = t /(1 - abs(t)) 
-				 *   left branch:  s = (t-2) /(1 - abs(t-2))
-				 * which allows us to use the parameter form
-				 *   (a*cosh(s), b*sinh(s))
-				 * for the right branch of the hyperbola.
-				 */ 
-				leftBranch = pp.getT() > 1;
-				double t = leftBranch ? pp.getT() - 2 : pp.getT();
-				double s = t /(1 - Math.abs(t));
-				
-				P.setX( halfAxes[0] * MyMath.cosh(s));
-				P.setY( halfAxes[1] * MyMath.sinh(s));
-				P.setZ( 1.0);				
-				if (leftBranch) P.setX( -P.getX());
-				
-				// transform back to real world coord system
-				coordsEVtoRW(P);
+				pathChangedWithoutCheckHyperbola(P, pp, checkSection);
 				break;																			
 			
 			case CONIC_PARABOLA:
-				P.setY( p * pp.getT());				
-				P.setX( P.getY() * pp.getT()  / 2.0);				
-				P.setZ( 1.0);
-				
-				// transform back to real world coord system
-				coordsEVtoRW(P);
+				pathChangedWithoutCheckParabola(P, pp, checkSection);
 				break;
 		}
 	}
@@ -3704,7 +3748,7 @@ FromMeta
 			labelParameter = new PathParameter(0);
 		}
 
-		pathChangedWithoutCheck(labelPosition, labelParameter);
+		pathChangedWithoutCheck(labelPosition, labelParameter, true);
 		
 		
 		return getCoordSys().getPoint(labelPosition);

@@ -204,7 +204,7 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 						double midParameter = (bottomParameters[0] + bottomParameters[1]) / 2;
 						PathParameter pp = new PathParameter(midParameter);
 						Coords P = new Coords(3);
-						conic.pathChangedWithoutCheck(P, pp);
+						conic.pathChangedWithoutCheck(P, pp, false);
 						P = conic.getPoint(P.getX(), P.getY());
 						// check if "midpoint" is on quadric side
 						// App.debug("\n"+P+"\n"+ql.getSide().isInRegion(P));
@@ -366,9 +366,9 @@ public class AlgoIntersectPlaneQuadricLimited extends AlgoIntersectPlaneQuadric 
 		} else {
 			// get parameters to limit the conic
 			PathParameter pp = new PathParameter();
-			conic.pointChanged(c0, pp);
+			conic.pointChanged(c0, pp, false);
 			ret[0] = pp.getT();
-			conic.pointChanged(c1, pp);
+			conic.pointChanged(c1, pp, false);
 			ret[1] = pp.getT();
 		}
 

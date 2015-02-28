@@ -372,7 +372,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	}
 
 	@Override
-	public void pointChanged(Coords P, PathParameter pp) {
+	public void pointChanged(Coords P, PathParameter pp, boolean checkSection) {
 
 		pp.setPathType(type);
 
