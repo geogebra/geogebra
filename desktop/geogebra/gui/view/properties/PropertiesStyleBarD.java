@@ -33,6 +33,7 @@ import javax.swing.ToolTipManager;
 public class PropertiesStyleBarD extends
 		geogebra.common.gui.view.properties.PropertiesStyleBar {
 
+	private static final int MARGIN_Y = 5;
 	PropertiesView propertiesView;
 	protected AppD app;
 
@@ -84,8 +85,10 @@ public class PropertiesStyleBarD extends
 			if (btn != null) {
 				btn.setFont(app.getPlainFont());
 				btn.setToolTipText(propertiesView.getTypeString(type));
-				btn.setIcon(getTypeIcon(type));
-				btn.setPreferredSize(new Dimension(24, 30));
+				ImageIcon icon = getTypeIcon(type);
+				btn.setIcon(icon);
+				btn.setPreferredSize(new Dimension(icon.getIconWidth(), icon
+						.getIconHeight()));
 				btn.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						propertiesView.setOptionPanel(type);
@@ -331,6 +334,15 @@ public class PropertiesStyleBarD extends
 
 	public JPanel getWrappedPanel() {
 		return wrappedPanel;
+	}
+
+	public void reinit() {
+		wrappedPanel.removeAll();
+		buildGUI();
+		updateGUI();
+		Dimension d = wrappedPanel.getPreferredSize();
+		d.height = app.getScaledIconSize() + 2 * MARGIN_Y;
+		wrappedPanel.setPreferredSize(d);
 	}
 
 }

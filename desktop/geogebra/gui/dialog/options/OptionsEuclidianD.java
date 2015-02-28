@@ -891,6 +891,8 @@ public class OptionsEuclidianD extends
 
 		Font font = app.getPlainFont();
 		updateFont(font);
+		reinit();
+		setLabels();
 	}
 
 	/**
@@ -962,6 +964,7 @@ public class OptionsEuclidianD extends
 		ckShowNavbar.setFont(font);
 		ckNavPlay.setFont(font);
 		ckOpenConsProtocol.setFont(font);
+
 
 	}
 
@@ -1135,4 +1138,8 @@ public class OptionsEuclidianD extends
 
 	}
 
+	public void reinit() {
+		wrappedPanel.removeAll();
+		initGUI();
+	}
 }

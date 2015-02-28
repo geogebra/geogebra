@@ -81,6 +81,13 @@ public class OptionsLayoutD extends
 
 	}
 
+	public void reinit() {
+		wrappedPanel.removeAll();
+		initGUI();
+		updateGUI();
+		setLabels();
+
+	}
 	/**
 	 * Initialize the user interface.
 	 * 
@@ -516,7 +523,7 @@ public class OptionsLayoutD extends
 		sideBarPanel.setFont(font);
 		ckShowSideBar.setFont(font);
 
-		updateIcons();
+		reinit();
 	}
 
 	public void setSelected(boolean flag) {
