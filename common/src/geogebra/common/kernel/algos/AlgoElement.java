@@ -1418,7 +1418,7 @@ public abstract class AlgoElement extends ConstructionElement implements
 	// standard command has cmdname, output, input
 	private String getCmdXML(String cmdname, StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
-		if (getOutput(0) instanceof GeoScriptAction) {
+		if (getOutputLength() > 0 && getOutput(0) instanceof GeoScriptAction) {
 			return "";
 		}
 		sb.append("<command name=\"");
