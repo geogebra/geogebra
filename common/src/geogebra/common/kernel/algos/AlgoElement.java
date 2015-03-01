@@ -25,6 +25,7 @@ import geogebra.common.kernel.View;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoFunction;
+import geogebra.common.kernel.geos.GeoScriptAction;
 import geogebra.common.kernel.geos.ToGeoElement;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.kernel.locusequ.EquationScope;
@@ -1417,6 +1418,9 @@ public abstract class AlgoElement extends ConstructionElement implements
 	// standard command has cmdname, output, input
 	private String getCmdXML(String cmdname, StringTemplate tpl) {
 		StringBuilder sb = new StringBuilder();
+		if (getOutput(0) instanceof GeoScriptAction) {
+			return "";
+		}
 		sb.append("<command name=\"");
 		if ("".equals(cmdname))
 			sb.append("AlgoNonCommand"); // In such cases we may want to add a
