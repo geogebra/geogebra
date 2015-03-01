@@ -195,7 +195,8 @@ public class GeoGebraTubeExportDesktop extends
 							output.toString());
 
 					if (results.HasError()) {
-						statusLabelSetText(app.getPlain("UploadError"));
+						statusLabelSetText(loc.getPlain("UploadError",
+								results.getErrorMessage()));
 						setEnabled(false);
 
 						App.debug("Upload failed. Response: "
