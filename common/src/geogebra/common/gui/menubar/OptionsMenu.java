@@ -69,6 +69,8 @@ public class OptionsMenu {
 			try {
 				app.setFontSize(Integer.parseInt(cmd.substring(0, 2)));
 				app.getActiveEuclidianView().getStyleBar().reinit();
+				app.getGuiManager().getActiveEuclidianView().getStyleBar()
+						.reinit();
 				app.setUnsaved();
 			} catch (Exception e) {
 				app.showError(e.toString());
