@@ -211,6 +211,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				DrawEquationWeb.stornoFormulaMathQuillGGB(
 				        NewRadioButtonTreeItem.this, seMayLatex);
 				NewRadioButtonTreeItem.this.setFocus(true);
+				event.stopPropagation();
+				// event.preventDefault();
 			}
 		});
 

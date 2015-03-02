@@ -1097,6 +1097,11 @@ geo, newValue, redefine, true);
 
 		if (newCreationMode) {
 			setFocus(true);
+			// who commented this (stopPropagation) out?
+			// This is needed in newCreationMode at least,
+			// to prevent calling preventDefault, and this way
+			// really making possible to focus the editing box
+			evt.stopPropagation();
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
