@@ -8,6 +8,7 @@ import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
 import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.common.util.Unicode;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
@@ -120,7 +121,8 @@ public abstract class FileManager implements FileManagerI {
 		mat.setTitle(app.getKernel().getConstruction().getTitle());
 		mat.setDescription(app.getKernel().getConstruction()
 		        .getWorksheetText(0));
-		mat.setThumbnail(app.getEuclidianView1()
+		mat.setThumbnail(((EuclidianViewWInterface) app
+		        .getActiveEuclidianView())
 		        .getCanvasBase64WithTypeString());
 		mat.setAuthor(app.getLoginOperation().getUserName());
 		return mat;

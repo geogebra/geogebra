@@ -19,6 +19,7 @@ import geogebra.geogebra3D.web.euclidian3D.openGL.RendererW;
 import geogebra.geogebra3D.web.gui.layout.panels.EuclidianDockPanel3DW;
 import geogebra.html5.Browser;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
+import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.euclidian.IsEuclidianController;
 import geogebra.html5.euclidian.MsZoomer;
@@ -602,6 +603,28 @@ public class EuclidianView3DW extends EuclidianView3D implements
 
 	public void resetMsZoomer() {
 		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public String getExportImageDataUrl(double scale, boolean b) {
+		((RendererW) this.renderer).setBuffering(true);
+		this.doRepaint2();
+
+		String url = ((RendererW) renderer).getGLCanvas().toDataUrl();
+		((RendererW) this.renderer).setBuffering(false);
+		return url;
+	}
+
+	@Override
+	public String getCanvasBase64WithTypeString() {
+		((RendererW) this.renderer).setBuffering(true);
+		this.doRepaint2();
+		String ret = EuclidianViewW.getCanvasBase64WithTypeString(
+		        this.getWidth(),
+		        getHeight(), null, ((RendererW) renderer).getGLCanvas());
+		((RendererW) this.renderer).setBuffering(false);
+		return ret;
+		
 	}
 
 }

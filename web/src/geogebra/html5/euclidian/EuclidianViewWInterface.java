@@ -5,6 +5,7 @@ import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.Previewable;
 import geogebra.common.euclidian.event.PointerEventType;
+import geogebra.common.main.App;
 
 import com.google.gwt.canvas.client.Canvas;
 
@@ -68,5 +69,11 @@ public interface EuclidianViewWInterface extends EuclidianViewInterfaceSlim {
 	public geogebra.html5.awt.GGraphics2DW getG2P();
 
 	public void resetMsZoomer();
+
+	public String getExportImageDataUrl(double scale, boolean b);
+
+	public App getApplication();
+
+	public String getCanvasBase64WithTypeString();
 
 }

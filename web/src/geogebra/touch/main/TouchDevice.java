@@ -1,7 +1,7 @@
 package geogebra.touch.main;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.main.AppW;
 import geogebra.touch.PhoneGapManager;
 import geogebra.touch.gui.dialog.image.ImageInputDialogT;
@@ -16,7 +16,7 @@ import com.googlecode.gwtphonegap.client.connection.Connection;
 public abstract class TouchDevice implements GDevice {
 
 	@Override
-	public void copyEVtoClipboard(EuclidianViewW ev) {
+	public void copyEVtoClipboard(EuclidianViewWInterface ev) {
 		String image = ev.getExportImageDataUrl(3, true);
 		String title = ev.getApplication().getKernel().getConstruction()
 		        .getTitle();
@@ -25,10 +25,10 @@ public abstract class TouchDevice implements GDevice {
 	}
 
 	native void nativeShare(String base64, String title)/*-{
-	                                                    if ($wnd.android) {
-	                                                    $wnd.android.share(base64, title, 'png');
-	                                                    }
-	                                                    }-*/;
+		if ($wnd.android) {
+			$wnd.android.share(base64, title, 'png');
+		}
+	}-*/;
 
 	@Override
 	public void setMinWidth(GeoGebraAppFrame frame) {

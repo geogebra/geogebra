@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.canvas.dom.client.ImageData;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
@@ -93,22 +94,33 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 		webGLCanvas = Canvas.createIfSupported();
 
-		createGLContext();
+		createGLContext(false);
 
 	}
 
 	/**
 	 * create the webGL context
 	 */
-	protected void createGLContext() {
+	protected void createGLContext(boolean preserveDrawingBuffer) {
+		if (preserveDrawingBuffer) {
+			glContext = getBufferedContext(webGLCanvas.getElement());
 
+		} else {
 		glContext = (WebGLRenderingContext) webGLCanvas
 		        .getContext("experimental-webgl");
+		}
 		if (glContext == null) {
 			Window.alert("Sorry, Your Browser doesn't support WebGL!");
 		}
 
 	}
+
+	private static native WebGLRenderingContext getBufferedContext(
+	        Element element) /*-{
+		return element.getContext("experimental-webgl", {
+			preserveDrawingBuffer : true
+		});
+	}-*/;
 
 	@Override
 	public void setView(int x, int y, int w, int h) {
@@ -1540,5 +1552,9 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 	@Override
 	protected void setBufferRight() {
 		// TODO
+	}
+
+	public void setBuffering(boolean b) {
+		this.createGLContext(b);
 	}
 }

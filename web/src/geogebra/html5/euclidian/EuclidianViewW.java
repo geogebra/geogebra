@@ -477,13 +477,19 @@ public class EuclidianViewW extends EuclidianView implements
 	public void synCanvasSize() {
 		setCoordinateSpaceSize(g2p.getOffsetWidth(), g2p.getOffsetHeight());
 	}
-
 	public String getCanvasBase64WithTypeString() {
+		return getCanvasBase64WithTypeString(g2p.getCoordinateSpaceWidth(),
+		        g2p.getCoordinateSpaceHeight(), bgGraphics == null ? null
+		                : ((GGraphics2DW) bgGraphics).getCanvas(),
+		        g2p.getCanvas());
+	}
+
+	public static String getCanvasBase64WithTypeString(double width,
+	        double height, Canvas background, Canvas foreground) {
 
 		// TODO: make this more perfect, like in Desktop
 
-		double ratio = g2p.getCoordinateSpaceWidth();
-		ratio /= g2p.getCoordinateSpaceHeight() * 1.0;
+		double ratio = width / height;
 		double thx = MyXMLio.THUMBNAIL_PIXELS_X;
 		double thy = MyXMLio.THUMBNAIL_PIXELS_Y;
 		if (ratio < 1)
@@ -500,10 +506,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 		// g2p.getCanvas().getContext2d().drawImage(((GGraphics2DW)bgGraphics).getCanvas().getCanvasElement(),
 		// 0, 0, (int)thx, (int)thy);
-		if (bgGraphics != null)
-			c2.drawImage(((GGraphics2DW) bgGraphics).getCanvas()
-			        .getCanvasElement(), 0, 0, (int) thx, (int) thy);
-		c2.drawImage(g2p.getCanvas().getCanvasElement(), 0, 0, (int) thx,
+		if (background != null)
+			c2.drawImage(background.getCanvasElement(), 0, 0, (int) thx,
+			        (int) thy);
+		c2.drawImage(foreground.getCanvasElement(), 0, 0, (int) thx,
 		        (int) thy);
 
 		return canv.toDataUrl();

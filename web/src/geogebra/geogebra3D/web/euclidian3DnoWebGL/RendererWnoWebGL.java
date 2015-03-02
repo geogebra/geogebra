@@ -27,7 +27,7 @@ public class RendererWnoWebGL extends RendererW {
 	}
 
 	@Override
-	protected void createGLContext() {
+	protected void createGLContext(boolean preserveDrawingBuffer) {
 		// no webGL context here...
 	}
 

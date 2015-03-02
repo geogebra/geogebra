@@ -8,6 +8,7 @@ import geogebra.common.move.operations.BaseOperation;
 import geogebra.common.move.views.BaseEventView;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.main.AppW;
 import geogebra.html5.move.googledrive.GoogleDriveOperation;
 import geogebra.html5.util.DynamicScriptElement;
@@ -470,7 +471,8 @@ public class GoogleDriveOperationW extends BaseOperation<EventRenderable>
 		JSON.put(
 		        thumbnail,
 		        "image",
-		        app.getEuclidianView1().getCanvasBase64WithTypeString()
+		        ((EuclidianViewWInterface) app.getActiveEuclidianView())
+		                .getCanvasBase64WithTypeString()
 		                .substring("data:image/png;base64,".length())
 		                .replace("+", "-").replace("/", "_"));
 		JSON.put(thumbnail, "mimeType", "image/png");

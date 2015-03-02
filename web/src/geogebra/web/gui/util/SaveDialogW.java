@@ -11,6 +11,7 @@ import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
 import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.gui.FastButton;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.textbox.GTextBox;
@@ -158,8 +159,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			public void onLoaded(final List<Material> parseResponse) {
 				if (parseResponse.size() == 1) {
 					Material newMat = parseResponse.get(0);
-					newMat.setThumbnail(
-					        app.getEuclidianView1()
+					newMat.setThumbnail(((EuclidianViewWInterface) app
+					        .getActiveEuclidianView())
 					                .getCanvasBase64WithTypeString());
 					app.getKernel().getConstruction().setTitle(title.getText());
 					app.setTubeId(newMat.getId());

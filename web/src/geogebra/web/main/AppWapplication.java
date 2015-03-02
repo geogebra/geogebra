@@ -9,6 +9,7 @@ import geogebra.common.main.DialogManager;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.gui.util.CancelEventTimer;
@@ -564,7 +565,7 @@ public class AppWapplication extends AppW {
 
 	@Override
 	public void copyEVtoClipboard() {
-		device.copyEVtoClipboard(getEuclidianView1());
+		device.copyEVtoClipboard((EuclidianViewWInterface) getActiveEuclidianView());
 	}
 
 	@Override

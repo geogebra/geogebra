@@ -9,6 +9,7 @@ import geogebra.common.main.App;
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.js.JavaScriptInjector;
@@ -221,7 +222,7 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 		// write construction thumbnails
 		if (includeThumbnail)
 			addImageToZip(MyXMLio.XML_FILE_THUMBNAIL,
-			        ((EuclidianViewW) app.getEuclidianView1())
+			        ((EuclidianViewWInterface) app.getActiveEuclidianView())
 			                .getCanvasBase64WithTypeString(), archiveContent);
 
 		if (!macroXml.equals("")) {

@@ -1,7 +1,7 @@
 package geogebra.web.main;
 
 import geogebra.common.gui.view.consprotocol.ConstructionProtocolView;
-import geogebra.html5.euclidian.EuclidianViewW;
+import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.gui.view.browser.BrowseViewI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.app.GeoGebraAppFrame;
@@ -11,7 +11,7 @@ public interface GDevice {
 
 	public FileManager createFileManager(AppW app);
 
-	void copyEVtoClipboard(EuclidianViewW euclidianView1);
+	void copyEVtoClipboard(EuclidianViewWInterface euclidianViewInterfaceCommon);
 
 	public void setMinWidth(GeoGebraAppFrame frame);
 
