@@ -133,4 +133,8 @@ public class GLookAndFeel implements GLookAndFeelI{
 	    return true;
     }
 
+	public boolean supportsGoogleDrive() {
+		return true;
+	}
+
 }

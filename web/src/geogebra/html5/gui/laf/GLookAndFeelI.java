@@ -13,6 +13,8 @@ public interface GLookAndFeelI {
 
 	boolean isSmart();
 
+	boolean supportsGoogleDrive();
+
 	boolean isExam();
 
 	boolean isTablet();

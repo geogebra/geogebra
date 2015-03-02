@@ -92,4 +92,9 @@ public class SmartLookAndFeel extends GLookAndFeel{
     public boolean exportSupported() {
 	    return false;
     }
+
+	@Override
+	public boolean supportsGoogleDrive() {
+		return false;
+	}
 }

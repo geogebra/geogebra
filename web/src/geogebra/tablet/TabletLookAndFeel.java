@@ -58,4 +58,9 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return false;
 	}
 
+	@Override
+	public boolean supportsGoogleDrive() {
+		return false;
+	}
+
 }

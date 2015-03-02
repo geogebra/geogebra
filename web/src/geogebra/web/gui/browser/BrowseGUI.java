@@ -346,7 +346,8 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 
 		final GeoGebraTubeUser user = this.app.getLoginOperation().getModel()
 		        .getLoggedInUser();
-		if (user != null && user.hasGoogleDrive() && !app.getLAF().isSmart()) {
+		if (user != null && user.hasGoogleDrive()
+		        && app.getLAF().supportsGoogleDrive()) {
 			this.addDriveButton(user);
 		} else if (user != null) {
 			App.debug(user.getIdentifier());

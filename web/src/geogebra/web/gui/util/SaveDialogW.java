@@ -291,7 +291,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		providerImages[0] = BrowseResources.INSTANCE.location_tube();
 		int providerCount = 1;
 		GeoGebraTubeUser user = app.getLoginOperation().getModel().getLoggedInUser();
-		if(user != null && user.hasGoogleDrive()){
+		if (user != null && user.hasGoogleDrive()
+		        && app.getLAF().supportsGoogleDrive()) {
 			providerImages[providerCount++] = BrowseResources.INSTANCE.location_drive();
 		}
 		if(user != null && user.hasOneDrive()){
