@@ -12,7 +12,7 @@ import geogebra.web.gui.images.AppResources;
 public class SpecialRadioButtonTreeItem extends RadioButtonTreeItem {
 
 	public SpecialRadioButtonTreeItem(Kernel kern) {
-		super(kern, AppResources.INSTANCE.shown().getSafeUri(),
+		super(kern, null, AppResources.INSTANCE.shown().getSafeUri(),
 		        AppResources.INSTANCE.hidden().getSafeUri());
 	}
 }

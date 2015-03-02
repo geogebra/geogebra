@@ -494,18 +494,24 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	}
 
 	/**
-	 * Creates a new RadioButtonTreeItem for creating a brand new GeoElement of
-	 * a special type (like matrix, piecewise function or parametric curve),
+	 * Creates a new RadioButtonTreeItem for creating/editing a GeoElement of a
+	 * special type (like matrix, piecewise function or parametric curve),
 	 * marbles are given because it will turn to be used as a normal
 	 * RadioButtonTreeItem later (just maybe edited differently)... This will be
 	 * called from the constructor of SpecialRadioButtonTreeItem
 	 */
-	public RadioButtonTreeItem(Kernel kern, SafeUri showUrl, SafeUri hiddenUrl) {
+	public RadioButtonTreeItem(Kernel kern, GeoElement ge, SafeUri showUrl,
+	        SafeUri hiddenUrl) {
 		super();
 		// touch events did not work because these events were still not sunk
 		sinkEvents(Event.ONTOUCHSTART | Event.ONTOUCHMOVE | Event.ONTOUCHEND);
-
-		kernel = kern;
+		if (ge != null) {
+			geo = ge;
+			kernel = geo.getKernel();
+		} else {
+			geo = null;
+			kernel = kern;
+		}
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
@@ -516,20 +522,21 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		radio = new Marble(showUrl, hiddenUrl, this);
 		radio.setStyleName("marble");
-		// radio.setEnabled(ge.isEuclidianShowable());
-		// radio.setChecked(ge.isEuclidianVisible());
-		radio.setEnabled(false);
-		radio.setChecked(false);
+		radio.setEnabled(ge.isEuclidianShowable());
+		radio.setChecked(ge.isEuclidianVisible());
 
 		marblePanel = new VerticalPanel();
 		marblePanel.add(radio);
 		add(marblePanel);
 
 		// Sliders
+		// could have been (ge != null) && ... but
+		// geo is not GeoNumeric anyway, for matrix,
+		// piecewise functions and parametric curves
 		/*
-		 * if (showSliderOrTextBox && app.isPrerelease() && geo instanceof
-		 * GeoNumeric) { if (!geo.isEuclidianVisible()) { // number inserted via
-		 * input bar // -> initialize min/max etc.
+		 * if ((ge != null) && showSliderOrTextBox && app.isPrerelease() && geo
+		 * instanceof GeoNumeric) { if (!geo.isEuclidianVisible()) { // number
+		 * inserted via input bar // -> initialize min/max etc.
 		 * geo.setEuclidianVisible(true); geo.setEuclidianVisible(false); }
 		 * 
 		 * slider = new SliderW(((GeoNumeric) geo).getIntervalMin(), (int)
@@ -580,24 +587,26 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
 
-		if (showSliderOrTextBox && app.isPrerelease()
-		        && geo instanceof GeoBoolean) {
-			// CheckBoxes
-			checkBox = new CheckBox();
-			checkBox.setValue(((GeoBoolean) geo).getBoolean());
-			add(checkBox);
-			checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
-				public void onValueChange(ValueChangeEvent<Boolean> event) {
-					((GeoBoolean) geo).setValue(event.getValue());
-					geo.updateCascade();
-					// updates other views (e.g. Euclidian)
-					kernel.notifyRepaint();
-				}
-			});
-
-			// use only the name of the GeoBoolean
-			getBuilder(se).append(geo.getLabel(StringTemplate.defaultTemplate));
-		} else if (geo.isIndependent()) {
+		// could have been (ge != null) && ... but
+		// geo is not GeoBoolean anyway, for matrix,
+		// piecewise functions and parametric curves
+		/*
+		 * if ((ge != null) && showSliderOrTextBox && app.isPrerelease() && geo
+		 * instanceof GeoBoolean) { // CheckBoxes checkBox = new CheckBox();
+		 * checkBox.setValue(((GeoBoolean) geo).getBoolean()); add(checkBox);
+		 * checkBox.addValueChangeHandler(new ValueChangeHandler<Boolean>() {
+		 * public void onValueChange(ValueChangeEvent<Boolean> event) {
+		 * ((GeoBoolean) geo).setValue(event.getValue()); geo.updateCascade();
+		 * // updates other views (e.g. Euclidian) kernel.notifyRepaint(); } });
+		 * 
+		 * // use only the name of the GeoBoolean
+		 * getBuilder(se).append(geo.getLabel(StringTemplate.defaultTemplate));
+		 * } else
+		 */
+		if (ge == null) { // addition on
+			getBuilder(se).append("?");
+		} else // addition off
+		if (geo.isIndependent()) {
 			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
 		} else {
 			switch (kernel.getAlgebraStyle()) {
@@ -621,13 +630,20 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		// if enabled, render with LaTeX
 		if (av.isRenderLaTeX()
 		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
-			String latexStr = geo.getLaTeXAlgebraDescription(true,
-			        StringTemplate.latexTemplateMQ);
+			String latexStr = "";
+			if (ge != null) {
+				geo.getLaTeXAlgebraDescription(true,
+				        StringTemplate.latexTemplateMQ);
+			} else {
+				// latexStr = "?";
+			}
 			seNoLatex = se;
-			if ((latexStr != null) && geo.isLaTeXDrawableGeo()
+			if ((ge != null) && (latexStr != null) && geo.isLaTeXDrawableGeo()
 			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
 				this.needsUpdate = true;
 				av.repaintView();
+			} else if (ge == null) {
+				// ?
 			}
 		} else {
 			seNoLatex = se;
