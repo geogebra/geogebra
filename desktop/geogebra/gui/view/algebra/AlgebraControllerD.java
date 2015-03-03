@@ -217,8 +217,9 @@ public class AlgebraControllerD extends AlgebraTreeController implements
 			GeoElement geo) {
 
 		int mode = app.getActiveEuclidianView().getMode();
-		if ((mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)
-				&& !AppD.isControlDown(e) && !e.isShiftDown()) {
+		if (//(mode == EuclidianConstants.MODE_MOVE || mode == EuclidianConstants.MODE_SELECTION_LISTENER)
+			// &&
+		!AppD.isControlDown(e) && !e.isShiftDown()) {
 			if (!setSelectedGeo(geo))
 				return true;
 
