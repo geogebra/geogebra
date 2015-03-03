@@ -877,11 +877,23 @@ public abstract class GgbAPI implements JavaScriptAPI {
 
 		if (geo.isGeoPoint()) {
 			((GeoPoint) geo).setCoords(x, y, 1);
-			geo.updateRepaint();
 		} else if (geo.isGeoVector()) {
 			((GeoVector) geo).setCoords(x, y, 0);
-			geo.updateRepaint();
+		} else if (geo instanceof AbsoluteScreenLocateable) {
+			AbsoluteScreenLocateable asl = (AbsoluteScreenLocateable) geo;
+
+			if (asl.isAbsoluteScreenLocActive()) {
+				asl.setAbsoluteScreenLoc((int) x, (int) y);
+			} else {
+				asl.setRealWorldLoc(x, y);
+			}
+
+		} else {
+			return;
 		}
+
+		geo.updateRepaint();
+
 	}
 
 	/**
