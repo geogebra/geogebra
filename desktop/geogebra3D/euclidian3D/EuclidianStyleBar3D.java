@@ -144,7 +144,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 	private class PopupMenuButtonForView3D extends PopupMenuButton {
 
 		public PopupMenuButtonForView3D() {
-			super(app, null, -1, -1, new Dimension(18, 18),
+			super(app, null, -1, -1, new Dimension(app.getScaledIconSize(),
+					app.getScaledIconSize()),
 					geogebra.common.gui.util.SelectionTable.MODE_ICON, false,
 					true);
 
@@ -171,14 +172,14 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// ========================================
 		// show grid button
 		btnShowPlane = new MyToggleButtonVisibleIfNoGeo(
-				app.getImageIcon("plane.gif"), iconHeight);
+				app.getScaledIcon("plane.gif"), iconHeight);
 		btnShowPlane.addActionListener(this);
 
 		// ========================================
 		// rotate view button
 		btnRotateView = new PopupMenuButtonForView3D();
 		btnRotateView.setIcon(app
-				.getImageIcon("stylingbar_graphics3D_rotateview_play.gif"));
+				.getScaledIcon("stylingbar_graphics3D_rotateview_play.gif"));
 		btnRotateView.getMySlider().setMinimum(-10);
 		btnRotateView.getMySlider().setMaximum(10);
 		btnRotateView.getMySlider().setMajorTickSpacing(10);
@@ -194,7 +195,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// clipping button
 		btnClipping = new PopupMenuButtonForView3D();
 		btnClipping.setIcon(app
-				.getImageIcon("stylingbar_graphics3D_clipping_medium.gif"));
+				.getScaledIcon("stylingbar_graphics3D_clipping_medium.gif"));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
 		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
 		btnClipping.getMySlider().setMajorTickSpacing(1);
@@ -210,13 +211,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// view yz direction
 		ImageIcon[] directionIcons = new ImageIcon[4];
 		directionIcons[0] = app
-				.getImageIcon("stylingbar_graphics3D_view_xy.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_xy.gif");
 		directionIcons[1] = app
-				.getImageIcon("stylingbar_graphics3D_view_xz.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_xz.gif");
 		directionIcons[2] = app
-				.getImageIcon("stylingbar_graphics3D_view_yz.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_yz.gif");
 		directionIcons[3] = app
-				.getImageIcon("stylingbar_graphics3D_standardview_rotate.gif");
+				.getScaledIcon("stylingbar_graphics3D_standardview_rotate.gif");
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addActionListener(this);
 
@@ -224,13 +225,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// projection view button
 		ImageIcon[] projectionIcons = new ImageIcon[4];
 		projectionIcons[0] = app
-				.getImageIcon("stylingbar_graphics3D_view_orthographic.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_orthographic.gif");
 		projectionIcons[1] = app
-				.getImageIcon("stylingbar_graphics3D_view_perspective.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_perspective.gif");
 		projectionIcons[2] = app
-				.getImageIcon("stylingbar_graphics3D_view_glasses.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_glasses.gif");
 		projectionIcons[3] = app
-				.getImageIcon("stylingbar_graphics3D_view_oblique.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_oblique.gif");
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
 
@@ -242,7 +243,8 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 
 		public ProjectionPopup(AppD app, ImageIcon[] projectionIcons) {
 			super(app, projectionIcons, 1, projectionIcons.length,
-					new Dimension(16, 16),
+					new Dimension(app.getScaledIconSize(),
+							app.getScaledIconSize()),
 					geogebra.common.gui.util.SelectionTable.MODE_ICON, true,
 					false);
 			setIcon(projectionIcons[getView().getProjection()]);

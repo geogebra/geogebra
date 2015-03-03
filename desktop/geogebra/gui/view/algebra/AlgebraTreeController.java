@@ -95,7 +95,7 @@ implements MouseListener, MouseMotionListener{
 		
 		ArrayList<GeoElement> groupedGeos = null;
 
-		// check if we clicked on the 16x16 show/hide icon
+		// check if we clicked on the scaled show/hide icon
 		if (geo != null) {
 			int h = tree.getIconShownHeight();
 			Rectangle rect = tree.getPathBounds(tp);		

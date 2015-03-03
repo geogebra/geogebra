@@ -592,7 +592,7 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 		if (NumericButton == null) {
 
 			NumericButton = new JToggleButton();
-			NumericButton.setIcon(app.getImageIcon("cas-keyboard.png"));
+			NumericButton.setIcon(app.getScaledIcon("cas-keyboard.png"));
 			NumericButton.setToolTipText(app.getMenu("Keyboard.Numeric"));
 			updateNumericButton();
 			NumericButton.setMargin(new Insets(0, 0, 0, 0));

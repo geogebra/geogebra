@@ -1912,7 +1912,7 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 	}
 
-	private String getMenuIconPath() {
+	protected String getMenuIconPath() {
 		// int fontSize = getGUIFontSize();
 		String path = "/gui/images/menu-icons/40px/";
 		// if (fontSize < 30) {
