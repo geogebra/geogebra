@@ -1,12 +1,21 @@
 package geogebra.web.util.keyboard;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
+import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
+import geogebra.html5.main.AppW;
 import geogebra.html5.main.DrawEquationWeb;
+import geogebra.html5.util.DynamicScriptElement;
+import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -24,17 +33,89 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
+	/**
+	 * all supported locales and the associated keyboardLocal, e.g. en_UK - en,
+	 * ca - es, de_AT - de
+	 */
+	public static HashMap<String, String> supportedLocales = new HashMap<String, String>();
+	static {
+
+		// supportedLocales.put(Language.Arabic.localeGWT, "ar");
+		// supportedLocales.put(Language.Arabic_Morocco.localeGWT, "ar");
+		// supportedLocales.put(Language.Arabic_Tunisia.localeGWT, "ar");
+		// supportedLocales.put(Language.Armenian.localeGWT, "hy"); some letters
+		// missing
+		supportedLocales.put(Language.Basque.localeGWT, "es");
+		// supportedLocales.put(Language.Bosnian.localeGWT, "sk"); TODO
+		// supportedLocales.put(Language.Bulgarian.localeGWT, "bg");
+		supportedLocales.put(Language.Catalan.localeGWT, "es");
+		// supportedLocales.put(Language.Chinese_Simplified, value);
+		// supportedLocales.put(Language.Chinese_Traditional, value);
+		// supportedLocales.put(Language.Croatian.localeGWT, "sk"); TODO
+		supportedLocales.put(Language.Czech.localeGWT, "cs");
+		supportedLocales.put(Language.Danish.localeGWT, "da");
+		supportedLocales.put(Language.Dutch.localeGWT, "en");
+		// supportedLocales.put(Language.Dutch_Belgium.localeGWT, value);
+		supportedLocales.put(Language.English_Australia.localeGWT, "en");
+		supportedLocales.put(Language.English_UK.localeGWT, "en");
+		supportedLocales.put(Language.English_US.localeGWT, "en");
+		supportedLocales.put(Language.Estonian.localeGWT, "et");
+		supportedLocales.put(Language.Filipino.localeGWT, "en");
+		supportedLocales.put(Language.Finnish.localeGWT, "fi");
+		supportedLocales.put(Language.French.localeGWT, "fr");
+		supportedLocales.put(Language.Galician.localeGWT, "es");
+		// supportedLocales.put(Language.Georgian.localeGWT, "ka");
+		supportedLocales.put(Language.German.localeGWT, "de");
+		supportedLocales.put(Language.German_Austria.localeGWT, "de");
+		supportedLocales.put(Language.Greek.localeGWT, "el");
+		// supportedLocales.put(Language.Hebrew.localeGWT, "iw");
+		// supportedLocales.put(Language.Hindi.localeGWT, "hi");
+		// supportedLocales.put(Language.Hungarian.localeGWT, "hu"); TODO
+		supportedLocales.put(Language.Icelandic.localeGWT, "is");
+		supportedLocales.put(Language.Indonesian.localeGWT, "en");
+		supportedLocales.put(Language.Italian.localeGWT, "it");
+		// supportedLocales.put(Language.Japanese.localeGWT, value);
+		// supportedLocales.put(Language.Kazakh.localeGWT, "kk");
+		// supportedLocales.put(Language.Korean.localeGWT, "ko");
+		supportedLocales.put(Language.Latvian.localeGWT, "en");
+		// supportedLocales.put(Language.Lithuanian.localeGWT, "lt"); TODO
+		// supportedLocales.put(Language.Macedonian.localeGWT, "mk");
+		supportedLocales.put(Language.Malay.localeGWT, "ms");
+		// supportedLocales.put(Language.Mongolian.localeGWT, "mn");
+		// supportedLocales.put(Language.Nepalese.localeGWT, "ne");
+		supportedLocales.put(Language.Norwegian_Bokmal.localeGWT, "no");
+		supportedLocales.put(Language.Norwegian_Nynorsk.localeGWT, "no");
+		// supportedLocales.put(Language.Persian.localeGWT, "fa");
+		supportedLocales.put(Language.Polish.localeGWT, "en");
+		// supportedLocales.put(Language.Portuguese_Brazil.localeGWT, "pt");
+		// TODO
+		// supportedLocales.put(Language.Portuguese_Portugal.localeGWT, "pt");
+		// TODO
+		supportedLocales.put(Language.Romanian.localeGWT, "ro");
+		// supportedLocales.put(Language.Russian.localeGWT, "ru");
+		// supportedLocales.put(Language.Serbian.localeGWT, "sk"); TODO
+		// supportedLocales.put(Language.Sinhala.localeGWT, "si");
+		supportedLocales.put(Language.Slovak.localeGWT, "sk");
+		// supportedLocales.put(Language.Slovenian.localeGWT, "sk"); TODO
+		supportedLocales.put(Language.Spanish.localeGWT, "es");
+		supportedLocales.put(Language.Spanish_ES.localeGWT, "es");
+		supportedLocales.put(Language.Spanish_UY.localeGWT, "es");
+		supportedLocales.put(Language.Swedish.localeGWT, "sv");
+		// supportedLocales.put(Language.Tamil.localeGWT, "ta");
+		// supportedLocales.put(Language.Thai.localeGWT, "th");
+		supportedLocales.put(Language.Turkish.localeGWT, "tr");
+		// supportedLocales.put(Language.Ukrainian.localeGWT, "uk");
+		// supportedLocales.put(Language.Uyghur.localeGWT, "ug");
+		supportedLocales.put(Language.Valencian.localeGWT, "es");
+		// supportedLocales.put(Language.Vietnamese.localeGWT, value);
+		supportedLocales.put(Language.Welsh.localeGWT, "en");
+		// supportedLocales.put(Language.Yiddish.localeGWT, "ji");
+	}
+
 	private static OnScreenKeyBoard instance;
 	private static final int MIN_WIDTH_WITHOUT_SCALING = 823;
 	private static final int MIN_WIDTH_FONT = 485;
-
-	private HorizontalPanel contentNumber = new HorizontalPanel();
-	private HorizontalPanel contentSpecialChars = new HorizontalPanel();
-	private FlowPanel contentGreek = new FlowPanel();
-	// TODO remove for mobile devices
-	private FlowPanel contentLetters = new FlowPanel();
-	private Widget textField;
-	private TextFieldProcessing processing = new TextFieldProcessing();
+	private static final int KEY_PER_ROW = 12;
 
 	private static final String PI = "\u03C0";
 	private static final String BACKSPACE = "\u21A4";
@@ -46,10 +127,24 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String SPACE = "\u0020";
 	private static final String ANGLE = "\u2220";
 	private static final String MEASURED_ANGLE = "\u2221";
+	private static final String ACCENT_ACUTE = "\u00b4";
+	private static final String ACCENT_GRAVE = "\u0060";
+	private static final String ACCENT_CARON = "\u02c7";
+	private static final String ACCENT_CIRCUMFLEX = "\u005e";
+	private static final String GREEK = Unicode.alphaBetaGamma;
 
+
+	private HorizontalPanel contentNumber = new HorizontalPanel();
+	private HorizontalPanel contentSpecialChars = new HorizontalPanel();
+	// private FlowPanel contentGreek = new FlowPanel();
+	// TODO remove for mobile devices
+	private FlowPanel contentLetters = new FlowPanel();
+	private Widget textField;
+	private TextFieldProcessing processing = new TextFieldProcessing();
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
-	private KeyPanel greekLetters;
+	private KeyBoardButton switchABCGreek;
+	private static AppW app;
 	/**
 	 * positioning (via setPopupPosition) needs to be enabled in order to
 	 * prevent automatic positioning in the constructor
@@ -63,6 +158,16 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private RadioButtonTreeItem resetComponent;
 
+	private static final int NUM_LETTER_BUTTONS = 38;
+
+	private boolean shiftIsDown = false;
+	private boolean greekActive = false;
+
+	/** language of application */
+	String keyboardLocale = "";
+	private KeyBoardButton shiftButton;
+	private KeyBoardButton backspaceButton;
+
 	/**
 	 * creates a keyboard instance
 	 * 
@@ -70,10 +175,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 *            the textField to receive the key-events
 	 * @param listener
 	 *            {@link UpdateKeyBoardListener}
+	 * @param appW
+	 *            {@link AppW}
 	 * @return instance of onScreenKeyBoard
 	 */
 	public static OnScreenKeyBoard getInstance(Widget textField,
-	        UpdateKeyBoardListener listener) {
+	        UpdateKeyBoardListener listener, AppW appW) {
+		app = appW;
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
 		}
@@ -132,6 +240,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	private void createKeyBoard() {
+		
 		// number - keyboard
 		createFunctionsKeyPanel();
 		createNumbersKeyPanel();
@@ -139,9 +248,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// letter - keyboard
 		createLettersKeyPanel();
-
-		// greek - keyboard
-		createGreekLettersKeyPanel();
 
 		// special characters - keyboard
 		createSpecialCharKeyPanel();
@@ -153,14 +259,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		contentNumber.addStyleName("KeyBoardContentNumbers");
 		p.add(contentNumber);
 		p.add(contentLetters);
-		p.add(contentGreek);
 		p.add(contentSpecialChars);
 		p.add(getCloseButton());
 
 		add(p);
 
 		resetKeyboardState();
-
+		
 		Window.addResizeHandler(new ResizeHandler() {
 			
 			@Override
@@ -220,7 +325,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton(Unicode.SQUARE_ROOT + "", this);
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("", "^", this);
+		newButton = new KeyBoardButton("", "x^y", this);
 		DrawEquationWeb
 		        .drawEquationAlgebraView(newButton.getElement(), "x^{y}");
 		functions.addToRow(index, newButton);
@@ -256,17 +361,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// fill next row
 		index++;
 		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
+		        this, true);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton(
-		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this);
+		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this, true);
 		newButton.addStyleName("switchToSpecialChar");
-		newButton.addStyleName("colored");
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(KeyboardMode.GREEK.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(GREEK, this, true);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton(PI, this);
 		functions.addToRow(index, newButton);
@@ -339,26 +440,20 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		control.addStyleName("KeyPanelControl");
 
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton(BACKSPACE, this);
+		KeyBoardButton newButton = new KeyBoardButton(BACKSPACE, this, true);
 		newButton.addStyleName("backspace");
-		newButton.addStyleName("colored");
 		control.addToRow(index, newButton);
 
 		index++;
-		newButton = new KeyBoardButton(ENTER, this);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(ENTER, this, true);
 		newButton.addStyleName("enter");
 		control.addToRow(index, newButton);
 
 		index++;
-		newButton = new KeyBoardButton(ARROW_LEFT, this);
-		newButton.setNavigationButton(true);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(ARROW_LEFT, this, true);
 		newButton.addStyleName("arrow");
 		control.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_RIGHT, this);
-		newButton.setNavigationButton(true);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(ARROW_RIGHT, this, true);
 		newButton.addStyleName("arrow");
 		control.addToRow(index, newButton);
 	    return control;
@@ -367,221 +462,60 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private void createLettersKeyPanel() {
 		letters = new KeyPanel();
 		letters.addStyleName("KeyPanelLetters");
+		KeyBoardButton newButton;
 
-		// fill first line
+		// create first row
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton("q", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("w", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("e", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("r", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("t", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("y", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("u", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("i", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("o", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("p", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(BACKSPACE, this);
-		newButton.addStyleName("colored");
-		letters.addToRow(index, newButton);
+		for (int i = 0; i < KEY_PER_ROW; i++) {
+			newButton = new KeyBoardButton("", this);
+			letters.addToRow(index, newButton);
+		}
 
-		// fill next row
+		// create second row
 		index++;
-		newButton = new KeyBoardButton("a", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("s", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("d", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("f", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("g", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("h", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("j", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("k", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("l", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ENTER, this);
-		newButton.addStyleName("colored");
-		newButton.addStyleName("longEnter");
-		letters.addToRow(index, newButton);
+		for (int i = 0; i < KEY_PER_ROW; i++) {
+			newButton = new KeyBoardButton("", this);
+			letters.addToRow(index, newButton);
+		}
 
-		// fill next row
+		// create third row
 		index++;
-		newButton = new KeyBoardButton(SHIFT, this);
-		newButton.addStyleName("colored");
-		newButton.addStyleName("shift");
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("z", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("x", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("c", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("v", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("b", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("n", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("m", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(",", this);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(SHIFT, this);
-		newButton.addStyleName("colored");
-		newButton.addStyleName("shift");
-		letters.addToRow(index, newButton);
+		// fixed button
+		shiftButton = new KeyBoardButton(SHIFT, this, true);
+		shiftButton.addStyleName("shift");
+		letters.addToRow(index, shiftButton);
 
-		// fill next row
+		for (int i = 0; i < KEY_PER_ROW - 1; i++) {
+			newButton = new KeyBoardButton("", this);
+			letters.addToRow(index, newButton);
+		}
+		// fixed button
+		backspaceButton = new KeyBoardButton(BACKSPACE, this, true);
+		backspaceButton.addStyleName("delete");
+		letters.addToRow(index, backspaceButton);
+
+		// fill forth row - fixed buttons for all languages
 		index++;
 		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
+		        this, true);
 		letters.addToRow(index, newButton);
 		newButton = new KeyBoardButton(
-		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this);
+		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this, true);
 		newButton.addStyleName("switchToSpecialChar");
-		newButton.addStyleName("colored");
 		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(KeyboardMode.GREEK.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
-		letters.addToRow(index, newButton);
+		switchABCGreek = new KeyBoardButton(GREEK, this, true);
+		letters.addToRow(index, switchABCGreek);
 		newButton = new KeyBoardButton(SPACE, this);
 		newButton.addStyleName("space");
 		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_LEFT, this);
-		newButton.setNavigationButton(true);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(ARROW_LEFT, this, true);
 		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_RIGHT, this);
-		newButton.setNavigationButton(true);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(ARROW_RIGHT, this, true);
+		letters.addToRow(index, newButton);
+		newButton = new KeyBoardButton(ENTER, this, true);
 		letters.addToRow(index, newButton);
 
 		contentLetters.add(letters);
-	}
-
-	private void createGreekLettersKeyPanel() {
-		greekLetters = new KeyPanel();
-		greekLetters.addStyleName("KeyPanelLetters");
-
-		// fill first line
-		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton(Unicode.sigmaf + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.epsilon + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.rho + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.tau + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.upsilon + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.theta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.iota + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.omicron + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.pi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(BACKSPACE, this);
-		newButton.addStyleName("colored");
-		greekLetters.addToRow(index, newButton);
-
-		// fill next row
-		index++;
-		newButton = new KeyBoardButton(Unicode.alpha + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.sigma + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.delta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.phi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.gamma + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.eta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.xi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.kappa + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.lambda + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ENTER, this);
-		newButton.addStyleName("colored");
-		newButton.addStyleName("longEnter");
-		greekLetters.addToRow(index, newButton);
-
-		// fill next row
-		index++;
-		newButton = new KeyBoardButton(SHIFT, this);
-		newButton.addStyleName("colored");
-		newButton.addStyleName("shift");
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.zeta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.chi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.psi + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.omega + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.beta + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.nu + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.mu + "", this);
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(SHIFT, this);
-		newButton.addStyleName("colored");
-		newButton.addStyleName("shift");
-		greekLetters.addToRow(index, newButton);
-
-		// fill next row
-		index++;
-		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this);
-		newButton.addStyleName("switchToSpecialChar");
-		newButton.addStyleName("colored");
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton("", this);
-		newButton.addStyleName("space");
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_LEFT, this);
-		newButton.setNavigationButton(true);
-		newButton.addStyleName("colored");
-		greekLetters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_RIGHT, this);
-		newButton.setNavigationButton(true);
-		newButton.addStyleName("colored");
-		greekLetters.addToRow(index, newButton);
-
-		contentGreek.add(greekLetters);
 	}
 
 	private void createSpecialCharKeyPanel() {
@@ -619,16 +553,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// fill next row
 		index++;
 		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
+		        this, true);
 		functions.addToRow(index, newButton);
 		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
+		        this, true);
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(KeyboardMode.GREEK.getInternalName(),
-		        this);
-		newButton.addStyleName("colored");
+		newButton = new KeyBoardButton(GREEK, this, true);
 		functions.addToRow(index, newButton);
 
 
@@ -717,8 +647,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		Object source = event.getSource();
 		if (source != null && source instanceof KeyBoardButton) {
 			String text = ((KeyBoardButton) source).getText();
-
-			if (text.equals(BACKSPACE)) {
+			if (text.equals(ACCENT_ACUTE) || text.equals(ACCENT_CARON)
+			        || text.equals(ACCENT_GRAVE)
+			        || text.equals(ACCENT_CIRCUMFLEX)) {
+				processing.onAccent(text);
+			} else if (text.equals(BACKSPACE)) {
 				processing.onBackSpace();
 			} else if (text.equals(ENTER)) {
 				// make sure enter is processed correctly
@@ -731,8 +664,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				if (processing.resetAfterEnter()) {
 					updateKeyBoardListener.showKeyBoard(false, null);
 				}
-			} else if (text.equals(SPACE)) {
-				processing.onSpace();
 			} else if (((KeyBoardButton) source).isNavigationButton()
 					&& text.equals(ARROW_LEFT)) {
 				processing.onArrow(ArrowType.left);
@@ -741,17 +672,18 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				// the same arrow is also used for implication
 				processing.onArrow(ArrowType.right);
 			} else if (text.equals(SHIFT)) {
-				if (mode == KeyboardMode.GREEK) {
-					toggleLettersUpperLowerCase(greekLetters);
-				} else {
-					toggleLettersUpperLowerCase(letters);
-				}
+				processShift();
+			} else if (text.equals(GREEK)) {
+				setToGreekLetters();
 			} else if (text.equals(KeyboardMode.NUMBER.getInternalName())) {
 				setKeyboardMode(KeyboardMode.NUMBER);
 			} else if (text.equals(KeyboardMode.TEXT.getInternalName())) {
+				if (greekActive) {
+					greekActive = false;
+					switchABCGreek.setCaption(GREEK, true);
+					loadLang(this.keyboardLocale);
+				}
 				setKeyboardMode(KeyboardMode.TEXT);
-			} else if (text.equals(KeyboardMode.GREEK.getInternalName())) {
-				setKeyboardMode(KeyboardMode.GREEK);
 			} else if (text
 			        .equals(KeyboardMode.SPECIAL_CHARS.getInternalName())) {
 				setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
@@ -759,12 +691,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				processing.insertString(text);
 			}
 
-			if (!text.equals(SHIFT)) {
-				if (mode == KeyboardMode.GREEK) {
-					setLettersToLowerCase(greekLetters);
-				} else {
-					setLettersToLowerCase(letters);
-				}
+			if (shiftIsDown && !text.equals(SHIFT)
+			        && !text.equals(ACCENT_ACUTE) && !text.equals(ACCENT_CARON)
+			        && !text.equals(ACCENT_GRAVE)
+			        && !text.equals(ACCENT_CIRCUMFLEX)) {
+				processShift();
 			}
 
 			if (textField != null) {
@@ -776,41 +707,13 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 	}
 
-	private static void setLettersToLowerCase(KeyPanel keyPanel) {
-		for (HorizontalPanel row : keyPanel.getRows()) {
-			for (int i = 0; i < row.getWidgetCount(); i++) {
-				if (row.getWidget(i) instanceof KeyBoardButton) {
-					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
-					if (b.getCaption().length() == 1
-					        && b.getCaption().charAt(0) == Unicode.sigmaf) {
-						b.setVisible(true);
-					} else if (b.getCaption().length() == 1
-					        && Character.isLetter(b.getCaption().charAt(0))) {
-						b.setCaption(b.getCaption().toLowerCase(), true);
-					}
-				}
-			}
-		}
-	}
-
-	private static void toggleLettersUpperLowerCase(KeyPanel keyPanel) {
-		for (HorizontalPanel row : keyPanel.getRows()) {
-			for (int i = 0; i < row.getWidgetCount(); i++) {
-				if (row.getWidget(i) instanceof KeyBoardButton) {
-					KeyBoardButton b = (KeyBoardButton) row.getWidget(i);
-					if (b.getCaption().length() == 1
-					        && Character.isLetter(b.getCaption().charAt(0))) {
-						if (b.getCaption().charAt(0) == Unicode.sigmaf) {
-							b.setVisible(!b.isVisible());
-						} else if (Character.isLowerCase(b.getCaption().charAt(
-						        0))) {
-							b.setCaption(b.getCaption().toUpperCase(), true);
-						} else {
-							b.setCaption(b.getCaption().toLowerCase(), true);
-						}
-					}
-				}
-			}
+	private void processShift() {
+		shiftIsDown = !shiftIsDown;
+		String local = greekActive ? Language.Greek.localeGWT : keyboardLocale;
+		if (shiftIsDown) {
+			updateKeys("shiftDown", local);
+		} else {
+			updateKeys("lowerCase", local);
 		}
 	}
 
@@ -835,44 +738,39 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 */
 	public void setKeyboardMode(final KeyboardMode mode) {
 
+
 		// TODO focus events might be needed for mobile devices
 
 		this.mode = mode;
 		if (mode == KeyboardMode.NUMBER) {
 			processing.setKeyBoardModeText(false);
-			// processing.setFocus(false);
 			contentNumber.setVisible(true);
 			contentLetters.setVisible(false);
-			contentGreek.setVisible(false);
 			contentSpecialChars.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
+			greekActive = false;
 			contentNumber.setVisible(false);
-			contentGreek.setVisible(false);
 			contentLetters.setVisible(true);
 			contentSpecialChars.setVisible(false);
 			updateKeyBoardListener.updateKeyBoard(textField);
 			processing.setKeyBoardModeText(true);
-			// processing.setFocus(true);
 			updateKeyBoardListener.showInputField();
-		} else if (mode == KeyboardMode.GREEK) {
-			processing.setKeyBoardModeText(false);
-			// processing.setFocus(false);
-			contentNumber.setVisible(false);
-			contentLetters.setVisible(false);
-			contentGreek.setVisible(true);
-			contentSpecialChars.setVisible(false);
-			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
 			processing.setKeyBoardModeText(false);
-			// processing.setFocus(false);
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);
-			contentGreek.setVisible(false);
 			contentSpecialChars.setVisible(true);
 			updateKeyBoardListener.updateKeyBoard(textField);
 		}
 		setUsed(true);
+	}
+
+	private void setToGreekLetters() {
+		setKeyboardMode(KeyboardMode.TEXT);
+		greekActive = true;
+		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName(), true);
+		loadLang(Language.Greek.localeGWT);
 	}
 
 	/**
@@ -895,10 +793,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	public void resetKeyboardState() {
 		mode = KeyboardMode.NUMBER;
 		contentNumber.setVisible(true);
-		setLettersToLowerCase(letters);
-		setLettersToLowerCase(greekLetters);
 		contentLetters.setVisible(false);
-		contentGreek.setVisible(false);
 		contentSpecialChars.setVisible(false);
 
 		if (resetComponent != null) {
@@ -911,5 +806,109 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		if (instance != null) {
 			instance.resetComponent = rbti;
 		}
+	}
+
+	/**
+	 * loads the javascript file and updates the keys to the given language
+	 * 
+	 * @param lang
+	 *            the language
+	 */
+	private void loadLang(final String lang) {
+		ScriptLoadCallback callback = new ScriptLoadCallback() {
+
+			@Override
+			public void onLoad() {
+				updateKeys("lowerCase", lang);
+			}
+		};
+		DynamicScriptElement script = (DynamicScriptElement) Document.get()
+		        .createScriptElement();
+		script.setSrc(GWT.getModuleBaseURL() + "js/keyboard_" + lang
+		        + ".js");
+
+		script.addLoadHandler(callback);
+		Document.get().getBody().appendChild(script);
+	}
+
+	/**
+	 * updates the keys after language has changed
+	 * 
+	 * @param updateSection
+	 *            "lowerCase" or "shiftDown"
+	 * @param language
+	 *            String
+	 */
+	void updateKeys(String updateSection, String language) {
+		// update letter keys
+		shiftButton.removeStyleName("small");
+		backspaceButton.removeStyleName("small");
+		ArrayList<KeyBoardButton> buttons = this.letters.getButtons();
+		int visibleButtons = 0;
+		for (int i = 0; i < NUM_LETTER_BUTTONS; i++) {
+			KeyBoardButton button = buttons.get(i);
+			if (!button.isNavigationButton()) {
+				String newCaption = app.getKey(generateKey(i), updateSection,
+				        language);
+				button.setVisible(true);
+				button.getElement().getParentElement()
+				        .removeClassName("hidden");
+				button.setCaption(newCaption, true);
+				if (newCaption.equals("")) {
+					button.setVisible(false);
+					button.getElement().getParentElement()
+					        .addClassName("hidden");
+				} else if (isLastRow(i)) {
+					visibleButtons++;
+				}
+			}
+		}
+		// 9 = max number of letters in last row with big buttons for shift and
+		// backspace
+		if (visibleButtons > 9 || language.equals(Language.Greek.localeGWT)) {
+			shiftButton.addStyleName("small");
+			backspaceButton.addStyleName("small");
+		}
+	}
+
+	private boolean isLastRow(int i) {
+		return i >= 2 * KEY_PER_ROW;
+	}
+
+	private String generateKey(int i) {
+		if (i < KEY_PER_ROW) {
+			return "B0_" + i;
+		} else if (i < KEY_PER_ROW + KEY_PER_ROW) {
+			return "B1_" + (i - KEY_PER_ROW);
+		} else {
+			return "B2_" + (i - 1 - KEY_PER_ROW - KEY_PER_ROW);
+		}
+	}
+
+	/**
+	 * loads the translation-files for the active language if it is different
+	 * from the last loaded language and sets the {@link #keyboardLocale} to the
+	 * new language
+	 */
+	private void checkLanguage() {
+		String locale = app.getLocalization().getLocaleStr();
+		String newKeyboardLocale = supportedLocales.get(locale);
+
+		if (newKeyboardLocale != null
+		        && keyboardLocale.equals(newKeyboardLocale)) {
+			return;
+		}
+		if (newKeyboardLocale != null) {
+			this.keyboardLocale = newKeyboardLocale;
+		} else {
+			this.keyboardLocale = Language.English_US.localeGWT;
+		}
+		loadLang(this.keyboardLocale);
+	}
+
+	@Override
+	public void show() {
+		checkLanguage();
+		super.show();
 	}
 }

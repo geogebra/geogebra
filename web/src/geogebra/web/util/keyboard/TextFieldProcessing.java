@@ -7,6 +7,7 @@ import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -20,7 +21,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class TextFieldProcessing {
 
 	public enum ArrowType {
-		left, right, up, down
+		left, right
 	}
 
 	private enum State {
@@ -30,26 +31,43 @@ public class TextFieldProcessing {
 	/** ASCII */
 	private static final int BACKSPACE = 8;
 	private static final int ENTER = 13;
-	private static final int SPACE = 32;
 	private static final int LBRACE = 40;
-	private static final int SLASH = 47;
-	private static final int LBRACK = 91;
 	private static final int CIRCUMFLEX = 94;
 	private static final int T_LOWER_CASE = 116;
-	private static final int UNDERSCORE = 95;
-	private static final int DOLLAR = 36;
 	private static final int PIPE = 124;
 
 	/** Javascript char codes */
 	private static final int LEFT_ARROW = 37;
 	private static final int RIGHT_ARROW = 39;
 
+	/** unicode */
+	private static final String ACCENT_ACUTE = "\u00b4";
+	private static final String ACCENT_GRAVE = "\u0060";
+	private static final String ACCENT_CARON = "\u02c7";
+	private static final String ACCENT_CIRCUMFLEX = "\u005e";
+
 	private Widget field;
 	private State state = State.empty;
 	private ArrayList<String> needsLbrace = new ArrayList<String>();
+	/** contains the unicode string for the specific letter with acute accent */
+	private HashMap<String, String> accentAcute = new HashMap<String, String>();
+	/** contains the unicode string for the specific letter with grave accent */
+	private HashMap<String, String> accentGrave = new HashMap<String, String>();
+	/** contains the unicode string for the specific letter with caron accent */
+	private HashMap<String, String> accentCaron = new HashMap<String, String>();
+	/** contains the unicode string for the specific letter with circumflex */
+	private HashMap<String, String> accentCircumflex = new HashMap<String, String>();
+	private String accent;
+
+	/** needed for accents */
+	private boolean accentWaiting = false;
 
 	public TextFieldProcessing() {
 		initNeedsLbrace();
+		initAccentAcuteLetters();
+		initAccentGraveLetters();
+		initAccentCaronLetters();
+		initAccentCircumflexLetters();
 	}
 
 	private void initNeedsLbrace() {
@@ -64,6 +82,72 @@ public class TextFieldProcessing {
 		needsLbrace.add("arccos");
 		needsLbrace.add("arctan");
 		needsLbrace.add("log");
+	}
+
+	private void initAccentAcuteLetters() {
+		accentAcute.put("a", "\u00e1");
+		accentAcute.put("A", "\u00c1");
+		accentAcute.put("e", "\u00e9");
+		accentAcute.put("E", "\u00C9");
+		accentAcute.put("i", "\u00ed");
+		accentAcute.put("I", "\u00cd");
+		accentAcute.put("l", "\u013A");
+		accentAcute.put("L", "\u0139");
+		accentAcute.put("o", "\u00f3");
+		accentAcute.put("O", "\u00d3");
+		accentAcute.put("r", "\u0155");
+		accentAcute.put("R", "\u0154");
+		accentAcute.put("u", "\u00fa");
+		accentAcute.put("U", "\u00da");
+		accentAcute.put("y", "\u00fd");
+		accentAcute.put("Y", "\u00dd");
+	}
+
+	private void initAccentGraveLetters() {
+		accentGrave.put("a", "\u00e0");
+		accentGrave.put("A", "\u00c0");
+		accentGrave.put("e", "\u00e8");
+		accentGrave.put("E", "\u00C8");
+		accentGrave.put("i", "\u00ec");
+		accentGrave.put("I", "\u00cc");
+		accentGrave.put("o", "\u00f2");
+		accentGrave.put("O", "\u00d2");
+		accentGrave.put("u", "\u00f9");
+		accentGrave.put("U", "\u00d9");
+	}
+
+	private void initAccentCaronLetters() {
+		accentCaron.put("c", "\u010d");
+		accentCaron.put("C", "\u010c");
+		accentCaron.put("d", "\u010F");
+		accentCaron.put("D", "\u010e");
+		accentCaron.put("e", "\u011b");
+		accentCaron.put("E", "\u011A");
+		accentCaron.put("l", "\u013E");
+		accentCaron.put("L", "\u013D");
+		accentCaron.put("n", "\u0148");
+		accentCaron.put("N", "\u0147");
+		accentCaron.put("r", "\u0159");
+		accentCaron.put("R", "\u0158");
+		accentCaron.put("s", "\u0161");
+		accentCaron.put("S", "\u0160");
+		accentCaron.put("t", "\u0165");
+		accentCaron.put("T", "\u0164");
+		accentCaron.put("z", "\u017e");
+		accentCaron.put("Z", "\u017d");
+	}
+
+	private void initAccentCircumflexLetters() {
+		accentCircumflex.put("a", "\u00e2");
+		accentCircumflex.put("A", "\u00c2");
+		accentCircumflex.put("e", "\u00ea");
+		accentCircumflex.put("E", "\u00Ca");
+		accentCircumflex.put("i", "\u00ee");
+		accentCircumflex.put("I", "\u00ce");
+		accentCircumflex.put("o", "\u00f4");
+		accentCircumflex.put("O", "\u00d4");
+		accentCircumflex.put("u", "\u00fb");
+		accentCircumflex.put("U", "\u00db");
 	}
 
 	public void setField(Widget field) {
@@ -149,6 +233,22 @@ public class TextFieldProcessing {
 		}
 	}
 
+	/**
+	 * remember clicked accent
+	 * 
+	 * @param ac
+	 *            which accent (caron, acute)
+	 */
+	public void onAccent(String ac) {
+		this.accent = ac;
+		if (accentWaiting) {
+			// if accent was clicked twice, two accent have to be inserted
+			insertString(this.accent);
+		} else {
+			accentWaiting = true;
+		}
+	}
+
 	public boolean resetAfterEnter() {
 		return state == State.radioButtonTreeItem;
 	}
@@ -157,6 +257,7 @@ public class TextFieldProcessing {
 	 * simulates a backspace key event
 	 */
 	public void onBackSpace() {
+		accentWaiting = false;
 		switch (state) {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).onBackSpace();
@@ -189,25 +290,10 @@ public class TextFieldProcessing {
 	}
 
 	/**
-	 * simulates a space key event
-	 */
-	public void onSpace() {
-		switch (state) {
-		case autoCompleteTextField:
-			((AutoCompleteTextFieldW) field).insertString(" ");
-			break;
-		case gTextBox:
-			insertString(" ");
-			break;
-		case radioButtonTreeItem:
-		case newRadioButtonTreeItem:
-			((RadioButtonTreeItem) field).keypress(SPACE, false, false, false);
-			break;
-		}
-	}
-
-	/**
 	 * simulates arrow events
+	 * 
+	 * @param type
+	 *            {@link ArrowType}
 	 */
 	public void onArrow(ArrowType type) {
 		switch (state) {
@@ -266,10 +352,15 @@ public class TextFieldProcessing {
 	 *            text to be inserted
 	 */
 	public void insertString(String text) {
+		if (accentWaiting) {
+			insertAccent(text);
+			return;
+		}
+
 		switch (state) {
 		case autoCompleteTextField:
 			((AutoCompleteTextFieldW) field).insertString(text);
-			if (text.startsWith("(") || text.startsWith("[")) {
+			if (text.startsWith("(")) {
 				// moves inside the brackets
 				onArrow(ArrowType.left);
 			} else if (text.equals("x^y")) {
@@ -278,19 +369,14 @@ public class TextFieldProcessing {
 				((AutoCompleteTextFieldW) field).insertString("()");
 				onArrow(ArrowType.left);
 			}
+
 			break;
 		case gTextBox:
-			String oldText = ((GTextBox) field).getText();
-			int caretPos = ((GTextBox) field).getCursorPos();
-
-			String newText = oldText.substring(0, caretPos) + text
-					+ oldText.substring(caretPos);
-			((GTextBox) field).setText(newText);
-			((GTextBox) field).setCursorPos(caretPos + text.length());
+			insertAtEnd(text);
 			break;
 		case radioButtonTreeItem:
 		case newRadioButtonTreeItem:
-			if (text.equals("^")) {
+			if (text.equals("x^y")) {
 				if (((RadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
@@ -317,25 +403,90 @@ public class TextFieldProcessing {
 			} else if (text.startsWith("(")) {
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 						false);
+			} else if (text.equals("/") || text.equals("_")
+			        || text.equals("$") || text.equals(" ") || text.equals("|")) {
+				((RadioButtonTreeItem) field).keypress(text.charAt(0), false, false,
+						false);
 			} else if (text.equals("abs")) {
 				((RadioButtonTreeItem) field).keypress(PIPE, false, false,
-						false);
-			} else if (text.startsWith("[")) {
-				((RadioButtonTreeItem) field).keypress(LBRACK, false, false,
-						false);
-			} else if (text.equals("/")) {
-				((RadioButtonTreeItem) field).keypress(SLASH, false, false,
-						false);
-			} else if (text.equals("_")) {
-				((RadioButtonTreeItem) field).keypress(UNDERSCORE, false,
-						false, false);
-			} else if (text.equals("$")) {
-				((RadioButtonTreeItem) field).keypress(DOLLAR, false, false,
 						false);
 			} else {
 				((RadioButtonTreeItem) field).insertString(text);
 				((RadioButtonTreeItem) field).popupSuggestions();
 			}
+			break;
+		}
+	}
+
+	/**
+	 * only for {@link GTextBox}
+	 * 
+	 * @param text
+	 */
+	private void insertAtEnd(String text) {
+		String oldText = ((GTextBox) field).getText();
+		int caretPos = ((GTextBox) field).getCursorPos();
+
+		String newText = oldText.substring(0, caretPos) + text
+		        + oldText.substring(caretPos);
+		((GTextBox) field).setText(newText);
+		((GTextBox) field).setCursorPos(caretPos + text.length());
+	}
+
+	/**
+	 * @param text
+	 */
+    private void insertAccent(String text) {
+		if (this.accent.equals(ACCENT_ACUTE) && accentAcute.containsKey(text)) {
+			insertFrom(accentAcute, text);
+		} else if (this.accent.equals(ACCENT_CARON)
+		        && accentCaron.containsKey(text)) {
+			insertFrom(accentCaron, text);
+		} else if (this.accent.equals(ACCENT_GRAVE)
+		        && accentGrave.containsKey(text)) {
+			insertFrom(accentGrave, text);
+		} else if (this.accent.equals(ACCENT_CIRCUMFLEX)
+		        && accentCircumflex.containsKey(text)) {
+			insertFrom(accentCircumflex, text);
+		} else {
+			switch (state) {
+			case autoCompleteTextField:
+				((AutoCompleteTextFieldW) field).insertString(accent);
+				((AutoCompleteTextFieldW) field).insertString(text);
+				break;
+			case gTextBox:
+				insertAtEnd(accent);
+				insertAtEnd(text);
+				break;
+			case radioButtonTreeItem:
+			case newRadioButtonTreeItem:
+				((RadioButtonTreeItem) field).insertString(accent);
+				((RadioButtonTreeItem) field).keypress(text.charAt(0), false,
+				        false, false);
+				break;
+			}
+		}
+	    accentWaiting = false;
+    }
+
+	/**
+	 * inserts the correct unicode for a combined letter with accents
+	 * 
+	 * @param accents
+	 *            which accent (caron, acute, grave or circumflex)
+	 * @param text
+	 */
+	private void insertFrom(HashMap<String, String> accents, String text) {
+		switch (state) {
+		case autoCompleteTextField:
+			((AutoCompleteTextFieldW) field).insertString(accents.get(text));
+			break;
+		case gTextBox:
+			insertAtEnd(accents.get(text));
+			break;
+		case radioButtonTreeItem:
+		case newRadioButtonTreeItem:
+			((RadioButtonTreeItem) field).insertString(accents.get(text));
 			break;
 		}
 	}

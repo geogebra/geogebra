@@ -25,6 +25,25 @@ public class KeyBoardButton extends SimplePanel {
 	}
 
 	/**
+	 * 
+	 * @param caption
+	 *            text of the button
+	 * @param handler
+	 *            {@link ClickHandler}
+	 * @param isFunctionalButton
+	 *            set to true if the button has functional character. this
+	 *            button will be shown grey.
+	 */
+	public KeyBoardButton(String caption, ClickHandler handler, boolean isFunctionalButton) {
+		this(caption, caption, handler);
+		if (isFunctionalButton) {
+			addStyleName("colored");
+		}
+		this.isNavigationButton = isFunctionalButton;
+	}
+
+
+	/**
 	 * @param caption
 	 *            text of the button
 	 * @param feedBack
@@ -74,14 +93,4 @@ public class KeyBoardButton extends SimplePanel {
 	public boolean isNavigationButton() {
 		return isNavigationButton;
 	}
-
-	/**
-	 * @param isNavigationButton
-	 *            sets whether the button is only used for navigation (true) or
-	 *            not (false)
-	 */
-	public void setNavigationButton(boolean isNavigationButton) {
-		this.isNavigationButton = isNavigationButton;
-	}
-
 }

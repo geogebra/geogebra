@@ -2798,6 +2798,21 @@ public abstract class AppW extends App implements SetLabels {
 		this.errorHandler = errorHandler;
 	}
 
+	/**
+	 * get translations for the onScreenKeyboard-buttons
+	 * 
+	 * @param key
+	 *            String to translate
+	 * @param section
+	 *            "lowerCase" or "shiftDown"
+	 * @param language
+	 *            String
+	 * @return String for keyboardButton
+	 */
+	public String getKey(String key, String section, String language) {
+		return this.loc.getKey(key, section, language);
+	}
+
 	@Override
 	public void showError(String s) {
 		showErrorDialog(s);

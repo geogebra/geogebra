@@ -143,7 +143,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		this.keyboardShowing = show;
 		this.mainPanel.clear();
 		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
-		        this);
+		        this, app);
 		if (show && textField != null) {
 			keyBoard.show();
 			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
@@ -173,10 +173,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		};
 		timer.schedule(0);
 	}
-
+	
+	 @Override
 	public void updateKeyBoard(Widget textField) {
 		this.mainPanel.clear();
-		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField, this);
+		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
+		        this, app);
 		keyBoard.show();
 		this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		this.mainPanel.add(this.dockPanel);
@@ -190,7 +192,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			}
 		};
 		timer.schedule(0);
-	}
+	 }
 
 	/**
 	 * Scroll to the input-field, if the input-field is in the algebraView.

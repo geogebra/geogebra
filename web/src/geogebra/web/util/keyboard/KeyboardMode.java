@@ -1,7 +1,6 @@
 package geogebra.web.util.keyboard;
 
 import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
-import geogebra.common.util.Unicode;
 
 /**
  * Keyboard modes
@@ -17,10 +16,6 @@ public enum KeyboardMode {
 	 * Number input mode.
 	 */
 	NUMBER("123"),
-	/**
-	 * greek letters.
-	 */
-	GREEK(Unicode.alphaBetaGamma),
 	/**
 	 * special characters.
 	 */
