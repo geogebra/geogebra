@@ -16,8 +16,6 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import javax.swing.JOptionPane;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -504,7 +502,8 @@ public class UDPLoggerD implements UDPLogger {
 						// error message if
 						// stoplogging called
 						if (e instanceof SocketTimeoutException) {
-							JOptionPane.showMessageDialog(null, kernel
+							kernel.getApplication().showError(
+									kernel
 									.getApplication().getPlain("LoggingError"));
 						}
 
