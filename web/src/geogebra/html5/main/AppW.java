@@ -2532,7 +2532,7 @@ public abstract class AppW extends App implements SetLabels {
 	public boolean supportsView(int viewID) {
 		if (viewID == App.VIEW_CAS && !getLAF().isSmart()) {
 			if (!Browser.isFloat64supported()
-			        || Browser.isAndroidVersionLessThan(4.4)) {
+			        || Browser.isAndroidVersionLessThan(4.0)) {
 				return false;
 			}
 		}
