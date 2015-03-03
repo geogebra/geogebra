@@ -46,12 +46,12 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// supportedLocales.put(Language.Armenian.localeGWT, "hy"); some letters
 		// missing
 		supportedLocales.put(Language.Basque.localeGWT, "es");
-		// supportedLocales.put(Language.Bosnian.localeGWT, "sk"); TODO
+		supportedLocales.put(Language.Bosnian.localeGWT, "sl");
 		// supportedLocales.put(Language.Bulgarian.localeGWT, "bg");
 		supportedLocales.put(Language.Catalan.localeGWT, "es");
 		// supportedLocales.put(Language.Chinese_Simplified, value);
 		// supportedLocales.put(Language.Chinese_Traditional, value);
-		// supportedLocales.put(Language.Croatian.localeGWT, "sk"); TODO
+		supportedLocales.put(Language.Croatian.localeGWT, "sl");
 		supportedLocales.put(Language.Czech.localeGWT, "cs");
 		supportedLocales.put(Language.Danish.localeGWT, "da");
 		supportedLocales.put(Language.Dutch.localeGWT, "en");
@@ -93,10 +93,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// TODO
 		supportedLocales.put(Language.Romanian.localeGWT, "ro");
 		// supportedLocales.put(Language.Russian.localeGWT, "ru");
-		// supportedLocales.put(Language.Serbian.localeGWT, "sk"); TODO
+		supportedLocales.put(Language.Serbian.localeGWT, "sl");
 		// supportedLocales.put(Language.Sinhala.localeGWT, "si");
 		supportedLocales.put(Language.Slovak.localeGWT, "sk");
-		// supportedLocales.put(Language.Slovenian.localeGWT, "sk"); TODO
+		supportedLocales.put(Language.Slovenian.localeGWT, "sl");
 		supportedLocales.put(Language.Spanish.localeGWT, "es");
 		supportedLocales.put(Language.Spanish_ES.localeGWT, "es");
 		supportedLocales.put(Language.Spanish_UY.localeGWT, "es");
