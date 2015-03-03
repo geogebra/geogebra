@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
+import java.net.SocketTimeoutException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class UDPLoggerD implements UDPLogger {
 				"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
 				"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
 				"Mz"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2(
-				"EDAQ2");
+				"EDAQ2"), PORT("port");
 		private String string;
 
 		Types(String s) {
@@ -63,7 +64,7 @@ public class UDPLoggerD implements UDPLogger {
 	/**
 	 * port to receive UDP logging on
 	 */
-	final public static int port = 7166;
+	public static int port = 7166;
 
 	@SuppressWarnings("javadoc")
 	Thread thread;
@@ -498,8 +499,15 @@ public class UDPLoggerD implements UDPLogger {
 							dsocket.close();
 						dsocket = null;
 						App.debug("logging failed");
-						JOptionPane.showMessageDialog(null,
-										"Logging Failed. Check connection/ip/port/send button");
+
+						// stoplogging also drops exception here, so no need
+						// error message if
+						// stoplogging called
+						if (e instanceof SocketTimeoutException) {
+							JOptionPane.showMessageDialog(null, kernel
+									.getApplication().getPlain("LoggingError"));
+						}
+
 						e.printStackTrace();
 					}
 
@@ -566,11 +574,15 @@ public class UDPLoggerD implements UDPLogger {
 		Types type = Types.lookup(s);
 
 		if (type != null) {
-			App.debug("logging " + type + " to " + geo.getLabelSimple());
-			listenersL.remove(type);
-			listLimits.put(type, 0);
-			listeners.put(type, geo);
-			listenersAges.put(type, 0);
+			if (type == Types.PORT) {
+				port = (int) geo.getValue();
+			} else {
+				App.debug("logging " + type + " to " + geo.getLabelSimple());
+				listenersL.remove(type);
+				listLimits.put(type, 0);
+				listeners.put(type, geo);
+				listenersAges.put(type, 0);
+			}
 		}
 	}
 
