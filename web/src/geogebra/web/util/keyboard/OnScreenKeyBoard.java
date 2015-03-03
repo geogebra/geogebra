@@ -78,7 +78,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// supportedLocales.put(Language.Kazakh.localeGWT, "kk");
 		// supportedLocales.put(Language.Korean.localeGWT, "ko");
 		supportedLocales.put(Language.Latvian.localeGWT, "en");
-		// supportedLocales.put(Language.Lithuanian.localeGWT, "lt"); TODO
+		supportedLocales.put(Language.Lithuanian.localeGWT, "lt");
 		// supportedLocales.put(Language.Macedonian.localeGWT, "mk");
 		supportedLocales.put(Language.Malay.localeGWT, "ms");
 		// supportedLocales.put(Language.Mongolian.localeGWT, "mn");
