@@ -1981,7 +1981,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	private ImageIcon scaleIcon(ImageIcon icon, int iconSize) {
-		if (icon == null) {
+		if (icon == null || iconSize == 0) {
 			return null;
 		}
 		Image img = icon.getImage().getScaledInstance(iconSize, iconSize, 0);

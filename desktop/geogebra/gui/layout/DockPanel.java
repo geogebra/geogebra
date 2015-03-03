@@ -525,14 +525,17 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	}
 
 	private void createButtons() {
+		int iconSize = 16;// app.getScaledIconSize();
 
+		int toggleSize = (int) Math.round(app.getScaledIconSize() * 0.75);
 		// button to show/hide styling bar and the title panel buttons
 		toggleStyleBarButton = new JButton();
 		toggleStyleBarButton.addActionListener(this);
 		toggleStyleBarButton.setFocusPainted(false);
 		toggleStyleBarButton.setBorderPainted(false);
 		toggleStyleBarButton.setContentAreaFilled(false);
-		toggleStyleBarButton.setPreferredSize(new Dimension(12, 12));
+		toggleStyleBarButton.setPreferredSize(new Dimension(toggleSize,
+				toggleSize));
 		toggleStyleBarButton.setRolloverEnabled(true);
 
 		// button to show/hide styling bar if the title panel is invisible
@@ -540,47 +543,48 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		toggleStyleBarButton2.setFocusPainted(false);
 		toggleStyleBarButton2.setBorderPainted(false);
 		toggleStyleBarButton2.setContentAreaFilled(false);
-		toggleStyleBarButton2.setPreferredSize(new Dimension(12, 12));
+		toggleStyleBarButton2.setPreferredSize(new Dimension(toggleSize,
+				toggleSize));
 		toggleStyleBarButton2.addActionListener(this);
 		toggleStyleBarButton2.setRolloverEnabled(true);
 
 		updateToggleStyleBarButtons();
 
 		// button to insert the view in the main window
-		unwindowButton = new JButton(app.getImageIcon("view-unwindow.png"));
+		unwindowButton = new JButton(app.getScaledIcon("view-unwindow.png"));
 		unwindowButton.addActionListener(this);
 		unwindowButton.setFocusPainted(false);
 		unwindowButton.setContentAreaFilled(false);
 		unwindowButton.setBorderPainted(false);
-		unwindowButton.setPreferredSize(new Dimension(16, 16));
+		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
-		unwindowButton2 = new JButton(app.getImageIcon("view-unwindow.png"));
+		unwindowButton2 = new JButton(app.getScaledIcon("view-unwindow.png"));
 		unwindowButton2.addActionListener(this);
 		unwindowButton2.setFocusPainted(false);
 		unwindowButton2.setContentAreaFilled(false);
 		unwindowButton2.setBorderPainted(false);
-		unwindowButton2.setPreferredSize(new Dimension(16, 16));
+		unwindowButton2.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to display the view in a separate window
-		windowButton = new JButton(app.getImageIcon("view-window.png"));
+		windowButton = new JButton(app.getScaledIcon("view-window.png"));
 		windowButton.addActionListener(this);
 		windowButton.setFocusPainted(false);
 		windowButton.setContentAreaFilled(false);
 		windowButton.setBorderPainted(false);
-		windowButton.setPreferredSize(new Dimension(16, 16));
+		windowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to close the view
-		closeButton = new JButton(app.getImageIcon("view-close.png"));
+		closeButton = new JButton(app.getScaledIcon("view-close.png"));
 		closeButton.addActionListener(this);
 		closeButton.setFocusPainted(false);
-		closeButton.setPreferredSize(new Dimension(16, 16));
+		closeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to toggle maximize/normal state
-		maximizeButton = new JButton(app.getImageIcon("view-maximize.png"));
+		maximizeButton = new JButton(app.getScaledIcon("view-maximize.png"));
 		maximizeButton.addActionListener(this);
 		maximizeButton.setFocusPainted(false);
-		maximizeButton.setPreferredSize(new Dimension(16, 16));
+		maximizeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 	}
 
@@ -715,9 +719,9 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		}
 
 		if (isMaximized()) {
-			maximizeButton.setIcon(app.getImageIcon("view-unmaximize.png"));
+			maximizeButton.setIcon(app.getScaledIcon("view-unmaximize.png"));
 		} else {
-			maximizeButton.setIcon(app.getImageIcon("view-maximize.png"));
+			maximizeButton.setIcon(app.getScaledIcon("view-maximize.png"));
 		}
 
 		updateLabels();
@@ -910,6 +914,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		} else {
 			titleLabel.setFont(app.getPlainFont());
 		}
+		updateIcons();
 	}
 
 	/**
@@ -1198,12 +1203,12 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		if (toggleStyleBarButton != null) {
 			if (showStyleBar) {
 				toggleStyleBarButton.setIcon(app
-						.getImageIcon("triangle-down.png"));
-				// toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-down-rollover.png"));
+						.getScaledIcon("triangle-down.png"));
+				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-down-rollover.png"));
 			} else {
 				toggleStyleBarButton.setIcon(app
-						.getImageIcon("triangle-right.png"));
-				// toggleStyleBarButton.setRolloverIcon(app.getImageIcon("triangle-right-rollover.png"));
+						.getScaledIcon("triangle-right.png"));
+				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-right-rollover.png"));
 			}
 		}
 		if (toggleStyleBarButton2 != null) {
@@ -1624,6 +1629,48 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	public void addToToolbar(int mode) {
 		this.toolbarString = toolbarString + " | " + mode;
 
+	}
+
+	public void updateIcons() {
+		if (toggleStyleBarButton == null) {
+			return;
+		}
+		int iconSize = app.getScaledIconSize();
+
+		int toggleSize = (int) Math.round(app.getScaledIconSize() * 0.75);
+		// button to show/hide styling bar and the title panel buttons
+		toggleStyleBarButton.setPreferredSize(new Dimension(toggleSize,
+				toggleSize));
+
+		// button to show/hide styling bar if the title panel is invisible
+		toggleStyleBarButton2.setPreferredSize(new Dimension(toggleSize,
+				toggleSize));
+
+		// button to insert the view in the main window
+		unwindowButton.setIcon(app.getScaledIcon("view-unwindow.png"));
+		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
+
+		// button to insert the view in the main window
+		unwindowButton2.setIcon(app.getScaledIcon("view-unwindow.png"));
+		unwindowButton2.setPreferredSize(new Dimension(iconSize, iconSize));
+
+		// button to display the view in a separate window
+		windowButton.setIcon(app.getScaledIcon("view-window.png"));
+		windowButton.setPreferredSize(new Dimension(iconSize, iconSize));
+
+		// button to close the view
+		closeButton.setIcon(app.getScaledIcon("view-close.png"));
+		closeButton.setPreferredSize(new Dimension(iconSize, iconSize));
+
+		// button to toggle maximize/normal state
+		maximizeButton.setPreferredSize(new Dimension(iconSize, iconSize));
+
+		if (isMaximized()) {
+			maximizeButton.setIcon(app.getScaledIcon("view-unmaximize.png"));
+		} else {
+			maximizeButton.setIcon(app.getScaledIcon("view-maximize.png"));
+		}
+		updateToggleStyleBarButtons();
 	}
 
 }

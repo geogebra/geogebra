@@ -45,8 +45,8 @@ class DockButton extends JToggleButton {
 	public void setIcon(Icon ic) {
 
 		super.setSelectedIcon(GeoGebraIcon.joinIcons(
-				app.getImageIcon("check.png"), (ImageIcon) ic));
-		int s = app.getImageIcon("check.png").getIconWidth();
+				app.getScaledIcon("check.png"), (ImageIcon) ic));
+		int s = app.getScaledIcon("check.png").getIconWidth();
 		super.setIcon(GeoGebraIcon.joinIcons(
 				GeoGebraIcon.createEmptyIcon(s, s), (ImageIcon) ic));
 	}
