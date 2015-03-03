@@ -45,4 +45,11 @@ public class KeyPanel extends VerticalPanel {
 	public ArrayList<KeyBoardButton> getButtons() {
 		return this.buttons;
 	}
+
+	/**
+	 * @return all {@link HorizontalPanel rows} of this keyPanel
+	 */
+	public ArrayList<HorizontalPanel> getRows() {
+		return this.rows;
+	}
 }

@@ -70,7 +70,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		supportedLocales.put(Language.Greek.localeGWT, "en");
 		// supportedLocales.put(Language.Hebrew.localeGWT, "iw");
 		// supportedLocales.put(Language.Hindi.localeGWT, "hi");
-		// supportedLocales.put(Language.Hungarian.localeGWT, "hu"); TODO
+		supportedLocales.put(Language.Hungarian.localeGWT, "hu");
 		supportedLocales.put(Language.Icelandic.localeGWT, "is");
 		supportedLocales.put(Language.Indonesian.localeGWT, "en");
 		supportedLocales.put(Language.Italian.localeGWT, "it");
@@ -116,6 +116,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final int MIN_WIDTH_WITHOUT_SCALING = 823;
 	private static final int MIN_WIDTH_FONT = 485;
 	private static final int KEY_PER_ROW = 12;
+	private static final int NUM_LETTER_BUTTONS = 38;
 
 	private static final String PI = "\u03C0";
 	private static final String BACKSPACE = "\u21A4";
@@ -132,7 +133,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final String ACCENT_CARON = "\u02c7";
 	private static final String ACCENT_CIRCUMFLEX = "\u005e";
 	private static final String GREEK = Unicode.alphaBetaGamma;
-
 
 	private HorizontalPanel contentNumber = new HorizontalPanel();
 	private HorizontalPanel contentSpecialChars = new HorizontalPanel();
@@ -157,8 +157,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	UpdateKeyBoardListener updateKeyBoardListener;
 
 	private RadioButtonTreeItem resetComponent;
-
-	private static final int NUM_LETTER_BUTTONS = 38;
 
 	private boolean shiftIsDown = false;
 	private boolean greekActive = false;
@@ -832,7 +830,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	/**
-	 * updates the keys after language has changed
+	 * updates the keys to the given language
 	 * 
 	 * @param updateSection
 	 *            "lowerCase" or "shiftDown"
@@ -841,41 +839,68 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 */
 	void updateKeys(String updateSection, String language) {
 		// update letter keys
-		shiftButton.removeStyleName("small");
-		backspaceButton.removeStyleName("small");
 		ArrayList<KeyBoardButton> buttons = this.letters.getButtons();
-		int visibleButtons = 0;
 		for (int i = 0; i < NUM_LETTER_BUTTONS; i++) {
 			KeyBoardButton button = buttons.get(i);
 			if (!button.isNavigationButton()) {
 				String newCaption = app.getKey(generateKey(i), updateSection,
 				        language);
-				button.setVisible(true);
-				button.getElement().getParentElement()
-				        .removeClassName("hidden");
-				button.setCaption(newCaption, true);
 				if (newCaption.equals("")) {
 					button.setVisible(false);
 					button.getElement().getParentElement()
 					        .addClassName("hidden");
-				} else if (isLastRow(i)) {
-					visibleButtons++;
+				} else {
+					button.setVisible(true);
+					button.getElement().getParentElement()
+					        .removeClassName("hidden");
+					button.setCaption(newCaption, true);
 				}
 			}
 		}
-		// 9 = max number of letters in last row with big buttons for shift and
-		// backspace
-		if (visibleButtons > 9 || language.equals(Language.Greek.localeGWT)) {
+		checkStyle();
+	}
+
+	/**
+	 * we need smaller buttons (shift and backspace) if the third row has only
+	 * one button less than the upper two rows. otherwise the buttons would
+	 * overlap.
+	 */
+	private void checkStyle() {
+		int first = countVisibleButtons(this.letters.getRows().get(0));
+		int second = countVisibleButtons(this.letters.getRows().get(1));
+		int third = countVisibleButtons(this.letters.getRows().get(2));
+
+		if (Math.max(first, second) - third < 1) {
 			shiftButton.addStyleName("small");
 			backspaceButton.addStyleName("small");
+		} else {
+			shiftButton.removeStyleName("small");
+			backspaceButton.removeStyleName("small");
 		}
+
 	}
 
-	private boolean isLastRow(int i) {
-		return i >= 2 * KEY_PER_ROW;
+	/**
+	 * @param row
+	 *            {@link HorizontalPanel}
+	 * @return the number of visible buttons of the given row
+	 */
+	private static int countVisibleButtons(HorizontalPanel row) {
+		int numOfButtons = 0;
+		for (int i = 0; i < row.getWidgetCount(); i++) {
+			if (row.getWidget(i).isVisible()) {
+				numOfButtons++;
+			}
+		}
+		return numOfButtons;
 	}
 
-	private String generateKey(int i) {
+	/**
+	 * @param i
+	 *            index of button
+	 * @return key for the translation-files (keyboard.js).
+	 */
+	private static String generateKey(int i) {
 		if (i < KEY_PER_ROW) {
 			return "B0_" + i;
 		} else if (i < KEY_PER_ROW + KEY_PER_ROW) {
