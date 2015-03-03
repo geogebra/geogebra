@@ -94,6 +94,7 @@ import geogebra.web.gui.dialog.FileInputDialog;
 import geogebra.web.gui.dialog.ScriptInputPanelW;
 import geogebra.web.gui.dialog.TextEditAdvancedPanel;
 import geogebra.web.gui.dialog.TextPreviewPanelW;
+import geogebra.web.gui.dialog.options.model.ExtendedAVModel;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.properties.AnimationSpeedPanelW;
 import geogebra.web.gui.properties.AnimationStepPanelW;
@@ -113,6 +114,7 @@ import geogebra.web.gui.util.PointStylePopup;
 import geogebra.web.gui.util.PopupMenuButton;
 import geogebra.web.gui.util.PopupMenuHandler;
 import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -170,6 +172,7 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 	private FixCheckboxPanel fixCheckboxPanel;
 	//Color picker
 	private ColorPanel colorPanel;
+	private ExtendedAVPanel avPanel;
 
 	// Style
 	private PointSizePanel pointSizePanel;
@@ -3531,6 +3534,12 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		}
 	}
 
+	private class ExtendedAVPanel extends CheckboxPanel {
+		public ExtendedAVPanel() {
+			super("show extended algebra view");
+			setModel(new ExtendedAVModel(this));
+		}
+	}
 
 	//-----------------------------------------------
 	public OptionsObjectW(AppW app, boolean isDefaults) {
@@ -3663,21 +3672,24 @@ geogebra.common.gui.dialog.options.OptionsObject implements OptionPanelW
 		fixCheckboxPanel = new FixCheckboxPanel();
 		basicTab.add(fixCheckboxPanel.getWidget());
 
+		if (app.isPrerelease() && RadioButtonTreeItem.showSliderOrTextBox) {
+			if (!isDefaults) {
+				avPanel = new ExtendedAVPanel();
+				checkboxPanel.add(avPanel.getWidget());
+			}
 
-		basicTab.addPanelList(Arrays.asList(namePanel,
-				showObjectPanel,
-				tracePanel,
-				labelPanel,	
-				fixPanel,
-				auxPanel,
-				animatingPanel,
-				bgImagePanel,
-				reflexAnglePanel,
-				rightAnglePanel,
-				listAsComboPanel,
-				trimmedIntersectionLinesPanel,
-				allowOutlyingIntersectionsPanel,
-				fixCheckboxPanel));
+			basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
+					tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
+					bgImagePanel, reflexAnglePanel, rightAnglePanel,
+					listAsComboPanel, trimmedIntersectionLinesPanel,
+					allowOutlyingIntersectionsPanel, fixCheckboxPanel, avPanel));
+		} else {
+			basicTab.addPanelList(Arrays.asList(namePanel, showObjectPanel,
+					tracePanel, labelPanel, fixPanel, auxPanel, animatingPanel,
+					bgImagePanel, reflexAnglePanel, rightAnglePanel,
+					listAsComboPanel, trimmedIntersectionLinesPanel,
+					allowOutlyingIntersectionsPanel, fixCheckboxPanel));
+		}
 
 	}
 

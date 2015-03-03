@@ -48,7 +48,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class GeoNumeric extends GeoElement implements GeoNumberValue,
-		AbsoluteScreenLocateable, GeoFunctionable, Animatable {
+		AbsoluteScreenLocateable, GeoFunctionable, Animatable, HasExtendedAV {
 
 	/** eg boxplot */
 	public static final int DEFAULT_THICKNESS = 2;
@@ -1419,6 +1419,18 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
+	}
+
+	private boolean showExtendedAV = true;
+
+	@Override
+	public boolean isShowingExtendedAV() {
+		return showExtendedAV;
+	}
+
+	@Override
+	public void setShowExtendedAV(boolean showExtendedAV) {
+		this.showExtendedAV = showExtendedAV;
 	}
 
 }

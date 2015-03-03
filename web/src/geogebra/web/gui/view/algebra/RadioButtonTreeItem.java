@@ -30,6 +30,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
+import geogebra.common.kernel.geos.HasExtendedAV;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.util.AsyncOperation;
@@ -164,7 +165,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 * allow slider (for a number) or checkBox (for a boolean) in AV as part of
 	 * the RadioButtonTreeItem
 	 */
-	private static boolean showSliderOrTextBox = false;
+	public static boolean showSliderOrTextBox = false;
 
 	public void updateOnNextRepaint(){
 		this.needsUpdate = true;
@@ -276,7 +277,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		// Sliders
 		if (showSliderOrTextBox && app.isPrerelease()
-				&& geo instanceof GeoNumeric) {
+				&& geo instanceof GeoNumeric
+				&& ((GeoNumeric) geo).isShowingExtendedAV()) {
 			if (!geo.isEuclidianVisible()) {
 				// number inserted via input bar
 				// -> initialize min/max etc.
@@ -763,9 +765,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		needsUpdate = false;
 		boolean newLaTeX = false;
 		
-		if (this.checkBox != null && showSliderOrTextBox) {
+		if (this.checkBox != null
+				&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
+			add(checkBox);
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
+			// reset the label text; use only the name of the GeoBoolean
+			getBuilder(seNoLatex).clear();
+			getBuilder(seNoLatex).append(
+					geo.getLabel(StringTemplate.defaultTemplate));
 			return;
+		} else if (this.checkBox != null) {
+			remove(checkBox);
 		}
 
 		if (av.isRenderLaTeX()
@@ -852,12 +862,17 @@ public class RadioButtonTreeItem extends HorizontalPanel
 
 		if (geo != null && geo instanceof GeoNumeric && slider != null
 				&& sliderPanel != null) {
-			sliderPanel.remove(slider);
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
-			sliderPanel.add(slider);
+			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+				sliderPanel.add(slider);
+				marblePanel.add(playButton);
+			} else if (marblePanel != null) {
+				sliderPanel.remove(slider);
+				marblePanel.remove(playButton);
+			}
 		}
 	}
 
@@ -1569,11 +1584,15 @@ geo, newValue, redefine, true);
 				&& sliderPanel != null) {
 			sliderPanel.remove(slider);
 			sliderPanel.add(w);
-			sliderPanel.add(slider);
+			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+				sliderPanel.add(slider);
+			}
 		} else if (checkBox != null) {
 			remove(checkBox);
 			add(w);
-			add(checkBox);
+			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+				add(checkBox);
+			}
 		} else {
 			add(w);
 		}

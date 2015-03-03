@@ -31,7 +31,7 @@ import java.util.TreeSet;
  * @author Markus
  */
 public class GeoBoolean extends GeoElement implements BooleanValue,
-		GeoNumberValue, AbsoluteScreenLocateable {
+		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV {
 
 	private boolean value = false;
 	private boolean isDefined = true;
@@ -396,5 +396,15 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_FILLING;
+	}
+
+	private boolean showExtendedAV = true;
+
+	public boolean isShowingExtendedAV() {
+		return showExtendedAV;
+	}
+
+	public void setShowExtendedAV(boolean showExtendedAV) {
+		this.showExtendedAV = showExtendedAV;
 	}
 }
