@@ -124,7 +124,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	Kernel kernel;
 	protected AppW app;
 	private SelectionManager selection; 
-	private AlgebraView av;
+	protected AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
 	private boolean newCreationMode = false;

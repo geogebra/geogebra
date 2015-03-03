@@ -543,8 +543,8 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void onFocus(FocusEvent event) {
-		if (((AlgebraViewWeb) app.getGuiManager().getAlgebraView())
-		        .isNodeTableEmpty()) {
+		((AlgebraViewWeb) av).setActiveTreeItem(null);
+		if (((AlgebraViewWeb) av).isNodeTableEmpty()) {
 			((AlgebraDockPanelW) app.getGuiManager().getLayout()
 			        .getDockManager().getPanel(App.VIEW_ALGEBRA))
 			        .showStyleBarPanel(false);
