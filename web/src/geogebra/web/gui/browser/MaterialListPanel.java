@@ -1,6 +1,7 @@
 package geogebra.web.gui.browser;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.html5.gui.ResizeListener;
 import geogebra.html5.gui.view.browser.MaterialListElementI;
@@ -20,6 +21,7 @@ import com.google.gwt.event.dom.client.ScrollHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 
 /**
  * contains all available materials
@@ -93,8 +95,9 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 			}
 
 			@Override
-			public void onLoaded(final List<Material> response) {
-				addGGTMaterials(response);
+			public void onLoaded(final List<Material> response,
+			        ArrayList<Chapter> meta) {
+				addGGTMaterials(response, meta);
 			}
 		};
     }
@@ -103,7 +106,8 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	    return new MaterialCallback() {
 			
 			@Override
-			public void onLoaded(final List<Material> parseResponse) {
+			public void onLoaded(final List<Material> parseResponse,
+			        ArrayList<Chapter> meta) {
 				addUsersMaterials(parseResponse);
 
 			}
@@ -159,14 +163,44 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 
 	/**
 	 * adds the new materials (matList) - GeoGebraTube only
-	 * @param matList List<Material>
+	 * 
+	 * @param matList
+	 *            List<Material>
+	 * @param chapters
+	 *            list of book chapters
 	 */
-	public final void addGGTMaterials(final List<Material> matList) {
-		for (final Material mat : matList) {
-			addMaterial(mat, true, false);
+	public final void addGGTMaterials(final List<Material> matList,
+	        final ArrayList<Chapter> chapters) {
+		if (chapters == null || chapters.size() < 2) {
+			for (final Material mat : matList) {
+				addMaterial(mat, true, false);
+			}
+		} else {
+			for (int i = 0; i < chapters.size(); i++) {
+				addHeading(chapters.get(i).getTitle());
+				int[] materialIDs = chapters.get(i).getMaterials();
+				for (int j = 0; j < materialIDs.length; j++) {
+					addMaterial(findMaterial(matList, materialIDs[j]), true,
+					        false);
+				}
+			}
 		}
 	}
-	
+
+	private Material findMaterial(List<Material> matList, int id) {
+		for (int i = 0; i < matList.size(); i++) {
+			if (matList.get(i).getId() == id) {
+				return matList.get(i);
+			}
+		}
+		return null;
+	}
+	private void addHeading(String title) {
+		Label chapterLabel = new Label(title);
+		chapterLabel.addStyleName("ggbChapterName");
+		add(chapterLabel);
+	}
+
 	/**
 	 * Adds the given {@link Material materials}.
 	 * @param matList List<Material>
@@ -181,13 +215,22 @@ public class MaterialListPanel extends FlowPanel implements ResizeListener,
 	
 	
 	/**
-	 * adds the given material to the list of {@link MaterialListElement materials} and the preview-panel.
-	 * if the {@link Material material} already exists, the {@link MaterialListElement preview} is updated otherwise a new one is created.
-	 * @param mat {@link Material}
-	 * @param insertAtEnd boolean
-	 * @param isLocal boolean
+	 * adds the given material to the list of {@link MaterialListElement
+	 * materials} and the preview-panel. if the {@link Material material}
+	 * already exists, the {@link MaterialListElement preview} is updated
+	 * otherwise a new one is created.
+	 * 
+	 * @param mat
+	 *            {@link Material}, validated for NPE
+	 * @param insertAtEnd
+	 *            boolean
+	 * @param isLocal
+	 *            boolean
 	 */
 	public void addMaterial(final Material mat, final boolean insertAtEnd, final boolean isLocal) {
+		if (mat == null) {
+			return;
+		}
 		final MaterialListElement matElem = getMaterialListElement(mat);
 		if (matElem != null) {
 			int oldLocalID = matElem.getMaterial().getLocalID();

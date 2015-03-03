@@ -2,6 +2,7 @@ package geogebra.web.main;
 
 import geogebra.common.kernel.commands.CmdGetTime;
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.Material.Provider;
@@ -265,7 +266,8 @@ public abstract class FileManager implements FileManagerI {
 		        .getItem(id + "", new MaterialCallback() {
 
 			        @Override
-			        public void onLoaded(final List<Material> parseResponse) {
+			        public void onLoaded(final List<Material> parseResponse,
+			                ArrayList<Chapter> meta) {
 				        FileManager.this.notDownloadedFileCount--;
 				        checkSyncFinished();
 				        // edited on Tube, not edited locally
@@ -300,7 +302,8 @@ null,
 		        .getItem(mat.getId() + "", new MaterialCallback() {
 
 			        @Override
-			        public void onLoaded(final List<Material> parseResponse) {
+			        public void onLoaded(final List<Material> parseResponse,
+			                ArrayList<Chapter> meta) {
 
 				        // edited on Tube, not edited locally
 				        if (mat.getModified() <= mat.getSyncStamp()) {
@@ -329,7 +332,8 @@ null,
 		        .deleteMaterial(app, mat, new MaterialCallback() {
 
 			        @Override
-			        public void onLoaded(final List<Material> parseResponse) {
+			        public void onLoaded(final List<Material> parseResponse,
+			                ArrayList<Chapter> meta) {
 
 				        // edited on Tube, not edited locally
 				        delete(mat, true, onDelete);
@@ -360,7 +364,8 @@ null,
 		        .uploadLocalMaterial(app, mat, new MaterialCallback() {
 
 			        @Override
-			        public void onLoaded(final List<Material> parseResponse) {
+			        public void onLoaded(final List<Material> parseResponse,
+			                ArrayList<Chapter> meta) {
 				        if (parseResponse.size() == 1) {
 					        mat.setTitle(getTitleFromKey(mat.getTitle()));
 					        mat.setLocalID(FileManager.getIDFromKey(localKey));

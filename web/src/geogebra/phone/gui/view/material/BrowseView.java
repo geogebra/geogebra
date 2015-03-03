@@ -4,6 +4,7 @@ import geogebra.common.main.OpenFileListener;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.views.BooleanRenderable;
 import geogebra.common.move.views.EventRenderable;
@@ -19,6 +20,7 @@ import geogebra.phone.gui.view.ViewPanel;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.browser.MaterialListElement;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.resources.client.ImageResource;
@@ -86,8 +88,10 @@ public class BrowseView extends AbstractView implements BrowseViewI,
 	}
 
 	@Override
-	public void onSearchResults(List<Material> response) {
-		this.browseViewPanel.getMaterialPanel().addGGTMaterials(response);
+	public void onSearchResults(List<Material> response,
+	        ArrayList<Chapter> chapters) {
+		this.browseViewPanel.getMaterialPanel().addGGTMaterials(response,
+		        chapters);
 	}
 
 	@Override

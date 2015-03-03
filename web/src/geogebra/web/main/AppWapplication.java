@@ -6,6 +6,7 @@ import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.javax.swing.GOptionPane;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.html5.euclidian.EuclidianViewW;
@@ -36,6 +37,7 @@ import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.dom.client.Element;
@@ -543,7 +545,8 @@ public class AppWapplication extends AppW {
 		        s, new MaterialCallback() {
 
 			        @Override
-			        public void onLoaded(final List<Material> parseResponse) {
+			        public void onLoaded(final List<Material> parseResponse,
+			                ArrayList<Chapter> meta) {
 				        if (parseResponse.size() == 1) {
 					        Material material = parseResponse.get(0);
 					        material.setSyncStamp(parseResponse.get(0)

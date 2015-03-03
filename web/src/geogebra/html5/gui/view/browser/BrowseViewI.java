@@ -1,8 +1,10 @@
 package geogebra.html5.gui.view.browser;
 
 
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public interface BrowseViewI {
@@ -15,7 +17,8 @@ public interface BrowseViewI {
 
 	public void disableMaterials();
 
-	public void onSearchResults(final List<Material> response);
+	public void onSearchResults(final List<Material> response,
+	        final ArrayList<Chapter> chapters);
 
 	public void close();
 

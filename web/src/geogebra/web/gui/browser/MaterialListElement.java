@@ -1,6 +1,7 @@
 package geogebra.web.gui.browser;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.html5.Browser;
@@ -17,6 +18,7 @@ import geogebra.web.gui.util.StandardButton;
 import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.BlurEvent;
@@ -225,7 +227,9 @@ public class MaterialListElement extends FlowPanel implements
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).uploadRenameMaterial(this.app, this.material, new MaterialCallback() {
 				
 				@Override
-				public void onLoaded(List<Material> parseResponse) {
+				                public void onLoaded(
+				                        List<Material> parseResponse,
+				                        ArrayList<Chapter> meta) {
 					if (parseResponse.size() != 1) {
 						app.showError(app.getLocalization().getError("RenameFailed"));
 						title.setText(oldTitle);
@@ -456,7 +460,8 @@ public class MaterialListElement extends FlowPanel implements
 			        .deleteMaterial(this.app, toDelete, new MaterialCallback() {
 
 				@Override
-				public void onLoaded(List<Material> parseResponse) {
+				        public void onLoaded(List<Material> parseResponse,
+				                ArrayList<Chapter> meta) {
 					        App.debug("DELETE local");
 					remove();
 					        MaterialListElement.this.app.getFileManager()
@@ -533,10 +538,11 @@ public class MaterialListElement extends FlowPanel implements
 				        new MaterialCallback() {
 
 					        @Override
-					        public void onLoaded(final List<Material> response) {
+					        public void onLoaded(final List<Material> response,
+					                final ArrayList<Chapter> chapters) {
 						        guiManager.getBrowseView().clearMaterials();
 						        guiManager.getBrowseView().onSearchResults(
-						                response);
+						                response, chapters);
 					        }
 				        });
 				return;
@@ -549,11 +555,12 @@ public class MaterialListElement extends FlowPanel implements
 				        new MaterialCallback() {
 
 					        @Override
-					        public void onLoaded(final List<Material> response) {
+					        public void onLoaded(final List<Material> response,
+					                ArrayList<Chapter> meta) {
 						        if (response.size() != 1) {
 						        guiManager.getBrowseView().clearMaterials();
 						        guiManager.getBrowseView().onSearchResults(
-						                response);
+							                response, null);
 						        } else {
 							        material = response.get(0);
 							        material.setSyncStamp(synced);
@@ -570,7 +577,9 @@ public class MaterialListElement extends FlowPanel implements
 			((GeoGebraTubeAPIW) app.getLoginOperation().getGeoGebraTubeAPI()).getItem(material.getId()+"", new MaterialCallback(){
 
 				@Override
-				public void onLoaded(final List<Material> parseResponse) {
+				        public void onLoaded(
+				                final List<Material> parseResponse,
+				                ArrayList<Chapter> meta) {
 					if (parseResponse.size() == 1) {
 						material = parseResponse.get(0);
 						        material.setSyncStamp(synced);

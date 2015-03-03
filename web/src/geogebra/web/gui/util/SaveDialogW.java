@@ -5,6 +5,7 @@ import geogebra.common.main.App;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
@@ -28,6 +29,7 @@ import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
 import geogebra.web.util.SaveCallback;
 import geogebra.web.util.SaveCallback.SaveState;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.core.client.JavaScriptObject;
@@ -156,7 +158,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		return new MaterialCallback() {
 
 			@Override
-			public void onLoaded(final List<Material> parseResponse) {
+			public void onLoaded(final List<Material> parseResponse,
+			        ArrayList<Chapter> meta) {
 				if (parseResponse.size() == 1) {
 					Material newMat = parseResponse.get(0);
 					newMat.setThumbnail(((EuclidianViewWInterface) app
@@ -493,7 +496,8 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 		        .getItem(app.getTubeId() + "", new MaterialCallback() {
 
 			@Override
-			public void onLoaded(final List<Material> parseResponse) {
+			        public void onLoaded(final List<Material> parseResponse,
+			                ArrayList<Chapter> meta) {
 				        MaterialCallback materialCallback;
 				if (parseResponse.size() == 1) {
 					if (parseResponse.get(0).getModified() > app.getSyncStamp()) {

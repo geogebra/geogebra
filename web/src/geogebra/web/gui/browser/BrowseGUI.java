@@ -5,6 +5,7 @@ import geogebra.common.main.OpenFileListener;
 import geogebra.common.move.events.BaseEvent;
 import geogebra.common.move.ggtapi.events.LogOutEvent;
 import geogebra.common.move.ggtapi.events.LoginEvent;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.Provider;
@@ -218,8 +219,9 @@ public class BrowseGUI extends MyHeaderPanel implements BooleanRenderable,
 	}
 
 	@Override
-	public void onSearchResults(final List<Material> response) {
-		this.materialListPanel.addGGTMaterials(response);
+	public void onSearchResults(List<Material> response,
+	        ArrayList<Chapter> chapters) {
+		this.materialListPanel.addGGTMaterials(response, chapters);
 	}
 
 	/**

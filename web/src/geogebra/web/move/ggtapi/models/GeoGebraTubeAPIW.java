@@ -2,6 +2,7 @@ package geogebra.web.move.ggtapi.models;
 
 import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.AjaxCallback;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.ClientInfo;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.models.Material;
@@ -122,7 +123,10 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				@Override
 				public void onResponseReceived(Request request,
 				        Response response) {
-					cb.onLoaded(JSONparserGGT.parseResponse(response.getText()));
+					ArrayList<Material> result = new ArrayList<Material>();
+					ArrayList<Chapter> meta = JSONparserGGT.parseResponse(
+					        response.getText(), result);
+					cb.onLoaded(result, meta);
 				}
 
 				@Override

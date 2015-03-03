@@ -1,6 +1,7 @@
 package geogebra.html5.util.ggtapi;
 
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.Chapter;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.util.debug.Log;
@@ -8,6 +9,7 @@ import geogebra.common.util.debug.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gwt.json.client.JSONArray;
 import com.google.gwt.json.client.JSONObject;
 import com.google.gwt.json.client.JSONParser;
 import com.google.gwt.json.client.JSONValue;
@@ -19,10 +21,11 @@ import com.google.gwt.json.client.JSONValue;
  * 
  */
 public class JSONparserGGT {
-	public static List<Material> parseResponse(String response) {
-		List<Material> result = new ArrayList<Material>();
+	public static ArrayList<Chapter> parseResponse(String response,
+	        List<Material> result) {
 
 		JSONValue materialsArray = null;
+		ArrayList<Chapter> meta = null;
 
 		if (response != null) {
 			JSONObject responseObject = new JSONObject();
@@ -35,6 +38,12 @@ public class JSONparserGGT {
 			if (responseObject.containsKey("responses")) {
 				JSONObject materialsObject = responseObject.get("responses")
 				        .isObject().get("response").isObject();
+				if (materialsObject.containsKey(("meta"))) {
+					JSONValue content = materialsObject.get("meta").isObject()
+					        .get("-content");
+					meta = parseMeta(content.isString().stringValue());
+
+				}
 
 				if (materialsObject.containsKey(("item"))) {
 					materialsArray = materialsObject.get("item");
@@ -50,7 +59,7 @@ public class JSONparserGGT {
 		}
 		// 0 materials
 		if (materialsArray == null) {
-			return result;
+			return meta;
 		}
 		// >1 materials
 		if (materialsArray.isArray() != null) {
@@ -64,9 +73,29 @@ public class JSONparserGGT {
 		else if (materialsArray.isObject() != null) {
 			addToArray(result, materialsArray.isObject());
 		}
-		return result;
+		return meta;
 	}
 
+	private static ArrayList<Chapter> parseMeta(String s) {
+		ArrayList<Chapter> ret = new ArrayList<Chapter>();
+		try {
+			JSONArray parsed = JSONParser.parseStrict(s).isArray();
+			for (int i = 0; i < parsed.size(); i++) {
+				String title = parsed.get(i).isObject().get("title").isString()
+				        .stringValue();
+				JSONArray materials = parsed.get(i).isObject().get("materials")
+				        .isArray();
+				int[] mats = new int[materials.size()];
+				for (int m = 0; m < materials.size(); m++) {
+					mats[m] = (int) materials.get(m).isNumber().doubleValue();
+				}
+				ret.add(new Chapter(title, mats));
+			}
+		} catch (Throwable t) {
+
+		}
+		return ret;
+	}
 	private static void addToArray(List<Material> result, JSONObject obj) {
 		if (obj == null) {
 			return;
