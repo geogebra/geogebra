@@ -71,7 +71,7 @@ public class EuclidianStyleBarForPlane extends EuclidianStyleBarD {
 		// ========================================
 		// button
 		btnCenterAndOrientation = new MyToggleButton(
-				app.getImageIcon("standard_view.gif"), iconHeight) {
+				app.getScaledIcon("standard_view.gif"), iconHeight) {
 
 			private static final long serialVersionUID = 1L;
 

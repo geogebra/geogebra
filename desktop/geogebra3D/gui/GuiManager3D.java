@@ -85,7 +85,7 @@ public class GuiManager3D extends GuiManagerD {
 		if (!super.initActions())
 			return false;
 		showAxes3DAction = new AbstractAction(getApp().getMenu("Axes"),
-				(getApp()).getImageIcon("axes.gif")) {
+				(getApp()).getScaledIcon("axes.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -99,7 +99,7 @@ public class GuiManager3D extends GuiManagerD {
 		};
 
 		showGrid3DAction = new AbstractAction(getApp().getMenu("Grid"),
-				getApp().getImageIcon("grid.gif")) {
+				getApp().getScaledIcon("grid.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
@@ -113,7 +113,7 @@ public class GuiManager3D extends GuiManagerD {
 		};
 
 		showPlaneAction = new AbstractAction(getApp().getMenu("Plane"),
-				(getApp()).getImageIcon("plane.gif")) {
+				(getApp()).getScaledIcon("plane.gif")) {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {

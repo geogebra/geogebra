@@ -298,13 +298,13 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 			buttons = new JButton[4];
 
 			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC] = new JButton(
-					app.getImageIcon("stylingbar_graphics3D_view_orthographic.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_orthographic.gif"));
 			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE] = new JButton(
-					app.getImageIcon("stylingbar_graphics3D_view_perspective.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_perspective.gif"));
 			buttons[EuclidianView3D.PROJECTION_GLASSES] = new JButton(
-					app.getImageIcon("stylingbar_graphics3D_view_glasses.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_glasses.gif"));
 			buttons[EuclidianView3D.PROJECTION_OBLIQUE] = new JButton(
-					app.getImageIcon("stylingbar_graphics3D_view_oblique.gif"));
+					app.getScaledIcon("stylingbar_graphics3D_view_oblique.gif"));
 
 			for (int i = 0; i < 4; i++)
 				buttons[i].addActionListener(options);
@@ -324,6 +324,22 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 
 		}
 
+		public void updateIcons() {
+			if (buttons == null) {
+				return;
+			}
+			buttons[EuclidianView3D.PROJECTION_ORTHOGRAPHIC]
+					.setIcon(app
+							.getScaledIcon("stylingbar_graphics3D_view_orthographic.gif"));
+			buttons[EuclidianView3D.PROJECTION_PERSPECTIVE]
+					.setIcon(app
+							.getScaledIcon("stylingbar_graphics3D_view_perspective.gif"));
+			buttons[EuclidianView3D.PROJECTION_GLASSES].setIcon(app
+					.getScaledIcon("stylingbar_graphics3D_view_glasses.gif"));
+			buttons[EuclidianView3D.PROJECTION_OBLIQUE].setIcon(app
+					.getScaledIcon("stylingbar_graphics3D_view_oblique.gif"));
+
+		}
 	}
 
 	private JPanel buildProjectionPanel() {
@@ -465,6 +481,7 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 		tfObliqueAngleLabel.setText(app.getPlain("Angle") + ":");
 		tfObliqueFactorLabel.setText(app.getMenu("Dilate.Factor") + ":");
 
+		projectionButtons.updateIcons();
 		projectionButtons.setSelected(((EuclidianView3D) view).getProjection());
 	}
 
@@ -612,5 +629,6 @@ public class OptionsEuclidian3DD extends OptionsEuclidianD {
 				.getGuiManager())).showColorChooser(((EuclidianView3D) view)
 				.getBackground())));
 	}
+
 
 }
