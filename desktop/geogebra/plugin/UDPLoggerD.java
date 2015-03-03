@@ -15,6 +15,8 @@ import java.nio.ByteOrder;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.swing.JOptionPane;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -496,6 +498,8 @@ public class UDPLoggerD implements UDPLogger {
 							dsocket.close();
 						dsocket = null;
 						App.debug("logging failed");
+						JOptionPane.showMessageDialog(null,
+										"Logging Failed. Check connection/ip/port/send button");
 						e.printStackTrace();
 					}
 
