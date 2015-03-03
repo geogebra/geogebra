@@ -31,7 +31,6 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -41,7 +40,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.awt.font.FontRenderContext;
-import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -241,18 +239,29 @@ public class VirtualKeyboard extends JFrame implements ActionListener,
 	 * Updates the opacity.
 	 */
 	private void updateOpacity() {
-		try { // Java 6u10+ only
-			Class<?> awtUtilitiesClass = Class
-					.forName("com.sun.awt.AWTUtilities");
-			Method mSetWindowOpacity = awtUtilitiesClass.getMethod(
-					"setWindowOpacity", Window.class, float.class);
-			mSetWindowOpacity.invoke(null, this, Float.valueOf(opacity));
-		} catch (Exception ex) {
 
-			// fallback for OSX Leopard pre-6u10
-			this.getRootPane().putClientProperty("Window.alpha",
-					Float.valueOf(opacity));
-		}
+		// this works in Java 7 but loses the ability to move/resize the
+		// keyboard
+		// this.dispose();
+		// this.setUndecorated(true);
+		// this.setOpacity(opacity);
+
+		// problem on OSX. GeoGebra is packages with Java7/8 now anyway so this
+		// is redundant
+		// try { // Java 6u10+ only, not Java 7
+		// Class<?> awtUtilitiesClass = Class
+		// .forName("com.sun.awt.AWTUtilities");
+		// Method mSetWindowOpacity = awtUtilitiesClass.getMethod(
+		// "setWindowOpacity", Window.class, float.class);
+		// mSetWindowOpacity.invoke(null, this, Float.valueOf(opacity));
+		// } catch (Exception ex) {
+		//
+		// // fallback for OSX Leopard pre-6u10
+		// this.getRootPane().putClientProperty("Window.alpha",
+		// Float.valueOf(opacity));
+		//
+		// ex.printStackTrace();
+		// }
 	}
 
 	final void windowResized() {
