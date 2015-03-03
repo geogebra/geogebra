@@ -372,9 +372,9 @@ public abstract class App implements UpdateSelection {
 
 	private String scriptingLanguage;
 
-	protected AlgoKimberlingWeightsInterface kimberlingw = null;
+	public AlgoKimberlingWeightsInterface kimberlingw = null;
 
-	protected AlgoCubicSwitchInterface cubicw = null;
+	public AlgoCubicSwitchInterface cubicw = null;
 
 	/**
 	 * We need this method so that we can override it using more powerful

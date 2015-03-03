@@ -47,14 +47,11 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	 */
 	//public static final int MODE_VIEW = 2;
 
-	
-
 	//private MyRenderer renderer;
 	//private MyDefaultTreeCellEditor editor;
 	//private MathTextField editTF;
 
 	// store all pairs of GeoElement -> node in the Tree
-	
 
 	/**
 	 * The tree model.
@@ -65,14 +62,6 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	 * Root node for tree mode MODE_DEPENDENCY.
 	 */
 	//protected TreeItem rootDependency;
-
-	
-
-	
-
-	
-
-
 	
 	private AlgebraStyleBarW styleBar;
 	private GeoElement selectedGeoElement;
@@ -153,6 +142,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	/**
 	 * @return {@link AlgebraStyleBarW}
 	 */
+	@Override
 	public AlgebraStyleBarW getStyleBar() {
 		if (this.styleBar == null) {
 			this.styleBar = new AlgebraStyleBarW(app);

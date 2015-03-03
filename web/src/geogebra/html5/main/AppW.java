@@ -1253,7 +1253,7 @@ public abstract class AppW extends App implements SetLabels {
 			public void onSuccess() {
 				kimberlingw = new AlgoKimberlingWeights();
 				setKimberlingWeightFunction(kimberlingw);
-				kernel.updateConstruction();
+				getKernel().updateConstruction();
 			}
 
 			@Override
@@ -1294,7 +1294,7 @@ public abstract class AppW extends App implements SetLabels {
 			public void onSuccess() {
 				cubicw = new AlgoCubicSwitch();
 				setCubicSwitchFunction(cubicw);
-				kernel.updateConstruction();
+				getKernel().updateConstruction();
 			}
 
 			@Override
@@ -1347,8 +1347,8 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	public void imageDropHappened(String imgFileName, String fileStr,
-	        String fileStr2, GeoPoint loc) {
-		imageDropHappened(imgFileName, fileStr, fileStr2, loc, 0, 0);
+			String fileStr2, GeoPoint loc1) {
+		imageDropHappened(imgFileName, fileStr, fileStr2, loc1, 0, 0);
 	}
 
 	/**
@@ -1403,7 +1403,7 @@ public abstract class AppW extends App implements SetLabels {
 	 * @param loc
 	 */
 	public void imageDropHappened(String imgFileName, String fileStr,
-	        String fileStr2, GeoPoint loc, int width, int height) {
+			String fileStr2, GeoPoint loc1, int width, int height) {
 
 		MD5EncrypterGWTImpl md5e = new MD5EncrypterGWTImpl();
 		String zip_directory = md5e.encrypt(fileStr2);
@@ -1420,7 +1420,7 @@ public abstract class AppW extends App implements SetLabels {
 		// "a04c62e6a065b47476607ac815d022cc\liar.gif"
 		imgFileName = zip_directory + '/' + fn;
 
-		doDropHappened(imgFileName, fileStr, loc, width, height);
+		doDropHappened(imgFileName, fileStr, loc1, width, height);
 	}
 
 	private void doDropHappened(String imgFileName, String fileStr,
@@ -1546,8 +1546,8 @@ public abstract class AppW extends App implements SetLabels {
 
 	@Override
 	public void setActiveView(int evID) {
-		if (getGuiManager() instanceof GuiManagerInterfaceW) {
-			((GuiManagerInterfaceW) getGuiManager()).setActiveView(evID);
+		if (getGuiManager() != null) {
+			getGuiManager().setActiveView(evID);
 		}
 	}
 
