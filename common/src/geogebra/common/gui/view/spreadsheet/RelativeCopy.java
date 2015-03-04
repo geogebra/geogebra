@@ -474,9 +474,7 @@ public class RelativeCopy {
 		
 		updateCellReferences(exp, dx, dy);
 
-		App.debug("before:" + text);
 		text = exp.toString(highPrecision);
-		App.debug("after:" + text);
 
 		// condition to show object
 		GeoBoolean bool = value.getShowObjectCondition();
