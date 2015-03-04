@@ -286,7 +286,6 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	}
 
 	public void setTreeMode(int mode) {
-		System.out.println("setTreeMode: " + mode);
 		setTreeMode(intToMode(mode));
 	}
 	
