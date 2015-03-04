@@ -10,7 +10,7 @@
   <inherits name="com.google.gwt.json.JSON" />
   <inherits name='geogebra.Html5'/>
   <!-- CAS -->
-  
+  <inherits name='com.googlecode.gwtgl.binding'/>
  
  <!-- query param's name is locale, cookie paramname is also locale. 
  The application searches for the user agent locale if queryparam i.e. URL parameter and the cookie parameter are not set -->
@@ -38,6 +38,7 @@
   
   
   <!-- Specify the paths for translatable code                    -->
+  <source path='geogebra3D'/>
   <source path='web'/>
   <source path='html5'/>
   <super-source path='/common/src/geogebra/jre' />
@@ -64,7 +65,7 @@
   <replace-with class="geogebra.web.gui.SVGImageFactory">
     <when-type-is class="geogebra.web.gui.ImageFactory" />    
   </replace-with>
-  <replace-with class="geogebra.web.gui.applet.AppletFactory2D">
+  <replace-with class="geogebra.geogebra3D.AppletFactory3D">
     <when-type-is class="geogebra.web.gui.applet.AppletFactory" />    
   </replace-with>
   <!-- Compile only one permutation -->

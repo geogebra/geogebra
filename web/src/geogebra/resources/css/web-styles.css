@@ -4495,6 +4495,12 @@ PROVIDERS
 	background-color: white;
 }
 
+.ggbChapterName{
+	clear:both;
+	font-size:30px;
+	padding-bottom:10px;
+}
+
 .materialListElement {
 	width: 182px;
 	height: 250px;

@@ -202,7 +202,7 @@ public class SaveDialogW extends DialogBoxW implements PopupMenuHandler, EventRe
 			}
 
 			private void saveLocalIfNeeded(long modified, SaveState state) {
-				if (app.getFileManager().shouldKeep(0)
+				if (app.getFileManager().shouldKeep(0) || app.isPrerelease()
 				        || state == SaveState.ERROR) {
 					app.getKernel().getConstruction().setTitle(title.getText());
 					((FileManager) app.getFileManager()).saveFile(base64,

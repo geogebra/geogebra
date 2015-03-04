@@ -10,6 +10,7 @@ import geogebra.html5.util.ggtapi.JSONparserGGT;
 import geogebra.web.util.SaveCallback;
 
 import java.util.ArrayList;
+import java.util.TreeSet;
 
 import com.google.gwt.storage.client.Storage;
 
@@ -133,9 +134,30 @@ public class FileManagerW extends FileManager {
 		}
 	}
 
+	private int freeBytes = -1;
+	private TreeSet<Integer> offlineIDs = new TreeSet<Integer>();
 	@Override
 	public boolean shouldKeep(int id) {
+		if (!getApp().isPrerelease()) {
+			return false;
+		}
+		if (offlineIDs.contains(id)) {
+			return true;
+		}
+		if (freeBytes == -1) {
+			countFreeBytes();
+		}
+		if (freeBytes > 10e6) {
+			return true;
+		}
 		return false;
+	}
+
+	private void countFreeBytes() {
+		if (this.stockStore == null) {
+			return;
+		}
+		this.freeBytes = 5000000;
 	}
 
 	@Override
@@ -206,13 +228,28 @@ public class FileManagerW extends FileManager {
 
 	@Override
 	public void setTubeID(String localID, Material mat) {
-		// implement this if we need offline cache in Chromeapp
+		if (this.stockStore == null) {
+			return;
+		}
+		final Material oldMat = JSONparserGGT.parseMaterial(this.stockStore
+		        .getItem(localID));
+		mat.setBase64(oldMat.getBase64());
+		this.stockStore.setItem(localID, mat.toJson().toString());
+		this.offlineIDs.add(mat.getId());
 
 	}
 
 	@Override
-	protected void updateFile(String title, long modified, Material material) {
-		// TODO Auto-generated method stub
-
+	protected void updateFile(String localKey, long modified, Material material) {
+		if (this.stockStore == null) {
+			return;
+		}
+		String key = localKey;
+		if (key == null) {
+			key = FileManager.createKeyString(this.createID(),
+			        material.getTitle());
+		}
+		this.stockStore.setItem(key, material.toJson().toString());
+		this.offlineIDs.add(material.getId());
 	}
 }

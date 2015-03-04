@@ -326,7 +326,8 @@ public class MaterialListElement extends FlowPanel implements
 			deco.setStyleName("bookDecoration");
 			background.add(deco);
 		}
-		if (this.app.getFileManager().shouldKeep(this.material.getId())
+		if ((this.app.getFileManager().shouldKeep(this.material.getId()) || this.app
+		        .isPrerelease())
 		        && this.material.getType() != MaterialType.book
 		        && this.material.getSyncStamp() > 0
 		        && this.material.getModified() <= this.material.getSyncStamp()) {
