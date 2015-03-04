@@ -91,13 +91,23 @@ public interface Inspecting {
 							.toString(StringTemplate.defaultTemplate);
 					if (!varString.equals("x") && !varString.equals("y")
 							&& (dim < 3 || !varString.equals("z"))) {
+						GeoElement subst = gdv.getElementWithSameName();
+						if (subst != null && !subst.getSendValueToCas()) {
+							return false;
+						}
 						return true;
 					}
+
 				}
 				return false;
 				// Function
 			case 3:
 				if (v instanceof GeoDummyVariable) {
+					GeoElement subst = ((GeoDummyVariable) v)
+							.getElementWithSameName();
+					if (subst != null && !subst.getSendValueToCas()) {
+						return false;
+					}
 					return true;
 				}
 				return false;

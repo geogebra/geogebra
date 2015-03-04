@@ -2283,6 +2283,11 @@ public class GeoCasCell extends GeoElement implements VarString, TextProperties 
 
 	private static boolean dependsOnDummy(final GeoElement geo) {
 		if (geo instanceof GeoDummyVariable) {
+			GeoElement subst = ((GeoDummyVariable) geo)
+					.getElementWithSameName();
+			if (subst != null && !subst.sendValueToCas) {
+				return false;
+			}
 			App.debug("DUMMY"+geo);
 			return true;
 		}
