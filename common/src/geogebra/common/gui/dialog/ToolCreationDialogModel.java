@@ -167,14 +167,23 @@ public class ToolCreationDialogModel {
 		}
 	}
 
-	public void finish(App appToSave, String commandName, String toolName,
+	public void finish(App appToSave, String cmdName, String toolName,
 			String toolHelp, boolean showInToolBar, String iconFileName) {
 
-		newTool.setCommandName(commandName);
+		newTool.setCommandName(cmdName);
 		newTool.setToolName(toolName);
 		newTool.setToolHelp(toolHelp);
 		newTool.setShowInToolBar(showInToolBar);
 		newTool.setIconFileName(iconFileName);
+
+		// make sure new macro command gets into dictionary
+		appToSave.updateCommandDictionary();
+		Kernel kernel = appToSave.getKernel();
+		// check if command name is not used already by another macro
+		if (kernel.getMacro(cmdName) != null) {
+			overwriteMacro(appToSave, kernel.getMacro(cmdName));
+			return;
+		}
 
 		kernel.addMacro(newTool);
 		// make sure new macro command gets into dictionary

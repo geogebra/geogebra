@@ -610,9 +610,15 @@ public class GuiManagerW extends GuiManager implements GuiManagerInterfaceW,
 
 			return;
 		}
+
 		if (strCustomToolbarDefinition != null) {
+			int macroNum = kernel.getMacroNumber();
 			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
 			        + mode;
+			for (int i = 1; i < macroNum; i++) {
+				int m = kernel.getMacroID(kernel.getMacro(i));
+				strCustomToolbarDefinition += ", " + mode;
+			}
 		}
 	}
 

@@ -2429,8 +2429,13 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 			return;
 		}
 		if (strCustomToolbarDefinition != null) {
+			int macroNum = kernel.getMacroNumber();
 			strCustomToolbarDefinition = strCustomToolbarDefinition + " | "
 					+ mode;
+			for (int i = 1; i < macroNum; i++) {
+				int m = kernel.getMacroID(kernel.getMacro(i));
+				strCustomToolbarDefinition += ", " + mode;
+			}
 		}
 	}
 

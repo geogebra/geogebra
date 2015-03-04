@@ -312,7 +312,7 @@ public class ToolCreationDialog extends DialogBoxW implements
 		boolean showInToolBar = toolNameIconPanel.getShowTool();
 		String iconFileName = toolNameIconPanel.getIconFileName();
 
-		toolModel.finish(appToSave, commandName, toolName, toolHelp,
+		toolModel.finish(app, commandName, toolName, toolHelp,
 		        showInToolBar, iconFileName);
 		AppW w = (AppW) app;
 		// if (w.isToolLoadedFromStorage()) {
