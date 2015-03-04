@@ -466,14 +466,17 @@ public class RelativeCopy {
 				freeImage = true;
 			}
 		}
-
+		boolean oldFlag = kernel.isUsingInternalCommandNames();
+		kernel.setUseInternalCommandNames(true);
+		// FIXME maybe try-catch this?
 		ValidExpression exp = kernel.getParser().parseGeoGebraExpression(text);
+		kernel.setUseInternalCommandNames(oldFlag);
 		
 		updateCellReferences(exp, dx, dy);
 
-		//App.debug("before:"+text);
+		App.debug("before:" + text);
 		text = exp.toString(highPrecision);
-		//App.debug("after:"+text);
+		App.debug("after:" + text);
 
 		// condition to show object
 		GeoBoolean bool = value.getShowObjectCondition();
@@ -1046,10 +1049,15 @@ public class RelativeCopy {
 			// else if the target cell is empty, try to create a new GeoElement
 			// for this cell
 		} else if (oldValue == null) {
+			boolean oldFlag = kernel.isUsingInternalCommandNames();
 			try {
 				// this will be a new geo
-				return prepareNewValue(kernel, name, text);
+				kernel.setUseInternalCommandNames(true);
+				GeoElement ret = prepareNewValue(kernel, name, text);
+				kernel.setUseInternalCommandNames(oldFlag);
+				return ret;
 			} catch (Throwable t) {
+				kernel.setUseInternalCommandNames(oldFlag);
 				return prepareNewValue(kernel, name, "");
 			}
 
