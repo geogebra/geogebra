@@ -7,7 +7,7 @@ import java.util.LinkedList;
  */
 public class AlgebraSettings extends AbstractSettings {
 
-	private int treeMode = 1;
+	private int treeMode = 3;
 
 	private boolean showAuxiliaryObjects = false;
 
@@ -82,7 +82,7 @@ public class AlgebraSettings extends AbstractSettings {
 	 * reset the settings
 	 */
 	public void reset() {
-		treeMode = 1;
+		treeMode = 3;
 		showAuxiliaryObjects = false;
 		collapsedNodes = null;
 	}
