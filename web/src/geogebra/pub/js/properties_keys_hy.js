@@ -577,7 +577,7 @@ __GGB__keysVar.hy.command = {
     "NormalQuantilePlot": "\u0546\u0578\u0580\u0574\u0561\u056c\u0554\u057e\u0561\u0576\u057f\u056b\u056c\u0576\u0565\u0580\u056b\u0533\u0580\u0561\u0586\u056b\u056f",
     "NormalQuantilePlot.Syntax": "[ <\u054d\u056f\u0566\u0562\u0576\u0561\u056f\u0561\u0576 \u057f\u057e\u0575\u0561\u056c\u0576\u0565\u0580\u056b \u0581\u0578\u0582\u0581\u0561\u056f> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "\u0540\u0561\u0574\u0561\u0580\u056b\u0579",
     "Numerator.Syntax": "[ <\u0556\u0578\u0582\u0576\u056f\u0581\u056b\u0561> ]",
     "Numerator.SyntaxCAS": "[ <\u0531\u0580\u057f\u0561\u0570\u0561\u0575\u057f\u0578\u0582\u0569\u0575\u0578\u0582\u0576> ]",

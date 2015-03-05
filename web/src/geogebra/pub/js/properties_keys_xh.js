@@ -577,7 +577,7 @@ __GGB__keysVar.xh.command = {
     "NormalQuantilePlot": "NormalQuantilePlot",
     "NormalQuantilePlot.Syntax": "[ <List of Raw Data> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "iNaniPhezulu",
     "Numerator.Syntax": "[ <iFunction> ]",
     "Numerator.SyntaxCAS": "[ <iExpression> ]",

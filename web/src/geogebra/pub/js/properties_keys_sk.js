@@ -577,7 +577,7 @@ __GGB__keysVar.sk.command = {
     "NormalQuantilePlot": "Norm\xe1lnyKvantilDiagram",
     "NormalQuantilePlot.Syntax": "[ <Zoznam s\xfarov\xfdch \xfadajov> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "\u010citate\u013e",
     "Numerator.Syntax": "[ <Funkcia> ]",
     "Numerator.SyntaxCAS": "[ <V\xfdraz> ]",

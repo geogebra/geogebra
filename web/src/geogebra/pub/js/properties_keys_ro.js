@@ -577,7 +577,7 @@ __GGB__keysVar.ro.command = {
     "NormalQuantilePlot": "Schi\u021b\u0103Cuantil\u0103Normal",
     "NormalQuantilePlot.Syntax": "[ <List\u0103 date brute> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Num\u0103r\u0103tor",
     "Numerator.Syntax": "[ <Func\u0163ie> ]",
     "Numerator.SyntaxCAS": "[ <Expresie> ]",

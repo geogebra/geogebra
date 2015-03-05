@@ -577,7 +577,7 @@ __GGB__keysVar.kk.command = {
     "NormalQuantilePlot": "NormalQuantilePlot",
     "NormalQuantilePlot.Syntax": "[ <\u0416\u0430\u04a3\u0430 \u0410\u049b\u043f\u0430\u0440\u0430\u0442 \u0422\u0456\u0437\u0456\u043c\u0456> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "\u0410\u043b\u044b\u043c\u044b",
     "Numerator.Syntax": "[ <\u0424\u0443\u043d\u043a\u0446\u0438\u044f> ]",
     "Numerator.SyntaxCAS": "[ <\u04e8\u0440\u043d\u0435\u043a> ]",

@@ -577,7 +577,7 @@ __GGB__keysVar.ca.command = {
     "NormalQuantilePlot": "DiagramaQQ",
     "NormalQuantilePlot.Syntax": "[ <Llista de totes les dades> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Numerador",
     "Numerator.Syntax": "[ <Funci\xf3> ]",
     "Numerator.SyntaxCAS": "[ <Expressi\xf3> ]",

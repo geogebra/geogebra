@@ -577,7 +577,7 @@ __GGB__keysVar.lv.command = {
     "NormalQuantilePlot": "NormalQuantilePlot",
     "NormalQuantilePlot.Syntax": "[ <Datu saraksts> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Skait\u012bt\u0101js",
     "Numerator.Syntax": "[ <Funkcija> ]",
     "Numerator.SyntaxCAS": "[ <Izteiksme> ]",

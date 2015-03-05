@@ -577,7 +577,7 @@ __GGB__keysVar.hu.command = {
     "NormalQuantilePlot": "Norm\xe1lKvantilisF\xfcggv\xe9ny",
     "NormalQuantilePlot.Syntax": "[ <Nyers adatok list\xe1ja> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Sz\xe1ml\xe1l\xf3",
     "Numerator.Syntax": "[ <F\xfcggv\xe9ny> ]",
     "Numerator.SyntaxCAS": "[ <Kifejez\xe9s> ]",

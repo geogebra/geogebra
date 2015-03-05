@@ -577,7 +577,7 @@ __GGB__keysVar.lt.command = {
     "NormalQuantilePlot": "NormalusKvantileGrafikas",
     "NormalQuantilePlot.Syntax": "[ <Neapdorot\u0173 duomen\u0173 s\u0105ra\u0161as> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Skaitiklis",
     "Numerator.Syntax": "[ <Funkcija> ]",
     "Numerator.SyntaxCAS": "[ <I\u0161rai\u0161ka> ]",

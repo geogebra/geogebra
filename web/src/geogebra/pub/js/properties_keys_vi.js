@@ -577,7 +577,7 @@ __GGB__keysVar.vi.command = {
     "NormalQuantilePlot": "DoThiPhanVi",
     "NormalQuantilePlot.Syntax": "[ <Danh s\xe1ch d\u1eef li\u1ec7u th\xf4> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "TuThuc",
     "Numerator.Syntax": "[ <H\xe0m s\u1ed1> ]",
     "Numerator.SyntaxCAS": "[ <Bi\u1ec3u th\u1ee9c> ]",

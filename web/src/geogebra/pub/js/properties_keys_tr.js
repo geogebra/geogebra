@@ -577,7 +577,7 @@ __GGB__keysVar.tr.command = {
     "NormalQuantilePlot": "NormalS\u0131kl\u0131k\xc7izim",
     "NormalQuantilePlot.Syntax": "[ <Ham Veri Listesi> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Pay",
     "Numerator.Syntax": "[ <\u0130\u015flev> ]",
     "Numerator.SyntaxCAS": "[ <\u0130fade> ]",

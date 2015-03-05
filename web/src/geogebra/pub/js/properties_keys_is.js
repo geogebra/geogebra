@@ -577,7 +577,7 @@ __GGB__keysVar.is.command = {
     "NormalQuantilePlot": "NormalBrotmarkTeikna",
     "NormalQuantilePlot.Syntax": "[ <Listi af g\xf6gnum> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Teljari",
     "Numerator.Syntax": "[ <Fall> ]",
     "Numerator.SyntaxCAS": "[ <St\xe6\xf0a> ]",

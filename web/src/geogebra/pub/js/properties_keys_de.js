@@ -577,7 +577,7 @@ __GGB__keysVar.de.command = {
     "NormalQuantilePlot": "NormalQuantilPlot",
     "NormalQuantilePlot.Syntax": "[ <Liste von Rohdaten> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Z\xe4hler",
     "Numerator.Syntax": "[ <Funktion> ]",
     "Numerator.SyntaxCAS": "[ <Ausdruck> ]",

@@ -577,7 +577,7 @@ __GGB__keysVar.fi.command = {
     "NormalQuantilePlot": "NormaaliKvantiilikuvio",
     "NormalQuantilePlot.Syntax": "[ <Raakadatalista> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Osoittaja",
     "Numerator.Syntax": "[ <Funktio> ]",
     "Numerator.SyntaxCAS": "[ <Lauseke> ]",

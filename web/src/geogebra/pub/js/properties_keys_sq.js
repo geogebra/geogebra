@@ -577,7 +577,7 @@ __GGB__keysVar.sq.command = {
     "NormalQuantilePlot": "VizatimiNormalKuantile",
     "NormalQuantilePlot.Syntax": "[ <Liste te Dhenash te Paperpunuara> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Numerues",
     "Numerator.Syntax": "[ <Funksion> ]",
     "Numerator.SyntaxCAS": "[ <Shprehje> ]",

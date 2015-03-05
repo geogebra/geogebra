@@ -577,7 +577,7 @@ __GGB__keysVar.pl.command = {
     "NormalQuantilePlot": "WykresNormalnyKwantylowy",
     "NormalQuantilePlot.Syntax": "[ <Lista Surowych Danych> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Licznik",
     "Numerator.Syntax": "[ <Funkcja> ]",
     "Numerator.SyntaxCAS": "[ <Wyra\u017cenie> ]",

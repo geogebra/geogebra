@@ -577,7 +577,7 @@ __GGB__keysVar.eu.command = {
     "NormalQuantilePlot": "KoantilNormalaGrafikoa",
     "NormalQuantilePlot.Syntax": "[ <Datu Gordinen Zerrenda> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Zenbakitzailea",
     "Numerator.Syntax": "[ <Funtzioa> ]",
     "Numerator.SyntaxCAS": "[ <Adierazpena> ]",

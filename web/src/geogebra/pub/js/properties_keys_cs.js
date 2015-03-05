@@ -577,7 +577,7 @@ __GGB__keysVar.cs.command = {
     "NormalQuantilePlot": "NormalniKvantilovyDiagram",
     "NormalQuantilePlot.Syntax": "[ <Seznam nezpracovan\xfdch dat> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Citatel",
     "Numerator.Syntax": "[ <Funkce> ]",
     "Numerator.SyntaxCAS": "[ <V\xfdraz> ]",

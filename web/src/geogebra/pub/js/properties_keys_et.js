@@ -577,7 +577,7 @@ __GGB__keysVar.et.command = {
     "NormalQuantilePlot": "NormaalKvantiildiagramm",
     "NormalQuantilePlot.Syntax": "[ <Algandmete loend> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Lugeja",
     "Numerator.Syntax": "[ <Funktsioon> ]",
     "Numerator.SyntaxCAS": "[ <Avaldis> ]",

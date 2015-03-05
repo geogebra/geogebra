@@ -577,7 +577,7 @@ __GGB__keysVar.hr.command = {
     "NormalQuantilePlot": "GrafKvantilaNormalneRazdiobe",
     "NormalQuantilePlot.Syntax": "[ <lista neobra\u0111enih podataka> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Brojnik",
     "Numerator.Syntax": "[ <funkcija> ]",
     "Numerator.SyntaxCAS": "[ <izraz> ]",

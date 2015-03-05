@@ -577,7 +577,7 @@ __GGB__keysVar.cy.command = {
     "NormalQuantilePlot": "PlotMeintiolNormal",
     "NormalQuantilePlot.Syntax": "[ <Rhestr Ddata Crai> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Rhifiadur",
     "Numerator.Syntax": "[ <Ffwythiant> ]",
     "Numerator.SyntaxCAS": "[ <Expression> ]",

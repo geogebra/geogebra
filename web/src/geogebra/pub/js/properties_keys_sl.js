@@ -577,7 +577,7 @@ __GGB__keysVar.sl.command = {
     "NormalQuantilePlot": "DiagramKvantilovNormalnePorazdelitve",
     "NormalQuantilePlot.Syntax": "[ <seznam vrstic s podatki> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "\u0160tevec",
     "Numerator.Syntax": "[ <funkcija> ]",
     "Numerator.SyntaxCAS": "[ <izraz> ]",

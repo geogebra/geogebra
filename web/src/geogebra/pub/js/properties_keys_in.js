@@ -577,7 +577,7 @@ __GGB__keysVar.in.command = {
     "NormalQuantilePlot": "PlotQuantilNormal",
     "NormalQuantilePlot.Syntax": "[ <Daftar Data Mentah> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Pembilang",
     "Numerator.Syntax": "[ <Fungsi> ]",
     "Numerator.SyntaxCAS": "[ <Ekspresi> ]",

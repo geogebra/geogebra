@@ -577,7 +577,7 @@ __GGB__keysVar.si.command = {
     "NormalQuantilePlot": "NormalQuantilePlot",
     "NormalQuantilePlot.Syntax": "[ <\u0d85\u0db8\u0dd4 \u0daf\u0dad\u0dca\u0dad \u0dbd\u0dd0\u0dba\u0dd2\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "\u0dbd\u0dc0\u0dba",
     "Numerator.Syntax": "[ <\u0dc1\u0dca\u200d\u0dbb\u0dd2\u0dad\u0dba> ]",
     "Numerator.SyntaxCAS": "[ <\u0db4\u0dca\u200d\u0dbb\u0d9a\u0dcf\u0dc1\u0db1\u0dba> ]",

@@ -577,7 +577,7 @@ __GGB__keysVar.nl.command = {
     "NormalQuantilePlot": "Kwantielplot",
     "NormalQuantilePlot.Syntax": "[ <Lijst met waarnemingsgetallen> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Teller",
     "Numerator.Syntax": "[ <Functie> ]",
     "Numerator.SyntaxCAS": "[ <Uitdrukking> ]",

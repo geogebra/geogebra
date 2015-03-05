@@ -577,7 +577,7 @@ __GGB__keysVar.sr.command = {
     "NormalQuantilePlot": "GrafikKvantilaNormalneRaspodele",
     "NormalQuantilePlot.Syntax": "[ <lista neobra\u0111enih podataka> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Brojilac",
     "Numerator.Syntax": "[ <funkcija> ]",
     "Numerator.SyntaxCAS": "[ <izraz> ]",

@@ -577,7 +577,7 @@ __GGB__keysVar.eo.command = {
     "NormalQuantilePlot": "NormalQuantilePlot",
     "NormalQuantilePlot.Syntax": "[ <Listo de Krudaj Datumoj> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Numeratoro",
     "Numerator.Syntax": "[ <Funkcio> ]",
     "Numerator.SyntaxCAS": "[ <Esprimo> ]",

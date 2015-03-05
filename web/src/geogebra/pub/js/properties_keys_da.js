@@ -577,7 +577,7 @@ __GGB__keysVar.da.command = {
     "NormalQuantilePlot": "NormalKvartilGraf",
     "NormalQuantilePlot.Syntax": "[ <r\xe5data> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "T\xe6ller",
     "Numerator.Syntax": "[ <funktion> ]",
     "Numerator.SyntaxCAS": "[ <udtryk> ]",

@@ -577,7 +577,7 @@ __GGB__keysVar.no_NN.command = {
     "NormalQuantilePlot": "NormalKvantilPlott",
     "NormalQuantilePlot.Syntax": "[ <Liste med r\xe5data> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Teljar",
     "Numerator.Syntax": "[ <Funksjon> ]",
     "Numerator.SyntaxCAS": "[ <Uttrykk> ]",

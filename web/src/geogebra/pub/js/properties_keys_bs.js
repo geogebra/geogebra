@@ -577,7 +577,7 @@ __GGB__keysVar.bs.command = {
     "NormalQuantilePlot": "NormalniQQDijagram",
     "NormalQuantilePlot.Syntax": "[ <Lista ulaznih podataka> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Brojnik",
     "Numerator.Syntax": "[ <Funkcija> ]",
     "Numerator.SyntaxCAS": "[ <Izraz> ]",

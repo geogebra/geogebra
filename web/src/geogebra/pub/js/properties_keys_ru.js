@@ -577,7 +577,7 @@ __GGB__keysVar.ru.command = {
     "NormalQuantilePlot": "\u0413\u0440\u0430\u0444\u0438\u043a\u041d\u043e\u0440\u043c\u0430\u043b\u044c\u043d\u043e\u0439\u0412\u0435\u0440\u043e\u044f\u0442\u043d\u043e\u0441\u0442\u0438",
     "NormalQuantilePlot.Syntax": "[ <\u0421\u043f\u0438\u0441\u043e\u043a \u0438\u0441\u0445\u043e\u0434\u043d\u044b\u0445 \u0434\u0430\u043d\u043d\u044b\u0445> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "\u0427\u0438\u0441\u043b\u0438\u0442\u0435\u043b\u044c",
     "Numerator.Syntax": "[ <\u0424\u0443\u043d\u043a\u0446\u0438\u044f> ]",
     "Numerator.SyntaxCAS": "[ <\u0412\u044b\u0440\u0430\u0436\u0435\u043d\u0438\u0435> ]",

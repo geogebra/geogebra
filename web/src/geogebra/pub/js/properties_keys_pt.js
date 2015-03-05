@@ -577,7 +577,7 @@ __GGB__keysVar.pt.command = {
     "NormalQuantilePlot": "DiagramaQuantilNormal",
     "NormalQuantilePlot.Syntax": "[ <Lista dos Dados Brutos> ]",
     "Normalize": "Normalize",
-    "Normalize.Syntax": "[ {List of Numbers} ]\n[ {List of Points} ]",
+    "Normalize.Syntax": "[ <List of Numbers> ]\n[ <List of Points> ]",
     "Numerator": "Numerador",
     "Numerator.Syntax": "[ <Fun\xe7\xe3o> ]",
     "Numerator.SyntaxCAS": "[ <Express\xe3o> ]",
