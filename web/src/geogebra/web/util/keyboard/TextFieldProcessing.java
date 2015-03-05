@@ -31,6 +31,7 @@ public class TextFieldProcessing {
 	private static final int BACKSPACE = 8;
 	private static final int ENTER = 13;
 	private static final int LBRACE = 40;
+	private static final int ASTERISK = 42;
 	private static final int CIRCUMFLEX = 94;
 	private static final int T_LOWER_CASE = 116;
 	private static final int PIPE = 124;
@@ -392,6 +393,9 @@ public class TextFieldProcessing {
 			} else if (text.equals(KeyboardConstants.SQUARE_ROOT)) {
 				((RadioButtonTreeItem) field).keypress(
 				        KeyboardConstants.SQUARE_ROOT.charAt(0), false, false,
+						false);
+			} else if (text.equals("*")) {
+				((RadioButtonTreeItem) field).keypress(ASTERISK, false, false,
 						false);
 			} else if (text.equals(KeyboardConstants.X_SQUARE)) {
 				((RadioButtonTreeItem) field)
