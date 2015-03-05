@@ -1185,10 +1185,18 @@ geo, newValue, redefine, true);
 
 			};
 
-			app.getKernel()
+			GeoElement[] newGeo = app
+					.getKernel()
 			        .getAlgebraProcessor()
 			        .processAlgebraCommandNoExceptionHandling(input, true,
 			                false, true, true, callback);
+
+			if (newGeo != null && newGeo.length == 1
+					&& newGeo[0] instanceof GeoText) {
+				// texts created via the input field should be displayed in the
+				// AV
+				newGeo[0].setAuxiliaryObject(false);
+			}
 
 		} catch (Exception ee) {
 			// TODO: better exception handling
