@@ -1079,9 +1079,10 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		}
 		if(this.app.getInputPosition() == InputPositon.algebraView){
 			if (app.isPrerelease()) {
-				inputPanelTreeItem = super
-				        .addItem(inputPanelLatex = new NewRadioButtonTreeItem(
-				                kernel));
+				if (inputPanelLatex == null) {
+					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+				}
+				inputPanelTreeItem = super.addItem(inputPanelLatex);
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}
