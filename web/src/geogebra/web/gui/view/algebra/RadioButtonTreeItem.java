@@ -145,12 +145,30 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 */
 	boolean blockBlur = false;
 
+	/**
+	 * Slider to be shown as part of the extended Slider entries
+	 */
 	private SliderW slider;
+
+	/**
+	 * panel to correctly display an extended slider entry
+	 */
 	private VerticalPanel sliderPanel;
 
+	/**
+	 * this panel contains the marble (radio) and the play button for extended
+	 * slider entries
+	 */
 	private VerticalPanel marblePanel;
+
+	/**
+	 * start/pause slider animations
+	 */
 	Image playButton;
 
+	/**
+	 * checkbox displaying boolean variables
+	 */
 	private CheckBox checkBox;
 
 	/**
@@ -866,7 +884,8 @@ public class RadioButtonTreeItem extends HorizontalPanel
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
-			if (((HasExtendedAV) geo).isShowingExtendedAV()) {
+			if (((HasExtendedAV) geo).isShowingExtendedAV()
+					&& !geo.isEuclidianVisible()) {
 				sliderPanel.add(slider);
 				marblePanel.add(playButton);
 			} else if (marblePanel != null) {
