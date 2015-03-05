@@ -295,7 +295,7 @@ public class ToolNameIconPanel extends VerticalPanel implements BlurHandler,
 		}
 	}
 
-	private void showToolChanged() {
+	void showToolChanged() {
 		Macro m = getMacro();
 		if (listener != null) {
 			listener.onShowToolChange(m);

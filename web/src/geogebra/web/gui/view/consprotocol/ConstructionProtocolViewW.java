@@ -337,7 +337,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 
 	}
 
-	private void rowCountChanged() {
+	void rowCountChanged() {
 		app.getGuiManager().invokeLater(new Runnable() {
 	    	public void run(){
 	    		makeTableRowsDragable();

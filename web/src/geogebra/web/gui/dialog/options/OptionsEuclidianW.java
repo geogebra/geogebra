@@ -55,10 +55,10 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	protected EuclidianView view;
 	public EuclidianOptionsModel model;
 	protected BasicTab basicTab;
-	private AxisTab xAxisTab;
-	private AxisTab yAxisTab;
+	AxisTab xAxisTab;
+	AxisTab yAxisTab;
 	private GridTab gridTab;
-	private ListBox lbTooltips;
+	ListBox lbTooltips;
 	private boolean isIniting;
 	
 	protected abstract class EuclidianTab extends FlowPanel implements SetLabels {
@@ -70,7 +70,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		public void onResize(int height, int width) {
 			this.setHeight(height + "px");
 		}
-	};
+	}
 	
 	protected class BasicTab extends EuclidianTab {
 		
@@ -80,16 +80,16 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private AutoCompleteTextFieldW tfMaxX;
 		private AutoCompleteTextFieldW tfMinY;
 		private AutoCompleteTextFieldW tfMaxY;
-		private AutoCompleteTextFieldW tfAxesRatioX;
-		private AutoCompleteTextFieldW tfAxesRatioY;
+		AutoCompleteTextFieldW tfAxesRatioX;
+		AutoCompleteTextFieldW tfAxesRatioY;
 		
 		private Label axesRatioLabel;
 		private FlowPanel dimPanel;
-		private ToggleButton tbLockRatio;
+		ToggleButton tbLockRatio;
 		
 		
 		protected CheckBox cbShowAxes;
-		private CheckBox cbBoldAxes;
+		CheckBox cbBoldAxes;
 		private Label colorLabel;
 		private MyCJButton btAxesColor;
 		private Label lineStyle;
@@ -99,14 +99,14 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private PopupMenuButton axesStylePopup;
 		protected Label backgroundColorLabel;
 		protected MyCJButton btBackgroundColor;
-		private CheckBox cbShowMouseCoords;
+		CheckBox cbShowMouseCoords;
 		private Label tooltips;
 		protected Label miscTitle;
 		private Label consProtocolTitle;
 		private FlowPanel consProtocolPanel;
-		private CheckBox cbShowNavbar;
-		private CheckBox cbNavPlay;
-		private CheckBox cbOpenConsProtocol;
+		CheckBox cbShowNavbar;
+		CheckBox cbNavPlay;
+		CheckBox cbOpenConsProtocol;
 		private CheckBox cbShowGrid;
 		private CheckBox cbBoldGrid;
 
@@ -144,7 +144,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			return app.getKernel().getAlgebraProcessor().evaluateToDouble(text);
 		}
 		
-		private void applyAxesRatio() {
+		void applyAxesRatio() {
 	
 			model.applyAxesRatio(parseDouble(tfAxesRatioX.getText()),
 					parseDouble(tfAxesRatioY.getText()));
@@ -377,7 +377,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		}
 
 
-		private void togglePlayButton() {
+		void togglePlayButton() {
 			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
 					.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setPlayButtonVisible(!cpn.isPlayButtonVisible());
@@ -385,7 +385,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			updateGUI();
 		}
 
-		private void toggleConsProtButton() {
+		void toggleConsProtButton() {
 			ConstructionProtocolNavigationW cpn = (ConstructionProtocolNavigationW) app
 					.getGuiManager().getConstructionProtocolNavigation();
 			cpn.setConsProtButtonVisible(!cpn.isConsProtButtonVisible());
@@ -685,12 +685,12 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		
 	protected class GridTab extends EuclidianTab {
 		private static final int iconHeight = 24;
-		private CheckBox cbShowGrid;
-		private ListBox lbGridType;
-		private CheckBox cbGridManualTick;
-		private NumberListBox ncbGridTickX;
-		private NumberListBox ncbGridTickY;
-		private ListBox lbGridTickAngle;
+		CheckBox cbShowGrid;
+		ListBox lbGridType;
+		CheckBox cbGridManualTick;
+		NumberListBox ncbGridTickX;
+		NumberListBox ncbGridTickY;
+		ListBox lbGridTickAngle;
 		private Label gridLabel1;
 		private Label gridLabel2;
 		private Label gridLabel3;
@@ -698,7 +698,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 		private Label lblGridStyle;
 		LineStylePopup btnGridStyle;
 		private Label lblColor;
-		private CheckBox cbBoldGrid;
+		CheckBox cbBoldGrid;
 		private MyCJButton btGridColor;
 		private FlowPanel mainPanel;
 		public GridTab() {
@@ -718,7 +718,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 			initGridStylePanel();
 		}
 		
-		private void enableGrid(boolean value) {
+		void enableGrid(boolean value) {
 			model.showGrid(value);
 			if (value) {
 				mainPanel.removeStyleName("disabled");
@@ -1109,7 +1109,7 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
 	}
 
 	public void setView(EuclidianView euclidianView1) {
-		this.view = view;
+		this.view = euclidianView1;
 		if (!isIniting) {
 			updateGUI();
 		}
@@ -1137,8 +1137,8 @@ public class OptionsEuclidianW extends OptionsEuclidian implements OptionPanelW,
     }
 	
 	protected AutoCompleteTextFieldW getTextField() {
-		InputPanelW input = new InputPanelW(null, (AppW) app, 1, -1, true);
-		AutoCompleteTextFieldW tf = (AutoCompleteTextFieldW)input.getTextComponent();
+		InputPanelW input = new InputPanelW(null, app, 1, -1, true);
+		AutoCompleteTextFieldW tf = input.getTextComponent();
 		tf.setStyleName("numberInput");
 		return tf;
 	}

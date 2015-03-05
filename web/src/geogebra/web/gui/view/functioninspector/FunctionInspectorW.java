@@ -53,10 +53,10 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	private static final int PADDING_RIGHT = 45;
 	// color constants
-	private static final GColor DISPLAY_GEO_COLOR = GColorW.RED;
-	private static final GColor DISPLAY_GEO2_COLOR = GColorW.RED;
+	private static final GColor DISPLAY_GEO_COLOR = GColor.RED;
+	private static final GColor DISPLAY_GEO2_COLOR = GColor.RED;
 	private static final GColor EVEN_ROW_COLOR = new GColorW(241, 245, 250);
-	private static final GColor TABLE_GRID_COLOR = GColorW.gray;
+	private static final GColor TABLE_GRID_COLOR = GColor.gray;
 	private static final int TAB_INTERVAL_IDX = 0;
 	private static final String[] DEFAULT_XY_HEADERS = { "x", "y(x)" };
 	private static final String PREFIX = "[FUNC_ISPECTOR]";
@@ -72,15 +72,15 @@ public class FunctionInspectorW extends FunctionInspector {
 	private MyToggleButton2 btnOscCircle;
 
 	private StandardButton btnHelp;
-	private PopupMenuButton btnOptions;
+	PopupMenuButton btnOptions;
 	// private MenuBar btnOptions;
 
 	private Label lblGeoName, lblStep, lblInterval;
-	private AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
+	AutoCompleteTextFieldW fldStep, fldLow, fldHigh;
 	private InspectorTableW tableXY, tableInterval;
 	private GridModel modelXY, modelInterval;
 
-	private PopupMenuButton btnAddColumn;
+	PopupMenuButton btnAddColumn;
 	private MyCJButton btnRemoveColumn;
 
 	private int pointCount = 9;
@@ -251,7 +251,7 @@ public class FunctionInspectorW extends FunctionInspector {
 			color = TABLE_GRID_COLOR;
 			break;
 		default:
-			color = GColorW.black;
+			color = GColor.black;
 			break;
 		}
 		return color;
@@ -441,7 +441,7 @@ public class FunctionInspectorW extends FunctionInspector {
 		fldStep.setColumns(6);
     }
 
-	private void changeXYStart() {
+	void changeXYStart() {
 		Double value = tableXY.getDoubleEdited();
 		App.debug("[TESTPOINT] edited value is: " + value);
 		if (value != null) {
@@ -517,7 +517,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	}
 
-	private void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
+	void doTextFieldActionPerformed(AutoCompleteTextFieldW source) {
 		try {
 
 			String inputText = source.getText().trim();
@@ -555,7 +555,7 @@ public class FunctionInspectorW extends FunctionInspector {
 
 	}
 
-	private AppW getAppW() {
+	AppW getAppW() {
 		return (AppW) getApp();
 	}
 

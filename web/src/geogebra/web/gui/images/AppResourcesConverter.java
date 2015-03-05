@@ -19,11 +19,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class AppResourcesConverter {
 	
 	private static Canvas tmpCanvas = null;
-	private static int waitingForConvert = 0;
+	static int waitingForConvert = 0;
 	static ImageData [] converted = null;
 	private static SelectionTable sT;
 	
-	private static Canvas getTmpCanvas() {
+	static Canvas getTmpCanvas() {
 		if (tmpCanvas == null) {
 			tmpCanvas = Canvas.createIfSupported();
 		}
@@ -69,7 +69,7 @@ public class AppResourcesConverter {
 	   RootPanel.get().add(i);
     }
 
-	private static void checkIfCanCallCallback() {
+	static void checkIfCanCallCallback() {
 		if (waitingForConvert == 0) {
 			//sT.populateModelCallback(converted); TODO
 		}

@@ -35,7 +35,6 @@ import com.google.gwt.user.client.ui.Widget;
  * @author G. Sturr
  * 
  */
-@SuppressWarnings({ "javadoc", "rawtypes" })
 public class CreateObjectDialogW extends InputDialogW implements
 		 ICreateObjectListener {
 
@@ -43,19 +42,20 @@ public class CreateObjectDialogW extends InputDialogW implements
 	private CreateObjectModel coModel;
 	private Label lblObject, lblName;
 
-	private CheckBox ckSort, ckTranspose;
+	private CheckBox ckSort;
+	CheckBox ckTranspose;
 	private RadioButton btnValue, btnObject;
-	private ListBox cbScanOrder;
+	ListBox cbScanOrder;
 
 	private boolean isIniting = true;
 	private FlowPanel optionsPanel;
 	private FlowPanel typePanel;
 
-	private AutoCompleteTextFieldW fldName;
+	AutoCompleteTextFieldW fldName;
 
 	private ScrollPanel previewPanel;
 
-	private ListBox cbLeftRightOrder;
+	ListBox cbLeftRightOrder;
 	private CardPanel cards;
 	private Label lblPreview;
 	private Label lblPreviewTitle;
@@ -103,12 +103,11 @@ public class CreateObjectDialogW extends InputDialogW implements
 		
 	}
 
-	private void objectTypeChanged() {
+	void objectTypeChanged() {
 		coModel.setObjectType(typeList.getSelectedIndex());
 		coModel.createNewGeo(fldName.getText());
 
 	}
-	@SuppressWarnings("unchecked")
 	private void createAdditionalGUI() {
 
 	//	model = new DefaultListModel();
@@ -344,7 +343,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	}
 
 	
-	private void apply(Widget source) {
+	void apply(Widget source) {
 		if (source == fldName) {
 			doTextFieldActionPerformed();
 
@@ -444,7 +443,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 	protected void createGUI(String title, String message,
 	        boolean autoComplete, int columns, int rows,
 	        boolean showSymbolPopupIcon, boolean selectInitText,
-	        boolean showProperties, boolean showApply, DialogType type) {
+			boolean showProperties, boolean showApply1, DialogType type) {
 
 		centerPanel = new FlowPanel();
 		
@@ -463,7 +462,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 		btPanel.add(btOK);
 		btPanel.add(btCancel);
 		// just tmp.
-		if (showApply) {
+		if (showApply1) {
 			btPanel.add(btApply);
 		}
 		// if (showProperties) {

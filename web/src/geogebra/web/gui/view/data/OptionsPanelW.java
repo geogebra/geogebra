@@ -51,8 +51,9 @@ public class OptionsPanelW extends FlowPanel implements ClickHandler, BlurHandle
 	private CheckBox ckAutoWindow, ckShowGrid;
 	private Label lblXMin, lblXMax, lblYMin, lblYMax, lblXInterval,
 			lblYInterval;
-	private AutoCompleteTextFieldW fldXMin, fldXMax, fldYMin, fldYMax, fldXInterval,
-			fldYInterval;
+	AutoCompleteTextFieldW fldXMin, fldXMax;
+
+	private AutoCompleteTextFieldW fldYMin, fldYMax, fldXInterval, fldYInterval;
 	private boolean showYAxisSettings = true;
 
 	// bar chart panel GUI

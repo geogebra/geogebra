@@ -15,8 +15,8 @@ import geogebra.html5.main.AppW;
 
 public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
-	private GeoText editGeo;
-	private GeoPointND startPoint;
+	GeoText editGeo;
+	GeoPointND startPoint;
 	private TextEditPanel editor;
 
 	public TextInputDialogW(App app2, String title, GeoText editGeo,
@@ -49,7 +49,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		focus();
 	}
 
-	private int getFontStyle(){
+	int getFontStyle() {
 		if(editor == null){
 			App.debug("null editor");
 		}
@@ -57,14 +57,14 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 	}
 
 
-	private boolean isLatex(){
+	boolean isLatex() {
 		if(editor == null){
 			App.debug("null editor");
 		}
 		return editor.isLatex();
 	}
 
-	private boolean isSerif(){
+	boolean isSerif() {
 		if(editor == null){
 			App.debug("null editor");
 		}
@@ -82,7 +82,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 
 		private Kernel kernel;
 
-		private TextInputHandler() {
+		TextInputHandler() {
 			kernel = app.getKernel();
 		}
 
@@ -243,6 +243,7 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 		
 	}
 	
+	@Override
 	public void setLabels(){
 		super.setLabels();
 		if(editor != null){
@@ -262,6 +263,6 @@ public class TextInputDialogW extends InputDialogW implements TextInputDialog{
 				app.setErrorHandler(null);
 			}
 		}
-	};
+	}
 	
 }

@@ -49,23 +49,23 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	public static final GColor FOCUS_COLOR = new GColorW(0, 0, 255);
 	public static final double BORDER_WIDTH = 2;
 	public static final double PREVIEW_BORDER_WIDTH = 14;
-	private Canvas canvas;
-	private Context2d ctx;
-	private GDimensionW colorIconSize;
-	private int padding;
-	private List<ColorTable> tables;
+	Canvas canvas;
+	Context2d ctx;
+	GDimensionW colorIconSize;
+	int padding;
+	List<ColorTable> tables;
 	private ColorTable leftTable;
 	private ColorTable mainTable;
 	private RecentTable recentTable;
 	private ColorTable otherTable;
 	private ColorTable lastSource;
 	private GColor selectedColor;
-	private ColorChangeHandler changeHandler;
+	ColorChangeHandler changeHandler;
 	PreviewPanel previewPanel;
 	private OpacityPanel opacityPanel;
 	private BackgroundColorPanel backgroundColorPanel;
 	private Button addCustomColor;
-	private App app;
+	App app;
 	private CustomColorDialog dialog;
 
 	private class ColorTable {
@@ -125,7 +125,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 				return;
 			}
 			ctx.save();
-			ctx.translate((double)left, (double)top);
+			ctx.translate(left, top);
 
 			ctx.setTextBaseline(TextBaseline.TOP);
 			ctx.clearRect(0, 0, width, TITLE_HEIGHT);
@@ -142,7 +142,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 			ctx.save();
 			ctx.scale(1, 1);
 
-			ctx.translate((double)left, (double)top);
+			ctx.translate(left, top);
 			int x = padding;
 			int y = tableOffsetY + padding;
 			for (int row = 0; row < maxRow; row++) {
@@ -383,7 +383,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 	private class PreviewPanel extends FlowPanel {
 		private Label titleLabel;
-		private Canvas canvas;
+		Canvas canvas;
 		private Context2d ctx;
 		private Label rgb;
 
@@ -480,9 +480,9 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	}
 
 	private class BackgroundColorPanel extends FlowPanel {
-		private RadioButton backgroundButton;
-		private RadioButton foregroundButton;
-		private PushButton btnClearBackground;
+		RadioButton backgroundButton;
+		RadioButton foregroundButton;
+		PushButton btnClearBackground;
 	
 		public BackgroundColorPanel() {
 			setStyleName("BackgroundColorPanel");
@@ -746,7 +746,7 @@ public class ColorChooserW extends FlowPanel implements ICustomColor {
 	    		backgroundColorPanel.backgroundButton.getValue();
     }
 	
-	private void showCustomColorDialog() {
+	void showCustomColorDialog() {
 		app.setWaitCursor();
 		if (dialog == null) {
 			dialog = new CustomColorDialog(app, this);

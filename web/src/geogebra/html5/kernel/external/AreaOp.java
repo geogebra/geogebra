@@ -35,12 +35,14 @@ public abstract class AreaOp {
 		boolean inRight;
 		boolean inResult;
 
+		@Override
 		public void newRow() {
 			inLeft = false;
 			inRight = false;
 			inResult = false;
 		}
 
+		@Override
 		public int classify(Edge e) {
 			if (e.getCurveTag() == CTAG_LEFT) {
 				inLeft = !inLeft;
@@ -55,6 +57,7 @@ public abstract class AreaOp {
 			return (newClass ? ETAG_ENTER : ETAG_EXIT);
 		}
 
+		@Override
 		public int getState() {
 			return (inResult ? RSTAG_INSIDE : RSTAG_OUTSIDE);
 		}
@@ -64,24 +67,28 @@ public abstract class AreaOp {
 	}
 
 	public static class AddOp extends CAGOp {
+		@Override
 		public boolean newClassification(boolean inLeft, boolean inRight) {
 			return (inLeft || inRight);
 		}
 	}
 
 	public static class SubOp extends CAGOp {
+		@Override
 		public boolean newClassification(boolean inLeft, boolean inRight) {
 			return (inLeft && !inRight);
 		}
 	}
 
 	public static class IntOp extends CAGOp {
+		@Override
 		public boolean newClassification(boolean inLeft, boolean inRight) {
 			return (inLeft && inRight);
 		}
 	}
 
 	public static class XorOp extends CAGOp {
+		@Override
 		public boolean newClassification(boolean inLeft, boolean inRight) {
 			return (inLeft != inRight);
 		}
@@ -90,10 +97,12 @@ public abstract class AreaOp {
 	public static class NZWindOp extends AreaOp {
 		private int count;
 
+		@Override
 		public void newRow() {
 			count = 0;
 		}
 
+		@Override
 		public int classify(Edge e) {
 			// Note: the right curves should be an empty set with this op...
 			// assert(e.getCurveTag() == CTAG_LEFT);
@@ -104,6 +113,7 @@ public abstract class AreaOp {
 			return (newCount == 0 ? ETAG_EXIT : type);
 		}
 
+		@Override
 		public int getState() {
 			return ((count == 0) ? RSTAG_OUTSIDE : RSTAG_INSIDE);
 		}
@@ -112,10 +122,12 @@ public abstract class AreaOp {
 	public static class EOWindOp extends AreaOp {
 		private boolean inside;
 
+		@Override
 		public void newRow() {
 			inside = false;
 		}
 
+		@Override
 		public int classify(Edge e) {
 			// Note: the right curves should be an empty set with this op...
 			// assert(e.getCurveTag() == CTAG_LEFT);
@@ -124,6 +136,7 @@ public abstract class AreaOp {
 			return (newInside ? ETAG_ENTER : ETAG_EXIT);
 		}
 
+		@Override
 		public int getState() {
 			return (inside ? RSTAG_INSIDE : RSTAG_OUTSIDE);
 		}
@@ -178,6 +191,7 @@ public abstract class AreaOp {
 	}
 
 	private static Comparator YXTopComparator = new Comparator() {
+		@Override
 		public int compare(Object o1, Object o2) {
 			Curve c1 = ((Edge) o1).getCurve();
 			Curve c2 = ((Edge) o2).getCurve();

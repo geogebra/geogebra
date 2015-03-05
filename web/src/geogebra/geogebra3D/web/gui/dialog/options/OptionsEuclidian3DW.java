@@ -307,7 +307,7 @@ public class OptionsEuclidian3DW extends OptionsEuclidianW {
 			private MyToggleButton2[] buttons;
 			private int buttonSelected;
 
-			private ProjectionButtons() {
+			ProjectionButtons() {
 
 				buttons = new MyToggleButton2[4];
 
