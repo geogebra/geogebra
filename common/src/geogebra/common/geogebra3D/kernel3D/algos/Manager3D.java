@@ -2048,7 +2048,7 @@ public class Manager3D implements Manager3DInterface {
 															// default
 															// orientation for
 															// 2D objects
-			return kernel.getAlgoDispatcher().LineBisector(null, (GeoPoint) a,
+			return kernel.getAlgoDispatcher().LineBisector(label, (GeoPoint) a,
 					(GeoPoint) b);
 		}
 
