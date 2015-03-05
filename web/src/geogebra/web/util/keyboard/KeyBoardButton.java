@@ -6,15 +6,16 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
- * A button of the {@link OnScreenKeyBoard}
+ * A button of the {@link OnScreenKeyBoard}.
  */
 public class KeyBoardButton extends SimplePanel {
 
 	private String feedBack;
 	private Label label;
-	private boolean isNavigationButton = false;
 
 	/**
+	 * uses the same text for caption and feedback.
+	 * 
 	 * @param caption
 	 *            text of the button
 	 * @param handler
@@ -25,25 +26,8 @@ public class KeyBoardButton extends SimplePanel {
 	}
 
 	/**
+	 * different caption and feedback
 	 * 
-	 * @param caption
-	 *            text of the button
-	 * @param handler
-	 *            {@link ClickHandler}
-	 * @param isFunctionalButton
-	 *            set to true if the button has functional character. this
-	 *            button will be shown grey.
-	 */
-	public KeyBoardButton(String caption, ClickHandler handler, boolean isFunctionalButton) {
-		this(caption, caption, handler);
-		if (isFunctionalButton) {
-			addStyleName("colored");
-		}
-		this.isNavigationButton = isFunctionalButton;
-	}
-
-
-	/**
 	 * @param caption
 	 *            text of the button
 	 * @param feedBack
@@ -52,11 +36,21 @@ public class KeyBoardButton extends SimplePanel {
 	 *            {@link ClickHandler}
 	 */
 	public KeyBoardButton(String caption, String feedBack, ClickHandler handler) {
+		this(handler);
 		this.label = new Label(caption);
 		this.feedBack = feedBack;
+		this.add(label);
+	}
+
+	/**
+	 * Constructor for subclass {@link KeyBoardButtonFunctional}
+	 * 
+	 * @param handler
+	 *            {@link ClickHandler}
+	 */
+	protected KeyBoardButton(ClickHandler handler) {
 		addDomHandler(handler, ClickEvent.getType());
 		addStyleName("KeyBoardButton");
-		this.add(label);
 	}
 
 	/**
@@ -77,20 +71,13 @@ public class KeyBoardButton extends SimplePanel {
 	 * @param caption
 	 *            text of the button
 	 * @param setAsFeedback
-	 *            if {@code true} the text of the {@link #feedBack} is set to
-	 *            the given caption
+	 *            if {@code true} the text of the feedBack is set to the given
+	 *            caption
 	 */
 	public void setCaption(String caption, boolean setAsFeedback) {
 		label.setText(caption);
 		if (setAsFeedback) {
 			feedBack = caption;
 		}
-	}
-
-	/**
-	 * @return true if the button is only used for navigation; false otherwise
-	 */
-	public boolean isNavigationButton() {
-		return isNavigationButton;
 	}
 }

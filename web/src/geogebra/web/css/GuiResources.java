@@ -308,6 +308,24 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/web/gui/images/view_close.png")
 	ImageResource keyboard_close();
 
+	@Source("geogebra/web/gui/images/keyboard_shiftDown.png")
+	ImageResource keyboard_shiftDown();
+
+	@Source("geogebra/web/gui/images/keyboard_shift.png")
+	ImageResource keyboard_shift();
+
+	@Source("geogebra/web/gui/images/keyboard_backspace.png")
+	ImageResource keyboard_backspace();
+
+	@Source("geogebra/web/gui/images/keyboard_enter.png")
+	ImageResource keyboard_enter();
+
+	@Source("geogebra/web/gui/images/keyboard_arrowLeft.png")
+	ImageResource keyboard_arrowLeft();
+
+	@Source("geogebra/web/gui/images/keyboard_arrowRight.png")
+	ImageResource keyboard_arrowRight();
+
 	// ALGEBRA VIEW
 	@Source("geogebra/web/gui/images/view-close.png")
 	ImageResource algebraViewDeleteEntry();

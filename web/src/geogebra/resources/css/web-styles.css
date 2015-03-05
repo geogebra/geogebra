@@ -2261,6 +2261,11 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-color: #AFAFAF;
 }
 
+.KeyBoardButton.backspace {
+	padding-top: 8px;
+	padding-bottom: 12px;
+}
+
 .KeyBoardButton.switchToSpecialChar {
 	white-space: nowrap;
 }
@@ -2273,13 +2278,15 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 
 .normal .KeyBoardButton.arrow {
 	width: 20px;
+	padding-left: 9px;
+	padding-right: 11px;
 }
 
 .KeyBoardButton.enter {
 	height: 64px;
 }
 
-.KeyBoardButton.enter .gwt-Label {
+.KeyBoardButton.enter img {
 	padding-top: 23px;	
 }
 

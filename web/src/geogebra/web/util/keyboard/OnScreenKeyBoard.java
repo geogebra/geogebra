@@ -1,6 +1,5 @@
 package geogebra.web.util.keyboard;
 
-import geogebra.common.kernel.arithmetic.ExpressionNodeConstants;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.AppW;
@@ -9,6 +8,7 @@ import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
+import geogebra.web.util.keyboard.KeyBoardButtonFunctional.Action;
 import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
 
 import java.util.ArrayList;
@@ -20,6 +20,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -116,21 +117,24 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private static final int KEY_PER_ROW = 12;
 	private static final int NUM_LETTER_BUTTONS = 38;
 
-	private static final String PI = "\u03C0";
-	private static final String BACKSPACE = "\u21A4";
-	private static final String ENTER = "\u21B2";
-	private static final String SHIFT = "\u21E7";
-	private static final String ARROW_LEFT = "\u2190";
-	private static final String ARROW_RIGHT = "\u2192";
-	private static final String COLON_EQUALS = "\u2254";
-	private static final String SPACE = "\u0020";
-	private static final String ANGLE = "\u2220";
-	private static final String MEASURED_ANGLE = "\u2221";
-	private static final String ACCENT_ACUTE = "\u00b4";
-	private static final String ACCENT_GRAVE = "\u0060";
-	private static final String ACCENT_CARON = "\u02c7";
-	private static final String ACCENT_CIRCUMFLEX = "\u005e";
+	/** text of the buttons */
 	private static final String GREEK = Unicode.alphaBetaGamma;
+	private static final String TEXT = KeyboardMode.TEXT.getInternalName();
+	private static final String NUMBER = KeyboardMode.NUMBER.getInternalName();
+	private static final String SPECIAL_CHARS = KeyboardMode.SPECIAL_CHARS
+	        .getInternalName();
+
+	/** images of the buttons */
+	private final ImageResource SHIFT = GuiResources.INSTANCE.keyboard_shift();
+	private final ImageResource SHIFT_DOWN = GuiResources.INSTANCE
+	        .keyboard_shiftDown();
+	private final ImageResource ENTER = GuiResources.INSTANCE.keyboard_enter();
+	private final ImageResource BACKSPACE = GuiResources.INSTANCE
+	        .keyboard_backspace();
+	private final ImageResource ARROW_LEFT = GuiResources.INSTANCE
+	        .keyboard_arrowLeft();
+	private final ImageResource ARROW_RIGHT = GuiResources.INSTANCE
+	        .keyboard_arrowRight();
 
 	private HorizontalPanel contentNumber = new HorizontalPanel();
 	private HorizontalPanel contentSpecialChars = new HorizontalPanel();
@@ -161,7 +165,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	/** language of application */
 	String keyboardLocale = "";
-	private KeyBoardButton shiftButton;
+	private KeyBoardButtonFunctional shiftButton;
 	private KeyBoardButton backspaceButton;
 
 	/**
@@ -312,63 +316,44 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first row
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton("x", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("y", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("x" + Unicode.Superscript_2,
-		        Unicode.Superscript_2 + "", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.SQUARE_ROOT + "", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("", "x^y", this);
+		addButton("x", index, functions);
+		addButton("y", index, functions);
+		addButton(KeyboardConstants.X_SQUARE, KeyboardConstants.SQUARE, index,
+		        functions);
+		addButton(KeyboardConstants.SQUARE_ROOT, index, functions);
+		KeyBoardButton newButton = new KeyBoardButton("",
+		        KeyboardConstants.X_POWER_Y, this);
 		DrawEquationWeb
 		        .drawEquationAlgebraView(newButton.getElement(), "x^{y}");
 		functions.addToRow(index, newButton);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton("( )", "()", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.degree + "", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("<", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(">", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(COLON_EQUALS, COLON_EQUALS, this);
-		functions.addToRow(index, newButton);
+		addButton("( )", "()", index, functions);
+		addButton(KeyboardConstants.DEGREE, index, functions);
+		addButton("<", index, functions);
+		addButton(">", index, functions);
+		addButton(KeyboardConstants.COLON_EQUALS, index, functions);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton("sin", this);
+		addButton("sin", index, functions);
+		addButton("cos", index, functions);
+		addButton("tan", index, functions);
+		newButton = new KeyBoardButton("", KeyboardConstants.EULER + "^", this);
+		DrawEquationWeb
+		        .drawEquationAlgebraView(newButton.getElement(), "e^{x}");
 		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("cos", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("tan", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("", Unicode.EULER_STRING + "^", this);
-		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
- "e^{x}");
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("|x|", "abs", this);
-		functions.addToRow(index, newButton);
+		addButton("|x|", "abs", index, functions);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
-		        this, true);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this, true);
-		newButton.addStyleName("switchToSpecialChar");
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(GREEK, this, true);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(PI, this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(",", this);
-		functions.addToRow(index, newButton);
+		addFunctionalButton(index, functions, TEXT, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, functions, SPECIAL_CHARS, Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
+		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD);
+		
+		addButton(KeyboardConstants.PI, index, functions);
+		addButton(",", index, functions);
 
 		contentNumber.add(functions);
 	}
@@ -379,47 +364,31 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first row
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton("7", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("8", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("9", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.divide + "", "/", this);
-		numbers.addToRow(index, newButton);
+		addButton("7", index, numbers);
+		addButton("8", index, numbers);
+		addButton("9", index, numbers);
+		addButton(KeyboardConstants.DIVIDE, "/", index, numbers);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton("4", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("5", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("6", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.multiply + "", "*", this);
-		numbers.addToRow(index, newButton);
+		addButton("4", index, numbers);
+		addButton("5", index, numbers);
+		addButton("6", index, numbers);
+		addButton(KeyboardConstants.MULTIPLY, "*", index, numbers);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton("1", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("2", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("3", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.minus + "", this);
-		numbers.addToRow(index, newButton);
+		addButton("1", index, numbers);
+		addButton("2", index, numbers);
+		addButton("3", index, numbers);
+		addButton(KeyboardConstants.MINUS, index, numbers);
 
 		// fill next row
 		index++;
-		newButton = new KeyBoardButton("0", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton(".", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("=", this);
-		numbers.addToRow(index, newButton);
-		newButton = new KeyBoardButton("+", this);
-		numbers.addToRow(index, newButton);
+		addButton("0", index, numbers);
+		addButton(".", index, numbers);
+		addButton("=", index, numbers);
+		addButton("+", index, numbers);
 
 		contentNumber.add(numbers);
 	}
@@ -436,80 +405,63 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		control.addStyleName("KeyPanelControl");
 
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton(BACKSPACE, this, true);
-		newButton.addStyleName("backspace");
-		control.addToRow(index, newButton);
+		addFunctionalButton(BACKSPACE, Action.BACKSPACE, index, control)
+		        .addStyleName("backspace");
 
 		index++;
-		newButton = new KeyBoardButton(ENTER, this, true);
-		newButton.addStyleName("enter");
-		control.addToRow(index, newButton);
+		addFunctionalButton(ENTER, Action.ENTER, index, control).addStyleName(
+		        "enter");
 
 		index++;
-		newButton = new KeyBoardButton(ARROW_LEFT, this, true);
-		newButton.addStyleName("arrow");
-		control.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_RIGHT, this, true);
-		newButton.addStyleName("arrow");
-		control.addToRow(index, newButton);
+		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, control)
+		        .addStyleName("arrow");
+		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, control)
+		        .addStyleName("arrow");
+
 	    return control;
     }
 
 	private void createLettersKeyPanel() {
 		letters = new KeyPanel();
 		letters.addStyleName("KeyPanelLetters");
-		KeyBoardButton newButton;
 
 		// create first row
 		int index = 0;
 		for (int i = 0; i < KEY_PER_ROW; i++) {
-			newButton = new KeyBoardButton("", this);
-			letters.addToRow(index, newButton);
+			addButton("", index, letters);
 		}
 
 		// create second row
 		index++;
 		for (int i = 0; i < KEY_PER_ROW; i++) {
-			newButton = new KeyBoardButton("", this);
-			letters.addToRow(index, newButton);
+			addButton("", index, letters);
 		}
 
 		// create third row
 		index++;
-		// fixed button
-		shiftButton = new KeyBoardButton(SHIFT, this, true);
+		shiftButton = addFunctionalButton(SHIFT, Action.SHIFT, index, letters);
 		shiftButton.addStyleName("shift");
-		letters.addToRow(index, shiftButton);
 
 		for (int i = 0; i < KEY_PER_ROW - 1; i++) {
-			newButton = new KeyBoardButton("", this);
-			letters.addToRow(index, newButton);
+			addButton("", index, letters);
 		}
-		// fixed button
-		backspaceButton = new KeyBoardButton(BACKSPACE, this, true);
+		backspaceButton = addFunctionalButton(BACKSPACE, Action.BACKSPACE,
+		        index, letters);
 		backspaceButton.addStyleName("delete");
-		letters.addToRow(index, backspaceButton);
 
 		// fill forth row - fixed buttons for all languages
 		index++;
-		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
-		        this, true);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        KeyboardMode.SPECIAL_CHARS.getInternalName(), this, true);
-		newButton.addStyleName("switchToSpecialChar");
-		letters.addToRow(index, newButton);
-		switchABCGreek = new KeyBoardButton(GREEK, this, true);
-		letters.addToRow(index, switchABCGreek);
-		newButton = new KeyBoardButton(SPACE, this);
+		addFunctionalButton(index, letters, NUMBER, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, letters, SPECIAL_CHARS, Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
+		switchABCGreek = addFunctionalButton(index, letters, GREEK,
+		        Action.SWITCH_KEYBOARD);
+		KeyBoardButton newButton = new KeyBoardButton(KeyboardConstants.SPACE,
+		        this);
 		newButton.addStyleName("space");
 		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_LEFT, this, true);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ARROW_RIGHT, this, true);
-		letters.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ENTER, this, true);
-		letters.addToRow(index, newButton);
+		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, letters);
+		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, letters);
+		addFunctionalButton(ENTER, Action.ENTER, index, letters);
 
 		contentLetters.add(letters);
 	}
@@ -521,41 +473,27 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first row
 		int index = 0;
-		KeyBoardButton newButton = new KeyBoardButton("ln", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("log", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("nroot", this);
-		functions.addToRow(index, newButton);
+		addButton("ln", index, functions);
+		addButton("log", index, functions);
+		addButton("nroot", index, functions);
 
-		// fill next row
+		// fill second row
 		index++;
-		newButton = new KeyBoardButton("sinh", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("cosh", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("tanh", this);
-		functions.addToRow(index, newButton);
+		addButton("sinh", index, functions);
+		addButton("cosh", index, functions);
+		addButton("tanh", index, functions);
 
-		// fill next row
+		// fill third row
 		index++;
-		newButton = new KeyBoardButton("arcsin", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("arccos", this);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton("arctan", this);
-		functions.addToRow(index, newButton);
+		addButton("arcsin", index, functions);
+		addButton("arccos", index, functions);
+		addButton("arctan", index, functions);
 
-		// fill next row
+		// fill forth row
 		index++;
-		newButton = new KeyBoardButton(KeyboardMode.TEXT.getInternalName(),
-		        this, true);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(KeyboardMode.NUMBER.getInternalName(),
-		        this, true);
-		functions.addToRow(index, newButton);
-		newButton = new KeyBoardButton(GREEK, this, true);
-		functions.addToRow(index, newButton);
+		addFunctionalButton(index, functions, TEXT, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, functions, NUMBER, Action.SWITCH_KEYBOARD);
+		addFunctionalButton(index, functions, GREEK, Action.SWITCH_KEYBOARD);
 
 
 		KeyPanel chars = new KeyPanel();
@@ -563,77 +501,124 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 		// fill first row
 		index = 0;
-		newButton = new KeyBoardButton(Unicode.IMAGINARY, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(Unicode.Infinity + "", this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        ExpressionNodeConstants.strVECTORPRODUCT, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        ExpressionNodeConstants.strEQUAL_BOOLEAN, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strNOT_EQUAL,
-		        this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strNOT, this);
-		chars.addToRow(index, newButton);
+		addButton(KeyboardConstants.IMAGINARY, index, chars);
+		addButton(KeyboardConstants.INFINITY + "", index, chars);
+		addButton(KeyboardConstants.VECTOR_PRODUCT, index, chars);
+		addButton(KeyboardConstants.EQUAL_BOOLEAN, index, chars);
+		addButton(KeyboardConstants.NOT_EQUAL, index, chars);
+		addButton(KeyboardConstants.NOT, index, chars);
 
-		// fill next row
+		// fill second row
 		index++;
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strLESS_EQUAL,
-		        this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        ExpressionNodeConstants.strGREATER_EQUAL, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strAND, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strOR, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strPARALLEL,
-		        this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        ExpressionNodeConstants.strPERPENDICULAR, this);
-		chars.addToRow(index, newButton);
-
-		// fill next row
-		index++;
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strIMPLIES, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        ExpressionNodeConstants.strIS_ELEMENT_OF, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ExpressionNodeConstants.strIS_SUBSET_OF,
-		        this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(
-		        ExpressionNodeConstants.strIS_SUBSET_OF_STRICT, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(ANGLE, this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(MEASURED_ANGLE, this);
-		chars.addToRow(index, newButton);
+		addButton(KeyboardConstants.LESS_EQUAL, index, chars);
+		addButton(KeyboardConstants.GREATER_EQUAL, index, chars);
+		addButton(KeyboardConstants.AND, index, chars);
+		addButton(KeyboardConstants.OR, index, chars);
+		addButton(KeyboardConstants.PARALLEL, index, chars);
+		addButton(KeyboardConstants.PERPENDICULAR, index, chars);
 		
-		// fill next row
+		// fill third row
 		index++;
-		newButton = new KeyBoardButton(":", this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton(";", this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton("_", this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton("!", this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton("%", this);
-		chars.addToRow(index, newButton);
-		newButton = new KeyBoardButton("$", this);
-		chars.addToRow(index, newButton);
+		addButton(KeyboardConstants.IMPLIES, index, chars);
+		addButton(KeyboardConstants.IS_ELEMENT_OF, index, chars);
+		addButton(KeyboardConstants.IS_SUBSET_OF, index, chars);
+		addButton(KeyboardConstants.IS_SUBSET_OF_STRICT, index, chars);
+		addButton(KeyboardConstants.ANGLE, index, chars);
+		addButton(KeyboardConstants.MEASURED_ANGLE, index, chars);
+
+		// fill forth row
+		index++;
+		addButton(":", index, chars);
+		addButton(";", index, chars);
+		addButton("_", index, chars);
+		addButton("!", index, chars);
+		addButton("%", index, chars);
+		addButton("$", index, chars);
 
 		contentSpecialChars.add(functions);
 		contentSpecialChars.add(chars);
 		contentSpecialChars.add(getControlKeyPanel());
+	}
+
+	/**
+	 * adds a button to the row with index {@code row} within the given
+	 * keyPanel. Use this only for {@link KeyBoardButton} with same caption and
+	 * feedback.
+	 * 
+	 * @param caption
+	 *            of button
+	 * @param index
+	 *            of row
+	 * @param panel
+	 *            {@link KeyPanel}
+	 */
+	private void addButton(String caption, int index, KeyPanel panel) {
+		panel.addToRow(index, new KeyBoardButton(caption, this));
+	}
+
+	/**
+	 * adds a button to the row with index {@code row} within the given
+	 * keyPanel. Use this only for {@link KeyBoardButton} with different caption
+	 * and feedback.
+	 * 
+	 * @param caption
+	 *            of button
+	 * @param feedback
+	 *            of button
+	 * @param index
+	 *            of row
+	 * @param panel
+	 *            {@link KeyPanel}
+	 */
+	private void addButton(String caption, String feedback, int index,
+	        KeyPanel panel) {
+		panel.addToRow(index, new KeyBoardButton(caption, feedback, this));
+	}
+
+	/**
+	 * adds a functional button to the row with index {@code row} within the
+	 * given keyPanel. Use this only for {@link KeyBoardButtonFunctional} with
+	 * an String as caption.
+	 * 
+	 * @param index
+	 *            of row
+	 * @param keyPanel
+	 *            {@link KeyPanel}
+	 * @param caption
+	 *            of button
+	 * @param action
+	 *            {@link Action}
+	 * @return {@link KeyBoardButtonFunctional}
+	 */
+	private KeyBoardButtonFunctional addFunctionalButton(int index,
+	        KeyPanel keyPanel, String caption, Action action) {
+		KeyBoardButtonFunctional button = new KeyBoardButtonFunctional(caption,
+		        this, action);
+		keyPanel.addToRow(index, button);
+		return button;
+	}
+	
+	/**
+	 * adds a functional button to the row with index {@code row} within the
+	 * given keyPanel. Use this only for {@link KeyBoardButtonFunctional} with
+	 * an image.
+	 * 
+	 * @param image
+	 *            of the button
+	 * @param index
+	 *            of row
+	 * @param keyPanel
+	 *            {@link KeyPanel}
+	 * @param action
+	 *            {@link Action}
+	 * @return {@link KeyBoardButtonFunctional}
+	 */
+	private KeyBoardButtonFunctional addFunctionalButton(ImageResource image,
+	        Action action, int index, KeyPanel keyPanel) {
+		KeyBoardButtonFunctional button = new KeyBoardButtonFunctional(image,
+		        this, action);
+		keyPanel.addToRow(index, button);
+		return button;
 	}
 
 	@Override
@@ -641,56 +626,62 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		event.preventDefault();
 		event.stopPropagation();
 		Object source = event.getSource();
-		if (source != null && source instanceof KeyBoardButton) {
-			String text = ((KeyBoardButton) source).getText();
-			if (text.equals(ACCENT_ACUTE) || text.equals(ACCENT_CARON)
-			        || text.equals(ACCENT_GRAVE)
-			        || text.equals(ACCENT_CIRCUMFLEX)) {
-				processing.onAccent(text);
-			} else if (text.equals(BACKSPACE)) {
+		if (source != null && source instanceof KeyBoardButtonFunctional) {
+			KeyBoardButtonFunctional button = (KeyBoardButtonFunctional) source;
+
+			switch (button.getAction()) {
+			case SHIFT:
+				processShift();
+				break;
+			case BACKSPACE:
 				processing.onBackSpace();
-			} else if (text.equals(ENTER)) {
+				break;
+			case ENTER:
 				// make sure enter is processed correctly
 				if (resetComponent != null) {
 					resetComponent.resetBlockBlur();
 					resetComponent = null;
 				}
-
 				processing.onEnter();
 				if (processing.resetAfterEnter()) {
 					updateKeyBoardListener.showKeyBoard(false, null);
 				}
-			} else if (((KeyBoardButton) source).isNavigationButton()
-					&& text.equals(ARROW_LEFT)) {
+				break;
+			case ARROW_LEFT:
 				processing.onArrow(ArrowType.left);
-			} else if (((KeyBoardButton) source).isNavigationButton()
-					&& text.equals(ARROW_RIGHT)) {
-				// the same arrow is also used for implication
+				break;
+			case ARROW_RIGHT:
 				processing.onArrow(ArrowType.right);
-			} else if (text.equals(SHIFT)) {
-				processShift();
-			} else if (text.equals(GREEK)) {
-				setToGreekLetters();
-			} else if (text.equals(KeyboardMode.NUMBER.getInternalName())) {
-				setKeyboardMode(KeyboardMode.NUMBER);
-			} else if (text.equals(KeyboardMode.TEXT.getInternalName())) {
-				if (greekActive) {
-					greekActive = false;
-					switchABCGreek.setCaption(GREEK, true);
-					loadLang(this.keyboardLocale);
+				break;
+			case SWITCH_KEYBOARD:
+				String caption = button.getCaption();
+				if (caption.equals(GREEK)) {
+					setToGreekLetters();
+				} else if (caption.equals(NUMBER)) {
+					setKeyboardMode(KeyboardMode.NUMBER);
+				} else if (caption.equals(TEXT)) {
+					if (greekActive) {
+						greekActive = false;
+						switchABCGreek.setCaption(GREEK, true);
+						loadLang(this.keyboardLocale);
+					}
+					if (shiftIsDown) {
+						processShift();
+					}
+					setKeyboardMode(KeyboardMode.TEXT);
+				} else if (caption.equals(SPECIAL_CHARS)) {
+					setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
 				}
-				setKeyboardMode(KeyboardMode.TEXT);
-			} else if (text
-			        .equals(KeyboardMode.SPECIAL_CHARS.getInternalName())) {
-				setKeyboardMode(KeyboardMode.SPECIAL_CHARS);
+			}
+		} else if (source != null && source instanceof KeyBoardButton) {
+
+			String text = ((KeyBoardButton) source).getText();
+			if (isAccent(text)) {
+				processing.onAccent(text);
 			} else {
 				processing.insertString(text);
 			}
-
-			if (shiftIsDown && !text.equals(SHIFT)
-			        && !text.equals(ACCENT_ACUTE) && !text.equals(ACCENT_CARON)
-			        && !text.equals(ACCENT_GRAVE)
-			        && !text.equals(ACCENT_CIRCUMFLEX)) {
+			if (shiftIsDown && !isAccent(text)) {
 				processShift();
 			}
 
@@ -703,12 +694,25 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 	}
 
+	/**
+	 * @param text
+	 * @return {@code true} if the given text is an accent
+	 */
+	private static boolean isAccent(String text) {
+		return text.equals(KeyboardConstants.ACCENT_ACUTE)
+		        || text.equals(KeyboardConstants.ACCENT_CARON)
+		        || text.equals(KeyboardConstants.ACCENT_GRAVE)
+		        || text.equals(KeyboardConstants.ACCENT_CIRCUMFLEX);
+	}
+
 	private void processShift() {
 		shiftIsDown = !shiftIsDown;
 		String local = greekActive ? Language.Greek.localeGWT : keyboardLocale;
 		if (shiftIsDown) {
+			shiftButton.setPicture(SHIFT_DOWN);
 			updateKeys("shiftDown", local);
 		} else {
+			shiftButton.setPicture(SHIFT);
 			updateKeys("lowerCase", local);
 		}
 	}
@@ -733,8 +737,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 *            the keyboard mode
 	 */
 	public void setKeyboardMode(final KeyboardMode mode) {
-
-
 		// TODO focus events might be needed for mobile devices
 
 		this.mode = mode;
@@ -767,6 +769,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		greekActive = true;
 		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName(), true);
 		loadLang(Language.Greek.localeGWT);
+		if (shiftIsDown) {
+			processShift();
+		}
 	}
 
 	/**
@@ -791,7 +796,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		contentNumber.setVisible(true);
 		contentLetters.setVisible(false);
 		contentSpecialChars.setVisible(false);
-
+		if (shiftIsDown) {
+			processShift();
+		}
 		if (resetComponent != null) {
 			resetComponent.resetBlockBlur();
 			resetComponent = null;
@@ -840,7 +847,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		ArrayList<KeyBoardButton> buttons = this.letters.getButtons();
 		for (int i = 0; i < NUM_LETTER_BUTTONS; i++) {
 			KeyBoardButton button = buttons.get(i);
-			if (!button.isNavigationButton()) {
+			if (!(button instanceof KeyBoardButtonFunctional)) {
 				String newCaption = app.getKey(generateKey(i), updateSection,
 				        language);
 				if (newCaption.equals("")) {

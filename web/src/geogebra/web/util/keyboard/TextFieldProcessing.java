@@ -1,6 +1,5 @@
 package geogebra.web.util.keyboard;
 
-import geogebra.common.util.Unicode;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
 import geogebra.html5.gui.textbox.GTextBox;
 import geogebra.web.gui.view.algebra.NewRadioButtonTreeItem;
@@ -39,12 +38,6 @@ public class TextFieldProcessing {
 	/** Javascript char codes */
 	private static final int LEFT_ARROW = 37;
 	private static final int RIGHT_ARROW = 39;
-
-	/** unicode */
-	private static final String ACCENT_ACUTE = "\u00b4";
-	private static final String ACCENT_GRAVE = "\u0060";
-	private static final String ACCENT_CARON = "\u02c7";
-	private static final String ACCENT_CIRCUMFLEX = "\u005e";
 
 	private Widget field;
 	private State state = State.empty;
@@ -333,12 +326,11 @@ public class TextFieldProcessing {
 			switch (type) {
 			case left:
 				((RadioButtonTreeItem) field).keydown(LEFT_ARROW, false, false,
-						false);
+				        false);
 				break;
 			case right:
 				((RadioButtonTreeItem) field).keydown(RIGHT_ARROW, false,
-				        false,
-						false);
+				        false, false);
 				break;
 			}
 			break;
@@ -363,7 +355,7 @@ public class TextFieldProcessing {
 			if (text.startsWith("(")) {
 				// moves inside the brackets
 				onArrow(ArrowType.left);
-			} else if (text.equals("x^y")) {
+			} else if (text.equals(KeyboardConstants.X_POWER_Y)) {
 				((AutoCompleteTextFieldW) field).insertString("^");
 			} else if (text.equals("nroot")) {
 				((AutoCompleteTextFieldW) field).insertString("()");
@@ -376,15 +368,15 @@ public class TextFieldProcessing {
 			break;
 		case radioButtonTreeItem:
 		case newRadioButtonTreeItem:
-			if (text.equals("x^y")) {
+			if (text.equals(KeyboardConstants.X_POWER_Y)) {
 				if (((RadioButtonTreeItem) field).getText().length() == 0) {
 					return;
 				}
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
 				        false, false);
-			} else if (text.startsWith(Unicode.EULER_STRING)) {
+			} else if (text.startsWith(KeyboardConstants.EULER)) {
 				((RadioButtonTreeItem) field)
-						.insertString(Unicode.EULER_STRING);
+						.insertString(KeyboardConstants.EULER);
 				// inserts: ^{}
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
 						false, false);
@@ -397,9 +389,13 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).insertString("nroo");
 				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
 				        false, true);
-			} else if (text.equals(Unicode.SQUARE_ROOT + "")) {
-				((RadioButtonTreeItem) field).keypress('\u221A', false, false,
+			} else if (text.equals(KeyboardConstants.SQUARE_ROOT)) {
+				((RadioButtonTreeItem) field).keypress(
+				        KeyboardConstants.SQUARE_ROOT.charAt(0), false, false,
 						false);
+			} else if (text.equals(KeyboardConstants.X_SQUARE)) {
+				((RadioButtonTreeItem) field)
+				        .insertString(KeyboardConstants.SQUARE);
 			} else if (text.startsWith("(")) {
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 						false);
@@ -437,15 +433,16 @@ public class TextFieldProcessing {
 	 * @param text
 	 */
     private void insertAccent(String text) {
-		if (this.accent.equals(ACCENT_ACUTE) && accentAcute.containsKey(text)) {
+		if (this.accent.equals(KeyboardConstants.ACCENT_ACUTE)
+		        && accentAcute.containsKey(text)) {
 			insertFrom(accentAcute, text);
-		} else if (this.accent.equals(ACCENT_CARON)
+		} else if (this.accent.equals(KeyboardConstants.ACCENT_CARON)
 		        && accentCaron.containsKey(text)) {
 			insertFrom(accentCaron, text);
-		} else if (this.accent.equals(ACCENT_GRAVE)
+		} else if (this.accent.equals(KeyboardConstants.ACCENT_GRAVE)
 		        && accentGrave.containsKey(text)) {
 			insertFrom(accentGrave, text);
-		} else if (this.accent.equals(ACCENT_CIRCUMFLEX)
+		} else if (this.accent.equals(KeyboardConstants.ACCENT_CIRCUMFLEX)
 		        && accentCircumflex.containsKey(text)) {
 			insertFrom(accentCircumflex, text);
 		} else {
