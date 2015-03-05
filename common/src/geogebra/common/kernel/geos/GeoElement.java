@@ -3374,6 +3374,13 @@ public abstract class GeoElement extends ConstructionElement implements
 			latexCache.remove();
 		}
 
+		if (kernel.getApplication() != null
+				&& kernel.getApplication().getActiveEuclidianView() != null
+				&& kernel.getApplication().getActiveEuclidianView()
+						.getEuclidianController() != null) {
+			kernel.getApplication().getActiveEuclidianView()
+				.getEuclidianController().clearSelections();
+		}
 	}
 	
 	private LaTeXCache latexCache = null;
