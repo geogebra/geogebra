@@ -1,7 +1,5 @@
 package geogebra.html5;
 
-import geogebra.common.kernel.Kernel;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
@@ -184,7 +182,7 @@ public class Browser {
 	}-*/;
 
 	public static void scale(Element parent, double externalScale, int x, int y) {
-		if (Kernel.isEqual(externalScale, 1) || externalScale < 0) {
+		if (externalScale < 0) {
 			return;
 		}
 		String transform = "scale(" + externalScale + "," + externalScale + ")";
