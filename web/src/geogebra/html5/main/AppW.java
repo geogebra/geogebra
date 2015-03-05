@@ -404,6 +404,22 @@ public abstract class AppW extends App implements SetLabels {
 		return new MyXMLioW(cons.getKernel(), cons);
 	}
 
+	void doSetLanguage(String lang) {
+		resetCommandDictionary();
+
+		((LocalizationW) getLocalization()).setLanguage(lang);
+
+		// make sure digits are updated in all numbers
+		getKernel().updateConstructionLanguage();
+
+		// update display & Input Bar Dictionary etc
+		setLabels();
+
+		// inputField.setDictionary(getCommandDictionary());
+
+		examWelcome();
+	}
+
 	public final void setLanguage(final String browserLang) {
 		if (browserLang != null && browserLang.equals(loc.getLanguage())) {
 			setLabels();
@@ -421,41 +437,30 @@ public abstract class AppW extends App implements SetLabels {
 		App.debug("setting language to:" + lang + ", browser lang:"
 		        + browserLang);
 
-		ScriptLoadCallback callback = new ScriptLoadCallback() {
 
-			@Override
-			public void onLoad() {
-				// force reload
-				resetCommandDictionary();
-
-				((LocalizationW) getLocalization()).setLanguage(lang);
-
-				// make sure digits are updated in all numbers
-				getKernel().updateConstructionLanguage();
-
-				// update display & Input Bar Dictionary etc
-				setLabels();
-
-				// inputField.setDictionary(getCommandDictionary());
-
-				examWelcome();
-			}
-
-		};
 		if (Browser.supportsSessionStorage() && loadPropertiesFromStorage(lang)) {
 			App.debug("properties loaded from local storage");
-			callback.onLoad();
+			doSetLanguage(lang);
 		} else {
 			// load keys (into a JavaScript <script> tag)
 			DynamicScriptElement script = (DynamicScriptElement) Document.get()
 			        .createScriptElement();
 			script.setSrc(GWT.getModuleBaseURL() + "js/properties_keys_" + lang
 			        + ".js");
-			script.addLoadHandler(callback);
+			script.addLoadHandler(new ScriptLoadCallback() {
+
+				@Override
+				public void onLoad() {
+					// force reload
+					doSetLanguage(lang);
+					if (Browser.supportsSessionStorage()) {
+						savePropertiesToStorage(lang);
+					}
+				}
+
+			});
 			Document.get().getBody().appendChild(script);
-			if (Browser.supportsSessionStorage()) {
-				savePropertiesToStorage(lang);
-			}
+
 		}
 	}
 
@@ -476,7 +481,13 @@ public abstract class AppW extends App implements SetLabels {
 		return false;
 	}-*/;
 
-	private native void savePropertiesToStorage(String lang) /*-{
+	/**
+	 * Saves properties loaded from external JSON to localStorage
+	 * 
+	 * @param lang
+	 *            language
+	 */
+	native void savePropertiesToStorage(String lang) /*-{
 		var storedTranslation = {};
 		if ($wnd.localStorage && $wnd["__GGB__keysVar"]
 				&& $wnd["__GGB__keysVar"][lang]) {
@@ -486,6 +497,12 @@ public abstract class AppW extends App implements SetLabels {
 		}
 	}-*/;
 
+	/**
+	 * @param language
+	 *            language ISO code
+	 * @param country
+	 *            country or country_variant
+	 */
 	public void setLanguage(String language, String country) {
 
 		if (language == null || "".equals(language)) {
