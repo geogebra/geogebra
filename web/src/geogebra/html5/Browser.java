@@ -1,5 +1,7 @@
 package geogebra.html5;
 
+import geogebra.common.kernel.Kernel;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.Window.Location;
@@ -185,7 +187,12 @@ public class Browser {
 		if (externalScale < 0) {
 			return;
 		}
+
 		String transform = "scale(" + externalScale + "," + externalScale + ")";
+
+		if (Kernel.isEqual(externalScale, 1)) {
+			transform = "none";
+		}
 		String pos = x + "% " + y + "%";
 		parent.getStyle().setProperty("webkitTransform", transform);
 		parent.getStyle().setProperty("mozTransform", transform);
