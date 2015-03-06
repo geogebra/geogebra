@@ -126,11 +126,19 @@ public class Browser {
 		return "http://" + url;
 	}
 
+	private static Boolean webglSupported = null;
+
+	public static boolean supportsWebGL() {
+		if (webglSupported == null) {
+			webglSupported = supportsWebGLNative();
+		}
+		return webglSupported.booleanValue();
+	}
 	/*
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support
 	 */
-	public static native boolean supportsWebGL()/*-{
+	public static native boolean supportsWebGLNative()/*-{
 		try {
 			var canvas = $wnd.document.createElement('canvas');
 			var ret = !!$wnd.WebGLRenderingContext
