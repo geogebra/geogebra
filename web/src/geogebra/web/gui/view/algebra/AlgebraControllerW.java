@@ -273,8 +273,9 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		event.stopPropagation();
-		event.preventDefault();
+		// event.stopPropagation();
+
+		// event.preventDefault();
 		mousePressed(PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance));
 	}
 

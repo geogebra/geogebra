@@ -31,6 +31,7 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.HasExtendedAV;
+import geogebra.common.main.App;
 import geogebra.common.main.MyError;
 import geogebra.common.main.SelectionManager;
 import geogebra.common.util.AsyncOperation;
@@ -73,6 +74,8 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DoubleClickEvent;
 import com.google.gwt.event.dom.client.DoubleClickHandler;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -98,13 +101,10 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.HasHorizontalAlignment;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.InlineHTML;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -114,7 +114,7 @@ import com.google.gwt.user.client.ui.Widget;
  * File created by Arpad Fekete
  */
 
-public class RadioButtonTreeItem extends HorizontalPanel
+public class RadioButtonTreeItem extends FlowPanel
 	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, 
         MouseOverHandler, MouseOutHandler, GeoContainer,
         geogebra.html5.gui.view.algebra.RadioButtonTreeItem,
@@ -153,13 +153,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	/**
 	 * panel to correctly display an extended slider entry
 	 */
-	private VerticalPanel sliderPanel;
+	private FlowPanel sliderPanel;
 
 	/**
 	 * this panel contains the marble (radio) and the play button for extended
 	 * slider entries
 	 */
-	private VerticalPanel marblePanel;
+	private FlowPanel marblePanel;
 
 	/**
 	 * start/pause slider animations
@@ -274,22 +274,25 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		super();
 		// touch events did not work because these events were still not sunk
 		sinkEvents(Event.ONTOUCHSTART | Event.ONTOUCHMOVE | Event.ONTOUCHEND);
+		getElement().setDraggable(Element.DRAGGABLE_TRUE);
+
 		geo = ge;
 		kernel = geo.getKernel();
 		app = (AppW)kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
-		this.setStyleName("elem");
+		addStyleName("elem");
+		addStyleName("panelRow");
 
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
 		radio = new Marble(showUrl, hiddenUrl,this);
 		radio.setStyleName("marble");
 		radio.setEnabled(ge.isEuclidianShowable());
 		radio.setChecked(ge.isEuclidianVisible());
 
-		marblePanel = new VerticalPanel();
+		marblePanel = new FlowPanel();
 		marblePanel.add(radio);
 		add(marblePanel);
 
@@ -318,7 +321,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 				}
 			});
 
-			sliderPanel = new VerticalPanel();
+			sliderPanel = new FlowPanel();
 			add(sliderPanel);
 
 			if (geo.isAnimatable()) {
@@ -421,6 +424,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//se.setTitle(geo.getLongDescription());
 		//geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
+		setDraggable();
 	}
 
 	/**
@@ -431,7 +435,6 @@ public class RadioButtonTreeItem extends HorizontalPanel
 	 */
 	public RadioButtonTreeItem(Kernel kern) {
 		super();
-
 		// this method is still not able to show an editing box!
 		newCreationMode = true;
 
@@ -443,7 +446,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		this.setStyleName("elem");
 
 		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
 		//add(radio);
 
@@ -464,9 +467,9 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		ihtml.getElement().appendChild(se);
 		ihtml.getElement().addClassName("hasCursorPermanent");
 
-		setCellVerticalAlignment(ihtml, HasVerticalAlignment.ALIGN_MIDDLE);
-		setCellHorizontalAlignment(ihtml, HasHorizontalAlignment.ALIGN_LEFT);
-		setCellWidth(ihtml, "100%");
+		// setCellVerticalAlignment(ihtml, HasVerticalAlignment.ALIGN_MIDDLE);
+		// setCellHorizontalAlignment(ihtml, HasHorizontalAlignment.ALIGN_LEFT);
+		// setCellWidth(ihtml, "100%");
 		getElement().getStyle().setWidth(100, Style.Unit.PCT);
 
 		// making room for the TitleBarPanel (top right of the AV)
@@ -511,6 +514,7 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		//se.setTitle(geo.getLongDescription());
 		//geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
+		setDraggable();
 	}
 
 	/**
@@ -538,14 +542,13 @@ public class RadioButtonTreeItem extends HorizontalPanel
 		this.setStyleName("elem");
 
 		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
-		setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
+		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
 		radio = new Marble(showUrl, hiddenUrl, this);
 		radio.setStyleName("marble");
 		radio.setEnabled(ge.isEuclidianShowable());
 		radio.setChecked(ge.isEuclidianVisible());
-
-		marblePanel = new VerticalPanel();
+		marblePanel = new FlowPanel();
 		marblePanel.add(radio);
 		add(marblePanel);
 
@@ -1624,4 +1627,21 @@ geo, newValue, redefine, true);
 			add(w);
 		}
 	}
+
+	public void setDraggable() {
+
+		getElement().setAttribute("position", "absolute");
+		addDomHandler(new DragStartHandler() {
+
+			public void onDragStart(DragStartEvent event) {
+				App.debug("!AV DRAG START!");
+				event.setData("text", "draggginggg");
+				event.getDataTransfer().setDragImage(getElement(), 10, 10);
+				event.stopPropagation();
+
+			}
+		}, DragStartEvent.getType());
+
+	}
+
 }

@@ -5,6 +5,8 @@ import geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -58,8 +60,8 @@ public class Marble extends SimplePanel
 		{
 			public void onClick(ClickEvent event)
 			{	
-				event.preventDefault();
-				event.stopPropagation();
+				// event.preventDefault();
+				// event.stopPropagation();
 				App.debug("click");
 				if(touchUsed){
 					touchUsed = false;
@@ -73,8 +75,8 @@ public class Marble extends SimplePanel
 		{
 			public void onMouseDown(MouseDownEvent event)
 			{	
-				event.preventDefault();
-				event.stopPropagation();
+				// event.preventDefault();
+				// event.stopPropagation();
 				App.debug("mouse down");
 			}
 			
@@ -91,6 +93,17 @@ public class Marble extends SimplePanel
 				App.debug("touch start");
 			}
 		}, TouchStartEvent.getType());
+
+		addDomHandler(new DragStartHandler() {
+
+			public void onDragStart(DragStartEvent event) {
+				App.debug("!AV DRAG START!");
+				event.setData("text", "draggginggg");
+				event.getDataTransfer().setDragImage(getElement(), 10, 10);
+				event.stopPropagation();
+
+			}
+		}, DragStartEvent.getType());
 
 	}
 
