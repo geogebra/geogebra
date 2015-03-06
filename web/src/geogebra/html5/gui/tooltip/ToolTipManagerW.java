@@ -5,7 +5,7 @@ import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.StringUtil;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.gui.util.CancelEventTimer;
-import geogebra.html5.gui.util.ClickStartHandler;
+import geogebra.html5.gui.util.ClickEndHandler;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
@@ -236,23 +236,23 @@ public class ToolTipManagerW {
 				helpLabel.getElement().getStyle()
 				        .setBackgroundImage("url(" + this.viewSavedFile + ")");
 			}
-
-			/*
-			 * In "exam" mode the question mark is shown, but when clicking on
-			 * it, the tooltip disappears. It is important to disallow showing
-			 * an external page in exam mode. TODO: the best would be not show
-			 * the question mark at all.
-			 */
-			if (!(app.isExam())) {
-				ClickStartHandler.init(helpLabel, new ClickStartHandler() {
+			// IE and FF block popups if they are comming from mousedown, so use
+			// mouseup instead
+				ClickEndHandler.init(helpLabel, new ClickEndHandler() {
 					@Override
-					public void onClickStart(int x, int y, PointerEventType type) {
+					public void onClickEnd(int x, int y, PointerEventType type) {
 						openWindow(helpURL);
 					}
 				});
-			}
+
 			helpLabel.addStyleName("manualLink");
-			bottomInfoTipPanel.add(helpLabel);
+
+			/*
+			 * In "exam" mode the question mark is not shown
+			 */
+			if (!(app.isExam())) {
+				bottomInfoTipPanel.add(helpLabel);
+			}
 		}
 
 		bottomInfoTipPanel.setVisible(true);
