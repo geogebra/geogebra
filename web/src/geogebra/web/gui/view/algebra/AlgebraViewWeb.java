@@ -53,7 +53,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	/**
 	 * The mode of the tree, see MODE_DEPENDENCY, MODE_TYPE
 	 */
-	protected SortMode treeMode = SortMode.ORDER;
+	protected SortMode treeMode = SortMode.TYPE;
 
 	private boolean showAuxiliaryObjectsSettings = false;
 
