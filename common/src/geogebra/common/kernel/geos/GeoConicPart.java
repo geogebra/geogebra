@@ -368,7 +368,7 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 	 * @param pp
 	 */
 	public void superPointChanged(Coords P, PathParameter pp) {
-		super.pointChanged(P, pp);
+		super.pointChanged(P, pp, true);
 	}
 
 	@Override
