@@ -3374,13 +3374,16 @@ public abstract class GeoElement extends ConstructionElement implements
 			latexCache.remove();
 		}
 
-		if (kernel.getApplication() != null
-				&& kernel.getApplication().getActiveEuclidianView() != null
-				&& kernel.getApplication().getActiveEuclidianView()
-						.getEuclidianController() != null) {
-			kernel.getApplication().getActiveEuclidianView()
-				.getEuclidianController().clearSelections();
-		}
+		// http://dev.geogebra.org/trac/changeset/39262
+		// reverted as causes infinite loop when Attach/Detach tool used
+		// to *drag* a Point onto eg a circle
+		// if (kernel.getApplication() != null
+		// && kernel.getApplication().getActiveEuclidianView() != null
+		// && kernel.getApplication().getActiveEuclidianView()
+		// .getEuclidianController() != null) {
+		// kernel.getApplication().getActiveEuclidianView()
+		// .getEuclidianController().clearSelections();
+		// }
 	}
 	
 	private LaTeXCache latexCache = null;
