@@ -270,7 +270,6 @@ public final class MyMath {
 	 * @return length of vector (x,y,z)
 	 */
 	public static double length(double x, double y, double z) {
-		double res;
 		double absx = Math.abs(x);
 		double absy = Math.abs(y);
 		double absz = Math.abs(z);
@@ -315,7 +314,7 @@ public final class MyMath {
 		if (absy > absz) { // absy is the highest
 			double tempx = absx / absy;
 			double tempz = absz / absy;
-			return absx * Math.sqrt(1.0 + tempx * tempx + tempz * tempz);
+			return absy * Math.sqrt(1.0 + tempx * tempx + tempz * tempz);
 		}
 
 		// absz is the highest
