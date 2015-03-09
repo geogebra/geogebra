@@ -2186,6 +2186,34 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 
 /* ### onScreenKeyboard ### */
 
+.openKeyboardButton:active {
+	box-shadow: inset 0px 0px 1px 0px #cdcdcd;
+}
+
+.openKeyboardButton:hover {
+	border: 1px solid #9999FF;
+}
+
+.openKeyboardButton {
+	left: 5px !important;
+	bottom: 5px;
+	top: initial !important;
+	height: 23px;
+	padding-top: 0px;
+	padding-bottom: 8px;
+	padding-left: 0px;
+	background-color: #f8f8f8;
+	border-radius: 0px;
+	cursor: pointer;
+	cursor: hand;
+	border: 1px solid #DCDCDC;
+	box-shadow: 0px 0px 1px 0px rgba(102, 102, 102, 0.3);
+}
+
+.openKeyboardButton .arrowUp {
+	padding-top: 2px;
+}
+
 .keyBoardClosePanel {
 	position: absolute;
 	top: 0px;

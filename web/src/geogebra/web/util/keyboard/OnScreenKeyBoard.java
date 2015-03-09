@@ -304,7 +304,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				updateKeyBoardListener.showKeyBoard(false, null);
+				updateKeyBoardListener.keyBoardNeeded(false, null);
 			}
 		}, ClickEvent.getType());
 		return closePanel;
@@ -644,7 +644,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				}
 				processing.onEnter();
 				if (processing.resetAfterEnter()) {
-					updateKeyBoardListener.showKeyBoard(false, null);
+					updateKeyBoardListener.keyBoardNeeded(false, null);
 				}
 				break;
 			case ARROW_LEFT:

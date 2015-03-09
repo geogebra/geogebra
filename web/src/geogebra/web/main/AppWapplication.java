@@ -76,6 +76,8 @@ public class AppWapplication extends AppW {
 	 *            int
 	 * @param laf
 	 *            {@link GLookAndFeel}
+	 * @param device
+	 *            {@link GDevice}
 	 */
 	public AppWapplication(ArticleElement article,
 	        GeoGebraAppFrame geoGebraAppFrame, boolean undoActive,

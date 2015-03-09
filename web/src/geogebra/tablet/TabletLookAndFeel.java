@@ -28,6 +28,7 @@ public class TabletLookAndFeel extends GLookAndFeel {
 		return "tablet";
 	}
 
+	@Override
 	public boolean isTablet() {
 		return true;
 	}

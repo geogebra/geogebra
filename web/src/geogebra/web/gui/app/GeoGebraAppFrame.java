@@ -364,6 +364,6 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
     }
 	
 	public void showKeyBoard(boolean show, Widget textField) {
-		this.frameLayout.showKeyBoard(show, textField);
+		this.frameLayout.keyBoardNeeded(show, textField);
 	}
 }
