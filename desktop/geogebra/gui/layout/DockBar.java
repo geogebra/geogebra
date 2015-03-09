@@ -242,9 +242,9 @@ public class DockBar extends JPanel implements SetLabels, ActionListener,
 	public void setSidebarTriangle(boolean popupIsVisible) {
 
 		if (popupIsVisible ^ !isEastOrientation()) {
-			lblIcon.setIcon(app.getScaledIcon("dockbar-triangle-right.png"));
+			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-right.png"));
 		} else {
-			lblIcon.setIcon(app.getScaledIcon("dockbar-triangle-left.png"));
+			lblIcon.setIcon(app.getImageIcon("dockbar-triangle-left.png"));
 		}
 
 		slimSidebarPanel.repaint();
