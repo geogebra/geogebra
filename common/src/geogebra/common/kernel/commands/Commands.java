@@ -239,7 +239,7 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_SCRIPTING), RunClickScript(TABLE_SCRIPTING), RunUpdateScript(
 			TABLE_SCRIPTING), SetPerspective(TABLE_SCRIPTING), StartLogging(
 			TABLE_SCRIPTING), StopLogging(TABLE_SCRIPTING), StartRecord(
-			TABLE_SCRIPTING),
+			TABLE_SCRIPTING), Repeat(TABLE_SCRIPTING),
 
 	// =============================================================
 	// discrete math

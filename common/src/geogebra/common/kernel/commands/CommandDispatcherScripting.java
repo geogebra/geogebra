@@ -14,6 +14,7 @@ import geogebra.common.kernel.scripting.CmdPerspective;
 import geogebra.common.kernel.scripting.CmdPlaySound;
 import geogebra.common.kernel.scripting.CmdRelation;
 import geogebra.common.kernel.scripting.CmdRename;
+import geogebra.common.kernel.scripting.CmdRepeat;
 import geogebra.common.kernel.scripting.CmdRigidPolygon;
 import geogebra.common.kernel.scripting.CmdRunClickScript;
 import geogebra.common.kernel.scripting.CmdRunUpdateScript;
@@ -150,6 +151,8 @@ public class CommandDispatcherScripting implements CommandDispatcherInterface {
 			return new CmdStartRecord(kernel);
 		case Delete:
 			return new CmdDelete(kernel);
+		case Repeat:
+			return new CmdRepeat(kernel);
 		case Slider:
 			return new CmdSlider(kernel);
 		case Checkbox:

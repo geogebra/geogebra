@@ -334,6 +334,7 @@ public abstract class CommandDispatcher {
 			case StartRecord:
 			case SetPerspective:
 			case Delete:
+			case Repeat:
 			case Slider:
 			case Checkbox:
 			case InputBox:
