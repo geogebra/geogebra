@@ -1,5 +1,6 @@
 package geogebra.commands;
 
+import static org.junit.Assert.*;
 import geogebra.CommandLineArguments;
 import geogebra.common.kernel.commands.AlgebraProcessor;
 import geogebra.common.kernel.parser.ParseException;
@@ -40,10 +41,34 @@ public class ParserTest {
 					"]]]]]]]]]]]]]]]]]]]]]]]]");
 			l = System.currentTimeMillis() -l;
 			App.debug("TIME"+l);
-			Assert.assertTrue("Too long:"+l, l<100);
+			assertTrue("Too long:"+l, l<100);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}	
+	
+	@Test
+	public void testAbsValue(){
+
+			long l = System.currentTimeMillis();
+			try {
+				app.getKernel().getParser().
+				parseGeoGebraExpression("|1|");
+				app.getKernel().getParser().
+				parseGeoGebraExpression("(1|1|1)");
+				app.getKernel().getParser().
+				parseGeoGebraExpression("(a||b)");
+			} catch (ParseException e) {
+				assertNull(e);
+			}
+			try {
+				app.getKernel().getParser().
+				parseGeoGebraExpression("|1|2|3|");
+			} catch (ParseException e) {
+				assertNotNull(e);
+			}
+			
+
+	}
 }
