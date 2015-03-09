@@ -127,7 +127,7 @@ public class RadioButtonTreeItem extends FlowPanel
 	protected AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
-	private boolean newCreationMode = false;
+	boolean newCreationMode = false;
 	boolean mout = false;
 
 	protected SpanElement seMayLatex;

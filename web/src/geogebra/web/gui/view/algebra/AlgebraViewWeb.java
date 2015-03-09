@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gwt.animation.client.AnimationScheduler;
+import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -1083,6 +1084,16 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
 				}
 				inputPanelTreeItem = super.addItem(inputPanelLatex);
+
+				// open the keyboard (or show the keyboard-open-button) at the
+				// beginning
+				Scheduler.get().scheduleDeferred(
+						new Scheduler.ScheduledCommand() {
+							public void execute() {
+								app.showKeyboard(inputPanelLatex);
+							}
+						});
+
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}

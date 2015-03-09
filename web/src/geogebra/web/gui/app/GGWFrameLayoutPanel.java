@@ -48,7 +48,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	MyDockPanelLayout dockPanel;
 	MyDockPanelLayout mainPanel;
 	boolean keyboardShowing = false;
-	private PopupPanel showKeyboardButton;
+	PopupPanel showKeyboardButton;
 	
 	private DockGlassPaneW glassPane;
 
@@ -203,7 +203,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
 	 * DOM in the process so it may steal focus from currently selected element.
 	 */
-	private void showKeyboard(boolean show, Widget textField) {
+	void showKeyboard(boolean show, Widget textField) {
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
 			return;
