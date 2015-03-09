@@ -46,6 +46,7 @@ import com.google.gwt.dom.client.ImageElement;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
+import com.google.gwt.event.dom.client.DropEvent;
 import com.google.gwt.event.dom.client.FocusEvent;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
@@ -607,6 +608,9 @@ public class EuclidianViewW extends EuclidianView implements
 			        (EuclidianControllerW) euclidiancontroller);
 		}
 
+		registerDragDropHandlers(euclidianViewPanel,
+		        (EuclidianControllerW) euclidiancontroller);
+
 		// the canvas should have a tab index to capture key events in Internet
 		// Explorer
 		canvas.setTabIndex(10000);
@@ -680,6 +684,12 @@ public class EuclidianViewW extends EuclidianView implements
 
 	}
 
+	private void registerDragDropHandlers(
+	        EuclidianPanelWAbstract euclidianViewPanel,
+	        EuclidianControllerW euclidiancontroller) {
+		Widget evPanel = euclidianViewPanel.getAbsolutePanel();
+		evPanel.addDomHandler(euclidiancontroller, DropEvent.getType());
+	}
 	// STROKES
 	protected static geogebra.html5.awt.GBasicStrokeW standardStroke = new geogebra.html5.awt.GBasicStrokeW(
 	        1.0f, GBasicStroke.CAP_ROUND, GBasicStroke.JOIN_ROUND);

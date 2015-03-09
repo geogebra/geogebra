@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.DropEvent;
+import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.event.dom.client.GestureChangeEvent;
 import com.google.gwt.event.dom.client.GestureChangeHandler;
 import com.google.gwt.event.dom.client.GestureEndEvent;
@@ -60,7 +62,7 @@ public class EuclidianControllerW extends EuclidianController implements
         MouseOverHandler, MouseWheelHandler, TouchStartHandler,
         TouchEndHandler, TouchMoveHandler, TouchCancelHandler,
         GestureStartHandler, GestureEndHandler, GestureChangeHandler,
-        HasOffsets, IsEuclidianController, LongTouchHandler {
+        HasOffsets, IsEuclidianController, LongTouchHandler, DropHandler {
 
 	private PointerEvent waitingTouchMove = null;
 	private PointerEvent waitingMouseMove = null;
@@ -749,5 +751,9 @@ public class EuclidianControllerW extends EuclidianController implements
 	 */
 	public void setActualSticky(boolean sticky) {
 		this.actualSticky = sticky;
+	}
+
+	public void onDrop(DropEvent event) {
+		app.debug("[DND] drop happened");
 	}
 }
