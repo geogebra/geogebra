@@ -1136,7 +1136,9 @@ public class SpreadsheetViewW implements SpreadsheetViewInterface,
 		} else {
 			table.getGrid().getElement().addClassName("off");
 		}
-		getSpreadsheetStyleBar().updateStyleBar();
+		if (this.isVisibleStyleBar()) {
+			getSpreadsheetStyleBar().updateStyleBar();
+		}
 	}
 
 	public boolean getAllowToolTips() {
