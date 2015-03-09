@@ -2073,18 +2073,22 @@ var RootMathCommand = P(MathCommand, function(_, _super) {
 
     this.ch[L].cursor = this.cursor;
     this.ch[L].write = function(cursor, ch, replacedFragment) {
-      if (ch !== '$')
+      // in GeoGebraWeb, we do not call RootMathCommand from
+      // RootTextBlock, and this means $ should always mean the same
+      // thing as that of MathBlock's!
+
+      //if (ch !== '$')
         MathBlock.prototype.write.call(this, cursor, ch, replacedFragment);
-      else if (this.isEmpty()) {
-        cursor.insertAfter(this.parent).backspace().show();
-        VanillaSymbol('\\$','$').createBefore(cursor);
-      }
-      else if (!cursor[R])
-        cursor.insertAfter(this.parent);
-      else if (!cursor[L])
-        cursor.insertBefore(this.parent);
-      else
-        MathBlock.prototype.write.call(this, cursor, ch, replacedFragment);
+      //else if (this.isEmpty()) {
+      //  cursor.insertAfter(this.parent).backspace().show();
+      //  VanillaSymbol('\\$','$').createBefore(cursor);
+      //}
+      //else if (!cursor[R])
+      //  cursor.insertAfter(this.parent);
+      //else if (!cursor[L])
+      //  cursor.insertBefore(this.parent);
+      //else
+      //  MathBlock.prototype.write.call(this, cursor, ch, replacedFragment);
     };
   };
   _.latex = function() {
@@ -4288,25 +4292,27 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   _.write = function(cursor, ch, replacedFragment) {
     if (replacedFragment) replacedFragment.remove();
 
-    if (ch !== '$') {
+    // in GeoGebraWeb, $ should be accepted just like
+    // any other character!
+    //if (ch !== '$') {
       if (!cursor[L]) TextPiece(ch).createBefore(cursor);
       else cursor[L].appendText(ch);
-    }
-    else if (this.isEmpty()) {
-      cursor.insertAfter(this);
-      VanillaSymbol('\\$','$').createBefore(cursor);
-    }
-    else if (!cursor[R]) cursor.insertAfter(this);
-    else if (!cursor[L]) cursor.insertBefore(this);
-    else { // split apart
-      var prevBlock = TextBlock();
-      var prevPc = this.ch[L];
-      prevPc.disown();
-      prevPc.adopt(prevBlock, 0, 0);
+    //}
+    //else if (this.isEmpty()) {
+    //  cursor.insertAfter(this);
+    //  VanillaSymbol('\\$','$').createBefore(cursor);
+    //}
+    //else if (!cursor[R]) cursor.insertAfter(this);
+    //else if (!cursor[L]) cursor.insertBefore(this);
+    //else { // split apart
+    //  var prevBlock = TextBlock();
+    //  var prevPc = this.ch[L];
+    //  prevPc.disown();
+    //  prevPc.adopt(prevBlock, 0, 0);
 
-      cursor.insertBefore(this);
-      _super.createBefore.call(prevBlock, cursor);
-    }
+    //  cursor.insertBefore(this);
+    //  _super.createBefore.call(prevBlock, cursor);
+    //}
     return false;
   };
 
@@ -4463,7 +4469,9 @@ var TextPiece = P(Node, function(_, _super) {
   };
 });
 
-CharCmds.$ =
+// in GeoGebraWeb this is harmful!
+//CharCmds.$ =
+
 LatexCmds.text =
 LatexCmds.textnormal =
 LatexCmds.textrm =
