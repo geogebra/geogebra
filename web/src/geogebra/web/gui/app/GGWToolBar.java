@@ -6,12 +6,12 @@ import geogebra.common.kernel.ModeSetter;
 import geogebra.common.main.App;
 import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.gui.ToolBarInterface;
+import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.ImageFactory;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.images.PerspectiveResources;
-import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.toolbar.ToolBarW;
 import geogebra.web.gui.toolbar.images.ToolbarResources;
 import geogebra.web.gui.util.StandardButton;
@@ -51,7 +51,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 
 	private ArrayList<ToolBarW> toolbars;
 	AppW app;
-	private ToolBarW toolBar;
+	ToolBarW toolBar;
 	//panel which contains the toolbar and undo-redo buttons.
 	FlowPanel toolBarPanel;
 	//panel for toolbar (without undo-redo buttons)
@@ -76,7 +76,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 		toolBarPanel.addStyleName("smart-nb-draggable");
 
 		//For app we set this also in GGWFrameLayoutPanel, but for applets we must set it here 
-		toolBarPanel.setHeight(GLookAndFeel.TOOLBAR_HEIGHT+"px");
+		toolBarPanel.setHeight(GLookAndFeelI.TOOLBAR_HEIGHT+"px");
 		initWidget(toolBarPanel);
 	}
 
@@ -142,6 +142,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			@Override
             public void onClick(Widget source) {
 				app.getGuiManager().redo();
+				app.hideKeyboard();
             }
 		});
 		redoButton.addStyleName("redoButton");
@@ -155,6 +156,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 			@Override
             public void onClick(Widget source) {
 				app.getGuiManager().undo();
+				app.hideKeyboard();
             }
 		});
 		undoButton.addStyleName("undoButton");
@@ -798,6 +800,7 @@ public class GGWToolBar extends Composite implements RequiresResize,
 				.getViewId() : -1);
 	}
 	
+	@Override
 	protected void onAttach(){
 		super.onAttach();
 		// gwt sets openSearcButton's tabindex to 0 at onAttach (see
