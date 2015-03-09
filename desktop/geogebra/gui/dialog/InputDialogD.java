@@ -502,7 +502,9 @@ public class InputDialogD extends geogebra.common.gui.dialog.InputDialog
 	}
 
 	public void windowClosing(WindowEvent e) {
-		// not needed
+		if (!wrappedDialog.isModal()) {
+			app.setSelectionListenerMode(null);
+		}
 	}
 
 	public void windowClosed(WindowEvent e) {
