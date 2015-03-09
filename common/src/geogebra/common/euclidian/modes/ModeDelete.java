@@ -31,6 +31,7 @@ public class ModeDelete {
 		this.view = view;
 	}
 
+	GRectangle rect = AwtFactory.prototype.newRectangle(0, 0, 100, 100);
 	public void handleMouseDraggedForDelete(AbstractEvent e, int deleteSize,
 			boolean forceOnlyStrokes) {
 		if (e == null) {
@@ -38,8 +39,8 @@ public class ModeDelete {
 		}
 		int eventX = e.getX();
 		int eventY = e.getY();
-		GRectangle rect = AwtFactory.prototype.newRectangle(eventX - deleteSize
-				/ 2, eventY - deleteSize / 2, deleteSize, deleteSize);
+		rect.setBounds(eventX - deleteSize / 2, eventY - deleteSize / 2,
+				deleteSize, deleteSize);
 		view.setDeletionRectangle(rect);
 		view.setIntersectionHits(rect);
 		Hits h = view.getHits();
