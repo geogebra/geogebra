@@ -134,7 +134,7 @@ public class ModeDelete {
 		ec.deleteAll(h);
 		if (as != null)
 			as.updateAll();
-		kernel.notifyRepaint();
+
 
 	}
 

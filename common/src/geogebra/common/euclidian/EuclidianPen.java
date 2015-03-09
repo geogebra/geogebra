@@ -311,6 +311,7 @@ public class EuclidianPen {
 		if (isErasingEvent(e)) {
 			view.getEuclidianController().getDeleteMode()
 					.handleMouseDraggedForDelete(e, eraserSize, true);
+			app.getKernel().notifyRepaint();
 		} else {
 			addPointPenMode(e, null);
 		}
