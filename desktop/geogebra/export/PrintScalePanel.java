@@ -38,7 +38,7 @@ public class PrintScalePanel extends JPanel {
 	private JTextField tfScale1, tfScale2, tfSize1, tfSize2;
 	private JTextField tfScaleFixed;
 
-	private Vector<ActionListener> listeners = new Vector<>();
+	private Vector<ActionListener> listeners = new Vector<ActionListener>();
 	private EuclidianView ev;
 	private NumberFormat nf;
 
