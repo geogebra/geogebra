@@ -36,15 +36,28 @@ public class PrintScalePanel extends JPanel {
 	private static final int maxFracDigits = 5;
 
 	private JTextField tfScale1, tfScale2, tfSize1, tfSize2;
-	private Vector<ActionListener> listeners = new Vector<ActionListener>();
+	private JTextField tfScaleFixed;
+
+	private Vector<ActionListener> listeners = new Vector<>();
 	private EuclidianView ev;
 	private NumberFormat nf;
+
 	@SuppressWarnings("rawtypes")
 	private JComboBox exportMode;
 	private JPanel pxModePanel, cmModePanel;
-	private boolean pxMode = false;
-	private JLabel scaleLabel;
+	private JPanel fixedSizeModePanel;
+	
+	public enum PrintScaleModes {
+		SIZEINCM, SIZEINPX, FIXED_SIZE
+	};
+	
+	private PrintScaleModes mode = PrintScaleModes.SIZEINCM;
+
 	private boolean pixelSizeEnabled = true;
+
+	private String jcbItemSizeInPixels = "";
+	private String jcbItemFixedSize = "";
+	private String jcbItemScaleInCentimeter = "";
 
 	/**
 	 * @param app
@@ -60,11 +73,18 @@ public class PrintScalePanel extends JPanel {
 		nf.setMaximumFractionDigits(maxFracDigits);
 		nf.setGroupingUsed(false);
 
+
 		setLayout(new FlowLayout(FlowLayout.LEFT));
 
 		Runnable updateCm = new Runnable() {
 			public void run() {
 				fireTextFieldUpdate();
+			}
+		};
+
+		Runnable updateFixedSize = new Runnable() {
+			public void run() {
+				fireFixedSizeTextFieldUpdate();
 			}
 		};
 
@@ -84,12 +104,24 @@ public class PrintScalePanel extends JPanel {
 		tfScale2 = getNumberField(app, updateCm);
 		tfSize1 = getNumberField(app, updateWidth);
 		tfSize2 = getNumberField(app, updateHeight);
+		tfScaleFixed = getNumberField(app, updateFixedSize);
 
-		scaleLabel = new JLabel(loc.getPlain("ScaleInCentimeter") + ":");
+		// this label is not used (replaced with combo box exportMode)
+		// scaleLabel = new JLabel(loc.getPlain("ScaleInCentimeter") + ":");
+
+		// new variables added (3 rows) - are used as items in the combo box
+		// exportMode
+		jcbItemScaleInCentimeter = loc.getPlain("ScaleInCentimeter") + ":";
+		jcbItemFixedSize = loc.getPlain("FixedSize") + ":";
+		jcbItemSizeInPixels = loc.getPlain("SizeInPixels") + ":";
 
 		exportMode = new JComboBox();
-		exportMode.addItem(loc.getPlain("ScaleInCentimeter") + ":");
-		exportMode.addItem(loc.getPlain("SizeInPixels") + ":");
+
+		exportMode.addItem(jcbItemScaleInCentimeter);
+		exportMode.addItem(jcbItemFixedSize);
+		exportMode.addItem(jcbItemSizeInPixels);
+		// end of block update
+
 		add(exportMode);
 
 		exportMode.addActionListener(new ActionListener() {
@@ -99,6 +131,14 @@ public class PrintScalePanel extends JPanel {
 
 			}
 		});
+
+		fixedSizeModePanel = new JPanel();
+		fixedSizeModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		fixedSizeModePanel.add(new JLabel(" "
+				+ loc.getPlain("APixelsOnScreen", "100")
+				+ " = "));
+		fixedSizeModePanel.add(tfScaleFixed);
+		fixedSizeModePanel.add(new JLabel(" cm"));
 
 		cmModePanel = new JPanel();
 		cmModePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -120,39 +160,70 @@ public class PrintScalePanel extends JPanel {
 		updateScaleTextFields();
 	}
 
+
+	/**
+	 * @param b
+	 */
+	@SuppressWarnings("unchecked")
 	public void enableAbsoluteSize(boolean b) {
 		if (b == pixelSizeEnabled) {
 			return;
 		}
 		pixelSizeEnabled = b;
-		this.removeAll();
+		exportMode.removeItem(jcbItemSizeInPixels);
+		// this.removeAll();
 		if (b) {
-			this.add(exportMode);
+			// this.add(exportMode);
+			exportMode.addItem(jcbItemSizeInPixels);
 		} else {
-			this.add(scaleLabel);
+			// this.add(scaleLabel);
 		}
 
-		this.add(cmModePanel);
+		// this.add(cmModePanel);
 	}
 
+
 	/**
-	 * Switch to the correct mode (pixel vs cm)
+	 * Switch to the correct mode (pixel vs cm vs fixed size)
 	 */
 	void switchMode() {
-		pxMode = exportMode.getSelectedIndex() > 0;
-		if (pxMode) {
-			PrintScalePanel.this.remove(cmModePanel);
-			PrintScalePanel.this.add(pxModePanel);
-			updateSizeTextFields(ev.getExportWidth(), ev.getExportHeight());
 
+		if (exportMode.getSelectedItem().toString().equals(jcbItemSizeInPixels)) {
+			mode = PrintScaleModes.SIZEINPX;
+		} else if (exportMode.getSelectedItem().toString()
+				.equals(jcbItemFixedSize)) {
+			mode = PrintScaleModes.FIXED_SIZE;
 		} else {
+			mode = PrintScaleModes.SIZEINCM;
+		}
+
+		switch (mode) {
+		case SIZEINCM:
 			PrintScalePanel.this.remove(pxModePanel);
+			PrintScalePanel.this.remove(fixedSizeModePanel);
 			PrintScalePanel.this.add(cmModePanel);
 			updateScaleTextFields();
+			break;
+		case SIZEINPX:
+			PrintScalePanel.this.remove(cmModePanel);
+			PrintScalePanel.this.remove(fixedSizeModePanel);
+			PrintScalePanel.this.add(pxModePanel);
+			updateSizeTextFields(ev.getExportWidth(), ev.getExportHeight());
+			break;
+		case FIXED_SIZE:
+			PrintScalePanel.this.remove(cmModePanel);
+			PrintScalePanel.this.remove(pxModePanel);
+			PrintScalePanel.this.add(fixedSizeModePanel);
+			updateFixedSizeTextFields();
+			revalidate();
+			repaint();
+			break;
 		}
+
 		SwingUtilities.updateComponentTreeUI(PrintScalePanel.this);
 		notifyListeners();
 	}
+
 
 	private static JTextField getNumberField(AppD app, final Runnable run) {
 		JTextField ret = new MyTextField(app);
@@ -162,7 +233,6 @@ public class PrintScalePanel extends JPanel {
 			public void focusLost(FocusEvent e) {
 				run.run();
 			}
-
 			public void focusGained(FocusEvent e) {
 				//
 			}
@@ -185,10 +255,17 @@ public class PrintScalePanel extends JPanel {
 	 * @param height
 	 *            height
 	 */
-	void updateSizeTextFields(int width, int height) {
+
+	private void updateSizeTextFields(int width, int height) {
 		setTextNoListener(tfSize1, nf.format(width));
 		setTextNoListener(tfSize2, nf.format(height));
 	}
+
+	private void updateFixedSizeTextFields() {
+		double relScale = 100 * ev.getPrintingScale() / ev.getXscale();
+		setTextNoListener(tfScaleFixed, nf.format(relScale));
+	}
+
 
 	private void updateScaleTextFields() {
 
@@ -202,6 +279,7 @@ public class PrintScalePanel extends JPanel {
 		}
 	}
 
+
 	private static void setTextNoListener(JTextField field, String s) {
 		ActionListener ret = field.getActionListeners()[0];
 		field.removeActionListener(ret);
@@ -209,6 +287,7 @@ public class PrintScalePanel extends JPanel {
 		field.addActionListener(ret);
 
 	}
+
 
 	/**
 	 * Validate the texts in scale input, if OK, change export scale of EV and
@@ -259,6 +338,28 @@ public class PrintScalePanel extends JPanel {
 		}
 	}
 
+	void fireFixedSizeTextFieldUpdate() {
+		boolean viewChanged = false;
+
+		try {
+			double userScale = Double.parseDouble(tfScaleFixed.getText());
+			if (!(Double.isInfinite(userScale) || Double.isNaN(userScale))) {
+				double scale = userScale * ev.getXscale() / 100;
+				ev.setPrintingScale(scale);
+				viewChanged = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		updateFixedSizeTextFields();
+
+		if (viewChanged) {
+			notifyListeners();
+		}
+	}
+
+
 	/**
 	 * @param lst
 	 *            listens to changes of scale / size
@@ -276,25 +377,33 @@ public class PrintScalePanel extends JPanel {
 		}
 	}
 
+
 	/**
 	 * @return width in pixels
 	 */
 	public int getPixelWidth() {
-		return Integer.parseInt(tfSize1.getText());
+		try {
+			return Integer.parseInt(tfSize1.getText());
+		} catch (Exception e) {
+			return -1;
+		}
 	}
 
 	/**
 	 * Height in pixels
 	 */
 	public int getPixelHeight() {
-		return Integer.parseInt(tfSize2.getText());
+		try {
+			return Integer.parseInt(tfSize2.getText());
+		} catch (Exception e) {
+			return -1;
+		}
 	}
-
 	/**
 	 * @return whether we export using pixels rather than cm
 	 */
-	public boolean isPxMode() {
-		return this.pxMode;
+	public PrintScaleModes getMode() {
+		return this.mode;
 	}
 
 }

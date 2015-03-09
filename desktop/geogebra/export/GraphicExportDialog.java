@@ -14,6 +14,7 @@ package geogebra.export;
 
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
@@ -400,6 +401,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		if (selectedFormat() == Format.EPS || selectedFormat() == Format.SVG) {
 			return 72;
 		}
+
 		return Integer.parseInt((String) cbDPI.getSelectedItem());
 	}
 
@@ -489,29 +491,52 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// takes dpi into account (note: eps has 72dpi)
 
 		StringBuilder sb = new StringBuilder();
-		double cmWidth, cmHeight;
-		if (psp.isPxMode()) {
+		double cmWidth = -1, cmHeight = -1;
+		switch (psp.getMode()) {
+		case SIZEINPX:
 			pixelWidth = psp.getPixelWidth();
 			pixelHeight = psp.getPixelHeight();
 			cmWidth = (pixelWidth * 2.54) / getDPI();
-			cmHeight = (pixelWidth * 2.54) / getDPI();
-			exportScale = pixelWidth / (0.0 + ev.getExportWidth());
+			cmHeight = (pixelHeight * 2.54) / getDPI();
+			exportScale = pixelWidth / ((double) ev.getExportWidth());
+			break;
 
-		} else {
+		case FIXED_SIZE:
+
+			// what the user typed in the "100 screen pixels = x cm" textfield
+			double screenPixels = Kernel.checkDecimalFraction(100
+					* ev.getPrintingScale() / ev.getXscale());
+
+			double screenPixelsY = 100 * ev.getPrintingScale() / ev.getYscale();
+
+			cmWidth = ev.getExportWidth() / 100.0 * screenPixels;
+			cmHeight = ev.getExportHeight() / 100.0 * screenPixelsY;
+
+			pixelWidth = (int) (cmWidth / 2.54 * getDPI());
+			pixelHeight = (int) (cmHeight / 2.54 * getDPI());
+
+			exportScale = pixelWidth / ((double) ev.getExportWidth());
+
+			break;
+
+		case SIZEINCM:
 			exportScale = (printingScale * getDPI()) / 2.54 / ev.getXscale();
 			// cm size
-			cmWidth = printingScale * (ev.getExportWidth() / ev.getXscale());
-			cmHeight = printingScale * (ev.getExportHeight() / ev.getXscale()); // getXscale
-																				// is
-																				// not
-																				// a
-																				// typo.
-																				// see
-																				// #2894
-			pixelWidth = (int) Math.floor(ev.getExportWidth() * exportScale);
-			pixelHeight = (int) Math.floor(ev.getExportHeight() * exportScale);
+			cmWidth = printingScale
+					* (ev.getExportWidth() / ev.getXscale());
 
+			// getXscale() is not a typo, see #2894
+			// #4185 changed back to getYscale()
+			cmHeight = printingScale
+					* (ev.getExportHeight() / ev.getYscale());
+
+			pixelWidth = (int) Math.floor(ev.getExportWidth()
+					* exportScale);
+			pixelHeight = (int) Math.floor(ev.getExportHeight()
+					* exportScale);
+			break;
 		}
+
 		sb.append(sizeLabelFormat.format(cmWidth));
 		sb.append(" cm ");
 		sb.append(Unicode.multiply);
@@ -803,6 +828,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * @param exportScale
 	 *            scale units / cm
 	 * @param transparent0
+	 *            transparent?
 	 */
 	public static void exportSVG(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
@@ -842,7 +868,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			g.endExport();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			app.exporting = false;
@@ -886,7 +911,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			g.endExport();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -953,7 +977,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			ev.exportPaint(g, printingScale / factor);
 			g.endExport();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			app.exporting = false;
@@ -991,10 +1014,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			ev.exportPaint(g, exportScale);
 			g.close();
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -1020,7 +1041,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			BufferedImage img = ev.getExportImage(exportScale, transparent);
 			MyImageIO.write(img, "png", dpi, file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
