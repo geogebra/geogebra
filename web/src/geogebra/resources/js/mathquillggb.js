@@ -4332,6 +4332,9 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   _.deleteTowards = _.createSelection;
   _.deleteOutOf = function(dir, cursor) {
     if (this.ctrlSeq === '{') {
+      // also delete content!
+      cursor.selection = Selection(this.ch[L], this.ch[R]);
+      cursor.deleteSelection();
       // if this is used from quotation
       cursor.unwrapGramp();
     } else {
