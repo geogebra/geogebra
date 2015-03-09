@@ -241,26 +241,6 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		};
 		timer.schedule(0);
 	}
-	
-	 @Override
-	public void updateKeyBoard(Widget textField) {
-		this.mainPanel.clear();
-		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
-		        this, app);
-		keyBoard.show();
-		this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
-		this.mainPanel.add(this.dockPanel);
-
-		Timer timer = new Timer() {
-			@Override
-			public void run() {
-				onResize();
-				dockPanel.onResize();
-				scrollToInputField();
-			}
-		};
-		timer.schedule(0);
-	 }
 
 	/**
 	 * Scroll to the input-field, if the input-field is in the algebraView.

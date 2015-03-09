@@ -745,13 +745,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			contentNumber.setVisible(true);
 			contentLetters.setVisible(false);
 			contentSpecialChars.setVisible(false);
-			updateKeyBoardListener.updateKeyBoard(textField);
 		} else if (mode == KeyboardMode.TEXT) {
 			greekActive = false;
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(true);
 			contentSpecialChars.setVisible(false);
-			updateKeyBoardListener.updateKeyBoard(textField);
 			processing.setKeyBoardModeText(true);
 			updateKeyBoardListener.showInputField();
 		} else if (mode == KeyboardMode.SPECIAL_CHARS) {
@@ -759,7 +757,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			contentNumber.setVisible(false);
 			contentLetters.setVisible(false);
 			contentSpecialChars.setVisible(true);
-			updateKeyBoardListener.updateKeyBoard(textField);
 		}
 		setUsed(true);
 	}
