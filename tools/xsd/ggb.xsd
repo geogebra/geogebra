@@ -28,6 +28,7 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 				<xs:element ref="euclidianView" minOccurs="0" maxOccurs="2"/>
 				<xs:element ref="euclidianView3D" minOccurs="0"/>
 				<xs:element ref="spreadsheetView" minOccurs="0"/>
+				<xs:element ref="algebraView" minOccurs="0"/>
 				<xs:element ref="keyboard" minOccurs="0"/>
 				<xs:element ref="kernel"/>
 				<xs:element ref="scripting" minOccurs="0"/>
@@ -348,7 +349,26 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 	</xs:element>
 
+	<xs:element name="algebraView">
+	<xs:complexType>
+		<xs:sequence>
+			<xs:element name="auxiliary" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="show" type="xs:boolean"/>
+				</xs:complexType>
+			</xs:element>
 	
+			<xs:element name="collapsed" minOccurs="0" type="stringVal"/>
+	
+			<xs:element name="mode" minOccurs="0">
+				<xs:complexType>
+					<xs:attribute name="val" type="nonNegInt"/>
+				</xs:complexType>
+			</xs:element>
+	
+		</xs:sequence>
+	</xs:complexType>
+	</xs:element>
 
 	<xs:element name="spreadsheetView">
 
