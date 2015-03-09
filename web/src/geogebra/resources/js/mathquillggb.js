@@ -3460,8 +3460,8 @@ LatexCmds.prime = CharCmds["'"] = bind(VanillaSymbol, "'", '&prime;');
 
 // does not use Symbola font
 var NonSymbolaSymbol = P(Symbol, function(_, _super) {
-  _.init = function(ch, html) {
-    _super.init.call(this, ch, '<span class="nonSymbola">'+(html || ch)+'</span>');
+  _.init = function(ch, html, text) {
+    _super.init.call(this, ch, '<span class="nonSymbola">'+(html || ch)+'</span>', text);
   };
 });
 
@@ -3552,7 +3552,8 @@ LatexCmds.varrho = //AMS and LaTeX
 
 //Greek constants, look best in un-italicised Times New Roman
 //LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;');
-LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\\u03c0 ','&pi;');
+//LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\\u03c0 ','&pi;');
+LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;', '\u03c0');
 LatexCmds.lambda = bind(NonSymbolaSymbol,'\\lambda ','&lambda;');
 
 //uppercase greek letters
