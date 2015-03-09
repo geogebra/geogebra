@@ -1120,6 +1120,16 @@ public class DrawEquationWeb extends DrawEquation {
 			eqstring = eqstring.replace("\\right\\right]", "\\right]");
 			// in case of typo
 			eqstring = eqstring.replace("\\left\\right]", "\\left]");
+
+			// ln(<x>)
+			eqstring = eqstring.replace("(", "\\left(");
+			eqstring = eqstring.replace("\\left\\left(", "\\left(");
+			// in case of typo
+			eqstring = eqstring.replace("\\right\\left(", "\\right(");
+			eqstring = eqstring.replace(")", "\\right)");
+			eqstring = eqstring.replace("\\right\\right)", "\\right)");
+			// in case of typo
+			eqstring = eqstring.replace("\\left\\right)", "\\left)");
 		}
 
 		// IMPORTANT! although the following method is called with
