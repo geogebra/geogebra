@@ -102,7 +102,7 @@ geogebra.common.gui.view.properties.PropertiesView implements RequiresResize, Se
 	}
 
 	protected PropertiesStyleBarW newPropertiesStyleBar() {
-		return new PropertiesStyleBarW(this, (AppW) app);
+		return new PropertiesStyleBarW(this, app);
 	}
 
 	/**

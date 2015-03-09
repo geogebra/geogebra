@@ -1,5 +1,6 @@
 package geogebra.web.gui.view.algebra;
 
+import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
@@ -12,6 +13,7 @@ import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.gui.inputfield.HasSymbolPopup;
 import geogebra.html5.gui.inputfield.HistoryPopupW;
 import geogebra.html5.gui.util.BasicIcons;
+import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.css.GuiResources;
@@ -140,7 +142,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	protected AutoCompleteDictionary dict;
 	protected ScrollableSuggestionDisplay sug;
 	protected CompletionsPopup popup;
-	protected PushButton XButton = null;
+	protected PushButton xButton = null;
 	// SymbolTablePopupW tablePopup;
 	private int historyIndex;
 	private ArrayList<String> history;
@@ -195,16 +197,16 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 		// code copied from AutoCompleteTextFieldW,
 		// with some modifications!
-		XButton = new PushButton(new Image(
+		xButton = new PushButton(new Image(
 		        GuiResources.INSTANCE.keyboard_close()));
 		String id = DOM.createUniqueId();
 		// textField.setShowSymbolElement(this.XButton.getElement());
-		XButton.getElement().setId(id + "_SymbolButton");
-		XButton.getElement().setAttribute("data-visible", "false");
+		xButton.getElement().setId(id + "_SymbolButton");
+		xButton.getElement().setAttribute("data-visible", "false");
 		// XButton.getElement().setAttribute("style", "display: none");
 		// XButton.setText("X");
-		XButton.addStyleName("SymbolToggleButton");
-		XButton.addClickHandler(new ClickHandler() {
+		xButton.addStyleName("SymbolToggleButton");
+		xButton.addClickHandler(new ClickHandler() {
 
 			@Override
 			public void onClick(ClickEvent event) {
@@ -216,15 +218,23 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			}
 		});
 
-		XButton.setFocus(false);
+		ClickStartHandler.init(xButton, new ClickStartHandler(false, true) {
+			@Override
+			public void onClickStart(int x, int y, PointerEventType type) {
+				// nothing to do here; just makes sure that
+				// event.stopPropagation is called
+			}
+		});
+
+		xButton.setFocus(false);
 		// add(textField);// done in super()
 
 		// it seems this would be part of the Tree, not of TreeItem...
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
-		add(XButton);
+		add(xButton);
 
-		XButton.getElement().setAttribute("data-visible", "true");
+		xButton.getElement().setAttribute("data-visible", "true");
 		addStyleName("SymbolCanBeShown");
 
 		// When scheduleDeferred does not work...
@@ -523,10 +533,10 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public void showPopup(boolean show) {
-		if (this.XButton == null) {
+		if (this.xButton == null) {
 			return;
 		}
-		Element showSymbolElement = this.XButton.getElement();
+		Element showSymbolElement = this.xButton.getElement();
 		// App.debug("AF focused" + show);
 		if (showSymbolElement != null
 		        && "true"
