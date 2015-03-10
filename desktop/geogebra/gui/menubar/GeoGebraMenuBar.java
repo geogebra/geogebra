@@ -14,7 +14,7 @@ import geogebra.common.move.views.EventRenderable;
 import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.DialogManagerD;
-import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockManagerD;
 import geogebra.gui.layout.LayoutD;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
@@ -479,7 +479,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 						 * app .getEuclidianView(), PageFormat.LANDSCAPE);
 						 */
 						GuiManagerD gui = (GuiManagerD) app.getGuiManager();
-						DockManager dm = gui.getLayout().getDockManager();
+						DockManagerD dm = gui.getLayout().getDockManager();
 						geogebra.export.PrintPreview pre = geogebra.export.PrintPreview
 								.get(app, dm.getFocusedPanel().getViewId(),
 										PageFormat.LANDSCAPE);

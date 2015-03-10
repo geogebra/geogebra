@@ -16,7 +16,7 @@ import geogebra.common.main.App;
 import geogebra.euclidian.EuclidianViewD;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.TitlePanel;
-import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.view.Gridable;
 import geogebra.gui.view.consprotocol.ConstructionProtocolViewD;
@@ -471,7 +471,7 @@ public class PrintPreview extends JDialog {
 		JPanel retPanel = new JPanel();
 		DockPanel dock;
 
-		dock = ((DockManager) app.getGuiManager().getLayout().getDockManager())
+		dock = ((DockManagerD) app.getGuiManager().getLayout().getDockManager())
 				.getPanel(view.getViewID());
 		retPanel.add(Box.createHorizontalStrut(10));
 		retPanel.add(new JLabel(dock.getIcon()));

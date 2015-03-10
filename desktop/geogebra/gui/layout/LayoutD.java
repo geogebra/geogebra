@@ -45,7 +45,7 @@ public class LayoutD extends Layout implements SettingListener {
 	private boolean isInitialized = false;
 
 	private AppD app;
-	private DockManager dockManager;
+	private DockManagerD dockManager;
 
 	/**
 	 * {@link #initialize(AppD)} has to be called once in order to use this
@@ -72,7 +72,7 @@ public class LayoutD extends Layout implements SettingListener {
 		this.app = app;
 		this.settings = app.getSettings().getLayout();
 		this.settings.addListener(this);
-		this.dockManager = new DockManager(this);
+		this.dockManager = new DockManagerD(this);
 	}
 
 	/**
@@ -422,7 +422,7 @@ public class LayoutD extends Layout implements SettingListener {
 	/**
 	 * @return The management class for the docking behavior.
 	 */
-	public DockManager getDockManager() {
+	public DockManagerD getDockManager() {
 		return dockManager;
 	}
 

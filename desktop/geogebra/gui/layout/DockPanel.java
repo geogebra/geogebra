@@ -70,7 +70,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		DockComponent {
 	private static final long serialVersionUID = 1L;
 
-	protected DockManager dockManager;
+	protected DockManagerD dockManager;
 	protected AppD app;
 	protected LocalizationD loc;
 
@@ -443,7 +443,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * @param dockManager1
 	 *            dock manager
 	 */
-	public void register(DockManager dockManager1) {
+	public void register(DockManagerD dockManager1) {
 		this.dockManager = dockManager1;
 		setApp(dockManager1.getLayout().getApplication());
 		// create buttons for the panels

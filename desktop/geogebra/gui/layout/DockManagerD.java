@@ -31,7 +31,7 @@ import javax.swing.SwingUtilities;
  * 
  * @author Florian Sonner
  */
-public class DockManager extends geogebra.common.gui.layout.DockManager
+public class DockManagerD extends geogebra.common.gui.layout.DockManager
 		implements AWTEventListener {
 	private AppD app;
 	private LayoutD layout;
@@ -75,7 +75,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 	/**
 	 * @param layout
 	 */
-	public DockManager(LayoutD layout) {
+	public DockManagerD(LayoutD layout) {
 		this.layout = layout;
 		this.app = layout.getApplication();
 
@@ -1002,7 +1002,7 @@ public class DockManager extends geogebra.common.gui.layout.DockManager
 
 	/**
 	 * Changes the focused panel to the dock panel with ID viewId. Uses
-	 * {@link DockManager#setFocusedPanel(DockPanel)} internally but adds some
+	 * {@link DockManagerD#setFocusedPanel(DockPanel)} internally but adds some
 	 * validation checks.
 	 * 
 	 * @param viewId

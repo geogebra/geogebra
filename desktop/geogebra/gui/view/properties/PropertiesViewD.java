@@ -29,7 +29,7 @@ import geogebra.gui.dialog.options.OptionsEuclidianD;
 import geogebra.gui.dialog.options.OptionsLayoutD;
 import geogebra.gui.dialog.options.OptionsObjectD;
 import geogebra.gui.dialog.options.OptionsSpreadsheetD;
-import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.LayoutD;
 import geogebra.gui.layout.panels.PropertiesDockPanel;
@@ -753,7 +753,7 @@ public class PropertiesViewD extends
 
 		// close undocked properties view when setting mode
 		// if propreties view covers a part of the main window
-		DockManager manager = ((LayoutD) app.getGuiManager().getLayout())
+		DockManagerD manager = ((LayoutD) app.getGuiManager().getLayout())
 				.getDockManager();
 		DockPanel panel = manager.getPanel(getViewID());
 		if (panel.isInFrame()) {

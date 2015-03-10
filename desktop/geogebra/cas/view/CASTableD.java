@@ -9,7 +9,7 @@ import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.common.main.GeoGebraColorConstants;
 import geogebra.gui.GuiManagerD;
-import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.main.AppD;
 
@@ -202,7 +202,7 @@ public class CASTableD extends JTable implements CASTable {
 			// DockManager.eventDispatched()
 			// sometimes thinks that this click comes from the EuclidianView
 			GuiManagerD gui = (GuiManagerD) app.getGuiManager();
-			DockManager dockManager = gui.getLayout().getDockManager();
+			DockManagerD dockManager = gui.getLayout().getDockManager();
 
 			DockPanel panel = dockManager.getFocusedPanel();
 			if (panel == null || panel.getViewId() != App.VIEW_CAS) {
