@@ -3740,22 +3740,26 @@ LatexCmds.prop = LatexCmds.propto = bind(BinaryOperator,'\\propto ','&prop;');
 
 LatexCmds['\u2248'] = LatexCmds.asymp = LatexCmds.approx = bind(BinaryOperator,'\\approx ','&asymp;');
 
-LatexCmds.lt = bind(BinaryOperator,'<','&lt;');
+LatexCmds.lt = bind(BinaryOperator, '<', '&lt;', '<');
 
-LatexCmds.gt = bind(BinaryOperator,'>','&gt;');
+LatexCmds.gt = bind(BinaryOperator, '>', '&gt;', '>');
 
 LatexCmds['\u2264'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator, '\\le ', '&le;', '\u2264');
 
 LatexCmds['\u2265'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator, '\\ge ', '&ge;', '\u2265');
 
-LatexCmds.isin = LatexCmds['in'] = bind(BinaryOperator,'\\in ','&isin;');
+// GeoGebra IS_ELEMENT_OF "\u2208"
+LatexCmds.isin = LatexCmds['in'] = LatexCmds['\u2208'] =
+  bind(BinaryOperator, '\\in ', '&isin;', '\u2208');
 
 LatexCmds.ni = LatexCmds.contains = bind(BinaryOperator,'\\ni ','&ni;');
 
 LatexCmds.notni = LatexCmds.niton = LatexCmds.notcontains = LatexCmds.doesnotcontain =
   bind(BinaryOperator,'\\not\\ni ','&#8716;');
 
-LatexCmds.sub = LatexCmds.subset = bind(BinaryOperator,'\\subset ','&sub;');
+// GeoGebra IS_SUBSET_OF_STRICT "\u2282"
+LatexCmds.sub = LatexCmds.subset = LatexCmds['\u2282'] =
+  bind(BinaryOperator, '\\subset ', '&sub;', '\u2282');
 
 LatexCmds.sup = LatexCmds.supset = LatexCmds.superset =
   bind(BinaryOperator,'\\supset ','&sup;');
@@ -3769,8 +3773,10 @@ LatexCmds.nsupset = LatexCmds.notsupset =
 LatexCmds.nsuperset = LatexCmds.notsuperset =
   bind(BinaryOperator,'\\not\\supset ','&#8837;');
 
+// GeoGebra IS_SUBSET_OF "\u2286"
 LatexCmds.sube = LatexCmds.subeq = LatexCmds.subsete = LatexCmds.subseteq =
-  bind(BinaryOperator,'\\subseteq ','&sube;');
+LatexCmds['\u2286'] =
+  bind(BinaryOperator,'\\subseteq ','&sube;', '\u2286');
 
 LatexCmds.supe = LatexCmds.supeq =
 LatexCmds.supsete = LatexCmds.supseteq =
@@ -4080,7 +4086,12 @@ LatexCmds.cap = LatexCmds.intersect = LatexCmds.intersection =
 
 // \deg is actually a latex function LatexCmds.deg = LatexCmds.degree = bind(VanillaSymbol,'^\\circ ','&deg;');
 
-LatexCmds.ang = LatexCmds.angle = bind(VanillaSymbol,'\\angle ','&ang;');
+// GeoGebra ANGLE "\u2220"
+LatexCmds.ang = LatexCmds.angle = LatexCmds['\u2220'] =
+  bind(VanillaSymbol, '\\angle ', '&ang;', '\u2220');
+
+// GeoGebra MEASURED ANGLE "\u2221"
+LatexCmds['\u2221'] = bind(VanillaSymbol, '\\\u2221 ', '&#8737;', '\u2221');
 
 
 var NonItalicizedFunction = P(Symbol, function(_, _super) {
