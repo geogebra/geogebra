@@ -1179,4 +1179,8 @@ public class AlgebraViewD extends AlgebraTree implements LayerView, Gridable,
 		return attached;
 	}
 
+	public GeoElement getDraggedGeo() {
+		// temporary change to fix it because it did not compile
+		return null;
+	}
 } // AlgebraView
