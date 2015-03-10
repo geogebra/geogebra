@@ -26,7 +26,6 @@ import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
-import geogebra.web.gui.view.algebra.AlgebraViewW;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -760,7 +759,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 	public void onDrop(DropEvent event) {
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
-		GeoElement geo = ((AlgebraViewW) app.getAlgebraView()).getDraggedGeo();
+		GeoElement geo = app.getAlgebraView().getDraggedGeo();
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("\"" + geo.toString(StringTemplate.defaultTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);

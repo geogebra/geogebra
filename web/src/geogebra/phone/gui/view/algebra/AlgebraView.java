@@ -1,5 +1,6 @@
 package geogebra.phone.gui.view.algebra;
 
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.html5.main.AppW;
 import geogebra.phone.gui.view.AbstractView;
 import geogebra.phone.gui.view.HeaderPanel;
@@ -29,6 +30,10 @@ public class AlgebraView extends AbstractView {
 	@Override
 	protected ImageResource createViewIcon() {
 		return GuiResources.INSTANCE.algebraView();
+	}
+
+	public GeoElement getDraggedGeo() {
+		return null;
 	}
 
 	@Override

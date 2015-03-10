@@ -33,6 +33,8 @@ public interface AlgebraView extends View, SetLabels{
 	public void cancelEditing();
 	public boolean isEditing();
 
+	// For WebSimple
+	public GeoElement getDraggedGeo();
 	public Object getPathForLocation(int x, int y);//Object=TreePath
 	public Object getPathBounds(Object tp);//Object=Rectangle;Object=TreePath
 	

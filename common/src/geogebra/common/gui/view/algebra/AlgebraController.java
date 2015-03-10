@@ -52,7 +52,10 @@ public class AlgebraController {
 	protected GeoElement lastSelectedGeo = null;
 	protected boolean skipSelection;
 
-	protected String getDragText(ArrayList<String> geoLabelList) {
+	public String getDragText() {
+		return getDragText(new ArrayList<String>());
+	}
+	public String getDragText(ArrayList<String> geoLabelList) {
 
 		String latex = null;
 
