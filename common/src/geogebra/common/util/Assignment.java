@@ -77,9 +77,9 @@ public class Assignment {
 	public Assignment(Macro macro) {
 		this.macro = macro;
 
-		fractionForResult = new HashMap<>();
+		fractionForResult = new HashMap<Result, Float>();
 
-		hintForResult = new HashMap<>();
+		hintForResult = new HashMap<Result, String>();
 
 		res = Result.UNKNOWN;
 	}
