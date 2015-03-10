@@ -3578,25 +3578,42 @@ LatexCmds.varrho = //AMS and LaTeX
 LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol, '\\pi ', '&pi;', '\u03c0');
 LatexCmds.lambda = LatexCmds['\u03bb'] = bind(NonSymbolaSymbol, '\\lambda ', '&lambda;', '\u03bb');
 
-//uppercase greek letters
+//uppercase greek letters... there are 24 of them in theory,
+//some of which were missing, so adding them for GeoGebraWeb:
+LatexCmds.Alpha = LatexCmds['\u0391'] = bind(Variable, '\\Alpha ', '&Alpha;', '\u0391');
+LatexCmds.Beta = LatexCmds['\u0392'] = bind(Variable, '\\Beta ', '&Beta;', '\u0392');
+LatexCmds.Gamma = LatexCmds['\u0393'] = bind(Variable, '\\Gamma ', '&Gamma;', '\u0393');
+LatexCmds.Delta = LatexCmds['\u0394'] = bind(Variable, '\\Delta ', '&Delta;', '\u0394');
+LatexCmds.Epsilon = LatexCmds['\u0395'] = bind(Variable, '\\Epsilon ', '&Epsilon;', '\u0395');
+LatexCmds.Zeta = LatexCmds['\u0396'] = bind(Variable, '\\Zeta ', '&Zeta;', '\u0396');
+LatexCmds.Eta = LatexCmds['\u0397'] = bind(Variable, '\\Eta ', '&Eta;', '\u0397');
+LatexCmds.Theta = LatexCmds['\u0398'] = bind(Variable, '\\Theta ', '&Theta;', '\u0398');
+LatexCmds.Iota = LatexCmds['\u0399'] = bind(Variable, '\\Iota ', '&Iota;', '\u0399');
+LatexCmds.Kappa = LatexCmds['\u039a'] = bind(Variable, '\\Kappa ', '&Kappa;', '\u039a');
+LatexCmds.Lambda = LatexCmds['\u039b'] = bind(Variable, '\\Lambda ', '&Lambda;', '\u039b');
+LatexCmds.Mu = LatexCmds['\u039c'] = bind(Variable, '\\Mu ', '&Mu;', '\u039c');
+LatexCmds.Nu = LatexCmds['\u039d'] = bind(Variable, '\\Nu ', '&Nu;', '\u039d');
+LatexCmds.Xi = LatexCmds['\u039e'] = bind(Variable, '\\Xi ', '&Xi;', '\u039e');
+LatexCmds.Omicron = LatexCmds['\u039f'] = bind(Variable, '\\Omicron ', '&Omicron;', '\u039f');
+LatexCmds.Pi = LatexCmds['\u03a0'] = bind(Variable, '\\Pi ', '&Pi;', '\u03a0');
+LatexCmds.Rho = LatexCmds['\u03a1'] = bind(Variable, '\\Rho ', '&Rho;', '\u03a1');
+LatexCmds.Sigma = LatexCmds['\u03a3'] = bind(Variable, '\\Sigma ', '&Sigma;', '\u03a3');// final sigma??
+LatexCmds.Tau = LatexCmds['\u03a4'] = bind(Variable, '\\Tau ', '&Tau;', '\u03a4');
 
 LatexCmds.Upsilon = //LaTeX
 LatexCmds.Upsi = //Elsevier and 9573-13
 LatexCmds.upsih = //W3C/Unicode "upsilon with hook"
 LatexCmds.Upsih = //'cos it makes sense to me
-  bind(Symbol,'\\Upsilon ','<var style="font-family: geogebra-serif, serif">&upsih;</var>'); //Symbola's 'upsilon with a hook' is a capital Y without hooks :(
+LatexCmds['\u03a5'] = // GeoGebraWeb (?)
+	bind(Symbol, '\\Upsilon ', '<var style="font-family: geogebra-serif, serif">&upsih;</var>', '\u03a5');
+
+LatexCmds.Phi = LatexCmds['\u03a6'] = bind(Variable, '\\Phi ', '&Phi;', '\u03a6');
+LatexCmds.Chi = LatexCmds['\u03a7'] = bind(Variable, '\\Chi ', '&Chi;', '\u03a7');
+LatexCmds.Psi = LatexCmds['\u03a8'] = bind(Variable, '\\Psi ', '&Psi;', '\u03a8');
+LatexCmds.Omega = LatexCmds['\u03a9'] = bind(Variable, '\\Omega ', '&Omega;', '\u03a9');
 
 //other symbols with the same LaTeX command and HTML character entity reference
-LatexCmds.Gamma =
-LatexCmds.Delta =
-LatexCmds.Theta =
-LatexCmds.Lambda =
-LatexCmds.Xi =
-LatexCmds.Pi =
-LatexCmds.Sigma =
-LatexCmds.Phi =
-LatexCmds.Psi =
-LatexCmds.Omega =
+//(this used to be the syntax for Greek letters as well)
 LatexCmds.forall = P(VanillaSymbol, function(_, _super) {
   _.init = function(latex) {
     _super.init.call(this,'\\'+latex+' ','&'+latex+';');
