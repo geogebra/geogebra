@@ -4027,11 +4027,13 @@ LatexCmds.image = LatexCmds.imagin = LatexCmds.imaginary = LatexCmds.Imaginary =
 
 // Imaginary Unit is not the same as the Imaginary Part function (before)
 // this is like Pi, but does not have a predefined symbol in LaTeX
+// however, in that case GeoGebraWeb would make a VanillaSymbol automatically,
+// so maybe there is no need for us to make a LatexCmds['\u03af']?
 LatexCmds['\u03af'] = bind(NonSymbolaSymbol, '\\\u03af ', '&#943;', '\u03af');
 
 LatexCmds.part = LatexCmds.partial = bind(VanillaSymbol,'\\partial ','&part;');
 
-// GeoGebraWeb also uses infinity, '\u221e'XXX
+// GeoGebraWeb also uses infinity, '\u221e'
 LatexCmds.inf = LatexCmds.infin = LatexCmds.infty = LatexCmds.infinity =
 LatexCmds['\u221e'] =
   bind(VanillaSymbol,'\\infty ','&infin;', '\u221e');
