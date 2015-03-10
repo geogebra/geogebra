@@ -3335,8 +3335,8 @@ LatexCmds.editable = P(RootMathCommand, function(_, _super) {
 //LatexCmds.f = bind(Symbol, 'f', '<var class="florin">&fnof;</var><span style="display:inline-block;width:0">&nbsp;</span>');
 
 var Variable = P(Symbol, function(_, _super) {
-  _.init = function(ch, html) {
-    _super.init.call(this, ch, '<var>'+(html || ch)+'</var>');
+  _.init = function(ch, html, text) {
+    _super.init.call(this, ch, '<var>'+(html || ch)+'</var>', text);
   }
   _.createBefore = function(cursor) {
 	//want the longest possible autocommand, so assemble longest series of letters (Variables) first
@@ -3372,6 +3372,18 @@ var Variable = P(Symbol, function(_, _super) {
   };
   _.text = function() {
     var text = this.ctrlSeq;
+
+    // TODO: this.ctrlSeq does not make much sense here,
+    // as it is LaTeX syntax but we need textual syntax here,
+    // but still left to avoid possible errors, and using the
+    // other solution only (mostly) in the new cases, when the
+    // textTemplate[0] has exactly one character...
+    if (this.textTemplate[0] && this.textTemplate[0].length === 1) {
+      // this is used for Greek letters LatexCmds.alpha...LatexCmds.Omega
+      // .length > 0 seems to be Okay, but ctrlSeq's first character
+      // after / should not be a Greek letter in theory
+      return this.textTemplate[0];
+    }
 
     /*
     // Old code was not right for e.g. Line[A,B]
@@ -3473,10 +3485,10 @@ LatexCmds['\u00a9'] = LatexCmds.copyright = bind(NonSymbolaSymbol, '\\copyright'
 //the following are all Greek to me, but this helped a lot: http://www.ams.org/STIX/ion/stixsig03.html
 
 //lowercase Greek letter variables
-LatexCmds.alpha =
-LatexCmds.beta =
-LatexCmds.gamma =
-LatexCmds.delta =
+LatexCmds.alpha = LatexCmds['\u03b1'] = bind(Variable, '\\alpha ', '&alpha;', '\u03b1');
+LatexCmds.beta = LatexCmds['\u03b2'] = bind(Variable, '\\beta ', '&beta;', '\u03b2');
+LatexCmds.gamma = LatexCmds['\u03b3'] = bind(Variable, '\\gamma ', '&gamma;', '\u03b3');
+LatexCmds.delta = LatexCmds['\u03b4'] = bind(Variable, '\\delta ', '&delta;', '\u03b4');
 LatexCmds.zeta =
 LatexCmds.eta =
 LatexCmds.theta =
@@ -3495,6 +3507,7 @@ LatexCmds.omega = P(Variable, function(_, _super) {
     _super.init.call(this,'\\'+latex+' ','&'+latex+';');
   };
 });
+//LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;', '\u03c0');
 
 LatexCmds.checkmark =  
   bind(Variable,'\\checkmark ','&#x2713;'); 
