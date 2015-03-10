@@ -20,6 +20,8 @@ import java.util.Iterator;
 import com.google.gwt.core.client.JsArray;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.Touch;
+import com.google.gwt.event.dom.client.DragStartEvent;
+import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.MouseMoveEvent;
@@ -34,7 +36,9 @@ import com.google.gwt.user.client.Window;
 
 
 public class AlgebraControllerW extends geogebra.common.gui.view.algebra.AlgebraController
-implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler, LongTouchHandler {
+ implements
+        MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandler,
+        LongTouchHandler, DragStartHandler {
 
 	//FIXME: make e.isControlDown like Application.isControlDown etc.
 	//FIXME: make something instead of the outcommented things, etc.
@@ -323,5 +327,8 @@ implements MouseDownHandler, TouchStartHandler, TouchEndHandler, TouchMoveHandle
 		mousePressed(e);
 		CancelEventTimer.touchEventOccured();
     }
+
+	public void onDragStart(DragStartEvent event) {
+	}
 
 }

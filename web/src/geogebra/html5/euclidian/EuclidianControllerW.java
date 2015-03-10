@@ -4,15 +4,19 @@ import geogebra.common.awt.GPoint;
 import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
+import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.ModeSetter;
+import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.arithmetic.MyDouble;
+import geogebra.common.kernel.arithmetic.TextValue;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoPoint;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
@@ -22,6 +26,7 @@ import geogebra.html5.event.PointerEvent;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.util.LongTouchTimer.LongTouchHandler;
 import geogebra.html5.main.AppW;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -754,6 +759,30 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	public void onDrop(DropEvent event) {
-		app.debug("[DND] drop happened");
+		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		GeoElement geo = ((AlgebraViewW) app.getAlgebraView()).getDraggedGeo();
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("\"" + geo.toString(StringTemplate.defaultTemplate) + "\"");
+		String text = EuclidianView.getDraggedLabels(list);
+		app.debug("[DND] drop happened: " + text);
+
+		GeoElement[] ret = app.getKernel().getAlgebraProcessor()
+		        .processAlgebraCommand(text, true);
+
+		if (ret != null && ret[0] instanceof TextValue) {
+			GeoText geo0 = (GeoText) ret[0];
+			geo0.setLaTeX(false, false);
+
+			// TODO: h should equal the geo height, this is just an
+			// estimate
+			int x = event.getNativeEvent().getClientX();
+			double h = 2 * app.getFontSize();
+			int y = event.getNativeEvent().getClientY();
+
+			geo0.setRealWorldLoc(ev.toRealWorldCoordX(touchEventX(x)),
+			        ev.toRealWorldCoordY(touchEventY(y)));
+			geo0.updateRepaint();
+
+		}
 	}
 }

@@ -608,8 +608,7 @@ public class EuclidianViewW extends EuclidianView implements
 			        (EuclidianControllerW) euclidiancontroller);
 		}
 
-		registerDragDropHandlers(euclidianViewPanel,
-		        (EuclidianControllerW) euclidiancontroller);
+		registerDragDropHandlers(euclidianViewPanel,(EuclidianControllerW) euclidiancontroller);
 
 		// the canvas should have a tab index to capture key events in Internet
 		// Explorer

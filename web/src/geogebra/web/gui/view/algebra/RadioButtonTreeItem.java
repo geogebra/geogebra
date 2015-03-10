@@ -1634,11 +1634,11 @@ geo, newValue, redefine, true);
 		addDomHandler(new DragStartHandler() {
 
 			public void onDragStart(DragStartEvent event) {
-				App.debug("!AV DRAG START!");
+				App.debug("[DND] AV DRAG START!");
 				event.setData("text", "draggginggg");
 				event.getDataTransfer().setDragImage(getElement(), 10, 10);
 				event.stopPropagation();
-
+				((AlgebraViewW) av).dragStart(event, geo);
 			}
 		}, DragStartEvent.getType());
 

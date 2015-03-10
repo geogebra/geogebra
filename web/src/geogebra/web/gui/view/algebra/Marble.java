@@ -5,8 +5,6 @@ import geogebra.common.main.App;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.dom.client.DragStartEvent;
-import com.google.gwt.event.dom.client.DragStartHandler;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.dom.client.TouchStartEvent;
@@ -94,16 +92,6 @@ public class Marble extends SimplePanel
 			}
 		}, TouchStartEvent.getType());
 
-		addDomHandler(new DragStartHandler() {
-
-			public void onDragStart(DragStartEvent event) {
-				App.debug("!AV DRAG START!");
-				event.setData("text", "draggginggg");
-				event.getDataTransfer().setDragImage(getElement(), 10, 10);
-				event.stopPropagation();
-
-			}
-		}, DragStartEvent.getType());
 
 	}
 

@@ -23,6 +23,7 @@ import geogebra.web.gui.images.AppResources;
 import geogebra.web.gui.layout.panels.AlgebraStyleBarW;
 
 import com.google.gwt.dom.client.Style;
+import com.google.gwt.event.dom.client.DragStartEvent;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
@@ -224,6 +225,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 	}*/
 
 	public boolean editing = false;
+	private GeoElement draggedGeo;
 
 	/**
 	 * Open Editor textfield for geo.
@@ -425,6 +427,18 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		if (this.styleBar != null) {
 			this.styleBar.setLabels();
 		}
+	}
+
+	public void dragStart(DragStartEvent event, GeoElement geo) {
+		setDraggedGeo(geo);
+	}
+
+	public GeoElement getDraggedGeo() {
+		return draggedGeo;
+	}
+
+	public void setDraggedGeo(GeoElement draggedGeo) {
+		this.draggedGeo = draggedGeo;
 	}
 
 } // AlgebraView
