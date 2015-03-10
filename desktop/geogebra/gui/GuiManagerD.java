@@ -100,6 +100,8 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.io.StringWriter;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -123,7 +125,12 @@ import javax.swing.JOptionPane;
 import javax.swing.ListCellRenderer;
 import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileFilter;
-
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
 /**
  * Handles all geogebra.gui package related objects and methods for Application.
  * This is done to be able to put class files of geogebra.gui.* packages into a
@@ -3131,6 +3138,43 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		if (casView != null) {
 			casView.resetCursor();
 		}
+	}
+
+	public String oomlToMathml(String ooml) {
+		TransformerFactory factory = TransformerFactory.newInstance();
+		ooml = ooml.replaceAll("<i[^>]*>", "").replaceAll("<span[^>]*>",
+ "").replace("</i>", "")
+.replace("</span>", "")
+				.replace("<m:r>", "<m:r><m:t>")
+				.replace("</m:r>", "</m:t></m:r>");
+		App.debug(ooml);
+		Source xmlFile = new StreamSource(new StringReader(
+				"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"+
+ "<w:document xmlns:m=\"http://schemas.openxmlformats.org/officeDocument/2006/math\" "
+						  +"xmlns:w=\"http://schemas.openxmlformats.org/wordprocessingml/2006/main\""
+								+ "><w:body><w:p>" + ooml
+								+ "</w:p></w:body></w:document>"));
+
+		try {
+			File ssFile = new File(
+					"C:\\Program Files\\Microsoft Office 15\\root\\office15\\OMML2MML.XSL");
+			if (!ssFile.exists()) {
+				ssFile = new File(
+						"C:\\Program Files\\Microsoft Office\\Office14\\OMML2MML.XSL");
+			}
+			Source stylesheet = new StreamSource(
+					new File(
+							"C:\\Program Files\\Microsoft Office 15\\root\\office15\\OMML2MML.XSL"));
+			Transformer transformer = factory.newTransformer(stylesheet);
+			StringWriter writer = new StringWriter();
+			Result output = new StreamResult(writer);
+			transformer.transform(xmlFile, output);
+			String xml = writer.toString();
+			return xml.substring(xml.indexOf('>') + 1).replace("mml:", "");
+		} catch (Throwable e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

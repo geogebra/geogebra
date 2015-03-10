@@ -272,10 +272,10 @@ public class GlobalKeyDispatcherD extends
 				blockEnd = html.indexOf("</m:oMathPara>") + 14;
 			}
 			app.getGgbApi().evalCommand(
-					"<mathml>"
-							+ html.substring(blockBegin, blockEnd)
-									.replace('\n', ' ').replace('\r', ' ')
-							+ "</mathml>");
+
+					((GuiManagerD)app.getGuiManager()).oomlToMathml(html.substring(blockBegin, blockEnd)
+									.replace('\n', ' ').replace('\r', ' ')));
+
 		}
 	}
 
