@@ -255,8 +255,31 @@ public class GlobalKeyDispatcherD extends
 						.getAlgebraInput()).getTextField().hasFocus())) {
 
 			super.handleCtrlV();
+			tryPasteEquation();
 		}
 	}
+
+	protected void tryPasteEquation(){
+		String html = ((GuiManagerD) app.getGuiManager())
+				.getStringFromClipboard();
+		if (html.indexOf("<m:oMath") > 0) {
+			int blockBegin = html.indexOf("<m:oMathPara>");
+			int blockEnd;
+			if (blockBegin == -1) {
+				blockBegin = html.indexOf("<m:oMath>");
+				blockEnd = html.indexOf("</m:oMath>") + 10;
+			} else {
+				blockEnd = html.indexOf("</m:oMathPara>") + 14;
+			}
+			app.getGgbApi().evalCommand(
+					"<mathml>"
+							+ html.substring(blockBegin, blockEnd)
+									.replace('\n', ' ').replace('\r', ' ')
+							+ "</mathml>");
+		}
+	}
+
+	
 
 	@Override
 	protected boolean handleCtrlShiftN(boolean isAltDown) {

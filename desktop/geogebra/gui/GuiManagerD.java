@@ -1217,19 +1217,24 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 		Transferable transfer = clip.getContents(null);
 
 		try {
-			if (transfer.isDataFlavorSupported(DataFlavor.stringFlavor))
-				selection = (String) transfer
-						.getTransferData(DataFlavor.stringFlavor);
-			// TODO remove deprecated method
-			else if (transfer.isDataFlavorSupported(DataFlavor.plainTextFlavor)) {
+
 				StringBuilder sbuf = new StringBuilder();
-				InputStreamReader reader;
+
 				char readBuf[] = new char[1024 * 64];
 				int numChars;
+			DataFlavor[] df = transfer.getTransferDataFlavors();
+			DataFlavor html = null;
+			for (int i = 0; i < df.length; i++) {
+				if (df[i].getMimeType().startsWith("text/html")) {
+					html = df[i];
+					break;
+				}
 
-				reader = new InputStreamReader(
-						(InputStream) transfer
-								.getTransferData(DataFlavor.plainTextFlavor),
+			}
+			InputStreamReader reader;
+			Object data = transfer.getTransferData(html);
+			reader = data instanceof InputStreamReader ? (InputStreamReader) data
+					: new InputStreamReader((InputStream) data,
 						"UNICODE");
 
 				while (true) {
@@ -1240,8 +1245,9 @@ public class GuiManagerD extends GuiManager implements GuiManagerInterfaceD {
 				}
 
 				selection = new String(sbuf);
-			}
+			reader.close();
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 		return selection;
