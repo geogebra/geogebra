@@ -9,6 +9,7 @@ import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
@@ -28,7 +29,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -167,14 +167,12 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 			showKeyboardButton = new PopupPanel();
 			showKeyboardButton.addStyleName("openKeyboardButton");
 			HorizontalPanel content = new HorizontalPanel();
-			Image triangle = new Image(
-			        GuiResources.INSTANCE.keyboard_triangleUp());
-			triangle.getElement().setAttribute("draggable", "false");
+			NoDragImage triangle = new NoDragImage(GuiResources.INSTANCE
+			        .keyboard_triangleUp().getSafeUri().asString());
 			triangle.addStyleName("arrowUp");
 			content.add(triangle);
-			Image showKeyboard = new Image(
-			        GuiResources.INSTANCE.keyboard_show());
-			showKeyboard.getElement().setAttribute("draggable", "false");
+			NoDragImage showKeyboard = new NoDragImage(GuiResources.INSTANCE
+			        .keyboard_show().getSafeUri().asString());
 			content.add(showKeyboard);
 			showKeyboardButton.add(content);
 			showKeyboardButton.setAutoHideEnabled(true);

@@ -8,7 +8,6 @@ import geogebra.web.gui.util.StandardButton;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -71,11 +70,9 @@ public class AuxiliaryHeaderPanel extends FlowPanel {
 
 		SimplePanel ggbLogoPanel = new SimplePanel();
 		ggbLogoPanel.setStyleName("ggbLogoPanel");
-		// TODO - use new icon; this is just a placeholder
-		ImageResource image = GuiResources.INSTANCE.header_back();
-		ggbLogoPanel.getElement().setInnerHTML(
-		        "<div class=\"image\"> <img src=\""
-		                + image.getSafeUri().asString() + "\" /></div>");
+		NoDragImage image = new NoDragImage(GuiResources.INSTANCE.header_back()
+		        .getSafeUri().asString());
+		ggbLogoPanel.add(image);
 		this.backPanel.add(ggbLogoPanel);
 		this.add(this.backPanel);
 	}

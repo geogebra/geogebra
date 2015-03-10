@@ -28,7 +28,11 @@ public class RadioButtonMenuBarW extends MenuBar implements RadioButtonMenuBar {
 
 	/**
 	 * Creates a RadioButtonMenuBarW instance
-	 * @param application Application instance
+	 * 
+	 * @param application
+	 *            Application instance
+	 * @param arrow
+	 *            {@code true} if menu needs an arrow for a submenu
 	 */
 	public RadioButtonMenuBarW(AppW application, boolean arrow) {
 		super(true);

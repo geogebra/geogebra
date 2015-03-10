@@ -9,6 +9,7 @@ import geogebra.html5.gui.laf.MainMenuI;
 import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.browser.SignInButton;
 
 import com.google.gwt.dom.client.Element;
@@ -19,7 +20,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.MenuItem;
 import com.google.gwt.user.client.ui.StackPanel;
@@ -163,16 +163,16 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		};
 		this.menuPanel.addStyleName("menuPanel");
 		
-		this.menuPanel.add(fileMenu, setHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
-		this.menuPanel.add(editMenu, setHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
-		this.menuPanel.add(perspectivesMenu, setHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
-		this.menuPanel.add(viewMenu, setHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
-		this.menuPanel.add(optionsMenu, setHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
+		this.menuPanel.add(fileMenu, getHTML(GuiResources.INSTANCE.menu_icon_file(), "File"), true);
+		this.menuPanel.add(editMenu, getHTML(GuiResources.INSTANCE.menu_icon_edit(), "Edit"), true);
+		this.menuPanel.add(perspectivesMenu, getHTML(GuiResources.INSTANCE.menu_icon_perspectives(), "Perspectives"), true);
+		this.menuPanel.add(viewMenu, getHTML(GuiResources.INSTANCE.menu_icon_view(), "View"), true);
+		this.menuPanel.add(optionsMenu, getHTML(GuiResources.INSTANCE.menu_icon_options(), "Options"), true);
 		if(!app.getLAF().isSmart() && !app.getLAF().isTablet()){
-			this.menuPanel.add(toolsMenu, setHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
+			this.menuPanel.add(toolsMenu, getHTML(GuiResources.INSTANCE.menu_icon_tools(), "Tools"), true);
 		}
 		if (!exam) {
-			this.menuPanel.add(helpMenu, setHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
+			this.menuPanel.add(helpMenu, getHTML(GuiResources.INSTANCE.menu_icon_help(), "Help"), true);
 			if(app.getNetworkOperation().isOnline()){
 				render(true);
 			}
@@ -208,9 +208,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 		});
     }
 
-	private String setHTML(ImageResource img, String s){
+	private String getHTML(ImageResource img, String s){
 		//return  "<img src=\""+img.getSafeUri().asString()+"\" /><span style= \"font-size:80% \"  >" + s + "</span>";
-		return  "<img src=\""+img.getSafeUri().asString()+"\" /><span>" + app.getMenu(s) + "</span>";
+		return "<img src=\"" + img.getSafeUri().asString()
+		        + "\" draggable=\"false\"><span>" + app.getMenu(s) + "</span>";
 	}
 	
 	private void createFileMenu() {
@@ -226,7 +227,6 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 	
 	private void createViewMenu() {
-
 		viewMenu = new ViewMenuW(app);
 	}
 	
@@ -276,23 +276,26 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 	
 	public static void addSubmenuArrow(AppW app,MenuBar w) {
-			w.addStyleName("subMenuLeftSide");
-			FlowPanel arrowSubmenu = new FlowPanel();
-			arrowSubmenu.addStyleName("arrowSubmenu");
-			Image arrow = new Image(GuiResources.INSTANCE.arrow_submenu_right());
-			arrowSubmenu.add(arrow);
-		    w.getElement().appendChild(arrowSubmenu.getElement());
+		w.addStyleName("subMenuLeftSide");
+		FlowPanel arrowSubmenu = new FlowPanel();
+		arrowSubmenu.addStyleName("arrowSubmenu");
+		NoDragImage arrow = new NoDragImage(GuiResources.INSTANCE
+		        .arrow_submenu_right().getSafeUri().asString());
+		arrowSubmenu.add(arrow);
+		w.getElement().appendChild(arrowSubmenu.getElement());
     }
 
 	public static String getMenuBarHtml(String url, String str, boolean enabled) {
 		String text2 = str.replace("\"", "'");
 		String text3 = (enabled) ? text2 :  "<span style=\"color:gray;\">"+text2+"</span>";
-		return  "<img class=\"GeoGebraMenuImage\" alt=\""+text2+"\" src=\""+url+"\" />"+" "+ text3;
+		return "<img class=\"GeoGebraMenuImage\" alt=\"" + text2 + "\" src=\""
+		        + url + "\" draggable=\"false\">" + " " + text3;
     }
 
 	public static String getMenuBarHtml(String url, String str) {
 		String text = str.replace("\"", "'");
-		return "<img width=\"16\" height=\"16\" alt=\""+text+"\" src=\""+url+"\" />"+" "+text;
+		return "<img width=\"16\" height=\"16\" alt=\"" + text + "\" src=\""
+		        + url + "\" draggable=\"false\">" + " " + text;
     }
 
 	public static void setMenuSelected(MenuItem m, boolean visible) {
@@ -325,10 +328,10 @@ public class MainMenu extends FlowPanel implements MainMenuI, EventRenderable, B
 	}
 
     private void addSignInMenu() {
-	    this.menuPanel.add(this.signInMenu, setHTML(GuiResources.INSTANCE.menu_icon_sign_in(), app.getMenu("SignIn")), true);
+	    this.menuPanel.add(this.signInMenu, getHTML(GuiResources.INSTANCE.menu_icon_sign_in(), app.getMenu("SignIn")), true);
     }
 
     private void addUserMenu() {
-	    this.menuPanel.add(this.userMenu, setHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()), true);
+	    this.menuPanel.add(this.userMenu, getHTML(GuiResources.INSTANCE.menu_icon_signed_in_f(), app.getLoginOperation().getUserName()), true);
     }
 }

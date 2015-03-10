@@ -7,6 +7,7 @@ import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.css.GuiResources;
+import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.view.algebra.RadioButtonTreeItem;
 import geogebra.web.util.keyboard.KeyBoardButtonFunctional.Action;
 import geogebra.web.util.keyboard.TextFieldProcessing.ArrowType;
@@ -24,7 +25,6 @@ import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -295,10 +295,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	private SimplePanel getCloseButton() {
-		Image icon = new Image(GuiResources.INSTANCE.keyboard_close());
-		icon.addStyleName("closeIcon");
-		icon.getElement().setAttribute("draggable", "false");
-		SimplePanel closePanel = new SimplePanel(icon);
+		NoDragImage image = new NoDragImage(GuiResources.INSTANCE
+		        .keyboard_close().getSafeUri().asString());
+		image.addStyleName("closeIcon");
+		SimplePanel closePanel = new SimplePanel(image);
 		closePanel.addStyleName("keyBoardClosePanel");
 		closePanel.addDomHandler(new ClickHandler() {
 
