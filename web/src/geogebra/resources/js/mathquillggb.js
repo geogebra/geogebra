@@ -3744,9 +3744,9 @@ LatexCmds.lt = bind(BinaryOperator,'<','&lt;');
 
 LatexCmds.gt = bind(BinaryOperator,'>','&gt;');
 
-LatexCmds['\u2264'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator,'\\le ','&le;');
+LatexCmds['\u2264'] = LatexCmds.le = LatexCmds.leq = bind(BinaryOperator, '\\le ', '&le;', '\u2264');
 
-LatexCmds['\u2265'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator,'\\ge ','&ge;');
+LatexCmds['\u2265'] = LatexCmds.ge = LatexCmds.geq = bind(BinaryOperator, '\\ge ', '&ge;', '\u2265');
 
 LatexCmds.isin = LatexCmds['in'] = bind(BinaryOperator,'\\in ','&isin;');
 
@@ -3878,7 +3878,6 @@ LatexCmds.simeq = bind(VanillaSymbol, '\\simeq ', '&#8771;');
 LatexCmds.mid = bind(VanillaSymbol, '\\mid ', '&#8739;');
 //LatexCmds.ll = bind(VanillaSymbol, '\\ll ', '&#8810;');//disturbing in GeoGebraWeb
 //LatexCmds.gg = bind(VanillaSymbol, '\\gg ', '&#8811;');//disturbing in GeoGebraWeb
-LatexCmds.parallel = bind(VanillaSymbol, '\\parallel ', '&#8741;');
 LatexCmds.bowtie = bind(VanillaSymbol, '\\bowtie ', '&#8904;');
 LatexCmds.sqsubset = bind(VanillaSymbol, '\\sqsubset ', '&#8847;');
 LatexCmds.sqsupset = bind(VanillaSymbol, '\\sqsupset ', '&#8848;');
@@ -3889,6 +3888,10 @@ LatexCmds.doteq = bind(VanillaSymbol, '\\doteq ', '&#8784;');
 LatexCmds.frown = bind(VanillaSymbol, '\\frown ', '&#8994;');
 LatexCmds.vdash = bind(VanillaSymbol, '\\vdash ', '&#8870;');
 LatexCmds.dashv = bind(VanillaSymbol, '\\dashv ', '&#8867;');
+
+// this is needed for GeoGebraWeb, merged with "\u2225"
+LatexCmds.parallel = LatexCmds['\u2225'] =
+  bind(VanillaSymbol, '\\parallel ', '&#8741;', '\u2225');
 
 //Now this should be the same as multiplication in Math mode!
 //so easiest is to change " " to "*" in RootMathBlock.onText...
@@ -3963,9 +3966,13 @@ LatexCmds.caret = bind(VanillaSymbol,'\\caret ','^');
 LatexCmds.underscore = bind(VanillaSymbol,'\\underscore ','_');
 LatexCmds.backslash = bind(VanillaSymbol,'\\backslash ','\\');
 LatexCmds.vert = bind(VanillaSymbol,'|');
-LatexCmds.perp = LatexCmds.perpendicular = bind(VanillaSymbol,'\\perp ','&perp;');
 LatexCmds.nabla = LatexCmds.del = bind(VanillaSymbol,'\\nabla ','&nabla;');
 LatexCmds.hbar = bind(VanillaSymbol,'\\hbar ','&#8463;');
+
+// this is needed for GeoGebraWeb, merged with "\u22a5"
+LatexCmds.perp = LatexCmds.perpendicular = LatexCmds['\u22a5'] =
+  bind(VanillaSymbol, '\\perp ', '&perp;', '\u22a5');
+//...
 
 LatexCmds.AA = LatexCmds.Angstrom = LatexCmds.angstrom =
   bind(VanillaSymbol,'\\text\\AA ','&#8491;');
@@ -4047,10 +4054,11 @@ LatexCmds.xist = //LOL
 LatexCmds.xists = LatexCmds.exist = LatexCmds.exists =
   bind(VanillaSymbol,'\\exists ','&exist;');
 
-LatexCmds.and = LatexCmds.land = LatexCmds.wedge =
-  bind(VanillaSymbol,'\\wedge ','&and;');
+LatexCmds.and = LatexCmds.land = LatexCmds.wedge = LatexCmds['\u2227'] =
+  bind(VanillaSymbol, '\\wedge ', '&and;', '\u2227');
 
-LatexCmds.or = LatexCmds.lor = LatexCmds.vee = bind(VanillaSymbol,'\\vee ','&or;');
+LatexCmds.or = LatexCmds.lor = LatexCmds.vee = LatexCmds['\u2228'] =
+  bind(VanillaSymbol, '\\vee ', '&or;', '\u2228');
 
 //LatexCmds.o = LatexCmds.O =
 LatexCmds.empty = LatexCmds.emptyset =
