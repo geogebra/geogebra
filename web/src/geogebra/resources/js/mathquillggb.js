@@ -3456,8 +3456,8 @@ var Variable = P(Symbol, function(_, _super) {
 });
 
 var VanillaSymbol = P(Symbol, function(_, _super) {
-  _.init = function(ch, html) {
-    _super.init.call(this, ch, '<span>'+(html || ch)+'</span>');
+  _.init = function(ch, html, text) {
+    _super.init.call(this, ch, '<span>'+(html || ch)+'</span>', text);
   };
 });
 
@@ -3800,7 +3800,7 @@ LatexCmds['\u220f'] = LatexCmds.prod = LatexCmds.product = bind(BigSymbol,'\\pro
 LatexCmds.coprod = LatexCmds.coproduct = bind(BigSymbol,'\\coprod ','&#8720;');
 LatexCmds['\u222b'] = LatexCmds['int'] = LatexCmds.integral = bind(BigSymbol,'\\int ','&int;');
 
-
+// VECTOR_PRODUCT '\u2297' makes something like dot product now, it needs to be fixed!
 
 //the canonical sets of numbers
 //LatexCmds.N =
@@ -4025,10 +4025,16 @@ LatexCmds.Im = LatexCmds.imag =
 LatexCmds.image = LatexCmds.imagin = LatexCmds.imaginary = LatexCmds.Imaginary =
   bind(VanillaSymbol,'\\Im ','&image;');
 
+// Imaginary Unit is not the same as the Imaginary Part function (before)
+// this is like Pi, but does not have a predefined symbol in LaTeX
+LatexCmds['\u03af'] = bind(NonSymbolaSymbol, '\\\u03af ', '&#943;', '\u03af');
+
 LatexCmds.part = LatexCmds.partial = bind(VanillaSymbol,'\\partial ','&part;');
 
+// GeoGebraWeb also uses infinity, '\u221e'XXX
 LatexCmds.inf = LatexCmds.infin = LatexCmds.infty = LatexCmds.infinity =
-  bind(VanillaSymbol,'\\infty ','&infin;');
+LatexCmds['\u221e'] =
+  bind(VanillaSymbol,'\\infty ','&infin;', '\u221e');
 
 LatexCmds.alef = LatexCmds.alefsym = LatexCmds.aleph = LatexCmds.alephsym =
   bind(VanillaSymbol,'\\aleph ','&alefsym;');
