@@ -3,7 +3,7 @@ package geogebra3D.gui.layout.panels;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.gui.toolbar.ToolBar;
 import geogebra.common.main.App;
-import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockManagerD;
 import geogebra.gui.layout.DockPanel;
 import geogebra.gui.layout.panels.EuclidianDockPanelAbstract;
 import geogebra.main.AppD;
@@ -68,7 +68,7 @@ public class EuclidianDockPanel3DD extends EuclidianDockPanelAbstract {
 	 * @param manager
 	 *            dock manager
 	 */
-	public void refresh(DockManager manager) {
+	public void refresh(DockManagerD manager) {
 
 		if (!isVisible()) {
 			return;

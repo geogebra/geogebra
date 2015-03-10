@@ -27,6 +27,7 @@ import geogebra.common.geogebra3D.euclidian3D.EuclidianView3D;
 import geogebra.common.geogebra3D.kernel3D.geos.GeoPlane3D;
 import geogebra.common.geogebra3D.main.App3DCompanion;
 import geogebra.common.geogebra3D.util.CopyPaste3D;
+import geogebra.common.gui.layout.DockManager;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -37,7 +38,7 @@ import geogebra.euclidian.event.MouseEventD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.app.GeoGebraFrame3D;
-import geogebra.gui.layout.DockManager;
+import geogebra.gui.layout.DockManagerD;
 import geogebra.main.AppD;
 import geogebra.main.AppletImplementation;
 import geogebra.main.LocalizationD;
@@ -227,7 +228,8 @@ public class App3D extends AppD {
 	public void refreshViews() {
 		if (isEuclidianView3Dinited()) {
 			getEuclidianView3D().reset();
-			DockManager dockManager = (DockManager) getGuiManager().getLayout()
+			DockManagerD dockManager = (DockManagerD) getGuiManager()
+					.getLayout()
 					.getDockManager();
 			((EuclidianDockPanel3DD) dockManager.getPanel(VIEW_EUCLIDIAN3D))
 					.refresh(dockManager);
