@@ -3709,12 +3709,16 @@ LatexCmds.notin =
 LatexCmds.sim =
 LatexCmds.cong =
 LatexCmds.equiv =
-LatexCmds.oplus =
-LatexCmds.otimes = P(BinaryOperator, function(_, _super) {
+LatexCmds.oplus = P(BinaryOperator, function(_, _super) {
   _.init = function(latex) {
     _super.init.call(this, '\\'+latex+' ', '&'+latex+';');
   };
 });
+
+//VECTOR_PRODUCT '\u2297' worked as a VanillaSymbol, but it needs to be a BinaryOperator
+//in order to correctly handle cases like aXb/2, so it is merged with otimes
+LatexCmds.otimes = LatexCmds['\u2297'] = bind(BinaryOperator, '\\otimes ', '&otimes;', '\u2297');
+
 
 LatexCmds.times = bind(BinaryOperator, '\\times ', '&times;', '[x]');
 
@@ -3799,8 +3803,6 @@ LatexCmds['\u2211'] = LatexCmds.sum = LatexCmds.summation = bind(BigSymbol,'\\su
 LatexCmds['\u220f'] = LatexCmds.prod = LatexCmds.product = bind(BigSymbol,'\\prod ','&prod;');
 LatexCmds.coprod = LatexCmds.coproduct = bind(BigSymbol,'\\coprod ','&#8720;');
 LatexCmds['\u222b'] = LatexCmds['int'] = LatexCmds.integral = bind(BigSymbol,'\\int ','&int;');
-
-// VECTOR_PRODUCT '\u2297' makes something like dot product now, it needs to be fixed!
 
 //the canonical sets of numbers
 //LatexCmds.N =
