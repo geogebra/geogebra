@@ -3516,9 +3516,9 @@ LatexCmds.omega = LatexCmds['\u03c9'] = bind(Variable, '\\omega ', '&omega;', '\
 LatexCmds.checkmark =  
   bind(Variable,'\\checkmark ','&#x2713;'); 
 
-//GeoGebra's '==' 
-LatexCmds.questeq = 
-  bind(Variable,'\\questeq ','&#8799;');
+//GeoGebra's '==' now using '\u225f'
+LatexCmds.questeq = LatexCmds['\u225f'] =
+  bind(Variable, '\\questeq ', '&#8799;', '\u225f');
 
 //why can't anybody agree on these
 LatexCmds.phi = //W3C or Unicode?
@@ -3979,7 +3979,7 @@ LatexCmds.setminus = LatexCmds.smallsetminus =
   bind(VanillaSymbol,'\\setminus ','&#8726;');
 
 LatexCmds.not = //bind(Symbol,'\\not ','<span class="not">/</span>');
-LatexCmds['\u00ac'] = LatexCmds.neg = bind(VanillaSymbol,'\\neg ','&not;');
+LatexCmds['\u00ac'] = LatexCmds.neg = bind(VanillaSymbol, '\\neg ', '&not;', '\u00ac');
 
 LatexCmds['\u2026'] = LatexCmds.dots = LatexCmds.ellip = LatexCmds.hellip =
 LatexCmds.ellipsis = LatexCmds.hellipsis =
