@@ -637,6 +637,14 @@ public class ScriptManagerW extends ScriptManager {
 			$doc[ggbApplet] = $wnd[ggbApplet] = api = null;
 		}
 
+		api.getExerciseResult = function() {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::getExerciseResult()();
+		};
+
+		api.getExerciseFraction = function() {
+			return ggbAPI.@geogebra.html5.main.GgbAPIW::getExerciseFraction()();
+		};
+
 		$doc[ggbApplet] = $wnd[ggbApplet] = api;
 		return api;
 		// other methods from the Wiki (consider to implement here)

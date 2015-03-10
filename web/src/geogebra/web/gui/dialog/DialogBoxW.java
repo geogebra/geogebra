@@ -1,6 +1,10 @@
 package geogebra.web.gui.dialog;
 
+import geogebra.html5.gui.FastButton;
+import geogebra.html5.gui.FastClickHandler;
 import geogebra.html5.main.ErrorHandler;
+import geogebra.web.gui.browser.BrowseResources;
+import geogebra.web.gui.util.StandardButton;
 
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.logical.shared.ResizeEvent;
@@ -9,6 +13,9 @@ import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.Event.NativePreviewEvent;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * A DialogBox for Web
@@ -17,6 +24,7 @@ import com.google.gwt.user.client.ui.DialogBox;
 public class DialogBoxW extends DialogBox {
 	
 	private ErrorHandler eh;
+	FastButton cancelButton;
 
 
 	/**
@@ -81,4 +89,37 @@ public class DialogBoxW extends DialogBox {
 			}
 		});
     }
+
+	/**
+	 * closes the dialog
+	 */
+    protected void onCancel() {
+    	hide();
+    }
+
+	/**
+	 * Adds a little cross to cancel the dialog if there is already a panel
+	 * attached to the Dialogbox. If the first child of the Dialogbox is not a
+	 * Panel this will do nothing!
+	 * 
+	 * Pulled up from SaveDialogW
+	 */
+	protected void addCancelButton() {
+		if (getWidget() instanceof Panel) {
+			SimplePanel cancel = new SimplePanel();
+			this.cancelButton = new StandardButton(
+			        BrowseResources.INSTANCE.dialog_cancel());
+			this.cancelButton.addStyleName("cancelSaveButton");
+			this.cancelButton.addFastClickHandler(new FastClickHandler() {
+				@Override
+				public void onClick(Widget source) {
+					onCancel();
+				}
+			});
+
+			cancel.add(this.cancelButton);
+
+			((Panel) getWidget()).add(cancel);
+		}
+	}
 }

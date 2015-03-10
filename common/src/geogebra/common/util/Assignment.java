@@ -1,15 +1,14 @@
 package geogebra.common.util;
 
 import geogebra.common.kernel.Construction;
-import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.algos.AlgoMacro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.Test;
 import geogebra.common.kernel.prover.AlgoAreEqual;
-import geogebra.common.main.App;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -22,7 +21,7 @@ public class Assignment {
 	/**
 	 * The Result of the Assignment
 	 */
-	public enum Result {
+	public static enum Result {
 		/**
 		 * The assignment is CORRECT
 		 */
@@ -58,15 +57,31 @@ public class Assignment {
 		INPUT_AMBIGUOUS
 	}
 
-	private Macro macro;
-	private Kernel kernel;
+	/**
+	 * Possible values for fractions (sorted ascending!)
+	 */
+	public final static float[] FRACTIONS = { 0f, 0.1f, 0.125f, 0.2f, 0.25f,
+			0.3333f, 0.5f, 1f };
 
-	public Assignment(App app) {
-		kernel = app.getKernel();
-		ArrayList<Macro> appMacros = kernel.getAllMacros();
-		if (!appMacros.isEmpty()) {
-			macro = appMacros.get(0);
-		}
+	private Macro macro;
+
+	private HashMap<Result, Float> fractionForResult;
+	/* The hints displayed to the Student */
+	private HashMap<Result, String> hintForResult;
+
+	private Result res;
+
+	/**
+	 * @param macro
+	 */
+	public Assignment(Macro macro) {
+		this.macro = macro;
+
+		fractionForResult = new HashMap<>();
+
+		hintForResult = new HashMap<>();
+
+		res = Result.UNKNOWN;
 	}
 
 	/**
@@ -76,11 +91,11 @@ public class Assignment {
 	 * 
 	 * @return {@link Result} of the check
 	 */
-	public Result checkAssignment() {
-		Result res = Result.UNKNOWN;
+	public Result checkAssignment(Construction cons) {
+		res = Result.UNKNOWN;
+
 		TreeSet<GeoElement> possibleInputGeos = new TreeSet<GeoElement>();
 		TreeSet<GeoElement> possibleOutputGeos = new TreeSet<GeoElement>();
-		Construction cons = kernel.getConstruction();
 
 		// find all possible inputgeos and all outputgeos that match the type of
 		// the macro
@@ -88,7 +103,7 @@ public class Assignment {
 		Iterator<GeoElement> it = sortedSet.iterator();
 		while (it.hasNext()) {
 			GeoElement geo = it.next();
-			if (geo.isIndependent() || geo.hasChildren()) {
+			if (geo.isIndependent() && geo.hasChildren()) {
 				for (GeoElement macroIn : macro.getMacroInput()) {
 					if (geo.getClass().equals(macroIn.getClass())) {
 						possibleInputGeos.add(geo);
@@ -162,7 +177,7 @@ public class Assignment {
 
 	private Result checkEqualityOfGeos(GeoElement[] input,
 			ArrayList<GeoElement> possibleOutputGeos, Construction cons) {
-		Result solved = Result.UNKNOWN;
+
 		// String[] label = { "" };
 		AlgoMacro algoMacro = new AlgoMacro(cons, null, macro, input);
 		GeoElement[] macroOutput = algoMacro.getOutput();
@@ -172,18 +187,18 @@ public class Assignment {
 		// if (macroOutput[0] instanceof GeoPolygon) {
 		int i = 0;
 		while (i < possibleOutputGeos.size()
-				&& (solved == Result.UNKNOWN || solved == Result.WRONG)) {
+				&& (res == Result.UNKNOWN || res == Result.WRONG)) {
 			AlgoAreEqual algoEqual = new AlgoAreEqual(cons, "", macroOutput[0],
 					possibleOutputGeos.get(i));
-			solved = algoEqual.getResult().getBoolean() ? Result.CORRECT
+			res = algoEqual.getResult().getBoolean() ? Result.CORRECT
 					: Result.WRONG;
 			int j = 0;
-			while (j < input.length && solved == Result.CORRECT) {
+			while (j < input.length && res == Result.CORRECT) {
 				if (input[j].isRandomizable()) {
 					saveInput = input[j].copy();
 					input[j].randomizeForProbabilisticChecking();
 					input[j].updateCascade();
-					solved = algoEqual.getResult().getBoolean() ? Result.CORRECT
+					res = algoEqual.getResult().getBoolean() ? Result.CORRECT
 							: Result.WRONG_AFTER_RANDOMIZE;
 					input[j].set(saveInput);
 					input[j].updateCascade();
@@ -193,7 +208,80 @@ public class Assignment {
 			i++;
 		}
 		algoMacro.remove();
-		return solved;
+		return res;
+	}
+
+	/**
+	 * @return the fraction for the Result if set, else 1.0 for correct Result
+	 *         and 0 else.
+	 */
+	public float getFraction() {
+		float fraction = 0f;
+		if (fractionForResult.containsKey(res)) {
+			fraction = fractionForResult.get(res);
+		} else if (res == Result.CORRECT) {
+			fraction = 1.0f;
+		}
+		return fraction;
+	}
+
+	public void setFractionForResult(Result res, float f) {
+		fractionForResult.put(res, f);
+	}
+
+	public float getFractionForResult(Result res) {
+		float frac = 0f;
+		if (fractionForResult.containsKey(res)) {
+			frac = fractionForResult.get(res);
+		} else if (res == Result.CORRECT) {
+			frac = 1.0f;
+		}
+		return frac;
+	}
+
+	public String getIconFileName() {
+		return macro.getIconFileName();
+	}
+
+	public String getToolName() {
+		return macro.getToolName();
+	}
+
+	/**
+	 * Gives the hint for the actual state for this {@link Assignment}
+	 * 
+	 * @return the hint for current {@link Result}
+	 */
+	public String getHint() {
+		return hintForResult.get(res);
+	}
+
+	/**
+	 * Sets the Hint for a particular Result.
+	 * 
+	 * @param res
+	 *            the {@link Result}
+	 * @param hint
+	 *            the hint which should be shown to the student in case of the
+	 *            {@link Result} res
+	 */
+	public void setHintForResult(Result res, String hint) {
+		this.hintForResult.put(res, hint);
+	}
+
+	/**
+	 * @return the actual state for this {@link Assignment} as {@link Result}
+	 */
+	public Result getResult() {
+		return res;
+	}
+
+	public String getHintForResult(Result res) {
+		String hint = "";
+		if (hintForResult.containsKey(res)) {
+			hint = hintForResult.get(res);
+		}
+		return hint;
 	}
 }
 

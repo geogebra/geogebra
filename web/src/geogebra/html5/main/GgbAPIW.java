@@ -6,6 +6,8 @@ import geogebra.common.kernel.Macro;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.main.App;
+import geogebra.common.util.Assignment;
+import geogebra.common.util.Exercise;
 import geogebra.html5.Browser;
 import geogebra.html5.css.GuiResourcesSimple;
 import geogebra.html5.euclidian.EuclidianViewW;
@@ -28,6 +30,9 @@ import com.google.gwt.canvas.dom.client.Context2d;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.ImageElement;
+import com.google.gwt.json.client.JSONNumber;
+import com.google.gwt.json.client.JSONObject;
+import com.google.gwt.json.client.JSONString;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
@@ -844,6 +849,35 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 
 	public void showTooltip(String tooltip) {
 		ToolTipManagerW.sharedInstance().showBottomMessage(tooltip, false);
+	}
+
+	/**
+	 * @return JavaScriptObject representation of the exercise result. For
+	 *         Example: "{"Werkzeug1":{ "result":"CORRECT", "hint":"",
+	 *         "fraction":1}," fractionsum":1}"
+	 */
+	public JavaScriptObject getExerciseResult() {
+		Exercise ex = new Exercise(app); // TODO register Exercise to App...
+		ex.checkExercise();
+		JSONObject result = new JSONObject();
+		ArrayList<Assignment> parts = ex.getParts();
+		for (Assignment part : parts) {
+			JSONObject partresult = new JSONObject();
+			result.put(part.getToolName(), partresult);
+			partresult.put("result", new JSONString(part.getResult().name()));
+			String hint = part.getHint();
+			hint = hint == null ? "" : hint;
+			partresult.put("hint", new JSONString(hint));
+			partresult.put("fraction", new JSONNumber(part.getFraction()));
+		}
+		result.put("fractionsum", new JSONNumber(ex.getFraction()));
+		return result.getJavaScriptObject();
+	}
+
+	public String getExerciseFraction() {
+		Exercise ex = new Exercise(app); // TODO register Exercise to App...
+		ex.checkExercise();
+		return Float.toString(ex.getFraction());
 	}
 
 }
