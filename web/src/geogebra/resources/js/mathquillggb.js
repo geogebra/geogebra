@@ -3484,30 +3484,34 @@ LatexCmds['\u00a9'] = LatexCmds.copyright = bind(NonSymbolaSymbol, '\\copyright'
 
 //the following are all Greek to me, but this helped a lot: http://www.ams.org/STIX/ion/stixsig03.html
 
-//lowercase Greek letter variables
+// 25 Greek letters in GeoGebraWeb keyboard_el.js, and also in Unicode: \u03B1-\u03C9
+// pi, phi, lambda, and epsilon, upsilon elsewhere (5)
+//final sigma was also missing, but GeoGebraWeb needs it! (1)
+//but it turned out that final sigma is the same as \varsigma, tackled later ...
+
+//lowercase Greek letter variables (19)
 LatexCmds.alpha = LatexCmds['\u03b1'] = bind(Variable, '\\alpha ', '&alpha;', '\u03b1');
 LatexCmds.beta = LatexCmds['\u03b2'] = bind(Variable, '\\beta ', '&beta;', '\u03b2');
 LatexCmds.gamma = LatexCmds['\u03b3'] = bind(Variable, '\\gamma ', '&gamma;', '\u03b3');
 LatexCmds.delta = LatexCmds['\u03b4'] = bind(Variable, '\\delta ', '&delta;', '\u03b4');
-LatexCmds.zeta =
-LatexCmds.eta =
-LatexCmds.theta =
-LatexCmds.iota =
-LatexCmds.kappa =
-LatexCmds.mu =
-LatexCmds.nu =
-LatexCmds.xi =
-LatexCmds.rho =
-LatexCmds.sigma =
-LatexCmds.tau =
-LatexCmds.chi =
-LatexCmds.psi =
-LatexCmds.omega = P(Variable, function(_, _super) {
-  _.init = function(latex) {
-    _super.init.call(this,'\\'+latex+' ','&'+latex+';');
-  };
-});
-//LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;', '\u03c0');
+LatexCmds.zeta = LatexCmds['\u03b6'] = bind(Variable, '\\zeta ', '&zeta;', '\u03b6');
+LatexCmds.eta = LatexCmds['\u03b7'] = bind(Variable, '\\eta ', '&eta;', '\u03b7');
+LatexCmds.theta = LatexCmds['\u03b8'] = bind(Variable, '\\theta ', '&theta;', '\u03b8');
+LatexCmds.iota = LatexCmds['\u03b9'] = bind(Variable, '\\iota ', '&iota;', '\u03b9');
+LatexCmds.kappa = LatexCmds['\u03ba'] = bind(Variable, '\\kappa ', '&kappa;', '\u03ba');
+LatexCmds.mu = LatexCmds['\u03bc'] = bind(Variable, '\\mu ', '&mu;', '\u03bc');
+LatexCmds.nu = LatexCmds['\u03bd'] = bind(Variable, '\\nu ', '&nu;', '\u03bd');
+LatexCmds.xi = LatexCmds['\u03be'] = bind(Variable, '\\xi ', '&xi;', '\u03be');
+
+// omicron was missing! adding it here, for GeoGebraWeb needs it too:
+LatexCmds.omicron = LatexCmds['\u03bf'] = bind(Variable, '\\omicron ', '&omicron;', '\u03bf');
+
+LatexCmds.rho = LatexCmds['\u03c1'] = bind(Variable, '\\rho ', '&rho;', '\u03c1');
+LatexCmds.sigma = LatexCmds['\u03c3'] = bind(Variable, '\\sigma ', '&sigma;', '\u03c3');// final sigma??
+LatexCmds.tau = LatexCmds['\u03c4'] = bind(Variable, '\\tau ', '&tau;', '\u03c4');
+LatexCmds.chi = LatexCmds['\u03c7'] = bind(Variable, '\\chi ', '&chi;', '\u03c7');
+LatexCmds.psi = LatexCmds['\u03c8'] = bind(Variable, '\\psi ', '&psi;', '\u03c8');
+LatexCmds.omega = LatexCmds['\u03c9'] = bind(Variable, '\\omega ', '&omega;', '\u03c9');
 
 LatexCmds.checkmark =  
   bind(Variable,'\\checkmark ','&#x2713;'); 
@@ -3518,56 +3522,61 @@ LatexCmds.questeq =
 
 //why can't anybody agree on these
 LatexCmds.phi = //W3C or Unicode?
-  bind(Variable,'\\phi ','&#981;');
+LatexCmds['\u03c6'] =
+  bind(Variable,'\\phi ','&#981;', '\u03c6');
 
 LatexCmds.phiv = //Elsevier and 9573-13
 LatexCmds.varphi = //AMS and LaTeX
-  bind(Variable,'\\varphi ','&phi;');
+  bind(Variable,'\\varphi ','&phi;', '\u03c6');// for GeoGebraWeb, the same as phi
 
 LatexCmds.epsilon = //W3C or Unicode?
-  bind(Variable,'\\epsilon ','&#1013;');
+LatexCmds['\u03b5'] =
+  bind(Variable, '\\epsilon ', '&#1013;', '\u03b5');
 
 LatexCmds.epsiv = //Elsevier and 9573-13
 LatexCmds.varepsilon = //AMS and LaTeX
-  bind(Variable,'\\varepsilon ','&epsilon;');
+  bind(Variable,'\\varepsilon ','&epsilon;', '\u03b5');// for GeoGebraWeb, this is the same thing
 
 LatexCmds.piv = //W3C/Unicode and Elsevier and 9573-13
 LatexCmds.varpi = //AMS and LaTeX
-  bind(Variable,'\\varpi ','&piv;');
+  bind(Variable, '\\varpi ', '&piv;', '\u03c0');// varpi the same as pi in GeoGebraWeb
 
 LatexCmds.sigmaf = //W3C/Unicode
 LatexCmds.sigmav = //Elsevier
 LatexCmds.varsigma = //LaTeX
-  bind(Variable,'\\varsigma ','&sigmaf;');
+LatexCmds['\u03c2'] = 
+  bind(Variable, '\\varsigma ', '&sigmaf;', '\u03c2');
 
 LatexCmds.thetav = //Elsevier and 9573-13
 LatexCmds.vartheta = //AMS and LaTeX
 LatexCmds.thetasym = //W3C/Unicode
-  bind(Variable,'\\vartheta ','&thetasym;');
+  bind(Variable,'\\vartheta ','&thetasym;', '\u03b8');//for GeoGebraWeb, this is the same thing
 
 LatexCmds.upsilon = //AMS and LaTeX and W3C/Unicode
 LatexCmds.upsi = //Elsevier and 9573-13
-  bind(Variable,'\\upsilon ','&upsilon;');
+LatexCmds['\u03c5'] =
+  bind(Variable,'\\upsilon ','&upsilon;', '\u03c5');
 
 //these aren't even mentioned in the HTML character entity references
 LatexCmds.gammad = //Elsevier
 LatexCmds.Gammad = //9573-13 -- WTF, right? I dunno if this was a typo in the reference (see above)
 LatexCmds.digamma = //LaTeX
-  bind(Variable,'\\digamma ','&#989;');
+LatexCmds['\u03dc'] = // not sure this is needed, but for the sake of completeness
+  bind(Variable,'\\digamma ','&#989;', '\u03dc');//\u03dc Great digamma \u03dd small 
 
 LatexCmds.kappav = //Elsevier
 LatexCmds.varkappa = //AMS and LaTeX
-  bind(Variable,'\\varkappa ','&#1008;');
+  bind(Variable,'\\varkappa ','&#1008;', '\u03ba');// for GGW, same
 
 LatexCmds.rhov = //Elsevier and 9573-13
 LatexCmds.varrho = //AMS and LaTeX
-  bind(Variable,'\\varrho ','&#1009;');
+  bind(Variable,'\\varrho ','&#1009;', '\u03c1');// for GGW, same
 
 //Greek constants, look best in un-italicised Times New Roman
 //LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;');
 //LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\\u03c0 ','&pi;');
-LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol,'\\pi ','&pi;', '\u03c0');
-LatexCmds.lambda = bind(NonSymbolaSymbol,'\\lambda ','&lambda;');
+LatexCmds.pi = LatexCmds['\u03c0'] = bind(NonSymbolaSymbol, '\\pi ', '&pi;', '\u03c0');
+LatexCmds.lambda = LatexCmds['\u03bb'] = bind(NonSymbolaSymbol, '\\lambda ', '&lambda;', '\u03bb');
 
 //uppercase greek letters
 
