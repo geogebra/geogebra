@@ -4008,9 +4008,16 @@ LatexCmds.to = bind(BinaryOperator,'\\to ','&rarr;');
 
 LatexCmds.rarr = LatexCmds.rightarrow = bind(VanillaSymbol,'\\rightarrow ','&rarr;');
 
-LatexCmds.implies = bind(BinaryOperator,'\\Rightarrow ','&rArr;');
-
-LatexCmds.rArr = LatexCmds.Rightarrow = bind(VanillaSymbol,'\\Rightarrow ','&rArr;');
+//merged with GeoGebra "\u2192", maybe it's not necessary to put it in LatexCmds, but used to
+//it's strange that LatexCmds.and and LatexCmds.or were VanillaSymbol's, and this was
+//a BinaryOperator... but logically, this is really it, and cannot be combined with fractions,
+// so it's almost good, but this way operator precedence may appear, which is not clear for
+// and/or and implies, I think, but I think it'll be good to make .and and .or BinaryOperators too,
+// and hereby I also merge .implies and .rArr and .Rightarrow (which were VanillaSymbols),
+// because it will be easier for GeoGebra development (there are no two things with same notation)
+LatexCmds.implies = LatexCmds['\u2192'] =
+LatexCmds.rArr = LatexCmds.Rightarrow =
+  bind(BinaryOperator, '\\Rightarrow ', '&rArr;', '\u2192');
 
 LatexCmds.gets = bind(BinaryOperator,'\\gets ','&larr;');
 
@@ -4055,10 +4062,10 @@ LatexCmds.xists = LatexCmds.exist = LatexCmds.exists =
   bind(VanillaSymbol,'\\exists ','&exist;');
 
 LatexCmds.and = LatexCmds.land = LatexCmds.wedge = LatexCmds['\u2227'] =
-  bind(VanillaSymbol, '\\wedge ', '&and;', '\u2227');
+  bind(BinaryOperator, '\\wedge ', '&and;', '\u2227');
 
 LatexCmds.or = LatexCmds.lor = LatexCmds.vee = LatexCmds['\u2228'] =
-  bind(VanillaSymbol, '\\vee ', '&or;', '\u2228');
+  bind(BinaryOperator, '\\vee ', '&or;', '\u2228');
 
 //LatexCmds.o = LatexCmds.O =
 LatexCmds.empty = LatexCmds.emptyset =
