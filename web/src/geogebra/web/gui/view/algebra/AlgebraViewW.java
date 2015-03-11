@@ -401,6 +401,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 			ti.setWidget(new RadioButtonTreeItem((GeoElement) ob,
 			        AppResources.INSTANCE.shown().getSafeUri(),
 			        AppResources.INSTANCE.hidden().getSafeUri()));
+			ti.addStyleName("avItem");
 			//ti.getElement().getStyle().setPadding(0, Unit.PX);
 
 			// Workaround to make treeitem visual selection available

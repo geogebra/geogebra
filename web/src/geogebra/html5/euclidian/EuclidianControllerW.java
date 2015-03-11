@@ -763,7 +763,6 @@ public class EuclidianControllerW extends EuclidianController implements
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("\"" + geo.toString(StringTemplate.defaultTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);
-		app.debug("[DND] drop happened: " + text);
 
 		GeoElement[] ret = app.getKernel().getAlgebraProcessor()
 		        .processAlgebraCommand(text, true);
