@@ -972,7 +972,10 @@ public class DrawEquationWeb extends DrawEquation {
 			}
 
 			if (s != null && !"".equals(s)) {
-				triggerPaste(parentElement, s);
+				for (int i = 0; i < s.length(); i++) {
+					triggerPaste(parentElement, "" + s.charAt(i));
+				}
+				// triggerPaste(parentElement, s);
 				// writeLatexInPlaceOfCurrentWord(parentElement, s, "", false);
 				return true;
 			}
