@@ -137,6 +137,7 @@ namespace giac {
    
   gen _fourier_cn(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_fourier_cn ;
+
   void comprim(vecteur & v);
 
 #ifndef NO_NAMESPACE_GIAC

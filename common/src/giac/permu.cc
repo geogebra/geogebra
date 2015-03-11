@@ -861,14 +861,19 @@ namespace giac {
     if (args.type!=_VECT)  
       return gentypeerr(contextptr);
     vecteur v(*args._VECTptr);
-    int n=v.size();
+    int n=v.size(),m=n;
+    if (n==2 && v[1].type==_INT_ && v[0].type==_VECT){
+      m=v[1].val;
+      v=*v[0]._VECTptr;
+      n=v.size();
+    }
     vecteur c; 
     vecteur l(n); 
     for (int j=0;j<n;j++){
       l[j]=1;
     }
     c.push_back(l);
-    for (int k=1;k<n;k++){
+    for (int k=1;k<m;k++){
       for (int j=0;j<n;j++){
 	l[j]=l[j]*v[j];
       }
@@ -883,6 +888,29 @@ namespace giac {
 
   gen _laplacian(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==3){
+      gen opt=args._VECTptr->back();
+      if (opt.is_symb_of_sommet(at_equal) && (opt._SYMBptr->feuille[0]==at_coordonnees || (opt._SYMBptr->feuille[0].type==_INT_ && opt._SYMBptr->feuille[0].val==_COORDS))){
+	gen f=eval(args._VECTptr->front(),1,contextptr);
+	gen coord=(*args._VECTptr)[1];
+	if (coord.type==_VECT &&  coord._VECTptr->size()==3){
+	  if (opt._SYMBptr->feuille[1]==at_sphere){
+	    gen r=coord[0],r2=pow(r,2,contextptr),t=coord[1],s=sin(t,contextptr),p=coord[2];
+	    gen res=derive(r2*derive(f,r,contextptr),r,contextptr);
+	    res += derive(derive(s*f,t,contextptr),t,contextptr)/s;
+	    res += derive(derive(f,p,contextptr),p,contextptr)/(s*s);
+	    return res/r2;
+	  }
+	  if (opt._SYMBptr->feuille[1]==at_cylindre){
+	    gen r=coord[0],t=coord[1],z=coord[2];
+	    gen res=derive(r*derive(f,r,contextptr),r,contextptr);
+	    res += derive(derive(f,t,contextptr),t,contextptr)/(r*r);
+	    res += derive(derive(f,z,contextptr),z,contextptr);
+	    return res;
+	  }
+	}
+      }
+    }
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )
       return gentypeerr(contextptr);    
     vecteur v(plotpreprocess(args,contextptr));
@@ -932,6 +960,25 @@ namespace giac {
 
   gen _divergence(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==3){
+      gen opt=args._VECTptr->back();
+      if (opt.is_symb_of_sommet(at_equal) && (opt._SYMBptr->feuille[0]==at_coordonnees || (opt._SYMBptr->feuille[0].type==_INT_ && opt._SYMBptr->feuille[0].val==_COORDS))){
+	gen g=eval(args._VECTptr->front(),1,contextptr);
+	gen coord=(*args._VECTptr)[1];
+	if (g.type==_VECT && coord.type==_VECT && g._VECTptr->size()==3 && coord._VECTptr->size()==3){
+	  if (opt._SYMBptr->feuille[1]==at_sphere){
+	    // spheric: 1/r^2*d_r(r^2*A_r)+1/r/sin(theta)*d_theta(sin(theta)*A_theta)+1/r*sin(theta)*d_phi(A_phi)
+	    gen Ar=g[0],At=g[1],Ap=g[2],r=coord[0],r2=pow(r,2,contextptr),t=coord[1],s=sin(t,contextptr),p=coord[2];
+	    return derive(r2*Ar,r,contextptr)/r2+(derive(s*At,t,contextptr)+derive(Ap,p,contextptr))/(r*s);
+	  }
+	  if (opt._SYMBptr->feuille[1]==at_cylindre){
+	    // cylindric: 1/r*d_r(r*A_r)+1/r*d_theta(A_theta)+d_z(A_z)
+	    gen Ar=g[0],At=g[1],Az=g[2],r=coord[0],t=coord[1],z=coord[2];
+	    return (derive(r*Ar,r,contextptr)+derive(At,t,contextptr))/r+derive(Az,z,contextptr);
+	  }
+	}
+      }
+    }
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )
       return gentypeerr(contextptr);    
     vecteur v(plotpreprocess(args,contextptr));
@@ -956,6 +1003,26 @@ namespace giac {
 
   gen _curl(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==3){
+      gen opt=args._VECTptr->back();
+      if (opt.is_symb_of_sommet(at_equal) && (opt._SYMBptr->feuille[0]==at_coordonnees || (opt._SYMBptr->feuille[0].type==_INT_ && opt._SYMBptr->feuille[0].val==_COORDS))){
+	gen g=eval(args._VECTptr->front(),1,contextptr);
+	gen coord=(*args._VECTptr)[1];
+	if (g.type==_VECT && coord.type==_VECT && g._VECTptr->size()==3 && coord._VECTptr->size()==3){
+	  if (opt._SYMBptr->feuille[1]==at_sphere){
+	    // spheric: 1/r/sin(theta)*(d_theta(sin(theta)*A_phi)-d_phi(A_theta)),
+	    // 1/r/sin(theta)*d_phi(A_r)-1/r*d_r(r*A_phi), 1/r*(d_r(r*A_theta)-d_theta(A_r))
+	    gen Ar=g[0],At=g[1],Ap=g[2],r=coord[0],r2=pow(r,2,contextptr),t=coord[1],s=sin(t,contextptr),p=coord[2];
+	    return makevecteur((derive(s*Ap,t,contextptr)-derive(At,p,contextptr))/(r*s),derive(Ar,p,contextptr)/(r*s)-derive(r*Ap,r,contextptr)/r,(derive(r*At,r,contextptr)-derive(Ar,t,contextptr))/r);
+	  }
+	  if (opt._SYMBptr->feuille[1]==at_cylindre){
+	    // cylindric (1/r*d_theta(A_z)-d_z(A_theta)),d_z(A_r)-d_r(A_z),1/r*d_r(r*A_theta)-d_theta(A_r))
+	    gen Ar=g[0],At=g[1],Az=g[2],r=coord[0],t=coord[1],z=coord[2];
+	    return makevecteur(derive(Az,t,contextptr)/r-derive(At,z,contextptr),derive(Ar,z,contextptr)-derive(Az,r,contextptr),(derive(r*At,r,contextptr)-derive(Ar,t,contextptr))/r);
+	  }
+	}
+      }
+    }
     if ( (args.type!=_VECT)  || (args._VECTptr->size()!=2) )
       return gentypeerr(contextptr);
     vecteur v(plotpreprocess(args,contextptr));

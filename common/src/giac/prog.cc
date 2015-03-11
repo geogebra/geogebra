@@ -411,7 +411,7 @@ namespace giac {
     vecteur & v =*f._VECTptr;
     vecteur vars=rm_checktype(gen2vecteur(v[0]),contextptr),res1,res2(1,undef),res3,res4;
     for (unsigned i=0;i<vars.size();++i){
-      if (equalposcomp(vars,vars[i])!=i+1)
+      if (equalposcomp(vars,vars[i])!=int(i+1))
 	res += gettext("// Warning, duplicate argument name: ")+vars[i].print(contextptr)+'\n';
     }
     gen prog=v.back();
@@ -1004,7 +1004,7 @@ namespace giac {
 #if !defined(WIN32) && defined HAVE_PTHREAD_H
     if (contextptr){
       // CERR << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
-      if ( ((unsigned long) &res) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+8192){
+      if ( ((size_t) &res) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+8192){
 	gensizeerr(gettext("Too many recursion levels"),res); 
 	return res;
       }
@@ -3590,7 +3590,7 @@ namespace giac {
       if (nstep.type!=_INT_ || nstep.val<0 || nstep.val>LIST_SIZE_LIMIT)
 	return gendimerr(contextptr);
       vecteur res;
-      for (unsigned i=0;i<=nstep.val;++i){
+      for (unsigned i=0;int(i)<=nstep.val;++i){
 	res.push_back(a1);
 	a1 += b1;
       }
@@ -5179,7 +5179,7 @@ namespace giac {
 	    bool pos; // pos should be true after next call since zn is > 0
 	    zint2simpldoublpos(zn,a,b,pos,d.val,contextptr);
 	    if (pos){
-	      if (n==1)
+	      if (0 && n==1)
 		wi=b*pow(fast_divide_by_icontent(f0,z/a),f._VECTptr->back(),contextptr);
 	      else
 		wi=b*pow(a,inv(d,contextptr),contextptr)*pow(fast_divide_by_icontent(f0,z),f._VECTptr->back(),contextptr);
@@ -5558,9 +5558,78 @@ namespace giac {
 	MAX_PRINTABLE_ZINT=maxp;
 	return res;
       }
-      if (f==at_matrix || f==at_vector || f==at_array){
-	g.subtype=_MATRIX__VECT;
-	return g;
+      if (g.type==_MAP){
+	if (f==at_matrix || f==at_vector){
+	  if (g.subtype==_SPARSE_MATRIX)
+	    *logptr(contextptr) << "Run convert(matrix,array) for dense conversion" << endl;
+	  g.subtype=_SPARSE_MATRIX;
+	  return g;
+	}
+	if (f==at_array){
+	  int n,nrows,ncols;
+	  if (!is_sparse_matrix(g,nrows,ncols,n)){
+	    if (!is_sparse_vector(g,nrows,n))
+	      return gensizeerr("Invalid map");
+	    vecteur res(nrows);
+	    gen_map & m=*g._MAPptr;
+	    gen_map::const_iterator it=m.begin(),itend=m.end();
+	    for (;it!=itend;++it){
+	      gen l=it->first;
+	      is_integral(l); 
+	      res[l.val]=it->second;
+	    }
+	    return res;
+	  }
+	  vecteur res(nrows);
+	  for (int i=0;i<nrows;++i){
+	    vecteur l(ncols);
+	    res[i]=l;
+	  }
+	  gen_map & m=*g._MAPptr;
+	  gen_map::const_iterator it=m.begin(),itend=m.end();
+	  for (;it!=itend;++it){
+	    gen g=it->first;
+	    gen l=g._VECTptr->front();
+	    gen c=g._VECTptr->back();
+	    is_integral(l); is_integral(c);
+	    (*res[l.val]._VECTptr)[c.val]=it->second;
+	  }
+	  return res;
+	}
+	if (f==at_table){
+	  g.subtype=0;
+	  return g;
+	}
+      }
+      if (g.type==_VECT){
+	if (f==at_matrix || f==at_vector || f==at_array){
+	  g.subtype=_MATRIX__VECT;
+	  return g;
+	}
+	if (f==at_table){
+	  const vecteur & m = *g._VECTptr;
+	  // conversion to sparse matrix
+	  gen_map M;
+	  gen resg(M);
+	  resg.subtype=_SPARSE_MATRIX;
+	  gen_map & res=*resg._MAPptr;
+	  if (ckmatrix(g)){
+	    for (int i=0;i<int(m.size());++i){
+	      const vecteur & v = *m[i]._VECTptr;
+	      for (int j=0;j<int(v.size());++j){
+		if (!is_zero(v[j]))
+		  res[makesequence(i,j)]=v[j];
+	      }
+	    }
+	  }
+	  else {
+	    for (int i=0;i<int(m.size());++i){
+	      if (!is_zero(m[i]))
+		res[i]=m[i];
+	    }
+	  }
+	  return resg;
+	}
       }
       return f(g,contextptr);
       // setsizeerr();
@@ -5740,7 +5809,7 @@ namespace giac {
   }
 
   // TI89/92 function/program translate
-#ifdef WIN32
+#if defined(WIN32) || defined(BESTA_OS)
 #define BUFFER_SIZE 16384
 #endif
 
@@ -8193,13 +8262,14 @@ namespace giac {
     return makevecteur(g);
   }
 
-  gen unitpow(const gen & g,const gen & exponent){
-    if (is_zero(exponent))
+  gen unitpow(const gen & g,const gen & exponent_){
+    gen exponent=evalf_double(exponent_,1,context0);
+    if (exponent.type!=_DOUBLE_)
+      return gensizeerr(gettext("Invalid unit exponent")+exponent.print());
+    if (std::abs(exponent._DOUBLE_val)<1e-6)
       return plus_one;
     if (is_one(exponent))
       return g;
-    if (evalf_double(exponent,1,context0).type!=_DOUBLE_)
-      return gensizeerr(gettext("Invalid unit exponent")+exponent.print());
     return symbolic(at_pow,gen(makevecteur(g,exponent),_SEQ__VECT));
   }
   gen mksa_reduce(const gen & g,GIAC_CONTEXT){
@@ -8300,7 +8370,7 @@ namespace giac {
 	else
 	  vw=subvecteur(v,w);
 	for (int i=1;i<5;++i){
-	  if (vw[i]==zero)
+	  if (is_greater(1e-6,abs(vw[i],contextptr),contextptr))
 	    continue;
 	  if (pos){
 	    pos=0;

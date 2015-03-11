@@ -124,6 +124,13 @@ namespace giac {
     }
     if (s>=3)
       x=v[2];
+    if (v0.type!=_VECT && v1.type==_VECT){
+      gen tmp=v1;
+      v1=_apply(makesequence(v0,v1),contextptr);
+      v0=tmp;
+    }
+    if (v1.type!=_VECT && v0.type==_VECT)
+      v1=_apply(makesequence(v1,v0),contextptr);
     if ( (v0.type!=_VECT) || (v1.type!=_VECT) )
       return gensizeerr(contextptr);
     vecteur & vx =*v0._VECTptr;
@@ -380,11 +387,21 @@ namespace giac {
   }
   gen _epsilon2zero(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args.subtype==_SEQ__VECT && args._VECTptr->size()==2){
+      gen p=evalf_double(args._VECTptr->back(),1,contextptr);
+      if (p.type==_DOUBLE_ && p._DOUBLE_val>0){
+	double eps=epsilon(contextptr);
+	epsilon(p._DOUBLE_val,contextptr);
+	gen res=epsilon2zero(args._VECTptr->front(),contextptr);
+	epsilon(eps,contextptr);
+	return res;
+      }
+    }
     return epsilon2zero(args,contextptr);
   }    
   static const char _epsilon2zero_s []="epsilon2zero";
-  static define_unary_function_eval_quoted (__epsilon2zero,&_epsilon2zero,_epsilon2zero_s);
-  define_unary_function_ptr5( at_epsilon2zero ,alias_at_epsilon2zero,&__epsilon2zero,_QUOTE_ARGUMENTS,true);
+  static define_unary_function_eval (__epsilon2zero,&_epsilon2zero,_epsilon2zero_s);
+  define_unary_function_ptr5( at_epsilon2zero ,alias_at_epsilon2zero,&__epsilon2zero,0,true);
 
   gen _suppress(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
@@ -1432,7 +1449,7 @@ namespace giac {
       return l2norm(v,contextptr);      
     }
     if (ckmatrix(g))
-      return _max(_SVL(g,contextptr),contextptr);
+      return _max(_SVL(g,contextptr)[1],contextptr);
     v=*g._VECTptr;
     return l2norm(v,contextptr);
   }
@@ -1703,6 +1720,17 @@ namespace giac {
     if ( g0.type==_STRNG && g0.subtype==-1) return  g0;
     if (g0.type!=_VECT || g0._VECTptr->empty())
       return gentypeerr(contextptr);
+    if (g0._VECTptr->back()==0){
+      gen g=g0._VECTptr->front();
+      if (!ckmatrix(g))
+	return _linfnorm(g,contextptr);
+      vecteur & v =*g._VECTptr;
+      gen res=0;
+      for (unsigned i=0;i<v.size();++i){
+	res=max(res,linfnorm(v[i],contextptr),contextptr);
+      }
+      return res;
+    }
     if (g0._VECTptr->back()==1)
       return _l1norm(g0._VECTptr->front(),contextptr);
     if (g0._VECTptr->back()==2)
@@ -1738,6 +1766,68 @@ namespace giac {
       return gensizeerr(contextptr);
     vecteur v=*g._VECTptr;
     int l=v.size();
+    if (l==2 && ckmatrix(v[0])){
+      if (v[1]==at_left){
+	matrice m=*v[0]._VECTptr,res;
+	int n=m.size();
+	res.reserve(n);
+	for (int i=0;i<n;++i){
+	  vecteur v=*m[i]._VECTptr;
+	  int s=v.size();
+	  for (int j=i+1;j<s;++j)
+	    v[j]=0;
+	  res.push_back(v);
+	}
+	return res;
+      }
+      if (v[1]==at_right){
+	matrice m=*v[0]._VECTptr,res;
+	int n=m.size();
+	res.reserve(n);
+	for (int i=0;i<n;++i){
+	  vecteur v=*m[i]._VECTptr;
+	  for (int j=0;j<i;++j)
+	    v[j]=0;
+	  res.push_back(v);
+	}
+	return res;
+      }
+      if (v[1]==at_lu){
+	matrice m=*v[0]._VECTptr,resl,resu,diag;
+	int n=m.size();
+	resl.reserve(n); resu.reserve(n);
+	for (int i=0;i<n;++i){
+	  vecteur v=*m[i]._VECTptr;
+	  diag.push_back(v[i]);
+	  for (int j=0;j<=i;++j)
+	    v[j]=0;
+	  resu.push_back(v);
+	  v=*m[i]._VECTptr;
+	  int s=v.size();
+	  for (int j=i;j<s;++j)
+	    v[j]=0;
+	  resl.push_back(v);
+	}
+	return makesequence(resl,diag,resu);
+      }
+    }
+    if (l==3 && v[0].type==_VECT && v[1].type==_VECT && v[2].type==_VECT && v[0]._VECTptr->size()+1==v[1]._VECTptr->size() && v[0]._VECTptr->size()==v[2]._VECTptr->size() ){
+      vecteur & l=*v[0]._VECTptr;
+      vecteur & d=*v[1]._VECTptr;
+      vecteur & u=*v[2]._VECTptr;
+      int n=d.size();
+      matrice res(n);
+      for (int i=0;i<n;++i){
+	vecteur w(n);
+	if (i)
+	  w[i-1]=l[i-1];
+	w[i]=d[i];
+	if (i<n-1)
+	  w[i+1]=u[i];
+	res[i]=w;
+      }
+      return res;
+    }
     if (is_squarematrix(v)){
       vecteur res(l);
       for (int i=0;i<l;++i)
@@ -2068,8 +2158,10 @@ namespace giac {
     gen partial_sum;
     for (int i=0;i<s;++i){
       partial_sum=partial_sum+freq[i];
-      if (!is_zero(partial_sum) && is_greater(partial_sum,sigma,contextptr))
+      if (!is_zero(partial_sum) && is_strictly_greater(partial_sum,sigma,contextptr))
 	return data[i];
+      if (partial_sum==sigma && i<s)
+	return (data[i]+data[i+1])/2;
     }
     return undef;
   }
@@ -3738,7 +3830,7 @@ static define_unary_function_eval (__histogram,&_histogram,_histogram_s);
   gen _cumulated_frequencies(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
     gen g0(g);
-    double class_min=class_minimum,class_s=class_size;
+    double class_min=class_minimum;//,class_s=class_size;
     if (g0.type==_VECT && g0.subtype==_SEQ__VECT && g0._VECTptr->size()==2){
       vecteur v = *g._VECTptr;
       gen tmp=evalf_double(v[1],1,contextptr);
@@ -3938,7 +4030,8 @@ static define_unary_function_eval (__plotlist,&_listplot,_plotlist_s);
   define_unary_function_ptr5( at_plotlist ,alias_at_plotlist,&__plotlist,0,true);
 
   // [[x1 y1] [x2 y2] ...]
-  static gen scatterplot(const gen & g,bool polygone,bool scatter,GIAC_CONTEXT){
+  static gen scatterplot(const gen & g,int mode,GIAC_CONTEXT){
+    bool polygone=mode&1,scatter=mode&2,bar=mode &4;
     vecteur v(gen2vecteur(g));
     vecteur attr(1,default_color(contextptr));
     int s=read_attributs(v,attr,contextptr);
@@ -4008,6 +4101,8 @@ static define_unary_function_eval (__plotlist,&_listplot,_plotlist_s);
 	      res.push_back(it->_VECTptr->front()+cst_i*tmp);
 	    if (scatter)
 	      vres.push_back(symb_pnt_name(it->_VECTptr->front()+cst_i*tmp,attributs[0],string2gen(( (it==v.begin() && !polygone) ?gen2string(attributs[1]):""),false),contextptr));
+	    if (bar)
+	      vres.push_back(symb_segment(it->_VECTptr->front(),it->_VECTptr->front()+cst_i*tmp,attributs,_GROUP__VECT,contextptr));
 	  }
 	}
       }
@@ -4023,7 +4118,7 @@ static define_unary_function_eval (__plotlist,&_listplot,_plotlist_s);
   }
   gen _scatterplot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return scatterplot(g,false,true,contextptr);
+    return scatterplot(g,2,contextptr);
   }
   static const char _scatterplot_s []="scatterplot";
 static define_unary_function_eval (__scatterplot,&_scatterplot,_scatterplot_s);
@@ -4035,7 +4130,7 @@ static define_unary_function_eval (__nuage_points,&_scatterplot,_nuage_points_s)
 
   gen _polygonplot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return scatterplot(g,true,false,contextptr);
+    return scatterplot(g,1,contextptr);
   }
   static const char _polygonplot_s []="polygonplot";
 static define_unary_function_eval (__polygonplot,&_polygonplot,_polygonplot_s);
@@ -4047,7 +4142,7 @@ static define_unary_function_eval (__ligne_polygonale,&_polygonplot,_ligne_polyg
 
   gen _polygonscatterplot(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-    return scatterplot(g,true,true,contextptr);
+    return scatterplot(g,3,contextptr);
   }
   static const char _polygonscatterplot_s []="polygonscatterplot";
 static define_unary_function_eval (__polygonscatterplot,&_polygonscatterplot,_polygonscatterplot_s);
@@ -4056,6 +4151,14 @@ static define_unary_function_eval (__polygonscatterplot,&_polygonscatterplot,_po
   static const char _ligne_polygonale_pointee_s []="ligne_polygonale_pointee";
 static define_unary_function_eval (__ligne_polygonale_pointee,&_polygonscatterplot,_ligne_polygonale_pointee_s);
   define_unary_function_ptr5( at_ligne_polygonale_pointee ,alias_at_ligne_polygonale_pointee,&__ligne_polygonale_pointee,0,true);
+
+  gen _batons(const gen & g,GIAC_CONTEXT){
+    if ( g.type==_STRNG && g.subtype==-1) return  g;
+    return scatterplot(g,4,contextptr);
+  }
+  static const char _batons_s []="batons";
+static define_unary_function_eval (__batons,&_batons,_batons_s);
+  define_unary_function_ptr5( at_batons ,alias_at_batons,&__batons,0,true);
 
   static gen read_camembert_args(const gen & g,vecteur & vals,vecteur & names,vecteur & attributs,GIAC_CONTEXT){
     if (g.type!=_VECT)
@@ -5239,13 +5342,13 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
     if (!is_squarematrix(A) || b.type!=_VECT)
       return gensizeerr(contextptr);
     int n=A._VECTptr->size();
-    if (n!=b._VECTptr->size())
+    if (n!=int(b._VECTptr->size()))
       return gensizeerr(contextptr);
     vecteur x0(n);
     gen eps;
     if (s>=3){
       if (v[2].type==_VECT){
-	if (v[2]._VECTptr->size()!=n)
+	if (int(v[2]._VECTptr->size())!=n)
 	  return gensizeerr(contextptr);
 	x0=*v[2]._VECTptr;
 	if (s>3)
@@ -5523,7 +5626,7 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
 	}
       }
       if (z.empty()){
-	w=vecteur(m.size(),evalf(1,1,contextptr)/int(m.size())),z; // initial guess
+	w=vecteur(m.size(),evalf(1,1,contextptr)/int(m.size())); // initial guess
 	for (;;){
 	  multmatvecteur(m,w,z);
 	  if (is_greater(eps,l1norm(w-z,contextptr),contextptr))
@@ -5817,6 +5920,50 @@ static define_unary_function_eval (__os_version,&_os_version,_os_version_s);
   static define_unary_function_eval (__evalfa,&_evalfa,_evalfa_s);
   define_unary_function_ptr5( at_evalfa ,alias_at_evalfa,&__evalfa,0,true);
 
+  gen _Li(const gen & args,GIAC_CONTEXT){
+    return _Ei(ln(args,contextptr),contextptr);
+  }
+  static const char _Li_s []="Li";
+  static define_unary_function_eval (__Li,&_Li,_Li_s);
+  define_unary_function_ptr5( at_Li ,alias_at_Li,&__Li,0,true);
+
+  bool is_sparse_matrix(const gen & g,int & nrows,int & ncols,int & n){
+    if (g.type!=_MAP)
+      return false;
+    nrows=0;ncols=0;n=0;
+    gen_map & m=*g._MAPptr;
+    gen_map::const_iterator it=m.begin(),itend=m.end();
+    for (;it!=itend;++n,++it){
+      gen g=it->first;
+      if (g.type!=_VECT || g._VECTptr->size()!=2)
+	return false;
+      gen l=g._VECTptr->front();
+      gen c=g._VECTptr->back();
+      if (!is_integral(l) || !is_integral(c) || l.val<0 || c.val<0)
+	return false;
+      if (nrows<=l.val)
+	nrows=l.val+1;
+      if (ncols<=c.val)
+	ncols=c.val+1;
+    }
+    return true;
+  }
+
+  bool is_sparse_vector(const gen & g,int & nrows,int & n){
+    if (g.type!=_MAP)
+      return false;
+    nrows=0;n=0;
+    gen_map & m=*g._MAPptr;
+    gen_map::const_iterator it=m.begin(),itend=m.end();
+    for (;it!=itend;++n,++it){
+      gen l=it->first;
+      if (!is_integral(l) || l.val<0)
+	return false;
+      if (nrows<=l.val)
+	nrows=l.val+1;
+    }
+    return true;
+  }
 
 #if 0
   // Small graphs, not tested

@@ -455,7 +455,7 @@ namespace giac {
 #ifdef __x86_64__
       return (unary_function_eval *) (((ulonglong ) _ptr) & 0xfffffffffffffffc);
 #else
-      return (unary_function_eval *) (((unsigned long) _ptr) & 0xfffffffc);
+      return (unary_function_eval *) (((size_t) _ptr) & 0xfffffffc);
 #endif
     }
 #else // NO_UNARY_FUNCTION_COMPOSE
@@ -464,7 +464,7 @@ namespace giac {
 #ifdef __x86_64__
       return (unary_function_abstract *) (((ulonglong ) _ptr) & 0xfffffffffffffffc);
 #else
-      return (unary_function_abstract *) (((unsigned long) _ptr) & 0xfffffffc);
+      return (unary_function_abstract *) (((size_t) _ptr) & 0xfffffffc);
 #endif
     }
 #endif // NO_UNARY_FUNCTION_COMPOSE
@@ -474,7 +474,7 @@ namespace giac {
 #ifdef __x86_64__
       return ((ulonglong)(_ptr) & 0xfffffffffffffffc)  == ((ulonglong)( u._ptr) & 0xfffffffffffffffc ); 
 #else
-      return ((unsigned long)(_ptr) & 0xfffffffc) == ((unsigned long)(u._ptr) & 0xfffffffc); 
+      return ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u._ptr) & 0xfffffffc); 
 #endif
     }
     inline bool operator !=(const unary_function_ptr & u) const { return !(*this==u); }
@@ -483,7 +483,7 @@ namespace giac {
 #ifdef __x86_64__
       return u && ( ((ulonglong)(_ptr) & 0xfffffffffffffffc) == ((ulonglong)(u->_ptr) & 0xfffffffffffffffc) ); 
 #else
-      return u && ( ((unsigned long)(_ptr) & 0xfffffffc) == ((unsigned long)(u->_ptr) & 0xfffffffc ) ); 
+      return u && ( ((size_t)(_ptr) & 0xfffffffc) == ((size_t)(u->_ptr) & 0xfffffffc ) ); 
 #endif
     }
     inline bool operator !=(const unary_function_ptr * u) const { return !(*this==u); }
@@ -542,7 +542,7 @@ namespace giac {
     };
     inline volatile int & ref_count() const { 
 #ifdef SMARTPTR64
-      return ((ref_mpz_t *) ((* (longlong *) (this))>>16))->ref_count;
+      return ((ref_mpz_t *) ((* (ulonglong *) (this))>>16))->ref_count;
 #else
       return __ZINTptr->ref_count;
 #endif
@@ -557,12 +557,12 @@ namespace giac {
 #ifdef COMPILE_FOR_STABILITY
       control_c();
 #endif
-      longlong __POINTERptr = (longlong ) new ref_void_pointer(ptr); 
+      ulonglong __POINTERptr = (ulonglong ) new ref_void_pointer(ptr); 
 #ifndef NO_STDEXCEPT
       if (__POINTERptr & 0xffff000000000000)
 	setsizeerr(gettext("Pointer out of range"));
 #endif
-      * ((longlong *) this) = __POINTERptr << 16;
+      * ((ulonglong *) this) = __POINTERptr << 16;
       subtype=subt;
       type=_POINTER_;
     };
@@ -595,8 +595,8 @@ namespace giac {
 #ifdef DOUBLEVAL
     gen(double d): type(_DOUBLE_),_DOUBLE_val(d) {};
 #else
-    // Warning this does not work on ia64 with -O2
-    gen(double d) { *((double *) this) = d; type=_DOUBLE_; };
+    // may not work on ia64 with -O2
+    gen(double d);
 #endif
     gen(const giac_float & f);
 #ifdef BCD
@@ -771,18 +771,18 @@ namespace giac {
 
 
 #ifdef SMARTPTR64
-#define define_alias_gen(name,type,subtype,ptr) alias_gen name={(longlong(ptr) << 16) | (subtype << 8) | type };
-#define define_alias_ref_symbolic(name,sommet,type,subtype,ptr) alias_ref_symbolic name={-1,(unary_function_eval *)sommet,(longlong(ptr) << 16) | (subtype << 8) | type};
-#define define_alias_ref_fraction(name,numtype,numsubtype,numptr,dentype,densubtype,denptr) alias_ref_fraction name={-1,{(longlong(numptr) << 16) | (numsubtype << 8) | numtype },{(longlong(denptr) << 16) | (densubtype << 8) | dentype }};
-#define define_alias_ref_complex(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_ref_complex name={-1,0,{(longlong(reptr) << 16) | (resubtype << 8) | retype },{(longlong(imptr) << 16) | (imsubtype << 8) | imtype }};
-#define define_tab2_alias_gen(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_gen name[]={{(longlong(reptr) << 16) | (resubtype << 8) | retype },{(longlong(imptr) << 16) | (imsubtype << 8) | imtype }};
+#define define_alias_gen(name,type,subtype,ptr) alias_gen name={(ulonglong(ptr) << 16) | (subtype << 8) | type };
+#define define_alias_ref_symbolic(name,sommet,type,subtype,ptr) alias_ref_symbolic name={-1,(unary_function_eval *)sommet,(ulonglong(ptr) << 16) | (subtype << 8) | type};
+#define define_alias_ref_fraction(name,numtype,numsubtype,numptr,dentype,densubtype,denptr) alias_ref_fraction name={-1,{(ulonglong(numptr) << 16) | (numsubtype << 8) | numtype },{(ulonglong(denptr) << 16) | (densubtype << 8) | dentype }};
+#define define_alias_ref_complex(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_ref_complex name={-1,0,{(ulonglong(reptr) << 16) | (resubtype << 8) | retype },{(ulonglong(imptr) << 16) | (imsubtype << 8) | imtype }};
+#define define_tab2_alias_gen(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_gen name[]={{(ulonglong(reptr) << 16) | (resubtype << 8) | retype },{(ulonglong(imptr) << 16) | (imsubtype << 8) | imtype }};
 #else // SMARTPTR64
 #ifdef DOUBLEVAL
-#define define_alias_gen(name,type,subtype,ptr) alias_gen name={type,subtype,0,longlong(ptr)};
-#define define_alias_ref_symbolic(name,sommet,type,subtype,ptr) alias_ref_symbolic name={-1,(unary_function_eval *)sommet,type,subtype,0,longlong(ptr)};
-#define define_alias_ref_fraction(name,numtype,numsubtype,numptr,dentype,densubtype,denptr) alias_ref_fraction name={-1,{numtype,numsubtype,0,longlong(numptr)},{dentype,densubtype,0,longlong(denptr)}};
-#define define_alias_ref_complex(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_ref_complex name={-1,0,{retype,resubtype,0,longlong(reptr)},{imtype,imsubtype,0,longlong(imptr)}};
-#define define_tab2_alias_gen(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_gen name[]={{retype,resubtype,0,longlong(reptr)},{imtype,imsubtype,0,longlong(imptr)}};
+#define define_alias_gen(name,type,subtype,ptr) alias_gen name={type,subtype,0,ulonglong(ptr)};
+#define define_alias_ref_symbolic(name,sommet,type,subtype,ptr) alias_ref_symbolic name={-1,(unary_function_eval *)sommet,type,subtype,0,ulonglong(ptr)};
+#define define_alias_ref_fraction(name,numtype,numsubtype,numptr,dentype,densubtype,denptr) alias_ref_fraction name={-1,{numtype,numsubtype,0,ulonglong(numptr)},{dentype,densubtype,0,ulonglong(denptr)}};
+#define define_alias_ref_complex(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_ref_complex name={-1,0,{retype,resubtype,0,ulonglong(reptr)},{imtype,imsubtype,0,ulonglong(imptr)}};
+#define define_tab2_alias_gen(name,retype,resubtype,reptr,imtype,imsubtype,imptr) alias_gen name[]={{retype,resubtype,0,ulonglong(reptr)},{imtype,imsubtype,0,ulonglong(imptr)}};
 #else // DOUBLEVAL
 #define define_alias_gen(name,type,subtype,ptr) alias_gen name={type,subtype,0,long(ptr)};
 #define define_alias_ref_symbolic(name,sommet,type,subtype,ptr) alias_ref_symbolic name={-1,(unary_function_eval *)sommet,type,subtype,0,long(ptr)};
@@ -1347,24 +1347,24 @@ namespace giac {
 #endif
 
 #ifdef SMARTPTR64
-  inline mpz_t * gen::ref_ZINTptr() const { return & ((ref_mpz_t *) (* (longlong *) this >> 16))->z ; }
-  inline real_object * gen::ref_REALptr() const { return & ((ref_real_object *) (* (longlong *) this >> 16)) ->r; }
-  inline gen * gen::ref_CPLXptr() const { return & ((ref_complex *)(* (longlong *) this >> 16))->re; }
-  inline gen * gen::ref_MODptr () const { return & ((ref_modulo *)(* (longlong *) this >> 16))->n; }
-  inline gen * gen::ref_EXTptr () const { return & ((ref_algext *)(* (longlong *) this >> 16))->P; }
-  inline vecteur * gen::ref_VECTptr() const { return &((ref_vecteur*)(* (longlong *) this >> 16))->v; }
-  inline sparse_poly1 * gen::ref_SPOL1ptr() const { return &((ref_sparse_poly1*)(* (longlong *) this >> 16))->s; }
-  inline std::string * gen::ref_STRNGptr() const { return &((ref_string*)(* (longlong *) this >> 16))->s; }
-  inline gen_user * gen::ref_USERptr() const { return ((ref_gen_user*)(* (longlong *) this >> 16))->u; }
-  inline gen_map * gen::ref_MAPptr() const { return &((ref_gen_map*)(* (longlong *) this >> 16))->m; }
-  inline eqwdata * gen::ref_EQWptr() const { return &((ref_eqwdata*)(* (longlong *) this >> 16))->e; }
-  inline grob * gen::ref_GROBptr() const { return &((ref_grob*)(* (longlong *) this >> 16))->g; }
-  inline void * gen::ref_POINTER_val() const { return ((ref_void_pointer*)(* (longlong *) this >> 16))->p; }
-  inline Tfraction<gen> * gen::ref_FRACptr() const { return &((ref_fraction *)(* (longlong *) this >> 16))->f; }
-  inline polynome * gen::ref_POLYptr() const { return &((ref_polynome*)(* (longlong *) this >> 16))->t; }
-  inline identificateur * gen::ref_IDNTptr() const {return &((ref_identificateur*)(* (longlong *) this >> 16))->i; }
-  inline symbolic * gen::ref_SYMBptr() const { return &((ref_symbolic*)(* (longlong *) this >> 16))->s; }
-  inline unary_function_ptr * gen::ref_FUNCptr() const { return &((ref_unary_function_ptr*)(* (longlong *) this >> 16))->u; }
+  inline mpz_t * gen::ref_ZINTptr() const { return & ((ref_mpz_t *) (* (ulonglong *) this >> 16))->z ; }
+  inline real_object * gen::ref_REALptr() const { return & ((ref_real_object *) (* (ulonglong *) this >> 16)) ->r; }
+  inline gen * gen::ref_CPLXptr() const { return & ((ref_complex *)(* (ulonglong *) this >> 16))->re; }
+  inline gen * gen::ref_MODptr () const { return & ((ref_modulo *)(* (ulonglong *) this >> 16))->n; }
+  inline gen * gen::ref_EXTptr () const { return & ((ref_algext *)(* (ulonglong *) this >> 16))->P; }
+  inline vecteur * gen::ref_VECTptr() const { return &((ref_vecteur*)(* (ulonglong *) this >> 16))->v; }
+  inline sparse_poly1 * gen::ref_SPOL1ptr() const { return &((ref_sparse_poly1*)(* (ulonglong *) this >> 16))->s; }
+  inline std::string * gen::ref_STRNGptr() const { return &((ref_string*)(* (ulonglong *) this >> 16))->s; }
+  inline gen_user * gen::ref_USERptr() const { return ((ref_gen_user*)(* (ulonglong *) this >> 16))->u; }
+  inline gen_map * gen::ref_MAPptr() const { return &((ref_gen_map*)(* (ulonglong *) this >> 16))->m; }
+  inline eqwdata * gen::ref_EQWptr() const { return &((ref_eqwdata*)(* (ulonglong *) this >> 16))->e; }
+  inline grob * gen::ref_GROBptr() const { return &((ref_grob*)(* (ulonglong *) this >> 16))->g; }
+  inline void * gen::ref_POINTER_val() const { return ((ref_void_pointer*)(* (ulonglong *) this >> 16))->p; }
+  inline Tfraction<gen> * gen::ref_FRACptr() const { return &((ref_fraction *)(* (ulonglong *) this >> 16))->f; }
+  inline polynome * gen::ref_POLYptr() const { return &((ref_polynome*)(* (ulonglong *) this >> 16))->t; }
+  inline identificateur * gen::ref_IDNTptr() const {return &((ref_identificateur*)(* (ulonglong *) this >> 16))->i; }
+  inline symbolic * gen::ref_SYMBptr() const { return &((ref_symbolic*)(* (ulonglong *) this >> 16))->s; }
+  inline unary_function_ptr * gen::ref_FUNCptr() const { return &((ref_unary_function_ptr*)(* (ulonglong *) this >> 16))->u; }
 #else // SMARTPTR64
   inline mpz_t * gen::ref_ZINTptr() const { return &__ZINTptr->z; }
   inline real_object * gen::ref_REALptr() const { return &__REALptr->r; }

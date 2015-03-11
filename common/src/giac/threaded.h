@@ -53,7 +53,7 @@
 #include <gmpxx.h>
 #endif
 
-#ifdef HAVE_SYS_TIME_H
+#if defined HAVE_SYS_TIME_H && !defined VISUALC13
 #include <time.h>
 #else
 #define clock_t int
@@ -281,6 +281,7 @@ namespace giac {
     T_unsigned(const T & myg,const U & myu): g(myg),u(myu) {};
     T_unsigned(): g(0),u(0) {};
     bool operator == (const T_unsigned<T,U> & tu) const { return g==tu.g && u==tu.u; }
+    bool operator !=(const T_unsigned<T,U> & tu) const { return g==tu.g && u!=tu.u; }
   };
 
   // warning, < is > so that monomial ordering is ok after back-conversion

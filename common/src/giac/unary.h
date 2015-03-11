@@ -99,7 +99,7 @@ namespace giac {
 
   struct alias_unary_function_eval {
     const char * s;
-    const unsigned long D; // By convention D==0 means there is no derivative
+    const size_t D; // By convention D==0 means there is no derivative
     taylortype series_expansion;
     // how to print: gen is the argument of the unary function, string should
     // normally be s

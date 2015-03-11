@@ -49,6 +49,7 @@ namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
   extern const unary_function_ptr * const  at_sphere ;
+  extern const unary_function_ptr * const  at_cylindre ;
   extern const unary_function_ptr * const  at_plan ;
   gen hypersurface(const gen & args,const gen & equation,const gen & vars);
   gen do_point3d(const gen & g);

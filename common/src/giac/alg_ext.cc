@@ -516,14 +516,14 @@ namespace giac {
     reverse(v.begin(),v.end());
     // remove denominators
     gen e;
-    lcmdeno(v,e,contextptr);
+    lcmdeno_converted(v,e,contextptr);
     // use column na*nb+1 to find b=theta2 in terms of theta
     vecteur w(na*nb);
     for (int i=0;i<na*nb;++i)
       w[i]=m[i][na*nb+1];
     reverse(w.begin(),w.end());
     w=trim(w,0);
-    lcmdeno(w,e,contextptr);
+    lcmdeno_converted(w,e,contextptr);
     b=fraction(w,e);
     // to get a=theta1 we use column na*nb+2
     w=vecteur(na*nb);
@@ -531,7 +531,7 @@ namespace giac {
       w[i]=m[i][na*nb+2];
     reverse(w.begin(),w.end());
     w=trim(w,0);
-    lcmdeno(w,e,contextptr);
+    lcmdeno_converted(w,e,contextptr);
     a=fraction(w,e);    
     // convert to algebraic extensions
     gen vg(v);
@@ -725,7 +725,7 @@ namespace giac {
       for (;f_it!=f_itend;++f_it){
 	vecteur vtmp(polynome2poly1(f_it->fact));
 	gen tmp;
-	lcmdeno(vtmp,tmp,contextptr);
+	lcmdeno_converted(vtmp,tmp,contextptr);
 	int maxsave=max_sum_sqrt(contextptr);
 	max_sum_sqrt(0,contextptr);
 	if (innerdim)
@@ -1056,7 +1056,11 @@ namespace giac {
     if (ck_is_strictly_greater(a,b,contextptr))
       return sturmab(g,x,b,a,contextptr);
     if (a==b){
-      gen tmp=subst(g,x,a,false,contextptr);
+      gen tmp;
+      if (is_inf(a) && x.type==_IDNT)
+	tmp=limit(g,*x._IDNTptr,a,0,contextptr);
+      else
+	tmp=subst(g,x,a,false,contextptr);
       int s=fastsign(tmp,contextptr);
       if (s==1 || s==-1)
 	return (s-1)/2;
@@ -1330,7 +1334,7 @@ namespace giac {
       giac_assume(symbolic(at_and,makevecteur(symb_superieur_egal(var,range[0]),symb_inferieur_egal(var,range[1]))),contextptr);
       w=solve(df,var,2,contextptr);
       if (savevar==var)
-	_purge(var,contextptr);
+	purgenoassume(var,contextptr);
       else
 	sto(savevar,var,contextptr);
     }

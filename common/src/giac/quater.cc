@@ -795,11 +795,12 @@ namespace giac {
     factorization sqff_f(squarefree_fp(p,env.modulo.val,exposant));
     if (!sqff_ffield_factor(sqff_f,env.modulo.val,&env,f))
       return gensizeerr(gettext("GF polyfactor"));
-    f.push_back(facteur<polynome>(
-				  polynome(
-					   monomial<gen>(lcoeff,0,p.dim)
-					   ),
-				  1));
+    if (!giac::is_one(lcoeff))
+      f.push_back(facteur<polynome>(
+				    polynome(
+					     monomial<gen>(lcoeff,0,p.dim)
+					     ),
+				    1));
     return 0;
   }
 

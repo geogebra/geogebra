@@ -44,10 +44,10 @@ namespace giac {
     CERR << ptr()->s << endl; 
   }
 
-#ifdef __x86_64__
+#if 0 // def __x86_64__
   bool unary_function_ptr::quoted() const { return (ptr()->index_quoted_function & 0x1) || ( ((longlong) _ptr) & 0x1); }
 #else
-  bool unary_function_ptr::quoted() const { return (ptr()->index_quoted_function & 0x1) || ( ((long) _ptr) & 0x1); }
+  bool unary_function_ptr::quoted() const { return (ptr()->index_quoted_function & 0x1) || ( ((size_t) _ptr) & 0x1); }
 #endif
 
   /*
@@ -75,7 +75,7 @@ namespace giac {
 #ifdef NO_UNARY_FUNCTION_COMPOSE
   unary_function_ptr::unary_function_ptr(const unary_function_eval * myptr,int myquoted,int parser_token): _ptr(myptr){
     if (myquoted)
-      *((unsigned long *) &_ptr) |= 0x1;
+      *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
@@ -83,7 +83,7 @@ namespace giac {
 
   unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((const unary_function_eval *)myptr) {     
     if (myquoted)
-      *((unsigned long *) &_ptr) |= 0x1;
+      *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
@@ -125,7 +125,7 @@ namespace giac {
 #else //  NO_UNARY_FUNCTION_COMPOSE
   unary_function_ptr::unary_function_ptr(const unary_function_abstract * myptr,int myquoted,int parser_token): _ptr(myptr){
     if (myquoted)
-      *((unsigned long *) &_ptr) |= 0x1;
+      *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));
@@ -133,7 +133,7 @@ namespace giac {
 
   unary_function_ptr::unary_function_ptr(const alias_unary_function_eval * myptr,int myquoted,int parser_token):_ptr((const unary_function_abstract *)myptr) {     
     if (myquoted)
-      *((unsigned long *) &_ptr) |= 0x1;
+      *((size_t *) &_ptr) |= 0x1;
     if (parser_token)
       if (!lexer_functions_register(*this,myptr->s,parser_token))
 	setsizeerr(gettext("Unable to register ")+string(myptr->s));

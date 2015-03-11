@@ -35,6 +35,10 @@ diff plot.c plot.c~
 
 using namespace std;
 #ifndef NSPIRE
+#ifdef VISUALC13
+#undef clock
+#undef clock_t
+#endif
 #include <iomanip>
 #endif
 #include <fstream>
@@ -109,7 +113,7 @@ namespace giac {
 #ifdef IPAQ
   double gnuplot_xmin=-4,gnuplot_xmax=4,gnuplot_ymin=-4,gnuplot_ymax=4,gnuplot_zmin=-5,gnuplot_zmax=5,gnuplot_tmin=-6,gnuplot_tmax=6,gnuplot_tstep=0.3;
 #else
-  double gnuplot_xmin=-5,gnuplot_xmax=5,gnuplot_ymin=-5,gnuplot_ymax=5,gnuplot_zmin=-5,gnuplot_zmax=5,gnuplot_tmin=-6,gnuplot_tmax=6,gnuplot_tstep=0.3;
+  double gnuplot_xmin=-5,gnuplot_xmax=5,gnuplot_ymin=-5,gnuplot_ymax=5,gnuplot_zmin=-5,gnuplot_zmax=5,gnuplot_tmin=-6,gnuplot_tmax=6,gnuplot_tstep=0.1;
 #endif
   double global_window_xmin(gnuplot_xmin),global_window_xmax(gnuplot_xmax),global_window_ymin(gnuplot_ymin),global_window_ymax(gnuplot_ymax);
   double x_tick(1.0),y_tick(1.0);
@@ -5444,21 +5448,21 @@ namespace giac {
     if (interactive_op_tab && interactive_op_tab[3])
       return interactive_op_tab[3](args,contextptr);
     if ( args.type==_STRNG && args.subtype==-1) return  args;
-#ifdef HAVE_SIGNAL_H_OLD
     vecteur v(gen2vecteur(args));
     int vs=v.size();
     if (vs>1)
       v[1]=eval(v[1],contextptr);
     gen res;
-#ifdef WIN32
+#if 1 // def WIN32
     COUT << "// " << args ;
     string s;
-    cin >> s;
+    CIN >> s;
     if (vs==4)
       res=string2gen(s,false);
     else
       res=gen(s,contextptr);
 #else
+#ifdef HAVE_SIGNAL_H_OLD
     if (child_id){ 
       COUT << "// " << args;
       string s;
@@ -5485,6 +5489,9 @@ namespace giac {
       child_in.close();
       // CERR << "Click reads " << res << endl;
     }
+#else // HAVE_SIGNAL_H_OLD
+    return undef;
+#endif // HAVE_SIGNAL_H_OLD
 #endif //WIN32
     if (vs>2 && !is_zero(v[2])){
       if (res.type==_VECT){
@@ -5506,9 +5513,6 @@ namespace giac {
     }
     else
       return res;
-#else // HAVE_SIGNAL_H_OLD
-    return undef;
-#endif 
   }
   static const char _click_s []="click";
 #ifdef RTOS_THREADX
@@ -6111,7 +6115,7 @@ namespace giac {
 	    // rewrite_with_t_real(Ny,gen_t,contextptr);
 	  }
 	}
-	_purge(gen_t,contextptr);
+	purgenoassume(gen_t,contextptr);
 	if (lvarxpow(N,gen_t).size()==1){
 	  // print resultant
 	  gen x(identificateur("x")),y(identificateur("y")),z(identificateur("z"));
@@ -7699,7 +7703,7 @@ namespace giac {
     }
     else {
       int nd;
-      if (nd=is_distribution(g)){
+      if (nd==is_distribution(g)){
 	if (is_discrete_distribution(nd))
 	  return _histogram(g,contextptr);
       }
@@ -8042,7 +8046,7 @@ namespace giac {
   static gen equation(const gen & arg,const gen & x,const gen & y, const gen & z,GIAC_CONTEXT){
     if (arg.type==_VECT){
       vecteur res;
-      const_iterateur it=arg._VECTptr->begin(),itbeg=it,itend=arg._VECTptr->end();
+      const_iterateur it=arg._VECTptr->begin(),itend=arg._VECTptr->end();
       gen prev;
       for (;it!=itend;++it){
 	gen tmp=equation(*it,x,y,z,contextptr);
@@ -10835,7 +10839,7 @@ namespace giac {
       return put_attributs(lieu_geo,attributs,contextptr);
     // make a lattice between gnuplot_xmin/gnuplot_xmax and ymin/ymax
     // find zeros of f inside each square and follow the branches
-    bool is_regular=lop(f_orig,at_abs).empty() && lop(f_orig,at_sign).empty();
+    //bool is_regular=lop(f_orig,at_abs).empty() && lop(f_orig,at_sign).empty();
 #ifndef WIN32
     bool old_iograph=io_graph(contextptr);
     if (thread_eval_status(contextptr)!=1)
@@ -14786,28 +14790,28 @@ namespace giac {
   unary_function_ptr transformation_functions[]={*at_projection,*at_rotation,*at_translation,*at_homothetie,*at_similitude,*at_inversion,*at_symetrie,*at_polaire_reciproque,0};
 
 #else
-  const unsigned long plot_sommets_alias[]={(long)&__pnt,(long)&__parameter,(long)&__cercle,(long)&__curve,(long)&__animation,0};
+  const size_t plot_sommets_alias[]={(size_t)&__pnt,(size_t)&__parameter,(size_t)&__cercle,(size_t)&__curve,(size_t)&__animation,0};
   const unary_function_ptr * const plot_sommets = (const unary_function_ptr *) plot_sommets_alias;
 
-  const unsigned long not_point_sommets_alias[]={(long)&__cercle,(long)&__curve,(long)&__hyperplan,(long)&__hypersphere,(long)&__hypersurface,0};
+  const size_t not_point_sommets_alias[]={(size_t)&__cercle,(size_t)&__curve,(size_t)&__hyperplan,(size_t)&__hypersphere,(size_t)&__hypersurface,0};
   const unary_function_ptr * const not_point_sommets = (const unary_function_ptr *) plot_sommets_alias;
 
-  const unsigned long notexprint_plot_sommets_alias[]={(long)&__funcplot,(long)&__paramplot,(long)&__polarplot,(long)&__implicitplot,(long)&__contourplot,(long)&__odeplot,(long)&__interactive_odeplot,(long)&__fieldplot,(long)&__seqplot,(long)&__ellipse,(long)&__hyperbole,(long)&__parabole,0};
+  const size_t notexprint_plot_sommets_alias[]={(size_t)&__funcplot,(size_t)&__paramplot,(size_t)&__polarplot,(size_t)&__implicitplot,(size_t)&__contourplot,(size_t)&__odeplot,(size_t)&__interactive_odeplot,(size_t)&__fieldplot,(size_t)&__seqplot,(size_t)&__ellipse,(size_t)&__hyperbole,(size_t)&__parabole,0};
   const unary_function_ptr * const notexprint_plot_sommets = (const unary_function_ptr *) notexprint_plot_sommets_alias;
 
-  const unsigned long implicittex_plot_sommets_alias[]={(long)&__plot,(long)&__plot3d,(long)&__plotfunc,(long)&__plotparam,(long)&__plotpolar,(long)&__plotimplicit,(long)&__plotcontour,(long)&__DrawInv,(long)&__DrawFunc,(long)&__DrawParm,(long)&__DrawPol,(long)&__DrwCtour,(long)&__plotode,(long)&__plotfield,(long)&__interactive_plotode,(long)&__plotseq,(long)&__Graph,0};
+  const size_t implicittex_plot_sommets_alias[]={(size_t)&__plot,(size_t)&__plot3d,(size_t)&__plotfunc,(size_t)&__plotparam,(size_t)&__plotpolar,(size_t)&__plotimplicit,(size_t)&__plotcontour,(size_t)&__DrawInv,(size_t)&__DrawFunc,(size_t)&__DrawParm,(size_t)&__DrawPol,(size_t)&__DrwCtour,(size_t)&__plotode,(size_t)&__plotfield,(size_t)&__interactive_plotode,(size_t)&__plotseq,(size_t)&__Graph,0};
   const unary_function_ptr * const implicittex_plot_sommets = (const unary_function_ptr *) implicittex_plot_sommets_alias;
 
-  const unsigned long point_sommet_tab_op_alias[]={(long)&__point,(long)&__element,(long)&__inter_unique,(long)&__centre,(long)&__isobarycentre,(long)&__barycentre,0};
+  const size_t point_sommet_tab_op_alias[]={(size_t)&__point,(size_t)&__element,(size_t)&__inter_unique,(size_t)&__centre,(size_t)&__isobarycentre,(size_t)&__barycentre,0};
   const unary_function_ptr * const point_sommet_tab_op = (const unary_function_ptr *) point_sommet_tab_op_alias;
 
-  const unsigned long nosplit_polygon_function_alias[]={(long)&__inter_unique,(long)&__inter,(long)&__distanceatraw,(long)&__distanceat,(long)&__rotation,(long)&__projection,(long)&__symetrie,(long)&__polaire_reciproque,(long)&__areaat,(long)&__areaatraw,(long)&__perimeterat,(long)&__perimeteratraw,(long)&__slopeat,(long)&__slopeatraw,(long)&__tangent,(long)&__cercle,0};
+  const size_t nosplit_polygon_function_alias[]={(size_t)&__inter_unique,(size_t)&__inter,(size_t)&__distanceatraw,(size_t)&__distanceat,(size_t)&__rotation,(size_t)&__projection,(size_t)&__symetrie,(size_t)&__polaire_reciproque,(size_t)&__areaat,(size_t)&__areaatraw,(size_t)&__perimeterat,(size_t)&__perimeteratraw,(size_t)&__slopeat,(size_t)&__slopeatraw,(size_t)&__tangent,(size_t)&__cercle,0};
   const unary_function_ptr * const nosplit_polygon_function = (const unary_function_ptr *) nosplit_polygon_function_alias;
 
-  const unsigned long measure_functions_alias[]={(long)&__angleat,(long)&__angleatraw,(long)&__areaat,(long)&__areaatraw,(long)&__perimeterat,(long)&__perimeteratraw,(long)&__slopeat,(long)&__slopeatraw,(long)&__distanceat,(long)&__distanceatraw,0};
+  const size_t measure_functions_alias[]={(size_t)&__angleat,(size_t)&__angleatraw,(size_t)&__areaat,(size_t)&__areaatraw,(size_t)&__perimeterat,(size_t)&__perimeteratraw,(size_t)&__slopeat,(size_t)&__slopeatraw,(size_t)&__distanceat,(size_t)&__distanceatraw,0};
   const unary_function_ptr * const measure_functions = (const unary_function_ptr *) measure_functions_alias;
 
-  const unsigned long transformation_functions_alias[]={(long)&__projection,(long)&__rotation,(long)&__translation,(long)&__homothetie,(long)&__similitude,(long)&__inversion,(long)&__symetrie,(long)&__polaire_reciproque,0};
+  const size_t transformation_functions_alias[]={(size_t)&__projection,(size_t)&__rotation,(size_t)&__translation,(size_t)&__homothetie,(size_t)&__similitude,(size_t)&__inversion,(size_t)&__symetrie,(size_t)&__polaire_reciproque,0};
   const unary_function_ptr * const transformation_functions = (const unary_function_ptr *) transformation_functions_alias;
 #endif
 

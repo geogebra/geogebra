@@ -199,11 +199,11 @@ correct_input : exp T_END_INPUT { $$=vecteur(1,$1); }
 
 exp	: T_NUMBER		{$$ = $1;}
 	| T_NUMBER T_SYMBOL %prec T_IMPMULT	{if (is_one($1)) $$=$2; else $$=symbolic(at_prod,gen(makevecteur($1,$2),_SEQ__VECT));}
-	| T_NUMBER T_SYMBOL T_POW exp %prec T_IMPMULT	{if (is_one($1)) $$=symb_pow($2,$4); else $$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$4)),_SEQ__VECT));}
+	| T_NUMBER T_SYMBOL T_POW T_NUMBER %prec T_IMPMULT	{if (is_one($1)) $$=symb_pow($2,$4); else $$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$4)),_SEQ__VECT));}
 	| T_NUMBER T_SYMBOL T_SQ %prec T_IMPMULT	{$$=symbolic(at_prod,gen(makevecteur($1,symb_pow($2,$3)) ,_SEQ__VECT));}
 	| T_NUMBER T_LITERAL %prec T_IMPMULT	{if (is_one($1)) $$=$2; else	$$=symbolic(at_prod,gen(makevecteur($1,$2) ,_SEQ__VECT));}
 	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR	{ $$ =$1*symbolic(*$2._FUNCptr,$4); }
-	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR T_POW exp	{ $$ =$1*symb_pow(symbolic(*$2._FUNCptr,$4),$7); }
+	| T_NUMBER T_UNARY_OP T_BEGIN_PAR exp T_END_PAR T_POW T_NUMBER	{ $$ =$1*symb_pow(symbolic(*$2._FUNCptr,$4),$7); }
 	/* | T_LITERAL T_NUMBER	{$$=symbolic(at_prod,makevecteur($1,$2));} */
 	| T_STRING		{ $$=$1; }
 	| T_EXPRESSION		{ if ($1.type==_FUNC) $$=symbolic(*$1._FUNCptr,gen(vecteur(0),_SEQ__VECT)); else $$=$1; }

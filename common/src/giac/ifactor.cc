@@ -3277,6 +3277,9 @@ namespace giac {
     return true;
   }
 
+  // ithprime(n) is approx invli(n)+invli(sqrt(n))/4 where invli is reciproc.
+  // of Li(x)=Ei(ln(x))
+  // For fast code, cf. https://github.com/kimwalisch/primecount
   static const char _ithprime_s []="ithprime";
   static symbolic symb_ithprime(const gen & args){
     return symbolic(at_ithprime,args);

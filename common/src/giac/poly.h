@@ -586,7 +586,7 @@ namespace giac {
 	add_rem.coord.push_back(it->trunc1());
       }
       else {      // different power do an Horner *
-#if 1 // GIAC_VECTOR
+#ifndef NSPIRE // GIAC_VECTOR
 	rem.TAdd(add_rem,rem); rem *= pow(x0,pui.front()-it->index.front()); 
 #else
 	rem =(add_rem+rem)*pow(x0,pui.front()-it->index.front());
@@ -598,7 +598,7 @@ namespace giac {
     }
     rem.TAdd(add_rem,rem); // rem=(add_rem+rem);
     if (pui.front()){
-#if 1 // GIAC_VECTOR
+#ifndef NSPIRE // GIAC_VECTOR
       rem *= pow(x0,pui.front());
 #else
       rem = rem*pow(x0,pui.front());
@@ -951,7 +951,7 @@ namespace giac {
       if (qdeg){
 	if (it!=itend && it->index.front()==rdeg-1)
 	  a1=Tnextcoeff<T>(it,itend);
-#ifdef GIAC_VECTOR // fix for * on arm compiler
+#if defined GIAC_VECTOR || defined NSPIRE // fix for * on arm compiler
 	tensor<T> tmp(q.dim);
 	tmp.coord=q.coord*b1.coord;
 	a1.TSub(tmp,a1);
@@ -980,7 +980,7 @@ namespace giac {
       }
       */
       quo.TAdd(q,quo); // quo=quo+q;
-#ifdef GIAC_VECTOR
+#if defined GIAC_VECTOR || defined NSPIRE
       tensor<T> tmp(q.dim);
       tmp.coord=q.coord*b.coord;
       r.TSub(tmp,r); // r=r-q*b;       
@@ -1217,26 +1217,35 @@ namespace giac {
     index_m ishift(dim);
     tensor<T> b0(Tfirstcoeff(other));
     for (int i=m;i>=n;--i){
+#ifdef NSPIRE
+      a=a*b0;
+      quo=quo*b0;
+#else
 #ifdef GIAC_VECTOR
       a.coord *= b0.coord; // a.coord = a.coord*b0.coord; // a=a*b0;
       quo.coord *= b0.coord; // quo.coord = quo.coord*b0.coord; // quo=quo*b0;
 #else
       a *= b0; // a=a*b0
       quo *= b0; // quo=quo*b0
-#endif
+#endif // GIAC_VECTOR
+#endif // NSPIRE
       typename std::vector< monomial<T> >::const_iterator it=rem.coord.begin(),itend=rem.coord.end();
       if (it==itend || it->index.front()!=i){
+#ifdef NSPIRE
+	rem=rem*b0;
+#else
 #ifdef GIAC_VECTOR
 	rem.coord *= b0.coord; // rem.coord = rem.coord*b0.coord; // rem=rem*b0;
 #else
 	rem *= b0; // rem=rem*b0;
 #endif
+#endif // NSPIRE
 	continue;
       }
       ishift.front()=i-n;
       const tensor<T> & rem0 = Tfirstcoeff(rem).shift(ishift);
       quo.append(rem0);
-#ifdef GIAC_VECTOR
+#if defined GIAC_VECTOR || defined NSPIRE
       rem.coord = rem.coord*b0.coord; 
       tensor<T> tmp(rem0.dim);
       tmp.coord=rem0.coord*other.coord;
@@ -1527,7 +1536,7 @@ namespace giac {
       int ddeg=m-n;
       if (ddeg<0){
 #if defined RTOS_THREADX || defined BESTA_OS || defined USTL
-    tensor<T> t(a); a=b; b=t;
+	tensor<T> t(a); a=b; b=t;
 #else
 	swap(a,b); // exchange a<->b may occur only at the beginning
 #endif

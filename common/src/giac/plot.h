@@ -86,7 +86,7 @@ enum Fl_Color {	// standard colors
   FL_COLOR_CUBE		= 56
 };
 #else // GIAC_HAS_STO_38
-#include "../../graphics/colors.h"
+#include "../../graphics/Colors.h"
 enum Fl_Color {
   FL_BLACK = ColorBlack,
   FL_WHITE = ColorWhite,
@@ -345,6 +345,7 @@ namespace giac {
   extern const unary_function_ptr * const  at_ordonnee;
 
   gen _cote(const gen & args,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_coordonnees;
   gen _coordonnees(const gen & args,GIAC_CONTEXT);
   gen _coordonnees_polaires(const gen & args,GIAC_CONTEXT);
   gen _coordonnees_rectangulaires(const gen & args,GIAC_CONTEXT);

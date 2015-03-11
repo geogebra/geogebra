@@ -35,6 +35,10 @@ diff plot.c plot.c~
 
 using namespace std;
 #ifndef NSPIRE
+#ifdef VISUALC13
+#undef clock
+#undef clock_t
+#endif
 #include <iomanip>
 #endif
 #include <fstream>
@@ -573,7 +577,9 @@ namespace giac {
     H.subtype=_POINT__VECT;
     vecteur res;
     // Face 1 A B // C E=A+AB+AC
-    res.push_back(makevecteur(A,C,E,B));
+    res.push_back(makevecteur(A,B,E,C));
+    // Face 6 D G // F H
+    res.push_back(makevecteur(D,G,H,F));
     // Face 2 A C // D F=A+AC+AD
     res.push_back(makevecteur(A,D,F,C));
     // Face 3 A B // D G=A+AB+AD
@@ -582,8 +588,6 @@ namespace giac {
     res.push_back(makevecteur(B,E,H,G));
     // Face 5 C E // F H
     res.push_back(makevecteur(C,F,H,E));
-    // Face 6 D G // F H
-    res.push_back(makevecteur(D,G,H,F));
     return polyedre_face(res,attributs,contextptr);
   }
   gen _parallelepipede(const gen & args,GIAC_CONTEXT){

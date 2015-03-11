@@ -20,6 +20,10 @@
 //#include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
+#ifdef __ANDROID__
+using std::vector;
+#endif
+
 using namespace std;
 #include "gen.h"
 #include "gausspol.h"

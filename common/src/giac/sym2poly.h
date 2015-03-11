@@ -40,6 +40,7 @@ namespace giac {
   //  if (is_algebraic_program(args,var,res))
   //    return symbolic(at_program,makevecteur(var,0,_factor(res,contextptr)));
   bool is_algebraic_program(const gen & g,gen & f1,gen & f3);
+  bool has_algebraic_program(const gen & g);
   // return true if g is a program/function
   bool guess_program(gen & g,GIAC_CONTEXT);
 

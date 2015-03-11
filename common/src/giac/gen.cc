@@ -1,6 +1,6 @@
 // -*- mode:C++ ; compile-command: "g++ -I.. -I../include -DHAVE_CONFIG_H -DIN_GIAC -DGIAC_GENERIC_CONSTANTS -fno-strict-aliasing -g -c gen.cc -Wall" -*-
 #include "giacPCH.h"
-#ifdef VISUALC
+#if defined VISUALC || defined VISUALC13
 #undef clock
 #undef clock_t
 #ifndef ConnectivityKit
@@ -177,22 +177,22 @@ namespace giac {
   }  
   
   static void deletefast(void* obj){
-    if ( ((unsigned long)obj >= (unsigned long) &tab24[0]) &&
-	 ((unsigned long)obj < (unsigned long) &tab24[ALLOC24]) ){
-      int pos= ((unsigned long)obj -((unsigned long) &tab24[0]))/sizeof(six_int);
+    if ( ((size_t)obj >= (size_t) &tab24[0]) &&
+	 ((size_t)obj < (size_t) &tab24[ALLOC24]) ){
+      int pos= ((size_t)obj -((size_t) &tab24[0]))/sizeof(six_int);
       freeslot24[pos/32] |= 1 << (pos%32); 
       return;
     }
-    if ( ((unsigned long)obj>=(unsigned long) &tab16[0] ) &&
-	 ((unsigned long)obj<(unsigned long) &tab16[ALLOC16] ) ){
+    if ( ((size_t)obj>=(size_t) &tab16[0] ) &&
+	 ((size_t)obj<(size_t) &tab16[ALLOC16] ) ){
       * (unsigned *) obj= 0;
-      int pos= ((unsigned long)obj -((unsigned long) &tab16[0]))/sizeof(four_int);
+      int pos= ((size_t)obj -((size_t) &tab16[0]))/sizeof(four_int);
       freeslot16[pos/32] |= 1 << (pos%32); 
       return;
     }
-    if ( ((unsigned long)obj>=(unsigned long) &tab32[0]) &&
-	 ((unsigned long)obj<(unsigned long) &tab32[ALLOC32]) ){
-      int pos= ((unsigned long)obj -((unsigned long) &tab32[0]))/sizeof(eight_int);
+    if ( ((size_t)obj>=(size_t) &tab32[0]) &&
+	 ((size_t)obj<(size_t) &tab32[ALLOC32]) ){
+      int pos= ((size_t)obj -((size_t) &tab32[0]))/sizeof(eight_int);
       freeslot32[pos/32] |= 1 << (pos%32); 
     }
     else
@@ -1010,6 +1010,12 @@ namespace giac {
     }
   }
 
+#ifndef DOUBLEVAL
+  gen::gen(double d){ 
+    opaque_double_copy(&d,this); type=_DOUBLE_; 
+  };
+#endif
+
   gen::gen(double a,double b){
     subtype=0;
     // COUT << a << " " << b << " " << epsilon << endl;
@@ -1121,9 +1127,7 @@ namespace giac {
 #ifdef DOUBLEVAL
     return _DOUBLE_val;
 #else
-    longlong r = * (longlong *)(this) ;
-    (* (gen *) (&r)).type = 0;
-    return * (double *)(&r); 
+    return opaque_double_val(this);
 #endif
   }
 
@@ -1207,7 +1211,7 @@ namespace giac {
 #ifdef SMARTPTR64
     * ((longlong * ) this) = longlong(new ref_unary_function_ptr(*f)) << 16;
 #else
-    _FUNC_ = (unsigned long) (* (unsigned long*) f);
+    _FUNC_ = (size_t) (* (size_t*) f);
     // __FUNCptr= new ref_unary_function_ptr(f);
 #endif
     type=_FUNC;
@@ -1218,7 +1222,7 @@ namespace giac {
 #ifdef SMARTPTR64
     * ((longlong * ) this) = longlong(new ref_unary_function_ptr(f)) << 16;
 #else
-    _FUNC_ = (unsigned long)(* (unsigned long *) &f);
+    _FUNC_ = (size_t)(* (size_t *) &f);
     // __FUNCptr= new ref_unary_function_ptr(f);
 #endif
     type=_FUNC;
@@ -1252,7 +1256,7 @@ namespace giac {
 
   gen::~gen() {  
     if ( type>_DOUBLE_ && type!=_FLOAT_
-#ifndef SMARTPTR64
+#if !defined SMARTPTR64 || defined STATIC_BUILTIN_LEXER_FUNCTIONS
 	 && type!=_FUNC 
 #endif
 	 ){
@@ -1401,8 +1405,11 @@ namespace giac {
 
   gen & gen::operator = (const gen & a) { 
     if (a.type>_DOUBLE_ && a.type!=_FLOAT_ 
-#ifdef SMARTPTR64
+#if defined SMARTPTR64 
 	&& (*((longlong *) &a) >> 16)
+#if defined STATIC_BUILTIN_LEXER_FUNCTIONS
+	&& a.type!=_FUNC
+#endif
 #else
 	&& a.type!=_FUNC && a.__ZINTptr
 #endif
@@ -1436,7 +1443,7 @@ namespace giac {
     type=a.type;
     // Now we delete the target 
     if ( type_save>_DOUBLE_ && type_save!=_FLOAT_
-#ifndef SMARTPTR64
+#if !defined SMARTPTR64 || defined STATIC_BUILTIN_LEXER_FUNCTIONS
 	 && type_save!=_FUNC 
 #endif
 	 ){
@@ -1822,8 +1829,7 @@ namespace giac {
       // convert to MPFI real_interval
       gen l=eval(g._VECTptr->front(),level,contextptr),u=eval(g._VECTptr->back(),level,contextptr);
       if (is_strictly_greater(l,u,contextptr)){
-	l=g._VECTptr->back();
-	u=g._VECTptr->front();
+	swapgen(l,u);
       }
       bool lexact=is_integer(l),uexact=is_integer(u);
       gen ul=u-l;
@@ -1834,7 +1840,9 @@ namespace giac {
 	  ul=int(3.2*decimal_digits(contextptr));
       }
       else {
-	ul=ln(abs(evalf(u-l,1,contextptr),contextptr),contextptr);
+	ul=u-l;
+	ul=2*ul/(abs(u,contextptr)+abs(l,contextptr));
+	ul=ln(abs(evalf(ul,1,contextptr),contextptr),contextptr);
 	ul=-_ceil(ul/ln(evalf(2,1,contextptr),contextptr),contextptr);
       }
       int nbits=53;
@@ -1859,7 +1867,7 @@ namespace giac {
 	  u=(1.+(u._DOUBLE_val>0?(epsilon):(-epsilon)))*u;
       }
       else { // do the same for MPFR
-	gen epsilon=pow(plus_two,nbits-2,contextptr);
+	gen epsilon=pow(plus_two,nbits-2,contextptr); // nbits-3?
 	epsilon=fraction(1,epsilon);
 	if (!lexact){
 	  if (is_positive(l,contextptr))
@@ -1948,8 +1956,8 @@ namespace giac {
 #if !defined(WIN32) && defined(HAVE_PTHREAD_H)
 	if (contextptr && thread_param_ptr(contextptr)->stackaddr){
 	  // CERR << &slevel << " " << thread_param_ptr(contextptr)->stackaddr << endl;
-	  if ( ((unsigned long) &slevel) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+65536){
-	    if ( ((unsigned long) &slevel) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+8192){
+	  if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+65536){
+	    if ( ((size_t) &slevel) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+8192){
 	      gensizeerr(gettext("Too many recursion levels"),evaled); // two many recursion levels
 	      return true;
 	    }
@@ -2123,7 +2131,7 @@ namespace giac {
 	mpfr_set_default_prec(nbits);
       mpfr_t pi;
       mpfr_init(pi);
-      mpfr_const_pi(pi,GMP_RNDN);
+      mpfr_const_pi(pi,MPFR_RNDN);
 #ifdef HAVE_LIBPTHREAD
       if (!locked)
 	pthread_mutex_unlock(&mpfr_mutex);
@@ -2152,7 +2160,7 @@ namespace giac {
 	mpfr_set_default_prec(nbits);
       mpfr_t euler_gamma;
       mpfr_init(euler_gamma);
-      mpfr_const_euler(euler_gamma,GMP_RNDN);
+      mpfr_const_euler(euler_gamma,MPFR_RNDN);
 #ifdef HAVE_LIBPTHREAD
       if (!locked)
 	pthread_mutex_unlock(&mpfr_mutex);
@@ -2746,7 +2754,7 @@ namespace giac {
   }
 
   bool is_atomic(const gen & e){
-    return e.type<_POLY || e.type==_FLOAT_;
+    return e.type<_POLY || e.type==_FLOAT_ || e.type==_USER;
   }
 
   static vecteur _VECTconj(const vecteur & a,GIAC_CONTEXT){
@@ -3130,6 +3138,20 @@ namespace giac {
       r=cos(imf,contextptr)*sinh(ref,contextptr);
       i=sin(imf,contextptr)*cosh(ref,contextptr);
       return;
+    }
+    if (u==at_floor || u==at_ceil || u==at_round){
+      r=u(ref,contextptr);
+      i=u(imf,contextptr);
+      return;
+    }
+    if (u==at_Si && is_zero(imf)){
+      r=_Si(ref,contextptr); return;
+    }
+    if (u==at_Ei && is_zero(imf)){
+      r=_Ei(ref,contextptr); return;
+    }
+    if (u==at_Ci && is_zero(imf) && is_greater(ref,0,contextptr)){
+      r=_Ci(ref,contextptr); return;
     }
     r=new_ref_symbolic(symbolic(at_re,gen(s)));
     i=new_ref_symbolic(symbolic(at_im,gen(s)));
@@ -5261,7 +5283,7 @@ namespace giac {
       mpz_t & by=*((b._CPLXptr+1)->_ZINTptr);
       // (ax+i*ay)*(bx+i*by)=ax*bx-ay*by+i*(ax*by+ay*bx)
       // imaginary part is also (ax+ay)*(bx+by)-ax*bx-ay*by, Karatsuba trick
-      mpz_t axbx,ayby,bx_by,r;
+      mpz_t axbx,ayby,r;
 #ifdef USE_GMP_REPLACEMENTS
       mpz_init(axbx); mpz_init(ayby); mpz_init(r);
 #else
@@ -5292,19 +5314,19 @@ namespace giac {
 	  !dynamic_cast<real_interval *>(&ay) ||
 	  !dynamic_cast<real_interval *>(&bx) ||
 	  !dynamic_cast<real_interval *>(&by) ){
-	mpfr_t axbx,ayby,bx_by,r;
+	mpfr_t axbx,ayby,r;
 	int nbits=mpfr_get_prec(ax.inf);
 	nbits=giacmin(nbits,mpfr_get_prec(bx.inf));
 	mpfr_init2(axbx,nbits); mpfr_init2(ayby,nbits); mpfr_init2(r,nbits);
-	mpfr_mul(axbx,ax.inf,bx.inf,GMP_RNDN);
-	mpfr_add(r,ax.inf,ay.inf,GMP_RNDN);
-	mpfr_add(ayby,bx.inf,by.inf,GMP_RNDN); // temporary use
-	mpfr_mul(r,r,ayby,GMP_RNDN);
-	mpfr_sub(r,r,axbx,GMP_RNDN);
-	mpfr_mul(ayby,ay.inf,by.inf,GMP_RNDN);
-	mpfr_sub(r,r,ayby,GMP_RNDN);
+	mpfr_mul(axbx,ax.inf,bx.inf,MPFR_RNDN);
+	mpfr_add(r,ax.inf,ay.inf,MPFR_RNDN);
+	mpfr_add(ayby,bx.inf,by.inf,MPFR_RNDN); // temporary use
+	mpfr_mul(r,r,ayby,MPFR_RNDN);
+	mpfr_sub(r,r,axbx,MPFR_RNDN);
+	mpfr_mul(ayby,ay.inf,by.inf,MPFR_RNDN);
+	mpfr_sub(r,r,ayby,MPFR_RNDN);
 	gen I=real_object(r);
-	mpfr_sub(r,axbx,ayby,GMP_RNDN);
+	mpfr_sub(r,axbx,ayby,MPFR_RNDN);
 	gen R=real_object(r);
 	R=gen(R,I);
 	mpfr_clear(r); mpfr_clear(ayby); mpfr_clear(axbx);
@@ -5563,6 +5585,8 @@ namespace giac {
   bool has_i(const gen & g){
     if (g.type==_CPLX)
       return true;
+    if (g.type==_FRAC)
+      return g._FRACptr->num.type==_CPLX || g._FRACptr->den.type==_CPLX;
     if (g.type==_VECT){
       const_iterateur it=g._VECTptr->begin(),itend=g._VECTptr->end();
       for (;it!=itend;++it){
@@ -6727,6 +6751,10 @@ namespace giac {
 	  return undef;
 	return unsigned_inf;
       }
+      if (a==b)
+	return 1;
+      if (a==-b)
+	return -1;
       if (is_exactly_zero(a%b))
 	return iquo(a,b);
       else
@@ -6815,7 +6843,7 @@ namespace giac {
       if (a._FRACptr->num.type==_CPLX || a._FRACptr->den.type==_CPLX ||
 	  b._FRACptr->num.type==_CPLX || b._FRACptr->den.type==_CPLX){
 	gen d=gcd(a._FRACptr->den,b._FRACptr->den,contextptr);
-	return (a._FRACptr->num*iquo(b._FRACptr->den,d))/(iquo(a._FRACptr->den,d)*b._FRACptr->num);
+	return (a._FRACptr->num*(b._FRACptr->den/d))/((a._FRACptr->den/d)*b._FRACptr->num);
       }
       return (*a._FRACptr)/(*b._FRACptr);
     case _SPOL1__SPOL1:
@@ -7226,6 +7254,10 @@ namespace giac {
   }
 
   gen max(const gen & a, const gen & b,GIAC_CONTEXT){
+    if (a.type==_INT_ && b.type==_INT_)
+      return a.val<b.val?b.val:a.val;
+    if (a.type==_DOUBLE_ && b.type==_DOUBLE_)
+      return a._DOUBLE_val<b._DOUBLE_val?b._DOUBLE_val:a._DOUBLE_val;
     if (a==b)
       return a;
     if (is_inf(a)){
@@ -7972,6 +8004,8 @@ namespace giac {
       gen_map::const_iterator it=_MAPptr->find(i),itend=_MAPptr->end();
       if (it!=itend)
 	return it->second;
+      if (subtype==_SPARSE_MATRIX)
+	return 0;
     }
     if (is_symb_of_sommet(at_at)){ // add i at the end of the index
       if (_SYMBptr->feuille.type==_VECT && _SYMBptr->feuille._VECTptr->size()==2){
@@ -8074,7 +8108,7 @@ namespace giac {
   }
 
   gen gen::operator () (const gen & i,const gen & progname,const context * contextptr) const{
-    bool isprog=type==_FUNC || this->is_symb_of_sommet(at_program);
+    bool isprog=type==_FUNC || this->is_symb_of_sommet(at_program) || this->is_symb_of_sommet(*at_program);
     if (!isprog){
       if (i.is_symb_of_sommet(at_equal))
 	return _subst(makesequence(*this,i),contextptr);
@@ -8170,11 +8204,13 @@ namespace giac {
       // other case, apply feuille to i then apply sommet
       if (f.type!=_VECT)
 	return _SYMBptr->sommet(f(i,contextptr),contextptr);
-      gen var1,res1;
       vecteur lid(lidnt(*this));
-      if (lid.size()==1 && !is_algebraic_program(*this,var1,res1)){
+      if (lid.size()==1 && !has_algebraic_program(*this)){
+	if (lid.front()==vx_var)
 	// suspect something like P:=x^3+1 then P(2)
-	*logptr(contextptr) << "Warning, evaluating univariate expression(value) like if expression was a function.\nYou should write subst(" << *this << "," << lid.front() << "," << i << ")" << endl;
+	  *logptr(contextptr) << "Warning, evaluating univariate expression of x(value) like if expression was a function.\nYou should write subst(" << *this << "," << lid.front() << "," << i << ")" << endl;
+	else
+	  return gensizeerr("Expression used like a function "+this->print(contextptr)+"\nYou should write subst("+this->print(contextptr)+","+lid.front().print(contextptr)+","+i.print(contextptr)+")");
 	return subst(*this,lid.front(),i,false,contextptr);
       }
       vecteur res(*f._VECTptr);
@@ -8308,8 +8344,13 @@ namespace giac {
       }
       return _MODptr->islesscomplexthan(*other._MODptr);
     case _SYMB:
-      if (_SYMBptr->sommet !=other._SYMBptr->sommet )
+      if (_SYMBptr->sommet !=other._SYMBptr->sommet ){
+#ifdef GIAC_HAS_STO_38 // otherwise 1 test of chk_xavier fails, needs to check
+	int c=strcmp(_SYMBptr->sommet.ptr()->s,other._SYMBptr->sommet.ptr()->s);
+	if (c) return c<0;
+#endif 
 	return (alias_type) _SYMBptr->sommet.ptr() <(alias_type) other._SYMBptr->sommet.ptr();
+      }
       return _SYMBptr->feuille.islesscomplexthan(other._SYMBptr->feuille);
       // return false;
     case _VECT:
@@ -8406,14 +8447,14 @@ namespace giac {
       return a.islesscomplexthan(b);
     if (a.type==_FRAC && b.type>=_POLY)
       return false;
-    if (a.type>=_POLY && b.type>=_FRAC)
+    if (a.type>=_POLY && b.type==_FRAC)
       return true;
     return !a.islesscomplexthan(b);
   }
 
   struct f_compare_context {
-    const context * ptr;
     bool (*f)(const gen &a,const gen &b,GIAC_CONTEXT);
+    const context * ptr;
     f_compare_context():f(islesscomplexthanf2),ptr(context0){}
     f_compare_context(bool (*f_)(const gen &a,const gen &b,GIAC_CONTEXT),GIAC_CONTEXT):f(f_),ptr(contextptr){}
     inline bool operator () (const gen & a,const gen &b){ return f(a,b,ptr); }
@@ -8635,8 +8676,16 @@ namespace giac {
       if (s==2 && (sorted || tmp.subtype==_SORTED__VECT))
 	return makevecteur(v[0],v[1]);
       vecteur vtmp(v.begin(),v.end());
-      for (unsigned i=0;i<vtmp.size();++i)
+      for (unsigned i=0;i<vtmp.size();++i){
 	vtmp[i]=simplifier(vtmp[i],contextptr);
+	if (vtmp[i].is_symb_of_sommet(at_inv) && vtmp[i]._SYMBptr->feuille.is_symb_of_sommet(at_pow)){
+	  gen f= vtmp[i]._SYMBptr->feuille._SYMBptr->feuille;
+	  if (f.type==_VECT && f._VECTptr->size()==2)
+	    vtmp[i]=symbolic(at_pow,makesequence(f._VECTptr->front(),-f._VECTptr->back()));
+	}
+      }
+      if (equalposcomp(vtmp,0))
+	return makevecteur(0,plus_one);
 #if 1 // def NSPIRE
       // COUT << "modified " << (int) modified_islesscomplexthanf << endl; wait_key_pressed() ;
       modified_compare m;
@@ -8979,11 +9028,13 @@ namespace giac {
   }
 
   int gcd(int a,int b){
-    int r;
-    while (b){
-      r=a%b;
-      a=b;
-      b=r;
+    if (a!=b){
+      int r;
+      while (b){
+	r=a%b;
+	a=b;
+	b=r;
+      }
     }
     return absint(a);
   }
@@ -9303,12 +9354,15 @@ namespace giac {
 	return(int(mpz_gcd_ui(NULL,*a._ZINTptr,absint(b.val))));
       else
 	return is_positive(a,contextptr)?a:-a;
-    case _ZINT__ZINT:
+    case _ZINT__ZINT: 
 #ifndef USE_GMP_REPLACEMENTS
-      if (mpz_cmp(*a._ZINTptr,*b._ZINTptr)>0 && mpz_divisible_p(*a._ZINTptr,*b._ZINTptr))
-	return abs(b,contextptr);
-      if (mpz_cmp(*b._ZINTptr,*a._ZINTptr)>0 && mpz_divisible_p(*b._ZINTptr,*a._ZINTptr))
-	return abs(a,contextptr);
+      {
+	int test=mpz_cmp(*a._ZINTptr,*b._ZINTptr);
+	if (test==0 || (test>0 && mpz_divisible_p(*a._ZINTptr,*b._ZINTptr)))
+	  return abs(b,contextptr);
+	if (test<0 && mpz_divisible_p(*b._ZINTptr,*a._ZINTptr))
+	  return abs(a,contextptr);
+      }
 #endif
       res = new ref_mpz_t;
       my_mpz_gcd(res->z,*a._ZINTptr,*b._ZINTptr);
@@ -10221,23 +10275,41 @@ namespace giac {
     longlong ll=strtoll(s,&endchar,base);
 #endif
     int l =strlen(s);
+    if (l>0 && s[l-1]=='.'){
+      // make a copy of s, call chartab2gen recursivly, 
+      // because some implementations of strtod do not like a . at the end
+      char * scopy=(char *)alloca(l+2);
+      strcpy(scopy,s);
+      scopy[l]='0';
+      scopy[l+1]=0;
+      return chartab2gen(scopy,contextptr);
+    }
     if (*endchar) {// non integer
-      if (decimal_digits(contextptr)>14){
+      int digits=decimal_digits(contextptr);
+      // count numeric char
+      int delta=0;
+      for (int k=0;k<l;++k){
+	if (s[k]<'0' || s[k]>'9')
+	  ++delta;
+      }
+      if (l>digits+delta)
+	digits=l-delta;
+      if (digits>14){
 #ifdef HAVE_LIBMPFR
-	int nbits=digits2bits(decimal_digits(contextptr));
+	int nbits=digits2bits(digits);
 #ifdef HAVE_LIBPTHREAD
 	int locked=pthread_mutex_trylock(&mpfr_mutex);
 	if (!locked)
 	  mpfr_set_default_prec(nbits);
 	// mpf_set_default_prec (decimal_digits);
 	real_object r;
-	int res=mpfr_set_str(r.inf,s,10,GMP_RNDN);
+	int res=mpfr_set_str(r.inf,s,10,MPFR_RNDN);
 	if (!locked)
 	  pthread_mutex_unlock(&mpfr_mutex);
 #else
 	real_object r;
 	mpfr_set_default_prec(nbits);
-	int res=mpfr_set_str(r.inf,s,10,GMP_RNDN);
+	int res=mpfr_set_str(r.inf,s,10,MPFR_RNDN);
 #endif // HAVE_LIBPTHREAD
 #else // LIBMPFR
 	real_object r;
@@ -10335,8 +10407,8 @@ namespace giac {
       gen er;
       short int err=s.size();
       if (debug_infolevel>10000)
-	CERR << (unsigned long) &err << " " << ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536 << endl;
-      if ( ((unsigned long) &err) < ((unsigned long) thread_param_ptr(contextptr)->stackaddr)+4*65536){
+	CERR << (size_t) &err << " " << ((size_t) thread_param_ptr(contextptr)->stackaddr)+4*65536 << endl;
+      if ( ((size_t) &err) < ((size_t) thread_param_ptr(contextptr)->stackaddr)+4*65536){
 	gensizeerr(gettext("Too many recursion levels"),er);
 	parsed_gen(er,contextptr); 
 	return 1;
@@ -12662,7 +12734,7 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
     mpfr_clear(inf);
     mpfr_init2(inf,mpfr_get_prec(g.inf));
-    mpfr_set(inf,g.inf,GMP_RNDN);
+    mpfr_set(inf,g.inf,MPFR_RNDN);
 #else
     mpf_clear(inf);
     mpf_init_set(inf,g.inf);
@@ -12697,7 +12769,7 @@ namespace giac {
 #endif
 #ifdef HAVE_LIBMPFR
     mpfr_init2(inf,mpfr_get_prec(g.inf));
-    mpfr_set(inf,g.inf,GMP_RNDN);
+    mpfr_set(inf,g.inf,MPFR_RNDN);
 #else
     mpf_init_set(inf,g.inf);
 #endif
@@ -12707,7 +12779,7 @@ namespace giac {
 #else
 #ifdef HAVE_LIBMPFR
     mpfr_init2(sup,mpfr_get_prec(g.sup));
-    mpfr_set(sup,g.sup,GMP_RNDN);
+    mpfr_set(sup,g.sup,MPFR_RNDN);
 #else
     mpf_init_set(sup,g.sup);
 #endif
@@ -12731,13 +12803,13 @@ namespace giac {
     mpfr_clear(sup); 
 #endif
     mpfr_init2(inf,mpfr_get_prec(g.inf));
-    mpfr_set(inf,g.inf,GMP_RNDN);
+    mpfr_set(inf,g.inf,MPFR_RNDN);
 #ifdef HAVE_LIBMPFI
     mpfi_init2(infsup,mpfr_get_prec(g.inf));
     mpfi_set_fr(infsup,g.inf);
 #else
     mpfr_init2(sup,mpfr_get_prec(g.inf));
-    mpfr_set(sup,g.inf,GMP_RNDN);
+    mpfr_set(sup,g.inf,MPFR_RNDN);
 #endif
 #else // HAVE_LIBMPFR
     mpf_clear(inf);
@@ -12767,7 +12839,7 @@ namespace giac {
   real_object::real_object(const real_object & g){ 
 #ifdef HAVE_LIBMPFR
     mpfr_init2(inf,mpfr_get_prec(g.inf));
-    mpfr_set(inf,g.inf,GMP_RNDN);
+    mpfr_set(inf,g.inf,MPFR_RNDN);
 #else
     mpf_init_set(inf,g.inf);
 #endif
@@ -12775,7 +12847,7 @@ namespace giac {
 
   real_object::real_object(double d) { 
 #ifdef HAVE_LIBMPFR
-    mpfr_init_set_d(inf,d,GMP_RNDN); 
+    mpfr_init_set_d(inf,d,MPFR_RNDN); 
 #else
     mpf_init_set_d(inf,d); 
 #endif
@@ -12784,14 +12856,14 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
   real_object::real_object(const mpfr_t & d) { 
     mpfr_init2(inf,mpfr_get_prec(d));
-    mpfr_set(inf,d,GMP_RNDN);
+    mpfr_set(inf,d,MPFR_RNDN);
   }
 #endif
 
   real_object::real_object(const mpf_t & d) { 
 #ifdef HAVE_LIBMPFR
     mpfr_init(inf);
-    mpfr_set_f(inf,d,GMP_RNDN);
+    mpfr_set_f(inf,d,MPFR_RNDN);
 #else
     mpf_init_set(inf,d); 
 #endif
@@ -12801,14 +12873,14 @@ namespace giac {
     switch (g.type){
     case _INT_:
 #ifdef HAVE_LIBMPFR
-      mpfr_init_set_si(inf,g.val,GMP_RNDN);
+      mpfr_init_set_si(inf,g.val,MPFR_RNDN);
 #else
       mpf_init_set_si(inf,g.val);
 #endif
       return;
     case _DOUBLE_:
 #ifdef HAVE_LIBMPFR
-      mpfr_init_set_d(inf,g._DOUBLE_val,GMP_RNDN);
+      mpfr_init_set_d(inf,g._DOUBLE_val,MPFR_RNDN);
 #else
       mpf_init_set_d(inf,g._DOUBLE_val);
 #endif
@@ -12816,7 +12888,7 @@ namespace giac {
     case _ZINT:
 #ifdef HAVE_LIBMPFR
       mpfr_init(inf);
-      mpfr_set_z(inf,*g._ZINTptr,GMP_RNDN);
+      mpfr_set_z(inf,*g._ZINTptr,MPFR_RNDN);
 #else
       mpf_init(inf);
       mpf_set_z(inf,*g._ZINTptr);
@@ -12825,7 +12897,7 @@ namespace giac {
     case _REAL:
 #ifdef HAVE_LIBMPFR
       mpfr_init2(inf,mpfr_get_prec(g._REALptr->inf));
-      mpfr_set(inf,g._REALptr->inf,GMP_RNDN);
+      mpfr_set(inf,g._REALptr->inf,MPFR_RNDN);
 #else
       mpf_init_set(inf,g._REALptr->inf);
 #endif
@@ -12836,7 +12908,7 @@ namespace giac {
       if (tmp.type==_REAL){
 #ifdef HAVE_LIBMPFR
 	mpfr_init2(inf,mpfr_get_prec(tmp._REALptr->inf));
-	mpfr_set(inf,tmp._REALptr->inf,GMP_RNDN);
+	mpfr_set(inf,tmp._REALptr->inf,MPFR_RNDN);
 #else
 	mpf_init_set(inf,tmp._REALptr->inf);
 #endif
@@ -12854,7 +12926,7 @@ namespace giac {
     case _INT_:
 #ifdef HAVE_LIBMPFR
       mpfr_init2(inf,precision);
-      mpfr_set_si(inf,g.val,GMP_RNDN);
+      mpfr_set_si(inf,g.val,MPFR_RNDN);
 #else
       mpf_init_set_si(inf,g.val);
 #endif
@@ -12862,7 +12934,7 @@ namespace giac {
     case _DOUBLE_:
 #ifdef HAVE_LIBMPFR
       mpfr_init2(inf,precision);
-      mpfr_set_d(inf,g._DOUBLE_val,GMP_RNDN);
+      mpfr_set_d(inf,g._DOUBLE_val,MPFR_RNDN);
 #else
       mpf_init_set_d(inf,g._DOUBLE_val);
 #endif
@@ -12870,7 +12942,7 @@ namespace giac {
     case _ZINT:
 #ifdef HAVE_LIBMPFR
       mpfr_init2(inf,precision);
-      mpfr_set_z(inf,*g._ZINTptr,GMP_RNDN);
+      mpfr_set_z(inf,*g._ZINTptr,MPFR_RNDN);
 #else
       mpf_init(inf);
       mpf_set_z(inf,*g._ZINTptr);
@@ -12879,7 +12951,7 @@ namespace giac {
     case _REAL:
 #ifdef HAVE_LIBMPFR
       mpfr_init2(inf,precision);
-      mpfr_set(inf,g._REALptr->inf,GMP_RNDN);
+      mpfr_set(inf,g._REALptr->inf,MPFR_RNDN);
 #else
       mpf_init_set(inf,g._REALptr->inf);
 #endif
@@ -12890,7 +12962,7 @@ namespace giac {
       if (tmp.type==_REAL){
 #ifdef HAVE_LIBMPFR
 	mpfr_init2(inf,mpfr_get_prec(tmp._REALptr->inf));
-	mpfr_set(inf,tmp._REALptr->inf,GMP_RNDN);
+	mpfr_set(inf,tmp._REALptr->inf,MPFR_RNDN);
 #else
 	mpf_init_set(inf,tmp._REALptr->inf);
 #endif
@@ -12909,7 +12981,7 @@ namespace giac {
     }
 #ifdef HAVE_LIBMPFR
     mpfr_init2(inf,precision);
-    mpfr_set(inf,tmp._REALptr->inf,GMP_RNDN);
+    mpfr_set(inf,tmp._REALptr->inf,MPFR_RNDN);
 #else
     mpf_init_set(inf,tmp._REALptr->inf);
 #endif
@@ -12925,7 +12997,7 @@ namespace giac {
     subtype=0;
 #ifdef HAVE_LIBMPFR
     mpfr_set_prec(_REALptr->inf,mpfr_get_prec(g.inf));
-    mpfr_set(_REALptr->inf,g.inf,GMP_RNDN);
+    mpfr_set(_REALptr->inf,g.inf,MPFR_RNDN);
 #else
     mpf_set(_REALptr->inf,g.inf);
 #endif
@@ -12946,7 +13018,7 @@ namespace giac {
 #endif
 #ifdef HAVE_LIBMPFR
     mpfr_set_prec(ptr->inf,mpfr_get_prec(g.inf));
-    mpfr_set(ptr->inf,g.inf,GMP_RNDN);
+    mpfr_set(ptr->inf,g.inf,MPFR_RNDN);
 #else
     mpf_set(ptr->inf,g.inf);
 #endif
@@ -12956,7 +13028,7 @@ namespace giac {
     mpfi_set(ptr->infsup,g.infsup);
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_set(ptr->sup,g.sup,GMP_RNDN);
+    mpfr_set(ptr->sup,g.sup,MPFR_RNDN);
 #else
     mpf_set(ptr->sup,g.sup);
 #endif
@@ -12965,7 +13037,7 @@ namespace giac {
 
   double real_object::evalf_double() const{
 #ifdef HAVE_LIBMPFR
-    return mpfr_get_d(inf,GMP_RNDN);
+    return mpfr_get_d(inf,MPFR_RNDN);
 #else
     return mpf_get_d(inf);
 #endif
@@ -13020,11 +13092,11 @@ namespace giac {
   static real_interval add(const real_interval & i,const real_interval & g){
     real_interval res(i);
 #ifdef HAVE_LIBMPFR
-    mpfr_add(res.inf,i.inf,g.inf,GMP_RNDD);
+    mpfr_add(res.inf,i.inf,g.inf,MPFR_RNDD);
 #ifdef HAVE_LIBMPFI
     mpfi_add(res.infsup,i.infsup,g.infsup);
 #else
-    mpfr_add(res.sup,i.sup,g.sup,GMP_RNDU);
+    mpfr_add(res.sup,i.sup,g.sup,MPFR_RNDU);
 #endif
 #else // HAVE_LIBMPFR
     mpf_add(res.inf,i.inf,g.inf);
@@ -13051,11 +13123,11 @@ namespace giac {
       return add(i,*ptr);
     real_interval res(i);
 #ifdef HAVE_LIBMPFR
-    mpfr_add(res.inf,i.inf,g.inf,GMP_RNDD);
+    mpfr_add(res.inf,i.inf,g.inf,MPFR_RNDD);
 #ifdef HAVE_LIBMPFI
     mpfi_add_fr(res.infsup,i.infsup,g.inf);
 #else
-    mpfr_add(res.sup,i.sup,g.inf,GMP_RNDU);
+    mpfr_add(res.sup,i.sup,g.inf,MPFR_RNDU);
 #endif
 #else // HAVE_LIBMPFR
     mpf_add(res.inf,i.inf,g.inf);
@@ -13083,7 +13155,7 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
     mpfr_t sum;
     mpfr_init2(sum,giacmin(mpfr_get_prec(this->inf),mpfr_get_prec(g.inf)));
-    mpfr_add(sum,this->inf,g.inf,GMP_RNDN);
+    mpfr_add(sum,this->inf,g.inf,MPFR_RNDN);
     real_object res(sum);
     mpfr_clear(sum);
 #else
@@ -13146,11 +13218,11 @@ namespace giac {
     real_interval res(i);
 #ifdef HAVE_LIBMPFI
     mpfi_sub(res.infsup,i.infsup,g.infsup);
-    mpfr_sub(res.inf,i.inf,g.inf,GMP_RNDD);
+    mpfr_sub(res.inf,i.inf,g.inf,MPFR_RNDD);
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_sub(res.inf,i.sup,g.inf,GMP_RNDD);
-    mpfr_sub(res.sup,i.inf,g.sup,GMP_RNDU);    
+    mpfr_sub(res.inf,i.sup,g.inf,MPFR_RNDD);
+    mpfr_sub(res.sup,i.inf,g.sup,MPFR_RNDU);    
 #else
     mpf_sub(res.inf,i.sup,g.inf);
     mpf_sub(res.sup,i.inf,g.sup);    
@@ -13174,11 +13246,11 @@ namespace giac {
     real_interval res(i);
 #ifdef HAVE_LIBMPFI
     mpfi_sub_fr(res.infsup,i.infsup,g.inf);
-    mpfr_sub(res.inf,i.inf,g.inf,GMP_RNDD);
+    mpfr_sub(res.inf,i.inf,g.inf,MPFR_RNDD);
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_sub(res.inf,i.sup,g.inf,GMP_RNDD);
-    mpfr_sub(res.sup,i.inf,g.inf,GMP_RNDU);    
+    mpfr_sub(res.inf,i.sup,g.inf,MPFR_RNDD);
+    mpfr_sub(res.sup,i.inf,g.inf,MPFR_RNDU);    
 #else
     mpf_sub(res.inf,i.sup,g.inf);
     mpf_sub(res.sup,i.inf,g.inf);    
@@ -13202,7 +13274,7 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
     mpfr_t sum;
     mpfr_init2(sum,giacmin(mpfr_get_prec(this->inf),mpfr_get_prec(g.inf)));
-    mpfr_sub(sum,this->inf,g.inf,GMP_RNDN);
+    mpfr_sub(sum,this->inf,g.inf,MPFR_RNDN);
     real_object res(sum);
     mpfr_clear(sum);
 #else
@@ -13229,7 +13301,7 @@ namespace giac {
       return -*ptr;
     real_object res(*this);
 #ifdef HAVE_LIBMPFR
-    mpfr_neg(res.inf,res.inf,GMP_RNDN);
+    mpfr_neg(res.inf,res.inf,MPFR_RNDN);
 #else
     mpf_neg(res.inf,res.inf);
 #endif
@@ -13239,7 +13311,7 @@ namespace giac {
   gen real_object::inv() const {
     real_object res(*this);
 #ifdef HAVE_LIBMPFR
-    mpfr_ui_div(res.inf,1,res.inf,GMP_RNDN);
+    mpfr_ui_div(res.inf,1,res.inf,MPFR_RNDN);
 #else
     mpf_ui_div(res.inf,1,res.inf);
 #endif
@@ -13252,7 +13324,7 @@ namespace giac {
 #else
     real_object res(*this);
 #ifdef HAVE_LIBMPFR
-    mpfr_sqrt(res.inf,res.inf,GMP_RNDN);
+    mpfr_sqrt(res.inf,res.inf,MPFR_RNDN);
 #else
     mpf_sqrt(res.inf,res.inf);
 #endif
@@ -13286,7 +13358,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_exp(res.inf,res.inf,GMP_RNDN);
+    mpfr_exp(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13304,7 +13376,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_log(res.inf,res.inf,GMP_RNDN);
+    mpfr_log(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13322,7 +13394,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_sin(res.inf,res.inf,GMP_RNDN);
+    mpfr_sin(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13340,7 +13412,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_cos(res.inf,res.inf,GMP_RNDN);
+    mpfr_cos(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13358,7 +13430,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_tan(res.inf,res.inf,GMP_RNDN);
+    mpfr_tan(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13376,7 +13448,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_sinh(res.inf,res.inf,GMP_RNDN);
+    mpfr_sinh(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13394,7 +13466,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_cosh(res.inf,res.inf,GMP_RNDN);
+    mpfr_cosh(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13412,7 +13484,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_tanh(res.inf,res.inf,GMP_RNDN);
+    mpfr_tanh(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13430,7 +13502,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_asin(res.inf,res.inf,GMP_RNDN);
+    mpfr_asin(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13448,7 +13520,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_acos(res.inf,res.inf,GMP_RNDN);
+    mpfr_acos(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13466,7 +13538,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_atan(res.inf,res.inf,GMP_RNDN);
+    mpfr_atan(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13484,7 +13556,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_asinh(res.inf,res.inf,GMP_RNDN);
+    mpfr_asinh(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13502,7 +13574,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_acosh(res.inf,res.inf,GMP_RNDN);
+    mpfr_acosh(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13520,7 +13592,7 @@ namespace giac {
 #endif
 #else
 #ifdef HAVE_LIBMPFR
-    mpfr_atanh(res.inf,res.inf,GMP_RNDN);
+    mpfr_atanh(res.inf,res.inf,MPFR_RNDN);
 #else
     compile_with_mpfr();
 #endif
@@ -13531,11 +13603,11 @@ namespace giac {
   gen real_interval::operator -() const {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFR
-    mpfr_neg(res.inf,res.inf,GMP_RNDU);
+    mpfr_neg(res.inf,res.inf,MPFR_RNDU);
 #ifdef HAVE_LIBMPFI
     mpfi_neg(res.infsup,res.infsup);
 #else
-    mpfr_neg(res.sup,res.sup,GMP_RNDD);
+    mpfr_neg(res.sup,res.sup,MPFR_RNDD);
     mpfr_swap(res.inf,res.sup);
 #endif
 #else // MPFR
@@ -13556,7 +13628,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_ui_div(res.infsup,1,res.infsup);
-    mpfr_ui_div(res.inf,1,res.inf,GMP_RNDD);
+    mpfr_ui_div(res.inf,1,res.inf,MPFR_RNDD);
 #else
     // FIXME check sign
 #ifndef NO_STDEXCEPT
@@ -13573,7 +13645,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_sqrt(res.infsup,res.infsup);
-    mpfr_sqrt(res.inf,res.inf,GMP_RNDD);
+    mpfr_sqrt(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13584,7 +13656,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_abs(res.infsup,res.infsup);
-    mpfr_abs(res.inf,res.inf,GMP_RNDD);
+    mpfr_abs(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval abs"));
@@ -13595,7 +13667,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_exp(res.infsup,res.infsup);
-    mpfr_exp(res.inf,res.inf,GMP_RNDD);
+    mpfr_exp(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13606,7 +13678,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_log(res.infsup,res.infsup);
-    mpfr_log(res.inf,res.inf,GMP_RNDD);
+    mpfr_log(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13617,7 +13689,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_sin(res.infsup,res.infsup);
-    mpfr_sin(res.inf,res.inf,GMP_RNDD);
+    mpfr_sin(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13628,7 +13700,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_cos(res.infsup,res.infsup);
-    mpfr_cos(res.inf,res.inf,GMP_RNDD);
+    mpfr_cos(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13639,7 +13711,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_tan(res.infsup,res.infsup);
-    mpfr_tan(res.inf,res.inf,GMP_RNDD);
+    mpfr_tan(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13650,7 +13722,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_sinh(res.infsup,res.infsup);
-    mpfr_sinh(res.inf,res.inf,GMP_RNDD);
+    mpfr_sinh(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13661,7 +13733,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_cosh(res.infsup,res.infsup);
-    mpfr_cosh(res.inf,res.inf,GMP_RNDD);
+    mpfr_cosh(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13672,7 +13744,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_tanh(res.infsup,res.infsup);
-    mpfr_tanh(res.inf,res.inf,GMP_RNDD);
+    mpfr_tanh(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13683,7 +13755,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_asin(res.infsup,res.infsup);
-    mpfr_asin(res.inf,res.inf,GMP_RNDD);
+    mpfr_asin(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13694,7 +13766,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_acos(res.infsup,res.infsup);
-    mpfr_acos(res.inf,res.inf,GMP_RNDD);
+    mpfr_acos(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13705,7 +13777,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_atan(res.infsup,res.infsup);
-    mpfr_atan(res.inf,res.inf,GMP_RNDD);
+    mpfr_atan(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13716,7 +13788,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_asinh(res.infsup,res.infsup);
-    mpfr_asinh(res.inf,res.inf,GMP_RNDD);
+    mpfr_asinh(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13727,7 +13799,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_acosh(res.infsup,res.infsup);
-    mpfr_acosh(res.inf,res.inf,GMP_RNDD);
+    mpfr_acosh(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13738,7 +13810,7 @@ namespace giac {
     real_interval res(*this);
 #ifdef HAVE_LIBMPFI
     mpfi_atanh(res.infsup,res.infsup);
-    mpfr_atanh(res.inf,res.inf,GMP_RNDD);
+    mpfr_atanh(res.inf,res.inf,MPFR_RNDD);
     return res;
 #else
     return gensizeerr(gettext("real_interval sqrt"));
@@ -13808,7 +13880,7 @@ namespace giac {
   static real_interval mul(const real_interval & i,const real_interval & g){
     real_interval res(i);
 #ifdef HAVE_LIBMPFR
-    mpfr_mul(res.inf,i.inf,g.inf,GMP_RNDN);
+    mpfr_mul(res.inf,i.inf,g.inf,MPFR_RNDN);
 #else
     mpf_mul(res.inf,i.inf,g.inf);
 #endif
@@ -13838,7 +13910,7 @@ namespace giac {
       return mul(i,*ptr);
     real_interval res(i);
 #ifdef HAVE_LIBMPFR
-    mpfr_mul(res.inf,i.inf,g.inf,GMP_RNDN);
+    mpfr_mul(res.inf,i.inf,g.inf,MPFR_RNDN);
 #else
     mpf_mul(res.inf,i.inf,g.inf);
 #endif
@@ -13869,7 +13941,7 @@ namespace giac {
 #ifdef HAVE_LIBMPFR
     mpfr_t sum;
     mpfr_init2(sum,giacmin(mpfr_get_prec(this->inf),mpfr_get_prec(g.inf)));
-    mpfr_mul(sum,this->inf,g.inf,GMP_RNDN);
+    mpfr_mul(sum,this->inf,g.inf,MPFR_RNDN);
     real_object res(sum);
     mpfr_clear(sum);
 #else
@@ -13921,7 +13993,7 @@ namespace giac {
 #else
     char ptr[dd+2];
 #endif
-    if (!mpfr_get_str(ptr,&expo,2,dd,r.inf,GMP_RNDN) || !(*ptr))
+    if (!mpfr_get_str(ptr,&expo,2,dd,r.inf,MPFR_RNDN) || !(*ptr))
       return "MPFR print binary error "+r.print(context0);
     string res;
     if (ptr[0]=='-')
@@ -13943,7 +14015,7 @@ namespace giac {
     mpfr_set_prec(r.inf,precision);
 #ifndef HAVE_MPFR_SET_STR_RAW
     // MPFR 2.2
-    mpfr_strtofr (r.inf, (char *)s.c_str(), 0, 2, GMP_RNDN); 
+    mpfr_strtofr (r.inf, (char *)s.c_str(), 0, 2, MPFR_RNDN); 
 #else
     // FOR MPFR 2.0 use instead 
     mpfr_set_str_raw(r.inf,(char *)s.c_str());
@@ -13991,12 +14063,12 @@ namespace giac {
     if (negatif){
       mpfr_t inf2;
       mpfr_init2(inf2,mpfr_get_prec(inf));
-      mpfr_neg(inf2,inf,GMP_RNDN);
-      mpfr_get_str(ptr,&expo,10,dd,inf2,GMP_RNDN);
+      mpfr_neg(inf2,inf,MPFR_RNDN);
+      mpfr_get_str(ptr,&expo,10,dd,inf2,MPFR_RNDN);
       mpfr_clear(inf2);
     }
     else
-      mpfr_get_str(ptr,&expo,10,dd,inf,GMP_RNDN);
+      mpfr_get_str(ptr,&expo,10,dd,inf,MPFR_RNDN);
     std::string res(ptr);
     if (expo){
       if (expo==1){
@@ -14163,7 +14235,7 @@ namespace giac {
       g=protecteval(g,1,&C);
     }
     else {
-      void * ptr;
+      // void * ptr;
 #ifdef TIMEOUT
       double d=caseval_maxtime;
 #else

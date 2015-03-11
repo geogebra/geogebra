@@ -50,7 +50,7 @@
 #define hash_map unordered_map
 #else // UNORDERED_MAP
 
-#if (defined(VISUALC) || defined(BESTA_OS))
+#if (defined(VISUALC) || defined(BESTA_OS) || defined(__ANDROID__) )
 #undef HASH_MAP
 #undef EXT_HASH_MAP
 #endif
@@ -350,17 +350,17 @@ namespace giac {
     // construct
     index_m(const index_m & im) { 
       if ( im.taille % 2){
-	* (unsigned long *) & taille = * (unsigned long *) &im.taille;
+	* (size_t *) & taille = * (size_t *) &im.taille;
 #if (HAS_POLY_VARS_OTHER==1)
-	* (unsigned long *) other = * (unsigned long *) im.other;	
+	* (size_t *) other = * (size_t *) im.other;	
 #endif
 #if (HAS_POLY_VARS_OTHER==2)
-	* (unsigned long *) other = * (unsigned long *) im.other;	
-	* (((unsigned long *) other)+1) = * (((unsigned long *) im.other)+1);	
+	* (size_t *) other = * (size_t *) im.other;	
+	* (((size_t *) other)+1) = * (((size_t *) im.other)+1);	
 #endif
 #if (HAS_POLY_VARS_OTHER>2)
-	unsigned long * target = (unsigned long *) other, * end = target + POLY_VARS_OTHER/(sizeof(unsigned long)/sizeof(deg_t));
-	const unsigned long * source = (unsigned long *) im.other;
+	size_t * target = (size_t *) other, * end = target + POLY_VARS_OTHER/(sizeof(size_t)/sizeof(deg_t));
+	const size_t * source = (size_t *) im.other;
 	for (;target!=end;++target,++source)
 	  *target=*source;
 #endif
@@ -390,15 +390,15 @@ namespace giac {
 	riptr=0;
 	taille=2*s+1;
 #if (HAS_POLY_VARS_OTHER==1)
-	* (unsigned long *) other =0;
+	* (size_t *) other =0;
 #endif
 #if (HAS_POLY_VARS_OTHER==2)
-	* (unsigned long *) other =0;
-	* (((unsigned long *) other)+1) =0;
+	* (size_t *) other =0;
+	* (((size_t *) other)+1) =0;
 #endif
 #if (HAS_POLY_VARS_OTHER>2)
-	unsigned long * target = (unsigned long *) other ;
-	unsigned long * end = target + POLY_VARS_OTHER/(sizeof(unsigned long)/sizeof(deg_t));
+	size_t * target = (size_t *) other ;
+	size_t * end = target + POLY_VARS_OTHER/(sizeof(size_t)/sizeof(deg_t));
 	for (;target!=end;++target)
 	  *target = 0;
 #endif
@@ -429,21 +429,21 @@ namespace giac {
 	setsizeerr("Error index.h, size too large for direct access");
 #endif
       */
-      unsigned long * source = (unsigned long *) ptr;
-      *(unsigned long *) &taille = *(unsigned long *) source;
+      size_t * source = (size_t *) ptr;
+      *(size_t *) &taille = *(size_t *) source;
 #if (HAS_POLY_VARS_OTHER==1)
       ++source;
-      * (unsigned long *) other = *source;
+      * (size_t *) other = *source;
 #endif
 #if (HAS_POLY_VARS_OTHER==2)
       ++source;
-      * (unsigned long *) other = *source;
+      * (size_t *) other = *source;
       ++source;
-      * (((unsigned long *) other)+1) = *source;
+      * (((size_t *) other)+1) = *source;
 #endif
 #if (HAS_POLY_VARS_OTHER>2)
-      unsigned long * target = (unsigned long *) other ;
-      unsigned long * end = target + POLY_VARS_OTHER/(sizeof(unsigned long)/sizeof(deg_t));
+      size_t * target = (size_t *) other ;
+      size_t * end = target + POLY_VARS_OTHER/(sizeof(size_t)/sizeof(deg_t));
       for (++source;target!=end;++source,++target)
 	*target = *source;
 #endif
@@ -468,18 +468,18 @@ namespace giac {
 	++riptr->ref_count;
       }
       else {
-	* (unsigned long *) &taille = * (unsigned long *) &other.taille;
+	* (size_t *) &taille = * (size_t *) &other.taille;
 #if (HAS_POLY_VARS_OTHER==1)
-	* (unsigned long *) this->other = * (unsigned long *) other.other;
+	* (size_t *) this->other = * (size_t *) other.other;
 #endif
 #if (HAS_POLY_VARS_OTHER==2)
-	* (unsigned long *) this->other = * (unsigned long *) other.other;
-	* (((unsigned long *) this->other)+1) = * (((unsigned long *) other.other)+1);
+	* (size_t *) this->other = * (size_t *) other.other;
+	* (((size_t *) this->other)+1) = * (((size_t *) other.other)+1);
 #endif
 #if (HAS_POLY_VARS_OTHER>2)
-	const unsigned long * source = (unsigned long * ) other.other;
-	unsigned long * target = (unsigned long *) this->other; 
-	unsigned long * end = target + POLY_VARS_OTHER/(sizeof(unsigned long)/sizeof(deg_t));
+	const size_t * source = (size_t * ) other.other;
+	size_t * target = (size_t *) this->other; 
+	size_t * end = target + POLY_VARS_OTHER/(sizeof(size_t)/sizeof(deg_t));
 	for (;target!=end;++source,++target)
 	  * target = * source;
 #endif

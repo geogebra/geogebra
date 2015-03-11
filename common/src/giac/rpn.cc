@@ -16,6 +16,10 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
+#ifdef __ANDROID__
+using std::vector;
+#endif
+
 using namespace std;
 #include "rpn.h"
 #include "symbolic.h"
@@ -820,6 +824,22 @@ namespace giac {
   static define_unary_function_eval (__VARS,&_VARS,_VARS_s);
   define_unary_function_ptr( at_VARS ,alias_at_VARS ,&__VARS);
 
+  gen purgenoassume(const gen & args,const context * contextptr){
+    if (args.type!=_IDNT)
+      return gensizeerr("Invalid purgenoassume "+args.print(contextptr));
+    // purge a global variable
+    sym_tab::iterator it=contextptr->tabptr->find(args._IDNTptr->id_name),itend=contextptr->tabptr->end();
+    if (it==itend)
+      return string2gen("No such variable "+args.print(contextptr),false);
+    gen res=it->second;
+    if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER)
+      return gentypeerr(args.print(contextptr)+" is locked by thread "+it->second.print(contextptr));
+    contextptr->tabptr->erase(it);
+    if (res.is_symb_of_sommet(at_rootof))
+      _purge(res,contextptr);
+    return res;
+  }
+
   gen _purge(const gen & args,const context * contextptr) {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     if (rpn_mode(contextptr) && (args.type==_VECT)){
@@ -877,17 +897,7 @@ namespace giac {
 	a2.subtype=1;
 	return sto(gen(makevecteur(a2),_ASSUME__VECT),args,contextptr);
       }
-      // purge a global variable
-      sym_tab::iterator it=contextptr->tabptr->find(args._IDNTptr->id_name),itend=contextptr->tabptr->end();
-      if (it==itend)
-	return string2gen("No such variable "+args.print(contextptr),false);
-      gen res=it->second;
-      if (it->second.type==_POINTER_ && it->second.subtype==_THREAD_POINTER)
-	return gentypeerr(args.print(contextptr)+" is locked by thread "+it->second.print(contextptr));
-      contextptr->tabptr->erase(it);
-      if (res.is_symb_of_sommet(at_rootof))
-	_purge(res,contextptr);
-      return res;
+      return purgenoassume(args,contextptr);
     }
     if (current_folder_name.type==_IDNT && current_folder_name._IDNTptr->value && current_folder_name._IDNTptr->value->type==_VECT){
       vecteur v=*current_folder_name._IDNTptr->value->_VECTptr;
@@ -1793,6 +1803,8 @@ namespace giac {
 
   gen _INT(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
+    if (g.type==_VECT)
+      return apply(g,_INT,contextptr);
     if (g.type==_CPLX)
       return _INT(*g._CPLXptr,contextptr)+cst_i*_INT(*(g._CPLXptr+1),contextptr);
     if (is_positive(g,contextptr))
@@ -2659,7 +2671,7 @@ namespace giac {
 	  if (M!=2 || expr.back().type!=_VECT)
 	    return gensizeerr(contextptr);
 	  vars=*expr.back()._VECTptr;
-	  if (vars.size()!=dim-1)
+	  if (int(vars.size())!=dim-1)
 	    return gendimerr(contextptr);
 	  expr=*expr.front()._VECTptr;
 	  M=expr.size();
@@ -2782,9 +2794,39 @@ namespace giac {
       res=gen2vecteur(_trn(res,contextptr));
       return res;
     }
-    // orthogonal projection of each vector of B on image of A
-    matrice r,Ag=gramschmidt(A,r,false,contextptr);
     matrice res;
+    if (has_num_coeff(v)){
+      // <Ax-b|Ax-b> minimal, i.e. A* Ax=A* b or 
+      // A=QR, if A has m rows and n cols and m>=n, then Q is m*m and R is m*n
+      // first n cols of Q are Q1, first n rows of R are R1
+      // solve R1*x=Q1^t*b
+      gen qrdec=qr(v[0],contextptr);
+      if (qrdec.type==_VECT && qrdec._VECTptr->size()==2){
+	gen q=qrdec._VECTptr->front(),r=qrdec._VECTptr->back();
+	if (ckmatrix(q) && ckmatrix(r)){ 
+	  if (!is_zero(r[A.size()-1])){
+	    gen qt=_trn(q,contextptr);
+	    vecteur R(r._VECTptr->begin(),r._VECTptr->begin()+A.size());
+	    for (int i=0;i<bs;++i){
+	      gen Bi=B[i];
+	      vecteur v;
+	      linsolve_u(R,multmatvecteur(*qt._VECTptr,*Bi._VECTptr),v);
+	      res.push_back(v);
+	    }
+	    return mtran(res);
+	  }
+	  // A* Ax=A* b => R* Rx=R* Qb
+	  gen rstar=_trn(r,contextptr);
+	  gen rr=rstar*r;
+	  gen rq=rstar*q*B;
+	  return _linsolve(makesequence(rr,rq),contextptr);
+	}
+      }
+    }
+    // orthogonal projection of each vector of B on image of A
+    if (A.size()>20)
+      *logptr(contextptr) << "LSQ: exact data, running Gramschmidt instead of qr, this is much slower for large matrices" << endl;
+    matrice r,Ag=gramschmidt(A,r,false,contextptr);
     for (int i=0;i<bs;++i){
       gen Bi=B[i];
       vecteur tmp(as);
@@ -3708,7 +3750,7 @@ namespace giac {
 
   gen _GETPIX(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[2];
+    void *g=0; int xy[2];
     if (!GraphicVerifInputs(args, &g, xy, 0x31, NULL, contextptr)) return gensizeerr(contextptr);
     return gen(dogetpix(g, xy[0], xy[1]));
   }
@@ -3716,7 +3758,7 @@ namespace giac {
 
   gen _LINE(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[4], c= 0;
+    void *g=0; int xy[4], c= 0;
     if (!GraphicVerifInputs(args, &g, xy, 0x6331, &c, contextptr)) return gensizeerr(contextptr);
     doline(g, xy[0], xy[1], xy[2], xy[3], c);
     return 1;
@@ -3725,7 +3767,7 @@ namespace giac {
 
   gen _RECT(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[4]= {0, 0, 0x0fffffff,0x0fffffff}, c[2]= { 3, -1};
+    void *g=0; int xy[4]= {0, 0, 0x0fffffff,0x0fffffff}, c[2]= { 3, -1};
     if (!GraphicVerifInputs(args, &g, xy, 0x66441, c, contextptr)) return gensizeerr(contextptr);
     if (c[1]==-1) c[1]= c[0];
     dorect(g, xy[0], xy[1], xy[2]-xy[0]+1, xy[3]-xy[1]+1, c[0], c[1]);
@@ -3735,7 +3777,7 @@ namespace giac {
 
   gen _INVERT(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[4]= {0, 0, 0x0fffffff, 0x0fffffff };
+    void *g=0; int xy[4]= {0, 0, 0x0fffffff, 0x0fffffff };
     if (!GraphicVerifInputs(args, &g, xy, 0x441, NULL, contextptr)) return gensizeerr(contextptr);
     doinvert(g, xy[0], xy[1], xy[2]-xy[0]+1, xy[3]-xy[1]+1);
     return 1;
@@ -3744,7 +3786,7 @@ namespace giac {
 
   gen _BLIT(const gen & args,GIAC_CONTEXT)
   {
-    void *g[2]; int xy[8]= { 0, 0, 0xfffffff, 0xfffffff, 0, 0, 0xfffffff, 0xfffffff }, c= -1;
+    void *g[2]={0,0}; int xy[8]= { 0, 0, 0xfffffff, 0xfffffff, 0, 0, 0xfffffff, 0xfffffff }, c= -1;
     if (!GraphicVerifInputs(args, g, xy, 0x6442431, NULL, contextptr)) return gensizeerr(contextptr);
     xy[3]+= -xy[1]+1; if (xy[3]<0) xy[3]= -2-xy[3];
     xy[7]+= -xy[5]+1; if (xy[7]<0) xy[7]= -2-xy[7];
@@ -3759,7 +3801,7 @@ namespace giac {
     if (s<3) return gensizeerr(contextptr);
     gen t= *args.__VECTptr->v.begin();
     gen v(*args._VECTptr); v._VECTptr->erase(v._VECTptr->begin());
-    void *g; int xy[2]={0, 0}, c[4]= {0, 0, 1023, -1};
+    void *g=0; int xy[2]={0, 0}, c[4]= {0, 0, 1023, -1};
     //TEXTOUT("text", [G?], x, y, [font, [color, [width, [color]]]])
     if (!GraphicVerifInputs(v, &g, xy, 0x6b6b31, c, contextptr)) return gensizeerr(contextptr);
     return gen(dotextout(&t, g, xy, c, contextptr));
@@ -3767,21 +3809,21 @@ namespace giac {
   CyrilleFnc(TEXTOUT);
 
   gen _PIXON(const gen & args,GIAC_CONTEXT){
-    void *g; int xy[2], c= 0;
+    void *g=0; int xy[2], c= 0;
     if (!GraphicVerifInputs(args, &g, xy, 0x631, &c, contextptr)) return gensizeerr(contextptr);
     dopixon(g, xy[0], xy[1], c);
     return 1;
   }
 
   gen _PIXOFF(const gen & args,GIAC_CONTEXT){
-    void *g; int xy[2];
+    void *g=0; int xy[2];
     if (!GraphicVerifInputs(args, &g, xy, 0x31, NULL, contextptr)) return gensizeerr(contextptr);
     dopixon(g, xy[0], xy[1], 3);
     return 1;
   }
   gen _DIMGROB(const gen &args,GIAC_CONTEXT)
   {
-    void *g; int xy[2], c= 3;
+    void *g=0; int xy[2], c= 3;
     if (!GraphicVerifInputs(args, &g, xy, 0x6c9, &c, contextptr)) return gensizeerr(contextptr);
     dodimgrob((void**)g, xy[0], xy[1], c, gen());
     return 1;
@@ -3789,7 +3831,7 @@ namespace giac {
   CyrilleFnc(DIMGROB);
   gen _SUBGROB(const gen &args,GIAC_CONTEXT)
   {
-    void *g[2]; int xy[4]= {0, 0, 0xfffffff, 0xfffffff};
+    void *g[2]={0,0}; int xy[4]= {0, 0, 0xfffffff, 0xfffffff};
     if (!GraphicVerifInputs(args, g, xy, 0x9441, NULL, contextptr)) return gensizeerr(contextptr);
     dosubgrob(g, xy);
     return 1;
@@ -3801,7 +3843,7 @@ namespace giac {
     // if OldColor is !=-1 and indiate the background color of the screen BEFORE the arc is drawn, the arc is filled...
     //int Arc(int x, int y, int r, int color, int a1=0, int a2=4096, int OldColor=-1); 
     // ARC(x, y, r, [c, [a1, a2]])
-    void *g; int xy[2], c[4]= { 0, 0, 0, 4096};
+    void *g=0; int xy[2], c[4]= { 0, 0, 0, 4096};
     if (!GraphicVerifInputs(args, &g, xy, 0xaab731, c, contextptr)) return gensizeerr(contextptr);
     doarc(g, true, xy, c);
     return 1;
@@ -3809,7 +3851,7 @@ namespace giac {
 
   gen _GETPIX_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[2];
+    void *g=0; int xy[2];
     if (!GraphicVerifInputs2(args, &g, xy, 0x31, NULL, true, contextptr)) return gensizeerr(contextptr);
     return gen(dogetpix(g, xy[0], xy[1]));
   }
@@ -3817,7 +3859,7 @@ namespace giac {
 
   gen _LINE_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[4], c= 0;
+    void *g=0; int xy[4], c= 0;
     if (!GraphicVerifInputs2(args, &g, xy, 0x6331, &c, true, contextptr)) return gensizeerr(contextptr);
     doline(g, xy[0], xy[1], xy[2], xy[3], c);
     return 1;
@@ -3826,7 +3868,7 @@ namespace giac {
 
   gen _RECT_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[4]= {0, 0, 0x0fffffff,0x0fffffff}, c[2]= { 3, -1};
+    void *g=0; int xy[4]= {0, 0, 0x0fffffff,0x0fffffff}, c[2]= { 3, -1};
     if (!GraphicVerifInputs2(args, &g, xy, 0x66441, c, true, contextptr)) return gensizeerr(contextptr);
     if (c[1]==-1) c[1]= c[0];
     if (xy[0]>xy[2]) swap(xy[0], xy[2]);
@@ -3838,7 +3880,7 @@ namespace giac {
 
   gen _INVERT_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[4]= {0, 0, 0x0fffffff, 0x0fffffff };
+    void *g=0; int xy[4]= {0, 0, 0x0fffffff, 0x0fffffff };
     if (!GraphicVerifInputs2(args, &g, xy, 0x441, NULL, true, contextptr)) return gensizeerr(contextptr);
     doinvert(g, xy[0], xy[1], xy[2]-xy[0]+1, xy[3]-xy[1]+1);
     return 1;
@@ -3847,7 +3889,7 @@ namespace giac {
 
   gen _BLIT_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g[2]; int xy[8]= { 0, 0, 0xfffffff, 0xfffffff, 0, 0, 0xfffffff, 0xfffffff }, c= -1;
+    void *g[2]={0,0}; int xy[8]= { 0, 0, 0xfffffff, 0xfffffff, 0, 0, 0xfffffff, 0xfffffff }, c= -1;
     if (!GraphicVerifInputs2(args, g, xy, 0x6442431, NULL, true, contextptr)) return gensizeerr(contextptr);
     xy[3]+= -xy[1]+1; if (xy[3]<0) xy[3]= -2-xy[3];
     xy[7]+= -xy[5]+1; if (xy[7]<0) xy[7]= -2-xy[7];
@@ -3862,7 +3904,7 @@ namespace giac {
     if (s<3) return gensizeerr(contextptr);
     gen t= *args.__VECTptr->v.begin();
     gen v(*args._VECTptr); v._VECTptr->erase(v._VECTptr->begin());
-    void *g; int xy[2]={0, 0}, c[4]= {0, 0, 1023, -1};
+    void *g=0; int xy[2]={0, 0}, c[4]= {0, 0, 1023, -1};
     //TEXTOUT("text", [G?], x, y, [font, [color, [width, [color]]]])
     if (!GraphicVerifInputs2(v, &g, xy, 0x6b6b31, c, true, contextptr)) return gensizeerr(contextptr);
     return gen(dotextout(&t, g, xy, c, contextptr));
@@ -3870,7 +3912,7 @@ namespace giac {
   CyrilleFnc(TEXTOUT_P);
   gen _PIXON_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[2], c= 0;
+    void *g=0; int xy[2], c= 0;
     if (!GraphicVerifInputs2(args, &g, xy, 0x631, &c, true, contextptr)) return gensizeerr(contextptr);
     dopixon(g, xy[0], xy[1], c);
     return 1;
@@ -3878,7 +3920,7 @@ namespace giac {
   CyrilleFnc(PIXON_P);
   gen _PIXOFF_P(const gen & args,GIAC_CONTEXT)
   {
-    void *g; int xy[2];
+    void *g=0; int xy[2];
     if (!GraphicVerifInputs2(args, &g, xy, 0x31, NULL, true, contextptr)) return gensizeerr(contextptr);
     dopixon(g, xy[0], xy[1], 3);
     return 1;
@@ -3886,7 +3928,7 @@ namespace giac {
   CyrilleFnc(PIXOFF_P);
   gen _DIMGROB_P(const gen &args,GIAC_CONTEXT)
   {
-    void *g; int xy[2], c= 3;
+    void *g=0; int xy[2], c= 3;
     if (!GraphicVerifInputs2(args, &g, xy, 0x6c9, &c, false, contextptr)) return gensizeerr(contextptr);
     dodimgrob((void**)g, xy[0], xy[1], c, args.__VECTptr->v.end()[-1]);
     return 1;
@@ -3894,7 +3936,7 @@ namespace giac {
   CyrilleFnc(DIMGROB_P);
   gen _SUBGROB_P(const gen &args,GIAC_CONTEXT)
   {
-    void *g[2]; int xy[4]= {0, 0, 0xfffffff, 0xfffffff};
+    void *g[2]={0,0}; int xy[4]= {0, 0, 0xfffffff, 0xfffffff};
     if (!GraphicVerifInputs2(args, g, xy, 0x9441, NULL, true, contextptr)) return gensizeerr(contextptr);
     dosubgrob(g, xy);
     return 1;
@@ -3906,7 +3948,7 @@ namespace giac {
     // if OldColor is !=-1 and indiate the background color of the screen BEFORE the arc is drawn, the arc is filled...
     //int Arc(int x, int y, int r, int color, int a1=0, int a2=4096, int OldColor=-1); 
     // ARC(x, y, r, [c, [a1, a2]])
-    void *g; int xy[2], c[4]= { 0, 0, 0, 4096};
+    void *g=0; int xy[2], c[4]= { 0, 0, 0, 4096};
     if (!GraphicVerifInputs2(args, &g, xy, 0xaab731, c, true, contextptr)) return gensizeerr(contextptr);
     doarc(g, false, xy, c);
     return 1;
@@ -3914,26 +3956,26 @@ namespace giac {
   CyrilleFnc(ARC_P);
   gen _GROBW_P(const gen & args, GIAC_CONTEXT)
   {
-    void *g; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
+    void *g=0; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
     return gen(dogrobw(g));
   }
   CyrilleFnc(GROBW_P);
   gen _GROBH_P(const gen & args, GIAC_CONTEXT)
   {
-    void *g; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
+    void *g=0; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
     return gen(dogrobh(g, false));
   }
   CyrilleFnc(GROBH_P);
   gen _GROBW(const gen & args, GIAC_CONTEXT)
   {
-    void *g; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
+    void *g=0; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
     int w= dogrobw(g);
     return w*getxrangeperpixel();
   }
   CyrilleFnc(GROBW);
   gen _GROBH(const gen & args, GIAC_CONTEXT)
   {
-    void *g; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
+    void *g=0; if (!GraphicVerifInputs(args, &g, NULL, 1, NULL, contextptr)) return gensizeerr(contextptr);
     int h= dogrobh(g, true);
     return h*getyrangeperpixel();
   }

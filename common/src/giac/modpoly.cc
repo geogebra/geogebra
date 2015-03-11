@@ -2670,7 +2670,7 @@ namespace giac {
     // convert p_orig and q_orig to vector< T_unsigned<gen,hashgcd_U> >
     // using pqdeg (instead of max(pdeg,qdeg) because of gcd(lcoeff(p),lcoeff(q)))
     // additional factor 2 since computing cofactors require more
-    unsigned long long ans=1;
+    ulonglong ans=1;
     for (int i=0;i<dim;++i){
       d[i]=2*(pdeg[i]+qdeg[i]+1); 
       int j=1;
@@ -2721,7 +2721,7 @@ namespace giac {
     // convert p_orig and q_orig to vector< T_unsigned<int,hashgcd_U> >
     // using pqdeg (instead of max(pdeg,qdeg) because of gcd(lcoeff(p),lcoeff(q)))
     // additional factor 2 since computing cofactors require more
-    unsigned long long ans=1;
+    ulonglong ans=1;
     d.clear();
     d.reserve(dim);
     for (int i=0;i<dim;++i){
@@ -4397,7 +4397,9 @@ namespace giac {
 	while (smod(env->modulo,4)==1)
 	  env->modulo=nextprime(env->modulo+2);
       }
-      if (is_zero(smod(gcdfirstcoeff,env->modulo))){
+      if (is_zero(smod(
+		       qq.front()//gcdfirstcoeff
+		       ,env->modulo))){
 	env->modulo=nextprime(env->modulo+1);
 	continue;
       }

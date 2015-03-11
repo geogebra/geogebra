@@ -17,6 +17,10 @@
 #include <cstdlib>
 #ifndef NSPIRE
 #include <cstdio>
+#ifdef VISUALC13
+#undef clock
+#undef clock_t
+#endif
 #include <iomanip>
 #endif
 #include <math.h>

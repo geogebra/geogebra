@@ -748,7 +748,7 @@ namespace giac {
 	      in_coeffnumv[vs-(i-2)] -= (i-1)*tmp;
 	  }
 	  gen vresden;
-	  lcmdeno(vres,vresden,contextptr);
+	  lcmdeno(vres,vresden,contextptr); // lcmdeno_converted?
 	  gen ppart=subst(r2e(poly12polynome(vres,1,les_vars),les_var,contextptr),gen_x,gen_x+decal,false,contextptr)/r2e(vresden,vecteur(les_var.begin()+1,les_var.end()),contextptr)*exp(reaxb,contextptr);
 	  // add erf part from the last coeff vres[vs]
 	  gen a=-rex2; // r2e(-ina,les_var,contextptr);
@@ -1681,7 +1681,24 @@ namespace giac {
       gprintf(step_ratfracfinal,gettext("Partial fraction integration of %gen"),makevecteur(r2sym(finaldecomp,l,contextptr)),contextptr);
     it=finaldecomp.begin();
     itend=finaldecomp.end();
-    return integrate_rational_end(it,itend,x,xvar,l,lprime,ipnum,ipden,r2sym(intdecomp,l,contextptr),remains_to_integrate,intmode,contextptr);
+    gen ratpart=r2sym(intdecomp,l,contextptr);
+    // should remove constants in ratpart
+    gen tmp1=_fxnd(ratpart,contextptr);
+    if (tmp1.type==_VECT && tmp1._VECTptr->size()==2){
+      gen tmp2=_quorem(makesequence(tmp1._VECTptr->front(),tmp1._VECTptr->back(),xvar),contextptr);
+      if (tmp2.type==_VECT && tmp2._VECTptr->size()==2){
+	gen q=tmp2._VECTptr->front(),r=tmp2._VECTptr->back();
+	gen C=subst(q,xvar,0,false,contextptr);
+	if (!is_zero(C)){
+	  q=ratnormal(q-C);
+	  tmp1=tmp1._VECTptr->back();
+	  tmp1=_collect(tmp1,contextptr);
+	  tmp1=r*inv(tmp1,contextptr);
+	  ratpart=q+tmp1;
+	}
+      }
+    }
+    return integrate_rational_end(it,itend,x,xvar,l,lprime,ipnum,ipden,ratpart,remains_to_integrate,intmode,contextptr);
   }
 
   // integration of e when linear operations have been applied
@@ -2243,6 +2260,20 @@ namespace giac {
 #ifdef LOGINT
     *logptr(contextptr) << gettext("integrate step 1 ") << e << endl;
 #endif
+    if (u==at_sum && f.type==_VECT && f._VECTptr->size()==4){
+      vecteur & fv=*f._VECTptr;
+      if (!is_zero(derive(fv[1],gen_x,contextptr)))
+	return gensizeerr("Mute variable of sum depends on integration variable");
+      if (!is_zero(derive(fv[2],gen_x,contextptr)) || !is_zero(derive(fv[3],gen_x,contextptr)) )
+	return gensizeerr("Boundaries of sum depends on integration variables");
+      if (is_inf(fv[2])||is_inf(fv[3]))
+	*logptr(contextptr) << "Warning: assuming integration and sum commutes" << endl;
+      gen res=integrate_id_rem(fv[0],gen_x,remains_to_integrate,contextptr,intmode);
+      res=_sum(makesequence(res,fv[1],fv[2],fv[3]),contextptr);
+      if (!is_zero(remains_to_integrate))
+	remains_to_integrate=_sum(makesequence(remains_to_integrate,fv[1],fv[2],fv[3]),contextptr);
+      return res;
+    }
     // unary op only
     int s=equalposcomp(primitive_tab_op,u);
     if (s && is_linear_wrt(f,gen_x,a,b,contextptr) ){
@@ -2275,7 +2306,8 @@ namespace giac {
 	gen df=derive(*it,gen_x,contextptr);
 	gen tmprem;
 	fu=ratnormal(rdiv(e,df,contextptr));
-	if (is_undef(fu) && is_zero(ratnormal(df))){
+	fu=eval(fu,1,contextptr);
+	if ((is_undef(fu) || is_inf(fu)) && is_zero(ratnormal(df))){
 	  // *it is constant -> find the value
 	  tmprem=subst(*it,gen_x,zero,false,contextptr);
 	  e=subst(e,*it,tmprem,false,contextptr);
@@ -2324,7 +2356,8 @@ namespace giac {
 	}
 	if (it->type!=_SYMB)
 	  continue;
-	f=it->_SYMBptr->feuille;
+	f=ratnormal(it->_SYMBptr->feuille); 
+	// ratnormal added otherwise infinite recursion for int(1/sin(x^-1))
 	if ( (f.type==_VECT) && (!f._VECTptr->empty()) )
 	  f=f._VECTptr->front();
 	if (f.type!=_SYMB)
@@ -2627,14 +2660,14 @@ namespace giac {
       return exactvalue;
     gen tmp=evalf_double(exactvalue,1,contextptr);
 #if defined HAVE_LIBMPFR && !defined NO_STDEXCEPT
-    if (tmp.type==_DOUBLE_){
+    if (tmp.type==_DOUBLE_ || tmp.type==_CPLX){
       try {
 	tmp=evalf_double(accurate_evalf(exactvalue,256),1,contextptr);
       } catch (std::runtime_error & err){
       }
     }
 #endif
-    if (tmp.type!=_DOUBLE_)
+    if (tmp.type!=_DOUBLE_ && tmp.type!=_CPLX)
       return exactvalue;
     if (debug_infolevel)
       *logptr(contextptr) << gettext("Checking exact value of integral with numeric approximation")<<endl;
@@ -2642,7 +2675,10 @@ namespace giac {
     if (!tegral(f,x,a,b,1e-6,(1<<10),tmp2,contextptr))
       return exactvalue;
     tmp2=evalf_double(tmp2,1,contextptr);
-    if (tmp2.type!=_DOUBLE_ || (std::abs(tmp._DOUBLE_val)<1e-8 && std::abs(tmp2._DOUBLE_val<1e-8)) ||std::abs(tmp._DOUBLE_val-tmp2._DOUBLE_val)<=1e-3*std::abs(tmp2._DOUBLE_val))
+    if ( (tmp2.type!=_DOUBLE_ && tmp2.type!=_CPLX) || 
+	 (abs(tmp,contextptr)._DOUBLE_val<1e-8 && abs(tmp2,contextptr)._DOUBLE_val<1e-8) || 
+	 abs(tmp-tmp2,contextptr)._DOUBLE_val<=1e-3*abs(tmp2,contextptr)._DOUBLE_val
+	 )
       return simplifier(exactvalue,contextptr);
     *logptr(contextptr) << gettext("Error while checking exact value with approximate value, returning both!") << endl;
     return makevecteur(exactvalue,tmp2);
@@ -2685,8 +2721,8 @@ namespace giac {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(gen2vecteur(args));
     if (v.size()==1){
-      gen a,b;
-      if (is_algebraic_program(args,a,b) && a.type!=_VECT)
+      gen a,b,c=eval(args,1,contextptr);
+      if (is_algebraic_program(c,a,b) && a.type!=_VECT)
 	return symbolic(at_program,makesequence(a,0,_integrate(gen(makevecteur(b,a),_SEQ__VECT),contextptr)));
       if (calc_mode(contextptr)==1)
 	v.push_back(ggb_var(v.front()));
@@ -2715,7 +2751,7 @@ namespace giac {
       return gentoomanyargs("integrate");
     gen x=v[1];
     if (rcl_38 && x.type==_IDNT && rcl_38(x,0,x._IDNTptr->id_name,undef,false,contextptr)){
-      identificateur t("_t");
+      identificateur t("t_");
       x=v[1];
       v[0]=quotesubst(v[0],x,t,contextptr);
       v[1]=t;
@@ -3283,7 +3319,7 @@ namespace giac {
 #else // using -1..1 scaling instead of 0..1
   static bool tegral_util(const gen & f,const gen &x, const gen &a,const gen &b,gen & i30,gen & i30abs, gen &err,GIAC_CONTEXT){
     gen h=evalf_double(b-a,1,contextptr),i14,i6;
-    int s30=15,s14=14,s6=6;
+    //int s30=15,s14=14,s6=6;
     long_double c30[]={-0.98799251802048542849,-0.93727339240070590430,-0.84820658341042721620,-0.72441773136017004742,-0.57097217260853884754,-0.39415134707756336990,-0.20119409399743452230,0.00000000000000000000,0.20119409399743452230,0.39415134707756336990,0.57097217260853884754,0.72441773136017004742,0.84820658341042721620,0.93727339240070590430,0.98799251802048542849};
     long_double b30[]={0.15376620998058634177e-1,0.35183023744054062355e-1,0.53579610233585967506e-1,0.69785338963077157224e-1,0.83134602908496966777e-1,0.93080500007781105513e-1,0.99215742663555788228e-1,0.10128912096278063644,0.99215742663555788228e-1,0.93080500007781105514e-1,0.83134602908496966777e-1,0.69785338963077157224e-1,0.53579610233585967507e-1,0.35183023744054062355e-1,0.15376620998058634177e-1};
     long_double b14[]={0.21474028217339757006e-1,0.14373155100418764102e-1,0.92599218105237092609e-1,0.11827741709315709983e-1,0.15847003639679458478,0.38429189419875016111e-2,0.19741290152890658991,0.19741290152890658991,0.38429189419875016111e-2,0.15847003639679458478,0.11827741709315709983e-1,0.92599218105237092608e-1,0.14373155100418764102e-1,0.21474028217339757006e-1};
@@ -3708,7 +3744,7 @@ namespace giac {
       Q=polynome2poly1(*r_num._POLYptr,1);
       vecteur P(solveP_x_plus_1_minus_P_x(Q));
       gen den;
-      lcmdeno(P,den,contextptr);
+      lcmdeno(P,den,contextptr); // lcmdeno_converted?
       r_num=poly12polynome(P,1,r_num._POLYptr->dim);
       r=rdiv(r_num,r_den*den,contextptr);
       res=r2e(r,v,contextptr);
@@ -3779,7 +3815,7 @@ namespace giac {
 	}
 	modpoly constante=jt->den/it_den;
 	gen const_den;
-	lcmdeno(constante,const_den,contextptr);
+	lcmdeno(constante,const_den,contextptr); // lcmdeno_converted?
 	// should check if constante is a fraction
 	jt->num=constante*it_num+const_den*jt->num;
 	jt->den=const_den*jt->den;
@@ -3956,7 +3992,7 @@ namespace giac {
 	return false;
       res[i]=m[i][y+1]/m[i][i];
     }
-    lcmdeno(res,deno,contextptr);
+    lcmdeno(res,deno,contextptr); // lcmdeno_converted?
     Y=poly12polynome(res,1,P.dim);
     return p==y || is_zero(m[y+1]);
     // Or alternatively do a Rothstein-Trager like method if Q non constant
@@ -3994,6 +4030,10 @@ namespace giac {
 	return false;
     }
     lvar(ratio,v);
+    for (unsigned i=1;i<v.size();++i){
+      if (!is_zero(derive(v[i],x,contextptr)))
+	return false;
+    }
     int s=v.size();
     gen f=e2r(ratio,v,contextptr);
     polynome A(s),B(s);
@@ -4405,6 +4445,22 @@ namespace giac {
     if (s==4) {
       if (v[1]==cst_i)
 	return gensizeerr(gettext("i=sqrt(-1), please use a valid identifier name"));
+      gen af=evalf_double(v[2],1,contextptr),bf=evalf_double(v[3],1,contextptr);
+      if (v[1].type==_IDNT && (is_inf(af) || af.type==_DOUBLE_) && (is_inf(bf) || bf.type==_DOUBLE_)){
+	vecteur w;
+#ifdef NO_STDEXCEPT
+	  w=protect_find_singularities(eval(v[0],1,contextptr),*v[1]._IDNTptr,0,contextptr);
+#else
+	try {
+	  w=protect_find_singularities(eval(v[0],1,contextptr),*v[1]._IDNTptr,0,contextptr);
+	} catch (std::runtime_error & e){
+	}
+#endif
+	for (unsigned i=0;i<w.size();++i){
+	  if (is_greater((v[3]-w[i])*(w[i]-v[2]),0,contextptr))
+	    return gensizeerr("Pole at "+w[i].print(contextptr));
+	}
+      }
       // test must be done twice for example for sum(sin(k),k,1,0)
       if (is_zero(v[2]-v[3]-1))
 	return zero;
@@ -4524,15 +4580,51 @@ namespace giac {
   define_unary_function_ptr5( at_add ,alias_at_add,&__add,_QUOTE_ARGUMENTS,true);
 
   gen bernoulli(const gen & x){
-    if ( (x.type!=_INT_)  || (x.val<0))// Should add bernoulli polynomials 
+    if (x.type==_VECT && x._VECTptr->size()==2){
+      gen a=x._VECTptr->front(),y=x._VECTptr->back();
+      if (a.type!=_INT_)
+	return gensizeerr(gettext("bernoulli"));
+      bool all=a.val<0;
+      int n=absint(a.val);
+      gen bi=bernoulli(-n);
+      if (bi.type!=_VECT)
+	return gensizeerr(gettext("bernoulli"));
+      vecteur biv=*bi._VECTptr;
+      if (biv.size()<n)
+	biv.push_back(0);
+      // bernoulli polynomials B_n=n*int(B_n-1)+bi[n]
+      vecteur allv;
+      vecteur cur(1,1);
+      if (all)
+	allv.push_back((y.type==_VECT?cur:plus_one));
+      for (int i=1;i<=n;++i){
+	cur=multvecteur(i,integrate(cur,1));
+	cur.insert(cur.begin(),biv[i]);
+	if (all){
+	  vecteur tmp(cur);
+	  reverse(tmp.begin(),tmp.end());
+	  if (y.type==_VECT)
+	    allv.push_back(tmp);
+	  else
+	    allv.push_back(symb_horner(tmp,y));
+	}
+      }
+      reverse(cur.begin(),cur.end());
+      return all?allv:(y.type==_VECT?cur:symb_horner(cur,y));
+    }
+    if (x.type!=_INT_)
       return gensizeerr(gettext("bernoulli"));
-    int n=x.val;
+    bool all=x.val<0;
+    int n=absint(x.val);
     if (!n)
       return plus_one;
     if (n==1)
       return minus_one_half;
-    if (n%2)
-      return zero;
+    if (n%2){
+      if (!all)
+	return zero;
+      --n;
+    }
     gen a(plus_one);
     gen b(rdiv(1-n,plus_two,context0));
     vecteur bi(makevecteur(plus_one,minus_one_half));
@@ -4550,10 +4642,16 @@ namespace giac {
       a=iquo( (a*gen(n+3-i)*gen(n+2-i)),((i-1)*i));
       b=b+a* bi[i];
     }
+    if (all){
+      bi.push_back(rdiv(-b,n+1,context0));
+      return bi;
+    }
     return rdiv(-b,n+1,context0);
   }
   gen _bernoulli(const gen & args,GIAC_CONTEXT) {
     if ( args.type==_STRNG && args.subtype==-1) return  args;
+    if (args.type==_VECT && args._VECTptr->size()==2 && args._VECTptr->back().type!=_INT_)
+      return bernoulli(args);
     return apply(args,bernoulli);
   }
   static const char _bernoulli_s []="bernoulli";

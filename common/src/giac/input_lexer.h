@@ -77,23 +77,54 @@ namespace giac {
 #endif
   map_charptr_gen & lexer_functions();
 
+#ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
+    // gen alias for static initialization on 32 bits processor
+    struct charptr_gen_unary {
+      const char * s;
+      unsigned char type;  // see dispatch.h
+      signed char subtype;
+      unsigned short reserved; 
+      size_t _FUNC_; // unary_function_ptr *
+    };
+  extern const charptr_gen_unary builtin_lexer_functions[] ;
+  extern const unsigned builtin_lexer_functions_number;
+  extern const size_t builtin_lexer_functions_[];
+#else
+  extern unsigned builtin_lexer_functions_number;
+#endif
+
+  /* integer values */
+  struct lexer_tab_int_type {
+    const char * keyword;
+    unsigned char status;
+    int value;
+    signed char subtype;
+    short int return_value;
+  };
+  extern const lexer_tab_int_type lexer_tab_int_values[];
+  extern const lexer_tab_int_type * const lexer_tab_int_values_begin;
+  extern const lexer_tab_int_type * const lexer_tab_int_values_end;
+  std::string translate_at(const char * ch);
 
   inline bool tri (const std::pair<const char *,gen> & a ,const std::pair<const char *,gen> & b){
     return strcmp(a.first, b.first) < 0;
   }
+  bool tri1(const lexer_tab_int_type & a,const lexer_tab_int_type & b);
  
   typedef std::pair<const char *,gen> charptr_gen;
   charptr_gen * builtin_lexer_functions_begin();
   charptr_gen * builtin_lexer_functions_end();
 #ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
 #ifdef NSPIRE
-  std::vector<unsigned long> * builtin_lexer_functions_();
+  std::vector<size_t> * builtin_lexer_functions_();
 #else
-  extern const unsigned long builtin_lexer_functions_[];
+  extern const size_t builtin_lexer_functions_[];
 #endif
 #else
-  extern const unsigned long * const builtin_lexer_functions_;
+  extern const size_t * const builtin_lexer_functions_;
 #endif
+
+  extern bool builtin_lexer_functions_sorted;
 
   // return true/false to tell if s is recognized. return the appropriate gen if true
   bool CasIsBuildInFunction(char const *s, gen &g);

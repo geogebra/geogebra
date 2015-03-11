@@ -94,6 +94,7 @@ namespace giac {
   gen _VARS(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_VARS;
 
+  gen purgenoassume(const gen & args,const context * contextptr);
   gen _purge(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_purge;
 

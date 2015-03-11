@@ -1393,7 +1393,6 @@ static yyconst flex_int16_t yy_chk[2023] =
   namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-    const char invalid_name[]="Invalid name";
     void increment_lexer_line_number_setcol(yyscan_t yyscanner,GIAC_CONTEXT){
       giac_yyset_column(1,yyscanner);
       increment_lexer_line_number(contextptr);
@@ -1426,114 +1425,6 @@ static yyconst flex_int16_t yy_chk[2023] =
       return * ans;
     }
 
-    bool builtin_lexer_functions_sorted = false;
-
-    map_charptr_gen & lexer_functions(){
-      static map_charptr_gen * ans=0;
-      if (!ans){
-	ans = new map_charptr_gen;
-	doing_insmod=false;
-	builtin_lexer_functions_sorted=false;
-      }
-      return * ans;
-    }
-
-
-#ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
-    // gen alias for static initialization on 32 bits processor
-    struct charptr_gen_unary {
-      const char * s;
-      unsigned char type;  // see dispatch.h
-      signed char subtype;
-      unsigned short reserved; 
-      unsigned long _FUNC_; // unary_function_ptr *
-    };
-
-    const charptr_gen_unary builtin_lexer_functions[] ={
-#if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
-#include "static_lexer_38.h"
-#else
-#include "static_lexer.h"
-#endif
-    };
-
-    const unsigned builtin_lexer_functions_number=sizeof(builtin_lexer_functions)/sizeof(charptr_gen_unary);
-    // return true/false to tell if s is recognized. return the appropriate gen if true
-    bool CasIsBuildInFunction(char const *s, gen &g){ 
-      // binary search in builtin_lexer_functions
-      int i=0, j=builtin_lexer_functions_number-1;
-      int cmp;
-      cmp= strcmp(s,builtin_lexer_functions[i].s);
-      if (cmp==0) goto found; if (cmp<0) return false;
-      cmp= strcmp(s,builtin_lexer_functions[j].s);
-      if (cmp==0) { i=j; goto found; } if (cmp>0) return false;
-      while (1){
-        if (i+1>=j) return false;
-        int mid= (i+j)/2;
-        cmp= strcmp(s,builtin_lexer_functions[mid].s);
-        if (cmp==0) { i=mid; goto found; } 
-        if (cmp>0) i= mid; else j=mid;
-      }
-    found:
-#ifdef NSPIRE
-      g= gen(int((*builtin_lexer_functions_())[i]+builtin_lexer_functions[i]._FUNC_));
-#else
-      g= gen(int(builtin_lexer_functions_[i]+builtin_lexer_functions[i]._FUNC_));
-#endif
-      g= gen(*g._FUNCptr);
-      return true;
-    }
-
-#ifdef NSPIRE
-    vector<unsigned long> * builtin_lexer_functions_(){
-      static vector<unsigned long> * res=0;
-      if (res) return res;
-      res = new vector<unsigned long>;
-      res->reserve(builtin_lexer_functions_number+1);
-#include "static_lexer_at.h"
-      return res;
-    }
-#else
-    // Array added because GH compiler stores builtin_lexer_functions in RAM
-    const unsigned long builtin_lexer_functions_[]={
-#if defined(GIAC_HAS_STO_38) && defined(CAS38_DISABLED)
-#include "static_lexer_38_.h"
-#else
-#include "static_lexer_.h"
-#endif
-    };
-#endif
-
-    charptr_gen * builtin_lexer_functions_begin(){
-      return (charptr_gen *) builtin_lexer_functions;
-    }
-
-    charptr_gen * builtin_lexer_functions_end(){
-      return builtin_lexer_functions_begin()+builtin_lexer_functions_number;
-    }
-
-#else
-    unsigned builtin_lexer_functions_number;
-    charptr_gen * builtin_lexer_functions(){
-      static charptr_gen * ans=0;
-      if (!ans){
-	ans = new charptr_gen[1400];
-	builtin_lexer_functions_number=0;
-      }
-      return ans;
-    }
-
-    charptr_gen * builtin_lexer_functions_begin(){
-      return builtin_lexer_functions();
-    }
-
-    charptr_gen * builtin_lexer_functions_end(){
-      return builtin_lexer_functions()+builtin_lexer_functions_number;
-    }
-
-    const unsigned long * const builtin_lexer_functions_=0;
-    
-#endif
 
     std::vector<int> & lexer_localization_vector(){
       static std::vector<int> * ans=new  std::vector<int>;
@@ -1610,15 +1501,6 @@ static yyconst flex_int16_t yy_chk[2023] =
       return * ans;
     }
 
-    /* integer values */
-    struct lexer_tab_int_type {
-      const char * keyword;
-      unsigned char status;
-      int value;
-      signed char subtype;
-      short int return_value;
-    };
-
     bool tri1(const lexer_tab_int_type & a,const lexer_tab_int_type & b){
       int res= strcmp(a.keyword,b.keyword);
       return res<0;
@@ -1652,7 +1534,7 @@ static yyconst flex_int16_t yy_chk[2023] =
 /*
  *  Lexical rules
  */
-#line 1656 "input_lexer.cc"
+#line 1538 "input_lexer.cc"
 
 #define INITIAL 0
 #define comment 1
@@ -1889,10 +1771,10 @@ YY_DECL
 	register int yy_act;
     struct yyguts_t * yyg = (struct yyguts_t*)yyscanner;
 
-#line 379 "input_lexer.ll"
+#line 261 "input_lexer.ll"
 
 
-#line 1896 "input_lexer.cc"
+#line 1778 "input_lexer.cc"
 
     yylval = yylval_param;
 
@@ -1979,30 +1861,30 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 381 "input_lexer.ll"
+#line 263 "input_lexer.ll"
 /* skip whitespace */
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 382 "input_lexer.ll"
+#line 264 "input_lexer.ll"
 increment_lexer_line_number_setcol(yyscanner,yyextra); //CERR << "Scanning line " << lexer_line_number(yyextra) << endl;
 	YY_BREAK
 /* Strings */
 /* \"[^\"]*\"        yylval = string2gen( giac_yytext); return T_STRING; */
 case 3:
 YY_RULE_SETUP
-#line 385 "input_lexer.ll"
+#line 267 "input_lexer.ll"
 BEGIN(str); comment_s("",yyextra);
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 386 "input_lexer.ll"
+#line 268 "input_lexer.ll"
 increment_comment_s('"',yyextra);
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 387 "input_lexer.ll"
+#line 269 "input_lexer.ll"
 {  index_status(yyextra)=1; BEGIN(INITIAL); 
                   (*yylval)=string2gen(comment_s(yyextra),false); 
                   return T_STRING; }
@@ -2010,12 +1892,12 @@ YY_RULE_SETUP
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 390 "input_lexer.ll"
+#line 272 "input_lexer.ll"
 increment_comment_s('\n',yyextra); increment_lexer_line_number_setcol(yyscanner,yyextra);
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 391 "input_lexer.ll"
+#line 273 "input_lexer.ll"
 {
                    /* octal escape sequence */
                    int result;
@@ -2025,7 +1907,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 397 "input_lexer.ll"
+#line 279 "input_lexer.ll"
 {
                    /* generate error - bad escape sequence; something
                     * like '\48' or '\0777777'
@@ -2034,1846 +1916,1846 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 402 "input_lexer.ll"
+#line 284 "input_lexer.ll"
 increment_comment_s('\n',yyextra);
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 403 "input_lexer.ll"
+#line 285 "input_lexer.ll"
 increment_comment_s('\t',yyextra);
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 404 "input_lexer.ll"
+#line 286 "input_lexer.ll"
 increment_comment_s('\r',yyextra);
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 405 "input_lexer.ll"
+#line 287 "input_lexer.ll"
 increment_comment_s('\b',yyextra);
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 406 "input_lexer.ll"
+#line 288 "input_lexer.ll"
 increment_comment_s('\f',yyextra);
 	YY_BREAK
 case 14:
 /* rule 14 can match eol */
 YY_RULE_SETUP
-#line 407 "input_lexer.ll"
+#line 289 "input_lexer.ll"
 increment_comment_s(yytext[1],yyextra);
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 408 "input_lexer.ll"
+#line 290 "input_lexer.ll"
 increment_comment_s(yytext,yyextra);
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 409 "input_lexer.ll"
+#line 291 "input_lexer.ll"
 if (rpn_mode(yyextra)){ index_status(yyextra)=0; return T_ACCENTGRAVE; } else { BEGIN(backquote); comment_s("",yyextra); }
 	YY_BREAK
 case 17:
 /* rule 17 can match eol */
 YY_RULE_SETUP
-#line 410 "input_lexer.ll"
+#line 292 "input_lexer.ll"
 increment_comment_s('\n',yyextra); increment_lexer_line_number_setcol(yyscanner,yyextra);
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 411 "input_lexer.ll"
+#line 293 "input_lexer.ll"
 increment_comment_s(yytext,yyextra);
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 412 "input_lexer.ll"
+#line 294 "input_lexer.ll"
 {  index_status(yyextra)=1; BEGIN(INITIAL); 
   return find_or_make_symbol(comment_s(yyextra),(*yylval),yyscanner,true,yyextra); }
 	YY_BREAK
 case 20:
 /* rule 20 can match eol */
 YY_RULE_SETUP
-#line 415 "input_lexer.ll"
+#line 297 "input_lexer.ll"
 index_status(yyextra)=0; increment_lexer_line_number_setcol(yyscanner,yyextra);
 	YY_BREAK
 case 21:
 /* rule 21 can match eol */
 YY_RULE_SETUP
-#line 416 "input_lexer.ll"
+#line 298 "input_lexer.ll"
 index_status(yyextra)=0; increment_lexer_line_number_setcol(yyscanner,yyextra);/* (*yylval) = string2gen('"'+string(giac_yytext).substr(2,string(giac_yytext).size()-3)+'"');   return T_COMMENT; */
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 417 "input_lexer.ll"
+#line 299 "input_lexer.ll"
 BEGIN(comment); comment_s(yyextra)="";
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 419 "input_lexer.ll"
+#line 301 "input_lexer.ll"
 comment_s(yyextra)+=yytext; /* eat anything that's not a '*' */
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 420 "input_lexer.ll"
+#line 302 "input_lexer.ll"
 comment_s(yyextra)+=yytext; /* eat up '*'s not followed by '/'s */
 	YY_BREAK
 case 25:
 /* rule 25 can match eol */
 YY_RULE_SETUP
-#line 421 "input_lexer.ll"
+#line 303 "input_lexer.ll"
 comment_s(yyextra) += '\n'; increment_lexer_line_number_setcol(yyscanner,yyextra); CERR << "(Comment) scanning line " << lexer_line_number(yyextra) << endl;
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 422 "input_lexer.ll"
+#line 304 "input_lexer.ll"
 BEGIN(INITIAL); index_status(yyextra)=0; /* (*yylval) = string2gen(comment_s(yyextra),false); return T_COMMENT; */
 	YY_BREAK
 case 27:
 /* rule 27 can match eol */
 YY_RULE_SETUP
-#line 423 "input_lexer.ll"
+#line 305 "input_lexer.ll"
 index_status(yyextra)=0; /* (*yylval) = string2gen('"'+string(yytext).substr(3,string(yytext).size()-6)+'"'); return T_COMMENT; */
 	YY_BREAK
 case 28:
 /* rule 28 can match eol */
 YY_RULE_SETUP
-#line 424 "input_lexer.ll"
+#line 306 "input_lexer.ll"
 index_status(yyextra)=0; /* (*yylval) = string2gen('"'+string(yytext).substr(3,string(yytext).size()-6)+'"'); return T_COMMENT; */
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 426 "input_lexer.ll"
+#line 308 "input_lexer.ll"
 if (index_status(yyextra)) return T_INTERROGATION; if (calc_mode(yyextra)==1){ *yylval=undef; return T_SYMBOL;}  return T_HELP;
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 427 "input_lexer.ll"
+#line 309 "input_lexer.ll"
 opened_quote(yyextra) |= 2; return T_UNIT;
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 428 "input_lexer.ll"
+#line 310 "input_lexer.ll"
 if (opened_quote(yyextra) & 1) { opened_quote(yyextra) &= 0x7ffffffe; return T_QUOTE; } if (index_status(yyextra) && !in_rpn(yyextra) && xcas_mode(yyextra)!= 1) return T_PRIME; opened_quote(yyextra) |= 1; return T_QUOTE;
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 429 "input_lexer.ll"
+#line 311 "input_lexer.ll"
 index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 430 "input_lexer.ll"
+#line 312 "input_lexer.ll"
 index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return TI_SEMI; (*yylval)=0; return T_SEMI;
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 431 "input_lexer.ll"
+#line 313 "input_lexer.ll"
 index_status(yyextra)=0; if (xcas_mode(yyextra)==3) return T_SEMI; return TI_SEMI;
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 432 "input_lexer.ll"
+#line 314 "input_lexer.ll"
 if (spread_formula(yyextra)) return T_DEUXPOINTS; if ( xcas_mode(yyextra)==3 ) { index_status(yyextra)=0; return TI_DEUXPOINTS; }  index_status(yyextra)=0; if (xcas_mode(yyextra)>0) { (*yylval)=1; return T_SEMI; } else return T_DEUXPOINTS;
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 433 "input_lexer.ll"
+#line 315 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=1; return T_SEMI;
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 434 "input_lexer.ll"
+#line 316 "input_lexer.ll"
 index_status(yyextra)=0;return T_DOUBLE_DEUX_POINTS;
 	YY_BREAK
 /* special values */
 case 38:
 YY_RULE_SETUP
-#line 438 "input_lexer.ll"
+#line 320 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=theta__IDNT_e; return T_SYMBOL;
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 439 "input_lexer.ll"
+#line 321 "input_lexer.ll"
 index_status(yyextra)=1; if (xcas_mode(yyextra) > 0 || !i_sqrt_minus1(yyextra)) { (*yylval)=i__IDNT_e; return T_SYMBOL; } else { (*yylval) = cst_i; return T_LITERAL;};
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 440 "input_lexer.ll"
+#line 322 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 441 "input_lexer.ll"
+#line 323 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 442 "input_lexer.ll"
+#line 324 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 	YY_BREAK
 /* \xef\xbd\x89            index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL; */
 case 43:
 YY_RULE_SETUP
-#line 444 "input_lexer.ll"
+#line 326 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 445 "input_lexer.ll"
+#line 327 "input_lexer.ll"
 index_status(yyextra)=1; if (xcas_mode(yyextra)==0 || xcas_mode(yyextra)==3 || rpn_mode(yyextra)) { return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); } else { (*yylval) = cst_i; return T_LITERAL; };
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 446 "input_lexer.ll"
+#line 328 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_i; return T_LITERAL;
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 447 "input_lexer.ll"
+#line 329 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = symbolic(at_exp,1); return T_LITERAL;
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 448 "input_lexer.ll"
+#line 330 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_pi; return T_LITERAL;
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 449 "input_lexer.ll"
+#line 331 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_pi; return T_LITERAL;
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 450 "input_lexer.ll"
+#line 332 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_pi; return T_LITERAL;
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 451 "input_lexer.ll"
+#line 333 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_pi; return T_LITERAL;
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 452 "input_lexer.ll"
+#line 334 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_pi; return T_LITERAL;
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 453 "input_lexer.ll"
+#line 335 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = cst_euler_gamma; return T_LITERAL;
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 454 "input_lexer.ll"
+#line 336 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
-#line 455 "input_lexer.ll"
+#line 337 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
-#line 456 "input_lexer.ll"
+#line 338 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
-#line 457 "input_lexer.ll"
+#line 339 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
-#line 458 "input_lexer.ll"
+#line 340 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = unsigned_inf; return T_LITERAL;
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
-#line 459 "input_lexer.ll"
+#line 341 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = plus_inf; return T_LITERAL;
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
-#line 460 "input_lexer.ll"
+#line 342 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = minus_inf; return T_LITERAL;
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
-#line 461 "input_lexer.ll"
+#line 343 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval) = undef; return T_LITERAL;
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
-#line 462 "input_lexer.ll"
+#line 344 "input_lexer.ll"
 return T_END_INPUT;
 	YY_BREAK
 /* integer values */
 case 62:
 YY_RULE_SETUP
-#line 465 "input_lexer.ll"
+#line 347 "input_lexer.ll"
 if (xcas_mode(yyextra)==2){ (*yylval) = gen(at_user_operator,6); index_status(yyextra)=0; return T_UNARY_OP; }  index_status(yyextra)=0; (*yylval) = _FUNC; (*yylval).subtype=_INT_TYPE; return T_TYPE_ID;
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
-#line 466 "input_lexer.ll"
+#line 348 "input_lexer.ll"
 if (xcas_mode(yyextra)==3) { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); } index_status(yyextra)=0; (*yylval) = _MAPLE_LIST ; (*yylval).subtype=_INT_MAPLECONVERSION ;return T_TYPE_ID;
 	YY_BREAK
 /* vector/polynom/matrice delimiters */
 case 64:
 YY_RULE_SETUP
-#line 470 "input_lexer.ll"
+#line 352 "input_lexer.ll"
 (*yylval) = _SEQ__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
-#line 471 "input_lexer.ll"
+#line 353 "input_lexer.ll"
 (*yylval) = _SET__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
-#line 472 "input_lexer.ll"
+#line 354 "input_lexer.ll"
 (*yylval) = _INTERVAL__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
-#line 473 "input_lexer.ll"
+#line 355 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _LIST__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
-#line 474 "input_lexer.ll"
+#line 356 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _LIST__VECT; return T_BEGIN_PAR;
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
-#line 475 "input_lexer.ll"
+#line 357 "input_lexer.ll"
 (*yylval) = _RPN_FUNC__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
-#line 476 "input_lexer.ll"
+#line 358 "input_lexer.ll"
 (*yylval) = _GROUP__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
-#line 477 "input_lexer.ll"
+#line 359 "input_lexer.ll"
 (*yylval) = _LINE__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
-#line 478 "input_lexer.ll"
+#line 360 "input_lexer.ll"
 (*yylval) = _VECTOR__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
-#line 479 "input_lexer.ll"
+#line 361 "input_lexer.ll"
 (*yylval) = _MATRIX__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
-#line 480 "input_lexer.ll"
+#line 362 "input_lexer.ll"
 (*yylval) = _PNT__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
-#line 481 "input_lexer.ll"
+#line 363 "input_lexer.ll"
 (*yylval) = _GGB__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
-#line 482 "input_lexer.ll"
+#line 364 "input_lexer.ll"
 (*yylval) = _GGBVECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
-#line 483 "input_lexer.ll"
+#line 365 "input_lexer.ll"
 (*yylval) = _POINT__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
-#line 484 "input_lexer.ll"
+#line 366 "input_lexer.ll"
 (*yylval) = _CURVE__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
-#line 485 "input_lexer.ll"
+#line 367 "input_lexer.ll"
 (*yylval) = _HALFLINE__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
-#line 486 "input_lexer.ll"
+#line 368 "input_lexer.ll"
 (*yylval) = _POLY1__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
-#line 487 "input_lexer.ll"
+#line 369 "input_lexer.ll"
 (*yylval) = _ASSUME__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
-#line 488 "input_lexer.ll"
+#line 370 "input_lexer.ll"
 (*yylval) = _SPREAD__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
-#line 489 "input_lexer.ll"
+#line 371 "input_lexer.ll"
 (*yylval) = _FOLDER__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
-#line 490 "input_lexer.ll"
+#line 372 "input_lexer.ll"
 (*yylval) = _POLYEDRE__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
-#line 491 "input_lexer.ll"
+#line 373 "input_lexer.ll"
 (*yylval) = _RGBA__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
-#line 492 "input_lexer.ll"
+#line 374 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _LIST__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
-#line 493 "input_lexer.ll"
+#line 375 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
-#line 494 "input_lexer.ll"
+#line 376 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_strict,2);  return T_TEST_EQUAL;
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
-#line 495 "input_lexer.ll"
+#line 377 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_superieur_strict,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
-#line 496 "input_lexer.ll"
+#line 378 "input_lexer.ll"
 index_status(yyextra)=0; return T_VIRGULE;
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
-#line 497 "input_lexer.ll"
+#line 379 "input_lexer.ll"
 index_status(yyextra)=0; return T_VIRGULE;
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
-#line 498 "input_lexer.ll"
+#line 380 "input_lexer.ll"
 index_status(yyextra)=0; *yylval = 0; return T_BEGIN_PAR;
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
-#line 499 "input_lexer.ll"
+#line 381 "input_lexer.ll"
 index_status(yyextra)=1; return T_END_PAR;
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
-#line 500 "input_lexer.ll"
+#line 382 "input_lexer.ll"
 if (index_status(yyextra)) { index_status(yyextra)=0; return T_INDEX_BEGIN; } else { (*yylval) = 0; return T_VECT_DISPATCH; } ;
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
-#line 501 "input_lexer.ll"
+#line 383 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
-#line 502 "input_lexer.ll"
+#line 384 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
-#line 503 "input_lexer.ll"
+#line 385 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _POLY1__VECT; return T_VECT_DISPATCH; 
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
-#line 504 "input_lexer.ll"
+#line 386 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
-#line 505 "input_lexer.ll"
+#line 387 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _MATRIX__VECT; return T_VECT_DISPATCH; 
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
-#line 506 "input_lexer.ll"
+#line 388 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
-#line 507 "input_lexer.ll"
+#line 389 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _ASSUME__VECT; return T_VECT_DISPATCH; 
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
-#line 508 "input_lexer.ll"
+#line 390 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 /* geometric delimiters */
 case 103:
 YY_RULE_SETUP
-#line 510 "input_lexer.ll"
+#line 392 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _GROUP__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
-#line 511 "input_lexer.ll"
+#line 393 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
-#line 512 "input_lexer.ll"
+#line 394 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _LINE__VECT; return T_VECT_DISPATCH; 
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
-#line 513 "input_lexer.ll"
+#line 395 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
-#line 514 "input_lexer.ll"
+#line 396 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _VECTOR__VECT; return T_VECT_DISPATCH; 
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
-#line 515 "input_lexer.ll"
+#line 397 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
-#line 516 "input_lexer.ll"
+#line 398 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval) = _CURVE__VECT; return T_VECT_DISPATCH; 
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
-#line 517 "input_lexer.ll"
+#line 399 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 /* gen delimiters */
 case 111:
 YY_RULE_SETUP
-#line 519 "input_lexer.ll"
+#line 401 "input_lexer.ll"
 index_status(yyextra)=0; if (rpn_mode(yyextra) ||calc_mode(yyextra)==1) { (*yylval)=0; return T_VECT_DISPATCH; } if (xcas_mode(yyextra)==3 || abs_calc_mode(yyextra)==38){ (*yylval) = _LIST__VECT;  return T_VECT_DISPATCH; } if (xcas_mode(yyextra) > 0 ){ (*yylval)=_SET__VECT; return T_VECT_DISPATCH; } else return T_BLOC_BEGIN;
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
-#line 520 "input_lexer.ll"
+#line 402 "input_lexer.ll"
 index_status(yyextra)=1; if (rpn_mode(yyextra) || calc_mode(yyextra)==1) return T_VECT_END; if (xcas_mode(yyextra)==3 || abs_calc_mode(yyextra)==38) return T_VECT_END; if (xcas_mode(yyextra) > 0) return T_VECT_END; else return T_BLOC_END;
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
-#line 521 "input_lexer.ll"
+#line 403 "input_lexer.ll"
 index_status(yyextra)=0;  (*yylval)=_SET__VECT; return T_VECT_DISPATCH;
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
-#line 522 "input_lexer.ll"
+#line 404 "input_lexer.ll"
 index_status(yyextra)=1; return T_VECT_END;
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
-#line 523 "input_lexer.ll"
+#line 405 "input_lexer.ll"
 index_status(yyextra)=0; return T_ROOTOF_BEGIN;
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
-#line 524 "input_lexer.ll"
+#line 406 "input_lexer.ll"
 index_status(yyextra)=1; return T_ROOTOF_END;
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
-#line 525 "input_lexer.ll"
+#line 407 "input_lexer.ll"
 index_status(yyextra)=0; return T_SPOLY1_BEGIN;
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
-#line 526 "input_lexer.ll"
+#line 408 "input_lexer.ll"
 index_status(yyextra)=1; return T_SPOLY1_END;
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
-#line 527 "input_lexer.ll"
+#line 409 "input_lexer.ll"
 index_status(yyextra)=0; ++in_rpn(yyextra); return T_RPN_BEGIN;
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
-#line 528 "input_lexer.ll"
+#line 410 "input_lexer.ll"
 index_status(yyextra)=0; --in_rpn(yyextra); return T_RPN_END;
 	YY_BREAK
 /* binary operators */
 case 121:
 YY_RULE_SETUP
-#line 531 "input_lexer.ll"
+#line 413 "input_lexer.ll"
 index_status(yyextra)=0; return T_MAPSTO;
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
-#line 532 "input_lexer.ll"
+#line 414 "input_lexer.ll"
 (*yylval) = gen(at_couleur,2); index_status(yyextra)=0; return T_INTERVAL;
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
-#line 533 "input_lexer.ll"
+#line 415 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_same,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
-#line 534 "input_lexer.ll"
+#line 416 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_same,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
-#line 535 "input_lexer.ll"
+#line 417 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_same,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
-#line 536 "input_lexer.ll"
+#line 418 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
-#line 537 "input_lexer.ll"
+#line 419 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
-#line 538 "input_lexer.ll"
+#line 420 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
-#line 539 "input_lexer.ll"
+#line 421 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
-#line 540 "input_lexer.ll"
+#line 422 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 131:
 YY_RULE_SETUP
-#line 541 "input_lexer.ll"
+#line 423 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_egal,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 132:
 YY_RULE_SETUP
-#line 542 "input_lexer.ll"
+#line 424 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_egal,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 133:
 YY_RULE_SETUP
-#line 543 "input_lexer.ll"
+#line 425 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_egal,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 134:
 YY_RULE_SETUP
-#line 544 "input_lexer.ll"
+#line 426 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_strict,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 135:
 YY_RULE_SETUP
-#line 545 "input_lexer.ll"
+#line 427 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_strict,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 136:
 YY_RULE_SETUP
-#line 546 "input_lexer.ll"
+#line 428 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_superieur_strict,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 137:
 YY_RULE_SETUP
-#line 547 "input_lexer.ll"
+#line 429 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 138:
 YY_RULE_SETUP
-#line 548 "input_lexer.ll"
+#line 430 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 139:
 YY_RULE_SETUP
-#line 549 "input_lexer.ll"
+#line 431 "input_lexer.ll"
 spread_formula(yyextra)=!index_status(yyextra); index_status(yyextra)=0; (*yylval)=gen(at_equal,2); return T_EQUAL;
 	YY_BREAK
 case 140:
 YY_RULE_SETUP
-#line 550 "input_lexer.ll"
+#line 432 "input_lexer.ll"
 spread_formula(yyextra)=!index_status(yyextra); index_status(yyextra)=0; (*yylval)=gen(at_equal2,2); return T_EQUAL;
 	YY_BREAK
 case 141:
 YY_RULE_SETUP
-#line 551 "input_lexer.ll"
+#line 433 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_equal,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 142:
 YY_RULE_SETUP
-#line 552 "input_lexer.ll"
+#line 434 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_dollar,2); if (xcas_mode(yyextra)>0) return T_DOLLAR_MAPLE; else return T_DOLLAR;
 	YY_BREAK
 case 143:
 YY_RULE_SETUP
-#line 553 "input_lexer.ll"
+#line 435 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_dollar,2); return T_DOLLAR_MAPLE;
 	YY_BREAK
 case 144:
 YY_RULE_SETUP
-#line 554 "input_lexer.ll"
+#line 436 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_dollar,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 145:
 YY_RULE_SETUP
-#line 555 "input_lexer.ll"
+#line 437 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_dollar,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 146:
 YY_RULE_SETUP
-#line 556 "input_lexer.ll"
+#line 438 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return T_AFFECT;
 	YY_BREAK
 case 147:
 YY_RULE_SETUP
-#line 557 "input_lexer.ll"
+#line 439 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 148:
 YY_RULE_SETUP
-#line 558 "input_lexer.ll"
+#line 440 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 149:
 YY_RULE_SETUP
-#line 559 "input_lexer.ll"
+#line 441 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 	YY_BREAK
 case 150:
 YY_RULE_SETUP
-#line 560 "input_lexer.ll"
+#line 442 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 	YY_BREAK
 case 151:
 YY_RULE_SETUP
-#line 561 "input_lexer.ll"
+#line 443 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 	YY_BREAK
 case 152:
 YY_RULE_SETUP
-#line 562 "input_lexer.ll"
+#line 444 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sto,2); return TI_STO;
 	YY_BREAK
 case 153:
 YY_RULE_SETUP
-#line 563 "input_lexer.ll"
+#line 445 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_array_sto,2); return T_AFFECT;
 	YY_BREAK
 case 154:
 YY_RULE_SETUP
-#line 564 "input_lexer.ll"
+#line 446 "input_lexer.ll"
 index_status(yyextra)=1; yytext[0]='0'; (*yylval) = symb_double_deux_points(makevecteur(_IDNT_id_at,chartab2gen(yytext,yyextra))); return T_SYMBOL;
 	YY_BREAK
 case 155:
 YY_RULE_SETUP
-#line 565 "input_lexer.ll"
+#line 447 "input_lexer.ll"
 if (xcas_mode(yyextra)!=3) {index_status(yyextra)=0; (*yylval)=gen(at_compose,2); return T_COMPOSE; } BEGIN(comment_hash);
 	YY_BREAK
 case 156:
 YY_RULE_SETUP
-#line 566 "input_lexer.ll"
+#line 448 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_composepow,2); return T_POW;
 	YY_BREAK
 case 157:
 YY_RULE_SETUP
-#line 567 "input_lexer.ll"
+#line 449 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_composepow,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 158:
 YY_RULE_SETUP
-#line 568 "input_lexer.ll"
+#line 450 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_composepow,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 159:
 YY_RULE_SETUP
-#line 569 "input_lexer.ll"
+#line 451 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_compose,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 160:
 YY_RULE_SETUP
-#line 570 "input_lexer.ll"
+#line 452 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_compose,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 161:
 YY_RULE_SETUP
-#line 571 "input_lexer.ll"
+#line 453 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_AND_OP;
 	YY_BREAK
 case 162:
 YY_RULE_SETUP
-#line 572 "input_lexer.ll"
+#line 454 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_AND_OP;
 	YY_BREAK
 case 163:
 YY_RULE_SETUP
-#line 573 "input_lexer.ll"
+#line 455 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 164:
 YY_RULE_SETUP
-#line 574 "input_lexer.ll"
+#line 456 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 165:
 YY_RULE_SETUP
-#line 575 "input_lexer.ll"
+#line 457 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_and,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 166:
 YY_RULE_SETUP
-#line 576 "input_lexer.ll"
+#line 458 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_tilocal,2); return T_PIPE;
 	YY_BREAK
 case 167:
 YY_RULE_SETUP
-#line 577 "input_lexer.ll"
+#line 459 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ou,2); return T_AND_OP;
 	YY_BREAK
 case 168:
 YY_RULE_SETUP
-#line 578 "input_lexer.ll"
+#line 460 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ou,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 169:
 YY_RULE_SETUP
-#line 579 "input_lexer.ll"
+#line 461 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ou,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 170:
 YY_RULE_SETUP
-#line 580 "input_lexer.ll"
+#line 462 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ou,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 171:
 YY_RULE_SETUP
-#line 581 "input_lexer.ll"
+#line 463 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ou,2); return T_AND_OP;
 	YY_BREAK
 case 172:
 YY_RULE_SETUP
-#line 582 "input_lexer.ll"
+#line 464 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_AND_OP;
 	YY_BREAK
 case 173:
 YY_RULE_SETUP
-#line 583 "input_lexer.ll"
+#line 465 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 174:
 YY_RULE_SETUP
-#line 584 "input_lexer.ll"
+#line 466 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 175:
 YY_RULE_SETUP
-#line 585 "input_lexer.ll"
+#line 467 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_xor,2); return T_AND_OP;
 	YY_BREAK
 case 176:
 YY_RULE_SETUP
-#line 586 "input_lexer.ll"
+#line 468 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_INTERVAL;
 	YY_BREAK
 case 177:
 YY_RULE_SETUP
-#line 587 "input_lexer.ll"
+#line 469 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_UNARY_OP;
 	YY_BREAK
 case 178:
 YY_RULE_SETUP
-#line 588 "input_lexer.ll"
+#line 470 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_INTERVAL;
 	YY_BREAK
 case 179:
 YY_RULE_SETUP
-#line 589 "input_lexer.ll"
+#line 471 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 180:
 YY_RULE_SETUP
-#line 590 "input_lexer.ll"
+#line 472 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_interval,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 181:
 YY_RULE_SETUP
-#line 591 "input_lexer.ll"
+#line 473 "input_lexer.ll"
 if (xcas_mode(yyextra) || index_status(yyextra)) { (*yylval)=gen(at_factorial); return T_FACTORIAL; } else { index_status(yyextra)=0; (*yylval)=gen(at_not,1); return T_NOT; }
 	YY_BREAK
 /* standard functions */
 case 182:
 YY_RULE_SETUP
-#line 594 "input_lexer.ll"
+#line 476 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=symbolic(at_Ans,0); return T_LITERAL;
 	YY_BREAK
 case 183:
 YY_RULE_SETUP
-#line 595 "input_lexer.ll"
+#line 477 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 	YY_BREAK
 case 184:
 YY_RULE_SETUP
-#line 596 "input_lexer.ll"
+#line 478 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_FACTORIAL;
 	YY_BREAK
 case 185:
 YY_RULE_SETUP
-#line 597 "input_lexer.ll"
+#line 479 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_increment,1); return T_PLUS;
 	YY_BREAK
 case 186:
 YY_RULE_SETUP
-#line 598 "input_lexer.ll"
+#line 480 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_FACTORIAL;
 	YY_BREAK
 case 187:
 YY_RULE_SETUP
-#line 599 "input_lexer.ll"
+#line 481 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_decrement,1); return T_PLUS;
 	YY_BREAK
 case 188:
 YY_RULE_SETUP
-#line 600 "input_lexer.ll"
+#line 482 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointplus,2); return T_PLUS;
 	YY_BREAK
 case 189:
 YY_RULE_SETUP
-#line 601 "input_lexer.ll"
+#line 483 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_PLUS;
 	YY_BREAK
 case 190:
 YY_RULE_SETUP
-#line 602 "input_lexer.ll"
+#line 484 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_sqrt,2); return T_NOT;
 	YY_BREAK
 case 191:
 YY_RULE_SETUP
-#line 603 "input_lexer.ll"
+#line 485 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD;
 	YY_BREAK
 case 192:
 YY_RULE_SETUP
-#line 604 "input_lexer.ll"
+#line 486 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=2; return T_SQ;
 	YY_BREAK
 case 193:
 YY_RULE_SETUP
-#line 605 "input_lexer.ll"
+#line 487 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=3; return T_SQ;
 	YY_BREAK
 case 194:
 YY_RULE_SETUP
-#line 606 "input_lexer.ll"
+#line 488 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=4; return T_SQ;
 	YY_BREAK
 case 195:
 YY_RULE_SETUP
-#line 607 "input_lexer.ll"
+#line 489 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=5; return T_SQ;
 	YY_BREAK
 case 196:
 YY_RULE_SETUP
-#line 608 "input_lexer.ll"
+#line 490 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=6; return T_SQ;
 	YY_BREAK
 case 197:
 YY_RULE_SETUP
-#line 609 "input_lexer.ll"
+#line 491 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=7; return T_SQ;
 	YY_BREAK
 case 198:
 YY_RULE_SETUP
-#line 610 "input_lexer.ll"
+#line 492 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=8; return T_SQ;
 	YY_BREAK
 case 199:
 YY_RULE_SETUP
-#line 611 "input_lexer.ll"
+#line 493 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=9; return T_SQ;
 	YY_BREAK
 case 200:
 YY_RULE_SETUP
-#line 612 "input_lexer.ll"
+#line 494 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=-1; return T_SQ;
 	YY_BREAK
 case 201:
 YY_RULE_SETUP
-#line 613 "input_lexer.ll"
+#line 495 "input_lexer.ll"
 index_status(yyextra)=1; (*yylval)=-1; return T_SQ;
 	YY_BREAK
 /* "','"                   index_status(yyextra)=0; (*yylval)=gen(at_makevector,2); return T_QUOTED_BINARY; commented because of f('a','b') */
 case 202:
 YY_RULE_SETUP
-#line 615 "input_lexer.ll"
+#line 497 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 203:
 YY_RULE_SETUP
-#line 616 "input_lexer.ll"
+#line 498 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_plus,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 204:
 YY_RULE_SETUP
-#line 617 "input_lexer.ll"
+#line 499 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return (calc_mode(yyextra)==38)?T_MOINS38:T_MOINS;
 	YY_BREAK
 case 205:
 YY_RULE_SETUP
-#line 618 "input_lexer.ll"
+#line 500 "input_lexer.ll"
 index_status(yyextra)=0; if (calc_mode(yyextra)==38){ (*yylval)=gen(at_neg,2); return T_NEG38; } else { CERR << 1 << endl; (*yylval)=gen(at_binary_minus,2); return T_MOINS;}
 	YY_BREAK
 case 206:
 YY_RULE_SETUP
-#line 619 "input_lexer.ll"
+#line 501 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointminus,2); return T_PLUS;
 	YY_BREAK
 case 207:
 YY_RULE_SETUP
-#line 620 "input_lexer.ll"
+#line 502 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 208:
 YY_RULE_SETUP
-#line 621 "input_lexer.ll"
+#line 503 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_binary_minus,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 209:
 YY_RULE_SETUP
-#line 622 "input_lexer.ll"
+#line 504 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_FOIS;
 	YY_BREAK
 case 210:
 YY_RULE_SETUP
-#line 623 "input_lexer.ll"
+#line 505 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_cross,2); return T_FOIS;
 	YY_BREAK
 case 211:
 YY_RULE_SETUP
-#line 624 "input_lexer.ll"
+#line 506 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_multcrement,1); return T_FOIS;
 	YY_BREAK
 case 212:
 YY_RULE_SETUP
-#line 625 "input_lexer.ll"
+#line 507 "input_lexer.ll"
 index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){return T_DOUBLE_DEUX_POINTS; } else {(*yylval)=gen(at_prod,2); return T_FOIS;}
 	YY_BREAK
 case 213:
 YY_RULE_SETUP
-#line 626 "input_lexer.ll"
+#line 508 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ampersand_times,2); return T_FOIS;
 	YY_BREAK
 case 214:
 YY_RULE_SETUP
-#line 627 "input_lexer.ll"
+#line 509 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_quote_pow,2); return T_POW;
 	YY_BREAK
 case 215:
 YY_RULE_SETUP
-#line 628 "input_lexer.ll"
+#line 510 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointprod,2); return T_FOIS;
 	YY_BREAK
 case 216:
 YY_RULE_SETUP
-#line 629 "input_lexer.ll"
+#line 511 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 217:
 YY_RULE_SETUP
-#line 630 "input_lexer.ll"
+#line 512 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_prod,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 218:
 YY_RULE_SETUP
-#line 631 "input_lexer.ll"
+#line 513 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_DIV;
 	YY_BREAK
 case 219:
 YY_RULE_SETUP
-#line 632 "input_lexer.ll"
+#line 514 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_divcrement,1); return T_DIV;
 	YY_BREAK
 case 220:
 YY_RULE_SETUP
-#line 633 "input_lexer.ll"
+#line 515 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointdivision,2); return T_DIV;
 	YY_BREAK
 case 221:
 YY_RULE_SETUP
-#line 634 "input_lexer.ll"
+#line 516 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 222:
 YY_RULE_SETUP
-#line 635 "input_lexer.ll"
+#line 517 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_division,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 223:
 YY_RULE_SETUP
-#line 636 "input_lexer.ll"
+#line 518 "input_lexer.ll"
 index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38){ (*yylval)=gen(at_PERCENT); return T_UNARY_OP_38; } if (xcas_mode(yyextra)==3 || calc_mode(yyextra)==1) { (*yylval)=gen(at_pourcent); return T_FACTORIAL; } if (xcas_mode(yyextra)==1) { (*yylval)=symbolic(at_ans,vecteur(0)); return T_NUMBER; }  if (xcas_mode(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD;
 	YY_BREAK
 case 224:
 YY_RULE_SETUP
-#line 637 "input_lexer.ll"
+#line 519 "input_lexer.ll"
 index_status(yyextra)=0; if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_iquorem,2); return T_MOD;} (*yylval)=symbolic(at_ans,-2); return T_NUMBER; 
 	YY_BREAK
 /* \xe2\x88\xa1             index_status(yyextra)=0; (*yylval)=gen(at_polar_complex,2); return T_MOD; */
 case 225:
 YY_RULE_SETUP
-#line 639 "input_lexer.ll"
+#line 521 "input_lexer.ll"
 if (xcas_mode(yyextra)==0){ (*yylval)=gen(at_quorem,2); return T_MOD;} index_status(yyextra)=0; (*yylval)=symbolic(at_ans,-3); return T_NUMBER; 
 	YY_BREAK
 case 226:
 YY_RULE_SETUP
-#line 640 "input_lexer.ll"
+#line 522 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 227:
 YY_RULE_SETUP
-#line 641 "input_lexer.ll"
+#line 523 "input_lexer.ll"
 index_status(yyextra)=0; if (xcas_mode(yyextra)==3) { (*yylval)=gen(at_irem,2); return T_UNARY_OP; } else { if (xcas_mode(yyextra)) (*yylval)=gen(at_irem,2); else (*yylval)=0; return T_MOD; }
 	YY_BREAK
 case 228:
 YY_RULE_SETUP
-#line 642 "input_lexer.ll"
+#line 524 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 229:
 YY_RULE_SETUP
-#line 643 "input_lexer.ll"
+#line 525 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_irem,2); return T_QUOTED_BINARY;
 	YY_BREAK
 /* "MOD"                   index_status(yyextra)=0; return T_MOD; */
 case 230:
 YY_RULE_SETUP
-#line 645 "input_lexer.ll"
+#line 527 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;
 	YY_BREAK
 case 231:
 YY_RULE_SETUP
-#line 646 "input_lexer.ll"
+#line 528 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_trn,1); return T_FACTORIAL;
 	YY_BREAK
 case 232:
 YY_RULE_SETUP
-#line 647 "input_lexer.ll"
+#line 529 "input_lexer.ll"
 (*yylval) = gen(at_pow,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 233:
 YY_RULE_SETUP
-#line 648 "input_lexer.ll"
+#line 530 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_POW;
 	YY_BREAK
 case 234:
 YY_RULE_SETUP
-#line 649 "input_lexer.ll"
+#line 531 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pointpow,2); return T_POW;
 	YY_BREAK
 case 235:
 YY_RULE_SETUP
-#line 650 "input_lexer.ll"
+#line 532 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 236:
 YY_RULE_SETUP
-#line 651 "input_lexer.ll"
+#line 533 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_pow,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 237:
 YY_RULE_SETUP
-#line 652 "input_lexer.ll"
+#line 534 "input_lexer.ll"
 (*yylval) = gen(at_Digits,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 238:
 YY_RULE_SETUP
-#line 653 "input_lexer.ll"
+#line 535 "input_lexer.ll"
 (*yylval) = gen(at_HDigits,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 239:
 YY_RULE_SETUP
-#line 654 "input_lexer.ll"
+#line 536 "input_lexer.ll"
 (*yylval) = gen(at_HAngle,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 240:
 YY_RULE_SETUP
-#line 655 "input_lexer.ll"
+#line 537 "input_lexer.ll"
 (*yylval) = gen(at_HFormat,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 241:
 YY_RULE_SETUP
-#line 656 "input_lexer.ll"
+#line 538 "input_lexer.ll"
 (*yylval) = gen(at_HComplex,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 242:
 YY_RULE_SETUP
-#line 657 "input_lexer.ll"
+#line 539 "input_lexer.ll"
 (*yylval) = gen(at_HLanguage,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 243:
 YY_RULE_SETUP
-#line 658 "input_lexer.ll"
+#line 540 "input_lexer.ll"
 (*yylval) = gen(at_Digits,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 244:
 YY_RULE_SETUP
-#line 659 "input_lexer.ll"
+#line 541 "input_lexer.ll"
 (*yylval) = gen(at_threads,0) ; index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 245:
 YY_RULE_SETUP
-#line 660 "input_lexer.ll"
+#line 542 "input_lexer.ll"
 (*yylval) = gen(at_scientific_format,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 246:
 YY_RULE_SETUP
-#line 661 "input_lexer.ll"
+#line 543 "input_lexer.ll"
 (*yylval) = gen(at_angle_radian,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 247:
 YY_RULE_SETUP
-#line 662 "input_lexer.ll"
+#line 544 "input_lexer.ll"
 (*yylval) = gen(at_approx_mode,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 248:
 YY_RULE_SETUP
-#line 663 "input_lexer.ll"
+#line 545 "input_lexer.ll"
 (*yylval) = gen(at_all_trig_solutions,1); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 249:
 YY_RULE_SETUP
-#line 664 "input_lexer.ll"
+#line 546 "input_lexer.ll"
 (*yylval) = gen(at_ntl_on,1); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 250:
 YY_RULE_SETUP
-#line 665 "input_lexer.ll"
+#line 547 "input_lexer.ll"
 (*yylval) = gen(at_complex_mode,1); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 251:
 YY_RULE_SETUP
-#line 666 "input_lexer.ll"
+#line 548 "input_lexer.ll"
 (*yylval) = gen(at_complex_variables,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 252:
 YY_RULE_SETUP
-#line 667 "input_lexer.ll"
+#line 549 "input_lexer.ll"
 (*yylval) = gen(at_epsilon,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 253:
 YY_RULE_SETUP
-#line 668 "input_lexer.ll"
+#line 550 "input_lexer.ll"
 (*yylval) = gen(at_proba_epsilon,0); index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 254:
 YY_RULE_SETUP
-#line 670 "input_lexer.ll"
+#line 552 "input_lexer.ll"
 (*yylval) = gen(at_acos,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 255:
 YY_RULE_SETUP
-#line 671 "input_lexer.ll"
+#line 553 "input_lexer.ll"
 (*yylval) = gen(at_randNorm,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 256:
 YY_RULE_SETUP
-#line 672 "input_lexer.ll"
+#line 554 "input_lexer.ll"
 (*yylval) = gen(at_acosh,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 257:
 YY_RULE_SETUP
-#line 673 "input_lexer.ll"
+#line 555 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_args,0); return T_QUOTED_BINARY;
 	YY_BREAK
 case 258:
 YY_RULE_SETUP
-#line 674 "input_lexer.ll"
+#line 556 "input_lexer.ll"
 (*yylval) = gen(at_asin,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 259:
 YY_RULE_SETUP
-#line 675 "input_lexer.ll"
+#line 557 "input_lexer.ll"
 (*yylval) = gen(at_asinh,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 260:
 YY_RULE_SETUP
-#line 676 "input_lexer.ll"
+#line 558 "input_lexer.ll"
 (*yylval) = gen(at_at,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 261:
 YY_RULE_SETUP
-#line 677 "input_lexer.ll"
+#line 559 "input_lexer.ll"
 (*yylval) = gen(at_atan,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 262:
 YY_RULE_SETUP
-#line 678 "input_lexer.ll"
+#line 560 "input_lexer.ll"
 (*yylval) = gen(at_atanh,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 263:
 YY_RULE_SETUP
-#line 679 "input_lexer.ll"
+#line 561 "input_lexer.ll"
 (*yylval) = gen(at_backquote,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 264:
 YY_RULE_SETUP
-#line 680 "input_lexer.ll"
+#line 562 "input_lexer.ll"
 (*yylval) = gen(at_bloc,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 265:
 YY_RULE_SETUP
-#line 681 "input_lexer.ll"
+#line 563 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_break,0); return T_BREAK;
 	YY_BREAK
 case 266:
 YY_RULE_SETUP
-#line 682 "input_lexer.ll"
+#line 564 "input_lexer.ll"
 index_status(yyextra)=0; if (abs_calc_mode(yyextra)==38) return T_CASE38; else return T_CASE;
 	YY_BREAK
 case 267:
 YY_RULE_SETUP
-#line 683 "input_lexer.ll"
+#line 565 "input_lexer.ll"
 (*yylval) = gen(at_cont,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 268:
 YY_RULE_SETUP
-#line 684 "input_lexer.ll"
+#line 566 "input_lexer.ll"
 (*yylval) = gen(at_debug,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 269:
 YY_RULE_SETUP
-#line 685 "input_lexer.ll"
+#line 567 "input_lexer.ll"
 (*yylval) = gen(at_derive,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 270:
 YY_RULE_SETUP
-#line 686 "input_lexer.ll"
+#line 568 "input_lexer.ll"
 if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval) = gen(at_function_diff,1); index_status(yyextra)=1; return T_UNARY_OP;} else { index_status(yyextra)=1; return find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra); }
 	YY_BREAK
 case 271:
 YY_RULE_SETUP
-#line 687 "input_lexer.ll"
+#line 569 "input_lexer.ll"
 if (xcas_mode(yyextra)==1 || xcas_mode(yyextra)==2) { (*yylval)=e__IDNT_e; }else (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 	YY_BREAK
 case 272:
 YY_RULE_SETUP
-#line 688 "input_lexer.ll"
+#line 570 "input_lexer.ll"
 (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 	YY_BREAK
 case 273:
 YY_RULE_SETUP
-#line 689 "input_lexer.ll"
+#line 571 "input_lexer.ll"
 (*yylval)=symbolic(at_exp,1); index_status(yyextra)=1; return T_NUMBER;
 	YY_BREAK
 case 274:
 YY_RULE_SETUP
-#line 690 "input_lexer.ll"
+#line 572 "input_lexer.ll"
 (*yylval) = gen(at_equal,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 275:
 YY_RULE_SETUP
-#line 691 "input_lexer.ll"
+#line 573 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_throw,1); return T_RETURN;
 	YY_BREAK
 case 276:
 YY_RULE_SETUP
-#line 692 "input_lexer.ll"
+#line 574 "input_lexer.ll"
 (*yylval) = gen(at_erase,0); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 277:
 YY_RULE_SETUP
-#line 693 "input_lexer.ll"
+#line 575 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_throw,1); return T_RETURN;
 	YY_BREAK
 case 278:
 YY_RULE_SETUP
-#line 694 "input_lexer.ll"
+#line 576 "input_lexer.ll"
 if (xcas_mode(yyextra)==3) (*yylval)=gen(at_partfrac); else (*yylval) = gen(at_expand,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 279:
 YY_RULE_SETUP
-#line 695 "input_lexer.ll"
+#line 577 "input_lexer.ll"
 (*yylval) = gen(at_insmod,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 280:
 YY_RULE_SETUP
-#line 696 "input_lexer.ll"
+#line 578 "input_lexer.ll"
 (*yylval) = gen(at_expand,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 281:
 YY_RULE_SETUP
-#line 697 "input_lexer.ll"
+#line 579 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,4); return T_FOR;
 	YY_BREAK
 case 282:
 YY_RULE_SETUP
-#line 698 "input_lexer.ll"
+#line 580 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,4); return T_FOR;
 	YY_BREAK
 case 283:
 YY_RULE_SETUP
-#line 699 "input_lexer.ll"
+#line 581 "input_lexer.ll"
 (*yylval) = gen(at_halt,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 284:
 YY_RULE_SETUP
-#line 700 "input_lexer.ll"
+#line 582 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=4; return T_BLOC_END;
 	YY_BREAK
 case 285:
 YY_RULE_SETUP
-#line 701 "input_lexer.ll"
+#line 583 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=9; return T_BLOC_END;
 	YY_BREAK
 case 286:
 YY_RULE_SETUP
-#line 702 "input_lexer.ll"
+#line 584 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=3; return T_BLOC_END;
 	YY_BREAK
 case 287:
 YY_RULE_SETUP
-#line 703 "input_lexer.ll"
+#line 585 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); return T_IF;
 	YY_BREAK
 case 288:
 YY_RULE_SETUP
-#line 704 "input_lexer.ll"
+#line 586 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); if (rpn_mode(yyextra)) return T_RPN_IF; return T_IF; 
 	YY_BREAK
 case 289:
 YY_RULE_SETUP
-#line 705 "input_lexer.ll"
+#line 587 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); return T_IFTE;
 	YY_BREAK
 case 290:
 YY_RULE_SETUP
-#line 706 "input_lexer.ll"
+#line 588 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_when,3); return T_IFTE;
 	YY_BREAK
 case 291:
 YY_RULE_SETUP
-#line 707 "input_lexer.ll"
+#line 589 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); return T_QUOTED_BINARY;
 	YY_BREAK
 case 292:
 YY_RULE_SETUP
-#line 708 "input_lexer.ll"
+#line 590 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); return T_QUOTED_BINARY;
 	YY_BREAK
 case 293:
 YY_RULE_SETUP
-#line 709 "input_lexer.ll"
+#line 591 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); return T_QUOTED_BINARY;
 	YY_BREAK
 case 294:
 YY_RULE_SETUP
-#line 710 "input_lexer.ll"
+#line 592 "input_lexer.ll"
 if (xcas_mode(yyextra)==1) (*yylval) = gen(at_maple_ifactors); else (*yylval) = gen(at_ifactors,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 295:
 YY_RULE_SETUP
-#line 711 "input_lexer.ll"
+#line 593 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_intersect,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 296:
 YY_RULE_SETUP
-#line 712 "input_lexer.ll"
+#line 594 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_intersect,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 297:
 YY_RULE_SETUP
-#line 713 "input_lexer.ll"
+#line 595 "input_lexer.ll"
 (*yylval) = gen(at_kill,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 298:
 YY_RULE_SETUP
-#line 714 "input_lexer.ll"
+#line 596 "input_lexer.ll"
 (*yylval) = gen(at_ln,1); index_status(yyextra)=1; return T_UNARY_OP; /* index_status(yyextra)=1 to accept log[] for a basis log */
 	YY_BREAK
 case 299:
 YY_RULE_SETUP
-#line 715 "input_lexer.ll"
+#line 597 "input_lexer.ll"
 (*yylval) = gen(at_asin,1); index_status(yyextra)=1; return T_UNARY_OP;
 	YY_BREAK
 case 300:
 YY_RULE_SETUP
-#line 716 "input_lexer.ll"
+#line 598 "input_lexer.ll"
 (*yylval) = gen(at_acos,1); index_status(yyextra)=1; return T_UNARY_OP;
 	YY_BREAK
 case 301:
 YY_RULE_SETUP
-#line 717 "input_lexer.ll"
+#line 599 "input_lexer.ll"
 (*yylval) = gen(at_atan,1); index_status(yyextra)=1; return T_UNARY_OP;
 	YY_BREAK
 case 302:
 YY_RULE_SETUP
-#line 718 "input_lexer.ll"
+#line 600 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 303:
 YY_RULE_SETUP
-#line 719 "input_lexer.ll"
+#line 601 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_minus,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 304:
 YY_RULE_SETUP
-#line 720 "input_lexer.ll"
+#line 602 "input_lexer.ll"
 (*yylval) = gen(at_not,1); if (xcas_mode(yyextra)) return T_NOT;  index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 305:
 YY_RULE_SETUP
-#line 721 "input_lexer.ll"
+#line 603 "input_lexer.ll"
 (*yylval) = gen(at_not,1); return T_NOT;  
 	YY_BREAK
 case 306:
 YY_RULE_SETUP
-#line 722 "input_lexer.ll"
+#line 604 "input_lexer.ll"
 (*yylval) = gen(at_neg,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 307:
 YY_RULE_SETUP
-#line 723 "input_lexer.ll"
+#line 605 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_not,1); return T_QUOTED_BINARY;
 	YY_BREAK
 case 308:
 YY_RULE_SETUP
-#line 724 "input_lexer.ll"
+#line 606 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_not,1); return T_QUOTED_BINARY;
 	YY_BREAK
 case 309:
 YY_RULE_SETUP
-#line 725 "input_lexer.ll"
+#line 607 "input_lexer.ll"
 (*yylval) = gen(at_greduce,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 310:
 YY_RULE_SETUP
-#line 726 "input_lexer.ll"
+#line 608 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_of,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 311:
 YY_RULE_SETUP
-#line 727 "input_lexer.ll"
+#line 609 "input_lexer.ll"
 if (xcas_mode(yyextra)==1) (*yylval) = gen(at_maple_op,1); else (*yylval) = gen(at_feuille,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 312:
 YY_RULE_SETUP
-#line 728 "input_lexer.ll"
+#line 610 "input_lexer.ll"
 (*yylval) = gen(at_feuille,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 313:
 YY_RULE_SETUP
-#line 729 "input_lexer.ll"
+#line 611 "input_lexer.ll"
 (*yylval)=2; index_status(yyextra)=0; return T_LOCAL;
 	YY_BREAK
 case 314:
 YY_RULE_SETUP
-#line 730 "input_lexer.ll"
+#line 612 "input_lexer.ll"
 (*yylval) = gen(at_pcoeff,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 315:
 YY_RULE_SETUP
-#line 731 "input_lexer.ll"
+#line 613 "input_lexer.ll"
 (*yylval) = gen(at_funcplot,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 316:
 YY_RULE_SETUP
-#line 732 "input_lexer.ll"
+#line 614 "input_lexer.ll"
 (*yylval) = gen(at_user_operator,6); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 317:
 YY_RULE_SETUP
-#line 733 "input_lexer.ll"
+#line 615 "input_lexer.ll"
 if (rpn_mode(yyextra)) {(*yylval)=gen(at_purge,0); index_status(yyextra)=0; return T_RPN_OP;} else {(*yylval) = gen(at_purge,1); index_status(yyextra)=0; return T_UNARY_OP;};
 	YY_BREAK
 case 318:
 YY_RULE_SETUP
-#line 734 "input_lexer.ll"
+#line 616 "input_lexer.ll"
 if (rpn_mode(yyextra)) {(*yylval)=gen(at_purge,0); index_status(yyextra)=0; return T_RPN_OP;} else {(*yylval) = gen(at_purge,1); index_status(yyextra)=0; return T_UNARY_OP;};
 	YY_BREAK
 case 319:
 YY_RULE_SETUP
-#line 735 "input_lexer.ll"
+#line 617 "input_lexer.ll"
 if (rpn_mode(yyextra)) {(*yylval)=gen(at_purge,0); index_status(yyextra)=0; return T_RPN_OP;} else {(*yylval) = gen(at_purge,1); index_status(yyextra)=0; return T_UNARY_OP;};
 	YY_BREAK
 case 320:
 YY_RULE_SETUP
-#line 736 "input_lexer.ll"
+#line 618 "input_lexer.ll"
 (*yylval) = gen(at_srand,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 321:
 YY_RULE_SETUP
-#line 737 "input_lexer.ll"
+#line 619 "input_lexer.ll"
 (*yylval) = gen(at_for,1) ; index_status(yyextra)=0; return T_REPEAT;
 	YY_BREAK
 case 322:
 YY_RULE_SETUP
-#line 738 "input_lexer.ll"
+#line 620 "input_lexer.ll"
 (*yylval) = gen(at_for,1) ; index_status(yyextra)=0; return T_REPEAT;
 	YY_BREAK
 case 323:
 YY_RULE_SETUP
-#line 739 "input_lexer.ll"
+#line 621 "input_lexer.ll"
 (*yylval) = gen(at_for,1) ;index_status(yyextra)=0; return T_REPEAT;
 	YY_BREAK
 case 324:
 YY_RULE_SETUP
-#line 740 "input_lexer.ll"
+#line 622 "input_lexer.ll"
 (*yylval) = gen(at_return,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 325:
 YY_RULE_SETUP
-#line 741 "input_lexer.ll"
+#line 623 "input_lexer.ll"
 (*yylval) = gen(at_return,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 326:
 YY_RULE_SETUP
-#line 742 "input_lexer.ll"
+#line 624 "input_lexer.ll"
 (*yylval) = gen(at_return,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 327:
 YY_RULE_SETUP
-#line 743 "input_lexer.ll"
+#line 625 "input_lexer.ll"
 (*yylval) = gen(at_return,1) ; index_status(yyextra)=0; return T_QUOTED_BINARY;
 	YY_BREAK
 case 328:
 YY_RULE_SETUP
-#line 744 "input_lexer.ll"
+#line 626 "input_lexer.ll"
 (*yylval) = gen(at_maple_root,1); index_status(yyextra)=1; return T_UNARY_OP;
 	YY_BREAK
 case 329:
 YY_RULE_SETUP
-#line 745 "input_lexer.ll"
+#line 627 "input_lexer.ll"
 (*yylval) = gen(at_same,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 330:
 YY_RULE_SETUP
-#line 746 "input_lexer.ll"
+#line 628 "input_lexer.ll"
 (*yylval) = gen(at_sst,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 331:
 YY_RULE_SETUP
-#line 747 "input_lexer.ll"
+#line 629 "input_lexer.ll"
 (*yylval) = gen(at_sst_in,1); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 332:
 YY_RULE_SETUP
-#line 748 "input_lexer.ll"
+#line 630 "input_lexer.ll"
 if (xcas_mode(yyextra)==1) (*yylval) = gen(at_maple_subs,2); else (*yylval) = gen(at_subs,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 333:
 YY_RULE_SETUP
-#line 749 "input_lexer.ll"
+#line 631 "input_lexer.ll"
 if (xcas_mode(yyextra)==1) (*yylval) = gen(at_maple_subsop,2); else (*yylval) = gen(at_subsop,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 334:
 YY_RULE_SETUP
-#line 750 "input_lexer.ll"
+#line 632 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_union,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 335:
 YY_RULE_SETUP
-#line 751 "input_lexer.ll"
+#line 633 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_union,2); return T_QUOTED_BINARY;
 	YY_BREAK
 case 336:
 YY_RULE_SETUP
-#line 752 "input_lexer.ll"
+#line 634 "input_lexer.ll"
 (*yylval) = gen(at_virgule,2); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 337:
 YY_RULE_SETUP
-#line 753 "input_lexer.ll"
+#line 635 "input_lexer.ll"
 (*yylval) = gen(at_VARS,0); index_status(yyextra)=0; return T_UNARY_OP;
 	YY_BREAK
 case 338:
 YY_RULE_SETUP
-#line 754 "input_lexer.ll"
+#line 636 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,4); if (xcas_mode(yyextra)==3) return TI_WHILE; if (xcas_mode(yyextra)!=0) return T_MUPMAP_WHILE; return T_WHILE;
 	YY_BREAK
 case 339:
 YY_RULE_SETUP
-#line 755 "input_lexer.ll"
+#line 637 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,4); return T_MUPMAP_WHILE; /* return T_RPN_WHILE; */
 	YY_BREAK
 case 340:
 YY_RULE_SETUP
-#line 756 "input_lexer.ll"
+#line 638 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,4); return T_DO; /* must be here for DO ... END loop */
 	YY_BREAK
 case 341:
 YY_RULE_SETUP
-#line 757 "input_lexer.ll"
+#line 639 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,4); return T_DO; /* must be here for DO ... END loop */
 	YY_BREAK
 case 342:
 YY_RULE_SETUP
-#line 758 "input_lexer.ll"
+#line 640 "input_lexer.ll"
 (*yylval) = gen(at_Text,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 343:
 YY_RULE_SETUP
-#line 759 "input_lexer.ll"
+#line 641 "input_lexer.ll"
 (*yylval) = gen(at_DropDown,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 344:
 YY_RULE_SETUP
-#line 760 "input_lexer.ll"
+#line 642 "input_lexer.ll"
 (*yylval) = gen(at_Popup,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 345:
 YY_RULE_SETUP
-#line 761 "input_lexer.ll"
+#line 643 "input_lexer.ll"
 (*yylval) = gen(at_Request,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 346:
 YY_RULE_SETUP
-#line 762 "input_lexer.ll"
+#line 644 "input_lexer.ll"
 (*yylval) = gen(at_Title,1); index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 347:
 YY_RULE_SETUP
-#line 763 "input_lexer.ll"
+#line 645 "input_lexer.ll"
 (*yylval)=0; index_status(yyextra)=0; return TI_PRGM;
 	YY_BREAK
 case 348:
 YY_RULE_SETUP
-#line 764 "input_lexer.ll"
+#line 646 "input_lexer.ll"
 (*yylval)=0; index_status(yyextra)=0; return TI_PRGM;
 	YY_BREAK
 case 349:
 YY_RULE_SETUP
-#line 765 "input_lexer.ll"
+#line 647 "input_lexer.ll"
 (*yylval)=0; index_status(yyextra)=0; return TI_PRGM;
 	YY_BREAK
 case 350:
 YY_RULE_SETUP
-#line 766 "input_lexer.ll"
+#line 648 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_ifte,3); return T_IF;
 	YY_BREAK
 case 351:
 YY_RULE_SETUP
-#line 767 "input_lexer.ll"
+#line 649 "input_lexer.ll"
 (*yylval) = gen(at_return,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 352:
 YY_RULE_SETUP
-#line 768 "input_lexer.ll"
+#line 650 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_breakpoint,0); return T_BREAK;
 	YY_BREAK
 case 353:
 YY_RULE_SETUP
-#line 769 "input_lexer.ll"
+#line 651 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,0); return TI_LOOP;
 	YY_BREAK
 case 354:
 YY_RULE_SETUP
-#line 770 "input_lexer.ll"
+#line 652 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,0); return TI_FOR;
 	YY_BREAK
 case 355:
 YY_RULE_SETUP
-#line 771 "input_lexer.ll"
+#line 653 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,0); return TI_WHILE;
 	YY_BREAK
 case 356:
 YY_RULE_SETUP
-#line 772 "input_lexer.ll"
+#line 654 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_for,0); return T_CONTINUE;
 	YY_BREAK
 case 357:
 YY_RULE_SETUP
-#line 773 "input_lexer.ll"
+#line 655 "input_lexer.ll"
 (*yylval) = gen(at_print,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 358:
 YY_RULE_SETUP
-#line 774 "input_lexer.ll"
+#line 656 "input_lexer.ll"
 (*yylval) = gen(at_Pause,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 359:
 YY_RULE_SETUP
-#line 775 "input_lexer.ll"
+#line 657 "input_lexer.ll"
 (*yylval) = gen(at_label,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 360:
 YY_RULE_SETUP
-#line 776 "input_lexer.ll"
+#line 658 "input_lexer.ll"
 (*yylval) = gen(at_goto,1) ; index_status(yyextra)=0; return T_RETURN;
 	YY_BREAK
 case 361:
 YY_RULE_SETUP
-#line 777 "input_lexer.ll"
+#line 659 "input_lexer.ll"
 (*yylval) = gen(at_Dialog,1) ; index_status(yyextra)=0; return TI_DIALOG; 
 	YY_BREAK
 case 362:
 YY_RULE_SETUP
-#line 778 "input_lexer.ll"
+#line 660 "input_lexer.ll"
 (*yylval) = gen(at_Row,0) ; index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 363:
 YY_RULE_SETUP
-#line 779 "input_lexer.ll"
+#line 661 "input_lexer.ll"
 (*yylval) = gen(at_Col,0) ; index_status(yyextra)=0; return T_DIGITS;
 	YY_BREAK
 case 364:
 YY_RULE_SETUP
-#line 781 "input_lexer.ll"
+#line 663 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_DELTALIST); return T_UNARY_OP_38; 
 	YY_BREAK
 case 365:
 YY_RULE_SETUP
-#line 782 "input_lexer.ll"
+#line 664 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_PILIST); return T_UNARY_OP_38; 
 	YY_BREAK
 case 366:
 YY_RULE_SETUP
-#line 783 "input_lexer.ll"
+#line 665 "input_lexer.ll"
 index_status(yyextra)=0;(*yylval)=gen(at_HPSUM); return T_UNARY_OP_38; 
 	YY_BREAK
 case 367:
 YY_RULE_SETUP
-#line 784 "input_lexer.ll"
+#line 666 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_SIGMALIST); return T_UNARY_OP_38;
 	YY_BREAK
 case 368:
 YY_RULE_SETUP
-#line 785 "input_lexer.ll"
+#line 667 "input_lexer.ll"
 index_status(yyextra)=0;(*yylval)=gen(at_HPDIFF); return T_UNARY_OP_38; 
 	YY_BREAK
 case 369:
 YY_RULE_SETUP
-#line 786 "input_lexer.ll"
+#line 668 "input_lexer.ll"
 index_status(yyextra)=0;(*yylval)=gen(at_HPINT); return T_UNARY_OP_38; 
 	YY_BREAK
 case 370:
 YY_RULE_SETUP
-#line 787 "input_lexer.ll"
+#line 669 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_inferieur_egal,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 371:
 YY_RULE_SETUP
-#line 788 "input_lexer.ll"
+#line 670 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_different,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 372:
 YY_RULE_SETUP
-#line 789 "input_lexer.ll"
+#line 671 "input_lexer.ll"
 index_status(yyextra)=0; (*yylval)=gen(at_superieur_egal,2); return T_TEST_EQUAL;
 	YY_BREAK
 case 373:
 YY_RULE_SETUP
-#line 790 "input_lexer.ll"
+#line 672 "input_lexer.ll"
 index_status(yyextra)=0;(*yylval)=gen(at_product); return T_UNARY_OP; 
 	YY_BREAK
 /* old format for physical constants
@@ -3923,56 +3805,56 @@ index_status(yyextra)=0;(*yylval)=gen(at_product); return T_UNARY_OP;
                         */
 /* numbers, also accept DMS e.g 1°15′27″13 */
 case 374:
-#line 838 "input_lexer.ll"
+#line 720 "input_lexer.ll"
 case 375:
-#line 839 "input_lexer.ll"
+#line 721 "input_lexer.ll"
 case 376:
-#line 840 "input_lexer.ll"
+#line 722 "input_lexer.ll"
 case 377:
-#line 841 "input_lexer.ll"
+#line 723 "input_lexer.ll"
 case 378:
-#line 842 "input_lexer.ll"
+#line 724 "input_lexer.ll"
 case 379:
-#line 843 "input_lexer.ll"
+#line 725 "input_lexer.ll"
 case 380:
-#line 844 "input_lexer.ll"
+#line 726 "input_lexer.ll"
 case 381:
-#line 845 "input_lexer.ll"
+#line 727 "input_lexer.ll"
 case 382:
-#line 846 "input_lexer.ll"
+#line 728 "input_lexer.ll"
 case 383:
-#line 847 "input_lexer.ll"
+#line 729 "input_lexer.ll"
 case 384:
-#line 848 "input_lexer.ll"
+#line 730 "input_lexer.ll"
 case 385:
-#line 849 "input_lexer.ll"
+#line 731 "input_lexer.ll"
 case 386:
-#line 850 "input_lexer.ll"
+#line 732 "input_lexer.ll"
 case 387:
-#line 851 "input_lexer.ll"
+#line 733 "input_lexer.ll"
 case 388:
-#line 852 "input_lexer.ll"
+#line 734 "input_lexer.ll"
 case 389:
-#line 853 "input_lexer.ll"
+#line 735 "input_lexer.ll"
 case 390:
-#line 854 "input_lexer.ll"
+#line 736 "input_lexer.ll"
 case 391:
-#line 855 "input_lexer.ll"
+#line 737 "input_lexer.ll"
 case 392:
-#line 856 "input_lexer.ll"
+#line 738 "input_lexer.ll"
 case 393:
-#line 857 "input_lexer.ll"
+#line 739 "input_lexer.ll"
 case 394:
-#line 858 "input_lexer.ll"
+#line 740 "input_lexer.ll"
 case 395:
-#line 859 "input_lexer.ll"
+#line 741 "input_lexer.ll"
 case 396:
-#line 860 "input_lexer.ll"
+#line 742 "input_lexer.ll"
 case 397:
-#line 861 "input_lexer.ll"
+#line 743 "input_lexer.ll"
 case 398:
 YY_RULE_SETUP
-#line 861 "input_lexer.ll"
+#line 743 "input_lexer.ll"
 { 
   index_status(yyextra)=1;
   int l=strlen(yytext);
@@ -4066,10 +3948,10 @@ YY_RULE_SETUP
 			*/
 /* symbols */
 case 399:
-#line 954 "input_lexer.ll"
+#line 836 "input_lexer.ll"
 case 400:
 YY_RULE_SETUP
-#line 954 "input_lexer.ll"
+#line 836 "input_lexer.ll"
 {
  index_status(yyextra)=1;
  int res=find_or_make_symbol(yytext,(*yylval),yyscanner,true,yyextra);
@@ -4080,7 +3962,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 401:
 YY_RULE_SETUP
-#line 961 "input_lexer.ll"
+#line 843 "input_lexer.ll"
 if (!xcas_mode(yyextra) || xcas_mode(yyextra)==3) { 
   // CERR << "hash" << endl;
   (*yylval)=gen(at_hash,1); return TI_HASH; 
@@ -4089,21 +3971,21 @@ if (!xcas_mode(yyextra) || xcas_mode(yyextra)==3) {
 case 402:
 /* rule 402 can match eol */
 YY_RULE_SETUP
-#line 965 "input_lexer.ll"
+#line 847 "input_lexer.ll"
 BEGIN(INITIAL); index_status(yyextra)=0; increment_lexer_line_number_setcol(yyscanner,yyextra);  /* comment_s(yyextra)=string(yytext); (*yylval)=string2gen(comment_s(yyextra).substr(0,comment_s(yyextra).size()-1),false); return T_COMMENT; */
 	YY_BREAK
 /* everything else */
 case 403:
 YY_RULE_SETUP
-#line 967 "input_lexer.ll"
+#line 849 "input_lexer.ll"
 (*yylval)=string2gen(string(yytext),false); return T_STRING;
 	YY_BREAK
 case 404:
 YY_RULE_SETUP
-#line 969 "input_lexer.ll"
+#line 851 "input_lexer.ll"
 ECHO;
 	YY_BREAK
-#line 4107 "input_lexer.cc"
+#line 3989 "input_lexer.cc"
 case YY_STATE_EOF(INITIAL):
 case YY_STATE_EOF(comment):
 case YY_STATE_EOF(comment_hash):
@@ -5273,7 +5155,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 
 #define YYTABLES_NAME "yytables"
 
-#line 969 "input_lexer.ll"
+#line 851 "input_lexer.ll"
 
 
 
@@ -5284,384 +5166,6 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
   namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
 
-#ifdef USTL    
-    void update_lexer_localization(const std::vector<int> & v,ustl::map<std::string,std::string> &lexer_map,ustl::multimap<std::string,giac::localized_string> &back_lexer_map){
-    }
-#else
-    void update_lexer_localization(const std::vector<int> & v,std::map<std::string,std::string> &lexer_map,std::multimap<std::string,giac::localized_string> &back_lexer_map){
-      lexer_map.clear();
-      back_lexer_map.clear();
-      int s=v.size();
-      for (int i=0;i<s;++i){
-	int lang=v[i];
-	if (lang>=1 && lang<=4){
-	  std::string doc=find_doc_prefix(lang);
-	  std::string file=giac::giac_aide_dir()+doc+"keywords";
-	  std::string giac_kw,local_kw;
-	  size_t l;
-	  char * line = (char *)malloc(1024);
-	  ifstream f(file.c_str());
-	  if (f.good()){
-	    CERR << "// Using keyword file " << file << endl;
-	    for (;;){
-	      f.getline(line,1023,'\n');
-	      l=strlen(line);
-	      if (f.eof()){
-		f.close();
-		break;
-	      }
-	      if (l>3 && line[0]!='#'){
-		if (line[l-1]=='\n')
-		  --l;
-		// read giac keyword
-		size_t j;
-		giac_kw="";
-		for (j=0;j<l;++j){
-		  if (line[j]==' ')
-		    break;
-		  giac_kw += line[j];
-		}
-		// read corresponding local keywords
-		local_kw="";
-		for (++j;j<l;++j){
-		  if (line[j]==' '){
-		    if (!local_kw.empty()){
-		      lexer_map[local_kw]=giac_kw;
-		      back_lexer_map.insert(pair<string,localized_string>(giac_kw,localized_string(lang,local_kw)));
-		    }
-		    local_kw="";
-		  }
-		  else
-		    local_kw += line[j];
-		}
-		if (!local_kw.empty()){
-		  lexer_map[local_kw]=giac_kw;
-		  back_lexer_map.insert(pair<string,localized_string>(giac_kw,localized_string(lang,local_kw)));
-		}
-	      }
-	    }
-	    free(line);
-	  } // if (f)
-	  else
-	    CERR << "// Unable to find keyword file " << file << endl;
-	}
-      }
-    }
-#endif
-
-    bool has_special_syntax(const char * s){
-#ifdef USTL
-      ustl::pair<charptr_gen *,charptr_gen *> p=
-	ustl::equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),
-		    std::pair<const char *,gen>(s,0),
-		    tri);
-#else
-      std::pair<charptr_gen *,charptr_gen *> p=
-	equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),
-		    std::pair<const char *,gen>(s,0),
-		    tri);
-#endif
-      if (p.first!=p.second && p.first!=builtin_lexer_functions_end())
-	return (p.first->second.subtype!=T_UNARY_OP-256);
-      map_charptr_gen::const_iterator i = lexer_functions().find(s);
-      if (i==lexer_functions().end())
-	return false;
-      return (i->second.subtype!=T_UNARY_OP-256);
-    }
-    
-    bool lexer_functions_register(const unary_function_ptr & u,const char * s,int parser_token){
-      map_charptr_gen::const_iterator i = lexer_functions().find(s);
-      if (i!=lexer_functions().end())
-	return false;
-      if (doing_insmod)
-	registered_lexer_functions().push_back(user_function(s,parser_token));
-      if (!builtin_lexer_functions_sorted){
-#ifndef STATIC_BUILTIN_LEXER_FUNCTIONS
-	builtin_lexer_functions_begin()[builtin_lexer_functions_number]=std::pair<const char *,gen>(s,gen(u));
-	if (parser_token==1)
-	  builtin_lexer_functions_begin()[builtin_lexer_functions_number].second.subtype=T_UNARY_OP-256;
-	else
-	  builtin_lexer_functions_begin()[builtin_lexer_functions_number].second.subtype=parser_token-256;
-	builtin_lexer_functions_number++;
-#endif
-      }
-      else {
-	lexer_functions()[s] = gen(u);
-	if (parser_token==1)
-	  lexer_functions()[s].subtype=T_UNARY_OP-256;
-	else
-	  lexer_functions()[s].subtype=parser_token-256;
-      }
-      // If s is a library function name (with ::), update the library
-      int ss=strlen(s),j=0;
-      for (;j<ss-1;++j){
-	if (s[j]==':' && s[j+1]==':')
-	  break;
-      }
-      if (j<ss-1){
-	string S(s);
-	string libname=S.substr(0,j);
-	string funcname=S.substr(j+2,ss-j-2);
-#ifdef USTL
-	ustl::map<std::string,std::vector<string> >::iterator it=library_functions().find(libname);
-#else
-	std::map<std::string,std::vector<string> >::iterator it=library_functions().find(libname);
-#endif
-	if (it!=library_functions().end())
-	  it->second.push_back(funcname);
-	else
-	  library_functions()[libname]=vector<string>(1,funcname);
-      }
-      return true;
-    }
-
-    bool lexer_function_remove(const vector<user_function> & v){
-      vector<user_function>::const_iterator it=v.begin(),itend=v.end();
-      map_charptr_gen::const_iterator i,iend;
-      bool ok=true;
-      for (;it!=itend;++it){
-	i = lexer_functions().find(it->s.c_str());
-	iend=lexer_functions().end();
-	if (i==iend)
-	  ok=false;
-	else
-	  lexer_functions().erase(it->s.c_str());
-      }
-      return ok;
-    }
-
-    int find_or_make_symbol(const string & s,gen & res,void * scanner,bool check38,GIAC_CONTEXT){
-      int tmpo=opened_quote(contextptr);
-      if (tmpo & 2)
-	check38=false;
-      if (s.size()==1){
-#ifdef GIAC_HAS_STO_38
-	if (s[0]>='A' && s[0]<='Z'){
-	  index_status(contextptr)=1; 
-	  res=*tab_one_letter_idnt[s[0]-'A'];
-	  return T_SYMBOL;
-	}
-	if (check38 && s[0]>='a' && s[0]<='z' && calc_mode(contextptr)==38)
-	  giac_yyerror(scanner,invalid_name);
-#else
-	if (s[0]>='a' && s[0]<='z'){
-	  if (check38 && calc_mode(contextptr)==38)
-	    giac_yyerror(scanner,invalid_name);
-	  index_status(contextptr)=1; 
-	  res=*tab_one_letter_idnt[s[0]-'a'];
-	  return T_SYMBOL;
-	}
-#endif
-	switch (s[0]){
-	case '+':
-	  res=at_plus;
-	  return T_UNARY_OP;
-	case '-':
-	  res=at_neg;
-	  return T_UNARY_OP;
-	case '*':
-	  res=at_prod;
-	  return T_UNARY_OP;
-	case '/':
-	  res=at_division;
-	  return T_UNARY_OP;
-	case '^':
-	  res=at_pow;
-	  return T_UNARY_OP;
-	}
-      }
-      string ts(s);
-#ifdef USTL
-      ustl::map<std::string,std::string>::const_iterator trans=lexer_localization_map().find(ts);
-      if (trans!=lexer_localization_map().end())
-	ts=trans->second;
-      ustl::map<std::string,std::vector<string> >::const_iterator j=lexer_translator().find(ts);
-      if (j!=lexer_translator().end() && !j->second.empty())
-	ts=j->second.back();
-      ustl::pair<charptr_gen *,charptr_gen *> p=ustl::equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ts.c_str(),0),tri);
-#else
-      std::map<std::string,std::string>::const_iterator trans=lexer_localization_map().find(ts);
-      if (trans!=lexer_localization_map().end())
-	ts=trans->second;
-      std::map<std::string,std::vector<string> >::const_iterator j=lexer_translator().find(ts);
-      if (j!=lexer_translator().end() && !j->second.empty())
-	ts=j->second.back();
-      std::pair<charptr_gen *,charptr_gen *> p=equal_range(builtin_lexer_functions_begin(),builtin_lexer_functions_end(),std::pair<const char *,gen>(ts.c_str(),0),tri);
-#endif
-      if (p.first!=p.second && p.first!=builtin_lexer_functions_end()){
-	if (p.first->second.subtype==T_TO-256)
-	  res=plus_one;
-	else
-	  res = p.first->second;
-	res.subtype=1;
-	if (builtin_lexer_functions_){
-#ifdef NSPIRE
-	  res=gen(int((*builtin_lexer_functions_())[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
-	  res=gen(*res._FUNCptr);	  
-#else
-	  res=gen(int(builtin_lexer_functions_[p.first-builtin_lexer_functions_begin()]+p.first->second.val));
-	  res=gen(*res._FUNCptr);
-#endif
-	}
-	index_status(contextptr)=(p.first->second.subtype==T_UNARY_OP-256);
-	int token=p.first->second.subtype;
-	token += (token<0)?512:256 ;	
-	return token;
-      }
-      lexer_tab_int_type tst={ts.c_str(),0,0,0,0};
-#ifdef USTL
-      ustl::pair<const lexer_tab_int_type *,const lexer_tab_int_type *> pp = ustl::equal_range(lexer_tab_int_values,lexer_tab_int_values_end,tst,tri1);
-#else
-      std::pair<const lexer_tab_int_type *,const lexer_tab_int_type *> pp = equal_range(lexer_tab_int_values,lexer_tab_int_values_end,tst,tri1);
-#endif
-      if (pp.first!=pp.second && pp.first!=lexer_tab_int_values_end){
-	index_status(contextptr)=pp.first->status;
-	res=int(pp.first->value);
-	res.subtype=pp.first->subtype;
-	return pp.first->return_value;
-      }
-      map_charptr_gen::const_iterator i = lexer_functions().find(ts.c_str());
-      if (i!=lexer_functions().end()){
-	if (i->second.subtype==T_TO-256)
-	  res=plus_one;
-	else
-	  res = i->second;
-	res.subtype=1;
-	index_status(contextptr)=(i->second.subtype==T_UNARY_OP-256);
-	return i->second.subtype+256 ;
-      }
-      lock_syms_mutex();
-      sym_string_tab::const_iterator i2 = syms().find(s),i2end=syms().end();
-      if (i2 == i2end) {
-	unlock_syms_mutex();  
-	const char * S = s.c_str();
-	// std::CERR << "lexer new" << s << endl;
-	if (check38 && calc_mode(contextptr)==38 && strcmp(S,string_pi) && strcmp(S,string_euler_gamma) && strcmp(S,string_infinity) && strcmp(S,string_undef) && S[0]!='G'&& (!is_known_name_38 || !is_known_name_38(0,S))){
-	  // detect invalid names and implicit multiplication 
-	  size_t ss=strlen(S);
-	  vecteur args;
-	  for (size_t i=0;i<ss;++i){
-	    char ch=S[i];
-	    if (ch=='C' || (ch>='E' && ch<='H') || ch=='L' || ch=='M' || ch=='R'
-		/* || ch=='S' */
-		|| ch=='U' || ch=='V' || (ch>='X' && ch<='Z') ){
-	      string name;
-	      name += ch;
-	      char c=0;
-	      if (i<ss-1)
-		c=s[i+1];
-	      if (c>='0' && c<='9'){
-		name += c;
-		++i;
-	      }
-	      res = identificateur(name);
-	      lock_syms_mutex();
-	      syms()[name] = res;
-	      unlock_syms_mutex();
-	      args.push_back(res);
-	    }
-	    else {
-	      string coeff;
-	      for (++i;i<ss;++i){
-		// up to next alphabetic char
-		if (s[i]>32 && isalpha(s[i])){
-		  --i;
-		  break;
-		}
-		if (scanner && (s[i]<0 || s[i]>'z')){
-		  giac_yyerror(scanner,invalid_name);
-		  res=undef;
-		  return T_SYMBOL;
-		}
-		coeff += s[i];
-	      }
-	      if (coeff.empty())
-		res=1;
-	      else
-		res=atof(coeff.c_str());
-	      if (ch=='i')
-		res=res*cst_i;
-	      else {
-		if (ch=='e')
-		  res=std::exp(1.0)*res;
-		else {
-		  // Invalid ident name, report error
-		  if ( (ch>'Z' || ch<0) && scanner){
-		    giac_yyerror(scanner,invalid_name);
-		    res=undef;
-		    return T_SYMBOL;
-		  }
-		  coeff=string(1,ch);
-		  gen tmp = identificateur(coeff);
-		  // syms()[coeff.c_str()]=tmp;
-		  res=res*tmp;
-		}
-	      }
-	      args.push_back(res);
-	    }
-	  }
-	  if (args.size()==1)
-	    res=args.front();
-	  else 
-	    res=_prod(args,contextptr);
-	  lock_syms_mutex();
-	  syms()[s]=res;
-	  unlock_syms_mutex();
-	  return T_SYMBOL;
-	} // end 38 compatibility mode
-	res = identificateur(s);
-	lock_syms_mutex();
-	syms()[s] = res;
-	unlock_syms_mutex();
-	return T_SYMBOL;
-      } // end if ==syms.end()
-      res = i2->second;
-      unlock_syms_mutex();  
-      return T_SYMBOL;
-    }
-
-  // Add to the list of predefined symbols
-  void set_lexer_symbols(const vecteur & l,GIAC_CONTEXT){
-    if (initialisation_done(contextptr))
-      return;
-    initialisation_done(contextptr)=true;
-    const_iterateur it=l.begin(),itend=l.end();
-    for (; it!=itend; ++it) {
-      if (it->type!=_IDNT)
-	continue;
-      lock_syms_mutex();
-      sym_string_tab::const_iterator i = syms().find(it->_IDNTptr->id_name),iend=syms().end();
-      if (i==iend)
-	syms()[it->_IDNTptr->name()] = *it;
-      unlock_syms_mutex();  
-    }
-  }
-  
-    std::string translate_at(const char * ch){
-      if (!strcmp(ch,"ΔLIST"))
-	return "DELTALIST";
-      if (!strcmp(ch,"ΠLIST"))
-	return "PILIST";
-      if (!strcmp(ch,"ΣLIST"))
-	return "SIGMALIST";
-      if (!strcmp(ch,"∫"))
-	return "HPINT";
-      if (!strcmp(ch,"∂"))
-	return "HPDIFF";
-      if (!strcmp(ch,"Σ"))
-	return "HPSUM";
-      if (!strcmp(ch,"∑"))
-	return "HPSUM";
-      string res;
-      for (;*ch;++ch){
-        if (*ch=='%')
-          res +="PERCENT";
-        else
-          res += *ch;
-      }
-      return res;
-    }
-    
     // Set the input string
     // export GIAC_DEBUG=-2 to renew static_lexer.h/static_extern.h
     YY_BUFFER_STATE set_lexer_string(const std::string &s_orig,yyscan_t & scanner,GIAC_CONTEXT){
@@ -5714,7 +5218,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	  if (debug_infolevel==-4){
 	    ofstream static_lexer_("static_lexer_.h");
 	    for (int i=0;i<nfunc;i++){
-	      static_lexer_ << "*((unsigned long *) at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ")";
+	      static_lexer_ << "*((size_t *) at_" << translate_at(builtin_lexer_functions_begin()[i].first) << ")";
 	      if (i!=nfunc-1)
 		static_lexer_ << ",";
 	      static_lexer_ << endl;
@@ -5724,7 +5228,7 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
 	  if (debug_infolevel==-5){
 	    ofstream static_lexer_("static_lexer_at.h");
 	    for (int i=0;i<nfunc;i++){
-	      static_lexer_ << "res->push_back(*(unsigned long *)at_" << translate_at(builtin_lexer_functions_begin()[i].first) <<")";
+	      static_lexer_ << "res->push_back(*(size_t *)at_" << translate_at(builtin_lexer_functions_begin()[i].first) <<")";
 	      if (i!=nfunc-1)
 		static_lexer_ << ",";
 	      static_lexer_ << endl;
@@ -5970,6 +5474,32 @@ void giac_yyfree (void * ptr , yyscan_t yyscanner)
       giac_yylex_destroy(scanner);
       return 1;
     }
+#ifdef STATIC_BUILTIN_LEXER_FUNCTIONS
+    bool CasIsBuildInFunction(char const *s, gen &g){ 
+      // binary search in builtin_lexer_functions
+      int i=0, j=builtin_lexer_functions_number-1;
+      int cmp;
+      cmp= strcmp(s,builtin_lexer_functions[i].s);
+      if (cmp==0) goto found; if (cmp<0) return false;
+      cmp= strcmp(s,builtin_lexer_functions[j].s);
+      if (cmp==0) { i=j; goto found; } if (cmp>0) return false;
+      while (1){
+        if (i+1>=j) return false;
+        int mid= (i+j)/2;
+        cmp= strcmp(s,builtin_lexer_functions[mid].s);
+        if (cmp==0) { i=mid; goto found; } 
+        if (cmp>0) i= mid; else j=mid;
+      }
+    found:
+#ifdef NSPIRE
+      g= gen(int((*builtin_lexer_functions_())[i]+builtin_lexer_functions[i]._FUNC_));
+#else
+      g= gen(int(builtin_lexer_functions_[i]+builtin_lexer_functions[i]._FUNC_));
+#endif
+      g= gen(*g._FUNCptr);
+      return true;
+    }
+#endif
 
 #ifndef NO_NAMESPACE_GIAC
   } // namespace giac

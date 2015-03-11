@@ -48,7 +48,7 @@ namespace giac {
   int archive_function_tab_length=0;
 
 #else
-  static const unsigned long archive_function_tab_alias[]={
+  static const size_t archive_function_tab_alias[]={
     // index = 2
     alias_at_plus,alias_at_neg,alias_at_binary_minus,alias_at_prod,alias_at_division,
     // 12
@@ -91,7 +91,7 @@ namespace giac {
   const unary_function_ptr * archive_function_tab(){
     return _archive_function_tab;
   }
-  int archive_function_tab_length=sizeof(archive_function_tab_alias)/sizeof(unsigned long);
+  int archive_function_tab_length=sizeof(archive_function_tab_alias)/sizeof(size_t);
 
 #endif
 
@@ -101,7 +101,7 @@ namespace giac {
   }
 
   int equalposcomp(const unary_function_ptr tab[],const unary_function_ptr & f){
-    for (int i=1;*((unsigned long *)tab)!=0;++tab,++i){
+    for (int i=1;*((size_t *)tab)!=0;++tab,++i){
       if (*tab==f)
 	return i;
     }
@@ -118,7 +118,7 @@ namespace giac {
   }
 
   int equalposcomp(const const_unary_function_ptr_ptr tab[],const unary_function_ptr & f){
-    for (int i=1;*((unsigned long *)tab)!=0;++tab,++i){
+    for (int i=1;*((size_t *)tab)!=0;++tab,++i){
       if (**tab==f)
 	return i;
     }
@@ -296,7 +296,7 @@ namespace giac {
 	  if (i){
 	    if ( (f.type==_CPLX) || (f.type==_MOD) ||
 		 ((f.type==_SYMB) && 
-		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv || (f._SYMBptr->sommet==at_pow && f._SYMBptr->feuille[0].is_symb_of_sommet(at_inv)) ))
+		  ( (f._SYMBptr->sommet==at_plus) || (f._SYMBptr->sommet==at_prod) || need_parenthesis(f._SYMBptr->sommet) || f._SYMBptr->sommet==at_inv || (f._SYMBptr->sommet==at_pow && f._SYMBptr->feuille[0].is_symb_of_sommet(at_inv))))
 		 ){
 	      s += "/(";
 	      add_print(s,f,contextptr);
@@ -433,7 +433,7 @@ namespace giac {
       if (l && s[l-1]=='+')
 	s[l-1]='-';
       else {
-	if (s[l-1]=='-'){
+	if (l && s[l-1]=='-'){
 	  if (l==1) 
 	    s.clear();
 	  else

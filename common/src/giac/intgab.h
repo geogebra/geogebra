@@ -29,7 +29,7 @@ namespace giac {
   class identificateur;
   struct unary_function_ptr;
 
-  bool assume_t_in_ab(gen & t,const gen & a,const gen & b,bool exclude_a,bool exclude_b,GIAC_CONTEXT);
+  bool assume_t_in_ab(const gen & t,const gen & a,const gen & b,bool exclude_a,bool exclude_b,GIAC_CONTEXT);
   // check whether an expression is meromorphic wrt x
   int is_meromorphic(const gen & g,const gen & x,gen &a,gen &b,gen & P,GIAC_CONTEXT);
   // 0 none, 1 even, 2 odd

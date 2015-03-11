@@ -121,7 +121,7 @@ namespace std {
       }
     }
     void _alloc_fill(const _Tp * b,const _Tp * e){
-      unsigned n=e-b;
+      unsigned n=unsigned(e-b);
       if (n<=(sizeof(int)*IMMEDIATE_VECTOR)/sizeof(_Tp)){
 	_zero_tab();
 	_taille = -int(n);
@@ -209,8 +209,8 @@ namespace std {
     reverse_iterator rend(){ return _taille>0?_begin_immediate_vect-1:((_Tp *) _tab)-1;}
     const_reverse_iterator rbegin() const { return _taille>0?_begin_immediate_vect+_abs(_taille)-1:((_Tp *) _tab)-_taille-1; }
     const_reverse_iterator rend() const { return _taille>0?_begin_immediate_vect-1:((_Tp *) _tab)-1;}
-    unsigned size() const { return _abs(_taille); }
-    unsigned capacity() const { return _taille<0?(sizeof(int)*IMMEDIATE_VECTOR)/sizeof(_Tp):_endalloc_immediate_vect-_begin_immediate_vect;}
+    size_t size() const { return _abs(_taille); }
+    size_t capacity() const { return _taille<0?(sizeof(int)*IMMEDIATE_VECTOR)/sizeof(_Tp):_endalloc_immediate_vect-_begin_immediate_vect;}
     _Tp & front() { return *begin(); }
     _Tp & back() { return *rbegin(); }
     _Tp & operator [](unsigned i) { return *(begin()+i); }
@@ -284,7 +284,7 @@ namespace std {
       }
     }
     void erase(_Tp * b,_Tp * e){
-      unsigned decal=e-b;
+      unsigned decal=unsigned(e-b);
       if (!decal || _taille==0 || _taille==immvector_max)
 	return;
       if (decal>=_abs(_taille)){
@@ -344,7 +344,7 @@ namespace std {
 	b=_begin_immediate_vect+pos;
       }
       if (_endalloc_immediate_vect-_begin_immediate_vect<int(_abs(_taille)+k)){
-	unsigned pos=b-_begin_immediate_vect;
+	unsigned pos=unsigned(b-_begin_immediate_vect);
 	_realloc(_abs(_taille)?2*_taille:1);
 	b=_begin_immediate_vect+pos;
       }
@@ -372,7 +372,7 @@ namespace std {
       }
     }
     void assign(const _Tp * b,const _Tp * e){
-      unsigned n=e-b;
+      unsigned n=unsigned(e-b);
       _realloc(n);
       _taille=_taille>0?(n?n:immvector_max):-n;
       for (_Tp * ptr=_begin_immediate_vect;b!=e;++b,++ptr){
@@ -382,14 +382,15 @@ namespace std {
     unsigned max_size() const {
       return (1 << 30) -1;
     }
+    static _Tp &OutOfBoundsDefault() { static _Tp value; value = _Tp(); return value; }
     _Tp & at(unsigned n){
       if (n>_abs(_taille))
-	return _Tp(); // should be defined somewhere else
+	return OutOfBoundsDefault();
       return *(begin()+n);
     }
     const _Tp at(unsigned n) const {
       if (n>_abs(_taille))
-	return _Tp(); // should be defined somewhere else
+	return OutOfBoundsDefault();
       return *(begin()+n);
     }
   };
@@ -441,7 +442,7 @@ namespace std {
     void _realloc(unsigned n){
       if (_endalloc-_begin>=int(n))
 	return;
-      unsigned old=_end-_begin;
+      unsigned old=unsigned(_end-_begin);
       _Tp * _newbegin = new _Tp[n];
       for (_Tp * ptr=_begin;ptr!=_end;++ptr,++_newbegin){
 	*_newbegin = *ptr;
@@ -458,7 +459,7 @@ namespace std {
       _endalloc=_begin+n;
     }
     void _alloc_fill(const _Tp * b,const _Tp * e){
-      unsigned n=e-b;
+      unsigned n=unsigned(e-b);
       _alloc(n); 
       for (_Tp * ptr=_begin;ptr!=_endalloc;++ptr,++b){
 	*ptr = *b;
@@ -490,7 +491,7 @@ namespace std {
     vector<_Tp> & operator = (const vector<_Tp> & w){
       if (this==&w)
 	return *this;
-      unsigned n=w._end-w._begin;
+      unsigned n=unsigned(w._end-w._begin);
       _realloc(n);
       _end=_begin;
       for (_Tp * ptr=w._begin;ptr!=w._end;++_end,++ptr){
@@ -506,8 +507,8 @@ namespace std {
     reverse_iterator rend(){ return _begin-1;}
     const_reverse_iterator rbegin() const { return _end-1; }
     const_reverse_iterator rend() const { return _begin-1;}
-    unsigned size() const { return _end-_begin; }
-    unsigned capacity() const { return _endalloc-_begin;}
+    size_t size() const { return _end-_begin; }
+    size_t capacity() const { return _endalloc-_begin;}
     _Tp & front() { return *_begin; }
     _Tp & back() { return *(_end-1); }
     _Tp & operator [](unsigned i) { return *(_begin+i); }
@@ -516,7 +517,7 @@ namespace std {
     const _Tp & operator [](unsigned i) const { return *(_begin+i); }
     void push_back(const _Tp & p){ 
       if (_endalloc==_end){
-	unsigned n = _end-_begin;
+	unsigned n = unsigned(_end-_begin);
 	_realloc(n?2*n:2);
       } 
       *_end=p; 
@@ -536,7 +537,7 @@ namespace std {
       }
     }
     void erase(_Tp * b,_Tp * e){
-      unsigned decal=e-b;
+      unsigned decal=unsigned(e-b);
       if (!decal)
 	return;
       for (_Tp * ptr=e;ptr!=_end;++ptr){
@@ -549,8 +550,8 @@ namespace std {
     }
     _Tp * insert(_Tp * b, const _Tp& x ){
       if (_endalloc==_end){
-	unsigned pos=b-_begin;
-	unsigned n = _end-_begin;
+	unsigned pos=unsigned(b-_begin);
+	unsigned n = unsigned(_end-_begin);
 	_realloc(n?2*n:2);
 	b=_begin+pos;
       }
@@ -563,8 +564,8 @@ namespace std {
     }
     void insert(_Tp * b, unsigned k,const _Tp& x ){
       if (_endalloc<_end+k){
-	unsigned pos=b-_begin;
-	unsigned n = _end-_begin;
+	unsigned pos=unsigned(b-_begin);
+	unsigned n = unsigned(_end-_begin);
 	_realloc(n>k?2*n:n+k);
 	b=_begin+pos;
       }
@@ -590,7 +591,7 @@ namespace std {
       }
     }
     void assign(const _Tp * b,const _Tp * e){
-      unsigned n=e-b;
+      unsigned n=unsigned(e-b);
       _realloc(n);
       _end = _begin +n;
 	for (_Tp * ptr=_begin;b!=e;++b,++ptr){
@@ -623,6 +624,8 @@ namespace std {
     return true;
   }
 
+  // template<typename _Tp> inline bool operator!=(const vector<_Tp>& __x, const vector<_Tp>& __y){ return !(__x==__y); }
+
   template<typename _Tp>
     inline bool operator < (const vector<_Tp>& __x, const vector<_Tp>& __y){ 
     if (__x.size() != __y.size())
@@ -632,11 +635,6 @@ namespace std {
 	return *xptr<*yptr;
     }
     return false;
-  }
-
-  template<typename _Tp>
-    inline bool operator!=(const _Tp & __x, const _Tp & __y){
-    return !(__x==__y);
   }
 
   template<typename _Tp>

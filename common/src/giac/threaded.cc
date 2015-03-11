@@ -5676,8 +5676,8 @@ mpz_class smod(const mpz_class & a,int reduce){
 	  gen maxpmin=_max(coefft,context0),degpmin=int(pminv.size()-1);
 	  if (is_undef(maxpmin)) return false;
 	  gen multpmin=pow((degpmin+1)*maxpmin,degpmin,context0);
-	  gen test1=lcoeffdpcof*maxp+lcoeffp*maxd*maxpcof*gen(std::min(dtest.size(),pcofactortest.size()))*(degpmin+1)*multpmin; 
-	  gen test2=lcoeffdqcof*maxq+lcoeffq*maxd*maxqcof*gen(std::min(dtest.size(),qcofactortest.size()))*(degpmin+1)*multpmin; 
+	  gen test1=lcoeffdpcof*maxp+lcoeffp*maxd*maxpcof*gen(int(std::min(dtest.size(),pcofactortest.size())))*(degpmin+1)*multpmin; 
+	  gen test2=lcoeffdqcof*maxq+lcoeffq*maxd*maxqcof*gen(int(std::min(dtest.size(),qcofactortest.size())))*(degpmin+1)*multpmin; 
 	  if (is_strictly_greater(pimod,test1,context0) && is_strictly_greater(pimod,test2,context0)){
 	    // leave d unchanged but adjust pcofactor and qcofactor
 	    swap(d,dtest);
@@ -5806,8 +5806,8 @@ mpz_class smod(const mpz_class & a,int reduce){
 	gen maxpmin=_max(coefft,context0),degpmin=int(pminv.size()-1);
 	if (is_undef(maxpmin)) return false;
 	gen multpmin=pow((degpmin+1)*maxpmin,degpmin,context0);
-	gen test1=lcoeffdpcof*maxp+lcoeffp*maxd*maxpcof*gen(std::min(dtest.size(),pcofactortest.size()))*(degpmin+1)*multpmin; 
-	gen test2=lcoeffdqcof*maxq+lcoeffq*maxd*maxqcof*gen(std::min(dtest.size(),qcofactortest.size()))*(degpmin+1)*multpmin; 
+	gen test1=lcoeffdpcof*maxp+lcoeffp*maxd*maxpcof*gen(int(std::min(dtest.size(),pcofactortest.size())))*(degpmin+1)*multpmin; 
+	gen test2=lcoeffdqcof*maxq+lcoeffq*maxd*maxqcof*gen(int(std::min(dtest.size(),qcofactortest.size())))*(degpmin+1)*multpmin; 
 	if (is_strictly_greater(pimod,test1,context0) && is_strictly_greater(pimod,test2,context0)){
 	  // leave d unchanged but adjust pcofactor and qcofactor
 	  swap(d,dtest);

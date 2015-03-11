@@ -56,7 +56,9 @@ namespace giac {
   gen _format(const gen & g,GIAC_CONTEXT);
   gen _inString(const gen & g,GIAC_CONTEXT);
   gen _left(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_left;
   gen _right(const gen & g,GIAC_CONTEXT);
+  extern const unary_function_ptr * const  at_right;
   gen _mid(const gen & g,GIAC_CONTEXT);
   gen _ord(const gen & g,GIAC_CONTEXT);
   gen _rotate(const gen & g,GIAC_CONTEXT);

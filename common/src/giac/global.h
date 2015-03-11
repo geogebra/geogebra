@@ -31,7 +31,7 @@
 #if defined VISUALC || defined BESTA_OS 
 typedef long pid_t;
 #else // VISUALC
-#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE)
+#if !defined(__MINGW_H) && !defined(BESTA_OS) && !defined(NSPIRE) && !defined(__ANDROID__)
 #include "wince_replacements.h"
 #endif
 #ifdef __MINGW_H
@@ -97,13 +97,15 @@ inline double giac_log(double d){
 
 #include <stdexcept>
 #include "help.h"
-#if !defined(GIAC_HAS_STO_38) && !defined(ConnectivityKit) && !defined(BESTA_OS)
+#if !defined(GIAC_HAS_STO_38) // && !defined(ConnectivityKit) && !defined(BESTA_OS)
 #include "tinymt32.h"
 #endif
 
 #ifndef NO_NAMESPACE_GIAC
 namespace giac {
 #endif // ndef NO_NAMESPACE_GIAC
+  void opaque_double_copy(void * source,void * target);
+  double opaque_double_val(const void * source);
 
   double giac_floor(double d);
   double giac_ceil(double d);
@@ -268,21 +270,18 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
 
   // void control_c();
   // note that ctrl_c=false was removed, should be done before calling eval
-#if defined RTOS_THREADX || defined NSPIRE
-#ifdef RTOS_THREADX
-#define control_c()
-#else
+#if defined NSPIRE
   void control_c();
-#endif 
-#elif BESTA_OS
+#elif defined FIR
 #define control_c()
 #else
 #ifdef TIMEOUT
   void control_c();
 #else
 #define control_c() if (ctrl_c) { interrupted = true; CERR << "Throwing exception for user interruption." << std::endl; throw(std::runtime_error("Stopped by user interruption.")); }
-#endif
-#endif
+#endif // TIMEOUT
+#endif // !NSPIRE, !FIR
+
   typedef void ( * void_function )();
   // set to non-0 if you want to hook a function call inside control_c()
 
@@ -406,13 +405,13 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
     int thread_eval_status;
     giac_callback f;
     void * f_param;
+    giac::vecteur v;
 #ifdef HAVE_LIBPTHREAD
     pthread_t eval_thread;
     pthread_attr_t attr;
     size_t stacksize;
     void * stackaddr;
 #endif
-    giac::vecteur v;
     thread_param();
   };
 
@@ -929,6 +928,7 @@ Boolean isLegalUTF8Sequence(const UTF8 *source, const UTF8 *sourceEnd);
   extern void (*my_gprintf)(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(const std::string & format,const vecteur & v,GIAC_CONTEXT);
   void gprintf(unsigned special,const std::string & format,const vecteur & v,GIAC_CONTEXT);
+  gen make_symbolic(const gen & op,const gen & args);
   
 #ifndef NO_NAMESPACE_GIAC
 } // namespace giac

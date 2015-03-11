@@ -255,7 +255,7 @@ namespace giac {
 	    }
 	  }
 	}
-	if (loupe==v[1]._VECTptr->size()) // all tests above returned false
+	if (loupe==int(v[1]._VECTptr->size())) // all tests above returned false
 	  return false;
       }
     }
@@ -314,8 +314,9 @@ namespace giac {
     const_iterateur jt=pv.begin(),jtend=pv.end();
     for (;jt!=jtend;++jt){
       fxnd(*jt,n,d);
-      if (d.type==_POLY)
+      if (d.type==_POLY){
 	res=solve(r2e(d,l,contextptr),x,cplxmode,contextptr);
+      }
       if (is_undef(res))
 	return res;
     }
@@ -730,7 +731,7 @@ namespace giac {
     if (translate_gcddeg(w,w_translated,delta_x,deg)){
       // composite polynomials
       gen invdeg=inv(deg,contextptr);
-      identificateur compositex("_tmp_x_solve_composite_");
+      identificateur compositex("tmp_x_solve_composite_");
       gen newe=symb_horner(*r2sym(w_translated,lv,contextptr)._VECTptr,compositex);
       delta_x=r2sym(delta_x,lv,contextptr);
       vecteur vtmp;
@@ -1523,7 +1524,7 @@ namespace giac {
     iterateur it=res.begin(),itend=res.end();
     for (;it!=itend;++it)
       *it=(*it)[0];
-    _purge(vecteur(listvars.begin()+1,listvars.end()),contextptr);
+    purgenoassume(vecteur(listvars.begin()+1,listvars.end()),contextptr);
     if (listvars[0].type==_IDNT){
       fullres=mergevecteur(res,fullres);
       return;
@@ -1738,11 +1739,13 @@ namespace giac {
 	  expr=tmp;
 	else {
 	  tmp=halftan(tmp,contextptr);
-	  if (lvarx(tmp,x).size()==1)
+	  // change made on 6 dec 2014 for solve(-e^x*(-cos(x)+sin(x)),x);
+	  int tmps=lvarx(tmp,x).size();
+	  if (tmps==1)
 	    expr=tmp;
 	  else {
-	    tmp=_lncollect(expr,contextptr);
-	    if (lvarx(tmp,x).size()==1){
+	    tmp=_lncollect((tmps<s?tmp:expr),contextptr);
+	    if (int(lvarx(tmp,x).size())<s){
 	      // Note: we are checking solutions numerically later
 	      *logptr(contextptr) << gettext("Warning: solving in ") << x << gettext(" equation ") << tmp << "=0" << endl;
 	      expr=tmp;
@@ -1982,6 +1985,20 @@ namespace giac {
     return v;
   }
 
+  vecteur protect_solve(const gen & e,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
+    vecteur res;
+#ifdef NO_STDEXCEPT
+    res=solve(e,x,isolate_mode,contextptr);
+#else
+    try {
+      res=solve(e,x,isolate_mode,contextptr);
+    } catch(std::runtime_error & e){
+      res=vecteur(1,undef);
+    }
+#endif
+    return res;
+  }
+
   vecteur solve(const gen & e,const identificateur & x,int isolate_mode,GIAC_CONTEXT){
     ck_isolate_mode(isolate_mode,x,contextptr);
     if (is_undef(e)) return vecteur(0);
@@ -2062,7 +2079,7 @@ namespace giac {
 		jt->is_symb_of_sommet(at_and)){
 	      assumesymbolic(*jt,0,contextptr); // assume and solve next equation
 	      newres=mergevecteur(newres,solve(*it,*x._IDNTptr,isolate_mode,contextptr));
-	      _purge(x,contextptr);
+	      purgenoassume(x,contextptr);
 	    }
 	    else { 
 	      if (is_zero(normal(subst(*it,x,*jt,true,contextptr),1,contextptr),contextptr))
@@ -3633,14 +3650,138 @@ namespace giac {
     return res;
   }
   
+
+  // solve triangular system l*a=y where l is the lower part of a lu decomp 
+  void linsolve_l(const matrice & m,const vecteur & y,vecteur & a){
+    // l*a=y: a1=y1, a2=y2-m_21*a1, ..., ak=yk-sum_{j=1..k-1}(m_kj*aj)
+    int n=y.size();
+    a.resize(n);
+    gen * astart=&a[0];
+    *astart=y[0]/m[0][0];
+    for (int k=1;k<n;++k){
+      const gen * mkj=&m[k]._VECTptr->front();
+      gen *aj=astart,*ak=astart+k;
+      gen res=y[k];
+      for (;aj<ak;++mkj,++aj)
+	res -= (*mkj)*(*aj); 
+      *ak=res/(*mkj);
+    }
+  }
+
+  // solve upper triangular system m*y=a
+  void linsolve_u(const matrice & m,const vecteur & y,vecteur & a){
+    // u*[a0,..,an-1]=[y0,...,yn]
+    // a_{n-1}=y_{n-1}/u_{n-1,n-1}
+    // a_{n-2}=(y_{n-2}-u_{n-2,n-1}*a_{n-1})/u_{n-2,n-2}
+    // ...
+    // a_k=(y_{k}-sum_{j=k+1..n-1} u_{k,j}a_j)/u_{k,k}
+    int n=y.size();
+    a.resize(n);
+    for (int k=n-1;k>=0;--k){
+      gen res=y[k];
+      gen * mkj=&(*m[k]._VECTptr)[n-1],*colj=&a[n-1],*colend=&a[k];
+      for (;colj>colend;--mkj,--colj){
+	res -= (*mkj)*(*colj);
+      }
+      *colj=res/(*mkj);
+    }
+  }
+
   gen _linsolve(const gen & args,GIAC_CONTEXT){
     if ( args.type==_STRNG && args.subtype==-1) return  args;
     vecteur v(plotpreprocess(args,contextptr));
     if (is_undef(v))
       return v;
     int s=v.size();
+    if (s==4){
+      // P,L,U,B, solve A*X=B where P*A=L*U
+      gen P=v[0],L=eval(v[1],1,contextptr),U=v[2],B=v[3];
+      if (P.type!=_VECT || !ckmatrix(L) || !ckmatrix(U) || B.type!=_VECT)
+	return gensizeerr(contextptr);
+      vector<int> p;
+      if (!is_permu(*P._VECTptr,p,contextptr))
+	return gensizeerr(contextptr);
+      matrice b; int n=B._VECTptr->size();
+      bool mat=ckmatrix(B);
+      if (!mat){
+	b=vecteur(1,B);	
+	if (!ckmatrix(b))
+	  return gensizeerr(contextptr);
+      }
+      else 
+	b=mtran(*B._VECTptr);
+      if (n!=int(p.size()) || n!=int(L._VECTptr->size()) || n!=int(U._VECTptr->size()))
+	return gendimerr(contextptr);
+      vecteur res; res.reserve(b.size());
+      for (unsigned i=0;i<b.size();++i){
+	const vecteur & Bv=*b[i]._VECTptr;
+	vecteur c(n),y(n),x(n);
+	for (int i=0;i<n;++i)
+	  c[i]=Bv[p[i]];
+	// now solve L*(U*X)=c
+	linsolve_l(*L._VECTptr,c,y);
+	linsolve_u(*U._VECTptr,y,x);
+	if (!mat)
+	  return x;
+	res.push_back(x);
+      }
+      return gen(mtran(res),_MATRIX__VECT);
+    }
     if (s!=2)
       return gentoomanyargs("linsolve");
+    if (is_squarematrix(v[0]) && v[1].type==_VECT){
+      // maybe it's a triangular system
+      matrice & m=*v[0]._VECTptr;
+      int n=m.size();
+      bool mat=ckmatrix(v[1]);
+      vecteur b,res;
+      if (!mat){
+	b=vecteur(1,v[1]);	
+	if (!ckmatrix(b))
+	  return gensizeerr(contextptr);
+      }
+      else 
+	b=mtran(*v[1]._VECTptr);
+      if (n>=2){
+	if (is_zero(m[0][1],contextptr)){
+	  // lower triangular?
+	  bool lower=true;
+	  for (unsigned i=0;lower && i<n;++i){
+	    vecteur & v=*m[i]._VECTptr;
+	    for (unsigned j=i+1;lower && j<n;++j){
+	      lower=is_zero(v[j]);
+	    }
+	  }
+	  for (unsigned i=0;i<b.size();++i){
+	    vecteur y(n);
+	    if (lower)
+	      linsolve_l(m,*b[i]._VECTptr,y);
+	    if (!mat)
+	      return y;
+	    res.push_back(y);
+	  }
+	  return res;
+	}
+	// upper triangular?
+	bool upper=true;
+	for (unsigned i=1;upper && i<n;++i){
+	  vecteur & v=*m[i]._VECTptr;
+	  for (unsigned j=0;upper && j<i;++j){
+	    upper=is_zero(v[j]);
+	  }
+	}
+	if (upper){
+	  for (unsigned i=0;i<b.size();++i){
+	    vecteur y(n);
+	    linsolve_u(m,*b[i]._VECTptr,y);
+	    if (!mat)
+	      return y;
+	    res.push_back(y);
+	  }
+	  return res;
+	}
+      }
+    }
     if (v[1].type==_IDNT)
       v[1]=eval(v[1],eval_level(contextptr),contextptr);
     gen syst=apply(v[0],equal2diff),vars=v[1];
@@ -4103,7 +4244,7 @@ namespace giac {
     if (p.coord.empty())
       return ;
     polynome TMP1(p.dim,p),TMP2(p.dim,p);
-    std::vector< monomial<gen> >::const_iterator pt,ptend;
+    std::vector< monomial<gen> >::const_iterator pt=p.coord.begin(),ptend;
     const polynome * it;
     for (;;){
       ptend=rem.coord.end();
@@ -5645,7 +5786,7 @@ namespace giac {
     }
     int varsize=var.size();
 #if 1 // trying with rational univariate rep., assuming radical ideal of dim 0
-    if (varsize<=GROEBNER_VARS && varsize==eq.size()){
+    if (varsize<=GROEBNER_VARS && varsize==int(eq.size())){
       double eps=epsilon(contextptr);
       gen G=_gbasis(makesequence(eq,var,change_subtype(_RUR_REVLEX,_INT_GROEBNER)),contextptr);
       if (G.type==_VECT && G._VECTptr->size()==var.size()+4 && G._VECTptr->front().type==_INT_ && G._VECTptr->front().val==_RUR_REVLEX){
@@ -6026,6 +6167,7 @@ namespace giac {
 	  switch (tmp._VECTptr->front().val){
 	  case _WITH_COCOA:
 	    with_cocoa=tmp._VECTptr->back().val!=0;
+	    modular=false;
 	    break;
 	  case _WITH_F5: case _MODULAR_CHECK:
 	    with_f5=tmp._VECTptr->back().val!=0;
@@ -6266,7 +6408,7 @@ namespace giac {
       if (equalposcomp(l0,l1[i]))
 	l.push_back(l1[i]);
     }
-    int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
+    //int faken=revlex_parametrize(l,l0,order.val),lsize=l.size();
     l=vecteur(1,l);
     alg_lvar(makevecteur(v[0],v[1]),l);
     vecteur eq_in(*e2r(v[1],l,contextptr)._VECTptr);

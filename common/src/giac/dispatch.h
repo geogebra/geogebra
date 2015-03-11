@@ -224,6 +224,10 @@ namespace giac {
     _SPREAD__SYMB =123 // do not use this value elsewhere
   } ;
 
+  enum map_subtypes {
+    _SPARSE_MATRIX=2,
+  };
+
   enum point_styles {
     _STYLE_DOT=0,
     _STYLE_BOX=1,

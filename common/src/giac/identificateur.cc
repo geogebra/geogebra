@@ -1058,6 +1058,12 @@ namespace giac {
     return globalize?global_eval(res,level):res; 
   }
 
+  void printsymtab(sym_tab * ptr){
+    sym_tab::const_iterator it=ptr->begin(),itend=ptr->end();
+    for (;it!=itend;++it)
+      CERR << it->first << ":" << it->second << endl;
+  }
+
   bool identificateur::in_eval(int level,const gen & orig,gen & evaled,const context * contextptr, bool No38Lookup) {
     // if (!ref_count) return false; // does not work for cst ref identificateur
     if (contextptr){
@@ -1074,6 +1080,7 @@ namespace giac {
       // check for quoted
       if (cur->quoted_global_vars && !cur->quoted_global_vars->empty() && equalposcomp(*cur->quoted_global_vars,orig)) 
 	return false;
+      // printsymtab(cur->tabptr);
       sym_tab::const_iterator it=cur->tabptr->find(id_name);
       if (it==cur->tabptr->end()){
         if (No38Lookup) return false;

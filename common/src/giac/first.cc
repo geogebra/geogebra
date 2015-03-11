@@ -90,7 +90,7 @@ init_gmp_memory::~init_gmp_memory() { }
 
 #include <iostream>
 
-unsigned long giac_allocated = 0;
+size_t giac_allocated = 0;
 void* operator new(std::size_t size)
 {
   std::cerr << giac_allocated << " + " << size << std::endl;

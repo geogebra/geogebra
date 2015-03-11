@@ -1646,11 +1646,11 @@ namespace giac {
 #endif
       }
       if (doit && ans/RAND_MAX<RAND_MAX){
-#ifdef __VISUALC__ // Visual C++?
-	typedef unsigned __int64 ulonglong ;
-#else
-	typedef unsigned long long ulonglong;
-#endif
+	//#ifdef __VISUALC__ // Visual C++?
+	// typedef unsigned __int64 ulonglong ;
+	// #else
+	// typedef unsigned long long ulonglong;
+	//#endif
 	std::vector<ulonglong> vars(a.dim);
 	vars[a.dim-1]=1;
 	for (int i=a.dim-2;i>=0;--i){
@@ -2268,18 +2268,18 @@ namespace giac {
   // Ducos: optimizations of the subresultant algorithm
   
   // n=d-1-e, d=degree(Sd), e=degree(Sd1), Se=(lc(Sd1)^n*Sd1)/lc(Sd)^n
-  void ducos_e(const polynome & Sd,const polynome & Sd1,polynome & Se){
+  void ducos_e(const polynome & Sd,const polynome & sd,const polynome & Sd1,polynome & Se){
     int n=Sd.lexsorted_degree()-Sd1.lexsorted_degree()-1;
     if (!n){
       Se=Sd1;
       return;
     }
     if (n==1){
-      Se=(Tfirstcoeff(Sd1)*Sd1)/Tfirstcoeff(Sd);
+      Se=(Tfirstcoeff(Sd1)*Sd1)/sd;
       return;
     }
     // n>=2
-    polynome sd(Tfirstcoeff(Sd)),sd1(Tfirstcoeff(Sd1)),s((sd1*sd1)/sd);
+    polynome sd1(Tfirstcoeff(Sd1)),s((sd1*sd1)/sd);
     for (int j=2;j<n;++j){
       s=(s*sd1)/sd;
     }
@@ -2393,8 +2393,12 @@ namespace giac {
 	return ;
       }
       int delta=d-e;
-      if (delta>1)
-	ducos_e(step?A:pow(Tfirstcoeff(Q),delta-1)*Q,B,C);
+      if (delta>1){
+	polynome sd(Tfirstcoeff(A));
+	if (step==0)
+	  sd=pow(sd,P.lexsorted_degree()-Q.lexsorted_degree());
+	ducos_e(A,sd,B,C);
+      }
       else
 	C=B;
       if (e==0){
@@ -3335,8 +3339,10 @@ namespace giac {
 
   void modularize(polynome & d,const gen & m){
     vector< monomial<gen> >::iterator it=d.coord.begin(),itend=d.coord.end();
-    for (;it!=itend;++it)
-      it->value=makemod(it->value,m);
+    for (;it!=itend;++it){
+      if (it->value.type!=_USER)
+	it->value=makemod(it->value,m);
+    }
   }
 
   // Find indexes of p such that p is constant, answer is in i
@@ -3980,6 +3986,7 @@ namespace giac {
 	}
 	return true;
       }
+#ifndef NSPIRE
       if (//true ||  
 	  modop < heuop 
 	  ){ // was  if ( modop < heuop && est_reel)
@@ -3990,6 +3997,7 @@ namespace giac {
 	  COUT << "// " << clock() << " End modular gcd " << endl;
 	return res;
       }
+#endif
     }
     if (debug_infolevel)
       COUT << "// Using Heu gcd " << endl;
@@ -4226,6 +4234,8 @@ namespace giac {
   void lcmdeno(const polynome & p, gen & res){
     vector< monomial<gen> >::const_iterator it=p.coord.begin(),itend=p.coord.end();
     for (;it!=itend;++it){
+      if (it->value.type!=_FRAC)
+	continue;
       gen tmp=it->value,tmpden=1;
       while (tmp.type==_FRAC){
 	tmpden=tmpden*tmp._FRACptr->den;
@@ -4476,6 +4486,7 @@ namespace giac {
     // w=p/c=Pi_{i%n>=1} p_i, 
     // y=p'/c=Sum_{i%n>=1} ip_i'*pi_{j!=i, j%n>=1} p_j
     y=y-w.derivative(); 
+    y=smod(y,gen(int(n)));
     // y=Sum_{i%n>=2} (i-1)p_i'*pi_{j!=i,j%n!=0} p_j
     int k=1;
     while(!y.coord.empty()){
@@ -4488,6 +4499,7 @@ namespace giac {
       // this push p_k, now w=pi_{i%n>=k+1} p_i and 
       // y=sum_{i%n>=k+1} (i-k) p_i' * pi_{j!=i, j%n>=k+1} p_j
       y=y-w.derivative();
+      y=smod(y,gen(int(n)));
       // y=sum_{i%n>=k+1} (i-(k+1)) p_i' * pi_{j!=i, j%n>=k+1} p_j
       k++;
     }
@@ -4628,6 +4640,8 @@ namespace giac {
 	    if (is_zero(b)){
 	      gen extra_div=1;
 	      factor(Fb,Gb,v0,false,false,false,1,extra_div);
+	      if (is_one(v0.front().fact))
+		v0.erase(v0.begin());
 	      if (try_hensel_lift_factor(ptrans,Fb,v0,it->mult,ftrans)){
 		factorization::const_iterator it=ftrans.begin(),itend=ftrans.end();
 		for (;it!=itend;++it){
@@ -4656,7 +4670,10 @@ namespace giac {
 	return false;
       }
       // convert to vector 
-      modpoly Qtry(modularize(env->moduloon?unmodularize(itfact):it->fact,n,env));
+      modpoly Qtry(modularize(
+			      unmodularize(itfact)
+			      //env->moduloon?unmodularize(itfact):it->fact
+			      ,n,env));
       if (is_undef(Qtry)){
 #ifndef NO_STDEXCEPT
 	setsizeerr();
@@ -5862,7 +5879,21 @@ namespace giac {
     return (is_positive(p.coord.front().value,context0));
   }
 
-  void partfrac(const polynome & num, const polynome & den, const vector< facteur< polynome > > & v , vector < pf <gen> > & pfdecomp, polynome & ipnum, polynome & ipden,bool rational ){
+  void partfrac(const polynome & num_, const polynome & den_, const vector< facteur< polynome > > & v_ , vector < pf <gen> > & pfdecomp, polynome & ipnum, polynome & ipden,bool rational ){
+    polynome num(num_),den(den_);
+    vector< facteur< polynome > > v(v_);
+    vector< facteur< polynome > >::iterator jt=v.begin(),jtend=v.end()
+;
+    for (;jt!=jtend;++jt){
+      gen tmp(1);
+      lcmdeno(jt->fact,tmp);
+      if (!is_one(tmp)){
+	jt->fact=tmp*jt->fact;
+	tmp=pow(tmp,jt->mult,context0);
+	num=tmp*num;
+	den=tmp*den;
+      }
+    }
     // check that all mult == 1 and deg<=2
     // later will split in 2 parts, 1st having this property
     vector< facteur< polynome > >::const_iterator it=v.begin(),itend=v.end();
@@ -6315,8 +6346,9 @@ namespace giac {
 	index_t::const_iterator it_tt=it->index.begin();
 	index_t::const_iterator it_ttend=it_tt+nvar,cur_it=cur_index.begin();
 	for (;it_tt!=it_ttend;++cur_it,++it_tt){
-	  if (*it_tt!=*cur_it)
+	  if (*it_tt!=*cur_it){
 	    return res;
+	  }
 	}
 	// same main variables powers, accumulate constants
 	res.coord.push_back(monomial<gen>(it->value,index_t(it->index.begin()+vsize,it->index.end())));

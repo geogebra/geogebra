@@ -339,6 +339,11 @@ namespace giac {
     return (a.value==b.value) && (a.index==b.index);
   }
 
+  template<class T>
+  bool operator != (const monomial<T>& a,const monomial<T> & b){
+    return !(a==b);
+  }
+
   template <class T>
   monomial<T> Untrunc1(const T & t,int j=0){
     index_m new_i;

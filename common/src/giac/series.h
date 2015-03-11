@@ -62,6 +62,7 @@ namespace giac {
   bool ppow(const sparse_poly1 & base,const gen & e,int ordre,int direction,sparse_poly1 & res,GIAC_CONTEXT);
   bool pcompose(const vecteur & v,const sparse_poly1 & p, sparse_poly1 & res,GIAC_CONTEXT);
   void lcmdeno(vecteur &v,gen & e,GIAC_CONTEXT);
+  void lcmdeno_converted(vecteur &v,gen & e,GIAC_CONTEXT);
   void lcmdeno(sparse_poly1 &v,gen & e,GIAC_CONTEXT);
   bool pintegrate(sparse_poly1 & p,const gen & t,GIAC_CONTEXT);
   bool prevert(const sparse_poly1 & p_orig,sparse_poly1 & q,GIAC_CONTEXT);
@@ -101,7 +102,7 @@ namespace giac {
   // args = expression, antiderivative, variable, lower_bound, upper_bound
   gen _euler_mac_laurin(const gen & args,GIAC_CONTEXT);
   extern const unary_function_ptr * const  at_euler_mac_laurin ;
-  bool convert_to_euler_mac_laurin(const gen & g,gen & res,GIAC_CONTEXT);
+  bool convert_to_euler_mac_laurin(const gen & g,const identificateur &n,gen & res,GIAC_CONTEXT);
 
   // expansion of e at x=lim_point, order ordre, direction 0/1/-1
   // answer is in s

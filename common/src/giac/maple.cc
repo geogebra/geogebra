@@ -848,7 +848,7 @@ namespace giac {
   // open a file, returns a FD
   gen _open(const gen & g,GIAC_CONTEXT){
     if ( g.type==_STRNG && g.subtype==-1) return  g;
-#if defined(VISUALC) || defined(__MINGW_H) || defined (BESTA_OS) || defined(NSPIRE)
+#if defined(VISUALC) || defined(__MINGW_H) || defined (BESTA_OS) || defined(NSPIRE) || defined(__ANDROID__)
     return gensizeerr(gettext("not implemented"));
 #else
     gen tmp=check_secure();
@@ -923,13 +923,13 @@ namespace giac {
     if ( g.type==_STRNG && g.subtype==-1) return  g;
 #if !defined(VISUALC) && !defined(BESTA_OS) && !defined(__MINGW_H) && !defined(NSPIRE)
     if (g.type==_INT_ && g.subtype==_INT_FD){
-      _purge(g0,contextptr);
+      purgenoassume(g0,contextptr);
       close(g.val);
       return plus_one;
     }
 #endif
     if (g.type==_POINTER_){
-      _purge(g0,contextptr);
+      purgenoassume(g0,contextptr);
       fclose((FILE *)g._POINTER_val);
       return plus_one;
     }
@@ -1085,6 +1085,8 @@ namespace giac {
       gen P=g._VECTptr->front();
       gen x=g._VECTptr->back();
       gen Px=_e2r(makevecteur(P,x),contextptr);
+      if (Px.type==_FRAC)
+	Px=inv(Px._FRACptr->den,contextptr)*Px._FRACptr->num;
       if (Px.type!=_VECT)
 	return gensizeerr();
       v=*Px._VECTptr;
@@ -1463,7 +1465,7 @@ namespace giac {
     if (w[0].type!=_INT_ || w[1].type!=_INT_)
       return false;
     channels=w[0].val;
-    if (channels<=0 || channels>v.size()){
+    if (channels<=0 || channels>int(v.size())){
       channels=v.size();
       if (v.front().type!=_VECT || !is_integer_vecteur(*v.front()._VECTptr))
 	return false;
@@ -1478,7 +1480,7 @@ namespace giac {
       g=w;
       v.insert(v.begin(),g);
     }
-    if (channels<=0 || channels>4 || v.size()<=channels)
+    if (channels<=0 || channels>4 || int(v.size())<=channels)
       return false;
     bits_per_sample=(w[1].val/8)*8;
     if (bits_per_sample<=0)
@@ -1536,7 +1538,7 @@ namespace giac {
 	return gensizeerr(gettext("Error opening audio device."));
       unsigned n=data_size*format.channels*format.bits/8;
       char * buffer=(char *)malloc(n*sizeof(char));
-      aou16 * bufshort=(aou16 *) buffer;
+      // aou16 * bufshort=(aou16 *) buffer;
       aou32 * bufint=(aou32 *) buffer;
       if (buffer){
 	// copy data from v into buffer and play it
@@ -1759,7 +1761,7 @@ namespace giac {
     bits_per_sample /= 8;
     unsigned n = u/ bits_per_sample;
     for (unsigned i=0;i<n;++i){
-      for (unsigned j=1;j<=channels;++j){
+      for (int j=1;j<=channels;++j){
 	u=(*v[j]._VECTptr)[i].val;
 	if (fwrite(&u,bits_per_sample,1,f)!=1)
 	  return false;
@@ -2514,8 +2516,10 @@ namespace giac {
 	  idxn.push_back(n);
 	  gen vn=_seqsolve(makevecteur(*it,idxn,idx),contextptr);
 	  gen un=quotesubst(vn,n,n+1-M,contextptr);
-	  if (un.type!=_VECT || int(un._VECTptr->size())!=uvs)
-	    return gendimerr();
+	  if (un.type!=_VECT) 
+	    return gensizeerr("Unable to solve this recurrence");
+	  if (int(un._VECTptr->size())!=uvs)
+	    return gendimerr(contextptr);
 	  if (initcond.empty())
 	    return vecteur(1,un);
 	  // solve initial conditions

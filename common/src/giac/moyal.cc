@@ -2408,7 +2408,7 @@ namespace giac {
 	return gensizeerr(contextptr);
       // add parameters from y
       vecteur yf=gen2vecteur(y._SYMBptr->feuille);
-      if (yf.size()!=distrib_nargs(nd))
+      if (int(yf.size())!=distrib_nargs(nd))
 	return gensizeerr(contextptr);
       yf.push_back(0);
       f=symbolic(*f._FUNCptr,gen(yf,_SEQ__VECT));
@@ -2552,7 +2552,7 @@ namespace giac {
     if (n<=0)
       return vecteur(0);
     gen res(gen(vecteur(1,1),_POLY1__VECT));
-    for (unsigned i=1;i<=n;++i){
+    for (int i=1;i<=n;++i){
       vecteur tmp(i+1);
       tmp[i]=tmp[0]=1;
       res=res*gen(tmp,_POLY1__VECT);
@@ -2564,13 +2564,13 @@ namespace giac {
     if (n<=0 || m<=0)
       return vecteur(0);
     gen num(gen(vecteur(1,1),_POLY1__VECT));
-    for (unsigned i=n+1;i<=m+n;++i){
+    for (int i=n+1;i<=m+n;++i){
       vecteur tmp(i+1);
       tmp[i]=-1; tmp[0]=1;
       num=num*gen(tmp,_POLY1__VECT);
     }
     gen den(gen(vecteur(1,1),_POLY1__VECT));
-    for (unsigned i=1;i<=m;++i){
+    for (int i=1;i<=m;++i){
       vecteur tmp(i+1);
       tmp[i]=-1; tmp[0]=1;
       den=den*gen(tmp,_POLY1__VECT);
@@ -2647,7 +2647,7 @@ namespace giac {
 	*logptr(contextptr) << ", u=min(u1,u2)=" << W << endl;
       }
       gen p=wilcoxonp(M,N,contextptr);
-      if (p.type!=_VECT || p._VECTptr->size()<M*N) return gensizeerr(contextptr);
+      if (p.type!=_VECT || p._VECTptr->size()<double(M)*N) return gensizeerr(contextptr);
       vecteur & v = *p._VECTptr;
       gen P=0,Q=0;
       for (double i=0;i<=W;++i){
@@ -2840,7 +2840,7 @@ namespace giac {
 	}
 	vector< vector<int> > effX(s);
 	int k=M[0].size();
-	if (k!=M[1].size()){
+	if (k!=int(M[1].size())){
 	  // build effectifs for x and y
 	  int m=giacmin(M[0]),ma=giacmax(M[0]);
 	  for (unsigned j=1;j<s;++j){
@@ -3283,7 +3283,7 @@ namespace giac {
       if (!res)
 	return res;
       int s=distrib_nargs(res);
-      if (s!=gen2vecteur(args._SYMBptr->feuille).size())
+      if (s!=int(gen2vecteur(args._SYMBptr->feuille).size()))
 	return 0;
       return res;
     }

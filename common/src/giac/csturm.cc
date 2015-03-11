@@ -967,7 +967,7 @@ namespace giac {
     // find nearest root from v
     gen deltar=plus_inf,delta;
     for (unsigned j=0;j<v.size();++j){
-      if (j==i)
+      if (int(j)==i)
 	continue;
       gen tmp=abs(r-v[j],context0);
       if (is_strictly_greater(deltar,tmp,context0))
