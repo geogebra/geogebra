@@ -403,8 +403,8 @@ public class TextFieldProcessing {
 			} else if (text.startsWith("(")) {
 				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
 						false);
-			} else if (text.equals("/") || text.equals("_")
-			        || text.equals("$") || text.equals(" ") || text.equals("|")) {
+			} else if (text.equals("/") || text.equals("_") || text.equals("$")
+			        || text.equals(" ") || text.equals("|") || text.equals(",")) {
 				((RadioButtonTreeItem) field).keypress(text.charAt(0), false, false,
 						false);
 			} else if (text.equals("abs")) {
