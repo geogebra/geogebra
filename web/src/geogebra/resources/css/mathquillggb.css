@@ -66,6 +66,9 @@
 	vertical-align: middle;
 	text-align: left;
 }
+.hasCursorPermanent img {
+	vertical-align: middle;
+}
 .mathquillggb-editable.hasCursor {
   	/*border: #6161FF solid 1px;*/
   	border: 0px;

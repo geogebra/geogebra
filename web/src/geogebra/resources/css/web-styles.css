@@ -3664,6 +3664,7 @@ body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 .SymbolToggleButton {
 	width: 20px;
 	height: 20px;
+	line-height: 20px;
 	display: none;
 	text-align: center;
 }

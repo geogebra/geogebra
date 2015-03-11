@@ -232,7 +232,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		// it seems this would be part of the Tree, not of TreeItem...
 		// why? web programming knowledge helps: we should add position:
 		// relative! to ".GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem"
-		// add(xButton);
+		add(xButton);// dirty hack of adding it two times!
 		ihtml.getElement().appendChild(xButton.getElement());
 
 		xButton.getElement().setAttribute("data-visible", "true");
