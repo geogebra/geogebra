@@ -33,12 +33,13 @@
 	margin: 0px;
 }
 
-.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem,
-.NewRadioButtonTreeItem {
-	overflow: auto;
-    /*position: relative;*/
+.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
+	position: relative;
 }
 
+.NewRadioButtonTreeItem {
+	overflow: auto;
+}
 
 /*hack for toolbar submenu, that is isn't hidden by 
  dockpanel standard div styling (overflow:hidden) */
