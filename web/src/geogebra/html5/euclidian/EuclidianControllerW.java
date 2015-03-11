@@ -761,7 +761,9 @@ public class EuclidianControllerW extends EuclidianController implements
 		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
 		GeoElement geo = app.getAlgebraView().getDraggedGeo();
 		ArrayList<String> list = new ArrayList<String>();
-		list.add("\"" + geo.toString(StringTemplate.defaultTemplate) + "\"");
+		list.add("\""
+		        + geo.getLaTeXAlgebraDescription(true,
+		                StringTemplate.latexTemplate) + "\"");
 		String text = EuclidianView.getDraggedLabels(list);
 
 		GeoElement[] ret = app.getKernel().getAlgebraProcessor()
@@ -769,7 +771,7 @@ public class EuclidianControllerW extends EuclidianController implements
 
 		if (ret != null && ret[0] instanceof TextValue) {
 			GeoText geo0 = (GeoText) ret[0];
-			geo0.setLaTeX(false, false);
+			geo0.setLaTeX(true, false);
 
 			// TODO: h should equal the geo height, this is just an
 			// estimate
