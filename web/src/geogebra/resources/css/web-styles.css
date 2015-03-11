@@ -3679,6 +3679,10 @@ body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 	margin-top: -0.66em;
 }
 
+.NewRadioButtonTreeItem {
+	overflow: auto;
+}
+
 .advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
 	right: 1.6em;
 }
