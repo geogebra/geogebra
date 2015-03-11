@@ -912,6 +912,61 @@ public class DrawEquationWeb extends DrawEquation {
 				}
 			} else if (keyCode == 73) {// (c == 'i' || c == 'I')
 				s += Unicode.IMAGINARY;
+			} else if (keyCode == 65) {
+				// A, OK in Hungarian, although invisibly ä
+				if (shiftDown) {
+					s += Unicode.Alpha;
+				} else {
+					s += Unicode.alpha;
+				}
+			} else if (keyCode == 66 && !Hungarian) {
+				// B, not OK in Hungarian
+				if (shiftDown) {
+					s += Unicode.Beta;
+				} else {
+					s += Unicode.beta;
+				}
+			} else if (keyCode == 71 && !Hungarian) {
+				// G, not OK in Hungarian
+				if (shiftDown) {
+					s += Unicode.Gamma;
+				} else {
+					s += Unicode.gamma;
+				}
+			} else if (keyCode == 85 && !Hungarian) {
+				// U, euro sign is shown on HU
+				s += Unicode.Infinity;
+			} else if (keyCode == 76 && !Hungarian) {
+				// L, Ł sign is shown on HU
+				if (shiftDown) {
+					s += Unicode.Lambda;
+				} else {
+					s += Unicode.lambda;
+				}
+			} else if (keyCode == 77 && !Hungarian) {
+				// M: Although Alt-Í the same as Alt-M,
+				// not sure Í is present on all kinds of Hungarian keyboard
+				if (shiftDown) {
+					s += Unicode.Mu;
+				} else {
+					s += Unicode.mu;
+				}
+			} else if (keyCode == 87 && !Hungarian) {
+				// Alt-W is | needed for abs()
+				if (shiftDown) {
+					s += Unicode.Omega;
+				} else {
+					s += Unicode.omega;
+				}
+			} else if (keyCode == 82) {// OK in Hungarian
+				// R: will this work?
+				s += Unicode.SQUARE_ROOT;
+			} else if (keyCode == 50) {// 2
+				// it's strange because sometimes this worked and sometimes not
+				s += "^2";
+			} else if (keyCode == 51 && !Hungarian) {
+				// in the Hungarian case Alt-3 triggers one "^"
+				s += "^3";
 			} else {
 				return false;
 			}
