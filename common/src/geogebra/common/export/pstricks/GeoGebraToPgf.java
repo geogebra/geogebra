@@ -3189,20 +3189,50 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
 			int length, double width, GeoNumeric g) {
 		startBeamer(codeFilledObject);
-		for (int i = 0; i < length; i++) {
-			barNumber = i + 1;
+		String command = g.getCommandDescription(StringTemplate.noLocalDefault);
+		if (command.contains("Binomial") && command.contains("true")) {
 			codeFilledObject.append("\\draw");
 			String s = LineOptionCode(g, true);
 			if (s.length() != 0)
 				codeFilledObject.append("[" + s + "] ");
-			writePoint(x[i], 0, codeFilledObject);
-			codeFilledObject.append(" rectangle ");
-			if (x.length == length) {
-				writePoint(x[i] + width, y[i], codeFilledObject);
-			} else {
-				writePoint(x[i + 1], y[i], codeFilledObject);
-			}
+			writePoint(x[0] + width / 2, 0, codeFilledObject);
+			codeFilledObject.append(" -- ");
+			writePoint(x[0] + width / 2, y[0], codeFilledObject);
 			codeFilledObject.append(";\n");
+			for (int i = 0; i < length - 1; i++) {
+				codeFilledObject.append("\\draw");
+				s = LineOptionCode(g, true);
+				if (s.length() != 0)
+					codeFilledObject.append("[" + s + "] ");
+				writePoint(x[i] + width / 2, y[i], codeFilledObject);
+				codeFilledObject.append(" -- ");
+				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
+				codeFilledObject.append(";\n");
+				codeFilledObject.append("\\draw");
+				s = LineOptionCode(g, true);
+				if (s.length() != 0)
+					codeFilledObject.append("[" + s + "] ");
+				writePoint(x[i + 1] + width / 2, y[i], codeFilledObject);
+				codeFilledObject.append(" -- ");
+				writePoint(x[i + 1] + width / 2, y[i + 1], codeFilledObject);
+				codeFilledObject.append(";\n");
+			}
+		} else {
+			for (int i = 0; i < length; i++) {
+				barNumber = i + 1;
+				codeFilledObject.append("\\draw");
+				String s = LineOptionCode(g, true);
+				if (s.length() != 0)
+					codeFilledObject.append("[" + s + "] ");
+				writePoint(x[i], 0, codeFilledObject);
+				codeFilledObject.append(" rectangle ");
+				if (x.length == length) {
+					writePoint(x[i] + width, y[i], codeFilledObject);
+				} else {
+					writePoint(x[i + 1], y[i], codeFilledObject);
+				}
+				codeFilledObject.append(";\n");
+			}
 		}
 		endBeamer(codeFilledObject);
 

@@ -120,7 +120,7 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 		}
 
 		initUnitAndVariable();
-		// Environment pspicture		
+		// Environment pspicture
 		codeBeginPic.append("\\begin{pspicture*}(");
 		codeBeginPic.append(format(xmin));
 		codeBeginPic.append(",");
@@ -2406,27 +2406,66 @@ public abstract class GeoGebraToPstricks extends GeoGebraExport {
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
 			int length, double width, GeoNumeric g) {
+		String command = g.getCommandDescription(StringTemplate.noLocalDefault);
 		startBeamer(codeFilledObject);
-		for (int i = 0; i < length; i++) {
-			barNumber = i + 1;
-			codeFilledObject.append("\\psframe");
+		if (command.contains("Binomial") && command.contains("true")) {
+			codeFilledObject.append("\\psline");
 			codeFilledObject.append(LineOptionCode(g, true));
 			codeFilledObject.append("(");
-			codeFilledObject.append(format(x[i]));
+			codeFilledObject.append(format(x[0] + width / 2));
 			codeFilledObject.append(",0)(");
-			if (x.length == length) {
-				codeFilledObject.append(format(x[i] + width));
-			} else {
-				codeFilledObject.append(format(x[i + 1]));
-			}
+			codeFilledObject.append(format(x[0] + width / 2));
 			codeFilledObject.append(",");
-			codeFilledObject.append(format(y[i]));
+			codeFilledObject.append(format(y[0]));
 			codeFilledObject.append(")\n");
-			if (i != x.length - 2 && isBeamer)
-				codeFilledObject.append("  ");
+			for (int i = 0; i < length - 1; i++) {
+				codeFilledObject.append("\\psline");
+				codeFilledObject.append(LineOptionCode(g, true));
+				codeFilledObject.append("(");
+				codeFilledObject.append(format(x[i] + width / 2));
+				codeFilledObject.append("," + format(y[i]) + ")(");
+				codeFilledObject.append(format(x[i + 1] + width / 2));
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i]));
+				codeFilledObject.append(")\n");
+				if (i != x.length - 2 && isBeamer)
+					codeFilledObject.append("  ");
+
+				codeFilledObject.append("\\psline");
+				codeFilledObject.append(LineOptionCode(g, true));
+				codeFilledObject.append("(");
+				codeFilledObject.append(format(x[i + 1] + width / 2));
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i]));
+				codeFilledObject.append(")");
+				codeFilledObject.append("(");
+				codeFilledObject.append(format(x[i + 1] + width / 2));
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i + 1]));
+				codeFilledObject.append(")\n");
+
+			}
+		} else {
+			for (int i = 0; i < length; i++) {
+				barNumber = i + 1;
+				codeFilledObject.append("\\psframe");
+				codeFilledObject.append(LineOptionCode(g, true));
+				codeFilledObject.append("(");
+				codeFilledObject.append(format(x[i]));
+				codeFilledObject.append(",0)(");
+				if (x.length == length) {
+					codeFilledObject.append(format(x[i] + width));
+				} else {
+					codeFilledObject.append(format(x[i + 1]));
+				}
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i]));
+				codeFilledObject.append(")\n");
+				if (i != x.length - 2 && isBeamer)
+					codeFilledObject.append("  ");
+			}
 		}
 		endBeamer(codeFilledObject);
-
 	}
 
 	@Override

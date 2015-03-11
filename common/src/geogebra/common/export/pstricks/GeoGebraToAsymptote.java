@@ -372,21 +372,48 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	@Override
 	protected void drawHistogramOrBarChartBox(double[] y, double[] x,
 			int length, double width, GeoNumeric g) {
-		for (int i = 0; i < length; i++) {
-			barNumber = i + 1;
+		String command = g.getCommandDescription(StringTemplate.noLocalDefault);
+		if (command.contains("Binomial") && command.contains("true")) {
 			startTransparentFill(codeFilledObject);
-			codeFilledObject.append("box((");
-			codeFilledObject.append(format(x[i]));
-			codeFilledObject.append(",0),(");
-			if (x.length == length) {
-				codeFilledObject.append(format(x[i] + width));
-			} else {
-				codeFilledObject.append(format(x[i + 1]));
-			}
+			codeFilledObject.append("(" + format(x[0] + width / 2));
+			codeFilledObject.append(",0) -- (");
+			codeFilledObject.append(format(x[0] + width / 2));
 			codeFilledObject.append(",");
-			codeFilledObject.append(format(y[i]));
-			codeFilledObject.append("))");
+			codeFilledObject.append(format(y[0]) + ")");
 			endTransparentFill(g, codeFilledObject);
+			for (int i = 0; i < length - 1; i++) {
+				startTransparentFill(codeFilledObject);
+				codeFilledObject.append("(" + format(x[i] + width / 2));
+				codeFilledObject.append("," + format(y[i]) + ") -- (");
+				codeFilledObject.append(format(x[i + 1] + width / 2));
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i]) + ")");
+				endTransparentFill(g, codeFilledObject);
+				startTransparentFill(codeFilledObject);
+				codeFilledObject.append("(" + format(x[i + 1] + width / 2));
+				codeFilledObject.append("," + format(y[i]) + ") -- (");
+				codeFilledObject.append(format(x[i + 1] + width / 2));
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i + 1]) + ")");
+				endTransparentFill(g, codeFilledObject);
+			}
+		} else {
+			for (int i = 0; i < length; i++) {
+				barNumber = i + 1;
+				startTransparentFill(codeFilledObject);
+				codeFilledObject.append("box((");
+				codeFilledObject.append(format(x[i]));
+				codeFilledObject.append(",0),(");
+				if (x.length == length) {
+					codeFilledObject.append(format(x[i] + width));
+				} else {
+					codeFilledObject.append(format(x[i + 1]));
+				}
+				codeFilledObject.append(",");
+				codeFilledObject.append(format(y[i]));
+				codeFilledObject.append("))");
+				endTransparentFill(g, codeFilledObject);
+			}
 		}
 	}
 
@@ -1184,7 +1211,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 			code.append(tempsb);
 	}
 
-	protected void drawSingleCurveCartesian(GeoCurveCartesian geo, boolean trasparency) {
+	protected void drawSingleCurveCartesian(GeoCurveCartesian geo,
+			boolean trasparency) {
 		importpackage.add("graph");
 		double start = geo.getMinParameter(), end = geo.getMaxParameter();
 		// boolean isClosed=geo.isClosedPath();
@@ -3511,8 +3539,8 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 				// degree symbol
 				.replace("\u212f", "e ").replace("\u00b2", "2 ")
 				.replace("\u00b3", "3 ").replace("pi \\)", "pi\\)"); // eliminate
-																			// unsightly
-																			// spaces
+																		// unsightly
+																		// spaces
 	}
 
 	/**
@@ -3529,8 +3557,7 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 		// look up unicodeTable conversions and replace with LaTeX commands
 		while (it.hasNext()) {
 			String skey = it.next();
-			s1 = s1.replace(skey, "\\\\" + UnicodeTeX.getMap().get(skey)
-					+ " ");
+			s1 = s1.replace(skey, "\\\\" + UnicodeTeX.getMap().get(skey) + " ");
 		}
 
 		// strip dollar signs
@@ -3742,30 +3769,30 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 	}
 
 	@Override
-	protected boolean fillSpline(GeoCurveCartesian [] curves){
-		if (curves[0].getAlphaValue()==0 && FillType.STANDARD==curves[0].getFillType()){
+	protected boolean fillSpline(GeoCurveCartesian[] curves) {
+		if (curves[0].getAlphaValue() == 0
+				&& FillType.STANDARD == curves[0].getFillType()) {
 			return false;
 		}
 		String liopco = LineOptionCode(curves[0], true);
-		if (liopco==null){
-			liopco="";
+		if (liopco == null) {
+			liopco = "";
 		} else {
-			liopco=","+liopco;
+			liopco = "," + liopco;
 		}
-		for (int i=0;i<curves.length;i++){
-			drawSingleCurveCartesian(curves[i],false);			
+		for (int i = 0; i < curves.length; i++) {
+			drawSingleCurveCartesian(curves[i], false);
 		}
 		StringBuilder fill = new StringBuilder();
-		fill.append("\nfill(");	
-		
-		double p; 
-		double y; 
+		fill.append("\nfill(");
+
+		double p;
+		double y;
 		double x;
-		
+
 		for (int i = 0; i < curves.length; i++) {
 			p = curves[i].getMinParameter();
-			y = curves[i].getFunY()
-					.evaluate(curves[i].getMinParameter());
+			y = curves[i].getFunY().evaluate(curves[i].getMinParameter());
 			if (Math.abs(y) < 0.001)
 				y = 0;
 			double step = (curves[i].getMaxParameter() - curves[i]
@@ -3777,10 +3804,10 @@ public abstract class GeoGebraToAsymptote extends GeoGebraExport {
 					y = 0;
 				if (Math.abs(x) < 0.001)
 					x = 0;
-				fill.append("("+x+","+y+") -- ");
+				fill.append("(" + x + "," + y + ") -- ");
 			}
 		}
-		fill.append("cycle"+liopco+");");
+		fill.append("cycle" + liopco + ");");
 		code.append(fill);
 		return true;
 	}
