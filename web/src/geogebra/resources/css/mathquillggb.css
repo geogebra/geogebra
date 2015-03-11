@@ -50,10 +50,10 @@
   margin: 1px;
 }
 .hasCursorPermanent {
-	width: 100%;
+	min-width: 100%;
 	min-height: 50px;
 	line-height: 50px;
-	display: block;
+	display: inline-block;
   	border: #6161FF solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
