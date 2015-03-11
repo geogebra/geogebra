@@ -815,16 +815,22 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setDefaultCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_default");
+		setCursorClass("cursor_default");
+	}
+
+	private void setCursorClass(String className) {
+		// IMPORTANT: do nothing if we already have the classname,
+		// app.resetCursor is VERY expensive in IE
+		if (!g2p.getCanvas().getElement().hasClassName(className)) {
+			this.app.resetCursor();
+			g2p.getCanvas().setStyleName("");
+			g2p.getCanvas().addStyleName(className);
+		}
 	}
 
 	@Override
 	public void setHitCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_hit");
+		setCursorClass("cursor_hit");
 	}
 
 	@Override
@@ -899,12 +905,10 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setDragCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
 		if (this.app.useTransparentCursorWhenDragging) {
-			g2p.getCanvas().addStyleName("cursor_transparent");
+			setCursorClass("cursor_transparent");
 		} else {
-			g2p.getCanvas().addStyleName("cursor_drag");
+			setCursorClass("cursor_drag");
 		}
 	}
 
@@ -915,30 +919,22 @@ public class EuclidianViewW extends EuclidianView implements
 
 	@Override
 	public void setResizeXAxisCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_resizeXAxis");
+		setCursorClass("cursor_resizeXAxis");
 	}
 
 	@Override
 	public void setResizeYAxisCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_resizeYAxis");
+		setCursorClass("cursor_resizeYAxis");
 	}
 
 	@Override
 	public void setMoveCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_move");
+		setCursorClass("cursor_move");
 	}
 
 	@Override
 	public void setTransparentCursor() {
-		this.app.resetCursor();
-		g2p.getCanvas().setStyleName("");
-		g2p.getCanvas().addStyleName("cursor_transparent");
+		setCursorClass("cursor_transparent");
 	}
 
 	@Override
