@@ -959,10 +959,8 @@ public class DrawEquationWeb extends DrawEquation {
 					s += Unicode.omega;
 				}
 			} else if (keyCode == 82) {// OK in Hungarian
-				// R: will this work?
 				s += Unicode.SQUARE_ROOT;
 			} else if (keyCode == 50) {// 2
-				// it's strange because sometimes this worked and sometimes not
 				s += "^2";
 			} else if (keyCode == 51 && !Hungarian) {
 				// in the Hungarian case Alt-3 triggers one "^"
