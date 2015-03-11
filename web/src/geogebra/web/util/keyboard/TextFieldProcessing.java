@@ -31,7 +31,6 @@ public class TextFieldProcessing {
 	private static final int BACKSPACE = 8;
 	private static final int ENTER = 13;
 	private static final int LBRACE = 40;
-	private static final int ASTERISK = 42;
 	private static final int CIRCUMFLEX = 94;
 	private static final int T_LOWER_CASE = 116;
 	private static final int PIPE = 124;
@@ -390,21 +389,10 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).insertString("nroo");
 				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
 				        false, true);
-			} else if (text.equals(KeyboardConstants.SQUARE_ROOT)) {
-				((RadioButtonTreeItem) field).keypress(
-				        KeyboardConstants.SQUARE_ROOT.charAt(0), false, false,
-						false);
-			} else if (text.equals("*")) {
-				((RadioButtonTreeItem) field).keypress(ASTERISK, false, false,
-						false);
 			} else if (text.equals(KeyboardConstants.X_SQUARE)) {
 				((RadioButtonTreeItem) field)
 				        .insertString(KeyboardConstants.SQUARE);
-			} else if (text.startsWith("(")) {
-				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
-						false);
-			} else if (text.equals("/") || text.equals("_") || text.equals("$")
-			        || text.equals(" ") || text.equals("|") || text.equals(",")) {
+			} else if (keyPressNeeded(text)) {
 				((RadioButtonTreeItem) field).keypress(text.charAt(0), false, false,
 						false);
 			} else if (text.equals("abs")) {
@@ -417,6 +405,18 @@ public class TextFieldProcessing {
 			break;
 		}
 	}
+
+	/**
+	 * @param text
+	 *            to insert
+	 * @return {@code true} if the RadioButtonTreeItem needs a keyPress event.
+	 */
+    private boolean keyPressNeeded(String text) {
+	    return text.equals("/") || text.equals("_") || text.equals("$")
+	            || text.equals(" ") || text.equals("|") || text.equals(",")
+		        || text.equals("*") || text.startsWith("(")
+		        || text.equals(KeyboardConstants.SQUARE_ROOT);
+    }
 
 	/**
 	 * only for {@link GTextBox}

@@ -162,6 +162,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 	private boolean shiftIsDown = false;
 	private boolean greekActive = false;
+	private boolean keyboardWanted = false;
 
 	/** language of application */
 	String keyboardLocale = "";
@@ -304,6 +305,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 
 			@Override
 			public void onClick(ClickEvent event) {
+				keyboardWanted = false;
 				updateKeyBoardListener.keyBoardNeeded(false, null);
 			}
 		}, ClickEvent.getType());
@@ -933,8 +935,16 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		loadLang(this.keyboardLocale);
 	}
 
+	/**
+	 * @return {@code true} if the keyboard should be shown
+	 */
+	public boolean shouldBeShown() {
+		return this.keyboardWanted;
+	}
+
 	@Override
 	public void show() {
+		this.keyboardWanted = true;
 		checkLanguage();
 		super.show();
 	}
