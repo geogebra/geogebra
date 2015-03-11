@@ -13,6 +13,7 @@ import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
+import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.awt.GGraphics2DW;
@@ -864,7 +865,7 @@ public class DrawEquationWeb extends DrawEquation {
 					event.preventDefault();
 					return false;
 				}
-				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;)(code, event.altKey, event.shiftKey, parentElement);
+				var captureSuccess = @geogebra.html5.main.DrawEquationWeb::specKeyDown(IZZLcom/google/gwt/dom/client/Element;Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(code, event.altKey, event.shiftKey, parentElement, rbti);
 				if (captureSuccess) {
 					// in this case, .GeoGebraSuggestionPopupCanShow may be its old value,
 					// so let's change it: (it should not be true for pi, o and i!)
@@ -886,23 +887,30 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static boolean specKeyDown(int keyCode, boolean altDown,
-	        boolean shiftDown, Element parentElement) {
+	        boolean shiftDown, Element parentElement, RadioButtonTreeItem rbti) {
+
+		boolean Hungarian = false;
+		String locale = rbti.getApplication().getLocalization().getLocaleStr();
+		String hunloc = Language.Hungarian.localeGWT;
+		if (locale != null && locale.equals(hunloc)) {
+			Hungarian = true;
+		}
 
 		if (altDown) {
 
-			char c = (char) keyCode;
+			// char c = (char) keyCode;
 
 			String s = "";
 
-			if (c == 'o' || c == 'O') {
+			if (keyCode == 79) {// (c == 'o' || c == 'O')
 				s += Unicode.degree;
-			} else if (c == 'p' || c == 'P') {
+			} else if (keyCode == 80) {// (c == 'p' || c == 'P')
 				if (shiftDown) {
 					s += Unicode.Pi;
 				} else {
 					s += Unicode.pi;
 				}
-			} else if (c == 'i' || c == 'I') {
+			} else if (keyCode == 73) {// (c == 'i' || c == 'I')
 				s += Unicode.IMAGINARY;
 			} else {
 				return false;

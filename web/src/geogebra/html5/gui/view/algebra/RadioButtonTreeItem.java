@@ -1,9 +1,11 @@
 package geogebra.html5.gui.view.algebra;
 
+import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
 
 
 public interface RadioButtonTreeItem {
+	public App getApplication();
 
 	// methods to stop editing (from DrawEquationWeb)
 	public boolean stopEditing(String latex);

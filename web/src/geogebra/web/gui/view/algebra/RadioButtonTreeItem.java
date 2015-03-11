@@ -1644,4 +1644,7 @@ geo, newValue, redefine, true);
 
 	}
 
+	public App getApplication() {
+		return app;
+	}
 }
