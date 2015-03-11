@@ -1289,14 +1289,15 @@ geo, newValue, redefine, true);
 		}
 		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
-		event.preventDefault();
+
+		// This would prevent dragging, so commented out
+		// event.preventDefault();
 		event.stopPropagation();
 	}
 
 	@Override
     public void onClick(ClickEvent evt) {
 		// evt.stopPropagation();
-
 		if (app.isPrerelease()
 				&& (av.isEditing() || isThisEdited() || newCreationMode)) {
 			app.showKeyboard(this);
@@ -1308,7 +1309,7 @@ geo, newValue, redefine, true);
 			// This is needed in newCreationMode at least,
 			// to prevent calling preventDefault, and this way
 			// really making possible to focus the editing box
-			evt.stopPropagation();
+		//	evt.stopPropagation();
 		}
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
@@ -1634,7 +1635,6 @@ geo, newValue, redefine, true);
 		addDomHandler(new DragStartHandler() {
 
 			public void onDragStart(DragStartEvent event) {
-				App.debug("[DND] AV DRAG START!");
 				event.setData("text", "draggginggg");
 				event.getDataTransfer().setDragImage(getElement(), 10, 10);
 				event.stopPropagation();
