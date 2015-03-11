@@ -33,8 +33,10 @@
 	margin: 0px;
 }
 
-.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
-    position: relative;
+.GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem,
+.NewRadioButtonTreeItem {
+	overflow: auto;
+    /*position: relative;*/
 }
 
 
@@ -3677,10 +3679,6 @@ body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 	right: 1px;
 	top: 50%;
 	margin-top: -0.66em;
-}
-
-.NewRadioButtonTreeItem {
-	overflow: auto;
 }
 
 .advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
