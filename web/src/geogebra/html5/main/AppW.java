@@ -73,6 +73,7 @@ import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.gui.laf.GLookAndFeelI;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
 import geogebra.html5.gui.util.ViewsChangedListener;
 import geogebra.html5.io.ConstructionException;
 import geogebra.html5.io.MyXMLioW;
@@ -2480,6 +2481,7 @@ public abstract class AppW extends App implements SetLabels {
 			justClosedPopup = true;
 			widget.setVisible(false);
 		}
+		ToolTipManagerW.hideAllToolTips();
 		popups.clear();
 	}
 

@@ -242,6 +242,7 @@ public class ToolTipManagerW {
 					@Override
 					public void onClickEnd(int x, int y, PointerEventType type) {
 						openWindow(helpURL);
+					hideAllToolTips();
 					}
 				});
 
@@ -372,20 +373,13 @@ public class ToolTipManagerW {
 			return;
 		}
 
+		// Closing tooltips is done in AppW.closePopups
 		Event.addNativePreviewHandler(new NativePreviewHandler() {
 			public void onPreviewNativeEvent(NativePreviewEvent event) {
 				NativeEvent e = event.getNativeEvent();
 
 				if (event.getTypeInt() == Event.ONTOUCHSTART) {
 					CancelEventTimer.touchEventOccured();
-				}
-
-				if ((event.getTypeInt() == Event.ONMOUSEDOWN && !CancelEventTimer
-				        .cancelMouseEvent())
-				        || event.getTypeInt() == Event.ONTOUCHSTART) {
-					showImmediately = false;
-					hideToolTip();
-					hideBottomInfoToolTip();
 				}
 
 				mouseX = e.getClientX();
@@ -654,5 +648,12 @@ public class ToolTipManagerW {
 
 		widget.addDomHandler(mouseOverHandler, MouseOverEvent.getType());
 		widget.addDomHandler(mouseOutHandler, MouseOutEvent.getType());
+	}
+
+	public static void hideAllToolTips() {
+
+		sharedInstance().showImmediately = false;
+		sharedInstance().hideToolTip();
+		sharedInstance().hideBottomInfoToolTip();
 	}
 }
