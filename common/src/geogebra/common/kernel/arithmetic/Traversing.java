@@ -489,9 +489,9 @@ public interface Traversing {
 				if (ret instanceof Variable
 						&& !v.getKernel().getConstruction()
 								.isRegistredFunctionVariable(name)) {
-					App.debug("found undefined variable: "
-							+ ((Variable) ret)
-									.getName(StringTemplate.defaultTemplate));
+					// App.debug("found undefined variable: "
+					// + ((Variable) ret)
+					// .getName(StringTemplate.defaultTemplate));
 					tree.add(((Variable) ret)
 							.getName(StringTemplate.defaultTemplate));
 				}
