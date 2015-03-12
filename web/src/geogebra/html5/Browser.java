@@ -134,6 +134,7 @@ public class Browser {
 		}
 		return webglSupported.booleanValue();
 	}
+
 	/*
 	 * http://stackoverflow.com/questions/11871077/proper-way-to-detect-webgl-
 	 * support
@@ -220,5 +221,16 @@ public class Browser {
 			return true;
 		}
 		return false;
+	}-*/;
+
+	/**
+	 * Returns true if the browser used is a mobile browser. Please note that
+	 * this is unreliable, use detection of features if necessary.
+	 * 
+	 * @return true if the browser is mobile
+	 */
+	public static native boolean isMobileBrowser() /*-{
+		return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+				.test($wnd.navigator.userAgent);
 	}-*/;
 }
