@@ -838,6 +838,7 @@ public class RadioButtonTreeItem extends FlowPanel
 				}
 				LaTeX = true;
 			}
+
 		} else if (geo == null) {
 			newLaTeX = true;
 		}
@@ -1006,6 +1007,7 @@ public class RadioButtonTreeItem extends FlowPanel
 				}
 			});
 		}
+
 		scrollIntoView();
 	}
 
@@ -1297,7 +1299,10 @@ geo, newValue, redefine, true);
 
 	@Override
     public void onClick(ClickEvent evt) {
-		// evt.stopPropagation();
+		// this 'if' should be the first one in every 'mouse' related method
+		if (CancelEventTimer.cancelMouseEvent()) {
+			return;
+		}
 		if (app.isPrerelease()
 				&& (av.isEditing() || isThisEdited() || newCreationMode)) {
 			app.showKeyboard(this);
@@ -1305,15 +1310,9 @@ geo, newValue, redefine, true);
 
 		if (newCreationMode) {
 			setFocus(true);
-			// who commented this (stopPropagation) out?
-			// This is needed in newCreationMode at least,
-			// to prevent calling preventDefault, and this way
-			// really making possible to focus the editing box
 		//	evt.stopPropagation();
 		}
-		if (CancelEventTimer.cancelMouseEvent()) {
-			return;
-		}
+
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
 				ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
