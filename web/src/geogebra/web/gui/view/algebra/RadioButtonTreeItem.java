@@ -436,7 +436,6 @@ public class RadioButtonTreeItem extends FlowPanel
 		// this method is still not able to show an editing box!
 		newCreationMode = true;
 
-		//geo = ge;
 		kernel = kern;
 		app = (AppW)kernel.getApplication();
 		av = app.getAlgebraView();
@@ -497,15 +496,13 @@ public class RadioButtonTreeItem extends FlowPanel
 			}
 		}*/
 		// if enabled, render with LaTeX
+		seNoLatex = se;
 		if (av.isRenderLaTeX()) {
-			seNoLatex = se;
 			this.needsUpdate = true;
 
 			// here it complains that geo is undefined
 			doUpdate();
 			startEditing();
-		} else {
-			seNoLatex = se;
 		}
 		//FIXME: geo.getLongDescription() doesn't work
 		//geo.getKernel().getApplication().setTooltipFlag();
