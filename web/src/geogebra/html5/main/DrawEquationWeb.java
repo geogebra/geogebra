@@ -567,15 +567,15 @@ public class DrawEquationWeb extends DrawEquation {
 			el.onselectstart = function(event) {
 				return false;
 			}
-			el.ondragstart = function(event) {
-				return false;
-			}
+			//el.ondragstart = function(event) {
+			//	return false;
+			//}
 		}
-		el.onmousedown = function(event) {
-			if (event.preventDefault)
-				event.preventDefault();
-			return false;
-		}
+		//el.onmousedown = function(event) {
+		//	if (event.preventDefault)
+		//		event.preventDefault();
+		//	return false;
+		//}
 		if (addOverlay) {
 			var elfirst = $doc.createElement("div");
 			el.appendChild(elfirst);
