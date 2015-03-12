@@ -38,7 +38,8 @@
 }
 
 .NewRadioButtonTreeItem {
-	overflow: auto;
+	overflow-x: auto;
+	overflow-y: hidden;
 }
 
 /*hack for toolbar submenu, that is isn't hidden by 
