@@ -21,6 +21,7 @@ import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.view.algebra.RadioButtonTreeItem;
 
 import com.google.gwt.canvas.dom.client.Context2d;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayInteger;
 import com.google.gwt.dom.client.DivElement;
 import com.google.gwt.dom.client.Element;
@@ -770,6 +771,11 @@ public class DrawEquationWeb extends DrawEquation {
 								// and endEditingEquationMathQuillGGB! (i.e. ENTER & ESC keys)
 								@geogebra.html5.main.DrawEquationWeb::autoScroll(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
 
+								// we should also auto-scroll the cursor in the formula!
+								// TODO: will this make the previous autoScroll unnecessary?
+								// why does this not work?
+								//@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lcom/google/gwt/dom/client/Element;)(parentElement);
+
 								if (newCreationMode) {
 									var querr = elsecondInside;
 									if (querr.GeoGebraSuggestionPopupCanShow !== undefined) {
@@ -1293,6 +1299,19 @@ public class DrawEquationWeb extends DrawEquation {
 		}
 
 	}-*/;
+
+	public static native JavaScriptObject grabCursorForScrollIntoView(
+	        Element parentElement) /*-{
+		var elsecond = parentElement.firstChild.firstChild.nextSibling;
+		var elsecondInside = elsecond.lastChild;
+
+		return $wnd.$ggbQuery(elsecondInside).find('.cursor');
+	}-*/;
+
+	public static void scrollCursorIntoView(Element parentElement) {
+		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
+		Element.as(jo).scrollIntoView();
+	}
 
 	/**
 	 * Removes the "\begin{eqnarray}" and "\end{eqnarray}" notations from the
