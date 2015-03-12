@@ -272,8 +272,6 @@ public class RadioButtonTreeItem extends FlowPanel
 	 */
 	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
 		super();
-		// touch events did not work because these events were still not sunk
-		sinkEvents(Event.ONTOUCHSTART | Event.ONTOUCHMOVE | Event.ONTOUCHEND);
 		getElement().setDraggable(Element.DRAGGABLE_TRUE);
 
 		geo = ge;
