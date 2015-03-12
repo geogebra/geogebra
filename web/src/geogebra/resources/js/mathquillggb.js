@@ -4408,7 +4408,7 @@ var TextBlock = P(Node, function(_, _super) {// could descend from MathElement
   _.deleteOutOf = function(dir, cursor) {
     if (this.ctrlSeq === '{') {
       // also delete content!
-      if (this.ch[L] && this.ch[R]) {
+      if ((this.ch[L] !== 0) && (this.ch[R] !== 0)) {
         cursor.selection = Selection(this.ch[L], this.ch[R]);
         cursor.deleteSelection();
       }
