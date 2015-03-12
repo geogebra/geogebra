@@ -4448,17 +4448,21 @@ namespace giac {
       gen af=evalf_double(v[2],1,contextptr),bf=evalf_double(v[3],1,contextptr);
       if (v[1].type==_IDNT && (is_inf(af) || af.type==_DOUBLE_) && (is_inf(bf) || bf.type==_DOUBLE_)){
 	vecteur w;
+	gen v0=eval(v[0],1,contextptr);
 #ifdef NO_STDEXCEPT
-	  w=protect_find_singularities(eval(v[0],1,contextptr),*v[1]._IDNTptr,0,contextptr);
+	  w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
 #else
 	try {
-	  w=protect_find_singularities(eval(v[0],1,contextptr),*v[1]._IDNTptr,0,contextptr);
+	  w=protect_find_singularities(v0,*v[1]._IDNTptr,0,contextptr);
 	} catch (std::runtime_error & e){
 	}
 #endif
 	for (unsigned i=0;i<w.size();++i){
-	  if (is_greater((v[3]-w[i])*(w[i]-v[2]),0,contextptr))
-	    return gensizeerr("Pole at "+w[i].print(contextptr));
+	  if (is_greater((v[3]-w[i])*(w[i]-v[2]),0,contextptr)){
+	    gen v0w=subst(v0,v[1],w[i],false,contextptr);
+	    if (is_undef(v0w) || is_inf(v0w))
+	      return gensizeerr("Pole at "+w[i].print(contextptr));
+	  }
 	}
       }
       // test must be done twice for example for sum(sin(k),k,1,0)
