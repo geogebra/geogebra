@@ -6,6 +6,7 @@ import geogebra.common.euclidian.EuclidianController;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.euclidian.EuclidianViewInterfaceCommon;
 import geogebra.common.euclidian.Hits;
+import geogebra.common.euclidian.draw.DrawPoint;
 import geogebra.common.euclidian.event.AbstractEvent;
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.euclidianForPlane.EuclidianViewForPlaneInterface;
@@ -462,9 +463,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (firstSelectedPoint != null
 		        && this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
 			// prevent further processing
-			if (getDistance(startPosition,
-			        new GPoint(event.getX(), event.getY())) > this.app
-			        .getCapturingThreshold(event.getType())) {
+			if (withinPointSelectionDistance(startPosition, event)) {
 				// update the preview circle
 				super.wrapMouseMoved(event);
 			}
@@ -521,9 +520,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
 			view.setPreview(null);
 			if (firstSelectedPoint != null
-		        && getDistance(startPosition,
-		                new GPoint(event.getX(), event.getY())) > this.app
-		                .getCapturingThreshold(event.getType())) {
+			        && withinPointSelectionDistance(startPosition, event)) {
 				double x = view.toRealWorldCoordX(event.getX());
 				double y = view.toRealWorldCoordY(event.getY());
 				double distance = Math.sqrt(Math.pow(
@@ -544,9 +541,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		        || this.mode == EuclidianConstants.MODE_SEMICIRCLE
 		        || this.mode == EuclidianConstants.MODE_REGULAR_POLYGON) {
 
-			if (getDistance(startPosition,
-			        new GPoint(event.getX(), event.getY())) < this.app
-			        .getCapturingThreshold(event.getType())) {
+			if (withinPointSelectionDistance(startPosition, event)) {
 
 				this.view.setHits(new GPoint(event.getX(), event.getY()),
 				        event.getType());
@@ -679,11 +674,14 @@ public class EuclidianControllerW extends EuclidianController implements
 		}
 	}
 
-	private static double getDistance(GPoint p, GPoint q) {
+	private boolean withinPointSelectionDistance(GPoint p, AbstractEvent q) {
 		if (p == null || q == null) {
-			return 0;
+			return true;
 		}
-		return Math.sqrt((p.x - q.x) * (p.x - q.x) + (p.y - q.y) * (p.y - q.y));
+		double distance = Math.sqrt((p.x - q.getX()) * (p.x - q.getX()) + (p.y - q.getY())
+		        * (p.y - q.getY()));
+		return distance < DrawPoint.getSelectionThreshold(app
+		        .getCapturingThreshold(q.getType()));
 	}
 
 	@Override
