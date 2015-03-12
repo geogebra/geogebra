@@ -223,7 +223,7 @@ public class DrawEquationWeb extends DrawEquation {
 	 *            the equation in LaTeX
 	 */
 	public static void drawEquationAlgebraView(Element parentElement,
-	        String latexString) {
+	        String latexString, boolean nonGeneral) {
 		// no scriptloaded check yet (is it necessary?)
 
 		// logging takes too much time
@@ -236,7 +236,7 @@ public class DrawEquationWeb extends DrawEquation {
 		int el = latexString.length();
 		String eqstring = stripEqnArray(latexString);
 		drawEquationMathQuillGGB(ih, eqstring, 0, 0, parentElement, true,
-		        el == eqstring.length(), true, 0);
+		        el == eqstring.length(), true, 0, nonGeneral);
 	}
 
 	@Override
@@ -428,7 +428,7 @@ public class DrawEquationWeb extends DrawEquation {
 			        .getParentElement((GGraphics2DW) g2);
 			drawEquationMathQuillGGB(ih, eqstring, fontSize, fontSizeR,
 			        parentElement, true, el == eqstring.length(), true,
-			        rotateDegree);
+			        rotateDegree, true);
 
 			if (updateAgain)
 				// set a flag that the kernel needs a new update
@@ -550,7 +550,7 @@ public class DrawEquationWeb extends DrawEquation {
 	public static native void drawEquationMathQuillGGB(Element el,
 	        String htmlt, int fontSize, int fontSizeRel, Element parentElement,
 	        boolean addOverlay, boolean noEqnArray, boolean visible,
-	        double rotateDegree) /*-{
+	        double rotateDegree, boolean nonav) /*-{
 
 		el.style.cursor = "default";
 		if (typeof el.style.MozUserSelect != "undefined") {
@@ -567,15 +567,19 @@ public class DrawEquationWeb extends DrawEquation {
 			el.onselectstart = function(event) {
 				return false;
 			}
-			//el.ondragstart = function(event) {
-			//	return false;
-			//}
+			if (nonav) {
+				el.ondragstart = function(event) {
+					return false;
+				}
+			}
 		}
-		//el.onmousedown = function(event) {
-		//	if (event.preventDefault)
-		//		event.preventDefault();
-		//	return false;
-		//}
+		if (nonav) {
+			el.onmousedown = function(event) {
+				if (event.preventDefault)
+					event.preventDefault();
+				return false;
+			}
+		}
 		if (addOverlay) {
 			var elfirst = $doc.createElement("div");
 			el.appendChild(elfirst);

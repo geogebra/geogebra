@@ -826,10 +826,11 @@ public class RadioButtonTreeItem extends FlowPanel
 				if (newCreationMode) {
 					// in editing mode, we shall avoid letting an invisible, but
 					// harmful element!
-					DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "");
+					DrawEquationWeb.drawEquationAlgebraView(seMayLatex, "",
+					        newCreationMode);
 				} else {
 					DrawEquationWeb.drawEquationAlgebraView(seMayLatex,
-					        "\\mathrm {" + text + "}");
+					        "\\mathrm {" + text + "}", newCreationMode);
 				}
 				LaTeX = true;
 			}

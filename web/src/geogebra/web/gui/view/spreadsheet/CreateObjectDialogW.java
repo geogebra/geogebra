@@ -334,7 +334,7 @@ public class CreateObjectDialogW extends InputDialogW implements
 			lblPreview.setText("");
 			String latex = DrawEquationWeb.inputLatexCosmetics(latexStr);
 			DrawEquationWeb.drawEquationAlgebraView(lblPreview.getElement(), "\\mathrm {" + latex
-			        + "}");
+ + "}", true);
 		} else {
 			lblPreview.setText(coModel.getNonLatexText());
 		}

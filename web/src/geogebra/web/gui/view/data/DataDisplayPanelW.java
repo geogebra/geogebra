@@ -689,7 +689,7 @@ public class DataDisplayPanelW extends FlowPanel implements
 		imageContainer.setText("");
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(latex);
 		DrawEquationWeb.drawEquationAlgebraView(imageContainer.getElement(), "\\mathrm {" + latexStr
-		        + "}");
+ + "}", true);
 		
 		if (hasControlPanel) {
 			controlDecks.showWidget(STEM_IDX);

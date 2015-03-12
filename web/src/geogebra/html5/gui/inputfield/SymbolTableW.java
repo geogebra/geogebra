@@ -72,7 +72,8 @@ public class SymbolTableW extends FlexTable implements ClickHandler {
 	private String getLatexHTML(String text) {
 
 		SpanElement se = DOM.createSpan().cast();
-		DrawEquationWeb.drawEquationAlgebraView(se, "\\mathrm {" + text + "}");
+		DrawEquationWeb.drawEquationAlgebraView(se, "\\mathrm {" + text + "}",
+		        true);
 
 		return se.getInnerHTML();
 	}

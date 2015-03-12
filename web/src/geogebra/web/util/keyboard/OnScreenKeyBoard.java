@@ -326,7 +326,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		KeyBoardButton newButton = new KeyBoardButton("",
 		        KeyboardConstants.X_POWER_Y, this);
 		DrawEquationWeb
-		        .drawEquationAlgebraView(newButton.getElement(), "x^{y}");
+.drawEquationAlgebraView(newButton.getElement(),
+		        "x^{y}", true);
 		functions.addToRow(index, newButton);
 
 		// fill next row
@@ -344,7 +345,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("tan", index, functions);
 		newButton = new KeyBoardButton("", KeyboardConstants.EULER + "^", this);
 		DrawEquationWeb
-		        .drawEquationAlgebraView(newButton.getElement(), "e^{x}");
+.drawEquationAlgebraView(newButton.getElement(),
+		        "e^{x}", true);
 		functions.addToRow(index, newButton);
 		addButton("|x|", "abs", index, functions);
 

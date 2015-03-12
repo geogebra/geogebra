@@ -284,7 +284,7 @@ public class RegressionPanelW extends FlowPanel implements StatPanelInterfaceW {
 		lblRegEquation.setText("");
 		String latexStr = DrawEquationWeb.inputLatexCosmetics(eqn);
 		DrawEquationWeb.drawEquationAlgebraView(lblRegEquation.getElement(), "\\mathrm {" + latexStr
-		        + "}");
+ + "}", true);
 
 		
 		updateGUI();

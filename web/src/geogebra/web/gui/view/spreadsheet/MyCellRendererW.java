@@ -242,7 +242,7 @@ public class MyCellRendererW implements MouseDownHandler, MouseUpHandler, TouchS
 
 			latex = DrawEquationWeb.inputLatexCosmetics(latex);
 			DrawEquationWeb.drawEquationAlgebraView(wele, "\\mathrm {" + latex
-			        + "}");
+			        + "}", true);
 		}
 
 	}
