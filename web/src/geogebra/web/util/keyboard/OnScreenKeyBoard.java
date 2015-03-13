@@ -325,8 +325,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton(KeyboardConstants.SQUARE_ROOT, index, functions);
 		KeyBoardButton newButton = new KeyBoardButton("",
 		        KeyboardConstants.X_POWER_Y, this);
-		DrawEquationWeb
-.drawEquationAlgebraView(newButton.getElement(),
+		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
 		        "x^{y}", true);
 		functions.addToRow(index, newButton);
 
@@ -344,8 +343,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("cos", index, functions);
 		addButton("tan", index, functions);
 		newButton = new KeyBoardButton("", KeyboardConstants.EULER + "^", this);
-		DrawEquationWeb
-.drawEquationAlgebraView(newButton.getElement(),
+		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
 		        "e^{x}", true);
 		functions.addToRow(index, newButton);
 		addButton("|x|", "abs", index, functions);
@@ -479,7 +477,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		int index = 0;
 		addButton("ln", index, functions);
 		addButton("log", index, functions);
-		addButton("nroot", index, functions);
+
+		KeyBoardButton newButton = new KeyBoardButton("", "nroot", this);
+		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
+				"\\sqrt[n]{x}", true);
+		functions.addToRow(index, newButton);
 
 		// fill second row
 		index++;
