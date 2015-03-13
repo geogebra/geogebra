@@ -756,7 +756,12 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	public void onDrop(DropEvent event) {
-		EuclidianViewInterfaceCommon ev = app.getActiveEuclidianView();
+		app.setActiveView(App.VIEW_EUCLIDIAN);
+		app.setActiveView(App.VIEW_EUCLIDIAN2);
+
+		EuclidianViewInterfaceCommon ev = 
+				app.getActiveEuclidianView();
+
 		GeoElement geo = app.getAlgebraView().getDraggedGeo();
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("\""
