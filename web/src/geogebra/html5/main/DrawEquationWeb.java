@@ -773,8 +773,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 								// we should also auto-scroll the cursor in the formula!
 								// TODO: will this make the previous autoScroll unnecessary?
-								// why does this not work?
-								//@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lcom/google/gwt/dom/client/Element;)(parentElement);
+								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lcom/google/gwt/dom/client/Element;)(parentElement);
 
 								if (newCreationMode) {
 									var querr = elsecondInside;
@@ -1306,7 +1305,7 @@ public class DrawEquationWeb extends DrawEquation {
 
 		var jQueryObject = $wnd.$ggbQuery(elsecondInside).find('.cursor');
 		if ((jQueryObject !== undefined) && (jQueryObject.length > 0)) {
-			return $wnd.$ggbQuery(elsecondInside).find('.cursor')[0];
+			return jQueryObject[0];
 		}
 		return null;
 	}-*/;
