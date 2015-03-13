@@ -168,6 +168,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	String keyboardLocale = "";
 	private KeyBoardButtonFunctional shiftButton;
 	private KeyBoardButton backspaceButton;
+	private KeyBoardButton currencyButton;
 
 	/**
 	 * creates a keyboard instance
@@ -539,7 +540,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("_", index, chars);
 		addButton("!", index, chars);
 		addButton("%", index, chars);
-		addButton("$", index, chars);
+		// addButton("$", index, chars);
+
+		currencyButton = new KeyBoardButton("$", this);
+		chars.addToRow(index, currencyButton);
 
 		contentSpecialChars.add(functions);
 		contentSpecialChars.add(chars);
@@ -937,6 +941,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			this.keyboardLocale = Language.English_US.localeGWT;
 		}
 		loadLang(this.keyboardLocale);
+
+		currencyButton.setCaption(Language.getCurrency(keyboardLocale), true);
 	}
 
 	/**

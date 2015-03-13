@@ -596,4 +596,17 @@ public enum Language {
 		return null;
 
 	}
+
+	/**
+	 * @param language
+	 * @return the currency belonging to the given language (default Dollar)
+	 */
+	public static String getCurrency(String language) {
+		for (Language l : Language.values()) {
+			if (l.localeGWT.equals(language)) {
+				return l.currency;
+			}
+		}
+		return Unicode.CURRENCY_DOLLAR;
+	}
 }
