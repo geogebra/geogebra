@@ -295,6 +295,9 @@ var manageTextarea = (function() {
     if (evt.altKey) modifiers.push('Alt');
     if (evt.shiftKey) modifiers.push('Shift');
 
+    // for alphanumeric characters, String.fromCharCode will
+    // give the character, although it is a keyCode not charCode
+    // so "A" will be "Shift-A" and "a" will be simple "A"
     key = keyVal || String.fromCharCode(which);
 
     if (!modifiers.length && !keyVal) return key;
@@ -1960,7 +1963,28 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     	if (this.common.forceGeoGebraSuggestionPopupCanShow === true) {
     	  delete this.common.forceGeoGebraSuggestionPopupCanShow;
     	} else {
-    	  this.common.GeoGebraSuggestionPopupCanShow = true;
+    	  // by default, this shall be overwritten
+          this.common.GeoGebraSuggestionPopupCanShow = false;
+
+    	  // Change: We should only allow the suggestion popup
+          // for alphanumeric characters! "sqrt(" showing was a bug
+    	  var key2 = key;
+    	  if ((key2 !== undefined) && (key2.length > 0)) {
+    		  if ((key2.length === 7) && (key2.substring(0,6) === "Shift-")) {
+    			  key2 = key2.substring(6);
+    		  }
+    		  if (key2.length === 1) {
+    			  var cc = key2.charCodeAt(0);
+    			  if (cc >= 65 && cc <= 90) {
+    				  // ASCII A-Z OK
+    				  this.common.GeoGebraSuggestionPopupCanShow = true;
+    			  } else if (cc >= 48 && xx <= 57) {
+    				  // ASCII 0-9 maybe OK (?)
+    				  this.common.GeoGebraSuggestionPopupCanShow = true;
+    			  }
+    		  }
+    	  }
+    	  
     	}
       }
       return false;
