@@ -1082,17 +1082,17 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 			if (app.isPrerelease()) {
 				if (inputPanelLatex == null) {
 					inputPanelLatex = new NewRadioButtonTreeItem(kernel);
+
+					// open the keyboard (or show the keyboard-open-button) at
+					// when the application is started
+					Scheduler.get().scheduleDeferred(
+							new Scheduler.ScheduledCommand() {
+								public void execute() {
+									app.showKeyboard(inputPanelLatex);
+								}
+							});
 				}
 				inputPanelTreeItem = super.addItem(inputPanelLatex);
-
-				// open the keyboard (or show the keyboard-open-button) at the
-				// beginning
-				Scheduler.get().scheduleDeferred(
-						new Scheduler.ScheduledCommand() {
-							public void execute() {
-								app.showKeyboard(inputPanelLatex);
-							}
-						});
 
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
