@@ -121,7 +121,8 @@ public class GMenuBar extends MenuBar{
 		// adding the submenu icon
 		Element menuitem = ((MenuItem)ait[0]).getElement();
 		if (menuitem.hasParentElement()
-		        && (menuitem instanceof TableCellElement)) {
+		        && (menuitem instanceof TableCellElement)
+		        && iconSubMenu != null) {
 			Element menuparent = menuitem.getParentElement();// tr
 			Element rb = DOM.createTD();
 			rb.setInnerHTML(iconSubMenu.getSafeHtml().asString());

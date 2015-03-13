@@ -9,6 +9,7 @@ import geogebra.html5.main.StringHandler;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.dialog.DialogManagerW;
+import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.ui.MenuItem;
 
@@ -162,9 +163,14 @@ public class FileMenuW extends GMenuBar implements BooleanRenderable {
 				}
 			});
 		}
-	    /*addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty().getSafeUri().asString(), app.getMenu("Export"), true),
-		        true, new ExportMenuW(app));*/
 	    
+		if (app.isPrerelease()) {
+			addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+			        .getSafeUri().asString(), app.getMenu("Export"), true),
+			        true, new ExportMenuW(app));
+
+		}
+
 	    app.getNetworkOperation().getView().add(this);
 	    
 	    if (!app.getNetworkOperation().isOnline()) {

@@ -5453,6 +5453,7 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
  }
  
 .avItem,
-.avItem .gwt-TreeItem {
+.avItem .gwt-TreeItem,
+.avItem .gwt-TreeItem >* {
  	width: 100%;
  }
