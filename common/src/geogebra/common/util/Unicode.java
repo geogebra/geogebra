@@ -145,6 +145,19 @@ public class Unicode {
 	public static final char OPEN_DOUBLE_QUOTE = '\u201C';
 	public static final char CLOSE_DOUBLE_QUOTE = '\u201D';
 
+	// http://www.xe.com/symbols.php
+	public static final String CURRENCY_POUND = "\u00a3";
+	public static final String CURRENCY_EURO = "\u20ac";
+	public static final String CURRENCY_DOLLAR = "$";
+	public static final String CURRENCY_YEN = "\u00a5";
+	public static final String CURRENCY_WON = "\u20a9";
+	public static final String CURRENCY_BAHT = "\u03ef";
+	public static final String CURRENCY_DONG = "\u20ab";
+	public static final String CURRENCY_SHEKEL = "\u20aa";
+	public static final String CURRENCY_TUGHRIK = "\u20ae";
+	public static final String CURRENCY_RUPEE = "\u20a8";
+	public static final String CURRENCY_INDIAN_RUPEE = "\u20b9";
+
 	public static String CAS_OUTPUT_PREFIX_RTL = "\u2190";
 	public static String CAS_OUTPUT_PREFIX = "\u2192";
 	public static String CAS_OUTPUT_KEEPINPUT = "\u2713";
