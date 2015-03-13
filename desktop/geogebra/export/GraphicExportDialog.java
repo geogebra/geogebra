@@ -1046,4 +1046,32 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	}
 
+	public static void export(String extension, EuclidianViewD ev, File file,
+			boolean transparent, int dpi, double exportScale,
+			boolean textAsShapes, boolean useEMFplus, int pixelWidth,
+			int pixelHeight, AppD app) {
+		if (extension.equals("png")) {
+			GraphicExportDialog.exportPNG(ev, file, transparent, dpi,
+					exportScale);
+
+		} else if (extension.equals("eps")) {
+			GraphicExportDialog.exportEPS(app, ev, file, textAsShapes,
+					pixelWidth, pixelHeight, exportScale);
+
+		} else if (extension.equals("pdf")) {
+			GraphicExportDialog.exportPDF(app, ev, file, textAsShapes,
+					pixelWidth, pixelHeight, exportScale);
+
+		} else if (extension.equals("emf")) {
+			GraphicExportDialog.exportEMF(app, ev, file, useEMFplus,
+					pixelWidth, pixelHeight, exportScale);
+
+		} else if (extension.equals("svg")) {
+			GraphicExportDialog.exportSVG(app, ev, file, textAsShapes,
+					pixelWidth, pixelHeight, exportScale, transparent);
+
+		}
+
+	}
+
 }

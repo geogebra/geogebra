@@ -22,7 +22,10 @@ import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
 import geogebra.common.factories.UtilFactory;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
+import geogebra.common.kernel.geos.GeoElement;
+import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.common.util.HttpRequest;
 import geogebra.euclidian.EuclidianViewD;
@@ -780,10 +783,123 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 	public static void checkCommandLineExport(final AppD app) {
 
-		CommandLineArguments args = app.getCommandLineArgs();
+		final CommandLineArguments args = app.getCommandLineArgs();
+
+		if (args != null && args.containsArg("exportAnimation")
+				&& args.containsArg("slider")) {
+
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+
+					String dpiStr = args.getStringValue("dpi");
+
+					final int dpi = Integer.parseInt(dpiStr == null ? "300"
+							: dpiStr);
+
+					EuclidianViewD ev = app.getEuclidianView1();
+					double printingScale = ev.getPrintingScale();
+					double exportScale = (printingScale * dpi) / 2.54
+							/ ev.getXscale();
+					boolean textAsShapes = true;
+					boolean transparent = true;
+					boolean useEMFplus = true;
+
+					int pixelWidth = (int) Math.floor(ev.getExportWidth()
+							* exportScale);
+					int pixelHeight = (int) Math.floor(ev.getExportHeight()
+							* exportScale);
+
+					String filename = args.getStringValue("exportAnimation");
+
+					final String extension = AppD.getExtension(filename);
+
+					filename = AppD.removeExtension(filename);
+
+					String sliderName = args.getStringValue("slider");
+					GeoElement slider = app.getKernel().lookupLabel(sliderName);
+
+					if (!slider.isGeoNumeric()
+							|| !((GeoNumeric) slider).isSlider()) {
+						App.error(sliderName + "is not a slider");
+						System.exit(0);
+					}
+
+					app.getKernel().getAnimatonManager().stopAnimation();
+					GeoNumeric num = (GeoNumeric) slider;
+
+					int type = num.getAnimationType();
+					double min = num.getIntervalMin();
+					double max = num.getIntervalMax();
+
+					double val;
+
+					double step;
+					int n;
+
+					switch (type) {
+					case GeoElement.ANIMATION_DECREASING:
+						step = -num.getAnimationStep();
+						n = (int) ((max - min) / -step);
+						if (Kernel.isZero(((max - min) / -step) - n))
+							n++;
+						if (n == 0)
+							n = 1;
+						val = max;
+						break;
+					case GeoElement.ANIMATION_OSCILLATING:
+						step = num.getAnimationStep();
+						n = (int) ((max - min) / step) * 2;
+						if (Kernel.isZero(((max - min) / step * 2) - n))
+							n++;
+						if (n == 0)
+							n = 1;
+						val = min;
+						break;
+					default: // GeoElement.ANIMATION_INCREASING:
+						// GeoElement.ANIMATION_INCREASING_ONCE:
+						step = num.getAnimationStep();
+						n = (int) ((max - min) / step);
+						if (Kernel.isZero(((max - min) / step) - n))
+							n++;
+						if (n == 0)
+							n = 1;
+						val = min;
+					}
+
+					for (int i = 0; i < n; i++) {
+
+						App.debug("exporting frame " + i + "of " + n);
+
+						// avoid values like 14.399999999999968
+						val = Kernel.checkDecimalFraction(val);
+
+						num.setValue(val);
+						num.updateRepaint();
+
+						File file = new File(filename + i + "." + extension);
+
+						GraphicExportDialog.export(extension, ev, file,
+								transparent, dpi, exportScale, textAsShapes,
+								useEMFplus, pixelWidth, pixelHeight, app);
+
+						val += step;
+
+						if (val > max + 0.00000001 || val < min - 0.00000001) {
+							val -= 2 * step;
+							step *= -1;
+						}
+
+					}
+
+					System.exit(0);
+				}
+			});
+
+		}
 
 		if (args != null && args.containsArg("export")) {
 			final String filename = args.getStringValue("export");
+			final String extension = AppD.getExtension(filename);
 			String dpiStr = args.getStringValue("dpi");
 
 			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);
@@ -791,7 +907,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			App.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
 
-			final String extension = AppD.getExtension(filename);
+
 
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -844,31 +960,9 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 						File file = new File(filename);
 
-						if (extension.equals("png")) {
-							GraphicExportDialog.exportPNG(ev, file,
-									transparent, dpi, exportScale);
-
-						} else if (extension.equals("eps")) {
-							GraphicExportDialog.exportEPS(app, ev, file,
-									textAsShapes, pixelWidth, pixelHeight,
-									exportScale);
-
-						} else if (extension.equals("pdf")) {
-							GraphicExportDialog.exportPDF(app, ev, file,
-									textAsShapes, pixelWidth, pixelHeight,
-									exportScale);
-
-						} else if (extension.equals("emf")) {
-							GraphicExportDialog.exportEMF(app, ev, file,
-									useEMFplus, pixelWidth, pixelHeight,
-									exportScale);
-
-						} else if (extension.equals("svg")) {
-							GraphicExportDialog.exportSVG(app, ev, file,
-									textAsShapes, pixelWidth, pixelHeight,
-									exportScale, transparent);
-
-						}
+						GraphicExportDialog.export(extension, ev, file,
+								transparent, dpi, exportScale, textAsShapes,
+								useEMFplus, pixelWidth, pixelHeight, app);
 
 						App.debug("2D view exported successfully");
 
