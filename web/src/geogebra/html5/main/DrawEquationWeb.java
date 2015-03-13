@@ -1297,7 +1297,6 @@ public class DrawEquationWeb extends DrawEquation {
 			//				$wnd.$ggbQuery(elsecond).mathquillggb('eqnarray');
 			//			});
 		}
-
 	}-*/;
 
 	public static native JavaScriptObject grabCursorForScrollIntoView(
@@ -1305,12 +1304,18 @@ public class DrawEquationWeb extends DrawEquation {
 		var elsecond = parentElement.firstChild.firstChild.nextSibling;
 		var elsecondInside = elsecond.lastChild;
 
-		return $wnd.$ggbQuery(elsecondInside).find('.cursor');
+		var jQueryObject = $wnd.$ggbQuery(elsecondInside).find('.cursor');
+		if ((jQueryObject !== undefined) && (jQueryObject.length > 0)) {
+			return $wnd.$ggbQuery(elsecondInside).find('.cursor')[0];
+		}
+		return null;
 	}-*/;
 
 	public static void scrollCursorIntoView(Element parentElement) {
 		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
-		Element.as(jo).scrollIntoView();
+		if (jo != null) {
+			Element.as(jo).scrollIntoView();
+		}
 	}
 
 	/**
