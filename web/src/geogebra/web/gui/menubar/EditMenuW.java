@@ -114,8 +114,10 @@ public class EditMenuW extends GMenuBar {
 
 				        @Override
 				        public void doExecute() {
-					        app.getDialogManager().showPropertiesDialog(
-					                OptionType.OBJECTS, null);
+					        if (!selection.getSelectedGeos().isEmpty()) {
+						        app.getDialogManager().showPropertiesDialog(
+						                OptionType.OBJECTS, null);
+					        }
 				        }
 			        });
 
