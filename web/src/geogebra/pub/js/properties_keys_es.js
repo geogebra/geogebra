@@ -2113,7 +2113,7 @@ __GGB__keysVar.es.menu = {
 
 __GGB__keysVar.es.plain = {
     "ADecimalPlace": "%0 lugar decimal",
-    "ADecimalPlaces": "%0 lugares decimales",
+    "ADecimalPlaces": "%0 cifras decimales",
     "ADerivativeOfB": "%0 derivada de %1",
     "ADilatedByFactorBfromC": "Homotecia de %0, de raz\xf3n %1 desde %2",
     "ADoesNotIntersectWithB": "%0 no interseca a %1",
@@ -2890,7 +2890,7 @@ __GGB__keysVar.es.plain = {
     "stylebar.Color": "Color",
     "stylebar.ColorTransparency": "Color y Transparencia",
     "stylebar.CopyVisualStyle": "Copiar estilo visual",
-    "stylebar.Eraser": "Borra esbozo",
+    "stylebar.Eraser": "Borrar esbozo",
     "stylebar.GlassesProjection": "Proyecci\xf3n para lentes 3D",
     "stylebar.Grid": "Cuadr\xedcula (in)visible",
     "stylebar.Hidden": "Invisible",
