@@ -12,7 +12,7 @@ import java.util.Date;
  * Maintains a Singular WebService. For the SingularWS API please see the
  * documentation of SingularWS
  * 
- * @see "http://code.google.com/p/singularws/source/browse/inc/commands.php"
+ * @see "https://github.com/kovzol/singularws"
  * 
  * @author Zoltan Kovacs <zoltan@geogebra.org>
  */
