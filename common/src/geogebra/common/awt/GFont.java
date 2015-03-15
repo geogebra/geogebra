@@ -18,6 +18,8 @@ public abstract class GFont {
 
 	public abstract GFont deriveFont(int plain2, int fontSize);
 
+	public abstract GFont deriveFont(int plain2, float fontSize);
+
 	public abstract GFont deriveFont(int i);
 
 	public abstract String getFontName();

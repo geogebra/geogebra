@@ -2331,14 +2331,7 @@ public class AppD extends App implements KeyEventDispatcher {
 	}
 
 	static void simpleExportToClipboard(EuclidianView ev) {
-		double scale = 2d;
-		double size = ev.getExportWidth() * ev.getExportHeight();
-
-		// Windows XP clipboard has trouble with images larger than this
-		// at double scale (with scale = 2d)
-		if (size > 500000) {
-			scale = 2.0 * Math.sqrt(500000 / size);
-		}
+		double scale = getMaxScaleForClipBoard(ev);
 
 		// copy drawing pad to the system clipboard
 		Image img = ((EuclidianViewD) ev).getExportImage(scale);

@@ -9,10 +9,12 @@ import geogebra.common.geogebra3D.euclidian3D.Hitting;
 import geogebra.common.geogebra3D.euclidian3D.draw.DrawLabel3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3D;
 import geogebra.common.geogebra3D.euclidian3D.draw.Drawable3DListsForView;
+import geogebra.common.io.MyXMLio;
 import geogebra.common.kernel.Matrix.CoordMatrix4x4;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.main.App;
 
 /**
  * 
@@ -181,6 +183,12 @@ public abstract class Renderer {
 		updateViewAndDrawables();
 		// App.debug("======= UPDATE : "+(System.currentTimeMillis() - time));
 
+		
+		if (needExportImage) {
+			selectFBO();
+		}
+		
+		
 		if (waitForSetStencilLines) {
 			setStencilLines();
 		}
@@ -217,14 +225,64 @@ public abstract class Renderer {
 			draw();
 		}
 
+		if (needExportImage) {
+			unselectFBO();
+		}
+
 		// App.debug("======= DRAW : "+(System.currentTimeMillis() - time));
 
 		// prepare correct color mask for next clear
 		setColorMask(true, true, true, true);
 
 		exportImage();
+		
+
 	}
 	
+	protected boolean needExportImage = false, exportImageForThumbnail = false;
+
+	/**
+	 * says that an export image is needed, and call immediate display
+	 */
+	public void needExportImage() {
+
+		exportImageForThumbnail = true;
+		double scale = Math.min(MyXMLio.THUMBNAIL_PIXELS_X / getWidth(),
+				MyXMLio.THUMBNAIL_PIXELS_Y / getHeight());
+
+		needExportImage(scale, (int) MyXMLio.THUMBNAIL_PIXELS_X,
+				(int) MyXMLio.THUMBNAIL_PIXELS_Y);
+
+	}
+
+	/**
+	 * says that an export image is needed, and call immediate display
+	 * 
+	 * @param scale
+	 *            scale for export image
+	 */
+	public void needExportImage(double scale) {
+
+		exportImageForThumbnail = false;
+		needExportImage(scale, (int) (getWidth() * scale),
+				(int) (getHeight() * scale));
+	}
+
+	protected void needExportImage(double scale, int w, int h) {
+
+		needExportImage = true;
+		display();
+
+	}
+
+	protected void selectFBO() {
+
+	}
+
+	protected void unselectFBO() {
+
+	}
+
 	/**
 	 * set drawing for left eye
 	 */
@@ -1428,7 +1486,7 @@ public abstract class Renderer {
 
 	}
 
-	protected void setProjectionMatrix() {
+	final protected void setProjectionMatrix() {
 
 		switch (view3D.getProjection()) {
 		case EuclidianView3D.PROJECTION_ORTHOGRAPHIC:
@@ -1445,8 +1503,15 @@ public abstract class Renderer {
 			break;
 		}
 
-		// viewEye();
+		if (needExportImage) {
+			multProjectionMatrixForExportImage();
+		}
 	}
+
+	/**
+	 * scale needed for export image
+	 */
+	abstract protected void multProjectionMatrixForExportImage();
 
 	/**
 	 * for shaders : update projection matrix
@@ -1662,11 +1727,13 @@ public abstract class Renderer {
 
 	public void exportToClipboard() {
 		exportType = ExportType.CLIPBOARD;
+		needExportImage(App.getMaxScaleForClipBoard(view3D));
 
 	}
 
 	public void uploadToGeoGebraTube() {
 		exportType = ExportType.UPLOAD_TO_GEOGEBRATUBE;
+		needExportImage();
 
 	}
 

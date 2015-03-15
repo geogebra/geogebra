@@ -15,6 +15,8 @@ import geogebra.euclidian.EuclidianViewD;
 import geogebra.euclidian.EuclidianViewJPanel;
 import geogebra.euclidian.MyZoomerD;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
+import geogebra.export.GraphicExportDialog;
+import geogebra.io.MyImageIO;
 import geogebra.main.AppD;
 import geogebra3D.App3D;
 import geogebra3D.euclidian3D.opengl.RendererD;
@@ -36,6 +38,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JPanel;
 import javax.swing.border.Border;
@@ -492,9 +496,47 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	}
 
 	public BufferedImage getExportImage(double scale) {
-		((RendererD) getRenderer()).needExportImage();
+		return getExportImage(scale, false);
+	}
+	
+	public BufferedImage getExportImage(double scale, boolean transparency)
+			throws OutOfMemoryError {
+		((RendererD) getRenderer()).needExportImage(scale);
+		
 
 		return ((RendererD) getRenderer()).getExportImage();
+	}
+	
+	private boolean exportToClipboard;
+	private File exportFile;
+	private int exportDPI;
+	
+	@Override
+	public void exportImagePNG(double scale, boolean transparency, int dpi,
+			File file, boolean exportToClipboard) {
+		
+		exportDPI = dpi;
+		exportFile = file;
+		this.exportToClipboard = exportToClipboard; 
+
+		((RendererD) getRenderer()).needExportImage(scale);
+	}
+	
+	/**
+	 * write current renderer's image to current export file
+	 */
+	public void writeExportImage(){
+		
+		try {
+			BufferedImage img = ((RendererD) getRenderer()).getExportImage();
+			MyImageIO.write(img, "png", exportDPI, exportFile);
+			if (exportToClipboard) {
+				GraphicExportDialog.sendToClipboard(exportFile);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}		
+		
 	}
 
 	@Override

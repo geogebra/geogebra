@@ -31,7 +31,8 @@ public class PlotterText {
 	 * @param width
 	 * @param height
 	 */
-	public void rectangle(int x, int y, int z, int width, int height) {
+	public void rectangle(double x, double y, double z, double width,
+			double height) {
 
 		manager.startGeometry(Manager.Type.TRIANGLES);
 
@@ -53,7 +54,8 @@ public class PlotterText {
 
 	}
 
-	public void rectangleBounds(int x, int y, int z, int width, int height) {
+	public void rectangleBounds(double x, double y, double z, double width,
+			double height) {
 
 		manager.startGeometry(Manager.Type.LINE_LOOP);
 		manager.vertexInt(x, y, z);

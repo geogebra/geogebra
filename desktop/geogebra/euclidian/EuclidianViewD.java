@@ -31,7 +31,9 @@ import geogebra.common.main.App;
 import geogebra.common.main.settings.EuclidianSettings;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
+import geogebra.export.GraphicExportDialog;
 import geogebra.gui.MyImageD;
+import geogebra.io.MyImageIO;
 import geogebra.main.AppD;
 
 import java.awt.AWTEvent;
@@ -59,6 +61,8 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.PageFormat;
 import java.awt.print.Printable;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -511,6 +515,22 @@ public class EuclidianViewD extends EuclidianView implements
 		exportPaint(new GGraphics2DD(img.createGraphics()), scale, transparency);
 		img.flush();
 		return img;
+	}
+	
+	public void exportImagePNG(double scale, boolean transparency, int dpi,
+			File file, boolean exportToClipboard) {
+		
+		try {
+			BufferedImage img = getExportImage(scale, transparency);
+			MyImageIO.write(img, "png", dpi, file);
+			if (exportToClipboard) {
+				GraphicExportDialog.sendToClipboard(file);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 	/**

@@ -876,6 +876,11 @@ public class RendererShaders extends RendererD implements
 		setProjectionMatrix();
 
 	}
+	
+	@Override
+	protected void multProjectionMatrixForExportImage() {
+		// TODO
+	}
 
 	private CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
 

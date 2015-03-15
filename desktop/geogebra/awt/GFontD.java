@@ -48,6 +48,10 @@ public class GFontD extends geogebra.common.awt.GFont {
 	public GFontD deriveFont(int style, int fontSize) {
 		return new GFontD(impl.deriveFont(style, fontSize));
 	}
+	
+	public GFontD deriveFont(int style, float fontSize) {
+		return new GFontD(impl.deriveFont(style, fontSize));
+	}
 
 	@Override
 	public geogebra.common.awt.GFont deriveFont(int i) {

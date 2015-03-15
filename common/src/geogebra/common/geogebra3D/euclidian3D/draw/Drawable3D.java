@@ -385,8 +385,16 @@ public abstract class Drawable3D extends DrawableND {
 	/**
 	 * says that the label has to be updated
 	 */
-	public void setLabelWaitForUpdate() {
+	final public void setLabelWaitForUpdate() {
 		labelWaitForUpdate = true;
+	}
+
+	/**
+	 * says that the label has to be reset
+	 */
+	public void setLabelWaitForReset() {
+		label.setWaitForReset();
+		setLabelWaitForUpdate();
 	}
 
 	/**

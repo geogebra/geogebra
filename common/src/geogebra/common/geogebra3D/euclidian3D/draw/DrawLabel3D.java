@@ -27,7 +27,7 @@ public class DrawLabel3D {
 	/** text of the label */
 	protected String text;
 	/** font of the label */
-	protected GFont font;
+	protected GFont font, fontOriginal;
 	/** color of the label */
 	private Coords backgroundColor, color;
 	/** origin of the label (left-bottom corner) */
@@ -91,6 +91,14 @@ public class DrawLabel3D {
 	}
 
 	/**
+	 * 
+	 * @return font scale (used for image export)
+	 */
+	protected double getFontScale() {
+		return view.getFontScale();
+	}
+
+	/**
 	 * update the label
 	 * 
 	 * @param text
@@ -100,7 +108,7 @@ public class DrawLabel3D {
 	 * @param xOffset
 	 * @param yOffset
 	 */
-	public void update(String text, GFont font, GColor backgroundColor,
+	public void update(String text, GFont font0, GColor backgroundColor,
 			GColor color, Coords v, float xOffset, float yOffset) {
 
 		this.origin = v;
@@ -131,10 +139,15 @@ public class DrawLabel3D {
 
 		setIsVisible(true);
 
-		if (waitForReset || !text.equals(this.text) || !font.equals(this.font)) {
+		if (waitForReset || !text.equals(this.text)
+				|| !font0.equals(this.fontOriginal)) {
 
 			this.text = text;
-			this.font = font;
+			fontOriginal = font0;
+			int style = fontOriginal.getStyle();
+			int size = fontOriginal.getSize();
+			font = fontOriginal.deriveFont(style,
+					(float) (size * getFontScale()));
 
 			tempGraphics.setFont(font);
 
@@ -313,13 +326,13 @@ public class DrawLabel3D {
 		draw(renderer, false);
 	}
 
-	protected int drawX, drawY, drawZ;
+	protected double drawX, drawY, drawZ;
 
 	/**
 	 * 
 	 * @return z position (in screen coords) where the label is drawn
 	 */
-	public int getDrawZ() {
+	public double getDrawZ() {
 		return drawZ;
 	}
 
@@ -335,16 +348,16 @@ public class DrawLabel3D {
 		Coords v = view.getToScreenMatrix().mul(origin);
 		drawX = (int) (v.getX() + xOffset);
 		if (anchor && xOffset < 0) {
-			drawX -= width;
+			drawX -= width / getFontScale();
 		} else {
-			drawX += xOffset2;
+			drawX += xOffset2 / getFontScale();
 		}
 
 		drawY = (int) (v.getY() + yOffset);
 		if (anchor && yOffset < 0) {
-			drawY -= height;
+			drawY -= height / getFontScale();
 		} else {
-			drawY += yOffset2;
+			drawY += yOffset2 / getFontScale();
 		}
 
 		drawZ = (int) v.getZ();
@@ -410,7 +423,7 @@ public class DrawLabel3D {
 			}
 
 			// draw text
-			draw(renderer, drawX, drawY, drawZ);
+			drawText(renderer);
 
 		}
 	}
@@ -427,13 +440,11 @@ public class DrawLabel3D {
 	 * @param z
 	 *            z
 	 */
-	protected void draw(Renderer renderer, int x, int y, int z) {
+	protected void drawText(Renderer renderer) {
 		// draw text
 		renderer.setColor(color);
 		renderer.enableTextures();
-		// renderer.getTextures().setTextureNearest(textureIndex);
 		renderer.getTextures().setTextureLinear(textureIndex);
-		// renderer.getGeometryManager().rectangle(x, y, z, width2, height2);
 		renderer.getGeometryManager().drawLabel(textIndex);
 
 	}
@@ -560,22 +571,29 @@ public class DrawLabel3D {
 		}
 
 		int old = textIndex;
-		textIndex = renderer.getGeometryManager().rectangle(drawX, drawY,
-				drawZ, width2, height2, textIndex);
+		textIndex = drawRectangle(renderer, drawX, drawY, drawZ, width2
+				/ getFontScale(), height2 / getFontScale(), textIndex);
 		renderer.getGeometryManager().remove(old);
 
 		old = pickingIndex;
-		pickingIndex = renderer.getGeometryManager().rectangle(
-				drawX + pickingX, drawY + pickingY, drawZ, pickingW, pickingH,
+		pickingIndex = drawRectangle(renderer, drawX + pickingX
+				/ getFontScale(), drawY + pickingY / getFontScale(), drawZ,
+				pickingW / getFontScale(), pickingH / getFontScale(),
 				pickingIndex);
 		renderer.getGeometryManager().remove(old);
 
 		old = backgroundIndex;
-		backgroundIndex = renderer.getGeometryManager().rectangle(drawX, drawY,
-				drawZ, width, height, backgroundIndex);
+		backgroundIndex = drawRectangle(renderer, 
+				drawX, drawY, drawZ, 
+				width / getFontScale(), height / getFontScale(), backgroundIndex);
 		renderer.getGeometryManager().remove(old);
 
 		// App.debug("textIndex: "+textIndex+", pickingIndex: "+pickingIndex+", backgroundIndex: "+backgroundIndex);
+	}
+
+	private static final int drawRectangle(Renderer renderer, double x,
+			double y, double z, double w, double h, int index) {
+		return renderer.getGeometryManager().rectangle(x, y, z, w, h, index);
 	}
 
 }

@@ -205,9 +205,10 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	protected void vertexInt(int x, int y, int z) {
+	protected void vertexInt(double x, double y, double z) {
 
-		renderer.jogl.getGL2().glVertex3i(x, y, z);
+		//renderer.jogl.getGL2().glVertex3i(x, y, z);
+		vertex(x,y,z);
 	}
 
 	@Override
@@ -231,7 +232,7 @@ public class ManagerGLList extends ManagerD {
 	}
 
 	@Override
-	public void rectangleGeometry(int x, int y, int z, int width, int height) {
+	public void rectangleGeometry(double x, double y, double z, double width, double height) {
 		getText().rectangle(x, y, z, width, height);
 	}
 

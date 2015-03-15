@@ -10,12 +10,12 @@ import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
 import geogebra.main.AppD;
 import geogebra.util.FrameCollector;
+import geogebra3D.euclidian3D.EuclidianView3DD;
 import geogebra3D.euclidian3D.opengl.RendererJogl.GLlocal;
 
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GLAutoDrawable;
@@ -123,11 +123,6 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	@Override
 	protected void exportImage() {
 
-		if (needExportImage) {
-			setExportImage();
-			needExportImage = false;
-			// notify();
-		}
 
 		switch (exportType) {
 		case ANIMATEDGIF:
@@ -155,6 +150,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				gifEncoder.finish();
 
 				App.debug("GIF export finished");
+				endNeedExportImage();
 
 			} else {
 				export_num.setValue(export_val);
@@ -176,6 +172,7 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 				Toolkit.getDefaultToolkit().getSystemClipboard()
 						.setContents(imgSel, null);
 			}
+			endNeedExportImage();
 
 			break;
 		case UPLOAD_TO_GEOGEBRATUBE:
@@ -190,9 +187,20 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 			}
 
 			view3D.getApplication().uploadToGeoGebraTube();
-
+			endNeedExportImage();
+			
 			break;
 
+		default:
+			if (needExportImage) {
+				setExportImage();
+				if (!exportImageForThumbnail){
+					// call write to file
+					((EuclidianView3DD) view3D).writeExportImage();
+				}
+				endNeedExportImage();
+			}
+			break;
 		}
 
 	}
@@ -234,6 +242,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 
 		AppD.debug("openGL version : " + version + ", vbo supported : "
 				+ VBOsupported);
+		
+		initFBO();
 
 		init();
 	}
@@ -585,6 +595,8 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 		this.export_max = max;
 		this.export_step = step;
 		this.gifEncoder = gifEncoder;
+		
+		needExportImage(1);
 
 	}
 
@@ -592,50 +604,163 @@ public abstract class RendererD extends Renderer implements GLEventListener {
 	// EXPORT IMAGE
 	// ////////////////////////////////////
 
-	protected boolean needExportImage = false;
 
-	/**
-	 * says that an export image is needed, and call immediate display
-	 */
-	public void needExportImage() {
+	
+	
+	
+	private int fboID, fboColorTextureID, fboDepthTextureID;
+	private int fboWidth = 1, fboHeight = 1;
+	private int oldRight, oldLeft, oldTop, oldBottom;
+	protected float fboScale = 1f;
+	
+	
+	@Override
+	protected void selectFBO(){
+		
+		updateFBOBuffers();
+		
+		// bind the buffer
+		jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
+		
+		// store view values
+		oldRight = right; oldLeft = left; oldTop = top; oldBottom = bottom;
+		
+		// set view values for buffer
+		setView(0, 0, fboWidth, fboHeight);
+		
+	}
+
+	@Override
+	protected void unselectFBO(){
+		
+		// set back the view
+		setView(0, 0, oldRight - oldLeft, oldTop - oldBottom);
+		
+		//unbind the framebuffer ...
+		jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+	}
+	
+	
+	@Override
+	protected void needExportImage(double scale, int w, int h) {
+		
+		fboScale = (float) scale;
+		view3D.setFontScale(scale);
+		fboWidth = w;
+		fboHeight = h;
+
 		needExportImage = true;
 		display();
+
+	}
+	
+	private void endNeedExportImage(){
+		needExportImage = false;
+
+		// set no font scale
+		view3D.setFontScale(1);
+	}
+	
+	private void updateFBOBuffers(){
+
+		// image texture
+		jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
+        jogl.getGL2().glTexParameterf(GLlocal.GL_TEXTURE_2D, GLlocal.GL_TEXTURE_MAG_FILTER, GLlocal.GL_NEAREST);
+        jogl.getGL2().glTexParameterf(GLlocal.GL_TEXTURE_2D, GLlocal.GL_TEXTURE_MIN_FILTER, GLlocal.GL_NEAREST);
+        jogl.getGL2().glTexImage2D(GLlocal.GL_TEXTURE_2D, 0, GLlocal.GL_RGBA, 
+        		fboWidth, fboHeight, 0, GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, null);
+        
+        jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
+        
+        
+        // depth buffer
+        jogl.getGL2().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, fboDepthTextureID);
+        jogl.getGL2().glRenderbufferStorage(GLlocal.GL_RENDERBUFFER, GLlocal.GL_DEPTH_COMPONENT, fboWidth, fboHeight);
+        
+        jogl.getGL2().glBindRenderbuffer(GLlocal.GL_RENDERBUFFER, 0);
+        
+        
+	}
+	
+	/**
+	 * init frame buffer object for save image
+	 */
+	protected void initFBO(){
+		
+		int[] result = new int[1];
+        
+        //allocate the colour texture ...
+        jogl.getGL2().glGenTextures(1, result, 0);
+        fboColorTextureID = result[0];
+        
+        //allocate the depth texture ...
+        jogl.getGL2().glGenRenderbuffers(1, result, 0);
+        fboDepthTextureID = result[0];
+        
+        updateFBOBuffers();
+        
+        
+		//allocate the framebuffer object ...
+        jogl.getGL2().glGenFramebuffers(1, result, 0);
+        fboID = result[0];
+        jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, fboID);
+
+        //attach the textures to the framebuffer
+        jogl.getGL2().glFramebufferTexture2D(GLlocal.GL_FRAMEBUFFER,
+        		GLlocal.GL_COLOR_ATTACHMENT0,GLlocal.GL_TEXTURE_2D,fboColorTextureID,0);
+        jogl.getGL2().glFramebufferRenderbuffer(GLlocal.GL_FRAMEBUFFER,
+        		GLlocal.GL_DEPTH_ATTACHMENT,GLlocal.GL_RENDERBUFFER,fboDepthTextureID);
+        
+        jogl.getGL2().glBindFramebuffer(GLlocal.GL_FRAMEBUFFER, 0);
+
+
 	}
 
 	protected BufferedImage bi;
+	
+	static private int getUnsigned(byte x){
+		return x & 0x000000FF;
+//		if (x < 0){
+//			return -x + 128;
+//		}
+//		return x;
+	}
 
 	/**
 	 * creates an export image (and store it in BufferedImage bi)
 	 */
 	protected void setExportImage() {
+		
+		bi = null;
+		try{
+			ByteBuffer buffer = ByteBuffer.allocate(4 * fboWidth * fboHeight);
+			jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, fboColorTextureID);
+			jogl.getGL2().glGetTexImage(GLlocal.GL_TEXTURE_2D, 0, 
+					GLlocal.GL_RGBA, GLlocal.GL_UNSIGNED_BYTE, buffer);
 
-		jogl.getGL2().glReadBuffer(GLlocal.GL_FRONT);
-		int width = right - left;
-		int height = top - bottom;
-		FloatBuffer buffer = FloatBuffer.allocate(3 * width * height);
-		jogl.getGL2().glReadPixels(0, 0, width, height, GLlocal.GL_RGB,
-				GLlocal.GL_FLOAT, buffer);
-		float[] pixels = buffer.array();
+			bi = new BufferedImage(fboWidth, fboHeight, BufferedImage.TYPE_INT_RGB);
 
-		bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-		int i = 0;
-		for (int y = height - 1; y >= 0; y--)
-			for (int x = 0; x < width; x++) {
-				int r = (int) (pixels[i] * 255);
-				int g = (int) (pixels[i + 1] * 255);
-				int b = (int) (pixels[i + 2] * 255);
-				bi.setRGB(x, y, ((r << 16) | (g << 8) | b));
-				i += 3;
-			}
-		bi.flush();
+			buffer.rewind();
+			for (int y = fboHeight - 1; y >= 0; y--)
+				for (int x = 0; x < fboWidth; x++) {
+					int r = getUnsigned(buffer.get());
+					int g = getUnsigned(buffer.get());
+					int b = getUnsigned(buffer.get());
+					bi.setRGB(x, y, ((r << 16) | (g << 8) | b));
+					buffer.get(); // ignore alpha
+				}
+			bi.flush();
+		}catch (Exception e){
+			App.error("setExportImage: "+e.getMessage());
+		}
+		
+		jogl.getGL2().glBindTexture(GLlocal.GL_TEXTURE_2D, 0);
 	}
 
 	/**
 	 * @return a BufferedImage containing last export image created
 	 */
 	public BufferedImage getExportImage() {
-		App.debug("thumbnail");
 		return bi;
 	}
 

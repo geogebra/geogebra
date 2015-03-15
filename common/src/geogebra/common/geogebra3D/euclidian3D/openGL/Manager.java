@@ -321,7 +321,7 @@ abstract public class Manager {
 	 * @param z
 	 *            z coord
 	 */
-	abstract protected void vertexInt(int x, int y, int z);
+	abstract protected void vertexInt(double x, double y, double z);
 
 	/**
 	 * creates a vertex at coordinates v
@@ -558,17 +558,19 @@ abstract public class Manager {
 	 * @param width
 	 * @param height
 	 */
-	public int rectangle(int x, int y, int z, int width, int height, int old) {
+	final public int rectangle(double x, double y, double z, double width,
+			double height, int old) {
 		int index = startNewList(old);
 		rectangleGeometry(x, y, z, width, height);
 		endList();
 		return index;
 	}
 
-	abstract protected void rectangleGeometry(int x, int y, int z, int width,
-			int height);
+	abstract protected void rectangleGeometry(double x, double y, double z,
+			double width, double height);
 
-	public int rectangleBounds(int x, int y, int z, int width, int height,
+	public int rectangleBounds(double x, double y, double z, double width,
+			double height,
 			int old) {
 		int index = startNewList(old);
 		getText().rectangleBounds(x, y, z, width, height);

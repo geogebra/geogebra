@@ -60,10 +60,10 @@ public class DrawLabel3DForText extends DrawLabel3D {
 	}
 
 	@Override
-	protected void draw(Renderer renderer, int x, int y, int z) {
+	protected void drawText(Renderer renderer) {
 
 		// draw text
-		super.draw(renderer, x, y, z);
+		super.drawText(renderer);
 
 		if (geo.doHighlighting()) {
 			// draw bounds if highlighted
@@ -71,8 +71,6 @@ public class DrawLabel3DForText extends DrawLabel3D {
 			renderer.disableMultisample();
 			renderer.setLineWidth(geo.getLineThickness() / 2);
 			renderer.setColor(DrawText.HIGHLIGHT_COLOR);
-			// renderer.getGeometryManager().rectangleBounds(x, y, z, width,
-			// height);
 			renderer.getGeometryManager().draw(highLightIndex);
 			renderer.enableMultisample();
 			renderer.enableTextures();
@@ -94,7 +92,8 @@ public class DrawLabel3DForText extends DrawLabel3D {
 
 		int old = highLightIndex;
 		highLightIndex = renderer.getGeometryManager().rectangleBounds(drawX,
-				drawY, drawZ, width, height, highLightIndex);
+				drawY, drawZ, width / getFontScale(), height / getFontScale(),
+				highLightIndex);
 		renderer.getGeometryManager().remove(old);
 		// App.debug("highLightIndex: "+highLightIndex);
 	}

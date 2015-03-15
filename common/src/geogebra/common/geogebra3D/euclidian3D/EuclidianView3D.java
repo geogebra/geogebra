@@ -3122,6 +3122,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		((Kernel3D) kernel).setEuclidianView3DBounds(evNo, getXmin(),
 				getXmax(), getYmin(), getYmax(), getZmin(), getZmax(),
 				getXscale(), getYscale(), getZscale());
+		calcPrintingScale();
 	}
 
 	private void viewChangedOwnDrawables() {
@@ -4019,7 +4020,7 @@ public abstract class EuclidianView3D extends EuclidianView implements
 		drawable3DLists.resetAllLabels();
 		for (int i = 0; i < 3; i++) {
 			axisDrawable[i].setWaitForUpdate();
-			axisDrawable[i].setLabelWaitForUpdate();
+			axisDrawable[i].setLabelWaitForReset();
 		}
 		repaintView();
 	}
@@ -4050,5 +4051,35 @@ public abstract class EuclidianView3D extends EuclidianView implements
 
 	public double getMaxBendSpeedSurface() {
 		return MAX_BEND_SPEED_SURFACE;
+	}
+
+	@Override
+	public int getExportWidth() {
+		return getWidth();
+	}
+
+	@Override
+	public int getExportHeight() {
+		return getHeight();
+	}
+
+	/**
+	 * set font scale
+	 * 
+	 * @param scale
+	 *            scale
+	 */
+	public void setFontScale(double scale) {
+		if (!Kernel.isEqual(scale, fontScale)) {
+			fontScale = scale;
+			updateDrawableFontSize();
+		}
+
+	}
+
+	private double fontScale = 1;
+
+	public double getFontScale() {
+		return fontScale;
 	}
 }

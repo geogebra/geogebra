@@ -769,6 +769,11 @@ public class RendererW extends Renderer implements RendererShadersInterface {
 
 	}
 
+	@Override
+	protected void multProjectionMatrixForExportImage() {
+		// TODO
+	}
+
 	private CoordMatrix4x4 projectionMatrix = new CoordMatrix4x4();
 	private CoordMatrix4x4 tmpMatrix1 = new CoordMatrix4x4(),
 	        tmpMatrix2 = new CoordMatrix4x4();

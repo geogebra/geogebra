@@ -166,6 +166,11 @@ public class GFontW extends geogebra.common.awt.GFont {
 	}
 
 	@Override
+	public geogebra.common.awt.GFont deriveFont(int plain2, float fontSize) {
+		return deriveFont(plain2, (int) fontSize);
+	}
+
+	@Override
 	public geogebra.common.awt.GFont deriveFont(int i) {
 		App.debug("implementation needed or OK");
 		GFontW ret = new GFontW(fontStyle);

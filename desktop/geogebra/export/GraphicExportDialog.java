@@ -18,9 +18,9 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
 import geogebra.common.util.Unicode;
 import geogebra.euclidian.EuclidianViewD;
+import geogebra.euclidianND.EuclidianViewInterfaceDesktop;
 import geogebra.export.epsgraphics.ColorMode;
 import geogebra.gui.util.FileTransferable;
-import geogebra.io.MyImageIO;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.DownloadManager;
@@ -34,7 +34,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -132,11 +131,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		initGUI();
 	}
 
-	private EuclidianViewD getEuclidianView() {
+	private EuclidianViewInterfaceDesktop getEuclidianView() {
 		if (specifiedEuclidianView != null) {
 			return specifiedEuclidianView;
 		}
-		return (EuclidianViewD) app.getActiveEuclidianView();
+		return (EuclidianViewInterfaceDesktop) app.getActiveEuclidianView();
 	}
 
 	@Override
@@ -161,12 +160,19 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		// format list
 		JPanel formatPanel = new JPanel(new FlowLayout(5));
-		String[] formats = {
-				app.getPlain("png") + " (" + AppD.FILE_EXT_PNG + ")",
-				app.getPlain("pdf") + " (" + AppD.FILE_EXT_PDF + ")",
-				app.getPlain("eps") + " (" + AppD.FILE_EXT_EPS + ")",
-				app.getPlain("svg") + " (" + AppD.FILE_EXT_SVG + ")",
-				app.getPlain("emf") + " (" + AppD.FILE_EXT_EMF + ")" };
+		String[] formats;
+		
+		if (((EuclidianView) getEuclidianView()).isEuclidianView3D()){
+			formats = new String[] {
+					app.getPlain("png") + " (" + AppD.FILE_EXT_PNG + ")"};
+		}else{
+			formats = new String[] {
+					app.getPlain("png") + " (" + AppD.FILE_EXT_PNG + ")",
+					app.getPlain("pdf") + " (" + AppD.FILE_EXT_PDF + ")",
+					app.getPlain("eps") + " (" + AppD.FILE_EXT_EPS + ")",
+					app.getPlain("svg") + " (" + AppD.FILE_EXT_SVG + ")",
+					app.getPlain("emf") + " (" + AppD.FILE_EXT_EMF + ")" };
+		}
 
 		cbFormat = new JComboBox(formats);
 		formatPanel.add(new JLabel(app.getPlain("Format") + ":"));
@@ -180,7 +186,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		p.setLayout(new BoxLayout(p, BoxLayout.Y_AXIS));
 
 		// scale
-		EuclidianView ev = getEuclidianView();
+		EuclidianView ev = (EuclidianView) getEuclidianView();
 
 		psp = new PrintScalePanel(app, ev);
 		psp.addActionListener(new ActionListener() {
@@ -486,7 +492,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 * Update the pixel size
 	 */
 	void updateSizeLabel() {
-		EuclidianViewD ev = getEuclidianView();
+		EuclidianView ev = (EuclidianView) getEuclidianView();
 		double printingScale = ev.getPrintingScale();
 		// takes dpi into account (note: eps has 72dpi)
 
@@ -578,7 +584,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 */
 	final private boolean exportEPS(final boolean exportToClipboard) {
 
-		final EuclidianViewD ev = getEuclidianView();
+		final EuclidianView ev = (EuclidianView) getEuclidianView();
 
 		File file;
 		if (exportToClipboard) {
@@ -599,7 +605,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 		try {
 
-			exportEPS(app, ev, file, exportToClipboard, pixelWidth,
+			exportEPS(app, (EuclidianViewD) ev, file, exportToClipboard, pixelWidth,
 					pixelHeight, exportScale);
 
 			if (exportToClipboard) {
@@ -636,7 +642,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			return false;
 		}
 		try {
-			exportEMF(app, getEuclidianView(), file, useEMFplus, pixelWidth,
+			exportEMF(app, (EuclidianViewD) getEuclidianView(), file, useEMFplus, pixelWidth,
 					pixelHeight, exportScale);
 
 			if (exportToClipboard) {
@@ -676,7 +682,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		}
 		try {
 
-			exportPDF(app, getEuclidianView(), file, textAsShapes, pixelWidth,
+			exportPDF(app, (EuclidianViewD) getEuclidianView(), file, textAsShapes, pixelWidth,
 					pixelHeight, exportScale);
 
 			if (exportToClipboard) {
@@ -702,7 +708,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 */
 	final private boolean exportSVG(boolean exportToClipboard) {
 
-		EuclidianViewD ev = getEuclidianView();
+		EuclidianView ev = (EuclidianView) getEuclidianView();
 
 		File file;
 		String tempDir = DownloadManager.getTempDir();
@@ -720,7 +726,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		ev.setTemporaryCoordSystemForExport(); // allow clipping with Export_1
 												// and 2 Points
 		try {
-			exportSVG(app, ev, file, textAsShapes, pixelWidth, pixelHeight,
+			exportSVG(app, (EuclidianViewD) ev, file, textAsShapes, pixelWidth, pixelHeight,
 					exportScale, transparent);
 
 			if (exportToClipboard) {
@@ -767,13 +773,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		try {
 			// draw graphics view into image
-			EuclidianViewD ev = getEuclidianView();
+			EuclidianViewInterfaceDesktop ev = getEuclidianView();
 
-			exportPNG(ev, file, transparent, getDPI(), exportScale);
+			exportPNG(ev, file, transparent, getDPI(), exportScale, exportToClipboard);
 
-			if (exportToClipboard) {
-				sendToClipboard(file);
-			}
 
 			return true;
 		} catch (Exception ex) {
@@ -806,7 +809,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		//
 	}
 
-	private static void sendToClipboard(File file) {
+	public static void sendToClipboard(File file) {
 		FileTransferable ft = new FileTransferable(file);
 		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(ft, null);
 	}
@@ -1033,16 +1036,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 *            dpi
 	 * @param exportScale
 	 *            scale units / cm
+	 * @param exportToClipboard says if exports to clipboard
+	 * 	
 	 */
-	public static void exportPNG(EuclidianViewD ev, File file,
-			boolean transparent, int dpi, double exportScale) {
-		// write image to file
-		try {
-			BufferedImage img = ev.getExportImage(exportScale, transparent);
-			MyImageIO.write(img, "png", dpi, file);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+	public static void exportPNG(EuclidianViewInterfaceDesktop ev, File file,
+			boolean transparent, int dpi, double exportScale, boolean exportToClipboard) {
+		
+		ev.exportImagePNG(exportScale, transparent, dpi, file, exportToClipboard);
 
 	}
 
@@ -1052,7 +1052,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			int pixelHeight, AppD app) {
 		if (extension.equals("png")) {
 			GraphicExportDialog.exportPNG(ev, file, transparent, dpi,
-					exportScale);
+					exportScale, false);
 
 		} else if (extension.equals("eps")) {
 			GraphicExportDialog.exportEPS(app, ev, file, textAsShapes,

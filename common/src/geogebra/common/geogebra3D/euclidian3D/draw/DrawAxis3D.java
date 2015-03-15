@@ -164,6 +164,14 @@ public class DrawAxis3D extends DrawLine3D {
 	}
 
 	@Override
+	public void setLabelWaitForReset() {
+		super.setLabelWaitForReset();
+		for (DrawLabel3D l : labels.values()) {
+			l.setWaitForReset();
+		}
+	}
+
+	@Override
 	protected void updateLabelPosition() {
 
 		// nothing to do here

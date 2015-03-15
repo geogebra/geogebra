@@ -610,7 +610,7 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	protected void vertexInt(int x, int y, int z) {
+	protected void vertexInt(double x, double y, double z) {
 		vertex(x, y, z);
 	}
 
@@ -649,7 +649,8 @@ public class ManagerShaders extends Manager {
 	}
 
 	@Override
-	public void rectangleGeometry(int x, int y, int z, int width, int height) {
+	public void rectangleGeometry(double x, double y, double z, double width,
+			double height) {
 
 		startGeometry(Manager.Type.TRIANGLE_STRIP);
 		texture(0, 0);

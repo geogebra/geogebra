@@ -3569,5 +3569,17 @@ public abstract class App implements UpdateSelection {
 	public final void setTubeId(int uniqueId) {
 		this.tubeID = uniqueId;
 	}
+	
+	public static double getMaxScaleForClipBoard(EuclidianView ev) {
+		double size = ev.getExportWidth() * ev.getExportHeight();
+
+		// Windows XP clipboard has trouble with images larger than this
+		// at double scale (with scale = 2d)
+		if (size > 500000) {
+			return 2.0 * Math.sqrt(500000 / size);
+		}
+
+		return 2d;
+	}
 
 }

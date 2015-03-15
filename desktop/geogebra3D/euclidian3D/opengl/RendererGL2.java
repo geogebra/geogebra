@@ -256,6 +256,16 @@ public abstract class RendererGL2 extends RendererD {
 
 		jogl.getGL2().glMatrixMode(GLlocal.GL_MODELVIEW);
 	}
+	
+	@Override
+	protected void multProjectionMatrixForExportImage() {
+		jogl.getGL2().glMultMatrixf(new float[] {
+				fboScale, 0f, 0f, 0f,  
+				0f, fboScale, 0f, 0f,  
+				0f, 0f, fboScale, 0f,  
+				0f, 0f, 0f, 1f
+		}, 0); 
+	}
 
 	@Override
 	protected void setStencilLines() {
