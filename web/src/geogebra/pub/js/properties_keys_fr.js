@@ -2120,7 +2120,7 @@ __GGB__keysVar.fr.plain = {
     "AGray": "%0 Gris",
     "AIntersectsWithB": "%0 et %1 sont s\xe9cant(e)s",
     "AMirroredAtB": "Sym\xe9trique de %0 par rapport \xe0 %1",
-    "APixelsOnScreen": "%0 pixels",
+    "APixelsOnScreen": "%0 pixels \xe0 l'\xe9cran",
     "ARotatedByAngleB": "Image de %0 dans la rotation d'angle %1",
     "ARotatedByAngleBAboutC": "%0 tourn\xe9 d'un angle %1 autour de %2",
     "ARotatedByAngleBAboutCThroughD": "%0 tourn\xe9 d'un angle %1 autour de l'axe parall\xe8le \xe0 %2 et passant par %3",

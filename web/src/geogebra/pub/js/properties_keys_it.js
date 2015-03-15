@@ -2723,7 +2723,7 @@ __GGB__keysVar.it.plain = {
     "SignInToGGT": "Accedi a GeoGebraTube",
     "SignedInAsA": "Accesso come %0",
     "SimpleFormulas": "Formule semplici",
-    "Size": "Dimensione",
+    "Size": "Dimensioni",
     "SizeInPixels": "Dimensioni in pixel",
     "Slider": "Slider",
     "SlopeOfA": "Pendenza di %0",
