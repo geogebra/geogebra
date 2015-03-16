@@ -53,7 +53,7 @@ public class KeyBoardButtonFunctional extends KeyBoardButton {
 	 */
 	public KeyBoardButtonFunctional(String caption, ClickHandler handler,
 	        Action action) {
-		super(caption, handler);
+		super(caption, caption, handler);
 		this.action = action;
 		addStyleName("colored");
 	}

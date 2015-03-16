@@ -2,7 +2,6 @@ package geogebra.web.util.keyboard;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -10,36 +9,23 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 public class KeyBoardButton extends SimplePanel {
 
-	private String feedBack;
-	private Label label;
+	private String caption;
+	private String feedback;
 
 	/**
-	 * uses the same text for caption and feedback.
-	 * 
 	 * @param caption
 	 *            text of the button
-	 * @param handler
-	 *            {@link ClickHandler}
-	 */
-	public KeyBoardButton(String caption, ClickHandler handler) {
-		this(caption, caption, handler);
-	}
-
-	/**
-	 * different caption and feedback
-	 * 
-	 * @param caption
-	 *            text of the button
-	 * @param feedBack
+	 * @param feedback
 	 *            String to send if click occurs
 	 * @param handler
 	 *            {@link ClickHandler}
 	 */
-	public KeyBoardButton(String caption, String feedBack, ClickHandler handler) {
+	public KeyBoardButton(String caption, String feedback, ClickHandler handler) {
 		this(handler);
-		this.label = new Label(caption);
-		this.feedBack = feedBack;
-		this.add(label);
+		this.caption = caption;
+		this.feedback = feedback;
+		this.getElement().setInnerHTML(
+		        "<div class=\"gwt-Label\">" + caption + "</div>");
 	}
 
 	/**
@@ -54,30 +40,26 @@ public class KeyBoardButton extends SimplePanel {
 	}
 
 	/**
-	 * @return the String to be sent if a click occurs
-	 */
-	public String getText() {
-		return feedBack;
-	}
-
-	/**
 	 * @return text of the button
 	 */
 	public String getCaption() {
-		return label.getText();
+		return this.caption;
 	}
 
 	/**
 	 * @param caption
 	 *            text of the button
-	 * @param setAsFeedback
-	 *            if {@code true} the text of the feedBack is set to the given
-	 *            caption
 	 */
-	public void setCaption(String caption, boolean setAsFeedback) {
-		label.setText(caption);
-		if (setAsFeedback) {
-			feedBack = caption;
-		}
+	public void setCaption(String caption) {
+		this.caption = caption;
+		this.getElement().setInnerHTML(
+		        "<div class=\"gwt-Label\">" + caption + "</div>");
+	}
+
+	/**
+	 * @return the String to be sent if a click occurs
+	 */
+	public String getFeedback() {
+		return this.feedback;
 	}
 }

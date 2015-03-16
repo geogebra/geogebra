@@ -321,14 +321,11 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		int index = 0;
 		addButton("x", index, functions);
 		addButton("y", index, functions);
-		addButton(KeyboardConstants.X_SQUARE, KeyboardConstants.SQUARE, index,
-		        functions);
+		addButton("x<sup>2</sup>", KeyboardConstants.SQUARE, index, functions)
+		        .addStyleName("supScript");
 		addButton(KeyboardConstants.SQUARE_ROOT, index, functions);
-		KeyBoardButton newButton = new KeyBoardButton("",
-		        KeyboardConstants.X_POWER_Y, this);
-		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
-		        "x^{y}", true);
-		functions.addToRow(index, newButton);
+		addButton("x<sup>y</sup>", KeyboardConstants.X_POWER_Y, index,
+		        functions).addStyleName("supScript");
 
 		// fill next row
 		index++;
@@ -343,10 +340,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("sin", index, functions);
 		addButton("cos", index, functions);
 		addButton("tan", index, functions);
-		newButton = new KeyBoardButton("", KeyboardConstants.EULER + "^", this);
-		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
-		        "e^{x}", true);
-		functions.addToRow(index, newButton);
+		addButton("e<sup>x</sup>", KeyboardConstants.EULER, index, functions)
+		        .addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
 
 		// fill next row
@@ -458,10 +453,8 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addFunctionalButton(index, letters, SPECIAL_CHARS, Action.SWITCH_KEYBOARD).addStyleName("switchToSpecialChar");
 		switchABCGreek = addFunctionalButton(index, letters, GREEK,
 		        Action.SWITCH_KEYBOARD);
-		KeyBoardButton newButton = new KeyBoardButton(KeyboardConstants.SPACE,
-		        this);
-		newButton.addStyleName("space");
-		letters.addToRow(index, newButton);
+		addButton(KeyboardConstants.SPACE, index, letters)
+		        .addStyleName("space");
 		addFunctionalButton(ARROW_LEFT, Action.ARROW_LEFT, index, letters);
 		addFunctionalButton(ARROW_RIGHT, Action.ARROW_RIGHT, index, letters);
 		addFunctionalButton(ENTER, Action.ENTER, index, letters);
@@ -540,10 +533,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("_", index, chars);
 		addButton("!", index, chars);
 		addButton("%", index, chars);
-		// addButton("$", index, chars);
-
-		currencyButton = new KeyBoardButton("$", this);
-		chars.addToRow(index, currencyButton);
+		currencyButton = addButton("$", index, chars);
 
 		contentSpecialChars.add(functions);
 		contentSpecialChars.add(chars);
@@ -561,15 +551,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 *            of row
 	 * @param panel
 	 *            {@link KeyPanel}
+	 * @return {@link KeyBoardButton}
 	 */
-	private void addButton(String caption, int index, KeyPanel panel) {
-		panel.addToRow(index, new KeyBoardButton(caption, this));
+	private KeyBoardButton addButton(String caption, int index, KeyPanel panel) {
+		return addButton(caption, caption, index, panel);
 	}
 
 	/**
 	 * adds a button to the row with index {@code row} within the given
-	 * keyPanel. Use this only for {@link KeyBoardButton} with different caption
-	 * and feedback.
+	 * keyPanel.
 	 * 
 	 * @param caption
 	 *            of button
@@ -579,10 +569,14 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 *            of row
 	 * @param panel
 	 *            {@link KeyPanel}
+	 * @return {@link KeyBoardButton}
 	 */
-	private void addButton(String caption, String feedback, int index,
+	private KeyBoardButton addButton(String caption, String feedback,
+	        int index,
 	        KeyPanel panel) {
-		panel.addToRow(index, new KeyBoardButton(caption, feedback, this));
+		KeyBoardButton button = new KeyBoardButton(caption, feedback, this);
+		panel.addToRow(index, button);
+		return button;
 	}
 
 	/**
@@ -672,7 +666,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 				} else if (caption.equals(TEXT)) {
 					if (greekActive) {
 						greekActive = false;
-						switchABCGreek.setCaption(GREEK, true);
+						switchABCGreek.setCaption(GREEK);
 						loadLang(this.keyboardLocale);
 					}
 					if (shiftIsDown) {
@@ -685,7 +679,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			}
 		} else if (source != null && source instanceof KeyBoardButton) {
 
-			String text = ((KeyBoardButton) source).getText();
+			String text = ((KeyBoardButton) source).getFeedback();
 			if (isAccent(text)) {
 				processing.onAccent(text);
 			} else {
@@ -774,7 +768,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private void setToGreekLetters() {
 		setKeyboardMode(KeyboardMode.TEXT);
 		greekActive = true;
-		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName(), true);
+		switchABCGreek.setCaption(KeyboardMode.TEXT.getInternalName());
 		loadLang(Language.Greek.localeGWT);
 		if (shiftIsDown) {
 			processShift();
@@ -865,7 +859,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 					button.setVisible(true);
 					button.getElement().getParentElement()
 					        .removeClassName("hidden");
-					button.setCaption(newCaption, true);
+					button.setCaption(newCaption);
 				}
 			}
 		}
@@ -942,7 +936,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 		loadLang(this.keyboardLocale);
 
-		currencyButton.setCaption(Language.getCurrency(keyboardLocale), true);
+		currencyButton.setCaption(Language.getCurrency(keyboardLocale));
 	}
 
 	/**
