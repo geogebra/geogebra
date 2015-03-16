@@ -879,6 +879,24 @@ public class DrawEquationWeb extends DrawEquation {
 			// mathquillggb.js, textarea.focus and blur handlers - "NoHorizontalScroll"
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
+
+			$wnd
+					.$ggbQuery(elsecondInside)
+					.find('textarea')
+					.focus(
+							function() {
+								//console.log("scrollCursorIntoView timeout set!!");
+								// we should also auto-scroll the cursor in the formula!
+								setTimeout(
+										function() {
+											//console.log("timeout scrollCursorIntoView called");
+											@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+											//scrollCursorIntoView(rbti, parentElement);
+											//}, 500);
+											//}, 200);
+										}, 50);
+								//}, 0);
+							});
 		}
 	}-*/;
 

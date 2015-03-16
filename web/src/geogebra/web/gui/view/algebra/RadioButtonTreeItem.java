@@ -1582,6 +1582,12 @@ public class RadioButtonTreeItem extends FlowPanel implements
 	public void setFocus(boolean b) {
 		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
+
+		// as the focus operation sometimes also scrolls
+		// if (b)
+		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
+		// seMayLatex);
+		// put to focus handler
 	}
 
 	public void resetBlockBlur() {

@@ -518,6 +518,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		geogebra.html5.main.DrawEquationWeb.focusEquationMathQuillGGB(
 		        seMayLatex, b);
 
+		// if (b)
+		// geogebra.html5.main.DrawEquationWeb.scrollCursorIntoView(this,
+		// seMayLatex);
+		// put to focus handler
+
 		// just allow onFocus/onBlur handlers for new formula creation mode now,
 		// a.k.a. this class, but later we may want to add this feature to
 		// RadioButtonTreeItem, or editing mode (for existing formulas)
