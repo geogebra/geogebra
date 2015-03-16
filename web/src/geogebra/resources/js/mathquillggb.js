@@ -1561,8 +1561,13 @@ function createRoot(jQ, root, textbox, editable) {
   root.renderLatex(contents.text());
 
   //textarea stuff
-  var textareaSpan = root.textarea = $('<span class="textarea"><textarea></textarea></span>'),
-    textarea = textareaSpan.children();
+  var textareaHtmlString = '<textarea></textarea>'
+  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i
+				.test(window.navigator.userAgent)) {
+	textareaHtmlString = '<textarea disabled="disabled"></textarea>'  
+  }
+  var textareaSpan = root.textarea = $('<span class="textarea">' + textareaHtmlString + '</span>'),
+  textarea = textareaSpan.children();
 
   /******
    * TODO [Han]: Document this
@@ -5310,7 +5315,7 @@ $.fn.mathquillggb = function(cmd, latex) {
     return this.html().replace(/ ?hasCursor|hasCursor /, '')
       .replace(/ class=(""|(?= |>))/g, '')
       .replace(/<span class="?cursor( blink)?"?><\/span>/i, '')
-      .replace(/<span class="?textarea"?><textarea><\/textarea><\/span>/i, '');
+      .replace(/<span class="?textarea"?( disabled="disabled")?><textarea><\/textarea><\/span>/i, '');
   case 'write':
     if (arguments.length > 1)
       return this.each(function() {
