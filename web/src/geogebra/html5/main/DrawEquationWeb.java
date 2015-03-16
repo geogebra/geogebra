@@ -880,22 +880,42 @@ public class DrawEquationWeb extends DrawEquation {
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
 
+			// Will this work?
+			var memoHack = function() {
+				// focusin should remember scroll position, and
+				// the focus handler should use this information
+				// to scroll back!
+				// .focusin() is not yet supported in Firefox!!!
+				elsecondInside.memorizedScrollLeft = $wnd.$ggbQuery(
+						elsecondInside).parents('.NewRadioButtonTreeItem')
+						.scrollLeft();
+			}
+			$wnd.$ggbQuery(elsecondInside).find('textarea')[0].focusmemo = $wnd
+					.$ggbQuery(elsecondInside).find('textarea')[0].focus;
+			$wnd.$ggbQuery(elsecondInside).find('textarea')[0].focus = function() {
+				memoHack();
+				this.focusmemo();
+			}
+
 			$wnd
 					.$ggbQuery(elsecondInside)
 					.find('textarea')
 					.focus(
 							function() {
-								//console.log("scrollCursorIntoView timeout set!!");
-								// we should also auto-scroll the cursor in the formula!
 								setTimeout(
 										function() {
-											//console.log("timeout scrollCursorIntoView called");
-											@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
-											//scrollCursorIntoView(rbti, parentElement);
-											//}, 500);
-											//}, 200);
+											if (elsecondInside.memorizedScrollLeft !== undefined) {
+												$wnd
+														.$ggbQuery(
+																elsecondInside)
+														.parents(
+																'.NewRadioButtonTreeItem')
+														.scrollLeft(
+																elsecondInside.memorizedScrollLeft);
+											}
+											// old school: scrolling cursor into view
+											//	@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 										}, 50);
-								//}, 0);
 							});
 		}
 	}-*/;
