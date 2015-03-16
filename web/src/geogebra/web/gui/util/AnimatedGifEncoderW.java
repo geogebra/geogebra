@@ -33,6 +33,8 @@ public class AnimatedGifEncoderW {
 
 	protected boolean jsLoaded;
 	private List<String> gifs;
+
+	protected boolean finished;
 	
 	/**
 	 * @param frameDelay delay between the frames in milliseconds
@@ -42,7 +44,8 @@ public class AnimatedGifEncoderW {
 		jsLoaded = false;
 		this.frameDelay = frameDelay;
 		gifs = new ArrayList<String>();
-    }
+		initialize();
+	}
 	
 	/**
 	 * @param image adds a new frame
@@ -56,6 +59,7 @@ public class AnimatedGifEncoderW {
 	 * Finishes the internal gif object and starts rendering.
 	 */
 	public void finish() {
+		finished = true;
 		if (!jsLoaded) {
 			return;
 		}
@@ -80,11 +84,17 @@ public class AnimatedGifEncoderW {
 	
 
 	public void initialize() {
+		finished = false;
 		GWT.runAsync(new RunAsyncCallback() {
 			public void onSuccess() {
 				App.debug("gifsot.image.min.js loading success");
 				JavaScriptInjector.inject(GifShotResources.INSTANCE.gifShotJs());
 				AnimatedGifEncoderW.this.jsLoaded = true;
+				if (finished) {
+					JavaScriptObject urls = createJsArrayString(gifs);
+					finish(urls);
+
+				}
 			}
 
 			public void onFailure(Throwable reason) {
