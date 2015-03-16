@@ -325,13 +325,17 @@ public final class RegressionMath {
 		if (error) {
 			return false;
 		}
+		if (size == 0) {
+			return false;
+		}
+		double ySign = ylist[0] < 0 ? -1 : 1;
 		// Transform y->ln(y):
 		for (int i = 0; i < size; i++) {
-			y = ylist[i];
+			y = ylist[i] * ySign;
 			if (y < 0.0d) { // log(minus)!
 				return false;
 			}
-			ylist[i] = Math.log(ylist[i]);
+			ylist[i] = Math.log(y);
 		}// for all y
 		doSums(LINEAR); // calculate neccessary sigmas
 		if (error) {
@@ -345,7 +349,7 @@ public final class RegressionMath {
 		p1 = det22(sigmay, sigmax, sigmaxy, sigmax2) / n;
 		p2 = det22(size, sigmay, sigmax, sigmaxy) / n;
 		// transform back:
-		p1 = Math.exp(p1);
+		p1 = Math.exp(p1) * ySign;
 		// r=corrCoeff();
 		return true;
 	}// doExp(GeoList)
@@ -392,15 +396,19 @@ public final class RegressionMath {
 		if (error) {
 			return false;
 		}
+		if (size == 0) {
+			return false;
+		}
+		double ySign = ylist[0] < 0 ? -1 : 1;
 		// Transform y->ln(y) and x->ln(x):
 		for (int i = 0; i < size; i++) {
 			x = xlist[i];
-			y = ylist[i];
-			if ((y < 0.0d) || (x < 0.0d)) { // log(minus)!
+			y = ylist[i] * ySign;
+			if ((x < 0.0d) || (y < 0.0d)) { // log(minus)!
 				return false;
 			}
-			xlist[i] = Math.log(xlist[i]);
-			ylist[i] = Math.log(ylist[i]);
+			xlist[i] = Math.log(x);
+			ylist[i] = Math.log(y);
 		}// for all x
 		doSums(LINEAR); // calculate neccessary sigmas
 		if (error) {
@@ -414,7 +422,7 @@ public final class RegressionMath {
 		p1 = det22(sigmay, sigmax, sigmaxy, sigmax2) / n;
 		p2 = det22(size, sigmay, sigmax, sigmaxy) / n;
 		// Transform back:
-		p1 = Math.exp(p1);
+		p1 = Math.exp(p1) * ySign;
 		// r=corrCoeff();
 		return true;
 	}// doPow(GeoList)
