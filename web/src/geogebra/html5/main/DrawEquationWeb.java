@@ -691,18 +691,6 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	/**
-	 * This is an autoScroll to the edited formula in theory, so it could be
-	 * just a _scrollToBottom_ in practice, but there is a case when the
-	 * construction is long and a formula on its top is edited...
-	 * 
-	 * It's lucky that GWT's Element.scrollIntoView exists, so we can call that
-	 * method...
-	 */
-	public static void autoScroll(RadioButtonTreeItem rbti) {
-		rbti.scrollIntoView();
-	}
-
-	/**
 	 * Edits a MathQuillGGB equation which was created by
 	 * drawEquationMathQuillGGB
 	 * 
@@ -764,16 +752,8 @@ public class DrawEquationWeb extends DrawEquation {
 								// it would be counterproductive to call autoScroll and history popup
 								// after the editing/new formula creation ends! so put their code here
 
-								// first we should do some auto-scroll...
-								// maybe it's only important for new formula creation mode,
-								// but I think it still improves things in the other case too.
-								// This should also be called in newFormulaCreatedMathQuillGGB
-								// and endEditingEquationMathQuillGGB! (i.e. ENTER & ESC keys)
-								@geogebra.html5.main.DrawEquationWeb::autoScroll(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;)(rbti);
-
 								// we should also auto-scroll the cursor in the formula!
-								// TODO: will this make the previous autoScroll unnecessary?
-								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lcom/google/gwt/dom/client/Element;)(parentElement);
+								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
 
 								if (newCreationMode) {
 									var querr = elsecondInside;
@@ -1317,10 +1297,25 @@ public class DrawEquationWeb extends DrawEquation {
 		return null;
 	}-*/;
 
-	public static void scrollCursorIntoView(Element parentElement) {
+	/**
+	 * This is an autoScroll to the edited formula in theory, so it could be
+	 * just a _scrollToBottom_ in practice, but there is a case when the
+	 * construction is long and a formula on its top is edited...
+	 * 
+	 * It's lucky that GWT's Element.scrollIntoView exists, so we can call that
+	 * method...
+	 * 
+	 * Moreover, we also need to scroll to the cursor, which can be done in one
+	 * operation in cases we need that...
+	 */
+	public static void scrollCursorIntoView(RadioButtonTreeItem rbti,
+	        Element parentElement) {
 		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
 		if (jo != null) {
 			Element.as(jo).scrollIntoView();
+		} else {
+			// otherwise do the old functionality
+			rbti.scrollIntoView();
 		}
 	}
 
