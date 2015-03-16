@@ -2172,6 +2172,7 @@ __GGB__keysVar.de_AT.plain = {
     "AngleBisectorOfABC": "Winkelsymmetrale von %0, %1, %2",
     "AngleOfA": "Winkel von %0",
     "Angles": "Winkel",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Export als animiertes GIF",
     "Animating": "Animation ein",
     "Animation": "Animation",

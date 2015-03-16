@@ -2172,6 +2172,7 @@ __GGB__keysVar.sv.plain = {
     "AngleBisectorOfABC": "Bisektrisen till %0, %1, %2",
     "AngleOfA": "Vinkel till %0",
     "Angles": "Vinklar",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animerad GIF Export",
     "Animating": "Animering p\xe5",
     "Animation": "Animation",

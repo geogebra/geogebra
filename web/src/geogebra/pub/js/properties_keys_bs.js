@@ -2172,6 +2172,7 @@ __GGB__keysVar.bs.plain = {
     "AngleBisectorOfABC": "Simetrala ugla %0, %1, %2",
     "AngleOfA": "Ugao %0",
     "Angles": "Uglovi",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Prenos animirane GIF datoteke",
     "Animating": "Animiraj",
     "Animation": "Animacija",

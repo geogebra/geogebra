@@ -2172,6 +2172,7 @@ __GGB__keysVar.ro.plain = {
     "AngleBisectorOfABC": "Unghi bisectoare al %0, %1, %2",
     "AngleOfA": "Unghi al %0",
     "Angles": "Unghiuri",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Export GIF animat",
     "Animating": "Anima\u0163ie pornit\u0103",
     "Animation": "Anima\u0163ie",

@@ -2172,6 +2172,7 @@ __GGB__keysVar.da.plain = {
     "AngleBisectorOfABC": "Vinkelhalveringslinjen i %0%1%2",
     "AngleOfA": "Vinkel p\xe5 %0",
     "Angles": "Vinkler",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Eksporter som animeret GIF",
     "Animating": "T\xe6nd animation",
     "Animation": "Animation",

@@ -2172,6 +2172,7 @@ __GGB__keysVar.af.plain = {
     "AngleBisectorOfABC": "Hoek Halveerder of %0, %1, %2",
     "AngleOfA": "Hoek van %0",
     "Angles": "Hoeke",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Geanimeerde GIF Uitvoer",
     "Animating": "Animasie Op",
     "Animation": "Animasie",

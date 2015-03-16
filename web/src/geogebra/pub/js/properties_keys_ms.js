@@ -2172,6 +2172,7 @@ __GGB__keysVar.ms.plain = {
     "AngleBisectorOfABC": "Pembahagi dua sama sudut bagi %0, %1, %2",
     "AngleOfA": "Sudut bagi %0",
     "Angles": "Sudut-sudut",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Eksport GIF Beranimasi",
     "Animating": "Animasi dipasang",
     "Animation": "Animasi",

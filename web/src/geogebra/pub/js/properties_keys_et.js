@@ -2172,6 +2172,7 @@ __GGB__keysVar.et.plain = {
     "AngleBisectorOfABC": "%0, %1 ja %2 nurgapoolitaja",
     "AngleOfA": "%0 nurk",
     "Angles": "Nurgad",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animeeritud GIFi eksportimine",
     "Animating": "Animeerimine sees",
     "Animation": "Animeerimine",

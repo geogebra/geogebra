@@ -2172,6 +2172,7 @@ __GGB__keysVar.hu_gm.plain = {
     "AngleBisectorOfABC": "%1 \xe9s %2 %0 sz\xf6gfelez\u0151i",
     "AngleOfA": "%0 sz\xf6ge",
     "Angles": "Sz\xf6gek",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Anim\xe1lt GIF export\xe1l\xe1sa",
     "Animating": "Anim\xe1l\xe1s be",
     "Animation": "Anim\xe1l\xe1s",

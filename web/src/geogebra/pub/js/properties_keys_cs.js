@@ -2172,6 +2172,7 @@ __GGB__keysVar.cs.plain = {
     "AngleBisectorOfABC": "Osa \xfahlu %0, %1, %2",
     "AngleOfA": "\xdahel %0",
     "Angles": "\xdahly",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Export animace GIF",
     "Animating": "Animace zapnuta",
     "Animation": "Animace",

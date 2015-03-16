@@ -2172,6 +2172,7 @@ __GGB__keysVar.xh.plain = {
     "AngleBisectorOfABC": "UmahluliPhakathi wedolo lika %0, %1, %2",
     "AngleOfA": "Idolo lika %0",
     "Angles": "Amadolo",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animated GIF Export",
     "Animating": "Intshukumo Iqalile",
     "Animation": "Intshukumo",

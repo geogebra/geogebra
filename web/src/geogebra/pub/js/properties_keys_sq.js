@@ -2172,6 +2172,7 @@ __GGB__keysVar.sq.plain = {
     "AngleBisectorOfABC": "Pergjysmore Kendore e %0,%1,%2",
     "AngleOfA": "Kend i %0",
     "Angles": "Kende",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "GIF Eksport Dinamik",
     "Animating": "Gjendja ne Levizje Ndezur",
     "Animation": "Levizje",

@@ -2172,6 +2172,7 @@ __GGB__keysVar.es_UY.plain = {
     "AngleBisectorOfABC": "Bisectriz de %0, %1, %2",
     "AngleOfA": "\xc1ngulo de %0",
     "Angles": "\xc1ngulos",
+    "AnimatedGIF": "GIF Animado",
     "AnimatedGIFExport": "Exporta GIF animado",
     "Animating": "Animaci\xf3n autom\xe1tica",
     "Animation": "Animaci\xf3n",

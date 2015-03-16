@@ -2172,6 +2172,7 @@ __GGB__keysVar.lt.plain = {
     "AngleBisectorOfABC": "Kamp\u0173 pusiaukampin\u0117 %0, %1, %2",
     "AngleOfA": "%0 kampas",
     "Angles": "Kampai",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animuoto GIF eksportavimas",
     "Animating": "Animacija \u012fjungta",
     "Animation": "Animacija",

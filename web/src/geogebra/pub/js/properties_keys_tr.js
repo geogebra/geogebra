@@ -2172,6 +2172,7 @@ __GGB__keysVar.tr.plain = {
     "AngleBisectorOfABC": "%0, %1 ve %2 aras\u0131ndaki A\xe7\u0131ortay",
     "AngleOfA": "%0 A\xe7\u0131s\u0131",
     "Angles": "A\xe7\u0131lar",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Hareketli GIF Aktar",
     "Animating": "Canland\u0131r\u0131l\u0131yor",
     "Animation": "Canland\u0131rma",

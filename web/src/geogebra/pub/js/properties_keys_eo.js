@@ -2172,6 +2172,7 @@ __GGB__keysVar.eo.plain = {
     "AngleBisectorOfABC": "Dusekcanto de %0%1%2",
     "AngleOfA": "Angulo %0",
     "Angles": "Anguloj",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animated GIF Export",
     "Animating": "Animation On",
     "Animation": "Animacio",

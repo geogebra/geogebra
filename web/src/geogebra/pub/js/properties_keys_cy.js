@@ -2172,6 +2172,7 @@ __GGB__keysVar.cy.plain = {
     "AngleBisectorOfABC": "Hanerydd ongl o %0, %1, %2",
     "AngleOfA": "Ongl o %0",
     "Angles": "Onglau",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Allbwn GIF Animeiddig",
     "Animating": "Animeiddiad ymlaen",
     "Animation": "Animeiddiad",

@@ -2172,6 +2172,7 @@ __GGB__keysVar.nl_BE.plain = {
     "AngleBisectorOfABC": "Bissectrice van %0, %1, %2",
     "AngleOfA": "Hoek van %0",
     "Angles": "Hoeken",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animated GIF Export",
     "Animating": "Animatie aan",
     "Animation": "Animatie",

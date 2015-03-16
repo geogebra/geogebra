@@ -2172,6 +2172,7 @@ __GGB__keysVar.fi.plain = {
     "AngleBisectorOfABC": "Kulman %0%1%2 puolittaja",
     "AngleOfA": "%0:n kulma",
     "Angles": "Kulmat",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Vie: GIF-animaatio",
     "Animating": "Animaatio valittuna",
     "Animation": "Animaatio",

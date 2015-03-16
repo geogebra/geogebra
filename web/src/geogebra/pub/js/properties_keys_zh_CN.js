@@ -2172,6 +2172,7 @@ __GGB__keysVar.zh_CN.plain = {
     "AngleBisectorOfABC": "\u2220%0%1%2 \u7684\u89d2\u5e73\u5206\u7ebf",
     "AngleOfA": "%0 \u7684\u89d2\u5ea6",
     "Angles": "\u89d2\u5ea6",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "\u5bfc\u51fa\u52a8\u6001 GIF",
     "Animating": "\u542f\u52a8\u52a8\u753b",
     "Animation": "\u52a8\u753b",

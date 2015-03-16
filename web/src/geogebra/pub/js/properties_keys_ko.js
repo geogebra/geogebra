@@ -2172,6 +2172,7 @@ __GGB__keysVar.ko.plain = {
     "AngleBisectorOfABC": "%0, %1, %2 \uc758 \uac01\uc758 \uc774\ub4f1\ubd84\uc120",
     "AngleOfA": "%0 \uc758 \uac01",
     "Angles": "\uac01",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "\uc6c0\uc9c1\uc774\ub294 GIF\ub85c \ub0b4\ubcf4\ub0b4\uae30",
     "Animating": "\uc560\ub2c8\uba54\uc774\uc158 \uc2dc\uc791",
     "Animation": "\uc560\ub2c8\uba54\uc774\uc158",

@@ -2172,6 +2172,7 @@ __GGB__keysVar.ca_XV.plain = {
     "AngleBisectorOfABC": "Bisectriu determinada per %0, %1 i %2",
     "AngleOfA": "Angle de %0",
     "Angles": "Angles",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Exporta com a GIF animat",
     "Animating": "Animaci\xf3 activada",
     "Animation": "Animaci\xf3",

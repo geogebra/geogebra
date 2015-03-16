@@ -2172,6 +2172,7 @@ __GGB__keysVar.lv.plain = {
     "AngleBisectorOfABC": "Le\u0146\u0137a bisektrise no %0, %1, %2",
     "AngleOfA": "Le\u0146\u0137is no %0",
     "Angles": "Le\u0146\u0137i",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Anim\u0113ts GIF Eksports",
     "Animating": "Anim\u0101ciju iesl\u0113gt",
     "Animation": "Anim\u0101cija",

@@ -2172,6 +2172,7 @@ __GGB__keysVar.sk.plain = {
     "AngleBisectorOfABC": "Os uhla %0, %1, %2",
     "AngleOfA": "Uhol toho: %0",
     "Angles": "Uhly",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Animovan\xfd GIF export",
     "Animating": "Anim\xe1cia na",
     "Animation": "Anim\xe1cia",

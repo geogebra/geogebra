@@ -2172,6 +2172,7 @@ __GGB__keysVar.ar_TN.plain = {
     "AngleBisectorOfABC": "\u0645\u0646\u0635\u0651\u0641 \u0627\u0644\u0632\u0627\u0648\u064a\u0629 %0,%1,%2",
     "AngleOfA": "\u0627\u0644\u0632\u0627\u0648\u064a\u0629 %0",
     "Angles": "\u0632\u0648\u0627\u064a\u0627",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "GIF  \u062a\u0635\u062f\u064a\u0631 \u0646\u062d\u0648",
     "Animating": "\u062a\u0634\u063a\u064a\u0644 \u0627\u0644\u062a\u0646\u0634\u064a\u0637",
     "Animation": "\u0627\u0644\u062a\u0646\u0634\u064a\u0637",

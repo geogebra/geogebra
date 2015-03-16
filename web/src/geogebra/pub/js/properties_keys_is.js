@@ -2172,6 +2172,7 @@ __GGB__keysVar.is.plain = {
     "AngleBisectorOfABC": "Helmingal\xedna horns %0, %1, %2",
     "AngleOfA": "Horn %0",
     "Angles": "Horn",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "\xdatflutt GIF hreyfimynd",
     "Animating": "Hreyfing \xe1",
     "Animation": "Hreyfing",

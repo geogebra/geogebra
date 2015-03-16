@@ -2172,6 +2172,7 @@ __GGB__keysVar.ja.plain = {
     "AngleBisectorOfABC": "%0, %1, %2 \u306e\u89d2\u306e\u4e8c\u7b49\u5206\u7dda",
     "AngleOfA": "%0 \u306e\u89d2\u5ea6",
     "Angles": "\u89d2\u5ea6",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "GIF\u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3\u3092\u30a8\u30af\u30b9\u30dd\u30fc\u30c8",
     "Animating": "\u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3 \u30aa\u30f3",
     "Animation": "\u30a2\u30cb\u30e1\u30fc\u30b7\u30e7\u30f3",

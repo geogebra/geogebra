@@ -2172,6 +2172,7 @@ __GGB__keysVar.eu.plain = {
     "AngleBisectorOfABC": "%0, %1 eta %2-(r)en erdikaria",
     "AngleOfA": "%0-(r)en angelua",
     "Angles": "Angeluak",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Esportatu GIF Animatua",
     "Animating": "Animazioa Gaitua",
     "Animation": "Animazioa",

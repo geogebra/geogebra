@@ -2172,6 +2172,7 @@ __GGB__keysVar.no_NN.plain = {
     "AngleBisectorOfABC": "Halveringsvinkel for %0, %1, %2",
     "AngleOfA": "Vinkel til %0",
     "Angles": "Vinklar",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Eksport av animert GIF",
     "Animating": "Animasjon p\xe5",
     "Animation": "Animasjon",

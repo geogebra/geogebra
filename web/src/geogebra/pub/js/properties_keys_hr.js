@@ -2172,6 +2172,7 @@ __GGB__keysVar.hr.plain = {
     "AngleBisectorOfABC": "Simetrala kuta %0, %1, %2",
     "AngleOfA": "Kut od %0",
     "Angles": "Kutovi",
+    "AnimatedGIF": "Animirani GIF",
     "AnimatedGIFExport": "Izvoz animirane GIF datoteke",
     "Animating": "Animiraj",
     "Animation": "Animacija",

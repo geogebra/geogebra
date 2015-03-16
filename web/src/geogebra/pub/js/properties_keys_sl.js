@@ -2172,6 +2172,7 @@ __GGB__keysVar.sl.plain = {
     "AngleBisectorOfABC": "Simetrala kota %0, %1, %2",
     "AngleOfA": "Kot %0",
     "Angles": "Koti",
+    "AnimatedGIF": "Animated GIF",
     "AnimatedGIFExport": "Izvoz animirane GIF datoteke",
     "Animating": "Animiranje vklju\u010deno",
     "Animation": "Animacija",
