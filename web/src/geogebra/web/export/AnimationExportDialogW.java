@@ -6,7 +6,6 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.main.AppW;
 import geogebra.web.gui.dialog.DialogBoxW;
 import geogebra.web.gui.util.AnimatedGifEncoderW;
@@ -118,12 +117,12 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 			num.setValue(val);
 			num.updateRepaint();
 
-			geogebra.html5.gawt.GBufferedImageW img = ((EuclidianViewW) app
-			        .getActiveEuclidianView()).getExportImage(1);
-			if (img == null) {
+			String url = ((EuclidianViewW) app.getActiveEuclidianView())
+			        .getExportImageDataUrl(1, false);
+			if (url == null) {
 				Log.error("image null");
 			} else {
-				gifEncoder.addFrame(img);
+				gifEncoder.addFrame(url);
 			}
 			val += step;
 
@@ -273,8 +272,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 
 		FrameCollectorW collector = new FrameCollectorW() {
 
-			public void addFrame(GBufferedImageW img) {
-				gifEncoder.addFrame(img.getImageElement());
+			public void addFrame(String url) {
+				gifEncoder.addFrame(url);
 			}
 
 			public void finish() {

@@ -1,12 +1,10 @@
 package geogebra.web.gui.menubar;
 
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gawt.GBufferedImageW;
 import geogebra.html5.main.AppW;
 import geogebra.web.export.AnimationExportDialogW;
 import geogebra.web.gui.images.AppResources;
 
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -44,11 +42,9 @@ public class ExportMenuW extends MenuBar {
 		        true), true, new Command() {
 
 			public void execute() {
-				GBufferedImageW img = ((EuclidianViewW) app
-				        .getActiveEuclidianView()).getExportImage(1.0);
-				JavaScriptObject obj = img.getImageElement();
-				download(img.getImageElement(), img.getImageElement().getSrc(),
-				        "export-png");
+				String url = ((EuclidianViewW) app.getActiveEuclidianView())
+				        .getExportImageDataUrl(1.0, false);
+				download(url, "export-png");
 			}
 		});
 
@@ -67,12 +63,15 @@ public class ExportMenuW extends MenuBar {
 		});
 	}
 
-	public static native void download(JavaScriptObject blob, String url,
+	public static native void download(String url,
 	        String title) /*-{
 
 		if ($wnd.navigator.msSaveBlob) {
 			//works for chrome and internet explorer
-			$wnd.navigator.msSaveBlob(blob, title);
+			var image = document.createElement('img');
+			image.src = image;
+
+			$wnd.navigator.msSaveBlob(image, title);
 		} else {
 			//works for firefox
 			var a = $doc.createElement("a");

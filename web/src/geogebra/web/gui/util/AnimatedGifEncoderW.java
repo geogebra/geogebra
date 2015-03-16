@@ -11,7 +11,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.JsArrayString;
 import com.google.gwt.core.client.RunAsyncCallback;
-import com.google.gwt.dom.client.ImageElement;
 
 /**
  * Wrapper class for the gif.js library.
@@ -48,13 +47,14 @@ public class AnimatedGifEncoderW {
 	}
 	
 	/**
-	 * @param image adds a new frame
+	 * @param url
+	 *            adds a new frame
 	 */
-	public void addFrame(ImageElement image) {
-		// addFrame(internal, image, frameDelay);
-		gifs.add(image.getSrc());
+	public void addFrame(String url) {
+		gifs.add(url);
 	}
 	
+
 	/**
 	 * Finishes the internal gif object and starts rendering.
 	 */
@@ -70,14 +70,28 @@ public class AnimatedGifEncoderW {
 
 	private static native void finish(JavaScriptObject urls) /*-{
 
-		gifshot.createGIF({
+		$wnd.gifshot.createGIF({
 			'images' : urls
 		}, function(obj) {
 			if (!obj.error) {
 				var image = obj.image, animatedImage = document
 						.createElement('img');
 				animatedImage.src = image;
-				document.body.appendChild(animatedImage);
+				var title = "anim.gif"
+				if ($wnd.navigator.msSaveBlob) {
+					//works for chrome and internet explorer
+					$wnd.navigator.msSaveBlob(animatedImage, title);
+				} else {
+					//works for firefox
+					var a = $doc.createElement("a");
+					$doc.body.appendChild(a);
+					a.style = "display: none";
+					a.href = animatedImage.src;
+					a.download = title;
+					a.click();
+					//		        window.URL.revokeObjectURL(url);
+				}
+
 			}
 		});
 	}-*/;
@@ -101,6 +115,7 @@ public class AnimatedGifEncoderW {
 				App.debug("gifsot.image.min.js loading failure");
 			}
 		});
+		gifs.clear();
 	}
 
 	private static JsArrayString createJsArrayString(List<String> list) {
