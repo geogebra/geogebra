@@ -6646,7 +6646,7 @@ public abstract class EuclidianController {
 	 * @param gPoint
 	 *            point
 	 */
-	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
+	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
 		return false;
 	}
 

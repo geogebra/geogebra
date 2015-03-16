@@ -290,7 +290,7 @@ public class EuclidianControllerW extends EuclidianController implements
 	}
 
 	@Override
-	protected boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
+	public boolean textfieldJustFocusedW(int x, int y, PointerEventType type) {
 
 		geogebra.common.util.debug.Log
 		        .info("EuclidianControllerW.textfieldJustFocusedW");

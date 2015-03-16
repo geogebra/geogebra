@@ -463,12 +463,15 @@ public class MouseTouchGestureControllerW implements
 	public void onTouchStart(TouchStartEvent event) {
 		JsArray<Touch> targets = event.getTargetTouches();
 		calculateEnvironment();
+		boolean inputBoxFocused = false;
 		if (targets.length() == 1) {
 			AbstractEvent e = PointerEvent.wrapEvent(targets.get(0), this);
 			if (ec.getMode() == EuclidianConstants.MODE_MOVE) {
 				longTouchManager.scheduleTimer((LongTouchHandler) ec, e.getX(),
 				        e.getY());
 			}
+			inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
+			        e.getType());
 			onPointerEventStart(e);
 		} else if (targets.length() == 2) {
 			longTouchManager.cancelTimer();
@@ -476,7 +479,9 @@ public class MouseTouchGestureControllerW implements
 		} else {
 			longTouchManager.cancelTimer();
 		}
-		preventTouchIfNeeded(event);
+		if (!inputBoxFocused) {
+			preventTouchIfNeeded(event);
+		}
 		CancelEventTimer.touchEventOccured();
 
 		ec.prepareModeForFreehand();
