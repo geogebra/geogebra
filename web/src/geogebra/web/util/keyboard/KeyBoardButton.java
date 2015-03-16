@@ -1,7 +1,10 @@
 package geogebra.web.util.keyboard;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -11,6 +14,7 @@ public class KeyBoardButton extends SimplePanel {
 
 	private String caption;
 	private String feedback;
+	private Label label;
 
 	/**
 	 * @param caption
@@ -22,10 +26,11 @@ public class KeyBoardButton extends SimplePanel {
 	 */
 	public KeyBoardButton(String caption, String feedback, ClickHandler handler) {
 		this(handler);
-		this.caption = caption;
+		this.label = new Label();
+		setCaption(caption);
 		this.feedback = feedback;
-		this.getElement().setInnerHTML(
-		        "<div class=\"gwt-Label\">" + caption + "</div>");
+
+		this.setWidget(label);
 	}
 
 	/**
@@ -52,8 +57,18 @@ public class KeyBoardButton extends SimplePanel {
 	 */
 	public void setCaption(String caption) {
 		this.caption = caption;
-		this.getElement().setInnerHTML(
-		        "<div class=\"gwt-Label\">" + caption + "</div>");
+		this.feedback = caption;
+		int index = caption.indexOf('^');
+		if (index > -1) {
+			this.label.setText(caption.substring(0, index));
+			Element sup = Document.get().createElement("sup");
+			sup.appendChild(Document.get().createTextNode(
+			        caption.substring(index + 1)));
+			this.label.getElement().appendChild(sup);
+		} else {
+			this.label.setText(caption);
+		}
+
 	}
 
 	/**

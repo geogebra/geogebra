@@ -320,10 +320,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		int index = 0;
 		addButton("x", index, functions);
 		addButton("y", index, functions);
-		addButton("x<sup>2</sup>", KeyboardConstants.SQUARE, index, functions)
+		addButton("x^2", KeyboardConstants.SQUARE, index, functions)
 		        .addStyleName("supScript");
 		addButton(KeyboardConstants.SQUARE_ROOT, index, functions);
-		addButton("x<sup>y</sup>", KeyboardConstants.X_POWER_Y, index,
+		addButton("x^y", KeyboardConstants.X_POWER_Y, index,
 		        functions).addStyleName("supScript");
 
 		// fill next row
@@ -339,7 +339,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("sin", index, functions);
 		addButton("cos", index, functions);
 		addButton("tan", index, functions);
-		addButton("e<sup>x</sup>", KeyboardConstants.EULER, index, functions)
+		addButton("e^x", KeyboardConstants.EULER, index, functions)
 		        .addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
 
