@@ -352,6 +352,8 @@ public abstract class EuclidianController {
 
 	protected EuclidianControllerCompanion companion;
 
+	private boolean animationButtonPressed = false;
+
 	ModeDelete getDeleteMode() {
 		if (deleteMode == null && view != null) {
 			deleteMode = new ModeDelete(view);
@@ -6561,7 +6563,7 @@ public abstract class EuclidianController {
 		if (isTextfieldHasFocus()) {
 			return;
 		}
-
+		this.animationButtonPressed = false;
 		app.storeUndoInfoIfSetCoordSystemOccured();
 
 		startCollectingMinorRepaints();
@@ -7819,7 +7821,8 @@ public abstract class EuclidianController {
 
 	public void wrapMouseDragged(AbstractEvent event, boolean startCapture) {
 		
-		if (shouldCancelDrag()) {
+		// kill view moving when animation button pressed
+		if (shouldCancelDrag() || this.animationButtonPressed) {
 			return;
 		}
 
@@ -7848,13 +7851,7 @@ public abstract class EuclidianController {
 				app.reset();
 				return;
 			} else if (view.hitAnimationButton(event.getX(), event.getY())) {
-				if (kernel.isAnimationRunning()) {
-					kernel.getAnimatonManager().stopAnimation();
-				} else {
-					kernel.getAnimatonManager().startAnimation();
-				}
-				view.repaintView();
-				app.setUnsaved();
+				this.animationButtonPressed = true;
 				return;
 			}
 
@@ -8996,7 +8993,8 @@ public abstract class EuclidianController {
 		if (hitResetIcon()) {
 			app.reset();
 			return;
-		} else if (view.hitAnimationButton(x, y)) {
+		} else if (view.hitAnimationButton(x, y) || this.animationButtonPressed) {
+			this.animationButtonPressed = false;
 			if (kernel.isAnimationRunning()) {
 				kernel.getAnimatonManager().stopAnimation();
 			} else {
