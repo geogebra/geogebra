@@ -81,6 +81,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 	private double exportScale;
 	private int pixelWidth, pixelHeight;
+	private double cmWidth, cmHeight;
 	private final NumberFormat sizeLabelFormat;
 
 	/** convert text to shapes (eps, pdf, svg) */
@@ -497,7 +498,6 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		// takes dpi into account (note: eps has 72dpi)
 
 		StringBuilder sb = new StringBuilder();
-		double cmWidth = -1, cmHeight = -1;
 		switch (psp.getMode()) {
 		case SIZEINPX:
 			pixelWidth = psp.getPixelWidth();
@@ -726,7 +726,8 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		ev.setTemporaryCoordSystemForExport(); // allow clipping with Export_1
 												// and 2 Points
 		try {
-			exportSVG(app, (EuclidianViewD) ev, file, textAsShapes, pixelWidth, pixelHeight,
+			exportSVG(app, (EuclidianViewD) ev, file, textAsShapes, pixelWidth,
+					pixelHeight, cmWidth, cmHeight,
 					exportScale, transparent);
 
 			if (exportToClipboard) {
@@ -737,6 +738,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			return true;
 		} catch (Exception ex) {
+			ex.printStackTrace();
 			app.showError("SaveFileFailed");
 			App.debug(ex.toString());
 			return false;
@@ -835,6 +837,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 */
 	public static void exportSVG(AppD app, EuclidianViewD ev, File file,
 			boolean textAsShapes, int pixelWidth, int pixelHeight,
+			double cmWidth, double cmHeight,
 			double exportScale, boolean transparent0) {
 		UserProperties props = (UserProperties) SVGGraphics2D
 				.getDefaultProperties();
@@ -842,11 +845,13 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		props.setProperty(AbstractVectorGraphicsIO.TEXT_AS_SHAPES, textAsShapes);
 		SVGGraphics2D.setDefaultProperties(props);
 
-		// Michael Borcherds 2008-03-01
 		// added SVGExtensions to support grouped objects in layers
 		SVGExtensions g;
 		try {
-			g = new SVGExtensions(file, new Dimension(pixelWidth, pixelHeight));
+			g = new SVGExtensions(file, new Dimension(
+					(int) (pixelWidth / exportScale),
+					(int) (pixelHeight / exportScale)),
+					cmWidth, cmHeight);
 			// make sure LaTeX exported at hi res
 			app.exporting = true;
 
@@ -1068,7 +1073,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 		} else if (extension.equals("svg")) {
 			GraphicExportDialog.exportSVG(app, ev, file, textAsShapes,
-					pixelWidth, pixelHeight, exportScale, transparent);
+					pixelWidth, pixelHeight, -1, -1, exportScale, transparent);
 
 		}
 

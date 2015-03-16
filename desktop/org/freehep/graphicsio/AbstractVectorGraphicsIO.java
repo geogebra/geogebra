@@ -81,7 +81,7 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
      * ================================================================================
      */
 
-    private Dimension size;
+	private Dimension size;
 
     private Component component;
 
@@ -1386,6 +1386,9 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
     private Shape transformShape(AffineTransform at, Shape s) {
         if (s == null)
             return null;
+		if (at == null) {
+			return s;
+		}
         return at.createTransformedShape(s);
     }
 
@@ -1396,6 +1399,9 @@ public abstract class AbstractVectorGraphicsIO extends VectorGraphicsIO {
     private Shape untransformShape(Shape s) {
         if (s == null)
             return null;
+		if (getTransform() == null) {
+			return s;
+		}
         try {
             return transformShape(getTransform().createInverse(), s);
         } catch (NoninvertibleTransformException e) {

@@ -279,18 +279,6 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 		}
 		os.println();
 
-		int x = 0;
-		int y = 0;
-		Dimension size = getPropertyDimension(IMAGE_SIZE);
-		int w = size.width;
-		if (w <= 0) {
-			w = width;
-		}
-		int h = size.height;
-		if (h <= 0) {
-			h = height;
-		}
-
 		os.println("<svg ");
 		if (getProperty(VERSION).equals(VERSION_1_1)) {
 			os.println("     version=\"1.1\"");
@@ -299,12 +287,12 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 			os.println("     xmlns:xlink=\"http://www.w3.org/1999/xlink\"");
 			os.println("     xmlns:ev=\"http://www.w3.org/2001/xml-events\"");
 		}
-		os.println("     x=\"" + x + "px\"");
-		os.println("     y=\"" + y + "px\"");
-		os.println("     width=\"" + w + "px\"");
-		os.println("     height=\"" + h + "px\"");
+
+		writeSize(os);
+
 		os.println("     viewBox=\"" + bbx + " " + bby + " " + bbw + " " + bbh
 				+ "\"");
+
 		os.println("     >");
 		closeTags.push("</svg> <!-- bounding box -->");
 
@@ -349,6 +337,28 @@ public class SVGGraphics2D extends AbstractVectorGraphicsIO {
 
 		// close default settings at the end
 		closeTags.push("</g> <!-- default stroke -->");
+	}
+
+	protected void writeSize(PrintWriter os) {
+
+		int x = 0;
+		int y = 0;
+		Dimension size = getPropertyDimension(IMAGE_SIZE);
+		int w = size.width;
+		if (w <= 0) {
+			w = width;
+		}
+		int h = size.height;
+		if (h <= 0) {
+			h = height;
+		}
+
+		// pixels
+		os.println("     x=\"" + x + "px\"");
+		os.println("     y=\"" + y + "px\"");
+		os.println("     width=\"" + w + "px\"");
+		os.println("     height=\"" + h + "px\"");
+
 	}
 
 	@Override
