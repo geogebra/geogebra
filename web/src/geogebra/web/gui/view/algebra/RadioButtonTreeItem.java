@@ -108,22 +108,22 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * RadioButtonTreeItem for the items of the algebra view tree
- * and also for the event handling which is copied from Desktop/AlgebraController.java
+ * RadioButtonTreeItem for the items of the algebra view tree and also for the
+ * event handling which is copied from Desktop/AlgebraController.java
  *
  * File created by Arpad Fekete
  */
 
-public class RadioButtonTreeItem extends FlowPanel
-	implements DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler, 
+public class RadioButtonTreeItem extends FlowPanel implements
+        DoubleClickHandler, ClickHandler, MouseMoveHandler, MouseDownHandler,
         MouseOverHandler, MouseOutHandler, GeoContainer,
-        geogebra.html5.gui.view.algebra.RadioButtonTreeItem,
-	TouchStartHandler, TouchMoveHandler, TouchEndHandler, LongTouchHandler {
+        geogebra.html5.gui.view.algebra.RadioButtonTreeItem, TouchStartHandler,
+        TouchMoveHandler, TouchEndHandler, LongTouchHandler {
 
 	GeoElement geo;
 	Kernel kernel;
 	protected AppW app;
-	private SelectionManager selection; 
+	private SelectionManager selection;
 	protected AlgebraView av;
 	private boolean LaTeX = false;
 	private boolean thisIsEdited = false;
@@ -137,7 +137,7 @@ public class RadioButtonTreeItem extends FlowPanel
 	InlineHTML ihtml;
 	TextBox tb;
 	private boolean needsUpdate;
-	
+
 	private LongTouchManager longTouchManager;
 
 	/**
@@ -185,78 +185,75 @@ public class RadioButtonTreeItem extends FlowPanel
 	 */
 	public static boolean showSliderOrTextBox = false;
 
-	public void updateOnNextRepaint(){
+	public void updateOnNextRepaint() {
 		this.needsUpdate = true;
 	}
 
-	/*private class RadioButtonHandy extends RadioButton {
-		public RadioButtonHandy() {
-			super(DOM.createUniqueId());
-		}
-
-		@Override
-		public void onBrowserEvent(Event event) {
-
-			if (av.isEditing())
-				return;
-
-			if (event.getTypeInt() == Event.ONCLICK) {
-				// Part of AlgebraController.mouseClicked in Desktop
-				if (Element.is(event.getEventTarget())) {
-					if (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
-						setValue(previouslyChecked = !previouslyChecked);
-						geo.setEuclidianVisible(!geo.isSetEuclidianVisible());
-						geo.update();
-						geo.getKernel().getApplication().storeUndoInfo();
-						geo.getKernel().notifyRepaint();
-						return;
-					}
-				}
-			}
-		}
-	}*/
-	private IndexHTMLBuilder getBuilder(final SpanElement se){
-		return new IndexHTMLBuilder(false){
+	/*
+	 * private class RadioButtonHandy extends RadioButton { public
+	 * RadioButtonHandy() { super(DOM.createUniqueId()); }
+	 * 
+	 * @Override public void onBrowserEvent(Event event) {
+	 * 
+	 * if (av.isEditing()) return;
+	 * 
+	 * if (event.getTypeInt() == Event.ONCLICK) { // Part of
+	 * AlgebraController.mouseClicked in Desktop if
+	 * (Element.is(event.getEventTarget())) { if
+	 * (Element.as(event.getEventTarget()) == getElement().getFirstChild()) {
+	 * setValue(previouslyChecked = !previouslyChecked);
+	 * geo.setEuclidianVisible(!geo.isSetEuclidianVisible()); geo.update();
+	 * geo.getKernel().getApplication().storeUndoInfo();
+	 * geo.getKernel().notifyRepaint(); return; } } } } }
+	 */
+	private IndexHTMLBuilder getBuilder(final SpanElement se) {
+		return new IndexHTMLBuilder(false) {
 			Element sub = null;
-			@Override
-            public void append(String s){
 
-				if(sub == null){
+			@Override
+			public void append(String s) {
+
+				if (sub == null) {
 					se.appendChild(Document.get().createTextNode(s));
-				}else{
+				} else {
 					sub.appendChild(Document.get().createTextNode(s));
 				}
 			}
+
 			@Override
-            public void startIndex(){
+			public void startIndex() {
 				sub = Document.get().createElement("sub");
-				sub.getStyle().setFontSize((int)(app.getFontSize() *0.8), Unit.PX);
+				sub.getStyle().setFontSize((int) (app.getFontSize() * 0.8),
+				        Unit.PX);
 			}
+
 			@Override
-            public void endIndex(){
-				if(sub != null){
+			public void endIndex() {
+				if (sub != null) {
 					se.appendChild(sub);
 				}
-				sub = null;				
+				sub = null;
 			}
+
 			@Override
-            public String toString(){
-				if(sub != null){
+			public String toString() {
+				if (sub != null) {
 					endIndex();
 				}
 				return se.getInnerHTML();
 			}
+
 			@Override
-            public void clear(){
+			public void clear() {
 				se.removeAllChildren();
 				sub = null;
 			}
-			
+
 			@Override
-            public boolean canAppendRawHtml() {
+			public boolean canAppendRawHtml() {
 				return false;
 			}
-			
+
 			@Override
 			public void appendHTML(String str) {
 				append(str);
@@ -265,27 +262,32 @@ public class RadioButtonTreeItem extends FlowPanel
 	}
 
 	/**
-	 * Creates a new RadioButtonTreeItem for displaying/editing an existing GeoElement
-	 * @param ge the existing GeoElement to display/edit
-	 * @param showUrl the marble to be shown when the GeoElement is visible
-	 * @param hiddenUrl the marble to be shown when the GeoElement is invisible
+	 * Creates a new RadioButtonTreeItem for displaying/editing an existing
+	 * GeoElement
+	 * 
+	 * @param ge
+	 *            the existing GeoElement to display/edit
+	 * @param showUrl
+	 *            the marble to be shown when the GeoElement is visible
+	 * @param hiddenUrl
+	 *            the marble to be shown when the GeoElement is invisible
 	 */
-	public RadioButtonTreeItem(GeoElement ge,SafeUri showUrl,SafeUri hiddenUrl) {
+	public RadioButtonTreeItem(GeoElement ge, SafeUri showUrl, SafeUri hiddenUrl) {
 		super();
 		getElement().setDraggable(Element.DRAGGABLE_TRUE);
 
 		geo = ge;
 		kernel = geo.getKernel();
-		app = (AppW)kernel.getApplication();
+		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
 		addStyleName("elem");
 		addStyleName("panelRow");
 
-		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		radio = new Marble(showUrl, hiddenUrl,this);
+		radio = new Marble(showUrl, hiddenUrl, this);
 		radio.setStyleName("marble");
 		radio.setEnabled(ge.isEuclidianShowable());
 		radio.setChecked(ge.isEuclidianVisible());
@@ -296,8 +298,8 @@ public class RadioButtonTreeItem extends FlowPanel
 
 		// Sliders
 		if (showSliderOrTextBox && app.isPrerelease()
-				&& geo instanceof GeoNumeric
-				&& ((GeoNumeric) geo).isShowingExtendedAV()) {
+		        && geo instanceof GeoNumeric
+		        && ((GeoNumeric) geo).isShowingExtendedAV()) {
 			if (!geo.isEuclidianVisible()) {
 				// number inserted via input bar
 				// -> initialize min/max etc.
@@ -306,7 +308,7 @@ public class RadioButtonTreeItem extends FlowPanel
 			}
 
 			slider = new SliderW(((GeoNumeric) geo).getIntervalMin(),
-					(int) ((GeoNumeric) geo).getIntervalMax());
+			        (int) ((GeoNumeric) geo).getIntervalMax());
 			slider.setValue(((GeoNumeric) geo).getValue());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 
@@ -324,20 +326,20 @@ public class RadioButtonTreeItem extends FlowPanel
 
 			if (geo.isAnimatable()) {
 				ImageResource imageresource = geo.isAnimating() ? AppResources.INSTANCE
-						.nav_pause() : AppResources.INSTANCE.nav_play();
+				        .nav_pause() : AppResources.INSTANCE.nav_play();
 				playButton = new Image(imageresource);
 				playButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						boolean newValue = !(geo.isAnimating() && app
-								.getKernel().getAnimatonManager().isRunning());
+						        .getKernel().getAnimatonManager().isRunning());
 						geo.setAnimating(newValue);
 						playButton.setResource(newValue ? AppResources.INSTANCE
-								.nav_pause() : AppResources.INSTANCE.nav_play());
+						        .nav_pause() : AppResources.INSTANCE.nav_play());
 						geo.updateRepaint();
 
 						if (geo.isAnimating()) {
 							geo.getKernel().getAnimatonManager()
-									.startAnimation();
+							        .startAnimation();
 						}
 					}
 				});
@@ -363,12 +365,12 @@ public class RadioButtonTreeItem extends FlowPanel
 
 		SpanElement se2 = DOM.createSpan().cast();
 		se2.appendChild(Document.get().createTextNode(
-				"\u00A0\u00A0\u00A0\u00A0"));
+		        "\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 		// String text = "";
 
 		if (showSliderOrTextBox && app.isPrerelease()
-				&& geo instanceof GeoBoolean) {
+		        && geo instanceof GeoBoolean) {
 			// CheckBoxes
 			checkBox = new CheckBox();
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
@@ -394,33 +396,35 @@ public class RadioButtonTreeItem extends FlowPanel
 
 			case Kernel.ALGEBRA_STYLE_DEFINITION:
 				geo.addLabelTextOrHTML(
-					geo.getDefinitionDescription(StringTemplate.defaultTemplate),getBuilder(se));
+				        geo.getDefinitionDescription(StringTemplate.defaultTemplate),
+				        getBuilder(se));
 				break;
 
 			case Kernel.ALGEBRA_STYLE_COMMAND:
-				geo.addLabelTextOrHTML(
-					geo.getCommandDescription(StringTemplate.defaultTemplate), getBuilder(se));
+				geo.addLabelTextOrHTML(geo
+				        .getCommandDescription(StringTemplate.defaultTemplate),
+				        getBuilder(se));
 				break;
 			}
 		}
 		// if enabled, render with LaTeX
-		if (av.isRenderLaTeX() && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
+		if (av.isRenderLaTeX()
+		        && kernel.getAlgebraStyle() == Kernel.ALGEBRA_STYLE_VALUE) {
 			String latexStr = geo.getLaTeXAlgebraDescription(true,
 			        StringTemplate.latexTemplateMQ);
 			seNoLatex = se;
-			if ((latexStr != null) &&
-				geo.isLaTeXDrawableGeo() &&
-				(geo.isGeoList() ? !((GeoList)geo).isMatrix() : true) ) {
+			if ((latexStr != null) && geo.isLaTeXDrawableGeo()
+			        && (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
 				this.needsUpdate = true;
 				av.repaintView();
 			}
 		} else {
 			seNoLatex = se;
 		}
-		//FIXME: geo.getLongDescription() doesn't work
-		//geo.getKernel().getApplication().setTooltipFlag();
-		//se.setTitle(geo.getLongDescription());
-		//geo.getKernel().getApplication().clearTooltipFlag();
+		// FIXME: geo.getLongDescription() doesn't work
+		// geo.getKernel().getApplication().setTooltipFlag();
+		// se.setTitle(geo.getLongDescription());
+		// geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
 		setDraggable();
 	}
@@ -437,15 +441,15 @@ public class RadioButtonTreeItem extends FlowPanel
 		newCreationMode = true;
 
 		kernel = kern;
-		app = (AppW)kernel.getApplication();
+		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
 		this.setStyleName("elem");
 
-		//setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
+		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
 
-		//add(radio);
+		// add(radio);
 
 		SpanElement se = DOM.createSpan().cast();
 		updateNewStatic(se);
@@ -475,26 +479,21 @@ public class RadioButtonTreeItem extends FlowPanel
 		        "\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0"));
 		ihtml.getElement().appendChild(se2);
 
-		//String text = "";
-		/*if (geo.isIndependent()) {
-			geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
-		} else {
-			switch (kernel.getAlgebraStyle()) {
-			case Kernel.ALGEBRA_STYLE_VALUE:
-				geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se));
-				break;
-
-			case Kernel.ALGEBRA_STYLE_DEFINITION:
-				geo.addLabelTextOrHTML(
-					geo.getDefinitionDescription(StringTemplate.defaultTemplate),getBuilder(se));
-				break;
-
-			case Kernel.ALGEBRA_STYLE_COMMAND:
-				geo.addLabelTextOrHTML(
-					geo.getCommandDescription(StringTemplate.defaultTemplate), getBuilder(se));
-				break;
-			}
-		}*/
+		// String text = "";
+		/*
+		 * if (geo.isIndependent()) {
+		 * geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se)); } else {
+		 * switch (kernel.getAlgebraStyle()) { case Kernel.ALGEBRA_STYLE_VALUE:
+		 * geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(se)); break;
+		 * 
+		 * case Kernel.ALGEBRA_STYLE_DEFINITION: geo.addLabelTextOrHTML(
+		 * geo.getDefinitionDescription
+		 * (StringTemplate.defaultTemplate),getBuilder(se)); break;
+		 * 
+		 * case Kernel.ALGEBRA_STYLE_COMMAND: geo.addLabelTextOrHTML(
+		 * geo.getCommandDescription(StringTemplate.defaultTemplate),
+		 * getBuilder(se)); break; } }
+		 */
 		// if enabled, render with LaTeX
 		seNoLatex = se;
 		if (av.isRenderLaTeX()) {
@@ -504,10 +503,10 @@ public class RadioButtonTreeItem extends FlowPanel
 			doUpdate();
 			startEditing();
 		}
-		//FIXME: geo.getLongDescription() doesn't work
-		//geo.getKernel().getApplication().setTooltipFlag();
-		//se.setTitle(geo.getLongDescription());
-		//geo.getKernel().getApplication().clearTooltipFlag();
+		// FIXME: geo.getLongDescription() doesn't work
+		// geo.getKernel().getApplication().setTooltipFlag();
+		// se.setTitle(geo.getLongDescription());
+		// geo.getKernel().getApplication().clearTooltipFlag();
 		longTouchManager = LongTouchManager.getInstance();
 		setDraggable();
 	}
@@ -767,28 +766,28 @@ public class RadioButtonTreeItem extends FlowPanel
 	}
 
 	@Override
-    public void handleLongTouch(int x, int y) {
+	public void handleLongTouch(int x, int y) {
 		onRightClick(x, y);
 	}
 
 	public void repaint() {
-		if(needsUpdate)
+		if (needsUpdate)
 			doUpdate();
 	}
-	
+
 	private void doUpdate() {
 		// check for new LaTeX
 		needsUpdate = false;
 		boolean newLaTeX = false;
-		
+
 		if (this.checkBox != null
-				&& ((HasExtendedAV) geo).isShowingExtendedAV()) {
+		        && ((HasExtendedAV) geo).isShowingExtendedAV()) {
 			add(checkBox);
 			checkBox.setValue(((GeoBoolean) geo).getBoolean());
 			// reset the label text; use only the name of the GeoBoolean
 			getBuilder(seNoLatex).clear();
 			getBuilder(seNoLatex).append(
-					geo.getLabel(StringTemplate.defaultTemplate));
+			        geo.getLabel(StringTemplate.defaultTemplate));
 			return;
 		} else if (this.checkBox != null) {
 			remove(checkBox);
@@ -799,9 +798,11 @@ public class RadioButtonTreeItem extends FlowPanel
 			String text = "";
 			if (geo != null) {
 				text = geo.getLaTeXAlgebraDescription(true,
-						StringTemplate.latexTemplateMQ);
-				if ((text != null) && geo.isLaTeXDrawableGeo()
-						&& (geo.isGeoList() ? !((GeoList) geo).isMatrix() : true)) {
+				        StringTemplate.latexTemplateMQ);
+				if ((text != null)
+				        && geo.isLaTeXDrawableGeo()
+				        && (geo.isGeoList() ? !((GeoList) geo).isMatrix()
+				                : true)) {
 					newLaTeX = true;
 				}
 			} else {
@@ -813,8 +814,8 @@ public class RadioButtonTreeItem extends FlowPanel
 				int tl = text.length();
 				text = DrawEquationWeb.stripEqnArray(text);
 				updateColor(seMayLatex);
-				DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{"+text+"}", seMayLatex,
-				        tl == text.length());
+				DrawEquationWeb.updateEquationMathQuillGGB("\\mathrm{" + text
+				        + "}", seMayLatex, tl == text.length());
 				updateColor(seMayLatex);
 			} else if (newLaTeX) {
 				SpanElement se = DOM.createSpan().cast();
@@ -845,26 +846,26 @@ public class RadioButtonTreeItem extends FlowPanel
 			} else {
 				switch (kernel.getAlgebraStyle()) {
 				case Kernel.ALGEBRA_STYLE_VALUE:
-					 geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
+					geo.getAlgebraDescriptionTextOrHTMLDefault(getBuilder(seNoLatex));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_DEFINITION:
-					geo
-					        .addLabelTextOrHTML(geo
-					                .getDefinitionDescription(StringTemplate.defaultTemplate),getBuilder(seNoLatex));
+					geo.addLabelTextOrHTML(
+					        geo.getDefinitionDescription(StringTemplate.defaultTemplate),
+					        getBuilder(seNoLatex));
 					break;
 
 				case Kernel.ALGEBRA_STYLE_COMMAND:
-					geo
-					        .addLabelTextOrHTML(geo
-					                .getCommandDescription(StringTemplate.defaultTemplate),getBuilder(seNoLatex));
+					geo.addLabelTextOrHTML(
+					        geo.getCommandDescription(StringTemplate.defaultTemplate),
+					        getBuilder(seNoLatex));
 					break;
 				}
 			}
 			// now we have text and how to display it (newLaTeX/LaTeX)
 			if (!LaTeX) {
 				updateColor(seNoLatex);
-			}  else {
+			} else {
 				SpanElement se = DOM.createSpan().cast();
 				updateNewStatic(se);
 				updateColor(se);
@@ -879,13 +880,13 @@ public class RadioButtonTreeItem extends FlowPanel
 		}
 
 		if (geo != null && geo instanceof GeoNumeric && slider != null
-				&& sliderPanel != null) {
+		        && sliderPanel != null) {
 			slider.setMinimum(((GeoNumeric) geo).getIntervalMin());
 			slider.setMaximum(((GeoNumeric) geo).getIntervalMax());
 			slider.setMinorTickSpacing(geo.getAnimationStep());
 			slider.setValue(((GeoNumeric) geo).value);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()
-					&& !geo.isEuclidianVisible()) {
+			        && !geo.isEuclidianVisible()) {
 				sliderPanel.add(slider);
 				marblePanel.add(playButton);
 			} else if (marblePanel != null) {
@@ -901,9 +902,10 @@ public class RadioButtonTreeItem extends FlowPanel
 		se.setDir("ltr");
 	}
 
-	private void updateColor(SpanElement se){
+	private void updateColor(SpanElement se) {
 		if (geo != null) {
-			se.getStyle().setColor(GColor.getColorString(geo.getAlgebraColor()));
+			se.getStyle()
+			        .setColor(GColor.getColorString(geo.getAlgebraColor()));
 		}
 	}
 
@@ -913,11 +915,13 @@ public class RadioButtonTreeItem extends FlowPanel
 
 	public void cancelEditing() {
 		// as this method is only called from AlgebraViewWeb.update,
-		// and in that context, this should not cancel editing in case of newCreationMode,
+		// and in that context, this should not cancel editing in case of
+		// newCreationMode,
 		// we can put an if check here safely for the present time
 		if (!newCreationMode) {
 			if (LaTeX) {
-				DrawEquationWeb.endEditingEquationMathQuillGGB(this, seMayLatex);
+				DrawEquationWeb
+				        .endEditingEquationMathQuillGGB(this, seMayLatex);
 			} else {
 				removeSpecial(tb);
 				addSpecial(ihtml);
@@ -942,19 +946,19 @@ public class RadioButtonTreeItem extends FlowPanel
 		} else {
 			removeSpecial(ihtml);
 			tb = new GTextBox();
-			tb.setText( geo.getAlgebraDescriptionDefault() );
+			tb.setText(geo.getAlgebraDescriptionDefault());
 			addSpecial(tb);
 			mout = false;
 			tb.setFocus(true);
 			Scheduler.get().scheduleDeferred(new Scheduler.ScheduledCommand() {
 				@Override
-                public void execute() {
+				public void execute() {
 					tb.setFocus(true);
 				}
 			});
 			tb.addKeyDownHandler(new KeyDownHandler() {
 				@Override
-                public void onKeyDown(KeyDownEvent kevent) {
+				public void onKeyDown(KeyDownEvent kevent) {
 					if (kevent.getNativeKeyCode() == 13) {
 						removeSpecial(tb);
 						addSpecial(ihtml);
@@ -970,7 +974,7 @@ public class RadioButtonTreeItem extends FlowPanel
 			});
 			tb.addBlurHandler(new BlurHandler() {
 				@Override
-                public void onBlur(BlurEvent bevent) {
+				public void onBlur(BlurEvent bevent) {
 					if (mout && !blockBlur) {
 						removeSpecial(tb);
 						addSpecial(ihtml);
@@ -980,13 +984,13 @@ public class RadioButtonTreeItem extends FlowPanel
 			});
 			tb.addMouseOverHandler(new MouseOverHandler() {
 				@Override
-                public void onMouseOver(MouseOverEvent moevent) {
+				public void onMouseOver(MouseOverEvent moevent) {
 					mout = false;
 				}
 			});
 			tb.addMouseOutHandler(new MouseOutHandler() {
 				@Override
-                public void onMouseOut(MouseOutEvent moevent) {
+				public void onMouseOut(MouseOutEvent moevent) {
 					mout = true;
 					tb.setFocus(true);
 				}
@@ -995,7 +999,7 @@ public class RadioButtonTreeItem extends FlowPanel
 			ClickStartHandler.init(tb, new ClickStartHandler() {
 				@Override
 				public void onClickStart(int x, int y,
-						final PointerEventType type) {
+				        final PointerEventType type) {
 					OnScreenKeyBoard.setInstanceTextField(tb);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
@@ -1015,8 +1019,8 @@ public class RadioButtonTreeItem extends FlowPanel
 		if (newValue != null) {
 			if (geo != null) {
 				boolean redefine = !geo.isPointOnPath();
-				GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-						geo, newValue, redefine, true);
+				GeoElement geo2 = kernel.getAlgebraProcessor()
+				        .changeGeoElement(geo, newValue, redefine, true);
 				if (geo2 != null)
 					geo = geo2;
 			} else {
@@ -1068,7 +1072,7 @@ public class RadioButtonTreeItem extends FlowPanel
 
 		thisIsEdited = false;
 		av.cancelEditing();
-		
+
 		if (newValue0 != null) {
 			String newValue = stopCommon(newValue0);
 
@@ -1078,15 +1082,15 @@ public class RadioButtonTreeItem extends FlowPanel
 			// Formula Hacks ended.
 			if (geo != null) {
 				boolean redefine = !geo.isPointOnPath();
-				GeoElement geo2 = kernel.getAlgebraProcessor().changeGeoElement(
-geo, newValue, redefine, true);
+				GeoElement geo2 = kernel.getAlgebraProcessor()
+				        .changeGeoElement(geo, newValue, redefine, true);
 				if (geo2 != null) {
 					ret = true;
 					geo = geo2;
 				}
 			} else {
 				// TODO: create new GeoElement!
-				
+
 			}
 		}
 
@@ -1206,13 +1210,13 @@ geo, newValue, redefine, true);
 			};
 
 			GeoElement[] newGeo = app
-					.getKernel()
+			        .getKernel()
 			        .getAlgebraProcessor()
 			        .processAlgebraCommandNoExceptionHandling(input, true,
 			                false, true, true, callback);
 
 			if (newGeo != null && newGeo.length == 1
-					&& newGeo[0] instanceof GeoText) {
+			        && newGeo[0] instanceof GeoText) {
 				// texts created via the input field should be displayed in the
 				// AV
 				newGeo[0].setAuxiliaryObject(false);
@@ -1233,22 +1237,22 @@ geo, newValue, redefine, true);
 			app.showError(ee);// we use what we have
 			return false;
 		}
-        // there is also a timer to make sure it scrolls into view
-        Timer tim = new Timer() {
+		// there is also a timer to make sure it scrolls into view
+		Timer tim = new Timer() {
 			@Override
-        	public void run() {
-        		scrollIntoView();
+			public void run() {
+				scrollIntoView();
 				if (newCreationMode) {
 					setFocus(true);
 				}
-        	}
+			}
 		};
-        tim.schedule(500);
+		tim.schedule(500);
 		return true;
 	}
 
 	@Override
-    public void onDoubleClick(DoubleClickEvent evt) {
+	public void onDoubleClick(DoubleClickEvent evt) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
@@ -1281,11 +1285,12 @@ geo, newValue, redefine, true);
 	}
 
 	@Override
-    public void onMouseDown(MouseDownEvent event) {
+	public void onMouseDown(MouseDownEvent event) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event, ZeroOffset.instance);
+		PointerEvent wrappedEvent = PointerEvent.wrapEventAbsolute(event,
+		        ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 
 		// This would prevent dragging, so commented out
@@ -1294,23 +1299,14 @@ geo, newValue, redefine, true);
 	}
 
 	@Override
-    public void onClick(ClickEvent evt) {
+	public void onClick(ClickEvent evt) {
 		// this 'if' should be the first one in every 'mouse' related method
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		if (app.isPrerelease()
-				&& (av.isEditing() || isThisEdited() || newCreationMode)) {
-			app.showKeyboard(this);
-		}
-
-		if (newCreationMode) {
-			setFocus(true);
-		//	evt.stopPropagation();
-		}
 
 		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
-				ZeroOffset.instance);
+		        ZeroOffset.instance);
 		onPointerUp(wrappedEvent);
 
 		((AlgebraViewWeb) this.av).getStyleBar().update(this.getGeo());
@@ -1318,7 +1314,7 @@ geo, newValue, redefine, true);
 		if (app.isPrerelease() && geo != null) {
 			if (deleteButton == null) {
 				deleteButton = new Image(
-						GuiResources.INSTANCE.algebraViewDeleteEntry());
+				        GuiResources.INSTANCE.algebraViewDeleteEntry());
 				deleteButton.addClickHandler(new ClickHandler() {
 					public void onClick(ClickEvent event) {
 						geo.remove();
@@ -1331,36 +1327,37 @@ geo, newValue, redefine, true);
 	}
 
 	@Override
-    public void onMouseMove(MouseMoveEvent evt) {
+	public void onMouseMove(MouseMoveEvent evt) {
 		if (CancelEventTimer.cancelMouseEvent()) {
 			return;
 		}
-		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt, ZeroOffset.instance);
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(evt,
+		        ZeroOffset.instance);
 		onPointerMove(wrappedEvent);
 	}
 
-	
 	@Override
-    public void onMouseOver(MouseOverEvent event) {
+	public void onMouseOver(MouseOverEvent event) {
 		if (geo != null) {
-			ToolTipManagerW.sharedInstance().showToolTip(geo.getLongDescriptionHTML(true, true));
+			ToolTipManagerW.sharedInstance().showToolTip(
+			        geo.getLongDescriptionHTML(true, true));
 		}
 	}
 
 	@Override
-    public void onMouseOut(MouseOutEvent event) {
-		ToolTipManagerW.sharedInstance().showToolTip(null);	    
-    }
-	
+	public void onMouseOut(MouseOutEvent event) {
+		ToolTipManagerW.sharedInstance().showToolTip(null);
+	}
+
 	@Override
-    public GeoElement getGeo() {
-	    return geo;
-    }
+	public GeoElement getGeo() {
+		return geo;
+	}
 
 	public long latestTouchEndTime = 0;
 
 	@Override
-    public void onTouchEnd(TouchEndEvent event) {
+	public void onTouchEnd(TouchEndEvent event) {
 		if (newCreationMode) {
 			setFocus(true);
 		} else {
@@ -1375,60 +1372,68 @@ geo, newValue, redefine, true);
 				latestTouchEndTime = time;
 			}
 		}
-	    longTouchManager.cancelTimer();
-	    JsArray<Touch> changed = event.getChangedTouches();
-	    AbstractEvent wrappedEvent = PointerEvent.wrapEvent(changed.get(0), ZeroOffset.instance);
-	    onPointerUp(wrappedEvent);
-	    CancelEventTimer.touchEventOccured();
-    }
+		longTouchManager.cancelTimer();
+		PointerEvent wrappedEvent = PointerEvent.wrapEvent(event,
+		        ZeroOffset.instance);
+		onPointerUp(wrappedEvent);
+		CancelEventTimer.touchEventOccured();
+	}
 
 	@Override
-    public void onTouchMove(TouchMoveEvent event) {
+	public void onTouchMove(TouchMoveEvent event) {
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.rescheduleTimerIfRunning(this, x, y);
 		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
+		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0),
+		        ZeroOffset.instance);
 		onPointerMove(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
 	}
 
 	@Override
-    public void onTouchStart(TouchStartEvent event) {
+	public void onTouchStart(TouchStartEvent event) {
 		int x = EventUtil.getTouchOrClickClientX(event);
 		int y = EventUtil.getTouchOrClickClientY(event);
 		longTouchManager.scheduleTimer(this, x, y);
-		JsArray<Touch> targets = event.getTargetTouches();
-		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(targets.get(0), ZeroOffset.instance);
+		AbstractEvent wrappedEvent = PointerEvent.wrapEvent(event,
+		        ZeroOffset.instance);
 		onPointerDown(wrappedEvent);
 		CancelEventTimer.touchEventOccured();
-    }
-	
+	}
+
 	private void onPointerDown(AbstractEvent event) {
 		if (event.isRightClick()) {
 			onRightClick(event.getX(), event.getY());
+		} else if (av.isEditing() || isThisEdited() || newCreationMode) {
+			app.showKeyboard(this);
+			PointerEvent pointerEvent = (PointerEvent) event;
+			pointerEvent.getWrappedEvent().stopPropagation();
+			if (newCreationMode) {
+				setFocus(true);
+			}
 		}
 	}
-	
+
 	private void onPointerUp(AbstractEvent event) {
 		if (av.isEditing() || isThisEdited() || newCreationMode) {
 			return;
 		}
 		int mode = app.getActiveEuclidianView().getMode();
-		if (//!skipSelection && 
-			(mode == EuclidianConstants.MODE_MOVE) ) {
-			// update selection	
+		if (// !skipSelection &&
+		(mode == EuclidianConstants.MODE_MOVE)) {
+			// update selection
 			if (geo == null) {
 				selection.clearSelectedGeos();
-			}
-			else {					
+			} else {
 				// handle selecting geo
 				if (event.isControlDown()) {
-					selection.toggleSelectedGeo(geo); 													
+					selection.toggleSelectedGeo(geo);
 					if (selection.getSelectedGeos().contains(geo)) {
 						av.setLastSelectedGeo(geo);
 					}
-				} else if (event.isShiftDown() && av.getLastSelectedGeo() != null) {
+				} else if (event.isShiftDown()
+				        && av.getLastSelectedGeo() != null) {
 					boolean nowSelecting = true;
 					boolean selecting = false;
 					boolean aux = geo.isAuxiliaryObject();
@@ -1437,59 +1442,71 @@ geo, newValue, redefine, true);
 					boolean ind2 = av.getLastSelectedGeo().isIndependent();
 
 					if ((aux == aux2 && aux) || (aux == aux2 && ind == ind2)) {
-						Iterator<GeoElement> it = kernel.getConstruction().getGeoSetLabelOrder().iterator();
-						boolean direction = geo.getLabel(StringTemplate.defaultTemplate).
-								compareTo(av.getLastSelectedGeo().getLabel(StringTemplate.defaultTemplate)) < 0;
+						Iterator<GeoElement> it = kernel.getConstruction()
+						        .getGeoSetLabelOrder().iterator();
+						boolean direction = geo.getLabel(
+						        StringTemplate.defaultTemplate).compareTo(
+						        av.getLastSelectedGeo().getLabel(
+						                StringTemplate.defaultTemplate)) < 0;
 
 						while (it.hasNext()) {
 							GeoElement geo2 = it.next();
 							if ((geo2.isAuxiliaryObject() == aux && aux)
-									|| (geo2.isAuxiliaryObject() == aux && geo2.isIndependent() == ind)) {
+							        || (geo2.isAuxiliaryObject() == aux && geo2
+							                .isIndependent() == ind)) {
 
-								if (direction && geo2.equals(av.getLastSelectedGeo())) selecting = !selecting;
-								if (!direction && geo2.equals(geo)) selecting = !selecting;
+								if (direction
+								        && geo2.equals(av.getLastSelectedGeo()))
+									selecting = !selecting;
+								if (!direction && geo2.equals(geo))
+									selecting = !selecting;
 
 								if (selecting) {
 									selection.toggleSelectedGeo(geo2);
-									nowSelecting = selection.getSelectedGeos().contains(geo2);
+									nowSelecting = selection.getSelectedGeos()
+									        .contains(geo2);
 								}
-								if (!direction && geo2.equals(av.getLastSelectedGeo())) selecting = !selecting;
-								if (direction && geo2.equals(geo)) selecting = !selecting;
+								if (!direction
+								        && geo2.equals(av.getLastSelectedGeo()))
+									selecting = !selecting;
+								if (direction && geo2.equals(geo))
+									selecting = !selecting;
 							}
 						}
 					}
 
 					if (nowSelecting) {
-						selection.addSelectedGeo(geo); 
+						selection.addSelectedGeo(geo);
 						av.setLastSelectedGeo(geo);
 					} else {
 						selection.removeSelectedGeo(av.getLastSelectedGeo());
 						av.setLastSelectedGeo(null);
 					}
-				} else {							
-					selection.clearSelectedGeos(false); //repaint will be done next step
+				} else {
+					selection.clearSelectedGeos(false); // repaint will be done
+					                                    // next step
 					selection.addSelectedGeo(geo);
 					av.setLastSelectedGeo(geo);
 				}
 			}
-		} 
-		else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
+		} else if (mode != EuclidianConstants.MODE_SELECTION_LISTENER) {
 			// let euclidianView know about the click
 			if (geo != null) {
-				app.getActiveEuclidianView().clickedGeo(geo, event.isControlDown());
+				app.getActiveEuclidianView().clickedGeo(geo,
+				        event.isControlDown());
 			}
-			//event.release();
-		} else 
-			// tell selection listener about click
-			if (geo != null) {
-				app.geoElementSelected(geo, false);
-			}
-
+			// event.release();
+		} else
+		// tell selection listener about click
+		if (geo != null) {
+			app.geoElementSelected(geo, false);
+		}
 
 		// Alt click: copy definition to input field
 		if (geo != null && event.isAltDown() && app.showAlgebraInput()) {
 			// F3 key: copy definition to input bar
-			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3, geo);			
+			app.getGlobalKeyDispatcher().handleFunctionKeyForAlgebraInput(3,
+			        geo);
 		}
 
 		app.getActiveEuclidianView().mouseMovedOver(null);
@@ -1499,31 +1516,32 @@ geo, newValue, redefine, true);
 		// needed at the beginning of this method!
 		av.setFocus(true);
 	}
-	
+
 	private void onPointerMove(AbstractEvent event) {
 		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
 
 		// tell EuclidianView to handle mouse over
-		EuclidianViewInterfaceCommon ev = kernel.getApplication().getActiveEuclidianView();
+		EuclidianViewInterfaceCommon ev = kernel.getApplication()
+		        .getActiveEuclidianView();
 		if (geo != null) {
 			ev.mouseMovedOver(geo);
 		}
 
 		// highlight the geos
-		//getElement().getStyle().setBackgroundColor("rgb(200,200,245)");
-			
+		// getElement().getStyle().setBackgroundColor("rgb(200,200,245)");
+
 		// implemented by HTML title attribute on the label
-		//FIXME: geo.getLongDescription() doesn't work
-		//if (geo != null) {
-		//	geo.getKernel().getApplication().setTooltipFlag();
-		//	se.setTitle(geo.getLongDescription());
-		//	geo.getKernel().getApplication().clearTooltipFlag();
-		//} else {
-		//	se.setTitle("");
-		//}
+		// FIXME: geo.getLongDescription() doesn't work
+		// if (geo != null) {
+		// geo.getKernel().getApplication().setTooltipFlag();
+		// se.setTitle(geo.getLongDescription());
+		// geo.getKernel().getApplication().clearTooltipFlag();
+		// } else {
+		// se.setTitle("");
+		// }
 	}
-	
+
 	private void onRightClick(int x, int y) {
 		if (av.isEditing() || isThisEdited() || newCreationMode)
 			return;
@@ -1533,21 +1551,22 @@ geo, newValue, redefine, true);
 		        + Window.getScrollTop());
 		if (geo != null) {
 			if (selection.containsSelectedGeo(geo)) {// popup
-			                                     // menu for
-			                                     // current
-			                                     // selection
-			                                     // (including
-			                                     // selected
-			                                     // object)
+				// menu for
+				// current
+				// selection
+				// (including
+				// selected
+				// object)
 				((GuiManagerW) app.getGuiManager()).showPopupMenu(
-						selection.getSelectedGeos(), av, point);
+				        selection.getSelectedGeos(), av, point);
 			} else {// select only this object and popup menu
 				selection.clearSelectedGeos(false);
 				selection.addSelectedGeo(geo, true, true);
 				ArrayList<GeoElement> temp = new ArrayList<GeoElement>();
 				temp.add(geo);
 
-				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av, point);
+				((GuiManagerW) app.getGuiManager()).showPopupMenu(temp, av,
+				        point);
 			}
 		}
 	}
@@ -1585,7 +1604,7 @@ geo, newValue, redefine, true);
 
 	public String getText() {
 		return geogebra.html5.main.DrawEquationWeb
-				.getActualEditedValue(seMayLatex);
+		        .getActualEditedValue(seMayLatex);
 	}
 
 	public void scrollIntoView() {
@@ -1593,7 +1612,7 @@ geo, newValue, redefine, true);
 	}
 
 	public void removeCloseButton() {
-		if(this.deleteButton != null){
+		if (this.deleteButton != null) {
 			remove(this.deleteButton);
 		}
 	}
@@ -1607,7 +1626,7 @@ geo, newValue, redefine, true);
 
 	void addSpecial(Widget w) {
 		if (geo != null && geo instanceof GeoNumeric && slider != null
-				&& sliderPanel != null) {
+		        && sliderPanel != null) {
 			sliderPanel.remove(slider);
 			sliderPanel.add(w);
 			if (((HasExtendedAV) geo).isShowingExtendedAV()) {

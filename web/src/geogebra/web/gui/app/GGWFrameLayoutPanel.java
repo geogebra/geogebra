@@ -216,6 +216,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		        this, app);
 		if (show && textField != null) {
 			keyBoard.show();
+			CancelEventTimer.keyboardSetVisible();
 			this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 		} else {
 			keyBoard.resetKeyboardState();
