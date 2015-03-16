@@ -897,7 +897,8 @@ public class DrawEquationWeb extends DrawEquation {
 			// multiple focus/blur handlers can be attached to the same event in JQuery
 			// but for the blur() event this did not work, so moved this code to
 			// mathquillggb.js, textarea.focus and blur handlers - "NoHorizontalScroll"
-			// style in web-styles.css...
+			// style in web-styles.css... but at least set newCreationMode here!
+			elsecondInside.newCreationMode = true;
 		}
 	}-*/;
 

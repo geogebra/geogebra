@@ -1789,7 +1789,9 @@ function createRoot(jQ, root, textbox, editable) {
 
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
-    textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+    if (root.common.newCreationMode) {
+    	textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+    }
 
     e.stopPropagation();
   }).blur(function(e) {
@@ -1799,7 +1801,9 @@ function createRoot(jQ, root, textbox, editable) {
 
     // dirty hack, but effective, as mathquillggb.js is used
     // from GeoGebraWeb anyway (if not, it does no harm)
-    textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
+    if (root.common.newCreationMode) {
+    	textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
+    }
     e.stopPropagation();
   });
 
