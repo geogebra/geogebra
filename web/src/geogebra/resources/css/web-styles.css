@@ -2240,6 +2240,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	color: #000;
 	box-shadow: none;
 	overflow: hidden !important;
+	font-family: geogebra-sans-serif;
 }
 
 .KeyBoard .SymbolTable {
