@@ -236,8 +236,9 @@ public class AnimationExportDialog extends JDialog {
 		gifEncoder.start(file);
 
 		gifEncoder.setDelay(timeBetweenFrames); // miliseconds
-		gifEncoder.setRepeat(cbLoop.isSelected() ? 0 : 1);
-
+		if (cbLoop.isSelected()) {
+			gifEncoder.setRepeat(0);
+		}
 		FrameCollector collector = new FrameCollector() {
 
 			public void addFrame(BufferedImage img) {

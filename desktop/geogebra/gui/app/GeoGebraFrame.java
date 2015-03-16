@@ -33,9 +33,11 @@ import geogebra.export.GraphicExportDialog;
 import geogebra.gui.FileDropTargetListener;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.DialogManagerD;
+import geogebra.gui.util.AnimatedGifEncoder;
 import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.util.DownloadManager;
+import geogebra.util.FrameCollector;
 import geogebra.util.Util;
 import geogebra3D.euclidian3D.EuclidianView3DD;
 
@@ -793,7 +795,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 					String dpiStr = args.getStringValue("dpi");
 
-					final int dpi = Integer.parseInt(dpiStr == null ? "300"
+					final int dpi = Integer.parseInt(dpiStr.equals("") ? "300"
 							: dpiStr);
 
 					EuclidianViewD ev = app.getEuclidianView1();
@@ -866,6 +868,48 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 						val = min;
 					}
 
+					if ("gif".equals(extension)) {
+
+						// "true" (default) or "false"
+						String loop = args.getStringValue("loop");
+
+
+						// time between frames in ms
+						String delayStr = args.getStringValue("delay");
+
+						final int delay = Integer.parseInt(delayStr.equals("") ? "10"
+								: delayStr);
+
+						final AnimatedGifEncoder gifEncoder = new AnimatedGifEncoder();
+						gifEncoder.start(new File(filename + ".gif"));
+
+						gifEncoder.setDelay(delay); // miliseconds
+						if (!"false".equals(loop)) {
+							// repeat forever
+							gifEncoder.setRepeat(0);
+						}
+
+						FrameCollector collector = new FrameCollector() {
+
+							public void addFrame(BufferedImage img) {
+								gifEncoder.addFrame(img);
+
+							}
+
+							public void finish() {
+								gifEncoder.finish();
+
+							}
+						};
+
+						app.exportAnimatedGIF(collector, num, n, val, min, max,
+								step);
+
+						App.debug("animated GIF exported successfully");
+
+						System.exit(0);
+					}
+
 					for (int i = 0; i < n; i++) {
 
 						App.debug("exporting frame " + i + "of " + n);
@@ -902,7 +946,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 			final String extension = AppD.getExtension(filename);
 			String dpiStr = args.getStringValue("dpi");
 
-			final int dpi = Integer.parseInt(dpiStr == null ? "300" : dpiStr);
+			final int dpi = Integer
+					.parseInt(dpiStr.equals("") ? "300" : dpiStr);
 
 			App.debug("attempting to export: " + filename + " at " + dpiStr
 					+ "dpi");
