@@ -1786,11 +1786,20 @@ function createRoot(jQ, root, textbox, editable) {
     }
     else
       cursor.show();
+
+    // dirty hack, but effective, as mathquillggb.js is used
+    // from GeoGebraWeb anyway (if not, it does no harm)
+    textarea.parents('.algebraPanel').addClass('NoHorizontalScroll');
+
     e.stopPropagation();
   }).blur(function(e) {
     cursor.hide().parent.blur();
     if (cursor.selection)
       cursor.selection.jQ.addClass('blur');
+
+    // dirty hack, but effective, as mathquillggb.js is used
+    // from GeoGebraWeb anyway (if not, it does no harm)
+    textarea.parents('.algebraPanel').removeClass('NoHorizontalScroll');
     e.stopPropagation();
   });
 

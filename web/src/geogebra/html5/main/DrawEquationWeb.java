@@ -892,6 +892,12 @@ public class DrawEquationWeb extends DrawEquation {
 				// event capturing before the event handlers of MathQuillGGB
 				elsecondInside.addEventListener("keydown", keydownfun, true);
 			}
+
+			// Also switching off the AV horizontal scrollbar when this has focus
+			// multiple focus/blur handlers can be attached to the same event in JQuery
+			// but for the blur() event this did not work, so moved this code to
+			// mathquillggb.js, textarea.focus and blur handlers - "NoHorizontalScroll"
+			// style in web-styles.css...
 		}
 	}-*/;
 
