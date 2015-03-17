@@ -867,4 +867,14 @@ public class GeoConicPart extends GeoConic implements GeoConicPartND, LimitedPat
 		parameters.value_defined = true;
 		
 	}
+
+	@Override
+	/**
+	 * Does not compute parameters, sets them to default to make conic defined
+	 */
+	public void fromLine(GeoLine line) {
+		super.fromLine(line);
+		parameters.value = 0;
+		parameters.value_defined = true;
+	}
 }
