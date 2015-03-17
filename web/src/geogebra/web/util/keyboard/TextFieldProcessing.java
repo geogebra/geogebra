@@ -375,7 +375,8 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
 				        false, false);
 			} else if (text.startsWith(KeyboardConstants.EULER)) {
-				((RadioButtonTreeItem) field).insertString("e");
+				((RadioButtonTreeItem) field)
+				        .insertString(KeyboardConstants.EULER);
 				// inserts: ^{}
 				((RadioButtonTreeItem) field).keypress(CIRCUMFLEX, false,
 						false, false);

@@ -339,7 +339,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		addButton("sin", index, functions);
 		addButton("cos", index, functions);
 		addButton("tan", index, functions);
-		addButton("e^x", KeyboardConstants.EULER, index, functions)
+		addButton("e^x", KeyboardConstants.EULER + "^", index, functions)
 		        .addStyleName("supScript");
 		addButton("|x|", "abs", index, functions);
 

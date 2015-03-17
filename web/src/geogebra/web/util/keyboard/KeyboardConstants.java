@@ -22,7 +22,7 @@ public class KeyboardConstants {
 	/** x to the power of y */
 	protected static final String X_POWER_Y = "x^y";
 	protected static final String SQUARE_ROOT = Unicode.SQUARE_ROOT + "";
-	protected static final String EULER = "e^";
+	protected static final String EULER = Unicode.EULER_STRING;
 	
 	
 	protected static final String VECTOR_PRODUCT = Unicode.VECTOR_PRODUCT + "";
