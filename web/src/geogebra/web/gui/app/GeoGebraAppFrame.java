@@ -7,6 +7,7 @@ import geogebra.common.GeoGebraConstants;
 import geogebra.common.main.App;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.Dom;
 import geogebra.html5.util.LoadFilePresenter;
@@ -25,6 +26,7 @@ import geogebra.web.main.GDevice;
 import java.util.Date;
 
 import com.google.gwt.canvas.client.Canvas;
+import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.core.client.Scheduler;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.MouseDownEvent;
@@ -45,7 +47,8 @@ import com.google.gwt.user.client.ui.Widget;
  * Creates the App base structure.
  *
  */
-public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck{
+public class GeoGebraAppFrame extends ResizeComposite implements
+        HeaderPanelDeck, HasAppletProperties {
 	
 	/** Loads file into active GeoGebraFrame */
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
@@ -365,5 +368,77 @@ public class GeoGebraAppFrame extends ResizeComposite implements HeaderPanelDeck
 	
 	public void showKeyBoard(boolean show, Widget textField) {
 		this.frameLayout.keyBoardNeeded(show, textField);
+	}
+
+	@Override
+	public void setWidth(int width) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setHeight(int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void setSize(int width, int height) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void resetAutoSize() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void enableRightClick(boolean enable) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void enableLabelDrags(boolean enable) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void enableShiftDragZoom(boolean enable) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void showToolBar(boolean show) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void showMenuBar(boolean show) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void showAlgebraInput(boolean show) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void showResetIcon(boolean show) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public JavaScriptObject getOnLoadCallback() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

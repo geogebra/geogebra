@@ -2255,6 +2255,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	box-shadow: none;
 	overflow: hidden !important;
 	font-family: geogebra-sans-serif;
+	position: relative;
 }
 
 .KeyBoard .SymbolTable {

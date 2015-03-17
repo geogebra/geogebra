@@ -15,6 +15,7 @@ import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.ToolBarInterface;
 import geogebra.html5.javax.swing.GOptionPaneW;
 import geogebra.html5.main.FileManagerI;
+import geogebra.html5.main.HasAppletProperties;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.URL;
@@ -582,4 +583,9 @@ public class AppWapplication extends AppWFull {
 		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
 		        null, null);
 	}
+
+	public HasAppletProperties getAppletFrame() {
+		return appFrame;
+	}
+
 }
