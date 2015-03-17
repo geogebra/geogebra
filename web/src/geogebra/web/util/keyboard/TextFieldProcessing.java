@@ -416,13 +416,9 @@ public class TextFieldProcessing {
 	 * @return {@code true} if the RadioButtonTreeItem needs a keyPress event.
 	 */
     private boolean keyPressNeeded(String text) {
-		// e.g. - and + are needed because they are binary operators in
-		// MathQuillGGB, so when "/" is pressed they should break...
-		// TODO: check other binary operators from MathQuillGGB...
 	    return text.equals("/") || text.equals("_") || text.equals("$")
 	            || text.equals(" ") || text.equals("|") || text.equals(",")
-		        || text.equals("*") || text.equals("-") || text.equals("+")
-		        || text.startsWith("(")
+		        || text.equals("*") || text.startsWith("(")
 		        || text.equals(KeyboardConstants.SQUARE_ROOT);
     }
 
