@@ -6818,7 +6818,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @return true if selection is allowed
 	 */
-	public boolean isSelectionAllowed() {
+	public final boolean isSelectionAllowed() {
 		return selectionAllowed;
 	}
 

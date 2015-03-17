@@ -735,7 +735,10 @@ public class Hits extends ArrayList<GeoElement> {
 			getHits(Test.GEOPOINTND, false, topHitsList);
 			return topHitsList;
 		}
-
+		if (containsGeoTextfield(topHitsList)) {
+			getHits(Test.GEOTEXTFIELD, false, topHitsList);
+			return topHitsList;
+		}
 		// text in there?
 		if (containsGeoText(topHitsList)) {
 			getHits(Test.GEOTEXT, false, topHitsList);
@@ -839,6 +842,19 @@ public class Hits extends ArrayList<GeoElement> {
 		for (int i = 0; i < size(); i++) {
 			geo = get(i);
 			if (geo.isGeoText()) {
+				ret.add(geo);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	final public boolean containsGeoTextfield(Hits ret) {
+
+		GeoElement geo;
+		for (int i = 0; i < size(); i++) {
+			geo = get(i);
+			if (geo.isGeoTextField()) {
 				ret.add(geo);
 				return true;
 			}
