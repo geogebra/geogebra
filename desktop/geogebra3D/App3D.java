@@ -344,12 +344,13 @@ public class App3D extends AppD {
 	}
 
 	@Override
-	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num,
+	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
+			GeoNumeric num,
 			int n, double val, double min, double max, double step) {
 
-		if (!(getActiveEuclidianView() instanceof EuclidianView3D)) {
+		if (!(ev instanceof EuclidianView3D)) {
 			// regular 2D export
-			super.exportAnimatedGIF(gifEncoder, num, n, val, min, max, step);
+			super.exportAnimatedGIF(ev, gifEncoder, num, n, val, min, max, step);
 			return;
 		}
 

@@ -21,6 +21,7 @@ import geogebra.AppId;
 import geogebra.CommandLineArguments;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.awt.GColor;
+import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.factories.UtilFactory;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.Macro;
@@ -798,19 +799,7 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					final int dpi = Integer.parseInt(dpiStr.equals("") ? "300"
 							: dpiStr);
 
-					EuclidianViewD ev = app.getEuclidianView1();
-					double printingScale = ev.getPrintingScale();
-					double exportScale = (printingScale * dpi) / 2.54
-							/ ev.getXscale();
-					boolean textAsShapes = true;
-					boolean transparent = true;
-					boolean useEMFplus = true;
-
-					int pixelWidth = (int) Math.floor(ev.getExportWidth()
-							* exportScale);
-					int pixelHeight = (int) Math.floor(ev.getExportHeight()
-							* exportScale);
-
+					EuclidianView ev = app.getActiveEuclidianView();
 					String filename = args.getStringValue("exportAnimation");
 
 					final String extension = AppD.getExtension(filename);
@@ -902,13 +891,26 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 							}
 						};
 
-						app.exportAnimatedGIF(collector, num, n, val, min, max,
+						app.exportAnimatedGIF(ev, collector, num, n, val, min,
+								max,
 								step);
 
 						App.debug("animated GIF exported successfully");
 
 						System.exit(0);
 					}
+
+					double printingScale = ev.getPrintingScale();
+					double exportScale = (printingScale * dpi) / 2.54
+							/ ev.getXscale();
+					boolean textAsShapes = true;
+					boolean transparent = true;
+					boolean useEMFplus = true;
+
+					int pixelWidth = (int) Math.floor(ev.getExportWidth()
+							* exportScale);
+					int pixelHeight = (int) Math.floor(ev.getExportHeight()
+							* exportScale);
 
 					for (int i = 0; i < n; i++) {
 
@@ -922,7 +924,8 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 
 						File file = new File(filename + i + "." + extension);
 
-						GraphicExportDialog.export(extension, ev, file,
+						GraphicExportDialog.export(extension,
+								(EuclidianViewD) ev, file,
 								transparent, dpi, exportScale, textAsShapes,
 								useEMFplus, pixelWidth, pixelHeight, app);
 
@@ -953,45 +956,45 @@ public class GeoGebraFrame extends JFrame implements WindowFocusListener,
 					+ "dpi");
 
 
-
+			// wait for EuclidianView etc to initialize before export
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 
 					try {
 
-						// if 3D view exists, assume that we should export that
+						// if 3D view exists, assume that we should export
+						// that
 						// (only PNG supported right now for 3D)
-						if ("png".equals(extension)
-								&& app.isEuclidianView3Dinited()
+						if (app.isEuclidianView3Dinited()
 								&& app.hasEuclidianView3D()) {
+
+							if (!"png".equals(extension)) {
+								App.error("only PNG export supported for the 3D View");
+								System.exit(0);
+							}
+
 							final EuclidianView3DD ev = (EuclidianView3DD) app
 									.getEuclidianView3D();
 
-							// tell 3D View we need an image
-							ev.getExportImage(1);
 
-							// then wait a bit more
-							SwingUtilities.invokeLater(new Runnable() {
-								public void run() {
-									try {
+							try {
 
-										BufferedImage bufferedImage = ev
-												.getExportImage(1);
-										ImageIO.write(bufferedImage, "png",
-												new File(filename));
-										App.debug("3D view exported successfully");
-									} catch (IOException e) {
-										e.printStackTrace();
-									}
+								BufferedImage bufferedImage = ev
+										.getExportImage(1);
+								ImageIO.write(bufferedImage, "png", new File(
+										filename));
+								App.debug("3D view exported successfully");
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
 
-									System.exit(0);
-								}
-							});
+							System.exit(0);
+
 
 							return;
 						}
 
-						EuclidianViewD ev = app.getEuclidianView1();
+						EuclidianViewD ev = (EuclidianViewD) app.getActiveEuclidianView();
 						double printingScale = ev.getPrintingScale();
 						double exportScale = (printingScale * dpi) / 2.54
 								/ ev.getXscale();

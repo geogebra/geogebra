@@ -498,35 +498,39 @@ public class EuclidianView3DD extends EuclidianView3D implements
 	public BufferedImage getExportImage(double scale) {
 		return getExportImage(scale, false);
 	}
-	
+
 	public BufferedImage getExportImage(double scale, boolean transparency)
 			throws OutOfMemoryError {
 		((RendererD) getRenderer()).needExportImage(scale);
-		
 
 		return ((RendererD) getRenderer()).getExportImage();
 	}
-	
+
 	private boolean exportToClipboard;
 	private File exportFile;
 	private int exportDPI;
-	
+
 	@Override
 	public void exportImagePNG(double scale, boolean transparency, int dpi,
 			File file, boolean exportToClipboard) {
-		
+
 		exportDPI = dpi;
 		exportFile = file;
-		this.exportToClipboard = exportToClipboard; 
+		this.exportToClipboard = exportToClipboard;
 
 		((RendererD) getRenderer()).needExportImage(scale);
 	}
-	
+
 	/**
 	 * write current renderer's image to current export file
 	 */
-	public void writeExportImage(){
-		
+	public void writeExportImage() {
+
+		if (exportFile == null) {
+			Log.debug("exportFile not set");
+			return;
+		}
+
 		try {
 			BufferedImage img = ((RendererD) getRenderer()).getExportImage();
 			MyImageIO.write(img, "png", exportDPI, exportFile);
@@ -535,8 +539,8 @@ public class EuclidianView3DD extends EuclidianView3D implements
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
-		
+		}
+
 	}
 
 	@Override

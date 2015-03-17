@@ -257,7 +257,8 @@ public class AnimationExportDialog extends JDialog {
 		app.setWaitCursor();
 
 		try {
-			app.exportAnimatedGIF(collector, num, n, val, min, max, step);
+			app.exportAnimatedGIF(app.getActiveEuclidianView(), collector, num,
+					n, val, min, max, step);
 
 		} catch (Exception ex) {
 			app.showError("SaveFileFailed");

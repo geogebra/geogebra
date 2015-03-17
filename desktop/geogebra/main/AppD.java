@@ -5036,7 +5036,8 @@ public class AppD extends App implements KeyEventDispatcher {
 	// ConstructionProtocol
 	// **************************************************************************
 
-	public void exportAnimatedGIF(FrameCollector gifEncoder, GeoNumeric num,
+	public void exportAnimatedGIF(EuclidianView ev, FrameCollector gifEncoder,
+			GeoNumeric num,
 			int n, double val, double min, double max, double step) {
 		for (int i = 0; i < n; i++) {
 
@@ -5046,8 +5047,7 @@ public class AppD extends App implements KeyEventDispatcher {
 			num.setValue(val);
 			num.updateRepaint();
 
-			Image img = ((EuclidianViewD) getActiveEuclidianView())
-					.getExportImage(1);
+			Image img = ((EuclidianViewD) ev).getExportImage(1);
 			if (img == null) {
 				Log.error("image null");
 			} else {
