@@ -174,7 +174,7 @@ public abstract class CommandDispatcher {
 
 			if (cmdProc == null) {
 				cmdProc = commandTableSwitch(cmdName);
-				if (cmdProc != null) {
+				if (cmdProc != null && !cmdName.equals("Repeat")) {
 					cmdTable.put(cmdName, cmdProc);
 				}
 			}
