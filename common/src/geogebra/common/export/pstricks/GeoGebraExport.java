@@ -1433,8 +1433,8 @@ public abstract class GeoGebraExport {
 				&& !s.toLowerCase().contains("cot(")
 				&& !s.toLowerCase().contains("coth(")
 				&& !s.toLowerCase().contains("sech(")
-				&& !s.toLowerCase().contains("if")
-				&& !s.toLowerCase().contains('\u212f' + "^");
+				&& !s.toLowerCase().contains("if");
+
 
 	}
 

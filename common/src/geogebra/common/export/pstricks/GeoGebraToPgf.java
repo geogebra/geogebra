@@ -1304,7 +1304,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 			startBeamer(sb);
 			if (forceGnuplot) {
 				if (!isLatexFunction(f
-						.toValueString(StringTemplate.noLocalDefault))) {
+						.toValueString(StringTemplate.noLocalDefault))
+						|| f.toValueString(StringTemplate.noLocalDefault)
+								.toLowerCase().contains('\u212f' + "^")) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin,
 							integral, geo1);
 				} else {
@@ -1315,7 +1317,9 @@ public abstract class GeoGebraToPgf extends GeoGebraExport {
 				if (!isLatexFunction(f
 						.toValueString(StringTemplate.noLocalDefault))
 						|| isTrigInv(f
-								.toValueString(StringTemplate.noLocalDefault))) {
+								.toValueString(StringTemplate.noLocalDefault))
+						|| f.toValueString(StringTemplate.noLocalDefault)
+								.toLowerCase().contains('\u212f' + "^")) {
 					drawNoLatexFunction(geo, sb, xrangemax, xrangemin,
 							integral, geo1);
 				} else {
