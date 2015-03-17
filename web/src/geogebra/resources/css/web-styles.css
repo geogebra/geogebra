@@ -37,19 +37,18 @@
 	position: relative;
 }
 
-.NewRadioButtonTreeItemParent {
+/*.NewRadioButtonTreeItemParent {
 	overflow: hidden;
-	/*display: inline-block !important;
+	display: inline-block !important;
 	width: 100%;
 	position: relative;
-	bottom: 17px;*/
-	/*margin-bottom: -15px !important;*/
-}
+	bottom: 17px;
+}*/
 
 /*.NewRadioButtonTreeItemParent::after */
 
 .NewRadioButtonTreeItem {
-	overflow-x: scroll;
+	overflow-x: auto;
 	overflow-y: hidden;
 	/* 2*relative hack idea for NewRadioButtonTreeItemParent */
 	/*position: relative;
