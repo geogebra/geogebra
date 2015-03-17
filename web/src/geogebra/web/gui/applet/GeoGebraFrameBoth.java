@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.common.main.App.InputPositon;
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeelI;
@@ -10,8 +11,10 @@ import geogebra.html5.util.ArticleElement;
 import geogebra.html5.util.debug.GeoGebraLogger;
 import geogebra.web.gui.HeaderPanelDeck;
 import geogebra.web.gui.MyHeaderPanel;
+import geogebra.web.gui.app.ShowKeyboardButton;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
+import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
@@ -88,6 +91,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private boolean[] childVisible = new boolean[0];
 	private boolean isBrowserShowing = false;
 	private boolean keyboardShowing = false;
+	private ShowKeyboardButton showKeyboardButton;
 	
 	@Override
     public void showBrowser(HeaderPanel bg) {
@@ -128,8 +132,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	    
     }
 
-	@Override
-	public void showKeyBoard(boolean show, Widget textField) {
+	public void doShowKeyBoard(boolean show, Widget textField) {
 		if (this.keyboardShowing == show) {
 			return;
 		}
@@ -143,6 +146,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 			this.add(keyBoard);
 		} else {
+			this.remove(keyBoard);
 			keyBoard.resetKeyboardState();
 		}
 		// this.mainPanel.add(this.dockPanel);
@@ -152,7 +156,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			public void run() {
 				// onResize();
 				// dockPanel.onResize();
-				// scrollToInputField();
+				scrollToInputField();
 			}
 		};
 		timer.schedule(0);
@@ -160,13 +164,52 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	@Override
 	public void showInputField() {
-		// TODO Auto-generated method stub
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				scrollToInputField();
+			}
+		};
+		timer.schedule(0);
+	}
 
+	/**
+	 * Scroll to the input-field, if the input-field is in the algebraView.
+	 */
+	void scrollToInputField() {
+		if (app.showAlgebraInput()
+		        && app.getInputPosition() == InputPositon.algebraView) {
+			((AlgebraDockPanelW) (app.getGuiManager().getLayout()
+			        .getDockManager()
+			        .getPanel(geogebra.common.main.App.VIEW_ALGEBRA)))
+			        .scrollToBottom();
+		}
+	}
+
+	public void showKeyBoard(boolean show, Widget textField) {
+		keyBoardNeeded(show, textField);
 	}
 
 	@Override
 	public void keyBoardNeeded(boolean show, Widget textField) {
-		// TODO Auto-generated method stub
+		if (app.getLAF().isTablet()
+		        || keyboardShowing // if keyboard is already
+		                           // showing, we don't have
+		                           // to handle the showKeyboardButton
+		        || OnScreenKeyBoard.getInstance(textField, this, app)
+		                .shouldBeShown()) {
+			doShowKeyBoard(show, textField);
+		} else {
+			showKeyboardButton(show, textField);
+		}
 
 	}
+
+	private void showKeyboardButton(boolean show, Widget textField) {
+		if (showKeyboardButton == null) {
+			showKeyboardButton = new ShowKeyboardButton(this, textField);
+		}
+		showKeyboardButton.show(show, textField);
+	}
+
 }

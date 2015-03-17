@@ -8,8 +8,6 @@ import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.gui.util.ClickStartHandler;
 import geogebra.html5.main.AppW;
-import geogebra.web.css.GuiResources;
-import geogebra.web.gui.NoDragImage;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
@@ -21,16 +19,12 @@ import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.TouchMoveEvent;
 import com.google.gwt.event.dom.client.TouchMoveHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 public class GGWFrameLayoutPanel extends LayoutPanel implements
@@ -48,7 +42,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	MyDockPanelLayout dockPanel;
 	MyDockPanelLayout mainPanel;
 	boolean keyboardShowing = false;
-	PopupPanel showKeyboardButton;
+	ShowKeyboardButton showKeyboardButton;
 	
 	private DockGlassPaneW glassPane;
 
@@ -150,7 +144,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		                           // to handle the showKeyboardButton
 		        || OnScreenKeyBoard.getInstance(textField, this, app)
 		                .shouldBeShown()) {
-			showKeyboard(show, textField);
+			doShowKeyBoard(show, textField);
 		} else {
 			showKeyboardButton(show, textField);
 		}
@@ -168,44 +162,16 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	public void showKeyboardButton(boolean show, final Widget textField) {
 
 		if (showKeyboardButton == null) {
-			showKeyboardButton = new PopupPanel();
-			showKeyboardButton.addStyleName("openKeyboardButton");
-			HorizontalPanel content = new HorizontalPanel();
-			NoDragImage triangle = new NoDragImage(GuiResources.INSTANCE
-			        .keyboard_triangleUp().getSafeUri().asString());
-			triangle.addStyleName("arrowUp");
-			content.add(triangle);
-			NoDragImage showKeyboard = new NoDragImage(GuiResources.INSTANCE
-			        .keyboard_show().getSafeUri().asString());
-			content.add(showKeyboard);
-			showKeyboardButton.add(content);
-			showKeyboardButton.setAutoHideEnabled(true);
-			showKeyboardButton.addDomHandler(new ClickHandler() {
-
-				@Override
-				public void onClick(ClickEvent event) {
-					showKeyboard(true, textField);
-					showKeyboardButton.hide();
-				}
-			}, ClickEvent.getType());
+			showKeyboardButton = new ShowKeyboardButton(this, textField);
 		}
-
-		if (textField != null) {
-			showKeyboardButton.addAutoHidePartner(textField.getElement());
-		}
-
-		if (show) {
-			showKeyboardButton.show();
-		} else {
-			showKeyboardButton.hide();
-		}
+		showKeyboardButton.show(show, textField);
 	}
 
 	/**
 	 * Shows or hides keyboard. In case keyboard state changed, it rebuilds the
 	 * DOM in the process so it may steal focus from currently selected element.
 	 */
-	void showKeyboard(boolean show, Widget textField) {
+	public void doShowKeyBoard(boolean show, Widget textField) {
 		// make sure the main part of this method is called ONLY WHEN NECESSARY
 		if (this.keyboardShowing == show) {
 			return;

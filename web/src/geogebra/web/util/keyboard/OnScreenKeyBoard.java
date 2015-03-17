@@ -1,5 +1,6 @@
 package geogebra.web.util.keyboard;
 
+import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.AppW;
@@ -111,7 +112,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// supportedLocales.put(Language.Yiddish.localeGWT, "ji");
 	}
 
-	private static OnScreenKeyBoard instance;
+	private static HashMap<App, OnScreenKeyBoard> instances;
 	private static final int MIN_WIDTH_WITHOUT_SCALING = 823;
 	private static final int MIN_WIDTH_FONT = 485;
 	private static final int KEY_PER_ROW = 12;
@@ -146,7 +147,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
 	private KeyBoardButton switchABCGreek;
-	private static AppW app;
+	private AppW app;
 	/**
 	 * positioning (via setPopupPosition) needs to be enabled in order to
 	 * prevent automatic positioning in the constructor
@@ -182,16 +183,22 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 */
 	public static OnScreenKeyBoard getInstance(Widget textField,
 	        UpdateKeyBoardListener listener, AppW appW) {
-		app = appW;
+
+		if (instances == null) {
+			instances = new HashMap<App,OnScreenKeyBoard>();
+		}
+		OnScreenKeyBoard instance = instances.get(appW);
 		if (instance == null) {
 			instance = new OnScreenKeyBoard();
+			instance.app = appW;
+			instances.put(appW,instance);
 		}
 
 		// set keyboard used to false for the old text field
-		setUsed(false);
+		instance.setUsed(false);
 		instance.setTextField(textField);
 		// set keyboard used to true for the new text field
-		setUsed(true);
+		instance.setUsed(true);
 
 		instance.setListener(listener);
 		return instance;
@@ -204,9 +211,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @param textField
 	 *            the new textField
 	 */
-	public static void setInstanceTextField(Widget textField) {
-		if (instance != null) {
-			instance.setTextField(textField);
+	public static void setInstanceTextField(App app, Widget textField) {
+		if (instances != null && instances.get(app) != null) {
+			instances.get(app).setTextField(textField);
 		}
 	}
 
@@ -216,10 +223,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * @param used
 	 *            whether the keyboard is used or not
 	 */
-	public static void setUsed(boolean used) {
-		if (instance != null && instance.textField != null) {
-			instance.processing.setKeyBoardUsed(used
-			        && instance.contentNumber.isVisible());
+	public void setUsed(boolean used) {
+		if (this.textField != null) {
+			this.processing.setKeyBoardUsed(used
+			        && this.contentNumber.isVisible());
 		}
 	}
 
@@ -805,10 +812,10 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		}
 	}
 
-	public static void setResetComponent(RadioButtonTreeItem rbti) {
-		if (instance != null) {
-			instance.resetComponent = rbti;
-		}
+	public void setResetComponent(RadioButtonTreeItem rbti) {
+
+		this.resetComponent = rbti;
+
 	}
 
 	/**

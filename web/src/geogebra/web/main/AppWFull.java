@@ -24,7 +24,7 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void updateKeyBoardField(Widget field) {
-		OnScreenKeyBoard.setInstanceTextField(field);
+		OnScreenKeyBoard.setInstanceTextField(this, field);
 	}
 
 	@Override

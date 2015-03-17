@@ -7,4 +7,6 @@ public interface UpdateKeyBoardListener {
 	public abstract void showInputField();
 
 	public abstract void keyBoardNeeded(boolean show, Widget textField);
+
+	public abstract void doShowKeyBoard(boolean b, Widget textField);
 }

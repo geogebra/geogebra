@@ -1001,7 +1001,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				@Override
 				public void onClickStart(int x, int y,
 				        final PointerEventType type) {
-					OnScreenKeyBoard.setInstanceTextField(tb);
+					OnScreenKeyBoard.setInstanceTextField(app, tb);
 					// prevent that keyboard is closed on clicks (changing
 					// cursor position)
 					CancelEventTimer.keyboardSetVisible();
