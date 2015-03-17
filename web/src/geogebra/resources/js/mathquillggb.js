@@ -400,29 +400,33 @@ var manageTextarea = (function() {
       var text = textarea.val();
       if ((text !== undefined) && (text !== '')) {
     	// something really entered
-    	if (text === '^') {
+    	//if (text === '^') {
     	  // in IE the two hats come separately
     	  // in Firefox keypress will contain hat-prefix
     	  // even if textarea.val('') was called,
     	  // so in Firefox, onehat is undefined
-    	  if (textarea.onehat !== undefined) {
-    		delete textarea.onehat;
-            textarea.val('');
-    	  } else {
-    	    textarea.onehat = true;
-            textarea.val('');
-            callback('^');
-    	  }
-    	} else {
-          if (textarea.onehat !== undefined) {
-        	delete textarea.onehat;
-          }
+    	  // Edit: but not if Firefox is used with the
+    	  // on-screen keyboard! By the way, as two
+    	  // ^^ are not allowed now anyway, we can get
+    	  // rid of this hacking now...
+    	  //if (textarea.onehat !== undefined) {
+    	  //  delete textarea.onehat;
+          //  textarea.val('');
+    	  //} else {
+    	  //  textarea.onehat = true;
+          //  textarea.val('');
+          //  callback('^');
+    	  //}
+    	//} else {
+        //  if (textarea.onehat !== undefined) {
+        //	delete textarea.onehat;
+        //  }
           // no ^ hat character, do the general case
     	  // or even in case of ^2 this is the way to go
     	  // to be cross-browser...
           textarea.val('');
           callback(text);
-    	}
+    	//}
       }
       // else textarea.val(''); do not do it to avoid deleting one hat
     }
