@@ -1737,7 +1737,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/**
 	 * @param flag true to make this fixed
 	 */
-	public void setFixed(final boolean flag) {
+	public final void setFixed(final boolean flag) {
 		if (!flag) {
 			fixed = flag;
 		} else if (isFixable()) {
