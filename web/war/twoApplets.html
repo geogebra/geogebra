@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>GeoGebra Dinamikus munkalap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="gwt:property" content="locale=en">
+<script type="text/javascript">
+// for IE9
+if (!window.console) window.console = {};
+if (!window.console.log) window.console.log = function () { };
+
+            WebFontConfig = {
+                loading: function() {},
+                active: function() {},
+                inactive: function() {},
+				fontloading: function(familyName, fvd) {console.log("font fontloading: "+familyName);},
+				fontactive: function(familyName, fvd) {console.log("font active: "+familyName);},
+                fontinactive: function(familyName, fvd) {},
+                custom: {
+                    families: ["geogebra-serif", "geogebra-sans-serif" ],
+                    urls: [ "web/css/fonts.css?v=1.15" ]
+                }
+            };
+</script>
+<script src="web/js/webfont.js?v=1.15"></script>
+</head>
+<body>
+    <script type="text/javascript" language="javascript" src="web3d/web3d.nocache.js"></script>
+    <article class="geogebraweb" data-param-showLogging="true"
+    data-param-showAlgebraInput="true"
+    data-param-showToolbar="true"
+    data-param-preRelease="true"
+    data-param-width="800"
+    data-param-height="600"
+    data-param-ggbbase64="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"></article>
+    <div>Same applet without toolbar</div>
+    <article class="geogebraweb" data-param-showLogging="true"
+    data-param-showAlgebraInput="true"
+    data-param-preRelease="true"
+    data-param-width="800"
+    data-param-height="600"
+    data-param-ggbbase64="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"></article>
+</body>
+</html>
