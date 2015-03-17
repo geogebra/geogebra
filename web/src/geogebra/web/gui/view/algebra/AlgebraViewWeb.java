@@ -1033,6 +1033,8 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 		if (app.isPrerelease()) {
 			this.inputPanelTreeItem = new TreeItem(new NewRadioButtonTreeItem(
 			        kernel));
+			inputPanelTreeItem.getWidget().getElement().getParentElement()
+			        .addClassName("NewRadioButtonTreeItemParent");
 		}
 		if(inputPanel != null){
 			//make sure we do not trigger long touch here
@@ -1093,7 +1095,9 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 							});
 				}
 				inputPanelTreeItem = super.addItem(inputPanelLatex);
-
+				// inputPanelTreeItem.addStyleName("NewRadioButtonTreeItemParent");
+				inputPanelTreeItem.getWidget().getElement().getParentElement()
+				        .addClassName("NewRadioButtonTreeItemParent");
 			} else {
 				inputPanelTreeItem = super.addItem(inputPanel.getTextField());
 			}
