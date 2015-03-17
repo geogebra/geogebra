@@ -444,7 +444,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		app = (AppW) kernel.getApplication();
 		av = app.getAlgebraView();
 		selection = app.getSelectionManager();
-		this.setStyleName("elem");
+		this.setStyleName("NewRadioButtonTreeItem elem");
 
 		// setHorizontalAlignment(HasHorizontalAlignment.ALIGN_CENTER);
 		// setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);

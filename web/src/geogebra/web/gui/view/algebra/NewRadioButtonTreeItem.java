@@ -185,7 +185,6 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
-		this.addStyleName("NewRadioButtonTreeItem");
 		curWord = new StringBuilder();
 		sug = new ScrollableSuggestionDisplay();
 		popup = new CompletionsPopup();
