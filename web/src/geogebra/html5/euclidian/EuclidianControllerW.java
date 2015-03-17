@@ -463,7 +463,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (firstSelectedPoint != null
 		        && this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
 			// prevent further processing
-			if (withinPointSelectionDistance(startPosition, event)) {
+			if (!withinPointSelectionDistance(startPosition, event)) {
 				// update the preview circle
 				super.wrapMouseMoved(event);
 			}
@@ -520,7 +520,7 @@ public class EuclidianControllerW extends EuclidianController implements
 		if (this.mode == EuclidianConstants.MODE_CIRCLE_POINT_RADIUS) {
 			view.setPreview(null);
 			if (firstSelectedPoint != null
-			        && withinPointSelectionDistance(startPosition, event)) {
+			        && !withinPointSelectionDistance(startPosition, event)) {
 				double x = view.toRealWorldCoordX(event.getX());
 				double y = view.toRealWorldCoordY(event.getY());
 				double distance = Math.sqrt(Math.pow(
