@@ -3,6 +3,7 @@ package geogebra.web.gui.applet;
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeelI;
+import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.AppWsimple;
 import geogebra.html5.util.ArticleElement;
@@ -11,15 +12,20 @@ import geogebra.web.gui.HeaderPanelDeck;
 import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
+import geogebra.web.util.keyboard.OnScreenKeyBoard;
+import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
 import java.util.ArrayList;
 
 import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
-public class GeoGebraFrameBoth extends GeoGebraFrame implements HeaderPanelDeck{
+public class GeoGebraFrameBoth extends GeoGebraFrame implements
+        HeaderPanelDeck, UpdateKeyBoardListener {
 
 	private AppletFactory factory;
 	private DockGlassPaneW glass;
@@ -81,6 +87,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements HeaderPanelDeck{
 	}
 	private boolean[] childVisible = new boolean[0];
 	private boolean isBrowserShowing = false;
+	private boolean keyboardShowing = false;
 	
 	@Override
     public void showBrowser(HeaderPanel bg) {
@@ -120,4 +127,46 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements HeaderPanelDeck{
 	    app.updateViewSizes(); 
 	    
     }
+
+	@Override
+	public void showKeyBoard(boolean show, Widget textField) {
+		if (this.keyboardShowing == show) {
+			return;
+		}
+		this.keyboardShowing = show;
+		// this.mainPanel.clear();
+		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
+		        this, app);
+		if (show && textField != null) {
+			keyBoard.show();
+			CancelEventTimer.keyboardSetVisible();
+			// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
+			this.add(keyBoard);
+		} else {
+			keyBoard.resetKeyboardState();
+		}
+		// this.mainPanel.add(this.dockPanel);
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				// onResize();
+				// dockPanel.onResize();
+				// scrollToInputField();
+			}
+		};
+		timer.schedule(0);
+	}
+
+	@Override
+	public void showInputField() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void keyBoardNeeded(boolean show, Widget textField) {
+		// TODO Auto-generated method stub
+
+	}
 }

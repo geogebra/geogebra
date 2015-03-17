@@ -15,7 +15,6 @@ import geogebra.html5.Browser;
 import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.javax.swing.GOptionPaneW;
-import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.GeoGebraTubeAPIWSimple;
 import geogebra.html5.main.HasAppletProperties;
@@ -47,7 +46,7 @@ import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
-public class AppWapplet extends AppW {
+public class AppWapplet extends AppWFull {
 
 	private GuiManagerInterfaceW guiManager = null;
 
@@ -63,6 +62,7 @@ public class AppWapplet extends AppW {
 	private ObjectPool objectPool;
 	// TODO remove GUI stuff from appW
 	private LanguageGUI lg;
+	private GeoGebraFrame frame;
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -385,7 +385,7 @@ public class AppWapplet extends AppW {
 			this.getEuclidianViewpanel().updateNavigationBar();
 		setDefaultCursor();
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
-		        getGeoGebraFrame());
+ frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
 	}
@@ -393,12 +393,12 @@ public class AppWapplet extends AppW {
 	@Override
 	public void focusLost() {
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
-		        getGeoGebraFrame());
+ frame);
 	}
 
 	@Override
 	public void focusGained() {
-		GeoGebraFrame.useFocusedBorder(getArticleElement(), getGeoGebraFrame());
+		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
 	}
 
 	@Override

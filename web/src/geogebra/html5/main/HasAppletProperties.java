@@ -1,5 +1,8 @@
 package geogebra.html5.main;
 
+import com.google.gwt.core.client.JavaScriptObject;
+import com.google.gwt.user.client.ui.Widget;
+
 /**
  * @author gabor suggests wheter the AppWapplet, AppWsimple has applet
  *         properties, so behaves like an applet.
@@ -80,4 +83,8 @@ public interface HasAppletProperties {
 	 *            wheter show the reseticon in geogebra-web applets or not
 	 */
 	public void showResetIcon(boolean show);
+
+	public JavaScriptObject getOnLoadCallback();
+
+	public void showKeyBoard(boolean b, Widget textField);
 }

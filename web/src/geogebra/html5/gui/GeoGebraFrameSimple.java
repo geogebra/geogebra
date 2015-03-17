@@ -13,6 +13,7 @@ import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 public class GeoGebraFrameSimple extends GeoGebraFrame {
 
@@ -59,7 +60,13 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 
 	@Override
 	public void showBrowser(HeaderPanel bg) {
-		// TODO Auto-generated method stub
+		// no browsing in simple applets
+
+	}
+
+	@Override
+	public void showKeyBoard(boolean b, Widget textField) {
+		// no keyboard either
 
 	}
 }

@@ -68,7 +68,6 @@ import geogebra.html5.euclidian.EuclidianControllerW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.gui.AlgebraInput;
-import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.LoadingApplication;
 import geogebra.html5.gui.ToolBarInterface;
@@ -166,7 +165,7 @@ public abstract class AppW extends App implements SetLabels {
 
 	private ArrayList<Widget> popups = new ArrayList<Widget>();
 	private static boolean justClosedPopup = false;
-	protected GeoGebraFrame frame = null;
+	// protected GeoGebraFrame frame = null;
 	private ErrorHandler errorHandler;
 	private GlobalKeyDispatcherW globalKeyDispatcher;
 
@@ -3072,10 +3071,6 @@ public abstract class AppW extends App implements SetLabels {
 	public void ensureTimerRunning() {
 		this.getTimerSystem().ensureRunning();
 
-	}
-
-	public GeoGebraFrame getGeoGebraFrame() {
-		return frame;
 	}
 
 	public void showLanguageGUI() {

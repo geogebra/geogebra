@@ -73,9 +73,9 @@ public class ScriptManagerW extends ScriptManager {
 		if (articleid != null) {
 			AppW.appletOnLoad(articleid);
 		}
-		if (((AppW) app).getGeoGebraFrame() != null
-		        && ((AppW) app).getGeoGebraFrame().onLoadCallback != null) {
-			runCallback(((AppW) app).getGeoGebraFrame().onLoadCallback);
+		if (((AppW) app).getAppletFrame() != null
+		        && ((AppW) app).getAppletFrame().getOnLoadCallback() != null) {
+			runCallback(((AppW) app).getAppletFrame().getOnLoadCallback());
 		}
 	}
 

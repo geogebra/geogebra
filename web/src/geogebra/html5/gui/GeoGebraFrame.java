@@ -211,7 +211,11 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	/**
 	 * Callback from renderGGBElement to run, if everything is done
 	 */
-	public JavaScriptObject onLoadCallback = null;
+	private JavaScriptObject onLoadCallback = null;
+
+	public JavaScriptObject getOnLoadCallback() {
+		return onLoadCallback;
+	}
 
 	public void setComputedWidth(int width) {
 		this.computedWidth = width;

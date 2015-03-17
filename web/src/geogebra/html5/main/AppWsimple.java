@@ -13,7 +13,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 public class AppWsimple extends AppW {
-
+	private GeoGebraFrame frame;
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
 	 * 
@@ -112,20 +112,20 @@ public class AppWsimple extends AppW {
 		}
 		setDefaultCursor();
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
-		        getGeoGebraFrame());
+ frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 	}
 
 	@Override
 	public void focusLost() {
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
-		        getGeoGebraFrame());
+ frame);
 		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 
 	@Override
 	public void focusGained() {
-		GeoGebraFrame.useFocusedBorder(getArticleElement(), getGeoGebraFrame());
+		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
 	}
 
 	@Override

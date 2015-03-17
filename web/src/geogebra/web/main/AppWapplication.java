@@ -13,9 +13,7 @@ import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.euclidian.EuclidianViewWInterface;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.gui.ToolBarInterface;
-import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.javax.swing.GOptionPaneW;
-import geogebra.html5.main.AppW;
 import geogebra.html5.main.FileManagerI;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ArticleElement;
@@ -35,7 +33,6 @@ import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 import geogebra.web.move.ggtapi.models.MaterialCallback;
 import geogebra.web.move.ggtapi.operations.LoginOperationW;
 import geogebra.web.move.googledrive.operations.GoogleDriveOperationW;
-import geogebra.web.util.keyboard.OnScreenKeyBoard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,9 +44,8 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window.Location;
 import com.google.gwt.user.client.ui.HeaderPanel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 
-public class AppWapplication extends AppW {
+public class AppWapplication extends AppWFull {
 
 	private final int AUTO_SAVE_PERIOD = 60000;
 	private GeoGebraAppFrame appFrame = null;
@@ -521,24 +517,6 @@ public class AppWapplication extends AppW {
 		if (this.lg != null) {
 			this.lg.setLabels();
 		}
-	}
-
-	@Override
-	public void showKeyboard(Widget textField) {
-		getAppFrame().showKeyBoard(true, textField);
-		if (textField != null) {
-			CancelEventTimer.keyboardSetVisible();
-		}
-	}
-
-	@Override
-	public void updateKeyBoardField(Widget field) {
-		OnScreenKeyBoard.setInstanceTextField(field);
-	}
-
-	@Override
-	public void hideKeyboard() {
-		getAppFrame().showKeyBoard(false, null);
 	}
 
 	@Override

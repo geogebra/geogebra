@@ -470,8 +470,8 @@ public class MouseTouchGestureControllerW implements
 				longTouchManager.scheduleTimer((LongTouchHandler) ec, e.getX(),
 				        e.getY());
 			}
-			inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
-			        e.getType());
+			// inputBoxFocused = ec.textfieldJustFocusedW(e.getX(), e.getY(),
+			// e.getType());
 			onPointerEventStart(e);
 		} else if (targets.length() == 2) {
 			longTouchManager.cancelTimer();
