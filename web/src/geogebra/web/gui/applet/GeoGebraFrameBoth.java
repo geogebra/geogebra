@@ -1,5 +1,6 @@
 package geogebra.web.gui.applet;
 
+import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
@@ -15,6 +16,7 @@ import geogebra.web.gui.app.ShowKeyboardButton;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
@@ -133,6 +135,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
     }
 
 	public void doShowKeyBoard(boolean show, Widget textField) {
+		App.debug("KEYBOARD" + this.keyboardShowing + "," + show);
 		if (this.keyboardShowing == show) {
 			return;
 		}
@@ -207,7 +210,8 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 	private void showKeyboardButton(boolean show, Widget textField) {
 		if (showKeyboardButton == null) {
-			showKeyboardButton = new ShowKeyboardButton(this, textField);
+			showKeyboardButton = new ShowKeyboardButton(this, textField,
+			        ((AlgebraViewW) app.getAlgebraView()).getElement());
 		}
 		showKeyboardButton.show(show, textField);
 	}

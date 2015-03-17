@@ -2213,9 +2213,12 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 }
 
 .openKeyboardButton {
+	/*
 	left: 5px !important;
 	bottom: 5px;
 	top: initial !important;
+	*/
+	width:75px;
 	height: 23px;
 	padding-top: 0px;
 	padding-bottom: 8px;

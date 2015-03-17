@@ -4,6 +4,7 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -12,7 +13,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class ShowKeyboardButton extends PopupPanel {
 	public ShowKeyboardButton(final UpdateKeyBoardListener listener,
-	        final Widget textField) {
+	        final Widget textField, Element parent) {
 		new PopupPanel();
 		this.addStyleName("openKeyboardButton");
 		HorizontalPanel content = new HorizontalPanel();
@@ -33,6 +34,8 @@ public class ShowKeyboardButton extends PopupPanel {
 				hide();
 			}
 		}, ClickEvent.getType());
+		this.setPopupPosition(parent.getOffsetLeft(), parent.getOffsetTop()
+		        + parent.getOffsetHeight() - 20);
 	}
 
 	public void show(boolean show, Widget textField) {

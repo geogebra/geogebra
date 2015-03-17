@@ -13,6 +13,7 @@ import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 import geogebra.web.gui.layout.panels.AlgebraStyleBarW;
 import geogebra.web.gui.layout.panels.EuclidianDockPanelW;
+import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.gui.view.algebra.AlgebraViewWeb;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
@@ -162,7 +163,8 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	public void showKeyboardButton(boolean show, final Widget textField) {
 
 		if (showKeyboardButton == null) {
-			showKeyboardButton = new ShowKeyboardButton(this, textField);
+			showKeyboardButton = new ShowKeyboardButton(this, textField,
+			        ((AlgebraViewW) app.getAlgebraView()).getElement());
 		}
 		showKeyboardButton.show(show, textField);
 	}
