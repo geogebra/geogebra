@@ -105,7 +105,7 @@ public class GeoButton extends GeoElement implements AbsoluteScreenLocateable, T
 
 	@Override
 	public boolean showInAlgebraView() {		
-		return false;
+		return true;
 	}
 	
 	@Override
