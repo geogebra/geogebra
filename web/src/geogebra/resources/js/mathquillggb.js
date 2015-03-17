@@ -3732,8 +3732,12 @@ var PlusMinus = P(BinaryOperator, function(_) {
 });
 
 LatexCmds['+'] = bind(PlusMinus, '+', '+');
+
 //yes, these are different dashes, I think one is an en dash and the other is a hyphen
+// Also, GeoGebraWeb uses Unicode.minus, so we should accept it as well!
+LatexCmds['\u2212'] =
 LatexCmds['\u2013'] = LatexCmds['-'] = bind(PlusMinus, '-', '&minus;');
+
 LatexCmds['\u00b1'] = LatexCmds.pm = LatexCmds.plusmn = LatexCmds.plusminus =
   bind(PlusMinus,'\\pm ','&plusmn;');
 LatexCmds.mp = LatexCmds.mnplus = LatexCmds.minusplus =

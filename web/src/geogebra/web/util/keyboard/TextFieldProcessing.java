@@ -393,7 +393,11 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field)
 				        .insertString(KeyboardConstants.SQUARE);
 			} else if (keyPressNeeded(text)) {
-				((RadioButtonTreeItem) field).keypress(text.charAt(0), false, false,
+				((RadioButtonTreeItem) field).keypress(
+				// text.codePointAt is the same as text.charAt for low ranges
+				// but I think String.fromCharCode will wait for Unicode int
+				        text.codePointAt(0),
+				        false, false,
 						false);
 			} else if (text.equals("abs")) {
 				((RadioButtonTreeItem) field).keypress(PIPE, false, false,
@@ -412,9 +416,13 @@ public class TextFieldProcessing {
 	 * @return {@code true} if the RadioButtonTreeItem needs a keyPress event.
 	 */
     private boolean keyPressNeeded(String text) {
+		// e.g. - and + are needed because they are binary operators in
+		// MathQuillGGB, so when "/" is pressed they should break...
+		// TODO: check other binary operators from MathQuillGGB...
 	    return text.equals("/") || text.equals("_") || text.equals("$")
 	            || text.equals(" ") || text.equals("|") || text.equals(",")
-		        || text.equals("*") || text.startsWith("(")
+		        || text.equals("*") || text.equals("-") || text.equals("+")
+		        || text.startsWith("(")
 		        || text.equals(KeyboardConstants.SQUARE_ROOT);
     }
 
