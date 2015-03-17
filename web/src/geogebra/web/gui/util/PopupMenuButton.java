@@ -31,8 +31,9 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private ImageOrText fixedIcon;
 	private boolean isFixedIcon = false;
 	private HandlerRegistration actionListener;
+	private boolean multiselectionEnabled = false;
 	private StyleBarW2 changeEventHandler;
-	
+
 	/**
 	 * @param app
 	 *            {@link AppW}
@@ -49,7 +50,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	        Integer columns, geogebra.common.gui.util.SelectionTable mode) {
 		this(app, data, rows, columns, mode, true, false);
 	}
-	
+
 	/**
 	 * @param app
 	 *            {@link AppW}
@@ -69,9 +70,36 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
 	        Integer columns, geogebra.common.gui.util.SelectionTable mode,
 	        final boolean hasTable, boolean hasSlider) {
+		this(app, data, rows, columns, mode, hasTable, hasSlider, null);
+	}
+
+	
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 * @param data
+	 *            {@link ImageOrText}
+	 * @param rows
+	 *            {@code Integer}
+	 * @param columns
+	 *            {@code Integer}
+	 * @param mode
+	 *            {@link SelectionTable}
+	 * @param hasTable
+	 *            {@code boolean}
+	 * @param hasSlider
+	 *            {@code boolean}
+	 * @param selected
+	 */
+	public PopupMenuButton(AppW app, ImageOrText[] data, Integer rows,
+	        Integer columns, geogebra.common.gui.util.SelectionTable mode,
+	        final boolean hasTable, boolean hasSlider, boolean[] selected) {
 		super();
 		this.app = app;
 		this.hasTable = hasTable;
+		if (selected != null) {
+			multiselectionEnabled = true;
+		}
 
 		createPopup();
 
@@ -88,7 +116,10 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		});
 
 		if (hasTable) {
-			createSelectionTable(data, rows, columns, mode);
+			createSelectionTable(data, rows, columns, mode, selected);
+		}
+		if (selected != null) {
+			myTable.initSelectedItems(selected); // TODO remove?
 		}
 
 		// create slider
@@ -153,11 +184,18 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	 */
 	private void createSelectionTable(ImageOrText[] data,
  Integer rows,
-	        Integer columns, geogebra.common.gui.util.SelectionTable mode) {
+	        Integer columns, geogebra.common.gui.util.SelectionTable mode,
+	        boolean[] selected) {
 		this.data = data;
 
-		myTable = new SelectionTable(data, rows, columns, mode);
-		setSelectedIndex(0);
+		myTable = new SelectionTable(data, rows, columns, mode,
+		        multiselectionEnabled);
+		if (!multiselectionEnabled) {
+			setSelectedIndex(0);
+		} else {
+			// TODO - needed this?
+			// myTable.initSelectedItems(selected);
+		}
 
 		myTable.addClickHandler(new ClickHandler() {
 
@@ -220,7 +258,7 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 	private void updateGUI(){
 		if(isIniting) return;
 
-		if(hasTable){
+		if (hasTable && !multiselectionEnabled) {
 			setIcon(getButtonIcon());
 		}
 	}
@@ -278,6 +316,11 @@ public class PopupMenuButton extends MyCJButton implements ChangeHandler {
 		updateGUI();
 	}
 	
+	public void changeMultiSelection(int index, boolean selected) {
+		myTable.changeMultiSelection(index, selected);
+		updateGUI();
+	}
+
 	@Override
 	public void onChange(ChangeEvent event) {
 		if(mySlider != null) {

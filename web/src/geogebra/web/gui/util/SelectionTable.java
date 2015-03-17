@@ -17,6 +17,20 @@ public class SelectionTable extends Grid implements ClickHandler {
 	private int numRows, numColumns;
 	private boolean isIniting = true;
 	private ImageOrText[] values;
+	private boolean multiselectionEnabled;
+	private boolean[] selecteditems;
+
+	/**
+	 * @param data
+	 * @param rows
+	 * @param columns
+	 * @param mode
+	 */
+	public SelectionTable(ImageOrText[] data, Integer rows, Integer columns,
+	        geogebra.common.gui.util.SelectionTable mode, boolean ms) {
+		this(data, rows, columns, mode);
+		multiselectionEnabled = ms;
+	}
 	
 	/**
 	 * @param data
@@ -64,6 +78,22 @@ public class SelectionTable extends Grid implements ClickHandler {
 		}
     }
 	
+	public void initSelectedItems(boolean[] si) {
+		selecteditems = si;
+		clearSelection();
+		int row, column;
+		for (int i = 0; i < selecteditems.length; i++) {
+			if (selecteditems[i]) {
+				row = (int) Math.floor(i / getColumnCount());
+				column = i - (row * getColumnCount());
+				Widget w = getWidget(selectedRow, selectedColumn);
+				if (w != null) {
+					w.addStyleName("selected");
+				}
+			}
+		}
+	}
+
 	private void setBorderStyleForCells() {
 		for (int i = 0; i < this.getRowCount(); i++) {
 			for (int j = 0; j < this.getColumnCount(); j++) {
@@ -124,6 +154,25 @@ public class SelectionTable extends Grid implements ClickHandler {
 		int row = (int) Math.floor(index / getColumnCount()) ;
 		int column = index - (row * getColumnCount());
 		this.changeSelection(row, column);
+	}
+
+	/**
+	 * 
+	 * @param index
+	 *            {@code int}
+	 */
+	public void changeMultiSelection(int index, boolean selected) {
+		selectedRow = (int) Math.floor(index / getColumnCount());
+		selectedColumn = index - (selectedRow * getColumnCount());
+
+		Widget w = getWidget(selectedRow, selectedColumn);
+		if (w != null) {
+			if (selected) {
+				w.addStyleName("selected");
+			} else {
+				w.removeStyleName("selected");
+			}
+		}
 	}
 
 	/**
@@ -192,12 +241,27 @@ public class SelectionTable extends Grid implements ClickHandler {
 		   return;
 	   }
 	   
-	   selectedColumn = clicked.getCellIndex();
-	   selectedRow = clicked.getRowIndex();
-	   clearSelectedCells();
+		selectedColumn = clicked.getCellIndex();
+		selectedRow = clicked.getRowIndex();
+		if (!multiselectionEnabled) {
+			clearSelectedCells();
+		}
 	   Widget w = getWidget(clicked.getRowIndex(),clicked.getCellIndex());
 	   if (w != null) {
-		   w.addStyleName("selected");
+			if (multiselectionEnabled) {
+				// TODO check for -1 col.count.
+				int index = (getColumnCount() == -1) ? selectedColumn
+				        : selectedRow * getColumnCount() + selectedColumn;
+				selecteditems[index] = !selecteditems[index];
+				if (selecteditems[index]) {
+					w.addStyleName("selected");
+				} else {
+					w.removeStyleName("selected");
+				}
+			} else {
+				w.addStyleName("selected");
+			}
+
 	   }
     }
 

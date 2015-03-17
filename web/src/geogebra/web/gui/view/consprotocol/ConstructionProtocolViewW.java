@@ -413,7 +413,7 @@ public class ConstructionProtocolViewW extends ConstructionProtocolView implemen
 	 */
 	public StyleBarW getStyleBar() {
 	    if(styleBar == null){
-	    	styleBar = new ConstructionProtocolStyleBarW((AppW) this.app);
+			styleBar = new ConstructionProtocolStyleBarW(this, (AppW) this.app);
 	    }
 	    return styleBar;
     }
