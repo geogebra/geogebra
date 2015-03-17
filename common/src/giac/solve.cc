@@ -2341,7 +2341,7 @@ namespace giac {
 	  a2=a2._SYMBptr->feuille;
 	}
 	vecteur lv=lvarx(makevecteur(a1,a2),v.back());
-	vecteur w=lop(lv,at_pow);
+	vecteur w=mergevecteur(lop(lv,at_pow),lop(lv,at_exp));
 	if (a2.type!=_VECT && a2!=0 && w.size()>1){
 	  arg1=ln(simplify(a1,contextptr),contextptr)-ln(simplify(a2,contextptr),contextptr);
 	  if (lvarx(arg1,v.back()).size()>1)
