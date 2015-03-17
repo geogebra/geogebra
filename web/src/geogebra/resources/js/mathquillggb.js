@@ -2000,7 +2000,7 @@ var RootMathBlock = P(MathBlock, function(_, _super) {
     			  if (cc >= 65 && cc <= 90) {
     				  // ASCII A-Z OK
     				  this.common.GeoGebraSuggestionPopupCanShow = true;
-    			  } else if (cc >= 48 && xx <= 57) {
+    			  } else if (cc >= 48 && cc <= 57) {
     				  // ASCII 0-9 maybe OK (?)
     				  this.common.GeoGebraSuggestionPopupCanShow = true;
     			  }
