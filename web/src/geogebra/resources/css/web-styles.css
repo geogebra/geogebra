@@ -39,10 +39,10 @@
 
 .NewRadioButtonTreeItemParent {
 	overflow: hidden;
-	display: inline-block !important;
+	/*display: inline-block !important;
 	width: 100%;
 	position: relative;
-	bottom: 17px;
+	bottom: 17px;*/
 	/*margin-bottom: -15px !important;*/
 }
 
@@ -52,8 +52,8 @@
 	overflow-x: scroll;
 	overflow-y: hidden;
 	/* 2*relative hack idea for NewRadioButtonTreeItemParent */
-	position: relative;
-	top: 17px;
+	/*position: relative;
+	top: 17px;*/
 }
 
 /*hack for toolbar submenu, that is isn't hidden by 
