@@ -1,6 +1,5 @@
 package geogebra.web.gui.applet;
 
-import geogebra.common.main.App;
 import geogebra.common.main.App.InputPositon;
 import geogebra.html5.WebStatic;
 import geogebra.html5.gui.GeoGebraFrame;
@@ -133,24 +132,40 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	    
     }
 
-	public void doShowKeyBoard(boolean show, Widget textField) {
-		App.debug("KEYBOARD" + this.keyboardShowing + "," + show);
+	public void doShowKeyBoard(final boolean show, Widget textField) {
 		if (this.keyboardShowing == show) {
 			return;
 		}
 		this.keyboardShowing = show;
 		// this.mainPanel.clear();
-		OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(textField,
+		final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
+		        textField,
 		        this, app);
+		app.persistWidthAndHeight();
 		if (show && textField != null) {
 			keyBoard.show();
+			keyBoard.setVisible(false);
 			CancelEventTimer.keyboardSetVisible();
 			// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 			this.add(keyBoard);
+			app.getGuiManager().invokeLater(new Runnable() {
+
+				@Override
+				public void run() {
+					app.addToHeight(-keyBoard.getOffsetHeight());
+					app.updateCenterPanel(true);
+					GeoGebraFrameBoth.this.add(keyBoard);
+					keyBoard.setVisible(true);
+				}
+			});
 		} else {
+			app.addToHeight(keyBoard.getOffsetHeight());
 			this.remove(keyBoard);
+			app.updateCenterPanel(true);
 			keyBoard.resetKeyboardState();
 		}
+
+
 		// this.mainPanel.add(this.dockPanel);
 
 		Timer timer = new Timer() {

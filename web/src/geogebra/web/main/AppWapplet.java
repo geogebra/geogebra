@@ -667,4 +667,8 @@ public class AppWapplet extends AppWFull {
 		        GOptionPane.OK_CANCEL_OPTION, GOptionPane.PLAIN_MESSAGE, null,
 		        null, null);
 	}
+
+	public void addToHeight(int i) {
+		this.spHeight += i;
+	}
 }

@@ -3172,4 +3172,8 @@ public abstract class AppW extends App implements SetLabels {
 		return false;
 	}
 
+	public void addToHeight(int i) {
+		// for applets with keyboard only
+	}
+
 }
