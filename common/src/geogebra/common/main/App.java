@@ -55,7 +55,7 @@ import geogebra.common.plugin.GeoScriptRunner;
 import geogebra.common.plugin.GgbAPI;
 import geogebra.common.plugin.ScriptManager;
 import geogebra.common.plugin.ScriptType;
-import geogebra.common.plugin.UDPLogger;
+import geogebra.common.plugin.SensorLogger;
 import geogebra.common.plugin.script.GgbScript;
 import geogebra.common.plugin.script.Script;
 import geogebra.common.sound.SoundManager;
@@ -3439,7 +3439,7 @@ public abstract class App implements UpdateSelection {
 		companion = newAppCompanion();
 	}
 
-	public UDPLogger getUDPLogger() {
+	public SensorLogger getUDPLogger() {
 		return null;
 	}
 

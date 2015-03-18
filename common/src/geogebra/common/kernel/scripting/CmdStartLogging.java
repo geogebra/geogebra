@@ -8,7 +8,7 @@ import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.MyError;
-import geogebra.common.plugin.UDPLogger;
+import geogebra.common.plugin.SensorLogger;
 
 public class CmdStartLogging extends CmdScripting {
 	public CmdStartLogging(Kernel kernel) {
@@ -27,7 +27,7 @@ public class CmdStartLogging extends CmdScripting {
 
 		boolean success = false;
 
-		UDPLogger logger = app.getUDPLogger();
+		SensorLogger logger = app.getUDPLogger();
 		if (logger != null) {
 
 			logger.stopLogging();

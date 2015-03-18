@@ -4,7 +4,7 @@ import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.main.App;
-import geogebra.common.plugin.UDPLogger;
+import geogebra.common.plugin.SensorLogger;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -26,7 +26,7 @@ import org.json.JSONObject;
  *         values
  * 
  */
-public class UDPLoggerD implements UDPLogger {
+public class UDPLoggerD implements SensorLogger {
 
 	@SuppressWarnings("javadoc")
 	Kernel kernel;

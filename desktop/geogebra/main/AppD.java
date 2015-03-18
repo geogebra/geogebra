@@ -60,7 +60,7 @@ import geogebra.common.main.ProverSettings;
 import geogebra.common.main.SingularWSSettings;
 import geogebra.common.main.SpreadsheetTableModel;
 import geogebra.common.move.ggtapi.operations.OpenFromGGTOperation;
-import geogebra.common.plugin.UDPLogger;
+import geogebra.common.plugin.SensorLogger;
 import geogebra.common.util.Base64;
 import geogebra.common.util.CopyPaste;
 import geogebra.common.util.Language;
@@ -5136,11 +5136,11 @@ public class AppD extends App implements KeyEventDispatcher {
 		uploadToGeoGebraTube();
 	}
 
-	private UDPLogger udpLogger;
+	private SensorLogger udpLogger;
 
 	private String perspectiveParam = "";
 
-	public UDPLogger getUDPLogger() {
+	public SensorLogger getUDPLogger() {
 		if (udpLogger == null) {
 			udpLogger = new UDPLoggerD(getKernel());
 		}

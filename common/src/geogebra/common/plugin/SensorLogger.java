@@ -3,7 +3,7 @@ package geogebra.common.plugin;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 
-public interface UDPLogger {
+public interface SensorLogger {
 
 	void stopLogging();
 
