@@ -105,7 +105,9 @@ public class DockSplitPaneW extends ZoomSplitLayoutPanel implements DockComponen
 
 	@Override
 	public boolean hasSplittersFrozen() {
-		return frozen || (app.isApplet() && !app.isRightClickEnabled());
+		return frozen
+		        || (app.isApplet() && !app.isRightClickEnabled() && !app
+		                .showToolBar());
 	}
 
 	public double computeDividerLocationRecursive() {
