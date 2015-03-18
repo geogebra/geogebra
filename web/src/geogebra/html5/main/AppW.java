@@ -52,6 +52,7 @@ import geogebra.common.move.operations.Network;
 import geogebra.common.move.operations.NetworkOperation;
 import geogebra.common.move.views.OfflineView;
 import geogebra.common.plugin.ScriptManager;
+import geogebra.common.plugin.SensorLogger;
 import geogebra.common.sound.SoundManager;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.CopyPaste;
@@ -91,6 +92,7 @@ import geogebra.html5.util.MyDictionary;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.html5.util.SpreadsheetTableModelW;
 import geogebra.html5.util.View;
+import geogebra.plugin.WebsocketLogger;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -3174,6 +3176,15 @@ public abstract class AppW extends App implements SetLabels {
 
 	public void addToHeight(int i) {
 		// for applets with keyboard only
+	}
+
+	WebsocketLogger webSocketLogger = null;
+
+	public SensorLogger getSensorLogger() {
+		if (webSocketLogger == null) {
+			webSocketLogger = new WebsocketLogger(getKernel());
+		}
+		return webSocketLogger;
 	}
 
 }

@@ -1,5 +1,6 @@
 package geogebra.plugin;
 
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
 import geogebra.common.plugin.SensorLogger;
@@ -8,6 +9,12 @@ import geogebra.common.plugin.SensorLogger;
  * @author gabor WebSocket logger for external mobile app
  */
 public class WebsocketLogger implements SensorLogger {
+
+	private Kernel kernel;
+
+	public WebsocketLogger(Kernel kernel) {
+		this.kernel = kernel;
+	}
 
 	public void stopLogging() {
 		// TODO Auto-generated method stub
