@@ -40,7 +40,8 @@ public class ExportMenuW extends MenuBar {
 	private void initActions() {
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
-		        .getSafeUri().asString(), app.getMenu("Ggb"), true), true,
+		// translation not needed
+		        .getSafeUri().asString(), "ggb", true), true,
 		        new MenuCommand(app) {
 
 			        @Override
@@ -50,7 +51,8 @@ public class ExportMenuW extends MenuBar {
 		        });
 
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.image_x_generic()
-		        .getSafeUri().asString(), app.getPlain("DrawingPadAsPicture"),
+		// translation not needed
+		        .getSafeUri().asString(), "png",
 		        true), true, new Command() {
 
 			public void execute() {
