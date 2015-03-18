@@ -68,7 +68,6 @@
   <!-- Images, js-es will be copied from here.
   You can reference them by GWT.getModuleBaseUrl()+"js/file.js" -->
   <public path="pub" />
-  <set-configuration-property name="devModeRedirectEnabled" value="false"/>
   <replace-with class="geogebra.geogebra3D.AppletFactory3D">
     <when-type-is class="geogebra.web.gui.applet.AppletFactory" />    
   </replace-with>

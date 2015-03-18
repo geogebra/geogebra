@@ -13,7 +13,7 @@ public class CmdStopLogging extends CmdScripting {
 	@Override
 	protected void perform(Command c) {
 
-		SensorLogger logger = app.getUDPLogger();
+		SensorLogger logger = app.getSensorLogger();
 		if (logger != null) {
 			logger.stopLogging();
 		} else {

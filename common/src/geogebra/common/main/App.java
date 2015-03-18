@@ -3439,7 +3439,7 @@ public abstract class App implements UpdateSelection {
 		companion = newAppCompanion();
 	}
 
-	public SensorLogger getUDPLogger() {
+	public SensorLogger getSensorLogger() {
 		return null;
 	}
 

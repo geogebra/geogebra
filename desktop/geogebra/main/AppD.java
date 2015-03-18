@@ -5140,7 +5140,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private String perspectiveParam = "";
 
-	public SensorLogger getUDPLogger() {
+	public SensorLogger getSensorLogger() {
 		if (udpLogger == null) {
 			udpLogger = new UDPLoggerD(getKernel());
 		}

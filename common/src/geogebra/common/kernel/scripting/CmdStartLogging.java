@@ -27,7 +27,7 @@ public class CmdStartLogging extends CmdScripting {
 
 		boolean success = false;
 
-		SensorLogger logger = app.getUDPLogger();
+		SensorLogger logger = app.getSensorLogger();
 		if (logger != null) {
 
 			logger.stopLogging();
