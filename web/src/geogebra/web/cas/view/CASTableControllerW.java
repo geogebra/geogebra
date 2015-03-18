@@ -127,13 +127,13 @@ public class CASTableControllerW extends CASTableCellController implements
 		mouseDown = true;
 		handleMouseDownSelection(event);
 		onPointerDown();
-
 		event.stopPropagation();
 	}
 
 	private void onPointerDown() {
 		setActiveToolbar();
 		((GuiManagerW) app.getGuiManager()).removePopup();
+		app.closePopups();
 	}
 
 	private void onPointerUp(HumanInputEvent<?> event) {
