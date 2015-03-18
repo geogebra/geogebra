@@ -54,7 +54,7 @@ public class PropertiesDockPanelW extends DockPanelW {
 //	
 	@Override
     public void showView(boolean b) {
-	    // TODO Auto-generated method stub
+		// TODO Auto-generated method stub
 	    
     }
 
@@ -73,4 +73,11 @@ public class PropertiesDockPanelW extends DockPanelW {
 	public boolean isStyleBarEmpty(){
 		return true;
 	}
+
+	@Override
+	public void setVisible(boolean visible) {
+		app.setShowAuxiliaryObjects(visible);
+		super.setVisible(visible);
+	}
+
 }
