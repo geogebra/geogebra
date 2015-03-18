@@ -8622,7 +8622,8 @@ public abstract class EuclidianController {
 							// key
 							) || app.isMiddleClick(event));
 		}
-		return !doubleClickStarted && mode == EuclidianConstants.MODE_MOVE;
+		return app.isShiftDragZoomEnabled()
+				&& (!doubleClickStarted && mode == EuclidianConstants.MODE_MOVE);
 	}
 
 	protected void runScriptsIfNeeded(GeoElement geo1) {
