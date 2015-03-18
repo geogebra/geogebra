@@ -753,7 +753,10 @@ public class DrawEquationWeb extends DrawEquation {
 								// after the editing/new formula creation ends! so put their code here
 
 								// we should also auto-scroll the cursor in the formula!
-								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;)(rbti,parentElement);
+								// but still better to put this in keypress later,
+								// just it should be assigned in the bubbling phase of keypress
+								// after MathQuillGGB has executed its own code, just it is not easy...
+								@geogebra.html5.main.DrawEquationWeb::scrollCursorIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 
 								if (newCreationMode) {
 									var querr = elsecondInside;
@@ -1347,40 +1350,46 @@ public class DrawEquationWeb extends DrawEquation {
 	 * operation in cases we need that...
 	 */
 	public static void scrollCursorIntoView(RadioButtonTreeItem rbti,
-	        Element parentElement) {
+	        Element parentElement, boolean newCreationMode) {
 		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
 		if (jo != null) {
 			Element joel = Element.as(jo);
 			joel.scrollIntoView();
 
-			// if the cursor is on the right or on the left,
-			// it would be good to scroll some more, to show the "X" closing
-			// sign and the blue border of the window! How to know that?
-			// let's compare their places, and if the difference is little,
-			// scroll to the left/right!
-			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
-				// NewRadioButtonTreeItem class in theory
-				rbti.getElement().setScrollLeft(0);
-			} else if (parentElement.getAbsoluteRight()
-			        - joel.getAbsoluteRight() < 50) {
-				// NewRadioButtonTreeItem class in theory
-				rbti.getElement().setScrollLeft(Integer.MAX_VALUE);
-			} else if (joel.getAbsoluteLeft()
-			        - rbti.getElement().getAbsoluteLeft() < 50) {
-				// we cannot show the "X" sign all the time anyway!
-				// but it would be good not to keep the cursor on the edge...
-				// so if it is around the edge by now, scroll!
-				rbti.getElement().setScrollLeft(
-				        rbti.getElement().getScrollLeft() - 50
-				                + joel.getAbsoluteLeft()
-				                - rbti.getElement().getAbsoluteLeft());
-			} else if (rbti.getElement().getAbsoluteRight()
-			        - joel.getAbsoluteRight() < 50) {
-				// similarly
-				rbti.getElement().setScrollLeft(
-				        rbti.getElement().getScrollLeft() + 50
-				                - rbti.getElement().getAbsoluteRight()
-				                + joel.getAbsoluteRight());
+			// Note: the following hacks should only be made in
+			// new creation mode! so boolean introduced...
+			if (newCreationMode) {
+
+				// if the cursor is on the right or on the left,
+				// it would be good to scroll some more, to show the "X" closing
+				// sign and the blue border of the window! How to know that?
+				// let's compare their places, and if the difference is little,
+				// scroll to the left/right!
+				if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
+					// NewRadioButtonTreeItem class in theory
+					rbti.getElement().setScrollLeft(0);
+				} else if (parentElement.getAbsoluteRight()
+				        - joel.getAbsoluteRight() < 50) {
+					// NewRadioButtonTreeItem class in theory
+					rbti.getElement().setScrollLeft(Integer.MAX_VALUE);
+				} else if (joel.getAbsoluteLeft()
+				        - rbti.getElement().getAbsoluteLeft() < 50) {
+					// we cannot show the "X" sign all the time anyway!
+					// but it would be good not to keep the cursor on the
+					// edge...
+					// so if it is around the edge by now, scroll!
+					rbti.getElement().setScrollLeft(
+					        rbti.getElement().getScrollLeft() - 50
+					                + joel.getAbsoluteLeft()
+					                - rbti.getElement().getAbsoluteLeft());
+				} else if (rbti.getElement().getAbsoluteRight()
+				        - joel.getAbsoluteRight() < 50) {
+					// similarly
+					rbti.getElement().setScrollLeft(
+					        rbti.getElement().getScrollLeft() + 50
+					                - rbti.getElement().getAbsoluteRight()
+					                + joel.getAbsoluteRight());
+				}
 			}
 		} else {
 			// otherwise do the old functionality
