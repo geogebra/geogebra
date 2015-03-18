@@ -3,6 +3,7 @@ package geogebra.web.gui.menubar;
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
 import geogebra.web.export.AnimationExportDialogW;
+import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
 
 import com.google.gwt.user.client.Command;
@@ -37,6 +38,17 @@ public class ExportMenuW extends MenuBar {
 	}
 
 	private void initActions() {
+
+		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.empty()
+		        .getSafeUri().asString(), app.getMenu("Ggb"), true), true,
+		        new MenuCommand(app) {
+
+			        @Override
+			        public void doExecute() {
+				        ((GuiManagerW) app.getGuiManager()).openFilePicker();
+			        }
+		        });
+
 		addItem(MainMenu.getMenuBarHtml(AppResources.INSTANCE.image_x_generic()
 		        .getSafeUri().asString(), app.getPlain("DrawingPadAsPicture"),
 		        true), true, new Command() {
