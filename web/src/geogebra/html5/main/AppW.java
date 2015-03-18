@@ -2530,10 +2530,13 @@ public abstract class AppW extends App implements SetLabels {
 		// or we should substract the height(s) of
 		// toolbar, menubar, and input bar;
 		// heuristics come from GeoGebraAppFrame
-		if (showAlgebraInput())
+		if (showAlgebraInput()
+		        && getInputPosition() != InputPositon.algebraView) {
 			windowHeight -= GLookAndFeelI.COMMAND_LINE_HEIGHT;
-		if (showToolBar())
+		}
+		if (showToolBar()) {
 			windowHeight -= GLookAndFeelI.TOOLBAR_HEIGHT;
+		}
 		// menubar height is always 0
 		if (windowHeight <= 0)
 			windowHeight = fallback;

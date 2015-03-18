@@ -8,6 +8,7 @@ import geogebra.common.io.layout.DockSplitPaneData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.ShowDockPanelListener;
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.html5.awt.GDimensionW;
 import geogebra.html5.gui.GuiManagerInterfaceW;
 import geogebra.html5.main.AppW;
@@ -373,7 +374,8 @@ public class DockManagerW extends DockManager {
 				windowWidth = app.getOWidth();
 				windowHeight = app.getOHeight();
 				windowHeight -= GLookAndFeel.TOOLBAR_HEIGHT;
-				if(app.showAlgebraInput()){
+				if (app.showAlgebraInput()
+				        && app.getInputPosition() != InputPositon.algebraView) {
 					windowHeight -= GLookAndFeel.COMMAND_LINE_HEIGHT;
 				}
 
