@@ -825,6 +825,13 @@ namespace giac {
   define_unary_function_ptr( at_VARS ,alias_at_VARS ,&__VARS);
 
   gen purgenoassume(const gen & args,const context * contextptr){
+    if (args.type==_VECT){
+      vecteur & v=*args._VECTptr;
+      vecteur res;
+      for (unsigned i=0;i<v.size();++i)
+	res.push_back(purgenoassume(v[i],contextptr));
+      return res;
+    }
     if (args.type!=_IDNT)
       return gensizeerr("Invalid purgenoassume "+args.print(contextptr));
     // purge a global variable
