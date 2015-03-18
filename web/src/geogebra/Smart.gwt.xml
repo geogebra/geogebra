@@ -41,6 +41,7 @@
   <source path='geogebra3D'/>
   <source path='web'/>
   <source path='html5'/>
+  <source path='plugin'/>
   <super-source path='/common/src/geogebra/jre' />
   
   

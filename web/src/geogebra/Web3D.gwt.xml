@@ -56,6 +56,7 @@
   <source path='geogebra3D'/>
   <source path='web'/>
   <source path='html5'/>
+  <source path='plugin'/>
   <super-source path='/common/src/geogebra/jre' />
   <replace-with class="geogebra.web.gui.PNGImageFactory">
     <when-type-is class="geogebra.web.gui.ImageFactory" />    

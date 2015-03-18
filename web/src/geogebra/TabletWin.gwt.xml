@@ -42,6 +42,7 @@
   <source path='touch'/>
   <source path='tablet'/>
   <source path='geogebra3D'/>
+  <source path='plugin'/>
   <super-source path='/common/src/geogebra/jre' />
   
   <replace-with class="geogebra.touch.gui.layout.SplitterImplTouch">

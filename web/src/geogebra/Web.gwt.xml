@@ -46,6 +46,7 @@
   <!-- Specify the paths for translatable code                    -->
   <source path='web'/>
   <source path='html5'/>
+  <source path='plugin'/>
   <super-source path='/common/src/geogebra/jre' />
   
   
