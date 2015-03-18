@@ -43,7 +43,6 @@ public class ShowKeyboardButton extends PopupPanel {
 		        .keyboard_show().getSafeUri().asString());
 		content.add(showKeyboard);
 		add(content);
-		setAutoHideEnabled(true);
 		addDomHandler(new ClickHandler() {
 
 			@Override
@@ -72,8 +71,6 @@ public class ShowKeyboardButton extends PopupPanel {
 			        parent.getOffsetHeight() + parent.getOffsetTop()
 			                - this.HEIGHT);
 			show();
-		} else {
-			hide();
 		}
 
 	}
