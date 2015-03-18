@@ -33,23 +33,43 @@
 	margin: 0px;
 }
 
+/* .NewRadioButtonTreeItem too */
 .GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
 	position: relative;
 }
 
 .NewRadioButtonTreeItemParent {
+	position: relative !important;
 	overflow: hidden;
-	display: inline-block !important;
+	display: block !important;
 	width: 100%;
 }
 
-/*.NewRadioButtonTreeItemParent::after */
+/*.NewRadioButtonTreeItemParent::after {
+	content: " ";
+	content: "";
+	display: block;
+	width: 100%;*/
+	/* setting height to 100px and then 1px again, reinitiates the scroll*/
+	/*height: 1px;
+}*/
 
 .NewRadioButtonTreeItem {
+	/* somehow we should align the top of .NewRadioButtonTreeItem
+	with the top of .NewRadioButtonTreeItemParent... but
+	vertical-align with inline-block didn't work, also
+	position: absolute didn't work (as dimensions of parent shrink)
+	plan b: align the bottom of .NewRadioButtonTreeItemParent
+	with the bottom of .NewRadioButtonTreeItem minus neg. margin,
+	so maybe .NewRadioButtonTreeItemParent::after helps,
+	but it didn't help either... so current state saved for ref */
+	display: block !important;
+	/*vertical-align: -17px !important;*/
 	overflow-x: scroll;
 	overflow-y: hidden;
-	margin-bottom: -17px;
-	margin-top: 17px;
+	margin-bottom: -17px !important;
+	/* margin-top is only a temporary workaround, not used for testing */
+	margin-top: 17px !important;
 }
 
 /*hack for toolbar submenu, that is isn't hidden by 
