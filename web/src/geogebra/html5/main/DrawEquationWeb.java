@@ -1352,6 +1352,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (jo != null) {
 			Element joel = Element.as(jo);
 			joel.scrollIntoView();
+
 			// if the cursor is on the right or on the left,
 			// it would be good to scroll some more, to show the "X" closing
 			// sign and the blue border of the window! How to know that?
@@ -1364,6 +1365,22 @@ public class DrawEquationWeb extends DrawEquation {
 			        - joel.getAbsoluteRight() < 50) {
 				// NewRadioButtonTreeItem class in theory
 				rbti.getElement().setScrollLeft(Integer.MAX_VALUE);
+			} else if (joel.getAbsoluteLeft()
+			        - rbti.getElement().getAbsoluteLeft() < 50) {
+				// we cannot show the "X" sign all the time anyway!
+				// but it would be good not to keep the cursor on the edge...
+				// so if it is around the edge by now, scroll!
+				rbti.getElement().setScrollLeft(
+				        rbti.getElement().getScrollLeft() - 50
+				                + joel.getAbsoluteLeft()
+				                - rbti.getElement().getAbsoluteLeft());
+			} else if (rbti.getElement().getAbsoluteRight()
+			        - joel.getAbsoluteRight() < 50) {
+				// similarly
+				rbti.getElement().setScrollLeft(
+				        rbti.getElement().getScrollLeft() + 50
+				                - rbti.getElement().getAbsoluteRight()
+				                + joel.getAbsoluteRight());
 			}
 		} else {
 			// otherwise do the old functionality
