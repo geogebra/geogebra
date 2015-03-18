@@ -3586,13 +3586,13 @@ public abstract class EuclidianController3D extends EuclidianController {
 								movedGeoPoint);
 					}
 				}
-
+				return;
 			}
-		} else {
-			translateableGeos = null;
-			handleMovedElementDependentWithChangeableCoordParentNumbers();
-			handleMovedElementDependentInitMode();
 		}
+			
+		translateableGeos = null;
+		handleMovedElementDependentWithChangeableCoordParentNumbers();
+		handleMovedElementDependentInitMode();
 
 	}
 
