@@ -16,7 +16,6 @@ import geogebra.web.gui.app.ShowKeyboardButton;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockGlassPaneW;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
-import geogebra.web.gui.view.algebra.AlgebraViewW;
 import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
@@ -211,7 +210,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private void showKeyboardButton(boolean show, Widget textField) {
 		if (showKeyboardButton == null) {
 			showKeyboardButton = new ShowKeyboardButton(this, textField,
-			        ((AlgebraViewW) app.getAlgebraView()).getElement());
+			        this.getElement());
 		}
 		showKeyboardButton.show(show, textField);
 	}
