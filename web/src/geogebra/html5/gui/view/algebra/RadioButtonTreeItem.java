@@ -3,8 +3,11 @@ package geogebra.html5.gui.view.algebra;
 import geogebra.common.main.App;
 import geogebra.common.util.AsyncOperation;
 
+import com.google.gwt.dom.client.Element;
+
 
 public interface RadioButtonTreeItem {
+	public Element getElement();
 	public App getApplication();
 
 	// methods to stop editing (from DrawEquationWeb)

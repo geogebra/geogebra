@@ -1350,7 +1350,21 @@ public class DrawEquationWeb extends DrawEquation {
 	        Element parentElement) {
 		JavaScriptObject jo = grabCursorForScrollIntoView(parentElement);
 		if (jo != null) {
-			Element.as(jo).scrollIntoView();
+			Element joel = Element.as(jo);
+			joel.scrollIntoView();
+			// if the cursor is on the right or on the left,
+			// it would be good to scroll some more, to show the "X" closing
+			// sign and the blue border of the window! How to know that?
+			// let's compare their places, and if the difference is little,
+			// scroll to the left/right!
+			if (joel.getAbsoluteLeft() - parentElement.getAbsoluteLeft() < 50) {
+				// NewRadioButtonTreeItem class in theory
+				rbti.getElement().setScrollLeft(0);
+			} else if (parentElement.getAbsoluteRight()
+			        - joel.getAbsoluteRight() < 50) {
+				// NewRadioButtonTreeItem class in theory
+				rbti.getElement().setScrollLeft(Integer.MAX_VALUE);
+			}
 		} else {
 			// otherwise do the old functionality
 			rbti.scrollIntoView();
