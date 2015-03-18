@@ -123,7 +123,7 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	}
 
 	private void tryEditCellAt(GPoint point) {
-		if (canEditCellAt(point)) {
+		if (canEditCellAt(point) && !isEditingCellAt(point)) {
 			editCellAt(point);
 		}
 	}
@@ -131,6 +131,13 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 	private boolean canEditCellAt(GPoint point) {
 		return !(table.getOneClickEditMap().containsKey(point) && view
 		        .allowSpecialEditor());
+	}
+
+	private boolean isEditingCellAt(GPoint point) {
+		int column = point.getX();
+		int row = point.getY();
+		return editor.isEditing() && editor.row == row
+		        && editor.column == column;
 	}
 
 	private void editCellAt(GPoint point) {
@@ -176,7 +183,11 @@ public class SpreadsheetMouseListenerW implements MouseDownHandler,
 				copyIntoEditorFromCellAt(point);
 				startEditDragging(point);
 			} else {
-				finishEditing();
+				// selecting the same cell should not finish editing
+				// e.g. move cursor inside cell
+				if (!isCurrentSelection(point)) {
+					finishEditing();
+				}
 			}
 		}
 
