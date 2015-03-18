@@ -33,7 +33,7 @@
 	margin: 0px;
 }
 
-/* .NewRadioButtonTreeItem too */
+/* .NewRadioButtonTreeItem, */
 .GeoGebraFrame .gwt-Tree .gwt-TreeItem .elem {
 	position: relative;
 }
@@ -43,16 +43,31 @@
 	overflow: hidden;
 	display: block !important;
 	width: 100%;
+	/* padding: inside, border: outside; */
+	/* padding-bottom would overlap the scrollbar! */
+	/* but the scrollbar would be in the foreground */
+	/*padding-bottom: 17px;*/
+
+	/* it's just Okay that this (height) is 17px shorter than */
+	/* .NewRadioButtonTreeItem (height+padding+border) due to */
+	/* its negative margins, but the bottom of this (pad-border) */
+	/* is aligned with the bottom of its child (pad-border) not */
+	/* using the negative margins, so workaround is hard... */
+	
 }
 
-/*.NewRadioButtonTreeItemParent::after {
-	content: " ";
+.NewRadioButtonTreeItemParent::after {
+	/* also trying to hide the content by overlapping it*/
 	content: "";
+	background-color: white;
+	position: absolute;
 	display: block;
-	width: 100%;*/
-	/* setting height to 100px and then 1px again, reinitiates the scroll*/
-	/*height: 1px;
-}*/
+	bottom: 0px;
+	left:0px;
+	right:0px;
+	height: 17px;
+	width: 100%;
+}
 
 .NewRadioButtonTreeItem {
 	/* somehow we should align the top of .NewRadioButtonTreeItem
@@ -67,9 +82,9 @@
 	/*vertical-align: -17px !important;*/
 	overflow-x: scroll;
 	overflow-y: hidden;
-	margin-bottom: -17px !important;
+	/*margin-bottom: -17px !important;*/
 	/* margin-top is only a temporary workaround, not used for testing */
-	margin-top: 17px !important;
+	/*margin-top: 17px !important;*/
 }
 
 /*hack for toolbar submenu, that is isn't hidden by 
