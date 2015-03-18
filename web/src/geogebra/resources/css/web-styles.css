@@ -39,27 +39,19 @@
 }
 
 .NewRadioButtonTreeItemParent {
+	/* afaik, ::after is relative this this element this way */
 	position: relative !important;
-	overflow: hidden;
 	display: block !important;
 	width: 100%;
-	/* padding: inside, border: outside; */
-	/* padding-bottom would overlap the scrollbar! */
-	/* but the scrollbar would be in the foreground */
-	/*padding-bottom: 17px;*/
-
-	/* it's just Okay that this (height) is 17px shorter than */
-	/* .NewRadioButtonTreeItem (height+padding+border) due to */
-	/* its negative margins, but the bottom of this (pad-border) */
-	/* is aligned with the bottom of its child (pad-border) not */
-	/* using the negative margins, so workaround is hard... */
-	
 }
 
 .NewRadioButtonTreeItemParent::after {
-	/* also trying to hide the content by overlapping it*/
+	/* Hiding .NewRadioButtonTreeItem scrollbar by overlapping it! */
+	/* a different solution would use clipping (i.e. overflow: hidden) */
+	/* with negative margins and/or relative positioning and/or */
+	/* and/or vertical-align and/or absolute positioning, */
+	/* but all of them turned out to be more difficult than this solution */
 	content: "";
-	background-color: white;
 	position: absolute;
 	display: block;
 	bottom: 0px;
@@ -67,24 +59,15 @@
 	right:0px;
 	height: 17px;
 	width: 100%;
+
+	/* or whatever is the background-color of Algebra View */
+	/* TODO: may be put elsewhere in CSS too */
+	background-color: white;
 }
 
 .NewRadioButtonTreeItem {
-	/* somehow we should align the top of .NewRadioButtonTreeItem
-	with the top of .NewRadioButtonTreeItemParent... but
-	vertical-align with inline-block didn't work, also
-	position: absolute didn't work (as dimensions of parent shrink)
-	plan b: align the bottom of .NewRadioButtonTreeItemParent
-	with the bottom of .NewRadioButtonTreeItem minus neg. margin,
-	so maybe .NewRadioButtonTreeItemParent::after helps,
-	but it didn't help either... so current state saved for ref */
-	display: block !important;
-	/*vertical-align: -17px !important;*/
 	overflow-x: scroll;
 	overflow-y: hidden;
-	/*margin-bottom: -17px !important;*/
-	/* margin-top is only a temporary workaround, not used for testing */
-	/*margin-top: 17px !important;*/
 }
 
 /*hack for toolbar submenu, that is isn't hidden by 
