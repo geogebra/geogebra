@@ -40,4 +40,28 @@ public class WebSocketConnection extends JavaScriptObject {
 		this.send(data);
 	}-*/;
 
+	public native final void onClose(CloseEventHandler handler) /*-{
+		this.onclose = function(e) {
+			handler.@geogebra.plugin.CloseEventHandler::close(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+		};
+	}-*/;
+	
+	public native final void onOpen(OpenEventHandler handler) /*-{
+		this.onopen = function(e) {
+			handler.@geogebra.plugin.OpenEventHandler::open(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+		};
+	}-*/;
+	
+	public native final void onMessage(MessageEventHandler handler) /*-{
+		this.onmessage = function(e) {
+			handler.@geogebra.plugin.MessageEventHandler::message(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+		};
+	}-*/;
+
+	public native final void onError(ErrorEventHandler handler) /*-{
+		this.onerror = function(e) {
+			hanlder.@geogebra.plugin.ErrorEventHandler::error(Lcom/google/gwt/core/client/JavaScriptObject;)(e);
+		};
+	}-*/;
+
 }
