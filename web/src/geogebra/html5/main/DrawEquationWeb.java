@@ -1345,36 +1345,37 @@ public class DrawEquationWeb extends DrawEquation {
 
 	public static native JavaScriptObject grabSelectionFocusForScrollIntoView() /*-{
 		var selectionRang = $wnd.getSelection();
+		var resultNode = null;
 		if (selectionRang.rangeCount > 1) {
 			// select the range that is not the textarea!
 			for (var ii = 0; ii < selectionRang.rangeCount; ii++) {
-				selectionRang = selectionRang.getRangeAt(ii).endContainer;
-				// selectionRang is probably a textNode, so let's get its parent node!
-				while (selectionRang.nodeType === 3) {
-					selectionRang = selectionRang.parentNode;
+				resultNode = selectionRang.getRangeAt(ii).endContainer;
+				// it is probably a textNode, so let's get its parent node!
+				while (resultNode.nodeType === 3) {
+					resultNode = resultNode.parentNode;
 				}
-				// now if selectionRang is the textarea, then continue,
+				// now if it is the textarea, then continue,
 				// otherwise break!
-				if (selectionRang.nodeName === 'textarea') {
+				if (resultNode.nodeName === 'textarea') {
 					continue;
 				} else {
 					break;
 				}
 			}
 		} else if (selectionRang.rangeCount == 1) {
-			selectionRang = selectionRang.focusNode;
+			resultNode = selectionRang.focusNode;
 			// selectionRang is probably a textNode, so let's get its parent node!
-			while (selectionRang.nodeType === 3) {
-				selectionRang = selectionRang.parentNode;
+			while (resultNode.nodeType === 3) {
+				resultNode = resultNode.parentNode;
 			}
 		} else {
 			return null;
 		}
-		if (selectionRang.nodeName === 'textarea') {
+		if (resultNode.nodeName === 'textarea') {
 			// now what? return null...
 			return null;
 		}
-		return selectionRang;
+		return resultNode;
 	}-*/;
 
 	public static void scrollSelectionIntoView(RadioButtonTreeItem rbti,
