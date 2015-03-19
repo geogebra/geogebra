@@ -1344,7 +1344,19 @@ public class DrawEquationWeb extends DrawEquation {
 	}-*/;
 
 	public static native JavaScriptObject grabSelectionFocusForScrollIntoView() /*-{
-		return $wnd.getSelection().focusNode;
+		var selectionRang = $wnd.getSelection();
+		if (selectionRang.rangeCount > 1) {
+			selectionRang = selectionRang.getRangeAt(0).endContainer;
+		} else if (selectionRang.rangeCount == 1) {
+			selectionRang = selectionRang.focusNode;
+		} else {
+			return null;
+		}
+		// selectionRang is probably a textNode, so let's get its parent node!
+		while (selectionRang.nodeType === 3) {
+			selectionRang = selectionRang.parentNode;
+		}
+		return selectionRang;
 	}-*/;
 
 	public static void scrollSelectionIntoView(RadioButtonTreeItem rbti,
