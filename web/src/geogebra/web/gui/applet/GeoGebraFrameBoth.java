@@ -38,8 +38,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		this.factory = factory;
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf, GLookAndFeelI laf) {
-		AppW app = factory.getApplet(ae, gf, laf);
+	protected AppW createApplication(ArticleElement ae,
+	        GLookAndFeelI laf) {
+		AppW app = factory.getApplet(ae, this, laf);
 		WebStatic.lastApp = app;
 		this.glass = new DockGlassPaneW();
 		this.add(glass);
@@ -92,6 +93,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 	private boolean isBrowserShowing = false;
 	private boolean keyboardShowing = false;
 	private ShowKeyboardButton showKeyboardButton;
+	private int keyboardHeight;
 	
 	@Override
     public void showBrowser(HeaderPanel bg) {
@@ -155,6 +157,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 
 				@Override
 				public void run() {
+
 					app.addToHeight(-keyBoard.getOffsetHeight());
 					app.updateCenterPanel(true);
 					GeoGebraFrameBoth.this.add(keyBoard);
@@ -234,6 +237,21 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			        this.getElement());
 		}
 		showKeyboardButton.show(show, textField);
+	}
+
+	public void showKeyboardButton(boolean show) {
+		if (showKeyboardButton == null) {
+			return;
+		}
+		if(show){
+			showKeyboardButton.show();
+		}else{
+			showKeyboardButton.hide();
+		}
+	}
+
+	public int getKeyboardHeight() {
+		return keyboardShowing ? keyboardHeight : 0;
 	}
 
 }

@@ -1,6 +1,5 @@
 package geogebra.web.gui.applet;
 
-import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
@@ -12,7 +11,8 @@ import geogebra.web.main.GDevice;
 
 public class AppletFactory2D implements AppletFactory {
 
-	public AppW getApplet(ArticleElement ae, GeoGebraFrame gf, GLookAndFeelI laf) {
+	public AppW getApplet(ArticleElement ae, GeoGebraFrameBoth gf,
+	        GLookAndFeelI laf) {
 	    return new AppWapplet(ae, gf, 2, (GLookAndFeel)laf);
     }
 

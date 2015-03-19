@@ -28,6 +28,7 @@ import geogebra.web.gui.MyHeaderPanel;
 import geogebra.web.gui.app.GGWCommandLine;
 import geogebra.web.gui.app.GGWMenuBar;
 import geogebra.web.gui.app.GGWToolBar;
+import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.layout.DockPanelW;
@@ -62,7 +63,7 @@ public class AppWapplet extends AppWFull {
 	private ObjectPool objectPool;
 	// TODO remove GUI stuff from appW
 	private LanguageGUI lg;
-	private GeoGebraFrame frame;
+	private GeoGebraFrameBoth frame;
 
 	/******************************************************
 	 * Constructs AppW for applets with undo enabled
@@ -70,7 +71,7 @@ public class AppWapplet extends AppWFull {
 	 * @param ae
 	 * @param gf
 	 */
-	public AppWapplet(ArticleElement ae, GeoGebraFrame gf, int dimension,
+	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf, int dimension,
 	        GLookAndFeel laf) {
 		this(ae, gf, true, dimension, laf);
 	}
@@ -81,7 +82,7 @@ public class AppWapplet extends AppWFull {
 	 * @param undoActive
 	 *            if true you can undo by CTRL+Z and redo by CTRL+Y
 	 */
-	public AppWapplet(ArticleElement ae, GeoGebraFrame gf,
+	public AppWapplet(ArticleElement ae, GeoGebraFrameBoth gf,
 	        final boolean undoActive, int dimension, GLookAndFeel laf) {
 		super(ae, dimension, laf);
 		this.frame = gf;
@@ -496,12 +497,31 @@ public class AppWapplet extends AppWFull {
 		// int left = this.oldSplitLayoutPanel.getAbsoluteLeft();
 		// int top = this.oldSplitLayoutPanel.getAbsoluteLeft();
 		buildApplicationPanel();
-		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
+		this.oldSplitLayoutPanel.setPixelSize(spWidth,
+		        spHeight - frame.getKeyboardHeight());
 		// we need relative position to make sure the menubar / toolbar are not
 		// hiddn
 		this.oldSplitLayoutPanel.getElement().getStyle()
 		        .setPosition(Position.RELATIVE);
+		
 		// TODO
+
+	}
+
+	@Override
+	public void updateContentPane() {
+		super.updateContentPane();
+
+		getGuiManager().invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				AppWapplet.this.frame.showKeyboardButton(AppWapplet.this
+				        .showView(App.VIEW_ALGEBRA));
+			}
+		}
+
+		);
 
 	}
 

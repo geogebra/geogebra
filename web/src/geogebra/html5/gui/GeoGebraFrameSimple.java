@@ -21,9 +21,9 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 		super(null);
 	}
 
-	protected AppW createApplication(ArticleElement ae, GeoGebraFrame gf,
+	protected AppW createApplication(ArticleElement ae,
 	        GLookAndFeelI laf) {
-		AppW app = new AppWsimple(ae, gf);
+		AppW app = new AppWsimple(ae, this);
 		WebStatic.lastApp = app;
 		return app;
 	}

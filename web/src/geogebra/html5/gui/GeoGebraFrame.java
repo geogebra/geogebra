@@ -308,7 +308,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 		// if (ae.getDataParamGuiOff())
 		// inst.app = inst.createApplicationSimple(articleElement, inst);
 		// else
-		inst.app = inst.createApplication(articleElement, inst, this.laf);
+		inst.app = inst.createApplication(articleElement, this.laf);
 
 		inst.app.setCustomToolBar();
 		// useDataParamBorder(articleElement, inst);
@@ -360,7 +360,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	 * @return the newly created instance of Application
 	 */
 	protected abstract AppW createApplication(ArticleElement ae,
-	        GeoGebraFrame gf, GLookAndFeelI laf);
+	        GLookAndFeelI laf);
 
 	/**
 	 * @return list of instances of GeogebraFrame

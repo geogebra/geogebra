@@ -16,9 +16,9 @@ import geogebra.geogebra3D.web.euclidian3D.openGL.GLFactoryW;
 import geogebra.geogebra3D.web.gui.GuiManager3DW;
 import geogebra.html5.euclidian.EuclidianPanelWAbstract;
 import geogebra.html5.euclidian.EuclidianViewW;
-import geogebra.html5.gui.GeoGebraFrame;
 import geogebra.html5.util.ArticleElement;
 import geogebra.web.gui.GuiManagerW;
+import geogebra.web.gui.applet.GeoGebraFrameBoth;
 import geogebra.web.gui.dialog.DialogManager3DW;
 import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.javax.swing.GCheckBoxMenuItem;
@@ -31,7 +31,8 @@ public class AppWapplet3D extends AppWapplet {
 	private EuclidianView3DW euclidianView3D;
 	private EuclidianController3DW euclidianController3D;
 
-	public AppWapplet3D(ArticleElement ae, GeoGebraFrame gf, GLookAndFeel laf) {
+	public AppWapplet3D(ArticleElement ae, GeoGebraFrameBoth gf,
+	        GLookAndFeel laf) {
 		super(ae, gf, 3, laf);
 	}
 
