@@ -158,4 +158,6 @@ public interface GeoGebraConstants {
 	public static final String APPLET_UNFOCUSED_CLASSNAME = "applet-unfocused";
 	public static final String WEB_CUSTOM_HTML_ELEMENT_NAME = "geogebra-web";
 	public static final boolean SINGULARWS_ENABLED_BY_DEFAULT = false;
+
+	public static final String DATA_LOGGING_WEBSOCKET_URL = "ws://test.geogebratube.org:8081";
 }

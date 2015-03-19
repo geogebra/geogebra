@@ -1,5 +1,6 @@
 package geogebra.plugin;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
@@ -11,9 +12,13 @@ import geogebra.common.plugin.SensorLogger;
 public class WebsocketLogger implements SensorLogger {
 
 	private Kernel kernel;
+	private WebSocketConnection connection;
 
 	public WebsocketLogger(Kernel kernel) {
 		this.kernel = kernel;
+		this.connection = WebSocketFactory
+		        .create(
+		        GeoGebraConstants.DATA_LOGGING_WEBSOCKET_URL);
 	}
 
 	public void stopLogging() {
