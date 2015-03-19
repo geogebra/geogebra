@@ -148,6 +148,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 			CancelEventTimer.keyboardSetVisible();
 			// this.mainPanel.addSouth(keyBoard, keyBoard.getOffsetHeight());
 			this.add(keyBoard);
+			if (showKeyboardButton != null) {
+				showKeyboardButton.hide();
+			}
 			app.getGuiManager().invokeLater(new Runnable() {
 
 				@Override
@@ -159,6 +162,9 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				}
 			});
 		} else {
+			if (app.isPrerelease()) {
+				showKeyboardButton(true, textField);
+			}
 			app.addToHeight(keyBoard.getOffsetHeight());
 			this.remove(keyBoard);
 			app.updateCenterPanel(true);
