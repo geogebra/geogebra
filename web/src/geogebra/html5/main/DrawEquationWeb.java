@@ -1356,7 +1356,7 @@ public class DrawEquationWeb extends DrawEquation {
 				}
 				// now if it is the textarea, then continue,
 				// otherwise break!
-				if (resultNode.nodeName === 'textarea') {
+				if (resultNode.nodeName.toLowerCase() === 'textarea') {
 					continue;
 				} else {
 					break;
@@ -1371,7 +1371,7 @@ public class DrawEquationWeb extends DrawEquation {
 		} else {
 			return null;
 		}
-		if (resultNode.nodeName === 'textarea') {
+		if (resultNode.nodeName.toLowerCase() === 'textarea') {
 			// now what? return null...
 			return null;
 		}
