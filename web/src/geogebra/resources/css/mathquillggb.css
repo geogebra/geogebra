@@ -55,12 +55,12 @@
 	min-height: 50px;
 	line-height: 50px;
 	display: inline-block;
-  	border: #6161FF solid 1px;
+  	border-top: #6161FF solid 1px;
+  	border-bottom: #6161FF solid 1px;
 	background: #FFFFFF;
 	padding: 4px 5px;
 	box-sizing: border-box !important;
 	-moz-box-sizing: border-box !important;
-	box-shadow: inset 1px 1px rgba(102, 102, 102, 0.1);
 }
 .hasCursorPermanent > span {
 	vertical-align: middle;
