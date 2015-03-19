@@ -4,7 +4,6 @@ import geogebra.common.main.App;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
 import geogebra.html5.main.AppW;
-import geogebra.html5.main.DrawEquationWeb;
 import geogebra.html5.util.DynamicScriptElement;
 import geogebra.html5.util.ScriptLoadCallback;
 import geogebra.web.css.GuiResources;
@@ -237,7 +236,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		super(true);
 		addStyleName("KeyBoard");
 		createKeyBoard();
-		setStyleName();
 	}
 
 	@Override
@@ -278,21 +276,32 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			
 			@Override
 			public void onResize(ResizeEvent event) {
-				setStyleName();
+				updateSize();
+
 			}
 		});
+	}
+
+	/**
+	 * sets width of the onScreenKeyboard and adds specific styleNames if
+	 * keyboard needs to be scaled
+	 */
+	void updateSize() {
+		// -10 because of padding
+		this.setWidth(app.getWidth() - 10 + "px");
+		setStyleName();
 	}
 
 	/**
 	 * adds a specific styleName to the keyboard (if keyboard has to be scaled
 	 * or not)
 	 */
-	void setStyleName() {
-		if (Window.getClientWidth() < MIN_WIDTH_WITHOUT_SCALING) {
+	private void setStyleName() {
+		if (app.getWidth() < MIN_WIDTH_WITHOUT_SCALING) {
 			addStyleName("scale");
 			removeStyleName("normal");
 			removeStyleName("smallerFont");
-			if (Window.getClientWidth() < MIN_WIDTH_FONT) {
+			if (app.getWidth() < MIN_WIDTH_FONT) {
 				addStyleName("smallerFont");
 			}
 		} else {
@@ -477,11 +486,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		int index = 0;
 		addButton("ln", index, functions);
 		addButton("log", index, functions);
-
-		KeyBoardButton newButton = new KeyBoardButton("", "nroot", this);
-		DrawEquationWeb.drawEquationAlgebraView(newButton.getElement(),
-				"\\sqrt[n]{x}", true);
-		functions.addToRow(index, newButton);
+		addButton("nroot", index, functions);
 
 		// fill second row
 		index++;
@@ -953,6 +958,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	@Override
 	public void show() {
 		this.keyboardWanted = true;
+		updateSize();
 		checkLanguage();
 		super.show();
 	}
