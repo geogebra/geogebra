@@ -516,7 +516,9 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			double screenPixelsY = 100 * ev.getPrintingScale() / ev.getYscale();
 
 			cmWidth = ev.getExportWidth() / 100.0 * screenPixels;
-			cmHeight = ev.getExportHeight() / 100.0 * screenPixelsY;
+			// not screenPixelsY
+			// eg http://forum.geogebra.org/viewtopic.php?f=8&t=38682
+			cmHeight = ev.getExportHeight() / 100.0 * screenPixels;
 
 			pixelWidth = (int) (cmWidth / 2.54 * getDPI());
 			pixelHeight = (int) (cmHeight / 2.54 * getDPI());
@@ -533,8 +535,11 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 
 			// getXscale() is not a typo, see #2894
 			// #4185 changed back to getYscale()
-			cmHeight = printingScale
-					* (ev.getExportHeight() / ev.getYscale());
+			// * ev.getYscale() / ev.getXscale() added for when x:y ratio is not
+			// 1:1
+			// http://forum.geogebra.org/viewtopic.php?f=8&t=38682
+			cmHeight = printingScale * (ev.getExportHeight() / ev.getYscale())
+					* ev.getYscale() / ev.getXscale();
 
 			pixelWidth = (int) Math.floor(ev.getExportWidth()
 					* exportScale);
@@ -830,6 +835,10 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 	 *            width in pixels
 	 * @param pixelHeight
 	 *            height in pixels
+	 * @param cmWidth
+	 *            width in cm
+	 * @param cmHeight
+	 *            height in cm
 	 * @param exportScale
 	 *            scale units / cm
 	 * @param transparent0
@@ -850,8 +859,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 		try {
 			g = new SVGExtensions(file, new Dimension(
 					(int) (pixelWidth / exportScale),
-					(int) (pixelHeight / exportScale)),
-					cmWidth, cmHeight);
+					(int) (pixelHeight / exportScale)), cmWidth, cmHeight);
 			// make sure LaTeX exported at hi res
 			app.exporting = true;
 
