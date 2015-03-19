@@ -54,7 +54,7 @@ public interface GuiResourcesSimple extends ClientBundle {
 	@Source("geogebra/resources/css/web-styles.css")
 	TextResource modernStyle();
 
-	@Source("geogebra/resources/images/view-refresh.png")
+	@Source("icons/png/view_refresh.png")
 	ImageResource viewRefresh();
 
 	@Source("geogebra/resources/images/spinner.html")

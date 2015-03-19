@@ -254,4 +254,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		return keyboardShowing ? keyboardHeight : 0;
 	}
 
+	public void refreshKeyboard() {
+		if (keyboardShowing) {
+			final OnScreenKeyBoard keyBoard = OnScreenKeyBoard.getInstance(
+			        null, this, app);
+			add(keyBoard);
+		}
+	}
+
 }

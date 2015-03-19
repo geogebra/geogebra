@@ -510,7 +510,9 @@ public class AppWapplet extends AppWFull {
 
 	@Override
 	public void updateContentPane() {
+
 		super.updateContentPane();
+		frame.refreshKeyboard();
 
 		getGuiManager().invokeLater(new Runnable() {
 
@@ -688,6 +690,7 @@ public class AppWapplet extends AppWFull {
 		        null, null);
 	}
 
+	@Override
 	public void addToHeight(int i) {
 		this.spHeight += i;
 	}
