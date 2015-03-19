@@ -2258,6 +2258,8 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	cursor: pointer;
 	cursor: hand;
 	text-align: center;
+	background-color: #666666;
+	border-bottom-left-radius: 5px;	
 }
 
 .keyBoardClosePanel .closeIcon {
