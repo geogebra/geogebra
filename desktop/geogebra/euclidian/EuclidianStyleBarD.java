@@ -528,7 +528,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 
 	protected void createButtons() {
 
-		ImageIcon axesIcon = app.getScaledIcon("axes.gif");
+		ImageIcon axesIcon = app
+				.getScaledIcon("stylingbar_graphicsview_show_or_hide_the_axes.png");
 		iconHeight = axesIcon.getIconHeight();
 		updatePreferredSize();
 		// ========================================
@@ -560,7 +561,8 @@ public class EuclidianStyleBarD extends JToolBar implements ActionListener,
 		// ========================================
 		// delete button
 		btnDelete = new MyToggleButton(
-				((AppD) ev.getApplication()).getScaledIcon("delete_small.gif"),
+				((AppD) ev.getApplication())
+						.getScaledIcon("stylingbar_delete_small.png"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;
@@ -607,14 +609,16 @@ axesIcon, iconHeight);
 		// ========================================
 		// show grid button
 		btnShowGrid = new MyToggleButtonVisibleIfNoGeo(
-				app.getScaledIcon("grid.gif"), iconHeight);
+				app.getScaledIcon("stylingbar_graphicsview_show_or_hide_the_grid.png"),
+				iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnShowGrid.addActionListener(this);
 
 		// ========================================
 		// standard view button
 		btnStandardView = new MyToggleButtonVisibleIfNoGeo(
-				app.getScaledIcon("standard_view.gif"), iconHeight);
+				app.getScaledIcon("stylingbar_graphicsview_standardview.png"),
+				iconHeight);
 		// btnShowGrid.setPreferredSize(new Dimension(16,16));
 		btnStandardView.setFocusPainted(false);
 		btnStandardView.setBorderPainted(false);
@@ -865,7 +869,7 @@ axesIcon, iconHeight);
 			 * new Point(TOOLTIP_LOCATION_X, TOOLTIP_LOCATION_Y); }
 			 */
 		};
-		ImageIcon ic = app.getScaledIcon("mode_showhidelabel_16.gif");
+		ImageIcon ic = app.getScaledIcon("mode_showhidelabel.png");
 		btnLabelStyle.setIconSize(new Dimension(ic.getIconWidth(), iconHeight));
 		btnLabelStyle.setIcon(ic);
 		btnLabelStyle.setStandardButton(true);
@@ -899,7 +903,7 @@ axesIcon, iconHeight);
 		};
 
 		ImageIcon ptCaptureIcon = app
-				.getScaledIcon("stylingbar_graphicsview_point_capturing.gif");
+				.getScaledIcon("stylingbar_graphicsview_point_capturing.png");
 		btnPointCapture.setIconSize(new Dimension(ptCaptureIcon.getIconWidth(),
 				iconHeight));
 		btnPointCapture.setIcon(ptCaptureIcon);
@@ -909,7 +913,7 @@ axesIcon, iconHeight);
 
 		// ========================================
 		// fixed position button
-		btnFixPosition = new MyToggleButton(app.getScaledIcon("pin.png"),
+		btnFixPosition = new MyToggleButton(app.getScaledIcon("menu-pin.png"),
 				iconHeight) {
 
 			private static final long serialVersionUID = 1L;

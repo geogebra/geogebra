@@ -1914,7 +1914,7 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	protected String getMenuIconPath() {
 		// int fontSize = getGUIFontSize();
-		String path = "/gui/images/menu-icons/40px/";
+		String path = "/gui/images/64px/";
 		// if (fontSize < 30) {
 		// path += "20px/";
 		// } else if (fontSize >= 30 && fontSize < 79.5) {

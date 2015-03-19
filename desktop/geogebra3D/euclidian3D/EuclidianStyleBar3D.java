@@ -172,14 +172,15 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// ========================================
 		// show grid button
 		btnShowPlane = new MyToggleButtonVisibleIfNoGeo(
-				app.getScaledIcon("plane.gif"), iconHeight);
+				app.getScaledIcon("stylingbar_graphics3D_plane.png"),
+				iconHeight);
 		btnShowPlane.addActionListener(this);
 
 		// ========================================
 		// rotate view button
 		btnRotateView = new PopupMenuButtonForView3D();
 		btnRotateView.setIcon(app
-				.getScaledIcon("stylingbar_graphics3D_rotateview_play.gif"));
+				.getScaledIcon("stylingbar_graphics3D_rotateview_play.png"));
 		btnRotateView.getMySlider().setMinimum(-10);
 		btnRotateView.getMySlider().setMaximum(10);
 		btnRotateView.getMySlider().setMajorTickSpacing(10);
@@ -195,7 +196,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// clipping button
 		btnClipping = new PopupMenuButtonForView3D();
 		btnClipping.setIcon(app
-				.getScaledIcon("stylingbar_graphics3D_clipping_medium.gif"));
+				.getScaledIcon("stylingbar_graphics3D_clipping_medium.png"));
 		btnClipping.getMySlider().setMinimum(GeoClippingCube3D.REDUCTION_MIN);
 		btnClipping.getMySlider().setMaximum(GeoClippingCube3D.REDUCTION_MAX);
 		btnClipping.getMySlider().setMajorTickSpacing(1);
@@ -211,13 +212,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// view yz direction
 		ImageIcon[] directionIcons = new ImageIcon[4];
 		directionIcons[0] = app
-				.getScaledIcon("stylingbar_graphics3D_view_xy.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_xy.png");
 		directionIcons[1] = app
-				.getScaledIcon("stylingbar_graphics3D_view_xz.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_xz.png");
 		directionIcons[2] = app
-				.getScaledIcon("stylingbar_graphics3D_view_yz.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_yz.png");
 		directionIcons[3] = app
-				.getScaledIcon("stylingbar_graphics3D_standardview_rotate.gif");
+				.getScaledIcon("stylingbar_graphics3D_standardview_rotate.png");
 		btnViewDirection = new ProjectionPopup(app, directionIcons);
 		btnViewDirection.addActionListener(this);
 
@@ -225,13 +226,13 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		// projection view button
 		ImageIcon[] projectionIcons = new ImageIcon[4];
 		projectionIcons[0] = app
-				.getScaledIcon("stylingbar_graphics3D_view_orthographic.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_orthographic.png");
 		projectionIcons[1] = app
-				.getScaledIcon("stylingbar_graphics3D_view_perspective.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_perspective.png");
 		projectionIcons[2] = app
-				.getScaledIcon("stylingbar_graphics3D_view_glasses.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_glasses.png");
 		projectionIcons[3] = app
-				.getScaledIcon("stylingbar_graphics3D_view_oblique.gif");
+				.getScaledIcon("stylingbar_graphics3D_view_oblique.png");
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
 		btnViewProjection.addActionListener(this);
 
