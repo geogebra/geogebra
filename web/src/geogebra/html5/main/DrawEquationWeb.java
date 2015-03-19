@@ -1348,7 +1348,7 @@ public class DrawEquationWeb extends DrawEquation {
 		if (selectionRang.rangeCount > 1) {
 			// select the range that is not the textarea!
 			for (var ii = 0; ii < selectionRang.rangeCount; ii++) {
-				selectionRang = selectionRang.getRangeAt(0).endContainer;
+				selectionRang = selectionRang.getRangeAt(ii).endContainer;
 				// selectionRang is probably a textNode, so let's get its parent node!
 				while (selectionRang.nodeType === 3) {
 					selectionRang = selectionRang.parentNode;
@@ -1381,7 +1381,6 @@ public class DrawEquationWeb extends DrawEquation {
 	        Element parentElement, boolean newCreationMode) {
 		JavaScriptObject jo = grabSelectionFocusForScrollIntoView();
 		if (jo != null)
-			// scrollJSOIntoView(jo, rbti, parentElement, false);
 			scrollJSOIntoView(jo, rbti, parentElement, newCreationMode);
 	}
 
@@ -1412,18 +1411,6 @@ public class DrawEquationWeb extends DrawEquation {
 
 		Element joel = Element.as(jo);
 		joel.scrollIntoView();
-
-		// joel.getStyle().setBackgroundColor("#ff0000 !important");
-		/*
-		 * joel.getStyle().setBackgroundColor("#ff0000");
-		 * joel.addClassName("redimportant");
-		 * App.debug("scrolled into view in theory");
-		 * 
-		 * Node joeln = Node.as(jo); App.debug(joeln.getNodeName() + " " +
-		 * joeln.getNodeType() + " " + joeln.getNodeValue()); // returns:
-		 * "span 1 null" App.debug("scrolled into view in theory"); // but still
-		 * does not coloring it to red
-		 */
 
 		// Note: the following hacks should only be made in
 		// new creation mode! so boolean introduced...
