@@ -230,7 +230,7 @@ public class EuclidianStyleBar3D extends EuclidianStyleBarD {
 		projectionIcons[1] = app
 				.getScaledIcon("stylingbar_graphics3D_view_perspective.png");
 		projectionIcons[2] = app
-				.getScaledIcon("stylingbar_graphics3D_view_glasses.png");
+				.getScaledIcon("stylingbar_graphics3D_view_glases.png");
 		projectionIcons[3] = app
 				.getScaledIcon("stylingbar_graphics3D_view_oblique.png");
 		btnViewProjection = new ProjectionPopup(app, projectionIcons);
