@@ -1930,26 +1930,17 @@ public class AppD extends App implements KeyEventDispatcher {
 		int px = 0;
 		switch (points) {
 		case 12:
-			px = 16;
-			break;
 		case 14:
-			px = 18;
-			break;
 		case 16:
 			px = 21;
 			break;
 		case 18:
+		case 20:
 			px = 24;
 			break;
-		case 20:
-			px = 26;
-			break;
 		case 24:
-			px = 32;
-			break;
 		case 28:
-			px = 36;
-			break;
+			px = 32;
 		case 32:
 		case 48:
 			px = 48;
