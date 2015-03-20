@@ -22,6 +22,7 @@ import geogebra.common.euclidian.EuclidianConstants;
 import geogebra.common.euclidian.EuclidianViewInterfaceSlim;
 import geogebra.common.kernel.AnimationManager;
 import geogebra.common.kernel.Construction;
+import geogebra.common.kernel.ConstructionDefaults;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.algos.AlgoElement;
@@ -33,6 +34,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.MyDouble;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.cas.AlgoIntegralDefiniteInterface;
+import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.StringUtil;
@@ -1431,6 +1433,48 @@ public class GeoNumeric extends GeoElement implements GeoNumberValue,
 	@Override
 	public void setShowExtendedAV(boolean showExtendedAV) {
 		this.showExtendedAV = showExtendedAV;
+	}
+	
+	
+	@Override
+	protected void setLabelModeDefault(){
+		
+		// label visibility
+		App app = getKernel().getApplication();
+		int labelingStyle = app == null ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS : app
+				.getCurrentLabelingStyle();
+		
+		// automatic labelling:
+		// if algebra window open -> all labels
+		// else -> no labels
+		boolean visible = false;
+		switch (labelingStyle) {
+		case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
+			visible = true;
+			break;
+
+		case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
+			visible = false;
+			break;
+
+		case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
+			// we want sliders and angles to be labeled always
+			visible = true;
+			break;
+
+		default:
+		case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
+			// don't change anything
+			visible = true;
+			break;
+		}
+				
+		if (visible){
+			labelMode = LABEL_NAME_VALUE;
+		}else{
+			labelMode = LABEL_VALUE;
+		}
+
 	}
 
 }

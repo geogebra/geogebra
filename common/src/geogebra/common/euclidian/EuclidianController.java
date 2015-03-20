@@ -1129,7 +1129,7 @@ public abstract class EuclidianController {
 		while (it.hasNext()) {
 			geo = it.next();
 
-			if (!geo.isFixed()) {
+			if (!highlight || !geo.isFixed()) { 
 				geo.setHighlighted(highlight);
 			}
 		}
@@ -4370,29 +4370,9 @@ public abstract class EuclidianController {
 		}
 
 		if (angle != null) {
-			// commented in V3.0:
-			// angle.setAllowReflexAngle(false);
-			// make sure that we show angle value
-			if (angle.isLabelVisible()) {
-				angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-			} else {
-				angle.setLabelMode(GeoElement.LABEL_VALUE);
-			}
-			angle.setLabelVisible(true);
-			angle.updateRepaint();
 			GeoElement[] ret = { angle };
 			return ret;
 		} else if (angles != null) {
-			for (int i = 0; i < angles.length; i++) {
-				// make sure that we show angle value
-				if (angles[i].isLabelVisible()) {
-					angles[i].setLabelMode(GeoElement.LABEL_NAME_VALUE);
-				} else {
-					angles[i].setLabelMode(GeoElement.LABEL_VALUE);
-				}
-				angles[i].setLabelVisible(true);
-				angles[i].updateRepaint();
-			}
 			return angles;
 		} else {
 			return null;

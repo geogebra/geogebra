@@ -579,6 +579,7 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png/web/stylingbar/stylingbar_data_analysis_show_2nd_plot.png")
 	ImageResource dataview_showplot2();
 
+
 	/*
 	//@Source("icons/png30x30/stylingbar_delete_small.png")
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_small.png")
@@ -592,6 +593,9 @@ public interface AppResources extends ClientBundleWithLookup {
 	@Source("icons/png/web/stylingbar/stylingbar_graphicsview_delete_large.png")
 	ImageResource eraser_big();
 	*/
+
+	@Source("icons/png/web/stylingbar/stylebar_angle_interval.png")
+	ImageResource stylingbar_angle_interval();
 
 	
 }

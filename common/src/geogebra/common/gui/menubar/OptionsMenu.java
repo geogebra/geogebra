@@ -215,12 +215,13 @@ public class OptionsMenu {
 	/**
 	 * Update the selected item in the labeling capturing menu.
 	 */
-	private void updateMenuLabeling() {
+	public void updateMenuLabeling() {
 		if (menuLabeling == null)
 			return;
 
-		int pos = app.getLabelingStyle();
+		int pos = app.getLabelingStyleForMenu();
 		menuLabeling.setSelected(pos);
+		App.debug("updateMenuLabeling : "+pos);
 	}
 
 	public void addFontSizeMenu(MenuInterface menu) {
@@ -253,5 +254,6 @@ public class OptionsMenu {
 	public void update() {
 		updateMenuDecimalPlaces();
 		updateMenuViewDescription();
+		updateMenuLabeling();
 	}
 }

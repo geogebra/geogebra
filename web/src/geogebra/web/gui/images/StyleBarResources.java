@@ -94,8 +94,15 @@ public interface StyleBarResources extends ClientBundle {
 	@Source("icons/png/web/stylingbar/stylingbar_text_font_size.png")
 	ImageResource font_size();
 	
-	
-	
+	@Source("icons/png/web/stylingbar/stylingbar_pin.png")
+	ImageResource fixPosition();
+
+	@Source("icons/png/web/stylingbar/stylingbar_object_fixed.png")
+	ImageResource objectFixed();
+
+	@Source("icons/png/web/stylingbar/stylingbar_object_unfixed.png")
+	ImageResource objectUnfixed();
+
 	//ALGEBRA STYLEBAR
 	@Source("icons/png/web/stylingbar/stylingbar_algebraview_auxiliary_objects.png")
 	ImageResource auxiliary();

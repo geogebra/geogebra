@@ -1742,6 +1742,12 @@ public abstract class App implements UpdateSelection {
 			// updateMenubar();
 		}
 	}
+	
+	/**
+	 * says that a labeling style is selected in menu 
+	 * (i.e. all default geos use the selected labeling style)
+	 */
+	private boolean labelingStyleSelected = true;
 
 	/**
 	 * Sets labeling style. See the constants in ConstructionDefaults (e.g.
@@ -1752,6 +1758,8 @@ public abstract class App implements UpdateSelection {
 	 */
 	public void setLabelingStyle(int labelingStyle) {
 		this.labelingStyle = labelingStyle;
+		labelingStyleSelected = true;
+		getKernel().getConstruction().getConstructionDefaults().resetLabelModeDefaultGeos();
 	}
 
 	/**
@@ -1762,6 +1770,29 @@ public abstract class App implements UpdateSelection {
 	 */
 	public int getLabelingStyle() {
 		return labelingStyle;
+	}
+	
+	/**
+	 * 
+	 * @return labeling style for new objects for menu
+	 */
+	public int getLabelingStyleForMenu() {
+		if (labelingStyleSelected){
+			return getLabelingStyle();
+		}
+		return -1;
+	}
+	
+	/**
+	 * set the labeling style not selected, 
+	 * i.e. at least one default geo has
+	 * specific labeling style
+	 */
+	public void setLabelingStyleIsNotSelected(){
+		labelingStyleSelected = false;
+		if (getGuiManager() != null){
+			getGuiManager().updateMenubar();
+		}
 	}
 
 	/**

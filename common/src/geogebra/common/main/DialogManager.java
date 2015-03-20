@@ -131,13 +131,6 @@ public abstract class DialogManager {
 			// !clockWise)[0];
 		}
 
-		// make sure that we show angle value
-		if (angle.isLabelVisible())
-			angle.setLabelMode(GeoElement.LABEL_NAME_VALUE);
-		else
-			angle.setLabelMode(GeoElement.LABEL_VALUE);
-		angle.setLabelVisible(true);
-		angle.updateRepaint();
 
 		kernel.getApplication().storeUndoInfo();
 

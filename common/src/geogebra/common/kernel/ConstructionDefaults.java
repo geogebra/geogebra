@@ -401,7 +401,6 @@ public class ConstructionDefaults {
 		// number.setLocalVariableLabel(app.getPlain("Numeric"));
 		number.setLocalVariableLabel("Numeric");
 		number.setSliderFixed(true);
-		number.setLabelMode(GeoElement.LABEL_NAME_VALUE);
 		/*
 		 * we have to set min/max/increment/speed here because
 		 * SetEuclideanVisible takes these from default geo
@@ -728,6 +727,8 @@ public class ConstructionDefaults {
 		GeoElement defaultGeo = getDefaultGeo(type);
 		App app = cons.getApplication();
 
+		boolean defaultLabelMode = true;
+		
 		if (defaultGeo != null) {
 			if (!setEuclidianVisible || geo.isGeoNumeric()) { // don't affect
 																// euclidianVisible
@@ -745,34 +746,39 @@ public class ConstructionDefaults {
 				// set to highest used layer
 				setMaxLayerUsed(geo, app);
 			}
+			
+			defaultLabelMode = defaultGeo.getLabelMode() == GeoElement.LABEL_DEFAULT;
 		}
 
-		// label visibility
-		int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS : app
-				.getCurrentLabelingStyle();
+		if (defaultLabelMode){
+			// label visibility
+			int labelingStyle = app == null ? LABEL_VISIBLE_USE_DEFAULTS : app
+					.getCurrentLabelingStyle();
 
-		// automatic labelling:
-		// if algebra window open -> all labels
-		// else -> no labels
+			// automatic labelling:
+			// if algebra window open -> all labels
+			// else -> no labels
 
-		switch (labelingStyle) {
-		case LABEL_VISIBLE_ALWAYS_ON:
-			geo.setLabelVisible(true);
-			break;
+			switch (labelingStyle) {
+			case LABEL_VISIBLE_ALWAYS_ON:
+				geo.setLabelVisible(true);
+				break;
 
-		case LABEL_VISIBLE_ALWAYS_OFF:
-			geo.setLabelVisible(false);
-			break;
+			case LABEL_VISIBLE_ALWAYS_OFF:
+				// we want sliders and angles to be labeled always
+				geo.setLabelVisible(geo.isGeoNumeric());
+				break;
 
-		case LABEL_VISIBLE_POINTS_ONLY:
-			// we want sliders and angles to be labeled always
-			geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
-			break;
+			case LABEL_VISIBLE_POINTS_ONLY:
+				// we want sliders and angles to be labeled always
+				geo.setLabelVisible(geo.isGeoPoint() || geo.isGeoNumeric());
+				break;
 
-		default:
-		case LABEL_VISIBLE_USE_DEFAULTS:
-			// don't change anything
-			break;
+			default:
+			case LABEL_VISIBLE_USE_DEFAULTS:
+				// don't change anything
+				break;
+			}
 		}
 
 		if (blackWhiteMode) {
@@ -924,6 +930,17 @@ public class ConstructionDefaults {
 			GeoElement geo = it.next();
 
 			geo.setAlphaValue(filling0);
+		}
+	}
+	
+	/**
+	 * reset label mode to default for all default geos
+	 * (and label visibility to true)
+	 */
+	public void resetLabelModeDefaultGeos(){
+		for (GeoElement geo : defaultGeoElements.values()){
+			geo.labelMode = GeoElement.LABEL_DEFAULT;
+			geo.setLabelVisible(true);
 		}
 	}
 

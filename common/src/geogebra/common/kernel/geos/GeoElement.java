@@ -175,7 +175,9 @@ public abstract class GeoElement extends ConstructionElement implements
 	public static final int LABEL_VALUE = 2;
 	/** label mode: caption*/
 	public static final int LABEL_CAPTION = 3; // Michael Borcherds 2008-02-18
-
+	/** label mode: default*/
+	public static final int LABEL_DEFAULT = 4;
+	
 	/** tooltip mode: iff AV showing*/
 	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
 	/** tooltip mode: always on*/
@@ -209,7 +211,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	/** fixed (cannot be moved or deleted)*/
 	protected boolean fixed = false;
 	/** label, value, caption, label+value */
-	public int labelMode = LABEL_NAME;
+	public int labelMode = LABEL_DEFAULT;
 	/** cartesian, polar or complex */
 	public int toStringMode = Kernel.COORD_CARTESIAN;
 	/** default (foreground) color */
@@ -572,6 +574,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 *            LABEL_ mode
 	 */
 	public void setLabelMode(final int mode) {
+		
 		switch (mode) {
 		case LABEL_NAME_VALUE:
 			labelMode = LABEL_NAME_VALUE;
@@ -584,10 +587,28 @@ public abstract class GeoElement extends ConstructionElement implements
 		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
 			labelMode = LABEL_CAPTION;
 			break;
+			
+		case LABEL_DEFAULT:
+			setLabelModeDefault();
+			break;
 
 		default:
 			labelMode = LABEL_NAME;
 		}
+		
+		if (isDefaultGeo()){
+			App app = getKernel().getApplication();
+			if (app != null){
+				app.setLabelingStyleIsNotSelected();
+			}
+		}
+	}
+	
+	/**
+	 * set label mode to default mode
+	 */
+	protected void setLabelModeDefault(){
+		labelMode = LABEL_NAME;
 	}
 
 	/**
@@ -1465,7 +1486,7 @@ public abstract class GeoElement extends ConstructionElement implements
 
 		// label style
 		labelVisible = geo.labelVisible;
-		labelMode = geo.labelMode;
+		setLabelMode(geo.labelMode);
 		tooltipMode = geo.tooltipMode;
 
 		// style of equation, coordinates, ...
@@ -7440,7 +7461,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param vars in LaTeX format
 	 */
 	public void setCaptionBotanaVars(String vars) {
-		labelMode = LABEL_CAPTION;
+		setLabelMode(LABEL_CAPTION);
 		labelVisible = true;
 		
 		String labelWithVars = "{\\bf\\it " + label + vars + "}\\\\";
@@ -7462,7 +7483,7 @@ public abstract class GeoElement extends ConstructionElement implements
 	 * @param poly in LaTeX format
 	 */
 	public void addCaptionBotanaPolynomial(String poly) {
-		labelMode = LABEL_CAPTION;
+		setLabelMode(LABEL_CAPTION);
 		labelVisible = true;
 			
 		if (caption != null) {

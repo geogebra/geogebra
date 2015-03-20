@@ -8,6 +8,7 @@ import geogebra.common.kernel.algos.AlgoAttachCopyToView;
 import geogebra.common.kernel.algos.AlgoElement;
 import geogebra.common.kernel.algos.AlgoTableText;
 import geogebra.common.kernel.geos.AbsoluteScreenLocateable;
+import geogebra.common.kernel.geos.AngleProperties;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoImage;
 import geogebra.common.kernel.geos.GeoList;
@@ -54,6 +55,9 @@ public class EuclidianStyleBarStatic {
 				continue;
 
 			}
+			
+			// put again labelled geo into selection
+			app.getSelectionManager().addSelectedGeo(geo, false, false);
 
 			if (geo.isGeoSegment()) {
 				if (geo.getParentAlgorithm() != null
@@ -141,6 +145,59 @@ public class EuclidianStyleBarStatic {
 			// app.addSelectedGeo(geo);
 
 		}
+		
+		app.getSelectionManager().updateSelection();
+
+		return ret;
+	}
+	
+	
+	public static GeoElement applyFixObject(ArrayList<GeoElement> geos,
+			boolean flag, EuclidianViewInterfaceCommon ev) {
+		GeoElement ret = geos.get(0);
+
+
+		App app = geos.get(0).getKernel().getApplication();
+
+		// workaround to make sure pin icon disappears
+		// see applyFixPosition() called with a geo with label not set below
+		app.getSelectionManager().clearSelectedGeos(false);
+
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			
+			if (geo.isDefaultGeo()){
+				if (geo.isFixable()){
+					geo.setFixed(flag);
+					continue;
+				}
+			}
+
+			// problem with ghost geos
+			if (!geo.isLabelSet()) {
+				Log.warn("applyFixPosition() called with a geo with label not set: "
+						+ geo.getLabelSimple());
+				continue;
+
+			}
+			
+			// put again labelled geo into selection
+			app.getSelectionManager().addSelectedGeo(geo, false, false);
+
+
+			if (geo.isFixable()) {
+				geo.setFixed(flag);
+				ret = geo;
+			} else {
+				// can't pin
+				App.debug("not fixable");
+				return null;
+			}
+
+
+		}
+		
+		app.getSelectionManager().updateSelection();
 
 		return ret;
 	}
@@ -234,6 +291,59 @@ public class EuclidianStyleBarStatic {
 		// reset the selection
 		app.getSelectionManager().setSelectedGeos(newGeos);
 	}
+	
+	
+	/**
+	 * check geos for "label style" button
+	 * @param geos geos
+	 * @return true if "label style" button applies on all geos
+	 */
+	final static public GeoElement checkGeosForCaptionStyle(Object[] geos, int mode, App app){
+		if (geos.length <= 0) {
+			return null;
+		}
+		
+		GeoElement geo = null;
+		if (mode == EuclidianConstants.MODE_MOVE) {
+			for (int i = 0; i < geos.length; i++) {
+				if (((GeoElement) geos[i]).isLabelShowable()
+						|| ((GeoElement) geos[i]).isGeoAngle()
+						|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
+								.isSliderFixed() : false)) {
+					geo = (GeoElement) geos[i];
+					return geo;
+				}
+			}
+		} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF) {
+			for (int i = 0; i < geos.length; i++) {
+				if (((GeoElement) geos[i]).isGeoAngle()) { // angle is always specific case
+					geo = (GeoElement) geos[i];
+					return geo;
+				}
+			}
+		} else if (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY) {
+			for (int i = 0; i < geos.length; i++) {
+				if ((((GeoElement) geos[i]).isLabelShowable()
+						&& ((GeoElement) geos[i]).isGeoPoint())
+						|| ((GeoElement) geos[i]).isGeoAngle()) { // angle is always specific case
+					geo = (GeoElement) geos[i];
+					return geo;
+				}
+			}
+		} else {
+			for (int i = 0; i < geos.length; i++) {
+				if (((GeoElement) geos[i]).isLabelShowable()
+						|| ((GeoElement) geos[i]).isGeoAngle()
+						|| (((GeoElement) geos[i]).isGeoNumeric() ? ((GeoNumeric) geos[i])
+								.isSliderFixed() : false)) {
+					geo = (GeoElement) geos[i];
+					return geo;
+				}
+			}
+		}
+		
+		return null;
+	}
 
 	public static boolean applyCaptionStyle(ArrayList<GeoElement> geos,
 			int mode, int index) {
@@ -256,12 +366,11 @@ public class EuclidianStyleBarStatic {
 					|| (app.getLabelingStyle() == ConstructionDefaults.LABEL_VISIBLE_AUTOMATIC
 							&& geo.isLabelShowable() || geo.isGeoAngle() || (geo
 								.isGeoNumeric() ? ((GeoNumeric) geo)
-							.isSliderFixed() : false))) {
+							.isSliderFixed() : false))
+					|| geo.isGeoAngle()	
+					) {
 				if (index == 0) {
-					if (mode == EuclidianConstants.MODE_MOVE
-							|| app.getLabelingStyle() != ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON) {
-						geo.setLabelVisible(false);
-					}
+					geo.setLabelVisible(false);
 				} else {
 					geo.setLabelVisible(true);
 					geo.setLabelMode(index - 1);
@@ -651,6 +760,158 @@ public class EuclidianStyleBarStatic {
 				ConstructionDefaults.DEFAULT_NONE);
 
 		return defaultGeoMap;
+	}
+	
+	/**
+	 * check geos for "fix position" button
+	 * @param geos geos
+	 * @return true if "fix position" button applies on all geos
+	 */
+	final static public boolean checkGeosForFixPosition(Object[] geos){
+		if (geos.length <= 0) {
+			return false;
+		}
+
+		for (int i = 0; i < geos.length; i++) {
+			GeoElement geo = (GeoElement) geos[i];
+			
+			if (!geo.isPinnable()) {
+				return false;
+			}
+
+			if (geo.isGeoSegment()) {
+				if (geo.getParentAlgorithm() != null
+						&& geo.getParentAlgorithm().getInput().length == 3) {
+					// segment is output from a Polygon
+					return false;
+				}
+			}
+
+		}
+		return true;
+	}
+	
+	
+	/**
+	 * check geos for "fix object" button
+	 * @param geos geos
+	 * @return true if "fix object" button applies on all geos
+	 */
+	final static public boolean checkGeosForFixObject(Object[] geos){
+		if (geos.length <= 0) {
+			return false;
+		}
+
+		for (int i = 0; i < geos.length; i++) {
+			GeoElement geo = (GeoElement) geos[i];
+			if (!geo.isFixable()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param geo geo
+	 * @return true if the "fix position" button should be fixed for geo
+	 */
+	final static public boolean checkSelectedFixPosition(GeoElement geo){
+		
+		if (geo instanceof AbsoluteScreenLocateable
+				&& !geo.isGeoList()) {
+			AbsoluteScreenLocateable locateable = (AbsoluteScreenLocateable) geo
+					.getGeoElementForPropertiesDialog();
+			return locateable.isAbsoluteScreenLocActive();
+		}
+		
+		if (geo.getParentAlgorithm() instanceof AlgoAttachCopyToView) {
+			return true;
+		} 
+		
+		return false;
+
+	}
+	
+	/**
+	 * 
+	 * @param geo geo
+	 * @return true if the "fix object" button should be fixed for geo
+	 */
+	final static public boolean checkSelectedFixObject(GeoElement geo){
+
+		return geo.isFixed();
+
+	}
+	
+	
+	public static boolean applyAngleInterval(ArrayList<GeoElement> geos, int index) {
+
+		boolean needUndo = false;
+		
+		for (int i = 0; i < geos.size(); i++) {
+			GeoElement geo = geos.get(i);
+			if (geo instanceof AngleProperties) {
+				if (((AngleProperties) geo).getAngleStyle().getXmlVal() != index) {
+					((AngleProperties) geo).setAngleStyle(index);
+					geo.updateVisualStyleRepaint();
+					needUndo = true;
+				}
+			}
+		}
+		return needUndo;
+		
+	}
+	
+	/**
+	 * 
+	 * @param geo geo giving the label mode
+	 * @param app application
+	 * @return index to select label mode 
+	 */
+	public static int getIndexForLabelMode(GeoElement geo, App app){
+		
+		if (geo.isDefaultGeo() && geo.getLabelMode() == GeoElement.LABEL_DEFAULT){
+			// label visibility
+			int labelingStyle = app == null ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS : app
+					.getCurrentLabelingStyle();
+
+			// automatic labelling:
+			// if algebra window open -> all labels
+			// else -> no labels
+
+			switch (labelingStyle) {
+			case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
+			case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
+			default:
+				if (geo.isGeoNumeric()){
+					return GeoElement.LABEL_NAME_VALUE + 1;
+				}
+				return GeoElement.LABEL_NAME + 1;
+
+			case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
+				if (geo.isGeoNumeric()){
+					return GeoElement.LABEL_NAME + 1;
+				}
+				return 0;
+
+			case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
+				if (geo.isGeoNumeric()){
+					return GeoElement.LABEL_NAME_VALUE + 1;
+				}
+				if (geo.isGeoPoint()){
+					return GeoElement.LABEL_NAME + 1;
+				}
+				return 0;
+
+			}
+		}
+		
+		if (!geo.getLabelVisible()){
+			return 0;
+		}
+		
+		return geo.getLabelMode() + 1;
 	}
 
 }

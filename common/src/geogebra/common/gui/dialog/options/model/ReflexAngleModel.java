@@ -98,7 +98,7 @@ public class ReflexAngleModel extends MultipleOptionsModel {
 				&& (geo instanceof AngleProperties) 
 				&& !geo.isGeoList()) || isAngleList(geo);
 		
-	};
+	}
 
 	@Override
 	protected void apply(int index, int value) {

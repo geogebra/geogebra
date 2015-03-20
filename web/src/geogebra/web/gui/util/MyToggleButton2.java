@@ -70,6 +70,17 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	}
 
 	/**
+	 * @param upImage
+	 *            an {@link Image} to use as an up Image
+	 * @param downImage
+	 *            an {@link Image} to use as an down Image
+	 */
+	public MyToggleButton2(Image upImage, Image downImage) {
+		super(upImage, downImage);
+		initButton();
+	}
+
+	/**
 	 * @param upIcon
 	 *            an {@link ImageResource} to use as an up Image
 	 * @param downIcon
@@ -81,6 +92,16 @@ public class MyToggleButton2 extends ToggleButton implements MouseDownHandler,
 	        ClickHandler handler) {
 		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()),
 		        handler);
+	}
+
+	/**
+	 * @param upIcon
+	 *            an {@link ImageResource} to use as an up Image
+	 * @param downIcon
+	 *            an {@link ImageResource} to use an down Image
+	 */
+	public MyToggleButton2(ImageResource upIcon, ImageResource downIcon) {
+		this(new Image(upIcon.getSafeUri()), new Image(downIcon.getSafeUri()));
 	}
 
 	private void initButton() {
