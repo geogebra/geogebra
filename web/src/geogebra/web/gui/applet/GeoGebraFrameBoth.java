@@ -286,7 +286,10 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 				}
 			}
 		} else {
-			if (app != null && app.isKeyboardNeeded()) {
+			if (app != null
+			        && app.isKeyboardNeeded()
+			        && app.getArticleElement().getDataParamBase64String()
+			                .length() == 0) {
 						addKeyboard(null);
 
 			}
