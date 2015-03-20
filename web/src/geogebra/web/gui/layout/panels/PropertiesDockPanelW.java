@@ -9,10 +9,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class PropertiesDockPanelW extends DockPanelW {
 
-	private static final long serialVersionUID = 1L;
 	private PropertiesViewW view;
 	private boolean auxWasVisible;
 	private boolean wasAVShowing;
+	private boolean isVisible = false;
 
 	/**
 	 * @param app
@@ -79,7 +79,10 @@ public class PropertiesDockPanelW extends DockPanelW {
 	@Override
 	public void setVisible(boolean visible) {
 		super.setVisible(visible);
-
+		if (visible == this.isVisible) {
+			return;
+		}
+		this.isVisible = visible;
 		if (visible) {
 			wasAVShowing = app.getGuiManager().hasAlgebraViewShowing();
 			auxWasVisible = app.getSettings().getAlgebra()
