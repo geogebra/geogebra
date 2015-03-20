@@ -777,25 +777,29 @@ public class DrawEquationWeb extends DrawEquation {
 							event.stopPropagation();
 							event.preventDefault();
 							return false;
-						}).keypress(function(event2) {
+						})
+				.keypress(function(event2) {
 					// the main reason of calling stopPropagation here
 					// is to prevent calling preventDefault later
 					// code style is not by me, but automatic formatting
 					event2.stopPropagation();
-				}).keydown(function(event3) {
+				})
+				.keydown(function(event3) {
 					// to prevent focus moving away
 					event3.stopPropagation();
-				}).mousedown(function(event4) {
+				})
+				.mousedown(function(event4) {
 					// otherwise RadioButtonTreeItem would call preventDefault
 					event4.stopPropagation();
-				}).click(function(event6) {
+				})
+				.click(function(event6) {
 					event6.stopPropagation();
 				})
-		//.select(
-		//		function(event7) {
-		//			@geogebra.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
-		//		})
-		;
+				.select(
+						function(event7) {
+							console.log('scroll selection into view');
+							@geogebra.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
+						});
 		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
 
 		// hacking to deselect the editing when the user does something else like in Desktop
@@ -1343,7 +1347,20 @@ public class DrawEquationWeb extends DrawEquation {
 		return null;
 	}-*/;
 
-	public static native JavaScriptObject grabSelectionFocusForScrollIntoView() /*-{
+	public static native JavaScriptObject grabSelectionFocusForScrollIntoView(
+	        Element parentElement) /*-{
+
+		var jqel = $wnd.$ggbQuery(parentElement).find('.selection');
+
+		if ((jqel !== undefined) && (jqel.length !== undefined)
+				&& (jqel.length > 0)) {
+			return jqel[0];
+		} else {
+			return null;
+		}
+	}-*/;/*
+
+		// The following code (based on $wnd.getSelection) does not work!
 		var selectionRang = $wnd.getSelection();
 		var resultNode = null;
 		if (selectionRang.rangeCount > 1) {
@@ -1375,14 +1392,16 @@ public class DrawEquationWeb extends DrawEquation {
 			// now what? return null...
 			return null;
 		}
+		//resultNode.style.backgroundColor = 'red';
+		//resultNode.className += ' redimportant';
 		return resultNode;
-	}-*/;
+	}-*//*;*/
 
 	public static void scrollSelectionIntoView(RadioButtonTreeItem rbti,
 	        Element parentElement, boolean newCreationMode) {
-		JavaScriptObject jo = grabSelectionFocusForScrollIntoView();
+		JavaScriptObject jo = grabSelectionFocusForScrollIntoView(parentElement);
 		if (jo != null)
-			scrollJSOIntoView(jo, rbti, parentElement, newCreationMode);
+			scrollJSOIntoView(jo, rbti, parentElement, false);
 	}
 
 	/**
