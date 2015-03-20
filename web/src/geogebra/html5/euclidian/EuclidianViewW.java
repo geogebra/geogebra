@@ -967,7 +967,7 @@ public class EuclidianViewW extends EuclidianView implements
 	protected void drawResetIcon(geogebra.common.awt.GGraphics2D g) {
 		int w = getWidth();
 		((GGraphics2DW) g).getCanvas().getContext2d()
-		        .drawImage(getResetImage(), w - 18, 2);
+		        .drawImage(getResetImage(), w - 24, 2);
 	}
 
 	public void synCanvasSizeWithApp(int canvasWidth, int canvasHeight) {
