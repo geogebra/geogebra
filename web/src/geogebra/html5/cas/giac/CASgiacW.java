@@ -13,6 +13,8 @@ import geogebra.html5.gui.laf.GLookAndFeelI;
 import geogebra.html5.js.JavaScriptInjector;
 import geogebra.html5.main.AppW;
 
+import java.util.Random;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 
@@ -95,6 +97,9 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		// not called?
 	}
 
+	private static Random rand = new Random();
+
+
 	public synchronized String evaluate(String s) {
 		if (!jsLoaded) {
 			return "?";
@@ -107,6 +112,10 @@ public class CASgiacW extends CASgiac implements geogebra.common.cas.Evaluate {
 		nativeEvaluateRaw("timeout " + (timeoutMillis / 1000), false);
 
 		nativeEvaluateRaw(specialFunctions, false);
+
+		// make sure we don't always get the same value!
+		int seed = rand.nextInt(Integer.MAX_VALUE);
+		nativeEvaluateRaw("srand(" + seed + ")", false);
 
 		String exp;
 		GLookAndFeelI laf = ((AppW) kernel.getApplication()).getLAF();
