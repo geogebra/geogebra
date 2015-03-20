@@ -2352,6 +2352,19 @@ public abstract class App implements UpdateSelection {
 		if (!update) {
 			return;
 		}
+		EuclidianView ev1 = getEuclidianView1();
+		if (ev1 != null) {
+			ev1.getStyleBar().reinit();
+		}
+
+		EuclidianView ev2 = getEuclidianView2(1);
+		if (ev2 != null) {
+			ev2.getStyleBar().reinit();
+		}
+
+		if (hasEuclidianView3D()) {
+			getEuclidianView3D().getStyleBar().reinit();
+		}
 
 		resetFonts();
 

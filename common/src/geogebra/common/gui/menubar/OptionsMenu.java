@@ -1,6 +1,5 @@
 package geogebra.common.gui.menubar;
 
-import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.io.MyXMLHandler;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
@@ -69,21 +68,6 @@ public class OptionsMenu {
 		else if (cmd.endsWith("pt")) {
 			try {
 				app.setFontSize(Integer.parseInt(cmd.substring(0, 2)));
-
-				EuclidianView ev1 = app.getEuclidianView1();
-				if (ev1 != null) {
-					ev1.getStyleBar().reinit();
-				}
-
-				EuclidianView ev2 = app.getEuclidianView2(1);
-				if (ev2 != null) {
-					ev2.getStyleBar().reinit();
-				}
-
-				if (app.hasEuclidianView3D()) {
-					app.getEuclidianView3D().getStyleBar().reinit();
-				}
-
 				app.setUnsaved();
 			} catch (Exception e) {
 				app.showError(e.toString());
