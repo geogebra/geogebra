@@ -34,7 +34,6 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 		GeoNumberValue, AbsoluteScreenLocateable, HasExtendedAV {
 
 	private boolean value = false;
-	private boolean isDefined = true;
 	private boolean checkboxFixed = false;
 
 	private ArrayList<GeoElement> condListenersShowObject;
@@ -173,29 +172,29 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 			// 1 = true
 			// 0 = false
 			setValue(Kernel.isZero(((GeoNumeric) geo).getDouble() - 1));
-			isDefined = true;
 		} else {
 			GeoBoolean b = (GeoBoolean) geo;
 			setValue(b.value);
-			isDefined = b.isDefined;
 		}
 	}
 
 	@Override
 	final public void setUndefined() {
-		isDefined = false;
+		// don't change this, needed for compatibility
+		// eg SetValue[a,?] sets it to false
+		value = false;
 	}
 
 	/**
 	 * Changes the defined flag of this boolean
 	 */
 	final public void setDefined() {
-		isDefined = true;
+		// nothing to do
 	}
 
 	@Override
 	final public boolean isDefined() {
-		return isDefined;
+		return true;
 	}
 
 	@Override
@@ -394,7 +393,7 @@ public class GeoBoolean extends GeoElement implements BooleanValue,
 	}
 
 	@Override
-	final public HitType getLastHitType(){
+	final public HitType getLastHitType() {
 		return HitType.ON_FILLING;
 	}
 
