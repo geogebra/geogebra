@@ -797,7 +797,6 @@ public class DrawEquationWeb extends DrawEquation {
 				})
 				.select(
 						function(event7) {
-							console.log('scroll selection into view');
 							@geogebra.html5.main.DrawEquationWeb::scrollSelectionIntoView(Lgeogebra/html5/gui/view/algebra/RadioButtonTreeItem;Lcom/google/gwt/dom/client/Element;Z)(rbti,parentElement,newCreationMode);
 						});
 		// could be: mouseover, mouseout, mousemove, mouseup, but this seemed to be enough
