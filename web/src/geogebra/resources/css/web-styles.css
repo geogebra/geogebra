@@ -68,6 +68,12 @@
 	background-color: white;
 }
 
+.Tablet .NewRadioButtonTreeItemParent::after {
+	/* as other hacks are more difficult, why not use .Tablet? */
+	bottom: 3px;
+	height: 14px;
+}
+
 .NewRadioButtonTreeItem {
 	overflow-x: scroll;
 	overflow-y: hidden;
