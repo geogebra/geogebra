@@ -3179,12 +3179,21 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	WebsocketLogger webSocketLogger = null;
+	private boolean keyboardNeeded;
 
 	public SensorLogger getSensorLogger() {
 		if (webSocketLogger == null) {
 			webSocketLogger = new WebsocketLogger(getKernel());
 		}
 		return webSocketLogger;
+	}
+
+	public void setKeyboardNeeded(boolean b) {
+		this.keyboardNeeded = b;
+	}
+
+	public boolean isKeyboardNeeded() {
+		return keyboardNeeded;
 	}
 
 }

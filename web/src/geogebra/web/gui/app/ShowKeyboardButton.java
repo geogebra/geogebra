@@ -48,7 +48,6 @@ public class ShowKeyboardButton extends PopupPanel {
 			@Override
 			public void onClick(ClickEvent event) {
 				listener.doShowKeyBoard(true, textField);
-				hide();
 			}
 		}, ClickEvent.getType());
 

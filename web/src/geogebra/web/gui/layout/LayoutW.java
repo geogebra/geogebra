@@ -98,6 +98,12 @@ public class LayoutW extends Layout implements SettingListener {
 				app.setInputPositon(perspective.getInputPosition(), false);
 
 				// change the dock panel layout
+		app.setKeyboardNeeded(false);
+		for (DockPanelData dp : perspective.getDockPanelData()) {
+			if (dp.isVisible() && dp.getViewId() == App.VIEW_ALGEBRA) {
+				app.setKeyboardNeeded(true);
+			}
+		}
 				dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
 				if(!app.isIniting()) {
 					app.updateToolBar();

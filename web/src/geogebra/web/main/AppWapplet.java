@@ -497,8 +497,7 @@ public class AppWapplet extends AppWFull {
 		// int left = this.oldSplitLayoutPanel.getAbsoluteLeft();
 		// int top = this.oldSplitLayoutPanel.getAbsoluteLeft();
 		buildApplicationPanel();
-		this.oldSplitLayoutPanel.setPixelSize(spWidth,
-		        spHeight - frame.getKeyboardHeight());
+		this.oldSplitLayoutPanel.setPixelSize(spWidth, spHeight);
 		// we need relative position to make sure the menubar / toolbar are not
 		// hiddn
 		this.oldSplitLayoutPanel.getElement().getStyle()
@@ -514,16 +513,7 @@ public class AppWapplet extends AppWFull {
 		super.updateContentPane();
 		frame.refreshKeyboard();
 
-		getGuiManager().invokeLater(new Runnable() {
 
-			@Override
-			public void run() {
-				AppWapplet.this.frame.showKeyboardButton(AppWapplet.this
-				        .showView(App.VIEW_ALGEBRA));
-			}
-		}
-
-		);
 
 	}
 
@@ -693,5 +683,20 @@ public class AppWapplet extends AppWFull {
 	@Override
 	public void addToHeight(int i) {
 		this.spHeight += i;
+	}
+
+	public void updateViewSizes() {
+		getEuclidianViewpanel().deferredOnResize();
+		if (hasEuclidianView2(1)) {
+			((GuiManagerW) getGuiManager()).getEuclidianView2DockPanel(1)
+			        .deferredOnResize();
+		}
+		if (getGuiManager().hasSpreadsheetView()) {
+			DockPanel sp = getGuiManager().getLayout().getDockManager()
+			        .getPanel(App.VIEW_SPREADSHEET);
+			if (sp != null) {
+				sp.deferredOnResize();
+			}
+		}
 	}
 }
