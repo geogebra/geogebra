@@ -1782,7 +1782,7 @@ public class PropertiesPanelD extends JPanel implements SetLabels, UpdateFonts {
 
 			// set label visible checkbox
 			if (isEqualMode)
-				labelModeCB.setSelectedIndex(geo0.getLabelMode());
+				labelModeCB.setSelectedIndex(Math.min(geo0.getLabelMode(), 3));
 			else
 				labelModeCB.setSelectedItem(null);
 
