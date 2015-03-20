@@ -11,6 +11,7 @@ import geogebra.common.move.ggtapi.events.LoginEvent;
 import geogebra.common.move.ggtapi.models.GeoGebraTubeUser;
 import geogebra.common.move.ggtapi.operations.LogInOperation;
 import geogebra.common.move.views.EventRenderable;
+import geogebra.common.plugin.SensorLogger;
 import geogebra.common.util.debug.Log;
 import geogebra.gui.GuiManagerD;
 import geogebra.gui.dialog.DialogManagerD;
@@ -20,7 +21,6 @@ import geogebra.main.AppD;
 import geogebra.main.GeoGebraPreferencesD;
 import geogebra.main.LocalizationD;
 import geogebra.move.ggtapi.models.LoginOperationD;
-import geogebra.plugin.UDPLoggerD;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -523,7 +523,7 @@ public class GeoGebraMenuBar extends JMenuBar implements EventRenderable {
 			try {
 				sb.append(InetAddress.getLocalHost().getHostAddress());
 				sb.append(':');
-				sb.append(UDPLoggerD.port);
+				sb.append(SensorLogger.port);
 			} catch (UnknownHostException e) {
 				sb.append("<unknown>");
 			}
