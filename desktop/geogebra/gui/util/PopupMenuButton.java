@@ -133,7 +133,7 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 	 * @param hasTable
 	 * @param hasSlider
 	 */
-	public PopupMenuButton(AppD app, Object[] data, int rows, int columns,
+	public PopupMenuButton(final AppD app, Object[] data, int rows, int columns,
 			Dimension iconSize, geogebra.common.gui.util.SelectionTable mode,
 			final boolean hasTable, boolean hasSlider) {
 		super();
@@ -175,13 +175,14 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 					return;
 
 				Point locButton = getLocation();
-
+				final int clicDownArrowWidth = (int)Math.round(
+						(CLICK_DOWN_ARROW_WIDTH * (app.getScaledIconSize() / 16)));
 				// trigger popup
 				// default: trigger only when the mouse is over the right side
 				// of the button
 				// if isStandardButton: pressing anywhere triggers the popup
 				if (isStandardButton
-						|| e.getX() >= getWidth() - CLICK_DOWN_ARROW_WIDTH
+						|| e.getX() >= getWidth() - clicDownArrowWidth
 						&& e.getX() <= getWidth()) {
 					if (hasTable)
 						myTable.updateFonts();
@@ -284,7 +285,8 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 
 		if (e.getID() == MouseEvent.MOUSE_RELEASED) {
 			// mouse is over the popup triangle side of the button
-			if (isStandardButton || e.getX() >= getWidth() - 16
+			if (isStandardButton
+					|| e.getX() >= getWidth() - app.getScaledIconSize()
 					&& e.getX() <= getWidth())
 				return;
 		}
