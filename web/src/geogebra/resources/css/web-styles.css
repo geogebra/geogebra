@@ -60,6 +60,9 @@
 	height: 17px;
 	width: 100%;
 
+	/* on mobile browsers z-index is needed for whatever reason */
+	z-index: 10;
+
 	/* or whatever is the background-color of Algebra View */
 	/* TODO: may be put elsewhere in CSS too */
 	background-color: white;
