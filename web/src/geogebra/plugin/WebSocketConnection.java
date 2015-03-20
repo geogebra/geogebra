@@ -9,6 +9,11 @@ import com.google.gwt.typedarrays.shared.ArrayBuffer;
  */
 public class WebSocketConnection extends JavaScriptObject {
 
+	public static final short CONNECTING = 0;
+	public static final short OPEN = 1;
+	public static final short CLOSING = 2;
+	public static final short CLOSED = 3;
+
 	protected WebSocketConnection() {
 	}
 
