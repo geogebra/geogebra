@@ -24,7 +24,6 @@ import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.NumberValue;
 import geogebra.common.kernel.kernelND.GeoLineND;
 import geogebra.common.kernel.kernelND.GeoPointND;
-import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.util.StringUtil;
 
@@ -159,9 +158,6 @@ public class GeoImage extends GeoElement implements Locateable,
 				if (img.corners[i] == null) {
 					corners[i] = null;
 				} else {
-					if (i > 0) {
-						App.printStacktrace("set" + i);
-					}
 					initTempPoints();
 
 					tempPoints[i].setCoords(img.corners[i]);
