@@ -150,7 +150,7 @@ public class EquationSolver implements EquationSolverInterface {
 				return -1;
 			res[roots++] = -c / b;
 
-		} else if (Math.abs(b) < eps * a) { // a*x^2 + c = 0
+		} else if (Math.abs(b) < eps * Math.abs(a)) { // a*x^2 + c = 0
 			double x2 = -c / a;
 			if (Kernel.isZero(x2, eps)) {
 				res[roots++] = 0;
