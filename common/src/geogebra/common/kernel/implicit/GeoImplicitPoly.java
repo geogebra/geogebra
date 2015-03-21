@@ -141,9 +141,11 @@ Dilateable, Transformable, EuclidianViewCE {
 	
 	/**
 	 * 
-	 * @param c construction
-	 * @param coeff array of coefficients
-	 * @return a GeoImplicitPoly witch doesn't calculate it's path.
+	 * @param c
+	 *            construction
+	 * @param coeff
+	 *            array of coefficients
+	 * @return a GeoImplicitPoly which doesn't calculate it's path.
 	 */
 	public static GeoImplicitPoly createImplicitPolyWithoutPath(Construction c,double[][] coeff){
 		return new GeoImplicitPoly(c,null,coeff,false);
@@ -1175,6 +1177,7 @@ Dilateable, Transformable, EuclidianViewCE {
 		this.trace = trace;
 	}
 
+	@Override
 	public boolean getTrace() {
 		return trace;
 	}

@@ -11,6 +11,7 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
+import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -21,15 +22,19 @@ import java.util.List;
  * GeoElement representing an implicit curve.
  * 
  */
-public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
+public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
+		Traceable {
 
 	private FunctionNVar expression;
 	private GeoLocus locus;
 
 	private int gridWidth;
 	private int gridHeight;
+	private Equation equation;
+	private boolean defined = true;
+	private static final int INVALID = 5;
 
-	private GeoImplicitCurve(Construction c) {
+	GeoImplicitCurve(Construction c) {
 		super(c);
 		locus = new GeoLocus(c);
 		locus.setDefined(true);
@@ -49,7 +54,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	 */
 	public GeoImplicitCurve(Construction c, String label, Equation equation) {
 		this(c);
+
+		fromEquation(equation);
+		updatePath();
 		setLabel(label);
+	}
+
+	public GeoImplicitCurve(Construction c, Equation equation) {
+		this(c);
+
 		fromEquation(equation);
 		updatePath();
 	}
@@ -64,14 +77,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	 * @param function
 	 *            function defining the implicit curve
 	 */
-	public GeoImplicitCurve(Construction c, String label, FunctionNVar function) {
-		this(c);
-		setLabel(label);
-		fromFunction(function);
-		updatePath();
-	}
+	/*
+	 * public GeoImplicitCurve(Construction c, String label, FunctionNVar
+	 * function) { this(c);
+	 * 
+	 * fromFunction(function); updatePath(); setLabel(label); }
+	 */
 
 	private void fromEquation(Equation equation) {
+		this.equation = equation;
 		ExpressionNode leftHandSide = equation.getLHS();
 		ExpressionNode rightHandSide = equation.getRHS();
 
@@ -89,10 +103,10 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 						y });
 	}
 
-	private void fromFunction(FunctionNVar function) {
-		expression = function;
-	}
-
+	/*
+	 * private void fromFunction(FunctionNVar function) { expression = function;
+	 * }
+	 */
 	@Override
 	public GeoClass getGeoClassType() {
 		return GeoClass.IMPLICIT_CURVE;
@@ -100,31 +114,38 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 
 	@Override
 	public GeoElement copy() {
-		// TODO Auto-generated method stub
-		return null;
+		GeoImplicitCurve curve = new GeoImplicitCurve(cons);
+		curve.set(this);
+		return curve;
 	}
 
 	@Override
 	public void set(GeoElement geo) {
-		// TODO Auto-generated method stub
+		Object equationCopy = ((GeoImplicitCurve) geo).equation
+				.deepCopy(kernel);
+		fromEquation((Equation) equationCopy);
 
 	}
 
 	@Override
 	public boolean isDefined() {
-		return expression != null;
+		return defined && expression != null;
 	}
 
 	@Override
 	public void setUndefined() {
-		// TODO Auto-generated method stub
+		defined = false;
 
 	}
 
 	@Override
 	public String toValueString(StringTemplate tpl) {
-		// TODO Auto-generated method stub
-		return null;
+		return equation.toValueString(tpl);
+	}
+
+	@Override
+	public String toString(StringTemplate tpl) {
+		return label + ": " + toValueString(tpl);
 	}
 
 	@Override
@@ -216,8 +237,8 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 			double rectH, double xScale, double yScale) {
 		this.rectX = rectX;
 		this.rectY = rectY;
-		this.rectW = rectW;
-		this.rectH = rectH;
+		this.rectW = rectW * 1.1;
+		this.rectH = rectH * 1.1;
 		App.debug(rectX + "x" + rectY + "," + rectW + "," + rectH);
 		App.debug(gridWidth + "x" + gridHeight);
 		App.debug("res" + xScale + " " + yScale);
@@ -255,6 +276,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 		}
 	}
 
+	private MyPoint[] getPointsForGridX(int i, int j) {
+		MyPoint P, Q;
+		double[] A = getRealWorldCoordinates(i, j);
+		double[] C = getRealWorldCoordinates(i + 1, j + 1);
+		P = new MyPoint(A[0], A[1], false);
+		Q = new MyPoint(C[0], C[1], true);
+		return new MyPoint[] { P, Q };
+	}
+
 	private MyPoint[] getPointsForGrid(int i, int j) {
 		GridTypeEnum gridType = getGridType(i, j);
 		MyPoint P, Q;
@@ -267,60 +297,48 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 		case T1000:
 			qx = A[0];
 			py = A[1];
-			qy = (A[1]+D[1])/2.0;
-					//((-(f(D)))/(f(A)-f(D)))*(A[1]-D[1]) + D[1];
-			px = (B[0]+A[0])/2.0;
-				//((-(f(B)))/(f(A)-f(B)))*(A[0]-B[0]) + B[0];
+			qy = lin(A, D, 1);
+			px = lin(A, B, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
 			return new MyPoint[] {P, Q};
 		case T0100:
 			qx = B[0];
 			py = B[1];
-			qy = (B[1]+D[1])/2.0;
-					//((-(f(B)))/(f(D)-f(B)))*(D[1]-B[1]) + B[1];
-			px = (B[0] + A[0]) / 2.0;
-					//((-(f(B)))/(f(A)-f(B)))*(A[0]-B[0]) + B[0];
+			qy = lin(C, B, 1);
+			px = lin(A, B, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
 			return new MyPoint[] {P, Q};
 		case T0010:
 			qx = B[0];
 			py = C[1];
-			qy = (D[1]+B[1])/2.0;
-					//((-(f(B)))/(f(D)-f(B)))*(D[1]-B[1]) + B[1];
-			px = (D[0]+C[0])/2.0;
-					//((-(f(C)))/(f(D)-f(C)))*(D[0]-C[0]) + C[0];
+			qy = lin(B, C, 1);
+			px = lin(C, D, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
 			return new MyPoint[] {P, Q};
 		case T0001:
 			qx = A[0];
 			py = C[1];
-			qy = (A[1] + D[1])/2.0;
-					//((-(f(D)))/(f(A)-f(D)))*(A[1]-D[1]) + D[1];
-			px = (D[0]+C[0])/2.0;
-					//((-(f(C)))/(f(D)-f(C)))*(D[0]-C[0]) + C[0];
+			qy = lin(A, D, 1);
+			px = lin(C, D, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
 			return new MyPoint[] {P, Q};
 		case T1001:
 			py = C[1];
-			px = (D[0]+C[0]) / 2.0;
-					//((-(f(C)))/(f(D)-f(C)))*(D[0]-C[0]) + C[0];
+			px = lin(C, D, 0);
 			qy = A[1];
-			qx = (A[0]+B[0])/2.0;
-					//((-(f(B)))/(f(A)-f(B)))*(A[0]-B[0]) + B[0];
+			qx = lin(A, B, 0);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
 			return new MyPoint[] {P, Q};
 		case T1100:
 			qx = A[0];
-			qy = (A[1]+D[1])/2.0;
-					//((-(f(D)))/(f(A)-f(D)))*(A[1]-D[1]) + D[1];
+			qy = lin(A, D, 1);
 			px = B[0];
-			py = (D[1]+B[1])/2.0;
-					//((-(f(B)))/(f(D)-f(B)))*(D[1]-B[1]) + B[1];
+			py = lin(C, B, 1);
 			P = new MyPoint(px, py, false);
 			Q = new MyPoint(qx, qy, true);
 			return new MyPoint[] {P, Q};
@@ -328,8 +346,13 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 			
 			P = new MyPoint(0, 0, false);
 			Q = new MyPoint(0, 0, true);
-			return new MyPoint[] {P, Q};
+			return new MyPoint[] { P, Q };
 		case T0101:
+
+			P = new MyPoint(0, 0, false);
+			Q = new MyPoint(0, 0, true);
+			return new MyPoint[] {P, Q};
+		case TINVALID:
 
 			P = new MyPoint(0, 0, false);
 			Q = new MyPoint(0, 0, true);
@@ -338,8 +361,15 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 		return null;
 	}
 	
-	private double f(double[] vals) {
-		return evaluateImplicitCurve(vals);
+	private double lin(double[] A, double[] B, int i) {
+		double fB = evaluateImplicitCurve(B);
+		double fA = evaluateImplicitCurve(A);
+		double ratio = -fB / (fA - fB);
+		if (ratio >= 0 && ratio <= 1) {
+			return ratio * (A[i] - B[i]) + B[i];
+		}
+
+		return (A[i] + B[i]) * 0.5;
 	}
 
 	private GridTypeEnum getGridType(int i, int j) {
@@ -354,6 +384,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 		int sse = mySignFun(se);
 
 		double sum = Math.abs(snw + sne + ssw + sse);
+		if (sum > INVALID) {
+			return GridTypeEnum.TINVALID;
+		}
 		if (sum == 4) { // all corners have the same sign
 			return GridTypeEnum.T0000;
 		}
@@ -383,6 +416,9 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	}
 
 	private int mySignFun(double val) {
+		if (Double.isNaN(val)) {
+			return INVALID;
+		}
 		if (val > 0) {
 			return 1;
 		}
@@ -408,6 +444,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	}
 
 	private double[] rwCoords = new double[2];
+	private boolean trace;
 
 	private double[] getRealWorldCoordinates(int i, int j) {
 		double x = getRealWorldX(j);
@@ -425,7 +462,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 
 	private enum GridTypeEnum {
 		/** None NW */
-		T0000, T1000, T0100, T0010, T0001, T1001, T1100, T1010, T0101;
+		T0000, T1000, T0100, T0010, T0001, T1001, T1100, T1010, T0101, TINVALID;
 	}
 	
 	
@@ -433,6 +470,20 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE {
 	@Override
 	final public HitType getLastHitType(){
 		return HitType.ON_BOUNDARY;
+	}
+
+	@Override
+	public boolean isTraceable() {
+		return true;
+	}
+
+	public void setTrace(boolean trace) {
+		this.trace = trace;
+	}
+
+	@Override
+	public boolean getTrace() {
+		return trace;
 	}
 
 }

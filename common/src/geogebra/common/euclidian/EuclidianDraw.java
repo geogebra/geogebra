@@ -8,6 +8,7 @@ import geogebra.common.euclidian.draw.DrawConic;
 import geogebra.common.euclidian.draw.DrawConicPart;
 import geogebra.common.euclidian.draw.DrawConicSection;
 import geogebra.common.euclidian.draw.DrawImage;
+import geogebra.common.euclidian.draw.DrawImplicitCurve;
 import geogebra.common.euclidian.draw.DrawImplicitPoly;
 import geogebra.common.euclidian.draw.DrawInequality;
 import geogebra.common.euclidian.draw.DrawIntegral;
@@ -256,7 +257,7 @@ public class EuclidianDraw {
 			d = new DrawImplicitPoly(ev, (GeoImplicitPoly) geo);
 			break;
 		case IMPLICIT_CURVE:
-			d = new DrawLocus(ev, ((GeoImplicitCurve) geo).getLocus());
+			d = new DrawImplicitCurve(ev, (GeoImplicitCurve) geo);
 			break;
 		case FUNCTION:
 		case FUNCTIONCONDITIONAL:

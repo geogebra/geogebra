@@ -566,4 +566,16 @@ public class Perspective {
 		this.iconString = iconString;
 	}
 
+	public boolean isKeyboardNeeded() {
+		if (!this.showInputPanel) {
+			return false;
+		}
+		for (DockPanelData dp : this.dockPanelData) {
+			if (dp.getViewId() == App.VIEW_ALGEBRA && dp.isVisible()) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

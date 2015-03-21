@@ -3600,9 +3600,7 @@ public abstract class App implements UpdateSelection {
 
 	public abstract String getEnglishCommand(String command);
 
-	public boolean isPrerelease() {
-		return false;
-	}
+	public abstract boolean isPrerelease();
 
 	private int tubeID = 0;
 

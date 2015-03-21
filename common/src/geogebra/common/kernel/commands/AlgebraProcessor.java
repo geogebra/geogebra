@@ -80,7 +80,9 @@ import geogebra.common.kernel.geos.GeoUserInputElement;
 import geogebra.common.kernel.geos.GeoVec2D;
 import geogebra.common.kernel.geos.GeoVec3D;
 import geogebra.common.kernel.geos.GeoVector;
+import geogebra.common.kernel.implicit.AlgoDependentImplicitCurve;
 import geogebra.common.kernel.implicit.AlgoDependentImplicitPoly;
+import geogebra.common.kernel.implicit.GeoImplicitCurve;
 import geogebra.common.kernel.implicit.GeoImplicitPoly;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
 import geogebra.common.kernel.kernelND.GeoLineND;
@@ -2144,6 +2146,9 @@ public class AlgebraProcessor {
 			}
 			if (equ.mayBePolynomial()) {
 				return processImplicitPoly(equ);
+			} else if (app.isPrerelease()) {
+
+				return processImplicitCurve(equ);
 			}
 
 			String[] errors = { "InvalidEquation" };
@@ -2278,6 +2283,28 @@ public class AlgebraProcessor {
 			if (geo instanceof GeoUserInputElement) {
 				((GeoUserInputElement) geo).setUserInput(equ);
 			}
+		}
+		ret[0] = geo;
+		// AbstractApplication.debug("User Input: "+equ);
+		ret[0].updateRepaint();
+		return ret;
+	}
+
+	protected GeoElement[] processImplicitCurve(Equation equ) {
+		GeoElement[] ret = new GeoElement[1];
+		String label = equ.getLabel();
+		boolean isIndependent = equ.getVariables() == null
+				|| equ.getVariables().size() == 0;
+		GeoImplicitCurve poly;
+		GeoElement geo = null;
+		if (isIndependent) {
+			poly = new GeoImplicitCurve(cons, label, equ);
+			geo = poly;
+		} else {
+			AlgoDependentImplicitCurve algo = new AlgoDependentImplicitCurve(
+					cons, label, equ, true);
+
+			geo = algo.getGeo();
 		}
 		ret[0] = geo;
 		// AbstractApplication.debug("User Input: "+equ);

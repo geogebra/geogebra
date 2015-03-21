@@ -433,6 +433,7 @@ public class AppD extends App implements KeyEventDispatcher {
 				Log.logger.setLogFile(args.getStringValue("logFile"));
 			}
 		}
+		this.prerelease = args.containsArg("prerelease");
 
 		setFileVersion(GeoGebraConstants.VERSION_STRING);
 
@@ -5222,6 +5223,8 @@ public class AppD extends App implements KeyEventDispatcher {
 
 	private boolean popupsDone = false;
 
+	private boolean prerelease;
+
 	public void showPopUps() {
 		LoginOperationD signIn = (LoginOperationD) getLoginOperation();
 		if (!signIn.isTubeCheckDone()) {
@@ -5306,5 +5309,10 @@ public class AppD extends App implements KeyEventDispatcher {
 		}
 
 		return getScaledInternalImage(name);
+	}
+
+	@Override
+	public boolean isPrerelease() {
+		return prerelease;
 	}
 }
