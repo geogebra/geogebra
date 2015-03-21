@@ -18,6 +18,10 @@ import java.util.TreeSet;
 /**
  * Class to convert a GeoPolygon to a set of triangles
  * 
+ * based on monotone pieces and sweep line, as described here:
+ * https://www.cs.ucsb.edu/~suri/cs235/Triangulation.pdf
+ * (Subhash Suri, UC Santa Barbara)
+ * 
  * @author mathieu
  *
  */
