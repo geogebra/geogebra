@@ -58,7 +58,7 @@ public class DrawImplicitCurve extends DrawLocus {
 
 	@Override
 	public boolean hit(int x, int y, int hitThreshold) {
-		if (implicitCurve.isDefined()) {
+		if (!implicitCurve.isDefined()) {
 			return false;
 		}
 		return super.hit(x, y, hitThreshold);

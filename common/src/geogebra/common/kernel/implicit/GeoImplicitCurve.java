@@ -416,7 +416,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 	}
 
 	private int mySignFun(double val) {
-		if (Double.isNaN(val)) {
+		if (Double.isNaN(val) || Double.isInfinite(val)) {
 			return INVALID;
 		}
 		if (val > 0) {
