@@ -95,9 +95,11 @@ public class AlgoAnglePoints3D extends AlgoAnglePointsND {
 
 	@Override
 	public boolean getCoordsInD3(Coords[] drawCoords) {
-		drawCoords[0] = center;
-		drawCoords[1] = v1;
-		drawCoords[2] = v2;
+		//v1 = getA().getInhomCoordsInD3().sub(center);
+		//v2 = getC().getInhomCoordsInD3().sub(center);
+		drawCoords[0].set(center);
+		drawCoords[1].set(v1);
+		drawCoords[2].set(v2);
 
 		return true;
 	}
