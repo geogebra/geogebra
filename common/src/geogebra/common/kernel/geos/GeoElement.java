@@ -177,7 +177,15 @@ public abstract class GeoElement extends ConstructionElement implements
 	public static final int LABEL_CAPTION = 3; // Michael Borcherds 2008-02-18
 	/** label mode: default*/
 	public static final int LABEL_DEFAULT = 4;
-	
+	/** label mode: default, name */
+	public static final int LABEL_DEFAULT_NAME = 5;
+	/** label mode: default, name + value */
+	public static final int LABEL_DEFAULT_NAME_VALUE = 6;
+	/** label mode: default, value */
+	public static final int LABEL_DEFAULT_VALUE = 7;
+	/** label mode: default, caption */
+	public static final int LABEL_DEFAULT_CAPTION = 8;
+
 	/** tooltip mode: iff AV showing*/
 	public static final int TOOLTIP_ALGEBRAVIEW_SHOWING = 0;
 	/** tooltip mode: always on*/
@@ -575,35 +583,114 @@ public abstract class GeoElement extends ConstructionElement implements
 	 */
 	public void setLabelMode(final int mode) {
 		
-		switch (mode) {
-		case LABEL_NAME_VALUE:
-			labelMode = LABEL_NAME_VALUE;
-			break;
+		if (isDefaultGeo()) {
+			switch (mode) {
+			case LABEL_NAME:
+			case LABEL_NAME_VALUE:
+			case LABEL_VALUE:
+			case LABEL_CAPTION:
+				// old values for default geos: set label to default
+				labelMode = LABEL_DEFAULT;
+				break;
 
-		case LABEL_VALUE:
-			labelMode = LABEL_VALUE;
-			break;
+			default:
+				labelMode = mode;
+			}
 
-		case LABEL_CAPTION: // Michael Borcherds 2008-02-18
-			labelMode = LABEL_CAPTION;
-			break;
-			
-		case LABEL_DEFAULT:
-			setLabelModeDefault();
-			break;
 
-		default:
-			labelMode = LABEL_NAME;
-		}
-		
-		if (isDefaultGeo()){
-			App app = getKernel().getApplication();
-			if (app != null){
-				app.setLabelingStyleIsNotSelected();
+			if (labelMode != LABEL_DEFAULT) {
+				App app = getKernel().getApplication();
+				if (app != null) {
+					app.setLabelingStyleIsNotSelected();
+				}
+			}
+		} else {
+			switch (mode) {
+			case LABEL_NAME_VALUE:
+			case LABEL_DEFAULT_NAME_VALUE:
+				labelMode = LABEL_NAME_VALUE;
+				break;
+
+			case LABEL_VALUE:
+			case LABEL_DEFAULT_VALUE:
+				labelMode = LABEL_VALUE;
+				break;
+
+			case LABEL_CAPTION: // Michael Borcherds 2008-02-18
+			case LABEL_DEFAULT_CAPTION:
+				labelMode = LABEL_CAPTION;
+				break;
+
+			case LABEL_DEFAULT:
+				setLabelModeDefault();
+				break;
+
+			default:
+				labelMode = LABEL_NAME;
 			}
 		}
+
 	}
 	
+	/**
+	 * Switch label mode among value, name, value+name and caption from stylebar
+	 * 
+	 * @param index
+	 *            stylebar index
+	 */
+	public void setLabelModeFromStylebar(final int index) {
+
+		// set label to not visible
+		if (index == 0) {
+			setLabelVisible(false);
+			if (isDefaultGeo()) {
+				App app = getKernel().getApplication();
+				if (app != null) {
+					app.setLabelingStyleIsNotSelected();
+				}
+			}
+			return;
+		}
+
+		// set label to visible and mode
+		setLabelVisible(true);
+		final int mode = index - 1;
+		if (isDefaultGeo()) {
+			// shift for LABEL_DEFAULT_NAME_VALUE, etc.
+			labelMode = mode + 5;
+
+			App app = getKernel().getApplication();
+			if (app != null) {
+				app.setLabelingStyleIsNotSelected();
+			}
+		} else {
+			switch (mode) {
+			case LABEL_NAME_VALUE:
+			case LABEL_DEFAULT_NAME_VALUE:
+				labelMode = LABEL_NAME_VALUE;
+				break;
+
+			case LABEL_VALUE:
+			case LABEL_DEFAULT_VALUE:
+				labelMode = LABEL_VALUE;
+				break;
+
+			case LABEL_CAPTION: // Michael Borcherds 2008-02-18
+			case LABEL_DEFAULT_CAPTION:
+				labelMode = LABEL_CAPTION;
+				break;
+
+			case LABEL_DEFAULT:
+				setLabelModeDefault();
+				break;
+
+			default:
+				labelMode = LABEL_NAME;
+			}
+		}
+
+	}
+
 	/**
 	 * set label mode to default mode
 	 */

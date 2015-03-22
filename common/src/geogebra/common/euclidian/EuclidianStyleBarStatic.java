@@ -369,12 +369,7 @@ public class EuclidianStyleBarStatic {
 							.isSliderFixed() : false))
 					|| geo.isGeoAngle()	
 					) {
-				if (index == 0) {
-					geo.setLabelVisible(false);
-				} else {
-					geo.setLabelVisible(true);
-					geo.setLabelMode(index - 1);
-				}
+				geo.setLabelModeFromStylebar(index);
 			}
 			geo.updateVisualStyle();
 			needUndo = true;
@@ -870,41 +865,54 @@ public class EuclidianStyleBarStatic {
 	 * @return index to select label mode 
 	 */
 	public static int getIndexForLabelMode(GeoElement geo, App app){
-		
-		if (geo.isDefaultGeo() && geo.getLabelMode() == GeoElement.LABEL_DEFAULT){
-			// label visibility
-			int labelingStyle = app == null ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS : app
-					.getCurrentLabelingStyle();
 
-			// automatic labelling:
-			// if algebra window open -> all labels
-			// else -> no labels
+		if (geo.isDefaultGeo()) {
 
-			switch (labelingStyle) {
-			case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
-			case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
-			default:
-				if (geo.isGeoNumeric()){
-					return GeoElement.LABEL_NAME_VALUE + 1;
-				}
-				return GeoElement.LABEL_NAME + 1;
+			// check if default geo use default label
+			if (geo.getLabelMode() == GeoElement.LABEL_DEFAULT) {
+				// label visibility
+				int labelingStyle = app == null ? ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS
+						: app.getCurrentLabelingStyle();
 
-			case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
-				if (geo.isGeoNumeric()){
+				// automatic labelling:
+				// if algebra window open -> all labels
+				// else -> no labels
+
+				switch (labelingStyle) {
+				case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_ON:
+				case ConstructionDefaults.LABEL_VISIBLE_USE_DEFAULTS:
+				default:
+					if (geo.isGeoNumeric()) {
+						return GeoElement.LABEL_NAME_VALUE + 1;
+					}
 					return GeoElement.LABEL_NAME + 1;
-				}
-				return 0;
 
-			case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
-				if (geo.isGeoNumeric()){
-					return GeoElement.LABEL_NAME_VALUE + 1;
-				}
-				if (geo.isGeoPoint()){
-					return GeoElement.LABEL_NAME + 1;
-				}
-				return 0;
+				case ConstructionDefaults.LABEL_VISIBLE_ALWAYS_OFF:
+					if (geo.isGeoNumeric()) {
+						return GeoElement.LABEL_NAME + 1;
+					}
+					return 0;
 
+				case ConstructionDefaults.LABEL_VISIBLE_POINTS_ONLY:
+					if (geo.isGeoNumeric()) {
+						return GeoElement.LABEL_NAME_VALUE + 1;
+					}
+					if (geo.isGeoPoint()) {
+						return GeoElement.LABEL_NAME + 1;
+					}
+					return 0;
+
+				}
 			}
+
+			// default geo doesn't use default label
+			if (!geo.getLabelVisible()) {
+				return 0;
+			}
+
+			// shift for GeoElement.LABEL_DEFAULT_NAME, etc.
+			return geo.getLabelMode() - 4;
+
 		}
 		
 		if (!geo.getLabelVisible()){
