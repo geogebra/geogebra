@@ -62,7 +62,7 @@ __GGB__keysVar.in.command = {
     "AffineRatio.Syntax": "[ <Titik>, <Titik>, <Titik> ]",
     "Angle": "Sudut",
     "Angle.Syntax": "[ <Objek> ]\n[ <Vektor>, <Vektor> ]\n[ <Garis>, <Garis> ]\n[ <Titik>, <TitikSudut>, <Titik> ]\n[ <Titik>, <TitikSudut>, <Sudut> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "GarisBagiSudut",
     "AngularBisector.Syntax": "[ <Garis>, <Garis> ]\n[ <Titik>, <Titik>, <Titik> ]",
     "Append": "Tambah",

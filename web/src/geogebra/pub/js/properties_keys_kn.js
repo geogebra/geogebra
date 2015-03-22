@@ -62,7 +62,7 @@ __GGB__keysVar.kn.command = {
     "AffineRatio.Syntax": "[ <Point>, <Point>, <Point> ]",
     "Angle": "\u0c95\u0ccb\u0ca8",
     "Angle.Syntax": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "\u0c95\u0ccb\u0ca8\u0cb5\u0cbf\u0cad\u0c9c\u0c95",
     "AngularBisector.Syntax": "[ <Line>, <Line> ]\n[ <Point>, <Point>, <Point> ]",
     "Append": "Append",

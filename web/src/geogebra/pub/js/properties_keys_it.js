@@ -62,7 +62,7 @@ __GGB__keysVar.it.command = {
     "AffineRatio.Syntax": "[ <Punto>, <Punto>, <Punto> ]",
     "Angle": "Angolo",
     "Angle.Syntax": "[ <Oggetto> ]\n[ <Vettore>, <Vettore> ]\n[ <Retta>, <Retta> ]\n[ <Punto>, <Vertice>, <Punto> ]\n[ <Punto>, <Vertice>, <Angolo> ]",
-    "Angle.Syntax3D": "[ <Oggetto> ]\n[ <Vettore>, <Vettore> ]\n[ <Retta>, <Retta> ]\n[ <Retta>, <Piano> ]\n[ <Piano>, <Piano> ]\n[ <Punto>, <Vertice>, <Punto> ]\n[ <Punto>, <Vertice>, <Angolo> ]",
+    "Angle.Syntax3D": "[ <Oggetto> ]\n[ <Vettore>, <Vettore> ]\n[ <Retta>, <Retta> ]\n[ <Retta>, <Piano> ]\n[ <Piano>, <Piano> ]\n[ <Punto>, <Vertice>, <Punto> ]\n[ <Punto>, <Vertice>, <Angolo> ]\n[ <Punto>, <Punto>, <Punto>, <Direzione> ]",
     "AngularBisector": "Bisettrice",
     "AngularBisector.Syntax": "[ <Retta>, <Retta> ]\n[ <Punto>, <Punto>, <Punto> ]",
     "Append": "Aggiungi",

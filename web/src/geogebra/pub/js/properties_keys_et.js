@@ -62,7 +62,7 @@ __GGB__keysVar.et.command = {
     "AffineRatio.Syntax": "[ <Punkt>, <Punkt>, <Punkt> ]",
     "Angle": "Nurk",
     "Angle.Syntax": "[ <Objekt> ]\n[ <Vektor>, <Vektor> ]\n[ <Sirge>, <Sirge> ]\n[ <Punkt>, <Tipp>, <Punkt> ]\n[ <Punkt>, <Tipp>, <Nurk> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "Nurgapoolitaja",
     "AngularBisector.Syntax": "[ <Sirge>, <Sirge> ]\n[ <Punkt>, <Punkt>, <Punkt> ]",
     "Append": "LisaElement",

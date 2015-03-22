@@ -62,7 +62,7 @@ __GGB__keysVar.nl.command = {
     "AffineRatio.Syntax": "[ <Punt>, <Punt>, <Punt> ]",
     "Angle": "Hoek",
     "Angle.Syntax": "[ <Getal> ]\n[ <Vector> ]\n[ <Punt> ]\n[ <Kegelsnede> ]\n[ <Veelhoek> ]\n[ <Vector>, <Vector> ]\n[ <Rechte>, <Rechte> ]\n[ <Punt>, <Punt>, <Punt> ]\n[ <Punt>, <Punt>, <Hoek> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "Bissectrices",
     "AngularBisector.Syntax": "[ <Rechte>, <Rechte> ]\n[ <Punt>, <Punt>, <Punt> ]",
     "Append": "Toevoegen",

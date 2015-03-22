@@ -62,7 +62,7 @@ __GGB__keysVar.mn.command = {
     "AffineRatio.Syntax": "[ <\u0426\u044d\u0433>, <\u0426\u044d\u0433>, <\u0426\u044d\u0433> ]",
     "Angle": "\u04e8\u043d\u0446\u04e9\u0433",
     "Angle.Syntax": "[ <\u041e\u0431\u044c\u0435\u043a\u0442> ]\n[ <\u0412\u0435\u043a\u0442\u043e\u0440>, <\u0412\u0435\u043a\u0442\u043e\u0440> ]\n[ <\u0428\u0443\u043b\u0443\u0443\u043d>, <\u0428\u0443\u043b\u0443\u0443\u043d> ]\n[ <\u0426\u044d\u0433>, <\u041e\u0440\u043e\u0439>, <\u0426\u044d\u0433> ]\n[ <\u0426\u044d\u0433>, <\u041e\u0440\u043e\u0439>, <\u04e8\u043d\u0446\u04e9\u0433> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "\u04e8\u043d\u0446\u04e9\u0433\u0411\u0438\u0441\u0435\u043a\u0442\u043e\u0440",
     "AngularBisector.Syntax": "[ <\u0428\u0443\u043b\u0443\u0443\u043d>, <\u0428\u0443\u043b\u0443\u0443\u043d> ]\n[ <\u0426\u044d\u0433>, <\u0426\u044d\u0433>, <\u0426\u044d\u0433> ]",
     "Append": "\u041d\u044d\u043c",

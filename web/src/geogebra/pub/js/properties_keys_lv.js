@@ -62,7 +62,7 @@ __GGB__keysVar.lv.command = {
     "AffineRatio.Syntax": "[ <Punkts>, <Punkts>, <Punkts> ]",
     "Angle": "Le\u0146\u0137is",
     "Angle.Syntax": "[ <Objekts> ]\n[ <Vektors>, <Vektors> ]\n[ <L\u012bnija>, <L\u012bnija> ]\n[ <Punkts>, <Virsotne>, <Punkts> ]\n[ <Le\u0146\u0137is>, <Virsotne>, <Le\u0146\u0137is> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "Le\u0146\u0137aBisektrise",
     "AngularBisector.Syntax": "[ <L\u012bnija>, <L\u012bnija> ]\n[ <Punkts>, <Punkts>, <Punkts> ]",
     "Append": "Pievienot",

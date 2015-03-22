@@ -62,7 +62,7 @@ __GGB__keysVar.sr.command = {
     "AffineRatio.Syntax": "[ <ta\u010dka>, <ta\u010dka>, <ta\u010dka> ]",
     "Angle": "Ugao",
     "Angle.Syntax": "[ <objekat> ]\n[ <vektor>, <vektor> ]\n[ <prava>, <prava> ]\n[ <ta\u010dka>, <ta\u010dka>, <ta\u010dka> ]\n[ <ta\u010dka>, <ta\u010dka>, <ugao> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "SimetralaUgla",
     "AngularBisector.Syntax": "[ <prava>, <prava> ]\n[ <ta\u010dka>, <ta\u010dka>, <ta\u010dka> ]",
     "Append": "Dodaj",

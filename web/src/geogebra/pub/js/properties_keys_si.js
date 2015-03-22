@@ -62,7 +62,7 @@ __GGB__keysVar.si.command = {
     "AffineRatio.Syntax": "[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]",
     "Angle": "\u0d9a\u0ddd\u0dab\u0dba",
     "Angle.Syntax": "[ <\u0dc0\u0dc3\u0dca\u0dad\u0dd4\u0dc0> ]\n[ <\u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba>, <\u0daf\u0ddb\u0dc1\u0dd2\u0d9a\u0dba> ]\n[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0d85\u0d9c\u0dca\u200d\u0dbb\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0d85\u0d9c\u0dca\u200d\u0dbb\u0dba>, <\u0d9a\u0ddd\u0dab\u0dba> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "\u0d9a\u0ddd\u0dab\u0dd2\u0d9a\u0dc3\u0db8\u0da0\u0dd2\u0da1\u0dda\u0daf\u0d9a\u0dba",
     "AngularBisector.Syntax": "[ <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0>, <\u0dbb\u0dda\u0d9b\u0dcf\u0dc0> ]\n[ <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba>, <\u0dbd\u0d9a\u0dca\u0dc2\u0dca\u200d\u0dba\u0dba> ]",
     "Append": "\u0d85\u0db1\u0dd4\u0db4\u0dd2\u0dc5\u0dd2\u0dc0\u0dd9\u0dbd\u0dd2\u0db1\u0dca_\u0d91\u0d9a\u0dad\u0dd4_\u0d9a\u0dbb\u0db1\u0dca\u0db1",

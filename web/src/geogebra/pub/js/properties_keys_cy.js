@@ -62,7 +62,7 @@ __GGB__keysVar.cy.command = {
     "AffineRatio.Syntax": "[ <Pwynt>, <Pwynt>, <Pwynt> ]",
     "Angle": "Ongl",
     "Angle.Syntax": "[ <Gwrthrych> ]\n[ <Fector>, <Fector> ]\n[ <Llinell>, <Llinell> ]\n[ <Pwynt>, <Brig>, <Pwynt> ]\n[ <Pwynt>, <Brig>, <Ongl> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "HaneryddOngl",
     "AngularBisector.Syntax": "[ <Llinell>, <Llinell> ]\n[ <Pwynt>, <Pwynt>, <Pwynt> ]",
     "Append": "Atodi",

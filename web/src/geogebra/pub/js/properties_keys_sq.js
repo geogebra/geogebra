@@ -62,7 +62,7 @@ __GGB__keysVar.sq.command = {
     "AffineRatio.Syntax": "[ <Pike>, <Pike>, <Pike> ]",
     "Angle": "Kend",
     "Angle.Syntax": "[ <Objekt> ]\n[ <Vektor>, <Vektor> ]\n[ <Drejtez>, <Drejtez> ]\n[ <Pike>, <Kulm>, <Pike> ]\n[ <Pike>, <Kulm>, <Kend> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "PergjysmoreKendi",
     "AngularBisector.Syntax": "[ <Drejtez>, <Drejtez> ]\n[ <Pike>, <Pike>, <Pike> ]",
     "Append": "Shtojce",

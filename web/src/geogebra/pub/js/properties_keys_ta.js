@@ -62,7 +62,7 @@ __GGB__keysVar.ta.command = {
     "AffineRatio.Syntax": "[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]",
     "Angle": "\u0b95\u0bcb\u0ba3\u0bae\u0bcd",
     "Angle.Syntax": "[ <\u0baa\u0bc6\u0bbe\u0bb0\u0bc1\u0bb3\u0bcd> ]\n[ <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd>, <\u0ba4\u0bbf\u0b9a\u0bc8\u0baf\u0ba9\u0bcd> ]\n[ <\u0b95\u0bcb\u0b9f\u0bc1>, <\u0b95\u0bcb\u0b9f\u0bc1> ]\n[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0b89\u0b9a\u0bcd\u0b9a\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]\n[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0b89\u0b9a\u0bcd\u0b9a\u0bbf>, <\u0b95\u0bcb\u0ba3\u0bae\u0bcd> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "\u0b95\u0bcb\u0ba3\u0b87\u0bb0\u0bc1\u0b95\u0bc2\u0bb1\u0bbe\u0b95\u0bcd\u0b95\u0bbf",
     "AngularBisector.Syntax": "[ <\u0b95\u0bcb\u0b9f\u0bc1>, <\u0b95\u0bcb\u0b9f\u0bc1> ]\n[ <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf>, <\u0baa\u0bc1\u0bb3\u0bcd\u0bb3\u0bbf> ]",
     "Append": "\u0b87\u0ba3\u0bc8\u0b95\u0bcd\u0b95",

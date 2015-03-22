@@ -62,7 +62,7 @@ __GGB__keysVar.vi.command = {
     "AffineRatio.Syntax": "[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "Angle": "Goc",
     "Angle.Syntax": "[ <\u0110\u1ed1i t\u01b0\u1ee3ng> ]\n[ <V\xe9c t\u01a1>, <V\xe9c t\u01a1> ]\n[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110\u1ec9nh>, <\u0110i\u1ec3m> ]\n[ <\u0110i\u1ec3m>, <\u0110\u1ec9nh>, <G\xf3c> ]",
-    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]",
+    "Angle.Syntax3D": "[ <Object> ]\n[ <Vector>, <Vector> ]\n[ <Line>, <Line> ]\n[ <Line>, <Plane> ]\n[ <Plane>, <Plane> ]\n[ <Point>, <Apex>, <Point> ]\n[ <Point>, <Apex>, <Angle> ]\n[ <Point>, <Point>, <Point>, <Direction> ]",
     "AngularBisector": "DuongPhanGiac",
     "AngularBisector.Syntax": "[ <\u0110\u01b0\u1eddng th\u1eb3ng>, <\u0110\u01b0\u1eddng th\u1eb3ng> ]\n[ <\u0110i\u1ec3m>, <\u0110i\u1ec3m>, <\u0110i\u1ec3m> ]",
     "Append": "ChenNoi",
