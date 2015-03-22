@@ -71,52 +71,61 @@ public class LayoutW extends Layout implements SettingListener {
 		dockManager.registerPanel(dockPanel);
 	}
 	
-	/*Many of this not implemented yet, later we can make it togehter*/
+	/* Many of this not implemented yet, later we can make it togehter */
 	@Override
-    public boolean applyPerspective(Perspective perspective) {
+	public boolean applyPerspective(Perspective perspective) {
 		// ignore axes & grid settings for the document perspective
-				boolean changed = setEVsettingsFromPerspective(app, perspective);
+		boolean changed = setEVsettingsFromPerspective(app, perspective);
 
-				app.getGuiManager().setGeneralToolBarDefinition(perspective.getToolbarDefinition());
-				// override the previous command with the data-param-customToolbar setting
-				if (!App.isFullAppGui() && app.isApplet()) {
-					app.setCustomToolBar();
+		app.getGuiManager().setGeneralToolBarDefinition(
+		        perspective.getToolbarDefinition());
+		// override the previous command with the data-param-customToolbar
+		// setting
+		if (!App.isFullAppGui() && app.isApplet()) {
+			app.setCustomToolBar();
 
-					app.setShowToolBarNoUpdate(
-							/*perspective.getShowToolBar() &&
-							app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||*/
-							app.getArticleElement().getDataParamShowToolBar(false));
+			app.setShowToolBarNoUpdate(
+			/*
+			 * perspective.getShowToolBar() &&
+			 * app.getArticleElement().getDataParamShowToolBarDefaultTrue() ||
+			 */
+			app.getArticleElement().getDataParamShowToolBar(false));
 
-					app.setShowAlgebraInput(
-							/*perspective.getShowInputPanel() &&
-							app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue() ||*/
-							app.getArticleElement().getDataParamShowAlgebraInput(false), false);
+			app.setShowAlgebraInput(
+			/*
+			 * perspective.getShowInputPanel() &&
+			 * app.getArticleElement().getDataParamShowAlgebraInputDefaultTrue()
+			 * ||
+			 */
+			app.getArticleElement().getDataParamShowAlgebraInput(false), false);
 
-				}
+		}
 
-//				app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
-				app.setInputPositon(perspective.getInputPosition(), false);
+		// app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
+		app.setInputPositon(perspective.getInputPosition(), false);
 
-				// change the dock panel layout
+		// change the dock panel layout
 		app.setKeyboardNeeded(false);
 		for (DockPanelData dp : perspective.getDockPanelData()) {
 			if (dp.isVisible() && dp.getViewId() == App.VIEW_ALGEBRA) {
 				app.setKeyboardNeeded(true);
 			}
 		}
-				dockManager.applyPerspective(perspective.getSplitPaneData(), perspective.getDockPanelData());
-				if(!app.isIniting()) {
-					app.updateToolBar();
-					app.updateMenubar();
-					app.updateContentPane();
-				}else if(app.showAlgebraInput() && app.getInputPosition() != InputPositon.algebraView){
-					app.updateContentPane();
-				}
-				return changed;
+		dockManager.applyPerspective(perspective.getSplitPaneData(),
+		        perspective.getDockPanelData());
+		if (!app.isIniting()) {
+			app.updateToolBar();
+			app.updateMenubar();
+			app.updateContentPane();
+		} else if (app.showAlgebraInput()
+		        && app.getInputPosition() != InputPositon.algebraView) {
+			app.updateContentPane();
+		}
+		return changed;
 		// old behaviour: just updating center, instead of updateContentPane
-		//app.refreshSplitLayoutPanel();
-		
-    }
+		// app.refreshSplitLayoutPanel();
+
+	}
 
 	
 	/**
