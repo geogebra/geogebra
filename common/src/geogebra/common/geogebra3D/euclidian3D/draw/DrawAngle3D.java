@@ -71,7 +71,7 @@ public class DrawAngle3D extends Drawable3DCurves {
 		return angleVisible && super.isLabelVisible();
 	}
 
-	private Coords[] drawCoords = new Coords[3];
+	private Coords[] drawCoords = null;
 
 	private Coords tmpCoords = new Coords(4), tmpCoords2;
 
@@ -80,6 +80,8 @@ public class DrawAngle3D extends Drawable3DCurves {
 
 		// update alpha value
 		updateColors();
+
+		initCoords();
 
 		Renderer renderer = getView3D().getRenderer();
 
@@ -273,6 +275,13 @@ public class DrawAngle3D extends Drawable3DCurves {
 		}
 
 		return true;
+	}
+
+	private void initCoords() {
+		if (drawCoords != null) {
+			return;
+		}
+		drawCoords = new Coords[] { new Coords(4), new Coords(4), new Coords(4) };
 	}
 
 	protected double getStart() {

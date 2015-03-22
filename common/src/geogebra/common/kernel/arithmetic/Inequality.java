@@ -22,6 +22,7 @@ import geogebra.common.kernel.geos.GeoFunction;
 import geogebra.common.kernel.geos.GeoLine;
 import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.kernelND.GeoConicNDConstants;
+import geogebra.common.main.App;
 import geogebra.common.plugin.EuclidianStyleConstants;
 import geogebra.common.plugin.Operation;
 import geogebra.common.util.debug.Log;
@@ -238,9 +239,11 @@ public class Inequality {
 		funBorder = new GeoFunction(cons);
 		funBorder.setFunction(new Function(normal, fv[varIndex]));
 		zeros = RootMultiple(funBorder);
-		/*
-		 * for(int i=0;i<zeros.length;i++){ Application.debug(zeros[i]); }
-		 */
+
+		for (int i = 0; i < zeros.length; i++) {
+			App.debug(i + ":" + zeros[i]);
+		}
+
 		cons.setSuppressLabelCreation(supress);
 		border = funBorder;
 		if (isStrict()) {
