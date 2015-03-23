@@ -3196,4 +3196,23 @@ public abstract class AppW extends App implements SetLabels {
 		return keyboardNeeded;
 	}
 
+	public static native void download(String url, String title) /*-{
+
+		if ($wnd.navigator.msSaveBlob) {
+			//works for chrome and internet explorer
+			var image = document.createElement('img');
+			image.src = image;
+
+			$wnd.navigator.msSaveBlob(image, title);
+		} else {
+			//works for firefox
+			var a = $doc.createElement("a");
+			$doc.body.appendChild(a);
+			a.style = "display: none";
+			a.href = url;
+			a.download = title;
+			a.click();
+		}
+
+	}-*/;
 }

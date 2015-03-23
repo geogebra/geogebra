@@ -87,7 +87,15 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 	private CheckBox isLoop;
 
 	/**
-	 * The list of sliders.
+	 * private String toJSON() { StringBuilder sb = new StringBuilder();
+	 * sb.append("{ \"request\": {"); sb.append("    \"-api\": \"1.0.0\",");
+	 * sb.append("    \"task\": {");
+	 * sb.append("      \"-type\": \"convertGGBToGIF\",");
+	 * sb.append("      \"file\": { \"-base64\": \"" +
+	 * app.getGgbApi().getBase64() + " \" },");
+	 * sb.append("      \"slidername\": \"a\""); sb.append("    }");
+	 * sb.append("  }"); sb.append("		}"); return sb.toString(); } The list of
+	 * sliders.
 	 */
 	private List<GeoElement> geoNumerics;
 
@@ -202,7 +210,8 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		} else { // save button clicked
 			GeoGebraTubeAPIW api = new GeoGebraTubeAPIW(app.getClientInfo(),
 			        app.isPrerelease());
-			api.exportAnimGif(app, sliderComboBox.getSelectedValue());
+			String sliderName = sliderComboBox.getSelectedValue().split(" ")[0];
+			api.exportAnimGif(app, sliderName);
 			hide();
 		}
 	}
@@ -298,18 +307,5 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		}
 	}
 
-	private String toJSON() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("{ \"request\": {");
-		sb.append("    \"-api\": \"1.0.0\",");
-		sb.append("    \"task\": {");
-		sb.append("      \"-type\": \"convertGGBToGIF\",");
-		sb.append("      \"file\": { \"-base64\": \""
-		        + app.getGgbApi().getBase64() + " \" },");
-		sb.append("      \"slidername\": \"a\"");
-		sb.append("    }");
-		sb.append("  }");
-		sb.append("		}");
-		return sb.toString();
-	}
+
 }

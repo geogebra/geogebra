@@ -422,7 +422,25 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 		RequestCallback cb = new RequestCallback() {
 
 			public void onResponseReceived(Request request, Response response) {
-				App.debug("[ANIMGIF] RESP: " + response);
+
+				if (response != null) {
+					JSONObject responseObject = new JSONObject();
+					try {
+						responseObject = JSONParser.parseStrict(
+						        response.getText()).isObject();
+						JSONValue base64 = responseObject.isObject()
+						        .get("responses").isObject().get("response")
+						        .isObject().get("value");
+
+						String url = "data:image/gif;base64,"
+						        + base64.isObject().toString();
+						App.debug("[ANIMGIF] url: " + url);
+						AppW.download(url, "ggbanim.gif");
+					} catch (Throwable t) {
+						App.debug(t.getMessage());
+						App.debug("'" + response + "'");
+					}
+				}
 			}
 
 			public void onError(Request request, Throwable exception) {
@@ -433,10 +451,11 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, ANIMGIF_URL);
 
+		String req = AnimGifRequest.getRequestElement(app, sliderName)
+		        .toJSONString(client);
+		App.debug("[REQUEST]: " + req);
 		try {
-			rb.sendRequest(
-			        AnimGifRequest.getRequestElement(app, sliderName)
-			                .toJSONString(client), cb);
+			rb.sendRequest(req, cb);
 		} catch (RequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
