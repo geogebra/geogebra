@@ -112,7 +112,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	}
 
 	private static HashMap<App, OnScreenKeyBoard> instances;
-	private static final int MIN_WIDTH_WITHOUT_SCALING = 823;
 	private static final int MIN_WIDTH_FONT = 485;
 	private static final int KEY_PER_ROW = 12;
 	private static final int NUM_LETTER_BUTTONS = 38;
@@ -146,6 +145,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	private KeyboardMode mode = KeyboardMode.NUMBER;
 	private KeyPanel letters;
 	private KeyBoardButton switchABCGreek;
+	private int numVisibleButtons;
 	private AppW app;
 	/**
 	 * positioning (via setPopupPosition) needs to be enabled in order to
@@ -277,7 +277,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			@Override
 			public void onResize(ResizeEvent event) {
 				updateSize();
-
+				setStyleName();
 			}
 		});
 	}
@@ -289,7 +289,6 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	void updateSize() {
 		// -10 because of padding
 		this.setWidth(app.getWidth() - 10 + "px");
-		setStyleName();
 	}
 
 	/**
@@ -297,7 +296,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 	 * or not)
 	 */
 	private void setStyleName() {
-		if (app.getWidth() < MIN_WIDTH_WITHOUT_SCALING) {
+		if (app.getWidth() < getMinWidthWithoutScaling()) {
 			addStyleName("scale");
 			removeStyleName("normal");
 			removeStyleName("smallerFont");
@@ -309,6 +308,15 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			removeStyleName("scale");
 			removeStyleName("smallerFont");
 		}
+	}
+
+	/**
+	 * 70 = width of button; 82 = padding
+	 * 
+	 * @return
+	 */
+	private int getMinWidthWithoutScaling() {
+		return numVisibleButtons * 70 + 82;
 	}
 
 	private SimplePanel getCloseButton() {
@@ -435,6 +443,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
     }
 
 	private void createLettersKeyPanel() {
+		contentLetters.addStyleName("contentLetters");
 		letters = new KeyPanel();
 		letters.addStyleName("KeyPanelLetters");
 
@@ -835,6 +844,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 			@Override
 			public void onLoad() {
 				updateKeys("lowerCase", lang);
+				setStyleName();
 			}
 		};
 		DynamicScriptElement script = (DynamicScriptElement) Document.get()
@@ -886,8 +896,9 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		int first = countVisibleButtons(this.letters.getRows().get(0));
 		int second = countVisibleButtons(this.letters.getRows().get(1));
 		int third = countVisibleButtons(this.letters.getRows().get(2));
+		this.numVisibleButtons = Math.max(first, second);
 
-		if (Math.max(first, second) - third < 1) {
+		if (numVisibleButtons - third < 1) {
 			shiftButton.addStyleName("small");
 			backspaceButton.addStyleName("small");
 		} else {

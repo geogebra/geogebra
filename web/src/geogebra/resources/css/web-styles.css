@@ -2278,11 +2278,11 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	cursor: hand;
 	text-align: center;
 	background-color: #666666;
-	border-bottom-left-radius: 5px;	
+	border-top-left-radius: 5px;
 }
 
 .keyBoardClosePanel .closeIcon {
-	padding-top: 8px;
+	padding-top: 6px;
 }
 
 .KeyBoard {
@@ -2291,7 +2291,6 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	background-color: #666666;
 	color: #000;
 	box-shadow: none;
-	overflow: hidden !important;
 	font-family: geogebra-sans-serif;
 	position: relative;
 }
@@ -2301,18 +2300,19 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 }
 
 .KeyBoardContentNumbers,
-.KeyBoardContentSpecialChars,
-.KeyPanelLetters {
+.KeyBoardContentSpecialChars {
 	margin: 0 auto;
+	max-width: 745px;
 }
 
 .KeyPanelLetters {
+	margin: 0 auto;
 	position: relative;
 }
 
 .KeyPanelFunction,
-.KeyPanelNum,
-.KeyPanelControl {
+.KeyPanelNum, 
+.normal .contentLetters {
 	padding-right: 20px;
 }
 
@@ -2419,18 +2419,10 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
  */
 
 .scale .keyBoardClosePanel {
-	top: -5px;
+	top: -25px;
 	right: 0px;
-	width: 21px;
+	width: 35px;
 	height: 25px;
-	background-color: #666666;
-	border-bottom-left-radius: 5px;
-	border-bottom-color: #dcdcdc;
-	border-bottom-style: solid;
-	border-bottom-width: 1px;
-	border-left-color: #dcdcdc;
-	border-left-style: solid;
-	border-left-width: 1px;	
 }
 
 .scale .KeyPanelRow, 
