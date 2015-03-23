@@ -1987,6 +1987,12 @@ ExpressionNode numberFunction():
             cell = kernel.lookupCasCellLabel(funcName);
         
             if (cell==null && (geo == null || !(geo.isGeoFunction() || geo.isGeoCurveCartesian())))  {
+              	if(label.startsWith("log_"))              	{
+              	  	String logIndex = label.substring(4);
+              	  	if(logIndex.startsWith("{"))              	  	{						logIndex = logIndex.substring(1,logIndex.length() -1);
+              	  	}
+              	  	double indexVal = MyDouble.parseDouble(loc, logIndex);              	  	  					return new ExpressionNode(kernel, new MyDouble(kernel, indexVal), Operation.LOGB, myList.getListElement(0));
+              	}
                 while (index >=0 && c.image.charAt(index) == '\''){
                     order++; 
                   index--;
