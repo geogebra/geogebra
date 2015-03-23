@@ -123,8 +123,8 @@ public final class ArticleElement extends Element {
 		return getBoolParam("data-param-showMenuBar", def);
 	}
 
-	public boolean getDataParamShowStyleBar(boolean def) {
-		return getBoolParam("data-param-showStyleBar", def);
+	public boolean getDataParamAllowStyleBar(boolean def) {
+		return getBoolParam("data-param-allowStyleBar", def);
 	}
 
 	/**
