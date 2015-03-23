@@ -106,7 +106,7 @@ public class LayoutD extends Layout implements SettingListener {
 		app.setToolbarPosition(perspective.getToolBarPosition(), false);
 
 		app.setShowAlgebraInput(perspective.getShowInputPanel(), false);
-		app.setShowInputTop(perspective.getShowInputPanelOnTop(), false);
+		app.setInputPositon(perspective.getInputPosition(), false);
 
 		app.setDockBarEast(perspective.isDockBarEast());
 		app.setShowDockBar(perspective.getShowDockBar(), false);

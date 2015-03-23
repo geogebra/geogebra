@@ -7,6 +7,7 @@ import geogebra.common.gui.menubar.OptionsMenu;
 import geogebra.common.gui.menubar.RadioButtonMenuBar;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.main.App.InputPositon;
 import geogebra.common.main.OptionType;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
@@ -306,7 +307,7 @@ public class OptionsMenuD extends BaseMenu implements ActionListener,
 					// so the options defaults dialog should be reset later
 					app.getKernel().getConstruction().getConstructionDefaults()
 							.createDefaultGeoElementsFromScratch();
-
+					app.setInputPositon(InputPositon.algebraView, false);
 					// reset the stylebar defaultGeo
 					if (app.getEuclidianView1().hasStyleBar())
 						app.getEuclidianView1().getStyleBar()

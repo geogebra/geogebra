@@ -913,7 +913,9 @@ public class AppD extends App implements KeyEventDispatcher {
 		if (args.containsArg("showAlgebraInputTop")) {
 			boolean showAlgebraInputTop = args.getBooleanValue(
 					"showAlgebraInputTop", true);
-			setShowInputTop(showAlgebraInputTop, false);
+			if (showAlgebraInputTop) {
+				setInputPositon(InputPositon.top, false);
+			}
 		}
 
 		String fontSize = args.getStringValue("fontSize");
