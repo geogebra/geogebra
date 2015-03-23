@@ -30,7 +30,6 @@ import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
 import com.google.gwt.user.client.ui.RequiresResize;
 import com.google.gwt.user.client.ui.ToggleButton;
@@ -45,7 +44,6 @@ public class AlgebraInputW extends FlowPanel
 implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize, AlgebraInput {
 
 	protected AppW app;
-	protected Label inputLabel;
 	protected InputPanelW inputPanel;
 	protected AutoCompleteTextFieldW inputField;
 	protected FlowPanel eastPanel;
@@ -78,7 +76,6 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 
 	private void initGUI() {
 		clear();
-		inputLabel = new Label();
 		inputPanel = new InputPanelW(null,app,0,true);
 
 		inputField = inputPanel.getTextComponent();
@@ -107,7 +104,6 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 		labelPanel = new FlowPanel();
 		//labelPanel.setHorizontalAlignment(ALIGN_RIGHT);
 		//labelPanel.setVerticalAlignment(ALIGN_MIDDLE);
-		labelPanel.add(inputLabel);
 		labelPanel.setStyleName("AlgebraInputLabel");
 
 
@@ -175,8 +171,6 @@ implements KeyUpHandler, FocusHandler, ClickHandler, BlurHandler, RequiresResize
 			return;
 		}
 
-		if (inputLabel != null)
-			inputLabel.setText(app.getPlain("InputLabel") + ":");
 
 		if (btnHelpToggle != null) {
 			btnHelpToggle.setTitle(app.getMenu("InputHelp"));
