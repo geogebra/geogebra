@@ -70,8 +70,21 @@
 
 .Tablet .NewRadioButtonTreeItemParent::after {
 	/* as other hacks are more difficult, why not use .Tablet? */
+
+	/* 4px may show the scrollbar, and 2px may make the border thinner */
 	bottom: 3px;
-	height: 14px;
+
+	/* this can be as high as 17px-bottom, but on Tablets,
+	 even 9px works well - and better! maybe 8px or less...
+	 there is a lack of info about this on the Internet,
+	 to make IPad 3&4 and Nexus 10 right, their behaviour
+	 seems to depend upon the height of the Input bar, e.g.
+	 after typing: x, x/8, x/8/8, x/8/8/8, etc.
+	 9px or more is wrong on Nexus 7 emulation, with too
+	 long 8/8/8/8/8/8/8/8/8 fractions are chopped...
+	 probably the problem cannot be solved changing only
+	 "bottom" and "height" */
+	height: 9px;
 }
 
 .NewRadioButtonTreeItem {
