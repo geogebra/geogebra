@@ -2,8 +2,12 @@ package geogebra.common.kernel.implicit;
 
 import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.EuclidianViewCE;
+import geogebra.common.kernel.Kernel;
 import geogebra.common.kernel.MyPoint;
+import geogebra.common.kernel.Path;
+import geogebra.common.kernel.PathMover;
 import geogebra.common.kernel.StringTemplate;
+import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.arithmetic.Equation;
 import geogebra.common.kernel.arithmetic.ExpressionNode;
 import geogebra.common.kernel.arithmetic.FunctionNVar;
@@ -11,7 +15,9 @@ import geogebra.common.kernel.arithmetic.FunctionVariable;
 import geogebra.common.kernel.arithmetic.Traversing.VariableReplacer;
 import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoLocus;
+import geogebra.common.kernel.geos.GeoPoint;
 import geogebra.common.kernel.geos.Traceable;
+import geogebra.common.kernel.kernelND.GeoPointND;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
@@ -24,7 +30,7 @@ import java.util.List;
  * 
  */
 public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
-		Traceable {
+		Traceable, Path {
 
 	private FunctionNVar expression;
 	private GeoLocus locus;
@@ -500,5 +506,94 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 			sbxml.append("\"/>\n");
 		}
 		super.getXML(listeners, sbxml);
+	}
+
+	/**
+	 * @param PI
+	 *            point
+	 */
+	protected void polishPointOnPath(GeoPointND PI) {
+		// TODO find intersection with x=x(PI) numerically
+	}
+
+	public void pointChanged(GeoPointND PI) {
+		if (locus.getPoints().size() > 0) {
+			locus.pointChanged(PI);
+			polishPointOnPath(PI);
+		}
+	}
+
+	public void pathChanged(GeoPointND PI) {
+
+		// if kernel doesn't use path/region parameters, do as if point changed
+		// its coords
+		if (!getKernel().usePathAndRegionParameters(PI)) {
+			pointChanged(PI);
+			return;
+		}
+
+		if (locus.getPoints().size() > 0) {
+			locus.pathChanged(PI);
+			polishPointOnPath(PI);
+		}
+	}
+
+	/**
+	 * @param PI
+	 *            point
+	 * @return whether point is on path
+	 */
+	public boolean isOnPath(GeoPointND PI) {
+		return isOnPath(PI, Kernel.STANDARD_PRECISION);
+	}
+
+	private double[] eval = new double[2];
+
+	public boolean isOnPath(GeoPointND PI, double eps) {
+
+		if (!PI.isDefined())
+			return false;
+
+		double px, py, pz;
+
+		if (PI.isGeoElement3D()) {
+			Coords coords = PI.getInhomCoordsInD3();
+			if (!Kernel.isZero(coords.getZ())) {
+				return false;
+			}
+			px = coords.getX();
+			py = coords.getY();
+		} else {
+			GeoPoint P = (GeoPoint) PI;
+
+			px = P.x;
+			py = P.y;
+			pz = P.z;
+
+			if (P.isFinite()) {
+				px /= pz;
+				py /= pz;
+			}
+		}
+		eval[0] = px;
+		eval[1] = py;
+		double value = this.expression.evaluate(eval);
+		return Math.abs(value) < Kernel.MIN_PRECISION;
+	}
+
+	public double getMinParameter() {
+		return locus.getMinParameter();
+	}
+
+	public double getMaxParameter() {
+		return locus.getMaxParameter();
+	}
+
+	public boolean isClosedPath() {
+		return locus.isClosedPath();
+	}
+
+	public PathMover createPathMover() {
+		return locus.createPathMover();
 	}
 }
