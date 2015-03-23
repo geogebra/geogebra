@@ -8,7 +8,6 @@ import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -34,15 +33,9 @@ public class ShowKeyboardButton extends PopupPanel {
 
 		this.parent = parent;
 		this.addStyleName("openKeyboardButton");
-		HorizontalPanel content = new HorizontalPanel();
-		NoDragImage triangle = new NoDragImage(GuiResources.INSTANCE
-		        .keyboard_triangleUp().getSafeUri().asString());
-		triangle.addStyleName("arrowUp");
-		content.add(triangle);
 		NoDragImage showKeyboard = new NoDragImage(GuiResources.INSTANCE
 		        .keyboard_show().getSafeUri().asString());
-		content.add(showKeyboard);
-		add(content);
+		this.add(showKeyboard);
 		addDomHandler(new ClickHandler() {
 
 			@Override

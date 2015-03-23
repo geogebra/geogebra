@@ -329,9 +329,6 @@ public interface GuiResources extends ClientBundle {
 	@Source("geogebra/web/gui/images/keyboard_show.png")
 	ImageResource keyboard_show();
 
-	@Source("geogebra/web/gui/images/keyboard_triangle_up.png")
-	ImageResource keyboard_triangleUp();
-
 	// ALGEBRA VIEW
 	@Source("geogebra/web/gui/images/view-close.png")
 	ImageResource algebraViewDeleteEntry();

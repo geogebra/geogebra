@@ -2254,7 +2254,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	bottom: 5px;
 	top: initial !important;
 	*/
-	width:75px;
+	width: 65px;
 	height: 23px;
 	padding-top: 0px;
 	padding-bottom: 8px;
@@ -2265,10 +2265,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	cursor: hand;
 	border: 1px solid #DCDCDC;
 	box-shadow: 0px 0px 1px 0px rgba(102, 102, 102, 0.3);
-}
-
-.openKeyboardButton .arrowUp {
-	padding-top: 2px;
+	text-align: center;
 }
 
 .keyBoardClosePanel {
