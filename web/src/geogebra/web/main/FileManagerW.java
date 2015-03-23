@@ -1,5 +1,6 @@
 package geogebra.web.main;
 
+import geogebra.common.main.App;
 import geogebra.common.move.ggtapi.models.Material;
 import geogebra.common.move.ggtapi.models.Material.MaterialType;
 import geogebra.common.move.ggtapi.models.MaterialFilter;
@@ -7,6 +8,7 @@ import geogebra.common.move.ggtapi.models.SyncEvent;
 import geogebra.html5.main.AppW;
 import geogebra.html5.main.StringHandler;
 import geogebra.html5.util.ggtapi.JSONparserGGT;
+import geogebra.web.gui.dialog.DialogManagerW;
 import geogebra.web.util.SaveCallback;
 
 import java.util.ArrayList;
@@ -252,4 +254,19 @@ public class FileManagerW extends FileManager {
 		this.stockStore.setItem(key, material.toJson().toString());
 		this.offlineIDs.add(material.getId());
 	}
+
+	public final boolean createRemoteAnimGif(AppW app) {
+		// TODO: Login needed.
+		// not logged in and can't log in
+		if (!app.getLoginOperation().isLoggedIn()) {
+			App.debug("[ANIMGIF] Login needed.");
+		// app.getGuiManager().listenToLogin();
+		// ((SignInButton) app.getLAF().getSignInButton(app)).login();
+		// // logged in
+		} else {
+			((DialogManagerW) app.getDialogManager()).showAnimGifExportDialog();
+		}
+		return true;
+	}
+
 }

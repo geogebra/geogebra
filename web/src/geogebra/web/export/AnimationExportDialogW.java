@@ -11,6 +11,7 @@ import geogebra.web.gui.dialog.DialogBoxW;
 import geogebra.web.gui.util.AnimatedGifEncoderW;
 import geogebra.web.gui.util.FrameCollectorW;
 import geogebra.web.gui.view.algebra.InputPanelW;
+import geogebra.web.move.ggtapi.models.GeoGebraTubeAPIW;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -199,7 +200,9 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		if (event.getSource() == cancelBtn) { // cancel button clicked
 			hide();
 		} else { // save button clicked
-			export();
+			GeoGebraTubeAPIW api = new GeoGebraTubeAPIW(app.getClientInfo(),
+			        app.isPrerelease());
+			api.exportAnimGif(app, sliderComboBox.getSelectedValue());
 			hide();
 		}
 	}
@@ -295,4 +298,18 @@ public class AnimationExportDialogW extends DialogBoxW implements ClickHandler {
 		}
 	}
 
+	private String toJSON() {
+		StringBuilder sb = new StringBuilder();
+		sb.append("{ \"request\": {");
+		sb.append("    \"-api\": \"1.0.0\",");
+		sb.append("    \"task\": {");
+		sb.append("      \"-type\": \"convertGGBToGIF\",");
+		sb.append("      \"file\": { \"-base64\": \""
+		        + app.getGgbApi().getBase64() + " \" },");
+		sb.append("      \"slidername\": \"a\"");
+		sb.append("    }");
+		sb.append("  }");
+		sb.append("		}");
+		return sb.toString();
+	}
 }

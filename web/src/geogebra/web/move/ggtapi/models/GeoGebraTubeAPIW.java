@@ -35,6 +35,7 @@ import com.google.gwt.json.client.JSONValue;
  * 
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
+	private static final String ANIMGIF_URL = "http://tube-beta.geogebra.org/api/json.php";
 	private RequestBuilder requestBuilder;
 	private ClientInfo client;
 
@@ -407,6 +408,39 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 
 			        }
 		        });
+	}
+
+	/**
+	 * @param app
+	 *            {@link AppW}
+	 * @param sliderName
+	 *            {@link Material}
+	 * @param cb
+	 *            {@link MaterialCallback}
+	 */
+	public void exportAnimGif(AppW app, String sliderName) {
+		RequestCallback cb = new RequestCallback() {
+
+			public void onResponseReceived(Request request, Response response) {
+				App.debug("[ANIMGIF] RESP: " + response);
+			}
+
+			public void onError(Request request, Throwable exception) {
+				App.debug("[ANIMGIF] EXCEPTION: " + exception);
+
+			}
+		};
+
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, ANIMGIF_URL);
+
+		try {
+			rb.sendRequest(
+			        AnimGifRequest.getRequestElement(app, sliderName)
+			                .toJSONString(client), cb);
+		} catch (RequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

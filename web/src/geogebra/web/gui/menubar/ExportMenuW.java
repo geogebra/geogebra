@@ -2,12 +2,11 @@ package geogebra.web.gui.menubar;
 
 import geogebra.html5.euclidian.EuclidianViewW;
 import geogebra.html5.main.AppW;
-import geogebra.web.export.AnimationExportDialogW;
 import geogebra.web.gui.GuiManagerW;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.main.FileManagerW;
 
 import com.google.gwt.user.client.Command;
-import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.MenuBar;
 
 /**
@@ -66,14 +65,9 @@ public class ExportMenuW extends MenuBar {
 		        .getSafeUri().asString(), app.getPlain("AnimatedGIF"),
 		        true), true, new Command() {
 			public void execute() {
-				DialogBox dialog = new AnimationExportDialogW(app);
-				dialog.center();
-				dialog.show();
-				// export dialog comes here
-				// ImageFileInputDialog dialog = new ImageFileInputDialog((AppW)
-				// app, null);
-				// dialog.setVisible(true);
-			}
+				        ((FileManagerW) app.getFileManager())
+				                .createRemoteAnimGif(app);
+				        }
 		});
 	}
 
