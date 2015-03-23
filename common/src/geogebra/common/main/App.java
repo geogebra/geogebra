@@ -2352,17 +2352,20 @@ public abstract class App implements UpdateSelection {
 		if (!update) {
 			return;
 		}
+
 		EuclidianView ev1 = getEuclidianView1();
-		if (ev1 != null) {
+		if (ev1 != null && ev1.getStyleBar() != null) {
 			ev1.getStyleBar().reinit();
 		}
 
-		EuclidianView ev2 = getEuclidianView2(1);
-		if (ev2 != null) {
-			ev2.getStyleBar().reinit();
+		if (hasEuclidianView2(1)) {
+			EuclidianView ev2 = getEuclidianView2(1);
+			if (ev2 != null && ev2.getStyleBar() != null) {
+				ev2.getStyleBar().reinit();
+			}
 		}
 
-		if (hasEuclidianView3D()) {
+		if (hasEuclidianView3D() && getEuclidianView3D().getStyleBar() != null) {
 			getEuclidianView3D().getStyleBar().reinit();
 		}
 
