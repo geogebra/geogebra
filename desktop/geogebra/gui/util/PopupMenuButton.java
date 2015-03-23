@@ -498,9 +498,9 @@ public class PopupMenuButton extends JButton implements ChangeListener {
 		// add a down_triangle image to the left of the icon
 		if (icon != null)
 			super.setIcon(GeoGebraIcon.joinIcons((ImageIcon) icon,
-					app.getScaledIcon("triangle-down.png")));
+					app.getScaledIcon("triangle_down.png")));
 		else
-			super.setIcon(app.getScaledIcon("triangle-down.png"));
+			super.setIcon(app.getScaledIcon("triangle_down.png"));
 	}
 
 	public void setFixedIcon(Icon icon) {

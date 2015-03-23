@@ -80,7 +80,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 	 */
 	protected void addButtons() {
 
-		toggleAuxiliary = new JButton(app.getScaledIcon("auxiliary.png"));
+		toggleAuxiliary = new JButton(
+				app.getScaledIcon("stylingbar_algebraview_auxiliary_objects.png"));
 		toggleAuxiliary.setFocusPainted(false);
 		toggleAuxiliary.addActionListener(this);
 		add(toggleAuxiliary);
@@ -93,7 +94,8 @@ public class AlgebraHelperBar extends JToolBar implements ActionListener {
 		toggleTypeTreeMode.setKeepVisible(true);
 		toggleTypeTreeMode.setStandardButton(true); // mouse clicks over total
 													// button region
-		toggleTypeTreeMode.setIcon(app.getScaledIcon("tree.png"));
+		toggleTypeTreeMode.setIcon(app
+				.getScaledIcon("stylingbar_algebraview_sort_objects_by.png"));
 
 		add(toggleTypeTreeMode);
 

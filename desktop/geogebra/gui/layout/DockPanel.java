@@ -1203,11 +1203,11 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 		if (toggleStyleBarButton != null) {
 			if (showStyleBar) {
 				toggleStyleBarButton.setIcon(app
-						.getScaledIcon("triangle-down.png"));
+						.getScaledIcon("triangle_down.png"));
 				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-down-rollover.png"));
 			} else {
 				toggleStyleBarButton.setIcon(app
-						.getScaledIcon("triangle-right.png"));
+						.getScaledIcon("triangle_right.png"));
 				// toggleStyleBarButton.setRolloverIcon(app.getScaledIcon("triangle-right-rollover.png"));
 			}
 		}
@@ -1647,28 +1647,28 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 				toggleSize));
 
 		// button to insert the view in the main window
-		unwindowButton.setIcon(app.getScaledIcon("view-unwindow.png"));
+		unwindowButton.setIcon(app.getScaledIcon("viewŰ_unwindow.png"));
 		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
-		unwindowButton2.setIcon(app.getScaledIcon("view-unwindow.png"));
+		unwindowButton2.setIcon(app.getScaledIcon("view_unwindow.png"));
 		unwindowButton2.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to display the view in a separate window
-		windowButton.setIcon(app.getScaledIcon("view-window.png"));
+		windowButton.setIcon(app.getScaledIcon("view_window.png"));
 		windowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to close the view
-		closeButton.setIcon(app.getScaledIcon("view-close.png"));
+		closeButton.setIcon(app.getScaledIcon("view_close.png"));
 		closeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to toggle maximize/normal state
 		maximizeButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		if (isMaximized()) {
-			maximizeButton.setIcon(app.getScaledIcon("view-unmaximize.png"));
+			maximizeButton.setIcon(app.getScaledIcon("view_unmaximize.png"));
 		} else {
-			maximizeButton.setIcon(app.getScaledIcon("view-maximize.png"));
+			maximizeButton.setIcon(app.getScaledIcon("view_maximize.png"));
 		}
 		updateToggleStyleBarButtons();
 	}
