@@ -15,6 +15,7 @@ import geogebra.common.kernel.geos.Traceable;
 import geogebra.common.main.App;
 import geogebra.common.plugin.GeoClass;
 import geogebra.common.plugin.Operation;
+import geogebra.common.util.StringUtil;
 
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		super(c);
 		locus = new GeoLocus(c);
 		locus.setDefined(true);
+		cons.removeFromConstructionList(locus);
 		c.registerEuclidianViewCE(this);
 	}
 
@@ -486,4 +488,17 @@ public class GeoImplicitCurve extends GeoElement implements EuclidianViewCE,
 		return trace;
 	}
 
+	@Override
+	public void getXML(boolean listeners, StringBuilder sbxml) {
+		if (isIndependent() && getDefaultGeoType() < 0) {
+			sbxml.append("<expression");
+			sbxml.append(" label =\"");
+			sbxml.append(label);
+			sbxml.append("\" exp=\"");
+			StringUtil.encodeXML(sbxml, toString(StringTemplate.xmlTemplate));
+			// expression
+			sbxml.append("\"/>\n");
+		}
+		super.getXML(listeners, sbxml);
+	}
 }
