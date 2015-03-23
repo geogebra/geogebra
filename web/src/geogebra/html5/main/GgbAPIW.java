@@ -566,12 +566,15 @@ public class GgbAPIW extends geogebra.common.plugin.GgbAPI {
 			if (fileName != null && !fileName.isEmpty()) {
 				String url = ((ImageManagerW) app.getImageManager())
 				        .getExternalImageSrc(fileName);
-				String ext = fileName.substring(fileName.lastIndexOf('.') + 1)
-				        .toLowerCase();
-				MyImageW img = new MyImageW(ImageElement.as((new Image(url))
-				        .getElement()), "svg".equals(ext));
+				if (url != null) {
+					String ext = fileName.substring(
+					        fileName.lastIndexOf('.') + 1).toLowerCase();
+					MyImageW img = new MyImageW(
+					        ImageElement.as((new Image(url)).getElement()),
+					        "svg".equals(ext));
 
-				addImageToArchive("", fileName, url, ext, img, archive);
+					addImageToArchive("", fileName, url, ext, img, archive);
+				}
 			}
 			/*
 			 * // save macro icon String fileName = macro.getIconFileName();

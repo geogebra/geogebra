@@ -1,8 +1,10 @@
 package geogebra.common.plugin;
 
 import geogebra.common.kernel.Kernel;
+import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoList;
 import geogebra.common.kernel.geos.GeoNumeric;
+import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.main.App;
 
 import java.util.HashMap;
@@ -17,6 +19,7 @@ public abstract class SensorLogger {
 	 * port to receive UDP logging on
 	 */
 	public static int port = 7166;
+	public static String appID = "ABCD";
 	public boolean oldUndoActive = false;
 
 	protected static enum Types {
@@ -24,7 +27,7 @@ public abstract class SensorLogger {
 					"Az"), ORIENTATION_X("Ox"), ORIENTATION_Y("Oy"), ORIENTATION_Z(
 					"Oz"), MAGNETIC_FIELD_X("Mx"), MAGNETIC_FIELD_Y("My"), MAGNETIC_FIELD_Z(
 					"Mz"), DATA_COUNT("datacount"), EDAQ0("EDAQ0"), EDAQ1("EDAQ1"), EDAQ2(
-					"EDAQ2"), PORT("port");
+				"EDAQ2"), PORT("port"), APP_ID("appID");
 			private String string;
 	
 			Types(String s) {
@@ -53,18 +56,20 @@ public abstract class SensorLogger {
 	protected abstract void closeSocket();
 
 
-	public void registerGeo(String s, GeoNumeric geo) {
+	public void registerGeo(String s, GeoElement geo) {
 	
 		Types type = Types.lookup(s);
 	
 		if (type != null) {
 			if (type == Types.PORT) {
-				port = (int) geo.getValue();
+				port = (int) ((GeoNumeric) geo).getValue();
+			} else if (type == Types.APP_ID) {
+				appID = ((GeoText) geo).getTextString();
 			} else {
 				App.debug("logging " + type + " to " + geo.getLabelSimple());
 				listenersL.remove(type);
 				listLimits.put(type, 0);
-				listeners.put(type, geo);
+				listeners.put(type, (GeoNumeric) geo);
 				listenersAges.put(type, 0);
 			}
 		}

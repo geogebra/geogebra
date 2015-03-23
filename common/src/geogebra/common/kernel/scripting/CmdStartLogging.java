@@ -33,34 +33,34 @@ public class CmdStartLogging extends CmdScripting {
 			logger.stopLogging();
 
 			GeoElement text;
-			GeoElement number = null;
+			GeoElement argument = null;
 			GeoElement limit = null;
 
 			for (int i = 0; i <= n - 2; i += 2) {
-
+				argument = arg[i + 1];
 				if ((text = arg[i]) instanceof GeoText
-						&& (number = arg[i + 1]) instanceof GeoNumeric) {
+						&& (argument instanceof GeoNumeric || argument instanceof GeoText)) {
 					logger.registerGeo(((GeoText) text).getTextString(),
-							(GeoNumeric) number);
+							argument);
 				} else if ((text = arg[i]) instanceof GeoText
-						&& (number = arg[i + 1]) instanceof GeoList) {
+						&& argument instanceof GeoList) {
 					// it should be possible to add an optional third parameter
 					// to lists - size limit of logging
 					if ((i < n - 2)
 							&& (limit = arg[i + 2]) instanceof GeoNumeric) {
 						logger.registerGeoList(
 								((GeoText) text).getTextString(),
-								(GeoList) number,
+								(GeoList) argument,
 								((GeoNumeric) limit).getValue());
 						i++;
 					} else {
 						logger.registerGeoList(
 								((GeoText) text).getTextString(),
-								(GeoList) number);
+								(GeoList) argument);
 					}
 				} else {
 					throw argErr(app, c.getName(),
-							(text instanceof GeoText) ? number : text);
+							(text instanceof GeoText) ? argument : text);
 				}
 			}
 
