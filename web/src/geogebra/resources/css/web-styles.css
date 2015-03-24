@@ -3718,10 +3718,6 @@ body.application[dir=rtl] .imageCorner {
 	margin: 0px;
 }
 
-.gwt-Tree .gwt-TreeItem.NewRadioButtonTreeItemParent {
-	padding-top: 0px;
-}
-
 .NewRadioButtonTreeItem .hasCursorPermanent {
 	border-color: #EDEDED;
 }
