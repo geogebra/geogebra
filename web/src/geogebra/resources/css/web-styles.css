@@ -57,7 +57,7 @@
 	bottom: 0px;
 	left:0px;
 	right:0px;
-	height: 17px;
+	height: 22px;
 	width: 100%;
 
 	/* on mobile browsers z-index is needed for whatever reason */
@@ -3552,6 +3552,14 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 
 /* ========== Input Help  end ============ */
 /* first td of heading table should have width: 0% */
+#View_2 {
+	height: 100%;
+}
+
+#View_2 div table {
+	width: 100%;
+}
+
 #View_2 div table tr>td+td {
 	width: 100%;
 }
@@ -3559,6 +3567,13 @@ body.application[dir=rtl] .inputHelp-cmdSyntax {
 #View_2 div div>div {
 	margin-left: 0px !important;
 /* 	width: 100%; */
+}
+
+#View_2>div {
+	padding: 5px !important;
+}
+#View_2 .avItem {
+	padding: 3px 10px !important;
 }
 
 .elemHeading {
@@ -3596,6 +3611,15 @@ body.application[dir=rtl] .algebraOpenButton {
 	right: 0;
 }
 
+.avItem,
+.avItem .gwt-TreeItem,
+.avItem .gwt-TreeItem >* {
+ 	width: 100%;
+ 	box-sizing: border-box;
+ 	-moz-box-sizing: border-box;
+ 	-webkit-box-sizing: border-box;
+ }
+
 .marble {
 	margin-right: 10px;
 }
@@ -3608,18 +3632,6 @@ body.application[dir=rtl] .marble {
 	display: inline;
 	/*color:black;*/
 	font-weight: normal;
-}
-
-#View_2 div table {
-	width: 100%;
-}
-
-#View_2 {
-	height: 100%;
-	padding: 0px 12px 0px 9px;
-}
-body.application[dir=rtl] #View_2 {
-	padding: 0px 9px 0px 12px;
 }
 
 .algebraPanel>div {
@@ -3706,6 +3718,18 @@ body.application[dir=rtl] .imageCorner {
 	margin: 0px;
 }
 
+.gwt-Tree .gwt-TreeItem.NewRadioButtonTreeItemParent {
+	padding-top: 0px;
+}
+
+.NewRadioButtonTreeItem .hasCursorPermanent {
+	border-color: #EDEDED;
+}
+
+.NoHorizontalScroll .NewRadioButtonTreeItem .hasCursorPermanent {
+	border-color: #6161FF;
+}
+
 .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
 .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField,
 .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
@@ -3736,7 +3760,7 @@ body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShow
 	position: absolute;
 	right: 5px;
 	top: 50%;
-	margin-top: -0.66em;
+	margin-top: -9px;
 }
 
 .advanced-TextButtonPanel .AutoCompleteTextFieldW .SymbolToggleButton {
@@ -5500,10 +5524,4 @@ body>div:nth-child   (4) >div:nth-child   (2) >div>div:nth-child   (2) >table>tb
 
  .red {
  	background:red;
- }
- 
-.avItem,
-.avItem .gwt-TreeItem,
-.avItem .gwt-TreeItem >* {
- 	width: 100%;
  }
