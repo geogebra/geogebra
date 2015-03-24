@@ -863,7 +863,8 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 	 * @param mode
 	 */
 	public void setToolbarMode(int mode) {
-		if (isVisible() && isOpenInFrame() && hasToolbar()) {
+		if (toolbarContainer != null && isVisible() && isOpenInFrame()
+				&& hasToolbar()) {
 			toolbarContainer.setMode(mode);
 		}
 	}
