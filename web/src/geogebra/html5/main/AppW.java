@@ -3231,4 +3231,12 @@ public abstract class AppW extends App implements SetLabels {
 	public void showStartTooltip() {
 		// probably needed in full version only
 	}
+
+	public double getLeft() {
+		return this.getFrameElement().getOffsetLeft();
+	}
+
+	public double getTop() {
+		return this.getFrameElement().getOffsetTop();
+	}
 }

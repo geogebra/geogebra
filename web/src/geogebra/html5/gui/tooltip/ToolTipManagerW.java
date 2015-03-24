@@ -9,6 +9,7 @@ import geogebra.html5.gui.util.ClickEndHandler;
 import geogebra.html5.main.AppW;
 
 import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
@@ -211,6 +212,8 @@ public class ToolTipManagerW {
 	 *            String
 	 * @param link
 	 *            {@link ToolTipLinkType}
+	 * @param app
+	 *            app for positioning
 	 */
 	public void showBottomInfoToolTip(String text, final String helpURL,
 	        ToolTipLinkType link, AppW app) {
@@ -259,11 +262,15 @@ public class ToolTipManagerW {
 		bottomInfoTipPanel.setVisible(true);
 
 		// Helps to align the InfoTooltip in the center of the screen:
-		bottomInfoTipPanel
+		Style style = bottomInfoTipPanel
 		        .getElement()
-		        .getStyle()
-		        .setMarginLeft(-(bottomInfoTipPanel.getOffsetWidth() / 2),
-		                Unit.PX);
+.getStyle();
+		style.setLeft(
+		        app.getLeft()
+		                + (app.getWidth() - bottomInfoTipPanel.getOffsetWidth())
+		                / 2,
+		        Unit.PX);
+		style.setTop(app.getTop() + app.getHeight() - 70, Unit.PX);
 	}
 
 	/**

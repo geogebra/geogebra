@@ -2550,7 +2550,7 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 .toolTipHTML {
 	font-size: 80%;
 }
-
+/* don't hardcode position here, must work in applets */
 .infoTooltip {
 	display: block;
 	font-family: geogebra-sans-serif, Arial Unicode MS, Arial, sans-serif;
@@ -2563,7 +2563,6 @@ body.application[dir=rtl] .gwt-Label.textIconButton {
 	box-shadow: 0px 0px 2px 1px rgba(102, 102, 102, 0.3);
 	z-index: 1000;
 	position: absolute;
-	bottom: 30px;
 	left: 50%;
 	color: #FFFFFF;
 }
