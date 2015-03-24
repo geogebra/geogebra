@@ -2,19 +2,13 @@ package geogebra.web.gui.view.algebra;
 
 import geogebra.common.euclidian.event.PointerEventType;
 import geogebra.common.kernel.Kernel;
-import geogebra.common.kernel.Macro;
 import geogebra.common.main.App;
-import geogebra.common.main.Localization;
 import geogebra.common.util.AsyncOperation;
-import geogebra.common.util.AutoCompleteDictionary;
-import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
-import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.gui.inputfield.HasSymbolPopup;
 import geogebra.html5.gui.inputfield.HistoryPopupW;
 import geogebra.html5.gui.util.BasicIcons;
 import geogebra.html5.gui.util.ClickStartHandler;
-import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 import geogebra.html5.main.DrawEquationWeb;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
@@ -25,6 +19,7 @@ import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
 import com.google.gwt.dom.client.Element;
+import com.google.gwt.dom.client.SpanElement;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,9 +30,6 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.PushButton;
-import com.google.gwt.user.client.ui.SuggestBox;
-import com.google.gwt.user.client.ui.SuggestOracle;
-import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
 
 /**
  * NewRadioButtonTreeItem for creating new formulas in the algebra view
@@ -45,64 +37,30 @@ import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
  * File created by Arpad Fekete
  */
 public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
-        AutoCompleteW, HasSymbolPopup, FocusHandler, BlurHandler {
+        EquationEditorListener, HasSymbolPopup, FocusHandler, BlurHandler {
 
 	// How large this number should be (e.g. place on the screen, or
 	// scrollable?) Let's allow practically everything
-	public static int querylimit = 5000;
-	private List<String> completions;
-	StringBuilder curWord;
-	private int curWordStart;
-	protected AutoCompleteDictionary dict;
-	protected ScrollableSuggestionDisplay sug;
-	protected CompletionsPopup popup;
+
+
+
+
 	protected PushButton xButton = null;
 	// SymbolTablePopupW tablePopup;
 	private int historyIndex;
 	private ArrayList<String> history;
 	private HashMap<String, String> historyMap;
 	HistoryPopupW historyPopup;
+	EquationEditor editor;
 
-	protected SuggestOracle.Callback popupCallback = new SuggestOracle.Callback() {
-		public void onSuggestionsReady(SuggestOracle.Request req,
-		        SuggestOracle.Response res) {
-			sug.setPositionRelativeTo(ihtml);
-			sug.accessShowSuggestions(res, popup, sugCallback);
-		}
-	};
-	protected SuggestBox.SuggestionCallback sugCallback = new SuggestBox.SuggestionCallback() {
-		public void onSuggestionSelected(Suggestion s) {
 
-			String sugg = s.getReplacementString();
-			// For now, we can assume that sugg is in LaTeX format,
-			// and if it will be wrong, we can revise it later
-			// at the moment we shall focus on replacing the current
-			// word in MathQuillGGB with it...
 
-			// Although MathQuillGGB could compute the current word,
-			// it might not be the same as the following, as
-			// maybe it can be done easily for English characters
-			// but current word shall be internationalized to e.g.
-			// Hungarian, or even Arabic, Korean, etc. which are
-			// known by GeoGebra but unknown by MathQuillGGB...
-			updateCurrentWord(false);
-			String currentWord = curWord.toString();
-
-			// So we also provide currentWord as a heuristic or helper:
-			geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-			        seMayLatex, sugg, currentWord, true);
-
-			// not to forget making the popup disappear after success!
-			sug.hideSuggestions();
-		}
-	};
 
 	public NewRadioButtonTreeItem(Kernel kern) {
 		super(kern);
-		curWord = new StringBuilder();
-		sug = new ScrollableSuggestionDisplay();
-		popup = new CompletionsPopup();
-		popup.addTextField(this);
+		editor = new EquationEditor(app, this);
+
+
 		historyIndex = 0;
 		history = new ArrayList<String>(50);
 		historyMap = new HashMap<String, String>();
@@ -173,31 +131,12 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 */
 	@Override
 	public boolean popupSuggestions() {
-		// sub, or query is the same as the current word,
-		// so moved from method parameter to automatism
-		// updateCurrentWord(true);// although true would be nicer here
-		updateCurrentWord(false);// compatibility should be preserved
-		String sub = this.curWord.toString();
-		if (sub != null && !"".equals(sub)) {
-			if (sub.length() < 2) {
-				// if there is only one letter typed,
-				// for any reason, this method should
-				// hide the suggestions instead!
-				hideSuggestions();
-			} else {
-				popup.requestSuggestions(new SuggestOracle.Request(sub,
-				        querylimit), popupCallback);
-			}
-		}
-		return true;
+		return editor.popupSuggestions();
 	}
 
 	@Override
 	public boolean hideSuggestions() {
-		if (sug.isSuggestionListShowing()) {
-			sug.hideSuggestions();
-		}
-		return true;
+		return editor.hideSuggestions();
 	}
 
 	/**
@@ -205,11 +144,11 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 * up/down, otherwise consider up/down event for the history popup!
 	 */
 	public boolean shuffleSuggestions(boolean down) {
-		if (sug.isSuggestionListShowing()) {
+		if (editor.sug.isSuggestionListShowing()) {
 			if (down) {
-				sug.accessMoveSelectionDown();
+				editor.sug.accessMoveSelectionDown();
 			} else {
-				sug.accessMoveSelectionUp();
+				editor.sug.accessMoveSelectionUp();
 			}
 			return false;
 		} else if (down) {
@@ -239,8 +178,9 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	@Override
 	public boolean stopNewFormulaCreation(String newValue0, String latex,
 	        AsyncOperation callback) {
-		if (sug.isSuggestionListShowing()) {
-			sugCallback.onSuggestionSelected(sug.accessCurrentSelection());
+		if (editor.sug.isSuggestionListShowing()) {
+			editor.sugCallback.onSuggestionSelected(editor.sug
+			        .accessCurrentSelection());
 			return false;
 		}
 		return super.stopNewFormulaCreation(newValue0, latex, callback);
@@ -267,163 +207,21 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public List<String> resetCompletions() {
-		String text = getText();
-		updateCurrentWord(false);
-		completions = null;
-		// if (isEqualsRequired && !text.startsWith("="))
-		// return null;
-
-		String cmdPrefix = curWord.toString();
-
-		// if (korean) {
-		// completions = getDictionary().getCompletionsKorean(cmdPrefix);
-		// } else {
-		completions = getDictionary().getCompletions(cmdPrefix);
-		// }
-
-		List<String> commandCompletions = getSyntaxes(completions);
-
-		// Start with the built-in function completions
-		completions = app.getParserFunctions().getCompletions(cmdPrefix);
-		// Then add the command completions
-		if (completions.isEmpty()) {
-			completions = commandCompletions;
-		} else if (commandCompletions != null) {
-			completions.addAll(commandCompletions);
-		}
-		return completions;
+		return editor.resetCompletions();
 	}
 
-	/*
-	 * Take a list of commands and return all possible syntaxes for these
-	 * commands
-	 */
-	private List<String> getSyntaxes(List<String> commands) {
-		if (commands == null) {
-			return null;
-		}
-		ArrayList<String> syntaxes = new ArrayList<String>();
-		for (String cmd : commands) {
 
-			String cmdInt = app.getInternalCommand(cmd);
 
-			String syntaxString;
-			// if (isCASInput) {
-			// syntaxString = loc.getCommandSyntaxCAS(cmdInt);
-			// } else {
-			syntaxString = app.getLocalization().getCommandSyntax(cmdInt);
-			// }
-			if (syntaxString.endsWith(// isCASInput ? Localization.syntaxCAS :
-			        Localization.syntaxStr)) {
 
-				// command not found, check for macros
-				Macro macro = // isCASInput ? null :
-				app.getKernel().getMacro(cmd);
-				if (macro != null) {
-					syntaxes.add(macro.toString());
-				} else {
-					// syntaxes.add(cmdInt + "[]");
-					App.debug("Can't find syntax for: " + cmd);
-				}
 
-				continue;
-			}
-			for (String syntax : syntaxString.split("\\n")) {
-				syntaxes.add(syntax);
-			}
-		}
-		return syntaxes;
-	}
 
-	public AutoCompleteDictionary getDictionary() {
-		if (this.dict == null) {
-			this.dict = // this.forCAS ? app.getCommandDictionaryCAS() :
-			app.getCommandDictionary();
-		}
-		return dict;
-	}
 
-	/**
-	 * Updates curWord to word at current caret position. curWordStart,
-	 * curWordEnd are set to this word's start and end position Code copied from
-	 * AutoCompleteTextFieldW
-	 */
-	public void updateCurrentWord(boolean searchRight) {
-		int next = updateCurrentWord(searchRight, this.curWord, getText(),
-		        getCaretPosition());
-		if (next > -1) {
-			this.curWordStart = next;
-		}
-	}
 
-	public int getCaretPosition() {
-		return geogebra.html5.main.DrawEquationWeb
-		        .getCaretPosInEditedValue(seMayLatex);
-	}
 
-	/**
-	 * Code copied from AutoCompleteTextFieldW
-	 */
-	static int updateCurrentWord(boolean searchRight, StringBuilder curWord,
-	        String text, int caretPos) {
-		int curWordStart;
-		if (text == null)
-			return -1;
 
-		if (searchRight) {
-			// search to right first to see if we are inside [ ]
-			boolean insideBrackets = false;
-			curWordStart = caretPos;
-
-			while (curWordStart < text.length()) {
-				char c = text.charAt(curWordStart);
-				if (c == '[' || c == '(' || c == '{')
-					break;
-				if (c == ']' || c == ')' || c == '}')
-					insideBrackets = true;
-				curWordStart++;
-			}
-
-			// found [, so go back until we get a ]
-			if (insideBrackets) {
-				while (caretPos > 0 && text.charAt(caretPos) != '['
-				        && text.charAt(caretPos) != '('
-				        && text.charAt(caretPos) != '{')
-					caretPos--;
-			}
-		}
-
-		// search to the left
-		curWordStart = caretPos - 1;
-		while (curWordStart >= 0 &&
-		// isLetterOrDigitOrOpenBracket so that F1 works
-		        StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(curWordStart))) {
-			--curWordStart;
-		}
-		curWordStart++;
-		// search to the right
-		int curWordEnd = caretPos;
-		int length = text.length();
-		while (curWordEnd < length
-		        && StringUtil.isLetterOrDigitOrUnderscore(text
-		                .charAt(curWordEnd)))
-			++curWordEnd;
-
-		curWord.setLength(0);
-		curWord.append(text.substring(curWordStart, curWordEnd));
-
-		// remove '[' at end
-		if (curWord.toString().endsWith("[")
-		        || curWord.toString().endsWith("(")
-		        || curWord.toString().endsWith("{")) {
-			curWord.setLength(curWord.length() - 1);
-		}
-		return curWordStart;
-	}
 
 	public List<String> getCompletions() {
-		return completions;
+		return editor.getCompletions();
 	}
 
 	@Override
@@ -599,14 +397,23 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	@Override
 	public boolean isSuggesting() {
-		// TODO Auto-generated method stub
-		return false;
+		return editor.sug.isSuggestionListShowing();
 	}
 
 	@Override
 	public void requestFocus() {
 		// TODO Auto-generated method stub
 
+	}
+
+	@Override
+	public SpanElement getLaTeXSpan() {
+		return seMayLatex;
+	}
+
+	@Override
+	public void updatePosition(ScrollableSuggestionDisplay sug) {
+		sug.setPositionRelativeTo(ihtml);
 	}
 
 }
