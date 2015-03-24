@@ -2961,6 +2961,10 @@ public abstract class AppW extends App implements SetLabels {
 		@geogebra.common.main.App::debug(Ljava/lang/String;)(dataAsJSO);
 	}-*/;
 
+	public static native void nativeConsole(JavaScriptObject object) /*-{
+		$wnd.console.log(object);
+	}-*/;
+
 	// ============================================
 	// LAYOUT & GUI UPDATES
 	// ============================================

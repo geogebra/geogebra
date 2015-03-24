@@ -73,7 +73,7 @@ public class WebsocketLogger extends SensorLogger {
 		connection.onMessage(new MessageEventHandler() {
 
 			public void message(JavaScriptObject msg) {
-				AppW.console(msg);
+				AppW.nativeConsole(msg);
 			}
 		});
 	}
