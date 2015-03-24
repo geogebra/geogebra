@@ -465,31 +465,27 @@
   -moz-user-select: text;
   user-select: text;
 }
-.mathquillggb-editable .textarea textarea,
-.mathquillggb-rendered-math .textarea textarea {
-  -webkit-user-select: text;
-  -moz-user-select: text;
-  user-select: text;
-
+.mathquillggb-editable .textarea,
+.mathquillggb-rendered-math .textarea {
   /* in order to prevent flickering when typing here: */
   /* position should be changed from absolute to fixed! */
   position: fixed;
   /* this should be invisible! */
   /* maybe z-index is not necessary, but */
   z-index: -32000;
-  /* clip is deprecated! */
-  clip: rect(1em 1em 1em 1em);
 
   /* also, to exclude every possible wrongs coming */
   /* from initial coordinates of fixed positioning: */
   /* although the following lines may be redundant: */
-  /*top:0px;
-  left: 0px;*/
+  top:0px;
+  left: 0px;
   /* why not? */
   width: 1px;
   height: 1px;
 }
 
+.mathquillggb-editable .textarea textarea,
+.mathquillggb-rendered-math .textarea textarea,
 .mathquillggb-editable .selectable,
 .mathquillggb-rendered-math .selectable {
   /* above newer hacks not applied to non-textarea */
