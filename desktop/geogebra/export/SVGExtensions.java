@@ -1,5 +1,7 @@
 package geogebra.export;
 
+import geogebra.common.kernel.Kernel;
+
 import java.awt.Dimension;
 import java.awt.geom.AffineTransform;
 import java.io.File;
@@ -30,8 +32,8 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	public SVGExtensions(File file, Dimension size, double cmWidth,
 			double cmHeight) throws IOException {
 		super(file, size);
-		this.cmWidth = cmWidth;
-		this.cmHeight = cmHeight;
+		this.cmWidth = Kernel.checkDecimalFraction(cmWidth);
+		this.cmHeight = Kernel.checkDecimalFraction(cmHeight);
 	}
 
 	public void startGroup(String s) {
