@@ -3204,7 +3204,7 @@ body.application[dir=rtl] .GeoGebraMenuBar table {
 .CAS_table_first_row_selected {
 	background-color:white;
 	position:relative;
-	z-index:20
+	z-index:20;
 }
 
 .CAS_subDialog {

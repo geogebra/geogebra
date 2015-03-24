@@ -472,6 +472,22 @@
   -webkit-user-select: text;
   -moz-user-select: text;
   user-select: text;
-  position: absolute;
+
+  /* in order to prevent flickering when typing here: */
+  /* position changed from absolute to fixed! */
+  /* this should be invisible! */
+  position: fixed;
+  /* maybe z-index is not necessary, but */
+  z-index: -1000;
+  /* clip is deprecated! */
   clip: rect(1em 1em 1em 1em);
+
+  /* also, to exclude every possible wrongs coming */
+  /* from initial coordinates of fixed positioning: */
+  /* although the following lines may be redundant: */
+  top:0px;
+  left: 0px;
+  /* why not? */
+  width: 1px;
+  height: 1px;
 }
