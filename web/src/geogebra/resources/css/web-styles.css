@@ -90,6 +90,7 @@
 .NewRadioButtonTreeItem {
 	overflow-x: scroll;
 	overflow-y: hidden;
+	direction: ltr;
 }
 
 /*hack for toolbar submenu, that is isn't hidden by 
@@ -3711,8 +3712,7 @@ body.application[dir=rtl] .imageCorner {
 	padding-right: 40px;
 }
 body.application[dir=rtl] .AutoCompleteTextFieldW.SymbolCanBeShown .TextField,
-body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField,
-body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
+body.application[dir=rtl] .GeoGebraFrame .AutoCompleteTextFieldW.SymbolCanBeShown.FromDrawTextFieldNew input[type="text"].TextField {
 	padding-right: 0px;
 	padding-left: 40px;
 }
@@ -3746,11 +3746,6 @@ body.application[dir=rtl] .NewRadioButtonTreeItem.SymbolCanBeShown .TextField {
 body.application[dir=rtl] .AutoCompleteTextFieldW .SymbolToggleButton {
 	right: auto;
 	left: 0.6em;
-}
-
-body.application[dir=rtl] .NewRadioButtonTreeItem .SymbolToggleButton {
-	right: auto;
-	left: 5px;
 }
 
 .AutoCompleteTextFieldW .SymbolToggleButton.shown,
