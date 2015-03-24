@@ -4145,7 +4145,9 @@ LatexCmds['\u2221'] = bind(VanillaSymbol, '\\\u2221 ', '&#8737;', '\u2221');
 
 var NonItalicizedFunction = P(Symbol, function(_, _super) {
   _.init = function(fn) {
-    _super.init.call(this, '\\'+fn+' ', '<span>'+fn+'</span>');
+	// fn added to the end to avoid extra space being printed,
+	// e.g. in case of "log" command
+    _super.init.call(this, '\\'+fn+' ', '<span>'+fn+'</span>', fn);
   };
   _.respace = function()
   {
@@ -4286,6 +4288,7 @@ pi: 1
   for (var fn in UnItalicizedCmds)
     LatexCmds[fn] = NonItalicizedFunction;
 }());
+
 
 /*************************************************
  * Abstract classes of text blocks
