@@ -974,11 +974,27 @@ public class DrawEquationWeb extends DrawEquation {
 				}
 			} else if (keyCode == GWTKeycodes.KEY_R) {// OK in Hungarian
 				s += Unicode.SQUARE_ROOT;
-			} else if (keyCode == GWTKeycodes.KEY_2) {// 2
+			} else if (keyCode == GWTKeycodes.KEY_2) {
 				s += Unicode.Superscript_2;
 			} else if (keyCode == GWTKeycodes.KEY_3 && !Hungarian) {
 				// in the Hungarian case Alt-3 triggers one "^"
 				s += Unicode.Superscript_3;
+			} else if (keyCode == GWTKeycodes.KEY_4) {
+				s += Unicode.Superscript_4;
+			} else if (keyCode == GWTKeycodes.KEY_5) {
+				s += Unicode.Superscript_5;
+			} else if (keyCode == GWTKeycodes.KEY_6) {
+				s += Unicode.Superscript_6;
+			} else if (keyCode == GWTKeycodes.KEY_7) {
+				s += Unicode.Superscript_7;
+			} else if (keyCode == GWTKeycodes.KEY_8) {
+				s += Unicode.Superscript_8;
+			} else if (keyCode == GWTKeycodes.KEY_9) {
+				s += Unicode.Superscript_9;
+			} else if (keyCode == GWTKeycodes.KEY_0) {
+				s += Unicode.Superscript_0;
+			} else if (keyCode == GWTKeycodes.KEY_MINUS) {
+				s += Unicode.Superscript_Minus;
 			} else {
 				return false;
 			}
