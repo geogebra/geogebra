@@ -22,6 +22,7 @@ public class GLookAndFeel implements GLookAndFeelI{
 	public static final int BROWSE_HEADER_HEIGHT = 61;
 	public static final int PROVIDER_PANEL_WIDTH = 70;
 	public static final int TOOLBAR_OFFSET = 61;
+	public static final int VIEW_ICON_SIZE = 20;
 	private HandlerRegistration windowClosingHandler;
 	private HandlerRegistration windowCloseHandler;
 	

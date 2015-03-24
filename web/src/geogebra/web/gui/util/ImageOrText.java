@@ -130,4 +130,8 @@ public class ImageOrText {
 	public String getText() {
 		return this.text;
 	}
+
+	public void setBgSize(int size) {
+		this.bgSize = size;
+	}
 }

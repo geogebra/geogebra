@@ -8,6 +8,7 @@ import geogebra.html5.main.AppW;
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.app.GGWToolBar;
 import geogebra.web.gui.images.AppResources;
+import geogebra.web.gui.laf.GLookAndFeel;
 import geogebra.web.gui.view.Views;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -107,6 +108,7 @@ public abstract class StyleBarW extends HorizontalPanel implements
 			        && !app.getGuiManager().showView(Views.ids[i])) {
 				data[k] = new ImageOrText(app.getPlain(Views.keys[i]));
 				data[k].setUrl(GGWToolBar.safeURI(Views.menuIcons[i]));
+				data[k].setBgSize(GLookAndFeel.VIEW_ICON_SIZE);
 				viewIDs[k] = Views.ids[i];
 				k++;
 			}
