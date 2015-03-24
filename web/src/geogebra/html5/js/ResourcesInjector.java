@@ -21,12 +21,15 @@ public class ResourcesInjector {
 	 * resource class name
 	 */
 	public static String CLASSNAME = "ggw_resource";
+	private static boolean resourcesInjected = false;
 
 	/**
-	 * @param lafName
-	 *            name of the look and feel ("standard", "modern", "smart")
 	 */
 	public static void injectResources() {
+		if (resourcesInjected) {
+			return;
+		}
+		resourcesInjected = true;
 		// always need English properties available, eg Function.sin
 		JavaScriptInjector.inject(GuiResourcesSimple.INSTANCE
 		        .propertiesKeysJS());
@@ -74,6 +77,7 @@ public class ResourcesInjector {
 	 * removes the added resources
 	 */
 	public static void removeResources() {
+		resourcesInjected = false;
 		// this list is live
 		NodeList<Element> resources = Dom.getElementsByClassName(CLASSNAME);
 		while (resources.getLength() > 0) {
