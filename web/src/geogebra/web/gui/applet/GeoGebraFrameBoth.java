@@ -39,6 +39,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		this.factory = factory;
 	}
 
+	@Override
 	protected AppW createApplication(ArticleElement ae,
 	        GLookAndFeelI laf) {
 		AppW app = factory.getApplet(ae, this, laf);
@@ -81,10 +82,12 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		GeoGebraFrame.renderArticleElementWithFrame(el, new GeoGebraFrameBoth(factory, laf), clb);
 	}
 	
+	@Override
 	public Object getGlassPane(){
 		return this.glass;
 	}
 	
+	@Override
 	public void attachGlass(){
 		if(this.glass!=null){
 			this.add(glass);
@@ -234,7 +237,7 @@ public class GeoGebraFrameBoth extends GeoGebraFrame implements
 		}
 	}
 
-	public void showKeyBoard(boolean show, Widget textField) {
+	public void showKeyBoard(boolean show, Widget textField, boolean forceShow) {
 		keyBoardNeeded(show, textField);
 	}
 

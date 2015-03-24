@@ -3116,24 +3116,36 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	/**
-	 * Overwritten in subclass
+	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
 	 */
 	public void showKeyboard(@SuppressWarnings("unused") Widget textField) {
-		// nothing to do here
+		// Overwritten in subclass - nothing to do here
 	}
 
 	/**
-	 * Overwritten in subclass
+	 * shows the on-screen keyboard (or e.g. a show-keyboard-button)
+	 */
+	public void showKeyboard(@SuppressWarnings("unused") Widget textField,
+			@SuppressWarnings("unused") boolean forceShow) {
+		// Overwritten in subclass - nothing to do here
+	}
+
+	/**
+	 * update the on-screen keyboard
+	 * 
+	 * @param field
+	 *            after the update the input of the keyboard is written into
+	 *            this field
 	 */
 	public void updateKeyBoardField(@SuppressWarnings("unused") Widget field) {
-		// nothing to do here
+		// Overwritten in subclass - nothing to do here
 	}
 
 	/**
-	 * Overwritten in subclass
+	 * hide the on-screen keyboard (if it is visible)
 	 */
 	public void hideKeyboard() {
-		// nothing to do here
+		// Overwritten in subclass - nothing to do here
 	}
 
 	public boolean isOffline() {

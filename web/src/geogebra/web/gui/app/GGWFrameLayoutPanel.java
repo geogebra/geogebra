@@ -155,7 +155,7 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	 * {@link OnScreenKeyBoard}.
 	 * 
 	 * @param show
-	 *            whether to show keyboard
+	 *            whether to show the keyboard
 	 * @param textField
 	 *            text field receiving the text from keyboard
 	 */
@@ -188,9 +188,11 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 				showKeyboardButton.hide();
 			}
 		} else {
-			if (app.isPrerelease()) {
-				showKeyboardButton(true, textField != null ? textField
-						: getCommandLine());
+			if (app.isPrerelease() && app.getAlgebraView() != null) {
+				showKeyboardButton(
+						true,
+						textField != null ? textField : ((AlgebraViewWeb) app
+								.getAlgebraView()).getInputTreeItem());
 			}
 			keyBoard.resetKeyboardState();
 		}

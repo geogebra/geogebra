@@ -43,7 +43,7 @@ public abstract class GeoGebraFrame extends FlowPanel implements
 	public static LoadFilePresenter fileLoader = new LoadFilePresenter();
 
 	/** The application */
-	protected AppW app;
+	public AppW app;
 
 	private boolean resize = false;
 	private boolean move = false;

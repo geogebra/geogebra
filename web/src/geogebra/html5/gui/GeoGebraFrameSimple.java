@@ -65,8 +65,7 @@ public class GeoGebraFrameSimple extends GeoGebraFrame {
 	}
 
 	@Override
-	public void showKeyBoard(boolean b, Widget textField) {
+	public void showKeyBoard(boolean b, Widget textField, boolean forceShow) {
 		// no keyboard either
-
 	}
 }

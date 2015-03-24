@@ -43,7 +43,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 	protected final Kernel kernel;
 	private AnimationScheduler repaintScheduler = AnimationScheduler.get();
 	protected AlgebraInputW inputPanel;
-	protected RadioButtonTreeItem inputPanelLatex;
+	RadioButtonTreeItem inputPanelLatex;
 
 	private AnimationScheduler.AnimationCallback repaintCallback = new AnimationScheduler.AnimationCallback() {
 		public void execute(double ts) {
@@ -1028,6 +1028,13 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 
 	protected TreeItem inputPanelTreeItem;
 
+	/**
+	 * @return the RadioButtonTreeItem containing the input-box
+	 */
+	public RadioButtonTreeItem getInputTreeItem() {
+		return inputPanelLatex;
+	}
+
 	public void setInputPanel(final AlgebraInputW inputPanel){
 		this.inputPanel = inputPanel;
 		if (app.isPrerelease()) {
@@ -1090,7 +1097,7 @@ public abstract class AlgebraViewWeb extends Tree implements LayerView,
 					Scheduler.get().scheduleDeferred(
 							new Scheduler.ScheduledCommand() {
 								public void execute() {
-									app.showKeyboard(inputPanelLatex);
+									app.showKeyboard(inputPanelLatex, true);
 								}
 							});
 				}

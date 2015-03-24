@@ -16,7 +16,15 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void showKeyboard(Widget textField) {
-		getAppletFrame().showKeyBoard(true, textField);
+		getAppletFrame().showKeyBoard(true, textField, false);
+		if (textField != null) {
+			CancelEventTimer.keyboardSetVisible();
+		}
+	}
+
+	@Override
+	public void showKeyboard(Widget textField, boolean forceShow) {
+		getAppletFrame().showKeyBoard(true, textField, forceShow);
 		if (textField != null) {
 			CancelEventTimer.keyboardSetVisible();
 		}
@@ -29,6 +37,6 @@ public abstract class AppWFull extends AppW {
 
 	@Override
 	public void hideKeyboard() {
-		getAppletFrame().showKeyBoard(false, null);
+		getAppletFrame().showKeyBoard(false, null, false);
 	}
 }

@@ -366,8 +366,13 @@ public class GeoGebraAppFrame extends ResizeComposite implements
 	   this.frameLayout.setMenuHeight(showAlgebraInput);
     }
 	
-	public void showKeyBoard(boolean show, Widget textField) {
-		this.frameLayout.keyBoardNeeded(show, textField);
+	@Override
+	public void showKeyBoard(boolean show, Widget textField, boolean forceShow) {
+		if (forceShow) {
+			this.frameLayout.doShowKeyBoard(show, textField);
+		} else {
+			this.frameLayout.keyBoardNeeded(show, textField);
+		}
 	}
 
 	@Override

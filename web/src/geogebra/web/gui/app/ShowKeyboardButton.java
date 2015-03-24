@@ -2,7 +2,6 @@ package geogebra.web.gui.app;
 
 import geogebra.web.css.GuiResources;
 import geogebra.web.gui.NoDragImage;
-import geogebra.web.util.keyboard.OnScreenKeyBoard;
 import geogebra.web.util.keyboard.UpdateKeyBoardListener;
 
 import com.google.gwt.dom.client.Element;

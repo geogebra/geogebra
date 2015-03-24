@@ -86,5 +86,5 @@ public interface HasAppletProperties {
 
 	public JavaScriptObject getOnLoadCallback();
 
-	public void showKeyBoard(boolean b, Widget textField);
+	public void showKeyBoard(boolean b, Widget textField, boolean forceShow);
 }
