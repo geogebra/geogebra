@@ -528,6 +528,22 @@ public class ScriptManagerW extends ScriptManager {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::unregisterObjectUpdateListener(Ljava/lang/String;)(JSFunctionName);
 		};
 
+		api.registerObjectClickListener = function(objname, JSFunctionName) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::registerObjectClickListener(Ljava/lang/String;Ljava/lang/String;)(objname, JSFunctionName);
+		};
+
+		api.unregisterObjectClickListener = function(objname) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::unregisterObjectClickListener(Ljava/lang/String;)(objname);
+		};
+
+		api.registerClickListener = function(JSFunctionName) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::registerClickListener(Ljava/lang/String;)(JSFunctionName);
+		};
+
+		api.unregisterClickListener = function(JSFunctionName) {
+			ggbAPI.@geogebra.html5.main.GgbAPIW::unregisterClickListener(Ljava/lang/String;)(JSFunctionName);
+		};
+
 		api.undo = function(repaint) {
 			ggbAPI.@geogebra.html5.main.GgbAPIW::undo(Z)(repaint == true);
 		};
