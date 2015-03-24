@@ -25,6 +25,8 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 	private double cmWidth;
 	private double cmHeight;
 
+	private AffineTransform identity = new AffineTransform();
+
 	public SVGExtensions(File file, Dimension size, double cmWidth,
 			double cmHeight) throws IOException {
 		super(file, size);
@@ -38,11 +40,6 @@ public class SVGExtensions extends org.freehep.graphicsio.svg.SVGGraphics2D {
 
 	public void endGroup(String s) {
 		os.println("</g><!-- " + s + " -->");
-	}
-
-	@Override
-	public AffineTransform getTransform() {
-		return null;
 	}
 
 	protected void writeSize(PrintWriter os) {

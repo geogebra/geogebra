@@ -12,6 +12,7 @@ the Free Software Foundation.
 
 package geogebra.export;
 
+import geogebra.awt.GGraphics2DD;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.euclidian.EuclidianView;
 import geogebra.common.kernel.Kernel;
@@ -864,11 +865,14 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			app.exporting = true;
 
 			g.startExport();
-			ev.exportPaintPre(new geogebra.awt.GGraphics2DD(g), exportScale,
-					transparent0);
+			// export scale = 1 (change for SVG export in cm)
+			// and avoid lots of these in the file
+			// <g
+			// transform="matrix(.56693, 0.0000, 0.0000, .56693, 0.0000, 0.0000)">
+			ev.exportPaintPre(new GGraphics2DD(g), 1, transparent0);
 
 			g.startGroup("misc");
-			ev.drawActionObjects(new geogebra.awt.GGraphics2DD(g));
+			ev.drawActionObjects(new GGraphics2DD(g));
 			g.endGroup("misc");
 
 			for (int layer = 0; layer <= app.getMaxLayerUsed(); layer++) // draw
@@ -878,7 +882,7 @@ public class GraphicExportDialog extends JDialog implements KeyListener {
 			// need
 			{
 				g.startGroup("layer" + layer);
-				ev.drawLayers[layer].drawAll(new geogebra.awt.GGraphics2DD(g));
+				ev.drawLayers[layer].drawAll(new GGraphics2DD(g));
 				g.endGroup("layer" + layer);
 			}
 
