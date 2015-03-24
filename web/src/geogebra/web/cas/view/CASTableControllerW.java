@@ -2,6 +2,7 @@ package geogebra.web.cas.view;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTableCellController;
+import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.euclidian.event.KeyEvent;
 import geogebra.common.euclidian.event.KeyHandler;
 import geogebra.common.kernel.StringTemplate;
@@ -263,7 +264,7 @@ public class CASTableControllerW extends CASTableCellController implements
 			App.debug("No row is being edited.");
 			return;
 		}
-		CASTableCellEditorW editor = table.getEditor();
+		CASTableCellEditor editor = table.getEditor();
 		String text = editor.getInput();
 		// if closing paranthesis is typed and there is no opening parenthesis
 		// for it
@@ -311,8 +312,8 @@ public class CASTableControllerW extends CASTableCellController implements
 	}
 
 	public void onBlur(BlurEvent event) {
-		CASTableCellEditorW editor = view.getConsoleTable().getEditor();
-		if (!editor.getWidget().isSuggesting()
+		CASTableCellEditor editor = view.getConsoleTable().getEditor();
+		if (!((CASEditorW) editor).getWidget().isSuggesting()
 		        && !AutoCompleteTextFieldW.showSymbolButtonFocused) {
 			view.getConsoleTable().stopEditing();
 			view.getConsoleTable().setFirstRowFront(false);

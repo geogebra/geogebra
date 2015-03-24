@@ -8,13 +8,13 @@ import geogebra.html5.main.AppW;
 import com.google.gwt.event.dom.client.KeyPressEvent;
 import com.google.gwt.event.dom.client.KeyPressHandler;
 
-public class CASTableCellEditorW implements CASTableCellEditor, CASEditorW {
+public class NewCASTableCellEditorW implements CASTableCellEditor, CASEditorW {
 
 	private AutoCompleteTextFieldW textField;
 	private CASTableW table;
 	private AppW app;
 
-	public CASTableCellEditorW(CASTableW table, AppW app,
+	public NewCASTableCellEditorW(CASTableW table, AppW app,
 	        final CASTableControllerW ml) {
 		this.app = app;
 		this.table = table;

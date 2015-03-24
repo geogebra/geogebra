@@ -2,6 +2,7 @@ package geogebra.web.cas.view;
 
 import geogebra.common.awt.GPoint;
 import geogebra.common.cas.view.CASTable;
+import geogebra.common.cas.view.CASTableCellEditor;
 import geogebra.common.kernel.geos.GeoCasCell;
 import geogebra.common.main.App;
 import geogebra.html5.main.AppW;
@@ -23,7 +24,7 @@ public class CASTableW extends Grid implements CASTable {
 
 	public static final int COL_CAS_CELLS_WEB = 1;
 	public static final int COL_CAS_HEADER = 0;
-	private CASTableCellEditorW editor;
+	private CASTableCellEditor editor;
 	private CASTableCellW editing;
 	private AppW app;
 	private int[] selectedRows = new int[0];
@@ -135,7 +136,7 @@ public class CASTableW extends Grid implements CASTable {
 		stopEditing();
 		if (w instanceof CASTableCellW) {
 			editing = (CASTableCellW) w;
-			editing.startEditing(getEditor().getWidget());
+			editing.startEditing(((CASEditorW) getEditor()).getWidget());
 		}
 
 	}
@@ -145,9 +146,10 @@ public class CASTableW extends Grid implements CASTable {
 			editing.setInput();
 	}
 
-	public CASTableCellEditorW getEditor() {
+	public CASTableCellEditor getEditor() {
 		if (editor == null) {
-			editor = new CASTableCellEditorW(this, app, ml);
+			editor = app.isPrerelease() ? new NewCASTableCellEditorW(this, app,
+			        ml) : new CASTableCellEditorW(this, app, ml);
 		}
 		return editor;
 	}

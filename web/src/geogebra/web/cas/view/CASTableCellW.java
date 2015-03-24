@@ -4,7 +4,7 @@ import geogebra.common.awt.GColor;
 import geogebra.common.awt.GFont;
 import geogebra.common.kernel.StringTemplate;
 import geogebra.common.kernel.geos.GeoCasCell;
-import geogebra.html5.gui.inputfield.AutoCompleteTextFieldW;
+import geogebra.html5.gui.inputfield.AutoCompleteW;
 import geogebra.html5.main.DrawEquationWeb;
 
 import com.google.gwt.dom.client.SpanElement;
@@ -25,7 +25,7 @@ public class CASTableCellW extends VerticalPanel {
 	private Label inputPanel;
 	private FlowPanel outputPanel;
 	private String textBeforeEdit;
-	private AutoCompleteTextFieldW textField;
+	private AutoCompleteW textField;
 	private String outputText;
 
 	/**
@@ -87,7 +87,7 @@ public class CASTableCellW extends VerticalPanel {
 	 * @param editor
 	 *            field for editing
 	 */
-	public void startEditing(AutoCompleteTextFieldW editor) {
+	public void startEditing(AutoCompleteW editor) {
 		clear();
 		add(editor);
 		textField = editor;

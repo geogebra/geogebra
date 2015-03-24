@@ -3,7 +3,9 @@ package geogebra.html5.gui.inputfield;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface AutoCompleteW {
+import com.google.gwt.user.client.ui.IsWidget;
+
+public interface AutoCompleteW extends IsWidget {
 	public boolean getAutoComplete();
 
 	public List<String> resetCompletions();
@@ -25,4 +27,8 @@ public interface AutoCompleteW {
 	public int getAbsoluteLeft();
 
 	public int getAbsoluteTop();
+
+	public boolean isSuggesting();
+
+	public void requestFocus();
 }

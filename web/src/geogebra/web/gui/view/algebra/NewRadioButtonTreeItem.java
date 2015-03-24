@@ -683,4 +683,16 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		historyMap.put(str, latex);
 	}
 
+	@Override
+	public boolean isSuggesting() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void requestFocus() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
