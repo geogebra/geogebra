@@ -174,7 +174,7 @@ public abstract class CommandDispatcher {
 
 			if (cmdProc == null) {
 				cmdProc = commandTableSwitch(cmdName);
-				if (cmdProc != null && !cmdName.equals("Repeat")) {
+				if (cmdProc != null) {
 					cmdTable.put(cmdName, cmdProc);
 				}
 			}
@@ -334,7 +334,6 @@ public abstract class CommandDispatcher {
 			case StartRecord:
 			case SetPerspective:
 			case Delete:
-			case Repeat:
 			case Slider:
 			case Checkbox:
 			case InputBox:
@@ -613,7 +612,8 @@ public abstract class CommandDispatcher {
 			case FormulaText:
 			case LaTeX:
 				return getBasicDispatcher().dispatch(command, kernel);
-
+			case Normalize:
+				return new CmdNormalize(kernel);
 			case CFactor:
 			case CIFactor:
 			case CSolutions:
