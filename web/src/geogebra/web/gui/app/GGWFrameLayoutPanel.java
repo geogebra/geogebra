@@ -124,6 +124,20 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 		}
 
 		onResize();
+
+		Timer timer = new Timer() {
+			@Override
+			public void run() {
+				// show the keyboard button
+				if (app.isPrerelease() && app.getAlgebraView() != null) {
+					showKeyboardButton(true,
+							((AlgebraViewWeb) app.getAlgebraView())
+									.getInputTreeItem());
+				}
+			}
+		};
+		timer.schedule(0);
+
 	}
 
 	/**
@@ -162,7 +176,9 @@ public class GGWFrameLayoutPanel extends LayoutPanel implements
 	public void showKeyboardButton(boolean show, final Widget textField) {
 		if (showKeyboardButton == null) {
 			showKeyboardButton = new ShowKeyboardButton(this, textField,
-			        this.getElement());
+					((Widget) guiManagerW.getLayout().getDockManager()
+							.getPanel(App.VIEW_ALGEBRA)).getElement()
+			);
 		}
 		showKeyboardButton.show(show, textField);
 	}
