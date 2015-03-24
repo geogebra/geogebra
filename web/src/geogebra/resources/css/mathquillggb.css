@@ -474,20 +474,23 @@
   user-select: text;
 
   /* in order to prevent flickering when typing here: */
-  /* position changed from absolute to fixed! */
+  /* position should be changed from absolute to fixed! */
+  /* but it would make things wrong in IE... */
+  position: absolute;
   /* this should be invisible! */
-  position: fixed;
   /* maybe z-index is not necessary, but */
-  z-index: -1000;
+  /* ... or does z-index make things wrong on IE? */
+  /*z-index: -32000;*/
   /* clip is deprecated! */
   clip: rect(1em 1em 1em 1em);
 
+  /* these things might go with fixed positioning */
   /* also, to exclude every possible wrongs coming */
   /* from initial coordinates of fixed positioning: */
   /* although the following lines may be redundant: */
-  top:0px;
-  left: 0px;
+  /*top:0px;
+  left: 0px;*/
   /* why not? */
-  width: 1px;
-  height: 1px;
+  /*width: 1px;
+  height: 1px;*/
 }
