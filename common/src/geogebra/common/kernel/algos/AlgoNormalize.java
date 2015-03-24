@@ -75,8 +75,7 @@ public class AlgoNormalize extends AlgoElement {
 				NumberValue num = (NumberValue) geo;
 				double n = num.getDouble();
 				double normnum = (n - nF) / (nL - nF);
-				normValue.setValue(normnum);
-				normList.add(normValue);
+				normList.add(new GeoNumeric(cons, normnum));
 
 			} else {
 				normList.setUndefined();
