@@ -1452,7 +1452,9 @@ public class DrawEquationWeb extends DrawEquation {
 			} else if (parentElement.getAbsoluteRight()
 			        - joel.getAbsoluteRight() < 50) {
 				// NewRadioButtonTreeItem class in theory
-				rbti.getElement().setScrollLeft(Integer.MAX_VALUE);
+				rbti.getElement().setScrollLeft(
+				        rbti.getElement().getScrollWidth()
+				                - rbti.getElement().getClientWidth());
 			} else if (joel.getAbsoluteLeft()
 			        - rbti.getElement().getAbsoluteLeft() < 50) {
 				// we cannot show the "X" sign all the time anyway!
