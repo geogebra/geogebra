@@ -2762,4 +2762,12 @@ public class NoExceptionsTest {
 		t("StartRecord[false]");
 		t("StartRecord[true]");
 	}
+	
+	@Test
+	public void cmdNormalize(){
+		t("Normalize[ listOfNumbers ]");
+		t("Normalize[ listOfPoints ]");
+	}
+	
+	
 }
