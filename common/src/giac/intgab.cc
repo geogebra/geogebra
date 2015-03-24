@@ -913,6 +913,7 @@ namespace giac {
 	  if (derive(base,x,contextptr)==0){
 	    g0mult=pow(base,expo,contextptr);
 	    g0_=symbolic(at_pow,makesequence(x-a,na*expo))*symbolic(at_pow,makesequence(b-x,nb*expo));
+	    nb=0;
 	  }
 	  if (nb==1 && !na){
 	    base=g0_._VECTptr->front();
