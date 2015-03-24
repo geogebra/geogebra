@@ -12,7 +12,7 @@ public interface GeoGebraConstants {
 	/** last build date */
 	public static final String BUILD_DATE = "23 March 2015";
 	/** complete version string */
-	public static final String VERSION_STRING = "5.0.79.0";
+	public static final String VERSION_STRING = "5.0.80.0";
 
 	/** true for beta versions/release candidates */
 	public static final boolean IS_PRE_RELEASE = false;// VERSION_STRING.startsWith(XML_FILE_FORMAT);
