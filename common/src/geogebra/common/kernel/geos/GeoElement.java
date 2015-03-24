@@ -1309,6 +1309,7 @@ public abstract class GeoElement extends ConstructionElement implements
 		case POLYLINE:
 			return 51;
 		case IMPLICIT_POLY:
+		case IMPLICIT_CURVE:
 			return 60;
 		case CONIC:
 		case CONICPART:

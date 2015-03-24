@@ -1872,10 +1872,10 @@ public abstract class AppW extends App implements SetLabels {
 	}
 
 	// methods used just from AppWapplet
-	public void focusLost() {
+	public void focusLost(geogebra.common.kernel.View w) {
 	}
 
-	public void focusGained() {
+	public void focusGained(geogebra.common.kernel.View w) {
 	}
 
 	public void setCustomToolBar() {
@@ -3227,4 +3227,8 @@ public abstract class AppW extends App implements SetLabels {
 		}
 
 	}-*/;
+
+	public void showStartTooltip() {
+		// probably needed in full version only
+	}
 }

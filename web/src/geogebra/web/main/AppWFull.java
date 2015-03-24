@@ -1,6 +1,9 @@
 package geogebra.web.main;
 
+import geogebra.common.GeoGebraConstants;
 import geogebra.html5.gui.laf.GLookAndFeelI;
+import geogebra.html5.gui.tooltip.ToolTipManagerW;
+import geogebra.html5.gui.tooltip.ToolTipManagerW.ToolTipLinkType;
 import geogebra.html5.gui.util.CancelEventTimer;
 import geogebra.html5.main.AppW;
 import geogebra.html5.util.ArticleElement;
@@ -38,5 +41,16 @@ public abstract class AppWFull extends AppW {
 	@Override
 	public void hideKeyboard() {
 		getAppletFrame().showKeyBoard(false, null, false);
+	}
+
+	public void showStartTooltip() {
+		if (articleElement.getDataParamShowStartTooltip()) {
+			ToolTipManagerW.sharedInstance().setBlockToolTip(false);
+			ToolTipManagerW.sharedInstance().showBottomInfoToolTip(
+			        "Welcome to GeoGebra<br/>Click ? for tutorials.",
+			        GeoGebraConstants.QUICKSTART_URL, ToolTipLinkType.Help,
+			        this);
+			ToolTipManagerW.sharedInstance().setBlockToolTip(true);
+		}
 	}
 }

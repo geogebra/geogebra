@@ -379,6 +379,7 @@ public class AlgebraViewW extends AlgebraViewWeb implements SettingListener {
 		case Event.ONMOUSEDOWN:
 		case Event.ONTOUCHSTART:
 			app.closePopups();
+			app.focusGained(AlgebraViewW.this);
 		}
 		if (!editing && (this.inputPanel == null || !this.inputPanel.hasFocus())){
 			super.onBrowserEvent(event);

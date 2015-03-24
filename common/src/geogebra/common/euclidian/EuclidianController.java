@@ -5353,10 +5353,10 @@ public abstract class EuclidianController {
 
 			AsyncOperation callback2 = new AsyncOperation() {
 				@Override
-				public void callback(Object ret) {
+				public void callback(Object arg) {
 					memorizeJustCreatedGeosAfterProcessMode(null);
 					if (callback != null)
-						callback.callback(ret);
+						callback.callback(arg);
 				}
 			};
 
@@ -5558,6 +5558,9 @@ public abstract class EuclidianController {
 	/**
 	 * right-release the mouse makes stop 3D rotation
 	 * 
+	 * @param type
+	 *            event type
+	 * 
 	 * @return false
 	 */
 	protected boolean processRightReleaseFor3D(PointerEventType type) {
@@ -5744,10 +5747,10 @@ public abstract class EuclidianController {
 			double vX = movedGeoConic.b.getX();
 			double vY = movedGeoConic.b.getY();
 
-			int index = movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA ? 0
+			int eigenvecIndex = movedGeoConic.getType() == GeoConicNDConstants.CONIC_PARABOLA ? 0
 					: 1;
-			double c = movedGeoConic.getEigenvec(index).getX();
-			double s = movedGeoConic.getEigenvec(index).getY();
+			double c = movedGeoConic.getEigenvec(eigenvecIndex).getX();
+			double s = movedGeoConic.getEigenvec(eigenvecIndex).getY();
 
 			double coeff;
 			double dx = xRW - vX;
@@ -6625,6 +6628,12 @@ public abstract class EuclidianController {
 	}
 
 	/**
+	 * @param x
+	 *            mouse x
+	 * @param y
+	 *            mouse y
+	 * @param type
+	 *            event type
 	 * @param gPoint
 	 *            point
 	 */
@@ -8137,6 +8146,11 @@ public abstract class EuclidianController {
 
 	/**
 	 * set translate start infos
+	 * 
+	 * @param geo
+	 *            needed in 3D
+	 * @param vec
+	 *            needed in 3D
 	 */
 	protected void setTranslateStart(GeoElement geo, GeoVectorND vec) {
 		transformCoordsOffset[0] = xRW;
@@ -9092,8 +9106,8 @@ public abstract class EuclidianController {
 			AsyncOperation callback = new AsyncOperation() {
 
 				@Override
-				public void callback(Object changedKernel) {
-					if (changedKernel.equals(true)) {
+				public void callback(Object arg) {
+					if (arg.equals(true)) {
 						app.storeUndoInfo();
 					}
 					endOfWrapMouseReleased(hits2, event);
@@ -9109,7 +9123,7 @@ public abstract class EuclidianController {
 
 	}
 
-	private boolean modeCreatesHelperPoints(int mode2) {
+	private static boolean modeCreatesHelperPoints(int mode2) {
 		switch (mode2) {
 		case EuclidianConstants.MODE_SEGMENT:
 		case EuclidianConstants.MODE_SEGMENT_FIXED:
@@ -9336,7 +9350,7 @@ public abstract class EuclidianController {
 		boolean allowMouseWheel = !app.isApplet()
 				|| (mode == EuclidianConstants.MODE_ZOOM_IN)
 				|| (mode == EuclidianConstants.MODE_ZOOM_OUT)
-				|| (app.isShiftDragZoomEnabled() && shiftOrMeta);
+				|| (app.isShiftDragZoomEnabled() && app.hasFocus() || shiftOrMeta);
 		if (!allowMouseWheel) {
 			return;
 		}

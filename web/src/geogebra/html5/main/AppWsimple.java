@@ -1,6 +1,7 @@
 package geogebra.html5.main;
 
 import geogebra.common.GeoGebraConstants;
+import geogebra.common.kernel.View;
 import geogebra.common.util.debug.GeoGebraProfiler;
 import geogebra.common.util.debug.Log;
 import geogebra.html5.Browser;
@@ -116,15 +117,18 @@ public class AppWsimple extends AppW {
 		GeoGebraProfiler.getInstance().profileEnd();
 	}
 
+	private boolean hasFocus = false;
 	@Override
-	public void focusLost() {
+	public void focusLost(View v) {
+		hasFocus = true;
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
 		this.getGlobalKeyDispatcher().InFocus = false;
 	}
 
 	@Override
-	public void focusGained() {
+	public void focusGained(View v) {
+		hasFocus = true;
 		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
 	}
 

@@ -203,7 +203,8 @@ public class LoadFilePresenter {
 			// }
 		}
 		app.updateToolBar();
-		app.focusLost();
+		app.focusLost(null);
+		app.showStartTooltip();
 	}
 
 	private boolean isReloadDataInStorage() {

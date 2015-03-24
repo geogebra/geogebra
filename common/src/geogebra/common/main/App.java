@@ -3627,4 +3627,8 @@ public abstract class App implements UpdateSelection {
 		return 2d;
 	}
 
+	public boolean hasFocus() {
+		return true;
+	}
+
 }

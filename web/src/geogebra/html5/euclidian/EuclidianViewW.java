@@ -802,14 +802,14 @@ public class EuclidianViewW extends EuclidianView implements
 	public void focusLost() {
 		if (isInFocus) {
 			this.isInFocus = false;
-			this.app.focusLost();
+			this.app.focusLost(this);
 		}
 	}
 
 	public void focusGained() {
 		if (!isInFocus && !App.isFullAppGui()) {
 			this.isInFocus = true;
-			this.app.focusGained();
+			this.app.focusGained(this);
 		}
 	}
 

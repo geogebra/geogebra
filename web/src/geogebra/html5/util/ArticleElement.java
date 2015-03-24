@@ -507,4 +507,8 @@ public final class ArticleElement extends Element {
 		return "true".equals(getAttribute("data-param-nocas"));
 	}
 
+	public boolean getDataParamShowStartTooltip() {
+		return "true".equals(getAttribute("data-param-showTutorialLink"));
+	}
+
 }

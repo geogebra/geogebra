@@ -7,6 +7,7 @@ import geogebra.common.io.layout.DockPanelData;
 import geogebra.common.io.layout.Perspective;
 import geogebra.common.io.layout.PerspectiveDecoder;
 import geogebra.common.javax.swing.GOptionPane;
+import geogebra.common.kernel.View;
 import geogebra.common.main.App;
 import geogebra.common.main.DialogManager;
 import geogebra.common.util.debug.GeoGebraProfiler;
@@ -390,17 +391,30 @@ public class AppWapplet extends AppWFull {
  frame);
 		GeoGebraProfiler.getInstance().profileEnd();
 		onOpenFile();
+		App.debug("Tutorial: " + articleElement.getDataParamShowStartTooltip());
+		showStartTooltip();
 	}
 
+	private View focusedView;
 	@Override
-	public void focusLost() {
+	public void focusLost(View v) {
+		if (v != focusedView) {
+			return;
+		}
+		focusedView = null;
 		GeoGebraFrame.useDataParamBorder(getArticleElement(),
  frame);
 	}
 
 	@Override
-	public void focusGained() {
+	public void focusGained(View v) {
+		focusedView = v;
 		GeoGebraFrame.useFocusedBorder(getArticleElement(), frame);
+	}
+
+	@Override
+	public boolean hasFocus() {
+		return focusedView != null;
 	}
 
 	@Override
