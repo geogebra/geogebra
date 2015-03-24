@@ -12,6 +12,7 @@ import geogebra.common.kernel.geos.GeoElement;
 import geogebra.common.kernel.geos.GeoText;
 import geogebra.common.kernel.geos.TextProperties;
 import geogebra.common.main.App;
+import geogebra.common.main.GWTKeycodes;
 import geogebra.common.util.AsyncOperation;
 import geogebra.common.util.Language;
 import geogebra.common.util.Unicode;
@@ -947,48 +948,54 @@ public class DrawEquationWeb extends DrawEquation {
 
 			String s = "";
 
-			if (keyCode == 79) {// (c == 'o' || c == 'O')
+			if (keyCode == GWTKeycodes.KEY_O) {
 				s += Unicode.degree;
-			} else if (keyCode == 80) {// (c == 'p' || c == 'P')
+			} else if (keyCode == GWTKeycodes.KEY_P) {
 				if (shiftDown) {
 					s += Unicode.Pi;
 				} else {
 					s += Unicode.pi;
 				}
-			} else if (keyCode == 73) {// (c == 'i' || c == 'I')
+			} else if (keyCode == GWTKeycodes.KEY_I) {
 				s += Unicode.IMAGINARY;
-			} else if (keyCode == 65) {
+			} else if (keyCode == GWTKeycodes.KEY_A) {
 				// A, OK in Hungarian, although invisibly ä
 				if (shiftDown) {
 					s += Unicode.Alpha;
 				} else {
 					s += Unicode.alpha;
 				}
-			} else if (keyCode == 66 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_B && !Hungarian) {
 				// B, not OK in Hungarian
 				if (shiftDown) {
 					s += Unicode.Beta;
 				} else {
 					s += Unicode.beta;
 				}
-			} else if (keyCode == 71 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_G && !Hungarian) {
 				// G, not OK in Hungarian
 				if (shiftDown) {
 					s += Unicode.Gamma;
 				} else {
 					s += Unicode.gamma;
 				}
-			} else if (keyCode == 85 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_T) {
+				if (shiftDown) {
+					s += Unicode.Theta;
+				} else {
+					s += Unicode.theta;
+				}
+			} else if (keyCode == GWTKeycodes.KEY_U && !Hungarian) {
 				// U, euro sign is shown on HU
 				s += Unicode.Infinity;
-			} else if (keyCode == 76 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_L && !Hungarian) {
 				// L, Ł sign is shown on HU
 				if (shiftDown) {
 					s += Unicode.Lambda;
 				} else {
 					s += Unicode.lambda;
 				}
-			} else if (keyCode == 77 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_M && !Hungarian) {
 				// M: Although Alt-Í the same as Alt-M,
 				// not sure Í is present on all kinds of Hungarian keyboard
 				if (shiftDown) {
@@ -996,20 +1003,20 @@ public class DrawEquationWeb extends DrawEquation {
 				} else {
 					s += Unicode.mu;
 				}
-			} else if (keyCode == 87 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_W && !Hungarian) {
 				// Alt-W is | needed for abs()
 				if (shiftDown) {
 					s += Unicode.Omega;
 				} else {
 					s += Unicode.omega;
 				}
-			} else if (keyCode == 82) {// OK in Hungarian
+			} else if (keyCode == GWTKeycodes.KEY_R) {// OK in Hungarian
 				s += Unicode.SQUARE_ROOT;
-			} else if (keyCode == 50) {// 2
-				s += "^2";
-			} else if (keyCode == 51 && !Hungarian) {
+			} else if (keyCode == GWTKeycodes.KEY_2) {// 2
+				s += Unicode.Superscript_2;
+			} else if (keyCode == GWTKeycodes.KEY_3 && !Hungarian) {
 				// in the Hungarian case Alt-3 triggers one "^"
-				s += "^3";
+				s += Unicode.Superscript_3;
 			} else {
 				return false;
 			}
