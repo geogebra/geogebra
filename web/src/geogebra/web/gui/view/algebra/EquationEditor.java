@@ -8,9 +8,11 @@ import geogebra.common.util.StringUtil;
 import geogebra.html5.gui.view.autocompletion.CompletionsPopup;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.dom.client.SpanElement;
+import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 import com.google.gwt.user.client.ui.SuggestOracle.Suggestion;
@@ -36,7 +38,7 @@ public class EquationEditor {
 
 			// So we also provide currentWord as a heuristic or helper:
 			geogebra.html5.main.DrawEquationWeb.writeLatexInPlaceOfCurrentWord(
-			        seMayLatex, sugg, currentWord, true);
+			        component.getLaTeXSpan(), sugg, currentWord, true);
 
 			// not to forget making the popup disappear after success!
 			sug.hideSuggestions();
@@ -60,16 +62,21 @@ public class EquationEditor {
 	private App app;
 
 	private EquationEditorListener component;
-	private SpanElement seMayLatex;
+	private int historyIndex;
+	private ArrayList<String> history;
+	private HashMap<String, String> historyMap;
 
 	public EquationEditor(App app, EquationEditorListener component) {
 		this.app = app;
 		this.component = component;
+		historyIndex = 0;
+		history = new ArrayList<String>(50);
+		historyMap = new HashMap<String, String>();
 		curWord = new StringBuilder();
 		popup = new CompletionsPopup();
 		popup.addTextField(component);
 		sug = new ScrollableSuggestionDisplay();
-		seMayLatex = component.getLaTeXSpan();
+
 	}
 	/**
 	 * Updates curWord to word at current caret position. curWordStart,
@@ -87,7 +94,7 @@ public class EquationEditor {
 
 	public int getCaretPosition() {
 		return geogebra.html5.main.DrawEquationWeb
-		        .getCaretPosInEditedValue(seMayLatex);
+		        .getCaretPosInEditedValue(component.getLaTeXSpan());
 	}
 	
 
@@ -259,6 +266,62 @@ public class EquationEditor {
 			sug.hideSuggestions();
 		}
 		return true;
+	}
+
+	public void setText(String s) {
+		String slatex = historyMap.get(s);
+		if (slatex == null) {
+			slatex = s;
+		}
+		geogebra.html5.main.DrawEquationWeb.updateEditingMathQuillGGB(
+		        component.getLaTeXSpan(), slatex);
+	}
+
+	/**
+	 * @return next input from input textfield's history
+	 */
+	protected String getNextInput() {
+		if (historyIndex < history.size())
+			++historyIndex;
+		if (historyIndex == history.size())
+			return null;
+
+		return history.get(historyIndex);
+	}
+
+	public void addToHistory(String str, String latex) {
+		// exit if the new string is the same as the last entered string
+		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
+			return;
+
+		history.add(str);
+		historyIndex = history.size();
+		historyMap.put(str, latex);
+	}
+
+	/**
+	 * @return previous input from input textfield's history
+	 */
+	protected String getPreviousInput() {
+		if (history.size() == 0)
+			return null;
+		if (historyIndex > 0)
+			--historyIndex;
+		return history.get(historyIndex);
+	}
+
+	public ArrayList<String> getHistory() {
+		return history;
+	}
+	
+	public ScrollableSuggestionDisplay getSug(){
+		return sug;
+	}
+
+	public static void updateNewStatic(SpanElement se) {
+		se.getStyle().setProperty("display", "-moz-inline-box");
+		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
+		se.setDir("ltr");
 	}
 
 }

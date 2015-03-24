@@ -348,7 +348,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 
 		SpanElement se = DOM.createSpan().cast();
-		updateNewStatic(se);
+		EquationEditor.updateNewStatic(se);
 		updateColor(se);
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
@@ -453,7 +453,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		// add(radio);
 
 		SpanElement se = DOM.createSpan().cast();
-		updateNewStatic(se);
+		EquationEditor.updateNewStatic(se);
 
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
@@ -584,7 +584,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		 */
 
 		SpanElement se = DOM.createSpan().cast();
-		updateNewStatic(se);
+		EquationEditor.updateNewStatic(se);
 		updateColor(se);
 		ihtml = new InlineHTML();
 		ihtml.addDoubleClickHandler(this);
@@ -820,7 +820,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				updateColor(seMayLatex);
 			} else if (newLaTeX) {
 				SpanElement se = DOM.createSpan().cast();
-				updateNewStatic(se);
+				EquationEditor.updateNewStatic(se);
 				updateColor(se);
 				ihtml.getElement().replaceChild(se, seNoLatex);
 				text = DrawEquationWeb.inputLatexCosmetics(text);
@@ -868,7 +868,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 				updateColor(seNoLatex);
 			} else {
 				SpanElement se = DOM.createSpan().cast();
-				updateNewStatic(se);
+				EquationEditor.updateNewStatic(se);
 				updateColor(se);
 				ihtml.getElement().replaceChild(se, seMayLatex);
 				seNoLatex = se;
@@ -897,11 +897,7 @@ public class RadioButtonTreeItem extends FlowPanel implements
 		}
 	}
 
-	private static void updateNewStatic(SpanElement se) {
-		se.getStyle().setProperty("display", "-moz-inline-box");
-		se.getStyle().setDisplay(Style.Display.INLINE_BLOCK);
-		se.setDir("ltr");
-	}
+
 
 	private void updateColor(SpanElement se) {
 		if (geo != null) {

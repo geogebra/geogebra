@@ -14,7 +14,6 @@ import geogebra.web.css.GuiResources;
 import geogebra.web.gui.layout.panels.AlgebraDockPanelW;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.google.gwt.canvas.dom.client.ImageData;
@@ -47,9 +46,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 
 	protected PushButton xButton = null;
 	// SymbolTablePopupW tablePopup;
-	private int historyIndex;
-	private ArrayList<String> history;
-	private HashMap<String, String> historyMap;
+
 	HistoryPopupW historyPopup;
 	EquationEditor editor;
 
@@ -61,9 +58,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		editor = new EquationEditor(app, this);
 
 
-		historyIndex = 0;
-		history = new ArrayList<String>(50);
-		historyMap = new HashMap<String, String>();
+
 		addHistoryPopup(app.showInputTop());
 
 		// code copied from AutoCompleteTextFieldW,
@@ -158,7 +153,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 				// not everything all right here!
 				historyPopup.showPopup();
 			} else {
-				String text = getNextInput();
+				String text = editor.getNextInput();
 				if (text != null) {
 					setText(text);
 				}
@@ -167,7 +162,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 			if (historyPopup != null && !historyPopup.isDownPopup()) {
 				historyPopup.showPopup();
 			} else {
-				String text = getPreviousInput();
+				String text = editor.getPreviousInput();
 				if (text != null)
 					setText(text);
 			}
@@ -198,12 +193,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	 * addToHistory is filled!
 	 */
 	public void setText(String s) {
-		String slatex = historyMap.get(s);
-		if (slatex == null) {
-			slatex = s;
-		}
-		geogebra.html5.main.DrawEquationWeb.updateEditingMathQuillGGB(
-		        seMayLatex, slatex);
+		editor.setText(s);
 	}
 
 	public List<String> resetCompletions() {
@@ -320,7 +310,7 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 	}
 
 	public ArrayList<String> getHistory() {
-		return history;
+		return editor.getHistory();
 	}
 
 	/**
@@ -361,38 +351,13 @@ public class NewRadioButtonTreeItem extends RadioButtonTreeItem implements
 		                                                      // Auto-generated
 	}
 
-	/**
-	 * @return previous input from input textfield's history
-	 */
-	private String getPreviousInput() {
-		if (history.size() == 0)
-			return null;
-		if (historyIndex > 0)
-			--historyIndex;
-		return history.get(historyIndex);
-	}
 
-	/**
-	 * @return next input from input textfield's history
-	 */
-	private String getNextInput() {
-		if (historyIndex < history.size())
-			++historyIndex;
-		if (historyIndex == history.size())
-			return null;
 
-		return history.get(historyIndex);
-	}
+
 
 	@Override
 	public void addToHistory(String str, String latex) {
-		// exit if the new string is the same as the last entered string
-		if (!history.isEmpty() && str.equals(history.get(history.size() - 1)))
-			return;
-
-		history.add(str);
-		historyIndex = history.size();
-		historyMap.put(str, latex);
+		editor.addToHistory(str, latex);
 	}
 
 	@Override
