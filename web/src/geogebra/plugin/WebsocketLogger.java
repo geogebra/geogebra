@@ -3,6 +3,8 @@ package geogebra.plugin;
 import geogebra.common.GeoGebraConstants;
 import geogebra.common.kernel.Kernel;
 import geogebra.common.main.App;
+import geogebra.common.move.ggtapi.models.json.JSONObject;
+import geogebra.common.move.ggtapi.models.json.JSONString;
 import geogebra.common.plugin.SensorLogger;
 import geogebra.html5.main.AppW;
 
@@ -53,7 +55,9 @@ public class WebsocketLogger extends SensorLogger {
 	}
 
 	private void startHandShake() {
-		connection.send(appID);
+		JSONObject obj = new JSONObject();
+		obj.put("appID", new JSONString(appID));
+		connection.send(obj.toString());
 	}
 
 	private void initCloseHandler() {
