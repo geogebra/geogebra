@@ -35,7 +35,6 @@ import com.google.gwt.json.client.JSONValue;
  * 
  */
 public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
-	private static final String ANIMGIF_URL = "http://tube-beta.geogebra.org/api/json.php";
 	private RequestBuilder requestBuilder;
 	private ClientInfo client;
 
@@ -426,16 +425,16 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 				if (response != null) {
 					JSONObject responseObject = new JSONObject();
 					try {
+
 						responseObject = JSONParser.parseStrict(
 						        response.getText()).isObject();
 						JSONValue base64 = responseObject.isObject()
 						        .get("responses").isObject().get("response")
 						        .isObject().get("value");
 
-						String url = "data:image/gif;base64,"
-						        + base64.isObject().toString();
-						App.debug("[ANIMGIF] url: " + url);
-						AppW.download(url, "ggbanim.gif");
+						String downloadUrl = "data:image/gif;base64,"
+						        + base64.isString().stringValue();
+						AppW.download(downloadUrl, "ggbanim.gif");
 					} catch (Throwable t) {
 						App.debug(t.getMessage());
 						App.debug("'" + response + "'");
@@ -449,8 +448,9 @@ public class GeoGebraTubeAPIW extends GeoGebraTubeAPIWSimple {
 			}
 		};
 
-		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, ANIMGIF_URL);
+		RequestBuilder rb = new RequestBuilder(RequestBuilder.POST, getUrl());
 
+		App.debug("[URL] " + getUrl());
 		String req = AnimGifRequest.getRequestElement(app, sliderName)
 		        .toJSONString(client);
 		App.debug("[REQUEST]: " + req);
