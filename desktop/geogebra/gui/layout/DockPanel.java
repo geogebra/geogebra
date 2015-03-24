@@ -1648,7 +1648,7 @@ public abstract class DockPanel extends JPanel implements ActionListener,
 				toggleSize));
 
 		// button to insert the view in the main window
-		unwindowButton.setIcon(app.getScaledIcon("viewŰ_unwindow.png"));
+		unwindowButton.setIcon(app.getScaledIcon("view_unwindow.png"));
 		unwindowButton.setPreferredSize(new Dimension(iconSize, iconSize));
 
 		// button to insert the view in the main window
