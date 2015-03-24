@@ -892,7 +892,10 @@ public class DrawEquationWeb extends DrawEquation {
 			// style in web-styles.css... but at least set newCreationMode here!
 			elsecondInside.newCreationMode = true;
 
-			// Will this work?
+			// Will this work? The following code is redundant now except Chrome,
+			// clicking on input bar when it does not have focus... probably will
+			// be good after the other focus problem in Chrome is fixed...
+
 			var memoHack = function() {
 				// focusin should remember scroll position, and
 				// the focus handler should use this information
