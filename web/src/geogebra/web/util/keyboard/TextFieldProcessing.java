@@ -74,7 +74,6 @@ public class TextFieldProcessing {
 		needsLbrace.add("arcsin");
 		needsLbrace.add("arccos");
 		needsLbrace.add("arctan");
-		needsLbrace.add("log");
 	}
 
 	private void initAccentAcuteLetters() {
@@ -389,6 +388,10 @@ public class TextFieldProcessing {
 				((RadioButtonTreeItem) field).insertString("nroo");
 				((RadioButtonTreeItem) field).keypress(T_LOWER_CASE, false,
 				        false, true);
+			} else if (text.equals("log")) {
+				((RadioButtonTreeItem) field).insertString("log_{10}");
+				((RadioButtonTreeItem) field).keypress(LBRACE, false, false,
+				        false);
 			} else if (text.equals(KeyboardConstants.X_SQUARE)) {
 				((RadioButtonTreeItem) field)
 				        .insertString(KeyboardConstants.SQUARE);

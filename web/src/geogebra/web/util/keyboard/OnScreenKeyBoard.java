@@ -494,7 +494,7 @@ public class OnScreenKeyBoard extends PopupPanel implements ClickHandler {
 		// fill first row
 		int index = 0;
 		addButton("ln", index, functions);
-		addButton("log", index, functions);
+		addButton("log_10", "log", index, functions);
 		addButton("nroot", index, functions);
 
 		// fill second row

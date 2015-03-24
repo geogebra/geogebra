@@ -58,17 +58,24 @@ public class KeyBoardButton extends SimplePanel {
 	public void setCaption(String caption) {
 		this.caption = caption;
 		this.feedback = caption;
-		int index = caption.indexOf('^');
-		if (index > -1) {
+
+		if (caption.length() > 1 && caption.indexOf('^') > -1) {
+			int index = caption.indexOf('^');
 			this.label.setText(caption.substring(0, index));
 			Element sup = Document.get().createElement("sup");
 			sup.appendChild(Document.get().createTextNode(
 			        caption.substring(index + 1)));
 			this.label.getElement().appendChild(sup);
+		} else if (caption.length() > 1 && caption.indexOf('_') > -1) {
+			int index = caption.indexOf('_');
+			this.label.setText(caption.substring(0, index));
+			Element sub = Document.get().createElement("sub");
+			sub.appendChild(Document.get().createTextNode(
+			        caption.substring(index + 1)));
+			this.label.getElement().appendChild(sub);
 		} else {
 			this.label.setText(caption);
 		}
-
 	}
 
 	/**
