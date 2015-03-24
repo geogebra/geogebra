@@ -477,8 +477,12 @@
   /* also, to exclude every possible wrongs coming */
   /* from initial coordinates of fixed positioning: */
   /* although the following lines may be redundant: */
-  top:0px;
+
+  /* top/bottom is Okay as textarea will be there anyway */
+  /* hopefully there will something else than z-index: -32003 */
+  top: 0px;
   left: 0px;
+
   /* why not? */
   width: 1px;
   height: 1px;
@@ -495,4 +499,9 @@
   user-select: text;
   position: absolute;
   clip: rect(1em 1em 1em 1em);
+
+  /* why not? */
+  z-index: -32001;
+  width: 1px;
+  height: 1px;
 }
