@@ -6,6 +6,7 @@ import geogebra.common.kernel.Construction;
 import geogebra.common.kernel.Matrix.Coords;
 import geogebra.common.kernel.commands.Commands;
 import geogebra.common.kernel.geos.GeoAngle;
+import geogebra.common.kernel.kernelND.GeoDirectionND;
 import geogebra.common.kernel.kernelND.GeoPointND;
 
 /**
@@ -107,6 +108,22 @@ public abstract class AlgoAngle extends AlgoElement {
 	 */
 	static final protected boolean centerIsNotDrawable(GeoPointND vertex) {
 		return vertex == null || !vertex.isDefined() || vertex.isInfinite();
+	}
+	
+	/**
+	 * check orientation/vn and update angle value and vn direction if needed
+	 * @param vn normal vector computed for drawing
+	 * @param orientation orientation for angle
+	 * @param a angle
+	 */
+	protected final static void checkOrientation(Coords vn, GeoDirectionND orientation, GeoAngle a){
+		if (vn.dotproduct(orientation.getDirectionInD3()) < 0) {
+			double v = 2 * Math.PI - a.getValue();
+			a.setValue(v);
+			if (v > Math.PI){
+				vn.mulInside3(-1);
+			}
+		}
 	}
 
 }
