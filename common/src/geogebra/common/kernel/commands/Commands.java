@@ -29,7 +29,7 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_ALGEBRA), Division(TABLE_ALGEBRA), Divisors(TABLE_ALGEBRA), DivisorsList(
 			TABLE_ALGEBRA), DivisorsSum(TABLE_ALGEBRA), IsPrime(TABLE_ALGEBRA), LeftSide(
 			TABLE_ALGEBRA), NextPrime(TABLE_ALGEBRA), RightSide(TABLE_ALGEBRA), PreviousPrime(
-			TABLE_ALGEBRA),
+			TABLE_ALGEBRA), Normalize(TABLE_ALGEBRA),
 
 	// =================================================================
 	// Geometry
@@ -239,7 +239,7 @@ public enum Commands implements CommandsConstants, GetCommand {
 			TABLE_SCRIPTING), RunClickScript(TABLE_SCRIPTING), RunUpdateScript(
 			TABLE_SCRIPTING), SetPerspective(TABLE_SCRIPTING), StartLogging(
 			TABLE_SCRIPTING), StopLogging(TABLE_SCRIPTING), StartRecord(
-			TABLE_SCRIPTING), Repeat(TABLE_SCRIPTING),
+			TABLE_SCRIPTING),
 
 	// =============================================================
 	// discrete math
